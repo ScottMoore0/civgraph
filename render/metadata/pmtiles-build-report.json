@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-01T15:15:34.580Z",
+  "generatedAt": "2026-11-05T22:21:36.109Z",
   "mode": "execute",
   "tools": {
     "ogr2ogr": "C:\\Program Files\\GDAL\\ogr2ogr.exe",
@@ -12,845 +12,102 @@
   "outputDirectory": "render/pmtiles/generated",
   "maxGithubBytes": 99614720,
   "totals": {
-    "candidates": 49,
-    "converted": 49,
+    "candidates": 9,
+    "converted": 9,
     "skipped": 0,
     "failed": 0,
-    "metadataPreferred": 49,
+    "metadataPreferred": 9,
     "oversizedArchives": 0
   },
   "converted": [
     {
-      "layerId": "admin-areas-1930-04-01-vector-test",
-      "sourceMapId": "admin-areas-1930-04-01",
-      "name": "Administrative Areas 1 Apr 1930",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/admin-areas-1930-04-01-vector-test.pmtiles",
-      "bytes": 1589864,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "admin-areas-1949-04-01-vector-test",
-      "sourceMapId": "admin-areas-1949-04-01",
-      "name": "1 Apr 1949",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/admin-areas-1949-04-01-vector-test.pmtiles",
-      "bytes": 912626,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "counties-county-boroughs-1915-vector-test",
-      "sourceMapId": "counties-county-boroughs-1915",
-      "name": "Counties and County Boroughs 1915",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/counties-county-boroughs-1915-vector-test.pmtiles",
-      "bytes": 637904,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "ded-1930-04-01-vector-test",
-      "sourceMapId": "ded-1930-04-01",
-      "name": "District Electoral Divisions 1 Apr 1930",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/ded-1930-04-01-vector-test.pmtiles",
-      "bytes": 5640827,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "deds-ni-1926-vector-test",
-      "sourceMapId": "deds-ni-1926",
-      "name": "Northern Ireland DEDs 1926",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/deds-ni-1926-vector-test.pmtiles",
-      "bytes": 5597255,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "eds-ulster-1911-vector-test",
-      "sourceMapId": "eds-ulster-1911",
-      "name": "Ulster Electoral Divisions 1911",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/eds-ulster-1911-vector-test.pmtiles",
-      "bytes": 7995576,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "pc-1918-ireland-vector-test",
-      "sourceMapId": "pc-1918-ireland",
-      "name": "Parliamentary Constituencies 1918 (Ireland — all-island)",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/pc-1918-ireland-vector-test.pmtiles",
-      "bytes": 5339283,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "pc-1918-vector-test",
-      "sourceMapId": "pc-1918",
-      "name": "Parliamentary Constituencies 1918 (Northern Ireland)",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/pc-1918-vector-test.pmtiles",
-      "bytes": 1016699,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "pc-1920-vector-test",
-      "sourceMapId": "pc-1920",
-      "name": "Parliamentary Constituencies 1920",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/pc-1920-vector-test.pmtiles",
-      "bytes": 544842,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "pc-1948-vector-test",
-      "sourceMapId": "pc-1948",
-      "name": "Parliamentary Constituencies 1948",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/pc-1948-vector-test.pmtiles",
-      "bytes": 692832,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "local-authorities-1915-vector-test",
-      "sourceMapId": "local-authorities-1915",
-      "name": "Local Authorities 1915 (Ireland — all-island)",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/local-authorities-1915-vector-test.pmtiles",
-      "bytes": 2409363,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "local-authorities-1920-06-19-vector-test",
-      "sourceMapId": "local-authorities-1920-06-19",
-      "name": "Local Authorities 19 Jun 1920 (Ireland — all-island)",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/local-authorities-1920-06-19-vector-test.pmtiles",
-      "bytes": 2421080,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "local-authorities-1920-06-25-vector-test",
-      "sourceMapId": "local-authorities-1920-06-25",
-      "name": "Local Authorities 25 Jun 1920 (Ireland — all-island)",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/local-authorities-1920-06-25-vector-test.pmtiles",
-      "bytes": 2425146,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "local-authorities-1920-10-04-vector-test",
-      "sourceMapId": "local-authorities-1920-10-04",
-      "name": "Local Authorities 4 Oct 1920 (Ireland — all-island)",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/local-authorities-1920-10-04-vector-test.pmtiles",
-      "bytes": 2423992,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "stormont-1920-v1-vector-test",
-      "sourceMapId": "stormont-1920-v1",
-      "name": "1920 NI Parliament",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/stormont-1920-v1-vector-test.pmtiles",
-      "bytes": 534302,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "stormont-1920-v2-vector-test",
-      "sourceMapId": "stormont-1920-v2",
-      "name": "1920 NI Parliament",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/stormont-1920-v2-vector-test.pmtiles",
-      "bytes": 549272,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "stormont-1920-vector-test",
-      "sourceMapId": "stormont-1920",
-      "name": "1920 NI Parliament",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/stormont-1920-vector-test.pmtiles",
-      "bytes": 532932,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "stormont-1929-vector-test",
-      "sourceMapId": "stormont-1929",
-      "name": "1929 NI Parliament",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/stormont-1929-vector-test.pmtiles",
-      "bytes": 1606062,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "ded-1921-05-03-vector-test",
-      "sourceMapId": "ded-1921-05-03",
-      "name": "District Electoral Divisions 3 May 1921",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/ded-1921-05-03-vector-test.pmtiles",
-      "bytes": 5454856,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "eds-ulster-1912-vector-test",
-      "sourceMapId": "eds-ulster-1912",
-      "name": "Ulster District Electoral Divisions/Wards 1912",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/eds-ulster-1912-vector-test.pmtiles",
-      "bytes": 7224498,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "eds-ulster-1913-vector-test",
-      "sourceMapId": "eds-ulster-1913",
-      "name": "Ulster District Electoral Divisions/Wards 1913",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/eds-ulster-1913-vector-test.pmtiles",
-      "bytes": 7228167,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "eds-ulster-1914-vector-test",
-      "sourceMapId": "eds-ulster-1914",
-      "name": "Ulster District Electoral Divisions/Wards 1914",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/eds-ulster-1914-vector-test.pmtiles",
-      "bytes": 7233234,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "eds-ulster-1915-vector-test",
-      "sourceMapId": "eds-ulster-1915",
-      "name": "Ulster District Electoral Divisions/Wards 1915",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/eds-ulster-1915-vector-test.pmtiles",
-      "bytes": 7234724,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "eds-ulster-1916-vector-test",
-      "sourceMapId": "eds-ulster-1916",
-      "name": "Ulster District Electoral Divisions/Wards 1916",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/eds-ulster-1916-vector-test.pmtiles",
-      "bytes": 7238156,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "eds-ulster-1921-nine-county-vector-test",
-      "sourceMapId": "eds-ulster-1921-nine-county",
-      "name": "Ulster (nine counties) District Electoral Divisions/Wards 1921",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/eds-ulster-1921-nine-county-vector-test.pmtiles",
-      "bytes": 7272296,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "admin-areas-1946-06-11-vector-test",
-      "sourceMapId": "admin-areas-1946-06-11",
-      "name": "11 Jun 1946",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/admin-areas-1946-06-11-vector-test.pmtiles",
-      "bytes": 911745,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "admin-areas-1945-04-01-vector-test",
-      "sourceMapId": "admin-areas-1945-04-01",
-      "name": "1 Apr 1945",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/admin-areas-1945-04-01-vector-test.pmtiles",
-      "bytes": 909034,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "admin-areas-1956-04-01-vector-test",
-      "sourceMapId": "admin-areas-1956-04-01",
-      "name": "1 Apr 1956",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/admin-areas-1956-04-01-vector-test.pmtiles",
-      "bytes": 924579,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "admin-areas-1950-04-01-vector-test",
-      "sourceMapId": "admin-areas-1950-04-01",
-      "name": "1 Apr 1950",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/admin-areas-1950-04-01-vector-test.pmtiles",
-      "bytes": 917597,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "admin-areas-1949-07-07-vector-test",
-      "sourceMapId": "admin-areas-1949-07-07",
-      "name": "7 Jul 1949",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/admin-areas-1949-07-07-vector-test.pmtiles",
-      "bytes": 912006,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "admin-areas-1938-04-01-vector-test",
-      "sourceMapId": "admin-areas-1938-04-01",
-      "name": "1 Apr 1938",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/admin-areas-1938-04-01-vector-test.pmtiles",
-      "bytes": 908120,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "admin-areas-1939-05-23-vector-test",
-      "sourceMapId": "admin-areas-1939-05-23",
-      "name": "23 May 1939",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/admin-areas-1939-05-23-vector-test.pmtiles",
-      "bytes": 908205,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "plu-1911-vector-test",
-      "sourceMapId": "plu-1911",
-      "name": "Poor Law Unions 2 Apr 1911",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/plu-1911-vector-test.pmtiles",
-      "bytes": 8149183,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "plu-1901-vector-test",
-      "sourceMapId": "plu-1901",
-      "name": "Poor Law Unions 31 Mar 1901",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/plu-1901-vector-test.pmtiles",
-      "bytes": 8127733,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "plu-1921-vector-test",
-      "sourceMapId": "plu-1921",
-      "name": "Poor Law Unions 1 Apr 1921",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/plu-1921-vector-test.pmtiles",
-      "bytes": 8167930,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "plu-parts-1911-vector-test",
-      "sourceMapId": "plu-parts-1911",
-      "name": "Poor Law Unions by county 2 Apr 1911",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/plu-parts-1911-vector-test.pmtiles",
-      "bytes": 8013996,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "plu-parts-1901-vector-test",
-      "sourceMapId": "plu-parts-1901",
-      "name": "Poor Law Unions by county 31 Mar 1901",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/plu-parts-1901-vector-test.pmtiles",
-      "bytes": 8029916,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "plu-parts-1921-vector-test",
-      "sourceMapId": "plu-parts-1921",
-      "name": "Poor Law Unions by county 21 Mar 1921",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/plu-parts-1921-vector-test.pmtiles",
-      "bytes": 8014559,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "rural-urban-districts-1911-vector-test",
-      "sourceMapId": "rural-urban-districts-1911",
-      "name": "Rural and Urban Districts 2 Apr 1911",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/rural-urban-districts-1911-vector-test.pmtiles",
-      "bytes": 10145901,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "rural-urban-districts-1901-vector-test",
-      "sourceMapId": "rural-urban-districts-1901",
-      "name": "Rural and Urban Districts 31 Mar 1901",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/rural-urban-districts-1901-vector-test.pmtiles",
-      "bytes": 10036247,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "administrative-counties-1899-vector-test",
-      "sourceMapId": "administrative-counties-1899",
-      "name": "Administrative Counties 18 Apr 1899",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/administrative-counties-1899-vector-test.pmtiles",
-      "bytes": 5256382,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "dispensary-districts-roi-1926-vector-test",
-      "sourceMapId": "dispensary-districts-roi-1926",
-      "name": "Dispensary Districts 18 Apr 1926 (estimate)",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/dispensary-districts-roi-1926-vector-test.pmtiles",
-      "bytes": 13442251,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "superintendent-registrars-districts-roi-1926-vector-test",
-      "sourceMapId": "superintendent-registrars-districts-roi-1926",
-      "name": "Superintendent Registrars' Districts 18 Apr 1926 (estimate)",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/superintendent-registrars-districts-roi-1926-vector-test.pmtiles",
-      "bytes": 6330754,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "plu-1851-vector-test",
-      "sourceMapId": "plu-1851",
-      "name": "Poor Law Unions 30 Mar 1851",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/plu-1851-vector-test.pmtiles",
-      "bytes": 5982569,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "plu-1885-09-30-vector-test",
-      "sourceMapId": "plu-1885-09-30",
-      "name": "Poor Law Unions 30 Sep 1885",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/plu-1885-09-30-vector-test.pmtiles",
-      "bytes": 5925963,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "plu-1886-09-30-vector-test",
-      "sourceMapId": "plu-1886-09-30",
-      "name": "Poor Law Unions 30 Sep 1886",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/plu-1886-09-30-vector-test.pmtiles",
-      "bytes": 5910643,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "plu-1891-vector-test",
-      "sourceMapId": "plu-1891",
-      "name": "Poor Law Unions 5 Apr 1891",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/plu-1891-vector-test.pmtiles",
-      "bytes": 5937853,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "plu-1891-09-30-vector-test",
-      "sourceMapId": "plu-1891-09-30",
-      "name": "Poor Law Unions 30 Sep 1891",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/plu-1891-09-30-vector-test.pmtiles",
-      "bytes": 5879770,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "ded-1939-04-01-vector-test",
-      "sourceMapId": "ded-1939-04-01",
-      "name": "District Electoral Divisions 1 Apr 1939",
+      "layerId": "dispensary-districts-ni-1929-01-01-vector-test",
+      "sourceMapId": "dispensary-districts-ni-1929-01-01",
+      "name": "Dispensary Districts 1 Jan 1929",
       "sourceType": "mvt",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/ded-1939-04-01-vector-test.pmtiles",
-      "bytes": 5646604,
+      "status": "already-exists",
+      "output": "render/pmtiles/generated/dispensary-districts-ni-1929-01-01-vector-test.pmtiles",
+      "bytes": 3356286,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "dispensary-districts-ni-1924-04-01-vector-test",
+      "sourceMapId": "dispensary-districts-ni-1924-04-01",
+      "name": "Dispensary Districts 1 Apr 1924",
+      "sourceType": "mvt",
+      "status": "already-exists",
+      "output": "render/pmtiles/generated/dispensary-districts-ni-1924-04-01-vector-test.pmtiles",
+      "bytes": 3355233,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "dispensary-districts-ni-1921-04-01-vector-test",
+      "sourceMapId": "dispensary-districts-ni-1921-04-01",
+      "name": "Dispensary Districts 1 Apr 1921",
+      "sourceType": "mvt",
+      "status": "already-exists",
+      "output": "render/pmtiles/generated/dispensary-districts-ni-1921-04-01-vector-test.pmtiles",
+      "bytes": 3355424,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "tia-towns-ni-1921-05-03-vector-test",
+      "sourceMapId": "tia-towns-ni-1921-05-03",
+      "name": "Towns under the Towns Improvement Act 3 May 1921",
+      "sourceType": "mvt",
+      "status": "already-exists",
+      "output": "render/pmtiles/generated/tia-towns-ni-1921-05-03-vector-test.pmtiles",
+      "bytes": 24148,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "tia-towns-ni-1925-04-01-vector-test",
+      "sourceMapId": "tia-towns-ni-1925-04-01",
+      "name": "Towns under the Towns Improvement Act 1 Apr 1925",
+      "sourceType": "mvt",
+      "status": "already-exists",
+      "output": "render/pmtiles/generated/tia-towns-ni-1925-04-01-vector-test.pmtiles",
+      "bytes": 26453,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "tia-towns-ni-1927-04-01-vector-test",
+      "sourceMapId": "tia-towns-ni-1927-04-01",
+      "name": "Towns under the Towns Improvement Act 1 Apr 1927",
+      "sourceType": "mvt",
+      "status": "already-exists",
+      "output": "render/pmtiles/generated/tia-towns-ni-1927-04-01-vector-test.pmtiles",
+      "bytes": 18597,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "tia-towns-ni-1934-08-01-vector-test",
+      "sourceMapId": "tia-towns-ni-1934-08-01",
+      "name": "Towns under the Towns Improvement Act 1 Aug 1934",
+      "sourceType": "mvt",
+      "status": "already-exists",
+      "output": "render/pmtiles/generated/tia-towns-ni-1934-08-01-vector-test.pmtiles",
+      "bytes": 30268,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "tia-towns-ni-1937-04-01-vector-test",
+      "sourceMapId": "tia-towns-ni-1937-04-01",
+      "name": "Towns under the Towns Improvement Act 1 Apr 1937",
+      "sourceType": "mvt",
+      "status": "already-exists",
+      "output": "render/pmtiles/generated/tia-towns-ni-1937-04-01-vector-test.pmtiles",
+      "bytes": 18646,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "tia-towns-ni-1959-05-29-vector-test",
+      "sourceMapId": "tia-towns-ni-1959-05-29",
+      "name": "Towns under the Towns Improvement Act 1959",
+      "sourceType": "mvt",
+      "status": "already-exists",
+      "output": "render/pmtiles/generated/tia-towns-ni-1959-05-29-vector-test.pmtiles",
+      "bytes": 7121,
       "exceedsGithubBudget": false
     }
   ],

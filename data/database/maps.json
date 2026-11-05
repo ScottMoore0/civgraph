@@ -711,6 +711,31 @@
       ]
     },
     {
+      "id": "ni-dispensary-districts",
+      "name": "Dispensary Districts",
+      "scope": "Northern Ireland",
+      "category": "local-government",
+      "maps": [
+        "dispensary-districts-ni-1929-01-01",
+        "dispensary-districts-ni-1924-04-01",
+        "dispensary-districts-ni-1921-04-01"
+      ]
+    },
+    {
+      "id": "ni-towns-improvement-act-towns",
+      "name": "Towns under the Towns Improvement Act",
+      "scope": "Northern Ireland",
+      "category": "local-government",
+      "maps": [
+        "tia-towns-ni-1959-05-29",
+        "tia-towns-ni-1937-04-01",
+        "tia-towns-ni-1934-08-01",
+        "tia-towns-ni-1927-04-01",
+        "tia-towns-ni-1925-04-01",
+        "tia-towns-ni-1921-05-03"
+      ]
+    },
+    {
       "id": "ireland-poor-law-unions",
       "name": "Poor Law Unions",
       "scope": "Ireland",
@@ -53442,7 +53467,7 @@
           -5.426788
         ]
       ],
-      "description": "The 27 Poor Law Unions of Northern Ireland from 1 Apr 1924 until the boards of guardians' functions passed to the county welfare and health authorities on 5 Jul 1948. Each union is the dissolution of its district electoral divisions on Civgraph's 1926 DED map (Paddy Matthews), placed in their unions by the 1926 Census Topographical Index. The only change from 1921 is the Ardkeen, Portaferry and Quintin area, moved from Downpatrick to Newtownards Union; the 1937 Census records no union changes in 1926-37, and the district changes of 1937-48 each fell inside one union. Each union carries its 1926 and 1937 census acreage and population; with the large loughs taken out the map areas agree with the census acreages to a median of 0.2%. After 1948 the unions remained as superintendent registrars' districts.",
+      "description": "The 27 Poor Law Unions of Northern Ireland from 1 Apr 1924 until the boards of guardians' functions passed to the county welfare and health authorities on 5 Jul 1948; every board was abolished on 30 Sep 1948. Each union is the dissolution of its district electoral divisions on Civgraph's 1926 DED map (Paddy Matthews), placed in their unions by the 1926 Census Topographical Index. The only change from 1921 is the Ardkeen, Portaferry and Quintin area, moved from Downpatrick to Newtownards Union; the 1937 Census records no union changes in 1926-37, the district changes of 1937-48 each fell inside one union, and the Belfast Gazette to 1948 has no order altering a union. Each union carries its 1926 and 1937 census acreage and population; with the large loughs taken out the map areas agree with the census acreages to a median of 0.2%. After 1948 the unions remained as superintendent registrars' districts.",
       "changeNote": "Ardkeen, Portaferry and Quintin electoral divisions (as constituted before 1924; Portaferry dispensary district) separated from Downpatrick Union and added to Newtownards Union from 1 Apr 1924.",
       "references": [
         {
@@ -53471,6 +53496,11 @@
           "label": "Public Health and Local Government (Abolition of Boards of Guardians) Order (Northern Ireland) 1948 (S.R. & O. 1948 No. 187)",
           "url": "https://www.legislation.gov.uk/nisro/1948/187/contents/made",
           "note": "Made 5 Jul 1948 under ss. 8 and 28 of the Public Health and Local Government (Administrative Provisions) Act (NI) 1946. Remaining functions transferred on the appointed day, 5 Jul 1948; each board abolished on a date the Ministry fixed, no later than 31 Oct 1948."
+        },
+        {
+          "label": "Public Health and Local Government (Abolition of Boards of Guardians) (No. 2) Order (Northern Ireland) 1948 (S.R. & O. 1948 No. 281)",
+          "url": "https://www.legislation.gov.uk/nisro/1948/281/contents/made",
+          "note": "Made 30 Sep 1948. Substitutes Article 7 of the 1948 order (No. 187): every board of guardians abolished on 30 Sep 1948. Notice in Belfast Gazette 1424, 8 Oct 1948."
         }
       ],
       "licence": "CC-BY-SA-4.0",
@@ -53562,6 +53592,815 @@
           "label": "DED to union lookup 1 Apr 1921 (CSV)",
           "url": "https://data.civgraph.net/data/maps/local-government/Poor_Law_Unions_NI_DED_Lookup_1921-04-01.csv",
           "type": "CSV"
+        }
+      ]
+    },
+    {
+      "id": "dispensary-districts-ni-1929-01-01",
+      "name": "Dispensary Districts 1 Jan 1929",
+      "slug": "dispensary-districts-ni-1929-01-01",
+      "category": "local-government",
+      "provider": [
+        "Scott Moore",
+        "Paddy Matthews",
+        "Phelim Birch"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/health/Dispensary_Districts_NI_1929-01-01.fgb"
+      },
+      "style": {
+        "color": "#00796B",
+        "weight": 2
+      },
+      "labelProperty": "district",
+      "keywords": [
+        "dispensary district",
+        "dispensary",
+        "registrar's district",
+        "poor law medical relief",
+        "public health",
+        "northern ireland",
+        "1929",
+        "1937",
+        "1948"
+      ],
+      "date": "1929-01-01",
+      "bounds": [
+        [
+          54.022725,
+          -8.177938
+        ],
+        [
+          55.312985,
+          -5.426788
+        ]
+      ],
+      "description": "The 178 dispensary districts of Northern Ireland from 1 Jan 1929, when Londonderry Urban No. 3 was formed out of No. 2, until the dispensary service passed to the Northern Ireland General Health Services Board on the appointed day of the Health Services Act (NI) 1948, 5 Jul 1948. Each district is a group of the old (pre-1923) electoral divisions on Civgraph's 3 May 1921 DED map (Paddy Matthews, with Phelim Birch's corrections), because the Ministry of Home Affairs ordered in 1925 that dispensary districts stay as they were before the 1923 reconstitution of the divisions. The district of each old division is the one its townlands carry in the 1926 Census Topographical Index, checked against the district lists of the 1926 county volumes (Table 4) and the order of the 1911 Census Table VI. Ten old divisions were shared between districts; these are split on OSNI townland lines (Brownlows Derry, Ballygomartin, Ballysillan, Monkstown, Ardclinis, Beardiville, Portrush Rural, Kilkeel, Newry Rural and Drumnakilly). The 16 Belfast urban districts and the Londonderry urban districts other than Waterside cross ward lines along streets, so each county borough's urban districts are shown as one undivided area. With the large loughs taken out, 93 of the 97 county parts whose 1926 printed area could be read agree within 2% (median 0.06%); each district carries its grade and the reason for it (confidence, confidence_reason). Dispensary districts were also the registrars' districts for births, deaths and marriages. No change between 1929 and 1948 has been found: the 1937 Census lists none after 1929, and no order appears in the Belfast Gazette to 1948.",
+      "changeNote": "Londonderry Urban No. 3 dispensary district formed out of part of Londonderry Urban No. 2 (1 Jan 1929). It lies inside the undivided Londonderry county borough area; the new line is not drawn.",
+      "references": [
+        {
+          "label": "Census of Population of Northern Ireland 1937: General Report and Londonderry County Borough volume",
+          "note": "Changes in administrative areas 1926-37, item (d): Londonderry Dispensary and Registrars' Districts Nos. 2 and 3 created out of No. 2 (1 Jan 1929). No other dispensary district change is listed."
+        },
+        {
+          "label": "Belfast Gazette issue 229 (Poor Law Dispensary Districts)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/229/data.pdf",
+          "note": "13 Nov 1925, p. 338. Ministry of Home Affairs order under s. 9(1) of the Local Government Act (NI) 1923: the boundaries and contents of the dispensary districts remain as they were before the orders altering the district electoral divisions."
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: Topographical Index",
+          "note": "Index 6 (dispensary or registrars' districts, with their union) and Index 9 (townlands, each with its dispensary district), read from the OCR text; about 6,200 townland entries matched to OSNI townlands."
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: county volumes, Table 4",
+          "note": "Poor Law Unions, Dispensary Districts and District Electoral Divisions: the DEDs (and parts of DEDs) in each dispensary district, with its area; used to check placements and areas."
+        },
+        {
+          "label": "Census of Ireland 1911: county volumes, Table VI",
+          "note": "Order of DEDs under each dispensary district; used as a cross-check on the 1926 placements."
+        },
+        {
+          "label": "Health Services (Dispensary Property) Regulations (Northern Ireland) 1948 (S.R. & O. 1948 No. 175)",
+          "url": "https://www.legislation.gov.uk/nisro/1948/175/contents/made",
+          "note": "Made 1 Jul 1948 under s. 19 of the Health Services Act (NI) 1948; dispensary property vested in the Northern Ireland General Health Services Board on the appointed day, 5 Jul 1948."
+        }
+      ],
+      "licence": "CC-BY-SA-4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "licenceNote": "Built for Civgraph (Scott Moore) by grouping the 3 May 1921 DED map by Paddy Matthews and Phelim Birch (CC BY-SA 4.0); divided old divisions split on OSNI Largescale Townlands (OGL); lough areas from DAERA WFD lake water bodies (OGL). Census of Population of Northern Ireland 1926 and 1937 and Census of Ireland 1911: Crown copyright expired.",
+      "downloads": [
+        {
+          "label": "Dispensary Districts 1 Jan 1929 (FlatGeobuf)",
+          "url": "https://data.civgraph.net/data/maps/health/Dispensary_Districts_NI_1929-01-01.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Old DED to dispensary district lookup 1921-1948 (CSV)",
+          "url": "https://data.civgraph.net/data/maps/health/Dispensary_Districts_NI_DED_Lookup.csv",
+          "type": "CSV"
+        }
+      ]
+    },
+    {
+      "id": "dispensary-districts-ni-1924-04-01",
+      "name": "Dispensary Districts 1 Apr 1924",
+      "slug": "dispensary-districts-ni-1924-04-01",
+      "category": "local-government",
+      "provider": [
+        "Scott Moore",
+        "Paddy Matthews",
+        "Phelim Birch"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/health/Dispensary_Districts_NI_1924-04-01.fgb"
+      },
+      "style": {
+        "color": "#00796B",
+        "weight": 2
+      },
+      "labelProperty": "district",
+      "keywords": [
+        "dispensary district",
+        "dispensary",
+        "registrar's district",
+        "poor law medical relief",
+        "public health",
+        "northern ireland",
+        "1924",
+        "1926"
+      ],
+      "date": "1924-04-01",
+      "bounds": [
+        [
+          54.022725,
+          -8.177938
+        ],
+        [
+          55.312985,
+          -5.426788
+        ]
+      ],
+      "description": "The 177 dispensary districts of Northern Ireland from 1 Apr 1924, when Portaferry dispensary district moved from Downpatrick to Newtownards Union, until 31 Dec 1928; this is the state recorded by the census of 18 Apr 1926. Each district is a group of the old (pre-1923) electoral divisions on Civgraph's 3 May 1921 DED map (Paddy Matthews, with Phelim Birch's corrections), because the Ministry of Home Affairs ordered in 1925 that dispensary districts stay as they were before the 1923 reconstitution of the divisions. The district of each old division is the one its townlands carry in the 1926 Census Topographical Index, checked against the district lists of the 1926 county volumes (Table 4) and the order of the 1911 Census Table VI. Ten old divisions were shared between districts; these are split on OSNI townland lines (Brownlows Derry, Ballygomartin, Ballysillan, Monkstown, Ardclinis, Beardiville, Portrush Rural, Kilkeel, Newry Rural and Drumnakilly). The 16 Belfast urban districts and the Londonderry urban districts other than Waterside cross ward lines along streets, so each county borough's urban districts are shown as one undivided area. With the large loughs taken out, 93 of the 97 county parts whose 1926 printed area could be read agree within 2% (median 0.06%); each district carries its grade and the reason for it (confidence, confidence_reason). Dispensary districts were also the registrars' districts for births, deaths and marriages.",
+      "changeNote": "Portaferry dispensary district (Ardkeen, Portaferry and Quintin electoral divisions as constituted before 1924) moved from Downpatrick Union to Newtownards Union (1 Apr 1924). No boundary changed.",
+      "references": [
+        {
+          "label": "Belfast Gazette issue 105 (Downpatrick and Newtownards Unions)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/105/data.pdf",
+          "note": "29 Jun 1923, pp. 300, 316-317. Ardkeen, Portaferry and Quintin electoral divisions (Portaferry dispensary district) separated from Downpatrick Union and added to Newtownards Union from 1 Apr 1924."
+        },
+        {
+          "label": "Belfast Gazette issue 229 (Poor Law Dispensary Districts)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/229/data.pdf",
+          "note": "13 Nov 1925, p. 338. Ministry of Home Affairs order under s. 9(1) of the Local Government Act (NI) 1923: the boundaries and contents of the dispensary districts remain as they were before the orders altering the district electoral divisions."
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: Topographical Index",
+          "note": "Index 6 (dispensary or registrars' districts, with their union) and Index 9 (townlands, each with its dispensary district), read from the OCR text; about 6,200 townland entries matched to OSNI townlands."
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: county volumes, Table 4",
+          "note": "Poor Law Unions, Dispensary Districts and District Electoral Divisions: the DEDs (and parts of DEDs) in each dispensary district, with its area; used to check placements and areas."
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: General Report",
+          "note": "p. xvii: 178 medical dispensary districts in Northern Ireland (177 at the census date, the Topographical Index introduction says)."
+        },
+        {
+          "label": "Census of Ireland 1911: county volumes, Table VI",
+          "note": "Order of DEDs under each dispensary district; used as a cross-check on the 1926 placements."
+        }
+      ],
+      "licence": "CC-BY-SA-4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "licenceNote": "Built for Civgraph (Scott Moore) by grouping the 3 May 1921 DED map by Paddy Matthews and Phelim Birch (CC BY-SA 4.0); divided old divisions split on OSNI Largescale Townlands (OGL); lough areas from DAERA WFD lake water bodies (OGL). Census of Population of Northern Ireland 1926 and 1937 and Census of Ireland 1911: Crown copyright expired.",
+      "downloads": [
+        {
+          "label": "Dispensary Districts 1 Apr 1924 (FlatGeobuf)",
+          "url": "https://data.civgraph.net/data/maps/health/Dispensary_Districts_NI_1924-04-01.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Old DED to dispensary district lookup 1921-1948 (CSV)",
+          "url": "https://data.civgraph.net/data/maps/health/Dispensary_Districts_NI_DED_Lookup.csv",
+          "type": "CSV"
+        }
+      ]
+    },
+    {
+      "id": "dispensary-districts-ni-1921-04-01",
+      "name": "Dispensary Districts 1 Apr 1921",
+      "slug": "dispensary-districts-ni-1921-04-01",
+      "category": "local-government",
+      "provider": [
+        "Scott Moore",
+        "Paddy Matthews",
+        "Phelim Birch"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/health/Dispensary_Districts_NI_1921-04-01.fgb"
+      },
+      "style": {
+        "color": "#00796B",
+        "weight": 2
+      },
+      "labelProperty": "district",
+      "keywords": [
+        "dispensary district",
+        "dispensary",
+        "registrar's district",
+        "poor law medical relief",
+        "public health",
+        "northern ireland",
+        "1921",
+        "partition"
+      ],
+      "date": "1921-04-01",
+      "bounds": [
+        [
+          54.022725,
+          -8.177938
+        ],
+        [
+          55.312985,
+          -5.426788
+        ]
+      ],
+      "description": "The 177 dispensary districts in the six counties from 1 Apr 1921, when the unions that crossed the new border were reorganised, until 31 Mar 1924. The Belleek, Clones No. 2 and Crossmaglen areas passed with their districts to the Irvinestown, Lisnaskea and Newry Unions, and the Cavan districts of Enniskillen Union and the Donegal districts of Londonderry and Strabane Unions were taken out. Each district is a group of the old (pre-1923) electoral divisions on Civgraph's 3 May 1921 DED map (Paddy Matthews, with Phelim Birch's corrections), because the Ministry of Home Affairs ordered in 1925 that dispensary districts stay as they were before the 1923 reconstitution of the divisions. The district of each old division is the one its townlands carry in the 1926 Census Topographical Index, checked against the district lists of the 1926 county volumes (Table 4) and the order of the 1911 Census Table VI. Ten old divisions were shared between districts; these are split on OSNI townland lines (Brownlows Derry, Ballygomartin, Ballysillan, Monkstown, Ardclinis, Beardiville, Portrush Rural, Kilkeel, Newry Rural and Drumnakilly). The 16 Belfast urban districts and the Londonderry urban districts other than Waterside cross ward lines along streets, so each county borough's urban districts are shown as one undivided area. With the large loughs taken out, 93 of the 97 county parts whose 1926 printed area could be read agree within 2% (median 0.06%); each district carries its grade and the reason for it (confidence, confidence_reason). Dispensary districts were also the registrars' districts for births, deaths and marriages. No dispensary district change between 1921 and 1926 is recorded (the 1926 General Report does not list them), so the 1926 districts are carried back; Portaferry is in Downpatrick Union.",
+      "changeNote": "Since partition: the unions crossing the new border were reorganised (1 Apr 1921); their Northern Ireland dispensary districts joined the Irvinestown, Lisnaskea and Newry Unions.",
+      "references": [
+        {
+          "label": "Census of Population of Northern Ireland 1926: General Report",
+          "note": "Administrative divisions pp. xvii-xviii, changes (i)-(q) dated 1 Apr 1921; Table 4 notes: two dispensary districts in County Cavan (Enniskillen Union), three in County Donegal (Londonderry Union) and two in County Donegal (Strabane Union) no longer included."
+        },
+        {
+          "label": "Belfast Gazette issue 229 (Poor Law Dispensary Districts)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/229/data.pdf",
+          "note": "13 Nov 1925, p. 338. Ministry of Home Affairs order under s. 9(1) of the Local Government Act (NI) 1923: the boundaries and contents of the dispensary districts remain as they were before the orders altering the district electoral divisions."
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: Topographical Index",
+          "note": "Index 6 (dispensary or registrars' districts, with their union) and Index 9 (townlands, each with its dispensary district), read from the OCR text; about 6,200 townland entries matched to OSNI townlands."
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: county volumes, Table 4",
+          "note": "Poor Law Unions, Dispensary Districts and District Electoral Divisions: the DEDs (and parts of DEDs) in each dispensary district, with its area; used to check placements and areas."
+        },
+        {
+          "label": "Census of Ireland 1911: county volumes, Table VI",
+          "note": "Order of DEDs under each dispensary district; used as a cross-check on the 1926 placements."
+        }
+      ],
+      "licence": "CC-BY-SA-4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "licenceNote": "Built for Civgraph (Scott Moore) by grouping the 3 May 1921 DED map by Paddy Matthews and Phelim Birch (CC BY-SA 4.0); divided old divisions split on OSNI Largescale Townlands (OGL); lough areas from DAERA WFD lake water bodies (OGL). Census of Population of Northern Ireland 1926 and 1937 and Census of Ireland 1911: Crown copyright expired.",
+      "downloads": [
+        {
+          "label": "Dispensary Districts 1 Apr 1921 (FlatGeobuf)",
+          "url": "https://data.civgraph.net/data/maps/health/Dispensary_Districts_NI_1921-04-01.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Old DED to dispensary district lookup 1921-1948 (CSV)",
+          "url": "https://data.civgraph.net/data/maps/health/Dispensary_Districts_NI_DED_Lookup.csv",
+          "type": "CSV"
+        }
+      ]
+    },
+    {
+      "id": "tia-towns-ni-1921-05-03",
+      "name": "Towns under the Towns Improvement Act 3 May 1921",
+      "slug": "tia-towns-ni-1921-05-03",
+      "category": "local-government",
+      "provider": [
+        "Scott Moore",
+        "Paddy Matthews",
+        "Phelim Birch"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/local-government/Towns_Improvement_Act_Towns_NI_1921-05-03.fgb"
+      },
+      "style": {
+        "color": "#8D6E63",
+        "weight": 2
+      },
+      "labelProperty": "town",
+      "keywords": [
+        "town commissioners",
+        "Towns Improvement (Ireland) Act 1854",
+        "town",
+        "northern ireland",
+        "1921"
+      ],
+      "date": "1921-05-03",
+      "bounds": [
+        [
+          54.32047,
+          -6.983885
+        ],
+        [
+          54.72081,
+          -5.701879
+        ]
+      ],
+      "description": "The four towns in Northern Ireland governed by town commissioners under the Towns Improvement (Ireland) Act 1854 when Northern Ireland was founded: Antrim, Aughnacloy, Downpatrick and Gilford, until 31 Mar 1925. Town commissioners under the 1854 Act levied a limited rate and carried out minor works; for public health each town stayed under its rural district council (1937 Census General Report). Each town is drawn from the DED that matches its legal boundary: Antrim Urban, Aughnacloy Urban, Downpatrick Urban and Whitehead Urban, and Gilford as reconstituted in 1923 (Gilford Town is exactly the Gilford DED in the 1926 and 1951 censuses); Kilkeel is the townlands of Kilkeel and Magheramurphy, which the 1934 boundary order names. The drawn areas agree with the printed town areas within 2.4% (Aughnacloy +0.2%, Whitehead +0.8%, Gilford -2.1%, Antrim -2.3%). No order altering any town's limits has been found in the Belfast Gazette, 1922-1962.",
+      "changeNote": "Northern Ireland founded (3 May 1921); the four towns under the 1854 Act in the six counties carried over.",
+      "references": [
+        {
+          "label": "Census of Population of Northern Ireland 1926: Topographical Index",
+          "note": "Introduction p. vii (four towns under the 1854 Act; Whitehead since made an urban district) and Index 8 (towns, the 1854 Act towns asterisked: Antrim, Aughnacloy, Gilford, Whitehead)."
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: General Report",
+          "note": "p. xviii, change (t): Downpatrick, formerly a town under the 1854 Act in Downpatrick Rural District, created an urban district (1 Apr 1925)."
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1937: General Report",
+          "note": "p. vii (four towns possess this form of government) and changes (a) Whitehead urban district, 1 Apr 1927, and (j) Kilkeel made a town under the 1854 Act, 1 Aug 1934."
+        },
+        {
+          "label": "Belfast Gazette issue 196 (Town of Whitehead)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/196/data.pdf",
+          "note": "27 Mar 1925. Ministry order of 24 Mar 1925 approving the adoption of the 1854 Act within the boundaries of the order of 3 Feb 1925 (printed in issue 189, 6 Feb 1925), in force 1 Apr 1925; nine commissioners."
+        },
+        {
+          "label": "Belfast Gazette issue 677 (Town of Kilkeel)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/677/data.pdf",
+          "note": "15 Jun 1934. Ministry order of 13 Jun 1934 approving the adoption of the 1854 Act within the boundaries of the order of 16 Apr 1934 (townlands of Kilkeel and Magheramurphy; printed in issue 670, 27 Apr 1934), in force 1 Aug 1934; nine commissioners."
+        },
+        {
+          "label": "Belfast Gazette issue 809 (Kilkeel Rural District)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/809/data.pdf",
+          "note": "25 Dec 1936. Recites that the town of Kilkeel comprised Kilkeel North and Kilkeel South DEDs and part of Kilkeel East DED, and the order of 21 Jul 1936 making it an urban district from 1 Apr 1937."
+        },
+        {
+          "label": "Belfast Gazette issue 155 (Town of Downpatrick)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/155/data.pdf",
+          "note": "13 Jun 1924. Ministry order separating the town of Downpatrick (a town having commissioners under the 1854 Act) from Downpatrick Rural District as an urban sanitary district from 1 Apr 1925."
+        },
+        {
+          "label": "Belfast Gazette issue 1979 (Aughnacloy; Gilford)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/1979/data.pdf",
+          "note": "29 May 1959. Notices of the Local Government (Dissolution of Commissioners) (Aughnacloy) and (Gilford) Orders (NI) 1959, S.R. & O. 1959 Nos. 50 and 51, dissolving the commissioners and transferring their functions."
+        },
+        {
+          "label": "Belfast Gazette issue 2128 (Antrim)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/2128/data.pdf",
+          "note": "6 Apr 1962. Notice of the Local Government (Dissolution of Commissioners) (Antrim) Order (NI) 1962, S.R. & O. 1962 No. 50, transferring the commissioners' functions to Antrim Rural District Council; the 1961 and 1966 censuses date this 1 Apr 1962."
+        }
+      ],
+      "licence": "CC-BY-SA-4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "licenceNote": "Built for Civgraph (Scott Moore) from the DED maps by Paddy Matthews and Phelim Birch (CC BY-SA 4.0); Kilkeel from OSNI Largescale Townlands (OGL). Census of Population of Northern Ireland 1926-1966: Crown copyright expired.",
+      "downloads": [
+        {
+          "label": "Towns under the Towns Improvement Act 3 May 1921 (FlatGeobuf)",
+          "url": "https://data.civgraph.net/data/maps/local-government/Towns_Improvement_Act_Towns_NI_1921-05-03.fgb",
+          "type": "FlatGeobuf"
+        }
+      ]
+    },
+    {
+      "id": "tia-towns-ni-1925-04-01",
+      "name": "Towns under the Towns Improvement Act 1 Apr 1925",
+      "slug": "tia-towns-ni-1925-04-01",
+      "category": "local-government",
+      "provider": [
+        "Scott Moore",
+        "Paddy Matthews",
+        "Phelim Birch"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/local-government/Towns_Improvement_Act_Towns_NI_1925-04-01.fgb"
+      },
+      "style": {
+        "color": "#8D6E63",
+        "weight": 2
+      },
+      "labelProperty": "town",
+      "keywords": [
+        "town commissioners",
+        "Towns Improvement (Ireland) Act 1854",
+        "town",
+        "northern ireland",
+        "1925"
+      ],
+      "date": "1925-04-01",
+      "bounds": [
+        [
+          54.369486,
+          -6.983885
+        ],
+        [
+          54.767474,
+          -5.688047
+        ]
+      ],
+      "description": "The four towns under the Towns Improvement (Ireland) Act 1854 from 1 Apr 1925, when Downpatrick became an urban district and Whitehead adopted the Act, until 31 Mar 1927: Antrim, Aughnacloy, Gilford and Whitehead. Town commissioners under the 1854 Act levied a limited rate and carried out minor works; for public health each town stayed under its rural district council (1937 Census General Report). Each town is drawn from the DED that matches its legal boundary: Antrim Urban, Aughnacloy Urban, Downpatrick Urban and Whitehead Urban, and Gilford as reconstituted in 1923 (Gilford Town is exactly the Gilford DED in the 1926 and 1951 censuses); Kilkeel is the townlands of Kilkeel and Magheramurphy, which the 1934 boundary order names. The drawn areas agree with the printed town areas within 2.4% (Aughnacloy +0.2%, Whitehead +0.8%, Gilford -2.1%, Antrim -2.3%). No order altering any town's limits has been found in the Belfast Gazette, 1922-1962.",
+      "changeNote": "Downpatrick made an urban district on the same bounds (1 Apr 1925); Whitehead, part of Larne Rural District, adopted the 1854 Act within the boundaries approved on 3 Feb 1925 (in force 1 Apr 1925).",
+      "references": [
+        {
+          "label": "Census of Population of Northern Ireland 1926: Topographical Index",
+          "note": "Introduction p. vii (four towns under the 1854 Act; Whitehead since made an urban district) and Index 8 (towns, the 1854 Act towns asterisked: Antrim, Aughnacloy, Gilford, Whitehead)."
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: General Report",
+          "note": "p. xviii, change (t): Downpatrick, formerly a town under the 1854 Act in Downpatrick Rural District, created an urban district (1 Apr 1925)."
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1937: General Report",
+          "note": "p. vii (four towns possess this form of government) and changes (a) Whitehead urban district, 1 Apr 1927, and (j) Kilkeel made a town under the 1854 Act, 1 Aug 1934."
+        },
+        {
+          "label": "Belfast Gazette issue 196 (Town of Whitehead)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/196/data.pdf",
+          "note": "27 Mar 1925. Ministry order of 24 Mar 1925 approving the adoption of the 1854 Act within the boundaries of the order of 3 Feb 1925 (printed in issue 189, 6 Feb 1925), in force 1 Apr 1925; nine commissioners."
+        },
+        {
+          "label": "Belfast Gazette issue 677 (Town of Kilkeel)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/677/data.pdf",
+          "note": "15 Jun 1934. Ministry order of 13 Jun 1934 approving the adoption of the 1854 Act within the boundaries of the order of 16 Apr 1934 (townlands of Kilkeel and Magheramurphy; printed in issue 670, 27 Apr 1934), in force 1 Aug 1934; nine commissioners."
+        },
+        {
+          "label": "Belfast Gazette issue 809 (Kilkeel Rural District)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/809/data.pdf",
+          "note": "25 Dec 1936. Recites that the town of Kilkeel comprised Kilkeel North and Kilkeel South DEDs and part of Kilkeel East DED, and the order of 21 Jul 1936 making it an urban district from 1 Apr 1937."
+        },
+        {
+          "label": "Belfast Gazette issue 155 (Town of Downpatrick)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/155/data.pdf",
+          "note": "13 Jun 1924. Ministry order separating the town of Downpatrick (a town having commissioners under the 1854 Act) from Downpatrick Rural District as an urban sanitary district from 1 Apr 1925."
+        },
+        {
+          "label": "Belfast Gazette issue 1979 (Aughnacloy; Gilford)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/1979/data.pdf",
+          "note": "29 May 1959. Notices of the Local Government (Dissolution of Commissioners) (Aughnacloy) and (Gilford) Orders (NI) 1959, S.R. & O. 1959 Nos. 50 and 51, dissolving the commissioners and transferring their functions."
+        },
+        {
+          "label": "Belfast Gazette issue 2128 (Antrim)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/2128/data.pdf",
+          "note": "6 Apr 1962. Notice of the Local Government (Dissolution of Commissioners) (Antrim) Order (NI) 1962, S.R. & O. 1962 No. 50, transferring the commissioners' functions to Antrim Rural District Council; the 1961 and 1966 censuses date this 1 Apr 1962."
+        }
+      ],
+      "licence": "CC-BY-SA-4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "licenceNote": "Built for Civgraph (Scott Moore) from the DED maps by Paddy Matthews and Phelim Birch (CC BY-SA 4.0); Kilkeel from OSNI Largescale Townlands (OGL). Census of Population of Northern Ireland 1926-1966: Crown copyright expired.",
+      "downloads": [
+        {
+          "label": "Towns under the Towns Improvement Act 1 Apr 1925 (FlatGeobuf)",
+          "url": "https://data.civgraph.net/data/maps/local-government/Towns_Improvement_Act_Towns_NI_1925-04-01.fgb",
+          "type": "FlatGeobuf"
+        }
+      ]
+    },
+    {
+      "id": "tia-towns-ni-1927-04-01",
+      "name": "Towns under the Towns Improvement Act 1 Apr 1927",
+      "slug": "tia-towns-ni-1927-04-01",
+      "category": "local-government",
+      "provider": [
+        "Scott Moore",
+        "Paddy Matthews",
+        "Phelim Birch"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/local-government/Towns_Improvement_Act_Towns_NI_1927-04-01.fgb"
+      },
+      "style": {
+        "color": "#8D6E63",
+        "weight": 2
+      },
+      "labelProperty": "town",
+      "keywords": [
+        "town commissioners",
+        "Towns Improvement (Ireland) Act 1854",
+        "town",
+        "northern ireland",
+        "1927"
+      ],
+      "date": "1927-04-01",
+      "bounds": [
+        [
+          54.369486,
+          -6.983885
+        ],
+        [
+          54.72081,
+          -6.207476
+        ]
+      ],
+      "description": "The three towns under the Towns Improvement (Ireland) Act 1854 from 1 Apr 1927, when Whitehead became an urban district, until 31 Jul 1934: Antrim, Aughnacloy and Gilford. Town commissioners under the 1854 Act levied a limited rate and carried out minor works; for public health each town stayed under its rural district council (1937 Census General Report). Each town is drawn from the DED that matches its legal boundary: Antrim Urban, Aughnacloy Urban, Downpatrick Urban and Whitehead Urban, and Gilford as reconstituted in 1923 (Gilford Town is exactly the Gilford DED in the 1926 and 1951 censuses); Kilkeel is the townlands of Kilkeel and Magheramurphy, which the 1934 boundary order names. The drawn areas agree with the printed town areas within 2.4% (Aughnacloy +0.2%, Whitehead +0.8%, Gilford -2.1%, Antrim -2.3%). No order altering any town's limits has been found in the Belfast Gazette, 1922-1962.",
+      "changeNote": "Whitehead made an urban district (1 Apr 1927).",
+      "references": [
+        {
+          "label": "Census of Population of Northern Ireland 1926: Topographical Index",
+          "note": "Introduction p. vii (four towns under the 1854 Act; Whitehead since made an urban district) and Index 8 (towns, the 1854 Act towns asterisked: Antrim, Aughnacloy, Gilford, Whitehead)."
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: General Report",
+          "note": "p. xviii, change (t): Downpatrick, formerly a town under the 1854 Act in Downpatrick Rural District, created an urban district (1 Apr 1925)."
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1937: General Report",
+          "note": "p. vii (four towns possess this form of government) and changes (a) Whitehead urban district, 1 Apr 1927, and (j) Kilkeel made a town under the 1854 Act, 1 Aug 1934."
+        },
+        {
+          "label": "Belfast Gazette issue 196 (Town of Whitehead)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/196/data.pdf",
+          "note": "27 Mar 1925. Ministry order of 24 Mar 1925 approving the adoption of the 1854 Act within the boundaries of the order of 3 Feb 1925 (printed in issue 189, 6 Feb 1925), in force 1 Apr 1925; nine commissioners."
+        },
+        {
+          "label": "Belfast Gazette issue 677 (Town of Kilkeel)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/677/data.pdf",
+          "note": "15 Jun 1934. Ministry order of 13 Jun 1934 approving the adoption of the 1854 Act within the boundaries of the order of 16 Apr 1934 (townlands of Kilkeel and Magheramurphy; printed in issue 670, 27 Apr 1934), in force 1 Aug 1934; nine commissioners."
+        },
+        {
+          "label": "Belfast Gazette issue 809 (Kilkeel Rural District)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/809/data.pdf",
+          "note": "25 Dec 1936. Recites that the town of Kilkeel comprised Kilkeel North and Kilkeel South DEDs and part of Kilkeel East DED, and the order of 21 Jul 1936 making it an urban district from 1 Apr 1937."
+        },
+        {
+          "label": "Belfast Gazette issue 155 (Town of Downpatrick)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/155/data.pdf",
+          "note": "13 Jun 1924. Ministry order separating the town of Downpatrick (a town having commissioners under the 1854 Act) from Downpatrick Rural District as an urban sanitary district from 1 Apr 1925."
+        },
+        {
+          "label": "Belfast Gazette issue 1979 (Aughnacloy; Gilford)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/1979/data.pdf",
+          "note": "29 May 1959. Notices of the Local Government (Dissolution of Commissioners) (Aughnacloy) and (Gilford) Orders (NI) 1959, S.R. & O. 1959 Nos. 50 and 51, dissolving the commissioners and transferring their functions."
+        },
+        {
+          "label": "Belfast Gazette issue 2128 (Antrim)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/2128/data.pdf",
+          "note": "6 Apr 1962. Notice of the Local Government (Dissolution of Commissioners) (Antrim) Order (NI) 1962, S.R. & O. 1962 No. 50, transferring the commissioners' functions to Antrim Rural District Council; the 1961 and 1966 censuses date this 1 Apr 1962."
+        }
+      ],
+      "licence": "CC-BY-SA-4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "licenceNote": "Built for Civgraph (Scott Moore) from the DED maps by Paddy Matthews and Phelim Birch (CC BY-SA 4.0); Kilkeel from OSNI Largescale Townlands (OGL). Census of Population of Northern Ireland 1926-1966: Crown copyright expired.",
+      "downloads": [
+        {
+          "label": "Towns under the Towns Improvement Act 1 Apr 1927 (FlatGeobuf)",
+          "url": "https://data.civgraph.net/data/maps/local-government/Towns_Improvement_Act_Towns_NI_1927-04-01.fgb",
+          "type": "FlatGeobuf"
+        }
+      ]
+    },
+    {
+      "id": "tia-towns-ni-1934-08-01",
+      "name": "Towns under the Towns Improvement Act 1 Aug 1934",
+      "slug": "tia-towns-ni-1934-08-01",
+      "category": "local-government",
+      "provider": [
+        "Scott Moore",
+        "Paddy Matthews",
+        "Phelim Birch"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/local-government/Towns_Improvement_Act_Towns_NI_1934-08-01.fgb"
+      },
+      "style": {
+        "color": "#8D6E63",
+        "weight": 2
+      },
+      "labelProperty": "town",
+      "keywords": [
+        "town commissioners",
+        "Towns Improvement (Ireland) Act 1854",
+        "town",
+        "northern ireland",
+        "1934"
+      ],
+      "date": "1934-08-01",
+      "bounds": [
+        [
+          54.052402,
+          -6.983885
+        ],
+        [
+          54.72081,
+          -5.977571
+        ]
+      ],
+      "description": "The four towns under the Towns Improvement (Ireland) Act 1854 from 1 Aug 1934, when Kilkeel adopted the Act, until 31 Mar 1937: Antrim, Aughnacloy, Gilford and Kilkeel. Town commissioners under the 1854 Act levied a limited rate and carried out minor works; for public health each town stayed under its rural district council (1937 Census General Report). Each town is drawn from the DED that matches its legal boundary: Antrim Urban, Aughnacloy Urban, Downpatrick Urban and Whitehead Urban, and Gilford as reconstituted in 1923 (Gilford Town is exactly the Gilford DED in the 1926 and 1951 censuses); Kilkeel is the townlands of Kilkeel and Magheramurphy, which the 1934 boundary order names. The drawn areas agree with the printed town areas within 2.4% (Aughnacloy +0.2%, Whitehead +0.8%, Gilford -2.1%, Antrim -2.3%). No order altering any town's limits has been found in the Belfast Gazette, 1922-1962.",
+      "changeNote": "Kilkeel, part of Kilkeel Rural District, adopted the 1854 Act within the townlands of Kilkeel and Magheramurphy (boundaries approved 16 Apr 1934; in force 1 Aug 1934).",
+      "references": [
+        {
+          "label": "Census of Population of Northern Ireland 1926: Topographical Index",
+          "note": "Introduction p. vii (four towns under the 1854 Act; Whitehead since made an urban district) and Index 8 (towns, the 1854 Act towns asterisked: Antrim, Aughnacloy, Gilford, Whitehead)."
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: General Report",
+          "note": "p. xviii, change (t): Downpatrick, formerly a town under the 1854 Act in Downpatrick Rural District, created an urban district (1 Apr 1925)."
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1937: General Report",
+          "note": "p. vii (four towns possess this form of government) and changes (a) Whitehead urban district, 1 Apr 1927, and (j) Kilkeel made a town under the 1854 Act, 1 Aug 1934."
+        },
+        {
+          "label": "Belfast Gazette issue 196 (Town of Whitehead)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/196/data.pdf",
+          "note": "27 Mar 1925. Ministry order of 24 Mar 1925 approving the adoption of the 1854 Act within the boundaries of the order of 3 Feb 1925 (printed in issue 189, 6 Feb 1925), in force 1 Apr 1925; nine commissioners."
+        },
+        {
+          "label": "Belfast Gazette issue 677 (Town of Kilkeel)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/677/data.pdf",
+          "note": "15 Jun 1934. Ministry order of 13 Jun 1934 approving the adoption of the 1854 Act within the boundaries of the order of 16 Apr 1934 (townlands of Kilkeel and Magheramurphy; printed in issue 670, 27 Apr 1934), in force 1 Aug 1934; nine commissioners."
+        },
+        {
+          "label": "Belfast Gazette issue 809 (Kilkeel Rural District)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/809/data.pdf",
+          "note": "25 Dec 1936. Recites that the town of Kilkeel comprised Kilkeel North and Kilkeel South DEDs and part of Kilkeel East DED, and the order of 21 Jul 1936 making it an urban district from 1 Apr 1937."
+        },
+        {
+          "label": "Belfast Gazette issue 155 (Town of Downpatrick)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/155/data.pdf",
+          "note": "13 Jun 1924. Ministry order separating the town of Downpatrick (a town having commissioners under the 1854 Act) from Downpatrick Rural District as an urban sanitary district from 1 Apr 1925."
+        },
+        {
+          "label": "Belfast Gazette issue 1979 (Aughnacloy; Gilford)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/1979/data.pdf",
+          "note": "29 May 1959. Notices of the Local Government (Dissolution of Commissioners) (Aughnacloy) and (Gilford) Orders (NI) 1959, S.R. & O. 1959 Nos. 50 and 51, dissolving the commissioners and transferring their functions."
+        },
+        {
+          "label": "Belfast Gazette issue 2128 (Antrim)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/2128/data.pdf",
+          "note": "6 Apr 1962. Notice of the Local Government (Dissolution of Commissioners) (Antrim) Order (NI) 1962, S.R. & O. 1962 No. 50, transferring the commissioners' functions to Antrim Rural District Council; the 1961 and 1966 censuses date this 1 Apr 1962."
+        }
+      ],
+      "licence": "CC-BY-SA-4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "licenceNote": "Built for Civgraph (Scott Moore) from the DED maps by Paddy Matthews and Phelim Birch (CC BY-SA 4.0); Kilkeel from OSNI Largescale Townlands (OGL). Census of Population of Northern Ireland 1926-1966: Crown copyright expired.",
+      "downloads": [
+        {
+          "label": "Towns under the Towns Improvement Act 1 Aug 1934 (FlatGeobuf)",
+          "url": "https://data.civgraph.net/data/maps/local-government/Towns_Improvement_Act_Towns_NI_1934-08-01.fgb",
+          "type": "FlatGeobuf"
+        }
+      ]
+    },
+    {
+      "id": "tia-towns-ni-1937-04-01",
+      "name": "Towns under the Towns Improvement Act 1 Apr 1937",
+      "slug": "tia-towns-ni-1937-04-01",
+      "category": "local-government",
+      "provider": [
+        "Scott Moore",
+        "Paddy Matthews",
+        "Phelim Birch"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/local-government/Towns_Improvement_Act_Towns_NI_1937-04-01.fgb"
+      },
+      "style": {
+        "color": "#8D6E63",
+        "weight": 2
+      },
+      "labelProperty": "town",
+      "keywords": [
+        "town commissioners",
+        "Towns Improvement (Ireland) Act 1854",
+        "town",
+        "northern ireland",
+        "1937"
+      ],
+      "date": "1937-04-01",
+      "bounds": [
+        [
+          54.369486,
+          -6.983885
+        ],
+        [
+          54.72081,
+          -6.207476
+        ]
+      ],
+      "description": "The three towns under the Towns Improvement (Ireland) Act 1854 from 1 Apr 1937, when Kilkeel became an urban district, until 1959: Antrim, Aughnacloy and Gilford. Town commissioners under the 1854 Act levied a limited rate and carried out minor works; for public health each town stayed under its rural district council (1937 Census General Report). Each town is drawn from the DED that matches its legal boundary: Antrim Urban, Aughnacloy Urban, Downpatrick Urban and Whitehead Urban, and Gilford as reconstituted in 1923 (Gilford Town is exactly the Gilford DED in the 1926 and 1951 censuses); Kilkeel is the townlands of Kilkeel and Magheramurphy, which the 1934 boundary order names. The drawn areas agree with the printed town areas within 2.4% (Aughnacloy +0.2%, Whitehead +0.8%, Gilford -2.1%, Antrim -2.3%). No order altering any town's limits has been found in the Belfast Gazette, 1922-1962.",
+      "changeNote": "Kilkeel made an urban district on the same bounds (1 Apr 1937).",
+      "references": [
+        {
+          "label": "Census of Population of Northern Ireland 1926: Topographical Index",
+          "note": "Introduction p. vii (four towns under the 1854 Act; Whitehead since made an urban district) and Index 8 (towns, the 1854 Act towns asterisked: Antrim, Aughnacloy, Gilford, Whitehead)."
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: General Report",
+          "note": "p. xviii, change (t): Downpatrick, formerly a town under the 1854 Act in Downpatrick Rural District, created an urban district (1 Apr 1925)."
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1937: General Report",
+          "note": "p. vii (four towns possess this form of government) and changes (a) Whitehead urban district, 1 Apr 1927, and (j) Kilkeel made a town under the 1854 Act, 1 Aug 1934."
+        },
+        {
+          "label": "Belfast Gazette issue 196 (Town of Whitehead)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/196/data.pdf",
+          "note": "27 Mar 1925. Ministry order of 24 Mar 1925 approving the adoption of the 1854 Act within the boundaries of the order of 3 Feb 1925 (printed in issue 189, 6 Feb 1925), in force 1 Apr 1925; nine commissioners."
+        },
+        {
+          "label": "Belfast Gazette issue 677 (Town of Kilkeel)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/677/data.pdf",
+          "note": "15 Jun 1934. Ministry order of 13 Jun 1934 approving the adoption of the 1854 Act within the boundaries of the order of 16 Apr 1934 (townlands of Kilkeel and Magheramurphy; printed in issue 670, 27 Apr 1934), in force 1 Aug 1934; nine commissioners."
+        },
+        {
+          "label": "Belfast Gazette issue 809 (Kilkeel Rural District)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/809/data.pdf",
+          "note": "25 Dec 1936. Recites that the town of Kilkeel comprised Kilkeel North and Kilkeel South DEDs and part of Kilkeel East DED, and the order of 21 Jul 1936 making it an urban district from 1 Apr 1937."
+        },
+        {
+          "label": "Belfast Gazette issue 155 (Town of Downpatrick)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/155/data.pdf",
+          "note": "13 Jun 1924. Ministry order separating the town of Downpatrick (a town having commissioners under the 1854 Act) from Downpatrick Rural District as an urban sanitary district from 1 Apr 1925."
+        },
+        {
+          "label": "Belfast Gazette issue 1979 (Aughnacloy; Gilford)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/1979/data.pdf",
+          "note": "29 May 1959. Notices of the Local Government (Dissolution of Commissioners) (Aughnacloy) and (Gilford) Orders (NI) 1959, S.R. & O. 1959 Nos. 50 and 51, dissolving the commissioners and transferring their functions."
+        },
+        {
+          "label": "Belfast Gazette issue 2128 (Antrim)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/2128/data.pdf",
+          "note": "6 Apr 1962. Notice of the Local Government (Dissolution of Commissioners) (Antrim) Order (NI) 1962, S.R. & O. 1962 No. 50, transferring the commissioners' functions to Antrim Rural District Council; the 1961 and 1966 censuses date this 1 Apr 1962."
+        }
+      ],
+      "licence": "CC-BY-SA-4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "licenceNote": "Built for Civgraph (Scott Moore) from the DED maps by Paddy Matthews and Phelim Birch (CC BY-SA 4.0); Kilkeel from OSNI Largescale Townlands (OGL). Census of Population of Northern Ireland 1926-1966: Crown copyright expired.",
+      "downloads": [
+        {
+          "label": "Towns under the Towns Improvement Act 1 Apr 1937 (FlatGeobuf)",
+          "url": "https://data.civgraph.net/data/maps/local-government/Towns_Improvement_Act_Towns_NI_1937-04-01.fgb",
+          "type": "FlatGeobuf"
+        }
+      ]
+    },
+    {
+      "id": "tia-towns-ni-1959-05-29",
+      "name": "Towns under the Towns Improvement Act 1959",
+      "slug": "tia-towns-ni-1959-05-29",
+      "category": "local-government",
+      "provider": [
+        "Scott Moore",
+        "Paddy Matthews",
+        "Phelim Birch"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/local-government/Towns_Improvement_Act_Towns_NI_1959-05-29.fgb"
+      },
+      "style": {
+        "color": "#8D6E63",
+        "weight": 2
+      },
+      "labelProperty": "town",
+      "keywords": [
+        "town commissioners",
+        "Towns Improvement (Ireland) Act 1854",
+        "town",
+        "northern ireland",
+        "1959"
+      ],
+      "date": "1959-05-29",
+      "bounds": [
+        [
+          54.70863,
+          -6.225852
+        ],
+        [
+          54.72081,
+          -6.207476
+        ]
+      ],
+      "description": "Antrim, the last town under the Towns Improvement (Ireland) Act 1854 in Northern Ireland, after the Aughnacloy and Gilford commissioners were dissolved in 1959, until 31 Mar 1962. The edition is dated by the Belfast Gazette notice of 29 May 1959; the orders' operative date has not been seen. Town commissioners under the 1854 Act levied a limited rate and carried out minor works; for public health each town stayed under its rural district council (1937 Census General Report). Each town is drawn from the DED that matches its legal boundary: Antrim Urban, Aughnacloy Urban, Downpatrick Urban and Whitehead Urban, and Gilford as reconstituted in 1923 (Gilford Town is exactly the Gilford DED in the 1926 and 1951 censuses); Kilkeel is the townlands of Kilkeel and Magheramurphy, which the 1934 boundary order names. The drawn areas agree with the printed town areas within 2.4% (Aughnacloy +0.2%, Whitehead +0.8%, Gilford -2.1%, Antrim -2.3%). No order altering any town's limits has been found in the Belfast Gazette, 1922-1962.",
+      "changeNote": "Aughnacloy and Gilford Town Commissioners dissolved and their functions transferred (Local Government (Dissolution of Commissioners) (Aughnacloy) and (Gilford) Orders (NI) 1959, S.R. & O. 1959 Nos. 50 and 51; Belfast Gazette 29 May 1959). Antrim Town Commissioners were dissolved in turn from 1 Apr 1962 (S.R. & O. 1962 No. 50), when the series ends.",
+      "references": [
+        {
+          "label": "Census of Population of Northern Ireland 1926: Topographical Index",
+          "note": "Introduction p. vii (four towns under the 1854 Act; Whitehead since made an urban district) and Index 8 (towns, the 1854 Act towns asterisked: Antrim, Aughnacloy, Gilford, Whitehead)."
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: General Report",
+          "note": "p. xviii, change (t): Downpatrick, formerly a town under the 1854 Act in Downpatrick Rural District, created an urban district (1 Apr 1925)."
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1937: General Report",
+          "note": "p. vii (four towns possess this form of government) and changes (a) Whitehead urban district, 1 Apr 1927, and (j) Kilkeel made a town under the 1854 Act, 1 Aug 1934."
+        },
+        {
+          "label": "Belfast Gazette issue 196 (Town of Whitehead)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/196/data.pdf",
+          "note": "27 Mar 1925. Ministry order of 24 Mar 1925 approving the adoption of the 1854 Act within the boundaries of the order of 3 Feb 1925 (printed in issue 189, 6 Feb 1925), in force 1 Apr 1925; nine commissioners."
+        },
+        {
+          "label": "Belfast Gazette issue 677 (Town of Kilkeel)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/677/data.pdf",
+          "note": "15 Jun 1934. Ministry order of 13 Jun 1934 approving the adoption of the 1854 Act within the boundaries of the order of 16 Apr 1934 (townlands of Kilkeel and Magheramurphy; printed in issue 670, 27 Apr 1934), in force 1 Aug 1934; nine commissioners."
+        },
+        {
+          "label": "Belfast Gazette issue 809 (Kilkeel Rural District)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/809/data.pdf",
+          "note": "25 Dec 1936. Recites that the town of Kilkeel comprised Kilkeel North and Kilkeel South DEDs and part of Kilkeel East DED, and the order of 21 Jul 1936 making it an urban district from 1 Apr 1937."
+        },
+        {
+          "label": "Belfast Gazette issue 155 (Town of Downpatrick)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/155/data.pdf",
+          "note": "13 Jun 1924. Ministry order separating the town of Downpatrick (a town having commissioners under the 1854 Act) from Downpatrick Rural District as an urban sanitary district from 1 Apr 1925."
+        },
+        {
+          "label": "Belfast Gazette issue 1979 (Aughnacloy; Gilford)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/1979/data.pdf",
+          "note": "29 May 1959. Notices of the Local Government (Dissolution of Commissioners) (Aughnacloy) and (Gilford) Orders (NI) 1959, S.R. & O. 1959 Nos. 50 and 51, dissolving the commissioners and transferring their functions."
+        },
+        {
+          "label": "Belfast Gazette issue 2128 (Antrim)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/2128/data.pdf",
+          "note": "6 Apr 1962. Notice of the Local Government (Dissolution of Commissioners) (Antrim) Order (NI) 1962, S.R. & O. 1962 No. 50, transferring the commissioners' functions to Antrim Rural District Council; the 1961 and 1966 censuses date this 1 Apr 1962."
+        }
+      ],
+      "licence": "CC-BY-SA-4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "licenceNote": "Built for Civgraph (Scott Moore) from the DED maps by Paddy Matthews and Phelim Birch (CC BY-SA 4.0); Kilkeel from OSNI Largescale Townlands (OGL). Census of Population of Northern Ireland 1926-1966: Crown copyright expired.",
+      "downloads": [
+        {
+          "label": "Towns under the Towns Improvement Act 1959 (FlatGeobuf)",
+          "url": "https://data.civgraph.net/data/maps/local-government/Towns_Improvement_Act_Towns_NI_1959-05-29.fgb",
+          "type": "FlatGeobuf"
         }
       ]
     },

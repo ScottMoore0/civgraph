@@ -156,7 +156,18 @@ function buildReport() {
 
 function writeReport() {
   mkdirSync(dirname(REPORT_PATH), { recursive: true });
-  writeFileSync(REPORT_PATH, `${JSON.stringify(buildReport(), null, 2)}\n`);
+  // Rewritten after every layer; on Windows a scanner can briefly hold the file, so a
+  // failed write is retried (as in upload-test-pmtiles-r2.mjs) before the run gives up.
+  const text = `${JSON.stringify(buildReport(), null, 2)}\n`;
+  for (let attempt = 1; attempt <= 6; attempt += 1) {
+    try {
+      writeFileSync(REPORT_PATH, text);
+      return;
+    } catch (err) {
+      if (attempt === 6) throw err;
+      Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 500 * attempt);
+    }
+  }
 }
 
 function chooseSource(row) {
