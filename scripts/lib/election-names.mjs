@@ -252,6 +252,55 @@ export function electionConstituencyNames(constituencies = []) {
     .filter((name) => !NATIONAL_CONSTITUENCY_NAMES.has(normalizeName(name))))];
 }
 
+// NI councils 1923-67, instalment 1 (2026-11). One body each across its life, titled for the
+// era as Lurgan and Portadown are: [first poll date of the era, name]. A borough's first
+// election under its charter is titled for the borough (Bangor Jan 1928, Coleraine Jan 1929,
+// Newtownards May 1938, as the reports say); otherwise the charter or order date decides.
+const NI_COUNCIL_ERA_TITLES = new Map([
+  ['ballymena borough council', [['1939-05-23', 'Ballymena Borough Council'], ['', 'Ballymena Urban District Council']]],
+  ['bangor borough council', [['1928-01-01', 'Bangor Borough Council'], ['', 'Bangor Urban District Council']]],
+  ['carrickfergus borough council', [['1949-07-01', 'Carrickfergus Borough Council'], ['', 'Carrickfergus Urban District Council']]],
+  ['coleraine borough council', [['1929-01-01', 'Coleraine Borough Council'], ['', 'Coleraine Urban District Council']]],
+  ['enniskillen borough council', [['1949-05-30', 'Enniskillen Borough Council'], ['', 'Enniskillen Urban District Council']]],
+  ['larne borough council', [['1939-05-23', 'Larne Borough Council'], ['', 'Larne Urban District Council']]],
+  ['lisburn borough council', [['1964-06-02', 'Lisburn Borough Council'], ['', 'Lisburn Urban District Council']]],
+  ['newtownards borough council', [['1938-05-01', 'Newtownards Borough Council'], ['', 'Newtownards Urban District Council']]],
+  // Town commissioners before the urban district: Downpatrick to 1 Apr 1925, Whitehead
+  // 1 Apr 1925 to 1 Apr 1927, Kilkeel 1 Aug 1934 to 1 Apr 1937.
+  ['downpatrick urban district council', [['1925-04-01', 'Downpatrick Urban District Council'], ['', 'Downpatrick Town Commissioners']]],
+  ['whitehead urban district council', [['1927-04-01', 'Whitehead Urban District Council'], ['', 'Whitehead Town Commissioners']]],
+  ['kilkeel urban district council', [['1937-04-01', 'Kilkeel Urban District Council'], ['1934-08-01', 'Kilkeel Town Commissioners'], ['', 'Kilkeel Urban District Council']]]
+]);
+const NI_COUNCILS_1923_67_PLAIN_TITLES = [
+  'antrim town commissioners',
+  'aughnacloy town commissioners',
+  'gilford town commissioners',
+  'ballycastle urban district council',
+  'ballyclare urban district council',
+  'ballymoney urban district council',
+  'banbridge urban district council',
+  'cookstown urban district council',
+  'donaghadee urban district council',
+  'dromore urban district council',
+  'dungannon urban district council',
+  'holywood urban district council',
+  'limavady urban district council',
+  'newcastle urban district council',
+  'newry urban district council',
+  'newtownabbey urban district council',
+  'omagh urban district council',
+  'portrush urban district council',
+  'portstewart urban district council',
+  'warrenpoint urban district council'
+];
+
+function niCouncilEraName(normalizedBody, date) {
+  const eras = NI_COUNCIL_ERA_TITLES.get(normalizedBody);
+  if (!eras) return null;
+  const day = String(date || '');
+  return (eras.find(([from]) => day >= from) || eras.at(-1))[1];
+}
+
 // Pre-1973 Northern Ireland borough and urban district councils (one body per council). Their
 // elections can have one or two wards and are still whole-council elections, never by-elections.
 const PRE1973_COUNCIL_BODIES = new Set([
@@ -270,8 +319,13 @@ const PRE1973_COUNCIL_BODIES = new Set([
   'moira rural district council',
   'aghalee rural district council',
   'tandragee urban district council',
-  'castleblayney no. 2 rural district council'
+  'castleblayney no. 2 rural district council',
+  'londonderry county borough council',
+  'londonderry county borough council aldermen',
+  ...NI_COUNCIL_ERA_TITLES.keys(),
+  ...NI_COUNCILS_1923_67_PLAIN_TITLES
 ]);
+
 
 export function isElectionByElectionScope({ body = '', bodyGroup = null, date = '', constituencies = [], specialType = null } = {}) {
   const normalizedBody = normalizeName(body);
@@ -357,6 +411,10 @@ export function canonicalElectionTitle({
     return `${year} Northern Ireland local elections`.trim();
   }
 
+  // Victoria Ward's poll of 21 May 1958 was cancelled on a candidate's death and held on 19 June.
+  if (normalizedBody === 'belfast county borough council' && String(date || '').slice(0, 10) === '1958-06-19') {
+    return '1958 Belfast County Borough Council election (Victoria Ward, postponed poll)';
+  }
   if (normalizedBody === 'belfast county borough council') return `${year} Belfast County Borough Council election`.trim();
   if (normalizedBody === 'belfast county borough council aldermen') return `${year} Belfast County Borough Council aldermanic election`.trim();
   if (normalizedBody === 'strabane urban district council') {
@@ -377,6 +435,10 @@ export function canonicalElectionTitle({
   if (['londonderry county borough council', 'lisburn urban district council', 'bangor urban district council'].includes(normalizedBody)) {
     return `${year} ${body} election`.trim();
   }
+  if (normalizedBody === 'londonderry county borough council aldermen') return `${year} Londonderry County Borough Council aldermanic election`.trim();
+  const niCouncilEra = niCouncilEraName(normalizedBody, date);
+  if (niCouncilEra) return `${year} ${niCouncilEra} election`.trim();
+  if (NI_COUNCILS_1923_67_PLAIN_TITLES.includes(normalizedBody)) return `${year} ${body} election`.trim();
 
   if (normalizedBody === 'dail eireann') return `${year} Irish general election`.trim();
   if (normalizedBody === 'european parliament ireland') return `${year} European election in the Republic of Ireland`.trim();

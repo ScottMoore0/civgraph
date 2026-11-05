@@ -396,6 +396,43 @@ const STYLE_MODES = ['winner', 'leadingParty', 'voteShare', 'turnout', 'majority
 // are a separate body because an aldermanship and the ward's councillorships were separate
 // contests on the same day in the same ward: kept in one election, two results would claim one
 // polygon and the map could colour only one of them.
+// NI councils 1923-67, instalment 1 (Irish Newspaper Archives and British Newspaper Archive
+// transcriptions, 2026-11): Londonderry's aldermen, the boroughs, urban districts and town
+// commissioners. The county boroughs' later rounds file under their existing slugs.
+const NI_COUNCILS_1923_67_BODY_SLUGS = [
+  'londonderry-county-borough-council-aldermen',
+  'antrim-town-commissioners',
+  'aughnacloy-town-commissioners',
+  'ballycastle-urban-district-council',
+  'ballyclare-urban-district-council',
+  'ballymena-borough-council',
+  'ballymoney-urban-district-council',
+  'banbridge-urban-district-council',
+  'bangor-borough-council',
+  'carrickfergus-borough-council',
+  'coleraine-borough-council',
+  'cookstown-urban-district-council',
+  'donaghadee-urban-district-council',
+  'downpatrick-urban-district-council',
+  'dromore-urban-district-council',
+  'dungannon-urban-district-council',
+  'enniskillen-borough-council',
+  'gilford-town-commissioners',
+  'holywood-urban-district-council',
+  'kilkeel-urban-district-council',
+  'larne-borough-council',
+  'limavady-urban-district-council',
+  'lisburn-borough-council',
+  'newcastle-urban-district-council',
+  'newry-urban-district-council',
+  'newtownabbey-urban-district-council',
+  'newtownards-borough-council',
+  'omagh-urban-district-council',
+  'portrush-urban-district-council',
+  'portstewart-urban-district-council',
+  'warrenpoint-urban-district-council',
+  'whitehead-urban-district-council'
+];
 const PRE1973_COUNCIL_BODY_SLUGS = new Set([
   'belfast-county-borough-council',
   'belfast-county-borough-council-aldermen',
@@ -419,7 +456,16 @@ const PRE1973_COUNCIL_BODY_SLUGS = new Set([
   'moira-rural-district-council',
   'aghalee-rural-district-council',
   'tandragee-urban-district-council',
-  'castleblayney-no-2-rural-district-council'
+  'castleblayney-no-2-rural-district-council',
+  ...NI_COUNCILS_1923_67_BODY_SLUGS
+]);
+// The 1923-67 councils' wards are those of the 1923 warding orders and their later revisions,
+// which no layer is confirmed to draw, so like the County Armagh pilot they are shown as results
+// without a map. Londonderry's wards were redrawn in 1923, 1936 and 1946, so its later rounds
+// are results only too; Belfast's fifteen wards keep the 1921 DED map (pre1973CouncilGeography).
+const NI_COUNCILS_1923_67_RESULTS_ONLY_BODY_SLUGS = new Set([
+  ...NI_COUNCILS_1923_67_BODY_SLUGS,
+  'londonderry-county-borough-council'
 ]);
 // Bodies whose only results are the January 1920 PR electoral areas. Those areas were drawn
 // for the 1920 scheme and no layer is known to draw them (Derry's North, West and Waterside
@@ -1373,6 +1419,7 @@ function pre1973CouncilGeography(entry) {
   // County Armagh pilot bodies: whole-town polls, 1920 PR areas, county electoral divisions and
   // rural DEDs with no layer confirmed to draw them, so shown as results without a map.
   if (ARMAGH_PILOT_RESULTS_ONLY_BODY_SLUGS.has(entry.bodySlug)) return { sourceMapId: null };
+  if (NI_COUNCILS_1923_67_RESULTS_ONLY_BODY_SLUGS.has(entry.bodySlug)) return { sourceMapId: null };
   if (entry.bodySlug !== 'strabane-urban-district-council') {
     if (entry.bodySlug === 'belfast-county-borough-council' && date.startsWith('1920')) {
       return { sourceMapId: 'pc-1918', featureNamePrefix: 'BELFAST ' };
