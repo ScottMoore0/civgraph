@@ -116,6 +116,13 @@ def summarise(raw):
                       'votes': num(votes), 'id': row.get('sourcePersonId') or row.get('candidateId') or ''}
     vals = [c['votes'] for c in cands.values()]
     unopposed = all(v in (None, 0.0) for v in vals)
+    # Single-seat (first-past-the-post) source files from 2010 on carry no Status; the site
+    # marks the candidate with the most votes as elected, so do the same here.
+    seats = str(info.get('Number_Of_Seats') or raw.get('seats') or '').strip()
+    if seats == '1' and not unopposed and not any((c['status'] or '').lower().startswith('elect') for c in cands.values()):
+        ranked = sorted((c for c in cands.values() if c['votes'] is not None), key=lambda c: -c['votes'])
+        if len(ranked) == 1 or (len(ranked) > 1 and ranked[0]['votes'] > ranked[1]['votes']):
+            ranked[0]['status'] = 'Elected (most votes)'
     return {
         'name': info.get('Constituency_Name') or raw.get('constituency') or '',
         'council': info.get('Council_Name') or '',

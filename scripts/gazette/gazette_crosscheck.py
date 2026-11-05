@@ -55,6 +55,9 @@ TITLES = re.compile(r'\b(?:Sir|Dr|Captain|Capt|Major|Colonel|Col|Lieut|Lieutenan
 
 def person_key(name):
     n = re.sub(r"\bM'(?=[A-Z])|\bMac(?=[A-Z])", 'Mc', name or '')
+    # 'Ian Paisley Jr' (Civgraph) against 'Ian Richard Kyle Paisley' (Gazette): a generational
+    # suffix is not part of the surname.
+    n = re.sub(r",?\s+(?:Jr|Jnr|Junior|Snr|Sr|Senior)\.?\s*$", '', n, flags=re.I)
     return civgraph_elections.norm(TITLES.sub(' ', n))
 
 
@@ -67,10 +70,10 @@ FAMILIAR = {
     'davy': 'david', 'dave': 'david', 'fred': 'frederick', 'freddie': 'frederick', 'tony': 'anthony', 'hughie': 'hugh',
     'archie': 'archibald', 'seamus': 'james', 'liam': 'william', 'padraig': 'patrick', 'ken': 'kenneth', 'ron': 'ronald',
     'ray': 'raymond', 'bertie': 'albert', 'wully': 'william', 'nat': 'nathaniel', 'robin': 'robert', 'bessie': 'elizabeth',
-    'betty': 'elizabeth', 'bert': 'albert',
+    'betty': 'elizabeth', 'bert': 'albert', 'francie': 'francis', 'chris': 'christopher',
 }
 # Familiar forms with more than one formal name ('Bertie' McConnell was Robert Dodd McConnell).
-ALSO_FAMILIAR = {'bertie': ('herbert', 'robert'), 'bert': ('herbert', 'robert')}
+ALSO_FAMILIAR = {'bertie': ('herbert', 'robert'), 'bert': ('herbert', 'robert'), 'pat': ('patricia',)}
 
 
 def formal_forms(x):
