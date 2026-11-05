@@ -2680,6 +2680,7 @@ async function renderPersonVotesPanel(item) {
   const body = `
     <p class="browse-muted">${escapeHtml(countText(data.divisions.length, 'recorded vote'))} in ${escapeHtml(joinList(terms.map((row) => row.bodyLabel).filter((v, i, a) => a.indexOf(v) === i)))}.
       “Against own party” counts votes on the other side from most of the member's party (the party they were elected for).</p>
+    ${bodies.includes('stormont') ? '<p class="browse-muted">Stormont votes (1921–45) are extracted from the OCR of the printed debates, and coverage is partial: only divisions whose lists could be split with confidence are held, so they show no attendance figure.</p>' : ''}
     ${summary}
     ${controls}
     <div data-votes-table>${renderPersonVotesRows()}</div>`;
@@ -2800,6 +2801,7 @@ async function renderDivisionRoute(divisionId) {
         ['Source', `${/^https?:/.test(record.sourceUrl || '') ? `<a href="${escapeAttr(record.sourceUrl)}" rel="noopener" target="_blank">${escapeHtml(record.source)}</a>` : escapeHtml(`${record.source || ''} ${record.sourceUrl || ''}`)}${source ? ` <span class="browse-muted">(${escapeHtml(source.licence)})</span>` : ''}`]
       ].filter(([, value]) => value).map(([key, value]) => `<div><dt>${escapeHtml(key)}</dt><dd>${value}</dd></div>`).join('')}</dl>
       ${record.partial ? '<p class="browse-muted">Only the votes of members for Irish (to 1922) and Northern Ireland (from 1922) constituencies are held for House of Commons divisions.</p>' : ''}
+      ${record.note ? `<p class="browse-muted">${escapeHtml(record.note)}</p>` : ''}
     </section>`;
   const parties = Object.entries(record.parties || {}).sort((a, b) => Object.values(b[1]).reduce((x, y) => x + y, 0) - Object.values(a[1]).reduce((x, y) => x + y, 0));
   const partyTable = renderTablePanel('By party', ['Party', 'Aye', 'No', 'Abstained'], parties.map(([party, c]) => [
