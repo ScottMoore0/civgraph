@@ -159,6 +159,20 @@ def elected_terms():
     return terms, generals
 
 
+def merged_person_ids():
+    """{retired personId: surviving personId} from the person registry's mergedFrom lists. The
+    division data links a member by the id the registry gave when it was linked; a later merge
+    (Dehra Chichester 104292 into Dehra Parker 103875) moves the person to the surviving id."""
+    path = os.path.join(REPO, "data", "elections", "persons", "person_registry.json")
+    if not os.path.exists(path):
+        return {}
+    out = {}
+    for e in json.load(open(path, encoding="utf-8")).get("entities") or []:
+        for old in e.get("mergedFrom") or []:
+            out[int(old)] = int(e["personId"])
+    return out
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--votes-dir", default=os.environ.get("CIVGRAPH_VOTES_DIR"),
@@ -169,6 +183,7 @@ def main():
         ap.error("give --votes-dir or set CIVGRAPH_VOTES_DIR")
     tidy = os.path.join(a.votes_dir, "tidy")
     terms, generals = elected_terms()
+    merged = merged_person_ids()
     pslug = party_slugs()
 
     def party_at(body, pid, date):
@@ -207,6 +222,7 @@ def main():
         enriched = []
         for r in rows:
             pid = int(r["civgraph_person_id"]) if r["civgraph_person_id"] else None
+            pid = merged.get(pid, pid)
             party = party_at(body, pid, date) if pid else ""
             if party:
                 by_party[party][r["vote"]] += 1
