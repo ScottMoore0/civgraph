@@ -5249,12 +5249,25 @@ const RENAMED_ELECTION_DATES = [
   ['northern-ireland-assembly', '1983-04-27', '1983-04-20'] // Armagh by-election
 ];
 
+// Elections filed under another body, which changed their keys: old links keep working.
+// [old body slug, new body slug, new body name, date]. Bangor's and Lisburn's 1920 rounds moved
+// from their urban district slugs to the one body each that holds their later rounds (2026-11).
+const RENAMED_ELECTION_BODIES = [
+  ['bangor-urban-district-council', 'bangor-borough-council', 'Bangor Borough Council', '1920-01-15'],
+  ['lisburn-urban-district-council', 'lisburn-borough-council', 'Lisburn Borough Council', '1920-01-15']
+];
+
 function renameElectionDatesInParams(params) {
   for (const [name, value] of [...params.entries()]) {
     let next = value;
     for (const [body, from, to] of RENAMED_ELECTION_DATES) {
       next = next.split(`${body}__${from}`).join(`${body}__${to}`).split(`${body}:${from}`).join(`${body}:${to}`);
       if (name === 'electionDate' && next === from && slugifyBody(params.get('electionBody')) === body) next = to;
+    }
+    for (const [from, to, toName, date] of RENAMED_ELECTION_BODIES) {
+      next = next.split(`${from}__${date}`).join(`${to}__${date}`).split(`${from}:${date}`).join(`${to}:${date}`)
+        .split(`election-${from}-${date}`).join(`election-${to}-${date}`);
+      if (name === 'electionBody' && slugifyBody(next) === from && params.get('electionDate') === date) next = toName;
     }
     if (next !== value) params.set(name, next);
   }

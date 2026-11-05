@@ -437,12 +437,11 @@ const PRE1973_COUNCIL_BODY_SLUGS = new Set([
   'belfast-county-borough-council',
   'belfast-county-borough-council-aldermen',
   'strabane-urban-district-council',
-  // The 15 January 1920 PR elections only (Londonderry Sentinel, Lisburn Standard and North
-  // Down Herald reports). Their electoral areas have no layer of their own: see
-  // pre1973CouncilGeography.
+  // Londonderry's 15 January 1920 PR election (Londonderry Sentinel). Lisburn's and Bangor's
+  // 1920 rounds (Lisburn Standard, North Down Herald) file under their borough slugs, one body
+  // each titled for the era (scripts/lib/election-names.mjs). The 1920 electoral areas have no
+  // layer of their own: see pre1973CouncilGeography.
   'londonderry-county-borough-council',
-  'lisburn-urban-district-council',
-  'bangor-urban-district-council',
   // County Armagh pilot (British Newspaper Archive transcriptions, 2026-10-31): results only.
   'armagh-county-council',
   'armagh-urban-district-council',
@@ -472,9 +471,7 @@ const NI_COUNCILS_1923_67_RESULTS_ONLY_BODY_SLUGS = new Set([
 // may match the 1921 DEDs of those names, and its South-East the SOUTH and EAST DEDs together,
 // but that is unconfirmed), so their results are shown without a map, like Strabane's 1920.
 const PR1920_ONLY_COUNCIL_BODY_SLUGS = new Set([
-  'londonderry-county-borough-council',
-  'lisburn-urban-district-council',
-  'bangor-urban-district-council'
+  'londonderry-county-borough-council'
 ]);
 const ARMAGH_PILOT_RESULTS_ONLY_BODY_SLUGS = new Set([
   'armagh-county-council',

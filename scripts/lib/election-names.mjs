@@ -432,7 +432,7 @@ export function canonicalElectionTitle({
   if (['armagh county council', 'armagh urban district council', 'keady urban district council', 'lurgan rural district council', 'armagh rural district council', 'newry no. 2 rural district council', 'tandragee rural district council', 'moira rural district council', 'aghalee rural district council', 'tandragee urban district council', 'castleblayney no. 2 rural district council'].includes(normalizedBody)) {
     return `${year} ${body} election`.trim();
   }
-  if (['londonderry county borough council', 'lisburn urban district council', 'bangor urban district council'].includes(normalizedBody)) {
+  if (normalizedBody === 'londonderry county borough council') {
     return `${year} ${body} election`.trim();
   }
   if (normalizedBody === 'londonderry county borough council aldermen') return `${year} Londonderry County Borough Council aldermanic election`.trim();
