@@ -842,7 +842,25 @@ function parseRoute() {
   // A deep link to the other layer still resolves rather than 404ing, so shared URLs keep
   // working; only the directory and the default view are scoped.
   if (!ENTITY_CONFIG[type]) type = fallback;
-  return { isHome: false, type, id, params };
+  return { isHome: false, type, id: renamedRecordId(type, id), params };
+}
+
+// Records filed under another body since they were published, so their slugs changed: an old
+// in-app (#/) link still opens the record. Path-style addresses are redirected by _redirects.
+// Bangor's and Lisburn's 1920 rounds moved to the borough bodies that hold their later rounds.
+const RENAMED_RECORD_PREFIXES = [
+  ['bangor-urban-district-council-1920-01-15', 'bangor-borough-council-1920-01-15'],
+  ['lisburn-urban-district-council-1920-01-15', 'lisburn-borough-council-1920-01-15']
+];
+
+function renamedRecordId(type, id) {
+  if (!id || (type !== 'elections' && type !== 'sources')) return id;
+  const prefix = type === 'sources' ? 'election-source-' : '';
+  for (const [from, to] of RENAMED_RECORD_PREFIXES) {
+    const old = `${prefix}${from}`;
+    if (id === old || id.startsWith(`${old}-`)) return `${prefix}${to}${id.slice(old.length)}`;
+  }
+  return id;
 }
 
 function renderGroups() {

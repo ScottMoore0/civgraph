@@ -107,8 +107,6 @@ const BODY_ALIASES = {
   'belfast-county-borough-council-aldermen': 'NI local council Belfast City Council aldermen',
   'strabane-urban-district-council': 'NI local council Strabane',
   'londonderry-county-borough-council': 'NI local council Londonderry Derry Corporation',
-  'lisburn-urban-district-council': 'NI local council Lisburn',
-  'bangor-urban-district-council': 'NI local council Bangor',
   'armagh-county-council': 'NI local council County Armagh county council',
   'armagh-urban-district-council': 'NI local council Armagh city urban district',
   'keady-urban-district-council': 'NI local council Keady urban district',
