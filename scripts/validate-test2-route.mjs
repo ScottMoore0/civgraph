@@ -17,7 +17,6 @@ const mainElectionPaneContractSource = readFileSync('src/election-main-pane-cont
 const electionDomainSource = readFileSync('src/election-domain.mjs', 'utf8');
 const electionViewModelSource = readFileSync('src/election-view-model.mjs', 'utf8');
 const electionRendererSource = readFileSync('src/election-renderer.mjs', 'utf8');
-const electionControllerSource = readFileSync('archive/leaflet/js/election-controller.js', 'utf8');
 const electionManifestBuilderSource = readFileSync('scripts/build-test2-election-manifest.mjs', 'utf8');
 // Boundary changes between consecutive timeline editions (scripts/build_timeline_changes.py,
 // data/timeline-changes/). They replace the Play-only transition overlays of
@@ -535,7 +534,7 @@ assert(appSource.includes('setupElectionPaneResize()') && appSource.includes('[d
 assert(electionManagerSource.includes('data-election-pane-resize') && electionManagerSource.includes('aria-orientation="horizontal"'), '/test2 election pane must render an accessible horizontal resize handle between the map/catalogue area and results pane');
 assert(test2Css.includes('.test2-election-pane-resizer') && test2Css.includes('cursor: row-resize') && test2Css.includes('grid-template-rows') && test2Css.includes('var(--test2-election-pane-height)'), '/test2 CSS must expose the election-pane row-resize handle and use its height variable in the open-pane grid');
 assert(!/headerRight\.innerHTML = `[\s\S]{0,700}<span>Style<\/span>/.test(electionManagerSource), '/test2 must not put MapLibre style controls in the main election pane header');
-assert(electionControllerSource.includes('buildElectionViewModelFromMainController') && electionControllerSource.includes('renderElectionSummaryFromViewModel') && electionControllerSource.includes('_mirrorSharedElectionRenderer'), 'main election controller must mirror the shared view-model/renderer path for parity checks');
+// The parity check on the retired Leaflet election controller went with archive/ (see ARCHIVE.md).
 assert(electionManifestBuilderSource.includes('OUT_ANCHOR_DIR') && electionManifestBuilderSource.includes('geometryAnchor') && electionManifestBuilderSource.includes('anchorUrl'), '/test2 election manifest build must generate geometry-derived election anchor sidecars');
 assert(electionManifestBuilderSource.includes('previousKey') && electionManifestBuilderSource.includes('partySummary') && electionManifestBuilderSource.includes('entityIndex'), '/test2 election bundles must include previous-election linkage and rich pane data');
 assert(electionManifestBuilderSource.includes('comparableElectionGroup') && electionManifestBuilderSource.includes('ni-devolved') && electionManifestBuilderSource.includes('european-roi') && electionManifestBuilderSource.includes('electionsOverlapByArea') && !electionManifestBuilderSource.includes('isGeneralElectionPreviousBaselineEntry'), '/test2 election previousKey generation must use comparable-election groups, not body-adjacent chronology');

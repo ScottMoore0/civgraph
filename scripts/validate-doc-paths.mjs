@@ -54,8 +54,10 @@ const TOLERATED_PREFIXES = [
  */
 const CANDIDATE = /`([a-zA-Z0-9_][a-zA-Z0-9_.\-]*\/[a-zA-Z0-9_./\-[\]]*)`/g;
 
+// archive/ is not a root: it left the repository in November 2026 (ARCHIVE.md),
+// so documents that mention its old paths describe history, not the tree.
 const ROOTS = new Set([
-  'app', 'apps', 'archive', 'assets', 'browse', 'build', 'data', 'docs',
+  'app', 'apps', 'assets', 'browse', 'build', 'data', 'docs',
   'functions', 'pages', 'partials', 'scripts', 'src', 'test', 'tests', 'tasks',
   'agent', 'analysis', '.github',
 ]);

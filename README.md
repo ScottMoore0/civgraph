@@ -82,12 +82,15 @@ mislead you.** This section is the canonical layout;
 | `scripts/` | build, validation and data pipelines — **not deployed** |
 | `data/database/` | the tracked catalogue: `maps.json` and friends |
 | `data/maps/` | geometry, served from **R2**, not from this repository |
-| `archive/` | superseded code kept for reference. Do not build on it. |
+
+Superseded code that used to sit in `archive/` left the repository in November
+2026; `ARCHIVE.md` says where it went and how to get it back.
 
 Two traps in particular:
 
 - **`src/` is not the old Leaflet stack.** `js/` was *renamed* to `src/` when
-  Leaflet was retired, and only the dead parts moved to `archive/leaflet/`. What
+  Leaflet was retired, and only the dead parts moved to archive/leaflet/ (since
+  moved out of the repository: see `ARCHIVE.md`). What
   is left is live and load-bearing — `app/src/app.js` imports it on line 3. This
   README described `js/` as the entry point for months after that rename, which is
   where the "src/ is dead" belief came from; it cost 36,028 lines of live code its
@@ -148,8 +151,8 @@ if one does not match, because a stale token means returning visitors keep runni
 the old file. `scripts/validate-app-shell-cache-tokens.mjs` explains why.
 
 This file told you to run a bundle script at scripts/bundle.mjs until 2026-08-17.
-There is no such file — it moved to `archive/legacy-scripts/` when the Leaflet
-stack was retired. `npm run check` now verifies that every repository path these
+There is no such file — it moved to archive/legacy-scripts/ when the Leaflet
+stack was retired, and archive/ has since left the repository (`ARCHIVE.md`). `npm run check` now verifies that every repository path these
 documents cite actually resolves, so that particular lie cannot recur.
 
 ## Spatial index

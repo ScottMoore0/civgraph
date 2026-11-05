@@ -65,5 +65,5 @@ Prefer revert over history rewriting. Do not remove the `/test2` compatibility r
 
 - Normal production builds use `scripts/build-shared-shell-assets.mjs` for the thumbnail manifest, shared CSS split, critical-CSS inlining, and `about.css`. They should not emit `build/app.bundle.js`.
 - The archived Leaflet app can still be built manually with `npm run build:legacy-leaflet` for rollback research or debugging, but that command is intentionally outside the production build path.
-- The old mixed-purpose `scripts/bundle.mjs` file is archived at `archive/legacy-scripts/bundle.mjs`; do not restore it to `scripts/` unless intentionally reverting the production build architecture.
+- The old mixed-purpose `scripts/bundle.mjs` file was archived at archive/legacy-scripts/bundle.mjs, which has since left the repository (see `ARCHIVE.md` for how to get it back); do not restore it to `scripts/` unless intentionally reverting the production build architecture.
 - The root service worker deliberately keeps PMTiles and large election/result payloads out of Cache Storage. Those belong on R2/CDN with normal HTTP cache and byte-range behavior.

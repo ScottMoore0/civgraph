@@ -5,6 +5,10 @@
 > nothing and is not wired into `build` or `check`. Step 5 of the agreed sequence — adding
 > `proposer`/`seconder`/`agent` to candidate `meta` and surfacing them — was **not carried
 > out**, because step 3's gate said not to. The reasoning is below.
+>
+> **Location, November 2026:** `archive/` left the repository (see `ARCHIVE.md`). The
+> archive/ocr/ paths below now live in the offline copy, E:\civgraph-archive\archive\ocr\;
+> point the scripts at it with `CIVGRAPH_ARCHIVE_DIR=E:/civgraph-archive/archive`.
 
 ## The question
 

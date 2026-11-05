@@ -8,20 +8,7 @@
  */
 
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
 import { validateChunkedMapBounds } from './validate-chunked-map-bounds.mjs';
-
-const ROOT = resolve(process.cwd());
-const CONTROLLER_PATH = resolve(ROOT, 'archive/leaflet/js/map-controller.js');
-
-function sliceBetween(source, startMarker, endMarker) {
-  const start = source.indexOf(startMarker);
-  assert.notEqual(start, -1, `Missing source marker: ${startMarker}`);
-  const end = source.indexOf(endMarker, start);
-  assert.notEqual(end, -1, `Missing source marker after ${startMarker}: ${endMarker}`);
-  return source.slice(start, end);
-}
 
 function chooseFitSource(state) {
   const hasFullBounds = !!state.fullBounds;
@@ -34,40 +21,9 @@ function chooseFitSource(state) {
 const validation = validateChunkedMapBounds();
 assert.deepEqual(validation.errors, [], 'Chunked map bounds validation must pass');
 
-const source = readFileSync(CONTROLLER_PATH, 'utf8');
-const fitToLayer = sliceBetween(source, 'fitToLayer(id)', '\n    _getFullFitBounds(state)');
-const fitToLayers = sliceBetween(source, 'fitToLayers(ids)', '\n    getLayerState(id)');
-
-assert.ok(
-  fitToLayer.includes("this._recordLoadMetric('chunked-fit-bounds-missing'"),
-  'fitToLayer should record missing full bounds for chunked layers'
-);
-assert.ok(
-  fitToLayers.includes("this._recordLoadMetric('chunked-fit-bounds-missing'"),
-  'fitToLayers should record missing full bounds for chunked layers'
-);
-assert.ok(
-  !source.includes('if ((state.useSpatial || state.config?.chunked) && cfgBounds)'),
-  'chunked fit must not only special-case the cfgBounds-present path'
-);
-
-const singleChunkedBranch = fitToLayer.slice(
-  fitToLayer.indexOf('if (state.useSpatial || state.config?.chunked)'),
-  fitToLayer.indexOf('try {')
-);
-assert.ok(
-  singleChunkedBranch.includes('return;'),
-  'fitToLayer chunked branch must return before rendered group bounds are read'
-);
-
-const combinedChunkedBranch = fitToLayers.slice(
-  fitToLayers.indexOf('if (state.useSpatial || state.config?.chunked)'),
-  fitToLayers.indexOf('try {')
-);
-assert.ok(
-  combinedChunkedBranch.includes('return;'),
-  'fitToLayers chunked branch must return before rendered group bounds are read'
-);
+// The source-level checks on the retired Leaflet map controller
+// (archive/leaflet/js/map-controller.js) went when archive/ left the repository;
+// see ARCHIVE.md. The fit policy below and the bounds validation above remain.
 
 assert.equal(
   chooseFitSource({ chunked: true, fullBounds: false, groupBounds: true }),
