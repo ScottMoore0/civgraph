@@ -14,10 +14,11 @@
  *
  *   npm run deploy:browse-indexes            # all three
  *   npm run deploy:browse-indexes sources    # one
+ *   npm run deploy:browse-indexes -- --dry-run   # regenerate the SQL, say which would load, stop
  */
 import { spawnSync } from 'node:child_process';
 import { readFileSync, existsSync } from 'node:fs';
-import { alreadyDeployed, markDeployed } from './lib/d1-deploy-cache.mjs';
+import { alreadyDeployed, markDeployed, DRY_RUN } from './lib/d1-deploy-cache.mjs';
 
 /**
  * `shell` is set ONLY for npx, never for node.
@@ -50,6 +51,14 @@ run('Regenerate the browse index SQL',
 const clean = { ...process.env };
 for (const key of ['CLOUDFLARE_API_TOKEN', 'CLOUDFLARE_ACCOUNT_ID', 'AWS_ACCESS_KEY_ID', 'AWS_SECRET_ACCESS_KEY']) {
   delete clean[key];
+}
+
+if (DRY_RUN) {
+  for (const name of names) {
+    const sql = `data/database/${name}-d1-import.sql`;
+    console.log(`DRY RUN: browse index ${name} ${alreadyDeployed(`browse-${name}`, sql) ? 'unchanged since its last verified load; would not reload' : 'would load'} ${sql}`);
+  }
+  process.exit(0);
 }
 
 const loaded = [];

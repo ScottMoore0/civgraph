@@ -23,9 +23,10 @@
  * "Authentication error [code: 10000]". They are cleared for this call.
  *
  *   npm run deploy:catalogue
+ *   npm run deploy:catalogue -- --dry-run    regenerate the SQL, say whether it would load, stop
  */
 import { spawnSync } from 'node:child_process';
-import { alreadyDeployed, markDeployed } from './lib/d1-deploy-cache.mjs';
+import { alreadyDeployed, markDeployed, DRY_RUN } from './lib/d1-deploy-cache.mjs';
 
 /**
  * `shell` is set ONLY for npx, never for node.
@@ -60,6 +61,10 @@ for (const key of ['CLOUDFLARE_API_TOKEN', 'CLOUDFLARE_ACCOUNT_ID', 'AWS_ACCESS_
 
 const SQL = 'data/database/catalogue-d1-import.sql';
 const unchanged = alreadyDeployed('catalogue', SQL);
+if (DRY_RUN) {
+  console.log(`DRY RUN: civgraph-catalogue ${unchanged ? 'unchanged since its last verified load; would not reload' : 'would load'} ${SQL}`);
+  process.exit(0);
+}
 if (unchanged) {
   console.log('\n== SQL unchanged since its last verified load; not reloaded (--force to reload)');
 } else {
