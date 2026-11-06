@@ -84,8 +84,10 @@ export function buildDelta({ toFile, fromFile = null, write, version, gitCommit,
     const s = summary[t.name];
     const cols = t.columns.map((c) => c.name);
     const join = t.pk.map((c) => `f.${t.name}.${c} = m.${c}`).join(' AND ');
+    // A full load reads each table in storage order: the order of the statements does not
+    // matter (every row is an upsert), and ordering by key costs a random read per row.
     const sql = full
-      ? `SELECT * FROM main.${t.name} ORDER BY ${t.pk.join(', ')}`
+      ? `SELECT * FROM main.${t.name}`
       : `SELECT m.* FROM main.${t.name} m LEFT JOIN f.${t.name} ON ${join} WHERE f.${t.name}.row_hash IS NOT m.row_hash ORDER BY ${t.pk.map((c) => `m.${c}`).join(', ')}`;
     const prefix = `INSERT OR REPLACE INTO ${t.name} (${cols.join(', ')}) VALUES `;
     let batch = [];

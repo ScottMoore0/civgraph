@@ -1,7 +1,8 @@
 """Where the record build writes, in one place (the Python twin of paths.mjs).
 
-CIVGRAPH_BUILD_DIR unset: the legacy locations (render/metadata/elections-test2, ...).
-CIVGRAPH_BUILD_DIR=<dir>: everything under <dir>; records:build sets tmp/records.
+CIVGRAPH_BUILD_DIR unset: everything under tmp/records, where records:build puts it.
+CIVGRAPH_BUILD_DIR=<dir>: everything under <dir>.
+CIVGRAPH_BUILD_DIR=legacy: the old locations (render/metadata/elections-test2, ...).
 
 Load it from any script without touching sys.path:
 
@@ -11,13 +12,14 @@ Load it from any script without touching sys.path:
 """
 import os
 
+DEFAULT_BUILD_DIR = 'tmp/records'
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..'))
 
 
 def build_dir(env=None):
     env = os.environ if env is None else env
-    value = (env.get('CIVGRAPH_BUILD_DIR') or '').strip()
-    return os.path.abspath(os.path.join(REPO_ROOT, value)) if value else None
+    value = (env.get('CIVGRAPH_BUILD_DIR') or '').strip() or DEFAULT_BUILD_DIR
+    return None if value == 'legacy' else os.path.abspath(os.path.join(REPO_ROOT, value))
 
 
 def record_paths(env=None):

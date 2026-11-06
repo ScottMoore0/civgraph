@@ -1,5 +1,7 @@
 #!/usr/bin/env node
+import path from 'node:path';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
+import { BROWSE_DIR } from './records/paths.mjs';
 
 const failures = [];
 // The MapLibre app. It was index.html until the landing page took the root; this kept
@@ -45,11 +47,11 @@ const mapsDb = JSON.parse(readFileSync('data/database/maps.json', 'utf8'));
 // checkout has none of it. (This validator used to skip on a clean checkout for want of the
 // untracked timeline sidecars; that guard went with them, and this one keeps the same outcome
 // for the same kind of reason.)
-if (!existsSync('data/browse/maps.json')) {
+if (!existsSync(path.join(BROWSE_DIR, 'maps.json'))) {
   console.log('SKIP: data/browse/maps.json is absent (built by npm run build and published to R2; untracked).');
   process.exit(0);
 }
-const browseMapsIndex = JSON.parse(readFileSync('data/browse/maps.json', 'utf8'));
+const browseMapsIndex = JSON.parse(readFileSync(path.join(BROWSE_DIR, 'maps.json'), 'utf8'));
 const test2BundleVersion = index.match(/\/app\/build\/app\.bundle\.js\?v=([0-9a-f]{12})/)?.[1] || '';
 
 function assert(condition, message) {

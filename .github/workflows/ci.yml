@@ -45,6 +45,10 @@ jobs:
       # npm ci, not npm install: check:notices compares exact installed versions with the
       # committed notices. --ignore-scripts: the canvas devDependency builds natively and
       # fails on the runner (pixman-1); nothing in the checks imports it.
+      # Python runs the person-id stamping inside records:build (scripts/records/).
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
       - run: npm ci --ignore-scripts
       - run: npm run check:ci
 

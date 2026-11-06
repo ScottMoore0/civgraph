@@ -17,11 +17,13 @@
  * dataEntries rather than maps.json, so the two counts do not reconcile and a
  * naive equality check here would fail for the wrong reason.
  */
+import path from 'node:path';
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
+import { BROWSE_DIR } from './records/paths.mjs';
 
 const CATALOGUE = 'data/database/maps.json';
-const BROWSE_INDEX = 'data/browse/maps.json';
-const DETAIL_DIR = 'data/browse/details';
+const BROWSE_INDEX = path.join(BROWSE_DIR, 'maps.json');
+const DETAIL_DIR = path.join(BROWSE_DIR, 'details');
 
 const catalogue = JSON.parse(readFileSync(CATALOGUE, 'utf8'));
 const hidden = new Set(catalogue.maps.filter((m) => m.hidden).map((m) => m.id));
