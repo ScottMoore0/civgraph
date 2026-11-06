@@ -11,8 +11,13 @@
  *   2. votes        built from CIVGRAPH_VOTES_DIR (checked against its committed pin) when set;
  *                   else read from --votes-tree <dir>; else carried over from the last build.
  *   3. a fresh civgraph-records.next.sqlite from migrations/*.sql, then every ingest
- *   4. validate (scripts/records/validate.mjs); errors stop the build
- *   5. dataset rows: version (hash of every table's count and checksum), git_commit, inputs_hash,
+ *   4. stable order: the sort keys (`ord`) of the tables with `stableOrder` keep their values from
+ *      the seed (scripts/records/stable-order.mjs), so the delta of a change is about its own
+ *      size. The seed is --ord-seed <file>; else the publish's last-loaded snapshot
+ *      (.claude/publish/work/last-loaded.sqlite: what D1 holds); else the previous build; with
+ *      --no-ord-seed, or none of them, the positions the ingests wrote are kept.
+ *   5. validate (scripts/records/validate.mjs); errors stop the build
+ *   6. dataset rows: version (hash of every table's count and checksum), git_commit, inputs_hash,
  *      table checksums; then the file is renamed into place.
  *
  * The person-registry curation loop (npm run persons:rebuild) rewrites committed files and stays a
@@ -20,11 +25,13 @@
  *
  *   node scripts/records/build-records-db.mjs [--no-transform] [--force-transform] [--votes-tree DIR]
  *                                             [--skip graph,votes] [--no-source-checks]
+ *                                             [--ord-seed FILE | --no-ord-seed]
  */
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
+import { DatabaseSync } from 'node:sqlite';
 import { createDatabase, tableChecksums, TableWriter, transaction } from './db.mjs';
 import { ingestBrowse } from './ingest-browse.mjs';
 import { ingestElections } from './ingest-elections.mjs';
@@ -34,6 +41,7 @@ import { ingestRegistries } from './ingest-registries.mjs';
 import { ingestVotes } from './ingest-votes.mjs';
 import { recordPaths, REPO_ROOT, rel } from './paths.mjs';
 import { HASHED_TABLES } from './schema.mjs';
+import { stabiliseOrder } from './stable-order.mjs';
 import { validateDatabase } from './validate.mjs';
 import { verifyVotesPin } from './votes-pin.mjs';
 
@@ -48,6 +56,18 @@ const P = recordPaths(BUILD_ENV);
 const OUT = path.join(REPO_ROOT, BUILD_REL, 'civgraph-records.sqlite');
 const NEXT = path.join(REPO_ROOT, BUILD_REL, 'civgraph-records.next.sqlite');
 const STATE = path.join(REPO_ROOT, BUILD_REL, 'transforms.json');
+const LAST_LOADED = path.join(REPO_ROOT, '.claude', 'publish', 'work', 'last-loaded.sqlite');
+
+/** The database whose sort keys this build keeps (see step 4), or null. */
+function orderSeed() {
+  if (flag('--no-ord-seed')) return null;
+  if (option('--ord-seed')) {
+    const file = path.resolve(option('--ord-seed'));
+    if (!existsSync(file)) throw new Error(`--ord-seed: no database at ${file}`);
+    return file;
+  }
+  return [LAST_LOADED, OUT].find((file) => existsSync(file)) || null;
+}
 
 const t0 = Date.now();
 const timings = {};
@@ -164,6 +184,18 @@ function main() {
     for (const d of docs.sort((a, b) => a.name.localeCompare(b.name))) w.add(d);
   }));
 
+  const seed = orderSeed();
+  let seedVersion = '';
+  if (seed) {
+    try {
+      const s = new DatabaseSync(seed, { readOnly: true });
+      seedVersion = s.prepare("SELECT value FROM dataset WHERE key = 'version'").get()?.value || '';
+      s.close();
+    } catch { /* a seed without a dataset table still seeds */ }
+    console.log(`  stable order: seeded from ${rel(seed)}${seedVersion ? ` (${seedVersion})` : ''}`);
+    step('stable order', () => stabiliseOrder(db, seed, { log: (line) => console.log(line) }));
+  } else console.log('  stable order: no seed, positions kept');
+
   const result = step('validate', () => validateDatabase(db, { sourceValidators: !flag('--no-source-checks') }));
   for (const w of result.warnings) console.warn(`  warning: ${w}`);
   if (prov.unmatched) console.warn(`  warning: ${prov.unmatched} provenance contest(s) match no contest by source file`);
@@ -186,6 +218,7 @@ function main() {
     ins.run('git_commit', gitCommit);
     ins.run('inputs_hash', inputs);
     ins.run('votes_from', votes.from);
+    ins.run('ord_seed', seedVersion);
     ins.run('table_checksums', JSON.stringify(checksums));
     ins.run('unstamped_candidacies', String(result.facts.unstampedCandidacies));
   });

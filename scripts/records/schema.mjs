@@ -8,6 +8,16 @@
  * - every table has a natural primary key;
  * - `ord` keeps source order wherever a list is shown in source order, and every list query
  *   orders by it (or by columns ending in the key), never by rowid;
+ * - `ord` is a sort key, not a position, in every table with `stableOrder`: the build keeps each
+ *   row's value from the last-loaded snapshot and places new or moved rows between their
+ *   neighbours (scripts/records/stable-order.mjs), so inserting N rows changes about N rows.
+ *   Its values may be negative or multiples of 1/512 and have gaps; no read uses one as an index
+ *   (a shard of a Browse index is a LIMIT/OFFSET slice in ord order). `sort` names the key's
+ *   columns (graph_entities: shard, ord), `group` the list it orders (one subject's statements),
+ *   `identity` how a row is matched to the seed: its primary key, or its other values where ord
+ *   is part of the key. Left positional: candidacies and r_counts (the API returns a candidacy's
+ *   ord and r_counts.candidacy_ord points at it; lists of one contest), contests.seq (part of
+ *   public URLs) and election_aggregates.part (pieces of one payload);
  * - every table except `dataset` carries row_hash (SHA-1 of the canonical row, 40 hex) and
  *   row_hash_n (its first 8 hex digits as an integer, below 2^32), so a table checksum is
  *   SUM(row_hash_n) in SQLite and D1 alike without integer overflow;
@@ -33,6 +43,7 @@ const HASH = [c('row_hash', T, true), c('row_hash_n', I, true)];
 /**
  * @typedef {{ name: string, group: string, columns: {name:string,type:string,notNull:boolean}[],
  *   pk: string[], hashed: boolean, order: string, indexes?: [string, string[], boolean?][],
+ *   stableOrder?: { sort: string[], group?: string[], identity: 'key' | 'content' },
  *   note?: string }} TableSpec
  */
 /** @type {TableSpec[]} */
@@ -61,6 +72,7 @@ export const TABLES = [
   // ---------------------------------------------------------------- elections
   {
     name: 'r_elections', group: 'elections', hashed: true, pk: ['key'], order: 'date, key',
+    stableOrder: { sort: ['ord'], identity: 'key' },
     columns: [
       c('key', T, true), c('slug', T, true), c('body_slug', T, true), c('body'), c('body_group'),
       c('display_title'), c('contest_type'), c('kind'), c('voting_system'), c('contest_status'),
@@ -136,6 +148,7 @@ export const TABLES = [
   {
     // The manifest entry (render/metadata/elections-test2.json elections[]), verbatim.
     name: 'election_manifest', group: 'elections', hashed: true, pk: ['key'], order: 'ord',
+    stableOrder: { sort: ['ord'], identity: 'key' },
     columns: [c('key', T, true), c('ord', I, true), c('entry', T, true), ...HASH],
     indexes: [['election_manifest_ord', ['ord', 'key']]],
   },
@@ -143,6 +156,7 @@ export const TABLES = [
     // Browse election records: the 1,829 elections, their overall results and 13,360 contest
     // entries of data/browse/elections.json, with the list card of elections-list.json.
     name: 'election_cards', group: 'browse', hashed: true, pk: ['slug'], order: 'ord',
+    stableOrder: { sort: ['ord'], identity: 'key' },
     columns: [
       c('slug', T, true), c('id'), c('key'), c('entry_kind'), c('election_key'), c('title'), c('title_norm'),
       c('search_norm'), c('body_slug'), c('body'), c('date'), c('decade'), c('kind'), c('ord', I, true),
@@ -160,6 +174,7 @@ export const TABLES = [
   // ---------------------------------------------------------------- persons
   {
     name: 'persons', group: 'persons', hashed: true, pk: ['person_id'], order: 'ord',
+    stableOrder: { sort: ['ord'], identity: 'key' },
     columns: [
       c('person_id', T, true), c('registry_id'), c('display_name', T, true), c('first_year', I), c('last_year', I),
       c('provisional', I), c('candidacies', I), c('ord', I, true), c('meta', T, true), ...HASH,
@@ -182,10 +197,12 @@ export const TABLES = [
   {
     // reference-offices.json, reference-relations.json, reference-dates.json, one row per entry.
     name: 'person_facts', group: 'persons', hashed: true, pk: ['person_id', 'kind', 'ord'], order: 'person_id, kind, ord',
+    stableOrder: { sort: ['ord'], group: ['person_id', 'kind'], identity: 'content' },
     columns: [c('person_id', T, true), c('kind', T, true), c('ord', I, true), c('value', T, true), ...HASH],
   },
   {
     name: 'person_cards', group: 'browse', hashed: true, pk: ['slug'], order: 'ord',
+    stableOrder: { sort: ['ord'], identity: 'key' },
     columns: [
       c('slug', T, true), c('id'), c('title'), c('title_norm'), c('key_norm'), c('search_norm'),
       c('first_year', I), c('last_year', I), c('bodies'), c('decades'), c('elected'), c('contests', I), c('elected_count', I),
@@ -204,6 +221,7 @@ export const TABLES = [
   // ---------------------------------------------------------------- parties
   {
     name: 'parties', group: 'parties', hashed: true, pk: ['party_id'], order: 'ord',
+    stableOrder: { sort: ['ord'], identity: 'key' },
     columns: [
       c('party_id', T, true), c('type'), c('name'), c('short_name'), c('founded'), c('founded_precision'),
       c('dissolved'), c('status'), c('provisional', I), c('confidence'), c('ord', I, true), c('meta', T, true), ...HASH,
@@ -211,6 +229,7 @@ export const TABLES = [
   },
   {
     name: 'party_names', group: 'parties', hashed: true, pk: ['party_id', 'ord'], order: 'party_id, ord',
+    stableOrder: { sort: ['ord'], group: ['party_id'], identity: 'content' },
     columns: [c('party_id', T, true), c('ord', I, true), c('name', T, true), c('kind', T, true), c('valid_from'), c('valid_until'), c('bodies'), c('meta'), ...HASH],
     indexes: [['party_names_name', ['name', 'party_id']]],
   },
@@ -218,12 +237,14 @@ export const TABLES = [
     // party-lineage.json events. Kept general (kind, related, basis, source, meta) so the
     // facts model's party events (docs/facts-model.md on branch facts-model) can load here.
     name: 'party_events', group: 'parties', hashed: true, pk: ['ord'], order: 'ord',
+    stableOrder: { sort: ['ord'], identity: 'content' },
     columns: [c('ord', I, true), c('party_id', T, true), c('date'), c('kind'), c('related'), c('meta', T, true), ...HASH],
     indexes: [['party_events_party', ['party_id', 'date', 'ord']]],
   },
   {
     // The ballot-paper label -> party map (party-names.json items), in its order.
     name: 'party_label_map', group: 'browse', hashed: true, pk: ['label'], order: 'ord',
+    stableOrder: { sort: ['ord'], identity: 'key' },
     columns: [c('label', T, true), c('party_slug', T, true), c('ord', I, true), ...HASH],
   },
   {
@@ -232,6 +253,7 @@ export const TABLES = [
   },
   {
     name: 'party_cards', group: 'browse', hashed: true, pk: ['slug'], order: 'ord',
+    stableOrder: { sort: ['ord'], identity: 'key' },
     columns: [
       c('slug', T, true), c('id'), c('title'), c('title_norm'), c('search_norm'), c('occurrences', I),
       c('ord', I, true), c('card', T, true), c('detail'), c('profile'), ...HASH,
@@ -241,6 +263,7 @@ export const TABLES = [
   // The facts model's office pages (scripts/build-office-pages.mjs): the list card and the page.
   {
     name: 'office_cards', group: 'browse', hashed: true, pk: ['slug'], order: 'ord', since: 2,
+    stableOrder: { sort: ['ord'], identity: 'key' },
     columns: [
       c('slug', T, true), c('id'), c('title'), c('title_norm'), c('search_norm'),
       c('ord', I, true), c('card', T, true), c('detail'), ...HASH,
@@ -251,6 +274,7 @@ export const TABLES = [
   // ---------------------------------------------------------------- sources and provenance
   {
     name: 'sources', group: 'browse', hashed: true, pk: ['slug'], order: 'ord',
+    stableOrder: { sort: ['ord'], identity: 'key' },
     columns: [
       c('slug', T, true), c('id'), c('title'), c('title_norm'), c('key_norm'), c('search_norm'),
       c('provider'), c('category'), c('publication_status'), c('date'), c('license'),
@@ -272,12 +296,14 @@ export const TABLES = [
   {
     // source-merges.json items, verbatim and in order.
     name: 'source_merges', group: 'browse', hashed: true, pk: ['ord'], order: 'ord',
+    stableOrder: { sort: ['ord'], identity: 'content' },
     columns: [c('ord', I, true), c('item', T, true), ...HASH],
   },
   {
     // One row per contest of data/database/election-provenance.json (the 25 MiB file):
     // the record without its sources (kept in place as null), joined to the contest.
     name: 'contest_provenance', group: 'provenance', hashed: true, pk: ['source_file'], order: 'ord',
+    stableOrder: { sort: ['ord'], identity: 'key' },
     columns: [
       c('source_file', T, true), c('election_key'), c('contest_seq', I), c('body'), c('date'), c('constituency'),
       c('status'), c('ord', I, true), c('record', T, true), ...HASH,
@@ -286,6 +312,7 @@ export const TABLES = [
   },
   {
     name: 'citations', group: 'provenance', hashed: true, pk: ['subject_type', 'subject_key', 'ord'], order: 'subject_type, subject_key, ord',
+    stableOrder: { sort: ['ord'], group: ['subject_type', 'subject_key'], identity: 'content' },
     columns: [
       c('subject_type', T, true), c('subject_key', T, true), c('ord', I, true), c('title'), c('publisher'),
       c('url'), c('archive_url'), c('host'), c('kind'), c('origin'), c('basis'), c('scope'), c('checked', I),
@@ -295,10 +322,12 @@ export const TABLES = [
   },
   {
     name: 'legislation', group: 'provenance', hashed: true, pk: ['legislation_id'], order: 'ord',
+    stableOrder: { sort: ['ord'], identity: 'key' },
     columns: [c('legislation_id', T, true), c('title'), c('url'), c('ord', I, true), c('meta', T, true), ...HASH],
   },
   {
     name: 'election_legislation', group: 'provenance', hashed: true, pk: ['source_file', 'ord'], order: 'source_file, ord',
+    stableOrder: { sort: ['ord'], group: ['source_file'], identity: 'content' },
     columns: [c('source_file', T, true), c('ord', I, true), c('legislation_id', T, true), ...HASH],
     indexes: [['election_legislation_id', ['legislation_id']]],
   },
@@ -311,6 +340,7 @@ export const TABLES = [
   // ---------------------------------------------------------------- register of interests
   {
     name: 'register_entries', group: 'browse', hashed: true, pk: ['slug'], order: 'ord',
+    stableOrder: { sort: ['ord'], identity: 'key' },
     columns: [
       c('slug', T, true), c('id'), c('title'), c('title_norm'), c('key_norm'), c('search_norm'),
       c('member_name'), c('elected_body'), c('category'), c('date'), c('constituency'), c('member_type'),
@@ -337,6 +367,7 @@ export const TABLES = [
   // ---------------------------------------------------------------- votes and divisions
   {
     name: 'divisions', group: 'votes', hashed: true, pk: ['division_id'], order: 'shard, ord',
+    stableOrder: { sort: ['ord'], group: ['shard'], identity: 'key' },
     columns: [
       c('division_id', T, true), c('shard', I, true), c('ord', I, true), c('body'), c('date'), c('number'), c('title'),
       // The division record without its votes (kept in place as null).
@@ -346,6 +377,7 @@ export const TABLES = [
   },
   {
     name: 'division_votes', group: 'votes', hashed: true, pk: ['division_id', 'ord'], parents: ['divisions'], order: 'division_id, ord',
+    stableOrder: { sort: ['ord'], group: ['division_id'], identity: 'content' },
     columns: [c('division_id', T, true), c('ord', I, true), c('person_id'), c('vote'), c('party'), c('entry', T, true), ...HASH],
     indexes: [['dvotes_person', ['person_id', 'division_id']]],
   },
@@ -362,6 +394,9 @@ export const TABLES = [
   // ---------------------------------------------------------------- semantic graph
   {
     name: 'graph_entities', group: 'graph', hashed: true, pk: ['entity_id'], order: 'shard, ord',
+    // (shard, ord) is the entity's sort key: the entity-shards file and place it was first built
+    // in, kept since (stable-order.mjs), not necessarily its file in the current graph build.
+    stableOrder: { sort: ['shard', 'ord'], identity: 'key' },
     columns: [
       c('entity_id', T, true), c('shard', I, true), c('ord', I, true), c('slug'), c('label'), c('label_norm'),
       // entity: the entity-shard record; summary: its lookup entry without the shard numbers;
@@ -378,16 +413,19 @@ export const TABLES = [
   {
     // A subject's statements as the record pages read them (statements-by-subject shards).
     name: 'graph_statements', group: 'graph', hashed: true, pk: ['subject_id', 'ord'], order: 'subject_id, ord',
+    stableOrder: { sort: ['ord'], group: ['subject_id'], identity: 'content' },
     columns: [c('subject_id', T, true), c('ord', I, true), c('statement_id'), c('property_id'), c('statement', T, true), ...HASH],
   },
   {
     // Statements whose value is an entity, by that entity (reverse-entity-value shards).
     name: 'graph_reverse', group: 'graph', hashed: true, pk: ['entity_id', 'ord'], order: 'entity_id, ord',
+    stableOrder: { sort: ['ord'], group: ['entity_id'], identity: 'content' },
     columns: [c('entity_id', T, true), c('ord', I, true), c('item', T, true), ...HASH],
   },
   {
     // Statements citing a source entity (source-statements shards).
     name: 'graph_source_statements', group: 'graph', hashed: true, pk: ['source_id', 'ord'], order: 'source_id, ord',
+    stableOrder: { sort: ['ord'], group: ['source_id'], identity: 'content' },
     columns: [c('source_id', T, true), c('ord', I, true), c('item', T, true), ...HASH],
   },
 ];
