@@ -140,6 +140,39 @@ PRE1973_COUNCIL_BODIES = {
     'portstewart-urban-district-council',
     'warrenpoint-urban-district-council',
     'whitehead-urban-district-council',
+    # NI councils 1923-67, instalment 2 (2026-11): the county councils and rural districts.
+    'antrim-county-council',
+    'down-county-council',
+    'fermanagh-county-council',
+    'londonderry-county-council',
+    'tyrone-county-council',
+    'antrim-rural-district-council',
+    'ballycastle-rural-district-council',
+    'ballymena-rural-district-council',
+    'ballymoney-rural-district-council',
+    'banbridge-rural-district-council',
+    'belfast-rural-district-council',
+    'castlederg-rural-district-council',
+    'castlereagh-rural-district-council',
+    'clogher-rural-district-council',
+    'coleraine-rural-district-council',
+    'cookstown-rural-district-council',
+    'dungannon-rural-district-council',
+    'east-down-rural-district-council',
+    'enniskillen-rural-district-council',
+    'hillsborough-rural-district-council',
+    'irvinestown-rural-district-council',
+    'larne-rural-district-council',
+    'limavady-rural-district-council',
+    'lisburn-rural-district-council',
+    'lisnaskea-rural-district-council',
+    'londonderry-rural-district-council',
+    'magherafelt-rural-district-council',
+    'newry-no-1-rural-district-council',
+    'north-down-rural-district-council',
+    'omagh-rural-district-council',
+    'south-down-rural-district-council',
+    'strabane-rural-district-council',
 }
 
 
@@ -190,6 +223,46 @@ def scan():
     return rows
 
 
+NONCANDIDATES = os.path.join(OUT, 'non-candidate-persons.json')
+NONCANDIDATE_BLOCK = (900001, 999999)
+
+
+def registered_persons(candidate_entities):
+    """People who never stood (Northern Ireland Office ministers, civil servants, party
+    officers), registered so offices and affiliations can name them. They keep the ids written
+    in non-candidate-persons.json, a block (900001+) candidate ids never reach, and are
+    appended after the candidate entities so nothing above changes when one is added.
+
+    A registered person who has since been found among the candidates (an official id or a
+    Wikidata item both carry) is an error to fix in the file, not something to merge here."""
+    if not os.path.exists(NONCANDIDATES):
+        return []
+    doc = json.load(open(NONCANDIDATES, encoding='utf-8'))
+    lo, hi = NONCANDIDATE_BLOCK
+    taken = {e['personId'] for e in candidate_entities}
+    if any(pid >= lo for pid in taken):
+        sys.exit(f'FAIL: a candidate id reached the registered block ({lo}+); widen the gap before building')
+    official = {o: e['personId'] for e in candidate_entities for o in e.get('officialPersonIds') or []}
+    out, seen = [], set()
+    for p in doc.get('persons') or []:
+        pid = int(p['personId'])
+        if not lo <= pid <= hi or pid in seen:
+            sys.exit(f'FAIL: registered person id {pid} outside {lo}-{hi} or repeated')
+        seen.add(pid)
+        clash = [o for o in p.get('officialPersonIds') or [] if o in official]
+        if clash:
+            sys.exit(f'FAIL: registered person {pid} ({p["displayName"]}) shares {clash[0]} with candidate p{official[clash[0]]}; '
+                     'merge the two in non-candidate-persons.json first')
+        names = sorted({p['displayName'], *(p.get('aliases') or [])}, key=lambda s: (-len(s), s))
+        out.append({'id': f'p{pid}', 'personId': pid, 'displayName': p['displayName'], 'aliases': names,
+                    'matchKeys': sorted({matchkey(n) for n in names}), 'sourceIds': [], 'sourcePersonIds': [],
+                    'officialPersonIds': sorted(p.get('officialPersonIds') or []), 'candidacies': 0, 'contests': 0,
+                    'firstYear': None, 'lastYear': None, 'bodies': [], 'parties': [], 'keyedBy': 'registered',
+                    'provenance': 'registered non-candidate (data/elections/persons/non-candidate-persons.json)',
+                    'provisional': False})
+    return out
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--force', action='store_true')
@@ -208,6 +281,10 @@ def main():
     if os.path.exists(REG):
         old_reg = json.load(open(REG, encoding='utf-8'))
         for e in old_reg.get('entities') or []:
+            # Registered non-candidates are not built from candidacies and live in an id block
+            # of their own: they never lend an id, a name or a match key to a candidate group.
+            if e.get('keyedBy') == 'registered':
+                continue
             prev[e['personId']] = e
             prev_max = max(prev_max, int(e['personId']))
     prev_by_person = collections.defaultdict(set)
@@ -588,9 +665,31 @@ def main():
                 best, best_score = pid, score
         return best
 
+    # A half of a career split (keyed with its 'yyyy-yyyy' years) still keeps a prior join to
+    # a group on its own side of the split: adding Lisburn Rural District's Robert Smyth of 1930
+    # to the name-and-party key of Westmeath's Robert Smyth (1826, no party) split that key, and
+    # the 1826 half lost its join to his 1824 row (History of Parliament id) and was renumbered.
+    # The join is kept only where the joined years are themselves a plausible career.
+    def career_half(k):
+        return len(k) == 3 and k[0] in ('src', 'id') and re.fullmatch(r'\d{4}-\d{4}', str(k[2])) is not None
+
+    def plausible_years(vs):
+        ys = sorted({r['year'] for v in vs for r in v if r['year']})
+        return not ys or (ys[-1] - ys[0] <= MAX_PLAUSIBLE_SPAN and not silent_within(ys))
+
+    def half_had_own_id(k, v):
+        """The prior registry already held this half as a person of its own (same era, same
+        source id): it keeps that id rather than rejoining anyone."""
+        lo, hi = (int(x) for x in str(k[2]).split('-'))
+        sources = {r['id'] for r in v if r['id']}
+        return any(prev[p].get('era') == [lo, hi]
+                   for s in sources for p in prev_by_source.get(s, set()) if p in prev)
+
     by_prior = collections.defaultdict(list)
     for k, v in merged.items():
-        if len(k) > 2:
+        if len(k) > 2 and not career_half(k):
+            continue
+        if career_half(k) and half_had_own_id(k, v):
             continue
         pid = strongest_prior(v)
         if pid is None and k[0] == 'name' and len(prev_by_namerows.get(k[1], ())) == 1:
@@ -607,7 +706,7 @@ def main():
     for pid, keys in by_prior.items():
         if len(keys) < 2:
             continue
-        keys.sort(key=lambda k: (-len(merged[k]), str(k)))
+        keys.sort(key=lambda k: (career_half(k), -len(merged[k]), str(k)))
         lead = keys[0]
         contests = {r['key'] for r in merged[lead]}
         # A prior join the source now contradicts is not kept. Two groups naming different
@@ -619,6 +718,8 @@ def main():
         for k in keys[1:]:
             theirs = {r['key'] for r in merged[k]}
             if contests & theirs:
+                continue
+            if (career_half(lead) or career_half(k)) and not plausible_years([merged[lead], merged[k]]):
                 continue
             ours_src = {r['src'] for r in merged[lead] if r['src']}
             their_src = {r['src'] for r in merged[k] if r['src']}
@@ -797,6 +898,9 @@ def main():
                                 'duplicates are never merged automatically')
         entities.append(e)
 
+    registered = registered_persons(entities)
+    entities.extend(registered)
+
     doc = {
         'schemaVersion': 2,
         'description': 'Stable identifiers for people appearing as candidates in the '
@@ -837,6 +941,7 @@ def main():
     print(f'  keyed by candidate id      : {sum(1 for e in entities if e["keyedBy"]=="id"):,}')
     print(f'  keyed by name only         : {sum(1 for e in entities if e["keyedBy"]=="name"):,}')
     print(f'  flagged needsReview        : {sum(1 for e in entities if e.get("needsReview")):,}')
+    print(f'  registered non-candidates  : {len(registered):,} (data/elections/persons/non-candidate-persons.json)')
     print(f'\nwrote {REG}')
 
 

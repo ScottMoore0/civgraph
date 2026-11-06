@@ -38,6 +38,7 @@
 import { existsSync, mkdirSync, readFileSync, readdirSync, unlinkSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { PROVENANCE_FILE, PROVENANCE_SHARD_DIR } from './records/paths.mjs';
+import { PUBLISHED_BUDGET_BYTES, publishedText, slimProvenance } from './lib/election-provenance-slim.mjs';
 
 const ELECTIONS = path.join('data', 'elections-source', 'data', 'elections');
 const REVIEW = path.join('data', 'review-inputs', 'wikipedia-cited-sources', 'contest-sources.json');
@@ -654,7 +655,12 @@ if (CHECK) {
       const p = path.join(SHARD_DIR, `${key}.json`);
       return !existsSync(p) || readFileSync(p, 'utf8') !== shardText(shard);
     });
-  if (stable(committed) !== stable(doc) || staleShards) {
+  const size = Buffer.byteLength(publishedText(doc));
+  if (size > PUBLISHED_BUDGET_BYTES) {
+    console.error(`\n${OUT} would be ${size.toLocaleString()} bytes, over its ${PUBLISHED_BUDGET_BYTES.toLocaleString()}-byte budget (Pages refuses files over 25 MiB): shard it.`);
+    process.exit(1);
+  }
+  if (stable(committed) !== stable(slimProvenance(doc)) || staleShards) {
     console.error(`\nelection provenance is stale: the committed ${staleShards ? 'shards no longer match' : 'file no longer matches'} its inputs.`);
     console.error('Run: node scripts/build-election-provenance.mjs');
     process.exit(1);
@@ -664,7 +670,13 @@ if (CHECK) {
   // Unchanged but for its timestamp, the file is left as it is: rewritten on every build, it
   // made every commit carry a provenance change and every Pages deploy rebuild for nothing.
   const previous = existsSync(OUT) ? readJson(OUT) : null;
-  if (!previous || stable(previous) !== stable(doc)) writeFileSync(OUT, `${JSON.stringify(doc, null, 1)}\n`);
+  const published = slimProvenance(doc);
+  const text = publishedText(doc);
+  if (Buffer.byteLength(text) > PUBLISHED_BUDGET_BYTES) {
+    console.error(`${OUT} would be ${Buffer.byteLength(text).toLocaleString()} bytes, over its ${PUBLISHED_BUDGET_BYTES.toLocaleString()}-byte budget (Pages refuses files over 25 MiB): shard it.`);
+    process.exit(1);
+  }
+  if (!previous || stable(previous) !== stable(published)) writeFileSync(OUT, text);
   mkdirSync(SHARD_DIR, { recursive: true });
   const wanted = new Set([...shards.keys()].map((k) => `${k}.json`));
   for (const f of shardFiles()) {

@@ -12,6 +12,10 @@ const ENTITY_CONFIG = {
   features: { label: 'Features', singular: 'Feature group', index: 'features.json', detailDir: null, action: 'Open source map', layer: 'data' },
   parties: { label: 'Parties / Labels', singular: 'Party / label', index: 'parties.json', indexApi: '/_api/parties', detailDir: 'parties', detailApi: (slug) => `/_api/parties?slug=${encodeURIComponent(slug)}`, layer: 'data' },
   persons: { label: 'Persons', singular: 'Person', index: 'persons.json', detailDir: null, action: 'Latest election on map', layer: 'data' },
+  // Offices people held (ministries, mayoralties, party leaderships) and their holders, from the
+  // facts model (docs/facts-model.md, scripts/build-office-pages.mjs). Their files are answered
+  // from D1 (office_cards) by functions/data/browse.
+  offices: { label: 'Offices', singular: 'Office', index: 'offices.json', detailDir: 'offices', layer: 'data' },
   'register-interests': { label: 'Register Interests', singular: 'Register interest', index: 'register-interests.json', detailDir: 'register-interests', recordApi: 'register-interests', layer: 'data' },
   sources: { label: 'Books / Tables / Sources', singular: 'Source', index: 'sources.json', detailDir: 'sources', recordApi: 'sources', layer: 'source' },
   proni: { label: 'PRONI Records', singular: 'PRONI record', index: 'proni.json', detailDir: 'proni', layer: 'source' }
@@ -969,6 +973,14 @@ async function renderCurrent() {
     if (!item) {
       renderNotFound(config, state.activeId);
       return;
+    }
+    // Reached by an old address (a party label folded into its party, #/parties/uup-farmer):
+    // the address becomes the record's own, as the D1 indexes do above.
+    if (item.slug && String(item.slug).toLowerCase() !== decodeURIComponent(state.activeId).toLowerCase()
+      && normalizeArray(item.previousSlugs).some((slug) => String(slug).toLowerCase() === decodeURIComponent(state.activeId).toLowerCase())) {
+      state.activeId = item.slug;
+      history.replaceState(history.state, '', `${location.pathname}${location.search}#/${state.activeType}/${encodeURIComponent(item.slug)}`);
+      lastRoutedAddress = currentAddress();
     }
     await renderDetail(state.activeType, item);
     return;
@@ -2088,6 +2100,18 @@ function readerSummaryRows(type, item) {
       ['Elected', item.totals?.elected]
     ];
   }
+  if (type === 'offices') {
+    return [
+      ['Office', item.title],
+      ['Institution', item.institution],
+      ['Jurisdiction', item.jurisdiction],
+      ['Kind', item.kind],
+      ['Party', item.party],
+      ['Existed', item.existed],
+      ['Holders recorded', item.holderCount],
+      ['Years', yearRange(item.firstYear, item.lastYear)]
+    ];
+  }
   if (type === 'sources') {
     return [
       ['Type', sourceTypeLabel(item.type)],
@@ -2869,6 +2893,8 @@ const PARTY_SOURCE_LABELS = { registry: 'Civgraph party registry', lineage: 'cit
 function renderPartyProfilePanels(item, profile) {
   return [
     renderPartyHistoryPanel(item, profile),
+    renderPartyOfficersPanel(profile),
+    renderPartyInternalContestsPanel(profile),
     renderPartyLeadersPanel(profile),
     renderPartyBodiesPanel(item, profile),
     renderPartyMembersPanel(profile),
@@ -2960,7 +2986,7 @@ function renderPartyLeadersPanel(profile) {
   const office = offices.length === 1 ? offices[0] : 'the party\'s leading office';
   return `
     <section class="browse-detail__panel">
-      <h2>Leaders</h2>
+      <h2>${normalizeArray(profile.officers).length ? 'Leaders recorded on Wikidata' : 'Leaders'}</h2>
       <p class="browse-panel-note browse-detail__body">Holders of ${escapeHtml(office)} as Wikidata records them (CC0, retrieved ${escapeHtml(formatDate(profile.leadersSource?.retrieved))})${profile.leadersSource?.offices?.[0]?.qid ? `: <a href="https://www.wikidata.org/wiki/${escapeAttr(profile.leadersSource.offices[0].qid)}" rel="noopener" target="_blank">${escapeHtml(profile.leadersSource.offices[0].qid)}</a>` : ''}. The list can be incomplete; a blank end date is a term still running or not recorded.</p>
       <div class="browse-table-wrap" tabindex="0" role="region" aria-label="Leaders">
         <table class="browse-table">
@@ -3194,7 +3220,11 @@ function renderRelatedPanel(type, item) {
       ...(withVotes ? [Number(row.firstPrefs) > 0 ? formatNumber(row.firstPrefs) : '&ndash;'] : []),
       ...(withShare ? [row.share !== null && row.share !== undefined && row.share !== '' ? `${Number(row.share).toFixed(1)}%` : '&ndash;'] : []),
       row.interactiveUrl ? `<a href="${escapeAttr(row.interactiveUrl)}" aria-label="${escapeAttr(`Open ${row.title || 'election'} on the map`)}">Open map</a>` : ''
-    ], { before: printedLabelsToggleHtml() }) + renderSimpleTable('Seats in the Commons (History of Parliament)', ['Constituency', 'Held'], item.seatsHeld || [], (row) => [
+    ], { before: printedLabelsToggleHtml() })
+    // Offices held and party affiliation over time (the facts model, each fact cited).
+    + renderPersonOfficesPanel(item)
+    + renderAffiliationTimelinePanel(item)
+    + renderSimpleTable('Seats in the Commons (History of Parliament)', ['Constituency', 'Held'], item.seatsHeld || [], (row) => [
     escapeHtml(row.constituency || ''),
     row.source ? `<a href="${escapeAttr(row.source)}" rel="noopener">${escapeHtml(row.dates || '')}</a>` : escapeHtml(row.dates || '')
   ])
@@ -3236,7 +3266,140 @@ function renderRelatedPanel(type, item) {
   }
   if (type === 'register-interests') return renderRegisterInterestRelated(item);
   if (type === 'maps') return renderMapVariants(item);
+  if (type === 'offices') return renderOfficeHoldersPanel(item);
   return '';
+}
+
+// ---- The facts model: offices, tenures, affiliations (docs/facts-model.md) ----
+
+const TENURE_BEGAN_LABELS = { elected: 'elected', appointed: 'appointed', 'co-opted': 'co-opted', acting: 'acting', 'by-succession': 'by succession' };
+const TENURE_ENDED_LABELS = { resigned: 'resigned', dismissed: 'dismissed', died: 'died in office', 'term-ended': 'term ended', defeated: 'defeated', 'office-abolished': 'office abolished' };
+const AFFILIATION_KIND_LABELS = { party: 'party', independent: 'independent', group: 'group', whip: 'party whip' };
+const AFFILIATION_START_LABELS = { joined: 'joined', 'founding-member': 'founding member', 'elected-as': 'elected as', 'left-party': 'after leaving a party', 'whip-restored': 'whip restored', 'defected-from': 'defected' };
+const AFFILIATION_END_LABELS = { left: 'left', 'defected-to': 'left for another party', 'joined-party': 'joined a party', expelled: 'expelled', 'whip-withdrawn': 'whip withdrawn', died: 'died', 'party-dissolved': 'party dissolved' };
+
+function factCitations(citations) {
+  return citationLinks(normalizeArray(citations).map((citation) => ({ title: citation.title, url: citation.url })));
+}
+
+// How a tenure began and ended, where the source says: "elected (contest); resigned".
+function tenureHowHtml(row) {
+  const parts = [];
+  const began = TENURE_BEGAN_LABELS[row.began] || row.began;
+  if (began) parts.push(row.contestKey ? `${escapeHtml(began)} (${electionRecordLink(row.contestKey, 'contest')})` : escapeHtml(began));
+  const ended = TENURE_ENDED_LABELS[row.ended] || row.ended;
+  if (ended) parts.push(escapeHtml(ended));
+  return parts.join('; ');
+}
+
+function heldHtml(row) {
+  return `${escapeHtml(row.held || '')}${row.note ? `<br><small class="browse-muted">${escapeHtml(row.note)}</small>` : ''}`;
+}
+
+function officeRecordLink(slug, title) {
+  return slug ? `<a href="#/offices/${encodeURIComponent(slug)}" data-browse-link>${escapeHtml(title || slug)}</a>` : escapeHtml(title || '');
+}
+
+function personRecordLink(slug, name) {
+  return slug ? `<a href="#/persons/${encodeURIComponent(slug)}" data-browse-link>${escapeHtml(name || slug)}</a>` : escapeHtml(name || '');
+}
+
+function renderPersonOfficesPanel(item) {
+  return renderSimpleTable('Offices', ['Office', 'Held', 'Began / ended', 'Source'], normalizeArray(item.offices), (row) => [
+    `${officeRecordLink(row.officeSlug, row.office)}${row.institution ? `<br><small class="browse-muted">${escapeHtml(row.institution)}</small>` : ''}`,
+    heldHtml(row),
+    tenureHowHtml(row),
+    factCitations(row.citations)
+  ], { before: '<p class="browse-panel-note browse-detail__body">Offices and tenures from published sources, each cited; a date the source does not give is left out, and a date given only to the year or month is shown that way.</p>' });
+}
+
+function affiliationEventsText(row) {
+  const start = row.start
+    ? `from ${formatDate(row.start)}${AFFILIATION_START_LABELS[row.startEvent] ? ` (${AFFILIATION_START_LABELS[row.startEvent]})` : ''}`
+    : 'start not recorded';
+  const end = row.end
+    ? `until ${formatDate(row.end)}${AFFILIATION_END_LABELS[row.endEvent] ? ` (${AFFILIATION_END_LABELS[row.endEvent]})` : ''}`
+    : 'no end recorded';
+  return `${start}; ${end}`;
+}
+
+function renderAffiliationTimelinePanel(item) {
+  const rows = normalizeArray(item.affiliationTimeline);
+  if (!rows.length) return '';
+  const list = rows.map((row) => {
+    const name = row.partySlug ? partyRecordLink(row.partySlug, row.party) : escapeHtml(row.party || '');
+    const others = normalizeArray(row.otherLabels);
+    return `
+      <li class="browse-party-timeline__item browse-affiliation-timeline__item--${escapeAttr(row.kind || 'party')}">
+        <time datetime="${escapeAttr(row.start || row.end || '')}">${escapeHtml(formatDate(row.start || row.end))}</time>
+        <div>
+          <p><strong>${name}</strong> <small class="browse-muted">${escapeHtml(AFFILIATION_KIND_LABELS[row.kind] || '')}</small>: ${escapeHtml(affiliationEventsText(row))}${factCitations(row.citations)}</p>
+          ${others.length ? `<p class="browse-party-timeline__basis">Stood under another label in this period: ${others.map((other) => `${electionRecordLink(other.key, other.title)} (${escapeHtml(other.label)})`).join('; ')}</p>` : ''}
+        </div>
+      </li>`;
+  }).join('');
+  return `
+    <section class="browse-detail__panel">
+      <h2>Affiliation timeline</h2>
+      <div class="browse-detail__body">
+        <p class="browse-panel-note">Party membership, independence and whips over time, from published sources, each cited. The label each candidacy carried is in Contests above and is not changed by this; where the two differ, both are shown.</p>
+        <ol class="browse-party-timeline browse-affiliation-timeline">${list}</ol>
+      </div>
+    </section>`;
+}
+
+function renderOfficeHoldersPanel(item) {
+  const names = normalizeArray(item.nameHistory);
+  const sources = normalizeArray(item.sources);
+  return renderSimpleTable('Holders', ['Holder', 'Held', 'Began / ended', 'Source'], normalizeArray(item.holders), (row) => [
+    personRecordLink(row.personSlug, row.name),
+    heldHtml(row),
+    tenureHowHtml(row),
+    factCitations(row.citations)
+  ], { before: '<p class="browse-panel-note browse-detail__body">The holders Civgraph\'s loaded sources record, each cited. The list can be incomplete; a blank end is a tenure the source leaves open.</p>' })
+    + renderSimpleTable('Other names', ['Name', 'Note'], names, (row) => [escapeHtml(row.name || ''), escapeHtml(row.note || '')])
+    + (sources.length ? renderCollapsiblePanel('Sources for this office', citationList(sources), countText(sources.length, 'source'), { className: 'browse-detail__panel--supporting' }) : '');
+}
+
+function renderPartyOfficersPanel(profile) {
+  const rows = normalizeArray(profile.officers);
+  if (!rows.length) return '';
+  return renderSimpleTable('Leaders and officers', ['Office', 'Holder', 'Held', 'Began / ended', 'Source'], rows, (row) => [
+    officeRecordLink(row.officeSlug, row.office),
+    personRecordLink(row.personSlug, row.name),
+    heldHtml(row),
+    tenureHowHtml(row),
+    factCitations(row.citations)
+  ], { before: '<p class="browse-panel-note browse-detail__body">Who held the party\'s offices, from published sources, each cited. The list can be incomplete.</p>' });
+}
+
+function renderPartyInternalContestsPanel(profile) {
+  const contests = normalizeArray(profile.internalContests);
+  if (!contests.length) return '';
+  const body = contests.map((contest) => `
+    <div class="browse-party-body">
+      <h3>${electionRecordLink(contest.key, contest.title)}</h3>
+      ${normalizeArray(contest.ballots).map((ballot) => `
+        <div class="browse-table-wrap" tabindex="0" role="region" aria-label="${escapeAttr(`${contest.title}: ${ballot.name}`)}">
+          <table class="browse-table">
+            <caption>${escapeHtml(ballot.name)}</caption>
+            <thead><tr><th scope="col">Candidate</th><th scope="col">Votes</th><th scope="col">Result</th></tr></thead>
+            <tbody>${normalizeArray(ballot.candidates).map((candidate) => `<tr>
+              <td>${personRecordLink(candidate.personSlug, candidate.name)}</td>
+              <td>${candidate.votes !== undefined && candidate.votes !== null ? formatNumber(candidate.votes) : '<span class="browse-muted">not recorded</span>'}</td>
+              <td>${candidate.elected ? 'Elected' : ''}</td>
+            </tr>`).join('')}</tbody>
+          </table>
+        </div>`).join('')}
+    </div>`).join('');
+  return `
+    <section class="browse-detail__panel">
+      <h2>Internal contests</h2>
+      <div class="browse-detail__body">
+        <p class="browse-panel-note">Leadership and nomination contests decided by the party's own members or representatives. Each opens as an election with its results and sources.</p>
+        ${body}
+      </div>
+    </section>`;
 }
 
 /**

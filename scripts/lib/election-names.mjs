@@ -269,7 +269,13 @@ const NI_COUNCIL_ERA_TITLES = new Map([
   // 1 Apr 1925 to 1 Apr 1927, Kilkeel 1 Aug 1934 to 1 Apr 1937.
   ['downpatrick urban district council', [['1925-04-01', 'Downpatrick Urban District Council'], ['', 'Downpatrick Town Commissioners']]],
   ['whitehead urban district council', [['1927-04-01', 'Whitehead Urban District Council'], ['', 'Whitehead Town Commissioners']]],
-  ['kilkeel urban district council', [['1937-04-01', 'Kilkeel Urban District Council'], ['1934-08-01', 'Kilkeel Town Commissioners'], ['', 'Kilkeel Urban District Council']]]
+  ['kilkeel urban district council', [['1937-04-01', 'Kilkeel Urban District Council'], ['1934-08-01', 'Kilkeel Town Commissioners'], ['', 'Kilkeel Urban District Council']]],
+  // Instalment 2: three rural districts renamed in the period, one body each. Downpatrick RD
+  // became East Down RD on 1 Jan 1962, Newtownards RD North Down RD on 1 Aug 1954, and Kilkeel
+  // RD South Down RD on 4 Jul 1966.
+  ['east down rural district council', [['1962-01-01', 'East Down Rural District Council'], ['', 'Downpatrick Rural District Council']]],
+  ['north down rural district council', [['1954-08-01', 'North Down Rural District Council'], ['', 'Newtownards Rural District Council']]],
+  ['south down rural district council', [['1966-07-04', 'South Down Rural District Council'], ['', 'Kilkeel Rural District Council']]]
 ]);
 const NI_COUNCILS_1923_67_PLAIN_TITLES = [
   'antrim town commissioners',
@@ -291,7 +297,37 @@ const NI_COUNCILS_1923_67_PLAIN_TITLES = [
   'omagh urban district council',
   'portrush urban district council',
   'portstewart urban district council',
-  'warrenpoint urban district council'
+  'warrenpoint urban district council',
+  // Instalment 2: the county councils and rural districts 1924-67.
+  'antrim county council',
+  'down county council',
+  'fermanagh county council',
+  'londonderry county council',
+  'tyrone county council',
+  'antrim rural district council',
+  'ballycastle rural district council',
+  'ballymena rural district council',
+  'ballymoney rural district council',
+  'banbridge rural district council',
+  'belfast rural district council',
+  'castlederg rural district council',
+  'castlereagh rural district council',
+  'clogher rural district council',
+  'coleraine rural district council',
+  'cookstown rural district council',
+  'dungannon rural district council',
+  'enniskillen rural district council',
+  'hillsborough rural district council',
+  'irvinestown rural district council',
+  'larne rural district council',
+  'limavady rural district council',
+  'lisburn rural district council',
+  'lisnaskea rural district council',
+  'londonderry rural district council',
+  'magherafelt rural district council',
+  'newry no 1 rural district council', // normalizeName drops the full stop
+  'omagh rural district council',
+  'strabane rural district council'
 ];
 
 function niCouncilEraName(normalizedBody, date) {
@@ -327,9 +363,11 @@ const PRE1973_COUNCIL_BODIES = new Set([
 ]);
 
 
-export function isElectionByElectionScope({ body = '', bodyGroup = null, date = '', constituencies = [], specialType = null } = {}) {
+export function isElectionByElectionScope({ body = '', bodyGroup = null, date = '', constituencies = [], specialType = null, bodySlug = '' } = {}) {
   const normalizedBody = normalizeName(body);
   if (PRE1973_COUNCIL_BODIES.has(normalizedBody)) return false;
+  // A party's own ballot (leader, nominee) is never a by-election, however few its contests.
+  if (isPartyInternalBody({ body, bodySlug })) return false;
   if (
     specialType === 'recall-petition'
     || (normalizedBody === 'house of commons of the united kingdom' && String(date || '').slice(0, 10) === '2018-08-29')
@@ -369,6 +407,18 @@ function byElectionRegion(body, bodyGroup) {
   return 'Irish';
 }
 
+const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+/**
+ * A party-internal body: a party's leadership or nomination ballots, whose electorate is a party
+ * body (data/elections-source/data/elections_index.json bodyType "party-internal"; the slug ends
+ * -leadership or -nomination, which scripts/validate-facts-model.mjs holds to).
+ */
+export function isPartyInternalBody({ body = '', bodySlug = '' } = {}) {
+  if (bodySlug) return /-(leadership|nomination)$/.test(String(bodySlug));
+  return /(leadership|nomination)$/i.test(String(body || '').trim());
+}
+
 export function canonicalElectionTitle({
   body = '',
   bodyGroup = null,
@@ -385,6 +435,14 @@ export function canonicalElectionTitle({
   // day, never a by-election and not the Northern Ireland local-government group, so they
   // are named before either of those checks can claim them.
   if (bodySlug === 'ireland-local') return `${year} Irish local elections`.trim();
+  // A party's own ballots (docs/facts-model.md): "September 1995 Ulster Unionist Party leadership
+  // election", "September 1997 Fianna Fáil presidential nomination". The month is in the title
+  // because one party can hold two in a year (the UUP in March and September 1995).
+  if (isPartyInternalBody({ body, bodySlug })) {
+    const month = MONTH_NAMES[Number(String(date || '').slice(5, 7)) - 1] || '';
+    const name = String(body || '').trim();
+    return `${month ? `${month} ` : ''}${year} ${name}${/leadership$/i.test(name) ? ' election' : ''}`.trim();
+  }
   const normalizedBody = normalizeName(body);
   const inferredSpecialType = specialType
     || (normalizedBody === 'house of commons of the united kingdom' && String(date || '').slice(0, 10) === '2018-08-29' ? 'recall-petition' : null);
