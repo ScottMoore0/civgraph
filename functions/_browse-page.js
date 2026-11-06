@@ -27,7 +27,7 @@
  * 404s. A record reached by another of its ids (a person by number, an election by key)
  * is redirected to its canonical slug, so each record is indexed once.
  *
- * Only these six types are routed: _routes.json includes /browse/<type>/* for each, so
+ * Only these seven types are routed: _routes.json includes /browse/<type>/* for each, so
  * /browse/, browse.js and browse.css never invoke a Function.
  */
 import { reportError } from './_api/_error.js';
@@ -43,6 +43,7 @@ export const BROWSE_PAGE_TYPES = {
   elections: { singular: 'Election' },
   maps: { singular: 'Map', detailDir: 'maps' },
   parties: { singular: 'Party / label', detailDir: 'parties' },
+  offices: { singular: 'Office', detailDir: 'offices' },
 };
 
 /** The same slug rule as browse.js and scripts/build-browse-indexes.mjs. */
@@ -130,6 +131,9 @@ function personDescription(record) {
     if (elected) sentence += `, elected ${numberText(elected)} ${elected === 1 ? 'time' : 'times'}`;
   } else if (places) {
     sentence += `: ${places}`;
+  } else if (record.nonCandidate && record.subtitle) {
+    // A registered non-candidate (a Northern Ireland Office minister): the office is the record.
+    return `${sentence}: ${record.subtitle}. Offices and sources on Civgraph.`;
   }
   return `${sentence}. Election results, parties and sources on Civgraph.`;
 }
