@@ -7,8 +7,9 @@
 # What changed from the old publish: no record files are staged or uploaded to R2 (the old
 # objects stay where they are for the 90-day dual run; deleting them is a separate, approved
 # step), and the three D1 loads (deploy:browse-indexes, deploy:elections-d1 and the full 342 MB
-# elections reload) are replaced by one delta load of the records database with a checksum
-# verify. The catalogue keeps its own load until phase 3, and so do the few Browse files that
+# elections reload) are replaced by one delta load of the records database with a bounded
+# verify (scripts/records/verify-load.mjs: only the rows the delta wrote, by primary key, one
+# statement per wrangler call; it never scans a table of the live database). The catalogue keeps its own load until phase 3, and so do the few Browse files that
 # are still read from R2 until phase 3 moves them into tables: the map and feature-group lists
 # (maps.json, features.json), the map pages (details/maps/) and the PRONI roots. Those are synced
 # here, changed files only (r2-upload-tree.mjs --changed-only, the S3 path).
