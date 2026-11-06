@@ -1,6 +1,6 @@
 # Test2 Election Data Audit
 
-Generated: 2026-11-06T14:05:02.904Z
+Generated: 2026-11-06T17:23:14.854Z
 
 This is a repeatable repository-local audit of the generated /test2 election data, Browse election entries, source/reference records, transfer/count payload availability, and saved Wikipedia party-colour comparison outputs. It intentionally does not fetch live web pages, so CI can run it deterministically.
 
@@ -8,25 +8,25 @@ This is a repeatable repository-local audit of the generated /test2 election dat
 
 |area|value|
 |---|---:|
-|parent elections in manifest|2250|
+|parent elections in manifest|2337|
 |manifest loadable elections|594|
 |manifest placeholders|569|
-|Browse parent election entries|2250|
-|Browse constituency/DEA sub-entries|18534|
-|Browse overall sub-entries|2250|
-|source detail records|2250|
-|result bundles loaded|2250|
-|result rows audited|18534|
-|candidate rows audited|73938|
-|rows with count detail|18514|
-|rows with animation payload|18514|
+|Browse parent election entries|2337|
+|Browse constituency/DEA sub-entries|20089|
+|Browse overall sub-entries|2337|
+|source detail records|2337|
+|result bundles loaded|2337|
+|result rows audited|20089|
+|candidate rows audited|75751|
+|rows with count detail|20069|
+|rows with animation payload|20069|
 |rows expected to have transfer/count data|4129|
 |expected transfer/count rows missing detail|0|
 |valid-poll review sidecar records|0|
 |candidate-row review sidecar records|0|
 |party-colour review sidecar records|10|
 |blocking issues|0|
-|warnings|2000|
+|warnings|2166|
 
 ## Blocking Structural Issues
 
@@ -62,6 +62,7 @@ _None._
 |warning|source-record-single-reference|coleraine-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|coleraine-rural-district-council__1967-06-01|4 candidate rows have no party/label. Examples: David Lennox in Kilrea; J. H. Knipe in Kilrea; C. R. Lee in Slaughtneil; W. W. Houston in Slaughtneil.|
 |warning|source-record-single-reference|cookstown-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|candidate-party-missing|cookstown-rural-district-council__1967-06-01|15 candidate rows have no party/label. Examples: William McIntyre in Ballyclog; Peter Conway in Beaghmore; James P. Duff in Coagh; William J. McCulla in Grange; Bernard Conway in Killeenan.|
 |warning|source-record-single-reference|down-county-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|down-county-council__1967-06-01|19 candidate rows have no party/label. Examples: Richard John Dougherty in Ardglass; Edward McVeigh in Ballynahinch; William Smyth in Banbridge; Frederick Charles Tughan in Bangor; Felix McKenna in Castlewellan.|
 |warning|source-record-single-reference|dungannon-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
@@ -84,7 +85,7 @@ _None._
 |warning|source-record-single-reference|moira-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|moira-rural-district-council__1967-06-01|6 candidate rows have no party/label. Examples: J. Wilson in Bleary; T. H. Creith in Clare; James Baird in Donacloney; T. Megarrell in Marlin; G. McCartney in Moira.|
 |warning|source-record-single-reference|newry-no-1-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|newry-no-1-rural-district-council__1967-06-01|10 candidate rows have no party/label. Examples: Thomas A. Shilliday in Ballycoshone; Thomas Edward Treanor in Carrickcrossan; John O'Hagan in Clonallon; David Wright in Clonduff; Edward Tighe Brady in Donaghmore.|
+|warning|candidate-party-missing|newry-no-1-rural-district-council__1967-06-01|18 candidate rows have no party/label. Examples: Thomas A. Shilliday in Ballycoshone; John McAteer in Ballyholland; Thomas David Maginnis in Ballyholland; Hugh Patrick Sands in Carrickcrossan; Thomas Edward Treanor in Clonallon.|
 |warning|source-record-single-reference|newry-no-2-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|newry-no-2-rural-district-council__1967-06-01|43 candidate rows have no party/label. Examples: Donald J. Mulligan in Ballybot; Gerald Mulholland in Ballybot; Harold Kinney in Ballybot; Patrick J. Luckie in Ballymoyer; Oliver B. Murphy in Belleek.|
 |warning|source-record-single-reference|north-down-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
@@ -115,9 +116,8 @@ _None._
 |warning|source-record-single-reference|downpatrick-urban-district-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|source-record-single-reference|dromore-urban-district-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|dromore-urban-district-council__1967-05-17|10 candidate rows have no party/label. Examples: Mrs. Irene Ferguson in Dromore; William Wilkinson in Dromore; John M'Grehan in Dromore; T. Castles in Dromore; Douglas Gamble in Dromore.|
-|warning|source-record-single-reference|dungannon-urban-district-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 
-_1920 more not shown; see JSON report._
+_2086 more not shown; see JSON report._
 
 ## Source And Reference Coverage
 
@@ -125,10 +125,10 @@ _1920 more not shown; see JSON report._
 |---|---:|
 |parent source records missing|0|
 |source records with no references|0|
-|source records with one reference|1146|
+|source records with one reference|1233|
 |source records with multiple references|1104|
 |Browse sub-entries with no references|0|
-|Browse sub-entries with one reference|9557|
+|Browse sub-entries with one reference|11199|
 |Browse sub-entries with multiple references|11227|
 
 ## Party Colour Audit

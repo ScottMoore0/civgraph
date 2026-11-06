@@ -222,6 +222,7 @@ def scan():
 
 
 NONCANDIDATES = os.path.join(OUT, 'non-candidate-persons.json')
+COUNTIES = os.path.join(OUT, 'ni-council-counties.json')
 NONCANDIDATE_BLOCK = (900001, 999999)
 
 
@@ -618,6 +619,33 @@ def main():
             return True
         return any((a[1] < 1918 or a[2] or b[2]) and b[0] - a[1] >= MIN_SILENCE for a, b in zip(spans, spans[1:]))
 
+    # A COUNCILLOR'S NAME DOES NOT CROSS THE PROVINCE. A pre-1973 council group's id is its name
+    # and party, the same key in every council, so the join below put Enniskillen Rural
+    # District's James Leonard (Kinglass, 1939-58) into the Coleraine candidate of 1981, and a
+    # Belfast Dock councillor of 1928 with a Kilkeel rural councillor of 1952 into the Londonderry
+    # Assembly member of 1973. A group wholly of those councils' rows is not joined to one whose
+    # councils or constituencies all lie in other counties (ni-council-counties.json). Rows of
+    # other bodies have no county here and never block a join.
+    _cc = json.load(open(COUNTIES, encoding='utf-8')) if os.path.exists(COUNTIES) else {}
+
+    def counties_of(v):
+        out = set()
+        for r in v:
+            b = r['body'] or ''
+            if b in _cc.get('pre1973Councils', {}):
+                out.update(_cc['pre1973Councils'][b])
+            elif b == 'local-government' and r['year'] and r['year'] < 2015:
+                out.update(_cc.get('districts1973', {}).get(re.sub(r'\s+Area\s+\w+$', '', r['cons']).strip(), []))
+            elif b in ('northern-ireland-assembly', 'northern-ireland-constitutional-convention') and r['year'] and r['year'] < 1996:
+                out.update(_cc.get('assembly1973', {}).get(r['cons'].strip(), []))
+        return out
+
+    def across_counties(vs):
+        if not any(v and all(r['body'] in PRE1973_COUNCIL_BODIES for r in v) for v in vs):
+            return False
+        cs = [counties_of(v) for v in vs]
+        return any(a and b and not (a & b) for i, a in enumerate(cs) for b in cs[i + 1:])
+
     by_name = collections.defaultdict(list)
     for k, v in groups.items():
         if k[0] == 'id':
@@ -631,7 +659,8 @@ def main():
             systems[ns(k[1])].append(k)
         if len(systems) > 1 and all(len(v) == 1 for v in systems.values()):
             if not set.intersection(*[{r['key'] for r in groups[k]} for k in keys]) \
-                    and not across_a_generation([groups[k] for k in keys]):
+                    and not across_a_generation([groups[k] for k in keys]) \
+                    and not across_counties([groups[k] for k in keys]):
                 for k in keys[1:]:
                     merges[k] = keys[0]
                 continue
