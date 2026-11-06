@@ -55,7 +55,7 @@
 
   <!-- Modulepreload — start fetching the entry bundle before parser reaches
        the <script type=module> tag at the end of <body>. -->
-  <link rel="modulepreload" href="/app/build/app.bundle.js?v=489a325b1638" fetchpriority="high">
+  <link rel="modulepreload" href="/app/build/app.bundle.js?v=9aa7674254ec" fetchpriority="high">
   <style>
     @font-face {
       font-family: 'Inter';
@@ -99,16 +99,16 @@
   <!-- Deferred CSS: remaining ~186 KB (catalogue cards, modals, charts, …)
        loaded async via media=print + onload swap so it doesn't block first
        paint. Browsers without JS fall back via <noscript>. -->
-    <link rel="stylesheet" href="/build/main.css?v=572cbebfce69" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="/build/main.css?v=572cbebfce69"></noscript>
+    <link rel="stylesheet" href="/build/main.css?v=b5723dd36192" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="/build/main.css?v=b5723dd36192"></noscript>
   <link rel="stylesheet" href="/app/build/app.bundle.css?v=5985432d6b98">
 
   <!-- Election Viewer & Animation CSS (deferred — not needed for first paint) -->
-  <link rel="stylesheet" href="/app/election-viewer-package/css/election-viewer.css?v=a999f742cbb1" media="print" onload="this.media='all'">
-  <link rel="stylesheet" href="/app/election-viewer-package/css/stages.css?v=86df5d9debd2" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="/app/election-viewer-package/css/election-viewer.css?v=1ff92e8efbd7" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="/app/election-viewer-package/css/stages.css?v=6eee8aa01182" media="print" onload="this.media='all'">
   <noscript>
-    <link rel="stylesheet" href="/app/election-viewer-package/css/election-viewer.css?v=a999f742cbb1">
-    <link rel="stylesheet" href="/app/election-viewer-package/css/stages.css?v=86df5d9debd2">
+    <link rel="stylesheet" href="/app/election-viewer-package/css/election-viewer.css?v=1ff92e8efbd7">
+    <link rel="stylesheet" href="/app/election-viewer-package/css/stages.css?v=6eee8aa01182">
   </noscript>
 
   <!-- Favicon -->
@@ -758,7 +758,7 @@
        and animation code are loaded lazily by the /app module bundle. -->
 
   <!-- Application (bundled + minified) -->
-  <script type="module" src="/app/build/app.bundle.js?v=489a325b1638"></script>
+  <script type="module" src="/app/build/app.bundle.js?v=9aa7674254ec"></script>
 
   <!-- Service worker — repeat-visit cache + offline tolerance. Registered
        after window.load so it doesn't contend with critical resources.
