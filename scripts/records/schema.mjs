@@ -49,6 +49,13 @@ export const TABLES = [
     // indexes (their shard lists are rewritten by the compatibility route).
     name: 'documents', group: 'documents', hashed: true, pk: ['name'], order: 'name',
     columns: [c('name', T, true), c('body', T, true), ...HASH],
+    // Build stamps in a body change with every build or commit while the data does not: the
+    // election manifest head's generatedAt (wall clock), the graph documents' generatedAt (the
+    // HEAD commit's time) and the graph manifest's `inputs` (the Browse indexes' wall-clock
+    // stamps). They are left out of row_hash (db.mjs hashValues), so a rebuild with no data
+    // change gives an empty delta. The stored body keeps them: a document is reloaded, stamps
+    // and all, whenever anything else in it changes.
+    volatileJson: { column: 'body', keys: (row) => (row.name === 'graph/manifest.json' ? ['generatedAt', 'inputs'] : ['generatedAt']) },
   },
 
   // ---------------------------------------------------------------- elections
