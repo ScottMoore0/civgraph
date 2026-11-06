@@ -8,7 +8,7 @@ Civgraph's records were elections, candidacies, parties and people. This adds th
 2. **Party lifecycle and internal contests.** When a party was founded, renamed, split or wound up, and the ballots its own members held (leadership elections, nomination contests).
 3. **Affiliation over time.** A person's party, independence or whip as dated intervals.
 
-Every fact carries a citation in the repository's shape (`data/elections/web-checked-sources.json`). A book cites its page. Nothing is copied from a source's text. A date the source does not give is `null`, and every date records its precision (`year`, `month` or `day`).
+Every fact carries a citation in the repository's shape (`data/elections/web-checked-sources.json`). A book cites its page. Nothing is copied from a source's text. A date the source does not give is `null`, and every date records its precision (`year`, `month` or `day`). Where a source shows only that a person was in post by a date, and not when they began, a tenure or honour has `start: null` and `startBy` (the person page reads "in post by …"); its id ends `by-<date>`.
 
 ## Files (the source of truth, in git)
 
@@ -19,6 +19,7 @@ Every fact carries a citation in the repository's shape (`data/elections/web-che
 | `data/elections/parties/party-events.json` | dated party events | `data/schemas/party-events.schema.json` |
 | `data/elections/persons/affiliations.json` | affiliation intervals | `data/schemas/affiliations.schema.json` |
 | `data/elections/persons/non-candidate-persons.json` | people who never stood (NIO ministers, civil servants, party officers) | `data/schemas/non-candidate-persons.schema.json` |
+| `data/elections/persons/honours.json` | peerages, knighthoods, the Privy Council, lieutenancies, public appointments, and seats in appointed or indirectly chosen bodies (the NI Senate, Seanad Éireann, the nominated European Parliament) | `data/schemas/honours.schema.json` |
 | `data/elections-source/data/elections/<party>-leadership/…` | internal contests, as ordinary contest files | the elections format |
 
 Citations share `data/schemas/citation.schema.json`. `npm run check:facts` (`scripts/validate-facts-model.mjs`) runs the schemas and the rules a schema cannot state:
@@ -145,4 +146,5 @@ The manifest already carries `bodyType` and `partyId` on these elections. A part
 - A dictionary entry's other offices follow the person matched for one of them.
 - A person is registered as a non-candidate only when no record of the name exists in the era, or the office is a Whitehall or Northern Ireland Office post that candidates never held.
 - `scripts/facts/link_noncandidates_wikidata.py` then adds a person's Wikidata item and UK Parliament id. It does so only where exactly one Wikidata human of that name held a fitting position.
+- The gaps the first load left (council co-options, offices given without dates or with several in one statement, ambiguous people, honours, unresolved parties) were filled on 7 November 2026 by hand from researched facts, each cited to the book page and a second source (Wikipedia, the Oireachtas and UK Parliament records, the Gazette, ARK, CAIN, newspapers). The importer is a one-off: re-running it would discard those additions and the batch-5 merges.
 - `scripts/facts/ef_offices.py` holds the office catalogue the import resolves the book's office strings against. Honours, memberships and posts in non-party bodies are not offices and are listed as unmapped.

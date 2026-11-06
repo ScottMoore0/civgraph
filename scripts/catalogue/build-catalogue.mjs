@@ -29,6 +29,7 @@ import { loadRecords } from './records.mjs';
 import { formatDatesInText, formatDisplayDate } from '../../src/date-format.mjs';
 import { DatabaseSync } from 'node:sqlite';
 import { BROWSE_DIR, ELECTION_MANIFEST, RECORDS_DB } from '../records/paths.mjs';
+import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLocalCouncilRound, niLocalGroupKey } from '../../src/ni-local-groups.mjs';
 
 const ROOT = process.cwd();
 const rel = (p) => path.resolve(ROOT, p);
@@ -339,7 +340,32 @@ for (const sub of source.subjects) for (const id of sub.toBeAdded || []) addMap(
 // ------------------------------------------------------------------ elections
 const ELECTION_BODY_ORDER = ['dail-eireann', 'house-of-commons-of-the-united-kingdom', 'northern-ireland-assembly', 'parliament-of-northern-ireland',
   'local-government', 'european-parliament', 'european-parliament-ireland', 'president-of-ireland', 'ireland-referendum', 'ireland-local'];
-const electionsOut = elections.map((e) => {
+// The pre-1973 Northern Ireland council rounds are listed one entry a year, "1946 Northern Ireland
+// local elections" (src/ni-local-groups.mjs); a round's own key still finds its year (people's
+// contests, constituency search).
+const niLocalGroups = groupNiLocalRounds(elections);
+const niLocalGroupOfRound = new Map();
+for (const [year, rounds] of niLocalGroups) for (const round of rounds) niLocalGroupOfRound.set(round.key, niLocalGroupKey(year));
+const niLocalThumb = ['admin-areas-1930-04-01', 'ded-1930-04-01', 'county-ed-1924-06-20', 'counties-ni-1915'].find((id) => thumbs.has(id));
+const niLocalGroupRecords = [...niLocalGroups].map(([year, rounds]) => {
+  const group = buildNiLocalGroupEntry(year, rounds);
+  const rec = {
+    key: group.key,
+    title: group.displayTitle,
+    body: group.body,
+    bodySlug: group.bodySlug,
+    date: group.date,
+    kind: 'general',
+    seats: group.councilCount,
+    subtitle: group.displaySubtitle,
+    // Before 1921, "Irish local elections": the island's year.
+    scope: isIrelandLocalYear(year) ? 'Ireland' : 'Northern Ireland',
+  };
+  const thumb = isIrelandLocalYear(year) && thumbs.has('administrative-counties-1899') ? 'administrative-counties-1899' : niLocalThumb;
+  if (thumb) rec.thumb = thumb;
+  return rec;
+});
+const electionsOut = [...elections.filter((e) => !isNiLocalCouncilRound(e)).map((e) => {
   const rec = {
     key: e.key,
     title: e.displayTitle || `${e.date} ${e.body}`,
@@ -368,7 +394,7 @@ const electionsOut = elections.map((e) => {
   const own = [e.sourceMapId, e.layerId, mapById.get(e.sourceMapId)?.cloneOf].find((id) => id && thumbs.has(id));
   if (own) rec.thumb = own;
   return rec;
-}).sort(compareElectionsNewestFirst);
+}), ...niLocalGroupRecords].sort(compareElectionsNewestFirst);
 // An election with no map of its own (results only) borrows the thumbnail of the nearest election
 // of the same body that has one, as today's pane does from a hand-kept table.
 {
@@ -387,7 +413,8 @@ for (const e of elections) {
   for (const c of new Set(e.constituencies || [])) {
     const k = String(c).trim();
     if (!k) continue;
-    (contestIndex[k] ||= []).push(e.key);
+    const key = niLocalGroupOfRound.get(e.key) || e.key;
+    if (!(contestIndex[k] ||= []).includes(key)) contestIndex[k].push(key);
   }
 }
 const bodies = [...new Set(electionsOut.map((e) => e.bodySlug))].sort((a, b) => {
@@ -463,6 +490,10 @@ const peopleDoc = (() => {
     return index.get(v);
   };
   const electionIndex = new Map(electionsOut.map((e, i) => [e.key, i]));
+  // A council round's contest counts under its year's entry.
+  for (const [roundKey, groupKey] of niLocalGroupOfRound) {
+    if (electionIndex.has(groupKey)) electionIndex.set(roundKey, electionIndex.get(groupKey));
+  }
   const people = [];
   {
     for (const p of cards) {

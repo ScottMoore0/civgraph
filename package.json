@@ -36,7 +36,8 @@
     "build:test:feature-indexes": "node scripts/build-test-feature-indexes.mjs",
     "build:test:pmtiles": "node scripts/build-test-pmtiles.mjs",
     "build:test:promote": "node scripts/promote-test-converted-layers.mjs",
-    "build:test2:elections": "node scripts/build-test2-election-manifest.mjs && node scripts/build-test2-election-summaries.mjs",
+    "build:test2:elections": "node scripts/build-test2-election-manifest.mjs && node scripts/build-ni-local-grouped.mjs && node scripts/build-test2-election-summaries.mjs",
+    "build:ni-local": "node scripts/build-ni-local-grouped.mjs",
     "build:test2:metadata": "node scripts/build-test2-metadata-shards.mjs",
     "build:test:tiles": "node scripts/build-test-civil-parishes-tiles.mjs",
     "build:test:cdn-manifest": "node scripts/publish/r2-manifest.mjs",
@@ -194,7 +195,7 @@
     "catalogue:check": "node scripts/catalogue/check-catalogue.mjs",
     "test:catalogue": "node --test tests/catalogue/search.test.mjs tests/catalogue/entity-detail-data.test.mjs tests/catalogue/census-overlay.test.mjs tests/catalogue/lang-reveal.test.mjs && npx playwright test --config tests/catalogue/playwright.config.cjs",
     "test-site": "node tools/dev-site/server.mjs --port 4177 --catalogue next",
-    "test:elections-unit": "node --test tests/elections/party-as-printed.test.mjs tests/elections/party-label-regions.test.mjs tests/elections/party-label-occupations.test.mjs tests/elections/election-provenance-slim.test.mjs",
+    "test:elections-unit": "node --test tests/elections/party-as-printed.test.mjs tests/elections/party-label-regions.test.mjs tests/elections/party-label-occupations.test.mjs tests/elections/election-provenance-slim.test.mjs tests/elections/ni-local-grouped.test.mjs",
     "check:facts": "node scripts/validate-facts-model.mjs",
     "test:facts": "node --test tests/facts/*.test.mjs"
   },

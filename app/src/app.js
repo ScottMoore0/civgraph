@@ -1024,6 +1024,11 @@ class Test2App {
     this.scheduleIdleTask(warm, { timeout });
   }
 
+  /** Open an election as the catalogue would (loading panel, errors with a Retry, announcements). */
+  openElection(body, date) {
+    return uiController.onLoadElection?.(body, date);
+  }
+
   hasElectionURLState(params, layers = []) {
     if ([...layers].some((id) => String(id).startsWith('election-'))) return true;
     return params.has('electionBody') || params.has('electionDate') || params.has('electionMode') || params.has('electionView');
@@ -4513,7 +4518,7 @@ class Test2App {
     };
     const parts = [];
     if (election) {
-      const unit = election.unit ? `${election.unit === 'council' ? 'Councils' : election.unit === 'area' ? 'Areas' : 'Constituencies'} coloured by ${election.title.toLowerCase()}` : `${election.title}, low to high`;
+      const unit = election.heading || (election.unit ? `${election.unit === 'council' ? 'Councils' : election.unit === 'area' ? 'Areas' : 'Constituencies'} coloured by ${election.title.toLowerCase()}` : `${election.title}, low to high`);
       parts.push(`<p class="test2-map-legend__heading">${esc(unit)}</p>`);
       if (election.items.length) {
         const shown = election.items.slice(0, 14);
@@ -4521,6 +4526,13 @@ class Test2App {
         if (election.items.length > shown.length) parts.push(`<p class="test2-map-legend__note">and ${election.items.length - shown.length} more</p>`);
       } else if (election.ramp) {
         parts.push(`<div class="test2-map-legend__ramp" style="background:${esc(election.ramp.gradient)}" aria-hidden="true"></div><p class="test2-map-legend__ramp-labels"><span>${esc(election.ramp.low)}</span><span>${esc(election.ramp.high)}</span></p>`);
+      }
+      // Swatches for what is not a party: hatching (results not available or incomplete), the
+      // neutral fill (returned unopposed) and seats split evenly (app/src/ni-local-view.js).
+      const keyNotes = (election.keyNotes || []).filter((note) => note && note.text);
+      if (keyNotes.length) {
+        const swatch = (kind) => (kind === 'note' ? '' : `<span class="test2-map-legend__swatch test2-map-legend__swatch--${esc(kind)}" aria-hidden="true"></span>`);
+        parts.push(`<ul class="test2-map-legend__list test2-map-legend__list--key">${keyNotes.map((note) => `<li${note.kind === 'note' ? ' class="test2-map-legend__keynote"' : ''}>${swatch(note.kind)}<span class="test2-map-legend__name">${esc(note.text)}</span>${Number.isFinite(note.count) ? `<span class="test2-map-legend__count">${note.count}</span>` : ''}</li>`).join('')}</ul>`);
       }
       if (election.seats) parts.push('<p class="test2-map-legend__note"><span class="test2-map-legend__dots" aria-hidden="true"><i></i><i></i><i></i></span>One dot per seat, in the colour of the party that won it</p>');
       else if (election.bars) parts.push('<p class="test2-map-legend__note">Bars: each party\'s share of the vote</p>');
@@ -4717,7 +4729,16 @@ class Test2App {
     if (this.baseMapId && this.baseMapId !== 'osm-standard') params.set('base', this.baseMapId);
     if (document.getElementById('activeLayersToggle')?.getAttribute('aria-expanded') === 'true') params.set('activePanel', '1');
     if (document.getElementById('mapControlsToggle')?.getAttribute('aria-expanded') === 'true') params.set('controls', '1');
-    if (electionState) {
+    if (electionState?.niLocal) {
+      // A year of pre-1973 Northern Ireland local elections: its level, votes or seats, members
+      // and the area open in the pane (app/src/ni-local-view.js).
+      params.set('electionBody', electionState.body);
+      params.set('electionDate', electionState.date);
+      params.set('electionLevel', electionState.niLocal.level);
+      params.set('electionShow', electionState.niLocal.show);
+      if (electionState.niLocal.members === 'aldermen') params.set('electionMembers', 'aldermen');
+      if (electionState.niLocal.area) params.set('electionArea', electionState.niLocal.area);
+    } else if (electionState) {
       params.set('electionBody', electionState.body);
       params.set('electionDate', electionState.date);
       params.set('electionMode', electionState.mode);

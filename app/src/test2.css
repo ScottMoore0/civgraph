@@ -4000,3 +4000,349 @@ body.test2-election-collapsed .election-pane__peek {
 .election-party-key dd {
   margin: 0;
 }
+
+/* ------------------------------------------------------------------
+   Pre-1973 Northern Ireland local elections, grouped by year
+   (app/src/ni-local-view.js): the View menu (level, votes or seats,
+   councillors or aldermen), the hatch swatch, the area results.
+   ------------------------------------------------------------------ */
+.ni-local {
+  --ni-hatch-ink: rgba(75, 85, 99, .78);
+}
+
+.ni-local-view {
+  margin: 0 0 8px;
+  font-size: 12px;
+  border: 1px solid var(--color-border, #d8e0ea);
+  border-radius: 8px;
+  background: var(--color-surface, #fff);
+}
+
+.ni-local-view__summary {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  padding: 4px 10px;
+  cursor: pointer;
+  list-style: none;
+  color: var(--color-text, #111827);
+}
+
+.ni-local-view__summary::-webkit-details-marker {
+  display: none;
+}
+
+.ni-local-view__summary::after {
+  content: '';
+  width: 7px;
+  height: 7px;
+  margin-left: auto;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg) translateY(-2px);
+  opacity: .6;
+}
+
+.ni-local-view[open] > .ni-local-view__summary::after {
+  transform: rotate(-135deg) translateY(-1px);
+}
+
+.ni-local-view__label {
+  font-weight: 700;
+}
+
+.ni-local-view__current {
+  color: var(--color-text-muted, #5f6b7c);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ni-local-view__summary:focus-visible,
+.ni-seg__btn:focus-visible,
+.ni-local-council:focus-visible,
+.ni-local-open:focus-visible {
+  outline: 2px solid var(--color-primary, #1a4b8c);
+  outline-offset: 2px;
+}
+
+.ni-local-controls {
+  display: grid;
+  gap: 6px;
+  padding: 2px 10px 10px;
+}
+
+.ni-seg {
+  display: grid;
+  grid-template-columns: 62px minmax(0, 1fr);
+  align-items: center;
+  gap: 6px;
+}
+
+.ni-seg__label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-text-muted, #5f6b7c);
+}
+
+.ni-seg__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  min-width: 0;
+}
+
+.ni-seg__btn {
+  min-height: 28px;
+  padding: 3px 10px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  border: 1px solid var(--color-border, #d8e0ea);
+  border-radius: 14px;
+  background: var(--color-surface, #fff);
+  color: var(--color-text, #1f2937);
+  cursor: pointer;
+}
+
+.ni-seg__btn:hover {
+  background: var(--color-primary-50, #ebf4ff);
+}
+
+.ni-seg__btn[aria-pressed="true"] {
+  background: var(--color-primary, #1a365d);
+  border-color: var(--color-primary, #1a365d);
+  color: #fff;
+}
+
+.ni-seg__btn[aria-pressed="true"]:hover {
+  background: var(--color-primary-dark, #153e75);
+}
+
+.ni-seg__btn[aria-disabled="true"] {
+  cursor: not-allowed;
+  color: var(--color-text-muted, #6b7280);
+  background: transparent;
+  border-style: dashed;
+  opacity: .6;
+}
+
+.ni-local-lede,
+.ni-local-note,
+.ni-local-caption {
+  margin: 0 0 6px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--color-text-muted, #55606b);
+}
+
+.ni-local-caption {
+  caption-side: bottom;
+  text-align: left;
+  padding-top: 4px;
+}
+
+.ni-local-note__hatch,
+.ni-local-hatch-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.ni-local-hatch-note {
+  display: flex;
+  margin: 0 0 8px;
+  padding: 6px 8px;
+  font-size: 12px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--color-text-muted, #6b7280) 10%, transparent);
+}
+
+.ni-hatch-swatch,
+.test2-map-legend__swatch--hatch {
+  display: inline-block;
+  flex: none;
+  width: 18px;
+  height: 12px;
+  border-radius: 2px;
+  background: repeating-linear-gradient(-45deg, var(--ni-hatch-ink, rgba(75, 85, 99, .78)) 0 1.5px, transparent 1.5px 5px);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .18);
+}
+
+.test2-map-legend__swatch--hatch {
+  min-width: 30px;
+  height: 18px;
+  --ni-hatch-ink: rgba(75, 85, 99, .78);
+}
+
+.test2-map-legend__swatch--neutral {
+  background: #cfd5dd;
+}
+
+.test2-map-legend__swatch--split {
+  background: #8b95a3;
+}
+
+.test2-map-legend__keynote {
+  grid-template-columns: 1fr;
+  font-size: 11px;
+  color: var(--color-text-muted, #4b5563);
+}
+
+/* The year's tables are styled here rather than as .election-count-table, which main.css sizes
+   to its content (min-content, !important): these take the pane's width, so a long party or
+   candidate name wraps at 375 px instead of pushing the pane sideways. */
+.election-pane__content .ni-local-table {
+  width: 100%;
+  max-width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  background: var(--table-surface);
+  color: var(--table-text);
+  font-family: 'Roboto Condensed', 'Arial Narrow', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.76rem;
+  line-height: 1.3;
+}
+
+.election-pane__content .ni-local-table th,
+.election-pane__content .ni-local-table td {
+  padding: 4px 6px;
+  text-align: left;
+  overflow-wrap: anywhere;
+  border-bottom: 1px solid var(--table-rule);
+}
+
+.election-pane__content .ni-local-table thead th {
+  font-weight: 700;
+  border-bottom-color: var(--table-header-rule);
+}
+
+.election-pane__content .ni-local-table tfoot th,
+.election-pane__content .ni-local-table tfoot td {
+  font-weight: 700;
+  border-bottom: 0;
+}
+
+.election-pane__content .ni-local-table .election-num {
+  width: 18%;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.election-pane__content .ni-local-table .ni-local-mark {
+  width: 2.2em;
+  text-align: center;
+}
+
+.election-pane__content .ni-local-table .election-party-cell {
+  box-shadow: inset 4px 0 0 var(--party-colour, transparent);
+  padding-left: 10px;
+}
+
+.ni-local-councils {
+  margin-top: 10px;
+  font-size: 12px;
+}
+
+.ni-local-councils > summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--color-text-muted, #5f6b7c);
+}
+
+.ni-local-count {
+  font-weight: 400;
+}
+
+.ni-local-council-list {
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 3px;
+}
+
+.ni-local-council-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 6px;
+}
+
+.ni-local-council,
+.ni-local-open {
+  padding: 0;
+  font: inherit;
+  text-align: left;
+  border: 0;
+  background: none;
+  color: var(--table-link, var(--color-primary, #1a4b8c));
+  text-decoration: underline;
+  text-decoration-color: var(--table-link-rule, rgba(26, 75, 140, .35));
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+
+.ni-local-open {
+  margin: 4px 0 12px;
+  font-size: 12px;
+}
+
+.ni-local-council__meta {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--color-text-muted, #6b7280);
+}
+
+.ni-local-council--missing {
+  color: var(--color-text-muted, #6b7280);
+  align-items: center;
+}
+
+.ni-local-badge {
+  padding: 0 6px;
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--color-warning, #b45309) 16%, transparent);
+  color: var(--color-text, #1f2937);
+}
+
+.ni-local-round__title {
+  margin: 10px 0 4px;
+  font-size: 13px;
+}
+
+.ni-local-contest__meta {
+  margin: 6px 0 4px;
+  font-size: 12px;
+}
+
+[data-theme="dark"] .ni-local,
+[data-theme="dark"] .test2-map-legend__swatch--hatch {
+  --ni-hatch-ink: rgba(203, 213, 225, .85);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .ni-local,
+  :root:not([data-theme="light"]) .test2-map-legend__swatch--hatch {
+    --ni-hatch-ink: rgba(203, 213, 225, .85);
+  }
+}
+
+@media (max-width: 640px) {
+  .ni-seg {
+    grid-template-columns: 1fr;
+    gap: 3px;
+  }
+
+  .ni-seg__btn {
+    min-height: 32px;
+    padding: 4px 9px;
+  }
+}

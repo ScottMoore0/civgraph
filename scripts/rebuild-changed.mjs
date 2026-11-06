@@ -40,7 +40,8 @@ const APP = [
   /^app\/src\//, /^src\/[^/]+\.(js|css)$/, /^render\/src\//, /^sw\.js$/,
   /^assets\/(css|site|js)\//, /^tests\//, /^scripts\/run-checks\.mjs$/, /^scripts\/rebuild-changed\.mjs$/
 ];
-const ELECTION_DATA = [/^data\/elections-source\//, /^data\/elections\//];
+// data/elections/ni-local/ is the grouped-years snapshot (calendar, boundary features): no person ids.
+const ELECTION_DATA = [/^data\/elections-source\//, /^data\/elections\/(?!ni-local\/)/];
 
 function git(...gitArgs) {
   return execFileSync('git', gitArgs, { encoding: 'utf8', maxBuffer: 256 * 1024 * 1024, stdio: ['ignore', 'pipe', 'ignore'] })
@@ -80,6 +81,8 @@ if (mode === 'app') {
   // Boundary changes between consecutive timeline editions. Incremental: only pairs whose
   // editions or source files changed are recomputed, so this is seconds when nothing did.
   plan.push(['python', ['scripts/build_timeline_changes.py']]);
+  // The pre-1973 NI council rounds grouped by year, from the election catalogue (seconds).
+  plan.push(['node', ['scripts/build-ni-local-grouped.mjs']]);
   plan.push(['node', ['scripts/catalogue/build-catalogue.mjs']]);
   plan.push(['node', ['scripts/catalogue/check-catalogue.mjs']]);
   plan.push(['npm', ['run', '-s', 'build']]);
