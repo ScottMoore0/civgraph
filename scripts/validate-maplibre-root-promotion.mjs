@@ -1,4 +1,13 @@
 #!/usr/bin/env node
+/**
+ * check:root -- the production map app's shell, service worker and build stay as the
+ * MapLibre promotion left them (maps/index.html, sw.js, app/src/app.js, the build script).
+ *
+ * It reads nothing under archive/ (that went with 49e65a9e43) and nothing of the legacy
+ * /render/ app, so it survives the restructure as the data design's checks.csv says: its
+ * assertions are source-file rules for the live app and move into check:schema (C2). The
+ * /test2/ compatibility assertions change when F5 turns /test2/ into a redirect.
+ */
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 
 function assert(condition, message) {
