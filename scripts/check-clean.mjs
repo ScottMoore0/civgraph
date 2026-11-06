@@ -8,6 +8,7 @@
  *
  *   1. export `git ls-files -co --exclude-standard` (tracked files plus new, non-ignored
  *      files: exactly what a commit would contain) into a temporary directory;
+ *      and make it a one-commit git repository, as CI's checkout is (initExportRepo);
  *   2. link node_modules into it (a junction on Windows), rather than reinstalling;
  *   3. run the derived inputs CI builds (`npm run build`, the Pages build, the catalogue D1
  *      import and the records database with its tests), then the offline check chain
@@ -71,6 +72,22 @@ export function exportTree(root, dest, files) {
   }
 }
 
+/**
+ * Make the export a git repository holding exactly the exported files in one commit, as CI's
+ * checkout is: records:build hashes its inputs with git ls-files and records the commit, and
+ * check:pages-assets asks git which files .cfignore excludes. Without this every git call in
+ * the chain fails with "not a git repository" (exit 128), which CI never sees.
+ */
+export function initExportRepo(dest) {
+  const git = (gitArgs) => {
+    const res = spawnSync('git', gitArgs, { cwd: dest, encoding: 'utf8', maxBuffer: 1 << 26 });
+    if (res.status !== 0) throw new Error(`git ${gitArgs.join(' ')} failed in the export: ${res.stderr}`);
+  };
+  git(['init', '-q']);
+  git(['-c', 'core.autocrlf=false', 'add', '-A']);
+  git(['-c', 'user.name=check-clean', '-c', 'user.email=check-clean@localhost', 'commit', '-q', '-m', 'clean export']);
+}
+
 export function linkNodeModules(source, dest) {
   const link = path.join(dest, 'node_modules');
   symlinkSync(source, link, process.platform === 'win32' ? 'junction' : 'dir');
@@ -128,6 +145,7 @@ function main() {
     const files = listExportFiles(ROOT);
     console.log(`Exporting ${files.length} files to ${dest}`);
     exportTree(ROOT, dest, files);
+    initExportRepo(dest);
     link = linkNodeModules(modules, dest);
     ok = buildAndCheck(dest, opts);
   } finally {
