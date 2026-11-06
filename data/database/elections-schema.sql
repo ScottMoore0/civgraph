@@ -17,7 +17,7 @@
 -- Cloudflare-internal objects (_cf_*) and SQLite internals are excluded: they
 -- are not ours, and they change without us.
 
--- Tables: 15   Indexes: 39
+-- Tables: 16   Indexes: 39
 CREATE TABLE browse_persons (
   slug       TEXT PRIMARY KEY,
   id         TEXT,
@@ -169,6 +169,14 @@ CREATE TABLE counts (
 CREATE TABLE dataset (
   key   TEXT PRIMARY KEY,
   value TEXT
+);
+
+CREATE TABLE election_meta_parts (
+  election_key TEXT NOT NULL,
+  field        TEXT NOT NULL,
+  part         INTEGER NOT NULL,
+  chunk        TEXT,
+  PRIMARY KEY (election_key, field, part)
 );
 
 CREATE TABLE elections (
