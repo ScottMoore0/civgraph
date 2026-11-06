@@ -1,0 +1,78 @@
+/*
+ * Legacy token names as aliases of tokens.css (frontend-plan.md section 3).
+ *
+ * Each page that moves onto the shell loads tokens.css and then this file, so the rules it
+ * still has (main.css, browse.css, shared.css, test2.css, site-chrome.css) keep working on
+ * the new values. An alias goes when the last rule that reads it goes; when this file is
+ * empty, delete it. Aliases point at tokens, never at literal colours, so dark mode follows.
+ * tests/unit/ui-tokens.test.mjs checks that every alias resolves to a defined token.
+ */
+:root {
+  /* main.css, browse.css, shared.css: the --color-* surface and text names */
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-raised);
+  --color-surface-overlay: var(--surface-overlay);
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+  --color-text-inverse: var(--text-inverse);
+  --color-border: var(--border);
+  --color-border-light: var(--border-subtle);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--danger);
+  --color-info: var(--info);
+  --color-gray-50: var(--gray-50);
+  --color-gray-100: var(--gray-100);
+  --color-gray-200: var(--gray-200);
+  --color-gray-300: var(--gray-300);
+  --color-gray-400: var(--gray-400);
+  --color-gray-500: var(--gray-500);
+  --color-gray-600: var(--gray-600);
+  --color-gray-700: var(--gray-700);
+  --color-gray-800: var(--gray-800);
+  --color-gray-900: var(--gray-900);
+  /* main.css type weights */
+  --font-normal: var(--weight-normal);
+  --font-medium: var(--weight-medium);
+  --font-semibold: var(--weight-semibold);
+  --font-bold: var(--weight-bold);
+  /* shared.css */
+  --font-body: var(--font-sans);
+  --header-base: var(--chrome-base);
+  --header-green: var(--chrome-green);
+  --header-navy: var(--chrome-navy);
+  --header-teal: var(--chrome-teal);
+  /* site-chrome.css: modal and menu surfaces */
+  --chrome-radius-md: var(--radius-lg);
+  --chrome-radius-lg: var(--radius-xl);
+  --chrome-shadow-md: var(--shadow-md);
+  --chrome-shadow-lg: var(--shadow-lg);
+  --chrome-modal-surface: var(--surface);
+  --chrome-modal-text: var(--text);
+  --chrome-modal-muted: var(--text-muted);
+  --chrome-modal-hover: var(--surface-raised);
+  --chrome-modal-border: var(--border-subtle);
+  --menu-surface: var(--surface);
+  --menu-text: var(--text);
+  --menu-muted: var(--text-muted);
+  --menu-hover: var(--surface-raised);
+  --menu-line: var(--border);
+  /* test2.css: map pane tables and trend chart */
+  --table-surface: var(--surface);
+  --table-text: var(--text);
+  --table-muted: var(--text-muted);
+  --table-pos: var(--positive);
+  --table-neg: var(--negative);
+  --table-link: var(--link);
+  --trend-surface: var(--surface);
+  --trend-text: var(--text);
+  --trend-muted: var(--text-muted);
+  --trend-grid: var(--chart-grid);
+  --trend-baseline: var(--chart-baseline);
+  --trend-crosshair: var(--chart-crosshair);
+  --trend-hover: var(--table-hover);
+  /* browse.css */
+  --browse-dark-panel: var(--surface-sunken);
+  /* the legacy test app's name for the page surface */
+  --test-surface: var(--surface);
+}

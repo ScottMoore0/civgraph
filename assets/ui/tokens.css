@@ -1,0 +1,200 @@
+/*
+ * Civgraph design tokens: the one token set (frontend-plan.md section 3).
+ *
+ * Names follow assets/css/main.css, the most complete of the four systems; dark values take
+ * the browse.css / shared.css palette, the newer one and the one most pages already use.
+ * Old names are aliases in tokens-legacy.css until the last page migrates.
+ *
+ * Dark mode is declared twice with identical values: for an explicit choice
+ * (<html data-theme="dark">, set by the shell's theme bootstrap) and for a system preference
+ * when nothing was chosen. tests/unit/ui-tokens.test.mjs keeps the two blocks equal.
+ *
+ * Map party colours are data, not tokens: they stay in one JS palette module.
+ */
+:root {
+  color-scheme: light;
+  /* brand */
+  --color-primary: #1a365d;
+  --color-primary-light: #2c5282;
+  --color-primary-dark: #0f2744;
+  --color-primary-50: #ebf4ff;
+  --color-accent: #38a169;
+  --color-accent-dark: #276749;
+  /* chrome (site-chrome.css; shared.css calls the same values --header-*) */
+  --chrome-base: #065a6e;
+  --chrome-green: #0fa55a;
+  --chrome-navy: #003870;
+  --chrome-teal: #0a7a78;
+  /* semantic surfaces and text */
+  --surface: #ffffff;
+  --surface-raised: #f7fafc;
+  --surface-sunken: #edf2f7;
+  --surface-overlay: rgba(255, 255, 255, 0.95);
+  --text: #1a202c;
+  --text-muted: #5f6b7c;
+  --text-inverse: #ffffff;
+  --border: #e2e8f0;
+  --border-subtle: #edf2f7;
+  --link: var(--color-primary);
+  --focus-ring: #2c5282;
+  /* status and deltas */
+  --success: #38a169;
+  --warning: #d69e2e;
+  --danger: #e53e3e;
+  --info: #3182ce;
+  --positive: #1f7a46;
+  --negative: #b83a2c;
+  /* gray ramp */
+  --gray-50: #f7fafc;
+  --gray-100: #edf2f7;
+  --gray-200: #e2e8f0;
+  --gray-300: #cbd5e0;
+  --gray-400: #a0aec0;
+  --gray-500: #718096;
+  --gray-600: #4a5568;
+  --gray-700: #2d3748;
+  --gray-800: #1a202c;
+  --gray-900: #171923;
+  /* type */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-display: 'Plus Jakarta Sans', var(--font-sans);
+  --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --leading-tight: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+  /* space */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  /* radius: one scale; shared.css's 8px / 12px are lg / xl */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-full: 9999px;
+  /* elevation */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  /* motion and layers */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-popover: 500;
+  --z-tooltip: 600;
+  /* layout (shared.css's 76px header on the marketing pages is a page-level override) */
+  --header-height: 64px;
+  --content-max: 72rem;
+  /* component tokens */
+  --table-rule: rgba(15, 23, 42, 0.1);
+  --table-header-rule: rgba(15, 23, 42, 0.35);
+  --table-hover: rgba(15, 23, 42, 0.045);
+  --chart-grid: rgba(15, 23, 42, 0.09);
+  --chart-baseline: rgba(15, 23, 42, 0.3);
+  --chart-crosshair: rgba(15, 23, 42, 0.4);
+  --menu-current: #e7f5ee;
+  --menu-accent: #15803d;
+  --status-track: #e6ebf0;
+  --status-l1: #c6e8d3;
+  --status-l2: #7cc79b;
+  --status-l3: #38a169;
+  --status-l4: #1f6b46;
+}
+
+/* An explicit choice of dark. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-primary: #7aa7dd;
+  --color-primary-light: #a8c6ea;
+  --color-primary-dark: #cfe0f5;
+  --color-accent: #6cd39a;
+  --color-accent-dark: #6cd39a;
+  --surface: #0f1720;
+  --surface-raised: #131c26;
+  --surface-sunken: #18222d;
+  --surface-overlay: rgba(15, 23, 42, 0.92);
+  --text: #e6edf3;
+  --text-muted: #8fa1b3;
+  --text-inverse: #0f1720;
+  --border: #23303d;
+  --border-subtle: #18222d;
+  --link: #8fb4ff;
+  --focus-ring: #a8c6ea;
+  --positive: #4ade80;
+  --negative: #f87171;
+  --table-rule: rgba(255, 255, 255, 0.1);
+  --table-header-rule: rgba(255, 255, 255, 0.38);
+  --table-hover: rgba(255, 255, 255, 0.06);
+  --chart-grid: rgba(255, 255, 255, 0.1);
+  --chart-baseline: rgba(255, 255, 255, 0.32);
+  --chart-crosshair: rgba(255, 255, 255, 0.45);
+  --menu-current: #16302a;
+  --menu-accent: #34d399;
+  --status-track: #1d2833;
+  --status-l1: #24483a;
+  --status-l2: #2f7a55;
+  --status-l3: #48b27a;
+  --status-l4: #9be3bb;
+}
+
+/* The system preference, when nothing was chosen. Keep identical to the block above. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --color-primary: #7aa7dd;
+    --color-primary-light: #a8c6ea;
+    --color-primary-dark: #cfe0f5;
+    --color-accent: #6cd39a;
+    --color-accent-dark: #6cd39a;
+    --surface: #0f1720;
+    --surface-raised: #131c26;
+    --surface-sunken: #18222d;
+    --surface-overlay: rgba(15, 23, 42, 0.92);
+    --text: #e6edf3;
+    --text-muted: #8fa1b3;
+    --text-inverse: #0f1720;
+    --border: #23303d;
+    --border-subtle: #18222d;
+    --link: #8fb4ff;
+    --focus-ring: #a8c6ea;
+    --positive: #4ade80;
+    --negative: #f87171;
+    --table-rule: rgba(255, 255, 255, 0.1);
+    --table-header-rule: rgba(255, 255, 255, 0.38);
+    --table-hover: rgba(255, 255, 255, 0.06);
+    --chart-grid: rgba(255, 255, 255, 0.1);
+    --chart-baseline: rgba(255, 255, 255, 0.32);
+    --chart-crosshair: rgba(255, 255, 255, 0.45);
+    --menu-current: #16302a;
+    --menu-accent: #34d399;
+    --status-track: #1d2833;
+    --status-l1: #24483a;
+    --status-l2: #2f7a55;
+    --status-l3: #48b27a;
+    --status-l4: #9be3bb;
+  }
+}

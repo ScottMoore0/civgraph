@@ -1,0 +1,22 @@
+/* Pager: server pagination links, optional cg-load-more (component 19). */
+.cg-pager {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin: var(--space-6) 0;
+  font-size: var(--text-sm);
+}
+
+.cg-pager__links {
+  display: flex;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cg-pager__status {
+  color: var(--text-muted);
+}

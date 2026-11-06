@@ -1,0 +1,33 @@
+/* Chart frame for the hand-written SVG charts (component 24). */
+.cg-chart {
+  margin: 0 0 var(--space-6);
+  padding: var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+
+.cg-chart svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  color: var(--text-muted);
+}
+
+.cg-chart .grid line {
+  stroke: var(--chart-grid);
+}
+
+.cg-chart .baseline {
+  stroke: var(--chart-baseline);
+}
+
+.cg-chart .crosshair {
+  stroke: var(--chart-crosshair);
+}
+
+.cg-chart figcaption {
+  margin-top: var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
