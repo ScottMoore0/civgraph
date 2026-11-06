@@ -250,8 +250,16 @@ test('votes, graph and stats APIs', { skip }, async () => {
   const manifest = await getJson(dataGraph, '/data/graph/manifest.json', { path: ['manifest.json'] });
   if (existsSync(path.join(P.GRAPH_DIR, 'manifest.json'))) assert.deepEqual(manifest, readJsonFile(path.join(P.GRAPH_DIR, 'manifest.json')));
   const exp = await dataGraph.onRequestGet(context('/data/graph/exports/civgraph.jsonld', setup(), { path: ['exports', 'civgraph.jsonld'] }));
+  // No R2 copy in the test setup: the export has moved to the bulk downloads.
   assert.equal(exp.status, 301);
   assert.equal(exp.headers.get('Location'), 'https://data.civgraph.net/downloads/civgraph.jsonld.gz');
+  const expManifest = await dataGraph.onRequestGet(context('/data/graph/exports/manifest.json', setup(), { path: ['exports', 'manifest.json'] }));
+  assert.equal(expManifest.headers.get('Location'), 'https://data.civgraph.net/downloads/manifest.json');
+  // While the R2 copy is there (the dual run), it is served as before.
+  const withCopy = { ...setup(), MAPS_BUCKET: { get: async (key) => (key === 'data/graph/exports/civgraph.jsonld' ? { body: '{"@graph":[]}' } : null) } };
+  const fromR2 = await dataGraph.onRequestGet(context('/data/graph/exports/civgraph.jsonld', withCopy, { path: ['exports', 'civgraph.jsonld'] }));
+  assert.equal(fromR2.status, 200);
+  assert.equal(await fromR2.text(), '{"@graph":[]}');
   const s = await getJson(stats, '/_api/stats');
   assert.ok(s.candidacies >= 67000 && s.people >= 31000);
 });
