@@ -5,7 +5,8 @@
  * A row's hash is SHA-1 over JSON.stringify of its values in the schema's column order (row_hash
  * and row_hash_n left out). The column order is fixed by scripts/records/schema.mjs, so this is
  * canonical: the same row always hashes the same, on any machine. Numbers are bound as numbers,
- * absent values as null.
+ * absent values as null. The one exception is a build stamp inside a JSON column the schema names
+ * (`volatileJson`, documents only), which is left out (hashValues).
  */
 import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync } from 'node:fs';
@@ -38,6 +39,27 @@ export function openDatabase(file, { readOnly = false } = {}) {
 export function rowHash(values) {
   const hex = createHash('sha1').update(JSON.stringify(values)).digest('hex');
   return [hex, parseInt(hex.slice(0, 8), 16)];
+}
+
+/**
+ * The values a row's hash is taken over: its values, except that a table with `volatileJson`
+ * (schema.mjs: documents) has the named top-level keys left out of that JSON column, so a build
+ * stamp alone never changes the hash. A value that is not a JSON object hashes as it is.
+ */
+export function hashValues(spec, row, values, valueColumns = spec.columns.map((c) => c.name).filter((n) => n !== 'row_hash' && n !== 'row_hash_n')) {
+  const v = spec.volatileJson;
+  if (!v) return values;
+  const i = valueColumns.indexOf(v.column);
+  const text = values[i];
+  const keys = v.keys(row);
+  if (typeof text !== 'string' || !keys.some((k) => text.includes(`"${k}"`))) return values;
+  let doc;
+  try { doc = JSON.parse(text); } catch { return values; }
+  if (!doc || typeof doc !== 'object' || Array.isArray(doc)) return values;
+  for (const k of keys) delete doc[k];
+  const out = [...values];
+  out[i] = JSON.stringify(doc);
+  return out;
 }
 
 /** node:sqlite binds null, numbers, strings, bigints and bytes; everything else is normalised. */
@@ -92,7 +114,7 @@ export class TableWriter {
         throw new Error(`${this.spec.name}: ${col.name} is null in ${JSON.stringify(row).slice(0, 300)}`);
       }
     }
-    if (this.spec.hashed) values.push(...rowHash(values));
+    if (this.spec.hashed) values.push(...rowHash(hashValues(this.spec, row, values, this.valueColumns)));
     this.stmt.run(...values);
     this.count += 1;
   }

@@ -109,3 +109,40 @@ test('on the real build: a delta from itself is empty', { skip: !existsSync(path
   const result = buildDelta({ toFile: file, fromFile: file, write: (s) => lines.push(s) });
   assert.equal(result.statements, 2);
 });
+
+test('a build stamp alone does not change a document\'s hash, so it gives no delta', () => {
+  mkdirSync(TMP, { recursive: true });
+  const docs = (stamp, extra = {}) => [
+    { name: 'elections-test2.json', body: JSON.stringify({ schemaVersion: 1, generatedAt: stamp, count: 3, ...extra }) },
+    { name: 'graph/manifest.json', body: JSON.stringify({ generatedAt: stamp, inputs: { 'persons.json': stamp }, entities: 10 }) },
+    { name: 'graph/properties.json', body: JSON.stringify({ generatedAt: stamp, inputs: { kept: stamp } }) },
+    { name: 'plain', body: 'not json "generatedAt"' },
+  ];
+  const make = (file, list) => {
+    const db = createDatabase(file);
+    transaction(db, () => { const w = new TableWriter(db, 'documents'); for (const d of list) w.add(d); });
+    db.close();
+  };
+  const A = path.join(TMP, 'stamp-a.sqlite');
+  const B = path.join(TMP, 'stamp-b.sqlite');
+  const C = path.join(TMP, 'stamp-c.sqlite');
+  make(A, docs('2026-11-06T19:13:22.596Z'));
+  make(B, docs('2026-11-06T21:01:06.626Z'));
+  make(C, docs('2026-11-06T21:01:06.626Z', { count: 4 }));
+  const delta = (to, from) => buildDelta({ toFile: to, fromFile: from, write: () => {}, loadedAt: 'x' }).summary.documents;
+  // graph/properties.json's `inputs` is data (only the graph manifest's is a stamp map).
+  assert.deepEqual(delta(B, A), { deleted: 0, upserted: 1 });
+  const a = new DatabaseSync(A, { readOnly: true });
+  const b = new DatabaseSync(B, { readOnly: true });
+  const hash = (db, name) => db.prepare('SELECT row_hash FROM documents WHERE name = ?').get(name).row_hash;
+  const changed = b.prepare('SELECT name FROM documents ORDER BY name').all().map((r) => r.name).filter((name) => hash(a, name) !== hash(b, name));
+  a.close();
+  b.close();
+  assert.deepEqual(changed, ['graph/properties.json']);
+  assert.deepEqual(delta(C, B), { deleted: 0, upserted: 1 }, 'a real change still loads');
+  // The stored body keeps its stamp.
+  const c = new DatabaseSync(C, { readOnly: true });
+  assert.match(c.prepare("SELECT body FROM documents WHERE name = 'elections-test2.json'").get().body, /"generatedAt":"2026-11-06T21:01:06.626Z"/);
+  c.close();
+  rmSync(TMP, { recursive: true, force: true });
+});
