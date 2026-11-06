@@ -12,7 +12,7 @@ import { DatabaseSync } from 'node:sqlite';
 import { REPO_ROOT } from '../../scripts/records/paths.mjs';
 import { createDatabase } from '../../scripts/records/db.mjs';
 import { TABLES } from '../../scripts/records/schema.mjs';
-import { context, d1, installCaches } from './d1-shim.mjs';
+import { buildHasVotes, context, d1, installCaches } from './d1-shim.mjs';
 import { resetDatasetMemo } from '../../functions/_api/_records.js';
 import * as elections from '../../functions/_api/elections/index.js';
 import * as persons from '../../functions/_api/persons/index.js';
@@ -80,7 +80,8 @@ async function body(mod, url, env, params = {}) {
 test('every list route answers byte-identically from a reverse-loaded database', { skip: !existsSync(DB) && 'no records build', timeout: 1_800_000 }, async () => {
   const a = { ELECTIONS_DB: d1(DB) };
   const b = { ELECTIONS_DB: d1(reversedCopy()) };
-  for (const [mod, url] of LIST_ROUTES) {
+  const votesBuilt = buildHasVotes(DB);
+  for (const [mod, url] of LIST_ROUTES.filter(([mod]) => votesBuilt || mod !== votes)) {
     installCaches();
     resetDatasetMemo();
     const x = await body(mod, url, a);
@@ -90,7 +91,7 @@ test('every list route answers byte-identically from a reverse-loaded database',
     assert.ok(x.startsWith('200'), `${url}: ${x.slice(0, 200)}`);
     assert.ok(x === y, `${url} differs between the two load orders`);
   }
-  for (const rel of BROWSE_FILES) {
+  for (const rel of BROWSE_FILES.filter((f) => votesBuilt || !f.startsWith('votes/'))) {
     const params = { path: rel.split('/') };
     installCaches();
     resetDatasetMemo();
