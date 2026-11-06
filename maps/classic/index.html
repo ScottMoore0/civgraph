@@ -57,7 +57,7 @@
 
   <!-- Modulepreload — start fetching the entry bundle before parser reaches
        the <script type=module> tag at the end of <body>. -->
-  <link rel="modulepreload" href="/app/build/app.bundle.js?v=af09f9edea52" fetchpriority="high">
+  <link rel="modulepreload" href="/app/build/app.bundle.js?v=e4c3679df37f" fetchpriority="high">
   <style>
     @font-face {
       font-family: 'Inter';
@@ -107,10 +107,10 @@
 
   <!-- Election Viewer & Animation CSS (deferred — not needed for first paint) -->
   <link rel="stylesheet" href="/app/election-viewer-package/css/election-viewer.css?v=a999f742cbb1" media="print" onload="this.media='all'">
-  <link rel="stylesheet" href="/app/election-viewer-package/css/stages.css?v=86df5d9debd2" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="/app/election-viewer-package/css/stages.css?v=6eee8aa01182" media="print" onload="this.media='all'">
   <noscript>
     <link rel="stylesheet" href="/app/election-viewer-package/css/election-viewer.css?v=a999f742cbb1">
-    <link rel="stylesheet" href="/app/election-viewer-package/css/stages.css?v=86df5d9debd2">
+    <link rel="stylesheet" href="/app/election-viewer-package/css/stages.css?v=6eee8aa01182">
   </noscript>
 
   <!-- Favicon -->
@@ -760,7 +760,7 @@
        and animation code are loaded lazily by the /app module bundle. -->
 
   <!-- Application (bundled + minified) -->
-  <script type="module" src="/app/build/app.bundle.js?v=af09f9edea52"></script>
+  <script type="module" src="/app/build/app.bundle.js?v=e4c3679df37f"></script>
 
   <!-- Service worker — repeat-visit cache + offline tolerance. Registered
        after window.load so it doesn't contend with critical resources.
