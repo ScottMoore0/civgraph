@@ -1972,7 +1972,16 @@ function buildPersons(electionDetails, partyRecords, partyNames = {}) {
     const r = referenceDates.people?.[personId];
     const work = r && referenceDates.sources?.[r.source];
     if (!r?.[field] || !work) return null;
-    return { value: r[field], preferred: Boolean(r.preferOver?.[field]), source: `${work.title} (${work.edition}, ${work.year}), ${/[-–]/.test(r.page) ? `pp. ${String(r.page).replace('-', '–')}` : `p. ${r.page}`}` };
+    const page = String(r.pages?.[field] || r.page);
+    const book = `${work.title} (${[work.edition, work.year].filter(Boolean).join(', ')}), ${/[-–]/.test(page) ? `pp. ${page.replace('-', '–')}` : `p. ${page}`}`;
+    // Elliott & Flackes dates are added only where a second source gives the same date
+    // (checkedAgainst); where the book is wrong (bookGives), the second sources are the
+    // citation and the book's reading is named beside them.
+    const checked = (r.checkedAgainst?.[field] || []).map((c) => c.title);
+    const source = r.bookGives?.[field]
+      ? `${checked.join('; ')} (${book}, gives ${r.bookGives[field]})`
+      : [book, ...checked].join('; ');
+    return { value: r[field], preferred: Boolean(r.preferOver?.[field]), source };
   };
   const officialProfiles = (ids) => {
     const out = [];
@@ -2167,8 +2176,9 @@ function buildPersons(electionDetails, partyRecords, partyNames = {}) {
       ...(offices.length ? { offices } : {}),
       ...(affiliationTimeline.length ? { affiliationTimeline } : {}),
       // A registered non-candidate's dates, from Wikidata, where nothing above gives them.
-      ...(registeredLife?.born && !hop.length && !official.life?.born ? { born: registeredLife.born, bornSource: registeredLife.source || 'Wikidata' } : {}),
-      ...(registeredLife?.died && !hop.length && !official.life?.died ? { died: registeredLife.died, diedSource: registeredLife.source || 'Wikidata' } : {}),
+      // (A reference date the second sources confirm and that is preferred stays.)
+      ...(registeredLife?.born && !hop.length && !official.life?.born && !referenceDate(person.id, 'born')?.preferred ? { born: registeredLife.born, bornSource: registeredLife.source || 'Wikidata' } : {}),
+      ...(registeredLife?.died && !hop.length && !official.life?.died && !referenceDate(person.id, 'died')?.preferred ? { died: registeredLife.died, diedSource: registeredLife.source || 'Wikidata' } : {}),
       ...(relatives.length ? { relatives } : {}),
       ...(formalNames.length ? { formalNames, knownAliases: formalNames.map((entry) => entry.name) } : {}),
     };
