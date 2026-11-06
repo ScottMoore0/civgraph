@@ -398,6 +398,21 @@ function buildLevel(level, { firstDate, rounds, missing, mapsById, renderBySourc
   // January borough polls of the same year).
   const levelDate = [...relevant.map(({ round }) => round.date), ...relevantMissing.map((item) => item.date)].sort()[0] || firstDate;
   let edition = chooseEdition(level, levelDate, mapsById, layerFeatures);
+  if (level === 'ded' && edition && levelDate >= '1921-05-03') {
+    // The rural DEDs were redrawn in 1923 (Tyrone, Fermanagh, Londonderry): the 1930 edition
+    // carries the divisions the 1924-30 polls were fought on, the 1921 one those before. Of the
+    // two, the one whose names answer more of this year's contests, the one in force when they tie.
+    const answered = (id) => {
+      const keys = new Set((layerFeatures[id]?.features || []).flatMap((f) => [...featureKeys(f.label)]));
+      let n = 0;
+      for (const { round } of relevant) for (const contest of round.contests) if (nameKeys(contest.area).some((k) => keys.has(k))) n += 1;
+      return n;
+    };
+    const best = LEVEL_EDITIONS.ded.after1921.filter((id) => layerFeatures[id])
+      .map((id) => ({ id, n: answered(id) }))
+      .sort((a, b) => b.n - a.n)[0];
+    if (best && best.n > answered(edition.id)) edition = { id: best.id, date: String(mapsById.get(best.id)?.date || '') };
+  }
   if (level === 'districts' && edition) {
     // Districts came and went (Newtownabbey 1958, Kilkeel 1935): of the complete editions, the
     // one that draws the most of this year's councils, the one in force when they tie.

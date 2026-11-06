@@ -1,6 +1,6 @@
 """Copy what the grouped pre-1973 Northern Ireland local elections need from the council intake.
 
-  python scripts/ni-local/import-intake-status.py [--intake D:/civgraph-intake/ni-councils-2026-11-01]
+  python scripts/ni-local/import-intake-status.py --intake <intake folder>   (or CIVGRAPH_NI_INTAKE)
 
 The intake (calendar, authorities, the review's exclusion list and the per-round work files) lives
 outside the repository and changes while rounds are transcribed. The site never reads it: this
@@ -33,9 +33,11 @@ def calendar_held(status, kind):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--intake', default=r'D:\civgraph-intake\ni-councils-2026-11-01')
+    ap.add_argument('--intake', default=os.environ.get('CIVGRAPH_NI_INTAKE', ''))
     args = ap.parse_args()
     intake = args.intake
+    if not intake:
+        sys.exit('give the council intake folder: --intake <folder> or CIVGRAPH_NI_INTAKE')
     cal_path = os.path.join(intake, 'phase-a2', 'calendar.csv')
     auth_path = os.path.join(intake, 'calendar', 'authorities.csv')
     excl_path = os.path.join(intake, 'phase-b', 'apply-exclude.json')
