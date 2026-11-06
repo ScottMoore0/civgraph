@@ -200,6 +200,8 @@ def main():
 
     bykey = collections.defaultdict(list)
     for e in reg['entities']:
+        if e.get('keyedBy') == 'registered':   # non-candidates are never merged by name
+            continue
         for m in e['matchKeys']:
             bykey[m].append(e['personId'])
 

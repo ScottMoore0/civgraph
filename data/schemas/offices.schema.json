@@ -1,0 +1,78 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://civgraph.net/schemas/offices.schema.json",
+  "title": "Offices (data/offices/offices.json)",
+  "description": "Offices people hold, and the institutions they belong to. Ids are permanent; a renamed office keeps its id and gains a nameHistory entry. See docs/facts-model.md.",
+  "type": "object",
+  "required": ["schemaVersion", "description", "institutions", "offices"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "description": { "type": "string" },
+    "institutions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "kind", "jurisdiction"],
+        "properties": {
+          "id": { "$ref": "#/$defs/slug" },
+          "name": { "type": "string", "minLength": 2 },
+          "kind": { "enum": ["government", "legislature", "council", "party", "civil-service", "public-body", "head-of-state"] },
+          "jurisdiction": { "$ref": "#/$defs/jurisdiction" },
+          "partyId": { "$ref": "#/$defs/slug" },
+          "bodySlug": { "$ref": "#/$defs/slug" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "offices": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "institution", "jurisdiction", "kind", "start", "startPrecision", "end", "endPrecision", "nameHistory", "citations"],
+        "properties": {
+          "id": { "$ref": "#/$defs/slug" },
+          "name": { "type": "string", "minLength": 2 },
+          "institution": { "$ref": "#/$defs/slug" },
+          "jurisdiction": { "$ref": "#/$defs/jurisdiction" },
+          "kind": {
+            "enum": ["head-of-government", "deputy-head-of-government", "head-of-state", "minister", "minister-of-state", "junior-minister",
+              "secretary-of-state", "chief-whip", "leader-of-house", "speaker", "deputy-speaker", "presiding-officer", "law-officer",
+              "chair", "civil-service-head", "commissioner", "mayor", "deputy-mayor", "council-chair", "high-sheriff", "councillor",
+              "party-leader", "party-deputy-leader", "party-president", "party-vice-president", "party-chair", "party-vice-chair",
+              "party-general-secretary", "party-chief-whip", "party-secretary", "party-group-leader"]
+          },
+          "partyId": { "$ref": "#/$defs/slug" },
+          "start": { "$ref": "#/$defs/dateOrNull" },
+          "startPrecision": { "$ref": "#/$defs/precisionOrNull" },
+          "end": { "$ref": "#/$defs/dateOrNull" },
+          "endPrecision": { "$ref": "#/$defs/precisionOrNull" },
+          "nameHistory": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["name"],
+              "properties": {
+                "name": { "type": "string" },
+                "from": { "$ref": "#/$defs/date" },
+                "until": { "$ref": "#/$defs/date" },
+                "note": { "type": "string" }
+              },
+              "additionalProperties": false
+            }
+          },
+          "note": { "type": "string" },
+          "citations": { "type": "array", "items": { "$ref": "citation.schema.json" } }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "slug": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+    "jurisdiction": { "enum": ["northern-ireland", "ireland", "united-kingdom", "europe"] },
+    "date": { "type": "string", "pattern": "^\\d{4}(-(0[1-9]|1[0-2])(-(0[1-9]|[12]\\d|3[01]))?)?$" },
+    "dateOrNull": { "oneOf": [{ "$ref": "#/$defs/date" }, { "type": "null" }] },
+    "precisionOrNull": { "enum": ["year", "month", "day", null] }
+  }
+}

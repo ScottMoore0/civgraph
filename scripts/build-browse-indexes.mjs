@@ -7,6 +7,7 @@ import { isPublicMap, isPublicStatistic, statisticGeographyIds } from '../src/pu
 import { canonicalElectionTitle, compareElectionsNewestFirst, electionResultEntryLabel } from './lib/election-names.mjs';
 import { buildPartyVocabulary, classifyPersonName, stripWikipediaQualifier, NOT_A_PERSON } from './lib/person-name-artefacts.mjs';
 import { referenceOffices, referenceRelatives } from './lib/reference-person-facts.mjs';
+import { browsePartySlugResolver, formatSpan, indexFactsModel, loadFactsModel } from './lib/facts-model.mjs';
 import { CDN_BASE } from '../src/cdn-url.js';
 import { BROWSE_DIR, ELECTION_MANIFEST, PROVENANCE_FILE, localPathForUrl } from './records/paths.mjs';
 
@@ -95,6 +96,7 @@ const ENTITY_GROUPS = [
   { id: 'features', label: 'Features', description: 'Boundary features by source map, including election geography groups where available.' },
   { id: 'parties', label: 'Parties / Labels', description: 'Party and ticket labels observed in election data.' },
   { id: 'persons', label: 'Persons', description: 'Candidate and elected-person entries observed in election bundles.' },
+  { id: 'offices', label: 'Offices', description: 'Offices people held (ministries, mayoralties, party leaderships) and who held them, each tenure cited.' },
   { id: 'register-interests', label: 'Register Interests', description: 'MLA and Northern Ireland MP register of interests records, linked back to source editions and datasets.' },
   { id: 'sources', label: 'Books / Tables / Sources', description: 'Books, tables, datasets, map downloads, source files, and references.' },
   { id: 'proni', label: 'PRONI Records', description: 'Archival catalogue records from the PRONI eCatalogue (Public Record Office of Northern Ireland), browsable by their original hierarchy. Open Government Licence.' }
@@ -180,7 +182,7 @@ function main() {
   const featureGroups = buildFeatureGroups(spatialIndex, maps, parentElections);
   const { parties, partyDetails, partyNames, folds: partyFolds } = buildParties(partyIds, electionDetails);
   reportPartyLabelFolds(partyFolds);
-  const { persons, personDetails } = buildPersons(electionDetails, parties);
+  const { persons, personDetails } = buildPersons(electionDetails, parties, partyNames);
   const registerInterests = buildRegisterInterests(niRegisterInterestsData);
   const sources = buildSources(booksData, dataEntriesData, maps, parentElections, thumbnailIds, browseSourceInputs, sourceEnrichmentInputs);
   for (const source of sources) applySourceReaderLabels(source);
@@ -335,6 +337,8 @@ function main() {
       featureRecords: spatialIndex.features?.length || 0,
       parties: parties.length,
       persons: persons.length,
+      // Offices with at least one recorded holder: scripts/build-office-pages.mjs writes their pages.
+      offices: (() => { const model = loadFactsModel(ROOT); const held = new Set(model.tenures.map((t) => t.officeId)); return model.offices.filter((o) => held.has(o.id)).length; })(),
       'register-interests': registerInterests.length,
       sources: sources.length,
       proni: 1538177
@@ -1712,8 +1716,15 @@ function preciser(a, b) {
   return !a ? b : !b ? a : b.length > a.length ? b : a;
 }
 
-function buildPersons(electionDetails, partyRecords) {
+function buildPersons(electionDetails, partyRecords, partyNames = {}) {
   const byId = new Map();
+  // Offices held, and party affiliation over time, from the facts model (docs/facts-model.md).
+  const factsModel = loadFactsModel(ROOT);
+  const factsIndex = indexFactsModel(factsModel);
+  const partyRegistry = readJson('data/elections/parties/party_registry.json', { entities: [] }).entities || [];
+  const partySlugOf = browsePartySlugResolver(partyRegistry, partyNames, new Set(normalizeArray(partyRecords).map((p) => p.slug)));
+  const partyTitleOf = (id) => normalizeArray(partyRecords).find((p) => p.slug === partySlugOf(id))?.title
+    || partyRegistry.find((e) => e.id === id)?.name || id;
   const hopPages = loadHopPages();
   let referendumsSkipped = 0;
   // Same reasoning as the referendum skip above: these names are not people, so they
@@ -1836,6 +1847,40 @@ function buildPersons(electionDetails, partyRecords) {
     }
   }
 
+  // People who never stood in an election Civgraph holds (Northern Ireland Office ministers,
+  // civil servants, party officers), registered so offices and affiliations can name them
+  // (data/elections/persons/non-candidate-persons.json, docs/facts-model.md). They get a record
+  // like any other person, with no contests.
+  let registeredAdded = 0;
+  for (const p of factsModel.nonCandidates) {
+    const personId = String(p.personId);
+    if (byId.has(personId)) continue;
+    byId.set(personId, {
+      id: personId,
+      slug: personSlug(personId, p.displayName),
+      type: 'person',
+      entryKind: 'person',
+      nonCandidate: true,
+      title: p.displayName,
+      name: p.displayName,
+      parties: new Map(),
+      constituencies: new Map(),
+      genders: new Map(),
+      names: new Map(),
+      elections: [],
+      sourceKeys: new Set([`person:${personId}`]),
+      officialIds: new Set(p.officialPersonIds || []),
+      totals: { stood: 0, elected: 0, firstPrefs: 0 },
+      bodies: new Map(),
+      firstYear: null,
+      lastYear: null,
+      registeredLife: { born: p.born || null, died: p.died || null, source: p.lifeSource || null },
+      browseUrl: `/browse/persons/${encodeURIComponent(personSlug(personId, p.displayName))}`
+    });
+    registeredAdded += 1;
+  }
+  if (registeredAdded) console.log(`- persons: ${registeredAdded} registered non-candidate(s) added (people who hold offices but stood in no election held here)`);
+
   // Old person URLs, kept resolvable.
   //
   // Before candidacies carried registry ids, a person's id was `name:<slugified name>`
@@ -1956,7 +2001,45 @@ function buildPersons(electionDetails, partyRecords) {
     return wikidata ? { [field]: wikidata, [`${field}Source`]: official.life[`${field}Source`] || 'Wikidata' } : {};
   };
   let withOfficial = 0;
-  const details = Object.fromEntries([...byId.values()].map(({ sourceKeys, officialIds, ...person }) => {
+  // A citation as the person page shows it: the work and page, and the link where there is one.
+  const shortCitation = (c) => compactObject({ title: c.title, url: c.url || undefined, page: c.page || undefined });
+  const personOffices = (personId) => (factsIndex.tenuresByPerson.get(String(personId)) || []).map((t) => {
+    const office = factsIndex.officeById.get(t.officeId) || {};
+    const institution = factsIndex.institutionById.get(office.institution) || {};
+    return compactObject({
+      officeSlug: t.officeId,
+      office: office.name || t.officeId,
+      institution: institution.name,
+      start: t.start, end: t.end,
+      held: formatSpan(t.start, t.end),
+      began: t.began || undefined, ended: t.ended || undefined,
+      contestKey: t.contest || undefined,
+      note: t.note || undefined,
+      citations: (t.citations || []).map(shortCitation)
+    });
+  });
+  // Each interval of a person's affiliation, and the candidacies inside it that carry another
+  // party's label: the two are shown side by side, never reconciled by overwriting one.
+  const personAffiliations = (person) => (factsIndex.affiliationsByPerson.get(String(person.id)) || []).map((a) => {
+    const slug = a.partyId ? partySlugOf(a.partyId) : null;
+    const inside = (row) => {
+      const d = String(row.date || '');
+      return d && (!a.start || d >= a.start) && (!a.end || d < a.end);
+    };
+    const otherLabels = a.kind === 'party' && slug ? normalizeArray(person.elections).filter((row) => inside(row) && row.party && row.party !== NO_LABEL
+      && partyNames[normalizeName(row.party)] && partyNames[normalizeName(row.party)] !== slug).map((row) => compactObject({ key: row.key, title: row.title, date: row.date, label: row.party })) : [];
+    return compactObject({
+      kind: a.kind,
+      party: a.partyId ? partyTitleOf(a.partyId) : a.label,
+      partySlug: slug || undefined,
+      start: a.start, end: a.end,
+      startEvent: a.startEvent || undefined, endEvent: a.endEvent || undefined,
+      span: formatSpan(a.start, a.end),
+      otherLabels: otherLabels.length ? otherLabels : undefined,
+      citations: (a.citations || []).map(shortCitation)
+    });
+  });
+  const details = Object.fromEntries([...byId.values()].map(({ sourceKeys, officialIds, registeredLife, ...person }) => {
     const official = officialProfiles(officialIds);
     if (official.profiles.length) withOfficial += 1;
     const reached = [];
@@ -1988,6 +2071,8 @@ function buildPersons(electionDetails, partyRecords) {
       careerGapYears = Math.max(careerGapYears, years[i] - years[i - 1]);
     }
     const officesHeld = referenceOffices(referenceOfficeDoc, person.id, { hasHop: hop.length > 0 });
+    const offices = personOffices(person.id);
+    const affiliationTimeline = personAffiliations(person);
     const relatives = referenceRelatives(referenceRelationDoc, person.id, relativeLookup, missingRelatives);
     const formalNames = formalNamesOf(person.id);
     if (officesHeld.length) withOffices += 1;
@@ -2026,7 +2111,9 @@ function buildPersons(electionDetails, partyRecords) {
           + 'records cannot be separated automatically because the source rows carry no '
           + 'usable person identifier.',
       } : {}),
-      subtitle: compactJoin([parties[0]?.name, formatYearRange(person.firstYear, person.lastYear), `${person.totals.stood} contests`]),
+      subtitle: person.nonCandidate
+        ? compactJoin([offices[0]?.office, offices[0]?.held])
+        : compactJoin([parties[0]?.name, formatYearRange(person.firstYear, person.lastYear), `${person.totals.stood} contests`]),
       interactiveUrl: person.elections[0]?.interactiveUrl || null,
       ...(hop.length ? {
         historyOfParliament: hop.map(({ born, died, member, seats, ...page }) => page),
@@ -2053,6 +2140,11 @@ function buildPersons(electionDetails, partyRecords) {
       ...lifeDate(hop, official, referenceDate(person.id, 'born'), 'born'),
       ...lifeDate(hop, official, referenceDate(person.id, 'died'), 'died'),
       ...(officesHeld.length ? { officesHeld } : {}),
+      ...(offices.length ? { offices } : {}),
+      ...(affiliationTimeline.length ? { affiliationTimeline } : {}),
+      // A registered non-candidate's dates, from Wikidata, where nothing above gives them.
+      ...(registeredLife?.born && !hop.length && !official.life?.born ? { born: registeredLife.born, bornSource: registeredLife.source || 'Wikidata' } : {}),
+      ...(registeredLife?.died && !hop.length && !official.life?.died ? { died: registeredLife.died, diedSource: registeredLife.source || 'Wikidata' } : {}),
       ...(relatives.length ? { relatives } : {}),
       ...(formalNames.length ? { formalNames, knownAliases: formalNames.map((entry) => entry.name) } : {}),
     };

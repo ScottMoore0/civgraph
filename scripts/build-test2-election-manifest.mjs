@@ -9,7 +9,7 @@ import { namesCompatible } from './lib/name-compatibility.mjs';
 const LEA_SEAT_SUFFIX = /\s*\(\d+\)\s*$/;
 // Usually " LEA-6", but some 2019 names join it with a hyphen ("BALLINAMORE-LEA-6").
 const LEA_CODE_SUFFIX = /[\s-]+LEA-\d+\s*$/i;
-import { canonicalElectionTitle, compareElectionsNewestFirst, isElectionByElectionScope } from './lib/election-names.mjs';
+import { canonicalElectionTitle, compareElectionsNewestFirst, isElectionByElectionScope, isPartyInternalBody } from './lib/election-names.mjs';
 import { createPartyLabelInterpreter } from './lib/party-label-interpretations.mjs';
 import { seatTypeResultFile } from './lib/election-result-files.mjs';
 import { writeStableGeneratedJson } from './lib/stable-generated-json.mjs';
@@ -450,7 +450,41 @@ const NI_COUNCILS_1923_67_BODY_SLUGS = [
   'portrush-urban-district-council',
   'portstewart-urban-district-council',
   'warrenpoint-urban-district-council',
-  'whitehead-urban-district-council'
+  'whitehead-urban-district-council',
+  // Instalment 2 (2026-11): the county councils and rural districts 1924-67, polled on the
+  // county's triennial day. Moira's later rounds file under its County Armagh pilot slug.
+  'antrim-county-council',
+  'down-county-council',
+  'fermanagh-county-council',
+  'londonderry-county-council',
+  'tyrone-county-council',
+  'antrim-rural-district-council',
+  'ballycastle-rural-district-council',
+  'ballymena-rural-district-council',
+  'ballymoney-rural-district-council',
+  'banbridge-rural-district-council',
+  'belfast-rural-district-council',
+  'castlederg-rural-district-council',
+  'castlereagh-rural-district-council',
+  'clogher-rural-district-council',
+  'coleraine-rural-district-council',
+  'cookstown-rural-district-council',
+  'dungannon-rural-district-council',
+  'east-down-rural-district-council',
+  'enniskillen-rural-district-council',
+  'hillsborough-rural-district-council',
+  'irvinestown-rural-district-council',
+  'larne-rural-district-council',
+  'limavady-rural-district-council',
+  'lisburn-rural-district-council',
+  'lisnaskea-rural-district-council',
+  'londonderry-rural-district-council',
+  'magherafelt-rural-district-council',
+  'newry-no-1-rural-district-council',
+  'north-down-rural-district-council',
+  'omagh-rural-district-council',
+  'south-down-rural-district-council',
+  'strabane-rural-district-council'
 ];
 const PRE1973_COUNCIL_BODY_SLUGS = new Set([
   'belfast-county-borough-council',
@@ -479,7 +513,8 @@ const PRE1973_COUNCIL_BODY_SLUGS = new Set([
 ]);
 // The 1923-67 councils' wards are those of the 1923 warding orders and their later revisions,
 // which no layer is confirmed to draw, so like the County Armagh pilot they are shown as results
-// without a map. Londonderry's wards were redrawn in 1923, 1936 and 1946, so its later rounds
+// without a map (the county councils' divisions and the rural districts' DEDs too, until their
+// names are checked against the 1924 county electoral division and DED layers). Londonderry's wards were redrawn in 1923, 1936 and 1946, so its later rounds
 // are results only too; Belfast's fifteen wards keep the 1921 DED map (pre1973CouncilGeography).
 const NI_COUNCILS_1923_67_RESULTS_ONLY_BODY_SLUGS = new Set([
   ...NI_COUNCILS_1923_67_BODY_SLUGS,
@@ -944,6 +979,7 @@ async function main() {
       date: bundle.date,
       bodySlug: bundle.bodySlug,
       bodyGroup: bundle.bodyGroup,
+      ...(bundle.bodyType ? { bodyType: bundle.bodyType, partyId: bundle.partyId } : {}),
       displayTitle: bundle.displayTitle,
       displaySubtitle: bundle.displaySubtitle,
       displayProvider: bundle.displayProvider,
@@ -1083,6 +1119,9 @@ function buildUniqueElectionEntries(index) {
         body: body.name,
         bodySlug: body.slug,
         bodyGroup,
+        // A party's own ballots (bodyType "party-internal") name the party whose ballot it is.
+        ...(body.bodyType ? { bodyType: body.bodyType } : {}),
+        ...(body.partyId ? { partyId: body.partyId } : {}),
         date: dateEntry.date,
         bodyIndexes: [bodyIndex],
         constituencies: unique(dateEntry.constituencies || []),
@@ -1235,6 +1274,7 @@ function comparableElectionGroup(entry) {
   if (bodySlug === 'local-government') return 'ni-local';
   if (bodySlug === 'ireland-local') return 'roi-local';
   if (PRE1973_COUNCIL_BODY_SLUGS.has(bodySlug)) return bodySlug;
+  if (isPartyInternalBody({ bodySlug })) return bodySlug;
   if ([
     'northern-ireland-assembly',
     'northern-ireland-constitutional-convention',
@@ -1289,6 +1329,8 @@ function resolveElectionGeography(entry) {
     ]);
   }
   if (PRE1973_COUNCIL_BODY_SLUGS.has(entry.bodySlug)) return pre1973CouncilGeography(entry);
+  // A party's own ballot (leader, nominee): the electorate is a party body, so no map.
+  if (isPartyInternalBody(entry)) return { sourceMapId: null };
   if (entry.bodyGroup === 'local-government') {
     return sourceByYear(year, [
       [2014, 'deas-2012'],
@@ -1641,6 +1683,9 @@ function votingSystemForElection(entry, result = null) {
   if (bodySlug === 'ireland-european') return 'stv-hare';
   if (bodySlug === 'european-parliament') return 'stv-gregory';
   if (bodySlug === 'local-government') return 'stv-gregory';
+  // Each ballot of a party's leadership or nomination contest is one vote a member: a later
+  // ballot is a fresh vote, not a transfer, so each is its own contest.
+  if (isPartyInternalBody({ bodySlug })) return 'fptp';
   if (PRE1973_COUNCIL_BODY_SLUGS.has(bodySlug)) {
     // 1920 counts moved whole ballot papers, never fractions (Proportional Representation
     // (Ireland) Order 1919): the Hare-type rules the Dail kept, not Gregory.
@@ -1864,9 +1909,13 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
   // apply to them: otherwise the 2024 Laois candidate filed under Austin Stack's id would be
   // detached in the results and quietly re-attached through the summary.
   applyLifespanEvidence(entry, { candidates: mainLikeCandidateSummary.rows });
-  const partySummary = entry.bodySlug === 'dail-eireann'
-    ? mainLikePartySummary.rows
-    : ElectionDomain.buildPartySummary(results);
+  // A party's own ballots have no party summary: every candidate is of one party, and adding up
+  // the ballots of an exhaustive ballot would count one vote several times.
+  const partySummary = isPartyInternalBody(entry)
+    ? []
+    : entry.bodySlug === 'dail-eireann'
+      ? mainLikePartySummary.rows
+      : ElectionDomain.buildPartySummary(results);
   const entityIndex = ElectionDomain.buildEntityIndex(results);
   return {
     schemaVersion: 1,
@@ -1874,6 +1923,7 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
     body: entry.body,
     bodySlug: entry.bodySlug,
     bodyGroup: entry.bodyGroup,
+    ...(entry.bodyType ? { bodyType: entry.bodyType, partyId: entry.partyId } : {}),
     // Only the Republic's local elections carry these, so no other bundle changes.
     ...(entry.bodySlug === 'ireland-local' ? { areaLabel: 'LEA', totalAreas: entry.totalAreas || null } : {}),
     displayTitle: publicDisplayTitle,
@@ -3330,7 +3380,7 @@ function resultsOnlyElection(bundle) {
   // The Republic's local elections without an LEA map, and referendums on constituencies with
   // no map (1937, on the 1935 set): their results are shown without a layer.
   return !bundle.loadable
-    && (['ireland-local', 'ireland-referendum'].includes(bundle.bodySlug) || PRE1973_COUNCIL_BODY_SLUGS.has(bundle.bodySlug))
+    && (['ireland-local', 'ireland-referendum'].includes(bundle.bodySlug) || PRE1973_COUNCIL_BODY_SLUGS.has(bundle.bodySlug) || isPartyInternalBody(bundle))
     && !bundle.sourceMapId
     && (bundle.results || []).some((result) => (result.candidates || []).length > 0);
 }
@@ -3345,10 +3395,12 @@ function formatElectionSubtitle(entry, results, unmatchedCount, hasMap = true) {
       ? (entry.bodies?.length > 1 ? `${total} DEAs` : entry.body)
       : PRE1973_COUNCIL_BODY_SLUGS.has(entry.bodySlug)
         ? `${total} ward${total === 1 ? '' : 's'}`
-        : `${total} constituencies`;
+        : isPartyInternalBody(entry)
+          ? `party ballot${total === 1 ? '' : `s (${total})`}`
+          : `${total} constituencies`;
   // RoI local years with no boundary map (1991-2004) have nothing to match against, so a
   // count of every area as "unmatched" would read as a matching failure.
-  if ((entry.bodySlug === 'ireland-local' || PRE1973_COUNCIL_BODY_SLUGS.has(entry.bodySlug)) && !hasMap) return prefix;
+  if ((entry.bodySlug === 'ireland-local' || PRE1973_COUNCIL_BODY_SLUGS.has(entry.bodySlug) || isPartyInternalBody(entry)) && !hasMap) return prefix;
   return unmatchedCount > 0 ? `${prefix}; ${unmatchedCount} unmatched` : prefix;
 }
 

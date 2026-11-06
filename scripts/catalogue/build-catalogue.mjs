@@ -45,7 +45,9 @@ const { records: mapById, parts: partsOf } = loadRecords(ROOT);
 const layerIndex = read('render/metadata/maps-test-index.json').layers || [];
 const thumbs = new Set(read('assets/thumbnails/manifest.json'));
 const spatial = read('data/database/spatial-index.json');
-const elections = read(ELECTION_MANIFEST).elections || [];
+// A party's own ballots (bodyType "party-internal": leadership and nomination contests) have no
+// map and no shelf here; Browse shows them on the election and party pages (docs/facts-model.md).
+const elections = (read(ELECTION_MANIFEST).elections || []).filter((e) => e.bodyType !== 'party-internal');
 
 // ------------------------------------------------------------------ per map
 const layerBySource = new Map();

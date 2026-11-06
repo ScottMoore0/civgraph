@@ -1,0 +1,2442 @@
+{
+ "schemaVersion": 1,
+ "description": "People in Civgraph who never stood in an election it holds (Northern Ireland Office ministers, civil servants, party officers), registered so tenures can name them. Their ids are a block of their own (900001 and up) that the candidate id assignment never uses; scripts/build_person_registry_v2.py adds them to person_registry.json with keyedBy \"registered\". A person here who later stands must be merged into the candidate record, not registered twice (scripts/validate-facts-model.mjs checks). Schema: data/schemas/non-candidate-persons.schema.json.",
+ "idBlock": {
+  "from": 900001,
+  "to": 999999
+ },
+ "persons": [
+  {
+   "personId": "900001",
+   "key": "peter brooke",
+   "displayName": "Peter Brooke",
+   "aliases": [
+    "Peter Brooke"
+   ],
+   "officialPersonIds": [
+    "ukparliament:154",
+    "wikidata:Q334257"
+   ],
+   "basis": [
+    "secretary-of-state-ni"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Chronology of Major Events, p. 45",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "45",
+     "citation": "Elliott & Flackes (1999), p. 45",
+     "fact": "cA-0009"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 636",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "636",
+     "citation": "Elliott & Flackes (1999), p. 636",
+     "fact": "oh-0108"
+    }
+   ],
+   "born": "1934-03-03",
+   "died": "2023-05-13",
+   "lifeSource": "Wikidata"
+  },
+  {
+   "personId": "900002",
+   "key": "patrick mayhew",
+   "displayName": "Patrick Mayhew",
+   "aliases": [
+    "Patrick Mayhew"
+   ],
+   "officialPersonIds": [
+    "ukparliament:914",
+    "wikidata:Q334163"
+   ],
+   "basis": [
+    "secretary-of-state-ni"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Chronology of Major Events, p. 54",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "54",
+     "citation": "Elliott & Flackes (1999), p. 54",
+     "fact": "cA-0025"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 636",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "636",
+     "citation": "Elliott & Flackes (1999), p. 636",
+     "fact": "oh-0109"
+    }
+   ],
+   "born": "1929-09-11",
+   "died": "2016-06-25",
+   "lifeSource": "Wikidata"
+  },
+  {
+   "personId": "900003",
+   "key": "michael mates",
+   "displayName": "Michael Mates",
+   "aliases": [
+    "Michael Mates"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "nio-minister-of-state",
+    "nio-minister-finance"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Chronology of Major Events, p. 59",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "59",
+     "citation": "Elliott & Flackes (1999), p. 59",
+     "fact": "cA-0033"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 636",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "636",
+     "citation": "Elliott & Flackes (1999), p. 636",
+     "fact": "oh-0117"
+    }
+   ]
+  },
+  {
+   "personId": "900004",
+   "key": "tim smith",
+   "displayName": "Tim Smith",
+   "aliases": [
+    "Tim Smith"
+   ],
+   "officialPersonIds": [
+    "ukparliament:1245",
+    "wikidata:Q7804304"
+   ],
+   "basis": [
+    "nio-minister",
+    "nio-minister-environment"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Chronology of Major Events, p. 71",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "71",
+     "citation": "Elliott & Flackes (1999), p. 71",
+     "fact": "cA-0038"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 637",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "637",
+     "citation": "Elliott & Flackes (1999), p. 637",
+     "fact": "oh-0147"
+    }
+   ],
+   "born": "1947-10-05",
+   "lifeSource": "Wikidata"
+  },
+  {
+   "personId": "900005",
+   "key": "michael alison",
+   "displayName": "Michael Alison",
+   "aliases": [
+    "Michael Alison"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "nio-minister-of-state",
+    "nio-minister-health-and-social-services"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 156",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "156",
+     "citation": "Elliott & Flackes (1999), p. 156",
+     "fact": "dA-0036"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0082"
+    }
+   ]
+  },
+  {
+   "personId": "900006",
+   "key": "humphrey atkins",
+   "displayName": "Humphrey Atkins",
+   "aliases": [
+    "Humphrey Atkins"
+   ],
+   "officialPersonIds": [
+    "wikidata:Q333095"
+   ],
+   "basis": [
+    "secretary-of-state-ni"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 208",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "208",
+     "citation": "Elliott & Flackes (1999), p. 208",
+     "fact": "dB-0004"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0052"
+    }
+   ],
+   "born": "1922-08-12",
+   "died": "1996-10-04",
+   "lifeSource": "Wikidata"
+  },
+  {
+   "personId": "900007",
+   "key": "james dooge",
+   "displayName": "James Dooge",
+   "aliases": [
+    "James Dooge"
+   ],
+   "officialPersonIds": [
+    "wikidata:Q946973"
+   ],
+   "basis": [
+    "ie-minister-for-foreign-affairs"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 234",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "234",
+     "citation": "Elliott & Flackes (1999), p. 234",
+     "fact": "dB-0154"
+    }
+   ],
+   "born": "1922-07-30",
+   "died": "2010-08-20",
+   "lifeSource": "Wikidata"
+  },
+  {
+   "personId": "900008",
+   "key": "maire drumm",
+   "displayName": "Maire Drumm",
+   "aliases": [
+    "Maire Drumm"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "sinn-fein-president",
+    "sinn-fein-vice-president"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 240",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "240",
+     "citation": "Elliott & Flackes (1999), p. 240",
+     "fact": "dB-0162"
+    }
+   ]
+  },
+  {
+   "personId": "900009",
+   "key": "lucy faulkner",
+   "displayName": "Lucy Faulkner",
+   "aliases": [
+    "Lucy Faulkner"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "unionist-party-of-northern-ireland-president"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 252",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "252",
+     "citation": "Elliott & Flackes (1999), p. 252",
+     "fact": "dB-0203"
+    }
+   ]
+  },
+  {
+   "personId": "900010",
+   "key": "william mcclure",
+   "displayName": "William McClure",
+   "aliases": [
+    "William McClure"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "dup-chair"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 326",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "326",
+     "citation": "Elliott & Flackes (1999), p. 326",
+     "fact": "dC-0222"
+    }
+   ]
+  },
+  {
+   "personId": "900011",
+   "key": "gerard newe",
+   "displayName": "Gerard Newe",
+   "aliases": [
+    "Gerard Newe"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "ni-minister-of-state-pm"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 366",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "366",
+     "citation": "Elliott & Flackes (1999), p. 366",
+     "fact": "dD-0186"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Systems of Government, p. 607",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "607",
+     "citation": "Elliott & Flackes (1999), p. 607",
+     "fact": "sg-0010"
+    }
+   ]
+  },
+  {
+   "personId": "900012",
+   "key": "james prior",
+   "displayName": "James Prior",
+   "aliases": [
+    "James Prior"
+   ],
+   "officialPersonIds": [
+    "ukparliament:1104",
+    "wikidata:Q333412"
+   ],
+   "basis": [
+    "secretary-of-state-ni"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 397",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "397",
+     "citation": "Elliott & Flackes (1999), p. 397",
+     "fact": "dE-0001"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0053"
+    }
+   ],
+   "born": "1927-10-11",
+   "died": "2016-12-12",
+   "lifeSource": "Wikidata"
+  },
+  {
+   "personId": "900013",
+   "key": "francis pym",
+   "displayName": "Francis Pym",
+   "aliases": [
+    "Francis Pym"
+   ],
+   "officialPersonIds": [
+    "wikidata:Q332759"
+   ],
+   "basis": [
+    "secretary-of-state-ni"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 415",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "415",
+     "citation": "Elliott & Flackes (1999), p. 415",
+     "fact": "dE-0012"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0049"
+    }
+   ],
+   "born": "1922-02-13",
+   "died": "2008-03-07",
+   "lifeSource": "Wikidata"
+  },
+  {
+   "personId": "900014",
+   "key": "merlyn rees",
+   "displayName": "Merlyn Rees",
+   "aliases": [
+    "Merlyn Rees"
+   ],
+   "officialPersonIds": [
+    "wikidata:Q336534"
+   ],
+   "basis": [
+    "secretary-of-state-ni"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 418",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "418",
+     "citation": "Elliott & Flackes (1999), p. 418",
+     "fact": "dE-0022"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0050"
+    }
+   ],
+   "born": "1920-12-18",
+   "died": "2006-01-05",
+   "lifeSource": "Wikidata"
+  },
+  {
+   "personId": "900015",
+   "key": "james callaghan",
+   "displayName": "James Callaghan",
+   "aliases": [
+    "James Callaghan"
+   ],
+   "officialPersonIds": [
+    "wikidata:Q9576"
+   ],
+   "basis": [
+    "uk-home-secretary"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 634",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "634",
+     "citation": "Elliott & Flackes (1999), p. 634",
+     "fact": "oh-0001"
+    }
+   ],
+   "born": "1912-03-27",
+   "died": "2005-03-26",
+   "lifeSource": "Wikidata"
+  },
+  {
+   "personId": "900016",
+   "key": "reginald maudling",
+   "displayName": "Reginald Maudling",
+   "aliases": [
+    "Reginald Maudling"
+   ],
+   "officialPersonIds": [
+    "wikidata:Q333275"
+   ],
+   "basis": [
+    "uk-home-secretary"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 634",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "634",
+     "citation": "Elliott & Flackes (1999), p. 634",
+     "fact": "oh-0002"
+    }
+   ],
+   "born": "1917-03-07",
+   "died": "1979-02-14",
+   "lifeSource": "Wikidata"
+  },
+  {
+   "personId": "900017",
+   "key": "william whitelaw",
+   "displayName": "William Whitelaw",
+   "aliases": [
+    "William Whitelaw"
+   ],
+   "officialPersonIds": [
+    "wikidata:Q333963"
+   ],
+   "basis": [
+    "secretary-of-state-ni"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 634",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "634",
+     "citation": "Elliott & Flackes (1999), p. 634",
+     "fact": "oh-0003"
+    }
+   ],
+   "born": "1918-06-28",
+   "died": "1999-07-01",
+   "lifeSource": "Wikidata"
+  },
+  {
+   "personId": "900018",
+   "key": "lord windlesham",
+   "displayName": "Lord Windlesham",
+   "aliases": [
+    "Lord Windlesham"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "nio-minister-home-affairs",
+    "nio-minister-development",
+    "nio-minister-community-relations"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 634",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "634",
+     "citation": "Elliott & Flackes (1999), p. 634",
+     "fact": "oh-0013"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 634",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "634",
+     "citation": "Elliott & Flackes (1999), p. 634",
+     "fact": "oh-0021"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 634",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "634",
+     "citation": "Elliott & Flackes (1999), p. 634",
+     "fact": "oh-0047"
+    }
+   ]
+  },
+  {
+   "personId": "900019",
+   "key": "david howell",
+   "displayName": "David Howell",
+   "aliases": [
+    "David Howell"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "nio-minister-finance",
+    "nio-minister-development",
+    "nio-minister-commerce",
+    "nio-minister-agriculture"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 634",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "634",
+     "citation": "Elliott & Flackes (1999), p. 634",
+     "fact": "oh-0015"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 634",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "634",
+     "citation": "Elliott & Flackes (1999), p. 634",
+     "fact": "oh-0022"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 634",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "634",
+     "citation": "Elliott & Flackes (1999), p. 634",
+     "fact": "oh-0031"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 634",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "634",
+     "citation": "Elliott & Flackes (1999), p. 634",
+     "fact": "oh-0035"
+    }
+   ]
+  },
+  {
+   "personId": "900020",
+   "key": "paul channon",
+   "displayName": "Paul Channon",
+   "aliases": [
+    "Paul Channon"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "nio-minister-health-and-social-services",
+    "nio-minister-education"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 634",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "634",
+     "citation": "Elliott & Flackes (1999), p. 634",
+     "fact": "oh-0026"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 634",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "634",
+     "citation": "Elliott & Flackes (1999), p. 634",
+     "fact": "oh-0041"
+    }
+   ]
+  },
+  {
+   "personId": "900021",
+   "key": "william vanstraubenzee",
+   "displayName": "William van Straubenzee",
+   "aliases": [
+    "William van Straubenzee"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "nio-minister-health-and-social-services",
+    "nio-minister-education",
+    "nio-minister-community-relations"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 634",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "634",
+     "citation": "Elliott & Flackes (1999), p. 634",
+     "fact": "oh-0027"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 634",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "634",
+     "citation": "Elliott & Flackes (1999), p. 634",
+     "fact": "oh-0042"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 634",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "634",
+     "citation": "Elliott & Flackes (1999), p. 634",
+     "fact": "oh-0048"
+    }
+   ]
+  },
+  {
+   "personId": "900022",
+   "key": "peter mills",
+   "displayName": "Peter Mills",
+   "aliases": [
+    "Peter Mills"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "nio-minister-agriculture"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 634",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "634",
+     "citation": "Elliott & Flackes (1999), p. 634",
+     "fact": "oh-0036"
+    }
+   ]
+  },
+  {
+   "personId": "900023",
+   "key": "lord belstead",
+   "displayName": "Lord Belstead",
+   "aliases": [
+    "Lord Belstead"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "nio-minister-education"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 634",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "634",
+     "citation": "Elliott & Flackes (1999), p. 634",
+     "fact": "oh-0043"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 636",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "636",
+     "citation": "Elliott & Flackes (1999), p. 636",
+     "fact": "oh-0141"
+    }
+   ]
+  },
+  {
+   "personId": "900024",
+   "key": "roy mason",
+   "displayName": "Roy Mason",
+   "aliases": [
+    "Roy Mason"
+   ],
+   "officialPersonIds": [
+    "ukparliament:1062",
+    "wikidata:Q333700"
+   ],
+   "basis": [
+    "secretary-of-state-ni"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0051"
+    }
+   ],
+   "born": "1924-04-18",
+   "died": "2015-04-19",
+   "lifeSource": "Wikidata"
+  },
+  {
+   "personId": "900025",
+   "key": "don concannon",
+   "displayName": "Don Concannon",
+   "aliases": [
+    "Don Concannon"
+   ],
+   "officialPersonIds": [
+    "ukparliament:784",
+    "wikidata:Q5292445"
+   ],
+   "basis": [
+    "nio-minister-finance",
+    "nio-minister-housing-planning-and-local-government",
+    "nio-minister-environment",
+    "nio-minister-health-and-social-services",
+    "nio-minister-manpower-services",
+    "nio-minister-commerce"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0067"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0073"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0075"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0080"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0086"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0091"
+    }
+   ],
+   "born": "1930-05-16",
+   "died": "2003-12-14",
+   "lifeSource": "Wikidata"
+  },
+  {
+   "personId": "900026",
+   "key": "jim dunn",
+   "displayName": "Jim Dunn",
+   "aliases": [
+    "Jim Dunn"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "nio-minister-finance",
+    "nio-minister-agriculture"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0069"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0095"
+    }
+   ]
+  },
+  {
+   "personId": "900027",
+   "key": "tom pendry",
+   "displayName": "Tom Pendry",
+   "aliases": [
+    "Tom Pendry"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "nio-minister-finance",
+    "nio-minister-agriculture"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0070"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0096"
+    }
+   ]
+  },
+  {
+   "personId": "900028",
+   "key": "hugh rossi",
+   "displayName": "Hugh Rossi",
+   "aliases": [
+    "Hugh Rossi"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "nio-minister-finance",
+    "nio-minister-manpower-services"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0071"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0087"
+    }
+   ]
+  },
+  {
+   "personId": "900029",
+   "key": "lord gowrie",
+   "displayName": "Lord Gowrie",
+   "aliases": [
+    "Lord Gowrie"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "nio-minister-finance"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0072"
+    }
+   ]
+  },
+  {
+   "personId": "900030",
+   "key": "roland moyle",
+   "displayName": "Roland Moyle",
+   "aliases": [
+    "Roland Moyle"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "nio-minister-environment",
+    "nio-minister-manpower-services",
+    "nio-minister-commerce",
+    "nio-minister-education",
+    "nio-minister-community-relations"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0074"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0085"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0090"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0099"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0100"
+    }
+   ]
+  },
+  {
+   "personId": "900031",
+   "key": "ray carter",
+   "displayName": "Ray Carter",
+   "aliases": [
+    "Ray Carter"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "nio-minister-environment",
+    "nio-minister-education"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0076"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0102"
+    }
+   ]
+  },
+  {
+   "personId": "900032",
+   "key": "philip goodhart",
+   "displayName": "Philip Goodhart",
+   "aliases": [
+    "Philip Goodhart"
+   ],
+   "officialPersonIds": [
+    "ukparliament:846",
+    "wikidata:Q7183626"
+   ],
+   "basis": [
+    "nio-minister-environment"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0077"
+    }
+   ],
+   "born": "1925-11-03",
+   "died": "2015-07-07",
+   "lifeSource": "Wikidata"
+  },
+  {
+   "personId": "900033",
+   "key": "david mitchell",
+   "displayName": "David Mitchell",
+   "aliases": [
+    "David Mitchell"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "nio-minister-environment"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0078"
+    }
+   ]
+  },
+  {
+   "personId": "900034",
+   "key": "donaldson kingsbridge",
+   "displayName": "Lord Donaldson of Kingsbridge",
+   "aliases": [
+    "Lord Donaldson of Kingsbridge"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "nio-minister-health-and-social-services",
+    "nio-minister-agriculture",
+    "nio-minister-education"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0079"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0094"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0101"
+    }
+   ]
+  },
+  {
+   "personId": "900035",
+   "key": "lord melchett",
+   "displayName": "Lord Melchett",
+   "aliases": [
+    "Lord Melchett"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "nio-minister-health-and-social-services",
+    "nio-minister-education"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0081"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0103"
+    }
+   ]
+  },
+  {
+   "personId": "900036",
+   "key": "john patten",
+   "displayName": "John Patten",
+   "aliases": [
+    "John Patten"
+   ],
+   "officialPersonIds": [
+    "ukparliament:1137",
+    "wikidata:Q175162"
+   ],
+   "basis": [
+    "nio-minister-health-and-social-services"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0083"
+    }
+   ],
+   "born": "1945-07-17",
+   "lifeSource": "Wikidata"
+  },
+  {
+   "personId": "900037",
+   "key": "stan orme",
+   "displayName": "Stan Orme",
+   "aliases": [
+    "Stan Orme"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "nio-minister-manpower-services",
+    "nio-minister-commerce"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0084"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0089"
+    }
+   ]
+  },
+  {
+   "personId": "900038",
+   "key": "adam butler",
+   "displayName": "Adam Butler",
+   "aliases": [
+    "Adam Butler"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "nio-minister-manpower-services",
+    "nio-minister-commerce",
+    "nio-minister-agriculture",
+    "nio-minister-finance",
+    "nio-minister-economic-development"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0088"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0093"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0098"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 636",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "636",
+     "citation": "Elliott & Flackes (1999), p. 636",
+     "fact": "oh-0110"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 636",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "636",
+     "citation": "Elliott & Flackes (1999), p. 636",
+     "fact": "oh-0129"
+    }
+   ]
+  },
+  {
+   "personId": "900039",
+   "key": "giles shaw",
+   "displayName": "Giles Shaw",
+   "aliases": [
+    "Giles Shaw"
+   ],
+   "officialPersonIds": [
+    "ukparliament:1254",
+    "wikidata:Q5561705"
+   ],
+   "basis": [
+    "nio-minister-commerce",
+    "nio-minister-agriculture"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0092"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0097"
+    }
+   ],
+   "born": "1931-11-16",
+   "died": "2000-04-12",
+   "lifeSource": "Wikidata"
+  },
+  {
+   "personId": "900040",
+   "key": "lord elton",
+   "displayName": "Lord Elton",
+   "aliases": [
+    "Lord Elton"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "nio-minister-education"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0104"
+    }
+   ]
+  },
+  {
+   "personId": "900041",
+   "key": "nicholas scott",
+   "displayName": "Nicholas Scott",
+   "aliases": [
+    "Nicholas Scott"
+   ],
+   "officialPersonIds": [
+    "ukparliament:1229",
+    "wikidata:Q7026184"
+   ],
+   "basis": [
+    "nio-minister-education",
+    "nio-minister-finance"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 635",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "635",
+     "citation": "Elliott & Flackes (1999), p. 635",
+     "fact": "oh-0105"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 636",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "636",
+     "citation": "Elliott & Flackes (1999), p. 636",
+     "fact": "oh-0112"
+    }
+   ],
+   "born": "1933-08-05",
+   "died": "2005-01-06",
+   "lifeSource": "Wikidata"
+  },
+  {
+   "personId": "900042",
+   "key": "douglas hurd",
+   "displayName": "Douglas Hurd",
+   "aliases": [
+    "Douglas Hurd"
+   ],
+   "officialPersonIds": [
+    "ukparliament:875",
+    "wikidata:Q337375"
+   ],
+   "basis": [
+    "secretary-of-state-ni"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 636",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "636",
+     "citation": "Elliott & Flackes (1999), p. 636",
+     "fact": "oh-0106"
+    }
+   ],
+   "born": "1930-03-08",
+   "lifeSource": "Wikidata"
+  },
+  {
+   "personId": "900043",
+   "key": "tom king",
+   "displayName": "Tom King",
+   "aliases": [
+    "Tom King"
+   ],
+   "officialPersonIds": [
+    "ukparliament:254",
+    "wikidata:Q333312"
+   ],
+   "basis": [
+    "secretary-of-state-ni"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 636",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "636",
+     "citation": "Elliott & Flackes (1999), p. 636",
+     "fact": "oh-0107"
+    }
+   ],
+   "born": "1933-06-13",
+   "lifeSource": "Wikidata"
+  },
+  {
+   "personId": "900044",
+   "key": "rhodes boyson",
+   "displayName": "Rhodes Boyson",
+   "aliases": [
+    "Rhodes Boyson"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "nio-minister-finance",
+    "nio-minister-economic-development"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 636",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "636",
+     "citation": "Elliott & Flackes (1999), p. 636",
+     "fact": "oh-0111"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 636",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "636",
+     "citation": "Elliott & Flackes (1999), p. 636",
+     "fact": "oh-0130"
+    }
+   ]
+  },
+  {
+   "personId": "900045",
+   "key": "john stanley",
+   "displayName": "John Stanley",
+   "aliases": [
+    "John Stanley"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "nio-minister-finance"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 636",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "636",
+     "citation": "Elliott & Flackes (1999), p. 636",
+     "fact": "oh-0113"
+    }
+   ]
+  },
+  {
+   "personId": "900046",
+   "key": "ian stewart",
+   "displayName": "Ian Stewart",
+   "aliases": [
+    "Ian Stewart"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "nio-minister-finance"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 636",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "636",
+     "citation": "Elliott & Flackes (1999), p. 636",
+     "fact": "oh-0114"
+    }
+   ]
+  },
+  {
+   "personId": "900047",
+   "key": "john cope",
+   "displayName": "John Cope",
+   "aliases": [
+    "John Cope"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "nio-minister-finance"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 636",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "636",
+     "citation": "Elliott & Flackes (1999), p. 636",
+     "fact": "oh-0115"
+    }
+   ]
+  },
+  {
+   "personId": "900048",
+   "key": "brian mawhinney",
+   "displayName": "Brian Mawhinney",
+   "aliases": [
+    "Brian Mawhinney"
+   ],
+   "officialPersonIds": [
+    "ukparliament:121",
+    "wikidata:Q333410"
+   ],
+   "basis": [
+    "nio-minister-finance",
+    "nio-minister-education"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 636",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "636",
+     "citation": "Elliott & Flackes (1999), p. 636",
+     "fact": "oh-0116"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 636",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "636",
+     "citation": "Elliott & Flackes (1999), p. 636",
+     "fact": "oh-0140"
+    }
+   ],
+   "born": "1940-07-26",
+   "died": "2019-11-09",
+   "lifeSource": "Wikidata"
+  },
+  {
+   "personId": "900049",
+   "key": "john wheeler",
+   "displayName": "John Wheeler",
+   "aliases": [
+    "John Wheeler"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "nio-minister-finance"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 636",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "636",
+     "citation": "Elliott & Flackes (1999), p. 636",
+     "fact": "oh-0118"
+    }
+   ]
+  },
+  {
+   "personId": "900050",
+   "key": "chris patten",
+   "displayName": "Chris Patten",
+   "aliases": [
+    "Chris Patten"
+   ],
+   "officialPersonIds": [
+    "ukparliament:1136",
+    "wikidata:Q23368"
+   ],
+   "basis": [
+    "nio-minister-environment",
+    "nio-minister-health-and-social-services"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 636",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "636",
+     "citation": "Elliott & Flackes (1999), p. 636",
+     "fact": "oh-0119"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 636",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "636",
+     "citation": "Elliott & Flackes (1999), p. 636",
+     "fact": "oh-0120"
+    }
+   ],
+   "born": "1944-05-12",
+   "lifeSource": "Wikidata"
+  },
+  {
+   "personId": "900051",
+   "key": "richard needham",
+   "displayName": "Richard Needham",
+   "aliases": [
+    "Richard Needham"
+   ],
+   "officialPersonIds": [
+    "ukparliament:1271",
+    "wikidata:Q7328015"
+   ],
+   "basis": [
+    "nio-minister-environment",
+    "nio-minister-health-and-social-services",
+    "nio-minister-economic-development"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 636",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "636",
+     "citation": "Elliott & Flackes (1999), p. 636",
+     "fact": "oh-0121"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 636",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "636",
+     "citation": "Elliott & Flackes (1999), p. 636",
+     "fact": "oh-0122"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 636",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "636",
+     "citation": "Elliott & Flackes (1999), p. 636",
+     "fact": "oh-0124"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 636",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "636",
+     "citation": "Elliott & Flackes (1999), p. 636",
+     "fact": "oh-0132"
+    }
+   ],
+   "born": "1942-01-29",
+   "lifeSource": "Wikidata"
+  },
+  {
+   "personId": "900052",
+   "key": "peter bottomley",
+   "displayName": "Peter Bottomley",
+   "aliases": [
+    "Peter Bottomley"
+   ],
+   "officialPersonIds": [
+    "ukparliament:117",
+    "wikidata:Q264477"
+   ],
+   "basis": [
+    "nio-minister-environment",
+    "nio-minister-agriculture"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 636",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "636",
+     "citation": "Elliott & Flackes (1999), p. 636",
+     "fact": "oh-0123"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 636",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "636",
+     "citation": "Elliott & Flackes (1999), p. 636",
+     "fact": "oh-0136"
+    }
+   ],
+   "born": "1944-07-30",
+   "lifeSource": "Wikidata"
+  },
+  {
+   "personId": "900053",
+   "key": "robert atkins",
+   "displayName": "Robert Atkins",
+   "aliases": [
+    "Robert Atkins"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "nio-minister-environment",
+    "nio-minister-economic-development"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 636",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "636",
+     "citation": "Elliott & Flackes (1999), p. 636",
+     "fact": "oh-0125"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 636",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "636",
+     "citation": "Elliott & Flackes (1999), p. 636",
+     "fact": "oh-0133"
+    }
+   ]
+  },
+  {
+   "personId": "900054",
+   "key": "lord skelmersdale",
+   "displayName": "Lord Skelmersdale",
+   "aliases": [
+    "Lord Skelmersdale"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "nio-minister-health-and-social-services",
+    "nio-minister-agriculture"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 636",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "636",
+     "citation": "Elliott & Flackes (1999), p. 636",
+     "fact": "oh-0126"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 636",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "636",
+     "citation": "Elliott & Flackes (1999), p. 636",
+     "fact": "oh-0137"
+    }
+   ]
+  },
+  {
+   "personId": "900055",
+   "key": "jeremy hanley",
+   "displayName": "Jeremy Hanley",
+   "aliases": [
+    "Jeremy Hanley"
+   ],
+   "officialPersonIds": [
+    "ukparliament:734",
+    "wikidata:Q333159"
+   ],
+   "basis": [
+    "nio-minister-health-and-social-services",
+    "nio-minister-agriculture",
+    "nio-minister-education"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 636",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "636",
+     "citation": "Elliott & Flackes (1999), p. 636",
+     "fact": "oh-0127"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 636",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "636",
+     "citation": "Elliott & Flackes (1999), p. 636",
+     "fact": "oh-0138"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 636",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "636",
+     "citation": "Elliott & Flackes (1999), p. 636",
+     "fact": "oh-0142"
+    }
+   ],
+   "born": "1945-11-17",
+   "died": "2026-05-22",
+   "lifeSource": "Wikidata"
+  },
+  {
+   "personId": "900056",
+   "key": "lord arran",
+   "displayName": "Lord Arran",
+   "aliases": [
+    "Lord Arran"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "nio-minister-health-and-social-services",
+    "nio-minister-agriculture"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 636",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "636",
+     "citation": "Elliott & Flackes (1999), p. 636",
+     "fact": "oh-0128"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 636",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "636",
+     "citation": "Elliott & Flackes (1999), p. 636",
+     "fact": "oh-0139"
+    }
+   ]
+  },
+  {
+   "personId": "900057",
+   "key": "peter viggers",
+   "displayName": "Peter Viggers",
+   "aliases": [
+    "Peter Viggers"
+   ],
+   "officialPersonIds": [
+    "ukparliament:52",
+    "wikidata:Q7177498"
+   ],
+   "basis": [
+    "nio-minister-economic-development"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 636",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "636",
+     "citation": "Elliott & Flackes (1999), p. 636",
+     "fact": "oh-0131"
+    }
+   ],
+   "born": "1938-03-13",
+   "died": "2020-03-19",
+   "lifeSource": "Wikidata"
+  },
+  {
+   "personId": "900058",
+   "key": "lord mansfield",
+   "displayName": "Lord Mansfield",
+   "aliases": [
+    "Lord Mansfield"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "nio-minister-agriculture"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 636",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "636",
+     "citation": "Elliott & Flackes (1999), p. 636",
+     "fact": "oh-0134"
+    }
+   ]
+  },
+  {
+   "personId": "900059",
+   "key": "lord lyell",
+   "displayName": "Lord Lyell",
+   "aliases": [
+    "Lord Lyell"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "nio-minister-agriculture"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 636",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "636",
+     "citation": "Elliott & Flackes (1999), p. 636",
+     "fact": "oh-0135"
+    }
+   ]
+  },
+  {
+   "personId": "900060",
+   "key": "michael ancram",
+   "displayName": "Michael Ancram",
+   "aliases": [
+    "Michael Ancram"
+   ],
+   "officialPersonIds": [
+    "ukparliament:259",
+    "wikidata:Q332962"
+   ],
+   "basis": [
+    "nio-minister-education"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 636",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "636",
+     "citation": "Elliott & Flackes (1999), p. 636",
+     "fact": "oh-0143"
+    }
+   ],
+   "born": "1945-07-07",
+   "died": "2024-10-01",
+   "lifeSource": "Wikidata"
+  },
+  {
+   "personId": "900061",
+   "key": "mo mowlam",
+   "displayName": "Mo Mowlam",
+   "aliases": [
+    "Mo Mowlam"
+   ],
+   "officialPersonIds": [
+    "ukparliament:503",
+    "wikidata:Q262727"
+   ],
+   "basis": [
+    "secretary-of-state-ni"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 637",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "637",
+     "citation": "Elliott & Flackes (1999), p. 637",
+     "fact": "oh-0144"
+    }
+   ],
+   "born": "1949-09-18",
+   "died": "2005-08-19",
+   "lifeSource": "Wikidata"
+  },
+  {
+   "personId": "900062",
+   "key": "paul murphy",
+   "displayName": "Paul Murphy",
+   "aliases": [
+    "Paul Murphy"
+   ],
+   "officialPersonIds": [
+    "ukparliament:546",
+    "wikidata:Q333828"
+   ],
+   "basis": [
+    "nio-minister-finance"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 637",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "637",
+     "citation": "Elliott & Flackes (1999), p. 637",
+     "fact": "oh-0145"
+    }
+   ],
+   "born": "1948-11-25",
+   "lifeSource": "Wikidata"
+  },
+  {
+   "personId": "900063",
+   "key": "adam ingram",
+   "displayName": "Adam Ingram",
+   "aliases": [
+    "Adam Ingram"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "nio-minister-finance",
+    "nio-minister-economic-development"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 637",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "637",
+     "citation": "Elliott & Flackes (1999), p. 637",
+     "fact": "oh-0146"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 637",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "637",
+     "citation": "Elliott & Flackes (1999), p. 637",
+     "fact": "oh-0156"
+    }
+   ]
+  },
+  {
+   "personId": "900064",
+   "key": "malcolm moss",
+   "displayName": "Malcolm Moss",
+   "aliases": [
+    "Malcolm Moss"
+   ],
+   "officialPersonIds": [
+    "ukparliament:120",
+    "wikidata:Q6742518"
+   ],
+   "basis": [
+    "nio-minister-environment",
+    "nio-minister-health-and-social-services"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 637",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "637",
+     "citation": "Elliott & Flackes (1999), p. 637",
+     "fact": "oh-0148"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 637",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "637",
+     "citation": "Elliott & Flackes (1999), p. 637",
+     "fact": "oh-0151"
+    }
+   ],
+   "born": "1943-03-06",
+   "lifeSource": "Wikidata"
+  },
+  {
+   "personId": "900065",
+   "key": "lord dubs",
+   "displayName": "Lord Dubs",
+   "aliases": [
+    "Lord Dubs"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "nio-minister-environment",
+    "nio-minister-agriculture"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 637",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "637",
+     "citation": "Elliott & Flackes (1999), p. 637",
+     "fact": "oh-0149"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 637",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "637",
+     "citation": "Elliott & Flackes (1999), p. 637",
+     "fact": "oh-0159"
+    }
+   ]
+  },
+  {
+   "personId": "900066",
+   "key": "baroness denton",
+   "displayName": "Baroness Denton",
+   "aliases": [
+    "Baroness Denton"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "nio-minister-health-and-social-services",
+    "nio-minister-economic-development",
+    "nio-minister-agriculture"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 637",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "637",
+     "citation": "Elliott & Flackes (1999), p. 637",
+     "fact": "oh-0150"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 637",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "637",
+     "citation": "Elliott & Flackes (1999), p. 637",
+     "fact": "oh-0155"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 637",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "637",
+     "citation": "Elliott & Flackes (1999), p. 637",
+     "fact": "oh-0158"
+    }
+   ]
+  },
+  {
+   "personId": "900067",
+   "key": "tony worthington",
+   "displayName": "Tony Worthington",
+   "aliases": [
+    "Tony Worthington"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "nio-minister-health-and-social-services",
+    "nio-minister-education"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 637",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "637",
+     "citation": "Elliott & Flackes (1999), p. 637",
+     "fact": "oh-0152"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 637",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "637",
+     "citation": "Elliott & Flackes (1999), p. 637",
+     "fact": "oh-0160"
+    }
+   ]
+  },
+  {
+   "personId": "900068",
+   "key": "john mcfall",
+   "displayName": "John McFall",
+   "aliases": [
+    "John McFall"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "nio-minister-health-and-social-services",
+    "nio-minister-economic-development",
+    "nio-minister-education"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 637",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "637",
+     "citation": "Elliott & Flackes (1999), p. 637",
+     "fact": "oh-0153"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 637",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "637",
+     "citation": "Elliott & Flackes (1999), p. 637",
+     "fact": "oh-0157"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 637",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "637",
+     "citation": "Elliott & Flackes (1999), p. 637",
+     "fact": "oh-0161"
+    }
+   ]
+  },
+  {
+   "personId": "900069",
+   "key": "george howarth",
+   "displayName": "George Howarth",
+   "aliases": [
+    "George Howarth"
+   ],
+   "officialPersonIds": [
+    "ukparliament:481",
+    "wikidata:Q689546"
+   ],
+   "basis": [
+    "nio-minister-health-and-social-services"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Office Holders 1968-99, p. 637",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "637",
+     "citation": "Elliott & Flackes (1999), p. 637",
+     "fact": "oh-0154"
+    }
+   ],
+   "born": "1949-06-29",
+   "died": "2026-07-03",
+   "lifeSource": "Wikidata"
+  },
+  {
+   "personId": "900070",
+   "key": "kenneth bloomfield",
+   "displayName": "Kenneth Bloomfield",
+   "aliases": [
+    "Kenneth Bloomfield"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "head-ni-civil-service"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Systems of Government, p. 622",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "622",
+     "citation": "Elliott & Flackes (1999), p. 622",
+     "fact": "sg-0047"
+    }
+   ]
+  },
+  {
+   "personId": "900071",
+   "key": "david fell",
+   "displayName": "David Fell",
+   "aliases": [
+    "David Fell"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "head-ni-civil-service"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Systems of Government, p. 622",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "622",
+     "citation": "Elliott & Flackes (1999), p. 622",
+     "fact": "sg-0048"
+    }
+   ]
+  },
+  {
+   "personId": "900072",
+   "key": "john semple",
+   "displayName": "John L. Semple",
+   "aliases": [
+    "John L. Semple"
+   ],
+   "officialPersonIds": [],
+   "basis": [
+    "head-ni-civil-service"
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Systems of Government, p. 622",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "622",
+     "citation": "Elliott & Flackes (1999), p. 622",
+     "fact": "sg-0049"
+    }
+   ]
+  }
+ ]
+}

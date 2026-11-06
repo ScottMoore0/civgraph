@@ -21,7 +21,8 @@
  *                                         /_api/<type> serves (records tables, data design phase 2)
  *   elections (elections and contests)    D1 r_elections + contests + candidacies
  *   parties                               D1 party_cards (and party_aliases for retired slugs)
- *   maps                                  R2 data/browse/details/maps/<slug>.json (until phase 3)
+ *   offices                               D1 office_cards (the facts model's office pages)
+ *   maps                                 R2 data/browse/details/maps/<slug>.json (until phase 3)
  *
  * A record that is definitely absent answers 404 (with the shell, which says "not found");
  * a lookup that cannot be made (no binding, a failed query, a detail file under another
@@ -29,7 +30,7 @@
  * 404s. A record reached by another of its ids (a person by number, an election by key)
  * is redirected to its canonical slug, so each record is indexed once.
  *
- * Only these six types are routed: _routes.json includes /browse/<type>/* for each, so
+ * Only these seven types are routed: _routes.json includes /browse/<type>/* for each, so
  * /browse/, browse.js and browse.css never invoke a Function.
  *
  * SERVER-RENDERED BODIES (behind a flag)
@@ -58,6 +59,7 @@ export const BROWSE_PAGE_TYPES = {
   elections: { singular: 'Election' },
   maps: { singular: 'Map', detailDir: 'maps' },
   parties: { singular: 'Party / label' },
+  offices: { singular: 'Office' },
 };
 
 const htmlEscape = (value) => String(value ?? '')
@@ -109,6 +111,9 @@ function personDescription(record) {
     if (elected) sentence += `, elected ${numberText(elected)} ${elected === 1 ? 'time' : 'times'}`;
   } else if (places) {
     sentence += `: ${places}`;
+  } else if (record.nonCandidate && record.subtitle) {
+    // A registered non-candidate (a Northern Ireland Office minister): the office is the record.
+    return `${sentence}: ${record.subtitle}. Offices and sources on Civgraph.`;
   }
   return `${sentence}. Election results, parties and sources on Civgraph.`;
 }
@@ -166,8 +171,25 @@ async function lookupTableRecord(db, table, slug, aliasTable = `${table}_aliases
  * province-wide list is "regional-list". No election slug is a prefix of another, so the
  * longest match is the only match.
  */
+// Bodies that were renamed (an urban district merged into the borough slug that holds its
+// later rounds). _redirects cannot reach these paths, because Pages does not apply
+// redirects to routes a Function serves, so the old addresses are mapped here and the
+// handler's slug check answers 301.
+const ELECTION_SLUG_ALIASES = [
+  ['bangor-urban-district-council-1920-01-15', 'bangor-borough-council-1920-01-15'],
+  ['lisburn-urban-district-council-1920-01-15', 'lisburn-borough-council-1920-01-15'],
+];
+
+export function resolveElectionSlugAlias(slug) {
+  const lower = String(slug || '').toLowerCase();
+  for (const [from, to] of ELECTION_SLUG_ALIASES) {
+    if (lower === from || lower.startsWith(`${from}-`)) return to + lower.slice(from.length);
+  }
+  return lower;
+}
+
 export async function lookupElection(db, slug) {
-  const wanted = slug.toLowerCase();
+  const wanted = resolveElectionSlugAlias(slug);
   // r_elections.slug is the key with "__" made "-". A contest slug is its election's slug plus
   // the contest's own (contests.slug), so the election is the longest slug that prefixes it.
   const election = await db
@@ -246,6 +268,16 @@ export async function lookupPartyRecord(db, slug) {
   return parseJson(row.detail || '') || parseJson(row.card || '');
 }
 
+/** An office's page record from D1 (office_cards, built by scripts/build-office-pages.mjs). */
+export async function lookupOfficeRecord(db, slug) {
+  const row = await db
+    .prepare('SELECT detail, card FROM office_cards WHERE slug = ?1 ORDER BY ord LIMIT 1')
+    .bind(String(slug))
+    .first();
+  if (!row) return null;
+  return parseJson(row.detail || '') || parseJson(row.card || '');
+}
+
 async function lookupDetailFile(bucket, dir, slug) {
   const object = await bucket.get(`data/browse/details/${dir}/${slug}.json`);
   if (!object) return undefined;   // the file is named by slug; another id may still render
@@ -283,6 +315,15 @@ export async function lookupBrowseRecord(env, type, slug) {
     if (!env?.ELECTIONS_DB) return undefined;
     const item = await lookupPartyRecord(env.ELECTIONS_DB, slug);
     return item ? recordMeta(type, item) : null;
+  }
+  if (type === 'offices') {
+    if (!env?.ELECTIONS_DB) return undefined;
+    try {
+      const item = await lookupOfficeRecord(env.ELECTIONS_DB, slug);
+      return item ? recordMeta(type, item) : null;
+    } catch {
+      return undefined;   // a database without office_cards: the generic head
+    }
   }
   if (config.detailDir) {
     if (!env?.MAPS_BUCKET) return undefined;

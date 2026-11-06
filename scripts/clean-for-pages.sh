@@ -57,6 +57,14 @@ remove_path "tests"
 # put data/books/ on the public site. clean-for-pages.sh physically deletes, so it works.
 remove_path "data/database/r2-publication-allowlist.json"
 
+# data/browse/ and data/graph/ are served from R2 by functions/data/browse and
+# functions/data/graph. Pages serves a static asset in preference to a Function, so a
+# deployed copy would shadow those proxies, and .cfignore does not keep them out. The
+# build regenerates data/browse/ (about 6,300 files in CI), which on 2026-11-06 pushed
+# the output to 19,269 files and failed the deploy. Delete both trees physically.
+remove_path "data/browse"
+remove_path "data/graph"
+
 # Census CSV/reference dumps are local/source material and should not deploy as
 # individual Pages assets. The one exception is data/census/explorer-bundle.json,
 # which the Census Explorer frontend (pages/census-explorer.html) fetches at
