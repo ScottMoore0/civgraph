@@ -20,6 +20,9 @@
  *   persons, sources, register-interests  D1 person_cards, sources, register_entries: the rows
  *                                         /_api/<type> serves (records tables, data design phase 2)
  *   elections (elections and contests)    D1 r_elections + contests + candidacies
+ *   elections (grouped local years)       D1 election_cards, plus the year's static file
+ *                                         /render/metadata/ni-local/<year>.json and the coverage
+ *                                         file, for a server-rendered hero (grouped-year.js)
  *   parties                               D1 party_cards (and party_aliases for retired slugs)
  *   offices                               D1 office_cards (the facts model's office pages)
  *   maps                                 R2 data/browse/details/maps/<slug>.json (until phase 3)
@@ -46,6 +49,7 @@ import { dateText, listText, numberText, slugify } from './_lib/format.js';
 import { datasetVersion, htmlResponse } from './_lib/respond.js';
 import { renderRecordPage, ssrMode } from './_templates/records/index.js';
 import { loadElectionPage } from './_templates/records/election.js';
+import { groupedYearHero, groupedYearKey } from './_templates/records/grouped-year.js';
 
 export { slugify };
 export const SITE_ORIGIN = 'https://civgraph.net';
@@ -188,8 +192,32 @@ export function resolveElectionSlugAlias(slug) {
   return lower;
 }
 
+/**
+ * A grouped local-election year (ni-local-1946, ireland-local-1911): not an r_elections row but a
+ * Browse card listing its council rounds. Null when there is no such year.
+ */
+export async function lookupGroupedYear(db, slug) {
+  const grouped = groupedYearKey(slug);
+  if (!grouped) return null;
+  const row = await db.prepare('SELECT card FROM election_cards WHERE slug = ?1 LIMIT 1').bind(grouped.slug).first();
+  const card = parseJson(row?.card || '');
+  if (!card) return null;
+  const title = card.title || grouped.key;
+  return {
+    title,
+    description: clip(card.description || `${title}: the council elections of ${grouped.year} on Civgraph.`),
+    slug: card.slug || grouped.slug,
+    groupedYear: { ...grouped, card },
+  };
+}
+
 export async function lookupElection(db, slug) {
   const wanted = resolveElectionSlugAlias(slug);
+  // A grouped year first: its slug is no election's, and r_elections does not hold it.
+  if (groupedYearKey(wanted)) {
+    const year = await lookupGroupedYear(db, wanted);
+    if (year) return year;
+  }
   // r_elections.slug is the key with "__" made "-". A contest slug is its election's slug plus
   // the contest's own (contests.slug), so the election is the longest slug that prefixes it.
   const election = await db
@@ -345,7 +373,7 @@ export function canonicalUrl(type, slug) {
  * edit asserts nothing: a pattern that no longer matches leaves the shell as it was, which
  * still works, just without the record's head.
  */
-export function renderBrowseShell(html, { title, description, canonical, kicker, heading }) {
+export function renderBrowseShell(html, { title, description, canonical, kicker, heading, heroHtml }) {
   let out = html;
   if (title) out = out.replace(/<title>[^<]*<\/title>/i, `<title>${htmlEscape(title)}</title>`);
   if (description) {
@@ -365,7 +393,9 @@ export function renderBrowseShell(html, { title, description, canonical, kicker,
       ? out.replace(/<link\s+rel="canonical"[^>]*>/i, tags)
       : out.replace(/<\/head>/i, `  ${tags}\n</head>`);
   }
-  if (heading) {
+  if (heroHtml) {
+    out = out.replace(/(<div id="browseHero" class="browse-hero">)(<\/div>)/, (_m, open, close) => `${open}${heroHtml}${close}`);
+  } else if (heading) {
     const hero = `<p class="browse-kicker">${htmlEscape(kicker || 'Browse')}</p>`
       + `<h1 class="browse-title">${htmlEscape(heading)}</h1>`
       + (description ? `<p class="browse-description">${htmlEscape(description)}</p>` : '');
@@ -378,6 +408,28 @@ async function fetchShell(context, url) {
   const shellUrl = new URL('/browse/', url);
   if (context.env?.ASSETS?.fetch) return context.env.ASSETS.fetch(new Request(shellUrl));
   return fetch(shellUrl);
+}
+
+/** A committed static JSON file (the grouped years' files), or null. */
+async function fetchStaticJson(context, url, pathname) {
+  try {
+    const assetUrl = new URL(pathname, url);
+    const res = context.env?.ASSETS?.fetch ? await context.env.ASSETS.fetch(new Request(assetUrl)) : await fetch(assetUrl);
+    return res.ok ? await res.json() : null;
+  } catch {
+    return null;
+  }
+}
+
+/** The server-rendered hero of a grouped year: its rounds, completeness, hatching and map link. */
+async function groupedYearHeroHtml(context, url, grouped) {
+  const [yearFile, coverage] = await Promise.all([
+    fetchStaticJson(context, url, `/render/metadata/ni-local/${grouped.year}.json`),
+    fetchStaticJson(context, url, '/render/metadata/ni-local-coverage.json'),
+  ]);
+  const year = yearFile && yearFile.key === grouped.key ? yearFile : null;
+  const cover = (coverage?.years || []).find((y) => y.key === grouped.key) || null;
+  return String(groupedYearHero({ card: grouped.card, yearFile: year, coverage: cover }));
 }
 
 function decodePath(value) {
@@ -451,6 +503,14 @@ export function browsePageHandler(type) {
     const shell = await fetchShell(context, url);
     if (!shell.ok) return shell;
     const html = await shell.text();
+    let heroHtml = null;
+    if (found?.groupedYear) {
+      try {
+        heroHtml = await groupedYearHeroHtml(context, url, found.groupedYear);
+      } catch (error) {
+        reportError(context.env, 'browse-page:grouped-year', error);
+      }
+    }
     const page = found
       ? renderBrowseShell(html, {
         title: pageTitle(type, found.title),
@@ -458,6 +518,7 @@ export function browsePageHandler(type) {
         canonical: canonicalUrl(type, found.slug),
         kicker: BROWSE_PAGE_TYPES[type]?.singular || 'Browse',
         heading: found.title,
+        heroHtml,
       })
       : html;
     return new Response(page, {

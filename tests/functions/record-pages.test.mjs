@@ -24,6 +24,18 @@ import { migrationFiles, TableWriter, transaction } from '../../scripts/records/
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const SHELL = readFileSync(path.join(ROOT, 'browse', 'index.html'), 'utf8');
 
+const GROUPED_NI = {
+  id: 'ni-local__1946', key: 'ni-local__1946', slug: 'ni-local-1946', entryKind: 'election',
+  title: '1946 Northern Ireland local elections',
+  description: 'The council elections held in Northern Ireland in 1946 for which Civgraph holds results.',
+  interactiveUrl: '/maps/#electionBody=Northern+Ireland+local+elections&electionDate=1946',
+};
+const GROUPED_IRELAND = {
+  id: 'ireland-local__1911', key: 'ireland-local__1911', slug: 'ireland-local-1911', entryKind: 'election',
+  title: '1911 Irish local elections', description: 'The council elections held in Ireland in 1911.',
+  interactiveUrl: '/maps/#electionBody=Irish+local+elections&electionDate=1911',
+};
+
 export const PERSON = {
   id: '27771',
   slug: 'gerry-adams-27771',
@@ -107,6 +119,10 @@ transaction(sqlite, () => {
   card('sources', SOURCE, SOURCE.slug);
   card('register_entries', REGISTER, REGISTER.slug);
   new TableWriter(sqlite, 'person_aliases').add({ alias: 'name-gerry-adams', slug: PERSON.slug });
+  // Two grouped local-election years: Browse cards only, no r_elections row.
+  for (const [ord, year] of [[0, GROUPED_NI], [1, GROUPED_IRELAND]]) {
+    new TableWriter(sqlite, 'election_cards').add({ slug: year.slug, id: year.key, key: year.key, entry_kind: 'election', election_key: year.key, title: year.title, ord, card: JSON.stringify(year) });
+  }
 });
 
 function d1({ fail = false } = {}) {
@@ -128,7 +144,12 @@ function d1({ fail = false } = {}) {
 const ASSETS = {
   async fetch(request) {
     const { pathname } = new URL(request.url);
-    return pathname === '/browse/' ? new Response(SHELL, { status: 200 }) : new Response('nf', { status: 404 });
+    if (pathname === '/browse/') return new Response(SHELL, { status: 200 });
+    // The grouped years' committed static files, as Pages serves them.
+    if (/^\/render\/metadata\/(ni-local\/\d{4}|ni-local-coverage)\.json$/.test(pathname)) {
+      try { return new Response(readFileSync(path.join(ROOT, pathname.slice(1)), 'utf8'), { status: 200 }); } catch { /* absent */ }
+    }
+    return new Response('nf', { status: 404 });
   },
 };
 
@@ -244,4 +265,33 @@ test('template snapshots', (t) => {
   t.assert.snapshot(String(personBody(PERSON, { canonical }).body));
   t.assert.snapshot(String(sourceBody(SOURCE, { canonical }).body));
   t.assert.snapshot(String(registerInterestBody(REGISTER, { canonical }).body));
+});
+
+test('a grouped local-election year renders from its card and year file, server-side', async () => {
+  const res = await get('elections', 'ni-local-1946');
+  assert.equal(res.status, 200);
+  const body = await res.text();
+  assert.ok(body.includes('<title>1946 Northern Ireland local elections – Civgraph</title>'));
+  assert.ok(body.includes('<link rel="canonical" href="https://civgraph.net/browse/elections/ni-local-1946">'));
+  const year = JSON.parse(readFileSync(path.join(ROOT, 'render/metadata/ni-local/1946.json'), 'utf8'));
+  // Every round links to its own page; the partial ones say so.
+  for (const round of year.rounds) assert.ok(body.includes(`href="/browse/elections/${round.key.replace('__', '-')}"`), round.key);
+  assert.match(body, /\d+ council rounds, [\d,]+ contests; \d+ complete, \d+ partial/);
+  assert.ok(body.includes('(partial: Results for 4 of 6 wards.'), 'a partial round carries its note');
+  assert.match(body, /Hatched on the map, where results are not available or incomplete: [\d,]+ of [\d,]+ wards and DEDs/);
+  assert.ok(body.includes('href="/maps/#electionBody=Northern+Ireland+local+elections&amp;electionDate=1946">Open the year on the map</a>'));
+  assert.equal((body.match(/id="browseHero"/g) || []).length, 1);
+
+  const before = await get('elections', 'ireland-local-1911');
+  assert.equal(before.status, 200);
+  const text = await before.text();
+  assert.ok(text.includes('<h1 class="browse-title">1911 Irish local elections</h1>'));
+  assert.ok(text.includes('Council rounds'));
+});
+
+test('a grouped year by its key redirects to its slug; a year that is not there is a 404', async () => {
+  const res = await get('elections', 'ni-local__1946');
+  assert.equal(res.status, 301);
+  assert.equal(res.headers.get('location'), 'https://civgraph.net/browse/elections/ni-local-1946');
+  assert.equal((await get('elections', 'ni-local-1800')).status, 404);
 });
