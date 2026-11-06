@@ -49,6 +49,12 @@ let dailApprovedCandidateAliasIndex = new Map();
 //   (negative/truncated) while the candidate first-preference rows are intact.
 const ELECTION_SOURCE_ALIASES = path.join(ROOT, 'data', 'elections', 'corrections', 'election-source-file-aliases.json');
 const NI_LOCAL_VALID_POLL_CORRECTIONS = path.join(ROOT, 'data', 'elections', 'corrections', 'ni-local-valid-poll-corrections.json');
+// Northern Ireland council rounds 1921-67 that hold fewer divisions or wards than the council
+// elected (often only the contested ones): one line each, "Results for 3 of 22 district electoral
+// divisions. ...", shown at the head of the map panel's results so a partial round is not read as
+// the whole result. Browse shows the same line (build-browse-indexes.mjs).
+const ROUND_COMPLETENESS = path.join(ROOT, 'data', 'elections', 'round-completeness.json');
+const roundCompleteness = existsSync(ROUND_COMPLETENESS) ? readJson(ROUND_COMPLETENESS).rounds || {} : {};
 const electionSourceAliasDoc = existsSync(ELECTION_SOURCE_ALIASES) ? readJson(ELECTION_SOURCE_ALIASES) : { aliases: {} };
 const niLocalValidPollDoc = existsSync(NI_LOCAL_VALID_POLL_CORRECTIONS) ? readJson(NI_LOCAL_VALID_POLL_CORRECTIONS) : { records: [] };
 const electionSourceAliasIndex = new Map(
@@ -1945,6 +1951,7 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
     previousDate,
     loadable: Boolean(layer && geography?.sourceMapId && results.length > 0 && matchedCount > 0),
     displaySubtitle: formatElectionSubtitle(entry, results, unmatchedCount, Boolean(layer && geography?.sourceMapId)),
+    ...(roundCompleteness[key]?.text ? { completenessNote: roundCompleteness[key].text } : {}),
     displayProvider: entry.displayProvider || (entry.bodyGroup === 'local-government' ? `Local government: ${entry.body}` : entry.body),
     constituencies: entry.constituencies,
     isByElection: electionMetadata.kind === 'by-election',

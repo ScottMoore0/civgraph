@@ -2030,9 +2030,15 @@ function renderHeaderPanel(type, item, pinnedRows = []) {
   // The hero already shows the description; the same paragraph again under it was noise.
   const heroText = heroDescriptionForItem(type, item);
   const lede = summary && normalizeSearchQuery(summary) !== normalizeSearchQuery(heroText) ? summary : '';
+  // An NI council round that holds only some of its divisions or wards says so before anything
+  // else, on the election and on each of its results (data/elections/round-completeness.json).
+  const completeness = type === 'elections' && item.completenessNote
+    ? `<p class="browse-note browse-completeness-note" role="note">${escapeHtml(item.completenessNote)}</p>`
+    : '';
   return `
     <section class="browse-detail__panel browse-reader-summary">
       <div class="browse-detail__body">
+        ${completeness}
         ${lede ? `<p class="browse-reader-summary__lede">${escapeHtml(lede)}</p>` : ''}
         ${renderDefinitionRows(primary, 'browse-reader-facts')}
         ${renderBadges(item)}
