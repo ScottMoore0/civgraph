@@ -22,6 +22,11 @@ import {
 } from './labels.js';
 import { repairFeatureProperties } from './feature-property-repairs.js';
 import { absoluteTileTemplate, boundsToFlatBbox, boundsToImageCoordinates, boundsToMapLibre, clamp } from './utils.js';
+import { approximateSegmentIds, approximateSegmentLabel, resolveApproximateSegmentsUrl } from './approximate-segments.js';
+
+// The casing that breaks a boundary's solid line under its dotted approximate stretches. The app keeps a
+// light basemap in dark mode too (app.js, basemap notes), so the gap is the basemap's own paper colour.
+const APPROXIMATE_GAP_COLOR = '#ffffff';
 
 const INTERACTION_FILL_COLOR = '#FDBA74';
 const INTERACTION_STROKE_COLOR = '#FF7A1A';
@@ -988,6 +993,11 @@ export class TestMapLibreController {
       } else {
         this.addGeometryLayers(layer, { sourceId, fillId, lineId, hoverId, selectedFillId, selectedId });
         interactionOverlayIds = this.addInteractionOverlayLayers(layer);
+        const approximate = this.addApproximateSegmentLayers(layer);
+        interactionOverlayIds = {
+          layerIds: [...interactionOverlayIds.layerIds, ...approximate.layerIds],
+          sourceIds: [...interactionOverlayIds.sourceIds, ...approximate.sourceIds]
+        };
       }
     }
     const labelLayerIds = this.addLabelLayers(layer, { sourceId, labelId });
@@ -1022,7 +1032,9 @@ export class TestMapLibreController {
     if (layer.sourceType === 'raster-dem' || layer.sourceType === 'point-cloud') this.enableGestureHandlers();
 
     if (layer.sourceType !== 'raster' && layer.sourceType !== 'image' && layer.sourceType !== 'raster-dem' && layer.sourceType !== 'point-cloud') {
-      this.interactionCleanups.set(layer.id, this.bindLayerInteractions(layer, fillId, labelId, sourceId));
+      const cleanup = this.bindLayerInteractions(layer, fillId, labelId, sourceId);
+      const approximateCleanup = this.bindApproximateSegmentInteractions(layer);
+      this.interactionCleanups.set(layer.id, approximateCleanup ? () => { cleanup(); approximateCleanup(); } : cleanup);
       this.scheduleDomLabelRefresh(layer.id);
     }
     if (layer.sourceType === 'pmtiles') {
@@ -1263,6 +1275,83 @@ export class TestMapLibreController {
     });
   }
 
+  // Approximate stretches of a reconstructed edition (approximate-segments.js): a casing that breaks the
+  // solid line underneath, dots in the layer's own colour, and a wide invisible line that takes the
+  // pointer for the tooltip. Loaded from the edition's small GeoJSON and drawn above the layer's line.
+  addApproximateSegmentLayers(layer) {
+    const url = layer.geometryType === 'point' ? '' : resolveApproximateSegmentsUrl(layer);
+    if (!url) return { layerIds: [], sourceIds: [] };
+    const { sourceId, gapId, lineId, hitId } = approximateSegmentIds(layer.id);
+    const weight = Number(layer.style?.weight || 1);
+    const lineWidth = ['interpolate', ['linear'], ['zoom'], 5, Math.max(0.6, weight * 0.7), 12, Math.max(1.6, weight * 1.6)];
+    const gapWidth = ['interpolate', ['linear'], ['zoom'], 5, Math.max(1.4, weight * 0.55 + 1), 12, Math.max(2.6, weight * 1.4 + 1.4)];
+    this.map.addSource(sourceId, { type: 'geojson', data: url });
+    this.map.addLayer({
+      id: gapId,
+      type: 'line',
+      source: sourceId,
+      layout: { 'line-cap': 'butt', 'line-join': 'round' },
+      paint: { 'line-color': APPROXIMATE_GAP_COLOR, 'line-width': gapWidth, 'line-opacity': 0.9 }
+    });
+    this.map.addLayer({
+      id: lineId,
+      type: 'line',
+      source: sourceId,
+      layout: { 'line-cap': 'round', 'line-join': 'round' },
+      paint: {
+        'line-color': layer.style?.color || '#5B21B6',
+        'line-width': lineWidth,
+        'line-opacity': 0.95,
+        // Round dots, not the [3, 2] dash that already means "older edition".
+        'line-dasharray': [0.1, 2]
+      }
+    });
+    this.map.addLayer({
+      id: hitId,
+      type: 'line',
+      source: sourceId,
+      paint: { 'line-color': '#000000', 'line-width': 14, 'line-opacity': 0 }
+    });
+    return { layerIds: [gapId, lineId, hitId], sourceIds: [sourceId] };
+  }
+
+  bindApproximateSegmentInteractions(layer) {
+    const { hitId } = approximateSegmentIds(layer.id);
+    if (!this.map.getLayer(hitId)) return null;
+    let popup = null;
+    const show = (event) => {
+      const feature = event.features?.[0];
+      if (!feature) return;
+      const content = document.createElement('div');
+      const title = document.createElement('strong');
+      title.textContent = 'Approximate boundary';
+      const text = document.createElement('span');
+      text.textContent = approximateSegmentLabel(feature.properties || {});
+      content.append(title, document.createElement('br'), text);
+      if (!popup) {
+        popup = new maplibregl.Popup({ closeButton: false, closeOnClick: false, className: 'approx-tooltip', maxWidth: '260px', offset: 12 });
+      }
+      popup.setLngLat(event.lngLat).setDOMContent(content).addTo(this.map);
+    };
+    const hide = () => popup?.remove();
+    // A tap has no hover: show the same note, and let the area underneath be selected as usual.
+    const onTap = (event) => {
+      if (typeof window.matchMedia === 'function' && !window.matchMedia('(hover: none)').matches) return;
+      show(event);
+    };
+    this.map.on('mousemove', hitId, show);
+    this.map.on('mouseleave', hitId, hide);
+    this.map.on('click', hitId, onTap);
+    this.map.on('movestart', hide);
+    return () => {
+      this.map.off('mousemove', hitId, show);
+      this.map.off('mouseleave', hitId, hide);
+      this.map.off('click', hitId, onTap);
+      this.map.off('movestart', hide);
+      hide();
+    };
+  }
+
   addInteractionOverlayLayers(layer) {
     const hoverSourceId = `${layer.id}-fallback-hover-source`;
     const selectedSourceId = `${layer.id}-fallback-selected-source`;
@@ -1451,6 +1540,9 @@ export class TestMapLibreController {
       const property = record.config.geometryType === 'point' ? 'circle-opacity' : 'line-opacity';
       this.map.setPaintProperty(lineId, property, clamp(record.opacity + 0.35, 0, 1));
     }
+    const approx = approximateSegmentIds(layerId);
+    if (this.map.getLayer(approx.lineId)) this.map.setPaintProperty(approx.lineId, 'line-opacity', clamp(record.opacity + 0.42, 0, 1));
+    if (this.map.getLayer(approx.gapId)) this.map.setPaintProperty(approx.gapId, 'line-opacity', clamp(record.opacity + 0.35, 0, 0.9));
     this.notifyChange();
   }
 
@@ -1463,6 +1555,8 @@ export class TestMapLibreController {
       const property = record.config.geometryType === 'point' ? 'circle-color' : 'line-color';
       this.map.setPaintProperty(lineId, property, color);
     }
+    const approxLineId = approximateSegmentIds(layerId).lineId;
+    if (this.map.getLayer(approxLineId)) this.map.setPaintProperty(approxLineId, 'line-color', color);
     this.notifyChange();
   }
 

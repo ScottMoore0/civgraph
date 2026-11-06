@@ -4589,8 +4589,14 @@ class Test2App {
       .map((id) => ({ id, name: this.mapLabel(id), colour: this.layerColour(id), role: this.editionRoles?.get(id) || null }))
       .filter((layer) => layer.colour);
     const showLayers = layers.length > 1 || ((election || statistics.length) && layers.length > 0);
+    // Reconstructed editions draw their approximate stretches dotted (boundary audit, 7 Nov 2026); the
+    // legend says so even for a single map, with the edition's own note.
+    const approximate = this.getLoadedLayerIds()
+      .filter((id) => this.isMapVisible(id))
+      .map((id) => this.approximateSegmentsLegend(id))
+      .filter(Boolean);
     let legend = document.getElementById('test2MapLegend');
-    if (!election && !showLayers && !statistics.length) {
+    if (!election && !showLayers && !statistics.length && !approximate.length) {
       legend?.remove();
       return;
     }
@@ -4661,6 +4667,10 @@ class Test2App {
         : layer.role === 'newer' ? ' <span class="test2-map-legend__abbr">(newer edition)</span>' : '');
       parts.push(`${election || statistics.length ? '<p class="test2-map-legend__heading">Other maps</p>' : ''}<ul class="test2-map-legend__list">${layers.map((layer) => `<li><span class="test2-map-legend__swatch test2-map-legend__swatch--line${layer.role === 'older' ? ' test2-map-legend__swatch--older' : ''}" style="border-color:${esc(layer.role === 'older' ? '#6b7280' : layer.colour)}" aria-hidden="true"></span><span class="test2-map-legend__name">${esc(layer.name)}${edition(layer)}</span></li>`).join('')}</ul>`);
     }
+    if (approximate.length) {
+      const titled = approximate.length > 1;
+      parts.push(`<div class="test2-map-legend__approx" data-approximate-legend>${approximate.map((entry) => `<ul class="test2-map-legend__list"><li><span class="test2-map-legend__swatch test2-map-legend__swatch--line test2-map-legend__swatch--approx" style="border-color:${esc(entry.colour)}" aria-hidden="true"></span><span class="test2-map-legend__name">Approximate boundary${titled ? ` <span class="test2-map-legend__abbr">(${esc(entry.name)})</span>` : ''}</span></li></ul>${entry.note ? `<p class="test2-map-legend__note">${esc(entry.note)}</p>` : ''}`).join('')}</div>`);
+    }
     // The election map as a Wikipedia-style SVG of this view, areas in their party colours.
     const electionMapId = election ? this.elections.getActiveElectionStyleSourceMapId?.() : null;
     if (electionMapId) parts.push(`<button type="button" class="test2-map-legend__export" data-map-image-export="${esc(electionMapId)}"><span data-export-label>Download map (SVG)</span></button>`);
@@ -4675,6 +4685,16 @@ class Test2App {
   }
 
   /** The outline colour a loaded layer is drawn in, or '' (rasters and point clouds have none). */
+  /** The legend entry for a loaded map's approximate stretches, or null (render/src/approximate-segments.js). */
+  approximateSegmentsLegend(mapId) {
+    const testId = this.mapController?.mainToTest?.get(mapId) || mapId;
+    const record = this.mapController?.renderer?.layers?.get(testId);
+    const approx = record?.config?.approximateSegments;
+    if (!approx || !this.mapController?.map?.getLayer?.(`${testId}-approx`)) return null;
+    const older = this.editionRoles?.get(mapId) === 'older';
+    return { name: this.mapLabel(mapId), colour: older ? '#6b7280' : (record.color || '#5B21B6'), note: approx.note || '' };
+  }
+
   layerColour(mapId) {
     const testId = this.mapController?.mainToTest?.get(mapId) || mapId;
     const record = this.mapController?.renderer?.layers?.get(testId);
