@@ -50,42 +50,42 @@ body.cg-page {
   outline: none;
 }
 
-.cg-page h1,
-.cg-page h2,
-.cg-page h3 {
+:where(.cg-page) h1,
+:where(.cg-page) h2,
+:where(.cg-page) h3 {
   font-family: var(--font-display);
   line-height: var(--leading-tight);
   color: var(--text);
   margin: var(--space-8) 0 var(--space-3);
 }
 
-.cg-page h1 {
+:where(.cg-page) h1 {
   font-size: var(--text-3xl);
   margin-top: var(--space-2);
 }
 
-.cg-page h2 {
+:where(.cg-page) h2 {
   font-size: var(--text-xl);
 }
 
-.cg-page h3 {
+:where(.cg-page) h3 {
   font-size: var(--text-lg);
 }
 
-.cg-page p {
+:where(.cg-page) p {
   margin: 0 0 var(--space-4);
 }
 
-.cg-page a {
+:where(.cg-page) a {
   color: var(--link);
   text-underline-offset: 0.15em;
 }
 
-.cg-page a:hover {
+:where(.cg-page) a:hover {
   text-decoration-thickness: 2px;
 }
 
-.cg-page :focus-visible {
+:where(.cg-page) :focus-visible {
   outline: 2px solid var(--focus-ring);
   outline-offset: 2px;
   border-radius: var(--radius-sm);
