@@ -544,7 +544,7 @@ export class NiLocalGroupedView {
         + `<td class="election-num">${row.votes ? formatNumber(row.votes) : '-'}</td>`
         + `<td class="election-num">${share}</td></tr>`;
     }).join('');
-    return `<table class="election-count-table ni-local-table">
+    return `<table class="ni-local-table">
       <caption class="ni-local-caption">${formatNumber(summary.contests)} contests, ${formatNumber(summary.contested)} polled. Votes are from the polled contests only.</caption>
       <thead><tr><th scope="col">Party</th><th scope="col" class="election-num">Seats</th><th scope="col" class="election-num">Votes</th><th scope="col" class="election-num">Share</th></tr></thead>
       <tbody>${rows}</tbody>
@@ -667,12 +667,12 @@ export class NiLocalGroupedView {
       <td class="election-party-cell" style="--party-colour:${escapeHtml(this.partyColour(party))}">${this.partyLabel(party)}</td>
       <td class="election-col-printed"><span class="election-cell-wrap">${escapeHtml(printed || '')}</span></td>
       <td class="election-num">${votes === null || votes === undefined ? '-' : formatNumber(votes)}</td>
-      <td class="election-num">${elected ? '<span class="election-elected-mark election-elected-mark--yes" role="img" aria-label="Elected" title="Elected">✓</span>' : ''}</td>
+      <td class="election-num ni-local-mark">${elected ? '<span class="election-elected-mark election-elected-mark--yes" role="img" aria-label="Elected" title="Elected">✓</span>' : ''}</td>
     </tr>`).join('');
     return `<div class="ni-local-contest">
       <p class="ni-local-contest__meta"><strong>${escapeHtml(contest.area)}</strong> · ${seats} seat${seats === 1 ? '' : 's'}${contest.aldermen ? ' (aldermen)' : ''} · ${status}</p>
-      <table class="election-count-table ni-local-table">
-        <thead><tr><th scope="col">Candidate</th><th scope="col">Party</th><th scope="col" class="election-col-printed" title="The label as printed in the cited newspaper or report">As printed</th><th scope="col" class="election-num">Votes</th><th scope="col" class="election-num"><span class="visually-hidden">Elected</span></th></tr></thead>
+      <table class="ni-local-table">
+        <thead><tr><th scope="col">Candidate</th><th scope="col">Party</th><th scope="col" class="election-col-printed" title="The label as printed in the cited newspaper or report">As printed</th><th scope="col" class="election-num">Votes</th><th scope="col" class="election-num ni-local-mark"><span class="visually-hidden">Elected</span></th></tr></thead>
         <tbody>${rows}</tbody>
       </table>
     </div>`;

@@ -1,6 +1,6 @@
 # Test2 Election Data Audit
 
-Generated: 2026-11-06T17:36:48.971Z
+Generated: 2026-11-06T18:06:31.557Z
 
 This is a repeatable repository-local audit of the generated /test2 election data, Browse election entries, source/reference records, transfer/count payload availability, and saved Wikipedia party-colour comparison outputs. It intentionally does not fetch live web pages, so CI can run it deterministically.
 
@@ -11,10 +11,10 @@ This is a repeatable repository-local audit of the generated /test2 election dat
 |parent elections in manifest|2357|
 |manifest loadable elections|614|
 |manifest placeholders|569|
-|Browse parent election entries|2357|
+|Browse parent election entries|2403|
 |Browse constituency/DEA sub-entries|20111|
 |Browse overall sub-entries|2357|
-|source detail records|2357|
+|source detail records|2403|
 |result bundles loaded|2357|
 |result rows audited|20111|
 |candidate rows audited|75831|
@@ -26,7 +26,7 @@ This is a repeatable repository-local audit of the generated /test2 election dat
 |candidate-row review sidecar records|0|
 |party-colour review sidecar records|10|
 |blocking issues|0|
-|warnings|2170|
+|warnings|2171|
 
 ## Blocking Structural Issues
 
@@ -36,6 +36,7 @@ _None._
 
 |severity|category|key|message|
 |---|---|---|---|
+|warning|browse-parent-count|data/browse/elections.json|Browse has 2403 parent elections, manifest has 2357.|
 |warning|source-record-single-reference|fianna-fail-presidential-nomination__1997-09-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|fianna-fail-presidential-nomination__1997-09-17|2 candidate rows have no party/label. Examples: Mary McAleese in Fianna Fáil Parliamentary Party (first ballot); Mary McAleese in Fianna Fáil Parliamentary Party (second ballot).|
 |warning|source-record-single-reference|uup-leadership__1995-09-08|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
@@ -115,9 +116,8 @@ _None._
 |warning|source-record-single-reference|cookstown-urban-district-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|cookstown-urban-district-council__1967-05-17|12 candidate rows have no party/label. Examples: Mrs. Alice M. Leeper in Cookstown; Norman Armstrong in Cookstown; Robert J. Donaghy in Cookstown; George Ferguson in Cookstown; William Graham in Cookstown.|
 |warning|source-record-single-reference|donaghadee-urban-district-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|donaghadee-urban-district-council__1967-05-17|8 candidate rows have no party/label. Examples: Dr. Elizabeth Long in North Ward; H. S. Cosbey in North Ward; F. E. V. Press in North Ward; Mrs. G. M. Stone in South Ward; T. J. Carmichael in South Ward.|
 
-_2090 more not shown; see JSON report._
+_2091 more not shown; see JSON report._
 
 ## Source And Reference Coverage
 
