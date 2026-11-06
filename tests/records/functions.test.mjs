@@ -9,7 +9,7 @@ import assert from 'node:assert/strict';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { recordPaths, REPO_ROOT } from '../../scripts/records/paths.mjs';
-import { context, d1, installCaches } from './d1-shim.mjs';
+import { buildHasVotes, context, d1, installCaches } from './d1-shim.mjs';
 import { resetDatasetMemo } from '../../functions/_api/_records.js';
 import * as elections from '../../functions/_api/elections/index.js';
 import * as persons from '../../functions/_api/persons/index.js';
@@ -226,10 +226,13 @@ test('parties API: list, detail, retired slug, profile, names, folds', { skip },
 });
 
 test('votes, graph and stats APIs', { skip }, async () => {
-  const index = await getJson(votes, '/_api/votes?view=index');
-  assert.ok(index.bodies);
-  const person = await getJson(votes, '/_api/votes?person=100002');
-  assert.ok(Array.isArray(person.terms));
+  // Votes only when the build holds them (CI and check:clean build without the dataset).
+  if (buildHasVotes(DB)) {
+    const index = await getJson(votes, '/_api/votes?view=index');
+    assert.ok(index.bodies);
+    const person = await getJson(votes, '/_api/votes?person=100002');
+    assert.ok(Array.isArray(person.terms));
+  }
   const g = await getJson(graph, '/_api/graph?browse=persons:ian-paisley-48601&browse=persons:48601');
   assert.ok(g.entityId);
   assert.ok(g.statements.length > 0);

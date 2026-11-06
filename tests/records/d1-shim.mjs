@@ -41,6 +41,16 @@ export function d1(file, { readOnly = true } = {}) {
 }
 
 /** An in-memory caches.default (match/put by URL). */
+/**
+ * A build without the votes dataset (CI, and npm run check:clean: CIVGRAPH_VOTES_DIR is unset
+ * there and there is no earlier build to carry votes over from) has empty votes tables, so the
+ * votes routes answer 404 by design; tests check them only when the build holds votes.
+ */
+export function buildHasVotes(file) {
+  const db = new DatabaseSync(file, { readOnly: true });
+  try { return db.prepare('SELECT COUNT(*) AS n FROM divisions').get().n > 0; } finally { db.close(); }
+}
+
 export function installCaches() {
   const store = new Map();
   globalThis.caches = {
