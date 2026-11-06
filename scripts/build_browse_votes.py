@@ -126,7 +126,8 @@ def shard_of(division_id):
 
 def party_slugs():
     """party label (as in the election records) -> party page slug"""
-    p = os.path.join(REPO, "data", "browse", "parties.json")
+    # The Browse tree the records build writes (tmp/records/browse), as the bundles above.
+    p = os.path.join(_RP["BROWSE_DIR"], "parties.json")
     out = {}
     if not os.path.exists(p):
         return out

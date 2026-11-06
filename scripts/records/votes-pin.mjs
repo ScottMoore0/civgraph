@@ -4,36 +4,42 @@
  * it by checksum, so a records build can say exactly which copy it was built from and refuses a
  * copy that changed without the pin being updated.
  *
- *   node scripts/records/votes-pin.mjs --write   record the SHA-256 of every tidy/**.csv file
- *                                                 in data/database/votes-source.json
+ *   node scripts/records/votes-pin.mjs --write   record the SHA-256 of each file the build
+ *                                                 reads (VOTES_INPUTS) in
+ *                                                 data/database/votes-source.json
  *   node scripts/records/votes-pin.mjs           check the copy at CIVGRAPH_VOTES_DIR against it
  *
  * The pin names files by their path under the dataset folder, never the folder's own location.
  */
 import { createHash } from 'node:crypto';
-import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { REPO_ROOT } from './paths.mjs';
 
 export const PIN_FILE = path.join(REPO_ROOT, 'data', 'database', 'votes-source.json');
 
-function listCsv(dir, base = dir) {
-  const out = [];
-  for (const entry of readdirSync(dir, { withFileTypes: true })) {
-    const full = path.join(dir, entry.name);
-    if (entry.isDirectory()) out.push(...listCsv(full, base));
-    else if (entry.name.endsWith('.csv')) out.push(path.relative(base, full).split(path.sep).join('/'));
-  }
-  return out.sort();
-}
+/**
+ * The files scripts/build_browse_votes.py reads, and only those: the dataset folder also holds
+ * review sheets, pilot runs and reports that change while the dataset is worked on, and pinning
+ * them would refuse a build whose inputs had not changed. The Stormont pair is optional (the
+ * builder skips it when absent), so it is pinned when present.
+ */
+export const VOTES_INPUTS = ['tidy/divisions.csv', 'tidy/votes.csv', 'tidy/stormont/divisions.csv', 'tidy/stormont/votes.csv'];
+const REQUIRED = new Set(['tidy/divisions.csv', 'tidy/votes.csv']);
 
 export function checksumVotesDir(votesDir) {
   const tidy = path.join(votesDir, 'tidy');
   if (!existsSync(tidy)) throw new Error(`no tidy/ folder in ${votesDir}`);
-  return listCsv(tidy).map((rel) => {
-    const full = path.join(tidy, ...rel.split('/'));
-    return { file: `tidy/${rel}`, bytes: statSync(full).size, sha256: createHash('sha256').update(readFileSync(full)).digest('hex') };
-  });
+  const out = [];
+  for (const rel of VOTES_INPUTS) {
+    const full = path.join(votesDir, ...rel.split('/'));
+    if (!existsSync(full)) {
+      if (REQUIRED.has(rel)) throw new Error(`${rel} is missing from ${votesDir}`);
+      continue;
+    }
+    out.push({ file: rel, bytes: statSync(full).size, sha256: createHash('sha256').update(readFileSync(full)).digest('hex') });
+  }
+  return out;
 }
 
 /** Throws unless the copy at votesDir matches the committed pin; returns the pin's digest. */
