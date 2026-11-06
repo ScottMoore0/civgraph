@@ -154,6 +154,19 @@ CREATE TABLE constituency_features (
   PRIMARY KEY (election_key, constituency_seq)
 );
 
+-- Election-level aggregates too big to share a row with the rest of elections.meta.
+-- D1 refuses any row over 2,000,000 bytes, and the RoI local elections' meta passes that
+-- (ireland-local__2004-06-11 is 2.02 MB: mainLikeCandidateSummary 1.23 MB plus
+-- entityIndex 0.97 MB). Such a field leaves meta, which then lists it under __metaParts,
+-- and its JSON text is stored here in pieces; the API joins the pieces back by part.
+CREATE TABLE election_meta_parts (
+  election_key TEXT NOT NULL,
+  field        TEXT NOT NULL,
+  part         INTEGER NOT NULL,
+  chunk        TEXT,
+  PRIMARY KEY (election_key, field, part)
+);
+
 CREATE INDEX elections_body_date ON elections(body_slug, date);
 CREATE INDEX elections_year      ON elections(year);
 CREATE INDEX cons_election       ON constituencies(election_key);
@@ -203,6 +216,44 @@ const num = (v) => {
 };
 const bool = (v) => (v === null || v === undefined ? null : v ? 1 : 0);
 
+// D1's hard limit on one row (and on one string or BLOB). The splits below keep well under
+// it, so the other columns of the row and future growth do not tip a row over.
+export const D1_ROW_LIMIT = 2_000_000;
+export const ELECTION_META_MAX = 1_000_000;
+const META_PART_CODE_UNITS = 250_000; // at most 3 bytes per UTF-16 unit -> under 750 KB a part
+
+/**
+ * Keep elections.meta under ELECTION_META_MAX bytes: move its largest fields, largest
+ * first, into election_meta_parts until the rest fits, and list them in meta.__metaParts.
+ * Returns the meta string to store and the part rows. The parts are cut on UTF-16 code
+ * units without splitting a surrogate pair, so joining them in part order reproduces the
+ * field's JSON text exactly.
+ */
+export function splitElectionMeta(metaText) {
+  if (metaText == null || Buffer.byteLength(metaText, 'utf8') <= ELECTION_META_MAX) return { meta: metaText, parts: [] };
+  const meta = JSON.parse(metaText);
+  const sized = Object.keys(meta)
+    .map((k) => ({ k, text: JSON.stringify(meta[k]) }))
+    .sort((a, b) => b.text.length - a.text.length);
+  const moved = [];
+  const parts = [];
+  for (const { k, text } of sized) {
+    moved.push(k);
+    delete meta[k];
+    let part = 0;
+    for (let i = 0; i < text.length;) {
+      let end = Math.min(i + META_PART_CODE_UNITS, text.length);
+      const c = text.charCodeAt(end - 1);
+      if (end < text.length && c >= 0xd800 && c <= 0xdbff) end -= 1; // keep a surrogate pair together
+      parts.push({ field: k, part, chunk: text.slice(i, end) });
+      part += 1;
+      i = end;
+    }
+    if (Buffer.byteLength(JSON.stringify({ ...meta, __metaParts: moved }), 'utf8') <= ELECTION_META_MAX) break;
+  }
+  return { meta: JSON.stringify({ ...meta, __metaParts: moved }), parts };
+}
+
 if (!existsSync(SRC_DIR)) {
   console.error(`Source directory not found: ${path.relative(ROOT, SRC_DIR)}`);
   process.exit(1);
@@ -220,6 +271,7 @@ const insCand = db.prepare(`INSERT INTO candidates VALUES (?,?,?,?,?,?,?,?,?,?,?
 const insCount = db.prepare(`INSERT INTO counts VALUES (?,?,?,?,?,?,?,?)`);
 const insFeat = db.prepare(`INSERT OR REPLACE INTO constituency_features VALUES (?,?,?,?,?,?,?)`);
 const insAnim = db.prepare(`INSERT OR REPLACE INTO constituency_animation VALUES (?,?,?)`);
+const insMetaPart = db.prepare(`INSERT INTO election_meta_parts VALUES (?,?,?,?)`);
 
 const ELECTION_COLS = ['key', 'body', 'bodySlug', 'bodyGroup', 'displayTitle', 'contestType', 'kind',
   'votingSystem', 'contestStatus', 'date', 'year', 'sourceMapId', 'layerId', 'labelProperty',
@@ -230,7 +282,7 @@ const CONS_COLS = ['constituency', 'winnerParty', 'winnerName', 'leadingParty', 
 const CAND_COLS = ['id', 'name', 'party', 'party_id', 'personId', 'firstPrefs', 'finalVotes',
   'elected', 'electedAt', 'excluded', 'excludedAt', 'status', 'colour', 'gender'];
 
-let nElections = 0, nCons = 0, nCand = 0, nCounts = 0, nFeat = 0, nMatched = 0, nAnim = 0;
+let nElections = 0, nCons = 0, nCand = 0, nCounts = 0, nFeat = 0, nMatched = 0, nAnim = 0, nMetaSplit = 0;
 const files = readdirSync(SRC_DIR).filter((f) => f.endsWith('.json')).sort().slice(0, LIMIT);
 let srcBytes = 0;
 const datasetHash = createHash('sha256');
@@ -243,6 +295,12 @@ for (const file of files) {
   datasetHash.update(`${file}:${rawText.length}:`).update(rawText);
   const d = JSON.parse(rawText);
   const results = Array.isArray(d.results) ? d.results : [];
+
+  const { meta: electionMeta, parts: metaParts } = splitElectionMeta(
+    residual(d, ELECTION_COLS, ['results', 'matchedCount', 'unmatchedCount', 'loadable'])
+  );
+  for (const p of metaParts) insMetaPart.run(txt(d.key), p.field, p.part, p.chunk);
+  if (metaParts.length) nMetaSplit += 1;
 
   insElection.run(
     txt(d.key), txt(d.body), txt(d.bodySlug), txt(d.bodyGroup), txt(d.displayTitle),
@@ -263,7 +321,9 @@ for (const file of files) {
     // a plausible-looking list that was simply a different list.
     // matchedCount/unmatchedCount/loadable stay derived, so they follow the feature
     // table if the 851 unmatched constituencies are ever backfilled.
-    residual(d, ELECTION_COLS, ['results', 'matchedCount', 'unmatchedCount', 'loadable'])
+    // A meta over ELECTION_META_MAX has its largest fields moved to election_meta_parts
+    // (splitElectionMeta), so the row stays inside D1's 2,000,000-byte limit.
+    electionMeta
   );
   nElections += 1;
 
@@ -327,7 +387,24 @@ for (const file of files) {
 }
 db.exec('COMMIT');
 db.exec('VACUUM');
+
+// Refuse to emit a database D1 cannot load. Local SQLite accepts rows of any size, so a
+// row past D1_ROW_LIMIT only fails at the remote load, after the earlier statements of
+// the dump have already replaced the live tables.
+const TABLES = ['elections', 'constituencies', 'candidates', 'counts', 'constituency_features',
+  'constituency_animation', 'election_meta_parts', 'dataset'];
+let maxRow = { bytes: 0 };
+for (const table of TABLES) {
+  const cols = db.prepare(`SELECT name FROM pragma_table_info('${table}')`).all().map((r) => r.name);
+  const sum = cols.map((c) => `COALESCE(LENGTH(CAST(${c} AS BLOB)), 0)`).join(' + ');
+  const top = db.prepare(`SELECT rowid AS id, ${sum} AS bytes FROM ${table} ORDER BY bytes DESC LIMIT 1`).get();
+  if (top && top.bytes > maxRow.bytes) maxRow = { table, id: top.id, bytes: top.bytes };
+}
 db.close();
+if (maxRow.bytes > D1_ROW_LIMIT) {
+  console.error(`FAIL: ${maxRow.table} row ${maxRow.id} is ${maxRow.bytes} bytes; D1 refuses rows over ${D1_ROW_LIMIT}.`);
+  process.exit(1);
+}
 
 // Primary keys, used to target the chunked UPDATEs that carry oversized meta values.
 const KEY_COLS = {
@@ -335,6 +412,7 @@ const KEY_COLS = {
   constituencies: ['election_key', 'seq'],
   constituency_features: ['election_key', 'constituency_seq'],
   constituency_animation: ['election_key', 'constituency_seq'],
+  election_meta_parts: ['election_key', 'field', 'part'],
 };
 
 // D1 imports SQL, not SQLite files, so emit a dump alongside the database.
@@ -355,12 +433,11 @@ if (!args.includes('--no-sql')) {
   await write('PRAGMA defer_foreign_keys = true;\n');
   // Idempotent: reloading D1 after a schema change would otherwise collide with the
   // existing tables, and `d1 execute` has no --replace.
-  for (const t of ['elections', 'constituencies', 'candidates', 'counts',
-    'constituency_features', 'constituency_animation', 'dataset']) {
+  for (const t of TABLES) {
     await write(`DROP TABLE IF EXISTS ${t};\n`);
   }
   await write(SCHEMA.replace(/^\s*--.*$/gm, '').replace(/\n{2,}/g, '\n'));
-  for (const table of ['elections', 'constituencies', 'candidates', 'counts', 'constituency_features', 'constituency_animation', 'dataset']) {
+  for (const table of TABLES) {
     const cols = dump.prepare(`SELECT name FROM pragma_table_info('${table}')`).all().map((r) => r.name);
     const rows = dump.prepare(`SELECT * FROM ${table}`).all();
     // Batched multi-row INSERTs, capped by BYTES rather than row count. D1 rejects an
@@ -429,6 +506,7 @@ console.log(`  constituencies       ${nCons}`);
 console.log(`  candidates           ${nCand}`);
 console.log(`  count rows           ${nCounts}`);
 console.log(`  animation payloads   ${nAnim}`);
+console.log(`  meta split          ${nMetaSplit} election(s) (largest row ${maxRow.bytes} bytes, ${maxRow.table}; D1 limit ${D1_ROW_LIMIT})`);
 console.log(`  feature matches      ${nFeat}  (${nMatched} matched, ${nFeat - nMatched} unmatched)`);
 console.log(`  source JSON          ${mb(srcBytes)} MB`);
 console.log(`  sqlite               ${mb(outBytes)} MB   (${(100 * outBytes / srcBytes).toFixed(1)}% of source)`);

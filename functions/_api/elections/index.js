@@ -56,6 +56,41 @@ const CAND_COLS =
   + 'first_prefs AS firstPrefs, final_votes AS finalVotes, elected, elected_at AS electedAt, '
   + 'excluded, excluded_at AS excludedAt, status, colour, gender, meta';
 
+/**
+ * An election whose meta would pass D1's 2,000,000-byte row limit keeps its largest fields
+ * in election_meta_parts (scripts/build-elections-sqlite.mjs, splitElectionMeta) and lists
+ * them in meta.__metaParts. Join the pieces back so the response is the same as for any
+ * other election.
+ */
+async function withSplitMeta(db, row) {
+  if (!row || typeof row.meta !== 'string' || !row.meta.includes('"__metaParts"')) return row;
+  let meta;
+  try {
+    meta = JSON.parse(row.meta);
+  } catch {
+    return row;
+  }
+  const fields = Array.isArray(meta.__metaParts) ? meta.__metaParts : [];
+  delete meta.__metaParts;
+  if (fields.length) {
+    const parts = await db
+      .prepare('SELECT field, chunk FROM election_meta_parts WHERE election_key = ?1 ORDER BY field, part')
+      .bind(row.key)
+      .all();
+    const text = new Map();
+    for (const p of parts.results || []) text.set(p.field, (text.get(p.field) || '') + (p.chunk || ''));
+    for (const field of fields) {
+      if (!text.has(field)) continue;
+      try {
+        meta[field] = JSON.parse(text.get(field));
+      } catch {
+        // a damaged field is left out rather than failing the whole election
+      }
+    }
+  }
+  return { ...row, meta: JSON.stringify(meta) };
+}
+
 /** meta holds every field not promoted to a column, so responses stay shape-compatible. */
 function withMeta(row) {
   if (!row) return row;
@@ -213,7 +248,7 @@ async function handle(context) {
       // Together 38.6%, with no behavioural change: the client derives countGroup from
       // the payload it already has.
       const lite = url.searchParams.get('lite') === '1';
-      const [election, cons, cands, anims, feats, allCounts] = await Promise.all([
+      const [electionRow, cons, cands, anims, feats, allCounts] = await Promise.all([
         db.prepare(`SELECT ${ELECTION_COLS}, meta FROM elections WHERE key = ?1`).bind(key).first(),
         db.prepare(`SELECT ${CONS_COLS}, meta FROM constituencies WHERE election_key = ?1 ORDER BY seq`).bind(key).all(),
         db.prepare(`SELECT constituency_seq AS seq, ${CAND_COLS} FROM candidates WHERE election_key = ?1`).bind(key).all(),
@@ -221,7 +256,8 @@ async function handle(context) {
         db.prepare('SELECT constituency_seq AS seq, feature_id AS featureId, feature_name AS featureName, match_name AS matchName, matched FROM constituency_features WHERE election_key = ?1').bind(key).all(),
         db.prepare('SELECT constituency_seq AS seq, candidate_id AS candidateId, count_number AS count, total_votes AS total, transfers, status FROM counts WHERE election_key = ?1 ORDER BY count_number').bind(key).all(),
       ]);
-      if (!election) return json({ error: 'election not found' }, 404);
+      if (!electionRow) return json({ error: 'election not found' }, 404);
+      const election = await withSplitMeta(db, electionRow);
 
       const bySeq = (rows) => {
         const map = new Map();
@@ -303,7 +339,7 @@ async function handle(context) {
     }
 
     // One election: header plus its constituencies and their feature matches.
-    const [election, cons] = await Promise.all([
+    const [electionRow, cons] = await Promise.all([
       db.prepare(`SELECT ${ELECTION_COLS}, meta FROM elections WHERE key = ?1`).bind(key).first(),
       db.prepare(
         `SELECT ${CONS_COLS_ALIASED}, c.meta, `
@@ -314,7 +350,8 @@ async function handle(context) {
         + 'WHERE c.election_key = ?1 ORDER BY c.seq'
       ).bind(key).all(),
     ]);
-    if (!election) return json({ error: 'election not found' }, 404);
+    if (!electionRow) return json({ error: 'election not found' }, 404);
+    const election = await withSplitMeta(db, electionRow);
     // Normalise `matched` to a boolean here as bundle mode already does. SQLite
     // returns 0/1, so this endpoint used to hand back an integer while the bundle
     // endpoint handed back a boolean for the same field. Both are truthy-correct,
