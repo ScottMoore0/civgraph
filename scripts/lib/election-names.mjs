@@ -269,7 +269,13 @@ const NI_COUNCIL_ERA_TITLES = new Map([
   // 1 Apr 1925 to 1 Apr 1927, Kilkeel 1 Aug 1934 to 1 Apr 1937.
   ['downpatrick urban district council', [['1925-04-01', 'Downpatrick Urban District Council'], ['', 'Downpatrick Town Commissioners']]],
   ['whitehead urban district council', [['1927-04-01', 'Whitehead Urban District Council'], ['', 'Whitehead Town Commissioners']]],
-  ['kilkeel urban district council', [['1937-04-01', 'Kilkeel Urban District Council'], ['1934-08-01', 'Kilkeel Town Commissioners'], ['', 'Kilkeel Urban District Council']]]
+  ['kilkeel urban district council', [['1937-04-01', 'Kilkeel Urban District Council'], ['1934-08-01', 'Kilkeel Town Commissioners'], ['', 'Kilkeel Urban District Council']]],
+  // Instalment 2: three rural districts renamed in the period, one body each. Downpatrick RD
+  // became East Down RD on 1 Jan 1962, Newtownards RD North Down RD on 1 Aug 1954, and Kilkeel
+  // RD South Down RD on 4 Jul 1966.
+  ['east down rural district council', [['1962-01-01', 'East Down Rural District Council'], ['', 'Downpatrick Rural District Council']]],
+  ['north down rural district council', [['1954-08-01', 'North Down Rural District Council'], ['', 'Newtownards Rural District Council']]],
+  ['south down rural district council', [['1966-07-04', 'South Down Rural District Council'], ['', 'Kilkeel Rural District Council']]]
 ]);
 const NI_COUNCILS_1923_67_PLAIN_TITLES = [
   'antrim town commissioners',
@@ -291,7 +297,37 @@ const NI_COUNCILS_1923_67_PLAIN_TITLES = [
   'omagh urban district council',
   'portrush urban district council',
   'portstewart urban district council',
-  'warrenpoint urban district council'
+  'warrenpoint urban district council',
+  // Instalment 2: the county councils and rural districts 1924-67.
+  'antrim county council',
+  'down county council',
+  'fermanagh county council',
+  'londonderry county council',
+  'tyrone county council',
+  'antrim rural district council',
+  'ballycastle rural district council',
+  'ballymena rural district council',
+  'ballymoney rural district council',
+  'banbridge rural district council',
+  'belfast rural district council',
+  'castlederg rural district council',
+  'castlereagh rural district council',
+  'clogher rural district council',
+  'coleraine rural district council',
+  'cookstown rural district council',
+  'dungannon rural district council',
+  'enniskillen rural district council',
+  'hillsborough rural district council',
+  'irvinestown rural district council',
+  'larne rural district council',
+  'limavady rural district council',
+  'lisburn rural district council',
+  'lisnaskea rural district council',
+  'londonderry rural district council',
+  'magherafelt rural district council',
+  'newry no 1 rural district council', // normalizeName drops the full stop
+  'omagh rural district council',
+  'strabane rural district council'
 ];
 
 function niCouncilEraName(normalizedBody, date) {

@@ -449,7 +449,41 @@ const NI_COUNCILS_1923_67_BODY_SLUGS = [
   'portrush-urban-district-council',
   'portstewart-urban-district-council',
   'warrenpoint-urban-district-council',
-  'whitehead-urban-district-council'
+  'whitehead-urban-district-council',
+  // Instalment 2 (2026-11): the county councils and rural districts 1924-67, polled on the
+  // county's triennial day. Moira's later rounds file under its County Armagh pilot slug.
+  'antrim-county-council',
+  'down-county-council',
+  'fermanagh-county-council',
+  'londonderry-county-council',
+  'tyrone-county-council',
+  'antrim-rural-district-council',
+  'ballycastle-rural-district-council',
+  'ballymena-rural-district-council',
+  'ballymoney-rural-district-council',
+  'banbridge-rural-district-council',
+  'belfast-rural-district-council',
+  'castlederg-rural-district-council',
+  'castlereagh-rural-district-council',
+  'clogher-rural-district-council',
+  'coleraine-rural-district-council',
+  'cookstown-rural-district-council',
+  'dungannon-rural-district-council',
+  'east-down-rural-district-council',
+  'enniskillen-rural-district-council',
+  'hillsborough-rural-district-council',
+  'irvinestown-rural-district-council',
+  'larne-rural-district-council',
+  'limavady-rural-district-council',
+  'lisburn-rural-district-council',
+  'lisnaskea-rural-district-council',
+  'londonderry-rural-district-council',
+  'magherafelt-rural-district-council',
+  'newry-no-1-rural-district-council',
+  'north-down-rural-district-council',
+  'omagh-rural-district-council',
+  'south-down-rural-district-council',
+  'strabane-rural-district-council'
 ];
 const PRE1973_COUNCIL_BODY_SLUGS = new Set([
   'belfast-county-borough-council',
@@ -478,7 +512,8 @@ const PRE1973_COUNCIL_BODY_SLUGS = new Set([
 ]);
 // The 1923-67 councils' wards are those of the 1923 warding orders and their later revisions,
 // which no layer is confirmed to draw, so like the County Armagh pilot they are shown as results
-// without a map. Londonderry's wards were redrawn in 1923, 1936 and 1946, so its later rounds
+// without a map (the county councils' divisions and the rural districts' DEDs too, until their
+// names are checked against the 1924 county electoral division and DED layers). Londonderry's wards were redrawn in 1923, 1936 and 1946, so its later rounds
 // are results only too; Belfast's fifteen wards keep the 1921 DED map (pre1973CouncilGeography).
 const NI_COUNCILS_1923_67_RESULTS_ONLY_BODY_SLUGS = new Set([
   ...NI_COUNCILS_1923_67_BODY_SLUGS,

@@ -9,7 +9,8 @@
  *
  * The per-election shards (render/metadata/election-provenance/) keep their nulls: the app reads
  * them field by field and each is far below any limit. Readers of the whole file must treat a
- * missing field as null (build-browse-indexes.mjs and build-status.mjs do).
+ * missing field as null (build-browse-indexes.mjs and build-status.mjs do). Each contest record is
+ * written on a line of its own (publishedText below).
  */
 export const SOURCE_REQUIRED = Object.freeze(['url', 'origin', 'checked']);
 export const CONTEST_REQUIRED = Object.freeze(['file', 'body', 'date', 'constituency', 'status', 'sources']);
@@ -33,5 +34,21 @@ export function slimProvenance(doc) {
   };
 }
 
-/** The exact text written to disk. */
-export const publishedText = (doc) => `${JSON.stringify(slimProvenance(doc), null, 1)}\n`;
+/**
+ * The exact text written to disk: indented, except that each contest record is written on one line.
+ * The second instalment of the Northern Ireland council elections (November 2026, about 5,000
+ * contests) took the fully indented file to 26.7 MB; the indentation inside contest records was
+ * about a third of it. One line per contest keeps the file readable and its diffs line-per-contest.
+ */
+export function publishedText(doc) {
+  const slim = slimProvenance(doc);
+  const { contests, ...rest } = slim;
+  const head = JSON.stringify({ ...rest, contests: [] }, null, 1);
+  const body = contests.map((c) => `  ${JSON.stringify(c)}`).join(',\n');
+  // The contests array is the last key; splice its records into the indented head.
+  const tail = head.lastIndexOf('"contests": []');
+  if (tail < 0 || head.slice(tail + '"contests": []'.length).trim() !== '}') {
+    throw new Error('publishedText: "contests" must be the last top-level key');
+  }
+  return `${head.slice(0, tail)}"contests": [${contests.length ? `\n${body}\n ` : ''}]\n}\n`;
+}
