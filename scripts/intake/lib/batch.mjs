@@ -6,6 +6,7 @@ import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { validateAgainstSchema } from './schema.mjs';
+import { reviewPolicy } from './review.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 export const SCHEMA_PATH = path.resolve(HERE, '..', 'batch.schema.json');
@@ -330,6 +331,10 @@ export function validateBatch(batch, { checkPublicationGate = true } = {}) {
   const insideDir = !path.relative(batch.dir, batch.manifestPath).startsWith('..');
   const scanTargets = insideDir ? [batch.dir] : [batch.manifestPath, batch.dir];
   errors.push(...scanSecrets(scanTargets).map((h) => `secret check: ${h}`));
+
+  const policy = reviewPolicy(batch);
+  errors.push(...policy.errors);
+  warnings.push(...policy.warnings);
 
   return { errors, warnings };
 }

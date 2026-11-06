@@ -63,6 +63,7 @@ export function makeBatch(overrides = {}) {
     date: '2026-11-06',
     status: 'draft',
     sources: [{ id: 'gazette', title: 'Belfast Gazette', licence: 'OGL v3.0' }],
+    personalData: { contains: false, handling: 'none' },
     operations: [
       { id: 'copy', type: 'copy-files', sources: ['gazette'], files: [
         { from: 'layers/New_Layer.fgb', to: 'data/maps/health/New_Layer.fgb' },

@@ -3,33 +3,38 @@
  * The intake CLI: one batch.json per data batch instead of a hand-written upload.ps1,
  * UPLOAD.txt, post-upload.txt and apply.py each time. See docs/intake.md.
  *
- *   node scripts/intake/intake.mjs validate    <batch-dir> [--manifest <batch.json>] [--repo <root>]
+ *   node scripts/intake/intake.mjs init        <batch-dir> --title <text>
+ *   node scripts/intake/intake.mjs validate    <batch-dir> [--lock] [--manifest <batch.json>] [--repo <root>]
  *   node scripts/intake/intake.mjs plan        <batch-dir> [--json] [--verbose]
  *   node scripts/intake/intake.mjs stage       <batch-dir> [--write]
  *   node scripts/intake/intake.mjs upload      <batch-dir> (--dry-run | --yes)
  *   node scripts/intake/intake.mjs post-upload <batch-dir> [--write]
  *   node scripts/intake/intake.mjs report      <batch-dir> [--out <file>] [--repo-label <text>]
+ *   node scripts/intake/intake.mjs status      <batch-dir>
  *
  * stage and post-upload are dry runs unless --write. upload refuses to run without either
  * --dry-run (each script's own dry form, read-only on R2) or --yes (a real upload, allowed only
- * for a batch whose status is committed or uploaded). Nothing here pushes or deploys, and
+ * for a batch whose status is committed or uploaded and whose approvals record the owner's
+ * approval of the upload). validate --lock records the SHA-256 of every batch input in
+ * state/SHA256SUMS; after that every command refuses to run if one has changed. Nothing here pushes or deploys, and
  * nothing runs .claude/publish/: publishing needs the owner's approval in chat.
  */
-import { writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { loadBatch, validateBatch } from './lib/batch.mjs';
+import { DEFAULT_REPO, loadBatch, validateBatch } from './lib/batch.mjs';
 import { buildPostUploadSteps, buildUploadSteps, formatStep, runSteps } from './lib/commands.mjs';
 import { formatPlan, planBatch, renderReport } from './lib/plan.mjs';
+import { checkLock, drift, git, readStates, scaffoldManifest, writeLock, writeState } from './lib/review.mjs';
 import { stageBatch } from './lib/stage.mjs';
 
-const COMMANDS = new Set(['validate', 'plan', 'stage', 'upload', 'post-upload', 'report']);
-const FLAGS = new Set(['--write', '--dry-run', '--yes', '--json', '--verbose', '--manifest', '--repo', '--out', '--repo-label']);
-const VALUE_FLAGS = new Set(['--manifest', '--repo', '--out', '--repo-label']);
+const COMMANDS = new Set(['init', 'validate', 'plan', 'stage', 'upload', 'post-upload', 'report', 'status']);
+const FLAGS = new Set(['--write', '--dry-run', '--yes', '--json', '--verbose', '--lock', '--manifest', '--repo', '--out', '--repo-label', '--title']);
+const VALUE_FLAGS = new Set(['--manifest', '--repo', '--out', '--repo-label', '--title']);
 
 function usage(message, err = console.error) {
   if (message) err(`intake: ${message}`);
-  err('Usage: node scripts/intake/intake.mjs <validate|plan|stage|upload|post-upload|report> <batch-dir> [options]');
+  err('Usage: node scripts/intake/intake.mjs <init|validate|plan|stage|upload|post-upload|report|status> <batch-dir> [options]');
   err('       see docs/intake.md');
   return 2;
 }
@@ -69,6 +74,20 @@ export function main(argv, { spawn, log = console.log, err = console.error } = {
   if (!COMMANDS.has(opts.command)) return usage(opts.command ? `unknown command ${opts.command}` : 'no command', err);
   if (opts.positional.length !== 1) return usage('give exactly one batch folder', err);
 
+  if (opts.command === 'init') {
+    const dir = path.resolve(opts.positional[0]);
+    const manifestPath = path.join(dir, 'batch.json');
+    if (existsSync(manifestPath)) { err(`intake: ${manifestPath} already exists`); return 1; }
+    if (!opts.values.title) return usage('init needs --title', err);
+    const id = path.basename(dir).toLowerCase();
+    if (!/^[a-z0-9][a-z0-9.-]*$/.test(id)) { err(`intake: the folder name ${id} is not a batch id (lower case, digits, dots, hyphens)`); return 1; }
+    mkdirSync(dir, { recursive: true });
+    const manifest = scaffoldManifest({ id, title: opts.values.title, baseCommit: git(opts.values.repo || DEFAULT_REPO, ['rev-parse', '--short=10', 'HEAD']) });
+    writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+    log(`Wrote ${manifestPath}: add its sources and operations, then run validate.`);
+    return 0;
+  }
+
   let batch;
   try {
     batch = loadBatch(opts.positional[0], { manifest: opts.values.manifest, repo: opts.values.repo });
@@ -77,14 +96,36 @@ export function main(argv, { spawn, log = console.log, err = console.error } = {
     return 1;
   }
 
+  if (opts.command === 'status') {
+    const states = readStates(batch);
+    const targets = batch.manifest.operations?.flatMap((op) => (op.files || []).map((f) => f.to).concat(op.target ? [op.target] : [])) || [];
+    const d = drift(batch, targets.filter((t) => typeof t === 'string'));
+    log(`${batch.manifest.id}: status ${batch.manifest.status}`);
+    log(`  HEAD ${d.head || '?'}; base ${d.base || 'not recorded'}${d.commits !== null ? `, ${d.commits} commit(s) since` : d.base ? ' (not in this repository)' : ''}`);
+    if (d.changedTargets.length) log(`  changed since base in files this batch writes: ${d.changedTargets.join(', ')}`);
+    const lock = checkLock(batch);
+    log(existsSync(path.join(batch.dir, 'state', 'SHA256SUMS')) ? `  lock: ${lock.length ? `${lock.length} change(s) since review` : 'inputs unchanged since review'}` : '  lock: none (validate --lock records one)');
+    for (const s of states) log(`  ran ${s.command} at ${s.at || '?'} on ${s.head || '?'}${s.exitCode !== undefined ? `, exit ${s.exitCode}` : ''}`);
+    log(`  approvals: ${(batch.manifest.approvals || []).map((a) => `${a.step} ${a.date}`).join(', ') || 'none recorded'}`);
+    return 0;
+  }
+
   const validation = validateBatch(batch);
   if (opts.command === 'validate') {
     printValidation(validation, log);
+    if (!validation.errors.length && opts.flags.has('--lock')) {
+      const n = writeLock(batch);
+      log(`Locked ${n} file(s) in state/SHA256SUMS; later commands refuse to run if any changes.`);
+    } else if (!opts.flags.has('--lock')) {
+      for (const p of checkLock(batch)) validation.errors.push(`lock: ${p}; re-review, then validate --lock`);
+      if (validation.errors.length) printValidation({ errors: validation.errors.filter((e) => e.startsWith('lock:')), warnings: [] }, log);
+    }
     log(validation.errors.length
       ? `FAIL: ${validation.errors.length} problem(s) in ${batch.manifest.id || batch.manifestPath}`
       : `PASS: ${batch.manifest.id} is valid (${batch.manifest.operations.length} operation(s), ${validation.warnings.length} warning(s))`);
     return validation.errors.length ? 1 : 0;
   }
+  for (const p of checkLock(batch)) validation.errors.push(`lock: ${p}; re-review, then validate --lock`);
   if (validation.errors.length) {
     printValidation(validation, err);
     err(`intake: ${batch.manifest.id || batch.manifestPath} does not validate; fix it before ${opts.command}`);
@@ -110,6 +151,7 @@ export function main(argv, { spawn, log = console.log, err = console.error } = {
         return 1;
       }
       log(`${write ? 'WRITTEN' : 'DRY RUN'}: ${res.changes.length} change(s), ${res.unchanged} already in place${!write && res.changes.length ? ' (re-run with --write to apply)' : ''}${res.changes.length ? '' : ' -- nothing to do'}`);
+      if (write) writeState(batch, 'stage', { exitCode: 0, changes: res.changes.map((c) => `${c.action} ${c.path}`) });
       return 0;
     }
     case 'upload': {
@@ -120,6 +162,10 @@ export function main(argv, { spawn, log = console.log, err = console.error } = {
         err(`intake: status is ${batch.manifest.status}; a real upload needs the batch committed (status committed) with the owner's approval`);
         return 1;
       }
+      if (yes && !(batch.manifest.approvals || []).some((a) => a.step === 'upload')) {
+        err("intake: no approvals entry for upload; the main session records the owner's approval from chat before a real upload");
+        return 1;
+      }
       const steps = buildUploadSteps(batch, { dryRun });
       if (!steps.length) { log('No upload operations in this batch.'); return 0; }
       try {
@@ -128,6 +174,7 @@ export function main(argv, { spawn, log = console.log, err = console.error } = {
         err(`intake: ${e.message}`);
         return 1;
       }
+      writeState(batch, dryRun ? 'upload-dry-run' : 'upload', { exitCode: 0, steps: steps.map(formatStep) });
       log(dryRun ? 'Dry run complete: nothing was sent. Run with --yes to upload.' : 'Uploads done. Next: intake post-upload.');
       return 0;
     }
@@ -144,6 +191,7 @@ export function main(argv, { spawn, log = console.log, err = console.error } = {
         err(`intake: ${e.message}`);
         return 1;
       }
+      writeState(batch, 'post-upload', { exitCode: 0, steps: steps.map(formatStep) });
       log('Post-upload steps done. Commit what they changed, then ask the owner before publishing.');
       return 0;
     }

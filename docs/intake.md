@@ -10,12 +10,14 @@ which checks should pass or fail on the way. One CLI reads the manifest and does
 step with the repository's existing scripts:
 
 ```sh
-node scripts/intake/intake.mjs validate    <batch-dir>
+node scripts/intake/intake.mjs init        <batch-dir> --title <text>
+node scripts/intake/intake.mjs validate    <batch-dir> [--lock]
 node scripts/intake/intake.mjs plan        <batch-dir> [--json] [--verbose]
 node scripts/intake/intake.mjs stage       <batch-dir> [--write]
 node scripts/intake/intake.mjs upload      <batch-dir> (--dry-run | --yes)
 node scripts/intake/intake.mjs post-upload <batch-dir> [--write]
 node scripts/intake/intake.mjs report      <batch-dir> [--out <file>]
+node scripts/intake/intake.mjs status      <batch-dir>
 ```
 
 `npm run intake -- <command> <batch-dir>` is the same thing. Every command also takes
@@ -38,7 +40,10 @@ relative to the repository root.
 | `id`, `title`, `date`, `status` | `status` is one of draft, staged, committed, uploaded, published, abandoned. A real upload needs `committed` (or `uploaded`, to re-run). |
 | `summary`, `notes` | free text, copied into the report |
 | `repo` | `baseCommit` and `commits`: where the batch was applied |
-| `sources` | `id`, `title`, `publisher`, `url`, `licence`, `citation`, `accessed`, `note`. Operations cite them by id. |
+| `sources` | `id`, `title`, `publisher`, `url`, `licence`, `rights`, `citation`, `accessed`, `note`. Operations cite them by id. `rights` is one of OGL, CC-BY, CC-BY-SA, public-domain, facts-with-citation, owner-permission, unknown: `unknown` fails `validate` (ask the owner instead), and a source with neither `rights` nor `licence` is a warning. |
+| `personalData` | required: `{contains, handling, note}`. `handling` is none, names-only, addresses-to-census-unit or private-not-published, and must be given when `contains` is true. A JSON or CSV the batch puts into the repository with an address-like field (address, agent_address, street, postcode, ...) fails `validate` when `contains` is true, since raw addresses never reach the repository, and warns otherwise. |
+| `preparedBy`, `kinds` | optional: an agent or session label (never an email address), and what the batch is about (maps, elections, persons, ...) |
+| `approvals` | `[{step: apply/upload/publish, date, note}]`: the owner's approvals, recorded by the main session from what the owner said in chat, never by a subagent. A real upload needs an `upload` entry. |
 | `operations` | the steps, below, run in the order listed within each phase |
 | `expectedChecks` | `beforeUpload` and `afterPostUpload`: `{command, expect: pass/fail, details, note}` |
 
@@ -133,20 +138,36 @@ node scripts/intake/intake.mjs plan D:/civgraph-intake/batch-2026-11-05 \
 
 Each has its generated `REPORT.md` beside it.
 
+## Review lock and state
+
+`validate --lock` records the SHA-256 of `batch.json` and of every batch file an operation reads in `state/SHA256SUMS`. From then on every command refuses to run if one of them has changed, been added or been removed, until it is reviewed again and re-locked. `stage --write`, `upload` (both forms) and `post-upload --write` each write `state/<command>.json` (when, at which HEAD, what ran), and `status` reports those, the lock, the approvals, and how far HEAD has moved from `repo.baseCommit` (with the files this batch writes that changed since).
+
+## Differences from the specification
+
+`D:\civgraph-intake\site-restructure-2026-11-06\intake-framework-spec.md` was written before this framework. Closed since: `personalData`, source `rights`, `approvals`, `preparedBy`, `kinds`, the address scan, the SHA256SUMS lock, state records, `init` and `status`. Kept on purpose:
+
+- **Operations name the repository's own steps** (`copy-files`, `maps-json-patch`, `election-sources`, `corrections`, `r2-fgb`, `r2-tree`, `r2-cache-control`, `r2-pmtiles`, `stamp-cache-tokens`, `switch-to-cdn`, `thumbnails`, `command`) rather than the spec's generic `copy`, `copy-tree`, `patch-json`, `map-entries`, `add-layers`, `r2-put`: each maps onto exactly one existing script, and the two past batches replay byte for byte.
+- **Free batch layout**: paths are relative to the batch folder, so past batches work without moving files into `staged/` and `patches/`; only `state/` is fixed.
+- **`stage --write` is `apply`**, and `expectedChecks` (`beforeUpload`, `afterPostUpload`) stands for `expectedCheckFailures` with `until`.
+- **Batch ids** may be existing folder names (`batch-2026-11-05`), not only `YYYY-MM-DD-slug`; `init` takes the folder name.
+- **The entry point** is `scripts/intake/intake.mjs` (`npm run intake`), not `cli.mjs`.
+
+Not yet done: `requires` with `data/intake/<id>.json` receipts, the `code-diff` and RFC 6902 `patch-json` operations, `add-layers` (the tile builds after apply), per-target schema checks from the future `check:schema` registry, and `from-contribution`.
+
 ## Tests
 
-`npm run test:intake` (`node --test "tests/intake/*.test.mjs"`) covers validation, plan,
+`npm run test:intake` (`node --test "tests/intake/*.test.mjs"`) covers validation (with the review guards in `tests/intake/review.test.mjs`), plan,
 stage idempotency and the upload and post-upload command construction, with the child
 processes mocked: nothing touches R2 or the network.
 
 ## Starting a new batch
 
 1. Make the batch folder under `D:\civgraph-intake\` and put the data in it.
-2. Write `batch.json` (copy an example; add `"$schema"` pointing at
+2. `init <dir> --title ...` writes a draft `batch.json` with `repo.baseCommit` set to HEAD; fill in its sources, `personalData` and operations (or copy an example; add `"$schema"` pointing at
    `scripts/intake/batch.schema.json` for editor completion).
-3. `validate`, `plan`, `stage`, then `stage --write`; build (`npm run rebuild`) and check.
+3. `validate`, `plan`, `stage`; once reviewed, `validate --lock`; then `stage --write`; build (`npm run rebuild`) and check.
 4. `report`, set `status` to `committed`, commit locally, and ask the owner.
-5. After approval: `upload --dry-run`, `upload --yes`, `post-upload --write`, commit, and
+5. After approval, recorded in `approvals` by the main session: `upload --dry-run`, `upload --yes`, `post-upload --write`, commit, and
    the owner's publish.
 
 Never put the owner's email or other identifiers into a command, header or query.
