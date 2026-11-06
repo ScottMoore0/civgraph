@@ -49,7 +49,7 @@ compatibility redirect.
 
 | Guard | Added | What it catches |
 |---|---|---|
-| `pages-build.yml` | today | the exact Pages build, clean checkout, every commit, no path filter |
+| `pages-build.yml` (since 2026-11-06 the `pages-build` job of `ci.yml`) | today | the exact Pages build, clean checkout, every commit, no path filter |
 | `pages-deploy-watch.yml` | today | a deploy that fails after CI passes |
 | `validate-directory-name-references.mjs` | today | the reference surface, classified by blast radius |
 | `validate-asset-references.mjs` | earlier | every `src`/`href` path exists post-build |
