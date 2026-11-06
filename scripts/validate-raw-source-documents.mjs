@@ -2,12 +2,13 @@
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { resolveBrowseSourceItems } from './lib/browse-source-index.mjs';
+import { BROWSE_DIR, localPathForUrl } from './records/paths.mjs';
 
 const ROOT = process.cwd();
 const SIDE_CAR = path.join(ROOT, 'data', 'database', 'raw-source-documents.json');
 const IA_MIRRORS = path.join(ROOT, 'data', 'database', 'raw-source-ia-mirrors.json');
-const BROWSE_SOURCES = path.join(ROOT, 'data', 'browse', 'sources.json');
-const SOURCE_SHARD_DIR = path.join(ROOT, 'data', 'browse', 'details', 'source-shards');
+const BROWSE_SOURCES = path.join(BROWSE_DIR, 'sources.json');
+const SOURCE_SHARD_DIR = path.join(BROWSE_DIR, 'details', 'source-shards');
 
 main();
 

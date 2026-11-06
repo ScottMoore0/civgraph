@@ -2,13 +2,14 @@
 import { existsSync, readFileSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { resolveBrowseSourceItems } from './lib/browse-source-index.mjs';
+import { BROWSE_DIR, localPathForUrl } from './records/paths.mjs';
 
 const ROOT = process.cwd();
 const SOURCE_SIDECAR = path.join(ROOT, 'data', 'database', 'ni-register-sources.json');
 const INTEREST_INDEX = path.join(ROOT, 'data', 'database', 'ni-register-interests.json');
-const BROWSE_SOURCES = path.join(ROOT, 'data', 'browse', 'sources.json');
-const BROWSE_REGISTER_INTERESTS = path.join(ROOT, 'data', 'browse', 'register-interests.json');
-const SOURCE_SHARDS = path.join(ROOT, 'data', 'browse', 'details', 'source-shards');
+const BROWSE_SOURCES = path.join(BROWSE_DIR, 'sources.json');
+const BROWSE_REGISTER_INTERESTS = path.join(BROWSE_DIR, 'register-interests.json');
+const SOURCE_SHARDS = path.join(BROWSE_DIR, 'details', 'source-shards');
 const PAGES_MAX_FILE_BYTES = 25 * 1024 * 1024;
 
 main();
@@ -291,8 +292,7 @@ function readSourceDetail(indexItem, cache) {
 }
 
 function publicUrlToLocalPath(url) {
-  const pathname = String(url || '').replace(/^\/+/, '').replace(/[?#].*$/, '');
-  return path.join(ROOT, ...pathname.split('/'));
+  return localPathForUrl(String(url || '').replace(/[?#].*$/, ''));
 }
 
 function readJson(filePath) {

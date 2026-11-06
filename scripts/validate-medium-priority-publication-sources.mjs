@@ -2,11 +2,12 @@
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { resolveBrowseSourceItems } from './lib/browse-source-index.mjs';
+import { BROWSE_DIR, localPathForUrl } from './records/paths.mjs';
 
 const ROOT = process.cwd();
 const SIDE_CAR = path.join(ROOT, 'data', 'database', 'medium-priority-publication-sources.json');
-const BROWSE_SOURCES = path.join(ROOT, 'data', 'browse', 'sources.json');
-const SOURCE_SHARD_DIR = path.join(ROOT, 'data', 'browse', 'details', 'source-shards');
+const BROWSE_SOURCES = path.join(BROWSE_DIR, 'sources.json');
+const SOURCE_SHARD_DIR = path.join(BROWSE_DIR, 'details', 'source-shards');
 const EXPECTED_TOTAL = 2346;
 const EXPECTED_READY = 1121;
 const EXPECTED_REVIEW = 1225;

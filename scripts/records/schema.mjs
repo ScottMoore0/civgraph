@@ -60,6 +60,9 @@ export const TABLES = [
       c('date', T, true), c('year', I), c('decade', I), c('source_map_id'), c('layer_id'),
       c('label_property'), c('candidate_rows_expected', I), c('transfer_data_expected', I),
       c('previous_key'), c('placeholder', I), c('ord', I, true),
+      // 1 when the bundle file was written compact (scripts/generated_json.py: indented text over
+      // 24 MiB is written without indentation), so the compatibility route writes it the same way.
+      c('compact', I),
       // The bundle without results[] and the two whole-election aggregates, in the bundle's
       // own key order: a removed key is kept in place with the value null.
       c('meta', T, true), ...HASH,
@@ -296,7 +299,8 @@ export const TABLES = [
       c('slug', T, true), c('id'), c('title'), c('title_norm'), c('key_norm'), c('search_norm'),
       c('member_name'), c('elected_body'), c('category'), c('date'), c('constituency'), c('member_type'),
       c('chamber'), c('interest_count', I), c('source_count', I), c('nil_status'),
-      c('ord', I, true), c('card', T, true), ...HASH,
+      // detail: the entry's record in data/database/ni-register-browse-records (its interests).
+      c('ord', I, true), c('card', T, true), c('detail'), ...HASH,
     ],
     indexes: [
       ['register_entries_ord', ['ord']], ['register_entries_title', ['title_norm']], ['register_entries_key', ['key_norm']], ['register_entries_id', ['id']],
@@ -344,8 +348,9 @@ export const TABLES = [
     name: 'graph_entities', group: 'graph', hashed: true, pk: ['entity_id'], order: 'shard, ord',
     columns: [
       c('entity_id', T, true), c('shard', I, true), c('ord', I, true), c('slug'), c('label'), c('label_norm'),
-      // entity: the entity-shard record; summary: its lookup entry without the shard numbers.
-      c('entity', T, true), c('summary'), ...HASH,
+      // entity: the entity-shard record; summary: its lookup entry without the shard numbers;
+      // search: its entity-search entry, for the entities the search lists.
+      c('entity', T, true), c('summary'), c('search'), ...HASH,
     ],
     indexes: [['graph_entities_shard', ['shard', 'ord']], ['graph_entities_slug', ['slug']], ['graph_entities_label', ['label_norm']]],
   },
