@@ -1,5 +1,7 @@
 # Renaming `render/`, `test2/` and `tests/` — runbook
 
+> Some scripts named below were archived in November 2026 (ARCHIVE.md, "Archived scripts"); they are in the archive copies and in git history, not in `scripts/`.
+
 > **Status: EXECUTED for `test/` on 2026-08-22.** `test/` is now `render/`, deployed
 > and verified: `/render/` returns 200, `/test/` 301s to it, and the published tile
 > prefix `data/maps/test` was deliberately left alone. 45,232 references were rewritten

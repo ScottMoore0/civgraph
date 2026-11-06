@@ -41,3 +41,22 @@ manifest) but is still in the repository: civgraph.net serves it (for example
 `/analysis/border-poll-dry-run/README.md` returns 200), because `.cfignore` lists it
 and Cloudflare does not honour that, while `scripts/clean-for-pages.sh` does not
 remove it. It comes out once the owner decides whether those files should be public.
+
+## Archived scripts (wave 1, November 2026)
+
+312 scripts that nothing runs any more -- one-off patches, finished batch applies, dead
+experiments, superseded uploaders -- left `scripts/` (the `archive` verdicts of the site
+restructure's script catalogue, less 22 that a reference audit found still run, imported or
+wired into npm, CI or Playwright; those stay).
+
+- **Copies:** `E:\civgraph-archive\scripts-archived\` and `D:\civgraph-archive\scripts-archived\`,
+  each with its own `SHA256SUMS`; both were checked file by file before the removal.
+- **List:** `docs/scripts-archived.sha256` (path and SHA-256 of each).
+- **Git history:** the last commit that holds them is `da1d684738`:
+
+  ```sh
+  git show da1d684738:scripts/fix-pc1995-name.mjs
+  ```
+
+A document that names one of them as a step describes how a past batch was done; run it from
+the archive copy if it is ever needed again.

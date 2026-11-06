@@ -1,5 +1,7 @@
 # Persons index: entries that are not people
 
+> Some scripts named below were archived in November 2026 (ARCHIVE.md, "Archived scripts"); they are in the archive copies and in git history, not in `scripts/`.
+
 > **Status: mostly resolved — 2026-09-10.** 10 records remain flagged, both kinds being
 > modelling questions rather than junk. The original 2026-08-26 findings are kept below
 > unchanged; this section records what has happened since.

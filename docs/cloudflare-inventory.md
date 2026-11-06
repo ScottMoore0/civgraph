@@ -1,5 +1,7 @@
 # Cloudflare inventory
 
+> Some scripts named below were archived in November 2026 (ARCHIVE.md, "Archived scripts"); they are in the archive copies and in git history, not in `scripts/`.
+
 > **Status: current reference — maintain as Cloudflare changes.** The authority
 > for bindings is `wrangler.toml`; this file records what is NOT in the repo,
 > including dashboard-only state. Verify serving behaviour with

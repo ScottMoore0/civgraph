@@ -1,5 +1,7 @@
 # Statements of Persons Nominated: can the 822 extracted candidates be published?
 
+> Some scripts named below were archived in November 2026 (ARCHIVE.md, "Archived scripts"); they are in the archive copies and in git history, not in `scripts/`.
+
 > **Status: findings for review — 2026-08-27. NOTHING HAS BEEN PUBLISHED.**
 > `scripts/review/match-spn-ocr-candidates.mjs` reproduces every number here. It writes
 > nothing and is not wired into `build` or `check`. Step 5 of the agreed sequence — adding
