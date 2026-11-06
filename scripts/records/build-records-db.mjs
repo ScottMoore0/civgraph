@@ -6,7 +6,7 @@
  *   1. transforms   the existing generators, with their output directed at tmp/records through
  *                   CIVGRAPH_BUILD_DIR: the election manifest, its summaries, the person-id and
  *                   name-id stamping (read-only for committed files), provenance, the Browse
- *                   indexes, party profiles and the semantic graph. Skipped when the inputs hash
+ *                   indexes, party profiles, office pages and the semantic graph. Skipped when the inputs hash
  *                   equals the last build's and its outputs are present (or with --no-transform).
  *   2. votes        built from CIVGRAPH_VOTES_DIR (checked against its committed pin) when set;
  *                   else read from --votes-tree <dir>; else carried over from the last build.
@@ -99,6 +99,7 @@ const transformProvenance = () => run(process.execPath, ['scripts/build-election
 function transformBrowse() {
   run(process.execPath, ['scripts/build-browse-indexes.mjs']);
   run(process.execPath, ['scripts/build-party-profiles.mjs']);
+  run(process.execPath, ['scripts/build-office-pages.mjs']);
 }
 const transformGraph = () => run(process.execPath, ['scripts/graph/build-semantic-graph.mjs']);
 

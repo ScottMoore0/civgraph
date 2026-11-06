@@ -14,6 +14,7 @@
  *   party-profiles/<slug>.json
  *   elections.json (streamed), elections-list.json, details/elections/<slug>.json,
  *   details/election-contests/<slug>.json, election-contest-parents(.json|/<nnnn>.json)
+ *   offices.json, details/offices/<slug>.json   (the facts model's office pages)
  *   source-merges.json
  *   votes/index.json, votes/persons/<id>.json, votes/parties/<slug>.json, votes/divisions/<nnn>.json
  *
@@ -24,7 +25,7 @@ import { cachedJson, documentBody, jsonResponse, parseJson, streamFrom } from '.
 import { divisionShard } from '../../_api/votes/index.js';
 import { resolvePartySlug } from '../../_api/parties/index.js';
 
-const VERSION = 'data-browse-1';
+const VERSION = 'data-browse-2';
 const R2_CACHE_CONTROL = 'public, max-age=0, must-revalidate';
 const CONTEST_PARENT_BUCKETS = 64;
 
@@ -64,6 +65,7 @@ export function matchBrowsePath(parts) {
   if (['index.json', 'persons.json', 'sources.json', 'register-interests.json', 'persons-facets.json', 'party-label-folds.json'].includes(p)) return { kind: 'doc', name: `browse/${p}` };
   if (p === 'parties.json') return { kind: 'parties' };
   if (p === 'party-names.json') return { kind: 'party-names' };
+  if (p === 'offices.json') return { kind: 'offices' };
   if (p === 'elections.json') return { kind: 'elections' };
   if (p === 'elections-list.json') return { kind: 'elections-list' };
   if (p === 'election-contest-parents.json') return { kind: 'contest-parents' };
@@ -74,6 +76,7 @@ export function matchBrowsePath(parts) {
   if (parts.length === 2 && a === 'election-contest-parents' && /^\d{4}$/.test(json(b) || '')) return { kind: 'contest-parents', bucket: Number(json(b)) };
   if (parts.length === 2 && a === 'party-profiles' && json(b)) return { kind: 'party-profile', slug: json(b) };
   if (parts.length === 3 && a === 'details' && b === 'parties' && json(c)) return { kind: 'party-detail', slug: json(c) };
+  if (parts.length === 3 && a === 'details' && b === 'offices' && json(c)) return { kind: 'office-detail', slug: json(c) };
   if (parts.length === 3 && a === 'details' && b === 'elections' && json(c)) return { kind: 'election-detail', slug: json(c) };
   if (parts.length === 3 && a === 'details' && b === 'election-contests' && json(c)) return { kind: 'election-contests', slug: json(c) };
   if (parts.length === 3 && a === 'votes' && b === 'persons' && json(c)) return { kind: 'votes-person', id: json(c) };
@@ -117,6 +120,15 @@ async function answer(db, route) {
       if (!resolved) return notFound();
       const row = await db.prepare('SELECT detail, profile FROM party_cards WHERE slug = ?1').bind(resolved.slug).first();
       if (route.kind === 'party-profile') return row?.profile ? jsonResponse(row.profile) : notFound();
+      return row?.detail ? jsonResponse(`{"schemaVersion":1,"item":${row.detail}}`) : notFound();
+    }
+    case 'offices': {
+      const head = (await documentBody(db, 'browse/offices.json')) || {};
+      const { results } = await db.prepare('SELECT card FROM office_cards ORDER BY ord, slug').all();
+      return jsonResponse({ ...head, items: (results || []).map((r) => parseJson(r.card)) });
+    }
+    case 'office-detail': {
+      const row = await db.prepare('SELECT detail FROM office_cards WHERE slug = ?1').bind(route.slug).first();
       return row?.detail ? jsonResponse(`{"schemaVersion":1,"item":${row.detail}}`) : notFound();
     }
     case 'shard': {

@@ -215,6 +215,27 @@ export function ingestBrowse(db, { browseDir, paths = recordPaths() }) {
       if (folds) doc('browse/party-label-folds.json', strip(folds));
     }
 
+    // ---- offices (the facts model, scripts/build-office-pages.mjs): card and page
+    {
+      const offices = readJson(at('offices.json'), null);
+      if (offices) {
+        const w = new TableWriter(db, 'office_cards');
+        (offices.items || []).forEach((item, ord) => {
+          const file = at('details', 'offices', `${item.slug}.json`);
+          const detail = existsSync(file) ? readJson(file) : null;
+          const title = item.title || '';
+          w.add({
+            slug: item.slug, id: txt(item.id), title: txt(title), title_norm: String(title).toLowerCase(),
+            search_norm: searchText(item), ord, card: JSON.stringify(item),
+            detail: detail ? JSON.stringify(detail.item ?? null) : null,
+          });
+        });
+        out.office_cards = w.finish();
+        const { items: _o, ...officesHead } = strip(offices);
+        doc('browse/offices.json', officesHead);
+      }
+    }
+
     // ---- elections: cards (elections.json + elections-list.json), details, contest shards
     {
       const full = readJson(at('elections.json'));

@@ -88,7 +88,16 @@ const PARTY = { id: 'party:sinn-fein', slug: 'sinn-fein', type: 'party', title: 
 transaction(sqlite, () => {
   new TableWriter(sqlite, 'person_cards').add({ slug: PERSON.slug, id: PERSON.id, title: PERSON.title, title_norm: 'gerry adams', key_norm: 'gerry-adams', search_norm: 'gerry adams', ord: 0, card: JSON.stringify(PERSON) });
   new TableWriter(sqlite, 'party_cards').add({ slug: PARTY.slug, id: PARTY.id, title: PARTY.title, ord: 0, card: JSON.stringify(PARTY), detail: JSON.stringify(PARTY) });
-  new TableWriter(sqlite, 'party_aliases').add({ alias: 'sinn-fein-sinn-fein', slug: PARTY.slug });
+  // A ballot-paper label folded into its party (batch 4c): the records build turns the party's
+  // record written under the label's old slug into a party_aliases row.
+  const UUP = { slug: 'uup', title: 'Ulster Unionist Party', subtitle: 'UUP / 1899-2024' };
+  new TableWriter(sqlite, 'party_cards').add({ slug: UUP.slug, id: 'party:uup', title: UUP.title, ord: 1, card: JSON.stringify(UUP), detail: JSON.stringify(UUP) });
+  const aliases = new TableWriter(sqlite, 'party_aliases');
+  aliases.add({ alias: 'sinn-fein-sinn-fein', slug: PARTY.slug });
+  aliases.add({ alias: 'uup-farmer', slug: UUP.slug });
+  // An office page (the facts model), from office_cards.
+  const OFFICE = { slug: 'alliance-chair', title: 'Chair of the Alliance Party', subtitle: 'Alliance Party / 3 holder records / 1970–1975' };
+  new TableWriter(sqlite, 'office_cards').add({ slug: OFFICE.slug, id: `office:${OFFICE.slug}`, title: OFFICE.title, ord: 0, card: JSON.stringify(OFFICE), detail: JSON.stringify(OFFICE) });
   const e = new TableWriter(sqlite, 'r_elections');
   ELECTIONS.forEach((row, ord) => e.add({ key: row.key, slug: slugOf(row.key), body_slug: row.key.split('__')[0], display_title: row.title, body: row.body, date: row.date, voting_system: row.votingSystem, ord, meta: row.meta }));
   const k = new TableWriter(sqlite, 'contests');
@@ -148,10 +157,6 @@ const env = {
   ELECTIONS_DB: fakeDb(),
   MAPS_BUCKET: fakeBucket({
     'data/browse/details/maps/wards-1984.json': { item: { slug: 'wards-1984', title: '1984 council wards', description: 'Northern Ireland council wards, 1984.' } },
-    // A ballot-paper label folded into its party (batch 4c): build-browse-indexes.mjs writes the
-    // party's own record under the label's old slug.
-    'data/browse/details/parties/uup.json': { item: { slug: 'uup', title: 'Ulster Unionist Party', subtitle: 'UUP / 1899-2024' } },
-    'data/browse/details/parties/uup-farmer.json': { item: { slug: 'uup', title: 'Ulster Unionist Party', subtitle: 'UUP / 1899-2024', previousSlugs: ['uup-farmer'] } },
   }),
   ASSETS,
 };
@@ -269,6 +274,11 @@ check('types: the sitemap and the pages route the same types',
   check('page: a party answers 200 with its title', party.status === 200 && titleOf(await party.text()) === 'Ulster Unionist Party – Party / label – Civgraph', String(party.status));
   const folded = await get('parties', '/browse/parties/uup-farmer');
   check('page: a folded ballot-paper label redirects to its party (301)', folded.status === 301 && folded.headers.get('Location') === 'https://civgraph.net/browse/parties/uup', `${folded.status} ${folded.headers.get('Location')}`);
+
+  const office = await get('offices', '/browse/offices/alliance-chair');
+  check('page: an office answers 200 with its title, from D1', office.status === 200 && titleOf(await office.text()) === 'Chair of the Alliance Party – Office – Civgraph', String(office.status));
+  const noOffice = await get('offices', '/browse/offices/no-such-office');
+  check('page: an absent office answers 404', noOffice.status === 404, String(noOffice.status));
 }
 
 // --- /404 ------------------------------------------------------------------------------

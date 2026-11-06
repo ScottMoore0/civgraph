@@ -19,9 +19,11 @@ const open = () => new DatabaseSync(DB, { readOnly: true });
 // The 2026-11-06 figures of phase2-plan.md stage C, as floors (99%, so merges that shrink a
 // count by a handful do not fail it; growth never does). graph_statements holds the
 // statements-by-subject view the record pages read, not every statement of the graph.
+// party_cards: 612 since main's batch 4c folded 97 occupation and misspelt labels into their
+// parties (709 -> 612 Browse entries); office_cards: the facts model's 164 office pages.
 const FLOORS = {
   r_elections: 1829, contests: 13360, candidacies: 67397, r_counts: 269457, person_cards: 31473,
-  sources: 38800, register_entries: 5064, party_cards: 694, graph_entities: 272863, graph_statements: 900000,
+  sources: 38800, register_entries: 5064, party_cards: 612, office_cards: 164, graph_entities: 272863, graph_statements: 900000,
 };
 
 test('row counts are at least the 2026-11-06 figures', { skip: !built && 'no records build' }, () => {

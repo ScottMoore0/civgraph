@@ -151,7 +151,7 @@ test('elections API: index, constituency by seq, name and slug; views', { skip }
 // ------------------------------------------------------------------ /data/browse (90-day file URLs)
 
 test('data/browse: documents and lists deep-equal the files', { skip: (skip || !existsSync(P.BROWSE_DIR)) && 'no build or no Browse tree' }, async () => {
-  for (const rel of ['index.json', 'persons.json', 'sources.json', 'register-interests.json', 'persons-facets.json', 'parties.json', 'party-names.json', 'party-label-folds.json', 'elections-list.json', 'election-contest-parents.json', 'source-merges.json', 'election-contest-parents/0007.json', 'election-contest-parents/0063.json']) {
+  for (const rel of ['index.json', 'persons.json', 'sources.json', 'register-interests.json', 'persons-facets.json', 'parties.json', 'party-names.json', 'party-label-folds.json', 'elections-list.json', 'election-contest-parents.json', 'source-merges.json', 'offices.json', 'election-contest-parents/0007.json', 'election-contest-parents/0063.json']) {
     assert.deepEqual(await browseUrl(rel), dropGeneratedAt(readJsonFile(path.join(P.BROWSE_DIR, rel))), rel);
   }
   const big = await browseUrl('elections.json');
@@ -169,7 +169,7 @@ test('data/browse: index shards rebuild from rows (persons, sources, register)',
 });
 
 test('data/browse: details, profiles and votes for a sample of each', { skip: (skip || !existsSync(P.BROWSE_DIR)) && 'no Browse tree' }, async () => {
-  for (const kind of ['details/parties', 'details/elections', 'details/election-contests', 'party-profiles']) {
+  for (const kind of ['details/parties', 'details/elections', 'details/election-contests', 'details/offices', 'party-profiles']) {
     const names = readdirSync(path.join(P.BROWSE_DIR, kind));
     for (const file of [...sample(names, 20), ...(kind === 'details/parties' ? ['uup.json', 'administrator-alliance.json'] : [])].filter((f) => names.includes(f))) {
       assert.deepEqual(await browseUrl(`${kind}/${file}`), dropGeneratedAt(readJsonFile(path.join(P.BROWSE_DIR, kind, file))), `${kind}/${file}`);
