@@ -4,7 +4,7 @@
 // them in full); the election manifest applies them to every source contest after the
 // source-checked fixes, so a fix that names a candidate's party wins. In short:
 //   - a rule fills a blank Party_Name when the printed label (Party_As_Printed) matches and the
-//     contest is in the rule's scope (bodies, [from, until), named candidates);
+//     contest is in the rule's scope (bodies, region, [from, until), named candidates);
 //   - a rule marked override also replaces the reading already there; a rule with whenParty
 //     matches on that reading instead of (or as well as) the printed label;
 //   - a ditto mark ("do.") takes the reading of the candidate printed above it;
@@ -21,10 +21,18 @@ function candidateNameKey(row) {
 export function createPartyLabelInterpreter(config = {}) {
   const dittoMarks = new Set(config.dittoMarks || []);
   const noLabel = new Set(config.noLabel?.printed || []);
-  const rules = (config.rules || []).map((rule) => ({
-    ...rule,
-    candidateKeys: rule.candidates ? new Set(rule.candidates.map((name) => normalizeName(name))) : null
-  }));
+  // A region names the bodies a rule may act in ("ni": the Northern Ireland bodies), so a rule
+  // can be confined to Northern Ireland without listing every council on it.
+  const regions = new Map(Object.entries(config.regions || {})
+    .map(([name, region]) => [name, new Set(Array.isArray(region) ? region : region?.bodies || [])]));
+  const rules = (config.rules || []).map((rule) => {
+    if (rule.region && !regions.has(rule.region)) throw new Error(`party-label rule names an unknown region: ${rule.region}`);
+    return {
+      ...rule,
+      regionBodies: rule.region ? regions.get(rule.region) : null,
+      candidateKeys: rule.candidates ? new Set(rule.candidates.map((name) => normalizeName(name))) : null
+    };
+  });
 
   function ruleFor(printed, party, scope, nameKey) {
     return rules.find((rule) => {
@@ -33,6 +41,7 @@ export function createPartyLabelInterpreter(config = {}) {
       if (rule.whenParty && !rule.whenParty.includes(party)) return false;
       if (party && !rule.override) return false;
       if (rule.bodies && !rule.bodies.includes(scope.body)) return false;
+      if (rule.regionBodies && !rule.regionBodies.has(scope.body)) return false;
       if (rule.from && String(scope.date || '') < rule.from) return false;
       if (rule.until && String(scope.date || '') >= rule.until) return false;
       if (rule.candidateKeys && !rule.candidateKeys.has(nameKey)) return false;

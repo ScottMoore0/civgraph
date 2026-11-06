@@ -93,6 +93,13 @@ const DEFAULT_PARTY_COLOURS = new Map([
   ['efficiency party', '#4682b4'],
   ['unemployed workers', '#b22222'],
   ['jubilee protestant defence association', '#ff8c00'],
+  // Batch 4b: Labour with no party named, the NAUL's 1920 nominees, ex-servicemen not printed
+  // as the Legion's, and the citizens' associations of Newry and Lurgan.
+  ['local labour', '#f08080'],
+  ['national amalgamated union of labour', '#c0392b'],
+  ['ex servicemen', '#5d7b93'],
+  ['irish citizen association', '#2e7d6b'],
+  ['independent citizens association', '#7f8c8d'],
   // Nothing printed and nothing inferred: a neutral grey of its own, lighter than Independent's.
   ['no label', '#d4d4d4']
 ]);
