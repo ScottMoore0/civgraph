@@ -651,11 +651,52 @@ export class Test2MapLibreMainAdapter {
     this.options.onChange?.(this);
   }
 
+  /**
+   * Grey diagonal hatching over the features an election cannot fully show (results missing or
+   * incomplete), drawn above the election fill and below the outlines. `options`: { matchInput,
+   * keys, theme: 'light'|'dark' }; null removes it. The layer joins the record's layers, so it is
+   * hidden, reordered and unloaded with them.
+   */
+  setElectionHatch(mainId, options = null) {
+    const state = this.layerStates.get(mainId)
+      || [...this.layerStates.values()].find((candidate) => candidate.testLayerId === mainId);
+    const testId = state?.testLayerId || this.mainToTest.get(mainId) || mainId;
+    const record = this.renderer?.layers.get(testId);
+    if (!record || !this.map) return false;
+    const hatchId = `${testId}-election-hatch`;
+    if (this.map.getLayer(hatchId)) this.map.removeLayer(hatchId);
+    record.layerIds = (record.layerIds || []).filter((id) => id !== hatchId);
+    const keys = [...new Set((options?.keys || []).map(String).filter(Boolean))];
+    if (!keys.length || !options?.matchInput) return false;
+    const fillId = `${testId}-fill`;
+    const fill = this.map.getLayer(fillId);
+    if (!fill) return false;
+    const image = options.theme === 'dark' ? 'civgraph-election-hatch-dark' : 'civgraph-election-hatch-light';
+    ensureHatchImage(this.map, image, options.theme === 'dark');
+    const match = ['match', options.matchInput, keys, true, false];
+    const existing = this.map.getFilter(fillId);
+    const layer = {
+      id: hatchId,
+      type: 'fill',
+      source: fill.source,
+      filter: existing ? ['all', existing, match] : match,
+      paint: { 'fill-pattern': image, 'fill-opacity': 0.9 },
+      layout: { visibility: this.map.getLayoutProperty(fillId, 'visibility') || 'visible' }
+    };
+    if (fill.sourceLayer) layer['source-layer'] = fill.sourceLayer;
+    const lineId = `${testId}-line`;
+    this.map.addLayer(layer, this.map.getLayer(lineId) ? lineId : undefined);
+    const fillIndex = record.layerIds.indexOf(fillId);
+    record.layerIds.splice(fillIndex >= 0 ? fillIndex + 1 : record.layerIds.length, 0, hatchId);
+    return true;
+  }
+
   clearElectionStyle(mainId) {
     const state = this.layerStates.get(mainId)
       || [...this.layerStates.values()].find((candidate) => candidate.testLayerId === mainId);
     const testId = state?.testLayerId || this.mainToTest.get(mainId) || mainId;
     const record = this.renderer?.layers.get(testId);
+    if (record && this.map?.getLayer(`${testId}-election-hatch`)) this.setElectionHatch(mainId, null);
     if (!record?._electionOriginalPaint) return;
     const fillId = `${testId}-fill`;
     const lineId = `${testId}-line`;
@@ -1613,6 +1654,28 @@ function clamp01(value) {
   const number = Number(value);
   if (!Number.isFinite(number)) return 0;
   return Math.max(0, Math.min(1, number));
+}
+
+/** The election hatch: grey diagonals on a clear ground, darker on a light map, lighter on a dark one. */
+function ensureHatchImage(map, name, dark) {
+  if (!map || map.hasImage?.(name)) return;
+  const size = 10;
+  const ratio = Math.max(1, Math.round(globalThis.devicePixelRatio || 1));
+  const px = size * ratio;
+  const data = new Uint8ClampedArray(px * px * 4);
+  const [r, g, b, a] = dark ? [203, 213, 225, 215] : [75, 85, 99, 190];
+  const width = 1.6 * ratio;
+  for (let y = 0; y < px; y += 1) {
+    for (let x = 0; x < px; x += 1) {
+      // Distance from the diagonal x + y = px (wrapping), so the tiles join into continuous lines.
+      const d = Math.min(Math.abs(((x + y) % px)), px - ((x + y) % px)) / Math.SQRT2;
+      if (d <= width / 2) {
+        const i = (y * px + x) * 4;
+        data[i] = r; data[i + 1] = g; data[i + 2] = b; data[i + 3] = a;
+      }
+    }
+  }
+  map.addImage(name, { width: px, height: px, data }, { pixelRatio: ratio });
 }
 
 function normalizeFeatureId(value) {

@@ -365,7 +365,8 @@ function main() {
   writes.set(OUT_COVERAGE, `${JSON.stringify(coverage, null, 1)}\n`);
 
   if (CHECK) {
-    const stale = [...writes].filter(([file, text]) => !fs.existsSync(file) || fs.readFileSync(file, 'utf8') !== text);
+    // Line endings aside (a Windows checkout may hold CRLF).
+    const stale = [...writes].filter(([file, text]) => !fs.existsSync(file) || fs.readFileSync(file, 'utf8').replace(/\r\n/g, '\n') !== text);
     const expected = new Set([...writes.keys()].map((file) => path.basename(file)));
     const extra = fs.existsSync(OUT_DIR) ? fs.readdirSync(OUT_DIR).filter((name) => !expected.has(name)) : [];
     if (stale.length || extra.length) {
