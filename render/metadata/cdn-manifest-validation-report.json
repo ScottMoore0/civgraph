@@ -1,47 +1,18 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-05T22:32:28.087Z",
+  "generatedAt": "2026-11-06T03:05:23.280Z",
   "totals": {
-    "warnings": 10,
-    "errors": 19,
+    "warnings": 1,
+    "errors": 0,
     "notes": 3
   },
   "notes": [
     "189 duplicate local PMTiles archive path(s) are superseded by explicit clone aliases and are intentionally excluded from the CDN manifest.",
-    "770 PMTiles layer(s) retain local directory fallbacks for development only; production fallback is disabled by runtime guard.",
+    "779 PMTiles layer(s) retain local directory fallbacks for development only; production fallback is disabled by runtime guard.",
     "roi-counties-2011 quarantine has been superseded by the resolved PMTiles/CDN layer built from the valid FlatGeobuf source."
   ],
   "warnings": [
-    "dispensary-districts-ni-1929-01-01-vector-test: still points at repo-local PMTiles URL",
-    "dispensary-districts-ni-1924-04-01-vector-test: still points at repo-local PMTiles URL",
-    "dispensary-districts-ni-1921-04-01-vector-test: still points at repo-local PMTiles URL",
-    "tia-towns-ni-1921-05-03-vector-test: still points at repo-local PMTiles URL",
-    "tia-towns-ni-1925-04-01-vector-test: still points at repo-local PMTiles URL",
-    "tia-towns-ni-1927-04-01-vector-test: still points at repo-local PMTiles URL",
-    "tia-towns-ni-1934-08-01-vector-test: still points at repo-local PMTiles URL",
-    "tia-towns-ni-1937-04-01-vector-test: still points at repo-local PMTiles URL",
-    "tia-towns-ni-1959-05-29-vector-test: still points at repo-local PMTiles URL",
     "CDN range report is older than CDN upload manifest; rerun npm run verify:test:pmtiles-cdn after manifest changes"
   ],
-  "errors": [
-    "dispensary-districts-ni-1929-01-01-vector-test: missing tilePackage.byteRangeVerifiedAt",
-    "dispensary-districts-ni-1929-01-01-vector-test: missing successful CDN range verification report row",
-    "dispensary-districts-ni-1924-04-01-vector-test: missing tilePackage.byteRangeVerifiedAt",
-    "dispensary-districts-ni-1924-04-01-vector-test: missing successful CDN range verification report row",
-    "dispensary-districts-ni-1921-04-01-vector-test: missing tilePackage.byteRangeVerifiedAt",
-    "dispensary-districts-ni-1921-04-01-vector-test: missing successful CDN range verification report row",
-    "tia-towns-ni-1921-05-03-vector-test: missing tilePackage.byteRangeVerifiedAt",
-    "tia-towns-ni-1921-05-03-vector-test: missing successful CDN range verification report row",
-    "tia-towns-ni-1925-04-01-vector-test: missing tilePackage.byteRangeVerifiedAt",
-    "tia-towns-ni-1925-04-01-vector-test: missing successful CDN range verification report row",
-    "tia-towns-ni-1927-04-01-vector-test: missing tilePackage.byteRangeVerifiedAt",
-    "tia-towns-ni-1927-04-01-vector-test: missing successful CDN range verification report row",
-    "tia-towns-ni-1934-08-01-vector-test: missing tilePackage.byteRangeVerifiedAt",
-    "tia-towns-ni-1934-08-01-vector-test: missing successful CDN range verification report row",
-    "tia-towns-ni-1937-04-01-vector-test: missing tilePackage.byteRangeVerifiedAt",
-    "tia-towns-ni-1937-04-01-vector-test: missing successful CDN range verification report row",
-    "tia-towns-ni-1959-05-29-vector-test: missing tilePackage.byteRangeVerifiedAt",
-    "tia-towns-ni-1959-05-29-vector-test: missing successful CDN range verification report row",
-    "CDN range report verified 873/882 active PMTiles layers"
-  ]
+  "errors": []
 }
