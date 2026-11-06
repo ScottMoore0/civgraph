@@ -106,6 +106,8 @@
     "check:composite-composition": "node scripts/validate-composite-composition.mjs",
     "check:intake": "npm run check:intake-delivery && npm run check:source-paths && npm run check:composite-composition && npm run test:intake-validators",
     "test:intake-validators": "node scripts/test-intake-validators.mjs",
+    "intake": "node scripts/intake/intake.mjs",
+    "test:intake": "node --test \"tests/intake/*.test.mjs\"",
     "publish:layers": "node scripts/publish-test-layers.mjs",
     "check:fast": "node scripts/run-checks.mjs",
     "rebuild": "node scripts/rebuild-changed.mjs",

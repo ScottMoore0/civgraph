@@ -1,0 +1,141 @@
+{
+  "$schema": "../../../scripts/intake/batch.schema.json",
+  "schemaVersion": 1,
+  "id": "batch-2026-11-05",
+  "title": "R2 uploads for the NI dispensary districts and the Towns Improvement Act towns (9 map editions)",
+  "date": "2026-11-05",
+  "status": "committed",
+  "summary": "The upload and post-upload half of the dispensary-district and Towns Improvement Act town editions staged by ni-plu-dispensary-towns-2026-11-02 and committed in 2fc8ce45e1. Describes what the hand-written upload.ps1, UPLOAD.txt and post-upload.txt of D:\\civgraph-intake\\batch-2026-11-05 did.",
+  "repo": { "baseCommit": "7d9a2ad556", "commits": ["2fc8ce45e1"] },
+  "sources": [
+    { "id": "ni-plu-dispensary-towns", "title": "Intake batch ni-plu-dispensary-towns-2026-11-02 (sources and method in its README.md)", "note": "docs/intake-examples/ni-plu-dispensary-towns-2026-11-02/batch.json lists the primary sources." }
+  ],
+  "operations": [
+    {
+      "id": "fgb",
+      "type": "r2-fgb",
+      "note": "3 dispensary-district editions (26 MB each) and 6 town editions.",
+      "pairs": [
+        { "file": "data/maps/health/Dispensary_Districts_NI_1921-04-01.fgb", "key": "data/maps/health/Dispensary_Districts_NI_1921-04-01.fgb" },
+        { "file": "data/maps/health/Dispensary_Districts_NI_1924-04-01.fgb", "key": "data/maps/health/Dispensary_Districts_NI_1924-04-01.fgb" },
+        { "file": "data/maps/health/Dispensary_Districts_NI_1929-01-01.fgb", "key": "data/maps/health/Dispensary_Districts_NI_1929-01-01.fgb" },
+        { "file": "data/maps/local-government/Towns_Improvement_Act_Towns_NI_1921-05-03.fgb", "key": "data/maps/local-government/Towns_Improvement_Act_Towns_NI_1921-05-03.fgb" },
+        { "file": "data/maps/local-government/Towns_Improvement_Act_Towns_NI_1925-04-01.fgb", "key": "data/maps/local-government/Towns_Improvement_Act_Towns_NI_1925-04-01.fgb" },
+        { "file": "data/maps/local-government/Towns_Improvement_Act_Towns_NI_1927-04-01.fgb", "key": "data/maps/local-government/Towns_Improvement_Act_Towns_NI_1927-04-01.fgb" },
+        { "file": "data/maps/local-government/Towns_Improvement_Act_Towns_NI_1934-08-01.fgb", "key": "data/maps/local-government/Towns_Improvement_Act_Towns_NI_1934-08-01.fgb" },
+        { "file": "data/maps/local-government/Towns_Improvement_Act_Towns_NI_1937-04-01.fgb", "key": "data/maps/local-government/Towns_Improvement_Act_Towns_NI_1937-04-01.fgb" },
+        { "file": "data/maps/local-government/Towns_Improvement_Act_Towns_NI_1959-05-29.fgb", "key": "data/maps/local-government/Towns_Improvement_Act_Towns_NI_1959-05-29.fgb" }
+      ]
+    },
+    {
+      "id": "lookup-csv",
+      "type": "r2-tree",
+      "note": "The DED lookup CSV of the dispensary districts (upload-fgb-r2 sends only .fgb).",
+      "prefix": "data/maps/health/",
+      "files": ["data/maps/health/Dispensary_Districts_NI_DED_Lookup.csv"],
+      "force": true
+    },
+    {
+      "id": "cache-control-fgb",
+      "type": "r2-cache-control",
+      "note": "A PutObject carries no Cache-Control.",
+      "prefixes": ["data/maps/health/", "data/maps/local-government/"]
+    },
+    {
+      "id": "cache-control-csv",
+      "type": "r2-cache-control",
+      "prefixes": ["data/maps/health/"],
+      "ext": "csv"
+    },
+    {
+      "id": "pmtiles",
+      "type": "r2-pmtiles",
+      "ids": [
+        "dispensary-districts-ni-1921-04-01-vector-test", "dispensary-districts-ni-1924-04-01-vector-test", "dispensary-districts-ni-1929-01-01-vector-test",
+        "tia-towns-ni-1921-05-03-vector-test", "tia-towns-ni-1925-04-01-vector-test", "tia-towns-ni-1927-04-01-vector-test",
+        "tia-towns-ni-1934-08-01-vector-test", "tia-towns-ni-1937-04-01-vector-test", "tia-towns-ni-1959-05-29-vector-test"
+      ]
+    },
+    {
+      "id": "cache-tokens",
+      "type": "stamp-cache-tokens",
+      "note": "Content cache tokens on the catalogue's FGB URLs, now that the files exist on R2."
+    },
+    {
+      "id": "switch-to-cdn",
+      "type": "switch-to-cdn",
+      "idsFrom": "pmtiles",
+      "note": "Uses the cdn-range-report.json the upload's CDN check wrote; unverified layers are skipped. No alias layer points at any of the 9 (checked 2026-11-05). Do not run build-test-pmtiles.mjs --force for these layers afterwards: it resets tileUrl to the local path."
+    },
+    {
+      "id": "cdn-manifest",
+      "type": "command",
+      "phase": "post-upload",
+      "argv": ["node", "scripts/write-test-cdn-upload-manifest.mjs"]
+    },
+    {
+      "id": "rebuild-plan",
+      "type": "command",
+      "phase": "post-upload",
+      "note": "Should list only the metadata changes from the switch and the ?v= tokens.",
+      "argv": ["npm", "run", "rebuild", "--", "--plan"]
+    },
+    {
+      "id": "build",
+      "type": "command",
+      "phase": "post-upload",
+      "argv": ["npm", "run", "build"]
+    },
+    {
+      "id": "thumbnails",
+      "type": "thumbnails",
+      "note": "Catalogue cards show broken images until these exist; regen --download reads the FGBs from R2.",
+      "mapIds": [
+        "dispensary-districts-ni-1921-04-01", "dispensary-districts-ni-1924-04-01", "dispensary-districts-ni-1929-01-01",
+        "tia-towns-ni-1921-05-03", "tia-towns-ni-1925-04-01", "tia-towns-ni-1927-04-01",
+        "tia-towns-ni-1934-08-01", "tia-towns-ni-1937-04-01", "tia-towns-ni-1959-05-29"
+      ]
+    },
+    {
+      "id": "check-cdn-manifest",
+      "type": "command",
+      "phase": "post-upload",
+      "argv": ["node", "scripts/validate-test-cdn-manifest.mjs"]
+    },
+    {
+      "id": "check-fast",
+      "type": "command",
+      "phase": "post-upload",
+      "argv": ["npm", "run", "check:fast"]
+    },
+    {
+      "id": "check-cache-tokens",
+      "type": "command",
+      "phase": "post-upload",
+      "credentials": true,
+      "argv": ["node", "scripts/stamp-map-cache-tokens.mjs", "--check"]
+    }
+  ],
+  "expectedChecks": {
+    "beforeUpload": [
+      {
+        "command": "npm run check:fast",
+        "expect": "fail",
+        "note": "2 of 65 checks fail until the upload and switch are done; everything else passes (catalogue check, test:catalogue 49/49, the rebuild's browser subset 17/17, stamp-map-cache-tokens --check).",
+        "details": [
+          "check:test (validate-test-cdn-manifest): for each of the 9 layers \"missing tilePackage.byteRangeVerifiedAt\" and \"missing successful CDN range verification report row\"; \"CDN range report verified 873/882\"",
+          "check:test2 (PMTiles/CDN validation): for each of the 9 layers \"PMTiles tileUrl is not a promoted data.civgraph.net PMTiles URL\""
+        ]
+      }
+    ],
+    "afterPostUpload": [
+      { "command": "node scripts/validate-test-cdn-manifest.mjs", "expect": "pass" },
+      { "command": "npm run check:fast", "expect": "pass" },
+      { "command": "node scripts/stamp-map-cache-tokens.mjs --check", "expect": "pass" }
+    ]
+  },
+  "notes": [
+    "Commit what the post-upload steps change (render/metadata/maps-test.json, cdn-upload-manifest.json, cdn-range-report.json, the ?v= tokens in maps.json and the catalogue, the thumbnails manifest, rebuilt outputs), then ask the owner before bash .claude/publish/publish.sh.",
+    "The batch folder also holds gazette-date-decisions.csv (the Belfast Gazette made/in-force date review, applied by hand and committed separately) and drafts/ for the publish verifier."
+  ]
+}
