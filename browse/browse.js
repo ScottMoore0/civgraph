@@ -4378,6 +4378,14 @@ function renderElectionRelated(item) {
     ]] : [];
     return renderTablePanel('Parent Election', ['Date', 'Election', 'Interactive layer'], parentRows);
   }
+  // A year of pre-1973 Northern Ireland council elections: its councils, each with its own page.
+  const councilRows = (item.councils || []).map((council) => [
+    council.date ? formatDate(council.date) : '',
+    council.browseUrl
+      ? `<a href="#/elections/${encodeURIComponent(slugify(council.key))}" data-browse-link>${escapeHtml(council.title || council.body || council.key)}</a>`
+      : escapeHtml(council.title || council.body || council.key),
+    escapeHtml(council.subtitle || '')
+  ]);
   const partyRows = (item.partySummary || []).map((party) => [
     partyLinkHtml(party.party || '', party.colour ? `<span class="browse-badge" style="border-color:${escapeAttr(party.colour)}">${escapeHtml(party.party || '')}</span>` : escapeHtml(party.party || '')),
     formatNumber(party.stood),
@@ -4395,6 +4403,12 @@ function renderElectionRelated(item) {
       entry.browseUrl ? `<a href="#/elections/${encodeURIComponent((entry.browseUrl || '').split('/').pop() || entry.key)}" data-browse-link>${escapeHtml(entry.resultName || entry.title || entry.key)}</a>` : escapeHtml(entry.resultName || entry.title || entry.key)
     ])
     : (item.constituencies || []).map((name) => [escapeHtml(name)]);
+  if (councilRows.length) {
+    return `
+      ${renderTablePanel('Party Summary', ['Party', 'Stood', 'Seats', 'Votes', 'Share'], partyRows)}
+      ${renderTablePanel('Councils', ['Date', 'Council', 'Areas'], councilRows)}
+    `;
+  }
   return `
     ${renderTablePanel('Party Summary', ['Party', 'Stood', 'Seats', 'Votes', 'Share'], partyRows)}
     ${renderTablePanel('Results by constituency', ['Result'], constituencyRows)}
@@ -5943,11 +5957,17 @@ function expandElectionList(data) {
     item.entryKind = item.result === 'overall' ? 'election-overall-result' : 'election-constituency-result';
     item.parentTitle = parent.title;
     item.subtitle = `${item.result === 'overall' ? 'Overall result' : item.result === 'regional-list' ? 'Regional list result' : 'Constituency result'}: ${parent.title}`;
+    // A pre-1973 NI council round's contest files under its year's entry
+    // ("1946 Northern Ireland local elections"), as the round itself does.
+    const group = Number.isInteger(parent.grp) ? items[parent.grp] : null;
+    if (group?.body && item.body === undefined) item.body = group.body;
     for (const key of ['date', 'decade', 'body', 'kind', 'status', 'thumbnail', 'interactiveUrl']) {
       if (parent[key] !== undefined && item[key] === undefined) item[key] = parent[key];
     }
   }
-  return { ...data, items };
+  // The rounds themselves are listed by their year's entry, which links to each of them; their
+  // pages and addresses are unchanged.
+  return { ...data, items: items.filter((item) => !Number.isInteger(item.grp)) };
 }
 
 async function loadDetail(type, item) {

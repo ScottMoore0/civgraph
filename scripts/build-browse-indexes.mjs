@@ -9,6 +9,7 @@ import { buildPartyVocabulary, classifyPersonName, stripWikipediaQualifier, NOT_
 import { referenceOffices, referenceRelatives } from './lib/reference-person-facts.mjs';
 import { browsePartySlugResolver, formatSpan, indexFactsModel, loadFactsModel } from './lib/facts-model.mjs';
 import { CDN_BASE } from '../src/cdn-url.js';
+import { buildNiLocalGroupEntry, groupNiLocalRounds, isNiLocalCouncilRound, niLocalGroupKey } from '../src/ni-local-groups.mjs';
 
 const ROOT = process.cwd();
 
@@ -176,7 +177,10 @@ function main() {
       }));
     parent.resultEntryCount = parent.resultEntries.length;
   }
-  elections = [...parentElections, ...electionResultEntries];
+  // The pre-1973 Northern Ireland council rounds, one entry a year in the list and in search
+  // (src/ni-local-groups.mjs); each round keeps its own record, page and address.
+  const niLocalGroupRecords = buildNiLocalGroupRecords(parentElections);
+  elections = [...parentElections, ...niLocalGroupRecords, ...electionResultEntries];
   applyGazetteElectionExtras(parentElections, electionResultEntries);
   applyRoundCompleteness(parentElections, electionResultEntries);
   const featureGroups = buildFeatureGroups(spatialIndex, maps, parentElections);
@@ -289,7 +293,7 @@ function main() {
       ? rawDataEntriesById.get(record.id)
       : rawMapsById.get(record.id)
   }));
-  writeDetailFiles('elections', parentElections, (record) => ({
+  writeDetailFiles('elections', [...parentElections, ...niLocalGroupRecords], (record) => ({
     rawMetadata: compactObject({
       manifest: rawElectionsByKey.get(record.parentElectionKey || record.key),
       result: record.resultMetadata || null,
@@ -648,6 +652,74 @@ function buildElections(manifest, thumbnailIds) {
       browseUrl: `/browse/elections/${encodeURIComponent(entry.key)}`
     });
   }).filter((entry) => entry.key).sort((a, b) => compareElectionsNewestFirst(a, b) || a.title.localeCompare(b.title));
+}
+
+/**
+ * A year of pre-1973 Northern Ireland council elections as one Browse record: the councils that
+ * polled (each linking to its own round's page), the parties' seats and votes over all of them,
+ * and the map link that opens the year grouped (app/src/ni-local-view.js).
+ */
+function buildNiLocalGroupRecords(parentElections) {
+  const groups = groupNiLocalRounds(parentElections);
+  return [...groups].map(([year, rounds]) => {
+    const group = buildNiLocalGroupEntry(year, rounds);
+    const parties = new Map();
+    for (const round of rounds) {
+      for (const row of round.partySummary || []) {
+        if (!row.party) continue;
+        if (!parties.has(row.party)) parties.set(row.party, { party: row.party, stood: 0, seats: 0, votes: 0, colour: row.colour });
+        const sum = parties.get(row.party);
+        sum.stood += Number(row.stood) || 0;
+        sum.seats += Number(row.seats) || 0;
+        sum.votes += Number(row.votes) || 0;
+      }
+    }
+    const totalVotes = [...parties.values()].reduce((n, row) => n + row.votes, 0);
+    const partySummary = [...parties.values()]
+      .sort((a, b) => b.seats - a.seats || b.votes - a.votes)
+      .map((row) => compactObject({ ...row, share: totalVotes && row.votes ? Math.round((row.votes / totalVotes) * 10000) / 100 : undefined }));
+    const councils = rounds.map((round) => compactObject({
+      key: round.key,
+      title: round.title,
+      body: round.body,
+      date: round.date,
+      subtitle: round.subtitle,
+      browseUrl: round.browseUrl
+    }));
+    const thumbnail = rounds.find((round) => round.thumbnail)?.thumbnail;
+    const params = new URLSearchParams({ electionBody: group.body, electionDate: group.date });
+    return compactObject({
+      id: group.key,
+      key: group.key,
+      slug: slugify(group.key),
+      type: 'election',
+      entryKind: 'election',
+      title: group.displayTitle,
+      body: group.body,
+      bodySlug: group.bodySlug,
+      date: group.date,
+      year: Number(year),
+      decade: `${Math.floor(Number(year) / 10) * 10}s`,
+      subtitle: group.displaySubtitle,
+      description: `The council elections held in Northern Ireland in ${year}: ${group.councilCount} council${group.councilCount === 1 ? '' : 's'}${group.hasAldermen ? ' and their aldermanic polls' : ''}. Open it on the map to see the results by ward and DED, county electoral division, town, district or county.`,
+      provider: group.body,
+      category: 'Elections',
+      geography: 'Northern Ireland',
+      contestType: 'election',
+      kind: 'general',
+      // Searched: a council's name finds its year.
+      constituencies: [...new Set(rounds.map((round) => round.body))],
+      totalConstituencies: group.councilCount,
+      loadable: true,
+      status: 'available',
+      partySummary: partySummary.slice(0, 24),
+      councils,
+      roundKeys: group.roundKeys,
+      thumbnail,
+      interactiveUrl: `/maps/#${params.toString()}`,
+      browseUrl: `/browse/elections/${encodeURIComponent(group.key)}`
+    });
+  }).sort((a, b) => compareElectionsNewestFirst(a, b));
 }
 
 // Corrections to an election's title that the source files cannot carry. The fifteen
@@ -3184,6 +3256,12 @@ function writeElectionListIndex(entries) {
     if (!entry.entryKind || entry.entryKind === 'election') parentIndex.set(entry.key, index);
   });
   const items = entries.map((entry) => {
+    // A pre-1973 NI council round is listed under its year's entry: `grp` is that entry's place,
+    // and browse.js leaves the round out of the list (its contests still name it).
+    const groupKey = (!entry.entryKind || entry.entryKind === 'election') && isNiLocalCouncilRound(entry)
+      ? niLocalGroupKey(String(entry.date).slice(0, 4))
+      : null;
+    const grp = groupKey && parentIndex.has(groupKey) ? parentIndex.get(groupKey) : undefined;
     const slug = entry.slug || slugify(entry.id || entry.key || entry.title);
     // A contest or an overall result says which election it belongs to (`of`, that election's
     // place in this list) and inherits its date, body, kind, status, thumbnail and map link,
@@ -3218,7 +3296,8 @@ function writeElectionListIndex(entries) {
       totalConstituencies: entry.totalConstituencies,
       unmatchedCount: entry.unmatchedCount,
       thumb,
-      interactiveUrl: entry.interactiveUrl
+      interactiveUrl: entry.interactiveUrl,
+      grp
     });
   });
   writeJson('elections-list.json', {
