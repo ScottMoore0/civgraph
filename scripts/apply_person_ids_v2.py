@@ -65,11 +65,14 @@ def main():
                  '  the live metadata lives in render/metadata/elections-test2.')
 
     doc = json.load(open(REG, encoding='utf-8'))
+    # Registered non-candidates (non-candidate-persons.json) stood in no election: no candidacy
+    # may ever be stamped with one, so they take no part in any rung.
+    entities = [e for e in doc['entities'] if e.get('keyedBy') != 'registered']
     # An id can belong to more than one entity when the registry split an implausible
     # career at a long silence; each half records its `era`, and a contest's year picks it.
     by_person, by_srcid, name_hits = collections.defaultdict(list), collections.defaultdict(list), collections.defaultdict(set)
     local_names = collections.defaultdict(set)
-    for e in doc['entities']:
+    for e in entities:
         era = e.get('era') or [0, 9999]
         for s in e.get('sourcePersonIds') or []:
             by_person[s].append((era[0], era[1], e['personId']))
@@ -92,7 +95,7 @@ def main():
             return min(holding, key=lambda o: (o[1] - o[0], o[2]))[2]
         return min(options, key=lambda o: min(abs(year - o[0]), abs(year - o[1])))[2]
 
-    explicit_era = {e['personId']: tuple(e['era']) for e in doc['entities']
+    explicit_era = {e['personId']: tuple(e['era']) for e in entities
                     if e.get('era') and str(e.get('eraReason') or '').startswith(('split by its official', 'rows of a name'))}
 
     def narrow(pids, year):
@@ -106,14 +109,14 @@ def main():
     # An official person id (Oireachtas, NI Assembly, UK Parliament, Democracy Club) names
     # exactly one person, and decides before anything else.
     by_official = collections.defaultdict(set)
-    for e in doc['entities']:
+    for e in entities:
         for o in e.get('officialPersonIds') or []:
             by_official[o].add(e['personId'])
 
     by_name = {m: list(v)[0] for m, v in name_hits.items() if len(v) == 1}
     ambiguous = {m for m, v in name_hits.items() if len(v) > 1}
     without_source = collections.defaultdict(set)
-    for e in doc['entities']:
+    for e in entities:
         # Name-keyed entities only. A candidacy reaches this rung only when it has no usable
         # candidacy id, and the registry puts exactly those rows in the group keyed by the
         # name; an id-keyed entity of the same name (a 1992 Westminster Daniel O'Leary beside
@@ -127,10 +130,10 @@ def main():
         for m in e.get('nameKeyedRows') or []:
             without_source[m].add(e['personId'])
     by_name_group = {m: next(iter(v)) for m, v in without_source.items() if len(v) == 1 and m in ambiguous}
-    span = {e['personId']: (e.get('firstYear') or 0, e.get('lastYear') or 9999) for e in doc['entities']}
+    span = {e['personId']: (e.get('firstYear') or 0, e.get('lastYear') or 9999) for e in entities}
     # The registry keeps a Republic councillor's id-less rows to his council area: a name there
     # can be several people, one per area and run of years, told apart by where and when.
-    local_area = {e['personId']: (e['localArea'], tuple(e['era'])) for e in doc['entities'] if e.get('localArea')}
+    local_area = {e['personId']: (e['localArea'], tuple(e['era'])) for e in entities if e.get('localArea')}
     councils = {}
 
     def area_of(result):

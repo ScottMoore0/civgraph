@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://civgraph.net/schemas/citation.schema.json",
+  "title": "Citation",
+  "description": "A citation in the repository's shape (data/elections/web-checked-sources.json): a book cites its page; a web page its url. Facts only: no text from the source is held.",
+  "type": "object",
+  "required": ["kind", "title"],
+  "properties": {
+    "kind": { "enum": ["book", "newspaper", "web", "official", "academic", "wikidata"] },
+    "title": { "type": "string", "minLength": 3 },
+    "publisher": { "type": ["string", "null"] },
+    "url": { "type": ["string", "null"], "pattern": "^https?://" },
+    "page": { "type": "string", "pattern": "^[0-9ivxlc]+([-–][0-9ivxlc]+)?$" },
+    "citation": { "type": "string" },
+    "fact": { "type": "string", "description": "The id of the extraction fact the citation rests on (traceability; not shown)." },
+    "accessed": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+    "note": { "type": "string" }
+  },
+  "allOf": [
+    { "if": { "properties": { "kind": { "const": "book" } } }, "then": { "required": ["page"] } },
+    { "if": { "properties": { "kind": { "const": "web" } } }, "then": { "required": ["url"] } }
+  ],
+  "additionalProperties": false
+}
