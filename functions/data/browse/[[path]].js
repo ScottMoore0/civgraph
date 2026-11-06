@@ -9,7 +9,7 @@
  * days (owner decision, 2026-11-06), after which unknown paths will answer 410.
  *
  *   index.json, persons.json, sources.json, register-interests.json, persons-facets.json
- *   person-shards/*, source-index-shards/*, register-interest-shards/*   (rows by source order)
+ *   person-shards/*, source-index-shards/*, register-interest-shards/*   (slices of the rows in source order)
  *   parties.json, party-names.json, party-label-folds.json, details/parties/<slug>.json,
  *   party-profiles/<slug>.json
  *   elections.json (streamed), elections-list.json, details/elections/<slug>.json,
@@ -137,7 +137,9 @@ async function answer(db, route) {
       const index = (manifest?.shards || []).findIndex((s) => s.name === route.name);
       if (index < 0) return notFound();
       const size = Number(manifest.indexShardSize) || 5000;
-      const { results } = await db.prepare(`SELECT card FROM ${spec.table} WHERE ord >= ?1 AND ord < ?2 ORDER BY ord`).bind(index * size, (index + 1) * size).all();
+      // Shard n is rows n*size .. (n+1)*size-1 in source order. ord is a sort key with gaps
+      // (scripts/records/stable-order.mjs), not a position, so the slice is LIMIT/OFFSET.
+      const { results } = await db.prepare(`SELECT card FROM ${spec.table} ORDER BY ord LIMIT ?1 OFFSET ?2`).bind(size, index * size).all();
       const items = (results || []).map((r) => parseJson(r.card));
       return jsonResponse({ schemaVersion: 1, kind: spec.kind, shard: route.name, total: items.length, items });
     }

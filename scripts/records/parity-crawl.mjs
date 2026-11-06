@@ -104,7 +104,20 @@ export function buildUrlList(db) {
   for (const s of sample(contestSlugs, 40)) add('election-contests', `/data/browse/details/election-contests/${s}.json`);
   const offices = col('SELECT slug FROM office_cards ORDER BY slug');
   for (const s of sample(offices, 60)) add('office-detail', `/data/browse/details/offices/${s}.json`);
-  for (let i = 0; i < Math.min(3, Math.ceil(persons.length / 5000)); i += 1) add('person-shard', `/data/browse/person-shards/persons-${String(i).padStart(3, '0')}.json`);
+  for (let i = 0; i < Math.ceil(persons.length / 5000); i += 1) add('person-shard', `/data/browse/person-shards/persons-${String(i).padStart(3, '0')}.json`);
+  // The other sharded indexes, every shard: a shard is a slice of its table in source order, so
+  // these hold the order of every row (the last shard of each included).
+  for (let i = 0; i < Math.ceil(sources.length / 5000); i += 1) add('source-shard', `/data/browse/source-index-shards/sources-${String(i).padStart(3, '0')}.json`);
+  for (let i = 0; i < Math.ceil(register.length / 5000); i += 1) add('register-shard', `/data/browse/register-interest-shards/register-interests-${String(i).padStart(3, '0')}.json`);
+  for (const f of ['elections.json', 'election-contest-parents.json']) add('browse-file', `/data/browse/${f}`);
+  // The list APIs in their default (source) order, first and later pages.
+  for (const q of ['limit=50', 'limit=50&offset=10000', 'limit=50&offset=36300']) add('api-person-list', `/_api/persons?${q}`);
+  for (const q of ['limit=60', 'limit=60&offset=20000', 'limit=60&offset=39300']) add('api-source-list', `/_api/sources?${q}`);
+  for (const q of ['limit=60', 'limit=60&offset=5000']) add('api-register-list', `/_api/register-interests?${q}`);
+  for (const q of ['view=list', 'view=list&decade=1920s&limit=40&offset=20', 'view=manifest']) add('api-election-list', `/_api/elections?${q}`);
+  for (const q of ['', '?view=names']) add('api-party-list', `/_api/parties${q}`);
+  for (const q of ['belfast', 'paisley', 'unionist']) add('api-graph-search', `/_api/graph?q=${q}`);
+  for (const e of ['cg:party:uup', 'cg:party:sdlp', 'cg:party:sinn-fein']) add('api-graph-entity', `/_api/graph?entity=${enc(e)}&related=1`);
   const votePersons = col('SELECT person_id FROM vote_persons ORDER BY person_id');
   for (const id of sample(votePersons, 40)) add('votes-person', `/data/browse/votes/persons/${id}.json`);
   const voteParties = col('SELECT slug FROM vote_parties ORDER BY slug');
