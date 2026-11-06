@@ -58,6 +58,9 @@ const LOGO = '/assets/pages/img/bd2feea987bf.svg';
  *   the build passes a real one, Functions pass the build's manifest (or nothing, and the
  *   URLs go out without ?v=).
  */
+/** The i18n reveal script of partials/site-head.html, with the runtime's URL filled in. */
+const LANG_PREVIEW = (src) => "<script>(function(){var K='civgraph.langPreview',S='" + src + "',on=false;function load(){var i=window.civgraphI18n;if(i){if(i.show)i.show();return;}if(document.querySelector('script[data-i18n-runtime]'))return;var s=document.createElement('script');s.src=S;s.setAttribute('data-i18n-runtime','');document.head.appendChild(s);}window.civgraphLangReveal=function(){try{localStorage.setItem(K,'1');}catch(e){}load();};try{if(/[?&]lang-preview=0(?:&|$)/.test(location.search)){localStorage.removeItem(K);localStorage.removeItem('civgraph.lang');}on=localStorage.getItem(K)==='1';}catch(e){}if(on)load();})();</script>";
+
 export function head({ version } = {}) {
   const url = (path) => {
     const v = version ? version(path) : null;
@@ -65,6 +68,8 @@ export function head({ version } = {}) {
   };
   return raw([
     THEME_BOOTSTRAP,
+    // The language control (fc1efce887): loads nothing unless the reader has revealed it.
+    LANG_PREVIEW(url('assets/i18n/i18n.js')),
     `<link rel="stylesheet" href="${url('assets/site/site-chrome.css')}">`,
     `<script defer src="${url('assets/site/site-chrome.js')}"></script>`,
   ].join('\n'));

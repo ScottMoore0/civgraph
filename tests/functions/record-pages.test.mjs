@@ -19,6 +19,7 @@ import { candidacyLinks, personBody } from '../../functions/_templates/records/p
 import { registerInterestBody } from '../../functions/_templates/records/register-interest.js';
 import { sourceBody } from '../../functions/_templates/records/source.js';
 import { ssrMode } from '../../functions/_templates/records/index.js';
+import { migrationFiles, TableWriter, transaction } from '../../scripts/records/db.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const SHELL = readFileSync(path.join(ROOT, 'browse', 'index.html'), 'utf8');
@@ -96,18 +97,17 @@ export const REGISTER = {
 };
 
 const sqlite = new DatabaseSync(':memory:');
-sqlite.exec(`
-  CREATE TABLE browse_persons (slug TEXT PRIMARY KEY, id TEXT, key_norm TEXT, ord INTEGER, record TEXT);
-  CREATE TABLE browse_persons_aliases (alias TEXT PRIMARY KEY, slug TEXT NOT NULL);
-  CREATE TABLE browse_sources (slug TEXT PRIMARY KEY, id TEXT, key_norm TEXT, ord INTEGER, record TEXT);
-  CREATE TABLE browse_register_interests (slug TEXT PRIMARY KEY, id TEXT, key_norm TEXT, ord INTEGER, record TEXT);
-`);
-const insert = (table, r, key) => sqlite.prepare(`INSERT INTO ${table} VALUES (?, ?, ?, 0, ?)`).run(r.slug, r.id, key, JSON.stringify(r));
-insert('browse_persons', PERSON, 'gerry-adams');
-insert('browse_persons', { id: '1', slug: 'broken-1', name: 'Broken', relatives: 'not-an-array' }, 'broken');
-insert('browse_sources', SOURCE, SOURCE.slug);
-insert('browse_register_interests', REGISTER, REGISTER.slug);
-sqlite.prepare('INSERT INTO browse_persons_aliases VALUES (?, ?)').run('name-gerry-adams', PERSON.slug);
+// The records tables (person_cards, sources, register_entries and the person aliases), as the
+// records loader creates them from migrations/.
+for (const file of migrationFiles()) sqlite.exec(readFileSync(file, 'utf8'));
+transaction(sqlite, () => {
+  const card = (table, r, key) => new TableWriter(sqlite, table).add({ slug: r.slug, id: r.id, key_norm: key, ord: 0, card: JSON.stringify(r) });
+  card('person_cards', PERSON, 'gerry-adams');
+  new TableWriter(sqlite, 'person_cards').add({ slug: 'broken-1', id: '1', key_norm: 'broken', ord: 1, card: JSON.stringify({ id: '1', slug: 'broken-1', name: 'Broken', relatives: 'not-an-array' }) });
+  card('sources', SOURCE, SOURCE.slug);
+  card('register_entries', REGISTER, REGISTER.slug);
+  new TableWriter(sqlite, 'person_aliases').add({ alias: 'name-gerry-adams', slug: PERSON.slug });
+});
 
 function d1({ fail = false } = {}) {
   return {
@@ -227,7 +227,9 @@ test('ssrMode reads the flags', () => {
   const url = new URL('https://civgraph.net/browse/persons/x?ssr=1');
   assert.deepEqual(ssrMode({}, 'persons', url), { ssr: false, preview: false });
   assert.deepEqual(ssrMode({ CIVGRAPH_SSR_RECORDS: 'all' }, 'sources', url), { ssr: true, preview: false });
-  assert.deepEqual(ssrMode({ CIVGRAPH_SSR_RECORDS: 'all' }, 'elections', url), { ssr: false, preview: false });
+  // Elections and parties have templates since phase 2 (records tables); maps do not yet.
+  assert.deepEqual(ssrMode({ CIVGRAPH_SSR_RECORDS: 'all' }, 'elections', url), { ssr: true, preview: false });
+  assert.deepEqual(ssrMode({ CIVGRAPH_SSR_RECORDS: 'all' }, 'maps', url), { ssr: false, preview: false });
   assert.deepEqual(ssrMode({ CIVGRAPH_SSR_PREVIEW: '1' }, 'persons', url), { ssr: true, preview: true });
 });
 

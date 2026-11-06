@@ -17,9 +17,11 @@
  *
  * WHERE THE TITLES COME FROM
  *
- *   persons, sources, register-interests  D1 browse_* tables, the rows /_api/<type> serves
- *   elections (elections and contests)    D1 elections + constituencies + candidates
- *   maps, parties                         R2 data/browse/details/<type>/<slug>.json
+ *   persons, sources, register-interests  D1 person_cards, sources, register_entries: the rows
+ *                                         /_api/<type> serves (records tables, data design phase 2)
+ *   elections (elections and contests)    D1 r_elections + contests + candidacies
+ *   parties                               D1 party_cards (and party_aliases for retired slugs)
+ *   maps                                  R2 data/browse/details/maps/<slug>.json (until phase 3)
  *
  * A record that is definitely absent answers 404 (with the shell, which says "not found");
  * a lookup that cannot be made (no binding, a failed query, a detail file under another
@@ -38,9 +40,11 @@
  * CIVGRAPH_SSR_PREVIEW is set; with neither, this file behaves exactly as before.
  */
 import { reportError } from './_api/_error.js';
+import { T } from './_api/_records.js';
 import { dateText, listText, numberText, slugify } from './_lib/format.js';
 import { datasetVersion, htmlResponse } from './_lib/respond.js';
 import { renderRecordPage, ssrMode } from './_templates/records/index.js';
+import { loadElectionPage } from './_templates/records/election.js';
 
 export { slugify };
 export const SITE_ORIGIN = 'https://civgraph.net';
@@ -48,12 +52,12 @@ const SITE_NAME = 'Civgraph';
 const DESCRIPTION_LIMIT = 300;
 
 export const BROWSE_PAGE_TYPES = {
-  persons: { singular: 'Person', table: 'browse_persons' },
-  sources: { singular: 'Source', table: 'browse_sources' },
-  'register-interests': { singular: 'Register interest', table: 'browse_register_interests' },
+  persons: { singular: 'Person', table: 'person_cards', aliasTable: 'person_aliases' },
+  sources: { singular: 'Source', table: 'sources', aliasTable: 'source_aliases' },
+  'register-interests': { singular: 'Register interest', table: 'register_entries', aliasTable: 'register_entries_aliases' },
   elections: { singular: 'Election' },
   maps: { singular: 'Map', detailDir: 'maps' },
-  parties: { singular: 'Party / label', detailDir: 'parties' },
+  parties: { singular: 'Party / label' },
 };
 
 const htmlEscape = (value) => String(value ?? '')
@@ -133,9 +137,11 @@ function recordMeta(type, record) {
   };
 }
 
-async function lookupTableRecord(db, table, slug) {
+async function lookupTableRecord(db, table, slug, aliasTable = `${table}_aliases`) {
+  // Ordered, so a value that is one record's slug and another's id resolves the same way
+  // whatever order the rows were loaded in (data design 4.3, query 7).
   const row = await db
-    .prepare(`SELECT record FROM ${table} WHERE key_norm = ?1 OR slug = ?1 OR id = ?1 LIMIT 1`)
+    .prepare(`SELECT card AS record FROM ${table} WHERE key_norm = ?1 OR slug = ?1 OR id = ?1 ORDER BY (slug = ?1) DESC, (id = ?1) DESC, ord LIMIT 1`)
     .bind(slug)
     .first();
   if (row?.record) return parseJson(row.record);
@@ -143,7 +149,7 @@ async function lookupTableRecord(db, table, slug) {
   // record it now belongs to: the caller sends a 301 when the slugs differ.
   try {
     const aliased = await db
-      .prepare(`SELECT record FROM ${table} WHERE slug = (SELECT slug FROM ${table}_aliases WHERE alias = ?1) LIMIT 1`)
+      .prepare(`SELECT card AS record FROM ${table} WHERE slug = (SELECT slug FROM ${aliasTable} WHERE alias = ?1) LIMIT 1`)
       .bind(slug)
       .first();
     return aliased?.record ? parseJson(aliased.record) : null;
@@ -160,23 +166,23 @@ async function lookupTableRecord(db, table, slug) {
  * province-wide list is "regional-list". No election slug is a prefix of another, so the
  * longest match is the only match.
  */
-async function lookupElection(db, slug) {
+export async function lookupElection(db, slug) {
   const wanted = slug.toLowerCase();
+  // r_elections.slug is the key with "__" made "-". A contest slug is its election's slug plus
+  // the contest's own (contests.slug), so the election is the longest slug that prefixes it.
   const election = await db
     .prepare(
-      'SELECT key, display_title AS title, body, date, voting_system AS votingSystem, meta FROM elections '
-      // A prefix test by substr, not LIKE: D1 refuses a LIKE whose pattern is a column
-      // ("LIKE or GLOB pattern too complex").
-      + "WHERE key = ?1 OR REPLACE(key, '__', '-') = ?1 "
-      + "OR substr(?1, 1, LENGTH(REPLACE(key, '__', '-')) + 1) = REPLACE(key, '__', '-') || '-' "
-      + 'ORDER BY LENGTH(key) DESC LIMIT 1'
+      `SELECT key, slug, display_title AS title, body, date, voting_system AS votingSystem, meta FROM ${T.elections} `
+      // A prefix test by substr, not LIKE: D1 refuses a LIKE whose pattern is a column.
+      + "WHERE key = ?1 OR slug = ?1 OR substr(?1, 1, LENGTH(slug) + 1) = slug || '-' "
+      + 'ORDER BY LENGTH(key) DESC, key LIMIT 1'
     )
     .bind(wanted)
     .first();
   if (!election) return null;
   const meta = parseJson(election.meta || '') || {};
   const electionTitle = election.title || election.key;
-  const electionSlug = slugify(election.key);
+  const electionSlug = election.slug || slugify(election.key);
   const remainder = wanted === election.key || wanted === electionSlug ? '' : wanted.slice(electionSlug.length + 1);
   const when = election.date ? ` (${dateText(election.date)})` : '';
 
@@ -186,6 +192,7 @@ async function lookupElection(db, slug) {
       title: electionTitle,
       description: clip(meta.description || `${electionTitle}: ${election.body || 'election'}${when}${count ? `, ${numberText(count)} ${count === 1 ? 'constituency' : 'constituencies'}` : ''}. Results by constituency, candidates and parties on Civgraph.`),
       slug: electionSlug,
+      electionKey: election.key,
     };
   }
   if (remainder === 'overall-results') {
@@ -193,20 +200,19 @@ async function lookupElection(db, slug) {
       title: `Overall results - ${electionTitle}`,
       description: clip(`Overall results for the ${electionTitle}${when}: seats and votes by party.`),
       slug: `${electionSlug}-overall-results`,
+      electionKey: election.key,
     };
   }
 
-  const { results } = await db
-    .prepare('SELECT seq, name, electorate, turnout_pct AS turnoutPct, seats_total AS seatsTotal, quota FROM constituencies WHERE election_key = ?1 ORDER BY seq')
-    .bind(election.key)
-    .all();
-  const forum = /^northern-ireland-forum/.test(election.key);
-  const contest = (results || []).find((row) => slugify(row.name) === remainder
-    || (forum && remainder === 'regional-list' && slugify(row.name) === 'northern-ireland'));
+  const contest = await db
+    .prepare('SELECT seq, name, slug, electorate, turnout_pct AS turnoutPct, seats_total AS seatsTotal, quota FROM contests WHERE election_key = ?1 AND slug = ?2 ORDER BY seq LIMIT 1')
+    .bind(election.key, remainder)
+    .first();
   if (!contest) return null;
-  const name = forum && remainder === 'regional-list' ? 'Regional List' : contest.name;
+  const forum = contest.slug === 'regional-list';
+  const name = forum ? 'Regional List' : contest.name;
   const { results: elected } = await db
-    .prepare('SELECT name, party, elected FROM candidates WHERE election_key = ?1 AND constituency_seq = ?2 ORDER BY first_prefs DESC')
+    .prepare('SELECT name, party_label AS party, elected FROM candidacies WHERE election_key = ?1 AND contest_seq = ?2 ORDER BY first_prefs DESC, ord')
     .bind(election.key, contest.seq)
     .all();
   const winners = (elected || [])
@@ -223,8 +229,21 @@ async function lookupElection(db, slug) {
   return {
     title: `${name} - ${electionTitle}`,
     description: clip(description),
-    slug: `${electionSlug}-${remainder}`,
+    slug: `${electionSlug}-${contest.slug}`,
+    electionKey: election.key,
+    contestSeq: contest.seq,
   };
+}
+
+/** A party's detail record from D1, following a retired slug to the party it is now. */
+export async function lookupPartyRecord(db, slug) {
+  const wanted = slug.toLowerCase();
+  const row = await db
+    .prepare('SELECT slug, card, detail FROM party_cards WHERE slug = ?1 OR slug = (SELECT slug FROM party_aliases WHERE alias = ?1) ORDER BY (slug = ?1) DESC LIMIT 1')
+    .bind(wanted)
+    .first();
+  if (!row) return null;
+  return parseJson(row.detail || '') || parseJson(row.card || '');
 }
 
 async function lookupDetailFile(bucket, dir, slug) {
@@ -239,9 +258,9 @@ async function lookupDetailFile(bucket, dir, slug) {
  * the object, null when it certainly does not exist, undefined when that cannot be told.
  */
 export async function lookupBrowseTableRecord(env, type, slug) {
-  const table = BROWSE_PAGE_TYPES[type]?.table;
-  if (!table || !slug || !env?.ELECTIONS_DB) return undefined;
-  return lookupTableRecord(env.ELECTIONS_DB, table, slug);
+  const config = BROWSE_PAGE_TYPES[type];
+  if (!config?.table || !slug || !env?.ELECTIONS_DB) return undefined;
+  return lookupTableRecord(env.ELECTIONS_DB, config.table, slug, config.aliasTable);
 }
 
 /**
@@ -259,6 +278,11 @@ export async function lookupBrowseRecord(env, type, slug) {
   if (type === 'elections') {
     if (!env?.ELECTIONS_DB) return undefined;
     return lookupElection(env.ELECTIONS_DB, slug);
+  }
+  if (type === 'parties') {
+    if (!env?.ELECTIONS_DB) return undefined;
+    const item = await lookupPartyRecord(env.ELECTIONS_DB, slug);
+    return item ? recordMeta(type, item) : null;
   }
   if (config.detailDir) {
     if (!env?.MAPS_BUCKET) return undefined;
@@ -335,7 +359,13 @@ export function browsePageHandler(type) {
     let found;
     let record;
     try {
-      if (ssr) {
+      if (ssr && type === 'elections') {
+        found = await lookupBrowseRecord(context.env, type, slug);
+        record = found ? await loadElectionPage(context.env.ELECTIONS_DB, found) : found;
+      } else if (ssr && type === 'parties') {
+        record = context.env?.ELECTIONS_DB ? await lookupPartyRecord(context.env.ELECTIONS_DB, slug) : undefined;
+        found = record ? recordMeta(type, record) : record;
+      } else if (ssr) {
         record = await lookupBrowseTableRecord(context.env, type, slug);
         found = record ? recordMeta(type, record) : record;
       } else {

@@ -202,7 +202,6 @@ export async function* contestsOf(db, key, { perContest = true } = {}) {
   if (!perContest) {
     const [cands, anims] = await Promise.all([
       db.prepare('SELECT contest_seq AS seq, meta FROM candidacies WHERE election_key = ?1 ORDER BY contest_seq, ord').bind(key).all(),
-      // order-free: keyed by seq into a Map
       db.prepare('SELECT contest_seq AS seq, payload FROM contest_animation WHERE election_key = ?1 ORDER BY contest_seq').bind(key).all(),
     ]);
     const bySeq = new Map();
