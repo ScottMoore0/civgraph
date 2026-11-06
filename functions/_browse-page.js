@@ -185,8 +185,25 @@ async function lookupTableRecord(db, table, slug) {
  * province-wide list is "regional-list". No election slug is a prefix of another, so the
  * longest match is the only match.
  */
+// Bodies that were renamed (an urban district merged into the borough slug that holds its
+// later rounds). _redirects cannot reach these paths, because Pages does not apply
+// redirects to routes a Function serves, so the old addresses are mapped here and the
+// handler's slug check answers 301.
+const ELECTION_SLUG_ALIASES = [
+  ['bangor-urban-district-council-1920-01-15', 'bangor-borough-council-1920-01-15'],
+  ['lisburn-urban-district-council-1920-01-15', 'lisburn-borough-council-1920-01-15'],
+];
+
+export function resolveElectionSlugAlias(slug) {
+  const lower = String(slug || '').toLowerCase();
+  for (const [from, to] of ELECTION_SLUG_ALIASES) {
+    if (lower === from || lower.startsWith(`${from}-`)) return to + lower.slice(from.length);
+  }
+  return lower;
+}
+
 async function lookupElection(db, slug) {
-  const wanted = slug.toLowerCase();
+  const wanted = resolveElectionSlugAlias(slug);
   const election = await db
     .prepare(
       'SELECT key, display_title AS title, body, date, voting_system AS votingSystem, meta FROM elections '
