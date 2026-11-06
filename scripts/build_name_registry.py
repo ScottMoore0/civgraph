@@ -78,6 +78,10 @@ def tokens(s):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--check', action='store_true')
+    # --stamp-only: stamp name_id on the bundles (a pure function of the names in them) without
+    # rewriting the committed registry. records:build uses it on its tmp/records bundles, so a
+    # records build never edits data/elections/persons/.
+    ap.add_argument('--stamp-only', action='store_true')
     args = ap.parse_args()
 
     obs = collections.defaultdict(list)
@@ -221,10 +225,11 @@ def main():
         print('\n--check: nothing written')
         return
 
-    os.makedirs(OUT, exist_ok=True)
-    json.dump(doc, open(REG, 'w', encoding='utf-8', newline='\n'),
-              ensure_ascii=False, indent=1)
-    if cand:
+    if not args.stamp_only:
+        os.makedirs(OUT, exist_ok=True)
+        json.dump(doc, open(REG, 'w', encoding='utf-8', newline='\n'),
+                  ensure_ascii=False, indent=1)
+    if cand and not args.stamp_only:
         with open(ALIAS, 'w', encoding='utf-8', newline='') as fh:
             w = csv.DictWriter(fh, fieldnames=list(cand[0].keys()))
             w.writeheader(); w.writerows(cand)
@@ -254,8 +259,9 @@ def main():
             changed += 1
             dump_generated_json(f, d)
     print(f"\n  stamped name_id on {stamped:,} candidacies across {changed} files")
-    print(f"  wrote {REG}")
-    if cand:
+    if not args.stamp_only:
+        print(f"  wrote {REG}")
+    if cand and not args.stamp_only:
         print(f"  wrote {ALIAS}")
 
 

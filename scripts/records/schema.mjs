@@ -1,0 +1,408 @@
+/**
+ * The records database, table by table: the one list the loader, the delta, verify and the
+ * tests all read. migrations/0001_records.sql was generated from it
+ * (`node scripts/records/schema.mjs --sql`) and tests/records/schema.test.mjs holds the two
+ * equal; later changes go in new, append-only migration files and here together.
+ *
+ * Conventions (data design DESIGN.md section 2.2):
+ * - every table has a natural primary key;
+ * - `ord` keeps source order wherever a list is shown in source order, and every list query
+ *   orders by it (or by columns ending in the key), never by rowid;
+ * - every table except `dataset` carries row_hash (SHA-1 of the canonical row, 40 hex) and
+ *   row_hash_n (its first 8 hex digits as an integer, below 2^32), so a table checksum is
+ *   SUM(row_hash_n) in SQLite and D1 alike without integer overflow;
+ * - `meta`/`record`/`card` columns hold JSON stored verbatim (phase 2 stores what the
+ *   transforms build; phase 4 turns cards into views).
+ *
+ * Two tables collide with live tables of a different shape and are created as r_elections
+ * and r_counts until stage H renames them (functions/_api/_records.js T.elections, T.counts).
+ *
+ * Table groups (`group`) say which ingest module fills a table; `parents` gives the delta its
+ * order (parents before children for inserts, children before parents for deletes).
+ */
+
+const T = 'TEXT';
+const I = 'INTEGER';
+const R = 'REAL';
+
+/** [name, type, notNull?] */
+const c = (name, type = T, notNull = false) => ({ name, type, notNull });
+
+const HASH = [c('row_hash', T, true), c('row_hash_n', I, true)];
+
+/**
+ * @typedef {{ name: string, group: string, columns: {name:string,type:string,notNull:boolean}[],
+ *   pk: string[], hashed: boolean, order: string, indexes?: [string, string[], boolean?][],
+ *   note?: string }} TableSpec
+ */
+/** @type {TableSpec[]} */
+export const TABLES = [
+  // ---------------------------------------------------------------- dataset and documents
+  {
+    name: 'dataset', group: 'dataset', hashed: false, pk: ['key'], order: 'key',
+    columns: [c('key', T, true), c('value')],
+    note: 'version, loading, git_commit, loaded_at, inputs_hash, table checksums',
+  },
+  {
+    // Whole small documents served as they are: Browse index.json, party-label-folds.json,
+    // the votes index, the graph manifest and lookup head, the manifests of the sharded
+    // indexes (their shard lists are rewritten by the compatibility route).
+    name: 'documents', group: 'documents', hashed: true, pk: ['name'], order: 'name',
+    columns: [c('name', T, true), c('body', T, true), ...HASH],
+  },
+
+  // ---------------------------------------------------------------- elections
+  {
+    name: 'r_elections', group: 'elections', hashed: true, pk: ['key'], order: 'date, key',
+    columns: [
+      c('key', T, true), c('slug', T, true), c('body_slug', T, true), c('body'), c('body_group'),
+      c('display_title'), c('contest_type'), c('kind'), c('voting_system'), c('contest_status'),
+      c('date', T, true), c('year', I), c('decade', I), c('source_map_id'), c('layer_id'),
+      c('label_property'), c('candidate_rows_expected', I), c('transfer_data_expected', I),
+      c('previous_key'), c('placeholder', I), c('ord', I, true),
+      // The bundle without results[] and the two whole-election aggregates, in the bundle's
+      // own key order: a removed key is kept in place with the value null.
+      c('meta', T, true), ...HASH,
+    ],
+    indexes: [['r_elections_slug', ['slug'], true], ['r_elections_body_date', ['body_slug', 'date', 'key']], ['r_elections_date', ['date', 'key']]],
+  },
+  {
+    // mainLikeCandidateSummary and entityIndex, out of elections.meta: together they pushed
+    // ireland-local 2004 and 2014 past D1's 2,000,000-byte row limit. Stored verbatim (the
+    // person-id loop stamps the summary rows after the manifest builds them, so a rebuild on
+    // request would not reproduce them), one row per part of at most PART_CHARS characters.
+    name: 'election_aggregates', group: 'elections', hashed: true, pk: ['election_key', 'name', 'part'], order: 'election_key, name, part',
+    columns: [c('election_key', T, true), c('name', T, true), c('part', I, true), c('payload', T, true), ...HASH],
+  },
+  {
+    name: 'contests', group: 'elections', hashed: true, pk: ['election_key', 'seq'], parents: ['r_elections'], order: 'election_key, seq',
+    columns: [
+      c('election_key', T, true), c('seq', I, true), c('name', T, true), c('slug', T, true),
+      c('source_file'), c('seats_total', I), c('electorate', I), c('quota', R), c('turnout_pct', R),
+      c('winner_party'), c('winner_name'), c('leading_party'), c('leading_name'),
+      c('leading_votes', R), c('leading_pct', R), c('majority', R), c('majority_pct', R),
+      c('seats_won', I),
+      // The result without candidates, countGroup, animationPayload and the feature match,
+      // in the bundle's key order (those keys kept in place with the value null).
+      c('meta', T, true), ...HASH,
+    ],
+    indexes: [['contests_slug', ['election_key', 'slug', 'seq']], ['contests_source_file', ['source_file']]],
+  },
+  {
+    name: 'candidacies', group: 'elections', hashed: true, pk: ['election_key', 'contest_seq', 'ord'], parents: ['contests'], order: 'election_key, contest_seq, ord',
+    columns: [
+      c('election_key', T, true), c('contest_seq', I, true), c('ord', I, true),
+      c('candidate_id'), c('person_id'), c('name'), c('name_as_printed'), c('party_as_printed'),
+      c('party_label'), c('party_rule', I), c('party_id'), c('ballot_description'),
+      c('first_prefs', R), c('final_votes', R), c('elected', I), c('elected_at', I),
+      c('excluded', I), c('excluded_at', I), c('status'), c('unopposed', I), c('colour'), c('gender'),
+      // The candidate verbatim: every field, in its own order.
+      c('meta', T, true), ...HASH,
+    ],
+    indexes: [['cand_person', ['person_id', 'election_key', 'contest_seq', 'ord']], ['cand_party', ['party_id', 'election_key']], ['cand_label', ['party_label']]],
+  },
+  {
+    name: 'r_counts', group: 'elections', hashed: true, pk: ['election_key', 'contest_seq', 'ord'], parents: ['contests'], order: 'election_key, contest_seq, ord',
+    columns: [
+      c('election_key', T, true), c('contest_seq', I, true), c('ord', I, true), c('row_id', I),
+      c('candidacy_ord', I), c('candidate_id'), c('count_number', I), c('total_votes', R),
+      c('transfers', R), c('status'), ...HASH,
+    ],
+  },
+  {
+    name: 'contest_animation', group: 'elections', hashed: true, pk: ['election_key', 'contest_seq'], parents: ['contests'], order: 'election_key, contest_seq',
+    columns: [c('election_key', T, true), c('contest_seq', I, true), c('payload', T, true), ...HASH],
+  },
+  {
+    name: 'contest_features', group: 'elections', hashed: true, pk: ['election_key', 'contest_seq'], parents: ['contests'], order: 'election_key, contest_seq',
+    columns: [c('election_key', T, true), c('contest_seq', I, true), c('layer_id'), c('feature_id'), c('feature_name'), c('match_name'), c('matched', I), ...HASH],
+    indexes: [['confeat_layer', ['layer_id', 'feature_id']]],
+  },
+  {
+    name: 'election_summaries', group: 'elections', hashed: true, pk: ['election_key'], parents: ['r_elections'], order: 'election_key',
+    columns: [c('election_key', T, true), c('file', T, true), c('summary', T, true), ...HASH],
+    indexes: [['election_summaries_file', ['file'], true]],
+  },
+  {
+    // The manifest entry (render/metadata/elections-test2.json elections[]), verbatim.
+    name: 'election_manifest', group: 'elections', hashed: true, pk: ['key'], order: 'ord',
+    columns: [c('key', T, true), c('ord', I, true), c('entry', T, true), ...HASH],
+    indexes: [['election_manifest_ord', ['ord', 'key']]],
+  },
+  {
+    // Browse election records: the 1,829 elections, their overall results and 13,360 contest
+    // entries of data/browse/elections.json, with the list card of elections-list.json.
+    name: 'election_cards', group: 'browse', hashed: true, pk: ['slug'], order: 'ord',
+    columns: [
+      c('slug', T, true), c('id'), c('key'), c('entry_kind'), c('election_key'), c('title'), c('title_norm'),
+      c('search_norm'), c('body_slug'), c('body'), c('date'), c('decade'), c('kind'), c('ord', I, true),
+      c('card', T, true), c('list_card'), ...HASH,
+    ],
+    indexes: [['election_cards_ord', ['ord', 'slug']], ['election_cards_election', ['election_key', 'ord']], ['election_cards_body', ['body_slug', 'ord']], ['election_cards_key', ['key']]],
+  },
+  {
+    // details/elections/<slug>.json item and details/election-contests/<slug>.json items.
+    name: 'election_details', group: 'browse', hashed: true, pk: ['slug'], order: 'slug',
+    columns: [c('slug', T, true), c('election_key'), c('detail'), c('contests'), ...HASH],
+    indexes: [['election_details_key', ['election_key']]],
+  },
+
+  // ---------------------------------------------------------------- persons
+  {
+    name: 'persons', group: 'persons', hashed: true, pk: ['person_id'], order: 'ord',
+    columns: [
+      c('person_id', T, true), c('registry_id'), c('display_name', T, true), c('first_year', I), c('last_year', I),
+      c('provisional', I), c('candidacies', I), c('ord', I, true), c('meta', T, true), ...HASH,
+    ],
+  },
+  {
+    name: 'person_names', group: 'persons', hashed: true, pk: ['name_id', 'person_id'], order: 'name_id, person_id',
+    columns: [c('name_id', T, true), c('person_id', T, true), c('name'), c('candidacies', I), c('first_year', I), c('last_year', I), ...HASH],
+    indexes: [['person_names_person', ['person_id', 'name_id']]],
+  },
+  {
+    // Old addresses of a person card: previous slugs, old ids and ids merged away.
+    name: 'person_aliases', group: 'persons', hashed: true, pk: ['alias'], order: 'alias',
+    columns: [c('alias', T, true), c('slug', T, true), ...HASH],
+  },
+  {
+    name: 'person_merges', group: 'persons', hashed: true, pk: ['drop_id'], order: 'drop_id',
+    columns: [c('drop_id', T, true), c('keep_id', T, true), c('confirmed', I), c('meta'), ...HASH],
+  },
+  {
+    // reference-offices.json, reference-relations.json, reference-dates.json, one row per entry.
+    name: 'person_facts', group: 'persons', hashed: true, pk: ['person_id', 'kind', 'ord'], order: 'person_id, kind, ord',
+    columns: [c('person_id', T, true), c('kind', T, true), c('ord', I, true), c('value', T, true), ...HASH],
+  },
+  {
+    name: 'person_cards', group: 'browse', hashed: true, pk: ['slug'], order: 'ord',
+    columns: [
+      c('slug', T, true), c('id'), c('title'), c('title_norm'), c('key_norm'), c('search_norm'),
+      c('first_year', I), c('last_year', I), c('bodies'), c('decades'), c('elected'), c('contests', I), c('elected_count', I),
+      c('ord', I, true), c('card', T, true), ...HASH,
+    ],
+    indexes: [
+      ['person_cards_ord', ['ord']], ['person_cards_title', ['title_norm']], ['person_cards_key', ['key_norm']], ['person_cards_id', ['id']],
+      ['person_cards_first_year', ['first_year']], ['person_cards_last_year', ['last_year']], ['person_cards_contests', ['contests']], ['person_cards_elected_count', ['elected_count']],
+    ],
+  },
+  {
+    name: 'person_cards_facets', group: 'browse', hashed: true, pk: ['id'], order: 'id',
+    columns: [c('id', I, true), c('facets', T, true), ...HASH],
+  },
+
+  // ---------------------------------------------------------------- parties
+  {
+    name: 'parties', group: 'parties', hashed: true, pk: ['party_id'], order: 'ord',
+    columns: [
+      c('party_id', T, true), c('type'), c('name'), c('short_name'), c('founded'), c('founded_precision'),
+      c('dissolved'), c('status'), c('provisional', I), c('confidence'), c('ord', I, true), c('meta', T, true), ...HASH,
+    ],
+  },
+  {
+    name: 'party_names', group: 'parties', hashed: true, pk: ['party_id', 'ord'], order: 'party_id, ord',
+    columns: [c('party_id', T, true), c('ord', I, true), c('name', T, true), c('kind', T, true), c('valid_from'), c('valid_until'), c('bodies'), c('meta'), ...HASH],
+    indexes: [['party_names_name', ['name', 'party_id']]],
+  },
+  {
+    // party-lineage.json events. Kept general (kind, related, basis, source, meta) so the
+    // facts model's party events (docs/facts-model.md on branch facts-model) can load here.
+    name: 'party_events', group: 'parties', hashed: true, pk: ['ord'], order: 'ord',
+    columns: [c('ord', I, true), c('party_id', T, true), c('date'), c('kind'), c('related'), c('meta', T, true), ...HASH],
+    indexes: [['party_events_party', ['party_id', 'date', 'ord']]],
+  },
+  {
+    // The ballot-paper label -> party map (party-names.json items), in its order.
+    name: 'party_label_map', group: 'browse', hashed: true, pk: ['label'], order: 'ord',
+    columns: [c('label', T, true), c('party_slug', T, true), c('ord', I, true), ...HASH],
+  },
+  {
+    name: 'party_aliases', group: 'browse', hashed: true, pk: ['alias'], order: 'alias',
+    columns: [c('alias', T, true), c('slug', T, true), ...HASH],
+  },
+  {
+    name: 'party_cards', group: 'browse', hashed: true, pk: ['slug'], order: 'ord',
+    columns: [
+      c('slug', T, true), c('id'), c('title'), c('title_norm'), c('search_norm'), c('occurrences', I),
+      c('ord', I, true), c('card', T, true), c('detail'), c('profile'), ...HASH,
+    ],
+    indexes: [['party_cards_ord', ['ord']]],
+  },
+
+  // ---------------------------------------------------------------- sources and provenance
+  {
+    name: 'sources', group: 'browse', hashed: true, pk: ['slug'], order: 'ord',
+    columns: [
+      c('slug', T, true), c('id'), c('title'), c('title_norm'), c('key_norm'), c('search_norm'),
+      c('provider'), c('category'), c('publication_status'), c('date'), c('license'),
+      c('ord', I, true), c('card', T, true), c('detail'), ...HASH,
+    ],
+    indexes: [
+      ['sources_ord', ['ord']], ['sources_title', ['title_norm']], ['sources_key', ['key_norm']], ['sources_id', ['id']],
+      ['sources_provider', ['provider']], ['sources_category', ['category']], ['sources_publication_status', ['publication_status']], ['sources_date', ['date']], ['sources_license', ['license']],
+    ],
+  },
+  {
+    name: 'sources_facets', group: 'browse', hashed: true, pk: ['id'], order: 'id',
+    columns: [c('id', I, true), c('facets', T, true), ...HASH],
+  },
+  {
+    name: 'source_aliases', group: 'browse', hashed: true, pk: ['alias'], order: 'alias',
+    columns: [c('alias', T, true), c('slug', T, true), ...HASH],
+  },
+  {
+    // source-merges.json items, verbatim and in order.
+    name: 'source_merges', group: 'browse', hashed: true, pk: ['ord'], order: 'ord',
+    columns: [c('ord', I, true), c('item', T, true), ...HASH],
+  },
+  {
+    // One row per contest of data/database/election-provenance.json (the 25 MiB file):
+    // the record without its sources (kept in place as null), joined to the contest.
+    name: 'contest_provenance', group: 'provenance', hashed: true, pk: ['source_file'], order: 'ord',
+    columns: [
+      c('source_file', T, true), c('election_key'), c('contest_seq', I), c('body'), c('date'), c('constituency'),
+      c('status'), c('ord', I, true), c('record', T, true), ...HASH,
+    ],
+    indexes: [['contest_provenance_contest', ['election_key', 'contest_seq']], ['contest_provenance_ord', ['ord']]],
+  },
+  {
+    name: 'citations', group: 'provenance', hashed: true, pk: ['subject_type', 'subject_key', 'ord'], order: 'subject_type, subject_key, ord',
+    columns: [
+      c('subject_type', T, true), c('subject_key', T, true), c('ord', I, true), c('title'), c('publisher'),
+      c('url'), c('archive_url'), c('host'), c('kind'), c('origin'), c('basis'), c('scope'), c('checked', I),
+      c('match'), c('document'), c('citation', T, true), ...HASH,
+    ],
+    indexes: [['citations_url', ['url']]],
+  },
+  {
+    name: 'legislation', group: 'provenance', hashed: true, pk: ['legislation_id'], order: 'ord',
+    columns: [c('legislation_id', T, true), c('title'), c('url'), c('ord', I, true), c('meta', T, true), ...HASH],
+  },
+  {
+    name: 'election_legislation', group: 'provenance', hashed: true, pk: ['source_file', 'ord'], order: 'source_file, ord',
+    columns: [c('source_file', T, true), c('ord', I, true), c('legislation_id', T, true), ...HASH],
+    indexes: [['election_legislation_id', ['legislation_id']]],
+  },
+  {
+    // The per-election shard the map app reads (render/metadata/election-provenance/<key>.json).
+    name: 'provenance_shards', group: 'provenance', hashed: true, pk: ['election_key'], order: 'election_key',
+    columns: [c('election_key', T, true), c('shard', T, true), ...HASH],
+  },
+
+  // ---------------------------------------------------------------- register of interests
+  {
+    name: 'register_entries', group: 'browse', hashed: true, pk: ['slug'], order: 'ord',
+    columns: [
+      c('slug', T, true), c('id'), c('title'), c('title_norm'), c('key_norm'), c('search_norm'),
+      c('member_name'), c('elected_body'), c('category'), c('date'), c('constituency'), c('member_type'),
+      c('chamber'), c('interest_count', I), c('source_count', I), c('nil_status'),
+      c('ord', I, true), c('card', T, true), ...HASH,
+    ],
+    indexes: [
+      ['register_entries_ord', ['ord']], ['register_entries_title', ['title_norm']], ['register_entries_key', ['key_norm']], ['register_entries_id', ['id']],
+      ['register_entries_member_name', ['member_name']], ['register_entries_elected_body', ['elected_body']], ['register_entries_date', ['date']],
+      ['register_entries_constituency', ['constituency']], ['register_entries_member_type', ['member_type']], ['register_entries_chamber', ['chamber']],
+      ['register_entries_interest_count', ['interest_count']], ['register_entries_source_count', ['source_count']], ['register_entries_nil_status', ['nil_status']],
+    ],
+  },
+  {
+    name: 'register_entries_facets', group: 'browse', hashed: true, pk: ['id'], order: 'id',
+    columns: [c('id', I, true), c('facets', T, true), ...HASH],
+  },
+  {
+    name: 'register_entries_aliases', group: 'browse', hashed: true, pk: ['alias'], order: 'alias',
+    columns: [c('alias', T, true), c('slug', T, true), ...HASH],
+  },
+
+  // ---------------------------------------------------------------- votes and divisions
+  {
+    name: 'divisions', group: 'votes', hashed: true, pk: ['division_id'], order: 'shard, ord',
+    columns: [
+      c('division_id', T, true), c('shard', I, true), c('ord', I, true), c('body'), c('date'), c('number'), c('title'),
+      // The division record without its votes (kept in place as null).
+      c('record', T, true), ...HASH,
+    ],
+    indexes: [['divisions_shard', ['shard', 'ord']], ['divisions_body_date', ['body', 'date', 'division_id']]],
+  },
+  {
+    name: 'division_votes', group: 'votes', hashed: true, pk: ['division_id', 'ord'], parents: ['divisions'], order: 'division_id, ord',
+    columns: [c('division_id', T, true), c('ord', I, true), c('person_id'), c('vote'), c('party'), c('entry', T, true), ...HASH],
+    indexes: [['dvotes_person', ['person_id', 'division_id']]],
+  },
+  {
+    // The per-person and per-party vote summaries, as built (terms, titles, cohesion).
+    name: 'vote_persons', group: 'votes', hashed: true, pk: ['person_id'], order: 'person_id',
+    columns: [c('person_id', T, true), c('record', T, true), ...HASH],
+  },
+  {
+    name: 'vote_parties', group: 'votes', hashed: true, pk: ['slug'], order: 'slug',
+    columns: [c('slug', T, true), c('record', T, true), ...HASH],
+  },
+
+  // ---------------------------------------------------------------- semantic graph
+  {
+    name: 'graph_entities', group: 'graph', hashed: true, pk: ['entity_id'], order: 'shard, ord',
+    columns: [
+      c('entity_id', T, true), c('shard', I, true), c('ord', I, true), c('slug'), c('label'), c('label_norm'),
+      // entity: the entity-shard record; summary: its lookup entry without the shard numbers.
+      c('entity', T, true), c('summary'), ...HASH,
+    ],
+    indexes: [['graph_entities_shard', ['shard', 'ord']], ['graph_entities_slug', ['slug']], ['graph_entities_label', ['label_norm']]],
+  },
+  {
+    // Browse record keys ("persons:ian-paisley-48601") -> entity.
+    name: 'graph_browse_keys', group: 'graph', hashed: true, pk: ['browse_key'], order: 'browse_key',
+    columns: [c('browse_key', T, true), c('entity_id', T, true), ...HASH],
+  },
+  {
+    // A subject's statements as the record pages read them (statements-by-subject shards).
+    name: 'graph_statements', group: 'graph', hashed: true, pk: ['subject_id', 'ord'], order: 'subject_id, ord',
+    columns: [c('subject_id', T, true), c('ord', I, true), c('statement_id'), c('property_id'), c('statement', T, true), ...HASH],
+  },
+  {
+    // Statements whose value is an entity, by that entity (reverse-entity-value shards).
+    name: 'graph_reverse', group: 'graph', hashed: true, pk: ['entity_id', 'ord'], order: 'entity_id, ord',
+    columns: [c('entity_id', T, true), c('ord', I, true), c('item', T, true), ...HASH],
+  },
+  {
+    // Statements citing a source entity (source-statements shards).
+    name: 'graph_source_statements', group: 'graph', hashed: true, pk: ['source_id', 'ord'], order: 'source_id, ord',
+    columns: [c('source_id', T, true), c('ord', I, true), c('item', T, true), ...HASH],
+  },
+];
+
+export const TABLE = Object.fromEntries(TABLES.map((t) => [t.name, t]));
+export const HASHED_TABLES = TABLES.filter((t) => t.hashed);
+
+/** Largest value any one column may hold: D1's row limit is 2,000,000 bytes. */
+export const MAX_VALUE_BYTES = 1_900_000;
+/** election_aggregates splits a payload into parts of this many characters. */
+export const PART_CHARS = 600_000;
+
+export function createTableSql(t) {
+  const cols = t.columns.map((col) => `  ${col.name} ${col.type}${col.notNull ? ' NOT NULL' : ''}`);
+  cols.push(`  PRIMARY KEY (${t.pk.join(', ')})`);
+  const lines = [`CREATE TABLE ${t.name} (\n${cols.join(',\n')}\n);`];
+  for (const [name, columns, unique] of t.indexes || []) {
+    lines.push(`CREATE ${unique ? 'UNIQUE ' : ''}INDEX ${name} ON ${t.name}(${columns.join(', ')});`);
+  }
+  return lines.join('\n');
+}
+
+export function schemaSql() {
+  return [
+    '-- civgraph records database: phase 2 tables (generated by scripts/records/schema.mjs --sql).',
+    '-- Created beside the live tables (elections, constituencies, candidates, counts,',
+    '-- constituency_animation, constituency_features, browse_*), which this migration does not touch.',
+    '-- dataset already exists in production (the elections loader made it): IF NOT EXISTS.',
+    '',
+    ...TABLES.map((t) => (t.name === 'dataset'
+      ? createTableSql(t).replace('CREATE TABLE dataset', 'CREATE TABLE IF NOT EXISTS dataset')
+      : createTableSql(t))),
+    '',
+  ].join('\n\n');
+}
+
+if (process.argv[1] && import.meta.url.endsWith(process.argv[1].replace(/\\/g, '/').split('/').pop()) && process.argv.includes('--sql')) {
+  process.stdout.write(schemaSql());
+}
