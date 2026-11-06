@@ -27,7 +27,7 @@ import { compareElectionsNewestFirst } from '../lib/election-names.mjs';
 import path from 'node:path';
 import { loadRecords } from './records.mjs';
 import { formatDatesInText, formatDisplayDate } from '../../src/date-format.mjs';
-import { buildNiLocalGroupEntry, groupNiLocalRounds, isNiLocalCouncilRound, niLocalGroupKey } from '../../src/ni-local-groups.mjs';
+import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLocalCouncilRound, niLocalGroupKey } from '../../src/ni-local-groups.mjs';
 
 const ROOT = process.cwd();
 const rel = (p) => path.join(ROOT, p);
@@ -356,9 +356,11 @@ const niLocalGroupRecords = [...niLocalGroups].map(([year, rounds]) => {
     kind: 'general',
     seats: group.councilCount,
     subtitle: group.displaySubtitle,
-    scope: 'Northern Ireland',
+    // Before 1921, "Irish local elections": the island's year.
+    scope: isIrelandLocalYear(year) ? 'Ireland' : 'Northern Ireland',
   };
-  if (niLocalThumb) rec.thumb = niLocalThumb;
+  const thumb = isIrelandLocalYear(year) && thumbs.has('administrative-counties-1899') ? 'administrative-counties-1899' : niLocalThumb;
+  if (thumb) rec.thumb = thumb;
   return rec;
 });
 const electionsOut = [...elections.filter((e) => !isNiLocalCouncilRound(e)).map((e) => {

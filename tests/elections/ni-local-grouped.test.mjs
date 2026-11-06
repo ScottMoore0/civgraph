@@ -13,9 +13,12 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import {
+  NI_COUNCIL_SLUGS,
   NI_LOCAL_LEVEL_IDS,
   buildNiLocalGroupEntry,
   councilTier,
+  currentNiLocalGroupKey,
+  niLocalGroupTitle,
   groupNiLocalRounds,
   isAldermanicBody,
   isAldermanicContest,
@@ -60,11 +63,52 @@ test('council kinds and aldermen are read from the body slug', () => {
   assert.equal(isAldermanicContest('belfast-county-borough-council', 'Alderman and Councillor'), false);
 });
 
-test('group keys round-trip', () => {
+test('group keys and titles: the island before 1921, Northern Ireland from 1921', () => {
   assert.equal(niLocalGroupKey(1946), 'ni-local__1946');
+  assert.equal(niLocalGroupKey(1921), 'ni-local__1921');
+  assert.equal(niLocalGroupKey(1911), 'ireland-local__1911');
+  assert.equal(niLocalGroupKey(1920), 'ireland-local__1920');
   assert.equal(niLocalGroupYear('ni-local__1946'), 1946);
+  assert.equal(niLocalGroupYear('ireland-local__1911'), 1911);
   assert.equal(isNiLocalGroupKey('ni-local__1946'), true);
+  assert.equal(isNiLocalGroupKey('ireland-local__1911'), true);
+  // The Republic's local elections keep their own keys and are not year entries.
+  assert.equal(isNiLocalGroupKey('ireland-local__2019-05-24'), false);
   assert.equal(isNiLocalGroupKey('belfast-county-borough-council__1946-05-15'), false);
+  assert.equal(currentNiLocalGroupKey('ni-local__1911'), 'ireland-local__1911');
+  assert.equal(currentNiLocalGroupKey('ni-local__1946'), 'ni-local__1946');
+  assert.equal(niLocalGroupTitle(1911), '1911 Irish local elections');
+  assert.equal(niLocalGroupTitle(1924), '1924 Northern Ireland local elections');
+  const early = buildNiLocalGroupEntry(1911, [{ key: 'x__1911-01-15', bodySlug: 'strabane-urban-district-council', date: '1911-01-15' }]);
+  assert.equal(early.body, 'Irish local elections');
+  assert.equal(early.bodySlug, 'irish-local-elections');
+  assert.deepEqual(early.previousKeys, ['ni-local__1911']);
+  const later = buildNiLocalGroupEntry(1924, []);
+  assert.equal(later.body, 'Northern Ireland local elections');
+  assert.equal(later.previousKeys, undefined);
+});
+
+test('pre-1921 rounds anywhere on the island are grouped; the Republic\'s local elections are not', () => {
+  const fake = [
+    { key: 'cork-county-council__1911-06-01', bodySlug: 'cork-county-council', date: '1911-06-01' },
+    { key: 'dublin-county-borough-council__1911-01-15', bodySlug: 'dublin-county-borough-council', date: '1911-01-15' },
+    { key: 'ireland-local__1985-06-20', bodySlug: 'ireland-local', date: '1985-06-20' },
+    { key: 'cork-county-council__1925-06-23', bodySlug: 'cork-county-council', date: '1925-06-23' }
+  ];
+  const groups = groupNiLocalRounds(fake);
+  // Cork and Dublin in 1911 are the island's year; Cork in 1925 is not Northern Ireland's.
+  assert.deepEqual([...groups.keys()], [1911]);
+  assert.equal(groups.get(1911).length, 2);
+  assert.equal(isNiLocalCouncilRound(fake[2]), false);
+  assert.equal(isNiLocalCouncilRound(fake[3]), false);
+});
+
+test('every council round of 1921-72 in the catalogue is a listed Northern Ireland council', () => {
+  const unlisted = manifest.elections.filter((entry) => entry.date >= '1921' && entry.date < '1973'
+    && entry.bodyGroup !== 'local-government' && councilTier(entry.bodySlug)
+    && !String(entry.bodySlug).startsWith('ireland-')
+    && !NI_COUNCIL_SLUGS.has(String(entry.bodySlug).replace(/-aldermen$/, '')));
+  assert.deepEqual(unlisted.map((entry) => entry.key), [], 'add the slug to NI_COUNCIL_SLUGS in src/ni-local-groups.mjs');
 });
 
 test('every pre-1973 NI council round is in exactly one year, and only those are grouped', () => {
@@ -189,7 +233,11 @@ test('levels are offered only with results or hatching, on the edition the rules
       if (id === 'ded' && level.sourceMapId) {
         assert.ok(year < 1921 ? level.sourceMapId.startsWith('eds-ulster-') : level.sourceMapId.startsWith('ded-'), `${year} DED edition ${level.sourceMapId}`);
       }
-      if (id === 'counties' && level.sourceMapId) assert.equal(level.sourceMapId, 'counties-county-boroughs-1915');
+      if (id === 'counties' && level.sourceMapId) {
+        assert.equal(level.sourceMapId, year < 1921 ? 'administrative-counties-1899' : 'counties-county-boroughs-1915', `${year} counties edition`);
+      }
+      assert.equal(file.title, `${year} ${year < 1921 ? 'Irish' : 'Northern Ireland'} local elections`);
+      assert.equal(file.key, year < 1921 ? `ireland-local__${year}` : `ni-local__${year}`);
     }
   }
   // Belfast's wards are on the DED map every year from 1923.
