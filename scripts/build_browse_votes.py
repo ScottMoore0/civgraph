@@ -33,6 +33,7 @@ from collections import Counter, defaultdict
 
 csv.field_size_limit(10 ** 8)
 REPO = os.environ.get("CIVGRAPH_REPO") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_RP = __import__('runpy').run_path(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'records', 'paths.py'))
 SHARDS = 256
 
 BODIES = {
@@ -125,7 +126,8 @@ def shard_of(division_id):
 
 def party_slugs():
     """party label (as in the election records) -> party page slug"""
-    p = os.path.join(REPO, "data", "browse", "parties.json")
+    # The Browse tree the records build writes (tmp/records/browse), as the bundles above.
+    p = os.path.join(_RP["BROWSE_DIR"], "parties.json")
     out = {}
     if not os.path.exists(p):
         return out
@@ -143,7 +145,7 @@ def elected_terms():
         slug = b["elections"]
         if not slug:
             continue
-        for f in sorted(glob.glob(os.path.join(REPO, "render", "metadata", "elections-test2", f"{slug}__*.json"))):
+        for f in sorted(glob.glob(os.path.join(_RP["ELECTION_BUNDLE_DIR"], f"{slug}__*.json"))):
             d = json.load(open(f, encoding="utf-8"))
             if not d.get("isByElection"):
                 generals[code].append(d["date"])

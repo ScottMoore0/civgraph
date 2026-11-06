@@ -127,7 +127,8 @@ async function handle(context) {
 
     let sql, bindArr;
     if (match) {
-      const order = top ? 'p.ref ASC' : (sort === 'relevance' ? 'bm25(proni_fts)' : `${ORDER[sort] || 'p.ref'} ${dir}`);
+      // Ties broken by ref, so a page boundary never repeats or skips a record (data design 4.3, query 9).
+      const order = top ? 'p.ref ASC' : (sort === 'relevance' ? 'bm25(proni_fts), p.ref' : `${ORDER[sort] || 'p.ref'} ${dir}, p.ref`);
       const w = where.length ? ' AND ' + where.join(' AND ') : '';
       sql = `SELECT ${SELECT_COLS}${sort === 'relevance' ? ', bm25(proni_fts) AS rank' : ''}
              FROM proni_fts f JOIN proni p ON p.rowid = f.rowid LEFT JOIN ext ON ext.ref = p.ref
@@ -135,7 +136,7 @@ async function handle(context) {
              ORDER BY ${order} LIMIT ? OFFSET ?`;
       bindArr = [match, ...binds, limit, offset];
     } else {
-      const order = top ? 'p.ref ASC' : `${ORDER[sort] && sort !== 'relevance' ? ORDER[sort] : 'p.ref'} ${dir}`;
+      const order = top ? 'p.ref ASC' : `${ORDER[sort] && sort !== 'relevance' ? ORDER[sort] : 'p.ref'} ${dir}, p.ref`;
       sql = `SELECT ${SELECT_COLS} FROM proni p LEFT JOIN ext ON ext.ref = p.ref
              WHERE ${where.join(' AND ')}
              ORDER BY ${order} LIMIT ? OFFSET ?`;

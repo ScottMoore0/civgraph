@@ -58,6 +58,8 @@ except ImportError as exc:  # pragma: no cover - environment problem, not logic
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..'))
+# Record build paths (scripts/records/paths.py): the legacy locations unless CIVGRAPH_BUILD_DIR is set.
+_RP = __import__('runpy').run_path(os.path.join(REPO, 'scripts', 'records', 'paths.py'))
 ELECTIONS = os.path.join(REPO, 'data', 'elections-source', 'data', 'elections')
 CACHE = os.path.join(REPO, '.cache', 'electionsireland')
 REPORT = os.path.join(REPO, 'data', 'elections', 'persons', 'ei-candidate-id-harvest.csv')
@@ -301,7 +303,7 @@ def byelection_index(client, refresh=False, delay=1.2):
 
 
 LIFESPANS = os.path.join(REPO, 'data', 'elections', 'persons', 'ei-candidate-lifespans.json')
-RENDERED = os.path.join(REPO, 'render', 'metadata', 'elections-test2')
+RENDERED = _RP['ELECTION_BUNDLE_DIR']
 BORN = re.compile('Born: ([0-9]{1,2} [A-Za-z]+ [0-9]{4})')
 DIED = re.compile('Died: ([0-9]{1,2} [A-Za-z]+ [0-9]{4})')
 

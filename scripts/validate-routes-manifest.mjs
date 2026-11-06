@@ -57,7 +57,21 @@ function collect(dir, prefix = '') {
     }
     if (!entry.endsWith('.js')) continue;
     if (entry.startsWith('_')) continue;     // helper modules are not routes
+    // Pages makes a route only of a module that exports a handler (onRequest,
+    // onRequestGet, ...). Shared modules without one, such as functions/_lib/html.js and
+    // functions/_templates/*, get no route: `wrangler pages functions build
+    // --output-routes-path` lists none for them (checked 2026-11-06).
+    if (!/export\s+(?:async\s+)?(?:const|function|let|var)\s+onRequest\w*\b|export\s*\{[^}]*\bonRequest\w*/.test(readFileSync(full, 'utf8'))) continue;
     const base = entry.replace(/\.js$/, '');
+    // A catch-all that answers only some of the paths under it (functions/render/metadata,
+    // which hands everything else to the static files) names them in an exported
+    // ROUTE_PATTERNS, and _routes.json includes exactly those: routing the whole prefix would
+    // invoke a Function for every map metadata file.
+    const declared = readFileSync(full, 'utf8').match(/export\s+const\s+ROUTE_PATTERNS\s*=\s*\[([^\]]*)\]/);
+    if (declared) {
+      routes.push(...[...declared[1].matchAll(/'([^']+)'/g)].map((m) => m[1]));
+      continue;
+    }
     if (base === 'index') routes.push(`${prefix}/`);
     else if (base.startsWith('[[') && base.endsWith(']]')) routes.push(`${prefix}/*`);
     else routes.push(`${prefix}/${base}`);

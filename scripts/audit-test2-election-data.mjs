@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { writeStableGeneratedJson } from './lib/stable-generated-json.mjs';
+import { recordPath } from './records/paths.mjs';
 
 const ROOT = process.cwd();
 const FAIL_ON_BLOCKING = process.argv.includes('--fail-on-blocking');
@@ -8,17 +9,17 @@ const JSON_OUT = path.join(ROOT, 'tasks', 'test2-election-data-audit.json');
 const MD_OUT = path.join(ROOT, 'tasks', 'test2-election-data-audit.md');
 
 const readJson = (relativePath) => {
-  const absolute = path.join(ROOT, relativePath);
+  const absolute = recordPath(relativePath);
   return JSON.parse(fs.readFileSync(absolute, 'utf8'));
 };
 
 const readJsonIfExists = (relativePath, fallback = null) => {
-  const absolute = path.join(ROOT, relativePath);
+  const absolute = recordPath(relativePath);
   if (!fs.existsSync(absolute)) return fallback;
   return JSON.parse(fs.readFileSync(absolute, 'utf8'));
 };
 
-const exists = (relativePath) => fs.existsSync(path.join(ROOT, relativePath));
+const exists = (relativePath) => fs.existsSync(recordPath(relativePath));
 
 const writeTextIfChanged = (file, text) => {
   fs.mkdirSync(path.dirname(file), { recursive: true });
@@ -212,18 +213,18 @@ const validPollReviewByResult = new Map((validPollReview.records || []).map((rec
 const candidateRowReviewByResult = new Map((candidateRowReview.records || []).map((record) => [reviewRecordKey(record.electionKey, record.constituency), record]));
 const partyColourReviewByParty = new Map((partyColourReview.records || []).map((record) => [normalizeKeyText(record.party || record.label), record]));
 
-const currentElectionDetailFiles = fs.existsSync(path.join(ROOT, 'data/browse/details/elections'))
-  ? fs.readdirSync(path.join(ROOT, 'data/browse/details/elections')).filter((name) => name.endsWith('.json'))
+const currentElectionDetailFiles = fs.existsSync(recordPath('data/browse/details/elections'))
+  ? fs.readdirSync(recordPath('data/browse/details/elections')).filter((name) => name.endsWith('.json'))
   : [];
-const legacyElectionSourceFiles = fs.existsSync(path.join(ROOT, 'data/browse/details/sources'))
-  ? fs.readdirSync(path.join(ROOT, 'data/browse/details/sources')).filter((name) => /^election-source-.*\.json$/.test(name))
+const legacyElectionSourceFiles = fs.existsSync(recordPath('data/browse/details/sources'))
+  ? fs.readdirSync(recordPath('data/browse/details/sources')).filter((name) => /^election-source-.*\.json$/.test(name))
   : [];
 const sourceFiles = currentElectionDetailFiles.length ? currentElectionDetailFiles : legacyElectionSourceFiles;
-const resultFiles = fs.existsSync(path.join(ROOT, 'render/metadata/elections-test2'))
-  ? fs.readdirSync(path.join(ROOT, 'render/metadata/elections-test2')).filter((name) => name.endsWith('.json'))
+const resultFiles = fs.existsSync(recordPath('render/metadata/elections-test2'))
+  ? fs.readdirSync(recordPath('render/metadata/elections-test2')).filter((name) => name.endsWith('.json'))
   : [];
-const summaryFiles = fs.existsSync(path.join(ROOT, 'render/metadata/elections-test2-summaries'))
-  ? fs.readdirSync(path.join(ROOT, 'render/metadata/elections-test2-summaries')).filter((name) => name.endsWith('.json'))
+const summaryFiles = fs.existsSync(recordPath('render/metadata/elections-test2-summaries'))
+  ? fs.readdirSync(recordPath('render/metadata/elections-test2-summaries')).filter((name) => name.endsWith('.json'))
   : [];
 
 if (manifest.totals?.elections !== manifestEntries.length) {

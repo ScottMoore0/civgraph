@@ -1,5 +1,7 @@
 # PRONI catalogue search — Cloudflare D1 deploy runbook
 
+> Some scripts named below were archived in November 2026 (ARCHIVE.md, "Archived scripts"); they are in the archive copies and in git history, not in `scripts/`.
+
 > **Status: current runbook.** The PRONI D1 database and `PRONI_DB` binding are
 > live; the binding is recorded in `wrangler.toml` and `docs/cloudflare-inventory.md`.
 > Use this when redeploying or rebuilding the search index, not as pending work.

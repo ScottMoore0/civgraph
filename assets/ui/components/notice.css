@@ -1,0 +1,33 @@
+/* Notice / callout: coverage, provenance, errors (component 20). */
+.cg-notice {
+  margin: 0 0 var(--space-6);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--info);
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
+  color: var(--text);
+  font-size: var(--text-sm);
+}
+
+.cg-notice > :last-child {
+  margin-bottom: 0;
+}
+
+.cg-notice--warning {
+  border-left-color: var(--warning);
+}
+
+.cg-notice--danger {
+  border-left-color: var(--danger);
+}
+
+.cg-notice--success {
+  border-left-color: var(--success);
+}
+
+.cg-notice__title {
+  display: block;
+  margin-bottom: var(--space-1);
+  font-weight: var(--weight-semibold);
+}

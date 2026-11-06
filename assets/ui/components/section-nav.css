@@ -1,0 +1,24 @@
+/* Breadcrumb / section bar (component 7). */
+.cg-section-nav {
+  margin: 0 0 var(--space-4);
+  font-size: var(--text-sm);
+}
+
+.cg-section-nav ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cg-section-nav li + li::before {
+  content: '/';
+  margin-right: var(--space-2);
+  color: var(--gray-400);
+}
+
+.cg-section-nav [aria-current="page"] {
+  color: var(--text-muted);
+}

@@ -29,10 +29,11 @@ import {
   replaceNiLocalRoundsWithGroups
 } from '../../src/ni-local-groups.mjs';
 import { leadingParty, niLocalAreaName, voteShareOpacity } from '../../app/src/ni-local-view.js';
+import { ELECTION_MANIFEST } from '../../scripts/records/paths.mjs';
 
 const ROOT = process.cwd();
-const read = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), 'utf8'));
-const manifest = read('render/metadata/elections-test2.json');
+const read = (rel) => JSON.parse(fs.readFileSync(path.resolve(ROOT, rel), 'utf8'));
+const manifest = read(ELECTION_MANIFEST);
 const coverage = read('render/metadata/ni-local-coverage.json');
 const yearFile = (year) => read(`render/metadata/ni-local/${year}.json`);
 

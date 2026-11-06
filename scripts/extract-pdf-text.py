@@ -1,31 +1,7 @@
-#!/usr/bin/env python
-import json
+"""moved to tools/extract-pdf-text.py (site restructure, wave 1); this shim keeps old commands and notes working for a month."""
+import os
+import runpy
 import sys
-from pathlib import Path
 
-from pypdf import PdfReader
-
-
-def main() -> int:
-    if len(sys.argv) != 2:
-        print("usage: extract-pdf-text.py <pdf-path>", file=sys.stderr)
-        return 2
-
-    pdf_path = Path(sys.argv[1])
-    reader = PdfReader(str(pdf_path))
-    pages = []
-    for index, page in enumerate(reader.pages, start=1):
-        pages.append({
-            "page": index,
-            "text": page.extract_text() or "",
-        })
-
-    print(json.dumps({
-        "path": str(pdf_path),
-        "pages": pages,
-    }, ensure_ascii=False))
-    return 0
-
-
-if __name__ == "__main__":
-    raise SystemExit(main())
+sys.argv[0] = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../tools/extract-pdf-text.py')
+runpy.run_path(sys.argv[0], run_name='__main__')

@@ -1,0 +1,39 @@
+/* Dropdown / popover / menu on the native popover attribute (component 17). */
+.cg-popover {
+  margin: 0;
+  padding: var(--space-1);
+  min-width: 12rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow-lg);
+}
+
+.cg-menu {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cg-menu a,
+.cg-menu button {
+  display: block;
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-size: var(--text-sm);
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.cg-menu a:hover,
+.cg-menu button:hover,
+.cg-menu [aria-current="true"] {
+  background: var(--menu-current);
+}

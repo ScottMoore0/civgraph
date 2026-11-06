@@ -20,12 +20,14 @@
  *
  *   node scripts/validate-public-map-count.mjs
  */
+import path from 'node:path';
 import { readFileSync } from 'node:fs';
 import { isPublicMap, isPublicStatistic, statisticGeographyIds } from '../src/public-map.mjs';
+import { BROWSE_DIR } from './records/paths.mjs';
 
 const CATALOGUE = 'data/database/maps.json';
 const RENDER = 'render/metadata/maps-test.json';
-const BROWSE = 'data/browse/maps.json';
+const BROWSE = path.join(BROWSE_DIR, 'maps.json');
 const STATISTICS = 'data/database/data-entries.json';
 
 const catalogue = JSON.parse(readFileSync(CATALOGUE, 'utf8'));

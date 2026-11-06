@@ -33,8 +33,17 @@ fi
 # fetched by the static runtime. Keeping it in a root-output Pages deployment
 # pushes the asset count over Cloudflare's 20,000-file limit.
 remove_path ".github"
-remove_path "archive"
-remove_path "analysis"
+remove_path "archive"   # out of the repository since Nov 2026 (ARCHIVE.md); kept so a restored copy never deploys
+remove_path "analysis"  # out of the repository since Nov 2026; kept so a restored copy never deploys
+# Record build output, answered from D1 by the compatibility Functions (data design stage G): a
+# static copy would shadow them, as data/graph shadowed its proxy on 2026-08-11.
+remove_path "render/metadata/elections-test2"
+remove_path "render/metadata/elections-test2-summaries"
+remove_path "render/metadata/election-provenance"
+remove_path "render/metadata/elections-test2.json"
+remove_path "render/metadata/elections-test2-report.json"
+remove_path "data/database/election-provenance.json"
+remove_path "tmp"
 remove_path "boundary-gazette"
 remove_path "docs"
 remove_path "ocr_output"

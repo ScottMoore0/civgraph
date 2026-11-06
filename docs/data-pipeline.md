@@ -1,5 +1,7 @@
 # Data Pipeline Inputs
 
+> Some scripts named below were archived in November 2026 (ARCHIVE.md, "Archived scripts"); they are in the archive copies and in git history, not in `scripts/`.
+
 > **Status: current reference.** Describes where review inputs come from and
 > which corpora are deliberately git-ignored. Enforced in part by
 > `npm run check:source-paths` and `npm run check:intake-delivery`.

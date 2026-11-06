@@ -1,0 +1,36 @@
+/* Segmented control (component 10): radio inputs or links shown as one bar. */
+.cg-segmented {
+  display: inline-flex;
+  padding: 2px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-sunken);
+}
+
+.cg-segmented > a,
+.cg-segmented > label {
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.cg-segmented input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cg-segmented > [aria-current="true"],
+.cg-segmented > label:has(input:checked) {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow-xs);
+}
+
+.cg-segmented > label:has(input:focus-visible) {
+  outline: 2px solid var(--focus-ring);
+}

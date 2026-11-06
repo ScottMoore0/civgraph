@@ -33,6 +33,8 @@ import gallagher  # noqa: E402
 import pymupdf  # noqa: E402
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..'))
+# Record build paths (scripts/records/paths.py): the legacy locations unless CIVGRAPH_BUILD_DIR is set.
+_RP = __import__('runpy').run_path(os.path.join(ROOT, 'scripts', 'records', 'paths.py'))
 SOURCE = {
     'title': 'Irish Elections 1922-44: Results and Analysis', 'author': 'Michael Gallagher',
     'publisher': 'PSAI Press', 'year': 1993,
@@ -92,7 +94,7 @@ def slug(s):
 
 def electorates(doc):
     ge = gallagher.general_elections(doc)
-    meta = os.path.join(ROOT, 'render', 'metadata', 'elections-test2')
+    meta = _RP['ELECTION_BUNDLE_DIR']
     built = {}
     records, unmatched = [], []
     for g in ge:

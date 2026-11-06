@@ -1,0 +1,156 @@
+/*
+ * Base styles for shell pages: box model, typography, links, focus, skip link,
+ * visually-hidden, the main column. Reads tokens.css only.
+ */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(/assets/fonts/inter-latin.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 500 800;
+  font-display: swap;
+  src: url(/assets/fonts/plus-jakarta-sans-latin.woff2) format('woff2');
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body.cg-page {
+  margin: 0;
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  -webkit-font-smoothing: antialiased;
+}
+
+.cg-main {
+  display: block;
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4) var(--space-16);
+}
+
+.cg-main:focus {
+  outline: none;
+}
+
+:where(.cg-page) h1,
+:where(.cg-page) h2,
+:where(.cg-page) h3 {
+  font-family: var(--font-display);
+  line-height: var(--leading-tight);
+  color: var(--text);
+  margin: var(--space-8) 0 var(--space-3);
+}
+
+:where(.cg-page) h1 {
+  font-size: var(--text-3xl);
+  margin-top: var(--space-2);
+}
+
+:where(.cg-page) h2 {
+  font-size: var(--text-xl);
+}
+
+:where(.cg-page) h3 {
+  font-size: var(--text-lg);
+}
+
+:where(.cg-page) p {
+  margin: 0 0 var(--space-4);
+}
+
+:where(.cg-page) a {
+  color: var(--link);
+  text-underline-offset: 0.15em;
+}
+
+:where(.cg-page) a:hover {
+  text-decoration-thickness: 2px;
+}
+
+:where(.cg-page) :focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+.cg-kicker {
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.cg-lede {
+  font-size: var(--text-lg);
+  color: var(--text-muted);
+  max-width: 48rem;
+}
+
+.cg-muted {
+  color: var(--text-muted);
+}
+
+.cg-num {
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* Skip link: hidden until focused, then the first thing on the page. */
+.cg-skip-link {
+  position: absolute;
+  left: var(--space-2);
+  top: var(--space-2);
+  z-index: var(--z-tooltip);
+  padding: var(--space-2) var(--space-4);
+  background: var(--surface);
+  color: var(--link);
+  border: 2px solid var(--focus-ring);
+  border-radius: var(--radius-md);
+  transform: translateY(-200%);
+}
+
+.cg-skip-link:focus {
+  transform: none;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

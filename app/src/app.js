@@ -21,8 +21,14 @@ import {
   partyHeadlineCards
 } from '../../src/entity-detail-data.mjs';
 import { Test2MapLibreMainAdapter } from './maplibre-main-adapter.js';
-
-const TEST2_LAYER_ORDER_STORAGE_KEY = 'civgraph:maplibre:layer-order';
+import {
+  LAYER_ORDER_STORAGE_KEY,
+  layerOrderToRestore,
+  normalizeLoadedLayerOrder as normalizeLayerOrderToLoaded,
+  parseLayerOrder,
+  serializeSavedLayerOrder
+} from '../../src/map/app/layer-order.mjs';
+import { renameElectionDatesInParams, resolveLegacyLayerId } from '../../src/map/app/url-compat.mjs';
 // Boundary changes between consecutive editions (scripts/build_timeline_changes.py). They
 // replace the Play-only transition overlays of data/timeline-transition-overlays/.
 const TIMELINE_CHANGES_BASE_PATH = '/data/timeline-changes';
@@ -50,35 +56,6 @@ const CIVIL_PARISHES_COMPOSITE_CHILD_IDS = [
   'civil-parishes-munster',
   'civil-parishes-ulster'
 ];
-
-function parseLayerOrder(value) {
-  if (!value) return [];
-  let items = [];
-  if (Array.isArray(value)) {
-    items = value;
-  } else {
-    const text = String(value).trim();
-    if (!text) return [];
-    if (text.startsWith('[')) {
-      try {
-        const parsed = JSON.parse(text);
-        if (Array.isArray(parsed)) items = parsed;
-      } catch {
-        items = [];
-      }
-    }
-    if (!items.length) items = text.split(',');
-  }
-  const seen = new Set();
-  const result = [];
-  for (const rawId of items) {
-    const id = String(rawId || '').trim();
-    if (!id || seen.has(id)) continue;
-    seen.add(id);
-    result.push(id);
-  }
-  return result;
-}
 
 class Test2App {
   constructor() {
@@ -135,43 +112,31 @@ class Test2App {
     this.serviceWorkerStatusPromise = null;
     this.performanceBudget = null;
     this.browseEntityDetailCache = new Map();
-    this.browsePersonsIndexPromise = null;
     this.classicScriptPromises = new Map();
   }
 
+  // Layer order parsing and normalising live in src/map/app/layer-order.mjs (seam A1); the
+  // storage access stays here.
   readSavedLayerOrder() {
     try {
-      return parseLayerOrder(localStorage.getItem(TEST2_LAYER_ORDER_STORAGE_KEY));
+      return parseLayerOrder(localStorage.getItem(LAYER_ORDER_STORAGE_KEY));
     } catch {
       return [];
     }
   }
 
   writeSavedLayerOrder(order) {
-    const ids = parseLayerOrder(order);
+    const value = serializeSavedLayerOrder(order);
     try {
-      if (ids.length > 1) localStorage.setItem(TEST2_LAYER_ORDER_STORAGE_KEY, JSON.stringify(ids));
-      else localStorage.removeItem(TEST2_LAYER_ORDER_STORAGE_KEY);
+      if (value !== null) localStorage.setItem(LAYER_ORDER_STORAGE_KEY, value);
+      else localStorage.removeItem(LAYER_ORDER_STORAGE_KEY);
     } catch {
       // Storage can fail in private browsing or locked-down browser profiles.
     }
   }
 
   normalizeLoadedLayerOrder(order, loadedIds = this.getLoadedLayerIds()) {
-    const loadedSet = new Set(loadedIds);
-    const result = [];
-    const seen = new Set();
-    for (const id of parseLayerOrder(order)) {
-      if (!loadedSet.has(id) || seen.has(id)) continue;
-      seen.add(id);
-      result.push(id);
-    }
-    for (const id of loadedIds) {
-      if (seen.has(id)) continue;
-      seen.add(id);
-      result.push(id);
-    }
-    return result;
+    return normalizeLayerOrderToLoaded(order, loadedIds);
   }
 
   getActiveLayerOrder(loadedIds = this.getLoadedLayerIds()) {
@@ -192,10 +157,7 @@ class Test2App {
   }
 
   restoreLayerOrder(params) {
-    const explicitOrder = parseLayerOrder(params?.get?.('layerOrder'));
-    const savedOrder = explicitOrder.length ? explicitOrder : this.readSavedLayerOrder();
-    if (!savedOrder.length) return;
-    const normalized = this.normalizeLoadedLayerOrder(savedOrder);
+    const normalized = layerOrderToRestore(params, () => this.readSavedLayerOrder(), () => this.getLoadedLayerIds());
     if (normalized.length < 2) return;
     this.mapController?.setLayerDrawOrder?.(normalized);
   }
@@ -2192,7 +2154,7 @@ class Test2App {
   }
 
   /**
-   * The party registry as Browse lists it (/data/browse/parties.json): every party with its
+   * The party registry as Browse lists it (/_api/parties, from D1; was /data/browse/parties.json): every party with its
    * full name, short name, aliases and colour, keyed by each spelling. A results table names a
    * party as the ballot did ("Ulster Unionist", "Official Unionist"), and only the registry
    * knows that both are the UUP; a spelling two records share goes to the one with more
@@ -2200,7 +2162,7 @@ class Test2App {
    */
   async loadPartyIndex() {
     if (!this.partyIndexPromise) {
-      this.partyIndexPromise = fetch('/data/browse/parties.json', { cache: 'default' })
+      this.partyIndexPromise = fetch('/_api/parties', { cache: 'default' })
         .then((response) => (response.ok ? response.json() : Promise.reject(new Error(`parties index ${response.status}`))))
         .then((payload) => {
           const items = Array.isArray(payload?.items) ? payload.items : [];
@@ -2245,7 +2207,7 @@ class Test2App {
     for (const candidateSlug of candidates) {
       let response;
       try {
-        response = await fetch(`/data/browse/details/parties/${encodeURIComponent(candidateSlug)}.json`, { cache: 'default' });
+        response = await fetch(`/_api/parties?slug=${encodeURIComponent(candidateSlug)}`, { cache: 'default' });
       } catch (error) {
         failure = error;
         continue;
@@ -2330,15 +2292,10 @@ class Test2App {
       }
     }
 
-    if (!endpointDown) return null;
-    // The endpoint is unavailable: the slow path, by name or slug, as before.
-    const wanted = slugifyEntityKey(raw);
-    const rawNameSlug = slugifyEntityKey(namePart);
-    const item = await this.findBrowsePerson((person) => {
-      const slugs = [person.slug, person.id, person.name, person.title].map(slugifyEntityKey);
-      return slugs.includes(wanted) || (rawNameSlug && slugs.includes(rawNameSlug));
-    });
-    return item ? this.mapPersonBrowseItem(item, partyIndex) : null;
+    // /_api/persons is the only path (data design phase 2): the person shards it replaced are no
+    // longer files. Its responses carry a last-good copy for when D1 is unavailable.
+    if (endpointDown) console.warn('[persons] /_api/persons is unavailable');
+    return null;
   }
 
   /**
@@ -2378,10 +2335,7 @@ class Test2App {
         if (response.ok) payload = await response.json();
       } catch { /* handled below */ }
       if (!Array.isArray(payload?.persons)) {
-        if (page === 0) {
-          // Same degradation as the person lookup: the whole index, only when the endpoint is down.
-          return { persons: await this.loadBrowsePersonsIndex().catch(() => []), capped: false };
-        }
+        if (page === 0) return { persons: [], capped: true };
         capped = true;
         break;
       }
@@ -2504,57 +2458,6 @@ class Test2App {
         return loadAttributeSchema(...args);
       };
     }
-  }
-
-  // The browse persons index was SHARDED (11,964 people across three files) and this
-  // reader was not updated. persons.json is now a 628-byte manifest with no `items`, so
-  // `payload.items` was undefined, the index resolved to [], and every person link
-  // silently failed -- openElectionEntityDetailInCatalogue returned false, the handler
-  // logged a console warning, and nothing happened on screen. Party details lost their
-  // candidate summaries to the same cause without anything reporting it.
-  //
-  // Same manifest handling as browse/browse.js:3456, which has read it correctly all
-  // along. A flat payload still works, so this does not depend on the layout staying
-  // sharded.
-  async fetchBrowseIndexItems(url) {
-    const response = await fetch(url, { cache: 'default' });
-    if (!response.ok) throw new Error(`Browse index failed: ${response.status} ${url}`);
-    const payload = await response.json();
-    if (payload?.indexLayout === 'sharded' && Array.isArray(payload.shards)) {
-      const shards = await Promise.all(payload.shards.map((shard) => this.fetchBrowseIndexItems(shard.url)));
-      return shards.flat();
-    }
-    return Array.isArray(payload.items) ? payload.items : [];
-  }
-
-  async loadBrowsePersonsIndex() {
-    if (!this.browsePersonsIndexPromise) {
-      this.browsePersonsIndexPromise = this.fetchBrowseIndexItems('/data/browse/persons.json');
-    }
-    return this.browsePersonsIndexPromise;
-  }
-
-  // Resolving ONE person should not cost the whole index. The shards total 24 MB, so
-  // walk them in order and stop at the first match -- a person click usually pays for a
-  // single shard. Falls back to the full index for a flat payload, and reuses the full
-  // index when something else has already loaded it.
-  async findBrowsePerson(matches) {
-    if (this.browsePersonsIndexPromise) {
-      const all = await this.browsePersonsIndexPromise;
-      return all.find(matches) || null;
-    }
-    const response = await fetch('/data/browse/persons.json', { cache: 'default' });
-    if (!response.ok) return null;
-    const payload = await response.json();
-    if (!(payload?.indexLayout === 'sharded' && Array.isArray(payload.shards))) {
-      return (Array.isArray(payload.items) ? payload.items : []).find(matches) || null;
-    }
-    for (const shard of payload.shards) {
-      const items = await this.fetchBrowseIndexItems(shard.url).catch(() => []);
-      const hit = items.find(matches);
-      if (hit) return hit;
-    }
-    return null;
   }
 
   mapPartyBrowseItem(item, personsResult = {}, partyIndex = null) {
@@ -5228,86 +5131,6 @@ app.init().catch((error) => {
   const target = document.getElementById('map') || document.body;
   target.insertAdjacentHTML('beforeend', `<div class="map-error">Failed to start Civgraph: ${escapeHtml(error.message)}</div>`);
 });
-
-/**
- * Layer ids that have been renamed, mapped old -> new.
- *
- * A layer id is not private. It appears in `#layers=` share links, so renaming one
- * breaks every link anyone has posted, bookmarked or cited -- silently, as an empty map
- * rather than an error. This is the cost that makes id renames worth avoiding, and the
- * reason to accept a slightly wrong id is usually stronger than it looks.
- *
- * `roi-local-authorities-*` was renamed to `local-authorities-*` on 2026-08-22. The
- * prefix was wrong for four of the 26 layers outright -- 1915 and the three 1920 dates
- * cover the whole island, before partition -- and anachronistic for a dozen more, since
- * there was no republic before 1949. The fix was not a better jurisdiction prefix but
- * none at all: the display name carries the scope, and encoding a jurisdiction that
- * changes over the life of a series is what went wrong in the first place.
- *
- * Kept as a prefix rewrite rather than 26 entries so the table cannot fall out of step
- * with the rename.
- */
-const LEGACY_LAYER_ID_PREFIXES = [
-  ['roi-local-authorities-', 'local-authorities-'],
-  // NI editions re-dated to the census date on 2026-11-01 (the id carries the date): Newtownards RD
-  // was renamed North Down RD on 1 Aug 1954, not 1 Apr (Census 1961); Londonderry's wards were
-  // reduced on 15 May 1938, not 16 May (Census 1951). The 1939 edition became a layer of its own
-  // (Ballymena made a borough), and the 1957 "CED" edition was the county map counties-ireland-1957.
-  ['admin-areas-1954-04-01', 'admin-areas-1954-08-01'],
-  ['ded-1954-04-01', 'ded-1954-08-01'],
-  ['county-ed-1954-04-01', 'county-ed-1954-08-01'],
-  ['admin-areas-1938-05-16', 'admin-areas-1938-05-15'],
-  ['ded-1938-05-16', 'ded-1938-05-15'],
-  ['county-ed-1938-05-16', 'county-ed-1938-05-15'],
-  ['admin-areas-1939-05-23-alias-test', 'admin-areas-1939-05-23-vector-test'],
-  ['county-ed-1957-04-01-vector-test', 'counties-ireland-1957-vector-test']
-];
-
-// Elections whose polling date was corrected, which changed their keys: old links keep working.
-// [body slug, old date, new date]
-const RENAMED_ELECTION_DATES = [
-  ['house-of-commons-of-the-united-kingdom', '1968-04-17', '1969-04-17'], // Mid Ulster by-election (Devlin)
-  ['house-of-commons-of-the-united-kingdom', '2011-06-06', '2011-06-09'], // Belfast West by-election
-  ['northern-ireland-assembly', '1983-04-27', '1983-04-20'] // Armagh by-election
-];
-
-// Elections filed under another body, which changed their keys: old links keep working.
-// [old body slug, new body slug, new body name, date]. Bangor's and Lisburn's 1920 rounds moved
-// from their urban district slugs to the one body each that holds their later rounds (2026-11).
-const RENAMED_ELECTION_BODIES = [
-  ['bangor-urban-district-council', 'bangor-borough-council', 'Bangor Borough Council', '1920-01-15'],
-  ['lisburn-urban-district-council', 'lisburn-borough-council', 'Lisburn Borough Council', '1920-01-15']
-];
-
-function renameElectionDatesInParams(params) {
-  for (const [name, value] of [...params.entries()]) {
-    let next = value;
-    for (const [body, from, to] of RENAMED_ELECTION_DATES) {
-      next = next.split(`${body}__${from}`).join(`${body}__${to}`).split(`${body}:${from}`).join(`${body}:${to}`);
-      if (name === 'electionDate' && next === from && slugifyBody(params.get('electionBody')) === body) next = to;
-    }
-    for (const [from, to, toName, date] of RENAMED_ELECTION_BODIES) {
-      next = next.split(`${from}__${date}`).join(`${to}__${date}`).split(`${from}:${date}`).join(`${to}:${date}`)
-        .split(`election-${from}-${date}`).join(`election-${to}-${date}`);
-      if (name === 'electionBody' && slugifyBody(next) === from && params.get('electionDate') === date) next = toName;
-    }
-    if (next !== value) params.set(name, next);
-  }
-  return params;
-}
-
-function slugifyBody(value) {
-  return String(value || '').toLowerCase().trim().replace(/[^\w\s-]/g, '').replace(/[\s]+/g, '-').replace(/-+/g, '-');
-}
-
-function resolveLegacyLayerId(id) {
-  const value = String(id || '');
-  if (!value) return value;
-  for (const [from, to] of LEGACY_LAYER_ID_PREFIXES) {
-    if (value.startsWith(from)) return `${to}${value.slice(from.length)}`;
-  }
-  return value;
-}
 
 function escapeHtml(value) {
   return String(value ?? '').replace(/[&<>"']/g, (ch) => ({

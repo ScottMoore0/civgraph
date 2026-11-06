@@ -1,4 +1,13 @@
 #!/usr/bin/env node
+/**
+ * check:root -- the production map app's shell, service worker and build stay as the
+ * MapLibre promotion left them (maps/index.html, sw.js, app/src/app.js, the build script).
+ *
+ * It reads nothing under archive/ (that went with 49e65a9e43) and nothing of the legacy
+ * /render/ app, so it survives the restructure as the data design's checks.csv says: its
+ * assertions are source-file rules for the live app and move into check:schema (C2). The
+ * /test2/ compatibility assertions change when F5 turns /test2/ into a redirect.
+ */
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 
 function assert(condition, message) {
@@ -21,8 +30,9 @@ const mainCss = read('assets/css/main.css');
 const test2Css = read('app/src/test2.css');
 const sharedAssetBuilder = read('scripts/build-shared-shell-assets.mjs');
 const packageJson = JSON.parse(read('package.json'));
-const archiveDocExists = existsSync('archive/leaflet-main-before-maplibre-root-20260612.md');
-const archivedBundleExists = existsSync('archive/legacy-scripts/bundle.mjs');
+// The retired Leaflet manifest and bundle.mjs used to be asserted present under
+// archive/. archive/ left the repository in November 2026 (see ARCHIVE.md); the
+// tag leaflet-main-before-maplibre-root-20260612 still pins the Leaflet main.
 const buildScript = String(packageJson.scripts?.build || '');
 
 assert(appHtml.includes('Root MapLibre shell'), 'maps/index.html must carry the MapLibre marker.');
@@ -72,7 +82,6 @@ assert(
   'build:legacy-leaflet must stay retired — the Leaflet stack is archived.'
 );
 assert(!existsSync('scripts/bundle.mjs'), 'Retired mixed Leaflet/CSS bundle script must stay archived outside scripts/.');
-assert(archivedBundleExists, 'Archived mixed Leaflet/CSS bundle script is missing from archive/legacy-scripts/bundle.mjs.');
 assert(
   sharedAssetBuilder.includes('assets/css/main.css') &&
     sharedAssetBuilder.includes('assets/thumbnails') &&
@@ -144,6 +153,5 @@ assert(
     packageJson.scripts?.['check:root'] === 'node scripts/validate-maplibre-root-promotion.mjs',
   'npm run check must include root promotion validation.'
 );
-assert(archiveDocExists, 'Leaflet main archive manifest is missing.');
 
 console.log('PASS: Root route uses /app MapLibre assets while /test2 remains a compatibility redirect.');

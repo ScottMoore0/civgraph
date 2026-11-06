@@ -6,7 +6,8 @@
  *   node scripts/build-ni-local-grouped.mjs [--check]
  *
  * Reads only committed inputs:
- *   render/metadata/elections-test2.json and each council round's bundle (the published results);
+ *   the election manifest and each council round's bundle (the published results), wherever the
+ *     record build writes them (ELECTION_MANIFEST, localPathForUrl in scripts/records/paths.mjs);
  *   data/elections/ni-local/round-status.json (the intake's calendar and round status, imported by
  *     scripts/ni-local/import-intake-status.py);
  *   data/elections/round-completeness.json, where present (published rounds that hold only some of
@@ -41,6 +42,7 @@ import {
   niLocalNameKey
 } from '../src/ni-local-groups.mjs';
 import { printedLabelText } from '../src/printed-labels.mjs';
+import { ELECTION_MANIFEST, localPathForUrl } from './records/paths.mjs';
 
 const ROOT = process.cwd();
 const OUT_DIR = path.join(ROOT, 'render', 'metadata', 'ni-local');
@@ -48,7 +50,7 @@ const OUT_COVERAGE = path.join(ROOT, 'render', 'metadata', 'ni-local-coverage.js
 const CHECK = process.argv.includes('--check');
 const NO_LABEL = 'No label';
 
-const readJson = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), 'utf8'));
+const readJson = (rel) => JSON.parse(fs.readFileSync(path.resolve(ROOT, rel), 'utf8'));
 
 // The editions each level may draw on, oldest first. Only editions whose geometry is complete are
 // used: the 1921-69 administrative-areas editions other than 1930 and 1966 leave out districts.
@@ -232,7 +234,7 @@ function addTo(map, key, n) {
 }
 
 function main() {
-  const manifest = readJson('render/metadata/elections-test2.json');
+  const manifest = readJson(ELECTION_MANIFEST);
   const status = readJson('data/elections/ni-local/round-status.json');
   const roundCompleteness = fs.existsSync(path.join(ROOT, 'data/elections/round-completeness.json'))
     ? readJson('data/elections/round-completeness.json').rounds || {}
@@ -276,7 +278,7 @@ function main() {
         || null;
     };
     const rounds = entries.map((entry) => {
-      const bundle = readJson(path.relative(ROOT, path.join(ROOT, String(entry.resultUrl).replace(/^\//, ''))));
+      const bundle = readJson(localPathForUrl(entry.resultUrl));
       const row = statusFor(entry);
       const tier = councilTier(entry.bodySlug);
       let roundStatus = 'complete';

@@ -1,0 +1,107 @@
+{
+  "$schema": "../../../scripts/intake/batch.schema.json",
+  "schemaVersion": 1,
+  "id": "ni-plu-dispensary-towns-2026-11-02",
+  "title": "NI Poor Law Unions, dispensary districts and Towns Improvement Act towns, 1921-1962",
+  "date": "2026-11-02",
+  "status": "committed",
+  "summary": "Three dispensary-district editions (1 Apr 1921, 1 Apr 1924, 1 Jan 1929) built on the pre-1923 electoral divisions, six Towns Improvement Act town editions (1921-1959), and the Poor Law Unions' end refined to the abolition of the boards on 30 Sep 1948. Describes what the hand-written apply.py and UPLOAD.txt of D:\\civgraph-intake\\ni-plu-dispensary-towns-2026-11-02 did; applied in 2fc8ce45e1.",
+  "repo": { "baseCommit": "7d9a2ad556", "commits": ["2fc8ce45e1"] },
+  "personalData": { "contains": false, "handling": "none", "note": "Boundaries and catalogue entries only; no names or addresses of people." },
+  "sources": [
+    { "id": "census-1926", "title": "Census of Population of Northern Ireland 1926: Topographical Index, county volumes (Table 4) and General Report", "publisher": "HMSO Belfast", "note": "Index 9 gives every townland's dispensary district; Table 4 the county-part areas checked against." },
+    { "id": "census-1911", "title": "Census of Ireland 1911: county volumes, Table VI", "publisher": "HMSO", "note": "Dispensary-district order of the electoral divisions; used only as a cross-check." },
+    { "id": "census-1937", "title": "Census of Population of Northern Ireland 1937: General Report and county volumes", "publisher": "HMSO Belfast" },
+    { "id": "belfast-gazette", "title": "The Belfast Gazette, issues 105, 155, 196, 229, 677, 809, 1979 and 2128", "publisher": "The Gazette", "url": "https://www.thegazette.co.uk/Belfast", "licence": "OGL v3.0", "note": "Issue 229 (13 Nov 1925): dispensary districts stay on the pre-1923 divisions." },
+    { "id": "sro-1948", "title": "S.R. & O. (NI) 1948 Nos. 175, 187 and 281", "publisher": "legislation.gov.uk", "url": "https://www.legislation.gov.uk/nisro/1948/281/contents/made", "licence": "OGL v3.0", "note": "No. 281 abolished every board of guardians on 30 Sep 1948." },
+    { "id": "osni-townlands", "title": "OSNI Largescale Townlands", "publisher": "Land & Property Services (OSNI)", "licence": "OGL v3.0", "note": "Lines for the ten pre-1923 divisions split between districts." }
+  ],
+  "operations": [
+    {
+      "id": "copy-dispensary-layers",
+      "type": "copy-files",
+      "sources": ["census-1926", "census-1911", "belfast-gazette", "osni-townlands"],
+      "note": "The three dispensary-district editions and their DED lookup. Gitignored in the repository: they live on R2.",
+      "files": [
+        { "from": "layers/Dispensary_Districts_NI_1921-04-01.fgb", "to": "data/maps/health/Dispensary_Districts_NI_1921-04-01.fgb", "sha256": "f644800d36bdcb852cf7743d4993b5e1c32c21137709f437e8f917510d0a5dd6" },
+        { "from": "layers/Dispensary_Districts_NI_1924-04-01.fgb", "to": "data/maps/health/Dispensary_Districts_NI_1924-04-01.fgb", "sha256": "1a1464a8dc9070b1a4ba6651e2a9072562674a92b529291c1b3f6449b3e5b0e8" },
+        { "from": "layers/Dispensary_Districts_NI_1929-01-01.fgb", "to": "data/maps/health/Dispensary_Districts_NI_1929-01-01.fgb", "sha256": "d7f7b847edddb177abd1a52806752f5c9b61b446a2041527db9fd8e9b6a19e3d" },
+        { "from": "layers/Dispensary_Districts_NI_DED_Lookup.csv", "to": "data/maps/health/Dispensary_Districts_NI_DED_Lookup.csv", "sha256": "2cde3e0d4c544dbbee4a79f682ff6a4f98bd2627a7f7721422a65917982c238d" }
+      ]
+    },
+    {
+      "id": "copy-town-layers",
+      "type": "copy-files",
+      "sources": ["belfast-gazette", "census-1926", "census-1937"],
+      "note": "The six Towns Improvement Act town editions.",
+      "files": [
+        { "from": "layers/Towns_Improvement_Act_Towns_NI_1921-05-03.fgb", "to": "data/maps/local-government/Towns_Improvement_Act_Towns_NI_1921-05-03.fgb", "sha256": "64c19b2041f41d20411415f1e095df4b17ec0c39d01d007193270669100d7303" },
+        { "from": "layers/Towns_Improvement_Act_Towns_NI_1925-04-01.fgb", "to": "data/maps/local-government/Towns_Improvement_Act_Towns_NI_1925-04-01.fgb", "sha256": "ed42eb40a9a933f3768ab4791f9c52569593d87cca3c802cbbcc587e5fedfa2e" },
+        { "from": "layers/Towns_Improvement_Act_Towns_NI_1927-04-01.fgb", "to": "data/maps/local-government/Towns_Improvement_Act_Towns_NI_1927-04-01.fgb", "sha256": "f54a6e8fb1ff125d105694462d1b2abe9287aee8173c17409fb6ad7f1cba27c6" },
+        { "from": "layers/Towns_Improvement_Act_Towns_NI_1934-08-01.fgb", "to": "data/maps/local-government/Towns_Improvement_Act_Towns_NI_1934-08-01.fgb", "sha256": "aed00fc540b884a99383d067c958ec6f8b8e2a60e4e1383a736456eef4a64c7d" },
+        { "from": "layers/Towns_Improvement_Act_Towns_NI_1937-04-01.fgb", "to": "data/maps/local-government/Towns_Improvement_Act_Towns_NI_1937-04-01.fgb", "sha256": "be417bf897cb1bc6ec4f83f125c413bc0d9e96eb231040b38eedbec6a5d87bed" },
+        { "from": "layers/Towns_Improvement_Act_Towns_NI_1959-05-29.fgb", "to": "data/maps/local-government/Towns_Improvement_Act_Towns_NI_1959-05-29.fgb", "sha256": "d1f5ec3218ef3278716ebd28287a6c7fd5e94f112a28ddb86aff726ff08d17eb" }
+      ]
+    },
+    {
+      "id": "catalogue",
+      "type": "maps-json-patch",
+      "sources": ["census-1926", "belfast-gazette", "sro-1948"],
+      "note": "Nine map entries after plu-ni-1921-04-01, the two catalogue series, and the PLU end-date text and 1948 reference on plu-ni-1924-04-01.",
+      "entries": "proposed/maps-json-entries.json",
+      "insertAfter": "plu-ni-1921-04-01",
+      "classes": "proposed/catalogue-series.json",
+      "edits": "proposed/maps-json-plu-changes.json"
+    },
+    {
+      "id": "fgb",
+      "type": "r2-fgb",
+      "note": "UPLOAD.txt step 2: the R2 bucket receives the layers at the same relative paths.",
+      "pairs": [
+        { "file": "data/maps/health/Dispensary_Districts_NI_1921-04-01.fgb", "key": "data/maps/health/Dispensary_Districts_NI_1921-04-01.fgb" },
+        { "file": "data/maps/health/Dispensary_Districts_NI_1924-04-01.fgb", "key": "data/maps/health/Dispensary_Districts_NI_1924-04-01.fgb" },
+        { "file": "data/maps/health/Dispensary_Districts_NI_1929-01-01.fgb", "key": "data/maps/health/Dispensary_Districts_NI_1929-01-01.fgb" },
+        { "file": "data/maps/local-government/Towns_Improvement_Act_Towns_NI_1921-05-03.fgb", "key": "data/maps/local-government/Towns_Improvement_Act_Towns_NI_1921-05-03.fgb" },
+        { "file": "data/maps/local-government/Towns_Improvement_Act_Towns_NI_1925-04-01.fgb", "key": "data/maps/local-government/Towns_Improvement_Act_Towns_NI_1925-04-01.fgb" },
+        { "file": "data/maps/local-government/Towns_Improvement_Act_Towns_NI_1927-04-01.fgb", "key": "data/maps/local-government/Towns_Improvement_Act_Towns_NI_1927-04-01.fgb" },
+        { "file": "data/maps/local-government/Towns_Improvement_Act_Towns_NI_1934-08-01.fgb", "key": "data/maps/local-government/Towns_Improvement_Act_Towns_NI_1934-08-01.fgb" },
+        { "file": "data/maps/local-government/Towns_Improvement_Act_Towns_NI_1937-04-01.fgb", "key": "data/maps/local-government/Towns_Improvement_Act_Towns_NI_1937-04-01.fgb" },
+        { "file": "data/maps/local-government/Towns_Improvement_Act_Towns_NI_1959-05-29.fgb", "key": "data/maps/local-government/Towns_Improvement_Act_Towns_NI_1959-05-29.fgb" }
+      ]
+    },
+    {
+      "id": "lookup-csv",
+      "type": "r2-tree",
+      "prefix": "data/maps/health/",
+      "files": ["data/maps/health/Dispensary_Districts_NI_DED_Lookup.csv"],
+      "force": true
+    },
+    {
+      "id": "thumbnails",
+      "type": "thumbnails",
+      "note": "UPLOAD.txt step 4: regen --download reads the FGBs from R2, so upload them first.",
+      "mapIds": [
+        "dispensary-districts-ni-1921-04-01", "dispensary-districts-ni-1924-04-01", "dispensary-districts-ni-1929-01-01",
+        "tia-towns-ni-1921-05-03", "tia-towns-ni-1925-04-01", "tia-towns-ni-1927-04-01",
+        "tia-towns-ni-1934-08-01", "tia-towns-ni-1937-04-01", "tia-towns-ni-1959-05-29"
+      ]
+    },
+    {
+      "id": "rebuild",
+      "type": "command",
+      "phase": "post-upload",
+      "note": "UPLOAD.txt step 3: build what changed.",
+      "argv": ["npm", "run", "rebuild"]
+    },
+    {
+      "id": "fast-checks",
+      "type": "command",
+      "phase": "post-upload",
+      "argv": ["npm", "run", "check:fast"]
+    }
+  ],
+  "notes": [
+    "The PMTiles for the nine editions, their Cache-Control and the CDN switch were scripted by batch-2026-11-05 (docs/intake-examples/batch-2026-11-05/batch.json).",
+    "Crossmaglen Union (ordered 1921, never formed) and the Hillsborough/Dungannon slip in S.R. & O. 1948 No. 281 are PRONI items (proni-needed.csv)."
+  ]
+}

@@ -3,7 +3,7 @@
  * Open the site in a headless browser with Irish switched on and list the visible text that
  * is still English, page by page: what en.json / data/i18n/strings still lack.
  *
- *   node tools/test-site/server.mjs --port 4177 &      (or any server of the working tree)
+ *   node tools/dev-site/server.mjs --port 4177 &      (or any server of the working tree)
  *   node scripts/i18n/harvest-untranslated.mjs [--base http://127.0.0.1:4177] [--lang ga]
  *
  * Writes tmp/i18n/untranslated-runtime.json: [{text, pages, count}] sorted by count. Data

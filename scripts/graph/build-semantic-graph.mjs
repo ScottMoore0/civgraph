@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { gunzip, gzip } from 'node:zlib';
 import { isGraphExcludedSource } from './graph-source-exclusions.mjs';
 import { buildTimestamp } from '../lib/build-timestamp.mjs';
+import { BROWSE_DIR as RECORD_BROWSE_DIR, GRAPH_DIR, localPathForUrl } from '../records/paths.mjs';
 
 // Summary labels that are the absence of a party, not one: "No party recorded" (before 1832),
 // "No label" (nothing printed or inferred) and a person record's "Unknown".
@@ -13,8 +14,8 @@ const NOT_A_PARTY = new Set(['No party recorded', 'No label', 'Unknown']);
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = path.resolve(SCRIPT_DIR, '..', '..');
-const OUTPUT_DIR = path.join(ROOT_DIR, 'data', 'graph');
-const BROWSE_DIR = path.join(ROOT_DIR, 'data', 'browse');
+const OUTPUT_DIR = GRAPH_DIR;
+const BROWSE_DIR = RECORD_BROWSE_DIR;
 const REGISTRY_DIR = path.join(ROOT_DIR, 'data', 'database');
 // Deterministic, NOT wall-clock: the last commit's time. That still changes with every commit,
 // so a file whose content is unchanged but for this stamp is left as it was on disk
@@ -2654,7 +2655,7 @@ async function listFiles(dir, out) {
 
 async function resetOutputDirectory() {
   const resolved = path.resolve(OUTPUT_DIR);
-  const expected = path.join(ROOT_DIR, 'data', 'graph');
+  const expected = path.resolve(GRAPH_DIR);
   if (resolved !== expected) throw new Error(`Refusing to reset unexpected graph output path: ${resolved}`);
   await fs.mkdir(OUTPUT_DIR, { recursive: true });
   await listFiles(OUTPUT_DIR, previousOutputs);
@@ -2716,8 +2717,8 @@ async function writeJson(filePath, data, options = {}) {
 }
 
 function siteUrlToPath(url) {
-  const clean = decodeURIComponent(String(url || '').split('?')[0].replace(/^\/+/, ''));
-  return path.join(ROOT_DIR, ...clean.split('/'));
+  // /data/browse/... and /data/graph/... are wherever this build writes them (records/paths.mjs).
+  return localPathForUrl(decodeURIComponent(String(url || '')));
 }
 
 function makeEntityId(prefix, key) {

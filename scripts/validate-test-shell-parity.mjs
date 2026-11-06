@@ -298,7 +298,14 @@ for (const requiredShell of [
 }
 
 const packageJson = JSON.parse(await readFile('package.json', 'utf8'));
-if (!String(packageJson.scripts?.['check:test'] || '').includes('validate-test-shell-parity.mjs')) {
+// check:test runs this through check:render-app since 2026-11-06, so follow `npm run`.
+const expandScript = (name, seen = new Set()) => {
+  if (seen.has(name)) return '';
+  seen.add(name);
+  const body = String(packageJson.scripts?.[name] || '');
+  return body + [...body.matchAll(/npm run (?:-s )?([\w:-]+)/g)].map((m) => ` ${expandScript(m[1], seen)}`).join('');
+};
+if (!expandScript('check:test').includes('validate-test-shell-parity.mjs')) {
   failures.push('package.json: check:test does not run validate-test-shell-parity.mjs');
 }
 

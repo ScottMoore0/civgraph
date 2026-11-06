@@ -2,6 +2,7 @@
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { resolveBrowseSourceItems } from './lib/browse-source-index.mjs';
+import { BROWSE_DIR, localPathForUrl } from './records/paths.mjs';
 
 const failures = [];
 
@@ -23,12 +24,12 @@ const external = readJson('data/database/external-sources.json') || {};
 // an absent input reports as a data defect. That is worse than either passing or
 // failing honestly, because the error names a source id and sends whoever reads
 // it hunting through the catalogue for a problem that is not there.
-if (!existsSync('data/browse/sources.json')) {
+if (!existsSync(path.join(BROWSE_DIR, 'sources.json'))) {
   console.log('SKIP: data/browse/sources.json is absent.');
   console.log('  Browse data is build output, not tracked in git. Generate it first:  npm run build:browse');
   process.exit(0);
 }
-const browseSources = readJson('data/browse/sources.json');
+const browseSources = readJson(path.join(BROWSE_DIR, 'sources.json'));
 const sourceItems = Array.isArray(external.sources) ? external.sources : [];
 const browseItems = resolveBrowseSourceItems(browseSources);
 const sourceById = new Map(browseItems.map((item) => [item.id, item]));
@@ -77,12 +78,12 @@ function hasBrowseSourceDetail(browseItem) {
   if (!browseItem) return false;
   const slug = browseItem.slug || slugify(browseItem.id);
   if (!browseItem.detailUrl) {
-    const detailPath = path.join('data', 'browse', 'details', 'sources', `${slug}.json`);
+    const detailPath = path.join(BROWSE_DIR, 'details', 'sources', `${slug}.json`);
     return existsSync(detailPath);
   }
   try {
     const parsed = new URL(browseItem.detailUrl, 'https://civgraph.local');
-    const shardPath = path.join(...parsed.pathname.replace(/^\/+/, '').split('/'));
+    const shardPath = localPathForUrl(parsed.pathname);
     if (!existsSync(shardPath)) return false;
     const shard = JSON.parse(readFileSync(shardPath, 'utf8'));
     const items = Array.isArray(shard.items) ? shard.items : [];

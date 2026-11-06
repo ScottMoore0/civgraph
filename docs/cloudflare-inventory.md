@@ -1,5 +1,7 @@
 # Cloudflare inventory
 
+> Some scripts named below were archived in November 2026 (ARCHIVE.md, "Archived scripts"); they are in the archive copies and in git history, not in `scripts/`.
+
 > **Status: current reference — maintain as Cloudflare changes.** The authority
 > for bindings is `wrangler.toml`; this file records what is NOT in the repo,
 > including dashboard-only state. Verify serving behaviour with
@@ -168,7 +170,7 @@ therefore takes `--tracked-only`, which filters to `git ls-files`: without it,
 publishing `data/timeline-transitions` would have pushed 133 gitignored QA
 sidecars (5.4 GB) into a public bucket alongside the 6 intended files.
 
-`scripts/validate-r2-serving-parity.mjs` (in `npm run check`) asserts the
+`scripts/publish/verify-r2-parity.mjs` (in `npm run check`) asserts the
 converse: everything the catalogue references under an R2-served prefix must
 exist in the bucket. It exists because two production outages had the same
 shape — a file present in the repo, absent from the bucket, and a request that
@@ -340,7 +342,7 @@ worst exactly where a correction mattered most.
                                                    geojson, json, txt, zip, kml, jpg, csv, pdf)
       objects deliberately left alone    1,207,367  .png raster tiles
 
-`scripts/set-r2-cache-control.mjs` did this and can redo it; it is idempotent,
+`scripts/publish/r2-cache-control.mjs` did this and can redo it; it is idempotent,
 and re-running reports `already correct` rather than rewriting. Use
 `--exclude-ext png` to sweep everything that is not a raster tile, which also
 catches extensions nobody thought to list — that is how the last 37 objects

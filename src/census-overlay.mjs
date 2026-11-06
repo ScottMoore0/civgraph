@@ -21,7 +21,7 @@
  * (app/src/app.js, src/ui-controller.js) and the Browse and catalogue builders. Pure: no DOM.
  */
 
-// Matplotlib samples, as the Leaflet loader had them (archive/leaflet/js/colour-palettes.js), less
+// Matplotlib samples, as the Leaflet loader had them (archive/leaflet/js/colour-palettes.js, see ARCHIVE.md), less
 // the repeated last stop three of them carried, which made the top two classes one colour.
 // 'protestant-catholic' diverges: blue at 0 %, grey at 50 %, green at 100 %.
 export const RAMPS = {

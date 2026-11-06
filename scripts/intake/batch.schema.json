@@ -1,0 +1,284 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://civgraph.net/schemas/intake-batch-v1.json",
+  "title": "civgraph.net intake batch",
+  "description": "One data batch: what it adds to the repository, what it sends to R2, what follows the upload, and which checks should pass or fail on the way. Read by scripts/intake/intake.mjs; see docs/intake.md. Paths in operations are relative to the batch folder (sources) or to the repository root (targets, R2 files).",
+  "type": "object",
+  "required": ["schemaVersion", "id", "title", "date", "status", "sources", "personalData", "operations"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": { "const": 1 },
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9.-]*$" },
+    "title": { "type": "string", "minLength": 1 },
+    "date": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+    "status": { "enum": ["draft", "staged", "committed", "uploaded", "published", "abandoned"] },
+    "summary": { "type": "string" },
+    "preparedBy": { "type": "string", "description": "Agent or session label. Never an email address." },
+    "kinds": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "enum": ["maps", "elections", "persons", "parties", "sources", "catalogue", "census", "votes", "interests", "contribution", "research-only"] }
+    },
+    "personalData": {
+      "type": "object",
+      "required": ["contains"],
+      "additionalProperties": false,
+      "properties": {
+        "contains": { "type": "boolean" },
+        "handling": { "enum": ["none", "names-only", "addresses-to-census-unit", "private-not-published"] },
+        "note": { "type": "string" }
+      }
+    },
+    "approvals": {
+      "type": "array",
+      "description": "The owner's approvals, recorded by the main session from what the owner said in chat; never by a subagent.",
+      "items": {
+        "type": "object",
+        "required": ["step", "date", "note"],
+        "additionalProperties": false,
+        "properties": {
+          "step": { "enum": ["apply", "upload", "publish"] },
+          "date": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+          "note": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "repo": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "baseCommit": { "type": "string" },
+        "commits": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "sources": { "type": "array", "items": { "$ref": "#/$defs/source" } },
+    "operations": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/operation" } },
+    "expectedChecks": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "beforeUpload": { "type": "array", "items": { "$ref": "#/$defs/check" } },
+        "afterPostUpload": { "type": "array", "items": { "$ref": "#/$defs/check" } }
+      }
+    },
+    "notes": { "type": "array", "items": { "type": "string" } }
+  },
+  "$defs": {
+    "relPath": { "type": "string", "minLength": 1, "pattern": "^(?![A-Za-z]:|/|\\\\)(?!.*(^|/)\\.\\.(/|$)).+$" },
+    "batchPath": { "type": "string", "minLength": 1, "pattern": "^(?![A-Za-z]:|/|\\\\).+$" },
+    "opId": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+    "ids": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "source": {
+      "type": "object",
+      "required": ["id", "title"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/opId" },
+        "title": { "type": "string" },
+        "publisher": { "type": "string" },
+        "url": { "type": "string" },
+        "licence": { "type": "string" },
+        "rights": { "enum": ["OGL", "CC-BY", "CC-BY-SA", "public-domain", "facts-with-citation", "owner-permission", "unknown"], "description": "unknown fails validate: ask the owner instead" },
+        "citation": { "type": "string" },
+        "accessed": { "type": "string" },
+        "note": { "type": "string" }
+      }
+    },
+    "check": {
+      "type": "object",
+      "required": ["command", "expect"],
+      "additionalProperties": false,
+      "properties": {
+        "command": { "type": "string" },
+        "expect": { "enum": ["pass", "fail"] },
+        "details": { "type": "array", "items": { "type": "string" } },
+        "note": { "type": "string" }
+      }
+    },
+    "operation": {
+      "type": "object",
+      "required": ["id", "type"],
+      "discriminator": "type",
+      "oneOf": [
+        { "$ref": "#/$defs/op-copy-files" },
+        { "$ref": "#/$defs/op-maps-json-patch" },
+        { "$ref": "#/$defs/op-election-sources" },
+        { "$ref": "#/$defs/op-corrections" },
+        { "$ref": "#/$defs/op-r2-fgb" },
+        { "$ref": "#/$defs/op-r2-tree" },
+        { "$ref": "#/$defs/op-r2-cache-control" },
+        { "$ref": "#/$defs/op-r2-pmtiles" },
+        { "$ref": "#/$defs/op-stamp-cache-tokens" },
+        { "$ref": "#/$defs/op-switch-to-cdn" },
+        { "$ref": "#/$defs/op-thumbnails" },
+        { "$ref": "#/$defs/op-command" }
+      ]
+    },
+    "op-copy-files": {
+      "description": "Copy files from the batch into the repository. Replaces a differing target unless onConflict is refuse.",
+      "type": "object",
+      "required": ["id", "type", "files"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/opId" }, "type": { "const": "copy-files" }, "note": { "type": "string" },
+        "sources": { "type": "array", "items": { "type": "string" } },
+        "onConflict": { "enum": ["replace", "refuse"] },
+        "files": {
+          "type": "array", "minItems": 1,
+          "items": {
+            "type": "object", "required": ["from", "to"], "additionalProperties": false,
+            "properties": {
+              "from": { "$ref": "#/$defs/batchPath" },
+              "to": { "$ref": "#/$defs/relPath" },
+              "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+            }
+          }
+        }
+      }
+    },
+    "op-maps-json-patch": {
+      "description": "Upsert map entries and catalogue classes in data/database/maps.json, and apply text/reference edits to existing entries.",
+      "type": "object",
+      "required": ["id", "type"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/opId" }, "type": { "const": "maps-json-patch" }, "note": { "type": "string" },
+        "sources": { "type": "array", "items": { "type": "string" } },
+        "target": { "$ref": "#/$defs/relPath" },
+        "entries": { "$ref": "#/$defs/batchPath" },
+        "insertAfter": { "type": "string" },
+        "classes": { "$ref": "#/$defs/batchPath" },
+        "edits": { "$ref": "#/$defs/batchPath" }
+      }
+    },
+    "op-election-sources": {
+      "description": "Copy election source JSON files (a tree mirroring data/elections-source/data/elections) into the repository. Never overwrites a differing repo file unless onConflict is replace.",
+      "type": "object",
+      "required": ["id", "type", "fromDir"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/opId" }, "type": { "const": "election-sources" }, "note": { "type": "string" },
+        "sources": { "type": "array", "items": { "type": "string" } },
+        "fromDir": { "$ref": "#/$defs/batchPath" },
+        "toDir": { "$ref": "#/$defs/relPath" },
+        "excludeRounds": { "$ref": "#/$defs/batchPath" },
+        "onConflict": { "enum": ["replace", "refuse"] }
+      }
+    },
+    "op-corrections": {
+      "description": "Upsert records into a corrections file under data/elections/corrections/, matched on the key fields.",
+      "type": "object",
+      "required": ["id", "type", "target", "records", "key"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/opId" }, "type": { "const": "corrections" }, "note": { "type": "string" },
+        "sources": { "type": "array", "items": { "type": "string" } },
+        "target": { "$ref": "#/$defs/relPath" },
+        "records": { "$ref": "#/$defs/batchPath" },
+        "key": { "type": "array", "minItems": 1, "items": { "type": "string" } }
+      }
+    },
+    "op-r2-fgb": {
+      "description": "FlatGeobufs to R2 through scripts/upload-fgb-r2.mjs. file is repo-relative; key is the R2 key.",
+      "type": "object",
+      "required": ["id", "type"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/opId" }, "type": { "const": "r2-fgb" }, "note": { "type": "string" },
+        "pairs": {
+          "type": "array", "minItems": 1,
+          "items": { "type": "object", "required": ["file", "key"], "additionalProperties": false,
+            "properties": { "file": { "$ref": "#/$defs/relPath" }, "key": { "$ref": "#/$defs/relPath" } } }
+        },
+        "pairsFile": { "$ref": "#/$defs/batchPath" },
+        "chunkSize": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "op-r2-tree": {
+      "description": "Files to one R2 sub-prefix through scripts/upload-tree-r2.mjs. Listing is limited to that prefix.",
+      "type": "object",
+      "required": ["id", "type", "prefix"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/opId" }, "type": { "const": "r2-tree" }, "note": { "type": "string" },
+        "prefix": { "type": "string", "pattern": "^data/[^/]+/(.+/)?$" },
+        "files": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/relPath" } },
+        "manifest": { "type": "string" },
+        "dir": { "$ref": "#/$defs/relPath" },
+        "force": { "type": "boolean" },
+        "verify": { "type": "boolean" }
+      }
+    },
+    "op-r2-cache-control": {
+      "description": "Cache-Control on objects under each sub-prefix through scripts/set-r2-cache-control.mjs.",
+      "type": "object",
+      "required": ["id", "type", "prefixes"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/opId" }, "type": { "const": "r2-cache-control" }, "note": { "type": "string" },
+        "prefixes": { "type": "array", "minItems": 1, "items": { "type": "string", "pattern": "^data/[^/]+/(.+/)?$" } },
+        "ext": { "type": "string", "pattern": "^[a-z0-9]+(,[a-z0-9]+)*$" }
+      }
+    },
+    "op-r2-pmtiles": {
+      "description": "PMTiles archives to R2 through scripts/publish/r2-upload-pmtiles.mjs, after refreshing render/metadata/cdn-upload-manifest.json; then a CDN byte-range check.",
+      "type": "object",
+      "required": ["id", "type"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/opId" }, "type": { "const": "r2-pmtiles" }, "note": { "type": "string" },
+        "ids": { "$ref": "#/$defs/ids" },
+        "idsFile": { "$ref": "#/$defs/batchPath" },
+        "refreshCdnManifest": { "type": "boolean" },
+        "verifyCdn": { "type": "boolean" }
+      }
+    },
+    "op-stamp-cache-tokens": {
+      "description": "Content cache tokens (?v=<etag>) on the catalogue's data.civgraph.net URLs, through scripts/stamp-map-cache-tokens.mjs --write then --check.",
+      "type": "object",
+      "required": ["id", "type"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/opId" }, "type": { "const": "stamp-cache-tokens" }, "note": { "type": "string" },
+        "mapIds": { "$ref": "#/$defs/ids" }
+      }
+    },
+    "op-switch-to-cdn": {
+      "description": "Post-upload: point the layers at their verified CDN copies through scripts/switch-test-pmtiles-to-cdn.mjs.",
+      "type": "object",
+      "required": ["id", "type"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/opId" }, "type": { "const": "switch-to-cdn" }, "note": { "type": "string" },
+        "ids": { "$ref": "#/$defs/ids" },
+        "idsFile": { "$ref": "#/$defs/batchPath" },
+        "idsFrom": { "$ref": "#/$defs/opId" }
+      }
+    },
+    "op-thumbnails": {
+      "description": "Post-upload: catalogue thumbnails for new maps (scripts/regen-thumbnails.py --download), then the thumbnail sync to R2.",
+      "type": "object",
+      "required": ["id", "type", "mapIds"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/opId" }, "type": { "const": "thumbnails" }, "note": { "type": "string" },
+        "mapIds": { "$ref": "#/$defs/ids" },
+        "sync": { "type": "boolean" }
+      }
+    },
+    "op-command": {
+      "description": "A further step run as given: node or python on a script under scripts/ or in the batch folder, or npm run <script>. Nothing under .claude/publish/.",
+      "type": "object",
+      "required": ["id", "type", "phase", "argv"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/opId" }, "type": { "const": "command" }, "note": { "type": "string" },
+        "phase": { "enum": ["upload", "post-upload"] },
+        "argv": { "type": "array", "minItems": 2, "items": { "type": "string" } },
+        "credentials": { "type": "boolean" },
+        "realOnly": { "type": "boolean" }
+      }
+    }
+  }
+}
