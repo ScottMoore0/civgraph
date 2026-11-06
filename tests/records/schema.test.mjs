@@ -21,6 +21,16 @@ test('0001 is exactly what schema.mjs generates', () => {
   assert.equal(readFileSync(path.join(MIGRATIONS, '0001_records.sql'), 'utf8'), schemaSql());
 });
 
+test('each later migration is exactly the tables schema.mjs adds in it', () => {
+  const later = readdirSync(MIGRATIONS).filter((f) => /^\d{4}_.*\.sql$/.test(f) && !f.startsWith('0001_')).sort();
+  for (const file of later) {
+    const n = Number(file.slice(0, 4));
+    assert.equal(readFileSync(path.join(MIGRATIONS, file), 'utf8'), schemaSql(n), file);
+  }
+  const sinces = new Set(TABLES.filter((t) => t.since).map((t) => t.since));
+  for (const n of sinces) assert.ok(later.some((f) => Number(f.slice(0, 4)) === n), `migration ${n} has a file`);
+});
+
 test('every table in schema.mjs exists after the migrations, with its columns in order', () => {
   const db = migrated();
   for (const t of TABLES) {
