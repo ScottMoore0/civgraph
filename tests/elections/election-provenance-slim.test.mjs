@@ -7,8 +7,10 @@ import { readFileSync, statSync } from 'node:fs';
 import {
   CONTEST_REQUIRED, PUBLISHED_BUDGET_BYTES, SOURCE_REQUIRED, publishedText, slimProvenance,
 } from '../../scripts/lib/election-provenance-slim.mjs';
+import { PROVENANCE_FILE } from '../../scripts/records/paths.mjs';
 
-const FILE = 'data/database/election-provenance.json';
+// Written by the records build (npm run records:build; tmp/records), no longer committed.
+const FILE = PROVENANCE_FILE;
 const PAGES_LIMIT = 25 * 1024 * 1024;
 
 test('null optional fields are left out; required ones stay, null or not', () => {

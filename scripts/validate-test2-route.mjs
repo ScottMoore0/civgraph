@@ -750,7 +750,7 @@ if (existsSync(ELECTION_MANIFEST)) {
   }
   assert(Number(midlandsNorthWest?.seatsTotal || midlandsNorthWest?.countInfo?.Number_Of_Seats || 0) === 5, '/test2 2024 European Midlands North West must expose five seats');
   assert(electedMidlandsByParty.get('Fine Gael') === 2 && electedMidlandsByParty.get('Fianna F\u00e1il') === 1 && electedMidlandsByParty.get('Independent') === 1 && electedMidlandsByParty.get('Independent Ireland') === 1, '/test2 2024 European Midlands North West elected-party counts must be Fine Gael 2, Fianna Fail 1, Independent 1, Independent Ireland 1');
-  for (const filename of readdirSync('render/metadata/elections-test2').filter((name) => /^ireland-referendum__.*\.json$/.test(name))) {
+  for (const filename of readdirSync(ELECTION_BUNDLE_DIR).filter((name) => /^ireland-referendum__.*\.json$/.test(name))) {
     const referendumBundle = JSON.parse(readFileSync(path.join(ELECTION_BUNDLE_DIR, `${filename}`), 'utf8'));
     for (const result of referendumBundle.results || []) {
       const constituency = String(result.constituency || '').toLowerCase();
@@ -763,7 +763,7 @@ if (existsSync(ELECTION_MANIFEST)) {
     const independent = dail2024IndependentRows.get(party);
     assert(!independent || (row.stood === independent.stood && row.seats === independent.seats && row.votes === independent.votes), `/test2 Dail 2024 ${party} main-like summary must match the independent source-shaped summary`);
   }
-  for (const filename of readdirSync('render/metadata/elections-test2').filter((name) => /^dail-eireann__20\d\d-\d\d-\d\d\.json$/.test(name))) {
+  for (const filename of readdirSync(ELECTION_BUNDLE_DIR).filter((name) => /^dail-eireann__20\d\d-\d\d-\d\d\.json$/.test(name))) {
     const bundle = JSON.parse(readFileSync(path.join(ELECTION_BUNDLE_DIR, `${filename}`), 'utf8'));
     const partyRows = new Map((bundle.partySummary || []).map((row) => [row.party, row]));
     for (const row of bundle.mainLikePartySummary || []) {
@@ -881,8 +881,8 @@ if (existsSync(ELECTION_MANIFEST)) {
   assert(localEntries.some((entry) => (entry.localBodies || []).length === 1 && entry.body !== 'Local Government Districts'), '/test2 must preserve single-council local by-elections as their own entries');
 }
 
-if (existsSync('render/metadata/elections-test2-report.json')) {
-  const electionReport = JSON.parse(readFileSync('render/metadata/elections-test2-report.json', 'utf8'));
+if (existsSync(ELECTION_REPORT)) {
+  const electionReport = JSON.parse(readFileSync(ELECTION_REPORT, 'utf8'));
   assert(!electionReport.residualSummary?.['historic-dea-not-in-source'], '/test2 deas-1972 election residuals should be resolved by source-data label repairs');
   assert(!electionReport.residualSummary?.['university-seat-no-polygon'], '/test2 university-seat rows should be represented by synthetic non-geographical anchors, not left as unmatched polygon gaps');
   assert(!electionReport.closureSummary?.byStatus?.['blocked-on-implementation'], '/test2 must not leave feasible implementation-blocked election geography gaps in the generated report');
@@ -972,7 +972,7 @@ function countFiles(relativeDir, predicate) {
 }
 
 function assertNiElectionSeatCoverage() {
-  const filenames = readdirSync('render/metadata/elections-test2')
+  const filenames = readdirSync(ELECTION_BUNDLE_DIR)
     .filter((name) => /^(northern-ireland-assembly|northern-ireland-constitutional-convention|local-government-)/.test(name) && name.endsWith('.json'));
   const mismatches = [];
   for (const filename of filenames) {
@@ -997,8 +997,8 @@ function assertNiElectionSeatCoverage() {
 }
 
 function assertWestminsterGeneralElectionBaselines() {
-  if (!existsSync('render/metadata/elections-test2')) return;
-  const bundles = readdirSync('render/metadata/elections-test2')
+  if (!existsSync(ELECTION_BUNDLE_DIR)) return;
+  const bundles = readdirSync(ELECTION_BUNDLE_DIR)
     .filter((name) => /^house-of-commons-of-the-united-kingdom__\d{4}-\d{2}-\d{2}\.json$/.test(name))
     .map((filename) => JSON.parse(readFileSync(path.join(ELECTION_BUNDLE_DIR, `${filename}`), 'utf8')))
     .filter((bundle) => bundle.body === 'House of Commons of the United Kingdom'
@@ -1034,8 +1034,8 @@ function assertComparableElectionBaselines(electionManifest) {
 }
 
 function assertStvTerminalTransferCoverage() {
-  if (!existsSync('render/metadata/elections-test2')) return;
-  const filenames = readdirSync('render/metadata/elections-test2')
+  if (!existsSync(ELECTION_BUNDLE_DIR)) return;
+  const filenames = readdirSync(ELECTION_BUNDLE_DIR)
     .filter((name) => name.endsWith('.json'));
   const surplusTerminalRows = [];
   const excludedTerminalRows = [];
@@ -1073,8 +1073,8 @@ function assertStvTerminalTransferCoverage() {
 }
 
 function assertStvSyntheticTerminalTransferCoverage() {
-  if (!existsSync('render/metadata/elections-test2')) return;
-  const filenames = readdirSync('render/metadata/elections-test2')
+  if (!existsSync(ELECTION_BUNDLE_DIR)) return;
+  const filenames = readdirSync(ELECTION_BUNDLE_DIR)
     .filter((name) => name.endsWith('.json'));
   const syntheticExcludedRows = [];
   const syntheticSurplusRows = [];
