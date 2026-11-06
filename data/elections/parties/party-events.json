@@ -1,0 +1,1014 @@
+{
+ "schemaVersion": 1,
+ "description": "Dated events in a party's life (founded, dissolved, renamed, split, merged, began organising in Northern Ireland ...), each cited. Party ids are data/elections/parties/party_registry.json ids. These complement the narrative events of party-lineage.json and relabel no candidacy. Schema: data/schemas/party-events.schema.json.",
+ "events": [
+  {
+   "id": "alliance:founded:1970-04",
+   "partyId": "alliance",
+   "date": "1970-04",
+   "precision": "month",
+   "type": "founded",
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 156",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "156",
+     "citation": "Elliott & Flackes (1999), p. 156",
+     "fact": "dA-0044"
+    }
+   ]
+  },
+  {
+   "id": "british-ulster-dominion-party:renamed:1975",
+   "partyId": "british-ulster-dominion-party",
+   "date": "1975",
+   "precision": "year",
+   "type": "renamed",
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 189",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "189",
+     "citation": "Elliott & Flackes (1999), p. 189",
+     "fact": "dA-0238"
+    }
+   ]
+  },
+  {
+   "id": "communist-party-of-ireland:re-formed:1970",
+   "partyId": "communist-party-of-ireland",
+   "date": "1970",
+   "precision": "year",
+   "type": "re-formed",
+   "relatedParties": [
+    {
+     "partyId": "communist-ni",
+     "relation": "formed by merger of"
+    },
+    {
+     "partyId": "irish-workers-party",
+     "relation": "formed by merger of"
+    }
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 210",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "210",
+     "citation": "Elliott & Flackes (1999), p. 210",
+     "fact": "dB-0009"
+    }
+   ]
+  },
+  {
+   "id": "conservative:began-organising-in-ni:1989-10-10",
+   "partyId": "conservative",
+   "date": "1989-10-10",
+   "precision": "day",
+   "type": "began-organising-in-ni",
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Chronology of Major Events, p. 46",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "46",
+     "citation": "Elliott & Flackes (1999), p. 46",
+     "fact": "cA-0011"
+    }
+   ]
+  },
+  {
+   "id": "democratic-left:split-from:1992-02",
+   "partyId": "democratic-left",
+   "date": "1992-02",
+   "precision": "month",
+   "type": "split-from",
+   "relatedParties": [
+    {
+     "partyId": "workers-party",
+     "relation": "split from"
+    }
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 224",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "224",
+     "citation": "Elliott & Flackes (1999), p. 224",
+     "fact": "dB-0095"
+    }
+   ]
+  },
+  {
+   "id": "democratic-left:renamed:1992-03-28",
+   "partyId": "democratic-left",
+   "date": "1992-03-28",
+   "precision": "day",
+   "type": "renamed",
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Chronology of Major Events, p. 54",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "54",
+     "citation": "Elliott & Flackes (1999), p. 54",
+     "fact": "cA-0023"
+    }
+   ]
+  },
+  {
+   "id": "democratic-left:merged-into:1999-01",
+   "partyId": "democratic-left",
+   "date": "1999-01",
+   "precision": "month",
+   "type": "merged-into",
+   "relatedParties": [
+    {
+     "partyId": "irish-labour",
+     "relation": "merged into"
+    }
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 225",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "225",
+     "citation": "Elliott & Flackes (1999), p. 225",
+     "fact": "dB-0099"
+    }
+   ]
+  },
+  {
+   "id": "dup:founded:1971-09",
+   "partyId": "dup",
+   "date": "1971-09",
+   "precision": "month",
+   "type": "founded",
+   "relatedParties": [
+    {
+     "partyId": "protestant-unionist",
+     "relation": "replaced"
+    }
+   ],
+   "persons": [
+    {
+     "personId": "48601",
+     "role": "founder"
+    },
+    {
+     "personId": "104505",
+     "role": "founder"
+    }
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 225",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "225",
+     "citation": "Elliott & Flackes (1999), p. 225",
+     "fact": "dB-0100"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 387",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "387",
+     "citation": "Elliott & Flackes (1999), p. 387",
+     "fact": "dD-0263"
+    }
+   ]
+  },
+  {
+   "id": "green-party-ni:founded:1990-02-12",
+   "partyId": "green-party-ni",
+   "date": "1990-02-12",
+   "precision": "day",
+   "type": "founded",
+   "persons": [
+    {
+     "personId": "83943",
+     "role": "founder"
+    }
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 269",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "269",
+     "citation": "Elliott & Flackes (1999), p. 269",
+     "fact": "dB-0294"
+    }
+   ]
+  },
+  {
+   "id": "irish-independence-party:founded:1977",
+   "partyId": "irish-independence-party",
+   "date": "1977",
+   "precision": "year",
+   "type": "founded",
+   "persons": [
+    {
+     "personId": "1163",
+     "role": "founder"
+    },
+    {
+     "personId": "20029",
+     "role": "founder"
+    }
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 296",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "296",
+     "citation": "Elliott & Flackes (1999), p. 296",
+     "fact": "dC-0089"
+    }
+   ]
+  },
+  {
+   "id": "irsp:founded:1974-12",
+   "partyId": "irsp",
+   "date": "1974-12",
+   "precision": "month",
+   "type": "founded",
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 302",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "302",
+     "citation": "Elliott & Flackes (1999), p. 302",
+     "fact": "dC-0094"
+    }
+   ]
+  },
+  {
+   "id": "labour-87:founded:1987-03",
+   "partyId": "labour-87",
+   "date": "1987-03",
+   "precision": "month",
+   "type": "founded",
+   "relatedParties": [
+    {
+     "partyId": "united-labour-party",
+     "relation": "formed by merger of"
+    },
+    {
+     "partyId": "ni-labour",
+     "relation": "formed by merger of"
+    },
+    {
+     "partyId": "labour-party-of-northern-ireland",
+     "relation": "formed by merger of"
+    },
+    {
+     "partyId": "newtownabbey-labour",
+     "relation": "formed by merger of"
+    }
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 310",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "310",
+     "citation": "Elliott & Flackes (1999), p. 310",
+     "fact": "dC-0154"
+    }
+   ]
+  },
+  {
+   "id": "labour-87:dissolved:1996",
+   "partyId": "labour-87",
+   "date": "1996",
+   "precision": "year",
+   "type": "dissolved",
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 310",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "310",
+     "citation": "Elliott & Flackes (1999), p. 310",
+     "fact": "dC-0154"
+    }
+   ]
+  },
+  {
+   "id": "national-democratic-party:founded:1965",
+   "partyId": "national-democratic-party",
+   "date": "1965",
+   "precision": "year",
+   "type": "founded",
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 363",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "363",
+     "citation": "Elliott & Flackes (1999), p. 363",
+     "fact": "dD-0159"
+    }
+   ]
+  },
+  {
+   "id": "national-democratic-party:dissolved:1970",
+   "partyId": "national-democratic-party",
+   "date": "1970",
+   "precision": "year",
+   "type": "dissolved",
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 363",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "363",
+     "citation": "Elliott & Flackes (1999), p. 363",
+     "fact": "dD-0159"
+    }
+   ]
+  },
+  {
+   "id": "natural-law-party:founded:1992-03",
+   "partyId": "natural-law-party",
+   "date": "1992-03",
+   "precision": "month",
+   "type": "founded",
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 364",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "364",
+     "citation": "Elliott & Flackes (1999), p. 364",
+     "fact": "dD-0161"
+    }
+   ]
+  },
+  {
+   "id": "ni-labour:founded:1924",
+   "partyId": "ni-labour",
+   "date": "1924",
+   "precision": "year",
+   "type": "founded",
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 371",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "371",
+     "citation": "Elliott & Flackes (1999), p. 371",
+     "fact": "dD-0202"
+    }
+   ]
+  },
+  {
+   "id": "ni-labour:dissolved:1987",
+   "partyId": "ni-labour",
+   "date": "1987",
+   "precision": "year",
+   "type": "dissolved",
+   "relatedParties": [
+    {
+     "partyId": "labour-87",
+     "relation": "succeeded by"
+    }
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 371",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "371",
+     "citation": "Elliott & Flackes (1999), p. 371",
+     "fact": "dD-0202"
+    }
+   ]
+  },
+  {
+   "id": "niup:split:1999-01-05",
+   "partyId": "niup",
+   "date": "1999-01-05",
+   "precision": "day",
+   "type": "split-from",
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Chronology of Major Events, p. 134",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "134",
+     "citation": "Elliott & Flackes (1999), p. 134",
+     "fact": "cB-0028"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 326",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "326",
+     "citation": "Elliott & Flackes (1999), p. 326",
+     "fact": "dC-0215"
+    }
+   ],
+   "relatedParties": [
+    {
+     "partyId": "ukup",
+     "relation": "split from"
+    }
+   ]
+  },
+  {
+   "id": "northern-ireland-women-s-coalition:founded:1996",
+   "partyId": "northern-ireland-women-s-coalition",
+   "date": "1996",
+   "precision": "year",
+   "type": "founded",
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 336",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "336",
+     "citation": "Elliott & Flackes (1999), p. 336",
+     "fact": "dD-0030"
+    }
+   ]
+  },
+  {
+   "id": "people-s-democracy:founded:1968-10-09",
+   "partyId": "people-s-democracy",
+   "date": "1968-10-09",
+   "precision": "day",
+   "type": "founded",
+   "persons": [
+    {
+     "personId": "135080",
+     "role": "founder"
+    },
+    {
+     "personId": "105052",
+     "role": "founder"
+    }
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 394",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "394",
+     "citation": "Elliott & Flackes (1999), p. 394",
+     "fact": "dD-0277"
+    }
+   ]
+  },
+  {
+   "id": "progressive-democrats:founded:1985-12",
+   "partyId": "progressive-democrats",
+   "date": "1985-12",
+   "precision": "month",
+   "type": "founded",
+   "persons": [
+    {
+     "personId": "103204",
+     "role": "founder"
+    }
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 398",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "398",
+     "citation": "Elliott & Flackes (1999), p. 398",
+     "fact": "dE-0003"
+    }
+   ]
+  },
+  {
+   "id": "pup:founded:1978",
+   "partyId": "pup",
+   "date": "1978",
+   "precision": "year",
+   "type": "founded",
+   "persons": [
+    {
+     "personId": "77039",
+     "role": "founder"
+    }
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 399",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "399",
+     "citation": "Elliott & Flackes (1999), p. 399",
+     "fact": "dE-0005"
+    }
+   ]
+  },
+  {
+   "id": "pup:renamed:1979",
+   "partyId": "pup",
+   "date": "1979",
+   "precision": "year",
+   "type": "renamed",
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 399",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "399",
+     "citation": "Elliott & Flackes (1999), p. 399",
+     "fact": "dE-0005"
+    }
+   ]
+  },
+  {
+   "id": "republican-labour:founded:1960",
+   "partyId": "republican-labour",
+   "date": "1960",
+   "precision": "year",
+   "type": "founded",
+   "persons": [
+    {
+     "personId": "62512",
+     "role": "founder"
+    },
+    {
+     "personId": "104127",
+     "role": "founder"
+    }
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 421",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "421",
+     "citation": "Elliott & Flackes (1999), p. 421",
+     "fact": "dE-0027"
+    }
+   ]
+  },
+  {
+   "id": "republican-labour:split:1970",
+   "partyId": "republican-labour",
+   "date": "1970",
+   "precision": "year",
+   "type": "split",
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 421",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "421",
+     "citation": "Elliott & Flackes (1999), p. 421",
+     "fact": "dE-0030"
+    }
+   ]
+  },
+  {
+   "id": "republican-sinn-fein:founded:1986",
+   "partyId": "republican-sinn-fein",
+   "date": "1986",
+   "precision": "year",
+   "type": "founded",
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 372",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "372",
+     "citation": "Elliott & Flackes (1999), p. 372",
+     "fact": "dD-0209"
+    }
+   ]
+  },
+  {
+   "id": "sdp:dissolved:1990-06",
+   "partyId": "sdp",
+   "date": "1990-06",
+   "precision": "month",
+   "type": "dissolved",
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 451",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "451",
+     "citation": "Elliott & Flackes (1999), p. 451",
+     "fact": "dE-0147"
+    }
+   ]
+  },
+  {
+   "id": "ukup:founded:1996",
+   "partyId": "ukup",
+   "date": "1996",
+   "precision": "year",
+   "type": "founded",
+   "persons": [
+    {
+     "personId": "32114",
+     "role": "founder"
+    }
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 498",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "498",
+     "citation": "Elliott & Flackes (1999), p. 498",
+     "fact": "dF-0115"
+    }
+   ]
+  },
+  {
+   "id": "ukup:split:1998-12",
+   "partyId": "ukup",
+   "date": "1998-12",
+   "precision": "month",
+   "type": "split",
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 187",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "187",
+     "citation": "Elliott & Flackes (1999), p. 187",
+     "fact": "dA-0222"
+    }
+   ]
+  },
+  {
+   "id": "ulster-democratic-party:founded:1981-06",
+   "partyId": "ulster-democratic-party",
+   "date": "1981-06",
+   "precision": "month",
+   "type": "founded",
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 478",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "478",
+     "citation": "Elliott & Flackes (1999), p. 478",
+     "fact": "dF-0041"
+    }
+   ]
+  },
+  {
+   "id": "ulster-democratic-party:renamed:1989",
+   "partyId": "ulster-democratic-party",
+   "date": "1989-12",
+   "precision": "month",
+   "type": "renamed",
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 479",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "479",
+     "citation": "Elliott & Flackes (1999), p. 479",
+     "fact": "dF-0048"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 481",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "481",
+     "citation": "Elliott & Flackes (1999), p. 481",
+     "fact": "dF-0050"
+    }
+   ]
+  },
+  {
+   "id": "ulster-independence-movement:founded:1988",
+   "partyId": "ulster-independence-movement",
+   "date": "1988",
+   "precision": "year",
+   "type": "founded",
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 482",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "482",
+     "citation": "Elliott & Flackes (1999), p. 482",
+     "fact": "dF-0058"
+    }
+   ]
+  },
+  {
+   "id": "ulster-popular-unionist-party:founded:1979",
+   "partyId": "ulster-popular-unionist-party",
+   "date": "1980-01",
+   "precision": "month",
+   "type": "founded",
+   "persons": [
+    {
+     "personId": "97535",
+     "role": "founder"
+    }
+   ],
+   "note": "Founded as the Ulster Progressive Unionist Party.",
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 484",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "484",
+     "citation": "Elliott & Flackes (1999), p. 484",
+     "fact": "dF-0069"
+    }
+   ]
+  },
+  {
+   "id": "ulster-popular-unionist-party:renamed:1980",
+   "partyId": "ulster-popular-unionist-party",
+   "date": "1980-03",
+   "precision": "month",
+   "type": "renamed",
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 306",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "306",
+     "citation": "Elliott & Flackes (1999), p. 306",
+     "fact": "dC-0134"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 484",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "484",
+     "citation": "Elliott & Flackes (1999), p. 484",
+     "fact": "dF-0069"
+    }
+   ]
+  },
+  {
+   "id": "unionist-party-of-northern-ireland:founded:1974-09",
+   "partyId": "unionist-party-of-northern-ireland",
+   "date": "1974-09",
+   "precision": "month",
+   "type": "founded",
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 498",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "498",
+     "citation": "Elliott & Flackes (1999), p. 498",
+     "fact": "dF-0108"
+    }
+   ]
+  },
+  {
+   "id": "unionist-party-of-northern-ireland:dissolved:1981-10",
+   "partyId": "unionist-party-of-northern-ireland",
+   "date": "1981-10",
+   "precision": "month",
+   "type": "dissolved",
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 232",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "232",
+     "citation": "Elliott & Flackes (1999), p. 232",
+     "fact": "dB-0131"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 499",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "499",
+     "citation": "Elliott & Flackes (1999), p. 499",
+     "fact": "dF-0114"
+    }
+   ]
+  },
+  {
+   "id": "united-labour-party:founded:1978",
+   "partyId": "united-labour-party",
+   "date": "1978",
+   "precision": "year",
+   "type": "founded",
+   "persons": [
+    {
+     "personId": "101338",
+     "role": "founder"
+    }
+   ],
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 232",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "232",
+     "citation": "Elliott & Flackes (1999), p. 232",
+     "fact": "dB-0128"
+    }
+   ]
+  },
+  {
+   "id": "united-unionist-coalition:founded:1998-09-14",
+   "partyId": "united-unionist-coalition",
+   "date": "1998-09-14",
+   "precision": "day",
+   "type": "founded",
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Chronology of Major Events, p. 131",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "131",
+     "citation": "Elliott & Flackes (1999), p. 131",
+     "fact": "cB-0024"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 234",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "234",
+     "citation": "Elliott & Flackes (1999), p. 234",
+     "fact": "dB-0156"
+    },
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 501",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "501",
+     "citation": "Elliott & Flackes (1999), p. 501",
+     "fact": "dF-0129"
+    }
+   ]
+  },
+  {
+   "id": "unity:founded:1973-04",
+   "partyId": "unity",
+   "date": "1973-04",
+   "precision": "month",
+   "type": "founded",
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 501",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "501",
+     "citation": "Elliott & Flackes (1999), p. 501",
+     "fact": "dF-0131"
+    }
+   ]
+  },
+  {
+   "id": "uup:founded:1905-03-03",
+   "partyId": "uup",
+   "date": "1905-03-03",
+   "precision": "day",
+   "type": "founded",
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 487",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "487",
+     "citation": "Elliott & Flackes (1999), p. 487",
+     "fact": "dF-0082"
+    }
+   ]
+  },
+  {
+   "id": "uuup:founded:1977",
+   "partyId": "uuup",
+   "date": "1977",
+   "precision": "year",
+   "type": "founded",
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 500",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "500",
+     "citation": "Elliott & Flackes (1999), p. 500",
+     "fact": "dF-0123"
+    }
+   ]
+  },
+  {
+   "id": "vanguard:founded:1973-03",
+   "partyId": "vanguard",
+   "date": "1973-03",
+   "precision": "month",
+   "type": "founded",
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 501",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "501",
+     "citation": "Elliott & Flackes (1999), p. 501",
+     "fact": "dF-0133"
+    }
+   ]
+  },
+  {
+   "id": "vanguard:dissolved:1978-02",
+   "partyId": "vanguard",
+   "date": "1978-02",
+   "precision": "month",
+   "type": "dissolved",
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 175",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "175",
+     "citation": "Elliott & Flackes (1999), p. 175",
+     "fact": "dA-0136"
+    }
+   ]
+  },
+  {
+   "id": "volunteer-political-party:founded:1974-09",
+   "partyId": "volunteer-political-party",
+   "date": "1974-09",
+   "precision": "month",
+   "type": "founded",
+   "citations": [
+    {
+     "kind": "book",
+     "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, p. 502",
+     "publisher": "Blackstaff Press",
+     "url": null,
+     "page": "502",
+     "citation": "Elliott & Flackes (1999), p. 502",
+     "fact": "dF-0146"
+    }
+   ]
+  }
+ ]
+}
