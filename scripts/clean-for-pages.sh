@@ -34,6 +34,7 @@ fi
 # pushes the asset count over Cloudflare's 20,000-file limit.
 remove_path ".github"
 remove_path "archive"
+remove_path "analysis"
 remove_path "boundary-gazette"
 remove_path "docs"
 remove_path "ocr_output"
