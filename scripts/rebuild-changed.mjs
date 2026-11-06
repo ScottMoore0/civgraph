@@ -73,14 +73,19 @@ if (mode === 'app') {
   if (meaningful.some((file) => file.startsWith('src/'))) plan.push(['npm', ['run', '-s', 'test:catalogue']]);
 } else if (mode === 'data') {
   if (electionData || forceFull) plan.push(['bash', ['scripts/rebuild-person-ids.sh']]);
-  plan.push(['node', ['scripts/build-election-provenance.mjs']]);
+  // The records database and everything built with it (bundles, provenance, the Browse tree,
+  // party profiles, office pages, the graph) into tmp/records; skipped inside when the inputs are
+  // unchanged. The catalogue reads its people from it, the sitemaps and site figures its trees.
+  plan.push(['npm', ['run', '-s', 'records:build']]);
   // Boundary changes between consecutive timeline editions. Incremental: only pairs whose
   // editions or source files changed are recomputed, so this is seconds when nothing did.
   plan.push(['python', ['scripts/build_timeline_changes.py']]);
   plan.push(['node', ['scripts/catalogue/build-catalogue.mjs']]);
   plan.push(['node', ['scripts/catalogue/check-catalogue.mjs']]);
   plan.push(['npm', ['run', '-s', 'build']]);
-  plan.push(['npm', ['run', '-s', 'build:graph']]);
+  // Committed artefacts the Pages build no longer makes: sitemaps, Browse cache tokens, the
+  // status page and site figures.
+  plan.push(['npm', ['run', '-s', 'build:local-artefacts']]);
   // --apply takes one page; passing both stamped only the homepage and left About stale.
   plan.push(['node', ['scripts/build-site-stats.mjs', '--apply', 'index.html']]);
   plan.push(['node', ['scripts/build-site-stats.mjs', '--apply', 'pages/about.html']]);
