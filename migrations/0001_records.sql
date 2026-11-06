@@ -44,6 +44,7 @@ CREATE TABLE r_elections (
   previous_key TEXT,
   placeholder INTEGER,
   ord INTEGER NOT NULL,
+  compact INTEGER,
   meta TEXT NOT NULL,
   row_hash TEXT NOT NULL,
   row_hash_n INTEGER NOT NULL,
@@ -532,6 +533,7 @@ CREATE TABLE register_entries (
   nil_status TEXT,
   ord INTEGER NOT NULL,
   card TEXT NOT NULL,
+  detail TEXT,
   row_hash TEXT NOT NULL,
   row_hash_n INTEGER NOT NULL,
   PRIMARY KEY (slug)
@@ -620,6 +622,7 @@ CREATE TABLE graph_entities (
   label_norm TEXT,
   entity TEXT NOT NULL,
   summary TEXT,
+  search TEXT,
   row_hash TEXT NOT NULL,
   row_hash_n INTEGER NOT NULL,
   PRIMARY KEY (entity_id)

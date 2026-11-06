@@ -8,10 +8,11 @@
  */
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
+import { BROWSE_DIR, localPathForUrl } from './records/paths.mjs';
 
 const ROOT = process.cwd();
 const SIDE = path.join(ROOT, 'data', 'database', 'election-source-enrichments.json');
-const BROWSE_ELECTIONS = path.join(ROOT, 'data', 'browse', 'elections.json');
+const BROWSE_ELECTIONS = path.join(BROWSE_DIR, 'elections.json');
 const OPEN_LICENCES = new Set(['CC BY-SA 4.0', 'CC BY 4.0']);
 const LOCAL = /(?:[A-Z]:\\|\\\\|C:\/Users\/|D:\/)/i;
 
