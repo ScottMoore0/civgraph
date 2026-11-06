@@ -1,0 +1,22 @@
+/* Dialog on the native <dialog> element, the future cg-dialog (component 4). */
+.cg-dialog {
+  max-width: min(36rem, calc(100vw - 2rem));
+  padding: var(--space-6);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow-lg);
+}
+
+.cg-dialog::backdrop {
+  background: rgba(15, 23, 42, 0.5);
+}
+
+.cg-dialog__header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}

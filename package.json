@@ -108,6 +108,8 @@
     "test:intake-validators": "node scripts/test-intake-validators.mjs",
     "intake": "node scripts/intake/intake.mjs",
     "test:intake": "node --test \"tests/intake/*.test.mjs\"",
+    "test:unit": "node --test \"tests/unit/*.test.mjs\"",
+    "demo:ui": "node tools/ui-demo.mjs",
     "publish:layers": "node scripts/publish-test-layers.mjs",
     "check:fast": "node scripts/run-checks.mjs",
     "rebuild": "node scripts/rebuild-changed.mjs",
