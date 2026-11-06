@@ -16,12 +16,14 @@ import {
   extractElected,
   isRegistryColourParty,
   isPlaceholderPartyColour,
+  NO_LABEL,
   normalizeParty,
   partyColour as electionPartyColour,
   resolvePartyColour as electionResolvePartyColour,
   seatPositions
 } from '../../src/election-domain.mjs';
-import { partyAbbreviation, partyAsPrintedLabel, partyFullName, partyLabelHtml } from '../../src/party-names.mjs';
+import { partyAbbreviation, partyFullName, partyLabelHtml } from '../../src/party-names.mjs';
+import { initPrintedLabels, printedLabelsToggleHtml, printedLabelText } from '../../src/printed-labels.mjs';
 import { buildTrendChartModel, mountTrendChart } from '../../src/election-trend-chart.mjs';
 import { formatDisplayDate } from '../../src/date-format.mjs';
 
@@ -224,6 +226,8 @@ const ROI_MAIN_PARTY_COLOURS = new Map([
 
 export class Test2ElectionManager {
   constructor({ app, mapController, onError } = {}) {
+    // "Show labels as printed": the remembered choice, and the listener for the table toggles.
+    initPrintedLabels();
     this.app = app;
     this.mapController = mapController;
     this.onError = onError;
@@ -1601,6 +1605,7 @@ export class Test2ElectionManager {
     if (!candidates.length) return '<p class="election-no-data">No candidate-level result table is available for this entry.</p>';
     const validPoll = numberOrZero(result.validPoll) || candidates.reduce((sum, candidate) => sum + numberOrZero(candidate.firstPrefs ?? candidate.votes), 0);
     return `
+      ${this.printedLabelsToggle()}
       <div class="election-party-wrapper election-party-wrapper--pane-sticky">
         <table class="election-party-table election-party-table--grouped election-party-table--candidate-sticky3 election-results-table--fixed election-results-table--nonlocal">
           <thead>
@@ -1608,6 +1613,7 @@ export class Test2ElectionManager {
               <th rowspan="2" data-leaf-col-idx="0">#</th>
               <th rowspan="2" data-leaf-col-idx="1">Candidate</th>
               <th rowspan="2" data-leaf-col-idx="2">Party</th>
+              ${this.printedLabelHeader(2)}
               <th colspan="2">${this.isPluralityResult(result) ? 'Votes' : '1st preferences'}</th>
               <th colspan="2">Final count</th>
             </tr>
@@ -1629,6 +1635,7 @@ export class Test2ElectionManager {
                   <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
                   <td>${this.renderElectionEntityButton('candidate', this.candidateEntityKey(candidate), candidate.name || candidate.candidate || '', 'election-cell-wrap')}</td>
                   <td${this.partyCellAttrs(this.mainPanePartyColour(candidate.party, candidate.colour))}>${this.renderElectionEntityButton('party', candidate.party, this.partyLabel(candidate.party), 'election-cell-wrap')}${this.ballotDescriptionHtml(candidate)}</td>
+                  ${this.printedLabelCell(candidate)}
                   <td class="election-num">${valueWithChange(formatNumber(firstPrefs), candidateDelta.deltas?.firstPrefs ?? null)}</td>
                   <td class="election-num">${firstPrefPct === null ? '' : valueWithChange(formatFixedPercent(firstPrefPct), candidateDelta.deltas?.firstPrefPct ?? null, 'percent')}</td>
                   <td class="election-num">${formatNumber(finalVotes)}</td>
@@ -1691,6 +1698,7 @@ export class Test2ElectionManager {
     });
     return `
       <div class="test2-fptp-results-layout">
+        ${this.printedLabelsToggle()}
         <div class="test2-fptp-results-layout__table election-party-wrapper election-party-wrapper--pane-inline">
           <table class="election-party-table election-party-table--grouped election-party-table--candidate-sticky3 election-results-table--fixed election-results-table--nonlocal election-results-table--single-seat-fptp">
             <thead>
@@ -1698,6 +1706,7 @@ export class Test2ElectionManager {
                 <th rowspan="2" data-leaf-col-idx="0">#</th>
                 <th rowspan="2" data-leaf-col-idx="1">Candidate</th>
                 <th rowspan="2" data-leaf-col-idx="2">Party</th>
+                ${this.printedLabelHeader(2)}
                 <th colspan="2">Votes</th>
                 ${isWestminster ? '<th rowspan="2" class="election-col-elected" data-leaf-col-idx="5">Elected</th>' : '<th rowspan="2" data-leaf-col-idx="5">Result</th>'}
               </tr>
@@ -1714,6 +1723,7 @@ export class Test2ElectionManager {
                     <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
                     <td>${this.renderElectionEntityButton('candidate', this.candidateEntityKey({ ...candidate, name: row.name || candidate.name, party: row.party || candidate.party }), escapeHtml(row.name), 'election-cell-wrap')}</td>
                     <td${this.partyCellAttrs(row.colour)}>${this.renderElectionEntityButton('party', row.party, this.partyLabel(row.party), 'election-cell-wrap')}${this.ballotDescriptionHtml(candidate)}</td>
+                    ${this.printedLabelCell(candidate)}
                     <td class="election-num">${unopposed ? 'Unopposed' : this.valueWithPartyAndCandidateChange(formatNumber(votes), partyVoteDelta, candidateVoteDelta, 'count')}</td>
                     <td class="election-num">${unopposed || votePct === null ? '' : this.valueWithPartyAndCandidateChange(formatFixedPercent(votePct), partyPctDelta, candidatePctDelta, 'percent')}</td>
                     ${isWestminster ? `<td class="election-col-elected">${this.electedMark(statusKind === 'elected')}</td>` : `<td>${escapeHtml(statusText)}</td>`}
@@ -1893,14 +1903,14 @@ export class Test2ElectionManager {
       Candidate_Id: candidate.id || candidate.candidateId || String(index + 1),
       candidateName: candidate.name || candidate.candidate || '',
       Count_Number: '1',
-      Party_Name: candidate.party || 'Independent/Other',
+      Party_Name: candidate.party || NO_LABEL,
       Party_Colour: this.mainPanePartyColour(candidate.party, candidate.colour),
       Status: candidate.elected ? 'Elected' : candidate.status || '',
       Total_Votes: candidate.firstPrefs ?? candidate.votes ?? 0
     }));
     for (const row of rows) {
       if (!isMainStyleCandidateRow(row)) continue;
-      const party = normalizeParty(row.Party_Name) || 'Independent/Other';
+      const party = normalizeParty(row.Party_Name) || NO_LABEL;
       const candidateId = String(row.Candidate_Id || '');
       const totalVotes = numberOrZero(row.Total_Votes);
       const countNumber = parseInt(row.Count_Number, 10) || 1;
@@ -2019,35 +2029,45 @@ export class Test2ElectionManager {
   }
 
   renderElectionEntityButton(kind, key, labelHtml, extraClass = '') {
+    // A candidate with no label has no party to open: the label is plain text.
+    if (kind === 'party' && (!String(key || '').trim() || key === NO_LABEL)) return `<span class="${extraClass}">${labelHtml}</span>`;
     const safeKind = escapeHtml(kind);
     return `<button type="button" class="election-entity-link ${extraClass}" data-election-entity="${safeKind}" data-election-entity-kind="${safeKind}" data-election-entity-key="${escapeHtml(key || '')}">${labelHtml}</button>`;
   }
 
   /** A party name in a results table: its abbreviation, with the full name on hover. */
   partyLabel(party) {
+    // Nothing printed and nothing inferred: "No label", in grey, never "Independent".
+    if (!String(party || '').trim() || party === NO_LABEL) return `<span class="election-no-label">${escapeHtml(NO_LABEL)}</span>`;
     return partyLabelHtml(party, escapeHtml);
   }
 
-  /** Beneath a candidate's party, what the ballot paper said where it differs from the party. */
+  /**
+   * Beneath a candidate's party: only the mark for a label inferred by research rather than
+   * printed (shown in both views, the evidence on hover). The ballot paper description and the
+   * label as printed are in the "As printed" column (printedLabelCell), which the reader turns on
+   * with "Show labels as printed" (src/printed-labels.mjs); by default a table shows the party or
+   * independent label each candidate is read as, and nothing else.
+   */
   ballotDescriptionHtml(candidate) {
-    const text = String(candidate?.ballotDescription || '').trim();
-    // A party the sources did not print for this election, inferred from the person's label at
-    // other elections; the evidence is on hover.
-    const inferred = candidate?.partyInferred
+    return candidate?.partyInferred
       ? `<span class="election-ballot-description" title="${escapeHtml(candidate.partyBasis ? `Label inferred: ${candidate.partyBasis}` : 'Label inferred, not printed for this election')}">inferred</span>`
       : '';
-    return (text ? `<span class="election-ballot-description" title="Ballot paper description">${escapeHtml(text)}</span>` : '')
-      + this.partyAsPrintedHtml(candidate) + inferred;
   }
 
-  /**
-   * The party label exactly as the source printed it ("HR (P)", "Rep Clubs"), where that differs
-   * from the party shown: printed labels are shown as printed, under the party they are read as.
-   */
-  partyAsPrintedHtml(candidate) {
-    const printed = partyAsPrintedLabel(candidate);
-    if (!printed) return '';
-    return `<span class="election-ballot-description election-party-printed" title="${escapeHtml(`Party label as printed in the source: ${printed}`)}">printed ${escapeHtml(printed)}</span>`;
+  /** The "As printed" cell: the ballot description, else the label as printed, else blank. */
+  printedLabelCell(candidate) {
+    return `<td class="election-col-printed"><span class="election-cell-wrap">${escapeHtml(printedLabelText(candidate))}</span></td>`;
+  }
+
+  /** The "As printed" header cell (rowspan for the tables with a two-row header). */
+  printedLabelHeader(rowspan = 1) {
+    return `<th${rowspan > 1 ? ` rowspan="${rowspan}"` : ''} class="election-col-printed" title="The ballot paper description, or the label as printed in the cited newspaper or report">As printed</th>`;
+  }
+
+  /** "Show labels as printed", above a table that lists candidates. */
+  printedLabelsToggle() {
+    return printedLabelsToggleHtml(escapeHtml, 'printed-labels-toggle election-printed-toggle');
   }
 
   /** Attributes for a cell showing a party: the party colour as a narrow tab down its left edge. */
@@ -3367,6 +3387,7 @@ export class Test2ElectionManager {
     // Westminster: one "Elected" column (tick or cross) replaces Status > Outcome / Count.
     const leafStart = isLocal ? 7 : (isWestminster ? 5 : 6);
     return `
+      ${this.printedLabelsToggle()}
       <div class="election-count-wrapper election-count-wrapper--pane-sticky">
         <table class="election-count-table election-count-table--grouped election-count-table--candidate-sticky3 election-results-table--fixed${isLocal ? ' election-results-table--local' : ' election-results-table--nonlocal'}">
           <thead>
@@ -3374,6 +3395,7 @@ export class Test2ElectionManager {
               <th rowspan="2" data-leaf-col-idx="0">#</th>
               <th rowspan="2" data-leaf-col-idx="1">Name</th>
               <th rowspan="2" data-leaf-col-idx="2">Party</th>
+              ${this.printedLabelHeader(2)}
               ${geographyHeaders}
               ${isWestminster ? '<th rowspan="2" class="election-col-elected" data-leaf-col-idx="4">Elected</th>' : '<th colspan="2">Status</th>'}
               <th colspan="2">${this.isPluralityElection(resultsForTotals) ? 'Votes' : '1st preferences'}</th>
@@ -3406,6 +3428,7 @@ export class Test2ElectionManager {
                   <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
                   <td>${this.renderElectionEntityButton('candidate', this.candidateEntityKey(candidate), escapeHtml(candidate.name || ''), 'election-cell-wrap')}</td>
                   <td${this.partyCellAttrs(this.mainPanePartyColour(candidate.party, candidate.colour))}>${this.renderElectionEntityButton('party', candidate.party, this.partyLabel(candidate.party), 'election-cell-wrap')}${this.ballotDescriptionHtml(candidate)}</td>
+                  ${this.printedLabelCell(candidate)}
                   ${isLocal ? `<td><span class="election-cell-wrap">${escapeHtml(localBody)}</span></td>` : ''}
                   <td><button type="button" class="election-entity-link election-cell-wrap" data-election-result-key="${escapeHtml(normalizeName(candidate.constituency || ''))}">${escapeHtml(candidate.constituency || '')}</button></td>
                   ${isWestminster ? `<td class="election-col-elected">${this.electedMark(candidate.elected)}</td>` : `<td><span class="election-cell-wrap">${status === 'Elected' ? '<strong>Elected</strong>' : escapeHtml(status)}</span></td>
@@ -3579,6 +3602,7 @@ export class Test2ElectionManager {
         <td></td>
         <td><strong>${escapeHtml(label)}</strong></td>
         <td>-</td>
+        <td class="election-col-printed"></td>
         <td>-</td>
         <td class="election-num">${valueWithChange(formatFixedPercent(pctValue), this.countDetailedView ? (previousPctValue === null ? null : pctValue - previousPctValue) : false, 'percent')}</td>
         <td class="election-num election-cell-strong">${valueWithChange(formatNumber(value), previousValue === null ? null : value - previousValue)}</td>
@@ -3586,6 +3610,7 @@ export class Test2ElectionManager {
       </tr>
     `;
     return `
+      ${this.printedLabelsToggle()}
       <div class="election-count-wrapper election-count-wrapper--pane-sticky">
         <table class="election-count-table election-results-table--fixed${this.isLocalGovernmentElection() ? ' election-results-table--local' : ' election-results-table--nonlocal'}">
           <thead>
@@ -3594,6 +3619,7 @@ export class Test2ElectionManager {
               <th class="election-colour-col" data-leaf-col-idx="1"></th>
               <th class="election-col-name" data-leaf-col-idx="2">Name</th>
               <th class="election-col-party" data-leaf-col-idx="3">Party</th>
+              ${this.printedLabelHeader()}
               <th class="election-col-status" data-leaf-col-idx="4">Status</th>
               <th class="election-num" data-leaf-col-idx="5" aria-label="${this.countDetailedView ? 'First preference share, with change' : 'First preference share'}">${this.renderTwoLineHeader('1st', 'pref %')}</th>
               <th class="election-num" data-leaf-col-idx="6" aria-label="First preferences, with change">${this.renderTwoLineHeader('1st', 'pref')}</th>
@@ -3629,6 +3655,7 @@ export class Test2ElectionManager {
                   <td class="election-colour-col"${this.colourTabStyle(this.mainPanePartyColour(candidate.party, candidate.colour))}></td>
                   <td class="election-col-name">${this.renderElectionEntityButton('candidate', this.candidateEntityKey(candidate), escapeHtml(candidate.name || ''), 'election-cell-wrap election-cell-wrap--count-name')}</td>
                   <td class="election-col-party">${this.renderElectionEntityButton('party', candidate.party, this.partyLabel(candidate.party || ''), 'election-cell-wrap election-cell-wrap--count-party')}${this.ballotDescriptionHtml(candidate)}</td>
+                  ${this.printedLabelCell(candidate)}
                   <td class="election-col-status"><span class="election-cell-wrap election-cell-wrap--count-status">${statusCount}</span></td>
                   <td class="election-num">${valueWithChange(formatFixedPercent(firstPrefPct), this.countDetailedView ? (result.syntheticCountGroup ? null : candidateDelta.deltas?.firstPrefPct ?? null) : false, 'percent')}</td>
                   <td class="election-num">${valueWithChange(formatNumber(firstPrefs), result.syntheticCountGroup ? null : candidateDelta.deltas?.firstPrefs ?? null)}</td>
@@ -3663,6 +3690,7 @@ export class Test2ElectionManager {
                 <td></td>
                 <td><strong>Non-<br>transferable</strong></td>
                 <td>-</td>
+                <td class="election-col-printed"></td>
                 <td>-</td>
                 <td class="election-num">-</td>
                 <td class="election-num">-</td>
@@ -5202,7 +5230,7 @@ function buildLocalPartySummary(results = []) {
     const byParty = new Map();
     const validPoll = Number(result.validPoll || result.totalVotes || 0);
     for (const candidate of result.candidates || []) {
-      const party = candidate.party || 'Independent/Other';
+      const party = candidate.party || NO_LABEL;
       const key = normalizeName(party) || party;
       if (!byParty.has(key)) {
         byParty.set(key, {
@@ -5258,7 +5286,7 @@ function buildCouncilSummary(results = []) {
     row.validPoll += Number(result.validPoll || result.totalVotes || 0) || 0;
     row.electorate += Number(result.electorate || 0) || 0;
     for (const candidate of result.candidates || []) {
-      const party = candidate.party || 'Independent/Other';
+      const party = candidate.party || NO_LABEL;
       row.partyVotes.set(party, (row.partyVotes.get(party) || 0) + (Number(candidate.firstPrefs ?? candidate.votes ?? 0) || 0));
       if (candidate.colour && !row.partyColours.has(party)) row.partyColours.set(party, candidate.colour);
       if (candidate.elected) row.partySeats.set(party, (row.partySeats.get(party) || 0) + 1);

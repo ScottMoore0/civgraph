@@ -200,7 +200,8 @@ export function partyHeadlineCards(rows = [], { max = 4 } = {}) {
 export function leadingPartyOf(result = {}, { normalise = (v) => String(v || '').toLowerCase() } = {}) {
   const totals = new Map();
   for (const candidate of result.candidates || []) {
-    const party = candidate.party || 'Independent';
+    // Nothing printed and nothing inferred is "No label" (src/election-domain.mjs NO_LABEL), never Independent.
+    const party = candidate.party || 'No label';
     const key = normalise(party);
     const current = totals.get(key) || { party, votes: 0, colour: candidate.colour || null, counted: false };
     const votes = candidate.firstPrefs ?? candidate.votes;

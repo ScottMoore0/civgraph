@@ -3,6 +3,7 @@ import {
   buildEntityIndex,
   buildPartySummary,
   compareResults,
+  NO_LABEL,
   normalizeName,
   numberOrZero,
   partyColour,
@@ -115,7 +116,7 @@ export function buildLocalPartySummary(results = []) {
     const byParty = new Map();
     const validPoll = Number(result.validPoll || result.totalVotes || 0);
     for (const candidate of result.candidates || []) {
-      const party = candidate.party || 'Independent/Other';
+      const party = candidate.party || NO_LABEL;
       const key = normalizeName(party) || party;
       if (!byParty.has(key)) {
         byParty.set(key, {
@@ -167,7 +168,7 @@ export function buildCouncilSummary(results = []) {
     row.validPoll += Number(result.validPoll || result.totalVotes || 0) || 0;
     row.electorate += Number(result.electorate || 0) || 0;
     for (const candidate of result.candidates || []) {
-      const party = candidate.party || 'Independent/Other';
+      const party = candidate.party || NO_LABEL;
       row.partyVotes.set(party, (row.partyVotes.get(party) || 0) + (Number(candidate.firstPrefs ?? candidate.votes ?? 0) || 0));
       if (candidate.elected) row.partySeats.set(party, (row.partySeats.get(party) || 0) + 1);
     }
