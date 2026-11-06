@@ -554,7 +554,7 @@ export class NiLocalGroupedView {
 
   councilsHtml() {
     const { rounds, missing } = this.roundsAtLevel();
-    const status = (round) => (round.status === 'complete' ? '' : `<span class="ni-local-badge">${round.status === 'held' ? 'Held back' : 'Incomplete'}</span>`);
+    const status = (round) => (round.status === 'complete' ? '' : `<span class="ni-local-badge"${round.note ? ` title="${escapeHtml(round.note)}"` : ''}>${round.status === 'held' ? 'Held back' : 'Incomplete'}</span>`);
     const items = rounds.map(({ round }) => `<li><button type="button" class="ni-local-council" data-ni-round="${escapeHtml(round.key)}">${escapeHtml(round.body)}</button> <span class="ni-local-council__meta">${escapeHtml(formatDisplayDate(round.date))} · ${formatNumber(round.contests.length)} contest${round.contests.length === 1 ? '' : 's'}</span>${status(round)}</li>`);
     const gaps = missing.map((item) => `<li class="ni-local-council--missing"><i class="ni-hatch-swatch" aria-hidden="true"></i>${escapeHtml(this.councilName(item.bodySlug))} <span class="ni-local-council__meta">${escapeHtml(item.reason === 'held back in review' ? 'results held back in review' : 'results not yet transcribed')}</span></li>`);
     if (!items.length && !gaps.length) return '';
