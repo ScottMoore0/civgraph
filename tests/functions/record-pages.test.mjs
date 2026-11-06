@@ -13,7 +13,7 @@ import { readFileSync } from 'node:fs';
 import { DatabaseSync } from 'node:sqlite';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { browsePageHandler } from '../../functions/_browse-page.js';
+import { browsePageHandler, resolveElectionSlugAlias } from '../../functions/_browse-page.js';
 import { resetDatasetVersionCache } from '../../functions/_lib/respond.js';
 import { candidacyLinks, personBody } from '../../functions/_templates/records/person.js';
 import { registerInterestBody } from '../../functions/_templates/records/register-interest.js';
@@ -294,4 +294,11 @@ test('a grouped year by its key redirects to its slug; a year that is not there 
   assert.equal(res.status, 301);
   assert.equal(res.headers.get('location'), 'https://civgraph.net/browse/elections/ni-local-1946');
   assert.equal((await get('elections', 'ni-local-1800')).status, 404);
+});
+
+test('the Carrickfergus 1955 aldermanic contests keep their published "-2" addresses', () => {
+  const base = 'carrickfergus-borough-council-1955-05-18';
+  assert.equal(resolveElectionSlugAlias(`${base}-east-central-ward-2`), `${base}-east-central-ward-alderman`);
+  assert.equal(resolveElectionSlugAlias(`${base}-west-ward-2`), `${base}-west-ward-alderman`);
+  assert.equal(resolveElectionSlugAlias(`${base}-east-central-ward`), `${base}-east-central-ward`, 'the councillor contest is unchanged');
 });
