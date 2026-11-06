@@ -377,9 +377,15 @@ export class SharedElectionRenderer {
   }
 
   renderDataCoverageNotice() {
+    // A round that holds only some of the council's divisions or wards says so first
+    // (data/elections/round-completeness.json, set on the bundle by the manifest builder).
+    const completeness = this.host.activeBundle?.completenessNote;
+    const partial = completeness
+      ? `<div class="test2-election-coverage-notice test2-election-completeness-notice" role="note">${escapeHtml(completeness)}</div>`
+      : '';
     const unmatched = Number(this.host.activeBundle?.unmatchedCount || 0);
-    if (!unmatched) return '';
-    return `<div class="test2-election-coverage-notice" role="note">${formatNumber(unmatched)} result ${unmatched === 1 ? 'row is' : 'rows are'} not styled on the map because no exact converted geography match is available yet.</div>`;
+    if (!unmatched) return partial;
+    return `${partial}<div class="test2-election-coverage-notice" role="note">${formatNumber(unmatched)} result ${unmatched === 1 ? 'row is' : 'rows are'} not styled on the map because no exact converted geography match is available yet.</div>`;
   }
 
   withPartyDeltas(rows = []) {

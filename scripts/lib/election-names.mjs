@@ -350,12 +350,12 @@ const PRE1973_COUNCIL_BODIES = new Set([
   'lurgan rural district council',
   'portadown borough council',
   'armagh rural district council',
-  'newry no. 2 rural district council',
+  'newry no 2 rural district council', // normalizeName drops the full stop
   'tandragee rural district council',
   'moira rural district council',
   'aghalee rural district council',
   'tandragee urban district council',
-  'castleblayney no. 2 rural district council',
+  'castleblayney no 2 rural district council',
   'londonderry county borough council',
   'londonderry county borough council aldermen',
   ...NI_COUNCIL_ERA_TITLES.keys(),
@@ -487,7 +487,9 @@ export function canonicalElectionTitle({
   if (normalizedBody === 'portadown borough council') {
     return Number(year) < 1947 ? `${year} Portadown Urban District Council election` : `${year} Portadown Borough Council election`;
   }
-  if (['armagh county council', 'armagh urban district council', 'keady urban district council', 'lurgan rural district council', 'armagh rural district council', 'newry no. 2 rural district council', 'tandragee rural district council', 'moira rural district council', 'aghalee rural district council', 'tandragee urban district council', 'castleblayney no. 2 rural district council'].includes(normalizedBody)) {
+  if (['armagh county council', 'armagh urban district council', 'keady urban district council', 'lurgan rural district council', 'armagh rural district council', 'newry no 2 rural district council', 'tandragee rural district council', 'moira rural district council', 'aghalee rural district council', 'tandragee urban district council', 'castleblayney no 2 rural district council'].includes(normalizedBody)) {
+    // normalizeName drops the full stop: keyed "newry no 2", not "newry no. 2", or the two
+    // No. 2 districts lost the word "election" from every title.
     return `${year} ${body} election`.trim();
   }
   if (normalizedBody === 'londonderry county borough council') {
