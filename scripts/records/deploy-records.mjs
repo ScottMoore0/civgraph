@@ -113,9 +113,17 @@ async function main() {
   if (!existsSync(BUILD)) throw new Error('no build: run npm run records:build first');
   mkdirSync(path.dirname(LAST), { recursive: true });
 
-  const mig = wrangler(['d1', 'migrations', 'apply', D1_NAME, ...target], 'migrations.log');
-  if (mig.status !== 0) throw new Error(`migrations apply failed:\n${mig.text.slice(-1500)}`);
-  log('migrations applied');
+  if (dryRun) {
+    // A dry run changes nothing, migrations included: it only lists what a real run would apply.
+    const list = wrangler(['d1', 'migrations', 'list', D1_NAME, ...target], 'migrations.log');
+    if (list.status !== 0) throw new Error(`migrations list failed:\n${list.text.slice(-1500)}`);
+    const pending = list.text.match(/\d{4}_[\w-]+\.sql/g) || [];
+    log(pending.length ? `migrations a real run would apply: ${[...new Set(pending)].join(', ')}` : 'no migrations to apply');
+  } else {
+    const mig = wrangler(['d1', 'migrations', 'apply', D1_NAME, ...target], 'migrations.log');
+    if (mig.status !== 0) throw new Error(`migrations apply failed:\n${mig.text.slice(-1500)}`);
+    log('migrations applied');
+  }
 
   if (remote && !dryRun) {
     const tt = wrangler(['d1', 'time-travel', 'info', D1_NAME, '--json'], 'tt.json');
