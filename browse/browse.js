@@ -1,5 +1,4 @@
 const DATA_ROOT = '/data/browse';
-const GRAPH_ROOT = '/data/graph';
 const BROWSE_DATA_VERSION = '20260702-proni-4';
 const THUMBNAIL_ASSET_VERSION = '20260604-tight-admin-frame';
 // `layer` is the Civgraph 1.0 layer each entity belongs to (docs/CIVGRAPH_1.0.md):
@@ -9,12 +8,12 @@ const THUMBNAIL_ASSET_VERSION = '20260604-tight-admin-frame';
 // no existing link breaks.
 const ENTITY_CONFIG = {
   maps: { label: 'Maps', singular: 'Map', index: 'maps.json', detailDir: 'maps', action: 'Open in interactive map', layer: 'data' },
-  elections: { label: 'Elections', singular: 'Election', index: 'elections.json', listIndex: 'elections-list.json', detailDir: 'elections', action: 'Open election layer', layer: 'data' },
+  elections: { label: 'Elections', singular: 'Election', index: 'elections.json', listIndex: 'elections-list.json', listApi: '/_api/elections?view=list', detailDir: 'elections', detailApi: (slug) => `/_api/elections?view=detail&key=${encodeURIComponent(slug)}`, action: 'Open election layer', layer: 'data' },
   features: { label: 'Features', singular: 'Feature group', index: 'features.json', detailDir: null, action: 'Open source map', layer: 'data' },
-  parties: { label: 'Parties / Labels', singular: 'Party / label', index: 'parties.json', detailDir: 'parties', layer: 'data' },
+  parties: { label: 'Parties / Labels', singular: 'Party / label', index: 'parties.json', indexApi: '/_api/parties', detailDir: 'parties', detailApi: (slug) => `/_api/parties?slug=${encodeURIComponent(slug)}`, layer: 'data' },
   persons: { label: 'Persons', singular: 'Person', index: 'persons.json', detailDir: null, action: 'Latest election on map', layer: 'data' },
-  'register-interests': { label: 'Register Interests', singular: 'Register interest', index: 'register-interests.json', detailDir: 'register-interests', layer: 'data' },
-  sources: { label: 'Books / Tables / Sources', singular: 'Source', index: 'sources.json', detailDir: 'sources', layer: 'source' },
+  'register-interests': { label: 'Register Interests', singular: 'Register interest', index: 'register-interests.json', detailDir: 'register-interests', recordApi: 'register-interests', layer: 'data' },
+  sources: { label: 'Books / Tables / Sources', singular: 'Source', index: 'sources.json', detailDir: 'sources', recordApi: 'sources', layer: 'source' },
   proni: { label: 'PRONI Records', singular: 'PRONI record', index: 'proni.json', detailDir: 'proni', layer: 'source' }
 };
 
@@ -154,12 +153,12 @@ function personPartySlugs(item) {
   return [...new Set(normalizeArray(item.parties).map((party) => bySpelling.get(party?.name || party)).filter(Boolean))];
 }
 
-/** The People filter options (data/browse/persons-facets.json, 24 KB), loaded once. */
+/** The People filter options (/_api/persons?facets=1, from D1; was data/browse/persons-facets.json), loaded once. */
 async function loadPersonFacets() {
   if (state.personFacets) return state.personFacets;
   let facets = {};
   try {
-    facets = (await loadJson(`${DATA_ROOT}/persons-facets.json`)).facets || {};
+    facets = (await loadJson('/_api/persons?facets=1')).facets || {};
   } catch { /* the list still shows, without its filters */ }
   const partyBySpelling = new Map();
   const partyNames = new Map();
@@ -369,17 +368,8 @@ const state = {
   listSort: {},
   personFacets: null,
   graph: {
-    manifest: null,
-    browseMapping: null,
-    entityIndex: null,
-    entitySummaryShards: new Map(),
-    entitySearch: null,
-    subjectMap: null,
-    subjectShards: new Map(),
-    reverseEntityMap: null,
-    reverseEntityShards: new Map(),
-    sourceStatementMap: null,
-    sourceStatementShards: new Map()
+    // /_api/graph answers, by URL (loadGraphJson).
+    responses: new Map()
   },
   selectedFeatureMap: null,
   loadedFeatureMap: null,
@@ -2630,7 +2620,9 @@ function byDate(rows) {
 // NI Assembly; a party's cohesion per body and term; and a record page per division at
 // #/divisions/<division id>. The data is static and read only when a page needs it.
 
-const VOTES_ROOT = `${DATA_ROOT}/votes`;
+// Votes come from /_api/votes (D1, data design phase 2); the files under /data/browse/votes are
+// answered from the same rows for old links.
+const VOTES_API = '/_api/votes';
 const VOTE_WORDS = { aye: 'Aye', no: 'No', abstain: 'Abstained', both: 'Both lobbies' };
 const VOTE_WORDS_BODY = { dail: { aye: 'Tá', no: 'Níl', abstain: 'Staon' }, seanad: { aye: 'Tá', no: 'Níl', abstain: 'Staon' } };
 const VOTES_PAGE = 50;
@@ -2650,14 +2642,6 @@ async function loadVotesJson(url) {
   return data;
 }
 
-async function divisionShard(divisionId) {
-  const bytes = new TextEncoder().encode(divisionId);
-  const digest = new Uint8Array(await crypto.subtle.digest('SHA-1', bytes));
-  const head = (digest[0] << 16) | (digest[1] << 8) | digest[2];
-  const index = await loadVotesJson(`${VOTES_ROOT}/index.json`);
-  return String(head % (index?.shards || 256)).padStart(3, '0');
-}
-
 function voteWord(body, vote) {
   return VOTE_WORDS_BODY[body]?.[vote] ? `${VOTE_WORDS[vote]} (${VOTE_WORDS_BODY[body][vote]})` : (VOTE_WORDS[vote] || vote || '');
 }
@@ -2673,7 +2657,7 @@ function termLabel(row) {
 async function renderPersonVotesPanel(item) {
   const personId = String(item.id || '').replace(/^person:/, '');
   if (!/^\d+$/.test(personId)) return '';
-  const data = await loadVotesJson(`${VOTES_ROOT}/persons/${personId}.json`);
+  const data = await loadVotesJson(`${VOTES_API}?person=${encodeURIComponent(personId)}`);
   if (!data?.divisions?.length) return '';
   votesView.personId = personId;
   votesView.rows = data.divisions;
@@ -2760,7 +2744,7 @@ document.addEventListener('click', (event) => {
 
 async function renderPartyVotesPanel(item) {
   const slug = item.slug || slugify(item.id || item.title);
-  const data = await loadVotesJson(`${VOTES_ROOT}/parties/${encodeURIComponent(slug)}.json`);
+  const data = await loadVotesJson(`${VOTES_API}?party=${encodeURIComponent(slug)}`);
   const terms = normalizeArray(data?.terms).filter((row) => row.divisions > 0);
   if (!terms.length) return '';
   const table = renderInlineTable('Cohesion by term', ['Body', 'Term', 'Divisions', 'Cohesion', 'Split divisions'], terms.map((row) => [
@@ -2788,10 +2772,10 @@ async function renderDivisionRoute(divisionId) {
   const token = renderSeq;
   state.currentDetail = null;
   els.results.innerHTML = '<div class="browse-loading">Loading division...</div>';
-  const shard = divisionId ? await loadVotesJson(`${VOTES_ROOT}/divisions/${await divisionShard(divisionId)}.json`) : null;
+  // One division, its votes in order (the server finds it; no shard hashing here).
+  const record = divisionId ? await loadVotesJson(`${VOTES_API}?division=${encodeURIComponent(divisionId)}`) : null;
   if (token !== renderSeq) return;
-  const record = shard?.divisions?.[divisionId];
-  const index = await loadVotesJson(`${VOTES_ROOT}/index.json`);
+  const index = await loadVotesJson(`${VOTES_API}?view=index`);
   if (token !== renderSeq) return;
   if (!record) {
     els.hero.innerHTML = '<p class="browse-kicker">Division</p><h1 class="browse-title">Division not found</h1>';
@@ -2844,7 +2828,7 @@ async function loadPartyProfile(item) {
   if (state.details.has(cacheKey)) return state.details.get(cacheKey);
   let profile = null;
   try {
-    profile = await loadJson(`${DATA_ROOT}/party-profiles/${encodeURIComponent(slug)}.json`);
+    profile = await loadJson(`/_api/parties?slug=${encodeURIComponent(slug)}&view=profile`);
   } catch (error) {
     // A party with no profile (a one-off ballot label) keeps the plain record page.
     if (error.status !== 404) console.warn('Party profile could not be loaded.', error);
@@ -3336,14 +3320,8 @@ async function renderEntityRoute(slug) {
     await renderEntitySearchRoute();
     return;
   }
-  let entityId = '';
-  if (await loadGraphLookupHead()) {
-    // An id (cg:...) is its own key; a readable slug is looked up.
-    entityId = /^cg:/.test(slug) ? slug : (await loadGraphLookupBucket('slug', slug))?.[slug] || '';
-  } else {
-    const entityIndex = await loadGraphEntityIndex();
-    entityId = entityIndex.bySlug?.[slug] || (entityIndex.byIdShard?.[slug] ? slug : '');
-  }
+  // An id (cg:...) is its own key; a readable slug is looked up.
+  const entityId = await graphEntityIdForSlug(slug);
   const entity = entityId ? await loadGraphEntitySummary(entityId) : null;
   if (token !== renderSeq) return;
   if (!entity) {
@@ -3375,8 +3353,9 @@ async function renderEntityRoute(slug) {
 
 async function renderEntitySearchRoute() {
   setHero({ label: 'Entities', singular: 'Entity' }, null);
-  const search = await loadGraphEntitySearch();
   const query = normalizeSearchQuery(state.query);
+  // The server narrows by label and entry; the page keeps its own match on the full text.
+  const search = await loadGraphEntitySearch(query);
   const items = query
     ? search.items.filter((item) => entitySearchText(item).includes(query)).slice(0, 200)
     : search.items.slice(0, 200);
@@ -3723,112 +3702,37 @@ function dedupeRows(rows) {
 }
 
 async function loadGraphStatementsForBrowseItem(type, item) {
-  const entityId = await graphEntityIdForBrowseItem(type, item);
-  if (!entityId) return null;
-  return loadGraphStatementsForEntity(entityId);
-}
-
-async function loadGraphStatementsForEntity(entityId) {
-  const lookup = await loadGraphLookupHead();
-  let shardUrl;
-  if (lookup) {
-    const entry = await lookupGraphEntity(entityId);
-    shardUrl = graphShardUrl(lookup, 'statements', entry?.st);
-  } else {
-    shardUrl = (await loadGraphSubjectMap())[entityId];
-  }
-  if (!shardUrl) return { entityId, statements: [] };
-  let shard = state.graph.subjectShards.get(shardUrl);
-  if (!shard) {
-    shard = await loadJson(shardUrl);
-    state.graph.subjectShards.set(shardUrl, shard);
-  }
-  return { entityId, statements: normalizeArray(shard.items?.[entityId]) };
-}
-
-async function graphEntityIdForBrowseItem(type, item) {
-  // The record's keys in the order the build is surest to have written them: its own slug
-  // first, so the usual case is one small lookup file.
-  if (await loadGraphLookupHead()) {
-    for (const key of graphBrowseKeys(type, item)) {
-      const items = await loadGraphLookupBucket('browse', key);
-      if (items?.[key]) return items[key];
-    }
-    return '';
-  }
-  const mapping = await loadGraphBrowseMapping(type);
-  for (const key of graphBrowseKeys(type, item)) {
-    if (mapping[key]) return mapping[key];
-  }
-  return '';
-}
-
-// THE GRAPH LOOKUP. A record page used to read three whole maps to find its facts -- the
-// record-to-entity map for its type (up to 14 MB), the subject-to-shard map (20 MB) and the
-// four-part slug index (28 MB) -- 56 MB to read one key from each. The graph build now splits
-// each map by a hash of its key (scripts/graph/build-semantic-graph.mjs writeLookupIndex), so
-// the page computes which small file holds the key and reads that one. The head file names the
-// bucket counts and URL patterns; without it (an older graph) the whole maps are used as before.
-async function loadGraphLookupHead() {
-  if (state.graph.lookup !== undefined) return state.graph.lookup;
-  state.graph.lookup = (async () => {
-    try {
-      // Revalidated on every visit: its version is what keeps the cached lookup files and
-      // shards from an earlier build out of this one.
-      const head = await loadJson(`${GRAPH_ROOT}/indexes/lookup.json`, { cache: 'no-cache' });
-      return head?.buckets && head?.urls ? head : null;
-    } catch {
-      return null;
-    }
-  })();
-  state.graph.lookup = await state.graph.lookup;
-  return state.graph.lookup;
-}
-
-/** The `items` of the lookup file of `kind` ('browse', 'entity', 'slug') that holds `key`. */
-async function loadGraphLookupBucket(kind, key) {
-  const lookup = await loadGraphLookupHead();
-  const count = lookup?.buckets?.[kind];
-  if (!count || !lookup.urls?.[kind]) return null;
-  const bucket = String(lookupBucket(key, count)).padStart(lookup.bucketPad || 4, '0');
-  const url = graphVersionedUrl(lookup.urls[kind].replace('{bucket}', bucket), lookup);
-  state.graph.lookupBuckets ||= new Map();
-  if (!state.graph.lookupBuckets.has(url)) {
-    state.graph.lookupBuckets.set(url, loadJson(url).then((payload) => payload.items || {}).catch(() => ({})));
-  }
-  return state.graph.lookupBuckets.get(url);
-}
-
-/** An entity's lookup entry: its summary, and the shard numbers of its statements (st, rv, ss). */
-async function lookupGraphEntity(entityId) {
-  if (!entityId) return null;
-  const items = await loadGraphLookupBucket('entity', entityId);
-  return items?.[entityId] || null;
-}
-
-function graphShardUrl(lookup, kind, number) {
-  const shard = lookup?.shards?.[kind];
-  if (!shard || number === undefined || number === null) return '';
-  return graphVersionedUrl(shard.url.replace('{n}', String(number).padStart(shard.pad || 3, '0')), lookup);
-}
-
-// The graph is served with a day's max-age, so a URL is tied to the build that wrote it.
-function graphVersionedUrl(url, lookup) {
-  return lookup?.version ? `${url}${url.includes('?') ? '&' : '?'}g=${encodeURIComponent(lookup.version)}` : url;
+  const payload = await loadGraphForBrowseItem(type, item);
+  return payload?.entityId ? { entityId: payload.entityId, statements: normalizeArray(payload.statements) } : null;
 }
 
 /**
- * Which of `count` files a key lives in: FNV-1a over the key's UTF-16 code units. The browse and
- * graph builds have the same function (lookupBucket); the three must agree.
+ * THE GRAPH, FROM D1. A record page used to compute which of ~8,300 hash-bucketed lookup and
+ * shard files held its keys (the browse and graph builds had to agree on the hash). Now one
+ * request names the record's keys, and /_api/graph answers the entity and its statements.
  */
-function lookupBucket(key, count) {
-  let hash = 0x811c9dc5;
-  const text = String(key);
-  for (let i = 0; i < text.length; i += 1) {
-    hash ^= text.charCodeAt(i);
-    hash = Math.imul(hash, 0x01000193);
+async function loadGraphForBrowseItem(type, item) {
+  const keys = graphBrowseKeys(type, item);
+  if (!keys.length) return null;
+  const params = new URLSearchParams();
+  for (const key of keys.slice(0, 20)) params.append('browse', key);
+  return loadGraphJson(`/_api/graph?${params}`);
+}
+
+async function loadGraphJson(url) {
+  state.graph.responses ||= new Map();
+  if (!state.graph.responses.has(url)) {
+    state.graph.responses.set(url, loadJson(url).catch((error) => {
+      if (error.status !== 404) console.warn('Graph data could not be loaded.', error);
+      return null;
+    }));
   }
-  return (hash >>> 0) % count;
+  return state.graph.responses.get(url);
+}
+
+async function loadGraphStatementsForEntity(entityId) {
+  const payload = entityId ? await loadGraphJson(`/_api/graph?entity=${encodeURIComponent(entityId)}`) : null;
+  return { entityId, statements: normalizeArray(payload?.statements) };
 }
 
 function graphBrowseKeys(type, item) {
@@ -3841,114 +3745,27 @@ function graphBrowseKeys(type, item) {
   return [...new Set(keys)];
 }
 
-async function loadGraphManifest() {
-  if (state.graph.manifest) return state.graph.manifest;
-  state.graph.manifest = await loadJson(`${GRAPH_ROOT}/manifest.json`);
-  return state.graph.manifest;
+/** An entity id from a readable slug (or an id, which is its own key). */
+async function graphEntityIdForSlug(slug) {
+  if (/^cg:/.test(slug)) return slug;
+  const payload = await loadGraphJson(`/_api/graph?slug=${encodeURIComponent(slug)}`);
+  return payload?.entityId || '';
 }
 
-// The map is written one file per Browse type (`byType`), so a record page loads only its own
-// type's keys; a single-file map (`items`) is used as it is.
-async function loadGraphBrowseMapping(type) {
-  state.graph.browseMapping ||= new Map();
-  if (state.graph.browseMapping.has(type)) return state.graph.browseMapping.get(type);
-  const manifest = await loadGraphManifest();
-  const head = await loadJson(manifest.indexes.browseRecordToEntity);
-  const url = head.byType?.[type];
-  const items = url ? (await loadJson(url)).items || {} : head.items || {};
-  state.graph.browseMapping.set(type, items);
-  return items;
-}
-
-// The entity indexes are written in parts (each file must stay under Cloudflare Pages' 25 MiB
-// limit): the index file lists them in `parts`, and they are merged here. A single-file index
-// (no `parts`) is used as it is.
-async function loadIndexWithParts(url) {
-  const head = await loadJson(url);
-  if (!Array.isArray(head?.parts)) return head;
-  const pieces = await Promise.all(head.parts.map((partUrl) => loadJson(partUrl)));
-  const merged = { ...head, items: [], bySlug: {}, byIdShard: {} };
-  for (const piece of pieces) {
-    if (Array.isArray(piece.items)) merged.items.push(...piece.items);
-    Object.assign(merged.bySlug, piece.bySlug || {});
-    Object.assign(merged.byIdShard, piece.byIdShard || {});
-  }
-  return merged;
-}
-
-async function loadGraphEntityIndex() {
-  if (state.graph.entityIndex) return state.graph.entityIndex;
-  const manifest = await loadGraphManifest();
-  const index = await loadIndexWithParts(manifest.indexes.entitySlugs);
-  state.graph.entityIndex = index;
-  return state.graph.entityIndex;
-}
-
-async function loadGraphEntitySearch() {
-  if (state.graph.entitySearch) return state.graph.entitySearch;
-  const manifest = await loadGraphManifest();
-  state.graph.entitySearch = await loadIndexWithParts(manifest.indexes.entitySearch);
-  return state.graph.entitySearch;
+async function loadGraphEntitySearch(query) {
+  const payload = await loadGraphJson(`/_api/graph?q=${encodeURIComponent(query || '')}&limit=200`);
+  return { items: normalizeArray(payload?.items) };
 }
 
 async function loadGraphEntitySummary(entityId) {
-  if (await loadGraphLookupHead()) {
-    const entry = await lookupGraphEntity(entityId);
-    if (!entry) return null;
-    const { st: _st, rv: _rv, ss: _ss, ...summary } = entry;
-    return summary;
-  }
-  const index = await loadGraphEntityIndex();
-  if (index.byId?.[entityId]) return index.byId[entityId];
-  const shardUrl = index.byIdShard?.[entityId];
-  if (!shardUrl) return null;
-  let shard = state.graph.entitySummaryShards.get(shardUrl);
-  if (!shard) {
-    shard = await loadJson(shardUrl);
-    state.graph.entitySummaryShards.set(shardUrl, shard);
-  }
-  return shard.items?.[entityId] || null;
+  if (!entityId) return null;
+  const payload = await loadGraphJson(`/_api/graph?entity=${encodeURIComponent(entityId)}`);
+  return payload?.summary || null;
 }
 
 async function loadGraphRelatedForEntity(entityId) {
-  const [reverse, sourceStatements] = await Promise.all([
-    loadGraphRelatedShard(entityId, 'reverseEntityMap', 'reverseEntityShards', 'reverseEntityValuesMap'),
-    loadGraphRelatedShard(entityId, 'sourceStatementMap', 'sourceStatementShards', 'sourceStatementsMap')
-  ]);
-  return { reverse, sourceStatements };
-}
-
-async function loadGraphRelatedShard(entityId, mapStateKey, shardStateKey, manifestIndexKey) {
-  let shardUrl;
-  const lookup = await loadGraphLookupHead();
-  if (lookup) {
-    const entry = await lookupGraphEntity(entityId);
-    shardUrl = mapStateKey === 'reverseEntityMap'
-      ? graphShardUrl(lookup, 'reverse', entry?.rv)
-      : graphShardUrl(lookup, 'sourceStatements', entry?.ss);
-  } else {
-    const manifest = await loadGraphManifest();
-    if (!state.graph[mapStateKey]) {
-      const mapPayload = await loadJson(manifest.indexes[manifestIndexKey]);
-      state.graph[mapStateKey] = mapPayload.items || {};
-    }
-    shardUrl = state.graph[mapStateKey][entityId];
-  }
-  if (!shardUrl) return [];
-  let shard = state.graph[shardStateKey].get(shardUrl);
-  if (!shard) {
-    shard = await loadJson(shardUrl);
-    state.graph[shardStateKey].set(shardUrl, shard);
-  }
-  return normalizeArray(shard.items?.[entityId]);
-}
-
-async function loadGraphSubjectMap() {
-  if (state.graph.subjectMap) return state.graph.subjectMap;
-  const manifest = await loadGraphManifest();
-  const subjectMap = await loadJson(manifest.indexes.statementsBySubjectMap);
-  state.graph.subjectMap = subjectMap.items || {};
-  return state.graph.subjectMap;
+  const payload = entityId ? await loadGraphJson(`/_api/graph?entity=${encodeURIComponent(entityId)}&related=1`) : null;
+  return { reverse: normalizeArray(payload?.reverse), sourceStatements: normalizeArray(payload?.sourceStatements) };
 }
 
 function sourceKindLabel(value) {
@@ -5589,7 +5406,7 @@ function personRequestHonoured(applied, request) {
  */
 async function loadPartyNames() {
   if (!state.partyNames) {
-    state.partyNames = loadJson(`${DATA_ROOT}/party-names.json`).then((payload) => payload.items || {}).catch(() => ({}));
+    state.partyNames = loadJson('/_api/parties?view=names').then((payload) => payload.items || {}).catch(() => ({}));
   }
   state.partyNames = await state.partyNames;
   return state.partyNames;
@@ -5675,25 +5492,6 @@ function partyLinkHtml(name, inner = escapeHtml(name || '')) {
  * election-contest-parents.json and its election's contest file; an election from its detail
  * file. Returns null when neither has it, and the caller falls back to the index.
  */
-/**
- * The election a contest slug belongs to: from the small file its slug hashes to
- * (election-contest-parents/<bucket>.json, about 20 KB), or from the whole 1.2 MB map when an
- * older build wrote only that.
- */
-async function electionContestParent(slug) {
-  const bucket = String(lookupBucket(slug, ELECTION_CONTEST_PARENT_BUCKETS)).padStart(4, '0');
-  try {
-    const items = (await loadJson(`${DATA_ROOT}/election-contest-parents/${bucket}.json`)).items || {};
-    return items[slug] || null;
-  } catch {
-    state.electionContestParents ||= (await loadJson(`${DATA_ROOT}/election-contest-parents.json`)).items || {};
-    return state.electionContestParents[slug] || null;
-  }
-}
-
-// Must equal CONTEST_PARENT_BUCKETS in scripts/build-browse-indexes.mjs.
-const ELECTION_CONTEST_PARENT_BUCKETS = 64;
-
 async function loadElectionRecord(id) {
   let slug = String(id || '');
   try { slug = decodeURIComponent(slug); } catch { /* keep as is */ }
@@ -5701,15 +5499,12 @@ async function loadElectionRecord(id) {
   // with "__" made "-".
   if (slug.includes('__')) slug = slugify(slug);
   try {
-    const parent = await electionContestParent(slug);
-    if (parent) {
-      const shard = await loadJson(`${DATA_ROOT}/details/election-contests/${encodeURIComponent(parent)}.json`);
-      return (shard.items || []).find((entry) => entry.slug === slug) || null;
-    }
-    const detail = await loadJson(`${DATA_ROOT}/details/elections/${encodeURIComponent(slug)}.json`);
-    if (!detail?.item) return null;
-    state.details.set(`elections:${detail.item.slug || slug}`, detail);
-    return detail.item;
+    // An election's detail item, or a contest's entry: /_api/elections finds the contest's
+    // election itself (it replaces election-contest-parents and its 64 bucket files).
+    const record = await loadJson(`/_api/elections?view=record&slug=${encodeURIComponent(slug)}`);
+    if (!record?.item) return null;
+    if (!record.parent) state.details.set(`elections:${record.item.slug || slug}`, { item: record.item });
+    return record.item;
   } catch {
     return null;
   }
@@ -5722,7 +5517,7 @@ async function loadIndex(type, { list = false } = {}) {
     if (state.indexes.has(cacheKey)) return state.indexes.get(cacheKey);
     if (state.indexes.has(type)) return state.indexes.get(type);
     try {
-      const listData = expandElectionList(await loadJson(`${DATA_ROOT}/${config.listIndex}`));
+      const listData = expandElectionList(await loadJson(config.listApi || `${DATA_ROOT}/${config.listIndex}`));
       state.indexes.set(cacheKey, listData);
       return listData;
     } catch {
@@ -5730,7 +5525,7 @@ async function loadIndex(type, { list = false } = {}) {
     }
   }
   if (state.indexes.has(type)) return state.indexes.get(type);
-  const data = await loadJson(`${DATA_ROOT}/${config.index}`);
+  const data = await loadJson(config.indexApi || `${DATA_ROOT}/${config.index}`);
   if (data.indexLayout === 'sharded' && Array.isArray(data.shards)) {
     const shardData = await Promise.all(data.shards.map((shard) => loadJson(shard.url)));
     data.items = shardData.flatMap((shard) => Array.isArray(shard.items) ? shard.items : []);
@@ -5772,8 +5567,14 @@ async function loadDetail(type, item) {
   if (state.details.has(cacheKey)) return state.details.get(cacheKey);
   let detail;
   try {
-    if (item.detailUrl) {
+    if (item.detailUrl && config.recordApi) {
+      // The record's detail, from D1 (was a shard file holding 200 of them).
+      detail = await loadJson(`/_api/${config.recordApi}?slug=${encodeURIComponent(slug)}&view=detail`);
+      detail = { ...detail, item: { ...item, ...(detail?.item || {}) } };
+    } else if (item.detailUrl) {
       detail = await loadShardDetail(item, slug);
+    } else if (config.detailApi) {
+      detail = await loadJson(config.detailApi(slug));
     } else {
       detail = await loadJson(`${DATA_ROOT}/details/${config.detailDir}/${encodeURIComponent(slug)}.json`);
     }
