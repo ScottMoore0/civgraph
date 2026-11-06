@@ -983,6 +983,14 @@ async function renderCurrent() {
       renderNotFound(config, state.activeId);
       return;
     }
+    // Reached by an old address (a party label folded into its party, #/parties/uup-farmer):
+    // the address becomes the record's own, as the D1 indexes do above.
+    if (item.slug && String(item.slug).toLowerCase() !== decodeURIComponent(state.activeId).toLowerCase()
+      && normalizeArray(item.previousSlugs).some((slug) => String(slug).toLowerCase() === decodeURIComponent(state.activeId).toLowerCase())) {
+      state.activeId = item.slug;
+      history.replaceState(history.state, '', `${location.pathname}${location.search}#/${state.activeType}/${encodeURIComponent(item.slug)}`);
+      lastRoutedAddress = currentAddress();
+    }
     await renderDetail(state.activeType, item);
     return;
   }
