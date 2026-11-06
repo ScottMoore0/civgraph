@@ -16,9 +16,10 @@
  * Steps in SERIAL_ONLY write shared scratch files or lean on the network, and run one at a
  * time after the parallel batch so they cannot collide with each other.
  *
- * `check` is offline. The steps that compare with the LIVE database or the R2 bucket
- * (check:elections-d1, check:r2-parity) moved to `npm run verify` on 2026-11-06; they can
- * still be run here with --only. For a run that equals CI, use npm run check:clean.
+ * `check` is offline: no step reads a remote database. The comparisons with the LIVE
+ * databases and the R2 bucket are in the opt-in `npm run verify` (verify:records, the bounded
+ * records check; verify:proni-roots; check:r2-parity); check:proni-roots here checks the
+ * committed file alone. For a run that equals CI, use npm run check:clean.
  */
 import { spawn } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
@@ -28,7 +29,6 @@ const SERIAL_ONLY = new Set([
   'test:scoped-writes',
   'check:r2-parity',
   'check:external-sources',
-  'check:elections-d1',
   'lint',
   'lint:functions-strict'
 ]);
