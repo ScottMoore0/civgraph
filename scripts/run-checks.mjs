@@ -8,15 +8,17 @@
  * and prints only the failures in full.
  *
  *   node scripts/run-checks.mjs                     every step of `check`, then check:test2
- *   node scripts/run-checks.mjs --skip a,b          leave steps out (e.g. check:elections-d1,
- *                                                   which compares against the LIVE database
- *                                                   and so fails until the next deploy)
+ *   node scripts/run-checks.mjs --skip a,b          leave steps out
  *   node scripts/run-checks.mjs --only a,b          just these steps
  *   node scripts/run-checks.mjs --jobs 8            concurrency (default: half the cores, max 12)
  *   node scripts/run-checks.mjs --serial            one at a time, in order, as `npm run check`
  *
  * Steps in SERIAL_ONLY write shared scratch files or lean on the network, and run one at a
  * time after the parallel batch so they cannot collide with each other.
+ *
+ * `check` is offline. The steps that compare with the LIVE database or the R2 bucket
+ * (check:elections-d1, check:r2-parity) moved to `npm run verify` on 2026-11-06; they can
+ * still be run here with --only. For a run that equals CI, use npm run check:clean.
  */
 import { spawn } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';

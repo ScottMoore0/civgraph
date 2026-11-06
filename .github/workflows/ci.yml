@@ -1,0 +1,120 @@
+# One workflow, no path filters (site-restructure DESIGN.md 4.2, step C1).
+#
+# It replaces three workflows whose path filters left validators untriggered by the files
+# they validate (data-readiness.yml, test-readiness.yml) and the Pages build parity job
+# (pages-build.yml), and it runs the same steps a developer runs:
+#
+#   check         npm run check:ci = the Pages build, the derived inputs the checks still
+#                 read, then every offline check (scripts/check-clean.mjs --in-place).
+#                 Locally, npm run check:clean runs the same on a clean export of the tree,
+#                 so a check that needs a gitignored file fails in both places or neither.
+#   pages-build   the Pages build exactly as Cloudflare runs it, plus the file-count budget.
+#   browser       the production map app at /maps/, built first (npm run test:browser:maps).
+#                 The legacy /render/ app is no longer tested here: it is being retired (F5),
+#                 and testing it said nothing about the app users get.
+#   verify        nightly and on demand, against production: the checks that need the
+#                 network (npm run verify:ci) and the production-parity browser specs,
+#                 with retries for timing-sensitive assertions.
+#
+# Network checks never run on push: `npm run check` is offline by design.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: '17 5 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-latest
+    # check:graph rebuilds data/graph (~2 GB) twice to assert determinism.
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      # npm ci, not npm install: check:notices compares exact installed versions with the
+      # committed notices. --ignore-scripts: the canvas devDependency builds natively and
+      # fails on the runner (pixman-1); nothing in the checks imports it.
+      - run: npm ci --ignore-scripts
+      - run: npm run check:ci
+
+  pages-build:
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      # Exactly the Pages build command (wrangler.toml records it): npm install, not npm ci.
+      - name: npm install (--ignore-scripts, as Pages does)
+        run: npm install --ignore-scripts
+      - name: npm run build
+        run: npm run build
+      - name: Assert modelled deployable file count under budget
+        run: node scripts/validate-pages-file-budget.mjs
+      - name: clean-for-pages.sh
+        run: bash scripts/clean-for-pages.sh
+      - name: Assert real on-disk file count under Cloudflare's hard limit
+        run: |
+          COUNT=$(find . -path ./.git -prune -o -type f -print | wc -l)
+          echo "files on disk after clean-for-pages.sh: $COUNT (hard limit 20000)"
+          if [ "$COUNT" -ge 20000 ]; then
+            echo "::error::$COUNT files on disk; Cloudflare Pages hard-fails at 20,000."
+            exit 1
+          fi
+
+  browser:
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npx playwright install --with-deps chromium
+      # The specs serve the working tree (playwright.config.js); /maps/ needs the build.
+      - run: npm run build
+      - run: npm run test:browser:maps
+
+  verify:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      PARITY_BASE_URL: https://civgraph.net
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm run verify:ci
+      - run: npx playwright install --with-deps chromium
+      # Against the deployed site, on purpose, on the schedule -- not on every push, which
+      # would hammer the live site. Retries absorb the timing assertions that failed the
+      # nightly on 2 and 4 November 2026 (ux-plan-items.spec.js) without hiding a real break.
+      - run: >-
+          npx playwright test --retries 2
+          tests/browser/ux-plan-items.spec.js
+          tests/browser/ux-t1-05-t1-03.spec.js
+          tests/browser/catalogue-load-a11y.spec.js
+          tests/browser/eds-1931-1936.spec.js
+          tests/browser/elections-api-fallback.spec.js
+          tests/browser/elections-api-parity.spec.js
