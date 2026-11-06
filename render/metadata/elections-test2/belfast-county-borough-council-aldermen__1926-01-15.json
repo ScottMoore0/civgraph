@@ -60,11 +60,11 @@
       "share": 57.371980676328505
     },
     {
-      "party": "Independent",
+      "party": "No label",
       "seats": 2,
-      "stood": 0,
+      "stood": 2,
       "votes": 0,
-      "colour": "#b8b8b8",
+      "colour": "#d4d4d4",
       "share": 0
     },
     {
@@ -88,15 +88,15 @@
       "seats": 0,
       "stood": 1,
       "votes": 3851,
-      "colour": "#6b7280",
+      "colour": "#dc241f",
       "share": 24.805152979066023
     },
     {
-      "party": "Independent/Other",
+      "party": "Socialist",
       "seats": 0,
-      "stood": 3,
+      "stood": 1,
       "votes": 2767,
-      "colour": "#6b7280",
+      "colour": "#ff3300",
       "share": 17.822866344605476
     }
   ],
@@ -110,12 +110,12 @@
       "share": 57.371980676328505
     },
     {
-      "party": "Independent/Other",
+      "party": "No label",
       "seats": 2,
-      "stood": 3,
-      "votes": 2767,
-      "colour": "#888888",
-      "share": 17.822866344605476
+      "stood": 2,
+      "votes": 0,
+      "colour": "#d4d4d4",
+      "share": 0
     },
     {
       "party": "Independent Unionist",
@@ -140,6 +140,14 @@
       "votes": 3851,
       "colour": "#DC241F",
       "share": 24.805152979066023
+    },
+    {
+      "party": "Socialist",
+      "seats": 0,
+      "stood": 1,
+      "votes": 2767,
+      "colour": "#ff3300",
+      "share": 17.822866344605476
     }
   ],
   "mainLikeTotals": {
@@ -156,6 +164,7 @@
       "constituency": "Woodvale",
       "name": "John Graham",
       "party": "UUP",
+      "partyAsPrinted": "Unionist",
       "colour": "#48A5EE",
       "firstPrefs": 4361,
       "votes": 4361,
@@ -185,6 +194,7 @@
       "constituency": "Pottinger",
       "name": "Mrs. M'Mordie",
       "party": "UUP",
+      "partyAsPrinted": "U.",
       "colour": "#48A5EE",
       "firstPrefs": 4546,
       "votes": 4546,
@@ -214,6 +224,7 @@
       "constituency": "Pottinger",
       "name": "G. Corcoran",
       "party": "NI Labour",
+      "partyAsPrinted": "Lab.",
       "colour": "#DC241F",
       "firstPrefs": 3851,
       "votes": 3851,
@@ -238,12 +249,13 @@
       "name_id": "n-g-corcoran"
     },
     {
-      "id": "row:Samuel Geddis|",
+      "id": "Samuel Geddis|",
       "personId": 139606,
       "constituency": "Woodvale",
       "name": "Samuel Geddis",
-      "party": "",
-      "colour": "#888888",
+      "party": "Socialist",
+      "partyAsPrinted": "Socialist",
+      "colour": "#ff3300",
       "firstPrefs": 2767,
       "votes": 2767,
       "constPct": 38.818742985409656,
@@ -263,7 +275,7 @@
           "status": "Not Elected"
         }
       },
-      "candidateKey": "samuel geddis|",
+      "candidateKey": "samuel geddis|socialist",
       "name_id": "n-samuel-geddis"
     },
     {
@@ -301,6 +313,7 @@
       "constituency": "Ormeau",
       "name": "J. D. Williamson",
       "party": "Independent Unionist",
+      "partyAsPrinted": "Ind. Unionist",
       "colour": "#aadfff",
       "firstPrefs": 0,
       "votes": 0,
@@ -330,6 +343,7 @@
       "constituency": "St Anne's",
       "name": "James A. Doran",
       "party": "UUP",
+      "partyAsPrinted": "U.",
       "colour": "#48A5EE",
       "firstPrefs": 0,
       "votes": 0,
@@ -359,6 +373,7 @@
       "constituency": "Smithfield",
       "name": "Richard Byrne",
       "party": "Nationalist Party",
+      "partyAsPrinted": "Nat",
       "colour": "#32CD32",
       "firstPrefs": 0,
       "votes": 0,
@@ -459,16 +474,15 @@
         "shareOfTotal": 57.371980676328505
       },
       {
-        "name": "Independent/Other",
-        "colour": "#888888",
-        "firstPrefs": 2767,
-        "finalVotes": 2767,
-        "stood": 3,
+        "name": "No label",
+        "colour": "#d4d4d4",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "stood": 2,
         "elected": 2,
         "constituencies": [
           "Duncairn",
-          "St George's",
-          "Woodvale"
+          "St George's"
         ],
         "candidates": [
           {
@@ -486,17 +500,9 @@
             "firstPref": 0,
             "finalVotes": 0,
             "status": "Elected"
-          },
-          {
-            "id": "Samuel Geddis|",
-            "name": "Samuel Geddis",
-            "constituency": "Woodvale",
-            "firstPref": 2767,
-            "finalVotes": 2767,
-            "status": "Not Elected"
           }
         ],
-        "shareOfTotal": 17.822866344605476
+        "shareOfTotal": 0
       },
       {
         "name": "Independent Unionist",
@@ -563,6 +569,28 @@
           }
         ],
         "shareOfTotal": 24.805152979066023
+      },
+      {
+        "name": "Socialist",
+        "colour": "#ff3300",
+        "firstPrefs": 2767,
+        "finalVotes": 2767,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Woodvale"
+        ],
+        "candidates": [
+          {
+            "id": "Samuel Geddis|Socialist",
+            "name": "Samuel Geddis",
+            "constituency": "Woodvale",
+            "firstPref": 2767,
+            "finalVotes": 2767,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 17.822866344605476
       }
     ],
     "candidates": [
@@ -743,11 +771,11 @@
         "shareOfTotal": 24.805152979066023
       },
       {
-        "id": "Samuel Geddis|",
-        "key": "Samuel Geddis|",
+        "id": "Samuel Geddis|Socialist",
+        "key": "Samuel Geddis|Socialist",
         "name": "Samuel Geddis",
-        "party": "",
-        "colour": "#888888",
+        "party": "Socialist",
+        "colour": "#ff3300",
         "firstPrefs": 2767,
         "finalVotes": 2767,
         "electedCount": 0,
@@ -769,7 +797,7 @@
   "results": [
     {
       "constituency": "Duncairn",
-      "winnerParty": "Independent",
+      "winnerParty": "No label",
       "winnerName": "William Reid",
       "leadingParty": null,
       "leadingName": "William Reid",
@@ -786,7 +814,7 @@
       "spoiled": null,
       "validPoll": null,
       "totalVotes": null,
-      "colour": "#b8b8b8",
+      "colour": "#d4d4d4",
       "leadingColour": "#6b7280",
       "candidates": [
         {
@@ -1924,7 +1952,7 @@
     },
     {
       "constituency": "St George's",
-      "winnerParty": "Independent",
+      "winnerParty": "No label",
       "winnerName": "George R. Black",
       "leadingParty": null,
       "leadingName": "George R. Black",
@@ -1941,7 +1969,7 @@
       "spoiled": null,
       "validPoll": null,
       "totalVotes": null,
-      "colour": "#b8b8b8",
+      "colour": "#d4d4d4",
       "leadingColour": "#6b7280",
       "candidates": [
         {
@@ -2194,7 +2222,7 @@
         {
           "id": "Samuel Geddis|",
           "name": "Samuel Geddis",
-          "party": "",
+          "party": "Socialist",
           "firstPrefs": 2767,
           "finalVotes": 2767,
           "elected": false,
@@ -2203,7 +2231,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
-          "colour": "#888888",
+          "colour": "#ff3300",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -2291,7 +2319,7 @@
         },
         {
           "Constituency_Number": "",
-          "Candidate_Id": "",
+          "Candidate_Id": "Samuel Geddis|",
           "Count_Number": "1",
           "Firstname": "Samuel",
           "Surname": "Geddis",
@@ -2300,7 +2328,7 @@
           "Total_Votes": "2767.00",
           "Status": "Not Elected",
           "Occurred_On_Count": "",
-          "Party_Name": "",
+          "Party_Name": "Socialist",
           "Party_Colour": "#888888",
           "candidateName": "Samuel Geddis",
           "id": 1,
@@ -2352,7 +2380,7 @@
             },
             {
               "Constituency_Number": "",
-              "Candidate_Id": "",
+              "Candidate_Id": "Samuel Geddis|",
               "Count_Number": "1",
               "Firstname": "Samuel",
               "Surname": "Geddis",
@@ -2361,7 +2389,7 @@
               "Total_Votes": "2767.00",
               "Status": "Not Elected",
               "Occurred_On_Count": "",
-              "Party_Name": "",
+              "Party_Name": "Socialist",
               "Party_Colour": "#888888",
               "candidateName": "Samuel Geddis",
               "id": 1,

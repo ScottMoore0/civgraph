@@ -36,6 +36,7 @@ import * as MapsView from './view-maps.js';
 import * as ElectionsView from './view-elections.js';
 import { BODY_GROUPS, groupOfBody, shelvesOf } from './view-elections.js';
 import * as BooksView from './view-books.js';
+import { forgetTypedPhrase, isLanguagePhrase, languageOptionsShown, revealLanguageOptions, typedLanguagePhrase } from './lang-reveal.js';
 
 const PLACES_URL = '/data/catalogue/places.json';
 const PEOPLE_URL = '/data/catalogue/people.json';
@@ -97,6 +98,8 @@ export class CatalogueNext {
     this.electionsFirst = false;
     this.bookHits = null;
     this.extras = null;
+    // The search is the language phrase (lang-reveal.js): one line in place of the results.
+    this.langNotice = false;
     this.searchToken = 0;
     this.here = null;
     this.person = null;
@@ -115,6 +118,14 @@ export class CatalogueNext {
       // from the current view, so this one has to take the new view first.
       window.addEventListener('popstate', () => this.onLocationChange({ rewrite: true }), true);
       window.addEventListener('hashchange', () => this.onLocationChange(), true);
+      // The control's Hide action: the phrase leaves the search box with it.
+      document.addEventListener('civgraph:langhide', () => {
+        forgetTypedPhrase();
+        const input = document.getElementById('searchInput');
+        if (!this.langNotice || !input) return;
+        input.value = '';
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+      });
     }
   }
 
@@ -278,7 +289,9 @@ export class CatalogueNext {
     this.tabsEl.innerHTML = this.tabsHtml();
     let toolbar = '';
     let results = '';
-    if (this.tab === 'elections') {
+    if (this.langNotice) {
+      results = langNoticeHtml();
+    } else if (this.tab === 'elections') {
       toolbar = ElectionsView.toolbarHtml(this);
       results = ElectionsView.resultsHtml(this);
     } else if (this.tab === 'books') {
@@ -299,7 +312,7 @@ export class CatalogueNext {
     if (!this.resultsEl || !this.resultsEl.isConnected) return this.draw();
     closeMenu({ restoreFocus: false });
     this.tabsEl.innerHTML = this.tabsHtml();
-    this.resultsEl.innerHTML = this.tab === 'elections' ? ElectionsView.resultsHtml(this)
+    this.resultsEl.innerHTML = this.langNotice ? langNoticeHtml() : this.tab === 'elections' ? ElectionsView.resultsHtml(this)
       : this.tab === 'books' ? BooksView.booksHtml(this) : MapsView.resultsHtml(this);
     this.refreshToolbar();
     this.afterDraw(this.resultsEl);
@@ -382,6 +395,9 @@ export class CatalogueNext {
     if (this.scrollTarget) requestAnimationFrame(() => this.scrollToTarget());
   }
 
+  /** A search is narrowing the lists (the language phrase does not). */
+  get searching() { return Boolean(this.query) && !this.langNotice; }
+
   /** The open section: one of SECTIONS' ids, or elections (or books, reached only by an old link). */
   get openSection() { return this.tab === 'maps' ? this.section : this.tab; }
 
@@ -394,10 +410,11 @@ export class CatalogueNext {
 
   /** Series per section (those a search found, while searching) and elections. */
   tabCounts() {
-    const out = { elections: this.visibleElections().length, books: this.query ? this.bookHits?.size || 0 : this.books?.books?.length || 0 };
+    const searching = this.searching;
+    const out = { elections: this.visibleElections().length, books: searching ? this.bookHits?.size || 0 : this.books?.books?.length || 0 };
     // Each section counts its maps (every map a row can add: editions, versions, council maps), not its rows.
-    const mapsIn = (s) => (this.query ? (this.searchHits?.get(s.id)?.members?.length || s.members.length) : s.members.length + (s.local?.length || 0));
-    for (const [id, kind] of SECTIONS) out[id] = this.data.series.filter((s) => s.kind === kind && (!this.query || this.searchHits?.has(s.id))).reduce((n, s) => n + mapsIn(s), 0);
+    const mapsIn = (s) => (searching ? (this.searchHits?.get(s.id)?.members?.length || s.members.length) : s.members.length + (s.local?.length || 0));
+    for (const [id, kind] of SECTIONS) out[id] = this.data.series.filter((s) => s.kind === kind && (!searching || this.searchHits?.has(s.id))).reduce((n, s) => n + mapsIn(s), 0);
     return out;
   }
 
@@ -581,7 +598,7 @@ export class CatalogueNext {
     if (!ignoreSection && s.kind !== KIND_OF_SECTION[this.section]) return false;
     if (!ignoreYears && this.yearRange('maps').narrowed && !s.members.some((m) => this.editionInYears(m.id))) return false;
     if (f.onMap && !this.seriesOnMap(s)) return false;
-    if (this.query && !this.searchHits?.has(s.id)) return false;
+    if (this.searching && !this.searchHits?.has(s.id)) return false;
     return true;
   }
 
@@ -636,7 +653,7 @@ export class CatalogueNext {
     if (kind === 'by-election' && e.kind !== 'by-election') return false;
     if (kind === 'general' && e.kind === 'by-election') return false;
     if (!ignoreYears && !this.inYears('elections', yearOf(e.date))) return false;
-    if (this.query && !this.electionHits?.has(e.key)) return false;
+    if (this.searching && !this.electionHits?.has(e.key)) return false;
     if (this.person && !this.person.contests.has(e.key)) return false;
     return true;
   }
@@ -683,7 +700,11 @@ export class CatalogueNext {
     if (q) this.person = null;
     this.limits = {};
     this.moreChips.clear();
-    if (!q) {
+    // The language phrase, typed into the box, turns the language control on; the line saying so
+    // stands in for the results (also when the phrase comes back from the address afterwards).
+    const revealed = isLanguagePhrase(q) && typedLanguagePhrase() && revealLanguageOptions();
+    this.langNotice = isLanguagePhrase(q) && (revealed || languageOptionsShown() || typedLanguagePhrase());
+    if (!q || this.langNotice) {
       this.addressController?.abort();
       this.addresses = null;
       this.searchHits = null;
@@ -840,6 +861,7 @@ export class CatalogueNext {
     const input = document.getElementById('searchInput');
     if (input) input.value = '';
     this.query = '';
+    this.langNotice = false;
     this.searchHits = null;
     this.searchPeriod = null;
     this.electionHits = null;
@@ -1791,4 +1813,9 @@ export class CatalogueNext {
     const n = app()?.getLoadedLayerIds?.()?.length ?? 0;
     this.root.querySelectorAll('[data-cn-onmap-count]').forEach((el) => { el.textContent = String(n); });
   }
+}
+
+/** The search box held the language phrase: say what it did, in place of the results. */
+function langNoticeHtml() {
+  return '<p class="cn-summary cn-summary--count" role="status" data-cn-lang-notice>Language options are now shown.</p>';
 }

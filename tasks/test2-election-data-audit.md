@@ -1,6 +1,6 @@
 # Test2 Election Data Audit
 
-Generated: 2026-11-05T20:53:20.273Z
+Generated: 2026-11-06T00:14:30.643Z
 
 This is a repeatable repository-local audit of the generated /test2 election data, Browse election entries, source/reference records, transfer/count payload availability, and saved Wikipedia party-colour comparison outputs. It intentionally does not fetch live web pages, so CI can run it deterministically.
 
@@ -26,7 +26,7 @@ This is a repeatable repository-local audit of the generated /test2 election dat
 |candidate-row review sidecar records|0|
 |party-colour review sidecar records|10|
 |blocking issues|0|
-|warnings|1312|
+|warnings|1276|
 
 ## Blocking Structural Issues
 
@@ -45,24 +45,19 @@ _None._
 |warning|source-record-single-reference|tandragee-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|tandragee-rural-district-council__1967-06-01|5 candidate rows have no party/label. Examples: Andrew Isaac Crothers in Ballyshiel; Robert Woolsey in Laurelvale; Norman Alexander Beattie in Mullabrack; John McIntyre in Mullahead; Robert John McClelland in Tandragee Rural.|
 |warning|source-record-single-reference|ballycastle-urban-district-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|ballycastle-urban-district-council__1967-05-17|7 candidate rows have no party/label. Examples: Bernard Sherlock in North; John Morton in North; Dr. Thomas Wilson in North; Francis Bertuccelli in North; James O'Kane in South.|
 |warning|source-record-single-reference|ballyclare-urban-district-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|ballyclare-urban-district-council__1967-05-17|12 candidate rows have no party/label. Examples: William J. Workman in Ballyclare; Sidney Cameron in Ballyclare; James Craig in Ballyclare; Alan Moore in Ballyclare; Robert Fleming in Ballyclare.|
 |warning|source-record-single-reference|ballymena-borough-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|ballymena-borough-council__1967-05-17|3 candidate rows have no party/label. Examples: Robert Luke in Harryville Ward; George G. Sloane in Harryville Ward; Robert M'Cosh in Harryville Ward.|
 |warning|source-record-single-reference|banbridge-urban-district-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|source-record-single-reference|bangor-borough-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|bangor-borough-council__1967-05-17|6 candidate rows have no party/label. Examples: Mrs. Beryl Holland in Ballyholme Ward; Brian A. Wimpress in Castle Ward; Brian J. Mairs in Castle Ward; Mrs. Helen M. Lawrence in Castle Ward; Mrs. Helen M. M'Cartney in Dufferin Ward.|
 |warning|source-record-single-reference|belfast-county-borough-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|source-record-single-reference|belfast-county-borough-council-aldermen__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|source-record-single-reference|carrickfergus-borough-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|carrickfergus-borough-council__1967-05-17|6 candidate rows have no party/label. Examples: Kenneth D. Hogsett in Eden Ward (Alderman); Elizabeth Croft in Eden Ward (Councillors); Kenneth Thompson in North Ward (Councillors); Leonard Burton in North Ward (Councillors); Patrick K. Armstrong in West Ward.|
 |warning|source-record-single-reference|coleraine-borough-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|coleraine-borough-council__1967-05-17|15 candidate rows have no party/label. Examples: J. White in Coleraine; A. Kydd in Coleraine; R. Fulton in Coleraine; I. Wilson in Coleraine; J. Christie in Coleraine.|
 |warning|source-record-single-reference|cookstown-urban-district-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|cookstown-urban-district-council__1967-05-17|12 candidate rows have no party/label. Examples: Mrs. Alice M. Leeper in Cookstown; Norman Armstrong in Cookstown; Robert J. Donaghy in Cookstown; George Ferguson in Cookstown; William Graham in Cookstown.|
 |warning|source-record-single-reference|downpatrick-urban-district-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|downpatrick-urban-district-council__1967-05-17|11 candidate rows have no party/label. Examples: Mrs Rosaline Kelly in Downpatrick; Terence M'Kee in Downpatrick; Edward M'Grady in Downpatrick; John Dorris in Downpatrick; Hugh Millar in Downpatrick.|
 |warning|source-record-single-reference|dromore-urban-district-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|dromore-urban-district-council__1967-05-17|10 candidate rows have no party/label. Examples: Mrs. Irene Ferguson in Dromore; William Wilkinson in Dromore; John M'Grehan in Dromore; T. Castles in Dromore; Douglas Gamble in Dromore.|
 |warning|source-record-single-reference|dungannon-urban-district-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
@@ -77,7 +72,6 @@ _None._
 |warning|source-record-single-reference|newcastle-urban-district-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|newcastle-urban-district-council__1967-05-17|9 candidate rows have no party/label. Examples: R. J. Hall in Newcastle; J. A. Keenan in Newcastle; A. T. Cairns in Newcastle; F. Dornan in Newcastle; Mrs. L. D. Purdy in Newcastle.|
 |warning|source-record-single-reference|newtownabbey-urban-district-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|newtownabbey-urban-district-council__1967-05-17|5 candidate rows have no party/label. Examples: Thomas H. Larmour in Carnmoney; Albert Sheppard in Carnmoney; Joseph B. Canavan in Whitewell; William R. M'Dowell in Whitewell; Edna G. Slack in Whitewell.|
 |warning|source-record-single-reference|omagh-urban-district-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|source-record-single-reference|portadown-borough-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-list-missing|portadown-borough-council__1967-05-17|No candidates found for Portadown (councillors).|
@@ -107,7 +101,6 @@ _None._
 |warning|source-record-single-reference|banbridge-urban-district-council__1964-05-20|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|banbridge-urban-district-council__1964-05-20|11 candidate rows have no party/label. Examples: Benjamin Adair in East Ward; Charles Creighton, J.P. in West Ward; John Dobson, M.A. in West Ward; W. E. Holton, O.B.E. in West Ward; Norman B. Coburn in West Ward.|
 |warning|source-record-single-reference|bangor-borough-council__1964-05-20|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|bangor-borough-council__1964-05-20|12 candidate rows have no party/label. Examples: Mrs. B. Holland in Ballyholme Ward; B. Wimpress in Castle Ward; A. Burns in Castle Ward; H. Minnis in Castle Ward; R. McConnell in Clifton Ward.|
 |warning|source-record-single-reference|belfast-county-borough-council__1964-05-20|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|source-record-single-reference|belfast-county-borough-council-aldermen__1964-05-20|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|source-record-single-reference|carrickfergus-borough-council__1964-05-20|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
@@ -116,8 +109,15 @@ _None._
 |warning|source-record-single-reference|cookstown-urban-district-council__1964-05-20|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|cookstown-urban-district-council__1964-05-20|11 candidate rows have no party/label. Examples: W. Graham in Cookstown; Mrs. A. M. Leeper in Cookstown; A. McConnell in Cookstown; G. Ferguson in Cookstown; N. Watson in Cookstown.|
 |warning|source-record-single-reference|downpatrick-urban-district-council__1964-05-20|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|source-record-single-reference|dungannon-urban-district-council__1964-05-20|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|candidate-party-missing|dungannon-urban-district-council__1964-05-20|7 candidate rows have no party/label. Examples: J. Patton in Central Ward; H. Ferguson in Central Ward; M. Johnston in Central Ward; R. N. Holmes in Central Ward; J. Dugal in Central Ward.|
+|warning|source-record-single-reference|enniskillen-borough-council__1964-05-20|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|source-record-single-reference|holywood-urban-district-council__1964-05-20|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|candidate-party-missing|holywood-urban-district-council__1964-05-20|9 candidate rows have no party/label. Examples: W. Lapworth in Holywood; W. J. McCavana in Holywood; W. E. Russell in Holywood; Mrs. M. A. Smyth in Holywood; R. McCarty in Holywood.|
+|warning|source-record-single-reference|kilkeel-urban-district-council__1964-05-20|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|source-record-single-reference|larne-borough-council__1964-05-20|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 
-_1232 more not shown; see JSON report._
+_1196 more not shown; see JSON report._
 
 ## Source And Reference Coverage
 

@@ -1841,7 +1841,54 @@ a:hover {
   gap: var(--space-2);
 }
 
-/* A party label as the source printed it, under the party it is read as. */
+/* Party labels as printed: the "As printed" column is in every candidate table but shown only
+   when the reader ticks "Show labels as printed" (browse.js sets the root attribute). */
+.browse-col-printed {
+  display: none;
+}
+
+:root[data-show-printed-labels] .browse-col-printed {
+  display: table-cell;
+  font-style: italic;
+  color: var(--color-text-muted);
+}
+
+.browse-printed-toggle {
+  margin: 0 0 var(--space-2);
+  font-size: .9rem;
+  color: var(--color-text-muted);
+}
+
+.browse-printed-toggle label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.browse-printed-toggle input:focus-visible {
+  outline: 2px solid var(--color-primary-light);
+  outline-offset: 2px;
+}
+
+/* The footnote shows only with the column it explains. */
+.browse-printed-note {
+  display: none;
+}
+
+:root[data-show-printed-labels] .browse-printed-note {
+  display: inline;
+  font-size: .85em;
+}
+
+/* "No label": nothing printed or inferred. Neutral grey, never a party link. */
+.browse-no-label {
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+/* An inferred label's marker beside the party it is read as. */
 .browse-party-printed {
   display: block;
   margin-top: 1px;

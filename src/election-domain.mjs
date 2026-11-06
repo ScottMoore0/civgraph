@@ -69,7 +69,32 @@ const DEFAULT_PARTY_COLOURS = new Map([
   ['ind nat', '#cdffab'],
   ['loyalist', '#ffd700'],
   ['united loyalist', '#ffd700'],
-  ['newtownabbey labour', '#dc241f']
+  ['newtownabbey labour', '#dc241f'],
+  // Labels of the NI councils 1920-67 (data/elections/party-label-interpretations.json), so the
+  // rows a printed label is read into are not drawn in the file's placeholder grey. Existing site
+  // colours where the label already had one (NI Labour, Anti-Partitionist, Ulster Liberal, NDP).
+  ['ni labour', '#dc241f'],
+  ['anti partitionist', '#228b22'],
+  ['ulster liberal', '#daa520'],
+  ['national democratic party', '#3cb371'],
+  ['belfast labour', '#e4572e'],
+  ['british legion', '#4b6584'],
+  ['town tenants association', '#9b59b6'],
+  ['ratepayers association', '#a0785a'],
+  ['nationalist labour', '#6fbf3f'],
+  ['newry labour', '#e8604c'],
+  ['derry labour party', '#ff6f61'],
+  ['expelled workers', '#8b4513'],
+  ['individual traders association', '#c9a227'],
+  ['campaign for social justice', '#2e8b57'],
+  ['trade unionist labour', '#e8743b'],
+  ['trades council', '#d35400'],
+  ['progressive', '#20b2aa'],
+  ['efficiency party', '#4682b4'],
+  ['unemployed workers', '#b22222'],
+  ['jubilee protestant defence association', '#ff8c00'],
+  // Nothing printed and nothing inferred: a neutral grey of its own, lighter than Independent's.
+  ['no label', '#d4d4d4']
 ]);
 
 /**
@@ -138,6 +163,7 @@ function HISTORIC_PARTY_COLOURS_ENTRIES() {
 // later ones whose files disagree with each other (some rows near-white or uncoloured).
 const REGISTRY_COLOUR_KEYS = new Set([
   ...HISTORIC_PARTY_COLOURS_ENTRIES().map(([key]) => key),
+  'no label',
   'unity',
   'ulster popular unionist party'
 ]);
@@ -310,6 +336,26 @@ function sourcePersonIdFor(row) {
   return existing || '';
 }
 
+/**
+ * The verbatim label fields a candidate row carries, for the candidate summaries: the label as
+ * printed, the ballot paper description, and an inferred label's flag and evidence. Only those
+ * present, so a summary row without them stays as small as before ("Show labels as printed",
+ * src/printed-labels.mjs, reads them).
+ */
+function printedLabelEntry(row = {}) {
+  const out = {};
+  const printed = fixText(row.Party_As_Printed || row.partyAsPrinted || '');
+  const ballot = fixText(row.Ballot_Description || row.ballotDescription || '');
+  if (printed && printed !== ballot) out.partyAsPrinted = printed;
+  if (ballot) out.ballotDescription = ballot;
+  if (row.Party_Inferred === true || row.partyInferred === true || String(row.Party_Inferred || '') === 'true') {
+    out.partyInferred = true;
+    const basis = fixText(row.Party_Basis || row.partyBasis || '');
+    if (basis) out.partyBasis = basis;
+  }
+  return out;
+}
+
 /** `{ sourcePersonId }` when the source names the person, otherwise nothing at all. */
 function sourcePersonIdEntry(row) {
   const id = sourcePersonIdFor(row);
@@ -421,11 +467,12 @@ export function summarizeCandidateRows(rows = []) {
     delete candidate.decidedAt;
     delete candidate.droppedAt;
     if (!candidate.sourcePersonId) delete candidate.sourcePersonId;
-    // Only where the source records one; and not where it merely repeats the party.
-    if (!candidate.ballotDescription || normalizeParty(candidate.ballotDescription) === candidate.party) delete candidate.ballotDescription;
-    // Only where it differs from the party shown, and from the ballot description already shown.
-    if (!candidate.partyAsPrinted || candidate.partyAsPrinted === candidate.party
-      || candidate.partyAsPrinted === candidate.ballotDescription) delete candidate.partyAsPrinted;
+    // Only where the source records one. Kept verbatim even where it repeats the party: it is what
+    // the "Show labels as printed" column shows (src/printed-labels.mjs); the default view does not.
+    if (!candidate.ballotDescription) delete candidate.ballotDescription;
+    // Only where the source printed one, and not where it repeats the ballot description that
+    // column already shows.
+    if (!candidate.partyAsPrinted || candidate.partyAsPrinted === candidate.ballotDescription) delete candidate.partyAsPrinted;
   }
   return [...byCandidate.values()].sort((a, b) => numberOrZero(b.firstPrefs) - numberOrZero(a.firstPrefs));
 }
@@ -685,12 +732,16 @@ export function buildMainLikePartySummaryFromRawResults(rawEntries = []) {
     totalSpoiled += numberOrZero(info.Spoiled);
     totalSeats += numberOrZero(info.Number_Of_Seats);
 
+    // Before 1832 no party was printed at all (partyLabels: "none-recorded"): a blank there is
+    // "No party recorded", as the contest's own tables say; elsewhere it is "No label".
+    const blankParty = (entry.raw?.partyLabels || entry.raw?.Constituency?.partyLabels) === 'none-recorded'
+      ? NO_PARTY_RECORDED : NO_LABEL;
     const seenCandidates = new Set();
     for (const row of cg) {
       if (!isValidCandidateRow(row)) continue;
       const countNum = parseInt(row.Count_Number, 10) || 1;
       const candidateId = String(row.Candidate_Id || '');
-      const party = normalizeParty(row.Party_Name) || 'Independent/Other';
+      const party = normalizeParty(row.Party_Name) || blankParty;
       if (!partyTotals.has(party)) {
         partyTotals.set(party, {
           party,
@@ -710,7 +761,7 @@ export function buildMainLikePartySummaryFromRawResults(rawEntries = []) {
     }
 
     for (const member of extractMainLikeElected(payload)) {
-      const party = normalizeParty(member.party) || 'Independent/Other';
+      const party = normalizeParty(member.party) || blankParty;
       if (!partyTotals.has(party)) {
         partyTotals.set(party, {
           party,
@@ -1006,6 +1057,7 @@ export function buildMainLikeCandidateSummaryFromRawResults(rawEntries = []) {
           constituency,
           name,
           party,
+          ...printedLabelEntry(candidate),
           colour: partyColour(party),
           firstPrefs: votes,
           votes,
@@ -1063,6 +1115,7 @@ export function buildMainLikeCandidateSummaryFromRawResults(rawEntries = []) {
           constituency,
           name,
           party,
+          ...printedLabelEntry(row),
           colour: resolvePartyColour(party, row.Party_Colour),
           firstPrefs: 0,
           votes: 0,
@@ -1143,6 +1196,14 @@ export function buildMainLikeCandidateSummaryFromRawResults(rawEntries = []) {
 
 export const NO_PARTY_RECORDED = 'No party recorded';
 
+/**
+ * The label summaries and tables give a candidate with no party or independent label: nothing
+ * was printed against the name and nothing could be inferred. It is a group of its own in seat
+ * and vote summaries, never folded into Independent (an independent is a label someone stood
+ * under; this is the absence of one), drawn in neutral grey and given no party page.
+ */
+export const NO_LABEL = 'No label';
+
 export function summarizeResult(raw, fallbackConstituency) {
   const mainPayload = normalizeScraperPayloadForMain(raw, fallbackConstituency);
   const source = mainPayload?.Constituency || raw?.Constituency || raw || {};
@@ -1174,7 +1235,7 @@ export function summarizeResult(raw, fallbackConstituency) {
     || (electorate && totalPoll ? round((totalPoll / electorate) * 100, 2) : null);
   const majority = leading && runnerUp ? numberOrZero(leading.firstPrefs) - numberOrZero(runnerUp.firstPrefs) : null;
   const majorityPct = majority !== null && totalVotes ? round((majority / totalVotes) * 100, 2) : null;
-  const electedByParty = countBy(elected, (candidate) => candidate.party || 'Independent');
+  const electedByParty = countBy(elected, (candidate) => candidate.party || NO_LABEL);
   const topElectedParty = topCount(electedByParty);
   const winnerParty = topElectedParty?.key || leading?.party || null;
   const winnerName = elected.length === 1 ? elected[0].name : elected.length ? `${elected.length} elected` : leading?.name || null;
@@ -1225,7 +1286,8 @@ export function buildPartySummary(results = []) {
   let totalVotes = 0;
   for (const result of results) {
     for (const candidate of extractElected(result)) {
-      const party = candidate.party || result.winnerParty || result.leadingParty || 'Independent/Other';
+      // A member with no label is counted as such, never as the winning party of the contest.
+      const party = candidate.party || NO_LABEL;
       const key = normalizeName(party) || party;
       if (!rows.has(key)) rows.set(key, { party, seats: 0, stood: 0, votes: 0, colour: partyColour(party) });
       rows.get(key).seats += 1;
@@ -1233,7 +1295,7 @@ export function buildPartySummary(results = []) {
     for (const candidate of result.candidates || []) {
       if (candidate.autoReturnedCeannComhairle) continue;
       const votes = numberOrZero(candidate.firstPrefs ?? candidate.votes);
-      const party = candidate.party || 'Independent/Other';
+      const party = candidate.party || NO_LABEL;
       const key = normalizeName(party) || party;
       if (!rows.has(key)) rows.set(key, { party, seats: 0, stood: 0, votes: 0, colour: partyColour(party) });
       rows.get(key).stood += 1;
@@ -1301,7 +1363,7 @@ export function buildEntityIndex(results = []) {
         status: candidate.elected ? 'Elected' : candidate.status || ''
       });
 
-      const party = candidate.party || 'Independent/Other';
+      const party = candidate.party || NO_LABEL;
       const partyKey = normalizeName(party);
       if (!parties.has(partyKey)) {
         parties.set(partyKey, {

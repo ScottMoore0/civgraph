@@ -571,8 +571,9 @@ test('FPTP Results use pane-level scrolling and a candidate-only "no previous re
       .map((row) => [...row.children].map((cell) => cell.textContent.trim().replace(/\s+/g, ' ')));
     const robinRow = [...content.querySelectorAll('.election-results-table--single-seat-fptp tbody tr')]
       .find((row) => /Robin Swann/i.test(row.textContent || ''));
-    // The vote cell: the value, then a "Party" change line and a "Cand." change line.
-    const robinChanges = [...(robinRow?.children[3]?.querySelectorAll('.election-cell-change') || [])]
+    // The vote cell: the value, then a "Party" change line and a "Cand." change line. It follows
+    // the "As printed" column (index 3), which is in the table but hidden unless asked for.
+    const robinChanges = [...(robinRow?.children[4]?.querySelectorAll('.election-cell-change') || [])]
       .map((line) => [...line.querySelectorAll('.election-delta')].map((span) => span.textContent.trim()).join(''));
     return {
       title: document.getElementById('electionPaneTitle')?.textContent?.trim() || '',
@@ -765,7 +766,8 @@ test('selected Dail 2024 Cork North-Central pane uses constituency source values
   const candidates = await page.evaluate(() => [...document.querySelectorAll('#electionPaneContent .election-count-table tbody tr')]
     .slice(0, 7)
     .map((row) => [...row.children].map((cell) => (cell.querySelector('.election-cell-value') || cell).textContent.trim().replace(/\s+/g, ' ')).slice(0, 10)));
-  const firstPrefByCandidate = Object.fromEntries(candidates.map((row) => [row[2], row[6]]));
+  // Name, then party, the hidden "As printed" column, status, 1st pref %, 1st pref.
+  const firstPrefByCandidate = Object.fromEntries(candidates.map((row) => [row[2], row[7]]));
   expect(firstPrefByCandidate).toMatchObject({
     "P\u00e1draig O'Sullivan": '7,708',
     'Thomas Gould': '7,399',

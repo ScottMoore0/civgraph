@@ -416,6 +416,7 @@ init().catch((error) => {
 async function init() {
   state.manifest = await loadJson(`${DATA_ROOT}/index.json`);
   bindEvents();
+  initPrintedLabels();
   renderContributorPanel();
   renderGroups();
   applyRoute();
@@ -3196,11 +3197,12 @@ function renderRelatedPanel(type, item) {
     // Votes and share only where the record has some: most pre-1832 contests have neither.
     const withVotes = normalizeArray(item.elections).some((row) => Number(row.firstPrefs) > 0);
     const withShare = normalizeArray(item.elections).some((row) => Number.isFinite(Number(row.share)) && row.share !== null && row.share !== undefined);
-    const headers = ['Date', 'Election', 'Party', 'Constituency', 'Result', ...(withVotes ? ['Votes'] : []), ...(withShare ? ['Share'] : []), 'Map'];
+    const headers = ['Date', 'Election', 'Party', { label: 'As printed', className: 'browse-col-printed' }, 'Constituency', 'Result', ...(withVotes ? ['Votes'] : []), ...(withShare ? ['Share'] : []), 'Map'];
     return renderSimpleTable('Contests', headers, byDate(item.elections), (row) => [
       formatDate(row.date),
       row.key ? `<a href="#/elections/${encodeURIComponent(electionSlug(row.key))}" data-browse-link>${escapeHtml(row.title)}</a>` : escapeHtml(row.title),
-      partyLinkHtml(row.party || '') + partyAsPrintedHtml(row),
+      (row.party && row.party !== NO_LABEL ? partyLinkHtml(row.party) : noLabelHtml()) + partyInferredHtml(row),
+      escapeHtml(printedLabelText(row)),
       row.key && row.constituency
         ? `<a href="#/elections/${encodeURIComponent(contestSlug(row.key, row.constituency))}" data-browse-link>${escapeHtml(row.constituency)}</a>`
         : escapeHtml(row.constituency || ''),
@@ -3208,7 +3210,7 @@ function renderRelatedPanel(type, item) {
       ...(withVotes ? [Number(row.firstPrefs) > 0 ? formatNumber(row.firstPrefs) : '&ndash;'] : []),
       ...(withShare ? [row.share !== null && row.share !== undefined && row.share !== '' ? `${Number(row.share).toFixed(1)}%` : '&ndash;'] : []),
       row.interactiveUrl ? `<a href="${escapeAttr(row.interactiveUrl)}" aria-label="${escapeAttr(`Open ${row.title || 'election'} on the map`)}">Open map</a>` : ''
-    ]) + renderSimpleTable('Seats in the Commons (History of Parliament)', ['Constituency', 'Held'], item.seatsHeld || [], (row) => [
+    ], { before: printedLabelsToggleHtml() }) + renderSimpleTable('Seats in the Commons (History of Parliament)', ['Constituency', 'Held'], item.seatsHeld || [], (row) => [
     escapeHtml(row.constituency || ''),
     row.source ? `<a href="${escapeAttr(row.source)}" rel="noopener">${escapeHtml(row.dates || '')}</a>` : escapeHtml(row.dates || '')
   ])
@@ -4127,13 +4129,18 @@ async function renderContestResultPanel(item) {
   };
   const rows = sorted.map((candidate) => {
     const share = valid ? `${(firstPrefs(candidate) / valid * 100).toFixed(1)}%` : '';
-    const party = candidate.colour
-      ? partyLinkHtml(candidate.party || 'Independent', `<span class="browse-badge" style="border-color:${escapeAttr(candidate.colour)}">${escapeHtml(candidate.party || 'Independent')}</span>`)
-      : partyLinkHtml(candidate.party || '');
+    // Nothing printed and nothing inferred reads "No label", in grey, with no party page:
+    // never "Independent", which is a label someone stood under.
+    const party = !candidate.party || candidate.party === NO_LABEL
+      ? noLabelHtml()
+      : candidate.colour
+        ? partyLinkHtml(candidate.party, `<span class="browse-badge" style="border-color:${escapeAttr(candidate.colour)}">${escapeHtml(candidate.party)}</span>`)
+        : partyLinkHtml(candidate.party);
     return `
       <tr${candidate.elected ? ' class="browse-contest__elected"' : ''}>
         <td>${contestPersonLink(candidate)}</td>
-        <td>${party}${partyAsPrintedHtml(candidate)}</td>
+        <td>${party}${partyInferredHtml(candidate)}</td>
+        <td class="browse-col-printed">${escapeHtml(printedLabelText(candidate))}</td>
         <td class="browse-num">${formatNumber(firstPrefs(candidate))}</td>
         <td class="browse-num">${share}</td>
         <td>${escapeHtml(outcome(candidate))}</td>
@@ -4156,12 +4163,14 @@ async function renderContestResultPanel(item) {
     <section class="browse-detail__panel browse-contest">
       <h2>Result</h2>
       ${renderDefinitionRows(summaryRows, 'browse-reader-facts')}
+      ${printedLabelsToggleHtml()}
       <div class="browse-table-wrap" tabindex="0" role="region" aria-label="${escapeAttr('Candidates')}">
         <table class="browse-table">
           <caption class="visually-hidden">Candidates in ${escapeHtml(item.resultName || item.constituency || '')}, ${escapeHtml(item.parentTitle || '')}: ${formatNumber(sorted.length)} standing, ${formatNumber(elected)} elected</caption>
           <thead><tr>
             <th scope="col">Candidate</th>
             <th scope="col">Party</th>
+            <th scope="col" class="browse-col-printed">As printed</th>
             <th scope="col" class="browse-num">${votesLabel}</th>
             <th scope="col" class="browse-num">Share</th>
             <th scope="col">Result</th>
@@ -5271,9 +5280,9 @@ function formatHeldYears(row) {
   return '';
 }
 
-function renderSimpleTable(title, headers, rows, mapper) {
+function renderSimpleTable(title, headers, rows, mapper, options = {}) {
   if (!rows?.length) return '';
-  return renderTablePanel(title, headers, rows.map(mapper));
+  return renderTablePanel(title, headers, rows.map(mapper), options);
 }
 
 function renderCollapsiblePanel(title, bodyHtml, summaryText = '', options = {}) {
@@ -5294,15 +5303,24 @@ function renderCollapsiblePanel(title, bodyHtml, summaryText = '', options = {})
 
 // A wide table scrolls inside its wrapper, which is a focusable, named region (tabindex,
 // role, aria-label) so a keyboard user can scroll it too, as in every table wrapper here.
-function renderTablePanel(title, headers, rows) {
+// A header is its label, or { label, className } for a column with a class of its own (the
+// "As printed" column, which CSS shows only when the reader asks). `options.before` is HTML put
+// above the table (the "Show labels as printed" control).
+function renderTablePanel(title, headers, rows, options = {}) {
   if (!rows?.length) return '';
+  const label = (header) => (header && typeof header === 'object' ? header.label : header);
+  const classAttr = (index) => {
+    const header = headers[index];
+    return header && typeof header === 'object' && header.className ? ` class="${escapeAttr(header.className)}"` : '';
+  };
   return `
     <section class="browse-detail__panel">
       <h2>${escapeHtml(title)}</h2>
+      ${options.before || ''}
       <div class="browse-table-wrap" tabindex="0" role="region" aria-label="${escapeAttr(title)}">
         <table class="browse-table">
-          <thead><tr>${headers.map((header) => `<th scope="col">${escapeHtml(header)}</th>`).join('')}</tr></thead>
-          <tbody>${rows.map((row) => `<tr>${row.map((cell) => `<td>${cell ?? ''}</td>`).join('')}</tr>`).join('')}</tbody>
+          <thead><tr>${headers.map((header, index) => `<th scope="col"${classAttr(index)}>${escapeHtml(label(header))}</th>`).join('')}</tr></thead>
+          <tbody>${rows.map((row) => `<tr>${row.map((cell, index) => `<td${classAttr(index)}>${cell ?? ''}</td>`).join('')}</tr>`).join('')}</tbody>
         </table>
       </div>
     </section>
@@ -5578,14 +5596,70 @@ async function loadPartyNames() {
 }
 
 /** A party name as a link to its page when the party is known, else as text. `inner` is the HTML shown. */
-/**
- * The party label exactly as the source printed it ("HR (P)", "Rep Clubs"), under the party it
- * is read as, where the two differ: printed labels are shown as printed.
- */
-function partyAsPrintedHtml(row) {
-  const printed = String(row?.partyAsPrinted || '').trim();
-  if (!printed || printed === String(row?.party || '').trim()) return '';
-  return ` <small class="browse-party-printed" title="${escapeAttr(`Party label as printed in the source: ${printed}`)}">printed ${escapeHtml(printed)}</small>`;
+// Party labels: the interpreted label by default, the label as printed on request.
+//
+// Tables show the party or independent label each candidate is read as ("UUP" whether the paper
+// printed "U.", "Unionist" or "Official Unionist"). "Show labels as printed" adds an "As printed"
+// column: the ballot paper description where the Electoral Office's sheet gives one, otherwise
+// the label the cited newspaper or report printed. The choice is kept in this browser and applies
+// to every table; the column is always rendered and CSS shows it, so a toggle re-renders nothing.
+// src/printed-labels.mjs is the map app's copy (same storage key and root attribute).
+const PRINTED_LABELS_STORAGE_KEY = 'civgraph.showPrintedLabels';
+const PRINTED_LABELS_ROOT_ATTRIBUTE = 'data-show-printed-labels';
+const PRINTED_LABELS_NOTE = 'Ballot papers carried no party descriptions before the late 1960s: '
+  + 'a historical label is as printed in the cited newspaper or report. Modern labels are the ballot paper description.';
+const NO_LABEL = 'No label';
+
+function printedLabelsShown() {
+  try {
+    return localStorage.getItem(PRINTED_LABELS_STORAGE_KEY) === '1';
+  } catch {
+    return false;
+  }
+}
+
+function applyPrintedLabels(shown) {
+  document.documentElement.toggleAttribute(PRINTED_LABELS_ROOT_ATTRIBUTE, shown);
+  for (const input of document.querySelectorAll('input[data-printed-labels-toggle]')) input.checked = shown;
+}
+
+function initPrintedLabels() {
+  applyPrintedLabels(printedLabelsShown());
+  document.addEventListener('change', (event) => {
+    const input = event.target;
+    if (!input?.matches?.('input[data-printed-labels-toggle]')) return;
+    try {
+      if (input.checked) localStorage.setItem(PRINTED_LABELS_STORAGE_KEY, '1');
+      else localStorage.removeItem(PRINTED_LABELS_STORAGE_KEY);
+    } catch {
+      // Storage blocked: the choice holds for this page only.
+    }
+    applyPrintedLabels(Boolean(input.checked));
+  });
+}
+
+/** The control above a table that lists candidates. */
+function printedLabelsToggleHtml() {
+  return `<p class="browse-printed-toggle"><label title="${escapeAttr(PRINTED_LABELS_NOTE)}">`
+    + `<input type="checkbox" data-printed-labels-toggle${printedLabelsShown() ? ' checked' : ''}> Show labels as printed</label>`
+    + `<span class="browse-printed-note"> ${escapeHtml(PRINTED_LABELS_NOTE)}</span></p>`;
+}
+
+/** The "As printed" cell's text: the ballot description, else the printed label, else nothing. */
+function printedLabelText(row) {
+  return String(row?.ballotDescription || '').trim() || String(row?.partyAsPrinted || '').trim();
+}
+
+/** A label inferred by research rather than printed is marked so in both views. */
+function partyInferredHtml(row) {
+  if (!row?.partyInferred) return '';
+  const basis = String(row.partyBasis || '').trim();
+  return ` <small class="browse-party-printed" title="${escapeAttr(basis ? `Label inferred: ${basis}` : 'Label inferred, not printed for this election')}">inferred</small>`;
+}
+
+/** "No label": nothing printed or inferred. Neutral, and never a link to a party page. */
+function noLabelHtml() {
+  return `<span class="browse-no-label">${escapeHtml(NO_LABEL)}</span>`;
 }
 
 function partyLinkHtml(name, inner = escapeHtml(name || '')) {

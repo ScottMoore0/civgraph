@@ -50,30 +50,38 @@
   "availableStyleModes": [],
   "partySummary": [
     {
+      "party": "No label",
+      "seats": 4,
+      "stood": 4,
+      "votes": 0,
+      "colour": "#d4d4d4",
+      "share": 0
+    },
+    {
       "party": "Independent",
-      "seats": 5,
+      "seats": 1,
       "stood": 1,
       "votes": 498,
       "colour": "#b8b8b8",
       "share": 57.373271889400925
     },
     {
-      "party": "Independent/Other",
+      "party": "Ratepayers' Association",
       "seats": 0,
-      "stood": 5,
+      "stood": 1,
       "votes": 370,
-      "colour": "#6b7280",
+      "colour": "#a0785a",
       "share": 42.626728110599075
     }
   ],
   "mainLikePartySummary": [
     {
-      "party": "Independent/Other",
+      "party": "No label",
       "seats": 4,
-      "stood": 5,
-      "votes": 370,
-      "colour": "#888888",
-      "share": 42.626728110599075
+      "stood": 4,
+      "votes": 0,
+      "colour": "#d4d4d4",
+      "share": 0
     },
     {
       "party": "Independent",
@@ -82,6 +90,14 @@
       "votes": 498,
       "colour": "#DCDCDC",
       "share": 57.373271889400925
+    },
+    {
+      "party": "Ratepayers' Association",
+      "seats": 0,
+      "stood": 1,
+      "votes": 370,
+      "colour": "#a0785a",
+      "share": 42.626728110599075
     }
   ],
   "mainLikeTotals": {
@@ -98,6 +114,7 @@
       "constituency": "Ballyholme Ward",
       "name": "James Campbell",
       "party": "Independent",
+      "partyAsPrinted": "Ind.",
       "colour": "#DCDCDC",
       "firstPrefs": 498,
       "votes": 498,
@@ -122,12 +139,13 @@
       "name_id": "n-james-campbell"
     },
     {
-      "id": "row:Edward H. Thornton|",
+      "id": "Edward H. Thornton|",
       "personId": 140689,
       "constituency": "Ballyholme Ward",
       "name": "Edward H. Thornton",
-      "party": "",
-      "colour": "#888888",
+      "party": "Ratepayers' Association",
+      "partyAsPrinted": "R.A.",
+      "colour": "#a0785a",
       "firstPrefs": 370,
       "votes": 370,
       "constPct": 42.626728110599075,
@@ -147,7 +165,7 @@
           "status": "Not Elected"
         }
       },
-      "candidateKey": "edward h. thornton|",
+      "candidateKey": "edward h. thornton|ratepayers' association",
       "name_id": "n-edward-h-thornton"
     },
     {
@@ -274,28 +292,19 @@
     "totalValid": 868,
     "parties": [
       {
-        "name": "Independent/Other",
-        "colour": "#888888",
-        "firstPrefs": 370,
-        "finalVotes": 370,
-        "stood": 5,
+        "name": "No label",
+        "colour": "#d4d4d4",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "stood": 4,
         "elected": 4,
         "constituencies": [
-          "Ballyholme Ward",
           "Castle Ward",
           "Clifton Ward",
           "Dufferin Ward",
           "Princetown Ward"
         ],
         "candidates": [
-          {
-            "id": "Edward H. Thornton|",
-            "name": "Edward H. Thornton",
-            "constituency": "Ballyholme Ward",
-            "firstPref": 370,
-            "finalVotes": 370,
-            "status": "Not Elected"
-          },
           {
             "id": "S. A. M'Cleery|",
             "name": "S. A. M'Cleery",
@@ -329,7 +338,7 @@
             "status": "Elected"
           }
         ],
-        "shareOfTotal": 42.626728110599075
+        "shareOfTotal": 0
       },
       {
         "name": "Independent",
@@ -352,6 +361,28 @@
           }
         ],
         "shareOfTotal": 57.373271889400925
+      },
+      {
+        "name": "Ratepayers' Association",
+        "colour": "#a0785a",
+        "firstPrefs": 370,
+        "finalVotes": 370,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Ballyholme Ward"
+        ],
+        "candidates": [
+          {
+            "id": "Edward H. Thornton|Ratepayers' Association",
+            "name": "Edward H. Thornton",
+            "constituency": "Ballyholme Ward",
+            "firstPref": 370,
+            "finalVotes": 370,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 42.626728110599075
       }
     ],
     "candidates": [
@@ -466,11 +497,11 @@
         "shareOfTotal": 0
       },
       {
-        "id": "Edward H. Thornton|",
-        "key": "Edward H. Thornton|",
+        "id": "Edward H. Thornton|Ratepayers' Association",
+        "key": "Edward H. Thornton|Ratepayers' Association",
         "name": "Edward H. Thornton",
-        "party": "",
-        "colour": "#888888",
+        "party": "Ratepayers' Association",
+        "colour": "#a0785a",
         "firstPrefs": 370,
         "finalVotes": 370,
         "electedCount": 0,
@@ -547,7 +578,7 @@
         {
           "id": "Edward H. Thornton|",
           "name": "Edward H. Thornton",
-          "party": "",
+          "party": "Ratepayers' Association",
           "firstPrefs": 370,
           "finalVotes": 370,
           "elected": false,
@@ -556,7 +587,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
-          "colour": "#888888",
+          "colour": "#a0785a",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -643,7 +674,7 @@
         },
         {
           "Constituency_Number": "",
-          "Candidate_Id": "",
+          "Candidate_Id": "Edward H. Thornton|",
           "Count_Number": "1",
           "Firstname": "Edward H.",
           "Surname": "Thornton",
@@ -652,7 +683,7 @@
           "Total_Votes": "370.00",
           "Status": "Not Elected",
           "Occurred_On_Count": "",
-          "Party_Name": "",
+          "Party_Name": "Ratepayers' Association",
           "Party_Colour": "#888888",
           "candidateName": "Edward H. Thornton",
           "id": 1,
@@ -703,7 +734,7 @@
             },
             {
               "Constituency_Number": "",
-              "Candidate_Id": "",
+              "Candidate_Id": "Edward H. Thornton|",
               "Count_Number": "1",
               "Firstname": "Edward H.",
               "Surname": "Thornton",
@@ -712,7 +743,7 @@
               "Total_Votes": "370.00",
               "Status": "Not Elected",
               "Occurred_On_Count": "",
-              "Party_Name": "",
+              "Party_Name": "Ratepayers' Association",
               "Party_Colour": "#888888",
               "candidateName": "Edward H. Thornton",
               "id": 1,
@@ -757,7 +788,7 @@
     },
     {
       "constituency": "Castle Ward",
-      "winnerParty": "Independent",
+      "winnerParty": "No label",
       "winnerName": "S. A. M'Cleery",
       "leadingParty": null,
       "leadingName": "S. A. M'Cleery",
@@ -774,7 +805,7 @@
       "spoiled": null,
       "validPoll": null,
       "totalVotes": null,
-      "colour": "#b8b8b8",
+      "colour": "#d4d4d4",
       "leadingColour": "#6b7280",
       "candidates": [
         {
@@ -952,7 +983,7 @@
     },
     {
       "constituency": "Clifton Ward",
-      "winnerParty": "Independent",
+      "winnerParty": "No label",
       "winnerName": "John Neill",
       "leadingParty": null,
       "leadingName": "John Neill",
@@ -969,7 +1000,7 @@
       "spoiled": null,
       "validPoll": null,
       "totalVotes": null,
-      "colour": "#b8b8b8",
+      "colour": "#d4d4d4",
       "leadingColour": "#6b7280",
       "candidates": [
         {
@@ -1147,7 +1178,7 @@
     },
     {
       "constituency": "Dufferin Ward",
-      "winnerParty": "Independent",
+      "winnerParty": "No label",
       "winnerName": "Isaac Baxter",
       "leadingParty": null,
       "leadingName": "Isaac Baxter",
@@ -1164,7 +1195,7 @@
       "spoiled": null,
       "validPoll": null,
       "totalVotes": null,
-      "colour": "#b8b8b8",
+      "colour": "#d4d4d4",
       "leadingColour": "#6b7280",
       "candidates": [
         {
@@ -1342,7 +1373,7 @@
     },
     {
       "constituency": "Princetown Ward",
-      "winnerParty": "Independent",
+      "winnerParty": "No label",
       "winnerName": "S. D. Millar",
       "leadingParty": null,
       "leadingName": "S. D. Millar",
@@ -1359,7 +1390,7 @@
       "spoiled": null,
       "validPoll": null,
       "totalVotes": null,
-      "colour": "#b8b8b8",
+      "colour": "#d4d4d4",
       "leadingColour": "#6b7280",
       "candidates": [
         {

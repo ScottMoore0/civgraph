@@ -10,6 +10,7 @@ const LEA_SEAT_SUFFIX = /\s*\(\d+\)\s*$/;
 // Usually " LEA-6", but some 2019 names join it with a hyphen ("BALLINAMORE-LEA-6").
 const LEA_CODE_SUFFIX = /[\s-]+LEA-\d+\s*$/i;
 import { canonicalElectionTitle, compareElectionsNewestFirst, isElectionByElectionScope } from './lib/election-names.mjs';
+import { createPartyLabelInterpreter } from './lib/party-label-interpretations.mjs';
 import { writeStableGeneratedJson } from './lib/stable-generated-json.mjs';
 
 const ROOT = process.cwd();
@@ -246,7 +247,23 @@ function fixCandidateName(row) {
 // flat rows as well, or the totals keep figures the contest itself no longer shows.
 function rawForTotals(resultPath, officialRawResult, wikiEnrichedRawResult) {
   if (!officialRawResult || wikiEnrichedRawResult === officialRawResult) return officialRawResult;
-  return applySourceCheckedFixes(resultPath, structuredClone(officialRawResult), { lenient: true });
+  return applyPartyLabelInterpretations(resultPath,
+    applySourceCheckedFixes(resultPath, structuredClone(officialRawResult), { lenient: true }));
+}
+
+// Printed party labels -> the party or independent label the site reads them as
+// (data/elections/party-label-interpretations.json, applied by scripts/lib/party-label-interpretations.mjs).
+// Applied to every contest after the source-checked fixes, so a fix that names a candidate's
+// party wins; the printed label (Party_As_Printed) is never changed. Honours (J.P., M.B.E.) and
+// anything no rule settles stay blank, which the site shows as "No label".
+const PARTY_LABEL_INTERPRETATIONS = path.join(ROOT, 'data', 'elections', 'party-label-interpretations.json');
+const partyLabelInterpreter = createPartyLabelInterpreter(existsSync(PARTY_LABEL_INTERPRETATIONS)
+  ? readJson(PARTY_LABEL_INTERPRETATIONS) : {});
+
+function applyPartyLabelInterpretations(resultPath, rawResult) {
+  if (!resultPath || !rawResult) return rawResult;
+  const [body = '', date = ''] = slash(path.relative(ELECTION_ROOT, resultPath)).split('/');
+  return partyLabelInterpreter.apply({ body, date }, rawResult);
 }
 
 // A flat contest file whose candidate list a replaceCandidates fix replaces -- one imported empty,
@@ -346,11 +363,11 @@ function applyBallotDescriptions(resultPath, rawResult) {
   if (!resultPath || !rawResult) return rawResult;
   const contest = ballotDescriptionIndex.get(slash(path.relative(ROOT, resultPath)));
   if (!contest) return rawResult;
-  // The file keeps every description as the sheet gives it; a contest's sameAsParty lists those that only
-  // restate the candidate's party ("Democratic Unionist Party - D.U.P."), which are not shown.
-  const same = new Set((contest.sameAsParty || []).map(normalizeName));
+  // The file keeps every description as the sheet gives it. All are carried, including those a
+  // contest's sameAsParty lists as only restating the party ("Democratic Unionist Party - D.U.P."):
+  // they are the verbatim label the "Show labels as printed" column shows; the default view shows
+  // the party alone.
   const byName = new Map(Object.entries(contest.candidates || {})
-    .filter(([name]) => !same.has(normalizeName(name)))
     .map(([name, text]) => [normalizeName(name), text]));
   for (const row of rawResult.Constituency?.countGroup || []) {
     const text = byName.get(fixCandidateName(row));
@@ -1711,8 +1728,8 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
     const rawResult = resultPath ? fillReplacedImport(resultPath, readJson(resultPath)) : null;
     const officialRawResult = enrichDailResultWithOfficialData(entry, rawResult, constituency);
     const wikiEnrichedRawResult = enrichDailResultWithWikipediaCounts(entry, resultPath, officialRawResult, constituency);
-    const enrichedRawResult = applyBallotDescriptions(resultPath, applySourceCheckedFixes(resultPath, applyWalkerCorrections(resultPath,
-      repairShiftedUnopposedRows(applyNiLocalValidPollCorrection(key, constituency, wikiEnrichedRawResult)))));
+    const enrichedRawResult = applyPartyLabelInterpretations(resultPath, applyBallotDescriptions(resultPath, applySourceCheckedFixes(resultPath, applyWalkerCorrections(resultPath,
+      repairShiftedUnopposedRows(applyNiLocalValidPollCorrection(key, constituency, wikiEnrichedRawResult))))));
     if (officialRawResult) rawEntries.push({ constituency, raw: rawForTotals(resultPath, officialRawResult, wikiEnrichedRawResult) });
     const result = ElectionDomain.summarizeResult(enrichedRawResult, constituency);
     // A cause supplied by an overlay (Wikipedia's by-election lists) counts as the file's own.
@@ -1782,8 +1799,8 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
       const constituency = file.replace(/\.json$/, '');
       const officialRawResult = enrichDailResultWithOfficialData(entry, rawResult, constituency);
       const wikiEnrichedRawResult = enrichDailResultWithWikipediaCounts(entry, resultPath, officialRawResult, constituency);
-      const enrichedRawResult = applyBallotDescriptions(resultPath, applySourceCheckedFixes(resultPath, applyWalkerCorrections(resultPath,
-        repairShiftedUnopposedRows(applyNiLocalValidPollCorrection(key, constituency, wikiEnrichedRawResult)))));
+      const enrichedRawResult = applyPartyLabelInterpretations(resultPath, applyBallotDescriptions(resultPath, applySourceCheckedFixes(resultPath, applyWalkerCorrections(resultPath,
+        repairShiftedUnopposedRows(applyNiLocalValidPollCorrection(key, constituency, wikiEnrichedRawResult))))));
       rawEntries.push({ constituency, raw: rawForTotals(resultPath, officialRawResult, wikiEnrichedRawResult) });
       const result = ElectionDomain.summarizeResult(enrichedRawResult, constituency);
       applyLifespanEvidence(entry, result);

@@ -16,11 +16,17 @@ demographic change with these definitional shifts. Documented, not smoothed over
 
 Output: data/census/derived/dz21-catholic-timeseries.csv
 """
+import os
 from pathlib import Path
 import pandas as pd
 
 D = Path("data/census/derived")
-V = Path("analysis/border-poll-dry-run/v9")
+# analysis/ left the repository on 2026-11-06; the border-poll dry run now lives in
+# the owner's local archive copy. Point CIVGRAPH_ARCHIVE_DIR at that copy to run this.
+_ARCHIVE = os.environ.get("CIVGRAPH_ARCHIVE_DIR")
+if not _ARCHIVE:
+    raise SystemExit("Set CIVGRAPH_ARCHIVE_DIR to the local archive copy that holds analysis/border-poll-dry-run.")
+V = Path(_ARCHIVE) / "analysis" / "border-poll-dry-run" / "v9"
 
 def main():
     base = pd.read_csv(D / "dz21-religion-1971-lgd.csv")[["DZ2021_cd", "DZ2021_nm", "lgd1993", "catholic_pct_1971"]]
