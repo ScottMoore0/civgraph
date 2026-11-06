@@ -2659,6 +2659,24 @@ a.visually-hidden:focus-visible {
 .browse-party-timeline__item--renamed::before,
 .browse-party-timeline__item--dissolved::before { background: var(--color-primary); }
 
+/* A person's affiliation timeline (the facts model) reuses the party timeline: a party
+   membership is a filled dot, an independent spell or a whip a hollow one. */
+.browse-affiliation-timeline__item--party::before,
+.browse-affiliation-timeline__item--group::before { background: var(--color-primary); }
+
+.browse-affiliation-timeline__item--independent::before,
+.browse-affiliation-timeline__item--whip::before {
+  border-color: var(--color-text-muted);
+  background: var(--color-surface);
+}
+
+.browse-party-body .browse-table caption {
+  padding: var(--space-1) 0;
+  color: var(--color-text-muted);
+  font-size: .88rem;
+  text-align: left;
+}
+
 .browse-party-timeline time {
   color: var(--color-text-muted);
   font-size: .88rem;

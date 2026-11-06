@@ -188,6 +188,46 @@ def scan():
     return rows
 
 
+NONCANDIDATES = os.path.join(OUT, 'non-candidate-persons.json')
+NONCANDIDATE_BLOCK = (900001, 999999)
+
+
+def registered_persons(candidate_entities):
+    """People who never stood (Northern Ireland Office ministers, civil servants, party
+    officers), registered so offices and affiliations can name them. They keep the ids written
+    in non-candidate-persons.json, a block (900001+) candidate ids never reach, and are
+    appended after the candidate entities so nothing above changes when one is added.
+
+    A registered person who has since been found among the candidates (an official id or a
+    Wikidata item both carry) is an error to fix in the file, not something to merge here."""
+    if not os.path.exists(NONCANDIDATES):
+        return []
+    doc = json.load(open(NONCANDIDATES, encoding='utf-8'))
+    lo, hi = NONCANDIDATE_BLOCK
+    taken = {e['personId'] for e in candidate_entities}
+    if any(pid >= lo for pid in taken):
+        sys.exit(f'FAIL: a candidate id reached the registered block ({lo}+); widen the gap before building')
+    official = {o: e['personId'] for e in candidate_entities for o in e.get('officialPersonIds') or []}
+    out, seen = [], set()
+    for p in doc.get('persons') or []:
+        pid = int(p['personId'])
+        if not lo <= pid <= hi or pid in seen:
+            sys.exit(f'FAIL: registered person id {pid} outside {lo}-{hi} or repeated')
+        seen.add(pid)
+        clash = [o for o in p.get('officialPersonIds') or [] if o in official]
+        if clash:
+            sys.exit(f'FAIL: registered person {pid} ({p["displayName"]}) shares {clash[0]} with candidate p{official[clash[0]]}; '
+                     'merge the two in non-candidate-persons.json first')
+        names = sorted({p['displayName'], *(p.get('aliases') or [])}, key=lambda s: (-len(s), s))
+        out.append({'id': f'p{pid}', 'personId': pid, 'displayName': p['displayName'], 'aliases': names,
+                    'matchKeys': sorted({matchkey(n) for n in names}), 'sourceIds': [], 'sourcePersonIds': [],
+                    'officialPersonIds': sorted(p.get('officialPersonIds') or []), 'candidacies': 0, 'contests': 0,
+                    'firstYear': None, 'lastYear': None, 'bodies': [], 'parties': [], 'keyedBy': 'registered',
+                    'provenance': 'registered non-candidate (data/elections/persons/non-candidate-persons.json)',
+                    'provisional': False})
+    return out
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--force', action='store_true')
@@ -206,6 +246,10 @@ def main():
     if os.path.exists(REG):
         old_reg = json.load(open(REG, encoding='utf-8'))
         for e in old_reg.get('entities') or []:
+            # Registered non-candidates are not built from candidacies and live in an id block
+            # of their own: they never lend an id, a name or a match key to a candidate group.
+            if e.get('keyedBy') == 'registered':
+                continue
             prev[e['personId']] = e
             prev_max = max(prev_max, int(e['personId']))
     prev_by_person = collections.defaultdict(set)
@@ -795,6 +839,9 @@ def main():
                                 'duplicates are never merged automatically')
         entities.append(e)
 
+    registered = registered_persons(entities)
+    entities.extend(registered)
+
     doc = {
         'schemaVersion': 2,
         'description': 'Stable identifiers for people appearing as candidates in the '
@@ -835,6 +882,7 @@ def main():
     print(f'  keyed by candidate id      : {sum(1 for e in entities if e["keyedBy"]=="id"):,}')
     print(f'  keyed by name only         : {sum(1 for e in entities if e["keyedBy"]=="name"):,}')
     print(f'  flagged needsReview        : {sum(1 for e in entities if e.get("needsReview")):,}')
+    print(f'  registered non-candidates  : {len(registered):,} (data/elections/persons/non-candidate-persons.json)')
     print(f'\nwrote {REG}')
 
 

@@ -37,6 +37,10 @@
   {
    "id": "elliott-flackes-1999-results",
    "note": "Northern Ireland contests 1968-99 compared figure by figure with the Election Results 1968-99 section of Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Blackstaff Press, 1999), pp. 523-604, read from scans (OCR, with every doubtful figure read on the page image). Citations and comparison notes only; no text from the book is held. Where Civgraph was wrong and a second source agreed, the contest was corrected (source-checked-fixes, batch elliott-flackes-1999-2026-11-06) and the comparison here reflects the corrected figures. Where the book is wrong (a misprint its own figures contradict), the record stays unchecked and says so."
+  },
+  {
+   "id": "facts-model-internal-contests",
+   "note": "Party-internal contests (leadership and nomination ballots) loaded with the facts model (docs/facts-model.md), checked against a second source for what Elliott and Flackes (1999) leaves out: the day of a contest it dates only by month, and the identity of a candidate. Citations and comparison notes only."
   }
  ],
  "records": [
@@ -109705,6 +109709,43 @@
     "SDLP seats: book 27, Civgraph 21"
    ],
    "check": "Every other party's Forum seat total in the dictionary agrees with Civgraph; 27 SDLP seats would make 116 members of a 110-member Forum, and the book's own results (pp. 579-588) give the SDLP 21. The 27 is the book's misprint."
+  },
+  {
+   "batch": "facts-model-internal-contests",
+   "file": "fianna-fail-leadership/1979-12-07/fianna-fail-parliamentary-party.json",
+   "title": "1979 Fianna Fáil leadership election (Wikipedia)",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/1979_Fianna_F%C3%A1il_leadership_election",
+   "accessed": "2026-11-06",
+   "kind": "web",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "date",
+    "winner",
+    "votes"
+   ],
+   "disagreements": [],
+   "check": "The article dates the vote of the Fianna Fáil parliamentary party to Friday 7 December 1979 and gives Haughey 44, Colley 38, as Elliott and Flackes (1999), p. 273, does; the book gives only the month, so the day is from this source."
+  },
+  {
+   "batch": "facts-model-internal-contests",
+   "file": "uup-leadership/1995-03-18/ulster-unionist-council.json",
+   "title": "March 1995 Ulster Unionist Party leadership election (Wikipedia)",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/March_1995_Ulster_Unionist_Party_leadership_election",
+   "accessed": "2026-11-06",
+   "kind": "web",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "date",
+    "winner",
+    "votes for the challenger",
+    "candidate identity"
+   ],
+   "disagreements": [],
+   "check": "The article dates the challenge to the Ulster Unionist Council meeting of 18 March 1995 and gives Lee Reynolds 88 votes, as Elliott and Flackes (1999) does. It also records that Reynolds was later co-opted to Belfast City Council for the DUP, which is the evidence that he is the Lee Reynolds of the 2011-2019 Belfast council contests (person 101568). The book gives no figure for Molyneaux and none is recorded."
   }
  ]
 }

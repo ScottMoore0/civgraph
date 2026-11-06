@@ -18,6 +18,12 @@
  *   data/elections/parties/party-lineage.json               cited founding/split/rename events
  *   data/elections/parties/party-wikidata.json              Wikidata (CC0) facts, fetched by
  *                                                            scripts/fetch-party-wikidata.mjs
+ *   the facts model (docs/facts-model.md, scripts/lib/facts-model.mjs):
+ *     data/offices/                                         the party's offices and who held them
+ *     data/elections/parties/party-events.json              cited founding, renaming, split ... events
+ *   data/elections-source/data/elections_index.json         the party's own ballots (bodyType
+ *     + render/metadata/elections-test2/<key>.json          "party-internal": leadership and
+ *                                                            nomination contests) and their results
  *
  * Precedence for a date: the curated registry, then a cited lineage event, then Wikidata.
  * Every fact carries its source. Run after scripts/build-browse-indexes.mjs (npm run build:browse).
@@ -26,6 +32,7 @@
  */
 import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync, rmSync } from 'node:fs';
 import path from 'node:path';
+import { browsePartySlugResolver, formatSpan, indexFactsModel, loadFactsModel } from './lib/facts-model.mjs';
 
 const ROOT = process.cwd();
 const BROWSE = path.join(ROOT, 'data', 'browse');
@@ -92,6 +99,37 @@ function main() {
   const wikidata = readJson('data/elections/parties/party-wikidata.json', { matches: {} });
   const persons = readPersons();
   const slugOfLabel = (label) => partyNames[normalizeName(label)] || null;
+
+  // The facts model: registry ids map to Browse slugs (several ids can fold into one slug).
+  const factsModel = loadFactsModel(ROOT);
+  const factsIndex = indexFactsModel(factsModel);
+  const registryEntities = readJson('data/elections/parties/party_registry.json', { entities: [] }).entities || [];
+  const slugOfParty = browsePartySlugResolver(registryEntities, partyNames, new Set(parties.map((p) => p.slug)));
+  const registryIdsBySlug = new Map();
+  for (const e of registryEntities) {
+    const s = slugOfParty(e.id);
+    if (!s) continue;
+    if (!registryIdsBySlug.has(s)) registryIdsBySlug.set(s, []);
+    registryIdsBySlug.get(s).push(e.id);
+  }
+  const personById = new Map(persons.map((p) => [String(p.id), p]));
+  const personRef = (id) => {
+    const p = personById.get(String(id));
+    return p ? { personSlug: p.slug, name: p.name || p.title } : { name: `person ${id}` };
+  };
+  const shortCitation = (c) => compact({ title: c.title, url: c.url || undefined });
+  // The party's own ballots: bodies the elections index declares party-internal.
+  const electionIndex = readJson('data/elections-source/data/elections_index.json', { bodies: [] });
+  const internalBodies = (electionIndex.bodies || []).filter((b) => b.bodyType === 'party-internal');
+  const OFFICE_ORDER = ['party-leader', 'party-deputy-leader', 'party-president', 'party-vice-president', 'party-chair', 'party-vice-chair',
+    'party-general-secretary', 'party-secretary', 'party-chief-whip', 'party-group-leader'];
+  const officeRank = (kind) => (OFFICE_ORDER.includes(kind) ? OFFICE_ORDER.indexOf(kind) : OFFICE_ORDER.length);
+  const EVENT_TEXT = {
+    founded: 'Founded.', dissolved: 'Dissolved.', renamed: 'Renamed.', 'merged-into': 'Merged into another party.',
+    'split-from': 'Formed by a split.', split: 'Split.', 'began-organising-in-ni': 'Began organising in Northern Ireland.',
+    'first-contested': 'First contested an election.', 'last-contested': 'Last contested an election.', suspended: 'Suspended.',
+    're-formed': 'Re-formed.', registered: 'Registered.'
+  };
   const titleOf = (slug) => partyBySlug.get(slug)?.title || registry.get(slug)?.name || slug;
 
   // Candidacies by party and election, and each party's members.
@@ -144,6 +182,7 @@ function main() {
     const entry = registry.get(slug);
     const wd = wikidata.matches?.[slug];
     const events = lineageByParty.get(slug) || [];
+    const registryIds = registryIdsBySlug.get(slug) || [];
 
     // Elections: the party row of each election's summary, completed from the candidacies.
     const byKey = new Map();
@@ -247,13 +286,34 @@ function main() {
       timeline.push({ date: event.date, precision: event.precision, kind: event.kind, text: event.text, basis: event.basis, note: event.note, related: event.related, source: 'lineage', citations: event.citations });
     }
     if (dissolved) timeline.push({ date: dissolved.date, precision: dissolved.precision, kind: 'dissolved', text: 'Dissolved.', source: dissolved.source, citations: dissolved.citations });
+    // Cited events from the facts model (party-events.json). One the timeline already holds
+    // (the registry's founding day) gains the citation instead of appearing twice.
+    const factEvents = registryIds.flatMap((id) => factsIndex.eventsByParty.get(id) || []);
+    for (const event of factEvents) {
+      const citations = (event.citations || []).map(shortCitation);
+      const same = timeline.find((t) => t.kind === event.type && t.date && (String(t.date).startsWith(event.date) || event.date.startsWith(String(t.date))));
+      if (same) {
+        same.citations = [...(same.citations || []), ...citations];
+        continue;
+      }
+      timeline.push(compact({
+        date: event.date, precision: event.precision, kind: event.type,
+        text: event.note ? `${EVENT_TEXT[event.type] || 'Event.'} ${event.note}` : (EVENT_TEXT[event.type] || 'Event.'),
+        related: (event.relatedParties || []).map((r) => ({ party: r.partyId, relation: r.relation })),
+        persons: (event.persons || []).map((p) => ({ ...personRef(p.personId), role: p.role })),
+        source: 'party-events', citations
+      }));
+    }
     const firstElection = bodyList.flatMap((b) => b.elections).sort((a, b) => String(a.date).localeCompare(String(b.date)))[0];
     const lastElection = bodyList.flatMap((b) => b.elections).sort((a, b) => String(b.date).localeCompare(String(a.date)))[0];
     if (firstElection?.date) timeline.push({ date: firstElection.date, precision: 'day', kind: 'first-contest', text: `First contest in Civgraph's records: ${firstElection.title}.`, electionKey: firstElection.key, source: 'elections' });
     if (lastElection?.date && lastElection.key !== firstElection?.key) timeline.push({ date: lastElection.date, precision: 'day', kind: 'last-contest', text: `Latest contest in Civgraph's records: ${lastElection.title}.`, electionKey: lastElection.key, source: 'elections' });
     timeline.sort((a, b) => String(a.date).localeCompare(String(b.date)));
     for (const item of timeline) {
-      if (item.related) item.related = item.related.map((r) => compact({ slug: partyBySlug.has(r.party) ? r.party : undefined, title: titleOf(r.party), relation: r.relation }));
+      if (item.related) item.related = item.related.map((r) => {
+        const target = partyBySlug.has(r.party) ? r.party : slugOfParty(r.party);
+        return compact({ slug: target || undefined, title: target ? titleOf(target) : titleOf(r.party), relation: r.relation });
+      });
     }
 
     const relations = [];
@@ -279,6 +339,30 @@ function main() {
       }
     }
 
+    // Leaders and officers from the facts model's tenures (each cited), leader first.
+    const officerOffices = registryIds.flatMap((id) => factsIndex.officesByParty.get(id) || []);
+    const officers = officerOffices.flatMap((office) => (factsIndex.tenuresByOffice.get(office.id) || []).map((t) => compact({
+      office: office.name, officeSlug: office.id, kind: office.kind, ...personRef(t.personId),
+      start: t.start, end: t.end, held: formatSpan(t.start, t.end), began: t.began || undefined, ended: t.ended || undefined,
+      contestKey: t.contest || undefined, citations: (t.citations || []).map(shortCitation)
+    }))).sort((a, b) => (officeRank(a.kind) - officeRank(b.kind))
+      || a.office.localeCompare(b.office) || 0);
+    // The party's own ballots (leadership and nomination contests) and their results.
+    const internalContests = internalBodies.filter((b) => registryIds.includes(b.partyId)).flatMap((b) => (b.dates || []).map((d) => {
+      const key = `${b.slug}__${d.date}`;
+      const bundle = readJson(path.join('render', 'metadata', 'elections-test2', `${key}.json`), null);
+      const election = electionByKey.get(key) || {};
+      return compact({
+        key, body: b.name, date: d.date, title: election.title || bundle?.displayTitle || `${d.date} ${b.name}`,
+        ballots: (bundle?.results || []).map((r) => compact({
+          name: r.constituency,
+          candidates: (r.candidates || []).map((c) => compact({
+            ...(c.personId ? personRef(c.personId) : {}), name: c.name,
+            votes: num(c.firstPrefs ?? c.votes) ?? undefined, elected: c.elected ? true : undefined
+          }))
+        }))
+      });
+    })).sort((a, b) => String(a.date).localeCompare(String(b.date)));
     const leaders = (wd?.leaders || []).map((leader) => compact({
       name: leader.name, qid: leader.qid, start: leader.start?.date, end: leader.end?.date, office: leader.officeLabel, officeQid: leader.office
     }));
@@ -312,6 +396,8 @@ function main() {
       status,
       timeline: timeline.map(compact),
       relations,
+      officers,
+      internalContests,
       leaders,
       leadersSource: leaders.length ? compact({ qid: wd.qid, offices: wd.offices, retrieved: wikidata.retrieved }) : undefined,
       ideologies: (wd?.ideologies || []).map((i) => ({ label: i.label, qid: i.qid })),
@@ -321,9 +407,10 @@ function main() {
       notableMembers: notable,
       sources
     });
-    if (!bodyList.length && !wd && !events.length && !founded) continue;
+    if (factEvents.length || officers.length) sources.push({ title: 'Civgraph facts model: offices, tenures and party events', use: 'leaders and officers, and dated events (each cites its source and page)' });
+    if (!bodyList.length && !wd && !events.length && !founded && !officers.length && !factEvents.length) continue;
     if (timeline.some((t) => t.source !== 'elections')) withHistory += 1;
-    if (leaders.length) withLeaders += 1;
+    if (leaders.length || officers.length) withLeaders += 1;
     written += 1;
     if (!CHECK) writeFileSync(path.join(OUT_DIR, `${slug}.json`), JSON.stringify(profile));
     // A folded label's old address opens its party, so its profile does too.
