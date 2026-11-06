@@ -1,6 +1,6 @@
 # Test2 Election Data Audit
 
-Generated: 2026-11-06T00:14:30.643Z
+Generated: 2026-11-06T02:14:34.887Z
 
 This is a repeatable repository-local audit of the generated /test2 election data, Browse election entries, source/reference records, transfer/count payload availability, and saved Wikipedia party-colour comparison outputs. It intentionally does not fetch live web pages, so CI can run it deterministically.
 
@@ -8,25 +8,25 @@ This is a repeatable repository-local audit of the generated /test2 election dat
 
 |area|value|
 |---|---:|
-|parent elections in manifest|1829|
+|parent elections in manifest|1885|
 |manifest loadable elections|594|
 |manifest placeholders|584|
-|Browse parent election entries|1829|
-|Browse constituency/DEA sub-entries|13360|
-|Browse overall sub-entries|1829|
-|source detail records|1829|
-|result bundles loaded|1829|
-|result rows audited|13360|
-|candidate rows audited|67397|
-|rows with count detail|13317|
-|rows with animation payload|13317|
+|Browse parent election entries|1885|
+|Browse constituency/DEA sub-entries|13474|
+|Browse overall sub-entries|1885|
+|source detail records|1885|
+|result bundles loaded|1885|
+|result rows audited|13474|
+|candidate rows audited|68160|
+|rows with count detail|13431|
+|rows with animation payload|13431|
 |rows expected to have transfer/count data|4129|
 |expected transfer/count rows missing detail|0|
 |valid-poll review sidecar records|0|
 |candidate-row review sidecar records|0|
 |party-colour review sidecar records|10|
 |blocking issues|0|
-|warnings|1276|
+|warnings|1378|
 
 ## Blocking Structural Issues
 
@@ -57,20 +57,28 @@ _None._
 |warning|candidate-party-missing|coleraine-borough-council__1967-05-17|15 candidate rows have no party/label. Examples: J. White in Coleraine; A. Kydd in Coleraine; R. Fulton in Coleraine; I. Wilson in Coleraine; J. Christie in Coleraine.|
 |warning|source-record-single-reference|cookstown-urban-district-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|cookstown-urban-district-council__1967-05-17|12 candidate rows have no party/label. Examples: Mrs. Alice M. Leeper in Cookstown; Norman Armstrong in Cookstown; Robert J. Donaghy in Cookstown; George Ferguson in Cookstown; William Graham in Cookstown.|
+|warning|source-record-single-reference|donaghadee-urban-district-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|candidate-party-missing|donaghadee-urban-district-council__1967-05-17|8 candidate rows have no party/label. Examples: Dr. Elizabeth Long in North Ward; H. S. Cosbey in North Ward; F. E. V. Press in North Ward; Mrs. G. M. Stone in South Ward; T. J. Carmichael in South Ward.|
 |warning|source-record-single-reference|downpatrick-urban-district-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|source-record-single-reference|dromore-urban-district-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|dromore-urban-district-council__1967-05-17|10 candidate rows have no party/label. Examples: Mrs. Irene Ferguson in Dromore; William Wilkinson in Dromore; John M'Grehan in Dromore; T. Castles in Dromore; Douglas Gamble in Dromore.|
 |warning|source-record-single-reference|dungannon-urban-district-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|source-record-single-reference|holywood-urban-district-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|candidate-party-missing|holywood-urban-district-council__1967-05-17|11 candidate rows have no party/label. Examples: A. M. Weaire in Holywood; Mrs. M. A. Smyth in Holywood; H. M'Court in Holywood; F. C. M'Keag in Holywood; Lieut.-Col. D. C. M'Cormack in Holywood.|
 |warning|source-record-single-reference|keady-urban-district-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|keady-urban-district-council__1967-05-17|9 candidate rows have no party/label. Examples: Malachy Gorman in Keady; Brian Hughes in Keady; Bernard Arthurs in Keady; Eugene Connolly in Keady; Patrick J. McParland in Keady.|
 |warning|source-record-single-reference|larne-borough-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|source-record-single-reference|limavady-urban-district-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|source-record-single-reference|lisburn-borough-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|candidate-party-missing|lisburn-borough-council__1967-05-17|19 candidate rows have no party/label. Examples: Samuel George Weir in Central Ward; Robert John Allen in Central Ward; David Shanks in Central Ward; Norman Bicker in Central Ward; Adrain Whitby in Central Ward.|
 |warning|source-record-single-reference|londonderry-county-borough-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|source-record-single-reference|lurgan-borough-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-list-missing|lurgan-borough-council__1967-05-17|No candidates found for Lurgan (aldermen).|
 |warning|candidate-list-missing|lurgan-borough-council__1967-05-17|No candidates found for Lurgan (councillors).|
 |warning|source-record-single-reference|newcastle-urban-district-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|newcastle-urban-district-council__1967-05-17|9 candidate rows have no party/label. Examples: R. J. Hall in Newcastle; J. A. Keenan in Newcastle; A. T. Cairns in Newcastle; F. Dornan in Newcastle; Mrs. L. D. Purdy in Newcastle.|
+|warning|candidate-party-missing|newcastle-urban-district-council__1967-05-17|8 candidate rows have no party/label. Examples: J. A. Keenan in Newcastle; A. T. Cairns in Newcastle; F. Dornan in Newcastle; Mrs. L. D. Purdy in Newcastle; Mrs. C. B. Creighton in Newcastle.|
+|warning|source-record-single-reference|newry-urban-district-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|candidate-party-missing|newry-urban-district-council__1967-05-17|35 candidate rows have no party/label. Examples: J. M'Parland in North Ward; P. Hand in North Ward; C. Hughes in North Ward; W. Hughes in North Ward; J. Pearse in North Ward.|
 |warning|source-record-single-reference|newtownabbey-urban-district-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|source-record-single-reference|omagh-urban-district-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|source-record-single-reference|portadown-borough-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
@@ -108,16 +116,8 @@ _None._
 |warning|candidate-party-missing|coleraine-borough-council__1964-05-20|13 candidate rows have no party/label. Examples: S. J. Henry in Aldermen; S. J. Walker in Aldermen; Jack Doherty in Aldermen; Cyril Lee in Aldermen; Mrs. J. L. Stanleigh in Coleraine.|
 |warning|source-record-single-reference|cookstown-urban-district-council__1964-05-20|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|cookstown-urban-district-council__1964-05-20|11 candidate rows have no party/label. Examples: W. Graham in Cookstown; Mrs. A. M. Leeper in Cookstown; A. McConnell in Cookstown; G. Ferguson in Cookstown; N. Watson in Cookstown.|
-|warning|source-record-single-reference|downpatrick-urban-district-council__1964-05-20|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|source-record-single-reference|dungannon-urban-district-council__1964-05-20|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|dungannon-urban-district-council__1964-05-20|7 candidate rows have no party/label. Examples: J. Patton in Central Ward; H. Ferguson in Central Ward; M. Johnston in Central Ward; R. N. Holmes in Central Ward; J. Dugal in Central Ward.|
-|warning|source-record-single-reference|enniskillen-borough-council__1964-05-20|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|source-record-single-reference|holywood-urban-district-council__1964-05-20|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|holywood-urban-district-council__1964-05-20|9 candidate rows have no party/label. Examples: W. Lapworth in Holywood; W. J. McCavana in Holywood; W. E. Russell in Holywood; Mrs. M. A. Smyth in Holywood; R. McCarty in Holywood.|
-|warning|source-record-single-reference|kilkeel-urban-district-council__1964-05-20|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|source-record-single-reference|larne-borough-council__1964-05-20|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 
-_1196 more not shown; see JSON report._
+_1298 more not shown; see JSON report._
 
 ## Source And Reference Coverage
 
@@ -125,10 +125,10 @@ _1196 more not shown; see JSON report._
 |---|---:|
 |parent source records missing|0|
 |source records with no references|0|
-|source records with one reference|725|
+|source records with one reference|781|
 |source records with multiple references|1104|
 |Browse sub-entries with no references|0|
-|Browse sub-entries with one reference|3962|
+|Browse sub-entries with one reference|4132|
 |Browse sub-entries with multiple references|11227|
 
 ## Party Colour Audit
