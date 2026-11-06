@@ -35,9 +35,17 @@
  *   node scripts/validate-browse-contract.mjs
  */
 import { readFileSync, existsSync } from 'node:fs';
+import path from 'node:path';
+import { BROWSE_DIR, localPathForUrl } from './records/paths.mjs';
 
 const BROWSE_JS = 'browse/browse.js';
-const DATA_ROOT = 'data/browse';
+// The Browse tree the record build wrote (tmp/records/browse under CIVGRAPH_BUILD_DIR, else
+// data/browse); its shard URLs resolve into the same tree.
+const DATA_ROOT = BROWSE_DIR;
+if (!existsSync(path.join(DATA_ROOT, 'index.json'))) {
+  console.log(`SKIP: no Browse tree at ${DATA_ROOT} (run npm run records:build; CI checks the records tables in npm run records:check).`);
+  process.exit(0);
+}
 
 const source = readFileSync(BROWSE_JS, 'utf8');
 const start = source.indexOf('const ENTITY_CONFIG = {');
@@ -80,28 +88,28 @@ for (const entity of entities) {
     notes.push(`${entity.key}: served from D1 via /_api/${entity.key}/*, no static index expected`);
     continue;
   }
-  const path = `${DATA_ROOT}/${entity.index}`;
-  if (!existsSync(path)) {
-    problems.push(`${entity.key}: index ${path} does not exist`);
+  const indexPath = path.join(DATA_ROOT, entity.index);
+  if (!existsSync(indexPath)) {
+    problems.push(`${entity.key}: index ${indexPath} does not exist`);
     continue;
   }
   let payload;
   try {
-    payload = JSON.parse(readFileSync(path, 'utf8'));
+    payload = JSON.parse(readFileSync(indexPath, 'utf8'));
   } catch (error) {
-    problems.push(`${entity.key}: ${path} is not valid JSON (${error.message})`);
+    problems.push(`${entity.key}: ${indexPath} is not valid JSON (${error.message})`);
     continue;
   }
 
   if (payload.indexLayout === 'sharded') {
     if (!Array.isArray(payload.shards) || !payload.shards.length) {
-      problems.push(`${entity.key}: ${path} says indexLayout "sharded" but names no shards`);
+      problems.push(`${entity.key}: ${indexPath} says indexLayout "sharded" but names no shards`);
       continue;
     }
     let count = 0;
     for (const shard of payload.shards) {
       // browse.js resolves shard.url as a site-absolute path; on disk it is repo-relative.
-      const shardPath = String(shard.url || '').replace(/^\//, '');
+      const shardPath = shard.url ? localPathForUrl(shard.url) : '';
       if (!shardPath || !existsSync(shardPath)) {
         problems.push(`${entity.key}: shard ${shard.url || shard.name} is named but missing on disk`);
         continue;
@@ -112,7 +120,7 @@ for (const entity of entities) {
   } else if (Array.isArray(payload.items)) {
     totalItems += payload.items.length;
   } else {
-    problems.push(`${entity.key}: ${path} has neither an "items" array nor a sharded manifest — browse.js will render nothing`);
+    problems.push(`${entity.key}: ${indexPath} has neither an "items" array nor a sharded manifest — browse.js will render nothing`);
   }
 
   // detailDir is a FALLBACK, not the only path. loadDetail() prefers item.detailUrl when
@@ -128,18 +136,18 @@ for (const entity of entities) {
   // A list index (elections-list.json) is what the list view reads; browse.js falls back to the
   // full index without one, but a configured one that is missing or empty is a build gap.
   if (entity.listIndex) {
-    const listPath = `${DATA_ROOT}/${entity.listIndex}`;
+    const listPath = path.join(DATA_ROOT, entity.listIndex);
     let listPayload = null;
     try { listPayload = JSON.parse(readFileSync(listPath, 'utf8')); } catch { listPayload = null; }
     if (!listPayload || !Array.isArray(listPayload.items) || !listPayload.items.length) {
       problems.push(`${entity.key}: list index ${listPath} is missing or has no items`);
     } else if (Array.isArray(payload.items) && listPayload.items.length !== payload.items.length) {
-      problems.push(`${entity.key}: ${listPath} lists ${listPayload.items.length} records, ${path} has ${payload.items.length}`);
+      problems.push(`${entity.key}: ${listPath} lists ${listPayload.items.length} records, ${indexPath} has ${payload.items.length}`);
     }
   }
 
   if (!entity.detailDir) continue;
-  const dir = `${DATA_ROOT}/details/${entity.detailDir}`;
+  const dir = path.join(DATA_ROOT, 'details', entity.detailDir);
   if (existsSync(dir)) continue;
   const items = Array.isArray(payload.items) ? payload.items : [];
   const withDetailUrl = items.filter((item) => item && item.detailUrl).length;
