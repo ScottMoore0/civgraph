@@ -66,17 +66,6 @@ export function voteShareOpacity(share) {
   return Math.round((0.25 + 0.6 * t) * 100) / 100;
 }
 
-function currentTheme() {
-  const root = globalThis.document?.documentElement;
-  const set = root?.dataset?.theme;
-  if (set === 'dark' || set === 'light') return set;
-  try {
-    return globalThis.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  } catch {
-    return 'light';
-  }
-}
-
 export class NiLocalGroupedView {
   constructor(manager) {
     this.manager = manager;
@@ -365,6 +354,16 @@ export class NiLocalGroupedView {
     return { colour: this.partyColour(lead.party), opacity: STYLE.seatsFillOpacity, party: lead.party, share: lead.share, kind: 'party' };
   }
 
+  /**
+   * The hatching is drawn over the base map, so its tone follows the base map, not the page:
+   * dark lines over the light maps (the default, in the light and the dark theme alike), light
+   * lines over the dark and satellite ones. Both tones carry an edge of the other.
+   */
+  hatchTone() {
+    const base = String(this.app.baseMapId || 'osm-standard');
+    return /dark|satellite/.test(base) ? 'dark' : 'light';
+  }
+
   applyStyle() {
     if (!this.active) return;
     const info = this.levelInfo();
@@ -395,7 +394,7 @@ export class NiLocalGroupedView {
       lineWidth: STYLE.strokeWidth,
       hideLabels: true
     });
-    this.mapController.setElectionHatch?.(id, hatched.length ? { matchInput: input, keys: hatched, theme: currentTheme() } : null);
+    this.mapController.setElectionHatch?.(id, hatched.length ? { matchInput: input, keys: hatched, theme: this.hatchTone() } : null);
     this.app.updateMapLegend?.();
   }
 

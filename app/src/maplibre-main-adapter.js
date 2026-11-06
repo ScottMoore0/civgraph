@@ -1663,15 +1663,20 @@ function ensureHatchImage(map, name, dark) {
   const ratio = Math.max(1, Math.round(globalThis.devicePixelRatio || 1));
   const px = size * ratio;
   const data = new Uint8ClampedArray(px * px * 4);
-  const [r, g, b, a] = dark ? [203, 213, 225, 215] : [75, 85, 99, 190];
-  const width = 1.6 * ratio;
+  // A grey line with a pale edge (a dark edge on a dark map), so the hatching reads over a light
+  // base map, a dark one and any party colour alike.
+  const core = dark ? [214, 222, 232, 225] : [70, 78, 90, 205];
+  const edge = dark ? [17, 24, 39, 150] : [255, 255, 255, 150];
+  const coreWidth = 1.4 * ratio;
+  const edgeWidth = coreWidth + 1.6 * ratio;
   for (let y = 0; y < px; y += 1) {
     for (let x = 0; x < px; x += 1) {
       // Distance from the diagonal x + y = px (wrapping), so the tiles join into continuous lines.
       const d = Math.min(Math.abs(((x + y) % px)), px - ((x + y) % px)) / Math.SQRT2;
-      if (d <= width / 2) {
+      const colour = d <= coreWidth / 2 ? core : (d <= edgeWidth / 2 ? edge : null);
+      if (colour) {
         const i = (y * px + x) * 4;
-        data[i] = r; data[i + 1] = g; data[i + 2] = b; data[i + 3] = a;
+        data[i] = colour[0]; data[i + 1] = colour[1]; data[i + 2] = colour[2]; data[i + 3] = colour[3];
       }
     }
   }

@@ -40,7 +40,8 @@ const APP = [
   /^app\/src\//, /^src\/[^/]+\.(js|css)$/, /^render\/src\//, /^sw\.js$/,
   /^assets\/(css|site|js)\//, /^tests\//, /^scripts\/run-checks\.mjs$/, /^scripts\/rebuild-changed\.mjs$/
 ];
-const ELECTION_DATA = [/^data\/elections-source\//, /^data\/elections\//];
+// data/elections/ni-local/ is the grouped-years snapshot (calendar, boundary features): no person ids.
+const ELECTION_DATA = [/^data\/elections-source\//, /^data\/elections\/(?!ni-local\/)/];
 
 function git(...gitArgs) {
   return execFileSync('git', gitArgs, { encoding: 'utf8', maxBuffer: 256 * 1024 * 1024, stdio: ['ignore', 'pipe', 'ignore'] })

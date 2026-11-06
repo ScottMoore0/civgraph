@@ -67,7 +67,8 @@ def clean(value):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--cache', default=os.path.join(r'C:\Users\scomo\boundaries-website', 'render', 'source-cache', 'vector-intake'))
+    # A worktree has no source cache of its own: point --cache at the main checkout's.
+    ap.add_argument('--cache', default=os.path.join(ROOT, 'render', 'source-cache', 'vector-intake'))
     args = ap.parse_args()
     frames = {}
 
