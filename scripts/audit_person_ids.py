@@ -100,6 +100,8 @@ def main():
     # UNDER-MERGE: ids sharing a match key whose careers do not overlap
     bykey = collections.defaultdict(list)
     for e in reg['entities']:
+        if e.get('keyedBy') == 'registered':   # a registered non-candidate has no career to compare
+            continue
         for m in e['matchKeys']:
             bykey[m].append(e)
     for m, es in bykey.items():

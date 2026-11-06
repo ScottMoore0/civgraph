@@ -307,7 +307,12 @@ function decadeSegments(seg, unit) {
   return out;
 }
 
-const namedBodies = new Set(electionsConfig.groups.flatMap((g) => g.segments || []).flatMap((s) => s.bodies || []));
+// Bodies a group names, in its segments or (a rounds group such as the party-internal ballots)
+// in its own list, are kept out of the 'rest' group (the pre-1973 councils).
+const namedBodies = new Set([
+  ...electionsConfig.groups.flatMap((g) => g.segments || []).flatMap((s) => s.bodies || []),
+  ...electionsConfig.groups.flatMap((g) => (Array.isArray(g.bodies) ? g.bodies : [])),
+]);
 
 function roundSegments(group) {
   const bodies = group.bodies === 'rest'
@@ -353,7 +358,9 @@ const electionGroups = electionsConfig.groups.map((g) => {
 });
 
 const electionsCovered = electionGroups.reduce((s, g) => s + (g.unit === 'rounds' ? 0 : g.totals.onSite), 0)
-  + contests.filter((c) => !namedBodies.has(c.body)).length;
+  + contests.filter((c) => !namedBodies.has(c.body)).length
+  // A rounds group that lists its own bodies (the party-internal ballots) covers their contests.
+  + contests.filter((c) => electionsConfig.groups.some((g) => g.rounds && Array.isArray(g.bodies) && g.bodies.includes(c.body))).length;
 if (electionsCovered !== contests.length) {
   fail(`the election bars cover ${electionsCovered} contests but the site holds ${contests.length}: a period in elections.config.json has a gap or an overlap.`);
 }

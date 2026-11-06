@@ -327,9 +327,11 @@ const PRE1973_COUNCIL_BODIES = new Set([
 ]);
 
 
-export function isElectionByElectionScope({ body = '', bodyGroup = null, date = '', constituencies = [], specialType = null } = {}) {
+export function isElectionByElectionScope({ body = '', bodyGroup = null, date = '', constituencies = [], specialType = null, bodySlug = '' } = {}) {
   const normalizedBody = normalizeName(body);
   if (PRE1973_COUNCIL_BODIES.has(normalizedBody)) return false;
+  // A party's own ballot (leader, nominee) is never a by-election, however few its contests.
+  if (isPartyInternalBody({ body, bodySlug })) return false;
   if (
     specialType === 'recall-petition'
     || (normalizedBody === 'house of commons of the united kingdom' && String(date || '').slice(0, 10) === '2018-08-29')
@@ -369,6 +371,18 @@ function byElectionRegion(body, bodyGroup) {
   return 'Irish';
 }
 
+const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+/**
+ * A party-internal body: a party's leadership or nomination ballots, whose electorate is a party
+ * body (data/elections-source/data/elections_index.json bodyType "party-internal"; the slug ends
+ * -leadership or -nomination, which scripts/validate-facts-model.mjs holds to).
+ */
+export function isPartyInternalBody({ body = '', bodySlug = '' } = {}) {
+  if (bodySlug) return /-(leadership|nomination)$/.test(String(bodySlug));
+  return /(leadership|nomination)$/i.test(String(body || '').trim());
+}
+
 export function canonicalElectionTitle({
   body = '',
   bodyGroup = null,
@@ -385,6 +399,14 @@ export function canonicalElectionTitle({
   // day, never a by-election and not the Northern Ireland local-government group, so they
   // are named before either of those checks can claim them.
   if (bodySlug === 'ireland-local') return `${year} Irish local elections`.trim();
+  // A party's own ballots (docs/facts-model.md): "September 1995 Ulster Unionist Party leadership
+  // election", "September 1997 Fianna Fáil presidential nomination". The month is in the title
+  // because one party can hold two in a year (the UUP in March and September 1995).
+  if (isPartyInternalBody({ body, bodySlug })) {
+    const month = MONTH_NAMES[Number(String(date || '').slice(5, 7)) - 1] || '';
+    const name = String(body || '').trim();
+    return `${month ? `${month} ` : ''}${year} ${name}${/leadership$/i.test(name) ? ' election' : ''}`.trim();
+  }
   const normalizedBody = normalizeName(body);
   const inferredSpecialType = specialType
     || (normalizedBody === 'house of commons of the united kingdom' && String(date || '').slice(0, 10) === '2018-08-29' ? 'recall-petition' : null);
