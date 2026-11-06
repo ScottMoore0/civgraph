@@ -34,7 +34,8 @@
     "party-research-2026-11-02": "Party labels settled 2026-11-02 against Walker's Parliamentary Election Results in Ireland (1978 and 1992 volumes), the official D\u00e1il results of 1981 and February 1982, ARK Northern Ireland Elections, Elliott and Flackes (1999) and the Irish Republican Digital Archive: the Workers' Party's earlier names (Official Sinn F\u00e9in, Sinn F\u00e9in The Workers' Party, Republican Clubs), 'Republican Clubs' removed from 1935-66 Westminster Republicans, Provisional Sinn F\u00e9in's seven February 1982 candidates, the 1981 H-Block prisoner candidates, four 1981 council independents, Republican Sinn F\u00e9in candidates imported as independents, and the 1880 Parnellites shown as Home Rule. Printed labels kept in Party_As_Printed; inferred labels carry partyInferred and partyBasis. Stage only; merge with the usual tool. mergeAction 'append' marks a sourceFile that already has a record.",
     "person-identity-splits-2026-11-02": "Candidacies filed under the wrong person, found while verifying official person ids and duplicate people for the parliamentary votes work. Each operation gives the candidacy the person id of the man it belongs to (a Wikipedia article, a History of Parliament page, an ElectionsIreland or IrelandElection.com candidate id), or a fresh candidate id where he has none, so the registry rebuild stops joining him to a namesake. Nothing in the results changes.",
     "result-corrections-2026-11-02": "Result rows corrected against the History of Parliament and Wikipedia's election boxes (which cite Walker and Stooks Smith): a winner's name, a candidate wrongly marked elected, a by-election candidate's name.",
-    "belfast-gazette-1970-winners-2026-11-03": "Members returned at the 18 June 1970 Westminster election in Northern Ireland, from the Belfast Gazette (issue 2635, 8 July 1970): the 12 results had no winner marked."
+    "belfast-gazette-1970-winners-2026-11-03": "Members returned at the 18 June 1970 Westminster election in Northern Ireland, from the Belfast Gazette (issue 2635, 8 July 1970): the 12 results had no winner marked.",
+    "elliott-flackes-1999-2026-11-06": "Northern Ireland contests 1968-99 checked against Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Blackstaff Press, 1999), read from the owner's scans, with every changed figure or label confirmed by a second source (ARK Northern Ireland Elections, Wikipedia): Chichester-Clark's 1970 Londonderry vote and Sands's April 1981 vote, Faulkner's seven pro-Assembly Unionists of February 1974, Kilfedder's 1979 Independent Unionist label, Dunlop's 1982 and the 1977 council UUUP candidates, the Ballymena and Larne 1977 unopposed returns, Larne's 1973 Loyalists, Ballymoney Town 1989, and candidacies filed under a namesake (Jack Allen, William Brown, John Carson, Gerry Kelly, John Kelly, Frank Millar junior, David Allen, P. J. Bradley and five 1996 Forum list rows). Facts and citations only."
   },
   "records": [
     {
@@ -86286,8 +86287,21 @@
         "url": "https://www.ark.ac.uk/elections/nlgmea.htm",
         "accessed": "2026-10-23"
       },
-      "additionalSources": [],
-      "reason": "1 candidate in Ballymena 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Donna Anderson (TUV, 738 first preferences).",
+      "additionalSources": [
+        {
+          "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, John Carson, p. 201",
+          "publisher": "Blackstaff Press",
+          "url": null,
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "John Carson (Northern Ireland politician)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/John_Carson_(Northern_Ireland_politician)",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "1 candidate in Ballymena 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Donna Anderson (TUV, 738 first preferences). John Carson, DUP councillor in Ballymena (1989-2019 here), is not the Belfast Ulster Unionist John Carson (born 1933, MP for Belfast North 1974, Belfast councillor 1973-97): in 1989, 1993 and 1997 both were elected on the same day, in Ballymena and in Belfast's Castle area. Given the id fix-john-carson-ballymena so the registry stops joining them. Nothing in the results changes.",
       "category": "names",
       "operations": [
         {
@@ -86312,9 +86326,19 @@
           "set": {
             "Candidate_Id": "2706792624-mid-and-east-antrim"
           }
+        },
+        {
+          "op": "candidate",
+          "name": "John Carson",
+          "set": {
+            "Candidate_Id": "fix-john-carson-ballymena"
+          }
         }
       ],
-      "internalNote": "John Carson: candidate id 2597842877 was shared with candidates of the same name in other councils (kept by Belfast); given 2597842877-ballymena-mid-and-east-antrim. James Henry: candidate id 2706792624 was shared with candidates of the same name in other councils (kept by Ballymena); given 2706792624-mid-and-east-antrim."
+      "internalNote": "John Carson: candidate id 2597842877 was shared with candidates of the same name in other councils (kept by Belfast); given 2597842877-ballymena-mid-and-east-antrim. James Henry: candidate id 2706792624 was shared with candidates of the same name in other councils (kept by Ballymena); given 2706792624-mid-and-east-antrim.",
+      "alsoBatches": [
+        "elliott-flackes-1999-2026-11-06"
+      ]
     },
     {
       "batch": "official-records-2026-10-23",
@@ -104262,6 +104286,18 @@
           "publisher": "Wikipedia",
           "url": "https://en.wikipedia.org/w/index.php?oldid=1240924061",
           "accessed": "2026-10-27"
+        },
+        {
+          "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, Jack Allen, p. 156",
+          "publisher": "Blackstaff Press",
+          "url": null,
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "Jack Allen (Northern Ireland politician)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Jack_Allen_(Northern_Ireland_politician)",
+          "accessed": "2026-11-06"
         }
       ],
       "operations": [
@@ -106231,9 +106267,19 @@
               "id": 108
             }
           ]
+        },
+        {
+          "op": "candidateById",
+          "candidateId": "T2426291746",
+          "set": {
+            "Candidate_Id": "T2426291746-antrim"
+          }
         }
       ],
-      "reason": "2 candidates the import had left out restored (Samuel Ferson, Dominion Party, 69; David Gregg, Dominion Party, 136); every count rebuilt from ARK's result spreadsheet (12 stages, quota 781). The first preferences now add up to the valid poll of 4,680, and Wikipedia shows the same candidates, first preferences and winners."
+      "reason": "2 candidates the import had left out restored (Samuel Ferson, Dominion Party, 69; David Gregg, Dominion Party, 136); every count rebuilt from ARK's result spreadsheet (12 stages, quota 781). The first preferences now add up to the valid poll of 4,680, and Wikipedia shows the same candidates, first preferences and winners. Jack Allen, UUP councillor in Antrim 1973-93, is not the Londonderry Jack Allen (John Alexander Allen) of the 1982 and 1998 Assembly elections: in 1973 and 1977 both were elected on the same day to different councils. Given the id T2426291746-antrim so the registry stops joining them. Nothing in the results changes.",
+      "alsoBatches": [
+        "elliott-flackes-1999-2026-11-06"
+      ]
     },
     {
       "batch": "ni-council-xref-2026-10-27",
@@ -154329,9 +154375,41 @@
           "set": {
             "Candidate_Id": "T3502243737-cookstown"
           }
+        },
+        {
+          "op": "candidate",
+          "name": "Samuel Parke",
+          "set": {
+            "Party_Name": "UUUP",
+            "Party_As_Printed": "UUUP/UUUC"
+          }
         }
       ],
-      "internalNote": "Peter Kelly: candidate id T3502243737 was shared with candidates of the same name in other councils (kept by Omagh); given T3502243737-cookstown."
+      "internalNote": "Peter Kelly: candidate id T3502243737 was shared with candidates of the same name in other councils (kept by Omagh); given T3502243737-cookstown.",
+      "alsoBatches": [
+        "elliott-flackes-1999-2026-11-06"
+      ],
+      "reason": "Samuel Parke was United Ulster Unionist Party candidate, not UUP: ARK labels the candidate UUUP. Elliott and Flackes's 1977 table (p. 545) gives the UUUP 12 seats (3 in Cookstown), which Civgraph had counted as UUP; with these labels every council's UUP and UUUP seats agree with the book.",
+      "additionalSources": [
+        {
+          "title": "Local Government Elections 1973 - 1981: Cookstown",
+          "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+          "url": "https://www.ark.ac.uk/elections/73-81lgcookstown.htm",
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Election Results 1968-99, p. 545",
+          "publisher": "Blackstaff Press",
+          "url": null,
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "The 1977 Local Government Elections in Northern Ireland (summary: UUUP 12 councillors; Armagh 1, Cookstown 3, Craigavon 1, Fermanagh 3, Lisburn 2, Magherafelt 1, North Down 1)",
+          "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+          "url": "https://www.ark.ac.uk/elections/flg77.htm",
+          "accessed": "2026-11-06"
+        }
+      ]
     },
     {
       "batch": "candidate-id-splits-2026-10-28",
@@ -154343,9 +154421,49 @@
           "set": {
             "Candidate_Id": "T1829640184-cookstown"
           }
+        },
+        {
+          "op": "candidate",
+          "name": "Victor McGahie",
+          "set": {
+            "Party_Name": "UUUP",
+            "Party_As_Printed": "UUUP"
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "William McIntyre",
+          "set": {
+            "Party_Name": "UUUP",
+            "Party_As_Printed": "UUUP"
+          }
         }
       ],
-      "internalNote": "James Malone: candidate id T1829640184 was shared with candidates of the same name in other councils (kept by Newry and Mourne); given T1829640184-cookstown."
+      "internalNote": "James Malone: candidate id T1829640184 was shared with candidates of the same name in other councils (kept by Newry and Mourne); given T1829640184-cookstown.",
+      "alsoBatches": [
+        "elliott-flackes-1999-2026-11-06"
+      ],
+      "reason": "Victor McGahie and William McIntyre were United Ulster Unionist Party candidates, not UUP: ARK labels them UUUP. Elliott and Flackes's 1977 table (p. 545) gives the UUUP 12 seats (3 in Cookstown), which Civgraph had counted as UUP; with these labels every council's UUP and UUUP seats agree with the book.",
+      "additionalSources": [
+        {
+          "title": "Local Government Elections 1973 - 1981: Cookstown",
+          "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+          "url": "https://www.ark.ac.uk/elections/73-81lgcookstown.htm",
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Election Results 1968-99, p. 545",
+          "publisher": "Blackstaff Press",
+          "url": null,
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "The 1977 Local Government Elections in Northern Ireland (summary: UUUP 12 councillors; Armagh 1, Cookstown 3, Craigavon 1, Fermanagh 3, Lisburn 2, Magherafelt 1, North Down 1)",
+          "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+          "url": "https://www.ark.ac.uk/elections/flg77.htm",
+          "accessed": "2026-11-06"
+        }
+      ]
     },
     {
       "batch": "candidate-id-splits-2026-10-28",
@@ -154392,9 +154510,41 @@
           "set": {
             "Candidate_Id": "T4198151916-fermanagh"
           }
+        },
+        {
+          "op": "candidate",
+          "name": "Bert Johnston",
+          "set": {
+            "Party_Name": "UUUP",
+            "Party_As_Printed": "UUUP/UUUC"
+          }
         }
       ],
-      "internalNote": "Robert McFarland: candidate id T4198151916 was shared with candidates of the same name in other councils (kept by Dungannon); given T4198151916-fermanagh."
+      "internalNote": "Robert McFarland: candidate id T4198151916 was shared with candidates of the same name in other councils (kept by Dungannon); given T4198151916-fermanagh.",
+      "alsoBatches": [
+        "elliott-flackes-1999-2026-11-06"
+      ],
+      "reason": "Bert Johnston was United Ulster Unionist Party candidate, not UUP: ARK labels the candidate UUUP. Elliott and Flackes's 1977 table (p. 545) gives the UUUP 12 seats (3 in Fermanagh), which Civgraph had counted as UUP; with these labels every council's UUP and UUUP seats agree with the book.",
+      "additionalSources": [
+        {
+          "title": "Local Government Elections 1973 - 1981: Fermanagh",
+          "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+          "url": "https://www.ark.ac.uk/elections/73-81lgfermanagh.htm",
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Election Results 1968-99, p. 545",
+          "publisher": "Blackstaff Press",
+          "url": null,
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "The 1977 Local Government Elections in Northern Ireland (summary: UUUP 12 councillors; Armagh 1, Cookstown 3, Craigavon 1, Fermanagh 3, Lisburn 2, Magherafelt 1, North Down 1)",
+          "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+          "url": "https://www.ark.ac.uk/elections/flg77.htm",
+          "accessed": "2026-11-06"
+        }
+      ]
     },
     {
       "batch": "candidate-id-splits-2026-10-28",
@@ -154463,9 +154613,41 @@
           "set": {
             "Candidate_Id": "T1620031130-magherafelt"
           }
+        },
+        {
+          "op": "candidate",
+          "name": "Robert Overend",
+          "set": {
+            "Party_Name": "UUUP",
+            "Party_As_Printed": "UUUP/UUUC"
+          }
         }
       ],
-      "internalNote": "Thomas Smyth: candidate id T1620031130 was shared with candidates of the same name in other councils (kept by Ballymena); given T1620031130-magherafelt."
+      "internalNote": "Thomas Smyth: candidate id T1620031130 was shared with candidates of the same name in other councils (kept by Ballymena); given T1620031130-magherafelt.",
+      "alsoBatches": [
+        "elliott-flackes-1999-2026-11-06"
+      ],
+      "reason": "Robert Overend was United Ulster Unionist Party candidate, not UUP: ARK labels the candidate UUUP. Elliott and Flackes's 1977 table (p. 545) gives the UUUP 12 seats (1 in Magherafelt), which Civgraph had counted as UUP; with these labels every council's UUP and UUUP seats agree with the book.",
+      "additionalSources": [
+        {
+          "title": "Local Government Elections 1973 - 1981: Magherafelt",
+          "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+          "url": "https://www.ark.ac.uk/elections/73-81lgmagherafelt.htm",
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Election Results 1968-99, p. 545",
+          "publisher": "Blackstaff Press",
+          "url": null,
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "The 1977 Local Government Elections in Northern Ireland (summary: UUUP 12 councillors; Armagh 1, Cookstown 3, Craigavon 1, Fermanagh 3, Lisburn 2, Magherafelt 1, North Down 1)",
+          "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+          "url": "https://www.ark.ac.uk/elections/flg77.htm",
+          "accessed": "2026-11-06"
+        }
+      ]
     },
     {
       "batch": "candidate-id-splits-2026-10-28",
@@ -156598,17 +156780,39 @@
           "op": "set",
           "path": "Constituency.countInfo.Valid_Poll",
           "value": "6044"
+        },
+        {
+          "op": "candidateById",
+          "candidateId": "T2031631529",
+          "set": {
+            "Candidate_Id": "T2031631529-dungannon"
+          }
         }
       ],
       "internalNote": "Anita Cavlan: candidate id T3474542170 was shared with candidates of the same name in other councils (kept by Ballymoney); given T3474542170-dungannon.",
-      "reason": "Dungannon Town had a valid poll of 6,044, as the Electoral Office's result sheet gives and the first preferences add up to; it had been imported as 6.04.",
+      "reason": "Dungannon Town had a valid poll of 6,044, as the Electoral Office's result sheet gives and the first preferences add up to; it had been imported as 6.04. William Brown, UUP councillor in Dungannon 1973-93, is not the South Down Assembly member William Brown, a Down councillor 1977-93: in 1977 and 1981 both were elected on the same day to different councils. Given the id T2031631529-dungannon so the registry stops joining them. Nothing in the results changes.",
       "additionalSources": [
         {
           "title": "The Electoral Office for Northern Ireland: Local Government Election Results 1985 (official result sheets), page 66",
           "publisher": "The Electoral Office for Northern Ireland",
           "url": "https://web.archive.org/web/2017/http://www.eoni.org.uk/getmedia/2d57a980-809e-4f90-b658-0175b954d3a2/local_government_election_results_1985.pdf",
           "accessed": "2026-10-29"
+        },
+        {
+          "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, William Brown, p. 192",
+          "publisher": "Blackstaff Press",
+          "url": null,
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "William Brown (Northern Ireland politician)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/William_Brown_(Northern_Ireland_politician)",
+          "accessed": "2026-11-06"
         }
+      ],
+      "alsoBatches": [
+        "elliott-flackes-1999-2026-11-06"
       ]
     },
     {
@@ -156887,9 +157091,34 @@
           "set": {
             "Candidate_Id": "T801010737-antrim"
           }
+        },
+        {
+          "op": "candidateById",
+          "candidateId": "T2426291746",
+          "set": {
+            "Candidate_Id": "T2426291746-antrim"
+          }
         }
       ],
-      "internalNote": "James Brown: candidate id T2509660397 was shared with candidates of the same name in other councils (kept by Carrickfergus); given T2509660397-antrim. Peter Kelly: candidate id T3502243737 was shared with candidates of the same name in other councils (kept by Omagh); given T3502243737-antrim. James Millar: candidate id T801010737 was shared with candidates of the same name in other councils (kept by Ballymena); given T801010737-antrim."
+      "internalNote": "James Brown: candidate id T2509660397 was shared with candidates of the same name in other councils (kept by Carrickfergus); given T2509660397-antrim. Peter Kelly: candidate id T3502243737 was shared with candidates of the same name in other councils (kept by Omagh); given T3502243737-antrim. James Millar: candidate id T801010737 was shared with candidates of the same name in other councils (kept by Ballymena); given T801010737-antrim.",
+      "alsoBatches": [
+        "elliott-flackes-1999-2026-11-06"
+      ],
+      "reason": "Jack Allen, UUP councillor in Antrim 1973-93, is not the Londonderry Jack Allen (John Alexander Allen) of the 1982 and 1998 Assembly elections: in 1973 and 1977 both were elected on the same day to different councils. Given the id T2426291746-antrim so the registry stops joining them. Nothing in the results changes.",
+      "additionalSources": [
+        {
+          "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, Jack Allen, p. 156",
+          "publisher": "Blackstaff Press",
+          "url": null,
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "Jack Allen (Northern Ireland politician)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Jack_Allen_(Northern_Ireland_politician)",
+          "accessed": "2026-11-06"
+        }
+      ]
     },
     {
       "batch": "candidate-id-splits-2026-10-28",
@@ -157378,9 +157607,34 @@
           "set": {
             "Candidate_Id": "T2509660397-antrim"
           }
+        },
+        {
+          "op": "candidateById",
+          "candidateId": "T2426291746",
+          "set": {
+            "Candidate_Id": "T2426291746-antrim"
+          }
         }
       ],
-      "internalNote": "James Brown: candidate id T2509660397 was shared with candidates of the same name in other councils (kept by Carrickfergus); given T2509660397-antrim."
+      "internalNote": "James Brown: candidate id T2509660397 was shared with candidates of the same name in other councils (kept by Carrickfergus); given T2509660397-antrim.",
+      "alsoBatches": [
+        "elliott-flackes-1999-2026-11-06"
+      ],
+      "reason": "Jack Allen, UUP councillor in Antrim 1973-93, is not the Londonderry Jack Allen (John Alexander Allen) of the 1982 and 1998 Assembly elections: in 1973 and 1977 both were elected on the same day to different councils. Given the id T2426291746-antrim so the registry stops joining them. Nothing in the results changes.",
+      "additionalSources": [
+        {
+          "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, Jack Allen, p. 156",
+          "publisher": "Blackstaff Press",
+          "url": null,
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "Jack Allen (Northern Ireland politician)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Jack_Allen_(Northern_Ireland_politician)",
+          "accessed": "2026-11-06"
+        }
+      ]
     },
     {
       "batch": "candidate-id-splits-2026-10-28",
@@ -161745,6 +161999,13 @@
           "set": {
             "Transfers": "5.00"
           }
+        },
+        {
+          "op": "candidateById",
+          "candidateId": "3383088600",
+          "set": {
+            "Candidate_Id": "fix-john-carson-ballymena"
+          }
         }
       ],
       "internalNote": "William Logan: candidate id 1360750631 was shared with candidates of the same name in other councils (kept by Ballymoney); given 1360750631-mid-and-east-antrim. James Henry: candidate id 2706792624 was shared with candidates of the same name in other councils (kept by Ballymena); given 2706792624-mid-and-east-antrim.",
@@ -161760,9 +162021,24 @@
           "publisher": "Mid and East Antrim Borough Council (Internet Archive copy)",
           "url": "https://web.archive.org/web/20190514175948/https://www.midandeastantrim.gov.uk/council/elections/local-government-elections-2019/dea-results/ballymena",
           "accessed": "2026-10-28"
+        },
+        {
+          "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, John Carson, p. 201",
+          "publisher": "Blackstaff Press",
+          "url": null,
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "John Carson (Northern Ireland politician)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/John_Carson_(Northern_Ireland_politician)",
+          "accessed": "2026-11-06"
         }
       ],
-      "reason": "Audrey Wales polled 491 first preferences, not 471: with 491 the first preferences add up to the valid poll of 6,956, which gives the quota of 870 for 7 seats, and her second-stage total of 496 is unchanged."
+      "reason": "Audrey Wales polled 491 first preferences, not 471: with 491 the first preferences add up to the valid poll of 6,956, which gives the quota of 870 for 7 seats, and her second-stage total of 496 is unchanged. John Carson, DUP councillor in Ballymena (1989-2019 here), is not the Belfast Ulster Unionist John Carson (born 1933, MP for Belfast North 1974, Belfast councillor 1973-97): in 1989, 1993 and 1997 both were elected on the same day, in Ballymena and in Belfast's Castle area. Given the id fix-john-carson-ballymena so the registry stops joining them. Nothing in the results changes.",
+      "alsoBatches": [
+        "elliott-flackes-1999-2026-11-06"
+      ]
     },
     {
       "batch": "candidate-id-splits-2026-10-28",
@@ -186148,13 +186424,44 @@
         "url": "https://www.ark.ac.uk/elections/73-81lgnorthdown.htm",
         "accessed": "2026-10-29"
       },
-      "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg77-NoD-Area-D\"); it is North Down Area D, as ARK Northern Ireland Elections names it.",
+      "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg77-NoD-Area-D\"); it is North Down Area D, as ARK Northern Ireland Elections names it. Frederick White was United Ulster Unionist Party candidate, not UUP: ARK labels the candidate UUUP. Elliott and Flackes's 1977 table (p. 545) gives the UUUP 12 seats (1 in North Down), which Civgraph had counted as UUP; with these labels every council's UUP and UUUP seats agree with the book.",
       "category": "names",
       "operations": [
         {
           "op": "set",
           "path": "Constituency.countInfo.Constituency_Name",
           "value": "North Down Area D"
+        },
+        {
+          "op": "candidate",
+          "name": "Frederick White",
+          "set": {
+            "Party_Name": "UUUP",
+            "Party_As_Printed": "UUUP"
+          }
+        }
+      ],
+      "alsoBatches": [
+        "elliott-flackes-1999-2026-11-06"
+      ],
+      "additionalSources": [
+        {
+          "title": "Local Government Elections 1973 - 1981: North Down",
+          "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+          "url": "https://www.ark.ac.uk/elections/73-81lgnorthdown.htm",
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Election Results 1968-99, p. 545",
+          "publisher": "Blackstaff Press",
+          "url": null,
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "The 1977 Local Government Elections in Northern Ireland (summary: UUUP 12 councillors; Armagh 1, Cookstown 3, Craigavon 1, Fermanagh 3, Lisburn 2, Magherafelt 1, North Down 1)",
+          "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+          "url": "https://www.ark.ac.uk/elections/flg77.htm",
+          "accessed": "2026-11-06"
         }
       ]
     },
@@ -227900,11 +228207,35 @@
             "Status": "Elected",
             "Occurred_On_Count": "23"
           }
+        },
+        {
+          "op": "candidate",
+          "name": "Frank Millar",
+          "set": {
+            "Candidate_Id": "89297-jr"
+          }
         }
       ],
-      "reason": "Billy Bell, Seamus Close and Gordon Mawhinney were also elected for South Antrim at the 1982 Assembly election, as the Chief Electoral Officer's result sheet gives; the contest had marked only 7 of its 10 members elected.",
+      "reason": "Billy Bell, Seamus Close and Gordon Mawhinney were also elected for South Antrim at the 1982 Assembly election, as the Chief Electoral Officer's result sheet gives; the contest had marked only 7 of its 10 members elected. This Frank Millar is Frank Millar junior (born 1954), UUP candidate for South Antrim at the 1982 Assembly election and for Belfast West in 1987, not his father, who was elected for North Belfast as an Independent Unionist on the same day in 1982. Given the id 89297-jr, which the registry joins to his 1984 Belfast South Assembly by-election (Wikipedia: Frank Millar Jr). Nothing in the results changes.",
       "category": "figures",
-      "internalNote": "Verification: official (Chief Electoral Officer result booklet, Internet Archive copy of eoni.org.uk, read from the page image; local copy D:/civgraph-intake/eoni-wayback-2026-10-26/). Header figures and first preferences agree with the sheet unless stated; the change is the members the sheet lists as elected (1973: \"Names of Candidates Elected\"; 1975/1982: the \"E\" column). Found by the booklet sweep of 2026-10-30."
+      "internalNote": "Verification: official (Chief Electoral Officer result booklet, Internet Archive copy of eoni.org.uk, read from the page image; local copy D:/civgraph-intake/eoni-wayback-2026-10-26/). Header figures and first preferences agree with the sheet unless stated; the change is the members the sheet lists as elected (1973: \"Names of Candidates Elected\"; 1975/1982: the \"E\" column). Found by the booklet sweep of 2026-10-30.",
+      "alsoBatches": [
+        "elliott-flackes-1999-2026-11-06"
+      ],
+      "additionalSources": [
+        {
+          "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, Frank Millar (junior), p. 352",
+          "publisher": "Blackstaff Press",
+          "url": null,
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "Frank Millar Jr",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Frank_Millar_Jr",
+          "accessed": "2026-11-06"
+        }
+      ]
     },
     {
       "batch": "ni-booklets-sweep-2026-10-30",
@@ -228133,11 +228464,35 @@
             "Status": "Elected",
             "Occurred_On_Count": "12"
           }
+        },
+        {
+          "op": "candidate",
+          "name": "John Dunlop",
+          "set": {
+            "Party_Name": "UUUP"
+          }
         }
       ],
-      "reason": "Mary McSorley and Danny Morrison were also elected for Mid-Ulster at the 1982 Assembly election, as the Chief Electoral Officer's result sheet gives; the contest had marked only 4 of its 6 members elected.",
+      "reason": "Mary McSorley and Danny Morrison were also elected for Mid-Ulster at the 1982 Assembly election, as the Chief Electoral Officer's result sheet gives; the contest had marked only 4 of its 6 members elected. John Dunlop stood for the United Ulster Unionist Party, not Vanguard: the book names him among the UUUP's twelve 1982 candidates (the other eleven are already UUUP here), and Wikipedia gives his party as the UUUP from 1975 to 1984.",
       "category": "figures",
-      "internalNote": "Verification: official (Chief Electoral Officer result booklet, Internet Archive copy of eoni.org.uk, read from the page image; local copy D:/civgraph-intake/eoni-wayback-2026-10-26/). Header figures and first preferences agree with the sheet unless stated; the change is the members the sheet lists as elected (1973: \"Names of Candidates Elected\"; 1975/1982: the \"E\" column). Found by the booklet sweep of 2026-10-30."
+      "internalNote": "Verification: official (Chief Electoral Officer result booklet, Internet Archive copy of eoni.org.uk, read from the page image; local copy D:/civgraph-intake/eoni-wayback-2026-10-26/). Header figures and first preferences agree with the sheet unless stated; the change is the members the sheet lists as elected (1973: \"Names of Candidates Elected\"; 1975/1982: the \"E\" column). Found by the booklet sweep of 2026-10-30.",
+      "alsoBatches": [
+        "elliott-flackes-1999-2026-11-06"
+      ],
+      "additionalSources": [
+        {
+          "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, United Ulster Unionist Party, p. 501",
+          "publisher": "Blackstaff Press",
+          "url": null,
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "John Dunlop (Northern Ireland politician)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/John_Dunlop_(Northern_Ireland_politician)",
+          "accessed": "2026-11-06"
+        }
+      ]
     },
     {
       "batch": "elliott-1921-labour-2026-10-31",
@@ -240198,7 +240553,7 @@
         "url": null,
         "accessed": "2026-11-02"
       },
-      "reason": "Walker prints RCWP, Republican Clubs (The Workers' Party), for both candidates; the Workers' Party name dates from April 1982.",
+      "reason": "Walker prints RCWP, Republican Clubs (The Workers' Party), for both candidates; the Workers' Party name dates from April 1982. James Kilfedder was not a UUP candidate: the UUP's candidates were John Taylor and Harry West. He stood on his own, described as 'Ulster Unionist' in the book's results table (p. 548) and as an independent unionist outside the party in its dictionary (pp. 306, 485); Wikipedia gives 'Ind. Unionist'.",
       "category": "party-labels",
       "operations": [
         {
@@ -240216,6 +240571,31 @@
             "Party_As_Printed": "RCWP",
             "Party_Name": "Republican Clubs (The Workers' Party)"
           }
+        },
+        {
+          "op": "candidate",
+          "name": "James Kilfedder",
+          "set": {
+            "Party_Name": "Independent Unionist",
+            "Party_As_Printed": "Ulster Unionist"
+          }
+        }
+      ],
+      "alsoBatches": [
+        "elliott-flackes-1999-2026-11-06"
+      ],
+      "additionalSources": [
+        {
+          "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Election Results 1968-99, p. 548",
+          "publisher": "Blackstaff Press",
+          "url": null,
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "1979 European Parliament election in the United Kingdom: Northern Ireland",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/1979_European_Parliament_election_in_the_United_Kingdom",
+          "accessed": "2026-11-06"
         }
       ]
     },
@@ -240250,7 +240630,7 @@
         "url": "https://www.ark.ac.uk/elections/flg81.htm",
         "accessed": "2026-11-02"
       },
-      "reason": "ARK labels every candidate of the party in the 1981 council elections WPRC (Workers Party-Republican Clubs), and says its affiliations agree with Elliott and Flackes; one of the 25 was imported as 'Workers Party' and the rest as 'Republican Clubs'. Shown under the one name. Optional: the ballot-paper wording has not been seen.",
+      "reason": "ARK labels every candidate of the party in the 1981 council elections WPRC (Workers Party-Republican Clubs), and says its affiliations agree with Elliott and Flackes; one of the 25 was imported as 'Workers Party' and the rest as 'Republican Clubs'. Shown under the one name. Optional: the ballot-paper wording has not been seen. The IRSP councillor Gerry Kelly elected for Belfast Area D in 1981 is not the Sinn Fein Gerry Kelly, who was then serving a prison sentence (from 1973 until the Maze escape of 1983). Given the id 4594-irsp1981 so the registry stops joining them. Nothing in the results changes.",
       "category": "party-labels",
       "operations": [
         {
@@ -240268,6 +240648,30 @@
             "Party_As_Printed": "WPRC",
             "Party_Name": "Workers Party Republican Clubs"
           }
+        },
+        {
+          "op": "candidate",
+          "name": "Gerry Kelly",
+          "set": {
+            "Candidate_Id": "4594-irsp1981"
+          }
+        }
+      ],
+      "alsoBatches": [
+        "elliott-flackes-1999-2026-11-06"
+      ],
+      "additionalSources": [
+        {
+          "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, Gerry Kelly, p. 303",
+          "publisher": "Blackstaff Press",
+          "url": null,
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "Gerry Kelly",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Gerry_Kelly",
+          "accessed": "2026-11-06"
         }
       ]
     },
@@ -242341,7 +242745,7 @@
         "url": null,
         "accessed": "2026-11-02"
       },
-      "reason": "Walker prints the affiliation in full as 'Anti-H-Block/Armagh Political Prisoner'. The label stays Anti H-Block; the full description is kept as printed.",
+      "reason": "Walker prints the affiliation in full as 'Anti-H-Block/Armagh Political Prisoner'. The label stays Anti H-Block; the full description is kept as printed. Bobby Sands polled 30,492, not 30,493: the book prints 30,492 with a majority of 1,446 over Harry West's 29,046, and Wikipedia's infobox gives 30,492 and a valid poll of 59,538, which is 30,492 plus 29,046 (its results table's 30,493 does not add up). Valid and total poll lowered by one; the book's 3,280 spoilt ballots are as Civgraph has.",
       "category": "party-labels",
       "operations": [
         {
@@ -242350,6 +242754,41 @@
           "set": {
             "Party_As_Printed": "Anti-H-Block/Armagh Political Prisoner"
           }
+        },
+        {
+          "op": "candidate",
+          "name": "Bobby Sands",
+          "set": {
+            "Candidate_First_Pref_Votes": "30492",
+            "Total_Votes": "30492"
+          }
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Valid_Poll",
+          "value": "59538"
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Poll",
+          "value": "62818"
+        }
+      ],
+      "alsoBatches": [
+        "elliott-flackes-1999-2026-11-06"
+      ],
+      "additionalSources": [
+        {
+          "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Election Results 1968-99, p. 552",
+          "publisher": "Blackstaff Press",
+          "url": null,
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "April 1981 Fermanagh and South Tyrone by-election",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/April_1981_Fermanagh_and_South_Tyrone_by-election",
+          "accessed": "2026-11-06"
         }
       ]
     },
@@ -244215,7 +244654,7 @@
         "url": "https://www.thegazette.co.uk/Belfast/issue/2635/page/259",
         "accessed": "2026-11-02"
       },
-      "reason": "The Gazette returns Robert Chichester-Clark for Londonderry, whom Civgraph had not marked elected; the 1970 Northern Ireland results carried no winners.",
+      "reason": "The Gazette returns Robert Chichester-Clark for Londonderry, whom Civgraph had not marked elected; the 1970 Northern Ireland results carried no winners. Robin Chichester-Clark polled 39,141, not 37,739: 37,739 is Bernadette Devlin's Mid Ulster total of the same day, copied into the wrong row. The book's majority of 12,135 is 39,141 less McAteer's 27,006, and Wikipedia gives the same figures and a valid poll of 73,712 (81.6%). Valid and total poll raised by the same 1,402 votes (spoilt ballots unchanged at 270).",
       "category": "winners",
       "operations": [
         {
@@ -244224,6 +244663,41 @@
           "set": {
             "Status": "Elected"
           }
+        },
+        {
+          "op": "candidate",
+          "name": "Robin Chichester-Clark",
+          "set": {
+            "Candidate_First_Pref_Votes": "39141",
+            "Total_Votes": "39141"
+          }
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Valid_Poll",
+          "value": "73712"
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Poll",
+          "value": "73982"
+        }
+      ],
+      "alsoBatches": [
+        "elliott-flackes-1999-2026-11-06"
+      ],
+      "additionalSources": [
+        {
+          "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Election Results 1968-99, p. 531",
+          "publisher": "Blackstaff Press",
+          "url": null,
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "Londonderry (UK Parliament constituency): 1970 general election",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Londonderry_(UK_Parliament_constituency)",
+          "accessed": "2026-11-06"
         }
       ]
     },
@@ -244329,6 +244803,1739 @@
           "set": {
             "Status": "Elected"
           }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1974-02-28/belfast-east.json",
+      "source": {
+        "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Election Results 1968-99, p. 537",
+        "publisher": "Blackstaff Press",
+        "url": null,
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "February 1974 United Kingdom general election in Northern Ireland (Pro-Assembly Unionist: 94,301 votes, 13.0%)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/February_1974_United_Kingdom_general_election_in_Northern_Ireland",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "Stanley McMaster stood as one of Brian Faulkner's pro-Assembly Unionists (printed 'U. Pro-A.'), not for the UUP, which fought this election inside the United Ulster Unionist Council. The book's seven 'U. Pro-A.' candidates poll 94,301 between them, the figure the book's overall table (p. 536) and Wikipedia give for the Pro-Assembly Unionists.",
+      "category": "party-labels",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "Stanley McMaster",
+          "set": {
+            "Party_Name": "Pro-Assembly Unionist",
+            "Party_As_Printed": "U. Pro-A."
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1974-02-28/belfast-north.json",
+      "source": {
+        "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Election Results 1968-99, p. 537",
+        "publisher": "Blackstaff Press",
+        "url": null,
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "February 1974 United Kingdom general election in Northern Ireland (Pro-Assembly Unionist: 94,301 votes, 13.0%)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/February_1974_United_Kingdom_general_election_in_Northern_Ireland",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "David Smyth stood as one of Brian Faulkner's pro-Assembly Unionists (printed 'U. Pro-A.'), not for the UUP, which fought this election inside the United Ulster Unionist Council. The book's seven 'U. Pro-A.' candidates poll 94,301 between them, the figure the book's overall table (p. 536) and Wikipedia give for the Pro-Assembly Unionists.",
+      "category": "party-labels",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "David Smyth",
+          "set": {
+            "Party_Name": "Pro-Assembly Unionist",
+            "Party_As_Printed": "U. Pro-A."
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1974-02-28/belfast-south.json",
+      "source": {
+        "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Election Results 1968-99, p. 537",
+        "publisher": "Blackstaff Press",
+        "url": null,
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "February 1974 United Kingdom general election in Northern Ireland (Pro-Assembly Unionist: 94,301 votes, 13.0%)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/February_1974_United_Kingdom_general_election_in_Northern_Ireland",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "Rafton Pounder stood as one of Brian Faulkner's pro-Assembly Unionists (printed 'U. Pro-A.'), not for the UUP, which fought this election inside the United Ulster Unionist Council. The book's seven 'U. Pro-A.' candidates poll 94,301 between them, the figure the book's overall table (p. 536) and Wikipedia give for the Pro-Assembly Unionists.",
+      "category": "party-labels",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "Rafton Pounder",
+          "set": {
+            "Party_Name": "Pro-Assembly Unionist",
+            "Party_As_Printed": "U. Pro-A."
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1974-02-28/fermanagh-and-south-tyrone.json",
+      "source": {
+        "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Election Results 1968-99, p. 538",
+        "publisher": "Blackstaff Press",
+        "url": null,
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "February 1974 United Kingdom general election in Northern Ireland (Pro-Assembly Unionist: 94,301 votes, 13.0%)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/February_1974_United_Kingdom_general_election_in_Northern_Ireland",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "Hubert Brown stood as one of Brian Faulkner's pro-Assembly Unionists (printed 'U. Pro-A.'), not for the UUP, which fought this election inside the United Ulster Unionist Council. The book's seven 'U. Pro-A.' candidates poll 94,301 between them, the figure the book's overall table (p. 536) and Wikipedia give for the Pro-Assembly Unionists.",
+      "category": "party-labels",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "Hubert Brown",
+          "set": {
+            "Party_Name": "Pro-Assembly Unionist",
+            "Party_As_Printed": "U. Pro-A."
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1974-02-28/mid-ulster.json",
+      "source": {
+        "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Election Results 1968-99, p. 538",
+        "publisher": "Blackstaff Press",
+        "url": null,
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "February 1974 United Kingdom general election in Northern Ireland (Pro-Assembly Unionist: 94,301 votes, 13.0%)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/February_1974_United_Kingdom_general_election_in_Northern_Ireland",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "Neville Thornton stood as one of Brian Faulkner's pro-Assembly Unionists (printed 'U. Pro-A.'), not for the UUP, which fought this election inside the United Ulster Unionist Council. The book's seven 'U. Pro-A.' candidates poll 94,301 between them, the figure the book's overall table (p. 536) and Wikipedia give for the Pro-Assembly Unionists.",
+      "category": "party-labels",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "Neville Thornton",
+          "set": {
+            "Party_Name": "Pro-Assembly Unionist",
+            "Party_As_Printed": "U. Pro-A."
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1974-02-28/north-antrim.json",
+      "source": {
+        "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Election Results 1968-99, p. 538",
+        "publisher": "Blackstaff Press",
+        "url": null,
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "February 1974 United Kingdom general election in Northern Ireland (Pro-Assembly Unionist: 94,301 votes, 13.0%)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/February_1974_United_Kingdom_general_election_in_Northern_Ireland",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "Peter Utley stood as one of Brian Faulkner's pro-Assembly Unionists (printed 'U. Pro-A.'), not for the UUP, which fought this election inside the United Ulster Unionist Council. The book's seven 'U. Pro-A.' candidates poll 94,301 between them, the figure the book's overall table (p. 536) and Wikipedia give for the Pro-Assembly Unionists.",
+      "category": "party-labels",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "Peter Utley",
+          "set": {
+            "Party_Name": "Pro-Assembly Unionist",
+            "Party_As_Printed": "U. Pro-A."
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1974-02-28/north-down.json",
+      "source": {
+        "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Election Results 1968-99, p. 538",
+        "publisher": "Blackstaff Press",
+        "url": null,
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "February 1974 United Kingdom general election in Northern Ireland (Pro-Assembly Unionist: 94,301 votes, 13.0%)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/February_1974_United_Kingdom_general_election_in_Northern_Ireland",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "Roy Bradford stood as one of Brian Faulkner's pro-Assembly Unionists (printed 'U. Pro-A.'), not for the UUP, which fought this election inside the United Ulster Unionist Council. The book's seven 'U. Pro-A.' candidates poll 94,301 between them, the figure the book's overall table (p. 536) and Wikipedia give for the Pro-Assembly Unionists.",
+      "category": "party-labels",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "Roy Bradford",
+          "set": {
+            "Party_Name": "Pro-Assembly Unionist",
+            "Party_As_Printed": "U. Pro-A."
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1979-05-03/north-down.json",
+      "source": {
+        "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Election Results 1968-99, p. 547",
+        "publisher": "Blackstaff Press",
+        "url": null,
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "North Down (UK Parliament constituency): 1979 general election",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/North_Down_(UK_Parliament_constituency)",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "James Kilfedder stood as an Independent Unionist (printed 'Ind. U.') after breaking with the UUP, which ran Clifford Smyth against him (book pp. 306, 485 and 547; Wikipedia gives Kilfedder 'Ind. Unionist'). The contest had shown two UUP candidates.",
+      "category": "party-labels",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "James Kilfedder",
+          "set": {
+            "Party_Name": "Independent Unionist",
+            "Party_As_Printed": "Ind. U."
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-assembly/1998-06-25/belfast-north.json",
+      "source": {
+        "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, Fraser Agnew, p. 152",
+        "publisher": "Blackstaff Press",
+        "url": null,
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "Belfast North (Assembly constituency): 1998 election",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Belfast_North_(Assembly_constituency)",
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "Fraser Agnew",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Fraser_Agnew",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "Fraser Agnew was not the UUP candidate: he was elected as an independent anti-Agreement unionist and later formed the United Unionist Assembly Party with Boyd Douglas and Denis Watson, who are already Independent Unionists here (book pp. 152, 501 and the chronology, p. 131; Wikipedia's Belfast North and Fraser Agnew articles give 'Ind. Unionist').",
+      "category": "party-labels",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "Fraser Agnew",
+          "set": {
+            "Party_Name": "Independent Unionist"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/local-government/1977-05-18/armagh-area-a.json",
+      "source": {
+        "title": "Local Government Elections 1973 - 1981: Armagh",
+        "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+        "url": "https://www.ark.ac.uk/elections/73-81lgarmagh.htm",
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Election Results 1968-99, p. 545",
+          "publisher": "Blackstaff Press",
+          "url": null,
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "The 1977 Local Government Elections in Northern Ireland (summary: UUUP 12 councillors; Armagh 1, Cookstown 3, Craigavon 1, Fermanagh 3, Lisburn 2, Magherafelt 1, North Down 1)",
+          "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+          "url": "https://www.ark.ac.uk/elections/flg77.htm",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "Noel Lyttle was United Ulster Unionist Party candidate, not UUP: ARK labels the candidate UUUP. Elliott and Flackes's 1977 table (p. 545) gives the UUUP 12 seats (1 in Armagh), which Civgraph had counted as UUP; with these labels every council's UUP and UUUP seats agree with the book.",
+      "category": "party-labels",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "Noel Lyttle",
+          "set": {
+            "Party_Name": "UUUP",
+            "Party_As_Printed": "UUUP/UUUC"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/local-government/1977-05-18/armagh-area-b.json",
+      "source": {
+        "title": "Local Government Elections 1973 - 1981: Armagh",
+        "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+        "url": "https://www.ark.ac.uk/elections/73-81lgarmagh.htm",
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Election Results 1968-99, p. 545",
+          "publisher": "Blackstaff Press",
+          "url": null,
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "The 1977 Local Government Elections in Northern Ireland (summary: UUUP 12 councillors; Armagh 1, Cookstown 3, Craigavon 1, Fermanagh 3, Lisburn 2, Magherafelt 1, North Down 1)",
+          "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+          "url": "https://www.ark.ac.uk/elections/flg77.htm",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "Francis Little and David Robb were United Ulster Unionist Party candidates, not UUP: ARK labels them UUUP. Elliott and Flackes's 1977 table (p. 545) gives the UUUP 12 seats (1 in Armagh), which Civgraph had counted as UUP; with these labels every council's UUP and UUUP seats agree with the book.",
+      "category": "party-labels",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "Francis Little",
+          "set": {
+            "Party_Name": "UUUP",
+            "Party_As_Printed": "UUUP/UUUC"
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "David Robb",
+          "set": {
+            "Party_Name": "UUUP",
+            "Party_As_Printed": "UUUP/UUUC"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/local-government/1977-05-18/craigavon-area-b.json",
+      "source": {
+        "title": "Local Government Elections 1973 - 1981: Craigavon",
+        "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+        "url": "https://www.ark.ac.uk/elections/73-81lgcraigavon.htm",
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Election Results 1968-99, p. 545",
+          "publisher": "Blackstaff Press",
+          "url": null,
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "The 1977 Local Government Elections in Northern Ireland (summary: UUUP 12 councillors; Armagh 1, Cookstown 3, Craigavon 1, Fermanagh 3, Lisburn 2, Magherafelt 1, North Down 1)",
+          "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+          "url": "https://www.ark.ac.uk/elections/flg77.htm",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "John Lyttle and James McBratney were United Ulster Unionist Party candidates, not UUP: ARK labels them UUUP. Elliott and Flackes's 1977 table (p. 545) gives the UUUP 12 seats (1 in Craigavon), which Civgraph had counted as UUP; with these labels every council's UUP and UUUP seats agree with the book.",
+      "category": "party-labels",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "John Lyttle",
+          "set": {
+            "Party_Name": "UUUP",
+            "Party_As_Printed": "UUUP"
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "James McBratney",
+          "set": {
+            "Party_Name": "UUUP",
+            "Party_As_Printed": "UUUP"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/local-government/1977-05-18/craigavon-area-c.json",
+      "source": {
+        "title": "Local Government Elections 1973 - 1981: Craigavon",
+        "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+        "url": "https://www.ark.ac.uk/elections/73-81lgcraigavon.htm",
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Election Results 1968-99, p. 545",
+          "publisher": "Blackstaff Press",
+          "url": null,
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "The 1977 Local Government Elections in Northern Ireland (summary: UUUP 12 councillors; Armagh 1, Cookstown 3, Craigavon 1, Fermanagh 3, Lisburn 2, Magherafelt 1, North Down 1)",
+          "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+          "url": "https://www.ark.ac.uk/elections/flg77.htm",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "William Cooper and Robert Anderson were United Ulster Unionist Party candidates, not UUP: ARK labels them UUUP. Elliott and Flackes's 1977 table (p. 545) gives the UUUP 12 seats (1 in Craigavon), which Civgraph had counted as UUP; with these labels every council's UUP and UUUP seats agree with the book.",
+      "category": "party-labels",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "William Cooper",
+          "set": {
+            "Party_Name": "UUUP",
+            "Party_As_Printed": "UUUP/UUUC"
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "Robert Anderson",
+          "set": {
+            "Party_Name": "UUUP",
+            "Party_As_Printed": "UUUP/UUUC"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/local-government/1977-05-18/craigavon-area-d.json",
+      "source": {
+        "title": "Local Government Elections 1973 - 1981: Craigavon",
+        "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+        "url": "https://www.ark.ac.uk/elections/73-81lgcraigavon.htm",
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Election Results 1968-99, p. 545",
+          "publisher": "Blackstaff Press",
+          "url": null,
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "The 1977 Local Government Elections in Northern Ireland (summary: UUUP 12 councillors; Armagh 1, Cookstown 3, Craigavon 1, Fermanagh 3, Lisburn 2, Magherafelt 1, North Down 1)",
+          "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+          "url": "https://www.ark.ac.uk/elections/flg77.htm",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "Philip Black and John Dummigan were United Ulster Unionist Party candidates, not UUP: ARK labels them UUUP. Elliott and Flackes's 1977 table (p. 545) gives the UUUP 12 seats (1 in Craigavon), which Civgraph had counted as UUP; with these labels every council's UUP and UUUP seats agree with the book.",
+      "category": "party-labels",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "Philip Black",
+          "set": {
+            "Party_Name": "UUUP",
+            "Party_As_Printed": "UUUP/UUUC"
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "John Dummigan",
+          "set": {
+            "Party_Name": "UUUP",
+            "Party_As_Printed": "UUUP/UUUC"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/local-government/1977-05-18/fermanagh-area-b.json",
+      "source": {
+        "title": "Local Government Elections 1973 - 1981: Fermanagh",
+        "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+        "url": "https://www.ark.ac.uk/elections/73-81lgfermanagh.htm",
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Election Results 1968-99, p. 545",
+          "publisher": "Blackstaff Press",
+          "url": null,
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "The 1977 Local Government Elections in Northern Ireland (summary: UUUP 12 councillors; Armagh 1, Cookstown 3, Craigavon 1, Fermanagh 3, Lisburn 2, Magherafelt 1, North Down 1)",
+          "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+          "url": "https://www.ark.ac.uk/elections/flg77.htm",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "Hugh Buchanan was United Ulster Unionist Party candidate, not UUP: ARK labels the candidate UUUP. Elliott and Flackes's 1977 table (p. 545) gives the UUUP 12 seats (3 in Fermanagh), which Civgraph had counted as UUP; with these labels every council's UUP and UUUP seats agree with the book.",
+      "category": "party-labels",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "Hugh Buchanan",
+          "set": {
+            "Party_Name": "UUUP",
+            "Party_As_Printed": "UUUP"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/local-government/1977-05-18/fermanagh-area-c.json",
+      "source": {
+        "title": "Local Government Elections 1973 - 1981: Fermanagh",
+        "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+        "url": "https://www.ark.ac.uk/elections/73-81lgfermanagh.htm",
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Election Results 1968-99, p. 545",
+          "publisher": "Blackstaff Press",
+          "url": null,
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "The 1977 Local Government Elections in Northern Ireland (summary: UUUP 12 councillors; Armagh 1, Cookstown 3, Craigavon 1, Fermanagh 3, Lisburn 2, Magherafelt 1, North Down 1)",
+          "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+          "url": "https://www.ark.ac.uk/elections/flg77.htm",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "Cyril Brownlee was United Ulster Unionist Party candidate, not UUP: ARK labels the candidate UUUP. Elliott and Flackes's 1977 table (p. 545) gives the UUUP 12 seats (3 in Fermanagh), which Civgraph had counted as UUP; with these labels every council's UUP and UUUP seats agree with the book.",
+      "category": "party-labels",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "Cyril Brownlee",
+          "set": {
+            "Party_Name": "UUUP",
+            "Party_As_Printed": "UUUP/UUUC"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/local-government/1977-05-18/fermanagh-area-e.json",
+      "source": {
+        "title": "Local Government Elections 1973 - 1981: Fermanagh",
+        "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+        "url": "https://www.ark.ac.uk/elections/73-81lgfermanagh.htm",
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Election Results 1968-99, p. 545",
+          "publisher": "Blackstaff Press",
+          "url": null,
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "The 1977 Local Government Elections in Northern Ireland (summary: UUUP 12 councillors; Armagh 1, Cookstown 3, Craigavon 1, Fermanagh 3, Lisburn 2, Magherafelt 1, North Down 1)",
+          "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+          "url": "https://www.ark.ac.uk/elections/flg77.htm",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "Thomas Scott was United Ulster Unionist Party candidate, not UUP: ARK labels the candidate UUUP. Elliott and Flackes's 1977 table (p. 545) gives the UUUP 12 seats (3 in Fermanagh), which Civgraph had counted as UUP; with these labels every council's UUP and UUUP seats agree with the book.",
+      "category": "party-labels",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "Thomas Scott",
+          "set": {
+            "Party_Name": "UUUP",
+            "Party_As_Printed": "UUUP/UUUC"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/local-government/1977-05-18/lisburn-area-a.json",
+      "source": {
+        "title": "Local Government Elections 1973 - 1981: Lisburn",
+        "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+        "url": "https://www.ark.ac.uk/elections/73-81lglisburn.htm",
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Election Results 1968-99, p. 545",
+          "publisher": "Blackstaff Press",
+          "url": null,
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "The 1977 Local Government Elections in Northern Ireland (summary: UUUP 12 councillors; Armagh 1, Cookstown 3, Craigavon 1, Fermanagh 3, Lisburn 2, Magherafelt 1, North Down 1)",
+          "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+          "url": "https://www.ark.ac.uk/elections/flg77.htm",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "Henry Sloan was United Ulster Unionist Party candidate, not UUP: ARK labels the candidate UUUP. Elliott and Flackes's 1977 table (p. 545) gives the UUUP 12 seats (2 in Lisburn), which Civgraph had counted as UUP; with these labels every council's UUP and UUUP seats agree with the book.",
+      "category": "party-labels",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "Henry Sloan",
+          "set": {
+            "Party_Name": "UUUP",
+            "Party_As_Printed": "UUUP/UUUC"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/local-government/1977-05-18/lisburn-area-b.json",
+      "source": {
+        "title": "Local Government Elections 1973 - 1981: Lisburn",
+        "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+        "url": "https://www.ark.ac.uk/elections/73-81lglisburn.htm",
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Election Results 1968-99, p. 545",
+          "publisher": "Blackstaff Press",
+          "url": null,
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "The 1977 Local Government Elections in Northern Ireland (summary: UUUP 12 councillors; Armagh 1, Cookstown 3, Craigavon 1, Fermanagh 3, Lisburn 2, Magherafelt 1, North Down 1)",
+          "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+          "url": "https://www.ark.ac.uk/elections/flg77.htm",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "William Bleakes and John Curry were United Ulster Unionist Party candidates, not UUP: ARK labels them UUUP. Elliott and Flackes's 1977 table (p. 545) gives the UUUP 12 seats (2 in Lisburn), which Civgraph had counted as UUP; with these labels every council's UUP and UUUP seats agree with the book.",
+      "category": "party-labels",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "William Bleakes",
+          "set": {
+            "Party_Name": "UUUP",
+            "Party_As_Printed": "UUUP/UUUC"
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "John Curry",
+          "set": {
+            "Party_Name": "UUUP",
+            "Party_As_Printed": "UUUP/UUUC"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/local-government/1977-05-18/lisburn-area-c.json",
+      "source": {
+        "title": "Local Government Elections 1973 - 1981: Lisburn",
+        "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+        "url": "https://www.ark.ac.uk/elections/73-81lglisburn.htm",
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Election Results 1968-99, p. 545",
+          "publisher": "Blackstaff Press",
+          "url": null,
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "The 1977 Local Government Elections in Northern Ireland (summary: UUUP 12 councillors; Armagh 1, Cookstown 3, Craigavon 1, Fermanagh 3, Lisburn 2, Magherafelt 1, North Down 1)",
+          "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+          "url": "https://www.ark.ac.uk/elections/flg77.htm",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "George Morrison was United Ulster Unionist Party candidate, not UUP: ARK labels the candidate UUUP. Elliott and Flackes's 1977 table (p. 545) gives the UUUP 12 seats (2 in Lisburn), which Civgraph had counted as UUP; with these labels every council's UUP and UUUP seats agree with the book.",
+      "category": "party-labels",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "George Morrison",
+          "set": {
+            "Party_Name": "UUUP",
+            "Party_As_Printed": "UUUP/UUUC"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/local-government/1977-05-18/lisburn-area-d.json",
+      "source": {
+        "title": "Local Government Elections 1973 - 1981: Lisburn",
+        "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+        "url": "https://www.ark.ac.uk/elections/73-81lglisburn.htm",
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Election Results 1968-99, p. 545",
+          "publisher": "Blackstaff Press",
+          "url": null,
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "The 1977 Local Government Elections in Northern Ireland (summary: UUUP 12 councillors; Armagh 1, Cookstown 3, Craigavon 1, Fermanagh 3, Lisburn 2, Magherafelt 1, North Down 1)",
+          "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+          "url": "https://www.ark.ac.uk/elections/flg77.htm",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "James Davis was United Ulster Unionist Party candidate, not UUP: ARK labels the candidate UUUP. Elliott and Flackes's 1977 table (p. 545) gives the UUUP 12 seats (2 in Lisburn), which Civgraph had counted as UUP; with these labels every council's UUP and UUUP seats agree with the book.",
+      "category": "party-labels",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "James Davis",
+          "set": {
+            "Party_Name": "UUUP",
+            "Party_As_Printed": "UUUP/UUUC"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/local-government/1977-05-18/lisburn-area-e.json",
+      "source": {
+        "title": "Local Government Elections 1973 - 1981: Lisburn",
+        "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+        "url": "https://www.ark.ac.uk/elections/73-81lglisburn.htm",
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Election Results 1968-99, p. 545",
+          "publisher": "Blackstaff Press",
+          "url": null,
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "The 1977 Local Government Elections in Northern Ireland (summary: UUUP 12 councillors; Armagh 1, Cookstown 3, Craigavon 1, Fermanagh 3, Lisburn 2, Magherafelt 1, North Down 1)",
+          "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+          "url": "https://www.ark.ac.uk/elections/flg77.htm",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "Jean Bell was United Ulster Unionist Party candidate, not UUP: ARK labels the candidate UUUP. Elliott and Flackes's 1977 table (p. 545) gives the UUUP 12 seats (2 in Lisburn), which Civgraph had counted as UUP; with these labels every council's UUP and UUUP seats agree with the book.",
+      "category": "party-labels",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "Jean Bell",
+          "set": {
+            "Party_Name": "UUUP",
+            "Party_As_Printed": "UUUP/UUUC"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/local-government/1977-05-18/magherafelt-area-c.json",
+      "source": {
+        "title": "Local Government Elections 1973 - 1981: Magherafelt",
+        "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+        "url": "https://www.ark.ac.uk/elections/73-81lgmagherafelt.htm",
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Election Results 1968-99, p. 545",
+          "publisher": "Blackstaff Press",
+          "url": null,
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "The 1977 Local Government Elections in Northern Ireland (summary: UUUP 12 councillors; Armagh 1, Cookstown 3, Craigavon 1, Fermanagh 3, Lisburn 2, Magherafelt 1, North Down 1)",
+          "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+          "url": "https://www.ark.ac.uk/elections/flg77.htm",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "Robert Ditty and Ruby Speer were United Ulster Unionist Party candidates, not UUP: ARK labels them UUUP. Elliott and Flackes's 1977 table (p. 545) gives the UUUP 12 seats (1 in Magherafelt), which Civgraph had counted as UUP; with these labels every council's UUP and UUUP seats agree with the book.",
+      "category": "party-labels",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "Robert Ditty",
+          "set": {
+            "Party_Name": "UUUP",
+            "Party_As_Printed": "UUUP/UUUC"
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "Ruby Speer",
+          "set": {
+            "Party_Name": "UUUP",
+            "Party_As_Printed": "UUUP/UUUC"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/local-government/1977-05-18/belfast-area-a-corrected.json",
+      "source": {
+        "title": "Local Government Elections 1973 - 1981: Belfast",
+        "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+        "url": "https://www.ark.ac.uk/elections/73-81lgbelfast.htm",
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Election Results 1968-99, p. 545",
+          "publisher": "Blackstaff Press",
+          "url": null,
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "The 1977 Local Government Elections in Northern Ireland (summary: UUUP 12 councillors; Armagh 1, Cookstown 3, Craigavon 1, Fermanagh 3, Lisburn 2, Magherafelt 1, North Down 1)",
+          "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+          "url": "https://www.ark.ac.uk/elections/flg77.htm",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "Benjamin Horan and Philip Moles were United Ulster Unionist Party candidates, not UUP: ARK labels them UUUP. Elliott and Flackes's 1977 table (p. 545) gives the UUUP 12 seats (none in Belfast, where ARK shows its six candidates all defeated), which Civgraph had counted as UUP; with these labels every council's UUP and UUUP seats agree with the book.",
+      "category": "party-labels",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "Benjamin Horan",
+          "set": {
+            "Party_Name": "UUUP",
+            "Party_As_Printed": "UUUP"
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "Philip Moles",
+          "set": {
+            "Party_Name": "UUUP",
+            "Party_As_Printed": "UUUP"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/local-government/1977-05-18/belfast-area-b.json",
+      "source": {
+        "title": "Local Government Elections 1973 - 1981: Belfast",
+        "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+        "url": "https://www.ark.ac.uk/elections/73-81lgbelfast.htm",
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Election Results 1968-99, p. 545",
+          "publisher": "Blackstaff Press",
+          "url": null,
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "The 1977 Local Government Elections in Northern Ireland (summary: UUUP 12 councillors; Armagh 1, Cookstown 3, Craigavon 1, Fermanagh 3, Lisburn 2, Magherafelt 1, North Down 1)",
+          "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+          "url": "https://www.ark.ac.uk/elections/flg77.htm",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "Reg Empey and Stanley Morgan were United Ulster Unionist Party candidates, not UUP: ARK labels them UUUP. Elliott and Flackes's 1977 table (p. 545) gives the UUUP 12 seats (none in Belfast, where ARK shows its six candidates all defeated), which Civgraph had counted as UUP; with these labels every council's UUP and UUUP seats agree with the book.",
+      "category": "party-labels",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "Reg Empey",
+          "set": {
+            "Party_Name": "UUUP",
+            "Party_As_Printed": "UUUP"
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "Stanley Morgan",
+          "set": {
+            "Party_Name": "UUUP",
+            "Party_As_Printed": "UUUP"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/local-government/1977-05-18/belfast-area-c.json",
+      "source": {
+        "title": "Local Government Elections 1973 - 1981: Belfast",
+        "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+        "url": "https://www.ark.ac.uk/elections/73-81lgbelfast.htm",
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Election Results 1968-99, p. 545",
+          "publisher": "Blackstaff Press",
+          "url": null,
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "The 1977 Local Government Elections in Northern Ireland (summary: UUUP 12 councillors; Armagh 1, Cookstown 3, Craigavon 1, Fermanagh 3, Lisburn 2, Magherafelt 1, North Down 1)",
+          "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+          "url": "https://www.ark.ac.uk/elections/flg77.htm",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "Reginald Johnston and James Robinson were United Ulster Unionist Party candidates, not UUP: ARK labels them UUUP. Elliott and Flackes's 1977 table (p. 545) gives the UUUP 12 seats (none in Belfast, where ARK shows its six candidates all defeated), which Civgraph had counted as UUP; with these labels every council's UUP and UUUP seats agree with the book.",
+      "category": "party-labels",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "Reginald Johnston",
+          "set": {
+            "Party_Name": "UUUP",
+            "Party_As_Printed": "UUUP"
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "James Robinson",
+          "set": {
+            "Party_Name": "UUUP",
+            "Party_As_Printed": "UUUP"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/local-government/1977-05-18/ballymena-area-b.json",
+      "source": {
+        "title": "Local Government Elections 1973 - 1981: Ballymena",
+        "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+        "url": "https://www.ark.ac.uk/elections/73-81lgballymena.htm",
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Election Results 1968-99, p. 545",
+          "publisher": "Blackstaff Press",
+          "url": null,
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "Returned unopposed. The four members printed 'D.U. U.U.U.C.' were DUP (UUUC) candidates, and Hugh Simpson and Thomas Smyth were UUP, not independents: ARK labels them DUP/UUUC and UUP, and Elliott and Flackes's 1977 table (p. 545) gives Ballymena 11 DUP and 4 UUP members, which these labels produce.",
+      "category": "party-labels",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "Roy Gillespie",
+          "set": {
+            "Party_Name": "DUP",
+            "Party_As_Printed": "D.U. U.U.U.C."
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "John Greer",
+          "set": {
+            "Party_Name": "DUP",
+            "Party_As_Printed": "D.U. U.U.U.C."
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "Hubert Nicholl",
+          "set": {
+            "Party_Name": "DUP",
+            "Party_As_Printed": "D.U. U.U.U.C."
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "Sandy Spence",
+          "set": {
+            "Party_Name": "DUP",
+            "Party_As_Printed": "D.U. U.U.U.C."
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "Hugh J Simpson",
+          "set": {
+            "Party_Name": "UUP"
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "Thomas J Smyth",
+          "set": {
+            "Party_Name": "UUP"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/local-government/1977-05-18/larne-area-a.json",
+      "source": {
+        "title": "Local Government Elections 1973 - 1981: Larne",
+        "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+        "url": "https://www.ark.ac.uk/elections/73-81lglarne.htm",
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Election Results 1968-99, p. 545",
+          "publisher": "Blackstaff Press",
+          "url": null,
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "Returned unopposed. Samuel Martin ('United Loy DUP') was the DUP (UUUC) candidate and Thomas Robinson ('Ul Un U.U.U.C.') the UUP (UUUC) one, as ARK labels them; with Martin, Larne has the three DUP members of Elliott and Flackes's 1977 table (p. 545).",
+      "category": "party-labels",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "Samuel J. Martin",
+          "set": {
+            "Party_Name": "DUP",
+            "Party_As_Printed": "United Loy DUP"
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "Thomas Robinson",
+          "set": {
+            "Party_Name": "UUP",
+            "Party_As_Printed": "Ul Un U.U.U.C."
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/local-government/1973-05-30/larne-area-b.json",
+      "source": {
+        "title": "Local Government Elections 1973 - 1981: Larne",
+        "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+        "url": "https://www.ark.ac.uk/elections/73-81lglarne.htm",
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Election Results 1968-99, p. 532",
+          "publisher": "Blackstaff Press",
+          "url": null,
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "1973 Larne Borough Council election",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/1973_Larne_Borough_Council_election",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "Roy Beggs, R. J. Semple, Nelson Stewart and Bob Morrow stood as Loyalists (the Loyalist Coalition), not for the UUP: ARK and Wikipedia label them Loyalist, and Elliott and Flackes's 1973 table (p. 532) gives Larne 8 Loyalist Coalition members and 1 Official Unionist, which these labels produce.",
+      "category": "party-labels",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "Beggs",
+          "set": {
+            "Party_Name": "Loyalist",
+            "Party_As_Printed": "Loyalist"
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "Semple",
+          "set": {
+            "Party_Name": "Loyalist",
+            "Party_As_Printed": "Loyalist"
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "Stewart",
+          "set": {
+            "Party_Name": "Loyalist",
+            "Party_As_Printed": "Loyalist"
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "Morrow",
+          "set": {
+            "Party_Name": "Loyalist",
+            "Party_As_Printed": "Loyalist"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/local-government/1989-05-17/ballymoney-town.json",
+      "source": {
+        "title": "Local Government Elections 1985 - 1989: Ballymoney (Ballymoney Town, 1989: returned unopposed)",
+        "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+        "url": "https://www.ark.ac.uk/elections/85-89lgballymoney.htm",
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Election Results 1968-99, p. 569",
+          "publisher": "Blackstaff Press",
+          "url": null,
+          "accessed": "2026-11-06"
+        },
+        {
+          "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, Cecil Cousley, p. 218",
+          "publisher": "Blackstaff Press",
+          "url": null,
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "Returned unopposed, five members for five seats; the file had four and their occupations in the party column. ARK gives J. J. McKeown and J. Simpson (UUP), C. J. Cousley and S. McConaghie (DUP) and R. McComb (Independent), with an electorate of 5,642. Cecil Cousley, missing here, is restored: Elliott and Flackes's 1989 table (p. 569) gives Ballymoney six DUP members, and its dictionary (p. 218) has him on the council continuously from 1981. The descriptions printed on the notice are kept as printed.",
+      "category": "missing-candidates",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Number_Of_Seats",
+          "value": "5"
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Electorate",
+          "value": "5642"
+        },
+        {
+          "op": "candidate",
+          "name": "James Johnston McKeown",
+          "set": {
+            "Party_Name": "UUP",
+            "Party_As_Printed": "Shopkeeper, Ulster Unionist"
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "James Simpson",
+          "set": {
+            "Party_Name": "UUP",
+            "Party_As_Printed": "Businssman Ulster Unionist"
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "Samuel McConaghie",
+          "set": {
+            "Party_Name": "DUP",
+            "Party_As_Printed": "DUP Civil Servant (Retired)"
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "Robert McComb",
+          "set": {
+            "Party_Name": "Independent",
+            "Party_As_Printed": "Pensioner"
+          }
+        },
+        {
+          "op": "addCandidate",
+          "row": {
+            "Constituency_Number": "",
+            "Candidate_Id": "fix-cecil-cousley-1989",
+            "Count_Number": "1",
+            "Firstname": "Cecil",
+            "Surname": "Cousley",
+            "Candidate_First_Pref_Votes": "0.00",
+            "Party": "DUP",
+            "Party_Name": "DUP",
+            "Party_As_Printed": "DUP",
+            "Elected": true,
+            "candidateName": "Cecil Cousley"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/local-government/1973-05-30/antrim-area-c-corrected.json",
+      "source": {
+        "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, Jack Allen, p. 156",
+        "publisher": "Blackstaff Press",
+        "url": null,
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "Jack Allen (Northern Ireland politician)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Jack_Allen_(Northern_Ireland_politician)",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "Jack Allen, UUP councillor in Antrim 1973-93, is not the Londonderry Jack Allen (John Alexander Allen) of the 1982 and 1998 Assembly elections: in 1973 and 1977 both were elected on the same day to different councils. Given the id T2426291746-antrim so the registry stops joining them. Nothing in the results changes.",
+      "category": "person-identity",
+      "operations": [
+        {
+          "op": "candidateById",
+          "candidateId": "T2426291746",
+          "set": {
+            "Candidate_Id": "T2426291746-antrim"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/local-government/1981-05-20/antrim-area-c.json",
+      "source": {
+        "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, Jack Allen, p. 156",
+        "publisher": "Blackstaff Press",
+        "url": null,
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "Jack Allen (Northern Ireland politician)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Jack_Allen_(Northern_Ireland_politician)",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "Jack Allen, UUP councillor in Antrim 1973-93, is not the Londonderry Jack Allen (John Alexander Allen) of the 1982 and 1998 Assembly elections: in 1973 and 1977 both were elected on the same day to different councils. Given the id T2426291746-antrim so the registry stops joining them. Nothing in the results changes.",
+      "category": "person-identity",
+      "operations": [
+        {
+          "op": "candidateById",
+          "candidateId": "T2426291746",
+          "set": {
+            "Candidate_Id": "T2426291746-antrim"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/local-government/1985-05-15/antrim-town.json",
+      "source": {
+        "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, Jack Allen, p. 156",
+        "publisher": "Blackstaff Press",
+        "url": null,
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "Jack Allen (Northern Ireland politician)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Jack_Allen_(Northern_Ireland_politician)",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "Jack Allen, UUP councillor in Antrim 1973-93, is not the Londonderry Jack Allen (John Alexander Allen) of the 1982 and 1998 Assembly elections: in 1973 and 1977 both were elected on the same day to different councils. Given the id T2426291746-antrim so the registry stops joining them. Nothing in the results changes.",
+      "category": "person-identity",
+      "operations": [
+        {
+          "op": "candidateById",
+          "candidateId": "T2426291746",
+          "set": {
+            "Candidate_Id": "T2426291746-antrim"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/local-government/1973-05-30/dungannon-area-d.json",
+      "source": {
+        "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, William Brown, p. 192",
+        "publisher": "Blackstaff Press",
+        "url": null,
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "William Brown (Northern Ireland politician)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/William_Brown_(Northern_Ireland_politician)",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "William Brown, UUP councillor in Dungannon 1973-93, is not the South Down Assembly member William Brown, a Down councillor 1977-93: in 1977 and 1981 both were elected on the same day to different councils. Given the id T2031631529-dungannon so the registry stops joining them. Nothing in the results changes.",
+      "category": "person-identity",
+      "operations": [
+        {
+          "op": "candidateById",
+          "candidateId": "T2031631529",
+          "set": {
+            "Candidate_Id": "T2031631529-dungannon"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/local-government/1977-05-18/dungannon-area-d.json",
+      "source": {
+        "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, William Brown, p. 192",
+        "publisher": "Blackstaff Press",
+        "url": null,
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "William Brown (Northern Ireland politician)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/William_Brown_(Northern_Ireland_politician)",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "William Brown, UUP councillor in Dungannon 1973-93, is not the South Down Assembly member William Brown, a Down councillor 1977-93: in 1977 and 1981 both were elected on the same day to different councils. Given the id T2031631529-dungannon so the registry stops joining them. Nothing in the results changes.",
+      "category": "person-identity",
+      "operations": [
+        {
+          "op": "candidateById",
+          "candidateId": "T2031631529",
+          "set": {
+            "Candidate_Id": "T2031631529-dungannon"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/local-government/1981-05-20/dungannon-area-d.json",
+      "source": {
+        "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, William Brown, p. 192",
+        "publisher": "Blackstaff Press",
+        "url": null,
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "William Brown (Northern Ireland politician)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/William_Brown_(Northern_Ireland_politician)",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "William Brown, UUP councillor in Dungannon 1973-93, is not the South Down Assembly member William Brown, a Down councillor 1977-93: in 1977 and 1981 both were elected on the same day to different councils. Given the id T2031631529-dungannon so the registry stops joining them. Nothing in the results changes.",
+      "category": "person-identity",
+      "operations": [
+        {
+          "op": "candidateById",
+          "candidateId": "T2031631529",
+          "set": {
+            "Candidate_Id": "T2031631529-dungannon"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/local-government/1989-05-17/dungannon-town.json",
+      "source": {
+        "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, William Brown, p. 192",
+        "publisher": "Blackstaff Press",
+        "url": null,
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "William Brown (Northern Ireland politician)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/William_Brown_(Northern_Ireland_politician)",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "William Brown, UUP councillor in Dungannon 1973-93, is not the South Down Assembly member William Brown, a Down councillor 1977-93: in 1977 and 1981 both were elected on the same day to different councils. Given the id T2031631529-dungannon so the registry stops joining them. Nothing in the results changes.",
+      "category": "person-identity",
+      "operations": [
+        {
+          "op": "candidateById",
+          "candidateId": "T2031631529",
+          "set": {
+            "Candidate_Id": "T2031631529-dungannon"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/local-government/1993-05-19/dungannon-town.json",
+      "source": {
+        "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, William Brown, p. 192",
+        "publisher": "Blackstaff Press",
+        "url": null,
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "William Brown (Northern Ireland politician)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/William_Brown_(Northern_Ireland_politician)",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "William Brown, UUP councillor in Dungannon 1973-93, is not the South Down Assembly member William Brown, a Down councillor 1977-93: in 1977 and 1981 both were elected on the same day to different councils. Given the id T2031631529-dungannon so the registry stops joining them. Nothing in the results changes.",
+      "category": "person-identity",
+      "operations": [
+        {
+          "op": "candidateById",
+          "candidateId": "T2031631529",
+          "set": {
+            "Candidate_Id": "T2031631529-dungannon"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/2024-07-04/mid-ulster.json",
+      "source": {
+        "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, John Kelly, p. 303",
+        "publisher": "Blackstaff Press",
+        "url": null,
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "John Kelly (Sinn Fein politician)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/John_Kelly_(Sinn_F%C3%A9in_politician)",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "The 2024 Independent candidate John Kelly is not the Sinn Fein Assembly member John Kelly of the 1970 arms trial, who died in 2007. Given the id fix-john-kelly-mid-ulster-2024 so the registry stops joining them. Nothing in the results changes.",
+      "category": "person-identity",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "John Kelly",
+          "set": {
+            "Candidate_Id": "fix-john-kelly-mid-ulster-2024"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1987-06-11/belfast-west.json",
+      "source": {
+        "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, Frank Millar (junior), p. 352",
+        "publisher": "Blackstaff Press",
+        "url": null,
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "Frank Millar Jr",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Frank_Millar_Jr",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "This Frank Millar is Frank Millar junior (born 1954), UUP candidate for South Antrim at the 1982 Assembly election and for Belfast West in 1987, not his father, who was elected for North Belfast as an Independent Unionist on the same day in 1982. Given the id 89297-jr, which the registry joins to his 1984 Belfast South Assembly by-election (Wikipedia: Frank Millar Jr). Nothing in the results changes.",
+      "category": "person-identity",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "Frank Millar",
+          "set": {
+            "Candidate_Id": "89297-jr"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/carrickfergus-borough-council/1958-05-21/north-ward-councillors.json",
+      "source": {
+        "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, David Allen, p. 156",
+        "publisher": "Blackstaff Press",
+        "url": null,
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "David Allen (politician)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/David_Allen_(politician)",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "This David Allen of Carrickfergus North Ward is not the Vanguard David Allen of Ballymena (born 1937, Convention member for North Antrim), who was 20 at the 1958 poll and has no Carrickfergus service. Given the id 86165-carrickfergus so the registry stops joining them. Nothing in the results changes.",
+      "category": "person-identity",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "David Allen",
+          "set": {
+            "Candidate_Id": "86165-carrickfergus"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/carrickfergus-borough-council/1961-05-17/north-ward-alderman.json",
+      "source": {
+        "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, David Allen, p. 156",
+        "publisher": "Blackstaff Press",
+        "url": null,
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "David Allen (politician)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/David_Allen_(politician)",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "This David Allen of Carrickfergus North Ward is not the Vanguard David Allen of Ballymena (born 1937, Convention member for North Antrim), who was 20 at the 1958 poll and has no Carrickfergus service. Given the id 86165-carrickfergus so the registry stops joining them. Nothing in the results changes.",
+      "category": "person-identity",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "David Allen",
+          "set": {
+            "Candidate_Id": "86165-carrickfergus"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/omagh-urban-district-council/1967-05-17/west-ward.json",
+      "source": {
+        "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, P. J. Bradley, p. 187",
+        "publisher": "Blackstaff Press",
+        "url": null,
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "P. J. Bradley",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/P._J._Bradley",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "This NI Labour P. J. Bradley of Omagh is not the SDLP P. J. Bradley, born in 1940 in Warrenpoint, whose career was in Newry and Mourne. Given the id T4035876283-omagh1967 so the registry stops joining them. Nothing in the results changes.",
+      "category": "person-identity",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "P. J. Bradley",
+          "set": {
+            "Candidate_Id": "T4035876283-omagh1967"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-forum-for-political-dialogue/1996-05-30/strangford.json",
+      "source": {
+        "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, Tom Benson, p. 178",
+        "publisher": "Blackstaff Press",
+        "url": null,
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "Tom Benson (politician)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Tom_Benson_(politician)",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "Thomas Benson, elected for the UUP in Strangford, is Tom Benson of Ards (later MLA for Strangford), not the Alliance Larne councillor Thomas Benson (1973-85). The list row now carries his person id. Nothing in the results changes.",
+      "category": "person-identity",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.forum.rows.0.list_candidates.1.person_id",
+          "value": 6291
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-forum-for-political-dialogue/1996-05-30/mid-ulster.json",
+      "source": {
+        "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, Patsy Groogan, p. 269",
+        "publisher": "Blackstaff Press",
+        "url": null,
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "Patsy Groogan",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Patsy_Groogan",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "Patsy Groogan is the Magherafelt councillor already on file; the list row carried an id no other candidacy uses. The list row now carries his person id. Nothing in the results changes.",
+      "category": "person-identity",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.forum.rows.0.list_candidates.1.person_id",
+          "value": 100408
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-forum-for-political-dialogue/1996-05-30/belfast-south.json",
+      "source": {
+        "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, Alasdair McDonnell, p. 327",
+        "publisher": "Blackstaff Press",
+        "url": null,
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "Alasdair McDonnell",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Alasdair_McDonnell",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "Alisdair McDonnell is Alasdair McDonnell, the Belfast councillor already on file; the list row carried an id no other candidacy uses. The list row now carries his person id. Nothing in the results changes.",
+      "category": "person-identity",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.forum.rows.1.list_candidates.0.person_id",
+          "value": 76322
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-forum-for-political-dialogue/1996-05-30/northern-ireland.json",
+      "source": {
+        "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, James McClure (p. 326) and Billy Hutchinson, p. 291",
+        "publisher": "Blackstaff Press",
+        "url": null,
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "Northern Ireland Forum",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Northern_Ireland_Forum",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "William McClure on the DUP regional list is (William) James McClure, DUP chairman and Convention member, already on file; Billy Hutchinson on the PUP list is the PUP's Billy Hutchinson already on file. The list rows carried ids no other candidacy uses. The list row now carries his person id. Nothing in the results changes.",
+      "category": "person-identity",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.forum.rows.2.list_candidates.9.person_id",
+          "value": 93966
+        },
+        {
+          "op": "set",
+          "path": "Constituency.forum.rows.6.list_candidates.2.person_id",
+          "value": 101355
+        }
+      ]
+    },
+    {
+      "batch": "elliott-flackes-1999-2026-11-06",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-forum-for-political-dialogue/1996-05-30/belfast-north.json",
+      "source": {
+        "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, William Snoddy (p. 446) and Billy Hutchinson, p. 291",
+        "publisher": "Blackstaff Press",
+        "url": null,
+        "accessed": "2026-11-06"
+      },
+      "additionalSources": [
+        {
+          "title": "Billy Snoddy",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Billy_Snoddy",
+          "accessed": "2026-11-06"
+        }
+      ],
+      "reason": "William Snoddy, elected for the DUP in North Belfast, is Billy Snoddy, the DUP Newtownabbey councillor of 1989-97, not the Vanguard candidate of 1973 whose id the row carried; Billy Hutchinson is the PUP's Billy Hutchinson already on file. The list row now carries his person id. Nothing in the results changes.",
+      "category": "person-identity",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.forum.rows.0.list_candidates.1.person_id",
+          "value": 101678
+        },
+        {
+          "op": "set",
+          "path": "Constituency.forum.rows.4.list_candidates.0.person_id",
+          "value": 101355
         }
       ]
     }
