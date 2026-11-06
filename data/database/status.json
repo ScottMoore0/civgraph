@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-06T02:45:12.144Z",
+  "generatedAt": "2026-11-06T08:15:13.241Z",
   "description": "Progress of Civgraph's sources, elections and maps, as shown on /pages/status.html. Each total states its basis. Built by scripts/build-status.mjs; generatedAt is when a figure last changed.",
   "figures": {
     "sources": [
@@ -399,7 +399,7 @@
           "known": 3346,
           "onSite": 3346,
           "full": 3343,
-          "verified": 1750
+          "verified": 1790
         },
         "segments": [
           {
@@ -447,7 +447,7 @@
             "known": 256,
             "onSite": 256,
             "full": 255,
-            "verified": 197,
+            "verified": 237,
             "basis": "No independent list of these contests is held yet, so the total is the contests the site holds."
           }
         ]
@@ -537,7 +537,7 @@
           "known": 185,
           "onSite": 185,
           "full": 185,
-          "verified": 75
+          "verified": 108
         },
         "segments": [
           {
@@ -545,7 +545,7 @@
             "known": 28,
             "onSite": 28,
             "full": 28,
-            "verified": 5,
+            "verified": 26,
             "basis": "No independent list of these contests is held yet, so the total is the contests the site holds."
           },
           {
@@ -553,7 +553,7 @@
             "known": 12,
             "onSite": 12,
             "full": 12,
-            "verified": 2,
+            "verified": 10,
             "basis": "No independent list of these contests is held yet, so the total is the contests the site holds."
           },
           {
@@ -561,7 +561,7 @@
             "known": 19,
             "onSite": 19,
             "full": 19,
-            "verified": 15,
+            "verified": 19,
             "basis": "No independent list of these contests is held yet, so the total is the contests the site holds."
           },
           {
@@ -759,7 +759,7 @@
           "known": 1785,
           "onSite": 1785,
           "full": 1785,
-          "verified": 1756
+          "verified": 1759
         },
         "segments": [
           {
@@ -775,7 +775,7 @@
             "known": 29,
             "onSite": 29,
             "full": 29,
-            "verified": 0,
+            "verified": 3,
             "basis": "No independent list of these contests is held yet, so the total is the constituency results the site holds."
           }
         ]
@@ -1475,6 +1475,62 @@
             "onSite": 20,
             "full": 20,
             "verified": 20,
+            "notHeld": 0,
+            "basis": null
+          }
+        ]
+      },
+      {
+        "id": "party-internal",
+        "name": "Party leadership and nomination contests",
+        "unit": "rounds",
+        "about": "Ballots in which a party's own members or representatives chose a leader or a nominee (docs/facts-model.md). Each body is one party's ballots; each bar counts the rounds on the site.",
+        "totals": {
+          "known": 5,
+          "onSite": 5,
+          "full": 3,
+          "verified": 5
+        },
+        "segments": [
+          {
+            "label": "Fianna Fáil leadership",
+            "body": "fianna-fail-leadership",
+            "span": [
+              1979,
+              1979
+            ],
+            "known": 1,
+            "onSite": 1,
+            "full": 1,
+            "verified": 1,
+            "notHeld": 0,
+            "basis": null
+          },
+          {
+            "label": "Fianna Fáil presidential nomination",
+            "body": "fianna-fail-presidential-nomination",
+            "span": [
+              1997,
+              1997
+            ],
+            "known": 1,
+            "onSite": 1,
+            "full": 1,
+            "verified": 1,
+            "notHeld": 0,
+            "basis": null
+          },
+          {
+            "label": "Ulster Unionist Party leadership",
+            "body": "uup-leadership",
+            "span": [
+              1969,
+              1995
+            ],
+            "known": 3,
+            "onSite": 3,
+            "full": 1,
+            "verified": 3,
             "notHeld": 0,
             "basis": null
           }
