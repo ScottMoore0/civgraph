@@ -99,7 +99,9 @@ if (!Number.isFinite(publicMaps)) {
     + '  Run scripts/build-render-time-series-chains.mjs first -- it stamps that figure.');
 }
 
-const ELECTION_DIR = ELECTION_BUNDLE_DIR;
+// Relative and with forward slashes: it is written into the committed site-stats.json, which
+// must not carry this machine's absolute path.
+const ELECTION_DIR = path.relative(ROOT, path.resolve(ROOT, ELECTION_BUNDLE_DIR)).replace(/\\/g, '/');
 const electionDirFull = path.resolve(ROOT, ELECTION_DIR);
 if (!existsSync(electionDirFull)) fail(`${ELECTION_DIR} does not exist, so contests and candidacies cannot be counted.`);
 

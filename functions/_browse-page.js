@@ -179,9 +179,14 @@ async function lookupTableRecord(db, table, slug, aliasTable = `${table}_aliases
 // later rounds). _redirects cannot reach these paths, because Pages does not apply
 // redirects to routes a Function serves, so the old addresses are mapped here and the
 // handler's slug check answers 301.
+// Contests too: Carrickfergus 1955's East Central and West aldermanic contests were built from
+// the councillor files until 6 Nov 2026, and the sitemap listed them as "-2" of the councillor
+// contests' slugs; they are the "-alderman" contests now.
 const ELECTION_SLUG_ALIASES = [
   ['bangor-urban-district-council-1920-01-15', 'bangor-borough-council-1920-01-15'],
   ['lisburn-urban-district-council-1920-01-15', 'lisburn-borough-council-1920-01-15'],
+  ['carrickfergus-borough-council-1955-05-18-east-central-ward-2', 'carrickfergus-borough-council-1955-05-18-east-central-ward-alderman'],
+  ['carrickfergus-borough-council-1955-05-18-west-ward-2', 'carrickfergus-borough-council-1955-05-18-west-ward-alderman'],
 ];
 
 export function resolveElectionSlugAlias(slug) {
