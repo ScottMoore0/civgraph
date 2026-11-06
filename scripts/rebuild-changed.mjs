@@ -77,6 +77,8 @@ if (mode === 'app') {
   // Boundary changes between consecutive timeline editions. Incremental: only pairs whose
   // editions or source files changed are recomputed, so this is seconds when nothing did.
   plan.push(['python', ['scripts/build_timeline_changes.py']]);
+  // The pre-1973 NI council rounds grouped by year, from the election catalogue (seconds).
+  plan.push(['node', ['scripts/build-ni-local-grouped.mjs']]);
   plan.push(['node', ['scripts/catalogue/build-catalogue.mjs']]);
   plan.push(['node', ['scripts/catalogue/check-catalogue.mjs']]);
   plan.push(['npm', ['run', '-s', 'build']]);
