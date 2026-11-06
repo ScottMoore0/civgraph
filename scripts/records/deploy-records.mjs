@@ -3,7 +3,10 @@
  * npm run records:deploy -- load the local records build into D1 by delta, then verify.
  *
  *   node scripts/records/deploy-records.mjs --local  [--dry-run] [--full] [--resync] [--direct]
- *   node scripts/records/deploy-records.mjs --remote [--dry-run] [--full] [--resync]   (approved publish only)
+ *   node scripts/records/deploy-records.mjs --remote [--dry-run] [--full] [--resync] [--start-part N]
+ *                                                                          (approved publish only)
+ *
+ * The database is the one wrangler.toml binds as ELECTIONS_DB (verify-load.mjs D1_NAME).
  *
  *   1. migrations: wrangler d1 migrations apply (local: --persist-to .wrangler/state)
  *   2. remote only: a Time Travel bookmark appended to .claude/publish/work/bookmarks.log
@@ -38,6 +41,10 @@ const dryRun = args.includes('--dry-run');
 const full = args.includes('--full');
 const resync = args.includes('--resync');
 const direct = args.includes('--direct');
+// Resume a load that stopped part-way: skip the parts numbered below N. The parts of the same
+// build are the same files each time (the delta is deterministic), and every statement is
+// idempotent, so resuming at the part that failed is the same as rerunning the whole delta.
+const startPart = args.includes('--start-part') ? Number(args[args.indexOf('--start-part') + 1]) : 0;
 
 const BUILD = path.join(REPO_ROOT, 'tmp', 'records', 'civgraph-records.sqlite');
 const LAST = remote
@@ -134,7 +141,8 @@ async function main() {
       db.close();
       log(`delta applied directly to ${path.relative(REPO_ROOT, file)} (${result.statements} statements)`);
     } else {
-      for (const part of files) {
+      if (startPart) log(`resuming at part ${String(startPart).padStart(4, '0')} (parts below it were applied by an earlier run)`);
+      for (const part of files.slice(startPart)) {
         let ok = false;
         for (let attempt = 1; attempt <= 4 && !ok; attempt += 1) {
           const exec = wrangler(['d1', 'execute', D1_NAME, ...target, `--file=${path.relative(REPO_ROOT, part)}`, '--yes'], 'execute.log');
@@ -144,7 +152,7 @@ async function main() {
             if (attempt < 4) await sleep(remote ? 90_000 : 2_000);
           }
         }
-        if (!ok) throw new Error(`${path.basename(part)} could not be applied; the statements are idempotent, so rerun the deploy`);
+        if (!ok) throw new Error(`${path.basename(part)} could not be applied; the statements are idempotent, so rerun the deploy (add --start-part ${Number(path.basename(part, '.sql'))} to resume there)`);
         log(`${path.basename(part)} applied`);
       }
     }

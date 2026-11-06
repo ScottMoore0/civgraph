@@ -17,7 +17,23 @@ import { DatabaseSync } from 'node:sqlite';
 import { REPO_ROOT } from './paths.mjs';
 import { HASHED_TABLES } from './schema.mjs';
 
-export const D1_NAME = 'civgraph-elections';
+/**
+ * The D1 database behind the ELECTIONS_DB binding, read from wrangler.toml's production
+ * [[d1_databases]] block, so the binding the Functions use and the database every records
+ * command loads or verifies are one setting (go-live switches both by editing wrangler.toml).
+ */
+export function recordsDbName(tomlText) {
+  const top = String(tomlText).split(/^\[env\./m)[0];
+  for (const block of top.split(/^\[\[d1_databases\]\]\s*$/m).slice(1)) {
+    const body = block.split(/^\[/m)[0];
+    if (/^\s*binding\s*=\s*"ELECTIONS_DB"/m.test(body)) {
+      const m = body.match(/^\s*database_name\s*=\s*"([^"]+)"/m);
+      if (m) return m[1];
+    }
+  }
+  throw new Error('wrangler.toml has no production [[d1_databases]] block for ELECTIONS_DB');
+}
+export const D1_NAME = recordsDbName(readFileSync(path.join(REPO_ROOT, 'wrangler.toml'), 'utf8'));
 export const PERSIST_DIR = '.wrangler/state';
 
 /** wrangler's entry script: CIVGRAPH_WRANGLER_JS, the project's, the global install, or `npm root -g`. */
