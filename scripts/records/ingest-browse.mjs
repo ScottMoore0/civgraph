@@ -93,7 +93,21 @@ export function ingestBrowse(db, { browseDir, paths = recordPaths() }) {
       });
       out.person_cards = cards.finish();
       const aliases = new TableWriter(db, 'person_aliases');
-      for (const row of aliasRows(items)) aliases.add(row);
+      const personAliases = aliasRows(items);
+      // A person id merged away (person_id_merges.csv, person_id_confirmed_merges.csv) answers
+      // with the person it was merged into, followed through chains of merges.
+      const slugById = new Map(items.map((item) => [String(item.id), item.slug]));
+      const taken = new Set([...items.map((item) => item.slug), ...items.map((item) => String(item.id)), ...personAliases.map((a) => a.alias)]);
+      const keepOf = new Map(db.prepare('SELECT drop_id, keep_id FROM person_merges ORDER BY drop_id').all().map((r) => [String(r.drop_id), String(r.keep_id)]));
+      for (const drop of [...keepOf.keys()].sort()) {
+        let keep = keepOf.get(drop);
+        for (let hops = 0; keepOf.has(keep) && hops < 10; hops += 1) keep = keepOf.get(keep);
+        if (!taken.has(drop) && slugById.has(keep)) {
+          personAliases.push({ alias: drop, slug: slugById.get(keep) });
+          taken.add(drop);
+        }
+      }
+      for (const row of personAliases) aliases.add(row);
       out.person_aliases = aliases.finish();
       const facets = readJson(at('persons-facets.json'), null);
       if (facets) new TableWriter(db, 'person_cards_facets').add({ id: 1, facets: JSON.stringify(facets.facets || {}) });

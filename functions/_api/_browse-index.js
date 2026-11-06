@@ -21,6 +21,7 @@
  * that finds nothing returns 404, and that distinction is the point.
  */
 import { reportError } from './_error.js';
+import { cachedJson } from './_records.js';
 
 const MAX_LIMIT = 200;
 const DEFAULT_LIMIT = 50;
@@ -42,6 +43,8 @@ const parse = (row) => {
   try { return JSON.parse(row.record); } catch { return null; }
 };
 
+const hasRecord = (row) => Boolean(row && row.record);
+
 const clampLimit = (raw) => {
   const value = Number(raw);
   if (!Number.isFinite(value) || value <= 0) return DEFAULT_LIMIT;
@@ -61,13 +64,29 @@ const clampLimit = (raw) => {
  * @param {(url: URL, bind: (v: unknown) => string) => {param: string, sql: string}[]} [options.where]
  *   extra conditions an entity builds itself (persons: a party matched inside the record)
  * @param {boolean} [options.facets]  serve precomputed facet options at ?facets=1
+ * @param {string} [options.recordColumn] the column holding the record JSON ('card' in the
+ *   records tables, 'record' in the legacy browse_* ones)
+ * @param {string} [options.aliasTable]   old addresses -> slug (default `${table}_aliases`)
+ * @param {string} [options.facetsTable]  the one-row facet table (default `${table}_facets`)
+ * @param {Record<string, (ctx: {db, url, slug, record, json}) => Promise<Response>>} [options.views]
+ *   extra ?view=<name> answers for one record (?slug=), e.g. a person's candidacies
  *
  * A list response says which filters and which sort it applied (`applied`), so a client can
  * tell a filter this deployment does not know -- or a table not yet re-imported with its
  * column -- from one that matched nothing, and fall back rather than show the wrong list.
  */
-export function browseIndexHandler({ table, key, version, filters = {}, listFilters = {}, sorts = {}, where: extraWhere = null, facets = false }) {
+export function browseIndexHandler({
+  table, key, version, filters = {}, listFilters = {}, sorts = {}, where: extraWhere = null, facets = false,
+  recordColumn = 'record', aliasTable = `${table}_aliases`, facetsTable = `${table}_facets`, views = {},
+}) {
+  const RECORD = recordColumn === 'record' ? 'record' : `${recordColumn} AS record`;
   return async function onRequestGet(context) {
+    // Cached by code version and dataset version (functions/_api/_records.js): a load
+    // invalidates every response without a purge.
+    return cachedJson(context, version, () => handle(context));
+  };
+
+  async function handle(context) {
     const url = new URL(context.request.url);
     const slug = url.searchParams.get('slug');
     const query = (url.searchParams.get('q') || '').trim();
@@ -88,24 +107,33 @@ export function browseIndexHandler({ table, key, version, filters = {}, listFilt
       // 404 every person and send the client back to scanning shards -- working
       // visibly while doing the exact thing this endpoint exists to stop.
       if (slug) {
+        // Ordered, so a slug that is also another record's id or key resolves the same way on
+        // every load: the record whose slug it is, then whose id, then source order.
         const row = await db
-          .prepare(`SELECT record FROM ${table} WHERE key_norm = ?1 OR slug = ?1 OR id = ?1 LIMIT 1`)
+          .prepare(`SELECT ${RECORD}, slug FROM ${table} WHERE key_norm = ?1 OR slug = ?1 OR id = ?1 ORDER BY (slug = ?1) DESC, (id = ?1) DESC, ord LIMIT 1`)
           .bind(slug)
           .first();
-        let record = parse(row);
+        let record = hasRecord(row) ? parse(row) : null;
+        let foundSlug = row?.slug || null;
         // An old address (previousSlugs: a person's earlier id, a source merged into
         // another) resolves to the record it now belongs to. Before the table is imported
         // with its aliases the lookup fails, and the miss stays a 404.
         if (!record) {
           try {
             const aliased = await db
-              .prepare(`SELECT record FROM ${table} WHERE slug = (SELECT slug FROM ${table}_aliases WHERE alias = ?1) LIMIT 1`)
+              .prepare(`SELECT ${RECORD}, slug FROM ${table} WHERE slug = (SELECT slug FROM ${aliasTable} WHERE alias = ?1) LIMIT 1`)
               .bind(slug)
               .first();
             record = parse(aliased);
+            foundSlug = aliased?.slug || null;
           } catch { /* no aliases table yet */ }
         }
         if (!record) return json({ error: 'not found', slug }, 404, false, version);
+        const view = url.searchParams.get('view');
+        if (view) {
+          if (!Object.prototype.hasOwnProperty.call(views, view)) return json({ error: `unknown view ${view}` }, 400, false, version);
+          return views[view]({ db, url, slug: foundSlug, record, json: (body, status = 200) => json(body, status, status === 200, version) });
+        }
         return json({ [key.replace(/s$/, '')]: record, record }, 200, true, version);
       }
 
@@ -113,7 +141,7 @@ export function browseIndexHandler({ table, key, version, filters = {}, listFilt
       // derive these by scanning the whole loaded list; server-side that would be a
       // SELECT DISTINCT per facet per request.
       if (facets && url.searchParams.get('facets') === '1') {
-        const row = await db.prepare(`SELECT facets FROM ${table}_facets LIMIT 1`).first();
+        const row = await db.prepare(`SELECT facets FROM ${facetsTable} LIMIT 1`).first();
         let parsed = {};
         try { parsed = JSON.parse(row?.facets || '{}'); } catch { parsed = {}; }
         return json({ facets: parsed }, 200, true, version);
@@ -175,7 +203,7 @@ export function browseIndexHandler({ table, key, version, filters = {}, listFilt
         // so the two statements deliberately do not share a bind list.
         const pageBinds = [...binds, limit, offset];
         const [rows, total] = await Promise.all([
-          db.prepare(`SELECT record FROM ${table} ${clause} ORDER BY ${orderBy} LIMIT ?${binds.length + 1} OFFSET ?${binds.length + 2}`)
+          db.prepare(`SELECT ${RECORD} FROM ${table} ${clause} ORDER BY ${orderBy} LIMIT ?${binds.length + 1} OFFSET ?${binds.length + 2}`)
             .bind(...pageBinds).all(),
           db.prepare(`SELECT COUNT(*) AS n FROM ${table} ${clause}`).bind(...binds).first(),
         ]);
@@ -202,5 +230,5 @@ export function browseIndexHandler({ table, key, version, filters = {}, listFilt
     } catch (error) {
       return json({ error: `${key} query failed`, ...reportError(context.env, key, error) }, 500, false, version);
     }
-  };
+  }
 }

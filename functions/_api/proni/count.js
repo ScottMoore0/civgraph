@@ -50,10 +50,10 @@ async function handle(context) {
       let bsql, barr;
       if (match) {
         const w = where.length ? ' AND ' + where.join(' AND ') : '';
-        bsql = `SELECT p.level AS level, COUNT(*) AS n FROM proni_fts f JOIN proni p ON p.rowid = f.rowid${jx} WHERE proni_fts MATCH ?${w} GROUP BY p.level`;
+        bsql = `SELECT p.level AS level, COUNT(*) AS n FROM proni_fts f JOIN proni p ON p.rowid = f.rowid${jx} WHERE proni_fts MATCH ?${w} GROUP BY p.level ORDER BY p.level`;
         barr = [match, ...binds];
       } else {
-        bsql = `SELECT p.level AS level, COUNT(*) AS n FROM proni p${jx} WHERE ${where.join(' AND ')} GROUP BY p.level`;
+        bsql = `SELECT p.level AS level, COUNT(*) AS n FROM proni p${jx} WHERE ${where.join(' AND ')} GROUP BY p.level ORDER BY p.level`;
         barr = binds;
       }
       const rows = await db.prepare(bsql).bind(...barr).all();

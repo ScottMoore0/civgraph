@@ -4,6 +4,9 @@
  *   GET /_api/persons?slug=<slug>          -> { person }         one record
  *   GET /_api/persons?q=<text>&limit=N     -> { persons, total } name search
  *   GET /_api/persons?limit=N&offset=M     -> paged index
+ *   GET /_api/persons?facets=1             -> the People filter options (persons-facets.json)
+ *   GET /_api/persons?slug=<slug>&view=candidacies  -> every candidacy, in date order
+ *   GET /_api/persons?slug=<slug>&view=votes        -> the votes/persons/<id>.json document
  *
  * 11,960 records. This is the endpoint that replaced a 24 MB shard scan: on 2026-08-23
  * the client still expected `payload.items` after the index became a manifest, silently
@@ -20,11 +23,42 @@
  * search and the sort, which the separate party branch it replaced ignored.
  */
 import { browseIndexHandler } from '../_browse-index.js';
+import { T, parseJson } from '../_records.js';
+
+/** A person's candidacies from the records tables, in date order (data design stage D.3). */
+async function candidacies({ db, slug, record, json }) {
+  const personId = String(record.id || '').replace(/^person:/, '');
+  const { results } = await db.prepare(
+    `SELECT c.election_key AS electionKey, e.slug AS electionSlug, e.display_title AS electionTitle, e.date, e.body,
+       c.contest_seq AS contestSeq, k.name AS contest, k.slug AS contestSlug, c.ord, c.name, c.party_label AS party,
+       c.party_as_printed AS partyAsPrinted, c.party_id AS partyId, c.first_prefs AS firstPrefs, c.final_votes AS finalVotes,
+       c.elected, c.status, c.unopposed
+     FROM candidacies c
+     JOIN ${T.elections} e ON e.key = c.election_key
+     JOIN contests k ON k.election_key = c.election_key AND k.seq = c.contest_seq
+     WHERE c.person_id = ?1
+     ORDER BY e.date, e.key, c.contest_seq, c.ord`
+  ).bind(personId).all();
+  const items = (results || []).map((r) => ({ ...r, elected: r.elected === 1, unopposed: r.unopposed === 1 }));
+  return json({ slug, personId, total: items.length, candidacies: items });
+}
+
+/** The votes/persons/<id>.json document for this person, or 404 when they cast none. */
+async function votes({ db, record, json }) {
+  const personId = String(record.id || '').replace(/^person:/, '');
+  const row = await db.prepare('SELECT record FROM vote_persons WHERE person_id = ?1').bind(personId).first();
+  if (!row) return json({ error: 'no votes', personId }, 404);
+  return json(parseJson(row.record));
+}
 
 export const onRequestGet = browseIndexHandler({
-  table: 'browse_persons',
+  table: 'person_cards',
+  recordColumn: 'card',
+  aliasTable: 'person_aliases',
   key: 'persons',
-  version: 'persons-5',
+  version: 'persons-6',
+  facets: true,
+  views: { candidacies, votes },
   filters: {
     elected: 'elected',
   },
@@ -45,7 +79,7 @@ export const onRequestGet = browseIndexHandler({
     return [{
       param: 'party',
       sql: `EXISTS (
-        SELECT 1 FROM json_each(browse_persons.record, '$.parties')
+        SELECT 1 FROM json_each(person_cards.card, '$.parties')
         WHERE json_extract(value, '$.name') IN (${parties.map(bind).join(', ')})
       )`,
     }];

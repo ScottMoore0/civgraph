@@ -82,7 +82,10 @@ export async function onRequestGet(context) {
       : 'SELECT record FROM maps ORDER BY ord';
     const [mapRows, partRows] = await Promise.all([
       db.prepare(sql).all(),
-      db.prepare('SELECT key, value FROM catalogue_parts').all(),
+      // The parts' insertion order is the document's key order, and the catalogue database is
+      // reloaded whole (never by delta), so rowid order is that order. Phase 3 moves the parts
+      // into the records database with an ord column (data design 4.3, query 8).
+      db.prepare('SELECT key, value FROM catalogue_parts ORDER BY rowid').all(),
     ]);
 
     const doc = {};

@@ -16,6 +16,8 @@
  */
 import { toHtmlString } from '../../_lib/html.js';
 import { page, sectionNav } from '../shell.js';
+import { electionBody } from './election.js';
+import { partyBody } from './party.js';
 import { personBody } from './person.js';
 import { registerInterestBody } from './register-interest.js';
 import { sourceBody } from './source.js';
@@ -24,6 +26,10 @@ export const SSR_RECORD_TYPES = {
   persons: { body: personBody, crumb: 'People', listHash: '#/persons' },
   sources: { body: sourceBody, crumb: 'Sources', listHash: '#/sources' },
   'register-interests': { body: registerInterestBody, crumb: 'Register of interests', listHash: '#/register-interests' },
+  // From the records tables (data design phase 2): an election page is assembled from several
+  // rows (functions/_templates/records/election.js loadElectionPage), a party from party_cards.
+  elections: { body: electionBody, crumb: 'Elections', listHash: '#/elections' },
+  parties: { body: partyBody, crumb: 'Parties', listHash: '#/parties' },
 };
 
 /**

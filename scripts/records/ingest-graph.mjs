@@ -2,7 +2,8 @@
  * The semantic graph as rows (phase 2: stored as built). Replaces ~10,300 files on R2, ~8,300
  * of them hash-bucketed indexes rewritten on nearly every build:
  *   graph_entities           entity-shards records + the lookup entry + the search entry
- *   graph_browse_keys        lookup/browse buckets ("persons:<slug>" -> entity)
+ *   graph_browse_keys        lookup/browse buckets ("persons:<slug>" -> entity) and the
+ *                            lookup/slug buckets ("slug:<slug>" -> entity)
  *   graph_statements         statements-by-subject shards, in their order
  *   graph_reverse            reverse-entity-value shards
  *   graph_source_statements  source-statements shards
@@ -62,6 +63,15 @@ export function ingestGraph(db, { graphDir }) {
     const seenKeys = new Set();
     for (const [, bucket] of jsonFiles(path.join(idx, 'lookup', 'browse'))) {
       for (const [key, id] of Object.entries(bucket.items || {})) {
+        if (seenKeys.has(key)) continue;
+        seenKeys.add(key);
+        keys.add({ browse_key: key, entity_id: String(id) });
+      }
+    }
+    // Readable entity slugs (lookup/slug buckets), as "slug:<slug>" keys beside the Browse ones.
+    for (const [, bucket] of jsonFiles(path.join(idx, 'lookup', 'slug'))) {
+      for (const [slug, id] of Object.entries(bucket.items || {})) {
+        const key = `slug:${slug}`;
         if (seenKeys.has(key)) continue;
         seenKeys.add(key);
         keys.add({ browse_key: key, entity_id: String(id) });
