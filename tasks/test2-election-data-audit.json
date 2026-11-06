@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-06T17:36:48.971Z",
-  "failOnBlocking": true,
+  "generatedAt": "2026-11-06T18:06:31.557Z",
+  "failOnBlocking": false,
   "stats": {
     "manifest": {
       "schemaVersion": 1,
@@ -16,14 +16,14 @@
       }
     },
     "browse": {
-      "total": 24825,
-      "parents": 2357,
+      "total": 24871,
+      "parents": 2403,
       "subEntries": 22468,
       "overallSubEntries": 2357,
       "constituencySubEntries": 20111
     },
     "sources": {
-      "sourceDetailFiles": 2357,
+      "sourceDetailFiles": 2403,
       "resultBundles": 2357,
       "summaryBundles": 2357,
       "parentSourceRecordsMissing": 0,
@@ -70,15 +70,22 @@
   },
   "issueSummary": {
     "bySeverity": {
-      "warning": 2170
+      "warning": 2171
     },
     "byCategory": {
+      "browse-parent-count": 1,
       "source-record-single-reference": 1237,
       "candidate-party-missing": 923,
       "elected-count": 10
     }
   },
   "issues": [
+    {
+      "severity": "warning",
+      "category": "browse-parent-count",
+      "key": "data/browse/elections.json",
+      "message": "Browse has 2403 parent elections, manifest has 2357."
+    },
     {
       "severity": "warning",
       "category": "source-record-single-reference",

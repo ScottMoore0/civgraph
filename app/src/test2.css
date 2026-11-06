@@ -4193,8 +4193,55 @@ body.test2-election-collapsed .election-pane__peek {
   color: var(--color-text-muted, #4b5563);
 }
 
-.ni-local-table {
+/* The year's tables are styled here rather than as .election-count-table, which main.css sizes
+   to its content (min-content, !important): these take the pane's width, so a long party or
+   candidate name wraps at 375 px instead of pushing the pane sideways. */
+.election-pane__content .ni-local-table {
   width: 100%;
+  max-width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  background: var(--table-surface);
+  color: var(--table-text);
+  font-family: 'Roboto Condensed', 'Arial Narrow', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.76rem;
+  line-height: 1.3;
+}
+
+.election-pane__content .ni-local-table th,
+.election-pane__content .ni-local-table td {
+  padding: 4px 6px;
+  text-align: left;
+  overflow-wrap: anywhere;
+  border-bottom: 1px solid var(--table-rule);
+}
+
+.election-pane__content .ni-local-table thead th {
+  font-weight: 700;
+  border-bottom-color: var(--table-header-rule);
+}
+
+.election-pane__content .ni-local-table tfoot th,
+.election-pane__content .ni-local-table tfoot td {
+  font-weight: 700;
+  border-bottom: 0;
+}
+
+.election-pane__content .ni-local-table .election-num {
+  width: 18%;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.election-pane__content .ni-local-table .ni-local-mark {
+  width: 2.2em;
+  text-align: center;
+}
+
+.election-pane__content .ni-local-table .election-party-cell {
+  box-shadow: inset 4px 0 0 var(--party-colour, transparent);
+  padding-left: 10px;
 }
 
 .ni-local-councils {

@@ -5637,8 +5637,7 @@
    "calendar": "held",
    "kind": "whole council (FPTP; new wards)",
    "work": "done",
-   "expectedAreas": 3,
-   "excluded": "2 contest(s) whose names were not found on the cited page or any cached page nearby (citation unconfirmed)"
+   "expectedAreas": 3
   },
   {
    "slug": "enniskillen-borough-council",
@@ -5735,8 +5734,7 @@
    "calendar": "held",
    "kind": "whole council (FPTP; new wards)",
    "work": "done",
-   "expectedAreas": 3,
-   "excluded": "3 contest(s) whose names were not found on the cited page or any cached page nearby (citation unconfirmed)"
+   "expectedAreas": 3
   },
   {
    "slug": "portrush-urban-district-council",
@@ -6145,8 +6143,7 @@
    "calendar": "held",
    "kind": "triennial (FPTP; new DEDs/CEDs)",
    "workRound": "1924-06-05",
-   "work": "partial",
-   "excluded": "status partial (6 Nov 2026 consolidation)"
+   "work": "partial"
   },
   {
    "slug": "enniskillen-rural-district-council",
@@ -6801,8 +6798,7 @@
    "calendar": "held",
    "kind": "triennial",
    "work": "done",
-   "expectedAreas": 3,
-   "excluded": "1 contest(s) whose names were not found on the cited page or any cached page nearby (citation unconfirmed)"
+   "expectedAreas": 3
   },
   {
    "slug": "portrush-urban-district-council",
@@ -7164,7 +7160,10 @@
    "round": "1927-05-26",
    "pollDate": "1927-06-01",
    "calendar": "held",
-   "kind": "triennial"
+   "kind": "triennial",
+   "workRound": "1927-06-01",
+   "work": "done",
+   "expectedAreas": 12
   },
   {
    "slug": "castlereagh-rural-district-council",
@@ -7191,8 +7190,8 @@
    "calendar": "held",
    "kind": "triennial",
    "workRound": "1927-05-27",
-   "work": "partial",
-   "excluded": "status partial (6 Nov 2026 consolidation)"
+   "work": "done",
+   "expectedAreas": 21
   },
   {
    "slug": "cookstown-rural-district-council",
@@ -7283,8 +7282,7 @@
    "calendar": "held",
    "kind": "triennial",
    "workRound": "1927-05-27",
-   "work": "partial",
-   "excluded": "status partial (6 Nov 2026 consolidation)"
+   "work": "partial"
   },
   {
    "slug": "lisburn-rural-district-council",
@@ -7443,6 +7441,9 @@
    "kind": "annual thirds",
    "workRound": "1928-01-16",
    "work": "held",
+   "heldAreas": [
+    "Ballyclare"
+   ],
    "excluded": "status held"
   },
   {
@@ -7948,6 +7949,9 @@
    "calendar": "held",
    "kind": "triennial",
    "work": "held",
+   "heldAreas": [
+    "Whitehead"
+   ],
    "excluded": "status held"
   },
   {
@@ -8138,7 +8142,7 @@
    "kind": "annual thirds",
    "workRound": "1930-01-15",
    "work": "done",
-   "expectedAreas": 4
+   "expectedAreas": 5
   },
   {
    "slug": "newcastle-urban-district-council",
@@ -8216,13 +8220,9 @@
    "workRound": "1930-06-05",
    "work": "partial",
    "heldAreas": [
-    "Ahoghill",
-    "Dunminning",
-    "Glenarm",
-    "Kirkinriola"
+    "Ahoghill"
    ],
-   "expectedAreas": 23,
-   "excluded": "1 contest(s) whose names were not found on the cited page or any cached page nearby (citation unconfirmed)"
+   "expectedAreas": 23
   },
   {
    "slug": "antrim-rural-district-council",
@@ -8390,7 +8390,8 @@
    "calendar": "held",
    "kind": "triennial",
    "workRound": "1930-06-04",
-   "work": "done"
+   "work": "done",
+   "expectedAreas": 19
   },
   {
    "slug": "larne-rural-district-council",
@@ -8408,8 +8409,7 @@
    "calendar": "held",
    "kind": "triennial",
    "workRound": "1930-06-05",
-   "work": "partial",
-   "excluded": "status partial (6 Nov 2026 consolidation)"
+   "work": "partial"
   },
   {
    "slug": "lisburn-rural-district-council",
@@ -8474,7 +8474,8 @@
    "calendar": "held",
    "kind": "triennial",
    "workRound": "1930-05-30",
-   "work": "done"
+   "work": "done",
+   "expectedAreas": 14
   },
   {
    "slug": "north-down-rural-district-council",
@@ -9213,8 +9214,7 @@
    "calendar": "held",
    "kind": "annual thirds",
    "workRound": "1933-01-16",
-   "work": "partial",
-   "excluded": "status partial"
+   "work": "partial"
   },
   {
    "slug": "limavady-urban-district-council",
@@ -9362,8 +9362,7 @@
    "pollDate": "1933-05-25",
    "calendar": "held",
    "kind": "triennial",
-   "work": "partial",
-   "excluded": "status partial (6 Nov 2026 consolidation)"
+   "work": "done"
   },
   {
    "slug": "belfast-rural-district-council",
@@ -9401,7 +9400,8 @@
    "calendar": "held",
    "kind": "triennial",
    "workRound": "1933-05-31",
-   "work": "done"
+   "work": "done",
+   "expectedAreas": 15
   },
   {
    "slug": "coleraine-rural-district-council",
@@ -9411,7 +9411,7 @@
    "kind": "triennial",
    "workRound": "1933-06-02",
    "work": "done",
-   "expectedAreas": 11
+   "expectedAreas": 21
   },
   {
    "slug": "cookstown-rural-district-council",
@@ -9437,7 +9437,10 @@
    "round": "1933-05-25",
    "pollDate": "1933-05-31",
    "calendar": "held",
-   "kind": "triennial"
+   "kind": "triennial",
+   "workRound": "1933-05-31",
+   "work": "done",
+   "expectedAreas": 11
   },
   {
    "slug": "east-down-rural-district-council",
@@ -9445,8 +9448,7 @@
    "pollDate": "1933-05-25",
    "calendar": "held",
    "kind": "triennial",
-   "work": "partial",
-   "excluded": "status partial (6 Nov 2026 consolidation)"
+   "work": "partial"
   },
   {
    "slug": "enniskillen-rural-district-council",
@@ -9474,8 +9476,7 @@
    "pollDate": "1933-05-25",
    "calendar": "held",
    "kind": "triennial",
-   "work": "done",
-   "expectedAreas": 5
+   "work": "done"
   },
   {
    "slug": "irvinestown-rural-district-council",
@@ -9502,7 +9503,10 @@
    "round": "1933-05-25",
    "pollDate": "1933-06-02",
    "calendar": "held",
-   "kind": "triennial"
+   "kind": "triennial",
+   "workRound": "1933-06-02",
+   "work": "done",
+   "expectedAreas": 23
   },
   {
    "slug": "lisburn-rural-district-council",
@@ -9551,7 +9555,8 @@
    "calendar": "held",
    "kind": "triennial",
    "workRound": "1933-06-02",
-   "work": "done"
+   "work": "partial",
+   "expectedAreas": 24
   },
   {
    "slug": "moira-rural-district-council",
@@ -9567,8 +9572,7 @@
    "pollDate": "1933-05-25",
    "calendar": "held",
    "kind": "triennial",
-   "work": "done",
-   "expectedAreas": 3
+   "work": "done"
   },
   {
    "slug": "north-down-rural-district-council",
@@ -9596,7 +9600,7 @@
    "calendar": "held",
    "kind": "triennial",
    "work": "done",
-   "expectedAreas": 4
+   "expectedAreas": 19
   },
   {
    "slug": "strabane-rural-district-council",
@@ -9605,7 +9609,8 @@
    "calendar": "held",
    "kind": "triennial",
    "workRound": "1933-05-31",
-   "work": "done"
+   "work": "done",
+   "expectedAreas": 27
   },
   {
    "slug": "tyrone-county-council",
@@ -9615,35 +9620,7 @@
    "kind": "triennial",
    "workRound": "1933-05-31",
    "work": "done",
-   "heldAreas": [
-    "Aughnacloy",
-    "Ballygawley",
-    "Benburb",
-    "Carrickmore",
-    "Castlecaulfield",
-    "Castlederg",
-    "Coagh",
-    "Coalisland",
-    "Cookstown",
-    "Donaghmore",
-    "Douglas",
-    "Dromore",
-    "Dunbreen",
-    "Dungannon",
-    "Donemana",
-    "Fintona",
-    "Moy",
-    "Newtownstewart",
-    "Omagh Rural",
-    "Omagh Urban",
-    "Plumbridge",
-    "Pomeroy",
-    "Stewartstown",
-    "Strabane",
-    "Trillick"
-   ],
-   "expectedAreas": 2,
-   "excluded": "25 held contest(s) (Aughnacloy, Ballygawley, Benburb, Carrickmore, Castlecaulfield, Castlederg...) make the round partial (6 Nov 2026 consolidation)"
+   "expectedAreas": 27
   },
   {
    "slug": "antrim-town-commissioners",
@@ -10230,7 +10207,7 @@
    "kind": "triennial",
    "workRound": "1936-06-04",
    "work": "done",
-   "expectedAreas": 13
+   "expectedAreas": 14
   },
   {
    "slug": "ballymena-rural-district-council",
@@ -10239,8 +10216,7 @@
    "calendar": "held",
    "kind": "triennial",
    "workRound": "1936-06-04",
-   "work": "partial",
-   "excluded": "status partial (6 Nov 2026 consolidation)"
+   "work": "partial"
   },
   {
    "slug": "ballymoney-rural-district-council",
@@ -10259,7 +10235,7 @@
    "kind": "triennial",
    "workRound": "1936-06-04",
    "work": "done",
-   "expectedAreas": 9
+   "expectedAreas": 20
   },
   {
    "slug": "belfast-rural-district-council",
@@ -10268,8 +10244,7 @@
    "calendar": "held",
    "kind": "triennial",
    "workRound": "1936-06-04",
-   "work": "done",
-   "expectedAreas": 8
+   "work": "partial"
   },
   {
    "slug": "castlederg-rural-district-council",
@@ -10289,7 +10264,7 @@
    "kind": "triennial",
    "workRound": "1936-06-04",
    "work": "done",
-   "expectedAreas": 8
+   "expectedAreas": 9
   },
   {
    "slug": "clogher-rural-district-council",
@@ -10325,15 +10300,17 @@
    "calendar": "held",
    "kind": "triennial",
    "workRound": "1936-06-04",
-   "work": "partial",
-   "excluded": "status partial (6 Nov 2026 consolidation)"
+   "work": "partial"
   },
   {
    "slug": "dungannon-rural-district-council",
    "round": "1936-05-28",
    "pollDate": "1936-06-03",
    "calendar": "held",
-   "kind": "triennial"
+   "kind": "triennial",
+   "workRound": "1936-06-03",
+   "work": "done",
+   "expectedAreas": 18
   },
   {
    "slug": "east-down-rural-district-council",
@@ -10342,8 +10319,7 @@
    "calendar": "held",
    "kind": "triennial",
    "workRound": "1936-06-04",
-   "work": "partial",
-   "excluded": "status partial (6 Nov 2026 consolidation)"
+   "work": "partial"
   },
   {
    "slug": "enniskillen-rural-district-council",
@@ -10372,8 +10348,7 @@
    "calendar": "held",
    "kind": "triennial",
    "workRound": "1936-06-04",
-   "work": "done",
-   "expectedAreas": 7
+   "work": "done"
   },
   {
    "slug": "irvinestown-rural-district-council",
@@ -10402,9 +10377,8 @@
    "calendar": "held",
    "kind": "triennial",
    "workRound": "1936-06-02",
-   "work": "partial",
-   "expectedAreas": 17,
-   "excluded": "status partial (6 Nov 2026 consolidation)"
+   "work": "done",
+   "expectedAreas": 23
   },
   {
    "slug": "lisburn-rural-district-council",
@@ -10433,21 +10407,27 @@
    "calendar": "held",
    "kind": "triennial",
    "workRound": "1936-06-02",
-   "work": "done"
+   "work": "done",
+   "expectedAreas": 19
   },
   {
    "slug": "londonderry-rural-district-council",
    "round": "1936-05-28",
    "pollDate": "1936-06-02",
    "calendar": "held",
-   "kind": "triennial"
+   "kind": "triennial",
+   "workRound": "1936-06-02",
+   "work": "partial"
   },
   {
    "slug": "magherafelt-rural-district-council",
    "round": "1936-05-28",
    "pollDate": "1936-06-02",
    "calendar": "held",
-   "kind": "triennial"
+   "kind": "triennial",
+   "workRound": "1936-06-02",
+   "work": "done",
+   "expectedAreas": 26
   },
   {
    "slug": "moira-rural-district-council",
@@ -10465,7 +10445,8 @@
    "calendar": "held",
    "kind": "triennial",
    "workRound": "1936-06-04",
-   "work": "done"
+   "work": "done",
+   "expectedAreas": 14
   },
   {
    "slug": "north-down-rural-district-council",
@@ -10510,30 +10491,9 @@
    "workRound": "1936-06-03",
    "work": "done",
    "heldAreas": [
-    "Aughnacloy",
-    "Ballygawley",
-    "Benburb",
-    "Carrickmore",
-    "Castlecaulfield",
-    "Castlederg",
-    "Clogher",
-    "Coalisland",
-    "Cookstown",
-    "Douglas",
-    "Dunbreen",
-    "Dungannon",
-    "Donemana",
-    "Fintona",
-    "Moy",
-    "Newtownstewart",
-    "Omagh Rural",
-    "Omagh Urban",
-    "Plumbridge",
-    "Stewartstown",
-    "Strabane"
+    "Omagh Urban"
    ],
-   "expectedAreas": 6,
-   "excluded": "21 held contest(s) (Aughnacloy, Ballygawley, Benburb, Carrickmore, Castlecaulfield, Castlederg...) make the round partial (6 Nov 2026 consolidation)"
+   "expectedAreas": 26
   },
   {
    "slug": "londonderry-county-borough-council-aldermen",
@@ -11336,8 +11296,7 @@
    "calendar": "held",
    "kind": "triennial",
    "work": "done",
-   "expectedAreas": 3,
-   "excluded": "2 contest(s) whose names were not found on the cited page or any cached page nearby (citation unconfirmed)"
+   "expectedAreas": 3
   },
   {
    "slug": "portrush-urban-district-council",
@@ -11408,8 +11367,7 @@
    "calendar": "held",
    "kind": "triennial",
    "workRound": "1939-06-01",
-   "work": "partial",
-   "excluded": "status partial [re-keyed from ballycastle-rural-district-council/1939-05-31 after the 6 Nov folder rename]"
+   "work": "partial"
   },
   {
    "slug": "ballymena-rural-district-council",
@@ -11418,8 +11376,7 @@
    "calendar": "held",
    "kind": "triennial",
    "workRound": "1939-06-01",
-   "work": "partial",
-   "excluded": "status partial [re-keyed from ballymena-rural-district-council/1939-05-31 after the 6 Nov folder rename]"
+   "work": "partial"
   },
   {
    "slug": "ballymoney-rural-district-council",
@@ -11428,8 +11385,7 @@
    "calendar": "held",
    "kind": "triennial",
    "workRound": "1939-06-01",
-   "work": "partial",
-   "excluded": "status partial [re-keyed from ballymoney-rural-district-council/1939-05-31 after the 6 Nov folder rename]"
+   "work": "partial"
   },
   {
    "slug": "banbridge-rural-district-council",
@@ -11438,8 +11394,7 @@
    "calendar": "held",
    "kind": "triennial",
    "workRound": "1939-06-01",
-   "work": "partial",
-   "excluded": "status partial"
+   "work": "done"
   },
   {
    "slug": "belfast-rural-district-council",
@@ -11458,11 +11413,7 @@
    "kind": "triennial",
    "workRound": "1939-05-31",
    "work": "done",
-   "heldAreas": [
-    "Clunahill"
-   ],
-   "expectedAreas": 15,
-   "excluded": "1 held contest(s) (Clunahill) make the round partial (6 Nov 2026 consolidation)"
+   "expectedAreas": 16
   },
   {
    "slug": "castlereagh-rural-district-council",
@@ -11500,7 +11451,7 @@
    "kind": "triennial",
    "workRound": "1939-05-31",
    "work": "done",
-   "expectedAreas": 15
+   "expectedAreas": 16
   },
   {
    "slug": "down-county-council",
@@ -11529,8 +11480,7 @@
    "calendar": "held",
    "kind": "triennial",
    "workRound": "1939-06-01",
-   "work": "partial",
-   "excluded": "status partial"
+   "work": "partial"
   },
   {
    "slug": "enniskillen-rural-district-council",
@@ -11632,8 +11582,8 @@
    "calendar": "held",
    "kind": "triennial",
    "workRound": "1939-06-02",
-   "work": "partial",
-   "excluded": "status partial [re-keyed from magherafelt-rural-district-council/1939-05-31 after the 6 Nov folder rename]"
+   "work": "done",
+   "expectedAreas": 26
   },
   {
    "slug": "moira-rural-district-council",
@@ -12009,12 +11959,8 @@
    "pollDate": "1946-10-03",
    "calendar": "held",
    "kind": "triennial",
-   "work": "partial",
-   "heldAreas": [
-    "Portrush"
-   ],
-   "expectedAreas": 23,
-   "excluded": "status partial; 1 held contest(s) (Portrush) make the round partial (6 Nov 2026 consolidation)"
+   "work": "done",
+   "expectedAreas": 23
   },
   {
    "slug": "antrim-rural-district-council",
@@ -12087,8 +12033,8 @@
    "pollDate": "1946-10-03",
    "calendar": "held",
    "kind": "triennial",
-   "work": "partial",
-   "excluded": "status partial"
+   "work": "done",
+   "expectedAreas": 15
   },
   {
    "slug": "coleraine-rural-district-council",
@@ -12131,8 +12077,7 @@
    "pollDate": "1946-10-03",
    "calendar": "held",
    "kind": "triennial",
-   "work": "partial",
-   "excluded": "status partial"
+   "work": "partial"
   },
   {
    "slug": "enniskillen-rural-district-council",
@@ -12144,22 +12089,11 @@
    "heldAreas": [
     "Aghnaglack",
     "Ballycassidy",
-    "Drumane",
     "Holywell",
-    "Kinglass",
-    "Newporton",
-    "Oldbarr",
-    "Castlecoole",
     "Derrybrusk",
-    "Rahalton",
-    "Enniskillen Rural",
-    "Coolyermor",
-    "Lisbofin",
-    "Killesher",
     "Florencecourt",
     "Monea"
-   ],
-   "excluded": "16 held contest(s) (Aghnaglack, Ballycassidy, Castlecoole, Coolyermor, Derrybrusk, Drumane...) make the round partial (6 Nov 2026 consolidation)"
+   ]
   },
   {
    "slug": "fermanagh-county-council",
@@ -12170,18 +12104,8 @@
    "work": "done",
    "heldAreas": [
     "Innishmacsaint",
-    "Holywell",
-    "Lack",
-    "Brookeborough",
-    "Ballinamallard",
-    "Clonelly",
-    "Laragh",
-    "Lisbellaw",
-    "Lisnaskea",
-    "Florencecourt"
-   ],
-   "expectedAreas": 10,
-   "excluded": "14 held contest(s) (Florencecourt, Innishmacsaint, Holywell, Derrylea, Doon, Laragh...) make the round partial (6 Nov 2026 consolidation)"
+    "Holywell"
+   ]
   },
   {
    "slug": "hillsborough-rural-district-council",
@@ -12189,8 +12113,7 @@
    "pollDate": "1946-10-03",
    "calendar": "held",
    "kind": "triennial",
-   "work": "partial",
-   "excluded": "status partial"
+   "work": "done"
   },
   {
    "slug": "irvinestown-rural-district-council",
@@ -12208,8 +12131,7 @@
     "Lisnarick",
     "Magheraculmoney",
     "Drumrush"
-   ],
-   "excluded": "8 held contest(s) (Aghamuldowney, Ballinamallard, Castlecaldwell, Drumrush, Lack, Lattone...) make the round partial (6 Nov 2026 consolidation)"
+   ]
   },
   {
    "slug": "larne-rural-district-council",
@@ -12217,8 +12139,7 @@
    "pollDate": "1946-10-03",
    "calendar": "held",
    "kind": "triennial",
-   "work": "partial",
-   "excluded": "status partial"
+   "work": "partial"
   },
   {
    "slug": "limavady-rural-district-council",
@@ -12227,8 +12148,7 @@
    "calendar": "held",
    "kind": "triennial",
    "workRound": "1946-10-31",
-   "work": "partial",
-   "excluded": "status partial"
+   "work": "partial"
   },
   {
    "slug": "lisburn-rural-district-council",
@@ -12236,8 +12156,7 @@
    "pollDate": "1946-10-03",
    "calendar": "held",
    "kind": "triennial",
-   "work": "partial",
-   "excluded": "status partial"
+   "work": "partial"
   },
   {
    "slug": "lisnaskea-rural-district-council",
@@ -12251,17 +12170,8 @@
     "Carnmore",
     "Clonkeelan",
     "Cross",
-    "Deerpark",
-    "Dresternan",
     "Mullaghfad",
-    "Springtown",
-    "Crum",
-    "Ballindarragh",
-    "Castlebalfour",
-    "Belleisle",
-    "Maguiresbridge",
-    "Colebrooke",
-    "Magheraveely"
+    "Springtown"
    ],
    "excluded": "status partial"
   },
@@ -12485,8 +12395,7 @@
    "pollDate": "1949-05-18",
    "calendar": "held",
    "kind": "triennial",
-   "work": "partial",
-   "excluded": "status held"
+   "work": "partial"
   },
   {
    "slug": "downpatrick-urban-district-council",
@@ -12513,8 +12422,7 @@
    "calendar": "held",
    "kind": "triennial",
    "work": "done",
-   "expectedAreas": 1,
-   "excluded": "1 contest(s) whose names were not found on the cited page or any cached page nearby (citation unconfirmed)"
+   "expectedAreas": 1
   },
   {
    "slug": "enniskillen-borough-council",
@@ -12729,7 +12637,8 @@
    "pollDate": "1949-06-02",
    "calendar": "held",
    "kind": "triennial",
-   "work": "done"
+   "work": "done",
+   "expectedAreas": 2
   },
   {
    "slug": "castlereagh-rural-district-council",
@@ -12745,7 +12654,8 @@
    "pollDate": "1949-06-02",
    "calendar": "held",
    "kind": "triennial",
-   "work": "done"
+   "work": "done",
+   "expectedAreas": 16
   },
   {
    "slug": "coleraine-rural-district-council",
@@ -12810,7 +12720,8 @@
    "pollDate": "1949-06-02",
    "calendar": "held",
    "kind": "triennial",
-   "work": "done"
+   "work": "done",
+   "expectedAreas": 16
   },
   {
    "slug": "irvinestown-rural-district-council",
@@ -12891,7 +12802,8 @@
    "pollDate": "1949-06-02",
    "calendar": "held",
    "kind": "triennial",
-   "work": "done"
+   "work": "done",
+   "expectedAreas": 14
   },
   {
    "slug": "north-down-rural-district-council",
@@ -12908,7 +12820,7 @@
    "calendar": "held",
    "kind": "triennial",
    "work": "done",
-   "excluded": "3 contest(s) whose names were not found on the cited page or any cached page nearby (citation unconfirmed)"
+   "expectedAreas": 38
   },
   {
    "slug": "south-down-rural-district-council",
@@ -12916,8 +12828,8 @@
    "pollDate": "1949-06-02",
    "calendar": "held",
    "kind": "triennial",
-   "work": "partial",
-   "excluded": "status partial (6 Nov 2026 consolidation)"
+   "work": "done",
+   "expectedAreas": 17
   },
   {
    "slug": "strabane-rural-district-council",
@@ -12926,7 +12838,7 @@
    "calendar": "held",
    "kind": "triennial",
    "work": "done",
-   "excluded": "2 contest(s) whose names were not found on the cited page or any cached page nearby (citation unconfirmed)"
+   "expectedAreas": 28
   },
   {
    "slug": "tyrone-county-council",
@@ -13204,8 +13116,7 @@
    "calendar": "held",
    "kind": "triennial",
    "work": "partial",
-   "expectedAreas": 5,
-   "excluded": "1 contest(s) whose names were not found on the cited page or any cached page nearby (citation unconfirmed)"
+   "expectedAreas": 5
   },
   {
    "slug": "omagh-urban-district-council",
@@ -13259,11 +13170,9 @@
    "kind": "triennial",
    "work": "partial",
    "heldAreas": [
-    "Ballyclare",
-    "Glenarm"
+    "Ballyclare"
    ],
-   "expectedAreas": 23,
-   "excluded": "status partial; 2 held contest(s) (Ballyclare, Glenarm) make the round partial (6 Nov 2026 consolidation)"
+   "expectedAreas": 23
   },
   {
    "slug": "antrim-rural-district-council",
@@ -13352,7 +13261,7 @@
    "calendar": "held",
    "kind": "triennial",
    "work": "done",
-   "excluded": "1 contest(s) whose names were not found on the cited page or any cached page nearby (citation unconfirmed)"
+   "expectedAreas": 16
   },
   {
    "slug": "down-county-council",
@@ -13397,8 +13306,7 @@
    "heldAreas": [
     "Florencecourt"
    ],
-   "expectedAreas": 19,
-   "excluded": "1 held contest(s) (Florencecourt) make the round partial (6 Nov 2026 consolidation)"
+   "expectedAreas": 19
   },
   {
    "slug": "hillsborough-rural-district-council",
@@ -13489,7 +13397,8 @@
    "pollDate": "1952-06-05",
    "calendar": "held",
    "kind": "triennial",
-   "work": "done"
+   "work": "done",
+   "expectedAreas": 14
   },
   {
    "slug": "north-down-rural-district-council",
@@ -13506,7 +13415,8 @@
    "pollDate": "1952-06-05",
    "calendar": "held",
    "kind": "triennial",
-   "work": "done"
+   "work": "done",
+   "expectedAreas": 39
   },
   {
    "slug": "south-down-rural-district-council",
@@ -13514,8 +13424,8 @@
    "pollDate": "1952-06-05",
    "calendar": "held",
    "kind": "triennial",
-   "work": "partial",
-   "excluded": "1 contest(s) whose names were not found on the cited page or any cached page nearby (citation unconfirmed)"
+   "work": "done",
+   "expectedAreas": 17
   },
   {
    "slug": "strabane-rural-district-council",
@@ -13523,7 +13433,8 @@
    "pollDate": "1952-06-05",
    "calendar": "held",
    "kind": "triennial",
-   "work": "done"
+   "work": "done",
+   "expectedAreas": 28
   },
   {
    "slug": "tyrone-county-council",
@@ -13630,8 +13541,7 @@
    "work": "done",
    "heldAreas": [
     "(ward not stated)"
-   ],
-   "excluded": "1 held contest(s) ((ward not stated)) make the round partial (6 Nov 2026 consolidation)"
+   ]
   },
   {
    "slug": "coleraine-borough-council",
@@ -13900,7 +13810,8 @@
    "pollDate": "1955-06-02",
    "calendar": "held",
    "kind": "triennial",
-   "work": "done"
+   "work": "done",
+   "expectedAreas": 14
   },
   {
    "slug": "castlereagh-rural-district-council",
@@ -13932,7 +13843,8 @@
    "pollDate": "1955-06-02",
    "calendar": "held",
    "kind": "triennial",
-   "work": "done"
+   "work": "done",
+   "expectedAreas": 15
   },
   {
    "slug": "down-county-council",
@@ -13981,7 +13893,8 @@
    "pollDate": "1955-06-02",
    "calendar": "held",
    "kind": "triennial",
-   "work": "done"
+   "work": "done",
+   "expectedAreas": 16
   },
   {
    "slug": "irvinestown-rural-district-council",
@@ -14078,7 +13991,8 @@
    "pollDate": "1955-06-02",
    "calendar": "held",
    "kind": "triennial",
-   "work": "done"
+   "work": "done",
+   "expectedAreas": 39
   },
   {
    "slug": "south-down-rural-district-council",
@@ -14086,7 +14000,8 @@
    "pollDate": "1955-06-02",
    "calendar": "held",
    "kind": "triennial",
-   "work": "done"
+   "work": "done",
+   "expectedAreas": 17
   },
   {
    "slug": "strabane-rural-district-council",
@@ -14471,7 +14386,8 @@
    "pollDate": "1958-06-05",
    "calendar": "held",
    "kind": "triennial",
-   "work": "done"
+   "work": "done",
+   "expectedAreas": 16
   },
   {
    "slug": "castlereagh-rural-district-council",
@@ -14487,7 +14403,8 @@
    "pollDate": "1958-06-05",
    "calendar": "held",
    "kind": "triennial",
-   "work": "done"
+   "work": "done",
+   "expectedAreas": 16
   },
   {
    "slug": "coleraine-rural-district-council",
@@ -14503,7 +14420,8 @@
    "pollDate": "1958-06-05",
    "calendar": "held",
    "kind": "triennial",
-   "work": "done"
+   "work": "done",
+   "expectedAreas": 16
   },
   {
    "slug": "down-county-council",
@@ -14538,23 +14456,9 @@
    "kind": "triennial",
    "work": "done",
    "heldAreas": [
-    "Aghnaglack",
     "Clabby",
-    "Coolyermor",
-    "Corrygloss",
-    "Derrybrusk",
-    "Enniskillen Rural",
-    "Florencecourt",
-    "Killesher",
-    "Kinglass",
-    "Lisbofin",
-    "Monea",
-    "Oldbar",
-    "Rahaltan",
-    "Ballycassidy",
-    "Newporton"
-   ],
-   "excluded": "20 held contest(s) (Aghnaglack, Ballycassidy, Castlecoole, Clabby, Coolyermor, Corrygloss...) make the round partial (6 Nov 2026 consolidation)"
+    "Oldbar"
+   ]
   },
   {
    "slug": "fermanagh-county-council",
@@ -14564,22 +14468,11 @@
    "kind": "triennial",
    "work": "done",
    "heldAreas": [
-    "Ballinamallard",
-    "Brookeborough",
     "Clonelly",
-    "Enniskillen Borough",
-    "Enniskillen Rural",
-    "Florencecourt",
-    "Holywell",
-    "Lack",
     "Laragh",
-    "Maguiresbridge",
     "Monea",
-    "Roslea",
-    "Newtownbutler",
-    "Lisnaskea"
-   ],
-   "excluded": "17 held contest(s) (Newtownbutler, Ballinamallard, Brookeborough, Clonelly, Doon, Enniskillen Borough...) make the round partial (6 Nov 2026 consolidation)"
+    "Newtownbutler"
+   ]
   },
   {
    "slug": "hillsborough-rural-district-council",
@@ -14597,18 +14490,12 @@
    "kind": "triennial",
    "work": "done",
    "heldAreas": [
-    "Aghamuldowney",
     "Belleek",
-    "Churchill",
     "Ederney",
-    "Inishmacsaint",
-    "Killadeas",
     "Lattone",
     "Lisnarick",
-    "Milltown",
-    "Ballinamallard"
-   ],
-   "excluded": "newspapers.com source: reuse terms not yet confirmed by the owner"
+    "Milltown"
+   ]
   },
   {
    "slug": "larne-rural-district-council",
@@ -14643,25 +14530,12 @@
    "work": "done",
    "heldAreas": [
     "Aghyoule",
-    "Armagh Manor",
-    "Belleisle",
     "Brookeborough",
     "Carnmore",
-    "Castle Balfour",
-    "Colebrooke",
     "Cross",
-    "Crum",
     "Deerpark",
-    "Drummully",
-    "Drumshemuck",
-    "Eshnadarragh",
-    "Greenhill",
-    "Mullynagowan",
-    "Lisnaskea",
-    "Dresternan",
-    "Newtownbutler"
-   ],
-   "excluded": "26 held contest(s) (Aghakillymaude, Aghyoule, Armagh Manor, Ballindarragh, Belleisle, Brookeborough...) make the round partial (6 Nov 2026 consolidation)"
+    "Drumshemuck"
+   ]
   },
   {
    "slug": "londonderry-county-council",
@@ -14701,7 +14575,8 @@
    "pollDate": "1958-06-05",
    "calendar": "held",
    "kind": "triennial",
-   "work": "done"
+   "work": "done",
+   "expectedAreas": 14
   },
   {
    "slug": "north-down-rural-district-council",
@@ -14717,7 +14592,8 @@
    "pollDate": "1958-06-05",
    "calendar": "held",
    "kind": "triennial",
-   "work": "done"
+   "work": "done",
+   "expectedAreas": 39
   },
   {
    "slug": "south-down-rural-district-council",
@@ -14725,7 +14601,8 @@
    "pollDate": "1958-06-05",
    "calendar": "held",
    "kind": "triennial",
-   "work": "done"
+   "work": "done",
+   "expectedAreas": 17
   },
   {
    "slug": "strabane-rural-district-council",
@@ -14733,7 +14610,8 @@
    "pollDate": "1958-06-05",
    "calendar": "held",
    "kind": "triennial",
-   "work": "done"
+   "work": "done",
+   "expectedAreas": 28
   },
   {
    "slug": "tyrone-county-council",
@@ -14880,8 +14758,7 @@
    "pollDate": "1961-05-17",
    "calendar": "held",
    "kind": "triennial",
-   "work": "partial",
-   "excluded": "status partial"
+   "work": "partial"
   },
   {
    "slug": "enniskillen-borough-council",
@@ -14988,8 +14865,7 @@
    "pollDate": "1961-05-17",
    "calendar": "held",
    "kind": "triennial",
-   "work": "held",
-   "excluded": "status held"
+   "work": "partial"
   },
   {
    "slug": "omagh-urban-district-council",
@@ -15058,8 +14934,7 @@
    "pollDate": "1961-06-01",
    "calendar": "held",
    "kind": "triennial",
-   "work": "partial",
-   "excluded": "status partial"
+   "work": "partial"
   },
   {
    "slug": "ballymena-rural-district-council",
@@ -15073,8 +14948,7 @@
     "Glenwherry",
     "Lisnagarron",
     "Slemish"
-   ],
-   "excluded": "status partial"
+   ]
   },
   {
    "slug": "ballymoney-rural-district-council",
@@ -15138,8 +15012,7 @@
    "pollDate": "1961-06-01",
    "calendar": "held",
    "kind": "triennial",
-   "work": "partial",
-   "excluded": "status partial (6 Nov 2026 consolidation)"
+   "work": "partial"
   },
   {
    "slug": "dungannon-rural-district-council",
@@ -15147,8 +15020,7 @@
    "pollDate": "1961-06-01",
    "calendar": "held",
    "kind": "triennial",
-   "work": "partial",
-   "excluded": "status partial"
+   "work": "partial"
   },
   {
    "slug": "east-down-rural-district-council",
@@ -15163,20 +15035,7 @@
    "pollDate": "1961-06-01",
    "calendar": "held",
    "kind": "triennial",
-   "work": "partial",
-   "heldAreas": [
-    "Corraglass",
-    "Killesher",
-    "Lisbofin",
-    "Garvary",
-    "Monea",
-    "Newporton",
-    "Rahalton",
-    "Drummee",
-    "Derrybrusk",
-    "Lisbellaw"
-   ],
-   "excluded": "status partial"
+   "work": "partial"
   },
   {
    "slug": "fermanagh-county-council",
@@ -15187,20 +15046,10 @@
    "work": "done",
    "heldAreas": [
     "Newtownbutler",
-    "Ballinamallard",
     "Clonelly",
-    "Enniskillen Borough",
-    "Florencecourt",
     "Holywell",
-    "Lack",
-    "Lisnaskea",
-    "Brookeborough",
-    "Laragh",
-    "Lisbellaw",
-    "Maguiresbridge",
-    "Monea"
-   ],
-   "excluded": "18 held contest(s) (Newtownbutler, Ballinamallard, Brookeborough, Clonelly, Derrylea, Doon...) make the round partial (6 Nov 2026 consolidation)"
+    "Lack"
+   ]
   },
   {
    "slug": "hillsborough-rural-district-council",
@@ -15218,16 +15067,10 @@
    "kind": "triennial",
    "work": "partial",
    "heldAreas": [
-    "Brookhill",
     "Clonelly",
     "Killadeas",
-    "Churchhill",
-    "Lisnarick",
-    "Ballinamallard",
-    "Lack",
-    "Drumrush"
-   ],
-   "excluded": "status partial"
+    "Lisnarick"
+   ]
   },
   {
    "slug": "larne-rural-district-council",
@@ -15262,18 +15105,9 @@
    "kind": "triennial",
    "work": "partial",
    "heldAreas": [
-    "Brookeborough",
     "Deerpark",
-    "Maguiresbridge",
-    "Newtownbutler",
-    "Ballindarragh",
-    "Crum",
-    "Mullynagowan",
-    "Colebrooke",
-    "Greenhill",
-    "Corralongford"
-   ],
-   "excluded": "status partial; 10 held contest(s) (Brookeborough, Deerpark, Maguiresbridge, Newtownbutler, Ballindarragh, Crum...) make the round partial; 10 of them held for selection-list evidence (owner decision "
+    "Mullynagowan"
+   ]
   },
   {
    "slug": "londonderry-county-council",
@@ -15476,8 +15310,7 @@
    "pollDate": "1964-05-20",
    "calendar": "held",
    "kind": "triennial",
-   "work": "held",
-   "excluded": "status held"
+   "work": "done"
   },
   {
    "slug": "dungannon-urban-district-council",
@@ -15597,8 +15430,7 @@
    "pollDate": "1964-05-20",
    "calendar": "held",
    "kind": "triennial",
-   "work": "partial",
-   "excluded": "status partial"
+   "work": "partial"
   },
   {
    "slug": "omagh-urban-district-council",
@@ -15684,8 +15516,7 @@
    "pollDate": "1964-06-04",
    "calendar": "held",
    "kind": "triennial",
-   "work": "partial",
-   "excluded": "status partial"
+   "work": "partial"
   },
   {
    "slug": "banbridge-rural-district-council",
@@ -15726,8 +15557,7 @@
    "pollDate": "1964-06-04",
    "calendar": "held",
    "kind": "triennial",
-   "work": "partial",
-   "excluded": "status partial"
+   "work": "partial"
   },
   {
    "slug": "cookstown-rural-district-council",
@@ -15753,8 +15583,8 @@
    "pollDate": "1964-06-04",
    "calendar": "held",
    "kind": "triennial",
-   "work": "partial",
-   "excluded": "status partial"
+   "work": "done",
+   "expectedAreas": 19
   },
   {
    "slug": "east-down-rural-district-council",
@@ -15762,8 +15592,7 @@
    "pollDate": "1964-06-04",
    "calendar": "held",
    "kind": "triennial",
-   "work": "partial",
-   "excluded": "status partial"
+   "work": "partial"
   },
   {
    "slug": "enniskillen-rural-district-council",
@@ -15848,8 +15677,8 @@
    "pollDate": "1964-06-04",
    "calendar": "held",
    "kind": "triennial",
-   "work": "partial",
-   "excluded": "status partial"
+   "work": "done",
+   "expectedAreas": 13
   },
   {
    "slug": "magherafelt-rural-district-council",
@@ -15882,7 +15711,8 @@
    "pollDate": "1964-06-04",
    "calendar": "unknown",
    "kind": "",
-   "work": "done"
+   "work": "done",
+   "excluded": "left as in the repo (County Armagh work, 471df5ebaf: party labels and poll totals); the staging copy from the Returning Officer's notice waits for the owner (instalment-1 audit-after.md). Added 7 Nov "
   },
   {
    "slug": "north-down-rural-district-council",
@@ -15890,8 +15720,7 @@
    "pollDate": "1964-06-04",
    "calendar": "held",
    "kind": "triennial",
-   "work": "partial",
-   "excluded": "status partial"
+   "work": "partial"
   },
   {
    "slug": "omagh-rural-district-council",
@@ -15899,8 +15728,7 @@
    "pollDate": "1964-06-04",
    "calendar": "held",
    "kind": "triennial",
-   "work": "done",
-   "excluded": "1 contest(s) whose names were not found on the cited page or any cached page nearby (citation unconfirmed)"
+   "work": "done"
   },
   {
    "slug": "south-down-rural-district-council",
@@ -15909,7 +15737,10 @@
    "calendar": "held",
    "kind": "triennial",
    "work": "partial",
-   "excluded": "status partial (6 Nov 2026 consolidation)"
+   "heldAreas": [
+    "Attical",
+    "Maghera"
+   ]
   },
   {
    "slug": "strabane-rural-district-council",
@@ -16081,8 +15912,7 @@
    "pollDate": "1967-05-17",
    "calendar": "held",
    "kind": "triennial",
-   "work": "held",
-   "excluded": "status held"
+   "work": "done"
   },
   {
    "slug": "larne-borough-council",
@@ -16153,8 +15983,8 @@
    "pollDate": "1967-05-17",
    "calendar": "held",
    "kind": "triennial",
-   "work": "partial",
-   "excluded": "status partial"
+   "work": "done",
+   "expectedAreas": 4
   },
   {
    "slug": "omagh-urban-district-council",
@@ -16180,8 +16010,8 @@
    "pollDate": "1967-05-17",
    "calendar": "held",
    "kind": "triennial",
-   "work": "held",
-   "excluded": "status held"
+   "work": "done",
+   "expectedAreas": 1
   },
   {
    "slug": "warrenpoint-urban-district-council",
@@ -16286,7 +16116,8 @@
    "pollDate": "1967-06-01",
    "calendar": "held",
    "kind": "triennial",
-   "work": "done"
+   "work": "done",
+   "expectedAreas": 16
   },
   {
    "slug": "down-county-council",
@@ -16412,7 +16243,8 @@
    "pollDate": "1967-06-01",
    "calendar": "held",
    "kind": "triennial",
-   "work": "done"
+   "work": "done",
+   "expectedAreas": 14
   },
   {
    "slug": "north-down-rural-district-council",
