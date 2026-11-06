@@ -138,6 +138,39 @@ PRE1973_COUNCIL_BODIES = {
     'portstewart-urban-district-council',
     'warrenpoint-urban-district-council',
     'whitehead-urban-district-council',
+    # NI councils 1923-67, instalment 2 (2026-11): the county councils and rural districts.
+    'antrim-county-council',
+    'down-county-council',
+    'fermanagh-county-council',
+    'londonderry-county-council',
+    'tyrone-county-council',
+    'antrim-rural-district-council',
+    'ballycastle-rural-district-council',
+    'ballymena-rural-district-council',
+    'ballymoney-rural-district-council',
+    'banbridge-rural-district-council',
+    'belfast-rural-district-council',
+    'castlederg-rural-district-council',
+    'castlereagh-rural-district-council',
+    'clogher-rural-district-council',
+    'coleraine-rural-district-council',
+    'cookstown-rural-district-council',
+    'dungannon-rural-district-council',
+    'east-down-rural-district-council',
+    'enniskillen-rural-district-council',
+    'hillsborough-rural-district-council',
+    'irvinestown-rural-district-council',
+    'larne-rural-district-council',
+    'limavady-rural-district-council',
+    'lisburn-rural-district-council',
+    'lisnaskea-rural-district-council',
+    'londonderry-rural-district-council',
+    'magherafelt-rural-district-council',
+    'newry-no-1-rural-district-council',
+    'north-down-rural-district-council',
+    'omagh-rural-district-council',
+    'south-down-rural-district-council',
+    'strabane-rural-district-council',
 }
 
 
@@ -630,9 +663,31 @@ def main():
                 best, best_score = pid, score
         return best
 
+    # A half of a career split (keyed with its 'yyyy-yyyy' years) still keeps a prior join to
+    # a group on its own side of the split: adding Lisburn Rural District's Robert Smyth of 1930
+    # to the name-and-party key of Westmeath's Robert Smyth (1826, no party) split that key, and
+    # the 1826 half lost its join to his 1824 row (History of Parliament id) and was renumbered.
+    # The join is kept only where the joined years are themselves a plausible career.
+    def career_half(k):
+        return len(k) == 3 and k[0] in ('src', 'id') and re.fullmatch(r'\d{4}-\d{4}', str(k[2])) is not None
+
+    def plausible_years(vs):
+        ys = sorted({r['year'] for v in vs for r in v if r['year']})
+        return not ys or (ys[-1] - ys[0] <= MAX_PLAUSIBLE_SPAN and not silent_within(ys))
+
+    def half_had_own_id(k, v):
+        """The prior registry already held this half as a person of its own (same era, same
+        source id): it keeps that id rather than rejoining anyone."""
+        lo, hi = (int(x) for x in str(k[2]).split('-'))
+        sources = {r['id'] for r in v if r['id']}
+        return any(prev[p].get('era') == [lo, hi]
+                   for s in sources for p in prev_by_source.get(s, set()) if p in prev)
+
     by_prior = collections.defaultdict(list)
     for k, v in merged.items():
-        if len(k) > 2:
+        if len(k) > 2 and not career_half(k):
+            continue
+        if career_half(k) and half_had_own_id(k, v):
             continue
         pid = strongest_prior(v)
         if pid is None and k[0] == 'name' and len(prev_by_namerows.get(k[1], ())) == 1:
@@ -649,7 +704,7 @@ def main():
     for pid, keys in by_prior.items():
         if len(keys) < 2:
             continue
-        keys.sort(key=lambda k: (-len(merged[k]), str(k)))
+        keys.sort(key=lambda k: (career_half(k), -len(merged[k]), str(k)))
         lead = keys[0]
         contests = {r['key'] for r in merged[lead]}
         # A prior join the source now contradicts is not kept. Two groups naming different
@@ -661,6 +716,8 @@ def main():
         for k in keys[1:]:
             theirs = {r['key'] for r in merged[k]}
             if contests & theirs:
+                continue
+            if (career_half(lead) or career_half(k)) and not plausible_years([merged[lead], merged[k]]):
                 continue
             ours_src = {r['src'] for r in merged[lead] if r['src']}
             their_src = {r['src'] for r in merged[k] if r['src']}
