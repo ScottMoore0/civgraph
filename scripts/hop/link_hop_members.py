@@ -28,8 +28,10 @@ from crosscheck_hop_1801_1832 import hop_seat  # noqa: E402
 from hop_overlay import same_man, seat_end, Overlay, page_key, forenames, surname_words  # noqa: E402
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..'))
+# Record build paths (scripts/records/paths.py): the legacy locations unless CIVGRAPH_BUILD_DIR is set.
+_RP = __import__('runpy').run_path(os.path.join(ROOT, 'scripts', 'records', 'paths.py'))
 HOP = os.path.join(ROOT, 'data', 'elections', 'hop')
-META = os.path.join(ROOT, 'render', 'metadata', 'elections-test2')
+META = _RP['ELECTION_BUNDLE_DIR']
 REGISTRY = os.path.join(ROOT, 'data', 'elections', 'persons', 'person_registry.json')
 
 

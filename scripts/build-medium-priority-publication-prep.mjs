@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { BROWSE_DIR, ELECTION_BUNDLE_DIR } from './records/paths.mjs';
 
 const ROOT = process.cwd();
 const REVIEW_INPUT_DIR = path.join(ROOT, 'data', 'review-inputs');
@@ -87,7 +88,7 @@ function writeCsv(filePath, rows, headers) {
 }
 
 function readJson(relativePath, fallback = null) {
-  const filePath = path.join(ROOT, relativePath);
+  const filePath = path.resolve(ROOT, relativePath);
   if (!fs.existsSync(filePath)) return fallback;
   return JSON.parse(fs.readFileSync(filePath, 'utf8'));
 }
@@ -151,10 +152,10 @@ function parseEvidence(value) {
 }
 
 function loadExistingRecords() {
-  const maps = readJson('data/browse/maps.json', { items: [] });
-  const sources = readJson('data/browse/sources.json', { items: [] });
+  const maps = readJson(path.join(BROWSE_DIR, 'maps.json'), { items: [] });
+  const sources = readJson(path.join(BROWSE_DIR, 'sources.json'), { items: [] });
   const dbMaps = readJson('data/database/maps.json', {});
-  const electionDir = path.join(ROOT, 'render', 'metadata', 'elections-test2');
+  const electionDir = ELECTION_BUNDLE_DIR;
   const electionIds = new Set();
   if (fs.existsSync(electionDir)) {
     for (const name of fs.readdirSync(electionDir)) {

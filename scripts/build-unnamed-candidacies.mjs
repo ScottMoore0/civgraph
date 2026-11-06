@@ -29,10 +29,11 @@
 import { readdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs';
 import path from 'node:path';
 import { buildPartyVocabulary, classifyPersonName, NOT_A_PERSON } from './lib/person-name-artefacts.mjs';
+import { BROWSE_DIR, ELECTION_BUNDLE_DIR } from './records/paths.mjs';
 
 const ROOT = process.cwd();
-const META = path.join(ROOT, 'render/metadata/elections-test2');
-const PARTIES = path.join(ROOT, 'data/browse/parties.json');
+const META = ELECTION_BUNDLE_DIR;
+const PARTIES = path.join(BROWSE_DIR, 'parties.json');
 const OUT = path.join(ROOT, 'data/elections/persons/unnamed-candidacies.csv');
 const check = process.argv.includes('--check');
 

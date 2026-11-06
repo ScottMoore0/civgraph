@@ -40,7 +40,8 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
 OUT = REPO / 'data' / 'elections' / 'gazette-election-extras.json'
-MANIFEST = REPO / 'render' / 'metadata' / 'elections-test2.json'
+_RP = __import__('runpy').run_path(str(REPO / 'scripts' / 'records' / 'paths.py'))
+MANIFEST = Path(_RP['ELECTION_MANIFEST'])
 LICENCE = 'Belfast Gazette (thegazette.co.uk), Open Government Licence v3.0'
 MAX_SCALE_AGE_YEARS = 8
 MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September',
@@ -178,7 +179,7 @@ def load_elections():
 
 def contest_slugs(election_key):
     """The contest slugs Browse makes for an election (slugified result names)."""
-    path = REPO / 'render' / 'metadata' / 'elections-test2' / f'{election_key}.json'
+    path = Path(_RP['ELECTION_BUNDLE_DIR']) / f'{election_key}.json'
     if not path.exists():
         return set()
     detail = json.loads(path.read_text(encoding='utf-8'))

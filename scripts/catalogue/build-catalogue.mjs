@@ -27,9 +27,10 @@ import { compareElectionsNewestFirst } from '../lib/election-names.mjs';
 import path from 'node:path';
 import { loadRecords } from './records.mjs';
 import { formatDatesInText, formatDisplayDate } from '../../src/date-format.mjs';
+import { BROWSE_DIR, ELECTION_MANIFEST } from '../records/paths.mjs';
 
 const ROOT = process.cwd();
-const rel = (p) => path.join(ROOT, p);
+const rel = (p) => path.resolve(ROOT, p);
 const read = (p) => JSON.parse(readFileSync(rel(p), 'utf8'));
 const CHECK = process.argv.includes('--check');
 
@@ -43,7 +44,7 @@ const { records: mapById, parts: partsOf } = loadRecords(ROOT);
 const layerIndex = read('render/metadata/maps-test-index.json').layers || [];
 const thumbs = new Set(read('assets/thumbnails/manifest.json'));
 const spatial = read('data/database/spatial-index.json');
-const elections = read('render/metadata/elections-test2.json').elections || [];
+const elections = read(ELECTION_MANIFEST).elections || [];
 
 // ------------------------------------------------------------------ per map
 const layerBySource = new Map();
@@ -430,7 +431,7 @@ try {
 // A row is [id, name, party, constituency, firstYear, lastYear, stood, elected, contests,
 // otherNames?, slug?]; the slug (their Browse page) is given only when it is not name-id.
 const peopleDoc = (() => {
-  const dir = rel('data/browse/person-shards');
+  const dir = rel(path.join(BROWSE_DIR, 'person-shards'));
   if (!existsSync(dir)) return null;
   const parties = [];
   const constituencies = [];

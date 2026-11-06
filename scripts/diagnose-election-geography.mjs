@@ -28,6 +28,7 @@
 import { deserialize } from 'flatgeobuf/lib/mjs/geojson.js';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
+import { ELECTION_BUNDLE_DIR } from './records/paths.mjs';
 
 const ROOT = process.cwd();
 const args = process.argv.slice(2);
@@ -156,7 +157,7 @@ function candidateMapIds() {
   return [...ids];
 }
 
-const dir = path.join(ROOT, 'render/metadata/elections-test2');
+const dir = ELECTION_BUNDLE_DIR;
 const elections = readdirSync(dir).filter((f) => f.endsWith('.json')).map((f) => JSON.parse(readFileSync(path.join(dir, f), 'utf8')));
 const targets = elections.filter((e) => {
   if (ONLY_BODY && e.body !== ONLY_BODY) return false;
