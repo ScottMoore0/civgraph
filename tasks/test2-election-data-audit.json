@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-06T02:14:34.887Z",
+  "generatedAt": "2026-11-06T02:48:57.213Z",
   "failOnBlocking": true,
   "stats": {
     "manifest": {
       "schemaVersion": 1,
-      "generatedAt": "2026-11-06T02:03:02.345Z",
+      "generatedAt": "2026-11-06T02:42:28.715Z",
       "entries": 1885,
       "totals": {
         "elections": 1885,
         "loadable": 594,
-        "placeholders": 584,
+        "placeholders": 569,
         "matchedConstituencies": 7457,
         "unmatchedConstituencies": 6017
       }
@@ -40,268 +40,27 @@
       "resultRows": 13474,
       "matchedRows": 7457,
       "unmatchedRows": 6017,
-      "candidateRows": 68160,
-      "electedRows": 36663,
-      "rowsWithCountDetail": 13431,
-      "rowsWithAnimationPayload": 13431,
+      "candidateRows": 68425,
+      "electedRows": 36867,
+      "rowsWithCountDetail": 13454,
+      "rowsWithAnimationPayload": 13454,
       "rowsExpectedTransferData": 4129,
       "rowsMissingExpectedTransferData": 0,
-      "candidateRowsWithoutParty": 5174
+      "candidateRowsWithoutParty": 5127
     },
     "colours": {
-      "auditFilePresent": true,
-      "highConfidenceFilePresent": true,
+      "auditFilePresent": false,
+      "highConfidenceFilePresent": false,
       "reviewFilePresent": true,
-      "reviewedMismatches": 10,
-      "observations": 1032,
-      "matches": 73,
-      "mismatches": 135,
-      "highConfidenceMismatches": 85,
-      "noElectionColour": 777,
-      "noWikipediaMatch": 684,
-      "ambiguousWikipediaMatch": 31,
-      "examples": [
-        {
-          "party": "100% Redress",
-          "electionColour": "#C0C0C0",
-          "wikipediaName": "100% Redress",
-          "wikipediaColour": "#F90606",
-          "observations": 1,
-          "review": {
-            "party": "100% Redress",
-            "electionColour": "#C0C0C0",
-            "wikipediaName": "100% Redress",
-            "wikipediaColour": "#F90606",
-            "observations": 1,
-            "status": "needs-canonical-colour-decision",
-            "note": "Single-observation mismatch; verify whether Civgraph should keep a neutral local-label colour or adopt the saved Wikipedia colour."
-          }
-        },
-        {
-          "party": "An Rabharta Glas – Green Left",
-          "electionColour": "#C0C0C0",
-          "wikipediaName": "Rabharta",
-          "wikipediaColour": "#488A89",
-          "observations": 4,
-          "review": {
-            "party": "An Rabharta Glas - Green Left",
-            "electionColour": "#C0C0C0",
-            "wikipediaName": "Rabharta",
-            "wikipediaColour": "#488A89",
-            "observations": 4,
-            "status": "needs-canonical-colour-decision",
-            "note": "Verify label naming and whether the Wikipedia/Rabharta colour should be canonical for this election label."
-          }
-        },
-        {
-          "party": "Anti-Austerity Alliance",
-          "electionColour": "#E3170D",
-          "wikipediaName": "Anti-Austerity Alliance",
-          "wikipediaColour": "#FFFF00",
-          "observations": 46,
-          "review": {
-            "party": "Anti-Austerity Alliance",
-            "electionColour": "#E3170D",
-            "wikipediaName": "Anti-Austerity Alliance",
-            "wikipediaColour": "#FFFF00",
-            "observations": 46,
-            "status": "needs-canonical-colour-decision",
-            "note": "High-observation mismatch; decide whether historical Civgraph red or saved Wikipedia yellow is the canonical display colour."
-          }
-        },
-        {
-          "party": "Anti-Treaty Sinn Féin",
-          "electionColour": "#C0C0C0",
-          "wikipediaName": "Sinn Féin (Anti-Treaty)",
-          "wikipediaColour": "#326760",
-          "observations": 57,
-          "review": {
-            "party": "Anti-Treaty Sinn Fein",
-            "electionColour": "#C0C0C0",
-            "wikipediaName": "Sinn Fein (Anti-Treaty)",
-            "wikipediaColour": "#326760",
-            "observations": 57,
-            "status": "needs-canonical-colour-decision",
-            "note": "Historic Sinn Fein label mismatch; verify whether this should inherit modern Sinn Fein green or remain neutral."
-          }
-        },
-        {
-          "party": "Aontú",
-          "electionColour": "#C62828",
-          "wikipediaName": "Aontú",
-          "wikipediaColour": "#44532A",
-          "observations": 126,
-          "review": {
-            "party": "Aontu",
-            "electionColour": "#C62828",
-            "wikipediaName": "Aontu",
-            "wikipediaColour": "#44532A",
-            "observations": 126,
-            "status": "needs-canonical-colour-decision",
-            "note": "High-observation mismatch; likely canonical colour-map update candidate after checking existing Civgraph visual conventions."
-          }
-        },
-        {
-          "party": "Clann na Poblachta",
-          "electionColour": "#C0C0C0",
-          "wikipediaName": "Clann na Poblachta",
-          "wikipediaColour": "#BBE549",
-          "observations": 111,
-          "review": {
-            "party": "Clann na Poblachta",
-            "electionColour": "#C0C0C0",
-            "wikipediaName": "Clann na Poblachta",
-            "wikipediaColour": "#BBE549",
-            "observations": 111,
-            "status": "needs-canonical-colour-decision",
-            "note": "Historic party currently neutral; verify whether saved Wikipedia colour should be adopted."
-          }
-        },
-        {
-          "party": "Clann na Talmhan",
-          "electionColour": "#C0C0C0",
-          "wikipediaName": "Clann na Talmhan",
-          "wikipediaColour": "#BDB76B",
-          "observations": 50,
-          "review": {
-            "party": "Clann na Talmhan",
-            "electionColour": "#C0C0C0",
-            "wikipediaName": "Clann na Talmhan",
-            "wikipediaColour": "#BDB76B",
-            "observations": 50,
-            "status": "needs-canonical-colour-decision",
-            "note": "Historic party currently neutral; verify whether saved Wikipedia colour should be adopted."
-          }
-        },
-        {
-          "party": "Commonwealth Labour Party",
-          "electionColour": "#FF6666",
-          "wikipediaName": "Commonwealth Labour Party",
-          "wikipediaColour": "#B22222",
-          "observations": 6,
-          "review": {
-            "party": "Commonwealth Labour Party",
-            "electionColour": "#FF6666",
-            "wikipediaName": "Commonwealth Labour Party",
-            "wikipediaColour": "#B22222",
-            "observations": 6,
-            "status": "needs-canonical-colour-decision",
-            "note": "Low-observation historic label; verify whether to use the saved Wikipedia colour or existing Labour-family colour."
-          }
-        },
-        {
-          "party": "Communist Party of Ireland",
-          "electionColour": "#FF3300",
-          "wikipediaName": "Communist Party of Ireland",
-          "wikipediaColour": "#E3170D",
-          "observations": 6,
-          "review": {
-            "party": "Communist Party of Ireland",
-            "electionColour": "#FF3300",
-            "wikipediaName": "Communist Party of Ireland",
-            "wikipediaColour": "#E3170D",
-            "observations": 6,
-            "status": "needs-canonical-colour-decision",
-            "note": "Related red shades; verify whether exact Wikipedia shade should replace the existing display colour."
-          }
-        },
-        {
-          "party": "Communist Party of Ireland (Marxist-Leninist)",
-          "electionColour": "#E3170D",
-          "wikipediaName": "Communist Party of Ireland (Marxist–Leninist)",
-          "wikipediaColour": "#660000",
-          "observations": 3,
-          "review": {
-            "party": "Communist Party of Ireland (Marxist-Leninist)",
-            "electionColour": "#E3170D",
-            "wikipediaName": "Communist Party of Ireland (Marxist-Leninist)",
-            "wikipediaColour": "#660000",
-            "observations": 3,
-            "status": "needs-canonical-colour-decision",
-            "note": "Low-observation historic split label; verify before changing the canonical display colour."
-          }
-        },
-        {
-          "party": "Conservative",
-          "electionColour": "#0E7C42",
-          "wikipediaName": "Conservative and Unionist Party (UK)",
-          "wikipediaColour": "#0087DC",
-          "observations": 61,
-          "review": null
-        },
-        {
-          "party": "Conservative",
-          "electionColour": "#1F4E8C",
-          "wikipediaName": "Conservative and Unionist Party (UK)",
-          "wikipediaColour": "#0087DC",
-          "observations": 11,
-          "review": null
-        },
-        {
-          "party": "Conservative",
-          "electionColour": "#888888",
-          "wikipediaName": "Conservative and Unionist Party (UK)",
-          "wikipediaColour": "#0087DC",
-          "observations": 13,
-          "review": null
-        },
-        {
-          "party": "Conservative",
-          "electionColour": "#9E9E9E",
-          "wikipediaName": "Conservative and Unionist Party (UK)",
-          "wikipediaColour": "#0087DC",
-          "observations": 254,
-          "review": null
-        },
-        {
-          "party": "Cumann na nGaedheal",
-          "electionColour": "#C0C0C0",
-          "wikipediaName": "Cumann na nGaedheal",
-          "wikipediaColour": "#87CEFA",
-          "observations": 360,
-          "review": null
-        },
-        {
-          "party": "Democracy First",
-          "electionColour": "#000000",
-          "wikipediaName": "Democracy First",
-          "wikipediaColour": "#FF8C00",
-          "observations": 2,
-          "review": null
-        },
-        {
-          "party": "Democratic Left",
-          "electionColour": "#DC241F",
-          "wikipediaName": "Democratic Left (Ireland)",
-          "wikipediaColour": "#C700C7",
-          "observations": 21,
-          "review": null
-        },
-        {
-          "party": "Democratic Partnership",
-          "electionColour": "#FF9800",
-          "wikipediaName": "Democratic Partnership",
-          "wikipediaColour": "#F0E68C",
-          "observations": 10,
-          "review": null
-        },
-        {
-          "party": "Direct Democracy Ireland",
-          "electionColour": "#FFFF00",
-          "wikipediaName": "Direct Democracy Ireland",
-          "wikipediaColour": "#87CEFA",
-          "observations": 41,
-          "review": null
-        },
-        {
-          "party": "Éirígí",
-          "electionColour": "#C0C0C0",
-          "wikipediaName": "Éirígí",
-          "wikipediaColour": "#00A550",
-          "observations": 6,
-          "review": null
-        }
-      ]
+      "reviewedMismatches": 0,
+      "observations": 0,
+      "matches": 0,
+      "mismatches": 0,
+      "highConfidenceMismatches": 0,
+      "noElectionColour": 0,
+      "noWikipediaMatch": 0,
+      "ambiguousWikipediaMatch": 0,
+      "examples": []
     },
     "reviewSidecars": {
       "validPollRecords": 0,
@@ -311,12 +70,11 @@
   },
   "issueSummary": {
     "bySeverity": {
-      "warning": 1378
+      "warning": 1352
     },
     "byCategory": {
       "source-record-single-reference": 781,
-      "candidate-party-missing": 564,
-      "candidate-list-missing": 23,
+      "candidate-party-missing": 561,
       "elected-count": 10
     }
   },
@@ -545,18 +303,6 @@
     },
     {
       "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "lurgan-borough-council__1967-05-17",
-      "message": "No candidates found for Lurgan (aldermen)."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "lurgan-borough-council__1967-05-17",
-      "message": "No candidates found for Lurgan (councillors)."
-    },
-    {
-      "severity": "warning",
       "category": "source-record-single-reference",
       "key": "newcastle-urban-district-council__1967-05-17",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
@@ -596,12 +342,6 @@
       "category": "source-record-single-reference",
       "key": "portadown-borough-council__1967-05-17",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "portadown-borough-council__1967-05-17",
-      "message": "No candidates found for Portadown (councillors)."
     },
     {
       "severity": "warning",
@@ -887,12 +627,6 @@
     },
     {
       "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "lurgan-borough-council__1964-05-20",
-      "message": "No candidates found for Lurgan (councillors)."
-    },
-    {
-      "severity": "warning",
       "category": "source-record-single-reference",
       "key": "newcastle-urban-district-council__1964-05-20",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
@@ -935,15 +669,9 @@
     },
     {
       "severity": "warning",
-      "category": "candidate-list-missing",
+      "category": "candidate-party-missing",
       "key": "portadown-borough-council__1964-05-20",
-      "message": "No candidates found for Portadown (aldermen)."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "portadown-borough-council__1964-05-20",
-      "message": "No candidates found for Portadown (councillors)."
+      "message": "1 candidate rows have no party/label. Examples: Dennis McClatchey in Portadown (councillors)."
     },
     {
       "severity": "warning",
@@ -1271,18 +999,6 @@
     },
     {
       "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "lurgan-borough-council__1961-05-17",
-      "message": "No candidates found for Lurgan (aldermen)."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "lurgan-borough-council__1961-05-17",
-      "message": "No candidates found for Lurgan (councillors)."
-    },
-    {
-      "severity": "warning",
       "category": "source-record-single-reference",
       "key": "newcastle-urban-district-council__1961-05-17",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
@@ -1322,12 +1038,6 @@
       "category": "source-record-single-reference",
       "key": "portadown-borough-council__1961-05-17",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "portadown-borough-council__1961-05-17",
-      "message": "No candidates found for Portadown (councillors)."
     },
     {
       "severity": "warning",
@@ -1697,12 +1407,6 @@
     },
     {
       "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "lurgan-borough-council__1958-05-21",
-      "message": "No candidates found for Lurgan (councillors)."
-    },
-    {
-      "severity": "warning",
       "category": "source-record-single-reference",
       "key": "newcastle-urban-district-council__1958-05-21",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
@@ -1718,12 +1422,6 @@
       "category": "source-record-single-reference",
       "key": "newry-urban-district-council__1958-05-21",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-party-missing",
-      "key": "newry-urban-district-council__1958-05-21",
-      "message": "12 candidate rows have no party/label. Examples: M. Keogh in South Ward; J. O'Hare in South Ward; G. Lally in South Ward; B. Burns in South Ward; M. McMahon in South Ward."
     },
     {
       "severity": "warning",
@@ -1760,18 +1458,6 @@
       "category": "source-record-single-reference",
       "key": "portadown-borough-council__1958-05-21",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "portadown-borough-council__1958-05-21",
-      "message": "No candidates found for Portadown (aldermen)."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "portadown-borough-council__1958-05-21",
-      "message": "No candidates found for Portadown (councillors)."
     },
     {
       "severity": "warning",
@@ -2129,18 +1815,6 @@
     },
     {
       "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "lurgan-borough-council__1955-05-18",
-      "message": "No candidates found for Lurgan (aldermen)."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "lurgan-borough-council__1955-05-18",
-      "message": "No candidates found for Lurgan (councillors)."
-    },
-    {
-      "severity": "warning",
       "category": "source-record-single-reference",
       "key": "newcastle-urban-district-council__1955-05-18",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
@@ -2156,12 +1830,6 @@
       "category": "source-record-single-reference",
       "key": "newry-urban-district-council__1955-05-18",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-party-missing",
-      "key": "newry-urban-district-council__1955-05-18",
-      "message": "11 candidate rows have no party/label. Examples: A. J. Keogh in South Ward; J. O'Hare in South Ward; G. Lally in South Ward; M. M'Mahon in South Ward; T. Malone in South Ward."
     },
     {
       "severity": "warning",
@@ -2186,12 +1854,6 @@
       "category": "source-record-single-reference",
       "key": "portadown-borough-council__1955-05-18",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "portadown-borough-council__1955-05-18",
-      "message": "No candidates found for Portadown (councillors)."
     },
     {
       "severity": "warning",
@@ -2555,12 +2217,6 @@
     },
     {
       "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "lurgan-borough-council__1952-05-21",
-      "message": "No candidates found for Lurgan (councillors)."
-    },
-    {
-      "severity": "warning",
       "category": "source-record-single-reference",
       "key": "newry-urban-district-council__1952-05-21",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
@@ -2582,18 +2238,6 @@
       "category": "source-record-single-reference",
       "key": "portadown-borough-council__1952-05-21",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "portadown-borough-council__1952-05-21",
-      "message": "No candidates found for Portadown (aldermen)."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "portadown-borough-council__1952-05-21",
-      "message": "No candidates found for Portadown (councillors)."
     },
     {
       "severity": "warning",
@@ -2678,18 +2322,6 @@
       "category": "source-record-single-reference",
       "key": "lurgan-borough-council__1949-06-15",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "lurgan-borough-council__1949-06-15",
-      "message": "No candidates found for Lurgan (aldermen)."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "lurgan-borough-council__1949-06-15",
-      "message": "No candidates found for Lurgan (councillors)."
     },
     {
       "severity": "warning",
@@ -2939,12 +2571,6 @@
     },
     {
       "severity": "warning",
-      "category": "candidate-party-missing",
-      "key": "newry-urban-district-council__1949-05-18",
-      "message": "12 candidate rows have no party/label. Examples: M. Keogh in South Ward; P. A. Bennett in South Ward; M. M'Mahon in South Ward; J. M'Donnell in South Ward; M. Warner in South Ward."
-    },
-    {
-      "severity": "warning",
       "category": "source-record-single-reference",
       "key": "newtownards-borough-council__1949-05-18",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
@@ -2960,12 +2586,6 @@
       "category": "source-record-single-reference",
       "key": "portadown-borough-council__1949-05-18",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "portadown-borough-council__1949-05-18",
-      "message": "No candidates found for Portadown (councillors)."
     },
     {
       "severity": "warning",
@@ -3038,18 +2658,6 @@
       "category": "source-record-single-reference",
       "key": "portadown-borough-council__1947-09-25",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "portadown-borough-council__1947-09-25",
-      "message": "No candidates found for Portadown (aldermen)."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-list-missing",
-      "key": "portadown-borough-council__1947-09-25",
-      "message": "No candidates found for Portadown (councillors)."
     },
     {
       "severity": "warning",
@@ -3416,12 +3024,6 @@
       "category": "source-record-single-reference",
       "key": "newry-urban-district-council__1946-09-18",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-party-missing",
-      "key": "newry-urban-district-council__1946-09-18",
-      "message": "11 candidate rows have no party/label. Examples: Patrick Bennett in South Ward; Thomas Casey in South Ward; Michael Joseph Keogh in South Ward; Michael McMahon in South Ward; Thomas Malone in South Ward."
     },
     {
       "severity": "warning",
@@ -7081,7 +6683,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "belfast-county-borough-council__1923-01-15",
-      "message": "17 candidate rows have no party/label. Examples: James Hanvey in Clifton; Thomas Erskine Alexander in Duncairn; Andrew Kelly in Duncairn; James M'Kinney in Duncairn; David Anderson in Pottinger."
+      "message": "15 candidate rows have no party/label. Examples: Thomas Erskine Alexander in Duncairn; Andrew Kelly in Duncairn; James M'Kinney in Duncairn; David Anderson in Pottinger; William J. Magowan in Pottinger."
     },
     {
       "severity": "warning",
