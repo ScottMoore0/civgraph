@@ -145,6 +145,10 @@ const env = {
   ELECTIONS_DB: fakeDb(),
   MAPS_BUCKET: fakeBucket({
     'data/browse/details/maps/wards-1984.json': { item: { slug: 'wards-1984', title: '1984 council wards', description: 'Northern Ireland council wards, 1984.' } },
+    // A ballot-paper label folded into its party (batch 4c): build-browse-indexes.mjs writes the
+    // party's own record under the label's old slug.
+    'data/browse/details/parties/uup.json': { item: { slug: 'uup', title: 'Ulster Unionist Party', subtitle: 'UUP / 1899-2024' } },
+    'data/browse/details/parties/uup-farmer.json': { item: { slug: 'uup', title: 'Ulster Unionist Party', subtitle: 'UUP / 1899-2024', previousSlugs: ['uup-farmer'] } },
   }),
   ASSETS,
 };
@@ -246,6 +250,11 @@ check('types: the sitemap and the pages route the same types',
 
   const encoded = await get('elections', '/browse/elections/dail-eireann__2024-11-29');
   check('page: an election by key redirects to its slug', encoded.status === 301 && encoded.headers.get('Location').endsWith('/browse/elections/dail-eireann-2024-11-29'), `${encoded.status} ${encoded.headers.get('Location')}`);
+
+  const party = await get('parties', '/browse/parties/uup');
+  check('page: a party answers 200 with its title', party.status === 200 && titleOf(await party.text()) === 'Ulster Unionist Party – Party / label – Civgraph', String(party.status));
+  const folded = await get('parties', '/browse/parties/uup-farmer');
+  check('page: a folded ballot-paper label redirects to its party (301)', folded.status === 301 && folded.headers.get('Location') === 'https://civgraph.net/browse/parties/uup', `${folded.status} ${folded.headers.get('Location')}`);
 }
 
 // --- /404 ------------------------------------------------------------------------------
