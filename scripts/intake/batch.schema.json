@@ -4,7 +4,7 @@
   "title": "civgraph.net intake batch",
   "description": "One data batch: what it adds to the repository, what it sends to R2, what follows the upload, and which checks should pass or fail on the way. Read by scripts/intake/intake.mjs; see docs/intake.md. Paths in operations are relative to the batch folder (sources) or to the repository root (targets, R2 files).",
   "type": "object",
-  "required": ["schemaVersion", "id", "title", "date", "status", "sources", "operations"],
+  "required": ["schemaVersion", "id", "title", "date", "status", "sources", "personalData", "operations"],
   "additionalProperties": false,
   "properties": {
     "$schema": { "type": "string" },
@@ -14,6 +14,36 @@
     "date": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
     "status": { "enum": ["draft", "staged", "committed", "uploaded", "published", "abandoned"] },
     "summary": { "type": "string" },
+    "preparedBy": { "type": "string", "description": "Agent or session label. Never an email address." },
+    "kinds": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "enum": ["maps", "elections", "persons", "parties", "sources", "catalogue", "census", "votes", "interests", "contribution", "research-only"] }
+    },
+    "personalData": {
+      "type": "object",
+      "required": ["contains"],
+      "additionalProperties": false,
+      "properties": {
+        "contains": { "type": "boolean" },
+        "handling": { "enum": ["none", "names-only", "addresses-to-census-unit", "private-not-published"] },
+        "note": { "type": "string" }
+      }
+    },
+    "approvals": {
+      "type": "array",
+      "description": "The owner's approvals, recorded by the main session from what the owner said in chat; never by a subagent.",
+      "items": {
+        "type": "object",
+        "required": ["step", "date", "note"],
+        "additionalProperties": false,
+        "properties": {
+          "step": { "enum": ["apply", "upload", "publish"] },
+          "date": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+          "note": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
     "repo": {
       "type": "object",
       "additionalProperties": false,
@@ -49,6 +79,7 @@
         "publisher": { "type": "string" },
         "url": { "type": "string" },
         "licence": { "type": "string" },
+        "rights": { "enum": ["OGL", "CC-BY", "CC-BY-SA", "public-domain", "facts-with-citation", "owner-permission", "unknown"], "description": "unknown fails validate: ask the owner instead" },
         "citation": { "type": "string" },
         "accessed": { "type": "string" },
         "note": { "type": "string" }
