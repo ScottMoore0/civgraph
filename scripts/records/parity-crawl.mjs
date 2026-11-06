@@ -121,6 +121,14 @@ export function buildUrlList(db) {
   page('persons', mergedIds, 20);
   for (const s of sample(retired, 15)) add('page-parties-retired', `/browse/parties/${enc(s)}`, 'html');
   add('page-elections-alias', '/browse/elections/bangor-urban-district-council-1920-01-15', 'html');
+
+  // The grouped local-election years (ni-local__YYYY from 1921, ireland-local__YYYY before):
+  // the year files and coverage are committed static files, the year records come from D1.
+  const groupYears = col("SELECT slug FROM election_cards ORDER BY slug").filter((s) => /^(ni|ireland)-local-\d{4}$/.test(s));
+  for (const s of groupYears) add('ni-local-year-file', `/render/metadata/ni-local/${s.slice(-4)}.json`);
+  add('ni-local-coverage', '/render/metadata/ni-local-coverage.json');
+  for (const s of sample(groupYears, 15)) add('ni-local-detail', `/data/browse/details/elections/${s}.json`);
+  for (const s of sample(groupYears, 15)) add('page-elections-ni-local', `/browse/elections/${enc(s)}`, 'html');
   return urls.filter((u) => !ONLY || ONLY.has(u.kind));
 }
 
