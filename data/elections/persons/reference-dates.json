@@ -1,21 +1,500 @@
 {
  "schemaVersion": 1,
- "description": "Birth and death dates from published reference works, by Civgraph person id. The Browse pages use them only where History of Parliament and Wikidata give no date, citing the work and page. Facts only: no text from the works is held here. Where an entry's preferOver names a field, the reference work's date is shown in place of Wikidata's, because a second source agrees with it; the note says why.",
+ "description": "Birth and death dates from published reference works, by Civgraph person id. The Browse pages use them only where History of Parliament and Wikidata give no date, citing the work and page. Facts only: no text from the works is held here. Where an entry's preferOver names a field, the reference work's date is shown in place of Wikidata's, because a second source agrees with it; the note says why. Entries from Elliott & Flackes (1999) carry checkedAgainst: the second sources, per field, that give the same date (a date is added only when one does, at the precision the sources support). Where the book is wrong and the second sources agree with each other, the field holds their date and bookGives records the book's.",
  "sources": {
   "boylan-1998": {
    "title": "Henry Boylan, A Dictionary of Irish Biography",
    "edition": "3rd edition",
    "publisher": "Gill & Macmillan",
    "year": 1998
+  },
+  "elliott-flackes-1999": {
+   "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999",
+   "publisher": "Blackstaff Press",
+   "year": 1999
   }
  },
  "people": {
+  "349": {
+   "source": "elliott-flackes-1999",
+   "entry": "John Maginnis",
+   "born": "1919-03-07",
+   "page": "337",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"John Maginnis\"",
+      "url": "https://en.wikipedia.org/wiki/John_Maginnis"
+     },
+     {
+      "title": "Wikidata, Q16015196",
+      "url": "https://www.wikidata.org/wiki/Q16015196"
+     },
+     {
+      "title": "Hansard 1803-2005 (UK Parliament), Mr John Maginnis",
+      "url": "https://api.parliament.uk/historic-hansard/people/mr-john-maginnis"
+     }
+    ]
+   },
+   "facts": [
+    "dD-0034"
+   ]
+  },
+  "1024": {
+   "source": "elliott-flackes-1999",
+   "entry": "Jack Allen (Northern Ireland politician)",
+   "born": "1941-01",
+   "page": "156",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Jack Allen (Northern Ireland politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Jack_Allen_(Northern_Ireland_politician)"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0040"
+   ]
+  },
+  "1163": {
+   "source": "elliott-flackes-1999",
+   "entry": "Frank McManus",
+   "born": "1942-08-16",
+   "page": "334",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Frank McManus (Irish politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Frank_McManus_(Irish_politician)"
+     },
+     {
+      "title": "Wikidata, Q5488358",
+      "url": "https://www.wikidata.org/wiki/Q5488358"
+     }
+    ]
+   },
+   "facts": [
+    "dD-0005"
+   ]
+  },
+  "1199": {
+   "source": "elliott-flackes-1999",
+   "entry": "James Stronge",
+   "born": "1932-06-21",
+   "died": "1981-01-21",
+   "page": "460",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"James M. Stronge\"",
+      "url": "https://en.wikipedia.org/wiki/James_M._Stronge"
+     },
+     {
+      "title": "Wikidata, Q6143773",
+      "url": "https://www.wikidata.org/wiki/Q6143773"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"James M. Stronge\"",
+      "url": "https://en.wikipedia.org/wiki/James_M._Stronge"
+     },
+     {
+      "title": "Wikidata, Q6143773",
+      "url": "https://www.wikidata.org/wiki/Q6143773"
+     },
+     {
+      "title": "CAIN, Malcolm Sutton, An Index of Deaths from the Conflict in Ireland",
+      "url": "https://cain.ulster.ac.uk/sutton/chron/1981.html"
+     }
+    ]
+   },
+   "bookGives": {
+    "born": "1933"
+   },
+   "facts": [
+    "dF-0006"
+   ]
+  },
+  "1371": {
+   "source": "elliott-flackes-1999",
+   "entry": "Ronald Broadhurst",
+   "born": "1906",
+   "died": "1987-01",
+   "page": "189",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Ronald Broadhurst\"",
+      "url": "https://en.wikipedia.org/wiki/Ronald_Broadhurst"
+     },
+     {
+      "title": "Wikidata, Q2165637",
+      "url": "https://www.wikidata.org/wiki/Q2165637"
+     }
+    ],
+    "died": [
+     {
+      "title": "Belfast Telegraph, 5 January 1987, p. 6"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0241"
+   ]
+  },
+  "1625": {
+   "source": "elliott-flackes-1999",
+   "entry": "Kennedy Lindsay",
+   "born": "1924",
+   "page": "316",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Kennedy Lindsay\"",
+      "url": "https://en.wikipedia.org/wiki/Kennedy_Lindsay"
+     },
+     {
+      "title": "Wikidata, Q6389642",
+      "url": "https://www.wikidata.org/wiki/Q6389642"
+     }
+    ]
+   },
+   "facts": [
+    "dC-0173"
+   ]
+  },
+  "1961": {
+   "source": "elliott-flackes-1999",
+   "entry": "Lawrence Orr",
+   "born": "1918-09-16",
+   "died": "1990-07-11",
+   "page": "384",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Lawrence Orr\"",
+      "url": "https://en.wikipedia.org/wiki/Lawrence_Orr"
+     },
+     {
+      "title": "Wikidata, Q6504443",
+      "url": "https://www.wikidata.org/wiki/Q6504443"
+     },
+     {
+      "title": "Hansard 1803-2005 (UK Parliament), Mr Lawrence Orr",
+      "url": "https://api.parliament.uk/historic-hansard/people/mr-lawrence-orr"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Lawrence Orr\"",
+      "url": "https://en.wikipedia.org/wiki/Lawrence_Orr"
+     },
+     {
+      "title": "Wikidata, Q6504443",
+      "url": "https://www.wikidata.org/wiki/Q6504443"
+     },
+     {
+      "title": "Hansard 1803-2005 (UK Parliament), Mr Lawrence Orr",
+      "url": "https://api.parliament.uk/historic-hansard/people/mr-lawrence-orr"
+     }
+    ]
+   },
+   "facts": [
+    "dD-0252"
+   ]
+  },
+  "3288": {
+   "source": "elliott-flackes-1999",
+   "entry": "Marian Donnelly",
+   "born": "1938-08-10",
+   "page": "234",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Marian Donnelly\"",
+      "url": "https://en.wikipedia.org/wiki/Marian_Donnelly"
+     },
+     {
+      "title": "Wikidata, Q6761874",
+      "url": "https://www.wikidata.org/wiki/Q6761874"
+     }
+    ]
+   },
+   "facts": [
+    "dB-0152"
+   ]
+  },
+  "3541": {
+   "source": "elliott-flackes-1999",
+   "entry": "Conor Cruise O'Brien",
+   "born": "1917-11-03",
+   "page": "373",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Conor Cruise O'Brien\"",
+      "url": "https://en.wikipedia.org/wiki/Conor_Cruise_O'Brien"
+     }
+    ]
+   },
+   "preferOver": {
+    "born": "Wikidata gives 4 November 1917; Wikipedia, \"Conor Cruise O'Brien\" give 3 November 1917"
+   },
+   "facts": [
+    "dD-0214"
+   ]
+  },
+  "3780": {
+   "source": "elliott-flackes-1999",
+   "entry": "Mervyn Carrick",
+   "born": "1946-02-13",
+   "page": "200",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Mervyn Carrick\"",
+      "url": "https://en.wikipedia.org/wiki/Mervyn_Carrick"
+     },
+     {
+      "title": "Wikidata, Q6820881",
+      "url": "https://www.wikidata.org/wiki/Q6820881"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0315"
+   ]
+  },
+  "6377": {
+   "source": "elliott-flackes-1999",
+   "entry": "David Cook",
+   "born": "1944-01-25",
+   "page": "215",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"David Cook (Northern Ireland politician)\"",
+      "url": "https://en.wikipedia.org/wiki/David_Cook_(Northern_Ireland_politician)"
+     },
+     {
+      "title": "Wikidata, Q16205288",
+      "url": "https://www.wikidata.org/wiki/Q16205288"
+     }
+    ]
+   },
+   "facts": [
+    "dB-0027"
+   ]
+  },
+  "7577": {
+   "source": "elliott-flackes-1999",
+   "entry": "Seán Neeson",
+   "born": "1946-02",
+   "page": "365",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Seán Neeson\"",
+      "url": "https://en.wikipedia.org/wiki/Se%C3%A1n_Neeson"
+     },
+     {
+      "title": "Wikidata, Q7459580",
+      "url": "https://www.wikidata.org/wiki/Q7459580"
+     }
+    ]
+   },
+   "facts": [
+    "dD-0166"
+   ]
+  },
+  "8169": {
+   "source": "elliott-flackes-1999",
+   "entry": "Anne Dickson",
+   "born": "1928-04-18",
+   "page": "232",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Anne Dickson\"",
+      "url": "https://en.wikipedia.org/wiki/Anne_Dickson"
+     },
+     {
+      "title": "Wikidata, Q4768269",
+      "url": "https://www.wikidata.org/wiki/Q4768269"
+     }
+    ]
+   },
+   "facts": [
+    "dB-0132"
+   ]
+  },
   "8355": {
    "source": "boylan-1998",
    "born": "1914",
    "died": "1986-03-28",
    "page": "232",
    "entry": "Edward McAteer"
+  },
+  "8599": {
+   "source": "elliott-flackes-1999",
+   "entry": "Douglas Hutchinson",
+   "died": "1995-12-22",
+   "page": "291",
+   "checkedAgainst": {
+    "died": [
+     {
+      "title": "Belfast Telegraph, 23 December 1995, p. 26",
+      "url": "https://irishnewsarchive.com/?a=d&d=BTG19951223.1.26"
+     },
+     {
+      "title": "Belfast Telegraph, 26 December 1995, p. 6",
+      "url": "https://irishnewsarchive.com/?a=d&d=BTG19951226.1.6"
+     },
+     {
+      "title": "Wikipedia, \"Douglas Hutchinson\"",
+      "url": "https://en.wikipedia.org/wiki/Douglas_Hutchinson"
+     }
+    ]
+   },
+   "facts": [
+    "dC-0081"
+   ]
+  },
+  "9350": {
+   "source": "elliott-flackes-1999",
+   "entry": "Ivan Cooper",
+   "born": "1944-01-05",
+   "page": "216",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Ivan Cooper\"",
+      "url": "https://en.wikipedia.org/wiki/Ivan_Cooper"
+     },
+     {
+      "title": "Wikidata, Q719087",
+      "url": "https://www.wikidata.org/wiki/Q719087"
+     }
+    ]
+   },
+   "facts": [
+    "dB-0038"
+   ]
+  },
+  "9382": {
+   "source": "elliott-flackes-1999",
+   "entry": "Raymond McCullough",
+   "born": "1919",
+   "died": "1985-06",
+   "page": "327",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Raymond McCullough\"",
+      "url": "https://en.wikipedia.org/wiki/Raymond_McCullough"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Raymond McCullough\"",
+      "url": "https://en.wikipedia.org/wiki/Raymond_McCullough"
+     },
+     {
+      "title": "Irish News, 21 June 1985, p. 5",
+      "url": "https://irishnewsarchive.com/?a=d&d=INW19850621.1.5"
+     }
+    ]
+   },
+   "facts": [
+    "dC-0234"
+   ]
+  },
+  "9619": {
+   "source": "elliott-flackes-1999",
+   "entry": "Robert James Mitchell",
+   "born": "1912",
+   "died": "1998-01-05",
+   "page": "353",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Robert James Mitchell\"",
+      "url": "https://en.wikipedia.org/wiki/Robert_James_Mitchell"
+     },
+     {
+      "title": "Wikidata, Q7346049",
+      "url": "https://www.wikidata.org/wiki/Q7346049"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Robert James Mitchell\"",
+      "url": "https://en.wikipedia.org/wiki/Robert_James_Mitchell"
+     },
+     {
+      "title": "Wikidata, Q7346049",
+      "url": "https://www.wikidata.org/wiki/Q7346049"
+     }
+    ]
+   },
+   "facts": [
+    "dD-0090"
+   ]
+  },
+  "9951": {
+   "source": "elliott-flackes-1999",
+   "entry": "Joe Byrne (Northern Ireland politician)",
+   "born": "1953-11-29",
+   "page": "196",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Joe Byrne (Northern Ireland politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Joe_Byrne_(Northern_Ireland_politician)"
+     },
+     {
+      "title": "Wikidata, Q6208911",
+      "url": "https://www.wikidata.org/wiki/Q6208911"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0285"
+   ]
+  },
+  "10816": {
+   "source": "elliott-flackes-1999",
+   "entry": "William James Morgan",
+   "born": "1914-07-17",
+   "died": "1999-05-12",
+   "page": "357",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"William James Morgan\"",
+      "url": "https://en.wikipedia.org/wiki/William_James_Morgan"
+     },
+     {
+      "title": "Wikidata, Q8013478",
+      "url": "https://www.wikidata.org/wiki/Q8013478"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"William James Morgan\"",
+      "url": "https://en.wikipedia.org/wiki/William_James_Morgan"
+     },
+     {
+      "title": "Wikidata, Q8013478",
+      "url": "https://www.wikidata.org/wiki/Q8013478"
+     }
+    ]
+   },
+   "facts": [
+    "dD-0105"
+   ]
   },
   "10976": {
    "source": "boylan-1998",
@@ -27,6 +506,565 @@
     "died": "Wikidata gives 11 Feb 1990; Wikipedia agrees with Boylan"
    }
   },
+  "11362": {
+   "source": "elliott-flackes-1999",
+   "entry": "Lord Dunleath (Charles Mulholland)",
+   "born": "1933-06-23",
+   "died": "1993-01-09",
+   "page": "242",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Charles Mulholland, 4th Baron Dunleath\"",
+      "url": "https://en.wikipedia.org/wiki/Charles_Mulholland,_4th_Baron_Dunleath"
+     },
+     {
+      "title": "Wikidata, Q5081144",
+      "url": "https://www.wikidata.org/wiki/Q5081144"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Charles Mulholland, 4th Baron Dunleath\"",
+      "url": "https://en.wikipedia.org/wiki/Charles_Mulholland,_4th_Baron_Dunleath"
+     },
+     {
+      "title": "Wikidata, Q5081144",
+      "url": "https://www.wikidata.org/wiki/Q5081144"
+     }
+    ]
+   },
+   "facts": [
+    "dB-0172"
+   ]
+  },
+  "13015": {
+   "source": "elliott-flackes-1999",
+   "entry": "Robert Bradford (Northern Irish politician)",
+   "born": "1941-06-08",
+   "died": "1981-11-14",
+   "page": "187",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Robert Bradford (Northern Irish politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Robert_Bradford_(Northern_Irish_politician)"
+     },
+     {
+      "title": "Wikidata, Q7342295",
+      "url": "https://www.wikidata.org/wiki/Q7342295"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Robert Bradford (Northern Irish politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Robert_Bradford_(Northern_Irish_politician)"
+     },
+     {
+      "title": "Wikidata, Q7342295",
+      "url": "https://www.wikidata.org/wiki/Q7342295"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0226"
+   ]
+  },
+  "13360": {
+   "source": "elliott-flackes-1999",
+   "entry": "Aidan Larkin",
+   "born": "1946-03-31",
+   "page": "314",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Aidan Larkin\"",
+      "url": "https://en.wikipedia.org/wiki/Aidan_Larkin"
+     },
+     {
+      "title": "Wikidata, Q17306178",
+      "url": "https://www.wikidata.org/wiki/Q17306178"
+     }
+    ]
+   },
+   "facts": [
+    "dC-0162"
+   ]
+  },
+  "14777": {
+   "source": "elliott-flackes-1999",
+   "entry": "Paddy McManus",
+   "died": "1998-02-09",
+   "page": "120",
+   "checkedAgainst": {
+    "died": [
+     {
+      "title": "Irish News, 10 February 1998, p. 4",
+      "url": "https://irishnewsarchive.com/?a=d&d=INW19980210.1.4"
+     },
+     {
+      "title": "Irish News, 11 February 1998, p. 2",
+      "url": "https://irishnewsarchive.com/?a=d&d=INW19980211.1.2"
+     }
+    ]
+   },
+   "facts": [
+    "cB-0005"
+   ]
+  },
+  "15792": {
+   "source": "elliott-flackes-1999",
+   "entry": "Malachy McGurran",
+   "born": "1938",
+   "died": "1978-07-27",
+   "page": "332",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Malachy McGurran\"",
+      "url": "https://en.wikipedia.org/wiki/Malachy_McGurran"
+     },
+     {
+      "title": "Wikidata, Q6740860",
+      "url": "https://www.wikidata.org/wiki/Q6740860"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Malachy McGurran\"",
+      "url": "https://en.wikipedia.org/wiki/Malachy_McGurran"
+     },
+     {
+      "title": "Wikidata, Q6740860",
+      "url": "https://www.wikidata.org/wiki/Q6740860"
+     }
+    ]
+   },
+   "facts": [
+    "dC-0261"
+   ]
+  },
+  "15892": {
+   "source": "elliott-flackes-1999",
+   "entry": "Robin Chichester-Clark",
+   "born": "1928-01-10",
+   "page": "204",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Robin Chichester-Clark\"",
+      "url": "https://en.wikipedia.org/wiki/Robin_Chichester-Clark"
+     },
+     {
+      "title": "Wikidata, Q7352318",
+      "url": "https://www.wikidata.org/wiki/Q7352318"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0341"
+   ]
+  },
+  "18103": {
+   "source": "elliott-flackes-1999",
+   "entry": "Sean Hollywood",
+   "born": "1943-12-12",
+   "died": "1998-07-19",
+   "page": "283",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Sean Hollywood\"",
+      "url": "https://en.wikipedia.org/wiki/Sean_Hollywood"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Sean Hollywood\"",
+      "url": "https://en.wikipedia.org/wiki/Sean_Hollywood"
+     },
+     {
+      "title": "Wikidata, Q16750371",
+      "url": "https://www.wikidata.org/wiki/Q16750371"
+     },
+     {
+      "title": "Irish News, 20 July 1998, p. 6",
+      "url": "https://irishnewsarchive.com/?a=d&d=INW19980720.1.6"
+     },
+     {
+      "title": "Irish News, 21 July 1998, p. 4",
+      "url": "https://irishnewsarchive.com/?a=d&d=INW19980721.1.4"
+     }
+    ]
+   },
+   "bookGives": {
+    "born": "1945"
+   },
+   "facts": [
+    "dC-0059"
+   ]
+  },
+  "19649": {
+   "source": "elliott-flackes-1999",
+   "entry": "Michael Canavan (politician)",
+   "born": "1924-10",
+   "page": "200",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Michael Canavan (politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Michael_Canavan_(politician)"
+     },
+     {
+      "title": "Wikidata, Q17305748",
+      "url": "https://www.wikidata.org/wiki/Q17305748"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0310"
+   ]
+  },
+  "20432": {
+   "source": "elliott-flackes-1999",
+   "entry": "Paddy Kennedy",
+   "died": "1999-05-03",
+   "page": "305",
+   "checkedAgainst": {
+    "died": [
+     {
+      "title": "Wikipedia, \"Paddy Kennedy (politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Paddy_Kennedy_(politician)"
+     },
+     {
+      "title": "Wikidata, Q7123513",
+      "url": "https://www.wikidata.org/wiki/Q7123513"
+     },
+     {
+      "title": "Irish News, 4 May 1999, p. 2",
+      "url": "https://irishnewsarchive.com/?a=d&d=INW19990504.1.2"
+     }
+    ]
+   },
+   "facts": [
+    "dC-0121"
+   ]
+  },
+  "21374": {
+   "source": "elliott-flackes-1999",
+   "entry": "Roy Beggs Jr",
+   "born": "1962-07-03",
+   "page": "176",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Roy Beggs Jr\"",
+      "url": "https://en.wikipedia.org/wiki/Roy_Beggs_Jr"
+     },
+     {
+      "title": "Wikidata, Q7372562",
+      "url": "https://www.wikidata.org/wiki/Q7372562"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0162"
+   ]
+  },
+  "21893": {
+   "source": "elliott-flackes-1999",
+   "entry": "John Turnly",
+   "born": "1935",
+   "died": "1980-06",
+   "page": "471",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"John Turnley\"",
+      "url": "https://en.wikipedia.org/wiki/John_Turnley"
+     },
+     {
+      "title": "Wikidata, Q6261450",
+      "url": "https://www.wikidata.org/wiki/Q6261450"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"John Turnley\"",
+      "url": "https://en.wikipedia.org/wiki/John_Turnley"
+     },
+     {
+      "title": "Wikidata, Q6261450",
+      "url": "https://www.wikidata.org/wiki/Q6261450"
+     },
+     {
+      "title": "CAIN, Malcolm Sutton, An Index of Deaths from the Conflict in Ireland",
+      "url": "https://cain.ulster.ac.uk/sutton/chron/1980.html"
+     }
+    ]
+   },
+   "facts": [
+    "dF-0031"
+   ]
+  },
+  "24471": {
+   "source": "elliott-flackes-1999",
+   "entry": "Paddy Devlin",
+   "born": "1925-03-08",
+   "died": "1999-08-15",
+   "page": "231",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Paddy Devlin\"",
+      "url": "https://en.wikipedia.org/wiki/Paddy_Devlin"
+     },
+     {
+      "title": "Wikidata, Q7123452",
+      "url": "https://www.wikidata.org/wiki/Q7123452"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Paddy Devlin\"",
+      "url": "https://en.wikipedia.org/wiki/Paddy_Devlin"
+     },
+     {
+      "title": "Wikidata, Q7123452",
+      "url": "https://www.wikidata.org/wiki/Q7123452"
+     }
+    ]
+   },
+   "facts": [
+    "dB-0124"
+   ]
+  },
+  "24486": {
+   "source": "elliott-flackes-1999",
+   "entry": "Alex Maskey",
+   "born": "1952-01-08",
+   "page": "344",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Alex Maskey\"",
+      "url": "https://en.wikipedia.org/wiki/Alex_Maskey"
+     },
+     {
+      "title": "Wikidata, Q1116655",
+      "url": "https://www.wikidata.org/wiki/Q1116655"
+     }
+    ]
+   },
+   "facts": [
+    "dD-0056"
+   ]
+  },
+  "25936": {
+   "source": "elliott-flackes-1999",
+   "entry": "Enoch Powell",
+   "born": "1912-06-16",
+   "died": "1998-02-08",
+   "page": "395",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Enoch Powell\"",
+      "url": "https://en.wikipedia.org/wiki/Enoch_Powell"
+     },
+     {
+      "title": "Wikidata, Q333028",
+      "url": "https://www.wikidata.org/wiki/Q333028"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Enoch Powell\"",
+      "url": "https://en.wikipedia.org/wiki/Enoch_Powell"
+     },
+     {
+      "title": "Wikidata, Q333028",
+      "url": "https://www.wikidata.org/wiki/Q333028"
+     }
+    ]
+   },
+   "facts": [
+    "cB-0004",
+    "dD-0292"
+   ]
+  },
+  "26276": {
+   "source": "elliott-flackes-1999",
+   "entry": "William Ross",
+   "born": "1936-02-04",
+   "page": "430",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"William Ross (Unionist politician)\"",
+      "url": "https://en.wikipedia.org/wiki/William_Ross_(Unionist_politician)"
+     },
+     {
+      "title": "Wikidata, Q16104546",
+      "url": "https://www.wikidata.org/wiki/Q16104546"
+     }
+    ]
+   },
+   "facts": [
+    "dE-0072"
+   ]
+  },
+  "26641": {
+   "source": "elliott-flackes-1999",
+   "entry": "Harry West",
+   "born": "1917-03-27",
+   "page": "504",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Harry West\"",
+      "url": "https://en.wikipedia.org/wiki/Harry_West"
+     },
+     {
+      "title": "Wikidata, Q11682348",
+      "url": "https://www.wikidata.org/wiki/Q11682348"
+     },
+     {
+      "title": "Hansard 1803-2005 (UK Parliament), Mr Harry West",
+      "url": "https://api.parliament.uk/historic-hansard/people/mr-harry-west"
+     }
+    ]
+   },
+   "facts": [
+    "dF-0156"
+   ]
+  },
+  "27185": {
+   "source": "elliott-flackes-1999",
+   "entry": "Phelim O'Neill, Lord Rathcavan",
+   "born": "1909-11-02",
+   "died": "1994-12-20",
+   "page": "416",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Phelim O'Neill, 2nd Baron Rathcavan\"",
+      "url": "https://en.wikipedia.org/wiki/Phelim_O'Neill,_2nd_Baron_Rathcavan"
+     },
+     {
+      "title": "Wikidata, Q7181222",
+      "url": "https://www.wikidata.org/wiki/Q7181222"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Phelim O'Neill, 2nd Baron Rathcavan\"",
+      "url": "https://en.wikipedia.org/wiki/Phelim_O'Neill,_2nd_Baron_Rathcavan"
+     },
+     {
+      "title": "Wikidata, Q7181222",
+      "url": "https://www.wikidata.org/wiki/Q7181222"
+     }
+    ]
+   },
+   "facts": [
+    "dE-0015"
+   ]
+  },
+  "27771": {
+   "source": "elliott-flackes-1999",
+   "entry": "Gerry Adams",
+   "born": "1948-10-06",
+   "page": "145",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Gerry Adams\"",
+      "url": "https://en.wikipedia.org/wiki/Gerry_Adams"
+     },
+     {
+      "title": "Wikidata, Q76139",
+      "url": "https://www.wikidata.org/wiki/Q76139"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0006"
+   ]
+  },
+  "27993": {
+   "source": "elliott-flackes-1999",
+   "entry": "Cecil Harvey",
+   "born": "1918",
+   "died": "1985-04-11",
+   "page": "272",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Cecil Harvey (Northern Ireland politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Cecil_Harvey_(Northern_Ireland_politician)"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Cecil Harvey (Northern Ireland politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Cecil_Harvey_(Northern_Ireland_politician)"
+     },
+     {
+      "title": "Irish News, 13 April 1985, p. 3",
+      "url": "https://irishnewsarchive.com/?a=d&d=INW19850413.1.3"
+     }
+    ]
+   },
+   "facts": [
+    "dC-0019"
+   ]
+  },
+  "28030": {
+   "source": "elliott-flackes-1999",
+   "entry": "Tommy Herron",
+   "died": "1973-09",
+   "page": "282",
+   "checkedAgainst": {
+    "died": [
+     {
+      "title": "CAIN, Malcolm Sutton, An Index of Deaths from the Conflict in Ireland",
+      "url": "https://cain.ulster.ac.uk/sutton/chron/1973.html"
+     },
+     {
+      "title": "News Letter, 17 September 1973, p. 1"
+     },
+     {
+      "title": "Wikipedia, \"Tommy Herron\"",
+      "url": "https://en.wikipedia.org/wiki/Tommy_Herron"
+     }
+    ]
+   },
+   "facts": [
+    "dC-0047"
+   ]
+  },
+  "29600": {
+   "source": "elliott-flackes-1999",
+   "entry": "Ernest Baird",
+   "born": "1930",
+   "page": "174",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Ernest Baird\"",
+      "url": "https://en.wikipedia.org/wiki/Ernest_Baird"
+     },
+     {
+      "title": "Wikidata, Q5392752",
+      "url": "https://www.wikidata.org/wiki/Q5392752"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0121"
+   ]
+  },
   "29701": {
    "source": "boylan-1998",
    "born": "1954",
@@ -34,12 +1072,2191 @@
    "page": "389-390",
    "entry": "Bobby Sands"
   },
+  "29729": {
+   "source": "elliott-flackes-1999",
+   "entry": "Paddy O'Hanlon",
+   "born": "1944-05-08",
+   "page": "377",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Paddy O'Hanlon\"",
+      "url": "https://en.wikipedia.org/wiki/Paddy_O'Hanlon"
+     },
+     {
+      "title": "Wikidata, Q7123582",
+      "url": "https://www.wikidata.org/wiki/Q7123582"
+     }
+    ]
+   },
+   "facts": [
+    "dD-0228"
+   ]
+  },
+  "30353": {
+   "source": "elliott-flackes-1999",
+   "entry": "Sheena Campbell",
+   "died": "1992-10-16",
+   "page": "497",
+   "checkedAgainst": {
+    "died": [
+     {
+      "title": "CAIN, Malcolm Sutton, An Index of Deaths from the Conflict in Ireland",
+      "url": "https://cain.ulster.ac.uk/sutton/chron/1992.html"
+     }
+    ]
+   },
+   "facts": [
+    "cA-0027",
+    "dE-0113",
+    "dF-0104"
+   ]
+  },
+  "30698": {
+   "source": "elliott-flackes-1999",
+   "entry": "Lloyd Hall-Thompson",
+   "born": "1920-04-09",
+   "died": "1992-05-20",
+   "page": "270",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Lloyd Hall-Thompson\"",
+      "url": "https://en.wikipedia.org/wiki/Lloyd_Hall-Thompson"
+     },
+     {
+      "title": "Wikidata, Q6662459",
+      "url": "https://www.wikidata.org/wiki/Q6662459"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Lloyd Hall-Thompson\"",
+      "url": "https://en.wikipedia.org/wiki/Lloyd_Hall-Thompson"
+     },
+     {
+      "title": "Wikidata, Q6662459",
+      "url": "https://www.wikidata.org/wiki/Q6662459"
+     }
+    ]
+   },
+   "facts": [
+    "dB-0304"
+   ]
+  },
+  "31309": {
+   "source": "elliott-flackes-1999",
+   "entry": "Tom Hartley",
+   "born": "1945",
+   "page": "272",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Tom Hartley (politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Tom_Hartley_(politician)"
+     }
+    ]
+   },
+   "facts": [
+    "dC-0016"
+   ]
+  },
+  "32087": {
+   "source": "elliott-flackes-1999",
+   "entry": "John Davey",
+   "died": "1989-02-14",
+   "page": "44",
+   "checkedAgainst": {
+    "died": [
+     {
+      "title": "CAIN, Malcolm Sutton, An Index of Deaths from the Conflict in Ireland",
+      "url": "https://cain.ulster.ac.uk/sutton/chron/1989.html"
+     }
+    ]
+   },
+   "facts": [
+    "cA-0005"
+   ]
+  },
+  "32457": {
+   "source": "elliott-flackes-1999",
+   "entry": "Bob Cooper",
+   "born": "1936-06-24",
+   "page": "216",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Bob Cooper (politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Bob_Cooper_(politician)"
+     },
+     {
+      "title": "Wikidata, Q4932131",
+      "url": "https://www.wikidata.org/wiki/Q4932131"
+     }
+    ]
+   },
+   "facts": [
+    "dB-0042"
+   ]
+  },
+  "32970": {
+   "source": "elliott-flackes-1999",
+   "entry": "Esmond Thompson",
+   "born": "1929",
+   "page": "468",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Esmond Thompson\"",
+      "url": "https://en.wikipedia.org/wiki/Esmond_Thompson"
+     },
+     {
+      "title": "Wikidata, Q27517722",
+      "url": "https://www.wikidata.org/wiki/Q27517722"
+     }
+    ]
+   },
+   "facts": [
+    "dF-0018"
+   ]
+  },
+  "34365": {
+   "source": "elliott-flackes-1999",
+   "entry": "Eileen Bell",
+   "born": "1943-08-15",
+   "page": "177",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Eileen Bell\"",
+      "url": "https://en.wikipedia.org/wiki/Eileen_Bell"
+     },
+     {
+      "title": "Wikidata, Q5349324",
+      "url": "https://www.wikidata.org/wiki/Q5349324"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0165"
+   ]
+  },
+  "34716": {
+   "source": "elliott-flackes-1999",
+   "entry": "John Cushnahan",
+   "born": "1948-07-23",
+   "page": "222",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"John Cushnahan\"",
+      "url": "https://en.wikipedia.org/wiki/John_Cushnahan"
+     },
+     {
+      "title": "Wikidata, Q8273594",
+      "url": "https://www.wikidata.org/wiki/Q8273594"
+     }
+    ]
+   },
+   "facts": [
+    "dB-0081"
+   ]
+  },
+  "35426": {
+   "source": "elliott-flackes-1999",
+   "entry": "Jim Nicholson",
+   "born": "1945-01-29",
+   "page": "368",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Jim Nicholson (Northern Ireland politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Jim_Nicholson_(Northern_Ireland_politician)"
+     },
+     {
+      "title": "Wikidata, Q333729",
+      "url": "https://www.wikidata.org/wiki/Q333729"
+     }
+    ]
+   },
+   "facts": [
+    "dD-0193"
+   ]
+  },
+  "37912": {
+   "source": "elliott-flackes-1999",
+   "entry": "Herbert Whitten",
+   "born": "1909",
+   "died": "1981",
+   "page": "507",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Herbert Whitten\"",
+      "url": "https://en.wikipedia.org/wiki/Herbert_Whitten"
+     },
+     {
+      "title": "Wikidata, Q5735901",
+      "url": "https://www.wikidata.org/wiki/Q5735901"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Herbert Whitten\"",
+      "url": "https://en.wikipedia.org/wiki/Herbert_Whitten"
+     },
+     {
+      "title": "Wikidata, Q5735901",
+      "url": "https://www.wikidata.org/wiki/Q5735901"
+     }
+    ]
+   },
+   "facts": [
+    "dF-0168"
+   ]
+  },
+  "38292": {
+   "source": "elliott-flackes-1999",
+   "entry": "Thomas Passmore",
+   "born": "1931",
+   "died": "1989",
+   "page": "391",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Thomas Passmore\"",
+      "url": "https://en.wikipedia.org/wiki/Thomas_Passmore"
+     },
+     {
+      "title": "Wikidata, Q7793034",
+      "url": "https://www.wikidata.org/wiki/Q7793034"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Thomas Passmore\"",
+      "url": "https://en.wikipedia.org/wiki/Thomas_Passmore"
+     },
+     {
+      "title": "Wikidata, Q7793034",
+      "url": "https://www.wikidata.org/wiki/Q7793034"
+     }
+    ]
+   },
+   "facts": [
+    "dD-0270"
+   ]
+  },
+  "38584": {
+   "source": "elliott-flackes-1999",
+   "entry": "John McKeague",
+   "died": "1982-01-29",
+   "page": "417",
+   "checkedAgainst": {
+    "died": [
+     {
+      "title": "CAIN, Malcolm Sutton, An Index of Deaths from the Conflict in Ireland",
+      "url": "https://cain.ulster.ac.uk/sutton/chron/1982.html"
+     },
+     {
+      "title": "Wikipedia, \"John McKeague\"",
+      "url": "https://en.wikipedia.org/wiki/John_McKeague"
+     }
+    ]
+   },
+   "facts": [
+    "dC-0093",
+    "dE-0021"
+   ]
+  },
+  "39285": {
+   "source": "elliott-flackes-1999",
+   "entry": "Paschal O'Hare",
+   "born": "1932",
+   "page": "377",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Paschal O'Hare\"",
+      "url": "https://en.wikipedia.org/wiki/Paschal_O'Hare"
+     },
+     {
+      "title": "Wikidata, Q7141780",
+      "url": "https://www.wikidata.org/wiki/Q7141780"
+     }
+    ]
+   },
+   "facts": [
+    "dD-0230"
+   ]
+  },
+  "39309": {
+   "source": "elliott-flackes-1999",
+   "entry": "Herbert Kirk",
+   "born": "1912-06-05",
+   "page": "309",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Herbert Kirk\"",
+      "url": "https://en.wikipedia.org/wiki/Herbert_Kirk"
+     },
+     {
+      "title": "Wikidata, Q1608608",
+      "url": "https://www.wikidata.org/wiki/Q1608608"
+     }
+    ]
+   },
+   "facts": [
+    "dC-0147"
+   ]
+  },
+  "40304": {
+   "source": "elliott-flackes-1999",
+   "entry": "Frank Millar (politician, born 1925)",
+   "born": "1925",
+   "page": "352",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Frank Millar (politician, born 1925)\"",
+      "url": "https://en.wikipedia.org/wiki/Frank_Millar_(politician,_born_1925)"
+     },
+     {
+      "title": "Wikidata, Q5488438",
+      "url": "https://www.wikidata.org/wiki/Q5488438"
+     }
+    ]
+   },
+   "facts": [
+    "dD-0070"
+   ]
+  },
+  "41302": {
+   "source": "elliott-flackes-1999",
+   "entry": "Joshua Cardwell",
+   "born": "1910",
+   "died": "1982-04-25",
+   "page": "200",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Joss Cardwell\"",
+      "url": "https://en.wikipedia.org/wiki/Joss_Cardwell"
+     },
+     {
+      "title": "Wikidata, Q6289711",
+      "url": "https://www.wikidata.org/wiki/Q6289711"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Joss Cardwell\"",
+      "url": "https://en.wikipedia.org/wiki/Joss_Cardwell"
+     },
+     {
+      "title": "Wikidata, Q6289711",
+      "url": "https://www.wikidata.org/wiki/Q6289711"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0312"
+   ]
+  },
+  "41607": {
+   "source": "elliott-flackes-1999",
+   "entry": "William Brownlow (British Army officer)",
+   "born": "1921-10-09",
+   "page": "192",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"William Brownlow (British Army officer)\"",
+      "url": "https://en.wikipedia.org/wiki/William_Brownlow_(British_Army_officer)"
+     },
+     {
+      "title": "Wikidata, Q16014018",
+      "url": "https://www.wikidata.org/wiki/Q16014018"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0255"
+   ]
+  },
+  "43879": {
+   "source": "elliott-flackes-1999",
+   "entry": "Basil McIvor",
+   "born": "1928-06-17",
+   "page": "332",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Basil McIvor\"",
+      "url": "https://en.wikipedia.org/wiki/Basil_McIvor"
+     },
+     {
+      "title": "Wikidata, Q4867217",
+      "url": "https://www.wikidata.org/wiki/Q4867217"
+     }
+    ]
+   },
+   "facts": [
+    "dC-0266"
+   ]
+  },
+  "44065": {
+   "source": "elliott-flackes-1999",
+   "entry": "Roy Thompson",
+   "born": "1946",
+   "page": "468",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Roy Thompson (politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Roy_Thompson_(politician)"
+     },
+     {
+      "title": "Wikidata, Q7373425",
+      "url": "https://www.wikidata.org/wiki/Q7373425"
+     }
+    ]
+   },
+   "facts": [
+    "dF-0020"
+   ]
+  },
+  "45642": {
+   "source": "elliott-flackes-1999",
+   "entry": "John Brooke, 2nd Viscount Brookeborough",
+   "born": "1922-11-09",
+   "died": "1987-03-05",
+   "page": "190",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"John Brooke, 2nd Viscount Brookeborough\"",
+      "url": "https://en.wikipedia.org/wiki/John_Brooke,_2nd_Viscount_Brookeborough"
+     },
+     {
+      "title": "Wikidata, Q6223344",
+      "url": "https://www.wikidata.org/wiki/Q6223344"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"John Brooke, 2nd Viscount Brookeborough\"",
+      "url": "https://en.wikipedia.org/wiki/John_Brooke,_2nd_Viscount_Brookeborough"
+     },
+     {
+      "title": "Wikidata, Q6223344",
+      "url": "https://www.wikidata.org/wiki/Q6223344"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0246"
+   ]
+  },
+  "47591": {
+   "source": "elliott-flackes-1999",
+   "entry": "George Seawright",
+   "died": "1987-12-03",
+   "page": "434",
+   "checkedAgainst": {
+    "died": [
+     {
+      "title": "CAIN, Malcolm Sutton, An Index of Deaths from the Conflict in Ireland",
+      "url": "https://cain.ulster.ac.uk/sutton/chron/1987.html"
+     },
+     {
+      "title": "Wikipedia, \"George Seawright\"",
+      "url": "https://en.wikipedia.org/wiki/George_Seawright"
+     }
+    ]
+   },
+   "facts": [
+    "dE-0085"
+   ]
+  },
+  "47592": {
+   "source": "elliott-flackes-1999",
+   "entry": "Stanley McMaster",
+   "born": "1926-09-23",
+   "died": "1992-10-20",
+   "page": "334",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Stanley McMaster\"",
+      "url": "https://en.wikipedia.org/wiki/Stanley_McMaster"
+     },
+     {
+      "title": "Wikidata, Q7599788",
+      "url": "https://www.wikidata.org/wiki/Q7599788"
+     },
+     {
+      "title": "Hansard 1803-2005 (UK Parliament), Mr Stanley McMaster",
+      "url": "https://api.parliament.uk/historic-hansard/people/mr-stanley-mcmaster"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Stanley McMaster\"",
+      "url": "https://en.wikipedia.org/wiki/Stanley_McMaster"
+     },
+     {
+      "title": "Wikidata, Q7599788",
+      "url": "https://www.wikidata.org/wiki/Q7599788"
+     },
+     {
+      "title": "Hansard 1803-2005 (UK Parliament), Mr Stanley McMaster",
+      "url": "https://api.parliament.uk/historic-hansard/people/mr-stanley-mcmaster"
+     }
+    ]
+   },
+   "facts": [
+    "dD-0010"
+   ]
+  },
+  "47893": {
+   "source": "elliott-flackes-1999",
+   "entry": "Jim Hendron",
+   "born": "1931-10-01",
+   "page": "280",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Jim Hendron\"",
+      "url": "https://en.wikipedia.org/wiki/Jim_Hendron"
+     },
+     {
+      "title": "Wikidata, Q6195541",
+      "url": "https://www.wikidata.org/wiki/Q6195541"
+     }
+    ]
+   },
+   "facts": [
+    "dC-0039"
+   ]
+  },
+  "47927": {
+   "source": "elliott-flackes-1999",
+   "entry": "George Morrison (Northern Ireland politician)",
+   "born": "1924-11-23",
+   "page": "359",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"George Morrison (Northern Ireland politician)\"",
+      "url": "https://en.wikipedia.org/wiki/George_Morrison_(Northern_Ireland_politician)"
+     },
+     {
+      "title": "Wikidata, Q27914874",
+      "url": "https://www.wikidata.org/wiki/Q27914874"
+     }
+    ]
+   },
+   "facts": [
+    "dD-0122"
+   ]
+  },
+  "48601": {
+   "source": "elliott-flackes-1999",
+   "entry": "Ian Paisley",
+   "born": "1926-04-06",
+   "page": "385",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Ian Paisley\"",
+      "url": "https://en.wikipedia.org/wiki/Ian_Paisley"
+     },
+     {
+      "title": "Wikidata, Q296597",
+      "url": "https://www.wikidata.org/wiki/Q296597"
+     }
+    ]
+   },
+   "facts": [
+    "dD-0261"
+   ]
+  },
+  "48661": {
+   "source": "elliott-flackes-1999",
+   "entry": "John Alderdice, Baron Alderdice",
+   "born": "1955-03-28",
+   "page": "154",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"John Alderdice, Baron Alderdice\"",
+      "url": "https://en.wikipedia.org/wiki/John_Alderdice,_Baron_Alderdice"
+     },
+     {
+      "title": "Wikidata, Q336390",
+      "url": "https://www.wikidata.org/wiki/Q336390"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0030"
+   ]
+  },
+  "50631": {
+   "source": "elliott-flackes-1999",
+   "entry": "Bertie McConnell",
+   "born": "1921-03-27",
+   "page": "326",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Bertie McConnell\"",
+      "url": "https://en.wikipedia.org/wiki/Bertie_McConnell"
+     },
+     {
+      "title": "Wikidata, Q4895647",
+      "url": "https://www.wikidata.org/wiki/Q4895647"
+     }
+    ]
+   },
+   "facts": [
+    "dC-0225"
+   ]
+  },
+  "53153": {
+   "source": "elliott-flackes-1999",
+   "entry": "Billy Hull",
+   "born": "1912",
+   "page": "284",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Billy Hull\"",
+      "url": "https://en.wikipedia.org/wiki/Billy_Hull"
+     },
+     {
+      "title": "Wikidata, Q4912749",
+      "url": "https://www.wikidata.org/wiki/Q4912749"
+     }
+    ]
+   },
+   "facts": [
+    "dC-0067"
+   ]
+  },
+  "53503": {
+   "source": "elliott-flackes-1999",
+   "entry": "Jim Allister",
+   "born": "1953-04-02",
+   "page": "159",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Jim Allister\"",
+      "url": "https://en.wikipedia.org/wiki/Jim_Allister"
+     },
+     {
+      "title": "Wikidata, Q3499853",
+      "url": "https://www.wikidata.org/wiki/Q3499853"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0062"
+   ]
+  },
+  "53809": {
+   "source": "elliott-flackes-1999",
+   "entry": "Leslie Morrell",
+   "born": "1931-12-26",
+   "page": "357",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Leslie Morrell\"",
+      "url": "https://en.wikipedia.org/wiki/Leslie_Morrell"
+     },
+     {
+      "title": "Wikidata, Q16091941",
+      "url": "https://www.wikidata.org/wiki/Q16091941"
+     }
+    ]
+   },
+   "facts": [
+    "dD-0111"
+   ]
+  },
   "54656": {
    "source": "boylan-1998",
    "born": "1921",
    "died": "1977-03-03",
    "page": "127-128",
    "entry": "Arthur Brian Deane Faulkner"
+  },
+  "54816": {
+   "source": "elliott-flackes-1999",
+   "entry": "Seamus Mallon",
+   "born": "1936-08-17",
+   "page": "342",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Seamus Mallon\"",
+      "url": "https://en.wikipedia.org/wiki/Seamus_Mallon"
+     },
+     {
+      "title": "Wikidata, Q3476695",
+      "url": "https://www.wikidata.org/wiki/Q3476695"
+     }
+    ]
+   },
+   "facts": [
+    "dD-0047"
+   ]
+  },
+  "56227": {
+   "source": "elliott-flackes-1999",
+   "entry": "Nat Minford",
+   "born": "1912-12-02",
+   "died": "1975-09-05",
+   "page": "353",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Nat Minford\"",
+      "url": "https://en.wikipedia.org/wiki/Nat_Minford"
+     },
+     {
+      "title": "Wikidata, Q6967865",
+      "url": "https://www.wikidata.org/wiki/Q6967865"
+     },
+     {
+      "title": "Ballymena Observer, 11 September 1975, p. 7"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Nat Minford\"",
+      "url": "https://en.wikipedia.org/wiki/Nat_Minford"
+     },
+     {
+      "title": "Wikidata, Q6967865",
+      "url": "https://www.wikidata.org/wiki/Q6967865"
+     },
+     {
+      "title": "Belfast News-Letter, 6 September 1975, p. 2"
+     }
+    ]
+   },
+   "bookGives": {
+    "born": "1913"
+   },
+   "facts": [
+    "dD-0084"
+   ]
+  },
+  "56314": {
+   "source": "elliott-flackes-1999",
+   "entry": "Roy Bradford",
+   "born": "1920-07-07",
+   "died": "1998-09-02",
+   "page": "187",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Irish News, 4 September 1998, p. 18",
+      "url": "https://irishnewsarchive.com/?a=d&d=INW19980904.1.18",
+      "note": "gives his age at death as 78, which fits 1920, not 1921"
+     },
+     {
+      "title": "Irish News, 7 September 1998, p. 4",
+      "url": "https://irishnewsarchive.com/?a=d&d=INW19980907.1.4",
+      "note": "gives his age at death as 78, which fits 1920, not 1921"
+     },
+     {
+      "title": "Wikipedia, \"Roy Bradford\"",
+      "url": "https://en.wikipedia.org/wiki/Roy_Bradford",
+      "note": "gives the same day and month, with the year 1921"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Roy Bradford\"",
+      "url": "https://en.wikipedia.org/wiki/Roy_Bradford"
+     },
+     {
+      "title": "Wikidata, Q7372592",
+      "url": "https://www.wikidata.org/wiki/Q7372592"
+     },
+     {
+      "title": "Irish News, 4 September 1998, p. 18",
+      "url": "https://irishnewsarchive.com/?a=d&d=INW19980904.1.18"
+     },
+     {
+      "title": "Irish News, 7 September 1998, p. 4",
+      "url": "https://irishnewsarchive.com/?a=d&d=INW19980907.1.4"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0228"
+   ],
+   "preferOver": {
+    "born": "Wikidata and Wikipedia give 7 July 1921; the book gives 1920, and the Irish News reports of his death give his age as 78, which fits 1920"
+   }
+  },
+  "57136": {
+   "source": "elliott-flackes-1999",
+   "entry": "John McMichael",
+   "died": "1987-12-22",
+   "page": "477",
+   "checkedAgainst": {
+    "died": [
+     {
+      "title": "CAIN, Malcolm Sutton, An Index of Deaths from the Conflict in Ireland",
+      "url": "https://cain.ulster.ac.uk/sutton/chron/1987.html"
+     },
+     {
+      "title": "Wikipedia, \"John McMichael\"",
+      "url": "https://en.wikipedia.org/wiki/John_McMichael"
+     },
+     {
+      "title": "Wikidata, Q6248142",
+      "url": "https://www.wikidata.org/wiki/Q6248142"
+     }
+    ]
+   },
+   "facts": [
+    "dF-0040"
+   ]
+  },
+  "57332": {
+   "source": "elliott-flackes-1999",
+   "entry": "Austin Ardill",
+   "born": "1917",
+   "page": "170",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Austin Ardill\"",
+      "url": "https://en.wikipedia.org/wiki/Austin_Ardill"
+     },
+     {
+      "title": "Wikidata, Q4822963",
+      "url": "https://www.wikidata.org/wiki/Q4822963"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0091"
+   ]
+  },
+  "57333": {
+   "source": "elliott-flackes-1999",
+   "entry": "Charles Kinahan",
+   "born": "1915-07-10",
+   "died": "1995-08-16",
+   "page": "307",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Charles Kinahan\"",
+      "url": "https://en.wikipedia.org/wiki/Charles_Kinahan"
+     },
+     {
+      "title": "Wikidata, Q5079797",
+      "url": "https://www.wikidata.org/wiki/Q5079797"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Charles Kinahan\"",
+      "url": "https://en.wikipedia.org/wiki/Charles_Kinahan"
+     },
+     {
+      "title": "Wikidata, Q5079797",
+      "url": "https://www.wikidata.org/wiki/Q5079797"
+     }
+    ]
+   },
+   "facts": [
+    "dC-0140"
+   ]
+  },
+  "57569": {
+   "source": "elliott-flackes-1999",
+   "entry": "Norman Boyd",
+   "born": "1961-10-16",
+   "page": "187",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Norman Boyd\"",
+      "url": "https://en.wikipedia.org/wiki/Norman_Boyd"
+     },
+     {
+      "title": "Wikidata, Q7051992",
+      "url": "https://www.wikidata.org/wiki/Q7051992"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0221"
+   ]
+  },
+  "58196": {
+   "source": "elliott-flackes-1999",
+   "entry": "William Annon",
+   "born": "1912-06",
+   "died": "1983-10-19",
+   "page": "168",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"William Annon\"",
+      "url": "https://en.wikipedia.org/wiki/William_Annon"
+     },
+     {
+      "title": "Wikidata, Q21603986",
+      "url": "https://www.wikidata.org/wiki/Q21603986"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"William Annon\"",
+      "url": "https://en.wikipedia.org/wiki/William_Annon"
+     },
+     {
+      "title": "Wikidata, Q21603986",
+      "url": "https://www.wikidata.org/wiki/Q21603986"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0086"
+   ]
+  },
+  "59752": {
+   "source": "elliott-flackes-1999",
+   "entry": "Alex Attwood",
+   "born": "1959-04-26",
+   "page": "173",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Alex Attwood\"",
+      "url": "https://en.wikipedia.org/wiki/Alex_Attwood"
+     },
+     {
+      "title": "Wikidata, Q4716637",
+      "url": "https://www.wikidata.org/wiki/Q4716637"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0111"
+   ]
+  },
+  "59828": {
+   "source": "elliott-flackes-1999",
+   "entry": "Vincent McCloskey",
+   "born": "1920-06",
+   "page": "326",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Vincent McCloskey\"",
+      "url": "https://en.wikipedia.org/wiki/Vincent_McCloskey"
+     },
+     {
+      "title": "Wikidata, Q7931941",
+      "url": "https://www.wikidata.org/wiki/Q7931941"
+     }
+    ]
+   },
+   "facts": [
+    "dC-0219"
+   ]
+  },
+  "59944": {
+   "source": "elliott-flackes-1999",
+   "entry": "Seamus Lynch",
+   "born": "1945",
+   "page": "320",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Seamus Lynch\"",
+      "url": "https://en.wikipedia.org/wiki/Seamus_Lynch"
+     },
+     {
+      "title": "Wikidata, Q7440757",
+      "url": "https://www.wikidata.org/wiki/Q7440757"
+     }
+    ]
+   },
+   "facts": [
+    "dC-0186"
+   ]
+  },
+  "60039": {
+   "source": "elliott-flackes-1999",
+   "entry": "Danny Morrison",
+   "born": "1953-01-09",
+   "page": "358",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Danny Morrison (Irish republican)\"",
+      "url": "https://en.wikipedia.org/wiki/Danny_Morrison_(Irish_republican)"
+     },
+     {
+      "title": "Wikidata, Q1164704",
+      "url": "https://www.wikidata.org/wiki/Q1164704"
+     }
+    ]
+   },
+   "facts": [
+    "dD-0118"
+   ]
+  },
+  "60117": {
+   "source": "elliott-flackes-1999",
+   "entry": "Paddy Duffy",
+   "born": "1933-07-19",
+   "died": "1995-08-19",
+   "page": "241",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Paddy Duffy (SDLP politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Paddy_Duffy_(SDLP_politician)"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Paddy Duffy (SDLP politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Paddy_Duffy_(SDLP_politician)"
+     },
+     {
+      "title": "Irish News, 21 August 1995, p. 6",
+      "url": "https://irishnewsarchive.com/?a=d&d=INW19950821.1.6"
+     },
+     {
+      "title": "Irish News, 22 August 1995, p. 2",
+      "url": "https://irishnewsarchive.com/?a=d&d=INW19950822.1.2"
+     }
+    ]
+   },
+   "bookGives": {
+    "born": "1934",
+    "died": "1996"
+   },
+   "facts": [
+    "dB-0165"
+   ]
+  },
+  "61456": {
+   "source": "elliott-flackes-1999",
+   "entry": "Jim McAllister",
+   "born": "1943-09",
+   "page": "323",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Jim McAllister\"",
+      "url": "https://en.wikipedia.org/wiki/Jim_McAllister"
+     }
+    ]
+   },
+   "bookGives": {
+    "born": "1944"
+   },
+   "facts": [
+    "dC-0204"
+   ]
+  },
+  "63202": {
+   "source": "elliott-flackes-1999",
+   "entry": "Michael Armstrong (politician)",
+   "born": "1924-05-06",
+   "died": "1982-01-26",
+   "page": "172",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Michael Armstrong (politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Michael_Armstrong_(politician)"
+     },
+     {
+      "title": "Wikidata, Q14946817",
+      "url": "https://www.wikidata.org/wiki/Q14946817"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Michael Armstrong (politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Michael_Armstrong_(politician)"
+     },
+     {
+      "title": "Wikidata, Q14946817",
+      "url": "https://www.wikidata.org/wiki/Q14946817"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0104"
+   ]
+  },
+  "63584": {
+   "source": "elliott-flackes-1999",
+   "entry": "Peter Brush",
+   "born": "1901-03-05",
+   "died": "1984-07-22",
+   "page": "192",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Peter Brush\"",
+      "url": "https://en.wikipedia.org/wiki/Peter_Brush"
+     },
+     {
+      "title": "Wikidata, Q7173018",
+      "url": "https://www.wikidata.org/wiki/Q7173018"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Peter Brush\"",
+      "url": "https://en.wikipedia.org/wiki/Peter_Brush"
+     },
+     {
+      "title": "Wikidata, Q7173018",
+      "url": "https://www.wikidata.org/wiki/Q7173018"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0261"
+   ]
+  },
+  "63720": {
+   "source": "elliott-flackes-1999",
+   "entry": "Ken McFaul",
+   "born": "1948",
+   "page": "328",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Ken McFaul\"",
+      "url": "https://en.wikipedia.org/wiki/Ken_McFaul"
+     },
+     {
+      "title": "Wikidata, Q27663051",
+      "url": "https://www.wikidata.org/wiki/Q27663051"
+     }
+    ]
+   },
+   "facts": [
+    "dC-0246"
+   ]
+  },
+  "65292": {
+   "source": "elliott-flackes-1999",
+   "entry": "Tom Gormley",
+   "born": "1916-07-29",
+   "died": "1984",
+   "page": "267",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Tom Gormley (politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Tom_Gormley_(politician)"
+     },
+     {
+      "title": "Wikidata, Q7815976",
+      "url": "https://www.wikidata.org/wiki/Q7815976"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Tom Gormley (politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Tom_Gormley_(politician)"
+     },
+     {
+      "title": "Wikidata, Q7815976",
+      "url": "https://www.wikidata.org/wiki/Q7815976"
+     }
+    ]
+   },
+   "facts": [
+    "dB-0275"
+   ]
+  },
+  "65726": {
+   "source": "elliott-flackes-1999",
+   "entry": "Fraser Agnew",
+   "born": "1942-08-16",
+   "page": "152",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikidata, Q5493559",
+      "url": "https://www.wikidata.org/wiki/Q5493559"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0018"
+   ]
+  },
+  "66012": {
+   "source": "elliott-flackes-1999",
+   "entry": "Martin Smyth",
+   "born": "1931-06-15",
+   "page": "445",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Martin Smyth\"",
+      "url": "https://en.wikipedia.org/wiki/Martin_Smyth"
+     },
+     {
+      "title": "Wikidata, Q6776629",
+      "url": "https://www.wikidata.org/wiki/Q6776629"
+     }
+    ]
+   },
+   "facts": [
+    "dE-0135"
+   ]
+  },
+  "66061": {
+   "source": "elliott-flackes-1999",
+   "entry": "James Molyneaux, Baron Molyneaux of Killead",
+   "born": "1920-08-27",
+   "page": "354",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"James Molyneaux, Baron Molyneaux of Killead\"",
+      "url": "https://en.wikipedia.org/wiki/James_Molyneaux,_Baron_Molyneaux_of_Killead"
+     },
+     {
+      "title": "Wikidata, Q1680843",
+      "url": "https://www.wikidata.org/wiki/Q1680843"
+     },
+     {
+      "title": "Hansard 1803-2005 (UK Parliament), Mr James Molyneaux",
+      "url": "https://api.parliament.uk/historic-hansard/people/mr-james-molyneaux"
+     }
+    ]
+   },
+   "bookGives": {
+    "born": "1920-08-28"
+   },
+   "facts": [
+    "dD-0096"
+   ]
+  },
+  "68301": {
+   "source": "elliott-flackes-1999",
+   "entry": "Roy Beggs",
+   "born": "1936-02-20",
+   "page": "176",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Roy Beggs\"",
+      "url": "https://en.wikipedia.org/wiki/Roy_Beggs"
+     },
+     {
+      "title": "Wikidata, Q5568755",
+      "url": "https://www.wikidata.org/wiki/Q5568755"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0156"
+   ]
+  },
+  "68598": {
+   "source": "elliott-flackes-1999",
+   "entry": "Herbert Heslip",
+   "born": "1913",
+   "died": "1992-02-17",
+   "page": "282",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Herbert Heslip\"",
+      "url": "https://en.wikipedia.org/wiki/Herbert_Heslip"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Herbert Heslip\"",
+      "url": "https://en.wikipedia.org/wiki/Herbert_Heslip"
+     },
+     {
+      "title": "Wikidata, Q16012796",
+      "url": "https://www.wikidata.org/wiki/Q16012796"
+     },
+     {
+      "title": "Belfast Telegraph, 18 February 1992, p. 4",
+      "url": "https://irishnewsarchive.com/?a=d&d=BTG19920218.1.4"
+     }
+    ]
+   },
+   "facts": [
+    "dC-0049"
+   ]
+  },
+  "69014": {
+   "source": "elliott-flackes-1999",
+   "entry": "Hugh News",
+   "born": "1931-06",
+   "page": "368",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Hugh News\"",
+      "url": "https://en.wikipedia.org/wiki/Hugh_News"
+     },
+     {
+      "title": "Wikidata, Q16091952",
+      "url": "https://www.wikidata.org/wiki/Q16091952"
+     }
+    ]
+   },
+   "facts": [
+    "dD-0190"
+   ]
+  },
+  "69340": {
+   "source": "elliott-flackes-1999",
+   "entry": "Charles Poots",
+   "born": "1929",
+   "page": "394",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Charles Poots\"",
+      "url": "https://en.wikipedia.org/wiki/Charles_Poots"
+     },
+     {
+      "title": "Wikidata, Q5081712",
+      "url": "https://www.wikidata.org/wiki/Q5081712"
+     }
+    ]
+   },
+   "facts": [
+    "dD-0281"
+   ]
+  },
+  "69923": {
+   "source": "elliott-flackes-1999",
+   "entry": "Robert Overend",
+   "born": "1930",
+   "page": "384",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Robert Overend\"",
+      "url": "https://en.wikipedia.org/wiki/Robert_Overend"
+     },
+     {
+      "title": "Wikidata, Q7348176",
+      "url": "https://www.wikidata.org/wiki/Q7348176"
+     }
+    ]
+   },
+   "bookGives": {
+    "born": "1931"
+   },
+   "facts": [
+    "dD-0255"
+   ]
+  },
+  "70670": {
+   "source": "elliott-flackes-1999",
+   "entry": "Ken Maginnis",
+   "born": "1938-01-21",
+   "page": "337",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Ken Maginnis\"",
+      "url": "https://en.wikipedia.org/wiki/Ken_Maginnis"
+     },
+     {
+      "title": "Wikidata, Q1738633",
+      "url": "https://www.wikidata.org/wiki/Q1738633"
+     }
+    ]
+   },
+   "facts": [
+    "dD-0036"
+   ]
+  },
+  "71394": {
+   "source": "elliott-flackes-1999",
+   "entry": "Oliver Napier",
+   "born": "1935-07-11",
+   "page": "363",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Oliver Napier\"",
+      "url": "https://en.wikipedia.org/wiki/Oliver_Napier"
+     },
+     {
+      "title": "Wikidata, Q529315",
+      "url": "https://www.wikidata.org/wiki/Q529315"
+     }
+    ]
+   },
+   "facts": [
+    "dD-0154"
+   ]
+  },
+  "72271": {
+   "source": "elliott-flackes-1999",
+   "entry": "Edgar Graham",
+   "born": "1954-02-24",
+   "died": "1983-12-07",
+   "page": "268",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Edgar Graham\"",
+      "url": "https://en.wikipedia.org/wiki/Edgar_Graham"
+     },
+     {
+      "title": "Wikidata, Q5337265",
+      "url": "https://www.wikidata.org/wiki/Q5337265"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Edgar Graham\"",
+      "url": "https://en.wikipedia.org/wiki/Edgar_Graham"
+     },
+     {
+      "title": "Wikidata, Q5337265",
+      "url": "https://www.wikidata.org/wiki/Q5337265"
+     },
+     {
+      "title": "CAIN, Malcolm Sutton, An Index of Deaths from the Conflict in Ireland",
+      "url": "https://cain.ulster.ac.uk/sutton/chron/1983.html"
+     }
+    ]
+   },
+   "facts": [
+    "dB-0281"
+   ]
+  },
+  "72539": {
+   "source": "elliott-flackes-1999",
+   "entry": "John McQuade",
+   "born": "1912",
+   "died": "1984-11-19",
+   "page": "336",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Hansard 1803-2005 (UK Parliament), Mr John McQuade",
+      "url": "https://api.parliament.uk/historic-hansard/people/mr-john-mcquade"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"John McQuade\"",
+      "url": "https://en.wikipedia.org/wiki/John_McQuade"
+     },
+     {
+      "title": "Wikidata, Q6248269",
+      "url": "https://www.wikidata.org/wiki/Q6248269"
+     },
+     {
+      "title": "Belfast Telegraph, 20 November 1984, p. 3"
+     },
+     {
+      "title": "Belfast News-Letter, 20 November 1984, p. 3"
+     }
+    ]
+   },
+   "preferOver": {
+    "born": "Wikidata gives 9 August 1911; Hansard 1803-2005 (UK Parliament), Mr John McQuade give 1912"
+   },
+   "facts": [
+    "dD-0018"
+   ]
+  },
+  "73470": {
+   "source": "elliott-flackes-1999",
+   "entry": "Ian Adamson",
+   "born": "1944-06-28",
+   "page": "152",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Ian Adamson\"",
+      "url": "https://en.wikipedia.org/wiki/Ian_Adamson"
+     },
+     {
+      "title": "Wikidata, Q5980734",
+      "url": "https://www.wikidata.org/wiki/Q5980734"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0013"
+   ]
+  },
+  "74268": {
+   "source": "elliott-flackes-1999",
+   "entry": "Owen Carron",
+   "born": "1953-02-09",
+   "page": "201",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Owen Carron\"",
+      "url": "https://en.wikipedia.org/wiki/Owen_Carron"
+     },
+     {
+      "title": "Wikidata, Q2042604",
+      "url": "https://www.wikidata.org/wiki/Q2042604"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0323"
+   ]
+  },
+  "76508": {
+   "source": "elliott-flackes-1999",
+   "entry": "Mitchel McLaughlin",
+   "born": "1945-10-29",
+   "page": "334",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Mitchel McLaughlin\"",
+      "url": "https://en.wikipedia.org/wiki/Mitchel_McLaughlin"
+     }
+    ]
+   },
+   "preferOver": {
+    "born": "Wikidata gives 28 October 1945; Wikipedia, \"Mitchel McLaughlin\" give 29 October 1945"
+   },
+   "facts": [
+    "dD-0002"
+   ]
+  },
+  "77905": {
+   "source": "elliott-flackes-1999",
+   "entry": "Seamus Close",
+   "born": "1947-08-12",
+   "page": "207",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Seamus Close\"",
+      "url": "https://en.wikipedia.org/wiki/Seamus_Close"
+     },
+     {
+      "title": "Wikidata, Q7440740",
+      "url": "https://www.wikidata.org/wiki/Q7440740"
+     }
+    ]
+   },
+   "bookGives": {
+    "born": "1948"
+   },
+   "facts": [
+    "dA-0353"
+   ]
+  },
+  "78875": {
+   "source": "elliott-flackes-1999",
+   "entry": "Frank Maguire",
+   "born": "1929-09-02",
+   "died": "1981-03-05",
+   "page": "338",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Frank Maguire (politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Frank_Maguire_(politician)"
+     },
+     {
+      "title": "Wikidata, Q1443717",
+      "url": "https://www.wikidata.org/wiki/Q1443717"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Frank Maguire (politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Frank_Maguire_(politician)"
+     },
+     {
+      "title": "Wikidata, Q1443717",
+      "url": "https://www.wikidata.org/wiki/Q1443717"
+     }
+    ]
+   },
+   "preferOver": {
+    "born": "Wikidata gives 1 September 1929; Wikipedia, \"Frank Maguire (politician)\" give 2 September 1929"
+   },
+   "facts": [
+    "dD-0042"
+   ]
+  },
+  "79049": {
+   "source": "elliott-flackes-1999",
+   "entry": "Jane Morrice",
+   "born": "1954-05-11",
+   "page": "358",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikidata, Q6152576",
+      "url": "https://www.wikidata.org/wiki/Q6152576"
+     }
+    ]
+   },
+   "facts": [
+    "dD-0115"
+   ]
+  },
+  "79426": {
+   "source": "elliott-flackes-1999",
+   "entry": "Sheelagh Murnaghan",
+   "born": "1924-05-26",
+   "died": "1993-09-14",
+   "page": "362",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Sheelagh Murnaghan\"",
+      "url": "https://en.wikipedia.org/wiki/Sheelagh_Murnaghan"
+     },
+     {
+      "title": "Wikidata, Q7492350",
+      "url": "https://www.wikidata.org/wiki/Q7492350"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Sheelagh Murnaghan\"",
+      "url": "https://en.wikipedia.org/wiki/Sheelagh_Murnaghan"
+     },
+     {
+      "title": "Wikidata, Q7492350",
+      "url": "https://www.wikidata.org/wiki/Q7492350"
+     }
+    ]
+   },
+   "facts": [
+    "dD-0144"
+   ]
+  },
+  "80795": {
+   "source": "elliott-flackes-1999",
+   "entry": "Jim Speers",
+   "born": "1946-05-20",
+   "page": "452",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Jim Speers\"",
+      "url": "https://en.wikipedia.org/wiki/Jim_Speers"
+     },
+     {
+      "title": "Wikidata, Q17017215",
+      "url": "https://www.wikidata.org/wiki/Q17017215"
+     }
+    ]
+   },
+   "facts": [
+    "dE-0150"
+   ]
+  },
+  "81957": {
+   "source": "elliott-flackes-1999",
+   "entry": "Billy Bell (politician)",
+   "born": "1935-10-09",
+   "page": "177",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Billy Bell (politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Billy_Bell_(politician)"
+     },
+     {
+      "title": "Wikidata, Q4912187",
+      "url": "https://www.wikidata.org/wiki/Q4912187"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0169"
+   ]
+  },
+  "82420": {
+   "source": "elliott-flackes-1999",
+   "entry": "William Brown (Northern Ireland politician)",
+   "born": "1930",
+   "page": "192",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"William Brown (Northern Ireland politician)\"",
+      "url": "https://en.wikipedia.org/wiki/William_Brown_(Northern_Ireland_politician)"
+     },
+     {
+      "title": "Wikidata, Q8006011",
+      "url": "https://www.wikidata.org/wiki/Q8006011"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0253"
+   ]
+  },
+  "84105": {
+   "source": "elliott-flackes-1999",
+   "entry": "Peter Robinson",
+   "born": "1948-12-29",
+   "page": "428",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Peter Robinson (Northern Ireland politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Peter_Robinson_(Northern_Ireland_politician)"
+     },
+     {
+      "title": "Wikidata, Q333036",
+      "url": "https://www.wikidata.org/wiki/Q333036"
+     }
+    ]
+   },
+   "facts": [
+    "dE-0053"
+   ]
+  },
+  "84169": {
+   "source": "elliott-flackes-1999",
+   "entry": "Hugh Logue",
+   "born": "1949-01-23",
+   "page": "317",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Hugh Logue\"",
+      "url": "https://en.wikipedia.org/wiki/Hugh_Logue"
+     },
+     {
+      "title": "Wikidata, Q5931506",
+      "url": "https://www.wikidata.org/wiki/Q5931506"
+     }
+    ]
+   },
+   "facts": [
+    "dC-0176"
+   ]
+  },
+  "86165": {
+   "source": "elliott-flackes-1999",
+   "entry": "David Allen (politician)",
+   "born": "1937-10-24",
+   "page": "156",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"David Allen (politician)\"",
+      "url": "https://en.wikipedia.org/wiki/David_Allen_(politician)"
+     },
+     {
+      "title": "Wikidata, Q27909641",
+      "url": "https://www.wikidata.org/wiki/Q27909641"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0038"
+   ]
+  },
+  "86169": {
+   "source": "elliott-flackes-1999",
+   "entry": "Gordon Mawhinney",
+   "born": "1943-01-04",
+   "page": "347",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Gordon Mawhinney\"",
+      "url": "https://en.wikipedia.org/wiki/Gordon_Mawhinney"
+     },
+     {
+      "title": "Wikidata, Q5585521",
+      "url": "https://www.wikidata.org/wiki/Q5585521"
+     }
+    ]
+   },
+   "facts": [
+    "dD-0064"
+   ]
+  },
+  "89719": {
+   "source": "elliott-flackes-1999",
+   "entry": "Tom Caldwell",
+   "born": "1921-06-30",
+   "page": "197",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Tom Caldwell\"",
+      "url": "https://en.wikipedia.org/wiki/Tom_Caldwell"
+     },
+     {
+      "title": "Wikidata, Q7815177",
+      "url": "https://www.wikidata.org/wiki/Q7815177"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0290"
+   ]
+  },
+  "89813": {
+   "source": "elliott-flackes-1999",
+   "entry": "Grace Bannister",
+   "born": "1924",
+   "died": "1986",
+   "page": "174",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Grace Bannister\"",
+      "url": "https://en.wikipedia.org/wiki/Grace_Bannister"
+     },
+     {
+      "title": "Wikidata, Q5590991",
+      "url": "https://www.wikidata.org/wiki/Q5590991"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Grace Bannister\"",
+      "url": "https://en.wikipedia.org/wiki/Grace_Bannister"
+     },
+     {
+      "title": "Wikidata, Q5590991",
+      "url": "https://www.wikidata.org/wiki/Q5590991"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0128"
+   ]
+  },
+  "93153": {
+   "source": "elliott-flackes-1999",
+   "entry": "Patrick O'Donoghue (politician)",
+   "born": "1930",
+   "died": "1989",
+   "page": "374",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Patrick O'Donoghue (politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Patrick_O'Donoghue_(politician)"
+     },
+     {
+      "title": "Wikidata, Q7147376",
+      "url": "https://www.wikidata.org/wiki/Q7147376"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Patrick O'Donoghue (politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Patrick_O'Donoghue_(politician)"
+     },
+     {
+      "title": "Wikidata, Q7147376",
+      "url": "https://www.wikidata.org/wiki/Q7147376"
+     }
+    ]
+   },
+   "facts": [
+    "dD-0223"
+   ]
+  },
+  "93966": {
+   "source": "elliott-flackes-1999",
+   "entry": "James McClure (Unionist politician)",
+   "born": "1926-06-15",
+   "page": "326",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"James McClure (Unionist politician)\"",
+      "url": "https://en.wikipedia.org/wiki/James_McClure_(Unionist_politician)"
+     },
+     {
+      "title": "Wikidata, Q6139207",
+      "url": "https://www.wikidata.org/wiki/Q6139207"
+     }
+    ]
+   },
+   "bookGives": {
+    "born": "1927"
+   },
+   "facts": [
+    "dC-0221"
+   ]
+  },
+  "94073": {
+   "source": "elliott-flackes-1999",
+   "entry": "Rafton Pounder",
+   "born": "1933-05-13",
+   "died": "1991",
+   "page": "395",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Rafton Pounder\"",
+      "url": "https://en.wikipedia.org/wiki/Rafton_Pounder"
+     },
+     {
+      "title": "Wikidata, Q7282743",
+      "url": "https://www.wikidata.org/wiki/Q7282743"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Rafton Pounder\"",
+      "url": "https://en.wikipedia.org/wiki/Rafton_Pounder"
+     },
+     {
+      "title": "Wikidata, Q7282743",
+      "url": "https://www.wikidata.org/wiki/Q7282743"
+     }
+    ]
+   },
+   "facts": [
+    "dD-0289"
+   ]
+  },
+  "94434": {
+   "source": "elliott-flackes-1999",
+   "entry": "Gregory Campbell (politician)",
+   "born": "1953-02-15",
+   "page": "199",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Gregory Campbell (politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Gregory_Campbell_(politician)"
+     },
+     {
+      "title": "Wikidata, Q268465",
+      "url": "https://www.wikidata.org/wiki/Q268465"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0303"
+   ]
+  },
+  "96043": {
+   "source": "elliott-flackes-1999",
+   "entry": "John Laird",
+   "born": "1944-04-23",
+   "page": "313",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"John Laird, Baron Laird\"",
+      "url": "https://en.wikipedia.org/wiki/John_Laird,_Baron_Laird"
+     },
+     {
+      "title": "Wikidata, Q337030",
+      "url": "https://www.wikidata.org/wiki/Q337030"
+     }
+    ]
+   },
+   "facts": [
+    "dC-0159"
+   ]
+  },
+  "96686": {
+   "source": "elliott-flackes-1999",
+   "entry": "William Beattie (politician)",
+   "born": "1942-09-21",
+   "page": "176",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"William Beattie (politician)\"",
+      "url": "https://en.wikipedia.org/wiki/William_Beattie_(politician)"
+     },
+     {
+      "title": "Wikidata, Q8005270",
+      "url": "https://www.wikidata.org/wiki/Q8005270"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0149"
+   ]
+  },
+  "98890": {
+   "source": "elliott-flackes-1999",
+   "entry": "Peter McLachlan",
+   "born": "1936-08-21",
+   "died": "1999-08-04",
+   "page": "333",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Peter McLachlan (Northern Ireland politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Peter_McLachlan_(Northern_Ireland_politician)"
+     },
+     {
+      "title": "Wikidata, Q5468960",
+      "url": "https://www.wikidata.org/wiki/Q5468960"
+     },
+     {
+      "title": "Irish News, 6 August 1999, p. 4",
+      "url": "https://irishnewsarchive.com/?a=d&d=INW19990806.1.4"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Peter McLachlan (Northern Ireland politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Peter_McLachlan_(Northern_Ireland_politician)"
+     },
+     {
+      "title": "Wikidata, Q5468960",
+      "url": "https://www.wikidata.org/wiki/Q5468960"
+     },
+     {
+      "title": "Irish News, 6 August 1999, p. 4",
+      "url": "https://irishnewsarchive.com/?a=d&d=INW19990806.1.4"
+     },
+     {
+      "title": "Irish News, 5 August 1999, p. 4",
+      "url": "https://irishnewsarchive.com/?a=d&d=INW19990805.1.4"
+     }
+    ]
+   },
+   "bookGives": {
+    "born": "1937"
+   },
+   "facts": [
+    "dC-0276"
+   ]
+  },
+  "99129": {
+   "source": "elliott-flackes-1999",
+   "entry": "Esmond Birnie",
+   "born": "1965-01-06",
+   "page": "179",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Esmond Birnie\"",
+      "url": "https://en.wikipedia.org/wiki/Esmond_Birnie"
+     },
+     {
+      "title": "Wikidata, Q5398557",
+      "url": "https://www.wikidata.org/wiki/Q5398557"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0183"
+   ]
+  },
+  "99344": {
+   "source": "elliott-flackes-1999",
+   "entry": "Raymond Ferguson",
+   "born": "1941-02-16",
+   "page": "255",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Raymond Ferguson\"",
+      "url": "https://en.wikipedia.org/wiki/Raymond_Ferguson"
+     },
+     {
+      "title": "Wikidata, Q7298774",
+      "url": "https://www.wikidata.org/wiki/Q7298774"
+     }
+    ]
+   },
+   "facts": [
+    "dB-0214"
+   ]
+  },
+  "99672": {
+   "source": "elliott-flackes-1999",
+   "entry": "Hugh Wilson",
+   "born": "1905",
+   "died": "1998-01-04",
+   "page": "509",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Hugh Wilson (Northern Ireland politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Hugh_Wilson_(Northern_Ireland_politician)"
+     },
+     {
+      "title": "Wikidata, Q5933073",
+      "url": "https://www.wikidata.org/wiki/Q5933073"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Hugh Wilson (Northern Ireland politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Hugh_Wilson_(Northern_Ireland_politician)"
+     },
+     {
+      "title": "Wikidata, Q5933073",
+      "url": "https://www.wikidata.org/wiki/Q5933073"
+     }
+    ]
+   },
+   "facts": [
+    "dF-0179"
+   ]
+  },
+  "99683": {
+   "source": "elliott-flackes-1999",
+   "entry": "David Bleakley",
+   "born": "1925-01-11",
+   "page": "183",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"David Bleakley\"",
+      "url": "https://en.wikipedia.org/wiki/David_Bleakley"
+     },
+     {
+      "title": "Wikidata, Q5231474",
+      "url": "https://www.wikidata.org/wiki/Q5231474"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0200"
+   ]
   },
   "100018": {
    "source": "boylan-1998",
@@ -233,6 +3450,27 @@
    "page": "235",
    "entry": "John McCann"
   },
+  "100307": {
+   "source": "elliott-flackes-1999",
+   "entry": "Kevin Boland",
+   "born": "1917-10-15",
+   "page": "186",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Kevin Boland\"",
+      "url": "https://en.wikipedia.org/wiki/Kevin_Boland"
+     },
+     {
+      "title": "Wikidata, Q1740089",
+      "url": "https://www.wikidata.org/wiki/Q1740089"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0217"
+   ]
+  },
   "100319": {
    "source": "boylan-1998",
    "born": "1915-12-20",
@@ -310,6 +3548,27 @@
    "page": "145",
    "entry": "George Gavan Duffy"
   },
+  "101128": {
+   "source": "elliott-flackes-1999",
+   "entry": "Gerry Collins (politician)",
+   "born": "1938-10-16",
+   "page": "207",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Gerry Collins (politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Gerry_Collins_(politician)"
+     },
+     {
+      "title": "Wikidata, Q446685",
+      "url": "https://www.wikidata.org/wiki/Q446685"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0361"
+   ]
+  },
   "101174": {
    "source": "boylan-1998",
    "born": "1887",
@@ -330,6 +3589,65 @@
    "died": "1975-08-10",
    "page": "15",
    "entry": "Robert Childers Barton"
+  },
+  "101372": {
+   "source": "elliott-flackes-1999",
+   "entry": "Paul Berry (politician)",
+   "born": "1976-06-03",
+   "page": "178",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Paul Berry (politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Paul_Berry_(politician)"
+     },
+     {
+      "title": "Wikidata, Q10999286",
+      "url": "https://www.wikidata.org/wiki/Q10999286"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0179"
+   ]
+  },
+  "101400": {
+   "source": "elliott-flackes-1999",
+   "entry": "John Carson (Northern Ireland politician)",
+   "born": "1933",
+   "page": "201",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"John Carson (Northern Ireland politician)\"",
+      "url": "https://en.wikipedia.org/wiki/John_Carson_(Northern_Ireland_politician)"
+     },
+     {
+      "title": "Wikidata, Q6225324",
+      "url": "https://www.wikidata.org/wiki/Q6225324"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0328"
+   ]
+  },
+  "101636": {
+   "source": "elliott-flackes-1999",
+   "entry": "Charles Armstrong",
+   "died": "1983-11-14",
+   "page": "171",
+   "checkedAgainst": {
+    "died": [
+     {
+      "title": "CAIN, Malcolm Sutton, An Index of Deaths from the Conflict in Ireland",
+      "url": "https://cain.ulster.ac.uk/sutton/chron/1983.html"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0096"
+   ]
   },
   "101817": {
    "source": "boylan-1998",
@@ -373,6 +3691,27 @@
    "page": "78-79",
    "entry": "Arthur William Conway"
   },
+  "102096": {
+   "source": "elliott-flackes-1999",
+   "entry": "Ruairí Brugha",
+   "born": "1917-10-15",
+   "page": "192",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Ruairí Brugha\"",
+      "url": "https://en.wikipedia.org/wiki/Ruairí_Brugha"
+     },
+     {
+      "title": "Wikidata, Q7375677",
+      "url": "https://www.wikidata.org/wiki/Q7375677"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0258"
+   ]
+  },
   "102138": {
    "source": "boylan-1998",
    "born": "1892",
@@ -380,12 +3719,70 @@
    "page": "265",
    "entry": "Tom Maguire"
   },
+  "102162": {
+   "source": "elliott-flackes-1999",
+   "entry": "Glenn Barr",
+   "born": "1942-03-19",
+   "page": "175",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Glenn Barr\"",
+      "url": "https://en.wikipedia.org/wiki/Glenn_Barr"
+     }
+    ]
+   },
+   "bookGives": {
+    "born": "1932"
+   },
+   "facts": [
+    "dA-0135"
+   ]
+  },
   "102255": {
    "source": "boylan-1998",
    "born": "1890-10-16",
    "died": "1922-08-22",
    "page": "72-73",
    "entry": "Michael Collins"
+  },
+  "102344": {
+   "source": "elliott-flackes-1999",
+   "entry": "Robert Campbell (Northern Ireland politician)",
+   "born": "1914",
+   "page": "200",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Robert Campbell (Northern Ireland politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Robert_Campbell_(Northern_Ireland_politician)"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0306"
+   ]
+  },
+  "103114": {
+   "source": "elliott-flackes-1999",
+   "entry": "Bertie Ahern",
+   "born": "1951-09-12",
+   "page": "152",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Bertie Ahern\"",
+      "url": "https://en.wikipedia.org/wiki/Bertie_Ahern"
+     },
+     {
+      "title": "Wikidata, Q154550",
+      "url": "https://www.wikidata.org/wiki/Q154550"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0023"
+   ]
   },
   "103143": {
    "source": "boylan-1998",
@@ -408,6 +3805,30 @@
    "page": "130",
    "entry": "Darrell Figgis"
   },
+  "103204": {
+   "source": "elliott-flackes-1999",
+   "entry": "Des O'Malley",
+   "born": "1939-02-02",
+   "page": "378",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Desmond O'Malley\"",
+      "url": "https://en.wikipedia.org/wiki/Desmond_O'Malley"
+     },
+     {
+      "title": "Wikidata, Q1200814",
+      "url": "https://www.wikidata.org/wiki/Q1200814"
+     }
+    ]
+   },
+   "preferOver": {
+    "born": "Wikidata gives 1 February 1939; Wikipedia, \"Desmond O'Malley\" give 2 February 1939"
+   },
+   "facts": [
+    "dD-0241"
+   ]
+  },
   "103251": {
    "source": "boylan-1998",
    "born": "1892-10-30",
@@ -429,12 +3850,54 @@
    "page": "240-241",
    "entry": "Frank MacDermot"
   },
+  "103373": {
+   "source": "elliott-flackes-1999",
+   "entry": "John Bruton",
+   "born": "1947-05-18",
+   "page": "192",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"John Bruton\"",
+      "url": "https://en.wikipedia.org/wiki/John_Bruton"
+     },
+     {
+      "title": "Wikidata, Q333701",
+      "url": "https://www.wikidata.org/wiki/Q333701"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0263"
+   ]
+  },
   "103434": {
    "source": "boylan-1998",
    "born": "1874",
    "died": "1955",
    "page": "228-229",
    "entry": "Kathleen Lynn"
+  },
+  "103525": {
+   "source": "elliott-flackes-1999",
+   "entry": "Michael O'Kennedy",
+   "born": "1936-02-21",
+   "page": "377",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Michael O'Kennedy\"",
+      "url": "https://en.wikipedia.org/wiki/Michael_O'Kennedy"
+     },
+     {
+      "title": "Wikidata, Q1399304",
+      "url": "https://www.wikidata.org/wiki/Q1399304"
+     }
+    ]
+   },
+   "facts": [
+    "dD-0234"
+   ]
   },
   "103620": {
    "source": "boylan-1998",
@@ -450,6 +3913,27 @@
    "page": "65",
    "entry": "Robert Erskine Childers"
   },
+  "103817": {
+   "source": "elliott-flackes-1999",
+   "entry": "Ivan Neill",
+   "born": "1906-07-01",
+   "page": "365",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Ivan Neill\"",
+      "url": "https://en.wikipedia.org/wiki/Ivan_Neill"
+     },
+     {
+      "title": "Wikidata, Q6097079",
+      "url": "https://www.wikidata.org/wiki/Q6097079"
+     }
+    ]
+   },
+   "facts": [
+    "dD-0172"
+   ]
+  },
   "103839": {
    "source": "boylan-1998",
    "born": "1889",
@@ -457,12 +3941,86 @@
    "page": "244-245",
    "entry": "Seán MacEntee"
   },
+  "103849": {
+   "source": "elliott-flackes-1999",
+   "entry": "Jack Andrews",
+   "born": "1903-07-15",
+   "died": "1986-01-12",
+   "page": "164",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Jack Andrews\"",
+      "url": "https://en.wikipedia.org/wiki/Jack_Andrews"
+     },
+     {
+      "title": "Wikidata, Q6111005",
+      "url": "https://www.wikidata.org/wiki/Q6111005"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Jack Andrews\"",
+      "url": "https://en.wikipedia.org/wiki/Jack_Andrews"
+     },
+     {
+      "title": "Wikidata, Q6111005",
+      "url": "https://www.wikidata.org/wiki/Q6111005"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0079"
+   ]
+  },
+  "103850": {
+   "source": "elliott-flackes-1999",
+   "entry": "James Hamilton, 5th Duke of Abercorn",
+   "born": "1934-07-04",
+   "page": "145",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"James Hamilton, 5th Duke of Abercorn\"",
+      "url": "https://en.wikipedia.org/wiki/James_Hamilton,_5th_Duke_of_Abercorn"
+     },
+     {
+      "title": "Wikidata, Q336343",
+      "url": "https://www.wikidata.org/wiki/Q336343"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0002"
+   ]
+  },
   "103858": {
    "source": "boylan-1998",
    "born": "1871-02-13",
    "died": "1934-01-18",
    "page": "107",
    "entry": "Joseph Devlin"
+  },
+  "103868": {
+   "source": "elliott-flackes-1999",
+   "entry": "James Chichester-Clark",
+   "born": "1923-02-12",
+   "page": "361",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"James Chichester-Clark\"",
+      "url": "https://en.wikipedia.org/wiki/James_Chichester-Clark"
+     },
+     {
+      "title": "Wikidata, Q335869",
+      "url": "https://www.wikidata.org/wiki/Q335869"
+     }
+    ]
+   },
+   "facts": [
+    "dD-0138"
+   ]
   },
   "103880": {
    "source": "boylan-1998",
@@ -478,12 +4036,101 @@
    "page": "5",
    "entry": "John Miller Andrews"
   },
+  "103942": {
+   "source": "elliott-flackes-1999",
+   "entry": "Sir Norman Stronge",
+   "born": "1894-07-23",
+   "died": "1981-01-21",
+   "page": "460",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Norman Stronge\"",
+      "url": "https://en.wikipedia.org/wiki/Norman_Stronge"
+     },
+     {
+      "title": "Wikidata, Q10856169",
+      "url": "https://www.wikidata.org/wiki/Q10856169"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Norman Stronge\"",
+      "url": "https://en.wikipedia.org/wiki/Norman_Stronge"
+     },
+     {
+      "title": "Wikidata, Q10856169",
+      "url": "https://www.wikidata.org/wiki/Q10856169"
+     },
+     {
+      "title": "CAIN, Malcolm Sutton, An Index of Deaths from the Conflict in Ireland",
+      "url": "https://cain.ulster.ac.uk/sutton/chron/1981.html"
+     }
+    ]
+   },
+   "facts": [
+    "dF-0007"
+   ]
+  },
   "103993": {
    "source": "boylan-1998",
    "born": "1877",
    "died": "1970-02-08",
    "page": "171",
    "entry": "Cahir Healy"
+  },
+  "104001": {
+   "source": "elliott-flackes-1999",
+   "entry": "Vivian Simpson",
+   "born": "1903-08-23",
+   "died": "1977",
+   "page": "436",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Vivian Simpson (politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Vivian_Simpson_(politician)"
+     },
+     {
+      "title": "Wikidata, Q7937771",
+      "url": "https://www.wikidata.org/wiki/Q7937771"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Vivian Simpson (politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Vivian_Simpson_(politician)"
+     },
+     {
+      "title": "Wikidata, Q7937771",
+      "url": "https://www.wikidata.org/wiki/Q7937771"
+     }
+    ]
+   },
+   "facts": [
+    "dE-0094"
+   ]
+  },
+  "104011": {
+   "source": "elliott-flackes-1999",
+   "entry": "Richard Ferguson",
+   "born": "1935-08-22",
+   "page": "255",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Richard Ferguson (barrister)\"",
+      "url": "https://en.wikipedia.org/wiki/Richard_Ferguson_(barrister)"
+     },
+     {
+      "title": "Wikidata, Q7325654",
+      "url": "https://www.wikidata.org/wiki/Q7325654"
+     }
+    ]
+   },
+   "facts": [
+    "dB-0218"
+   ]
   },
   "104023": {
    "source": "boylan-1998",
@@ -499,6 +4146,38 @@
    "page": "171",
    "entry": "Cahir Healy"
   },
+  "104077": {
+   "source": "elliott-flackes-1999",
+   "entry": "William FitzSimmons",
+   "born": "1909-01-31",
+   "died": "1992-02-21",
+   "page": "260",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"William Fitzsimmons (Northern Ireland politician)\"",
+      "url": "https://en.wikipedia.org/wiki/William_Fitzsimmons_(Northern_Ireland_politician)"
+     },
+     {
+      "title": "Wikidata, Q8009129",
+      "url": "https://www.wikidata.org/wiki/Q8009129"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"William Fitzsimmons (Northern Ireland politician)\"",
+      "url": "https://en.wikipedia.org/wiki/William_Fitzsimmons_(Northern_Ireland_politician)"
+     },
+     {
+      "title": "Wikidata, Q8009129",
+      "url": "https://www.wikidata.org/wiki/Q8009129"
+     }
+    ]
+   },
+   "facts": [
+    "dB-0231"
+   ]
+  },
   "104106": {
    "source": "boylan-1998",
    "born": "1871-01-08",
@@ -513,12 +4192,219 @@
    "page": "108",
    "entry": "Harry Diamond"
   },
+  "104163": {
+   "source": "elliott-flackes-1999",
+   "entry": "Robert Simpson",
+   "born": "1923-07-03",
+   "died": "1997-04",
+   "page": "436",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Robert Simpson (Northern Ireland politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Robert_Simpson_(Northern_Ireland_politician)"
+     },
+     {
+      "title": "Wikidata, Q7349804",
+      "url": "https://www.wikidata.org/wiki/Q7349804"
+     },
+     {
+      "title": "Irish News, 10 April 1997, p. 6",
+      "url": "https://irishnewsarchive.com/?a=d&d=INW19970410.1.6"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Robert Simpson (Northern Ireland politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Robert_Simpson_(Northern_Ireland_politician)"
+     },
+     {
+      "title": "Wikidata, Q7349804",
+      "url": "https://www.wikidata.org/wiki/Q7349804"
+     },
+     {
+      "title": "Irish News, 10 April 1997, p. 6",
+      "url": "https://irishnewsarchive.com/?a=d&d=INW19970410.1.6"
+     }
+    ]
+   },
+   "facts": [
+    "dE-0099"
+   ]
+  },
+  "104202": {
+   "source": "elliott-flackes-1999",
+   "entry": "Gerry Lennon",
+   "born": "1907",
+   "died": "1976-02",
+   "page": "314",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Gerry Lennon\"",
+      "url": "https://en.wikipedia.org/wiki/Gerry_Lennon"
+     },
+     {
+      "title": "Wikidata, Q5552839",
+      "url": "https://www.wikidata.org/wiki/Q5552839"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Gerry Lennon\"",
+      "url": "https://en.wikipedia.org/wiki/Gerry_Lennon"
+     },
+     {
+      "title": "Wikidata, Q5552839",
+      "url": "https://www.wikidata.org/wiki/Q5552839"
+     }
+    ]
+   },
+   "facts": [
+    "dC-0168"
+   ]
+  },
   "104220": {
    "source": "boylan-1998",
    "born": "1914-09-10",
    "died": "1990-06-12",
    "page": "346",
    "entry": "Terence O'Neill"
+  },
+  "104227": {
+   "source": "elliott-flackes-1999",
+   "entry": "Sir George Clark, 3rd Baronet",
+   "born": "1914-01-24",
+   "died": "1991-02-20",
+   "page": "204",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Sir George Clark, 3rd Baronet\"",
+      "url": "https://en.wikipedia.org/wiki/Sir_George_Clark,_3rd_Baronet"
+     },
+     {
+      "title": "Wikidata, Q7526858",
+      "url": "https://www.wikidata.org/wiki/Q7526858"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Sir George Clark, 3rd Baronet\"",
+      "url": "https://en.wikipedia.org/wiki/Sir_George_Clark,_3rd_Baronet"
+     },
+     {
+      "title": "Wikidata, Q7526858",
+      "url": "https://www.wikidata.org/wiki/Q7526858"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0346"
+   ]
+  },
+  "104264": {
+   "source": "elliott-flackes-1999",
+   "entry": "John Carron",
+   "born": "1909",
+   "died": "1998",
+   "page": "201",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"John Carron\"",
+      "url": "https://en.wikipedia.org/wiki/John_Carron"
+     },
+     {
+      "title": "Wikidata, Q16014029",
+      "url": "https://www.wikidata.org/wiki/Q16014029"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"John Carron\"",
+      "url": "https://en.wikipedia.org/wiki/John_Carron"
+     },
+     {
+      "title": "Wikidata, Q16014029",
+      "url": "https://www.wikidata.org/wiki/Q16014029"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0320"
+   ]
+  },
+  "104297": {
+   "source": "elliott-flackes-1999",
+   "entry": "Albert Anderson (politician)",
+   "born": "1907-07-23",
+   "died": "1986-06-18",
+   "page": "162",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Albert Anderson (politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Albert_Anderson_(politician)"
+     },
+     {
+      "title": "Wikidata, Q4709630",
+      "url": "https://www.wikidata.org/wiki/Q4709630"
+     },
+     {
+      "title": "Dictionary of Irish Biography, \"Anderson, Albert Wesley (Gerry McElroy, 2009)\"",
+      "url": "https://www.dib.ie/biography/anderson-albert-wesley-a0136"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Albert Anderson (politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Albert_Anderson_(politician)"
+     },
+     {
+      "title": "Dictionary of Irish Biography, \"Anderson, Albert Wesley (Gerry McElroy, 2009)\"",
+      "url": "https://www.dib.ie/biography/anderson-albert-wesley-a0136"
+     }
+    ]
+   },
+   "bookGives": {
+    "died": "1981"
+   },
+   "facts": [
+    "dA-0070"
+   ]
+  },
+  "104316": {
+   "source": "elliott-flackes-1999",
+   "entry": "Ronald Bunting",
+   "born": "1924-01-01",
+   "died": "1984-06-28",
+   "page": "194",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Ronald Bunting\"",
+      "url": "https://en.wikipedia.org/wiki/Ronald_Bunting"
+     },
+     {
+      "title": "Wikidata, Q7364708",
+      "url": "https://www.wikidata.org/wiki/Q7364708"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Ronald Bunting\"",
+      "url": "https://en.wikipedia.org/wiki/Ronald_Bunting"
+     },
+     {
+      "title": "Wikidata, Q7364708",
+      "url": "https://www.wikidata.org/wiki/Q7364708"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0267"
+   ]
   },
   "104349": {
    "source": "boylan-1998",
@@ -527,12 +4413,166 @@
    "page": "39-40",
    "entry": "Basil Brooke"
   },
+  "104364": {
+   "source": "elliott-flackes-1999",
+   "entry": "William Blease, Baron Blease",
+   "born": "1914-05-28",
+   "page": "183",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"William Blease, Baron Blease\"",
+      "url": "https://en.wikipedia.org/wiki/William_Blease,_Baron_Blease"
+     },
+     {
+      "title": "Wikidata, Q2578068",
+      "url": "https://www.wikidata.org/wiki/Q2578068"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0205"
+   ]
+  },
+  "104408": {
+   "source": "elliott-flackes-1999",
+   "entry": "Joseph Burns (Northern Ireland politician)",
+   "born": "1906-07-19",
+   "page": "195",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Joseph Burns (Northern Ireland politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Joseph_Burns_(Northern_Ireland_politician)"
+     },
+     {
+      "title": "Wikidata, Q6281813",
+      "url": "https://www.wikidata.org/wiki/Q6281813"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0277"
+   ]
+  },
+  "104456": {
+   "source": "elliott-flackes-1999",
+   "entry": "William Long (Northern Ireland politician)",
+   "born": "1922-04-23",
+   "page": "317",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"William Long (Northern Ireland politician)\"",
+      "url": "https://en.wikipedia.org/wiki/William_Long_(Northern_Ireland_politician)"
+     },
+     {
+      "title": "Wikidata, Q2579758",
+      "url": "https://www.wikidata.org/wiki/Q2579758"
+     }
+    ]
+   },
+   "facts": [
+    "dC-0178"
+   ]
+  },
+  "104581": {
+   "source": "elliott-flackes-1999",
+   "entry": "Basil Kelly",
+   "born": "1920-05-10",
+   "page": "304",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Basil Kelly\"",
+      "url": "https://en.wikipedia.org/wiki/Basil_Kelly"
+     },
+     {
+      "title": "Wikidata, Q4867200",
+      "url": "https://www.wikidata.org/wiki/Q4867200"
+     }
+    ]
+   },
+   "facts": [
+    "dC-0108"
+   ]
+  },
+  "104910": {
+   "source": "elliott-flackes-1999",
+   "entry": "John Dobson (Northern Ireland politician)",
+   "born": "1929-05-07",
+   "page": "232",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"John Dobson (Northern Ireland politician)\"",
+      "url": "https://en.wikipedia.org/wiki/John_Dobson_(Northern_Ireland_politician)"
+     },
+     {
+      "title": "Wikidata, Q16091175",
+      "url": "https://www.wikidata.org/wiki/Q16091175"
+     }
+    ]
+   },
+   "facts": [
+    "dB-0136"
+   ]
+  },
+  "104917": {
+   "source": "elliott-flackes-1999",
+   "entry": "Robert Porter (Northern Ireland politician)",
+   "born": "1923-12-23",
+   "page": "395",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Robert Porter (Northern Ireland politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Robert_Porter_(Northern_Ireland_politician)"
+     },
+     {
+      "title": "Wikidata, Q7348982",
+      "url": "https://www.wikidata.org/wiki/Q7348982"
+     }
+    ]
+   },
+   "facts": [
+    "dD-0285"
+   ]
+  },
   "105038": {
    "source": "boylan-1998",
    "born": "1871-03-31",
    "died": "1922-08-12",
    "page": "156-157",
    "entry": "Arthur Griffith"
+  },
+  "105214": {
+   "source": "elliott-flackes-1999",
+   "entry": "Stratton Mills",
+   "born": "1932-07-01",
+   "page": "352",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Stratton Mills\"",
+      "url": "https://en.wikipedia.org/wiki/Stratton_Mills"
+     },
+     {
+      "title": "Wikidata, Q7622269",
+      "url": "https://www.wikidata.org/wiki/Q7622269"
+     },
+     {
+      "title": "Hansard 1803-2005 (UK Parliament), Mr Stratton Mills",
+      "url": "https://api.parliament.uk/historic-hansard/people/mr-stratton-mills"
+     }
+    ]
+   },
+   "bookGives": {
+    "born": "1922-07-01"
+   },
+   "facts": [
+    "dD-0081"
+   ]
   },
   "105416": {
    "source": "boylan-1998",
@@ -541,12 +4581,157 @@
    "page": "1-2",
    "entry": "Frank Aiken"
   },
+  "105601": {
+   "source": "elliott-flackes-1999",
+   "entry": "Robert Babington",
+   "born": "1920-04-09",
+   "page": "173",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Robert Babington\"",
+      "url": "https://en.wikipedia.org/wiki/Robert_Babington"
+     },
+     {
+      "title": "Wikidata, Q7341776",
+      "url": "https://www.wikidata.org/wiki/Q7341776"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0115"
+   ]
+  },
+  "105680": {
+   "source": "elliott-flackes-1999",
+   "entry": "Robin Bailie",
+   "born": "1937-03-06",
+   "page": "174",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Robin Bailie\"",
+      "url": "https://en.wikipedia.org/wiki/Robin_Bailie"
+     },
+     {
+      "title": "Wikidata, Q7352234",
+      "url": "https://www.wikidata.org/wiki/Q7352234"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0117"
+   ]
+  },
   "105822": {
    "source": "boylan-1998",
    "born": "1851-09-15",
    "died": "1933-12-11",
    "page": "445",
    "entry": "William Whitla"
+  },
+  "106809": {
+   "source": "elliott-flackes-1999",
+   "entry": "Ray Smallwoods",
+   "died": "1994-07-11",
+   "page": "482",
+   "checkedAgainst": {
+    "died": [
+     {
+      "title": "CAIN, Malcolm Sutton, An Index of Deaths from the Conflict in Ireland",
+      "url": "https://cain.ulster.ac.uk/sutton/chron/1994.html"
+     },
+     {
+      "title": "Wikipedia, \"Ray Smallwoods\"",
+      "url": "https://en.wikipedia.org/wiki/Ray_Smallwoods"
+     }
+    ]
+   },
+   "facts": [
+    "cA-0037",
+    "dF-0054"
+   ]
+  },
+  "107226": {
+   "source": "elliott-flackes-1999",
+   "entry": "Martin McCaughey",
+   "died": "1990-10-09",
+   "page": "411",
+   "checkedAgainst": {
+    "died": [
+     {
+      "title": "CAIN, Malcolm Sutton, An Index of Deaths from the Conflict in Ireland",
+      "url": "https://cain.ulster.ac.uk/sutton/chron/1990.html"
+     },
+     {
+      "title": "Wikipedia, \"Martin McCaughey\"",
+      "url": "https://en.wikipedia.org/wiki/Martin_McCaughey"
+     }
+    ]
+   },
+   "facts": [
+    "dE-0010"
+   ]
+  },
+  "107819": {
+   "source": "elliott-flackes-1999",
+   "entry": "Pat McGeown",
+   "died": "1996-10-01",
+   "page": "441",
+   "checkedAgainst": {
+    "died": [
+     {
+      "title": "Wikipedia, \"Pat McGeown\"",
+      "url": "https://en.wikipedia.org/wiki/Pat_McGeown"
+     },
+     {
+      "title": "Wikidata, Q2056522",
+      "url": "https://www.wikidata.org/wiki/Q2056522"
+     }
+    ]
+   },
+   "facts": [
+    "dE-0116"
+   ]
+  },
+  "107956": {
+   "source": "elliott-flackes-1999",
+   "entry": "Paddy Wilson",
+   "died": "1973-06-26",
+   "page": "476",
+   "checkedAgainst": {
+    "died": [
+     {
+      "title": "CAIN, Malcolm Sutton, An Index of Deaths from the Conflict in Ireland",
+      "url": "https://cain.ulster.ac.uk/sutton/chron/1973.html"
+     },
+     {
+      "title": "Wikipedia, \"Murder of Paddy Wilson and Irene Andrews\"",
+      "url": "https://en.wikipedia.org/wiki/Murder_of_Paddy_Wilson_and_Irene_Andrews"
+     }
+    ]
+   },
+   "facts": [
+    "dF-0038",
+    "dF-0175"
+   ]
+  },
+  "107966": {
+   "source": "elliott-flackes-1999",
+   "entry": "Bernard O'Hagan",
+   "died": "1991-09-16",
+   "page": "52",
+   "checkedAgainst": {
+    "died": [
+     {
+      "title": "CAIN, Malcolm Sutton, An Index of Deaths from the Conflict in Ireland",
+      "url": "https://cain.ulster.ac.uk/sutton/chron/1991.html"
+     }
+    ]
+   },
+   "facts": [
+    "cA-0020"
+   ]
   },
   "108629": {
    "source": "boylan-1998",
@@ -562,6 +4747,48 @@
    "page": "98",
    "entry": "Aodh de Blacam"
   },
+  "108934": {
+   "source": "elliott-flackes-1999",
+   "entry": "Dáithí Ó Conaill",
+   "died": "1991-01-01",
+   "page": "372",
+   "checkedAgainst": {
+    "died": [
+     {
+      "title": "Wikipedia, \"Dáithí Ó Conaill\"",
+      "url": "https://en.wikipedia.org/wiki/D%C3%A1ith%C3%AD_%C3%93_Conaill"
+     },
+     {
+      "title": "Wikidata, Q3042257",
+      "url": "https://www.wikidata.org/wiki/Q3042257"
+     }
+    ]
+   },
+   "facts": [
+    "dD-0211"
+   ]
+  },
+  "109067": {
+   "source": "elliott-flackes-1999",
+   "entry": "Dick Spring",
+   "born": "1950-08-29",
+   "page": "453",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Dick Spring\"",
+      "url": "https://en.wikipedia.org/wiki/Dick_Spring"
+     },
+     {
+      "title": "Wikidata, Q356460",
+      "url": "https://www.wikidata.org/wiki/Q356460"
+     }
+    ]
+   },
+   "facts": [
+    "dE-0156"
+   ]
+  },
   "109095": {
    "source": "boylan-1998",
    "born": "1860-01-17",
@@ -569,12 +4796,61 @@
    "page": "188-189",
    "entry": "Douglas Hyde"
   },
+  "109152": {
+   "source": "elliott-flackes-1999",
+   "entry": "Eddie Fullerton",
+   "died": "1991-05-25",
+   "page": "479",
+   "checkedAgainst": {
+    "died": [
+     {
+      "title": "CAIN, Malcolm Sutton, An Index of Deaths from the Conflict in Ireland",
+      "url": "https://cain.ulster.ac.uk/sutton/chron/1991.html"
+     },
+     {
+      "title": "Wikipedia, \"Eddie Fullerton\"",
+      "url": "https://en.wikipedia.org/wiki/Eddie_Fullerton"
+     },
+     {
+      "title": "Wikidata, Q5336047",
+      "url": "https://www.wikidata.org/wiki/Q5336047"
+     }
+    ]
+   },
+   "facts": [
+    "cA-0019",
+    "dB-0006",
+    "dE-0112",
+    "dF-0049"
+   ]
+  },
   "109578": {
    "source": "boylan-1998",
    "born": "1936-09",
    "died": "1997-09-25",
    "page": "204-205",
    "entry": "Jim Kemmy"
+  },
+  "110434": {
+   "source": "elliott-flackes-1999",
+   "entry": "Peter Barry (politician)",
+   "born": "1928-08-10",
+   "page": "175",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Peter Barry (politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Peter_Barry_(politician)"
+     },
+     {
+      "title": "Wikidata, Q2073804",
+      "url": "https://www.wikidata.org/wiki/Q2073804"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0140"
+   ]
   },
   "110544": {
    "source": "boylan-1998",
@@ -597,6 +4873,48 @@
    "page": "261-262",
    "entry": "Terence MacSwiney"
   },
+  "111068": {
+   "source": "elliott-flackes-1999",
+   "entry": "Ray Burke (Irish politician)",
+   "born": "1943-09-30",
+   "page": "195",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Ray Burke (Irish politician)\"",
+      "url": "https://en.wikipedia.org/wiki/Ray_Burke_(Irish_politician)"
+     },
+     {
+      "title": "Wikidata, Q2133871",
+      "url": "https://www.wikidata.org/wiki/Q2133871"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0272"
+   ]
+  },
+  "111160": {
+   "source": "elliott-flackes-1999",
+   "entry": "Albert Reynolds",
+   "born": "1932-11-03",
+   "page": "423",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Albert Reynolds\"",
+      "url": "https://en.wikipedia.org/wiki/Albert_Reynolds"
+     },
+     {
+      "title": "Wikidata, Q380182",
+      "url": "https://www.wikidata.org/wiki/Q380182"
+     }
+    ]
+   },
+   "facts": [
+    "dE-0034"
+   ]
+  },
   "112125": {
    "source": "boylan-1998",
    "born": "1867-05-15",
@@ -610,6 +4928,42 @@
    "died": "1969-01-24",
    "page": "182-183",
    "entry": "Patrick Hogan"
+  },
+  "112273": {
+   "source": "elliott-flackes-1999",
+   "entry": "Seamus Costello",
+   "born": "1939",
+   "died": "1977-10-05",
+   "page": "218",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Seamus Costello\"",
+      "url": "https://en.wikipedia.org/wiki/Seamus_Costello"
+     },
+     {
+      "title": "Wikidata, Q1780947",
+      "url": "https://www.wikidata.org/wiki/Q1780947"
+     }
+    ],
+    "died": [
+     {
+      "title": "Wikipedia, \"Seamus Costello\"",
+      "url": "https://en.wikipedia.org/wiki/Seamus_Costello"
+     },
+     {
+      "title": "Wikidata, Q1780947",
+      "url": "https://www.wikidata.org/wiki/Q1780947"
+     },
+     {
+      "title": "CAIN, Malcolm Sutton, An Index of Deaths from the Conflict in Ireland",
+      "url": "https://cain.ulster.ac.uk/sutton/chron/1977.html"
+     }
+    ]
+   },
+   "facts": [
+    "dB-0049"
+   ]
   },
   "112585": {
    "source": "boylan-1998",
@@ -638,6 +4992,27 @@
    "died": "1947-04-09",
    "page": "130-131",
    "entry": "Desmond FitzGerald"
+  },
+  "112722": {
+   "source": "elliott-flackes-1999",
+   "entry": "David Andrews (politician)",
+   "born": "1935-03-15",
+   "page": "163",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"David Andrews (politician)\"",
+      "url": "https://en.wikipedia.org/wiki/David_Andrews_(politician)"
+     },
+     {
+      "title": "Wikidata, Q1111220",
+      "url": "https://www.wikidata.org/wiki/Q1111220"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0075"
+   ]
   },
   "112791": {
    "source": "boylan-1998",
@@ -680,6 +5055,65 @@
    "died": "1988-01-15",
    "page": "233-234",
    "entry": "Sean MacBride"
+  },
+  "115562": {
+   "source": "elliott-flackes-1999",
+   "entry": "James Craig",
+   "born": "1931-12",
+   "died": "1974-11-02",
+   "page": "218",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"James Craig (County Antrim, 20th century)\"",
+      "url": "https://en.wikipedia.org/wiki/James_Craig_(County_Antrim,_20th_century)"
+     },
+     {
+      "title": "Wikidata, Q6131866",
+      "url": "https://www.wikidata.org/wiki/Q6131866"
+     }
+    ],
+    "died": [
+     {
+      "title": "News Letter, 4 November 1974, p. 2"
+     },
+     {
+      "title": "Belfast Telegraph, 2 November 1974, p. 5"
+     },
+     {
+      "title": "Wikipedia, \"James Craig (County Antrim, 20th century)\"",
+      "url": "https://en.wikipedia.org/wiki/James_Craig_(County_Antrim,_20th_century)"
+     },
+     {
+      "title": "Wikidata, Q6131866",
+      "url": "https://www.wikidata.org/wiki/Q6131866"
+     }
+    ]
+   },
+   "facts": [
+    "dB-0059"
+   ]
+  },
+  "116713": {
+   "source": "elliott-flackes-1999",
+   "entry": "Thomas Edward Burns",
+   "born": "1927",
+   "page": "195",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Thomas Edward Burns\"",
+      "url": "https://en.wikipedia.org/wiki/Thomas_Edward_Burns"
+     },
+     {
+      "title": "Wikidata, Q7789265",
+      "url": "https://www.wikidata.org/wiki/Q7789265"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0280"
+   ]
   },
   "117098": {
    "source": "boylan-1998",
@@ -1212,6 +5646,65 @@
    "died": "1866-09-15",
    "page": "110",
    "entry": "John Blake Dillon"
+  },
+  "133637": {
+   "source": "elliott-flackes-1999",
+   "entry": "Laurence (Larry) Kennedy",
+   "died": "1981-10-08",
+   "page": "171",
+   "checkedAgainst": {
+    "died": [
+     {
+      "title": "CAIN, Malcolm Sutton, An Index of Deaths from the Conflict in Ireland",
+      "url": "https://cain.ulster.ac.uk/sutton/chron/1981.html"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0094"
+   ]
+  },
+  "134419": {
+   "source": "elliott-flackes-1999",
+   "entry": "John Baxter (Northern Ireland politician)",
+   "born": "1939-11-25",
+   "page": "176",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"John Baxter (Northern Ireland politician)\"",
+      "url": "https://en.wikipedia.org/wiki/John_Baxter_(Northern_Ireland_politician)"
+     },
+     {
+      "title": "Wikidata, Q6221148",
+      "url": "https://www.wikidata.org/wiki/Q6221148"
+     }
+    ]
+   },
+   "facts": [
+    "dA-0146"
+   ]
+  },
+  "134557": {
+   "source": "elliott-flackes-1999",
+   "entry": "Ruairí Ó Brádaigh",
+   "born": "1932-10-02",
+   "page": "372",
+   "checkedAgainst": {
+    "born": [
+     {
+      "title": "Wikipedia, \"Ruairí Ó Brádaigh\"",
+      "url": "https://en.wikipedia.org/wiki/Ruair%C3%AD_%C3%93_Br%C3%A1daigh"
+     },
+     {
+      "title": "Wikidata, Q3446429",
+      "url": "https://www.wikidata.org/wiki/Q3446429"
+     }
+    ]
+   },
+   "facts": [
+    "dD-0207"
+   ]
   }
  }
 }
