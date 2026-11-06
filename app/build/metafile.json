@@ -201,7 +201,7 @@
       ]
     },
     "app/src/test2.css": {
-      "bytes": 108417,
+      "bytes": 109161,
       "imports": []
     },
     "<define:__VIEWER_ASSET_VERSIONS__>": {
@@ -931,8 +931,19 @@
       ],
       "format": "esm"
     },
+    "render/src/approximate-segments.js": {
+      "bytes": 2892,
+      "imports": [
+        {
+          "path": "<define:__VIEWER_ASSET_VERSIONS__>",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
     "render/src/map-controller.js": {
-      "bytes": 104762,
+      "bytes": 109604,
       "imports": [
         {
           "path": "node_modules/maplibre-gl/dist/maplibre-gl.js",
@@ -975,6 +986,11 @@
           "original": "./utils.js"
         },
         {
+          "path": "render/src/approximate-segments.js",
+          "kind": "import-statement",
+          "original": "./approximate-segments.js"
+        },
+        {
           "path": "<define:__VIEWER_ASSET_VERSIONS__>",
           "kind": "import-statement",
           "external": true
@@ -994,7 +1010,7 @@
       "format": "esm"
     },
     "app/src/maplibre-main-adapter.js": {
-      "bytes": 78019,
+      "bytes": 78397,
       "imports": [
         {
           "path": "node_modules/maplibre-gl/dist/maplibre-gl.js",
@@ -1270,7 +1286,7 @@
       "format": "esm"
     },
     "app/src/app.js": {
-      "bytes": 267809,
+      "bytes": 269493,
       "imports": [
         {
           "path": "src/data-service.js",
@@ -1390,7 +1406,7 @@
           "kind": "import-statement"
         },
         {
-          "path": "app/build/chunks/app-BD3D2CP4.js",
+          "path": "app/build/chunks/app-RHTX6PX5.js",
           "kind": "dynamic-import"
         }
       ],
@@ -1564,7 +1580,7 @@
       },
       "bytes": 20181
     },
-    "app/build/chunks/app-BD3D2CP4.js": {
+    "app/build/chunks/app-RHTX6PX5.js": {
       "imports": [
         {
           "path": "app/build/chunks/chunk-6SPDZ5NW.js",
@@ -1607,7 +1623,7 @@
       "entryPoint": "app/src/app.js",
       "inputs": {
         "app/src/app.js": {
-          "bytesInOutput": 133000
+          "bytesInOutput": 134027
         },
         "src/feature-loader.js": {
           "bytesInOutput": 6264
@@ -1640,10 +1656,10 @@
           "bytesInOutput": 666
         },
         "app/src/maplibre-main-adapter.js": {
-          "bytesInOutput": 41397
+          "bytesInOutput": 41588
         },
         "render/src/map-controller.js": {
-          "bytesInOutput": 53293
+          "bytesInOutput": 55625
         },
         "node_modules/pmtiles/dist/esm/index.js": {
           "bytesInOutput": 14537
@@ -1660,11 +1676,14 @@
         "render/src/labels.js": {
           "bytesInOutput": 2158
         },
+        "render/src/approximate-segments.js": {
+          "bytesInOutput": 1199
+        },
         "app/src/settle.js": {
           "bytesInOutput": 362
         }
       },
-      "bytes": 649653
+      "bytes": 654402
     },
     "app/build/chunks/chunk-6SPDZ5NW.js": {
       "imports": [
@@ -1990,10 +2009,10 @@
           "bytesInOutput": 69917
         },
         "app/src/test2.css": {
-          "bytesInOutput": 78643
+          "bytesInOutput": 79082
         }
       },
-      "bytes": 148561
+      "bytes": 149000
     }
   }
 }
