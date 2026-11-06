@@ -40,11 +40,12 @@
    "284343264",
    "T328228154",
    "T501521525",
-   "T2159279327"
+   "T2159279327",
+   "fix-john-carson-ballymena"
   ],
   "note": "Ids carrying more than one distinct name are row indices, not people.",
-  "crossSystemMerges": 1026,
-  "sameNameLeftSplit": 1848
+  "crossSystemMerges": 1022,
+  "sameNameLeftSplit": 1852
  },
  "conservatism": "Nothing is merged on name alone. Two ids from the same source system sharing a name stay separate and are flagged needsReview.",
  "entities": [
@@ -561,32 +562,43 @@
    "personId": 1024,
    "displayName": "Jack Allen",
    "aliases": [
+    "John Alexander Allen",
     "Jack Allen"
    ],
    "matchKeys": [
-    "jack allen"
+    "jack allen",
+    "john alexander allen"
    ],
    "sourceIds": [
     "1024",
-    "T2426291746"
+    "John Alexander Allen|UUP",
+    "T2426291746-derry",
+    "fix-jack-allen"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 8,
-   "contests": 8,
-   "firstYear": 1973,
+   "candidacies": 6,
+   "contests": 6,
+   "firstYear": 1967,
    "lastYear": 1998,
    "bodies": [
     "local-government",
+    "londonderry-county-borough-council",
     "northern-ireland-assembly"
    ],
    "parties": [
-    "UUP"
+    "UUP",
+    "United Loyalist"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    133514,
+    133779,
+    141513
+   ]
   },
   {
    "id": "p1070",
@@ -1309,12 +1321,13 @@
     "james simpson"
    ],
    "sourceIds": [
+    "5962578032814684056",
     "T770428874"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 8,
-   "contests": 8,
+   "candidacies": 9,
+   "contests": 9,
    "firstYear": 1973,
    "lastYear": 2011,
    "bodies": [
@@ -1326,7 +1339,10 @@
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    105795
+   ]
   },
   {
    "id": "p2487",
@@ -1762,23 +1778,30 @@
     "3288",
     "T3216564835"
    ],
-   "sourcePersonIds": [],
+   "sourcePersonIds": [
+    "ei:3968"
+   ],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1989,
    "lastYear": 1997,
    "bodies": [
+    "dail-eireann",
     "house-of-commons-of-the-united-kingdom",
     "local-government"
    ],
    "parties": [
     "Workers Party",
+    "Workers'",
     "Workers' Party"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
-   "provisional": false
+   "provisional": false,
+   "mergedFrom": [
+    113295
+   ]
   },
   {
    "id": "p3315",
@@ -2118,21 +2141,19 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [
-    "democracyclub:117816",
     "niassembly:54",
     "wikidata:Q3181858"
    ],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1997,
-   "lastYear": 2024,
+   "lastYear": 2001,
    "bodies": [
     "house-of-commons-of-the-united-kingdom",
     "local-government",
     "northern-ireland-assembly"
    ],
    "parties": [
-    "Independent",
     "Sinn Féin"
    ],
    "keyedBy": "id",
@@ -2666,8 +2687,7 @@
     "gerry kelly"
    ],
    "sourceIds": [
-    "4594",
-    "T798892223"
+    "4594"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [
@@ -2675,22 +2695,21 @@
     "niassembly:53",
     "wikidata:Q5552825"
    ],
-   "candidacies": 13,
-   "contests": 13,
-   "firstYear": 1981,
+   "candidacies": 12,
+   "contests": 12,
+   "firstYear": 1997,
    "lastYear": 2022,
    "bodies": [
     "house-of-commons-of-the-united-kingdom",
-    "local-government",
     "northern-ireland-assembly"
    ],
    "parties": [
-    "IRSP",
     "Sinn Féin"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
-   "provisional": false
+   "provisional": false,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p4612",
@@ -3327,24 +3346,28 @@
    "personId": 6291,
    "displayName": "Tom Benson",
    "aliases": [
+    "Thomas Benson",
     "Tom Benson"
    ],
    "matchKeys": [
+    "thomas benson",
     "tom benson"
    ],
    "sourceIds": [
-    "6291"
+    "6291",
+    "T3697887310-ards"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [
     "niassembly:11",
     "wikidata:Q7814943"
    ],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1998,
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1985,
    "lastYear": 1998,
    "bodies": [
+    "local-government",
     "northern-ireland-assembly"
    ],
    "parties": [
@@ -3352,7 +3375,10 @@
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
-   "provisional": false
+   "provisional": false,
+   "mergedFrom": [
+    133454
+   ]
   },
   {
    "id": "p6302",
@@ -4460,16 +4486,20 @@
    ],
    "sourceIds": [
     "3246561",
-    "8169"
+    "8169",
+    "Anne Dickson|UUP",
+    "T2512479543"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1969,
-   "lastYear": 1979,
+   "candidacies": 6,
+   "contests": 6,
+   "firstYear": 1967,
+   "lastYear": 1981,
    "bodies": [
     "house-of-commons-of-the-united-kingdom",
+    "local-government",
+    "newtownabbey-urban-district-council",
     "northern-ireland-assembly",
     "northern-ireland-constitutional-convention",
     "parliament-of-northern-ireland"
@@ -4482,7 +4512,11 @@
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    107229,
+    140344
+   ]
   },
   {
    "id": "p8210",
@@ -4650,37 +4684,48 @@
    "personId": 8355,
    "displayName": "Eddie McAteer",
    "aliases": [
+    "Edward G. McAteer",
     "Eddie McAteer"
    ],
    "matchKeys": [
-    "eddie mcateer"
+    "eddie mcateer",
+    "edward g mcateer"
    ],
    "sourceIds": [
     "125309",
     "12844946",
     "2901916",
+    "3445707",
+    "3630967",
     "5789722",
     "8355",
-    "8772381"
+    "8772381",
+    "Edward G. McAteer|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 7,
-   "contests": 7,
-   "firstYear": 1953,
+   "candidacies": 10,
+   "contests": 10,
+   "firstYear": 1945,
    "lastYear": 1973,
    "bodies": [
     "house-of-commons-of-the-united-kingdom",
+    "londonderry-county-borough-council-aldermen",
     "northern-ireland-assembly",
     "parliament-of-northern-ireland"
    ],
    "parties": [
+    "Anti-Partitionist",
     "Nationalist Party"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    117098,
+    140687
+   ]
   },
   {
    "id": "p8384",
@@ -4941,33 +4986,45 @@
    "personId": 8599,
    "displayName": "Douglas Hutchinson",
    "aliases": [
-    "Douglas Hutchinson"
+    "Douglas Hutchinson",
+    "D. Hutchinson"
    ],
    "matchKeys": [
+    "d hutchinson",
     "douglas hutchinson"
    ],
    "sourceIds": [
     "8599",
+    "D. Hutchinson|",
+    "Douglas Hutchinson|",
+    "Douglas Hutchinson|UUP",
     "T3475920541"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 8,
-   "contests": 8,
-   "firstYear": 1973,
+   "candidacies": 11,
+   "contests": 11,
+   "firstYear": 1955,
    "lastYear": 1989,
    "bodies": [
+    "armagh-rural-district-council",
     "local-government",
     "northern-ireland-assembly",
     "northern-ireland-constitutional-convention"
    ],
    "parties": [
-    "DUP"
+    "DUP",
+    "UUP"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    136446,
+    136501,
+    136502
+   ]
   },
   {
    "id": "p8631",
@@ -5353,35 +5410,46 @@
    "personId": 9350,
    "displayName": "Ivan Cooper",
    "aliases": [
+    "Ivan Averill Cooper",
     "Ivan Cooper"
    ],
    "matchKeys": [
+    "ivan averill cooper",
     "ivan cooper"
    ],
    "sourceIds": [
     "15139174",
-    "9350"
+    "9350",
+    "Ivan Averill Cooper|NI Labour",
+    "T834342795"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
-   "firstYear": 1969,
-   "lastYear": 1975,
+   "candidacies": 7,
+   "contests": 7,
+   "firstYear": 1967,
+   "lastYear": 1977,
    "bodies": [
     "house-of-commons-of-the-united-kingdom",
+    "local-government",
+    "londonderry-county-borough-council",
     "northern-ireland-assembly",
     "northern-ireland-constitutional-convention",
     "parliament-of-northern-ireland"
    ],
    "parties": [
     "Independent Nationalist",
+    "NI Labour",
     "SDLP"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    108487,
+    141069
+   ]
   },
   {
    "id": "p9382",
@@ -5456,34 +5524,46 @@
    ],
    "matchKeys": [
     "bernadette devlin",
-    "bernadette devlin mcaliskey"
+    "bernadette devlin mcaliskey",
+    "bernadette mcaliskey"
    ],
    "sourceIds": [
     "6809204",
-    "9467"
+    "9467",
+    "fix-bernadette-devlin-1969"
    ],
-   "sourcePersonIds": [],
+   "sourcePersonIds": [
+    "ei:3444"
+   ],
    "officialPersonIds": [
     "ukparliament:1637",
     "wikidata:Q2628635"
    ],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 7,
+   "contests": 7,
    "firstYear": 1969,
-   "lastYear": 1979,
+   "lastYear": 1982,
    "bodies": [
+    "dail-eireann",
     "european-parliament",
-    "house-of-commons-of-the-united-kingdom"
+    "house-of-commons-of-the-united-kingdom",
+    "parliament-of-northern-ireland"
    ],
    "parties": [
     "Independent Nationalist",
     "Independent Other",
+    "Non party/Independent",
+    "People's Democracy",
     "Unity"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "nameVariants": true
+   "nameVariants": true,
+   "mergedFrom": [
+    127600,
+    135080
+   ]
   },
   {
    "id": "p9520",
@@ -5577,32 +5657,43 @@
    "personId": 9619,
    "displayName": "Robert James Mitchell",
    "aliases": [
-    "Robert James Mitchell"
+    "Robert James Mitchell",
+    "Robert Mitchell"
    ],
    "matchKeys": [
-    "robert james mitchell"
+    "robert james mitchell",
+    "robert mitchell"
    ],
    "sourceIds": [
     "14317041",
-    "9619"
+    "9619",
+    "Robert Mitchell|",
+    "T3807260447"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1969,
-   "lastYear": 1973,
+   "candidacies": 8,
+   "contests": 8,
+   "firstYear": 1961,
+   "lastYear": 1993,
    "bodies": [
+    "local-government",
     "northern-ireland-assembly",
-    "parliament-of-northern-ireland"
+    "parliament-of-northern-ireland",
+    "portstewart-urban-district-council"
    ],
    "parties": [
+    "Conservative",
+    "Independent",
     "UUP"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    52824
+   ]
   },
   {
    "id": "p9629",
@@ -6442,30 +6533,47 @@
    "personId": 10816,
    "displayName": "William Morgan",
    "aliases": [
-    "William Morgan"
+    "William James Morgan",
+    "William Morgan",
+    "W. J. Morgan"
    ],
    "matchKeys": [
+    "w j morgan",
+    "william james morgan",
     "william morgan"
    ],
    "sourceIds": [
-    "10816"
+    "10062239",
+    "10816",
+    "12816775",
+    "14287880",
+    "3076500",
+    "3576997",
+    "3628392",
+    "5775896",
+    "7540061"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1973,
+   "candidacies": 10,
+   "contests": 10,
+   "firstYear": 1949,
    "lastYear": 1975,
    "bodies": [
     "northern-ireland-assembly",
-    "northern-ireland-constitutional-convention"
+    "northern-ireland-constitutional-convention",
+    "parliament-of-northern-ireland"
    ],
    "parties": [
     "UUP"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
-   "provisional": false
+   "provisional": false,
+   "mergedFrom": [
+    103810,
+    105086
+   ]
   },
   {
    "id": "p10848",
@@ -6817,21 +6925,25 @@
    "personId": 11362,
    "displayName": "Charles Mulholland",
    "aliases": [
-    "Charles Mulholland"
+    "Charles Mulholland",
+    "Charles Dunleath"
    ],
    "matchKeys": [
+    "charles dunleath",
     "charles mulholland"
    ],
    "sourceIds": [
-    "11362"
+    "11362",
+    "T3366196665"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1973,
    "lastYear": 1982,
    "bodies": [
+    "local-government",
     "northern-ireland-assembly",
     "northern-ireland-constitutional-convention"
    ],
@@ -6840,7 +6952,10 @@
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
-   "provisional": false
+   "provisional": false,
+   "mergedFrom": [
+    107726
+   ]
   },
   {
    "id": "p11394",
@@ -7181,7 +7296,6 @@
     "northern-ireland-assembly"
    ],
    "parties": [
-    "UUP",
     "UUUP"
    ],
    "keyedBy": "id",
@@ -8356,32 +8470,43 @@
    "personId": 14095,
    "displayName": "Davy Calvert",
    "aliases": [
+    "David Calvert",
     "Davy Calvert"
    ],
    "matchKeys": [
+    "david calvert",
     "davy calvert"
    ],
    "sourceIds": [
-    "14095"
+    "14095",
+    "83734",
+    "T204753333",
+    "T5885826114"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1975,
-   "lastYear": 2007,
+   "candidacies": 12,
+   "contests": 12,
+   "firstYear": 1973,
+   "lastYear": 2011,
    "bodies": [
     "house-of-commons-of-the-united-kingdom",
+    "local-government",
     "northern-ireland-assembly",
     "northern-ireland-constitutional-convention"
    ],
    "parties": [
     "DUP",
-    "Independent Unionist"
+    "Independent",
+    "Independent Unionist",
+    "TUV"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
-   "provisional": false
+   "provisional": false,
+   "mergedFrom": [
+    83734
+   ]
   },
   {
    "id": "p14206",
@@ -9784,7 +9909,7 @@
    "eraReason": "split by its official person id (democracyclub:2137): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    142985
+    142990
    ]
   },
   {
@@ -10935,7 +11060,9 @@
     "eddie mcgrady"
    ],
    "sourceIds": [
-    "17395"
+    "17395",
+    "7196055",
+    "T3246203858"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [
@@ -10943,22 +11070,29 @@
     "ukparliament:656",
     "wikidata:Q5336300"
    ],
-   "candidacies": 12,
-   "contests": 12,
-   "firstYear": 1973,
+   "candidacies": 17,
+   "contests": 17,
+   "firstYear": 1969,
    "lastYear": 2005,
    "bodies": [
     "house-of-commons-of-the-united-kingdom",
+    "local-government",
     "northern-ireland-assembly",
-    "northern-ireland-constitutional-convention"
+    "northern-ireland-constitutional-convention",
+    "parliament-of-northern-ireland"
    ],
    "parties": [
+    "National Democratic Party",
     "SDLP"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    100962,
+    105948
+   ]
   },
   {
    "id": "p17464",
@@ -11917,24 +12051,28 @@
    "personId": 19292,
    "displayName": "PJ Bradley",
    "aliases": [
+    "P. J. Bradley",
     "PJ Bradley"
    ],
    "matchKeys": [
+    "p j bradley",
     "pj bradley"
    ],
    "sourceIds": [
-    "19292"
+    "19292",
+    "T4035876283"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [
     "niassembly:15",
     "wikidata:Q16105286"
    ],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1998,
+   "candidacies": 9,
+   "contests": 9,
+   "firstYear": 1981,
    "lastYear": 2007,
    "bodies": [
+    "local-government",
     "northern-ireland-assembly"
    ],
    "parties": [
@@ -11942,7 +12080,10 @@
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
-   "provisional": false
+   "provisional": false,
+   "mergedFrom": [
+    100405
+   ]
   },
   {
    "id": "p19509",
@@ -12171,7 +12312,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    143033
+    143039
    ]
   },
   {
@@ -12579,13 +12720,14 @@
    ],
    "sourceIds": [
     "20207",
-    "T3269187932"
+    "T3269187932",
+    "T3269187932-ballymena"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
-   "firstYear": 1997,
+   "candidacies": 7,
+   "contests": 7,
+   "firstYear": 1989,
    "lastYear": 2005,
    "bodies": [
     "house-of-commons-of-the-united-kingdom",
@@ -12597,36 +12739,47 @@
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    133682
+   ]
   },
   {
    "id": "p20248",
    "personId": 20248,
    "displayName": "Allister Black",
    "aliases": [
-    "Allister Black"
+    "Allister Black",
+    "Alister Black"
    ],
    "matchKeys": [
+    "alister black",
     "allister black"
    ],
    "sourceIds": [
-    "20248"
+    "20248",
+    "20545"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1982,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1975,
    "lastYear": 1982,
    "bodies": [
-    "northern-ireland-assembly"
+    "northern-ireland-assembly",
+    "northern-ireland-constitutional-convention"
    ],
    "parties": [
-    "UUUP"
+    "UUUP",
+    "Vanguard Unionist Progressive Party"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
-   "provisional": false
+   "provisional": false,
+   "mergedFrom": [
+    20545
+   ]
   },
   {
    "id": "p20260",
@@ -12836,22 +12989,28 @@
    "personId": 20432,
    "displayName": "Paddy Kennedy",
    "aliases": [
-    "Paddy Kennedy"
+    "Paddy Kennedy",
+    "P. Kennedy"
    ],
    "matchKeys": [
+    "p kennedy",
     "paddy kennedy"
    ],
    "sourceIds": [
-    "20432"
+    "20432",
+    "9955552",
+    "P. Kennedy|Republican Labour"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1973,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1967,
    "lastYear": 1973,
    "bodies": [
-    "northern-ireland-assembly"
+    "belfast-county-borough-council",
+    "northern-ireland-assembly",
+    "parliament-of-northern-ireland"
    ],
    "parties": [
     "Republican Labour"
@@ -12859,7 +13018,11 @@
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    112903,
+    134342
+   ]
   },
   {
    "id": "p20454",
@@ -12890,35 +13053,6 @@
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p20545",
-   "personId": 20545,
-   "displayName": "Alister Black",
-   "aliases": [
-    "Alister Black"
-   ],
-   "matchKeys": [
-    "alister black"
-   ],
-   "sourceIds": [
-    "20545"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1975,
-   "lastYear": 1975,
-   "bodies": [
-    "northern-ireland-constitutional-convention"
-   ],
-   "parties": [
-    "Vanguard Unionist Progressive Party"
-   ],
-   "keyedBy": "id",
-   "provenance": "curated (Full election tables.xlsx, carried forward)",
-   "provisional": false
   },
   {
    "id": "p20682",
@@ -13393,24 +13527,40 @@
     "boyd douglas"
    ],
    "sourceIds": [
-    "benbradagh-2001-boyddouglas"
+    "2008815359",
+    "21358",
+    "T2008815359",
+    "benbradagh-2001-boyddouglas",
+    "benbradagh-2005-boyddouglas"
    ],
    "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 2001,
-   "lastYear": 2001,
+   "officialPersonIds": [
+    "democracyclub:69294",
+    "niassembly:31",
+    "wikidata:Q4952326"
+   ],
+   "candidacies": 9,
+   "contests": 9,
+   "firstYear": 1997,
+   "lastYear": 2019,
    "bodies": [
-    "local-government"
+    "local-government",
+    "northern-ireland-assembly"
    ],
    "parties": [
+    "Independent Unionist",
+    "TUV",
+    "UUP",
     "United Unionist"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    102217,
+    133251
+   ]
   },
   {
    "id": "p21374",
@@ -13457,7 +13607,7 @@
    "eraReason": "split by its official person id (democracyclub:7132): the source id it shares is held by another person with another official id",
    "nameVariants": true,
    "mergedFrom": [
-    142986
+    142991
    ]
   },
   {
@@ -14316,25 +14466,29 @@
    "personId": 22515,
    "displayName": "Pat McNamee",
    "aliases": [
+    "Patrick McNamee",
     "Pat McNamee"
    ],
    "matchKeys": [
-    "pat mcnamee"
+    "pat mcnamee",
+    "patrick mcnamee"
    ],
    "sourceIds": [
-    "22515"
+    "22515",
+    "T2734595693"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [
     "niassembly:75",
     "wikidata:Q7143777"
    ],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1997,
-   "lastYear": 1998,
+   "lastYear": 2001,
    "bodies": [
     "house-of-commons-of-the-united-kingdom",
+    "local-government",
     "northern-ireland-assembly"
    ],
    "parties": [
@@ -14342,7 +14496,10 @@
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
-   "provisional": false
+   "provisional": false,
+   "mergedFrom": [
+    102685
+   ]
   },
   {
    "id": "p22534",
@@ -14762,8 +14919,7 @@
     "local-government"
    ],
    "parties": [
-    "DUP",
-    "DUP Civil Servant (Retired)"
+    "DUP"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
@@ -15527,29 +15683,37 @@
     "paddy devlin"
    ],
    "sourceIds": [
+    "24471",
     "702233",
     "T1251314643"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 8,
+   "contests": 8,
    "firstYear": 1969,
    "lastYear": 1985,
    "bodies": [
+    "european-parliament",
     "local-government",
+    "northern-ireland-assembly",
+    "northern-ireland-constitutional-convention",
     "parliament-of-northern-ireland"
    ],
    "parties": [
     "Independent",
     "Labour Party of Northern Ireland",
     "NI Labour",
-    "SDLP"
+    "SDLP",
+    "United Labour Party"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    101338
+   ]
   },
   {
    "id": "p24486",
@@ -16323,7 +16487,7 @@
     "house-of-commons-of-the-united-kingdom"
    ],
    "parties": [
-    "UUP"
+    "Pro-Assembly Unionist"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
@@ -16861,24 +17025,31 @@
    ],
    "sourceIds": [
     "1651557476",
+    "26565",
     "T1651557476"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 8,
+   "contests": 8,
    "firstYear": 1981,
    "lastYear": 2014,
    "bodies": [
-    "local-government"
+    "house-of-commons-of-the-united-kingdom",
+    "local-government",
+    "northern-ireland-assembly"
    ],
    "parties": [
-    "DUP"
+    "DUP",
+    "UKUP"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    101346
+   ]
   },
   {
    "id": "p26641",
@@ -17319,28 +17490,34 @@
     "14086840",
     "1826072",
     "3041687",
-    "6581126"
+    "6581126",
+    "T7979887380"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [
     "ukparliament:2952",
     "wikidata:Q7181222"
    ],
-   "candidacies": 6,
-   "contests": 6,
+   "candidacies": 7,
+   "contests": 7,
    "firstYear": 1952,
-   "lastYear": 1969,
+   "lastYear": 1973,
    "bodies": [
     "house-of-commons-of-the-united-kingdom",
+    "northern-ireland-assembly",
     "parliament-of-northern-ireland"
    ],
    "parties": [
+    "Alliance",
     "UUP"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    134417
+   ]
   },
   {
    "id": "p27466",
@@ -18738,29 +18915,40 @@
    "personId": 29729,
    "displayName": "Patrick O'Hanlon",
    "aliases": [
-    "Patrick O'Hanlon"
+    "Patrick O'Hanlon",
+    "Paddy O'Hanlon"
    ],
    "matchKeys": [
+    "paddy o hanlon",
     "patrick o hanlon"
    ],
    "sourceIds": [
-    "29729"
+    "2708807",
+    "29729",
+    "84155"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1982,
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1969,
    "lastYear": 1982,
    "bodies": [
-    "northern-ireland-assembly"
+    "house-of-commons-of-the-united-kingdom",
+    "northern-ireland-assembly",
+    "northern-ireland-constitutional-convention",
+    "parliament-of-northern-ireland"
    ],
    "parties": [
+    "Independent Nationalist",
     "SDLP"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
-   "provisional": false
+   "provisional": false,
+   "mergedFrom": [
+    84155
+   ]
   },
   {
    "id": "p29760",
@@ -22238,6 +22426,7 @@
     "house-of-commons-of-the-united-kingdom"
    ],
    "parties": [
+    "Pro-Assembly Unionist",
     "UUP"
    ],
    "keyedBy": "id",
@@ -23747,7 +23936,7 @@
     "house-of-commons-of-the-united-kingdom"
    ],
    "parties": [
-    "UUP"
+    "Pro-Assembly Unionist"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
@@ -23795,17 +23984,20 @@
     "herbert whitten"
    ],
    "sourceIds": [
+    "37912",
     "3944374",
     "T361860675"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1969,
    "lastYear": 1981,
    "bodies": [
     "local-government",
+    "northern-ireland-assembly",
+    "northern-ireland-constitutional-convention",
     "parliament-of-northern-ireland"
    ],
    "parties": [
@@ -23814,7 +24006,10 @@
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    102316
+   ]
   },
   {
    "id": "p37955",
@@ -24697,21 +24892,31 @@
    "personId": 39309,
    "displayName": "Herbert Kirk",
    "aliases": [
+    "Herbert Victor Kirk",
     "Herbert Kirk"
    ],
    "matchKeys": [
-    "herbert kirk"
+    "herbert kirk",
+    "herbert victor kirk"
    ],
    "sourceIds": [
-    "11394733"
+    "11394733",
+    "13660081",
+    "15295076",
+    "2868138",
+    "39309",
+    "6942605",
+    "Herbert Victor Kirk|UUP"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1958,
-   "lastYear": 1958,
+   "candidacies": 7,
+   "contests": 7,
+   "firstYear": 1955,
+   "lastYear": 1973,
    "bodies": [
+    "belfast-county-borough-council",
+    "northern-ireland-assembly",
     "parliament-of-northern-ireland"
    ],
    "parties": [
@@ -24720,7 +24925,12 @@
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    104225,
+    117145,
+    141031
+   ]
   },
   {
    "id": "p39317",
@@ -24984,7 +25194,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    143035
+    143042
    ]
   },
   {
@@ -25494,12 +25704,11 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 10,
-   "contests": 9,
+   "candidacies": 8,
+   "contests": 8,
    "firstYear": 1973,
    "lastYear": 1989,
    "bodies": [
-    "house-of-commons-of-the-united-kingdom",
     "local-government",
     "northern-ireland-assembly",
     "northern-ireland-constitutional-convention"
@@ -25511,7 +25720,8 @@
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
-   "provisional": false
+   "provisional": false,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p40333",
@@ -26371,7 +26581,7 @@
    ],
    "parties": [
     "DUP",
-    "UUP"
+    "UUUP"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
@@ -27198,23 +27408,28 @@
    "personId": 43210,
    "displayName": "James McDonald",
    "aliases": [
-    "James McDonald"
+    "James McDonald",
+    "Jim McDonald"
    ],
    "matchKeys": [
-    "james mcdonald"
+    "james mcdonald",
+    "jim mcdonald"
    ],
    "sourceIds": [
     "43210",
+    "96467",
     "T4018145221"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1973,
-   "lastYear": 1981,
+   "lastYear": 1983,
    "bodies": [
+    "house-of-commons-of-the-united-kingdom",
     "local-government",
+    "northern-ireland-assembly",
     "northern-ireland-constitutional-convention"
    ],
    "parties": [
@@ -27223,7 +27438,10 @@
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
-   "provisional": false
+   "provisional": false,
+   "mergedFrom": [
+    96467
+   ]
   },
   {
    "id": "p43363",
@@ -27559,16 +27777,19 @@
    ],
    "sourceIds": [
     "4145984636",
+    "44065",
     "T4145984636"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 9,
-   "contests": 9,
+   "candidacies": 11,
+   "contests": 11,
    "firstYear": 1981,
    "lastYear": 2014,
    "bodies": [
-    "local-government"
+    "house-of-commons-of-the-united-kingdom",
+    "local-government",
+    "northern-ireland-assembly"
    ],
    "parties": [
     "DUP",
@@ -27578,7 +27799,10 @@
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    102342
+   ]
   },
   {
    "id": "p44087",
@@ -28449,17 +28673,20 @@
     "john brooke"
    ],
    "sourceIds": [
+    "10266557",
+    "1283581",
     "45642"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1973,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1968,
    "lastYear": 1975,
    "bodies": [
     "northern-ireland-assembly",
-    "northern-ireland-constitutional-convention"
+    "northern-ireland-constitutional-convention",
+    "parliament-of-northern-ireland"
    ],
    "parties": [
     "UUP",
@@ -28468,7 +28695,10 @@
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    103830
+   ]
   },
   {
    "id": "p45655",
@@ -28723,7 +28953,8 @@
    "parties": [
     "Conservative",
     "Independent",
-    "UUP"
+    "UUP",
+    "UUUP"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
@@ -29953,6 +30184,7 @@
    ],
    "parties": [
     "Independent Unionist",
+    "Pro-Assembly Unionist",
     "UUP"
    ],
    "keyedBy": "id",
@@ -30200,6 +30432,7 @@
    ],
    "parties": [
     "UUP",
+    "UUUP",
     "Vanguard Unionist Progressive Party"
    ],
    "keyedBy": "id",
@@ -31765,34 +31998,45 @@
    "personId": 50631,
    "displayName": "Bertie McConnell",
    "aliases": [
-    "Bertie McConnell"
+    "Bertie McConnell",
+    "R. McConnell"
    ],
    "matchKeys": [
-    "bertie mcconnell"
+    "bertie mcconnell",
+    "r mcconnell"
    ],
    "sourceIds": [
     "15977490",
-    "50631"
+    "50631",
+    "R. McConnell|",
+    "T1098550522"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1969,
-   "lastYear": 1975,
+   "candidacies": 6,
+   "contests": 6,
+   "firstYear": 1964,
+   "lastYear": 1977,
    "bodies": [
+    "bangor-borough-council",
+    "local-government",
     "northern-ireland-assembly",
     "northern-ireland-constitutional-convention",
     "parliament-of-northern-ireland"
    ],
    "parties": [
     "Alliance",
+    "Independent",
     "Independent Unionist"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    102434,
+    142071
+   ]
   },
   {
    "id": "p50739",
@@ -32803,39 +33047,6 @@
    ],
    "parties": [
     "Conservative"
-   ],
-   "keyedBy": "id",
-   "provenance": "curated (Full election tables.xlsx, carried forward)",
-   "provisional": false
-  },
-  {
-   "id": "p52824",
-   "personId": 52824,
-   "displayName": "Robert Mitchell",
-   "aliases": [
-    "Robert Mitchell"
-   ],
-   "matchKeys": [
-    "robert mitchell"
-   ],
-   "sourceIds": [
-    "Robert Mitchell|",
-    "T3807260447"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
-   "firstYear": 1961,
-   "lastYear": 1993,
-   "bodies": [
-    "local-government",
-    "portstewart-urban-district-council"
-   ],
-   "parties": [
-    "Conservative",
-    "Independent",
-    "UUP"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
@@ -34447,12 +34658,15 @@
    "personId": 56227,
    "displayName": "Nat Minford",
    "aliases": [
+    "Nat Owens Minford",
     "Nat Minford"
    ],
    "matchKeys": [
-    "nat minford"
+    "nat minford",
+    "nat owens minford"
    ],
    "sourceIds": [
+    "14728349",
     "2833040",
     "56227",
     "6538314",
@@ -34462,8 +34676,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
+   "candidacies": 7,
+   "contests": 7,
    "firstYear": 1951,
    "lastYear": 1973,
    "bodies": [
@@ -34476,7 +34690,10 @@
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    104353
+   ]
   },
   {
    "id": "p56264",
@@ -34522,27 +34739,33 @@
    "sourceIds": [
     "11403758",
     "56314",
-    "7749097"
+    "7749097",
+    "T1303085701"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 8,
+   "contests": 8,
    "firstYear": 1965,
-   "lastYear": 1975,
+   "lastYear": 1997,
    "bodies": [
     "house-of-commons-of-the-united-kingdom",
+    "local-government",
     "northern-ireland-assembly",
     "northern-ireland-constitutional-convention",
     "parliament-of-northern-ireland"
    ],
    "parties": [
+    "Pro-Assembly Unionist",
     "UUP"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    101439
+   ]
   },
   {
    "id": "p56331",
@@ -36011,12 +36234,13 @@
    ],
    "sourceIds": [
     "58506",
-    "T2008332115"
+    "T2008332115",
+    "fix-cecil-cousley-1989"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 8,
-   "contests": 8,
+   "candidacies": 9,
+   "contests": 9,
    "firstYear": 1981,
    "lastYear": 2011,
    "bodies": [
@@ -36552,6 +36776,7 @@
     "local-government"
    ],
    "parties": [
+    "Pro-Assembly Unionist",
     "UUP"
    ],
    "keyedBy": "id",
@@ -39036,7 +39261,8 @@
     "local-government"
    ],
    "parties": [
-    "UUP"
+    "UUP",
+    "UUUP"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
@@ -39179,25 +39405,33 @@
     "ken mcfaul"
    ],
    "sourceIds": [
-    "63720"
+    "63720",
+    "T713888849",
+    "carrickfergus-area-c-1973-kenmcfaul"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1975,
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1973,
    "lastYear": 1982,
    "bodies": [
+    "local-government",
     "northern-ireland-assembly",
     "northern-ireland-constitutional-convention"
    ],
    "parties": [
-    "DUP"
+    "DUP",
+    "United Loyalist"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    103015,
+    133259
+   ]
   },
   {
    "id": "p63791",
@@ -39456,7 +39690,8 @@
    ],
    "parties": [
     "Alliance",
-    "UUP"
+    "UUP",
+    "UUUP"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
@@ -40382,25 +40617,29 @@
    "personId": 65955,
    "displayName": "Billy Armstrong",
    "aliases": [
+    "William Armstrong",
     "Billy Armstrong"
    ],
    "matchKeys": [
-    "billy armstrong"
+    "billy armstrong",
+    "william armstrong"
    ],
    "sourceIds": [
-    "65955"
+    "65955",
+    "T1140411506"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [
     "niassembly:6",
     "wikidata:Q4912119"
    ],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1998,
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1997,
    "lastYear": 2007,
    "bodies": [
     "house-of-commons-of-the-united-kingdom",
+    "local-government",
     "northern-ireland-assembly"
    ],
    "parties": [
@@ -40408,7 +40647,10 @@
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
-   "provisional": false
+   "provisional": false,
+   "mergedFrom": [
+    106411
+   ]
   },
   {
    "id": "p65993",
@@ -41424,31 +41666,38 @@
    "personId": 67813,
    "displayName": "Raymond McCrea",
    "aliases": [
-    "Raymond McCrea"
+    "Raymond McCrea",
+    "Stuart McCrea"
    ],
    "matchKeys": [
-    "raymond mccrea"
+    "raymond mccrea",
+    "stuart mccrea"
    ],
    "sourceIds": [
     "67813",
+    "95151",
     "T3608687993"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1977,
    "lastYear": 1985,
    "bodies": [
     "house-of-commons-of-the-united-kingdom",
-    "local-government"
+    "local-government",
+    "northern-ireland-assembly"
    ],
    "parties": [
     "DUP"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
-   "provisional": false
+   "provisional": false,
+   "mergedFrom": [
+    95151
+   ]
   },
   {
    "id": "p67882",
@@ -41717,25 +41966,36 @@
     "roy beggs"
    ],
    "sourceIds": [
-    "T3961708672"
+    "68301",
+    "T3961708672",
+    "larne-area-b-1981-roybeggs"
    ],
    "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 8,
-   "contests": 8,
+   "officialPersonIds": [
+    "ukparliament:646",
+    "wikidata:Q5568755"
+   ],
+   "candidacies": 16,
+   "contests": 16,
    "firstYear": 1977,
    "lastYear": 2011,
    "bodies": [
+    "house-of-commons-of-the-united-kingdom",
     "local-government"
    ],
    "parties": [
     "DUP",
-    "UUP"
+    "UUP",
+    "United Loyalist"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    129797,
+    133270
+   ]
   },
   {
    "id": "p68308",
@@ -42604,30 +42864,33 @@
     "john carson"
    ],
    "sourceIds": [
-    "2597842877-ballymena-mid-and-east-antrim",
-    "3383088600",
-    "T2597842877"
+    "T2597842877-ballymena-mid-and-east-antrim"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [
     "democracyclub:69093"
    ],
-   "candidacies": 9,
-   "contests": 9,
-   "firstYear": 1973,
+   "candidacies": 7,
+   "contests": 7,
+   "firstYear": 1989,
    "lastYear": 2019,
    "bodies": [
     "local-government"
    ],
    "parties": [
-    "DUP",
-    "UUP"
+    "DUP"
    ],
-   "keyedBy": "id",
+   "keyedBy": "name",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
    "nameVariants": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "nameKeyedRows": [
+    "john carson"
+   ],
+   "mergedFrom": [
+    133788
+   ]
   },
   {
    "id": "p69729",
@@ -42788,7 +43051,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    143036
+    143043
    ]
   },
   {
@@ -42850,6 +43113,7 @@
    ],
    "parties": [
     "UUP",
+    "UUUP",
     "Vanguard Unionist Progressive Party"
    ],
    "keyedBy": "id",
@@ -43736,24 +44000,28 @@
    "personId": 71670,
    "displayName": "Sam Foster",
    "aliases": [
+    "Samuel Foster",
     "Sam Foster"
    ],
    "matchKeys": [
-    "sam foster"
+    "sam foster",
+    "samuel foster"
    ],
    "sourceIds": [
-    "71670"
+    "71670",
+    "T2047308257-fermanagh"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [
     "niassembly:38",
     "wikidata:Q7407480"
    ],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1998,
+   "candidacies": 6,
+   "contests": 6,
+   "firstYear": 1981,
    "lastYear": 1998,
    "bodies": [
+    "local-government",
     "northern-ireland-assembly"
    ],
    "parties": [
@@ -43761,7 +44029,10 @@
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
-   "provisional": false
+   "provisional": false,
+   "mergedFrom": [
+    133432
+   ]
   },
   {
    "id": "p71711",
@@ -45250,29 +45521,36 @@
     "eugene mcmenamin"
    ],
    "sourceIds": [
-    "74604"
+    "4294533238-derry-city-and-strabane",
+    "74604",
+    "T4294533238"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [
     "niassembly:74",
     "wikidata:Q5407530"
    ],
-   "candidacies": 5,
-   "contests": 5,
-   "firstYear": 1998,
-   "lastYear": 2011,
+   "candidacies": 10,
+   "contests": 10,
+   "firstYear": 1997,
+   "lastYear": 2014,
    "bodies": [
     "house-of-commons-of-the-united-kingdom",
+    "local-government",
     "northern-ireland-assembly"
    ],
    "parties": [
+    "Independent",
     "Independent Nationalist",
     "SDLP"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    101023
+   ]
   },
   {
    "id": "p74783",
@@ -47482,16 +47760,19 @@
     "eric smyth"
    ],
    "sourceIds": [
+    "78378",
     "T961295871"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 7,
+   "contests": 7,
    "firstYear": 1981,
    "lastYear": 2001,
    "bodies": [
-    "local-government"
+    "house-of-commons-of-the-united-kingdom",
+    "local-government",
+    "northern-ireland-assembly"
    ],
    "parties": [
     "DUP"
@@ -47499,7 +47780,10 @@
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    102379
+   ]
   },
   {
    "id": "p78445",
@@ -47587,7 +47871,7 @@
     "northern-ireland-assembly"
    ],
    "parties": [
-    "UUP",
+    "UUUP",
     "Vanguard Unionist Progressive Party"
    ],
    "keyedBy": "id",
@@ -48285,16 +48569,23 @@
     "sheelagh murnaghan"
    ],
    "sourceIds": [
-    "10735995"
+    "10735995",
+    "11255766",
+    "262009",
+    "2805845",
+    "496239",
+    "79426"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 7,
+   "contests": 7,
    "firstYear": 1959,
-   "lastYear": 1959,
+   "lastYear": 1973,
    "bodies": [
-    "house-of-commons-of-the-united-kingdom"
+    "house-of-commons-of-the-united-kingdom",
+    "northern-ireland-assembly",
+    "parliament-of-northern-ireland"
    ],
    "parties": [
     "Ulster Liberal"
@@ -48302,7 +48593,13 @@
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    103946,
+    104924,
+    104987,
+    117444
+   ]
   },
   {
    "id": "p79538",
@@ -49029,7 +49326,8 @@
     "12229787",
     "5955906",
     "80677",
-    "John Taylor|UUP"
+    "John Taylor|UUP",
+    "T3684325721"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [
@@ -49037,13 +49335,14 @@
     "ukparliament:657",
     "wikidata:Q333991"
    ],
-   "candidacies": 15,
-   "contests": 15,
+   "candidacies": 17,
+   "contests": 17,
    "firstYear": 1964,
    "lastYear": 2003,
    "bodies": [
     "european-parliament",
     "house-of-commons-of-the-united-kingdom",
+    "local-government",
     "newry-urban-district-council",
     "northern-ireland-assembly",
     "northern-ireland-constitutional-convention",
@@ -49055,7 +49354,10 @@
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    102848
+   ]
   },
   {
    "id": "p80678",
@@ -49219,18 +49521,21 @@
    ],
    "sourceIds": [
     "3282030197",
+    "80795",
     "T3282030197"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [
     "democracyclub:69166"
    ],
-   "candidacies": 11,
-   "contests": 11,
+   "candidacies": 15,
+   "contests": 15,
    "firstYear": 1977,
    "lastYear": 2019,
    "bodies": [
-    "local-government"
+    "house-of-commons-of-the-united-kingdom",
+    "local-government",
+    "northern-ireland-assembly"
    ],
    "parties": [
     "UUP"
@@ -49238,7 +49543,10 @@
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    100806
+   ]
   },
   {
    "id": "p80819",
@@ -50110,13 +50418,13 @@
    ],
    "sourceIds": [
     "82420",
-    "T2031631529"
+    "T2031631529-down"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 7,
-   "contests": 7,
-   "firstYear": 1973,
+   "candidacies": 6,
+   "contests": 6,
+   "firstYear": 1977,
    "lastYear": 1993,
    "bodies": [
     "local-government",
@@ -50128,7 +50436,10 @@
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    133431
+   ]
   },
   {
    "id": "p82430",
@@ -50727,41 +51038,6 @@
    "provisional": false
   },
   {
-   "id": "p83734",
-   "personId": 83734,
-   "displayName": "David Calvert",
-   "aliases": [
-    "David Calvert"
-   ],
-   "matchKeys": [
-    "david calvert"
-   ],
-   "sourceIds": [
-    "83734",
-    "T204753333",
-    "T5885826114"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 9,
-   "contests": 9,
-   "firstYear": 1973,
-   "lastYear": 2011,
-   "bodies": [
-    "local-government",
-    "northern-ireland-assembly"
-   ],
-   "parties": [
-    "DUP",
-    "Independent",
-    "TUV"
-   ],
-   "keyedBy": "id",
-   "provenance": "curated (Full election tables.xlsx, carried forward)",
-   "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p83789",
    "personId": 83789,
    "displayName": "Brian Smyth",
@@ -50906,6 +51182,7 @@
     "eamonn mccann"
    ],
    "sourceIds": [
+    "5951598",
     "83992",
     "904303577-derry-city-and-strabane",
     "T904303577"
@@ -50916,25 +51193,30 @@
     "niassembly:5807",
     "wikidata:Q2904605"
    ],
-   "candidacies": 11,
-   "contests": 11,
-   "firstYear": 1970,
+   "candidacies": 12,
+   "contests": 12,
+   "firstYear": 1969,
    "lastYear": 2019,
    "bodies": [
     "european-parliament",
     "house-of-commons-of-the-united-kingdom",
     "local-government",
-    "northern-ireland-assembly"
+    "northern-ireland-assembly",
+    "parliament-of-northern-ireland"
    ],
    "parties": [
     "Independent Other",
+    "NI Labour",
     "PBP",
     "Socialist Environmental Alliance"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    105792
+   ]
   },
   {
    "id": "p84105",
@@ -50973,41 +51255,6 @@
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false
-  },
-  {
-   "id": "p84155",
-   "personId": 84155,
-   "displayName": "Paddy O'Hanlon",
-   "aliases": [
-    "Paddy O'Hanlon"
-   ],
-   "matchKeys": [
-    "paddy o hanlon"
-   ],
-   "sourceIds": [
-    "2708807",
-    "84155"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1969,
-   "lastYear": 1975,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom",
-    "northern-ireland-assembly",
-    "northern-ireland-constitutional-convention",
-    "parliament-of-northern-ireland"
-   ],
-   "parties": [
-    "Independent Nationalist",
-    "SDLP"
-   ],
-   "keyedBy": "id",
-   "provenance": "curated (Full election tables.xlsx, carried forward)",
-   "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p84169",
@@ -52296,17 +52543,15 @@
    ],
    "sourceIds": [
     "86165",
-    "David Allen|",
     "T2098314370"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
-   "firstYear": 1958,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1973,
    "lastYear": 1977,
    "bodies": [
-    "carrickfergus-borough-council",
     "local-government",
     "northern-ireland-constitutional-convention"
    ],
@@ -52316,7 +52561,8 @@
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
-   "provisional": false
+   "provisional": false,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p86169",
@@ -54108,21 +54354,25 @@
    "personId": 89297,
    "displayName": "Frank Millar Jr",
    "aliases": [
-    "Frank Millar Jr"
+    "Frank Millar Jr",
+    "Frank Millar"
    ],
    "matchKeys": [
+    "frank millar",
     "frank millar jr"
    ],
    "sourceIds": [
-    "89297"
+    "89297",
+    "89297-jr"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1984,
-   "lastYear": 1984,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1982,
+   "lastYear": 1987,
    "bodies": [
+    "house-of-commons-of-the-united-kingdom",
     "northern-ireland-assembly"
    ],
    "parties": [
@@ -54130,7 +54380,10 @@
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
-   "provisional": false
+   "provisional": false,
+   "mergedFrom": [
+    142978
+   ]
   },
   {
    "id": "p89333",
@@ -56673,6 +56926,7 @@
     "house-of-commons-of-the-united-kingdom"
    ],
    "parties": [
+    "Pro-Assembly Unionist",
     "UUP"
    ],
    "keyedBy": "id",
@@ -57220,35 +57474,6 @@
    ],
    "parties": [
     "Conservative"
-   ],
-   "keyedBy": "id",
-   "provenance": "curated (Full election tables.xlsx, carried forward)",
-   "provisional": false
-  },
-  {
-   "id": "p95151",
-   "personId": 95151,
-   "displayName": "Stuart McCrea",
-   "aliases": [
-    "Stuart McCrea"
-   ],
-   "matchKeys": [
-    "stuart mccrea"
-   ],
-   "sourceIds": [
-    "95151"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1982,
-   "lastYear": 1982,
-   "bodies": [
-    "northern-ireland-assembly"
-   ],
-   "parties": [
-    "DUP"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
@@ -57837,7 +58062,8 @@
     "Independent",
     "Loyalist Coalition",
     "TUV",
-    "UUP"
+    "UUP",
+    "UUUP"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
@@ -57875,36 +58101,6 @@
    ],
    "parties": [
     "DUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "curated (Full election tables.xlsx, carried forward)",
-   "provisional": false
-  },
-  {
-   "id": "p96467",
-   "personId": 96467,
-   "displayName": "Jim McDonald",
-   "aliases": [
-    "Jim McDonald"
-   ],
-   "matchKeys": [
-    "jim mcdonald"
-   ],
-   "sourceIds": [
-    "96467"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1982,
-   "lastYear": 1983,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom",
-    "northern-ireland-assembly"
-   ],
-   "parties": [
-    "SDLP"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
@@ -58051,25 +58247,39 @@
     "william beattie"
    ],
    "sourceIds": [
-    "T4024331543"
+    "12941585",
+    "4740958",
+    "96686",
+    "T4024331543",
+    "lisburn-town-north-1997-williambeattie"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
-   "firstYear": 1977,
+   "candidacies": 14,
+   "contests": 14,
+   "firstYear": 1969,
    "lastYear": 2001,
    "bodies": [
-    "local-government"
+    "house-of-commons-of-the-united-kingdom",
+    "local-government",
+    "northern-ireland-assembly",
+    "northern-ireland-constitutional-convention",
+    "parliament-of-northern-ireland"
    ],
    "parties": [
     "DUP",
-    "Independent"
+    "Independent",
+    "Protestant Unionist",
+    "Protestant Unionist Party"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    100531,
+    133273
+   ]
   },
   {
    "id": "p96729",
@@ -58658,6 +58868,7 @@
     "northern-ireland-constitutional-convention"
    ],
    "parties": [
+    "Independent Unionist",
     "UUP",
     "Ulster Popular Unionist Party"
    ],
@@ -59479,23 +59690,34 @@
    "matchKeys": [
     "tom french"
    ],
-   "sourceIds": [],
+   "sourceIds": [
+    "T1116772221"
+   ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 11,
-   "contests": 11,
-   "firstYear": 1982,
+   "candidacies": 18,
+   "contests": 18,
+   "firstYear": 1981,
    "lastYear": 2005,
    "bodies": [
     "house-of-commons-of-the-united-kingdom",
+    "local-government",
     "northern-ireland-assembly"
    ],
    "parties": [
+    "Workers Party",
+    "Workers Party Republican Clubs",
     "Workers' Party"
    ],
    "keyedBy": "name",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
-   "provisional": false
+   "provisional": false,
+   "nameKeyedRows": [
+    "tom french"
+   ],
+   "mergedFrom": [
+    100222
+   ]
   },
   {
    "id": "p99103",
@@ -60182,7 +60404,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    143003
+    143008
    ]
   },
   {
@@ -62088,10 +62310,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    142943,
-    142959,
-    143006,
-    143007
+    142946,
+    142962,
+    143012,
+    143013
    ]
   },
   {
@@ -62148,7 +62370,6 @@
     "local-government"
    ],
    "parties": [
-    "D.U. U.U.U.C.",
     "DUP",
     "TUV"
    ],
@@ -62404,10 +62625,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    142970,
-    142971,
-    142988,
-    143041
+    142973,
+    142974,
+    142993,
+    143048
    ]
   },
   {
@@ -63058,7 +63279,6 @@
     "local-government"
    ],
    "parties": [
-    "D.U. U.U.U.C.",
     "DUP"
    ],
    "keyedBy": "id",
@@ -63099,10 +63319,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    142948,
-    142949,
-    143015,
-    143016
+    142951,
+    142952,
+    143021,
+    143022
    ]
   },
   {
@@ -63139,10 +63359,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    142950,
-    142964,
-    142976,
-    143017
+    142953,
+    142967,
+    142981,
+    143023
    ]
   },
   {
@@ -63646,8 +63866,8 @@
    "eraReason": "split by its official person id (democracyclub:68911): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    142968,
-    143034
+    142971,
+    143040
    ]
   },
   {
@@ -63807,11 +64027,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    142955,
-    142972,
-    143043,
-    143044,
-    143045
+    142958,
+    142975,
+    143050,
+    143051,
+    143052
    ]
   },
   {
@@ -64586,10 +64806,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    142935,
-    142941,
-    142998,
-    142999
+    142938,
+    142944,
+    143003,
+    143004
    ]
   },
   {
@@ -65506,12 +65726,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    142969,
-    142987,
-    143037,
-    143038,
-    143039,
-    143040
+    142972,
+    142992,
+    143044,
+    143045,
+    143046,
+    143047
    ]
   },
   {
@@ -66266,36 +66486,6 @@
    ],
    "parties": [
     "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p100222",
-   "personId": 100222,
-   "displayName": "Tom French",
-   "aliases": [
-    "Tom French"
-   ],
-   "matchKeys": [
-    "tom french"
-   ],
-   "sourceIds": [
-    "T1116772221"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 7,
-   "contests": 7,
-   "firstYear": 1981,
-   "lastYear": 2005,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "Workers Party",
-    "Workers Party Republican Clubs"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -67057,7 +67247,6 @@
     "local-government"
    ],
    "parties": [
-    "D.U. U.U.U.C.",
     "DUP"
    ],
    "keyedBy": "id",
@@ -67178,8 +67367,7 @@
     "local-government"
    ],
    "parties": [
-    "Independent",
-    "Pensioner"
+    "Independent"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -69937,9 +70125,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    142936,
-    142937,
-    142961
+    142939,
+    142940,
+    142964
    ]
   },
   {
@@ -69977,11 +70165,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    142946,
-    142962,
-    142963,
-    142975,
-    143012
+    142949,
+    142965,
+    142966,
+    142980,
+    143018
    ]
   },
   {
@@ -70018,10 +70206,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    142933,
-    142938,
-    143024,
-    143025
+    142934,
+    142941,
+    143030,
+    143031
    ]
   },
   {
@@ -71167,7 +71355,8 @@
     "local-government"
    ],
    "parties": [
-    "UUP"
+    "UUP",
+    "UUUP"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -71712,38 +71901,6 @@
    "provisional": true
   },
   {
-   "id": "p100405",
-   "personId": 100405,
-   "displayName": "P. J. Bradley",
-   "aliases": [
-    "P. J. Bradley"
-   ],
-   "matchKeys": [
-    "p j bradley"
-   ],
-   "sourceIds": [
-    "P. J. Bradley|NI Labour",
-    "T4035876283"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 7,
-   "contests": 7,
-   "firstYear": 1967,
-   "lastYear": 2001,
-   "bodies": [
-    "local-government",
-    "omagh-urban-district-council"
-   ],
-   "parties": [
-    "NI Labour",
-    "SDLP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
    "id": "p100406",
    "personId": 100406,
    "displayName": "William Leathem",
@@ -72200,11 +72357,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    142934,
-    142989,
-    142990,
-    142991,
-    143046
+    142937,
+    142994,
+    142995,
+    142996,
+    143053
    ]
   },
   {
@@ -75301,43 +75458,6 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
-   "id": "p100531",
-   "personId": 100531,
-   "displayName": "William Beattie",
-   "aliases": [
-    "William Beattie"
-   ],
-   "matchKeys": [
-    "william beattie"
-   ],
-   "sourceIds": [
-    "12941585",
-    "4740958",
-    "96686"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 7,
-   "contests": 7,
-   "firstYear": 1969,
-   "lastYear": 1983,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom",
-    "northern-ireland-assembly",
-    "northern-ireland-constitutional-convention",
-    "parliament-of-northern-ireland"
-   ],
-   "parties": [
-    "DUP",
-    "Protestant Unionist",
-    "Protestant Unionist Party"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p100535",
    "personId": 100535,
    "displayName": "PUP list",
@@ -75373,12 +75493,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    142939,
-    142965,
-    142981,
-    142982,
-    143026,
-    143027
+    142942,
+    142968,
+    142986,
+    142987,
+    143032,
+    143033
    ]
   },
   {
@@ -75416,11 +75536,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    142940,
-    142953,
-    142966,
-    143028,
-    143029
+    142943,
+    142956,
+    142969,
+    143034,
+    143035
    ]
   },
   {
@@ -75460,13 +75580,13 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    142954,
-    142967,
-    142983,
-    142984,
-    143030,
-    143031,
-    143032
+    142957,
+    142970,
+    142988,
+    142989,
+    143036,
+    143037,
+    143038
    ]
   },
   {
@@ -77330,7 +77450,8 @@
    ],
    "parties": [
     "DUP",
-    "UUP"
+    "UUP",
+    "UUUP"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -81928,10 +82049,12 @@
    "personId": 100753,
    "displayName": "Paddy Harte",
    "aliases": [
+    "Patrick D. Harte",
     "Paddy Harte"
    ],
    "matchKeys": [
-    "paddy harte"
+    "paddy harte",
+    "patrick d harte"
    ],
    "sourceIds": [],
    "sourcePersonIds": [
@@ -81941,20 +82064,27 @@
     "oireachtas:Patrick-D-Harte.D.1961-10-11",
     "wikidata:Q7123489"
    ],
-   "candidacies": 13,
-   "contests": 13,
+   "candidacies": 15,
+   "contests": 15,
    "firstYear": 1961,
    "lastYear": 1997,
    "bodies": [
     "dail-eireann",
-    "ireland-european"
+    "ireland-european",
+    "ireland-local"
    ],
    "parties": [
     "Fine Gael"
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3935)",
-   "provisional": true
+   "provisional": true,
+   "nameKeyedRows": [
+    "patrick d harte"
+   ],
+   "mergedFrom": [
+    138268
+   ]
   },
   {
    "id": "p100754",
@@ -83217,12 +83347,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    142942,
-    142956,
-    142957,
-    142958,
-    143001,
-    143002
+    142945,
+    142959,
+    142960,
+    142961,
+    143006,
+    143007
    ]
   },
   {
@@ -83354,37 +83484,6 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
-   "id": "p100806",
-   "personId": 100806,
-   "displayName": "Jim Speers",
-   "aliases": [
-    "Jim Speers"
-   ],
-   "matchKeys": [
-    "jim speers"
-   ],
-   "sourceIds": [
-    "80795"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1982,
-   "lastYear": 1998,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom",
-    "northern-ireland-assembly"
-   ],
-   "parties": [
-    "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p100809",
    "personId": 100809,
    "displayName": "Conservative list",
@@ -83419,11 +83518,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    142944,
-    142945,
-    142960,
-    143010,
-    143011
+    142947,
+    142948,
+    142963,
+    143016,
+    143017
    ]
   },
   {
@@ -83459,9 +83558,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    142947,
-    143013,
-    143014
+    142950,
+    143019,
+    143020
    ]
   },
   {
@@ -83500,12 +83599,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    142951,
-    142952,
-    142978,
-    142979,
-    142980,
-    143023
+    142954,
+    142955,
+    142983,
+    142984,
+    142985,
+    143029
    ]
   },
   {
@@ -87688,36 +87787,6 @@
    "provisional": true
   },
   {
-   "id": "p100962",
-   "personId": 100962,
-   "displayName": "Eddie McGrady",
-   "aliases": [
-    "Eddie McGrady"
-   ],
-   "matchKeys": [
-    "eddie mcgrady"
-   ],
-   "sourceIds": [
-    "T3246203858"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1973,
-   "lastYear": 1985,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "SDLP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p100963",
    "personId": 100963,
    "displayName": "Thomas Kavanagh",
@@ -87889,6 +87958,7 @@
    ],
    "parties": [
     "UUP",
+    "UUUP",
     "Vanguard Unionist Progressive Party"
    ],
    "keyedBy": "id",
@@ -89002,6 +89072,7 @@
    ],
    "parties": [
     "UUP",
+    "UUUP",
     "Vanguard Unionist Progressive Party"
    ],
    "keyedBy": "id",
@@ -89494,38 +89565,6 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
-  },
-  {
-   "id": "p101023",
-   "personId": 101023,
-   "displayName": "Eugene McMenamin",
-   "aliases": [
-    "Eugene McMenamin"
-   ],
-   "matchKeys": [
-    "eugene mcmenamin"
-   ],
-   "sourceIds": [
-    "4294533238-derry-city-and-strabane",
-    "T4294533238"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
-   "firstYear": 1997,
-   "lastYear": 2014,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "Independent",
-    "SDLP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p101024",
@@ -90052,6 +90091,7 @@
    "parties": [
     "DUP",
     "UUP",
+    "UUUP",
     "Ulster Popular Unionist Party"
    ],
    "keyedBy": "id",
@@ -90676,7 +90716,8 @@
     "local-government"
    ],
    "parties": [
-    "UUP"
+    "UUP",
+    "UUUP"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -98197,39 +98238,6 @@
    "provisional": true
   },
   {
-   "id": "p101338",
-   "personId": 101338,
-   "displayName": "Paddy Devlin",
-   "aliases": [
-    "Paddy Devlin"
-   ],
-   "matchKeys": [
-    "paddy devlin"
-   ],
-   "sourceIds": [
-    "24471"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1973,
-   "lastYear": 1979,
-   "bodies": [
-    "european-parliament",
-    "northern-ireland-assembly",
-    "northern-ireland-constitutional-convention"
-   ],
-   "parties": [
-    "SDLP",
-    "United Labour Party"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p101339",
    "personId": 101339,
    "displayName": "Mickey Ruane",
@@ -98414,38 +98422,6 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
-  },
-  {
-   "id": "p101346",
-   "personId": 101346,
-   "displayName": "Denny Vitty",
-   "aliases": [
-    "Denny Vitty"
-   ],
-   "matchKeys": [
-    "denny vitty"
-   ],
-   "sourceIds": [
-    "26565"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1982,
-   "lastYear": 1998,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom",
-    "northern-ireland-assembly"
-   ],
-   "parties": [
-    "DUP",
-    "UKUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p101347",
@@ -99509,19 +99485,21 @@
     "john carson"
    ],
    "sourceIds": [
-    "69704"
+    "69704",
+    "T2597842877"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [
     "ukparliament:1623",
     "wikidata:Q6225324"
    ],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1974,
-   "lastYear": 1982,
+   "candidacies": 10,
+   "contests": 10,
+   "firstYear": 1973,
+   "lastYear": 1997,
    "bodies": [
     "house-of-commons-of-the-united-kingdom",
+    "local-government",
     "northern-ireland-assembly"
    ],
    "parties": [
@@ -99530,7 +99508,10 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    142933
+   ]
   },
   {
    "id": "p101401",
@@ -100319,36 +100300,6 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
-  },
-  {
-   "id": "p101439",
-   "personId": 101439,
-   "displayName": "Roy Bradford",
-   "aliases": [
-    "Roy Bradford"
-   ],
-   "matchKeys": [
-    "roy bradford"
-   ],
-   "sourceIds": [
-    "T1303085701"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1989,
-   "lastYear": 1997,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p101440",
@@ -109976,7 +109927,7 @@
    ],
    "parties": [
     "DUP",
-    "UUP"
+    "UUUP"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -113340,7 +113291,8 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:4759)",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p101889",
@@ -120595,14 +120547,15 @@
    ],
    "sourceIds": [],
    "sourcePersonIds": [
-    "ei:2724"
+    "ei:2724",
+    "ie:8223"
    ],
    "officialPersonIds": [
     "oireachtas:Tomás-MacGiolla.D.1982-12-14",
     "wikidata:Q454213"
    ],
-   "candidacies": 15,
-   "contests": 15,
+   "candidacies": 16,
+   "contests": 16,
    "firstYear": 1961,
    "lastYear": 1997,
    "bodies": [
@@ -120620,7 +120573,10 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2724)",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    132899
+   ]
   },
   {
    "id": "p102147",
@@ -120907,10 +120863,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    142994,
-    142995,
-    142996,
-    142997
+    142999,
+    143000,
+    143001,
+    143002
    ]
   },
   {
@@ -120945,8 +120901,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    142973,
-    143000
+    142976,
+    143005
    ]
   },
   {
@@ -120991,25 +120947,31 @@
     "glenn barr"
    ],
    "sourceIds": [
-    "100014"
+    "100014",
+    "fix-glenn-barr"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1973,
    "lastYear": 1975,
    "bodies": [
+    "local-government",
     "northern-ireland-assembly",
     "northern-ireland-constitutional-convention"
    ],
    "parties": [
+    "United Loyalist",
     "Vanguard Unionist Progressive Party"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    127734
+   ]
   },
   {
    "id": "p102165",
@@ -122248,45 +122210,6 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
-  },
-  {
-   "id": "p102217",
-   "personId": 102217,
-   "displayName": "Boyd Douglas",
-   "aliases": [
-    "Boyd Douglas"
-   ],
-   "matchKeys": [
-    "boyd douglas"
-   ],
-   "sourceIds": [
-    "2008815359",
-    "21358",
-    "T2008815359"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [
-    "democracyclub:69294",
-    "niassembly:31",
-    "wikidata:Q4952326"
-   ],
-   "candidacies": 7,
-   "contests": 7,
-   "firstYear": 1997,
-   "lastYear": 2019,
-   "bodies": [
-    "local-government",
-    "northern-ireland-assembly"
-   ],
-   "parties": [
-    "Independent Unionist",
-    "TUV",
-    "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p102218",
@@ -124677,37 +124600,6 @@
    "provisional": true
   },
   {
-   "id": "p102316",
-   "personId": 102316,
-   "displayName": "Herbert Whitten",
-   "aliases": [
-    "Herbert Whitten"
-   ],
-   "matchKeys": [
-    "herbert whitten"
-   ],
-   "sourceIds": [
-    "37912"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1973,
-   "lastYear": 1975,
-   "bodies": [
-    "northern-ireland-assembly",
-    "northern-ireland-constitutional-convention"
-   ],
-   "parties": [
-    "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p102317",
    "personId": 102317,
    "displayName": "Colin Kennedy –",
@@ -125155,37 +125047,6 @@
    "provisional": true
   },
   {
-   "id": "p102342",
-   "personId": 102342,
-   "displayName": "Roy Thompson",
-   "aliases": [
-    "Roy Thompson"
-   ],
-   "matchKeys": [
-    "roy thompson"
-   ],
-   "sourceIds": [
-    "44065"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1982,
-   "lastYear": 1983,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom",
-    "northern-ireland-assembly"
-   ],
-   "parties": [
-    "DUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p102344",
    "personId": 102344,
    "displayName": "Robert Campbell",
@@ -125488,18 +125349,20 @@
     "mark robinson"
    ],
    "sourceIds": [
-    "60336"
+    "60336",
+    "T349186083"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [
     "niassembly:94",
     "wikidata:Q16193334"
    ],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1998,
+   "candidacies": 6,
+   "contests": 6,
+   "firstYear": 1985,
    "lastYear": 2003,
    "bodies": [
+    "local-government",
     "northern-ireland-assembly"
    ],
    "parties": [
@@ -125508,7 +125371,10 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    133453
+   ]
   },
   {
    "id": "p102358",
@@ -125954,37 +125820,6 @@
    "provisional": true
   },
   {
-   "id": "p102379",
-   "personId": 102379,
-   "displayName": "Eric Smyth",
-   "aliases": [
-    "Eric Smyth"
-   ],
-   "matchKeys": [
-    "eric smyth"
-   ],
-   "sourceIds": [
-    "78378"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1998,
-   "lastYear": 2001,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom",
-    "northern-ireland-assembly"
-   ],
-   "parties": [
-    "DUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p102380",
    "personId": 102380,
    "displayName": "Mickey Gillespie",
@@ -126412,10 +126247,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    143019,
-    143020,
-    143021,
-    143022
+    143025,
+    143026,
+    143027,
+    143028
    ]
   },
   {
@@ -127041,36 +126876,6 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
-  },
-  {
-   "id": "p102434",
-   "personId": 102434,
-   "displayName": "Bertie McConnell",
-   "aliases": [
-    "Bertie McConnell"
-   ],
-   "matchKeys": [
-    "bertie mcconnell"
-   ],
-   "sourceIds": [
-    "T1098550522"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1973,
-   "lastYear": 1977,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "Alliance"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p102435",
@@ -132198,7 +132003,8 @@
     "local-government"
    ],
    "parties": [
-    "UUP"
+    "UUP",
+    "UUUP"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -134287,35 +134093,6 @@
    ],
    "parties": [
     "SDLP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p102685",
-   "personId": 102685,
-   "displayName": "Patrick McNamee",
-   "aliases": [
-    "Patrick McNamee"
-   ],
-   "matchKeys": [
-    "patrick mcnamee"
-   ],
-   "sourceIds": [
-    "T2734595693"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1997,
-   "lastYear": 2001,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "Sinn Féin"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -138968,36 +138745,6 @@
    "provisional": true
   },
   {
-   "id": "p102848",
-   "personId": 102848,
-   "displayName": "John Taylor",
-   "aliases": [
-    "John Taylor"
-   ],
-   "matchKeys": [
-    "john taylor"
-   ],
-   "sourceIds": [
-    "T3684325721"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1989,
-   "lastYear": 1993,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p102849",
    "personId": 102849,
    "displayName": "Aine Gribbon",
@@ -139994,7 +139741,7 @@
     "local-government"
    ],
    "parties": [
-    "UUP"
+    "UUUP"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -142237,7 +141984,7 @@
     "local-government"
    ],
    "parties": [
-    "UUP",
+    "UUUP",
     "Ulster Popular Unionist Party"
    ],
    "keyedBy": "id",
@@ -143660,36 +143407,6 @@
    "contests": 2,
    "firstYear": 1973,
    "lastYear": 1977,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "DUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p103015",
-   "personId": 103015,
-   "displayName": "Ken McFaul",
-   "aliases": [
-    "Ken McFaul"
-   ],
-   "matchKeys": [
-    "ken mcfaul"
-   ],
-   "sourceIds": [
-    "T713888849"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1977,
-   "lastYear": 1981,
    "bodies": [
     "local-government"
    ],
@@ -165121,42 +164838,6 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
-   "id": "p103810",
-   "personId": 103810,
-   "displayName": "William James Morgan",
-   "aliases": [
-    "William James Morgan"
-   ],
-   "matchKeys": [
-    "william james morgan"
-   ],
-   "sourceIds": [
-    "10062239",
-    "12816775",
-    "14287880",
-    "3576997",
-    "3628392",
-    "5775896",
-    "7540061"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 7,
-   "contests": 7,
-   "firstYear": 1949,
-   "lastYear": 1969,
-   "bodies": [
-    "parliament-of-northern-ireland"
-   ],
-   "parties": [
-    "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p103811",
    "personId": 103811,
    "displayName": "Joe Connellan",
@@ -165673,37 +165354,6 @@
    ],
    "parties": [
     "Sinn Féin"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p103830",
-   "personId": 103830,
-   "displayName": "John Brooke",
-   "aliases": [
-    "John Brooke"
-   ],
-   "matchKeys": [
-    "john brooke"
-   ],
-   "sourceIds": [
-    "10266557",
-    "1283581"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1968,
-   "lastYear": 1969,
-   "bodies": [
-    "parliament-of-northern-ireland"
-   ],
-   "parties": [
-    "UUP"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -166502,7 +166152,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    143005
+    143011
    ]
   },
   {
@@ -166783,21 +166433,24 @@
    "personId": 103868,
    "displayName": "James Chichester-Clark",
    "aliases": [
+    "James Dawson Chichester-Clark",
     "James Chichester-Clark"
    ],
    "matchKeys": [
-    "james chichester clark"
+    "james chichester clark",
+    "james dawson chichester clark"
    ],
    "sourceIds": [
     "1057185",
+    "1195838",
     "3891387",
     "7424340"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1962,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1960,
    "lastYear": 1969,
    "bodies": [
     "parliament-of-northern-ireland"
@@ -166808,7 +166461,10 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    104017
+   ]
   },
   {
    "id": "p103869",
@@ -168786,26 +168442,31 @@
    "displayName": "(Sir) Norman Stronge",
    "aliases": [
     "(Sir) Norman Stronge",
-    "Sir Norman Stronge"
+    "Sir Norman Stronge",
+    "Norman Stronge"
    ],
    "matchKeys": [
+    "norman stronge",
     "sir norman stronge"
    ],
    "sourceIds": [
     "11224386",
     "11256145",
+    "11267623",
     "11817306",
     "12666517",
     "2903109",
-    "7668932"
+    "7668932",
+    "Norman Stronge|UUP"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
-   "firstYear": 1945,
+   "candidacies": 9,
+   "contests": 9,
+   "firstYear": 1938,
    "lastYear": 1965,
    "bodies": [
+    "armagh-county-council",
     "parliament-of-northern-ireland"
    ],
    "parties": [
@@ -168815,7 +168476,10 @@
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
    "nameVariants": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    103948
+   ]
   },
   {
    "id": "p103943",
@@ -168867,67 +168531,6 @@
    "firstYear": 1945,
    "lastYear": 1945,
    "bodies": [
-    "parliament-of-northern-ireland"
-   ],
-   "parties": [
-    "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p103946",
-   "personId": 103946,
-   "displayName": "Sheelagh Murnaghan",
-   "aliases": [
-    "Sheelagh Murnaghan"
-   ],
-   "matchKeys": [
-    "sheelagh murnaghan"
-   ],
-   "sourceIds": [
-    "11255766"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1966,
-   "lastYear": 1966,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom"
-   ],
-   "parties": [
-    "Ulster Liberal"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p103948",
-   "personId": 103948,
-   "displayName": "Norman Stronge",
-   "aliases": [
-    "Norman Stronge"
-   ],
-   "matchKeys": [
-    "norman stronge"
-   ],
-   "sourceIds": [
-    "11267623",
-    "Norman Stronge|UUP"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1938,
-   "lastYear": 1952,
-   "bodies": [
-    "armagh-county-council",
     "parliament-of-northern-ireland"
    ],
    "parties": [
@@ -170122,7 +169725,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    143004
+    143009
    ]
   },
   {
@@ -170588,35 +170191,6 @@
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p104017",
-   "personId": 104017,
-   "displayName": "James Dawson Chichester-Clark",
-   "aliases": [
-    "James Dawson Chichester-Clark"
-   ],
-   "matchKeys": [
-    "james dawson chichester clark"
-   ],
-   "sourceIds": [
-    "1195838"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1960,
-   "lastYear": 1960,
-   "bodies": [
-    "parliament-of-northern-ireland"
-   ],
-   "parties": [
-    "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
   },
   {
    "id": "p104018",
@@ -175126,39 +174700,6 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
-   "id": "p104225",
-   "personId": 104225,
-   "displayName": "Herbert Kirk",
-   "aliases": [
-    "Herbert Kirk"
-   ],
-   "matchKeys": [
-    "herbert kirk"
-   ],
-   "sourceIds": [
-    "13660081",
-    "15295076",
-    "2868138",
-    "6942605"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1956,
-   "lastYear": 1969,
-   "bodies": [
-    "parliament-of-northern-ireland"
-   ],
-   "parties": [
-    "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p104226",
    "personId": 104226,
    "displayName": "David Graham Shillington",
@@ -175927,13 +175468,14 @@
    ],
    "sourceIds": [
     "14021856",
-    "16263363"
+    "16263363",
+    "5930189"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1965,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1949,
    "lastYear": 1969,
    "bodies": [
     "parliament-of-northern-ireland"
@@ -175944,7 +175486,10 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    117310
+   ]
   },
   {
    "id": "p104266",
@@ -176174,22 +175719,29 @@
    "personId": 104277,
    "displayName": "Michael Keogh",
    "aliases": [
+    "Michael Joseph Keogh",
+    "Michael J. Keogh",
     "Michael Keogh"
    ],
    "matchKeys": [
+    "michael j keogh",
+    "michael joseph keogh",
     "michael keogh"
    ],
    "sourceIds": [
     "1409096",
-    "7009705"
+    "7009705",
+    "Michael J. Keogh|",
+    "Michael Joseph Keogh|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1967,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1946,
    "lastYear": 1969,
    "bodies": [
+    "newry-urban-district-council",
     "parliament-of-northern-ireland"
    ],
    "parties": [
@@ -176198,7 +175750,11 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    141813,
+    141815
+   ]
   },
   {
    "id": "p104278",
@@ -177457,35 +177013,6 @@
    ],
    "parties": [
     "NI21"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p104353",
-   "personId": 104353,
-   "displayName": "Nat Owens Minford",
-   "aliases": [
-    "Nat Owens Minford"
-   ],
-   "matchKeys": [
-    "nat owens minford"
-   ],
-   "sourceIds": [
-    "14728349"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1962,
-   "lastYear": 1962,
-   "bodies": [
-    "parliament-of-northern-ireland"
-   ],
-   "parties": [
-    "UUP"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -188019,37 +187546,6 @@
    "provisional": true
   },
   {
-   "id": "p104924",
-   "personId": 104924,
-   "displayName": "Sheelagh Murnaghan",
-   "aliases": [
-    "Sheelagh Murnaghan"
-   ],
-   "matchKeys": [
-    "sheelagh murnaghan"
-   ],
-   "sourceIds": [
-    "262009",
-    "496239"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1961,
-   "lastYear": 1965,
-   "bodies": [
-    "parliament-of-northern-ireland"
-   ],
-   "parties": [
-    "Ulster Liberal"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p104925",
    "personId": 104925,
    "displayName": "John Loughran",
@@ -189234,36 +188730,6 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
-  },
-  {
-   "id": "p104987",
-   "personId": 104987,
-   "displayName": "Sheelagh Murnaghan",
-   "aliases": [
-    "Sheelagh Murnaghan"
-   ],
-   "matchKeys": [
-    "sheelagh murnaghan"
-   ],
-   "sourceIds": [
-    "2805845"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1969,
-   "lastYear": 1969,
-   "bodies": [
-    "parliament-of-northern-ireland"
-   ],
-   "parties": [
-    "Ulster Liberal"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p104988",
@@ -191309,35 +190775,6 @@
    ],
    "parties": [
     "PUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p105086",
-   "personId": 105086,
-   "displayName": "W. J. Morgan",
-   "aliases": [
-    "W. J. Morgan"
-   ],
-   "matchKeys": [
-    "w j morgan"
-   ],
-   "sourceIds": [
-    "3076500"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1970,
-   "lastYear": 1970,
-   "bodies": [
-    "parliament-of-northern-ireland"
-   ],
-   "parties": [
-    "UUP"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -198508,7 +197945,7 @@
     "local-government"
    ],
    "parties": [
-    "Ul Un U.U.U.C."
+    "UUP"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -201143,24 +200580,28 @@
     "john greer"
    ],
    "sourceIds": [
-    "5402749308500263985"
+    "5402749308500263985",
+    "T4103864380-ballymena"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1977,
-   "lastYear": 1977,
+   "lastYear": 1981,
    "bodies": [
     "local-government"
    ],
    "parties": [
-    "D.U. U.U.U.C."
+    "DUP"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    133726
+   ]
   },
   {
    "id": "p105709",
@@ -202242,66 +201683,6 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
-  },
-  {
-   "id": "p105792",
-   "personId": 105792,
-   "displayName": "Eamonn McCann",
-   "aliases": [
-    "Eamonn McCann"
-   ],
-   "matchKeys": [
-    "eamonn mccann"
-   ],
-   "sourceIds": [
-    "5951598"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1969,
-   "lastYear": 1969,
-   "bodies": [
-    "parliament-of-northern-ireland"
-   ],
-   "parties": [
-    "NI Labour"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p105795",
-   "personId": 105795,
-   "displayName": "James Simpson",
-   "aliases": [
-    "James Simpson"
-   ],
-   "matchKeys": [
-    "james simpson"
-   ],
-   "sourceIds": [
-    "5962578032814684056"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1989,
-   "lastYear": 1989,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "Businssman Ulster Unionist"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p105796",
@@ -203919,7 +203300,7 @@
     "local-government"
    ],
    "parties": [
-    "United Loy DUP"
+    "DUP"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -204039,7 +203420,7 @@
     "local-government"
    ],
    "parties": [
-    "Shopkeeper, Ulster Unionist"
+    "UUP"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -204107,36 +203488,6 @@
    "provisional": true
   },
   {
-   "id": "p105948",
-   "personId": 105948,
-   "displayName": "Eddie McGrady",
-   "aliases": [
-    "Eddie McGrady"
-   ],
-   "matchKeys": [
-    "eddie mcgrady"
-   ],
-   "sourceIds": [
-    "7196055"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1969,
-   "lastYear": 1969,
-   "bodies": [
-    "parliament-of-northern-ireland"
-   ],
-   "parties": [
-    "National Democratic Party"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p105950",
    "personId": 105950,
    "displayName": "Hugh J Simpson",
@@ -204159,7 +203510,7 @@
     "local-government"
    ],
    "parties": [
-    "Independent"
+    "UUP"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -206633,7 +205984,7 @@
     "local-government"
    ],
    "parties": [
-    "Independent"
+    "UUP"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -208023,8 +207374,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    143008,
-    143009
+    143014,
+    143015
    ]
   },
   {
@@ -208058,7 +207409,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    143018
+    143024
    ]
   },
   {
@@ -208694,7 +208045,7 @@
     "local-government"
    ],
    "parties": [
-    "UUP"
+    "Loyalist"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -209745,35 +209096,6 @@
    ],
    "parties": [
     "Alliance"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p106411",
-   "personId": 106411,
-   "displayName": "William Armstrong",
-   "aliases": [
-    "William Armstrong"
-   ],
-   "matchKeys": [
-    "william armstrong"
-   ],
-   "sourceIds": [
-    "T1140411506"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1997,
-   "lastYear": 1997,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "UUP"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -213515,7 +212837,7 @@
     "local-government"
    ],
    "parties": [
-    "UUP"
+    "UUUP"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -213720,7 +213042,7 @@
     "local-government"
    ],
    "parties": [
-    "UUP"
+    "UUUP"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -215645,7 +214967,7 @@
     "local-government"
    ],
    "parties": [
-    "UUP"
+    "UUUP"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -222468,7 +221790,7 @@
     "local-government"
    ],
    "parties": [
-    "UUP"
+    "Loyalist"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -232514,7 +231836,7 @@
     "local-government"
    ],
    "parties": [
-    "UUP"
+    "UUUP"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -232922,36 +232244,6 @@
    ],
    "parties": [
     "Independent"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p107229",
-   "personId": 107229,
-   "displayName": "Anne Dickson",
-   "aliases": [
-    "Anne Dickson"
-   ],
-   "matchKeys": [
-    "anne dickson"
-   ],
-   "sourceIds": [
-    "T2512479543"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1981,
-   "lastYear": 1981,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "Unionist Party of Northern Ireland"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -233795,7 +233087,7 @@
     "local-government"
    ],
    "parties": [
-    "UUP"
+    "UUUP"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -234289,7 +233581,7 @@
     "local-government"
    ],
    "parties": [
-    "UUP"
+    "Loyalist"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -237643,7 +236935,7 @@
     "local-government"
    ],
    "parties": [
-    "UUP"
+    "UUUP"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -239631,7 +238923,7 @@
     "local-government"
    ],
    "parties": [
-    "UUP"
+    "Loyalist"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -242972,7 +242264,7 @@
     "john rooney"
    ],
    "mergedFrom": [
-    142992
+    142997
    ]
   },
   {
@@ -246888,35 +246180,6 @@
    "provisional": true
   },
   {
-   "id": "p107726",
-   "personId": 107726,
-   "displayName": "Charles Dunleath",
-   "aliases": [
-    "Charles Dunleath"
-   ],
-   "matchKeys": [
-    "charles dunleath"
-   ],
-   "sourceIds": [
-    "T3366196665"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1977,
-   "lastYear": 1977,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "Alliance"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
    "id": "p107727",
    "personId": 107727,
    "displayName": "Oliver Flanagan",
@@ -249818,7 +249081,7 @@
     "local-government"
    ],
    "parties": [
-    "UUP"
+    "UUUP"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -252928,7 +252191,7 @@
     "local-government"
    ],
    "parties": [
-    "UUP"
+    "UUUP"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -259538,7 +258801,7 @@
     "local-government"
    ],
    "parties": [
-    "UUP"
+    "UUUP"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -261000,7 +260263,7 @@
     "local-government"
    ],
    "parties": [
-    "UUP"
+    "UUUP"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -261668,7 +260931,7 @@
     "local-government"
    ],
    "parties": [
-    "UUP"
+    "UUUP"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -268319,36 +267582,6 @@
    "provisional": true
   },
   {
-   "id": "p108487",
-   "personId": 108487,
-   "displayName": "Ivan Cooper",
-   "aliases": [
-    "Ivan Cooper"
-   ],
-   "matchKeys": [
-    "ivan cooper"
-   ],
-   "sourceIds": [
-    "T834342795"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1977,
-   "lastYear": 1977,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "SDLP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p108488",
    "personId": 108488,
    "displayName": "Samuel Pyper",
@@ -270351,7 +269584,7 @@
     "local-government"
    ],
    "parties": [
-    "UUP"
+    "UUUP"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -270765,7 +269998,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    143042
+    143049
    ]
   },
   {
@@ -353172,7 +352405,8 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:5820)",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p112555",
@@ -359182,36 +358416,6 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
-   "id": "p112903",
-   "personId": 112903,
-   "displayName": "Paddy Kennedy",
-   "aliases": [
-    "Paddy Kennedy"
-   ],
-   "matchKeys": [
-    "paddy kennedy"
-   ],
-   "sourceIds": [
-    "9955552"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1969,
-   "lastYear": 1969,
-   "bodies": [
-    "parliament-of-northern-ireland"
-   ],
-   "parties": [
-    "Republican Labour"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p112904",
    "personId": 112904,
    "displayName": "Patrick Little",
@@ -362756,7 +361960,7 @@
    ],
    "eraReason": "split from a career spanning more than 60 years at a gap of 25 or more; the same id continues in the other era",
    "mergedFrom": [
-    142993
+    142998
    ]
   },
   {
@@ -363434,7 +362638,8 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2217)",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p113235",
@@ -365055,35 +364260,6 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3945)",
-   "provisional": true
-  },
-  {
-   "id": "p113295",
-   "personId": 113295,
-   "displayName": "Marian Donnelly",
-   "aliases": [
-    "Marian Donnelly"
-   ],
-   "matchKeys": [
-    "marian donnelly"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [
-    "ei:3968"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1992,
-   "lastYear": 1992,
-   "bodies": [
-    "dail-eireann"
-   ],
-   "parties": [
-    "Workers'"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:3968)",
    "provisional": true
   },
   {
@@ -367734,30 +366910,46 @@
    "personId": 115562,
    "displayName": "James Craig",
    "aliases": [
-    "James Craig"
+    "James Craig",
+    "J. Craig"
    ],
    "matchKeys": [
+    "j craig",
     "james craig"
    ],
    "sourceIds": [
-    "6654258"
+    "6654258",
+    "J. Craig|Independent",
+    "T851731424",
+    "carrickfergus-area-b-1973-jcraig"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1969,
-   "lastYear": 1969,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1964,
+   "lastYear": 1973,
    "bodies": [
+    "carrickfergus-borough-council",
+    "local-government",
+    "northern-ireland-assembly",
     "parliament-of-northern-ireland"
    ],
    "parties": [
-    "Independent Unionist"
+    "DUP",
+    "Independent",
+    "Independent Unionist",
+    "United Loyalist"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    133255,
+    134418,
+    141119
+   ]
   },
   {
    "id": "p116255",
@@ -368660,67 +367852,6 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
-   "id": "p117098",
-   "personId": 117098,
-   "displayName": "Eddie McAteer",
-   "aliases": [
-    "Eddie McAteer"
-   ],
-   "matchKeys": [
-    "eddie mcateer"
-   ],
-   "sourceIds": [
-    "3445707",
-    "3630967"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1945,
-   "lastYear": 1949,
-   "bodies": [
-    "parliament-of-northern-ireland"
-   ],
-   "parties": [
-    "Nationalist Party"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p117145",
-   "personId": 117145,
-   "displayName": "Herbert Kirk",
-   "aliases": [
-    "Herbert Kirk"
-   ],
-   "matchKeys": [
-    "herbert kirk"
-   ],
-   "sourceIds": [
-    "39309"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1973,
-   "lastYear": 1973,
-   "bodies": [
-    "northern-ireland-assembly"
-   ],
-   "parties": [
-    "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p117164",
    "personId": 117164,
    "displayName": "Robert Moore",
@@ -368864,36 +367995,6 @@
    ],
    "parties": [
     "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p117310",
-   "personId": 117310,
-   "displayName": "John Carron",
-   "aliases": [
-    "John Carron"
-   ],
-   "matchKeys": [
-    "john carron"
-   ],
-   "sourceIds": [
-    "5930189"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1949,
-   "lastYear": 1949,
-   "bodies": [
-    "parliament-of-northern-ireland"
-   ],
-   "parties": [
-    "Nationalist Party"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -369046,36 +368147,6 @@
    ],
    "parties": [
     "SDLP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p117444",
-   "personId": 117444,
-   "displayName": "Sheelagh Murnaghan",
-   "aliases": [
-    "Sheelagh Murnaghan"
-   ],
-   "matchKeys": [
-    "sheelagh murnaghan"
-   ],
-   "sourceIds": [
-    "79426"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1973,
-   "lastYear": 1973,
-   "bodies": [
-    "northern-ireland-assembly"
-   ],
-   "parties": [
-    "Ulster Liberal"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -370677,7 +369748,7 @@
    "provenance": "keyed on the source's own candidate id (ei:4152)",
    "provisional": true,
    "mergedFrom": [
-    143049
+    143057
    ]
   },
   {
@@ -415611,7 +414682,7 @@
     "paddy burke"
    ],
    "mergedFrom": [
-    143048
+    143056
    ]
   },
   {
@@ -514773,7 +513844,7 @@
    "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    142974
+    142979
    ]
   },
   {
@@ -563720,7 +562791,7 @@
    "provenance": "keyed on the source's own candidate id (wikipedia:John Henry North)",
    "provisional": true,
    "mergedFrom": [
-    142977
+    142982
    ]
   },
   {
@@ -578515,7 +577586,7 @@
     "henry kenny"
    ],
    "mergedFrom": [
-    143047
+    143055
    ]
   },
   {
@@ -581185,35 +580256,6 @@
    "provisional": true
   },
   {
-   "id": "p127600",
-   "personId": 127600,
-   "displayName": "Bernadette McAliskey",
-   "aliases": [
-    "Bernadette McAliskey"
-   ],
-   "matchKeys": [
-    "bernadette mcaliskey"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [
-    "ei:3444"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1982,
-   "lastYear": 1982,
-   "bodies": [
-    "dail-eireann"
-   ],
-   "parties": [
-    "Non party/Independent"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:3444)",
-   "provisional": true
-  },
-  {
    "id": "p127601",
    "personId": 127601,
    "displayName": "Seamus O'Daly",
@@ -583541,36 +582583,6 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
-  },
-  {
-   "id": "p127734",
-   "personId": 127734,
-   "displayName": "Glenn Barr",
-   "aliases": [
-    "Glenn Barr"
-   ],
-   "matchKeys": [
-    "glenn barr"
-   ],
-   "sourceIds": [
-    "fix-glenn-barr"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1973,
-   "lastYear": 1973,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "United Loyalist"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p127735",
@@ -633799,44 +632811,6 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ie:9820)",
    "provisional": true
-  },
-  {
-   "id": "p129797",
-   "personId": 129797,
-   "displayName": "Roy Beggs",
-   "aliases": [
-    "Roy Beggs"
-   ],
-   "matchKeys": [
-    "roy beggs"
-   ],
-   "sourceIds": [
-    "68301"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [
-    "ukparliament:646",
-    "wikidata:Q5568755"
-   ],
-   "candidacies": 7,
-   "contests": 7,
-   "firstYear": 1983,
-   "lastYear": 2005,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom"
-   ],
-   "parties": [
-    "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "era": [
-    1983,
-    2005
-   ],
-   "eraReason": "split by its official person id (ukparliament:646): the source id it shares is held by another person with another official id",
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p129841",
@@ -693182,35 +692156,6 @@
    "provisional": true
   },
   {
-   "id": "p132899",
-   "personId": 132899,
-   "displayName": "Tomas MacGiolla",
-   "aliases": [
-    "Tomas MacGiolla"
-   ],
-   "matchKeys": [
-    "tomas macgiolla"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [
-    "ie:8223"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1985,
-   "lastYear": 1985,
-   "bodies": [
-    "ireland-local"
-   ],
-   "parties": [
-    "Workers' Party"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ie:8223)",
-   "provisional": true
-  },
-  {
    "id": "p132900",
    "personId": 132900,
    "displayName": "Paddy O'Mahony",
@@ -699942,36 +698887,6 @@
    "provisional": true
   },
   {
-   "id": "p133251",
-   "personId": 133251,
-   "displayName": "Boyd Douglas",
-   "aliases": [
-    "Boyd Douglas"
-   ],
-   "matchKeys": [
-    "boyd douglas"
-   ],
-   "sourceIds": [
-    "benbradagh-2005-boyddouglas"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 2005,
-   "lastYear": 2005,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "United Unionist"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p133252",
    "personId": 133252,
    "displayName": "Charles Johnston",
@@ -699992,36 +698907,6 @@
    "contests": 3,
    "firstYear": 1973,
    "lastYear": 1981,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "United Loyalist"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p133255",
-   "personId": 133255,
-   "displayName": "J. Craig",
-   "aliases": [
-    "J. Craig"
-   ],
-   "matchKeys": [
-    "j craig"
-   ],
-   "sourceIds": [
-    "carrickfergus-area-b-1973-jcraig"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1973,
-   "lastYear": 1973,
    "bodies": [
     "local-government"
    ],
@@ -700116,36 +699001,6 @@
    ],
    "parties": [
     "Loyalist"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p133259",
-   "personId": 133259,
-   "displayName": "Ken McFaul",
-   "aliases": [
-    "Ken McFaul"
-   ],
-   "matchKeys": [
-    "ken mcfaul"
-   ],
-   "sourceIds": [
-    "carrickfergus-area-c-1973-kenmcfaul"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1973,
-   "lastYear": 1973,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "United Loyalist"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -700417,36 +699272,6 @@
    "provisional": true
   },
   {
-   "id": "p133270",
-   "personId": 133270,
-   "displayName": "Roy Beggs",
-   "aliases": [
-    "Roy Beggs"
-   ],
-   "matchKeys": [
-    "roy beggs"
-   ],
-   "sourceIds": [
-    "larne-area-b-1981-roybeggs"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1981,
-   "lastYear": 1981,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "United Loyalist"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p133271",
    "personId": 133271,
    "displayName": "James Wisely",
@@ -700503,36 +699328,6 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
-  },
-  {
-   "id": "p133273",
-   "personId": 133273,
-   "displayName": "William Beattie",
-   "aliases": [
-    "William Beattie"
-   ],
-   "matchKeys": [
-    "william beattie"
-   ],
-   "sourceIds": [
-    "lisburn-town-north-1997-williambeattie"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1997,
-   "lastYear": 1997,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "Protestant Unionist"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p133276",
@@ -701430,66 +700225,6 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
-   "id": "p133431",
-   "personId": 133431,
-   "displayName": "William Brown",
-   "aliases": [
-    "William Brown"
-   ],
-   "matchKeys": [
-    "william brown"
-   ],
-   "sourceIds": [
-    "T2031631529-down"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
-   "firstYear": 1977,
-   "lastYear": 1993,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p133432",
-   "personId": 133432,
-   "displayName": "Samuel Foster",
-   "aliases": [
-    "Samuel Foster"
-   ],
-   "matchKeys": [
-    "samuel foster"
-   ],
-   "sourceIds": [
-    "T2047308257-fermanagh"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
-   "firstYear": 1981,
-   "lastYear": 1997,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p133448",
    "personId": 133448,
    "displayName": "William Blair",
@@ -701633,66 +700368,6 @@
    ],
    "parties": [
     "DUP",
-    "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p133453",
-   "personId": 133453,
-   "displayName": "Mark Robinson",
-   "aliases": [
-    "Mark Robinson"
-   ],
-   "matchKeys": [
-    "mark robinson"
-   ],
-   "sourceIds": [
-    "T349186083"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1985,
-   "lastYear": 2001,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "DUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p133454",
-   "personId": 133454,
-   "displayName": "Thomas Benson",
-   "aliases": [
-    "Thomas Benson"
-   ],
-   "matchKeys": [
-    "thomas benson"
-   ],
-   "sourceIds": [
-    "T3697887310-ards"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1985,
-   "lastYear": 1997,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
     "UUP"
    ],
    "keyedBy": "id",
@@ -702539,36 +701214,6 @@
    ],
    "parties": [
     "Independent",
-    "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p133514",
-   "personId": 133514,
-   "displayName": "Jack Allen",
-   "aliases": [
-    "Jack Allen"
-   ],
-   "matchKeys": [
-    "jack allen"
-   ],
-   "sourceIds": [
-    "T2426291746-derry"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1977,
-   "lastYear": 1989,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
     "UUP"
    ],
    "keyedBy": "id",
@@ -705555,36 +704200,6 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
-   "id": "p133682",
-   "personId": 133682,
-   "displayName": "David Alderdice",
-   "aliases": [
-    "David Alderdice"
-   ],
-   "matchKeys": [
-    "david alderdice"
-   ],
-   "sourceIds": [
-    "T3269187932-ballymena"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1989,
-   "lastYear": 1989,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "Alliance"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p133683",
    "personId": 133683,
    "displayName": "William McConnell",
@@ -706755,36 +705370,6 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
-   "id": "p133726",
-   "personId": 133726,
-   "displayName": "John Greer",
-   "aliases": [
-    "John Greer"
-   ],
-   "matchKeys": [
-    "john greer"
-   ],
-   "sourceIds": [
-    "T4103864380-ballymena"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1981,
-   "lastYear": 1981,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "DUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p133728",
    "personId": 133728,
    "displayName": "Robert McFarland",
@@ -707828,66 +706413,6 @@
    ],
    "parties": [
     "Irish Independence Party"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p133779",
-   "personId": 133779,
-   "displayName": "Jack Allen",
-   "aliases": [
-    "Jack Allen"
-   ],
-   "matchKeys": [
-    "jack allen"
-   ],
-   "sourceIds": [
-    "fix-jack-allen"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1973,
-   "lastYear": 1973,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "United Loyalist"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p133788",
-   "personId": 133788,
-   "displayName": "John Carson",
-   "aliases": [
-    "John Carson"
-   ],
-   "matchKeys": [
-    "john carson"
-   ],
-   "sourceIds": [
-    "T2597842877-ballymena-mid-and-east-antrim"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
-   "firstYear": 1989,
-   "lastYear": 2011,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "DUP"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -717647,35 +716172,6 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
-   "id": "p134342",
-   "personId": 134342,
-   "displayName": "P. Kennedy",
-   "aliases": [
-    "P. Kennedy"
-   ],
-   "matchKeys": [
-    "p kennedy"
-   ],
-   "sourceIds": [
-    "P. Kennedy|Republican Labour"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1967,
-   "lastYear": 1967,
-   "bodies": [
-    "belfast-county-borough-council"
-   ],
-   "parties": [
-    "Republican Labour"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
    "id": "p134343",
    "personId": 134343,
    "displayName": "P. Smiles",
@@ -719335,66 +717831,6 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
-  },
-  {
-   "id": "p134417",
-   "personId": 134417,
-   "displayName": "Phelim O'Neill",
-   "aliases": [
-    "Phelim O'Neill"
-   ],
-   "matchKeys": [
-    "phelim o neill"
-   ],
-   "sourceIds": [
-    "T7979887380"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1973,
-   "lastYear": 1973,
-   "bodies": [
-    "northern-ireland-assembly"
-   ],
-   "parties": [
-    "Alliance"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p134418",
-   "personId": 134418,
-   "displayName": "James Craig",
-   "aliases": [
-    "James Craig"
-   ],
-   "matchKeys": [
-    "james craig"
-   ],
-   "sourceIds": [
-    "T851731424"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1973,
-   "lastYear": 1973,
-   "bodies": [
-    "northern-ireland-assembly"
-   ],
-   "parties": [
-    "DUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p134419",
@@ -728423,35 +726859,6 @@
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p135080",
-   "personId": 135080,
-   "displayName": "Bernadette Devlin",
-   "aliases": [
-    "Bernadette Devlin"
-   ],
-   "matchKeys": [
-    "bernadette devlin"
-   ],
-   "sourceIds": [
-    "fix-bernadette-devlin-1969"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1969,
-   "lastYear": 1969,
-   "bodies": [
-    "parliament-of-northern-ireland"
-   ],
-   "parties": [
-    "People's Democracy"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
   },
   {
    "id": "p135081",
@@ -761026,33 +759433,6 @@
    "provisional": true
   },
   {
-   "id": "p136446",
-   "personId": 136446,
-   "displayName": "D. Hutchinson",
-   "aliases": [
-    "D. Hutchinson"
-   ],
-   "matchKeys": [
-    "d hutchinson"
-   ],
-   "sourceIds": [
-    "D. Hutchinson|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1964,
-   "lastYear": 1964,
-   "bodies": [
-    "armagh-rural-district-council"
-   ],
-   "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
    "id": "p136447",
    "personId": 136447,
    "displayName": "D. J. Campbell",
@@ -762481,64 +760861,6 @@
    "provisional": true
   },
   {
-   "id": "p136501",
-   "personId": 136501,
-   "displayName": "Douglas Hutchinson",
-   "aliases": [
-    "Douglas Hutchinson"
-   ],
-   "matchKeys": [
-    "douglas hutchinson"
-   ],
-   "sourceIds": [
-    "Douglas Hutchinson|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1955,
-   "lastYear": 1955,
-   "bodies": [
-    "armagh-rural-district-council"
-   ],
-   "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p136502",
-   "personId": 136502,
-   "displayName": "Douglas Hutchinson",
-   "aliases": [
-    "Douglas Hutchinson"
-   ],
-   "matchKeys": [
-    "douglas hutchinson"
-   ],
-   "sourceIds": [
-    "Douglas Hutchinson|UUP"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1958,
-   "lastYear": 1958,
-   "bodies": [
-    "armagh-rural-district-council"
-   ],
-   "parties": [
-    "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p136503",
    "personId": 136503,
    "displayName": "Dr. Dorman",
@@ -763864,10 +762186,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    136549
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p136550",
@@ -799398,33 +797717,6 @@
    "provisional": true
   },
   {
-   "id": "p138268",
-   "personId": 138268,
-   "displayName": "Patrick D. Harte",
-   "aliases": [
-    "Patrick D. Harte"
-   ],
-   "matchKeys": [
-    "patrick d harte"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1979,
-   "lastYear": 1985,
-   "bodies": [
-    "ireland-local"
-   ],
-   "parties": [
-    "Fine Gael"
-   ],
-   "keyedBy": "name",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
    "id": "p138269",
    "personId": 138269,
    "displayName": "Peter Toal",
@@ -811404,10 +809696,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    140650
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p138963",
@@ -812171,10 +810460,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    141139
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p138991",
@@ -817305,10 +815591,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    139968
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p139179",
@@ -821162,10 +819445,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    140722
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p139319",
@@ -823013,10 +821293,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    141120
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p139385",
@@ -823664,10 +821941,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    141203
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p139408",
@@ -824626,10 +822900,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    141410
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p139441",
@@ -824812,10 +823083,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    141432
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p139447",
@@ -829755,10 +828023,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    142423
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p139629",
@@ -839612,10 +837877,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    139992
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p139993",
@@ -849249,36 +847511,6 @@
    "provisional": true
   },
   {
-   "id": "p140344",
-   "personId": 140344,
-   "displayName": "Anne Dickson",
-   "aliases": [
-    "Anne Dickson"
-   ],
-   "matchKeys": [
-    "anne dickson"
-   ],
-   "sourceIds": [
-    "Anne Dickson|UUP"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1967,
-   "lastYear": 1967,
-   "bodies": [
-    "newtownabbey-urban-district-council"
-   ],
-   "parties": [
-    "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p140345",
    "personId": 140345,
    "displayName": "Anne Kidd",
@@ -849892,10 +848124,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    140367
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p140368",
@@ -854921,10 +853150,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    140550
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p140551",
@@ -858658,35 +856884,6 @@
    "provisional": true
   },
   {
-   "id": "p140687",
-   "personId": 140687,
-   "displayName": "Edward G. McAteer",
-   "aliases": [
-    "Edward G. McAteer"
-   ],
-   "matchKeys": [
-    "edward g mcateer"
-   ],
-   "sourceIds": [
-    "Edward G. McAteer|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1952,
-   "lastYear": 1952,
-   "bodies": [
-    "londonderry-county-borough-council-aldermen"
-   ],
-   "parties": [
-    "Anti-Partitionist"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
    "id": "p140688",
    "personId": 140688,
    "displayName": "Edward Grant",
@@ -860038,10 +858235,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    140737
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p140738",
@@ -868267,35 +866461,6 @@
    "provisional": true
   },
   {
-   "id": "p141031",
-   "personId": 141031,
-   "displayName": "Herbert Victor Kirk",
-   "aliases": [
-    "Herbert Victor Kirk"
-   ],
-   "matchKeys": [
-    "herbert victor kirk"
-   ],
-   "sourceIds": [
-    "Herbert Victor Kirk|UUP"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1955,
-   "lastYear": 1955,
-   "bodies": [
-    "belfast-county-borough-council"
-   ],
-   "parties": [
-    "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
    "id": "p141032",
    "personId": 141032,
    "displayName": "Hilda Florence Wilson",
@@ -869153,35 +867318,6 @@
    "lastYear": 1967,
    "bodies": [
     "newtownabbey-urban-district-council"
-   ],
-   "parties": [
-    "NI Labour"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p141069",
-   "personId": 141069,
-   "displayName": "Ivan Averill Cooper",
-   "aliases": [
-    "Ivan Averill Cooper"
-   ],
-   "matchKeys": [
-    "ivan averill cooper"
-   ],
-   "sourceIds": [
-    "Ivan Averill Cooper|NI Labour"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1967,
-   "lastYear": 1967,
-   "bodies": [
-    "londonderry-county-borough-council"
    ],
    "parties": [
     "NI Labour"
@@ -870589,36 +868725,6 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
-  },
-  {
-   "id": "p141119",
-   "personId": 141119,
-   "displayName": "J. Craig",
-   "aliases": [
-    "J. Craig"
-   ],
-   "matchKeys": [
-    "j craig"
-   ],
-   "sourceIds": [
-    "J. Craig|Independent"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1964,
-   "lastYear": 1964,
-   "bodies": [
-    "carrickfergus-borough-council"
-   ],
-   "parties": [
-    "Independent"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p141121",
@@ -881387,10 +879493,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    141506
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p141507",
@@ -881554,35 +879657,6 @@
     "bangor-borough-council"
    ],
    "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p141513",
-   "personId": 141513,
-   "displayName": "John Alexander Allen",
-   "aliases": [
-    "John Alexander Allen"
-   ],
-   "matchKeys": [
-    "john alexander allen"
-   ],
-   "sourceIds": [
-    "John Alexander Allen|UUP"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1967,
-   "lastYear": 1967,
-   "bodies": [
-    "londonderry-county-borough-council"
-   ],
-   "parties": [
-    "UUP"
-   ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
@@ -885763,10 +883837,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    141661
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p141662",
@@ -889869,10 +887940,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    141808
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p141809",
@@ -889991,33 +888059,6 @@
    "provisional": true
   },
   {
-   "id": "p141813",
-   "personId": 141813,
-   "displayName": "Michael J. Keogh",
-   "aliases": [
-    "Michael J. Keogh"
-   ],
-   "matchKeys": [
-    "michael j keogh"
-   ],
-   "sourceIds": [
-    "Michael J. Keogh|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1952,
-   "lastYear": 1952,
-   "bodies": [
-    "newry-urban-district-council"
-   ],
-   "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
    "id": "p141814",
    "personId": 141814,
    "displayName": "Michael Jos. Barry",
@@ -890042,33 +888083,6 @@
    "parties": [
     "NI Labour"
    ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p141815",
-   "personId": 141815,
-   "displayName": "Michael Joseph Keogh",
-   "aliases": [
-    "Michael Joseph Keogh"
-   ],
-   "matchKeys": [
-    "michael joseph keogh"
-   ],
-   "sourceIds": [
-    "Michael Joseph Keogh|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1946,
-   "lastYear": 1946,
-   "bodies": [
-    "newry-urban-district-council"
-   ],
-   "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
@@ -897132,35 +895146,6 @@
     "holywood-urban-district-council"
    ],
    "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p142071",
-   "personId": 142071,
-   "displayName": "R. McConnell",
-   "aliases": [
-    "R. McConnell"
-   ],
-   "matchKeys": [
-    "r mcconnell"
-   ],
-   "sourceIds": [
-    "R. McConnell|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1964,
-   "lastYear": 1964,
-   "bodies": [
-    "bangor-borough-council"
-   ],
-   "parties": [
-    "Independent"
-   ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
@@ -913557,10 +911542,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    142672
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p142673",
@@ -920892,16 +918874,196 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
+  },
+  {
+   "id": "p142935",
+   "personId": 142935,
+   "displayName": "William Brown",
+   "aliases": [
+    "William Brown"
+   ],
+   "matchKeys": [
+    "william brown"
+   ],
+   "sourceIds": [
+    "T2031631529-dungannon"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 6,
+   "contests": 6,
+   "firstYear": 1973,
+   "lastYear": 1993,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "UUP"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p142936",
+   "personId": 142936,
+   "displayName": "Jack Allen",
+   "aliases": [
+    "Jack Allen"
+   ],
+   "matchKeys": [
+    "jack allen"
+   ],
+   "sourceIds": [
+    "T2426291746-antrim"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 6,
+   "contests": 6,
+   "firstYear": 1973,
+   "lastYear": 1993,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "UUP"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p142977",
+   "personId": 142977,
+   "displayName": "David Allen",
+   "aliases": [
+    "David Allen"
+   ],
+   "matchKeys": [
+    "david allen"
+   ],
+   "sourceIds": [
+    "86165-carrickfergus"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1958,
+   "lastYear": 1961,
+   "bodies": [
+    "carrickfergus-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p143010",
+   "personId": 143010,
+   "displayName": "Gerry Kelly",
+   "aliases": [
+    "Gerry Kelly"
+   ],
+   "matchKeys": [
+    "gerry kelly"
+   ],
+   "sourceIds": [
+    "4594-irsp1981"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1981,
+   "lastYear": 1981,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "IRSP"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p143041",
+   "personId": 143041,
+   "displayName": "P. J. Bradley",
+   "aliases": [
+    "P. J. Bradley"
+   ],
+   "matchKeys": [
+    "p j bradley"
+   ],
+   "sourceIds": [
+    "T4035876283-omagh1967"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1967,
+   "lastYear": 1967,
+   "bodies": [
+    "omagh-urban-district-council"
+   ],
+   "parties": [
+    "NI Labour"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p143054",
+   "personId": 143054,
+   "displayName": "John Kelly",
+   "aliases": [
+    "John Kelly"
+   ],
+   "matchKeys": [
+    "john kelly"
+   ],
+   "sourceIds": [
+    "fix-john-kelly-mid-ulster-2024"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "democracyclub:117816"
+   ],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 2024,
+   "lastYear": 2024,
+   "bodies": [
+    "house-of-commons-of-the-united-kingdom"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   }
  ],
  "corrections": {
-  "mergedIds": 135,
+  "mergedIds": 200,
   "classes": {
-   "WIKIPEDIA-BIOGRAPHY": 5,
+   "WIKIPEDIA-BIOGRAPHY": 85,
    "FORUM-DUPLICATE": 100,
-   "LGR-2014": 3,
-   "SAME-SEAT-SEQUENCE": 23,
-   "STRAY-INTO-CURATED": 4
+   "LGR-2014": 4,
+   "SAME-SEAT-SEQUENCE": 6,
+   "STRAY-INTO-CURATED": 5
   },
   "note": "Only the two mechanically-caused classes were merged; see scripts/merge_person_ids.py for the tests applied."
  }
