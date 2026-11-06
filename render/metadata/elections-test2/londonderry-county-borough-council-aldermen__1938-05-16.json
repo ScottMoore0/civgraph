@@ -46,11 +46,19 @@
   "availableStyleModes": [],
   "partySummary": [
     {
-      "party": "Independent",
-      "seats": 4,
-      "stood": 0,
+      "party": "Anti-Partitionist",
+      "seats": 2,
+      "stood": 2,
+      "votes": 5339,
+      "colour": "#228b22",
+      "share": 58.03260869565218
+    },
+    {
+      "party": "No label",
+      "seats": 2,
+      "stood": 2,
       "votes": 0,
-      "colour": "#b8b8b8",
+      "colour": "#d4d4d4",
       "share": 0
     },
     {
@@ -60,14 +68,6 @@
       "votes": 0,
       "colour": "#48a5ee",
       "share": 0
-    },
-    {
-      "party": "Independent/Other",
-      "seats": 0,
-      "stood": 4,
-      "votes": 5339,
-      "colour": "#6b7280",
-      "share": 58.03260869565218
     },
     {
       "party": "Independent Nationalist",
@@ -82,18 +82,26 @@
       "seats": 0,
       "stood": 1,
       "votes": 1305,
-      "colour": "#6b7280",
+      "colour": "#dc241f",
       "share": 14.184782608695654
     }
   ],
   "mainLikePartySummary": [
     {
-      "party": "Independent/Other",
-      "seats": 4,
-      "stood": 4,
+      "party": "Anti-Partitionist",
+      "seats": 2,
+      "stood": 2,
       "votes": 5339,
-      "colour": "#888888",
+      "colour": "#228b22",
       "share": 58.03260869565218
+    },
+    {
+      "party": "No label",
+      "seats": 2,
+      "stood": 2,
+      "votes": 0,
+      "colour": "#d4d4d4",
+      "share": 0
     },
     {
       "party": "UUP",
@@ -129,12 +137,13 @@
   },
   "mainLikeCandidateSummary": [
     {
-      "id": "row:Thomas M'Glinchey|",
+      "id": "Thomas M'Glinchey|",
       "personId": 139212,
       "constituency": "South",
       "name": "Thomas M'Glinchey",
-      "party": "",
-      "colour": "#888888",
+      "party": "Anti-Partitionist",
+      "partyAsPrinted": "Anti-Partition",
+      "colour": "#228b22",
       "firstPrefs": 2725,
       "votes": 2725,
       "constPct": 29.6195652173913,
@@ -154,16 +163,17 @@
           "status": "Elected"
         }
       },
-      "candidateKey": "thomas m'glinchey|",
+      "candidateKey": "thomas m'glinchey|anti-partitionist",
       "name_id": "n-thomas-m-glinchey"
     },
     {
-      "id": "row:J. G. M'Court|",
+      "id": "J. G. M'Court|",
       "personId": 139852,
       "constituency": "South",
       "name": "J. G. M'Court",
-      "party": "",
-      "colour": "#888888",
+      "party": "Anti-Partitionist",
+      "partyAsPrinted": "A.P.",
+      "colour": "#228b22",
       "firstPrefs": 2614,
       "votes": 2614,
       "constPct": 28.413043478260867,
@@ -183,7 +193,7 @@
           "status": "Elected"
         }
       },
-      "candidateKey": "j. g. m'court|",
+      "candidateKey": "j. g. m'court|anti-partitionist",
       "name_id": "n-j-g-m-court"
     },
     {
@@ -192,6 +202,7 @@
       "constituency": "South",
       "name": "P. Meenan",
       "party": "Independent Nationalist",
+      "partyAsPrinted": "Ind. Nat.",
       "colour": "#cdffab",
       "firstPrefs": 2556,
       "votes": 2556,
@@ -221,6 +232,7 @@
       "constituency": "South",
       "name": "P. Healy",
       "party": "NI Labour",
+      "partyAsPrinted": "Lab.",
       "colour": "#DC241F",
       "firstPrefs": 1305,
       "votes": 1305,
@@ -308,6 +320,7 @@
       "constituency": "Waterside",
       "name": "W. J. Little",
       "party": "UUP",
+      "partyAsPrinted": "U.",
       "colour": "#48A5EE",
       "firstPrefs": 0,
       "votes": 0,
@@ -339,15 +352,44 @@
     "totalValid": 9200,
     "parties": [
       {
-        "name": "Independent/Other",
-        "colour": "#888888",
+        "name": "Anti-Partitionist",
+        "colour": "#228b22",
         "firstPrefs": 5339,
         "finalVotes": 5339,
-        "stood": 4,
-        "elected": 4,
+        "stood": 2,
+        "elected": 2,
         "constituencies": [
-          "North",
           "South"
+        ],
+        "candidates": [
+          {
+            "id": "Thomas M'Glinchey|Anti-Partitionist",
+            "name": "Thomas M'Glinchey",
+            "constituency": "South",
+            "firstPref": 2725,
+            "finalVotes": 2725,
+            "status": "Elected"
+          },
+          {
+            "id": "J. G. M'Court|Anti-Partitionist",
+            "name": "J. G. M'Court",
+            "constituency": "South",
+            "firstPref": 2614,
+            "finalVotes": 2614,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 58.03260869565218
+      },
+      {
+        "name": "No label",
+        "colour": "#d4d4d4",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "stood": 2,
+        "elected": 2,
+        "constituencies": [
+          "North"
         ],
         "candidates": [
           {
@@ -365,25 +407,9 @@
             "firstPref": 0,
             "finalVotes": 0,
             "status": "Elected"
-          },
-          {
-            "id": "Thomas M'Glinchey|",
-            "name": "Thomas M'Glinchey",
-            "constituency": "South",
-            "firstPref": 2725,
-            "finalVotes": 2725,
-            "status": "Elected"
-          },
-          {
-            "id": "J. G. M'Court|",
-            "name": "J. G. M'Court",
-            "constituency": "South",
-            "firstPref": 2614,
-            "finalVotes": 2614,
-            "status": "Elected"
           }
         ],
-        "shareOfTotal": 58.03260869565218
+        "shareOfTotal": 0
       },
       {
         "name": "UUP",
@@ -454,11 +480,11 @@
     ],
     "candidates": [
       {
-        "id": "Thomas M'Glinchey|",
-        "key": "Thomas M'Glinchey|",
+        "id": "Thomas M'Glinchey|Anti-Partitionist",
+        "key": "Thomas M'Glinchey|Anti-Partitionist",
         "name": "Thomas M'Glinchey",
-        "party": "",
-        "colour": "#888888",
+        "party": "Anti-Partitionist",
+        "colour": "#228b22",
         "firstPrefs": 2725,
         "finalVotes": 2725,
         "electedCount": 1,
@@ -476,11 +502,11 @@
         "shareOfTotal": 29.6195652173913
       },
       {
-        "id": "J. G. M'Court|",
-        "key": "J. G. M'Court|",
+        "id": "J. G. M'Court|Anti-Partitionist",
+        "key": "J. G. M'Court|Anti-Partitionist",
         "name": "J. G. M'Court",
-        "party": "",
-        "colour": "#888888",
+        "party": "Anti-Partitionist",
+        "colour": "#228b22",
         "firstPrefs": 2614,
         "finalVotes": 2614,
         "electedCount": 1,
@@ -612,7 +638,7 @@
   "results": [
     {
       "constituency": "North",
-      "winnerParty": "Independent",
+      "winnerParty": "No label",
       "winnerName": "2 elected",
       "leadingParty": null,
       "leadingName": "Sir James Wilton",
@@ -629,7 +655,7 @@
       "spoiled": null,
       "validPoll": null,
       "totalVotes": null,
-      "colour": "#b8b8b8",
+      "colour": "#d4d4d4",
       "leadingColour": "#6b7280",
       "candidates": [
         {
@@ -906,9 +932,9 @@
     },
     {
       "constituency": "South",
-      "winnerParty": "Independent",
+      "winnerParty": "Anti-Partitionist",
       "winnerName": "2 elected",
-      "leadingParty": null,
+      "leadingParty": "Anti-Partitionist",
       "leadingName": "Thomas M'Glinchey",
       "leadingVotes": 2725,
       "leadingPct": 29.62,
@@ -923,13 +949,13 @@
       "spoiled": null,
       "validPoll": 9200,
       "totalVotes": 9200,
-      "colour": "#b8b8b8",
-      "leadingColour": "#6b7280",
+      "colour": "#228b22",
+      "leadingColour": "#228b22",
       "candidates": [
         {
           "id": "Thomas M'Glinchey|",
           "name": "Thomas M'Glinchey",
-          "party": "",
+          "party": "Anti-Partitionist",
           "firstPrefs": 2725,
           "finalVotes": 2725,
           "elected": true,
@@ -938,7 +964,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#228b22",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -961,7 +987,7 @@
         {
           "id": "J. G. M'Court|",
           "name": "J. G. M'Court",
-          "party": "",
+          "party": "Anti-Partitionist",
           "firstPrefs": 2614,
           "finalVotes": 2614,
           "elected": true,
@@ -970,7 +996,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#228b22",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -1059,7 +1085,7 @@
         {
           "id": "Thomas M'Glinchey|",
           "name": "Thomas M'Glinchey",
-          "party": "",
+          "party": "Anti-Partitionist",
           "firstPrefs": 2725,
           "finalVotes": 2725,
           "elected": true,
@@ -1068,7 +1094,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#228b22",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -1089,7 +1115,7 @@
         {
           "id": "J. G. M'Court|",
           "name": "J. G. M'Court",
-          "party": "",
+          "party": "Anti-Partitionist",
           "firstPrefs": 2614,
           "finalVotes": 2614,
           "elected": true,
@@ -1098,7 +1124,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#228b22",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -1132,7 +1158,7 @@
       "countGroup": [
         {
           "Constituency_Number": "",
-          "Candidate_Id": "",
+          "Candidate_Id": "Thomas M'Glinchey|",
           "Count_Number": "1",
           "Firstname": "Thomas",
           "Surname": "M'Glinchey",
@@ -1141,7 +1167,7 @@
           "Total_Votes": "2725.00",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
+          "Party_Name": "Anti-Partitionist",
           "Party_Colour": "#888888",
           "candidateName": "Thomas M'Glinchey",
           "id": 0,
@@ -1150,7 +1176,7 @@
         },
         {
           "Constituency_Number": "",
-          "Candidate_Id": "",
+          "Candidate_Id": "J. G. M'Court|",
           "Count_Number": "1",
           "Firstname": "J. G.",
           "Surname": "M'Court",
@@ -1159,7 +1185,7 @@
           "Total_Votes": "2614.00",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
+          "Party_Name": "Anti-Partitionist",
           "Party_Colour": "#888888",
           "candidateName": "J. G. M'Court",
           "id": 1,
@@ -1227,7 +1253,7 @@
           "countGroup": [
             {
               "Constituency_Number": "",
-              "Candidate_Id": "",
+              "Candidate_Id": "Thomas M'Glinchey|",
               "Count_Number": "1",
               "Firstname": "Thomas",
               "Surname": "M'Glinchey",
@@ -1236,7 +1262,7 @@
               "Total_Votes": "2725.00",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
+              "Party_Name": "Anti-Partitionist",
               "Party_Colour": "#888888",
               "candidateName": "Thomas M'Glinchey",
               "id": 0,
@@ -1245,7 +1271,7 @@
             },
             {
               "Constituency_Number": "",
-              "Candidate_Id": "",
+              "Candidate_Id": "J. G. M'Court|",
               "Count_Number": "1",
               "Firstname": "J. G.",
               "Surname": "M'Court",
@@ -1254,7 +1280,7 @@
               "Total_Votes": "2614.00",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
+              "Party_Name": "Anti-Partitionist",
               "Party_Colour": "#888888",
               "candidateName": "J. G. M'Court",
               "id": 1,

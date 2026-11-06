@@ -46,20 +46,28 @@
   "availableStyleModes": [],
   "partySummary": [
     {
-      "party": "Independent",
-      "seats": 12,
-      "stood": 0,
-      "votes": 0,
-      "colour": "#b8b8b8",
-      "share": 0
-    },
-    {
       "party": "UUP",
       "seats": 7,
       "stood": 7,
       "votes": 5883,
       "colour": "#48a5ee",
       "share": 46.19915187686509
+    },
+    {
+      "party": "No label",
+      "seats": 7,
+      "stood": 7,
+      "votes": 2342,
+      "colour": "#d4d4d4",
+      "share": 18.391707240458615
+    },
+    {
+      "party": "Campaign for Social Justice",
+      "seats": 5,
+      "stood": 5,
+      "votes": 1788,
+      "colour": "#2e8b57",
+      "share": 14.04114967802733
     },
     {
       "party": "Nationalist Party",
@@ -70,31 +78,15 @@
       "share": 7.38181247055128
     },
     {
-      "party": "Independent/Other",
-      "seats": 0,
-      "stood": 12,
-      "votes": 4130,
-      "colour": "#6b7280",
-      "share": 32.43285691848594
-    },
-    {
       "party": "NI Labour",
       "seats": 0,
       "stood": 5,
       "votes": 1781,
-      "colour": "#6b7280",
+      "colour": "#dc241f",
       "share": 13.98617873409769
     }
   ],
   "mainLikePartySummary": [
-    {
-      "party": "Independent/Other",
-      "seats": 12,
-      "stood": 12,
-      "votes": 4130,
-      "colour": "#888888",
-      "share": 32.43285691848594
-    },
     {
       "party": "UUP",
       "seats": 7,
@@ -102,6 +94,22 @@
       "votes": 5883,
       "colour": "#48A5EE",
       "share": 46.19915187686509
+    },
+    {
+      "party": "No label",
+      "seats": 7,
+      "stood": 7,
+      "votes": 2342,
+      "colour": "#d4d4d4",
+      "share": 18.391707240458615
+    },
+    {
+      "party": "Campaign for Social Justice",
+      "seats": 5,
+      "stood": 5,
+      "votes": 1788,
+      "colour": "#2e8b57",
+      "share": 14.04114967802733
     },
     {
       "party": "Nationalist Party",
@@ -134,6 +142,7 @@
       "constituency": "West Ward",
       "name": "D. J. McQuaid",
       "party": "Nationalist Party",
+      "partyAsPrinted": "Nat.",
       "colour": "#32CD32",
       "firstPrefs": 481,
       "votes": 481,
@@ -163,6 +172,7 @@
       "constituency": "West Ward",
       "name": "J. Donnelly",
       "party": "Nationalist Party",
+      "partyAsPrinted": "Nat.",
       "colour": "#32CD32",
       "firstPrefs": 459,
       "votes": 459,
@@ -187,12 +197,13 @@
       "name_id": "n-j-donnelly"
     },
     {
-      "id": "row:Patricia McCluskey|",
+      "id": "Patricia McCluskey|",
       "personId": 141957,
       "constituency": "West Ward",
       "name": "Patricia McCluskey",
-      "party": "",
-      "colour": "#888888",
+      "party": "Campaign for Social Justice",
+      "partyAsPrinted": "Social Justice",
+      "colour": "#2e8b57",
       "firstPrefs": 446,
       "votes": 446,
       "constPct": 16.348973607038122,
@@ -212,16 +223,17 @@
           "status": "Elected"
         }
       },
-      "candidateKey": "patricia mccluskey|",
+      "candidateKey": "patricia mccluskey|campaign for social justice",
       "name_id": "n-patricia-mccluskey"
     },
     {
-      "id": "row:P. J. Donaghy|",
+      "id": "P. J. Donaghy|",
       "personId": 141938,
       "constituency": "West Ward",
       "name": "P. J. Donaghy",
-      "party": "",
-      "colour": "#888888",
+      "party": "Campaign for Social Justice",
+      "partyAsPrinted": "S.J.",
+      "colour": "#2e8b57",
       "firstPrefs": 382,
       "votes": 382,
       "constPct": 14.002932551319647,
@@ -241,7 +253,7 @@
           "status": "Elected"
         }
       },
-      "candidateKey": "p. j. donaghy|",
+      "candidateKey": "p. j. donaghy|campaign for social justice",
       "name_id": "n-p-j-donaghy"
     },
     {
@@ -274,12 +286,13 @@
       "name_id": "n-j-patton"
     },
     {
-      "id": "row:J. Murphy|",
+      "id": "J. Murphy|",
       "personId": 139002,
       "constituency": "West Ward",
       "name": "J. Murphy",
-      "party": "",
-      "colour": "#888888",
+      "party": "Campaign for Social Justice",
+      "partyAsPrinted": "S.J.",
+      "colour": "#2e8b57",
       "firstPrefs": 358,
       "votes": 358,
       "constPct": 13.12316715542522,
@@ -299,7 +312,7 @@
           "status": "Elected"
         }
       },
-      "candidateKey": "j. murphy|",
+      "candidateKey": "j. murphy|campaign for social justice",
       "name_id": "n-j-murphy"
     },
     {
@@ -482,6 +495,7 @@
       "constituency": "East Ward",
       "name": "S. McKinney",
       "party": "UUP",
+      "partyAsPrinted": "U.",
       "colour": "#48A5EE",
       "firstPrefs": 865,
       "votes": 865,
@@ -511,6 +525,7 @@
       "constituency": "East Ward",
       "name": "T. H. McCrea",
       "party": "UUP",
+      "partyAsPrinted": "U.",
       "colour": "#48A5EE",
       "firstPrefs": 864,
       "votes": 864,
@@ -535,12 +550,13 @@
       "name_id": "n-t-h-mccrea"
     },
     {
-      "id": "row:F. McCooley|",
+      "id": "F. McCooley|",
       "personId": 140738,
       "constituency": "West Ward",
       "name": "F. McCooley",
-      "party": "",
-      "colour": "#888888",
+      "party": "Campaign for Social Justice",
+      "partyAsPrinted": "S.J.",
+      "colour": "#2e8b57",
       "firstPrefs": 315,
       "votes": 315,
       "constPct": 11.54692082111437,
@@ -560,7 +576,7 @@
           "status": "Elected"
         }
       },
-      "candidateKey": "f. mccooley|",
+      "candidateKey": "f. mccooley|campaign for social justice",
       "name_id": "n-f-mccooley"
     },
     {
@@ -569,6 +585,7 @@
       "constituency": "East Ward",
       "name": "W. Moore",
       "party": "UUP",
+      "partyAsPrinted": "U.",
       "colour": "#48A5EE",
       "firstPrefs": 842,
       "votes": 842,
@@ -598,6 +615,7 @@
       "constituency": "East Ward",
       "name": "W. J. Purdy",
       "party": "UUP",
+      "partyAsPrinted": "U.",
       "colour": "#48A5EE",
       "firstPrefs": 840,
       "votes": 840,
@@ -627,6 +645,7 @@
       "constituency": "East Ward",
       "name": "J. Howard",
       "party": "UUP",
+      "partyAsPrinted": "U.",
       "colour": "#48A5EE",
       "firstPrefs": 837,
       "votes": 837,
@@ -656,6 +675,7 @@
       "constituency": "East Ward",
       "name": "W. Stewart",
       "party": "UUP",
+      "partyAsPrinted": "U.",
       "colour": "#48A5EE",
       "firstPrefs": 827,
       "votes": 827,
@@ -685,6 +705,7 @@
       "constituency": "East Ward",
       "name": "R. Carson",
       "party": "UUP",
+      "partyAsPrinted": "U.",
       "colour": "#48A5EE",
       "firstPrefs": 808,
       "votes": 808,
@@ -709,12 +730,13 @@
       "name_id": "n-r-carson"
     },
     {
-      "id": "row:James Corrigan|",
+      "id": "James Corrigan|",
       "personId": 141399,
       "constituency": "West Ward",
       "name": "James Corrigan",
-      "party": "",
-      "colour": "#888888",
+      "party": "Campaign for Social Justice",
+      "partyAsPrinted": "S.J.",
+      "colour": "#2e8b57",
       "firstPrefs": 287,
       "votes": 287,
       "constPct": 10.520527859237538,
@@ -734,7 +756,7 @@
           "status": "Elected"
         }
       },
-      "candidateKey": "james corrigan|",
+      "candidateKey": "james corrigan|campaign for social justice",
       "name_id": "n-james-corrigan"
     },
     {
@@ -743,6 +765,7 @@
       "constituency": "East Ward",
       "name": "J. Hazzard",
       "party": "NI Labour",
+      "partyAsPrinted": "Lab.",
       "colour": "#DC241F",
       "firstPrefs": 585,
       "votes": 585,
@@ -772,6 +795,7 @@
       "constituency": "East Ward",
       "name": "A. Morrow",
       "party": "NI Labour",
+      "partyAsPrinted": "Lab.",
       "colour": "#DC241F",
       "firstPrefs": 476,
       "votes": 476,
@@ -801,6 +825,7 @@
       "constituency": "East Ward",
       "name": "N. Abernethy",
       "party": "NI Labour",
+      "partyAsPrinted": "Lab.",
       "colour": "#DC241F",
       "firstPrefs": 429,
       "votes": 429,
@@ -830,6 +855,7 @@
       "constituency": "Central Ward",
       "name": "H. Dickson",
       "party": "NI Labour",
+      "partyAsPrinted": "Lab.",
       "colour": "#DC241F",
       "firstPrefs": 149,
       "votes": 149,
@@ -859,6 +885,7 @@
       "constituency": "Central Ward",
       "name": "W. Williamson",
       "party": "NI Labour",
+      "partyAsPrinted": "Lab.",
       "colour": "#DC241F",
       "firstPrefs": 142,
       "votes": 142,
@@ -889,117 +916,6 @@
   "entityIndex": {
     "totalValid": 12734,
     "parties": [
-      {
-        "name": "Independent/Other",
-        "colour": "#888888",
-        "firstPrefs": 4130,
-        "finalVotes": 4130,
-        "stood": 12,
-        "elected": 12,
-        "constituencies": [
-          "Central Ward",
-          "West Ward"
-        ],
-        "candidates": [
-          {
-            "id": "J. Patton|",
-            "name": "J. Patton",
-            "constituency": "Central Ward",
-            "firstPref": 350,
-            "finalVotes": 350,
-            "status": "Elected"
-          },
-          {
-            "id": "H. Ferguson|",
-            "name": "H. Ferguson",
-            "constituency": "Central Ward",
-            "firstPref": 344,
-            "finalVotes": 344,
-            "status": "Elected"
-          },
-          {
-            "id": "M. Johnston|",
-            "name": "M. Johnston",
-            "constituency": "Central Ward",
-            "firstPref": 339,
-            "finalVotes": 339,
-            "status": "Elected"
-          },
-          {
-            "id": "R. N. Holmes|",
-            "name": "R. N. Holmes",
-            "constituency": "Central Ward",
-            "firstPref": 338,
-            "finalVotes": 338,
-            "status": "Elected"
-          },
-          {
-            "id": "J. Dugal|",
-            "name": "J. Dugal",
-            "constituency": "Central Ward",
-            "firstPref": 331,
-            "finalVotes": 331,
-            "status": "Elected"
-          },
-          {
-            "id": "J. Shaw|",
-            "name": "J. Shaw",
-            "constituency": "Central Ward",
-            "firstPref": 327,
-            "finalVotes": 327,
-            "status": "Elected"
-          },
-          {
-            "id": "J. Brown|",
-            "name": "J. Brown",
-            "constituency": "Central Ward",
-            "firstPref": 313,
-            "finalVotes": 313,
-            "status": "Elected"
-          },
-          {
-            "id": "Patricia McCluskey|",
-            "name": "Patricia McCluskey",
-            "constituency": "West Ward",
-            "firstPref": 446,
-            "finalVotes": 446,
-            "status": "Elected"
-          },
-          {
-            "id": "P. J. Donaghy|",
-            "name": "P. J. Donaghy",
-            "constituency": "West Ward",
-            "firstPref": 382,
-            "finalVotes": 382,
-            "status": "Elected"
-          },
-          {
-            "id": "J. Murphy|",
-            "name": "J. Murphy",
-            "constituency": "West Ward",
-            "firstPref": 358,
-            "finalVotes": 358,
-            "status": "Elected"
-          },
-          {
-            "id": "F. McCooley|",
-            "name": "F. McCooley",
-            "constituency": "West Ward",
-            "firstPref": 315,
-            "finalVotes": 315,
-            "status": "Elected"
-          },
-          {
-            "id": "James Corrigan|",
-            "name": "James Corrigan",
-            "constituency": "West Ward",
-            "firstPref": 287,
-            "finalVotes": 287,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 32.43285691848594
-      },
       {
         "name": "UUP",
         "colour": "#48A5EE",
@@ -1069,6 +985,130 @@
           }
         ],
         "shareOfTotal": 46.19915187686509
+      },
+      {
+        "name": "No label",
+        "colour": "#d4d4d4",
+        "firstPrefs": 2342,
+        "finalVotes": 2342,
+        "stood": 7,
+        "elected": 7,
+        "constituencies": [
+          "Central Ward"
+        ],
+        "candidates": [
+          {
+            "id": "J. Patton|",
+            "name": "J. Patton",
+            "constituency": "Central Ward",
+            "firstPref": 350,
+            "finalVotes": 350,
+            "status": "Elected"
+          },
+          {
+            "id": "H. Ferguson|",
+            "name": "H. Ferguson",
+            "constituency": "Central Ward",
+            "firstPref": 344,
+            "finalVotes": 344,
+            "status": "Elected"
+          },
+          {
+            "id": "M. Johnston|",
+            "name": "M. Johnston",
+            "constituency": "Central Ward",
+            "firstPref": 339,
+            "finalVotes": 339,
+            "status": "Elected"
+          },
+          {
+            "id": "R. N. Holmes|",
+            "name": "R. N. Holmes",
+            "constituency": "Central Ward",
+            "firstPref": 338,
+            "finalVotes": 338,
+            "status": "Elected"
+          },
+          {
+            "id": "J. Dugal|",
+            "name": "J. Dugal",
+            "constituency": "Central Ward",
+            "firstPref": 331,
+            "finalVotes": 331,
+            "status": "Elected"
+          },
+          {
+            "id": "J. Shaw|",
+            "name": "J. Shaw",
+            "constituency": "Central Ward",
+            "firstPref": 327,
+            "finalVotes": 327,
+            "status": "Elected"
+          },
+          {
+            "id": "J. Brown|",
+            "name": "J. Brown",
+            "constituency": "Central Ward",
+            "firstPref": 313,
+            "finalVotes": 313,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 18.391707240458615
+      },
+      {
+        "name": "Campaign for Social Justice",
+        "colour": "#2e8b57",
+        "firstPrefs": 1788,
+        "finalVotes": 1788,
+        "stood": 5,
+        "elected": 5,
+        "constituencies": [
+          "West Ward"
+        ],
+        "candidates": [
+          {
+            "id": "Patricia McCluskey|Campaign for Social Justice",
+            "name": "Patricia McCluskey",
+            "constituency": "West Ward",
+            "firstPref": 446,
+            "finalVotes": 446,
+            "status": "Elected"
+          },
+          {
+            "id": "P. J. Donaghy|Campaign for Social Justice",
+            "name": "P. J. Donaghy",
+            "constituency": "West Ward",
+            "firstPref": 382,
+            "finalVotes": 382,
+            "status": "Elected"
+          },
+          {
+            "id": "J. Murphy|Campaign for Social Justice",
+            "name": "J. Murphy",
+            "constituency": "West Ward",
+            "firstPref": 358,
+            "finalVotes": 358,
+            "status": "Elected"
+          },
+          {
+            "id": "F. McCooley|Campaign for Social Justice",
+            "name": "F. McCooley",
+            "constituency": "West Ward",
+            "firstPref": 315,
+            "finalVotes": 315,
+            "status": "Elected"
+          },
+          {
+            "id": "James Corrigan|Campaign for Social Justice",
+            "name": "James Corrigan",
+            "constituency": "West Ward",
+            "firstPref": 287,
+            "finalVotes": 287,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 14.04114967802733
       },
       {
         "name": "Nationalist Party",
@@ -1356,11 +1396,11 @@
         "shareOfTotal": 3.6045233233862097
       },
       {
-        "id": "Patricia McCluskey|",
-        "key": "Patricia McCluskey|",
+        "id": "Patricia McCluskey|Campaign for Social Justice",
+        "key": "Patricia McCluskey|Campaign for Social Justice",
         "name": "Patricia McCluskey",
-        "party": "",
-        "colour": "#888888",
+        "party": "Campaign for Social Justice",
+        "colour": "#2e8b57",
         "firstPrefs": 446,
         "finalVotes": 446,
         "electedCount": 1,
@@ -1378,11 +1418,11 @@
         "shareOfTotal": 3.5024344275168837
       },
       {
-        "id": "P. J. Donaghy|",
-        "key": "P. J. Donaghy|",
+        "id": "P. J. Donaghy|Campaign for Social Justice",
+        "key": "P. J. Donaghy|Campaign for Social Justice",
         "name": "P. J. Donaghy",
-        "party": "",
-        "colour": "#888888",
+        "party": "Campaign for Social Justice",
+        "colour": "#2e8b57",
         "firstPrefs": 382,
         "finalVotes": 382,
         "electedCount": 1,
@@ -1400,11 +1440,11 @@
         "shareOfTotal": 2.999842940160201
       },
       {
-        "id": "J. Murphy|",
-        "key": "J. Murphy|",
+        "id": "J. Murphy|Campaign for Social Justice",
+        "key": "J. Murphy|Campaign for Social Justice",
         "name": "J. Murphy",
-        "party": "",
-        "colour": "#888888",
+        "party": "Campaign for Social Justice",
+        "colour": "#2e8b57",
         "firstPrefs": 358,
         "finalVotes": 358,
         "electedCount": 1,
@@ -1554,11 +1594,11 @@
         "shareOfTotal": 2.5679283807130515
       },
       {
-        "id": "F. McCooley|",
-        "key": "F. McCooley|",
+        "id": "F. McCooley|Campaign for Social Justice",
+        "key": "F. McCooley|Campaign for Social Justice",
         "name": "F. McCooley",
-        "party": "",
-        "colour": "#888888",
+        "party": "Campaign for Social Justice",
+        "colour": "#2e8b57",
         "firstPrefs": 315,
         "finalVotes": 315,
         "electedCount": 1,
@@ -1598,11 +1638,11 @@
         "shareOfTotal": 2.4579864928537773
       },
       {
-        "id": "James Corrigan|",
-        "key": "James Corrigan|",
+        "id": "James Corrigan|Campaign for Social Justice",
+        "key": "James Corrigan|Campaign for Social Justice",
         "name": "James Corrigan",
-        "party": "",
-        "colour": "#888888",
+        "party": "Campaign for Social Justice",
+        "colour": "#2e8b57",
         "firstPrefs": 287,
         "finalVotes": 287,
         "electedCount": 1,
@@ -1734,7 +1774,7 @@
   "results": [
     {
       "constituency": "Central Ward",
-      "winnerParty": "Independent",
+      "winnerParty": "No label",
       "winnerName": "7 elected",
       "leadingParty": null,
       "leadingName": "J. Patton",
@@ -1751,7 +1791,7 @@
       "spoiled": null,
       "validPoll": 2633,
       "totalVotes": 2633,
-      "colour": "#b8b8b8",
+      "colour": "#d4d4d4",
       "leadingColour": "#6b7280",
       "candidates": [
         {
@@ -3628,7 +3668,7 @@
     },
     {
       "constituency": "West Ward",
-      "winnerParty": "Independent",
+      "winnerParty": "Campaign for Social Justice",
       "winnerName": "7 elected",
       "leadingParty": "Nationalist Party",
       "leadingName": "D. J. McQuaid",
@@ -3645,7 +3685,7 @@
       "spoiled": null,
       "validPoll": 2728,
       "totalVotes": 2728,
-      "colour": "#b8b8b8",
+      "colour": "#2e8b57",
       "leadingColour": "#32cd32",
       "candidates": [
         {
@@ -3715,7 +3755,7 @@
         {
           "id": "Patricia McCluskey|",
           "name": "Patricia McCluskey",
-          "party": "",
+          "party": "Campaign for Social Justice",
           "firstPrefs": 446,
           "finalVotes": 446,
           "elected": true,
@@ -3724,7 +3764,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#2e8b57",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -3747,7 +3787,7 @@
         {
           "id": "P. J. Donaghy|",
           "name": "P. J. Donaghy",
-          "party": "",
+          "party": "Campaign for Social Justice",
           "firstPrefs": 382,
           "finalVotes": 382,
           "elected": true,
@@ -3756,7 +3796,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#2e8b57",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -3779,7 +3819,7 @@
         {
           "id": "J. Murphy|",
           "name": "J. Murphy",
-          "party": "",
+          "party": "Campaign for Social Justice",
           "firstPrefs": 358,
           "finalVotes": 358,
           "elected": true,
@@ -3788,7 +3828,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#2e8b57",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -3811,7 +3851,7 @@
         {
           "id": "F. McCooley|",
           "name": "F. McCooley",
-          "party": "",
+          "party": "Campaign for Social Justice",
           "firstPrefs": 315,
           "finalVotes": 315,
           "elected": true,
@@ -3820,7 +3860,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#2e8b57",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -3843,7 +3883,7 @@
         {
           "id": "James Corrigan|",
           "name": "James Corrigan",
-          "party": "",
+          "party": "Campaign for Social Justice",
           "firstPrefs": 287,
           "finalVotes": 287,
           "elected": true,
@@ -3852,7 +3892,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#2e8b57",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -3937,7 +3977,7 @@
         {
           "id": "Patricia McCluskey|",
           "name": "Patricia McCluskey",
-          "party": "",
+          "party": "Campaign for Social Justice",
           "firstPrefs": 446,
           "finalVotes": 446,
           "elected": true,
@@ -3946,7 +3986,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#2e8b57",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -3967,7 +4007,7 @@
         {
           "id": "P. J. Donaghy|",
           "name": "P. J. Donaghy",
-          "party": "",
+          "party": "Campaign for Social Justice",
           "firstPrefs": 382,
           "finalVotes": 382,
           "elected": true,
@@ -3976,7 +4016,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#2e8b57",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -3997,7 +4037,7 @@
         {
           "id": "J. Murphy|",
           "name": "J. Murphy",
-          "party": "",
+          "party": "Campaign for Social Justice",
           "firstPrefs": 358,
           "finalVotes": 358,
           "elected": true,
@@ -4006,7 +4046,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#2e8b57",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -4027,7 +4067,7 @@
         {
           "id": "F. McCooley|",
           "name": "F. McCooley",
-          "party": "",
+          "party": "Campaign for Social Justice",
           "firstPrefs": 315,
           "finalVotes": 315,
           "elected": true,
@@ -4036,7 +4076,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#2e8b57",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -4057,7 +4097,7 @@
         {
           "id": "James Corrigan|",
           "name": "James Corrigan",
-          "party": "",
+          "party": "Campaign for Social Justice",
           "firstPrefs": 287,
           "finalVotes": 287,
           "elected": true,
@@ -4066,7 +4106,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#2e8b57",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -4136,7 +4176,7 @@
         },
         {
           "Constituency_Number": "",
-          "Candidate_Id": "",
+          "Candidate_Id": "Patricia McCluskey|",
           "Count_Number": "1",
           "Firstname": "Patricia",
           "Surname": "McCluskey",
@@ -4145,7 +4185,7 @@
           "Total_Votes": "446.00",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
+          "Party_Name": "Campaign for Social Justice",
           "Party_Colour": "#888888",
           "candidateName": "Patricia McCluskey",
           "id": 2,
@@ -4154,7 +4194,7 @@
         },
         {
           "Constituency_Number": "",
-          "Candidate_Id": "",
+          "Candidate_Id": "P. J. Donaghy|",
           "Count_Number": "1",
           "Firstname": "P. J.",
           "Surname": "Donaghy",
@@ -4163,7 +4203,7 @@
           "Total_Votes": "382.00",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
+          "Party_Name": "Campaign for Social Justice",
           "Party_Colour": "#888888",
           "candidateName": "P. J. Donaghy",
           "id": 3,
@@ -4172,7 +4212,7 @@
         },
         {
           "Constituency_Number": "",
-          "Candidate_Id": "",
+          "Candidate_Id": "J. Murphy|",
           "Count_Number": "1",
           "Firstname": "J.",
           "Surname": "Murphy",
@@ -4181,7 +4221,7 @@
           "Total_Votes": "358.00",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
+          "Party_Name": "Campaign for Social Justice",
           "Party_Colour": "#888888",
           "candidateName": "J. Murphy",
           "id": 4,
@@ -4190,7 +4230,7 @@
         },
         {
           "Constituency_Number": "",
-          "Candidate_Id": "",
+          "Candidate_Id": "F. McCooley|",
           "Count_Number": "1",
           "Firstname": "F.",
           "Surname": "McCooley",
@@ -4199,7 +4239,7 @@
           "Total_Votes": "315.00",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
+          "Party_Name": "Campaign for Social Justice",
           "Party_Colour": "#888888",
           "candidateName": "F. McCooley",
           "id": 5,
@@ -4208,7 +4248,7 @@
         },
         {
           "Constituency_Number": "",
-          "Candidate_Id": "",
+          "Candidate_Id": "James Corrigan|",
           "Count_Number": "1",
           "Firstname": "James",
           "Surname": "Corrigan",
@@ -4217,7 +4257,7 @@
           "Total_Votes": "287.00",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
+          "Party_Name": "Campaign for Social Justice",
           "Party_Colour": "#888888",
           "candidateName": "James Corrigan",
           "id": 6,
@@ -4285,7 +4325,7 @@
             },
             {
               "Constituency_Number": "",
-              "Candidate_Id": "",
+              "Candidate_Id": "Patricia McCluskey|",
               "Count_Number": "1",
               "Firstname": "Patricia",
               "Surname": "McCluskey",
@@ -4294,7 +4334,7 @@
               "Total_Votes": "446.00",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
+              "Party_Name": "Campaign for Social Justice",
               "Party_Colour": "#888888",
               "candidateName": "Patricia McCluskey",
               "id": 2,
@@ -4303,7 +4343,7 @@
             },
             {
               "Constituency_Number": "",
-              "Candidate_Id": "",
+              "Candidate_Id": "P. J. Donaghy|",
               "Count_Number": "1",
               "Firstname": "P. J.",
               "Surname": "Donaghy",
@@ -4312,7 +4352,7 @@
               "Total_Votes": "382.00",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
+              "Party_Name": "Campaign for Social Justice",
               "Party_Colour": "#888888",
               "candidateName": "P. J. Donaghy",
               "id": 3,
@@ -4321,7 +4361,7 @@
             },
             {
               "Constituency_Number": "",
-              "Candidate_Id": "",
+              "Candidate_Id": "J. Murphy|",
               "Count_Number": "1",
               "Firstname": "J.",
               "Surname": "Murphy",
@@ -4330,7 +4370,7 @@
               "Total_Votes": "358.00",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
+              "Party_Name": "Campaign for Social Justice",
               "Party_Colour": "#888888",
               "candidateName": "J. Murphy",
               "id": 4,
@@ -4339,7 +4379,7 @@
             },
             {
               "Constituency_Number": "",
-              "Candidate_Id": "",
+              "Candidate_Id": "F. McCooley|",
               "Count_Number": "1",
               "Firstname": "F.",
               "Surname": "McCooley",
@@ -4348,7 +4388,7 @@
               "Total_Votes": "315.00",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
+              "Party_Name": "Campaign for Social Justice",
               "Party_Colour": "#888888",
               "candidateName": "F. McCooley",
               "id": 5,
@@ -4357,7 +4397,7 @@
             },
             {
               "Constituency_Number": "",
-              "Candidate_Id": "",
+              "Candidate_Id": "James Corrigan|",
               "Count_Number": "1",
               "Firstname": "James",
               "Surname": "Corrigan",
@@ -4366,7 +4406,7 @@
               "Total_Votes": "287.00",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
+              "Party_Name": "Campaign for Social Justice",
               "Party_Colour": "#888888",
               "candidateName": "James Corrigan",
               "id": 6,

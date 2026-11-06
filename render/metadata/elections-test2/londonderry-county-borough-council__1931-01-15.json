@@ -60,25 +60,17 @@
     {
       "party": "Nationalist Party",
       "seats": 4,
-      "stood": 3,
-      "votes": 1299,
+      "stood": 4,
+      "votes": 2563,
       "colour": "#32cd32",
-      "share": 36.87198410445643
-    },
-    {
-      "party": "Independent/Other",
-      "seats": 0,
-      "stood": 1,
-      "votes": 1264,
-      "colour": "#6b7280",
-      "share": 35.87851263128016
+      "share": 72.75049673573659
     },
     {
       "party": "NI Labour",
       "seats": 0,
       "stood": 1,
       "votes": 960,
-      "colour": "#6b7280",
+      "colour": "#dc241f",
       "share": 27.249503264263414
     }
   ],
@@ -93,19 +85,11 @@
     },
     {
       "party": "Nationalist Party",
-      "seats": 3,
-      "stood": 3,
-      "votes": 1299,
+      "seats": 4,
+      "stood": 4,
+      "votes": 2563,
       "colour": "#32CD32",
-      "share": 36.87198410445643
-    },
-    {
-      "party": "Independent/Other",
-      "seats": 1,
-      "stood": 1,
-      "votes": 1264,
-      "colour": "#888888",
-      "share": 35.87851263128016
+      "share": 72.75049673573659
     },
     {
       "party": "NI Labour",
@@ -130,6 +114,7 @@
       "constituency": "South",
       "name": "Frederick Charles Towers",
       "party": "Nationalist Party",
+      "partyAsPrinted": "Nationalist",
       "colour": "#32CD32",
       "firstPrefs": 1299,
       "votes": 1299,
@@ -154,12 +139,13 @@
       "name_id": "n-frederick-charles-towers"
     },
     {
-      "id": "row:James Bonner|",
+      "id": "James Bonner|",
       "personId": 139431,
       "constituency": "South",
       "name": "James Bonner",
-      "party": "",
-      "colour": "#888888",
+      "party": "Nationalist Party",
+      "partyAsPrinted": "do.",
+      "colour": "#32cd32",
       "firstPrefs": 1264,
       "votes": 1264,
       "constPct": 35.87851263128016,
@@ -179,7 +165,7 @@
           "status": "Elected"
         }
       },
-      "candidateKey": "james bonner|",
+      "candidateKey": "james bonner|nationalist party",
       "name_id": "n-james-bonner"
     },
     {
@@ -188,6 +174,7 @@
       "constituency": "South",
       "name": "Francis Callaghan",
       "party": "NI Labour",
+      "partyAsPrinted": "Labour",
       "colour": "#DC241F",
       "firstPrefs": 960,
       "votes": 960,
@@ -217,6 +204,7 @@
       "constituency": "North",
       "name": "Dudley Evelyn Bruce M'Corkell",
       "party": "UUP",
+      "partyAsPrinted": "U.",
       "colour": "#48A5EE",
       "firstPrefs": 0,
       "votes": 0,
@@ -246,6 +234,7 @@
       "constituency": "West",
       "name": "Hugh M'Grellis",
       "party": "Nationalist Party",
+      "partyAsPrinted": "N.",
       "colour": "#32CD32",
       "firstPrefs": 0,
       "votes": 0,
@@ -275,6 +264,7 @@
       "constituency": "Waterside",
       "name": "James Denton Corbett",
       "party": "UUP",
+      "partyAsPrinted": "U.",
       "colour": "#48A5EE",
       "firstPrefs": 0,
       "votes": 0,
@@ -304,6 +294,7 @@
       "constituency": "East",
       "name": "John Burns",
       "party": "UUP",
+      "partyAsPrinted": "U.",
       "colour": "#48A5EE",
       "firstPrefs": 0,
       "votes": 0,
@@ -333,6 +324,7 @@
       "constituency": "West",
       "name": "John Thornton Towers",
       "party": "Nationalist Party",
+      "partyAsPrinted": "N.",
       "colour": "#32CD32",
       "firstPrefs": 0,
       "votes": 0,
@@ -362,6 +354,7 @@
       "constituency": "East",
       "name": "Joseph Hubbard Welch",
       "party": "UUP",
+      "partyAsPrinted": "U.",
       "colour": "#48A5EE",
       "firstPrefs": 0,
       "votes": 0,
@@ -391,6 +384,7 @@
       "constituency": "Waterside",
       "name": "Samuel Cochrane",
       "party": "UUP",
+      "partyAsPrinted": "U.",
       "colour": "#48A5EE",
       "firstPrefs": 0,
       "votes": 0,
@@ -420,6 +414,7 @@
       "constituency": "North",
       "name": "T. G. Lewis",
       "party": "UUP",
+      "partyAsPrinted": "U.",
       "colour": "#48A5EE",
       "firstPrefs": 0,
       "votes": 0,
@@ -517,10 +512,10 @@
       {
         "name": "Nationalist Party",
         "colour": "#32CD32",
-        "firstPrefs": 1299,
-        "finalVotes": 1299,
-        "stood": 3,
-        "elected": 3,
+        "firstPrefs": 2563,
+        "finalVotes": 2563,
+        "stood": 4,
+        "elected": 4,
         "constituencies": [
           "South",
           "West"
@@ -532,6 +527,14 @@
             "constituency": "South",
             "firstPref": 1299,
             "finalVotes": 1299,
+            "status": "Elected"
+          },
+          {
+            "id": "James Bonner|Nationalist Party",
+            "name": "James Bonner",
+            "constituency": "South",
+            "firstPref": 1264,
+            "finalVotes": 1264,
             "status": "Elected"
           },
           {
@@ -551,29 +554,7 @@
             "status": "Elected"
           }
         ],
-        "shareOfTotal": 36.87198410445643
-      },
-      {
-        "name": "Independent/Other",
-        "colour": "#888888",
-        "firstPrefs": 1264,
-        "finalVotes": 1264,
-        "stood": 1,
-        "elected": 1,
-        "constituencies": [
-          "South"
-        ],
-        "candidates": [
-          {
-            "id": "James Bonner|",
-            "name": "James Bonner",
-            "constituency": "South",
-            "firstPref": 1264,
-            "finalVotes": 1264,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 35.87851263128016
+        "shareOfTotal": 72.75049673573659
       },
       {
         "name": "NI Labour",
@@ -622,11 +603,11 @@
         "shareOfTotal": 36.87198410445643
       },
       {
-        "id": "James Bonner|",
-        "key": "James Bonner|",
+        "id": "James Bonner|Nationalist Party",
+        "key": "James Bonner|Nationalist Party",
         "name": "James Bonner",
-        "party": "",
-        "colour": "#888888",
+        "party": "Nationalist Party",
+        "colour": "#32cd32",
         "firstPrefs": 1264,
         "finalVotes": 1264,
         "electedCount": 1,
@@ -1503,7 +1484,7 @@
         {
           "id": "James Bonner|",
           "name": "James Bonner",
-          "party": "",
+          "party": "Nationalist Party",
           "firstPrefs": 1264,
           "finalVotes": 1264,
           "elected": true,
@@ -1512,7 +1493,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#32cd32",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -1599,7 +1580,7 @@
         {
           "id": "James Bonner|",
           "name": "James Bonner",
-          "party": "",
+          "party": "Nationalist Party",
           "firstPrefs": 1264,
           "finalVotes": 1264,
           "elected": true,
@@ -1608,7 +1589,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#32cd32",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -1660,7 +1641,7 @@
         },
         {
           "Constituency_Number": "",
-          "Candidate_Id": "",
+          "Candidate_Id": "James Bonner|",
           "Count_Number": "1",
           "Firstname": "James",
           "Surname": "Bonner",
@@ -1669,7 +1650,7 @@
           "Total_Votes": "1264.00",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
+          "Party_Name": "Nationalist Party",
           "Party_Colour": "#888888",
           "candidateName": "James Bonner",
           "id": 1,
@@ -1738,7 +1719,7 @@
             },
             {
               "Constituency_Number": "",
-              "Candidate_Id": "",
+              "Candidate_Id": "James Bonner|",
               "Count_Number": "1",
               "Firstname": "James",
               "Surname": "Bonner",
@@ -1747,7 +1728,7 @@
               "Total_Votes": "1264.00",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
+              "Party_Name": "Nationalist Party",
               "Party_Colour": "#888888",
               "candidateName": "James Bonner",
               "id": 1,

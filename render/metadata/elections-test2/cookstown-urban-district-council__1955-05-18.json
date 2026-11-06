@@ -42,38 +42,38 @@
   "availableStyleModes": [],
   "partySummary": [
     {
-      "party": "Independent",
+      "party": "No label",
       "seats": 12,
-      "stood": 0,
-      "votes": 0,
-      "colour": "#b8b8b8",
-      "share": 0
-    },
-    {
-      "party": "Independent/Other",
-      "seats": 0,
-      "stood": 13,
-      "votes": 12745,
-      "colour": "#6b7280",
-      "share": 95.4538645895746
+      "stood": 12,
+      "votes": 12178,
+      "colour": "#d4d4d4",
+      "share": 91.20730976632714
     },
     {
       "party": "NI Labour",
       "seats": 0,
       "stood": 1,
       "votes": 607,
-      "colour": "#6b7280",
+      "colour": "#dc241f",
       "share": 4.546135410425404
+    },
+    {
+      "party": "Independent",
+      "seats": 0,
+      "stood": 1,
+      "votes": 567,
+      "colour": "#b8b8b8",
+      "share": 4.246554823247454
     }
   ],
   "mainLikePartySummary": [
     {
-      "party": "Independent/Other",
+      "party": "No label",
       "seats": 12,
-      "stood": 13,
-      "votes": 12745,
-      "colour": "#888888",
-      "share": 95.4538645895746
+      "stood": 12,
+      "votes": 12178,
+      "colour": "#d4d4d4",
+      "share": 91.20730976632714
     },
     {
       "party": "NI Labour",
@@ -82,6 +82,14 @@
       "votes": 607,
       "colour": "#DC241F",
       "share": 4.546135410425404
+    },
+    {
+      "party": "Independent",
+      "seats": 0,
+      "stood": 1,
+      "votes": 567,
+      "colour": "#b8b8b8",
+      "share": 4.246554823247454
     }
   ],
   "mainLikeTotals": {
@@ -446,6 +454,7 @@
       "constituency": "Cookstown",
       "name": "W. Lindsay",
       "party": "NI Labour",
+      "partyAsPrinted": "N.I.Lab.",
       "colour": "#DC241F",
       "firstPrefs": 607,
       "votes": 607,
@@ -470,12 +479,13 @@
       "name_id": "n-w-lindsay"
     },
     {
-      "id": "row:T. Warnock|",
+      "id": "T. Warnock|",
       "personId": 142452,
       "constituency": "Cookstown",
       "name": "T. Warnock",
-      "party": "",
-      "colour": "#888888",
+      "party": "Independent",
+      "partyAsPrinted": "Indep.",
+      "colour": "#b8b8b8",
       "firstPrefs": 567,
       "votes": 567,
       "constPct": 4.246554823247454,
@@ -495,7 +505,7 @@
           "status": "Not Elected"
         }
       },
-      "candidateKey": "t. warnock|",
+      "candidateKey": "t. warnock|independent",
       "name_id": "n-t-warnock"
     }
   ],
@@ -506,11 +516,11 @@
     "totalValid": 13352,
     "parties": [
       {
-        "name": "Independent/Other",
-        "colour": "#888888",
-        "firstPrefs": 12745,
-        "finalVotes": 12745,
-        "stood": 13,
+        "name": "No label",
+        "colour": "#d4d4d4",
+        "firstPrefs": 12178,
+        "finalVotes": 12178,
+        "stood": 12,
         "elected": 12,
         "constituencies": [
           "Cookstown"
@@ -611,17 +621,9 @@
             "firstPref": 870,
             "finalVotes": 870,
             "status": "Elected"
-          },
-          {
-            "id": "T. Warnock|",
-            "name": "T. Warnock",
-            "constituency": "Cookstown",
-            "firstPref": 567,
-            "finalVotes": 567,
-            "status": "Not Elected"
           }
         ],
-        "shareOfTotal": 95.4538645895746
+        "shareOfTotal": 91.20730976632714
       },
       {
         "name": "NI Labour",
@@ -644,6 +646,28 @@
           }
         ],
         "shareOfTotal": 4.546135410425404
+      },
+      {
+        "name": "Independent",
+        "colour": "#b8b8b8",
+        "firstPrefs": 567,
+        "finalVotes": 567,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Cookstown"
+        ],
+        "candidates": [
+          {
+            "id": "T. Warnock|Independent",
+            "name": "T. Warnock",
+            "constituency": "Cookstown",
+            "firstPref": 567,
+            "finalVotes": 567,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 4.246554823247454
       }
     ],
     "candidates": [
@@ -934,11 +958,11 @@
         "shareOfTotal": 4.546135410425404
       },
       {
-        "id": "T. Warnock|",
-        "key": "T. Warnock|",
+        "id": "T. Warnock|Independent",
+        "key": "T. Warnock|Independent",
         "name": "T. Warnock",
-        "party": "",
-        "colour": "#888888",
+        "party": "Independent",
+        "colour": "#b8b8b8",
         "firstPrefs": 567,
         "finalVotes": 567,
         "electedCount": 0,
@@ -960,7 +984,7 @@
   "results": [
     {
       "constituency": "Cookstown",
-      "winnerParty": "Independent",
+      "winnerParty": "No label",
       "winnerName": "12 elected",
       "leadingParty": null,
       "leadingName": "W. Graham",
@@ -977,7 +1001,7 @@
       "spoiled": null,
       "validPoll": 13352,
       "totalVotes": 13352,
-      "colour": "#b8b8b8",
+      "colour": "#d4d4d4",
       "leadingColour": "#6b7280",
       "candidates": [
         {
@@ -1387,7 +1411,7 @@
         {
           "id": "T. Warnock|",
           "name": "T. Warnock",
-          "party": "",
+          "party": "Independent",
           "firstPrefs": 567,
           "finalVotes": 567,
           "elected": false,
@@ -1396,7 +1420,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
-          "colour": "#888888",
+          "colour": "#b8b8b8",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -2016,7 +2040,7 @@
         },
         {
           "Constituency_Number": "",
-          "Candidate_Id": "",
+          "Candidate_Id": "T. Warnock|",
           "Count_Number": "1",
           "Firstname": "T.",
           "Surname": "Warnock",
@@ -2025,7 +2049,7 @@
           "Total_Votes": "567.00",
           "Status": "Not Elected",
           "Occurred_On_Count": "",
-          "Party_Name": "",
+          "Party_Name": "Independent",
           "Party_Colour": "#888888",
           "candidateName": "T. Warnock",
           "id": 13,
@@ -2291,7 +2315,7 @@
             },
             {
               "Constituency_Number": "",
-              "Candidate_Id": "",
+              "Candidate_Id": "T. Warnock|",
               "Count_Number": "1",
               "Firstname": "T.",
               "Surname": "Warnock",
@@ -2300,7 +2324,7 @@
               "Total_Votes": "567.00",
               "Status": "Not Elected",
               "Occurred_On_Count": "",
-              "Party_Name": "",
+              "Party_Name": "Independent",
               "Party_Colour": "#888888",
               "candidateName": "T. Warnock",
               "id": 13,

@@ -7,6 +7,10 @@ import { gunzip, gzip } from 'node:zlib';
 import { isGraphExcludedSource } from './graph-source-exclusions.mjs';
 import { buildTimestamp } from '../lib/build-timestamp.mjs';
 
+// Summary labels that are the absence of a party, not one: "No party recorded" (before 1832),
+// "No label" (nothing printed or inferred) and a person record's "Unknown".
+const NOT_A_PARTY = new Set(['No party recorded', 'No label', 'Unknown']);
+
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = path.resolve(SCRIPT_DIR, '..', '..');
 const OUTPUT_DIR = path.join(ROOT_DIR, 'data', 'graph');
@@ -693,7 +697,7 @@ function buildElectionEntities(items, browseElectionSource) {
       });
     }
     for (const party of item.partySummary || []) {
-      if ((party.party || party.name || party.label) === 'No party recorded') continue;
+      if (NOT_A_PARTY.has(party.party || party.name || party.label)) continue;
       const partyId = getPartyEntity(party.party || party.name || party.label);
       addStatement({
         subjectId: partyId,
@@ -780,7 +784,7 @@ function buildPersonEntities(items, browsePersonSource) {
 
     for (const party of item.parties || []) {
       // "No party recorded" (before 1832) is the absence of a party, not membership of one.
-      if ((party.name || party.title || party) === 'No party recorded') continue;
+      if (NOT_A_PARTY.has(party.name || party.title || party)) continue;
       const partyId = getPartyEntity(party.name || party.title || party);
       addStatement({
         subjectId: id,
@@ -803,7 +807,7 @@ function buildPersonEntities(items, browsePersonSource) {
           resultKind: 'constituency-result'
         }
       });
-      const partyId = election.party && election.party !== 'No party recorded' ? getPartyEntity(election.party) : null;
+      const partyId = election.party && !NOT_A_PARTY.has(election.party) ? getPartyEntity(election.party) : null;
       const candidatureId = makeEntityId('candidature', `${id}|${contestId}|${partyId || election.party || ''}|${election.status || ''}`);
       addEntity(candidatureId, {
         typeIds: [TYPE.candidature],

@@ -160,16 +160,43 @@ def elected_terms():
 
 
 def merged_person_ids():
-    """{retired personId: surviving personId} from the person registry's mergedFrom lists. The
-    division data links a member by the id the registry gave when it was linked; a later merge
-    (Dehra Chichester 104292 into Dehra Parker 103875) moves the person to the surviving id."""
-    path = os.path.join(REPO, "data", "elections", "persons", "person_registry.json")
+    """{retired personId: surviving personId}. The division data links a member by the id the
+    registry gave when it was linked; a later merge (Dehra Chichester 104292 into Dehra Parker
+    103875) moves the person to the surviving id. The registry records a merge in mergedFrom only
+    on the run that makes it; a later rebuild carries the join and drops the old id silently, so
+    the merge logs (person_id_merges.csv) and the hand-confirmed pairs
+    (person_id_confirmed_merges.csv) are read too. Only ids no longer in the registry are mapped,
+    and chains are followed to a live id."""
+    pers = os.path.join(REPO, "data", "elections", "persons")
+    path = os.path.join(pers, "person_registry.json")
     if not os.path.exists(path):
         return {}
-    out = {}
-    for e in json.load(open(path, encoding="utf-8")).get("entities") or []:
+    entities = json.load(open(path, encoding="utf-8")).get("entities") or []
+    live = {int(e["personId"]) for e in entities}
+    pairs = {}
+    for e in entities:
         for old in e.get("mergedFrom") or []:
-            out[int(old)] = int(e["personId"])
+            pairs[int(old)] = int(e["personId"])
+    for name in ("person_id_merges.csv", "person_id_confirmed_merges.csv"):
+        f = os.path.join(pers, name)
+        if not os.path.exists(f):
+            continue
+        for r in csv.DictReader(open(f, encoding="utf-8", newline="")):
+            try:
+                keep, drop = int(r["keep"]), int(r["drop"])
+            except (KeyError, TypeError, ValueError):
+                continue
+            pairs.setdefault(drop, keep)
+    out = {}
+    for old in pairs:
+        if old in live:
+            continue
+        target, seen = pairs[old], {old}
+        while target not in live and target in pairs and target not in seen:
+            seen.add(target)
+            target = pairs[target]
+        if target in live:
+            out[old] = target
     return out
 
 

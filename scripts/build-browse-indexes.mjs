@@ -2,7 +2,7 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { resolveApprovedPublicationSources } from './lib/approved-publication-index.mjs';
-import { partyColour, NO_PARTY_RECORDED } from '../src/election-domain.mjs';
+import { partyColour, NO_LABEL, NO_PARTY_RECORDED } from '../src/election-domain.mjs';
 import { isPublicMap, isPublicStatistic, statisticGeographyIds } from '../src/public-map.mjs';
 import { canonicalElectionTitle, compareElectionsNewestFirst, electionResultEntryLabel } from './lib/election-names.mjs';
 import { buildPartyVocabulary, classifyPersonName, stripWikipediaQualifier, NOT_A_PERSON } from './lib/person-name-artefacts.mjs';
@@ -1351,8 +1351,9 @@ function buildParties(partyIds, electionDetails) {
   for (const [key, detail] of electionDetails) {
     for (const row of normalizeArray(detail.mainLikePartySummary || detail.partySummary)) {
       const partyName = cleanText(row.party || row.name);
-      // "No party recorded" (before 1832) is the absence of a party, not one.
-      if (!partyName || partyName === NO_PARTY_RECORDED) continue;
+      // "No party recorded" (before 1832) and "No label" (nothing printed or inferred) are the
+      // absence of a party, not one: no party page.
+      if (!partyName || partyName === NO_PARTY_RECORDED || partyName === NO_LABEL) continue;
       const id = aliasToId.get(normalizeName(partyName)) || `party:${slugify(partyName)}`;
       if (!byId.has(id)) {
         byId.set(id, {
@@ -1800,7 +1801,7 @@ function buildPersons(electionDetails, partyRecords) {
         const constituency = cleanText(candidate.constituency || result.constituency || '');
         const gender = cleanText(candidate.gender || candidate.Gender || candidate.genderId || candidate.Gender_Id || '');
         const year = context.year;
-        person.parties.set(party || 'Unknown', (person.parties.get(party || 'Unknown') || 0) + 1);
+        person.parties.set(party || NO_LABEL, (person.parties.get(party || NO_LABEL) || 0) + 1);
         if (constituency) person.constituencies.set(constituency, (person.constituencies.get(constituency) || 0) + 1);
         if (gender) person.genders.set(gender, (person.genders.get(gender) || 0) + 1);
         if (electionBody) person.bodies.set(electionBody, (person.bodies.get(electionBody) || 0) + 1);
@@ -1813,9 +1814,13 @@ function buildPersons(electionDetails, partyRecords) {
           person.elections.push(compactObject({
             ...context,
             party,
-            // The label as the source printed it, where a source-checked fix records one that
-            // differs from the party (browse.js shows it beside the party).
+            // The label as printed (a newspaper's or report's) and the ballot paper description:
+            // browse.js shows them in its "As printed" column when the reader asks for it. An
+            // inferred label carries its flag and evidence in both views.
             partyAsPrinted: cleanText(candidate.partyAsPrinted || candidate.Party_As_Printed || '') || undefined,
+            ballotDescription: cleanText(candidate.ballotDescription || candidate.Ballot_Description || '') || undefined,
+            partyInferred: candidate.partyInferred === true || candidate.Party_Inferred === true || undefined,
+            partyBasis: cleanText(candidate.partyBasis || candidate.Party_Basis || '') || undefined,
             constituency,
             gender,
             dailAbbreviation: cleanText(candidate.dailAbbreviation || candidate.partyAbbreviation || candidate.Dail_Abbreviation || candidate.Party_Abbreviation || ''),

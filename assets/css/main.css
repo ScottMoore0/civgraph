@@ -12880,6 +12880,39 @@ abbr.party-abbr {
   text-align: right;
 }
 
+/* "Show labels as printed" (src/printed-labels.mjs): every candidate table carries an "As
+   printed" column, hidden unless the reader ticks the control (the root attribute). */
+.election-col-printed {
+  display: none;
+}
+
+:root[data-show-printed-labels] .election-col-printed {
+  display: table-cell;
+  font-style: italic;
+  color: var(--color-text-muted, #5f6b7a);
+}
+
+.printed-labels-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  margin: 0 0 0.4rem;
+  font-size: 0.85em;
+  color: var(--color-text-muted, #5f6b7a);
+  cursor: pointer;
+}
+
+/* "No label": nothing printed and nothing inferred; neutral, never a party link. */
+.election-no-label {
+  color: var(--color-text-muted, #5f6b7a);
+  font-style: italic;
+}
+
+.printed-labels-toggle input:focus-visible {
+  outline: 2px solid var(--color-primary-light, #2c5282);
+  outline-offset: 2px;
+}
+
 /* Westminster: one "Elected" column with a tick or a cross (the count is always 1/1). */
 .election-col-elected {
   text-align: center !important;

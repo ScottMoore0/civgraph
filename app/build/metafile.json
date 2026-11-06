@@ -340,7 +340,7 @@
       "format": "esm"
     },
     "src/entity-detail-data.mjs": {
-      "bytes": 10885,
+      "bytes": 10995,
       "imports": [
         {
           "path": "<define:__VIEWER_ASSET_VERSIONS__>",
@@ -1029,7 +1029,7 @@
       "format": "esm"
     },
     "src/election-domain.mjs": {
-      "bytes": 67785,
+      "bytes": 70753,
       "imports": [
         {
           "path": "<define:__VIEWER_ASSET_VERSIONS__>",
@@ -1040,7 +1040,7 @@
       "format": "esm"
     },
     "src/election-view-model.mjs": {
-      "bytes": 7804,
+      "bytes": 7794,
       "imports": [
         {
           "path": "src/election-domain.mjs",
@@ -1097,6 +1097,17 @@
       ],
       "format": "esm"
     },
+    "src/printed-labels.mjs": {
+      "bytes": 3849,
+      "imports": [
+        {
+          "path": "<define:__VIEWER_ASSET_VERSIONS__>",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
     "src/election-trend-chart.mjs": {
       "bytes": 33013,
       "imports": [
@@ -1109,7 +1120,7 @@
       "format": "esm"
     },
     "app/src/election-manager.js": {
-      "bytes": 306683,
+      "bytes": 308204,
       "imports": [
         {
           "path": "render/src/feature-property-repairs.js",
@@ -1140,6 +1151,11 @@
           "path": "src/party-names.mjs",
           "kind": "import-statement",
           "original": "../../src/party-names.mjs"
+        },
+        {
+          "path": "src/printed-labels.mjs",
+          "kind": "import-statement",
+          "original": "../../src/printed-labels.mjs"
         },
         {
           "path": "src/election-trend-chart.mjs",
@@ -1181,7 +1197,7 @@
       "format": "esm"
     },
     "app/src/app.js": {
-      "bytes": 260552,
+      "bytes": 260622,
       "imports": [
         {
           "path": "src/data-service.js",
@@ -1301,7 +1317,7 @@
           "kind": "import-statement"
         },
         {
-          "path": "app/build/chunks/app-3GHRXRBT.js",
+          "path": "app/build/chunks/app-U2NOH2JJ.js",
           "kind": "dynamic-import"
         }
       ],
@@ -1390,10 +1406,10 @@
       },
       "bytes": 305458
     },
-    "app/build/chunks/election-manager-Z57AONFC.js": {
+    "app/build/chunks/election-manager-LECKQLO5.js": {
       "imports": [
         {
-          "path": "app/build/chunks/chunk-N6EJH4RW.js",
+          "path": "app/build/chunks/chunk-UYYGXHS7.js",
           "kind": "import-statement"
         },
         {
@@ -1411,25 +1427,28 @@
       "entryPoint": "app/src/election-manager.js",
       "inputs": {
         "app/src/election-manager.js": {
-          "bytesInOutput": 166577
+          "bytesInOutput": 167325
         },
         "src/election-renderer.mjs": {
           "bytesInOutput": 27294
         },
         "src/election-domain.mjs": {
-          "bytesInOutput": 11433
+          "bytesInOutput": 12081
         },
         "src/election-view-model.mjs": {
-          "bytesInOutput": 3398
+          "bytesInOutput": 3364
         },
         "src/election-main-pane-contract.mjs": {
           "bytesInOutput": 6938
+        },
+        "src/printed-labels.mjs": {
+          "bytesInOutput": 1176
         },
         "src/election-trend-chart.mjs": {
           "bytesInOutput": 14409
         }
       },
-      "bytes": 230272
+      "bytes": 232802
     },
     "app/build/chunks/map-image-export-CEKOGMRX.js": {
       "imports": [
@@ -1463,14 +1482,14 @@
       },
       "bytes": 20181
     },
-    "app/build/chunks/app-3GHRXRBT.js": {
+    "app/build/chunks/app-U2NOH2JJ.js": {
       "imports": [
         {
           "path": "app/build/chunks/chunk-6SPDZ5NW.js",
           "kind": "import-statement"
         },
         {
-          "path": "app/build/chunks/chunk-N6EJH4RW.js",
+          "path": "app/build/chunks/chunk-UYYGXHS7.js",
           "kind": "import-statement"
         },
         {
@@ -1494,7 +1513,7 @@
           "kind": "dynamic-import"
         },
         {
-          "path": "app/build/chunks/election-manager-Z57AONFC.js",
+          "path": "app/build/chunks/election-manager-LECKQLO5.js",
           "kind": "dynamic-import"
         },
         {
@@ -1506,7 +1525,7 @@
       "entryPoint": "app/src/app.js",
       "inputs": {
         "app/src/app.js": {
-          "bytesInOutput": 132181
+          "bytesInOutput": 132162
         },
         "src/feature-loader.js": {
           "bytesInOutput": 6264
@@ -1524,7 +1543,7 @@
           "bytesInOutput": 3012
         },
         "src/entity-detail-data.mjs": {
-          "bytesInOutput": 4793
+          "bytesInOutput": 4790
         },
         "src/public-map.mjs": {
           "bytesInOutput": 526
@@ -1563,7 +1582,7 @@
           "bytesInOutput": 362
         }
       },
-      "bytes": 646336
+      "bytes": 646314
     },
     "app/build/chunks/chunk-6SPDZ5NW.js": {
       "imports": [
@@ -1589,7 +1608,7 @@
       },
       "bytes": 1048
     },
-    "app/build/chunks/chunk-N6EJH4RW.js": {
+    "app/build/chunks/chunk-UYYGXHS7.js": {
       "imports": [
         {
           "path": "app/build/chunks/chunk-CJSNQPND.js",
@@ -1603,21 +1622,20 @@
         "d",
         "e",
         "f",
-        "g",
-        "h"
+        "g"
       ],
       "inputs": {
         "node_modules/maplibre-gl/dist/maplibre-gl.js": {
           "bytesInOutput": 1044249
         },
         "src/party-names.mjs": {
-          "bytesInOutput": 7497
+          "bytesInOutput": 7300
         },
         "render/src/feature-property-repairs.js": {
           "bytesInOutput": 1438
         }
       },
-      "bytes": 1053526
+      "bytes": 1053321
     },
     "app/build/chunks/chunk-A3OZFCSG.js": {
       "imports": [
