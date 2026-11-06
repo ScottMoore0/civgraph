@@ -2,9 +2,10 @@
 /**
  * npm run records:deploy -- load the local records build into D1 by delta, then verify.
  *
- *   node scripts/records/deploy-records.mjs --local  [--dry-run] [--full] [--resync] [--direct]
- *   node scripts/records/deploy-records.mjs --remote [--dry-run] [--full] [--resync] [--start-part N]
+ *   node scripts/records/deploy-records.mjs --local  [--dry-run] [--full] [--resync] [--direct] [--bounded]
+ *   node scripts/records/deploy-records.mjs --remote [--dry-run] [--full] [--start-part N]
  *                                                                          (approved publish only)
+ *   node scripts/records/deploy-records.mjs --remote --resync --full-verify  (quiet hours only)
  *
  * The database is the one wrangler.toml binds as ELECTIONS_DB (verify-load.mjs D1_NAME).
  *
@@ -19,8 +20,14 @@
  *      (every statement is idempotent, so a part can be re-run). --local --direct applies the
  *      same statements straight to the local D1's SQLite file instead (a full local load of
  *      four million rows through wrangler takes hours; the statements are the same).
- *   6. verify-load through wrangler; on PASS the build becomes the last-loaded snapshot
- *   --resync skips 3-5: verify, and on PASS reset the snapshot.
+ *   6. verify-load through wrangler; on PASS the build becomes the last-loaded snapshot. Remote
+ *      (and local with --bounded) it is the BOUNDED check: only the tables the delta touched, the
+ *      rows it wrote looked up by primary key in batches, small tables counted under a LIMIT, one
+ *      statement per wrangler call with a pause, 7429 retried with backoff (verify-load.mjs). It
+ *      never scans a table of the live database. --full-verify scans every table instead: quiet
+ *      hours only, never from the publish.
+ *   --resync skips 3-5: verify, and on PASS reset the snapshot. Remote it requires --full-verify
+ *      (with no delta there is nothing bounded to check), so it is a quiet-hours step.
  *
  * The R2 variables are removed from wrangler's environment, and its output goes to a file.
  */
@@ -32,7 +39,7 @@ import path from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
 import { buildDelta, estimateWrites, printSummary } from './diff-load.mjs';
 import { REPO_ROOT } from './paths.mjs';
-import { D1_NAME, PERSIST_DIR, WRANGLER, d1Env, verify } from './verify-load.mjs';
+import { D1_NAME, PERSIST_DIR, WRANGLER, boundedPlan, d1Env, verify } from './verify-load.mjs';
 
 const args = process.argv.slice(2);
 const remote = args.includes('--remote');
@@ -41,6 +48,8 @@ const dryRun = args.includes('--dry-run');
 const full = args.includes('--full');
 const resync = args.includes('--resync');
 const direct = args.includes('--direct');
+const fullVerify = args.includes('--full-verify');
+const verifyMode = fullVerify ? 'full' : remote || args.includes('--bounded') ? 'bounded' : 'full';
 // Resume a load that stopped part-way: skip the parts numbered below N. The parts of the same
 // build are the same files each time (the delta is deterministic), and every statement is
 // idempotent, so resuming at the part that failed is the same as rerunning the whole delta.
@@ -131,12 +140,18 @@ async function main() {
     log('time-travel bookmark recorded');
   }
 
+  // The snapshot D1 held before this load: the bounded verify checks the rows between it and
+  // the build. Null for a full load (every table is then sampled).
+  const fromFile = full || !existsSync(LAST) ? null : LAST;
   if (!resync) {
-    const fromFile = full || !existsSync(LAST) ? null : LAST;
     const { result, files } = writeParts(fromFile);
     printSummary(result, `${path.relative(REPO_ROOT, PARTS)} (${files.length} part${files.length === 1 ? '' : 's'})`);
     const { rows, writes } = estimateWrites(result.summary);
     if (dryRun) {
+      if (verifyMode === 'bounded') {
+        const plan = boundedPlan({ file: BUILD, since: fromFile });
+        log(`a real run would verify with ${plan.steps.length} bounded statement(s), one per wrangler call`);
+      }
       console.log(`DRY RUN: civgraph-records would apply ${result.statements} statements (${rows} rows, about ${writes} row writes, ${files.length} part(s), ${result.full ? 'full load' : 'delta'}) to ${remote ? 'remote' : 'local'} D1`);
       return;
     }
@@ -167,7 +182,7 @@ async function main() {
     log(`delta applied (${result.statements} statements)`);
   }
 
-  const mismatches = verify({ file: BUILD, remote });
+  const mismatches = verify({ file: BUILD, remote, mode: verifyMode, since: resync ? null : fromFile });
   if (mismatches.length) {
     for (const m of mismatches) console.error(`  ${m}`);
     throw new Error('verify failed: the last-loaded snapshot is left as it was');
@@ -183,6 +198,10 @@ if (process.argv[1] && path.basename(process.argv[1]) === 'deploy-records.mjs') 
   }
   if (remote && direct) {
     console.error('--direct is local only');
+    process.exit(1);
+  }
+  if (remote && resync && !fullVerify) {
+    console.error('--remote --resync needs --full-verify: it scans every table of the live database, so run it at a quiet time, never from the publish');
     process.exit(1);
   }
   main().catch((error) => {
