@@ -29,9 +29,20 @@
  *
  * Only these six types are routed: _routes.json includes /browse/<type>/* for each, so
  * /browse/, browse.js and browse.css never invoke a Function.
+ *
+ * SERVER-RENDERED BODIES (behind a flag)
+ *
+ * For persons, sources and register-interests the whole page can instead be rendered on
+ * the server from the same D1 row, in the shared shell (functions/_templates/records/).
+ * That happens only when CIVGRAPH_SSR_RECORDS names the type, or for ?ssr=1 when
+ * CIVGRAPH_SSR_PREVIEW is set; with neither, this file behaves exactly as before.
  */
 import { reportError } from './_api/_error.js';
+import { dateText, listText, numberText, slugify } from './_lib/format.js';
+import { datasetVersion, htmlResponse } from './_lib/respond.js';
+import { renderRecordPage, ssrMode } from './_templates/records/index.js';
 
+export { slugify };
 export const SITE_ORIGIN = 'https://civgraph.net';
 const SITE_NAME = 'Civgraph';
 const DESCRIPTION_LIMIT = 300;
@@ -45,40 +56,12 @@ export const BROWSE_PAGE_TYPES = {
   parties: { singular: 'Party / label', detailDir: 'parties' },
 };
 
-/** The same slug rule as browse.js and scripts/build-browse-indexes.mjs. */
-export function slugify(value) {
-  return String(value ?? '')
-    .normalize('NFKD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .replace(/&/g, ' and ')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '') || 'entry';
-}
-
 const htmlEscape = (value) => String(value ?? '')
   .replace(/&/g, '&amp;')
   .replace(/</g, '&lt;')
   .replace(/>/g, '&gt;')
   .replace(/"/g, '&quot;')
   .replace(/'/g, '&#39;');
-
-const numberText = (value) => {
-  const number = Number(value);
-  return Number.isFinite(number) ? new Intl.NumberFormat('en-GB').format(number) : '';
-};
-
-const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
-/** "29 November 2024"; a year or year-month is shown as far as it goes. */
-function dateText(value) {
-  const match = /^(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?/.exec(String(value || ''));
-  if (!match) return String(value || '');
-  const [, year, month, day] = match;
-  if (!month) return year;
-  const monthName = MONTHS[Number(month) - 1] || month;
-  return day ? `${Number(day)} ${monthName} ${year}` : `${monthName} ${year}`;
-}
 
 /** Cut at a word boundary, so a description never ends mid-word. */
 export function clip(text, limit = DESCRIPTION_LIMIT) {
@@ -88,14 +71,6 @@ export function clip(text, limit = DESCRIPTION_LIMIT) {
   const space = cut.lastIndexOf(' ');
   return `${(space > limit * 0.6 ? cut.slice(0, space) : cut).replace(/[\s,;:.-]+$/, '')}…`;
 }
-
-const listText = (values, max = 4) => {
-  const items = [...new Set((values || []).filter(Boolean))];
-  if (!items.length) return '';
-  const shown = items.slice(0, max);
-  const more = items.length - shown.length;
-  return more > 0 ? `${shown.join(', ')} and ${more} more` : shown.join(', ');
-};
 
 function parseJson(text) {
   try {
@@ -260,6 +235,16 @@ async function lookupDetailFile(bucket, dir, slug) {
 }
 
 /**
+ * The whole browse_* record for a D1-backed type (persons, sources, register-interests):
+ * the object, null when it certainly does not exist, undefined when that cannot be told.
+ */
+export async function lookupBrowseTableRecord(env, type, slug) {
+  const table = BROWSE_PAGE_TYPES[type]?.table;
+  if (!table || !slug || !env?.ELECTIONS_DB) return undefined;
+  return lookupTableRecord(env.ELECTIONS_DB, table, slug);
+}
+
+/**
  * @returns {Promise<{title:string, description:string, slug:string}|null|undefined>}
  *   the record's head; null when it certainly does not exist; undefined when that cannot
  *   be told, in which case the page is served with the generic head.
@@ -268,9 +253,8 @@ export async function lookupBrowseRecord(env, type, slug) {
   const config = BROWSE_PAGE_TYPES[type];
   if (!config || !slug) return undefined;
   if (config.table) {
-    if (!env?.ELECTIONS_DB) return undefined;
-    const record = await lookupTableRecord(env.ELECTIONS_DB, config.table, slug);
-    return record ? recordMeta(type, record) : null;
+    const record = await lookupBrowseTableRecord(env, type, slug);
+    return record ? recordMeta(type, record) : record;
   }
   if (type === 'elections') {
     if (!env?.ELECTIONS_DB) return undefined;
@@ -347,17 +331,50 @@ export function browsePageHandler(type) {
     const slug = decodePath(url.pathname.slice(prefix.length)).replace(/\/+$/, '').trim();
     if (!slug) return Response.redirect(`${url.origin}/browse/#/${type}`, 302);
 
+    const { ssr, preview } = ssrMode(context.env, type, url);
     let found;
+    let record;
     try {
-      found = await lookupBrowseRecord(context.env, type, slug);
+      if (ssr) {
+        record = await lookupBrowseTableRecord(context.env, type, slug);
+        found = record ? recordMeta(type, record) : record;
+      } else {
+        found = await lookupBrowseRecord(context.env, type, slug);
+      }
     } catch (error) {
       reportError(context.env, `browse-page:${type}`, error);
       found = undefined;
+      record = undefined;
     }
 
     // One URL per record: a person reached by number, an election by its key.
     if (found && found.slug && found.slug !== slug && found.slug.toLowerCase() !== slug.toLowerCase()) {
       return Response.redirect(`${url.origin}/browse/${type}/${encodeURIComponent(found.slug)}${url.search}`, 301);
+    }
+
+    // The server-rendered page, when the flag asks for it and the record was found. A miss
+    // or an outage falls through to the Browse shell below, as without the flag.
+    if (ssr && record && found) {
+      let body = null;
+      try {
+        body = renderRecordPage({
+          type,
+          record,
+          meta: found,
+          pageTitle: pageTitle(type, found.title),
+          canonical: canonicalUrl(type, found.slug),
+          preview,
+        });
+      } catch (error) {
+        // A record the template cannot render still gets the Browse shell with its head.
+        reportError(context.env, `browse-page-ssr:${type}`, error);
+      }
+      if (body !== null) {
+        return htmlResponse(context.request, body, {
+          cacheControl: preview ? 'private, no-store' : 'public, max-age=300',
+          datasetVersion: await datasetVersion(context.env.ELECTIONS_DB),
+        });
+      }
     }
 
     const shell = await fetchShell(context, url);
