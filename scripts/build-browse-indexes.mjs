@@ -179,6 +179,7 @@ function main() {
   }
   elections = [...parentElections, ...electionResultEntries];
   applyGazetteElectionExtras(parentElections, electionResultEntries);
+  applyRoundCompleteness(parentElections, electionResultEntries);
   const featureGroups = buildFeatureGroups(spatialIndex, maps, parentElections);
   const { parties, partyDetails, partyNames, folds: partyFolds } = buildParties(partyIds, electionDetails);
   reportPartyLabelFolds(partyFolds);
@@ -864,6 +865,29 @@ function applyGazetteElectionExtras(parents, contests) {
   }
   const missing = [...Object.keys(electionExtras), ...Object.keys(contestExtras)].filter((key) => !seen.has(key));
   if (missing.length) console.warn(`Gazette election extras with no Browse record: ${missing.join(', ')}`);
+}
+
+/**
+ * Northern Ireland council rounds 1921-67 that hold only some of the council's divisions or
+ * wards (data/elections/round-completeness.json): the election page and each of its results
+ * carry the round's one line, "Results for 3 of 22 district electoral divisions. ...", so a
+ * partial round is not read as the whole result. The map panel shows the same line.
+ */
+function applyRoundCompleteness(parents, contests) {
+  const rounds = readJson('data/elections/round-completeness.json', { rounds: {} }).rounds || {};
+  const seen = new Set();
+  for (const parent of parents) {
+    const text = rounds[parent.key]?.text;
+    if (!text) continue;
+    seen.add(parent.key);
+    parent.completenessNote = text;
+  }
+  for (const contest of contests) {
+    const text = rounds[contest.parentElectionKey]?.text;
+    if (text) contest.completenessNote = text;
+  }
+  const missing = Object.keys(rounds).filter((key) => !seen.has(key));
+  if (missing.length) console.warn(`Round completeness lines with no Browse election: ${missing.join(', ')}`);
 }
 
 function isNorthernIrelandForumRegionalList(detail, resultName) {
