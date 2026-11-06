@@ -27,6 +27,7 @@ import { initPrintedLabels, printedLabelsToggleHtml, printedLabelText } from '..
 import { buildTrendChartModel, mountTrendChart } from '../../src/election-trend-chart.mjs';
 import { formatDisplayDate } from '../../src/date-format.mjs';
 import {
+  LOCAL_GROUP_BODIES,
   buildNiLocalGroupEntry,
   groupNiLocalRounds,
   isNiLocalCouncilRound
@@ -5167,7 +5168,10 @@ export class Test2ElectionManager {
   updateElectionTimeline() {
     if (!this.activeEntry || !this.catalogue?.elections) return;
     const all = this.catalogue.elections
-      .filter((entry) => (entry.loadable || entry.resultsOnly) && entry.body === this.activeEntry.body)
+      // The council years run as one series, the island's (before 1921) into Northern Ireland's.
+      .filter((entry) => (entry.loadable || entry.resultsOnly) && (this.activeEntry.niLocalGroup
+        ? Boolean(entry.niLocalGroup)
+        : entry.body === this.activeEntry.body))
       .sort((a, b) => String(a.date).localeCompare(String(b.date)));
     // By-elections far outnumber general elections (879 to 206 across the catalogue), so a
     // body's slider is mostly by-election stops. The filter steps through the rest; the open
@@ -5197,7 +5201,15 @@ export class Test2ElectionManager {
   }
 
   findEntry(body, date) {
-    return (this.catalogue?.elections || []).find((entry) => entry.body === body && entry.date === date) || null;
+    const elections = this.catalogue?.elections || [];
+    const found = elections.find((entry) => entry.body === body && entry.date === date);
+    if (found) return found;
+    // A council year's earlier name: before 1921 the year is "Irish local elections", which an
+    // address may still call "Northern Ireland local elections".
+    if (LOCAL_GROUP_BODIES.includes(body) && /^\d{4}$/.test(String(date || ''))) {
+      return elections.find((entry) => entry.niLocalGroup && entry.date === String(date)) || null;
+    }
+    return null;
   }
 
   getCanonicalLayerId(entry = this.activeEntry) {
@@ -5207,7 +5219,11 @@ export class Test2ElectionManager {
 
   findEntryByCanonicalLayerId(layerId) {
     if (!layerId) return null;
-    return (this.catalogue?.elections || []).find((entry) => this.getCanonicalLayerId(entry) === layerId) || null;
+    const found = (this.catalogue?.elections || []).find((entry) => this.getCanonicalLayerId(entry) === layerId);
+    if (found) return found;
+    // election-northern-ireland-local-elections-1911: a pre-1921 year by its earlier name.
+    const year = String(layerId).match(/^election-northern-ireland-local-elections-(\d{4})$/)?.[1];
+    return year ? this.findEntry(LOCAL_GROUP_BODIES[1], year) : null;
   }
 
   isCanonicalElectionLayerId(layerId) {

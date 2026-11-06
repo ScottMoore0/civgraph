@@ -59,7 +59,9 @@ export const LEVEL_EDITIONS = Object.freeze({
   ced: { before1921: ['county-ed-1911'], after1921: ['county-ed-1924-06-20'] },
   towns: { all: ['tia-towns-ni-1921-05-03', 'tia-towns-ni-1925-04-01', 'tia-towns-ni-1927-04-01', 'tia-towns-ni-1934-08-01', 'tia-towns-ni-1937-04-01', 'tia-towns-ni-1959-05-29'] },
   districts: { before1921: ['rural-urban-districts-1901', 'rural-urban-districts-1911'], after1921: ['admin-areas-1930-04-01', 'admin-areas-1966-07-04'] },
-  counties: { all: ['counties-county-boroughs-1915'] }
+  // Before 1921 the island's administrative counties and county boroughs of 1899; after, Northern
+  // Ireland's six counties and two county boroughs.
+  counties: { before1921: ['administrative-counties-1899'], after1921: ['counties-county-boroughs-1915'] }
 });
 
 // Counties of the councils the intake's authority list leaves out (the County Armagh pilot).
@@ -245,7 +247,13 @@ function main() {
   const authorities = status.authorities || {};
   const countyOf = (slug) => {
     const base = String(slug).replace(/-aldermen$/, '');
-    return authorities[slug]?.county || authorities[base]?.county || COUNTY_FALLBACK[base] || null;
+    const known = authorities[slug]?.county || authorities[base]?.county || COUNTY_FALLBACK[base];
+    if (known) return known;
+    // A county council anywhere on the island (before 1921): its county is its name.
+    if (councilTier(base) === 'county-council') {
+      return authorityStem(base).replace(/\b[a-z]/g, (c) => c.toUpperCase());
+    }
+    return null;
   };
   const statusByYear = new Map();
   for (const row of status.rounds || []) {

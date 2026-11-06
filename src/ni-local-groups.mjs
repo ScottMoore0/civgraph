@@ -9,6 +9,11 @@
  * (rural and urban districts, boroughs, county boroughs) and the counties (county councils and the
  * county boroughs). Each council's round keeps its own key and address; the year's entry lists them.
  *
+ * Before partition (years before 1921) the year is the whole island's: "1911 Irish local
+ * elections", keyed `ireland-local__1911`, holding every council round of that year in Ireland
+ * (owner's ruling, 7 Nov 2026). The Republic's own local elections (bodySlug ireland-local, keyed
+ * ireland-local__YYYY-MM-DD, from 1974) are a different body and keep their entries.
+ *
  * Shared by the map app (app/src), the catalogue and Browse builders and the tests, so the three
  * cannot disagree about which elections a year holds. No DOM, no Node APIs.
  */
@@ -16,8 +21,66 @@
 export const NI_LOCAL_GROUP_PREFIX = 'ni-local__';
 export const NI_LOCAL_GROUP_BODY = 'Northern Ireland local elections';
 export const NI_LOCAL_GROUP_BODY_SLUG = 'ni-local-elections';
+/** Before partition: the island's council elections of the year. */
+export const IRELAND_LOCAL_GROUP_PREFIX = 'ireland-local__';
+export const IRELAND_LOCAL_GROUP_BODY = 'Irish local elections';
+export const IRELAND_LOCAL_GROUP_BODY_SLUG = 'irish-local-elections';
+/** The first year titled for Northern Ireland (partition, 3 May 1921). */
+export const NI_LOCAL_FIRST_YEAR = 1921;
 /** The 1973 councils (the 26 districts) are elected under the 1972 Act and listed as before. */
 export const NI_LOCAL_GROUP_BEFORE = '1973-01-01';
+
+/**
+ * The Northern Ireland councils of 1921-72 (their slugs; an aldermanic poll is its council's).
+ * From 1921 only these are grouped, so a Free State council's round could never be filed as a
+ * Northern Ireland local election. tests/elections/ni-local-grouped.test.mjs fails if a council
+ * round of 1921-72 is added under a slug missing here.
+ */
+export const NI_COUNCIL_SLUGS = new Set([
+  'aghalee-rural-district-council', 'antrim-county-council', 'antrim-rural-district-council', 'antrim-town-commissioners',
+  'armagh-county-council', 'armagh-rural-district-council', 'armagh-urban-district-council', 'aughnacloy-town-commissioners',
+  'ballycastle-rural-district-council', 'ballycastle-urban-district-council', 'ballyclare-urban-district-council',
+  'ballymena-borough-council', 'ballymena-rural-district-council', 'ballymoney-rural-district-council',
+  'ballymoney-urban-district-council', 'banbridge-rural-district-council', 'banbridge-urban-district-council',
+  'bangor-borough-council', 'belfast-county-borough-council', 'belfast-rural-district-council', 'belleek-rural-district-council',
+  'carrickfergus-borough-council', 'castleblayney-no-2-rural-district-council', 'castlederg-rural-district-council',
+  'castlereagh-rural-district-council', 'clogher-rural-district-council', 'clones-no-2-rural-district-council',
+  'coleraine-borough-council', 'coleraine-rural-district-council', 'cookstown-rural-district-council',
+  'cookstown-urban-district-council', 'craigavon-urban-district-council', 'donaghadee-urban-district-council',
+  'down-county-council', 'downpatrick-urban-district-council', 'dromore-urban-district-council',
+  'dungannon-rural-district-council', 'dungannon-urban-district-council', 'east-down-rural-district-council',
+  'enniskillen-borough-council', 'enniskillen-rural-district-council', 'fermanagh-county-council', 'gilford-town-commissioners',
+  'hillsborough-rural-district-council', 'holywood-urban-district-council', 'irvinestown-rural-district-council',
+  'keady-urban-district-council', 'kilkeel-urban-district-council', 'larne-borough-council', 'larne-rural-district-council',
+  'limavady-rural-district-council', 'limavady-urban-district-council', 'lisburn-borough-council', 'lisburn-rural-district-council',
+  'lisnaskea-rural-district-council', 'londonderry-county-borough-council', 'londonderry-county-council',
+  'londonderry-rural-district-council', 'londonderry-urban-district-council', 'lurgan-borough-council',
+  'lurgan-rural-district-council', 'magherafelt-rural-district-council', 'moira-rural-district-council',
+  'newcastle-urban-district-council', 'newry-no-1-rural-district-council', 'newry-no-2-rural-district-council',
+  'newry-urban-district-council', 'newtownabbey-urban-district-council', 'newtownards-borough-council',
+  'north-down-rural-district-council', 'omagh-rural-district-council', 'omagh-urban-district-council',
+  'portadown-borough-council', 'portrush-urban-district-council', 'portstewart-urban-district-council',
+  'south-down-rural-district-council', 'strabane-rural-district-council', 'strabane-urban-district-council',
+  'tandragee-rural-district-council', 'tandragee-urban-district-council', 'trillick-rural-district-council',
+  'tyrone-county-council', 'warrenpoint-urban-district-council', 'whitehead-urban-district-council'
+]);
+
+/** Whether a year is grouped as the whole island's (before 1921) rather than Northern Ireland's. */
+export function isIrelandLocalYear(year) {
+  return Number(String(year).slice(0, 4)) < NI_LOCAL_FIRST_YEAR;
+}
+
+/** The year entry's body: "Irish local elections" before 1921, "Northern Ireland local elections" after. */
+export function localGroupBody(year) {
+  return isIrelandLocalYear(year) ? IRELAND_LOCAL_GROUP_BODY : NI_LOCAL_GROUP_BODY;
+}
+
+export function localGroupBodySlug(year) {
+  return isIrelandLocalYear(year) ? IRELAND_LOCAL_GROUP_BODY_SLUG : NI_LOCAL_GROUP_BODY_SLUG;
+}
+
+/** Both year-entry bodies: the map's timeline runs through them as one series. */
+export const LOCAL_GROUP_BODIES = Object.freeze([IRELAND_LOCAL_GROUP_BODY, NI_LOCAL_GROUP_BODY]);
 
 /** The levels, in the order the control shows them. */
 export const NI_LOCAL_LEVELS = Object.freeze([
@@ -61,7 +124,12 @@ export function isAldermanicContest(bodySlug, seatType = '') {
   return isAldermanicBody(bodySlug) || /^alderm[ae]n$/i.test(String(seatType || '').trim());
 }
 
-/** Whether a catalogue entry is a pre-1973 Northern Ireland council round that the year groups. */
+/**
+ * Whether a catalogue entry is a council round that a year groups: any council round on the
+ * island before 1921, a Northern Ireland one from 1921 to 1972. (The rounds held are all of the
+ * Local Government (Ireland) Act 1898's councils; the Republic's local elections, bodySlug
+ * ireland-local, are not grouped.)
+ */
 export function isNiLocalCouncilRound(entry = {}) {
   if (!entry || typeof entry !== 'object') return false;
   if (entry.niLocalGroup) return false;
@@ -70,24 +138,39 @@ export function isNiLocalCouncilRound(entry = {}) {
   if (entry.bodyGroup === 'local-government') return false;
   const slug = String(entry.bodySlug || '');
   if (!slug || slug.startsWith('ireland-')) return false;
-  return councilTier(slug) !== null;
+  if (councilTier(slug) === null) return false;
+  // From 1921, Northern Ireland's councils only.
+  return isIrelandLocalYear(date) || NI_COUNCIL_SLUGS.has(slug.replace(/-aldermen$/, ''));
 }
 
+/** `ireland-local__1911` before 1921, `ni-local__1946` from 1921. */
 export function niLocalGroupKey(year) {
-  return `${NI_LOCAL_GROUP_PREFIX}${String(year).slice(0, 4)}`;
+  const y = String(year).slice(0, 4);
+  return `${isIrelandLocalYear(y) ? IRELAND_LOCAL_GROUP_PREFIX : NI_LOCAL_GROUP_PREFIX}${y}`;
 }
 
+/** A year entry's key (either form). The Republic's ireland-local__YYYY-MM-DD keys are not. */
 export function isNiLocalGroupKey(key) {
-  return /^ni-local__\d{4}$/.test(String(key || ''));
+  return /^(ni-local|ireland-local)__\d{4}$/.test(String(key || ''));
 }
 
 export function niLocalGroupYear(key) {
-  const match = String(key || '').match(/^ni-local__(\d{4})$/);
+  const match = String(key || '').match(/^(?:ni-local|ireland-local)__(\d{4})$/);
   return match ? Number(match[1]) : null;
 }
 
+/**
+ * The key a year entry has now, given any it has had: a pre-1921 year briefly keyed
+ * ni-local__YYYY (on the ni-local-grouped branch, never published) is ireland-local__YYYY.
+ */
+export function currentNiLocalGroupKey(key) {
+  const year = niLocalGroupYear(key);
+  return year === null ? null : niLocalGroupKey(year);
+}
+
 export function niLocalGroupTitle(year) {
-  return `${String(year).slice(0, 4)} Northern Ireland local elections`;
+  const y = String(year).slice(0, 4);
+  return `${y} ${isIrelandLocalYear(y) ? 'Irish' : 'Northern Ireland'} local elections`;
 }
 
 /** Rounds by year: Map(year -> rounds sorted by date then body). */
@@ -115,8 +198,8 @@ export function buildNiLocalGroupEntry(year, rounds = []) {
   const aldermanic = rounds.some((round) => isAldermanicBody(round.bodySlug));
   return {
     key: niLocalGroupKey(year),
-    body: NI_LOCAL_GROUP_BODY,
-    bodySlug: NI_LOCAL_GROUP_BODY_SLUG,
+    body: localGroupBody(year),
+    bodySlug: localGroupBodySlug(year),
     date: String(year),
     firstDate: dates[0] || '',
     lastDate: dates[dates.length - 1] || '',
@@ -127,7 +210,9 @@ export function buildNiLocalGroupEntry(year, rounds = []) {
     isByElection: false,
     contestType: 'election',
     displayTitle: niLocalGroupTitle(year),
-    displayProvider: NI_LOCAL_GROUP_BODY,
+    displayProvider: localGroupBody(year),
+    // The island's year carries the key it briefly had (old links resolve to it).
+    ...(isIrelandLocalYear(year) ? { previousKeys: [`${NI_LOCAL_GROUP_PREFIX}${String(year).slice(0, 4)}`] } : {}),
     displaySubtitle: `${councils.length} council${councils.length === 1 ? '' : 's'}${aldermanic ? ', with aldermen' : ''}`,
     roundKeys: rounds.map((round) => round.key),
     councilCount: councils.length,

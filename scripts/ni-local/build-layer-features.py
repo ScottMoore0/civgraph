@@ -4,7 +4,8 @@
 
 Writes data/elections/ni-local/layer-features.json: for each boundary layer, every Northern
 Ireland feature's label (the value of the layer's label property, exactly as the tiles carry it),
-its county, and the district it lies in. The district comes from the layer itself where it has
+its county, and the district it lies in. The pre-1921 layers keep all their features, the
+island's (or Ulster's) and not only Northern Ireland's, for the "Irish local elections" years. The district comes from the layer itself where it has
 one (the Ulster DED sets and the 1901/1911 districts), and otherwise from the complete 1930
 administrative-areas edition by largest overlap, so a DED with no result can be told apart: in a
 district that polled that year (hatched, result missing) or in one that did not (left plain).
@@ -25,18 +26,22 @@ NI_COUNTIES = {'ANTRIM', 'ARMAGH', 'DOWN', 'FERMANAGH', 'LONDONDERRY', 'TYRONE'}
 LAYERS = {
     'ded-1921-05-03': {'label': 'ED_NAME', 'county': 'COUNTY', 'districtFrom': 'admin-areas-1930-04-01', 'keyProps': ['ED_NAME', 'COUNTY']},
     'ded-1930-04-01': {'label': 'ED_NAME', 'county': 'COUNTY', 'districtFrom': 'admin-areas-1930-04-01', 'keyProps': ['ED_NAME', 'COUNTY']},
-    'eds-ulster-1911': {'label': 'name', 'county': 'county', 'district': 'district'},
-    'eds-ulster-1912': {'label': 'ENGLISH', 'county': None, 'districtFrom': 'rural-urban-districts-1911'},
-    'eds-ulster-1913': {'label': 'ENGLISH', 'county': None, 'districtFrom': 'rural-urban-districts-1911'},
-    'eds-ulster-1914': {'label': 'ENGLISH', 'county': None, 'districtFrom': 'rural-urban-districts-1911'},
-    'eds-ulster-1915': {'label': 'ENGLISH', 'county': None, 'districtFrom': 'rural-urban-districts-1911'},
-    'eds-ulster-1916': {'label': 'ENGLISH', 'county': None, 'districtFrom': 'rural-urban-districts-1911'},
-    'county-ed-1911': {'label': 'ED_NAME', 'county': 'COUNTY'},
+    # Before 1921 the grouped years are the whole island's ("1911 Irish local elections"): these
+    # layers keep every feature they have (island: True), not only Northern Ireland's. The DED
+    # sets of 1911-16 cover Ulster only.
+    'eds-ulster-1911': {'label': 'name', 'county': 'county', 'district': 'district', 'island': True, 'keyProps': ['name', 'county']},
+    'eds-ulster-1912': {'label': 'ENGLISH', 'county': 'COUNTY', 'districtFrom': 'rural-urban-districts-1911', 'island': True, 'keyProps': ['ENGLISH', 'COUNTY']},
+    'eds-ulster-1913': {'label': 'ENGLISH', 'county': 'COUNTY', 'districtFrom': 'rural-urban-districts-1911', 'island': True, 'keyProps': ['ENGLISH', 'COUNTY']},
+    'eds-ulster-1914': {'label': 'ENGLISH', 'county': 'COUNTY', 'districtFrom': 'rural-urban-districts-1911', 'island': True, 'keyProps': ['ENGLISH', 'COUNTY']},
+    'eds-ulster-1915': {'label': 'ENGLISH', 'county': 'COUNTY', 'districtFrom': 'rural-urban-districts-1911', 'island': True, 'keyProps': ['ENGLISH', 'COUNTY']},
+    'eds-ulster-1916': {'label': 'ENGLISH', 'county': 'COUNTY', 'districtFrom': 'rural-urban-districts-1911', 'island': True, 'keyProps': ['ENGLISH', 'COUNTY']},
+    'county-ed-1911': {'label': 'ED_NAME', 'county': 'COUNTY', 'island': True, 'keyProps': ['ED_NAME', 'COUNTY']},
     'county-ed-1924-06-20': {'label': 'CED', 'county': 'COUNTY'},
     'admin-areas-1930-04-01': {'label': 'AdministrativeArea', 'county': None},
     'admin-areas-1966-07-04': {'label': 'FullName', 'county': 'CountyName'},
-    'rural-urban-districts-1901': {'label': 'name', 'county': 'county'},
-    'rural-urban-districts-1911': {'label': 'name', 'county': 'county'},
+    'rural-urban-districts-1901': {'label': 'name', 'county': 'county', 'island': True},
+    'rural-urban-districts-1911': {'label': 'name', 'county': 'county', 'island': True},
+    'administrative-counties-1899': {'label': 'name', 'county': 'name', 'island': True},
     'counties-county-boroughs-1915': {'label': 'CountyName', 'county': 'CountyName'},
     'tia-towns-ni-1921-05-03': {'label': 'town', 'county': 'county', 'district': 'rural_district'},
     'tia-towns-ni-1925-04-01': {'label': 'town', 'county': 'county', 'district': 'rural_district'},
@@ -47,7 +52,7 @@ LAYERS = {
 }
 
 
-def county_of(value):
+def county_of(value, island=False):
     text = str(value or '').upper()
     text = re.sub(r'^(ADMINISTRATIVE COUNTY OF|COUNTY BOROUGH OF|COUNTY OF|CO\.?)\s+', '', text).strip()
     for name in NI_COUNTIES:
@@ -55,6 +60,9 @@ def county_of(value):
             return name.title()
     if 'BELFAST' in text:
         return 'Antrim'
+    if island and text and text != 'NAN':
+        # Any county of the island, as the layer spells it ("Tipperary South Riding", "Cork").
+        return re.sub(r"\b([A-Z])([A-Z']*)", lambda m: m.group(1) + m.group(2).lower(), text)
     return None
 
 
@@ -99,7 +107,7 @@ def main():
             label = clean(row.get(spec['label']))
             if not label:
                 continue
-            county = county_of(row.get(spec['county'])) if spec.get('county') else None
+            county = county_of(row.get(spec['county']), spec.get('island', False)) if spec.get('county') else None
             district = clean(row.get(district_col)) if district_col else (clean(districts.get(idx)) if districts is not None else '')
             if county is None and district and districts is not None:
                 pass
@@ -112,12 +120,12 @@ def main():
                 item['county'] = county
             if district:
                 item['district'] = district
-            if source.startswith('rural-urban-districts') or source.startswith('admin-areas-1966'):
+            if source.startswith('rural-urban-districts') or source.startswith('admin-areas-1966') or source == 'administrative-counties-1899':
                 kind = clean(row.get('type') or row.get('Type'))
                 if kind:
                     item['type'] = kind
             features.append(item)
-        if spec.get('county') is None and districts is not None:
+        if spec.get('county') is None and districts is not None and not spec.get('island'):
             # eds-ulster-1912..1916 carry no county: keep the features in a Northern Ireland district.
             ni_districts = set()
             ref = read(spec['districtFrom'])

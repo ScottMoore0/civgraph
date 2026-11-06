@@ -9,7 +9,7 @@ import { buildPartyVocabulary, classifyPersonName, stripWikipediaQualifier, NOT_
 import { referenceOffices, referenceRelatives } from './lib/reference-person-facts.mjs';
 import { browsePartySlugResolver, formatSpan, indexFactsModel, loadFactsModel } from './lib/facts-model.mjs';
 import { CDN_BASE } from '../src/cdn-url.js';
-import { buildNiLocalGroupEntry, groupNiLocalRounds, isNiLocalCouncilRound, niLocalGroupKey } from '../src/ni-local-groups.mjs';
+import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLocalCouncilRound, niLocalGroupKey } from '../src/ni-local-groups.mjs';
 
 const ROOT = process.cwd();
 
@@ -692,6 +692,8 @@ function buildNiLocalGroupRecords(parentElections) {
       id: group.key,
       key: group.key,
       slug: slugify(group.key),
+      // A pre-1921 year was briefly ni-local-YYYY (never published): that address still finds it.
+      previousSlugs: (group.previousKeys || []).flatMap((key) => [slugify(key), key]),
       type: 'election',
       entryKind: 'election',
       title: group.displayTitle,
@@ -701,10 +703,10 @@ function buildNiLocalGroupRecords(parentElections) {
       year: Number(year),
       decade: `${Math.floor(Number(year) / 10) * 10}s`,
       subtitle: group.displaySubtitle,
-      description: `The council elections held in Northern Ireland in ${year}: ${group.councilCount} council${group.councilCount === 1 ? '' : 's'}${group.hasAldermen ? ' and their aldermanic polls' : ''}. Open it on the map to see the results by ward and DED, county electoral division, town, district or county.`,
+      description: `The council elections held ${isIrelandLocalYear(year) ? 'in Ireland' : 'in Northern Ireland'} in ${year} for which Civgraph holds results: ${group.councilCount} council${group.councilCount === 1 ? '' : 's'}${group.hasAldermen ? ' and their aldermanic polls' : ''}. Open it on the map to see the results by ward and DED, county electoral division, town, district or county.`,
       provider: group.body,
       category: 'Elections',
-      geography: 'Northern Ireland',
+      geography: isIrelandLocalYear(year) ? 'Ireland' : 'Northern Ireland',
       contestType: 'election',
       kind: 'general',
       // Searched: a council's name finds its year.
@@ -3297,6 +3299,7 @@ function writeElectionListIndex(entries) {
       unmatchedCount: entry.unmatchedCount,
       thumb,
       interactiveUrl: entry.interactiveUrl,
+      previousSlugs: entry.previousSlugs?.length ? entry.previousSlugs : undefined,
       grp
     });
   });

@@ -62,6 +62,9 @@ test('the year list replaces the pre-1973 council rounds', async ({ page }) => {
   });
   expect(cards.groups).toContain('ni-local__1946');
   expect(cards.groups).toContain('ni-local__1924');
+  // Before 1921 the island's year, "Irish local elections".
+  expect(cards.groups).toContain('ireland-local__1911');
+  expect(cards.groups).not.toContain('ni-local__1911');
   expect(cards.councilRounds).toBe(0);
   expect(cards.later).toBeGreaterThan(0);
 });
@@ -159,6 +162,28 @@ test('the address restores the year, level, mode and members; old round addresse
   await bootApp(page, `#electionBody=${encodeURIComponent(round.body)}&electionDate=${round.date}`);
   await page.waitForFunction((key) => window.__civgraphTest2.elections?.activeEntry?.key === key, round.key, { timeout: 60000 });
   expect(await page.evaluate(() => Boolean(window.__civgraphTest2.elections.niLocal?.active))).toBe(false);
+});
+
+test('a pre-1921 year is the island\'s "Irish local elections", and its earlier address still opens it', async ({ page }) => {
+  test.setTimeout(120000);
+  await bootApp(page, `#electionBody=${encodeURIComponent(YEAR_BODY)}&electionDate=1911&electionLevel=districts`);
+  await page.waitForFunction(() => window.__civgraphTest2.elections?.niLocal?.active === true, null, { timeout: 60000 });
+  const state = await viewState(page);
+  expect(state.key).toBe('ireland-local__1911');
+  await expect(page.locator('#electionPaneTitle')).toHaveText('1911 Irish local elections');
+  expect(state.hash.replace(/\+/g, ' ')).toContain('electionBody=Irish local elections');
+  // The timeline runs on from the island's years into Northern Ireland's.
+  const stops = await page.evaluate(() => {
+    const elections = window.__civgraphTest2.elections;
+    return elections.catalogue.elections.filter((e) => e.niLocalGroup).map((e) => e.key);
+  });
+  expect(stops).toContain('ireland-local__1911');
+  expect(stops).toContain('ni-local__1924');
+  await page.evaluate(async () => {
+    const elections = window.__civgraphTest2.elections;
+    await elections.loadElection('Northern Ireland local elections', '1924', { keepView: true });
+  });
+  expect((await viewState(page)).key).toBe('ni-local__1924');
 });
 
 test('at phone width the view menu folds and nothing overflows', async ({ page }) => {
