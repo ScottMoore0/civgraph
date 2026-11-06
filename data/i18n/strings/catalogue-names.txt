@@ -1,0 +1,300 @@
+# Catalogue structure: shelves, subjects, series and election bodies, as named in
+# data/catalogue/catalogue.source.json and emitted by scripts/catalogue/build-catalogue.mjs.
+# scripts/i18n/build-i18n.mjs is keyed by the English; scripts/i18n/report-coverage.mjs lists
+# catalogue names that have no line here. ALL DRAFTS (data/i18n/README.md).
+# Proper names of organisations and products (Tellus, OSNI, PSNI, TII, WiFi4EU) are kept.
+
+# Shelves
+Historic Geographies ¦ Tíreolaíochtaí Stairiúla ¦
+The territorial fabric: the units Ireland has been divided into, from the townland up. ¦ An fabraic chríochach: na haonaid ina bhfuil Éire roinnte, ón mbaile fearainn aníos. ¦
+Government & Administration ¦ Rialtas agus Riarachán ¦
+Who administers what, and the areas they administer it over. ¦ Cé a riarann cad é, agus na limistéir ina riarann siad é. ¦
+Elections & Representation ¦ Toghcháin agus Ionadaíocht ¦
+The geography of voting: the areas, where the vote happens, and how it came out. ¦ Tíreolaíocht na vótála: na limistéir, an áit a gcaitear an vóta, agus an toradh a bhí air. ¦
+People & Places ¦ Daoine agus Áiteanna ¦ Fowk & Places
+Where people are, what the places are called, and how they are counted. ¦ Cá bhfuil na daoine, cad is ainm do na háiteanna, agus conas a áirítear iad. ¦
+Planning & Property ¦ Pleanáil agus Maoin ¦
+What is proposed, permitted and owned. ¦ Cad a mholtar, a cheadaítear agus atá faoi úinéireacht. ¦
+Transport ¦ Iompar ¦
+Getting about, by every mode. ¦ Taisteal ó áit go háit, ar gach modh. ¦
+Heritage & Culture ¦ Oidhreacht agus Cultúr ¦
+What was built, what was left behind, and where culture happens. ¦ Cad a tógadh, cad a fágadh inár ndiaidh, agus cá dtarlaíonn an cultúr. ¦
+Local Services & Amenities ¦ Seirbhísí agus Áiseanna Áitiúla ¦
+What a council provides and where you go to use it. ¦ Cad a sholáthraíonn comhairle agus cá dtéann tú chun é a úsáid. ¦
+Water ¦ Uisce ¦
+Fresh and salt: where it is, how clean it is, and where it goes when it rises. ¦ Fionnuisce agus sáile: cá bhfuil sé, cé chomh glan is atá sé, agus cá dtéann sé nuair a ardaíonn sé. ¦
+Environment & Land Use ¦ Comhshaol agus Úsáid Talún ¦
+The living surface, how it is used, and what is done to it. ¦ An dromchla beo, conas a úsáidtear é, agus cad a dhéantar dó. ¦
+Earth & Terrain ¦ An Talamh agus an Tír-raon ¦
+What is under the ground and the shape of what is on top of it. ¦ Cad atá faoin talamh agus cruth an ruda atá ar a bharr. ¦
+
+# Subjects
+Townlands ¦ Bailte Fearainn ¦
+Civil Parishes & Baronies ¦ Paróistí Sibhialta agus Barúntachtaí ¦
+Counties & Provinces ¦ Contaetha agus Cúigí ¦
+Ecclesiastical Areas ¦ Limistéir Eaglasta ¦
+Census & Statistical Geographies ¦ Tíreolaíochtaí Daonáirimh agus Staitistiúla ¦
+Census & Statistical Areas ¦ Limistéir Daonáirimh agus Staitistiúla ¦
+Settlements & Urban Areas ¦ Lonnaíochtaí agus Limistéir Uirbeacha ¦
+Place & Street Names ¦ Logainmneacha agus Ainmneacha Sráide ¦
+Development Plans & Zoning ¦ Pleananna Forbartha agus Criosú ¦
+Planning Applications & Registers ¦ Iarratais Phleanála agus Cláir ¦
+Housing & Regeneration ¦ Tithíocht agus Athghiniúint ¦
+Property, Land & Buildings ¦ Maoin, Talamh agus Foirgnimh ¦
+Roads & Traffic ¦ Bóithre agus Trácht ¦
+Cycling & Walking ¦ Rothaíocht agus Siúl ¦
+Rail & Public Transport ¦ Iarnród agus Iompar Poiblí ¦
+Air & Sea Transport ¦ Iompar Aeir agus Farraige ¦
+Parking ¦ Páirceáil ¦
+Built Heritage & Protected Structures ¦ Oidhreacht Thógtha agus Struchtúir Chosanta ¦
+Archaeology & Monuments ¦ Seandálaíocht agus Séadchomharthaí ¦
+Culture & the Arts ¦ Cultúr agus na hEalaíona ¦
+Historic & Printed Maps ¦ Léarscáileanna Stairiúla agus Clóite ¦
+Municipal Services & Utilities ¦ Seirbhísí Cathrach agus Fóntais ¦
+Parks & Open Space ¦ Páirceanna agus Spás Oscailte ¦
+Sport & Recreation ¦ Spórt agus Caitheamh Aimsire ¦
+Community, Education & Civic Facilities ¦ Áiseanna Pobail, Oideachais agus Cathartha ¦
+Emergency Services ¦ Seirbhísí Éigeandála ¦
+Enterprise & Economy ¦ Fiontraíocht agus Geilleagar ¦
+Water Quality & Monitoring ¦ Cáilíocht Uisce agus Monatóireacht ¦
+Rivers, Lakes & Catchments ¦ Aibhneacha, Lochanna agus Dobharcheantair ¦
+Flooding & Coastal Risk ¦ Tuilte agus Riosca Cósta ¦
+Coasts, Seas & Islands ¦ Cóstaí, Farraigí agus Oileáin ¦
+Nature, Habitats & Designated Sites ¦ Dúlra, Gnáthóga agus Láithreáin Ainmnithe ¦
+Trees, Hedgerows & Woodland ¦ Crainn, Fálta Sceach agus Coillearnach ¦
+Landscape & Scenic Amenity ¦ Tírdhreach agus Taitneamhacht Radhairc ¦
+Land Cover & Land Use ¦ Clúdach Talún agus Úsáid Talún ¦
+Agriculture & Land Management ¦ Talmhaíocht agus Bainistíocht Talún ¦
+Energy & Climate ¦ Fuinneamh agus Aeráid ¦
+Noise & Air Quality ¦ Torann agus Cáilíocht Aeir ¦
+Geology & Soils ¦ Geolaíocht agus Ithreacha ¦
+Geophysics & Geochemical Survey ¦ Suirbhé Geoifisice agus Geoceimiceach ¦
+Hills & Uplands ¦ Cnoic agus Ardtailte ¦
+Aerial Imagery & Elevation ¦ Íomhánna Aeir agus Airde ¦
+Regional Divides and Peacelines ¦ Deighiltí Réigiúnacha agus Línte Síochána ¦
+Census Statistics ¦ Staitisticí Daonáirimh ¦
+
+# Series
+Administrative Areas ¦ Limistéir Riaracháin ¦
+Administrative Counties ¦ Contaetha Riaracháin ¦
+Rural and Urban Districts ¦ Ceantair Thuaithe agus Uirbeacha ¦
+Poor Law Unions ¦ Aontais Dhlí na mBocht ¦
+Dispensary Districts ¦ Ceantair Íoclainne ¦
+Superintendent Registrars' Districts ¦ Ceantair Ard-Chláraitheoirí ¦
+Habitat Network ¦ Líonra Gnáthóg ¦
+Dáil Éireann Constituencies ¦ Dáilcheantair ¦
+NI Road Surface Defects ¦ Lochtanna Dromchla Bóthair TÉ ¦
+River Water Quality ¦ Cáilíocht Uisce Abhann ¦
+Westminster Constituencies ¦ Toghlaigh Westminster ¦
+OSNI Orthophoto Coverage ¦ Clúdach Ortafótagrafaíochta OSNI ¦
+Electoral Divisions ¦ Toghranna ¦
+Pothole Enquiries ¦ Fiosrúcháin faoi Pholl Bóthair ¦
+Local Government Districts ¦ Ceantair Rialtais Áitiúil ¦
+Wards ¦ Bardaí ¦
+Counties ¦ Contaetha ¦
+Designated & Protected Sites ¦ Láithreáin Ainmnithe agus Chosanta ¦
+Local Electoral Areas ¦ Toghlimistéir Áitiúla ¦
+District Electoral Areas ¦ Toghlimistéir Cheantair ¦
+European Parliament Constituencies ¦ Toghcheantair Pharlaimint na hEorpa ¦
+PSNI Road Traffic Collisions ¦ Imbhuailtí Tráchta Bóthair PSNI ¦
+NI Government Land & Property Register ¦ Clár Talún agus Maoine Rialtas TÉ ¦
+Settlements ¦ Lonnaíochtaí ¦
+NIEA Authorised Landfill Sites ¦ Láithreáin Líonta Talún Údaraithe NIEA ¦
+Tellus Radiometric ¦ Tellus Raidiméadrach ¦
+Tellus Rural Soil ¦ Ithir Tuaithe Tellus ¦
+OSNI 1:1M Thematic ¦ Téamach OSNI 1:1M ¦
+Provinces ¦ Cúigí ¦
+Tellus Stream Sediments & Waters ¦ Dríodair agus Uiscí Srutha Tellus ¦
+Polling Stations ¦ Stáisiúin Vótála ¦
+Garda Areas ¦ Limistéir an Gharda Síochána ¦
+Water Bodies ¦ Dobharlaigh ¦
+NI Railways Infrastructure ¦ Bonneagar Iarnród TÉ ¦
+OSNI 50K Transport ¦ Iompar OSNI 50K ¦
+Polling Districts ¦ Ceantair Vótaíochta ¦
+District Electoral Divisions ¦ Toghranna Ceantair ¦
+Tellus Magnetic ¦ Tellus Maighnéadach ¦
+Small Areas ¦ Ceantair Bheaga ¦
+Smallest Census Areas ¦ Na Limistéir Daonáirimh is Lú ¦
+NUTS Regions ¦ Réigiúin NUTS ¦
+Environmental Noise ¦ Torann Comhshaoil ¦
+Architectural Conservation Areas ¦ Limistéir Chaomhantais Ailtireachta ¦
+Protected Structures ¦ Struchtúir Chosanta ¦
+Protected Structures (points) ¦ Struchtúir Chosanta (pointí) ¦
+Landscape Character Areas ¦ Limistéir Charachtar Tírdhreacha ¦
+Cycle Parking & Bike Share ¦ Páirceáil Rothar agus Comhroinnt Rothar ¦
+Border Crossings ¦ Trasnuithe Teorann ¦
+Planning Application Boundaries ¦ Teorainneacha Iarratas Pleanála ¦
+Planning Application Points ¦ Pointí Iarratas Pleanála ¦
+Libraries ¦ Leabharlanna ¦
+Rail Network ¦ Líonra Iarnróid ¦
+Ringfort ¦ Ráth ¦
+Gaeltacht Areas ¦ Limistéir Ghaeltachta ¦
+Polities ¦ Pobail Pholaitiúla ¦
+Water Monitoring Points ¦ Pointí Monatóireachta Uisce ¦
+Road Junctions & Interchanges ¦ Acomhail agus Idirmhalartáin Bhóthair ¦
+Accessible Parking ¦ Páirceáil Inrochtana ¦
+Municipal Districts ¦ Ceantair Bhardasacha ¦
+Wetlands Survey ¦ Suirbhé Bogach ¦
+Northern Ireland Constituencies ¦ Toghcheantair Thuaisceart Éireann ¦
+TII Collision Rates ¦ Rátaí Imbhuailte TII ¦
+Public Toilets ¦ Leithris Phoiblí ¦
+Authorised Waste Sites ¦ Láithreáin Dramhaíola Údaraithe ¦
+Tellus Electromagnetic ¦ Tellus Leictreamaighnéadach ¦
+OSNI Map Sheet Coverage Grid ¦ Greille Chlúdaigh Bileog Léarscáile OSNI ¦
+OSNI Historical Six-Inch Maps ¦ Léarscáileanna Stairiúla Sé Orlach OSNI ¦
+Built-Up Areas ¦ Limistéir Tógtha ¦
+Built-Up Areas (points) ¦ Limistéir Tógtha (pointí) ¦
+Travel To Work Areas ¦ Limistéir Taistil chun Oibre ¦
+Listed Buildings ¦ Foirgnimh Liostaithe ¦
+Defence Heritage Sites ¦ Láithreáin Oidhreachta Cosanta ¦
+Industrial Heritage Record ¦ Taifead na hOidhreachta Tionscail ¦
+Scenic Views & Prospects ¦ Radhairc agus Amhairc Áille ¦
+Landscape Character Types ¦ Cineálacha Carachtair Tírdhreacha ¦
+Skateboard Parks ¦ Páirceanna Clár Scátála ¦
+Pedestrian Crossings ¦ Trasnáin Coisithe ¦
+Education and Library Boards ¦ Boird Oideachais agus Leabharlann ¦
+Health and Social Care Trusts ¦ Iontaobhais Sláinte agus Cúraim Shóisialta ¦
+Bedrock Geology 1:250,000 ¦ Geolaíocht an Bhuncharraige 1:250,000 ¦
+Planning Exemptions ¦ Díolúintí Pleanála ¦
+Community-Scale Coastal Flood Extents ¦ Fairsinge Tuilte Cósta ar Scála Pobail ¦
+Groundwater Flooding ¦ Tuilte Screamhuisce ¦
+Wicklow County Council ¦ Comhairle Contae Chill Mhantáin ¦
+Fire & Garda Stations ¦ Stáisiúin Dóiteáin agus Gharda ¦
+Parking Meters ¦ Méadair Pháirceála ¦
+Playgrounds ¦ Clóis Súgartha ¦
+Rail & Tram Stations ¦ Stáisiúin Iarnróid agus Tram ¦
+Scheduled Historic Monument Areas ¦ Limistéir Séadchomharthaí Stairiúla Sceidealaithe ¦
+Drinking-Water Protected Areas ¦ Limistéir Chosanta Uisce Óil ¦
+Way Network ¦ Líonra Slite ¦
+Traffic Signals ¦ Comharthaí Tráchta ¦
+TII Roadside Sensors ¦ Braiteoirí Cois Bóthair TII ¦
+Street Lighting ¦ Soilsiú Sráide ¦
+Regional Divides ¦ Deighiltí Réigiúnacha ¦
+Catholic Parishes (Dublin) ¦ Paróistí Caitliceacha (Baile Átha Cliath) ¦
+Catholic Dioceses ¦ Deoisí Caitliceacha ¦
+Habitat Maps ¦ Léarscáileanna Gnáthóg ¦
+County Electoral Divisions ¦ Toghranna Contae ¦
+Dublin Electoral Counties ¦ Toghchontaetha Bhaile Átha Cliath ¦
+Elevation Models ¦ Samhlacha Airde ¦
+Traffic Management & Road Signs ¦ Bainistíocht Tráchta agus Comharthaí Bóthair ¦
+Road Network ¦ Líonra Bóithre ¦
+Water Framework Directive Status ¦ Stádas faoin gCreat-Treoir Uisce ¦
+Catchment Management Areas ¦ Limistéir Bhainistíochta Dobharcheantair ¦
+Water Pollution Risk ¦ Riosca Truaillithe Uisce ¦
+Parcels, Buildings & Sites ¦ Dáileachtaí, Foirgnimh agus Láithreáin ¦
+Water Supply Areas & Pipelines ¦ Limistéir Soláthair Uisce agus Píblínte ¦
+Water Pipelines ¦ Píblínte Uisce ¦
+Waste & Recycling ¦ Dramhaíl agus Athchúrsáil ¦
+Tellus Airborne Survey — Flight Lines ¦ Suirbhé Aerbheirthe Tellus — Línte Eitilte ¦
+OSNI Mapping Products ¦ Táirgí Léarscáilithe OSNI ¦
+Rural Areas ¦ Limistéir Tuaithe ¦
+Centres of Population ¦ Lárionaid Daonra ¦
+Geographical Names ¦ Ainmneacha Geografacha ¦
+Legal Towns and Cities ¦ Bailte agus Cathracha Dlíthiúla ¦
+CSO Urban Areas ¦ Limistéir Uirbeacha an PDS ¦
+Highlands Without Settlements ¦ Ardtailte gan Lonnaíochtaí ¦
+Intermediate Census Areas ¦ Limistéir Daonáirimh Idirmheánacha ¦
+Census Grid ¦ Greille Daonáirimh ¦
+Heritage Surveys & Sites ¦ Suirbhéanna agus Láithreáin Oidhreachta ¦
+Monuments by Type (Historic Maps) ¦ Séadchomharthaí de réir Cineáil (Léarscáileanna Stairiúla) ¦
+AV Referendum Counting Areas ¦ Limistéir Chomhairimh Reifreann an VM ¦
+Sports & Leisure Facilities ¦ Áiseanna Spóirt agus Fóillíochta ¦
+Cycle Network & Infrastructure ¦ Líonra agus Bonneagar Rothaíochta ¦
+Cycle & Pedestrian Counters ¦ Áiritheoirí Rothar agus Coisithe ¦
+Walking Routes & Rights of Way ¦ Bealaí Siúil agus Cearta Slí ¦
+Geology & Soils Maps ¦ Léarscáileanna Geolaíochta agus Ithreacha ¦
+Boreholes & Cores ¦ Poill Tolláin agus Croíleacáin ¦
+Minerals & Mining ¦ Mianraí agus Mianadóireacht ¦
+Planning Registers ¦ Cláir Phleanála ¦
+Planning Register Points ¦ Pointí Cláir Phleanála ¦
+Flood Extents & Zones ¦ Fairsinge agus Criosanna Tuilte ¦
+Hedgerows, Treelines & Wildlife Corridors ¦ Fálta Sceach, Línte Crann agus Conairí Fiadhúlra ¦
+Trees & Woodlands ¦ Crainn agus Coillearnacha ¦
+Land Cover & Land Use ¦ Clúdach Talún agus Úsáid Talún ¦
+Museums, Galleries & Arts Venues ¦ Músaeim, Dánlanna agus Ionaid Ealaíon ¦
+Public Art ¦ Ealaín Phoiblí ¦
+Car & Coach Parking ¦ Páirceáil Gluaisteán agus Cóistí ¦
+Parks & Open Spaces ¦ Páirceanna agus Spásanna Oscailte ¦
+Allotments & Community Gardens ¦ Cuibhrinn agus Gairdíní Pobail ¦
+Council Offices ¦ Oifigí Comhairle ¦
+Community & Education Facilities ¦ Áiseanna Pobail agus Oideachais ¦
+Airports & Airfields ¦ Aerfoirt agus Aerpháirceanna ¦
+Harbours, Ferries & Piers ¦ Cuanta, Báid Farantóireachta agus Céanna ¦
+Coastline & Tide Marks ¦ Cósta agus Marcanna Taoide ¦
+Seas & the Island of Ireland ¦ Na Farraigí agus Oileán na hÉireann ¦
+Enterprise Centres & Markets ¦ Ionaid Fiontair agus Margaí ¦
+Railway Lines & Signalling ¦ Línte Iarnróid agus Comharthaíocht ¦
+Bus Routes & Stops ¦ Bealaí agus Stadanna Bus ¦
+Housing, Land & Regeneration ¦ Tithíocht, Talamh agus Athghiniúint ¦
+Housing & Education Sites ¦ Láithreáin Tithíochta agus Oideachais ¦
+Sites & Monuments Records ¦ Taifid Láithreán agus Séadchomharthaí ¦
+Sites & Monuments Record Points ¦ Pointí Taifid Láithreán agus Séadchomharthaí ¦
+Civil Parishes ¦ Paróistí Sibhialta ¦
+Baronies ¦ Barúntachtaí ¦
+Place Names Gazetteer ¦ Gasaitéar Logainmneacha ¦
+Street Names Gazetteer ¦ Gasaitéar Ainmneacha Sráide ¦
+Locales ¦ Logántachtaí ¦
+Rivers, Lakes & Waterfalls ¦ Aibhneacha, Lochanna agus Easanna ¦
+River Basins & Catchments ¦ Abhantraí agus Dobharcheantair ¦
+Hills, Highlands & Mountains ¦ Cnoic, Ardtailte agus Sléibhte ¦
+Peacelines ¦ Línte Síochána ¦
+Livestock Holdings ¦ Gabháltais Beostoic ¦
+Ireland 3D Terrain ¦ Tír-raon 3T na hÉireann ¦
+NI River-Basin LiDAR — 1 m 3D Terrain ¦ LiDAR Abhantraí TÉ — Tír-raon 3T 1 m ¦
+LiDAR Point Clouds ¦ Néalta Pointí LiDAR ¦
+Usual resident population ¦ Gnáthdhaonra cónaithe ¦
+Population density ¦ Dlús daonra ¦
+Total households ¦ Teaghlaigh iomlána ¦
+Average household size ¦ Meánmhéid teaghlaigh ¦
+Female population share ¦ Sciar mná den daonra ¦
+Born in Northern Ireland ¦ Rugadh i dTuaisceart Éireann ¦ Born in Norlin Airlan
+Some ability in Irish ¦ Cumas éigin sa Ghaeilge ¦
+Some ability in Ulster-Scots ¦ Cumas éigin san Ultais ¦
+Religion: Catholic ¦ Reiligiún: Caitliceach ¦
+Catholic community background ¦ Cúlra pobail Caitliceach ¦
+Day-to-day activities limited ¦ Gníomhaíochtaí laethúla teoranta ¦
+Provides unpaid care ¦ Soláthraíonn cúram gan phá ¦
+Households with no car or van ¦ Teaghlaigh gan ghluaisteán ná veain ¦
+Owner-occupied households ¦ Teaghlaigh áitithe ag úinéirí ¦
+Social-rented households ¦ Teaghlaigh ar cíos sóisialta ¦
+Private-rented households ¦ Teaghlaigh ar cíos príobháideach ¦
+No qualifications ¦ Gan cháilíochtaí ¦
+Level 4+ qualifications ¦ Cáilíochtaí Leibhéal 4+ ¦
+Unemployed ¦ Dífhostaithe ¦
+Work mainly at or from home ¦ Ag obair sa bhaile den chuid is mó ¦
+Multiple Deprivation Measure decile ¦ Deicil an Bhirt Ilbhochtaineachta ¦
+Multiple Deprivation Measure rank ¦ Rangú an Bhirt Ilbhochtaineachta ¦
+Median age ¦ Aois airmheánach ¦
+Census Electoral Divisions ¦ Toghranna Daonáirimh ¦
+Development Plans & Zoning (other councils) ¦ Pleananna Forbartha agus Criosú (comhairlí eile) ¦
+Water ¦ Uisce ¦
+Boundaries Seawater Area ¦ Limistéar Sáile na dTeorainneacha ¦
+
+# Election bodies
+Dáil Éireann ¦ Dáil Éireann ¦
+House of Commons of the United Kingdom ¦ Teach na dTeachtaí na Ríochta Aontaithe ¦
+Northern Ireland Assembly ¦ Tionól Thuaisceart Éireann ¦ Norlin Airlan Assemblie
+Parliament of Northern Ireland ¦ Parlaimint Thuaisceart Éireann ¦ Pairlament o Norlin Airlan
+Local Government Districts ¦ Ceantair Rialtais Áitiúil ¦
+European Parliament ¦ Parlaimint na hEorpa ¦
+Referendum (Ireland) ¦ Reifreann (Éire) ¦
+Local Authorities of Ireland ¦ Údaráis Áitiúla na hÉireann ¦
+European Parliament (Ireland) ¦ Parlaimint na hEorpa (Éire) ¦
+President of Ireland ¦ Uachtarán na hÉireann ¦
+Northern Ireland Constitutional Convention ¦ Coinbhinsiún Bunreachtúil Thuaisceart Éireann ¦
+Northern Ireland Forum for Political Dialogue ¦ Fóram Thuaisceart Éireann um Idirphlé Polaitiúil ¦
+Referendum (Northern Ireland) ¦ Reifreann (Tuaisceart Éireann) ¦
+
+# Referendum subjects, as they appear inside election titles ("2015 Irish divorce referendum").
+divorce ¦ colscaradh ¦
+abortion ¦ ginmhilleadh ¦
+care ¦ cúram ¦
+family ¦ teaghlach ¦
+blasphemy ¦ diamhasla ¦
+equal marriage ¦ pósadh comhionann ¦
+children ¦ leanaí ¦
+citizenship ¦ saoránacht ¦
+bail ¦ bannaí ¦
+adoption ¦ uchtáil ¦
+death penalty ¦ pionós an bháis ¦
+age of president ¦ aois an uachtaráin ¦

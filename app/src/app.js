@@ -2784,7 +2784,8 @@ class Test2App {
       if (knownCount(result.validPoll, true) !== null) { validVotes += Number(result.validPoll); validKnown = true; }
       seats += Number(result.seatsTotal ?? result.seatsWon ?? 0) || 0;
       for (const candidate of result.candidates || []) {
-        const party = candidate.party || result.leadingParty || 'Independent';
+        // A candidate with no label counts as "No label" (NO_LABEL), not as the leading party.
+        const party = candidate.party || 'No label';
         const key = normalizeEntityName(party);
         const current = partyTotals.get(key) || { party, votes: 0, colour: candidate.colour || result.leadingColour || '#b0bec5' };
         current.votes += Number(candidate.firstPrefs ?? candidate.votes ?? 0) || 0;

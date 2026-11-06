@@ -1,0 +1,79 @@
+# Composite strings the interface builds from parts: catalogue row labels, counts, Status page
+# rows. {n} {k} {m} {total} are numbers, {year} four digits, {years} a year or span, {unit} a
+# counted noun (units.txt), any other {name} is translated in turn when it can be.
+# Format: English ¦ Irish ¦ Ulster-Scots. ALL DRAFTS (data/i18n/README.md).
+
+{n} {unit} ¦ {n} {unit} ¦
+More for {name} ¦ Tuilleadh: {name} ¦
+{name}: editions ¦ {name}: eagráin ¦
+{name}: on the map ¦ {name}: ar an léarscáil ¦
+{name}, {years} ¦ {name}, {years} ¦
+{name}: results page ¦ {name}: leathanach na dtorthaí ¦
+{name}: open on the map ¦ {name}: oscail ar an léarscáil ¦
+{n} series, {k} maps. ¦ {n} sraith, {k} léarscáil. ¦
+before {year} – {year2} ¦ roimh {year} – {year2} ¦
+{n} dated maps ¦ {n} léarscáil dhátaithe ¦
+Toggle attribution ¦ Scoránaigh an sannadh ¦
+Skip to results ¦ Léim go dtí na torthaí ¦
+Built Environment ¦ Timpeallacht Thógtha ¦
+European Union ¦ An tAontas Eorpach ¦
+
+# Status page
+{n} complete. ¦ {n} iomlán. ¦
+{n} complete, {k} not yet drawn. ¦ {n} iomlán, {k} gan tarraingt fós. ¦
+{n} complete. Also {k} other version or local copy. ¦ {n} iomlán. Chomh maith leis sin, {k} leagan eile nó cóip áitiúil. ¦
+{n} complete. Also {k} other versions or local copies. ¦ {n} iomlán. Chomh maith leis sin, {k} leagan eile nó cóip áitiúil. ¦
+{n} of {total} rounds ¦ {n} as {total} babhta ¦
+{n} of {total} contests ¦ {n} as {total} comórtas ¦
+Known rounds so far: {n} rounds on the site and {k} documented as not held. ¦ Babhtaí ar eolas go dtí seo: {n} babhta ar an suíomh agus {k} doiciméadaithe nár reáchtáladh iad. ¦
+Counts from outside the site taken {date}. ¦ Comhairimh ó lasmuigh den suíomh, a tógadh {date}. ¦
+Yes ({n} part) ¦ Tá ({n} chuid) ¦
+Yes ({n} parts) ¦ Tá ({n} chuid) ¦
+Each series ({n}) ¦ Gach sraith ({n}) ¦
+{name}: {n} complete and {k} partial on the site, {m} not yet drawn, of {total} known editions ¦ {name}: {n} iomlán agus {k} páirteach ar an suíomh, {m} gan tarraingt fós, as {total} eagrán ar eolas ¦
+{name}: Rounds on the site {n}, with full figures {k}, verified against a source {m}, of {total} rounds ¦ {name}: Babhtaí ar an suíomh {n}, le figiúirí iomlána {k}, fíoraithe i gcoinne foinse {m}, as {total} babhta ¦
+No independent list of these contests is held yet, so the total is the contests the site holds. ¦ Níl liosta neamhspleách de na comórtais seo ar coimeád fós, mar sin is é an t-iomlán na comórtais atá ar an suíomh. ¦
+No independent list of these contests is held yet, so the total is the constituency results the site holds. ¦ Níl liosta neamhspleách de na comórtais seo ar coimeád fós, mar sin is é an t-iomlán na torthaí toghcheantair atá ar an suíomh. ¦
+of {n} known editions on the site, in {k} series. ¦ as {n} eagrán ar eolas ar an suíomh, i {k} sraith. ¦
+
+# Census Explorer
+easy comparability ¦ inchomparáideacht éasca ¦
+moderate comparability ¦ inchomparáideacht mheasartha ¦
+unavailable ¦ níl ar fáil ¦
+
+# Second pass (runtime harvest, scripts/i18n/harvest-untranslated.mjs)
+{name}: maps ¦ {name}: léarscáileanna ¦
+{name}, {part} ¦ {name}, {part} ¦
+{name} - {part} ¦ {name} - {part} ¦
+Show {n} more ¦ Taispeáin {n} eile ¦
+Show {n} by-elections too ¦ Taispeáin {n} corrthoghchán freisin ¦
+Maps: {n} records. ¦ Léarscáileanna: {n} taifead. ¦
+Showing {n} of {total}. ¦ {n} as {total} á dtaispeáint. ¦
+All Properties ({n}) ¦ Na hAiríonna go léir ({n}) ¦
+Add all {n} parts ¦ Cuir na {n} chuid go léir leis ¦
+PARTS · {n} ¦ CODANNA · {n} ¦
+Parts · {n} ¦ Codanna · {n} ¦
+Wikipedia: {name} ¦ Vicipéid: {name} ¦
+Historic administrative boundaries ¦ Teorainneacha riaracháin stairiúla ¦
+Electoral Areas ¦ Toghlimistéir ¦
+Points of Interest ¦ Pointí Spéise ¦
+Electoral ward boundaries ¦ Teorainneacha bardaí toghcháin ¦
+Assembly, Forum and Stormont constituencies ¦ Toghcheantair an Tionóil, an Fhóraim agus Stormont ¦
+Referendum counting areas ¦ Limistéir chomhairimh reifrinn ¦
+Traditional county boundaries ¦ Teorainneacha traidisiúnta contae ¦
+Republic of Ireland parliamentary constituencies ¦ Toghcheantair pharlaiminte Phoblacht na hÉireann ¦
+Government Land and Property Register ¦ Clár Talún agus Maoine an Rialtais ¦
+Census Statistical Areas ¦ Limistéir Staitistiúla Daonáirimh ¦
+Geology and Geophysics ¦ Geolaíocht agus Geoifisic ¦
+Water Quality ¦ Cáilíocht Uisce ¦
+Statistical geography for census data ¦ Tíreolaíocht staitistiúil do shonraí daonáirimh ¦
+Man-made structures and infrastructure ¦ Struchtúir shaorga agus bonneagar ¦
+Polling & Voting ¦ Vótaíocht ¦
+Political Geography ¦ Tíreolaíocht Pholaitiúil ¦
+Catalogue map entries, metadata, downloads, source credits, and interactive-map links. ¦ Iontrálacha léarscáileanna na catalóige, meiteashonraí, íoslódálacha, creidiúintí foinse agus naisc chuig an léarscáil idirghníomhach. ¦
+Election entries by election, with links to open the corresponding election layer. ¦ Iontrálacha toghcháin de réir toghcháin, le naisc chun sraith an toghcháin a oscailt. ¦
+Party and ticket labels observed in election data. ¦ Lipéid páirtithe agus ticéad a breathnaíodh i sonraí toghcháin. ¦
+Candidate and elected-person entries observed in election bundles. ¦ Iontrálacha iarrthóirí agus daoine tofa a breathnaíodh i mbeartanna toghcháin. ¦
+Books, tables, datasets, map downloads, source files, and references. ¦ Leabhair, táblaí, tacair sonraí, íoslódálacha léarscáileanna, comhaid foinse agus tagairtí. ¦
+Boundary features by source map, including election geography groups where available. ¦ Gnéithe teorann de réir léarscáil fhoinse, grúpaí tíreolaíochta toghcháin san áireamh nuair atá siad ar fáil. ¦
+MLA and Northern Ireland MP register of interests records, linked back to source editions and datasets. ¦ Taifid chlár leasanna CTRanna agus Feisirí Thuaisceart Éireann, nasctha siar le heagráin agus tacair sonraí foinse. ¦

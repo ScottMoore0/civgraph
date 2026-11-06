@@ -55,7 +55,7 @@
 
   <!-- Modulepreload — start fetching the entry bundle before parser reaches
        the <script type=module> tag at the end of <body>. -->
-  <link rel="modulepreload" href="/app/build/app.bundle.js?v=788fe30a7b24" fetchpriority="high">
+  <link rel="modulepreload" href="/app/build/app.bundle.js?v=77e61645358c" fetchpriority="high">
   <style>
     @font-face {
       font-family: 'Inter';
@@ -84,6 +84,7 @@
 
 <!-- site:head -->
 <script>(function(){var t=null;try{t=localStorage.getItem('theme');}catch(e){}if(t!=='dark'&&t!=='light'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;})();</script>
+<script>(function(){var K='civgraph.langPreview',S='/assets/i18n/i18n.js?v=60afd9d3aa07',on=false;function load(){var i=window.civgraphI18n;if(i){if(i.show)i.show();return;}if(document.querySelector('script[data-i18n-runtime]'))return;var s=document.createElement('script');s.src=S;s.setAttribute('data-i18n-runtime','');document.head.appendChild(s);}window.civgraphLangReveal=function(){try{localStorage.setItem(K,'1');}catch(e){}load();};try{if(/[?&]lang-preview=0(?:&|$)/.test(location.search)){localStorage.removeItem(K);localStorage.removeItem('civgraph.lang');}on=localStorage.getItem(K)==='1';}catch(e){}if(on)load();})();</script>
 <link rel="stylesheet" href="/assets/site/site-chrome.css?v=9081ee7c9078">
 <script defer src="/assets/site/site-chrome.js?v=533c9263f1be"></script>
 <!-- /site:head -->
@@ -98,16 +99,16 @@
   <!-- Deferred CSS: remaining ~186 KB (catalogue cards, modals, charts, …)
        loaded async via media=print + onload swap so it doesn't block first
        paint. Browsers without JS fall back via <noscript>. -->
-    <link rel="stylesheet" href="/build/main.css?v=4f7c75d8c22c" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="/build/main.css?v=4f7c75d8c22c"></noscript>
+    <link rel="stylesheet" href="/build/main.css?v=d2b4eb939f53" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="/build/main.css?v=d2b4eb939f53"></noscript>
   <link rel="stylesheet" href="/app/build/app.bundle.css?v=177bb2fbf287">
 
   <!-- Election Viewer & Animation CSS (deferred — not needed for first paint) -->
   <link rel="stylesheet" href="/app/election-viewer-package/css/election-viewer.css?v=a999f742cbb1" media="print" onload="this.media='all'">
-  <link rel="stylesheet" href="/app/election-viewer-package/css/stages.css?v=6eee8aa01182" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="/app/election-viewer-package/css/stages.css?v=86df5d9debd2" media="print" onload="this.media='all'">
   <noscript>
     <link rel="stylesheet" href="/app/election-viewer-package/css/election-viewer.css?v=a999f742cbb1">
-    <link rel="stylesheet" href="/app/election-viewer-package/css/stages.css?v=6eee8aa01182">
+    <link rel="stylesheet" href="/app/election-viewer-package/css/stages.css?v=86df5d9debd2">
   </noscript>
 
   <!-- Favicon -->
@@ -757,7 +758,7 @@
        and animation code are loaded lazily by the /app module bundle. -->
 
   <!-- Application (bundled + minified) -->
-  <script type="module" src="/app/build/app.bundle.js?v=788fe30a7b24"></script>
+  <script type="module" src="/app/build/app.bundle.js?v=77e61645358c"></script>
 
   <!-- Service worker — repeat-visit cache + offline tolerance. Registered
        after window.load so it doesn't contend with critical resources.

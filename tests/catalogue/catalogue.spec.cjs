@@ -753,6 +753,34 @@ test('N27 an open election gets more of the screen: a narrower catalogue, shorte
   await expect.poll(resultsHeight).toBe(240);
 });
 
+test('N27 the language control: typing the phrase shows it, nothing else does, and an ordinary visit loads none of it', async ({ page }) => {
+  const i18n = [];
+  page.on('request', (r) => { if (r.url().includes('/assets/i18n/')) i18n.push(r.url()); });
+  const flag = () => page.evaluate(() => localStorage.getItem('civgraph.langPreview'));
+  await open(page);
+  await expect(page.locator('[data-lang-switch]')).toHaveCount(0);
+  for (const q of ['language', 'toggle', 'irish', 'toggle language']) {
+    await search(page, q);
+    await expect(pane(page).locator('[data-cn-lang-notice]')).toHaveCount(0);
+  }
+  await expect(page.locator('[data-lang-switch]')).toHaveCount(0);
+  expect(i18n).toEqual([]);
+  expect(await flag()).toBeNull();
+
+  await page.fill('#searchInput', 'Language toggle!');
+  await expect(pane(page).locator('[data-cn-lang-notice]')).toHaveText('Language options are now shown.', { timeout: 15000 });
+  await expect(pane(page).locator('.cn-empty, .cn-shelf')).toHaveCount(0);
+  await expect(page.locator('[data-lang-switch] select')).toBeVisible();
+  expect(await flag()).toBe('1');
+
+  // It persists: the next visit loads the runtime by itself. Hide clears it again.
+  await page.reload();
+  await expect(page.locator('[data-lang-switch] select')).toBeVisible({ timeout: 20000 });
+  await page.locator('[data-lang-switch] [data-lang-hide]').click();
+  await expect(page.locator('[data-lang-switch]')).toHaveCount(0);
+  expect(await flag()).toBeNull();
+});
+
 test.describe('contributor editing', () => {
 test.use({ serviceWorkers: 'block' });
 test('N26 a contributor suggests an edit to a map from the catalogue; others are sent to sign in', async ({ page }) => {

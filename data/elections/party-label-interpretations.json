@@ -1,0 +1,237 @@
+{
+  "description": "How a party label printed in a source (Party_As_Printed: a newspaper's or report's label, kept verbatim) is interpreted as a party or independent label on the site (Party_Name). The election manifest (scripts/build-test2-election-manifest.mjs, applyPartyLabelInterpretations) applies this file to every source contest: a rule fills Party_Name where it is blank and the printed label matches, unless it says override, when it also replaces the interpretation already there. Rules are tried in order and the first match wins, so a rule scoped to a body, a date window or named candidates is listed before a general one. Printed labels stay verbatim; only the interpretation changes. Variants of one party fold into the party's name on the site (U., Unionist, Official Unionist -> UUP); variants of one kind of independent fold into one (Ind., Indep., Inden. -> Independent); genuinely different organisations keep labels of their own. Honours and professions printed after a name (J.P., M.B.E., V.S.) are not party labels: the interpretation stays blank, which the site shows as 'No label', never as Independent. A ditto mark ('do.') takes the interpretation of the candidate printed above it. A printed label no rule settles keeps a blank interpretation; those are listed in the batch report with the evidence.",
+  "dittoMarks": ["do.", "do", "Do.", "ditto"],
+  "noLabel": {
+    "printed": ["J.P.", "M.B.E.", "O.B.E.", "O.B.E., J.P.", "V.S."],
+    "reason": "Honours and professions printed after a candidate's name (Justice of the Peace, M.B.E., O.B.E., V.S. = veterinary surgeon in the Downpatrick 1923 list beside J.P.), not party labels."
+  },
+  "rules": [
+    {
+      "printed": ["J.P. (U.)"],
+      "party": "UUP",
+      "evidence": "Warrenpoint 1926: J.P. is an honour; (U.) is the Unionist label."
+    },
+    {
+      "printed": ["J.P. (I.)"],
+      "party": "Independent",
+      "evidence": "Warrenpoint 1929: J.P. is an honour; (I.) is the Independent label."
+    },
+    {
+      "printed": ["U., Progressive"],
+      "party": "UUP",
+      "evidence": "Warrenpoint 1929: printed as a Unionist who was also on the town's Progressive list; U. is the party label."
+    },
+    {
+      "printed": ["I.L."],
+      "party": "Irish Labour",
+      "bodies": ["newry-urban-district-council"],
+      "from": "1964-01-01",
+      "until": "1965-01-01",
+      "override": true,
+      "evidence": "Newry 1964 was a split in the Irish Labour group that held all twelve nationalist seats in 1961: the South Ward note reads 'Irish Labour panel took all six seats' (Newry Reporter, 28 May 1964, p. 6). I.L. there is Irish Labour, not Independent Labour."
+    },
+    {
+      "printed": ["N.L."],
+      "party": "Newry Labour",
+      "bodies": ["newry-urban-district-council"],
+      "evidence": "Newry 1964: the West Ward note reads 'Newry Labour swept all six seats' (Newry Reporter, 28 May 1964, p. 6), the breakaway from the Irish Labour panel (I.L.)."
+    },
+    {
+      "printed": ["N.L."],
+      "party": "Nationalist Party",
+      "bodies": ["warrenpoint-urban-district-council"],
+      "from": "1928-05-01",
+      "until": "1935-01-01",
+      "evidence": "Warrenpoint 1929: the National League of the North, Joseph Devlin's Nationalist organisation founded in May 1928, which the site files as the Nationalist Party (as it files 'National League' in Newry No. 2)."
+    },
+    {
+      "printed": ["I.L.P."],
+      "party": "Irish Labour",
+      "bodies": ["londonderry-county-borough-council"],
+      "from": "1949-01-01",
+      "until": "1950-01-01",
+      "evidence": "Derry 1949: the Irish Labour Party, which the Derry Labour group (Stephen McGonagle among its candidates) joined in 1949 after the NILP declared for the Union (Wikipedia, Stephen McGonagle). Not the British Independent Labour Party."
+    },
+    {
+      "printed": ["Derry Labour Party and Anti-Partition"],
+      "party": "Derry Labour Party",
+      "bodies": ["londonderry-county-borough-council"],
+      "candidates": ["William Barr", "James Deeney", "William Mullan"],
+      "evidence": "Derry South Ward 1946: the joint list printed by the Derry Journal (18 Oct 1946, p. 5); Wikipedia's 1946 Londonderry Borough Council election files W. Barr, James Deeney and W. Mullan as Derry Labour Party, an anti-partition left-wing party separate from the NILP."
+    },
+    {
+      "printed": ["Derry Labour Party and Anti-Partition"],
+      "party": "Anti-Partitionist",
+      "bodies": ["londonderry-county-borough-council"],
+      "candidates": ["Thomas Doherty", "Daniel Barr", "Patrick Joseph Downey"],
+      "evidence": "Derry South Ward 1946: Wikipedia's 1946 Londonderry Borough Council election files T. Doherty, Daniel Barr and P. J. Downey as Nationalist / Anti-Partition; all three stood as A.P. in 1949."
+    },
+    {
+      "whenParty": ["Labour"],
+      "party": "Belfast Labour",
+      "bodies": ["belfast-county-borough-council", "belfast-county-borough-council-aldermen"],
+      "from": "1923-01-01",
+      "until": "1924-01-01",
+      "override": true,
+      "evidence": "Belfast January 1923: the Labour candidates were the Belfast Labour Party's (B.L.P. on other lists; it became the Northern Ireland Labour Party in March 1924). Read as plain 'Labour', the site showed them as Irish Labour."
+    },
+    {
+      "printed": ["E.W."],
+      "party": "Expelled Workers",
+      "bodies": ["belfast-county-borough-council", "belfast-county-borough-council-aldermen"],
+      "evidence": "Belfast 1923 (Falls, Smithfield): the contest note reads 'E.W. = Expelled Workers' nominees (News-Letter, 6 January 1923)', the Catholic workers expelled from the shipyards in 1920."
+    },
+    {
+      "printed": ["Ind. Traders"],
+      "party": "Individual Traders' Association",
+      "bodies": ["belfast-county-borough-council"],
+      "evidence": "Belfast 1938: the Northern Ireland Individual Traders and Anti-Monopolist Association, which nominated in eight wards (contest notes, Belfast News-Letter 9 and 17 May 1938). 'Ind.' is Individual, not Independent."
+    },
+    {
+      "printed": ["Inter-Party"],
+      "party": "Nationalist Party",
+      "bodies": ["belfast-county-borough-council"],
+      "evidence": "Belfast 1949 (Falls, Smithfield): the contest note reads 'The News-Letter labels the three unsuccessful candidates Nationalist (Nat.); the Irish News calls them Inter-Party.'"
+    },
+    {
+      "printed": ["Social Justice", "S.J."],
+      "party": "Campaign for Social Justice",
+      "bodies": ["dungannon-urban-district-council"],
+      "evidence": "Dungannon West Ward 1964: Patricia McCluskey and her running mates, the Campaign for Social Justice founded in Dungannon in January 1964 (Wikipedia, Patricia McCluskey; she was one of four CSJ members elected in May 1964)."
+    },
+    {
+      "printed": ["Lib.", "Liberal"],
+      "party": "Ulster Liberal",
+      "from": "1956-01-01",
+      "evidence": "Bangor 1964-67, Downpatrick 1967, Ballycastle 1967: the Ulster Liberal Party (1956-87), the only Liberal organisation contesting Northern Ireland elections then."
+    },
+    {
+      "printed": ["N.D.P."],
+      "party": "National Democratic Party",
+      "from": "1965-01-01",
+      "until": "1971-01-01",
+      "evidence": "Ballycastle and Downpatrick 1967: the National Democratic Party (1965-70), as the site already files N.D.P. in Belfast and NDP in Strabane."
+    },
+    {
+      "printed": ["A.P.", "Anti-Partition"],
+      "party": "Anti-Partitionist",
+      "evidence": "Derry 1938-52, Enniskillen 1955: anti-partition nominees (from 1945 the Anti-Partition League), filed under the site's existing Anti-Partitionist label as AP is in Newry No. 2."
+    },
+    {
+      "printed": ["Official Labour"],
+      "party": "NI Labour",
+      "bodies": ["banbridge-urban-district-council"],
+      "evidence": "Banbridge 1949: the official Labour (NILP) candidates, as against independent Labour; the NILP is the Labour party organised in County Down in 1949."
+    },
+    {
+      "printed": ["Official Nationalist"],
+      "party": "Nationalist Party",
+      "evidence": "Omagh 1961: the Nationalist Party's own nominees, as 'Official N' is filed in County Armagh."
+    },
+    {
+      "printed": ["Nat. Lab."],
+      "party": "Nationalist Labour",
+      "evidence": "Downpatrick 1964 (two candidates beside a Nationalist list), as Nat. Lab. is filed in Keady."
+    },
+    {
+      "printed": ["Irish Labour Party", "Eire Labour"],
+      "party": "Irish Labour",
+      "evidence": "Belfast 1949, Warrenpoint 1961: the Irish Labour Party, as Eire Lab. and Irish Lab. are filed."
+    },
+    {
+      "printed": ["Unoff. Eire Lab."],
+      "party": "Independent Labour",
+      "evidence": "Belfast 1952: an unofficial (not endorsed) Irish Labour candidate, an independent of the Labour kind, as 'unofficial Unionist' is filed Independent Unionist."
+    },
+    {
+      "printed": ["Indep.", "Inden.", "non-Party", "non-party"],
+      "party": "Independent",
+      "evidence": "Variants of Independent; non-party is filed Independent in Lurgan."
+    },
+    {
+      "printed": ["Indep. U.", "Independent U.", "Unoff. U."],
+      "party": "Independent Unionist",
+      "evidence": "Variants of Independent Unionist; an unofficial Unionist is filed Independent Unionist."
+    },
+    {
+      "printed": ["Ind. Lab. U."],
+      "party": "Independent Unionist",
+      "evidence": "Derry 1928: H. N. Greenway, passed over by the Unionist ward committee, stood as an Independent Labour Unionist (contest note, Derry Journal 6, 9 and 18 January 1928): an independent Unionist."
+    },
+    {
+      "printed": ["Ind. N."],
+      "party": "Independent Nationalist",
+      "evidence": "Variant of Independent Nationalist."
+    },
+    {
+      "printed": ["Ind. Labour"],
+      "party": "Independent Labour",
+      "evidence": "Variant of Independent Labour."
+    },
+    {
+      "printed": ["Soc.", "Soc", "Socialist"],
+      "party": "Socialist",
+      "bodies": ["belfast-county-borough-council", "belfast-county-borough-council-aldermen"],
+      "evidence": "Belfast 1925-31: candidates the News-Letter printed as Socialists (its 1938 state of the parties counts 'Socialists 3'). No one organisation is named, so the plain label is kept."
+    },
+    {
+      "printed": ["Ratepayers", "Ratepayers' Association", "Ratepayers Association", "R. Assoc.", "Ratepayers' Assoc.", "R.A."],
+      "party": "Ratepayers' Association",
+      "evidence": "The town ratepayers' associations (Bangor 1928-67, Coleraine 1929, Cookstown 1946, Newtownabbey 1967), filed under one label as R.A. already is in Armagh."
+    },
+    {
+      "printed": ["British Legion", "Brit. Lgn.", "Ex-Servicemen", "Ex-Ser."],
+      "party": "British Legion",
+      "evidence": "Coleraine 1929, Kilkeel 1946, Limavady 1946, Portadown 1952: ex-servicemen's candidates, filed with the British Legion as the site files them in Portadown and Lurgan (owner's grouping, 2026-11-06). Portadown 1952's 'Ex-Ser.' is described only as 'an ex-serviceman'."
+    },
+    {
+      "printed": ["Town Tenants"],
+      "party": "Town Tenants' Association",
+      "evidence": "Belfast 1924, as TTA and 'Tenants' Association nominee' are filed."
+    },
+    {
+      "printed": ["Unemployed Workers"],
+      "party": "Unemployed Workers",
+      "evidence": "Belfast Court Ward 1933 and 1936: unemployed workers' candidates, a label of their own."
+    },
+    {
+      "printed": ["Jubilee Protestant Defence Assoc."],
+      "party": "Jubilee Protestant Defence Association",
+      "evidence": "Belfast Duncairn 1936: William Bradbury, elected for the Jubilee Protestant Defence Association against an official Unionist."
+    },
+    {
+      "printed": ["Trade Unionist Labour", "Trades Union Labour", "T.U."],
+      "party": "Trade Unionist Labour",
+      "bodies": ["newry-urban-district-council"],
+      "evidence": "Newry South Ward 1929-39: W. F. Cunningham, printed T.U. (1929), Trade Unionist Labour (1932) and Trades Union Labour (1939), standing apart from the Labour list in each year."
+    },
+    {
+      "printed": ["Trades C."],
+      "party": "Trades Council",
+      "bodies": ["portadown-borough-council"],
+      "evidence": "Portadown 1952: 'Trades C. Mid-Ulster Trades Council' (contest note); T. Newell became the first Mid-Ulster Trades Council representative on the council."
+    },
+    {
+      "printed": ["Progressive", "Prog."],
+      "party": "Progressive",
+      "evidence": "Local Progressive lists: Warrenpoint 1926 and 1936 (the 1936 contest turned on mixed bathing), Carrickfergus 1938 (against the Efficiency Party), Ballyclare 1946. Not the Progressive Unionists of 1938 or the PUP."
+    },
+    {
+      "printed": ["Efficiency Party"],
+      "party": "Efficiency Party",
+      "evidence": "Carrickfergus 1938: a local ticket of its own, against the Progressives."
+    },
+    {
+      "printed": ["Conservative"],
+      "party": "Conservative",
+      "evidence": "Holywood 1927: printed Conservative, kept as Conservative."
+    },
+    {
+      "whenParty": ["Northern Ireland Labour Party"],
+      "party": "NI Labour",
+      "bodies": ["lurgan-borough-council", "portadown-borough-council"],
+      "override": true,
+      "evidence": "One party: the site files the Northern Ireland Labour Party as NI Labour before 1973; the County Armagh pilot used the full name."
+    }
+  ]
+}

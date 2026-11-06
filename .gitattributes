@@ -4,11 +4,6 @@
 # (text=auto); the rules below refine particular paths.
 * text=auto eol=lf
 
-# analysis/ is left exactly as it is while the owner decides its future: its 65 CSVs are
-# stored with CRLF, and renormalising them would rewrite files that may leave the
-# repository. Remove this line if analysis/ stays and renormalise it then.
-analysis/** -text
-
 # Git LFS Configuration
 # Track large map files with Git LFS
 # FlatGeobuf files
