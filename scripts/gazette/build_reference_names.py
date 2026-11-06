@@ -14,8 +14,10 @@ text before 1950 is an OCR layer; the rest are listed in the report for checking
 import argparse, collections, csv, glob, json, os, re, unicodedata
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# Record build paths (scripts/records/paths.py): the legacy locations unless CIVGRAPH_BUILD_DIR is set.
+_RP = __import__('runpy').run_path(os.path.join(ROOT, 'scripts', 'records', 'paths.py'))
 GAZ = os.environ.get('CIVGRAPH_GAZETTE_DIR', '')
-META = os.path.join(ROOT, 'render', 'metadata', 'elections-test2')
+META = _RP['ELECTION_BUNDLE_DIR']
 SRC = os.path.join(ROOT, 'data', 'elections-source', 'data', 'elections')
 OUT = os.path.join(ROOT, 'data', 'elections', 'persons', 'reference-names.json')
 IDENTITY = re.compile(r"The Gazette prints (.+?)'s formal name as (.+?) \((.+?)\)")

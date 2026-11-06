@@ -40,9 +40,11 @@ from generated_json import dump_generated_json
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..'))
+# Record build paths (scripts/records/paths.py): the legacy locations unless CIVGRAPH_BUILD_DIR is set.
+_RP = __import__('runpy').run_path(os.path.join(REPO, 'scripts', 'records', 'paths.py'))
 # render/, not test/: the directory was renamed and these constants were not.
 # Every one of these scripts globbed an empty path and did nothing, silently.
-META = os.path.join(REPO, 'render', 'metadata', 'elections-test2')
+META = _RP['ELECTION_BUNDLE_DIR']
 OUT = os.path.join(REPO, 'data', 'elections', 'persons')
 REG = os.path.join(OUT, 'name_registry.json')
 ALIAS = os.path.join(OUT, 'alias_candidates.csv')

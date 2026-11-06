@@ -34,14 +34,17 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, unlinkSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { BROWSE_DIR, localPathForUrl } from './records/paths.mjs';
 
 const SITE = 'https://civgraph.net';
 const OUT_DIR = 'sitemaps';
 const INDEX_FILE = 'sitemap.xml';
 // --data-root reads the Browse indexes from another checkout (a git worktree has none).
 const dataRootIndex = process.argv.indexOf('--data-root');
-const DATA_ROOT = dataRootIndex >= 0 && process.argv[dataRootIndex + 1] ? process.argv[dataRootIndex + 1] : '.';
-const BROWSE = path.join(DATA_ROOT, 'data/browse');
+const DATA_ROOT = dataRootIndex >= 0 && process.argv[dataRootIndex + 1] ? process.argv[dataRootIndex + 1] : null;
+const BROWSE = DATA_ROOT ? path.join(DATA_ROOT, 'data/browse') : BROWSE_DIR;
+// A shard URL (/data/browse/person-shards/...) is read from the same tree as its index.
+const shardPath = (url) => (DATA_ROOT ? path.join(DATA_ROOT, String(url).replace(/^\/+/, '')) : localPathForUrl(url));
 const MAX_URLS = 45000;
 const MAX_BYTES = 50 * 1024 * 1024;
 const CHECK = process.argv.includes('--check');
@@ -124,7 +127,7 @@ function readBrowseItems(type) {
   if (index.indexLayout !== 'sharded') return Array.isArray(index.items) ? index.items : null;
   const items = [];
   for (const shard of index.shards || []) {
-    const shardFile = shard.url ? path.join(DATA_ROOT, String(shard.url).replace(/^\/+/, '')) : '';
+    const shardFile = shard.url ? shardPath(shard.url) : '';
     if (!shardFile || !existsSync(shardFile)) return null;   // a partial index is no index
     items.push(...(readJson(shardFile).items || []));
   }

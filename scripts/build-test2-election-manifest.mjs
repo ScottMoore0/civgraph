@@ -12,6 +12,7 @@ const LEA_CODE_SUFFIX = /[\s-]+LEA-\d+\s*$/i;
 import { canonicalElectionTitle, compareElectionsNewestFirst, isElectionByElectionScope } from './lib/election-names.mjs';
 import { createPartyLabelInterpreter } from './lib/party-label-interpretations.mjs';
 import { writeStableGeneratedJson } from './lib/stable-generated-json.mjs';
+import { ELECTION_BUNDLE_DIR, ELECTION_MANIFEST, ELECTION_REPORT } from './records/paths.mjs';
 
 const ROOT = process.cwd();
 const ELECTION_ROOT = path.join(ROOT, 'data/elections-source', 'data', 'elections');
@@ -19,10 +20,10 @@ const ELECTION_INDEX = path.join(ROOT, 'data/elections-source', 'data', 'electio
 const MAP_METADATA = path.join(ROOT, 'render', 'metadata', 'maps-test.json');
 const FEATURE_INDEX_DIR = path.join(ROOT, 'render', 'metadata', 'feature-indexes');
 const FEATURE_INDEX_BASELINE = path.join(ROOT, 'data', 'database', 'election-feature-index-baseline.json');
-const OUT_DIR = path.join(ROOT, 'render', 'metadata', 'elections-test2');
+const OUT_DIR = ELECTION_BUNDLE_DIR;
 const OUT_ANCHOR_DIR = path.join(ROOT, 'render', 'metadata', 'election-anchors-test2');
-const OUT_MANIFEST = path.join(ROOT, 'render', 'metadata', 'elections-test2.json');
-const OUT_REPORT = path.join(ROOT, 'render', 'metadata', 'elections-test2-report.json');
+const OUT_MANIFEST = ELECTION_MANIFEST;
+const OUT_REPORT = ELECTION_REPORT;
 const DAIL_WIKIPEDIA_COUNTS_ROOT = path.join(ROOT, 'data', 'elections', 'dail-wikipedia-counts');
 const PRESIDENT_COUNTS_ROOT = path.join(ROOT, 'data', 'elections', 'president-counts');
 const DAIL_OFFICIAL_RESULTS = path.join(ROOT, 'data', 'elections', 'dail-official-results.json');

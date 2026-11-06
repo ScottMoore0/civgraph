@@ -26,9 +26,10 @@
  */
 import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync, rmSync } from 'node:fs';
 import path from 'node:path';
+import { BROWSE_DIR } from './records/paths.mjs';
 
 const ROOT = process.cwd();
-const BROWSE = path.join(ROOT, 'data', 'browse');
+const BROWSE = BROWSE_DIR;
 const OUT_DIR = path.join(BROWSE, 'party-profiles');
 const CHECK = process.argv.includes('--check');
 const NOTABLE_LIMIT = 15;
@@ -67,7 +68,7 @@ const bodyGroupOf = (key) => {
 };
 
 function readPersons() {
-  const manifest = readJson('data/browse/persons.json', { shards: [] });
+  const manifest = readJson(path.join(BROWSE, 'persons.json'), { shards: [] });
   const persons = [];
   for (const shard of manifest.shards || []) {
     const data = readJson(path.join(BROWSE, 'person-shards', shard.name), { items: [] });
@@ -81,10 +82,10 @@ function wikidataCitation(qid, label) {
 }
 
 function main() {
-  const parties = readJson('data/browse/parties.json', { items: [] }).items || [];
+  const parties = readJson(path.join(BROWSE, 'parties.json'), { items: [] }).items || [];
   const partyBySlug = new Map(parties.map((party) => [party.slug, party]));
-  const partyNames = readJson('data/browse/party-names.json', { items: {} }).items || {};
-  const elections = (readJson('data/browse/elections.json', { items: [] }).items || [])
+  const partyNames = readJson(path.join(BROWSE, 'party-names.json'), { items: {} }).items || {};
+  const elections = (readJson(path.join(BROWSE, 'elections.json'), { items: [] }).items || [])
     .filter((entry) => !entry.entryKind || entry.entryKind === 'election');
   const electionByKey = new Map(elections.map((entry) => [entry.key, entry]));
   const registry = new Map((readJson('data/elections/parties/party_registry.json', { entities: [] }).entities || []).map((entry) => [entry.id, entry]));

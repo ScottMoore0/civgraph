@@ -8,6 +8,7 @@ import { canonicalElectionTitle, compareElectionsNewestFirst, electionResultEntr
 import { buildPartyVocabulary, classifyPersonName, stripWikipediaQualifier, NOT_A_PERSON } from './lib/person-name-artefacts.mjs';
 import { referenceOffices, referenceRelatives } from './lib/reference-person-facts.mjs';
 import { CDN_BASE } from '../src/cdn-url.js';
+import { BROWSE_DIR, ELECTION_MANIFEST, PROVENANCE_FILE, localPathForUrl } from './records/paths.mjs';
 
 const ROOT = process.cwd();
 
@@ -65,7 +66,7 @@ const ELECTION_SOURCE_ENRICHMENTS = (() => {
   } catch { /* sidecar optional */ }
   return map;
 })();
-const OUT_DIR = path.join(ROOT, 'data', 'browse');
+const OUT_DIR = BROWSE_DIR;
 const DETAILS_DIR = path.join(OUT_DIR, 'details');
 
 const GENERATED_AT = new Date().toISOString();
@@ -130,7 +131,7 @@ function main() {
   const sourceEnrichmentInputs = mergeSourceEnrichmentInputs(alreadyOnSiteEnrichmentsData, peatlandGeoportalSourcesData);
   const spatialIndex = readJson('data/database/spatial-index.json', { maps: [], features: [] });
   const partyIds = readJson('data/elections-source/data/party-ids.json', { party_ids: [], aliases: {} });
-  const electionManifest = readJson('render/metadata/elections-test2.json', { elections: [], totals: {} });
+  const electionManifest = readJson(ELECTION_MANIFEST, { elections: [], totals: {} });
   const thumbnailIds = readThumbnailManifest();
 
   const categoriesById = new Map((mapsData.categories || []).map((category) => [category.id, category]));
@@ -687,8 +688,7 @@ function applyElectionReaderFixes(elections, details) {
 function readElectionDetails(elections) {
   const detailFiles = new Map();
   for (const election of elections) {
-    const rel = String(election.resultUrl || `/render/metadata/elections-test2/${election.key}.json`).replace(/^\/+/, '');
-    const fullPath = path.join(ROOT, rel);
+    const fullPath = localPathForUrl(election.resultUrl || `/render/metadata/elections-test2/${election.key}.json`);
     if (!existsSync(fullPath)) continue;
     try {
       const detail = JSON.parse(readFileSync(fullPath, 'utf8'));
@@ -2549,7 +2549,7 @@ function mergeDuplicateSources(sources) {
 function referenceWorkSources() {
   const works = normalizeArray(readJson('data/database/reference-works.json', { sources: [] }).sources);
   if (!works.length) return [];
-  const provenance = normalizeArray(readJson('data/database/election-provenance.json', { contests: [] }).contests);
+  const provenance = normalizeArray(readJson(PROVENANCE_FILE, { contests: [] }).contests);
   return works.map((work) => {
     const cites = (source) => normalizeArray(work.citedAs).some((text) => String(source?.title || '').includes(text) || String(source?.url || '').includes(text));
     let contests = 0;
@@ -3496,7 +3496,7 @@ function ensureUniqueSlugs(records) {
 }
 
 function readJson(relPath, fallback) {
-  const fullPath = path.join(ROOT, relPath);
+  const fullPath = path.isAbsolute(relPath) ? relPath : path.join(ROOT, relPath);
   if (!existsSync(fullPath)) return fallback;
   return JSON.parse(readFileSync(fullPath, 'utf8'));
 }

@@ -36,11 +36,13 @@ import harvest_gallagher as hg  # noqa: E402
 import pymupdf  # noqa: E402
 
 ROOT = hg.ROOT
+# Record build paths (scripts/records/paths.py): the legacy locations unless CIVGRAPH_BUILD_DIR is set.
+_RP = __import__('runpy').run_path(os.path.join(ROOT, 'scripts', 'records', 'paths.py'))
 EI_DIR = os.path.join(ROOT, 'data', 'elections-source', 'data', 'elections', 'dail-eireann')
 WIKI_DIR = os.path.join(ROOT, 'data', 'elections', 'dail-wikipedia-counts')
 OUT = os.path.join(ROOT, 'data', 'elections', 'gallagher-general-elections-1922-44.json')
 XCHECK = os.path.join(ROOT, 'data', 'elections', 'gallagher-ge-crosscheck.json')
-SITE_DIR = os.path.join(ROOT, 'render', 'metadata', 'elections-test2')
+SITE_DIR = _RP['ELECTION_BUNDLE_DIR']
 
 # Dublin South 1937 (p. 194): the book itself prints Lawlor's and McCabe's counts 3-7 run
 # together ("+2134301 + 294330 ..."). Split back into transfer and total; every count then
