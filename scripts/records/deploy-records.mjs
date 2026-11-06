@@ -29,7 +29,7 @@ import path from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
 import { buildDelta, estimateWrites, printSummary } from './diff-load.mjs';
 import { REPO_ROOT } from './paths.mjs';
-import { D1_NAME, PERSIST_DIR, d1Env, verify } from './verify-load.mjs';
+import { D1_NAME, PERSIST_DIR, WRANGLER, d1Env, verify } from './verify-load.mjs';
 
 const args = process.argv.slice(2);
 const remote = args.includes('--remote');
@@ -52,7 +52,7 @@ const log = (s) => console.log(`[${((Date.now() - t0) / 1000).toFixed(1)}s] ${s}
 function wrangler(cmdArgs, outName) {
   const outFile = path.join(REPO_ROOT, 'tmp', 'records', outName);
   const fd = openSync(outFile, 'w');
-  const res = spawnSync('npx', ['wrangler', ...cmdArgs], { cwd: REPO_ROOT, env: d1Env(), stdio: ['ignore', fd, fd], shell: process.platform === 'win32' });
+  const res = spawnSync(process.execPath, [WRANGLER, ...cmdArgs], { cwd: REPO_ROOT, env: d1Env(), stdio: ['ignore', fd, fd] });
   closeSync(fd);
   return { status: res.status, text: readFileSync(outFile, 'utf8') };
 }

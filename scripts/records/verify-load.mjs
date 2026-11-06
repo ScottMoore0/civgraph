@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Does D1 hold exactly the local build? Per table, COUNT(*) and SUM(row_hash_n) locally (node:sqlite)
- * and in D1 (one wrangler call, every table in one UNION ALL), plus the schema (sqlite_master).
+ * and in D1 (one wrangler call holding a statement per table), plus the schema (sqlite_master).
  *
  *   node scripts/records/verify-load.mjs --local [--db tmp/records/civgraph-records.sqlite]
  *   node scripts/records/verify-load.mjs --remote          (only inside an approved publish)
@@ -11,7 +11,7 @@
  * are removed from its environment (they make D1 calls fail with "Authentication error 10000").
  */
 import { spawnSync } from 'node:child_process';
-import { mkdirSync, readFileSync, openSync, closeSync } from 'node:fs';
+import { closeSync, existsSync, mkdirSync, openSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
 import { REPO_ROOT } from './paths.mjs';
@@ -20,14 +20,30 @@ import { HASHED_TABLES } from './schema.mjs';
 export const D1_NAME = 'civgraph-elections';
 export const PERSIST_DIR = '.wrangler/state';
 
+/** wrangler's entry script: CIVGRAPH_WRANGLER_JS, the project's, the global install, or `npm root -g`. */
+export const WRANGLER = (() => {
+  const candidates = [
+    process.env.CIVGRAPH_WRANGLER_JS,
+    path.join(REPO_ROOT, 'node_modules', 'wrangler', 'bin', 'wrangler.js'),
+    process.env.APPDATA && path.join(process.env.APPDATA, 'npm', 'node_modules', 'wrangler', 'bin', 'wrangler.js'),
+  ].filter(Boolean);
+  const found = candidates.find((c) => existsSync(c));
+  if (found) return found;
+  const root = spawnSync('npm', ['root', '-g'], { encoding: 'utf8', shell: process.platform === 'win32' }).stdout?.trim();
+  return root ? path.join(root, 'wrangler', 'bin', 'wrangler.js') : candidates[1];
+})();
+
 export function d1Env() {
   const env = { ...process.env };
   for (const k of ['R2_ACCESS_KEY_ID', 'R2_SECRET_ACCESS_KEY', 'R2_S3_ENDPOINT']) delete env[k];
   return env;
 }
 
+const tableChecksumSql = (t) => `SELECT '${t.name}' AS t, COUNT(*) AS n, COALESCE(SUM(row_hash_n), 0) AS s FROM ${t.name}`;
+
+/** One statement per table, all in one wrangler call (D1 limits the terms of a compound SELECT). */
 export function checksumSql() {
-  return HASHED_TABLES.map((t) => `SELECT '${t.name}' AS t, COUNT(*) AS n, COALESCE(SUM(row_hash_n), 0) AS s FROM ${t.name}`).join(' UNION ALL ');
+  return HASHED_TABLES.map(tableChecksumSql).join('; ');
 }
 
 const SCHEMA_SQL = "SELECT name, sql FROM sqlite_master WHERE type IN ('table', 'index') AND name NOT LIKE 'sqlite_%' AND name NOT LIKE '_cf_%' AND name NOT LIKE 'd1_%' ORDER BY name";
@@ -39,8 +55,9 @@ export function wranglerQuery(sql, { remote = false, cwd = REPO_ROOT } = {}) {
   const outFile = path.join(dir, `wrangler-${process.pid}-${Date.now()}.json`);
   const fd = openSync(outFile, 'w');
   const target = remote ? ['--remote'] : ['--local', '--persist-to', PERSIST_DIR];
-  const res = spawnSync('npx', ['wrangler', 'd1', 'execute', D1_NAME, ...target, '--json', '--command', sql], {
-    cwd, env: d1Env(), stdio: ['ignore', fd, 'pipe'], shell: process.platform === 'win32', encoding: 'utf8', maxBuffer: 64 * 1024 * 1024,
+  // wrangler's own entry script under node, with no shell: a shell on Windows splits the SQL.
+  const res = spawnSync(process.execPath, [WRANGLER, 'd1', 'execute', D1_NAME, ...target, '--json', '--command', sql], {
+    cwd, env: d1Env(), stdio: ['ignore', fd, 'pipe'], encoding: 'utf8', maxBuffer: 64 * 1024 * 1024,
   });
   closeSync(fd);
   const text = readFileSync(outFile, 'utf8');
@@ -51,7 +68,7 @@ export function wranglerQuery(sql, { remote = false, cwd = REPO_ROOT } = {}) {
 
 export function localChecksums(file) {
   const db = new DatabaseSync(file, { readOnly: true });
-  const rows = db.prepare(checksumSql()).all();
+  const rows = HASHED_TABLES.map((t) => db.prepare(tableChecksumSql(t)).get());
   const schema = db.prepare(SCHEMA_SQL).all();
   db.close();
   return { tables: Object.fromEntries(rows.map((r) => [r.t, { n: Number(r.n), s: Number(r.s) }])), schema };
