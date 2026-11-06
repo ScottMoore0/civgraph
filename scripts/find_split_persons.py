@@ -38,7 +38,9 @@ import urllib.parse, urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..'))
-META = os.path.join(REPO, 'render', 'metadata', 'elections-test2')
+# Record build paths (scripts/records/paths.py): the legacy locations unless CIVGRAPH_BUILD_DIR is set.
+_RP = __import__('runpy').run_path(os.path.join(REPO, 'scripts', 'records', 'paths.py'))
+META = _RP['ELECTION_BUNDLE_DIR']
 PERS = os.path.join(REPO, 'data', 'elections', 'persons')
 REG = os.path.join(PERS, 'person_registry.json')
 AUDIT = os.path.join(PERS, 'person_id_corrections.csv')

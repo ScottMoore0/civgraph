@@ -26,7 +26,6 @@ data/maps/physical/osni_50m_dtm.zip
 privaterep_refactored/
 privaterep_refactored.zip
 .github/
-archive/
 boundary-gazette/
 docs/
 ocr_output/
@@ -134,3 +133,18 @@ assets/thumbnails/*.png
 # Operational config, not site content: publishing it would hand out a map of
 # the bucket's prefix layout for no benefit to any reader.
 data/database/r2-publication-allowlist.json
+
+# Record build output (data design stage G): the compatibility Functions answer these URLs from D1,
+# and Pages serves a static file in preference to a Function, so no copy may deploy.
+render/metadata/elections-test2/*
+render/metadata/elections-test2-summaries/*
+render/metadata/election-provenance/*
+render/metadata/elections-test2.json
+render/metadata/elections-test2-report.json
+data/database/election-provenance.json
+data/database/elections-schema.sql
+# Loader inputs nothing fetches from Pages (the records loader reads them from disk).
+data/database/approved-publication-sources-shards/*
+data/database/medium-priority-publication-sources.json
+data/database/ni-register-interests/*
+tmp/

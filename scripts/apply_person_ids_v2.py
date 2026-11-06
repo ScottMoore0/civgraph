@@ -32,13 +32,15 @@ from build_person_registry_v2 import council_area
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..'))
+# Record build paths (scripts/records/paths.py): the legacy locations unless CIVGRAPH_BUILD_DIR is set.
+_RP = __import__('runpy').run_path(os.path.join(REPO, 'scripts', 'records', 'paths.py'))
 # The election metadata the rest of the build actually reads. This pointed at
 # `test/metadata/elections-test2` for a long time, a directory that does not exist:
 # the glob matched nothing, no candidacy was ever stamped, and the only symptom was a
 # ZeroDivisionError on the summary line below, which says nothing about paths. So it is
 # an argument with a default now, and an empty match is a hard error rather than a
 # silent no-op. build-elections-sqlite.mjs reads the same directory.
-DEFAULT_META = os.path.join(REPO, 'render', 'metadata', 'elections-test2')
+DEFAULT_META = _RP['ELECTION_BUNDLE_DIR']
 REG = os.path.join(REPO, 'data', 'elections', 'persons', 'person_registry.json')
 
 

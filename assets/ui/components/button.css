@@ -1,0 +1,61 @@
+/* Button, icon button, link button (component 12). */
+.cg-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 2.25rem;
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background var(--transition-fast), border-color var(--transition-fast);
+}
+
+.cg-button:hover {
+  background: var(--surface-raised);
+  border-color: var(--gray-400);
+}
+
+.cg-button[aria-disabled="true"],
+.cg-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.cg-button--primary {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--text-inverse);
+}
+
+.cg-button--primary:hover {
+  background: var(--color-primary-light);
+  border-color: var(--color-primary-light);
+}
+
+.cg-button--icon {
+  padding: var(--space-2);
+  min-width: 2.25rem;
+  justify-content: center;
+}
+
+.cg-button--link {
+  border-color: transparent;
+  background: none;
+  color: var(--link);
+  padding-inline: 0;
+  text-decoration: underline;
+}
+
+.cg-button svg {
+  width: 1em;
+  height: 1em;
+  flex: none;
+}

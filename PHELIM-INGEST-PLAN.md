@@ -217,8 +217,8 @@ fallback "so a bad or oversized archive cannot strand a layer".
 node scripts/build-test-vector-batch.mjs                      # dry inventory — review first
 node scripts/build-test-vector-batch.mjs --execute --limit 5   # in small batches
 node scripts/build-test-pmtiles.mjs
-node scripts/write-test-cdn-upload-manifest.mjs
-node scripts/upload-test-pmtiles-r2.mjs                        # see note below
+node scripts/publish/r2-manifest.mjs
+node scripts/publish/r2-upload-pmtiles.mjs                        # see note below
 node scripts/promote-test-converted-layers.mjs
 node scripts/repair-alias-layers.mjs                           # idempotent; restores alias invariant
 npm run check

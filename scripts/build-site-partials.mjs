@@ -37,6 +37,8 @@
  */
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { toHtmlString } from '../functions/_lib/html.js';
+import { footer, head, header, supportModal } from '../functions/_templates/shell.js';
 
 const CHECK = process.argv.includes('--check');
 
@@ -65,11 +67,17 @@ const PAGES = new Map([
   ['apps/proni-search/index.html', ['proni:header', 'proni:footer']],
 ]);
 
+// The site chrome (head, header, support dialog, footer) comes from functions/_templates/shell.js,
+// the one source the server-rendered pages use too (frontend-plan.md F1): a header change is one
+// edit for both. The page-specific regions below are still partial files.
+const SHELL_REGIONS = {
+  'site:head': () => toHtmlString(head({ version: versionOf })),
+  'site:header': (attrs) => toHtmlString(header({ active: attrs.active, layout: attrs.layout || 'page' })),
+  'site:support-modal': () => toHtmlString(supportModal()),
+  'site:footer': () => toHtmlString(footer()),
+};
+
 const PARTIAL_FILES = {
-  'site:head': 'partials/site-head.html',
-  'site:header': 'partials/site-header.html',
-  'site:support-modal': 'partials/support-modal.html',
-  'site:footer': 'partials/site-footer.html',
   'site:browse-shell': 'partials/browse-shell.html',
   'proni:header': 'partials/proni-header.html',
   'proni:footer': 'partials/proni-footer.html',
@@ -101,6 +109,7 @@ function render(name, attrs, page) {
   if (name === 'site:header' && !NAV_KEYS.has(attrs.active)) {
     throw new Error(`${page}: <!-- site:header --> needs active="${[...NAV_KEYS].join('|')}"`);
   }
+  if (SHELL_REGIONS[name]) return SHELL_REGIONS[name](attrs).replace(/\r\n/g, '\n').trimEnd();
   let html = readFileSync(PARTIAL_FILES[name], 'utf8').replace(/\r\n/g, '\n').trimEnd();
   html = html
     .replace(/\{\{active:([a-z]+)\}\}/g, (_, key) => (key === attrs.active ? ' app-header__link--active' : ''))

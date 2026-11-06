@@ -6,7 +6,7 @@ const path = require('path');
 // Here those requests are answered from tests/browser/fixtures/words/ -- a few real terms cut
 // from the full tree by scripts/build-words-explorer-fixture.mjs -- or, when WORDS_STATIC_DIR
 // names a full copy of the static tree, from that. The .json.gz files are served as stored
-// bytes (application/octet-stream), as scripts/upload-tree-r2.mjs leaves them on R2, so the
+// bytes (application/octet-stream), as scripts/publish/r2-upload-manifest.mjs leaves them on R2, so the
 // page's own gzip handling is what is tested.
 const STATIC = process.env.WORDS_STATIC_DIR || path.join(__dirname, 'fixtures', 'words');
 const PREFIX = 'https://data.civgraph.net/data/parliament/words/';

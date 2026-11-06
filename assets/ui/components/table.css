@@ -1,0 +1,93 @@
+/*
+ * Data table (component 8): sticky header, optional sticky first column, numeric
+ * alignment, positive / negative deltas, row hover, compact mode. Sorting and filtering
+ * come from the cg-data-table island; without it this is a plain, complete table.
+ */
+.cg-table-wrap {
+  overflow-x: auto;
+  margin: 0 0 var(--space-6);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+
+.cg-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: var(--text-sm);
+  color: var(--text);
+}
+
+.cg-table caption {
+  caption-side: top;
+  text-align: left;
+  padding: var(--space-3) var(--space-4) var(--space-2);
+  font-weight: var(--weight-semibold);
+  color: var(--text-muted);
+}
+
+.cg-table th,
+.cg-table td {
+  padding: var(--space-2) var(--space-3);
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--table-rule);
+}
+
+.cg-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--surface-raised);
+  border-bottom: 1px solid var(--table-header-rule);
+  font-weight: var(--weight-semibold);
+  white-space: nowrap;
+}
+
+.cg-table tbody tr:hover > * {
+  background: var(--table-hover);
+}
+
+.cg-table tbody tr:last-child > * {
+  border-bottom: 0;
+}
+
+.cg-table .cg-num,
+.cg-table th.cg-num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.cg-table--sticky-first th:first-child,
+.cg-table--sticky-first td:first-child {
+  position: sticky;
+  left: 0;
+  background: var(--surface);
+}
+
+.cg-table--sticky-first thead th:first-child {
+  z-index: 2;
+  background: var(--surface-raised);
+}
+
+.cg-table--compact th,
+.cg-table--compact td {
+  padding: var(--space-1) var(--space-2);
+}
+
+.cg-delta--positive {
+  color: var(--positive);
+}
+
+.cg-delta--negative {
+  color: var(--negative);
+}
+
+.cg-elected {
+  font-weight: var(--weight-semibold);
+}
+
+.cg-elected-mark {
+  color: var(--positive);
+}

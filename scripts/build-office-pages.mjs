@@ -7,16 +7,19 @@
  * Built from the facts model (docs/facts-model.md): data/offices/offices.json and
  * data/offices/tenures/*.json, with the people from data/browse/persons.json and the parties
  * from data/browse/parties.json. Only offices someone is recorded as holding get a page.
- * Run after scripts/build-browse-indexes.mjs (npm run build does).
+ * Run after scripts/build-browse-indexes.mjs (npm run records:build does; the output is in the
+ * records build's Browse tree, loaded into D1 as office_cards).
  *
  *   node scripts/build-office-pages.mjs [--check]
  */
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { browsePartySlugResolver, formatSpan, indexFactsModel, loadFactsModel } from './lib/facts-model.mjs';
+import { BROWSE_DIR } from './records/paths.mjs';
 
 const ROOT = process.cwd();
-const BROWSE = path.join(ROOT, 'data', 'browse');
+// The Browse tree the records build writes (tmp/records/browse; CIVGRAPH_BUILD_DIR=legacy for data/browse).
+const BROWSE = BROWSE_DIR;
 const OUT_DIR = path.join(BROWSE, 'details', 'offices');
 const CHECK = process.argv.includes('--check');
 const readJson = (rel, fallback) => {
@@ -44,13 +47,13 @@ const ENDED = { resigned: 'resigned', dismissed: 'dismissed', died: 'died in off
 function main() {
   const model = loadFactsModel(ROOT);
   const index = indexFactsModel(model);
-  const personsManifest = readJson('data/browse/persons.json', { shards: [] });
+  const personsManifest = readJson(path.join(BROWSE, 'persons.json'), { shards: [] });
   const persons = new Map();
   for (const shard of personsManifest.shards || []) {
     for (const p of readJson(path.join(BROWSE, 'person-shards', shard.name), { items: [] }).items || []) persons.set(String(p.id), p);
   }
-  const parties = readJson('data/browse/parties.json', { items: [] }).items || [];
-  const partyNames = readJson('data/browse/party-names.json', { items: {} }).items || {};
+  const parties = readJson(path.join(BROWSE, 'parties.json'), { items: [] }).items || [];
+  const partyNames = readJson(path.join(BROWSE, 'party-names.json'), { items: {} }).items || {};
   const registry = readJson('data/elections/parties/party_registry.json', { entities: [] }).entities || [];
   const slugOfParty = browsePartySlugResolver(registry, partyNames, new Set(parties.map((p) => p.slug)));
   const partyTitle = (slug) => parties.find((p) => p.slug === slug)?.title;

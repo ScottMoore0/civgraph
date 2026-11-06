@@ -1,0 +1,23 @@
+/* Legend (component 22): one template for the map legend and chart keys. */
+.cg-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  margin: 0 0 var(--space-4);
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-sm);
+}
+
+.cg-legend__item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.cg-legend__swatch {
+  width: 0.875rem;
+  height: 0.875rem;
+  border-radius: 2px;
+  background: var(--legend-colour, var(--gray-400));
+}

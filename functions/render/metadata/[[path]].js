@@ -1,0 +1,82 @@
+/**
+ * Compatibility route: the election documents that were static files under /render/metadata/,
+ * answered from D1 in their identical shape (data design stage D.9). These URLs are permanent:
+ * manifests, saved links and the map app name them.
+ *
+ *   elections-test2.json                       the manifest (as /_api/elections?view=manifest)
+ *   elections-test2/<key>.json                 the full bundle, byte for byte as the file was
+ *                                              (streamed one contest at a time; the largest,
+ *                                              ireland-local 2019, is 24.7 MB)
+ *   election-provenance/<key>.json             the per-election provenance shard
+ *   elections-test2-summaries/<file>.json      the trend summary
+ *
+ * Anything else under /render/metadata/ (maps-test-index.json, layer-details-test2/, feature
+ * indexes, anchors...) is still a static file: context.next() hands it to Pages. So does a key
+ * D1 does not hold. The _redirects entries for renamed keys (Bangor and Lisburn) run first.
+ *
+ * Pages serves a static file in preference to a Function: this answers only once the files are
+ * no longer deployed (.gitignore, .cfignore and clean-for-pages.sh, stage G).
+ */
+import { bundleChunks, cachedJson, datasetState, documentBody, parseJson, streamFrom } from '../../_api/_records.js';
+
+const VERSION = 'render-metadata-1';
+
+/** The paths this answers; _routes.json includes exactly these (validate-routes-manifest.mjs). */
+export const ROUTE_PATTERNS = [
+  '/render/metadata/elections-test2.json',
+  '/render/metadata/elections-test2/*',
+  '/render/metadata/election-provenance/*',
+  '/render/metadata/elections-test2-summaries/*',
+];
+const HEADERS = { 'Content-Type': 'application/json; charset=utf-8', 'Access-Control-Allow-Origin': '*' };
+
+const text = (body) => new Response(body, { status: 200, headers: HEADERS });
+const notHere = () => new Response(null, { status: 404 });
+
+export async function onRequestGet(context) {
+  const parts = (context.params.path || []).map((p) => decodeURIComponent(p));
+  const route = matchRoute(parts);
+  const db = context.env.ELECTIONS_DB;
+  if (!route || !db) return context.next();
+  const resp = await cachedJson(context, VERSION, () => answer(db, route));
+  // A key D1 does not know is left to Pages (a static copy, or its 404).
+  return resp.status === 404 ? context.next() : resp;
+}
+
+export function matchRoute(parts) {
+  const [first, second, ...rest] = parts;
+  if (rest.length) return null;
+  if (first === 'elections-test2.json' && !second) return { kind: 'manifest' };
+  if (!second || !second.endsWith('.json')) return null;
+  const name = second.slice(0, -5);
+  if (first === 'elections-test2') return { kind: 'bundle', key: name };
+  if (first === 'election-provenance') return { kind: 'provenance', key: name };
+  if (first === 'elections-test2-summaries') return { kind: 'summary', file: second };
+  return null;
+}
+
+async function answer(db, route) {
+  if (route.kind === 'manifest') {
+    const head = await documentBody(db, 'elections-test2.json');
+    if (!head) return notHere();
+    const { results } = await db.prepare('SELECT entry FROM election_manifest ORDER BY ord, key').all();
+    // The manifest was written by the Node generators: JSON.stringify(doc, null, 2) and a newline.
+    return text(`${JSON.stringify({ ...head, elections: (results || []).map((r) => parseJson(r.entry)) }, null, 2)}\n`);
+  }
+  if (route.kind === 'bundle') {
+    const chunks = await bundleChunks(db, route.key);
+    return chunks ? new Response(streamFrom(chunks), { status: 200, headers: HEADERS }) : notHere();
+  }
+  if (route.kind === 'provenance') {
+    const row = await db.prepare('SELECT shard FROM provenance_shards WHERE election_key = ?1').bind(route.key).first();
+    // build-election-provenance.mjs shardText: one-space indentation and a newline.
+    return row ? text(`${JSON.stringify(parseJson(row.shard), null, 1)}\n`) : notHere();
+  }
+  if (route.kind === 'summary') {
+    const row = await db.prepare('SELECT summary FROM election_summaries WHERE file = ?1').bind(route.file).first();
+    return row ? text(`${JSON.stringify(parseJson(row.summary), null, 2)}\n`) : notHere();
+  }
+  return notHere();
+}
+
+export { datasetState };

@@ -9,13 +9,13 @@ serves `/_api/persons`. Files prefixed `_` are shared modules, not routes.
 
 | Route | Backed by | Notes |
 |---|---|---|
-| `_api/elections/` | D1 `civgraph-elections` | The default election transport in production. Schema tracked at `data/database/elections-schema.sql`. |
+| `_api/elections/` | D1 `civgraph-records` | The default election transport in production. Schema tracked at `data/database/elections-schema.sql`. |
 | `_api/persons/`, `_api/sources/`, `_api/register-interests/` | D1 | All three are thin wrappers over `_api/_browse-index.js`. |
 | `_api/catalogue/` | D1 `civgraph-catalogue` | |
 | `_api/proni/` | D1 `proni-catalogue` | Powers the `/proni` app. |
 | `_api/contributions/` | KV `CIVGRAPH_CONTRIBUTION_QUEUE` | Map submissions. |
 | `data/browse/[[path]].js` | R2 `boundaries-data` | Proxies the browse JSON, which is not deployed with the site. |
-| `browse/<type>/[[path]].js` | D1 `civgraph-elections`, R2 | Path-style Browse record pages (`/browse/persons/<slug>`): the Browse shell with the record's title, description and canonical link, for search engines. Shared code in `_browse-page.js`; listed in `sitemap.xml`. |
+| `browse/<type>/[[path]].js` | D1 `civgraph-records`, R2 | Path-style Browse record pages (`/browse/persons/<slug>`): the Browse shell with the record's title, description and canonical link, for search engines. Shared code in `_browse-page.js`; listed in `sitemap.xml`. |
 | `404.js` | static `404.html` | Serves `/404` with a 404 status rather than 200. |
 
 ## `_browse-index.js` is the one to read first

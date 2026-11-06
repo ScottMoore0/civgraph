@@ -37,6 +37,7 @@
  */
 import { existsSync, mkdirSync, readFileSync, readdirSync, unlinkSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
+import { PROVENANCE_FILE, PROVENANCE_SHARD_DIR } from './records/paths.mjs';
 import { PUBLISHED_BUDGET_BYTES, publishedText, slimProvenance } from './lib/election-provenance-slim.mjs';
 
 const ELECTIONS = path.join('data', 'elections-source', 'data', 'elections');
@@ -56,10 +57,10 @@ const WEB_CHECKED = path.join('data', 'elections', 'web-checked-sources.json');
 // every contest of the election as contests[].legislation, with the instruments themselves once
 // under the top-level legislation map. Not a source of the figures, so it never changes a status.
 const LEGISLATION = path.join('data', 'elections', 'legislation-citations.json');
-const OUT = path.join('data', 'database', 'election-provenance.json');
+const OUT = PROVENANCE_FILE;
 // Per-election shards for the browser. The whole file is 10 MB, far too much to fetch, so the app
 // loads only the election it is showing, keyed by the constituency name it already has.
-const SHARD_DIR = path.join('render', 'metadata', 'election-provenance');
+const SHARD_DIR = PROVENANCE_SHARD_DIR;
 const CHECK = process.argv.includes('--check');
 
 const readJson = (p) => JSON.parse(readFileSync(p, 'utf8'));

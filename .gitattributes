@@ -1,3 +1,9 @@
+# Line endings: every text file is stored with LF and checked out with LF, whatever
+# core.autocrlf says, so a Windows checkout and CI see the same bytes (content hashes,
+# byte-counted shards and shell scripts depend on it). Git still detects binaries itself
+# (text=auto); the rules below refine particular paths.
+* text=auto eol=lf
+
 # Git LFS Configuration
 # Track large map files with Git LFS
 # FlatGeobuf files

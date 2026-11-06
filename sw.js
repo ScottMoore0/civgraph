@@ -11,7 +11,7 @@
 // changing it is what flushes stale entries already sitting in visitors' browsers --
 // necessary here because the browse indexes cached under the previous routing rule
 // would otherwise outlive the fix below.
-const VERSION = 'root-maplibre-sw-a673446d9a7c';
+const VERSION = 'root-maplibre-sw-489a325b1638';
 const STATIC_CACHE = `civgraph-root-maplibre-${VERSION}-static`;
 const RUNTIME_CACHE = `civgraph-root-maplibre-${VERSION}-runtime`;
 const CACHE_PREFIX = 'civgraph-root-maplibre-';
@@ -76,7 +76,9 @@ const NEVER_CACHE_PATTERNS = [
   /\/test\/metadata\/elections-test2\//,
   /\/feature-indexes\//,
   /\/data\/browse\//,
-  /\/browse\//
+  /\/browse\//,
+  // Who is signed in, and contributions, are never kept: they are per person, not records.
+  /\/_api\/(?:auth|contributions|rum)(?:[/?#]|$)/
 ];
 
 self.addEventListener('install', (event) => {
@@ -188,12 +190,15 @@ function isRuntimeJson(url) {
   // layers were invisible in Browse to anyone who had used the site before, while
   // appearing correctly for a first-time visitor -- which is exactly how it was reported.
   //
-  // /data/graph/ is included for the same reason: it is rebuilt whenever the browse
-  // indexes are.
+  // /_api/ (data design phase 2): records come from D1, and a load changes them without
+  // changing VERSION, so they are network-first too -- staleWhileRevalidate showed a returning
+  // visitor the previous publish's records once. Offline, the runtime cache still answers.
+  // /data/graph/ left: Browse reads the graph from /_api/graph. /data/browse/ stays while the
+  // map records, features and the index are still read from it (until phase 3).
+  if (url.pathname.startsWith('/_api/')) return true;
   return url.pathname.endsWith('.json') && (
     url.pathname.startsWith('/data/database/') ||
     url.pathname.startsWith('/data/browse/') ||
-    url.pathname.startsWith('/data/graph/') ||
     url.pathname.startsWith('/render/metadata/')
   );
 }

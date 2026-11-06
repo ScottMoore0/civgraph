@@ -133,6 +133,7 @@ async function handle(context) {
     let ancestors = [];
     if (ancRefs.length) {
       const placeholders = ancRefs.map((_, i) => `?${i + 1}`).join(',');
+      // order-free: keyed into a Map by ref and read back in ancestor order
       const anc = await db.prepare(
         `SELECT ref, slug, title FROM proni WHERE ref IN (${placeholders})`
       ).bind(...ancRefs).all();

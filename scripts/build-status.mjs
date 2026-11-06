@@ -43,6 +43,7 @@
 import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { formatDisplayDate } from '../src/date-format.mjs';
+import { BROWSE_DIR, ELECTION_BUNDLE_DIR, PROVENANCE_FILE } from './records/paths.mjs';
 
 const ROOT = process.cwd();
 const CHECK = process.argv.includes('--check');
@@ -54,14 +55,14 @@ const fail = (message) => {
   process.exit(1);
 };
 const readJson = (rel, { optional = false } = {}) => {
-  const full = path.join(ROOT, rel);
+  const full = path.resolve(ROOT, rel);
   if (!existsSync(full)) {
     if (optional) return null;
     fail(`${rel} does not exist, so the Status page cannot be built.`);
   }
   return JSON.parse(readFileSync(full, 'utf8'));
 };
-const readText = (rel) => (existsSync(path.join(ROOT, rel)) ? readFileSync(path.join(ROOT, rel), 'utf8') : '');
+const readText = (rel) => (existsSync(path.resolve(ROOT, rel)) ? readFileSync(path.resolve(ROOT, rel), 'utf8') : '');
 
 // --- sources ------------------------------------------------------------------------
 
@@ -72,7 +73,7 @@ const snapshots = readJson('data/status/source-snapshots.json').sources || {};
 const citedText = [
   readText('data/database/maps.json'),
   readText('data/catalogue/descriptions.json'),
-  readText('data/database/election-provenance.json'),
+  readText(PROVENANCE_FILE),
 ].join('\n');
 
 function gazetteCitedIssues() {
@@ -163,7 +164,7 @@ const SOURCE_FIGURES = {
     };
   },
   proni(cfg, snap) {
-    const browse = readJson('data/browse/index.json', { optional: true });
+    const browse = readJson(path.join(BROWSE_DIR, 'index.json'), { optional: true });
     return {
       known: snap?.recordsCollected ?? null,
       stages: {
@@ -217,15 +218,15 @@ const sources = sourcesConfig.sources.map((cfg) => {
 // --- elections ------------------------------------------------------------------------
 
 const electionsConfig = readJson('data/status/elections.config.json');
-const provenance = readJson('data/database/election-provenance.json');
+const provenance = readJson(PROVENANCE_FILE);
 const provByFile = new Map(provenance.contests.map((c) => [c.file, c]));
 const provByKey = new Map(provenance.contests.map((c) => [`${c.body}|${c.date}|${c.constituency}`, c]));
 
-const ELECTION_DIR = 'render/metadata/elections-test2';
+const ELECTION_DIR = ELECTION_BUNDLE_DIR;
 const SOURCE_PREFIX = 'data/elections-source/data/elections/';
 const contests = [];
 const bodyNames = new Map();
-for (const file of readdirSync(path.join(ROOT, ELECTION_DIR)).filter((f) => f.endsWith('.json')).sort()) {
+for (const file of readdirSync(path.resolve(ROOT, ELECTION_DIR)).filter((f) => f.endsWith('.json')).sort()) {
   const e = readJson(path.join(ELECTION_DIR, file));
   bodyNames.set(e.bodySlug, e.body);
   for (const r of e.results || []) {

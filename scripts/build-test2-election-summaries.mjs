@@ -8,10 +8,12 @@
 import { existsSync, mkdirSync, readFileSync, rmSync } from 'node:fs';
 import path from 'node:path';
 import { writeStableGeneratedJson } from './lib/stable-generated-json.mjs';
+import { ELECTION_MANIFEST, ELECTION_SUMMARY_DIR } from './records/paths.mjs';
+import { localPathForUrl } from './records/paths.mjs';
 
 const ROOT = process.cwd();
-const MANIFEST_PATH = path.join(ROOT, 'render', 'metadata', 'elections-test2.json');
-const SUMMARY_DIR = path.join(ROOT, 'render', 'metadata', 'elections-test2-summaries');
+const MANIFEST_PATH = ELECTION_MANIFEST;
+const SUMMARY_DIR = ELECTION_SUMMARY_DIR;
 
 function readJson(file) {
   return JSON.parse(readFileSync(file, 'utf8'));
@@ -24,10 +26,6 @@ function writeJsonIfChanged(file, value) {
   return before !== after;
 }
 
-function localPathForUrl(url) {
-  if (!url || /^https?:\/\//i.test(url)) return null;
-  return path.join(ROOT, String(url).split('?')[0].replace(/^\/+/, ''));
-}
 
 function safeFileName(key) {
   return String(key || 'election').replace(/[^A-Za-z0-9_.-]+/g, '-');

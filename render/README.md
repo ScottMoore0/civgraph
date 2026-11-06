@@ -39,6 +39,6 @@ So a clean checkout will not have most of this, and that is correct.
 
 ## Uploading tiles
 
-Use the S3 endpoint (`scripts/upload-tile-pyramid-s3.mjs`), never the REST API
+Use the S3 endpoint (`scripts/publish/r2-upload-tree.mjs`), never the REST API
 path — the latter is rate-limited to roughly 1.4 objects per second, which for a
 tile pyramid means days.

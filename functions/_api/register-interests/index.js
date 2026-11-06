@@ -9,11 +9,22 @@
  * one entry should not cost the whole index.
  */
 import { browseIndexHandler } from '../_browse-index.js';
+import { parseJson } from '../_records.js';
+
+/** ?slug=&view=detail: the entry with its interests (was data/database/ni-register-browse-records). */
+async function detail({ db, slug, record, json }) {
+  const row = await db.prepare('SELECT detail FROM register_entries WHERE slug = ?1').bind(slug).first();
+  const match = parseJson(row?.detail);
+  if (!match) return json({ error: 'no detail', slug }, 404);
+  return json({ schemaVersion: 1, item: { ...record, ...match } });
+}
 
 export const onRequestGet = browseIndexHandler({
-  table: 'browse_register_interests',
+  table: 'register_entries',
+  recordColumn: 'card',
   key: 'register-interests',
-  version: 'register-interests-1',
+  version: 'register-interests-2',
+  views: { detail },
   filters: {
     memberName: 'member_name',
     electedBody: 'elected_body',

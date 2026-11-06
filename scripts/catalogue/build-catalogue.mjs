@@ -27,10 +27,12 @@ import { compareElectionsNewestFirst } from '../lib/election-names.mjs';
 import path from 'node:path';
 import { loadRecords } from './records.mjs';
 import { formatDatesInText, formatDisplayDate } from '../../src/date-format.mjs';
+import { DatabaseSync } from 'node:sqlite';
+import { BROWSE_DIR, ELECTION_MANIFEST, RECORDS_DB } from '../records/paths.mjs';
 import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLocalCouncilRound, niLocalGroupKey } from '../../src/ni-local-groups.mjs';
 
 const ROOT = process.cwd();
-const rel = (p) => path.join(ROOT, p);
+const rel = (p) => path.resolve(ROOT, p);
 const read = (p) => JSON.parse(readFileSync(rel(p), 'utf8'));
 const CHECK = process.argv.includes('--check');
 
@@ -46,7 +48,7 @@ const thumbs = new Set(read('assets/thumbnails/manifest.json'));
 const spatial = read('data/database/spatial-index.json');
 // A party's own ballots (bodyType "party-internal": leadership and nomination contests) have no
 // map and no shelf here; Browse shows them on the election and party pages (docs/facts-model.md).
-const elections = (read('render/metadata/elections-test2.json').elections || []).filter((e) => e.bodyType !== 'party-internal');
+const elections = (read(ELECTION_MANIFEST).elections || []).filter((e) => e.bodyType !== 'party-internal');
 
 // ------------------------------------------------------------------ per map
 const layerBySource = new Map();
@@ -458,9 +460,26 @@ try {
 // as [election (an index into `elections`), constituency, elected 0/1, party if not the main one].
 // A row is [id, name, party, constituency, firstYear, lastYear, stood, elected, contests,
 // otherNames?, slug?]; the slug (their Browse page) is given only when it is not name-id.
-const peopleDoc = (() => {
-  const dir = rel('data/browse/person-shards');
+// The person cards come from the records database (tmp/records/civgraph-records.sqlite, in source
+// order) when it has been built, else from the Browse person shards as before.
+function personCards() {
+  if (existsSync(RECORDS_DB)) {
+    const db = new DatabaseSync(RECORDS_DB, { readOnly: true });
+    try {
+      return db.prepare('SELECT card FROM person_cards ORDER BY ord').all().map((r) => JSON.parse(r.card));
+    } finally {
+      db.close();
+    }
+  }
+  const dir = rel(path.join(BROWSE_DIR, 'person-shards'));
   if (!existsSync(dir)) return null;
+  return readdirSync(dir).filter((x) => /^persons-\d+\.json$/.test(x)).sort()
+    .flatMap((f) => JSON.parse(readFileSync(path.join(dir, f), 'utf8')).items || []);
+}
+
+const peopleDoc = (() => {
+  const cards = personCards();
+  if (!cards) return null;
   const parties = [];
   const constituencies = [];
   const partyIndex = new Map();
@@ -476,8 +495,8 @@ const peopleDoc = (() => {
     if (electionIndex.has(groupKey)) electionIndex.set(roundKey, electionIndex.get(groupKey));
   }
   const people = [];
-  for (const f of readdirSync(dir).filter((x) => /^persons-\d+\.json$/.test(x)).sort()) {
-    for (const p of JSON.parse(readFileSync(path.join(dir, f), 'utf8')).items || []) {
+  {
+    for (const p of cards) {
       const party = p.parties?.[0]?.name || '';
       const contests = (p.elections || []).filter((e) => electionIndex.has(e.key)).map((e) => {
         const c = [electionIndex.get(e.key), at(constituencies, placeIndex, e.constituency || ''), e.elected ? 1 : 0];

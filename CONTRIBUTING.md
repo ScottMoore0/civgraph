@@ -36,13 +36,19 @@ npm run lint      # eslint
 ```
 
 `npm run check` is the gate that matters. It is slow because it is thorough —
-it verifies the catalogue against the tile store, every asset reference against
-the built output, and every referenced R2 object against the bucket. A few of
-its steps need R2 credentials in `.env.local` and will skip loudly without them;
-that is expected for outside contributors and those steps run in CI.
+it verifies the catalogue against the tile store and every asset reference
+against the built output. It is offline: the checks that need the network (the
+live elections database, the R2 bucket, the deployed site) are under
+`npm run verify`, which publishing and the nightly CI job run.
 
-CI runs `npm run check` and `npm run lint` on every push
-(`.github/workflows/data-readiness.yml`).
+Many checks read build output, so run the build first, or run
+`npm run check:clean`, which exports exactly what a commit would contain into a
+temporary directory, builds it and runs the checks there, as CI does.
+
+CI (`.github/workflows/ci.yml`, no path filters) runs `npm run check:ci` (the
+build, then every check), the exact Pages build, and the browser specs of the
+map app at `/maps/` on every push; `npm run verify:ci` and the production-parity
+specs run nightly.
 
 ---
 
