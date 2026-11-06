@@ -3244,6 +3244,7 @@ function renderRelatedPanel(type, item) {
     ], { before: printedLabelsToggleHtml() })
     // Offices held and party affiliation over time (the facts model, each fact cited).
     + renderPersonOfficesPanel(item)
+    + renderPersonHonoursPanel(item)
     + renderAffiliationTimelinePanel(item)
     + renderSimpleTable('Seats in the Commons (History of Parliament)', ['Constituency', 'Held'], item.seatsHeld || [], (row) => [
     escapeHtml(row.constituency || ''),
@@ -3332,6 +3333,19 @@ function renderPersonOfficesPanel(item) {
     tenureHowHtml(row),
     factCitations(row.citations)
   ], { before: '<p class="browse-panel-note browse-detail__body">Offices and tenures from published sources, each cited; a date the source does not give is left out, and a date given only to the year or month is shown that way.</p>' });
+}
+
+const HONOUR_KIND_LABELS = { peerage: 'Peerage', knighthood: 'Knighthood', 'privy-council': 'Privy Council', lieutenancy: 'Lieutenancy', 'other-honour': 'Honour', membership: 'Membership', appointment: 'Appointment' };
+const HONOUR_ENDED_LABELS = { died: 'died', resigned: 'resigned', 'term-ended': 'term ended', 'body-abolished': 'body abolished', disqualified: 'disqualified' };
+
+// Peerages, honours and seats in appointed or indirectly chosen bodies, each dated and cited.
+function renderPersonHonoursPanel(item) {
+  return renderSimpleTable('Honours and memberships', ['Honour or seat', 'Held', 'Kind', 'Source'], normalizeArray(item.honours), (row) => [
+    `${escapeHtml(row.title || '')}${row.body ? `<br><small class="browse-muted">${escapeHtml(row.body)}</small>` : ''}`,
+    `${escapeHtml(row.held || '')}${row.ended && HONOUR_ENDED_LABELS[row.ended] ? ` <small class="browse-muted">(${escapeHtml(HONOUR_ENDED_LABELS[row.ended])})</small>` : ''}${row.note ? `<br><small class="browse-muted">${escapeHtml(row.note)}</small>` : ''}`,
+    escapeHtml(HONOUR_KIND_LABELS[row.kind] || row.kind || ''),
+    factCitations(row.citations)
+  ], { before: '<p class="browse-panel-note browse-detail__body">Peerages, honours and seats in appointed or indirectly chosen bodies, from published sources, each cited; a date the sources do not give is left out.</p>' });
 }
 
 function affiliationEventsText(row) {

@@ -9,6 +9,9 @@
  *   data/elections/parties/party-events.json           founded, dissolved, renamed, split ...
  *   data/elections/persons/affiliations.json           party / independent / group / whip intervals
  *   data/elections/persons/non-candidate-persons.json  people who never stood, in their own id block
+ *   data/elections/persons/honours.json                peerages, knighthoods, the Privy Council,
+ *                                                      lieutenancies, and seats in appointed or
+ *                                                      indirectly chosen bodies (memberships)
  *
  * Internal contests (leadership elections, nomination contests) are not here: they are
  * ordinary elections under data/elections-source with a `party-internal` body.
@@ -22,6 +25,7 @@ export const FACT_PATHS = {
   partyEvents: 'data/elections/parties/party-events.json',
   affiliations: 'data/elections/persons/affiliations.json',
   nonCandidates: 'data/elections/persons/non-candidate-persons.json',
+  honours: 'data/elections/persons/honours.json',
   schemas: 'data/schemas',
 };
 
@@ -43,14 +47,16 @@ export function loadFactsModel(root = process.cwd()) {
   const eventsDoc = readJson(at(FACT_PATHS.partyEvents), { events: [] });
   const affiliationsDoc = readJson(at(FACT_PATHS.affiliations), { affiliations: [] });
   const nonCandidatesDoc = readJson(at(FACT_PATHS.nonCandidates), { persons: [] });
+  const honoursDoc = readJson(at(FACT_PATHS.honours), { honours: [] });
   return {
-    officesDoc, tenureDocs, eventsDoc, affiliationsDoc, nonCandidatesDoc,
+    officesDoc, tenureDocs, eventsDoc, affiliationsDoc, nonCandidatesDoc, honoursDoc,
     institutions: officesDoc.institutions || [],
     offices: officesDoc.offices || [],
     tenures: Object.values(tenureDocs).flatMap((doc) => doc.tenures || []),
     events: eventsDoc.events || [],
     affiliations: affiliationsDoc.affiliations || [],
     nonCandidates: nonCandidatesDoc.persons || [],
+    honours: honoursDoc.honours || [],
   };
 }
 
@@ -80,12 +86,16 @@ export function formatFactDate(date) {
   return m[1];
 }
 
-/** "1972-03 to 1974-01" as a reader's span: "March 1972 – January 1974", "from 1998", "until May 1987". */
-export function formatSpan(start, end) {
-  const a = formatFactDate(start);
+/**
+ * "1972-03 to 1974-01" as a reader's span: "March 1972 – January 1974", "from 1998", "until May
+ * 1987". Where a source shows only that the person was in post by a date (startBy), and not when
+ * they began, the span says so: "in post by June 1972", "in post by 1974 – 1983".
+ */
+export function formatSpan(start, end, { startBy = null } = {}) {
+  const a = formatFactDate(start) || (startBy ? `in post by ${formatFactDate(startBy)}` : '');
   const b = formatFactDate(end);
   if (a && b) return `${a} – ${b}`;
-  if (a) return `from ${a}`;
+  if (a) return start ? `from ${a}` : a;
   if (b) return `until ${b}`;
   return '';
 }
@@ -116,6 +126,7 @@ export function checkFactsModel(model, refs = {}) {
   unique(model.tenures, 'tenure');
   unique(model.events, 'party event');
   unique(model.affiliations, 'affiliation');
+  unique(model.honours || [], 'honour');
   const registered = new Set();
   for (const p of model.nonCandidates) {
     const n = Number(p.personId);
@@ -152,9 +163,11 @@ export function checkFactsModel(model, refs = {}) {
     if (!officeIds.has(t.officeId)) err(`${what}: unknown office ${t.officeId}`);
     if (!knownPerson(t.personId)) err(`${what}: unknown person ${t.personId}`);
     for (const f of ['predecessor', 'successor']) if (t[f] && !knownPerson(t[f])) err(`${what}: unknown ${f} ${t[f]}`);
-    if (!t.start && !t.end) err(`${what}: neither a start nor an end`);
+    if (!t.start && !t.end && !t.startBy) err(`${what}: neither a start nor an end`);
     dates(t, what, [['start', 'startPrecision'], ['end', 'endPrecision']]);
     if (!notAfter(t.start, t.end)) err(`${what}: ends (${t.end}) before it starts (${t.start})`);
+    if (t.startBy && t.start) err(`${what}: both a start and an in-post-by date`);
+    if (!notAfter(t.startBy, t.end)) err(`${what}: ends (${t.end}) before the date it was in post by (${t.startBy})`);
     if (t.contest && refs.electionKeys && !refs.electionKeys.has(t.contest)) err(`${what}: unknown contest ${t.contest}`);
     if (!(t.citations || []).length) err(`${what}: no citation`);
   }
@@ -176,6 +189,15 @@ export function checkFactsModel(model, refs = {}) {
     if (Boolean(a.start) !== Boolean(a.startEvent) && a.start) err(`${what}: a start without a start event`);
     if (a.end && !a.endEvent) err(`${what}: an end without an end event`);
   }
+  for (const h of model.honours || []) {
+    const what = `honour ${h.id}`;
+    if (!knownPerson(h.personId)) err(`${what}: unknown person ${h.personId}`);
+    if (!h.start && !h.end && !h.startBy) err(`${what}: no date`);
+    dates(h, what, [['start', 'startPrecision'], ['end', 'endPrecision']]);
+    if (!notAfter(h.start, h.end)) err(`${what}: ends (${h.end}) before it starts (${h.start})`);
+    if (h.startBy && h.start) err(`${what}: both a start and an in-post-by date`);
+    if (!(h.citations || []).length) err(`${what}: no citation`);
+  }
   return errors;
 }
 
@@ -184,7 +206,7 @@ export async function schemaErrors(model, root = process.cwd()) {
   const { default: Ajv } = await import('ajv');
   const ajv = new Ajv({ allErrors: true, jsonPointers: true });
   const dir = path.join(root, FACT_PATHS.schemas);
-  for (const name of ['citation', 'offices', 'tenures', 'party-events', 'affiliations', 'non-candidate-persons']) {
+  for (const name of ['citation', 'offices', 'tenures', 'party-events', 'affiliations', 'non-candidate-persons', 'honours']) {
     ajv.addSchema(JSON.parse(readFileSync(path.join(dir, `${name}.schema.json`), 'utf8')), name);
   }
   const errors = [];
@@ -198,6 +220,7 @@ export async function schemaErrors(model, root = process.cwd()) {
   run('party-events', model.eventsDoc, FACT_PATHS.partyEvents);
   run('affiliations', model.affiliationsDoc, FACT_PATHS.affiliations);
   run('non-candidate-persons', model.nonCandidatesDoc, FACT_PATHS.nonCandidates);
+  if (model.honoursDoc) run('honours', model.honoursDoc, FACT_PATHS.honours);
   return errors;
 }
 
@@ -255,9 +278,11 @@ export function indexFactsModel(model) {
   for (const list of [...tenuresByPerson.values(), ...tenuresByOffice.values()]) list.sort(sortByStart);
   const affiliationsByPerson = by(model.affiliations, 'personId');
   for (const list of affiliationsByPerson.values()) list.sort(sortByStart);
+  const honoursByPerson = by(model.honours || [], 'personId');
+  for (const list of honoursByPerson.values()) list.sort((a, b) => String(a.start || a.startBy || a.end || '').localeCompare(String(b.start || b.startBy || b.end || '')));
   const eventsByParty = by(model.events, 'partyId');
   for (const list of eventsByParty.values()) list.sort((a, b) => String(a.date).localeCompare(String(b.date)));
   // A party's offices (leader, chair ...), through the institution or the office's own partyId.
   const officesByParty = by(model.offices, (o) => o.partyId || institutionById.get(o.institution)?.partyId);
-  return { officeById, institutionById, tenuresByPerson, tenuresByOffice, affiliationsByPerson, eventsByParty, officesByParty };
+  return { officeById, institutionById, tenuresByPerson, tenuresByOffice, affiliationsByPerson, honoursByPerson, eventsByParty, officesByParty };
 }
