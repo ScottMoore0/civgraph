@@ -11,7 +11,7 @@ const LEA_SEAT_SUFFIX = /\s*\(\d+\)\s*$/;
 const LEA_CODE_SUFFIX = /[\s-]+LEA-\d+\s*$/i;
 import { canonicalElectionTitle, compareElectionsNewestFirst, isElectionByElectionScope, isPartyInternalBody } from './lib/election-names.mjs';
 import { createPartyLabelInterpreter } from './lib/party-label-interpretations.mjs';
-import { seatTypeResultFile } from './lib/election-result-files.mjs';
+import { bracketedResultFile, seatTypeResultFile } from './lib/election-result-files.mjs';
 import { writeStableGeneratedJson } from './lib/stable-generated-json.mjs';
 import { ELECTION_BUNDLE_DIR, ELECTION_MANIFEST, ELECTION_REPORT } from './records/paths.mjs';
 
@@ -2820,6 +2820,10 @@ function contestNotes(raw) {
 
 function findResultFile(dateDir, constituency) {
   if (!existsSync(dateDir)) return null;
+  // A bracket the file name spells out first ("East Central Ward (Alderman)"): the
+  // bracket-dropped file beside it can be the same ward's councillor list (bracketedResultFile).
+  const bracketed = bracketedResultFile(dateDir, fixText(constituency));
+  if (bracketed) return bracketed;
   const direct = path.join(dateDir, `${slugify(constituency)}.json`);
   if (existsSync(direct)) return direct;
   // "Portadown (councillors)", "Lurgan (aldermen)": the list filed under its seat type. Without

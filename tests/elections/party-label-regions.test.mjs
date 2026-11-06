@@ -16,7 +16,7 @@ import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { normalizeParty, partyColour } from '../../src/election-domain.mjs';
 import { createPartyLabelInterpreter } from '../../scripts/lib/party-label-interpretations.mjs';
-import { seatTypeResultFile } from '../../scripts/lib/election-result-files.mjs';
+import { bracketedResultFile, seatTypeResultFile } from '../../scripts/lib/election-result-files.mjs';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const config = JSON.parse(readFileSync(path.join(root, 'data/elections/party-label-interpretations.json'), 'utf8'));
@@ -207,4 +207,17 @@ test('every Lurgan and Portadown result of 1947-67 in the election index finds a
     }
   }
   assert.equal(checked, 23, 'the 23 split-list results (Lurgan 11, Portadown 12)');
+});
+
+test('a bracket spelt out in the file name wins over the bracket-dropped file: Carrickfergus 1955 aldermen', () => {
+  const dir = path.join(ELECTIONS, 'carrickfergus-borough-council', '1955-05-18');
+  for (const ward of ['East Central Ward', 'West Ward']) {
+    const file = bracketedResultFile(dir, `${ward} (Alderman)`);
+    assert.ok(file, `${ward} (Alderman) has its own file`);
+    const info = JSON.parse(readFileSync(file, 'utf8')).Constituency.countInfo;
+    assert.equal(info.Constituency_Name, `${ward} (Alderman)`);
+    assert.equal(info.Seat_Type, 'Alderman');
+  }
+  assert.equal(bracketedResultFile(dir, 'East Central Ward'), null, 'no bracket, no match');
+  assert.equal(bracketedResultFile(dir, 'East Central Ward (Councillors)'), null, 'no such file');
 });

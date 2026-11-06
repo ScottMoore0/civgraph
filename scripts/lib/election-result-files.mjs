@@ -19,3 +19,21 @@ export function seatTypeResultFile(dateDir, constituency) {
   const file = path.join(dateDir, `${match[1].toLowerCase()}.json`);
   return existsSync(file) ? file : null;
 }
+
+/**
+ * A name whose bracket the file name spells out: "East Central Ward (Alderman)" is
+ * east-central-ward-alderman.json. findResultFile tries this before the bracket-dropped spelling,
+ * because that one can be another contest's file: Carrickfergus 1955's East Central and West
+ * wards each have a councillor list (east-central-ward.json) beside the aldermanic one, and with
+ * the bracket dropped first both contests were built from the councillor file, the aldermen
+ * nowhere. Returns the file's path, or null when the name has no bracket or no such file.
+ */
+export function bracketedResultFile(dateDir, constituency) {
+  const name = String(constituency ?? '');
+  if (!name.includes('(')) return null;
+  const slug = name.normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  if (!slug) return null;
+  const file = path.join(dateDir, `${slug}.json`);
+  return existsSync(file) ? file : null;
+}
