@@ -9,8 +9,8 @@
  *   1. export `git ls-files -co --exclude-standard` (tracked files plus new, non-ignored
  *      files: exactly what a commit would contain) into a temporary directory;
  *   2. link node_modules into it (a junction on Windows), rather than reinstalling;
- *   3. run the derived inputs CI builds (`npm run build`, the Pages build, then the two
- *      D1 import builders the checks still read), then the offline check chain
+ *   3. run the derived inputs CI builds (`npm run build`, the Pages build, the catalogue D1
+ *      import and the records database with its tests), then the offline check chain
  *      (scripts/run-checks.mjs, with any arguments given here passed through);
  *   4. unlink node_modules BEFORE deleting the directory, so the delete can never reach
  *      the real node_modules through the link (memory note feedback_worktree_junction.md).
@@ -36,7 +36,11 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const BUILD_STEPS = [
   ['npm', ['run', 'build']],
   ['node', ['scripts/build-catalogue-d1-import.mjs']],
-  ['node', ['scripts/build-browse-index-d1-import.mjs', '--all']],
+  // The records database (data design phase 2): the election, Browse and graph trees the
+  // checks read are no longer tracked; this writes them to tmp/records, then records:check
+  // tests the database itself. Without CIVGRAPH_VOTES_DIR the votes tables stay empty.
+  ['npm', ['run', 'records:build', '--', '--no-source-checks']],
+  ['npm', ['run', 'records:check']],
 ];
 
 export function parseArgs(argv) {

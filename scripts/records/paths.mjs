@@ -6,8 +6,10 @@
  * or data/graph takes its location from here, so the whole chain can be pointed at a build
  * directory without editing each script again.
  *
- *   CIVGRAPH_BUILD_DIR unset   the legacy locations (render/metadata/..., data/browse, ...)
- *   CIVGRAPH_BUILD_DIR=<dir>   everything under <dir> (records:build sets tmp/records)
+ *   CIVGRAPH_BUILD_DIR unset    everything under tmp/records, where records:build puts it (since
+ *                               the stage G cutover: these trees are no longer tracked)
+ *   CIVGRAPH_BUILD_DIR=<dir>    everything under <dir>
+ *   CIVGRAPH_BUILD_DIR=legacy   the old locations (render/metadata/..., data/browse, ...)
  *
  * These are file paths. The URLs the files used to be served at (/render/metadata/...,
  * /data/browse/...) are public addresses and stay as they are wherever they are written into
@@ -20,9 +22,11 @@ import { fileURLToPath } from 'node:url';
 
 export const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 
+export const DEFAULT_BUILD_DIR = 'tmp/records';
+
 export function buildDir(env = process.env) {
-  const value = String(env.CIVGRAPH_BUILD_DIR || '').trim();
-  return value ? path.resolve(REPO_ROOT, value) : null;
+  const value = String(env.CIVGRAPH_BUILD_DIR || '').trim() || DEFAULT_BUILD_DIR;
+  return value === 'legacy' ? null : path.resolve(REPO_ROOT, value);
 }
 
 /** The constants for a given environment (the exports below are this for process.env). */

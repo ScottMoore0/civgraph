@@ -17,16 +17,17 @@ const LEGACY = {
   GRAPH_DIR: 'data/graph',
 };
 
-test('with CIVGRAPH_BUILD_DIR unset every constant is the legacy path', () => {
-  const p = recordPaths({});
+test('with CIVGRAPH_BUILD_DIR=legacy every constant is the legacy path', () => {
+  const p = recordPaths({ CIVGRAPH_BUILD_DIR: 'legacy' });
   assert.equal(p.BUILD_DIR, null);
   for (const [name, legacy] of Object.entries(LEGACY)) {
     assert.equal(p[name], path.join(REPO_ROOT, legacy), name);
   }
 });
 
-test('with CIVGRAPH_BUILD_DIR set every constant is under it', () => {
-  const p = recordPaths({ CIVGRAPH_BUILD_DIR: 'tmp/records' });
+test('unset, or set to tmp/records, every constant is under tmp/records', () => {
+  assert.deepEqual(recordPaths({}), recordPaths({ CIVGRAPH_BUILD_DIR: 'tmp/records' }));
+  const p = recordPaths({});
   const build = path.join(REPO_ROOT, 'tmp', 'records');
   assert.equal(p.BUILD_DIR, build);
   for (const name of Object.keys(LEGACY)) {
@@ -48,7 +49,7 @@ test('legacy URLs resolve into the build directory, other URLs under the reposit
 test('paths.py agrees with paths.mjs, with and without the variable', (t) => {
   const probe = spawnSync('python', ['--version'], { encoding: 'utf8' });
   if (probe.status !== 0) return t.skip('python is not available');
-  for (const env of [{}, { CIVGRAPH_BUILD_DIR: 'tmp/records' }]) {
+  for (const env of [{}, { CIVGRAPH_BUILD_DIR: 'legacy' }, { CIVGRAPH_BUILD_DIR: 'tmp/records' }]) {
     const py = spawnSync('python', ['-c', [
       'import runpy, json, os',
       `p = runpy.run_path(${JSON.stringify(path.join(REPO_ROOT, 'scripts', 'records', 'paths.py'))})`,
