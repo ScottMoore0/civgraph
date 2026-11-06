@@ -11,6 +11,7 @@ const LEA_SEAT_SUFFIX = /\s*\(\d+\)\s*$/;
 const LEA_CODE_SUFFIX = /[\s-]+LEA-\d+\s*$/i;
 import { canonicalElectionTitle, compareElectionsNewestFirst, isElectionByElectionScope } from './lib/election-names.mjs';
 import { createPartyLabelInterpreter } from './lib/party-label-interpretations.mjs';
+import { seatTypeResultFile } from './lib/election-result-files.mjs';
 import { writeStableGeneratedJson } from './lib/stable-generated-json.mjs';
 
 const ROOT = process.cwd();
@@ -2763,6 +2764,10 @@ function findResultFile(dateDir, constituency) {
   if (!existsSync(dateDir)) return null;
   const direct = path.join(dateDir, `${slugify(constituency)}.json`);
   if (existsSync(direct)) return direct;
+  // "Portadown (councillors)", "Lurgan (aldermen)": the list filed under its seat type. Without
+  // this the 23 Lurgan and Portadown results of 1947-67 were built with no candidates.
+  const bySeatType = seatTypeResultFile(dateDir, constituency);
+  if (bySeatType) return bySeatType;
   // Two more spellings of the file name before any fuzzy match. With the bracket kept:
   // normalizeName drops "(Roscommon)", so both Athlones and all three "County Cork (...
   // Division)" counting areas looked for one file that does not exist. And with accented

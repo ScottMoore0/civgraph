@@ -524,9 +524,21 @@ def main():
     # are keyed on name and party too, so a Falls ward candidate of January 1920 was joined to a
     # namesake on a 1973 district council in another party. A group wholly of those councils' rows
     # is not joined to one 25 years or more before or after it.
+    # A council group that already holds a silence of 25 years or more is two namesakes under one
+    # name-and-party key (the key is the same in every council: Armagh Rural District's J. Robinson
+    # of 1902 and Lurgan's of 1961 both read "J. Robinson|UUP"). Such a group is not joined to a
+    # group of another system on the strength of its later years: joined, Lurgan's 1961 row carried
+    # the 1902 councillor into the 1973 Craigavon candidate's person and renumbered him.
+    def silent_within(ys):
+        ys = sorted(set(ys))
+        return any(b - a >= MIN_SILENCE for a, b in zip(ys, ys[1:]))
+
     def across_a_generation(vs):
         spans = sorted((min(ys), max(ys), all(r['body'] in PRE1973_COUNCIL_BODIES for r in v))
                        for v, ys in ((v, [r['year'] for r in v if r['year']]) for v in vs) if ys)
+        if any(all(r['body'] in PRE1973_COUNCIL_BODIES for r in v) and silent_within([r['year'] for r in v if r['year']])
+               for v in vs):
+            return True
         return any((a[1] < 1918 or a[2] or b[2]) and b[0] - a[1] >= MIN_SILENCE for a, b in zip(spans, spans[1:]))
 
     by_name = collections.defaultdict(list)

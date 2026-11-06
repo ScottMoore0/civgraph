@@ -1,6 +1,6 @@
 # Test2 Election Data Audit
 
-Generated: 2026-11-06T02:14:34.887Z
+Generated: 2026-11-06T02:48:57.213Z
 
 This is a repeatable repository-local audit of the generated /test2 election data, Browse election entries, source/reference records, transfer/count payload availability, and saved Wikipedia party-colour comparison outputs. It intentionally does not fetch live web pages, so CI can run it deterministically.
 
@@ -10,23 +10,23 @@ This is a repeatable repository-local audit of the generated /test2 election dat
 |---|---:|
 |parent elections in manifest|1885|
 |manifest loadable elections|594|
-|manifest placeholders|584|
+|manifest placeholders|569|
 |Browse parent election entries|1885|
 |Browse constituency/DEA sub-entries|13474|
 |Browse overall sub-entries|1885|
 |source detail records|1885|
 |result bundles loaded|1885|
 |result rows audited|13474|
-|candidate rows audited|68160|
-|rows with count detail|13431|
-|rows with animation payload|13431|
+|candidate rows audited|68425|
+|rows with count detail|13454|
+|rows with animation payload|13454|
 |rows expected to have transfer/count data|4129|
 |expected transfer/count rows missing detail|0|
 |valid-poll review sidecar records|0|
 |candidate-row review sidecar records|0|
 |party-colour review sidecar records|10|
 |blocking issues|0|
-|warnings|1378|
+|warnings|1352|
 
 ## Blocking Structural Issues
 
@@ -73,8 +73,6 @@ _None._
 |warning|candidate-party-missing|lisburn-borough-council__1967-05-17|19 candidate rows have no party/label. Examples: Samuel George Weir in Central Ward; Robert John Allen in Central Ward; David Shanks in Central Ward; Norman Bicker in Central Ward; Adrain Whitby in Central Ward.|
 |warning|source-record-single-reference|londonderry-county-borough-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|source-record-single-reference|lurgan-borough-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-list-missing|lurgan-borough-council__1967-05-17|No candidates found for Lurgan (aldermen).|
-|warning|candidate-list-missing|lurgan-borough-council__1967-05-17|No candidates found for Lurgan (councillors).|
 |warning|source-record-single-reference|newcastle-urban-district-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|newcastle-urban-district-council__1967-05-17|8 candidate rows have no party/label. Examples: J. A. Keenan in Newcastle; A. T. Cairns in Newcastle; F. Dornan in Newcastle; Mrs. L. D. Purdy in Newcastle; Mrs. C. B. Creighton in Newcastle.|
 |warning|source-record-single-reference|newry-urban-district-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
@@ -82,7 +80,6 @@ _None._
 |warning|source-record-single-reference|newtownabbey-urban-district-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|source-record-single-reference|omagh-urban-district-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|source-record-single-reference|portadown-borough-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-list-missing|portadown-borough-council__1967-05-17|No candidates found for Portadown (councillors).|
 |warning|source-record-single-reference|portrush-urban-district-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|portrush-urban-district-council__1967-05-17|25 candidate rows have no party/label. Examples: R. G. Macauley in Portrush; W. R. Knox in Portrush; R. Stewart in Portrush; D. D. Fleck in Portrush; M. E. Hamilton in Portrush.|
 |warning|source-record-single-reference|tandragee-urban-district-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
@@ -116,8 +113,11 @@ _None._
 |warning|candidate-party-missing|coleraine-borough-council__1964-05-20|13 candidate rows have no party/label. Examples: S. J. Henry in Aldermen; S. J. Walker in Aldermen; Jack Doherty in Aldermen; Cyril Lee in Aldermen; Mrs. J. L. Stanleigh in Coleraine.|
 |warning|source-record-single-reference|cookstown-urban-district-council__1964-05-20|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|cookstown-urban-district-council__1964-05-20|11 candidate rows have no party/label. Examples: W. Graham in Cookstown; Mrs. A. M. Leeper in Cookstown; A. McConnell in Cookstown; G. Ferguson in Cookstown; N. Watson in Cookstown.|
+|warning|source-record-single-reference|downpatrick-urban-district-council__1964-05-20|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|source-record-single-reference|dungannon-urban-district-council__1964-05-20|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|candidate-party-missing|dungannon-urban-district-council__1964-05-20|7 candidate rows have no party/label. Examples: J. Patton in Central Ward; H. Ferguson in Central Ward; M. Johnston in Central Ward; R. N. Holmes in Central Ward; J. Dugal in Central Ward.|
 
-_1298 more not shown; see JSON report._
+_1272 more not shown; see JSON report._
 
 ## Source And Reference Coverage
 
@@ -135,42 +135,21 @@ _1298 more not shown; see JSON report._
 
 |metric|value|
 |---|---:|
-|saved Wikipedia colour audit present|yes|
-|high-confidence mismatch file present|yes|
+|saved Wikipedia colour audit present|no|
+|high-confidence mismatch file present|no|
 |review override file present|yes|
-|sampled mismatches already reviewed|10|
-|unique colour observations|1032|
-|colour matches|73|
-|colour mismatches|135|
-|high-confidence mismatches|85|
-|entries with no explicit election colour|777|
-|entries with no Wikipedia match|684|
-|ambiguous Wikipedia matches|31|
+|sampled mismatches already reviewed|0|
+|unique colour observations|0|
+|colour matches|0|
+|colour mismatches|0|
+|high-confidence mismatches|0|
+|entries with no explicit election colour|0|
+|entries with no Wikipedia match|0|
+|ambiguous Wikipedia matches|0|
 
 ### High-Confidence Colour Examples
 
-|party/label|election colour|Wikipedia match|Wikipedia colour|observations|review|
-|---|---|---|---|---:|---|
-|100% Redress|#C0C0C0|100% Redress|#F90606|1|needs-canonical-colour-decision|
-|An Rabharta Glas – Green Left|#C0C0C0|Rabharta|#488A89|4|needs-canonical-colour-decision|
-|Anti-Austerity Alliance|#E3170D|Anti-Austerity Alliance|#FFFF00|46|needs-canonical-colour-decision|
-|Anti-Treaty Sinn Féin|#C0C0C0|Sinn Féin (Anti-Treaty)|#326760|57|needs-canonical-colour-decision|
-|Aontú|#C62828|Aontú|#44532A|126|needs-canonical-colour-decision|
-|Clann na Poblachta|#C0C0C0|Clann na Poblachta|#BBE549|111|needs-canonical-colour-decision|
-|Clann na Talmhan|#C0C0C0|Clann na Talmhan|#BDB76B|50|needs-canonical-colour-decision|
-|Commonwealth Labour Party|#FF6666|Commonwealth Labour Party|#B22222|6|needs-canonical-colour-decision|
-|Communist Party of Ireland|#FF3300|Communist Party of Ireland|#E3170D|6|needs-canonical-colour-decision|
-|Communist Party of Ireland (Marxist-Leninist)|#E3170D|Communist Party of Ireland (Marxist–Leninist)|#660000|3|needs-canonical-colour-decision|
-|Conservative|#0E7C42|Conservative and Unionist Party (UK)|#0087DC|61||
-|Conservative|#1F4E8C|Conservative and Unionist Party (UK)|#0087DC|11||
-|Conservative|#888888|Conservative and Unionist Party (UK)|#0087DC|13||
-|Conservative|#9E9E9E|Conservative and Unionist Party (UK)|#0087DC|254||
-|Cumann na nGaedheal|#C0C0C0|Cumann na nGaedheal|#87CEFA|360||
-|Democracy First|#000000|Democracy First|#FF8C00|2||
-|Democratic Left|#DC241F|Democratic Left (Ireland)|#C700C7|21||
-|Democratic Partnership|#FF9800|Democratic Partnership|#F0E68C|10||
-|Direct Democracy Ireland|#FFFF00|Direct Democracy Ireland|#87CEFA|41||
-|Éirígí|#C0C0C0|Éirígí|#00A550|6||
+_None found from the saved audit._
 
 ## Next Fix Queue
 
