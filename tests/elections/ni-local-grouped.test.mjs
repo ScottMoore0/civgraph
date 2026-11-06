@@ -36,6 +36,8 @@ const yearFile = (year) => read(`render/metadata/ni-local/${year}.json`);
 const HATCH_REASONS = [
   /^Results held back: not yet confirmed from a source$/,
   /^Results incomplete: some contests are not yet confirmed$/,
+  // A round's line from data/elections/round-completeness.json.
+  /^Results incomplete: .+\.$/,
   /^Result for .+ held back: no source yet names the member$/,
   /^Incomplete: the result for .+ is held back$/,
   /^Results held back in review$/,

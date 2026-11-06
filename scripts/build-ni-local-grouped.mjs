@@ -9,6 +9,8 @@
  *   render/metadata/elections-test2.json and each council round's bundle (the published results);
  *   data/elections/ni-local/round-status.json (the intake's calendar and round status, imported by
  *     scripts/ni-local/import-intake-status.py);
+ *   data/elections/round-completeness.json, where present (published rounds that hold only some of
+ *     the council's divisions or wards, with the line that says so);
  *   data/elections/ni-local/layer-features.json (each boundary layer's features, written by
  *     scripts/ni-local/build-layer-features.py);
  *   data/database/maps.json and render/metadata/maps-test-index.json (which editions exist).
@@ -230,6 +232,9 @@ function addTo(map, key, n) {
 function main() {
   const manifest = readJson('render/metadata/elections-test2.json');
   const status = readJson('data/elections/ni-local/round-status.json');
+  const roundCompleteness = fs.existsSync(path.join(ROOT, 'data/elections/round-completeness.json'))
+    ? readJson('data/elections/round-completeness.json').rounds || {}
+    : {};
   const layerFeatures = readJson('data/elections/ni-local/layer-features.json').layers;
   const mapsRaw = readJson('data/database/maps.json');
   const mapsList = Array.isArray(mapsRaw) ? mapsRaw : (mapsRaw.maps || Object.values(mapsRaw));
@@ -270,6 +275,10 @@ function main() {
       const work = row?.work;
       if (work === 'partial' || work === 'held') roundStatus = work;
       if (row?.excluded && roundStatus === 'complete') roundStatus = 'partial';
+      // A published round holding fewer divisions or wards than the council elected
+      // (data/elections/round-completeness.json): its line says how many, and why where known.
+      const completeness = roundCompleteness[entry.key];
+      if (completeness?.text && roundStatus === 'complete') roundStatus = 'partial';
       const contests = (bundle.results || []).map((result) => compactContest(result, entry.bodySlug));
       return {
         key: entry.key,
@@ -280,6 +289,7 @@ function main() {
         county: countyOf(entry.bodySlug),
         aldermen: isAldermanicBody(entry.bodySlug) ? 1 : 0,
         status: roundStatus,
+        ...(completeness?.text ? { note: String(completeness.text) } : {}),
         heldAreas: row?.heldAreas || [],
         contests
       };
@@ -550,7 +560,9 @@ function buildLevel(level, { firstDate, rounds, missing, mapsById, renderBySourc
     const view = round.aldermen ? 'aldermen' : 'councillors';
     const targets = authorityFeatures(round.bodySlug, round.county);
     if (round.status !== 'complete') {
-      const why = round.status === 'held' ? 'Results held back: not yet confirmed from a source' : 'Results incomplete: some contests are not yet confirmed';
+      const why = round.status === 'held'
+        ? 'Results held back: not yet confirmed from a source'
+        : (round.note ? `Results incomplete: ${round.note}` : 'Results incomplete: some contests are not yet confirmed');
       for (const fi of targets) {
         const placed = (placements.get(fi) || []).some(([r]) => r === ri);
         if (aggregate || !placed) hatch(fi, why, view);
