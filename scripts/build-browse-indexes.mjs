@@ -10,6 +10,7 @@ import { referenceOffices, referenceRelatives } from './lib/reference-person-fac
 import { browsePartySlugResolver, formatSpan, indexFactsModel, loadFactsModel } from './lib/facts-model.mjs';
 import { CDN_BASE } from '../src/cdn-url.js';
 import { BROWSE_DIR, ELECTION_MANIFEST, PROVENANCE_FILE, localPathForUrl } from './records/paths.mjs';
+import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLocalCouncilRound, niLocalGroupKey } from '../src/ni-local-groups.mjs';
 
 const ROOT = process.cwd();
 
@@ -177,7 +178,10 @@ function main() {
       }));
     parent.resultEntryCount = parent.resultEntries.length;
   }
-  elections = [...parentElections, ...electionResultEntries];
+  // The pre-1973 Northern Ireland council rounds, one entry a year in the list and in search
+  // (src/ni-local-groups.mjs); each round keeps its own record, page and address.
+  const niLocalGroupRecords = buildNiLocalGroupRecords(parentElections);
+  elections = [...parentElections, ...niLocalGroupRecords, ...electionResultEntries];
   applyGazetteElectionExtras(parentElections, electionResultEntries);
   applyRoundCompleteness(parentElections, electionResultEntries);
   const featureGroups = buildFeatureGroups(spatialIndex, maps, parentElections);
@@ -290,7 +294,7 @@ function main() {
       ? rawDataEntriesById.get(record.id)
       : rawMapsById.get(record.id)
   }));
-  writeDetailFiles('elections', parentElections, (record) => ({
+  writeDetailFiles('elections', [...parentElections, ...niLocalGroupRecords], (record) => ({
     rawMetadata: compactObject({
       manifest: rawElectionsByKey.get(record.parentElectionKey || record.key),
       result: record.resultMetadata || null,
@@ -649,6 +653,76 @@ function buildElections(manifest, thumbnailIds) {
       browseUrl: `/browse/elections/${encodeURIComponent(entry.key)}`
     });
   }).filter((entry) => entry.key).sort((a, b) => compareElectionsNewestFirst(a, b) || a.title.localeCompare(b.title));
+}
+
+/**
+ * A year of pre-1973 Northern Ireland council elections as one Browse record: the councils that
+ * polled (each linking to its own round's page), the parties' seats and votes over all of them,
+ * and the map link that opens the year grouped (app/src/ni-local-view.js).
+ */
+function buildNiLocalGroupRecords(parentElections) {
+  const groups = groupNiLocalRounds(parentElections);
+  return [...groups].map(([year, rounds]) => {
+    const group = buildNiLocalGroupEntry(year, rounds);
+    const parties = new Map();
+    for (const round of rounds) {
+      for (const row of round.partySummary || []) {
+        if (!row.party) continue;
+        if (!parties.has(row.party)) parties.set(row.party, { party: row.party, stood: 0, seats: 0, votes: 0, colour: row.colour });
+        const sum = parties.get(row.party);
+        sum.stood += Number(row.stood) || 0;
+        sum.seats += Number(row.seats) || 0;
+        sum.votes += Number(row.votes) || 0;
+      }
+    }
+    const totalVotes = [...parties.values()].reduce((n, row) => n + row.votes, 0);
+    const partySummary = [...parties.values()]
+      .sort((a, b) => b.seats - a.seats || b.votes - a.votes)
+      .map((row) => compactObject({ ...row, share: totalVotes && row.votes ? Math.round((row.votes / totalVotes) * 10000) / 100 : undefined }));
+    const councils = rounds.map((round) => compactObject({
+      key: round.key,
+      title: round.title,
+      body: round.body,
+      date: round.date,
+      subtitle: round.subtitle,
+      browseUrl: round.browseUrl
+    }));
+    const thumbnail = rounds.find((round) => round.thumbnail)?.thumbnail;
+    const params = new URLSearchParams({ electionBody: group.body, electionDate: group.date });
+    return compactObject({
+      id: group.key,
+      key: group.key,
+      slug: slugify(group.key),
+      // A pre-1921 year was briefly ni-local-YYYY (never published): that address still finds it.
+      previousSlugs: (group.previousKeys || []).flatMap((key) => [slugify(key), key]),
+      type: 'election',
+      entryKind: 'election',
+      title: group.displayTitle,
+      body: group.body,
+      bodySlug: group.bodySlug,
+      date: group.date,
+      year: Number(year),
+      decade: `${Math.floor(Number(year) / 10) * 10}s`,
+      subtitle: group.displaySubtitle,
+      description: `The council elections held ${isIrelandLocalYear(year) ? 'in Ireland' : 'in Northern Ireland'} in ${year} for which Civgraph holds results: ${group.councilCount} council${group.councilCount === 1 ? '' : 's'}${group.hasAldermen ? ' and their aldermanic polls' : ''}. Open it on the map to see the results by ward and DED, county electoral division, town, district or county.`,
+      provider: group.body,
+      category: 'Elections',
+      geography: isIrelandLocalYear(year) ? 'Ireland' : 'Northern Ireland',
+      contestType: 'election',
+      kind: 'general',
+      // Searched: a council's name finds its year.
+      constituencies: [...new Set(rounds.map((round) => round.body))],
+      totalConstituencies: group.councilCount,
+      loadable: true,
+      status: 'available',
+      partySummary: partySummary.slice(0, 24),
+      councils,
+      roundKeys: group.roundKeys,
+      thumbnail,
+      interactiveUrl: `/maps/#${params.toString()}`,
+      browseUrl: `/browse/elections/${encodeURIComponent(group.key)}`
+    });
+  }).sort((a, b) => compareElectionsNewestFirst(a, b));
 }
 
 // Corrections to an election's title that the source files cannot carry. The fifteen
@@ -1972,7 +2046,16 @@ function buildPersons(electionDetails, partyRecords, partyNames = {}) {
     const r = referenceDates.people?.[personId];
     const work = r && referenceDates.sources?.[r.source];
     if (!r?.[field] || !work) return null;
-    return { value: r[field], preferred: Boolean(r.preferOver?.[field]), source: `${work.title} (${work.edition}, ${work.year}), ${/[-–]/.test(r.page) ? `pp. ${String(r.page).replace('-', '–')}` : `p. ${r.page}`}` };
+    const page = String(r.pages?.[field] || r.page);
+    const book = `${work.title} (${[work.edition, work.year].filter(Boolean).join(', ')}), ${/[-–]/.test(page) ? `pp. ${page.replace('-', '–')}` : `p. ${page}`}`;
+    // Elliott & Flackes dates are added only where a second source gives the same date
+    // (checkedAgainst); where the book is wrong (bookGives), the second sources are the
+    // citation and the book's reading is named beside them.
+    const checked = (r.checkedAgainst?.[field] || []).map((c) => c.title);
+    const source = r.bookGives?.[field]
+      ? `${checked.join('; ')} (${book}, gives ${r.bookGives[field]})`
+      : [book, ...checked].join('; ');
+    return { value: r[field], preferred: Boolean(r.preferOver?.[field]), source };
   };
   const officialProfiles = (ids) => {
     const out = [];
@@ -2035,13 +2118,26 @@ function buildPersons(electionDetails, partyRecords, partyNames = {}) {
       office: office.name || t.officeId,
       institution: institution.name,
       start: t.start, end: t.end,
-      held: formatSpan(t.start, t.end),
+      held: formatSpan(t.start, t.end, { startBy: t.startBy }),
+      startBy: t.startBy || undefined,
       began: t.began || undefined, ended: t.ended || undefined,
       contestKey: t.contest || undefined,
       note: t.note || undefined,
       citations: (t.citations || []).map(shortCitation)
     });
   });
+  // Peerages, knighthoods, the Privy Council, lieutenancies and seats in appointed or indirectly
+  // chosen bodies (data/elections/persons/honours.json), dated and cited.
+  const personHonours = (personId) => (factsIndex.honoursByPerson.get(String(personId)) || []).map((h) => compactObject({
+    kind: h.kind,
+    title: h.title,
+    body: h.body || undefined,
+    start: h.start, end: h.end,
+    held: formatSpan(h.start, h.end, { startBy: h.startBy }),
+    ended: h.ended || undefined,
+    note: h.note || undefined,
+    citations: (h.citations || []).map(shortCitation)
+  }));
   // Each interval of a person's affiliation, and the candidacies inside it that carry another
   // party's label: the two are shown side by side, never reconciled by overwriting one.
   const personAffiliations = (person) => (factsIndex.affiliationsByPerson.get(String(person.id)) || []).map((a) => {
@@ -2097,6 +2193,7 @@ function buildPersons(electionDetails, partyRecords, partyNames = {}) {
     const officesHeld = referenceOffices(referenceOfficeDoc, person.id, { hasHop: hop.length > 0 });
     const offices = personOffices(person.id);
     const affiliationTimeline = personAffiliations(person);
+    const honours = personHonours(person.id);
     const relatives = referenceRelatives(referenceRelationDoc, person.id, relativeLookup, missingRelatives);
     const formalNames = formalNamesOf(person.id);
     if (officesHeld.length) withOffices += 1;
@@ -2166,9 +2263,11 @@ function buildPersons(electionDetails, partyRecords, partyNames = {}) {
       ...(officesHeld.length ? { officesHeld } : {}),
       ...(offices.length ? { offices } : {}),
       ...(affiliationTimeline.length ? { affiliationTimeline } : {}),
+      ...(honours.length ? { honours } : {}),
       // A registered non-candidate's dates, from Wikidata, where nothing above gives them.
-      ...(registeredLife?.born && !hop.length && !official.life?.born ? { born: registeredLife.born, bornSource: registeredLife.source || 'Wikidata' } : {}),
-      ...(registeredLife?.died && !hop.length && !official.life?.died ? { died: registeredLife.died, diedSource: registeredLife.source || 'Wikidata' } : {}),
+      // (A reference date the second sources confirm and that is preferred stays.)
+      ...(registeredLife?.born && !hop.length && !official.life?.born && !referenceDate(person.id, 'born')?.preferred ? { born: registeredLife.born, bornSource: registeredLife.source || 'Wikidata' } : {}),
+      ...(registeredLife?.died && !hop.length && !official.life?.died && !referenceDate(person.id, 'died')?.preferred ? { died: registeredLife.died, diedSource: registeredLife.source || 'Wikidata' } : {}),
       ...(relatives.length ? { relatives } : {}),
       ...(formalNames.length ? { formalNames, knownAliases: formalNames.map((entry) => entry.name) } : {}),
     };
@@ -3159,6 +3258,12 @@ function writeElectionListIndex(entries) {
     if (!entry.entryKind || entry.entryKind === 'election') parentIndex.set(entry.key, index);
   });
   const items = entries.map((entry) => {
+    // A pre-1973 NI council round is listed under its year's entry: `grp` is that entry's place,
+    // and browse.js leaves the round out of the list (its contests still name it).
+    const groupKey = (!entry.entryKind || entry.entryKind === 'election') && isNiLocalCouncilRound(entry)
+      ? niLocalGroupKey(String(entry.date).slice(0, 4))
+      : null;
+    const grp = groupKey && parentIndex.has(groupKey) ? parentIndex.get(groupKey) : undefined;
     const slug = entry.slug || slugify(entry.id || entry.key || entry.title);
     // A contest or an overall result says which election it belongs to (`of`, that election's
     // place in this list) and inherits its date, body, kind, status, thumbnail and map link,
@@ -3193,7 +3298,9 @@ function writeElectionListIndex(entries) {
       totalConstituencies: entry.totalConstituencies,
       unmatchedCount: entry.unmatchedCount,
       thumb,
-      interactiveUrl: entry.interactiveUrl
+      interactiveUrl: entry.interactiveUrl,
+      previousSlugs: entry.previousSlugs?.length ? entry.previousSlugs : undefined,
+      grp
     });
   });
   writeJson('elections-list.json', {

@@ -68,6 +68,13 @@ import {
   withLocalPartyDeltas as modelWithLocalPartyDeltas,
   withPartyDeltas as modelWithPartyDeltas
 } from '../../src/map/election/results-model.mjs';
+import {
+  LOCAL_GROUP_BODIES,
+  buildNiLocalGroupEntry,
+  groupNiLocalRounds,
+  isNiLocalCouncilRound
+} from '../../src/ni-local-groups.mjs';
+import { NiLocalGroupedView } from './ni-local-view.js';
 
 const ELECTION_MANIFEST_URL = '/render/metadata/elections-test2.json?v=test-023';
 
@@ -245,11 +252,33 @@ export class Test2ElectionManager {
     const response = await fetch(ELECTION_MANIFEST_URL, { cache: 'default' });
     if (!response.ok) throw new Error(`Failed to load the MapLibre election catalogue: ${response.status}`);
     this.catalogue = await response.json();
+    this.addNiLocalGroups();
     return this.catalogue;
   }
 
+  /**
+   * The pre-1973 Northern Ireland council rounds, one entry a year ("1946 Northern Ireland local
+   * elections", src/ni-local-groups.mjs). The rounds stay in the catalogue, so their own addresses
+   * and the links to them still open them; the lists show the year instead.
+   */
+  addNiLocalGroups() {
+    const elections = this.catalogue?.elections;
+    if (!Array.isArray(elections) || elections.some((entry) => entry.niLocalGroup)) return;
+    const groups = groupNiLocalRounds(elections);
+    for (const [year, rounds] of groups) {
+      elections.push({
+        ...buildNiLocalGroupEntry(year, rounds),
+        loadable: true,
+        resultsOnly: false,
+        placeholder: false,
+        sourceMapId: null,
+        stylingModes: []
+      });
+    }
+  }
+
   buildCatalogueCards() {
-    return (this.catalogue?.elections || []).map((entry) => ({
+    return (this.catalogue?.elections || []).filter((entry) => !isNiLocalCouncilRound(entry)).map((entry) => ({
       ...entry,
       canonicalLayerId: this.getCanonicalLayerId(entry),
       // A results-only election (no boundary layer for its year) is listed and opens like
@@ -287,8 +316,14 @@ export class Test2ElectionManager {
   /** keepView: leave the camera where the reader has it (stepping along the timeline);
    * otherwise the map is fitted to the election, as when it is first opened. */
   async loadElection(body, date, { keepView = false } = {}) {
+    const groupEntry = this.findEntry(body, date);
+    if (groupEntry?.niLocalGroup) {
+      // Stepping from one year to the next keeps the level, votes or seats, and members.
+      const keep = this.niLocal?.active ? { level: this.niLocal.level, show: this.niLocal.show, members: this.niLocal.members } : {};
+      return this.loadNiLocalGroup(groupEntry, { keepView, ...keep });
+    }
     const requestId = ++this.loadSerial;
-    const entry = this.findEntry(body, date);
+    const entry = groupEntry;
     if (!entry) throw new Error(`Election not found: ${body} ${date}`);
     if (!entry.loadable && !entry.resultsOnly) {
       throw new Error(`${body} ${date} is in the election catalogue, but its geography is not converted for MapLibre yet.`);
@@ -378,6 +413,53 @@ export class Test2ElectionManager {
     else this.app.updateURLState();
   }
 
+  /**
+   * A year of pre-1973 Northern Ireland council elections (app/src/ni-local-view.js): the year's
+   * rounds at the reader's level (or `level`), coloured by votes or seats. Opening it is a step
+   * Back can undo, as for any election; the timeline steps through the years.
+   */
+  async loadNiLocalGroup(entry, { keepView = false, level = null, show = null, members = null, area = null } = {}) {
+    const requestId = ++this.loadSerial;
+    if (!keepView) this.app.beginNavigation?.(`Opened ${entry.displayTitle}`);
+    if (this.activeEntry && this.activeEntry.key !== entry.key) this.unloadElection({ updateURL: false });
+    else if (this.niLocal?.active) {
+      this.niLocal.teardown();
+      this.unloadElectionBackingLayers(this.niLocal.backingLayerIds());
+      this.niLocal.forgetLoadedLayers();
+    }
+    this.renderLoadingPanel(entry);
+    if (!this.niLocal) this.niLocal = new NiLocalGroupedView(this);
+    try {
+      await this.niLocal.open(entry, { keepView, level, show, members, area });
+    } catch (error) {
+      if (requestId === this.loadSerial) {
+        this.niLocal.teardown();
+        this.unloadElectionBackingLayers(this.niLocal.backingLayerIds());
+        this.niLocal.forgetLoadedLayers();
+        this.activeEntry = null;
+        this.activeBundle = null;
+        this.removePanel();
+        this.app.syncCatalogueMapState();
+        this.app.updateActiveLayers();
+      }
+      if (this.app._pushNextURL) this.app._pushNextURL = null;
+      const offline = typeof navigator !== 'undefined' && navigator.onLine === false;
+      const wrapped = new Error(`${entry.displayTitle} could not be loaded: ${offline ? 'you appear to be offline' : 'its results or map did not arrive'}.`);
+      wrapped.cause = error;
+      throw wrapped;
+    }
+    if (requestId !== this.loadSerial) return;
+    this.removeElectionOverlays();
+    this.updateElectionTimeline();
+    this.app.syncCatalogueMapState();
+    this.app.updateActiveLayers();
+    const sourceMapId = this.niLocal.sourceMapId();
+    if (sourceMapId && !keepView) this.app.refitAfterElectionPane?.(sourceMapId);
+    this.app.focusActiveElectionCatalogueEntry?.(this.activeEntry, { scroll: false });
+    if (!keepView && this.app.endNavigation) this.app.endNavigation();
+    else this.app.updateURLState();
+  }
+
   /** options.updateURL false: leave the address alone (another election is about to replace
    * this one and write it). options.label: closing it is a step of its own, for Back. */
   unloadElection(options = {}) {
@@ -396,6 +478,14 @@ export class Test2ElectionManager {
     if (options.label) this.app.beginNavigation?.(options.label);
     const sourceMapId = this.activeEntry?.sourceMapId;
     const backingLayerIds = unloadBackingLayer ? this.getActiveElectionBackingLayerIds() : [];
+    if (this.niLocal?.active) {
+      this.niLocal.teardown();
+      if (!unloadBackingLayer) {
+        // The reader keeps the boundaries (they opened them on their own): leave them plain.
+        for (const id of this.niLocal.backingLayerIds()) this.mapController.clearElectionStyle?.(id);
+      }
+      this.niLocal.forgetLoadedLayers();
+    }
     if (sourceMapId) this.mapController.clearElectionStyle?.(sourceMapId);
     if (this.activeBundle?.councilSourceMapId) this.mapController.clearElectionStyle?.(this.activeBundle.councilSourceMapId);
     this.removeElectionOverlays();
@@ -418,6 +508,9 @@ export class Test2ElectionManager {
   }
 
   getActiveElectionBackingLayerIds(entry = this.activeEntry, bundle = this.activeBundle) {
+    if (this.niLocal?.active && entry?.niLocalGroup) {
+      return [...new Set([...this.niLocal.backingLayerIds(), entry.sourceMapId].filter(Boolean))];
+    }
     const geographyLayerIds = Array.isArray(bundle?.geographyModes)
       ? bundle.geographyModes.flatMap((mode) => [mode.sourceMapId, mode.layerId])
       : [];
@@ -473,6 +566,14 @@ export class Test2ElectionManager {
 
   getURLState() {
     if (!this.activeEntry) return null;
+    if (this.niLocal?.active && this.activeEntry.niLocalGroup) {
+      return {
+        layerId: this.getCanonicalLayerId(this.activeEntry),
+        body: this.activeEntry.body,
+        date: this.activeEntry.date,
+        niLocal: this.niLocal.urlState()
+      };
+    }
     return {
       layerId: this.getCanonicalLayerId(this.activeEntry),
       body: this.activeEntry.body,
@@ -515,6 +616,16 @@ export class Test2ElectionManager {
       }
     }
     if (!body || !date) return;
+    const group = this.findEntry(body, date);
+    if (group?.niLocalGroup) {
+      await this.loadNiLocalGroup(group, {
+        level: params.get('electionLevel'),
+        show: params.get('electionShow'),
+        members: params.get('electionMembers'),
+        area: params.get('electionArea')
+      });
+      return;
+    }
     await this.loadElection(body, date);
     const geographyMode = params.get('electionGeographyMode');
     if (geographyMode && this.geographyModes().some((item) => item.id === geographyMode)) {
@@ -661,6 +772,7 @@ export class Test2ElectionManager {
   }
 
   enrichFeature(feature) {
+    if (this.niLocal?.active) return this.niLocal.enrichFeature(feature);
     if (!this.activeBundle || !feature) return feature;
     const layerResults = this.resultsByLayer.get(feature.mapId)
       || this.resultsByLayer.get(this.activeBundle.layerId)
@@ -730,6 +842,10 @@ export class Test2ElectionManager {
   }
 
   applyActiveStyle() {
+    if (this.niLocal?.active) {
+      this.niLocal.applyStyle();
+      return;
+    }
     if (!this.activeEntry || !this.activeBundle) return;
     const styleLayer = this.getActiveElectionStyleLayer();
     const styleSourceMapId = styleLayer?.sourceMapId || this.getActiveElectionStyleSourceMapId();
@@ -765,6 +881,7 @@ export class Test2ElectionManager {
   }
 
   getActiveElectionStyleSourceMapId() {
+    if (this.niLocal?.active) return this.niLocal.sourceMapId();
     if (this.isLocalGovernmentElection() && this.activeLocalMode === 'district') {
       return this.activeBundle?.councilSourceMapId || this.activeEntry?.councilSourceMapId || this.activeEntry?.sourceMapId;
     }
@@ -891,6 +1008,10 @@ export class Test2ElectionManager {
   }
 
   renderPanel(selectedResult = null, view = null) {
+    if (this.niLocal?.active) {
+      this.niLocal.renderPanel({ push: false });
+      return;
+    }
     const pane = this.ensurePanel();
     const content = document.getElementById('electionPaneContent');
     const title = document.getElementById('electionPaneTitle');
@@ -3796,6 +3917,7 @@ export class Test2ElectionManager {
   }
 
   showFeatureResults(feature) {
+    if (this.niLocal?.active) return this.niLocal.showFeature(feature);
     if (!this.activeBundle || !feature) return false;
     if (feature.electionResult) {
       this.renderPanel(feature.electionResult);
@@ -3840,6 +3962,7 @@ export class Test2ElectionManager {
    * both greens, and the words are what tell them apart (UX review 2026-10-30).
    */
   legendModel() {
+    if (this.niLocal?.active) return this.niLocal.legendModel();
     if (!this.activeEntry || !this.activeBundle) return null;
     const mode = this.activeMode;
     const district = this.isLocalGovernmentElection() && this.activeLocalMode === 'district';
@@ -3874,6 +3997,7 @@ export class Test2ElectionManager {
 
   renderLegend() {
     this.app.updateMapLegend?.();
+    if (this.niLocal?.active) return;
     const target = document.getElementById('test2ElectionLegend');
     if (!target || !this.activeBundle) return;
     const mode = this.activeMode;
@@ -3940,6 +4064,10 @@ export class Test2ElectionManager {
   /** The folded bar's one line: seats by party, largest first. An election with no seats
    * in its summary (a referendum) shows vote shares instead. */
   renderPanePeek() {
+    if (this.niLocal?.active) {
+      this.niLocal.renderPeek();
+      return;
+    }
     const peek = document.getElementById('electionPanePeek');
     if (!peek) return;
     const rows = (this.activeBundle?.mainLikePartySummary?.length
@@ -3994,7 +4122,7 @@ export class Test2ElectionManager {
 
   async renderElectionOverlay() {
     this.removeElectionOverlays();
-    if (!this.activeBundle) return;
+    if (!this.activeBundle || this.niLocal?.active) return;
     // Seat circles and vote bars are anchored to boundaries; a results-only election has none.
     if (this.activeEntry?.resultsOnly) return;
     if (this.shouldRenderRecallLabels()) {
@@ -4748,7 +4876,10 @@ export class Test2ElectionManager {
   updateElectionTimeline() {
     if (!this.activeEntry || !this.catalogue?.elections) return;
     const all = this.catalogue.elections
-      .filter((entry) => (entry.loadable || entry.resultsOnly) && entry.body === this.activeEntry.body)
+      // The council years run as one series, the island's (before 1921) into Northern Ireland's.
+      .filter((entry) => (entry.loadable || entry.resultsOnly) && (this.activeEntry.niLocalGroup
+        ? Boolean(entry.niLocalGroup)
+        : entry.body === this.activeEntry.body))
       .sort((a, b) => String(a.date).localeCompare(String(b.date)));
     // By-elections far outnumber general elections (879 to 206 across the catalogue), so a
     // body's slider is mostly by-election stops. The filter steps through the rest; the open
@@ -4766,6 +4897,8 @@ export class Test2ElectionManager {
     const activeIndex = entries.findIndex((entry) => entry.body === this.activeEntry.body && entry.date === this.activeEntry.date);
     this.app.setTimelineItems(entries.map((entry) => ({
       label: entry.date,
+      // A year of council elections is a year, not 1 January of it.
+      ...(entry.niLocalGroup ? { displayLabel: String(entry.year || entry.date) } : {}),
       body: entry.body,
       date: entry.date,
       minor: entry.kind === 'by-election',
@@ -4776,7 +4909,15 @@ export class Test2ElectionManager {
   }
 
   findEntry(body, date) {
-    return (this.catalogue?.elections || []).find((entry) => entry.body === body && entry.date === date) || null;
+    const elections = this.catalogue?.elections || [];
+    const found = elections.find((entry) => entry.body === body && entry.date === date);
+    if (found) return found;
+    // A council year's earlier name: before 1921 the year is "Irish local elections", which an
+    // address may still call "Northern Ireland local elections".
+    if (LOCAL_GROUP_BODIES.includes(body) && /^\d{4}$/.test(String(date || ''))) {
+      return elections.find((entry) => entry.niLocalGroup && entry.date === String(date)) || null;
+    }
+    return null;
   }
 
   getCanonicalLayerId(entry = this.activeEntry) {
@@ -4786,7 +4927,11 @@ export class Test2ElectionManager {
 
   findEntryByCanonicalLayerId(layerId) {
     if (!layerId) return null;
-    return (this.catalogue?.elections || []).find((entry) => this.getCanonicalLayerId(entry) === layerId) || null;
+    const found = (this.catalogue?.elections || []).find((entry) => this.getCanonicalLayerId(entry) === layerId);
+    if (found) return found;
+    // election-northern-ireland-local-elections-1911: a pre-1921 year by its earlier name.
+    const year = String(layerId).match(/^election-northern-ireland-local-elections-(\d{4})$/)?.[1];
+    return year ? this.findEntry(LOCAL_GROUP_BODIES[1], year) : null;
   }
 
   isCanonicalElectionLayerId(layerId) {
@@ -5062,6 +5207,7 @@ function normalizeName(value) {
 /** The timeline's second line: "General election", or the contest's title without its
  * leading year ("1968 South Antrim by-election" reads "South Antrim by-election"). */
 function timelineStopName(entry = {}) {
+  if (entry.niLocalGroup) return `${entry.councilCount || ''} councils`.trim();
   if (entry.kind === 'general') return 'General election';
   return String(entry.displayTitle || '').replace(/^\d{4}\s+/, '').trim();
 }

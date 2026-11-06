@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://civgraph.net/schemas/honours.schema.json",
+  "title": "Honours, peerages and memberships (data/elections/persons/honours.json)",
+  "description": "What a person was made or appointed to that is not an office with duties of its own and not a seat won at an election Civgraph holds: a peerage, a knighthood or other honour, the Privy Council, a lieutenancy, or a seat in an appointed or indirectly chosen body (the Senate of Northern Ireland, Seanad Éireann, the nominated European Parliament of 1973-79, the EU Committee of the Regions, the Parliamentary Assembly of the Council of Europe). Each is dated and cited; a date the sources do not give is null, and precision is the precision of the date as given.",
+  "type": "object",
+  "required": ["schemaVersion", "description", "honours"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "description": { "type": "string" },
+    "honours": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "personId", "kind", "title", "start", "startPrecision", "end", "endPrecision", "citations"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^\\d+:[a-z0-9-]+:(\\d{4}(-\\d{2}){0,2}|(to|by)-\\d{4}(-\\d{2}){0,2})$" },
+          "personId": { "type": "string", "pattern": "^[1-9]\\d*$" },
+          "kind": { "enum": ["peerage", "knighthood", "privy-council", "lieutenancy", "other-honour", "membership", "appointment"] },
+          "title": { "type": "string", "minLength": 3, "description": "The honour, title or seat, in Civgraph's words (\"Life peer: Baron Molyneaux of Killead\", \"Senator, Seanad Éireann (nominated by the Taoiseach)\")." },
+          "body": { "type": "string", "description": "The body it is a place in or conferred by (House of Lords, Seanad Éireann, Order of the British Empire)." },
+          "start": { "$ref": "#/$defs/dateOrNull" },
+          "startPrecision": { "$ref": "#/$defs/precisionOrNull" },
+          "startBy": { "$ref": "#/$defs/date", "description": "Where the start is not known: the date a source shows it already held (start is then null)." },
+          "end": { "$ref": "#/$defs/dateOrNull" },
+          "endPrecision": { "$ref": "#/$defs/precisionOrNull" },
+          "ended": { "enum": ["died", "resigned", "term-ended", "body-abolished", "disqualified", null] },
+          "note": { "type": "string" },
+          "matchedBy": { "type": "string", "description": "How the person was identified: the evidence, never the name alone." },
+          "citations": { "type": "array", "minItems": 1, "items": { "$ref": "citation.schema.json" } }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "date": { "type": "string", "pattern": "^\\d{4}(-(0[1-9]|1[0-2])(-(0[1-9]|[12]\\d|3[01]))?)?$" },
+    "dateOrNull": { "oneOf": [{ "$ref": "#/$defs/date" }, { "type": "null" }] },
+    "precisionOrNull": { "enum": ["year", "month", "day", null] }
+  }
+}

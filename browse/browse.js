@@ -3229,6 +3229,7 @@ function renderRelatedPanel(type, item) {
     ], { before: printedLabelsToggleHtml() })
     // Offices held and party affiliation over time (the facts model, each fact cited).
     + renderPersonOfficesPanel(item)
+    + renderPersonHonoursPanel(item)
     + renderAffiliationTimelinePanel(item)
     + renderSimpleTable('Seats in the Commons (History of Parliament)', ['Constituency', 'Held'], item.seatsHeld || [], (row) => [
     escapeHtml(row.constituency || ''),
@@ -3265,10 +3266,15 @@ function renderRelatedPanel(type, item) {
       escapeHtml(row.source || ''),
       `<a href="${escapeAttr(row.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(row.label || row.url)}</a>`,
       escapeHtml(row.licence || '')
-    ]) + (item.bornSource || item.diedSource
-      ? `<p class="browse-note">Born and died: ${escapeHtml([...new Set([item.bornSource, item.diedSource].filter(Boolean))].join(', '))}.</p>`
-      : '')
-    : '');
+    ])
+    : '')
+    // Where the dates of birth and death come from, whether or not the person has an official
+    // record: a reference work's date (Boylan, Elliott & Flackes) is cited with its second sources.
+    + (item.bornSource || item.diedSource
+      ? `<p class="browse-note">${escapeHtml(item.bornSource && item.diedSource && item.bornSource !== item.diedSource
+        ? `Born: ${item.bornSource}. Died: ${item.diedSource}`
+        : `${item.bornSource && item.diedSource ? 'Born and died' : item.bornSource ? 'Born' : 'Died'}: ${item.bornSource || item.diedSource}`)}.</p>`
+      : '');
   }
   if (type === 'register-interests') return renderRegisterInterestRelated(item);
   if (type === 'maps') return renderMapVariants(item);
@@ -3317,6 +3323,19 @@ function renderPersonOfficesPanel(item) {
     tenureHowHtml(row),
     factCitations(row.citations)
   ], { before: '<p class="browse-panel-note browse-detail__body">Offices and tenures from published sources, each cited; a date the source does not give is left out, and a date given only to the year or month is shown that way.</p>' });
+}
+
+const HONOUR_KIND_LABELS = { peerage: 'Peerage', knighthood: 'Knighthood', 'privy-council': 'Privy Council', lieutenancy: 'Lieutenancy', 'other-honour': 'Honour', membership: 'Membership', appointment: 'Appointment' };
+const HONOUR_ENDED_LABELS = { died: 'died', resigned: 'resigned', 'term-ended': 'term ended', 'body-abolished': 'body abolished', disqualified: 'disqualified' };
+
+// Peerages, honours and seats in appointed or indirectly chosen bodies, each dated and cited.
+function renderPersonHonoursPanel(item) {
+  return renderSimpleTable('Honours and memberships', ['Honour or seat', 'Held', 'Kind', 'Source'], normalizeArray(item.honours), (row) => [
+    `${escapeHtml(row.title || '')}${row.body ? `<br><small class="browse-muted">${escapeHtml(row.body)}</small>` : ''}`,
+    `${escapeHtml(row.held || '')}${row.ended && HONOUR_ENDED_LABELS[row.ended] ? ` <small class="browse-muted">(${escapeHtml(HONOUR_ENDED_LABELS[row.ended])})</small>` : ''}${row.note ? `<br><small class="browse-muted">${escapeHtml(row.note)}</small>` : ''}`,
+    escapeHtml(HONOUR_KIND_LABELS[row.kind] || row.kind || ''),
+    factCitations(row.citations)
+  ], { before: '<p class="browse-panel-note browse-detail__body">Peerages, honours and seats in appointed or indirectly chosen bodies, from published sources, each cited; a date the sources do not give is left out.</p>' });
 }
 
 function affiliationEventsText(row) {
@@ -4177,6 +4196,14 @@ function renderElectionRelated(item) {
     ]] : [];
     return renderTablePanel('Parent Election', ['Date', 'Election', 'Interactive layer'], parentRows);
   }
+  // A year of pre-1973 Northern Ireland council elections: its councils, each with its own page.
+  const councilRows = (item.councils || []).map((council) => [
+    council.date ? formatDate(council.date) : '',
+    council.browseUrl
+      ? `<a href="#/elections/${encodeURIComponent(slugify(council.key))}" data-browse-link>${escapeHtml(council.title || council.body || council.key)}</a>`
+      : escapeHtml(council.title || council.body || council.key),
+    escapeHtml(council.subtitle || '')
+  ]);
   const partyRows = (item.partySummary || []).map((party) => [
     partyLinkHtml(party.party || '', party.colour ? `<span class="browse-badge" style="border-color:${escapeAttr(party.colour)}">${escapeHtml(party.party || '')}</span>` : escapeHtml(party.party || '')),
     formatNumber(party.stood),
@@ -4194,6 +4221,12 @@ function renderElectionRelated(item) {
       entry.browseUrl ? `<a href="#/elections/${encodeURIComponent((entry.browseUrl || '').split('/').pop() || entry.key)}" data-browse-link>${escapeHtml(entry.resultName || entry.title || entry.key)}</a>` : escapeHtml(entry.resultName || entry.title || entry.key)
     ])
     : (item.constituencies || []).map((name) => [escapeHtml(name)]);
+  if (councilRows.length) {
+    return `
+      ${renderTablePanel('Party Summary', ['Party', 'Stood', 'Seats', 'Votes', 'Share'], partyRows)}
+      ${renderTablePanel('Councils', ['Date', 'Council', 'Areas'], councilRows)}
+    `;
+  }
   return `
     ${renderTablePanel('Party Summary', ['Party', 'Stood', 'Seats', 'Votes', 'Share'], partyRows)}
     ${renderTablePanel('Results by constituency', ['Result'], constituencyRows)}
@@ -5720,11 +5753,17 @@ function expandElectionList(data) {
     item.entryKind = item.result === 'overall' ? 'election-overall-result' : 'election-constituency-result';
     item.parentTitle = parent.title;
     item.subtitle = `${item.result === 'overall' ? 'Overall result' : item.result === 'regional-list' ? 'Regional list result' : 'Constituency result'}: ${parent.title}`;
+    // A pre-1973 NI council round's contest files under its year's entry
+    // ("1946 Northern Ireland local elections"), as the round itself does.
+    const group = Number.isInteger(parent.grp) ? items[parent.grp] : null;
+    if (group?.body && item.body === undefined) item.body = group.body;
     for (const key of ['date', 'decade', 'body', 'kind', 'status', 'thumbnail', 'interactiveUrl']) {
       if (parent[key] !== undefined && item[key] === undefined) item[key] = parent[key];
     }
   }
-  return { ...data, items };
+  // The rounds themselves are listed by their year's entry, which links to each of them; their
+  // pages and addresses are unchanged.
+  return { ...data, items: items.filter((item) => !Number.isInteger(item.grp)) };
 }
 
 async function loadDetail(type, item) {
