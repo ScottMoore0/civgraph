@@ -2044,13 +2044,26 @@ function buildPersons(electionDetails, partyRecords, partyNames = {}) {
       office: office.name || t.officeId,
       institution: institution.name,
       start: t.start, end: t.end,
-      held: formatSpan(t.start, t.end),
+      held: formatSpan(t.start, t.end, { startBy: t.startBy }),
+      startBy: t.startBy || undefined,
       began: t.began || undefined, ended: t.ended || undefined,
       contestKey: t.contest || undefined,
       note: t.note || undefined,
       citations: (t.citations || []).map(shortCitation)
     });
   });
+  // Peerages, knighthoods, the Privy Council, lieutenancies and seats in appointed or indirectly
+  // chosen bodies (data/elections/persons/honours.json), dated and cited.
+  const personHonours = (personId) => (factsIndex.honoursByPerson.get(String(personId)) || []).map((h) => compactObject({
+    kind: h.kind,
+    title: h.title,
+    body: h.body || undefined,
+    start: h.start, end: h.end,
+    held: formatSpan(h.start, h.end, { startBy: h.startBy }),
+    ended: h.ended || undefined,
+    note: h.note || undefined,
+    citations: (h.citations || []).map(shortCitation)
+  }));
   // Each interval of a person's affiliation, and the candidacies inside it that carry another
   // party's label: the two are shown side by side, never reconciled by overwriting one.
   const personAffiliations = (person) => (factsIndex.affiliationsByPerson.get(String(person.id)) || []).map((a) => {
@@ -2106,6 +2119,7 @@ function buildPersons(electionDetails, partyRecords, partyNames = {}) {
     const officesHeld = referenceOffices(referenceOfficeDoc, person.id, { hasHop: hop.length > 0 });
     const offices = personOffices(person.id);
     const affiliationTimeline = personAffiliations(person);
+    const honours = personHonours(person.id);
     const relatives = referenceRelatives(referenceRelationDoc, person.id, relativeLookup, missingRelatives);
     const formalNames = formalNamesOf(person.id);
     if (officesHeld.length) withOffices += 1;
@@ -2175,6 +2189,7 @@ function buildPersons(electionDetails, partyRecords, partyNames = {}) {
       ...(officesHeld.length ? { officesHeld } : {}),
       ...(offices.length ? { offices } : {}),
       ...(affiliationTimeline.length ? { affiliationTimeline } : {}),
+      ...(honours.length ? { honours } : {}),
       // A registered non-candidate's dates, from Wikidata, where nothing above gives them.
       // (A reference date the second sources confirm and that is preferred stays.)
       ...(registeredLife?.born && !hop.length && !official.life?.born && !referenceDate(person.id, 'born')?.preferred ? { born: registeredLife.born, bornSource: registeredLife.source || 'Wikidata' } : {}),
