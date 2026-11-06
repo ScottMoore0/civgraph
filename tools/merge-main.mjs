@@ -29,6 +29,10 @@
  *      RECORDS_STEPS are builders that belong to the records build on this branch, and are not
  *      added back to `build` (the Pages build); they are reported for scripts/records.
  *   4. Anything else is left conflicted and listed: resolve it by hand, keeping both sides' data.
+ *   5. A warning lists code main changed that names a legacy record path (render/metadata/
+ *      elections-test2, data/browse, data/database/election-provenance.json): such a read works
+ *      only while a stale local copy exists and fails on a clean checkout. Point it at
+ *      scripts/records/paths.mjs, then run npm run check:clean.
  *
  * After a clean run (exit 0) or after the hand resolutions:
  *   npm run build && node scripts/validate-browse-cache-tokens.mjs
@@ -235,6 +239,18 @@ function main() {
       continue;
     }
     left.push(file);
+  }
+
+  // ---- 5. a warning, not a rule: code main changed that names a legacy record path. On this
+  // branch those trees are built into tmp/records (scripts/records/paths.mjs); a literal path
+  // works here only while a stale local copy exists, and fails on a clean checkout and in CI.
+  const changed = lines(git(['diff', '--name-only', 'HEAD', 'MERGE_HEAD', '--', 'scripts', 'tests', 'functions', 'src', 'app/src']).stdout)
+    .filter((p) => /\.(m?js|py)$/.test(p) && existsSync(path.join(ROOT, p)));
+  const LEGACY = /render\/metadata\/elections-test2|data\/database\/election-provenance\.json|['"]data['"],\s*['"]browse['"]|['"]data\/browse\//;
+  const suspects = changed.filter((p) => LEGACY.test(readFileSync(path.join(ROOT, p), 'utf8')));
+  if (suspects.length) {
+    console.log(`\ncheck by hand: ${suspects.length} file(s) main changed name a legacy record path (render/metadata/elections-test2, data/browse, data/database/election-provenance.json); reads and writes must use scripts/records/paths.mjs (comments and URL strings are fine):`);
+    for (const p of suspects) console.log(`  ${p}`);
   }
 
   if (left.length) {

@@ -22,10 +22,13 @@ import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { createPartyLabelInterpreter } from '../../scripts/lib/party-label-interpretations.mjs';
 import { browsePageHandler } from '../../functions/_browse-page.js';
+import { BROWSE_DIR, ELECTION_BUNDLE_DIR, RECORDS_DB } from '../../scripts/records/paths.mjs';
+import { d1 } from '../records/d1-shim.mjs';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const read = (file) => JSON.parse(readFileSync(path.join(root, file), 'utf8'));
-const MANIFESTS = path.join(root, 'render/metadata/elections-test2');
+// The built results: the records build's bundles (npm run records:build writes tmp/records).
+const MANIFESTS = ELECTION_BUNDLE_DIR;
 const ELECTIONS = path.join(root, 'data/elections-source/data/elections');
 const config = read('data/elections/party-label-interpretations.json');
 const folds = read('scripts/browse-party-label-folds.json');
@@ -283,9 +286,10 @@ test('the Republic and the Dail keep their labels', () => {
   }
 });
 
-// The checks below read Browse as built (npm run build); data/browse is not committed.
-const PARTIES = path.join(root, 'data/browse/parties.json');
-const built = existsSync(PARTIES);
+// The checks below read Browse as the records build wrote it, and the page Function answers
+// from the records database (party_cards, party_aliases), as in production.
+const PARTIES = path.join(BROWSE_DIR, 'parties.json');
+const built = existsSync(PARTIES) && existsSync(RECORDS_DB);
 
 test('Browse lists no such label as a party, and each old address opens its party', { skip: !built && 'Browse is not built' }, async () => {
   const list = JSON.parse(readFileSync(PARTIES, 'utf8')).items;
@@ -294,10 +298,9 @@ test('Browse lists no such label as a party, and each old address opens its part
   const bySlug = new Map(list.map((item) => [item.slug, item]));
   for (const label of GENUINE.keys()) assert.ok(list.some((item) => item.title === label), `${label} is still a party of its own`);
 
-  const files = {};
   const handler = browsePageHandler('parties');
   const env = {
-    MAPS_BUCKET: { async get(key) { return key in files ? { text: async () => files[key] } : null; } },
+    ELECTIONS_DB: d1(RECORDS_DB),
     ASSETS: { async fetch() { return new Response('<html><head><title>Browse</title></head><body><div id="browseHero" class="browse-hero"></div></body></html>', { status: 200 }); } },
   };
   let redirects = 0;
@@ -308,9 +311,8 @@ test('Browse lists no such label as a party, and each old address opens its part
     // The in-app address: the target lists the old slug, which browse.js findItem matches.
     assert.ok((bySlug.get(target)?.previousSlugs || []).includes(oldSlug), `#/parties/${oldSlug} opens ${target}`);
     // The path address: its detail file holds the party, and the page answers 301.
-    const detailPath = path.join(root, 'data/browse/details/parties', `${oldSlug}.json`);
+    const detailPath = path.join(BROWSE_DIR, 'details', 'parties', `${oldSlug}.json`);
     assert.ok(existsSync(detailPath), `details/parties/${oldSlug}.json is written`);
-    files[`data/browse/details/parties/${oldSlug}.json`] = readFileSync(detailPath, 'utf8');
     const response = await handler({ request: new Request(`https://civgraph.net/browse/parties/${oldSlug}`), env });
     assert.equal(response.status, 301, `/browse/parties/${oldSlug} redirects`);
     assert.equal(response.headers.get('Location'), `https://civgraph.net/browse/parties/${target}`, `/browse/parties/${oldSlug} goes to ${target}`);
