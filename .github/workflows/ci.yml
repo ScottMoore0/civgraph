@@ -49,8 +49,19 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      # The records build needs room: on a clean export it wrote 10.8 GB under tmp/records
+      # (the 3.2 GB database, the order test's 3.4 GB reverse-loaded copy, and the election,
+      # Browse and graph trees), against the 14 GB a standard runner guarantees. The runner
+      # image's unused toolchains are removed first; df shows the room before and after.
+      - name: Free disk space for the records build
+        run: |
+          df -h /
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/.ghcup /opt/hostedtoolcache/CodeQL
+          df -h /
       - run: npm ci --ignore-scripts
       - run: npm run check:ci
+      - if: always()
+        run: df -h / && du -sh tmp/records 2>/dev/null || true
 
   pages-build:
     if: github.event_name != 'schedule'

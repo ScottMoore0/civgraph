@@ -4,9 +4,9 @@
 //      and every list route must answer byte-identically from both;
 //   2. no Function issues a multi-row read without ORDER BY, unless the line says why
 //      (an "order-free:" comment: a keyed read into a Map).
-import test from 'node:test';
+import test, { after } from 'node:test';
 import assert from 'node:assert/strict';
-import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, rmSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
 import { REPO_ROOT } from '../../scripts/records/paths.mjs';
@@ -42,6 +42,10 @@ function reversedCopy() {
   db.close();
   return REVERSED;
 }
+
+// In CI the 3.4 GB copy is removed once the tests are done (the runner's disk is tight; see
+// .github/workflows/ci.yml); locally it is kept and reused while the build is unchanged.
+after(() => { if (process.env.CI) rmSync(REVERSED, { force: true }); });
 
 const LIST_ROUTES = [
   [elections, '/_api/elections'],
