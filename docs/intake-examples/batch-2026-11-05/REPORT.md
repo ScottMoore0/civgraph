@@ -55,15 +55,15 @@ Run `node scripts/intake/intake.mjs upload <batch> --dry-run` first. Credentials
 Commands, in order:
 
 ```
-node --env-file=.env.local scripts/upload-fgb-r2.mjs data/maps/health/Dispensary_Districts_NI_1921-04-01.fgb=data/maps/health/Dispensary_Districts_NI_1921-04-01.fgb data/maps/health/Dispensary_Districts_NI_1924-04-01.fgb=data/maps/health/Dispensary_Districts_NI_1924-04-01.fgb data/maps/health/Dispensary_Districts_NI_1929-01-01.fgb=data/maps/health/Dispensary_Districts_NI_1929-01-01.fgb data/maps/local-government/Towns_Improvement_Act_Towns_NI_1921-05-03.fgb=data/maps/local-government/Towns_Improvement_Act_Towns_NI_1921-05-03.fgb data/maps/local-government/Towns_Improvement_Act_Towns_NI_1925-04-01.fgb=data/maps/local-government/Towns_Improvement_Act_Towns_NI_1925-04-01.fgb data/maps/local-government/Towns_Improvement_Act_Towns_NI_1927-04-01.fgb=data/maps/local-government/Towns_Improvement_Act_Towns_NI_1927-04-01.fgb data/maps/local-government/Towns_Improvement_Act_Towns_NI_1934-08-01.fgb=data/maps/local-government/Towns_Improvement_Act_Towns_NI_1934-08-01.fgb data/maps/local-government/Towns_Improvement_Act_Towns_NI_1937-04-01.fgb=data/maps/local-government/Towns_Improvement_Act_Towns_NI_1937-04-01.fgb data/maps/local-government/Towns_Improvement_Act_Towns_NI_1959-05-29.fgb=data/maps/local-government/Towns_Improvement_Act_Towns_NI_1959-05-29.fgb
-node --env-file=.env.local scripts/upload-tree-r2.mjs --manifest <tmp>/upload-manifest-lookup-csv.json --prefix data/maps/health/ --force
-node --env-file=.env.local scripts/upload-tree-r2.mjs --manifest <tmp>/upload-manifest-lookup-csv.json --prefix data/maps/health/ --verify-only
-node --env-file=.env.local scripts/set-r2-cache-control.mjs --prefix data/maps/health/ --apply
-node --env-file=.env.local scripts/set-r2-cache-control.mjs --prefix data/maps/local-government/ --apply
-node --env-file=.env.local scripts/set-r2-cache-control.mjs --prefix data/maps/health/ --ext csv --apply
-node scripts/write-test-cdn-upload-manifest.mjs
-node --env-file=.env.local scripts/upload-test-pmtiles-r2.mjs --ids dispensary-districts-ni-1921-04-01-vector-test,dispensary-districts-ni-1924-04-01-vector-test,dispensary-districts-ni-1929-01-01-vector-test,tia-towns-ni-1921-05-03-vector-test,tia-towns-ni-1925-04-01-vector-test,tia-towns-ni-1927-04-01-vector-test,tia-towns-ni-1934-08-01-vector-test,tia-towns-ni-1937-04-01-vector-test,tia-towns-ni-1959-05-29-vector-test
-node --env-file=.env.local scripts/verify-test-pmtiles-cdn.mjs --ids dispensary-districts-ni-1921-04-01-vector-test,dispensary-districts-ni-1924-04-01-vector-test,dispensary-districts-ni-1929-01-01-vector-test,tia-towns-ni-1921-05-03-vector-test,tia-towns-ni-1925-04-01-vector-test,tia-towns-ni-1927-04-01-vector-test,tia-towns-ni-1934-08-01-vector-test,tia-towns-ni-1937-04-01-vector-test,tia-towns-ni-1959-05-29-vector-test
+node --env-file=.env.local scripts/publish/r2-upload-files.mjs data/maps/health/Dispensary_Districts_NI_1921-04-01.fgb=data/maps/health/Dispensary_Districts_NI_1921-04-01.fgb data/maps/health/Dispensary_Districts_NI_1924-04-01.fgb=data/maps/health/Dispensary_Districts_NI_1924-04-01.fgb data/maps/health/Dispensary_Districts_NI_1929-01-01.fgb=data/maps/health/Dispensary_Districts_NI_1929-01-01.fgb data/maps/local-government/Towns_Improvement_Act_Towns_NI_1921-05-03.fgb=data/maps/local-government/Towns_Improvement_Act_Towns_NI_1921-05-03.fgb data/maps/local-government/Towns_Improvement_Act_Towns_NI_1925-04-01.fgb=data/maps/local-government/Towns_Improvement_Act_Towns_NI_1925-04-01.fgb data/maps/local-government/Towns_Improvement_Act_Towns_NI_1927-04-01.fgb=data/maps/local-government/Towns_Improvement_Act_Towns_NI_1927-04-01.fgb data/maps/local-government/Towns_Improvement_Act_Towns_NI_1934-08-01.fgb=data/maps/local-government/Towns_Improvement_Act_Towns_NI_1934-08-01.fgb data/maps/local-government/Towns_Improvement_Act_Towns_NI_1937-04-01.fgb=data/maps/local-government/Towns_Improvement_Act_Towns_NI_1937-04-01.fgb data/maps/local-government/Towns_Improvement_Act_Towns_NI_1959-05-29.fgb=data/maps/local-government/Towns_Improvement_Act_Towns_NI_1959-05-29.fgb
+node --env-file=.env.local scripts/publish/r2-upload-manifest.mjs --manifest <tmp>/upload-manifest-lookup-csv.json --prefix data/maps/health/ --force
+node --env-file=.env.local scripts/publish/r2-upload-manifest.mjs --manifest <tmp>/upload-manifest-lookup-csv.json --prefix data/maps/health/ --verify-only
+node --env-file=.env.local scripts/publish/r2-cache-control.mjs --prefix data/maps/health/ --apply
+node --env-file=.env.local scripts/publish/r2-cache-control.mjs --prefix data/maps/local-government/ --apply
+node --env-file=.env.local scripts/publish/r2-cache-control.mjs --prefix data/maps/health/ --ext csv --apply
+node scripts/publish/r2-manifest.mjs
+node --env-file=.env.local scripts/publish/r2-upload-pmtiles.mjs --ids dispensary-districts-ni-1921-04-01-vector-test,dispensary-districts-ni-1924-04-01-vector-test,dispensary-districts-ni-1929-01-01-vector-test,tia-towns-ni-1921-05-03-vector-test,tia-towns-ni-1925-04-01-vector-test,tia-towns-ni-1927-04-01-vector-test,tia-towns-ni-1934-08-01-vector-test,tia-towns-ni-1937-04-01-vector-test,tia-towns-ni-1959-05-29-vector-test
+node --env-file=.env.local scripts/publish/verify-pmtiles-cdn.mjs --ids dispensary-districts-ni-1921-04-01-vector-test,dispensary-districts-ni-1924-04-01-vector-test,dispensary-districts-ni-1929-01-01-vector-test,tia-towns-ni-1921-05-03-vector-test,tia-towns-ni-1925-04-01-vector-test,tia-towns-ni-1927-04-01-vector-test,tia-towns-ni-1934-08-01-vector-test,tia-towns-ni-1937-04-01-vector-test,tia-towns-ni-1959-05-29-vector-test
 node --env-file=.env.local scripts/stamp-map-cache-tokens.mjs --write
 node --env-file=.env.local scripts/stamp-map-cache-tokens.mjs --check
 ```
@@ -71,12 +71,12 @@ node --env-file=.env.local scripts/stamp-map-cache-tokens.mjs --check
 ## 3. After the upload (`intake post-upload`)
 
 ```
-node scripts/switch-test-pmtiles-to-cdn.mjs --ids dispensary-districts-ni-1921-04-01-vector-test,dispensary-districts-ni-1924-04-01-vector-test,dispensary-districts-ni-1929-01-01-vector-test,tia-towns-ni-1921-05-03-vector-test,tia-towns-ni-1925-04-01-vector-test,tia-towns-ni-1927-04-01-vector-test,tia-towns-ni-1934-08-01-vector-test,tia-towns-ni-1937-04-01-vector-test,tia-towns-ni-1959-05-29-vector-test
-node scripts/write-test-cdn-upload-manifest.mjs
+node scripts/publish/switch-pmtiles-to-cdn.mjs --ids dispensary-districts-ni-1921-04-01-vector-test,dispensary-districts-ni-1924-04-01-vector-test,dispensary-districts-ni-1929-01-01-vector-test,tia-towns-ni-1921-05-03-vector-test,tia-towns-ni-1925-04-01-vector-test,tia-towns-ni-1927-04-01-vector-test,tia-towns-ni-1934-08-01-vector-test,tia-towns-ni-1937-04-01-vector-test,tia-towns-ni-1959-05-29-vector-test
+node scripts/publish/r2-manifest.mjs
 npm run rebuild -- --plan
 npm run build
 python scripts/regen-thumbnails.py --download --ids dispensary-districts-ni-1921-04-01,dispensary-districts-ni-1924-04-01,dispensary-districts-ni-1929-01-01,tia-towns-ni-1921-05-03,tia-towns-ni-1925-04-01,tia-towns-ni-1927-04-01,tia-towns-ni-1934-08-01,tia-towns-ni-1937-04-01,tia-towns-ni-1959-05-29
-node --env-file=.env.local scripts/upload-tile-pyramid-s3.mjs assets/thumbnails assets/thumbnails --concurrency=16 --changed-only
+node --env-file=.env.local scripts/publish/r2-upload-tree.mjs assets/thumbnails assets/thumbnails --concurrency=16 --changed-only
 node scripts/validate-test-cdn-manifest.mjs
 npm run check:fast
 node --env-file=.env.local scripts/stamp-map-cache-tokens.mjs --check

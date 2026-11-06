@@ -95,7 +95,7 @@ if (stale.length) {
   console.error('  published download. A source updated without a rebuild means the map');
   console.error('  keeps drawing the old geometry while every other check passes.');
   console.error('  Rebuild: node scripts/build-test-pmtiles.mjs --force --ids <id>');
-  console.error('  Then upload: node scripts/upload-test-pmtiles-r2.mjs --ids <id>');
+  console.error('  Then upload: node scripts/publish/r2-upload-pmtiles.mjs --ids <id>');
   process.exit(1);
 }
 

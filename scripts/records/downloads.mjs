@@ -7,7 +7,7 @@
  *   manifest.json: version, sizes, SHA-256, licence note
  *
  * It uploads nothing. Publishing them is a separate, approved step through the S3 path:
- *   node scripts/upload-tile-pyramid-s3.mjs --i-have-reviewed-this-publication ... downloads/
+ *   node scripts/publish/r2-upload-tree.mjs --i-have-reviewed-this-publication ... downloads/
  */
 import { createHash } from 'node:crypto';
 import { createReadStream, createWriteStream, existsSync, mkdirSync, statSync, writeFileSync, copyFileSync } from 'node:fs';

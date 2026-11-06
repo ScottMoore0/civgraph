@@ -64,16 +64,16 @@ Run `node scripts/intake/intake.mjs upload <batch> --dry-run` first. Credentials
 Commands, in order:
 
 ```
-node --env-file=.env.local scripts/upload-fgb-r2.mjs data/maps/health/Dispensary_Districts_NI_1921-04-01.fgb=data/maps/health/Dispensary_Districts_NI_1921-04-01.fgb data/maps/health/Dispensary_Districts_NI_1924-04-01.fgb=data/maps/health/Dispensary_Districts_NI_1924-04-01.fgb data/maps/health/Dispensary_Districts_NI_1929-01-01.fgb=data/maps/health/Dispensary_Districts_NI_1929-01-01.fgb data/maps/local-government/Towns_Improvement_Act_Towns_NI_1921-05-03.fgb=data/maps/local-government/Towns_Improvement_Act_Towns_NI_1921-05-03.fgb data/maps/local-government/Towns_Improvement_Act_Towns_NI_1925-04-01.fgb=data/maps/local-government/Towns_Improvement_Act_Towns_NI_1925-04-01.fgb data/maps/local-government/Towns_Improvement_Act_Towns_NI_1927-04-01.fgb=data/maps/local-government/Towns_Improvement_Act_Towns_NI_1927-04-01.fgb data/maps/local-government/Towns_Improvement_Act_Towns_NI_1934-08-01.fgb=data/maps/local-government/Towns_Improvement_Act_Towns_NI_1934-08-01.fgb data/maps/local-government/Towns_Improvement_Act_Towns_NI_1937-04-01.fgb=data/maps/local-government/Towns_Improvement_Act_Towns_NI_1937-04-01.fgb data/maps/local-government/Towns_Improvement_Act_Towns_NI_1959-05-29.fgb=data/maps/local-government/Towns_Improvement_Act_Towns_NI_1959-05-29.fgb
-node --env-file=.env.local scripts/upload-tree-r2.mjs --manifest <tmp>/upload-manifest-lookup-csv.json --prefix data/maps/health/ --force
-node --env-file=.env.local scripts/upload-tree-r2.mjs --manifest <tmp>/upload-manifest-lookup-csv.json --prefix data/maps/health/ --verify-only
+node --env-file=.env.local scripts/publish/r2-upload-files.mjs data/maps/health/Dispensary_Districts_NI_1921-04-01.fgb=data/maps/health/Dispensary_Districts_NI_1921-04-01.fgb data/maps/health/Dispensary_Districts_NI_1924-04-01.fgb=data/maps/health/Dispensary_Districts_NI_1924-04-01.fgb data/maps/health/Dispensary_Districts_NI_1929-01-01.fgb=data/maps/health/Dispensary_Districts_NI_1929-01-01.fgb data/maps/local-government/Towns_Improvement_Act_Towns_NI_1921-05-03.fgb=data/maps/local-government/Towns_Improvement_Act_Towns_NI_1921-05-03.fgb data/maps/local-government/Towns_Improvement_Act_Towns_NI_1925-04-01.fgb=data/maps/local-government/Towns_Improvement_Act_Towns_NI_1925-04-01.fgb data/maps/local-government/Towns_Improvement_Act_Towns_NI_1927-04-01.fgb=data/maps/local-government/Towns_Improvement_Act_Towns_NI_1927-04-01.fgb data/maps/local-government/Towns_Improvement_Act_Towns_NI_1934-08-01.fgb=data/maps/local-government/Towns_Improvement_Act_Towns_NI_1934-08-01.fgb data/maps/local-government/Towns_Improvement_Act_Towns_NI_1937-04-01.fgb=data/maps/local-government/Towns_Improvement_Act_Towns_NI_1937-04-01.fgb data/maps/local-government/Towns_Improvement_Act_Towns_NI_1959-05-29.fgb=data/maps/local-government/Towns_Improvement_Act_Towns_NI_1959-05-29.fgb
+node --env-file=.env.local scripts/publish/r2-upload-manifest.mjs --manifest <tmp>/upload-manifest-lookup-csv.json --prefix data/maps/health/ --force
+node --env-file=.env.local scripts/publish/r2-upload-manifest.mjs --manifest <tmp>/upload-manifest-lookup-csv.json --prefix data/maps/health/ --verify-only
 ```
 
 ## 3. After the upload (`intake post-upload`)
 
 ```
 python scripts/regen-thumbnails.py --download --ids dispensary-districts-ni-1921-04-01,dispensary-districts-ni-1924-04-01,dispensary-districts-ni-1929-01-01,tia-towns-ni-1921-05-03,tia-towns-ni-1925-04-01,tia-towns-ni-1927-04-01,tia-towns-ni-1934-08-01,tia-towns-ni-1937-04-01,tia-towns-ni-1959-05-29
-node --env-file=.env.local scripts/upload-tile-pyramid-s3.mjs assets/thumbnails assets/thumbnails --concurrency=16 --changed-only
+node --env-file=.env.local scripts/publish/r2-upload-tree.mjs assets/thumbnails assets/thumbnails --concurrency=16 --changed-only
 npm run rebuild
 npm run check:fast
 ```

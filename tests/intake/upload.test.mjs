@@ -24,8 +24,8 @@ test('upload --dry-run uses each script\'s own dry form and lists only real step
   const { batch } = fixture();
   const steps = buildUploadSteps(batch, { dryRun: true, tmpDir: () => tempDir('manifests') });
   const argv = steps.map((s) => s.argv);
-  assert.deepEqual(argv[0], ['node', ENV, 'scripts/upload-fgb-r2.mjs', 'data/maps/health/New_Layer.fgb=data/maps/health/New_Layer.fgb', '--dry-run']);
-  assert.equal(argv[1][2], 'scripts/upload-tree-r2.mjs');
+  assert.deepEqual(argv[0], ['node', ENV, 'scripts/publish/r2-upload-files.mjs', 'data/maps/health/New_Layer.fgb=data/maps/health/New_Layer.fgb', '--dry-run']);
+  assert.equal(argv[1][2], 'scripts/publish/r2-upload-manifest.mjs');
   assert.deepEqual(argv[1].slice(-4), ['--prefix', 'data/maps/health/', '--force', '--dry']);
   // the generated manifest is the [{local, rel}] form upload-tree-r2 reads
   const manifest = JSON.parse(readFileSync(argv[1][4], 'utf8'));
@@ -33,15 +33,15 @@ test('upload --dry-run uses each script\'s own dry form and lists only real step
   assert.ok(path.isAbsolute(manifest[0].local));
   assert.deepEqual(argv[2].slice(-2), ['data/maps/health/', '--verify-only']);
   assert.equal(steps[2].realOnly, true);
-  assert.deepEqual(argv[3], ['node', ENV, 'scripts/set-r2-cache-control.mjs', '--prefix', 'data/maps/health/']); // no --apply
-  assert.deepEqual(argv[4], ['node', 'scripts/write-test-cdn-upload-manifest.mjs']);
-  assert.deepEqual(argv[5], ['node', ENV, 'scripts/upload-test-pmtiles-r2.mjs', '--ids', 'dd-1921-vector-test,dd-1924-vector-test', '--dry-run']);
-  assert.deepEqual(argv[6], ['node', ENV, 'scripts/verify-test-pmtiles-cdn.mjs', '--ids', 'dd-1921-vector-test,dd-1924-vector-test']);
+  assert.deepEqual(argv[3], ['node', ENV, 'scripts/publish/r2-cache-control.mjs', '--prefix', 'data/maps/health/']); // no --apply
+  assert.deepEqual(argv[4], ['node', 'scripts/publish/r2-manifest.mjs']);
+  assert.deepEqual(argv[5], ['node', ENV, 'scripts/publish/r2-upload-pmtiles.mjs', '--ids', 'dd-1921-vector-test,dd-1924-vector-test', '--dry-run']);
+  assert.deepEqual(argv[6], ['node', ENV, 'scripts/publish/verify-pmtiles-cdn.mjs', '--ids', 'dd-1921-vector-test,dd-1924-vector-test']);
   assert.deepEqual(argv.slice(7), [
     ['node', ENV, 'scripts/stamp-map-cache-tokens.mjs', '--write'],
     ['node', ENV, 'scripts/stamp-map-cache-tokens.mjs', '--check'],
   ]);
-  assert.deepEqual(steps.filter((s) => s.realOnly).map((s) => s.argv[s.argv.length - 1]), ['--verify-only', 'scripts/write-test-cdn-upload-manifest.mjs', 'dd-1921-vector-test,dd-1924-vector-test', '--write', '--check']);
+  assert.deepEqual(steps.filter((s) => s.realOnly).map((s) => s.argv[s.argv.length - 1]), ['--verify-only', 'scripts/publish/r2-manifest.mjs', 'dd-1921-vector-test,dd-1924-vector-test', '--write', '--check']);
 });
 
 test('a real upload applies Cache-Control and drops the dry flags', () => {
@@ -49,8 +49,8 @@ test('a real upload applies Cache-Control and drops the dry flags', () => {
   const steps = buildUploadSteps(batch, { dryRun: false, writeManifests: false });
   const text = steps.map(formatStep).join('\n');
   assert.doesNotMatch(text, /--dry/);
-  assert.match(text, /set-r2-cache-control\.mjs --prefix data\/maps\/health\/ --apply/);
-  assert.match(text, /upload-tree-r2\.mjs --manifest <tmp>\/upload-manifest-csv\.json --prefix data\/maps\/health\/ --force$/m);
+  assert.match(text, /publish\/r2-cache-control\.mjs --prefix data\/maps\/health\/ --apply/);
+  assert.match(text, /publish\/r2-upload-manifest\.mjs --manifest <tmp>\/upload-manifest-csv\.json --prefix data\/maps\/health\/ --force$/m);
 });
 
 test('FGB pairs are split into chunks, as the 74-pair batch of 2 Nov had to be', () => {
@@ -116,9 +116,9 @@ test('post-upload: switch to the CDN, thumbnails and the sync, printed unless --
   const { repo, dir, batch } = fixture();
   const steps = buildPostUploadSteps(batch).map((s) => s.argv);
   assert.deepEqual(steps, [
-    ['node', 'scripts/switch-test-pmtiles-to-cdn.mjs', '--ids', 'dd-1921-vector-test,dd-1924-vector-test'],
+    ['node', 'scripts/publish/switch-pmtiles-to-cdn.mjs', '--ids', 'dd-1921-vector-test,dd-1924-vector-test'],
     ['python', 'scripts/regen-thumbnails.py', '--download', '--ids', 'dd-1921,dd-1924'],
-    ['node', ENV, 'scripts/upload-tile-pyramid-s3.mjs', 'assets/thumbnails', 'assets/thumbnails', '--concurrency=16', '--changed-only'],
+    ['node', ENV, 'scripts/publish/r2-upload-tree.mjs', 'assets/thumbnails', 'assets/thumbnails', '--concurrency=16', '--changed-only'],
   ]);
   const calls = [];
   const lines = [];
@@ -143,7 +143,7 @@ test('plan and report: repository changes, R2 objects with sizes, and the comman
   assert.match(md, /^# Test batch/);
   assert.match(md, /\*\*gazette\*\*: Belfast Gazette; licence: OGL v3\.0/);
   assert.match(md, /\| `data\/maps\/health\/New_Layer\.fgb` \| 15 B \|/);
-  assert.match(md, /node --env-file=\.env\.local scripts\/upload-test-pmtiles-r2\.mjs --ids dd-1921-vector-test,dd-1924-vector-test/);
+  assert.match(md, /node --env-file=\.env\.local scripts\/publish\/r2-upload-pmtiles\.mjs --ids dd-1921-vector-test,dd-1924-vector-test/);
   assert.match(md, /The intake tool never runs it\./);
   const out = path.join(tempDir('report'), 'REPORT.md');
   assert.equal(main(['report', dir, '--repo', repo, '--out', out], { log: () => {} }), 0);
@@ -166,15 +166,15 @@ test('docs/intake-examples/batch-2026-11-05 reproduces that batch\'s upload.ps1 
   ].map((p) => `data/maps/${p}.fgb=data/maps/${p}.fgb`);
   // upload.ps1 without -DryRun, in order (its tree manifest was a file in the batch folder; ours is generated)
   const expected = [
-    ['node', ENV, 'scripts/upload-fgb-r2.mjs', ...fgb],
-    ['node', ENV, 'scripts/upload-tree-r2.mjs', '--manifest', '<tmp>/upload-manifest-lookup-csv.json', '--prefix', 'data/maps/health/', '--force'],
-    ['node', ENV, 'scripts/upload-tree-r2.mjs', '--manifest', '<tmp>/upload-manifest-lookup-csv.json', '--prefix', 'data/maps/health/', '--verify-only'],
-    ['node', ENV, 'scripts/set-r2-cache-control.mjs', '--prefix', 'data/maps/health/', '--apply'],
-    ['node', ENV, 'scripts/set-r2-cache-control.mjs', '--prefix', 'data/maps/local-government/', '--apply'],
-    ['node', ENV, 'scripts/set-r2-cache-control.mjs', '--prefix', 'data/maps/health/', '--ext', 'csv', '--apply'],
-    ['node', 'scripts/write-test-cdn-upload-manifest.mjs'],
-    ['node', ENV, 'scripts/upload-test-pmtiles-r2.mjs', '--ids', ids],
-    ['node', ENV, 'scripts/verify-test-pmtiles-cdn.mjs', '--ids', ids],
+    ['node', ENV, 'scripts/publish/r2-upload-files.mjs', ...fgb],
+    ['node', ENV, 'scripts/publish/r2-upload-manifest.mjs', '--manifest', '<tmp>/upload-manifest-lookup-csv.json', '--prefix', 'data/maps/health/', '--force'],
+    ['node', ENV, 'scripts/publish/r2-upload-manifest.mjs', '--manifest', '<tmp>/upload-manifest-lookup-csv.json', '--prefix', 'data/maps/health/', '--verify-only'],
+    ['node', ENV, 'scripts/publish/r2-cache-control.mjs', '--prefix', 'data/maps/health/', '--apply'],
+    ['node', ENV, 'scripts/publish/r2-cache-control.mjs', '--prefix', 'data/maps/local-government/', '--apply'],
+    ['node', ENV, 'scripts/publish/r2-cache-control.mjs', '--prefix', 'data/maps/health/', '--ext', 'csv', '--apply'],
+    ['node', 'scripts/publish/r2-manifest.mjs'],
+    ['node', ENV, 'scripts/publish/r2-upload-pmtiles.mjs', '--ids', ids],
+    ['node', ENV, 'scripts/publish/verify-pmtiles-cdn.mjs', '--ids', ids],
     ['node', ENV, 'scripts/stamp-map-cache-tokens.mjs', '--write'],
     ['node', ENV, 'scripts/stamp-map-cache-tokens.mjs', '--check'],
   ];
@@ -190,12 +190,12 @@ test('docs/intake-examples/batch-2026-11-05 reproduces that batch\'s upload.ps1 
   // post-upload.txt steps 1, 3, 4 and 5
   const thumbIds = ids.replace(/-vector-test/g, '');
   assert.deepEqual(buildPostUploadSteps(batch).map(formatStep), [
-    `node scripts/switch-test-pmtiles-to-cdn.mjs --ids ${ids}`,
-    'node scripts/write-test-cdn-upload-manifest.mjs',
+    `node scripts/publish/switch-pmtiles-to-cdn.mjs --ids ${ids}`,
+    'node scripts/publish/r2-manifest.mjs',
     'npm run rebuild -- --plan',
     'npm run build',
     `python scripts/regen-thumbnails.py --download --ids ${thumbIds}`,
-    'node --env-file=.env.local scripts/upload-tile-pyramid-s3.mjs assets/thumbnails assets/thumbnails --concurrency=16 --changed-only',
+    'node --env-file=.env.local scripts/publish/r2-upload-tree.mjs assets/thumbnails assets/thumbnails --concurrency=16 --changed-only',
     'node scripts/validate-test-cdn-manifest.mjs',
     'npm run check:fast',
     'node --env-file=.env.local scripts/stamp-map-cache-tokens.mjs --check',

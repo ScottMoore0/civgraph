@@ -23,7 +23,7 @@ module.exports = defineConfig({
     screenshot: 'only-on-failure',
   },
   webServer: {
-    command: `node tools/test-site/server.mjs --port ${PORT} --catalogue next`,
+    command: `node tools/dev-site/server.mjs --port ${PORT} --catalogue next`,
     url: `http://127.0.0.1:${PORT}/pages/about.html`,
     reuseExistingServer: false,
     timeout: 30000,

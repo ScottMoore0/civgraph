@@ -15,7 +15,7 @@
  *   - it exercises what users actually hit (DNS, CDN, cache, Pages Function),
  *     not merely "an object exists in a bucket"
  *   - no new dependencies (@aws-sdk/client-s3 is not even installed in this
- *     tree, which is why scripts/upload-tile-pyramid-s3.mjs cannot run today)
+ *     tree, which is why scripts/publish/r2-upload-tree.mjs cannot run today)
  *
  * R2 keys mirror repo-relative paths, so data/maps/foo.fgb is expected at
  * https://data.civgraph.net/data/maps/foo.fgb.
