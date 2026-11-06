@@ -860,7 +860,9 @@ if (existsSync('render/metadata/elections-test2.json')) {
   assertWestminsterGeneralElectionBaselines();
   assertComparableElectionBaselines(electionManifest);
   const localEntries = (electionManifest.elections || []).filter((entry) => entry.bodyGroup === 'local-government');
-  const generalLocalEntries = localEntries.filter((entry) => (entry.localBodies || []).length > 1);
+  // By-elections held in two councils on one day (29 May 1975: Belfast Area B and North Down Area B)
+  // share a date entry too; they are by-elections, not a general round, and keep their own title.
+  const generalLocalEntries = localEntries.filter((entry) => (entry.localBodies || []).length > 1 && !entry.isByElection);
   const generalLocalDates = new Map();
   for (const entry of generalLocalEntries) {
     const key = `${entry.displayProvider || ''}|${entry.date}`;

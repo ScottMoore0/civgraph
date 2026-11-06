@@ -3281,10 +3281,15 @@ function renderRelatedPanel(type, item) {
       escapeHtml(row.source || ''),
       `<a href="${escapeAttr(row.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(row.label || row.url)}</a>`,
       escapeHtml(row.licence || '')
-    ]) + (item.bornSource || item.diedSource
-      ? `<p class="browse-note">Born and died: ${escapeHtml([...new Set([item.bornSource, item.diedSource].filter(Boolean))].join(', '))}.</p>`
-      : '')
-    : '');
+    ])
+    : '')
+    // Where the dates of birth and death come from, whether or not the person has an official
+    // record: a reference work's date (Boylan, Elliott & Flackes) is cited with its second sources.
+    + (item.bornSource || item.diedSource
+      ? `<p class="browse-note">${escapeHtml(item.bornSource && item.diedSource && item.bornSource !== item.diedSource
+        ? `Born: ${item.bornSource}. Died: ${item.diedSource}`
+        : `${item.bornSource && item.diedSource ? 'Born and died' : item.bornSource ? 'Born' : 'Died'}: ${item.bornSource || item.diedSource}`)}.</p>`
+      : '');
   }
   if (type === 'register-interests') return renderRegisterInterestRelated(item);
   if (type === 'maps') return renderMapVariants(item);
