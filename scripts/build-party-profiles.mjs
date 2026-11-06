@@ -33,6 +33,7 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync, rmSync } from 'node:fs';
 import path from 'node:path';
 import { browsePartySlugResolver, formatSpan, indexFactsModel, loadFactsModel } from './lib/facts-model.mjs';
+import { isPartyInternalBody } from './lib/election-names.mjs';
 
 const ROOT = process.cwd();
 const BROWSE = path.join(ROOT, 'data', 'browse');
@@ -70,6 +71,9 @@ const BODY_GROUPS = [
 const bodyGroupOf = (key) => {
   const prefix = String(key).split('__')[0];
   if (/referendum/.test(prefix)) return null;
+  // A party's own leadership and nomination ballots are listed under internalContests, never
+  // charted as a body: a leadership won is not a seat, nor the party's whole vote 100% of a poll.
+  if (isPartyInternalBody({ bodySlug: prefix })) return null;
   return BODY_GROUPS.find((group) => group.test(prefix)) || { id: prefix, label: prefix };
 };
 
