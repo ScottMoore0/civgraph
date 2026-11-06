@@ -1,5 +1,7 @@
 # Cloudflare Migration Plan
 
+> Some scripts named below were archived in November 2026 (ARCHIVE.md, "Archived scripts"); they are in the archive copies and in git history, not in `scripts/`.
+
 > **Status: SUPERSEDED — last updated 2026-05-04.** This migration has
 > completed; the site runs on Cloudflare Pages + Workers (`functions/`,
 > `_headers`, and the `check:pages-assets` file-budget validator all assume it).
