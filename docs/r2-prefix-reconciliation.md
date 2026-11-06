@@ -19,7 +19,7 @@ it is a reconciliation of what is *already* published against what was ever *app
 `scripts/lib/r2-publication-gate.mjs` refuses uploads outside the allowlist, but the check is
 skippable and at least one upload path skips it by default:
 
-- `scripts/upload-feature-thumbnails-r2.mjs` defaults its key prefix to `data/thumbnails/features`
+- `scripts/publish/r2-upload-thumbnails.mjs` defaults its key prefix to `data/thumbnails/features`
 - its documented usage is `--skip-check`
 - `package.json` wires that in: `"deploy:feature-thumbnails:r2": "... --skip-check --concurrency 3"`
 

@@ -27,16 +27,16 @@ const DEFAULT_FGB_CHUNK = 40; // keeps each command line well under Windows' 32 
  * them (scripts/publish/...), this table is the only part of the intake tool that changes.
  */
 export const SCRIPTS = Object.freeze({
-  fgb: 'scripts/upload-fgb-r2.mjs',
-  tree: 'scripts/upload-tree-r2.mjs',
-  cacheControl: 'scripts/set-r2-cache-control.mjs',
-  cdnManifest: 'scripts/write-test-cdn-upload-manifest.mjs',
-  pmtiles: 'scripts/upload-test-pmtiles-r2.mjs',
-  verifyCdn: 'scripts/verify-test-pmtiles-cdn.mjs',
+  fgb: 'scripts/publish/r2-upload-files.mjs',
+  tree: 'scripts/publish/r2-upload-manifest.mjs',
+  cacheControl: 'scripts/publish/r2-cache-control.mjs',
+  cdnManifest: 'scripts/publish/r2-manifest.mjs',
+  pmtiles: 'scripts/publish/r2-upload-pmtiles.mjs',
+  verifyCdn: 'scripts/publish/verify-pmtiles-cdn.mjs',
   stampTokens: 'scripts/stamp-map-cache-tokens.mjs',
-  switchToCdn: 'scripts/switch-test-pmtiles-to-cdn.mjs',
+  switchToCdn: 'scripts/publish/switch-pmtiles-to-cdn.mjs',
   thumbnails: 'scripts/regen-thumbnails.py',
-  thumbnailSync: 'scripts/upload-tile-pyramid-s3.mjs',
+  thumbnailSync: 'scripts/publish/r2-upload-tree.mjs',
 });
 
 /**

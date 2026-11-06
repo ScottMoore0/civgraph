@@ -222,7 +222,7 @@
       }
     },
     "op-r2-pmtiles": {
-      "description": "PMTiles archives to R2 through scripts/upload-test-pmtiles-r2.mjs, after refreshing render/metadata/cdn-upload-manifest.json; then a CDN byte-range check.",
+      "description": "PMTiles archives to R2 through scripts/publish/r2-upload-pmtiles.mjs, after refreshing render/metadata/cdn-upload-manifest.json; then a CDN byte-range check.",
       "type": "object",
       "required": ["id", "type"],
       "additionalProperties": false,

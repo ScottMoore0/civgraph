@@ -33,7 +33,7 @@ export function makeRepo({ eol = '\n' } = {}) {
     records: [{ electionKey: 'e1', constituency: 'A', field: 'seats', proposedValue: 1 }],
   });
   writeFile(repo, 'data/maps/health/existing.fgb', 'old bytes');
-  writeFile(repo, 'scripts/upload-fgb-r2.mjs', '// stub');
+  writeFile(repo, 'scripts/publish/r2-upload-files.mjs', '// stub');
   return repo;
 }
 

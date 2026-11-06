@@ -123,7 +123,7 @@ test('commands: only scripts under scripts/ or the batch, never .claude/publish,
   const ops = [
     ...manifest.operations,
     { id: 'pub', type: 'command', phase: 'post-upload', argv: ['bash', '.claude/publish/publish.sh'] },
-    { id: 'curl', type: 'command', phase: 'post-upload', argv: ['node', 'scripts/upload-fgb-r2.mjs', '--ua', 'someone@example.com'] },
+    { id: 'curl', type: 'command', phase: 'post-upload', argv: ['node', 'scripts/publish/r2-upload-files.mjs', '--ua', 'someone@example.com'] },
     { id: 'outside', type: 'command', phase: 'post-upload', argv: ['node', 'C:/elsewhere/x.mjs'] },
     { id: 'ok', type: 'command', phase: 'post-upload', argv: ['npm', 'run', 'check:fast'] },
   ];
