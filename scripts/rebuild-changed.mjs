@@ -92,9 +92,7 @@ if (mode === 'app') {
   // --apply takes one page; passing both stamped only the homepage and left About stale.
   plan.push(['node', ['scripts/build-site-stats.mjs', '--apply', 'index.html']]);
   plan.push(['node', ['scripts/build-site-stats.mjs', '--apply', 'pages/about.html']]);
-  // The live elections database is only updated on publish, so its parity check is left to
-  // the deploy, which verifies it there.
-  plan.push(['node', ['scripts/run-checks.mjs', '--skip', 'check:elections-d1']]);
+  plan.push(['node', ['scripts/run-checks.mjs']]);
   plan.push(['npm', ['run', '-s', 'test:catalogue']]);
 }
 // Through node, not npx: on Windows npx needs a shell, and the shell reads the | in the -g
