@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-05T23:11:47.692Z",
+  "generatedAt": "2026-11-06T02:46:59.834Z",
   "description": "Progress of Civgraph's sources, elections and maps, as shown on /pages/status.html. Each total states its basis. Built by scripts/build-status.mjs; generatedAt is when a figure last changed.",
   "figures": {
     "sources": [
@@ -1475,6 +1475,62 @@
             "onSite": 18,
             "full": 18,
             "verified": 18,
+            "notHeld": 0,
+            "basis": null
+          }
+        ]
+      },
+      {
+        "id": "party-internal",
+        "name": "Party leadership and nomination contests",
+        "unit": "rounds",
+        "about": "Ballots in which a party's own members or representatives chose a leader or a nominee (docs/facts-model.md). Each body is one party's ballots; each bar counts the rounds on the site.",
+        "totals": {
+          "known": 5,
+          "onSite": 5,
+          "full": 3,
+          "verified": 5
+        },
+        "segments": [
+          {
+            "label": "Fianna Fáil leadership",
+            "body": "fianna-fail-leadership",
+            "span": [
+              1979,
+              1979
+            ],
+            "known": 1,
+            "onSite": 1,
+            "full": 1,
+            "verified": 1,
+            "notHeld": 0,
+            "basis": null
+          },
+          {
+            "label": "Fianna Fáil presidential nomination",
+            "body": "fianna-fail-presidential-nomination",
+            "span": [
+              1997,
+              1997
+            ],
+            "known": 1,
+            "onSite": 1,
+            "full": 1,
+            "verified": 1,
+            "notHeld": 0,
+            "basis": null
+          },
+          {
+            "label": "Ulster Unionist Party leadership",
+            "body": "uup-leadership",
+            "span": [
+              1969,
+              1995
+            ],
+            "known": 3,
+            "onSite": 3,
+            "full": 1,
+            "verified": 3,
             "notHeld": 0,
             "basis": null
           }

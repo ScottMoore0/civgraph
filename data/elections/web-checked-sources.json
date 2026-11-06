@@ -33,6 +33,10 @@
   {
    "id": "belfast-gazette-returns",
    "note": "The Belfast Gazette's lists of members returned (Crown Office for Northern Ireland: the Parliament of Northern Ireland, general elections and by-elections, and Westminster seats in Northern Ireland), read from the Gazette's own text layer by scripts/gazette/extract_election_notices.py and matched to each contest by scripts/gazette/record_gazette_provenance.py. Checked where every Civgraph winner is named in the return and no entry disagrees; the Gazette prints no votes, so the check is of the members returned, not the figures. Crown copyright, Open Government Licence."
+  },
+  {
+   "id": "facts-model-internal-contests",
+   "note": "Party-internal contests (leadership and nomination ballots) loaded with the facts model (docs/facts-model.md), checked against a second source for what Elliott and Flackes (1999) leaves out: the day of a contest it dates only by month, and the identity of a candidate. Citations and comparison notes only."
   }
  ],
  "records": [
@@ -104232,6 +104236,43 @@
    ],
    "disagreements": [],
    "check": "Members returned compared with the Gazette's list (Belfast Gazette, issue 2664, 20 November 1970, p. 459): John Laird (the Gazette gives James Dunn Laird, a misprint for John Dunn Laird) is returned for Belfast St Anne's, as Civgraph has; the Gazette names the predecessor as Norman Davidson Laird (Civgraph's previous winner: Norman Laird). The Gazette prints no votes, so the figures are not checked here."
+  },
+  {
+   "batch": "facts-model-internal-contests",
+   "file": "fianna-fail-leadership/1979-12-07/fianna-fail-parliamentary-party.json",
+   "title": "1979 Fianna Fáil leadership election (Wikipedia)",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/1979_Fianna_F%C3%A1il_leadership_election",
+   "accessed": "2026-11-06",
+   "kind": "web",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "date",
+    "winner",
+    "votes"
+   ],
+   "disagreements": [],
+   "check": "The article dates the vote of the Fianna Fáil parliamentary party to Friday 7 December 1979 and gives Haughey 44, Colley 38, as Elliott and Flackes (1999), p. 273, does; the book gives only the month, so the day is from this source."
+  },
+  {
+   "batch": "facts-model-internal-contests",
+   "file": "uup-leadership/1995-03-18/ulster-unionist-council.json",
+   "title": "March 1995 Ulster Unionist Party leadership election (Wikipedia)",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/March_1995_Ulster_Unionist_Party_leadership_election",
+   "accessed": "2026-11-06",
+   "kind": "web",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "date",
+    "winner",
+    "votes for the challenger",
+    "candidate identity"
+   ],
+   "disagreements": [],
+   "check": "The article dates the challenge to the Ulster Unionist Council meeting of 18 March 1995 and gives Lee Reynolds 88 votes, as Elliott and Flackes (1999) does. It also records that Reynolds was later co-opted to Belfast City Council for the DUP, which is the evidence that he is the Lee Reynolds of the 2011-2019 Belfast council contests (person 101568). The book gives no figure for Molyneaux and none is recorded."
   }
  ]
 }
