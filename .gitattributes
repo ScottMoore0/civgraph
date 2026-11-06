@@ -1,3 +1,14 @@
+# Line endings: every text file is stored with LF and checked out with LF, whatever
+# core.autocrlf says, so a Windows checkout and CI see the same bytes (content hashes,
+# byte-counted shards and shell scripts depend on it). Git still detects binaries itself
+# (text=auto); the rules below refine particular paths.
+* text=auto eol=lf
+
+# analysis/ is left exactly as it is while the owner decides its future: its 65 CSVs are
+# stored with CRLF, and renormalising them would rewrite files that may leave the
+# repository. Remove this line if analysis/ stays and renormalise it then.
+analysis/** -text
+
 # Git LFS Configuration
 # Track large map files with Git LFS
 # FlatGeobuf files
