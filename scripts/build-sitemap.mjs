@@ -65,10 +65,11 @@ export const TOP_LEVEL_PAGES = [
 
 // Browse types with a path-style page, and the index each is read from. Must match
 // functions/_browse-page.js BROWSE_PAGE_TYPES.
-export const BROWSE_SITEMAP_TYPES = ['elections', 'maps', 'parties', 'persons', 'register-interests', 'sources'];
+export const BROWSE_SITEMAP_TYPES = ['elections', 'maps', 'offices', 'parties', 'persons', 'register-interests', 'sources'];
 const BROWSE_INDEX_FILES = {
   elections: 'elections.json',
   maps: 'maps.json',
+  offices: 'offices.json',
   parties: 'parties.json',
   persons: 'persons.json',
   'register-interests': 'register-interests.json',
