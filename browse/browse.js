@@ -2419,6 +2419,7 @@ function renderMapHeaderPanel(item) {
         <p class="browse-kicker">${item.type === 'data-entry' ? 'Census statistic' : 'Map'}</p>
         <h1 class="browse-title browse-map-header__title">${escapeHtml(item.title || '')}</h1>
         ${dateLabel ? `<p class="browse-map-header__subtitle">${escapeHtml(String(dateLabel))}</p>` : ''}
+        ${item.approximate?.note ? `<p class="browse-map-header__approx">${escapeHtml(item.approximate.note)}</p>` : ''}
         ${item.type === 'data-entry' ? renderStatisticSummary(item) : ''}
       </div>
     </section>

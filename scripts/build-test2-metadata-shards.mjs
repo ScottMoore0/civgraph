@@ -82,6 +82,8 @@ const COMPACT_LAYER_FIELDS = [
   'numericProperties',
   'categoricalProperties',
   'popupProperties',
+  // dotted approximate stretches of a reconstructed edition (render/src/approximate-segments.js)
+  'approximateSegments',
   'variants',
   'aliasOf',
   'aliasTargetLayerId',
