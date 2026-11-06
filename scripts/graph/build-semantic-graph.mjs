@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { gunzip, gzip } from 'node:zlib';
 import { isGraphExcludedSource } from './graph-source-exclusions.mjs';
 import { buildTimestamp } from '../lib/build-timestamp.mjs';
-import { BROWSE_DIR as RECORD_BROWSE_DIR, GRAPH_DIR } from '../records/paths.mjs';
+import { BROWSE_DIR as RECORD_BROWSE_DIR, GRAPH_DIR, localPathForUrl } from '../records/paths.mjs';
 
 // Summary labels that are the absence of a party, not one: "No party recorded" (before 1832),
 // "No label" (nothing printed or inferred) and a person record's "Unknown".
@@ -2717,8 +2717,8 @@ async function writeJson(filePath, data, options = {}) {
 }
 
 function siteUrlToPath(url) {
-  const clean = decodeURIComponent(String(url || '').split('?')[0].replace(/^\/+/, ''));
-  return path.join(ROOT_DIR, ...clean.split('/'));
+  // /data/browse/... and /data/graph/... are wherever this build writes them (records/paths.mjs).
+  return localPathForUrl(decodeURIComponent(String(url || '')));
 }
 
 function makeEntityId(prefix, key) {

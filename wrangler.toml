@@ -78,6 +78,9 @@ database_id = "d7ed9845-ba30-4925-956c-d6bde885cb30"
 binding = "ELECTIONS_DB"
 database_name = "civgraph-elections"
 database_id = "cd88f241-35aa-4cbb-bcb3-c80a471b8afa"
+# Records schema (scripts/records/, data design phase 2): append-only files, applied by
+# npm run records:deploy (wrangler d1 migrations apply) before each delta load.
+migrations_dir = "migrations"
 
 [[kv_namespaces]]
 binding = "PRONI_KV"
