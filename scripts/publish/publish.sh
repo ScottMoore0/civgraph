@@ -39,7 +39,8 @@ fi
 
 stamp "== records:build"
 npm run -s records:build > "$WORK/records-build.log" 2>&1 || { echo "ABORT: records:build failed:"; tail -15 "$WORK/records-build.log"; exit 1; }
-grep -E '^records:build|warning' "$WORK/records-build.log" | head -8
+# Case-insensitive: the votes notice ("WARNING: CIVGRAPH_VOTES_DIR is unset ...") is upper case.
+grep -iE '^records:build|warning' "$WORK/records-build.log" | head -8
 
 stamp "== D1 (records, catalogue)"
 if [ -n "$DRY" ]; then
