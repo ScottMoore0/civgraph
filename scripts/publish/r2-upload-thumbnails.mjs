@@ -22,6 +22,14 @@ const DEFAULT_ROOT = path.join(ROOT, 'tmp/feature-thumbnails-rendered');
 const DEFAULT_REPORT = path.join(ROOT, 'tmp/feature-thumbnails-rendered/_r2-upload-report.json');
 const DEFAULT_BUCKET = 'boundaries-data';
 const DEFAULT_ACCOUNT_ID = 'e51cbcff3bf6c7509f93f4e4ed67a394';
+
+/**
+ * Each thumbnail's upload result (state-machine catalogue PL-L, light: a closed result set, as
+ * r2-upload-pmtiles.mjs UPLOAD_STATUSES). 'exists' and 'dry-run' are ok but upload nothing; the
+ * report counts each status.
+ * @typedef {'uploaded' | 'exists' | 'dry-run' | 'upload-failed'} ThumbnailUploadStatus
+ */
+const THUMBNAIL_UPLOAD_STATUSES = /** @type {readonly ThumbnailUploadStatus[]} */ (Object.freeze(['uploaded', 'exists', 'dry-run', 'upload-failed']));
 const SUPPORTED_EXTENSIONS = new Set(['.png', '.webp', '.jpg', '.jpeg', '.avif']);
 
 const args = parseArgs(process.argv.slice(2));
@@ -80,6 +88,7 @@ async function worker() {
     cursor += 1;
     const item = uploadQueue[index];
     const result = await uploadOne(item.file, item.index);
+    if (!THUMBNAIL_UPLOAD_STATUSES.includes(result.status)) throw new Error(`unknown upload status ${result.status}`);
     results.push(result);
     const done = results.length;
     if (done === 1 || done % 250 === 0 || done === allFiles.length || result.status === 'upload-failed') {
@@ -89,6 +98,7 @@ async function worker() {
   }
 }
 
+/** @returns {Promise<{ ok: boolean, status: ThumbnailUploadStatus } & Record<string, unknown>>} */
 async function uploadOne(file, index) {
   const relativePath = path.relative(LOCAL_ROOT, file).replace(/\\/g, '/');
   const key = keyFor(file);

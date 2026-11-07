@@ -23,7 +23,7 @@ function readIndex(file, paths) {
   const items = [];
   for (const shard of manifest.shards) {
     const shardFile = localPathForUrl(shard.url, paths);
-    if (!existsSync(shardFile)) throw new Error(`shard missing on disk: ${shard.url}`);
+    if (!shardFile || !existsSync(shardFile)) throw new Error(`shard missing on disk: ${shard.url}`);
     items.push(...(readJson(shardFile).items || []));
   }
   return { manifest, items };

@@ -65,7 +65,7 @@ export function votesPinState(votesDir, pinFile = PIN_FILE) {
 /** Throws unless the copy at votesDir matches the committed pin; returns the pin's digest. */
 export function verifyVotesPin(votesDir) {
   const { state, diffs, pin } = votesPinState(votesDir);
-  if (state === 'unpinned') throw new Error('data/database/votes-source.json is missing: run node scripts/records/votes-pin.mjs --write');
+  if (state === 'unpinned' || !pin) throw new Error('data/database/votes-source.json is missing: run node scripts/records/votes-pin.mjs --write');
   if (state === 'mismatch') throw new Error(`the votes dataset differs from its pin: ${diffs.slice(0, 8).join(', ')}`);
   return createHash('sha256').update(JSON.stringify(pin.files)).digest('hex').slice(0, 16);
 }

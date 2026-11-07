@@ -2,6 +2,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { writeStableGeneratedJson } from '../../lib/stable-generated-json.mjs';
 import { recordPath } from '../../records/paths.mjs';
+import { loadRegistry } from '../../../registries/index.mjs';
+import { enumValues } from '../../../registries/statuses.mjs';
 
 /**
  * The party-colour comparison's outcome (state-machine catalogue PL-L, light). The audit rows spell
@@ -137,7 +139,10 @@ const normaliseNumber = (value) => {
 
 const VALID_CONTEST_TYPES = new Set(['election', 'referendum', 'recall-petition']);
 const VALID_ELECTION_KINDS = new Set(['general', 'by-election']);
-const VALID_CONTEST_STATUSES = new Set(['contested', 'uncontested']);
+// Contest statuses and what a missing one means: the statuses registry's contest entry (RG-02).
+const STATUSES = loadRegistry('statuses');
+const VALID_CONTEST_STATUSES = new Set(enumValues(STATUSES, 'contest'));
+const CONTEST_STATUS_IF_MISSING = STATUSES.machines.contest.missingMeans;
 const VALID_VOTING_SYSTEMS = new Set(['fptp', 'block-vote', 'stv-gregory', 'stv-hare', 'party-list-dhondt', 'ordinal']);
 
 const contestTypeFor = (entry, result = null) => result?.contestType || entry?.contestType || (/referendum/i.test(entry?.body || entry?.displayTitle || '') ? 'referendum' : 'election');
@@ -147,7 +152,7 @@ const isReferendumLike = (entry, result = null) => contestTypeFor(entry, result)
 const isCandidateListExpected = (entry, result) => {
   const contestType = contestTypeFor(entry, result);
   if (contestType !== 'election') return false;
-  const status = result?.contestStatus || entry?.contestStatus || 'contested';
+  const status = result?.contestStatus || entry?.contestStatus || CONTEST_STATUS_IF_MISSING;
   if (status === 'uncontested') return false;
   if (result?.candidateRowsExpected === false || entry?.candidateRowsExpected === false) return false;
   return true;
@@ -173,7 +178,7 @@ const shouldExpectTransferData = (entry, result) => {
     return seats === null || seats > 1;
   }
   if (contestTypeFor(entry, result) !== 'election') return false;
-  const status = result?.contestStatus || entry?.contestStatus || 'contested';
+  const status = result?.contestStatus || entry?.contestStatus || CONTEST_STATUS_IF_MISSING;
   if (status === 'uncontested') return false;
   const votingSystem = result?.votingSystem || entry?.votingSystem || '';
   const seats = normaliseNumber(result?.seatsTotal);

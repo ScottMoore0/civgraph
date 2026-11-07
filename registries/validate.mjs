@@ -102,10 +102,11 @@ export function validateAgainstSchema(value, schema, root = schema, at = '$', op
     if (schema.items) value.forEach((item, i) => check(item, schema.items, `${at}[${i}]`));
   }
   if (typeOf(value) === 'object') {
+    const object = /** @type {Record<string, unknown>} */ (value);
     for (const key of schema.required || []) {
-      if (!(key in value)) errors.push(`${at}: missing required property ${key}`);
+      if (!(key in object)) errors.push(`${at}: missing required property ${key}`);
     }
-    for (const [key, sub] of Object.entries(value)) {
+    for (const [key, sub] of Object.entries(object)) {
       if (schema.propertyNames) check(key, schema.propertyNames, `${at}{${key}}`);
       if (schema.properties && key in schema.properties) check(sub, schema.properties[key], `${at}.${key}`);
       else if (schema.additionalProperties === false) errors.push(`${at}: unknown property ${key}`);

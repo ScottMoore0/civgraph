@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /**
- * Keep browse/index.html's ?v= cache tokens tied to the files they version.
+ * Keep browse/index.html's ?v= cache tokens tied to the files they version, in src and href
+ * attributes and in each page's import map.
  *
  * WHY
  *
@@ -51,6 +52,9 @@ const HTML_FILES = [
   'catalogue/index.html',
   'records/index.html',
   'apps/proni-search/index.html',
+  // Words in parliament loads words.js as a module (r2-ui, 7 Nov 2026); its import map versions
+  // the modules words.js imports.
+  'apps/words/index.html',
 ];
 const CHECK = process.argv.includes('--check');
 
@@ -94,7 +98,23 @@ for (const HTML of HTML_FILES) {
     return `${lead}${file}?v=${hash}${tail}`;
   });
 
-  if (!CHECK && updated !== html) writeFileSync(HTML, updated);
+  // The page's import map: each module the entry script imports by a plain site-root path is
+  // mapped to the same path with ?v=<the same content hash> (tests/unit/ui-module-tokens.test.mjs).
+  // A deploy that changes the module changes its URL, as for the tokens above.
+  const IMPORT_MAP_ENTRY = /"(\/[A-Za-z0-9._\/-]+\.js)":"\1\?v=([A-Za-z0-9._-]+)"/g;
+  const stamped = updated.replace(/<script type="importmap">[^<]*<\/script>/g, (block) => block.replace(IMPORT_MAP_ENTRY, (match, file, token) => {
+    const assetPath = file.replace(/^\/+/, '');
+    if (!existsSync(assetPath)) {
+      findings.push({ file: `${HTML}: import map ${file}`, problem: `referenced but missing at ${assetPath}` });
+      return match;
+    }
+    totalChecked += 1;
+    const hash = createHash('sha256').update(readFileSync(assetPath)).digest('hex').slice(0, 12);
+    if (token !== hash) findings.push({ file: `${HTML}: import map ${file}`, problem: `token is "${token}", content hash is "${hash}"` });
+    return `"${file}":"${file}?v=${hash}"`;
+  }));
+
+  if (!CHECK && stamped !== html) writeFileSync(HTML, stamped);
   allFindings.push(...findings);
 }
 
