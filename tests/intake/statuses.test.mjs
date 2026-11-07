@@ -52,7 +52,7 @@ test('command gates: upload --yes and post-upload --write after commit, stage --
 });
 
 test('contribution status: applied only from approved, and never left', () => {
-  const allowed = new Set(['pending-review->approved', 'pending-review->rejected', 'approved->applied', 'approved->rejected', 'rejected->approved']);
+  const allowed = new Set(['pending-review->approved', 'pending-review->rejected', 'approved->applied']);
   for (const from of CONTRIBUTION_STATUS.states) {
     for (const to of CONTRIBUTION_STATUS.states) assert.equal(CONTRIBUTION_STATUS.can(from, to), allowed.has(`${from}->${to}`), `${from} -> ${to}`);
   }

@@ -11,8 +11,9 @@ export default definePlugin({
     'domain-assets': {
       title: 'Generate the summit- and prominence-domain polygons (tmp/dobih/domain-polygons)',
       argv: ['python', 'scripts/ingest/hills/build_irish_hill_domain_assets.py'],
-      outputs: ['tmp/dobih/domain-polygons/', 'render/source-cache/vector-intake/'],
-      needs: ['tmp/dobih/generated'],
+      outputs: ['tmp/dobih/domain-polygons/', 'test/source-cache/vector-intake/irish-hill-summit-domains.fgb', 'test/source-cache/vector-intake/irish-hill-prominence-domains.fgb'],
+      needs: ['tmp/dobih/source/hillcsv/DoBIH_v18_4.csv', 'data/maps/physical/Ireland-lod1.fgb', 'data/maps/physical/dem_tiles'],
+      volatile: ['generatedAt'],
     },
     'domain-metadata': {
       title: 'Register the hill-domain layers in the catalogue and the /test metadata',
