@@ -12,6 +12,7 @@ import {
   candidateCountState, candidateStatusKind, canTransition, enumValues, isContested, missingRoundReason, siteRoundStatus, statesOf
 } from '../../registries/statuses.mjs';
 import { statusKind } from '../../src/election-domain.mjs';
+import { canMarkApplied } from '../../scripts/intake/contributions.mjs';
 
 const registry = loadRegistry('statuses');
 const read = (rel) => readFileSync(path.join(REPO_ROOT, rel), 'utf8');
@@ -40,7 +41,6 @@ test('statuses: the checks reject open tables, unreachable states and stray labe
 });
 
 test('RG-04 contribution: the table is the queue\'s rule (contributions.mjs, submit.js, decide.js)', () => {
-  const { canMarkApplied } = evalDeclarations('scripts/intake/contributions.mjs', 'export const TERMINAL_STATUS', 'const argv', ['canMarkApplied']);
   for (const s of [...statesOf(registry, 'contribution'), 'unknown', '']) {
     assert.deepEqual({ ...canMarkApplied(s) }, { ok: canTransition(registry, 'contribution', s, 'applied'), ...(canMarkApplied(s).reason ? { reason: canMarkApplied(s).reason } : {}) }, s);
   }
