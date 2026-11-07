@@ -51,7 +51,8 @@ import { ingestMaps } from './ingest-maps.mjs';
 import { ingestProvenance } from './ingest-provenance.mjs';
 import { ingestRegistries } from './ingest-registries.mjs';
 import { ingestVotes } from './ingest-votes.mjs';
-import { recordPaths, REPO_ROOT, rel } from './paths.mjs';
+import { buildVar } from '../lib/config.mjs';
+import { RECORDS_DB, recordPaths, REPO_ROOT, rel } from './paths.mjs';
 import { HASHED_TABLES } from './schema.mjs';
 import { stabiliseOrder } from './stable-order.mjs';
 import { validateDatabase } from './validate.mjs';
@@ -65,7 +66,7 @@ const skip = new Set(String(option('--skip') || '').split(',').filter(Boolean));
 export const BUILD_REL = 'tmp/records';
 const BUILD_ENV = { ...process.env, CIVGRAPH_BUILD_DIR: BUILD_REL };
 const P = recordPaths(BUILD_ENV);
-const OUT = path.join(REPO_ROOT, BUILD_REL, 'civgraph-records.sqlite');
+const OUT = RECORDS_DB; // BUILD_REL/civgraph-records.sqlite
 const NEXT = path.join(REPO_ROOT, BUILD_REL, 'civgraph-records.next.sqlite');
 const STATE = path.join(REPO_ROOT, BUILD_REL, 'transforms.json');
 const LAST_LOADED = path.join(REPO_ROOT, '.claude', 'publish', 'work', 'last-loaded.sqlite');
@@ -143,9 +144,10 @@ const transformGraph = () => run(process.execPath, ['scripts/build/graph/build-s
 /** Where this build's votes come from: 'built' | 'tree' | 'previous' | 'none'. */
 function transformVotes() {
   const votesOut = path.join(P.BROWSE_DIR, 'votes');
-  if (process.env.CIVGRAPH_VOTES_DIR) {
-    verifyVotesPin(process.env.CIVGRAPH_VOTES_DIR);
-    run('python', ['scripts/build/build_browse_votes.py', '--votes-dir', process.env.CIVGRAPH_VOTES_DIR, '--out', votesOut]);
+  const votesDir = buildVar('CIVGRAPH_VOTES_DIR');
+  if (votesDir) {
+    verifyVotesPin(votesDir);
+    run('python', ['scripts/build/build_browse_votes.py', '--votes-dir', votesDir, '--out', votesOut]);
     return { from: 'built', dir: votesOut };
   }
   if (option('--votes-tree')) return { from: 'tree', dir: path.resolve(option('--votes-tree')) };

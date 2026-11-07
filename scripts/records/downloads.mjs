@@ -15,10 +15,11 @@ import path from 'node:path';
 import { pipeline } from 'node:stream/promises';
 import { createGzip } from 'node:zlib';
 import { DatabaseSync } from 'node:sqlite';
-import { recordPaths, REPO_ROOT } from './paths.mjs';
+import { SITE } from '../lib/config.mjs';
+import { RECORDS_DB, recordPaths, REPO_ROOT } from './paths.mjs';
 
 const BUILD = path.join(REPO_ROOT, 'tmp', 'records');
-const DB = path.join(BUILD, 'civgraph-records.sqlite');
+const DB = RECORDS_DB;
 const OUT = path.join(BUILD, 'downloads');
 const P = recordPaths({ CIVGRAPH_BUILD_DIR: 'tmp/records' });
 
@@ -53,7 +54,7 @@ for (const name of ['civgraph.jsonld', 'civgraph-rdf.ndjson', 'civgraph-provenan
 const manifest = {
   schemaVersion: 1,
   version,
-  licence: 'See https://civgraph.net/pages/about.html for the licence of each source; the records cite theirs.',
+  licence: `See ${SITE.origin}/pages/about.html for the licence of each source; the records cite theirs.`,
   files: [],
 };
 for (const f of files) {

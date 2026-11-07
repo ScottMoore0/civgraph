@@ -38,7 +38,7 @@ import {
 import path from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
 import { buildDelta, estimateWrites, printSummary } from './diff-load.mjs';
-import { REPO_ROOT } from './paths.mjs';
+import { RECORDS_DB, REPO_ROOT } from './paths.mjs';
 import { D1_NAME, PERSIST_DIR, WRANGLER, boundedPlan, d1Env, verify } from './verify-load.mjs';
 
 const args = process.argv.slice(2);
@@ -55,7 +55,7 @@ const verifyMode = fullVerify ? 'full' : remote || args.includes('--bounded') ? 
 // idempotent, so resuming at the part that failed is the same as rerunning the whole delta.
 const startPart = args.includes('--start-part') ? Number(args[args.indexOf('--start-part') + 1]) : 0;
 
-const BUILD = path.join(REPO_ROOT, 'tmp', 'records', 'civgraph-records.sqlite');
+const BUILD = RECORDS_DB;
 const LAST = remote
   ? path.join(REPO_ROOT, '.claude', 'publish', 'work', 'last-loaded.sqlite')
   : path.join(REPO_ROOT, 'tmp', 'records', 'last-loaded-local.sqlite');

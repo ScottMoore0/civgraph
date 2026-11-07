@@ -21,6 +21,7 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { isDeepStrictEqual } from 'node:util';
 import path from 'node:path';
+import { SITE } from '../lib/config.mjs';
 import { REPO_ROOT } from './paths.mjs';
 import { driftedFile, readDrift } from './graph-files-freeze.mjs';
 
@@ -34,7 +35,7 @@ const DELAY = Number(opt('--delay', 0));
 const local = /^https?:\/\/(127\.0\.0\.1|localhost)(:|\/|$)/.test(BASE);
 const CONCURRENCY = local ? Number(opt('--concurrency', 6)) : 1;
 const OUT = path.resolve(opt('--out', path.join(REPO_ROOT, 'tmp/records/legacy-files-report.json')));
-const HEADERS = local ? {} : { 'User-Agent': 'civgraph-research (+https://civgraph.net)' };
+const HEADERS = local ? {} : { 'User-Agent': SITE.userAgent };
 const BULK = /^(statement-shards|exports)(\/|$)/;
 
 const sample = (list, n) => {
@@ -76,7 +77,7 @@ function plan() {
     ['/data/browse/proni-roots.json', '/_api/proni/node'],
     ['/data/browse/details/sources/a-source.json', '/_api/sources?slug=a-source&view=detail'],
     ['/data/browse/details/proni/D~1~2.json', '/_api/proni/node?ref=D%2F1%2F2'],
-    ['/data/browse/map-features/x/0001.json', 'https://data.civgraph.net/data/browse/map-features/x/0001.json'],
+    ['/data/browse/map-features/x/0001.json', `${SITE.dataOrigin}/data/browse/map-features/x/0001.json`],
   ]) urls.push({ kind: 'moved', url, expect: 'redirect', location });
   for (const url of ['/data/browse/no-such-file.json', '/data/graph/no-such-file.json', '/data/graph/entity-shards/entities-999999.json']) {
     urls.push({ kind: 'missing', url, expect: 404 });
@@ -120,7 +121,7 @@ async function check(u) {
   }
   if (u.expect === 'bulk') {
     const location = res.headers.get('Location') || '';
-    const ok = res.status === 200 || (res.status === 301 && location.startsWith('https://data.civgraph.net/downloads/'));
+    const ok = res.status === 200 || (res.status === 301 && location.startsWith(`${SITE.dataOrigin}/downloads/`));
     if (res.status === 200) await res.arrayBuffer();
     return { ...base, ok, location };
   }

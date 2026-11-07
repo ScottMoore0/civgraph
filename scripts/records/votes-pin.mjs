@@ -14,6 +14,7 @@
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
+import { buildVar } from '../lib/config.mjs';
 import { REPO_ROOT } from './paths.mjs';
 
 export const PIN_FILE = path.join(REPO_ROOT, 'data', 'database', 'votes-source.json');
@@ -56,7 +57,7 @@ export function verifyVotesPin(votesDir) {
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(new URL(import.meta.url).pathname.replace(/^\/(\w:)/, '$1'))) {
-  const dir = process.env.CIVGRAPH_VOTES_DIR;
+  const dir = buildVar('CIVGRAPH_VOTES_DIR');
   if (!dir) { console.error('set CIVGRAPH_VOTES_DIR to the division dataset folder'); process.exit(1); }
   if (process.argv.includes('--write')) {
     const files = checksumVotesDir(dir);

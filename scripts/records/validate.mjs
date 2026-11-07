@@ -8,6 +8,7 @@
 import { spawnSync } from 'node:child_process';
 import path from 'node:path';
 import { openDatabase } from './db.mjs';
+import { buildVar } from '../lib/config.mjs';
 import { REPO_ROOT } from './paths.mjs';
 import { MAX_VALUE_BYTES, TABLES } from './schema.mjs';
 
@@ -85,7 +86,7 @@ export function validateDatabase(db, { sourceValidators = false } = {}) {
     for (const script of SOURCE_VALIDATORS) {
       const run = spawnSync(process.execPath, [script], {
         cwd: REPO_ROOT, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024,
-        env: { ...process.env, CIVGRAPH_BUILD_DIR: process.env.CIVGRAPH_BUILD_DIR || 'tmp/records' },
+        env: { ...process.env, CIVGRAPH_BUILD_DIR: buildVar('CIVGRAPH_BUILD_DIR') },
       });
       if (run.status !== 0) errors.push(`${script} failed: ${(run.stderr || run.stdout || '').trim().split('\n').slice(-3).join(' | ')}`);
     }

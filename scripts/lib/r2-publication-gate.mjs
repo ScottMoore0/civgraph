@@ -19,6 +19,7 @@
  */
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
+import { SITE } from './config.mjs';
 
 const ALLOWLIST_PATH = path.join(process.cwd(), 'data', 'database', 'r2-publication-allowlist.json');
 
@@ -52,7 +53,7 @@ export function assertPublishable(keys, { file = ALLOWLIST_PATH, override = fals
   const message =
     `R2 publication gate: ${unlisted.length} key(s) are NOT covered by ` +
     `data/database/r2-publication-allowlist.json:\n${sample}${more}\n\n` +
-    `  Writing these would publish them at https://data.civgraph.net with no auth.\n` +
+    `  Writing these would publish them at ${SITE.dataOrigin} with no auth.\n` +
     `  If that is intended, add a reviewed prefix entry to the allowlist in the\n` +
     `  same commit as the upload. Do not bypass this to "test" an upload —\n` +
     `  there is no unpublish.`;
