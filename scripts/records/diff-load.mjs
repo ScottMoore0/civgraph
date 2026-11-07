@@ -18,7 +18,7 @@
  */
 import { createWriteStream, existsSync } from 'node:fs';
 import path from 'node:path';
-import { DatabaseSync } from 'node:sqlite';
+import { openSqliteHandle } from '../lib/storage/sqlite.mjs';
 import { HASHED_TABLES, TABLES } from './schema.mjs';
 import { snapshotTable } from './db.mjs';
 
@@ -60,7 +60,7 @@ export function tableOrder() {
  * @returns {DeltaResult}
  */
 export function buildDelta({ toFile, fromFile = null, write, version, gitCommit, loadedAt }) {
-  const db = new DatabaseSync(toFile, { readOnly: true });
+  const db = openSqliteHandle(toFile, { readOnly: true });
   const full = !fromFile;
   if (!full) db.exec(`ATTACH DATABASE '${fromFile.replace(/'/g, "''")}' AS f`);
   /** @type {Record<string, TableDelta>} */

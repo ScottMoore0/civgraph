@@ -41,7 +41,7 @@ import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { DatabaseSync } from 'node:sqlite';
+import { openSqliteHandle } from '../lib/storage/sqlite.mjs';
 import { createDatabase, tableChecksums, TableWriter, transaction } from './db.mjs';
 import { ingestBrowse } from './ingest-browse.mjs';
 import { ingestElections } from './ingest-elections.mjs';
@@ -253,7 +253,7 @@ function main() {
   let seedVersion = '';
   if (seed) {
     try {
-      const s = new DatabaseSync(seed, { readOnly: true });
+      const s = openSqliteHandle(seed, { readOnly: true });
       seedVersion = /** @type {string} */ (s.prepare("SELECT value FROM dataset WHERE key = 'version'").get()?.value || '');
       s.close();
     } catch { /* a seed without a dataset table still seeds */ }

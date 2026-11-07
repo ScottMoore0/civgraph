@@ -11,7 +11,7 @@
 import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync } from 'node:fs';
 import path from 'node:path';
-import { DatabaseSync } from 'node:sqlite';
+import { openSqliteHandle } from '../lib/storage/sqlite.mjs';
 import { REPO_ROOT } from './paths.mjs';
 import { TABLE } from './schema.mjs';
 
@@ -25,7 +25,7 @@ export function migrationFiles(dir = MIGRATIONS_DIR) {
 export function createDatabase(file) {
   mkdirSync(path.dirname(file), { recursive: true });
   for (const suffix of ['', '-journal', '-wal', '-shm']) rmSync(file + suffix, { force: true });
-  const db = new DatabaseSync(file);
+  const db = openSqliteHandle(file);
   db.exec('PRAGMA journal_mode = OFF; PRAGMA synchronous = OFF; PRAGMA foreign_keys = OFF;');
   for (const migration of migrationFiles()) db.exec(readFileSync(migration, 'utf8'));
   return db;
@@ -33,7 +33,7 @@ export function createDatabase(file) {
 
 export function openDatabase(file, { readOnly = false } = {}) {
   if (!existsSync(file)) throw new Error(`no database at ${file}`);
-  return new DatabaseSync(file, { readOnly });
+  return openSqliteHandle(file, { readOnly });
 }
 
 export function rowHash(values) {

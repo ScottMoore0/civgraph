@@ -2,8 +2,9 @@
 /**
  * The records API answered on this machine: the real Pages Functions (functions/_api/elections,
  * parties, persons, sources, register-interests, graph, stats, votes) run against the records
- * build's database (tmp/records/civgraph-records.sqlite) through the D1 shim the records tests
- * use (tests/records/d1-shim.mjs). Production is untouched: there the same Functions read D1.
+ * build's database (tmp/records/civgraph-records.sqlite) through the storage adapter: the D1
+ * binding shape (toD1) over the SQLite record store (openSqlite), as tests/unit/storage.test.mjs
+ * runs the real handlers. Production is untouched: there the same Functions read D1.
  *
  * The local servers are static, so without this the map app's party and person pages
  * (src/map/app/entity-bridge.js fetches /_api/parties and /_api/persons) found no record.
@@ -23,7 +24,8 @@ import { createServer } from 'node:http';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { RECORDS_DB, REPO_ROOT } from './paths.mjs';
-import { d1 } from '../../tests/records/d1-shim.mjs';
+import { toD1 } from '../../functions/_lib/storage/store.js';
+import { openSqlite } from '../lib/storage/sqlite.mjs';
 
 /** The /_api/ routes whose Functions read only the records database (binding ELECTIONS_DB). */
 export const RECORD_API_ROUTES = ['elections', 'graph', 'parties', 'persons', 'register-interests', 'sources', 'stats', 'votes'];
@@ -56,7 +58,7 @@ export async function answerRecordApi(url, { method = 'GET', headers = {}, dbFil
   if (method !== 'GET' && method !== 'HEAD') {
     return new Response(JSON.stringify({ error: 'method not allowed' }), { status: 405, headers: { Allow: 'GET, HEAD' } });
   }
-  if (!envs.has(dbFile)) envs.set(dbFile, { ELECTIONS_DB: d1(dbFile) });
+  if (!envs.has(dbFile)) envs.set(dbFile, { ELECTIONS_DB: toD1(openSqlite(dbFile, { readOnly: true })) });
   const mod = await functionModule(route);
   const handler = mod.onRequestGet || mod.onRequest;
   const pending = [];

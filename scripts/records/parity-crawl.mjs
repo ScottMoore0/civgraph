@@ -37,7 +37,7 @@
 import { createHash } from 'node:crypto';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { DatabaseSync } from 'node:sqlite';
+import { openSqliteHandle } from '../lib/storage/sqlite.mjs';
 import { SITE } from '../lib/config.mjs';
 import { RECORDS_DB, REPO_ROOT } from './paths.mjs';
 import { CatalogueSearch, PeopleSearch } from '../../src/catalogue/search.js';
@@ -406,7 +406,7 @@ async function crawl(urls) {
 }
 
 async function main() {
-  const db = new DatabaseSync(DB, { readOnly: true });
+  const db = openSqliteHandle(DB, { readOnly: true });
   const urls = buildUrlList(db);
   db.close();
   console.log(`parity: ${urls.length} URLs, A=${A} B=${B}`);
