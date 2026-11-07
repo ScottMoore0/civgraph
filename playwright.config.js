@@ -8,12 +8,14 @@ module.exports = defineConfig({
   reporter: 'list',
   use: {
     baseURL: 'http://127.0.0.1:5050',
-    // scripts/test-server.py is static: it has no Pages Functions, so /_api/elections, the map
-    // app's default election transport, answers 404 and no election loads. The app's own opt-out
-    // (localStorage civgraph.electionsApi = '0', app/src/election-manager.js useElectionsApi)
-    // sends it to the bundle URLs instead, which production serves from D1 through the
-    // compatibility Functions and the test server from the records build: the same documents.
-    // The API itself is tested against the records database by records:check (tests/records/).
+    // scripts/test-server.py serves the tree statically. It answers the records API
+    // (/_api/parties, /_api/persons, /_api/elections ...) with the real Functions run against the
+    // records build (scripts/records/local-api.mjs), but the map app's elections still load by
+    // their bundle URLs here, as before: the app's own opt-out (localStorage
+    // civgraph.electionsApi = '0', app/src/election-manager.js useElectionsApi) sends it to the
+    // bundle URLs, which production serves from D1 through the compatibility Functions and the
+    // test server from the records build: the same documents. The API itself is tested against
+    // the records database by records:check (tests/records/).
     // Only for this origin, so specs pointed at production (PARITY_BASE_URL) use the API.
     storageState: {
       cookies: [],
