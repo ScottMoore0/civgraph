@@ -19,8 +19,8 @@ deployed or reviewed.
 
 ## Styling
 
-`about.html` uses `build/about.css`, which is **generated from
-`assets/css/main.css`** by `scripts/build-shared-shell-assets.mjs`. Editing
-`build/about.css` directly will be overwritten by the next build. Note that
-`/browse/` does *not* share these styles — it carries its own copy of the header
-in `browse/browse.css`.
+Every page here wears the shared shell (`functions/_templates/shell.js`, stamped by
+`scripts/build-site-partials.mjs`): the token set (`assets/ui/tokens.css`,
+`tokens-legacy.css`, `base.css`) loads from the shell head before the page's own
+stylesheet in `assets/pages/css/`, and the header and footer are styled by
+`assets/site/site-chrome.css`.
