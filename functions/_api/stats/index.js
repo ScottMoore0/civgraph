@@ -8,7 +8,7 @@
  */
 import { T, cachedJson, datasetState, jsonResponse } from '../_records.js';
 import { reportError } from '../_error.js';
-import { binding } from '../../_lib/config.js';
+import { binding } from '../../../packages/config/src/config.js';
 import { fromD1 } from '../../../packages/storage/src/d1.js';
 
 const VERSION = 'stats-1';

@@ -8,7 +8,7 @@
 import { spawnSync } from 'node:child_process';
 import path from 'node:path';
 import { openDatabase } from './db.mjs';
-import { buildVar } from '../../../scripts/lib/config.mjs';
+import { buildVar } from '@civgraph/config/node';
 import { REPO_ROOT } from './paths.mjs';
 import { MAX_VALUE_BYTES, TABLES } from '@civgraph/schema';
 

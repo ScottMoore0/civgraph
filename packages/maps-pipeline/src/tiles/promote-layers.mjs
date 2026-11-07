@@ -12,7 +12,7 @@ import { basename, extname, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { writeArtefactJson, allowDeletionsFlag } from '../../../../scripts/lib/safe-artefact-write.mjs';
 import { isValidBounds } from '../../../../scripts/lib/layer-bounds.mjs';
-import { SITE } from '../../../../scripts/lib/config.mjs';
+import { SITE } from '@civgraph/config/node';
 
 const ROOT = resolve(process.cwd());
 const MAIN_PATH = resolve(ROOT, 'data/database/maps.json');

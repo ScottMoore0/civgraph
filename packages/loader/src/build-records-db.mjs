@@ -51,7 +51,7 @@ import { ingestMaps } from './ingest-maps.mjs';
 import { ingestProvenance } from './ingest-provenance.mjs';
 import { ingestRegistries } from './ingest-registries.mjs';
 import { ingestVotes } from './ingest-votes.mjs';
-import { buildVar } from '../../../scripts/lib/config.mjs';
+import { buildVar } from '@civgraph/config/node';
 import { RECORDS_DB, recordPaths, REPO_ROOT, rel } from './paths.mjs';
 import { HASHED_TABLES } from '@civgraph/schema';
 import { stabiliseOrder } from './stable-order.mjs';

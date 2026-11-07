@@ -33,7 +33,7 @@
 import { jsonResponse, jsonNotAllowed } from '../_auth.js';
 import { listLevel, normalisePrefix, parseLimit, publicUrl } from '../_r2-listing.js';
 import { PUBLIC_PREFIXES, isListablePrefix, isPublicPrefix } from '../_public-prefixes.js';
-import { binding } from '../../_lib/config.js';
+import { binding } from '../../../packages/config/src/config.js';
 
 const CACHE = 'public, max-age=300, stale-while-revalidate=600';
 

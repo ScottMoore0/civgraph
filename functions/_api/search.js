@@ -5,7 +5,7 @@
  *
  * Falls back to reading the static names index from the origin when KV is not configured.
  */
-import { binding } from '../_lib/config.js';
+import { binding } from '../../packages/config/src/config.js';
 
 // In-memory cache for the names index, per Worker isolate.
 //

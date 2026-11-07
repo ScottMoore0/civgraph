@@ -9,7 +9,7 @@
  * cumulative '/'-prefixes of the reference (every one is a real record after the
  * container-title enrichment pass).
  */
-import { binding } from '../../_lib/config.js';
+import { binding } from '../../../packages/config/src/config.js';
 import { fromD1 } from '../../../packages/storage/src/d1.js';
 import { PRONI } from '../../../packages/api/src/queries/proni.js';
 

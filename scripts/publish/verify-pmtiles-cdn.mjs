@@ -13,7 +13,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { mergeArtefactRecords, assertKnownFlags } from '../lib/safe-artefact-write.mjs';
-import { SITE } from '../lib/config.mjs';
+import { SITE } from '@civgraph/config/node';
 
 const ROOT = resolve(process.cwd());
 const MANIFEST_PATH = resolve(ROOT, 'render/metadata/cdn-upload-manifest.json');

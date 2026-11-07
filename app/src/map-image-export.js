@@ -30,7 +30,7 @@
  */
 import dataService, { resolveMapDownloadUrl } from '../../src/data-service.js';
 import { compositeChildIds } from '../../src/map-relations.mjs';
-import { SITE } from '../../functions/_lib/config.js';
+import { SITE } from '../../packages/config/src/config.js';
 
 export const WIKI_STYLE = Object.freeze({
   fill: '#ffc8c8',

@@ -17,7 +17,7 @@ import { pathToFileURL } from 'node:url';
 import * as apiRoute from '../../functions/api/[[path]].js';
 import { EXCLUDED, PREFIX, ROUTES, indexDocument } from '../../functions/_lib/api/v1.js';
 import { delegate, lifecycleHeaders, matchRoute, rewriteLocation } from '../../functions/_lib/api/delegate.js';
-import { REPO_ROOT, loadConfig } from '../../scripts/lib/config.mjs';
+import { REPO_ROOT, loadConfig } from '@civgraph/config/node';
 
 const FUNCTIONS = path.join(REPO_ROOT, 'functions');
 const ORIGIN = 'https://civgraph.net';

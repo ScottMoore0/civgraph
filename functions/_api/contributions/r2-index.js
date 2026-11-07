@@ -44,7 +44,7 @@
 import { jsonResponse, jsonNotAllowed, requireContributor, sanitizeAuth } from '../_auth.js';
 import { listLevel, normalisePrefix, parseLimit, publicUrl } from '../_r2-listing.js';
 import { isPublicPrefix } from '../_public-prefixes.js';
-import { binding } from '../../_lib/config.js';
+import { binding } from '../../../packages/config/src/config.js';
 
 export async function onRequest(context) {
   if (context.request.method !== 'GET') return jsonNotAllowed(context.request.method);

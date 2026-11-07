@@ -9,7 +9,7 @@
  * Usage: node scripts/build/agent-index.mjs
  */
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
-import { SITE } from '../lib/config.mjs';
+import { SITE } from '../../packages/config/src/node.mjs';
 
 const doc = JSON.parse(readFileSync('data/database/maps.json', 'utf8'));
 const catGroup = new Map((doc.categories || []).map((c) => [c.id, c.group || '']));

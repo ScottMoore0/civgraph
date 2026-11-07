@@ -13,7 +13,7 @@
  * Every versioned route is read-only: GET and HEAD. Anything else is 405 here, before any
  * handler runs, so a version can never expose a write the table did not mean to.
  */
-import { CACHE } from '../config.js';
+import { CACHE } from '../../../packages/config/src/config.js';
 
 export const ALLOW = 'GET, HEAD';
 

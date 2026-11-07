@@ -51,7 +51,7 @@ import { renderRecordPage, ssrMode } from './_templates/records/index.js';
 import { loadElectionPage } from './_templates/records/election.js';
 import { groupedYearHero, groupedYearKey } from './_templates/records/grouped-year.js';
 import { resolveElectionSlugAlias } from './_lib/election-slug-aliases.js';
-import { binding } from './_lib/config.js';
+import { binding } from '../packages/config/src/config.js';
 import { asStore } from '../packages/storage/src/d1.js';
 import { CARDS } from '../packages/api/src/queries/cards.js';
 import { ELECTION_PAGES, RECORD_PAGES } from '../packages/api/src/queries/pages.js';

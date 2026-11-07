@@ -11,8 +11,8 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import path from 'node:path';
-import * as runtime from '../../functions/_lib/config.js';
-import * as config from '../../scripts/lib/config.mjs';
+import * as runtime from '@civgraph/config';
+import * as config from '@civgraph/config/node';
 import { recordPaths as legacyRecordPaths } from '@civgraph/loader/paths.mjs';
 import { SITE_NAME, SITE_ORIGIN } from '../../functions/_templates/shell.js';
 
@@ -40,7 +40,7 @@ test('the site identity equals the shell\'s, and the User-Agent names no person'
 
 test('the records wrapper writes its cache policies from the config', () => {
   const records = read('functions/_api/_records.js');
-  assert.match(records, /import \{[^}]*\bCACHE\b[^}]*\} from '\.\.\/_lib\/config\.js'/);
+  assert.match(records, /import \{[^}]*\bCACHE\b[^}]*\} from '\.\.\/\.\.\/packages\/config\/src\/config\.js'/);
   for (const name of ['records', 'loading', 'lastGood', 'error']) {
     assert.ok(records.includes(`CACHE.${name}`), `_records.js no longer writes CACHE.${name}`);
   }

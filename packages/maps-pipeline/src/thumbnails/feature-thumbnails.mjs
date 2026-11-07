@@ -17,7 +17,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { createCanvas } from 'canvas';
 import { deserialize } from 'flatgeobuf/lib/mjs/geojson.js';
-import { SITE } from '../../../../scripts/lib/config.mjs';
+import { SITE } from '@civgraph/config/node';
 
 const ROOT = process.cwd();
 const MAPS_PATH = path.join(ROOT, 'data/database/maps.json');

@@ -34,7 +34,7 @@ import { cachedJson, documentBody, jsonResponse, parseJson, streamFrom } from '.
 import { divisionShard } from '../../_api/votes/index.js';
 import { resolvePartySlug } from '../../_api/parties/index.js';
 import { browseFeaturesText, browseMapsText } from '../../_api/_maps.js';
-import { binding } from '../../_lib/config.js';
+import { binding } from '../../../packages/config/src/config.js';
 import { fromD1 } from '../../../packages/storage/src/d1.js';
 import { OFFICES, SHARDS, SOURCES } from '../../../packages/api/src/queries/cards.js';
 import { ELECTION_CARDS } from '../../../packages/api/src/queries/elections.js';

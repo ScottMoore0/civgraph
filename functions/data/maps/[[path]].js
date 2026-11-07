@@ -12,7 +12,7 @@
  * uncompressed from the base key — Cloudflare's edge compresses it on the
  * wire to the client.
  */
-import { binding } from '../../_lib/config.js';
+import { binding } from '../../../packages/config/src/config.js';
 export async function onRequestGet(context) {
     // decodeURIComponent, matching functions/data/browse/[[path]].js.
     //

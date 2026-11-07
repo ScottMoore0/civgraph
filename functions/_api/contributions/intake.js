@@ -1,6 +1,6 @@
 import { jsonResponse, jsonNotAllowed, requireContributor } from '../_auth.js';
 import { methodGuard } from '../_method.js';
-import { binding } from '../../_lib/config.js';
+import { binding } from '../../../packages/config/src/config.js';
 
 /**
  * Accept a file into QUARANTINE so a contributor can supply data, not just a

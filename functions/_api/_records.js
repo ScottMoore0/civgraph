@@ -13,7 +13,7 @@
  * its cause (the rule in elections/index.js's json() helper).
  */
 import { STORE, phaseOf, readDataset, resetDatasetMemo } from '../_lib/dataset-state.js';
-import { CACHE, binding } from '../_lib/config.js';
+import { CACHE, binding } from '../../packages/config/src/config.js';
 import { asStore } from '../../packages/storage/src/d1.js';
 import { T } from '../../packages/api/src/queries/tables.js';
 import { ELECTIONS } from '../../packages/api/src/queries/elections.js';

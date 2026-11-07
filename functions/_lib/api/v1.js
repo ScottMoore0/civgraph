@@ -36,7 +36,7 @@ import * as votes from '../../_api/votes/index.js';
 import { jsonAnswer, versionStatus } from './delegate.js';
 import { CONTRACTS } from './contracts/v1.js';
 import { openApiDocument } from './openapi.js';
-import { API, SITE } from '../config.js';
+import { API, SITE } from '../../../packages/config/src/config.js';
 
 export const VERSION = 'v1';
 export const PREFIX = API.prefix(VERSION);

@@ -54,7 +54,7 @@ import { datasetLoadState, LOADING_KEY } from './dataset-state.mjs';
 import { snapshotTable } from './db.mjs';
 import { verifyModeFor } from './deploy-plan.mjs';
 import { q } from './diff-load.mjs';
-import { buildVar } from '../../../scripts/lib/config.mjs';
+import { buildVar } from '@civgraph/config/node';
 import { RECORDS_DB, REPO_ROOT } from './paths.mjs';
 import { HASHED_TABLES } from '@civgraph/schema';
 

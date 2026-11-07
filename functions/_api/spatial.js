@@ -5,7 +5,7 @@
  *
  * Falls back to reading static chunk files from the origin when KV is not configured.
  */
-import { binding } from '../_lib/config.js';
+import { binding } from '../../packages/config/src/config.js';
 
 export async function onRequestGet(context) {
     const url = new URL(context.request.url);
