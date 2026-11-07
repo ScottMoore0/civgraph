@@ -9,7 +9,7 @@ import uiController from '../../src/ui-controller.js';
 import '../../src/public-map.mjs';
 import '../../src/map-relations.mjs';
 import '../../src/storage-keys.mjs';
-import { TestMetadataService } from '../../render/src/metadata-service.js';
+import { TestMetadataService } from '../../src/map/renderer/metadata-service.js';
 import '../../src/party-names.mjs';
 import '../../src/entity-detail-data.mjs';
 import { Test2MapLibreMainAdapter } from './maplibre-main-adapter.js';

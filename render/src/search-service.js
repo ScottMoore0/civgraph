@@ -1,4 +1,4 @@
-import { normalizeSearchText } from './utils.js';
+import { normalizeSearchText } from '../../src/map/renderer/utils.js';
 
 export class FeatureSearchService {
   constructor(metadataService) {

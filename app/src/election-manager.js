@@ -1,7 +1,7 @@
 import {
   buildRepairedLabelValueExpression,
   repairFeatureProperties
-} from '../../render/src/feature-property-repairs.js';
+} from '../../src/map/renderer/feature-property-repairs.js';
 import maplibregl from 'maplibre-gl';
 import {
   createElectionRenderer,

@@ -9,7 +9,7 @@
  * ENG_NAME_VALUE/GLE_NAME_VALUE (names from the Placenames Database of Ireland, Logainm, both
  * CC BY 4.0); the CSO 2022 electoral divisions have ED_ENGLISH/ED_GAEILGE; OpenStreetMap
  * layers have name:ga (ODbL). When the interface is in Irish the map labels and the feature
- * details use that property (render/src/labels.js), falling back to the English label for any
+ * details use that property (src/map/renderer/labels.js), falling back to the English label for any
  * feature whose Irish name is blank. No place name is fetched or invented here: this only pairs
  * each layer's label property with the Irish property its own data already has.
  *

@@ -73,7 +73,8 @@ mislead you.** This section is the canonical layout;
 |---|---|
 | `app/` | **the live site** — MapLibre GL. Built bundle in `app/build/`, committed. |
 | `src/` | shared browser modules, served **unbundled**. Live, not legacy. |
-| `render/src/` | shared renderer source; `app/` builds from it |
+| `src/map/` | the map app's modules: `app/` (the app's methods), `election/` (the election pane's model, data and palette) and `renderer/` (the MapLibre renderer, moved from `render/src/` in November 2026) |
+| `render/src/` | the legacy `/render/` harness; it imports the renderer from `src/map/renderer/` |
 | `render/metadata/` | the render catalogue — see "three stores" below |
 | `tests/` | the Playwright suite |
 | `test2/` | a compatibility redirect. Not a directory of tests. |
@@ -124,7 +125,7 @@ All three edges are guarded by validators in `npm run check`.
 
 | URL | Source |
 |---|---|
-| `/` | `index.html` + `app/build/` (from `render/src/`) + `src/` + `build/` |
+| `/` | `index.html` + `app/build/` (from `app/src/` and `src/map/`) + `src/` + `build/` |
 | `/browse/` | `browse/` |
 | `/apps/`, `/apps/proni-search/` | `apps/` |
 | `/pages/about`, `/pages/census-explorer` | `pages/` |

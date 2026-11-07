@@ -1,4 +1,4 @@
-import { copyText, escapeHtml } from './utils.js';
+import { copyText, escapeHtml } from '../../src/map/renderer/utils.js';
 
 function isLocalTestTileTemplate(value) {
   return typeof value === 'string' && value.startsWith('/render/tiles/');

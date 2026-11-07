@@ -39,9 +39,9 @@ const readTimelineChangePair = (id) => {
 const browseIndexBuilderSource = readFileSync('scripts/build-browse-indexes.mjs', 'utf8');
 const electionDataAuditSource = readFileSync('scripts/audit-test2-election-data.mjs', 'utf8');
 const uiControllerSource = readFileSync('src/ui-controller.js', 'utf8');
-const mapControllerSource = readFileSync('render/src/map-controller.js', 'utf8');
-const labelsSource = readFileSync('render/src/labels.js', 'utf8');
-const featureRepairsSource = readFileSync('render/src/feature-property-repairs.js', 'utf8');
+const mapControllerSource = readFileSync('src/map/renderer/map-controller.js', 'utf8');
+const labelsSource = readFileSync('src/map/renderer/labels.js', 'utf8');
+const featureRepairsSource = readFileSync('src/map/renderer/feature-property-repairs.js', 'utf8');
 const test2Css = readFileSync('app/src/test2.css', 'utf8');
 const mainCss = readFileSync('assets/css/main.css', 'utf8');
 const packageJsonSource = readFileSync('package.json', 'utf8');
@@ -692,7 +692,7 @@ for (const path of [
   'src/election-domain.mjs',
   'src/election-view-model.mjs',
   'src/election-renderer.mjs',
-  'render/src/feature-property-repairs.js',
+  'src/map/renderer/feature-property-repairs.js',
   ELECTION_MANIFEST,
   ELECTION_REPORT,
   'render/metadata/election-anchors-test2'

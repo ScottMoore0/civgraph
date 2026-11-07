@@ -7,7 +7,7 @@ const ROOT = resolve(process.cwd());
 const REPORT_PATH = resolve(ROOT, 'render/metadata/security-dependency-report.json');
 const files = {
   index: readFileSync(resolve(ROOT, 'render/index.html'), 'utf8'),
-  utils: readFileSync(resolve(ROOT, 'render/src/utils.js'), 'utf8'),
+  utils: readFileSync(resolve(ROOT, 'src/map/renderer/utils.js'), 'utf8'),
   telemetry: readFileSync(resolve(ROOT, 'render/src/telemetry.js'), 'utf8'),
   sourcePanel: readFileSync(resolve(ROOT, 'render/src/source-panel.js'), 'utf8'),
   activeLayers: readFileSync(resolve(ROOT, 'render/src/active-layers.js'), 'utf8')

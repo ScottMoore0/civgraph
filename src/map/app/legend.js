@@ -1,6 +1,6 @@
 /**
  * The map legend: the election key, layer swatches, statistics and the approximate-stretch entries of
- * reconstructed editions (render/src/approximate-segments.js).
+ * reconstructed editions (src/map/renderer/approximate-segments.js).
  *
  * Methods of the map app (Test2App, app/src/app.js), installed on its prototype by installMethods: `this` is the app.
  */
@@ -127,7 +127,7 @@ export class LegendMethods {
   }
 
   /** The outline colour a loaded layer is drawn in, or '' (rasters and point clouds have none). */
-  /** The legend entry for a loaded map's approximate stretches, or null (render/src/approximate-segments.js). */
+  /** The legend entry for a loaded map's approximate stretches, or null (src/map/renderer/approximate-segments.js). */
   approximateSegmentsLegend(mapId) {
     const testId = this.mapController?.mainToTest?.get(mapId) || mapId;
     const record = this.mapController?.renderer?.layers?.get(testId);
