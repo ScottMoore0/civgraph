@@ -1,0 +1,164 @@
+{
+ "schemaVersion": 1,
+ "description": "The data statuses the code branches on, one entry each: their values, how a value moves to another (full weight: a transition table the shared helper scripts/lib/state-machine.mjs runs), the spellings found in the data and what they mean, and the labels the site shows. Ids are those of the state-machine catalogue (D:/civgraph-intake/refactor-2026-11-07/state-machines, RG-01 to RG-06). Every value and rule is copied from the code or data named in its `sources`; tests/unit/registries-statuses.test.mjs holds each to them. Schema: registries/schemas/statuses.schema.json; views: registries/statuses.mjs.",
+ "machines": {
+  "contribution": {
+   "catalogueId": "RG-04",
+   "weight": "full",
+   "about": "A contribution queued by POST /_api/contributions/submit: reviewed in /_api/contributions/decide, applied locally by scripts/intake/contributions.mjs. Approving applies nothing; only an approved submission can be marked applied.",
+   "initial": "pending-review",
+   "transitions": {
+    "pending-review": ["approved", "rejected"],
+    "approved": ["applied"],
+    "rejected": [],
+    "applied": []
+   },
+   "decisions": ["approved", "rejected"],
+   "sources": [
+    "functions/_api/contributions/submit.js (status pending-review)",
+    "functions/_api/contributions/decide.js (decision must be approved or rejected)",
+    "scripts/intake/contributions.mjs (canMarkApplied, TERMINAL_STATUS)"
+   ]
+  },
+  "election-round": {
+   "catalogueId": "RG-03",
+   "weight": "full",
+   "about": "A pre-1973 NI council round, from the intake to the map. The intake's work status and calendar entry (data/elections/ni-local/round-status.json) and the round's completeness (data/elections/round-completeness.json) decide its site status: every published round starts complete and only moves down.",
+   "vocabularies": {
+    "work": { "values": ["done", "partial", "held", "no-election"], "default": "done", "source": "scripts/ingest/ni-local/import-intake-status.py (status, default done)" },
+    "calendar": { "values": ["held", "not-held", "unknown"], "source": "scripts/ingest/ni-local/import-intake-status.py calendar_held" },
+    "site": { "values": ["complete", "partial", "held"], "source": "scripts/build/build-ni-local-grouped.mjs (roundStatus)" }
+   },
+   "initial": "complete",
+   "transitions": {
+    "complete": ["partial", "held"],
+    "partial": [],
+    "held": []
+   },
+   "siteRules": [
+    { "when": "work is partial", "to": "partial" },
+    { "when": "work is held", "to": "held" },
+    { "when": "excluded from apply, and still complete", "to": "partial" },
+    { "when": "round-completeness has text and is not complete, and still complete", "to": "partial" }
+   ],
+   "siteLabels": { "complete": "", "partial": "Incomplete", "held": "Held back" },
+   "missingReasons": {
+    "excluded": { "reason": "held back in review", "label": "results held back in review" },
+    "otherwise": { "reason": "not yet transcribed", "label": "results not yet transcribed" }
+   },
+   "missingWhen": "the calendar says held, the work is not no-election, and no round of the council is published that year",
+   "sources": [
+    "scripts/ingest/ni-local/import-intake-status.py",
+    "scripts/build/build-ni-local-grouped.mjs (roundStatus, missing)",
+    "app/src/ni-local-view.js (councilsHtml)"
+   ]
+  },
+  "candidate-count": {
+   "catalogueId": "RG-01",
+   "weight": "full",
+   "about": "A candidate's Status on a count row. Blank means still in the count (continuing); the count ends with each candidate elected, excluded or not elected. statusKind (src/election-domain.mjs) folds the spellings.",
+   "initial": "continuing",
+   "transitions": {
+    "continuing": ["elected", "excluded", "not-elected"],
+    "elected": [],
+    "excluded": [],
+    "not-elected": []
+   },
+   "kindPatterns": [
+    { "kind": "not-elected", "pattern": "not elected|unelected|not deemed elected" },
+    { "kind": "elected", "pattern": "elected|made quota|counted as elected|deemed elected" },
+    { "kind": "excluded", "pattern": "excluded|eliminated" }
+   ],
+   "spellings": {
+    "": "continuing",
+    "Elected": "elected",
+    "Excluded": "excluded",
+    "Not Elected": "not-elected",
+    "Not elected": "not-elected"
+   },
+   "derived": {
+    "Elected unopposed": { "kind": "elected", "source": "scripts/build/build-test2-election-manifest.mjs (an unopposed return's winners)" },
+    "Excluded transfer": { "kind": "row", "source": "src/map/election/results-model.mjs (the transfer row of an exclusion)" },
+    "Surplus transfer": { "kind": "row", "source": "src/map/election/results-model.mjs (the transfer row of a surplus)" }
+   },
+   "sources": [
+    "data/elections-source/data/elections (Status)",
+    "src/election-domain.mjs statusKind"
+   ]
+  },
+  "correction": {
+   "catalogueId": "RG-05",
+   "weight": "full",
+   "about": "A reviewed correction record in data/elections/corrections/walker-*.json. The manifest build applies only records whose status is applied.",
+   "initial": "review",
+   "transitions": {
+    "review": ["applied", "held", "agrees", "resolved-kept"],
+    "applied": [],
+    "held": [],
+    "agrees": [],
+    "resolved-kept": []
+   },
+   "appliedValue": "applied",
+   "sources": [
+    "data/elections/corrections/walker-*.json (status)",
+    "scripts/build/build-test2-election-manifest.mjs (filters status applied)"
+   ]
+  },
+  "contest": {
+   "catalogueId": "RG-02",
+   "weight": "light",
+   "about": "Whether a contest went to a poll. The data audit reads a missing value as contested; the map labels them Polled and Returned unopposed.",
+   "values": ["contested", "uncontested"],
+   "missingMeans": "contested",
+   "labels": { "contested": "Polled", "uncontested": "Returned unopposed" },
+   "sources": [
+    "scripts/check/rules/election-data-audit.mjs",
+    "app/src/ni-local-view.js (contestHtml)"
+   ]
+  }
+ },
+ "enums": {
+  "intake-batch": {
+   "catalogueId": "RG-06",
+   "about": "An intake batch's manifest status (its lifecycle machine is rf-ingest's IN-01).",
+   "values": ["draft", "staged", "committed", "uploaded", "published", "abandoned"],
+   "source": "scripts/intake/batch.schema.json#/properties/status",
+   "key": "status"
+  },
+  "register-interests-availability": {
+   "catalogueId": "RG-06",
+   "about": "Whether an NI register-of-interests source is structured data, or a document that is available or not.",
+   "values": ["Structured", "Available", "Unavailable"],
+   "source": "scripts/ingest/ni-assembly-opendata/build-ni-register-interests.mjs",
+   "key": "status"
+  },
+  "peatland-publication": {
+   "catalogueId": "RG-06",
+   "about": "How a Peatland Geoportal source is published.",
+   "values": ["source-document-published", "conversion-review-only", "duplicate-review-only", "source-review-only", "context-source-published"],
+   "source": "scripts/ingest/geoportal/build-peatland-geoportal-sources.mjs",
+   "key": "publicationStatus"
+  },
+  "peatland-link": {
+   "catalogueId": "RG-06",
+   "about": "What a Peatland Geoportal source link is.",
+   "values": ["previewable-when-cors-allows", "arcgis-item-page-only", "source-attachment-page", "external-context-link", "likely-open-but-confirm", "licence-review-required"],
+   "source": "scripts/ingest/geoportal/build-peatland-geoportal-sources.mjs",
+   "key": "status"
+  },
+  "dobih-archive": {
+   "catalogueId": "RG-06",
+   "about": "Whether a DoBIH source item is mirrored to the Internet Archive.",
+   "values": ["mirrored-internet-archive", "external-reference-not-mirrored"],
+   "source": "scripts/ingest/dobih/build-dobih-assets.mjs",
+   "key": "archiveStatus"
+  },
+  "dobih-publication": {
+   "catalogueId": "RG-06",
+   "about": "How a DoBIH asset is published: two facts in one value, separated by '; '.",
+   "values": ["metadata-in-repo; raw-source-mirrored-internet-archive", "metadata-in-repo; external-reference-live-link-only"],
+   "source": "scripts/ingest/dobih/build-dobih-assets.mjs",
+   "key": "publicationStatus"
+  }
+ }
+}

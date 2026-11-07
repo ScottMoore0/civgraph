@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://civgraph.net/schemas/registries/statuses.schema.json",
+  "title": "Statuses registry (data/registries/statuses.json)",
+  "type": "object",
+  "required": ["schemaVersion", "description", "machines", "enums"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "description": { "type": "string", "minLength": 1 },
+    "machines": {
+      "type": "object",
+      "propertyNames": { "$ref": "#/$defs/name" },
+      "additionalProperties": {
+        "type": "object",
+        "required": ["catalogueId", "weight", "about", "sources"],
+        "properties": {
+          "catalogueId": { "$ref": "#/$defs/catalogueId" },
+          "weight": { "enum": ["full", "light"] },
+          "about": { "type": "string", "minLength": 1 },
+          "sources": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+          "initial": { "type": "string" },
+          "transitions": { "type": "object", "additionalProperties": { "type": "array", "uniqueItems": true, "items": { "type": "string" } } },
+          "values": { "type": "array", "minItems": 2, "uniqueItems": true, "items": { "type": "string" } }
+        },
+        "if": { "properties": { "weight": { "const": "full" } } },
+        "then": { "required": ["initial", "transitions"] },
+        "else": { "required": ["values"] }
+      }
+    },
+    "enums": {
+      "type": "object",
+      "propertyNames": { "$ref": "#/$defs/name" },
+      "additionalProperties": {
+        "type": "object",
+        "required": ["catalogueId", "about", "values", "source", "key"],
+        "additionalProperties": false,
+        "properties": {
+          "catalogueId": { "$ref": "#/$defs/catalogueId" },
+          "about": { "type": "string", "minLength": 1 },
+          "values": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+          "source": { "type": "string", "pattern": "^scripts/[^\\s]+$" },
+          "key": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "name": { "type": "string", "pattern": "^[a-z]+(-[a-z]+)*$" },
+    "catalogueId": { "type": "string", "pattern": "^RG-0[1-9]$" }
+  }
+}
