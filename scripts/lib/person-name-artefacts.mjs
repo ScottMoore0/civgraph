@@ -52,6 +52,7 @@
  */
 
 /** Rules whose subjects are not people and must not enter the persons index. */
+/** @type {Set<string | null>} */
 export const NOT_A_PERSON = new Set([
   'party-name-fragment',
   'bare-disambiguator',

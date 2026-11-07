@@ -90,7 +90,8 @@ async function serve(port, exitWithStdin) {
       const response = await answerRecordApi(req.url, { method: req.method, headers });
       if (!response) {
         res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
-        return res.end('not found');
+        res.end('not found');
+        return;
       }
       await sendResponse(res, response, { head: req.method === 'HEAD' });
     } catch (error) {
