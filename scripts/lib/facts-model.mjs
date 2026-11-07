@@ -212,7 +212,7 @@ export async function schemaErrors(model, root = process.cwd()) {
   const errors = [];
   const run = (schema, doc, label) => {
     if (!ajv.validate(schema, doc)) {
-      for (const e of ajv.errors.slice(0, 20)) errors.push(`${label}${e.dataPath || ''}: ${e.message}${e.params?.allowedValues ? ` (${e.params.allowedValues.join(', ')})` : ''}`);
+      for (const e of ajv.errors.slice(0, 20)) errors.push(`${label}${e.dataPath || ''}: ${e.message}${/** @type {{ allowedValues?: string[] }} */ (e.params)?.allowedValues ? ` (${/** @type {{ allowedValues: string[] }} */ (e.params).allowedValues.join(', ')})` : ''}`);
     }
   };
   run('offices', model.officesDoc, FACT_PATHS.offices);

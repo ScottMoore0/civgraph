@@ -139,6 +139,11 @@ const idOf = (values) => createHash('sha1').update(JSON.stringify(values)).diges
  * Rewrite the sort keys of `db` (an open, writable build) against `seedFile`. Returns per table
  * the number of rows whose key changed, and the groups that had a seed.
  */
+/**
+ * @param {import('node:sqlite').DatabaseSync} db
+ * @param {string|null} seedFile
+ * @param {{ tables?: import('./schema.mjs').TableSpec[], log?: (line: string) => void }} [options]
+ */
 export function stabiliseOrder(db, seedFile, { tables = STABLE_ORDER_TABLES, log = () => {} } = {}) {
   if (!seedFile || !existsSync(seedFile)) return null;
   const seed = new DatabaseSync(seedFile, { readOnly: true });

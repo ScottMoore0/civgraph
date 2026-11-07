@@ -68,10 +68,13 @@ function tarIndex(archive) {
     // held" -- that would silently re-fetch everything. Signal it instead, and
     // carry tar's own stderr up: swallowing it turned the --force-local bug
     // above into an opaque "cannot read archive" that looked like corruption.
-    tarIndex.lastError = String((e && (e.stderr || e.message)) || e).trim().slice(0, 300);
+    tarState.lastError = String((e && (e.stderr || e.message)) || e).trim().slice(0, 300);
     return null;
   }
 }
+
+/** tarIndex's last failure, kept on the function as before. */
+const tarState = /** @type {{ lastError?: string }} */ (/** @type {unknown} */ (tarIndex));
 
 const stripExt = (n) => n.replace(/\.(json|xml)$/i, '');
 
@@ -178,7 +181,7 @@ export function openStore(outDir, { verbose = true } = {}) {
       const fromTar = tarIndex(archive);
       if (fromTar === null) {
         throw new Error(
-          `Cannot read ${archive}: ${tarIndex.lastError || 'unknown tar failure'}\n` +
+          `Cannot read ${archive}: ${tarState.lastError || 'unknown tar failure'}\n` +
           `  Refusing to continue: treating an unreadable archive as empty would ` +
           `silently re-fetch every record it holds.`);
       }

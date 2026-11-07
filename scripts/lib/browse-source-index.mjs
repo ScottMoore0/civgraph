@@ -18,7 +18,7 @@ export function resolveBrowseSourceItems(index, root = process.cwd()) {
     for (const shard of index.shards) {
       // /data/browse/... is wherever the record build wrote it (scripts/records/paths.mjs).
       const rel = String(shard.url || '').replace(/^\/+/, '');
-      const file = root === process.cwd() ? localPathForUrl(shard.url) : path.join(root, rel);
+      const file = root === process.cwd() ? /** @type {string} */ (localPathForUrl(shard.url)) : path.join(root, rel);
       const shardData = JSON.parse(readFileSync(file, 'utf8'));
       const shardItems = Array.isArray(shardData.items) ? shardData.items : [];
       if (shard.count !== undefined && shard.count !== shardItems.length) {

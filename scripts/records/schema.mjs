@@ -41,10 +41,16 @@ const c = (name, type = T, notNull = false) => ({ name, type, notNull });
 const HASH = [c('row_hash', T, true), c('row_hash_n', I, true)];
 
 /**
- * @typedef {{ name: string, group: string, columns: {name:string,type:string,notNull:boolean}[],
+ * @typedef {{ name: string, type: string, notNull: boolean }} ColumnSpec
+ * @typedef {{ name: string, group: string, columns: ColumnSpec[],
  *   pk: string[], hashed: boolean, order: string, indexes?: [string, string[], boolean?][],
  *   stableOrder?: { sort: string[], group?: string[], identity: 'key' | 'content' },
+ *   parents?: string[], since?: number,
+ *   volatileJson?: { column: string, keys: (row: Record<string, unknown>) => string[] },
  *   note?: string }} TableSpec
+ *   `parents`: tables whose rows this one's reference (the delta's order); `since`: the
+ *   migration that added the table (absent: 0001); `volatileJson`: build stamps inside a JSON
+ *   column left out of row_hash (db.mjs hashValues).
  */
 /** @type {TableSpec[]} */
 export const TABLES = [
@@ -506,6 +512,7 @@ export const TABLES = [
   },
 ];
 
+/** @type {Record<string, TableSpec>} */
 export const TABLE = Object.fromEntries(TABLES.map((t) => [t.name, t]));
 export const HASHED_TABLES = TABLES.filter((t) => t.hashed);
 

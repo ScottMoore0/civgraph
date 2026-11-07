@@ -68,6 +68,7 @@ export const RECORDS_DB = P.RECORDS_DB;
 export function localPathForUrl(url, paths = P) {
   if (!url || /^https?:\/\//i.test(url)) return null;
   const clean = String(url).split('?')[0].replace(/^\/+/, '');
+  /** @type {[string, string, boolean?][]} */
   const prefixes = [
     ['render/metadata/elections-test2.json', paths.ELECTION_MANIFEST, true],
     ['render/metadata/elections-test2-report.json', paths.ELECTION_REPORT, true],

@@ -97,7 +97,7 @@ async function serve(port, exitWithStdin) {
     }
   });
   server.listen(port, '127.0.0.1', () => {
-    console.log(`ready ${server.address().port}`);
+    console.log(`ready ${/** @type {import('node:net').AddressInfo} */ (server.address()).port}`);
   });
   if (exitWithStdin) {
     process.stdin.on('end', () => process.exit(0));

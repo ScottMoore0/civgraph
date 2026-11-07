@@ -9,7 +9,8 @@ const NATIONAL_CONSTITUENCY_NAMES = new Set([
 // the function so it exists however early the module calls it.
 function normalizeName(value) {
   if (typeof value !== 'string') return normalizeNameUncached(value);
-  const cache = normalizeName.cache || (normalizeName.cache = new Map());
+  const memo = /** @type {{ cache?: Map<string, string> }} */ (/** @type {unknown} */ (normalizeName));
+  const cache = memo.cache || (memo.cache = new Map());
   let result = cache.get(value);
   if (result === undefined) {
     if (cache.size > 200000) cache.clear();
@@ -511,7 +512,7 @@ export function canonicalElectionTitle({
     // Northern Ireland alone was on 15 November 1922. 1910 had two, told apart by month.
     const day = String(date || '').slice(0, 10);
     if (day && day < '1922-11-15') {
-      const month = year === '1910' || year === 1910
+      const month = String(year) === '1910'
         ? (day.slice(5, 7) === '01' ? 'January ' : day.slice(5, 7) === '12' ? 'December ' : '')
         : '';
       return `${month}${year} UK general election in Ireland`.trim();

@@ -33,6 +33,8 @@ export const DEFAULT_BUILD_DIR = 'tmp/records';
  * variable means; `secret` ones are read from .env.local by the scripts that need them and are
  * never printed. Dev and test knobs (TEST_*, PORT, PW_*) stay with their scripts.
  */
+/** @typedef {{ default?: string, secret?: boolean, purpose: string }} VarSpec */
+/** @type {Readonly<Record<string, VarSpec>>} */
 export const BUILD_VARS = Object.freeze({
   CIVGRAPH_BUILD_DIR: { default: DEFAULT_BUILD_DIR, purpose: "the record build's output tree ('legacy' = the old in-tree locations)" },
   CIVGRAPH_RECORDS_DB: { default: 'tmp/records/civgraph-records.sqlite', purpose: 'the local records database the tests and tools open' },
@@ -138,7 +140,7 @@ export function describeEnv(env = process.env) {
       scope: Object.hasOwn(BUILD_VARS, name) ? 'build' : 'runtime',
       set,
       value: isSecret(name) ? (set ? '(set)' : '') : (set ? String(env[name]) : ''),
-      default: spec.default ?? '',
+      default: /** @type {VarSpec} */ (spec).default ?? '',
       purpose: spec.purpose,
     });
   }
