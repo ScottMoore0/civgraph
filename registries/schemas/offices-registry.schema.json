@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://civgraph.net/schemas/registries/offices-registry.schema.json",
+  "title": "Offices registry (data/offices/offices.json and data/offices/tenures/*.json)",
+  "description": "Each file against its own schema in data/schemas, which stays the one source of their shape (check:facts uses the same files).",
+  "type": "object",
+  "required": ["offices", "tenures"],
+  "additionalProperties": false,
+  "properties": {
+    "offices": { "$ref": "offices.schema.json" },
+    "tenures": {
+      "type": "object",
+      "propertyNames": { "pattern": "^[a-z0-9-]+\\.json$" },
+      "additionalProperties": { "$ref": "tenures.schema.json" }
+    }
+  }
+}
