@@ -126,6 +126,13 @@ export class UrlStateMethods {
       const sameElection = (params.get('electionBody') === active.body && params.get('electionDate') === active.date)
         || wanted.has(this.elections.getCanonicalLayerId?.(active));
       if (!sameElection) this.elections.unloadElection();
+    } else if (this.elections?.loadRun?.state() === 'loading') {
+      // An election still loading that this entry does not have: cancel it, or it would open
+      // after the step back (MA-03).
+      const pending = this.elections.pendingLoad;
+      if (!(pending && params.get('electionBody') === pending.body && params.get('electionDate') === pending.date)) {
+        this.elections.cancelPendingLoad();
+      }
     }
     const backing = new Set(this.elections?.activeEntry ? this.elections.getActiveElectionBackingLayerIds?.() || [] : []);
     for (const id of this.getLoadedLayerIds()) {

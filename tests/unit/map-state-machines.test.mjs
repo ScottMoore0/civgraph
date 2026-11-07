@@ -170,3 +170,28 @@ test('the search worker readiness is a flag, set only through set()', () => {
   assert.match(read('app/src/app.js'), /this\.searchWorkerReady = createFlag\('search worker ready'\);/);
   assert.doesNotMatch(read('src/map/app/search.js'), /searchWorkerReady\s*=[^=]/);
 });
+
+test('election load (MA-03) and layer load (MA-06): the whole tables', async () => {
+  const { ELECTION_LOAD } = await import('../../src/map/election/load-state.mjs');
+  const { LAYER_LOAD } = await import('../../src/map/renderer/layer-load.mjs');
+  assert.deepEqual(ELECTION_LOAD.transitions, {
+    closed: ['loading', 'closed'],
+    loading: ['loading', 'open', 'closed'],
+    open: ['loading', 'closed']
+  });
+  assertTableEnforced(ELECTION_LOAD);
+  assert.equal(ELECTION_LOAD.can('closed', 'open'), false, 'an election opens only through a load');
+  assert.deepEqual(LAYER_LOAD.transitions, { absent: ['loading'], loading: ['loaded', 'absent'], loaded: ['absent'] });
+  assertTableEnforced(LAYER_LOAD);
+  assert.equal(LAYER_LOAD.can('absent', 'loaded'), false, 'a layer is on the map only through a load');
+  assert.equal(LAYER_LOAD.can('loading', 'loading'), false, 'a layer is never loaded twice at once');
+});
+
+test('the election and layer loads move only through their machines', () => {
+  const manager = read('app/src/election-manager.js');
+  assert.match(manager, /if \(!options\?\.keepLoad\) this\.cancelPendingLoad\(/);
+  assert.match(manager, /this\.loadRun\.to\('open'\)/);
+  const renderer = read('src/map/renderer/map-controller.js');
+  assert.match(renderer, /if \(load\.run\.state\(\) !== 'loading'\) return;/);
+  assert.match(renderer, /load\.run\.to\('absent'\)/);
+});
