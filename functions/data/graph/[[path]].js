@@ -29,6 +29,7 @@
  * deployed (scripts/build/site.mjs builds dist/ from an allow-list that does not include it).
  */
 import { cachedJson, documentBody, jsonResponse, parseJson } from '../../_api/_records.js';
+import { binding } from '../../_lib/config.js';
 
 const VERSION = 'data-graph-2';
 /**
@@ -85,11 +86,11 @@ export async function onRequestGet(context) {
   const p = parts.join('/');
   const route = parts.includes('..') ? null : matchGraphPath(p);
   if (route?.kind === 'bulk') {
-    const copy = context.env.MAPS_BUCKET ? await context.env.MAPS_BUCKET.get(`data/graph/${p}`) : null;
+    const copy = binding(context.env, 'MAPS_BUCKET') ? await binding(context.env, 'MAPS_BUCKET').get(`data/graph/${p}`) : null;
     if (copy) return r2Response(copy);
     return new Response(null, { status: 301, headers: { Location: downloadsUrl(parts[parts.length - 1]), 'Cache-Control': 'public, max-age=86400' } });
   }
-  const db = context.env.ELECTIONS_DB;
+  const db = binding(context.env, 'ELECTIONS_DB');
   if (!route) return notFound();
   if (!db) return jsonResponse({ error: 'records database not bound' }, 503);
   return cachedJson(context, VERSION, () => answer(db, route, p), {

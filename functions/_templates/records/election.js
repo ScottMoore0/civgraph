@@ -35,6 +35,10 @@ function personLink(row) {
   return row.personId ? link(`/browse/persons/${encodeURIComponent(row.personId)}`, row.name) : row.name;
 }
 
+/**
+ * @param {any} page
+ * @param {{ canonical?: string }} [options]
+ */
 export function electionBody(page, { canonical } = {}) {
   const { election } = page;
   const base = `/browse/elections/${election.slug}`;

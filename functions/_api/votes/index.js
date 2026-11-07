@@ -10,6 +10,7 @@
  */
 import { cachedJson, documentBody, isMarker, jsonResponse, parseJson } from '../_records.js';
 import { reportError } from '../_error.js';
+import { binding } from '../../_lib/config.js';
 
 const VERSION = 'votes-1';
 
@@ -41,7 +42,7 @@ export async function divisionShard(db, shard) {
 }
 
 async function handle(context) {
-  const db = context.env.ELECTIONS_DB;
+  const db = binding(context.env, 'ELECTIONS_DB');
   const url = new URL(context.request.url);
   const p = (name) => (url.searchParams.get(name) || '').trim();
   try {

@@ -8,6 +8,8 @@
  */
 import { T, cachedJson, datasetState, jsonResponse } from '../_records.js';
 import { reportError } from '../_error.js';
+import { binding } from '../../_lib/config.js';
+import { fromD1 } from '../../_lib/storage/d1.js';
 
 const VERSION = 'stats-1';
 
@@ -25,9 +27,11 @@ const COUNTS = {
 
 export async function onRequestGet(context) {
   return cachedJson(context, VERSION, async () => {
-    const db = context.env.ELECTIONS_DB;
+    const db = binding(context.env, 'ELECTIONS_DB');
     try {
-      const entries = await Promise.all(Object.entries(COUNTS).map(async ([name, sql]) => [name, (await db.prepare(sql).first())?.n ?? 0]));
+      // through the storage adapter (functions/_lib/storage/): the same SQL over D1 or SQLite
+      const store = fromD1(db);
+      const entries = await Promise.all(Object.entries(COUNTS).map(async ([name, sql]) => [name, (await store.value(sql)) ?? 0]));
       const { version } = await datasetState(db);
       return jsonResponse({ ...Object.fromEntries(entries), version });
     } catch (error) {

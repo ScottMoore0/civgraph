@@ -157,6 +157,7 @@ ${code(toHtmlString(body))}
 </section>`;
 }
 
+/** @param {{ version?: (path: string) => string | null }} [options] */
 export function renderGallery({ version } = {}) {
   const body = html`<div class="cg-gallery">
 <header class="cg-record-header">

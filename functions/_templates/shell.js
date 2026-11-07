@@ -11,9 +11,11 @@
  * No file system, no DOM: this runs in Pages Functions and in Node.
  */
 import { attrs, html, raw } from '../_lib/html.js';
+import { SITE } from '../_lib/config.js';
 
-export const SITE_ORIGIN = 'https://civgraph.net';
-export const SITE_NAME = 'Civgraph';
+/** The site's origin and name, from the configuration (functions/_lib/config.js). */
+export const SITE_ORIGIN = SITE.origin;
+export const SITE_NAME = SITE.name;
 
 /**
  * The one copy of the theme bootstrap. It runs before first paint, so the saved or system
@@ -70,6 +72,7 @@ export const SHELL_STYLES = ['assets/ui/tokens.css', 'assets/ui/tokens-legacy.cs
 /** The i18n reveal script of the site head, with the runtime's URL filled in. */
 const LANG_PREVIEW = (src) => "<script>(function(){var K='civgraph.langPreview',S='" + src + "',on=false;function load(){var i=window.civgraphI18n;if(i){if(i.show)i.show();return;}if(document.querySelector('script[data-i18n-runtime]'))return;var s=document.createElement('script');s.src=S;s.setAttribute('data-i18n-runtime','');document.head.appendChild(s);}window.civgraphLangReveal=function(){try{localStorage.setItem(K,'1');}catch(e){}load();};try{if(/[?&]lang-preview=0(?:&|$)/.test(location.search)){localStorage.removeItem(K);localStorage.removeItem('civgraph.lang');}on=localStorage.getItem(K)==='1';}catch(e){}if(on)load();})();</script>";
 
+/** @param {{ version?: (path: string) => string | null }} [options] */
 export function head({ version } = {}) {
   const url = (path) => {
     const v = version ? version(path) : null;
@@ -101,7 +104,7 @@ const skipLinkTo = ({ href, label }) => {
 /**
  * The site header and its collapsed mobile navigation (behaviour: assets/site/site-chrome.js),
  * preceded by the skip link.
- * @param {{active?: string, layout?: string, skipLink?: boolean}} [options] active is a NAV key
+ * @param {{active?: string, layout?: string, skipLink?: boolean, skipAlso?: Array<{href: string, label: string}>}} [options] active is a NAV key
  *   or 'none'; layout is 'page' (default) or 'app' (the map app's full-bleed header); skipLink
  *   false leaves the skip link to the page (the map app has its own pair: content and map);
  *   skipAlso adds skip links after it to other places on the page ({ href: '#id', label }).
@@ -224,7 +227,7 @@ export function supportModal() {
 
 /**
  * A breadcrumb / section bar.
- * @param {{label?: string, items: Array<{href?: string, label: string}>, current?: number}} options
+ * @param {{label?: string, items?: Array<{href?: string, label: string}>, current?: number}} [options]
  *   current is the index of the item that is this page (default: the last).
  */
 export function sectionNav({ label = 'Breadcrumb', items = [], current } = {}) {

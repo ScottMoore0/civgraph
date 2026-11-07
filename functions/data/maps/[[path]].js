@@ -12,6 +12,7 @@
  * uncompressed from the base key — Cloudflare's edge compresses it on the
  * wire to the client.
  */
+import { binding } from '../../_lib/config.js';
 export async function onRequestGet(context) {
     // decodeURIComponent, matching functions/data/browse/[[path]].js.
     //
@@ -32,7 +33,7 @@ export async function onRequestGet(context) {
     const lowerKey = key.toLowerCase();
     const isJson = lowerKey.endsWith('.json');
 
-    const bucket = context.env.MAPS_BUCKET;
+    const bucket = binding(context.env, 'MAPS_BUCKET');
     if (!bucket) {
         // R2 not bound — pass through to origin (static files)
         return context.next();

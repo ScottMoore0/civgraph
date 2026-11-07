@@ -31,6 +31,7 @@ import { resolveElectionSlugAlias } from '../../_lib/election-slug-aliases.js';
 import {
   T, bundleObject, cachedJson, documentBody, electionAggregates, isMarker, parseJson, withoutMarkers,
 } from '../_records.js';
+import { binding } from '../../_lib/config.js';
 
 // Bump whenever the RESPONSE SHAPE changes, not just when the data does: it is part of the
 // cache key. elections-8: the records tables; ORDER BY on every list; the views above.
@@ -146,7 +147,7 @@ async function handle(context) {
   const constituencyName = (url.searchParams.get('constituencyName') || '').trim();
   const contestSlugParam = (url.searchParams.get('contest') || '').trim();
 
-  const db = context.env.ELECTIONS_DB;
+  const db = binding(context.env, 'ELECTIONS_DB');
   if (!db) return json({ error: 'ELECTIONS_DB binding not configured' }, 503);
 
   try {

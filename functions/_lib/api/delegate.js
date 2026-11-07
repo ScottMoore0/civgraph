@@ -17,6 +17,22 @@ import { CACHE } from '../config.js';
 
 export const ALLOW = 'GET, HEAD';
 
+/**
+ * A version's status (refactor FN-L), from its own fields: 'stable' while it is current,
+ * 'superseded' once a successor exists, 'sunset' once the owner has set a sunset date.
+ * @typedef {'stable' | 'superseded' | 'sunset'} VersionStatus
+ */
+export const VERSION_STATUSES = Object.freeze(/** @type {VersionStatus[]} */ (['stable', 'superseded', 'sunset']));
+
+/**
+ * @param {{ successor?: unknown, sunset?: string | null }} api
+ * @returns {VersionStatus}
+ */
+export function versionStatus(api) {
+  if (api.sunset) return 'sunset';
+  return api.successor ? 'superseded' : 'stable';
+}
+
 const JSON_HEADERS = { 'Content-Type': 'application/json; charset=utf-8', 'Access-Control-Allow-Origin': '*' };
 
 export function jsonAnswer(payload, status = 200, extra = {}) {
@@ -87,9 +103,30 @@ function pathSegment(segment) {
 }
 
 /**
+ * The successor-version and sunset headers of a versioned answer (REFACTOR-PLAN.md API-5).
+ * A route the successor also serves points at its successor path, the same subpath and query;
+ * a route the successor dropped gets no Link. Sunset only when the version names a date.
+ * @param {{ successor?: { prefix: string, routes: Record<string, unknown> } | null, sunset?: string | null }} api
+ * @param {string} key          the route's key in this version
+ * @param {string[]} rest       the subpath after it
+ * @param {string} search       the request's query string, with its '?'
+ * @returns {Record<string, string>}
+ */
+export function lifecycleHeaders(api, key, rest, search) {
+  /** @type {Record<string, string>} */
+  const out = {};
+  const next = api.successor;
+  if (next && Object.hasOwn(next.routes, key)) {
+    out.Link = `<${next.prefix}/${[key, ...rest.map(pathSegment)].join('/')}${search}>; rel="successor-version"`;
+  }
+  if (api.sunset) out.Sunset = api.sunset;
+  return out;
+}
+
+/**
  * Answer one versioned request.
- * @param {object} context      the Pages Function context
- * @param {object} api          { version, prefix, legacyPrefix, routes, index(context) }
+ * @param {any} context         the Pages Function context
+ * @param {any} api             { version, prefix, legacyPrefix, routes, index(context), documents?, successor?, sunset? }
  * @param {string[]} segs       the segments after the version
  */
 export async function delegate(context, api, segs) {
@@ -100,6 +137,8 @@ export async function delegate(context, api, segs) {
   const strip = (res) => (head ? new Response(null, res) : res);
 
   if (!segs.length) return strip(api.index(context));
+  const document = segs.length === 1 && api.documents && Object.hasOwn(api.documents, segs[0]) ? api.documents[segs[0]] : null;
+  if (document) return strip(document(context));
 
   const match = matchRoute(api.routes, segs);
   if (!match) return notFound({ path: new URL(request.url).pathname, see: `${api.prefix}/` });
@@ -126,6 +165,7 @@ export async function delegate(context, api, segs) {
   const res = await handler(ctx);
   const out = new Response(head ? null : res.body, res);
   out.headers.set('API-Version', api.version);
+  for (const [name, value] of Object.entries(lifecycleHeaders(api, match.key, rest, url.search))) out.headers.set(name, value);
   const location = out.headers.get('Location');
   if (location) out.headers.set('Location', rewriteLocation(location, request.url, api.routes, api.prefix, api.legacyPrefix));
   return out;

@@ -1,3 +1,4 @@
+import { runtimeVar } from '../_lib/config.js';
 const ACCESS_EMAIL_HEADERS = [
   'CF-Access-Authenticated-User-Email',
   'Cf-Access-Authenticated-User-Email',
@@ -52,8 +53,8 @@ export async function getContributorAuth(context) {
   // Three accepted spellings for one secret is not tolerance, it is three places
   // a typo can hide: set BROWSE_ADMINS by mistake and the allowlist silently
   // reads empty, which now fails closed and looks like a permissions bug.
-  const allowlist = parseList(env.CIVGRAPH_CONTRIBUTORS);
-  const adminList = parseList(env.CIVGRAPH_ADMINS);
+  const allowlist = parseList(runtimeVar(env, 'CIVGRAPH_CONTRIBUTORS'));
+  const adminList = parseList(runtimeVar(env, 'CIVGRAPH_ADMINS'));
   const normalizedEmail = normalizeEmail(email);
   const authenticated = Boolean(normalizedEmail);
   const allowlistConfigured = allowlist.length > 0 || adminList.length > 0;
@@ -200,15 +201,21 @@ export function sanitizeAuth(auth) {
  */
 const ACCESS_TEAM_DOMAIN = 'icy-mouse-ce2a.cloudflareaccess.com';
 const KEY_CACHE_MS = 60 * 60 * 1000;
+/** @type {{ team: string | null, at: number, keys: any[] | null }} */
 let accessKeys = { team: null, at: 0, keys: null };
 
+/**
+ * @param {string} team
+ * @returns {Promise<any[]>}
+ */
 async function accessSigningKeys(team) {
   if (accessKeys.team === team && accessKeys.keys && Date.now() - accessKeys.at < KEY_CACHE_MS) return accessKeys.keys;
   const res = await fetch(`https://${team}/cdn-cgi/access/certs`, { cf: { cacheTtl: 300 } });
   if (!res.ok) throw new Error(`Access certs: HTTP ${res.status}`);
   const body = await res.json();
-  accessKeys = { team, at: Date.now(), keys: Array.isArray(body?.keys) ? body.keys : [] };
-  return accessKeys.keys;
+  const keys = Array.isArray(body?.keys) ? body.keys : [];
+  accessKeys = { team, at: Date.now(), keys };
+  return keys;
 }
 
 function base64UrlBytes(part) {
@@ -229,7 +236,7 @@ export async function verifyAccessJwt(assertion, env = {}) {
     if (typeof payload?.exp !== 'number' || payload.exp < now - 30) return null;
     if (typeof payload?.nbf === 'number' && payload.nbf > now + 30) return null;
     if (payload?.iss !== `https://${team}`) return null;
-    const aud = String(env.CIVGRAPH_ACCESS_AUD || '').trim();
+    const aud = runtimeVar(env, 'CIVGRAPH_ACCESS_AUD');
     if (aud && !(Array.isArray(payload.aud) ? payload.aud : [payload.aud]).includes(aud)) return null;
     const jwk = (await accessSigningKeys(team)).find((k) => k.kid === header.kid);
     if (!jwk) return null;

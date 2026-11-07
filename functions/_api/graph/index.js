@@ -15,6 +15,7 @@
  */
 import { cachedJson, documentBody, jsonResponse, parseJson } from '../_records.js';
 import { reportError } from '../_error.js';
+import { binding } from '../../_lib/config.js';
 
 const VERSION = 'graph-1';
 const MAX = 2000;
@@ -49,7 +50,7 @@ async function entityPayload(db, entityId, { related, limit, offset }) {
 }
 
 async function handle(context) {
-  const db = context.env.ELECTIONS_DB;
+  const db = binding(context.env, 'ELECTIONS_DB');
   const url = new URL(context.request.url);
   const p = (name) => (url.searchParams.get(name) || '').trim();
   const limit = Math.min(Math.max(1, Number(p('limit')) || MAX), MAX);

@@ -1,5 +1,7 @@
 import { jsonResponse, jsonNotAllowed, requireAdmin } from '../_auth.js';
 import { methodGuard } from '../_method.js';
+import { canDecide, isDecision } from '../../_lib/contribution-status.js';
+import { binding } from '../../_lib/config.js';
 
 /**
  * Record an approve/reject decision on a queued contribution. Administrators only.
@@ -23,8 +25,10 @@ import { methodGuard } from '../_method.js';
  * Usage:  POST /_api/contributions/decide
  *         { "key": "submissions/2026-08-13/sub_...json",
  *           "decision": "approved" | "rejected", "note": "..." }
+ *
+ * The moves a decision may make are functions/_lib/contribution-status.js: from pending-review
+ * only; a submission already decided answers 409.
  */
-const VALID_DECISIONS = new Set(['approved', 'rejected']);
 
 export async function onRequestPost(context) {
   const { auth, response } = await requireAdmin(context);
@@ -47,13 +51,13 @@ export async function onRequestPost(context) {
   if (!/^submissions\/\d{4}-\d{2}-\d{2}\/sub_[A-Za-z0-9_]+\.json$/.test(key)) {
     return jsonResponse({ ok: false, error: 'Invalid submission key' }, { status: 400 });
   }
-  if (!VALID_DECISIONS.has(decision)) {
+  if (!isDecision(decision)) {
     return jsonResponse({ ok: false, error: 'decision must be "approved" or "rejected"' }, { status: 400 });
   }
 
   const env = context.env || {};
-  const queue = env.CIVGRAPH_CONTRIBUTION_QUEUE;
-  const bucket = env.CIVGRAPH_SUBMISSIONS;
+  const queue = binding(env, 'CIVGRAPH_CONTRIBUTION_QUEUE');
+  const bucket = binding(env, 'CIVGRAPH_SUBMISSIONS');
   if (!queue?.get && !bucket?.get) {
     return jsonResponse({ ok: false, error: 'Contribution queue is not configured.' }, { status: 503 });
   }
@@ -66,6 +70,11 @@ export async function onRequestPost(context) {
     submission = JSON.parse(rawValue);
   } catch {
     return jsonResponse({ ok: false, error: 'Stored submission is not valid JSON' }, { status: 500 });
+  }
+
+  const verdict = canDecide(submission.status, decision);
+  if (!verdict.ok) {
+    return jsonResponse({ ok: false, error: `Decision refused: ${verdict.reason}`, status: verdict.from }, { status: 409 });
   }
 
   // Decisions are recorded, not overwritten. An audit trail matters more here

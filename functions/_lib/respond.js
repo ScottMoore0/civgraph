@@ -10,33 +10,27 @@
  * the head-only Browse pages always had.
  */
 
+import { readDataset, resetDatasetMemo } from './dataset-state.js';
+
 /** Bump when a record template changes what it renders. */
 export const TEMPLATE_VERSION = 'records-1';
 
-let datasetCache = { at: 0, value: null };
-
 /**
  * The loaded dataset's version from D1's `dataset` table (data design 3.2), read at most
- * once a minute per isolate; null while the table does not exist (before D2).
+ * once a minute per isolate, from the memo the JSON answers share
+ * (functions/_lib/dataset-state.js); null while there is none.
+ * @param {D1Database | null | undefined} db
+ * @param {number} [now]
+ * @returns {Promise<string | null>}
  */
 export async function datasetVersion(db, now = Date.now()) {
   if (!db) return null;
-  if (now - datasetCache.at < 60_000) return datasetCache.value;
-  let value = null;
-  try {
-    const row = await db.prepare("SELECT value FROM dataset WHERE key = 'version'").first();
-    value = row?.value ?? null;
-  } catch {
-    value = null;
-  }
-  datasetCache = { at: now, value };
-  return value;
+  const { version } = await readDataset(db, now);
+  return version || null;
 }
 
-/** For tests: forget the cached dataset version. */
-export function resetDatasetVersionCache() {
-  datasetCache = { at: 0, value: null };
-}
+/** For tests: forget the cached dataset version (the shared memo). */
+export const resetDatasetVersionCache = resetDatasetMemo;
 
 async function sha1Hex(text) {
   const digest = await crypto.subtle.digest('SHA-1', new TextEncoder().encode(text));

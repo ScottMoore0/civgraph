@@ -1,5 +1,7 @@
 import { jsonResponse, jsonNotAllowed, requireAdmin } from '../_auth.js';
 import { methodGuard } from '../_method.js';
+import { INITIAL_STATUS } from '../../_lib/contribution-status.js';
+import { binding } from '../../_lib/config.js';
 
 /**
  * List queued contributions. Administrators only.
@@ -29,12 +31,12 @@ export async function onRequestGet(context) {
   if (response) return response;
 
   const url = new URL(context.request.url);
-  const wantStatus = url.searchParams.get('status') || 'pending-review';
+  const wantStatus = url.searchParams.get('status') || INITIAL_STATUS;
   const limit = Math.min(MAX_LIMIT, Math.max(1, Number(url.searchParams.get('limit')) || DEFAULT_LIMIT));
   const env = context.env || {};
 
-  const queue = env.CIVGRAPH_CONTRIBUTION_QUEUE;
-  const bucket = env.CIVGRAPH_SUBMISSIONS;
+  const queue = binding(env, 'CIVGRAPH_CONTRIBUTION_QUEUE');
+  const bucket = binding(env, 'CIVGRAPH_SUBMISSIONS');
 
   if (!queue?.list && !bucket?.list) {
     return jsonResponse({
