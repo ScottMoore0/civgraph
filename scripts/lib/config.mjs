@@ -6,10 +6,11 @@
  * REFACTOR-PLAN.md item 7 (config). The runtime half, which Pages Functions can bundle, is
  * functions/_lib/config.js; this module re-exports it, so a script needs one import.
  *
- * It is to replace scripts/records/paths.mjs and paths.py and the constants scattered through
- * scripts/ (the data origin, the User-Agent, CIVGRAPH_* defaults). NOTHING IS SWITCHED OVER YET:
- * tests/unit/config.test.mjs holds recordPaths() here equal to scripts/records/paths.mjs for
- * every CIVGRAPH_BUILD_DIR spelling, so the switch-over (plan slice CFG-2) is an import change.
+ * It replaces the constants scattered through scripts/ (the data origin, the User-Agent,
+ * CIVGRAPH_* defaults). Switched over so far: scripts/records/paths.mjs re-exports recordPaths()
+ * from here (CFG-2; paths.py stays the Python twin, held equal by tests/records/paths.test.mjs),
+ * and scripts/records and scripts/lib take the origins, the User-Agent and their CIVGRAPH_*
+ * variables from here (CFG-4 for those folders).
  *
  *   node scripts/lib/config.mjs            the resolved configuration, as JSON
  *   node scripts/lib/config.mjs --env      the environment variables it knows, and which are set
@@ -99,6 +100,18 @@ export function repoPath(nameOrRelative) {
   return path.join(REPO_ROOT, ...String(rel).split('/'));
 }
 
+/**
+ * One BUILD_VARS variable as set, or its default when it is unset or blank. A name BUILD_VARS
+ * does not list throws, so a misspelt variable fails where it is read instead of reading as unset.
+ * @param {string} name
+ * @param {NodeJS.ProcessEnv | Record<string, string|undefined>} [env]
+ * @returns {string}
+ */
+export function buildVar(name, env = process.env) {
+  if (!Object.hasOwn(BUILD_VARS, name)) throw new Error(`unknown build variable ${name} (scripts/lib/config.mjs BUILD_VARS)`);
+  return String(env[name] ?? '').trim() || BUILD_VARS[name].default || '';
+}
+
 const isSecret = (name) => Boolean(BUILD_VARS[name]?.secret || RUNTIME_VARS[name]?.secret);
 
 /**
@@ -106,10 +119,7 @@ const isSecret = (name) => Boolean(BUILD_VARS[name]?.secret || RUNTIME_VARS[name
  * resolve any combination without touching process.env.
  */
 export function loadConfig(env = process.env) {
-  const get = (name) => {
-    const raw = String(env[name] ?? '').trim();
-    return raw || BUILD_VARS[name]?.default || '';
-  };
+  const get = (/** @type {string} */ name) => buildVar(name, env);
   const abs = (p) => (p ? path.resolve(REPO_ROOT, p) : null);
   return {
     site: SITE,

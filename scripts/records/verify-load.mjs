@@ -52,7 +52,8 @@ import path from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
 import { snapshotTable } from './db.mjs';
 import { q } from './diff-load.mjs';
-import { REPO_ROOT } from './paths.mjs';
+import { buildVar } from '../lib/config.mjs';
+import { RECORDS_DB, REPO_ROOT } from './paths.mjs';
 import { HASHED_TABLES } from './schema.mjs';
 
 /**
@@ -77,7 +78,7 @@ export const PERSIST_DIR = '.wrangler/state';
 /** wrangler's entry script: CIVGRAPH_WRANGLER_JS, the project's, the global install, or `npm root -g`. */
 export const WRANGLER = (() => {
   const candidates = [
-    process.env.CIVGRAPH_WRANGLER_JS,
+    buildVar('CIVGRAPH_WRANGLER_JS'),
     path.join(REPO_ROOT, 'node_modules', 'wrangler', 'bin', 'wrangler.js'),
     process.env.APPDATA && path.join(process.env.APPDATA, 'npm', 'node_modules', 'wrangler', 'bin', 'wrangler.js'),
   ].filter(Boolean);
@@ -425,7 +426,7 @@ if (process.argv[1] && path.basename(process.argv[1]) === 'verify-load.mjs') {
     console.error('say --local or --remote');
     process.exit(1);
   }
-  const file = path.resolve(opt('--db') || path.join(REPO_ROOT, 'tmp/records/civgraph-records.sqlite'));
+  const file = path.resolve(opt('--db') || RECORDS_DB);
   const since = opt('--since') ? path.resolve(opt('--since')) : null;
   const mode = args.includes('--full-verify') ? 'full' : args.includes('--bounded') || remote ? 'bounded' : 'full';
   if (remote && mode === 'full') console.warn('WARNING: --full-verify scans every row of every table of the live database (about 4 GB): quiet hours only');

@@ -38,21 +38,22 @@ import { createHash } from 'node:crypto';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
-import { REPO_ROOT } from './paths.mjs';
+import { SITE } from '../lib/config.mjs';
+import { RECORDS_DB, REPO_ROOT } from './paths.mjs';
 import { CatalogueSearch, PeopleSearch } from '../../src/catalogue/search.js';
 
 const args = process.argv.slice(2);
 const opt = (name, fallback) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : fallback; };
-const A = String(opt('--a', 'https://civgraph.net')).replace(/\/$/, '');
+const A = String(opt('--a', SITE.origin)).replace(/\/$/, '');
 const B = String(opt('--b', 'http://127.0.0.1:8788')).replace(/\/$/, '');
-const DB = path.resolve(opt('--db', path.join(REPO_ROOT, 'tmp', 'records', 'civgraph-records.sqlite')));
+const DB = path.resolve(opt('--db', RECORDS_DB));
 const SEED = Number(opt('--seed', 1));
 const SCALE = Number(opt('--scale', 1));
 const ONLY = opt('--only', '') ? new Set(opt('--only', '').split(',')) : null;
 const DELAY_A = Number(opt('--delay-a', 350));
 const CONC_B = Number(opt('--concurrency-b', 6));
 const OUT = path.resolve(opt('--out', path.join(REPO_ROOT, 'tmp', 'records', 'parity-report.json')));
-const UA = 'civgraph-research (+https://civgraph.net)';
+const UA = SITE.userAgent;
 
 // ---------------------------------------------------------------- sampling
 function rng(seed) {

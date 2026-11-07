@@ -15,36 +15,19 @@
  * /data/browse/...) are public addresses and stay as they are wherever they are written into
  * a document; the compatibility Functions answer them from D1.
  *
- * scripts/records/paths.py holds the same names for the Python scripts.
+ * scripts/records/paths.py holds the same names for the Python scripts; tests/records/paths.test.mjs
+ * holds the two equal.
  */
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { DEFAULT_BUILD_DIR, REPO_ROOT, recordPaths } from '../lib/config.mjs';
 
-export const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
+// The locations themselves are the config module's (scripts/lib/config.mjs recordPaths, plan
+// slice CFG-2); this module keeps its exports so no caller changes.
+export { DEFAULT_BUILD_DIR, REPO_ROOT, recordPaths };
 
-export const DEFAULT_BUILD_DIR = 'tmp/records';
-
+/** The build directory for an environment: null for CIVGRAPH_BUILD_DIR=legacy. */
 export function buildDir(env = process.env) {
-  const value = String(env.CIVGRAPH_BUILD_DIR || '').trim() || DEFAULT_BUILD_DIR;
-  return value === 'legacy' ? null : path.resolve(REPO_ROOT, value);
-}
-
-/** The constants for a given environment (the exports below are this for process.env). */
-export function recordPaths(env = process.env) {
-  const BUILD = buildDir(env);
-  const at = (built, legacy) => (BUILD ? path.join(BUILD, built) : path.join(REPO_ROOT, legacy));
-  return {
-    BUILD_DIR: BUILD,
-    ELECTION_BUNDLE_DIR: at('elections', 'render/metadata/elections-test2'),
-    ELECTION_MANIFEST: at('elections-test2.json', 'render/metadata/elections-test2.json'),
-    ELECTION_REPORT: at('elections-test2-report.json', 'render/metadata/elections-test2-report.json'),
-    ELECTION_SUMMARY_DIR: at('elections-summaries', 'render/metadata/elections-test2-summaries'),
-    PROVENANCE_FILE: at('election-provenance.json', 'data/database/election-provenance.json'),
-    PROVENANCE_SHARD_DIR: at('election-provenance', 'render/metadata/election-provenance'),
-    BROWSE_DIR: at('browse', 'data/browse'),
-    GRAPH_DIR: at('graph', 'data/graph'),
-    RECORDS_DB: path.join(REPO_ROOT, 'tmp/records/civgraph-records.sqlite'),
-  };
+  return recordPaths(env).BUILD_DIR;
 }
 
 const P = recordPaths();
