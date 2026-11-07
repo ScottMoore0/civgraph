@@ -19,6 +19,16 @@
  * /browse/<type>/<slug> heads, with merged-person and retired-party redirects. --scale multiplies
  * the per-kind sample sizes.
  *
+ * Data design phase 3 (PHASE3.md section 7) adds the maps kinds when the database has the maps
+ * tables: the catalogue document and API, the agent index, the catalogue pane's documents at their
+ * old and new URLs, the layer metadata (full, index, records, sidecars, other spellings), the
+ * Browse map files and pages, the PRONI roots, and `catalogue-search`, which runs the pane's own
+ * search (src/catalogue/search.js) over each side's documents. A URL renamed with a 301 is fetched
+ * following the redirect on both sides (`follow`), the hop's target checked against the one
+ * expected (`expect`), and the content compared; the intended differences (the index's detail URLs
+ * name the API) are normalised away per kind (NORMALISE) and the report says so. With a database
+ * that holds only the maps tables (records:build --only maps) only the maps kinds are drawn.
+ *
  * JSON answers are compared deep, with generatedAt/builtAt dropped at any depth; a difference that
  * vanishes when arrays are sorted is reported as "order". HTML pages are compared on status,
  * redirect target, title, description and canonical. Exit 0 when every URL matches, 1 otherwise;
@@ -29,6 +39,7 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
 import { REPO_ROOT } from './paths.mjs';
+import { CatalogueSearch, PeopleSearch } from '../../src/catalogue/search.js';
 
 const args = process.argv.slice(2);
 const opt = (name, fallback) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : fallback; };
@@ -62,7 +73,11 @@ function sample(list, n) {
 export function buildUrlList(db) {
   const col = (sql) => db.prepare(sql).all().map((r) => Object.values(r)[0]).filter((v) => v !== null && v !== undefined);
   const urls = [];
-  const add = (kind, url, mode = 'json') => urls.push({ kind, url, mode });
+  const add = (kind, url, mode = 'json', extra = {}) => urls.push({ kind, url, mode, ...extra });
+  const hasRows = (name) => Boolean(db.prepare("SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = ?").get(name))
+    && Boolean(db.prepare(`SELECT 1 FROM ${name} LIMIT 1`).get());
+  if (hasRows('maps')) addMapUrls(db, { col, add, enc: encodeURIComponent });
+  if (!hasRows('r_elections')) return urls.filter((u) => !ONLY || ONLY.has(u.kind));
   const enc = encodeURIComponent;
 
   const keys = col('SELECT key FROM r_elections ORDER BY key');
@@ -145,11 +160,82 @@ export function buildUrlList(db) {
   return urls.filter((u) => !ONLY || ONLY.has(u.kind));
 }
 
+/** The intended differences of phase 3, removed from both sides before comparing. */
+const NORMALISE = {
+  // The startup index's entries name where the record and sidecar are served: the old files
+  // before phase 3, /_api/layers after. The layer id is what both name.
+  'layers-index': (doc) => ({
+    ...doc,
+    layers: (doc.layers || []).map((l) => ({ ...l, ...(l.detailUrl ? { detailUrl: l.id } : {}), ...(l.duplicateFeatureIdsUrl ? { duplicateFeatureIdsUrl: l.id } : {}) })),
+  }),
+};
+
+/** Phase 3: the map, layer and catalogue URLs, drawn from the maps tables. */
+export function addMapUrls(db, { col, add, enc }) {
+  add('maps-doc', '/data/database/maps.json');
+  add('agent-index', '/agent/maps-index.json');
+  add('api-catalogue', '/_api/catalogue');
+  add('api-catalogue', '/_api/catalogue?visible=1');
+  const mapIds = col('SELECT map_id FROM maps ORDER BY map_id');
+  for (const id of sample(mapIds, 40)) add('api-catalogue-id', `/_api/catalogue?id=${enc(id)}`);
+  const mapSlugs = col('SELECT slug FROM maps WHERE slug IS NOT NULL ORDER BY slug');
+  for (const s of sample(mapSlugs, 20)) add('api-catalogue-slug', `/_api/catalogue?slug=${enc(s)}`);
+  const categories = col('SELECT DISTINCT category FROM maps WHERE category IS NOT NULL ORDER BY category');
+  for (const c of sample(categories, 10)) add('api-catalogue-category', `/_api/catalogue?category=${enc(c)}`);
+  for (const name of ['catalogue', 'places', 'people']) add('catalogue-doc', `/data/catalogue/${name}.json`);
+  // The pane's documents at their new URLs (side B), against the old file (side A).
+  for (const [name, view] of [['catalogue', 'pane'], ['places', 'places'], ['people', 'people']]) {
+    add('catalogue-doc-api', `/data/catalogue/${name}.json`, 'json', { urlB: `/_api/catalogue?view=${view}` });
+  }
+  add('layers-full', '/render/metadata/maps-test.json', 'json', { follow: true, expect: '/_api/layers' });
+  add('layers-index', '/render/metadata/maps-test-index.json', 'json', { follow: true, expect: '/_api/layers?view=index' });
+  const layerIds = col('SELECT layer_id FROM layers ORDER BY layer_id');
+  const fileName = (id) => `${String(id).replace(/[^A-Za-z0-9_.-]+/g, '-')}.json`;
+  for (const id of sample(layerIds, 60)) {
+    add('layer-detail', `/render/metadata/layer-details-test2/${fileName(id)}`, 'json', { follow: true, expect: `/_api/layers/${enc(id)}` });
+  }
+  const withDupes = col('SELECT layer_id FROM layers WHERE duplicates IS NOT NULL ORDER BY layer_id');
+  for (const id of sample(withDupes, 30)) {
+    add('layer-duplicates', `/render/metadata/duplicate-feature-ids/${fileName(id)}`, 'json', { follow: true, expect: `/_api/layers/${enc(id)}/duplicates` });
+  }
+  // Another spelling of a layer id: on side B its record (through the alias's 301, then the API),
+  // against the live id's old detail file on side A.
+  const aliases = db.prepare('SELECT alias, layer_id FROM layer_aliases ORDER BY alias').all()
+    .filter((r) => !/-test$/.test(r.alias)).map((r) => `${r.alias}|${r.layer_id}`);
+  for (const a of sample(aliases, 20)) {
+    const [alias, id] = a.split('|');
+    add('layer-alias', `/render/metadata/layer-details-test2/${fileName(id)}`, 'json', { follow: true, urlB: `/_api/layers/${enc(alias)}`, expect: `/_api/layers/${enc(id)}` });
+  }
+  for (const f of ['maps.json', 'features.json']) add('browse-maps-file', `/data/browse/${f}`);
+  const cards = col('SELECT slug FROM map_cards ORDER BY slug');
+  for (const s of sample(cards, 60)) add('browse-map-detail', `/data/browse/details/maps/${s}.json`);
+  for (const s of sample(cards, 40)) add('page-maps', `/browse/maps/${enc(s)}`, 'html');
+  add('proni-roots', '/data/browse/proni-roots.json', 'json', { follow: true, expect: '/_api/proni/node' });
+  // The pane's search over each side's documents (src/catalogue/search.js): one entry per query.
+  for (const q of CATALOGUE_QUERIES) add('catalogue-search', `search:${q}`, 'search');
+  for (const q of PEOPLE_QUERIES) add('catalogue-search', `people:${q}`, 'search');
+}
+
+export const CATALOGUE_QUERIES = ['wards', 'townlands 1911', 'dail constituencies', 'belfast', 'census', 'counties', 'parishes',
+  'baronies', 'local government districts 2012', 'stormont 1929', 'poor law unions', 'electoral divisions', 'westminster 1885',
+  'assembly areas', 'dispensary districts', 'derry', 'cork', 'flood', 'railways', 'lidar', 'geology', 'roads', 'schools', 'garda',
+  'small areas 2022', 'super output areas', 'urban districts', 'rural districts 1920s', 'eds munster', 'peat'];
+export const PEOPLE_QUERIES = ['paisley', 'hume', 'devlin', 'kelly', 'mary mcaleese'];
+
 // ---------------------------------------------------------------- fetching
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const isLocal = (base) => /^https?:\/\/(127\.0\.0\.1|localhost)(:|\/|$)/.test(base);
 
-async function get(base, url) {
+async function get(base, url, { follow = false } = {}) {
+  if (follow) {
+    const first = await get(base, url);
+    if (!first || first.status < 300 || first.status >= 400 || !first.location) return first;
+    const target = new URL(first.location, `${base}${url}`);
+    const hop = { status: first.status, location: `${target.pathname}${target.search}` };
+    // An alias may redirect twice (alias -> live id); the expected hop is the last one.
+    const next = await get(base, hop.location, { follow: true });
+    return { ...next, hop: next.hop || hop };
+  }
   const started = Date.now();
   for (let attempt = 1; attempt <= 3; attempt += 1) {
     try {
@@ -163,6 +249,42 @@ async function get(base, url) {
     }
   }
   return null;
+}
+
+// ---------------------------------------------------------------- the catalogue pane's search
+
+/** Each side's catalogue, places and people documents (A at the file URLs, B at the API's). */
+async function searchDocuments() {
+  const load = async (base, urls) => {
+    const out = {};
+    for (const [k, url] of Object.entries(urls)) {
+      const r = await get(base, url);
+      try { out[k] = r && r.status === 200 ? JSON.parse(r.body.toString('utf8')) : null; } catch { out[k] = null; }
+      if (!isLocal(base)) await sleep(DELAY_A);
+    }
+    return out;
+  };
+  const docsA = await load(A, { catalogue: '/data/catalogue/catalogue.json', places: '/data/catalogue/places.json', people: '/data/catalogue/people.json' });
+  const docsB = await load(B, { catalogue: '/_api/catalogue?view=pane', places: '/_api/catalogue?view=places', people: '/_api/catalogue?view=people' });
+  const engines = (docs) => {
+    if (!docs.catalogue || !docs.people) return null;
+    const maps = new CatalogueSearch(docs.catalogue);
+    if (docs.places) maps.setPlaces(docs.places);
+    return { maps, people: new PeopleSearch(docs.people) };
+  };
+  return { a: engines(docsA), b: engines(docsB) };
+}
+
+export function compareSearch(u, searches) {
+  const base = { kind: u.kind, url: u.url, statusA: searches?.a ? 200 : 0, statusB: searches?.b ? 200 : 0 };
+  if (!searches?.a || !searches?.b) return { ...base, result: 'status', note: 'a side could not load the catalogue documents' };
+  const at = u.url.indexOf(':');
+  const which = u.url.slice(0, at);
+  const q = u.url.slice(at + 1);
+  const run = (e) => JSON.stringify(which === 'people' ? e.people.query(q, { limit: 50 }) : e.maps.query(q));
+  const ra = run(searches.a);
+  const rb = run(searches.b);
+  return ra === rb ? { ...base, result: 'same', note: `${JSON.parse(ra).length} results` } : { ...base, result: 'data', diff: firstDiff(JSON.parse(ra), JSON.parse(rb)) };
 }
 
 // ---------------------------------------------------------------- comparing
@@ -215,7 +337,9 @@ function htmlHead(body) {
 }
 
 export function compare(u, a, b) {
-  const base = { kind: u.kind, url: u.url, statusA: a.status, statusB: b.status };
+  const base = { kind: u.kind, url: u.url, statusA: a.status, statusB: b.status, ...(u.urlB ? { urlB: u.urlB } : {}) };
+  // A renamed URL: B must redirect where the rename says (A, the old site, may answer directly).
+  if (u.expect && (!b.hop || b.hop.location !== u.expect)) return { ...base, result: 'redirect', a: a.hop?.location || '(direct)', b: b.hop?.location || '(no redirect)', expected: u.expect };
   const sha = (buf) => createHash('sha1').update(buf).digest('hex').slice(0, 12);
   if (a.status !== b.status) return { ...base, result: 'status', note: a.error || b.error || undefined };
   if (a.status >= 300 && a.status < 400) {
@@ -234,7 +358,9 @@ export function compare(u, a, b) {
   try { ja = clean(JSON.parse(a.body.toString('utf8'))); jb = clean(JSON.parse(b.body.toString('utf8'))); } catch {
     return { ...base, result: 'bytes', bytesA: a.body.length, bytesB: b.body.length };
   }
-  if (JSON.stringify(sorted(ja)) === JSON.stringify(sorted(jb))) return { ...base, result: 'same', note: 'equal after dropping generatedAt / key order' };
+  const intended = NORMALISE[u.kind];
+  if (intended) { ja = intended(ja); jb = intended(jb); }
+  if (JSON.stringify(sorted(ja)) === JSON.stringify(sorted(jb))) return { ...base, result: 'same', note: `equal after dropping generatedAt / key order${intended ? ' / the intended differences of its kind' : ''}` };
   if (stable(ja) === stable(jb)) return { ...base, result: 'order', diff: firstDiff(ja, jb) };
   return { ...base, result: 'data', diff: firstDiff(ja, jb), bytesA: a.body.length, bytesB: b.body.length };
 }
@@ -245,12 +371,19 @@ async function crawl(urls) {
   // B (local) in parallel; A (production) one at a time, politely.
   let next = 0;
   const workerB = async () => {
-    while (next < urls.length) { const i = next; next += 1; fetchB[i] = await get(B, urls[i].url); }
+    while (next < urls.length) {
+      const i = next;
+      next += 1;
+      const u = urls[i];
+      if (u.mode !== 'search') fetchB[i] = await get(B, u.urlB || u.url, { follow: Boolean(u.follow) });
+    }
   };
   const bDone = Promise.all(Array.from({ length: isLocal(B) ? CONC_B : 1 }, workerB));
   await bDone;
+  const searches = urls.some((u) => u.mode === 'search') ? await searchDocuments() : null;
   for (let i = 0; i < urls.length; i += 1) {
-    const a = await get(A, urls[i].url);
+    if (urls[i].mode === 'search') { results[i] = compareSearch(urls[i], searches); continue; }
+    const a = await get(A, urls[i].url, { follow: Boolean(urls[i].follow) });
     results[i] = compare(urls[i], a, fetchB[i]);
     if (!isLocal(A)) await sleep(DELAY_A);
     if ((i + 1) % 100 === 0) console.log(`  ${i + 1}/${urls.length}`);
