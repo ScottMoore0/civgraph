@@ -1,5 +1,6 @@
 import { jsonResponse, jsonNotAllowed, requireContributor } from '../_auth.js';
 import { methodGuard } from '../_method.js';
+import { binding } from '../../_lib/config.js';
 
 /**
  * Accept a file into QUARANTINE so a contributor can supply data, not just a
@@ -41,7 +42,7 @@ export async function onRequestPost(context) {
   const { auth, response } = await requireContributor(context);
   if (response) return response;
 
-  const bucket = context.env?.CIVGRAPH_QUARANTINE;
+  const bucket = binding(context.env, 'CIVGRAPH_QUARANTINE');
   if (!bucket?.put) {
     return jsonResponse({
       ok: false,

@@ -44,6 +44,7 @@
 import { jsonResponse, jsonNotAllowed, requireContributor, sanitizeAuth } from '../_auth.js';
 import { listLevel, normalisePrefix, parseLimit, publicUrl } from '../_r2-listing.js';
 import { isPublicPrefix } from '../_public-prefixes.js';
+import { binding } from '../../_lib/config.js';
 
 export async function onRequest(context) {
   if (context.request.method !== 'GET') return jsonNotAllowed(context.request.method);
@@ -51,7 +52,7 @@ export async function onRequest(context) {
   const { auth, response } = await requireContributor(context);
   if (response) return response;
 
-  const bucket = context.env.MAPS_BUCKET;
+  const bucket = binding(context.env, 'MAPS_BUCKET');
   if (!bucket) {
     return jsonResponse({ ok: false, error: 'R2 binding MAPS_BUCKET is not configured.' }, { status: 500 });
   }

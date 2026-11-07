@@ -14,6 +14,7 @@
  */
 import { MAP_CACHE, mapsDocumentText, storedDocumentText } from './_maps.js';
 import { cachedJson, jsonResponse } from './_records.js';
+import { binding } from '../_lib/config.js';
 
 const VERSION = 'compat-documents-1';
 
@@ -28,7 +29,7 @@ export const COMPAT_DOCUMENTS = {
 /** A Pages handler for these paths: the document, or Pages' own answer for any other path. */
 export async function onCompatDocument(context) {
   const doc = COMPAT_DOCUMENTS[new URL(context.request.url).pathname];
-  const db = context.env?.ELECTIONS_DB;
+  const db = binding(context.env, 'ELECTIONS_DB');
   if (!doc || !db) return context.next();
   const resp = await cachedJson(context, VERSION, async () => {
     const text = doc.maps ? await mapsDocumentText(db, { pretty: true }) : await storedDocumentText(db, doc.name);

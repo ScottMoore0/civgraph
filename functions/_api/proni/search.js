@@ -16,6 +16,7 @@
  */
 import { buildMatch, buildFilters } from './_query.js';
 import { reportError } from '../_error.js';
+import { binding } from '../../_lib/config.js';
 
 const CACHE_VERSION = 'v10';
 const MAX_LIMIT = 60;
@@ -63,7 +64,7 @@ export async function onRequestGet(context) {
   // Second tier: Workers KV is replicated to every edge, so a query answered
   // anywhere is fast everywhere (the per-PoP cache above only helps locally).
   // Feature-detected — no-op until a PRONI_KV binding is added.
-  const kv = context.env.PRONI_KV;
+  const kv = binding(context.env, 'PRONI_KV');
   const kvKey = `search:${CACHE_VERSION}:${keyUrl.search}`;
   if (kv) {
     const cached = await kv.get(kvKey);
@@ -99,7 +100,7 @@ async function handle(context) {
     headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=3600, s-maxage=86400', 'Access-Control-Allow-Origin': '*' },
   });
 
-  const db = context.env.PRONI_DB;
+  const db = binding(context.env, 'PRONI_DB');
   if (!db) return json({ results: [], error: 'PRONI_DB binding not configured' }, 503);
 
   const top = g('top') === '1'; // letter-browse: top-level records only, alphabetical

@@ -5,6 +5,7 @@
  *
  * Falls back to reading static chunk files from the origin when KV is not configured.
  */
+import { binding } from '../_lib/config.js';
 
 export async function onRequestGet(context) {
     const url = new URL(context.request.url);
@@ -21,8 +22,8 @@ export async function onRequestGet(context) {
     let features;
 
     // Try KV first (faster, no origin fetch)
-    if (context.env.SPATIAL_INDEX) {
-        const data = await context.env.SPATIAL_INDEX.get(`map:${mapId}`, 'json');
+    if (binding(context.env, 'SPATIAL_INDEX')) {
+        const data = await binding(context.env, 'SPATIAL_INDEX').get(`map:${mapId}`, 'json');
         features = data || [];
     } else {
         // Fallback: fetch the static chunk file from the origin

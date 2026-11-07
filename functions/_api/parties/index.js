@@ -11,6 +11,7 @@
  */
 import { cachedJson, documentBody, jsonResponse, parseJson } from '../_records.js';
 import { reportError } from '../_error.js';
+import { binding } from '../../_lib/config.js';
 
 const VERSION = 'parties-1';
 
@@ -27,7 +28,7 @@ export async function resolvePartySlug(db, slug) {
 }
 
 async function handle(context) {
-  const db = context.env.ELECTIONS_DB;
+  const db = binding(context.env, 'ELECTIONS_DB');
   const url = new URL(context.request.url);
   const slugParam = (url.searchParams.get('slug') || '').trim().toLowerCase();
   const view = (url.searchParams.get('view') || '').trim();

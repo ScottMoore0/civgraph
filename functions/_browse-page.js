@@ -52,6 +52,7 @@ import { renderRecordPage, ssrMode } from './_templates/records/index.js';
 import { loadElectionPage } from './_templates/records/election.js';
 import { groupedYearHero, groupedYearKey } from './_templates/records/grouped-year.js';
 import { resolveElectionSlugAlias } from './_lib/election-slug-aliases.js';
+import { binding } from './_lib/config.js';
 
 // Retired election and contest slugs (functions/_lib/election-slug-aliases.js): lookupElection
 // finds the record under its new slug and the handler's slug check answers 301.
@@ -318,8 +319,8 @@ export async function lookupMapRecord(db, slug) {
  */
 export async function lookupBrowseTableRecord(env, type, slug) {
   const config = BROWSE_PAGE_TYPES[type];
-  if (!config?.table || !slug || !env?.ELECTIONS_DB) return undefined;
-  return lookupTableRecord(env.ELECTIONS_DB, config.table, slug, config.aliasTable);
+  if (!config?.table || !slug || !binding(env, 'ELECTIONS_DB')) return undefined;
+  return lookupTableRecord(binding(env, 'ELECTIONS_DB'), config.table, slug, config.aliasTable);
 }
 
 /**
@@ -335,27 +336,27 @@ export async function lookupBrowseRecord(env, type, slug) {
     return record ? recordMeta(type, record) : record;
   }
   if (type === 'elections') {
-    if (!env?.ELECTIONS_DB) return undefined;
-    return lookupElection(env.ELECTIONS_DB, slug);
+    if (!binding(env, 'ELECTIONS_DB')) return undefined;
+    return lookupElection(binding(env, 'ELECTIONS_DB'), slug);
   }
   if (type === 'parties') {
-    if (!env?.ELECTIONS_DB) return undefined;
-    const item = await lookupPartyRecord(env.ELECTIONS_DB, slug);
+    if (!binding(env, 'ELECTIONS_DB')) return undefined;
+    const item = await lookupPartyRecord(binding(env, 'ELECTIONS_DB'), slug);
     return item ? recordMeta(type, item) : null;
   }
   if (type === 'offices') {
-    if (!env?.ELECTIONS_DB) return undefined;
+    if (!binding(env, 'ELECTIONS_DB')) return undefined;
     try {
-      const item = await lookupOfficeRecord(env.ELECTIONS_DB, slug);
+      const item = await lookupOfficeRecord(binding(env, 'ELECTIONS_DB'), slug);
       return item ? recordMeta(type, item) : null;
     } catch {
       return undefined;   // a database without office_cards: the generic head
     }
   }
   if (type === 'maps') {
-    if (!env?.ELECTIONS_DB) return undefined;
+    if (!binding(env, 'ELECTIONS_DB')) return undefined;
     try {
-      const item = await lookupMapRecord(env.ELECTIONS_DB, slug);
+      const item = await lookupMapRecord(binding(env, 'ELECTIONS_DB'), slug);
       return item ? recordMeta(type, item) : item;
     } catch {
       return undefined;   // a database without map_cards: the generic head
@@ -409,7 +410,7 @@ export function renderBrowseShell(html, { title, description, canonical, kicker,
 
 async function fetchShell(context, url) {
   const shellUrl = new URL('/browse/', url);
-  if (context.env?.ASSETS?.fetch) return context.env.ASSETS.fetch(new Request(shellUrl));
+  if (binding(context.env, 'ASSETS')?.fetch) return binding(context.env, 'ASSETS').fetch(new Request(shellUrl));
   return fetch(shellUrl);
 }
 
@@ -417,7 +418,7 @@ async function fetchShell(context, url) {
 async function fetchStaticJson(context, url, pathname) {
   try {
     const assetUrl = new URL(pathname, url);
-    const res = context.env?.ASSETS?.fetch ? await context.env.ASSETS.fetch(new Request(assetUrl)) : await fetch(assetUrl);
+    const res = binding(context.env, 'ASSETS')?.fetch ? await binding(context.env, 'ASSETS').fetch(new Request(assetUrl)) : await fetch(assetUrl);
     return res.ok ? await res.json() : null;
   } catch {
     return null;
@@ -457,9 +458,9 @@ export function browsePageHandler(type) {
     try {
       if (ssr && type === 'elections') {
         found = await lookupBrowseRecord(context.env, type, slug);
-        record = found ? await loadElectionPage(context.env.ELECTIONS_DB, found) : found;
+        record = found ? await loadElectionPage(binding(context.env, 'ELECTIONS_DB'), found) : found;
       } else if (ssr && type === 'parties') {
-        record = context.env?.ELECTIONS_DB ? await lookupPartyRecord(context.env.ELECTIONS_DB, slug) : undefined;
+        record = binding(context.env, 'ELECTIONS_DB') ? await lookupPartyRecord(binding(context.env, 'ELECTIONS_DB'), slug) : undefined;
         found = record ? recordMeta(type, record) : record;
       } else if (ssr) {
         record = await lookupBrowseTableRecord(context.env, type, slug);
@@ -498,7 +499,7 @@ export function browsePageHandler(type) {
       if (body !== null) {
         return htmlResponse(context.request, body, {
           cacheControl: preview ? 'private, no-store' : 'public, max-age=300',
-          datasetVersion: await datasetVersion(context.env.ELECTIONS_DB),
+          datasetVersion: await datasetVersion(binding(context.env, 'ELECTIONS_DB')),
         });
       }
     }

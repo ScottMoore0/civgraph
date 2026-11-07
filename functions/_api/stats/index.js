@@ -8,6 +8,7 @@
  */
 import { T, cachedJson, datasetState, jsonResponse } from '../_records.js';
 import { reportError } from '../_error.js';
+import { binding } from '../../_lib/config.js';
 
 const VERSION = 'stats-1';
 
@@ -25,7 +26,7 @@ const COUNTS = {
 
 export async function onRequestGet(context) {
   return cachedJson(context, VERSION, async () => {
-    const db = context.env.ELECTIONS_DB;
+    const db = binding(context.env, 'ELECTIONS_DB');
     try {
       const entries = await Promise.all(Object.entries(COUNTS).map(async ([name, sql]) => [name, (await db.prepare(sql).first())?.n ?? 0]));
       const { version } = await datasetState(db);

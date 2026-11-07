@@ -1,3 +1,4 @@
+import { runtimeVar } from '../_lib/config.js';
 const ACCESS_EMAIL_HEADERS = [
   'CF-Access-Authenticated-User-Email',
   'Cf-Access-Authenticated-User-Email',
@@ -52,8 +53,8 @@ export async function getContributorAuth(context) {
   // Three accepted spellings for one secret is not tolerance, it is three places
   // a typo can hide: set BROWSE_ADMINS by mistake and the allowlist silently
   // reads empty, which now fails closed and looks like a permissions bug.
-  const allowlist = parseList(env.CIVGRAPH_CONTRIBUTORS);
-  const adminList = parseList(env.CIVGRAPH_ADMINS);
+  const allowlist = parseList(runtimeVar(env, 'CIVGRAPH_CONTRIBUTORS'));
+  const adminList = parseList(runtimeVar(env, 'CIVGRAPH_ADMINS'));
   const normalizedEmail = normalizeEmail(email);
   const authenticated = Boolean(normalizedEmail);
   const allowlistConfigured = allowlist.length > 0 || adminList.length > 0;
@@ -235,7 +236,7 @@ export async function verifyAccessJwt(assertion, env = {}) {
     if (typeof payload?.exp !== 'number' || payload.exp < now - 30) return null;
     if (typeof payload?.nbf === 'number' && payload.nbf > now + 30) return null;
     if (payload?.iss !== `https://${team}`) return null;
-    const aud = String(env.CIVGRAPH_ACCESS_AUD || '').trim();
+    const aud = runtimeVar(env, 'CIVGRAPH_ACCESS_AUD');
     if (aud && !(Array.isArray(payload.aud) ? payload.aud : [payload.aud]).includes(aud)) return null;
     const jwk = (await accessSigningKeys(team)).find((k) => k.kid === header.kid);
     if (!jwk) return null;
