@@ -17,6 +17,7 @@ import path from "node:path";
 import { performance } from "node:perf_hooks";
 import { pathToFileURL } from "node:url";
 import readline from "node:readline";
+import { SNAPSHOT } from '../../intake/lib/item-status.mjs';
 
 const BASE = "https://apps.proni.gov.uk/eCatNI_IE/";
 const USER_AGENT = "Mozilla/5.0 CivgraphPRONIDetailQuickScan/1.0";
@@ -36,7 +37,7 @@ function parseArgs(argv) {
     maxGroupRetries: 3,
     retryMismatches: 2,
     groupMode: "branch",
-    snapshotMode: "prefer",
+    snapshotMode: SNAPSHOT.prefer,
     httpClient: "https-agent",
     httpConnections: 32,
     httpPipelining: 0,
@@ -622,12 +623,12 @@ async function clickMore(session, listingHtml, gridRow, expectedRef) {
 }
 
 async function readSnapshotHtml(row, options) {
-  if (options.snapshotMode === "off") return null;
+  if (options.snapshotMode === SNAPSHOT.off) return null;
   if (!row.pageSnapshotPath) return null;
   try {
     return await fsp.readFile(path.resolve(row.pageSnapshotPath), "utf8");
   } catch (error) {
-    if (options.snapshotMode === "only") throw error;
+    if (options.snapshotMode === SNAPSHOT.only) throw error;
     return null;
   }
 }
@@ -860,7 +861,7 @@ async function processPageUnit(unit, writers, options, stats, workerId) {
     stats.snapshotPagesUsed += 1;
     sourceRuntime = "raw-http-page-snapshot-row-sequential";
   } else {
-    if (options.snapshotMode === "only") throw new Error(`No snapshot for ${unit.branchKey} page ${unit.firstPage}`);
+    if (options.snapshotMode === SNAPSHOT.only) throw new Error(`No snapshot for ${unit.branchKey} page ${unit.firstPage}`);
     listingHtml = await openBranchPage(session, unit.rows[0]);
   }
   await processRowsFromListing(session, listingHtml, unit.rows, writers, options, stats, workerId, sourceRuntime);

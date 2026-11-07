@@ -12,13 +12,14 @@ import fs from "node:fs";
 import fsp from "node:fs/promises";
 import path from "node:path";
 import { performance } from "node:perf_hooks";
+import { INDEX_MODE, PRONI_INDEX_MODE, SCAN_LEVEL } from '../../intake/lib/item-status.mjs';
 
 const BASE = "https://apps.proni.gov.uk/eCatNI_IE/";
 const DEFAULT_LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
 function parseArgs(argv) {
   const out = {
-    mode: "index",
+    mode: INDEX_MODE.index,
     outDir: "",
     letters: "",
     allLetters: false,
@@ -593,7 +594,7 @@ async function discoverBranch(session, branch, queue, state, scanLevel) {
 
     session.writers.discoveryPages.write({
       at: nowIso(),
-      scanLevel: "branch-discovery-page",
+      scanLevel: SCAN_LEVEL['branch-discovery-page'],
       workerId: session.workerId,
       branchKey: key,
       letter: branch.letter,
@@ -609,7 +610,7 @@ async function discoverBranch(session, branch, queue, state, scanLevel) {
     });
 
     leafRowCount += leafRows.length;
-    if (scanLevel === "discover-index" || scanLevel === "index") {
+    if (scanLevel === SCAN_LEVEL['discover-index'] || scanLevel === SCAN_LEVEL.index) {
       for (const row of leafRows) {
         if (shouldStop(state.stats, options)) break;
         session.writers.index.write(makeIndexRecord(options, branch, pageNumber, row, pageHash, snapshot, scanLevel));
@@ -628,7 +629,7 @@ async function discoverBranch(session, branch, queue, state, scanLevel) {
   state.stats.branchesDiscovered += 1;
   session.writers.discovery.write({
     at: nowIso(),
-    scanLevel: "branch-discovery",
+    scanLevel: SCAN_LEVEL['branch-discovery'],
     workerId: session.workerId,
     branchKey: key,
     letter: branch.letter,
@@ -701,7 +702,7 @@ async function discoverBranchInSession(session, branch, html, state, scanLevel) 
 
     session.writers.discoveryPages.write({
       at: nowIso(),
-      scanLevel: "branch-discovery-page",
+      scanLevel: SCAN_LEVEL['branch-discovery-page'],
       workerId: session.workerId,
       branchKey: key,
       letter: branch.letter,
@@ -717,7 +718,7 @@ async function discoverBranchInSession(session, branch, html, state, scanLevel) 
     });
 
     leafRowCount += leafRows.length;
-    if (scanLevel === "discover-index" || scanLevel === "index") {
+    if (scanLevel === SCAN_LEVEL['discover-index'] || scanLevel === SCAN_LEVEL.index) {
       for (const row of leafRows) {
         if (shouldStop(state.stats, options)) break;
         session.writers.index.write(makeIndexRecord(options, branch, pageNumber, row, pageHash, snapshot, scanLevel));
@@ -736,7 +737,7 @@ async function discoverBranchInSession(session, branch, html, state, scanLevel) 
   state.stats.branchesDiscovered += 1;
   session.writers.discovery.write({
     at: nowIso(),
-    scanLevel: "branch-discovery",
+    scanLevel: SCAN_LEVEL['branch-discovery'],
     workerId: session.workerId,
     branchKey: key,
     letter: branch.letter,
@@ -931,7 +932,7 @@ async function runLocalIndex(options, writers) {
   }
   const elapsedSeconds = Math.max(0.001, (performance.now() - started) / 1000);
   return {
-    mode: "local-index",
+    mode: INDEX_MODE['local-index'],
     pagesParsed: pages,
     recordsIndexed: records,
     elapsedSeconds: round(elapsedSeconds),
@@ -954,7 +955,7 @@ async function runProbe(options, writers) {
   const pageSizeCandidates = controls.inputNames.filter((name) => /size|page/i.test(name));
   const report = {
     at: nowIso(),
-    mode: "probe",
+    mode: INDEX_MODE.probe,
     letter,
     pageHash: sha256(html),
     rowCount: rows.length,
@@ -972,8 +973,8 @@ async function main() {
     console.log(usage());
     return;
   }
-  if (!["index", "discover", "local-index", "probe"].includes(options.mode)) throw new Error(`Unsupported mode: ${options.mode}`);
-  if (options.mode !== "local-index" && options.maxRecords <= 0 && options.maxBranches <= 0 && !options.allowUnbounded) {
+  if (!PRONI_INDEX_MODE.includes(options.mode)) throw new Error(`Unsupported mode: ${options.mode}`);
+  if (options.mode !== INDEX_MODE['local-index'] && options.maxRecords <= 0 && options.maxBranches <= 0 && !options.allowUnbounded) {
     throw new Error("Live modes require --max-records or --max-branches so probes stay bounded. Use --allow-unbounded only for an intentional full Browse-tree run.");
   }
   await ensureOutDir(options);
@@ -981,9 +982,9 @@ async function main() {
   const writers = makeWriters(options);
   let summary;
   try {
-    if (options.mode === "local-index") summary = await runLocalIndex(options, writers);
-    else if (options.mode === "probe") summary = await runProbe(options, writers);
-    else summary = await runLive(options, writers, options.mode === "discover" ? "discover" : "discover-index");
+    if (options.mode === INDEX_MODE['local-index']) summary = await runLocalIndex(options, writers);
+    else if (options.mode === INDEX_MODE.probe) summary = await runProbe(options, writers);
+    else summary = await runLive(options, writers, options.mode === INDEX_MODE.discover ? "discover" : "discover-index");
   } finally {
     await closeWriters(writers);
   }

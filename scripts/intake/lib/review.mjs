@@ -19,22 +19,31 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSy
 import path from 'node:path';
 import { batchPath, toPosix } from './batch.mjs';
 
+/** @typedef {import('./batch.mjs').Batch} Batch */
+
 const EMAIL = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/;
 const ADDRESS_FIELD = /^(?:address|addresses|agent_?address|home_?address|street|street_?address|postcode|post_?code|postal_?code|eircode)$/i;
 const SCANNED_EXTENSIONS = new Set(['.json', '.geojson', '.csv']);
 const MAX_SCAN_BYTES = 50 * 1024 * 1024;
 
+/** @param {string} root @returns {string[]} */
 function walkFiles(root) {
   if (!existsSync(root)) return [];
   if (!statSync(root).isDirectory()) return [root];
+  /** @type {string[]} */
   const out = [];
   for (const name of readdirSync(root).sort()) out.push(...walkFiles(path.join(root, name)));
   return out;
 }
 
-/** Every batch file a command reads, absolute, sorted, de-duplicated. */
+/**
+ * Every batch file a command reads, absolute, sorted, de-duplicated.
+ * @param {Batch} batch
+ */
 export function batchInputs(batch) {
+  /** @type {Set<string>} */
   const files = new Set();
+  /** @param {string | undefined} p */
   const add = (p) => { if (p) for (const f of walkFiles(batchPath(batch, p))) files.add(path.resolve(f)); };
   for (const op of batch.manifest.operations || []) {
     switch (op.type) {
@@ -52,9 +61,14 @@ export function batchInputs(batch) {
   return [...files].sort();
 }
 
-/** The files that land in the repository (the ones a personal-data scan must read). */
+/**
+ * The files that land in the repository (the ones a personal-data scan must read).
+ * @param {Batch} batch
+ */
 function repositoryInputs(batch) {
+  /** @type {Set<string>} */
   const files = new Set();
+  /** @param {string | undefined} p */
   const add = (p) => { if (p) for (const f of walkFiles(batchPath(batch, p))) files.add(path.resolve(f)); };
   for (const op of batch.manifest.operations || []) {
     if (op.type === 'copy-files') for (const f of op.files || []) add(f.from);
@@ -65,6 +79,7 @@ function repositoryInputs(batch) {
   return [...files].sort();
 }
 
+/** @param {unknown} value @param {Set<string>} [out] */
 function jsonFieldNames(value, out = new Set()) {
   if (Array.isArray(value)) for (const v of value) jsonFieldNames(v, out);
   else if (value && typeof value === 'object') {
@@ -73,8 +88,12 @@ function jsonFieldNames(value, out = new Set()) {
   return out;
 }
 
-/** Address-like field names in JSON keys or a CSV header: [{ file, field }]. */
+/**
+ * Address-like field names in JSON keys or a CSV header: [{ file, field }].
+ * @param {string[]} files
+ */
 export function scanAddressFields(files) {
+  /** @type {{ file: string, field: string }[]} */
   const hits = [];
   for (const file of files) {
     const ext = path.extname(file).toLowerCase();
@@ -91,9 +110,14 @@ export function scanAddressFields(files) {
   return hits;
 }
 
-/** Rights, personal data and identifiers. Returns { errors, warnings }. */
+/**
+ * Rights, personal data and identifiers. Returns { errors, warnings }.
+ * @param {Batch} batch
+ */
 export function reviewPolicy(batch) {
+  /** @type {string[]} */
   const errors = [];
+  /** @type {string[]} */
   const warnings = [];
   const m = batch.manifest;
   for (const s of m.sources || []) {
@@ -104,6 +128,7 @@ export function reviewPolicy(batch) {
   const pd = m.personalData || {};
   if (pd.contains && (!pd.handling || pd.handling === 'none')) errors.push('personalData.contains is true, so personalData.handling must say how it is handled');
   if (!pd.contains && pd.handling && pd.handling !== 'none') warnings.push(`personalData.handling is ${pd.handling} but contains is false`);
+  /** @param {string} f */
   const rel = (f) => toPosix(path.relative(batch.dir, f));
   for (const hit of scanAddressFields(repositoryInputs(batch))) {
     const where = `${rel(hit.file)} has an address-like field "${hit.field}"`;
@@ -113,13 +138,19 @@ export function reviewPolicy(batch) {
   return { errors, warnings };
 }
 
+/** @param {Batch} batch */
 export const stateDir = (batch) => path.join(batch.dir, 'state');
+/** @param {Batch} batch */
 const lockPath = (batch) => path.join(stateDir(batch), 'SHA256SUMS');
+/** @param {string} file */
 const sha256 = (file) => createHash('sha256').update(readFileSync(file)).digest('hex');
 
+/** @param {Batch} batch */
 function lockEntries(batch) {
+  /** @type {[string, string][]} */
   const entries = [[batch.manifestPath, sha256(batch.manifestPath)]];
   for (const f of batchInputs(batch)) entries.push([f, sha256(f)]);
+  /** @param {string} f */
   const label = (f) => {
     const r = path.relative(batch.dir, f);
     return r.startsWith('..') || path.isAbsolute(r) ? toPosix(f) : toPosix(r);
@@ -127,7 +158,10 @@ function lockEntries(batch) {
   return entries.map(([f, h]) => `${h}  ${label(f)}`);
 }
 
-/** Record what was reviewed. */
+/**
+ * Record what was reviewed.
+ * @param {Batch} batch
+ */
 export function writeLock(batch) {
   mkdirSync(stateDir(batch), { recursive: true });
   const lines = lockEntries(batch);
@@ -135,7 +169,11 @@ export function writeLock(batch) {
   return lines.length;
 }
 
-/** Problems with the lock: [] when there is none or nothing changed. */
+/**
+ * Problems with the lock: [] when there is none or nothing changed.
+ * @param {Batch} batch
+ * @returns {string[]}
+ */
 export function checkLock(batch) {
   if (!existsSync(lockPath(batch))) return [];
   const recorded = new Map(readFileSync(lockPath(batch), 'utf8').split(/\r?\n/).filter(Boolean).map((l) => {
@@ -143,6 +181,7 @@ export function checkLock(batch) {
     return [l.slice(i + 2), l.slice(0, i)];
   }));
   const now = new Map(lockEntries(batch).map((l) => { const i = l.indexOf('  '); return [l.slice(i + 2), l.slice(0, i)]; }));
+  /** @type {string[]} */
   const problems = [];
   for (const [file, hash] of now) {
     if (!recorded.has(file)) problems.push(`${file} was added after review`);
@@ -152,12 +191,18 @@ export function checkLock(batch) {
   return problems;
 }
 
+/** @param {string} repo @param {string[]} args @returns {string | null} */
 export function git(repo, args) {
   const res = spawnSync('git', args, { cwd: repo, encoding: 'utf8' });
   return res.status === 0 ? res.stdout.trim() : null;
 }
 
-/** A record of one command's run, for `status`. */
+/**
+ * A record of one command's run, for `status`.
+ * @param {Batch} batch
+ * @param {string} command
+ * @param {Record<string, unknown>} record
+ */
 export function writeState(batch, command, record) {
   mkdirSync(stateDir(batch), { recursive: true });
   const file = path.join(stateDir(batch), `${command}.json`);
@@ -165,6 +210,7 @@ export function writeState(batch, command, record) {
   return file;
 }
 
+/** @param {Batch} batch */
 export function readStates(batch) {
   const dir = stateDir(batch);
   if (!existsSync(dir)) return [];
@@ -173,7 +219,11 @@ export function readStates(batch) {
   });
 }
 
-/** How far HEAD has moved from the batch's base commit, and whether its targets changed. */
+/**
+ * How far HEAD has moved from the batch's base commit, and whether its targets changed.
+ * @param {Batch} batch
+ * @param {string[]} [targets]
+ */
 export function drift(batch, targets = []) {
   const base = batch.manifest.repo?.baseCommit;
   const head = git(batch.repo, ['rev-parse', '--short=10', 'HEAD']);
@@ -183,7 +233,10 @@ export function drift(batch, targets = []) {
   return { base, head, commits: commits === null ? null : Number(commits), changedTargets: changed ? changed.split(/\r?\n/).filter(Boolean) : [], unknownBase: commits === null };
 }
 
-/** A starting batch.json for `init`. */
+/**
+ * A starting batch.json for `init`.
+ * @param {{ id: string, title: string, baseCommit?: string, today?: Date }} options
+ */
 export function scaffoldManifest({ id, title, baseCommit, today = new Date() }) {
   return {
     schemaVersion: 1,

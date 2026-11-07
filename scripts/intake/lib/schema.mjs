@@ -12,6 +12,12 @@
  * edit that needs a new keyword needs it added here too (tests/intake covers it).
  */
 
+/**
+ * A schema node: JSON read from batch.schema.json, using only the keywords listed above.
+ * @typedef {Record<string, any>} Schema
+ */
+
+/** @param {unknown} value */
 function typeOf(value) {
   if (value === null) return 'null';
   if (Array.isArray(value)) return 'array';
@@ -19,22 +25,33 @@ function typeOf(value) {
   return typeof value;
 }
 
+/** @param {string} expected @param {unknown} value */
 function typeMatches(expected, value) {
   const actual = typeOf(value);
   if (expected === 'number') return actual === 'number' || actual === 'integer';
   return actual === expected;
 }
 
+/** @param {Schema} root @param {string} ref @returns {Schema} */
 function resolveRef(root, ref) {
   if (!ref.startsWith('#/')) throw new Error(`Only local $ref is supported: ${ref}`);
-  return ref.slice(2).split('/').reduce((node, key) => {
+  return ref.slice(2).split('/').reduce((/** @type {Schema} */ node, key) => {
     if (!node || !(key in node)) throw new Error(`Unresolvable $ref ${ref}`);
     return node[key];
   }, root);
 }
 
+/**
+ * @param {any} value   the JSON being checked
+ * @param {Schema} schema
+ * @param {Schema} [root]
+ * @param {string} [at]
+ * @returns {string[]}
+ */
 export function validateAgainstSchema(value, schema, root = schema, at = '$') {
+  /** @type {string[]} */
   const errors = [];
+  /** @param {unknown} v @param {Schema} s @param {string} p */
   const check = (v, s, p) => errors.push(...validateAgainstSchema(v, s, root, p));
 
   if (schema.$ref) return validateAgainstSchema(value, resolveRef(root, schema.$ref), root, at);
@@ -67,18 +84,18 @@ export function validateAgainstSchema(value, schema, root = schema, at = '$') {
     }
   }
   if (schema.oneOf) {
-    const branches = schema.oneOf.map((b) => (b.$ref ? resolveRef(root, b.$ref) : b));
+    const branches = schema.oneOf.map((/** @type {Schema} */ b) => (b.$ref ? resolveRef(root, b.$ref) : b));
     const disc = schema.discriminator;
     if (disc && typeOf(value) === 'object' && disc in value) {
-      const branch = branches.find((b) => b.properties?.[disc]?.const === value[disc]);
+      const branch = branches.find((/** @type {Schema} */ b) => b.properties?.[disc]?.const === value[disc]);
       if (!branch) {
-        const allowed = branches.map((b) => b.properties?.[disc]?.const).filter(Boolean);
+        const allowed = branches.map((/** @type {Schema} */ b) => b.properties?.[disc]?.const).filter(Boolean);
         errors.push(`${at}.${disc}: ${JSON.stringify(value[disc])} is not one of ${allowed.join(', ')}`);
       } else {
         check(value, branch, at);
       }
     } else {
-      const matching = branches.filter((b) => validateAgainstSchema(value, b, root, at).length === 0);
+      const matching = branches.filter((/** @type {Schema} */ b) => validateAgainstSchema(value, b, root, at).length === 0);
       if (matching.length !== 1) errors.push(`${at}: must match exactly one schema (matched ${matching.length})`);
     }
   }

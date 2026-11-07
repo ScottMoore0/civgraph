@@ -26,7 +26,9 @@ import { resolve, join, basename } from 'node:path';
 
 const ROOT = resolve(process.cwd());
 
+/** @param {string} flag */
 function readPathArgs(flag) {
+  /** @type {string[]} */
   const values = [];
   for (let i = 0; i < process.argv.length - 1; i += 1) {
     if (process.argv[i] === flag) values.push(process.argv[i + 1]);
@@ -72,8 +74,8 @@ for (const file of deliveries) {
   const doc = JSON.parse(readFileSync(join(INTAKE_DIR, file), 'utf8'));
   // Keyed by delivery path, not basename: the same filename appears in more than one
   // folder (1955.fgb is both a Local Authorities year and a Counties year).
-  const deferred = new Map((doc.deferred || []).map((d) => [String(d.path || d.name).toLowerCase(), d.reason || '']));
-  const renames = new Map((doc.renames || []).map((r) => [String(r.delivered).toLowerCase(), r.ingestAs]));
+  const deferred = new Map((doc.deferred || []).map((/** @type {{ path?: string, name?: string, reason?: string }} */ d) => [String(d.path || d.name).toLowerCase(), d.reason || '']));
+  const renames = new Map((doc.renames || []).map((/** @type {{ delivered: string, ingestAs: string }} */ r) => [String(r.delivered).toLowerCase(), r.ingestAs]));
   for (const entry of doc.files || []) {
     if (entry.alreadyOnSite) continue;
     if (!/\.fgb$/i.test(entry.name)) continue;

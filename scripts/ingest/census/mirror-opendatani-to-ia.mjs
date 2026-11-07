@@ -16,6 +16,7 @@ import { readFileSync, writeFileSync, existsSync, unlinkSync, mkdtempSync, mkdir
 import { execFileSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
+import { MIRROR } from '../../intake/lib/item-status.mjs';
 
 function arg(name, def) { const i = process.argv.indexOf(name); return i >= 0 ? process.argv[i + 1] : def; }
 const PLAN = process.argv[2] && !process.argv[2].startsWith('--') ? process.argv[2] : 'data/census/candidates/opendatani-ia-mirror-plan.json';
@@ -59,19 +60,19 @@ for (const it of items) {
   for (const f of it.files) {
     const remote = f.remoteName;
     const iaUrl = `https://archive.org/download/${it.itemId}/${remote.split('/').map(encodeURIComponent).join('/')}`;
-    if (already.has(remote)) { skip += 1; mirrored.push({ sourceUrl: f.url, item: it.itemId, remoteName: remote, iaUrl, status: 'already' }); continue; }
-    if (isDynamic(f.url)) { skip += 1; mirrored.push({ sourceUrl: f.url, item: it.itemId, remoteName: remote, iaUrl, status: 'skipped-dynamic' }); continue; }
+    if (already.has(remote)) { skip += 1; mirrored.push({ sourceUrl: f.url, item: it.itemId, remoteName: remote, iaUrl, status: MIRROR.already }); continue; }
+    if (isDynamic(f.url)) { skip += 1; mirrored.push({ sourceUrl: f.url, item: it.itemId, remoteName: remote, iaUrl, status: MIRROR['skipped-dynamic'] }); continue; }
     const local = path.join(tmp, 'f.bin');
     try {
       execFileSync('curl', ['-sL', '--fail', '-A', UA, '--max-time', '240', f.url, '-o', local], { stdio: 'ignore' });
       const a = ['upload', it.itemId, local, `--remote-name=${remote}`, '--no-derive', '--retries', '4'];
       if (firstUpload) { for (const m of META) a.push(`--metadata=${m}`); firstUpload = false; }
       execFileSync('ia', a, { stdio: 'ignore' });
-      mirrored.push({ sourceUrl: f.url, item: it.itemId, remoteName: remote, iaUrl, status: 'uploaded' });
+      mirrored.push({ sourceUrl: f.url, item: it.itemId, remoteName: remote, iaUrl, status: MIRROR.uploaded });
       up += 1;
     } catch (e) {
       fail += 1;
-      mirrored.push({ sourceUrl: f.url, item: it.itemId, remoteName: remote, iaUrl, status: 'failed', error: String(e.message || e).slice(0, 100) });
+      mirrored.push({ sourceUrl: f.url, item: it.itemId, remoteName: remote, iaUrl, status: MIRROR.failed, error: String(e.message || e).slice(0, 100) });
     } finally { if (existsSync(local)) unlinkSync(local); }
     if ((up + skip + fail) % 25 === 0) process.stderr.write(`\r  ${it.itemId}: ${up} up, ${skip} skip, ${fail} fail`);
   }

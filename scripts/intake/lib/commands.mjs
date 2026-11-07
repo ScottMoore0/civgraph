@@ -19,6 +19,11 @@ import os from 'node:os';
 import path from 'node:path';
 import { phaseOf, resolveFgbPairs, resolveIds, resolveTreeEntries, batchPath } from './batch.mjs';
 
+/** @typedef {import('./batch.mjs').Batch} Batch */
+/** @typedef {import('./batch.mjs').Operation} Operation */
+/** @typedef {{ op: string, label: string, argv: string[], credentials: boolean, realOnly: boolean }} Step */
+/** @typedef {(argv: string[], options: { cwd: string }) => { status: number, error?: Error | undefined }} Spawn */
+
 const ENV = '--env-file=.env.local';
 const DEFAULT_FGB_CHUNK = 40; // keeps each command line well under Windows' 32 KB limit
 
@@ -42,6 +47,11 @@ export const SCRIPTS = Object.freeze({
 /**
  * A step: { op, label, argv, credentials, realOnly }. realOnly steps have no dry-run form
  * (the CDN check, the token stamp, the manifest refresh) and are listed but not run in a dry run.
+ * @param {Operation} op
+ * @param {string} label
+ * @param {string[]} argv
+ * @param {{ credentials?: boolean, realOnly?: boolean }} [options]
+ * @returns {Step}
  */
 function step(op, label, argv, { credentials = false, realOnly = false } = {}) {
   const full = credentials && argv[0] === 'node' ? ['node', ENV, ...argv.slice(1)] : argv;
@@ -51,6 +61,10 @@ function step(op, label, argv, { credentials = false, realOnly = false } = {}) {
 /**
  * Write the [{local, rel}] manifest upload-tree-r2 takes, for an op that lists its files inline.
  * `tmpDir` is injectable so tests (and a plan) need not touch the batch folder.
+ * @param {Batch} batch
+ * @param {Operation} op
+ * @param {() => string} tmpDir
+ * @param {boolean} writeManifests
  */
 function treeManifestFor(batch, op, tmpDir, writeManifests) {
   if (op.manifest) return batchPath(batch, op.manifest);
@@ -62,16 +76,21 @@ function treeManifestFor(batch, op, tmpDir, writeManifests) {
   return file;
 }
 
+/** @type {string | null} */
 let sharedTmp = null;
 const defaultTmpDir = () => (sharedTmp ||= mkdtempSync(path.join(os.tmpdir(), 'civgraph-intake-')));
 
 /**
- * @param {object} options
- * @param {boolean} options.dryRun          build each script's own dry-run form
+ * @param {Batch} batch
+ * @param {object} [options]
+ * @param {boolean} [options.dryRun]        build each script's own dry-run form
+ * @param {() => string} [options.tmpDir]   where inline file lists' manifests are written
  * @param {boolean} [options.writeManifests] write upload-tree-r2 manifests for inline file lists
  *                                           (false for plan/report, which show `<tmp>/...`)
+ * @returns {Step[]}
  */
 export function buildUploadSteps(batch, { dryRun, tmpDir = defaultTmpDir, writeManifests = true } = {}) {
+  /** @type {Step[]} */
   const steps = [];
   for (const op of batch.manifest.operations) {
     if (phaseOf(op) !== 'upload') continue;
@@ -120,7 +139,7 @@ export function buildUploadSteps(batch, { dryRun, tmpDir = defaultTmpDir, writeM
         break;
       }
       case 'stamp-cache-tokens': {
-        const scope = (op.mapIds || []).flatMap((id) => ['--id', id]);
+        const scope = (op.mapIds || []).flatMap((/** @type {string} */ id) => ['--id', id]);
         steps.push(step(op, 'content cache tokens (?v=<etag>) on the catalogue URLs',
           ['node', SCRIPTS.stampTokens, '--write', ...scope], { credentials: true, realOnly: true }));
         steps.push(step(op, 'cache tokens match R2',
@@ -137,7 +156,9 @@ export function buildUploadSteps(batch, { dryRun, tmpDir = defaultTmpDir, writeM
   return steps;
 }
 
+/** @param {Batch} batch @returns {Step[]} */
 export function buildPostUploadSteps(batch) {
+  /** @type {Step[]} */
   const steps = [];
   for (const op of batch.manifest.operations) {
     if (phaseOf(op) !== 'post-upload') continue;
@@ -159,11 +180,15 @@ export function buildPostUploadSteps(batch) {
   return steps;
 }
 
-/** How a step is shown: exactly what would be typed in the repository root. */
+/**
+ * How a step is shown: exactly what would be typed in the repository root.
+ * @param {{ argv: string[] }} s
+ */
 export function formatStep(s) {
   return s.argv.map((a) => (/[\s"]/.test(a) ? `"${a.replace(/"/g, '\\"')}"` : a)).join(' ');
 }
 
+/** @type {Spawn} */
 function defaultSpawn(argv, { cwd }) {
   const [prog, ...args] = argv;
   // node runs as this very executable; npm is a .cmd shim on Windows and needs the shell.
@@ -176,11 +201,14 @@ function defaultSpawn(argv, { cwd }) {
  * Run steps in order. In a dry run, realOnly steps are listed and skipped, and a failing step is
  * reported and passed over (upload-tree-r2 --dry exits 1 when it has files to send); in a real
  * run the first failure stops everything.
+ * @param {Step[]} steps
+ * @param {{ cwd: string, dryRun?: boolean, spawn?: Spawn, log?: (line: string) => void }} options
  */
-export function runSteps(steps, { cwd, dryRun, spawn = defaultSpawn, log = console.log } = {}) {
+export function runSteps(steps, { cwd, dryRun, spawn = defaultSpawn, log = console.log }) {
   if (steps.some((s) => s.credentials && !(dryRun && s.realOnly)) && !existsSync(path.join(cwd, '.env.local'))) {
     throw new Error(`.env.local is missing from ${cwd} (R2 credentials); nothing was run`);
   }
+  /** @type {(Step & { status: number | 'skipped' })[]} */
   const results = [];
   for (const s of steps) {
     if (dryRun && s.realOnly) {
