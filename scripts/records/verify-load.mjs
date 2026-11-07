@@ -50,6 +50,7 @@ import { spawnSync } from 'node:child_process';
 import { closeSync, existsSync, mkdirSync, openSync, readFileSync, rmSync } from 'node:fs';
 import path from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
+import { snapshotTable } from './db.mjs';
 import { q } from './diff-load.mjs';
 import { REPO_ROOT } from './paths.mjs';
 import { HASHED_TABLES } from './schema.mjs';
@@ -213,12 +214,13 @@ export function deltaKeys(db, tables = HASHED_TABLES) {
   const out = {};
   for (const t of tables) {
     const pk = t.pk.join(', ');
-    const deleted = db.prepare(`SELECT ${pk} FROM f.${t.name} EXCEPT SELECT ${pk} FROM main.${t.name} ORDER BY ${pk}`).all()
+    const ft = snapshotTable(db, 'f', t);
+    const deleted = db.prepare(`SELECT ${pk} FROM ${ft} EXCEPT SELECT ${pk} FROM main.${t.name} ORDER BY ${pk}`).all()
       .map((r) => ({ key: keyOf(t.pk, r), values: t.pk.map((c) => r[c]), hash: null, bytes: 0 }));
-    const join = t.pk.map((c) => `f.${t.name}.${c} = m.${c}`).join(' AND ');
+    const join = t.pk.map((c) => `${ft}.${c} = m.${c}`).join(' AND ');
     const upserted = db.prepare(
       `SELECT ${t.pk.map((c) => `m.${c}`).join(', ')}, m.row_hash AS row_hash, ${bytesExpr(t, 'm.')} AS bytes FROM main.${t.name} m `
-      + `LEFT JOIN f.${t.name} ON ${join} WHERE f.${t.name}.row_hash IS NOT m.row_hash ORDER BY ${t.pk.map((c) => `m.${c}`).join(', ')}`,
+      + `LEFT JOIN ${ft} ON ${join} WHERE ${ft}.row_hash IS NOT m.row_hash ORDER BY ${t.pk.map((c) => `m.${c}`).join(', ')}`,
     ).all().map((r) => ({ key: keyOf(t.pk, r), values: t.pk.map((c) => r[c]), hash: r.row_hash, bytes: Number(r.bytes) }));
     if (deleted.length || upserted.length) out[t.name] = { deleted, upserted };
   }
