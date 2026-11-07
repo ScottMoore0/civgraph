@@ -1,0 +1,6179 @@
+{
+ "schemaVersion": 1,
+ "description": "Councils: every council the site files elections, offices or boundaries under. Pre-1973 Northern Ireland councils are each their own elections body (id = body slug); the 26 district councils of 1973 and the 11 of 2014 share the local-government body; the Republic's city and county councils share ireland-local. Nothing here is invented: each field comes from a source listed below, and a date or name no source gives is absent. Schema: registries/schemas/councils.schema.json; views: registries/councils.mjs.",
+ "sources": [
+  "scripts/build/build-test2-election-manifest.mjs (council sets)",
+  "scripts/lib/election-names.mjs (era titles, plain titles, pre-1973 bodies, year-dated titles)",
+  "src/ni-local-groups.mjs (NI_COUNCIL_SLUGS, NI_LOCAL_TIERS)",
+  "src/catalogue/search.js (BODY_ALIASES, NI_COUNCILS_2014, NI_COUNCILS_1973, IRISH_COUNCILS)",
+  "scripts/build/build-ni-local-grouped.mjs (AUTHORITY_STEM_ALIASES)",
+  "data/elections-source/data/elections_index.json (body slugs and names)",
+  "data/elections/persons/ni-council-counties.json (counties)",
+  "data/elections/persons/ni-council-geography.json (overlap: 1973 -> 2014)",
+  "data/timeline-changes/admin-areas-*, lgd-* (abolished, renamed, created)",
+  "data/offices/offices.json and scripts/ingest/facts/ef_offices.py (official names, offices institutions)",
+  "scripts/ingest/council-websites/scrape_26_councils.py (websites)",
+  "scripts/ingest/wikipedia/scrape_old_lgov_wikipedia.py, modern_lgov_wikipedia_common.py (Wikipedia title variants)"
+ ],
+ "types": {
+  "county-council": {
+   "label": "County council",
+   "levels": [
+    "ced",
+    "counties"
+   ],
+   "source": "src/ni-local-groups.mjs NI_LOCAL_TIERS"
+  },
+  "county-borough": {
+   "label": "County borough",
+   "levels": [
+    "ded",
+    "districts",
+    "counties"
+   ],
+   "source": "src/ni-local-groups.mjs NI_LOCAL_TIERS"
+  },
+  "borough": {
+   "label": "Borough",
+   "levels": [
+    "ded",
+    "districts"
+   ],
+   "source": "src/ni-local-groups.mjs NI_LOCAL_TIERS"
+  },
+  "urban-district": {
+   "label": "Urban district",
+   "levels": [
+    "ded",
+    "districts"
+   ],
+   "source": "src/ni-local-groups.mjs NI_LOCAL_TIERS"
+  },
+  "rural-district": {
+   "label": "Rural district",
+   "levels": [
+    "ded",
+    "districts"
+   ],
+   "source": "src/ni-local-groups.mjs NI_LOCAL_TIERS"
+  },
+  "town-commissioners": {
+   "label": "Town commissioners",
+   "levels": [
+    "towns"
+   ],
+   "source": "src/ni-local-groups.mjs NI_LOCAL_TIERS"
+  },
+  "district": {
+   "source": "the local-government body of data/elections-source/data/elections_index.json: the 26 councils of 1973 and the 11 of 2014"
+  },
+  "city-county": {
+   "source": "src/catalogue/search.js IRISH_COUNCILS: the Republic's city and county councils (since 2014)"
+  }
+ },
+ "councils": [
+  {
+   "id": "aghalee-rural-district-council",
+   "name": "Aghalee Rural District Council",
+   "bodySlug": "aghalee-rural-district-council",
+   "indexName": "Aghalee Rural District Council",
+   "type": "rural-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Antrim"
+   ],
+   "searchAliases": "NI local council Aghalee rural district County Antrim",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "armaghPilot": true
+   }
+  },
+  {
+   "id": "antrim-county-council",
+   "name": "Antrim County Council",
+   "bodySlug": "antrim-county-council",
+   "indexName": "Antrim County Council",
+   "type": "county-council",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Antrim"
+   ],
+   "searchAliases": "NI local council Antrim county council County Antrim",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   }
+  },
+  {
+   "id": "antrim-rural-district-council",
+   "name": "Antrim Rural District Council",
+   "bodySlug": "antrim-rural-district-council",
+   "indexName": "Antrim Rural District Council",
+   "type": "rural-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Antrim"
+   ],
+   "searchAliases": "NI local council Antrim rural district County Antrim",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   }
+  },
+  {
+   "id": "antrim-town-commissioners",
+   "name": "Antrim Town Commissioners",
+   "bodySlug": "antrim-town-commissioners",
+   "indexName": "Antrim Town Commissioners",
+   "type": "town-commissioners",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Antrim"
+   ],
+   "searchAliases": "NI local council Antrim town commissioners County Antrim",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   }
+  },
+  {
+   "id": "armagh-county-council",
+   "name": "Armagh County Council",
+   "bodySlug": "armagh-county-council",
+   "indexName": "Armagh County Council",
+   "type": "county-council",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Armagh"
+   ],
+   "searchAliases": "NI local council County Armagh county council",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "armaghPilot": true
+   }
+  },
+  {
+   "id": "armagh-rural-district-council",
+   "name": "Armagh Rural District Council",
+   "bodySlug": "armagh-rural-district-council",
+   "indexName": "Armagh Rural District Council",
+   "type": "rural-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Armagh"
+   ],
+   "searchAliases": "NI local council Armagh rural district",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "armaghPilot": true
+   },
+   "successors": [
+    {
+     "id": "ni-1973-armagh",
+     "basis": [
+      {
+       "type": "renamed",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c35"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "renamed",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Armagh Rural District renamed ARMAGH",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c35"
+    }
+   ]
+  },
+  {
+   "id": "armagh-urban-district-council",
+   "name": "Armagh Urban District Council",
+   "bodySlug": "armagh-urban-district-council",
+   "indexName": "Armagh Urban District Council",
+   "type": "urban-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Armagh"
+   ],
+   "searchAliases": "NI local council Armagh city urban district",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "armaghPilot": true
+   },
+   "successors": [
+    {
+     "id": "ni-1973-armagh",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c11"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Armagh Urban District abolished, joined to ARMAGH",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c11"
+    }
+   ]
+  },
+  {
+   "id": "aughnacloy-town-commissioners",
+   "name": "Aughnacloy Town Commissioners",
+   "bodySlug": "aughnacloy-town-commissioners",
+   "indexName": "Aughnacloy Town Commissioners",
+   "type": "town-commissioners",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Tyrone"
+   ],
+   "searchAliases": "NI local council Aughnacloy town commissioners County Tyrone",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   }
+  },
+  {
+   "id": "ballycastle-rural-district-council",
+   "name": "Ballycastle Rural District Council",
+   "bodySlug": "ballycastle-rural-district-council",
+   "indexName": "Ballycastle Rural District Council",
+   "type": "rural-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Antrim"
+   ],
+   "searchAliases": "NI local council Ballycastle rural district County Antrim",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   },
+   "successors": [
+    {
+     "id": "ni-1973-moyle",
+     "basis": [
+      {
+       "type": "renamed",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c39"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "renamed",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Ballycastle Rural District renamed MOYLE",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c39"
+    }
+   ]
+  },
+  {
+   "id": "ballycastle-urban-district-council",
+   "name": "Ballycastle Urban District Council",
+   "bodySlug": "ballycastle-urban-district-council",
+   "indexName": "Ballycastle Urban District Council",
+   "type": "urban-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Antrim"
+   ],
+   "searchAliases": "NI local council Ballycastle urban district County Antrim",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   },
+   "successors": [
+    {
+     "id": "ni-1973-moyle",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c17"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Ballycastle Urban District abolished, joined to MOYLE",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c17"
+    }
+   ]
+  },
+  {
+   "id": "ballyclare-urban-district-council",
+   "name": "Ballyclare Urban District Council",
+   "bodySlug": "ballyclare-urban-district-council",
+   "indexName": "Ballyclare Urban District Council",
+   "type": "urban-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Antrim"
+   ],
+   "searchAliases": "NI local council Ballyclare urban district County Antrim",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   }
+  },
+  {
+   "id": "ballymena-borough-council",
+   "name": "Ballymena Borough Council",
+   "bodySlug": "ballymena-borough-council",
+   "indexName": "Ballymena Borough Council",
+   "type": "borough",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Antrim"
+   ],
+   "names": [
+    {
+     "name": "Ballymena Urban District Council",
+     "basis": "date"
+    },
+    {
+     "name": "Ballymena Borough Council",
+     "from": "1939-05-23",
+     "basis": "date"
+    }
+   ],
+   "searchAliases": "NI local council Ballymena borough urban district County Antrim",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   },
+   "successors": [
+    {
+     "id": "ni-1973-ballymena",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c12"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "renamed",
+     "between": [
+      "admin-areas-1939-04-01",
+      "admin-areas-1939-05-23"
+     ],
+     "text": "Ballymena Urban District renamed Ballymena Municipal Borough",
+     "source": "data/timeline-changes/admin-areas-1939-04-01__admin-areas-1939-05-23.json#c1"
+    },
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Ballymena Municipal Borough abolished, joined to BALLYMENA",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c12"
+    }
+   ]
+  },
+  {
+   "id": "ballymena-rural-district-council",
+   "name": "Ballymena Rural District Council",
+   "bodySlug": "ballymena-rural-district-council",
+   "indexName": "Ballymena Rural District Council",
+   "type": "rural-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Antrim"
+   ],
+   "searchAliases": "NI local council Ballymena rural district County Antrim",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   },
+   "successors": [
+    {
+     "id": "ni-1973-ballymena",
+     "basis": [
+      {
+       "type": "renamed",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c36"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "renamed",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Ballymena Rural District renamed BALLYMENA",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c36"
+    }
+   ]
+  },
+  {
+   "id": "ballymoney-rural-district-council",
+   "name": "Ballymoney Rural District Council",
+   "bodySlug": "ballymoney-rural-district-council",
+   "indexName": "Ballymoney Rural District Council",
+   "type": "rural-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Antrim"
+   ],
+   "searchAliases": "NI local council Ballymoney rural district County Antrim",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   },
+   "successors": [
+    {
+     "id": "ni-1973-ballymoney",
+     "basis": [
+      {
+       "type": "renamed",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c41"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "renamed",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Ballymoney Rural District renamed BALLYMONEY",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c41"
+    }
+   ]
+  },
+  {
+   "id": "ballymoney-urban-district-council",
+   "name": "Ballymoney Urban District Council",
+   "bodySlug": "ballymoney-urban-district-council",
+   "indexName": "Ballymoney Urban District Council",
+   "type": "urban-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Antrim"
+   ],
+   "searchAliases": "NI local council Ballymoney urban district County Antrim",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   },
+   "successors": [
+    {
+     "id": "ni-1973-ballymoney",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c20"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Ballymoney Urban District abolished, joined to BALLYMONEY",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c20"
+    }
+   ]
+  },
+  {
+   "id": "banbridge-rural-district-council",
+   "name": "Banbridge Rural District Council",
+   "bodySlug": "banbridge-rural-district-council",
+   "indexName": "Banbridge Rural District Council",
+   "type": "rural-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Down"
+   ],
+   "searchAliases": "NI local council Banbridge rural district County Down",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   },
+   "successors": [
+    {
+     "id": "ni-1973-banbridge",
+     "basis": [
+      {
+       "type": "renamed",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c40"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "renamed",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Banbridge Rural District renamed BANBRIDGE",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c40"
+    }
+   ]
+  },
+  {
+   "id": "banbridge-urban-district-council",
+   "name": "Banbridge Urban District Council",
+   "bodySlug": "banbridge-urban-district-council",
+   "indexName": "Banbridge Urban District Council",
+   "type": "urban-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Down"
+   ],
+   "searchAliases": "NI local council Banbridge urban district County Down",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   },
+   "successors": [
+    {
+     "id": "ni-1973-banbridge",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c14"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Banbridge Urban District abolished, joined to BANBRIDGE",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c14"
+    }
+   ]
+  },
+  {
+   "id": "bangor-borough-council",
+   "name": "Bangor Borough Council",
+   "bodySlug": "bangor-borough-council",
+   "indexName": "Bangor Borough Council",
+   "type": "borough",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Down"
+   ],
+   "names": [
+    {
+     "name": "Bangor Urban District Council",
+     "basis": "date"
+    },
+    {
+     "name": "Bangor Borough Council",
+     "from": "1928-01-01",
+     "basis": "date"
+    }
+   ],
+   "searchAliases": "NI local council Bangor borough urban district County Down",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   },
+   "officesInstitution": "council-bangor",
+   "officialName": "Bangor Borough Council",
+   "officialNameAliases": [
+    "bangor"
+   ],
+   "events": [
+    {
+     "type": "renamed",
+     "between": [
+      "admin-areas-1927-04-01",
+      "admin-areas-1928-01-23"
+     ],
+     "text": "Bangor Urban District renamed Bangor Municipal Borough",
+     "source": "data/timeline-changes/admin-areas-1927-04-01__admin-areas-1928-01-23.json#c1"
+    }
+   ]
+  },
+  {
+   "id": "belfast-county-borough-council",
+   "name": "Belfast County Borough Council",
+   "bodySlug": "belfast-county-borough-council",
+   "indexName": "Belfast County Borough Council",
+   "type": "county-borough",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Antrim",
+    "Down"
+   ],
+   "searchAliases": "NI local council Belfast City Council Belfast Corporation",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true
+   }
+  },
+  {
+   "id": "belfast-county-borough-council-aldermen",
+   "name": "Belfast County Borough Council (aldermen)",
+   "bodySlug": "belfast-county-borough-council-aldermen",
+   "indexName": "Belfast County Borough Council (aldermen)",
+   "type": "county-borough",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "aldermenOf": "belfast-county-borough-council",
+   "counties": [
+    "Antrim",
+    "Down"
+   ],
+   "searchAliases": "NI local council Belfast City Council aldermen",
+   "flags": {
+    "pre1973Council": true
+   }
+  },
+  {
+   "id": "belfast-rural-district-council",
+   "name": "Belfast Rural District Council",
+   "bodySlug": "belfast-rural-district-council",
+   "indexName": "Belfast Rural District Council",
+   "type": "rural-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Antrim"
+   ],
+   "searchAliases": "NI local council Belfast rural district County Antrim",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   }
+  },
+  {
+   "id": "belleek-rural-district-council",
+   "name": null,
+   "bodySlug": "belleek-rural-district-council",
+   "type": "rural-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Fermanagh"
+   ],
+   "formerStems": [
+    "ballyshannon no 2"
+   ],
+   "flags": {
+    "niLocalGroup": true
+   }
+  },
+  {
+   "id": "carrickfergus-borough-council",
+   "name": "Carrickfergus Borough Council",
+   "bodySlug": "carrickfergus-borough-council",
+   "indexName": "Carrickfergus Borough Council",
+   "type": "borough",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Antrim"
+   ],
+   "names": [
+    {
+     "name": "Carrickfergus Urban District Council",
+     "basis": "date"
+    },
+    {
+     "name": "Carrickfergus Borough Council",
+     "from": "1949-07-01",
+     "basis": "date"
+    }
+   ],
+   "searchAliases": "NI local council Carrickfergus borough urban district County Antrim",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   }
+  },
+  {
+   "id": "castleblayney-no-2-rural-district-council",
+   "name": "Castleblayney No. 2 Rural District Council",
+   "bodySlug": "castleblayney-no-2-rural-district-council",
+   "indexName": "Castleblayney No. 2 Rural District Council",
+   "type": "rural-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Armagh"
+   ],
+   "searchAliases": "NI local council Castleblayney No. 2 Crossmaglen rural district County Armagh",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "armaghPilot": true
+   }
+  },
+  {
+   "id": "castlederg-rural-district-council",
+   "name": "Castlederg Rural District Council",
+   "bodySlug": "castlederg-rural-district-council",
+   "indexName": "Castlederg Rural District Council",
+   "type": "rural-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Tyrone"
+   ],
+   "searchAliases": "NI local council Castlederg rural district County Tyrone",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   },
+   "successors": [
+    {
+     "id": "ni-1973-omagh",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c2"
+      }
+     ]
+    },
+    {
+     "id": "ni-1973-strabane",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c2"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Castlederg Rural District abolished, joined to STRABANE, OMAGH",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c2"
+    }
+   ]
+  },
+  {
+   "id": "castlereagh-rural-district-council",
+   "name": "Castlereagh Rural District Council",
+   "bodySlug": "castlereagh-rural-district-council",
+   "indexName": "Castlereagh Rural District Council",
+   "type": "rural-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Down"
+   ],
+   "searchAliases": "NI local council Castlereagh rural district County Down",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   }
+  },
+  {
+   "id": "clogher-rural-district-council",
+   "name": "Clogher Rural District Council",
+   "bodySlug": "clogher-rural-district-council",
+   "indexName": "Clogher Rural District Council",
+   "type": "rural-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Tyrone"
+   ],
+   "searchAliases": "NI local council Clogher rural district County Tyrone",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   },
+   "successors": [
+    {
+     "id": "ni-1973-dungannon",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c3"
+      }
+     ]
+    },
+    {
+     "id": "ni-1973-omagh",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c3"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Clogher Rural District abolished, joined to DUNGANNON, OMAGH",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c3"
+    }
+   ]
+  },
+  {
+   "id": "clones-no-2-rural-district-council",
+   "name": null,
+   "bodySlug": "clones-no-2-rural-district-council",
+   "type": "rural-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Fermanagh"
+   ],
+   "flags": {
+    "niLocalGroup": true
+   }
+  },
+  {
+   "id": "coleraine-borough-council",
+   "name": "Coleraine Borough Council",
+   "bodySlug": "coleraine-borough-council",
+   "indexName": "Coleraine Borough Council",
+   "type": "borough",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Londonderry"
+   ],
+   "names": [
+    {
+     "name": "Coleraine Urban District Council",
+     "basis": "date"
+    },
+    {
+     "name": "Coleraine Borough Council",
+     "from": "1929-01-01",
+     "basis": "date"
+    }
+   ],
+   "searchAliases": "NI local council Coleraine borough urban district County Londonderry",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   }
+  },
+  {
+   "id": "coleraine-rural-district-council",
+   "name": "Coleraine Rural District Council",
+   "bodySlug": "coleraine-rural-district-council",
+   "indexName": "Coleraine Rural District Council",
+   "type": "rural-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Londonderry"
+   ],
+   "searchAliases": "NI local council Coleraine rural district County Londonderry",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   }
+  },
+  {
+   "id": "cookstown-rural-district-council",
+   "name": "Cookstown Rural District Council",
+   "bodySlug": "cookstown-rural-district-council",
+   "indexName": "Cookstown Rural District Council",
+   "type": "rural-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Tyrone"
+   ],
+   "searchAliases": "NI local council Cookstown rural district County Tyrone",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   }
+  },
+  {
+   "id": "cookstown-urban-district-council",
+   "name": "Cookstown Urban District Council",
+   "bodySlug": "cookstown-urban-district-council",
+   "indexName": "Cookstown Urban District Council",
+   "type": "urban-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Tyrone"
+   ],
+   "searchAliases": "NI local council Cookstown urban district County Tyrone",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   }
+  },
+  {
+   "id": "craigavon-urban-district-council",
+   "name": null,
+   "bodySlug": "craigavon-urban-district-council",
+   "type": "urban-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Armagh"
+   ],
+   "flags": {
+    "niLocalGroup": true
+   }
+  },
+  {
+   "id": "donaghadee-urban-district-council",
+   "name": "Donaghadee Urban District Council",
+   "bodySlug": "donaghadee-urban-district-council",
+   "indexName": "Donaghadee Urban District Council",
+   "type": "urban-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Down"
+   ],
+   "searchAliases": "NI local council Donaghadee urban district County Down",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   }
+  },
+  {
+   "id": "down-county-council",
+   "name": "Down County Council",
+   "bodySlug": "down-county-council",
+   "indexName": "Down County Council",
+   "type": "county-council",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Down"
+   ],
+   "searchAliases": "NI local council Down county council County Down",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   }
+  },
+  {
+   "id": "downpatrick-urban-district-council",
+   "name": "Downpatrick Urban District Council",
+   "bodySlug": "downpatrick-urban-district-council",
+   "indexName": "Downpatrick Urban District Council",
+   "type": "urban-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Down"
+   ],
+   "names": [
+    {
+     "name": "Downpatrick Town Commissioners",
+     "basis": "date"
+    },
+    {
+     "name": "Downpatrick Urban District Council",
+     "from": "1925-04-01",
+     "basis": "date"
+    }
+   ],
+   "searchAliases": "NI local council Downpatrick urban district town commissioners County Down",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   },
+   "officesInstitution": "council-downpatrick",
+   "officialName": "Downpatrick Urban District Council",
+   "officialNameAliases": [
+    "downpatrick"
+   ]
+  },
+  {
+   "id": "dromore-urban-district-council",
+   "name": "Dromore Urban District Council",
+   "bodySlug": "dromore-urban-district-council",
+   "indexName": "Dromore Urban District Council",
+   "type": "urban-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Down"
+   ],
+   "searchAliases": "NI local council Dromore urban district County Down",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   },
+   "successors": [
+    {
+     "id": "ni-1973-banbridge",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c22"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Dromore Urban District abolished, joined to BANBRIDGE",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c22"
+    }
+   ]
+  },
+  {
+   "id": "dungannon-rural-district-council",
+   "name": "Dungannon Rural District Council",
+   "bodySlug": "dungannon-rural-district-council",
+   "indexName": "Dungannon Rural District Council",
+   "type": "rural-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Tyrone"
+   ],
+   "searchAliases": "NI local council Dungannon rural district County Tyrone",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   }
+  },
+  {
+   "id": "dungannon-urban-district-council",
+   "name": "Dungannon Urban District Council",
+   "bodySlug": "dungannon-urban-district-council",
+   "indexName": "Dungannon Urban District Council",
+   "type": "urban-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Tyrone"
+   ],
+   "searchAliases": "NI local council Dungannon urban district County Tyrone",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   },
+   "successors": [
+    {
+     "id": "ni-1973-dungannon",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c21"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Dungannon Urban District abolished, joined to DUNGANNON",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c21"
+    }
+   ]
+  },
+  {
+   "id": "east-down-rural-district-council",
+   "name": "East Down Rural District Council",
+   "bodySlug": "east-down-rural-district-council",
+   "indexName": "East Down Rural District Council",
+   "type": "rural-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Down"
+   ],
+   "names": [
+    {
+     "name": "Downpatrick Rural District Council",
+     "basis": "date"
+    },
+    {
+     "name": "East Down Rural District Council",
+     "from": "1962-01-01",
+     "basis": "date"
+    }
+   ],
+   "formerStems": [
+    "downpatrick"
+   ],
+   "searchAliases": "NI local council East Down Downpatrick rural district County Down",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   }
+  },
+  {
+   "id": "enniskillen-borough-council",
+   "name": "Enniskillen Borough Council",
+   "bodySlug": "enniskillen-borough-council",
+   "indexName": "Enniskillen Borough Council",
+   "type": "borough",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Fermanagh"
+   ],
+   "names": [
+    {
+     "name": "Enniskillen Urban District Council",
+     "basis": "date"
+    },
+    {
+     "name": "Enniskillen Borough Council",
+     "from": "1949-05-30",
+     "basis": "date"
+    }
+   ],
+   "searchAliases": "NI local council Enniskillen borough urban district County Fermanagh",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   }
+  },
+  {
+   "id": "enniskillen-borough-council-aldermen",
+   "name": "Enniskillen Borough Council (aldermen)",
+   "bodySlug": "enniskillen-borough-council-aldermen",
+   "indexName": "Enniskillen Borough Council (aldermen)",
+   "type": "borough",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "aldermenOf": "enniskillen-borough-council",
+   "counties": [
+    "Fermanagh"
+   ],
+   "searchAliases": "NI local council Enniskillen borough aldermen County Fermanagh",
+   "flags": {
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   }
+  },
+  {
+   "id": "enniskillen-rural-district-council",
+   "name": "Enniskillen Rural District Council",
+   "bodySlug": "enniskillen-rural-district-council",
+   "indexName": "Enniskillen Rural District Council",
+   "type": "rural-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Fermanagh"
+   ],
+   "searchAliases": "NI local council Enniskillen rural district County Fermanagh",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   }
+  },
+  {
+   "id": "fermanagh-county-council",
+   "name": "Fermanagh County Council",
+   "bodySlug": "fermanagh-county-council",
+   "indexName": "Fermanagh County Council",
+   "type": "county-council",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Fermanagh"
+   ],
+   "searchAliases": "NI local council Fermanagh county council County Fermanagh",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   }
+  },
+  {
+   "id": "gilford-town-commissioners",
+   "name": "Gilford Town Commissioners",
+   "bodySlug": "gilford-town-commissioners",
+   "indexName": "Gilford Town Commissioners",
+   "type": "town-commissioners",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Down"
+   ],
+   "searchAliases": "NI local council Gilford town commissioners County Down",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   }
+  },
+  {
+   "id": "hillsborough-rural-district-council",
+   "name": "Hillsborough Rural District Council",
+   "bodySlug": "hillsborough-rural-district-council",
+   "indexName": "Hillsborough Rural District Council",
+   "type": "rural-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Down"
+   ],
+   "searchAliases": "NI local council Hillsborough rural district County Down",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   }
+  },
+  {
+   "id": "holywood-urban-district-council",
+   "name": "Holywood Urban District Council",
+   "bodySlug": "holywood-urban-district-council",
+   "indexName": "Holywood Urban District Council",
+   "type": "urban-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Down"
+   ],
+   "searchAliases": "NI local council Holywood urban district County Down",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   }
+  },
+  {
+   "id": "irvinestown-rural-district-council",
+   "name": "Irvinestown Rural District Council",
+   "bodySlug": "irvinestown-rural-district-council",
+   "indexName": "Irvinestown Rural District Council",
+   "type": "rural-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Fermanagh"
+   ],
+   "searchAliases": "NI local council Irvinestown rural district County Fermanagh",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   },
+   "successors": [
+    {
+     "id": "ni-1973-fermanagh",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c1"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Irvinestown Rural District abolished, joined to FERMANAGH",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c1"
+    }
+   ]
+  },
+  {
+   "id": "keady-urban-district-council",
+   "name": "Keady Urban District Council",
+   "bodySlug": "keady-urban-district-council",
+   "indexName": "Keady Urban District Council",
+   "type": "urban-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Armagh"
+   ],
+   "searchAliases": "NI local council Keady urban district",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "armaghPilot": true
+   },
+   "successors": [
+    {
+     "id": "ni-1973-armagh",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c23"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Keady Urban District abolished, joined to ARMAGH",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c23"
+    }
+   ]
+  },
+  {
+   "id": "kilkeel-urban-district-council",
+   "name": "Kilkeel Urban District Council",
+   "bodySlug": "kilkeel-urban-district-council",
+   "indexName": "Kilkeel Urban District Council",
+   "type": "urban-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Down"
+   ],
+   "names": [
+    {
+     "name": "Kilkeel Urban District Council",
+     "basis": "date"
+    },
+    {
+     "name": "Kilkeel Town Commissioners",
+     "from": "1934-08-01",
+     "basis": "date"
+    },
+    {
+     "name": "Kilkeel Urban District Council",
+     "from": "1937-04-01",
+     "basis": "date"
+    }
+   ],
+   "searchAliases": "NI local council Kilkeel urban district town commissioners County Down",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   },
+   "predecessors": [
+    {
+     "id": "south-down-rural-district-council",
+     "basis": [
+      {
+       "type": "created",
+       "source": "data/timeline-changes/admin-areas-1936-04-01__admin-areas-1937-04-01.json#c1"
+      }
+     ]
+    }
+   ],
+   "successors": [
+    {
+     "id": "ni-1973-newry-and-mourne",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c13"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "created",
+     "between": [
+      "admin-areas-1936-04-01",
+      "admin-areas-1937-04-01"
+     ],
+     "text": "Kilkeel Urban District formed from Kilkeel Rural District",
+     "source": "data/timeline-changes/admin-areas-1936-04-01__admin-areas-1937-04-01.json#c1"
+    },
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Kilkeel Urban District abolished, joined to NEWRY AND MOURNE",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c13"
+    }
+   ]
+  },
+  {
+   "id": "larne-borough-council",
+   "name": "Larne Borough Council",
+   "bodySlug": "larne-borough-council",
+   "indexName": "Larne Borough Council",
+   "type": "borough",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Antrim"
+   ],
+   "names": [
+    {
+     "name": "Larne Urban District Council",
+     "basis": "date"
+    },
+    {
+     "name": "Larne Borough Council",
+     "from": "1939-05-23",
+     "basis": "date"
+    }
+   ],
+   "searchAliases": "NI local council Larne borough urban district County Antrim",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   }
+  },
+  {
+   "id": "larne-rural-district-council",
+   "name": "Larne Rural District Council",
+   "bodySlug": "larne-rural-district-council",
+   "indexName": "Larne Rural District Council",
+   "type": "rural-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Antrim"
+   ],
+   "searchAliases": "NI local council Larne rural district County Antrim",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   }
+  },
+  {
+   "id": "limavady-rural-district-council",
+   "name": "Limavady Rural District Council",
+   "bodySlug": "limavady-rural-district-council",
+   "indexName": "Limavady Rural District Council",
+   "type": "rural-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Londonderry"
+   ],
+   "searchAliases": "NI local council Limavady Newtownlimavady rural district County Londonderry",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   },
+   "successors": [
+    {
+     "id": "ni-1973-limavady",
+     "basis": [
+      {
+       "type": "renamed",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c37"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "renamed",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Limavady Rural District renamed LIMAVADY",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c37"
+    }
+   ]
+  },
+  {
+   "id": "limavady-urban-district-council",
+   "name": "Limavady Urban District Council",
+   "bodySlug": "limavady-urban-district-council",
+   "indexName": "Limavady Urban District Council",
+   "type": "urban-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Londonderry"
+   ],
+   "searchAliases": "NI local council Limavady urban district County Londonderry",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   },
+   "successors": [
+    {
+     "id": "ni-1973-limavady",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c19"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Limavady Urban District abolished, joined to LIMAVADY",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c19"
+    }
+   ]
+  },
+  {
+   "id": "lisburn-borough-council",
+   "name": "Lisburn Borough Council",
+   "bodySlug": "lisburn-borough-council",
+   "indexName": "Lisburn Borough Council",
+   "type": "borough",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Antrim"
+   ],
+   "names": [
+    {
+     "name": "Lisburn Urban District Council",
+     "basis": "date"
+    },
+    {
+     "name": "Lisburn Borough Council",
+     "from": "1964-06-02",
+     "basis": "date"
+    }
+   ],
+   "searchAliases": "NI local council Lisburn borough urban district County Antrim",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   }
+  },
+  {
+   "id": "lisburn-rural-district-council",
+   "name": "Lisburn Rural District Council",
+   "bodySlug": "lisburn-rural-district-council",
+   "indexName": "Lisburn Rural District Council",
+   "type": "rural-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Antrim"
+   ],
+   "searchAliases": "NI local council Lisburn rural district County Antrim",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   }
+  },
+  {
+   "id": "lisnaskea-rural-district-council",
+   "name": "Lisnaskea Rural District Council",
+   "bodySlug": "lisnaskea-rural-district-council",
+   "indexName": "Lisnaskea Rural District Council",
+   "type": "rural-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Fermanagh"
+   ],
+   "searchAliases": "NI local council Lisnaskea rural district County Fermanagh",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   }
+  },
+  {
+   "id": "londonderry-county-borough-council",
+   "name": "Londonderry County Borough Council",
+   "bodySlug": "londonderry-county-borough-council",
+   "indexName": "Londonderry County Borough Council",
+   "type": "county-borough",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Londonderry"
+   ],
+   "searchAliases": "NI local council Londonderry Derry Corporation",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "resultsOnly1923_67": true,
+    "pr1920Only": true
+   },
+   "officesInstitution": "council-londonderry-county-borough",
+   "successors": [
+    {
+     "id": "ni-1973-derry",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c8"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Londonderry County Borough abolished, joined to LONDONDERRY",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c8"
+    }
+   ]
+  },
+  {
+   "id": "londonderry-county-borough-council-aldermen",
+   "name": "Londonderry County Borough Council (aldermen)",
+   "bodySlug": "londonderry-county-borough-council-aldermen",
+   "indexName": "Londonderry County Borough Council (aldermen)",
+   "type": "county-borough",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "aldermenOf": "londonderry-county-borough-council",
+   "counties": [
+    "Londonderry"
+   ],
+   "searchAliases": "NI local council Londonderry Derry Corporation aldermen",
+   "flags": {
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   }
+  },
+  {
+   "id": "londonderry-county-council",
+   "name": "Londonderry County Council",
+   "bodySlug": "londonderry-county-council",
+   "indexName": "Londonderry County Council",
+   "type": "county-council",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Londonderry"
+   ],
+   "searchAliases": "NI local council Londonderry Derry county council County Londonderry",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   }
+  },
+  {
+   "id": "londonderry-rural-district-council",
+   "name": "Londonderry Rural District Council",
+   "bodySlug": "londonderry-rural-district-council",
+   "indexName": "Londonderry Rural District Council",
+   "type": "rural-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Londonderry"
+   ],
+   "searchAliases": "NI local council Londonderry Derry rural district County Londonderry",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   },
+   "successors": [
+    {
+     "id": "londonderry-urban-district-council",
+     "basis": [
+      {
+       "type": "renamed",
+       "source": "data/timeline-changes/admin-areas-1969-04-01__admin-areas-1969-04-02.json#c1"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "renamed",
+     "between": [
+      "admin-areas-1969-04-01",
+      "admin-areas-1969-04-02"
+     ],
+     "text": "Londonderry Rural District renamed Londonderry Urban District",
+     "source": "data/timeline-changes/admin-areas-1969-04-01__admin-areas-1969-04-02.json#c1"
+    }
+   ]
+  },
+  {
+   "id": "londonderry-urban-district-council",
+   "name": null,
+   "bodySlug": "londonderry-urban-district-council",
+   "type": "urban-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Londonderry"
+   ],
+   "flags": {
+    "niLocalGroup": true
+   },
+   "predecessors": [
+    {
+     "id": "londonderry-rural-district-council",
+     "basis": [
+      {
+       "type": "renamed",
+       "source": "data/timeline-changes/admin-areas-1969-04-01__admin-areas-1969-04-02.json#c1"
+      }
+     ]
+    }
+   ],
+   "successors": [
+    {
+     "id": "ni-1973-derry",
+     "basis": [
+      {
+       "type": "renamed",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c42"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "renamed",
+     "between": [
+      "admin-areas-1969-04-01",
+      "admin-areas-1969-04-02"
+     ],
+     "text": "Londonderry Rural District renamed Londonderry Urban District",
+     "source": "data/timeline-changes/admin-areas-1969-04-01__admin-areas-1969-04-02.json#c1"
+    },
+    {
+     "type": "renamed",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Londonderry Urban District renamed LONDONDERRY",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c42"
+    }
+   ]
+  },
+  {
+   "id": "lurgan-borough-council",
+   "name": "Lurgan Borough Council",
+   "bodySlug": "lurgan-borough-council",
+   "indexName": "Lurgan Borough Council",
+   "type": "borough",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Armagh"
+   ],
+   "names": [
+    {
+     "name": "Lurgan Urban District Council",
+     "basis": "year"
+    },
+    {
+     "name": "Lurgan Borough Council",
+     "from": "1949",
+     "basis": "year",
+     "note": "Incorporated as a municipal borough 7 Jul 1949 (Lurgan Mail 3 Sep 1949)."
+    }
+   ],
+   "searchAliases": "NI local council Lurgan borough urban district",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "armaghPilot": true
+   },
+   "officesInstitution": "council-lurgan",
+   "officialName": "Lurgan Borough Council",
+   "officialNameAliases": [
+    "lurgan"
+   ],
+   "events": [
+    {
+     "type": "renamed",
+     "between": [
+      "admin-areas-1949-07-01",
+      "admin-areas-1949-07-07"
+     ],
+     "text": "Lurgan Urban District renamed Lurgan Municipal Borough",
+     "source": "data/timeline-changes/admin-areas-1949-07-01__admin-areas-1949-07-07.json#c1"
+    }
+   ]
+  },
+  {
+   "id": "lurgan-rural-district-council",
+   "name": "Lurgan Rural District Council",
+   "bodySlug": "lurgan-rural-district-council",
+   "indexName": "Lurgan Rural District Council",
+   "type": "rural-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Armagh"
+   ],
+   "searchAliases": "NI local council Lurgan rural district",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "armaghPilot": true
+   }
+  },
+  {
+   "id": "magherafelt-rural-district-council",
+   "name": "Magherafelt Rural District Council",
+   "bodySlug": "magherafelt-rural-district-council",
+   "indexName": "Magherafelt Rural District Council",
+   "type": "rural-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Londonderry"
+   ],
+   "searchAliases": "NI local council Magherafelt rural district County Londonderry",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   },
+   "successors": [
+    {
+     "id": "ni-1973-magherafelt",
+     "basis": [
+      {
+       "type": "renamed",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c38"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "renamed",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Magherafelt Rural District renamed MAGHERAFELT",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c38"
+    }
+   ]
+  },
+  {
+   "id": "moira-rural-district-council",
+   "name": "Moira Rural District Council",
+   "bodySlug": "moira-rural-district-council",
+   "indexName": "Moira Rural District Council",
+   "type": "rural-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Down"
+   ],
+   "searchAliases": "NI local council Moira rural district County Down",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "armaghPilot": true
+   },
+   "successors": [
+    {
+     "id": "ni-1973-banbridge",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c7"
+      }
+     ]
+    },
+    {
+     "id": "ni-1973-lisburn",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c7"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Moira Rural District abolished, joined to LISBURN, BANBRIDGE",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c7"
+    }
+   ]
+  },
+  {
+   "id": "newcastle-urban-district-council",
+   "name": "Newcastle Urban District Council",
+   "bodySlug": "newcastle-urban-district-council",
+   "indexName": "Newcastle Urban District Council",
+   "type": "urban-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Down"
+   ],
+   "searchAliases": "NI local council Newcastle urban district County Down",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   }
+  },
+  {
+   "id": "newry-no-1-rural-district-council",
+   "name": "Newry No. 1 Rural District Council",
+   "bodySlug": "newry-no-1-rural-district-council",
+   "indexName": "Newry No. 1 Rural District Council",
+   "type": "rural-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Down"
+   ],
+   "searchAliases": "NI local council Newry No. 1 rural district County Down",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   },
+   "successors": [
+    {
+     "id": "ni-1973-banbridge",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c4"
+      }
+     ]
+    },
+    {
+     "id": "ni-1973-newry-and-mourne",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c4"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Newry No. 1 Rural District abolished, joined to NEWRY AND MOURNE, BANBRIDGE",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c4"
+    }
+   ]
+  },
+  {
+   "id": "newry-no-2-rural-district-council",
+   "name": "Newry No. 2 Rural District Council",
+   "bodySlug": "newry-no-2-rural-district-council",
+   "indexName": "Newry No. 2 Rural District Council",
+   "type": "rural-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Armagh"
+   ],
+   "searchAliases": "NI local council Newry No. 2 rural district County Armagh",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "armaghPilot": true
+   }
+  },
+  {
+   "id": "newry-urban-district-council",
+   "name": "Newry Urban District Council",
+   "bodySlug": "newry-urban-district-council",
+   "indexName": "Newry Urban District Council",
+   "type": "urban-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Down"
+   ],
+   "searchAliases": "NI local council Newry urban district County Down",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   },
+   "successors": [
+    {
+     "id": "ni-1973-newry-and-mourne",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c15"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Newry Urban District abolished, joined to NEWRY AND MOURNE",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c15"
+    }
+   ]
+  },
+  {
+   "id": "newtownabbey-urban-district-council",
+   "name": "Newtownabbey Urban District Council",
+   "bodySlug": "newtownabbey-urban-district-council",
+   "indexName": "Newtownabbey Urban District Council",
+   "type": "urban-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Antrim"
+   ],
+   "searchAliases": "NI local council Newtownabbey urban district County Antrim",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   }
+  },
+  {
+   "id": "newtownards-borough-council",
+   "name": "Newtownards Borough Council",
+   "bodySlug": "newtownards-borough-council",
+   "indexName": "Newtownards Borough Council",
+   "type": "borough",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Down"
+   ],
+   "names": [
+    {
+     "name": "Newtownards Urban District Council",
+     "basis": "date"
+    },
+    {
+     "name": "Newtownards Borough Council",
+     "from": "1938-05-01",
+     "basis": "date"
+    }
+   ],
+   "searchAliases": "NI local council Newtownards borough urban district County Down",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   }
+  },
+  {
+   "id": "north-down-rural-district-council",
+   "name": "North Down Rural District Council",
+   "bodySlug": "north-down-rural-district-council",
+   "indexName": "North Down Rural District Council",
+   "type": "rural-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Down"
+   ],
+   "names": [
+    {
+     "name": "Newtownards Rural District Council",
+     "basis": "date"
+    },
+    {
+     "name": "North Down Rural District Council",
+     "from": "1954-08-01",
+     "basis": "date"
+    }
+   ],
+   "formerStems": [
+    "newtownards"
+   ],
+   "searchAliases": "NI local council North Down Newtownards rural district County Down",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   }
+  },
+  {
+   "id": "omagh-rural-district-council",
+   "name": "Omagh Rural District Council",
+   "bodySlug": "omagh-rural-district-council",
+   "indexName": "Omagh Rural District Council",
+   "type": "rural-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Tyrone"
+   ],
+   "searchAliases": "NI local council Omagh rural district County Tyrone",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   },
+   "successors": [
+    {
+     "id": "ni-1973-omagh",
+     "basis": [
+      {
+       "type": "renamed",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c33"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "renamed",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Omagh Rural District renamed OMAGH",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c33"
+    }
+   ]
+  },
+  {
+   "id": "omagh-urban-district-council",
+   "name": "Omagh Urban District Council",
+   "bodySlug": "omagh-urban-district-council",
+   "indexName": "Omagh Urban District Council",
+   "type": "urban-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Tyrone"
+   ],
+   "searchAliases": "NI local council Omagh urban district County Tyrone",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   },
+   "successors": [
+    {
+     "id": "ni-1973-omagh",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c9"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Omagh Urban District abolished, joined to OMAGH",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c9"
+    }
+   ]
+  },
+  {
+   "id": "portadown-borough-council",
+   "name": "Portadown Borough Council",
+   "bodySlug": "portadown-borough-council",
+   "indexName": "Portadown Borough Council",
+   "type": "borough",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Armagh"
+   ],
+   "names": [
+    {
+     "name": "Portadown Urban District Council",
+     "basis": "year"
+    },
+    {
+     "name": "Portadown Borough Council",
+     "from": "1947",
+     "basis": "year",
+     "note": "Incorporated as a municipal borough 2 Oct 1947 (Belfast Gazette 18 Jul 1947)."
+    }
+   ],
+   "searchAliases": "NI local council Portadown borough urban district",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "armaghPilot": true
+   },
+   "officesInstitution": "council-portadown",
+   "officialName": "Portadown Borough Council",
+   "officialNameAliases": [
+    "portadown"
+   ]
+  },
+  {
+   "id": "portrush-urban-district-council",
+   "name": "Portrush Urban District Council",
+   "bodySlug": "portrush-urban-district-council",
+   "indexName": "Portrush Urban District Council",
+   "type": "urban-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Antrim"
+   ],
+   "searchAliases": "NI local council Portrush urban district County Antrim",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   }
+  },
+  {
+   "id": "portstewart-urban-district-council",
+   "name": "Portstewart Urban District Council",
+   "bodySlug": "portstewart-urban-district-council",
+   "indexName": "Portstewart Urban District Council",
+   "type": "urban-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Londonderry"
+   ],
+   "searchAliases": "NI local council Portstewart urban district County Londonderry",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   }
+  },
+  {
+   "id": "south-down-rural-district-council",
+   "name": "South Down Rural District Council",
+   "bodySlug": "south-down-rural-district-council",
+   "indexName": "South Down Rural District Council",
+   "type": "rural-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Down"
+   ],
+   "names": [
+    {
+     "name": "Kilkeel Rural District Council",
+     "basis": "date"
+    },
+    {
+     "name": "South Down Rural District Council",
+     "from": "1966-07-04",
+     "basis": "date"
+    }
+   ],
+   "formerStems": [
+    "kilkeel"
+   ],
+   "searchAliases": "NI local council South Down Kilkeel rural district County Down",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   },
+   "successors": [
+    {
+     "id": "kilkeel-urban-district-council",
+     "basis": [
+      {
+       "type": "created",
+       "source": "data/timeline-changes/admin-areas-1936-04-01__admin-areas-1937-04-01.json#c1"
+      }
+     ]
+    },
+    {
+     "id": "ni-1973-newry-and-mourne",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c5"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "created",
+     "between": [
+      "admin-areas-1936-04-01",
+      "admin-areas-1937-04-01"
+     ],
+     "text": "Kilkeel Urban District formed from Kilkeel Rural District",
+     "source": "data/timeline-changes/admin-areas-1936-04-01__admin-areas-1937-04-01.json#c1"
+    },
+    {
+     "type": "renamed",
+     "between": [
+      "admin-areas-1965-04-01",
+      "admin-areas-1966-07-04"
+     ],
+     "text": "Kilkeel Rural District renamed South Down Rural District",
+     "source": "data/timeline-changes/admin-areas-1965-04-01__admin-areas-1966-07-04.json#c8"
+    },
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "South Down Rural District abolished, joined to NEWRY AND MOURNE",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c5"
+    }
+   ]
+  },
+  {
+   "id": "strabane-rural-district-council",
+   "name": "Strabane Rural District Council",
+   "bodySlug": "strabane-rural-district-council",
+   "indexName": "Strabane Rural District Council",
+   "type": "rural-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Tyrone"
+   ],
+   "searchAliases": "NI local council Strabane rural district County Tyrone",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   },
+   "successors": [
+    {
+     "id": "ni-1973-strabane",
+     "basis": [
+      {
+       "type": "renamed",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c34"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "renamed",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Strabane Rural District renamed STRABANE",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c34"
+    }
+   ]
+  },
+  {
+   "id": "strabane-urban-district-council",
+   "name": "Strabane Urban District Council",
+   "bodySlug": "strabane-urban-district-council",
+   "indexName": "Strabane Urban District Council",
+   "type": "urban-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Tyrone"
+   ],
+   "names": [
+    {
+     "name": "Strabane Town Commissioners",
+     "from": "1899",
+     "until": "1899",
+     "basis": "year",
+     "note": "Strabane's town commissioners became an urban district council under the 1898 Act."
+    },
+    {
+     "name": "Strabane Urban District Council",
+     "basis": "year"
+    }
+   ],
+   "searchAliases": "NI local council Strabane",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true
+   },
+   "successors": [
+    {
+     "id": "ni-1973-strabane",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c10"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Strabane Urban District abolished, joined to STRABANE",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c10"
+    }
+   ]
+  },
+  {
+   "id": "tandragee-rural-district-council",
+   "name": "Tandragee Rural District Council",
+   "bodySlug": "tandragee-rural-district-council",
+   "indexName": "Tandragee Rural District Council",
+   "type": "rural-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Armagh"
+   ],
+   "searchAliases": "NI local council Tandragee Tanderagee rural district",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "armaghPilot": true
+   },
+   "successors": [
+    {
+     "id": "ni-1973-armagh",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c6"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Tandragee Rural District abolished, joined to ARMAGH",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c6"
+    }
+   ]
+  },
+  {
+   "id": "tandragee-urban-district-council",
+   "name": "Tandragee Urban District Council",
+   "bodySlug": "tandragee-urban-district-council",
+   "indexName": "Tandragee Urban District Council",
+   "type": "urban-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Armagh"
+   ],
+   "searchAliases": "NI local council Tandragee Tanderagee urban district",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "armaghPilot": true
+   },
+   "successors": [
+    {
+     "id": "ni-1973-armagh",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c16"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Tandragee Urban District abolished, joined to ARMAGH",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c16"
+    }
+   ]
+  },
+  {
+   "id": "trillick-rural-district-council",
+   "name": null,
+   "bodySlug": "trillick-rural-district-council",
+   "type": "rural-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Tyrone"
+   ],
+   "formerStems": [
+    "irvinestown no 2"
+   ],
+   "flags": {
+    "niLocalGroup": true
+   }
+  },
+  {
+   "id": "tyrone-county-council",
+   "name": "Tyrone County Council",
+   "bodySlug": "tyrone-county-council",
+   "indexName": "Tyrone County Council",
+   "type": "county-council",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Tyrone"
+   ],
+   "searchAliases": "NI local council Tyrone county council County Tyrone",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   }
+  },
+  {
+   "id": "warrenpoint-urban-district-council",
+   "name": "Warrenpoint Urban District Council",
+   "bodySlug": "warrenpoint-urban-district-council",
+   "indexName": "Warrenpoint Urban District Council",
+   "type": "urban-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Down"
+   ],
+   "searchAliases": "NI local council Warrenpoint urban district County Down",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   },
+   "successors": [
+    {
+     "id": "ni-1973-newry-and-mourne",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c18"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Warrenpoint Urban District abolished, joined to NEWRY AND MOURNE",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c18"
+    }
+   ]
+  },
+  {
+   "id": "whitehead-urban-district-council",
+   "name": "Whitehead Urban District Council",
+   "bodySlug": "whitehead-urban-district-council",
+   "indexName": "Whitehead Urban District Council",
+   "type": "urban-district",
+   "generation": "pre-1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Antrim"
+   ],
+   "names": [
+    {
+     "name": "Whitehead Town Commissioners",
+     "basis": "date"
+    },
+    {
+     "name": "Whitehead Urban District Council",
+     "from": "1927-04-01",
+     "basis": "date"
+    }
+   ],
+   "searchAliases": "NI local council Whitehead urban district town commissioners County Antrim",
+   "flags": {
+    "niLocalGroup": true,
+    "pre1973Council": true,
+    "niCouncils1923_67": true,
+    "resultsOnly1923_67": true
+   }
+  },
+  {
+   "id": "ni-1973-antrim",
+   "name": "Antrim",
+   "bodySlug": "local-government",
+   "indexName": "Antrim",
+   "type": "district",
+   "generation": "1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Antrim"
+   ],
+   "searchName": "Antrim",
+   "officialName": "Antrim Borough Council",
+   "officialNameAliases": [
+    "antrim"
+   ],
+   "officesInstitution": "council-antrim",
+   "websites": {
+    "key": "antrim",
+    "hosts": [
+     "www.antrim.gov.uk"
+    ]
+   },
+   "wikipedia": {
+    "key": "antrim",
+    "titleVariants": [
+     "Antrim Borough Council",
+     "Antrim District Council"
+    ]
+   },
+   "flags": {
+    "localGovernmentGroup": true
+   },
+   "successors": [
+    {
+     "id": "ni-2014-antrim-and-newtownabbey",
+     "basis": [
+      {
+       "type": "renamed",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c24"
+      },
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "renamed",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "ANTRIM renamed Antrim and Newtownabbey",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c24"
+    }
+   ]
+  },
+  {
+   "id": "ni-2014-antrim-and-newtownabbey",
+   "name": "Antrim and Newtownabbey",
+   "bodySlug": "local-government",
+   "indexName": "Antrim and Newtownabbey",
+   "type": "district",
+   "generation": "2014",
+   "jurisdiction": "northern-ireland",
+   "searchName": "Antrim and Newtownabbey",
+   "wikipedia": {
+    "key": "antrim_and_newtownabbey",
+    "titleVariants": [
+     "Antrim and Newtownabbey District Council",
+     "Antrim and Newtownabbey Borough Council"
+    ]
+   },
+   "flags": {
+    "localGovernmentGroup": true
+   },
+   "predecessors": [
+    {
+     "id": "ni-1973-antrim",
+     "basis": [
+      {
+       "type": "renamed",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c24"
+      },
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    },
+    {
+     "id": "ni-1973-carrickfergus",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c15"
+      }
+     ]
+    },
+    {
+     "id": "ni-1973-newtownabbey",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c13"
+      },
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "NEWTOWNABBEY abolished, joined to Antrim and Newtownabbey",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c13"
+    },
+    {
+     "type": "abolished",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "CARRICKFERGUS abolished, joined to Mid and East Antrim, Antrim and Newtownabbey",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c15"
+    },
+    {
+     "type": "renamed",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "ANTRIM renamed Antrim and Newtownabbey",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c24"
+    }
+   ]
+  },
+  {
+   "id": "ni-1973-ards",
+   "name": "Ards",
+   "bodySlug": "local-government",
+   "indexName": "Ards",
+   "type": "district",
+   "generation": "1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Down"
+   ],
+   "searchName": "Ards",
+   "officialName": "Ards Borough Council",
+   "officialNameAliases": [
+    "ards"
+   ],
+   "officesInstitution": "council-ards",
+   "websites": {
+    "key": "ards",
+    "hosts": [
+     "www.ards-council.gov.uk"
+    ]
+   },
+   "wikipedia": {
+    "key": "ards",
+    "titleVariants": [
+     "Ards Borough Council",
+     "Ards District Council"
+    ]
+   },
+   "flags": {
+    "localGovernmentGroup": true
+   },
+   "successors": [
+    {
+     "id": "ni-2014-ards-and-north-down",
+     "basis": [
+      {
+       "type": "renamed",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c25"
+      },
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "renamed",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "ARDS renamed Ards and North Down",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c25"
+    }
+   ]
+  },
+  {
+   "id": "ni-2014-ards-and-north-down",
+   "name": "Ards and North Down",
+   "bodySlug": "local-government",
+   "indexName": "Ards and North Down",
+   "type": "district",
+   "generation": "2014",
+   "jurisdiction": "northern-ireland",
+   "searchName": "Ards and North Down",
+   "wikipedia": {
+    "key": "ards_and_north_down",
+    "titleVariants": [
+     "Ards and North Down District Council",
+     "Ards and North Down Borough Council",
+     "North Down and Ards District Council"
+    ]
+   },
+   "flags": {
+    "localGovernmentGroup": true
+   },
+   "predecessors": [
+    {
+     "id": "ni-1973-ards",
+     "basis": [
+      {
+       "type": "renamed",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c25"
+      },
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    },
+    {
+     "id": "ni-1973-north-down",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c16"
+      },
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "NORTH DOWN abolished, joined to Ards and North Down, Belfast",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c16"
+    },
+    {
+     "type": "renamed",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "ARDS renamed Ards and North Down",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c25"
+    }
+   ]
+  },
+  {
+   "id": "ni-1973-armagh",
+   "name": "Armagh",
+   "bodySlug": "local-government",
+   "indexName": "Armagh",
+   "type": "district",
+   "generation": "1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Armagh"
+   ],
+   "searchName": "Armagh",
+   "officialName": "Armagh District Council",
+   "officialNameAliases": [
+    "armagh"
+   ],
+   "officesInstitution": "council-armagh",
+   "websites": {
+    "key": "armagh",
+    "hosts": [
+     "www.armagh.gov.uk"
+    ]
+   },
+   "wikipedia": {
+    "key": "armagh",
+    "titleVariants": [
+     "Armagh City and District Council",
+     "Armagh District Council",
+     "Armagh City Council"
+    ]
+   },
+   "flags": {
+    "localGovernmentGroup": true
+   },
+   "predecessors": [
+    {
+     "id": "armagh-rural-district-council",
+     "basis": [
+      {
+       "type": "renamed",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c35"
+      }
+     ]
+    },
+    {
+     "id": "armagh-urban-district-council",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c11"
+      }
+     ]
+    },
+    {
+     "id": "keady-urban-district-council",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c23"
+      }
+     ]
+    },
+    {
+     "id": "tandragee-rural-district-council",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c6"
+      }
+     ]
+    },
+    {
+     "id": "tandragee-urban-district-council",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c16"
+      }
+     ]
+    }
+   ],
+   "successors": [
+    {
+     "id": "ni-2014-armagh-banbridge-and-craigavon",
+     "basis": [
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Tandragee Rural District abolished, joined to ARMAGH",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c6"
+    },
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Armagh Urban District abolished, joined to ARMAGH",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c11"
+    },
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Tandragee Urban District abolished, joined to ARMAGH",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c16"
+    },
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Keady Urban District abolished, joined to ARMAGH",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c23"
+    },
+    {
+     "type": "renamed",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Armagh Rural District renamed ARMAGH",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c35"
+    }
+   ]
+  },
+  {
+   "id": "ni-2014-armagh-banbridge-and-craigavon",
+   "name": "Armagh, Banbridge and Craigavon",
+   "bodySlug": "local-government",
+   "indexName": "Armagh, Banbridge and Craigavon",
+   "type": "district",
+   "generation": "2014",
+   "jurisdiction": "northern-ireland",
+   "searchName": "Armagh City Banbridge and Craigavon",
+   "wikipedia": {
+    "key": "armagh_banbridge_and_craigavon",
+    "titleVariants": [
+     "Armagh, Banbridge and Craigavon District Council",
+     "Armagh City, Banbridge and Craigavon Borough Council"
+    ]
+   },
+   "flags": {
+    "localGovernmentGroup": true
+   },
+   "predecessors": [
+    {
+     "id": "ni-1973-armagh",
+     "basis": [
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    },
+    {
+     "id": "ni-1973-banbridge",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c8"
+      },
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    },
+    {
+     "id": "ni-1973-craigavon",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c11"
+      },
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "BANBRIDGE abolished, joined to Armagh City, Banbridge and Craigavon, Newry, Mourne and Down, Lisburn and Castlereagh",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c8"
+    },
+    {
+     "type": "abolished",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "CRAIGAVON abolished, joined to Armagh City, Banbridge and Craigavon",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c11"
+    }
+   ]
+  },
+  {
+   "id": "ni-1973-ballymena",
+   "name": "Ballymena",
+   "bodySlug": "local-government",
+   "indexName": "Ballymena",
+   "type": "district",
+   "generation": "1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Antrim"
+   ],
+   "searchName": "Ballymena",
+   "officialName": "Ballymena Borough Council",
+   "officialNameAliases": [
+    "ballymena"
+   ],
+   "officesInstitution": "council-ballymena",
+   "websites": {
+    "key": "ballymena",
+    "hosts": [
+     "www.ballymena.gov.uk"
+    ]
+   },
+   "wikipedia": {
+    "key": "ballymena",
+    "titleVariants": [
+     "Ballymena Borough Council",
+     "Ballymena District Council"
+    ]
+   },
+   "flags": {
+    "localGovernmentGroup": true
+   },
+   "predecessors": [
+    {
+     "id": "ballymena-borough-council",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c12"
+      }
+     ]
+    },
+    {
+     "id": "ballymena-rural-district-council",
+     "basis": [
+      {
+       "type": "renamed",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c36"
+      }
+     ]
+    }
+   ],
+   "successors": [
+    {
+     "id": "ni-2014-mid-and-east-antrim",
+     "basis": [
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Ballymena Municipal Borough abolished, joined to BALLYMENA",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c12"
+    },
+    {
+     "type": "renamed",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Ballymena Rural District renamed BALLYMENA",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c36"
+    }
+   ]
+  },
+  {
+   "id": "ni-1973-ballymoney",
+   "name": "Ballymoney",
+   "bodySlug": "local-government",
+   "indexName": "Ballymoney",
+   "type": "district",
+   "generation": "1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Antrim"
+   ],
+   "searchName": "Ballymoney",
+   "officialName": "Ballymoney Borough Council",
+   "officialNameAliases": [
+    "ballymoney"
+   ],
+   "officesInstitution": "council-ballymoney",
+   "websites": {
+    "key": "ballymoney",
+    "hosts": [
+     "www.ballymoney.gov.uk"
+    ]
+   },
+   "wikipedia": {
+    "key": "ballymoney",
+    "titleVariants": [
+     "Ballymoney Borough Council",
+     "Ballymoney District Council"
+    ]
+   },
+   "flags": {
+    "localGovernmentGroup": true
+   },
+   "predecessors": [
+    {
+     "id": "ballymoney-rural-district-council",
+     "basis": [
+      {
+       "type": "renamed",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c41"
+      }
+     ]
+    },
+    {
+     "id": "ballymoney-urban-district-council",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c20"
+      }
+     ]
+    }
+   ],
+   "successors": [
+    {
+     "id": "ni-2014-causeway-coast-and-glens",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c9"
+      },
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Ballymoney Urban District abolished, joined to BALLYMONEY",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c20"
+    },
+    {
+     "type": "renamed",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Ballymoney Rural District renamed BALLYMONEY",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c41"
+    },
+    {
+     "type": "abolished",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "BALLYMONEY abolished, joined to Causeway Coast and Glens",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c9"
+    }
+   ]
+  },
+  {
+   "id": "ni-1973-banbridge",
+   "name": "Banbridge",
+   "bodySlug": "local-government",
+   "indexName": "Banbridge",
+   "type": "district",
+   "generation": "1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Down"
+   ],
+   "searchName": "Banbridge",
+   "officialName": "Banbridge District Council",
+   "officialNameAliases": [
+    "banbridge"
+   ],
+   "websites": {
+    "key": "banbridge",
+    "hosts": [
+     "www.banbridge.com"
+    ]
+   },
+   "wikipedia": {
+    "key": "banbridge",
+    "titleVariants": [
+     "Banbridge District Council"
+    ]
+   },
+   "flags": {
+    "localGovernmentGroup": true
+   },
+   "predecessors": [
+    {
+     "id": "banbridge-rural-district-council",
+     "basis": [
+      {
+       "type": "renamed",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c40"
+      }
+     ]
+    },
+    {
+     "id": "banbridge-urban-district-council",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c14"
+      }
+     ]
+    },
+    {
+     "id": "dromore-urban-district-council",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c22"
+      }
+     ]
+    },
+    {
+     "id": "moira-rural-district-council",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c7"
+      }
+     ]
+    },
+    {
+     "id": "newry-no-1-rural-district-council",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c4"
+      }
+     ]
+    }
+   ],
+   "successors": [
+    {
+     "id": "ni-2014-armagh-banbridge-and-craigavon",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c8"
+      },
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    },
+    {
+     "id": "ni-2014-lisburn-and-castlereagh",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c8"
+      }
+     ]
+    },
+    {
+     "id": "ni-2014-newry-mourne-and-down",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c8"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Newry No. 1 Rural District abolished, joined to NEWRY AND MOURNE, BANBRIDGE",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c4"
+    },
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Moira Rural District abolished, joined to LISBURN, BANBRIDGE",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c7"
+    },
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Banbridge Urban District abolished, joined to BANBRIDGE",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c14"
+    },
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Dromore Urban District abolished, joined to BANBRIDGE",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c22"
+    },
+    {
+     "type": "renamed",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Banbridge Rural District renamed BANBRIDGE",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c40"
+    },
+    {
+     "type": "abolished",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "BANBRIDGE abolished, joined to Armagh City, Banbridge and Craigavon, Newry, Mourne and Down, Lisburn and Castlereagh",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c8"
+    }
+   ]
+  },
+  {
+   "id": "ni-1973-belfast",
+   "name": "Belfast",
+   "bodySlug": "local-government",
+   "indexName": "Belfast",
+   "type": "district",
+   "generation": "1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Antrim",
+    "Down"
+   ],
+   "searchName": "Belfast City",
+   "officialName": "Belfast City Council",
+   "officialNameAliases": [
+    "belfast",
+    "belfast corporation"
+   ],
+   "websites": {
+    "key": "belfast",
+    "hosts": [
+     "www.belfastcity.gov.uk"
+    ]
+   },
+   "wikipedia": {
+    "key": "belfast",
+    "titleVariants": [
+     "Belfast City Council"
+    ]
+   },
+   "flags": {
+    "localGovernmentGroup": true
+   }
+  },
+  {
+   "id": "ni-2014-belfast",
+   "name": "Belfast",
+   "bodySlug": "local-government",
+   "indexName": "Belfast",
+   "type": "district",
+   "generation": "2014",
+   "jurisdiction": "northern-ireland",
+   "searchName": "Belfast City",
+   "wikipedia": {
+    "key": "belfast",
+    "titleVariants": [
+     "Belfast City Council"
+    ]
+   },
+   "flags": {
+    "localGovernmentGroup": true
+   },
+   "predecessors": [
+    {
+     "id": "ni-1973-castlereagh",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c14"
+      }
+     ]
+    },
+    {
+     "id": "ni-1973-north-down",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c16"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "CASTLEREAGH abolished, joined to Lisburn and Castlereagh, Belfast",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c14"
+    },
+    {
+     "type": "abolished",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "NORTH DOWN abolished, joined to Ards and North Down, Belfast",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c16"
+    }
+   ]
+  },
+  {
+   "id": "ni-1973-carrickfergus",
+   "name": "Carrickfergus",
+   "bodySlug": "local-government",
+   "indexName": "Carrickfergus",
+   "type": "district",
+   "generation": "1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Antrim"
+   ],
+   "searchName": "Carrickfergus",
+   "officialName": "Carrickfergus Borough Council",
+   "officialNameAliases": [
+    "carrickfergus"
+   ],
+   "officesInstitution": "council-carrickfergus",
+   "websites": {
+    "key": "carrickfergus",
+    "hosts": [
+     "www.carrickfergus.org"
+    ]
+   },
+   "wikipedia": {
+    "key": "carrickfergus",
+    "titleVariants": [
+     "Carrickfergus Borough Council",
+     "Carrickfergus District Council"
+    ]
+   },
+   "flags": {
+    "localGovernmentGroup": true
+   },
+   "successors": [
+    {
+     "id": "ni-2014-antrim-and-newtownabbey",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c15"
+      }
+     ]
+    },
+    {
+     "id": "ni-2014-mid-and-east-antrim",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c15"
+      },
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "CARRICKFERGUS abolished, joined to Mid and East Antrim, Antrim and Newtownabbey",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c15"
+    }
+   ]
+  },
+  {
+   "id": "ni-1973-castlereagh",
+   "name": "Castlereagh",
+   "bodySlug": "local-government",
+   "indexName": "Castlereagh",
+   "type": "district",
+   "generation": "1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Down"
+   ],
+   "searchName": "Castlereagh",
+   "officialName": "Castlereagh Borough Council",
+   "officialNameAliases": [
+    "castlereagh"
+   ],
+   "officesInstitution": "council-castlereagh",
+   "websites": {
+    "key": "castlereagh",
+    "hosts": [
+     "www.castlereagh.gov.uk"
+    ]
+   },
+   "wikipedia": {
+    "key": "castlereagh",
+    "titleVariants": [
+     "Castlereagh Borough Council",
+     "Castlereagh District Council"
+    ]
+   },
+   "flags": {
+    "localGovernmentGroup": true
+   },
+   "successors": [
+    {
+     "id": "ni-2014-belfast",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c14"
+      }
+     ]
+    },
+    {
+     "id": "ni-2014-lisburn-and-castlereagh",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c14"
+      },
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "CASTLEREAGH abolished, joined to Lisburn and Castlereagh, Belfast",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c14"
+    }
+   ]
+  },
+  {
+   "id": "ni-2014-causeway-coast-and-glens",
+   "name": "Causeway Coast and Glens",
+   "bodySlug": "local-government",
+   "indexName": "Causeway Coast and Glens",
+   "type": "district",
+   "generation": "2014",
+   "jurisdiction": "northern-ireland",
+   "searchName": "Causeway Coast and Glens",
+   "wikipedia": {
+    "key": "causeway_coast_and_glens",
+    "titleVariants": [
+     "Causeway Coast and Glens District Council",
+     "Causeway Coast and Glens Borough Council"
+    ]
+   },
+   "flags": {
+    "localGovernmentGroup": true
+   },
+   "predecessors": [
+    {
+     "id": "ni-1973-ballymoney",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c9"
+      },
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    },
+    {
+     "id": "ni-1973-coleraine",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c5"
+      },
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c6"
+      },
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    },
+    {
+     "id": "ni-1973-limavady",
+     "basis": [
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    },
+    {
+     "id": "ni-1973-moyle",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c7"
+      },
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c17"
+      },
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "COLERAINE abolished, joined to Causeway Coast and Glens",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c5"
+    },
+    {
+     "type": "abolished",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "COLERAINE abolished, joined to Causeway Coast and Glens",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c6"
+    },
+    {
+     "type": "abolished",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "MOYLE abolished, joined to Causeway Coast and Glens",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c7"
+    },
+    {
+     "type": "abolished",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "BALLYMONEY abolished, joined to Causeway Coast and Glens",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c9"
+    },
+    {
+     "type": "abolished",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "MOYLE abolished, joined to Causeway Coast and Glens",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c17"
+    }
+   ]
+  },
+  {
+   "id": "ni-1973-coleraine",
+   "name": "Coleraine",
+   "bodySlug": "local-government",
+   "indexName": "Coleraine",
+   "type": "district",
+   "generation": "1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Londonderry"
+   ],
+   "searchName": "Coleraine",
+   "officialName": "Coleraine Borough Council",
+   "officialNameAliases": [
+    "coleraine"
+   ],
+   "officesInstitution": "council-coleraine",
+   "websites": {
+    "key": "coleraine",
+    "hosts": [
+     "www.colerainebc.gov.uk"
+    ]
+   },
+   "wikipedia": {
+    "key": "coleraine",
+    "titleVariants": [
+     "Coleraine Borough Council",
+     "Coleraine District Council"
+    ]
+   },
+   "flags": {
+    "localGovernmentGroup": true
+   },
+   "successors": [
+    {
+     "id": "ni-2014-causeway-coast-and-glens",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c5"
+      },
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c6"
+      },
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "COLERAINE abolished, joined to Causeway Coast and Glens",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c5"
+    },
+    {
+     "type": "abolished",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "COLERAINE abolished, joined to Causeway Coast and Glens",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c6"
+    }
+   ]
+  },
+  {
+   "id": "ni-1973-cookstown",
+   "name": "Cookstown",
+   "bodySlug": "local-government",
+   "indexName": "Cookstown",
+   "type": "district",
+   "generation": "1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Tyrone"
+   ],
+   "searchName": "Cookstown",
+   "officialName": "Cookstown District Council",
+   "officialNameAliases": [
+    "cookstown"
+   ],
+   "officesInstitution": "council-cookstown",
+   "websites": {
+    "key": "cookstown",
+    "hosts": [
+     "www.cookstown.gov.uk"
+    ]
+   },
+   "wikipedia": {
+    "key": "cookstown",
+    "titleVariants": [
+     "Cookstown District Council"
+    ]
+   },
+   "flags": {
+    "localGovernmentGroup": true
+   },
+   "successors": [
+    {
+     "id": "ni-2014-mid-ulster",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c3"
+      },
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "COOKSTOWN abolished, joined to Mid Ulster",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c3"
+    }
+   ]
+  },
+  {
+   "id": "ni-1973-craigavon",
+   "name": "Craigavon",
+   "bodySlug": "local-government",
+   "indexName": "Craigavon",
+   "type": "district",
+   "generation": "1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Armagh",
+    "Down"
+   ],
+   "searchName": "Craigavon",
+   "officialName": "Craigavon Borough Council",
+   "officialNameAliases": [
+    "craigavon"
+   ],
+   "officesInstitution": "council-craigavon",
+   "websites": {
+    "key": "craigavon",
+    "hosts": [
+     "www.craigavon.gov.uk"
+    ]
+   },
+   "wikipedia": {
+    "key": "craigavon",
+    "titleVariants": [
+     "Craigavon Borough Council",
+     "Craigavon District Council"
+    ]
+   },
+   "flags": {
+    "localGovernmentGroup": true
+   },
+   "successors": [
+    {
+     "id": "ni-2014-armagh-banbridge-and-craigavon",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c11"
+      },
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "CRAIGAVON abolished, joined to Armagh City, Banbridge and Craigavon",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c11"
+    }
+   ]
+  },
+  {
+   "id": "ni-1973-derry",
+   "name": "Derry",
+   "bodySlug": "local-government",
+   "indexName": "Derry",
+   "type": "district",
+   "generation": "1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Londonderry"
+   ],
+   "searchName": "Derry City",
+   "officialName": "Derry City Council",
+   "officialNameAliases": [
+    "derry",
+    "londonderry"
+   ],
+   "officesInstitution": "council-derry",
+   "websites": {
+    "key": "derry",
+    "hosts": [
+     "www.derrycity.gov.uk"
+    ]
+   },
+   "wikipedia": {
+    "key": "derry",
+    "titleVariants": [
+     "Derry City Council",
+     "Londonderry City Council"
+    ]
+   },
+   "flags": {
+    "localGovernmentGroup": true
+   },
+   "predecessors": [
+    {
+     "id": "londonderry-county-borough-council",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c8"
+      }
+     ]
+    },
+    {
+     "id": "londonderry-urban-district-council",
+     "basis": [
+      {
+       "type": "renamed",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c42"
+      }
+     ]
+    }
+   ],
+   "successors": [
+    {
+     "id": "ni-2014-derry-city-and-strabane",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c10"
+      },
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Londonderry County Borough abolished, joined to LONDONDERRY",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c8"
+    },
+    {
+     "type": "renamed",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Londonderry Urban District renamed LONDONDERRY",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c42"
+    },
+    {
+     "type": "renamed",
+     "between": [
+      "lgd-1972",
+      "lgd-1984"
+     ],
+     "text": "LONDONDERRY renamed DERRY",
+     "source": "data/timeline-changes/lgd-1972__lgd-1984.json#c7"
+    },
+    {
+     "type": "abolished",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "DERRY abolished, joined to Derry City and Strabane",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c10"
+    }
+   ]
+  },
+  {
+   "id": "ni-2014-derry-city-and-strabane",
+   "name": "Derry City and Strabane",
+   "bodySlug": "local-government",
+   "indexName": "Derry City and Strabane",
+   "type": "district",
+   "generation": "2014",
+   "jurisdiction": "northern-ireland",
+   "searchName": "Derry City and Strabane",
+   "wikipedia": {
+    "key": "derry_city_and_strabane",
+    "titleVariants": [
+     "Derry and Strabane District Council",
+     "Derry City and Strabane District Council"
+    ]
+   },
+   "flags": {
+    "localGovernmentGroup": true
+   },
+   "predecessors": [
+    {
+     "id": "ni-1973-derry",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c10"
+      },
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    },
+    {
+     "id": "ni-1973-strabane",
+     "basis": [
+      {
+       "type": "renamed",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c23"
+      },
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "DERRY abolished, joined to Derry City and Strabane",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c10"
+    },
+    {
+     "type": "renamed",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "STRABANE renamed Derry City and Strabane",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c23"
+    }
+   ]
+  },
+  {
+   "id": "ni-1973-down",
+   "name": "Down",
+   "bodySlug": "local-government",
+   "indexName": "Down",
+   "type": "district",
+   "generation": "1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Down"
+   ],
+   "searchName": "Down",
+   "officialName": "Down District Council",
+   "officialNameAliases": [
+    "down"
+   ],
+   "officesInstitution": "council-down",
+   "websites": {
+    "key": "down",
+    "hosts": [
+     "www.downdc.gov.uk"
+    ]
+   },
+   "wikipedia": {
+    "key": "down",
+    "titleVariants": [
+     "Down District Council"
+    ]
+   },
+   "flags": {
+    "localGovernmentGroup": true
+   },
+   "successors": [
+    {
+     "id": "ni-2014-newry-mourne-and-down",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c2"
+      },
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "DOWN abolished, joined to Newry, Mourne and Down",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c2"
+    }
+   ]
+  },
+  {
+   "id": "ni-1973-dungannon",
+   "name": "Dungannon",
+   "bodySlug": "local-government",
+   "indexName": "Dungannon",
+   "type": "district",
+   "generation": "1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Tyrone"
+   ],
+   "searchName": "Dungannon",
+   "officialName": "Dungannon District Council",
+   "officialNameAliases": [
+    "dungannon"
+   ],
+   "officesInstitution": "council-dungannon",
+   "websites": {
+    "key": "dungannon",
+    "hosts": [
+     "www.dungannon.gov.uk"
+    ]
+   },
+   "wikipedia": {
+    "key": "dungannon_and_south_tyrone",
+    "titleVariants": [
+     "Dungannon and South Tyrone Borough Council",
+     "Dungannon and South Tyrone District Council",
+     "Dungannon District Council"
+    ]
+   },
+   "flags": {
+    "localGovernmentGroup": true
+   },
+   "predecessors": [
+    {
+     "id": "clogher-rural-district-council",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c3"
+      }
+     ]
+    },
+    {
+     "id": "dungannon-urban-district-council",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c21"
+      }
+     ]
+    }
+   ],
+   "successors": [
+    {
+     "id": "ni-2014-mid-ulster",
+     "basis": [
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Clogher Rural District abolished, joined to DUNGANNON, OMAGH",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c3"
+    },
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Dungannon Urban District abolished, joined to DUNGANNON",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c21"
+    }
+   ]
+  },
+  {
+   "id": "ni-1973-fermanagh",
+   "name": "Fermanagh",
+   "bodySlug": "local-government",
+   "indexName": "Fermanagh",
+   "type": "district",
+   "generation": "1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Fermanagh"
+   ],
+   "searchName": "Fermanagh",
+   "officialName": "Fermanagh District Council",
+   "officialNameAliases": [
+    "fermanagh"
+   ],
+   "officesInstitution": "council-fermanagh",
+   "websites": {
+    "key": "fermanagh",
+    "hosts": [
+     "www.fermanagh.gov.uk"
+    ]
+   },
+   "wikipedia": {
+    "key": "fermanagh",
+    "titleVariants": [
+     "Fermanagh District Council"
+    ]
+   },
+   "flags": {
+    "localGovernmentGroup": true
+   },
+   "predecessors": [
+    {
+     "id": "irvinestown-rural-district-council",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c1"
+      }
+     ]
+    }
+   ],
+   "successors": [
+    {
+     "id": "ni-2014-fermanagh-and-omagh",
+     "basis": [
+      {
+       "type": "renamed",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c22"
+      },
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Irvinestown Rural District abolished, joined to FERMANAGH",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c1"
+    },
+    {
+     "type": "renamed",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "FERMANAGH renamed Fermanagh and Omagh",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c22"
+    }
+   ]
+  },
+  {
+   "id": "ni-2014-fermanagh-and-omagh",
+   "name": "Fermanagh and Omagh",
+   "bodySlug": "local-government",
+   "indexName": "Fermanagh and Omagh",
+   "type": "district",
+   "generation": "2014",
+   "jurisdiction": "northern-ireland",
+   "searchName": "Fermanagh and Omagh",
+   "wikipedia": {
+    "key": "fermanagh_and_omagh",
+    "titleVariants": [
+     "Fermanagh and Omagh District Council"
+    ]
+   },
+   "flags": {
+    "localGovernmentGroup": true
+   },
+   "predecessors": [
+    {
+     "id": "ni-1973-fermanagh",
+     "basis": [
+      {
+       "type": "renamed",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c22"
+      },
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    },
+    {
+     "id": "ni-1973-omagh",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c1"
+      },
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "OMAGH abolished, joined to Fermanagh and Omagh",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c1"
+    },
+    {
+     "type": "renamed",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "FERMANAGH renamed Fermanagh and Omagh",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c22"
+    }
+   ]
+  },
+  {
+   "id": "ni-1973-larne",
+   "name": "Larne",
+   "bodySlug": "local-government",
+   "indexName": "Larne",
+   "type": "district",
+   "generation": "1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Antrim"
+   ],
+   "searchName": "Larne",
+   "officialName": "Larne Borough Council",
+   "officialNameAliases": [
+    "larne"
+   ],
+   "officesInstitution": "council-larne",
+   "websites": {
+    "key": "larne",
+    "hosts": [
+     "www.larne.gov.uk"
+    ]
+   },
+   "wikipedia": {
+    "key": "larne",
+    "titleVariants": [
+     "Larne Borough Council",
+     "Larne District Council"
+    ]
+   },
+   "flags": {
+    "localGovernmentGroup": true
+   },
+   "successors": [
+    {
+     "id": "ni-2014-mid-and-east-antrim",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c12"
+      },
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "LARNE abolished, joined to Mid and East Antrim",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c12"
+    }
+   ]
+  },
+  {
+   "id": "ni-1973-limavady",
+   "name": "Limavady",
+   "bodySlug": "local-government",
+   "indexName": "Limavady",
+   "type": "district",
+   "generation": "1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Londonderry"
+   ],
+   "searchName": "Limavady",
+   "officialName": "Limavady Borough Council",
+   "officialNameAliases": [
+    "limavady"
+   ],
+   "officesInstitution": "council-limavady",
+   "websites": {
+    "key": "limavady",
+    "hosts": [
+     "www.limavady.gov.uk"
+    ]
+   },
+   "wikipedia": {
+    "key": "limavady",
+    "titleVariants": [
+     "Limavady Borough Council",
+     "Limavady District Council"
+    ]
+   },
+   "flags": {
+    "localGovernmentGroup": true
+   },
+   "predecessors": [
+    {
+     "id": "limavady-rural-district-council",
+     "basis": [
+      {
+       "type": "renamed",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c37"
+      }
+     ]
+    },
+    {
+     "id": "limavady-urban-district-council",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c19"
+      }
+     ]
+    }
+   ],
+   "successors": [
+    {
+     "id": "ni-2014-causeway-coast-and-glens",
+     "basis": [
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Limavady Urban District abolished, joined to LIMAVADY",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c19"
+    },
+    {
+     "type": "renamed",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Limavady Rural District renamed LIMAVADY",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c37"
+    }
+   ]
+  },
+  {
+   "id": "ni-1973-lisburn",
+   "name": "Lisburn",
+   "bodySlug": "local-government",
+   "indexName": "Lisburn",
+   "type": "district",
+   "generation": "1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Antrim",
+    "Down"
+   ],
+   "searchName": "Lisburn City",
+   "officialName": "Lisburn Borough Council",
+   "officialNameAliases": [
+    "lisburn"
+   ],
+   "officesInstitution": "council-lisburn",
+   "websites": {
+    "key": "lisburn",
+    "hosts": [
+     "www.lisburn.gov.uk"
+    ]
+   },
+   "wikipedia": {
+    "key": "lisburn",
+    "titleVariants": [
+     "Lisburn City Council",
+     "Lisburn Borough Council",
+     "Lisburn District Council"
+    ]
+   },
+   "flags": {
+    "localGovernmentGroup": true
+   },
+   "predecessors": [
+    {
+     "id": "moira-rural-district-council",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c7"
+      }
+     ]
+    }
+   ],
+   "successors": [
+    {
+     "id": "ni-2014-lisburn-and-castlereagh",
+     "basis": [
+      {
+       "type": "renamed",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c26"
+      },
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Moira Rural District abolished, joined to LISBURN, BANBRIDGE",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c7"
+    },
+    {
+     "type": "renamed",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "LISBURN renamed Lisburn and Castlereagh",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c26"
+    }
+   ]
+  },
+  {
+   "id": "ni-2014-lisburn-and-castlereagh",
+   "name": "Lisburn and Castlereagh",
+   "bodySlug": "local-government",
+   "indexName": "Lisburn and Castlereagh",
+   "type": "district",
+   "generation": "2014",
+   "jurisdiction": "northern-ireland",
+   "searchName": "Lisburn and Castlereagh City",
+   "wikipedia": {
+    "key": "lisburn_and_castlereagh",
+    "titleVariants": [
+     "Lisburn and Castlereagh District Council",
+     "Lisburn and Castlereagh City Council"
+    ]
+   },
+   "flags": {
+    "localGovernmentGroup": true
+   },
+   "predecessors": [
+    {
+     "id": "ni-1973-banbridge",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c8"
+      }
+     ]
+    },
+    {
+     "id": "ni-1973-castlereagh",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c14"
+      },
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    },
+    {
+     "id": "ni-1973-lisburn",
+     "basis": [
+      {
+       "type": "renamed",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c26"
+      },
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "BANBRIDGE abolished, joined to Armagh City, Banbridge and Craigavon, Newry, Mourne and Down, Lisburn and Castlereagh",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c8"
+    },
+    {
+     "type": "abolished",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "CASTLEREAGH abolished, joined to Lisburn and Castlereagh, Belfast",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c14"
+    },
+    {
+     "type": "renamed",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "LISBURN renamed Lisburn and Castlereagh",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c26"
+    }
+   ]
+  },
+  {
+   "id": "ni-1973-magherafelt",
+   "name": "Magherafelt",
+   "bodySlug": "local-government",
+   "indexName": "Magherafelt",
+   "type": "district",
+   "generation": "1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Londonderry"
+   ],
+   "searchName": "Magherafelt",
+   "officialName": "Magherafelt District Council",
+   "officialNameAliases": [
+    "magherafelt"
+   ],
+   "officesInstitution": "council-magherafelt",
+   "websites": {
+    "key": "magherafelt",
+    "hosts": [
+     "www.magherafelt.gov.uk"
+    ]
+   },
+   "wikipedia": {
+    "key": "magherafelt",
+    "titleVariants": [
+     "Magherafelt District Council"
+    ]
+   },
+   "flags": {
+    "localGovernmentGroup": true
+   },
+   "predecessors": [
+    {
+     "id": "magherafelt-rural-district-council",
+     "basis": [
+      {
+       "type": "renamed",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c38"
+      }
+     ]
+    }
+   ],
+   "successors": [
+    {
+     "id": "ni-2014-mid-ulster",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c4"
+      },
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "renamed",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Magherafelt Rural District renamed MAGHERAFELT",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c38"
+    },
+    {
+     "type": "abolished",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "MAGHERAFELT abolished, joined to Mid Ulster",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c4"
+    }
+   ]
+  },
+  {
+   "id": "ni-2014-mid-and-east-antrim",
+   "name": "Mid and East Antrim",
+   "bodySlug": "local-government",
+   "indexName": "Mid and East Antrim",
+   "type": "district",
+   "generation": "2014",
+   "jurisdiction": "northern-ireland",
+   "searchName": "Mid and East Antrim",
+   "wikipedia": {
+    "key": "mid_and_east_antrim",
+    "titleVariants": [
+     "Mid and East Antrim District Council"
+    ]
+   },
+   "flags": {
+    "localGovernmentGroup": true
+   },
+   "predecessors": [
+    {
+     "id": "ni-1973-ballymena",
+     "basis": [
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    },
+    {
+     "id": "ni-1973-carrickfergus",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c15"
+      },
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    },
+    {
+     "id": "ni-1973-larne",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c12"
+      },
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "LARNE abolished, joined to Mid and East Antrim",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c12"
+    },
+    {
+     "type": "abolished",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "CARRICKFERGUS abolished, joined to Mid and East Antrim, Antrim and Newtownabbey",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c15"
+    }
+   ]
+  },
+  {
+   "id": "ni-2014-mid-ulster",
+   "name": "Mid Ulster",
+   "bodySlug": "local-government",
+   "indexName": "Mid Ulster",
+   "type": "district",
+   "generation": "2014",
+   "jurisdiction": "northern-ireland",
+   "searchName": "Mid Ulster",
+   "wikipedia": {
+    "key": "mid_ulster",
+    "titleVariants": [
+     "Mid-Ulster District Council",
+     "Mid Ulster District Council"
+    ]
+   },
+   "flags": {
+    "localGovernmentGroup": true
+   },
+   "predecessors": [
+    {
+     "id": "ni-1973-cookstown",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c3"
+      },
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    },
+    {
+     "id": "ni-1973-dungannon",
+     "basis": [
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    },
+    {
+     "id": "ni-1973-magherafelt",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c4"
+      },
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "COOKSTOWN abolished, joined to Mid Ulster",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c3"
+    },
+    {
+     "type": "abolished",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "MAGHERAFELT abolished, joined to Mid Ulster",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c4"
+    }
+   ]
+  },
+  {
+   "id": "ni-1973-moyle",
+   "name": "Moyle",
+   "bodySlug": "local-government",
+   "indexName": "Moyle",
+   "type": "district",
+   "generation": "1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Antrim"
+   ],
+   "searchName": "Moyle",
+   "websites": {
+    "key": "moyle",
+    "hosts": [
+     "www.moyle-council.org"
+    ]
+   },
+   "wikipedia": {
+    "key": "moyle",
+    "titleVariants": [
+     "Moyle District Council"
+    ]
+   },
+   "flags": {
+    "localGovernmentGroup": true
+   },
+   "predecessors": [
+    {
+     "id": "ballycastle-rural-district-council",
+     "basis": [
+      {
+       "type": "renamed",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c39"
+      }
+     ]
+    },
+    {
+     "id": "ballycastle-urban-district-council",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c17"
+      }
+     ]
+    }
+   ],
+   "successors": [
+    {
+     "id": "ni-2014-causeway-coast-and-glens",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c7"
+      },
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c17"
+      },
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Ballycastle Urban District abolished, joined to MOYLE",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c17"
+    },
+    {
+     "type": "renamed",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Ballycastle Rural District renamed MOYLE",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c39"
+    },
+    {
+     "type": "abolished",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "MOYLE abolished, joined to Causeway Coast and Glens",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c7"
+    },
+    {
+     "type": "abolished",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "MOYLE abolished, joined to Causeway Coast and Glens",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c17"
+    }
+   ]
+  },
+  {
+   "id": "ni-1973-newry-and-mourne",
+   "name": "Newry and Mourne",
+   "bodySlug": "local-government",
+   "indexName": "Newry and Mourne",
+   "type": "district",
+   "generation": "1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Armagh",
+    "Down"
+   ],
+   "searchName": "Newry and Mourne",
+   "officialName": "Newry and Mourne District Council",
+   "officialNameAliases": [
+    "newry and mourne",
+    "newry mourne"
+   ],
+   "officesInstitution": "council-newry-and-mourne",
+   "websites": {
+    "key": "newry-mourne",
+    "hosts": [
+     "www.newryandmourne.gov.uk"
+    ]
+   },
+   "wikipedia": {
+    "key": "newry_and_mourne",
+    "titleVariants": [
+     "Newry and Mourne District Council"
+    ]
+   },
+   "flags": {
+    "localGovernmentGroup": true
+   },
+   "predecessors": [
+    {
+     "id": "kilkeel-urban-district-council",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c13"
+      }
+     ]
+    },
+    {
+     "id": "newry-no-1-rural-district-council",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c4"
+      }
+     ]
+    },
+    {
+     "id": "newry-urban-district-council",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c15"
+      }
+     ]
+    },
+    {
+     "id": "south-down-rural-district-council",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c5"
+      }
+     ]
+    },
+    {
+     "id": "warrenpoint-urban-district-council",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c18"
+      }
+     ]
+    }
+   ],
+   "successors": [
+    {
+     "id": "ni-2014-newry-mourne-and-down",
+     "basis": [
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Newry No. 1 Rural District abolished, joined to NEWRY AND MOURNE, BANBRIDGE",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c4"
+    },
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "South Down Rural District abolished, joined to NEWRY AND MOURNE",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c5"
+    },
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Kilkeel Urban District abolished, joined to NEWRY AND MOURNE",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c13"
+    },
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Newry Urban District abolished, joined to NEWRY AND MOURNE",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c15"
+    },
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Warrenpoint Urban District abolished, joined to NEWRY AND MOURNE",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c18"
+    }
+   ]
+  },
+  {
+   "id": "ni-2014-newry-mourne-and-down",
+   "name": "Newry, Mourne and Down",
+   "bodySlug": "local-government",
+   "indexName": "Newry, Mourne and Down",
+   "type": "district",
+   "generation": "2014",
+   "jurisdiction": "northern-ireland",
+   "searchName": "Newry Mourne and Down",
+   "wikipedia": {
+    "key": "newry_mourne_and_down",
+    "titleVariants": [
+     "Newry, Mourne and Down District Council"
+    ]
+   },
+   "flags": {
+    "localGovernmentGroup": true
+   },
+   "predecessors": [
+    {
+     "id": "ni-1973-banbridge",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c8"
+      }
+     ]
+    },
+    {
+     "id": "ni-1973-down",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c2"
+      },
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    },
+    {
+     "id": "ni-1973-newry-and-mourne",
+     "basis": [
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "DOWN abolished, joined to Newry, Mourne and Down",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c2"
+    },
+    {
+     "type": "abolished",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "BANBRIDGE abolished, joined to Armagh City, Banbridge and Craigavon, Newry, Mourne and Down, Lisburn and Castlereagh",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c8"
+    }
+   ]
+  },
+  {
+   "id": "ni-1973-newtownabbey",
+   "name": "Newtownabbey",
+   "bodySlug": "local-government",
+   "indexName": "Newtownabbey",
+   "type": "district",
+   "generation": "1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Antrim"
+   ],
+   "searchName": "Newtownabbey",
+   "officialName": "Newtownabbey Borough Council",
+   "officialNameAliases": [
+    "newtownabbey"
+   ],
+   "officesInstitution": "council-newtownabbey",
+   "websites": {
+    "key": "newtownabbey",
+    "hosts": [
+     "www.newtownabbey.gov.uk"
+    ]
+   },
+   "wikipedia": {
+    "key": "newtownabbey",
+    "titleVariants": [
+     "Newtownabbey Borough Council",
+     "Newtownabbey District Council"
+    ]
+   },
+   "flags": {
+    "localGovernmentGroup": true
+   },
+   "successors": [
+    {
+     "id": "ni-2014-antrim-and-newtownabbey",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c13"
+      },
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "NEWTOWNABBEY abolished, joined to Antrim and Newtownabbey",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c13"
+    }
+   ]
+  },
+  {
+   "id": "ni-1973-north-down",
+   "name": "North Down",
+   "bodySlug": "local-government",
+   "indexName": "North Down",
+   "type": "district",
+   "generation": "1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Down"
+   ],
+   "searchName": "North Down",
+   "officialName": "North Down Borough Council",
+   "officialNameAliases": [
+    "north down"
+   ],
+   "officesInstitution": "council-north-down",
+   "websites": {
+    "key": "north-down",
+    "hosts": [
+     "www.northdown.gov.uk"
+    ]
+   },
+   "wikipedia": {
+    "key": "north_down",
+    "titleVariants": [
+     "North Down Borough Council",
+     "North Down District Council"
+    ]
+   },
+   "flags": {
+    "localGovernmentGroup": true
+   },
+   "successors": [
+    {
+     "id": "ni-2014-ards-and-north-down",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c16"
+      },
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    },
+    {
+     "id": "ni-2014-belfast",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c16"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "NORTH DOWN abolished, joined to Ards and North Down, Belfast",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c16"
+    }
+   ]
+  },
+  {
+   "id": "ni-1973-omagh",
+   "name": "Omagh",
+   "bodySlug": "local-government",
+   "indexName": "Omagh",
+   "type": "district",
+   "generation": "1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Tyrone"
+   ],
+   "searchName": "Omagh",
+   "officialName": "Omagh District Council",
+   "officialNameAliases": [
+    "omagh"
+   ],
+   "officesInstitution": "council-omagh",
+   "websites": {
+    "key": "omagh",
+    "hosts": [
+     "www.omagh.gov.uk"
+    ]
+   },
+   "wikipedia": {
+    "key": "omagh",
+    "titleVariants": [
+     "Omagh District Council"
+    ]
+   },
+   "flags": {
+    "localGovernmentGroup": true
+   },
+   "predecessors": [
+    {
+     "id": "castlederg-rural-district-council",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c2"
+      }
+     ]
+    },
+    {
+     "id": "clogher-rural-district-council",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c3"
+      }
+     ]
+    },
+    {
+     "id": "omagh-rural-district-council",
+     "basis": [
+      {
+       "type": "renamed",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c33"
+      }
+     ]
+    },
+    {
+     "id": "omagh-urban-district-council",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c9"
+      }
+     ]
+    }
+   ],
+   "successors": [
+    {
+     "id": "ni-2014-fermanagh-and-omagh",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c1"
+      },
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Castlederg Rural District abolished, joined to STRABANE, OMAGH",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c2"
+    },
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Clogher Rural District abolished, joined to DUNGANNON, OMAGH",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c3"
+    },
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Omagh Urban District abolished, joined to OMAGH",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c9"
+    },
+    {
+     "type": "renamed",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Omagh Rural District renamed OMAGH",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c33"
+    },
+    {
+     "type": "abolished",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "OMAGH abolished, joined to Fermanagh and Omagh",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c1"
+    }
+   ]
+  },
+  {
+   "id": "ni-1973-strabane",
+   "name": "Strabane",
+   "bodySlug": "local-government",
+   "indexName": "Strabane",
+   "type": "district",
+   "generation": "1973",
+   "jurisdiction": "northern-ireland",
+   "counties": [
+    "Tyrone"
+   ],
+   "searchName": "Strabane",
+   "officialName": "Strabane District Council",
+   "officialNameAliases": [
+    "strabane"
+   ],
+   "officesInstitution": "council-strabane",
+   "websites": {
+    "key": "strabane",
+    "hosts": [
+     "www.strabanedc.com",
+     "www.strabanedc.org.uk"
+    ]
+   },
+   "wikipedia": {
+    "key": "strabane",
+    "titleVariants": [
+     "Strabane District Council"
+    ]
+   },
+   "flags": {
+    "localGovernmentGroup": true
+   },
+   "predecessors": [
+    {
+     "id": "castlederg-rural-district-council",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c2"
+      }
+     ]
+    },
+    {
+     "id": "strabane-rural-district-council",
+     "basis": [
+      {
+       "type": "renamed",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c34"
+      }
+     ]
+    },
+    {
+     "id": "strabane-urban-district-council",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c10"
+      }
+     ]
+    }
+   ],
+   "successors": [
+    {
+     "id": "ni-2014-derry-city-and-strabane",
+     "basis": [
+      {
+       "type": "renamed",
+       "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c23"
+      },
+      {
+       "type": "overlap",
+       "source": "data/elections/persons/ni-council-geography.json#overlap"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Castlederg Rural District abolished, joined to STRABANE, OMAGH",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c2"
+    },
+    {
+     "type": "abolished",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Strabane Urban District abolished, joined to STRABANE",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c10"
+    },
+    {
+     "type": "renamed",
+     "between": [
+      "admin-areas-1969-04-02",
+      "lgd-1972"
+     ],
+     "text": "Strabane Rural District renamed STRABANE",
+     "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c34"
+    },
+    {
+     "type": "renamed",
+     "between": [
+      "lgd-1993",
+      "lgd-2012"
+     ],
+     "text": "STRABANE renamed Derry City and Strabane",
+     "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c23"
+    }
+   ]
+  },
+  {
+   "id": "ie-2014-carlow",
+   "name": "Carlow",
+   "bodySlug": "ireland-local",
+   "type": "city-county",
+   "generation": "2014",
+   "jurisdiction": "ireland",
+   "searchName": "Carlow"
+  },
+  {
+   "id": "ie-2014-cavan",
+   "name": "Cavan",
+   "bodySlug": "ireland-local",
+   "type": "city-county",
+   "generation": "2014",
+   "jurisdiction": "ireland",
+   "searchName": "Cavan"
+  },
+  {
+   "id": "ie-2014-clare",
+   "name": "Clare",
+   "bodySlug": "ireland-local",
+   "type": "city-county",
+   "generation": "2014",
+   "jurisdiction": "ireland",
+   "searchName": "Clare"
+  },
+  {
+   "id": "ie-2014-cork-city",
+   "name": "Cork City",
+   "bodySlug": "ireland-local",
+   "type": "city-county",
+   "generation": "2014",
+   "jurisdiction": "ireland",
+   "searchName": "Cork City"
+  },
+  {
+   "id": "ie-2014-cork-county",
+   "name": "Cork County",
+   "bodySlug": "ireland-local",
+   "type": "city-county",
+   "generation": "2014",
+   "jurisdiction": "ireland",
+   "searchName": "Cork County"
+  },
+  {
+   "id": "ie-2014-donegal",
+   "name": "Donegal",
+   "bodySlug": "ireland-local",
+   "type": "city-county",
+   "generation": "2014",
+   "jurisdiction": "ireland",
+   "searchName": "Donegal"
+  },
+  {
+   "id": "ie-2014-dublin-city",
+   "name": "Dublin City",
+   "bodySlug": "ireland-local",
+   "type": "city-county",
+   "generation": "2014",
+   "jurisdiction": "ireland",
+   "searchName": "Dublin City"
+  },
+  {
+   "id": "ie-2014-dun-laoghaire-rathdown",
+   "name": "Dun Laoghaire Rathdown",
+   "bodySlug": "ireland-local",
+   "type": "city-county",
+   "generation": "2014",
+   "jurisdiction": "ireland",
+   "searchName": "Dun Laoghaire Rathdown"
+  },
+  {
+   "id": "ie-2014-fingal",
+   "name": "Fingal",
+   "bodySlug": "ireland-local",
+   "type": "city-county",
+   "generation": "2014",
+   "jurisdiction": "ireland",
+   "searchName": "Fingal"
+  },
+  {
+   "id": "ie-2014-galway-city",
+   "name": "Galway City",
+   "bodySlug": "ireland-local",
+   "type": "city-county",
+   "generation": "2014",
+   "jurisdiction": "ireland",
+   "searchName": "Galway City"
+  },
+  {
+   "id": "ie-2014-galway-county",
+   "name": "Galway County",
+   "bodySlug": "ireland-local",
+   "type": "city-county",
+   "generation": "2014",
+   "jurisdiction": "ireland",
+   "searchName": "Galway County"
+  },
+  {
+   "id": "ie-2014-kerry",
+   "name": "Kerry",
+   "bodySlug": "ireland-local",
+   "type": "city-county",
+   "generation": "2014",
+   "jurisdiction": "ireland",
+   "searchName": "Kerry"
+  },
+  {
+   "id": "ie-2014-kildare",
+   "name": "Kildare",
+   "bodySlug": "ireland-local",
+   "type": "city-county",
+   "generation": "2014",
+   "jurisdiction": "ireland",
+   "searchName": "Kildare"
+  },
+  {
+   "id": "ie-2014-kilkenny",
+   "name": "Kilkenny",
+   "bodySlug": "ireland-local",
+   "type": "city-county",
+   "generation": "2014",
+   "jurisdiction": "ireland",
+   "searchName": "Kilkenny"
+  },
+  {
+   "id": "ie-2014-laois",
+   "name": "Laois",
+   "bodySlug": "ireland-local",
+   "type": "city-county",
+   "generation": "2014",
+   "jurisdiction": "ireland",
+   "searchName": "Laois"
+  },
+  {
+   "id": "ie-2014-leitrim",
+   "name": "Leitrim",
+   "bodySlug": "ireland-local",
+   "type": "city-county",
+   "generation": "2014",
+   "jurisdiction": "ireland",
+   "searchName": "Leitrim"
+  },
+  {
+   "id": "ie-2014-limerick",
+   "name": "Limerick",
+   "bodySlug": "ireland-local",
+   "type": "city-county",
+   "generation": "2014",
+   "jurisdiction": "ireland",
+   "searchName": "Limerick"
+  },
+  {
+   "id": "ie-2014-longford",
+   "name": "Longford",
+   "bodySlug": "ireland-local",
+   "type": "city-county",
+   "generation": "2014",
+   "jurisdiction": "ireland",
+   "searchName": "Longford"
+  },
+  {
+   "id": "ie-2014-louth",
+   "name": "Louth",
+   "bodySlug": "ireland-local",
+   "type": "city-county",
+   "generation": "2014",
+   "jurisdiction": "ireland",
+   "searchName": "Louth"
+  },
+  {
+   "id": "ie-2014-mayo",
+   "name": "Mayo",
+   "bodySlug": "ireland-local",
+   "type": "city-county",
+   "generation": "2014",
+   "jurisdiction": "ireland",
+   "searchName": "Mayo"
+  },
+  {
+   "id": "ie-2014-meath",
+   "name": "Meath",
+   "bodySlug": "ireland-local",
+   "type": "city-county",
+   "generation": "2014",
+   "jurisdiction": "ireland",
+   "searchName": "Meath"
+  },
+  {
+   "id": "ie-2014-monaghan",
+   "name": "Monaghan",
+   "bodySlug": "ireland-local",
+   "type": "city-county",
+   "generation": "2014",
+   "jurisdiction": "ireland",
+   "searchName": "Monaghan"
+  },
+  {
+   "id": "ie-2014-offaly",
+   "name": "Offaly",
+   "bodySlug": "ireland-local",
+   "type": "city-county",
+   "generation": "2014",
+   "jurisdiction": "ireland",
+   "searchName": "Offaly"
+  },
+  {
+   "id": "ie-2014-roscommon",
+   "name": "Roscommon",
+   "bodySlug": "ireland-local",
+   "type": "city-county",
+   "generation": "2014",
+   "jurisdiction": "ireland",
+   "searchName": "Roscommon"
+  },
+  {
+   "id": "ie-2014-sligo",
+   "name": "Sligo",
+   "bodySlug": "ireland-local",
+   "type": "city-county",
+   "generation": "2014",
+   "jurisdiction": "ireland",
+   "searchName": "Sligo"
+  },
+  {
+   "id": "ie-2014-south-dublin",
+   "name": "South Dublin",
+   "bodySlug": "ireland-local",
+   "type": "city-county",
+   "generation": "2014",
+   "jurisdiction": "ireland",
+   "searchName": "South Dublin"
+  },
+  {
+   "id": "ie-2014-tipperary",
+   "name": "Tipperary",
+   "bodySlug": "ireland-local",
+   "type": "city-county",
+   "generation": "2014",
+   "jurisdiction": "ireland",
+   "searchName": "Tipperary"
+  },
+  {
+   "id": "ie-2014-waterford",
+   "name": "Waterford",
+   "bodySlug": "ireland-local",
+   "type": "city-county",
+   "generation": "2014",
+   "jurisdiction": "ireland",
+   "searchName": "Waterford"
+  },
+  {
+   "id": "ie-2014-westmeath",
+   "name": "Westmeath",
+   "bodySlug": "ireland-local",
+   "type": "city-county",
+   "generation": "2014",
+   "jurisdiction": "ireland",
+   "searchName": "Westmeath"
+  },
+  {
+   "id": "ie-2014-wexford",
+   "name": "Wexford",
+   "bodySlug": "ireland-local",
+   "type": "city-county",
+   "generation": "2014",
+   "jurisdiction": "ireland",
+   "searchName": "Wexford"
+  },
+  {
+   "id": "ie-2014-wicklow",
+   "name": "Wicklow",
+   "bodySlug": "ireland-local",
+   "type": "city-county",
+   "generation": "2014",
+   "jurisdiction": "ireland",
+   "searchName": "Wicklow"
+  }
+ ]
+}
