@@ -87,6 +87,8 @@ import {
 import {
   clearedSelection,
   electionURLState,
+  ENTITY_PAGE,
+  entityPageFields,
   freshPanelState,
   LOCAL_MODE,
   normalizePanelView as modelNormalizePanelView,
@@ -106,7 +108,7 @@ import {
 } from '../../src/map/election/grouped-years.mjs';
 import { GroupedYearMethods } from '../../src/map/election/grouped-year-methods.js';
 import { ELECTION_LOAD } from '../../src/map/election/load-state.mjs';
-import { createState } from '../../src/map/state-helpers.mjs';
+import { createFlag, createState } from '../../src/map/state-helpers.mjs';
 import { installMethods } from '../../src/map/app/install-methods.mjs';
 
 const SEAT_SOURCE_ID = 'test2-election-seat-source';
@@ -139,6 +141,18 @@ const MAIN_ELECTION_GEOGRAPHY_STYLE = Object.freeze({
 });
 
 export class Test2ElectionManager {
+  /** The count table's detailed view, on or off (a flag: a non-boolean write throws). */
+  get countDetailedView() { return this.countDetail.on; }
+  set countDetailedView(value) { this.countDetail.set(value); }
+
+  /**
+   * Open the party or candidate page (`{ kind, key }`) or close it (null), through the
+   * ENTITY_PAGE machine; `returnView` is the view Back returns to (unchanged when omitted).
+   */
+  setEntityPage(entity, returnView) {
+    Object.assign(this, entityPageFields(this.entityPage, entity, returnView));
+  }
+
   constructor({ app, mapController, onError } = {}) {
     // "Show labels as printed": the remembered choice, and the listener for the table toggles.
     initPrintedLabels();
@@ -153,12 +167,13 @@ export class Test2ElectionManager {
     this.overlayMode = OVERLAY_MODE.check('circles');
     this.activePanelView = 'party';
     this.activeSelectedResultKey = null;
-    this.activeEntityKind = null;
-    this.activeEntityKey = null;
-    this.activeEntityReturnView = 'party';
+    // The party or candidate page, closed or open (MA-04, panel-model.mjs ENTITY_PAGE).
+    this.entityPage = createState(ENTITY_PAGE);
+    this.setEntityPage(null, 'party');
     this.activeLocalMode = LOCAL_MODE.check('dea');
     this.activeGeographyModeId = null;
-    this.countDetailedView = false;
+    // The count table's detailed view (a flag: countDetailedView reads and sets it).
+    this.countDetail = createFlag('election count detail');
     // bundleCache, trendSummaryCache, trendSummaryPromiseCache, trendRenderCache and featureIndexCache
     // (src/map/election/cache.mjs).
     Object.assign(this, createElectionCaches());
@@ -316,6 +331,7 @@ export class Test2ElectionManager {
     this.activeMode = stylingModeFor(entry, this.activeMode);
     if (!this.shouldRenderElectionOverlays()) this.overlayMode = OVERLAY_MODE.check('circles');
     Object.assign(this, freshPanelState(entry));
+    this.entityPage.to('closed');
     this.activeGeographyModeId = this.defaultGeographyModeId();
     this.countDetailedView = false;
     this.indexBundle(bundle);
@@ -388,6 +404,7 @@ export class Test2ElectionManager {
     this.previousBundle = null;
     if (this.loadRun.state() === 'open') this.loadRun.to('closed');
     Object.assign(this, clearedSelection());
+    this.entityPage.to('closed');
     this.removePanel();
     this.unloadElectionBackingLayers(backingLayerIds);
     this.app.updateTimeline();
@@ -522,9 +539,7 @@ export class Test2ElectionManager {
     this.countDetailedView = validSelected && params.get('electionCountDetail') === '1';
     if (!validSelected) {
       this.activeSelectedResultKey = null;
-      this.activeEntityKind = null;
-      this.activeEntityKey = null;
-      this.activeEntityReturnView = null;
+      this.setEntityPage(null, null);
     }
     await this.renderElectionOverlay();
     this.renderPanel(validSelected ? selectedResult : null, view);
@@ -873,8 +888,7 @@ export class Test2ElectionManager {
     // Choosing a constituency (or going back to the whole election) is a step the reader can
     // take back with the browser's Back button: a new history entry, not a rewrite of this one.
     const selectionChanged = previousSelectedKey !== this.activeSelectedResultKey;
-    this.activeEntityKind = null;
-    this.activeEntityKey = null;
+    this.setEntityPage(null);
     if (selectedResult) {
       this.hydrateSelectedResult(selectedResult)
         .catch((error) => console.warn('[test2 elections] Could not load constituency count detail', error));
@@ -3643,17 +3657,14 @@ export class Test2ElectionManager {
     const title = document.getElementById('electionPaneTitle');
     const back = document.getElementById('electionPaneBack');
     if (!pane || !content || !title) return;
-    this.activeEntityKind = kind;
-    this.activeEntityKey = key;
-    this.activeEntityReturnView = this.activePanelView || 'party';
+    this.setEntityPage({ kind, key }, this.activePanelView || 'party');
     this.activeSelectedResultKey = null;
     title.textContent = entity.name || entity.id || 'Election entity';
     back?.classList.remove('hidden');
     content.innerHTML = this.mainPaneContract.renderEntityPanel(kind, entity);
     back?.addEventListener('click', () => {
       const returnView = this.activeEntityReturnView || 'party';
-      this.activeEntityKind = null;
-      this.activeEntityKey = null;
+      this.setEntityPage(null);
       this.renderPanel(null, returnView);
       this.app.updateURLState();
     });

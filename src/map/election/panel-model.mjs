@@ -8,6 +8,7 @@
  * changing behaviour. Pure: no DOM, no network; each function takes the facts it needs.
  */
 import { normalizeName } from '../../election-domain.mjs';
+import { defineMachine } from '../../../scripts/lib/state-machine.mjs';
 import { defineChoice } from '../state-helpers.mjs';
 
 /** The map's colouring modes, in the order an election offers them. */
@@ -25,6 +26,47 @@ export const COUNCIL_VIEWS = Object.freeze(['party', 'candidate', 'local-party',
  */
 export const OVERLAY_MODE = defineChoice('election overlay', ['circles', 'bars']);
 export const LOCAL_MODE = defineChoice('election local level', ['dea', 'district', 'constituency']);
+
+/**
+ * The views the pane draws (MA-04). `results` is the one-seat first-past-the-post result's own
+ * view; `counts` and `animation` need a constituency. Kept as a list, not a checked choice: a
+ * view named in the address for a selected multi-seat result is kept as it is (normalizePanelView)
+ * and drawn as the candidate table, so checking it would turn an odd address into an error.
+ */
+export const PANEL_VIEWS = Object.freeze(['party', 'candidate', 'local-party', 'constituency', 'council', 'counts', 'animation', 'trends', 'results']);
+
+/** @typedef {'closed' | 'open'} EntityPageState */
+
+/**
+ * The pane's party or candidate page (MA-04, full weight with the views above): `open` with a
+ * kind, a key and the view Back returns to, or `closed`. Every write of the manager's
+ * activeEntityKind/Key/ReturnView goes through `entityPageFields`, which moves this machine.
+ *
+ *   closed -> open    an entity link, or an address that names one
+ *   open -> open      a link from one entity page to another
+ *   open -> closed    Back, any other view drawn, a new or closed election
+ *   closed -> closed  the same (nothing was open)
+ */
+export const ENTITY_PAGE = defineMachine({
+  name: 'election entity page',
+  initial: /** @type {EntityPageState} */ ('closed'),
+  transitions: { closed: ['closed', 'open'], open: ['open', 'closed'] }
+});
+
+/**
+ * The fields for the entity page's next state, after checking the move from the current one.
+ * `returnView` is kept as given (an address restore can leave it null, as before).
+ * @param {{ state: () => EntityPageState, to: (next: EntityPageState) => EntityPageState }} page
+ * @param {{ kind: string, key: string } | null} entity  null closes the page
+ * @param {string | null} [returnView]  the view Back returns to; left unchanged when undefined
+ */
+export function entityPageFields(page, entity, returnView) {
+  page.to(entity ? 'open' : 'closed');
+  /** @type {{ activeEntityKind: string | null, activeEntityKey: string | null, activeEntityReturnView?: string | null }} */
+  const fields = { activeEntityKind: entity ? entity.kind : null, activeEntityKey: entity ? entity.key : null };
+  if (returnView !== undefined) fields.activeEntityReturnView = returnView;
+  return fields;
+}
 
 /** The colouring mode an election opens in: the current one if it offers it, else its first usual mode, else winner. */
 export function stylingModeFor(entry, currentMode) {

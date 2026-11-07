@@ -82,3 +82,18 @@ test('MA-02: the sources use the push and listen machines, not the old fields', 
   assert.match(urlState, /this\.hashListen\.hold\(\)/);
   assert.match(urlState, /this\.hashListen\.release\(\)/);
 });
+
+test('MA-04 entity page: the table, the fields it writes, and the manager writing only through it', async () => {
+  const { ENTITY_PAGE, PANEL_VIEWS, entityPageFields } = await import('../../src/map/election/panel-model.mjs');
+  assert.deepEqual(ENTITY_PAGE.transitions, { closed: ['closed', 'open'], open: ['open', 'closed'] });
+  assertTableEnforced(ENTITY_PAGE);
+  assert.ok(PANEL_VIEWS.includes('results') && PANEL_VIEWS.includes('counts'));
+  const page = createState(ENTITY_PAGE);
+  assert.deepEqual(entityPageFields(page, { kind: 'party', key: 'sf' }, 'party'), { activeEntityKind: 'party', activeEntityKey: 'sf', activeEntityReturnView: 'party' });
+  assert.equal(page.state(), 'open');
+  assert.deepEqual(entityPageFields(page, null), { activeEntityKind: null, activeEntityKey: null }, 'the return view is kept when not given');
+  assert.equal(page.state(), 'closed');
+  const manager = read('app/src/election-manager.js');
+  assert.doesNotMatch(manager, /this\.activeEntity(Kind|Key) = /, 'kind and key are written only through setEntityPage');
+  assert.match(manager, /set countDetailedView\(value\) \{ this\.countDetail\.set\(value\); \}/);
+});
