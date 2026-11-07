@@ -116,7 +116,7 @@ Retired on 7 November 2026 with data phase 4 (the leftovers: data-architecture D
   `duplicate-feature-ids/` (about 1,670 files). Production answers their URLs from D1 since
   phase 3; `npm run build` now writes them to `tmp/layer-metadata/` for the local test server.
 - **The subtractive Pages output.** The output directory is `dist/` (wrangler.toml), built by
-  `scripts/build/site.mjs` from an explicit allow-list; `scripts/validate-pages-file-budget.mjs`
+  `scripts/build/site.mjs` from an explicit allow-list; validate-pages-file-budget.mjs
   (which modelled the root output through `.cfignore`, a file the Git-integrated build never
   read) is deleted, `check:pages-assets` runs `site.mjs --check`, and `scripts/clean-for-pages.sh`
   only runs `site.mjs` until the dashboard's build command is `npm run build:site`.
