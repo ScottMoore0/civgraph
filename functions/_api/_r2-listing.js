@@ -48,7 +48,7 @@ export function parseLimit(raw) {
  * List one directory level of the bucket.
  *
  * @param {R2Bucket} bucket
- * @param {{prefix?: string, cursor?: string, limit?: number}} options
+ * @param {{prefix?: string | undefined, cursor?: string | undefined, limit?: number | undefined}} options
  */
 export async function listLevel(bucket, { prefix = '', cursor, limit = DEFAULT_LIMIT } = {}) {
   const listing = await bucket.list({

@@ -63,6 +63,6 @@ async function handle(context) {
     return json({ count: n, exact: n != null });
   } catch (error) {
     // broad query hit a limit — let the app fall back to its loaded-so-far count
-    return json({ count: null, exact: false, error: String(error && error.message || error) });
+    return json({ count: null, exact: false, error: String(error && /** @type {Error} */ (error).message || error) });
   }
 }

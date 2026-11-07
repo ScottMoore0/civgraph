@@ -74,7 +74,7 @@ export const SHELL_STYLES = ['assets/ui/tokens.css', 'assets/ui/tokens-legacy.cs
 /** The i18n reveal script of the site head, with the runtime's URL filled in. */
 const LANG_PREVIEW = (src) => "<script>(function(){var K='civgraph.langPreview',S='" + src + "',on=false;function load(){var i=window.civgraphI18n;if(i){if(i.show)i.show();return;}if(document.querySelector('script[data-i18n-runtime]'))return;var s=document.createElement('script');s.src=S;s.setAttribute('data-i18n-runtime','');document.head.appendChild(s);}window.civgraphLangReveal=function(){try{localStorage.setItem(K,'1');}catch(e){}load();};try{if(/[?&]lang-preview=0(?:&|$)/.test(location.search)){localStorage.removeItem(K);localStorage.removeItem('civgraph.lang');}on=localStorage.getItem(K)==='1';}catch(e){}if(on)load();})();</script>";
 
-/** @param {{ version?: (path: string) => string | null }} [options] */
+/** @param {{ version?: ((path: string) => string | null) | undefined }} [options] */
 export function head({ version } = {}) {
   const url = (path) => {
     const v = version ? version(path) : null;

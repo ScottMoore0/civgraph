@@ -55,7 +55,7 @@ export async function onRequestGet(context) {
       try {
         rows = await db.all(sql, [...head, limit, offset]);
       } catch (e) {
-        controller.enqueue(enc.encode(csvRow([`ERROR: ${e && e.message || e}`])));
+        controller.enqueue(enc.encode(csvRow([`ERROR: ${e && /** @type {Error} */ (e).message || e}`])));
         controller.close();
         return;
       }

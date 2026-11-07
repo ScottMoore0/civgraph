@@ -437,7 +437,7 @@ export function contestObject(contestMeta, candidacyMetas, animationPayloadText)
     if (anim === undefined) anim = parseJson(animationPayloadText, null);
     return anim;
   };
-  return fillMarkers(meta, (k, marker) => {
+  return fillMarkers(meta, (_k, marker) => {
     if (marker === '$candidacies') return candidacyMetas.map((m) => parseJson(m, {}));
     if (marker === '$animation') return animation();
     if (marker === '$animation.countGroup') return animation()?.Constituency?.countGroup ?? [];
