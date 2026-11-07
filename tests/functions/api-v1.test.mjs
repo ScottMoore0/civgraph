@@ -16,7 +16,7 @@ import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import * as apiRoute from '../../functions/api/[[path]].js';
 import { EXCLUDED, PREFIX, ROUTES, indexDocument } from '../../functions/_lib/api/v1.js';
-import { delegate, matchRoute, rewriteLocation } from '../../functions/_lib/api/delegate.js';
+import { delegate, lifecycleHeaders, matchRoute, rewriteLocation } from '../../functions/_lib/api/delegate.js';
 import { REPO_ROOT, loadConfig } from '../../scripts/lib/config.mjs';
 
 const FUNCTIONS = path.join(REPO_ROOT, 'functions');
@@ -176,6 +176,33 @@ test('a redirect to a legacy API path comes back as the v1 path', async () => {
   assert.equal(await loc('/_api/thing/sub'), '/_api/thing/sub', 'an exact route takes no subpath');
   assert.equal(await loc('https://example.org/_api/thing'), 'https://example.org/_api/thing');
   assert.equal(rewriteLocation('/browse/', `${ORIGIN}/api/v1/thing`, STUB.routes, '/api/v1'), '/browse/');
+});
+
+test("a version's documents answer before its routes; a successor version adds Link, a sunset date Sunset", async () => {
+  const withDocs = { ...STUB, documents: { 'about.json': () => new Response('{"about":1}', { headers: { 'Content-Type': 'application/json' } }) } };
+  const runWith = (api, url, opts) => {
+    const c = ctx(url, { ...opts, mount: '/api/v1/' });
+    return delegate(c, api, c.params.path);
+  };
+  assert.deepEqual(await (await runWith(withDocs, '/api/v1/about.json')).json(), { about: 1 });
+  assert.equal(await (await runWith(withDocs, '/api/v1/about.json', { method: 'HEAD' })).text(), '');
+  assert.equal((await runWith(withDocs, '/api/v1/about.json/x')).status, 404, 'a document has no subpaths');
+  assert.equal((await runWith(withDocs, '/api/v1/about.json', { method: 'POST' })).status, 405);
+
+  // v1 today: no successor, no sunset, so no lifecycle headers
+  const plain = await run('/api/v1/thing?a=1');
+  assert.equal(plain.headers.get('Link'), null);
+  assert.equal(plain.headers.get('Sunset'), null);
+
+  const v2 = { version: 'v2', prefix: '/api/v2', routes: { thing: {}, tree: {} } };
+  const later = { ...STUB, successor: v2, sunset: 'Wed, 01 Jan 2031 00:00:00 GMT' };
+  const res = await runWith(later, '/api/v1/tree/a%20b/c?x=1');
+  assert.equal(res.headers.get('Link'), '</api/v2/tree/a%20b/c?x=1>; rel="successor-version"');
+  assert.equal(res.headers.get('Sunset'), 'Wed, 01 Jan 2031 00:00:00 GMT');
+  assert.equal(res.headers.get('API-Version'), 'v1');
+  const gone = await runWith({ ...STUB, successor: v2 }, '/api/v1/deep/leaf');
+  assert.equal(gone.headers.get('Link'), null, 'a route the successor dropped points nowhere');
+  assert.deepEqual(lifecycleHeaders({}, 'thing', [], ''), {});
 });
 
 // ------------------------------------------------------------------ the real handlers

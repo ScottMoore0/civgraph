@@ -124,6 +124,13 @@ export function compactLayer(layer) {
 }
 
 /**
+ * How a layer's feature ids are used (refactor FN-L): 'duplicate-aware' when some id is shared
+ * by more than one feature (the map app then keys on more than the id), else 'unique'.
+ * @typedef {'duplicate-aware' | 'unique'} FeatureIdMode
+ */
+export const FEATURE_ID_MODES = Object.freeze(/** @type {FeatureIdMode[]} */ (['duplicate-aware', 'unique']));
+
+/**
  * The index entry of one layer. `duplicates` is its sidecar ({ featureCount, featureIdMode,
  * duplicateFeatureIds, ... }) or null when the layer has no readable feature index.
  */
@@ -178,7 +185,7 @@ export function duplicateSidecar(layer, featureIndex) {
     sourceMapId: layer.sourceMapId || null,
     featureIndexUrl: layer.featureIndexUrl,
     featureCount: counts.size,
-    featureIdMode: duplicateFeatureIds.length ? 'duplicate-aware' : 'unique',
+    featureIdMode: /** @type {FeatureIdMode} */ (duplicateFeatureIds.length ? FEATURE_ID_MODES[0] : FEATURE_ID_MODES[1]),
     duplicateFeatureIds,
   };
 }

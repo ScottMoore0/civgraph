@@ -22,6 +22,10 @@ function dateRange(record) {
   return end && end !== start ? `${dateText(start)} to ${dateText(end)}` : dateText(start);
 }
 
+/**
+ * @param {any} record
+ * @param {{ canonical?: string }} [options]
+ */
 export function registerInterestBody(record, { canonical } = {}) {
   const title = record.title || record.memberName || record.slug;
   const member = record.memberName

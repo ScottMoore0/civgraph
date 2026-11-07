@@ -23,6 +23,7 @@
  * Like the dev-auth bypass in _auth.js it is opt-in and must stay unset in
  * production -- absent configuration means "do not disclose".
  */
+import { runtimeVar } from '../_lib/config.js';
 
 /** Short, unguessable, and enough to find one request among a day of logs. */
 function correlationId() {
@@ -48,7 +49,7 @@ export function reportError(env, where, error) {
     stack: typeof error?.stack === 'string' ? error.stack.slice(0, 2000) : undefined,
   }));
 
-  if (String(env?.CIVGRAPH_VERBOSE_ERRORS || '').toLowerCase() === 'true') {
+  if (runtimeVar(env, 'CIVGRAPH_VERBOSE_ERRORS').toLowerCase() === 'true') {
     return { errorId, detail: message };
   }
   return { errorId };

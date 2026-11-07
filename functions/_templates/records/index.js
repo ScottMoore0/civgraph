@@ -14,6 +14,7 @@
  * Neither variable is set in wrangler.toml, so production is unchanged until the owner
  * sets one. `npm run dev:records` sets both locally.
  */
+import { runtimeVar } from '../../_lib/config.js';
 import { toHtmlString } from '../../_lib/html.js';
 import { page, sectionNav } from '../shell.js';
 import { electionBody } from './election.js';
@@ -33,16 +34,47 @@ export const SSR_RECORD_TYPES = {
 };
 
 /**
+ * How a record page is served (refactor FN-L, a mode, not a machine: chosen per request from
+ * the environment, with no transitions):
+ *   legacy        the Browse shell, rendered in the browser
+ *   ssr           the server-rendered page (the type is listed in CIVGRAPH_SSR_RECORDS, or 'all')
+ *   ssr-preview   the server-rendered page as a preview (CIVGRAPH_SSR_PREVIEW=1 and ?ssr=1)
+ * @typedef {'legacy' | 'ssr' | 'ssr-preview'} SsrMode
+ */
+export const SSR_MODES = Object.freeze(/** @type {SsrMode[]} */ (['legacy', 'ssr', 'ssr-preview']));
+
+/** The two flags each mode means; no mode is a preview that is not server-rendered. */
+const SSR_MODE_FLAGS = Object.freeze(/** @type {Record<SsrMode, { ssr: boolean, preview: boolean }>} */ ({
+  legacy: Object.freeze({ ssr: false, preview: false }),
+  ssr: Object.freeze({ ssr: true, preview: false }),
+  'ssr-preview': Object.freeze({ ssr: true, preview: true }),
+}));
+
+/**
+ * The mode of this request.
+ * @param {any} env
+ * @param {string} type
+ * @param {URL} [url]
+ * @returns {SsrMode}
+ */
+export function ssrModeName(env, type, url) {
+  if (!SSR_RECORD_TYPES[/** @type {keyof typeof SSR_RECORD_TYPES} */ (type)]) return 'legacy';
+  const listed = runtimeVar(env, 'CIVGRAPH_SSR_RECORDS').split(',').map((s) => s.trim()).filter(Boolean);
+  if (listed.includes('all') || listed.includes(type)) return 'ssr';
+  const previewAllowed = String(env?.CIVGRAPH_SSR_PREVIEW || '') === '1';
+  if (previewAllowed && url?.searchParams?.get('ssr') === '1') return 'ssr-preview';
+  return 'legacy';
+}
+
+/**
  * Whether this request gets the server-rendered page, and whether as a preview.
+ * @param {any} env
+ * @param {string} type
+ * @param {URL} [url]
  * @returns {{ ssr: boolean, preview: boolean }}
  */
 export function ssrMode(env, type, url) {
-  if (!SSR_RECORD_TYPES[type]) return { ssr: false, preview: false };
-  const listed = String(env?.CIVGRAPH_SSR_RECORDS || '').split(',').map((s) => s.trim()).filter(Boolean);
-  if (listed.includes('all') || listed.includes(type)) return { ssr: true, preview: false };
-  const previewAllowed = String(env?.CIVGRAPH_SSR_PREVIEW || '') === '1';
-  if (previewAllowed && url?.searchParams?.get('ssr') === '1') return { ssr: true, preview: true };
-  return { ssr: false, preview: false };
+  return { ...SSR_MODE_FLAGS[ssrModeName(env, type, url)] };
 }
 
 /**

@@ -38,10 +38,14 @@ test('the site identity equals the shell\'s, and the User-Agent names no person'
   assert.ok(runtime.SITE.userAgent.includes(runtime.SITE.origin));
 });
 
-test('the cache policies equal the ones the records wrapper writes', () => {
+test('the records wrapper writes its cache policies from the config', () => {
   const records = read('functions/_api/_records.js');
+  assert.match(records, /import \{[^}]*\bCACHE\b[^}]*\} from '\.\.\/_lib\/config\.js'/);
+  for (const name of ['records', 'loading', 'lastGood', 'error']) {
+    assert.ok(records.includes(`CACHE.${name}`), `_records.js no longer writes CACHE.${name}`);
+  }
   for (const policy of [runtime.CACHE.records, runtime.CACHE.lastGood]) {
-    assert.ok(records.includes(`'${policy}'`), `_records.js no longer writes ${policy}`);
+    assert.ok(!records.includes(`'${policy}'`), `_records.js writes ${policy} out again instead of CACHE`);
   }
 });
 
@@ -94,8 +98,9 @@ test('every env.X a Function reads is a binding or variable the config knows', (
   const unknown = new Set();
   for (const file of functionFiles(path.join(ROOT, 'functions'))) {
     const text = readFileSync(file, 'utf8');
-    for (const m of text.matchAll(/\benv\??\.([A-Z][A-Z0-9_]{2,})\b/g)) {
-      const name = m[1];
+    // env.X, and binding(env, 'X') since the Functions read bindings through config.binding()
+    for (const m of text.matchAll(/\benv\??\.([A-Z][A-Z0-9_]{2,})\b|\bbinding\([^,()]+,\s*'([A-Z][A-Z0-9_]{2,})'\)/g)) {
+      const name = m[1] || m[2];
       if (!Object.hasOwn(runtime.BINDINGS, name) && !Object.hasOwn(runtime.RUNTIME_VARS, name)) unknown.add(`${name} (${path.relative(ROOT, file)})`);
     }
   }

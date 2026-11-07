@@ -9,6 +9,7 @@
  * Edge-cached, so each distinct query is counted at most once.
  */
 import { buildMatch, buildFilters } from './_query.js';
+import { binding } from '../../_lib/config.js';
 
 const CACHE_VERSION = 'v4';
 
@@ -36,7 +37,7 @@ async function handle(context) {
     headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=3600, s-maxage=86400', 'Access-Control-Allow-Origin': '*' },
   });
 
-  const db = context.env.PRONI_DB;
+  const db = binding(context.env, 'PRONI_DB');
   if (!db) return json({ count: null, error: 'PRONI_DB binding not configured' }, 503);
 
   const breakdown = g('breakdown') === '1'; // letter-browse: counts grouped by level

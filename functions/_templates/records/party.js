@@ -10,6 +10,10 @@ import { dataTable, facts, link, partyChip } from '../components/index.js';
 const names = (record) => [...new Set([...(record.observedNames || []), ...(record.knownAliases || [])].map(String))]
   .filter((n) => n && n !== record.title);
 
+/**
+ * @param {any} record
+ * @param {{ canonical?: string }} [options]
+ */
 export function partyBody(record, { canonical } = {}) {
   const title = record.title || record.canonicalName || record.slug;
   const totals = record.totals || {};
