@@ -9,12 +9,11 @@
  */
 import { buildMatch, buildFilters } from './_query.js';
 import { binding } from '../../_lib/config.js';
+import { fromD1 } from '../../_lib/storage/d1.js';
+import { PRONI } from '../../_lib/queries/proni.js';
 
 const MAX_ROWS = 50000;
 const PAGE = 1000;
-const COLS = 'p.ref, p.title, p.level, p.dates, p.access, p.digital_record, p.parent, '
-  + 'ext.ext_display, ext.ext_start_year, ext.ext_end_year, ext.ext_circa, ext.ext_estimated, ext.ext_bound, ext.ext_undated, '
-  + 'p.description';
 const HEADER = ['PRONI Reference', 'Title', 'Level', 'Dates', 'Access', 'Digitised', 'Parent reference',
   'Extracted Dates', 'Extracted start year', 'Extracted end year', 'Approximate', 'Cataloguer-supplied', 'Open-ended bound', 'Undated',
   'Description'];
@@ -32,20 +31,16 @@ export async function onRequestGet(context) {
   const fields = { title: g('title'), description: g('description'), ref: g('ref'), text: g('text'), dates: g('dates') };
   const from = parseInt(g('from'), 10); const to = parseInt(g('to'), 10);
 
-  const db = binding(context.env, 'PRONI_DB');
-  if (!db) return new Response('PRONI_DB binding not configured', { status: 503 });
+  const bound = binding(context.env, 'PRONI_DB');
+  if (!bound) return new Response('PRONI_DB binding not configured', { status: 503 });
+  // through the storage adapter (functions/_lib/storage/); the SQL is named in queries/proni.js
+  const db = fromD1(bound);
 
   const match = buildMatch(q, fields);
   const { where, binds } = buildFilters({ letter: g('letter'), from, to, top: g('top') === '1', level: g('level'), access: g('access') });
   if (!match && !where.length) return new Response('Provide a search query or filter to export.', { status: 400 });
 
-  let sql;
-  if (match) {
-    const w = where.length ? ' AND ' + where.join(' AND ') : '';
-    sql = `SELECT ${COLS} FROM proni_fts f JOIN proni p ON p.rowid = f.rowid LEFT JOIN ext ON ext.ref = p.ref WHERE proni_fts MATCH ?${w} ORDER BY p.ref LIMIT ? OFFSET ?`;
-  } else {
-    sql = `SELECT ${COLS} FROM proni p LEFT JOIN ext ON ext.ref = p.ref WHERE ${where.join(' AND ')} ORDER BY p.ref LIMIT ? OFFSET ?`;
-  }
+  const sql = PRONI.exportPage(Boolean(match), where);
   const head = match ? [match, ...binds] : binds;
 
   const enc = new TextEncoder();
@@ -58,8 +53,7 @@ export async function onRequestGet(context) {
       const limit = Math.min(PAGE, MAX_ROWS - sent);
       let rows;
       try {
-        const r = await db.prepare(sql).bind(...head, limit, offset).all();
-        rows = r.results || [];
+        rows = await db.all(sql, [...head, limit, offset]);
       } catch (e) {
         controller.enqueue(enc.encode(csvRow([`ERROR: ${e && e.message || e}`])));
         controller.close();
