@@ -34,6 +34,7 @@
 import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
+import { languageFileStatus } from './translation-status.mjs';
 
 const CHECK = process.argv.includes('--check');
 const SRC_DIR = 'data/i18n/strings';
@@ -145,9 +146,16 @@ function build() {
   const total = entries.length;
   outputs.set(`${OUT_DIR}/en.json`, stable({ _status: 'source', _meta: { ...META.en, keys: total }, strings: strings.en }));
   for (const lang of LANGS) {
+    // draft until META[lang].reviewedBy names a reviewer (translation-status.mjs).
+    const status = languageFileStatus(META[lang]);
     outputs.set(`${OUT_DIR}/${lang}.json`, stable({
-      _status: 'draft',
-      _meta: { ...META[lang], keys: Object.keys(strings[lang]).length, of: total, note: 'DRAFT: not reviewed by a fluent speaker. Not for publication until reviewed (data/i18n/README.md).' },
+      _status: status,
+      _meta: {
+        ...META[lang], keys: Object.keys(strings[lang]).length, of: total,
+        note: status === 'reviewed'
+          ? `Reviewed by ${META[lang].reviewedBy} (data/i18n/README.md).`
+          : 'DRAFT: not reviewed by a fluent speaker. Not for publication until reviewed (data/i18n/README.md).'
+      },
       strings: strings[lang]
     }));
   }
