@@ -51,17 +51,17 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 /** Builders main runs in the Pages build that this branch runs inside records:build. */
 export const RECORDS_STEPS = [
-  /scripts\/build-browse-indexes\.mjs/,
-  /scripts\/build-party-profiles\.mjs/,
-  /scripts\/build-office-pages\.mjs/,
-  /scripts\/build-sitemap\.mjs/,
-  /scripts\/validate-browse-cache-tokens\.mjs/,
-  /scripts\/build-site-stats\.mjs/,
-  /scripts\/build-status\.mjs/,
-  /scripts\/build-test2-election-summaries\.mjs/,
-  /scripts\/build-test2-election-manifest\.mjs/,
-  /scripts\/build-election-provenance\.mjs/,
-  /scripts\/graph\/build-semantic-graph\.mjs/,
+  /scripts\/(?:build-browse-indexes\.mjs|build\/build-browse-indexes\.mjs)/,
+  /scripts\/(?:build-party-profiles\.mjs|build\/build-party-profiles\.mjs)/,
+  /scripts\/(?:build-office-pages\.mjs|build\/build-office-pages\.mjs)/,
+  /scripts\/(?:build-sitemap\.mjs|build\/build-sitemap\.mjs)/,
+  /scripts\/(?:validate-browse-cache-tokens\.mjs|check\/rules\/browse-cache-tokens\.mjs)/,
+  /scripts\/(?:build-site-stats\.mjs|build\/build-site-stats\.mjs)/,
+  /scripts\/(?:build-status\.mjs|build\/build-status\.mjs)/,
+  /scripts\/(?:build-test2-election-summaries\.mjs|build\/build-test2-election-summaries\.mjs)/,
+  /scripts\/(?:build-test2-election-manifest\.mjs|build\/build-test2-election-manifest\.mjs)/,
+  /scripts\/(?:build-election-provenance\.mjs|build\/build-election-provenance\.mjs)/,
+  /scripts\/(?:graph\/build-semantic-graph\.mjs|build\/graph\/build-semantic-graph\.mjs)/,
 ];
 
 /** The trees the records build writes and this branch never tracks (.gitignore, stage G). */

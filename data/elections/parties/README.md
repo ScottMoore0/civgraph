@@ -222,8 +222,8 @@ treatment `UCUNF` gets, and consistent with how `endorsed_by` treats joint ticke
 ## Validating
 
 ```
-python scripts/validate_party_lifespans.py
-python scripts/validate_party_lifespans.py --wanted 40
+python scripts/check/rules/validate_party_lifespans.py
+python scripts/check/rules/validate_party_lifespans.py --wanted 40
 ```
 
 Four checks:

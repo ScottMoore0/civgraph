@@ -806,7 +806,7 @@
   - Task: after the Irish general-election data update is complete, try to recover contents for the failed CSO historical-report links by looking them up on the Internet Archive Wayback Machine.
   - Constraint: keep recovered raw downloads local/ignored unless explicitly approved for git or site publication.
 - [x] Build a Wayback lookup/download script for failed CSO asset URLs
-  - Completed: added `scripts/ingest/census/recover-cso-failed-links-wayback.mjs`.
+  - Completed: added `scripts/census/recover-cso-failed-links-wayback.mjs`.
 - [x] Run the lookup against the failed-link manifest
   - Completed: checked 1,444 failed assets, found 1,217 available snapshots, and cached 1,087 snapshot files under ignored `data/downloads/wayback-cso/`.
 - [x] Record recovered, unavailable, and still-blocked links in a review report

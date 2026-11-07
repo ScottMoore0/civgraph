@@ -21,13 +21,13 @@ Persons Nominated OCR (`archive/ocr/`) and assorted working files
   ```
 
   `/archive/` is gitignored, so a restored copy stays out of commits and out of the
-  Pages deploy (`scripts/clean-for-pages.sh` still removes it).
+  Pages deploy (`scripts/build/clean-for-pages.sh` still removes it).
 
 The tag `leaflet-main-before-maplibre-root-20260612` still pins the Leaflet main.
 
 ## Scripts that read it
 
-`scripts/review/match-spn-ocr-candidates.mjs` and `scripts/ocr/reocr-spn-columns.py`
+`scripts/review/match-spn-ocr-candidates.mjs` and `scripts/ingest/gazette-spn/reocr-spn-columns.py`
 read `archive/ocr/`. Point them at the offline copy:
 
 ```sh
@@ -39,7 +39,7 @@ CIVGRAPH_ARCHIVE_DIR=E:/civgraph-archive/archive node scripts/review/match-spn-o
 `analysis/` was copied to `E:\civgraph-archive\analysis\` (502 files, in the same
 manifest) but is still in the repository: civgraph.net serves it (for example
 `/analysis/border-poll-dry-run/README.md` returns 200), because `.cfignore` lists it
-and Cloudflare does not honour that, while `scripts/clean-for-pages.sh` does not
+and Cloudflare does not honour that, while `scripts/build/clean-for-pages.sh` does not
 remove it. It comes out once the owner decides whether those files should be public.
 
 ## Archived scripts (wave 1, November 2026)

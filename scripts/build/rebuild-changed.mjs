@@ -38,9 +38,9 @@ const GENERATED = [
 ];
 const APP = [
   /^app\/src\//, /^src\/[^/]+\.(js|css)$/, /^src\/map\//, /^render\/src\//, /^sw\.js$/,
-  /^assets\/(css|site|js)\//, /^tests\//, /^scripts\/run-checks\.mjs$/, /^scripts\/rebuild-changed\.mjs$/,
+  /^assets\/(css|site|js)\//, /^tests\//, /^scripts\/check\/run\.mjs$/, /^scripts\/build\/rebuild-changed\.mjs$/,
   // The check machinery itself (CHECKS.md): CI, the clean-export harness, the test server.
-  /^\.github\/workflows\//, /^CHECKS\.md$/, /^scripts\/(validate-ci-workflow|check-clean)\.mjs$/, /^scripts\/test-server\.py$/
+  /^\.github\/workflows\//, /^CHECKS\.md$/, /^scripts\/check\/(rules\/ci-workflow|clean)\.mjs$/, /^scripts\/dev\/test-server\.py$/
 ];
 // data/elections/ni-local/ is the grouped-years snapshot (calendar, boundary features): no person ids.
 const ELECTION_DATA = [/^data\/elections-source\//, /^data\/elections\/(?!ni-local\/)/];
