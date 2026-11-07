@@ -4,10 +4,10 @@ import assert from 'node:assert/strict';
 import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
-import { TABLES, schemaSql } from '../../scripts/records/schema.mjs';
+import { TABLES, schemaSql } from '@civgraph/schema';
 import { REPO_ROOT } from '../../scripts/records/paths.mjs';
 
-const MIGRATIONS = path.join(REPO_ROOT, 'migrations');
+const MIGRATIONS = path.join(REPO_ROOT, 'packages', 'schema', 'migrations');
 
 function migrated() {
   const db = new DatabaseSync(':memory:');

@@ -19,7 +19,7 @@
 import { createWriteStream, existsSync } from 'node:fs';
 import path from 'node:path';
 import { openSqliteHandle } from '@civgraph/storage/node';
-import { HASHED_TABLES, TABLES } from './schema.mjs';
+import { HASHED_TABLES, TABLES } from '@civgraph/schema';
 import { DATASET_LOAD, LOADING_KEY, loadingValue } from './dataset-state.mjs';
 import { snapshotTable } from './db.mjs';
 

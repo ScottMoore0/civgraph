@@ -132,7 +132,7 @@ test('loadConfig() resolves from the environment it is given, with defaults', ()
   assert.equal(c.recordsDb, path.join(ROOT, 'tmp', 'records', 'civgraph-records.sqlite'));
   assert.equal(c.gazetteDir, null);
   assert.equal(c.api.prefix, '/api/v1');
-  assert.equal(c.paths.migrations, path.join(ROOT, 'migrations'));
+  assert.equal(c.paths.migrations, path.join(ROOT, 'packages', 'schema', 'migrations'));
   const d = config.loadConfig({});
   assert.equal(d.verifySite, 'https://civgraph.net');
 });

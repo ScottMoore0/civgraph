@@ -8,6 +8,7 @@ what it offers in its `exports`. The repository root stays the one deployable si
 | Package | Holds | Old paths (one-line re-exports, kept until 8 Dec 2026) |
 |---|---|---|
 | `@civgraph/storage` | the RecordStore interface (`store.js`), the D1 adapter (`d1.js`; `.` is the runtime entry) and the node:sqlite adapter (`sqlite.mjs`, entry `@civgraph/storage/node`) | `functions/_lib/storage/store.js`, `functions/_lib/storage/d1.js`, `scripts/lib/storage/sqlite.mjs` |
+| `@civgraph/schema` | the records schema: the D1 migrations (`migrations/*.sql`, `wrangler.toml` `migrations_dir`) and the table list (`src/schema.mjs`, entry `@civgraph/schema`) | `scripts/records/schema.mjs`; `migrations/` keeps a pointer README |
 
 Nothing under `packages/` is published: `scripts/build/site.mjs` builds `dist/` from an
 allow-list that does not name it (`tests/unit/site-build.test.mjs` holds that).

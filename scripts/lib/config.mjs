@@ -78,7 +78,7 @@ export function recordPaths(env = process.env) {
 /** Fixed repository locations (relative to REPO_ROOT, forward slashes). */
 export const REPO_PATHS = Object.freeze({
   functions: 'functions',
-  migrations: 'migrations',
+  migrations: 'packages/schema/migrations',
   routesManifest: '_routes.json',
   wranglerToml: 'wrangler.toml',
   tmp: 'tmp',

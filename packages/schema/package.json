@@ -1,0 +1,11 @@
+{
+  "name": "@civgraph/schema",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "The records schema: the D1 migrations (migrations/*.sql, wrangler.toml migrations_dir) and the table list the loader, delta, verify and tests read (src/schema.mjs) (REFACTOR-PLAN.md item 1).",
+  "exports": {
+    ".": "./src/schema.mjs",
+    "./*": "./src/*"
+  }
+}
