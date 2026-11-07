@@ -1,413 +1,98 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-07T03:18:46.020Z",
+  "generatedAt": "2026-11-07T18:36:12.436Z",
   "bucket": "boundaries-data",
   "dryRun": false,
   "selectedIds": [
-    "county-ed-1921-05-03-vector-test",
-    "county-ed-1937-04-01-vector-test",
-    "county-ed-1938-04-01-vector-test",
-    "county-ed-1938-05-15-vector-test",
-    "county-ed-1939-04-01-vector-test",
-    "county-ed-1945-04-01-vector-test",
-    "county-ed-1946-06-11-vector-test",
-    "county-ed-1949-04-01-vector-test",
-    "county-ed-1950-04-01-vector-test",
-    "county-ed-1956-04-01-vector-test",
-    "county-ed-1958-04-01-vector-test",
-    "county-ed-1962-04-01-vector-test",
-    "county-ed-1963-09-13-vector-test",
-    "county-ed-1964-04-01-vector-test",
-    "county-ed-1967-04-01-vector-test",
-    "county-ed-1969-04-01-vector-test",
-    "ded-1933-04-24-vector-test",
-    "ded-1937-04-01-vector-test",
-    "ded-1938-04-01-vector-test",
-    "ded-1938-05-15-vector-test",
-    "ded-1938-05-23-vector-test",
-    "ded-1939-04-01-vector-test",
-    "ded-1939-05-23-vector-test",
-    "ded-1945-04-01-vector-test",
-    "ded-1946-06-11-vector-test",
-    "ded-1947-10-02-vector-test",
-    "ded-1949-04-01-vector-test",
-    "ded-1949-05-30-vector-test",
-    "ded-1949-07-01-vector-test",
-    "ded-1949-07-07-vector-test",
-    "ded-1950-04-01-vector-test",
-    "ded-1954-08-01-vector-test",
-    "ded-1956-04-01-vector-test",
-    "ded-1957-04-01-vector-test",
-    "ded-1958-04-01-vector-test",
-    "ded-1962-01-01-vector-test",
-    "ded-1962-04-01-vector-test",
-    "ded-1963-09-13-vector-test",
-    "ded-1964-04-01-vector-test",
-    "ded-1964-06-02-vector-test",
-    "ded-1966-07-04-vector-test",
-    "ded-1967-04-01-vector-test",
-    "ded-1969-04-01-vector-test",
-    "ded-1969-04-02-vector-test"
+    "eds-ulster-1911-vector",
+    "eds-ulster-1912-vector",
+    "eds-ulster-1913-vector",
+    "eds-ulster-1914-vector",
+    "eds-ulster-1915-vector",
+    "eds-ulster-1916-vector",
+    "eds-ulster-1921-nine-county-vector",
+    "eds-leinster-1910-vector",
+    "eds-connacht-1907-vector"
   ],
   "totals": {
-    "assets": 44,
-    "processed": 44,
-    "ok": 44,
+    "assets": 9,
+    "processed": 9,
+    "ok": 9,
     "failed": 0,
-    "bytes": 196558028
+    "bytes": 61457847
   },
   "results": [
     {
-      "layerId": "ded-1939-04-01-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/ded-1939-04-01-vector-test.pmtiles",
+      "layerId": "eds-ulster-1911-vector",
+      "targetKey": "data/maps/test/pmtiles/generated/eds-ulster-1911-vector.pmtiles",
       "ok": true,
       "status": "uploaded",
-      "bytes": 5371622,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/ded-1939-04-01-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
+      "bytes": 7997167,
+      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/eds-ulster-1911-vector.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
     },
     {
-      "layerId": "ded-1969-04-02-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/ded-1969-04-02-vector-test.pmtiles",
+      "layerId": "eds-connacht-1907-vector",
+      "targetKey": "data/maps/test/pmtiles/generated/eds-connacht-1907-vector.pmtiles",
       "ok": true,
       "status": "uploaded",
-      "bytes": 5396561,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/ded-1969-04-02-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
+      "bytes": 4647565,
+      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/eds-connacht-1907-vector.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
     },
     {
-      "layerId": "ded-1969-04-01-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/ded-1969-04-01-vector-test.pmtiles",
+      "layerId": "eds-leinster-1910-vector",
+      "targetKey": "data/maps/test/pmtiles/generated/eds-leinster-1910-vector.pmtiles",
       "ok": true,
       "status": "uploaded",
-      "bytes": 5395803,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/ded-1969-04-01-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
+      "bytes": 5313073,
+      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/eds-leinster-1910-vector.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
     },
     {
-      "layerId": "ded-1967-04-01-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/ded-1967-04-01-vector-test.pmtiles",
+      "layerId": "eds-ulster-1912-vector",
+      "targetKey": "data/maps/test/pmtiles/generated/eds-ulster-1912-vector.pmtiles",
       "ok": true,
       "status": "uploaded",
-      "bytes": 5394490,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/ded-1967-04-01-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
+      "bytes": 7238679,
+      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/eds-ulster-1912-vector.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
     },
     {
-      "layerId": "ded-1966-07-04-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/ded-1966-07-04-vector-test.pmtiles",
+      "layerId": "eds-ulster-1913-vector",
+      "targetKey": "data/maps/test/pmtiles/generated/eds-ulster-1913-vector.pmtiles",
       "ok": true,
       "status": "uploaded",
-      "bytes": 5393341,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/ded-1966-07-04-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
+      "bytes": 7242248,
+      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/eds-ulster-1913-vector.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
     },
     {
-      "layerId": "ded-1964-06-02-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/ded-1964-06-02-vector-test.pmtiles",
+      "layerId": "eds-ulster-1914-vector",
+      "targetKey": "data/maps/test/pmtiles/generated/eds-ulster-1914-vector.pmtiles",
       "ok": true,
       "status": "uploaded",
-      "bytes": 5393379,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/ded-1964-06-02-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
+      "bytes": 7247353,
+      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/eds-ulster-1914-vector.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
     },
     {
-      "layerId": "ded-1964-04-01-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/ded-1964-04-01-vector-test.pmtiles",
+      "layerId": "eds-ulster-1915-vector",
+      "targetKey": "data/maps/test/pmtiles/generated/eds-ulster-1915-vector.pmtiles",
       "ok": true,
       "status": "uploaded",
-      "bytes": 5388322,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/ded-1964-04-01-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
+      "bytes": 7248173,
+      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/eds-ulster-1915-vector.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
     },
     {
-      "layerId": "ded-1963-09-13-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/ded-1963-09-13-vector-test.pmtiles",
+      "layerId": "eds-ulster-1916-vector",
+      "targetKey": "data/maps/test/pmtiles/generated/eds-ulster-1916-vector.pmtiles",
       "ok": true,
       "status": "uploaded",
-      "bytes": 5393707,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/ded-1963-09-13-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
+      "bytes": 7251642,
+      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/eds-ulster-1916-vector.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
     },
     {
-      "layerId": "ded-1962-04-01-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/ded-1962-04-01-vector-test.pmtiles",
+      "layerId": "eds-ulster-1921-nine-county-vector",
+      "targetKey": "data/maps/test/pmtiles/generated/eds-ulster-1921-nine-county-vector.pmtiles",
       "ok": true,
       "status": "uploaded",
-      "bytes": 5380947,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/ded-1962-04-01-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "ded-1962-01-01-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/ded-1962-01-01-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 5378557,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/ded-1962-01-01-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "ded-1958-04-01-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/ded-1958-04-01-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 5379228,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/ded-1958-04-01-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "ded-1957-04-01-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/ded-1957-04-01-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 5383891,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/ded-1957-04-01-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "ded-1956-04-01-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/ded-1956-04-01-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 5384014,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/ded-1956-04-01-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "ded-1954-08-01-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/ded-1954-08-01-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 5385594,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/ded-1954-08-01-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "ded-1950-04-01-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/ded-1950-04-01-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 5383124,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/ded-1950-04-01-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "ded-1949-07-07-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/ded-1949-07-07-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 5376389,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/ded-1949-07-07-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "ded-1949-07-01-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/ded-1949-07-01-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 5377666,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/ded-1949-07-01-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "ded-1949-05-30-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/ded-1949-05-30-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 5378873,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/ded-1949-05-30-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "ded-1949-04-01-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/ded-1949-04-01-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 5375101,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/ded-1949-04-01-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "ded-1947-10-02-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/ded-1947-10-02-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 5376909,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/ded-1947-10-02-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "ded-1946-06-11-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/ded-1946-06-11-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 5381198,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/ded-1946-06-11-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "ded-1945-04-01-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/ded-1945-04-01-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 5374574,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/ded-1945-04-01-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "ded-1939-05-23-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/ded-1939-05-23-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 5375481,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/ded-1939-05-23-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "ded-1938-05-23-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/ded-1938-05-23-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 5378017,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/ded-1938-05-23-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "ded-1938-05-15-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/ded-1938-05-15-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 5377945,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/ded-1938-05-15-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "ded-1938-04-01-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/ded-1938-04-01-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 5378043,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/ded-1938-04-01-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "ded-1937-04-01-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/ded-1937-04-01-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 5369404,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/ded-1937-04-01-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "ded-1933-04-24-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/ded-1933-04-24-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 5368981,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/ded-1933-04-24-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "county-ed-1969-04-01-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/county-ed-1969-04-01-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 2903504,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/county-ed-1969-04-01-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "county-ed-1967-04-01-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/county-ed-1967-04-01-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 2903579,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/county-ed-1967-04-01-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "county-ed-1964-04-01-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/county-ed-1964-04-01-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 2899209,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/county-ed-1964-04-01-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "county-ed-1963-09-13-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/county-ed-1963-09-13-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 2902846,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/county-ed-1963-09-13-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "county-ed-1962-04-01-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/county-ed-1962-04-01-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 2879138,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/county-ed-1962-04-01-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "county-ed-1958-04-01-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/county-ed-1958-04-01-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 2879298,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/county-ed-1958-04-01-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "county-ed-1956-04-01-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/county-ed-1956-04-01-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 2875673,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/county-ed-1956-04-01-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "county-ed-1950-04-01-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/county-ed-1950-04-01-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 2875305,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/county-ed-1950-04-01-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "county-ed-1949-04-01-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/county-ed-1949-04-01-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 2871552,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/county-ed-1949-04-01-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "county-ed-1946-06-11-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/county-ed-1946-06-11-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 2871222,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/county-ed-1946-06-11-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "county-ed-1945-04-01-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/county-ed-1945-04-01-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 2869206,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/county-ed-1945-04-01-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "county-ed-1939-04-01-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/county-ed-1939-04-01-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 2868430,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/county-ed-1939-04-01-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "county-ed-1938-05-15-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/county-ed-1938-05-15-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 2868237,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/county-ed-1938-05-15-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "county-ed-1938-04-01-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/county-ed-1938-04-01-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 2868918,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/county-ed-1938-04-01-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "county-ed-1937-04-01-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/county-ed-1937-04-01-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 2864577,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/county-ed-1937-04-01-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "county-ed-1921-05-03-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/county-ed-1921-05-03-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 2666173,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/county-ed-1921-05-03-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
+      "bytes": 7271947,
+      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.158.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/eds-ulster-1921-nine-county-vector.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
     }
   ]
 }

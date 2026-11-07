@@ -51,7 +51,9 @@ export function renamePmtilesKey(keyOrUrl) {
   const name = key.slice(OLD_PMTILES_PREFIX.length);
   if (name.includes('/') || !name.endsWith('.pmtiles')) return null;
   const stem = name.slice(0, -'.pmtiles'.length);
+  // An archive uploaded after the layer-id rename already carries the new id
+  // (e.g. eds-ulster-1912-vector.pmtiles); it still moves to the new prefix.
   const renamed = renameLayerId(stem);
-  if (renamed === stem) return null;
+  if (renamed === stem && !/-(vector|raster|alias)$/.test(stem)) return null;
   return { from: key, to: `${NEW_PMTILES_PREFIX}${renamed}.pmtiles` };
 }
