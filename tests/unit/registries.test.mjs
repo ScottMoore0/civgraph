@@ -56,3 +56,22 @@ test('registries: every registry loads and is valid; unknown names are refused',
   }
   assert.throws(() => loadRegistry('nope'), /Unknown registry nope/);
 });
+
+test('registries validate: $ref into another schema file, allOf, if/then/else', () => {
+  const schemas = { 'other.schema.json': { $defs: { day: { type: 'string', pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}$' } }, type: 'integer' } };
+  const schema = {
+    type: 'object',
+    properties: { d: { $ref: 'other.schema.json#/$defs/day' }, n: { $ref: 'other.schema.json' } },
+    allOf: [{ required: ['d'] }],
+    if: { properties: { kind: { const: 'x' } }, required: ['kind'] },
+    then: { required: ['n'] },
+    else: { properties: { n: { const: 0 } } }
+  };
+  const run = (v) => validateAgainstSchema(v, schema, schema, '$', { schemas });
+  assert.deepEqual(run({ d: '2020-01-01', kind: 'x', n: 3 }), []);
+  assert.ok(run({ d: '2020-1-1', kind: 'x', n: 3 }).some((e) => /\$\.d: .* does not match/.test(e)));
+  assert.ok(run({ d: '2020-01-01', kind: 'x' }).some((e) => /missing required property n/.test(e)));
+  assert.ok(run({ d: '2020-01-01', n: 2 }).some((e) => /\$\.n: must be 0/.test(e)));
+  assert.ok(run({ kind: 'y', n: 0 }).some((e) => /missing required property d/.test(e)));
+  assert.throws(() => validateAgainstSchema(1, { $ref: 'missing.schema.json' }), /Unresolvable \$ref/);
+});

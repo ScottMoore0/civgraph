@@ -2,9 +2,10 @@
  * A small JSON Schema checker for the registries (registries/schemas/*.schema.json).
  *
  * The repository declares no schema library. This covers the subset the registry schemas use:
- * $ref (local "#/$defs/..." only), type (a name or a list of names), const, enum, required,
- * properties, additionalProperties (false or a schema), propertyNames, items, minItems,
- * uniqueItems, minLength, pattern, minimum, maximum, oneOf and anyOf. A keyword outside the
+ * $ref (local "#/$defs/...", or "<name>.schema.json[#/...]" when `schemas` names that file),
+ * type (a name or a list of names), const, enum, required, properties, additionalProperties
+ * (false or a schema), propertyNames, items, minItems, uniqueItems, minLength, pattern, minimum,
+ * maximum, oneOf, anyOf, allOf and if/then/else. A keyword outside the
  * subset is reported as an error, not ignored, so a schema cannot ask for a rule that silently
  * does not run (tests/unit/registries.test.mjs covers it).
  *
@@ -14,7 +15,8 @@
 const KNOWN = new Set([
   '$schema', '$id', '$ref', '$defs', '$comment', 'title', 'description', 'examples', 'default',
   'type', 'const', 'enum', 'required', 'properties', 'additionalProperties', 'propertyNames',
-  'items', 'minItems', 'uniqueItems', 'minLength', 'pattern', 'minimum', 'maximum', 'oneOf', 'anyOf'
+  'items', 'minItems', 'uniqueItems', 'minLength', 'pattern', 'minimum', 'maximum', 'oneOf', 'anyOf',
+  'allOf', 'if', 'then', 'else'
 ]);
 
 function typeOf(value) {
@@ -29,12 +31,20 @@ function typeMatches(expected, value) {
   return [].concat(expected).some((t) => t === actual || (t === 'number' && actual === 'integer'));
 }
 
-function resolveRef(root, ref) {
-  if (!ref.startsWith('#/')) throw new Error(`Only local $ref is supported: ${ref}`);
-  return ref.slice(2).split('/').reduce((node, key) => {
-    if (!node || !(key in node)) throw new Error(`Unresolvable $ref ${ref}`);
-    return node[key];
-  }, root);
+/** [the schema a $ref names, the root its own $refs resolve against]. */
+function resolveRef(root, ref, schemas) {
+  const [file, fragment = ''] = ref.split('#');
+  let base = root;
+  if (file) {
+    base = schemas?.[file];
+    if (!base) throw new Error(`Unresolvable $ref ${ref}: pass the file in options.schemas`);
+  }
+  if (fragment && !fragment.startsWith('/')) throw new Error(`Only JSON-pointer fragments are supported: ${ref}`);
+  const node = fragment.slice(1).split('/').filter(Boolean).reduce((n, key) => {
+    if (!n || !(key in n)) throw new Error(`Unresolvable $ref ${ref}`);
+    return n[key];
+  }, base);
+  return [node, base];
 }
 
 const patternCache = new Map();
@@ -49,15 +59,20 @@ function regex(pattern) {
  * @param {object} schema
  * @param {object} [root] the schema $ref resolves against (defaults to `schema`)
  * @param {string} [at] the path printed in messages
+ * @param {{ schemas?: Record<string, object> }} [options] other schema files, by the name a $ref uses
  * @returns {string[]}
  */
-export function validateAgainstSchema(value, schema, root = schema, at = '$') {
+export function validateAgainstSchema(value, schema, root = schema, at = '$', options = {}) {
   const errors = [];
-  const check = (v, s, p) => errors.push(...validateAgainstSchema(v, s, root, p));
+  const check = (v, s, p) => errors.push(...validateAgainstSchema(v, s, root, p, options));
+  const passes = (v, s) => validateAgainstSchema(v, s, root, at, options).length === 0;
   for (const key of Object.keys(schema)) {
     if (!KNOWN.has(key)) errors.push(`${at}: schema keyword ${key} is not supported by registries/validate.mjs`);
   }
-  if (schema.$ref) return [...errors, ...validateAgainstSchema(value, resolveRef(root, schema.$ref), root, at)];
+  if (schema.$ref) {
+    const [target, base] = resolveRef(root, schema.$ref, options.schemas);
+    return [...errors, ...validateAgainstSchema(value, target, base, at, options)];
+  }
 
   if (schema.type && !typeMatches(schema.type, value)) {
     return [...errors, `${at}: expected ${[].concat(schema.type).join(' or ')}, got ${typeOf(value)}`];
@@ -97,9 +112,13 @@ export function validateAgainstSchema(value, schema, root = schema, at = '$') {
       else if (schema.additionalProperties && typeof schema.additionalProperties === 'object') check(sub, schema.additionalProperties, `${at}.${key}`);
     }
   }
+  for (const sub of schema.allOf || []) check(value, sub, at);
+  if (schema.if) {
+    if (passes(value, schema.if)) { if (schema.then) check(value, schema.then, at); } else if (schema.else) check(value, schema.else, at);
+  }
   for (const kw of ['oneOf', 'anyOf']) {
     if (!schema[kw]) continue;
-    const matching = schema[kw].filter((b) => validateAgainstSchema(value, b, root, at).length === 0).length;
+    const matching = schema[kw].filter((b) => passes(value, b)).length;
     if (kw === 'oneOf' && matching !== 1) errors.push(`${at}: must match exactly one schema of oneOf (matched ${matching})`);
     if (kw === 'anyOf' && matching === 0) errors.push(`${at}: must match at least one schema of anyOf`);
   }
