@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { codeLines, jobSteps, validateCi, validateWorkflow } from '../../scripts/validate-ci-workflow.mjs';
+import { codeLines, jobSteps, validateChecksDoc, validateCi, validateWorkflow } from '../../scripts/validate-ci-workflow.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const CI = readFileSync(path.join(ROOT, '.github', 'workflows', 'ci.yml'), 'utf8');
@@ -62,4 +62,12 @@ test('the disk must be freed before the records build, and the browser specs run
 test('an npm script ci.yml names must exist', () => {
   const text = CI.replace('- run: npm run test:browser:maps', '- run: npm run test:browser:gone');
   assert.ok(errorsFor(text).some((e) => /test:browser:gone, which package.json does not define/.test(e)));
+});
+
+test('CHECKS.md names every check script, and a new unnamed one fails', () => {
+  const doc = readFileSync(path.join(ROOT, 'CHECKS.md'), 'utf8');
+  assert.deepEqual(validateChecksDoc(doc, SCRIPTS), []);
+  const errors = validateChecksDoc(doc, { ...SCRIPTS, 'check:maps-db': 'node --test tests/records/maps.test.mjs', 'build:maps': 'node x.mjs' });
+  assert.equal(errors.length, 1);
+  assert.match(errors[0], /check:maps-db/);
 });
