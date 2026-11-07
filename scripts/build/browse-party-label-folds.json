@@ -1,0 +1,392 @@
+{
+  "description": "Ballot-paper party labels that Browse lists under their party instead of as parties of their own (scripts/build/build-browse-indexes.mjs, partyLabelFolds). Each label is matched exactly against a canonical_name in data/elections-source/data/party-ids.json and folded into the party whose id is the key. Only a label that is plainly the same party belongs here: a misspelling, the party's other name, the leader's name or the candidate's occupation printed in the party field. Coalitions, independents and splinter groups that carry a party's name are different parties and are listed under neverFold, which also stops the automatic misspelling match. The old address of a folded label still opens its party (previousSlugs). Every fold is printed by the build and written to data/browse/party-label-folds.json. retiredSlugs lists the addresses of party pages that are no longer built because their candidacies now carry another party's label (a source-checked relabel or a registry merge); each still opens the party it is listed under. Batch 4c (2026-11-06): the party-ids.json labels are a scan of the source rows of 25 May 2026, when the 1973-2011 council results still carried ARK's ballot descriptions (party and occupation side by side, OCR slips, a party's name printed twice); those rows have since been replaced, so no candidacy carries these labels and every interpreted label in the results is a party. Each such label is folded into the party the same candidacies read as in the results (an occupation alone into the candidate's party, usually Independent), or, where a label names a party the results read less precisely, into that party with the source cited. tests/elections/party-label-occupations.test.mjs fails when a listed label has an occupation, a misspelt party name or a party named twice.",
+  "folds": {
+    "dup": {
+      "reason": "the Democratic Unionist Party: misspelt, with the leader's name, or with the candidate's occupation in the party field",
+      "labels": [
+        "DUP - Ian Paisley",
+        "DUP - Ian Paislev",
+        "Democratic Unionist Par Ian Paislev",
+        "Demcratic Unionist",
+        "Demorcratic Unionist -DUP",
+        "Democratic and Unionist Party - DUP",
+        "Ulster Democratic Unionist",
+        "Ulster Democratic Unionist DUP",
+        "Ulster Democratic Unionist Party",
+        "Ulster Democractic Unionist Party",
+        "DUP Candidate",
+        "DUP (Farmer)",
+        "Farmer (DUP)",
+        "Building Cont. (DUP)",
+        "DUP (Estate Agent)",
+        "DUP Barrister",
+        "DUP Civil Servant (Retired)",
+        "Ulster DUP Civil Servant",
+        "Ulster DUP Farmer",
+        "Democratic Uniuonist",
+        "Demoratic Unionist",
+        "Financial Planning Consult Demoratic Union",
+        "Democratic Unionist DIP",
+        "Democratic Party DUP"
+      ]
+    },
+    "uup": {
+      "reason": "the Ulster Unionist Party: its 1970s-80s name (Official Unionist), misspelt, or with the candidate's occupation in the party field",
+      "labels": [
+        "Offical Ulster Unionist",
+        "Off. Ulster Unionist",
+        "(Councillor) Off. Ulster Unionist",
+        "Offical Unionist",
+        "Offical Unionist Party",
+        "Official Unionist Party",
+        "Official Ulster Unionist and Alderman",
+        "Official Ulster Unionist Privy Counsellor",
+        "Off. (Ulster Unionist Retail Business)",
+        "Ulster Unionist (Officially Selected Candidate)",
+        "Ulster Unionist Parly",
+        "Ulster Unionist Partv",
+        "Ulster Unionist Farmer",
+        "Farmer (Ulster Unionist)",
+        "Ulster Unionist Retired Civil Servant",
+        "Ulster Unionist (College Lecturer)",
+        "College Lecturer Ulster Unionist",
+        "College Vice Principal Ulster Unionist",
+        "Company Director Ulster Unionist",
+        "Former Stormont Minister Ulster Unionist",
+        "Garage Proprietor Ulster Unionist",
+        "Housewife Ulster Unionist",
+        "Businssman Ulster Unionist",
+        "Shopkeeper, Ulster Unionist",
+        "Retired Engineer Ulster Unionist",
+        "Retired Executive Ulster Unionist",
+        "Retired Local Government Ulster Unionist Officer",
+        "School Teacher Ulster Unionist",
+        "Small Farmer Ulster Unionist",
+        "Vice President Councillor Ulster Unionist",
+        "Ulster Unionist (Businessman)",
+        "Ulster Unionist (Company Director)",
+        "Ulster Unionist (Housewife)",
+        "Ulster Unionist (Retired Headmaster)",
+        "Ulster Unionist - Charge Nurse",
+        "Ulster Unionist Lecturer",
+        "Ulster Unionist Solicitor",
+        "Ulster Unionist (Clerk)",
+        "Ulster Unionist (Consultant Surgeon Retired)",
+        "Ulster Unionist (Head Master)",
+        "Ulster Unionist (Hospital Telephonist)",
+        "Ulster Unionist (Livestock Officer)",
+        "Ulster Unionist (Retired Garage Manager)",
+        "Ulster Unionist - Retired Consultant Surgeon",
+        "Ulster Unionist Accounts Clerk",
+        "Ulster Unionist Business Training Consultant",
+        "Ulster Unionist Civil Servant",
+        "Ulster Unionist Dairy Farmer",
+        "Ulster Unionist Housewife/Civil Servant",
+        "Ulster Unionist Political Science Student",
+        "Ulster Unionist Postal Worker",
+        "Ulster Unionist Retired Farmer",
+        "Ulster Unionist Retired Surgeon",
+        "Ulster Unionist Self-Employed Pig Specialist",
+        "Ulster Unionist Shop Keeper/ Bus Driver",
+        "Ulster Unionist Teacher",
+        "UUP U.U.P.",
+        "UUP - UUP",
+        "U.U.P. UUP",
+        "UUP Farmer",
+        "UUP Business Man",
+        "UUP Company Director",
+        "UUP Doctor of Medicine",
+        "UUP Garage Proprietor",
+        "UUP Housewife",
+        "UUP Retired Farmer",
+        "UUP Retired Headmaster",
+        "UUP Retired Principle",
+        "UUP School Teacher (Retired)",
+        "UUP, Merchant",
+        "UU Company Director",
+        "UU Deputy Lord Mayor",
+        "Mayor U.U.P",
+        "O.U.U. Company Directory",
+        "Businessman (Ulster UN)",
+        "Farmer and Businessman Ulster Unioinst",
+        "Farmer Unionist",
+        "Ulster Unionis Retired Civil Servant",
+        "Offical Ulster",
+        "Ulster Unioinst",
+        "Ulster Unionust",
+        "Ulster Uniontst",
+        "Ulster llninni.qt",
+        "Mill worker"
+      ]
+    },
+    "alliance": {
+      "reason": "the Alliance Party of Northern Ireland: misspelt, or with the candidate's occupation in the party field",
+      "labels": [
+        "Allliance Party",
+        "Alliance of NI",
+        "Alliance Alliance",
+        "Alliance Doctor",
+        "Alliance-Solicitor",
+        "Administrator Alliance",
+        "Alliance (Deputy Leader)",
+        "Alliance (Engineer)",
+        "Alliance (Insurance Executive)",
+        "Alliance (Medical Practioner)",
+        "Alliance (Salesman)",
+        "Alliance Auxiliary Nurse (p-time)",
+        "Alliance Company Director",
+        "Alliance Farmer",
+        "Alliance Health Visitor",
+        "Alliance Lecture",
+        "Alliance Medical Practitionen",
+        "Alliance Research Chemist",
+        "Alliance Shop Keeper",
+        "Alliance, Medical Practitioner",
+        "Company Director Alliance",
+        "Farmer and Sales Associate Alliance",
+        "Medical Student Alliance (N.I.)",
+        "Motor Mechanic Alliance",
+        "Pharmacist Alliance N.I.",
+        "Retired Theatre Sister Alliance",
+        "A Company Director",
+        "A Doctor",
+        "A Driver/Handyman",
+        "A Retired",
+        "A School Master",
+        "A University Professor"
+      ]
+    },
+    "sdlp": {
+      "reason": "the Social Democratic and Labour Party: its name written out or misspelt, or with the candidate's occupation in the party field",
+      "labels": [
+        "SDLP (Socail Democratic & Labour Party)",
+        "SDLP(social Democratic and Labour)",
+        "SDLP (Social Democratic & Party",
+        "SDLP (Social Democratic Labour Party)",
+        "Social Democratic Labour Party",
+        "SDLP (Teacher)",
+        "Farmer SDLP",
+        "SDLP Farmer",
+        "Bricklayer (SDLP)",
+        "Forestey, Forman (SDLP)",
+        "SDLP (Housewife)",
+        "SDLP (Nurse)",
+        "SDLP Auxiliary Nurse",
+        "SDLP Community Mental Health Nurse",
+        "SDLP Community Project Manager",
+        "SDLP Company Director",
+        "SDLP Comunity Activist",
+        "SDLP DOCTOR",
+        "SDLP Family Doctor",
+        "SDLP Research Assistant",
+        "SDLP Retired Transport Manager",
+        "SDLP School Principal",
+        "SDLP Secretary",
+        "SDLP solicitor",
+        "Shift Manager SDLP",
+        "SDLO"
+      ]
+    },
+    "pup": {
+      "reason": "the Progressive Unionist Party, misspelt, its name printed with its initials as well, or with the candidate's role in the party field",
+      "labels": [
+        "Proeressive Unionist Party",
+        "Progressuve Unionist Party",
+        "Progrssive Unionist Party",
+        "Progessive Unionist Party (PUP)",
+        "Progressive Unionist (P.U.P.)",
+        "Progressive Unionist- PUP",
+        "PUP Spokesman"
+      ]
+    },
+    "tuv": {
+      "reason": "Traditional Unionist Voice, its name printed with its initials as well (batch 4c)",
+      "labels": [
+        "Traditional Unionist Voice - TUV",
+        "Traditional Unionist Party- TUV"
+      ]
+    },
+    "ulster-democratic-party": {
+      "reason": "the Ulster Democratic Party: its name printed with its initials as well, its 1981-89 name (Ulster Loyalist Democratic Party, U.L.D.P.) with the candidate's occupation, and Derry Waterside 1997, printed 'UUP - (U.D.P.)', where David Nicholl stood for the UDP (ARK, Derry City Council Elections 1993-2011, Waterside 1997: 'David Nicholl (UDP)'; Wikipedia, 1997 Derry City Council election: Ulster Democratic) (batch 4c)",
+      "labels": [
+        "UDP Ulster Democratic Party",
+        "U.D.P Ulster Democratic Party",
+        "Ulster Democratic Party UDP",
+        "U.L.D.P. Company Director",
+        "U.L.D.P. Process Worker",
+        "UUP - (U.D.P.)"
+      ]
+    },
+    "independent": {
+      "reason": "independents whose ballot paper gave an occupation, an office or an honour with or without the word Independent, or a misspelt Independent; each candidacy reads Independent in the results (batch 4c). An occupation is never a party label: it stays only in the label as printed",
+      "labels": [
+        "Idependent",
+        "Indepedent",
+        "Independnt",
+        "Indendent Candidate",
+        "Independent (Teacher)",
+        "Independent - Retired",
+        "Independent Businessman",
+        "Businessman Independent",
+        "Funeral Director Independent",
+        "Retired Postman Independent",
+        "Veterinary Surgeon Independent",
+        "Independent Vintner",
+        "Independent Publiean",
+        "Independent Bricklayer",
+        "Independent MBE",
+        "Independent Member Fermanagh District Council",
+        "Non-Party Fermanagh Disct. Council",
+        "Businessman",
+        "Contractor",
+        "Factory Worker",
+        "Farmer & Exporter",
+        "Funeral Director",
+        "Funeral Director & Contracts Manager",
+        "Housewife",
+        "Local Gov. Officer",
+        "Pensioner",
+        "Postman",
+        "Publican",
+        "Retired",
+        "Retired Bank Manager",
+        "Retired Local Government Officer",
+        "Retired Teacher",
+        "Vol. Comm. Worker"
+      ]
+    },
+    "independent-unionist": {
+      "reason": "Independent Unionists with the candidate's occupation in the party field, and Belfast Area E 1981, printed 'Unionst Democratic', where Fred Proctor stood as an Independent Unionist (Wikipedia, 1981 Belfast City Council election: 'Ind. Unionist') (batch 4c)",
+      "labels": [
+        "Independent Unionist Housewife",
+        "Independent Unionist (Archttect & Planning Consult.)",
+        "Unionst Democratic"
+      ]
+    },
+    "independent-socialist": {
+      "reason": "Belfast Area D 1981, printed 'Socalist': Paddy Devlin, an Independent Socialist (Wikipedia, 1981 Belfast City Council election: 'Ind. Socialist') (batch 4c)",
+      "labels": [
+        "Socalist"
+      ]
+    },
+    "independent-conservative": {
+      "reason": "the label with the candidate's occupation in the party field (Ballyholme and Groomsport 1993) (batch 4c)",
+      "labels": [
+        "Independent Conservative Solicitor"
+      ]
+    },
+    "independent-democratic-unionist": {
+      "reason": "Independent Democratic Unionist, misspelt (Castlereagh South 1985) (batch 4c)",
+      "labels": [
+        "Independant Democratic Unionist"
+      ]
+    },
+    "independent-community": {
+      "reason": "Independent Community, misspelt (Newtownards 1993) (batch 4c)",
+      "labels": [
+        "Indepnedent Community"
+      ]
+    },
+    "conservative": {
+      "reason": "the Conservative Party, with 'Candidate' in the party field (2005), or Conservative misspelt (the last two folded before by the misspelling rule) (batch 4c)",
+      "labels": [
+        "The Conservative Party Candidate",
+        "Conservitive and Unionist",
+        "Conversative and Unionist"
+      ]
+    },
+    "iip": {
+      "reason": "the Irish Independence Party, its Nationalist misspelt (batch 4c; folded before by the misspelling rule)",
+      "labels": [
+        "I.I.P. Nationlist"
+      ]
+    },
+    "united-unionist-coalition": {
+      "reason": "the United Unionist Coalition with the candidate's occupation in the party field (Benbradagh 2005), and United Unionist misspelt (Magherafelt Area B 1981), filed where the registry files United Unionist (batch 4c)",
+      "labels": [
+        "United Unionist Coalition, Farmer",
+        "United Unioinst"
+      ]
+    },
+    "united-un-uuuc": {
+      "reason": "the same coalition label, misspelt (Castlereagh Area C 1977) (batch 4c)",
+      "labels": [
+        "Untied Un. UUUC"
+      ]
+    },
+    "protestant-unionist": {
+      "reason": "the Protestant Unionists with the candidate's occupation in the party field (Court 1989) (batch 4c)",
+      "labels": [
+        "PROT. U. (Community Enterprise Worker)"
+      ]
+    },
+    "democratic-left": {
+      "reason": "Democratic Left with the candidate's occupation in the party field (Antrim Town 1993) (batch 4c)",
+      "labels": [
+        "Democratic Left - Jobclub Leader"
+      ]
+    },
+    "ni-unionist-party": {
+      "reason": "the Northern Ireland Unionist Party, misspelt",
+      "labels": [
+        "Nothern Ireland Unionist Party"
+      ]
+    },
+    "irsp": {
+      "reason": "the Irish Republican Socialist Party: its full name, which the ballot papers mostly abbreviate (IRSP). One party, founded 8 December 1974 (The Starry Plough, March 1978 and December 2004, in the Irish Republican Digital Archive)",
+      "labels": [
+        "Irish Republican Socialist Party"
+      ]
+    },
+    "workers-party": {
+      "reason": "the Workers' Party under its 1977-82 name, Sinn Féin The Workers' Party, and misspelt (Worker's), including the Republican Clubs name of 1981 (owner's ruling 2026-11-02: Official Sinn Féin, the Republican Clubs, Sinn Féin The Workers' Party and the Workers' Party are one party; ballots keep the name printed at the time)",
+      "labels": [
+        "Sinn Féin Workers'",
+        "Worker's Party",
+        "The Worker's Party",
+        "The Worker's",
+        "Worker's Party R.C.",
+        "Worker's Party Rep. Clubs"
+      ]
+    }
+  },
+  "neverFold": [
+    "IDUP",
+    "Independent Democratic Unionist",
+    "Loy. DUP",
+    "Loy. Col. DUP",
+    "United Loy DUP",
+    "United Ul Un. DUP",
+    "United Un DUP",
+    "United Un. Un. DUP",
+    "DUP (United Loy Gr)",
+    "DUP U.U.C.",
+    "U. DUP",
+    "Ulster Unionist Coalition",
+    "Ulster Unionist Independent",
+    "Independent SDLP",
+    "SDLP (Independent)",
+    "Independent Fine Gael",
+    "United Left Alliance",
+    "Soc. Alliance",
+    "Housing Rights and Reform Alliance",
+    "Unionist"
+  ],
+  "retiredSlugs": {
+    "workers-party": {
+      "reason": "the Workers' Party merge (party research 2026-11-02): Official Sinn Féin, the Republican Clubs, Sinn Féin The Workers' Party and the Workers' Party are one party",
+      "slugs": [
+        "sinn-fein-official",
+        "sinn-fein-workers-party",
+        "workers-p-rep-c",
+        "republican-clubs"
+      ]
+    },
+    "home-rule": {
+      "reason": "the 1891-92 Parnellite candidates, relabelled Home Rule as Walker prints them (HR (P)), party research 2026-11-02",
+      "slugs": [
+        "parnellite-home-rule-league"
+      ]
+    }
+  }
+}

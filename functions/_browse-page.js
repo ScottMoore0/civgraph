@@ -13,7 +13,7 @@
  * description, canonical link and Open Graph tags, and its heading and summary already in
  * the hero, so a crawler that does not run JavaScript still sees what the page is. The
  * client reads the route from the path (browse.js parseRoute) and renders as it would from
- * the hash. sitemap.xml lists these URLs (scripts/build-sitemap.mjs).
+ * the hash. sitemap.xml lists these URLs (scripts/build/build-sitemap.mjs).
  *
  * WHERE THE TITLES COME FROM
  *
@@ -290,7 +290,7 @@ export async function lookupPartyRecord(db, slug) {
   return parseJson(row.detail || '') || parseJson(row.card || '');
 }
 
-/** An office's page record from D1 (office_cards, built by scripts/build-office-pages.mjs). */
+/** An office's page record from D1 (office_cards, built by scripts/build/build-office-pages.mjs). */
 export async function lookupOfficeRecord(db, slug) {
   const row = await db
     .prepare('SELECT detail, card FROM office_cards WHERE slug = ?1 ORDER BY ord LIMIT 1')

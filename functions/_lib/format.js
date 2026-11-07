@@ -3,7 +3,7 @@
  * Pure functions; used by functions/_browse-page.js and functions/_templates/records/.
  */
 
-/** The same slug rule as browse.js and scripts/build-browse-indexes.mjs. */
+/** The same slug rule as browse.js and scripts/build/build-browse-indexes.mjs. */
 export function slugify(value) {
   return String(value ?? '')
     .normalize('NFKD')

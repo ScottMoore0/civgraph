@@ -9,7 +9,7 @@
 //     occupation, a misspelt party name or a party named twice;
 //   - the printed text is kept exactly as printed;
 //   - every such ballot-paper label in data/elections-source/data/party-ids.json is folded
-//     into its party for Browse (scripts/browse-party-label-folds.json), and when Browse has
+//     into its party for Browse (scripts/build/browse-party-label-folds.json), and when Browse has
 //     been built, its party list has none of them and each old address opens the party,
 //     through the in-app list and as a 301 from /browse/parties/<old-slug>;
 //   - the Republic's and the Dail's labels are untouched.
@@ -31,7 +31,7 @@ const read = (file) => JSON.parse(readFileSync(path.join(root, file), 'utf8'));
 const MANIFESTS = ELECTION_BUNDLE_DIR;
 const ELECTIONS = path.join(root, 'data/elections-source/data/elections');
 const config = read('data/elections/party-label-interpretations.json');
-const folds = read('scripts/browse-party-label-folds.json');
+const folds = read('scripts/build/browse-party-label-folds.json');
 const partyIds = read('data/elections-source/data/party-ids.json');
 
 // Occupations, offices and honours printed in a party field.
@@ -249,7 +249,7 @@ test('every ballot-paper label with an occupation, a slip or a doubled party is 
     const faults = labelFaults(label);
     if (faults.length) unfolded.push(`${label}: ${faults.join(', ')}`);
   }
-  assert.deepEqual(unfolded, [], 'each is in scripts/browse-party-label-folds.json, or GENUINE/KEPT here with a reason');
+  assert.deepEqual(unfolded, [], 'each is in scripts/build/browse-party-label-folds.json, or GENUINE/KEPT here with a reason');
 
   // The build also folds a label that is a registry alias of another party; a target must not be one.
   const registry = read('data/elections/parties/party_registry.json').entities || [];

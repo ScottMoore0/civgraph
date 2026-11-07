@@ -799,7 +799,7 @@ export class Test2MapLibreMainAdapter {
 
   /**
    * Boundary changes between two editions of a series (data/timeline-changes/, built by
-   * scripts/build_timeline_changes.py), drawn whenever the timeline steps.
+   * scripts/build/timeline-changes.py), drawn whenever the timeline steps.
    *
    *   change areas    translucent fill in the accent colour, thin outline
    *   new lines       solid accent lines (lines in the edition now shown, not in the other)

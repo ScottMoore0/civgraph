@@ -25,19 +25,19 @@ const mainElectionPaneContractSource = readFileSync('src/election-main-pane-cont
 const electionDomainSource = readFileSync('src/election-domain.mjs', 'utf8');
 const electionViewModelSource = readFileSync('src/election-view-model.mjs', 'utf8');
 const electionRendererSource = readFileSync('src/election-renderer.mjs', 'utf8');
-const electionManifestBuilderSource = readFileSync('scripts/build-test2-election-manifest.mjs', 'utf8');
-// Boundary changes between consecutive timeline editions (scripts/build_timeline_changes.py,
+const electionManifestBuilderSource = readFileSync('scripts/build/build-test2-election-manifest.mjs', 'utf8');
+// Boundary changes between consecutive timeline editions (scripts/build/timeline-changes.py,
 // data/timeline-changes/). They replace the Play-only transition overlays of
 // data/timeline-transition-overlays/, whose source sidecars were untracked: a clean checkout
 // skipped this whole validator for want of them. The change files are tracked.
-const timelineChangesBuilderSource = readFileSync('scripts/build_timeline_changes.py', 'utf8');
+const timelineChangesBuilderSource = readFileSync('scripts/build/timeline-changes.py', 'utf8');
 const MAX_PAGES_FILE_BYTES = 25 * 1024 * 1024;
 const timelineChangePairs = JSON.parse(readFileSync('data/timeline-changes/index.json', 'utf8'))?.pairs || {};
 const readTimelineChangePair = (id) => {
   const entry = timelineChangePairs[id] || null;
   return { entry, data: entry?.path ? JSON.parse(readFileSync(entry.path, 'utf8')) : null };
 };
-const browseIndexBuilderSource = readFileSync('scripts/build-browse-indexes.mjs', 'utf8');
+const browseIndexBuilderSource = readFileSync('scripts/build/build-browse-indexes.mjs', 'utf8');
 const electionDataAuditSource = readFileSync('scripts/audit-test2-election-data.mjs', 'utf8');
 const uiControllerSource = readFileSync('src/ui-controller.js', 'utf8');
 const mapControllerSource = readFileSync('src/map/renderer/map-controller.js', 'utf8');
@@ -921,7 +921,7 @@ if (failures.length) {
 console.log('PASS: /test2 route shell and engine isolation checks passed.');
 
 function buildPlanSourceIncludesCompositeCoverage() {
-  const source = readFileSync('scripts/build-test-metadata-plan.mjs', 'utf8');
+  const source = readFileSync('scripts/build/tiles/layer-plan.mjs', 'utf8');
   return source.includes('MANUAL_ALIAS_TARGETS')
     && source.includes('convertedCompositeChildIds')
     && source.includes('convertedSourceIds');

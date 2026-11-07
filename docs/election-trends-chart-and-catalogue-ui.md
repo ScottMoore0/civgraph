@@ -190,7 +190,7 @@ Layout fixes in the Books grid:
 
 - `npx playwright test tests/browser/app.spec.js tests/browser/election-layout.spec.js -g Trends`: passes.
 - The election tests in `app.spec.js` pass; the party and person link test needs the browse
-  detail shards (`node scripts/build-browse-indexes.mjs`), which are a gitignored build output.
+  detail shards (`node scripts/build/build-browse-indexes.mjs`), which are a gitignored build output.
 - Catalogue, Tables and Books tests in `app.spec.js`: pass.
 - `npx eslint src/election-trend-chart.mjs app/src/election-manager.js app/src/app.js src/ui-controller.js`: no new warnings.
 - `node scripts/validate-app-shell-cache-tokens.mjs`: PASS after each rebuild.

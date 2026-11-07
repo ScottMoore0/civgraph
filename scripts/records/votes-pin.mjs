@@ -19,7 +19,7 @@ import { REPO_ROOT } from './paths.mjs';
 export const PIN_FILE = path.join(REPO_ROOT, 'data', 'database', 'votes-source.json');
 
 /**
- * The files scripts/build_browse_votes.py reads, and only those: the dataset folder also holds
+ * The files scripts/build/build_browse_votes.py reads, and only those: the dataset folder also holds
  * review sheets, pilot runs and reports that change while the dataset is worked on, and pinning
  * them would refuse a build whose inputs had not changed. The Stormont pair is optional (the
  * builder skips it when absent), so it is pinned when present.

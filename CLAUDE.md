@@ -30,12 +30,12 @@ Files where this matters most:
 
 - `render/metadata/maps-test.json` (~270,000 lines)
 - `data/database/maps.json` (~52,000 lines)
-- `browse/browse.js`, `app/src/app.js`, `scripts/build-browse-indexes.mjs`
+- `browse/browse.js`, `app/src/app.js`, `scripts/build/build-browse-indexes.mjs`
   (3,700–5,400 lines each)
 
 ### 3. Build only what changed; trust verdicts
 
-- `npm run rebuild` (`scripts/rebuild-changed.mjs`) builds and checks only what
+- `npm run rebuild` (`scripts/build/rebuild-changed.mjs`) builds and checks only what
   the working-tree changes need; `--plan` previews it.
 - `npm run check:fast` runs the checks in parallel.
 

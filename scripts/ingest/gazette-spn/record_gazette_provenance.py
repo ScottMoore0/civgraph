@@ -6,7 +6,7 @@ extract_election_notices.py (<gazette dir>/extracted/election-crosscheck.json), 
 member in a Gazette return ("members returned to serve in Parliament", Crown Office for Northern
 Ireland; Stormont and Westminster) to a Civgraph contest file, and writes one web-check record per
 contest and Gazette page into data/elections/web-checked-sources.json under the batch
-'belfast-gazette-returns'. scripts/build-election-provenance.mjs reads that file: a record with
+'belfast-gazette-returns'. scripts/build/build-election-provenance.mjs reads that file: a record with
 checked: true makes the contest 'verified'.
 
 A contest is recorded as checked only when, against the contest as the site shows it now (the

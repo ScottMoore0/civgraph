@@ -1,6 +1,6 @@
 /**
  * Elections into the records tables: the bundles (ELECTION_BUNDLE_DIR), the manifest and the
- * trend summaries the transforms wrote, normalised as scripts/build-elections-sqlite.mjs did
+ * trend summaries the transforms wrote, normalised as scripts/build/build-elections-sqlite.mjs did
  * (its residual/txt/num rules), extended with ord, the label columns, slugs and source files.
  *
  * Lossless by construction. Each stored JSON keeps the document's own key order, and a value

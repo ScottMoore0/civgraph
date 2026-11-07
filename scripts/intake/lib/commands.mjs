@@ -33,9 +33,9 @@ export const SCRIPTS = Object.freeze({
   cdnManifest: 'scripts/publish/r2-manifest.mjs',
   pmtiles: 'scripts/publish/r2-upload-pmtiles.mjs',
   verifyCdn: 'scripts/publish/verify-pmtiles-cdn.mjs',
-  stampTokens: 'scripts/stamp-map-cache-tokens.mjs',
+  stampTokens: 'scripts/build/stamp-map-cache-tokens.mjs',
   switchToCdn: 'scripts/publish/switch-pmtiles-to-cdn.mjs',
-  thumbnails: 'scripts/regen-thumbnails.py',
+  thumbnails: 'scripts/build/thumbnails/regen-thumbnails.py',
   thumbnailSync: 'scripts/publish/r2-upload-tree.mjs',
 });
 

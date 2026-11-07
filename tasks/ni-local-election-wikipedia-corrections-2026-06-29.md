@@ -29,7 +29,7 @@ against the raw source files (`data/elections-source/data/elections/local-govern
    (same mechanism as the earlier 1977 `Area-A-corrected` fix). (`Area-F` was added in a
    2026-06-29 follow-up after it was confirmed to be the same duplicate class.)
 
-Wiring: `scripts/build-test2-election-manifest.mjs` loads the two correction sidecars,
+Wiring: `scripts/build/build-test2-election-manifest.mjs` loads the two correction sidecars,
 resolves source-file aliases in `findResultFile`'s place, and overlays valid-poll corrections
 before `summarizeResult`.
 

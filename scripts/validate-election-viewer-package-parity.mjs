@@ -5,7 +5,7 @@
  * There are two copies of the viewer's js/ and css/:
  *
  *   data/elections-source/       <- original; its data/ tree is a LIVE BUILD
- *                                     INPUT (scripts/build-test2-election-manifest.mjs
+ *                                     INPUT (scripts/build/build-test2-election-manifest.mjs
  *                                     reads data/elections + elections_index.json)
  *   app/election-viewer-package/   <- the copy production actually serves
  *                                     (index.html + sw.js + _headers reference
@@ -14,7 +14,7 @@
  * Neither copy can simply be deleted: the root tree is required to build, and
  * the app/ tree is required to serve.
  *
- * scripts/build-test2-app.mjs copies root -> app/ on every build, so the copies
+ * scripts/build/app-bundle.mjs copies root -> app/ on every build, so the copies
  * cannot diverge *while builds are run*. What this validator catches is the gap
  * either side of that:
  *
@@ -25,7 +25,7 @@
  *      committed app/ copy (the served one) stale.
  *
  * MIRRORED must stay in sync with the `assets` list in
- * scripts/build-test2-app.mjs (~line 119). If you add a mirrored file there,
+ * scripts/build/app-bundle.mjs (~line 119). If you add a mirrored file there,
  * add it here.
  */
 import { createHash } from 'node:crypto';

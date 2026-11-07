@@ -3,7 +3,7 @@
  *
  * THE single source of the shell markup (frontend-plan.md section 4). Server-rendered pages
  * call page() at request time; the build step that stamps static pages
- * (scripts/build-site-partials.mjs) is to import these same functions instead of reading
+ * (scripts/build/build-site-partials.mjs) is to import these same functions instead of reading
  * partials/*.html (step F1). Until then tests/unit/shell.test.mjs requires head(), header(),
  * footer() and supportModal() to produce exactly what the partials produce, so the two
  * sources cannot drift while both exist.

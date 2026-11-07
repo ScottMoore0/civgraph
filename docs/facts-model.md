@@ -49,7 +49,7 @@ A leadership or nomination ballot is an ordinary election whose electorate is a 
 - **Body.** Each party's ballots form a body with a slug of its own: `uup-leadership`, `fianna-fail-leadership`, `fianna-fail-presidential-nomination`. Its entry in `elections_index.json` carries `"bodyType": "party-internal"` and the `partyId`.
 - **Contest.** The "constituency" is the electorate (`Ulster Unionist Council`, `Fianna Fáil Parliamentary Party`).
 - **Ballots.** Each ballot is its own contest (`… (first ballot)`, `… (second ballot)`): a later ballot is a fresh vote, not a transfer. Each is counted `fptp`, and a ballot that chose nobody has 0 seats.
-- **Pipeline.** `scripts/build-test2-election-manifest.mjs` gives party-internal bodies no map (results only) and `scripts/lib/election-names.mjs` titles them ("September 1995 Ulster Unionist Party leadership election", never a by-election). Results tables, Browse election pages, provenance and person ids then work as for any election.
+- **Pipeline.** `scripts/build/build-test2-election-manifest.mjs` gives party-internal bodies no map (results only) and `scripts/lib/election-names.mjs` titles them ("September 1995 Ulster Unionist Party leadership election", never a by-election). Results tables, Browse election pages, provenance and person ids then work as for any election.
 - **Identity.** Candidates carry the ids their other candidacies carry: `Candidate_Id` for Northern Ireland records, `ei_candidate_id` for ElectionsIreland ones. The person-id rebuild therefore stamps the existing person; no candidacy elsewhere changed.
 - **Link to the office.** A tenure that began with a contest names it (`contest: "uup-leadership__1995-09-08"`).
 
@@ -59,11 +59,11 @@ A leadership or nomination ballot is an ordinary election whose electorate is a 
   - **Offices**: tenures, linked to office pages, with how each began and ended, cited;
   - **Affiliation timeline**: each interval, and the candidacies inside it that carried a different label. Both are shown; neither overwrites the other.
   - Registered non-candidates get a person record with no contests.
-- **Party pages** (`scripts/build-party-profiles.mjs`):
+- **Party pages** (`scripts/build/build-party-profiles.mjs`):
   - **Leaders and officers** from tenures;
   - party events in the **Timeline**;
   - **Internal contests** with their ballots.
-- **Office pages:** `/browse/offices/<id>` (`scripts/build-office-pages.mjs`, `functions/browse/offices/`) lists the holders.
+- **Office pages:** `/browse/offices/<id>` (`scripts/build/build-office-pages.mjs`, `functions/browse/offices/`) lists the holders.
 
 ## Proposed D1 tables (for the `restructure` loader)
 

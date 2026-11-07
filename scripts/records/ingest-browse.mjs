@@ -6,7 +6,7 @@
  * unchanged record hashes the same from one build to the next.
  *
  * The card columns, search text and lookup key are exactly those of
- * scripts/build-browse-index-d1-import.mjs (scripts/records/browse-columns.mjs).
+ * scripts/build/build-browse-index-d1-import.mjs (scripts/records/browse-columns.mjs).
  */
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
@@ -219,7 +219,7 @@ export function ingestBrowse(db, { browseDir, paths = recordPaths() }) {
       if (folds) doc('browse/party-label-folds.json', strip(folds));
     }
 
-    // ---- offices (the facts model, scripts/build-office-pages.mjs): card and page
+    // ---- offices (the facts model, scripts/build/build-office-pages.mjs): card and page
     {
       const offices = readJson(at('offices.json'), null);
       if (offices) {

@@ -5,7 +5,7 @@
  * predecessors and successors, and the English Wikipedia article.
  *
  * Output: data/elections/parties/party-wikidata.json, a committed input to
- * scripts/build-party-profiles.mjs (the build never calls Wikidata).
+ * scripts/build/build-party-profiles.mjs (the build never calls Wikidata).
  *
  * MATCHING. Civgraph's parties carry no Wikidata or Wikipedia ids, so a party is matched by
  * name, and only when the match is unambiguous:

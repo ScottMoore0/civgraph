@@ -1,6 +1,6 @@
 /**
  * The pre-1973 Northern Ireland local elections, grouped by year (src/ni-local-groups.mjs,
- * scripts/build-ni-local-grouped.mjs, app/src/ni-local-view.js).
+ * scripts/build/build-ni-local-grouped.mjs, app/src/ni-local-view.js).
  *
  * Holds: every pre-1973 NI council round is in exactly one year's entry and nothing else is;
  * the year files agree with the election catalogue; hatching is decided from the published
@@ -165,7 +165,7 @@ test('the year files agree with the catalogue and are up to date', () => {
     assert.deepEqual(file.rounds.map((round) => round.key), rounds.map((round) => round.key), `${year} rounds`);
     for (const level of NI_LOCAL_LEVEL_IDS) assert.ok(file.levels[level], `${year} ${level}`);
   }
-  execFileSync(process.execPath, ['scripts/build-ni-local-grouped.mjs', '--check'], { cwd: ROOT, stdio: 'pipe' });
+  execFileSync(process.execPath, ['scripts/build/build-ni-local-grouped.mjs', '--check'], { cwd: ROOT, stdio: 'pipe' });
 });
 
 test('hatching has a stated reason, and only the defined ones', () => {

@@ -4,7 +4,7 @@ const path = require('path');
 
 // Words in parliament (apps/words/) reads its shards from data.civgraph.net/data/parliament/words/.
 // Here those requests are answered from tests/browser/fixtures/words/ -- a few real terms cut
-// from the full tree by scripts/build-words-explorer-fixture.mjs -- or, when WORDS_STATIC_DIR
+// from the full tree by scripts/build/words-fixture.mjs -- or, when WORDS_STATIC_DIR
 // names a full copy of the static tree, from that. The .json.gz files are served as stored
 // bytes (application/octet-stream), as scripts/publish/r2-upload-manifest.mjs leaves them on R2, so the
 // page's own gzip handling is what is tested.
@@ -29,7 +29,7 @@ async function routeWords(page, { fail = null } = {}) {
 }
 
 test.describe('Words in parliament', () => {
-  test.skip(!fs.existsSync(path.join(STATIC, 'meta.json')), 'needs the words fixture (scripts/build-words-explorer-fixture.mjs)');
+  test.skip(!fs.existsSync(path.join(STATIC, 'meta.json')), 'needs the words fixture (scripts/build/words-fixture.mjs)');
 
   test('charts two terms, lists speakers with Browse links and compares parties', async ({ page }) => {
     await routeWords(page);

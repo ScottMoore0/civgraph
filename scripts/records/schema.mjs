@@ -260,7 +260,7 @@ export const TABLES = [
     ],
     indexes: [['party_cards_ord', ['ord']]],
   },
-  // The facts model's office pages (scripts/build-office-pages.mjs): the list card and the page.
+  // The facts model's office pages (scripts/build/build-office-pages.mjs): the list card and the page.
   {
     name: 'office_cards', group: 'browse', hashed: true, pk: ['slug'], order: 'ord', since: 2,
     stableOrder: { sort: ['ord'], identity: 'key' },

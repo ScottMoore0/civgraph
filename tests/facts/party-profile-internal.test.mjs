@@ -1,6 +1,6 @@
 // A party's leadership and nomination ballots are its internal contests, never a body on its
 // profile: no seats, no 100% vote share, not counted in "contested N elections for M bodies".
-// Reads the built profiles (scripts/build-party-profiles.mjs); skipped where Browse is not built.
+// Reads the built profiles (scripts/build/build-party-profiles.mjs); skipped where Browse is not built.
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import test from 'node:test';

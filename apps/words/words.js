@@ -5,7 +5,7 @@
  * the words spoken per chamber, year, party and language (the denominators); each term lives
  * in one gzip JSON bucket chosen by md5(term), holding its uses per chamber, year and party
  * and its top speakers. Nothing else is fetched except this page's own parties.json (party
- * labels folded to Civgraph's party records, built by scripts/build-words-explorer-parties.mjs).
+ * labels folded to Civgraph's party records, built by scripts/build/words-parties.mjs).
  *
  * ?data=<origin> points the page at another copy of the bucket, as on the Census Explorer.
  */

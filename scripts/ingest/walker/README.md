@@ -100,9 +100,9 @@ apparent disagreement failed that test — no vote discrepancy has been found.
 | `data/elections/wikipedia-mp-lists-ireland.json` | `harvest_wikipedia_mp_lists.py` | members for Irish seats at every general election 1802-1918 |
 
 The corrections are applied at manifest build time by the Walker overlay in
-`scripts/build-test2-election-manifest.mjs`, keyed by source file; the imported files are
+`scripts/build/build-test2-election-manifest.mjs`, keyed by source file; the imported files are
 left as they are. The overlay also restores the 446 pre-1918 unopposed returns that were
-imported with their columns shifted. `scripts/build-election-provenance.mjs` notes on each
+imported with their columns shifted. `scripts/build/build-election-provenance.mjs` notes on each
 contest which figures came from Walker, and which Walker disputes.
 
 ## Measured accuracy

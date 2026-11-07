@@ -5,7 +5,7 @@
  *
  *   node scripts/dev/load-local-browse-d1.mjs [--sql-dir <dir>] [--persist-to <dir>] [--only persons]
  *
- * It reads the import SQL that scripts/build-browse-index-d1-import.mjs writes
+ * It reads the import SQL that scripts/build/build-browse-index-d1-import.mjs writes
  * (data/database/<type>-d1-import.sql, gitignored). A worktree without a data build can point
  * --sql-dir at another checkout's data/database. Each file drops and recreates its tables,
  * so a rerun is a clean reload.
@@ -52,7 +52,7 @@ function main() {
   const missing = files.filter((f) => !existsSync(f));
   if (missing.length) {
     console.error(`load-local-browse-d1: missing ${missing.join(', ')}`);
-    console.error('  Build them with: node scripts/build-browse-index-d1-import.mjs --all (needs data/browse), or pass --sql-dir.');
+    console.error('  Build them with: node scripts/build/build-browse-index-d1-import.mjs --all (needs data/browse), or pass --sql-dir.');
     return 1;
   }
   for (const file of files) {

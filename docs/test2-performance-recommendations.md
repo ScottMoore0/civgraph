@@ -2,7 +2,7 @@
 
 > **Status: point-in-time audit — 2026-06-06.** Recommendations may already be
 > implemented. Current budgets are enforced by
-> `scripts/build-test2-performance-dashboard.mjs`; check it before acting here.
+> `scripts/build/build-test2-performance-dashboard.mjs`; check it before acting here.
 
 Date: 2026-06-06
 
@@ -113,7 +113,7 @@ Recommended change:
   - `/test2/` and `/test2/index.html`: `public, max-age=0, must-revalidate`, `X-Robots-Tag: noindex, nofollow` while test-only.
   - `/app/build/*`: `public, max-age=31536000, immutable`.
   - `/test2/sw.js`: `no-cache, must-revalidate`, `Service-Worker-Allowed: /test2/`, used only for compatibility cleanup.
-- Make `scripts/build-test2-app.mjs` compute a content hash or content-derived version for the JS/CSS URLs and rewrite `index.html` automatically.
+- Make `scripts/build/app-bundle.mjs` compute a content hash or content-derived version for the JS/CSS URLs and rewrite `index.html` automatically.
 - Treat `maps-test.json`, election manifests, and source metadata as manifest assets: short/no-cache if they are not hashed; immutable if they become content-hashed.
 
 Expected benefit:
@@ -170,7 +170,7 @@ ROI: Very high. Impact: high. Difficulty: medium.
 
 Current problem:
 
-- `scripts/build-test2-app.mjs` emits one monolithic `app.bundle.js`.
+- `scripts/build/app-bundle.mjs` emits one monolithic `app.bundle.js`.
 - Static imports pull MapLibre, the shared main UI, the metadata service, election manager, election view-model/rendering logic, and adapter code into one startup bundle.
 
 Recommended split:

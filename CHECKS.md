@@ -118,7 +118,7 @@ Retired on 7 November 2026 with data phase 4 (the leftovers: data-architecture D
 - **The subtractive Pages output.** The output directory is `dist/` (wrangler.toml), built by
   `scripts/build/site.mjs` from an explicit allow-list; validate-pages-file-budget.mjs
   (which modelled the root output through `.cfignore`, a file the Git-integrated build never
-  read) is deleted, `check:pages-assets` runs `site.mjs --check`, and `scripts/clean-for-pages.sh`
+  read) is deleted, `check:pages-assets` runs `site.mjs --check`, and `scripts/build/clean-for-pages.sh`
   only runs `site.mjs` until the dashboard's build command is `npm run build:site`.
 - **Browse's data token** (`BROWSE_DATA_VERSION` in browse.js): `/data/browse/` and `/_api/`
   answer with an ETag of the dataset version.

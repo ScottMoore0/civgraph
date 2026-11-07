@@ -2,7 +2,7 @@
 
 Reads data/elections-source/data/elections/<body>/<date>/<slug>.json for the NI bodies and lays the
 operations of data/elections/corrections/source-checked-fixes.json over each file, as
-scripts/build-test2-election-manifest.mjs (applySourceCheckedFixes) does at build time, so the
+scripts/build/build-test2-election-manifest.mjs (applySourceCheckedFixes) does at build time, so the
 comparison is against what the site shows rather than the raw import. Read-only.
 """
 import copy, json, re, unicodedata

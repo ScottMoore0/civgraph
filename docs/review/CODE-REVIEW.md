@@ -241,7 +241,7 @@ expiry.
 > This applies to local build scripts, R2 upload scripts, `node scripts/bundle.mjs`
 
 `scripts/bundle.mjs` does not exist. The file is `archive/legacy-scripts/bundle.mjs`;
-the live bundler is `scripts/build-test2-app.mjs`.
+the live bundler is `scripts/build/app-bundle.mjs`.
 
 This matters more than an ordinary stale reference because `CLAUDE.md` is the
 file whose instructions override default behaviour, and the sentence in question

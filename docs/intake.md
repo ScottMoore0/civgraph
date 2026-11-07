@@ -68,14 +68,14 @@ Each has an `id` (unique), a `type`, and optionally `note` and `sources`.
 | `r2-tree` | `scripts/publish/r2-upload-manifest.mjs --prefix <sub-prefix>` with `files` (repository paths under the prefix; the tool writes the `[{local, rel}]` manifest), `manifest` (an existing one) or `dir`; `force`; then `--verify-only` unless `verify: false` |
 | `r2-cache-control` | `scripts/publish/r2-cache-control.mjs --prefix <p> [--ext e] --apply` for each of `prefixes` |
 | `r2-pmtiles` | `scripts/publish/r2-manifest.mjs` (unless `refreshCdnManifest: false`; new layers are otherwise never uploaded), `scripts/publish/r2-upload-pmtiles.mjs --ids`, then `scripts/publish/verify-pmtiles-cdn.mjs --ids` (unless `verifyCdn: false`) |
-| `stamp-cache-tokens` | `scripts/stamp-map-cache-tokens.mjs --write [--id ...]`, then `--check` |
+| `stamp-cache-tokens` | `scripts/build/stamp-map-cache-tokens.mjs --write [--id ...]`, then `--check` |
 
 **After the upload** (`post-upload`):
 
 | type | runs |
 |---|---|
 | `switch-to-cdn` | `scripts/publish/switch-pmtiles-to-cdn.mjs --ids` (`ids`, `idsFile`, or `idsFrom` an `r2-pmtiles` op) |
-| `thumbnails` | `python scripts/regen-thumbnails.py --download --ids`, then the thumbnail sync (`npm run sync:thumbnails` with credentials) unless `sync: false` |
+| `thumbnails` | `python scripts/build/thumbnails/regen-thumbnails.py --download --ids`, then the thumbnail sync (`npm run sync:thumbnails` with credentials) unless `sync: false` |
 | `command` | anything else: `phase` (upload or post-upload) and `argv` (`node`/`python` on a script under `scripts/` or in the batch folder, or `npm run <script>`); `credentials: true` adds `--env-file=.env.local`. |
 
 ## The commands

@@ -81,7 +81,7 @@ if (problems.length) {
   console.error('FAIL: the public map count does not agree across surfaces.');
   for (const problem of problems) console.error(`  - ${problem}`);
   console.error('');
-  console.error('  Fix: node scripts/build-browse-indexes.mjs');
+  console.error('  Fix: node scripts/build/build-browse-indexes.mjs');
   console.error('  If the RULE should change, change src/public-map.mjs -- not one caller.');
   process.exit(1);
 }

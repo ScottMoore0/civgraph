@@ -18,7 +18,7 @@
  *
  * Neighbouring land (Great Britain, the Isle of Man, the rest of the island of Ireland, the
  * Continent) is drawn grey under the features from assets/map/context-land.json, built by
- * scripts/build-svg-context-land.py from Civgraph's OSNI / Tailte Eireann outlines and
+ * scripts/build/svg-context-land.py from Civgraph's OSNI / Tailte Eireann outlines and
  * Natural Earth (public domain).
  *
  * The major loughs (Neagh, Erne, Strangford, Foyle, Carlingford, Corrib, Derg, Ree, ...) are cut
@@ -26,7 +26,7 @@
  * maps: boundary data such as OSNI's constituencies shares them among the areas. The cut is an
  * even-odd clip path in the projected drawing, so the file stays a single plain SVG; the shores
  * are drawn along it, dark where they cross the features. Their outlines are
- * assets/map/context-loughs.json, built by scripts/build-svg-context-loughs.py.
+ * assets/map/context-loughs.json, built by scripts/build/svg-context-loughs.py.
  */
 import dataService, { resolveMapDownloadUrl } from '../../src/data-service.js';
 import { compositeChildIds } from '../../src/map-relations.mjs';

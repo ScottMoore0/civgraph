@@ -38,8 +38,8 @@ test('upload --dry-run uses each script\'s own dry form and lists only real step
   assert.deepEqual(argv[5], ['node', ENV, 'scripts/publish/r2-upload-pmtiles.mjs', '--ids', 'dd-1921-vector,dd-1924-vector', '--dry-run']);
   assert.deepEqual(argv[6], ['node', ENV, 'scripts/publish/verify-pmtiles-cdn.mjs', '--ids', 'dd-1921-vector,dd-1924-vector']);
   assert.deepEqual(argv.slice(7), [
-    ['node', ENV, 'scripts/stamp-map-cache-tokens.mjs', '--write'],
-    ['node', ENV, 'scripts/stamp-map-cache-tokens.mjs', '--check'],
+    ['node', ENV, 'scripts/build/stamp-map-cache-tokens.mjs', '--write'],
+    ['node', ENV, 'scripts/build/stamp-map-cache-tokens.mjs', '--check'],
   ]);
   assert.deepEqual(steps.filter((s) => s.realOnly).map((s) => s.argv[s.argv.length - 1]), ['--verify-only', 'scripts/publish/r2-manifest.mjs', 'dd-1921-vector,dd-1924-vector', '--write', '--check']);
 });
@@ -117,7 +117,7 @@ test('post-upload: switch to the CDN, thumbnails and the sync, printed unless --
   const steps = buildPostUploadSteps(batch).map((s) => s.argv);
   assert.deepEqual(steps, [
     ['node', 'scripts/publish/switch-pmtiles-to-cdn.mjs', '--ids', 'dd-1921-vector,dd-1924-vector'],
-    ['python', 'scripts/regen-thumbnails.py', '--download', '--ids', 'dd-1921,dd-1924'],
+    ['python', 'scripts/build/thumbnails/regen-thumbnails.py', '--download', '--ids', 'dd-1921,dd-1924'],
     ['node', ENV, 'scripts/publish/r2-upload-tree.mjs', 'assets/thumbnails', 'assets/thumbnails', '--concurrency=16', '--changed-only'],
   ]);
   const calls = [];
@@ -176,8 +176,8 @@ test('docs/intake-examples/batch-2026-11-05 reproduces that batch\'s upload.ps1 
     ['node', 'scripts/publish/r2-manifest.mjs'],
     ['node', ENV, 'scripts/publish/r2-upload-pmtiles.mjs', '--ids', ids],
     ['node', ENV, 'scripts/publish/verify-pmtiles-cdn.mjs', '--ids', ids],
-    ['node', ENV, 'scripts/stamp-map-cache-tokens.mjs', '--write'],
-    ['node', ENV, 'scripts/stamp-map-cache-tokens.mjs', '--check'],
+    ['node', ENV, 'scripts/build/stamp-map-cache-tokens.mjs', '--write'],
+    ['node', ENV, 'scripts/build/stamp-map-cache-tokens.mjs', '--check'],
   ];
   assert.deepEqual(buildUploadSteps(batch, { dryRun: false, writeManifests: false }).map((s) => s.argv), expected);
   // upload.ps1 -DryRun ran fgb, tree, the three Cache-Control listings and PMTiles in their dry forms, then stopped
@@ -195,10 +195,10 @@ test('docs/intake-examples/batch-2026-11-05 reproduces that batch\'s upload.ps1 
     'node scripts/publish/r2-manifest.mjs',
     'npm run rebuild -- --plan',
     'npm run build',
-    `python scripts/regen-thumbnails.py --download --ids ${thumbIds}`,
+    `python scripts/build/thumbnails/regen-thumbnails.py --download --ids ${thumbIds}`,
     'node --env-file=.env.local scripts/publish/r2-upload-tree.mjs assets/thumbnails assets/thumbnails --concurrency=16 --changed-only',
     'node scripts/validate-test-cdn-manifest.mjs',
     'npm run check:fast',
-    'node --env-file=.env.local scripts/stamp-map-cache-tokens.mjs --check',
+    'node --env-file=.env.local scripts/build/stamp-map-cache-tokens.mjs --check',
   ]);
 });

@@ -12,7 +12,7 @@ const ENTITY_CONFIG = {
   parties: { label: 'Parties / Labels', singular: 'Party / label', index: 'parties.json', indexApi: '/_api/parties', detailDir: 'parties', detailApi: (slug) => `/_api/parties?slug=${encodeURIComponent(slug)}`, layer: 'data' },
   persons: { label: 'Persons', singular: 'Person', index: 'persons.json', detailDir: null, action: 'Latest election on map', layer: 'data' },
   // Offices people held (ministries, mayoralties, party leaderships) and their holders, from the
-  // facts model (docs/facts-model.md, scripts/build-office-pages.mjs). Their files are answered
+  // facts model (docs/facts-model.md, scripts/build/build-office-pages.mjs). Their files are answered
   // from D1 (office_cards) by functions/data/browse.
   offices: { label: 'Offices', singular: 'Office', index: 'offices.json', detailDir: 'offices', layer: 'data' },
   'register-interests': { label: 'Register Interests', singular: 'Register interest', index: 'register-interests.json', detailDir: 'register-interests', recordApi: 'register-interests', layer: 'data' },
@@ -2772,7 +2772,7 @@ function byDate(rows) {
   return [...(rows || [])].sort((a, b) => String(a?.date || '9999').localeCompare(String(b?.date || '9999')));
 }
 
-// ---- Parliamentary votes (data/browse/votes/, scripts/build_browse_votes.py) ----
+// ---- Parliamentary votes (data/browse/votes/, scripts/build/build_browse_votes.py) ----
 // A person's votes in the Dáil, Seanad, House of Commons (Irish and NI members only) and the
 // NI Assembly; a party's cohesion per body and term; and a record page per division at
 // #/divisions/<division id>. The data is static and read only when a page needs it.
@@ -2977,7 +2977,7 @@ async function renderDivisionRoute(divisionId) {
   announce(`Loaded division ${title}.`);
 }
 
-// ---- Party profiles (data/browse/party-profiles/<slug>.json, scripts/build-party-profiles.mjs) ----
+// ---- Party profiles (data/browse/party-profiles/<slug>.json, scripts/build/build-party-profiles.mjs) ----
 
 async function loadPartyProfile(item) {
   const slug = item.slug || slugify(item.id || item.title);
@@ -4093,7 +4093,7 @@ function sourceKindLabel(value) {
     .replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
-// Election and contest slugs, as scripts/build-browse-indexes.mjs writes them: the key with
+// Election and contest slugs, as scripts/build/build-browse-indexes.mjs writes them: the key with
 // "__" made "-", then the constituency. The NI Forum's province-wide list is its
 // "Regional List" entry, which person records call "Northern Ireland".
 function electionSlug(key) {

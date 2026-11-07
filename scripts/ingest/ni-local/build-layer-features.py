@@ -11,7 +11,7 @@ administrative-areas edition by largest overlap, so a DED with no result can be 
 district that polled that year (hatched, result missing) or in one that did not (left plain).
 
 The FlatGeobuf files are the converted layers' sources, cached locally (render/source-cache is not
-in git). The output is committed, so scripts/build-ni-local-grouped.mjs runs from a clean checkout.
+in git). The output is committed, so scripts/build/build-ni-local-grouped.mjs runs from a clean checkout.
 Needs geopandas.
 """
 import argparse, json, os, re, sys, warnings

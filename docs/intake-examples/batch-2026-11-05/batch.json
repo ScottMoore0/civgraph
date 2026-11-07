@@ -114,7 +114,7 @@
       "type": "command",
       "phase": "post-upload",
       "credentials": true,
-      "argv": ["node", "scripts/stamp-map-cache-tokens.mjs", "--check"]
+      "argv": ["node", "scripts/build/stamp-map-cache-tokens.mjs", "--check"]
     }
   ],
   "expectedChecks": {
@@ -132,7 +132,7 @@
     "afterPostUpload": [
       { "command": "node scripts/validate-test-cdn-manifest.mjs", "expect": "pass" },
       { "command": "npm run check:fast", "expect": "pass" },
-      { "command": "node scripts/stamp-map-cache-tokens.mjs --check", "expect": "pass" }
+      { "command": "node scripts/build/stamp-map-cache-tokens.mjs --check", "expect": "pass" }
     ]
   },
   "notes": [

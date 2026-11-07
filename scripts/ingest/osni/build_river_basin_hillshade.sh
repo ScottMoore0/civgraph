@@ -13,7 +13,7 @@
 # Stonyford 2014 (osni-lidar-stonyford-2014): stonyford_16_06_2014.zip, zooms 8-16.
 set -euo pipefail
 src="$1"; out="$2"; minz="${3:-8}"; maxz="${4:-16}"
-here="$(cd "$(dirname "$0")/../.." && pwd)"
+here="$(cd "$(dirname "$0")/../../build/tiles" && pwd)"
 work="$(mktemp -d)"
 trap 'rm -rf "$work"' EXIT
 ls "$src"/DTM_1m/*.asc > "$work/list.txt"

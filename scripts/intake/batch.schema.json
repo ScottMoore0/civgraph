@@ -235,7 +235,7 @@
       }
     },
     "op-stamp-cache-tokens": {
-      "description": "Content cache tokens (?v=<etag>) on the catalogue's data.civgraph.net URLs, through scripts/stamp-map-cache-tokens.mjs --write then --check.",
+      "description": "Content cache tokens (?v=<etag>) on the catalogue's data.civgraph.net URLs, through scripts/build/stamp-map-cache-tokens.mjs --write then --check.",
       "type": "object",
       "required": ["id", "type"],
       "additionalProperties": false,
@@ -257,7 +257,7 @@
       }
     },
     "op-thumbnails": {
-      "description": "Post-upload: catalogue thumbnails for new maps (scripts/regen-thumbnails.py --download), then the thumbnail sync to R2.",
+      "description": "Post-upload: catalogue thumbnails for new maps (scripts/build/thumbnails/regen-thumbnails.py --download), then the thumbnail sync to R2.",
       "type": "object",
       "required": ["id", "type", "mapIds"],
       "additionalProperties": false,

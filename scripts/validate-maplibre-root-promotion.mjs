@@ -29,7 +29,7 @@ const rootServiceWorker = read('sw.js');
 const appSource = readMapAppSource(); // app.js and the modules split out of it under src/map/app/
 const mainCss = read('assets/css/main.css');
 const test2Css = read('app/src/test2.css');
-const sharedAssetBuilder = read('scripts/build-shared-shell-assets.mjs');
+const sharedAssetBuilder = read('scripts/build/shell-assets.mjs');
 const packageJson = JSON.parse(read('package.json'));
 // The retired Leaflet manifest and bundle.mjs used to be asserted present under
 // archive/. archive/ left the repository in November 2026 (see ARCHIVE.md); the
