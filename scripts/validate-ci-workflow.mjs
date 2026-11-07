@@ -30,7 +30,9 @@
  *     the records build;
  *   - every npm script ci.yml names exists in package.json;
  *   - the build steps scripts/check-clean.mjs runs are what `check:ci` runs (same module),
- *     and none of them is remote.
+ *     and none of them is remote;
+ *   - CHECKS.md names every check, test, verify, lint, audit, monitor and smoke script in
+ *     package.json, so each one has a tier someone wrote down (a new one fails until it is).
  *
  * It reads the YAML as text with indentation, which is all these assertions need; the
  * repository has no YAML parser dependency and this does not add one.
@@ -123,6 +125,15 @@ export function validateCi(text, scripts) {
   return errors;
 }
 
+/** The check-like npm scripts: the ones CHECKS.md must place in a tier. */
+export const CHECK_SCRIPT = /^(check|test|verify|lint|smoke|audit|monitor)(:|$)|^records:(check|verify)$|^catalogue:check$/;
+
+export function validateChecksDoc(markdown, scripts) {
+  const named = (name) => markdown.includes(`\`${name}\``) || markdown.includes(`npm run ${name}\``);
+  return Object.keys(scripts).filter((name) => CHECK_SCRIPT.test(name) && !named(name))
+    .map((name) => `CHECKS.md does not name the npm script ${name}: put it in a tier (or under "Outside the tiers").`);
+}
+
 function main() {
   const errors = [];
   if (!existsSync(path.join(WORKFLOWS, 'ci.yml'))) errors.push('.github/workflows/ci.yml is missing.');
@@ -133,13 +144,16 @@ function main() {
     errors.push(...validateWorkflow(file, text));
     if (file === 'ci.yml') errors.push(...validateCi(text, scripts));
   }
+  const checksDoc = path.join(ROOT, 'CHECKS.md');
+  if (!existsSync(checksDoc)) errors.push('CHECKS.md is missing.');
+  else errors.push(...validateChecksDoc(readFileSync(checksDoc, 'utf8'), scripts));
   if (errors.length) {
     console.error(`FAIL: CI workflows (${files.length} checked)`);
     for (const error of errors) console.error(`  - ${error}`);
     console.error('See CHECKS.md (the CI tier).');
     return 1;
   }
-  console.log(`OK: ${files.length} workflow(s): no path filters, no schedule, no secrets, nothing remote; ci.yml frees disk, runs check:ci, then the browser specs.`);
+  console.log(`OK: ${files.length} workflow(s): no path filters, no schedule, no secrets, nothing remote; ci.yml frees disk, runs check:ci, then the browser specs; CHECKS.md names every check script.`);
   return 0;
 }
 

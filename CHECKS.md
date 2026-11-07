@@ -111,6 +111,8 @@ Retired earlier: `check:elections-d1` and `deploy:elections-d1` (6 Nov), and
 - **A rule about committed source files:** add a `check:<name>` script and append it to the
   `npm run check` chain in `package.json`. `check:fast`, `check:clean` and CI pick it up
   with no other change. Give it a negative control: break the input, see red, restore.
+  Name it in this file too: `check:ci-workflow` fails while any check, test or verify script
+  is missing from it.
 - **A database constraint or assertion query:** add a test under `tests/records/`.
   `records:check` runs it in CI (through `BUILD_STEPS`) and in `check:full`. This is where
   phase 3's map, layer and catalogue constraints go. They replace the "maps catalogue" row
