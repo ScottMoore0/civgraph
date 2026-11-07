@@ -7,7 +7,7 @@
 #                 every offline check (scripts/check/clean.mjs --in-place); then the browser
 #                 specs of the production map app at /maps/ (npm run test:browser:maps),
 #                 in the same job because they read the records build's election documents
-#                 (scripts/test-server.py serves them from tmp/records, as the compatibility
+#                 (scripts/dev/test-server.py serves them from tmp/records, as the compatibility
 #                 Functions serve them from D1). Locally, npm run check:clean runs the same
 #                 checks on a clean export of the tree, so a check that needs a gitignored
 #                 file fails in both places or neither.
@@ -44,7 +44,7 @@ jobs:
           node-version: '24'
           cache: npm
       # Python runs the person-id stamping inside records:build (scripts/records/) and the
-      # Playwright suite's static server (scripts/test-server.py).
+      # Playwright suite's static server (scripts/dev/test-server.py).
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'

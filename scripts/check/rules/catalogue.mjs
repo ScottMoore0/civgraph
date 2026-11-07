@@ -25,7 +25,7 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import path from 'node:path';
-import { loadRecords, placeable } from '../../catalogue/records.mjs';
+import { loadRecords, placeable } from '../../build/catalogue/records.mjs';
 import { ELECTION_MANIFEST } from '../../records/paths.mjs';
 
 const ROOT = process.cwd();
@@ -79,7 +79,7 @@ for (const h of source.hidden || []) {
 }
 const placed = new Map();
 const place = (mapId, where) => {
-  if (!mapById.has(mapId)) { fail(`${where} names map ${mapId}, which the site does not define (scripts/catalogue/records.mjs)`); return; }
+  if (!mapById.has(mapId)) { fail(`${where} names map ${mapId}, which the site does not define (scripts/build/catalogue/records.mjs)`); return; }
   if (mapById.get(mapId).partOf && !hiddenIds.has(mapById.get(mapId).partOf)) fail(`${where} names ${mapId}, which is a part of ${mapById.get(mapId).partOf}: parts are reached through their parent`);
   if (placed.has(mapId)) fail(`map ${mapId} is in two places (${placed.get(mapId)}, ${where})`);
   placed.set(mapId, where);
@@ -246,9 +246,9 @@ const builtSeries = new Set(built.series.map((s) => s.id));
 for (const [card, sid] of Object.entries(built.redirects || {})) if (!builtSeries.has(sid)) fail(`old card ${card} redirects to series ${sid}, which does not exist`);
 
 try {
-  execFileSync(process.execPath, ['scripts/catalogue/build-catalogue.mjs', '--check'], { stdio: 'pipe' });
+  execFileSync(process.execPath, ['scripts/build/catalogue/build-catalogue.mjs', '--check'], { stdio: 'pipe' });
 } catch (err) {
-  fail(`the built catalogue is stale: run node scripts/catalogue/build-catalogue.mjs (${String(err.stderr || err.stdout || err.message).trim().split('\n').pop()})`);
+  fail(`the built catalogue is stale: run node scripts/build/catalogue/build-catalogue.mjs (${String(err.stderr || err.stdout || err.message).trim().split('\n').pop()})`);
 }
 
 const placeholdersInSeries = source.series.flatMap((s) => s.members.filter((m) => mapById.get(m)?.placeholder));

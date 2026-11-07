@@ -32,9 +32,9 @@
  * refused loudly.
  *
  * Usage:
- *   node scripts/fetch-submission-attachments.mjs --probe            # no downloads
- *   node scripts/fetch-submission-attachments.mjs --probe --url <link>
- *   node scripts/fetch-submission-attachments.mjs --fetch            # writes to quarantine
+ *   node scripts/intake/contribution-attachments.mjs --probe            # no downloads
+ *   node scripts/intake/contribution-attachments.mjs --probe --url <link>
+ *   node scripts/intake/contribution-attachments.mjs --fetch            # writes to quarantine
  */
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';

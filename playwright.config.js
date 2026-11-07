@@ -8,7 +8,7 @@ module.exports = defineConfig({
   reporter: 'list',
   use: {
     baseURL: 'http://127.0.0.1:5050',
-    // scripts/test-server.py serves the tree statically. It answers the records API
+    // scripts/dev/test-server.py serves the tree statically. It answers the records API
     // (/_api/parties, /_api/persons, /_api/elections ...) with the real Functions run against the
     // records build (scripts/records/local-api.mjs), but the map app's elections still load by
     // their bundle URLs here, as before: the app's own opt-out (localStorage
@@ -28,7 +28,7 @@ module.exports = defineConfig({
     video: 'retain-on-failure'
   },
   webServer: {
-    command: 'python scripts/test-server.py 5050',
+    command: 'python scripts/dev/test-server.py 5050',
     url: 'http://127.0.0.1:5050',
     // Never silently reuse a server already on the port: one left by another checkout or
     // worktree serves that checkout's files, and the specs pass or fail against them (seen

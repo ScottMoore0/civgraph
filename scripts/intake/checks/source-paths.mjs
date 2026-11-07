@@ -16,7 +16,7 @@
  * Deliveries should be unpacked outside the repository and staged into the single live
  * cache directory, so that a path either resolves or is obviously wrong.
  *
- * Usage: node scripts/validate-source-paths.mjs [--metadata <path>]...
+ * Usage: node scripts/intake/checks/source-paths.mjs [--metadata <path>]...
  *
  * --metadata may be repeated to check specific files instead of the defaults. Tests pass
  * copies under a temporary directory so that exercising a failure never requires editing,

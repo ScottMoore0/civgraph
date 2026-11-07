@@ -43,11 +43,11 @@
  * the work by hand -- which is the only route a map-submission has.
  *
  * Usage:
- *   node scripts/apply-contributions.mjs --list
- *   node scripts/apply-contributions.mjs --apply <submission-id> [<id>...]
- *   node scripts/apply-contributions.mjs --apply-all-approved
- *   node scripts/apply-contributions.mjs --apply <id> --dry-run
- *   node scripts/apply-contributions.mjs --mark-applied <id> --note "what was done"
+ *   node scripts/intake/contributions.mjs --list
+ *   node scripts/intake/contributions.mjs --apply <submission-id> [<id>...]
+ *   node scripts/intake/contributions.mjs --apply-all-approved
+ *   node scripts/intake/contributions.mjs --apply <id> --dry-run
+ *   node scripts/intake/contributions.mjs --mark-applied <id> --note "what was done"
  *
  * Requires wrangler auth for KV access (the queue is not readable anonymously).
  */
@@ -317,7 +317,7 @@ function main() {
   console.log(`  git add ${CATALOGUE} && git commit && git push -u origin ${branch}`);
   console.log('\nNothing has been merged. Review the branch before it reaches main.');
   console.log('\nAFTER MERGING, close the queue entries or they stay "approved" forever:');
-  for (const a of applied) console.log(`  node scripts/apply-contributions.mjs --mark-applied ${a.id}`);
+  for (const a of applied) console.log(`  node scripts/intake/contributions.mjs --mark-applied ${a.id}`);
 }
 
 // Guarded so the offline schema test can import canMarkApplied without this

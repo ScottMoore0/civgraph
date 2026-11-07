@@ -10,7 +10,7 @@
  * pane shows is missing from the new catalogue.
  */
 import { readFileSync, writeFileSync } from 'node:fs';
-import { loadRecords } from '../catalogue/records.mjs';
+import { loadRecords } from '../build/catalogue/records.mjs';
 
 const [csvPath] = process.argv.slice(2).filter((a) => !a.startsWith('--'));
 const outIdx = process.argv.indexOf('--out');

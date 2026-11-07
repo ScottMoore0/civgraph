@@ -110,7 +110,7 @@ render, and the party table is asserted where it exists.
 **The suite itself had a capacity bug.** `python -m http.server` has a listen backlog of
 5; at 90 tests the parallel burst overflowed the accept queue and the OS refused
 connections, failing one test with ECONNREFUSED reproducibly in the suite and never
-alone. `scripts/test-server.py` raises it to 128. The faster suite then exposed a real
+alone. `scripts/dev/test-server.py` raises it to 128. The faster suite then exposed a real
 race in the `/test` shell test, which read `window.__civgraphTest.controller` without
 waiting for it.
 

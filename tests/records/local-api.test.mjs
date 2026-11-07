@@ -1,5 +1,5 @@
 // The records API on this machine (scripts/records/local-api.mjs): the routes it answers, that
-// scripts/test-server.py passes it exactly those, and, with a records build, that it answers the
+// scripts/dev/test-server.py passes it exactly those, and, with a records build, that it answers the
 // party and person requests the map app makes (src/map/app/entity-bridge.js) from the build.
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -19,8 +19,8 @@ test('local-api: only the records routes, exactly', () => {
   }
 });
 
-test('local-api: scripts/test-server.py passes on the same routes', () => {
-  const py = readFileSync(path.join(REPO_ROOT, 'scripts/test-server.py'), 'utf8');
+test('local-api: scripts/dev/test-server.py passes on the same routes', () => {
+  const py = readFileSync(path.join(REPO_ROOT, 'scripts/dev/test-server.py'), 'utf8');
   const match = /_API_ROUTE = re\.compile\(r'\^\/_api\/\(([^)]+)\)/.exec(py);
   assert.ok(match, 'route pattern not found in test-server.py');
   assert.deepEqual(match[1].split('|').sort(), [...RECORD_API_ROUTES].sort());

@@ -6,7 +6,7 @@ import { VALID_KINDS, VALID_ENTITY_TYPES, dryRunPatch } from './_schema.js';
  * Accept a contribution as a TYPED PATCH, dry-run it, and queue it for review.
  *
  * Nothing here enacts anything. A submission is a request: it lands in the queue
- * with status "pending-review" and only scripts/apply-contributions.mjs, run by
+ * with status "pending-review" and only scripts/intake/contributions.mjs, run by
  * the owner on their own machine, can turn it into a change. There is
  * deliberately no code path from this endpoint to the catalogue, to R2, or to
  * the repository -- see docs/contributions.md for why enactment is kept behind

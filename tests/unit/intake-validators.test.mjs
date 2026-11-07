@@ -68,7 +68,7 @@ const cases = [
       writeJson(p, doc);
       return true;
     },
-    run: (dir) => run('scripts/validate-source-paths.mjs', ['--metadata', join(dir, 'maps-test.json')]),
+    run: (dir) => run('scripts/intake/checks/source-paths.mjs', ['--metadata', join(dir, 'maps-test.json')]),
     expect: /idb-20260609/
   },
   {
@@ -83,7 +83,7 @@ const cases = [
       writeJson(p, doc);
       return true;
     },
-    run: (dir) => run('scripts/validate-intake-delivery.mjs', ['--intake-dir', join(dir, 'intake'), '--metadata', join(dir, 'maps-test.json')]),
+    run: (dir) => run('scripts/intake/checks/delivery.mjs', ['--intake-dir', join(dir, 'intake'), '--metadata', join(dir, 'maps-test.json')]),
     expect: /1930\.fgb.*not ingested/i
   }
 ];

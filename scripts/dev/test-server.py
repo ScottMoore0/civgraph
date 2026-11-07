@@ -37,9 +37,9 @@ import sys
 from urllib.parse import parse_qs, unquote
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 
-_RECORDS = runpy.run_path(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'records', 'paths.py'))
+_RECORDS = runpy.run_path(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'records', 'paths.py'))
 local_path_for_url = _RECORDS['local_path_for_url']
-REPO = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
+REPO = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..'))
 CATALOGUE_VIEWS = {'pane': 'catalogue.json', 'places': 'places.json', 'people': 'people.json'}
 
 

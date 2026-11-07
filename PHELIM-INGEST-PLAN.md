@@ -345,7 +345,7 @@ one series was split across two source generations. Both are cheap to check.
 
 ### P5-1 · Delivery reconciliation check
 
-`scripts/validate-intake-delivery.mjs`: read `data/intake/*.json` (from P0-3), and for
+`scripts/intake/checks/delivery.mjs`: read `data/intake/*.json` (from P0-3), and for
 each delivered file that is not marked `alreadyOnSite`, assert it is either present in the
 source cache or listed in a documented `deferred` set with a reason. Fail otherwise.
 
