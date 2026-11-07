@@ -11,6 +11,10 @@
  *   node scripts/intake/intake.mjs post-upload <batch-dir> [--write]
  *   node scripts/intake/intake.mjs report      <batch-dir> [--out <file>] [--repo-label <text>]
  *   node scripts/intake/intake.mjs status      <batch-dir>
+ *   node scripts/intake/intake.mjs mark        <batch-dir> <status>
+ *   node scripts/intake/intake.mjs plugins     [--check]
+ *   node scripts/intake/intake.mjs run         <plugin> <batch-dir> [--step <s>]... [--input k=v]... [-- <args>]
+ *   node scripts/intake/intake.mjs parity      <plugin> [--step <s>]... [-- <args>]
  *
  * stage and post-upload are dry runs unless --write. upload refuses to run without either
  * --dry-run (each script's own dry form, read-only on R2) or --yes (a real upload, allowed only
@@ -27,6 +31,8 @@ import { buildPostUploadSteps, buildUploadSteps, formatStep, runSteps } from './
 import { formatPlan, planBatch, renderReport } from './lib/plan.mjs';
 import { checkLock, drift, git, readStates, scaffoldManifest, writeLock, writeState } from './lib/review.mjs';
 import { stageBatch } from './lib/stage.mjs';
+import { commandAllowed } from './lib/statuses.mjs';
+import { PLUGIN_COMMANDS, pluginMain } from './lib/plugin-cli.mjs';
 
 const COMMANDS = new Set(['init', 'validate', 'plan', 'stage', 'upload', 'post-upload', 'report', 'status']);
 const FLAGS = new Set(['--write', '--dry-run', '--yes', '--json', '--verbose', '--lock', '--manifest', '--repo', '--out', '--repo-label', '--title']);
@@ -34,7 +40,8 @@ const VALUE_FLAGS = new Set(['--manifest', '--repo', '--out', '--repo-label', '-
 
 function usage(message, err = console.error) {
   if (message) err(`intake: ${message}`);
-  err('Usage: node scripts/intake/intake.mjs <init|validate|plan|stage|upload|post-upload|report|status> <batch-dir> [options]');
+  err('Usage: node scripts/intake/intake.mjs <init|validate|plan|stage|upload|post-upload|report|status|mark> <batch-dir> [options]');
+  err('       node scripts/intake/intake.mjs <plugins|run|parity> ... (ingest plugins)');
   err('       see docs/intake.md');
   return 2;
 }
@@ -140,6 +147,10 @@ export function main(argv, { spawn, log = console.log, err = console.error } = {
     }
     case 'stage': {
       const write = opts.flags.has('--write');
+      if (write && !commandAllowed('stage --write', batch.manifest.status)) {
+        err(`intake: status is ${batch.manifest.status}; stage --write never runs on a published or abandoned batch`);
+        return 1;
+      }
       const res = stageBatch(batch, { write });
       for (const c of res.changes) log(c.action === 'edit' ? `  ${c.path}: ${c.detail}` : `  ${c.action} ${c.path}`);
       for (const c of res.conflicts) log(`  CONFLICT ${c.path}: ${c.reason}`);
@@ -158,7 +169,7 @@ export function main(argv, { spawn, log = console.log, err = console.error } = {
       const dryRun = opts.flags.has('--dry-run');
       const yes = opts.flags.has('--yes');
       if (dryRun === yes) return usage('upload needs exactly one of --dry-run or --yes', err);
-      if (yes && !['committed', 'uploaded'].includes(batch.manifest.status)) {
+      if (yes && !commandAllowed('upload --yes', batch.manifest.status)) {
         err(`intake: status is ${batch.manifest.status}; a real upload needs the batch committed (status committed) with the owner's approval`);
         return 1;
       }
@@ -180,6 +191,17 @@ export function main(argv, { spawn, log = console.log, err = console.error } = {
     }
     case 'post-upload': {
       const steps = buildPostUploadSteps(batch);
+      if (opts.flags.has('--write')) {
+        if (!commandAllowed('post-upload --write', batch.manifest.status)) {
+          err(`intake: status is ${batch.manifest.status}; post-upload --write runs only after this batch's upload (status committed or uploaded)`);
+          return 1;
+        }
+        const uploaded = readStates(batch).find((st) => st.command === 'upload');
+        if (!uploaded || uploaded.exitCode !== 0) {
+          err('intake: no recorded upload for this batch (state/upload.json); post-upload --write would switch layers to CDN URLs it never uploaded. Run upload --yes first');
+          return 1;
+        }
+      }
       if (!opts.flags.has('--write')) {
         for (const s of steps) log(`would run: ${formatStep(s)}`);
         log(`DRY RUN: ${steps.length} step(s); --write runs them`);
@@ -208,4 +230,8 @@ export function main(argv, { spawn, log = console.log, err = console.error } = {
 }
 
 const invokedDirectly = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
-if (invokedDirectly) process.exitCode = main(process.argv.slice(2));
+if (invokedDirectly) {
+  const argv = process.argv.slice(2);
+  if (PLUGIN_COMMANDS.has(argv[0])) pluginMain(argv).then((code) => { process.exitCode = code; });
+  else process.exitCode = main(argv);
+}

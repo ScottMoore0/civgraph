@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 # Elections metadata rebuild and person-id re-stamp, in the documented order.
 #
-# The order matters: running the election manifest on its own and committing wipes every
-# personId and name_id it writes, so the registry steps must follow it every time.
-# Retries Windows file-lock errors (EBUSY/EPERM/Errno 22), which a sync client or an editor
-# holding a file open can cause mid-run.
+# The steps, the merge loop and the retries of Windows file-lock errors are in
+# rebuild-person-ids.mjs, an explicit state machine (state-machine catalogue IN-04); this file
+# keeps the old command line working (npm run persons:rebuild, rebuild-changed.mjs).
 #
 # Exit 2 with "NEEDS RELATIVES HARVEST" means merge_person_ids found people whose
 # electionsireland pages are not on file yet: run
@@ -14,31 +13,4 @@
 #   bash scripts/ingest/persons/rebuild-person-ids.sh            log to tmp/rebuild-person-ids.log
 set -uo pipefail
 cd "$(dirname "$0")/../../.."
-mkdir -p tmp
-LOG=${LOG:-tmp/rebuild-person-ids.log}
-: > "$LOG"
-run() {
-  for attempt in 1 2 3 4; do
-    "$@" >> "$LOG" 2>&1 && return 0
-    if tail -30 "$LOG" | grep -q "Errno 22\|UNKNOWN\|EBUSY\|EPERM"; then echo "retry $attempt: $*" >> "$LOG"; sleep 5; continue; fi
-    echo "FAILED: $*" | tee -a "$LOG"; return 1
-  done
-  echo "FAILED after retries: $*" | tee -a "$LOG"; return 1
-}
-run node scripts/build/build-test2-election-manifest.mjs ${MANIFEST_ARGS:-} || exit 1
-run node scripts/build/build-test2-election-summaries.mjs || exit 1
-run python scripts/ingest/persons/build_person_registry_v2.py --force || exit 1
-run python scripts/ingest/persons/apply_person_ids_v2.py || exit 1
-for i in 1 2 3 4 5 6; do
-  run python scripts/ingest/persons/merge_person_ids.py || exit 1
-  if tail -40 "$LOG" | grep -q "without their pages on file"; then
-    echo "NEEDS RELATIVES HARVEST" | tee -a "$LOG"
-    tail -40 "$LOG" | grep -A3 "without their pages" | tee -a "$LOG"
-    exit 2
-  fi
-  if tail -15 "$LOG" | grep -qi "nothing to merge"; then echo "merge loop done after $i pass(es)" >> "$LOG"; break; fi
-  run python scripts/ingest/persons/apply_person_ids_v2.py || exit 1
-done
-run python scripts/ingest/persons/build_name_registry.py || exit 1
-run python scripts/ingest/persons/audit_person_ids.py || exit 1
-echo "PERSON IDS OK" | tee -a "$LOG"
+exec node scripts/ingest/persons/rebuild-person-ids.mjs "$@"

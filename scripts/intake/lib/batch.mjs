@@ -135,6 +135,7 @@ export function r2Keys(batch) {
   return keys;
 }
 
+/** @type {[RegExp, string][]} */
 const SECRET_PATTERNS = [
   [/R2_(?:SECRET_ACCESS_KEY|ACCESS_KEY_ID)\s*[=:]\s*['"]?[A-Za-z0-9/+]{16,}/, 'an R2 key assignment'],
   [/CLOUDFLARE_API_TOKEN\s*[=:]\s*['"]?[A-Za-z0-9_-]{20,}/, 'a Cloudflare API token'],

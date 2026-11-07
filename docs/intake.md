@@ -154,6 +154,50 @@ Each has its generated `REPORT.md` beside it.
 
 Not yet done: `requires` with `data/intake/<id>.json` receipts, the `code-diff` and RFC 6902 `patch-json` operations, `add-layers` (the tile builds after apply), per-target schema checks from the future `check:schema` registry, and `from-contribution`.
 
+## Ingest plugins
+
+Every source under `scripts/ingest/<source>/` is a plugin: `plugin.mjs` beside the source's
+scripts names the source's publishers and rights, its personal-data handling, and every file in
+the folder as a **step** (a script the plugin runs), a **helper** (a module the steps import), a
+**research** tool (writes nothing the site uses) or **data**. `npm run intake -- plugins --check`
+lists them and fails on a file nothing accounts for; `tests/intake/ingest-plugins.test.mjs` holds
+that, and that every step whose script fetches from outside is flagged `network`.
+
+```
+npm run intake -- plugins [--check]
+npm run intake -- run <plugin> <batch-dir> [--step <s>]... [--all] [--input name=value]...
+                      [--allow-network] [--replace] [-- <arguments for the script>]
+npm run intake -- parity <plugin> [--step <s>]... [--input name=value]... [--live-clock] [-- <arguments>]
+npm run intake -- mark <batch-dir> <status>
+```
+
+`run` runs the steps as the scripts have always run (in the repository, writing where they always
+wrote), takes everything they changed into `<batch-dir>/staged/` at its repository path, puts the
+working tree back, and writes a draft `batch.json` with one `copy-files` operation; then
+`validate --lock`, `plan` and `stage --write` as for any batch. What git cannot see (gitignored
+FGBs, `data/census/derived/`) must be a step's declared `outputs`; an argument `{out:<path>}`
+writes straight into `staged/` instead. `{input:<name>}` is a declared input: `--input`, else its
+environment variable, else its default. A `network` step runs only with `--allow-network`; one
+that uploads to the Internet Archive also needs the owner's approval.
+
+A plugin can instead `produce(ctx)` its files itself, or name a `command` (the Python bridge):
+the context arrives as JSON on stdin (`repo`, `batchDir`, `stagedDir`, `steps`, `args`,
+`inputs`) and the result is printed as JSON on stdout: `{"staged": [{"path", "content" | "from"}],
+"operations": [...], "notes": [...]}`.
+
+`parity` proves a plugin against the old command lines: it runs them directly, then the plugin
+plus `stage --write`, from the same tree, compares every path either changed byte for byte, and
+puts the tree back after each. Both runs see the same frozen wall clock (Node's `Date`, Python's
+`time.time()`); a Python step that stamps a `datetime` names the stamp's JSON keys as `volatile`.
+
+`mark` moves a batch's `status` one step along the table in `scripts/intake/lib/statuses.mjs`
+(draft, staged, committed, uploaded, published; abandoned from any but published), refusing a
+move the table lacks or whose guard fails (committed needs `repo.commits`, uploaded and published
+the owner's `approvals`). It refuses a batch changed since `validate --lock`, and refreshes the
+lock when only the status changed. The status also gates commands: `stage --write` never runs on a
+published or abandoned batch, `upload --yes` needs committed or uploaded, and `post-upload --write`
+needs committed or uploaded **and** a recorded real upload (`state/upload.json`).
+
 ## Tests
 
 `npm run test:intake` (`node --test "tests/intake/*.test.mjs"`) covers validation (with the review guards in `tests/intake/review.test.mjs`), plan,
