@@ -81,4 +81,4 @@ a clean pass while checking 6 of 21 things it matched, and says so.
 
 **A `--check` mode beats a separate validator.** Where a script generates an
 artefact, giving it `--check` means the generator and the checker cannot drift.
-`build-proni-roots.mjs` and `validate-elections-schema.mjs` both do this.
+`build-proni-roots.mjs` and `build-election-provenance.mjs` both do this.

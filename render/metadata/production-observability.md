@@ -10,7 +10,7 @@ loading.
 - Recent PMTiles resource timings where browser APIs expose them.
 - Browser memory information where `performance.memory` is available.
 - Service-worker cache status for the scoped `/test` worker.
-- CDN byte-range health from scheduled `monitor:test:cdn` runs.
+- CDN byte-range health from `npm run verify:test:pmtiles-cdn` (part of the opt-in `npm run verify:public`).
 
 ## Privacy and Safety
 

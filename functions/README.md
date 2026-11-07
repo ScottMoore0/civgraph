@@ -9,7 +9,7 @@ serves `/_api/persons`. Files prefixed `_` are shared modules, not routes.
 
 | Route | Backed by | Notes |
 |---|---|---|
-| `_api/elections/` | D1 `civgraph-records` | The default election transport in production. Schema tracked at `data/database/elections-schema.sql`. |
+| `_api/elections/` | D1 `civgraph-records` | The default election transport in production. Schema: `migrations/` (the records loader, `scripts/records/`). |
 | `_api/persons/`, `_api/sources/`, `_api/register-interests/` | D1 | All three are thin wrappers over `_api/_browse-index.js`. |
 | `_api/catalogue/` | D1 `civgraph-catalogue` | |
 | `_api/proni/` | D1 `proni-catalogue` | Powers the `/proni` app. |

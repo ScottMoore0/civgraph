@@ -36,6 +36,8 @@ const DOCS = [
   // directory was renamed to src/ in fb5d246cad, so every "Files:" line in a
   // 1,253-line worklist pointed at nothing. See docs/review/UX-TRIAGE.md.
   'UX-REMEDIATION-PLAN.md',
+  // Added 2026-11-07: the tiers of checks name the scripts and workflows they run.
+  'CHECKS.md',
 ];
 
 // Directories whose contents are gitignored or generated, so a path under them

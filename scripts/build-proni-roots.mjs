@@ -48,7 +48,7 @@ const REMOTE = process.argv.includes('--remote');
 // 9,404 roots today: twenty pages leave room to double before the check says so.
 const MAX_PAGES = 20;
 
-// Same Windows accommodation as validate-elections-schema.mjs: wrangler goes
+// Windows accommodation: wrangler goes
 // through a shell, so a --command containing spaces must arrive quoted. The SQL
 // below uses single quotes only, which is what makes that safe.
 const IS_WINDOWS = process.platform === 'win32';
