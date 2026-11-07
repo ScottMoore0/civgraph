@@ -73,7 +73,7 @@ export const TERMINAL_STATUS = 'applied';
 
 export function canMarkApplied(status) {
   if (status === TERMINAL_STATUS) return { ok: false, reason: 'already marked applied' };
-  if (CONTRIBUTION_STATUS.check(status, TERMINAL_STATUS).ok) return { ok: true };
+  if (CONTRIBUTION_STATUS.can(status, TERMINAL_STATUS)) return { ok: true };
   return { ok: false, reason: `status is "${status}"; only an approved submission can be marked applied` };
 }
 

@@ -200,3 +200,34 @@ test('mark moves the status one guarded step and keeps the lock', async () => {
   assert.ok(q.lines.some((l) => /changed since review/.test(l)));
   rmSync(dir, { recursive: true, force: true });
 });
+
+test('stage --write and post-upload --write follow the status gates', async () => {
+  const repo = makePluginRepo();
+  const dir = path.join(tempDir('gates'), '2026-11-07-gates');
+  assert.equal(await pluginMain(['run', 'demo', dir, '--repo', repo], quiet().io), 0);
+  const { main } = await import('../../scripts/intake/intake.mjs');
+  const setStatus = (status) => {
+    const m = JSON.parse(readFileSync(path.join(dir, 'batch.json'), 'utf8'));
+    writeFileSync(path.join(dir, 'batch.json'), `${JSON.stringify({ ...m, status }, null, 2)}\n`);
+  };
+  const run = (...args) => {
+    const lines = [];
+    const code = main([...args, '--repo', repo], { log: (l) => lines.push(l), err: (l) => lines.push(l), spawn: () => ({ status: 0 }) });
+    return { code, text: lines.join('\n') };
+  };
+  let r = run('post-upload', dir, '--write');
+  assert.equal(r.code, 1);
+  assert.match(r.text, /status is draft; post-upload --write runs only after/);
+  setStatus('uploaded');
+  r = run('post-upload', dir, '--write');
+  assert.equal(r.code, 1);
+  assert.match(r.text, /no recorded upload for this batch/);
+  writeFileSync(path.join(dir, 'state', 'upload.json'), `${JSON.stringify({ command: 'upload', exitCode: 0 })}\n`);
+  assert.equal(run('post-upload', dir, '--write').code, 0);
+  setStatus('published');
+  r = run('stage', dir, '--write');
+  assert.equal(r.code, 1);
+  assert.match(r.text, /never runs on a published or abandoned batch/);
+  setStatus('staged');
+  assert.equal(run('stage', dir, '--write').code, 0);
+});

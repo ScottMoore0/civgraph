@@ -147,6 +147,10 @@ export function main(argv, { spawn, log = console.log, err = console.error } = {
     }
     case 'stage': {
       const write = opts.flags.has('--write');
+      if (write && !commandAllowed('stage --write', batch.manifest.status)) {
+        err(`intake: status is ${batch.manifest.status}; stage --write never runs on a published or abandoned batch`);
+        return 1;
+      }
       const res = stageBatch(batch, { write });
       for (const c of res.changes) log(c.action === 'edit' ? `  ${c.path}: ${c.detail}` : `  ${c.action} ${c.path}`);
       for (const c of res.conflicts) log(`  CONFLICT ${c.path}: ${c.reason}`);
@@ -187,6 +191,17 @@ export function main(argv, { spawn, log = console.log, err = console.error } = {
     }
     case 'post-upload': {
       const steps = buildPostUploadSteps(batch);
+      if (opts.flags.has('--write')) {
+        if (!commandAllowed('post-upload --write', batch.manifest.status)) {
+          err(`intake: status is ${batch.manifest.status}; post-upload --write runs only after this batch's upload (status committed or uploaded)`);
+          return 1;
+        }
+        const uploaded = readStates(batch).find((st) => st.command === 'upload');
+        if (!uploaded || uploaded.exitCode !== 0) {
+          err('intake: no recorded upload for this batch (state/upload.json); post-upload --write would switch layers to CDN URLs it never uploaded. Run upload --yes first');
+          return 1;
+        }
+      }
       if (!opts.flags.has('--write')) {
         for (const s of steps) log(`would run: ${formatStep(s)}`);
         log(`DRY RUN: ${steps.length} step(s); --write runs them`);
