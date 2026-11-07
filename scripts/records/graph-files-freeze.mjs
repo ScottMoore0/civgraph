@@ -14,7 +14,7 @@
  */
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
-import { DatabaseSync } from 'node:sqlite';
+import { openSqliteHandle } from '../lib/storage/sqlite.mjs';
 import { REPO_ROOT } from './paths.mjs';
 import { transaction } from './db.mjs';
 
@@ -26,7 +26,7 @@ const COLUMNS = 'file, part, keys, extra, row_hash, row_hash_n';
 export function graphFilesRows(file) {
   if (!file || !existsSync(file)) return 0;
   try {
-    const db = new DatabaseSync(file, { readOnly: true });
+    const db = openSqliteHandle(file, { readOnly: true });
     try {
       return Number(db.prepare('SELECT count(*) AS n FROM graph_files').get().n) || 0;
     } finally {

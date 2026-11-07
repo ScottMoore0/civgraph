@@ -12,10 +12,30 @@
 import { DatabaseSync } from 'node:sqlite';
 import { assertRecordStore, bindParams } from '../../../functions/_lib/storage/store.js';
 
+/** @typedef {import('node:sqlite').DatabaseSync} SqliteHandle */
+
+/**
+ * A raw node:sqlite handle, for the records loader's bulk paths (prepared inserts by the million,
+ * iterate() over whole tables, ATTACH of a snapshot), which stay synchronous and on the engine's
+ * own API (REFACTOR-PLAN.md ST-7). Everything under scripts/records opens a database here or
+ * through openSqlite(), so the engine is named in this file only (tests/unit/storage-adoption.test.mjs).
+ * @param {string} file
+ * @param {{ readOnly?: boolean }} [options]
+ * @returns {SqliteHandle}
+ */
+export function openSqliteHandle(file, { readOnly = false } = {}) {
+  return new DatabaseSync(file, { readOnly });
+}
+
 const plain = (row) => (row ? { ...row } : null);
 
+/**
+ * @param {string|SqliteHandle} file   a path, ':memory:', or a handle to wrap
+ * @param {{ readOnly?: boolean }} [options]
+ * @returns {import('../../../functions/_lib/storage/store.js').RecordStore & { _db: SqliteHandle }}
+ */
 export function openSqlite(file, { readOnly = false } = {}) {
-  const db = file instanceof DatabaseSync ? file : new DatabaseSync(file, { readOnly: file === ':memory:' ? false : readOnly });
+  const db = file instanceof DatabaseSync ? file : openSqliteHandle(file, { readOnly: file === ':memory:' ? false : readOnly });
   const cache = new Map();
   const statement = (sql) => {
     let stmt = cache.get(sql);

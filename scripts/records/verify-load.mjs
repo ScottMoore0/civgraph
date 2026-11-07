@@ -49,7 +49,7 @@
 import { spawnSync } from 'node:child_process';
 import { closeSync, existsSync, mkdirSync, openSync, readFileSync, rmSync } from 'node:fs';
 import path from 'node:path';
-import { DatabaseSync } from 'node:sqlite';
+import { openSqliteHandle } from '../lib/storage/sqlite.mjs';
 import { snapshotTable } from './db.mjs';
 import { q } from './diff-load.mjs';
 import { buildVar } from '../lib/config.mjs';
@@ -162,7 +162,7 @@ export function queryWithRetry(query, sql, opts, { backoffMs = BOUNDS.backoffMs,
 // ------------------------------------------------------------------ the full mode
 
 export function localChecksums(file) {
-  const db = new DatabaseSync(file, { readOnly: true });
+  const db = openSqliteHandle(file, { readOnly: true });
   const rows = HASHED_TABLES.map((t) => db.prepare(tableChecksumSql(t)).get());
   const schema = db.prepare(SCHEMA_SQL).all();
   db.close();
@@ -301,7 +301,7 @@ export const boundedChecksumSql = (t, limit) => `SELECT COUNT(*) AS n, COALESCE(
  * @returns {Plan}
  */
 export function boundedPlan({ file, since = null, sample = BOUNDS.sampleKeys, bounds = BOUNDS }) {
-  const db = new DatabaseSync(file, { readOnly: true });
+  const db = openSqliteHandle(file, { readOnly: true });
   const notes = [];
   const steps = [];
   try {

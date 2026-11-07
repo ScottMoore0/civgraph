@@ -14,7 +14,7 @@ import { createReadStream, createWriteStream, existsSync, mkdirSync, statSync, w
 import path from 'node:path';
 import { pipeline } from 'node:stream/promises';
 import { createGzip } from 'node:zlib';
-import { DatabaseSync } from 'node:sqlite';
+import { openSqliteHandle } from '../lib/storage/sqlite.mjs';
 import { SITE } from '../lib/config.mjs';
 import { RECORDS_DB, recordPaths, REPO_ROOT } from './paths.mjs';
 
@@ -38,7 +38,7 @@ if (!existsSync(DB)) {
   process.exit(1);
 }
 mkdirSync(OUT, { recursive: true });
-const version = new DatabaseSync(DB, { readOnly: true }).prepare("SELECT value FROM dataset WHERE key = 'version'").get()?.value || 'unversioned';
+const version = openSqliteHandle(DB, { readOnly: true }).prepare("SELECT value FROM dataset WHERE key = 'version'").get()?.value || 'unversioned';
 const files = [];
 const versioned = path.join(OUT, `civgraph-records-${version}.sqlite.gz`);
 await gzipTo(DB, versioned);

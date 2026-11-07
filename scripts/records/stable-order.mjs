@@ -34,7 +34,7 @@
  */
 import { createHash } from 'node:crypto';
 import { existsSync } from 'node:fs';
-import { DatabaseSync } from 'node:sqlite';
+import { openSqliteHandle } from '../lib/storage/sqlite.mjs';
 import { bindable, hashValues, rowHash, transaction } from './db.mjs';
 import { TABLES } from './schema.mjs';
 
@@ -146,7 +146,7 @@ const idOf = (values) => createHash('sha1').update(JSON.stringify(values)).diges
  */
 export function stabiliseOrder(db, seedFile, { tables = STABLE_ORDER_TABLES, log = () => {} } = {}) {
   if (!seedFile || !existsSync(seedFile)) return null;
-  const seed = new DatabaseSync(seedFile, { readOnly: true });
+  const seed = openSqliteHandle(seedFile, { readOnly: true });
   const result = {};
   try {
     for (const t of tables) {

@@ -36,7 +36,7 @@ import {
   appendFileSync, closeSync, copyFileSync, existsSync, mkdirSync, openSync, readdirSync, readFileSync, rmSync, writeSync,
 } from 'node:fs';
 import path from 'node:path';
-import { DatabaseSync } from 'node:sqlite';
+import { openSqliteHandle } from '../lib/storage/sqlite.mjs';
 import { buildDelta, estimateWrites, printSummary } from './diff-load.mjs';
 import { RECORDS_DB, REPO_ROOT } from './paths.mjs';
 import { D1_NAME, PERSIST_DIR, WRANGLER, boundedPlan, d1Env, verify } from './verify-load.mjs';
@@ -109,7 +109,7 @@ export function localD1File(persistDir = path.join(REPO_ROOT, PERSIST_DIR)) {
   const dir = path.join(persistDir, 'v3', 'd1', 'miniflare-D1DatabaseObject');
   const candidates = existsSync(dir) ? readdirSync(dir).filter((f) => f.endsWith('.sqlite') && f !== 'metadata.sqlite') : [];
   for (const f of candidates) {
-    const db = new DatabaseSync(path.join(dir, f), { readOnly: true });
+    const db = openSqliteHandle(path.join(dir, f), { readOnly: true });
     try {
       const row = db.prepare("SELECT 1 AS ok FROM d1_migrations WHERE name = '0001_records.sql'").get();
       if (row) return path.join(dir, f);
@@ -166,7 +166,7 @@ async function main() {
     if (local && direct) {
       const file = localD1File();
       if (!file) throw new Error('no local D1 with the records migrations: run migrations apply first');
-      const db = new DatabaseSync(file);
+      const db = openSqliteHandle(file);
       db.exec('PRAGMA journal_mode = WAL; PRAGMA synchronous = OFF;');
       for (const part of files) db.exec(readFileSync(part, 'utf8'));
       db.close();
