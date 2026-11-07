@@ -6,7 +6,7 @@
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { writeStableGeneratedJson } from '../../lib/stable-generated-json.mjs';
-import { SITE } from '../../lib/config.mjs';
+import { SITE } from '@civgraph/config/node';
 
 const ROOT = resolve(process.cwd());
 const METADATA_PATH = resolve(ROOT, 'render/metadata/maps-test.json');

@@ -15,7 +15,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
-import { REPO_ROOT } from '../../scripts/lib/config.mjs';
+import { REPO_ROOT } from '@civgraph/config/node';
 import { defineMachine } from '../../scripts/lib/state-machine.mjs';
 import { canMarkApplied } from '../../scripts/intake/contributions.mjs';
 import {

@@ -50,7 +50,7 @@
 import { readFileSync, existsSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
-import { SITE as SITE_CONFIG } from '../lib/config.mjs';
+import { SITE as SITE_CONFIG } from '@civgraph/config/node';
 
 const argv = process.argv.slice(2);
 const arg = (name, fallback) => {

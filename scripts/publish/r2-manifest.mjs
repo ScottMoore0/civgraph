@@ -19,7 +19,7 @@ import { dirname, resolve } from 'node:path';
 import { assertKnownFlags, mergeArtefactRecords } from '../lib/safe-artefact-write.mjs';
 import { pmtilesTargetSuffix } from './pmtiles-keys.mjs';
 import { contentRangeTotal } from './layer-lifecycle.mjs';
-import { SITE } from '../lib/config.mjs';
+import { SITE } from '@civgraph/config/node';
 
 assertKnownFlags([]);
 

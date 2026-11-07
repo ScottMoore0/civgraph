@@ -10,7 +10,7 @@
  * the legend names them and Browse prints the note.
  */
 
-import { SITE } from '../../../functions/_lib/config.js';
+import { SITE } from '../../../packages/config/src/config.js';
 
 export const APPROXIMATE_REASONS = Object.freeze([
   'map-line-deposited-plan',

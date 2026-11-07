@@ -19,7 +19,7 @@
  */
 import { CATALOGUE_VIEWS, MAP_CACHE, mapRecord, mapsDocumentText, mapsInCategory, storedDocumentText } from '../_maps.js';
 import { cachedJson, jsonResponse } from '../_records.js';
-import { binding } from '../../_lib/config.js';
+import { binding } from '../../../packages/config/src/config.js';
 import { fromD1 } from '../../../packages/storage/src/d1.js';
 
 const VERSION = 'catalogue-records-1';

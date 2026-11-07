@@ -15,7 +15,7 @@
  */
 import { cachedJson, documentBody, jsonResponse, parseJson } from '../_records.js';
 import { reportError } from '../_error.js';
-import { binding } from '../../_lib/config.js';
+import { binding } from '../../../packages/config/src/config.js';
 import { asStore } from '../../../packages/storage/src/d1.js';
 import { GRAPH } from '../../../packages/api/src/queries/graph.js';
 

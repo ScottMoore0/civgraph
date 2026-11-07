@@ -2,7 +2,7 @@ import { jsonResponse, jsonNotAllowed, requireContributor, sanitizeAuth } from '
 import { methodGuard } from '../_method.js';
 import { VALID_KINDS, VALID_ENTITY_TYPES, dryRunPatch } from './_schema.js';
 import { INITIAL_STATUS } from '../../_lib/contribution-status.js';
-import { binding } from '../../_lib/config.js';
+import { binding } from '../../../packages/config/src/config.js';
 
 /**
  * Accept a contribution as a TYPED PATCH, dry-run it, and queue it for review.

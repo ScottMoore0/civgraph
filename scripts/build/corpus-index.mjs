@@ -31,7 +31,7 @@
  *   node scripts/build/corpus-index.mjs --check     # fails if stale; used by the gate
  */
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
-import { SITE } from '../lib/config.mjs';
+import { SITE } from '../../packages/config/src/node.mjs';
 
 const ALLOWLIST = 'data/database/r2-publication-allowlist.json';
 const IA_MIRRORS = 'data/database/raw-source-ia-mirrors.json';

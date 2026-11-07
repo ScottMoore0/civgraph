@@ -1,0 +1,12 @@
+{
+  "name": "@civgraph/config",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "The site's configuration (REFACTOR-PLAN.md items 1 and 7): the runtime half the Functions and the browser bundles read (src/config.js: site, API, bindings, runtime variables, cache) and the node half the scripts read (src/node.mjs: repository paths, build variables, loadConfig).",
+  "exports": {
+    ".": "./src/config.js",
+    "./node": "./src/node.mjs",
+    "./*": "./src/*"
+  }
+}

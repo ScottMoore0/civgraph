@@ -14,7 +14,7 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { SITE } from '../../lib/config.mjs';
+import { SITE } from '../../../packages/config/src/node.mjs';
 
 const ROOT = resolve(process.cwd());
 const MAPS_PATH = resolve(ROOT, 'data/database/maps.json');

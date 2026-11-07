@@ -16,7 +16,7 @@
  */
 import { buildMatch, buildFilters } from './_query.js';
 import { reportError } from '../_error.js';
-import { binding } from '../../_lib/config.js';
+import { binding } from '../../../packages/config/src/config.js';
 import { fromD1 } from '../../../packages/storage/src/d1.js';
 import { PRONI } from '../../../packages/api/src/queries/proni.js';
 

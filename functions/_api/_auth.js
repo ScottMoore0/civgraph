@@ -1,4 +1,4 @@
-import { runtimeVar } from '../_lib/config.js';
+import { runtimeVar } from '../../packages/config/src/config.js';
 const ACCESS_EMAIL_HEADERS = [
   'CF-Access-Authenticated-User-Email',
   'Cf-Access-Authenticated-User-Email',

@@ -23,7 +23,7 @@
  * Like the dev-auth bypass in _auth.js it is opt-in and must stay unset in
  * production -- absent configuration means "do not disclose".
  */
-import { runtimeVar } from '../_lib/config.js';
+import { runtimeVar } from '../../packages/config/src/config.js';
 
 /** Short, unguessable, and enough to find one request among a day of logs. */
 function correlationId() {

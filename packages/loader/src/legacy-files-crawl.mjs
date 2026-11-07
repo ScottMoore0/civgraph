@@ -21,7 +21,7 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { isDeepStrictEqual } from 'node:util';
 import path from 'node:path';
-import { SITE } from '../../../scripts/lib/config.mjs';
+import { SITE } from '@civgraph/config/node';
 import { REPO_ROOT } from './paths.mjs';
 import { driftedFile, readDrift } from './graph-files-freeze.mjs';
 

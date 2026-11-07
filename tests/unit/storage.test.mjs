@@ -14,7 +14,7 @@ import { DatabaseSync } from 'node:sqlite';
 import { assertRecordStore, bindValue, datasetState, toD1 } from '@civgraph/storage/store.js';
 import { fromD1 } from '@civgraph/storage/d1.js';
 import { openSqlite } from '@civgraph/storage/node';
-import { loadConfig } from '../../scripts/lib/config.mjs';
+import { loadConfig } from '@civgraph/config/node';
 
 /** A D1 binding over node:sqlite: the calling convention of D1, batch() as one transaction. */
 function fakeD1(db = new DatabaseSync(':memory:')) {

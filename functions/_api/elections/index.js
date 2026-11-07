@@ -31,7 +31,7 @@ import { resolveElectionSlugAlias } from '../../_lib/election-slug-aliases.js';
 import {
   bundleObject, cachedJson, documentBody, electionAggregates, isMarker, parseJson, withoutMarkers,
 } from '../_records.js';
-import { binding } from '../../_lib/config.js';
+import { binding } from '../../../packages/config/src/config.js';
 import { fromD1 } from '../../../packages/storage/src/d1.js';
 import { ELECTIONS, ELECTIONS_API, ELECTION_CARDS } from '../../../packages/api/src/queries/elections.js';
 

@@ -1,7 +1,7 @@
 import { jsonResponse, jsonNotAllowed, requireAdmin } from '../_auth.js';
 import { methodGuard } from '../_method.js';
 import { INITIAL_STATUS } from '../../_lib/contribution-status.js';
-import { binding } from '../../_lib/config.js';
+import { binding } from '../../../packages/config/src/config.js';
 
 /**
  * List queued contributions. Administrators only.

@@ -1,7 +1,7 @@
 import { jsonResponse, jsonNotAllowed, requireAdmin } from '../_auth.js';
 import { methodGuard } from '../_method.js';
 import { canDecide, isDecision } from '../../_lib/contribution-status.js';
-import { binding } from '../../_lib/config.js';
+import { binding } from '../../../packages/config/src/config.js';
 
 /**
  * Record an approve/reject decision on a queued contribution. Administrators only.

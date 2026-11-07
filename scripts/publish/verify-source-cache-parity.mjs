@@ -64,7 +64,7 @@
  */
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync } from 'node:fs';
-import { SITE } from '../lib/config.mjs';
+import { SITE } from '@civgraph/config/node';
 
 const CATALOGUE = 'data/database/maps.json';
 const RENDER = 'render/metadata/maps-test.json';

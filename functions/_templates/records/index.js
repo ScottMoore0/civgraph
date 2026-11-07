@@ -14,7 +14,7 @@
  * Neither variable is set in wrangler.toml, so production is unchanged until the owner
  * sets one. `npm run dev:records` sets both locally.
  */
-import { runtimeVar } from '../../_lib/config.js';
+import { runtimeVar } from '../../../packages/config/src/config.js';
 import { toHtmlString } from '../../_lib/html.js';
 import { page, sectionNav } from '../shell.js';
 import { electionBody } from './election.js';

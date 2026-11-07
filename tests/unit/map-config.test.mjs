@@ -7,7 +7,7 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
-import { SITE } from '../../functions/_lib/config.js';
+import { SITE } from '@civgraph/config';
 import { CDN_BASE, cdnUrl } from '../../src/cdn-url.js';
 import { resolveApproximateSegmentsUrl } from '../../src/map/renderer/approximate-segments.js';
 
