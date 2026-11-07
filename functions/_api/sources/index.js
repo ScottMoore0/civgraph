@@ -13,7 +13,7 @@
  */
 import { browseIndexHandler } from '../_browse-index.js';
 import { parseJson } from '../_records.js';
-import { SOURCES } from '../../_lib/queries/cards.js';
+import { SOURCES } from '../../../packages/api/src/queries/cards.js';
 
 /**
  * ?slug=&view=detail: { schemaVersion, item } as browse.js loadShardDetail builds it from a

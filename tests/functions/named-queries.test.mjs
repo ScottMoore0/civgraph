@@ -1,6 +1,6 @@
 // The Functions' named queries (REFACTOR-PLAN.md item 4, storage slice ST-6).
 //
-// Every SQL string the Functions run lives in functions/_lib/queries/, one module per table
+// Every SQL string the Functions run lives in packages/api/src/queries/, one module per table
 // group, and reaches the database only through the RecordStore (packages/storage/). This
 // file holds that in place:
 //   1. the boundary: no Function file outside packages/storage/ (and the re-exports left in functions/_lib/storage/) calls an engine API
@@ -19,7 +19,7 @@ import { pathToFileURL } from 'node:url';
 import { REPO_ROOT } from '../../scripts/lib/config.mjs';
 
 const FUNCTIONS = path.join(REPO_ROOT, 'functions');
-const QUERIES = path.join(FUNCTIONS, '_lib', 'queries');
+const QUERIES = path.join(REPO_ROOT, 'packages', 'api', 'src', 'queries');
 const DB = path.join(REPO_ROOT, 'tmp/records/civgraph-records.sqlite');
 
 /** Function files that still call D1 directly (ST-5 empties this list). */
@@ -150,7 +150,7 @@ async function namedQueries() {
 test('only packages/storage/ calls the D1 engine API (the files not yet moved are pinned)', () => {
   // A RecordStore has batch() too; an engine batch needs prepare() first.
   const engine = /\.(prepare|withSession)\s*\(/;
-  const calling = walk(FUNCTIONS)
+  const calling = [...walk(FUNCTIONS), ...walk(path.join(REPO_ROOT, 'packages', 'api', 'src'))]
     .filter((f) => !rel(f).startsWith('_lib/storage/'))
     .filter((f) => engine.test(readFileSync(f, 'utf8').replace(/^\s*(\/\/|\*).*$/gm, '')))
     .map(rel)

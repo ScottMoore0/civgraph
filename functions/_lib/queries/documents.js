@@ -1,6 +1,2 @@
-/** Named queries: the documents table, whole JSON documents by name (storage slice ST-6). */
-
-export const DOCUMENTS = Object.freeze({
-  /** [name] -> { body } */
-  body: 'SELECT body FROM documents WHERE name = ?1',
-});
+// Moved to packages/api/src/queries/documents.js (refactor PKG); this re-export is kept until 8 Dec 2026.
+export * from '../../../packages/api/src/queries/documents.js';

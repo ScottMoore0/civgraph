@@ -17,7 +17,7 @@ import { cachedJson, documentBody, jsonResponse, parseJson } from '../_records.j
 import { reportError } from '../_error.js';
 import { binding } from '../../_lib/config.js';
 import { asStore } from '../../../packages/storage/src/d1.js';
-import { GRAPH } from '../../_lib/queries/graph.js';
+import { GRAPH } from '../../../packages/api/src/queries/graph.js';
 
 const VERSION = 'graph-1';
 const MAX = 2000;

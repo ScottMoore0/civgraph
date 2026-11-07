@@ -12,7 +12,7 @@ import { cachedJson, documentBody, isMarker, jsonResponse, parseJson } from '../
 import { reportError } from '../_error.js';
 import { binding } from '../../_lib/config.js';
 import { asStore } from '../../../packages/storage/src/d1.js';
-import { VOTES } from '../../_lib/queries/votes.js';
+import { VOTES } from '../../../packages/api/src/queries/votes.js';
 
 const VERSION = 'votes-1';
 

@@ -13,7 +13,7 @@
  * adapter plus a dialect check over the named queries, not a change to every handler.
  *
  * Every Function reads D1 through it (storage slice ST-5): a handler holds fromD1(binding) and
- * runs the named queries of functions/_lib/queries/ (ST-6); nothing outside this folder calls the
+ * runs the named queries of packages/api/src/queries/ (ST-6); nothing outside this folder calls the
  * engine API (tests/functions/named-queries.test.mjs). toD1() below wraps any store in the D1
  * binding shape, so the tests run the real handlers over a local SQLite file
  * (tests/records/d1-shim.mjs is toD1(openSqlite(file)), ST-3).

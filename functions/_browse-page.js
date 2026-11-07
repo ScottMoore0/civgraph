@@ -53,8 +53,8 @@ import { groupedYearHero, groupedYearKey } from './_templates/records/grouped-ye
 import { resolveElectionSlugAlias } from './_lib/election-slug-aliases.js';
 import { binding } from './_lib/config.js';
 import { asStore } from '../packages/storage/src/d1.js';
-import { CARDS } from './_lib/queries/cards.js';
-import { ELECTION_PAGES, RECORD_PAGES } from './_lib/queries/pages.js';
+import { CARDS } from '../packages/api/src/queries/cards.js';
+import { ELECTION_PAGES, RECORD_PAGES } from '../packages/api/src/queries/pages.js';
 
 // Retired election and contest slugs (functions/_lib/election-slug-aliases.js): lookupElection
 // finds the record under its new slug and the handler's slug check answers 301.

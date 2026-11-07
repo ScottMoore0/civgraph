@@ -10,7 +10,7 @@
  */
 import { browseIndexHandler } from '../_browse-index.js';
 import { parseJson } from '../_records.js';
-import { REGISTER } from '../../_lib/queries/cards.js';
+import { REGISTER } from '../../../packages/api/src/queries/cards.js';
 
 /** ?slug=&view=detail: the entry with its interests (was data/database/ni-register-browse-records). */
 async function detail({ db, slug, record, json }) {

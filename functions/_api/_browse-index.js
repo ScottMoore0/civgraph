@@ -24,7 +24,7 @@ import { reportError } from './_error.js';
 import { cachedJson } from './_records.js';
 import { binding } from '../_lib/config.js';
 import { fromD1 } from '../../packages/storage/src/d1.js';
-import { CARDS } from '../_lib/queries/cards.js';
+import { CARDS } from '../../packages/api/src/queries/cards.js';
 
 const MAX_LIMIT = 200;
 const DEFAULT_LIMIT = 50;

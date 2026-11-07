@@ -11,7 +11,7 @@
 import { API_URLS, indexDocument, indexEntry } from '../_lib/layer-index.js';
 import { parseJson } from './_records.js';
 import { asStore } from '../../packages/storage/src/d1.js';
-import { LAYERS, MAPS, MAP_CARDS } from '../_lib/queries/maps.js';
+import { LAYERS, MAPS, MAP_CARDS } from '../../packages/api/src/queries/maps.js';
 
 /** @typedef {import('../../packages/storage/src/store.js').RecordStore | D1Database} StoreOrBinding a store or a D1 binding (asStore) */
 
