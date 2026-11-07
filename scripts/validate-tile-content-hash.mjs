@@ -70,7 +70,7 @@ for (const layer of doc.layers || []) {
   // Measured 2026-08-23: of 73 unhashed layers that had a local source, all 73 were
   // aliases and none had a local archive. Chasing that number would have meant either
   // hashing something that does not exist or fabricating an attestation.
-  if (layer.aliasOf || layer.cloneOf || /-alias-test$/.test(String(layer.id || ''))) {
+  if (layer.aliasOf || layer.cloneOf || /-alias$/.test(String(layer.id || ''))) {
     aliases += 1;
     continue;
   }

@@ -47,7 +47,7 @@ test('the retired pages answer 301 to the map app, keeping the query', () => {
 
 test('the data the old apps read keeps its addresses', () => {
   assert.equal(matchRedirect(rules, '/render/metadata/maps-test.json'), null);
-  assert.equal(matchRedirect(rules, '/render/metadata/feature-indexes/lgd-2012-vector-test.json'), null);
+  assert.equal(matchRedirect(rules, '/render/metadata/feature-indexes/lgd-2012-vector.json'), null);
   assert.deepEqual(
     matchRedirect(rules, '/test/metadata/maps-test-index.json')?.location,
     '/render/metadata/maps-test-index.json'
@@ -105,7 +105,7 @@ test('installed over a legacy worker, it takes over, clears, unregisters, then m
     scope: `${origin}/render/`,
     cacheNames: ['civgraph-test-v65-static', 'civgraph-test-v65-tiles', 'civgraph-root-maplibre-root-maplibre-sw-x-static', 'civgraph-test2-sw-1-runtime'],
     pages: [
-      `${origin}/render/#layers=lgd-2012-vector-test&lng=-6.5&lat=54.6&z=8.250`,
+      `${origin}/render/#layers=lgd-2012-vector&lng=-6.5&lat=54.6&z=8.250`,
       `${origin}/render/index.html?debug=1#layers=a,b&zoom=7&z=3`,
       `${origin}/render/`
     ]
@@ -119,7 +119,7 @@ test('installed over a legacy worker, it takes over, clears, unregisters, then m
     'delete civgraph-test2-sw-1-runtime',
     'claim',
     'unregister',
-    `navigate ${origin}/render/#layers=lgd-2012-vector-test&lng=-6.5&lat=54.6&z=8.250 -> ${origin}/maps/#layers=lgd-2012-vector-test&lng=-6.5&lat=54.6&zoom=8.250`,
+    `navigate ${origin}/render/#layers=lgd-2012-vector&lng=-6.5&lat=54.6&z=8.250 -> ${origin}/maps/#layers=lgd-2012-vector&lng=-6.5&lat=54.6&zoom=8.250`,
     // zoom already given: z is left alone (the map app reads zoom first).
     `navigate ${origin}/render/index.html?debug=1#layers=a,b&zoom=7&z=3 -> ${origin}/maps/?debug=1#layers=a,b&zoom=7&z=3`,
     `navigate ${origin}/render/ -> ${origin}/maps/`

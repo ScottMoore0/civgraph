@@ -150,8 +150,9 @@ test('/_api/layers: the full metadata, the startup index, a record and its sidec
 });
 
 test('another spelling of a layer id answers 301 to the live id', async () => {
-  const live = LAYERS.layers.find((l) => /-vector-test$/.test(l.id)).id;
-  const other = live.replace(/-vector-test$/, '-vector');
+  // Either spelling may be the live one (before and after scripts/maps/rename-layer-ids.mjs --write).
+  const live = LAYERS.layers.find((l) => /-vector(-test)?$/.test(l.id)).id;
+  const other = live.endsWith('-vector-test') ? live.replace(/-vector-test$/, '-vector') : `${live}-test`;
   const r = await get(layersApi, `/_api/layers/${other}`, { path: [other] });
   assert.equal(r.status, 301);
   assert.equal(r.headers.get('Location'), `/_api/layers/${live}`);

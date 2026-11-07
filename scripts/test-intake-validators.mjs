@@ -48,9 +48,9 @@ const cases = [
     corrupt(dir) {
       const p = join(dir, 'maps-test-index.json');
       const doc = readJson(p);
-      const layer = (doc.layers || []).find((l) => l.id === 'eds-roi-1941-ulster-alias-test');
+      const layer = (doc.layers || []).find((l) => l.id === 'eds-roi-1941-ulster-alias');
       if (!layer) return false;
-      layer.aliasTargetLayerId = 'eds-ulster-1986-vector-test';
+      layer.aliasTargetLayerId = 'eds-ulster-1986-vector';
       writeJson(p, doc);
       return true;
     },

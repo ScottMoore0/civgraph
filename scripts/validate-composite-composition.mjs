@@ -98,10 +98,10 @@ for (const file of specFiles) {
     for (const part of spec.composition || []) {
       if (!part.layerId) continue;
       const province = part.layerId.split('-')[1];
-      const alias = byId.get(`eds-roi-${spec.year}-${province}-alias-test`);
+      const alias = byId.get(`eds-roi-${spec.year}-${province}-alias`);
       if (!alias) continue;
       checked += 1;
-      const actual = String(alias.aliasTargetLayerId || '').replace(/-vector-test$/, '');
+      const actual = String(alias.aliasTargetLayerId || '').replace(/-vector$/, '');
       if (actual && actual !== part.layerId) {
         problems.push(`${spec.year} ${province}: spec says ${part.layerId}, alias targets ${actual} (${spec.noteFile})`);
       }

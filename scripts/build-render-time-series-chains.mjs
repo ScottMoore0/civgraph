@@ -13,7 +13,7 @@
  *
  * A SECOND mismatch sat underneath, which would have bitten the moment the first was
  * fixed. TimeSeriesController reads `chain.maps` with entries carrying `.id` and `.date`,
- * and matches against RENDER layer ids ("provinces-1955-vector-test"), not catalogue map
+ * and matches against RENDER layer ids ("provinces-1955-vector"), not catalogue map
  * ids ("provinces-1955").
  *
  * ONE CHAIN SHAPE, since 2026-08-26. The catalogue used to describe membership FOUR ways

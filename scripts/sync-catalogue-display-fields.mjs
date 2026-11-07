@@ -58,7 +58,7 @@ let textLayers = 0;
 let textFieldsAdded = 0;
 
 for (const layer of render.layers || []) {
-  const mapId = layer.sourceMapId || String(layer.id || '').replace(/-vector-test$/, '');
+  const mapId = layer.sourceMapId || String(layer.id || '').replace(/-vector$/, '');
   const map = catalogueById.get(mapId);
   if (!map) continue;
 

@@ -89,7 +89,7 @@ test('local segment files match the stated counts', { skip: !existsSync('data/ma
 });
 
 test('the renderer helpers resolve the url and label a segment', () => {
-  const layer = { id: 'x-vector-test', approximateSegments: { url: 'https://data.civgraph.net/data/maps/approximate/a-approximate.geojson' } };
+  const layer = { id: 'x-vector', approximateSegments: { url: 'https://data.civgraph.net/data/maps/approximate/a-approximate.geojson' } };
   assert.equal(resolveApproximateSegmentsUrl(layer, { hostname: 'civgraph.net', origin: 'https://civgraph.net' }), layer.approximateSegments.url);
   assert.equal(resolveApproximateSegmentsUrl(layer, { hostname: 'localhost', origin: 'http://localhost:5050' }),
     'http://localhost:5050/_r/data/maps/approximate/a-approximate.geojson');

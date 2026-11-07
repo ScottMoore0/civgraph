@@ -80,7 +80,7 @@ let idx = 0;
 for (const row of convertible) {
   idx++;
   const base = 'oda-map-' + slugify(row.rowId.split(':').pop() + '-' + row.title);
-  const layerId = base + '-vector-test';
+  const layerId = base + '-vector';
   const geojson = resolve(TMP, base + '.geojson');
   const fgb = resolve(INTAKE, base + '.fgb');
   const pmtiles = resolve(PMTILES_DIR, layerId + '.pmtiles');

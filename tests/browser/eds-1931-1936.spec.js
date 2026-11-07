@@ -20,7 +20,7 @@ for (const [year, expectLayer] of [['1931', 'eds_leinster_1931'], ['1936', 'eds_
 
     const r = await page.evaluate(async (y) => {
       const t = window.__civgraphTest2;
-      const aliasId = `eds-roi-${y}-leinster-alias-test`;
+      const aliasId = `eds-roi-${y}-leinster-alias`;
       const alias = t.metadataService.getLayer(aliasId);
       if (!alias) return { error: `${aliasId} not in the live index` };
       await t.app.loadMap(alias.sourceMapId);
@@ -39,7 +39,7 @@ for (const [year, expectLayer] of [['1931', 'eds_leinster_1931'], ['1936', 'eds_
     expect(r.error, r.error).toBeUndefined();
     // the crux: it must be this year's Leinster layer, not 1941's
     expect(r.aliasSourceLayer).toBe(expectLayer);
-    expect(r.aliasTarget).toBe(`eds-leinster-${year}-vector-test`);
+    expect(r.aliasTarget).toBe(`eds-leinster-${year}-vector`);
     expect(r.renderedFeatures, 'rendered no features').toBeGreaterThan(0);
   });
 }
@@ -67,10 +67,10 @@ test('both years are reachable: listed in the card and resolvable as layers', as
   // metadataService attaches slightly after app; wait for the thing actually used.
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService, null, { timeout: 60000 });
   const resolvable = await page.evaluate(() => ({
-    a1931: !!window.__civgraphTest2.metadataService.getLayer('eds-roi-1931-leinster-alias-test'),
-    a1936: !!window.__civgraphTest2.metadataService.getLayer('eds-roi-1936-leinster-alias-test'),
-    l1931: !!window.__civgraphTest2.metadataService.getLayer('eds-leinster-1931-vector-test'),
-    l1936: !!window.__civgraphTest2.metadataService.getLayer('eds-leinster-1936-vector-test'),
+    a1931: !!window.__civgraphTest2.metadataService.getLayer('eds-roi-1931-leinster-alias'),
+    a1936: !!window.__civgraphTest2.metadataService.getLayer('eds-roi-1936-leinster-alias'),
+    l1931: !!window.__civgraphTest2.metadataService.getLayer('eds-leinster-1931-vector'),
+    l1936: !!window.__civgraphTest2.metadataService.getLayer('eds-leinster-1936-vector'),
   }));
   for (const [k, v] of Object.entries(resolvable)) expect(v, `${k} did not resolve`).toBe(true);
 });

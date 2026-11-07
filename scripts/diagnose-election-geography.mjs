@@ -74,11 +74,11 @@ const layersById = new Map((metadata.layers || []).map((l) => [l.id, l]));
 
 const nameCache = new Map();
 
-/** Feature names for a layer id (without the -vector-test suffix), or null. */
+/** Feature names for a layer id (without the -vector suffix), or null. */
 async function featureNames(mapId) {
   if (nameCache.has(mapId)) return nameCache.get(mapId);
   let names = null;
-  const layerId = `${mapId}-vector-test`;
+  const layerId = `${mapId}-vector`;
 
   const idxPath = path.join(ROOT, 'render/metadata/feature-indexes', `${layerId}.json`);
   if (existsSync(idxPath)) {
@@ -147,7 +147,7 @@ async function featureNames(mapId) {
 function candidateMapIds() {
   const ids = new Set();
   for (const layer of metadata.layers || []) {
-    const id = String(layer.id || '').replace(/-vector-test$/, '');
+    const id = String(layer.id || '').replace(/-vector$/, '');
     if (/^(dail|pc|assembly-areas|stormont|deas|roi-|ni-|forum|constitutional)/.test(id)) ids.add(id);
   }
   for (const f of existsSync(path.join(ROOT, 'render/source-cache/vector-intake'))

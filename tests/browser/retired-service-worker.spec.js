@@ -114,13 +114,13 @@ test.afterEach(async () => { await new Promise((resolve) => site.server.close(re
 
 for (const scope of Object.keys(LEGACY_WORKERS)) {
   test(`an open /${scope}/ page: the kill switch unregisters, clears the old caches and moves it to /maps/`, async ({ page }) => {
-    await installLegacyWorker(page, site, scope, '#layers=lgd-2012-vector-test&lng=-6.50000&lat=54.60000&z=8.250');
+    await installLegacyWorker(page, site, scope, '#layers=lgd-2012-vector&lng=-6.50000&lat=54.60000&z=8.250');
     site.phase = 'retired';
     // What the old page does on its next load, or the browser on its own schedule: check for an update.
     await page.evaluate(() => navigator.serviceWorker.getRegistration().then((r) => r.update()).catch(() => {}));
     await page.waitForURL((url) => url.pathname === '/maps/', { timeout: 15000 });
     // The old app's z= becomes the map app's zoom=; the rest of the state is kept.
-    expect(new URL(page.url()).hash).toBe('#layers=lgd-2012-vector-test&lng=-6.50000&lat=54.60000&zoom=8.250');
+    expect(new URL(page.url()).hash).toBe('#layers=lgd-2012-vector&lng=-6.50000&lat=54.60000&zoom=8.250');
     await expect.poll(() => workerState(page), { timeout: 10000 }).toEqual({ scopes: [], caches: [ROOT_CACHE] });
   });
 
@@ -132,11 +132,11 @@ for (const scope of Object.keys(LEGACY_WORKERS)) {
     // navigation first; the network's 301 (or, at /test2/, the old worker's own redirect) lands on
     // /maps/ with the hash. The browser does not check the old worker for an update here (the
     // redirect took the page out of its scope: seen in Chromium), so the map app asks it to.
-    await page.goto(`${site.origin}/${scope}/?from=share#layers=lgd-2012-vector-test&z=7`);
+    await page.goto(`${site.origin}/${scope}/?from=share#layers=lgd-2012-vector&z=7`);
     await page.waitForURL((url) => url.pathname === '/maps/', { timeout: 15000 });
     const landed = new URL(page.url());
     expect(landed.search).toBe('?from=share');
-    expect(landed.hash).toBe('#layers=lgd-2012-vector-test&z=7');
+    expect(landed.hash).toBe('#layers=lgd-2012-vector&z=7');
     await expect.poll(() => workerState(page), { timeout: 15000 }).toEqual({ scopes: [], caches: [ROOT_CACHE] });
     // And the next visit goes straight to the network: nothing is left to answer it.
     const response = await page.goto(`${site.origin}/${scope}/`);

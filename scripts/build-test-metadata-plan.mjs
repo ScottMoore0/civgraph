@@ -98,7 +98,7 @@ function buildRow(map, parent) {
         ? 'composite-vector-tiles'
         : recommendedTarget(map, sourceFiles),
     testLayerId: converted?.id
-      || (cloneTarget || manualAliasTarget ? `${map.id}-alias-test` : null)
+      || (cloneTarget || manualAliasTarget ? `${map.id}-alias` : null)
       || (compositeChildIds.length ? `composite:${compositeChildIds.join(',')}` : null),
     aliasTargetLayerId: converted?.aliasTargetLayerId || cloneTarget?.id || manualAliasTarget?.id || null,
     bounds: map.bounds || parent?.bounds || converted?.bounds || cloneTarget?.bounds || manualAliasTarget?.bounds || null,

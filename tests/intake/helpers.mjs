@@ -75,7 +75,7 @@ export function makeBatch(overrides = {}) {
       { id: 'fgb', type: 'r2-fgb', pairs: [{ file: 'data/maps/health/New_Layer.fgb', key: 'data/maps/health/New_Layer.fgb' }] },
       { id: 'csv', type: 'r2-tree', prefix: 'data/maps/health/', files: ['data/maps/health/Lookup.csv'], force: true },
       { id: 'cc', type: 'r2-cache-control', prefixes: ['data/maps/health/'] },
-      { id: 'pmtiles', type: 'r2-pmtiles', ids: ['dd-1921-vector-test', 'dd-1924-vector-test'] },
+      { id: 'pmtiles', type: 'r2-pmtiles', ids: ['dd-1921-vector', 'dd-1924-vector'] },
       { id: 'tokens', type: 'stamp-cache-tokens' },
       { id: 'switch', type: 'switch-to-cdn', idsFrom: 'pmtiles' },
       { id: 'thumbs', type: 'thumbnails', mapIds: ['dd-1921', 'dd-1924'] },

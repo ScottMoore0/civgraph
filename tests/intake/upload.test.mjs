@@ -35,13 +35,13 @@ test('upload --dry-run uses each script\'s own dry form and lists only real step
   assert.equal(steps[2].realOnly, true);
   assert.deepEqual(argv[3], ['node', ENV, 'scripts/publish/r2-cache-control.mjs', '--prefix', 'data/maps/health/']); // no --apply
   assert.deepEqual(argv[4], ['node', 'scripts/publish/r2-manifest.mjs']);
-  assert.deepEqual(argv[5], ['node', ENV, 'scripts/publish/r2-upload-pmtiles.mjs', '--ids', 'dd-1921-vector-test,dd-1924-vector-test', '--dry-run']);
-  assert.deepEqual(argv[6], ['node', ENV, 'scripts/publish/verify-pmtiles-cdn.mjs', '--ids', 'dd-1921-vector-test,dd-1924-vector-test']);
+  assert.deepEqual(argv[5], ['node', ENV, 'scripts/publish/r2-upload-pmtiles.mjs', '--ids', 'dd-1921-vector,dd-1924-vector', '--dry-run']);
+  assert.deepEqual(argv[6], ['node', ENV, 'scripts/publish/verify-pmtiles-cdn.mjs', '--ids', 'dd-1921-vector,dd-1924-vector']);
   assert.deepEqual(argv.slice(7), [
     ['node', ENV, 'scripts/stamp-map-cache-tokens.mjs', '--write'],
     ['node', ENV, 'scripts/stamp-map-cache-tokens.mjs', '--check'],
   ]);
-  assert.deepEqual(steps.filter((s) => s.realOnly).map((s) => s.argv[s.argv.length - 1]), ['--verify-only', 'scripts/publish/r2-manifest.mjs', 'dd-1921-vector-test,dd-1924-vector-test', '--write', '--check']);
+  assert.deepEqual(steps.filter((s) => s.realOnly).map((s) => s.argv[s.argv.length - 1]), ['--verify-only', 'scripts/publish/r2-manifest.mjs', 'dd-1921-vector,dd-1924-vector', '--write', '--check']);
 });
 
 test('a real upload applies Cache-Control and drops the dry flags', () => {
@@ -116,7 +116,7 @@ test('post-upload: switch to the CDN, thumbnails and the sync, printed unless --
   const { repo, dir, batch } = fixture();
   const steps = buildPostUploadSteps(batch).map((s) => s.argv);
   assert.deepEqual(steps, [
-    ['node', 'scripts/publish/switch-pmtiles-to-cdn.mjs', '--ids', 'dd-1921-vector-test,dd-1924-vector-test'],
+    ['node', 'scripts/publish/switch-pmtiles-to-cdn.mjs', '--ids', 'dd-1921-vector,dd-1924-vector'],
     ['python', 'scripts/regen-thumbnails.py', '--download', '--ids', 'dd-1921,dd-1924'],
     ['node', ENV, 'scripts/publish/r2-upload-tree.mjs', 'assets/thumbnails', 'assets/thumbnails', '--concurrency=16', '--changed-only'],
   ]);
@@ -136,14 +136,14 @@ test('plan and report: repository changes, R2 objects with sizes, and the comman
     ['data/maps/health/Lookup.csv', 8],
   ]);
   assert.deepEqual(plan.r2.pmtiles.map((p) => p.key), [
-    'data/maps/test/pmtiles/generated/dd-1921-vector-test.pmtiles',
-    'data/maps/test/pmtiles/generated/dd-1924-vector-test.pmtiles',
+    'data/maps/test/pmtiles/generated/dd-1921-vector.pmtiles',
+    'data/maps/test/pmtiles/generated/dd-1924-vector.pmtiles',
   ]);
   const md = renderReport(plan, batch.manifest, { generatedAt: '2026-11-06' });
   assert.match(md, /^# Test batch/);
   assert.match(md, /\*\*gazette\*\*: Belfast Gazette; licence: OGL v3\.0/);
   assert.match(md, /\| `data\/maps\/health\/New_Layer\.fgb` \| 15 B \|/);
-  assert.match(md, /node --env-file=\.env\.local scripts\/publish\/r2-upload-pmtiles\.mjs --ids dd-1921-vector-test,dd-1924-vector-test/);
+  assert.match(md, /node --env-file=\.env\.local scripts\/publish\/r2-upload-pmtiles\.mjs --ids dd-1921-vector,dd-1924-vector/);
   assert.match(md, /The intake tool never runs it\./);
   const out = path.join(tempDir('report'), 'REPORT.md');
   assert.equal(main(['report', dir, '--repo', repo, '--out', out], { log: () => {} }), 0);
@@ -157,6 +157,7 @@ test('every script the steps call exists in this repository', () => {
 // The worked example: the hand-written upload.ps1 of batch-2026-11-05, step by step.
 test('docs/intake-examples/batch-2026-11-05 reproduces that batch\'s upload.ps1 and post-upload.txt', () => {
   const batch = loadBatch(tempDir('empty'), { manifest: path.join(ROOT, 'docs/intake-examples/batch-2026-11-05/batch.json'), repo: tempDir('repo') });
+  // A historical batch (docs/intake-examples is outside the layer-id rename): its ids keep the -vector-test spelling.
   const ids = 'dispensary-districts-ni-1921-04-01-vector-test,dispensary-districts-ni-1924-04-01-vector-test,dispensary-districts-ni-1929-01-01-vector-test,tia-towns-ni-1921-05-03-vector-test,tia-towns-ni-1925-04-01-vector-test,tia-towns-ni-1927-04-01-vector-test,tia-towns-ni-1934-08-01-vector-test,tia-towns-ni-1937-04-01-vector-test,tia-towns-ni-1959-05-29-vector-test';
   const fgb = [
     'health/Dispensary_Districts_NI_1921-04-01', 'health/Dispensary_Districts_NI_1924-04-01', 'health/Dispensary_Districts_NI_1929-01-01',
