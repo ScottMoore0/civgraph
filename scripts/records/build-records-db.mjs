@@ -26,6 +26,13 @@
  *   node scripts/records/build-records-db.mjs [--no-transform] [--force-transform] [--votes-tree DIR]
  *                                             [--skip graph,votes] [--no-source-checks]
  *                                             [--ord-seed FILE | --no-ord-seed]
+ *   node scripts/records/build-records-db.mjs --only maps [--browse-dir DIR] [--out FILE]
+ *
+ * --only maps (development): a database with every table but only the maps group filled
+ * (ingest-maps.mjs: maps.json, maps-test.json, the catalogue documents and, from --browse-dir or
+ * the last build's Browse output, the Browse map files). No transforms, no seed, no source
+ * checks; it is written to --out (default tmp/records/civgraph-records.maps.sqlite) and never
+ * replaces the full build. Used by the local phase-3 rehearsal and the dev site.
  */
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
@@ -36,6 +43,7 @@ import { createDatabase, tableChecksums, TableWriter, transaction } from './db.m
 import { ingestBrowse } from './ingest-browse.mjs';
 import { ingestElections } from './ingest-elections.mjs';
 import { ingestGraph } from './ingest-graph.mjs';
+import { ingestMaps } from './ingest-maps.mjs';
 import { ingestProvenance } from './ingest-provenance.mjs';
 import { ingestRegistries } from './ingest-registries.mjs';
 import { ingestVotes } from './ingest-votes.mjs';
@@ -139,7 +147,42 @@ function transformVotes() {
 
 const VOTE_TABLES = ['divisions', 'division_votes', 'vote_persons', 'vote_parties'];
 
+/** --only maps: the maps group alone, into its own file (see the header). */
+function mainMapsOnly() {
+  const out = path.resolve(option('--out') || path.join(REPO_ROOT, BUILD_REL, 'civgraph-records.maps.sqlite'));
+  const next = `${out}.next`;
+  const browseDir = option('--browse-dir') ? path.resolve(option('--browse-dir')) : P.BROWSE_DIR;
+  console.log(`records:build --only maps (Browse map files from ${existsSync(browseDir) ? rel(browseDir) : 'nowhere'})`);
+  const db = createDatabase(next);
+  const result = step('ingest maps', () => ingestMaps(db, { browseDir }));
+  step('documents', () => transaction(db, () => {
+    const w = new TableWriter(db, 'documents');
+    for (const d of result.docs.sort((a, b) => a.name.localeCompare(b.name))) w.add(d);
+  }));
+  const checked = validateDatabase(db);
+  for (const w of checked.warnings) console.warn(`  warning: ${w}`);
+  if (checked.errors.length) {
+    for (const e of checked.errors) console.error(`  ERROR: ${e}`);
+    db.close();
+    process.exit(1);
+  }
+  const checksums = tableChecksums(db, HASHED_TABLES);
+  const version = createHash('sha256').update(JSON.stringify(HASHED_TABLES.map((t) => [t.name, checksums[t.name].n, checksums[t.name].s]))).digest('hex').slice(0, 16);
+  const ins = db.prepare('INSERT OR REPLACE INTO dataset (key, value) VALUES (?, ?)');
+  transaction(db, () => {
+    ins.run('version', version);
+    ins.run('git_commit', run('git', ['rev-parse', 'HEAD'], { env: process.env }).trim());
+    ins.run('table_checksums', JSON.stringify(checksums));
+  });
+  db.close();
+  for (const suffix of ['', '-journal']) rmSync(out + suffix, { force: true });
+  renameSync(next, out);
+  console.log(`records:build (maps) ${version} -> ${rel(out)}`);
+  for (const [name, n] of Object.entries(result.counts)) console.log(`  ${name.padEnd(26)} ${n}`);
+}
+
 function main() {
+  if (option('--only') === 'maps') return mainMapsOnly();
   console.log('records:build');
   const inputs = step('inputs hash', inputsHash);
   const prior = readPrior();
@@ -179,6 +222,7 @@ function main() {
     });
   }
   if (!skip.has('graph')) step('ingest graph', () => merge(ingestGraph(db, { graphDir: P.GRAPH_DIR })));
+  step('ingest maps', () => merge(ingestMaps(db, { browseDir: P.BROWSE_DIR })));
   step('documents', () => transaction(db, () => {
     const w = new TableWriter(db, 'documents');
     for (const d of docs.sort((a, b) => a.name.localeCompare(b.name))) w.add(d);

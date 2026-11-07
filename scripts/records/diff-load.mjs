@@ -20,6 +20,7 @@ import { createWriteStream, existsSync } from 'node:fs';
 import path from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
 import { HASHED_TABLES, TABLES } from './schema.mjs';
+import { snapshotTable } from './db.mjs';
 
 export const MAX_STATEMENT_BYTES = 60 * 1024;
 const MAX_DELETE_KEYS = 100;
@@ -68,7 +69,8 @@ export function buildDelta({ toFile, fromFile = null, write, version, gitCommit,
     const s = (summary[t.name] = { deleted: 0, upserted: 0 });
     if (full) { emit(`DELETE FROM ${t.name};`); continue; }
     const pk = t.pk.join(', ');
-    const gone = db.prepare(`SELECT ${pk} FROM f.${t.name} EXCEPT SELECT ${pk} FROM main.${t.name} ORDER BY ${pk}`).all();
+    const ft = snapshotTable(db, 'f', t);
+    const gone = db.prepare(`SELECT ${pk} FROM ${ft} EXCEPT SELECT ${pk} FROM main.${t.name} ORDER BY ${pk}`).all();
     s.deleted = gone.length;
     for (let i = 0; i < gone.length; i += MAX_DELETE_KEYS) {
       const chunk = gone.slice(i, i + MAX_DELETE_KEYS);
@@ -83,12 +85,13 @@ export function buildDelta({ toFile, fromFile = null, write, version, gitCommit,
   for (const t of order) {
     const s = summary[t.name];
     const cols = t.columns.map((c) => c.name);
-    const join = t.pk.map((c) => `f.${t.name}.${c} = m.${c}`).join(' AND ');
+    const ft = full ? null : snapshotTable(db, 'f', t);
+    const join = full ? '' : t.pk.map((c) => `${ft}.${c} = m.${c}`).join(' AND ');
     // A full load reads each table in storage order: the order of the statements does not
     // matter (every row is an upsert), and ordering by key costs a random read per row.
     const sql = full
       ? `SELECT * FROM main.${t.name}`
-      : `SELECT m.* FROM main.${t.name} m LEFT JOIN f.${t.name} ON ${join} WHERE f.${t.name}.row_hash IS NOT m.row_hash ORDER BY ${t.pk.map((c) => `m.${c}`).join(', ')}`;
+      : `SELECT m.* FROM main.${t.name} m LEFT JOIN ${ft} ON ${join} WHERE ${ft}.row_hash IS NOT m.row_hash ORDER BY ${t.pk.map((c) => `m.${c}`).join(', ')}`;
     const prefix = `INSERT OR REPLACE INTO ${t.name} (${cols.join(', ')}) VALUES `;
     let batch = [];
     let bytes = 0;

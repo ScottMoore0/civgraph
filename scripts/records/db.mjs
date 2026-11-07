@@ -183,3 +183,17 @@ export function withPlaceholders(object, sentinels) {
 export function unwrapItem(doc) {
   return doc && typeof doc === 'object' ? doc.item ?? doc : doc;
 }
+
+/**
+ * The name to read table `t` of an attached snapshot by: `<schema>.<table>`, or, when the snapshot
+ * predates the table (a migration added it since: the phase-3 maps tables against a phase-2
+ * last-loaded snapshot), an empty TEMP view of the same columns, so every row of the build reads
+ * as new and nothing as deleted.
+ */
+export function snapshotTable(db, schema, t) {
+  const has = db.prepare(`SELECT 1 FROM ${schema}.sqlite_master WHERE type = 'table' AND name = ?`).get(t.name);
+  if (has) return `${schema}.${t.name}`;
+  const view = `${schema}_absent_${t.name}`;
+  db.exec(`CREATE TEMP VIEW IF NOT EXISTS ${view} AS SELECT * FROM main.${t.name} WHERE 0`);
+  return view;
+}
