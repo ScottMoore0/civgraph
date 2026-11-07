@@ -11,7 +11,9 @@
 #   bash scripts/publish/deploy-preview.sh          prints the preview URL when done
 #
 # What the preview is:
-#   - the committed tree (git archive HEAD), trimmed exactly as the Pages build trims it;
+#   - the committed tree (git archive HEAD), built into dist/ exactly as the Pages build
+#     builds it (scripts/build/site.mjs; app/build/ is not in the archive, so the map app
+#     needs `npm run build` in the stage first if the change touches it);
 #   - static only. wrangler.toml and functions/ are left out, so the preview project can
 #     never be handed production's D1, KV or R2 bindings. /_api therefore answers 404, and
 #     the app falls back to the static data in the commit -- which is what the change will
@@ -30,8 +32,8 @@ mkdir -p "$STAGE"
 git archive HEAD | tar -x -C "$STAGE"
 rm -f "$STAGE/wrangler.toml"
 rm -rf "$STAGE/functions"
-(cd "$STAGE" && CI=true bash scripts/clean-for-pages.sh > /dev/null)
+(cd "$STAGE" && git init -q && git add -A && node scripts/build/site.mjs > /dev/null)
 
 env -u R2_ACCESS_KEY_ID -u R2_SECRET_ACCESS_KEY -u R2_S3_ENDPOINT \
-  npx wrangler pages deploy "$STAGE" --project-name civgraph-preview --branch main --commit-hash "$(git rev-parse HEAD)" --commit-dirty=true \
+  npx wrangler pages deploy "$STAGE/dist" --project-name civgraph-preview --branch main --commit-hash "$(git rev-parse HEAD)" --commit-dirty=true \
   2>&1 | grep -E "https://|Success|error|Error" | tail -5

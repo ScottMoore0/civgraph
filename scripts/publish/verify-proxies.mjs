@@ -118,7 +118,7 @@ for (const proxy of PROXIES) {
       failures.push(
         `${proxy.name}: the deployment origin serves ${proxy.key} from something other than ` +
         `the Function (Cache-Control: ${originCache}). A committed static copy shadows it. ` +
-        'Exclude the prefix in .cfignore as a DIRECTORY pattern — glob patterns are not honoured.'
+        'Keep the prefix out of dist/: it must not be in the allow-list of scripts/build/site.mjs.'
       );
       note(`FAIL  origin shadowed by a static copy (${originCache})`);
     } else if (originRes.ok) {
