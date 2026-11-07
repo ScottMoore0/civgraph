@@ -7,6 +7,7 @@ import assert from 'node:assert/strict';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { recordPaths, REPO_ROOT } from '../../scripts/records/paths.mjs';
+import { driftedFile, readDrift } from '../../scripts/records/graph-files-freeze.mjs';
 import { context, d1, installCaches } from './d1-shim.mjs';
 import { resetDatasetMemo } from '../../functions/_api/_records.js';
 import * as dataBrowse from '../../functions/data/browse/[[path]].js';
@@ -76,7 +77,13 @@ test('data/graph: every file kind deep-equals the build\'s file', { skip: skipGr
     if (!existsSync(abs)) continue;
     const files = readdirSync(abs).filter((f) => pattern.test(f)).sort();
     assert.ok(files.length, `${dir}: no files`);
-    for (const f of sample(files, n)) await same(dataGraph, '/data/graph/', P.GRAPH_DIR, dir ? `${dir}/${f}` : f);
+    // graph_files is frozen: a file whose keys have changed since go-live is skipped.
+    const drift = readDrift();
+    for (const f of sample(files, n)) {
+      const rel = dir ? `${dir}/${f}` : f;
+      if (driftedFile(rel, drift)) t.diagnostic(`skipped (graph_files frozen, keys changed): ${rel}`);
+      else await same(dataGraph, '/data/graph/', P.GRAPH_DIR, rel);
+    }
   }
 });
 

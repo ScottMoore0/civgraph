@@ -9,13 +9,17 @@
  *   graph_source_statements  source-statements shards
  *   graph_files              data phase 4: the keys each old index and shard file held, in
  *                            order, so functions/data/graph rebuilds those file URLs from the
- *                            rows above for the owner's 90 days (see schema.mjs)
+ *                            rows above for the owner's 90 days (see schema.mjs). Frozen: with
+ *                            `frozenFrom` the table is copied from that database as it is, and
+ *                            the rows worked out here only measure the drift
+ *                            (graph-files-freeze.mjs)
  * plus the small registries and the index heads as documents. The bulk exports stay files
  * (records:downloads); so do the full statement shards, which no table holds.
  */
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { TableWriter, readJson, transaction } from './db.mjs';
+import { carryGraphFiles } from './graph-files-freeze.mjs';
 import { GRAPH_FILE_PART_KEYS } from './schema.mjs';
 
 const fold = (value) => String(value || '').normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase();
@@ -44,7 +48,7 @@ function readParts(headFile, graphDir, onPart = () => {}) {
 
 const withoutGeneratedAt = ({ generatedAt: _g, ...rest }) => rest;
 
-export function ingestGraph(db, { graphDir }) {
+export function ingestGraph(db, { graphDir, frozenFrom = null }) {
   const idx = path.join(graphDir, 'indexes');
   // What each old file (path under data/graph/) held, in order: graph_files.
   const files = [];
@@ -67,6 +71,7 @@ export function ingestGraph(db, { graphDir }) {
     if (item?.entityId && !searchEntry.has(item.entityId)) searchEntry.set(item.entityId, item);
   }
 
+  const freshFiles = [];
   const out = transaction(db, () => {
     const ent = new TableWriter(db, 'graph_entities');
     for (const [file, shard] of jsonFiles(path.join(graphDir, 'entity-shards'))) {
@@ -135,20 +140,28 @@ export function ingestGraph(db, { graphDir }) {
     for (const file of existsSync(idx) ? readdirSync(idx).filter((f) => /^browse-record-to-entity-.+\.json$/.test(f)).sort() : []) {
       fileKeys(`indexes/${file}`, Object.keys(readJson(path.join(idx, file), { items: {} }).items || {}));
     }
-    const gf = new TableWriter(db, 'graph_files');
+    const gf = frozenFrom ? null : new TableWriter(db, 'graph_files');
     for (const { file, keys: list, extra } of files) {
       for (let part = 0, at = 0; part === 0 || at < list.length; part += 1, at += GRAPH_FILE_PART_KEYS) {
-        gf.add({
+        const row = {
           file, part, keys: JSON.stringify(list.slice(at, at + GRAPH_FILE_PART_KEYS)),
           extra: extra ? JSON.stringify(extra.slice(at, at + GRAPH_FILE_PART_KEYS)) : null,
-        });
+        };
+        if (gf) gf.add(row);
+        else freshFiles.push(row);
       }
     }
     return {
       graph_entities: ent.finish(), graph_browse_keys: keys.finish(), graph_statements: st.finish(),
-      graph_reverse: rv.finish(), graph_source_statements: ss.finish(), graph_files: gf.finish(),
+      graph_reverse: rv.finish(), graph_source_statements: ss.finish(), graph_files: gf ? gf.finish() : 0,
     };
   });
+  let graphFiles = { frozenFrom: null, drifted: [], retired: 0 };
+  if (frozenFrom) {
+    const carried = carryGraphFiles(db, frozenFrom, freshFiles);
+    out.graph_files = carried.rows;
+    graphFiles = { frozenFrom, drifted: carried.drifted, retired: carried.retired };
+  }
 
   const docs = [];
   for (const [name, file] of [
@@ -166,5 +179,5 @@ export function ingestGraph(db, { graphDir }) {
     const value = readJson(path.join(idx, file), null);
     if (value) docs.push({ name: `graph/indexes/${file}`, body: JSON.stringify(withoutGeneratedAt(value)) });
   }
-  return { counts: out, docs };
+  return { counts: out, docs, graphFiles };
 }
