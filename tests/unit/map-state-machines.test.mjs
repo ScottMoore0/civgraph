@@ -195,3 +195,8 @@ test('election pane toggles: overlay and local level assignments go through thei
   assert.ok(assignments.length >= 8, `found ${assignments.length}`);
   for (const line of assignments) assert.match(line, /= (OVERLAY_MODE|LOCAL_MODE)\.check\(/, line);
 });
+
+test('the search worker readiness is a flag, set only through set()', () => {
+  assert.match(read('app/src/app.js'), /this\.searchWorkerReady = createFlag\('search worker ready'\);/);
+  assert.doesNotMatch(read('src/map/app/search.js'), /searchWorkerReady\s*=[^=]/);
+});
