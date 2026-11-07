@@ -1,6 +1,12 @@
 #!/usr/bin/env node
 /**
- * Validate the isolated /test MapLibre/vector-tile rewrite assets.
+ * Validate the layer metadata the map app draws from (render/metadata/maps-test.json): every
+ * layer's source type, zooms, bounds, labels, tile URLs and feature index, the alias layers, and
+ * the port plan's converted rows.
+ *
+ * It used to validate the legacy /render/ test app as well (its page, bundle versions, modules and
+ * service worker). That app retired on 7 Nov 2026 (site restructure F5), so those checks went
+ * with it; the metadata checks guard the live map app and run in check:map-tiles.
  */
 
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
@@ -10,30 +16,6 @@ import { isValidBounds } from './lib/layer-bounds.mjs';
 const ROOT = resolve(process.cwd());
 const METADATA_PATH = resolve(ROOT, 'render/metadata/maps-test.json');
 const PORT_PLAN_PATH = resolve(ROOT, 'render/metadata/main-site-port-plan.json');
-const INDEX_PATH = resolve(ROOT, 'render/index.html');
-const APP_PATH = resolve(ROOT, 'render/src/app.js');
-const CONFIG_PATH = resolve(ROOT, 'render/src/config.js');
-const SERVICE_WORKER_PATH = resolve(ROOT, 'render/sw.js');
-const REQUIRED_MODULES = [
-  'render/src/config.js',
-  'render/src/dom.js',
-  'render/src/utils.js',
-  'render/src/labels.js',
-  'render/src/metadata-service.js',
-  'render/src/map-controller.js',
-  'render/src/catalogue-controller.js',
-  'render/src/active-layers.js',
-  'render/src/feature-details.js',
-  'render/src/source-panel.js',
-  'render/src/diagnostics.js',
-  'render/src/url-state.js',
-  'render/src/search-service.js',
-  'render/src/time-series-controller.js',
-  'render/src/time-series-panel.js',
-  'render/src/election-service.js',
-  'render/src/conditional-styling.js',
-  'render/src/migration-readiness.js'
-];
 
 function localPathFromUrlTemplate(value) {
   if (typeof value !== 'string') return null;
@@ -185,59 +167,6 @@ function formatBytes(bytes) {
   return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
 }
 
-function validateAssetVersions() {
-  const errors = [];
-  const indexHtml = readFileSync(INDEX_PATH, 'utf8');
-  const configJs = readFileSync(CONFIG_PATH, 'utf8');
-  const serviceWorker = readFileSync(SERVICE_WORKER_PATH, 'utf8');
-
-  const indexVersions = [...indexHtml.matchAll(/\/render\/build\/test\.bundle\.(?:js|css)\?v=(test-\d+)/g)]
-    .map((match) => match[1]);
-  const appVersion = configJs.match(/TEST_ASSET_VERSION\s*=\s*['"](test-\d+)['"]/)?.[1];
-  const swVersion = serviceWorker.match(/const\s+TEST_CACHE_VERSION\s*=\s*['"]test-v(\d+)['"]/)?.[1];
-
-  if (indexVersions.length !== 2) {
-    errors.push('/render index must version both JS and CSS bundle URLs');
-  }
-
-  const uniqueIndexVersions = [...new Set(indexVersions)];
-  if (uniqueIndexVersions.length > 1) {
-    errors.push(`/test index bundle versions differ: ${uniqueIndexVersions.join(', ')}`);
-  }
-
-  const indexVersion = uniqueIndexVersions[0];
-  const indexVersionNumber = indexVersion?.match(/^test-(\d+)$/)?.[1];
-  if (!appVersion) errors.push('render/src/config.js must define TEST_ASSET_VERSION');
-  if (!swVersion) errors.push('render/sw.js must define TEST_CACHE_VERSION as test-vN');
-
-  if (indexVersion && appVersion && indexVersion !== appVersion) {
-    errors.push(`/test app asset version mismatch: index uses ${indexVersion}, app uses ${appVersion}`);
-  }
-
-  if (indexVersionNumber && swVersion && Number(indexVersionNumber) !== Number(swVersion)) {
-    errors.push(`/test service-worker version mismatch: index uses ${indexVersion}, service worker uses test-v${swVersion}`);
-  }
-
-  return errors;
-}
-
-function validateServiceWorkerDiscipline() {
-  const errors = [];
-  const serviceWorker = readFileSync(SERVICE_WORKER_PATH, 'utf8');
-  for (const marker of ['TEST_MAX_CACHE_BYTES', 'trimCacheBytes', 'TEST_PMTILES_CACHE', 'storagePressure']) {
-    if (!serviceWorker.includes(marker)) errors.push(`render/sw.js missing service-worker cache discipline marker: ${marker}`);
-  }
-  return errors;
-}
-
-function validateModules() {
-  const errors = [];
-  for (const modulePath of REQUIRED_MODULES) {
-    if (!existsSync(resolve(ROOT, modulePath))) errors.push(`missing /test module: ${modulePath}`);
-  }
-  return errors;
-}
-
 function validateMetadataContract(metadata) {
   const errors = [];
   const warnings = [];
@@ -310,7 +239,7 @@ function validateAliasLayers(metadata) {
 function main() {
   const metadata = JSON.parse(readFileSync(METADATA_PATH, 'utf8'));
   const layers = metadata.layers || [];
-  const errors = [...validateAssetVersions(), ...validateModules(), ...validateServiceWorkerDiscipline()];
+  const errors = [];
   const warnings = [];
   const metadataResult = validateMetadataContract(metadata);
   errors.push(...metadataResult.errors);
@@ -326,7 +255,7 @@ function main() {
     warnings.push(...result.warnings);
   }
 
-  console.log('Civgraph /test Validation');
+  console.log('Civgraph layer metadata validation');
   console.log(`- metadata: render/metadata/maps-test.json`);
   console.log(`- layers: ${layers.length}`);
   if (existsSync(PORT_PLAN_PATH)) console.log(`- port plan: render/metadata/main-site-port-plan.json`);
@@ -342,7 +271,7 @@ function main() {
     process.exit(1);
   }
 
-  console.log('\nPASS: /test MapLibre metadata and local vector-tile assets are valid.');
+  console.log('\nPASS: the layer metadata and local vector-tile assets are valid.');
 }
 
 main();

@@ -1,192 +1,62 @@
-/**
- * Civgraph /test service worker.
+/*
+ * Civgraph retired-app service worker: a kill switch.
  *
- * Scope is intentionally limited to /render/. It does not cache or intercept the
- * production root app. Keep this simple while the MapLibre rewrite is under
- * active development.
+ * The legacy map apps at /test/ (renamed /render/ in August 2026), /render/ and /test2/
+ * registered service workers scoped to their own paths. Those apps are retired: their pages
+ * answer 301 to /maps/ (_redirects). A redirect cannot remove a worker that is already
+ * installed, because the worker answers before the network is asked, and a worker script
+ * cannot itself be redirected (the browser refuses the update). So this file is served,
+ * byte for byte the same, at each address a worker was registered from:
+ *
+ *   /render/sw.js   render/sw.js
+ *   /test2/sw.js    test2/sw.js
+ *   /test/sw.js     render/sw.js, proxied by a 200 rule in _redirects
+ *
+ * When a browser that still holds one of the old workers checks it for an update (on the
+ * next visit to any address in its scope, or when the open page asks), it installs this
+ * one instead, which:
+ *   1. takes over at once (skipWaiting, then clients.claim for any open page in its scope);
+ *   2. deletes the legacy apps' caches (prefixes below), and nothing of the live site's
+ *      (sw.js at the root keeps civgraph-root-maplibre-*);
+ *   3. unregisters itself, so the scope falls back to the root worker or to none;
+ *   4. sends each page it controlled to the same view at /maps/, keeping the query and the
+ *      hash, with the old app's `z=` written as the map app's `zoom=`.
+ *
+ * It has no fetch handler, so from the moment it is installed every request goes to the
+ * network. tests/unit/retired-service-worker.test.mjs pins these bytes and runs it against a
+ * fake worker scope; tests/browser/retired-service-worker.spec.js installs each old worker in
+ * Chromium and watches this one retire it. Keep the copies identical.
  */
+'use strict';
 
-const TEST_CACHE_VERSION = 'test-v65';
-const TEST_STATIC_CACHE = `civgraph-${TEST_CACHE_VERSION}-static`;
-const TEST_RUNTIME_CACHE = `civgraph-${TEST_CACHE_VERSION}-runtime`;
-const TEST_TILE_CACHE = `civgraph-${TEST_CACHE_VERSION}-tiles`;
-const TEST_PMTILES_CACHE = `civgraph-${TEST_CACHE_VERSION}-pmtiles`;
-const TEST_CACHES = [TEST_STATIC_CACHE, TEST_RUNTIME_CACHE, TEST_TILE_CACHE, TEST_PMTILES_CACHE];
-const TEST_CACHE_LIMITS = {
-  [TEST_RUNTIME_CACHE]: 80,
-  [TEST_TILE_CACHE]: 300,
-  [TEST_PMTILES_CACHE]: 12
-};
-const TEST_MAX_CACHE_BYTES = {
-  [TEST_RUNTIME_CACHE]: 16 * 1024 * 1024,
-  [TEST_TILE_CACHE]: 80 * 1024 * 1024,
-  [TEST_PMTILES_CACHE]: 180 * 1024 * 1024
-};
+const RETIRED_CACHE_PREFIXES = ['civgraph-test-', 'civgraph-test2-', 'test2-sw-'];
+
+/** Where a page of a retired app now lives: /maps/, with its query and hash kept. */
+function retiredAppDestination(href) {
+  const from = new URL(href);
+  const to = new URL('/maps/', from.origin);
+  to.search = from.search;
+  let hash = from.hash.replace(/^#/, '');
+  if (/(?:^|&)z=/.test(hash) && !/(?:^|&)zoom=/.test(hash)) hash = hash.replace(/(^|&)z=/, '$1zoom=');
+  to.hash = hash;
+  return to.href;
+}
+
+async function retire() {
+  const names = await caches.keys();
+  await Promise.all(names
+    .filter((name) => RETIRED_CACHE_PREFIXES.some((prefix) => name.startsWith(prefix)))
+    .map((name) => caches.delete(name)));
+  await self.clients.claim();
+  const pages = await self.clients.matchAll({ type: 'window' });
+  await self.registration.unregister();
+  await Promise.all(pages.map((page) => page.navigate(retiredAppDestination(page.url)).catch(() => null)));
+}
 
 self.addEventListener('install', (event) => {
-  event.waitUntil((async () => {
-    const cache = await caches.open(TEST_STATIC_CACHE);
-    await Promise.all([
-      cache.add('/render/').catch(() => {}),
-      cache.add('/render/index.html').catch(() => {})
-    ]);
-    await self.skipWaiting();
-  })());
+  event.waitUntil(self.skipWaiting());
 });
 
 self.addEventListener('activate', (event) => {
-  event.waitUntil((async () => {
-    const keys = await caches.keys();
-    await Promise.all(
-      keys
-        .filter((key) => key.startsWith('civgraph-test-') || key.startsWith('civgraph-test-v'))
-        .filter((key) => !TEST_CACHES.includes(key))
-        .map((key) => caches.delete(key))
-    );
-    await self.clients.claim();
-  })());
+  event.waitUntil(retire());
 });
-
-self.addEventListener('message', (event) => {
-  if (event.data === 'SKIP_WAITING') self.skipWaiting();
-  if (event.data === 'CLEAR_TEST_CACHES') {
-    event.waitUntil(Promise.all(TEST_CACHES.map((name) => caches.delete(name))));
-  }
-  if (event.data === 'TEST_CACHE_STATUS') {
-    event.waitUntil(sendCacheStatus(event.source));
-  }
-});
-
-self.addEventListener('fetch', (event) => {
-  const req = event.request;
-  if (req.method !== 'GET') return;
-
-  let url;
-  try {
-    url = new URL(req.url);
-  } catch {
-    return;
-  }
-
-  if (url.origin !== self.location.origin || !url.pathname.startsWith('/render/')) {
-    return;
-  }
-
-  if (req.mode === 'navigate' || url.pathname === '/render/' || url.pathname === '/render/index.html') {
-    event.respondWith(networkFirst(req, TEST_RUNTIME_CACHE));
-    return;
-  }
-
-  if (url.pathname === '/render/sw.js' || url.pathname.startsWith('/render/metadata/')) {
-    event.respondWith(networkFirst(req, TEST_RUNTIME_CACHE));
-    return;
-  }
-
-  if (url.pathname.startsWith('/render/build/')) {
-    event.respondWith(cacheFirst(req, TEST_STATIC_CACHE));
-    return;
-  }
-
-  if (url.pathname.startsWith('/render/pmtiles/')) {
-    event.respondWith(cacheFirst(req, TEST_PMTILES_CACHE));
-    return;
-  }
-
-  if (url.pathname.startsWith('/render/tiles/')) {
-    event.respondWith(cacheFirst(req, TEST_TILE_CACHE));
-    return;
-  }
-
-  event.respondWith(staleWhileRevalidate(req, TEST_RUNTIME_CACHE));
-});
-
-async function cacheFirst(req, cacheName) {
-  const cache = await caches.open(cacheName);
-  const cached = await cache.match(req);
-  if (cached) return cached;
-  const res = await fetch(req);
-  if (res && res.ok) cache.put(req, res.clone()).then(() => trimCache(cacheName)).catch(() => {});
-  return res;
-}
-
-async function networkFirst(req, cacheName) {
-  const cache = await caches.open(cacheName);
-  try {
-    const res = await fetch(req, { cache: 'no-cache' });
-    if (res && res.ok) cache.put(req, res.clone()).then(() => trimCache(cacheName)).catch(() => {});
-    return res;
-  } catch {
-    const cached = await cache.match(req);
-    if (cached) return cached;
-    return new Response('Offline', { status: 503, statusText: 'Offline' });
-  }
-}
-
-async function staleWhileRevalidate(req, cacheName) {
-  const cache = await caches.open(cacheName);
-  const cached = await cache.match(req);
-  const network = fetch(req).then((res) => {
-    if (res && res.ok) cache.put(req, res.clone()).then(() => trimCache(cacheName)).catch(() => {});
-    return res;
-  }).catch(() => cached);
-  return cached || network;
-}
-
-async function trimCache(cacheName) {
-  const limit = TEST_CACHE_LIMITS[cacheName];
-  if (!limit) return;
-  const cache = await caches.open(cacheName);
-  const keys = await cache.keys();
-  const pressure = await storagePressure();
-  const pressureLimit = pressure === 'high' ? Math.max(4, Math.floor(limit * 0.5)) : limit;
-  if (keys.length > pressureLimit) {
-    await Promise.all(keys.slice(0, keys.length - pressureLimit).map((key) => cache.delete(key)));
-  }
-  await trimCacheBytes(cacheName);
-}
-
-async function trimCacheBytes(cacheName) {
-  const maxBytes = TEST_MAX_CACHE_BYTES[cacheName];
-  if (!maxBytes) return;
-  const cache = await caches.open(cacheName);
-  const keys = await cache.keys();
-  let total = 0;
-  const measured = [];
-  for (const key of keys) {
-    const response = await cache.match(key);
-    const bytes = Number(response?.headers?.get('content-length') || 0);
-    total += bytes;
-    measured.push({ key, bytes });
-  }
-  if (total <= maxBytes) return;
-  for (const item of measured) {
-    await cache.delete(item.key);
-    total -= item.bytes;
-    if (total <= maxBytes) break;
-  }
-}
-
-async function storagePressure() {
-  if (!navigator.storage?.estimate) return 'unknown';
-  try {
-    const estimate = await navigator.storage.estimate();
-    if (!estimate.quota || !estimate.usage) return 'unknown';
-    return estimate.usage / estimate.quota > 0.8 ? 'high' : 'normal';
-  } catch {
-    return 'unknown';
-  }
-}
-
-async function sendCacheStatus(client) {
-  if (!client?.postMessage) return;
-  const status = {};
-  for (const name of TEST_CACHES) {
-    const cache = await caches.open(name);
-    status[name] = (await cache.keys()).length;
-  }
-  client.postMessage({
-    type: 'TEST_CACHE_STATUS',
-    pressure: await storagePressure(),
-    caches: status
-  });
-}

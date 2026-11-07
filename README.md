@@ -76,7 +76,7 @@ mislead you.** This section is the canonical layout;
 | `render/src/` | shared renderer source; `app/` builds from it |
 | `render/metadata/` | the render catalogue — see "three stores" below |
 | `tests/` | the Playwright suite |
-| `test2/` | a compatibility redirect. Not a directory of tests. |
+| `test2/` | the retired-app kill switch (`test2/sw.js`, the same bytes as `render/sw.js`); `/test2/` itself answers 301 to `/maps/`. Not a directory of tests. |
 | `apps/` | standalone apps (PRONI search). Unrelated to `app/`. |
 | `browse/` | the Browse page — hand-written, no build step |
 | `pages/` | standalone pages (About, Census Explorer) |
@@ -128,7 +128,7 @@ All three edges are guarded by validators in `npm run check`.
 | `/browse/` | `browse/` |
 | `/apps/`, `/apps/proni-search/` | `apps/` |
 | `/pages/about`, `/pages/census-explorer` | `pages/` |
-| `/render/` | `render/` — staging shell, not the public site |
+| `/render/`, `/test2/`, `/test/`, `/maps/test/` | retired apps: 301 to `/maps/` (`_redirects`); their old service workers are retired by `render/sw.js` |
 
 ## Build
 

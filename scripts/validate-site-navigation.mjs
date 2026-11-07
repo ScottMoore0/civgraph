@@ -61,8 +61,6 @@ const PAGES = [
  * line to reverse.
  */
 const EXEMPT = new Map([
-  ['render/index.html', 'staging shell, not the public site — see the README layout table'],
-  ['test2/index.html', 'a compatibility redirect, not a page'],
 ]);
 
 /**

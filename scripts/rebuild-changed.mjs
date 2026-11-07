@@ -29,7 +29,7 @@ const noBrowser = args.includes('--no-browser');
 
 // Outputs the builds themselves write: a change here says nothing about what to rebuild.
 const GENERATED = [
-  /^app\/build\//, /^(maps\/(classic\/|test\/)?)?index\.html$/, /^test2\/index\.html$/,
+  /^app\/build\//, /^(maps\/(classic\/|test\/)?)?index\.html$/,
   /^agent\//, /^data\/catalogue\//, /^data\/browse\//, /^data\/graph\//,
   /^data\/database\/(corpus-index|election-provenance|site-stats|status)\.json$/,
   /^data\/database\/[a-z-]+-d1-import\.sql$/, /^data\/database\/elections-schema\.sql$/,
