@@ -17,6 +17,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { assertKnownFlags } from '../lib/safe-artefact-write.mjs';
+import { layerLifecycle, mvtDirectoryState, pmtilesLayerState } from './layer-lifecycle.mjs';
 
 assertKnownFlags(['--ids']);
 
@@ -47,18 +48,42 @@ const uploadReport = JSON.parse(readFileSync(UPLOAD_REPORT_PATH, 'utf8'));
 const assetByLayer = new Map((manifest.assets || []).filter((asset) => asset.kind === 'pmtiles').map((asset) => [asset.layerId, asset]));
 const mvtAssetByLayer = new Map((manifest.assets || []).filter((asset) => asset.kind === 'mvt-directory').map((asset) => [asset.layerId, asset]));
 const verified = new Set((rangeReport.results || []).filter((result) => result.ok).map((result) => result.layerId));
-const uploadedMvtDirectories = new Set((uploadReport.results || [])
-  .filter((result) => result.ok && result.status === 'uploaded-directory')
-  .map((result) => result.layerId));
+// Each layer's range result: an ok one for the manifest's URL when there is one, else any.
+const rangeByLayer = new Map();
+for (const result of rangeReport.results || []) {
+  if (!result?.layerId) continue;
+  const held = rangeByLayer.get(result.layerId);
+  const asset = assetByLayer.get(result.layerId);
+  const rank = (r) => (r?.ok ? 2 : 0) + (r?.ok && asset && r.cdnUrl === asset.cdnUrl ? 1 : 0);
+  if (!held || rank(result) > rank(held)) rangeByLayer.set(result.layerId, result);
+}
+const uploadByLayer = new Map();
+for (const result of uploadReport.results || []) {
+  if (!result?.layerId) continue;
+  const held = uploadByLayer.get(result.layerId);
+  if (!held || (result.ok && result.status === 'uploaded-directory')) uploadByLayer.set(result.layerId, result);
+}
 let switched = 0;
 let switchedMvtDirectories = 0;
+/** Layers with a passing range check the lifecycle refused to switch, and why. */
+const refused = [];
 
 const layers = (metadata.layers || []).map((layer) => {
   if (ONLY_IDS.size && !ONLY_IDS.has(layer.id)) return layer;
   const asset = assetByLayer.get(layer.id);
-  if (!asset || !verified.has(layer.id)) {
+  const range = rangeByLayer.get(layer.id);
+  // Switching is the lifecycle's `-> serving` transition (layer-lifecycle.mjs): a PMTiles layer
+  // needs a passing range check of the very URL it will serve.
+  const pmtilesVerdict = asset
+    ? layerLifecycle.check(pmtilesLayerState({ layer, asset, range }), 'serving', { kind: 'pmtiles', cdnUrl: asset.cdnUrl, checkedUrl: range?.cdnUrl })
+    : null;
+  if (asset && range?.ok && pmtilesVerdict && !pmtilesVerdict.ok) refused.push(`${layer.id}: ${pmtilesVerdict.reason}`);
+  if (!pmtilesVerdict?.ok) {
     const mvtAsset = mvtAssetByLayer.get(layer.id);
-    if (!mvtAsset || !uploadedMvtDirectories.has(layer.id)) return layer;
+    if (!mvtAsset) return layer;
+    const upload = uploadByLayer.get(layer.id);
+    const mvtVerdict = layerLifecycle.check(mvtDirectoryState({ upload }), 'serving', { kind: 'mvt-directory', uploadStatus: upload?.status });
+    if (!mvtVerdict.ok) return layer;
     switchedMvtDirectories += 1;
     return {
       ...layer,
@@ -98,6 +123,10 @@ writeFileSync(METADATA_PATH, `${JSON.stringify({ ...metadata, layers }, null, 2)
 if (ONLY_IDS.size) console.log(`Scoped to ${ONLY_IDS.size} layer id(s); every other layer left exactly as it was.`);
 console.log(`Switched ${switched} PMTiles layer(s) to CDN URLs.`);
 console.log(`Switched ${switchedMvtDirectories} MVT director${switchedMvtDirectories === 1 ? 'y' : 'ies'} to CDN URL templates.`);
+if (refused.length) {
+  console.warn(`Refused ${refused.length} layer(s) with a passing range check:`);
+  for (const line of refused.slice(0, 20)) console.warn(`  ${line}`);
+}
 if (switched !== verified.size) {
   console.warn(`Verified ${verified.size} layer(s), switched ${switched}.`);
 }
