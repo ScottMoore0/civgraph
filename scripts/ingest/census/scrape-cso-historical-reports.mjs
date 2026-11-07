@@ -3,6 +3,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
+import { CSO_REPORT } from '../../intake/lib/item-status.mjs';
 
 const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..", "..");
 const DEFAULT_OUT_DIR = path.join(REPO, "data", "census", "source-inventory");
@@ -101,7 +102,7 @@ function isSameSiteCsoPage(url, text) {
 }
 
 async function maybeDownload(asset) {
-  if (!SHOULD_DOWNLOAD) return { status: "not_requested" };
+  if (!SHOULD_DOWNLOAD) return { status: CSO_REPORT.not_requested };
   await fs.mkdir(CACHE_DIR, { recursive: true });
   const filename = safeFileName(asset.url);
   const outputPath = path.join(CACHE_DIR, filename);
@@ -109,19 +110,19 @@ async function maybeDownload(asset) {
   try {
     const existing = await fs.stat(outputPath).catch(() => null);
     if (existing?.size > 0) {
-      return { status: "cached", path: outputPath, bytes: existing.size };
+      return { status: CSO_REPORT.cached, path: outputPath, bytes: existing.size };
     }
     const res = await fetch(asset.url, {
       headers: { "user-agent": "Civgraph census source inventory (contact: civgraph.net)" },
     });
-    if (!res.ok) return { status: "failed", error: `${res.status} ${res.statusText}` };
+    if (!res.ok) return { status: CSO_REPORT.failed, error: `${res.status} ${res.statusText}` };
     const bytes = Buffer.from(await res.arrayBuffer());
     await fs.writeFile(outputPath, bytes);
     const digest = crypto.createHash("sha256").update(bytes).digest("hex");
     await fs.writeFile(checksumPath, `${digest}  ${path.basename(outputPath)}\n`);
-    return { status: "downloaded", path: outputPath, bytes: bytes.length, sha256: digest };
+    return { status: CSO_REPORT.downloaded, path: outputPath, bytes: bytes.length, sha256: digest };
   } catch (error) {
-    return { status: "failed", error: error.message };
+    return { status: CSO_REPORT.failed, error: error.message };
   }
 }
 
@@ -136,12 +137,12 @@ async function main() {
     const pageUrl = queue.shift();
     if (!pageUrl || seenPages.has(pageUrl)) continue;
     seenPages.add(pageUrl);
-    const page = { url: pageUrl, status: "pending", links: 0, error: null };
+    const page = { url: pageUrl, status: CSO_REPORT.pending, links: 0, error: null };
     pages.push(page);
     try {
       const html = await fetchText(pageUrl);
       const links = extractLinks(html, pageUrl);
-      page.status = "ok";
+      page.status = CSO_REPORT.ok;
       page.links = links.length;
       for (const link of links) {
         const parsed = new URL(link.url);
@@ -161,7 +162,7 @@ async function main() {
         }
       }
     } catch (error) {
-      page.status = "failed";
+      page.status = CSO_REPORT.failed;
       page.error = error.message;
     }
   }
@@ -178,9 +179,9 @@ async function main() {
     cacheDirectory: CACHE_DIR,
     pagesVisited: pages.length,
     assetsFound: assets.length,
-    assetsDownloaded: assets.filter((asset) => asset.download?.status === "downloaded").length,
-    assetsCached: assets.filter((asset) => asset.download?.status === "cached").length,
-    assetsFailed: assets.filter((asset) => asset.download?.status === "failed").length,
+    assetsDownloaded: assets.filter((asset) => asset.download?.status === CSO_REPORT.downloaded).length,
+    assetsCached: assets.filter((asset) => asset.download?.status === CSO_REPORT.cached).length,
+    assetsFailed: assets.filter((asset) => asset.download?.status === CSO_REPORT.failed).length,
     pages,
     assets: assets.sort((a, b) => a.url.localeCompare(b.url)),
   };

@@ -13,6 +13,7 @@
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { readApprovedPublicationGate, writeApprovedPublicationSources } from '../../lib/approved-publication-index.mjs';
+import { MIRROR } from '../../intake/lib/item-status.mjs';
 
 let args = process.argv.slice(2);
 if (!args.length) { console.error('usage: reenrich-opendatani-with-ia.mjs <mirrored.json|dir> [...]'); process.exit(1); }
@@ -29,7 +30,7 @@ for (const p of manifests) {
   for (const m of doc.mirrored || []) {
     // only files actually present on IA (uploaded this run, or already there);
     // skip 'failed' and 'skipped-dynamic' (ArcGIS exports never uploaded)
-    if (m.status !== 'uploaded' && m.status !== 'already') continue;
+    if (m.status !== MIRROR.uploaded && m.status !== MIRROR.already) continue;
     bySource.set(m.sourceUrl, { iaUrl: m.iaUrl, item: m.item });
   }
 }
@@ -44,7 +45,7 @@ for (const s of sources) {
     const hit = bySource.get(d.url);
     if (!hit) continue;
     if (s.downloads.some((x) => x.url === hit.iaUrl)) continue; // idempotent
-    extra.push({ label: `${d.label} (Internet Archive mirror)`, url: hit.iaUrl, type: d.type, source: 'Internet Archive', status: 'mirrored' });
+    extra.push({ label: `${d.label} (Internet Archive mirror)`, url: hit.iaUrl, type: d.type, source: 'Internet Archive', status: MIRROR.mirrored });
   }
   if (extra.length) { s.downloads.push(...extra); recs += 1; added += extra.length; }
 }

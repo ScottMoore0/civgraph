@@ -31,6 +31,7 @@
  */
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
+import { HARVEST } from '../../intake/lib/item-status.mjs';
 
 const BASE = 'https://data.niassembly.gov.uk';
 const UA = 'civgraph-opendata-harvest/1.0 (+https://civgraph.net; contact via repo)';
@@ -38,7 +39,7 @@ const UA = 'civgraph-opendata-harvest/1.0 (+https://civgraph.net; contact via re
 const args = process.argv.slice(2);
 const argVal = (n, d) => { const i = args.indexOf(`--${n}`); return i >= 0 && args[i + 1] ? args[i + 1] : d; };
 const OUT = argVal('out', null);
-const PHASE = argVal('phase', 'seed');
+const PHASE = argVal('phase', HARVEST.seed);
 const DELAY = Number(argVal('delay', 0));
 const CONCURRENCY = Math.max(1, Number(argVal('concurrency', 5)));
 const DRY = args.includes('--dry');
@@ -150,7 +151,7 @@ writeFileSync(path.join(OUT, '_seed-summary.json'), JSON.stringify(
   Object.fromEntries(Object.entries(seeds).map(([k, v]) => [k, v.length])), null, 2
 ));
 
-if (PHASE !== 'seed') {
+if (PHASE !== HARVEST.seed) {
   const personIds = [...new Set(seeds.GetAllMembers_JSON.map((r) => r.PersonId).filter(Boolean))];
   const constituencyIds = [...new Set(seeds.GetAllConstituencies_JSON.map((r) => r.ConstituencyId).filter(Boolean))];
   const partyIds = [...new Set(seeds.GetPartiesListCurrent_JSON.map((r) => r.OrganisationId).filter(Boolean))];
@@ -210,7 +211,7 @@ if (PHASE !== 'seed') {
 // Divisions and votes come first deliberately: for a boundaries and elections
 // site, how each member voted in each division is the highest-value data here,
 // and it is a few thousand calls rather than a few hundred thousand.
-if (PHASE === 'detail' || PHASE === 'all') {
+if (PHASE === HARVEST.detail || PHASE === HARVEST.all) {
   const idsFrom = (svc, op, field) => {
     const dir = path.join(OUT, svc, op);
     if (!existsSync(dir)) return [];
@@ -332,7 +333,7 @@ if (PHASE === 'detail' || PHASE === 'all') {
 //
 // Free-text search cannot be enumerated exhaustively -- you can only guess terms --
 // so it is the wrong instrument for a complete harvest, not a missing piece of one.
-if (PHASE === 'supplement' || PHASE === 'all') {
+if (PHASE === HARVEST.supplement || PHASE === HARVEST.all) {
   // (a) The 14 reports GetHansardComponentsByReportId cannot serve.
   //
   // Those return HTTP 500 from an XML serialisation fault in the Assembly's own

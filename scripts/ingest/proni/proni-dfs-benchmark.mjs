@@ -25,6 +25,7 @@ import {
   clickMore,
   parseGridRows,
 } from "./proni-detail-quick-scan.mjs";
+import { BENCHMARK } from '../../intake/lib/item-status.mjs';
 
 const RECORDS_FILE = process.argv[2];
 const ROOT_BRANCH = process.argv[3] || "YESB";
@@ -88,7 +89,7 @@ async function runBaseline() {
       if (detail.matched) got.add(ref); else mismatched += 1;
     }
   }
-  return { mode: "baseline", requests: stats.requests, records: got.size, mismatched, errors: stats.requestErrors };
+  return { mode: BENCHMARK.baseline, requests: stats.requests, records: got.size, mismatched, errors: stats.requestErrors };
 }
 
 // DFS: reach the root once, then walk with a cached parent-listing stack.
@@ -128,7 +129,7 @@ async function runDfs() {
   }
 
   await walk(rootHtml, ROOT_BRANCH);
-  return { mode: "dfs", requests: stats.requests, records: got.size, mismatched, errors: stats.requestErrors };
+  return { mode: BENCHMARK.dfs, requests: stats.requests, records: got.size, mismatched, errors: stats.requestErrors };
 }
 
 (async () => {

@@ -3,6 +3,7 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { Readable } from "node:stream";
+import { WAYBACK } from '../../intake/lib/item-status.mjs';
 
 const CDX = "https://web.archive.org/cdx";
 const UA = "Civgraph NISRA Wayback recovery/1.0 (+https://civgraph.net; polite archival recovery)";
@@ -522,7 +523,7 @@ async function main() {
   const recoveryInventory = readJson(inventoryFile, {});
   const digestTargets = new Map();
   for (const [key, row] of Object.entries(recoveryInventory)) {
-    if (row.digest && row.localPath && row.status === "downloaded") digestTargets.set(row.digest, row.localPath);
+    if (row.digest && row.localPath && row.status === WAYBACK.downloaded) digestTargets.set(row.digest, row.localPath);
   }
 
   const selectedRows = args.maxUrls > 0 ? latestRows.slice(0, args.maxUrls) : latestRows;
@@ -570,7 +571,7 @@ async function main() {
 
     try {
       if (isExistingCurrentFile(latest.original)) {
-        const row = { ...baseRow, status: "already-present-current-mirror", reason: "matched-existing-D-nisra-url-path" };
+        const row = { ...baseRow, status: WAYBACK['already-present-current-mirror'], reason: "matched-existing-D-nisra-url-path" };
         progress[key] = row;
         reportRows.push(row);
         continue;
@@ -629,7 +630,7 @@ async function main() {
       if (!valid) {
         const row = {
           ...baseRow,
-          status: "unavailable",
+          status: WAYBACK.unavailable,
           reason: lastValidation?.reason || "no-valid-capture",
         };
         progress[key] = row;
@@ -646,7 +647,7 @@ async function main() {
           selectedDigest: valid.digest,
           selectedMimeType: valid.mimetype,
           selectedLength: valid.length,
-          status: "duplicate-wayback-digest",
+          status: WAYBACK['duplicate-wayback-digest'],
           reason: "same-cdx-digest-already-downloaded",
           duplicateOf: duplicateTarget,
           replayUrl: rawCaptureUrl(valid),
@@ -665,7 +666,7 @@ async function main() {
           selectedDigest: valid.digest,
           selectedMimeType: valid.mimetype,
           selectedLength: valid.length,
-          status: "already-present-wayback-mirror",
+          status: WAYBACK['already-present-wayback-mirror'],
           reason: "local-wayback-path-exists",
           localPath: rel,
           replayUrl: rawCaptureUrl(valid),
@@ -684,7 +685,7 @@ async function main() {
           selectedDigest: valid.digest,
           selectedMimeType: valid.mimetype,
           selectedLength: valid.length,
-          status: "would-download",
+          status: WAYBACK['would-download'],
           reason: "valid-missing-capture",
           localPath: path.relative(args.root, target),
           replayUrl: rawCaptureUrl(valid),
@@ -704,7 +705,7 @@ async function main() {
         selectedDigest: valid.digest,
         selectedMimeType: valid.mimetype,
         selectedLength: valid.length,
-        status: "downloaded",
+        status: WAYBACK.downloaded,
         reason: "downloaded-latest-valid-capture",
         localPath: rel,
         replayUrl: rawCaptureUrl(valid),
@@ -720,7 +721,7 @@ async function main() {
     } catch (error) {
       const row = {
         ...baseRow,
-        status: "failed",
+        status: WAYBACK.failed,
         reason: error.message || String(error),
       };
       progress[key] = row;

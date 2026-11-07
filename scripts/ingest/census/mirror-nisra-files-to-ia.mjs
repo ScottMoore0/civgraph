@@ -18,6 +18,7 @@ import { readFileSync, writeFileSync, existsSync, unlinkSync, mkdtempSync } from
 import { execFileSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
+import { MIRROR } from '../../intake/lib/item-status.mjs';
 
 function arg(name, def) { const i = process.argv.indexOf(name); return i >= 0 ? process.argv[i + 1] : def; }
 const FILES = arg('--files');
@@ -58,7 +59,7 @@ for (const f of files) {
   if (done >= LIMIT) break;
   const remote = remoteNameFor(f.slug, f.url);
   const iaUrl = `https://archive.org/download/${ITEM}/${remote.split('/').map(encodeURIComponent).join('/')}`;
-  if (already.has(remote)) { skipped += 1; mirrored.push({ sourceUrl: f.url, item: ITEM, remoteName: remote, iaUrl, status: 'already' }); continue; }
+  if (already.has(remote)) { skipped += 1; mirrored.push({ sourceUrl: f.url, item: ITEM, remoteName: remote, iaUrl, status: MIRROR.already }); continue; }
 
   const local = path.join(tmp, 'f.bin');
   try {
@@ -66,11 +67,11 @@ for (const f of files) {
     const args = ['upload', ITEM, local, `--remote-name=${remote}`, '--no-derive', '--retries', '4'];
     if (firstUpload) { for (const m of META) args.push(`--metadata=${m}`); firstUpload = false; }
     execFileSync('ia', args, { stdio: 'ignore' });
-    mirrored.push({ sourceUrl: f.url, item: ITEM, remoteName: remote, iaUrl, status: 'uploaded' });
+    mirrored.push({ sourceUrl: f.url, item: ITEM, remoteName: remote, iaUrl, status: MIRROR.uploaded });
     done += 1;
   } catch (e) {
     failed += 1;
-    mirrored.push({ sourceUrl: f.url, item: ITEM, remoteName: remote, iaUrl, status: 'failed', error: String(e.message || e).slice(0, 120) });
+    mirrored.push({ sourceUrl: f.url, item: ITEM, remoteName: remote, iaUrl, status: MIRROR.failed, error: String(e.message || e).slice(0, 120) });
   } finally { if (existsSync(local)) unlinkSync(local); }
   if ((done + skipped) % 20 === 0) process.stderr.write(`\r${done} uploaded, ${skipped} skipped, ${failed} failed`);
 }
