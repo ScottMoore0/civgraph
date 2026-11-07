@@ -177,6 +177,44 @@ PRE1973_COUNCIL_BODIES = {
 }
 
 
+LABEL_BLANKED = os.path.join(OUT, 'label-blanked-identity-keys.csv')
+
+
+def label_blanked_identity_keys():
+    """A CORRECTED LABEL IS NOT A NEW MAN. A pre-1973 council row carries no candidate id, so its
+    candidacy id is its name and printed label ("William Byers|UUP"), and that id is the row's
+    identity key here and in apply_person_ids_v2.py. Under the owner's printed-label rule of
+    5 Nov 2026, 319 labels inferred from a man's other elections were set to blank, which gave
+    their rows a new id ("William Byers|") and, at the next re-stamp, a new person: William
+    Byers's Armagh County Council candidacies of 1902 and 1911 left his 1899-1920 career.
+
+    data/elections/persons/label-blanked-identity-keys.csv records, for each such row (election
+    key, constituency, name), the candidacy id it had before its label was blanked. That id, not
+    the row's current one, is its identity key, so it stays with the person it was. It joins
+    nothing on name: each row keeps the exact key it had. Returns {(election, constituency,
+    name): identity_key}."""
+    if not os.path.exists(LABEL_BLANKED):
+        return {}
+    import csv
+    out = {}
+    with open(LABEL_BLANKED, encoding='utf-8', newline='') as fh:
+        for row in csv.DictReader(fh):
+            k = (row['election'], row['constituency'], row['name'])
+            if k in out:
+                sys.exit(f'FAIL: {LABEL_BLANKED} lists {k} twice')
+            out[k] = row['identity_key']
+    return out
+
+
+def check_label_blanked_used(keys, used):
+    """A listed row the election data no longer has (renamed, moved) would silently fall back to
+    its new key and change person: fail instead, so the file is corrected with the data."""
+    stale = sorted(set(keys) - set(used))
+    if stale:
+        sys.exit(f'FAIL: {len(stale)} row(s) of {os.path.relpath(LABEL_BLANKED, REPO)} are not in the election data '
+                 f'(first: {stale[0]}); update the file to the row as it now stands')
+
+
 def council_area(council):
     """The county a Republic council belongs to: "Cork City Council" and "Cork County Council"
     are one area, as are Dublin's city and county councils, so a councillor who moves between
@@ -192,6 +230,7 @@ def council_area(council):
 def scan():
     rows = []
     councils = {}
+    blanked, blanked_used = label_blanked_identity_keys(), set()
     def council_of(source_file):
         if not source_file:
             return ''
@@ -214,13 +253,19 @@ def scan():
                 nm = (c.get('name') or '').strip()
                 if not nm:
                     continue
-                rows.append({'id': str(c.get('id') or '').strip(), 'name': nm, 'area': area,
+                cid = str(c.get('id') or '').strip()
+                bk = (d.get('key'), str(r.get('constituency') or ''), c.get('name') or '')
+                if bk in blanked:
+                    cid = blanked[bk]
+                    blanked_used.add(bk)
+                rows.append({'id': cid, 'name': nm, 'area': area,
                              'cons': str(r.get('constituency') or ''),
                              'src': str(c.get('sourcePersonId') or '').strip(),
                              'key': d.get('key'), 'body': d.get('bodySlug'),
                              'year': int(yr) if yr.isdigit() else 0,
                              'party': party_of(c),
                              'off': official_ids(c)})
+    check_label_blanked_used(blanked, blanked_used)
     return rows
 
 
