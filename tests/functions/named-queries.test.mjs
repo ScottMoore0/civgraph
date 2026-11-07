@@ -29,7 +29,6 @@ const NOT_YET_ON_THE_ADAPTER = [
   '_api/proni/search.js',
   '_browse-page.js',
   '_templates/records/election.js',
-  'render/metadata/[[path]].js',
 ];
 
 /**

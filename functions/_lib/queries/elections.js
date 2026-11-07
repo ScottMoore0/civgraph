@@ -80,6 +80,8 @@ export const ELECTIONS_API = Object.freeze({
   summary: 'SELECT summary FROM election_summaries WHERE election_key = ?1',
   /** [key] -> { shard } */
   provenance: 'SELECT shard FROM provenance_shards WHERE election_key = ?1',
+  /** [file] -> { summary }: render/metadata's summaries by file name */
+  summaryOfFile: 'SELECT summary FROM election_summaries WHERE file = ?1',
 });
 
 export const ELECTION_CARDS = Object.freeze({

@@ -28,6 +28,8 @@
  */
 import { bundleChunks, cachedJson, datasetState, documentBody, parseJson, streamFrom } from '../../_api/_records.js';
 import { binding } from '../../_lib/config.js';
+import { fromD1 } from '../../_lib/storage/d1.js';
+import { ELECTIONS_API } from '../../_lib/queries/elections.js';
 
 const VERSION = 'render-metadata-1';
 
@@ -67,8 +69,10 @@ export async function onRequestGet(context) {
     return new Response(null, { status: 301, headers: { Location: renamed, 'Cache-Control': 'public, max-age=86400', 'Access-Control-Allow-Origin': '*' } });
   }
   const route = matchRoute(parts);
-  const db = binding(context.env, 'ELECTIONS_DB');
-  if (!route || !db) return context.next();
+  const bound = binding(context.env, 'ELECTIONS_DB');
+  if (!route || !bound) return context.next();
+  // through the storage adapter (functions/_lib/storage/); the SQL is named in queries/elections.js
+  const db = fromD1(bound);
   const resp = await cachedJson(context, VERSION, () => answer(db, route));
   // A key D1 does not know is left to Pages (a static copy, or its 404).
   return resp.status === 404 ? context.next() : resp;
@@ -90,21 +94,21 @@ async function answer(db, route) {
   if (route.kind === 'manifest') {
     const head = await documentBody(db, 'elections-test2.json');
     if (!head) return notHere();
-    const { results } = await db.prepare('SELECT entry FROM election_manifest ORDER BY ord, key').all();
+    const results = await db.all(ELECTIONS_API.manifest);
     // The manifest was written by the Node generators: JSON.stringify(doc, null, 2) and a newline.
-    return text(`${JSON.stringify({ ...head, elections: (results || []).map((r) => parseJson(r.entry)) }, null, 2)}\n`);
+    return text(`${JSON.stringify({ ...head, elections: results.map((r) => parseJson(r.entry)) }, null, 2)}\n`);
   }
   if (route.kind === 'bundle') {
     const chunks = await bundleChunks(db, route.key);
     return chunks ? new Response(streamFrom(chunks), { status: 200, headers: HEADERS }) : notHere();
   }
   if (route.kind === 'provenance') {
-    const row = await db.prepare('SELECT shard FROM provenance_shards WHERE election_key = ?1').bind(route.key).first();
+    const row = await db.first(ELECTIONS_API.provenance, [route.key]);
     // build-election-provenance.mjs shardText: one-space indentation and a newline.
     return row ? text(`${JSON.stringify(parseJson(row.shard), null, 1)}\n`) : notHere();
   }
   if (route.kind === 'summary') {
-    const row = await db.prepare('SELECT summary FROM election_summaries WHERE file = ?1').bind(route.file).first();
+    const row = await db.first(ELECTIONS_API.summaryOfFile, [route.file]);
     return row ? text(`${JSON.stringify(parseJson(row.summary), null, 2)}\n`) : notHere();
   }
   return notHere();
