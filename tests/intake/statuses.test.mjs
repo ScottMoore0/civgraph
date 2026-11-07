@@ -2,28 +2,10 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
-import { defineMachine, defineToggle } from '../../scripts/intake/lib/state-machine.mjs';
-import { BATCH_STATUS, COMMAND_GATES, commandAllowed, CONTRIBUTION_STATUS } from '../../scripts/intake/lib/statuses.mjs';
+import { BATCH_STATUS, checkBatchTransition, COMMAND_GATES, commandAllowed, CONTRIBUTION_STATUS, ROUND_STATUS, roundGate, roundStatusOf } from '../../scripts/intake/lib/statuses.mjs';
 import { canMarkApplied } from '../../scripts/intake/contributions.mjs';
 
 const schema = JSON.parse(readFileSync(new URL('../../scripts/intake/batch.schema.json', import.meta.url), 'utf8'));
-
-test('defineMachine refuses a malformed table', () => {
-  assert.throws(() => defineMachine({ name: 'm', states: ['a', 'a'], initial: 'a', transitions: { a: [] } }), /twice/);
-  assert.throws(() => defineMachine({ name: 'm', states: ['a'], initial: 'b', transitions: { a: [] } }), /initial/);
-  assert.throws(() => defineMachine({ name: 'm', states: ['a', 'b'], initial: 'a', transitions: { a: ['b'] } }), /no transitions given for b/);
-  assert.throws(() => defineMachine({ name: 'm', states: ['a'], initial: 'a', transitions: { a: ['c'] } }), /unknown state/);
-  assert.throws(() => defineMachine({ name: 'm', states: ['a', 'b'], initial: 'a', transitions: { a: ['b'], b: [] }, guards: { 'b->a': () => null } }), /guard b->a/);
-});
-
-test('a toggle goes both ways and nowhere else', () => {
-  const t = defineToggle('panel', ['closed', 'open']);
-  assert.equal(t.initial, 'closed');
-  assert.equal(t.assert('closed', 'open'), 'open');
-  assert.equal(t.assert('open', 'closed'), 'closed');
-  assert.equal(t.check('open', 'open').ok, false);
-  assert.equal(t.check('open', 'ajar').ok, false);
-});
 
 test('the batch status states are exactly the schema enum', () => {
   assert.deepEqual([...BATCH_STATUS.states].sort(), [...schema.properties.status.enum].sort());
@@ -41,34 +23,40 @@ const FULL = { approvals: [{ step: 'upload' }, { step: 'publish' }], repo: { com
 test('batch status: the table allows exactly the listed transitions', () => {
   for (const from of BATCH_STATUS.states) {
     for (const to of BATCH_STATUS.states) {
-      const verdict = BATCH_STATUS.check(from, to, FULL);
+      const verdict = checkBatchTransition(from, to, FULL);
       assert.equal(verdict.ok, ALLOWED.has(`${from}->${to}`), `${from} -> ${to}`);
     }
   }
-  assert.ok(BATCH_STATUS.isTerminal('published'));
-  assert.ok(BATCH_STATUS.isTerminal('abandoned'));
+  assert.ok(BATCH_STATUS.start('published').done());
+  assert.ok(BATCH_STATUS.start('abandoned').done());
+  BATCH_STATUS.assertPath(['staged', 'draft', 'staged', 'committed', 'uploaded', 'published']);
 });
 
 test('batch status: the guards need the commit and the owner approvals', () => {
-  assert.match(BATCH_STATUS.check('staged', 'committed', {}).reason, /repo\.commits/);
-  assert.match(BATCH_STATUS.check('committed', 'uploaded', { approvals: [{ step: 'apply' }] }).reason, /approvals entry for upload/);
-  assert.match(BATCH_STATUS.check('uploaded', 'published', { approvals: [{ step: 'upload' }] }).reason, /approvals entry for publish/);
-  assert.throws(() => BATCH_STATUS.assert('draft', 'published', FULL), /not allowed/);
-  assert.throws(() => BATCH_STATUS.assert('draft', 'shipped', FULL), /not a state/);
+  assert.match(checkBatchTransition('staged', 'committed', {}).reason, /repo\.commits/);
+  assert.match(checkBatchTransition('committed', 'uploaded', { approvals: [{ step: 'apply' }] }).reason, /approvals entry for upload/);
+  assert.match(checkBatchTransition('uploaded', 'published', { approvals: [{ step: 'upload' }] }).reason, /approvals entry for publish/);
+  assert.match(checkBatchTransition('draft', 'published', FULL).reason, /not allowed/);
+  assert.match(checkBatchTransition('draft', 'shipped', FULL).reason, /not a batch status/);
+  assert.throws(() => BATCH_STATUS.assertTransition('published', 'draft'), /not a transition/);
 });
 
-test('upload --yes keeps its gate: committed or uploaded only', () => {
+test('command gates: upload --yes and post-upload --write after commit, stage --write never on a finished batch', () => {
   assert.deepEqual([...COMMAND_GATES['upload --yes']], ['committed', 'uploaded']);
-  for (const s of BATCH_STATUS.states) assert.equal(commandAllowed('upload --yes', s), s === 'committed' || s === 'uploaded', s);
+  for (const s of BATCH_STATUS.states) {
+    assert.equal(commandAllowed('upload --yes', s), s === 'committed' || s === 'uploaded', s);
+    assert.equal(commandAllowed('post-upload --write', s), s === 'committed' || s === 'uploaded', s);
+    assert.equal(commandAllowed('stage --write', s), s !== 'published' && s !== 'abandoned', s);
+  }
   assert.throws(() => commandAllowed('publish', 'draft'), /no gate/);
 });
 
 test('contribution status: applied only from approved, and never left', () => {
   const allowed = new Set(['pending-review->approved', 'pending-review->rejected', 'approved->applied', 'approved->rejected', 'rejected->approved']);
   for (const from of CONTRIBUTION_STATUS.states) {
-    for (const to of CONTRIBUTION_STATUS.states) assert.equal(CONTRIBUTION_STATUS.check(from, to).ok, allowed.has(`${from}->${to}`), `${from} -> ${to}`);
+    for (const to of CONTRIBUTION_STATUS.states) assert.equal(CONTRIBUTION_STATUS.can(from, to), allowed.has(`${from}->${to}`), `${from} -> ${to}`);
   }
-  assert.ok(CONTRIBUTION_STATUS.isTerminal('applied'));
+  assert.ok(CONTRIBUTION_STATUS.start('applied').done());
 });
 
 test('canMarkApplied answers as it did before the machine', () => {
@@ -77,4 +65,20 @@ test('canMarkApplied answers as it did before the machine', () => {
   for (const s of ['pending-review', 'rejected', 'pending', undefined]) {
     assert.deepEqual(canMarkApplied(s), { ok: false, reason: `status is "${s}"; only an approved submission can be marked applied` });
   }
+});
+
+test('council round status: the staging lifecycle and the apply gate of 7 Nov 2026', () => {
+  const allowed = new Set(['queued->held', 'queued->done', 'queued->partial', 'queued->no-election', 'held->done', 'held->partial', 'held->no-election', 'partial->done', 'partial->applied', 'done->applied']);
+  for (const from of ROUND_STATUS.states) {
+    for (const to of ROUND_STATUS.states) assert.equal(ROUND_STATUS.can(from, to), allowed.has(`${from}->${to}`), `${from} -> ${to}`);
+  }
+  assert.deepEqual(roundStatusOf({}), { status: 'done', implied: true, known: true });
+  assert.deepEqual(roundStatusOf({ status: 'partial' }), { status: 'partial', implied: false, known: true });
+  assert.equal(roundStatusOf({ status: 'held (no paper)' }).known, false);
+  assert.equal(roundGate('done', false).verdict, 'apply');
+  assert.equal(roundGate('partial', false).verdict, 'apply');
+  assert.equal(roundGate('done', true).verdict, 'excluded-by-choice');
+  assert.equal(roundGate('held', true).verdict, 'held-back');
+  assert.equal(roundGate('no-election', false).verdict, 'would-apply-wrongly');
+  assert.equal(roundGate('held (no paper)', false).verdict, 'unknown-status');
 });

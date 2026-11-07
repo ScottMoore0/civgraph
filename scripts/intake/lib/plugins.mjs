@@ -34,7 +34,7 @@
 import { spawnSync } from 'node:child_process';
 import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { pathToFileURL } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { changesSince, dispose, hashPaths, restore, sha256File, snapshot } from './capture.mjs';
 
 /** @typedef {'maps' | 'elections' | 'persons' | 'parties' | 'sources' | 'catalogue' | 'census' | 'votes' | 'interests' | 'contribution' | 'research-only'} Kind */
@@ -139,7 +139,8 @@ export function pluginProblems(def) {
     }
   }
   const ways = ['steps', 'produce', 'command'].filter((k) => def[k] !== undefined);
-  if (ways.length !== 1) p.push(`give exactly one of steps, produce, command (got ${ways.join(', ') || 'none'})`);
+  if (ways.length > 1) p.push(`give exactly one of steps, produce, command (got ${ways.join(', ')})`);
+  if (!ways.length && !(Array.isArray(def.kinds) && def.kinds.length === 1 && def.kinds[0] === 'research-only')) p.push('give exactly one of steps, produce, command (a plugin with none is kinds: ["research-only"])');
   if (def.produce !== undefined && typeof def.produce !== 'function') p.push('produce must be a function');
   if (def.command !== undefined && (!Array.isArray(def.command) || !PROGRAMS.has(def.command[0]) || !def.command[1])) p.push('command must be [node|python|bash, script, ...]');
   if (def.steps !== undefined) {
@@ -290,13 +291,13 @@ export function spawnArgv(argv, { cwd, env = {}, stdio = 'inherit', input }) {
  * Run the old command lines directly in the repository, as the scripts have always run.
  * @param {Plugin} plugin
  * @param {string[]} stepIds
- * @param {{ repo: string, inputs: Record<string, string>, args?: string[], stdio?: any }} options
+ * @param {{ repo: string, inputs: Record<string, string>, args?: string[], stdio?: any, env?: Record<string, string> }} options
  */
-export function runStepsDirect(plugin, stepIds, { repo, inputs, args = [], stdio = 'inherit' }) {
+export function runStepsDirect(plugin, stepIds, { repo, inputs, args = [], stdio = 'inherit', env = {} }) {
   for (const id of stepIds) {
     const step = /** @type {Record<string, Step>} */ (plugin.steps)[id];
     const argv = resolveArgv(step, { repo, outRoot: repo, inputs, args });
-    const res = spawnArgv(argv, { cwd: repo, env: step.env, stdio });
+    const res = spawnArgv(argv, { cwd: repo, env: { ...env, ...step.env }, stdio });
     if (res.status !== 0) throw new Error(`${plugin.id}/${id} exited ${res.status}${res.error ? ` (${res.error.message})` : ''}: ${argv.join(' ')}`);
   }
 }
@@ -308,7 +309,8 @@ export function runStepsDirect(plugin, stepIds, { repo, inputs, args = [], stdio
  * @param {{ all?: boolean, allowNetwork?: boolean }} [options]
  */
 export function selectSteps(plugin, named, { all = false, allowNetwork = false } = {}) {
-  const steps = plugin.steps || {};
+  if (!plugin.steps) throw new Error(`${plugin.id} has no steps (it is ${plugin.produce || plugin.command ? 'a produce or bridge plugin' : 'research only'})`);
+  const steps = plugin.steps;
   const ids = Object.keys(steps);
   let chosen = named.length ? named : all ? ids.filter((i) => !steps[i].network || allowNetwork) : ids.length === 1 ? ids : null;
   if (!chosen) throw new Error(`${plugin.id} has ${ids.length} steps; name them with --step (${ids.join(', ')}) or give --all`);
@@ -323,10 +325,10 @@ export function selectSteps(plugin, named, { all = false, allowNetwork = false }
  * Run a plugin and return what it produced, without writing batch.json.
  * Steps-plugins leave the repository as they found it.
  * @param {Plugin} plugin
- * @param {{ repo: string, batchDir: string, steps?: string[], all?: boolean, allowNetwork?: boolean, args?: string[], inputs?: Record<string, string>, stdio?: any }} options
+ * @param {{ repo: string, batchDir: string, steps?: string[], all?: boolean, allowNetwork?: boolean, args?: string[], inputs?: Record<string, string>, stdio?: any, env?: Record<string, string> }} options
  * @returns {Promise<{ staged: string[], operations: object[], notes: string[], deleted: string[], steps: string[] }>}
  */
-export async function producePlugin(plugin, { repo, batchDir, steps = [], all = false, allowNetwork = false, args = [], inputs = {}, stdio = 'inherit' }) {
+export async function producePlugin(plugin, { repo, batchDir, steps = [], all = false, allowNetwork = false, args = [], inputs = {}, stdio = 'inherit', env = {} }) {
   const stagedDir = path.join(batchDir, 'staged');
   mkdirSync(stagedDir, { recursive: true });
   const resolved = resolveInputs(plugin, inputs);
@@ -345,7 +347,7 @@ export async function producePlugin(plugin, { repo, batchDir, steps = [], all = 
           const step = plugin.steps[id];
           for (const rel of redirectedOutputs(step)) mkdirSync(path.dirname(path.join(stagedDir, rel)), { recursive: true });
           const argv = resolveArgv(step, { repo, outRoot: stagedDir, inputs: resolved, args });
-          const res = spawnArgv(argv, { cwd: repo, env: step.env, stdio });
+          const res = spawnArgv(argv, { cwd: repo, env: { ...env, ...step.env }, stdio });
           if (res.status !== 0) throw new Error(`${plugin.id}/${id} exited ${res.status}${res.error ? ` (${res.error.message})` : ''}: ${argv.join(' ')}`);
         }
       } finally {
@@ -364,6 +366,7 @@ export async function producePlugin(plugin, { repo, batchDir, steps = [], all = 
     return { staged, operations: [], notes: [], deleted, steps: chosen };
   }
 
+  if (!plugin.produce && !plugin.command) throw new Error(`${plugin.id} is research only: it has nothing to run`);
   /** @type {ProduceResult} */
   let result;
   if (plugin.produce) result = await plugin.produce(ctx);
@@ -444,11 +447,12 @@ export function pluginManifest(plugin, { id, baseCommit, produced, stagedDir, to
  * Parity: run the old command lines directly, then the plugin and the intake stage, from the
  * same starting tree, and compare every path either touched. The tree is put back after each.
  * @param {Plugin} plugin
- * @param {{ repo: string, steps: string[], args?: string[], inputs?: Record<string, string>, scratch: string, stdio?: any, stageWrite: (batchDir: string) => void }} options
+ * @param {{ repo: string, steps: string[], args?: string[], inputs?: Record<string, string>, scratch: string, stdio?: any, stageWrite: (batchDir: string) => void, frozenClock?: boolean }} options
  * @returns {Promise<{ same: string[], differ: { path: string, old: string, new: string }[], oldDeleted: string[], newDeleted: string[] }>}
  */
-export async function parity(plugin, { repo, steps, args = [], inputs = {}, scratch, stdio = 'inherit', stageWrite }) {
+export async function parity(plugin, { repo, steps, args = [], inputs = {}, scratch, stdio = 'inherit', stageWrite, frozenClock = true }) {
   const resolved = resolveInputs(plugin, inputs);
+  const env = frozenClock ? frozenClockEnv() : {};
   const declared = steps.flatMap((s) => [...(/** @type {Record<string, Step>} */ (plugin.steps)[s].outputs || []), ...redirectedOutputs(plugin.steps[s])]);
 
   const s1 = snapshot(repo, { outputs: declared });
@@ -457,7 +461,7 @@ export async function parity(plugin, { repo, steps, args = [], inputs = {}, scra
   let oldDeleted;
   try {
     try {
-      runStepsDirect(plugin, steps, { repo, inputs: resolved, args, stdio });
+      runStepsDirect(plugin, steps, { repo, inputs: resolved, args, stdio, env });
     } finally {
       const { changed, deleted } = changesSince(s1);
       oldHashes = hashPaths(repo, changed);
@@ -471,7 +475,7 @@ export async function parity(plugin, { repo, steps, args = [], inputs = {}, scra
   const batchDir = path.join(scratch, `parity-${plugin.id}`);
   rmSync(batchDir, { recursive: true, force: true });
   mkdirSync(batchDir, { recursive: true });
-  const produced = await producePlugin(plugin, { repo, batchDir, steps, args, inputs, stdio, allowNetwork: false });
+  const produced = await producePlugin(plugin, { repo, batchDir, steps, args, inputs, stdio, allowNetwork: false, env });
   const manifest = pluginManifest(plugin, { id: `parity-${plugin.id}`, baseCommit: null, produced, stagedDir: path.join(batchDir, 'staged') });
   writeFileSync(path.join(batchDir, 'batch.json'), `${JSON.stringify(manifest, null, 2)}\n`);
 
@@ -501,6 +505,19 @@ export async function parity(plugin, { repo, steps, args = [], inputs = {}, scra
     if (o === n) same.push(p); else differ.push({ path: p, old: o, new: n });
   }
   return { same, differ, oldDeleted, newDeleted: produced.deleted };
+}
+
+const CLOCK_DIR = path.join(path.dirname(fileURLToPath(import.meta.url)), 'frozen-clock');
+
+/**
+ * The environment that gives every Node and Python step of a parity run the same wall clock
+ * (frozen-clock/clock.mjs by --import, frozen-clock/sitecustomize.py on PYTHONPATH).
+ * @returns {Record<string, string>}
+ */
+export function frozenClockEnv() {
+  const nodeOptions = [process.env.NODE_OPTIONS, `--import=${pathToFileURL(path.join(CLOCK_DIR, 'clock.mjs')).href}`].filter(Boolean).join(' ');
+  const pythonPath = [CLOCK_DIR, process.env.PYTHONPATH].filter(Boolean).join(path.delimiter);
+  return { NODE_OPTIONS: nodeOptions, PYTHONPATH: pythonPath, INTAKE_FROZEN_CLOCK: '2026-01-01T00:00:00.000Z' };
 }
 
 /**

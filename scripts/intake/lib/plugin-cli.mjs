@@ -7,8 +7,9 @@
  *   intake run <plugin> <batch-dir> [--step s]... [--all] [--allow-network] [--input k=v]...
  *              [--replace] [-- <extra script arguments>]
  *                                                     run the plugin; write staged/ and batch.json
- *   intake parity <plugin> [--step s]... [--input k=v]... [--scratch dir] [-- <args>]
- *                                                     old command lines against plugin + stage
+ *   intake parity <plugin> [--step s]... [--input k=v]... [--scratch dir] [--live-clock] [-- <args>]
+ *                                                     old command lines against plugin + stage, both
+ *                                                     with the same frozen wall clock unless --live-clock
  *   intake mark <batch-dir> <status>                  move the batch's status one guarded step
  *
  * `--repo <root>` works with each. Nothing here pushes, uploads or publishes.
@@ -20,10 +21,10 @@ import { DEFAULT_REPO, loadBatch, validateBatch } from './batch.mjs';
 import { discoverPlugins, loadPlugin, missingNeeds, parity, pluginManifest, producePlugin, selectSteps, unaccountedFiles } from './plugins.mjs';
 import { checkLock, git, writeLock, writeState } from './review.mjs';
 import { stageBatch } from './stage.mjs';
-import { BATCH_STATUS } from './statuses.mjs';
+import { checkBatchTransition } from './statuses.mjs';
 
 export const PLUGIN_COMMANDS = new Set(['plugins', 'run', 'parity', 'mark']);
-const BOOL = new Set(['--check', '--all', '--allow-network', '--replace', '--quiet']);
+const BOOL = new Set(['--check', '--all', '--allow-network', '--replace', '--quiet', '--live-clock']);
 const VALUE = new Set(['--step', '--input', '--repo', '--scratch']);
 
 /** @param {string[]} argv */
@@ -143,7 +144,7 @@ async function parityCommand(repo, o, { log, err, stdio }) {
   const scratch = path.resolve(o.values.scratch || path.join(os.tmpdir(), 'intake-parity'));
   mkdirSync(scratch, { recursive: true });
   const res = await parity(plugin, {
-    repo, steps, args: o.extra, inputs: o.inputs, scratch, stdio,
+    repo, steps, args: o.extra, inputs: o.inputs, scratch, stdio, frozenClock: !o.flags.has('--live-clock'),
     stageWrite: (batchDir) => {
       const b = loadBatch(batchDir, { repo });
       const v = validateBatch(b, { checkPublicationGate: false });
@@ -173,7 +174,7 @@ function markCommand(repo, o, { log, err }) {
   const lockProblems = checkLock(batch);
   if (lockProblems.length) { err(`intake: the batch changed since review (${lockProblems.join('; ')}); validate --lock first`); return 1; }
   const from = batch.manifest.status;
-  const verdict = BATCH_STATUS.check(from, to, batch.manifest);
+  const verdict = checkBatchTransition(from, to, batch.manifest);
   if (!verdict.ok) { err(`intake: ${verdict.reason}`); return 1; }
   const raw = readFileSync(batch.manifestPath, 'utf8');
   const re = new RegExp(`("status"\\s*:\\s*)"${from}"`);
