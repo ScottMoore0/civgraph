@@ -10,6 +10,7 @@
  * Pure: no DOM, no module state. renameElectionDatesInParams edits the URLSearchParams it is
  * given, as before.
  */
+import { legacyLayerId, renameLayerId } from '../../../scripts/lib/layer-renames.mjs';
 
 /**
  * Layer ids that have been renamed, mapped old -> new.
@@ -83,11 +84,24 @@ export function slugifyBody(value) {
   return String(value || '').toLowerCase().trim().replace(/[^\w\s-]/g, '').replace(/[\s]+/g, '-').replace(/-+/g, '-');
 }
 
-export function resolveLegacyLayerId(id) {
-  const value = String(id || '');
+/**
+ * The current id for a layer id from a link. Renamed prefixes are rewritten first. Then, when
+ * `isKnown` is given (a test against the loaded layer index) and the id is not a layer, the
+ * other spelling of its suffix is tried (site-restructure renames.csv: `-vector-test` and
+ * `-vector`, `-raster-test` and `-raster`, `-alias-test` and `-alias`), so a link written with
+ * either spelling opens the layer before and after the ids are renamed. Without `isKnown` only
+ * the prefixes apply, as before.
+ */
+export function resolveLegacyLayerId(id, isKnown = null) {
+  let value = String(id || '');
   if (!value) return value;
   for (const [from, to] of LEGACY_LAYER_ID_PREFIXES) {
-    if (value.startsWith(from)) return `${to}${value.slice(from.length)}`;
+    if (value.startsWith(from)) { value = `${to}${value.slice(from.length)}`; break; }
+  }
+  if (typeof isKnown === 'function' && !isKnown(value)) {
+    for (const other of [renameLayerId(value), legacyLayerId(value)]) {
+      if (other !== value && isKnown(other)) return other;
+    }
   }
   return value;
 }

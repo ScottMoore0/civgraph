@@ -42,7 +42,8 @@ export const initialCatalogueRoute = () => INITIAL;
  * three seconds the pane stood empty on a first visit (Alessio Coci, 2026-10-18). The catalogue
  * takes the response once (takeCatalogueData); a second call fetches afresh.
  */
-export const CATALOGUE_DATA_URL = '/data/catalogue/catalogue.json';
+// From D1 since data design phase 3 (the file URL /data/catalogue/catalogue.json still answers, from the same rows).
+export const CATALOGUE_DATA_URL = '/_api/catalogue?view=pane';
 let prefetched = null;
 export function prefetchCatalogueData() {
   if (!prefetched && catalogueNextRequested() && typeof fetch === 'function') {

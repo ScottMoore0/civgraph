@@ -175,12 +175,15 @@ class Test2App {
     // rather than after it (src/catalogue/flag.js).
     if (prefetchCatalogueData()) import('../../src/catalogue/index.js').catch(() => {});
 
-    // Version token is the index's own content hash, injected at build time by
-    // build-test2-app.mjs. It must stay content-derived: _headers serves this
-    // file immutable, so a token that does not change when the bytes change
-    // pins a stale catalogue in every browser that has already loaded it.
-    this.metadataService = new TestMetadataService(`/render/metadata/maps-test-index.json?v=${__METADATA_INDEX_VERSION__}`, undefined, {
-      cache: 'force-cache',
+    // The startup index from D1 (data design phase 3; it was the static
+    // render/metadata/maps-test-index.json, which now answers 301 here). The answer
+    // carries an ETag of the dataset version and must-revalidate, so a publish is seen
+    // on the next load and an unchanged index costs a 304: no content-hash token needed.
+    // A layer id from a link is tried in its other spelling when it is not in the index
+    // (src/map/app/url-compat.mjs resolveLegacyLayerId).
+    this.isKnownLayerId = (id) => Boolean(this.metadataService?.getLayer(id));
+    this.metadataService = new TestMetadataService('/_api/layers?view=index', undefined, {
+      cache: 'default',
       portPlanCache: 'default'
     });
     // The three are independent, so they load side by side: one after another, the catalogue
@@ -1456,7 +1459,7 @@ class Test2App {
    */
   removeStateNotIn(params) {
     const wanted = new Set([...(params.get('layers') || '').split(','), params.get('featureMap') || '']
-      .map((id) => resolveLegacyLayerId(id.trim())).filter(Boolean));
+      .map((id) => resolveLegacyLayerId(id.trim(), this.isKnownLayerId)).filter(Boolean));
     const active = this.elections?.activeEntry;
     if (active) {
       const sameElection = (params.get('electionBody') === active.body && params.get('electionDate') === active.date)
@@ -4862,8 +4865,8 @@ class Test2App {
       }
 
       const layers = (params.get('layers') || '').split(',')
-        .map((id) => resolveLegacyLayerId(id.trim())).filter(Boolean);
-      const featureMapId = resolveLegacyLayerId(params.get('featureMap') || '');
+        .map((id) => resolveLegacyLayerId(id.trim(), this.isKnownLayerId)).filter(Boolean);
+      const featureMapId = resolveLegacyLayerId(params.get('featureMap') || '', this.isKnownLayerId);
       const featureIdParam = params.get('featureId') || '';
       const featureNameParam = params.get('featureName') || '';
       if (this.hasElectionURLState(params, layers)) {

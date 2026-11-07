@@ -65,8 +65,7 @@ const NETWORK_FIRST_PATHS = [
   '/build/about.css',
   '/manifest.json',
   '/test2/',
-  '/test2/index.html',
-  '/render/metadata/maps-test-index.json'
+  '/test2/index.html'
 ];
 
 const NEVER_CACHE_PATTERNS = [
