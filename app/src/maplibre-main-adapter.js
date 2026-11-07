@@ -952,6 +952,8 @@ export class Test2MapLibreMainAdapter {
           fillOpacity: this.map.getLayer(fillId) ? this.map.getPaintProperty(fillId, 'fill-opacity') : undefined
         };
         this.map.setPaintProperty(lineId, 'line-color', TIMELINE_OLDER_EDITION_COLOUR);
+        // Its dotted approximate stretches go grey with it, so the newer edition's dots stand out.
+        if (this.map.getLayer(`${testId}-approx`)) this.map.setPaintProperty(`${testId}-approx`, 'line-color', TIMELINE_OLDER_EDITION_COLOUR);
         this.map.setPaintProperty(lineId, 'line-dasharray', [3, 2]);
         // Thinner than the newer edition, so where the two agree the newer line still shows
         // either side of the dashes whichever is drawn on top.
@@ -961,6 +963,7 @@ export class Test2MapLibreMainAdapter {
       } else if (record._editionOriginalPaint) {
         const original = record._editionOriginalPaint;
         this.map.setPaintProperty(lineId, 'line-color', original.lineColor);
+        if (this.map.getLayer(`${testId}-approx`)) this.map.setPaintProperty(`${testId}-approx`, 'line-color', original.lineColor);
         this.map.setPaintProperty(lineId, 'line-dasharray', original.lineDash ?? null);
         if (original.lineWidth !== undefined) this.map.setPaintProperty(lineId, 'line-width', original.lineWidth);
         if (this.map.getLayer(fillId) && original.fillOpacity !== undefined) this.map.setPaintProperty(fillId, 'fill-opacity', original.fillOpacity);

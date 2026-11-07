@@ -408,6 +408,10 @@ function buildMaps(mapsData, dataEntriesData, categoriesById, mapClassInfoById, 
       featured: Boolean(map.featured),
       loadable: Boolean(map.files || map.file || map.url || map.source || map.tiles || map.pmtiles || map.geojson || variantFiles),
       labelProperty: map.labelProperty || null,
+      // approximate stretches of a reconstructed edition, drawn dotted on the map; Browse prints the note
+      approximate: map.approximateSegments?.note
+        ? { count: map.approximateSegments.count, totalKm: map.approximateSegments.totalKm, note: cleanText(map.approximateSegments.note) }
+        : null,
       parentCard: mapClassInfoById.get(map.id)?.className || null,
       thumbnail: thumbnailForCandidates(thumbnailIds, [map.id, map.cloneOf], map.name || map.title || map.id, 'map'),
       variants: normalizeArray(map.variants).filter((variant) => typeof variant === 'string' || !variant.hidden).map((variant) => typeof variant === 'string' ? { id: variant } : compactObject({
