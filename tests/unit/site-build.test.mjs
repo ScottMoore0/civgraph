@@ -27,7 +27,8 @@ test('the allow-list publishes the site and leaves out the repository', () => {
     'data/browse/index.json', 'data/graph/manifest.json', 'data/elections/persons/x.json',
     'data/elections-source/data/elections/x.json', 'data/database/maps.json', 'data/database/r2-publication-allowlist.json',
     'data/census/other.csv', 'render/metadata/elections-test2/x.json', 'render/metadata/layer-details-test2/x.json',
-    'render/tiles/generated/x.pbf', 'agent/maps-index.json', 'node_modules/x/index.js', 'dist/index.html']) {
+    'render/tiles/generated/x.pbf', 'agent/maps-index.json', 'node_modules/x/index.js', 'dist/index.html',
+    'data/registries/councils.json', 'data/registries/statuses.json']) {
     assert.equal(isSiteFile(rel), false, rel);
   }
 });
