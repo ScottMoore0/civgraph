@@ -122,7 +122,10 @@ const sameObject = (a, b) => Boolean(a && b && a.size === b.size && (!a.etag || 
 
 /**
  * Copy (or, without apply, plan) every pair. `client` is an S3Client; `commands` holds the
- * command classes, injected so tests need no network. Returns per-pair results.
+ * command classes, injected so tests need no network. Returns per-pair results. A plan
+ * (apply false) needs no client.
+ * @param {Array<{ from: string, to: string }>} pairs
+ * @param {{ client?: any, commands?: any, bucket?: string, apply?: boolean, log?: (message: string) => void }} options
  */
 export async function copyPairs(pairs, { client, commands, bucket, apply = false, log = console.log }) {
   const results = [];

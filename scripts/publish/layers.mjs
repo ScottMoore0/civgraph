@@ -20,6 +20,7 @@
  * after the tile build undoes it.
  */
 import { spawnSync } from 'node:child_process';
+import { layerPublishRun, layerPublishSteps } from './layer-publish-run.mjs';
 
 const args = process.argv.slice(2);
 const idsAt = args.indexOf('--ids');
@@ -31,33 +32,24 @@ if (!ids.length) {
 const idList = ids.join(',');
 const build = !args.includes('--no-build');
 
-const steps = [
-  ...(build ? [
-    ['Build the tile archives', ['scripts/build/tiles/pmtiles.mjs', '--force', '--ids', idList]],
-    ['Build the feature indexes', ['scripts/build/tiles/feature-indexes.mjs', '--ids', idList]]
-  ] : []),
-  ['Write the CDN upload manifest', ['scripts/publish/r2-manifest.mjs']],
-  ['Upload to R2', ['scripts/publish/r2-upload-pmtiles.mjs', '--ids', idList]],
-  // No --apply: verify --apply imports the switch with verify's own argv, and the switch takes
-  // only --ids, so it refused the run ("unrecognised flag(s): --apply") after the report was
-  // written. The switch is the next step, scoped to the same ids.
-  ['Verify byte ranges on the CDN', ['scripts/publish/verify-pmtiles-cdn.mjs', '--ids', idList]],
-  ['Switch the layers to their CDN URLs', ['scripts/publish/switch-pmtiles-to-cdn.mjs', '--ids', idList]],
-  ['Repair alias layers', ['scripts/build/tiles/repair-alias-layers.mjs']],
-  ['Rebuild the layer metadata', ['scripts/build/tiles/layer-plan.mjs']]
-];
+// The stages are a machine (layer-publish-run.mjs): a skipped or reordered step throws here.
+const steps = layerPublishSteps({ idList, build });
+/** @type {import('./layer-publish-run.mjs').RunStage} */
+let stage = layerPublishRun.initial;
 
-for (const [label, stepArgs] of steps) {
+for (const { label, args: stepArgs, reaches } of steps) {
   const started = Date.now();
   const result = spawnSync(process.execPath, stepArgs, { encoding: 'utf8', maxBuffer: 256 * 1024 * 1024 });
   const seconds = ((Date.now() - started) / 1000).toFixed(0);
   const output = `${result.stdout || ''}${result.stderr || ''}`.split(/\r?\n/)
     .filter((line) => line.trim() && !/ExperimentalWarning|MODULE_TYPELESS|trace-warnings|eliminate this warning|Reparsing as ES module/.test(line));
   if (result.status !== 0) {
+    stage = layerPublishRun.assert(stage, 'failed');
     console.log(`FAIL ${seconds.padStart(4)}s  ${label}`);
     console.log(output.slice(-25).join('\n'));
     process.exit(result.status || 1);
   }
+  stage = layerPublishRun.assert(stage, reaches, { build });
   console.log(`ok   ${seconds.padStart(4)}s  ${label}  -- ${(output.slice(-1)[0] || '').trim().slice(0, 110)}`);
 }
 
@@ -68,8 +60,9 @@ const local = ids.filter((id) => {
   const layer = layers.find((entry) => entry.id === id);
   return !layer || !/^https:\/\//.test(String(layer.tileUrl || ''));
 });
-if (local.length) {
-  console.log(`FAIL: still not on the CDN: ${local.join(', ')}`);
+const done = layerPublishRun.check(stage, 'published', { notOnCdn: local });
+if (!done.ok) {
+  console.log(`FAIL: ${local.length ? `still not on the CDN: ${local.join(', ')}` : done.reason}`);
   process.exit(1);
 }
 console.log(`\nPUBLISHED ${ids.length} layer(s): built, uploaded, byte-range verified and switched to the CDN.`);
