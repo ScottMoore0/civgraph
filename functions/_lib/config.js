@@ -14,7 +14,7 @@
  */
 
 /** Public origins and identity. */
-export const SITE = Object.freeze({
+export const SITE = /* @__PURE__ */ Object.freeze({
   name: 'Civgraph',
   origin: 'https://civgraph.net',
   /** R2 public bucket boundaries-data, behind the CDN: tiles, FGBs, thumbnails, downloads. */
@@ -31,9 +31,9 @@ export const SITE = Object.freeze({
  * `/api/v1/*` is the versioned one (functions/api/v1/[[path]].js), which delegates to the same
  * handlers. A breaking change to a contract makes a v2; v1 keeps answering.
  */
-export const API = Object.freeze({
+export const API = /* @__PURE__ */ Object.freeze({
   current: 'v1',
-  versions: Object.freeze(['v1']),
+  versions: /* @__PURE__ */ Object.freeze(['v1']),
   legacyPrefix: '/_api',
   prefix: (version = 'v1') => `/api/${version}`,
 });
@@ -44,29 +44,29 @@ export const API = Object.freeze({
  * wrangler.toml. `optional` bindings are read when present and answered 503 (or a fallback)
  * when absent, by design.
  */
-export const BINDINGS = Object.freeze({
-  ELECTIONS_DB: Object.freeze({
+export const BINDINGS = /* @__PURE__ */ Object.freeze({
+  ELECTIONS_DB: /* @__PURE__ */ Object.freeze({
     kind: 'd1', name: 'civgraph-records', environments: ['production'],
     purpose: 'the records database: elections, persons, parties, sources, votes, graph, maps, layers and the catalogue',
   }),
-  PRONI_DB: Object.freeze({
+  PRONI_DB: /* @__PURE__ */ Object.freeze({
     kind: 'd1', name: 'proni-catalogue', environments: ['production', 'preview'],
     purpose: 'the PRONI eCatalogue with its FTS5 index (kept separate: FTS5 blocks D1 export)',
   }),
-  PRONI_KV: Object.freeze({ kind: 'kv', environments: ['production', 'preview'], purpose: 'PRONI app cache' }),
-  SPATIAL_INDEX: Object.freeze({ kind: 'kv', environments: ['production'], purpose: 'names and spatial chunks for /_api/search and /_api/spatial' }),
-  CIVGRAPH_CONTRIBUTION_QUEUE: Object.freeze({ kind: 'kv', environments: ['production'], purpose: 'the contribution review queue' }),
-  MAPS_BUCKET: Object.freeze({ kind: 'r2', name: 'boundaries-data', environments: ['production'], purpose: 'the public data bucket (data.civgraph.net)' }),
-  CIVGRAPH_SUBMISSIONS: Object.freeze({ kind: 'r2', environments: [], optional: true, purpose: 'an alternative contribution store; not bound' }),
-  CIVGRAPH_QUARANTINE: Object.freeze({ kind: 'r2', environments: [], optional: true, purpose: 'private intake quarantine bucket; deliberately not bound' }),
-  ASSETS: Object.freeze({ kind: 'assets', environments: ['production', 'preview'], builtin: true, purpose: 'the Pages static assets' }),
+  PRONI_KV: /* @__PURE__ */ Object.freeze({ kind: 'kv', environments: ['production', 'preview'], purpose: 'PRONI app cache' }),
+  SPATIAL_INDEX: /* @__PURE__ */ Object.freeze({ kind: 'kv', environments: ['production'], purpose: 'names and spatial chunks for /_api/search and /_api/spatial' }),
+  CIVGRAPH_CONTRIBUTION_QUEUE: /* @__PURE__ */ Object.freeze({ kind: 'kv', environments: ['production'], purpose: 'the contribution review queue' }),
+  MAPS_BUCKET: /* @__PURE__ */ Object.freeze({ kind: 'r2', name: 'boundaries-data', environments: ['production'], purpose: 'the public data bucket (data.civgraph.net)' }),
+  CIVGRAPH_SUBMISSIONS: /* @__PURE__ */ Object.freeze({ kind: 'r2', environments: [], optional: true, purpose: 'an alternative contribution store; not bound' }),
+  CIVGRAPH_QUARANTINE: /* @__PURE__ */ Object.freeze({ kind: 'r2', environments: [], optional: true, purpose: 'private intake quarantine bucket; deliberately not bound' }),
+  ASSETS: /* @__PURE__ */ Object.freeze({ kind: 'assets', environments: ['production', 'preview'], builtin: true, purpose: 'the Pages static assets' }),
 });
 
 /**
  * Environment variables the Functions read. Secrets are set with `wrangler pages secret put`
  * and never appear in the repository; flags are plain switches.
  */
-export const RUNTIME_VARS = Object.freeze({
+export const RUNTIME_VARS = /* @__PURE__ */ Object.freeze({
   CIVGRAPH_ADMINS: { secret: true, purpose: 'contribution admins (email addresses; fail-closed when unset)' },
   CIVGRAPH_CONTRIBUTORS: { secret: true, purpose: 'contributors (email addresses; fail-closed when unset)' },
   CIVGRAPH_ACCESS_AUD: { secret: true, purpose: 'Cloudflare Access application audience' },
@@ -80,10 +80,10 @@ export const RUNTIME_VARS = Object.freeze({
 });
 
 /** Names only. A tool that prints the configuration says whether these are set, never what to. */
-export const SECRETS = Object.freeze(Object.keys(RUNTIME_VARS).filter((k) => RUNTIME_VARS[k].secret));
+export const SECRETS = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.keys(RUNTIME_VARS).filter((k) => RUNTIME_VARS[k].secret));
 
 /** Cache-Control policies, by what is being served. */
-export const CACHE = Object.freeze({
+export const CACHE = /* @__PURE__ */ Object.freeze({
   /** records answers (functions/_api/_records.js cachedJson): invalidated by the dataset version */
   records: 'public, max-age=300, stale-while-revalidate=86400',
   /** a records answer while a delta load is running */
