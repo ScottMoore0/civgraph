@@ -24,12 +24,13 @@ const els = {
 
 const state = { offset: 0, done: false, loading: false, seen: new Set(), letter: '', reqId: 0, queryId: 0, total: null, levels: null, allRoots: false };
 
-// Every top-level PRONI record (parent = ''), 9,404 of them, pre-built at
-// /data/browse/proni-roots.json. The 'All' view and letter browsing are both fully
-// enumerable and change only when PRONI's catalogue does, so they are served from this
-// static file rather than from D1: one cached fetch instead of a query per letter, and
-// the grouping and ordering happen locally and instantly.
-const ROOTS_URL = '/data/browse/proni-roots.json';
+// Every top-level PRONI record (parent = ''), 9,404 of them, as { roots, count } from
+// /_api/proni/node (edge-cached for a day). The 'All' view and letter browsing are both fully
+// enumerable and change only when PRONI's catalogue does, so they are loaded once: one cached
+// fetch instead of a query per letter, and the grouping and ordering happen locally and
+// instantly. (It was the static /data/browse/proni-roots.json until data design phase 3; that
+// URL answers 301 here.)
+const ROOTS_URL = '/_api/proni/node';
 let rootsPromise = null;
 function loadRoots() {
   if (!rootsPromise) {

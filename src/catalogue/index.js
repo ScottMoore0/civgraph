@@ -38,8 +38,9 @@ import { BODY_GROUPS, groupOfBody, shelvesOf } from './view-elections.js';
 import * as BooksView from './view-books.js';
 import { forgetTypedPhrase, isLanguagePhrase, languageOptionsShown, revealLanguageOptions, typedLanguagePhrase } from './lang-reveal.js';
 
-const PLACES_URL = '/data/catalogue/places.json';
-const PEOPLE_URL = '/data/catalogue/people.json';
+// From D1 since data design phase 3 (the /data/catalogue/*.json URLs still answer, from the same rows).
+const PLACES_URL = '/_api/catalogue?view=places';
+const PEOPLE_URL = '/_api/catalogue?view=people';
 const STORE = 'civgraph.catalogueNext.v2';
 const BLANK_FILTERS = { scope: '', kind: '', from: null, to: null, onMap: false, undated: false };
 const BLANK_EFILTERS = { body: '', ekind: 'general', escope: '', from: null, to: null };

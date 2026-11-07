@@ -1706,9 +1706,9 @@ async function renderProniRoute(id) {
   if (!id) {
     setHero(config, null);
     els.results.innerHTML = '<div class="browse-loading">Loading PRONI records...</div>';
-    // Prefer the static roots file (CDN-cached, no D1 hit); fall back to the API.
-    let data = await loadJson(`${DATA_ROOT}/proni-roots.json`).catch(() => null);
-    if (!data || !data.roots) data = await loadJson('/_api/proni/node').catch(() => null);
+    // Every top-level record, from the PRONI database (edge-cached for a day). The static copy,
+    // /data/browse/proni-roots.json, was retired in data design phase 3 and answers 301 here.
+    const data = await loadJson('/_api/proni/node').catch(() => null);
     if (token !== renderSeq) return;
     renderProniLanding(config, (data && data.roots) || []);
     return;
