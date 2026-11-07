@@ -21,8 +21,12 @@
   --serif: "Rockwell Bold", Rockwell, Georgia, "Palatino Linotype", Palatino, "URW Palladio L", Times, "Times New Roman", serif;
   --sans: Verdana, Arial, Helvetica, sans-serif;
 }
-* { box-sizing: border-box; }
-html, body { margin: 0; }
+/* The site shell (header, footer, Support popup, theme) wraps the app; its tokens and base
+   rules load first (assets/ui/). The app's own area keeps the PRONI look in both themes for
+   now: it is drawn in the light palette above, so it asks for light form controls even when
+   the site is dark. */
+.ps-header, .ps-divider, .ps-main, .ps-footer, .ps-modal { color-scheme: light; }
+body[data-app="proni"] { margin: 0; }
 body { font-family: var(--sans); color: var(--ink); background: var(--bg); line-height: 1.5; font-size: 16px; }
 a { color: var(--accent-dark); }
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }

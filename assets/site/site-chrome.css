@@ -2,52 +2,25 @@
  * Shared site chrome: the header, its collapsed mobile navigation, the Support Us button
  * and popup, and the footer.
  *
- *   markup     partials/site-header.html, partials/support-modal.html, partials/site-footer.html
- *              (stamped into each page by scripts/build-site-partials.mjs)
+ *   markup     functions/_templates/shell.js (head(), header(), supportModal(), footer()),
+ *              stamped into the static pages by scripts/build-site-partials.mjs and rendered
+ *              by the server-rendered pages at request time
  *   behaviour  assets/site/site-chrome.js
+ *   tokens     assets/ui/tokens.css, which the shell head loads before this file
  *
- * Self-contained on purpose. The pages that carry this chrome use four different design
- * systems (assets/pages/css/shared.css, assets/css/main.css, browse/browse.css and the
- * census explorer's inline styles), so nothing here reads a page token, and no page
- * stylesheet styles these classes. The map app's shell may position the header
- * (app/src/test2.css pins it to the viewport) but does not restyle it.
+ * Every colour, radius and shadow that is not part of the header's own gradient comes from
+ * the token set, so the popup and the phone menu take the same light and dark palette as the
+ * pages under them. The header gradient and the white text on it are the brand, and the
+ * same in both themes. Only the new token names are read (--surface, --text, ...), never the
+ * older --color-* names a page stylesheet may still redefine for itself.
  */
 
-@font-face {
-  font-family: 'Civgraph Chrome';
-  font-style: normal;
-  font-weight: 400 700;
-  font-display: swap;
-  src: url(/assets/fonts/inter-latin.woff2) format('woff2');
-}
-
 :root {
-  --chrome-base: #065a6e;
-  --chrome-green: #0fa55a;
-  --chrome-navy: #003870;
-  --chrome-teal: #0a7a78;
   --chrome-gradient:
     radial-gradient(circle at 0% 50%, var(--chrome-green) 0%, transparent 50%),
     radial-gradient(circle at 100% 50%, var(--chrome-navy) 0%, transparent 50%),
     radial-gradient(circle at 40% 100%, var(--chrome-teal) 0%, transparent 60%);
-  --chrome-font: 'Civgraph Chrome', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  --chrome-radius-md: 8px;
-  --chrome-radius-lg: 12px;
-  --chrome-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, .1), 0 2px 4px -1px rgba(0, 0, 0, .06);
-  --chrome-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, .1), 0 4px 6px -2px rgba(0, 0, 0, .05);
-  --chrome-modal-surface: #ffffff;
-  --chrome-modal-text: #1a202c;
-  --chrome-modal-muted: #5f6b7c;
-  --chrome-modal-hover: #f7fafc;
-  --chrome-modal-border: #edf2f7;
-}
-
-:root[data-theme="dark"] {
-  --chrome-modal-surface: #1a202c;
-  --chrome-modal-text: #f7fafc;
-  --chrome-modal-muted: #a0aec0;
-  --chrome-modal-hover: #2d3748;
-  --chrome-modal-border: #2d3748;
+  --chrome-font: var(--font-sans);
 }
 
 .app-header,
@@ -74,7 +47,7 @@
   background: var(--chrome-base);
   background-image: var(--chrome-gradient);
   color: #fff;
-  box-shadow: var(--chrome-shadow-md);
+  box-shadow: var(--shadow-md);
   font-family: var(--chrome-font);
   font-size: 16px;
   line-height: 1.65;
@@ -127,7 +100,7 @@
   align-items: center;
   gap: .45rem;
   padding: .5rem 1rem;
-  border-radius: var(--chrome-radius-md);
+  border-radius: var(--radius-lg);
   color: rgba(255, 255, 255, .9);
   font-size: .95rem;
   font-weight: 500;
@@ -341,8 +314,8 @@
     overscroll-behavior: contain;
     background: var(--chrome-base);
     background-image: var(--chrome-gradient);
-    border-radius: 0 0 var(--chrome-radius-lg) var(--chrome-radius-lg);
-    box-shadow: var(--chrome-shadow-lg);
+    border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+    box-shadow: var(--shadow-lg);
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -538,13 +511,13 @@
   overflow-y: auto;
   padding: 1.5rem;
   border-radius: .5rem;
-  background: var(--chrome-modal-surface);
-  color: var(--chrome-modal-text);
+  background: var(--surface);
+  color: var(--text);
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, .1), 0 10px 10px -5px rgba(0, 0, 0, .04);
 }
 
 :root[data-theme="dark"] .support-modal__content {
-  border: 1px solid var(--chrome-modal-border);
+  border: 1px solid var(--border);
 }
 
 .support-modal__header {
@@ -556,7 +529,7 @@
 
 .support-modal__title {
   margin: 0;
-  color: var(--chrome-modal-text);
+  color: var(--text);
   font-size: 1.125rem;
   font-weight: 700;
 }
@@ -566,7 +539,7 @@
   border: none;
   border-radius: .25rem;
   background: none;
-  color: var(--chrome-modal-muted);
+  color: var(--text-muted);
   font-size: 24px;
   line-height: 1;
   cursor: pointer;
@@ -574,8 +547,8 @@
 }
 
 .support-modal__close:hover {
-  color: var(--chrome-modal-text);
-  background: var(--chrome-modal-hover);
+  color: var(--text);
+  background: var(--surface-raised);
 }
 
 .support-modal__options {
@@ -631,12 +604,12 @@
   height: 64px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid var(--chrome-modal-border);
+  border: 2px solid var(--border);
 }
 
 .support-modal__author-label {
   margin: 0;
-  color: var(--chrome-modal-text);
+  color: var(--text);
   font-size: 1rem;
   font-weight: 600;
   font-style: italic;
@@ -644,13 +617,13 @@
 
 .support-modal__message p {
   margin: 0 0 .5rem;
-  color: var(--chrome-modal-muted);
+  color: var(--text-muted);
   font-size: .875rem;
   line-height: 1.6;
 }
 
 .support-modal__message p:first-child {
-  color: var(--chrome-modal-text);
+  color: var(--text);
   font-size: 1rem;
   font-weight: 600;
 }
@@ -852,38 +825,6 @@
    A solid panel in the page's own theme rather than a second copy of the header's gradient, so it
    reads as a menu and not as part of the page behind it: compact rows with hairline dividers, the
    current page marked by a green bar, and Support and the theme switch sharing the last row. */
-.app-header {
-  --menu-surface: #ffffff;
-  --menu-text: #1a202c;
-  --menu-muted: #5f6b7c;
-  --menu-hover: #f1f5f4;
-  --menu-line: #e6ecea;
-  --menu-current: #e7f5ee;
-  --menu-accent: #15803d;
-}
-
-:root[data-theme="dark"] .app-header {
-  --menu-surface: #151b23;
-  --menu-text: #eef2f6;
-  --menu-muted: #9aa7b6;
-  --menu-hover: #1e2631;
-  --menu-line: #263040;
-  --menu-current: #16302a;
-  --menu-accent: #34d399;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .app-header {
-    --menu-surface: #151b23;
-    --menu-text: #eef2f6;
-    --menu-muted: #9aa7b6;
-    --menu-hover: #1e2631;
-    --menu-line: #263040;
-    --menu-current: #16302a;
-    --menu-accent: #34d399;
-  }
-}
-
 @media (max-width: 900px), (hover: none) and (pointer: coarse) and (max-width: 1180px) {
   .app-header__nav {
     display: grid;
@@ -893,9 +834,9 @@
     left: max(.5rem, env(safe-area-inset-left));
     right: max(.5rem, env(safe-area-inset-right));
     padding: .35rem 0 .5rem;
-    background: var(--menu-surface);
+    background: var(--surface);
     background-image: none;
-    border: 1px solid var(--menu-line);
+    border: 1px solid var(--border);
     border-top: 0;
     border-radius: 0 0 14px 14px;
     box-shadow: 0 18px 40px -12px rgba(0, 0, 0, .45);
@@ -909,8 +850,8 @@
     min-height: 48px;
     padding: .7rem 1.1rem;
     border-radius: 0;
-    border-bottom: 1px solid var(--menu-line);
-    color: var(--menu-text);
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
     font-size: 1rem;
     font-weight: 500;
   }
@@ -918,18 +859,18 @@
   .app-header__link .icon {
     width: 19px;
     height: 19px;
-    color: var(--menu-muted);
+    color: var(--text-muted);
     opacity: 1;
   }
 
   .app-header__link:hover {
-    color: var(--menu-text);
-    background: var(--menu-hover);
+    color: var(--text);
+    background: var(--surface-raised);
   }
 
   .app-header__link--active,
   .app-header__link--active:hover {
-    color: var(--menu-text);
+    color: var(--text);
     font-weight: 600;
     background: var(--menu-current);
     box-shadow: inset 4px 0 0 var(--menu-accent);
@@ -959,13 +900,26 @@
     width: 42px;
     height: 42px;
     margin: .6rem 1.1rem 0 0;
-    background: var(--menu-hover);
-    color: var(--menu-text);
-    border: 1px solid var(--menu-line);
+    background: var(--surface-raised);
+    color: var(--text);
+    border: 1px solid var(--border);
   }
 
   .app-header__nav .theme-toggle svg {
     width: 22px;
     height: 22px;
   }
+}
+
+/* Focus: the token ring in the popup, on the page surface in both themes; white on the
+   footer's gradient, as the header's links have it (above). */
+.support-modal a:focus-visible,
+.support-modal button:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.ftr a:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
 }
