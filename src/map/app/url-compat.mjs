@@ -92,14 +92,20 @@ export function slugifyBody(value) {
  * either spelling opens the layer before and after the ids are renamed. Without `isKnown` only
  * the prefixes apply, as before.
  */
-export function resolveLegacyLayerId(id, isKnown = null) {
-  let value = String(id || '');
-  if (!value) return value;
+function rewritePrefix(value) {
   for (const [from, to] of LEGACY_LAYER_ID_PREFIXES) {
-    if (value.startsWith(from)) { value = `${to}${value.slice(from.length)}`; break; }
+    if (value.startsWith(from)) return `${to}${value.slice(from.length)}`;
   }
+  return value;
+}
+
+export function resolveLegacyLayerId(id, isKnown = null) {
+  const original = String(id || '');
+  if (!original) return original;
+  const value = rewritePrefix(original);
   if (typeof isKnown === 'function' && !isKnown(value)) {
-    for (const other of [renameLayerId(value), legacyLayerId(value)]) {
+    const others = [renameLayerId(value), legacyLayerId(value), rewritePrefix(renameLayerId(original)), rewritePrefix(legacyLayerId(original))];
+    for (const other of others) {
       if (other !== value && isKnown(other)) return other;
     }
   }

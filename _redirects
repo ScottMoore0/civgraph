@@ -5,8 +5,19 @@
 #
 # /test/ served a real (noindex) page, so the old paths keep working. 301 rather than
 # 302: the move is permanent and there is no reason to make every visitor re-ask.
-/test/*  /render/:splat  301
-/test    /render/        301
+#
+# Since data design phase 3 (PHASE3.md, site-restructure renames.csv) they go straight to the
+# map app, not through /render/ (the legacy test app) and then on: one hop, no chain. The
+# metadata paths under /test/ still reach the files and Functions now under /render/metadata/.
+# The hash (#layers=...) is kept by the browser across a redirect; Pages keeps the query.
+/test/metadata/*  /render/metadata/:splat  301
+/test/*  /maps/  301
+/test    /maps/  301
+
+# /maps/test/ was where the MapLibre app was reviewed before it became /maps/ (the build still
+# writes a copy there). Shared links land on the app itself.
+/maps/test/  /maps/  301
+/maps/test/index.html  /maps/  301
 
 # The Status page sits beside About, at /pages/status.html; /status is its short address.
 /status   /pages/status  301
