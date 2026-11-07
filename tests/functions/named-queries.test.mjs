@@ -29,7 +29,6 @@ const NOT_YET_ON_THE_ADAPTER = [
   '_api/proni/search.js',
   '_browse-page.js',
   '_templates/records/election.js',
-  'data/graph/[[path]].js',
   'render/metadata/[[path]].js',
 ];
 
@@ -46,6 +45,7 @@ const BUILDER_SAMPLES = {
   'cards.PERSONS.partyFilter': [[['?1', '?2']]],
   'graph.GRAPH.search': [[0, 200], [2, 50]],
   'graph.GRAPH.browseKeys': [[1], [3]],
+  'graph.GRAPH_FILES.valuesByKey': ['entity', 'summary', 'search', 'browse', 'slug', 'statements-by-subject', 'reverse-entity-value', 'source-statements'].map((name) => [name]),
   'cards.SHARDS.page': [['person_cards'], ['sources'], ['register_entries']],
   'maps.MAPS.headParts': [['catalogue_parts'], ['layer_parts']],
   'maps.MAPS.headOrds': [['catalogue_parts'], ['layer_parts']],
@@ -111,7 +111,7 @@ async function namedQueries() {
     const mod = await import(pathToFileURL(path.join(QUERIES, file)).href);
     const base = file.replace(/\.js$/, '');
     for (const [group, value] of Object.entries(mod)) {
-      if (!value || typeof value !== 'object' || !Object.isFrozen(value)) continue;
+      if (!value || typeof value !== 'object' || Array.isArray(value) || !Object.isFrozen(value)) continue;
       for (const [name, query] of Object.entries(value)) {
         const id = `${base}.${group}.${name}`;
         if (typeof query === 'string') queries.push({ name: id, sql: query });
