@@ -8,7 +8,7 @@
  * /_api/* keeps answering for good; it is what the site's own pages call. REFACTOR-PLAN.md item 5.
  */
 import { V1 } from '../_lib/api/v1.js';
-import { delegate, jsonAnswer, methodNotAllowed, notFound, segments } from '../_lib/api/delegate.js';
+import { delegate, jsonAnswer, methodNotAllowed, notFound, segments, versionStatus } from '../_lib/api/delegate.js';
 
 export const VERSIONS = Object.freeze({ v1: V1 });
 
@@ -20,7 +20,7 @@ export async function onRequest(context) {
     const res = jsonAnswer({
       api: 'Civgraph',
       current: 'v1',
-      versions: Object.values(VERSIONS).map((v) => ({ version: v.version, index: `${v.prefix}/`, status: 'stable' })),
+      versions: Object.values(VERSIONS).map((v) => ({ version: v.version, index: `${v.prefix}/`, status: versionStatus(v) })),
       legacy: { prefix: '/_api', status: 'kept as an alias of the current version\'s routes' },
     });
     return method === 'HEAD' ? new Response(null, res) : res;

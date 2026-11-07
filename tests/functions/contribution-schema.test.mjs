@@ -12,6 +12,7 @@
 import { readFileSync } from 'node:fs';
 import { dryRunPatch, EDITABLE_FIELDS, VALID_KINDS, describeSchema } from '../../functions/_api/contributions/_schema.js';
 import { canMarkApplied, TERMINAL_STATUS } from '../../scripts/intake/contributions.mjs';
+import { DECISIONS, isDecision } from '../../functions/_lib/contribution-status.js';
 
 let passed = 0;
 const failures = [];
@@ -156,8 +157,8 @@ check('a rejected submission cannot be marked applied', !canMarkApplied('rejecte
 check('marking an applied submission again is refused', !canMarkApplied(TERMINAL_STATUS).ok);
 check('the refusal says why', /only an approved submission/.test(canMarkApplied('pending-review').reason || ''));
 check('applied is not a decision the web endpoint can set',
-  !/applied/.test(readFileSync(new URL('../../functions/_api/contributions/decide.js', import.meta.url), 'utf8')
-    .match(/const VALID_DECISIONS[^;]+;/)?.[0] || 'applied'));
+  !DECISIONS.includes('applied') && !isDecision('applied')
+    && /if \(!isDecision\(decision\)\)/.test(readFileSync(new URL('../../functions/_api/contributions/decide.js', import.meta.url), 'utf8')));
 
 if (failures.length) {
   console.error(`FAIL: ${failures.length} of ${passed + failures.length} contribution schema checks failed:`);

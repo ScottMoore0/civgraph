@@ -17,6 +17,7 @@
  */
 import { MAP_CACHE, layerIndexDocument, layerRow, layersDocumentText, resolveLayerId } from '../_maps.js';
 import { cachedJson, jsonResponse } from '../_records.js';
+import { binding } from '../../_lib/config.js';
 
 const VERSION = 'layers-1';
 const notFound = () => jsonResponse({ error: 'not found' }, 404);
@@ -30,7 +31,7 @@ export function matchLayersPath(parts) {
 }
 
 export async function onRequestGet(context) {
-  const db = context.env?.ELECTIONS_DB;
+  const db = binding(context.env, 'ELECTIONS_DB');
   if (!db) return jsonResponse({ error: 'ELECTIONS_DB binding not configured' }, 503);
   const parts = [].concat(context.params?.path || []).map((p) => decodeURIComponent(p));
   const route = matchLayersPath(parts);
@@ -39,14 +40,17 @@ export async function onRequestGet(context) {
   return cachedJson(context, VERSION, () => answer(db, route, url), MAP_CACHE);
 }
 
+/** The collection's views (refactor FN-L): 'full' (also no view) and 'index'. */
+export const LAYER_VIEWS = Object.freeze(/** @type {const} */ (['full', 'index']));
+
 export async function answer(db, route, url) {
   if (route.kind === 'collection') {
     const view = url.searchParams.get('view');
-    if (view === 'index') {
+    if (view === LAYER_VIEWS[1]) {
       const doc = await layerIndexDocument(db);
       return doc ? jsonResponse(doc) : jsonResponse({ error: 'layers not loaded' }, 503);
     }
-    if (view && view !== 'full') return jsonResponse({ error: `unknown view ${view}` }, 400);
+    if (view && view !== LAYER_VIEWS[0]) return jsonResponse({ error: `unknown view ${view}` }, 400);
     const text = await layersDocumentText(db);
     return text === null ? jsonResponse({ error: 'layers not loaded' }, 503) : jsonResponse(text);
   }
