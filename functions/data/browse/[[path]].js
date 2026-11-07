@@ -34,6 +34,7 @@ import { cachedJson, documentBody, jsonResponse, parseJson, streamFrom } from '.
 import { divisionShard } from '../../_api/votes/index.js';
 import { resolvePartySlug } from '../../_api/parties/index.js';
 import { browseFeaturesText, browseMapsText } from '../../_api/_maps.js';
+import { binding } from '../../_lib/config.js';
 
 const VERSION = 'data-browse-4';
 const CONTEST_PARENT_BUCKETS = 64;
@@ -74,7 +75,7 @@ export async function onRequestGet(context) {
   if (location) return moved(location);
   const route = matchBrowsePath(parts);
   if (!route) return notFound();
-  const db = context.env.ELECTIONS_DB;
+  const db = binding(context.env, 'ELECTIONS_DB');
   if (!db) return jsonResponse({ error: 'records database not bound' }, 503);
   return cachedJson(context, VERSION, () => answer(db, route), {
     edgeTtl: EDGE_TTL, gate: HEAVY.has(route.kind),

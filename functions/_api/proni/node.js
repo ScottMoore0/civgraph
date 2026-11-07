@@ -9,6 +9,7 @@
  * cumulative '/'-prefixes of the reference (every one is a real record after the
  * container-title enrichment pass).
  */
+import { binding } from '../../_lib/config.js';
 
 function ancestorRefs(ref) {
   const parts = String(ref).split('/');
@@ -107,7 +108,7 @@ async function handle(context) {
     },
   });
 
-  const db = context.env.PRONI_DB;
+  const db = binding(context.env, 'PRONI_DB');
   if (!db) return json({ error: 'PRONI_DB binding not configured' }, 503);
 
   try {

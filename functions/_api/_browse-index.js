@@ -22,6 +22,7 @@
  */
 import { reportError } from './_error.js';
 import { cachedJson } from './_records.js';
+import { binding } from '../_lib/config.js';
 
 const MAX_LIMIT = 200;
 const DEFAULT_LIMIT = 50;
@@ -93,7 +94,7 @@ export function browseIndexHandler({
     const limit = clampLimit(url.searchParams.get('limit'));
     const offset = Math.max(0, Number(url.searchParams.get('offset')) || 0);
 
-    const db = context.env.ELECTIONS_DB;
+    const db = binding(context.env, 'ELECTIONS_DB');
     if (!db) return json({ error: 'ELECTIONS_DB binding not configured' }, 503, false, version);
 
     try {

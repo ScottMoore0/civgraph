@@ -11,9 +11,11 @@
  * No file system, no DOM: this runs in Pages Functions and in Node.
  */
 import { attrs, html, raw } from '../_lib/html.js';
+import { SITE } from '../_lib/config.js';
 
-export const SITE_ORIGIN = 'https://civgraph.net';
-export const SITE_NAME = 'Civgraph';
+/** The site's origin and name, from the configuration (functions/_lib/config.js). */
+export const SITE_ORIGIN = SITE.origin;
+export const SITE_NAME = SITE.name;
 
 /**
  * The one copy of the theme bootstrap. It runs before first paint, so the saved or system

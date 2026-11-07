@@ -5,6 +5,7 @@
  *
  * Falls back to reading the static names index from the origin when KV is not configured.
  */
+import { binding } from '../_lib/config.js';
 
 // In-memory cache for the names index, per Worker isolate.
 //
@@ -25,8 +26,8 @@ async function getNames(context, origin) {
     if (cachedNames && Date.now() - cachedAt < NAMES_TTL_MS) return cachedNames;
 
     // Try KV first
-    if (context.env.SPATIAL_INDEX) {
-        const data = await context.env.SPATIAL_INDEX.get('names', 'json');
+    if (binding(context.env, 'SPATIAL_INDEX')) {
+        const data = await binding(context.env, 'SPATIAL_INDEX').get('names', 'json');
         if (data) {
             cachedNames = data;
             cachedAt = Date.now();

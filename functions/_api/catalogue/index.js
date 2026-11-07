@@ -19,13 +19,14 @@
  */
 import { CATALOGUE_VIEWS, MAP_CACHE, mapRecord, mapsDocumentText, mapsInCategory, storedDocumentText } from '../_maps.js';
 import { cachedJson, jsonResponse } from '../_records.js';
+import { binding } from '../../_lib/config.js';
 
 const VERSION = 'catalogue-records-1';
 const notFound = () => jsonResponse({ ok: false, error: 'Not found' }, 404);
 
 export async function onRequestGet(context) {
-  if (!context.env?.ELECTIONS_DB) return jsonResponse({ ok: false, error: 'ELECTIONS_DB binding not configured' }, 503);
-  return cachedJson(context, VERSION, () => answer(context.env.ELECTIONS_DB, new URL(context.request.url)), MAP_CACHE);
+  if (!binding(context.env, 'ELECTIONS_DB')) return jsonResponse({ ok: false, error: 'ELECTIONS_DB binding not configured' }, 503);
+  return cachedJson(context, VERSION, () => answer(binding(context.env, 'ELECTIONS_DB'), new URL(context.request.url)), MAP_CACHE);
 }
 
 export async function answer(db, url) {

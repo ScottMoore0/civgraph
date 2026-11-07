@@ -27,6 +27,7 @@
  * no longer deployed (.gitignore, .cfignore and clean-for-pages.sh, stage G).
  */
 import { bundleChunks, cachedJson, datasetState, documentBody, parseJson, streamFrom } from '../../_api/_records.js';
+import { binding } from '../../_lib/config.js';
 
 const VERSION = 'render-metadata-1';
 
@@ -66,7 +67,7 @@ export async function onRequestGet(context) {
     return new Response(null, { status: 301, headers: { Location: renamed, 'Cache-Control': 'public, max-age=86400', 'Access-Control-Allow-Origin': '*' } });
   }
   const route = matchRoute(parts);
-  const db = context.env.ELECTIONS_DB;
+  const db = binding(context.env, 'ELECTIONS_DB');
   if (!route || !db) return context.next();
   const resp = await cachedJson(context, VERSION, () => answer(db, route));
   // A key D1 does not know is left to Pages (a static copy, or its 404).

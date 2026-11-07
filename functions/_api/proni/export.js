@@ -8,6 +8,7 @@
  * the user at "Export all".
  */
 import { buildMatch, buildFilters } from './_query.js';
+import { binding } from '../../_lib/config.js';
 
 const MAX_ROWS = 50000;
 const PAGE = 1000;
@@ -31,7 +32,7 @@ export async function onRequestGet(context) {
   const fields = { title: g('title'), description: g('description'), ref: g('ref'), text: g('text'), dates: g('dates') };
   const from = parseInt(g('from'), 10); const to = parseInt(g('to'), 10);
 
-  const db = context.env.PRONI_DB;
+  const db = binding(context.env, 'PRONI_DB');
   if (!db) return new Response('PRONI_DB binding not configured', { status: 503 });
 
   const match = buildMatch(q, fields);
