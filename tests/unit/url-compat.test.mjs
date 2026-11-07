@@ -68,3 +68,15 @@ test('renamed election bodies: keys, layer ids and the electionBody parameter', 
   const later = renameElectionDatesInParams(new URLSearchParams({ electionBody: 'Bangor Urban District Council', electionDate: '1923-01-15' }));
   assert.equal(later.get('electionBody'), 'Bangor Urban District Council');
 });
+
+test('resolveLegacyLayerId tries the other suffix spelling against the loaded index (renames.csv)', () => {
+  const index = new Set(['lgd-2012-vector-test', 'eds-1911-raster', 'civil-parishes-alias-test', 'counties-ireland-1957-vector-test']);
+  const isKnown = (id) => index.has(id);
+  assert.equal(resolveLegacyLayerId('lgd-2012-vector', isKnown), 'lgd-2012-vector-test', 'new spelling before the source ids flip');
+  assert.equal(resolveLegacyLayerId('eds-1911-raster-test', isKnown), 'eds-1911-raster', 'old spelling after they flip');
+  assert.equal(resolveLegacyLayerId('civil-parishes-alias', isKnown), 'civil-parishes-alias-test');
+  assert.equal(resolveLegacyLayerId('lgd-2012-vector-test', isKnown), 'lgd-2012-vector-test', 'a live id is kept');
+  assert.equal(resolveLegacyLayerId('county-ed-1957-04-01-vector', isKnown), 'counties-ireland-1957-vector-test', 'renamed prefix, then the suffix');
+  assert.equal(resolveLegacyLayerId('unknown-vector', isKnown), 'unknown-vector', 'unknown in both spellings: unchanged');
+  assert.equal(resolveLegacyLayerId('lgd-2012-vector'), 'lgd-2012-vector', 'without an index only the prefixes apply');
+});

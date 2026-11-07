@@ -10,12 +10,22 @@
  * the catalogue pane mounts the new implementation (src/catalogue/) instead of the current
  * one. The live site is unaffected: without that setting, or ?catalogue=next, it renders the
  * current pane exactly as before.
+ *
+ * The map and catalogue APIs of data design phase 3 (/_api/layers, /_api/catalogue) are answered
+ * here, not upstream: the real Functions run over an in-memory records database built from the
+ * working tree's maps.json, maps-test.json and catalogue documents (scripts/records/ingest-maps.mjs),
+ * rebuilt when one of them changes, so the site shows the tree's maps, not production's.
  */
 import { createServer } from 'node:http';
 import { createReadStream, existsSync, readFileSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { localPathForUrl } from '../../scripts/records/paths.mjs';
+import { localPathForUrl, BROWSE_DIR } from '../../scripts/records/paths.mjs';
+import { createDatabase, TableWriter, transaction } from '../../scripts/records/db.mjs';
+import { ingestMaps, MAP_SOURCES } from '../../scripts/records/ingest-maps.mjs';
+import { d1, installCaches } from '../../tests/records/d1-shim.mjs';
+import * as layersApi from '../../functions/_api/layers/[[path]].js';
+import * as catalogueApi from '../../functions/_api/catalogue/index.js';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '..', '..');
@@ -32,6 +42,38 @@ const TYPES = {
   '.geojson': 'application/geo+json', '.webmanifest': 'application/manifest+json', '.map': 'application/json',
 };
 const FLAG = `<script>window.CIVGRAPH_CATALOGUE=${JSON.stringify(CATALOGUE)};</script>`;
+
+// ---- the phase-3 map APIs, from the working tree
+let mapsDb = null;
+let mapsStamp = '';
+function mapSourcesStamp() {
+  const files = [MAP_SOURCES.maps, MAP_SOURCES.layers, ...Object.values(MAP_SOURCES.documents)];
+  return files.map((f) => { try { return statSync(path.join(ROOT, f)).mtimeMs; } catch { return 0; } }).join(',');
+}
+function mapsEnv() {
+  const stamp = mapSourcesStamp();
+  if (!mapsDb || stamp !== mapsStamp) {
+    const db = createDatabase(':memory:');
+    const { docs } = ingestMaps(db, { root: ROOT, browseDir: existsSync(BROWSE_DIR) ? BROWSE_DIR : null });
+    transaction(db, () => { const w = new TableWriter(db, 'documents'); for (const d of docs) w.add(d); });
+    mapsDb = d1(db);
+    mapsStamp = stamp;
+  }
+  return { ELECTIONS_DB: mapsDb };
+}
+installCaches();
+async function localMapApi(req, url) {
+  const p = url.pathname;
+  let mod = null;
+  let params = {};
+  if (p === '/_api/catalogue' || p === '/_api/catalogue/') mod = catalogueApi;
+  else if (p === '/_api/layers' || p.startsWith('/_api/layers/')) {
+    mod = layersApi;
+    params = { path: p.slice('/_api/layers'.length).split('/').filter(Boolean) };
+  }
+  if (!mod) return null;
+  return mod.onRequestGet({ request: new Request(`http://localhost${p}${url.search}`, { headers: req.headers }), env: mapsEnv(), params, waitUntil: () => {}, next: async () => new Response('not found', { status: 404 }) });
+}
 
 function readBody(req) {
   return new Promise((resolve, reject) => {
@@ -52,6 +94,14 @@ createServer(async (req, res) => {
   try {
     // On localhost the site sends CDN requests through /_r/ (src/cdn-url.js) and its API
     // calls to /_api/: both are fetched upstream here.
+    const local = req.method === 'GET' ? await localMapApi(req, url) : null;
+    if (local) {
+      const headers = { 'Cache-Control': 'no-store' };
+      for (const h of ['content-type', 'location', 'etag']) { const v = local.headers.get(h); if (v) headers[h] = v; }
+      const buf = Buffer.from(await local.arrayBuffer());
+      res.writeHead(local.status, headers);
+      return res.end(buf);
+    }
     if (p.startsWith('/_r/') || p.startsWith('/_api/') || p.startsWith('/api/')) {
       const upstream = p.startsWith('/_r/')
         ? `https://data.civgraph.net/${p.slice(4)}${url.search}`
