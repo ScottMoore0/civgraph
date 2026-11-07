@@ -8,7 +8,7 @@ const { test, expect } = require('@playwright/test');
  * an overlay, and for Counties that overlay covered the whole island.
  *
  * Every step of the slider now draws what changed between the edition that was shown and the
- * one now shown (data/timeline-changes/, scripts/build_timeline_changes.py), a "Highlight"
+ * one now shown (data/timeline-changes/, scripts/build/timeline-changes.py), a "Highlight"
  * switch turns that off and is remembered, and the "N changes" button beside the date lists
  * the changes with a zoom-to for each.
  *

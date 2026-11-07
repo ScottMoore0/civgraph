@@ -1,6 +1,6 @@
 /**
  * functions/_templates/shell.js is the one source of the site shell: the server-rendered
- * pages call it at request time and scripts/build-site-partials.mjs stamps the same output
+ * pages call it at request time and scripts/build/build-site-partials.mjs stamps the same output
  * into the static pages (partials/site-*.html are gone). These tests hold its contract: the
  * head loads the design-system layer before anything else, the header starts with the skip
  * link, and the stamped static pages carry exactly what it produces.

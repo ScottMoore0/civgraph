@@ -27,7 +27,7 @@
  * loadable when any member is. Both are followed with a seen-set, because a mis-authored
  * cycle should return false rather than hang.
  *
- * Shared by the app and by scripts/build-browse-indexes.mjs deliberately. Two
+ * Shared by the app and by scripts/build/build-browse-indexes.mjs deliberately. Two
  * implementations of one rule is how the three numbers happened.
  */
 

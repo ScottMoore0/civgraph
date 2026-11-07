@@ -1,5 +1,5 @@
 /**
- * Boundary changes between consecutive editions on the timeline (scripts/build_timeline_changes.py): the
+ * Boundary changes between consecutive editions on the timeline (scripts/build/timeline-changes.py): the
  * change index, the remembered "Highlight changes" switch, the changes panel and the map markers, and
  * the older/newer edition roles of two editions of one series.
  *
@@ -10,7 +10,7 @@ import dataService from '../../../data-service.js';
 import { escapeHtml } from '../helpers.mjs';
 import { formatHectares, timelineChangeName } from './dates.mjs';
 
-// Boundary changes between consecutive editions (scripts/build_timeline_changes.py). They
+// Boundary changes between consecutive editions (scripts/build/timeline-changes.py). They
 // replace the Play-only transition overlays of data/timeline-transition-overlays/.
 const TIMELINE_CHANGES_BASE_PATH = '/data/timeline-changes';
 
@@ -29,7 +29,7 @@ export class TimelineChangeMethods {
    * change of a few townlands was invisible at island zoom, and only Play mode showed an
    * overlay -- for Counties, one that painted the whole island purple. Every step now draws
    * what changed between the edition that was shown and the one now shown, from
-   * data/timeline-changes/ (scripts/build_timeline_changes.py), and the "N changes" button
+   * data/timeline-changes/ (scripts/build/timeline-changes.py), and the "N changes" button
    * beside the date lists them with a zoom-to for each.
    * ------------------------------------------------------------------------------------------ */
 

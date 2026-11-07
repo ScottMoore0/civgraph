@@ -1,5 +1,5 @@
 /**
- * The headline record figures from D1, named as scripts/build-site-stats.mjs names them, so a
+ * The headline record figures from D1, named as scripts/build/build-site-stats.mjs names them, so a
  * page can state them from the database (data design phase 2; the committed figures stay until
  * phase 4 moves the pages over).
  *

@@ -25,8 +25,8 @@ run() {
   done
   echo "FAILED after retries: $*" | tee -a "$LOG"; return 1
 }
-run node scripts/build-test2-election-manifest.mjs ${MANIFEST_ARGS:-} || exit 1
-run node scripts/build-test2-election-summaries.mjs || exit 1
+run node scripts/build/build-test2-election-manifest.mjs ${MANIFEST_ARGS:-} || exit 1
+run node scripts/build/build-test2-election-summaries.mjs || exit 1
 run python scripts/ingest/persons/build_person_registry_v2.py --force || exit 1
 run python scripts/ingest/persons/apply_person_ids_v2.py || exit 1
 for i in 1 2 3 4 5 6; do

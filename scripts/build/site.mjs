@@ -3,7 +3,7 @@
  * npm run build:site -- build dist/, the Cloudflare Pages output, from an explicit allow-list.
  *
  * Owner decision, 6 Nov 2026: Pages publishes only the files the site is meant to serve. Until
- * data phase 4 the repository root was the output directory and scripts/clean-for-pages.sh
+ * data phase 4 the repository root was the output directory and scripts/build/clean-for-pages.sh
  * deleted what should not deploy, so anything new at the root deployed by default (the
  * package files, wrangler.toml, the tooling and every Markdown note did). Now the output is
  * dist/ (wrangler.toml pages_build_output_dir), holding:

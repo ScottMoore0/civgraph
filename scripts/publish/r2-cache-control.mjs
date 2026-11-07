@@ -39,7 +39,7 @@
  *
  * NOTE THE INTERACTION WITH CACHE TOKENS
  *
- * Rewriting metadata is a CopyObject, and scripts/stamp-map-cache-tokens.mjs
+ * Rewriting metadata is a CopyObject, and scripts/build/stamp-map-cache-tokens.mjs
  * derives its `?v=` token from the object's ETag. If a copy changed the ETag,
  * every token in the catalogue would silently stop matching the file it names.
  *
@@ -52,7 +52,7 @@
  *
  * and if it fails, the fix is:
  *
- *   node scripts/stamp-map-cache-tokens.mjs --write
+ *   node scripts/build/stamp-map-cache-tokens.mjs --write
  *   (the next publish loads maps.json into D1 with the records)
  *
  * MEASURE WITH GET, NOT HEAD
@@ -265,7 +265,7 @@ if (problems.length) {
 
 if (APPLY && stats.updated) {
   console.log('\nNEXT, and not optional:');
-  console.log('  node scripts/stamp-map-cache-tokens.mjs --write   # ETags may have changed');
+  console.log('  node scripts/build/stamp-map-cache-tokens.mjs --write   # ETags may have changed');
   console.log('  # the next publish loads maps.json into D1 (records:deploy)');
   console.log('  npm run verify:map-tokens                         # proves the tokens still match');
 }

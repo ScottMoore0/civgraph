@@ -33,8 +33,8 @@ const build = !args.includes('--no-build');
 
 const steps = [
   ...(build ? [
-    ['Build the tile archives', ['scripts/build-test-pmtiles.mjs', '--force', '--ids', idList]],
-    ['Build the feature indexes', ['scripts/build-test-feature-indexes.mjs', '--ids', idList]]
+    ['Build the tile archives', ['scripts/build/tiles/pmtiles.mjs', '--force', '--ids', idList]],
+    ['Build the feature indexes', ['scripts/build/tiles/feature-indexes.mjs', '--ids', idList]]
   ] : []),
   ['Write the CDN upload manifest', ['scripts/publish/r2-manifest.mjs']],
   ['Upload to R2', ['scripts/publish/r2-upload-pmtiles.mjs', '--ids', idList]],
@@ -43,8 +43,8 @@ const steps = [
   // written. The switch is the next step, scoped to the same ids.
   ['Verify byte ranges on the CDN', ['scripts/publish/verify-pmtiles-cdn.mjs', '--ids', idList]],
   ['Switch the layers to their CDN URLs', ['scripts/publish/switch-pmtiles-to-cdn.mjs', '--ids', idList]],
-  ['Repair alias layers', ['scripts/repair-alias-layers.mjs']],
-  ['Rebuild the layer metadata', ['scripts/build-test-metadata-plan.mjs']]
+  ['Repair alias layers', ['scripts/build/tiles/repair-alias-layers.mjs']],
+  ['Rebuild the layer metadata', ['scripts/build/tiles/layer-plan.mjs']]
 ];
 
 for (const [label, stepArgs] of steps) {

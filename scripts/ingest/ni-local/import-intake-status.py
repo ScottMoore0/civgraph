@@ -5,7 +5,7 @@
 The intake (calendar, authorities, the review's exclusion list and the per-round work files) lives
 outside the repository and changes while rounds are transcribed. The site never reads it: this
 script writes data/elections/ni-local/round-status.json, a small committed snapshot that
-scripts/build-ni-local-grouped.mjs reads, so the build is reproducible from a clean checkout.
+scripts/build/build-ni-local-grouped.mjs reads, so the build is reproducible from a clean checkout.
 
 For every calendar row (authority, round) it keeps: the poll date, whether the calendar says the
 round was held (held / not-held / unknown), the round's own status where it was transcribed

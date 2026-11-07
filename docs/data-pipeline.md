@@ -38,7 +38,7 @@ node scripts/build-already-on-site-enrichment-records.mjs
 node scripts/ingest/geoportal/build-peatland-geoportal-sources.mjs
 node scripts/build-medium-priority-publication-sources.mjs
 node scripts/build-raw-source-document-records.mjs
-node scripts/build-browse-indexes.mjs
+node scripts/build/build-browse-indexes.mjs
 ```
 
 To rebuild tracked sanitized inputs from private raw exports, first restore the raw review exports from the private archive to a local path outside Git, then run `scripts/sanitize-review-inputs.mjs` for the relevant artifact. The sanitizer redacts local paths and rejects address/source-sensitive terms before writing tracked inputs.

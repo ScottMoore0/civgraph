@@ -91,7 +91,7 @@ function navLabels(html) {
 /**
  * Does the page carry the shared header partial, so it inherits the shared CSS and
  * behaviour? Since 2026-09 every public page does (functions/_templates/shell.js header(), stamped in
- * by scripts/build-site-partials.mjs), so a page without it is a failure, not a note.
+ * by scripts/build/build-site-partials.mjs), so a page without it is a failure, not a note.
  * Whether the stamped copy is current is build-site-partials.mjs --check's job.
  */
 function usesSharedHeader(html) {

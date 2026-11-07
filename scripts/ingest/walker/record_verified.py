@@ -99,7 +99,7 @@ def main():
         'schemaVersion': 1,
         'description': (
             'Contests whose figures have been read from B. M. Walker\'s printed tables '
-            'and agreed with Civgraph. Used by scripts/build-election-provenance.mjs to '
+            'and agreed with Civgraph. Used by scripts/build/build-election-provenance.mjs to '
             'mark those citations checked rather than merely cited. A contest appears '
             'only if at least one figure was compared and every compared figure matched; '
             'any disagreement excludes it, so the list can be relied on.'),

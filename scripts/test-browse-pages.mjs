@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Offline tests for the path-style Browse pages (functions/_browse-page.js), the /404
- * status (functions/404.js) and the sitemap writer's helpers (scripts/build-sitemap.mjs).
+ * status (functions/404.js) and the sitemap writer's helpers (scripts/build/build-sitemap.mjs).
  *
  * D1, R2 and the static-asset binding are stubbed: the D1 stub answers the handful of
  * queries the page makes from a small table of records, so these check the routing, the
@@ -21,7 +21,7 @@ import {
   renderBrowseShell,
 } from '../functions/_browse-page.js';
 import { onRequestGet as notFoundPage } from '../functions/404.js';
-import { BROWSE_SITEMAP_TYPES, proniRecordUrl, sitemapIndexXml, urlsetXml } from './build-sitemap.mjs';
+import { BROWSE_SITEMAP_TYPES, proniRecordUrl, sitemapIndexXml, urlsetXml } from './build/build-sitemap.mjs';
 
 const SHELL = readFileSync('browse/index.html', 'utf8');
 

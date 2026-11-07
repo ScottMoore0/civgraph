@@ -1,5 +1,5 @@
 // Which source file holds a contest's result, for the names the election index gives that the
-// file name does not spell out. Used by scripts/build-test2-election-manifest.mjs findResultFile.
+// file name does not spell out. Used by scripts/build/build-test2-election-manifest.mjs findResultFile.
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 

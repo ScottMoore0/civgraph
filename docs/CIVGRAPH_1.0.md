@@ -133,7 +133,7 @@ codebase keeps re-asking.
 | application | the MapLibre app in `app/`, the election pane, `/proni`, the catalogue pane |
 
 The distinction has a practical consequence for the catalogue taxonomy work in
-`scripts/catalogue-taxonomy/`:
+`scripts/build/catalogue-taxonomy/`:
 
 - **`subject` and `kind` are data-layer.** They are properties of a map, derivable and
   citable, and belong in the data store rather than in a UI file.

@@ -62,7 +62,7 @@ export function constituencyDetailUrl(key, seq) {
 /**
  * Where each result in an election came from, and how far that was checked.
  *
- * One small file per election, written by scripts/build-election-provenance.mjs and keyed by the
+ * One small file per election, written by scripts/build/build-election-provenance.mjs and keyed by the
  * constituency name as rendered. Only 213 elections have any attribution yet, so a miss is the
  * normal case and must never disturb the results themselves: every failure returns null and the
  * pane simply shows no source line.

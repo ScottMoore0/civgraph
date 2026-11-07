@@ -14,7 +14,7 @@
   - Task: add the 105 approved review rows to `USER_APPROVED_REVIEW_ONLY_ROWS` and route the 100 boundary-variant rows, excluding rows 26, 51, 52, 244, and 710, through `STATUTORY_BOUNDARY_FAMILY_ROWS`.
   - Verification plan: report before/after applied and review counts from regenerated enrichment output.
 - [ ] Run the requested round-trip verification.
-  - Task: run `node scripts/build-already-on-site-enrichment-records.mjs`, `node scripts/build-browse-indexes.mjs`, enrichment/external/peatland validators as applicable, sensitive scans, and `npm run check`.
+  - Task: run `node scripts/build-already-on-site-enrichment-records.mjs`, `node scripts/build/build-browse-indexes.mjs`, enrichment/external/peatland validators as applicable, sensitive scans, and `npm run check`.
   - Verification plan: record command results and any non-blocking warnings in this section before final handoff.
 
 # Civgraph Semantic Graph First Production Slice
@@ -185,7 +185,7 @@
   - Constraints: metadata-only enrichment; do not download ArcGIS geometry, source exports, attachments, Service Definitions, or create runtime map layers in this pass.
   - Verification plan: rebuild Browse source outputs, validate that peatland enrichment targets carry ArcGIS item/service references and provenance summaries, then stage only scoped files.
   - Completed: extended the shared Browse source enrichment merge so matched existing records now expose ArcGIS item IDs/pages, service URLs, related ArcGIS sibling/context records, access states, modified dates, licence notes, and provenance summaries as first-class references/provenance rather than burying them only inside `sourceItems`.
-  - Verification evidence: `node --check scripts/build-browse-indexes.mjs`; `node --check scripts/validate-peatland-geoportal-sources.mjs`; `node scripts/build-browse-indexes.mjs`; `node scripts/validate-peatland-geoportal-sources.mjs`; `node scripts/validate-medium-priority-publication-sources.mjs`; `node scripts/validate-already-on-site-enrichments.mjs`; `node scripts/validate-pages-file-budget.mjs`; `npm run check`.
+  - Verification evidence: `node --check scripts/build/build-browse-indexes.mjs`; `node --check scripts/validate-peatland-geoportal-sources.mjs`; `node scripts/build/build-browse-indexes.mjs`; `node scripts/validate-peatland-geoportal-sources.mjs`; `node scripts/validate-medium-priority-publication-sources.mjs`; `node scripts/validate-already-on-site-enrichments.mjs`; `node scripts/validate-pages-file-budget.mjs`; `npm run check`.
 
 - [x] Publish peatland geoportal metadata/provenance and source-page review records.
   - Task: use the metadata-only Peatland Geoportal audit to enrich existing Civgraph records, create source/document/context Browse records, group DAERA/QUB SAC habitat-map conversion candidates under a coherent parent, and document best-source/variant/dedupe recommendations.
@@ -194,7 +194,7 @@
   - Completed: added a generated peatland Geoportal source sidecar with 330 Browse/source records, 66 direct existing-record enrichment rows, 25 likely-duplicate review rows without concrete targets, 34 Service Definition/package review rows, 128 conversion-candidate review rows, 26 DAERA/QUB SAC habitat-map candidates grouped under a proposed `Peatland SAC Habitat Maps` parent, 14 variant-review rows, and 241 best-source review groups.
   - Result: Browse source pages now preserve ArcGIS item IDs, owners, item URLs, service links, modified dates, tags, licence notes, source hierarchy, context/document links, structured-extraction notes for PDFs/code attachments, conversion cautions, and dedupe/variant recommendations without publishing geometry or creating runtime map layers.
   - Guardrail: added `scripts/validate-peatland-geoportal-sources.mjs` and wired it into `npm run check` as `check:peatland-geoportal`.
-  - Verification evidence: `node --check scripts/ingest/geoportal/build-peatland-geoportal-sources.mjs`; `node --check scripts/validate-peatland-geoportal-sources.mjs`; `node --check scripts/build-browse-indexes.mjs`; `node scripts/ingest/geoportal/build-peatland-geoportal-sources.mjs`; `node scripts/build-browse-indexes.mjs`; `node scripts/validate-peatland-geoportal-sources.mjs`; `node scripts/validate-pages-file-budget.mjs`; `node scripts/validate-raw-source-documents.mjs`; `node scripts/validate-already-on-site-enrichments.mjs`; `node scripts/validate-medium-priority-publication-sources.mjs`; `npm run check`.
+  - Verification evidence: `node --check scripts/ingest/geoportal/build-peatland-geoportal-sources.mjs`; `node --check scripts/validate-peatland-geoportal-sources.mjs`; `node --check scripts/build/build-browse-indexes.mjs`; `node scripts/ingest/geoportal/build-peatland-geoportal-sources.mjs`; `node scripts/build/build-browse-indexes.mjs`; `node scripts/validate-peatland-geoportal-sources.mjs`; `node scripts/validate-pages-file-budget.mjs`; `node scripts/validate-raw-source-documents.mjs`; `node scripts/validate-already-on-site-enrichments.mjs`; `node scripts/validate-medium-priority-publication-sources.mjs`; `npm run check`.
 
 - [x] Review Peatland Geoportal dataset metadata before any downloads.
   - Task: inspect the ArcGIS Hub/REST metadata for the Peatland Geoportal and identify likely duplicates, variants, source-only records, and unique candidates for Civgraph.
@@ -212,7 +212,7 @@
   - Constraints: publish source/provenance/download/reference metadata only; do not fabricate live MapLibre layers, PMTiles, IA mirrors, or R2/CDN assets for rows whose runtime conversion/geography/duplicate review is still pending.
   - Verification plan: generate a public sidecar, rebuild Browse indexes, validate expected counts, ensure no local filesystem paths leak, run the Pages file budget and relevant source validators, then commit and push.
   - Completed: added a generated medium-priority source sidecar with all 2,347 approved/review-approved rows, wired it into Browse source generation, compacted source index records so heavy references/downloads remain in detail shards, and added a focused validator to guard counts, group totals, materialised source detail records, and local-path scrubbing.
-  - Verification evidence: `node --check scripts\build-medium-priority-publication-sources.mjs`; `node --check scripts\validate-medium-priority-publication-sources.mjs`; `node --check scripts\build-browse-indexes.mjs`; `node scripts\build-medium-priority-publication-sources.mjs`; `node scripts\build-browse-indexes.mjs`; `node scripts\validate-medium-priority-publication-sources.mjs`; `node scripts\validate-raw-source-documents.mjs`; `node scripts\validate-already-on-site-enrichments.mjs`; `node scripts\validate-pages-file-budget.mjs`; `npm run check`.
+  - Verification evidence: `node --check scripts\build-medium-priority-publication-sources.mjs`; `node --check scripts\validate-medium-priority-publication-sources.mjs`; `node --check scripts\build\build-browse-indexes.mjs`; `node scripts\build-medium-priority-publication-sources.mjs`; `node scripts\build\build-browse-indexes.mjs`; `node scripts\validate-medium-priority-publication-sources.mjs`; `node scripts\validate-raw-source-documents.mjs`; `node scripts\validate-already-on-site-enrichments.mjs`; `node scripts\validate-pages-file-budget.mjs`; `npm run check`.
 
 - [x] Prepare medium-priority D-drive content queues for later website publication.
   - Task: clean and stage the five approved D-drive queues: Irish election source/enrichment data, authoritative boundary variants, Open Data NI boundary/statistical geographies, transport/roads/infrastructure/public assets, and local authority planning/property/open-data layers.
@@ -229,14 +229,14 @@
   - Verification: generated sidecar must contain exactly 252 raw-source records; Browse source output must include those records; validators must prove no local filesystem paths leak and Pages file-budget/checks remain safe.
   - Completed: added `data/database/raw-source-documents.json` with 252 IA-ready source-only records, wired those records into Browse source generation and detail shards, preserved source hierarchy/viewport/citation/status metadata, and kept IA mirror URLs as pending metadata rather than fabricating links before upload.
   - Guardrail: added `scripts/validate-raw-source-documents.mjs` and wired it into `npm run check` as `check:raw-source-documents`.
-  - Verification evidence: `node --check scripts\build-raw-source-document-records.mjs`; `node --check scripts\build-browse-indexes.mjs`; `node --check scripts\validate-raw-source-documents.mjs`; `node scripts\build-raw-source-document-records.mjs`; `node scripts\build-browse-indexes.mjs`; `npm run check:raw-source-documents`; `npm run check`. The raw-source validator confirmed 252 generated records, 252 Browse details, and no exposed local paths.
+  - Verification evidence: `node --check scripts\build-raw-source-document-records.mjs`; `node --check scripts\build\build-browse-indexes.mjs`; `node --check scripts\validate-raw-source-documents.mjs`; `node scripts\build-raw-source-document-records.mjs`; `node scripts\build\build-browse-indexes.mjs`; `npm run check:raw-source-documents`; `npm run check`. The raw-source validator confirmed 252 generated records, 252 Browse details, and no exposed local paths.
 
 - [x] Apply already-on-site duplicate-match enrichment to existing records.
   - Task: use the exact/high-confidence duplicate-match audit to enrich existing Civgraph records with source/provenance/download/format/version metadata while avoiding duplicate parent records.
   - Constraints: do not create duplicate map/election/source parent entries; broader family/context rows must remain review-backed rather than auto-applied as facts.
   - Verification: generated enrichment records must validate against existing target IDs and preserve website/runtime data integrity.
   - Completed: added a generated `already-on-site-enrichments` database sidecar, wired Browse source generation to merge direct safe/high-confidence duplicate-match metadata into existing source records, and kept broader variant/context/weak rows as review-only metadata rather than duplicate public facts.
-  - Verification evidence: `node --check scripts/build-already-on-site-enrichment-records.mjs`; `node --check scripts/build-browse-indexes.mjs`; `node --check scripts/validate-already-on-site-enrichments.mjs`; `node scripts/build-already-on-site-enrichment-records.mjs`; `node scripts/build-browse-indexes.mjs`; `node scripts/validate-already-on-site-enrichments.mjs`; `npm run check:external-sources`. The enrichment validator confirmed 89 generated source details, 91 applied source rows, 1,022 review-only rows, and no local filesystem paths in public enrichment output.
+  - Verification evidence: `node --check scripts/build-already-on-site-enrichment-records.mjs`; `node --check scripts/build/build-browse-indexes.mjs`; `node --check scripts/validate-already-on-site-enrichments.mjs`; `node scripts/build-already-on-site-enrichment-records.mjs`; `node scripts/build/build-browse-indexes.mjs`; `node scripts/validate-already-on-site-enrichments.mjs`; `npm run check:external-sources`. The enrichment validator confirmed 89 generated source details, 91 applied source rows, 1,022 review-only rows, and no local filesystem paths in public enrichment output.
 
 - [x] Research enrichment opportunities from already-on-site / strong duplicate matches.
   - Task: inspect the already-on-site review queue and matching evidence to determine what source, provenance, format, geometry, attribution, date/version, download, IA, and metadata enrichment can be extracted without creating duplicate site records.
@@ -402,13 +402,13 @@
 # Rendered Feature Thumbnail Pipeline
 
 - [x] Add a build-side renderer that reads local map geometry and creates exact per-feature thumbnail assets using the same IDs as search results.
-  - Completed: added `scripts/render-feature-thumbnails.mjs`, which reads local FlatGeobuf geometry, matches features back to the spatial-index thumbnail IDs, and renders per-feature PNG thumbnails into an ignored local/CDN staging directory.
+  - Completed: added `scripts/build/thumbnails/feature-thumbnails.mjs`, which reads local FlatGeobuf geometry, matches features back to the spatial-index thumbnail IDs, and renders per-feature PNG thumbnails into an ignored local/CDN staging directory.
 - [x] Keep rendered feature thumbnails outside the Pages repo by default and expose CDN/R2-ready manifest paths instead.
   - Completed: ignored local rendered thumbnail output and added manifest controls for rendered asset root, public base URL, and optional rendered-asset registry.
 - [x] Update the feature-thumbnail manifest/browser lookup so rendered thumbnails are not hard-coded to one image extension.
   - Completed: feature-thumbnail manifests now record rendered asset extensions, and search result lookup uses the manifest extension instead of assuming `.webp`.
 - [x] Verify with a small local render sample, manifest rebuild, production build/check scripts, and search-thumbnail lookup assertions.
-  - Verification: `node scripts/render-feature-thumbnails.mjs --map counties-ireland --limit 1 --force`, `node scripts/build-feature-thumbnail-manifest.mjs`, `npm run build:browse`, `npm run check:pages-assets`, and `npm run check:root` passed.
+  - Verification: `node scripts/build/thumbnails/feature-thumbnails.mjs --map counties-ireland --limit 1 --force`, `node scripts/build/thumbnails/manifest.mjs`, `npm run build:browse`, `npm run check:pages-assets`, and `npm run check:root` passed.
   - Note: the pipeline is ready for full corpus rendering and CDN/R2 publication; the repository intentionally does not commit the generated bitmap corpus.
 # Manifest-Backed Feature Thumbnails
 - [x] Generate a stable feature-thumbnail manifest from the spatial index.
@@ -417,7 +417,7 @@
   - Completed: feature search results now use manifest-backed rendered URLs when present and deterministic bbox locator thumbnails with map styling when rendered assets are not available.
 - [x] Add build integration and verification.
   - Completed: integrated manifest generation into npm run build and npm run build:browse; updated the Pages file-budget validator to handle replaced hashed build chunks after local builds.
-  - Verification: node --check scripts\build-feature-thumbnail-manifest.mjs, node --check js\ui-controller.js, npm run build, npm run check, and node tmp\catalogue-search-smoke.mjs all passed.# Catalogue Search Feature Result Controls
+  - Verification: node --check scripts\build\thumbnails\manifest.mjs, node --check js\ui-controller.js, npm run build, npm run check, and node tmp\catalogue-search-smoke.mjs all passed.# Catalogue Search Feature Result Controls
 - [x] Make feature search results load only the selected feature in isolation.
   - Completed: feature-result load/detail/download actions now route through MapLibre partial-feature state with `isolate`, and feature URL restore skips loading the full parent map layer.
 - [x] Give map and feature search results first-class catalogue action buttons.
@@ -881,7 +881,7 @@
 - [x] Inspect dirty-file categories and representative diffs
   - Completed: `git status` reports 1,778 modified paths, but `git diff --name-only -- data/browse test/metadata` reports 538 real content diffs. The rest are line-ending/status noise in generated test metadata.
 - [x] Trace generator/source ownership for each category
-  - Completed: `scripts/build-browse-indexes.mjs` owns the Browse election/source JSON changes; `scripts/build-test2-metadata-shards.mjs` owns the test metadata shard files; `scripts/validate-test2-pmtiles-cdn.mjs` owns the CDN validation report.
+  - Completed: `scripts/build/build-browse-indexes.mjs` owns the Browse election/source JSON changes; `scripts/build/build-test2-metadata-shards.mjs` owns the test metadata shard files; `scripts/validate-test2-pmtiles-cdn.mjs` owns the CDN validation report.
 - [x] Recommend a safe resolution path
   - Completed: commit the regenerated Browse election metadata after a deterministic rebuild and validation; restore the timestamp-only CDN validation report and the line-ending-only test metadata shard noise; add an EOL guardrail separately if the line-ending churn recurs.
 
@@ -917,7 +917,7 @@
 - [x] Patch the deployment guardrail narrowly
   - Completed: raised the main bundle budget to `365,000` bytes in `scripts/bundle.mjs`, preserving a tight production limit while allowing the current user-facing cross-election Browse/entity routing bundle to deploy.
 - [x] Verify the full Cloudflare Pages build guardrails
-  - Completed: `npm run build` now passes with `build/app.bundle.js` at `361,132` bytes against the new `365,000` byte limit; `npm run check` passes chunked bounds, chunked fit, and Pages file-budget validation with `16,128/20,000` deployable files. The destructive `scripts/clean-for-pages.sh` path was not run directly in the working tree because it removes source directories and is intended for Cloudflare's temporary clone.
+  - Completed: `npm run build` now passes with `build/app.bundle.js` at `361,132` bytes against the new `365,000` byte limit; `npm run check` passes chunked bounds, chunked fit, and Pages file-budget validation with `16,128/20,000` deployable files. The destructive `scripts/build/clean-for-pages.sh` path was not run directly in the working tree because it removes source directories and is intended for Cloudflare's temporary clone.
 
 # Fix /test2 election entity links and comparable deltas
 - [x] Record scope
@@ -1167,7 +1167,7 @@
   - Completed: source-record missing/single-reference and sampled party-colour warnings are now separated from true unresolved data queues.
 - [x] Regenerate and verify
   - Regenerated election manifest, Browse election details, Browse election source details, summaries, and audit outputs affected by the metadata changes.
-  - Verification evidence: `node --check scripts/build-test2-election-manifest.mjs`; `node --check scripts/build-browse-indexes.mjs`; `node --check scripts/audit-test2-election-data.mjs`; `node scripts/build-test2-election-manifest.mjs`; `node scripts/build-browse-indexes.mjs`; `node scripts/build-test2-election-summaries.mjs`; `node scripts/audit-test2-election-data.mjs --fail-on-blocking`; `npm run check:test2`; escalated `npm run build:test2`; final `npm run check:test2`.
+  - Verification evidence: `node --check scripts/build/build-test2-election-manifest.mjs`; `node --check scripts/build/build-browse-indexes.mjs`; `node --check scripts/audit-test2-election-data.mjs`; `node scripts/build/build-test2-election-manifest.mjs`; `node scripts/build/build-browse-indexes.mjs`; `node scripts/build/build-test2-election-summaries.mjs`; `node scripts/audit-test2-election-data.mjs --fail-on-blocking`; `npm run check:test2`; escalated `npm run build:test2`; final `npm run check:test2`.
   - Completed: the election-data audit now reports `0` blocking issues. Remaining warnings are explicit review queues only: 26 `valid-poll-review` and 29 `candidate-list-review`.
 - [x] Commit and push scoped changes
   - Stage only intentional files for this task; preserve unrelated dirty generated/map files.
@@ -1222,7 +1222,7 @@
   - Completed: fixed the shared election summariser so raw local-election `Party` and boolean `Elected` fields are honoured, and so under-marked STV rows are completed against source seat totals where possible.
   - Completed: corrected upstream raw NI local/Assembly rows for 1973 Ballymoney Area C, 1981 Belfast Area H, 1981 Omagh Area C, 1985 Lisburn Town, 2005 Antrim Line, 2005 Coleraine East, 2005 Skerries, and the 1984 Belfast South Assembly by-election.
   - Completed: added `/test2` route validation that fails if NI Assembly, Northern Ireland Constitutional Convention, or NI local-government generated results have elected-candidate counts that disagree with fixed Assembly-era rules or source seat metadata.
-  - Verification evidence: `node --check js/election-domain.mjs`; `node --check scripts/validate-test2-route.mjs`; `node scripts/build-test2-election-manifest.mjs`; `node scripts/validate-test2-route.mjs`; focused NI seat audit reported `ISSUES 0`; `npm run check:test2`; escalated `npm run build:test2`.
+  - Verification evidence: `node --check js/election-domain.mjs`; `node --check scripts/validate-test2-route.mjs`; `node scripts/build/build-test2-election-manifest.mjs`; `node scripts/validate-test2-route.mjs`; focused NI seat audit reported `ISSUES 0`; `npm run check:test2`; escalated `npm run build:test2`.
 
 # Research remaining post-1921 Dail transfer gaps
 - [x] Record scope
@@ -1294,7 +1294,7 @@
   - Report which election years and constituencies still lack transfer animation/count data.
 - [x] Verify, commit, and push
   - Run route validation, focused browser or script coverage for transfer runtime availability, `build:test2`, then commit/push intended files only.
-  - Completed: copied the shared election animation runtime into route-scoped `/test2` assets during `scripts/build-test2-app.mjs`, including `jquery-shim.js`, the election-viewer animation scripts, and their CSS.
+  - Completed: copied the shared election animation runtime into route-scoped `/test2` assets during `scripts/build/app-bundle.mjs`, including `jquery-shim.js`, the election-viewer animation scripts, and their CSS.
   - Completed: changed `/test2/index.html` and `/test2/sw.js` to use/network-first the route-scoped animation CSS/JS assets so the transfer pane no longer depends on missing `/test2` files.
   - Guardrail: `scripts/validate-test2-route.mjs` now fails if the `/test2` animation runtime assets are not present; the focused Dail browser test now fails if the transfer animation status reports a runtime load failure.
   - Transfer-data audit result: 2002, 2007, 2011, 2016, 2020, and 2024 Dail elections have verified Wikipedia-derived rows for every constituency. Earlier Dail elections retain some synthetic/fallback constituency rows; 1918 and 1921 have no verified count-stage sidecars in the generated bundle.
@@ -1335,10 +1335,10 @@
 - [x] Verify, commit, and push
   - Regenerate Dail `/test2` bundles, run focused 2024 constituency checks, route validation, `build:test2`, `check:test2`, and browser tests for By Count and Transfers.
   - Completed: added `scripts/ingest/wikipedia/import-dail-wikipedia-counts.mjs` to import/cache Wikipedia constituency STV count tables into local sidecars under `data/elections/dail-wikipedia-counts`.
-  - Completed: updated `scripts/build-test2-election-manifest.mjs` so Dail `/test2` bundles prefer verified Wikipedia count rows, derive transfer deltas from cumulative count totals, attach row-level source URLs, and preserve non-zero transfer animation payloads.
+  - Completed: updated `scripts/build/build-test2-election-manifest.mjs` so Dail `/test2` bundles prefer verified Wikipedia count rows, derive transfer deltas from cumulative count totals, attach row-level source URLs, and preserve non-zero transfer animation payloads.
   - Completed: regenerated `/test2` election bundles and build output. The local report now represents 789 of 973 Dail constituency sidecars; every represented sidecar has non-zero transfer deltas, while remaining unmatched/older sidecars stay non-fabricated fallback rows.
   - Completed: updated guardrails so Mayo, Cork North-Central, Galway East, and Roscommon Galway assert Wikipedia-derived later-stage/non-zero transfer data.
-  - Verification evidence: `node --check scripts\ingest\wikipedia\import-dail-wikipedia-counts.mjs`; `node --check scripts\build-test2-election-manifest.mjs`; `node --check scripts\validate-test2-route.mjs`; `node --check tests\browser\test2-app.spec.js`; `node scripts\ingest\wikipedia\import-dail-wikipedia-counts.mjs --report-only`; `node scripts\build-test2-election-manifest.mjs`; `node scripts\validate-test2-route.mjs`; escalated `npm run build:test2`; `npm run check:test2`; escalated `npm run test:browser:test2 -- --grep "Cork North-Central"`; escalated `npm run test:browser:test2 -- --grep "Galway East"`; generated-data audit: 25 Dail bundles, 973 constituency results, 789 with Wikipedia rows, 789 with non-zero transfers.
+  - Verification evidence: `node --check scripts\ingest\wikipedia\import-dail-wikipedia-counts.mjs`; `node --check scripts\build\build-test2-election-manifest.mjs`; `node --check scripts\validate-test2-route.mjs`; `node --check tests\browser\test2-app.spec.js`; `node scripts\ingest\wikipedia\import-dail-wikipedia-counts.mjs --report-only`; `node scripts\build\build-test2-election-manifest.mjs`; `node scripts\validate-test2-route.mjs`; escalated `npm run build:test2`; `npm run check:test2`; escalated `npm run test:browser:test2 -- --grep "Cork North-Central"`; escalated `npm run test:browser:test2 -- --grep "Galway East"`; generated-data audit: 25 Dail bundles, 973 constituency results, 789 with Wikipedia rows, 789 with non-zero transfers.
 
 # Fix Irish general-election per-count constituency results and transfers on `/test2`
 - [x] Record recurrence and scope
@@ -1648,9 +1648,9 @@
   - Plan: reproduce the production build command locally, inspect `/test2` build artifacts and `_headers` changes from the last commit, identify the deployment blocker, patch the smallest fix, run main and `/test2` checks, then commit and push only the corrective files.
 - [x] Reproduce and isolate deployment blocker
   - Done: production `npm run build` passed outside the local sandbox, so the blocker was not a bundle/build error. Tracked deployable file count after the existing clean exclusions was 21,350, above Cloudflare Pages' 20,000-file limit.
-  - Root cause: recent generated `/test2` sidecars pushed the root-output Pages deployment over the file cap, and `scripts/clean-for-pages.sh` did not prune enough non-runtime source/reference material.
+  - Root cause: recent generated `/test2` sidecars pushed the root-output Pages deployment over the file cap, and `scripts/build/clean-for-pages.sh` did not prune enough non-runtime source/reference material.
 - [x] Apply minimal fix
-  - Done: updated `scripts/clean-for-pages.sh` and `.cfignore` to exclude repository-only source/reference directories and unreferenced `data/census` files from Pages output, and added `scripts/validate-pages-file-budget.mjs` plus `npm run check:pages-assets`.
+  - Done: updated `scripts/build/clean-for-pages.sh` and `.cfignore` to exclude repository-only source/reference directories and unreferenced `data/census` files from Pages output, and added `scripts/validate-pages-file-budget.mjs` plus `npm run check:pages-assets`.
 - [x] Verify, document, commit, and push
   - Verification evidence: `npm run build` passed; `npm run check` passed; `npm run check:pages-assets` reports 15,274 deployable files out of the 20,000-file cap. Lesson 153 records the recurrence guardrail.
 
@@ -1707,10 +1707,10 @@
   - Done: `/test2` now avoids eager book/election catalogue blocking during initial render, lazy-loads the election manager/runtime scripts, removes eager FGB/election script preloads from `test2/index.html`, code-splits the `/test2` bundle, and writes content-derived entry query versions.
   - Done: `_headers` now separates `/test2` mutable HTML/entry/worker files from immutable split chunks and cacheable generated metadata sidecars.
 - [x] Implement metadata shards and duplicate-ID sidecars
-  - Done: added `scripts/build-test2-metadata-shards.mjs`; generated compact `test/metadata/maps-test-index.json`, 675 lazy layer-detail files, and 538 duplicate feature-id sidecars.
+  - Done: added `scripts/build/build-test2-metadata-shards.mjs`; generated compact `test/metadata/maps-test-index.json`, 675 lazy layer-detail files, and 538 duplicate feature-id sidecars.
   - Done: `TestMetadataService` can lazy-load full layer details on demand and the MapLibre renderer reads precomputed duplicate-ID sidecars before falling back to feature-index scans.
 - [x] Implement election lazy loading/sharding/cache improvements
-  - Done: added `scripts/build-test2-election-summaries.mjs`; generated 268 compact election summary sidecars and wired `summaryUrl` metadata into the `/test2` election manifest.
+  - Done: added `scripts/build/build-test2-election-summaries.mjs`; generated 268 compact election summary sidecars and wired `summaryUrl` metadata into the `/test2` election manifest.
   - Done: `/test2` now lazy-loads the election manager and the STV animation runtime, uses bounded election bundle/feature-index caches, and exposes seat-circle render timing for performance checks.
 - [x] Implement worker-backed search/indexing and DOM overlay caps
   - Done: added `test2/src/search-worker.js`, wired catalogue search through a worker-backed path with simple fallback search, disabled eager Fuse startup work where the worker is available, and kept address search as an enhancement.
@@ -1773,10 +1773,10 @@
   - Run syntax/static checks and JSON parse validation over the staged metadata scope.
 - [x] Review
   - Report commit hash, verification evidence, and any remaining ambiguous dirty worktree items.
-  - Done: committed `9e152a9fb Add Browse election references and metadata` with 974 scoped files: `scripts/build-browse-indexes.mjs`, generated election Browse details/indexes, party details/indexes, election-source details/indexes, and `/test2` generated election metadata.
+  - Done: committed `9e152a9fb Add Browse election references and metadata` with 974 scoped files: `scripts/build/build-browse-indexes.mjs`, generated election Browse details/indexes, party details/indexes, election-source details/indexes, and `/test2` generated election metadata.
   - Scope check: commit excludes map catalogue files, map-source/table-source detail files, `data/browse/maps.json`, `data/browse/features.json`, task logs, JS app files, `/test2` app/test files, election anchor sidecars, and `scripts/validate-test2-route.mjs`.
   - Note: the Dail 2024 `/test2` validPoll/totalSeats/Ceann Comhairle guard is already present in parent commit `124102874`, so it is included in the branch history but not repeated in the metadata commit.
-  - Verification evidence: `node --check scripts/build-browse-indexes.mjs`, staged JSON parse over 973 JSON files, `npm run check`, and `npm run check:test2` passed.
+  - Verification evidence: `node --check scripts/build/build-browse-indexes.mjs`, staged JSON parse over 973 JSON files, `npm run check`, and `npm run check:test2` passed.
 
 # Fix timeline placement and catalogue metadata defects
 - [x] Record scope and plan
@@ -1799,7 +1799,7 @@
   - Done: existing WebP thumbnails are wired by the regenerated manifest; validation now guards the requested thumbnail IDs.
 - [x] Verify
   - Run metadata/static checks, rebuilds, and browser-smoke the timeline and representative catalogue cards.
-  - Verification evidence: `node --check test2/src/app.js`, `node --check scripts/validate-test2-route.mjs`, JSON parses, `node scripts/build-browse-indexes.mjs`, `node scripts/build-test2-app.mjs`, `node scripts/bundle.mjs`, `npm run check:test2`, `npm run check`, metadata spot check, `git diff --check`, and headless browser geometry smoke passed.
+  - Verification evidence: `node --check test2/src/app.js`, `node --check scripts/validate-test2-route.mjs`, JSON parses, `node scripts/build/build-browse-indexes.mjs`, `node scripts/build/app-bundle.mjs`, `node scripts/bundle.mjs`, `npm run check:test2`, `npm run check`, metadata spot check, `git diff --check`, and headless browser geometry smoke passed.
   - Browser geometry evidence: `timelineInsideMap=false`, `timelineBelowMap=true`, map height `598px`, timeline height `58px`, timeline `position=static`, and `/test2` loads `/build/main.css` from the site root.
 - [x] Review
   - Summarize changed files, verification evidence, and residual risks.
@@ -1834,7 +1834,7 @@
   - Findings: the changes are not merely citation/reference additions. They also correct election/party summary data that was previously polluted by partial or constituency-level figures, especially Dail 2024 and party `relatedElections` summaries.
   - Representative improvement: Dail 2024 Browse summary changes from partial figures such as Fine Gael 42 seats / 108,352 votes and valid poll 412,346 to full-election figures such as Fianna Fail 48 seats, Sinn Fein 39, Fine Gael 38, total seats 174, and valid poll 2,202,453.
   - Representative improvement: referendum metadata now reports matched constituencies consistently, e.g. 2024 Care changes from 36 matched / 3 unmatched to 39 matched / 0 unmatched.
-  - Risk: `scripts/build-browse-indexes.mjs` adds inferred Wikipedia/corpus references programmatically. These are useful, but some reference URLs/roles are heuristic rather than independently verified per election/result.
+  - Risk: `scripts/build/build-browse-indexes.mjs` adds inferred Wikipedia/corpus references programmatically. These are useful, but some reference URLs/roles are heuristic rather than independently verified per election/result.
   - Risk: many non-election map/source detail files appear changed only because `generatedAt` was refreshed; these create noisy churn and should be avoided or accepted explicitly as generated-output churn.
   - Verification evidence: `npm run check` passed; `npm run check:test2` passed; PowerShell JSON parse over all 3,142 changed Browse/test metadata JSON files found 0 parse failures.
   - Recommendation: keep the substantive election summary/matching corrections, but regenerate once from the intended generator state and commit as a dedicated generated metadata update. Prefer splitting/limiting timestamp-only map/source churn if feasible.
@@ -1974,7 +1974,7 @@
   - User clarified that synthetic non-geographical constituencies should be placed near the northeast, not the northwest, of the active election geography.
   - Scope: change `/test2` generated election anchors only; do not alter the main site.
 - [x] Inspect current implementation
-  - Found the prior implementation in `scripts/build-test2-election-manifest.mjs` generated `synthetic-northwest-non-geographic` anchors and selected the feature closest to the northwestern corner.
+  - Found the prior implementation in `scripts/build/build-test2-election-manifest.mjs` generated `synthetic-northwest-non-geographic` anchors and selected the feature closest to the northwestern corner.
 - [x] Implement northeast placement
   - Changed synthetic non-geographical anchor generation to select the feature closest to the northeastern corner and place the synthetic label/seat circles near that feature with inward padding and deterministic stacking.
   - Changed the generated anchor method to `synthetic-northeast-non-geographic`.
@@ -1985,7 +1985,7 @@
   - Regenerated `/test2` election metadata. Coverage remained stable at 249 loadable election entries, 19 placeholders, 4,004 matched rows, and 680 unmatched rows.
   - Representative generated anchors now use `synthetic-northeast-non-geographic`: 1996 Forum Regional List at `[-5.784092, 55.007114]`; 1921 Queen's University at `[-5.784092, 55.20297]`.
   - Added route-validation assertions that those representative rows must keep the northeast synthetic-anchor method.
-  - Verification passed: `node --check scripts/build-test2-election-manifest.mjs`, `node --check scripts/validate-test2-route.mjs`, `node scripts/build-test2-election-manifest.mjs`, `npm run check:test2`, `npm run check`, `npm run build:test2`, and a targeted generated-row anchor check.
+  - Verification passed: `node --check scripts/build/build-test2-election-manifest.mjs`, `node --check scripts/validate-test2-route.mjs`, `node scripts/build/build-test2-election-manifest.mjs`, `npm run check:test2`, `npm run check`, `npm run build:test2`, and a targeted generated-row anchor check.
 
 # Add /test2 synthetic anchors for non-geographical election constituencies
 - [x] Record scope
@@ -2008,7 +2008,7 @@
   - `/test2` now renders a clickable DOM overlay label plus seat circles for these synthetic rows, and prioritizes them in overlay collision handling so they remain visible.
   - Regenerated `/test2` election metadata. Coverage moved to 249 loadable election entries, 19 placeholders, 4,004 matched rows, and 680 unmatched rows.
   - Remaining unmatched classes are now `main-geography-unsourced`, `referendum-boundary-split-merge`, and `stormont-seat-not-in-source`; `university-seat-no-polygon` has been eliminated.
-  - Verification passed: `node --check scripts/build-test2-election-manifest.mjs`, `node --check test2/src/election-manager.js`, `node scripts/build-test2-election-manifest.mjs`, `npm run check:test2`, `npm run check`, and `npm run build:test2`.
+  - Verification passed: `node --check scripts/build/build-test2-election-manifest.mjs`, `node --check test2/src/election-manager.js`, `node scripts/build/build-test2-election-manifest.mjs`, `npm run check:test2`, `npm run check`, and `npm run build:test2`.
   - Browser smoke passed locally for `/test2`: the 1996 Forum Regional List renders as a visible synthetic marker; Queen's University of Belfast renders as a visible synthetic marker in the 1921 Parliament of Northern Ireland election; clicking Queen's selects that non-geographical result in the election pane and URL state.
 
 # Close /test2 point-3 election geography coverage
@@ -2030,9 +2030,9 @@
   - Hardened the builder so source-derived election anchor sidecars are preserved when local source-cache FGB files are unavailable; this prevents fallback centre anchors from overwriting better committed anchors.
 - [x] Verify
   - Run syntax checks, manifest/report assertions, `/test2` route validation, parity audit, and standard checks.
-  - Passed `node --check scripts/build-test2-election-manifest.mjs`.
+  - Passed `node --check scripts/build/build-test2-election-manifest.mjs`.
   - Passed `node --check test2/src/election-manager.js`.
-  - Passed `node scripts/build-test2-election-manifest.mjs`.
+  - Passed `node scripts/build/build-test2-election-manifest.mjs`.
   - Passed `npm run check:test2`.
   - Passed `npm run check`.
 - [x] Review
@@ -2041,7 +2041,7 @@
   - The report now has `feasibleUnmatchedRemaining: 0`; remaining rows are data-blocked or aggregation-blocked because the selected main-site geography source does not contain an equivalent one-to-one polygon.
 
 ## Recurring issue: election anchor sidecars overwritten when local source-cache is absent
-- Symptom: running `scripts/build-test2-election-manifest.mjs` in a checkout without local `test/source-cache/vector-intake/*.fgb` files rewrote committed source-derived anchor sidecars with lower-quality feature-index centres.
+- Symptom: running `scripts/build/build-test2-election-manifest.mjs` in a checkout without local `test/source-cache/vector-intake/*.fgb` files rewrote committed source-derived anchor sidecars with lower-quality feature-index centres.
 - Root cause: the builder deleted `test/metadata/election-anchors-test2` before generation, then fell back to feature-index anchors when source FGBs were absent.
 - Permanent prevention action: the builder no longer deletes the anchor sidecar directory and now hydrates existing anchor sidecars when source geometry is unavailable.
 - Verification evidence: after restoring anchors and rebuilding, `git diff -- test/metadata/election-anchors-test2` is empty, while the generated manifest still reports improved election coverage.
@@ -2057,12 +2057,12 @@
   - Confirmed the prior two actionable false gaps were `all-ireland-townlands` and `civil-parishes`.
 - [x] Implement feasible coverage fixes
   - Wire alias/same-boundary entries to converted layers and register any locally available converted outputs without deleting source data.
-  - Added composite detection to `scripts/build-test-metadata-plan.mjs` so parent entries with fully converted children, including all-Ireland Townlands, no longer regress to `needsVectorTileConversion`.
+  - Added composite detection to `scripts/build/tiles/layer-plan.mjs` so parent entries with fully converted children, including all-Ireland Townlands, no longer regress to `needsVectorTileConversion`.
   - Added a Civil Parishes legacy-route alias in `test/metadata/maps-test.json`, pointing `civil-parishes` to the unified `civil-parishes-vector-test` PMTiles layer.
   - Updated the promotion script so future alias regeneration preserves the same manual alias rule.
 - [x] Verify
   - Run generation, route validation, parity/data-coverage audits, and build checks.
-  - Verification evidence: `node scripts/build-test-metadata-plan.mjs`, `node scripts/validate-test2-route.mjs`, `npm run check:test2`, `npm run audit:test2:parity`, and `npm run check` all passed. The full parity audit now includes `data.coverage` as a passing automated check.
+  - Verification evidence: `node scripts/build/tiles/layer-plan.mjs`, `node scripts/validate-test2-route.mjs`, `npm run check:test2`, `npm run audit:test2:parity`, and `npm run check` all passed. The full parity audit now includes `data.coverage` as a passing automated check.
 - [x] Review
   - Document resolved entries and any residual data-blocked rows.
   - Added route validation and parity-audit guardrails for zero actionable conversion rows, all-Ireland Townlands composite loading through `ni-townlands` + `roi-townlands`, and Civil Parishes alias loading through `civil-parishes-vector-test`.
@@ -2096,7 +2096,7 @@
 - [x] Review
   - Document implemented behavior and any remaining constraints.
   - Implemented manifest-backed thumbnails for maps/elections/features/sources, safe generated placeholders where no image asset exists, actual-size thumbnail panels, all-field tables, raw source metadata panels, richer source-file extraction, and person detail availability without adding thousands of static detail files.
-  - Verification evidence: `node --check browse/browse.js`, `node --check scripts/build-browse-indexes.mjs`, `npm run build`, generated JSON spot checks for `deas-1972`, `data-2021-population-lgd`, `book-dea-prov-1992`, `dail-eireann__2024-11-29`, and browser smoke checks for `/browse/#/maps/deas-1972` and `/browse/#/persons/name-yes`.
+  - Verification evidence: `node --check browse/browse.js`, `node --check scripts/build/build-browse-indexes.mjs`, `npm run build`, generated JSON spot checks for `deas-1972`, `data-2021-population-lgd`, `book-dea-prov-1992`, `dail-eireann__2024-11-29`, and browser smoke checks for `/browse/#/maps/deas-1972` and `/browse/#/persons/name-yes`.
 
 # Normalize derived map-layer display titles
 - [x] Record scope
@@ -2106,7 +2106,7 @@
 - [x] Implement title rule
   - Apply the rule centrally enough that derived layer titles are consistent without changing non-derived map names.
 - [x] Verify
-  - Verified: `node --check js\data-service.js`, `node --check js\ui-controller.js`, and `node --check scripts\build-browse-indexes.mjs` passed. `npm run build` passed with approved escalation. Representative generated Browse titles after `node scripts\build-browse-indexes.mjs`: `deas-1972` -> `District Electoral Areas - 1972`, `wards-1972` -> `Wards - 1972`, `eds-roi-1921-05-03` -> `District Electoral Divisions - 03 May 1921`, `roi-local-authorities-1930` -> `Local Authorities - 1930`.
+  - Verified: `node --check js\data-service.js`, `node --check js\ui-controller.js`, and `node --check scripts\build\build-browse-indexes.mjs` passed. `npm run build` passed with approved escalation. Representative generated Browse titles after `node scripts\build\build-browse-indexes.mjs`: `deas-1972` -> `District Electoral Areas - 1972`, `wards-1972` -> `Wards - 1972`, `eds-roi-1921-05-03` -> `District Electoral Divisions - 03 May 1921`, `roi-local-authorities-1930` -> `Local Authorities - 1930`.
 - [x] Review
   - Active-layer display now uses `dataService.getMapDisplayTitle()`; Browse generation mirrors the same card-plus-derived-name rule. Build-generated `data/browse` timestamp churn was reverted after verification because deployment regenerates those files from the updated script.
 
@@ -2158,7 +2158,7 @@
   - User requested implementation of the agreed Browse section: maps, elections, features, parties/labels, persons, and books/tables/sources, with public browse pages and buttons back to the interactive map/election layer.
 - [x] Build data indexes
   - Generate compact Browse indexes and detail JSON from existing map database, election manifests/results, party IDs, person IDs, and books/source metadata.
-  - Completed: added `scripts/build-browse-indexes.mjs`, generating `data/browse/index.json` plus maps, elections, features, parties, persons, and sources indexes. Output currently covers 821 map/data entries, 268 elections, 94 feature groups / 63,874 feature records, 759 parties/labels, 13,892 persons, and 1,019 sources.
+  - Completed: added `scripts/build/build-browse-indexes.mjs`, generating `data/browse/index.json` plus maps, elections, features, parties, persons, and sources indexes. Output currently covers 821 map/data entries, 268 elections, 94 feature groups / 63,874 feature records, 759 parties/labels, 13,892 persons, and 1,019 sources.
   - Deployment guardrail: person browsing uses the compact `persons.json` index instead of per-person files, keeping Browse output to 2,874 files rather than 16,764.
 - [x] Build Browse UI
   - Add `/browse/` shell and client app with category lists, search, detail views, and open-in-map/open-election links.
@@ -2169,7 +2169,7 @@
 - [x] Verify
   - Run syntax checks, Browse index generation, site build checks, and focused smoke tests.
 - [x] Review
-  - Verified: `node --check scripts/build-browse-indexes.mjs`, `node --check browse/browse.js`, `node scripts/build-browse-indexes.mjs`, `npm run build` (rerun with approved escalation for esbuild spawn), and `npm run check` all passed.
+  - Verified: `node --check scripts/build/build-browse-indexes.mjs`, `node --check browse/browse.js`, `node scripts/build/build-browse-indexes.mjs`, `npm run build` (rerun with approved escalation for esbuild spawn), and `npm run check` all passed.
   - Browser smoke: opened `http://127.0.0.1:8765/browse/`, `#/elections/dail-eireann__2024-11-29`, `#/maps/east-west-bann`, and `#/features/east-west-bann`; verified generated counts, detail rendering, mobile layout, unique generated slugs, and main-route action URLs such as `/#layers=election-dail-eireann-2024-11-29`.
 
 # Feasibility review: login/logout and Browse static data section
@@ -2225,7 +2225,7 @@
 - [x] Add tests/guardrails
   - Completed: expanded static validation and browser coverage so `/test2` Dail candidate rows are compared against the public main-site DOM, and so count pane markup uses the main-like detail-toggle/table contract rather than the old `/test2` toolbar.
 - [x] Verify
-  - Completed: `node --check js/election-domain.mjs`, `node --check scripts/build-test2-election-manifest.mjs`, `node --check test2/src/election-manager.js`, `node --check tests/browser/test2-app.spec.js`, `node --check scripts/validate-test2-route.mjs`, `npm run check:test2`, `npm run build:test2`, `npx playwright test tests/browser/test2-app.spec.js --grep candidate`, and `npx playwright test tests/browser/test2-app.spec.js --grep "local-government aggregates"` all passed. Build and browser runs required approved escalation for local binary/browser spawning.
+  - Completed: `node --check js/election-domain.mjs`, `node --check scripts/build/build-test2-election-manifest.mjs`, `node --check test2/src/election-manager.js`, `node --check tests/browser/test2-app.spec.js`, `node --check scripts/validate-test2-route.mjs`, `npm run check:test2`, `npm run build:test2`, `npx playwright test tests/browser/test2-app.spec.js --grep candidate`, and `npx playwright test tests/browser/test2-app.spec.js --grep "local-government aggregates"` all passed. Build and browser runs required approved escalation for local binary/browser spawning.
 - [x] Review
   - Completed: `/test2` now has generated main-like candidate sidecars and stricter pane parity tests for candidate/count states. Remaining parity work, if any, should be found by adding more public-DOM comparisons for additional election types rather than by inspecting private main controller internals.
 
@@ -2805,7 +2805,7 @@
 # /test2 full election-domain parity implementation
 - [x] Record the requested full election parity scope
   - Extract shared election-domain logic from `js/election-controller.js`.
-  - Extend `scripts/build-test2-election-manifest.mjs` so generated bundles carry fields needed by main-style panes, count views, entity pages, and animation views.
+  - Extend `scripts/build/build-test2-election-manifest.mjs` so generated bundles carry fields needed by main-style panes, count views, entity pages, and animation views.
   - Generate election anchor sidecars for seat circles from source geometry.
   - Replace simplified `/test2` election rendering with engine-neutral main-style rendering.
   - Keep MapLibre-specific drawing isolated in `/test2` MapLibre adapter/manager.
@@ -2816,7 +2816,7 @@
 - [x] Extract shared election-domain helpers
   - Added `js/election-domain.mjs` for result normalisation, elected-candidate extraction, winner/leading-party summaries, party/candidate/entity aggregate builders, previous-election comparisons, and seat-circle positioning.
 - [x] Extend generated election bundles and anchor sidecars
-  - Extended `scripts/build-test2-election-manifest.mjs` so bundles now include party summaries, entity indexes, count metadata, count rows, forum rows, animation payloads, previous-election links, and source-geometry anchors.
+  - Extended `scripts/build/build-test2-election-manifest.mjs` so bundles now include party summaries, entity indexes, count metadata, count rows, forum rows, animation payloads, previous-election links, and source-geometry anchors.
   - Added generated sidecars under `test/metadata/election-anchors-test2/`.
 - [x] Upgrade `/test2` election result rendering
   - Replaced the simplified result pane with engine-neutral main-style overall, constituency/DEA, candidate, party/entity, count-table, and transfer-animation entry views.
@@ -2925,7 +2925,7 @@
   - Audited 525 generated feature-index files: no `Unnamed Feature` labels remained after the DEA repair, but three indexes contained whitespace-only names (`dlr-bicycle-parking-stands`, `osni-coverage-grid-10k`, and `translink-rail-bridges`).
   - Audited 538 local source-backed converted layers against their generated indexes: 17 layers have source rows that do not produce searchable labels, mostly because the source label field is blank for some rows or because the configured label is ID-only.
 - [x] Add recurrence guardrails for blank feature-index labels
-  - Tightened `scripts/build-test-feature-indexes.mjs` so feature-index names/aliases/ids are trimmed and blank labels fall back to a stable feature name instead of indexing whitespace.
+  - Tightened `scripts/build/tiles/feature-indexes.mjs` so feature-index names/aliases/ids are trimmed and blank labels fall back to a stable feature name instead of indexing whitespace.
   - Tightened `scripts/validate-test2-route.mjs` so `/test2` validation fails if any generated feature index contains a blank or `Unnamed Feature` label.
 
 # /test2 election residual parity classification against main site
@@ -2943,7 +2943,7 @@
   - Regenerated `/test2` election metadata: 548 elections, 519 loadable, 29 placeholders, 3,948 matched constituencies, 736 unmatched constituencies.
   - Residual classes are now fully classified: 620 main-geography-unsourced, 59 referendum-boundary-split-merge, 31 university-seat-no-polygon, 15 stormont-seat-not-in-source, 9 historic-dea-not-in-source, 1 regional-list-seat-no-layer, 1 source-result-name-error.
 - [x] Run syntax, `/test2` route, build, and browser checks
-  - `node --check scripts/build-test2-election-manifest.mjs` passed.
+  - `node --check scripts/build/build-test2-election-manifest.mjs` passed.
   - `npm run check:test2` passed.
   - `npm run build:test2` passed after approved rerun outside the sandbox because esbuild spawning was blocked by `EPERM`.
   - `npm run test:browser:test2` passed after approved rerun outside the sandbox because Playwright browser spawning was blocked by `EPERM`: 14/14 tests passed.
@@ -2958,12 +2958,12 @@
 - [x] Identify recurring unmatched geography/name patterns by election body, year, and source map
   - Found repeatable gaps around national referendum/president geography, 2009 Irish EP source selection, Dáil alias carry-over, Unicode dash handling, ROI local-authority labels, and NI local-government code prefixes.
 - [x] Patch deterministic manifest-builder normalisation/crosswalk rules rather than editing generated bundles by hand
-  - Patched `scripts/build-test2-election-manifest.mjs` with source-specific aliases, stronger name-key compaction, Unicode dash normalisation, national aggregate geography rules, ROI local-authority referendum routing, 2009 EP reuse of 2004 boundaries, and local-government body/code variants.
+  - Patched `scripts/build/build-test2-election-manifest.mjs` with source-specific aliases, stronger name-key compaction, Unicode dash normalisation, national aggregate geography rules, ROI local-authority referendum routing, 2009 EP reuse of 2004 boundaries, and local-government body/code variants.
 - [x] Regenerate `/test2` election metadata and report improved matched/unmatched coverage
   - Regenerated `test/metadata/elections-test2.json`, `test/metadata/elections-test2-report.json`, and affected per-election bundles.
   - Coverage improved from the pre-follow-up baseline of 489 loadable / 59 placeholders / 3,467 matched / 1,217 unmatched to 519 loadable / 29 placeholders / 3,946 matched / 738 unmatched.
 - [x] Verify with syntax checks, `/test2` validation/build/checks, and targeted browser coverage where affected
-  - `node --check scripts/build-test2-election-manifest.mjs` passed.
+  - `node --check scripts/build/build-test2-election-manifest.mjs` passed.
   - `npm run check:test2` passed.
   - `npm run build:test2` passed after approved rerun outside the sandbox because esbuild spawning was blocked by `EPERM`.
   - `npm run test:browser:test2` passed after approved rerun outside the sandbox because Playwright browser spawning was blocked by `EPERM`: 14/14 tests passed.
@@ -3342,7 +3342,7 @@ Test2 verbatim main shell with MapLibre map engine
     - Replaced only the engine boot path: `/test2` loads `/test2/build/test2.bundle.js` and does not load Leaflet or register the production service worker.
     - Added `test2/src/maplibre-main-adapter.js`, which exposes a main-catalogue callback surface backed by the existing MapLibre vector-tile renderer.
     - Added `test2/src/app.js`, which initializes production `dataService` and `uiController`, renders the main catalogue hierarchy, and wires load/unload/toggle/fit/search/detail callbacks to MapLibre where feasible.
-    - Added `scripts/build-test2-app.mjs`, `npm run build:test2`, `npm run test:browser:test2`, and browser tests proving shell boot and a real converted vector-layer render.
+    - Added `scripts/build/app-bundle.mjs`, `npm run build:test2`, `npm run test:browser:test2`, and browser tests proving shell boot and a real converted vector-layer render.
   - Verification:
     - `npm run build:test2` passed after esbuild spawn required approved escalation.
     - `npm run test:browser:test2` passed: production shell visible, no global Leaflet present, MapLibre adapter initialized, catalogue rows rendered, and Civil Parishes rendered as a MapLibre vector layer.
@@ -3503,12 +3503,12 @@ Election party aliases and party IDs
     - Added an Ireland/NI audit alias so `PUP` resolves to `Progressive Unionist Party`, not the unrelated global abbreviation match.
     - Extended `scripts/normalize-election-party-names.py` for `DUP`, `PBP`, `Alliance`, and date-sensitive `Workers Party`/`Republican Clubs` labels.
     - The date rule treats exact-1977 `Workers Party / Republican Clubs` labels as `Republican Clubs`; post-1977 rows are `Workers Party`.
-    - Added `scripts/build-election-party-ids.py` and generated `data/elections-source/data/party-ids.json` plus `tasks/ireland_election_party_ids.csv`.
+    - Added `scripts/build/build-election-party-ids.py` and generated `data/elections-source/data/party-ids.json` plus `tasks/ireland_election_party_ids.csv`.
     - Updated bundle/aggregate composite keys so stale names are not left in generated election data.
   - Verification:
-    - `python -m py_compile scripts\normalize-election-party-names.py scripts\audit-ireland-election-party-colours.py scripts\build-election-party-ids.py`
+    - `python -m py_compile scripts\normalize-election-party-names.py scripts\audit-ireland-election-party-colours.py scripts\build\build-election-party-ids.py`
     - `python scripts\normalize-election-party-names.py`
-    - `python scripts\build-election-party-ids.py` wrote `850` party IDs and `1089` aliases.
+    - `python scripts\build\build-election-party-ids.py` wrote `850` party IDs and `1089` aliases.
     - `python scripts\audit-ireland-election-party-colours.py` produced `1173` audit rows: `71` match, `142` colour mismatch, `910` no election colour, `50` no Wikipedia match.
     - `rg` found no remaining `Workers Party / Republican Clubs`, `Democratic Unionist Party`, `People Before Profit Alliance`, `People Before Profit`, `Alliance Party of Northern Ireland`, `Alliance Party`, or `Green / Ecology` strings under `data/elections-source/data/elections`.
     - Parsed `7344` election JSON files successfully.
@@ -3525,7 +3525,7 @@ Election party aliases follow-up: DUP punctuation and Conservative plural
     - Added `Conservatives` as an alias of `party:conservative` in the Party ID registry.
   - Verification:
     - `python scripts\normalize-election-party-names.py` ended with `changed_files=0`.
-    - `python scripts\build-election-party-ids.py` wrote `827` party IDs and `1042` aliases.
+    - `python scripts\build\build-election-party-ids.py` wrote `827` party IDs and `1042` aliases.
     - `python scripts\audit-ireland-election-party-colours.py` produced `1124` audit rows after duplicate labels collapsed.
     - Parsed `7344` election JSON files successfully.
     - A targeted scan found no exact party/key values for `D.U.P.`, `Democratic Unionist - DUP`, or `Conservatives`.
@@ -3542,7 +3542,7 @@ Election party aliases follow-up: Workers, Nationalist, and A.P.
     - Updated Party ID aliases so Workers and Alliance aliases remain grouped under stable IDs.
   - Verification:
     - `python scripts\normalize-election-party-names.py` completed the final pass with the related Workers variants collapsed.
-    - `python scripts\build-election-party-ids.py` wrote `821` party IDs and `1037` aliases.
+    - `python scripts\build\build-election-party-ids.py` wrote `821` party IDs and `1037` aliases.
     - `python scripts\audit-ireland-election-party-colours.py` produced `1117` audit rows: `71` match, `141` colour mismatch, `855` no election colour, `50` no Wikipedia match.
     - Parsed `7344` election JSON files successfully.
     - A targeted scan found no exact party/key values for `Workers' Party (Ireland)`, `Workers Party`, `Workers'`, or `A.P.`.
@@ -3559,7 +3559,7 @@ Election party aliases follow-up: NI Women's Coalition
     - Added audit aliases so `NI Women's Coalition` resolves to Wikipedia's `Northern Ireland Women's Coalition` entry.
   - Verification:
     - `python scripts\normalize-election-party-names.py`
-    - `python scripts\build-election-party-ids.py` wrote `812` party IDs and `1038` aliases.
+    - `python scripts\build\build-election-party-ids.py` wrote `812` party IDs and `1038` aliases.
     - `python scripts\audit-ireland-election-party-colours.py` produced `1107` audit rows: `71` match, `141` colour mismatch, `845` no election colour, `50` no Wikipedia match.
     - `node --check data/elections-source\js\stages2.js`
     - A targeted scan found no old Women's Coalition variant values and `156` `NI Women's Coalition` values.
@@ -3576,7 +3576,7 @@ Election party aliases follow-up: Official Unionist and Independent abbreviation
     - The substring pass also expanded `Indp.` inside longer labels to `Independent ...` without assigning those longer descriptors to a new party.
   - Verification:
     - `python scripts\normalize-election-party-names.py` ended with `changed_files=0`.
-    - `python scripts\build-election-party-ids.py` wrote `810` party IDs and `1037` aliases.
+    - `python scripts\build\build-election-party-ids.py` wrote `810` party IDs and `1037` aliases.
     - `python scripts\audit-ireland-election-party-colours.py` produced `1103` audit rows: `71` match, `141` colour mismatch, `841` no election colour, `50` no Wikipedia match.
     - Parsed `7344` election JSON files successfully.
     - A targeted scan found no exact party/key values for `O. Un.`, `Off. Un.`, or `Indp.`.
@@ -3593,7 +3593,7 @@ Election party aliases follow-up: O.Un., Irish Unionist, Non Party, and Comhar
     - Fixed the Irish Unionist rule to be idempotent after verification caught `Irish Unionist Alliance Alliance` on rerun.
   - Verification:
     - `python scripts\normalize-election-party-names.py` ended with `changed_files=0`.
-    - `python scripts\build-election-party-ids.py` wrote `811` party IDs and `1039` aliases.
+    - `python scripts\build\build-election-party-ids.py` wrote `811` party IDs and `1039` aliases.
     - `python scripts\audit-ireland-election-party-colours.py` produced `1101` audit rows: `71` match, `141` colour mismatch, `839` no election colour, `50` no Wikipedia match.
     - Parsed `7344` election JSON files successfully.
     - A targeted scan found no exact party/key values for `O.Un.`, `Irish Unionist`, `Irish Unionist Alliance Alliance`, `Non Party`, or `Comhar Criostai/Christian Solidarity`.
@@ -3612,7 +3612,7 @@ Election party aliases follow-up: United UUP, A.P, Indp, DU UUUC, and Renua Irel
     - Added an audit alias so `UUUP` resolves to `United Ulster Unionist Party`.
   - Verification:
     - `python scripts\normalize-election-party-names.py` ended with `changed_files=0`.
-    - `python scripts\build-election-party-ids.py` wrote `808` party IDs and `1038` aliases.
+    - `python scripts\build\build-election-party-ids.py` wrote `808` party IDs and `1038` aliases.
     - `python scripts\audit-ireland-election-party-colours.py` produced `1098` audit rows: `71` match, `142` colour mismatch, `836` no election colour, `49` no Wikipedia match.
     - Parsed `7344` election JSON files successfully.
     - A targeted scan found no exact party/key values for `United UUP`, `A.P`, `Indp`, `DU UUUC`, or `Renua Ireland`.
@@ -3627,7 +3627,7 @@ Election party aliases follow-up: A. and Progressive Unionist Party
     - Collapsed related PUP variants such as `Progressive Unionist Party of Northern Ireland`, `Progressive Unionist Party (PUP)`, and malformed `Progressive Unionist Party of Northen Ireland` to `PUP`.
   - Verification:
     - `python scripts\normalize-election-party-names.py` ended with `changed_files=0`.
-    - `python scripts\build-election-party-ids.py` wrote `802` party IDs and `1029` aliases.
+    - `python scripts\build\build-election-party-ids.py` wrote `802` party IDs and `1029` aliases.
     - `python scripts\audit-ireland-election-party-colours.py` produced `1087` audit rows: `71` match, `142` colour mismatch, `825` no election colour, `49` no Wikipedia match.
     - Parsed `7344` election JSON files successfully.
     - A targeted scan found no exact party/key values for `A.`, `Progressive Unionist Party`, `PUP PUP`, `PUP - PUP`, or `Alliancep`.
@@ -3790,10 +3790,10 @@ Bugs in NUTS region thumbnails
   - [x] Verify the regenerated thumbnails exist and reflect the updated NUTS geometry
   - What I did:
     - confirmed the affected map ids in `data/database/maps.json` are `nuts-2-all-ireland` and `nuts-2-roi`
-    - used `python scripts/regen-thumbnails.py --map-id ...` for each target so the thumbnails were regenerated through the repo's land-context thumbnail pipeline rather than the missing-file-only generator
+    - used `python scripts/build/thumbnails/regen-thumbnails.py --map-id ...` for each target so the thumbnails were regenerated through the repo's land-context thumbnail pipeline rather than the missing-file-only generator
   - Verification:
-    - `python scripts/regen-thumbnails.py --map-id nuts-2-all-ireland`
-    - `python scripts/regen-thumbnails.py --map-id nuts-2-roi`
+    - `python scripts/build/thumbnails/regen-thumbnails.py --map-id nuts-2-all-ireland`
+    - `python scripts/build/thumbnails/regen-thumbnails.py --map-id nuts-2-roi`
     - regenerated files:
       - `assets/thumbnails/nuts-2-all-ireland.png` (`8000` bytes, updated `2026-04-14 18:30:01`)
       - `assets/thumbnails/nuts-2-roi.png` (`7676` bytes, updated `2026-04-14 18:30:02`)
@@ -4331,15 +4331,15 @@ Election party aliases follow-up: Green, Alliance, independents, Solidarity-PBP,
 - [x] Rebuild party IDs/audit outputs and provide the top 100 party/ticket labels inline
   - What I changed:
     - Added the requested labels to `scripts/normalize-election-party-names.py`, including leading-space European-election `Lozenge` forms for Green, Independent, and Solidarity-PBP.
-    - Added the same aliases to `scripts/build-election-party-ids.py` so generated Party IDs keep those historical labels grouped with their canonical party.
+    - Added the same aliases to `scripts/build/build-election-party-ids.py` so generated Party IDs keep those historical labels grouped with their canonical party.
     - Added audit aliases for exact `A`, `Of. Un.`, and `Green`.
     - Added a lesson to prevent repeated ranked-table variant cleanup misses.
   - Verification:
-    - `python -m py_compile scripts\normalize-election-party-names.py scripts\build-election-party-ids.py scripts\audit-ireland-election-party-colours.py`
+    - `python -m py_compile scripts\normalize-election-party-names.py scripts\build\build-election-party-ids.py scripts\audit-ireland-election-party-colours.py`
     - `python scripts\normalize-election-party-names.py` changed `886` election files on the first run and `0` on the second run.
     - Normalisation counts included `695` `Green/Comhaontas Glas -> Green`, `212` `A -> Alliance`, `140` leading-space `Independent Lozenge -> Independent`, `129` `Solidarity PBP -> Solidarity-PBP`, `115` `Of. Un. -> UUP`, `24` leading-space `Green/Comhaontas Glas Lozenge -> Green`, and `7` leading-space `Solidarity PBP Lozenge -> Solidarity-PBP`.
     - Structured party-field scan found no remaining stripped values of `Green/Comhaontas Glas`, `Green/Comhaontas Glas Lozenge`, `A`, `Independent Lozenge`, `Solidarity PBP`, `Solidarity PBP Lozenge`, or `Of. Un.`.
-    - `python scripts\build-election-party-ids.py` wrote `800` party IDs and `1033` aliases.
+    - `python scripts\build\build-election-party-ids.py` wrote `800` party IDs and `1033` aliases.
     - `python scripts\audit-ireland-election-party-colours.py` wrote `1084` audit rows with counts `{no_election_colour: 823, colour_mismatch: 141, match: 71, no_wikipedia_match: 49}`.
 
 Election party aliases follow-up: top-100 residual variants
@@ -4350,15 +4350,15 @@ Election party aliases follow-up: top-100 residual variants
   - What I changed:
     - Added exact source normalisations for the requested residual labels in `scripts/normalize-election-party-names.py`.
     - Added `Labour Lozenge -> Irish Labour` after a stripped/Lozenge scan showed this was the remaining source of the ranked `Labour` label.
-    - Updated `scripts/build-election-party-ids.py` with the matching alias groups for Republican Clubs, Conservative, BNP, Socialist Party, Nationalist Party, Alliance, Irish Labour, NI Labour Party, IIP, Sinn Féin, UUP, Green, Independent, Independent Nationalist, and Ulster Liberal.
+    - Updated `scripts/build/build-election-party-ids.py` with the matching alias groups for Republican Clubs, Conservative, BNP, Socialist Party, Nationalist Party, Alliance, Irish Labour, NI Labour Party, IIP, Sinn Féin, UUP, Green, Independent, Independent Nationalist, and Ulster Liberal.
     - Updated `scripts/audit-ireland-election-party-colours.py` with corresponding Wikipedia colour aliases where reliable rows exist.
   - Verification:
-    - `python -m py_compile scripts\normalize-election-party-names.py scripts\build-election-party-ids.py scripts\audit-ireland-election-party-colours.py`
+    - `python -m py_compile scripts\normalize-election-party-names.py scripts\build\build-election-party-ids.py scripts\audit-ireland-election-party-colours.py`
     - `python scripts\normalize-election-party-names.py` changed `554` election files on the main pass and `53` more after adding `Labour Lozenge`; a final run reported `changed_files=0`.
     - Main-pass counts included `163` `Northern Ireland Labour Party -> NI Labour Party`, `143` `Socialist Party (Ireland) -> Socialist Party`, `139` `British National Party -> BNP`, `92` `Rep. Clubs -> Republican Clubs`, `85` `Irish Conservative -> Conservative`, `61` `Nationalist -> Nationalist Party`, `55` `Alliance Party -> Alliance`, `42` `N.I.L.P. -> NI Labour Party`, `39` `I.I.P. -> IIP`, `38` `S.F. -> Sinn Féin`, `37` `Off. Un -> UUP`, `35` `Ind. Nationalist -> Independent Nationalist`, `35` `Green Party -> Green`, `34` `Ulster Liberal Party -> Ulster Liberal`, `32` `O. Un -> UUP`, `27` `Non-Party -> Independent`, `27` `O.Un -> UUP`, `19` `N.I.L.P -> NI Labour Party`, and `6` `Irish Independence Party -> IIP`.
     - Follow-up counts included `45` leading-space `Labour Lozenge -> Irish Labour` and `38` remaining `Sinn FÃ©in -> Sinn Féin` repairs.
     - Structured party-field scan found no remaining stripped values for the requested old labels, including Lozenge-normalized `Labour`.
-    - `python scripts\build-election-party-ids.py` wrote `789` party IDs and `1035` aliases.
+    - `python scripts\build\build-election-party-ids.py` wrote `789` party IDs and `1035` aliases.
     - `python scripts\audit-ireland-election-party-colours.py` wrote `1070` audit rows with counts `{no_election_colour: 812, colour_mismatch: 135, match: 74, no_wikipedia_match: 49}`.
 
 Election party aliases follow-up: top-100 tail variants
@@ -4370,11 +4370,11 @@ Election party aliases follow-up: top-100 tail variants
     - Updated Party ID aliases for the same labels.
     - Added reliable Wikipedia colour-audit aliases for Republican Labour, UPUP, NI Unionist, SDLP long-form, and Democratic Left.
   - Verification:
-    - `python -m py_compile scripts\normalize-election-party-names.py scripts\build-election-party-ids.py scripts\audit-ireland-election-party-colours.py`
+    - `python -m py_compile scripts\normalize-election-party-names.py scripts\build\build-election-party-ids.py scripts\audit-ireland-election-party-colours.py`
     - `python scripts\normalize-election-party-names.py` changed `94` election files, then a final run reported `changed_files=0`.
     - Counts were `25` `SDLP (Social Democratic and Labour Party) -> SDLP`, `21` `Independent Alliance (Non party) -> Independent Alliance`, `21` `Democratic Left / New Agenda -> Democratic Left`, `21` `Northern Ireland Unionist Party -> NI Unionist Party`, `21` `U.P.U.P. -> Ulster Popular Unionist Party`, `20` `Newtownabbey Labour Party -> Newtownabbey Labour`, and `18` `Republican Labour Party -> Republican Labour`.
     - Structured party-field scan found no remaining stripped values for the old labels.
-    - `python scripts\build-election-party-ids.py` wrote `785` party IDs and `1038` aliases.
+    - `python scripts\build\build-election-party-ids.py` wrote `785` party IDs and `1038` aliases.
     - `python scripts\audit-ireland-election-party-colours.py` wrote `1066` audit rows with counts `{no_election_colour: 809, colour_mismatch: 136, match: 74, no_wikipedia_match: 47}`.
 
 Election party aliases follow-up: top-120 residual variants
@@ -4387,12 +4387,12 @@ Election party aliases follow-up: top-120 residual variants
     - Added an election-context normalisation path for `Rep Clubs`; it becomes `Workers' Party` only when the same election directory already contains `Workers' Party`, otherwise `Republican Clubs`.
     - Updated Party ID aliases and colour-audit aliases for the same canonical labels.
   - Verification:
-    - `python -m py_compile scripts\normalize-election-party-names.py scripts\build-election-party-ids.py scripts\audit-ireland-election-party-colours.py`
+    - `python -m py_compile scripts\normalize-election-party-names.py scripts\build\build-election-party-ids.py scripts\audit-ireland-election-party-colours.py`
     - `python scripts\normalize-election-party-names.py` changed `147` election files, then a final run reported `changed_files=0`.
     - Counts included `17` `Non. Party -> Independent`, `17` `O Un. -> UUP`, `16` `Lib -> Ulster Liberal`, `16` `Official Unionist -> UUP`, `16` `Conservative and Unionist -> Conservative`, `15` `Ind. Unionist -> Independent Unionist`, `15` `INDP -> Independent`, `15` `Rep Clubs -> Republican Clubs`, `15` `U.P.N.I. -> Unionist Party of Northern Ireland`, `14` `Independent Un. -> Independent Unionist`, `14` `O Un -> UUP`, `14` `Of.Un. -> UUP`, `14` `IND -> Independent`, `14` `UU -> UUP`, `13` `AP -> Alliance`, and `13` `O.U. -> UUP`.
     - No `Rep Clubs` files were in an election directory containing `Workers' Party`, so the conditional branch correctly produced `Republican Clubs` for all current `Rep Clubs` instances.
     - Structured party-field scan found no remaining stripped values for the requested old labels.
-    - `python scripts\build-election-party-ids.py` wrote `775` party IDs and `1038` aliases.
+    - `python scripts\build\build-election-party-ids.py` wrote `775` party IDs and `1038` aliases.
     - `python scripts\audit-ireland-election-party-colours.py` wrote `1052` audit rows with counts `{no_election_colour: 795, colour_mismatch: 136, match: 74, no_wikipedia_match: 47}`.
 
 Election party aliases follow-up: top-150 residual variants
@@ -4403,12 +4403,12 @@ Election party aliases follow-up: top-150 residual variants
     - Added exact normalisations for `NI Labour Party -> NI Labour`, `Un.`/`Un -> Unionist`, `I.I.P. Nationalist -> IIP`, `D.U U.U.U.C -> DUP`, `U.D.U.P. -> DUP`, SDLP long-form variants, `O. Ul. Un. -> UUP`, `DUP - Leader Ian Paisley -> DUP`, `Van. Un. -> Vanguard Unionist Progressive Party`, `Ulster Unionist U.U.P` variants to `UUP`, `The Green Party -> Green`, `Loy. D.U. -> DUP`, `Independant -> Independent`, `Ulster DUP -> DUP`, `Democratic Unionist - -> DUP`, bare `Workers'`/`Workers' Lozenge -> Workers' Party`, and `UUP U.U.U.C` variants to `UUP`.
     - Updated Party ID and colour-audit aliases for the same canonical labels.
   - Verification:
-    - `python -m py_compile scripts\normalize-election-party-names.py scripts\build-election-party-ids.py scripts\audit-ireland-election-party-colours.py`
+    - `python -m py_compile scripts\normalize-election-party-names.py scripts\build\build-election-party-ids.py scripts\audit-ireland-election-party-colours.py`
     - `python scripts\normalize-election-party-names.py` changed `330` election files on the first pass and `7` files on the follow-up `Ulster Unionist U.U.P` pass; a final run reported `changed_files=0`.
     - First-pass counts included `224` `NI Labour Party -> NI Labour`, `112` `Un. -> Unionist`, `32` `Un -> Unionist`, `13` leading-space `Workers' Lozenge -> Workers' Party`, `13` `UUP U.U.U.C. -> UUP`, `12` `SDLP-Social Democratic and Labour Party -> SDLP`, `11` `Ulster DUP -> DUP`, `10` `Van. Un. -> Vanguard Unionist Progressive Party`, `10` `Loy. D.U. -> DUP`, `10` `Democratic Unionist - -> DUP`, `10` `Independant -> Independent`, `10` `The Green Party -> Green`, `10` `Social Democratic and Labour Party (SDLP) -> SDLP`, `8` `O. Ul. Un. -> UUP`, `8` `U.D.U.P. -> DUP`, `8` `DUP - Leader Ian Paisley -> DUP`, `8` malformed `SDLP (Social Democratic and Labour Party -> SDLP`, `7` `D.U U.U.U.C -> DUP`, and `7` `I.I.P. Nationalist -> IIP`.
     - Follow-up counts included `10` `Ulster Unionist U.U.P. -> UUP` and `7` `Ulster Unionist U.U.P -> UUP`.
     - Structured party-field scan found no remaining stripped values for the requested old labels or the obvious SDLP/UUP/Workers variants handled in this batch.
-    - `python scripts\build-election-party-ids.py` wrote `759` party IDs and `1040` aliases.
+    - `python scripts\build\build-election-party-ids.py` wrote `759` party IDs and `1040` aliases.
     - `python scripts\audit-ireland-election-party-colours.py` wrote `1032` audit rows with counts `{no_election_colour: 777, colour_mismatch: 135, match: 73, no_wikipedia_match: 47}`.
 
 Review IDB zip: counties and local-authority maps
@@ -4481,10 +4481,10 @@ Commit election party-normalisation data changes
 - [x] Stage only election-related files, leaving unrelated dirty worktree files untouched
 - [x] Commit the staged election data changes
   - Verification:
-    - `python -m py_compile scripts\normalize-election-party-names.py scripts\audit-ireland-election-party-colours.py scripts\build-election-party-ids.py scripts\ingest\wikipedia\extract-wikipedia-party-colours.py`
+    - `python -m py_compile scripts\normalize-election-party-names.py scripts\audit-ireland-election-party-colours.py scripts\build\build-election-party-ids.py scripts\ingest\wikipedia\extract-wikipedia-party-colours.py`
     - `node --check data/elections-source\js\stages2.js`
     - `python scripts\normalize-election-party-names.py` reported `changed_files=0`.
-    - `python scripts\build-election-party-ids.py` wrote `759` party IDs and `1040` aliases.
+    - `python scripts\build\build-election-party-ids.py` wrote `759` party IDs and `1040` aliases.
     - `python scripts\audit-ireland-election-party-colours.py` wrote `1032` audit rows with counts `{no_election_colour: 777, colour_mismatch: 135, match: 73, no_wikipedia_match: 47}`.
     - Parsed `7344` election JSON files successfully.
     - `git diff --check` reported only line-ending warnings for `stages2.js` and `tasks/todo.md`.
@@ -4719,7 +4719,7 @@ Implement remaining feasible /test main-site parity items
     - Feature details now include richer layer context, source/reference/download links, and source credits.
     - Raster source support is implemented in the MapLibre controller and validator for future raster tile/image metadata entries.
     - Time-series and election choropleth work remains data-gated: switching and election catalogue scaffolds exist, conditional styling is available for converted vector layers, but no converted election/time-chain layers exist yet.
-    - Added `scripts/build-test-vector-batch.mjs` and `npm run build:test:batch-vectors`. The dry report found 18 locally available vector candidates and 610 skipped vector rows whose source files are external or ignored local-only assets; the script deliberately does not promote generated tiles without per-layer metadata/source-layer verification.
+    - Added `scripts/build/tiles/vector-batch.mjs` and `npm run build:test:batch-vectors`. The dry report found 18 locally available vector candidates and 610 skipped vector rows whose source files are external or ignored local-only assets; the script deliberately does not promote generated tiles without per-layer metadata/source-layer verification.
     - Bumped `/test` assets and service worker to `test-008`.
   - Verification:
     - `node --check` passed for all `test/src/*.js` files and the changed scripts.
@@ -4866,7 +4866,7 @@ Implement /test production-readiness and main-shell parity pass
     - Source/reference/download rows now include copy-link actions and fallback badges.
     - The `/test` service worker now trims caches more aggressively under storage pressure and can report cache status to clients.
     - Added `test/metadata/production-readiness.md` and linked it from PMTiles/CDN deployment docs.
-    - Added `scripts/test-tile-profiles.mjs` and wired profiles into directory MVT and PMTiles generation. The two budget-warning layers were regenerated, PMTiles were rebuilt, uploaded to R2, CDN range-verified, and metadata was switched back to CDN URLs.
+    - Added `scripts/build/tiles/tile-profiles.mjs` and wired profiles into directory MVT and PMTiles generation. The two budget-warning layers were regenerated, PMTiles were rebuilt, uploaded to R2, CDN range-verified, and metadata was switched back to CDN URLs.
     - Tuning reduced `roi-townlands-vector-test` PMTiles from about 66.1 MB to 52.6 MB and lowered the fallback tile directory from about 102.6 MB to 84.3 MB. It did not fully clear all warning thresholds, so the hard validation still reports warning-only findings rather than hiding them.
     - Restored the full 18 converted vector-layer metadata after a narrowed tuning report exposed a promotion hazard; `build-test-vector-batch` now includes already-converted rows when regenerating the full report.
     - Bumped `/test` assets and scoped service worker to `test-012`.
@@ -4887,8 +4887,8 @@ Fix Cloudflare Pages 20,000-file deployment failure
 - [x] Add/verify a guardrail so generated tile directories cannot silently push Pages over the file cap again
 - [x] Verify locally, commit, and push
   - Findings so far:
-    - Cloudflare Pages failed after `npm run build && bash scripts/clean-for-pages.sh` with the 20,000-file deployment cap.
-    - `scripts/clean-for-pages.sh` currently deletes files over 25 MB only; it does not remove high-file-count tile pyramids.
+    - Cloudflare Pages failed after `npm run build && bash scripts/build/clean-for-pages.sh` with the 20,000-file deployment cap.
+    - `scripts/build/clean-for-pages.sh` currently deletes files over 25 MB only; it does not remove high-file-count tile pyramids.
     - The tracked repo contains 61,970 files; 45,897 tracked files are under `test/tiles`.
     - `test/tiles/generated` alone contains 41,973 tracked files.
     - `test/tiles/civil-parishes-v3` contains another 3,924 tracked files.
@@ -4896,14 +4896,14 @@ Fix Cloudflare Pages 20,000-file deployment failure
     - All 18 PMTiles layers in `/test` point at `https://data.civgraph.net/...` CDN/R2 URLs, but 17 directory-MVT fallbacks still point at local `/test/tiles/...` paths.
   - Implementation:
     - Removed `test/tiles/generated/` and `test/tiles/civil-parishes-v3/` from Git tracking with `git rm --cached`, leaving local developer copies available but keeping them out of future Cloudflare clones/deploys.
-    - Added `test/tiles/generated/`, `test/tiles/civil-parishes-v3/`, `test/tiles/`, `test/pmtiles/generated/`, and `node_modules/` deployment/source-control guardrails through `.gitignore`, `.cfignore`, and `scripts/clean-for-pages.sh`.
-    - Hardened `scripts/clean-for-pages.sh` so Pages build output removes local tile pyramids and fails early if the remaining asset output still exceeds Cloudflare's 20,000-file cap.
+    - Added `test/tiles/generated/`, `test/tiles/civil-parishes-v3/`, `test/tiles/`, `test/pmtiles/generated/`, and `node_modules/` deployment/source-control guardrails through `.gitignore`, `.cfignore`, and `scripts/build/clean-for-pages.sh`.
+    - Hardened `scripts/build/clean-for-pages.sh` so Pages build output removes local tile pyramids and fails early if the remaining asset output still exceeds Cloudflare's 20,000-file cap.
     - Updated `/test` PMTiles fallback handling so production does not attempt to use local directory-MVT fallbacks that are intentionally not deployed; local development hosts can still use them.
     - Updated `/test` production-readiness documentation and `tasks/lessons.md` with the Pages/R2 split and file-count guardrail.
   - Verification:
     - `git ls-files | Measure-Object` now reports 16,073 tracked files.
     - `git ls-files test/tiles` now reports 0 tracked files.
-    - `bash -n scripts/clean-for-pages.sh` passed.
+    - `bash -n scripts/build/clean-for-pages.sh` passed.
     - `node --check` passed for changed `/test` runtime modules.
     - `npm run check:test` passed; existing warning-only tile budget findings remain for `roi-small-areas-2011` and `roi-townlands`.
     - Approved `npm run build` passed after the sandboxed run hit an esbuild spawn `EPERM`.
@@ -5318,7 +5318,7 @@ Fix Settlements 2015 labels and feature interaction
   - Root cause:
     - The vector-tile metadata had a usable unique `Code` field and `Name` labels, but the promoted `/test` metadata lacked `promoteId`/`idProperty`. The MapLibre interaction path depends on a stable feature id for DOM labels, hover feature-state, and selection.
   - Permanent prevention action:
-    - Extended `scripts/promote-test-converted-layers.mjs` to infer stable ids from tile metadata/tilestats for both newly promoted and pre-existing vector layers. The inference prefers explicit id/code/object id fields, then unique label fields, then other unique non-geometry fields.
+    - Extended `scripts/build/tiles/promote-layers.mjs` to infer stable ids from tile metadata/tilestats for both newly promoted and pre-existing vector layers. The inference prefers explicit id/code/object id fields, then unique label fields, then other unique non-geometry fields.
     - Added a `/test2` browser regression for `Settlements 2015` that checks `Code` promotion, visible DOM labels, hover styling, and non-empty feature details.
   - Broader review:
     - Before the fix, 314 labelable vector layers lacked configured stable ids. Regenerating metadata now enriches affected layers where tile metadata exposes a safe unique field, including `settlements-2015`.
@@ -5384,7 +5384,7 @@ Add election entries to /test2
 - [x] Keep election result JSON lazy-loaded or bundled per election date
 - [x] Run verification and document residual unmatched/data limitations
   - Implemented:
-    - Added `scripts/build-test2-election-manifest.mjs` to generate `test/metadata/elections-test2.json`, per-election lazy bundles in `test/metadata/elections-test2/`, and `test/metadata/elections-test2-report.json`.
+    - Added `scripts/build/build-test2-election-manifest.mjs` to generate `test/metadata/elections-test2.json`, per-election lazy bundles in `test/metadata/elections-test2/`, and `test/metadata/elections-test2-report.json`.
     - Added geography mapping from election bodies/dates to converted MapLibre layers, including Westminster, Assembly aliases, Stormont, Dail, Irish presidential/referendum/European Parliament, and NI local-government DEA layers.
     - Wired `/test2` election catalogue callbacks through `Test2ElectionManager`, so generated election rows appear in the existing left catalogue and load via the main shell.
     - Added MapLibre election styling for winner, leading party, vote share, turnout, majority, seats, and quota where each bundle has supporting data.
@@ -5397,7 +5397,7 @@ Add election entries to /test2
     - 3,467 matched constituency results.
     - 1,217 unmatched constituency results listed in `test/metadata/elections-test2-report.json`.
   - Verification:
-    - `node --check scripts/build-test2-election-manifest.mjs` passed.
+    - `node --check scripts/build/build-test2-election-manifest.mjs` passed.
     - `node --check test2/src/election-manager.js` passed.
     - `node --check test2/src/app.js` passed.
     - `node --check test2/src/maplibre-main-adapter.js` passed.
@@ -5435,13 +5435,13 @@ Add election entries to /test2
   - `/test2` already used the production shell and below-map pane, shared election-domain summary helpers, MapLibre style expressions, generated anchor sidecars, DOM labels, MapLibre feature enrichment, seat circles, vote bars, local-party views, count views, entity pages, URL election substate, and timeline wiring.
   - The main parity drift fixed here was catalogue/data shape: generated `/test2` entries listed NI local elections once per council/date, so the catalogue and timeline treated one all-NI election as many council elections.
 - Implemented:
-  - `scripts/build-test2-election-manifest.mjs` now groups multi-council local-government dates into one synthetic `Local Government Districts` entry, while preserving a per-constituency council lookup for matching old DEA source names.
+  - `scripts/build/build-test2-election-manifest.mjs` now groups multi-council local-government dates into one synthetic `Local Government Districts` entry, while preserving a per-constituency council lookup for matching old DEA source names.
   - General local-election entries now carry `displayTitle`, `displayProvider`, `localBodies`, and per-result `localBody` metadata.
   - `/test2` election rendering now uses the grouped title and exposes a council-level view for grouped local elections.
   - Single-council local by-elections remain separate entries.
   - Generated manifest changed from 548 total elections / 294 local-government entries to 268 total elections / 14 local-government entries, while matched/unmatched constituency totals stayed stable at 3,957 matched and 727 unmatched.
 - Verification:
-  - `node --check scripts/build-test2-election-manifest.mjs` passed.
+  - `node --check scripts/build/build-test2-election-manifest.mjs` passed.
   - `node --check test2/src/election-manager.js` passed.
   - `node --check tests/browser/test2-app.spec.js` passed.
   - `npm run build:test2:elections` passed.
@@ -5555,7 +5555,7 @@ Add election entries to /test2
   - The generated report changed from 3,957 matched / 727 unmatched with one `blocked-on-implementation` residual to 3,959 matched / 725 unmatched and no implementation/data-cleanup residuals.
   - Added static route validation and browser coverage for synthetic regional results, bounded anchors, and zero feasible election residuals.
 - Verification:
-  - `node --check scripts/build-test2-election-manifest.mjs` passed.
+  - `node --check scripts/build/build-test2-election-manifest.mjs` passed.
   - `node --check test2/src/election-manager.js` passed.
   - `node --check scripts/validate-test2-route.mjs` passed.
   - `node --check tests/browser/test2-app.spec.js` passed.
@@ -5666,8 +5666,8 @@ Add election entries to /test2
   - Document completed changes, verification evidence, and any remaining data/source limits.
   - Completed: Browse map pages now use a map-specific lead panel, compact definition-grid metadata, grouped source/reference/download sections, and secondary raw metadata.
   - Completed: map thumbnails now prefer real generated WebP assets; maps without a local/generated asset render a cartographic fallback SVG with grey land context and feature-like overlays instead of a text placeholder.
-  - Completed: `scripts/regen-thumbnails.py` now resolves local data-host mirrors, compressed `.fgb.gz` sources, and LOD fallbacks before considering downloads.
-  - Verification evidence: `node --check browse/browse.js` passed; `python -m py_compile scripts/regen-thumbnails.py` passed; `npm run build` passed after approved sandbox escalation for esbuild helper spawning; thumbnail manifest has 1,182 entries; Browse map coverage is 656 asset thumbnails and 165 runtime cartographic fallbacks.
+  - Completed: `scripts/build/thumbnails/regen-thumbnails.py` now resolves local data-host mirrors, compressed `.fgb.gz` sources, and LOD fallbacks before considering downloads.
+  - Verification evidence: `node --check browse/browse.js` passed; `python -m py_compile scripts/build/thumbnails/regen-thumbnails.py` passed; `npm run build` passed after approved sandbox escalation for esbuild helper spawning; thumbnail manifest has 1,182 entries; Browse map coverage is 656 asset thumbnails and 165 runtime cartographic fallbacks.
   - Browser smoke note: the local static server returned HTTP 200 from the workspace shell, but the in-app browser loopback navigation stayed blocked/refused, so final visual verification used build/static checks rather than a browser screenshot.
 
 # Correct Browse map thumbnails and map metadata presentation
@@ -5689,7 +5689,7 @@ Add election entries to /test2
   - Visual check: `assets/thumbnails/admin-areas-1924-04-01.webp` now shows the 1924 map over a broader recognizable grey Ireland/Britain land context rather than a cropped/misshapen underlay.
   - Manifest check: `assets/thumbnails/manifest.json` has 854 WebP entries and zero transparent non-60 thumbnails in the manifest; 168 source-unavailable transparent thumbnails are excluded and use runtime cartographic fallback.
   - Browse check: `admin-areas-1924-04-01` now references its own thumbnail asset, not the 1936 clone asset.
-  - Verification evidence: `node --check browse/browse.js` passed; `node --check scripts/build-browse-indexes.mjs` passed; `python -m py_compile scripts/regen-thumbnails.py` passed; `npm run build` passed after approved esbuild spawn escalation; `npm run check` passed.
+  - Verification evidence: `node --check browse/browse.js` passed; `node --check scripts/build/build-browse-indexes.mjs` passed; `python -m py_compile scripts/build/thumbnails/regen-thumbnails.py` passed; `npm run build` passed after approved esbuild spawn escalation; `npm run check` passed.
 
 # Tighten Browse thumbnail framing and map info cards
 - [x] Record correction
@@ -5707,7 +5707,7 @@ Add election entries to /test2
   - Completed: thumbnail framing now uses adaptive feature-footprint context instead of the previous hard 820 km context floor.
   - Completed: representative thumbnails were regenerated and visually inspected: `admin-areas-1924-04-01.webp` now has tighter NI feature framing with grey Britain/Ireland context; `counties-ireland-1927.webp` remains an all-island map with visible grey coastline context.
   - Completed: Browse map detail pages now use a compact map overview block and table-like metadata groups instead of sparse mini-cards.
-  - Verification evidence: `node --check browse/browse.js` passed; `python -m py_compile scripts/regen-thumbnails.py` passed; `npm run build:browse` passed; `npm run build` passed after approved esbuild spawn escalation; `npm run check` passed; local static HTTP check returned 200.
+  - Verification evidence: `node --check browse/browse.js` passed; `python -m py_compile scripts/build/thumbnails/regen-thumbnails.py` passed; `npm run build:browse` passed; `npm run build` passed after approved esbuild spawn escalation; `npm run check` passed; local static HTTP check returned 200.
 
 # Fix residual empty space in Browse thumbnails
 - [x] Record correction
@@ -5721,9 +5721,9 @@ Add election entries to /test2
   - Run syntax checks and Browse/build checks that cover thumbnail generation.
 - [x] Review
   - Document changed files, verification evidence, and any remaining limits.
-  - Completed: `scripts/regen-thumbnails.py` now applies a specific regional administrative thumbnail profile with an explicit feature-footprint cap, reducing the representative viewport from about 619 km to about 439 km.
+  - Completed: `scripts/build/thumbnails/regen-thumbnails.py` now applies a specific regional administrative thumbnail profile with an explicit feature-footprint cap, reducing the representative viewport from about 619 km to about 439 km.
   - Completed: regenerated `assets/thumbnails/admin-areas-1924-04-01.png`, `.webp`, and `-60.webp`; visual inspection shows the NI boundaries now dominate the thumbnail while retaining grey Ireland/Britain context.
-  - Verification evidence: `python -m py_compile scripts/regen-thumbnails.py` passed; `npm run build:browse` passed; generated Browse JSON churn was reverted; `npm run check` passed.
+  - Verification evidence: `python -m py_compile scripts/build/thumbnails/regen-thumbnails.py` passed; `npm run build:browse` passed; generated Browse JSON churn was reverted; `npm run check` passed.
 
 # Explain election-data corroboration sources
 - [x] Record scope
@@ -5739,7 +5739,7 @@ Add election entries to /test2
 - [x] Record scope
   - User asked whether election entries and sub-entries have references indicating their sources in the same way many map Browse entries do.
 - [x] Inspect generated Browse/source records
-  - Checked `data/browse/elections.json`, `data/browse/details/elections/*.json`, `data/browse/sources.json`, `scripts/build-browse-indexes.mjs`, and representative `/test2` election bundles.
+  - Checked `data/browse/elections.json`, `data/browse/details/elections/*.json`, `data/browse/sources.json`, `scripts/build/build-browse-indexes.mjs`, and representative `/test2` election bundles.
 - [x] Summarize finding
   - Completed: election Browse entries generally expose generated result bundle URLs and anchor sidecar downloads, while map-style `references` arrays/public source citations are not currently propagated onto election entries or result sub-entries.
   - Completed: some raw/test2 election bundles contain `source_url` fields, but this is uneven and not surfaced consistently as Browse references.
@@ -5766,7 +5766,7 @@ Add election entries to /test2
 - [x] Regenerate Browse data
   - Ran `npm run build:browse` to regenerate `data/browse` with election references.
 - [x] Verify
-  - Verification evidence: `node --check scripts/build-browse-indexes.mjs` passed; `npm run build:browse` passed; `npm run check` passed.
+  - Verification evidence: `node --check scripts/build/build-browse-indexes.mjs` passed; `npm run build:browse` passed; `npm run check` passed.
   - Verification evidence: generated `data/browse/elections.json` contains references on all 5,220 election records, including all 268 parent election records; representative checks confirmed Dáil 2024 parent, overall result, Dublin Central result, NI Assembly 2022 parent, and Belfast East result references.
   - Verification evidence: generated `data/browse/sources.json` election-source records also carry the propagated election references.
 - [x] Review
@@ -5790,7 +5790,7 @@ Add election entries to /test2
   - Completed: `npm run build:browse` regenerated `data/browse/elections.json` with 5,220 records and pruned `data/browse/details/elections` to 268 parent election detail files.
   - Completed: projected tracked repository file count after staged deletions is 19,854, under the 20,000-file Cloudflare Pages deployment cap.
   - Completed: local browser smoke for `http://127.0.0.1:8765/browse/#/elections` showed `5,220` election records and canonical titles including `2024 Irish general election`, `2024 general election in Northern Ireland`, and `2024 European Parliament election (ROI)`.
-  - Verification evidence: `node --check browse/browse.js` passed; `node --check scripts/build-browse-indexes.mjs` passed; `npm run check` passed; `npm run check:test2` passed; `npm run build` passed after approved esbuild spawn escalation.
+  - Verification evidence: `node --check browse/browse.js` passed; `node --check scripts/build/build-browse-indexes.mjs` passed; `npm run check` passed; `npm run check:test2` passed; `npm run build` passed after approved esbuild spawn escalation.
 
 # Force tight Browse thumbnail framing and bypass stale thumbnail cache
 - [x] Record recurrence
@@ -5810,7 +5810,7 @@ Add election entries to /test2
   - Completed: `admin-areas-1924-04-01` now computes a representative feature ratio of about 0.926 rather than about 0.806.
   - Completed: Browse thumbnail asset URLs now append `?v=20260604-tight-admin-frame` in `src`, `srcset`, and actual-size links.
   - Completed: regenerated `assets/thumbnails/admin-areas-1924-04-01.png`, `.webp`, and `-60.webp`; visual inspection shows a much tighter feature-fitted frame.
-  - Verification evidence: `node --check browse/browse.js` passed; `python -m py_compile scripts/regen-thumbnails.py` passed; `npm run build:browse` passed; `npm run check` passed; `npm run build` passed after approved esbuild spawn escalation.
+  - Verification evidence: `node --check browse/browse.js` passed; `python -m py_compile scripts/build/thumbnails/regen-thumbnails.py` passed; `npm run build:browse` passed; `npm run check` passed; `npm run build` passed after approved esbuild spawn escalation.
 
 # Split Browse detail data into general-interest and technical tiers
 - [x] Record scope
@@ -5871,7 +5871,7 @@ Add election entries to /test2
   - Completed: `/test2` manifest display titles now include requested forms such as `2024 Irish general election`, `2024 European Parliament election (ROI)`, `2019 European Parliament election (NI)`, `2024 general election in Northern Ireland`, `2018 North Antrim recall petition`, `1975 Northern Ireland Constitutional convention`, `16 Apr 1970 Northern Ireland by-elections`, and `2023 Northern Ireland local election`.
   - Completed: Browse elections now include 268 parent election records plus 4,952 child result records, for 5,220 election Browse entries total.
   - Completed: each parent Browse election now carries `resultEntries`; child records include an overall-results entry plus constituency/DEA entries, including `Regional List - 1996 Northern Ireland Forum election`.
-  - Verification evidence: `node --check` passed for `js/election-names.mjs`, `js/election-controller.js`, `scripts/build-test2-election-manifest.mjs`, `scripts/build-browse-indexes.mjs`, and `browse/browse.js`; `npm run build:test2:elections` passed; `npm run build:browse` passed; representative Node spot-checks passed; `npm run check` passed; `npm run check:test2` passed; `npm run build` passed after approved esbuild spawn escalation.
+  - Verification evidence: `node --check` passed for `js/election-names.mjs`, `js/election-controller.js`, `scripts/build/build-test2-election-manifest.mjs`, `scripts/build/build-browse-indexes.mjs`, and `browse/browse.js`; `npm run build:test2:elections` passed; `npm run build:browse` passed; representative Node spot-checks passed; `npm run check` passed; `npm run check:test2` passed; `npm run build` passed after approved esbuild spawn escalation.
 # Break down Browse parent election entries
 - [x] Record scope
   - User asked what the 268 parent election entries consist of.
@@ -6210,7 +6210,7 @@ Add election entries to /test2
     - Symptom: Cork North-Central showed zero first preferences for most candidates, false `Made Quota` transfer stages, and wrong party colours.
     - Root cause: synthetic scraper rows were encoded as if `final_count` were a real `Count_Number`; `/test2` also treated any animation payload as transfer detail and used stale ROI colour fallback maps.
     - Permanent prevention action: `scripts/validate-test2-route.mjs` now asserts synthetic Dáil 2024 rows stay first-count-only and includes named Cork North-Central candidate/value/colour checks; the focused browser regression asserts party rows, candidate rows, swatches, and no fake Transfers tab.
-    - Verification evidence: `node --check js/election-domain.mjs`, `node --check js/election-controller.js`, `node --check test2/src/election-manager.js`, `node --check scripts/build-test2-election-manifest.mjs`, `node --check scripts/validate-test2-route.mjs`, `node --check tests/browser/test2-app.spec.js`, `npm run build:test2:elections`, `npm run build:browse`, `npm run check:test2`, `npm run build:test2`, `npm run build`, `npm run check`, and focused Playwright `npx playwright test tests/browser/test2-app.spec.js --grep "Cork North-Central"` passed. The esbuild and Playwright commands required approved escalation because the Windows sandbox blocks process/browser spawn.
+    - Verification evidence: `node --check js/election-domain.mjs`, `node --check js/election-controller.js`, `node --check test2/src/election-manager.js`, `node --check scripts/build/build-test2-election-manifest.mjs`, `node --check scripts/validate-test2-route.mjs`, `node --check tests/browser/test2-app.spec.js`, `npm run build:test2:elections`, `npm run build:browse`, `npm run check:test2`, `npm run build:test2`, `npm run build`, `npm run check`, and focused Playwright `npx playwright test tests/browser/test2-app.spec.js --grep "Cork North-Central"` passed. The esbuild and Playwright commands required approved escalation because the Windows sandbox blocks process/browser spawn.
     - Residual test note: a broader `--grep "Dail"` browser subset still has two pre-existing/brittle UI-test failures unrelated to the Cork data fix: a filter-menu visibility timeout and a renderer-marker assertion after a direct-rendered candidate view. The source-specific Cork regression and static route checks pass.
 
 # Finish /test2 election parity, catalogue naming, and R2 queue
@@ -6237,7 +6237,7 @@ Add election entries to /test2
 - [x] Handle R2/CDN follow-up
   - Completed: ran the `/test2` PMTiles/CDN validator. No new upload was required from this task; current metadata reports `602/602` PMTiles layers using CDN URLs and zero manifest errors.
 - [x] Verify, rebuild, and commit
-  - Verification evidence: `node --check test2/src/election-manager.js`, `node --check test2/src/app.js`, `node --check js/ui-controller.js`, `node --check scripts/build-test2-election-manifest.mjs`, `npm run build:test2`, and `npm run check:test2` passed. The build needed approved escalation because the Windows sandbox blocked esbuild process spawn.
+  - Verification evidence: `node --check test2/src/election-manager.js`, `node --check test2/src/app.js`, `node --check js/ui-controller.js`, `node --check scripts/build/build-test2-election-manifest.mjs`, `npm run build:test2`, and `npm run check:test2` passed. The build needed approved escalation because the Windows sandbox blocked esbuild process spawn.
   - Focused data evidence: generated manifest titles include `2024 Irish general election`, `2024 UK general election in Northern Ireland`, `2024 European election in the Republic of Ireland`, `2019 European election in Northern Ireland`, `2022 Northern Ireland Assembly election`, `1996 Northern Ireland Forum election`, `1975 Northern Ireland Constitutional Convention election`, `2023 Northern Ireland local elections`, `2024 Irish family referendum`, `2024 Irish care referendum`, and `2019 Irish divorce referendum`; 2023 NI local elections use `lgd-2012` for Council mode.
   - Recurring issue: visible `/test2` election behaviour was previously fixed in helpers but not always in the rendered path.
     - Symptom: catalogue names, local-government modes, result table semantics, or map styling could remain visibly wrong after a helper-only change.
@@ -6303,7 +6303,7 @@ Add election entries to /test2
 - [x] Add line-ending guardrails
   - Completed: added `.gitattributes` LF normalization for generated metadata/report JSON and the `/test2` election audit markdown report so Windows rebuilds do not produce CRLF-only dirty-tree churn.
 - [x] Verify and commit
-  - Verification evidence: `node --check` passed for `scripts/lib/stable-generated-json.mjs`, `scripts/build-test2-election-manifest.mjs`, `scripts/build-test2-election-summaries.mjs`, `scripts/build-test2-metadata-shards.mjs`, `scripts/audit-test2-election-data.mjs`, `scripts/validate-test2-pmtiles-cdn.mjs`, and `scripts/build-test2-performance-dashboard.mjs`.
+  - Verification evidence: `node --check` passed for `scripts/lib/stable-generated-json.mjs`, `scripts/build/build-test2-election-manifest.mjs`, `scripts/build/build-test2-election-summaries.mjs`, `scripts/build/build-test2-metadata-shards.mjs`, `scripts/audit-test2-election-data.mjs`, `scripts/validate-test2-pmtiles-cdn.mjs`, and `scripts/build/build-test2-performance-dashboard.mjs`.
   - Verification evidence: `npm run build:test2:elections`, `npm run build:test2`, and `npm run check:test2` passed, and `git status --porcelain=v1` stayed limited to the intended source/task files after the generators reran. `build:test2` reported `Test2 layer details: 0 changed, 0 stale removed` and `Test2 duplicate-id sidecars: 0 changed, 0 stale removed`.
   - Recurring issue: generated metadata/audit reports repeatedly dirtied the working tree after verification.
     - Symptom: hundreds of tracked `/test` metadata files appeared modified, while true diffs were mostly generated timestamps.
@@ -6354,7 +6354,7 @@ Add election entries to /test2
   - Completed: created annotated git tag `leaflet-main-before-maplibre-root-20260612` at `eaf3311c5bd2faf78c796f6aa067049c689b7929` and added `archive/leaflet-main-before-maplibre-root-20260612.md` with restore instructions.
 - [x] Promote `/test2` route ownership to `/`
   - Scope: make the generated root `index.html` use the MapLibre `/test2` shell/runtime instead of the archived Leaflet shell/runtime.
-  - Completed: added `scripts/promote-test2-root.mjs` and wired `npm run build` so it builds the existing root CSS/assets, builds `/test2`, then promotes the `/test2` MapLibre shell to root deterministically.
+  - Completed: added `scripts/build/promote-test2-root.mjs` and wired `npm run build` so it builds the existing root CSS/assets, builds `/test2`, then promotes the `/test2` MapLibre shell to root deterministically.
 - [x] Preserve `/test2` compatibility route
   - Scope: keep `/test2` loadable for existing links and for comparison/debugging during promotion.
   - Completed: left `test2/index.html`, `/test2/build/*`, `/test2/sw.js`, and route-scoped election animation assets in place; the root route reuses those runtime assets rather than moving or deleting them.
@@ -6398,7 +6398,7 @@ Add election entries to /test2
   - Current coupling: `scripts/bundle.mjs` still bundles `js/app.js` because it also owns shared shell asset generation.
 - [x] Add shared shell asset builder
   - Scope: create a dedicated script for thumbnail manifest generation, critical/deferred CSS splitting, critical-CSS inlining, `about.css`, and shared CSS versioning.
-  - Completed: added `scripts/build-shared-shell-assets.mjs`; normal builds now use it for thumbnail manifest generation, root/test2 critical CSS, shared deferred CSS, `about.css`, and CSS cache versioning. It also removes stale local legacy Leaflet build outputs from the normal production build directory.
+  - Completed: added `scripts/build/shell-assets.mjs`; normal builds now use it for thumbnail manifest generation, root/test2 critical CSS, shared deferred CSS, `about.css`, and CSS cache versioning. It also removes stale local legacy Leaflet build outputs from the normal production build directory.
 - [x] Keep legacy Leaflet build available separately
   - Scope: add a dedicated legacy command for archive/debug use without keeping it in the normal production `npm run build` path.
   - Completed: added `scripts/build-legacy-leaflet-app.mjs` and `npm run build:legacy-leaflet`; verified the manual legacy command still builds the archived Leaflet bundle, then verified the normal build removes it again.
@@ -6411,7 +6411,7 @@ Add election entries to /test2
 
 ## Review: shared shell asset split
 - Normal production builds no longer run `scripts/bundle.mjs` or emit the archived Leaflet app bundle.
-- Shared shell assets are now built by `scripts/build-shared-shell-assets.mjs`, which owns the thumbnail manifest, critical/deferred CSS split, root and `/test2` critical CSS inlining, `about.css`, CSS versioning, and stale legacy-output cleanup.
+- Shared shell assets are now built by `scripts/build/shell-assets.mjs`, which owns the thumbnail manifest, critical/deferred CSS split, root and `/test2` critical CSS inlining, `about.css`, CSS versioning, and stale legacy-output cleanup.
 - The archived Leaflet runtime remains available through `npm run build:legacy-leaflet` for rollback investigation without coupling it to production root builds.
 - Root promotion validation now enforces this separation so future changes cannot silently reintroduce `build/app.bundle.js` into the normal production build.
 
@@ -6428,7 +6428,7 @@ Add election entries to /test2
 
 ## Review: archived mixed bundle script
 - `scripts/bundle.mjs` is now archived at `archive/legacy-scripts/bundle.mjs` with a header explaining that it is historical reference only.
-- Active production builds continue through `scripts/build-shared-shell-assets.mjs`, `npm run build:test2`, and `scripts/promote-test2-root.mjs`.
+- Active production builds continue through `scripts/build/shell-assets.mjs`, `npm run build:test2`, and `scripts/build/promote-test2-root.mjs`.
 - Root promotion validation now fails if the retired mixed bundle script returns to `scripts/` or if the archived copy disappears.
 
 # Dark-mode UI sweep for MapLibre root and `/test2`
@@ -6569,7 +6569,7 @@ Add election entries to /test2
 - Recurring issue guardrail:
   - Symptom: grouped catalogue entries could point at stale direct generated layers or drop existing sibling layers during promotion.
   - Root cause: promotion logic mixed direct parent map IDs with variant/source child IDs and scoped CDN/PMTiles regeneration did not prove every runtime layer remained represented.
-  - Permanent prevention action: `scripts/validate-test2-route.mjs` now checks grouped DED parent resolution, stale counties variants, Local Authorities 2008 attribution, and Provinces Irish-name preservation; `scripts/promote-test-converted-layers.mjs` now separates direct map IDs from variant/source IDs and refreshes layer catalogue metadata.
+  - Permanent prevention action: `scripts/validate-test2-route.mjs` now checks grouped DED parent resolution, stale counties variants, Local Authorities 2008 attribution, and Provinces Irish-name preservation; `scripts/build/tiles/promote-layers.mjs` now separates direct map IDs from variant/source IDs and refreshes layer catalogue metadata.
   - Verification evidence: `npm run check:test2` reports 605 PMTiles layers, 544 unique URLs, PMTiles/CDN errors 0, and warnings 0 after restoring unrelated runtime layers and regenerating the CDN manifest.
 
 # Complete remaining unfinished election/catalogue/Browse fixes
@@ -6596,7 +6596,7 @@ Add election entries to /test2
   - Completed: added a networked, explicit `npm run build:external-sources` metadata builder for Wikipedia ROI council-election article entries and Internet Archive raster-map entries from `ScottMoore0`; generated `data/database/external-sources.json`; integrated those records into Browse source indexes and source detail pages; added support for external/hotlinked thumbnails; and kept the repository metadata-only, with Wikipedia pages and Internet Archive raster files referenced/hotlinked rather than copied into the repo.
 - [x] Verify, commit, and push
   - Scope: run focused route/static checks plus full `npm run build`, `npm run check`, and `npm run check:test2`, then commit/push scoped changes only.
-  - Verification so far: `node --check app/src/app.js`, `node --check test/src/map-controller.js`, `node --check scripts/validate-test2-route.mjs`, `node scripts/validate-test2-route.mjs`, `node --check scripts/build-external-source-indexes.mjs`, `node --check scripts/validate-external-sources.mjs`, `node --check scripts/build-browse-indexes.mjs`, `npm run build:external-sources`, `npm run build`, `npm run check:test2`, `npm run check:external-sources`, and `npm run check` passed.
+  - Verification so far: `node --check app/src/app.js`, `node --check test/src/map-controller.js`, `node --check scripts/validate-test2-route.mjs`, `node scripts/validate-test2-route.mjs`, `node --check scripts/build/build-external-source-indexes.mjs`, `node --check scripts/validate-external-sources.mjs`, `node --check scripts/build/build-browse-indexes.mjs`, `npm run build:external-sources`, `npm run build`, `npm run check:test2`, `npm run check:external-sources`, and `npm run check` passed.
   - Completed: external-source validation now proves 20 Wikipedia ROI council-election article records and 117 Internet Archive raster-map records are present in Browse, that they have detail pages, and that no copied article bodies or local raster downloads were introduced.
 
 ## Review: external Browse source indexing
@@ -6605,7 +6605,7 @@ Add election entries to /test2
 - Recurring issue guardrail:
   - Symptom: external data requests could remain unresolved or be handled ad hoc without proving what was indexed and without protecting against accidental third-party content copies.
   - Root cause: there was no deterministic metadata-only external-source ingestion path or repository check.
-  - Permanent prevention action: `scripts/build-external-source-indexes.mjs` performs explicit networked source discovery when requested, and `scripts/validate-external-sources.mjs` is part of `npm run check` so the indexed records, Browse detail pages, hotlink-only raster policy, and no-copied-article-text policy are verified.
+  - Permanent prevention action: `scripts/build/build-external-source-indexes.mjs` performs explicit networked source discovery when requested, and `scripts/validate-external-sources.mjs` is part of `npm run check` so the indexed records, Browse detail pages, hotlink-only raster policy, and no-copied-article-text policy are verified.
   - Verification evidence: `npm run check` passed with `PASS: 20 Wikipedia council-election articles and 117 Internet Archive raster map records are indexed as external Browse sources.`
 
 # Resolve remaining generated Browse/test metadata outputs
@@ -7249,7 +7249,7 @@ Add election entries to /test2
   - Completed: `eds-1971`, `eds-1977`, `eds-1980`, and `eds-1983` now render their Connacht/Leinster/Munster/Ulster variants expanded by default.
 - [x] Harden generation and validation
   - Task: remove hidden maps from generated Browse map indexes, exclude hidden maps from the Fuse search index, and add validation checks so hidden maps cannot leak back into the public catalogue/search/Browse surfaces.
-  - Completed: `scripts/build-browse-indexes.mjs` excludes hidden map/data-entry records, `js/data-service.js` excludes hidden maps from Fuse search by indexing `getAllMaps()`, and `scripts/validate-test2-route.mjs` now asserts hidden duplicate records are absent from Browse output and the flat catalogue.
+  - Completed: `scripts/build/build-browse-indexes.mjs` excludes hidden map/data-entry records, `js/data-service.js` excludes hidden maps from Fuse search by indexing `getAllMaps()`, and `scripts/validate-test2-route.mjs` now asserts hidden duplicate records are absent from Browse output and the flat catalogue.
 
 ## Review: visible catalogue repair for historical ROI ED/County/Province maps
 - The visible catalogue now matches the intended source data:
@@ -7258,7 +7258,7 @@ Add election entries to /test2
   - 1957, 1922, and 1915 county maps remain present through the visible `Counties (Ireland)` class.
   - redundant Provinces 2019 and duplicate 28 June 1921 ED/Ward records are hidden from the flat catalogue, Browse maps, Browse sources, and map search.
 - Verification evidence:
-  - `node --check scripts/build-browse-indexes.mjs`
+  - `node --check scripts/build/build-browse-indexes.mjs`
   - `node --check scripts/validate-test2-route.mjs`
   - `node --check js/data-service.js`
   - `node --check js/ui-controller.js`
@@ -7306,7 +7306,7 @@ Add election entries to /test2
   - Task: recommend the safest order for exclusions, sharding/R2 movement, and deployment guards so Pages deploys reliably without breaking runtime features.
 
 ## Review: Cloudflare Pages asset-count deployment failure research
-- The deployment failure is reproducible from tracked files after the current `scripts/clean-for-pages.sh` exclusions: `23,044` deployable tracked files versus the `20,000` Cloudflare Pages cap.
+- The deployment failure is reproducible from tracked files after the current `scripts/build/clean-for-pages.sh` exclusions: `23,044` deployable tracked files versus the `20,000` Cloudflare Pages cap.
 - Largest remaining file-count buckets after current cleanup:
   - `data/browse/details`: 9,758 files, including 7,880 source-detail JSON files.
   - `data/elections-source/data/elections`: 7,356 files. These are legacy/source election JSON files; the promoted MapLibre app loads generated `/test/metadata/elections-test2/*.json` bundles instead.
@@ -7318,7 +7318,7 @@ Add election entries to /test2
 # Implement Cloudflare Pages deploy-output fix
 - [x] Exclude legacy election source JSON from Pages output
   - Task: remove `data/elections-source/data/elections/` from the deployed asset set while keeping generated MapLibre election bundles available.
-  - Completed: added the legacy election source tree to `scripts/clean-for-pages.sh` and `scripts/validate-pages-file-budget.mjs` exclusions. The runtime MapLibre election bundles under `test/metadata/elections-test2` remain deployable.
+  - Completed: added the legacy election source tree to `scripts/build/clean-for-pages.sh` and `scripts/validate-pages-file-budget.mjs` exclusions. The runtime MapLibre election bundles under `test/metadata/elections-test2` remain deployable.
 - [x] Lower Pages file-budget guard
   - Task: fail local/CI validation before Cloudflare by using a safe deploy-file threshold below the hard 20,000 cap.
   - Completed: lowered the default local/CI guard to `18,500` deployable files so the build fails before Cloudflare's `20,000` file cap.
@@ -7332,9 +7332,9 @@ Add election entries to /test2
   - Task: run build and Pages budget checks, then run broader checks if feasible.
 
 ## Review: Cloudflare Pages deploy-output fix
-- `scripts/clean-for-pages.sh` now removes non-runtime legacy election source JSON and the build-time approved-publication source blob from Pages output.
+- `scripts/build/clean-for-pages.sh` now removes non-runtime legacy election source JSON and the build-time approved-publication source blob from Pages output.
 - `scripts/validate-pages-file-budget.mjs` now mirrors those exclusions and enforces an `18,500` deployable-file budget.
-- `scripts/build-browse-indexes.mjs` now writes source detail data into fixed-size shards under `data/browse/details/source-shards/`, with `data/browse/sources.json` acting as a compact index. The largest generated source shard is about `3.4 MB`, and the compact source index is about `17.7 MB`.
+- `scripts/build/build-browse-indexes.mjs` now writes source detail data into fixed-size shards under `data/browse/details/source-shards/`, with `data/browse/sources.json` acting as a compact index. The largest generated source shard is about `3.4 MB`, and the compact source index is about `17.7 MB`.
 - `browse/browse.js`, `scripts/validate-approved-publication-path.mjs`, and `scripts/validate-external-sources.mjs` understand the new sharded source-detail layout.
 - Verification evidence:
   - `npm run build`
@@ -7367,7 +7367,7 @@ Add election entries to /test2
 - [x] Extend validation so every child row in those cards must resolve to a MapLibre layer.
   - Completed: expanded `validate-test2-route.mjs` from the Connacht-only check to the complete 32-row province child matrix.
 - [x] Verify and push.
-  - Verification before push: `node --check scripts/promote-test-converted-layers.mjs`; `node --check scripts/validate-test2-route.mjs`; structured 32-child alias check; `node scripts/validate-test2-route.mjs`; `npm run check:test2`.
+  - Verification before push: `node --check scripts/build/tiles/promote-layers.mjs`; `node --check scripts/validate-test2-route.mjs`; structured 32-child alias check; `node scripts/validate-test2-route.mjs`; `npm run check:test2`.
 
 ## Recurring issue: grouped ED/Ward child rows missing runtime aliases
 - Symptom: a visible province child row in the ED/Ward catalogue card could not load in the MapLibre route even though the equivalent canonical geometry had already been converted.
@@ -7659,7 +7659,7 @@ Review:
   - Task: compare the discovered NI Assembly documents and filtered Westminster CSV extract with the existing Browse source-record architecture.
   - Verification plan: inspect current Browse source generation/validation patterns, identify the minimal data shape needed, and document blockers, risks, and recommended next steps.
   - Completed: reviewed the Browse source pipeline and wrote `tasks/ni-assembly-register-source-review-2026-06-27.md`.
-  - Verification evidence: identified `scripts/build-browse-indexes.mjs` as the materialization path for source sidecars into `data/browse/sources.json` and sharded source details; recommended a metadata-only sidecar plus dedicated validator before publication.
+  - Verification evidence: identified `scripts/build/build-browse-indexes.mjs` as the materialization path for source sidecars into `data/browse/sources.json` and sharded source details; recommended a metadata-only sidecar plus dedicated validator before publication.
 
 ## Review: NI Assembly Register Of Interests Source Review
 
@@ -7734,7 +7734,7 @@ Review:
 - [x] Record findings and remaining holds.
   - Task: document applied counts, held rows, verification evidence, and any caveats.
   - Completed: verified the four held rows remain review-only, and verified the Tailte/OSI statutory-boundary family target carries the approved family-level relationship wording.
-  - Verification evidence: `node --check scripts\build-already-on-site-enrichment-records.mjs`; `node --check scripts\build-browse-indexes.mjs`; `node --check scripts\validate-already-on-site-enrichments.mjs`; `node scripts\build-already-on-site-enrichment-records.mjs`; `node scripts\build-browse-indexes.mjs`; `node scripts\validate-already-on-site-enrichments.mjs`; `node scripts\validate-external-sources.mjs`; `node scripts\validate-pages-file-budget.mjs`; `npm run check`.
+  - Verification evidence: `node --check scripts\build-already-on-site-enrichment-records.mjs`; `node --check scripts\build\build-browse-indexes.mjs`; `node --check scripts\validate-already-on-site-enrichments.mjs`; `node scripts\build-already-on-site-enrichment-records.mjs`; `node scripts\build\build-browse-indexes.mjs`; `node scripts\validate-already-on-site-enrichments.mjs`; `node scripts\validate-external-sources.mjs`; `node scripts\validate-pages-file-budget.mjs`; `npm run check`.
 
 # NI Register Interests Browse Publication
 
@@ -7801,7 +7801,7 @@ Review:
 - [x] Switch Browse to canonical rows.
   - Task: update Browse generation so `Register Interests` lists canonical interests, with source references for duplicate HTML/PDF/API evidence.
   - Verification plan: rebuild Browse and confirm register-interest counts use canonical rows, not raw extracted source rows.
-  - Completed: updated `scripts/build-browse-indexes.mjs` to read `canonicalShards`, write sharded compact Browse index records, and keep canonical detail rows linked to their source-reference evidence.
+  - Completed: updated `scripts/build/build-browse-indexes.mjs` to read `canonicalShards`, write sharded compact Browse index records, and keep canonical detail rows linked to their source-reference evidence.
   - Verification evidence: `npm run build:browse` reports 8,289 register-interest Browse records and 10,828 source records; Browse register-interest compact shards are 4.48 MB and 2.93 MB.
 - [x] Guard against duplicate Browse rows.
   - Task: update validation to fail if exact HTML/PDF duplicate rows appear as separate Browse items, while allowing source-specific audit rows in backend shards.
@@ -7827,7 +7827,7 @@ Review:
   - Completed: reviewed `data/database/already-on-site-enrichments.json`, `tasks/d-drive-remaining-decision-packs-2026-06-27/already-on-site-review-rankings.json`, the licence-risk decision pack, current map/source records, and live provider metadata for the relevant public data.gov.ie and ArcGIS endpoints.
   - Item 1 recommendation: promote row 521 only after correcting/confirming the existing `roi-local-authorities-2024` source metadata, because live data.gov.ie now exposes `local-authorities-national-statutory-boundaries-ungeneralised-20241` under CC-BY 4.0 and the same file is already used by the site; promote or repair row 1005 only as a stale-URL fix from dead `dcc_public_cycle_parking_stands` to live `cycle-parking-dcc` under CC-BY 4.0; keep one sensitive address-source row held and withheld from public outputs; keep row 945 held/remap manually because `Counties_RoI` has no public source URL and the automatic target evidence points to weak feature/source matches rather than a reliable counties map target.
   - Item 2 recommendation: do not bulk-approve the remaining 967 review-only rows. The queue now consists of 4 remaining safe rows, 305 probable variant/source rows, 510 low-confidence holds, 143 context-overlap holds, and 5 weak-match holds. The next ROI batch is not all 305 probable rows; it is a curated source-family pass over the 297 rights-clear probable rows, especially Tailte/OSI statutory-boundary rows, while excluding eight probable rights blockers and avoiding direct attachment of broad Tailte/local-authority rows to unrelated `counties-ireland` or council-topic targets.
-  - Item 3 recommendation: do not stage a task-2-only commit from the current dirty tree without splitting/rebuilding. `scripts/build-browse-indexes.mjs` now contains both already-on-site provenance changes and later NI register-interest changes, and the generated Browse source shards include mixed source-index changes. A clean package should either group task 2 with the later Browse-source additions intentionally, or rebuild/stage task 2 in a clean worktree with NI register files absent and `build-browse-indexes` patch-split to the already-on-site provenance changes only.
+  - Item 3 recommendation: do not stage a task-2-only commit from the current dirty tree without splitting/rebuilding. `scripts/build/build-browse-indexes.mjs` now contains both already-on-site provenance changes and later NI register-interest changes, and the generated Browse source shards include mixed source-index changes. A clean package should either group task 2 with the later Browse-source additions intentionally, or rebuild/stage task 2 in a clean worktree with NI register files absent and `build-browse-indexes` patch-split to the already-on-site provenance changes only.
   - Verification evidence: current enrichment summary is 146 applied rows, 124 targets, and 967 review-only rows; original ranking rows not yet applied are 4 safe, 305 probable, 510 low-confidence, 143 context-overlap, and 5 weak-match. Live data.gov.ie probes found `cycle-parking-dcc`, `local-authorities-national-statutory-boundaries-ungeneralised-20241`, `counties-national-statutory-boundaries-ungeneralised-20241`, and `counties-national-statutory-boundaries-20191` as public CC-BY 4.0 packages; the old DCC package URL returns 404 and its old package API returns 403. Live EONI ArcGIS layer metadata is queryable but only states OSNI Crown Copyright at service level.
 
 - [x] Resolve remaining ambiguities across items 1, 2, and 3.
@@ -7836,7 +7836,7 @@ Review:
   - Completed: resolved the remaining row-level ambiguity for rows 521, 945, and 1005 plus one sensitive held row, split the review-only queue into implementable approval buckets, and confirmed the current working tree cannot produce a clean task-2-only staged package without either split/rebuild work or an intentional combined source-index package.
   - Item 1 final disposition: row 521 is rights/source resolved because the local D-drive GeoJSON hash exactly matches the live Tailte Éireann 2024 local-authorities GeoJSON under `local-authorities-national-statutory-boundaries-ungeneralised-20241`; approve it only after fixing the existing `roi-local-authorities-2024` metadata/references, which still describe 2019/generalised source material. Row 1005 is resolved as a stale URL repair to the live `cycle-parking-dcc` package under CC-BY 4.0. One sensitive address-source row remains held and withheld from public outputs. Row 945 remains held/remap-only because local `Counties_RoI.geojson` is a 26-feature ROI counties component that does not byte-match the live Tailte 2019 or 2024 counties GeoJSON downloads and the automatic target evidence points to weak/wrong feature/source matches rather than an exact current map source.
   - Item 2 final disposition: do not bulk-approve the remaining 967 review-only rows. The next implementable batch should be a curated source-family pass, starting with the rights-clear Tailte/OSI national geospatial rows, then separate OPW/hydro and GSI/geology variant families after manual classifier cleanup. Tailte constituency/Gaeltacht/province/LEA rows need target-family remapping; local-authority topic rows and the mixed other rights-clear rows should stay out of already-on-site direct enrichment until reviewed as source records, map candidates, or council-topic families. The eight probable rows with unresolved rights/provider evidence stay held.
-  - Item 3 final disposition: no clean task-2-only staging path exists from the current dirty tree because `scripts/build-browse-indexes.mjs` and generated Browse source shards now mix the already-on-site provenance work with later NI register-interest source-index work. The clean options are either an intentional combined source-index package after full validation, or a clean worktree rebuild that excludes NI register inputs and patch-splits `build-browse-indexes` to the already-on-site provenance changes only.
+  - Item 3 final disposition: no clean task-2-only staging path exists from the current dirty tree because `scripts/build/build-browse-indexes.mjs` and generated Browse source shards now mix the already-on-site provenance work with later NI register-interest source-index work. The clean options are either an intentional combined source-index package after full validation, or a clean worktree rebuild that excludes NI register inputs and patch-splits `build-browse-indexes` to the already-on-site provenance changes only.
   - Verification evidence: fetched live data.gov.ie package metadata for DCC cycle parking, Tailte 2024 local authorities, Tailte 2019 counties, and Tailte 2024 counties; fetched live EONI ArcGIS service/layer metadata; hashed the relevant D-drive files; confirmed row 521 is an exact live-source hash match and row 945 is not; parsed local GeoJSON structure for `Counties_RoI`, local authorities, and EONI polling-station files; inspected current review-only ranking counts and relevant git diffs.
 
 # Already-On-Site Resolved Rows And Full Review
@@ -7854,7 +7854,7 @@ Review:
 - [x] Record findings and dirty-tree cleanup guidance.
   - Task: explain sensitive held-row handling, summarize the full review, and describe clean packaging options for the current mixed working tree.
   - Completed: recorded findings in this section and prepared dirty-tree guidance for handoff. The current tree remains mixed with unrelated route/CDN/NI-register/build artifacts; a clean task-2 package should be split in a clean worktree or intentionally bundled with the later source-index work.
-  - Verification evidence: `node --check scripts/build-already-on-site-enrichment-records.mjs`; `node --check scripts/validate-already-on-site-enrichments.mjs`; `node --check scripts/review-already-on-site-remaining.mjs`; `node scripts/build-already-on-site-enrichment-records.mjs`; `node scripts/build-browse-indexes.mjs`; `node scripts/review-already-on-site-remaining.mjs`; `node scripts/validate-already-on-site-enrichments.mjs`; `node scripts/validate-external-sources.mjs`; `node scripts/validate-pages-file-budget.mjs`; `npm run check`; `npm run build`.
+  - Verification evidence: `node --check scripts/build-already-on-site-enrichment-records.mjs`; `node --check scripts/validate-already-on-site-enrichments.mjs`; `node --check scripts/review-already-on-site-remaining.mjs`; `node scripts/build-already-on-site-enrichment-records.mjs`; `node scripts/build/build-browse-indexes.mjs`; `node scripts/review-already-on-site-remaining.mjs`; `node scripts/validate-already-on-site-enrichments.mjs`; `node scripts/validate-external-sources.mjs`; `node scripts/validate-pages-file-budget.mjs`; `npm run check`; `npm run build`.
 
 # Dirty Tree Cleanup Research Without New Branch
 
@@ -7869,7 +7869,7 @@ Review:
     - Test2 route/CDN/election-audit package: keep or stage separately after deciding whether to keep regenerated metadata baselines; includes route validators/audits, CDN manifest/report outputs, election audit outputs, and broad `test/metadata/layer-details-test2/` churn. Focused shortstat is 561 files, 4,849 insertions, and 1,451 deletions.
     - UI/build generated package: stage only if this branch is also releasing the Browse/root/build refresh; otherwise revert after the keep packages are protected. Focused shortstat for visible Browse/build files is 7 files, 410 insertions, and 36 deletions.
     - Untracked/generated sidecars: `data/database/ni-register-browse-records/*.json` should go with the NI register package; `scripts/review-already-on-site-remaining.mjs` should go with already-on-site if the review utility is intended to be tracked; old D-drive decision-pack scripts should be either staged with their earlier research package or left untracked/deleted after backup; DOBIH test metadata sidecars should only be kept with the test2 metadata package.
-  - Main cleanup risk: `scripts/build-browse-indexes.mjs` is a mixed file with both already-on-site/source provenance changes and NI register Browse changes, so path-level staging would blend packages. Use `git add -p scripts/build-browse-indexes.mjs` if splitting commits in place, or intentionally create one combined source-index package.
+  - Main cleanup risk: `scripts/build/build-browse-indexes.mjs` is a mixed file with both already-on-site/source provenance changes and NI register Browse changes, so path-level staging would blend packages. Use `git add -p scripts/build/build-browse-indexes.mjs` if splitting commits in place, or intentionally create one combined source-index package.
   - Sensitive-source verification: targeted scans and validator checks found no private local path, sensitive source filename, sensitive address-level schema markers, or provider-specific sensitive source text in the public already-on-site output or relevant scripts. Preserve this redaction package before any revert.
   - Recommended no-branch order: first stage/verify the sensitive already-on-site package, second the NI register package, third the test2 route/CDN/election package, fourth decide generated build/UI files, then clean selected untracked leftovers with a dry-run first.
 
@@ -7880,7 +7880,7 @@ Review:
   - Test2/CDN decision: keep as an intentional package, but stage it as its own package. The diffs add the two Irish hill PMTiles objects to `cdn-upload-manifest.json`, record successful upload of both objects, verify 573/573 CDN byte-range assets, and leave `cdn-manifest-validation-report.json` plus `test2-cdn-validation-report.json` at zero warnings and zero errors. `scripts/validate-test-cdn-manifest.mjs` requires active PMTiles layers to have `tilePackage.byteRangeVerifiedAt` and matching successful range-report rows, so most of the broad layer-detail churn is noisy generated proof rather than arbitrary drift.
   - Test2 metadata caveat: `test/metadata/maps-test-index.json` now references the untracked DOBIH detail/duplicate sidecars. All 48 untracked DOBIH sidecars are referenced by `maps-test-index.json` or `maps-test.json`, so if the regenerated test2 index is kept, those untracked sidecars must be staged with it.
   - Election audit decision: keep the audit-script changes because they update the audit path for current election detail files, root promotion, and current mobile selectors. The regenerated `tasks/test2-election-data-audit.*` diffs are timestamp-only against the previous baseline, so keep them only if the test2 audit-baseline refresh is intentionally included in the test2 package; otherwise they can be reverted without losing code fixes.
-  - Build/UI decision: no content diffs remain in `browse/browse.js` or `browse/browse.css`; they should not be staged as UI changes unless future status shows real diffs. Keep `data/browse/features.json`, `assets/thumbnails/manifest.json`, `data/database/feature-thumbnails/_manifest.json`, and `app/build/performance-dashboard.json` with the data/test2 package because they reflect generated metadata changes, including the two Irish hill domain feature groups and the Local Authorities 2024 title fix. Treat `index.html` as build/release output generated by `scripts/build-shared-shell-assets.mjs`; keep it only in the final build/release package, not in an earlier data-only package.
+  - Build/UI decision: no content diffs remain in `browse/browse.js` or `browse/browse.css`; they should not be staged as UI changes unless future status shows real diffs. Keep `data/browse/features.json`, `assets/thumbnails/manifest.json`, `data/database/feature-thumbnails/_manifest.json`, and `app/build/performance-dashboard.json` with the data/test2 package because they reflect generated metadata changes, including the two Irish hill domain feature groups and the Local Authorities 2024 title fix. Treat `index.html` as build/release output generated by `scripts/build/shell-assets.mjs`; keep it only in the final build/release package, not in an earlier data-only package.
   - Feature-thumbnail caveat: the manifest refresh changes some fallback rendered-asset base paths to the current script default. Runtime only uses `renderedAssetBasePath` when `renderedAssetIds` contains the feature thumbnail id, so zero-rendered fallback base churn is low risk; the visible `roi-local-authorities-2024` name correction is the stronger reason to keep the generated manifest refresh.
   - Untracked helper decision: stage `scripts/review-already-on-site-remaining.mjs` with the already-on-site package if the review utility should be reproducible. Leave `scripts/build-d-drive-blocker-review.mjs` and `scripts/build-d-drive-remaining-decision-packs.mjs` untracked by default as research tooling, not runtime website code; the latter has generic `D:\`/local-source handling and should not be swept into a public website package without deliberate review.
 
@@ -7897,7 +7897,7 @@ Review:
   - Verification plan: confirm all snapshot files exist and are non-empty where applicable.
   - Completed: wrote `tmp/dirty-tree-status-2026-06-28.txt`, `tmp/dirty-tree-stat-2026-06-28.txt`, `tmp/dirty-tree-tracked-2026-06-28.patch`, and `tmp/dirty-tree-untracked-2026-06-28.txt`; verified they exist with expected non-zero sizes.
 - [x] Protect already-on-site/source-redaction and NI register source-index packages.
-  - Task: stage and review the combined source-index package because `scripts/build-browse-indexes.mjs` and generated Browse source shards intentionally mix these two workstreams in the current in-place tree.
+  - Task: stage and review the combined source-index package because `scripts/build/build-browse-indexes.mjs` and generated Browse source shards intentionally mix these two workstreams in the current in-place tree.
   - Verification plan: run already-on-site validation, external-source validation, NI register validation, Browse build, file-budget validation, sensitive-source scans, and cached-diff review before committing.
   - Execution note: first file-budget validation failed because grouped NI register Browse detail shards were row-sharded and four generated files exceeded the 25 MB Pages limit.
   - Permanent prevention action: changed the NI register grouped Browse shard generator to split by serialized byte budget and updated the NI register validator to assert shard byte metadata plus actual file sizes.
@@ -7936,7 +7936,7 @@ Review:
   - Task: commit the no-new-branches lesson/task tracking on the existing rollout branch, switch to `main`, merge the existing semantic graph rollout branch, run post-merge verification, push `main`, and confirm the final worktree is clean.
   - Verification plan: fetch `origin`, confirm `main` is current, run aggregate checks after merge, push only after successful verification, and report exact commit hashes.
   - Completed: fetched `origin`, confirmed local `main` was up to date with `origin/main`, fast-forwarded `main` from `d54f956bb4` to `13c9579ff4`, then fixed the post-merge Pages file-budget failure by compacting `data/graph/indexes/entity-search.json` and updating the graph builder to keep that generated index compact.
-  - Verification: `npm run check:test2` passed before the file-budget fix; `node --check scripts/graph/build-semantic-graph.mjs`, `npm run check:pages-assets`, `npm run check:graph`, `git diff --check`, and final `npm run check` passed after the fix.
+  - Verification: `npm run check:test2` passed before the file-budget fix; `node --check scripts/build/graph/build-semantic-graph.mjs`, `npm run check:pages-assets`, `npm run check:graph`, `git diff --check`, and final `npm run check` passed after the fix.
 
 # Browse Readability And Decluttering
 

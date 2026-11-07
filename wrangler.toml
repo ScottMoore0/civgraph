@@ -19,7 +19,7 @@
 # (npm run build, then scripts/build/site.mjs, which writes dist/ from an explicit
 # allow-list and fails above 18,500 files). The previous command,
 #
-#     npm install --ignore-scripts && npm run build && bash scripts/clean-for-pages.sh
+#     npm install --ignore-scripts && npm run build && bash scripts/build/clean-for-pages.sh
 #
 # still works: clean-for-pages.sh now only runs scripts/build/site.mjs. Change the
 # setting in the dashboard (Pages > civgraph > Settings > Build), then the shim can go.
@@ -63,7 +63,7 @@ compatibility_date = "2026-04-04"
 # The site is served from dist/, which scripts/build/site.mjs builds from an
 # explicit allow-list (owner decision, 6 Nov 2026: only the files the site is meant
 # to serve). Until data phase 4 it was the repository root ("."); to roll back,
-# set "." again and restore scripts/clean-for-pages.sh. functions/ stays at the
+# set "." again and restore scripts/build/clean-for-pages.sh. functions/ stays at the
 # project root: Pages bundles it from there, not from the output directory.
 pages_build_output_dir = "dist"
 

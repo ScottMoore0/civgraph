@@ -39,4 +39,4 @@ what it is waiting for.
 
 ## Not deployed
 
-`tests/` is in `.cfignore` and removed by `scripts/clean-for-pages.sh`.
+`tests/` is in `.cfignore` and removed by `scripts/build/clean-for-pages.sh`.

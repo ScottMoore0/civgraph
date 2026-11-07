@@ -1,5 +1,5 @@
 /**
- * Parliamentary divisions and votes from the Browse votes tree that scripts/build_browse_votes.py
+ * Parliamentary divisions and votes from the Browse votes tree that scripts/build/build_browse_votes.py
  * writes (index.json, divisions/<shard>.json, persons/<id>.json, parties/<slug>.json).
  *
  * The division dataset itself stays outside the repository (CIVGRAPH_VOTES_DIR, pinned by

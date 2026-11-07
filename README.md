@@ -116,7 +116,7 @@ with a `-vector-test` suffix on the render side.
 
 `render/metadata/maps-test-index.json` and `render/metadata/layer-details-test2/` are
 **generated** from `maps-test.json`: edit the source, then run
-`node scripts/build-test2-metadata-shards.mjs`. The client fetches the generated
+`node scripts/build/build-test2-metadata-shards.mjs`. The client fetches the generated
 detail shards, so editing only `maps.json` leaves the site showing the old values.
 
 All three edges are guarded by validators in `npm run check`.
@@ -138,7 +138,7 @@ npm run build
 ```
 
 That chains seven steps; the two that produce the served bundles are
-`scripts/build-shared-shell-assets.mjs` (CSS, critical-CSS inlining, thumbnail
+`scripts/build/shell-assets.mjs` (CSS, critical-CSS inlining, thumbnail
 manifest) and `npm run build:test2` (the MapLibre app). Produces:
 
 - `app/build/app.bundle.js` — the app bundle, **committed** to the repository

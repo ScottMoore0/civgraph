@@ -37,9 +37,9 @@ test('a command chain keeps both sides: main\'s additions at main\'s place, ours
 test('a records builder main adds to the Pages build is not added back here', () => {
   const ctx = { notes: [], conflicts: [] };
   const merged = merge3(
-    { scripts: { build: 'node scripts/a.mjs && node scripts/build-party-profiles.mjs && node scripts/z.mjs' } },
+    { scripts: { build: 'node scripts/a.mjs && node scripts/build/build-party-profiles.mjs && node scripts/z.mjs' } },
     { scripts: { build: 'node scripts/a.mjs && node scripts/z.mjs' } },
-    { scripts: { build: 'node scripts/a.mjs && node scripts/build-party-profiles.mjs && node scripts/build-office-pages.mjs && node scripts/z.mjs' } },
+    { scripts: { build: 'node scripts/a.mjs && node scripts/build/build-party-profiles.mjs && node scripts/build/build-office-pages.mjs && node scripts/z.mjs' } },
     [], ctx,
   );
   assert.equal(merged.scripts.build, 'node scripts/a.mjs && node scripts/z.mjs');

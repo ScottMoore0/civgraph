@@ -64,8 +64,8 @@ node --env-file=.env.local scripts/publish/r2-cache-control.mjs --prefix data/ma
 node scripts/publish/r2-manifest.mjs
 node --env-file=.env.local scripts/publish/r2-upload-pmtiles.mjs --ids dispensary-districts-ni-1921-04-01-vector-test,dispensary-districts-ni-1924-04-01-vector-test,dispensary-districts-ni-1929-01-01-vector-test,tia-towns-ni-1921-05-03-vector-test,tia-towns-ni-1925-04-01-vector-test,tia-towns-ni-1927-04-01-vector-test,tia-towns-ni-1934-08-01-vector-test,tia-towns-ni-1937-04-01-vector-test,tia-towns-ni-1959-05-29-vector-test
 node --env-file=.env.local scripts/publish/verify-pmtiles-cdn.mjs --ids dispensary-districts-ni-1921-04-01-vector-test,dispensary-districts-ni-1924-04-01-vector-test,dispensary-districts-ni-1929-01-01-vector-test,tia-towns-ni-1921-05-03-vector-test,tia-towns-ni-1925-04-01-vector-test,tia-towns-ni-1927-04-01-vector-test,tia-towns-ni-1934-08-01-vector-test,tia-towns-ni-1937-04-01-vector-test,tia-towns-ni-1959-05-29-vector-test
-node --env-file=.env.local scripts/stamp-map-cache-tokens.mjs --write
-node --env-file=.env.local scripts/stamp-map-cache-tokens.mjs --check
+node --env-file=.env.local scripts/build/stamp-map-cache-tokens.mjs --write
+node --env-file=.env.local scripts/build/stamp-map-cache-tokens.mjs --check
 ```
 
 ## 3. After the upload (`intake post-upload`)
@@ -75,11 +75,11 @@ node scripts/publish/switch-pmtiles-to-cdn.mjs --ids dispensary-districts-ni-192
 node scripts/publish/r2-manifest.mjs
 npm run rebuild -- --plan
 npm run build
-python scripts/regen-thumbnails.py --download --ids dispensary-districts-ni-1921-04-01,dispensary-districts-ni-1924-04-01,dispensary-districts-ni-1929-01-01,tia-towns-ni-1921-05-03,tia-towns-ni-1925-04-01,tia-towns-ni-1927-04-01,tia-towns-ni-1934-08-01,tia-towns-ni-1937-04-01,tia-towns-ni-1959-05-29
+python scripts/build/thumbnails/regen-thumbnails.py --download --ids dispensary-districts-ni-1921-04-01,dispensary-districts-ni-1924-04-01,dispensary-districts-ni-1929-01-01,tia-towns-ni-1921-05-03,tia-towns-ni-1925-04-01,tia-towns-ni-1927-04-01,tia-towns-ni-1934-08-01,tia-towns-ni-1937-04-01,tia-towns-ni-1959-05-29
 node --env-file=.env.local scripts/publish/r2-upload-tree.mjs assets/thumbnails assets/thumbnails --concurrency=16 --changed-only
 node scripts/validate-test-cdn-manifest.mjs
 npm run check:fast
-node --env-file=.env.local scripts/stamp-map-cache-tokens.mjs --check
+node --env-file=.env.local scripts/build/stamp-map-cache-tokens.mjs --check
 ```
 
 - `switch-to-cdn`: Uses the cdn-range-report.json the upload's CDN check wrote; unverified layers are skipped. No alias layer points at any of the 9 (checked 2026-11-05). Do not run build-test-pmtiles.mjs --force for these layers afterwards: it resets tileUrl to the local path.
@@ -98,7 +98,7 @@ node --env-file=.env.local scripts/stamp-map-cache-tokens.mjs --check
 
 - `node scripts/validate-test-cdn-manifest.mjs`: expected to **pass**
 - `npm run check:fast`: expected to **pass**
-- `node scripts/stamp-map-cache-tokens.mjs --check`: expected to **pass**
+- `node scripts/build/stamp-map-cache-tokens.mjs --check`: expected to **pass**
 
 ## Notes
 

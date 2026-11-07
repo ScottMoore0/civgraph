@@ -1,7 +1,7 @@
 /**
  * /data/browse/** -- the Browse files, answered from D1 (data design stage D.9; phase 4).
  *
- * The files were build output of scripts/build-browse-indexes.mjs published to R2. Each path
+ * The files were build output of scripts/build/build-browse-indexes.mjs published to R2. Each path
  * below is rebuilt from the records tables in the file's shape (its wrapper's generatedAt is the
  * one field that is gone). Data design phase 3 moved the map files into tables (maps.json,
  * features.json, details/maps/<slug>.json: map_cards and feature_groups) and retired

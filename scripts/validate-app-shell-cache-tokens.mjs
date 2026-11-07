@@ -27,9 +27,9 @@
  * no build step to own them. The app shell is the opposite: the tokens are
  * WRITTEN BY BUILD SCRIPTS --
  *
- *   /app/build/app.bundle.js   and sw.js's VERSION   scripts/build-test2-app.mjs
- *   /app/build/app.bundle.css                        scripts/build-test2-app.mjs
- *   /build/main.css                                  scripts/build-shared-shell-assets.mjs
+ *   /app/build/app.bundle.js   and sw.js's VERSION   scripts/build/app-bundle.mjs
+ *   /app/build/app.bundle.css                        scripts/build/app-bundle.mjs
+ *   /build/main.css                                  scripts/build/shell-assets.mjs
  *
  * -- so a fixer here would be a second implementation of the same derivation,
  * and two things computing one value is how the value drifts. This reports the
@@ -52,7 +52,7 @@
  */
 import { readFileSync, existsSync } from 'node:fs';
 import { createHash } from 'node:crypto';
-import { sharedCssVersion, stripDerivedServiceWorkerVersion } from './build-shared-shell-assets.mjs';
+import { sharedCssVersion, stripDerivedServiceWorkerVersion } from './build/shell-assets.mjs';
 
 const HTML = 'index.html';
 const SW = 'sw.js';
@@ -70,8 +70,8 @@ function expectedToken(assetPath, file) {
 
 /** Which build script owns a given reference, so a failure says what to run. */
 function ownerOf(assetPath) {
-  if (assetPath.startsWith('/app/build/')) return 'npm run build:test2  (scripts/build-test2-app.mjs)';
-  return 'npm run build  (scripts/build-shared-shell-assets.mjs)';
+  if (assetPath.startsWith('/app/build/')) return 'npm run build:test2  (scripts/build/app-bundle.mjs)';
+  return 'npm run build  (scripts/build/shell-assets.mjs)';
 }
 
 const problems = [];

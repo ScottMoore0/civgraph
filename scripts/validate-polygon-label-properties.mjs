@@ -26,7 +26,7 @@
  * listed so a NEW unlabelled layer fails here instead of joining them unnoticed.
  *
  * To add a layer to the allowlist, first run
- * `node scripts/assign-missing-label-properties.mjs` and confirm it reports no name-like
+ * `node scripts/build/tiles/assign-missing-label-properties.mjs` and confirm it reports no name-like
  * attribute. Do not add one to silence this check.
  *
  * Offline, so it belongs to `check:` rather than `verify:`.
@@ -74,7 +74,7 @@ if (offenders.length || stale.length) {
     if (offenders.length > 20) console.error(`  ... and ${offenders.length - 20} more`);
     console.error('');
     console.error('  Those layers show no name on hover or selection, and nothing reports it.');
-    console.error('  Fix: node scripts/assign-missing-label-properties.mjs --write');
+    console.error('  Fix: node scripts/build/tiles/assign-missing-label-properties.mjs --write');
     console.error(`  If a layer genuinely has no name in its tiles, add it to ${ALLOWLIST}.`);
   }
   if (stale.length) {

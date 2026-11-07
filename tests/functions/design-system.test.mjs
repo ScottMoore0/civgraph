@@ -87,7 +87,7 @@ test('_routes.json routes it, and no sitemap lists it', () => {
   assert.ok(routes.includes('/design-system') && routes.includes('/design-system/'));
   assert.equal(gallery.GALLERY_PATH, '/design-system/');
   const sitemaps = [path.join(REPO_ROOT, 'sitemap.xml'), ...(existsSync(path.join(REPO_ROOT, 'sitemaps')) ? readdirSync(path.join(REPO_ROOT, 'sitemaps')).map((f) => path.join(REPO_ROOT, 'sitemaps', f)) : [])];
-  for (const f of [...sitemaps, path.join(REPO_ROOT, 'scripts', 'build-sitemap.mjs')]) {
+  for (const f of [...sitemaps, path.join(REPO_ROOT, 'scripts', 'build', 'build-sitemap.mjs')]) {
     if (existsSync(f)) assert.ok(!read(f).includes('design-system'), `${path.relative(REPO_ROOT, f)} names the gallery`);
   }
 });

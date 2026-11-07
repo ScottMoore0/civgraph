@@ -3,7 +3,7 @@
  *
  * One function for both places that build it, so they cannot disagree:
  *   - functions/_api/layers (data design phase 3): from the `layers` rows, at request time;
- *   - scripts/build-test2-metadata-shards.mjs: the committed maps-test-index.json, which scripts
+ *   - scripts/build/build-test2-metadata-shards.mjs: the committed maps-test-index.json, which scripts
  *     still read from disk until phase 4.
  * Pure and dependency-free (it runs in the Workers runtime and under Node).
  *

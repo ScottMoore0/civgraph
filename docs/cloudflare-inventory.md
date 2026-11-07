@@ -365,7 +365,7 @@ a `.pmtiles` still answers a range request with `206` and the correct
 `Content-Range`, a rewritten `.fgb.gz` still passes `gzip -t` with the FGB magic
 intact, and every ETag survived, so the cache tokens still match.
 
-A second defence sits in the catalogue: `scripts/stamp-map-cache-tokens.mjs`
+A second defence sits in the catalogue: `scripts/build/stamp-map-cache-tokens.mjs`
 appends `?v=<R2 ETag>` to corrected layer URLs, so a changed file gets a changed
 URL and no cache anywhere can serve the old bytes. `npm run verify:map-tokens`
 fails if a file is re-uploaded without restamping. Header policy bounds how long

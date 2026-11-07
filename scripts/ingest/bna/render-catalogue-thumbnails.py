@@ -32,7 +32,7 @@ from PIL import Image
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..'))
 os.chdir(ROOT)
-spec = importlib.util.spec_from_file_location('regen', os.path.join(ROOT, 'scripts', 'regen-thumbnails.py'))
+spec = importlib.util.spec_from_file_location('regen', os.path.join(ROOT, 'scripts', 'build', 'thumbnails', 'regen-thumbnails.py'))
 regen = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(regen)
 

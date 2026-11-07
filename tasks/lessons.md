@@ -2292,7 +2292,7 @@ ode --check ... 2>&1 on every startup-critical module and inspect the edited blo
 - Impact: The application can build and pass runtime checks locally, but Cloudflare Pages deployment can still fail at asset validation because the repository output exceeds the 20,000-file cap.
 - Guardrail:
   1) every change that adds generated sidecars, metadata shards, reports, or reference data must run `npm run check:pages-assets`,
-  2) keep non-runtime source/reference directories out of Pages output through `scripts/clean-for-pages.sh` and `.cfignore`,
+  2) keep non-runtime source/reference directories out of Pages output through `scripts/build/clean-for-pages.sh` and `.cfignore`,
   3) prefer R2/CDN or packed manifests for high-file-count data rather than thousands of individual Pages assets,
   4) do not call a performance hardening complete until both production build and Pages asset-budget checks pass.
 

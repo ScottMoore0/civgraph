@@ -14,7 +14,7 @@ catalogue map ids to the layers that actually draw them, and carries
 hand-edit it:
 
 ```bash
-node scripts/build-render-time-series-chains.mjs
+node scripts/build/build-render-time-series-chains.mjs
 ```
 
 `npm run build` runs that, and `check:render-time-series` fails if the file is
@@ -39,7 +39,7 @@ pinned in `tests/unit/retired-service-worker.test.mjs`.
 
 `tiles/`, `pmtiles/` and `source-cache/` hold generated tile pyramids: 51,158
 files, of which about 2,000 are tracked. In production these are served from R2 at
-`data.civgraph.net`, not from Pages — `scripts/clean-for-pages.sh` deletes them
+`data.civgraph.net`, not from Pages — `scripts/build/clean-for-pages.sh` deletes them
 from the deployment because they would blow through Cloudflare's 20,000-file
 limit.
 

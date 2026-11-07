@@ -9,7 +9,7 @@
 
 ## What actually exists
 
-`scripts/graph/build-semantic-graph.mjs` produces **193,132 entities** across 39 shards,
+`scripts/build/graph/build-semantic-graph.mjs` produces **193,132 entities** across 39 shards,
 with a manifest, a search index, and reverse indexes. Eighteen types, 45 properties.
 
 | Type | Count | | Type | Count |

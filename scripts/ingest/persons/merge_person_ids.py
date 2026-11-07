@@ -529,7 +529,7 @@ def main():
         w.writeheader(); w.writerows(merges)
     print(f"\n  entities {len(reg['entities']):,} (was {len(reg['entities']) + len(final):,})")
     print(f"  wrote {REG}\n  wrote {LOG}")
-    print("  NEXT: python scripts/ingest/persons/apply_person_ids_v2.py && node scripts/build-browse-indexes.mjs")
+    print("  NEXT: python scripts/ingest/persons/apply_person_ids_v2.py && node scripts/build/build-browse-indexes.mjs")
 
 
 if __name__ == '__main__':

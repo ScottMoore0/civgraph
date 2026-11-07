@@ -7,7 +7,7 @@ Reads (read-only) the extractors' output in <gazette>/extracted:
   expenses-notices.jsonl   from extract_expenses_notices.py
 
 and the repo's election manifest (render/metadata/elections-test2.json), and writes the COMMITTED
-file data/elections/gazette-election-extras.json, which scripts/build-browse-indexes.mjs merges
+file data/elections/gazette-election-extras.json, which scripts/build/build-browse-indexes.mjs merges
 into the Browse election and contest records. The site build never needs the Gazette folder.
 
   contests[<contest key>].pollingDistricts   a printed polling-district schedule for that contest
@@ -385,7 +385,7 @@ def build(extracted):
         'generatedBy': 'scripts/ingest/gazette-spn/build_gazette_election_extras.py',
         'source': LICENCE,
         'note': ('Polling-district schedules and election rules and costs from the Belfast Gazette, '
-                 'merged into the Browse election and contest records by scripts/build-browse-indexes.mjs.'),
+                 'merged into the Browse election and contest records by scripts/build/build-browse-indexes.mjs.'),
         'contests': dict(sorted(contests.items())),
         'elections': dict(sorted(by_election.items())),
     }

@@ -86,7 +86,7 @@ has repeatedly produced convincing but false "this layer is broken" diagnoses.
 They are joined by a bare string id, with a `-vector-test` suffix on the render
 side. `render/metadata/maps-test-index.json` is **generated** from
 `maps-test.json` — edit the source, then run
-`node scripts/build-test2-metadata-shards.mjs`.
+`node scripts/build/build-test2-metadata-shards.mjs`.
 
 All three edges are guarded by validators in `npm run check`. If you add a layer
 and it does not appear, the answer is almost always that no card lists it —

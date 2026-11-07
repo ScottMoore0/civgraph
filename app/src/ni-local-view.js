@@ -5,7 +5,7 @@
  * hatching where results are not available or are incomplete, and aldermen apart from councillors
  * where the year had aldermanic polls.
  *
- * The year file (render/metadata/ni-local/<year>.json, scripts/build-ni-local-grouped.mjs) says,
+ * The year file (render/metadata/ni-local/<year>.json, scripts/build/build-ni-local-grouped.mjs) says,
  * for each level, which boundary edition to draw and each feature's seats and votes by party. This
  * view owns the election pane while a year is open; Test2ElectionManager hands it the calls that
  * would otherwise go to a single election (style, panel, legend, feature clicks, the address).

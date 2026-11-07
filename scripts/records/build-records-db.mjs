@@ -122,25 +122,25 @@ function transformsPresent() {
 }
 
 function transformElections() {
-  run(process.execPath, ['scripts/build-test2-election-manifest.mjs']);
-  run(process.execPath, ['scripts/build-test2-election-summaries.mjs']);
+  run(process.execPath, ['scripts/build/build-test2-election-manifest.mjs']);
+  run(process.execPath, ['scripts/build/build-test2-election-summaries.mjs']);
   run('python', ['scripts/ingest/persons/apply_person_ids_v2.py']);
   run('python', ['scripts/ingest/persons/build_name_registry.py', '--stamp-only']);
 }
-const transformProvenance = () => run(process.execPath, ['scripts/build-election-provenance.mjs']);
+const transformProvenance = () => run(process.execPath, ['scripts/build/build-election-provenance.mjs']);
 function transformBrowse() {
-  run(process.execPath, ['scripts/build-browse-indexes.mjs']);
-  run(process.execPath, ['scripts/build-party-profiles.mjs']);
-  run(process.execPath, ['scripts/build-office-pages.mjs']);
+  run(process.execPath, ['scripts/build/build-browse-indexes.mjs']);
+  run(process.execPath, ['scripts/build/build-party-profiles.mjs']);
+  run(process.execPath, ['scripts/build/build-office-pages.mjs']);
 }
-const transformGraph = () => run(process.execPath, ['scripts/graph/build-semantic-graph.mjs']);
+const transformGraph = () => run(process.execPath, ['scripts/build/graph/build-semantic-graph.mjs']);
 
 /** Where this build's votes come from: 'built' | 'tree' | 'previous' | 'none'. */
 function transformVotes() {
   const votesOut = path.join(P.BROWSE_DIR, 'votes');
   if (process.env.CIVGRAPH_VOTES_DIR) {
     verifyVotesPin(process.env.CIVGRAPH_VOTES_DIR);
-    run('python', ['scripts/build_browse_votes.py', '--votes-dir', process.env.CIVGRAPH_VOTES_DIR, '--out', votesOut]);
+    run('python', ['scripts/build/build_browse_votes.py', '--votes-dir', process.env.CIVGRAPH_VOTES_DIR, '--out', votesOut]);
     return { from: 'built', dir: votesOut };
   }
   if (option('--votes-tree')) return { from: 'tree', dir: path.resolve(option('--votes-tree')) };

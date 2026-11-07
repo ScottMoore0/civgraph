@@ -5,7 +5,7 @@ import path from 'node:path';
 import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 import { gunzip } from 'node:zlib';
-import { isGraphExcludedSource } from './graph-source-exclusions.mjs';
+import { isGraphExcludedSource } from '../build/graph/graph-source-exclusions.mjs';
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = path.resolve(SCRIPT_DIR, '..', '..');
@@ -64,7 +64,7 @@ async function main() {
   // each input said when the graph was built against what it says now.
   const recordedInputs = manifest.inputs || {};
   if (!Object.keys(recordedInputs).length) {
-    errors.push('manifest.json records no inputs, so the graph cannot be shown to be current. Rebuild with scripts/graph/build-semantic-graph.mjs.');
+    errors.push('manifest.json records no inputs, so the graph cannot be shown to be current. Rebuild with scripts/build/graph/build-semantic-graph.mjs.');
   }
   for (const [fileName, builtFrom] of Object.entries(recordedInputs)) {
     const inputPath = path.join(BROWSE_DIR, fileName);
@@ -74,7 +74,7 @@ async function main() {
     }
     const current = (await readJson(inputPath))?.generatedAt;
     if (current && current !== builtFrom) {
-      errors.push(`Graph is stale against ${fileName}: built from ${builtFrom}, on disk ${current}. Re-run scripts/graph/build-semantic-graph.mjs.`);
+      errors.push(`Graph is stale against ${fileName}: built from ${builtFrom}, on disk ${current}. Re-run scripts/build/graph/build-semantic-graph.mjs.`);
     }
   }
 
@@ -570,12 +570,12 @@ function normalizeUrl(value) {
 
 async function validateDeterministicBuild() {
   const first = await normalizedGraphDigest();
-  execFileSync(process.execPath, [path.join(ROOT_DIR, 'scripts', 'graph', 'build-semantic-graph.mjs')], {
+  execFileSync(process.execPath, [path.join(ROOT_DIR, 'scripts', 'build', 'graph', 'build-semantic-graph.mjs')], {
     cwd: ROOT_DIR,
     stdio: 'pipe'
   });
   const second = await normalizedGraphDigest();
-  execFileSync(process.execPath, [path.join(ROOT_DIR, 'scripts', 'graph', 'build-semantic-graph.mjs')], {
+  execFileSync(process.execPath, [path.join(ROOT_DIR, 'scripts', 'build', 'graph', 'build-semantic-graph.mjs')], {
     cwd: ROOT_DIR,
     stdio: 'pipe'
   });

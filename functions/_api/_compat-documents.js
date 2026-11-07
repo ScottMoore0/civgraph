@@ -8,7 +8,7 @@
  *   /agent/maps-index.json         document_parts 'agent/maps-index.json'
  *   /data/catalogue/catalogue.json, places.json, people.json   document_parts 'catalogue/...'
  *
- * Pages serves a static file in preference to a Function, so scripts/clean-for-pages.sh removes
+ * Pages serves a static file in preference to a Function, so scripts/build/clean-for-pages.sh removes
  * these files from the deployment; _routes.json includes exactly these paths
  * (scripts/validate-routes-manifest.mjs reads ROUTE_PATTERNS).
  */
