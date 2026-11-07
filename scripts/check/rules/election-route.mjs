@@ -921,7 +921,7 @@ if (failures.length) {
 console.log('PASS: /test2 route shell and engine isolation checks passed.');
 
 function buildPlanSourceIncludesCompositeCoverage() {
-  const source = readFileSync('scripts/build/tiles/layer-plan.mjs', 'utf8');
+  const source = readFileSync('packages/maps-pipeline/src/tiles/layer-plan.mjs', 'utf8');
   return source.includes('MANUAL_ALIAS_TARGETS')
     && source.includes('convertedCompositeChildIds')
     && source.includes('convertedSourceIds');
