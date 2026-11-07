@@ -1,6 +1,6 @@
 // Facts about people, parties and offices: the Elliott & Flackes (1999) directory extraction and
 // the Wikidata links for non-candidate persons.
-import { definePlugin } from '../../intake/lib/plugins.mjs';
+import { definePlugin } from '@civgraph/intake/plugins.mjs';
 
 export default definePlugin({
   id: 'facts',

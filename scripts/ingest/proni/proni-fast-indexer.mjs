@@ -12,7 +12,7 @@ import fs from "node:fs";
 import fsp from "node:fs/promises";
 import path from "node:path";
 import { performance } from "node:perf_hooks";
-import { INDEX_MODE, PRONI_INDEX_MODE, SCAN_LEVEL } from '../../intake/lib/item-status.mjs';
+import { INDEX_MODE, PRONI_INDEX_MODE, SCAN_LEVEL } from '@civgraph/intake/item-status.mjs';
 
 const BASE = "https://apps.proni.gov.uk/eCatNI_IE/";
 const DEFAULT_LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

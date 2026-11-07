@@ -4,8 +4,8 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
-import { SCHEMA_PATH, loadBatch, validateBatch } from '../../scripts/intake/lib/batch.mjs';
-import { validateAgainstSchema } from '../../scripts/intake/lib/schema.mjs';
+import { SCHEMA_PATH, loadBatch, validateBatch } from '@civgraph/intake/batch.mjs';
+import { validateAgainstSchema } from '@civgraph/intake/schema.mjs';
 import { main } from '../../scripts/intake/intake.mjs';
 import { makeBatch, makeRepo, writeFile } from './helpers.mjs';
 

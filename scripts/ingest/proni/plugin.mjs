@@ -1,6 +1,6 @@
 // The Public Record Office of Northern Ireland eCatalogue: the crawl (outside the repository,
 // in the local PRONI crawl folder) and the static browse landing built from the imported records.
-import { definePlugin } from '../../intake/lib/plugins.mjs';
+import { definePlugin } from '@civgraph/intake/plugins.mjs';
 
 export default definePlugin({
   id: 'proni',

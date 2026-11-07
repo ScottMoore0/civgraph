@@ -3,7 +3,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
-import { CSO_REPORT } from '../../intake/lib/item-status.mjs';
+import { CSO_REPORT } from '@civgraph/intake/item-status.mjs';
 
 const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..", "..");
 const DEFAULT_OUT_DIR = path.join(REPO, "data", "census", "source-inventory");

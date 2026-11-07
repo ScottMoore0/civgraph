@@ -1,14 +1,14 @@
-// The ingest scripts' item statuses and run modes (scripts/intake/lib/item-status.mjs, catalogue
+// The ingest scripts' item statuses and run modes (packages/intake/src/item-status.mjs, catalogue
 // IN-L): every value a script writes or compares for a named field comes from its vocabulary's
 // name map, never a quoted literal, and every name it reads is in that vocabulary.
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
-import * as itemStatus from '../../scripts/intake/lib/item-status.mjs';
+import * as itemStatus from '@civgraph/intake/item-status.mjs';
 
 const { isItemStatus, literalsOf, namesOf, named, MIRROR_ITEM, NAME_MAPS, SCRIPT_VOCABULARIES } = itemStatus;
-const IMPORT = /import \{ ([^}]+) \} from '\.\.\/\.\.\/intake\/lib\/item-status\.mjs';/;
+const IMPORT = /import \{ ([^}]+) \} from '@civgraph\/intake\/item-status\.mjs';/;
 
 test('every item status in the ingest scripts comes from its vocabulary', () => {
   const problems = [];

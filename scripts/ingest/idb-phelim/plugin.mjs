@@ -1,6 +1,6 @@
 // Phelim Birch's Irish boundary deliveries: LODs for the 25 May 2026 delivery and his per-year
 // ED build-spec notes.
-import { definePlugin } from '../../intake/lib/plugins.mjs';
+import { definePlugin } from '@civgraph/intake/plugins.mjs';
 
 const LOD_TARGETS = [
   'data/maps/baronies-parishes/Counties_Ireland_1922',

@@ -54,7 +54,7 @@
 import { execFileSync } from 'node:child_process';
 import { readFileSync, writeFileSync, mkdirSync, rmSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { CONTRIBUTION_STATUS } from './lib/statuses.mjs';
+import { CONTRIBUTION_STATUS } from '@civgraph/intake/statuses.mjs';
 
 const CATALOGUE = 'data/database/maps.json';
 const KV_BINDING = 'CIVGRAPH_CONTRIBUTION_QUEUE';

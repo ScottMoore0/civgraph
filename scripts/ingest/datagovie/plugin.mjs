@@ -1,5 +1,5 @@
 // data.gov.ie (Open Data Portal Ireland): the mirror, its licences and the catalogue records.
-import { definePlugin } from '../../intake/lib/plugins.mjs';
+import { definePlugin } from '@civgraph/intake/plugins.mjs';
 
 export default definePlugin({
   id: 'datagovie',

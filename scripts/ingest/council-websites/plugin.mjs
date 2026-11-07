@@ -1,5 +1,5 @@
 // The former 26 Northern Ireland councils' websites, as archived by the Internet Archive.
-import { definePlugin } from '../../intake/lib/plugins.mjs';
+import { definePlugin } from '@civgraph/intake/plugins.mjs';
 
 export default definePlugin({
   id: 'council-websites',

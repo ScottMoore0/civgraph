@@ -1,7 +1,7 @@
 // The History of Parliament (Irish Westminster seats from 1801): facts from the local archive,
 // the cross-check against Walker, and the links to Civgraph's people. Facts and citations only,
 // never the Trust's narrative text (owner permission, 2026-10-01).
-import { definePlugin } from '../../intake/lib/plugins.mjs';
+import { definePlugin } from '@civgraph/intake/plugins.mjs';
 
 export default definePlugin({
   id: 'hop',

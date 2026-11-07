@@ -1,4 +1,4 @@
-// Ingest plugins (scripts/intake/lib/plugins.mjs): the acceptance test of refactor plan
+// Ingest plugins (packages/intake/src/plugins.mjs): the acceptance test of refactor plan
 // section 9: a new source is one plugin folder and nothing else. Everything runs in a
 // throwaway git repository under the OS temp directory.
 import assert from 'node:assert/strict';
@@ -7,13 +7,13 @@ import { existsSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 import { pathToFileURL } from 'node:url';
-import { loadBatch, validateBatch } from '../../scripts/intake/lib/batch.mjs';
-import { pluginMain } from '../../scripts/intake/lib/plugin-cli.mjs';
-import { definePlugin, discoverPlugins, loadPlugin, pluginProblems, resolveArgv, unaccountedFiles } from '../../scripts/intake/lib/plugins.mjs';
-import { stageBatch } from '../../scripts/intake/lib/stage.mjs';
+import { loadBatch, validateBatch } from '@civgraph/intake/batch.mjs';
+import { pluginMain } from '@civgraph/intake/plugin-cli.mjs';
+import { definePlugin, discoverPlugins, loadPlugin, pluginProblems, resolveArgv, unaccountedFiles } from '@civgraph/intake/plugins.mjs';
+import { stageBatch } from '@civgraph/intake/stage.mjs';
 import { tempDir, writeFile } from './helpers.mjs';
 
-const PLUGINS_URL = pathToFileURL(path.resolve('scripts/intake/lib/plugins.mjs')).href;
+const PLUGINS_URL = pathToFileURL(path.resolve('packages/intake/src/plugins.mjs')).href;
 const hasPython = spawnSync('python', ['--version']).status === 0;
 
 const git = (repo, ...args) => {

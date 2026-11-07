@@ -31,7 +31,7 @@
  */
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { HARVEST } from '../../intake/lib/item-status.mjs';
+import { HARVEST } from '@civgraph/intake/item-status.mjs';
 
 const BASE = 'https://data.niassembly.gov.uk';
 const UA = 'civgraph-opendata-harvest/1.0 (+https://civgraph.net; contact via repo)';

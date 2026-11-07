@@ -1,5 +1,5 @@
 // The Northern Ireland Assembly: open data services and the registers of members' interests.
-import { definePlugin } from '../../intake/lib/plugins.mjs';
+import { definePlugin } from '@civgraph/intake/plugins.mjs';
 
 export default definePlugin({
   id: 'ni-assembly-opendata',

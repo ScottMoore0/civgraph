@@ -1,6 +1,6 @@
 // ElectionsIreland.org: Dail and local election results (through Wayback captures) and the
 // candidate ids the site publishes.
-import { definePlugin } from '../../intake/lib/plugins.mjs';
+import { definePlugin } from '@civgraph/intake/plugins.mjs';
 
 export default definePlugin({
   id: 'electionsireland',

@@ -18,7 +18,7 @@ import { readFileSync, writeFileSync, existsSync, unlinkSync, mkdtempSync } from
 import { execFileSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
-import { MIRROR } from '../../intake/lib/item-status.mjs';
+import { MIRROR } from '@civgraph/intake/item-status.mjs';
 
 function arg(name, def) { const i = process.argv.indexOf(name); return i >= 0 ? process.argv[i + 1] : def; }
 const FILES = arg('--files');

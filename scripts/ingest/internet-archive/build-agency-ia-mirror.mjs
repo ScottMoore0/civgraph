@@ -13,7 +13,7 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync, rmSync, statSync } from 'node:fs';
 import { join, basename } from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { AGENCY_MIRROR } from '../../intake/lib/item-status.mjs';
+import { AGENCY_MIRROR } from '@civgraph/intake/item-status.mjs';
 
 const ROOT = process.cwd();
 const MAPS_PATH = join(ROOT, 'data/database/maps.json');

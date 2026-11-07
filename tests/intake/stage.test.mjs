@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
-import { loadBatch } from '../../scripts/intake/lib/batch.mjs';
-import { stageBatch } from '../../scripts/intake/lib/stage.mjs';
+import { loadBatch } from '@civgraph/intake/batch.mjs';
+import { stageBatch } from '@civgraph/intake/stage.mjs';
 import { main } from '../../scripts/intake/intake.mjs';
 import { makeBatch, makeRepo, writeFile } from './helpers.mjs';
 
