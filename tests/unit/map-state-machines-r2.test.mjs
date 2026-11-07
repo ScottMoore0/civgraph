@@ -97,3 +97,22 @@ test('MA-04 entity page: the table, the fields it writes, and the manager writin
   assert.doesNotMatch(manager, /this\.activeEntity(Kind|Key) = /, 'kind and key are written only through setEntityPage');
   assert.match(manager, /set countDetailedView\(value\) \{ this\.countDetail\.set\(value\); \}/);
 });
+
+test('MA-05 NI grouped view: the table, active as a view of it, and the view moving only through it', async () => {
+  const { NI_LOCAL_VIEW, niLocalViewActive } = await import('../../src/map/election/ni-local-state.mjs');
+  assert.deepEqual(NI_LOCAL_VIEW.transitions, {
+    inactive: ['opening', 'inactive', 'active'],
+    opening: ['opening', 'active', 'inactive'],
+    active: ['switching', 'inactive', 'active'],
+    switching: ['switching', 'active', 'inactive']
+  });
+  assertTableEnforced(NI_LOCAL_VIEW);
+  assert.equal(NI_LOCAL_VIEW.can('inactive', 'switching'), false, 'a level is switched only on an open view');
+  assert.equal(NI_LOCAL_VIEW.can('opening', 'switching'), false);
+  assert.equal(NI_LOCAL_VIEW.can('active', 'opening'), false, 'open() always follows a teardown');
+  assert.deepEqual(NI_LOCAL_VIEW.states.filter(niLocalViewActive), ['active', 'switching']);
+  const view = read('app/src/ni-local-view.js');
+  assert.doesNotMatch(view, /this\.active = /);
+  assert.match(view, /get active\(\) \{ return niLocalViewActive\(this\.viewState\.state\(\)\); \}/);
+  for (const move of ['opening', 'active', 'inactive', 'switching']) assert.ok(view.includes(`this.viewState.to('${move}')`), move);
+});
