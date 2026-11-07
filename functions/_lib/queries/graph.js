@@ -26,3 +26,36 @@ export const GRAPH = Object.freeze({
   browseKeys: (/** @type {number} */ count) =>
     `SELECT browse_key, entity_id FROM graph_browse_keys WHERE browse_key IN (${Array.from({ length: count }, (_, i) => `?${i + 1}`).join(', ')}) ORDER BY browse_key`,
 });
+
+const ENTITY = 'JOIN graph_entities e ON e.entity_id = j.value';
+/**
+ * How each /data/graph lookup file's keys join to their rows: the value column, the join on the
+ * key, and the order of several rows per key.
+ */
+const GRAPH_FILE_JOINS = Object.freeze({
+  entity: { value: 'e.entity', join: ENTITY },
+  summary: { value: 'e.summary', join: ENTITY },
+  search: { value: 'e.search', join: ENTITY },
+  browse: { value: 'b.entity_id', join: 'JOIN graph_browse_keys b ON b.browse_key = j.value' },
+  slug: { value: 'b.entity_id', join: "JOIN graph_browse_keys b ON b.browse_key = 'slug:' || j.value" },
+  'statements-by-subject': { value: 's.statement', join: 'JOIN graph_statements s ON s.subject_id = j.value', order: 's.ord' },
+  'reverse-entity-value': { value: 'r.item', join: 'JOIN graph_reverse r ON r.entity_id = j.value', order: 'r.ord' },
+  'source-statements': { value: 's.item', join: 'JOIN graph_source_statements s ON s.source_id = j.value', order: 's.ord' },
+});
+
+/** @typedef {keyof typeof GRAPH_FILE_JOINS} GraphFileJoin */
+export const GRAPH_FILE_JOIN_NAMES = Object.freeze(/** @type {GraphFileJoin[]} */ (Object.keys(GRAPH_FILE_JOINS)));
+
+export const GRAPH_FILES = Object.freeze({
+  /** [file] -> { keys, extra } in part order */
+  keys: 'SELECT keys, extra FROM graph_files WHERE file = ?1 ORDER BY part',
+  /** [`${dir}/`, `${dir}0`] -> { file, keys }: every file under a directory */
+  keysUnder: 'SELECT file, keys FROM graph_files WHERE file > ?1 AND file < ?2 ORDER BY file, part',
+  /** [file] -> { k, v }: each key of a file joined to its rows (GRAPH_FILE_JOINS) */
+  valuesByKey: (/** @type {GraphFileJoin} */ joinName) => {
+    const { value, join, order } = /** @type {{ value: string, join: string, order?: string }} */ (GRAPH_FILE_JOINS[joinName]);
+    return `SELECT j.value AS k, ${value} AS v
+    FROM graph_files f, json_each(f.keys) j ${join}
+    WHERE f.file = ?1 ORDER BY f.part, j.key${order ? `, ${order}` : ''}`;
+  },
+});

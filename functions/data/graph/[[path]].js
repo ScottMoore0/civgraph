@@ -30,6 +30,8 @@
  */
 import { cachedJson, documentBody, jsonResponse, parseJson } from '../../_api/_records.js';
 import { binding } from '../../_lib/config.js';
+import { fromD1 } from '../../_lib/storage/d1.js';
+import { GRAPH_FILES } from '../../_lib/queries/graph.js';
 
 const VERSION = 'data-graph-2';
 /**
@@ -90,9 +92,11 @@ export async function onRequestGet(context) {
     if (copy) return r2Response(copy);
     return new Response(null, { status: 301, headers: { Location: downloadsUrl(parts[parts.length - 1]), 'Cache-Control': 'public, max-age=86400' } });
   }
-  const db = binding(context.env, 'ELECTIONS_DB');
+  const bound = binding(context.env, 'ELECTIONS_DB');
   if (!route) return notFound();
-  if (!db) return jsonResponse({ error: 'records database not bound' }, 503);
+  if (!bound) return jsonResponse({ error: 'records database not bound' }, 503);
+  // through the storage adapter (functions/_lib/storage/); the SQL is named in queries/graph.js
+  const db = fromD1(bound);
   return cachedJson(context, VERSION, () => answer(db, route, p), {
     stable: true, edgeTtl: EDGE_TTL, cacheControl: 'public, max-age=86400', gate: route.kind !== 'doc',
     r2Key: `data/graph/${p}`, r2First: HEAVY.has(route.kind),
@@ -113,8 +117,8 @@ const notFound = () => jsonResponse({ error: 'not found' }, 404);
 
 /** The keys (and the lookup files' shard numbers) a file held, in order; null if no such file. */
 async function fileKeys(db, file) {
-  const { results } = await db.prepare('SELECT keys, extra FROM graph_files WHERE file = ?1 ORDER BY part').bind(file).all();
-  if (!results?.length) return null;
+  const results = await db.all(GRAPH_FILES.keys, [file]);
+  if (!results.length) return null;
   const keys = [];
   const extra = [];
   for (const r of results) {
@@ -125,38 +129,25 @@ async function fileKeys(db, file) {
 }
 
 /**
- * Each key of a file joined to its rows (JOINS: the value column, the join on the key, and the
- * order of several rows per key): key -> [values], the statement lists in their ord order.
+ * Each key of a file joined to its rows (GRAPH_FILES.valuesByKey: the value column, the join on
+ * the key, and the order of several rows per key): key -> [values], the statement lists in their
+ * ord order.
  */
-async function valuesByKey(db, file, { value, join, order }) {
-  const { results } = await db.prepare(`SELECT j.value AS k, ${value} AS v
-    FROM graph_files f, json_each(f.keys) j ${join}
-    WHERE f.file = ?1 ORDER BY f.part, j.key${order ? `, ${order}` : ''}`).bind(file).all();
+async function valuesByKey(db, file, joinName) {
+  const results = await db.all(GRAPH_FILES.valuesByKey(joinName), [file]);
   const out = new Map();
-  for (const r of results || []) {
+  for (const r of results) {
     if (!out.has(r.k)) out.set(r.k, []);
     out.get(r.k).push(r.v);
   }
   return out;
 }
 
-const ENTITY = 'JOIN graph_entities e ON e.entity_id = j.value';
-const JOINS = {
-  entity: { value: 'e.entity', join: ENTITY },
-  summary: { value: 'e.summary', join: ENTITY },
-  search: { value: 'e.search', join: ENTITY },
-  browse: { value: 'b.entity_id', join: 'JOIN graph_browse_keys b ON b.browse_key = j.value' },
-  slug: { value: 'b.entity_id', join: "JOIN graph_browse_keys b ON b.browse_key = 'slug:' || j.value" },
-  'statements-by-subject': { value: 's.statement', join: 'JOIN graph_statements s ON s.subject_id = j.value', order: 's.ord' },
-  'reverse-entity-value': { value: 'r.item', join: 'JOIN graph_reverse r ON r.entity_id = j.value', order: 'r.ord' },
-  'source-statements': { value: 's.item', join: 'JOIN graph_source_statements s ON s.source_id = j.value', order: 's.ord' },
-};
-
 /** The file's keys with one value each (or the list of values), in the file's order. */
 async function keyed(db, file, joinName, { many = false, parse = true } = {}) {
   const listed = await fileKeys(db, file);
   if (!listed) return null;
-  const values = await valuesByKey(db, file, JOINS[joinName]);
+  const values = await valuesByKey(db, file, joinName);
   const read = (v) => (parse ? parseJson(v) : v);
   const entries = [];
   listed.keys.forEach((key, i) => {
@@ -169,10 +160,9 @@ async function keyed(db, file, joinName, { many = false, parse = true } = {}) {
 
 /** Every key of the files under `dir`, in file order, with the file's URL. */
 async function keysUnder(db, dir) {
-  const { results } = await db.prepare('SELECT file, keys FROM graph_files WHERE file > ?1 AND file < ?2 ORDER BY file, part')
-    .bind(`${dir}/`, `${dir}0`).all();
+  const results = await db.all(GRAPH_FILES.keysUnder, [`${dir}/`, `${dir}0`]);
   const out = [];
-  for (const r of results || []) for (const key of parseJson(r.keys) || []) out.push([key, `/data/graph/${r.file}`]);
+  for (const r of results) for (const key of parseJson(r.keys) || []) out.push([key, `/data/graph/${r.file}`]);
   return out;
 }
 
