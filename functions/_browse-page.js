@@ -50,8 +50,11 @@ import { datasetVersion, htmlResponse } from './_lib/respond.js';
 import { renderRecordPage, ssrMode } from './_templates/records/index.js';
 import { loadElectionPage } from './_templates/records/election.js';
 import { groupedYearHero, groupedYearKey } from './_templates/records/grouped-year.js';
+import { resolveElectionSlugAlias } from './_lib/election-slug-aliases.js';
 
-export { slugify };
+// Retired election and contest slugs (functions/_lib/election-slug-aliases.js): lookupElection
+// finds the record under its new slug and the handler's slug check answers 301.
+export { slugify, resolveElectionSlugAlias };
 export const SITE_ORIGIN = 'https://civgraph.net';
 const SITE_NAME = 'Civgraph';
 const DESCRIPTION_LIMIT = 300;
@@ -175,28 +178,6 @@ async function lookupTableRecord(db, table, slug, aliasTable = `${table}_aliases
  * province-wide list is "regional-list". No election slug is a prefix of another, so the
  * longest match is the only match.
  */
-// Bodies that were renamed (an urban district merged into the borough slug that holds its
-// later rounds). _redirects cannot reach these paths, because Pages does not apply
-// redirects to routes a Function serves, so the old addresses are mapped here and the
-// handler's slug check answers 301.
-// Contests too: Carrickfergus 1955's East Central and West aldermanic contests were built from
-// the councillor files until 6 Nov 2026, and the sitemap listed them as "-2" of the councillor
-// contests' slugs; they are the "-alderman" contests now.
-const ELECTION_SLUG_ALIASES = [
-  ['bangor-urban-district-council-1920-01-15', 'bangor-borough-council-1920-01-15'],
-  ['lisburn-urban-district-council-1920-01-15', 'lisburn-borough-council-1920-01-15'],
-  ['carrickfergus-borough-council-1955-05-18-east-central-ward-2', 'carrickfergus-borough-council-1955-05-18-east-central-ward-alderman'],
-  ['carrickfergus-borough-council-1955-05-18-west-ward-2', 'carrickfergus-borough-council-1955-05-18-west-ward-alderman'],
-];
-
-export function resolveElectionSlugAlias(slug) {
-  const lower = String(slug || '').toLowerCase();
-  for (const [from, to] of ELECTION_SLUG_ALIASES) {
-    if (lower === from || lower.startsWith(`${from}-`)) return to + lower.slice(from.length);
-  }
-  return lower;
-}
-
 /**
  * A grouped local-election year (ni-local-1946, ireland-local-1911): not an r_elections row but a
  * Browse card listing its council rounds. Null when there is no such year.
