@@ -47,15 +47,11 @@ export const API = Object.freeze({
 export const BINDINGS = Object.freeze({
   ELECTIONS_DB: Object.freeze({
     kind: 'd1', name: 'civgraph-records', environments: ['production'],
-    purpose: 'the records database: elections, persons, parties, sources, votes, graph (and maps from data phase 3)',
+    purpose: 'the records database: elections, persons, parties, sources, votes, graph, maps, layers and the catalogue',
   }),
   PRONI_DB: Object.freeze({
     kind: 'd1', name: 'proni-catalogue', environments: ['production', 'preview'],
     purpose: 'the PRONI eCatalogue with its FTS5 index (kept separate: FTS5 blocks D1 export)',
-  }),
-  CATALOGUE_DB: Object.freeze({
-    kind: 'd1', name: 'civgraph-catalogue', environments: ['production'], retiring: 'data phase 3',
-    purpose: 'the map catalogue, until it loads into the records database',
   }),
   PRONI_KV: Object.freeze({ kind: 'kv', environments: ['production', 'preview'], purpose: 'PRONI app cache' }),
   SPATIAL_INDEX: Object.freeze({ kind: 'kv', environments: ['production'], purpose: 'names and spatial chunks for /_api/search and /_api/spatial' }),
