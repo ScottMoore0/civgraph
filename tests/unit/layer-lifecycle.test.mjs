@@ -72,3 +72,19 @@ test('pmtilesLayerState reads the reports, this run first', () => {
   assert.equal(pmtilesLayerState({ layer: {}, asset, upload: { ok: false, status: 'upload-failed' } }), 'failed');
   assert.equal(pmtilesLayerState({ layer: {}, asset, range: { ok: false } }), 'failed');
 });
+
+test('a rebuilt archive that was never uploaded cannot switch on the old bytes passing', async () => {
+  const { contentRangeTotal } = await import('../../scripts/publish/layer-lifecycle.mjs');
+  assert.equal(contentRangeTotal('bytes 0-15/62661'), 62661);
+  assert.equal(contentRangeTotal(undefined), null);
+  assert.equal(contentRangeTotal('bytes 0-15/*'), null);
+  const base = { kind: 'pmtiles', cdnUrl: URL_OLD, checkedUrl: URL_OLD };
+  // The admin-areas 1921/1924/1928 case on 7 Nov: local 903,571 bytes, CDN 812,905.
+  const stale = layerLifecycle.check('verified', 'serving', { ...base, localBytes: 903571, remoteBytes: 812905 });
+  assert.equal(stale.ok, false);
+  assert.match(stale.reason, /rebuilt and not uploaded/);
+  assert.equal(layerLifecycle.check('verified', 'serving', { ...base, localBytes: 62661, remoteBytes: 62661 }).ok, true);
+  // Remote-only archives (no local bytes) and checks without a Content-Range are not refused for size.
+  assert.equal(layerLifecycle.check('verified', 'serving', { ...base, localBytes: null, remoteBytes: 812905 }).ok, true);
+  assert.equal(layerLifecycle.check('verified', 'serving', { ...base, localBytes: 903571, remoteBytes: null }).ok, true);
+});
