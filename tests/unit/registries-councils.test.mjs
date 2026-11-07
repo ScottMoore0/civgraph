@@ -1,46 +1,74 @@
 /**
- * The councils registry (data/registries/councils.json) is valid and says exactly what the
- * scattered lists it replaces say. The parity half goes when the last literal does (registries/
- * legacy-sources.mjs, LANDING.md of rf-registries).
+ * The councils registry (data/registries/councils.json) is valid, its callers read it, and it
+ * says exactly what the lists it replaces still say. Each parity half is skipped once its literal
+ * is gone (registries/legacy-sources.mjs returns null for it). Since r2-pipeline the registry file
+ * itself is the source: the council seed went with the manifest builder's, election-names' and
+ * the grouped build's literals.
  */
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { loadRegistry, registryErrors } from '../../registries/index.mjs';
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
+import { REPO_ROOT, loadRegistry, registryErrors } from '../../registries/index.mjs';
 import { councilSources } from '../../registries/legacy-sources.mjs';
-import { seedCouncils } from '../../registries/seed/councils.mjs';
 import {
-  catalogueBodyAliases, catalogueCouncilNames, councilNameOn, councilsById, eraTitles, manifestCouncilSets,
-  niCouncils1923to67BodySlugs, niLocalGroupSlugs, normalizeCouncilName, plainTitleBodies, pre1973CouncilBodyNames
+  catalogueBodyAliases, catalogueCouncilNames, councilNameOn, councilsById, manifestCouncilSets,
+  niCouncils1923to67BodySlugs, niLocalGroupSlugs, normalizeCouncilName
 } from '../../registries/councils.mjs';
 import { councilTier } from '../../src/ni-local-groups.mjs';
 import { canonicalElectionTitle } from '../../scripts/lib/election-names.mjs';
+import { authorityStems, councilTypeOf } from '../../scripts/build/build-ni-local-grouped.mjs';
 
 const registry = loadRegistry('councils');
 const src = councilSources();
 const sorted = (x) => [...x].sort();
 const clone = () => structuredClone(registry);
+const read = (rel) => readFileSync(path.join(REPO_ROOT, rel), 'utf8');
 
 test('councils: the registry passes its schema and checks', () => {
   assert.deepEqual(registryErrors('councils', registry), []);
   assert.equal(registry.councils.length, 155);
 });
 
-test('councils: the file is exactly what its sources give (a fresh seed equals it)', () => {
-  assert.deepEqual(seedCouncils(), registry);
-});
-
-test('councils: the manifest builder sets', () => {
-  const m = src.manifest;
+test('councils: the manifest builder and election-names read the registry', () => {
+  const manifest = read('scripts/build/build-test2-election-manifest.mjs');
+  assert.match(manifest, /manifestCouncilSets\(loadRegistry\('councils'\)\)/);
+  assert.ok(!manifest.includes("'aghalee-rural-district-council'"), 'no council slug literal left in the manifest builder');
+  const names = read('scripts/lib/election-names.mjs');
+  for (const view of ['eraTitles(COUNCILS)', 'plainTitleBodies(COUNCILS)', 'pre1973CouncilBodyNames(COUNCILS)']) assert.ok(names.includes(view), view);
+  // The sets as they were when the literals went (7 Nov 2026), by size.
   const sets = manifestCouncilSets(registry);
-  assert.deepEqual(sorted(niCouncils1923to67BodySlugs(registry)), sorted(m.NI_COUNCILS_1923_67_BODY_SLUGS));
-  assert.deepEqual(sorted(sets.pre1973), sorted(m.PRE1973_COUNCIL_BODY_SLUGS));
-  assert.deepEqual(sorted(sets.resultsOnly1923to67), sorted(m.NI_COUNCILS_1923_67_RESULTS_ONLY_BODY_SLUGS));
-  assert.deepEqual(sorted(sets.pr1920Only), sorted(m.PR1920_ONLY_COUNCIL_BODY_SLUGS));
-  assert.deepEqual(sorted(sets.armaghPilot), sorted(m.ARMAGH_PILOT_RESULTS_ONLY_BODY_SLUGS));
-  assert.deepEqual(sorted(sets.localGovernmentBodies), sorted(m.LOCAL_GOVERNMENT_BODIES));
+  const n1923 = niCouncils1923to67BodySlugs(registry).size;
+  assert.equal(sets.resultsOnly1923to67.size, n1923 + 1);
+  assert.equal(sets.pre1973.size, n1923 + 17);
+  assert.deepEqual([...sets.pr1920Only], ['londonderry-county-borough-council']);
+  assert.equal(sets.armaghPilot.size, 13);
+  assert.equal(sets.localGovernmentBodies.size, 36);
 });
 
-test('councils: src/ni-local-groups.mjs (NI_COUNCIL_SLUGS, NI_LOCAL_TIERS, councilTier)', () => {
+test('councils: the grouped build\'s council type is councilTier for every council body', () => {
+  const slugs = new Set([
+    ...registry.councils.map((c) => c.bodySlug).filter(Boolean),
+    ...src.electionsIndex.bodies.map((b) => b.slug)
+  ]);
+  for (const slug of slugs) assert.equal(councilTypeOf(slug), councilTier(slug), slug);
+});
+
+test('councils: the grouped build\'s former district names (formerStems)', () => {
+  // AUTHORITY_STEM_ALIASES as it was when it moved into the registry (7 Nov 2026).
+  const before = {
+    'east-down-rural-district-council': ['east down', 'downpatrick'],
+    'south-down-rural-district-council': ['south down', 'kilkeel'],
+    'north-down-rural-district-council': ['north down', 'newtownards'],
+    'trillick-rural-district-council': ['trillick', 'irvinestown no 2'],
+    'belleek-rural-district-council': ['belleek', 'ballyshannon no 2']
+  };
+  for (const [slug, stems] of Object.entries(before)) assert.deepEqual(authorityStems(slug), stems, slug);
+  assert.equal(registry.councils.filter((c) => c.formerStems).length, 5);
+});
+
+test('councils: src/ni-local-groups.mjs (NI_COUNCIL_SLUGS, NI_LOCAL_TIERS)', (t) => {
+  if (!src.niCouncilSlugs || !src.niLocalTiers) return t.skip('the literals are gone: src reads the registry');
   assert.deepEqual(sorted(niLocalGroupSlugs(registry)), sorted(src.niCouncilSlugs));
   for (const [type, tier] of Object.entries(src.niLocalTiers)) {
     assert.equal(registry.types[type].label, tier.label);
@@ -49,14 +77,6 @@ test('councils: src/ni-local-groups.mjs (NI_COUNCIL_SLUGS, NI_LOCAL_TIERS, counc
   for (const c of registry.councils.filter((x) => x.generation === 'pre-1973')) {
     assert.equal(councilTier(c.bodySlug), c.type, c.id);
   }
-});
-
-test('councils: scripts/lib/election-names.mjs (era titles, plain titles, pre-1973 bodies)', () => {
-  const e = src.electionNames;
-  const want = new Map([...e.NI_COUNCIL_ERA_TITLES].map(([k, v]) => [k, Array.from(v, (x) => [...x])]));
-  assert.deepEqual(eraTitles(registry), want);
-  assert.deepEqual(sorted(plainTitleBodies(registry)), sorted(e.NI_COUNCILS_1923_67_PLAIN_TITLES));
-  assert.deepEqual(sorted(pre1973CouncilBodyNames(registry)), sorted(e.PRE1973_COUNCIL_BODIES));
 });
 
 test('councils: a council\'s name on each poll date is the one canonicalElectionTitle uses', () => {
@@ -74,8 +94,9 @@ test('councils: a council\'s name on each poll date is the one canonicalElection
   assert.ok(checked > 200, `checked ${checked} polls`);
 });
 
-test('councils: src/catalogue/search.js (council names by generation, body aliases)', () => {
+test('councils: src/catalogue/search.js (council names by generation, body aliases)', (t) => {
   const s = src.search;
+  if (!s) return t.skip('the literals are gone: search.js reads the registry');
   assert.deepEqual(catalogueCouncilNames(registry, { generation: '1973' }), [...s.NI_COUNCILS_1973]);
   assert.deepEqual(catalogueCouncilNames(registry, { generation: '2014' }), [...s.NI_COUNCILS_2014]);
   assert.deepEqual(catalogueCouncilNames(registry, { generation: '2014', jurisdiction: 'ireland' }), [...s.IRISH_COUNCILS]);
@@ -94,15 +115,15 @@ test('councils: counties, offices institutions and the scrapers\' lists', () => 
   assert.equal(new Set(linked.map((c) => c.officesInstitution)).size, linked.length, 'one council per institution');
 
   const byWebKey = new Map(registry.councils.filter((c) => c.websites).map((c) => [c.websites.key, c.websites.hosts]));
-  assert.deepEqual(new Map(src.councilWebsites.map(([k, hosts]) => [k, hosts])), byWebKey);
+  if (src.councilWebsites) assert.deepEqual(new Map(src.councilWebsites.map(([k, hosts]) => [k, hosts])), byWebKey);
   const wiki = (gen) => new Map(registry.councils.filter((c) => c.generation === gen && c.wikipedia).map((c) => [c.wikipedia.key, c.wikipedia.titleVariants]));
-  assert.deepEqual(wiki('1973'), new Map(src.wikipedia1973.map((w) => [w.key, w.variants])));
-  assert.deepEqual(wiki('2014'), new Map(src.wikipedia2014.map((w) => [w.key, w.variants])));
+  if (src.wikipedia1973) assert.deepEqual(wiki('1973'), new Map(src.wikipedia1973.map((w) => [w.key, w.variants])));
+  if (src.wikipedia2014) assert.deepEqual(wiki('2014'), new Map(src.wikipedia2014.map((w) => [w.key, w.variants])));
   // The comparison scraper's lists are subsets (same council keys, fewer "District Council" forms).
-  for (const w of src.wikipedia1973Compare) {
+  for (const w of src.wikipedia1973Compare || []) {
     for (const v of w.variants) assert.ok(wiki('1973').get(w.key).includes(v), `${w.key}: ${v}`);
   }
-  for (const [stem, [name, aliases]] of Object.entries(src.officesCouncils)) {
+  for (const [stem, [name, aliases]] of Object.entries(src.officesCouncils || {})) {
     const c = registry.councils.find((x) => x.officialName === name && x.officesInstitution === `council-${stem}`)
       || registry.councils.find((x) => x.officialName === name);
     if (['belfast', 'dublin', 'cork'].includes(stem)) continue; // one institution, several councils

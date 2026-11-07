@@ -34,7 +34,6 @@ import {
   NI_LOCAL_LEVEL_IDS,
   NI_LOCAL_TIERS,
   buildNiLocalGroupEntry,
-  councilTier,
   groupNiLocalRounds,
   isAldermanicBody,
   isAldermanicContest,
@@ -43,7 +42,20 @@ import {
 } from '../../src/ni-local-groups.mjs';
 import { printedLabelText } from '../../src/printed-labels.mjs';
 import { ELECTION_MANIFEST, localPathForUrl } from '../records/paths.mjs';
-import { defineMachine } from '../lib/state-machine.mjs';
+import { loadRegistry } from '../../registries/index.mjs';
+import { councilType } from '../../registries/councils.mjs';
+import { missingRoundReason, siteRoundStatus } from '../../registries/statuses.mjs';
+import { statusMachines } from '../../registries/status-machines.mjs';
+
+// The councils and statuses registries (data/registries; REG-1, RG-03): the type of each council,
+// the names its district went by, and the round-status machine with its vocabularies.
+const COUNCILS = loadRegistry('councils');
+const STATUSES = loadRegistry('statuses');
+
+/** The type of council a body slug names (an aldermanic body's is its council's), or null. */
+export function councilTypeOf(bodySlug) {
+  return councilType(COUNCILS, String(bodySlug || '').toLowerCase().replace(/-aldermen$/, ''));
+}
 
 const ROOT = process.cwd();
 const OUT_DIR = path.join(ROOT, 'render', 'metadata', 'ni-local');
@@ -110,14 +122,11 @@ export function districtFeatureStem(label) {
   return { stem: STEM_ALIASES.get(key) || key, rural, countyBorough };
 }
 
-// Rural districts renamed in their lifetime (the intake files each under its last name).
-const AUTHORITY_STEM_ALIASES = new Map([
-  ['east down', ['downpatrick']],
-  ['south down', ['kilkeel']],
-  ['north down', ['newtownards']],
-  ['trillick', ['irvinestown no 2']],
-  ['belleek', ['ballyshannon no 2']]
-]);
+// Rural districts renamed in their lifetime (the intake files each under its last name): the
+// councils registry's formerStems, by the stem of the council's last name.
+const AUTHORITY_STEM_ALIASES = new Map(COUNCILS.councils
+  .filter((c) => c.formerStems?.length && c.bodySlug)
+  .map((c) => [authorityStem(c.bodySlug), [...c.formerStems]]));
 
 /** Every name a council's district went by. */
 export function authorityStems(bodySlug) {
@@ -127,7 +136,7 @@ export function authorityStems(bodySlug) {
 
 function districtMatchesAuthority(districtLabel, bodySlug) {
   if (!districtLabel) return false;
-  const tier = councilTier(bodySlug);
+  const tier = councilTypeOf(bodySlug);
   const { stem, rural } = districtFeatureStem(districtLabel);
   if (!authorityStems(bodySlug).includes(stem)) return false;
   return tier === 'rural-district' ? rural : !rural;
@@ -243,19 +252,19 @@ function addTo(map, key, n) {
  *   complete -> held      intake work 'held'
  *   partial, held         final
  *
- * The intake's work statuses are a closed list; any other value (a typo, a new status) still reads
- * as complete, as it always did, but the build now names it. The list belongs in the round-status
- * registry (RG-03, rf-registries) when that lands.
+ * The table, the intake's closed list of work statuses and the rules are the statuses registry's
+ * election-round entry (data/registries/statuses.json, RG-03); siteRoundStatus walks them. Any
+ * other work value (a typo, a new status) still reads as complete, as it always did, but the build
+ * names it.
  */
-export const ROUND_WORK_STATUSES = Object.freeze(['done', 'partial', 'held', 'no-election']);
+const ROUND = STATUSES.machines['election-round'];
+
+export const ROUND_WORK_STATUSES = Object.freeze([...ROUND.vocabularies.work.values]);
 
 /** @typedef {'complete' | 'partial' | 'held'} GroupedRoundStatus */
 
-export const groupedRoundStatusMachine = defineMachine(/** @type {import('../lib/state-machine.mjs').MachineSpec<GroupedRoundStatus>} */ ({
-  name: 'grouped round status',
-  initial: 'complete',
-  transitions: { complete: ['partial', 'held'], partial: [], held: [] },
-}));
+/** The election-round machine of the registry, on the shared helper. */
+export const groupedRoundStatusMachine = statusMachines(STATUSES)['election-round'];
 
 /** True for no work status (a round the intake never tracked) or one on the closed list. */
 export function isKnownRoundWork(work) {
@@ -263,19 +272,23 @@ export function isKnownRoundWork(work) {
 }
 
 /**
+ * The site status of a published round from its round-status.json row and its round-completeness
+ * entry (registries/statuses.mjs siteRoundStatus).
+ * @param {{ work?: string, excluded?: unknown } | null | undefined} row
+ * @param {{ text?: string, complete?: boolean } | undefined} completeness
+ * @returns {GroupedRoundStatus}
+ */
+export function roundSiteStatus(row, completeness) {
+  return /** @type {GroupedRoundStatus} */ (siteRoundStatus(STATUSES, row, completeness).status);
+}
+
+/**
+ * The same, from the three facts (kept for the tests of PL-04).
  * @param {{ work?: string, excluded?: boolean, incomplete?: boolean }} facts
  * @returns {GroupedRoundStatus}
  */
 export function groupedRoundStatus({ work, excluded = false, incomplete = false }) {
-  /** @type {GroupedRoundStatus} */
-  let status = groupedRoundStatusMachine.initial;
-  const markDown = (/** @type {GroupedRoundStatus} */ to) => {
-    if (groupedRoundStatusMachine.can(status, to)) status = to;
-  };
-  if (work === 'partial' || work === 'held') markDown(work);
-  if (excluded) markDown('partial');
-  if (incomplete) markDown('partial');
-  return status;
+  return roundSiteStatus({ work, excluded }, incomplete ? { text: 'incomplete', complete: false } : undefined);
 }
 
 function main() {
@@ -297,7 +310,7 @@ function main() {
     const known = authorities[slug]?.county || authorities[base]?.county || COUNTY_FALLBACK[base];
     if (known) return known;
     // A county council anywhere on the island (before 1921): its county is its name.
-    if (councilTier(base) === 'county-council') {
+    if (councilTypeOf(base) === 'county-council') {
       return authorityStem(base).replace(/\b[a-z]/g, (c) => c.toUpperCase());
     }
     return null;
@@ -327,18 +340,14 @@ function main() {
     const rounds = entries.map((entry) => {
       const bundle = readJson(localPathForUrl(entry.resultUrl));
       const row = statusFor(entry);
-      const tier = councilTier(entry.bodySlug);
+      const tier = councilTypeOf(entry.bodySlug);
       // A published round holding fewer divisions or wards than the council elected
       // (data/elections/round-completeness.json): its line says how many, and why where known.
       // A round marked complete there lacks only divisions the law left vacant: it keeps its line
       // (which names them) and still counts as complete.
       const completeness = roundCompleteness[entry.key];
       if (!isKnownRoundWork(row?.work)) unknownWork.add(String(row?.work));
-      const roundStatus = groupedRoundStatus({
-        work: row?.work,
-        excluded: Boolean(row?.excluded),
-        incomplete: Boolean(completeness?.text && !completeness.complete),
-      });
+      const roundStatus = roundSiteStatus(row, completeness);
       const contests = (bundle.results || []).map((result) => compactContest(result, entry.bodySlug));
       return {
         key: entry.key,
@@ -361,15 +370,15 @@ function main() {
     for (const row of statusRows) {
       if (published.has(row.slug)) continue;
       if (row.calendar !== 'held' || row.work === 'no-election') continue;
-      if (!councilTier(row.slug)) continue;
+      if (!councilTypeOf(row.slug)) continue;
       if (missing.some((item) => item.bodySlug === row.slug)) continue;
       missing.push({
         bodySlug: row.slug,
         date: row.pollDate || row.round,
-        tier: councilTier(row.slug),
+        tier: councilTypeOf(row.slug),
         county: countyOf(row.slug),
         aldermen: isAldermanicBody(row.slug) ? 1 : 0,
-        reason: row.excluded ? 'held back in review' : 'not yet transcribed'
+        reason: missingRoundReason(STATUSES, row).reason
       });
     }
 
@@ -549,7 +558,7 @@ function buildLevel(level, { firstDate, rounds, missing, mapsById, renderBySourc
 
   // Which features an authority covers at this level (for hatching a missing or partial round).
   const authorityFeatures = (bodySlug, county) => {
-    const tier = councilTier(bodySlug);
+    const tier = councilTypeOf(bodySlug);
     const stem = authorityStem(bodySlug);
     if (level === 'ded') return featuresOfAuthority(bodySlug).map(({ fi }) => fi);
     if (level === 'ced') return tier === 'county-council' ? featuresOfCounty(county).map(({ fi }) => fi) : [];
