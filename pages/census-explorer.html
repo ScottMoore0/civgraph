@@ -8,9 +8,12 @@
   <meta name="description" content="Census tables for Northern Ireland (1926-2021) and the Republic of Ireland (1841-2022): find a table, read its figures, download them, compare census years and open the boundaries on the map." />
 <!-- site:head -->
 <script>(function(){var t=null;try{t=localStorage.getItem('theme');}catch(e){}if(t!=='dark'&&t!=='light'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;})();</script>
-<script>(function(){var K='civgraph.langPreview',S='/assets/i18n/i18n.js?v=2542293cbc03',on=false;function load(){var i=window.civgraphI18n;if(i){if(i.show)i.show();return;}if(document.querySelector('script[data-i18n-runtime]'))return;var s=document.createElement('script');s.src=S;s.setAttribute('data-i18n-runtime','');document.head.appendChild(s);}window.civgraphLangReveal=function(){try{localStorage.setItem(K,'1');}catch(e){}load();};try{if(/[?&]lang-preview=0(?:&|$)/.test(location.search)){localStorage.removeItem(K);localStorage.removeItem('civgraph.lang');}on=localStorage.getItem(K)==='1';}catch(e){}if(on)load();})();</script>
-<link rel="stylesheet" href="/assets/site/site-chrome.css?v=9081ee7c9078">
-<script defer src="/assets/site/site-chrome.js?v=533c9263f1be"></script>
+<script>(function(){var K='civgraph.langPreview',S='/assets/i18n/i18n.js?v=5c3981d6e5fd',on=false;function load(){var i=window.civgraphI18n;if(i){if(i.show)i.show();return;}if(document.querySelector('script[data-i18n-runtime]'))return;var s=document.createElement('script');s.src=S;s.setAttribute('data-i18n-runtime','');document.head.appendChild(s);}window.civgraphLangReveal=function(){try{localStorage.setItem(K,'1');}catch(e){}load();};try{if(/[?&]lang-preview=0(?:&|$)/.test(location.search)){localStorage.removeItem(K);localStorage.removeItem('civgraph.lang');}on=localStorage.getItem(K)==='1';}catch(e){}if(on)load();})();</script>
+<link rel="stylesheet" href="/assets/ui/tokens.css?v=9a3dca6e608e">
+<link rel="stylesheet" href="/assets/ui/tokens-legacy.css?v=17646fa133f3">
+<link rel="stylesheet" href="/assets/ui/base.css?v=3afe8b0c1381">
+<link rel="stylesheet" href="/assets/site/site-chrome.css?v=ac7ea448e3cb">
+<script defer src="/assets/site/site-chrome.js?v=d80944d7bb11"></script>
 <!-- /site:head -->
   <style>
     /* Colours are checked for WCAG AA (4.5:1 for text) in both themes. The greens and
@@ -180,6 +183,7 @@
 </head>
 <body>
 <!-- site:header active="apps" -->
+<a class="cg-skip-link" href="#main-content">Skip to main content</a>
 <header class="app-header" data-site-chrome data-header-layout="page">
 <a class="app-header__brand" href="/">
 <img alt="" class="app-header__logo-icon" src="/assets/pages/img/bd2feea987bf.svg"/>
@@ -230,7 +234,7 @@
 </header>
 <!-- /site:header -->
 
-  <main id="main">
+  <main id="main-content">
     <div class="intro">
       <h1>Census Explorer</h1>
       <p>Find census tables for Northern Ireland (1926 to 2021) and the Republic of Ireland (1841 to 2022),

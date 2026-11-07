@@ -99,6 +99,7 @@
     "test:scoped-writes": "node scripts/test-scoped-artefact-writes.mjs",
     "test:browser": "playwright test",
     "test:browser:test": "playwright test tests/browser/test-app.spec.js",
+    "test:browser:shell": "playwright test tests/browser/site-shell.spec.js",
     "build:timeline-changes": "python scripts/build_timeline_changes.py",
     "build:feature-thumbnails": "node scripts/render-feature-thumbnails.mjs --all",
     "build:feature-thumbnails:sample": "node scripts/render-feature-thumbnails.mjs --map counties-ireland --limit 3 --force",

@@ -1,6 +1,6 @@
 /**
  * Site chrome on the map page: the theme toggle and the support modal. The page carries the shared
- * site header (partials/site-header.html, `.app-header[data-site-chrome]`), which owns both
+ * site header (functions/_templates/shell.js, `.app-header[data-site-chrome]`), which owns both
  * (assets/site/site-chrome.js); then the map only follows the theme through the
  * `civgraph:themechange` event, and the rest serves a page without that header. What the map app
  * needs of a shared shell: that marker and event (here), `.app-header` (the phone pane toggle goes
@@ -11,7 +11,7 @@
 
 export class SiteChromeMethods {
   setupThemeToggle() {
-    // The shared site header (partials/site-header.html) brings its own toggle, wired by
+    // The shared site header (functions/_templates/shell.js) brings its own toggle, wired by
     // assets/site/site-chrome.js. The map only follows the theme, so binding a second click
     // handler here would flip it twice.
     if (document.querySelector('.app-header[data-site-chrome]')) {

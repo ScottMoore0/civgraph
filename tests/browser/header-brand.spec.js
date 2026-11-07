@@ -8,7 +8,7 @@ const { test, expect } = require('@playwright/test');
 // phone, 2026-08-27.
 //
 // Three stylesheets used to carry this header independently, and fixing one did not fix
-// the others. It is now one partial (partials/site-header.html) styled by one stylesheet
+// the others. It is now one template (functions/_templates/shell.js header()) styled by one stylesheet
 // (assets/site/site-chrome.css), but each page is still checked: a page stylesheet can
 // still reach in and override it.
 
