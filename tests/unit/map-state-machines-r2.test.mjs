@@ -116,3 +116,37 @@ test('MA-05 NI grouped view: the table, active as a view of it, and the view mov
   assert.match(view, /get active\(\) \{ return niLocalViewActive\(this\.viewState\.state\(\)\); \}/);
   for (const move of ['opening', 'active', 'inactive', 'switching']) assert.ok(view.includes(`this.viewState.to('${move}')`), move);
 });
+
+test('MA-07 to MA-10: the catalogue pane machines and choices', async () => {
+  const m = await import('../../src/ui-state-machines.mjs');
+  assert.deepEqual([...m.SPLIT_LAYOUT.values].sort(), ['balanced', 'info-75', 'info-full', 'map-75', 'map-full']);
+  assert.equal(m.SPLIT_LAYOUT.initial, 'balanced');
+  assert.deepEqual(m.SPLIT_ALLOWED.mobile, ['map-full', 'info-full']);
+  for (const id of [...m.SPLIT_ALLOWED.desktop, ...m.SPLIT_ALLOWED.mobile]) assert.ok(m.SPLIT_LAYOUT.has(id), id);
+  assert.throws(() => m.SPLIT_LAYOUT.check('map-50'), /is not one of/);
+  assert.throws(() => m.CATALOGUE_VIEW.check('book'), /is not one of/);
+  assert.deepEqual(m.MOBILE_CATALOGUE.transitions, { eager: ['deferred', 'released'], deferred: ['deferred', 'released'], released: ['released', 'deferred'] });
+  assertTableEnforced(m.MOBILE_CATALOGUE);
+  assert.deepEqual(m.ENTITY_PAGE_LOAD.transitions, { loading: ['loaded', 'choice', 'error', 'missing'], loaded: [], choice: [], error: [], missing: [] });
+  assertTableEnforced(m.ENTITY_PAGE_LOAD);
+  assert.deepEqual([...m.ENTITY_PLACEHOLDER.values], m.ENTITY_PAGE_LOAD.states.filter((s) => s !== 'loaded'));
+});
+
+test('MA-07 to MA-10: the sources write the pane state only through them', async () => {
+  const { CATALOGUE_HISTORY_ENTRY, SPLIT_ALLOWED } = await import('../../src/ui-state-machines.mjs');
+  const ui = read('src/ui-controller.js');
+  // The desktop order is the order splitStates lists the layouts in.
+  const listed = [...ui.matchAll(/\{ id: '([a-z0-9-]+)', label: '[^']+'(?:, mobileLabel: '[^']+')? \}/g)].map((x) => x[1]);
+  assert.deepEqual(listed, SPLIT_ALLOWED.desktop);
+  assert.match(ui, /set currentStateId\(value\) \{ this\._splitLayout = SPLIT_LAYOUT\.check\(value\); \}/);
+  assert.match(ui, /set catalogueView\(value\) \{ this\._catalogueViewValue = CATALOGUE_VIEW\.check\(value\); \}/);
+  assert.doesNotMatch(ui, /_mobileCatalogueDeferred/);
+  assert.match(ui, /this\.mobileCatalogue\.to\('deferred'\)/);
+  assert.match(ui, /this\.mobileCatalogue\.to\('released'\)/);
+  for (const [, type] of ui.matchAll(/_pushCatalogueHistoryEntry\(\{ type: '([a-z-]+)'/g)) assert.ok(CATALOGUE_HISTORY_ENTRY.has(type), type);
+  assert.match(ui, /CATALOGUE_HISTORY_ENTRY\.check\(entry\.type\);/);
+  assert.match(ui, /const state = ENTITY_PLACEHOLDER\.check\(/);
+  const bridge = read('src/map/app/entity-bridge.js');
+  assert.match(bridge, /state: load\.to\(detail \? 'choice' : \(failure \? 'error' : 'missing'\)\)/);
+  assert.match(bridge, /load\.to\('loaded'\);/);
+});

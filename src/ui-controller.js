@@ -13,6 +13,8 @@ import { formatElectionDate, shortBodyName, renderElectionConstituencyFeatureLin
 import { cdnUrl } from './cdn-url.js';
 import { catalogueNextRequested, initialCatalogueRoute } from './catalogue/flag.js';
 import { installSplit } from './catalogue/split.js';
+import { CATALOGUE_HISTORY_ENTRY, CATALOGUE_VIEW, ENTITY_PLACEHOLDER, MOBILE_CATALOGUE, SPLIT_ALLOWED, SPLIT_LAYOUT } from './ui-state-machines.mjs';
+import { createFlag, createState } from './map/state-helpers.mjs';
 import { partyFullName, partyLabelHtml } from './party-names.mjs';
 import { BODY_GROUP_ORDER, hasNumber, yearRange } from './entity-detail-data.mjs';
 
@@ -53,6 +55,18 @@ function bookCategoryIcon(category) {
 }
 
 class UIController {
+    // The pane's state fields keep their names; each write goes through its machine or choice
+    // (src/ui-state-machines.mjs): MA-07 the split layout, MA-08 the catalogue view, MA-09 the
+    // phone's catalogue flags. A value outside the set throws.
+    get currentStateId() { return this._splitLayout; }
+    set currentStateId(value) { this._splitLayout = SPLIT_LAYOUT.check(value); }
+    get catalogueView() { return this._catalogueViewValue; }
+    set catalogueView(value) { this._catalogueViewValue = CATALOGUE_VIEW.check(value); }
+    get _mobileCatalogueExpanded() { return this.mobileCatalogueExpandedFlag.on; }
+    set _mobileCatalogueExpanded(value) { this.mobileCatalogueExpandedFlag.set(value); }
+    get _flatRenderScheduled() { return this.flatRenderScheduledFlag.on; }
+    set _flatRenderScheduled(value) { this.flatRenderScheduledFlag.set(value); }
+
     constructor() {
         this.splitStates = [
             { id: 'info-full', label: 'Info only', mobileLabel: 'Info' },
@@ -117,7 +131,7 @@ class UIController {
         this._catalogueBookView = null;
         this._bookMarkdownCache = new Map();
         this._flatRenderToken = null;
-        this._flatRenderScheduled = false;
+        this.flatRenderScheduledFlag = createFlag('flat catalogue render scheduled');
         this._pendingFlatRenderOptions = null;
         this._flatRenderResolvers = [];
         this._flatTocTargetIds = new Set();
@@ -138,8 +152,9 @@ class UIController {
         this._catalogueSearchQuery = '';
         this._catalogueSearchToken = 0;
         this._thumbnailObserver = null;
-        this._mobileCatalogueExpanded = false;
-        this._mobileCatalogueDeferred = false;
+        this.mobileCatalogueExpandedFlag = createFlag('mobile catalogue expanded');
+        // eager, deferred or released (MA-09).
+        this.mobileCatalogue = createState(MOBILE_CATALOGUE);
         this._mobileInitialMapCardLimit = 24;
         this._mobileInitialElectionCardLimit = 2;
     }
@@ -537,6 +552,7 @@ class UIController {
     }
 
     _pushCatalogueHistoryEntry(entry) {
+        CATALOGUE_HISTORY_ENTRY.check(entry.type);
         this.catalogueHistory = this.catalogueHistory.slice(0, this.catalogueHistoryIndex + 1);
         this.catalogueHistory.push(entry);
         this.catalogueHistoryIndex = this.catalogueHistory.length - 1;
@@ -1951,13 +1967,8 @@ class UIController {
     }
 
     getAllowedStates() {
-        if (this.isMobile) {
-            // map-full first so it's the default on mobile (Leaflet needs a visible container)
-            return [
-                this.splitStates.find(s => s.id === 'map-full'),
-                this.splitStates.find(s => s.id === 'info-full')
-            ];
-        }
+        // map-full first on a phone, so it is the default there (src/ui-state-machines.mjs).
+        if (this.isMobile) return SPLIT_ALLOWED.mobile.map(id => this.splitStates.find(s => s.id === id));
         return this.splitStates;
     }
 
@@ -2376,7 +2387,7 @@ class UIController {
     renderDeferredMobileCatalogueShell() {
         const flatView = document.getElementById('catalogueFlatView');
         if (!flatView) return;
-        this._mobileCatalogueDeferred = true;
+        this.mobileCatalogue.to('deferred');
         this._flatRenderToken = Symbol('mobile-catalogue-deferred');
         flatView.innerHTML = '';
         flatView.dataset.rendered = 'deferred';
@@ -2389,7 +2400,7 @@ class UIController {
         const flatView = document.getElementById('catalogueFlatView');
         if (!flatView) return;
         if (flatView.dataset.rendered === 'true') return;
-        this._mobileCatalogueDeferred = false;
+        this.mobileCatalogue.to('released');
         delete flatView.dataset.mobileDeferred;
         this.requestFlatViewRender(this._lastMapListOptions || {}, { defer: true });
     }
@@ -9019,7 +9030,7 @@ class UIController {
         if (!detailView) return;
         this._currentDetailViewKey = detailId;
         const label = info.label || info.key;
-        const state = info.state || 'loading';
+        const state = ENTITY_PLACEHOLDER.check(info.state || 'loading');
         const esc = (value) => this.escapeHtml(value);
         let body = '';
         if (state === 'loading') {
