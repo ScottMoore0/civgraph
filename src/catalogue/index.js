@@ -133,7 +133,8 @@ export class CatalogueNext {
   /* ================================================================ lifecycle */
 
   async load() {
-    if (this.data) return;
+    // this.data is set mid-load, before the year spans and the route; a second render that
+    // arrives then must wait for the whole load, not draw from half-built state.
     if (!this.loading) {
       this.loading = (async () => {
         // The books list is fetched alongside the catalogue rather than after it.
