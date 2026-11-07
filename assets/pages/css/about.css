@@ -35,7 +35,7 @@ main > .wrap > section > h2 { margin-top: 2.6rem; }
   width: 1.9rem; height: 1.9rem;
   display: grid; place-items: center;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--header-green), var(--header-teal));
+  background: linear-gradient(135deg, var(--chrome-green), var(--chrome-teal));
   color: #fff; font-weight: 700; font-size: .85rem;
   font-family: var(--font-display);
 }
@@ -47,9 +47,9 @@ main > .wrap > section > h2 { margin-top: 2.6rem; }
    corrected map. */
 .correction-box {
   border: 1px solid var(--color-border);
-  border-left: 3px solid var(--header-green);
-  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
-  background: var(--color-gray-50);
+  border-left: 3px solid var(--chrome-green);
+  border-radius: 0 var(--radius-xl) var(--radius-xl) 0;
+  background: var(--surface-raised);
   padding: 1.15rem 1.35rem;
   margin: 1.5rem 0 2rem;
 }
@@ -71,7 +71,7 @@ main > .wrap > section > h2 { margin-top: 2.6rem; }
   border-left: 2px solid var(--color-border);
   margin-bottom: .5rem;
 }
-.sources-list > li:hover { border-left-color: var(--header-green); }
+.sources-list > li:hover { border-left-color: var(--chrome-green); }
 .sources-list strong {
   display: block;
   font-family: var(--font-display);
@@ -86,7 +86,7 @@ main > .wrap > section > h2 { margin-top: 2.6rem; }
 .project-list { list-style: none; padding: 0; margin: 1rem 0 1.3rem; }
 .project-list > li {
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   padding: .85rem 1.1rem;
   margin-bottom: .7rem;
   background: var(--color-surface);

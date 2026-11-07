@@ -13,13 +13,15 @@
  *   node scripts/run-checks.mjs --jobs 8            concurrency (default: half the cores, max 12)
  *   node scripts/run-checks.mjs --serial            one at a time, in order, as `npm run check`
  *
- * Steps in SERIAL_ONLY write shared scratch files or lean on the network, and run one at a
- * time after the parallel batch so they cannot collide with each other.
+ * Steps in SERIAL_ONLY write shared scratch files (test:scoped-writes) or are heavy enough
+ * to starve the pool (eslint), and run one at a time after the parallel batch.
  *
- * `check` is offline: no step reads a remote database. The comparisons with the LIVE
- * databases and the R2 bucket are in the opt-in `npm run verify` (verify:records, the bounded
- * records check; verify:proni-roots; check:r2-parity); check:proni-roots here checks the
- * committed file alone. For a run that equals CI, use npm run check:clean.
+ * This is the fast local tier of CHECKS.md. `check` is offline: no step reads a remote
+ * database, R2 or the deployed site. The comparisons with the LIVE databases and the R2 bucket
+ * are in the opt-in `npm run verify` (verify:records, the bounded records check;
+ * verify:proni-roots; check:r2-parity); check:proni-roots here checks the committed file
+ * alone. For a run that equals CI, use npm run check:clean; for this plus the database tests
+ * and the browser specs, npm run check:full.
  */
 import { spawn } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
@@ -27,8 +29,6 @@ import os from 'node:os';
 
 const SERIAL_ONLY = new Set([
   'test:scoped-writes',
-  'check:r2-parity',
-  'check:external-sources',
   'lint',
   'lint:functions-strict'
 ]);

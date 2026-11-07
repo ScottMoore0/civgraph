@@ -45,7 +45,7 @@
   ],
   "note": "Ids carrying more than one distinct name are row indices, not people.",
   "crossSystemMerges": 1057,
-  "sameNameLeftSplit": 2782
+  "sameNameLeftSplit": 2781
  },
  "conservatism": "Nothing is merged on name alone. Two ids from the same source system sharing a name stay separate and are flagged needsReview.",
  "entities": [
@@ -29833,23 +29833,27 @@
    "personId": 47167,
    "displayName": "Robert Campbell",
    "aliases": [
-    "Robert Campbell"
+    "Robert Campbell",
+    "R. V. Campbell"
    ],
    "matchKeys": [
+    "r v campbell",
     "robert campbell"
    ],
    "sourceIds": [
     "13792898",
     "47167",
+    "R. V. Campbell|",
     "T3703045753"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1969,
+   "candidacies": 8,
+   "contests": 8,
+   "firstYear": 1952,
    "lastYear": 1975,
    "bodies": [
+    "bangor-borough-council",
     "local-government",
     "northern-ireland-assembly",
     "northern-ireland-constitutional-convention",
@@ -29862,7 +29866,10 @@
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    142098
+   ]
   },
   {
    "id": "p47266",
@@ -135233,31 +135240,38 @@
    "personId": 102721,
    "displayName": "John Preston",
    "aliases": [
+    "Jack Preston",
     "John Preston"
    ],
    "matchKeys": [
+    "jack preston",
     "john preston"
    ],
    "sourceIds": [
     "John Preston|UUP",
-    "T2961067081"
+    "T2961067081",
+    "T3662557448"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1967,
-   "lastYear": 1985,
+   "lastYear": 1989,
    "bodies": [
     "bangor-borough-council",
     "local-government"
    ],
    "parties": [
+    "Conservative",
     "UUP"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    107895
+   ]
   },
   {
    "id": "p102722",
@@ -237448,26 +237462,23 @@
     "gormley"
    ],
    "sourceIds": [
-    "Gormley|",
     "T2827115563"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1967,
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1973,
    "lastYear": 1973,
    "bodies": [
-    "local-government",
-    "tyrone-county-council"
+    "local-government"
    ],
    "parties": [
     "Alliance"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "provisional": true
   },
   {
    "id": "p107408",
@@ -251029,35 +251040,6 @@
    ],
    "parties": [
     "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p107895",
-   "personId": 107895,
-   "displayName": "Jack Preston",
-   "aliases": [
-    "Jack Preston"
-   ],
-   "matchKeys": [
-    "jack preston"
-   ],
-   "sourceIds": [
-    "T3662557448"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1989,
-   "lastYear": 1989,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "Conservative"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -896294,33 +896276,6 @@
    "provisional": true
   },
   {
-   "id": "p142098",
-   "personId": 142098,
-   "displayName": "R. V. Campbell",
-   "aliases": [
-    "R. V. Campbell"
-   ],
-   "matchKeys": [
-    "r v campbell"
-   ],
-   "sourceIds": [
-    "R. V. Campbell|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1952,
-   "lastYear": 1961,
-   "bodies": [
-    "bangor-borough-council"
-   ],
-   "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
    "id": "p142099",
    "personId": 142099,
    "displayName": "R. V. Williams",
@@ -943303,10 +943258,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1958,
-   "lastYear": 1964,
+   "lastYear": 1967,
    "bodies": [
     "tyrone-county-council"
    ],
@@ -1072467,9 +1072422,9 @@
   }
  ],
  "corrections": {
-  "mergedIds": 117,
+  "mergedIds": 119,
   "classes": {
-   "WIKIPEDIA-BIOGRAPHY": 6,
+   "WIKIPEDIA-BIOGRAPHY": 8,
    "FORUM-DUPLICATE": 100,
    "LGR-2014": 3,
    "SAME-SEAT-SEQUENCE": 4,

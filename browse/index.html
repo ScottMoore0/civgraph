@@ -12,21 +12,23 @@
   <link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg">
 <!-- site:head -->
 <script>(function(){var t=null;try{t=localStorage.getItem('theme');}catch(e){}if(t!=='dark'&&t!=='light'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;})();</script>
-<script>(function(){var K='civgraph.langPreview',S='/assets/i18n/i18n.js?v=2542293cbc03',on=false;function load(){var i=window.civgraphI18n;if(i){if(i.show)i.show();return;}if(document.querySelector('script[data-i18n-runtime]'))return;var s=document.createElement('script');s.src=S;s.setAttribute('data-i18n-runtime','');document.head.appendChild(s);}window.civgraphLangReveal=function(){try{localStorage.setItem(K,'1');}catch(e){}load();};try{if(/[?&]lang-preview=0(?:&|$)/.test(location.search)){localStorage.removeItem(K);localStorage.removeItem('civgraph.lang');}on=localStorage.getItem(K)==='1';}catch(e){}if(on)load();})();</script>
-<link rel="stylesheet" href="/assets/site/site-chrome.css?v=9081ee7c9078">
-<script defer src="/assets/site/site-chrome.js?v=533c9263f1be"></script>
+<script>(function(){var K='civgraph.langPreview',S='/assets/i18n/i18n.js?v=5c3981d6e5fd',on=false;function load(){var i=window.civgraphI18n;if(i){if(i.show)i.show();return;}if(document.querySelector('script[data-i18n-runtime]'))return;var s=document.createElement('script');s.src=S;s.setAttribute('data-i18n-runtime','');document.head.appendChild(s);}window.civgraphLangReveal=function(){try{localStorage.setItem(K,'1');}catch(e){}load();};try{if(/[?&]lang-preview=0(?:&|$)/.test(location.search)){localStorage.removeItem(K);localStorage.removeItem('civgraph.lang');}on=localStorage.getItem(K)==='1';}catch(e){}if(on)load();})();</script>
+<link rel="stylesheet" href="/assets/ui/tokens.css?v=9a3dca6e608e">
+<link rel="stylesheet" href="/assets/ui/tokens-legacy.css?v=17646fa133f3">
+<link rel="stylesheet" href="/assets/ui/base.css?v=3afe8b0c1381">
+<link rel="stylesheet" href="/assets/site/site-chrome.css?v=ac7ea448e3cb">
+<script defer src="/assets/site/site-chrome.js?v=d80944d7bb11"></script>
 <!-- /site:head -->
-  <link rel="stylesheet" href="/browse/browse.css?v=cdf429fa6a73">
+  <link rel="stylesheet" href="/browse/browse.css?v=47198afa5350">
 </head>
 
 <body>
   <div id="announcer" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
-  <!-- T3-09 (#41): these pages had no skip link at all, so a keyboard user
-       had to tab through the whole header on every page load. Before the header, so the
-       first Tab reaches them rather than the logo and seven header controls. -->
-  <a href="#main-content" class="visually-hidden">Skip to main content</a>
-  <a href="#browseResults" class="visually-hidden">Skip to results</a>
-<!-- site:header active="browse" -->
+  <!-- T3-09 (#41): the skip links (to the content and to the results) come first, before the logo
+       and seven header controls; both are the shell's (site:header skip-also). -->
+<!-- site:header active="browse" skip-also="#browseResults:Skip to results" -->
+<a class="cg-skip-link" href="#main-content">Skip to main content</a>
+<a class="cg-skip-link" href="#browseResults">Skip to results</a>
 <header class="app-header" data-site-chrome data-header-layout="page">
 <a class="app-header__brand" href="/">
 <img alt="" class="app-header__logo-icon" src="/assets/pages/img/bd2feea987bf.svg"/>
@@ -196,7 +198,7 @@
 </div>
 </div>
 <!-- /site:support-modal -->
-  <script type="module" src="/browse/browse.js?v=f2475a812ea9"></script>
+  <script type="module" src="/browse/browse.js?v=c125ff25e7c9"></script>
 </body>
 
 </html>

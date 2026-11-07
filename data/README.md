@@ -12,7 +12,6 @@ Read this before assuming a missing directory is a broken checkout.
 | `database/maps.json` | **The catalogue.** 1,031 map entries, 44 classes, 17 time-series chains. The source of truth for what Civgraph holds. |
 | `database/external-sources.json` | Sources cited but not hosted — Wikipedia articles, Internet Archive items, third-party datasets. Where attribution obligations are recorded. |
 | `database/books.json` | 67 scanned books. `file` and `markdownFile` point at `data.civgraph.net`; `check:book-files` enforces that. |
-| `database/elections-schema.sql` | Generated dump of the live `civgraph-elections` D1 schema, so the database shape exists somewhere other than the database. |
 | `database/*-baseline.json` | Pinned known-offender lists for validators that cannot be made clean yet. Each names the script that owns it. |
 | `elections-source/` | **The canonical election data**, 7,401 JSON bundles read by 42 scripts. Uses ElectionsNI's `countGroup` schema. |
 

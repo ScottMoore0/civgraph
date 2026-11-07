@@ -38,7 +38,10 @@ const steps = [
   ] : []),
   ['Write the CDN upload manifest', ['scripts/publish/r2-manifest.mjs']],
   ['Upload to R2', ['scripts/publish/r2-upload-pmtiles.mjs', '--ids', idList]],
-  ['Verify byte ranges on the CDN', ['scripts/publish/verify-pmtiles-cdn.mjs', '--ids', idList, '--apply']],
+  // No --apply: verify --apply imports the switch with verify's own argv, and the switch takes
+  // only --ids, so it refused the run ("unrecognised flag(s): --apply") after the report was
+  // written. The switch is the next step, scoped to the same ids.
+  ['Verify byte ranges on the CDN', ['scripts/publish/verify-pmtiles-cdn.mjs', '--ids', idList]],
   ['Switch the layers to their CDN URLs', ['scripts/publish/switch-pmtiles-to-cdn.mjs', '--ids', idList]],
   ['Repair alias layers', ['scripts/repair-alias-layers.mjs']],
   ['Rebuild the layer metadata', ['scripts/build-test-metadata-plan.mjs']]

@@ -51,8 +51,11 @@ import { datasetVersion, htmlResponse } from './_lib/respond.js';
 import { renderRecordPage, ssrMode } from './_templates/records/index.js';
 import { loadElectionPage } from './_templates/records/election.js';
 import { groupedYearHero, groupedYearKey } from './_templates/records/grouped-year.js';
+import { resolveElectionSlugAlias } from './_lib/election-slug-aliases.js';
 
-export { slugify };
+// Retired election and contest slugs (functions/_lib/election-slug-aliases.js): lookupElection
+// finds the record under its new slug and the handler's slug check answers 301.
+export { slugify, resolveElectionSlugAlias };
 export const SITE_ORIGIN = 'https://civgraph.net';
 const SITE_NAME = 'Civgraph';
 const DESCRIPTION_LIMIT = 300;
@@ -157,15 +160,22 @@ async function lookupTableRecord(db, table, slug, aliasTable = `${table}_aliases
   if (row?.record) return parseJson(row.record);
   // An old address (a source merged into another, a person's earlier id) redirects to the
   // record it now belongs to: the caller sends a 301 when the slugs differ.
+  let aliased = null;
   try {
-    const aliased = await db
+    aliased = await db
       .prepare(`SELECT card AS record FROM ${table} WHERE slug = (SELECT slug FROM ${aliasTable} WHERE alias = ?1) LIMIT 1`)
       .bind(slug)
       .first();
-    return aliased?.record ? parseJson(aliased.record) : null;
   } catch {
     return null;   // no aliases table yet
   }
+  if (aliased?.record) return parseJson(aliased.record);
+  // A person's slug is their name and registry id. When a re-stamp retires the id (a merge) or
+  // the name changes, the published slug is neither a record nor an alias; its id still is
+  // (the person's own id, or a merged-away id in person_aliases), so the address is answered
+  // through it and the caller's slug check sends the 301.
+  const id = table === 'person_cards' ? /^[a-z0-9-]+-(\d+)$/.exec(String(slug))?.[1] : null;
+  return id ? lookupTableRecord(db, table, id, aliasTable) : null;
 }
 
 /**
@@ -176,28 +186,6 @@ async function lookupTableRecord(db, table, slug, aliasTable = `${table}_aliases
  * province-wide list is "regional-list". No election slug is a prefix of another, so the
  * longest match is the only match.
  */
-// Bodies that were renamed (an urban district merged into the borough slug that holds its
-// later rounds). _redirects cannot reach these paths, because Pages does not apply
-// redirects to routes a Function serves, so the old addresses are mapped here and the
-// handler's slug check answers 301.
-// Contests too: Carrickfergus 1955's East Central and West aldermanic contests were built from
-// the councillor files until 6 Nov 2026, and the sitemap listed them as "-2" of the councillor
-// contests' slugs; they are the "-alderman" contests now.
-const ELECTION_SLUG_ALIASES = [
-  ['bangor-urban-district-council-1920-01-15', 'bangor-borough-council-1920-01-15'],
-  ['lisburn-urban-district-council-1920-01-15', 'lisburn-borough-council-1920-01-15'],
-  ['carrickfergus-borough-council-1955-05-18-east-central-ward-2', 'carrickfergus-borough-council-1955-05-18-east-central-ward-alderman'],
-  ['carrickfergus-borough-council-1955-05-18-west-ward-2', 'carrickfergus-borough-council-1955-05-18-west-ward-alderman'],
-];
-
-export function resolveElectionSlugAlias(slug) {
-  const lower = String(slug || '').toLowerCase();
-  for (const [from, to] of ELECTION_SLUG_ALIASES) {
-    if (lower === from || lower.startsWith(`${from}-`)) return to + lower.slice(from.length);
-  }
-  return lower;
-}
-
 /**
  * A grouped local-election year (ni-local-1946, ireland-local-1911): not an r_elections row but a
  * Browse card listing its council rounds. Null when there is no such year.
