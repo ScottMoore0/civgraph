@@ -115,8 +115,8 @@ async function drawTokens() {
 }
 
 function wireSpecimens() {
-  for (const button of document.querySelectorAll('[data-gallery-open]')) {
-    button.addEventListener('click', () => document.getElementById(button.dataset.galleryOpen)?.showModal?.());
+  for (const button of /** @type {NodeListOf<HTMLElement>} */ (document.querySelectorAll('[data-gallery-open]'))) {
+    button.addEventListener('click', () => /** @type {HTMLDialogElement | null} */ (document.getElementById(button.dataset.galleryOpen))?.showModal?.());
   }
   for (const form of document.querySelectorAll('.cg-gallery__example form[role="search"]')) {
     form.addEventListener('submit', (event) => event.preventDefault());
