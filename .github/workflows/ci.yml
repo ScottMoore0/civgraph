@@ -79,18 +79,15 @@ jobs:
       # Exactly the Pages build command (wrangler.toml records it): npm install, not npm ci.
       - name: npm install (--ignore-scripts, as Pages does)
         run: npm install --ignore-scripts
-      - name: npm run build
-        run: npm run build
-      # The 18,500-file and 25 MiB-per-file budget, modelled from what would deploy.
-      - name: Assert modelled deployable file count under budget
-        run: node scripts/validate-pages-file-budget.mjs
-      - name: clean-for-pages.sh
-        run: bash scripts/clean-for-pages.sh
-      - name: Assert real on-disk file count under Cloudflare's hard limit
+      # npm run build, then scripts/build/site.mjs writes dist/ (the Pages output) from its
+      # allow-list and fails above the 18,500-file guardrail or on a file over 25 MiB.
+      - name: npm run build:site
+        run: npm run build:site
+      - name: Assert real file count in dist/ under Cloudflare's hard limit
         run: |
-          COUNT=$(find . -path ./.git -prune -o -type f -print | wc -l)
-          echo "files on disk after clean-for-pages.sh: $COUNT (hard limit 20000)"
+          COUNT=$(find dist -type f | wc -l)
+          echo "files in dist/: $COUNT (hard limit 20000)"
           if [ "$COUNT" -ge 20000 ]; then
-            echo "::error::$COUNT files on disk; Cloudflare Pages hard-fails at 20,000."
+            echo "::error::$COUNT files in dist/; Cloudflare Pages hard-fails at 20,000."
             exit 1
           fi

@@ -58,9 +58,10 @@ whose inputs fell outside a filter never ran (the `docs/**` gap, closed 2026-09-
   `records:check` tests the API. The
   config never reuses a server already on its port (one from another worktree would serve
   that tree); set `PW_REUSE_SERVER=1` to reuse your own.
-- Job `pages-build`: the Pages build exactly as Cloudflare runs it, the 18,500-file and
-  25 MiB-per-file budget (`scripts/validate-pages-file-budget.mjs`), and the 20,000-file
-  hard limit on disk after `scripts/clean-for-pages.sh`.
+- Job `pages-build`: the Pages build exactly as Cloudflare runs it (`npm run build:site`:
+  `npm run build`, then `scripts/build/site.mjs`, which writes `dist/` from its allow-list
+  and fails above 18,500 files or on a file over 25 MiB), and the 20,000-file hard limit
+  counted in `dist/`.
 - No secrets, no remote D1 or R2, no request to the deployed site, no schedule.
   `npm run check:ci-workflow` (`scripts/validate-ci-workflow.mjs`, in tier 1) fails if any
   of that changes.
@@ -82,7 +83,7 @@ whose inputs fell outside a filter never ran (the `docs/**` gap, closed 2026-09-
 | Area | Checks |
 |---|---|
 | Publication rights and sources | `check:approved-publication`, `check:raw-source-documents`, `check:medium-priority-publication`, `check:peatland-geoportal`, `check:external-sources`, `check:election-source-enrichments`, `check:ni-register-interests`, `check:book-files`, `check:r2-allowlist`, `check:public-prefixes` |
-| Pages deploy limits and routing | `check:pages-assets` (18,500 files, 25 MiB each), `check:routes-manifest`, `check:method-guards`, `check:asset-refs`, `check:root`, `check:test2` (`/test2/` is a 301 and `test2/sw.js` the kill switch), `check:map-tiles` (the layer metadata, tile budgets and CDN manifest) |
+| Pages deploy limits and routing | `check:pages-assets` (`scripts/build/site.mjs --check`: what `dist/` would hold, 18,500 files, 25 MiB each; `tests/unit/site-build.test.mjs` holds the allow-list to what the pages name), `check:routes-manifest`, `check:method-guards`, `check:asset-refs`, `check:root`, `check:test2` (`/test2/` is a 301 and `test2/sw.js` the kill switch), `check:map-tiles` (the layer metadata, tile budgets and CDN manifest) |
 | Election records | `check:provenance` (provenance budget and freshness), `check:candidate-name-party`, `check:graph`, `check:browse-contract`, `test:elections-unit`, `test:browse-pages` |
 | Maps catalogue (the tracked sources data phase 3 loads into D1; phase 4 replaces most) | `check:c1-coverage`, `check:catalogue-render-parity`, `check:catalogue-display-fields`, `check:render-time-series`, `check:test-index-parity`, `check:public-map-count`, `check:browse-hidden`, `check:catalogue-file-urls`, `check:provider-names`, `check:shared-file-attribution`, `check:composite-relations`, `check:polygon-labels`, `check:vector-promote-id`, `check:chunked-bounds`, `check:tile-freshness`, `check:tile-content` |
 | Map-layer intake | `check:intake-delivery`, `check:source-paths`, `check:composite-composition`, `test:intake-validators`, `test:intake` |
@@ -114,6 +115,11 @@ Retired on 7 November 2026 with data phase 4 (the leftovers: data-architecture D
 - **The committed per-layer sidecars** `render/metadata/layer-details-test2/` and
   `duplicate-feature-ids/` (about 1,670 files). Production answers their URLs from D1 since
   phase 3; `npm run build` now writes them to `tmp/layer-metadata/` for the local test server.
+- **The subtractive Pages output.** The output directory is `dist/` (wrangler.toml), built by
+  `scripts/build/site.mjs` from an explicit allow-list; `scripts/validate-pages-file-budget.mjs`
+  (which modelled the root output through `.cfignore`, a file the Git-integrated build never
+  read) is deleted, `check:pages-assets` runs `site.mjs --check`, and `scripts/clean-for-pages.sh`
+  only runs `site.mjs` until the dashboard's build command is `npm run build:site`.
 - **Browse's data token** (`BROWSE_DATA_VERSION` in browse.js): `/data/browse/` and `/_api/`
   answer with an ETag of the dataset version.
 - **The R2 reads of `/data/browse/` and `/data/graph/`.** Every old file kind is rebuilt from

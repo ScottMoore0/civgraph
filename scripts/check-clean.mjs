@@ -74,7 +74,7 @@ export function exportTree(root, dest, files) {
 /**
  * Make the export a git repository holding exactly the exported files in one commit, as CI's
  * checkout is: records:build hashes its inputs with git ls-files and records the commit, and
- * check:pages-assets asks git which files .cfignore excludes. Without this every git call in
+ * check:pages-assets (scripts/build/site.mjs) asks git which files are tracked. Without this every git call in
  * the chain fails with "not a git repository" (exit 128), which CI never sees.
  */
 export function initExportRepo(dest) {

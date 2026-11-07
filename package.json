@@ -15,6 +15,7 @@
   "private": true,
   "scripts": {
     "build": "node scripts/build-public-prefixes.mjs && node scripts/build-corpus-index.mjs && node scripts/build-feature-thumbnail-manifest.mjs && node scripts/build-agent-index.mjs && node scripts/validate-chunked-map-bounds.mjs && node scripts/sync-catalogue-display-fields.mjs && node scripts/build-render-time-series-chains.mjs && node scripts/build-site-partials.mjs && node scripts/build-shared-shell-assets.mjs && npm run build:test2:app && node scripts/promote-test2-root.mjs",
+    "build:site": "npm run build && node scripts/build/site.mjs",
     "build:local-artefacts": "node scripts/build-sitemap.mjs && node scripts/validate-browse-cache-tokens.mjs && node scripts/build-site-stats.mjs && node scripts/build-status.mjs",
     "build:browse": "node scripts/build-feature-thumbnail-manifest.mjs && node scripts/build-browse-indexes.mjs && node scripts/build-party-profiles.mjs && node scripts/build-office-pages.mjs && node scripts/build-sitemap.mjs && npm run build:graph",
     "census:scrape:cso": "node scripts/census/scrape-cso-historical-reports.mjs --download",
@@ -61,7 +62,7 @@
     "check:election-source-enrichments": "node scripts/validate-election-source-enrichments.mjs",
     "check:chunked-bounds": "node scripts/validate-chunked-map-bounds.mjs",
     "check:root": "node scripts/validate-maplibre-root-promotion.mjs",
-    "check:pages-assets": "node scripts/validate-pages-file-budget.mjs",
+    "check:pages-assets": "node scripts/build/site.mjs --check",
     "check:external-sources": "node scripts/validate-external-sources.mjs",
     "check:graph": "node scripts/graph/validate-semantic-graph.mjs",
     "check:c1-coverage": "node scripts/validate-c1-coverage.mjs",

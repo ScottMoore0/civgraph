@@ -12,12 +12,17 @@
 # its own right, not a side effect of moving config into the repository.
 #
 # The build command is NOT part of this file -- Pages keeps it as a project
-# setting. For the record it is:
+# setting. Since data phase 4 it should be:
+#
+#     npm install --ignore-scripts && npm run build:site
+#
+# (npm run build, then scripts/build/site.mjs, which writes dist/ from an explicit
+# allow-list and fails above 18,500 files). The previous command,
 #
 #     npm install --ignore-scripts && npm run build && bash scripts/clean-for-pages.sh
 #
-# and scripts/clean-for-pages.sh trimming the output below Cloudflare's
-# 20,000-file limit is load-bearing.
+# still works: clean-for-pages.sh now only runs scripts/build/site.mjs. Change the
+# setting in the dashboard (Pages > civgraph > Settings > Build), then the shim can go.
 #
 # WHAT IS DELIBERATELY ABSENT
 #
@@ -55,9 +60,12 @@ name = "civgraph"
 # behaviour and is a deliberate change to make on its own.
 compatibility_date = "2026-04-04"
 
-# The site is served from the repository root -- index.html, 404.html and
-# _headers are all top level. Equivalent to the project's empty destination_dir.
-pages_build_output_dir = "."
+# The site is served from dist/, which scripts/build/site.mjs builds from an
+# explicit allow-list (owner decision, 6 Nov 2026: only the files the site is meant
+# to serve). Until data phase 4 it was the repository root ("."); to roll back,
+# set "." again and restore scripts/clean-for-pages.sh. functions/ stays at the
+# project root: Pages bundles it from there, not from the output directory.
+pages_build_output_dir = "dist"
 
 
 # ---------------------------------------------------------------------------
