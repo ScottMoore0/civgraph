@@ -124,10 +124,18 @@ async function main() {
 
   if (dryRun) {
     // A dry run changes nothing, migrations included: it only lists what a real run would apply.
+    // Listing them reads D1. When that fails (wrangler not signed in, no network) the dry run still
+    // reports the delta, which comes from the build and the snapshot alone, and says it could not list.
     const list = wrangler(['d1', 'migrations', 'list', D1_NAME, ...target], 'migrations.log');
-    if (list.status !== 0) throw new Error(`migrations list failed:\n${list.text.slice(-1500)}`);
-    const pending = list.text.match(/\d{4}_[\w-]+\.sql/g) || [];
-    log(pending.length ? `migrations a real run would apply: ${[...new Set(pending)].join(', ')}` : 'no migrations to apply');
+    if (list.status !== 0) {
+      const plain = list.text.replace(/\x1b\[[0-9;]*m/g, '');
+      const reason = (plain.match(/\[ERROR\][^\n]*(?:\n\s*\n?[^\n]*)?/) || [plain.trim().split('\n').slice(-1)[0] || ''])[0]
+        .replace(/\s+/g, ' ').trim();
+      log(`WARNING: could not list the migrations a real run would apply (${reason.slice(0, 220)}); see tmp/records/migrations.log`);
+    } else {
+      const pending = list.text.match(/\d{4}_[\w-]+\.sql/g) || [];
+      log(pending.length ? `migrations a real run would apply: ${[...new Set(pending)].join(', ')}` : 'no migrations to apply');
+    }
   } else {
     const mig = wrangler(['d1', 'migrations', 'apply', D1_NAME, ...target], 'migrations.log');
     if (mig.status !== 0) throw new Error(`migrations apply failed:\n${mig.text.slice(-1500)}`);
