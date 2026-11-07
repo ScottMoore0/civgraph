@@ -5,9 +5,11 @@
  *   node tools/dev-site/server.mjs [--port 8790] [--catalogue next|current]
  *   open http://localhost:8790/maps/
  *
- * Serves the working tree as the static site does, proxies /_r/ (CDN) and /_api/ (the live
- * API) as the site expects on localhost, and sets window.CIVGRAPH_CATALOGUE on every page so
- * the catalogue pane mounts the new implementation (src/catalogue/) instead of the current
+ * Serves the working tree as the static site does, answers the records API (/_api/parties,
+ * /_api/persons, /_api/elections ...) from the local records build when there is one
+ * (scripts/records/local-api.mjs: the real Functions against tmp/records), proxies /_r/ (CDN)
+ * and the rest of /_api/ (the live API) as the site expects on localhost, and sets
+ * window.CIVGRAPH_CATALOGUE on every page so the catalogue pane mounts the new implementation (src/catalogue/) instead of the current
  * one. The live site is unaffected: without that setting, or ?catalogue=next, it renders the
  * current pane exactly as before.
  *
@@ -26,6 +28,7 @@ import { ingestMaps, MAP_SOURCES } from '../../scripts/records/ingest-maps.mjs';
 import { d1, installCaches } from '../../tests/records/d1-shim.mjs';
 import * as layersApi from '../../functions/_api/layers/[[path]].js';
 import * as catalogueApi from '../../functions/_api/catalogue/index.js';
+import { answerRecordApi, sendResponse } from '../../scripts/records/local-api.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '..', '..');
@@ -92,6 +95,17 @@ createServer(async (req, res) => {
   const url = new URL(req.url, `http://localhost:${PORT}`);
   const p = decodeURIComponent(url.pathname);
   try {
+    // The records API from the local build, as the record documents below are: the same
+    // Functions production runs, against tmp/records. Without a build it goes upstream.
+    const record = await answerRecordApi(`${url.pathname}${url.search}`, {
+      method: req.method, headers: req.headers['if-none-match'] ? { 'if-none-match': req.headers['if-none-match'] } : {},
+    });
+    if (record) {
+      const response = new Response(record.body, record);
+      response.headers.set('Cache-Control', 'no-store');
+      return sendResponse(res, response, { head: req.method === 'HEAD' });
+    }
+
     // On localhost the site sends CDN requests through /_r/ (src/cdn-url.js) and its API
     // calls to /_api/: both are fetched upstream here.
     const local = req.method === 'GET' ? await localMapApi(req, url) : null;

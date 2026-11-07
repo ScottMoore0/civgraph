@@ -21,9 +21,19 @@ The map documents moved into D1 in data design phase 3 (PHASE3.md): the app read
 index from /_api/layers?view=index and the catalogue pane from /_api/catalogue?view=pane. The
 Functions answer those from rows loaded out of the tracked files, so here the same URLs answer
 with those files (_api_file): the generated copies the Functions' rows are built from.
+
+The records API (/_api/parties, /_api/persons, /_api/elections and the other routes whose
+Functions read only the records database) is answered by those same Functions, run in a
+Node process against the records build's database (scripts/records/local-api.mjs, through
+the D1 shim the records tests use). This server starts it on a free local port and passes
+those requests to it; it exits when this server does. Without a records build, or without
+node, those URLs answer 404 as before. Any other /_api/ route answers 404.
 """
+import http.client
 import os
+import re
 import runpy
+import subprocess
 import sys
 from urllib.parse import parse_qs, unquote
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
@@ -58,15 +68,79 @@ def _api_file(path, query):
     return None
 
 
+_LOCAL_API = os.path.join(REPO, 'scripts', 'records', 'local-api.mjs')
+_RECORDS_DB = os.path.join(REPO, 'tmp', 'records', 'civgraph-records.sqlite')
+# The same routes as RECORD_API_ROUTES in scripts/records/local-api.mjs.
+_API_ROUTE = re.compile(r'^/_api/(elections|graph|parties|persons|register-interests|sources|stats|votes)/?$')
+_api_port = None
+
+
+def start_records_api():
+    """Start scripts/records/local-api.mjs; return its port, or None without a records build."""
+    if not os.path.exists(_RECORDS_DB):
+        return None
+    try:
+        proc = subprocess.Popen(['node', '--no-warnings', _LOCAL_API, '--port', '0', '--exit-with-stdin'],
+                                stdin=subprocess.PIPE, stdout=subprocess.PIPE, cwd=REPO)
+    except OSError:
+        return None
+    line = proc.stdout.readline().decode('utf-8', 'replace').strip()
+    if not line.startswith('ready '):
+        proc.kill()
+        return None
+    start_records_api.proc = proc  # its stdin stays open while this process lives
+    return int(line.split()[1])
+
+
 class Server(ThreadingHTTPServer):
     # 5 -> 128. The kernel caps this at somaxconn; asking for more is harmless.
     request_queue_size = 128
     daemon_threads = True
 
+    def handle_error(self, request, client_address):
+        # The browser drops connections it no longer needs (a cancelled fetch, a closed page);
+        # the traceback that follows is noise in the suite's output, not a failure.
+        if isinstance(sys.exc_info()[1], (ConnectionAbortedError, ConnectionResetError, BrokenPipeError)):
+            return
+        super().handle_error(request, client_address)
+
 
 class Handler(SimpleHTTPRequestHandler):
     def log_message(self, *args):
         pass  # the suite's own reporter is the signal; per-request lines drown it
+
+    def _records_api(self, head):
+        path = self.path.split('?', 1)[0]
+        if not _API_ROUTE.match(path):
+            return False
+        if not _api_port:
+            self.send_error(404)
+            return True
+        headers = {h: self.headers[h] for h in ('Accept', 'If-None-Match') if self.headers.get(h)}
+        conn = http.client.HTTPConnection('127.0.0.1', _api_port, timeout=60)
+        try:
+            conn.request('GET', self.path, headers=headers)
+            upstream = conn.getresponse()
+            body = upstream.read()
+            self.send_response(upstream.status)
+            for name, value in upstream.getheaders():
+                if name.lower() not in ('content-length', 'connection', 'transfer-encoding', 'date', 'keep-alive'):
+                    self.send_header(name, value)
+            self.send_header('Content-Length', str(len(body)))
+            self.end_headers()
+            if not head:
+                self.wfile.write(body)
+        finally:
+            conn.close()
+        return True
+
+    def do_GET(self):
+        if not self._records_api(False):
+            super().do_GET()
+
+    def do_HEAD(self):
+        if not self._records_api(True):
+            super().do_HEAD()
 
     def translate_path(self, path):
         bare, _, query = path.split('#', 1)[0].partition('?')
@@ -82,4 +156,5 @@ class Handler(SimpleHTTPRequestHandler):
 if __name__ == '__main__':
     port = int(sys.argv[1]) if len(sys.argv) > 1 else 5050
     ThreadingHTTPServer.allow_reuse_address = True
+    _api_port = start_records_api()
     Server(('127.0.0.1', port), Handler).serve_forever()
