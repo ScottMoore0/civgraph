@@ -12,10 +12,11 @@
  * parameters bind and what a batch guarantees. A database swap to another engine is then the
  * adapter plus a dialect check over the named queries, not a change to every handler.
  *
- * NOT YET USED BY CALLERS. toD1() below is the bridge for the switch-over: it wraps any store in
- * the D1 binding shape the handlers call today, so a handler can be run over a local SQLite store
- * unchanged (tests/unit/storage.test.mjs does exactly that), and the handlers can then move to
- * the interface one at a time.
+ * Every Function reads D1 through it (storage slice ST-5): a handler holds fromD1(binding) and
+ * runs the named queries of functions/_lib/queries/ (ST-6); nothing outside this folder calls the
+ * engine API (tests/functions/named-queries.test.mjs). toD1() below wraps any store in the D1
+ * binding shape, so the tests run the real handlers over a local SQLite file
+ * (tests/records/d1-shim.mjs is toD1(openSqlite(file)), ST-3).
  *
  * No file system, no Node imports: this file is bundled into Pages Functions.
  */
