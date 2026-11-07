@@ -15,9 +15,9 @@
 import { STORE, phaseOf, readDataset, resetDatasetMemo } from '../_lib/dataset-state.js';
 import { CACHE, binding } from '../_lib/config.js';
 import { asStore } from '../../packages/storage/src/d1.js';
-import { T } from '../_lib/queries/tables.js';
-import { ELECTIONS } from '../_lib/queries/elections.js';
-import { DOCUMENTS } from '../_lib/queries/documents.js';
+import { T } from '../../packages/api/src/queries/tables.js';
+import { ELECTIONS } from '../../packages/api/src/queries/elections.js';
+import { DOCUMENTS } from '../../packages/api/src/queries/documents.js';
 
 /** The two tables whose final names are still taken by live legacy tables (stage H renames them). */
 export { T };
@@ -416,7 +416,7 @@ export function pyJsonCompact(value) {
 // ---------------------------------------------------------------- election bundles
 
 // Each helper takes a RecordStore or a D1 binding (asStore), so callers move to the adapter one
-// route at a time; the SQL is named in functions/_lib/queries/elections.js (ST-6).
+// route at a time; the SQL is named in packages/api/src/queries/elections.js (ST-6).
 
 export async function electionRow(db, key) {
   return asStore(db).first(ELECTIONS.row, [key]);

@@ -33,7 +33,7 @@ import {
 } from '../_records.js';
 import { binding } from '../../_lib/config.js';
 import { fromD1 } from '../../../packages/storage/src/d1.js';
-import { ELECTIONS, ELECTIONS_API, ELECTION_CARDS } from '../../_lib/queries/elections.js';
+import { ELECTIONS, ELECTIONS_API, ELECTION_CARDS } from '../../../packages/api/src/queries/elections.js';
 
 // Bump whenever the RESPONSE SHAPE changes, not just when the data does: it is part of the
 // cache key. elections-8: the records tables; ORDER BY on every list; the views above.

@@ -31,7 +31,7 @@
 import { cachedJson, documentBody, jsonResponse, parseJson } from '../../_api/_records.js';
 import { binding } from '../../_lib/config.js';
 import { fromD1 } from '../../../packages/storage/src/d1.js';
-import { GRAPH_FILES } from '../../_lib/queries/graph.js';
+import { GRAPH_FILES } from '../../../packages/api/src/queries/graph.js';
 
 const VERSION = 'data-graph-2';
 /**

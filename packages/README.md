@@ -10,6 +10,7 @@ what it offers in its `exports`. The repository root stays the one deployable si
 | `@civgraph/storage` | the RecordStore interface (`store.js`), the D1 adapter (`d1.js`; `.` is the runtime entry) and the node:sqlite adapter (`sqlite.mjs`, entry `@civgraph/storage/node`) | `functions/_lib/storage/store.js`, `functions/_lib/storage/d1.js`, `scripts/lib/storage/sqlite.mjs` |
 | `@civgraph/schema` | the records schema: the D1 migrations (`migrations/*.sql`, `wrangler.toml` `migrations_dir`) and the table list (`src/schema.mjs`, entry `@civgraph/schema`) | `scripts/records/schema.mjs`; `migrations/` keeps a pointer README |
 | `@civgraph/loader` | the records loader (`src/`: ingest-*, build-records-db, delta, deploy, verify, parity crawl, local-api, paths); `npm run records:*` call it there. `scripts/records/paths.py` and `proni/*.py` stay in scripts/ (Python, not part of the package) | every `scripts/records/*.mjs` (a CLI still runs from its old path: the guards compare the file name) |
+| `@civgraph/api` | the named queries of the Functions (`src/queries/`, ST-6); the handlers follow (PKG-8, see the landing notes) | every `functions/_lib/queries/*.js` |
 
 Nothing under `packages/` is published: `scripts/build/site.mjs` builds `dist/` from an
 allow-list that does not name it (`tests/unit/site-build.test.mjs` holds that).

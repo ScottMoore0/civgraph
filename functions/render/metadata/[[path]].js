@@ -29,7 +29,7 @@
 import { bundleChunks, cachedJson, datasetState, documentBody, parseJson, streamFrom } from '../../_api/_records.js';
 import { binding } from '../../_lib/config.js';
 import { fromD1 } from '../../../packages/storage/src/d1.js';
-import { ELECTIONS_API } from '../../_lib/queries/elections.js';
+import { ELECTIONS_API } from '../../../packages/api/src/queries/elections.js';
 
 const VERSION = 'render-metadata-1';
 

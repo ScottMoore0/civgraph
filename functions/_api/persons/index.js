@@ -24,7 +24,7 @@
  */
 import { browseIndexHandler } from '../_browse-index.js';
 import { parseJson } from '../_records.js';
-import { PERSONS } from '../../_lib/queries/cards.js';
+import { PERSONS } from '../../../packages/api/src/queries/cards.js';
 
 /** A person's candidacies from the records tables, in date order (data design stage D.3). */
 async function candidacies({ db, slug, record, json }) {

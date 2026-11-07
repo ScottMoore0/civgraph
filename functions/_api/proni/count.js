@@ -11,7 +11,7 @@
 import { buildMatch, buildFilters } from './_query.js';
 import { binding } from '../../_lib/config.js';
 import { fromD1 } from '../../../packages/storage/src/d1.js';
-import { PRONI } from '../../_lib/queries/proni.js';
+import { PRONI } from '../../../packages/api/src/queries/proni.js';
 
 const CACHE_VERSION = 'v4';
 
