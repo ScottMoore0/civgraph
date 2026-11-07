@@ -50,33 +50,71 @@ export function jsonResponse(payload, status = 200, extra = {}) {
 }
 
 /**
+ * A JSON answer cached at the edge (caches.default) under the code version and, by default, the
+ * dataset version, with a last-good copy that answers while D1 fails.
+ *
  * `options.cacheControl` replaces the browser policy of a 200 (default: max-age=300 with
  * stale-while-revalidate). The map documents use must-revalidate: the browser asks each load and
  * the ETag (code and dataset version) answers 304, so a publish is seen at once.
+ *
+ * For the old /data/browse and /data/graph file URLs (data phase 4), which a burst could turn into
+ * many heavy D1 reads at once (15 of 294 answered 503, D1 overloaded, in a production crawl on
+ * 7 Nov 2026):
+ *   `edgeTtl`  seconds a stored 200 lives at the edge (s-maxage: caches.default keeps a response
+ *              for its Cache-Control, so with max-age=300 alone it was gone in five minutes).
+ *              Under a dataset-versioned key the content never changes, so it can be long.
+ *   `stable`   the key and ETag leave out the dataset version, and the cache is read before D1
+ *              is asked anything: for content frozen until it retires (/data/graph, whose
+ *              graph_files is frozen as loaded at go-live). A publish does not empty it.
+ *   `gate`     the rebuild goes through the isolate's gate: one rebuild per URL at a time (a
+ *              second request waits for it and takes its stored copy), at most GATE_ACTIVE
+ *              rebuilds at once and GATE_QUEUE more waiting up to GATE_WAIT_MS each; past that,
+ *              the last-good copy, the R2 copy or 503 with Retry-After.
+ *   `r2Key`    the file's copy on R2 (MAPS_BUCKET), left by the old publish: read before D1 with
+ *              `r2First`, else only when D1 fails and no last-good copy is held.
  */
 export async function cachedJson(context, codeVersion, handler, options = {}) {
+  const { stable = false, edgeTtl = 0, gate = false, r2Key = null, r2First = false } = options;
   const db = context.env?.ELECTIONS_DB;
-  const { version, loading } = db ? await datasetState(db) : { version: '', loading: '' };
-  const etag = `"${codeVersion}-${version}"`;
-  if (version && context.request.headers.get('If-None-Match') === etag) {
+  let state = null;
+  const getState = async () => {
+    if (!state) state = db ? await datasetState(db) : { version: '', loading: '' };
+    return state;
+  };
+  const version = stable ? '' : (await getState()).version;
+  const etag = stable ? `"${codeVersion}"` : `"${codeVersion}-${version}"`;
+  if ((stable || version) && context.request.headers.get('If-None-Match') === etag) {
     return new Response(null, { status: 304, headers: { ETag: etag } });
   }
   const requestUrl = new URL(context.request.url);
   const key = new URL(requestUrl);
   key.searchParams.set('_cv', codeVersion);
-  key.searchParams.set('_dv', version);
+  if (!stable) key.searchParams.set('_dv', version);
   const cacheKey = new Request(key.toString(), { method: 'GET' });
   const lastGoodUrl = new URL(requestUrl);
   lastGoodUrl.searchParams.set('_lastgood', codeVersion);
-  const lastGood = new Request(lastGoodUrl.toString(), { method: 'GET' });
+  const lastGood = stable ? cacheKey : new Request(lastGoodUrl.toString(), { method: 'GET' });
   const cache = typeof caches !== 'undefined' ? caches.default : null;
-  if (cache && !loading) {
-    const hit = await cache.match(cacheKey);
+  const cacheControl = `${options.cacheControl || 'public, max-age=300, stale-while-revalidate=86400'}${edgeTtl ? `, s-maxage=${edgeTtl}` : ''}`;
+  const lookup = async () => (cache ? (await cache.match(cacheKey)) || null : null);
+  if (cache && (stable || !state.loading)) {
+    const hit = await lookup();
     if (hit) return hit;
   }
-  let resp = null;
-  try { resp = db ? await handler() : null; } catch { resp = null; }
-  if (!resp || resp.status >= 500) {
+
+  /** A 200's headers; stored unless a load is under way. Returns it and the put's promise. */
+  const finish = (resp, loading) => {
+    resp = new Response(resp.body, resp);
+    if (version || stable) resp.headers.set('ETag', etag);
+    resp.headers.set('Cache-Control', loading ? 'no-store' : cacheControl);
+    let put = null;
+    if (cache && !loading) {
+      put = Promise.all([cache.put(cacheKey, resp.clone()), stable ? null : cache.put(lastGood, resp.clone())]).catch(() => {});
+      context.waitUntil?.(put);
+    }
+    return { resp, put };
+  };
+  const fallback = async (resp) => {
     const lg = cache ? await cache.match(lastGood) : null;
     if (lg) {
       const headers = new Headers(lg.headers);
@@ -84,24 +122,108 @@ export async function cachedJson(context, codeVersion, handler, options = {}) {
       headers.set('Cache-Control', 'public, max-age=60');
       return new Response(lg.body, { status: 200, headers });
     }
-    return resp || jsonResponse({ error: 'unavailable' }, 503);
-  }
-  if (resp.status === 200) {
-    resp = new Response(resp.body, resp);
-    if (version) resp.headers.set('ETag', etag);
-    resp.headers.set('Cache-Control', loading ? 'no-store' : (options.cacheControl || 'public, max-age=300, stale-while-revalidate=86400'));
-    if (cache && !loading) {
-      const copy = resp.clone();
-      const copy2 = resp.clone();
-      context.waitUntil?.(cache.put(cacheKey, copy));
-      context.waitUntil?.(cache.put(lastGood, copy2));
+    const copy = await r2Copy(context.env, r2Key);
+    if (copy) return finish(copy, false).resp;
+    return resp || jsonResponse({ error: 'unavailable' }, 503, { 'Retry-After': '5' });
+  };
+  const rebuild = async () => {
+    if (r2First) {
+      const copy = await r2Copy(context.env, r2Key);
+      if (copy) return finish(copy, false);
     }
-  } else if (resp.status >= 400) {
-    resp = new Response(resp.body, resp);
-    resp.headers.set('Cache-Control', 'no-store');
+    const { loading } = await getState();
+    let resp = null;
+    try { resp = db ? await handler() : null; } catch { resp = null; }
+    if (!resp || resp.status >= 500) return { resp: await fallback(resp), put: null };
+    if (resp.status === 200) return finish(resp, loading);
+    if (resp.status >= 400) {
+      resp = new Response(resp.body, resp);
+      resp.headers.set('Cache-Control', 'no-store');
+    }
+    // A redirect (another spelling of an id) keeps the Cache-Control its handler gave it.
+    return { resp, put: null };
+  };
+  if (!gate) return (await rebuild()).resp;
+
+  const flight = GATE.inflight.get(cacheKey.url);
+  if (flight) {
+    await flight;
+    const hit = await lookup();
+    if (hit) return hit;
   }
-  // A redirect (another spelling of an id) keeps the Cache-Control its handler gave it.
-  return resp;
+  let settle;
+  const mine = new Promise((resolve) => { settle = resolve; });
+  if (!flight) GATE.inflight.set(cacheKey.url, mine);
+  let put = null;
+  try {
+    const release = await acquireGate();
+    if (!release) return await fallback(null);
+    let out;
+    try { out = await rebuild(); } finally { release(); }
+    put = out.put;
+    return out.resp;
+  } finally {
+    Promise.resolve(put).then(() => {
+      settle();
+      if (GATE.inflight.get(cacheKey.url) === mine) GATE.inflight.delete(cacheKey.url);
+    });
+  }
+}
+
+/** The isolate's gate on expensive rebuilds (cachedJson `gate`). */
+export const GATE_ACTIVE = 2;
+export const GATE_QUEUE = 32;
+export const GATE_WAIT_MS = 20_000;
+const GATE = { active: 0, queue: [], inflight: new Map(), peak: 0 };
+
+/** For tests: the gate's counters, and a reset. */
+export const gateState = {
+  get active() { return GATE.active; },
+  get queued() { return GATE.queue.length; },
+  get peak() { return GATE.peak; },
+  reset() { GATE.active = 0; GATE.queue.length = 0; GATE.inflight.clear(); GATE.peak = 0; },
+};
+
+function acquireGate() {
+  if (GATE.active < GATE_ACTIVE) {
+    GATE.active += 1;
+    GATE.peak = Math.max(GATE.peak, GATE.active);
+    return Promise.resolve(releaseGate());
+  }
+  if (GATE.queue.length >= GATE_QUEUE) return Promise.resolve(null);
+  return new Promise((resolve) => {
+    const waiter = { resolve, timer: null };
+    waiter.timer = setTimeout(() => {
+      const i = GATE.queue.indexOf(waiter);
+      if (i >= 0) GATE.queue.splice(i, 1);
+      resolve(null);
+    }, GATE_WAIT_MS);
+    GATE.queue.push(waiter);
+  });
+}
+
+/** One slot's release, good once: the slot passes to the next waiter, else it is freed. */
+function releaseGate() {
+  let used = false;
+  return () => {
+    if (used) return;
+    used = true;
+    const next = GATE.queue.shift();
+    if (next) {
+      clearTimeout(next.timer);
+      next.resolve(releaseGate());
+    } else GATE.active = Math.max(0, GATE.active - 1);
+  };
+}
+
+async function r2Copy(env, key) {
+  if (!key || !env?.MAPS_BUCKET) return null;
+  try {
+    const obj = await env.MAPS_BUCKET.get(key);
+    return obj ? new Response(obj.body, { headers: { ...JSON_HEADERS, 'X-Civgraph-Copy': 'r2' } }) : null;
+  } catch {
+    return null;
+  }
 }
 
 export function parseJson(text, fallback = null) {

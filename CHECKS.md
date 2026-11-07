@@ -128,6 +128,14 @@ Retired on 7 November 2026 with data phase 4 (the leftovers: data-architecture D
   a sample of every file kind deep-equal to the build's files; the 301s, 404s and HEAD) and
   `scripts/records/legacy-files-crawl.mjs` (the same comparison over HTTP, against
   `wrangler pages dev` or, after a publish, production).
+- **The rebuild of `graph_files` on every build** (7 Nov 2026, owner). It is frozen as loaded at
+  go-live: records:build carries it forward from the last-loaded snapshot, else the previous
+  build (`scripts/records/graph-files-freeze.mjs`), and records the files whose keys have changed
+  since in `tmp/records/graph-files-drift.json`, which the legacy-files test and crawl skip.
+  **New:** `tests/records/graph-files-freeze.test.mjs` (a carried table gives a delta with no
+  `graph_files` row) and `tests/records/legacy-burst.test.mjs` (the old file URLs under a burst:
+  the long edge cache, the R2 copy before D1 for the heavy legacy kinds, the gate on concurrent
+  rebuilds; cachedJson's `stable`, `edgeTtl`, `gate` and `r2Key` options).
 
 Retired on 7 November 2026 with data phase 3 (the maps, layers and catalogue load into the
 records database; PHASE3.md):

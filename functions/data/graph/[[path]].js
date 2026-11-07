@@ -31,6 +31,16 @@
 import { cachedJson, documentBody, jsonResponse, parseJson } from '../../_api/_records.js';
 
 const VERSION = 'data-graph-2';
+/**
+ * The answers are cached at the edge for EDGE_TTL under a key without the dataset version: the
+ * files retire on 6 Feb 2027 and graph_files is frozen as loaded at go-live (records:build
+ * carries it forward, scripts/records/graph-files-freeze.mjs), so a publish leaves them be. Every
+ * rebuild goes through the isolate's gate (cachedJson `gate`); the kinds whose files run to about
+ * 1 MB and more (up to 25 MB) answer from their R2 copy while it is there, and any kind falls back
+ * to it when D1 fails.
+ */
+const EDGE_TTL = 30 * 86400;
+export const HEAVY = new Set(['entities', 'statements-by-subject', 'reverse-entity-value', 'source-statements', 'search-part', 'slugs-part', 'browse-type', 'map']);
 export const DOWNLOADS_ORIGIN = 'https://data.civgraph.net/downloads';
 const DOWNLOAD_FILES = new Set(['civgraph.jsonld', 'civgraph-rdf.ndjson', 'civgraph-provenance.json']);
 
@@ -82,7 +92,10 @@ export async function onRequestGet(context) {
   const db = context.env.ELECTIONS_DB;
   if (!route) return notFound();
   if (!db) return jsonResponse({ error: 'records database not bound' }, 503);
-  return cachedJson(context, VERSION, () => answer(db, route, p));
+  return cachedJson(context, VERSION, () => answer(db, route, p), {
+    stable: true, edgeTtl: EDGE_TTL, cacheControl: 'public, max-age=86400', gate: route.kind !== 'doc',
+    r2Key: `data/graph/${p}`, r2First: HEAVY.has(route.kind),
+  });
 }
 
 function r2Response(obj) {

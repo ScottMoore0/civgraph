@@ -6,7 +6,8 @@
  * one field that is gone). Data design phase 3 moved the map files into tables (maps.json,
  * features.json, details/maps/<slug>.json: map_cards and feature_groups) and retired
  * proni-roots.json; phase 4 answers the source detail shards from `sources` and ends the read of
- * the R2 copies. Old file URLs keep answering for 90 days from 6 Nov 2026 (owner decision);
+ * the R2 copies, except that the heavy kinds no page reads any more answer from theirs first
+ * (LEGACY_HEAVY, below). Old file URLs keep answering for 90 days from 6 Nov 2026 (owner decision);
  * after that the R2 objects can go (a separate, approved step; not map-features/, which
  * browse.js reads from data.civgraph.net). Anything not listed answers 404.
  *
@@ -75,8 +76,23 @@ export async function onRequestGet(context) {
   if (!route) return notFound();
   const db = context.env.ELECTIONS_DB;
   if (!db) return jsonResponse({ error: 'records database not bound' }, 503);
-  return cachedJson(context, VERSION, () => answer(db, route));
+  return cachedJson(context, VERSION, () => answer(db, route), {
+    edgeTtl: EDGE_TTL, gate: HEAVY.has(route.kind),
+    ...LEGACY_HEAVY.has(route.kind) && { r2Key: `data/browse/${parts.join('/')}`, r2First: true },
+  });
 }
+
+/**
+ * Browse still reads some of these files (index, persons, sources and register-interests with
+ * their shards, maps, features, offices, elections.json), so the edge key keeps the dataset
+ * version (a publish is seen at once); under it an answer never changes, so it is stored for
+ * EDGE_TTL. The kinds that run to megabytes rebuild through the isolate's gate (cachedJson
+ * `gate`). Those no page reads any more, only old links, answer from their R2 copy while it is
+ * there (as it was at go-live), then from D1.
+ */
+const EDGE_TTL = 30 * 86400;
+export const HEAVY = new Set(['shard', 'source-shard', 'contest-parents', 'elections', 'elections-list', 'source-merges', 'election-contests', 'maps', 'features', 'parties']);
+export const LEGACY_HEAVY = new Set(['source-shard', 'contest-parents', 'elections-list', 'source-merges']);
 
 const SHARDED = {
   'person-shards': { table: 'person_cards', manifest: 'browse/persons.json', kind: 'person-index' },
