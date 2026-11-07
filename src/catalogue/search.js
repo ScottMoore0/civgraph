@@ -136,6 +136,7 @@ const BODY_ALIASES = {
   'downpatrick-urban-district-council': 'NI local council Downpatrick urban district town commissioners County Down',
   'dromore-urban-district-council': 'NI local council Dromore urban district County Down',
   'dungannon-urban-district-council': 'NI local council Dungannon urban district County Tyrone',
+  'enniskillen-borough-council-aldermen': 'NI local council Enniskillen borough aldermen County Fermanagh',
   'enniskillen-borough-council': 'NI local council Enniskillen borough urban district County Fermanagh',
   'gilford-town-commissioners': 'NI local council Gilford town commissioners County Down',
   'holywood-urban-district-council': 'NI local council Holywood urban district County Down',

@@ -125,6 +125,7 @@ PRE1973_COUNCIL_BODIES = {
     'dromore-urban-district-council',
     'dungannon-urban-district-council',
     'enniskillen-borough-council',
+    'enniskillen-borough-council-aldermen',
     'gilford-town-commissioners',
     'holywood-urban-district-council',
     'kilkeel-urban-district-council',

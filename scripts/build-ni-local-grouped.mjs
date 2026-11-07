@@ -287,8 +287,10 @@ function main() {
       if (row?.excluded && roundStatus === 'complete') roundStatus = 'partial';
       // A published round holding fewer divisions or wards than the council elected
       // (data/elections/round-completeness.json): its line says how many, and why where known.
+      // A round marked complete there lacks only divisions the law left vacant: it keeps its line
+      // (which names them) and still counts as complete.
       const completeness = roundCompleteness[entry.key];
-      if (completeness?.text && roundStatus === 'complete') roundStatus = 'partial';
+      if (completeness?.text && !completeness.complete && roundStatus === 'complete') roundStatus = 'partial';
       const contests = (bundle.results || []).map((result) => compactContest(result, entry.bodySlug));
       return {
         key: entry.key,
