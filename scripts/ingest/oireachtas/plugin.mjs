@@ -1,5 +1,5 @@
 // The Houses of the Oireachtas: the open-data API harvest and the official Dail election archive.
-import { definePlugin } from '../../intake/lib/plugins.mjs';
+import { definePlugin } from '@civgraph/intake/plugins.mjs';
 
 export default definePlugin({
   id: 'oireachtas',

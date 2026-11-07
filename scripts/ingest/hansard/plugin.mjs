@@ -1,5 +1,5 @@
 // The Northern Ireland Parliamentary Debates (Hansard, 1921-72) OCR text: the clean-up pass.
-import { definePlugin } from '../../intake/lib/plugins.mjs';
+import { definePlugin } from '@civgraph/intake/plugins.mjs';
 
 export default definePlugin({
   id: 'hansard',

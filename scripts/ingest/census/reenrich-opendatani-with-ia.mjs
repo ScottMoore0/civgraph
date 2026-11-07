@@ -13,7 +13,7 @@
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { readApprovedPublicationGate, writeApprovedPublicationSources } from '../../lib/approved-publication-index.mjs';
-import { MIRROR } from '../../intake/lib/item-status.mjs';
+import { MIRROR } from '@civgraph/intake/item-status.mjs';
 
 let args = process.argv.slice(2);
 if (!args.length) { console.error('usage: reenrich-opendatani-with-ia.mjs <mirrored.json|dir> [...]'); process.exit(1); }

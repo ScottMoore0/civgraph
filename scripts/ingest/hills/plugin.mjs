@@ -1,5 +1,5 @@
 // Irish hill and mountain domain polygons, from the Database of British and Irish Hills summits.
-import { definePlugin } from '../../intake/lib/plugins.mjs';
+import { definePlugin } from '@civgraph/intake/plugins.mjs';
 
 export default definePlugin({
   id: 'hills',

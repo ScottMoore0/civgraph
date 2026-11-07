@@ -1,6 +1,6 @@
 // The British Newspaper Archive (election notices searched with the owner's permission), and
 // the thumbnail renderers kept beside it.
-import { definePlugin } from '../../intake/lib/plugins.mjs';
+import { definePlugin } from '@civgraph/intake/plugins.mjs';
 
 export default definePlugin({
   id: 'bna',

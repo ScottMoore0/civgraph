@@ -1,5 +1,5 @@
 // Internet Archive mirrors of agency map layers, one item per agency.
-import { definePlugin } from '../../intake/lib/plugins.mjs';
+import { definePlugin } from '@civgraph/intake/plugins.mjs';
 
 export default definePlugin({
   id: 'internet-archive',

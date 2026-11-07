@@ -3,7 +3,7 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { Readable } from "node:stream";
-import { WAYBACK } from '../../intake/lib/item-status.mjs';
+import { WAYBACK } from '@civgraph/intake/item-status.mjs';
 
 const CDX = "https://web.archive.org/cdx";
 const UA = "Civgraph NISRA Wayback recovery/1.0 (+https://civgraph.net; polite archival recovery)";

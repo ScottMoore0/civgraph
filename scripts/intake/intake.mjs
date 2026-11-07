@@ -26,13 +26,13 @@
 import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { DEFAULT_REPO, loadBatch, validateBatch } from './lib/batch.mjs';
-import { buildPostUploadSteps, buildUploadSteps, formatStep, runSteps } from './lib/commands.mjs';
-import { formatPlan, planBatch, renderReport } from './lib/plan.mjs';
-import { checkLock, drift, git, readStates, scaffoldManifest, writeLock, writeState } from './lib/review.mjs';
-import { stageBatch } from './lib/stage.mjs';
-import { commandAllowed } from './lib/statuses.mjs';
-import { PLUGIN_COMMANDS, pluginMain } from './lib/plugin-cli.mjs';
+import { DEFAULT_REPO, loadBatch, validateBatch } from '@civgraph/intake/batch.mjs';
+import { buildPostUploadSteps, buildUploadSteps, formatStep, runSteps } from '@civgraph/intake/commands.mjs';
+import { formatPlan, planBatch, renderReport } from '@civgraph/intake/plan.mjs';
+import { checkLock, drift, git, readStates, scaffoldManifest, writeLock, writeState } from '@civgraph/intake/review.mjs';
+import { stageBatch } from '@civgraph/intake/stage.mjs';
+import { commandAllowed } from '@civgraph/intake/statuses.mjs';
+import { PLUGIN_COMMANDS, pluginMain } from '@civgraph/intake/plugin-cli.mjs';
 
 const COMMANDS = new Set(['init', 'validate', 'plan', 'stage', 'upload', 'post-upload', 'report', 'status']);
 const FLAGS = new Set(['--write', '--dry-run', '--yes', '--json', '--verbose', '--lock', '--manifest', '--repo', '--out', '--repo-label', '--title']);
