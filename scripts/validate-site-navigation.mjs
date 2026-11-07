@@ -50,6 +50,9 @@ const PAGES = [
   'pages/about.html',
   'pages/census-explorer.html',
   'pages/status.html',
+  // PRONI Search and the 404 joined the shared shell on 7 Nov 2026 (site-shell stream).
+  'apps/proni-search/index.html',
+  '404.html',
 ];
 
 /**
@@ -60,8 +63,6 @@ const PAGES = [
 const EXEMPT = new Map([
   ['render/index.html', 'staging shell, not the public site — see the README layout table'],
   ['test2/index.html', 'a compatibility redirect, not a page'],
-  ['apps/proni-search/index.html', 'standalone app with its own partials (partials/proni-header.html, partials/proni-footer.html)'],
-  ['404.html', 'error page; kept deliberately minimal'],
 ]);
 
 /**
@@ -91,7 +92,7 @@ function navLabels(html) {
 
 /**
  * Does the page carry the shared header partial, so it inherits the shared CSS and
- * behaviour? Since 2026-09 every public page does (partials/site-header.html, stamped in
+ * behaviour? Since 2026-09 every public page does (functions/_templates/shell.js header(), stamped in
  * by scripts/build-site-partials.mjs), so a page without it is a failure, not a note.
  * Whether the stamped copy is current is build-site-partials.mjs --check's job.
  */
@@ -115,7 +116,7 @@ for (const page of PAGES) {
     continue;
   }
   checked += 1;
-  if (!usesSharedHeader(html)) failures.push(`${page}: does not use the shared site header (<!-- site:header --> from partials/site-header.html)`);
+  if (!usesSharedHeader(html)) failures.push(`${page}: does not use the shared site header (<!-- site:header --> from functions/_templates/shell.js)`);
 
   const missing = CORE.filter((c) => !labels.includes(c));
   if (missing.length) {

@@ -25,6 +25,10 @@ changed files need and then runs the checks.
   proxies `/_api/` and `/_r/` to the live site, so they read production's public API
   (GET only). That ends when they move to `wrangler pages dev` with the local database
   (DESIGN.md step C3b).
+- `test:browser:shell` (`tests/browser/site-shell.spec.js`) holds every page type to the
+  shared shell (`functions/_templates/shell.js`) at 375 px and 1280 px, in light and dark:
+  48 cases, each saving a screenshot to `test-results/site-shell/`. Run it after changing
+  the shell, the token set (`assets/ui/`) or a page's head, header or footer.
 - `check:clean` (`scripts/check-clean.mjs`) exports exactly what a commit would contain into
   a temporary directory, links `node_modules`, runs the CI builds and the tier 1 checks
   there, and unlinks `node_modules` before deleting the export. A check that needs a

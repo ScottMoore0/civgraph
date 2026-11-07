@@ -27,7 +27,7 @@ import path from 'node:path';
 import { mapAppSourceFiles } from '../lib/map-app-source.mjs';
 
 export const SURFACES = {
-  chrome: ['partials/site-header.html', 'partials/site-footer.html', 'partials/support-modal.html', 'partials/browse-shell.html', 'assets/site/site-chrome.js'],
+  chrome: ['functions/_templates/shell.js', 'partials/browse-shell.html', 'assets/site/site-chrome.js'],
   pages: ['index.html', 'pages/about.html', 'pages/census-explorer.html', 'pages/status.html', 'apps/index.html', 'maps/index.html', '404.html', 'offline.html', 'assets/pages/js/06-fallback-shell.js', 'assets/pages/js/07-fallback-stats.js'],
   catalogue: ['src/catalogue/index.js', 'src/catalogue/view-maps.js', 'src/catalogue/view-elections.js', 'src/catalogue/view-books.js', 'src/catalogue/search.js', 'src/catalogue/menu.js', 'src/catalogue/split.js', 'src/catalogue/slider.js', 'src/catalogue/edit.js', 'src/catalogue/geocoder.js', 'src/catalogue/util.js'],
   app: [...mapAppSourceFiles(), 'app/src/boot.js', 'app/src/election-manager.js', 'app/src/maplibre-main-adapter.js', 'src/ui-controller.js', 'src/entity-detail-data.mjs', 'src/election-renderer.mjs', 'src/election-view-model.mjs', 'src/election-trend-chart.mjs', 'src/feature-loader.js', 'render/src/feature-details.js', 'render/src/time-series-panel.js', 'render/src/source-panel.js'],
