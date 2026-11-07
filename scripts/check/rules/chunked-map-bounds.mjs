@@ -118,6 +118,12 @@ function chunkIndexBbox(chunkIndex) {
   return union && isValidBbox(union) ? union.map(roundCoord) : null;
 }
 
+/**
+ * What loading a map's chunk index found (state-machine catalogue PL-L, light: a closed result set).
+ * @typedef {'ok' | 'missing-path' | 'missing-file' | 'invalid-bbox' | 'parse-error'} ChunkIndexStatus
+ */
+export const CHUNK_INDEX_STATUSES = Object.freeze(['ok', 'missing-path', 'missing-file', 'invalid-bbox', 'parse-error']);
+
 function loadChunkIndex(entry) {
   const relativePath = chunkIndexPathFor(entry);
   if (!relativePath) {
