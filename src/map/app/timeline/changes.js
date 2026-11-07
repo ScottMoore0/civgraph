@@ -8,6 +8,7 @@
 
 import dataService from '../../../data-service.js';
 import { escapeHtml } from '../helpers.mjs';
+import { formatHectares, timelineChangeName } from './dates.mjs';
 
 // Boundary changes between consecutive editions (scripts/build_timeline_changes.py). They
 // replace the Play-only transition overlays of data/timeline-transition-overlays/.
@@ -178,21 +179,11 @@ export class TimelineChangeMethods {
 
   /** A name in capitals ("KILKENNY", "KING'S COUNTY") in ordinary case for a sentence. */
   timelineChangeName(name) {
-    const text = String(name || '').trim();
-    if (!text) return 'an unnamed area';
-    // "CROSSGAR and KILLYLEAGH" counts as capitals too: the joining words were left small.
-    const bare = text.replace(/\b(and|of|the)\b/g, '');
-    if (bare !== bare.toUpperCase() || !/[A-Z]/.test(text)) return text;
-    return text.toLowerCase()
-      .replace(/(^|[\s\-(/.])([a-z])/g, (match, lead, letter) => lead + letter.toUpperCase())
-      .replace(/\s(And|Of|The|Na|An)\s/g, (match) => match.toLowerCase());
+    return timelineChangeName(name);
   }
 
   formatHectares(value) {
-    const ha = Number(value) || 0;
-    if (ha >= 100) return `${Math.round(ha).toLocaleString('en-GB')} ha`;
-    if (ha >= 10) return `${Math.round(ha)} ha`;
-    return `${ha.toFixed(1)} ha`;
+    return formatHectares(value);
   }
 
   describeTimelineChange(change, reversed = false) {

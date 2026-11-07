@@ -8,6 +8,7 @@
 import dataService from '../../../data-service.js';
 import { compositeChildIds } from '../../../map-relations.mjs';
 import { formatDisplayDate } from '../../../date-format.mjs';
+import { parseTimelineDate, yearOnlyMapDate } from './dates.mjs';
 
 export class TimelineControlMethods {
   isPlaceholderTimelineMap(mapConfig) {
@@ -587,11 +588,7 @@ export class TimelineControlMethods {
    * "1 Jan 1919", or in force from that day, keeps its day. Null otherwise.
    */
   yearOnlyMapDate(map) {
-    const raw = String(map?.date ?? '').trim();
-    if (/^\d{4}$/.test(raw)) return raw;
-    if (!/^\d{4}-01-01$/.test(raw)) return null;
-    if (/\b1 Jan(uary)?\b|-01-01\b/i.test(`${map.id || ''} ${map.name || ''}`) || map.dateEffective === raw) return null;
-    return raw.slice(0, 4);
+    return yearOnlyMapDate(map);
   }
 
   formatTimelineItemLabel(item) {
@@ -606,26 +603,7 @@ export class TimelineControlMethods {
   }
 
   parseTimelineDate(value) {
-    if (value === null || value === undefined || value === '') return null;
-    if (typeof value === 'number' || /^\d+$/.test(String(value))) {
-      const numeric = Number(value);
-      // A timestamp, not a year, whenever it is outside year range -- including the NEGATIVE
-      // timestamps of every date before 1970. Testing only `> 9999` sent 1 Jan 1969
-      // (-31536000000) to the text fallback, which parsed "01 Jan 1969" as local midnight:
-      // 23:00 UTC on 31 Dec in Ireland, which kept summer time all year from 1968 to 1971.
-      const date = Math.abs(numeric) > 9999 ? new Date(numeric) : new Date(Date.UTC(numeric, 0, 1));
-      return Number.isFinite(date.getTime()) ? date : null;
-    }
-    const isoMatch = String(value).trim().match(/^(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?$/);
-    if (isoMatch) {
-      const year = Number(isoMatch[1]);
-      const month = Number(isoMatch[2] || 1) - 1;
-      const day = Number(isoMatch[3] || 1);
-      const date = new Date(Date.UTC(year, month, day));
-      return Number.isFinite(date.getTime()) ? date : null;
-    }
-    const parsed = new Date(value);
-    return Number.isFinite(parsed.getTime()) ? parsed : null;
+    return parseTimelineDate(value);
   }
 
   formatTimelineDate(date) {

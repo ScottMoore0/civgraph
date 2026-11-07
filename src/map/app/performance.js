@@ -25,7 +25,6 @@ export class PerformanceMethods {
   }
 
   getServiceWorkerConfig() {
-    const path = window.location.pathname || '/';
   return { url: '/sw.js', scope: '/', route: 'root' };
 }
 
