@@ -150,3 +150,97 @@ test('MA-07 to MA-10: the sources write the pane state only through them', async
   assert.match(bridge, /state: load\.to\(detail \? 'choice' : \(failure \? 'error' : 'missing'\)\)/);
   assert.match(bridge, /load\.to\('loaded'\);/);
 });
+
+test('MA-11 direct gesture: the table, and directGestureActive a view of it', async () => {
+  const { DIRECT_GESTURE } = await import('../../src/map/renderer/gesture-state.mjs');
+  const all = ['idle', 'pan', 'pinch', 'wheel'];
+  assert.deepEqual(DIRECT_GESTURE.transitions, { idle: all, pan: all, pinch: all, wheel: all });
+  assertTableEnforced(DIRECT_GESTURE);
+  const renderer = read('src/map/renderer/map-controller.js');
+  assert.doesNotMatch(renderer, /this\.directGestureActive = /);
+  assert.match(renderer, /return this\.directGesture\.state\(\) !== 'idle';/);
+  const moves = [...renderer.matchAll(/this\.directGesture\.to\('([a-z]+)'\)/g)].map((m) => m[1]);
+  assert.deepEqual(moves, ['pan', 'pan', 'idle', 'idle', 'wheel', 'wheel', 'pinch', 'pinch', 'idle']);
+});
+
+test('MA-12 point-cloud tile: the table, and every write through moveNode', async () => {
+  const { POINT_CLOUD_NODE, moveNode } = await import('../../src/map/renderer/point-cloud-node-state.mjs');
+  assert.deepEqual(POINT_CLOUD_NODE.transitions, { unloaded: ['queued'], queued: ['loading', 'unloaded'], loading: ['loaded', 'unloaded'], loaded: ['unloaded'] });
+  assertTableEnforced(POINT_CLOUD_NODE);
+  const node = { state: 'unloaded' };
+  moveNode(node, 'queued');
+  moveNode(node, 'loading');
+  assert.throws(() => moveNode(node, 'queued'), /is not a transition/, 'a tile in flight is not queued again');
+  moveNode(node, 'loaded');
+  assert.equal(node.state, 'loaded');
+  const layer = read('src/map/renderer/point-cloud-stream-layer.js');
+  assert.doesNotMatch(layer, /node\.state = /);
+  assert.equal([...layer.matchAll(/moveNode\(node, '/g)].length, 6);
+});
+
+test('MA-13 /maps tab and route kinds', async () => {
+  const { CATALOGUE_TAB, ROUTE_KINDS, routeKind } = await import('../../src/catalogue/route-state.mjs');
+  assert.deepEqual([...CATALOGUE_TAB.values], ['maps', 'elections', 'books']);
+  for (const tab of Object.values(ROUTE_KINDS)) assert.ok(CATALOGUE_TAB.has(tab));
+  assert.equal(routeKind('series/os-6inch/os-1'), 'series');
+  assert.equal(routeKind('elections/person/p123'), 'elections-person');
+  assert.equal(routeKind('elections/dail'), 'elections');
+  assert.equal(routeKind('here/-6.1/54.6'), 'here');
+  assert.equal(routeKind('boundaries'), 'section');
+  const index = read('src/catalogue/index.js');
+  assert.match(index, /set tab\(value\) \{ this\._tab = CATALOGUE_TAB\.check\(value\); \}/);
+  for (const [, tab] of index.matchAll(/this\.tab = '([a-z]+)'/g)) assert.ok(CATALOGUE_TAB.has(tab), tab);
+});
+
+test('MA-14 service worker registration and legacy retirement', async () => {
+  const { LEGACY_RETIREMENT, SW_REGISTRATION } = await import('../../src/map/app/service-worker-state.mjs');
+  assert.deepEqual(SW_REGISTRATION.transitions, { idle: ['unavailable', 'registering'], registering: ['ready', 'failed'], ready: [], failed: [], unavailable: [] });
+  assertTableEnforced(SW_REGISTRATION);
+  assert.deepEqual(LEGACY_RETIREMENT.transitions, { pending: ['updated', 'unregistered'], updated: [], unregistered: [] });
+  assertTableEnforced(LEGACY_RETIREMENT);
+  const perf = read('src/map/app/performance.js');
+  for (const move of ['unavailable', 'registering', 'ready', 'failed']) assert.ok(perf.includes(`registrationState.to('${move}')`), move);
+});
+
+test('MA-L: latches, flags and hold counts', async () => {
+  const { createHoldCount, createLatch, defineFlagFields } = await import('../../src/map/state-helpers.mjs');
+  const latch = createLatch('installed');
+  latch.set(false);
+  latch.set(true);
+  latch.set(true);
+  assert.throws(() => latch.set(false), /is not a transition/, 'an installed guard is never cleared');
+  const target = { other: 1 };
+  defineFlagFields(target, ['pending']);
+  defineFlagFields(target, ['bound'], { latch: true });
+  assert.equal(target.pending, false);
+  target.pending = true;
+  target.pending = false;
+  assert.throws(() => { target.pending = 'yes'; }, /expected a boolean/);
+  target.bound = true;
+  assert.throws(() => { target.bound = false; }, /is not a transition/);
+  assert.deepEqual(Object.keys(target), ['other', 'pending', 'bound']);
+  const apply = createHoldCount('apply');
+  apply.hold();
+  apply.hold();
+  assert.equal(apply.release(), false);
+  assert.equal(apply.active, true);
+  assert.equal(apply.release(), true);
+  assert.equal(apply.release(), true, 'a stray release stays idle');
+  assert.equal(apply.depth, 0);
+  // Each converted field is declared through the helper.
+  const expect = {
+    'src/map/renderer/map-controller.js': ['directPanGestureInstalled', 'directWheelFallbackActive', 'autoTilted', 'documentHoverClearInstalled'],
+    'app/src/election-manager.js': ['overlayRefreshPending', 'seatCirclePositionUpdatePending', 'voteBarClickBound', 'recallLabelClickBound'],
+    'app/src/app.js': ['electionCatalogueWarmScheduled', 'featuresHereKeepOpen'],
+    'src/catalogue/index.js': ['drawn', 'picking', 'electionsFirst', 'langNotice', 'placesReady'],
+    'src/feature-loader.js': ['initialized'],
+    'src/election-trend-chart.mjs': ['pinned']
+  };
+  for (const [file, names] of Object.entries(expect)) {
+    const source = read(file);
+    for (const name of names) {
+      assert.match(source, new RegExp(String.raw`defineFlagFields\([a-z]+, \[[^\]]*'${name}'`), `${file}: ${name}`);
+    }
+  }
+  assert.doesNotMatch(read('src/map/app/timeline/controls.js'), /timelineApplyDepth/);
+});

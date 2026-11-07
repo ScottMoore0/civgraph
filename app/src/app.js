@@ -20,7 +20,7 @@ import { installMethods } from '../../src/map/app/install-methods.mjs';
 import { LayerMethods } from '../../src/map/app/layers.js';
 import { UrlStateMethods } from '../../src/map/app/url-state.js';
 import { createHashListen, createNavigationPush, createUrlRestore, createUrlSuspend } from '../../src/map/app/url-sync.mjs';
-import { createFlag } from '../../src/map/state-helpers.mjs';
+import { createFlag, createHoldCount, defineFlagFields } from '../../src/map/state-helpers.mjs';
 import { UiWiringMethods } from '../../src/map/app/ui-wiring.js';
 import { LazyRuntimeMethods } from '../../src/map/app/lazy-runtime.js';
 import { ElectionPaneMethods } from '../../src/map/app/election-pane.js';
@@ -76,7 +76,8 @@ class Test2App {
     this.timelineItems = [];
     this.timelineOnSelect = null;
     this.timelineApplying = false;
-    this.timelineApplyDepth = 0;
+    // Nested timeline applies (begin/endTimelineApply): idle or held (MA-L).
+    this.timelineApply = createHoldCount('timeline apply');
     this.timelineChangeIndex = null;
     this.timelineChangeCache = new Map();
     this.timelineChangeView = null;
@@ -94,7 +95,9 @@ class Test2App {
     this.booksPromise = null;
     this.electionModulePromise = null;
     this.electionLoadPromise = null;
-    this.electionCatalogueWarmScheduled = false;
+    // Set once (a latch), and the Features-here panel's keep-open request (a flag) (MA-L).
+    defineFlagFields(this, ['electionCatalogueWarmScheduled'], { latch: true });
+    defineFlagFields(this, ['featuresHereKeepOpen']);
     this.searchWorker = null;
     this.searchWorkerReady = createFlag('search worker ready');
     this.searchWorkerSeq = 0;
