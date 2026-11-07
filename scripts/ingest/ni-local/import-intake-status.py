@@ -20,6 +20,15 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.a
 OUT = os.path.join(ROOT, 'data', 'elections', 'ni-local', 'round-status.json')
 
 
+# The two status vocabularies this snapshot carries (state machines IN-05 and IN-03; the work
+# statuses are ROUND_STATUS in scripts/intake/lib/statuses.mjs). A value outside them is still
+# written as before, but reported on stderr so a new phrasing is not lost silently as 'unknown'.
+CALENDAR_STATES = ('held', 'not-held', 'unknown')
+WORK_STATES = ('done', 'partial', 'held', 'no-election')
+UNPARSED_CALENDAR = {}
+UNKNOWN_WORK = {}
+
+
 def calendar_held(status, kind):
     s = (status or '').strip().lower()
     if s.startswith('held'):
@@ -28,7 +37,16 @@ def calendar_held(status, kind):
         return 'not-held'
     if not s and (kind or '').lower().startswith('not held'):
         return 'not-held'
+    if s and s != 'unknown':
+        UNPARSED_CALENDAR[s] = UNPARSED_CALENDAR.get(s, 0) + 1
     return 'unknown'
+
+
+def report_unparsed():
+    for phrase, n in sorted(UNPARSED_CALENDAR.items()):
+        print(f'warning: calendar status not understood, read as unknown ({n}x): {phrase[:80]}', file=sys.stderr)
+    for status, n in sorted(UNKNOWN_WORK.items()):
+        print(f'warning: work status outside {", ".join(WORK_STATES)} ({n}x): {status}', file=sys.stderr)
 
 
 def main():
@@ -63,8 +81,11 @@ def main():
         data = json.load(open(path, encoding='utf-8'))
         held = [str(h.get('area') or '').strip() for h in (data.get('held_contests') or []) if h.get('area')]
         expected = data.get('expected_areas_full', data.get('expected_areas'))
+        status = data.get('status') or 'done'
+        if status not in WORK_STATES:
+            UNKNOWN_WORK[status] = UNKNOWN_WORK.get(status, 0) + 1
         work[(slug, folder)] = {
-            'status': data.get('status') or 'done',
+            'status': status,
             'heldAreas': held,
             'contests': len(data.get('contests') or []),
             'expectedAreas': expected if isinstance(expected, int) else None,
@@ -123,6 +144,7 @@ def main():
             entry['excluded'] = excluded[(slug, folder)]
         rounds.append(entry)
     rounds.sort(key=lambda r: (r['round'], r['slug']))
+    report_unparsed()
 
     out = {
         'schemaVersion': 1,
