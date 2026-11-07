@@ -24,7 +24,6 @@ const DB = path.join(REPO_ROOT, 'tmp/records/civgraph-records.sqlite');
 /** Function files that still call D1 directly (ST-5 empties this list). */
 const NOT_YET_ON_THE_ADAPTER = [
   '_api/_maps.js',
-  '_api/elections/index.js',
   '_api/proni/count.js',
   '_api/proni/export.js',
   '_api/proni/node.js',
@@ -49,10 +48,18 @@ const BUILDER_SAMPLES = {
   'cards.PERSONS.partyFilter': [[['?1', '?2']]],
   'graph.GRAPH.search': [[0, 200], [2, 50]],
   'graph.GRAPH.browseKeys': [[1], [3]],
+  'elections.ELECTION_CARDS.bodyFilter': [[['?1'], ['?2']]],
+  'elections.ELECTION_CARDS.decadeFilter': [[['?1', '?2']]],
+  'elections.ELECTION_CARDS.wordFilter': [['?1']],
+  'elections.ELECTION_CARDS.list': [['WHERE list_card IS NOT NULL', ''], ['WHERE decade IN (?1) AND list_card IS NOT NULL', ' LIMIT 50 OFFSET 0']],
+  'elections.ELECTION_CARDS.listCount': [['WHERE list_card IS NOT NULL']],
 };
 
 /** Builders that return a clause, not a statement: prepared inside this statement. */
 const FRAGMENTS = {
+  'elections.ELECTION_CARDS.bodyFilter': 'SELECT 1 FROM election_cards WHERE ',
+  'elections.ELECTION_CARDS.decadeFilter': 'SELECT 1 FROM election_cards WHERE ',
+  'elections.ELECTION_CARDS.wordFilter': 'SELECT 1 FROM election_cards WHERE ',
   'cards.PERSONS.partyFilter': 'SELECT 1 FROM person_cards WHERE ',
 };
 
