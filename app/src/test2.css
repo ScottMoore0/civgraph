@@ -3200,6 +3200,32 @@ body.test2-election-pane-resizing * {
   border-style: dashed;
 }
 
+/* A reconstructed edition's approximate stretches are drawn dotted (render/src/approximate-segments.js);
+   so is their legend swatch, with its note beneath. */
+.test2-map-legend__swatch--approx {
+  border-style: dotted;
+  border-width: 3px;
+}
+
+.test2-map-legend__approx .test2-map-legend__note {
+  margin-top: 2px;
+}
+
+/* The tooltip over a dotted stretch. */
+.approx-tooltip .maplibregl-popup-content {
+  padding: 6px 9px;
+  font-size: 12px;
+  line-height: 1.35;
+  color: var(--color-text, #111827);
+  background: var(--color-surface, #fff);
+  border: 1px solid var(--color-border, rgba(15, 23, 42, .15));
+  box-shadow: 0 2px 8px rgba(15, 23, 42, .16);
+}
+
+.approx-tooltip .maplibregl-popup-tip {
+  display: none;
+}
+
 @media (prefers-color-scheme: dark) {
   .timeline-changes-panel__type {
     color: #f472b6;

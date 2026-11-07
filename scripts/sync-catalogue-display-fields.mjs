@@ -116,6 +116,20 @@ for (const layer of render.layers || []) {
     }
   }
 
+  // APPROXIMATE STRETCHES (boundary audit, 7 Nov 2026) are catalogue-owned and REPLACED, like the
+  // name: the renderer draws the edition's approximate lines dotted from this field, and a stale copy
+  // would keep dots on lines a later audit confirmed. Removed from the render record when the
+  // catalogue no longer has it.
+  const wantedApprox = map.approximateSegments && typeof map.approximateSegments === 'object' ? map.approximateSegments : null;
+  if (JSON.stringify(layer.approximateSegments ?? null) !== JSON.stringify(wantedApprox)) {
+    textLayers += 1;
+    textFieldsAdded += 1;
+    if (!CHECK) {
+      if (wantedApprox) layer.approximateSegments = wantedApprox;
+      else delete layer.approximateSegments;
+    }
+  }
+
   if (map.style && typeof map.style === 'object') {
     const target = layer.style && typeof layer.style === 'object' ? layer.style : null;
     const missingProps = Object.keys(map.style).filter((k) => !target || !(k in target));
