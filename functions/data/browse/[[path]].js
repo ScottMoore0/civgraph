@@ -35,6 +35,12 @@ import { divisionShard } from '../../_api/votes/index.js';
 import { resolvePartySlug } from '../../_api/parties/index.js';
 import { browseFeaturesText, browseMapsText } from '../../_api/_maps.js';
 import { binding } from '../../_lib/config.js';
+import { fromD1 } from '../../_lib/storage/d1.js';
+import { OFFICES, SHARDS, SOURCES } from '../../_lib/queries/cards.js';
+import { ELECTION_CARDS } from '../../_lib/queries/elections.js';
+import { MAP_CARDS } from '../../_lib/queries/maps.js';
+import { PARTIES } from '../../_lib/queries/parties.js';
+import { VOTES } from '../../_lib/queries/votes.js';
 
 const VERSION = 'data-browse-4';
 const CONTEST_PARENT_BUCKETS = 64;
@@ -75,8 +81,10 @@ export async function onRequestGet(context) {
   if (location) return moved(location);
   const route = matchBrowsePath(parts);
   if (!route) return notFound();
-  const db = binding(context.env, 'ELECTIONS_DB');
-  if (!db) return jsonResponse({ error: 'records database not bound' }, 503);
+  const bound = binding(context.env, 'ELECTIONS_DB');
+  if (!bound) return jsonResponse({ error: 'records database not bound' }, 503);
+  // through the storage adapter (functions/_lib/storage/); the SQL is named in functions/_lib/queries/
+  const db = fromD1(bound);
   return cachedJson(context, VERSION, () => answer(db, route), {
     edgeTtl: EDGE_TTL, gate: HEAVY.has(route.kind),
     ...LEGACY_HEAVY.has(route.kind) && { r2Key: `data/browse/${parts.join('/')}`, r2First: true },
@@ -152,29 +160,29 @@ async function answer(db, route) {
     }
     case 'parties': {
       const head = (await documentBody(db, 'browse/parties.json')) || {};
-      const { results } = await db.prepare('SELECT card FROM party_cards ORDER BY ord, slug').all();
-      return jsonResponse({ ...head, items: (results || []).map((r) => parseJson(r.card)) });
+      const results = await db.all(PARTIES.cards);
+      return jsonResponse({ ...head, items: results.map((r) => parseJson(r.card)) });
     }
     case 'party-names': {
       const head = (await documentBody(db, 'browse/party-names.json')) || {};
-      const { results } = await db.prepare('SELECT label, party_slug FROM party_label_map ORDER BY ord, label').all();
-      return jsonResponse({ ...head, items: Object.fromEntries((results || []).map((r) => [r.label, r.party_slug])) });
+      const results = await db.all(PARTIES.labelMap);
+      return jsonResponse({ ...head, items: Object.fromEntries(results.map((r) => [r.label, r.party_slug])) });
     }
     case 'party-detail':
     case 'party-profile': {
       const resolved = await resolvePartySlug(db, route.slug);
       if (!resolved) return notFound();
-      const row = await db.prepare('SELECT detail, profile FROM party_cards WHERE slug = ?1').bind(resolved.slug).first();
+      const row = await db.first(PARTIES.detailProfile, [resolved.slug]);
       if (route.kind === 'party-profile') return row?.profile ? jsonResponse(row.profile) : notFound();
       return row?.detail ? jsonResponse(`{"schemaVersion":1,"item":${row.detail}}`) : notFound();
     }
     case 'offices': {
       const head = (await documentBody(db, 'browse/offices.json')) || {};
-      const { results } = await db.prepare('SELECT card FROM office_cards ORDER BY ord, slug').all();
-      return jsonResponse({ ...head, items: (results || []).map((r) => parseJson(r.card)) });
+      const results = await db.all(OFFICES.cards);
+      return jsonResponse({ ...head, items: results.map((r) => parseJson(r.card)) });
     }
     case 'office-detail': {
-      const row = await db.prepare('SELECT detail FROM office_cards WHERE slug = ?1').bind(route.slug).first();
+      const row = await db.first(OFFICES.detail, [route.slug]);
       return row?.detail ? jsonResponse(`{"schemaVersion":1,"item":${row.detail}}`) : notFound();
     }
     case 'shard': {
@@ -185,8 +193,8 @@ async function answer(db, route) {
       const size = Number(manifest.indexShardSize) || 5000;
       // Shard n is rows n*size .. (n+1)*size-1 in source order. ord is a sort key with gaps
       // (scripts/records/stable-order.mjs), not a position, so the slice is LIMIT/OFFSET.
-      const { results } = await db.prepare(`SELECT card FROM ${spec.table} ORDER BY ord LIMIT ?1 OFFSET ?2`).bind(size, index * size).all();
-      const items = (results || []).map((r) => parseJson(r.card));
+      const results = await db.all(SHARDS.page(spec.table), [size, index * size]);
+      const items = results.map((r) => parseJson(r.card));
       return jsonResponse({ schemaVersion: 1, kind: spec.kind, shard: route.name, total: items.length, items });
     }
     case 'elections': {
@@ -197,8 +205,8 @@ async function answer(db, route) {
         yield `${headText.slice(0, -1)}${headText.length > 2 ? ',' : ''}"items":[`;
         let first = true;
         for (let offset = 0; ; offset += 1000) {
-          const { results } = await db.prepare('SELECT card FROM election_cards ORDER BY ord, slug LIMIT 1000 OFFSET ?1').bind(offset).all();
-          if (!results?.length) break;
+          const results = await db.all(ELECTION_CARDS.cardsPage, [offset]);
+          if (!results.length) break;
           for (const r of results) { yield `${first ? '' : ','}${r.card}`; first = false; }
         }
         yield ']}';
@@ -207,23 +215,21 @@ async function answer(db, route) {
     }
     case 'elections-list': {
       const head = (await documentBody(db, 'browse/elections-list.json')) || {};
-      const { results } = await db.prepare('SELECT list_card FROM election_cards WHERE list_card IS NOT NULL ORDER BY ord, slug').all();
-      return jsonResponse({ ...head, items: (results || []).map((r) => parseJson(r.list_card)) });
+      const results = await db.all(ELECTION_CARDS.listCards);
+      return jsonResponse({ ...head, items: results.map((r) => parseJson(r.list_card)) });
     }
     case 'election-detail': {
-      const row = await db.prepare('SELECT detail FROM election_details WHERE slug = ?1').bind(route.slug).first();
+      const row = await db.first(ELECTION_CARDS.detail, [route.slug]);
       return row?.detail ? jsonResponse(`{"schemaVersion":1,"item":${row.detail}}`) : notFound();
     }
     case 'election-contests': {
-      const row = await db.prepare('SELECT contests FROM election_details WHERE slug = ?1').bind(route.slug).first();
+      const row = await db.first(ELECTION_CARDS.contests, [route.slug]);
       return row?.contests ? jsonResponse(`{"schemaVersion":1,"items":${row.contests}}`) : notFound();
     }
     case 'contest-parents': {
-      const { results } = await db.prepare(`SELECT c.slug, p.slug AS parent FROM election_cards c
-        JOIN election_cards p ON p.key = c.election_key AND p.entry_kind = 'election'
-        WHERE c.entry_kind <> 'election' ORDER BY c.ord, c.slug`).all();
+      const results = await db.all(ELECTION_CARDS.contestParents);
       const items = {};
-      for (const r of results || []) {
+      for (const r of results) {
         if (route.bucket !== undefined && lookupBucket(r.slug, CONTEST_PARENT_BUCKETS) !== route.bucket) continue;
         items[r.slug] = r.parent;
       }
@@ -231,15 +237,15 @@ async function answer(db, route) {
     }
     case 'source-merges': {
       const head = (await documentBody(db, 'browse/source-merges.json')) || {};
-      const { results } = await db.prepare('SELECT item FROM source_merges ORDER BY ord').all();
-      return jsonResponse({ ...head, items: (results || []).map((r) => parseJson(r.item)) });
+      const results = await db.all(SOURCES.merges);
+      return jsonResponse({ ...head, items: results.map((r) => parseJson(r.item)) });
     }
     case 'votes-person': {
-      const row = await db.prepare('SELECT record FROM vote_persons WHERE person_id = ?1').bind(route.id).first();
+      const row = await db.first(VOTES.person, [route.id]);
       return row ? jsonResponse(row.record) : notFound();
     }
     case 'votes-party': {
-      const row = await db.prepare('SELECT record FROM vote_parties WHERE slug = ?1').bind(route.slug).first();
+      const row = await db.first(VOTES.party, [route.slug]);
       return row ? jsonResponse(row.record) : notFound();
     }
     case 'votes-shard': {
@@ -258,16 +264,15 @@ async function answer(db, route) {
       // The sources whose card names this shard, sorted by slug as the build wrote them
       // (build-browse-indexes.mjs writeSourceDetailShards: localeCompare in the default locale).
       const url = `/data/browse/details/source-shards/${route.name}`;
-      const { results } = await db.prepare("SELECT detail FROM sources WHERE json_extract(card, '$.detailUrl') = ?1 AND detail IS NOT NULL ORDER BY slug")
-        .bind(url).all();
-      if (!results?.length) return notFound();
+      const results = await db.all(SOURCES.detailsInShard, [url]);
+      if (!results.length) return notFound();
       const items = results.map((r) => parseJson(r.detail)).filter(Boolean);
       items.sort((x, y) => String(x.slug || '').localeCompare(String(y.slug || '')));
       return jsonResponse({ schemaVersion: 1, kind: 'sources', shard: route.name, total: items.length, items });
     }
     case 'map-detail': {
       // The file was named by slug: only an exact slug answers (no id fallback, as before).
-      const row = await db.prepare('SELECT detail FROM map_cards WHERE slug = ?1').bind(route.slug).first();
+      const row = await db.first(MAP_CARDS.detail, [route.slug]);
       return row?.detail ? jsonResponse(`{"schemaVersion":1,"item":${row.detail}}`) : notFound();
     }
     default: return notFound();

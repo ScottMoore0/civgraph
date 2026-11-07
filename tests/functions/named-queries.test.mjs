@@ -29,7 +29,6 @@ const NOT_YET_ON_THE_ADAPTER = [
   '_api/proni/search.js',
   '_browse-page.js',
   '_templates/records/election.js',
-  'data/browse/[[path]].js',
   'data/graph/[[path]].js',
   'render/metadata/[[path]].js',
 ];
@@ -47,6 +46,7 @@ const BUILDER_SAMPLES = {
   'cards.PERSONS.partyFilter': [[['?1', '?2']]],
   'graph.GRAPH.search': [[0, 200], [2, 50]],
   'graph.GRAPH.browseKeys': [[1], [3]],
+  'cards.SHARDS.page': [['person_cards'], ['sources'], ['register_entries']],
   'maps.MAPS.headParts': [['catalogue_parts'], ['layer_parts']],
   'maps.MAPS.headOrds': [['catalogue_parts'], ['layer_parts']],
   'elections.ELECTION_CARDS.bodyFilter': [[['?1'], ['?2']]],

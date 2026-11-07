@@ -9,6 +9,8 @@ export const PARTIES = Object.freeze({
   labelMap: 'SELECT label, party_slug FROM party_label_map ORDER BY ord, label',
   /** [slug] -> { card, detail, profile } */
   detail: 'SELECT card, detail, profile FROM party_cards WHERE slug = ?1',
+  /** [slug] -> { detail, profile } (data/browse/details/parties) */
+  detailProfile: 'SELECT detail, profile FROM party_cards WHERE slug = ?1',
   /** [] -> { card } every party in list order */
   cards: 'SELECT card FROM party_cards ORDER BY ord, slug',
 });
