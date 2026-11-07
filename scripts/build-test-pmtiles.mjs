@@ -12,7 +12,7 @@ import { dirname, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { getTileProfile } from './test-tile-profiles.mjs';
-import { isPrimaryKey } from '../render/src/feature-details.js';
+import { isPrimaryKey } from './lib/primary-feature-keys.mjs';
 
 // Mean value length above which a field is treated as free text and dropped from
 // low-zoom tiles. Sits above any realistic categorical value or code, well below prose.
@@ -395,9 +395,8 @@ function buildArchiveOnce(layer, sourcePath, outputPath, profile, srsOptions, op
  * for. Dropping ATTRIBUTES at low zoom keeps every feature on screen and removes the
  * part that is actually large.
  *
- * WHAT IS KEPT is derived, not listed. isPrimaryKey is the predicate the feature detail
- * panel uses to decide which fields to show first; the build imports it so the two
- * cannot disagree. promoteId is kept unconditionally -- it is MapLibre's feature
+ * WHAT IS KEPT is derived, not listed. isPrimaryKey (scripts/lib/primary-feature-keys.mjs)
+ * keeps the name and label fields a feature panel shows first. promoteId is kept unconditionally -- it is MapLibre's feature
  * identity, and losing it breaks hover, selection and feature state rather than just
  * the panel.
  *

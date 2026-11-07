@@ -8,7 +8,9 @@ const failures = [];
 // The MapLibre app. It was index.html until the landing page took the root; this kept
 // reading index.html, so every shell assertion below was checking the Home page.
 const index = readFileSync('maps/index.html', 'utf8');
-const compatibilityIndex = readFileSync('test2/index.html', 'utf8');
+// /test2/ is a 301 to /maps/ (_redirects) since the legacy apps retired; test2/sw.js is the
+// retired-app kill switch, the same bytes as render/sw.js.
+const redirectsSource = readFileSync('_redirects', 'utf8');
 const bootSource = readFileSync('app/src/boot.js', 'utf8');
 // app.js and the modules split out of it under src/map/app/ (frontend-plan.md 5.2).
 const appSource = readMapAppSource();
@@ -236,13 +238,13 @@ assert(index.includes('<base href="/">'), '/test2 must keep root-relative produc
 assert(existsSync('docs/test2-general-parity-matrix.json'), '/test2 general parity matrix is missing');
 assert(existsSync('scripts/audit-test2-general-parity.mjs'), '/test2 general parity audit script is missing');
 assert(packageJsonSource.includes('"audit:test2:parity"'), '/test2 general parity audit must be exposed through package scripts');
-assert(compatibilityIndex.includes('window.location.replace') && compatibilityIndex.includes('nextUrl.search') && compatibilityIndex.includes('nextUrl.hash'), '/test2 compatibility page must redirect old links to root while preserving query and hash state');
-assert(!compatibilityIndex.includes('/app/build/app.bundle.js') && !compatibilityIndex.includes('id="map"'), '/test2 compatibility page must not duplicate the live app shell');
+assert(!existsSync('test2/index.html'), '/test2/ must not serve a page: it answers 301 to /maps/');
+assert(/^\/test2\/\s+\/maps\/\s+301$/m.test(redirectsSource), '_redirects must send /test2/ to /maps/ with a 301');
 assert(index.includes('/app/build/app.bundle.js'), 'Root must load the production MapLibre bundle from /app');
 assert(index.includes('/app/build/app.bundle.css'), 'Root must load the production MapLibre CSS bundle from /app');
 assert(index.includes('/app/election-viewer-package/css/election-viewer.css') && index.includes('/app/election-viewer-package/css/stages.css'), 'Root must load production-scoped election animation CSS assets from /app');
 assert(Boolean(test2BundleVersion), '/test2 bundle script must include a content-hash cache key');
-assert(test2ServiceWorkerSource.includes("mode: 'compat-cleanup'") && test2ServiceWorkerSource.includes('civgraph-test2-'), '/test2 scoped service worker must only clean legacy caches and redirect compatibility navigations');
+assert(test2ServiceWorkerSource === readFileSync('render/sw.js', 'utf8') && test2ServiceWorkerSource.includes('civgraph-test2-') && test2ServiceWorkerSource.includes('registration.unregister()'), '/test2/sw.js must be the retired-app kill switch (render/sw.js): clear the legacy caches and unregister');
 assert(bootSource.includes("import('./app.js')") && bootSource.includes('requestAnimationFrame'), '/test2 must keep a startup bootstrap that paints the shell before lazy-loading the heavy MapLibre app runtime');
 assert(!index.includes('flatgeobuf-geojson.min.js') && !index.includes('pako-2.1.0.min.js'), '/test2 must not load FlatGeobuf or pako on the first navigation');
 assert(appSource.includes('ensureFlatgeobufRuntime') && appSource.includes('installLazyRuntimeHelpersBridge'), '/test2 must lazy-load FlatGeobuf only for feature export/schema workflows');
@@ -671,7 +673,7 @@ assert(electionManifestBuilderSource.includes('isSyntheticNonGeographicResult') 
 assert(electionManagerSource.includes('test2-election-synthetic-label') && electionManagerSource.includes('result.syntheticNonGeographic') && test2Css.includes('.test2-election-synthetic-label'), '/test2 election overlays must render clickable labels for synthetic non-geographical constituency entries');
 assert(electionManagerSource.includes('syntheticDelta') && electionManagerSource.includes('syntheticNonGeographic'), '/test2 election overlay collision must prioritize synthetic non-geographical markers so they do not disappear behind real constituencies');
 assert(electionManagerSource.includes('/app/js/jquery-shim.js') && electionManagerSource.includes('/app/election-viewer-package/js/stages2.js'), 'Election animation runtime must lazy-load production-scoped shared animation scripts from /app');
-assert(test2ServiceWorkerSource.includes("Response.redirect(target.href, 302)") && test2ServiceWorkerSource.includes('TEST2_SW_STATUS'), '/test2 service worker must be a redirect/status cleanup worker, not a duplicate runtime cache');
+assert(!test2ServiceWorkerSource.includes("addEventListener('fetch'"), '/test2 service worker must not handle fetches: it only retires itself');
 
 for (const path of [
   'app/build/app.bundle.js',

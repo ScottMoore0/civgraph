@@ -5,6 +5,7 @@
  */
 
 import { escapeHtml, formatBytes, shortCacheName } from './helpers.mjs';
+import { retireLegacyServiceWorkers } from './retire-legacy-workers.mjs';
 
 export class PerformanceMethods {
   registerServiceWorker() {
@@ -12,6 +13,9 @@ export class PerformanceMethods {
       this.serviceWorkerStatusPromise = Promise.resolve({ available: false, reason: 'service-worker API unavailable' });
       return;
     }
+    // Workers the retired /render/, /test/ and /test2/ apps left installed: their visitors are
+    // redirected here, so this is where the kill switch gets its chance (retire-legacy-workers.mjs).
+    retireLegacyServiceWorkers(navigator.serviceWorker);
     this.serviceWorkerConfig = this.getServiceWorkerConfig();
     this.serviceWorkerStatusPromise = navigator.serviceWorker.register(this.serviceWorkerConfig.url, { scope: this.serviceWorkerConfig.scope })
       .then(async (registration) => {

@@ -84,10 +84,7 @@ const PAGES = new Map([
  *  page must be in PAGES: a new page cannot ship without the shared header, footer and tokens. */
 const SHELL_EXEMPT = new Map([
   ['maps/classic/index.html', 'written from maps/index.html by scripts/build-test2-app.mjs, shell included'],
-  ['maps/test/index.html', 'written from maps/index.html by scripts/build-test2-app.mjs, shell included'],
   ['offline.html', 'served by the service worker with no network: self-contained by design, no stylesheet links'],
-  ['render/index.html', 'the legacy /render/ test app, retired with step F5 (DESIGN.md 2.3)'],
-  ['test2/index.html', 'a "Civgraph moved" stub for the old /test2/ address'],
   ['partials/browse-shell.html', 'a fragment stamped into the Browse pages'],
   ['partials/proni-header.html', 'a fragment stamped into PRONI Search'],
   ['partials/proni-footer.html', 'a fragment stamped into PRONI Search'],

@@ -3,7 +3,7 @@ const { test, expect } = require('@playwright/test');
 // Verifies the Constituency/Counting-Area(NI) geography toggle on the
 // 1998 and 2011 NI referendums: turnout mode swaps geometry + data + style.
 test('/test2 2011 AV referendum geography toggle switches results <-> turnout', async ({ page }) => {
-  await page.goto('/test2/');
+  await page.goto('/maps/');
   // Wait for whenIdle, NOT for app. The test surface is populated in stages: `app` is
   // attached at the top of init(), long before mapController exists, so waiting on it
   // returns a half-built runtime and the next call dies on a null map -- which is
@@ -70,7 +70,7 @@ test('/test2 2011 AV referendum geography toggle switches results <-> turnout', 
 });
 
 test('/test2 1998 GFA referendum offers NI vs Constituency turnout toggle', async ({ page }) => {
-  await page.goto('/test2/');
+  await page.goto('/maps/');
   // Wait for whenIdle, NOT for app. The test surface is populated in stages: `app` is
   // attached at the top of init(), long before mapController exists, so waiting on it
   // returns a half-built runtime and the next call dies on a null map -- which is
