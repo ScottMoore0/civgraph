@@ -13,9 +13,10 @@
  *   registering -> ready   registered and serviceWorker.ready settled
  *   registering -> failed  register() rejected
  *
- * LEGACY_RETIREMENT, one registration the retired /test/, /render/ or /test2/ apps left
- * (retire-legacy-workers.mjs): pending -> updated (the browser fetched the kill switch, which
- * unregisters itself) or pending -> unregistered (the update failed, so it is removed directly).
+ * The retirement of the workers the retired /test/, /render/ and /test2/ apps left
+ * (retire-legacy-workers.mjs) has two outcomes per registration, updated (the browser fetched
+ * the kill switch) or unregistered (the update failed), and is not a machine here: that module is
+ * served on its own, without imports, by tests/browser/retired-service-worker.spec.js.
  */
 import { defineMachine } from '../../../scripts/lib/state-machine.mjs';
 
@@ -31,12 +32,4 @@ export const SW_REGISTRATION = defineMachine({
     failed: [],
     unavailable: []
   }
-});
-
-/** @typedef {'pending' | 'updated' | 'unregistered'} LegacyRetirementState */
-
-export const LEGACY_RETIREMENT = defineMachine({
-  name: 'legacy service worker retirement',
-  initial: /** @type {LegacyRetirementState} */ ('pending'),
-  transitions: { pending: ['updated', 'unregistered'], updated: [], unregistered: [] }
 });

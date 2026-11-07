@@ -192,12 +192,12 @@ test('MA-13 /maps tab and route kinds', async () => {
   for (const [, tab] of index.matchAll(/this\.tab = '([a-z]+)'/g)) assert.ok(CATALOGUE_TAB.has(tab), tab);
 });
 
-test('MA-14 service worker registration and legacy retirement', async () => {
-  const { LEGACY_RETIREMENT, SW_REGISTRATION } = await import('../../src/map/app/service-worker-state.mjs');
+test('MA-14 service worker registration, and the legacy sweep standalone', async () => {
+  const { SW_REGISTRATION } = await import('../../src/map/app/service-worker-state.mjs');
   assert.deepEqual(SW_REGISTRATION.transitions, { idle: ['unavailable', 'registering'], registering: ['ready', 'failed'], ready: [], failed: [], unavailable: [] });
   assertTableEnforced(SW_REGISTRATION);
-  assert.deepEqual(LEGACY_RETIREMENT.transitions, { pending: ['updated', 'unregistered'], updated: [], unregistered: [] });
-  assertTableEnforced(LEGACY_RETIREMENT);
+  // The sweep is served on its own by the retired-service-worker spec: it must import nothing.
+  assert.doesNotMatch(read('src/map/app/retire-legacy-workers.mjs'), /^import /m);
   const perf = read('src/map/app/performance.js');
   for (const move of ['unavailable', 'registering', 'ready', 'failed']) assert.ok(perf.includes(`registrationState.to('${move}')`), move);
 });
