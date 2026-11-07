@@ -11,7 +11,7 @@ import path from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
 import { REPO_ROOT } from '../../scripts/records/paths.mjs';
 import { createDatabase } from '../../scripts/records/db.mjs';
-import { TABLES } from '../../scripts/records/schema.mjs';
+import { TABLES } from '@civgraph/schema';
 import { buildHasVotes, context, d1, installCaches } from './d1-shim.mjs';
 import { resetDatasetMemo } from '../../functions/_api/_records.js';
 import * as elections from '../../functions/_api/elections/index.js';

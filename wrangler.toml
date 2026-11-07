@@ -87,7 +87,7 @@ database_name = "civgraph-records"
 database_id = "a4a3ad99-a458-4c13-9944-e87ba3a087f6"
 # Records schema (scripts/records/, data design phase 2): append-only files, applied by
 # npm run records:deploy (wrangler d1 migrations apply) before each delta load.
-migrations_dir = "migrations"
+migrations_dir = "packages/schema/migrations"
 
 [[kv_namespaces]]
 binding = "PRONI_KV"

@@ -36,7 +36,7 @@ import { createHash } from 'node:crypto';
 import { existsSync } from 'node:fs';
 import { openSqliteHandle } from '@civgraph/storage/node';
 import { bindable, hashValues, rowHash, transaction } from './db.mjs';
-import { TABLES } from './schema.mjs';
+import { TABLES } from '@civgraph/schema';
 
 export const GRID = 512;
 /** Placeholder sort keys while rows whose primary key includes `ord` are renumbered. */
@@ -142,7 +142,7 @@ const idOf = (values) => createHash('sha1').update(JSON.stringify(values)).diges
 /**
  * @param {import('node:sqlite').DatabaseSync} db
  * @param {string|null} seedFile
- * @param {{ tables?: import('./schema.mjs').TableSpec[], log?: (line: string) => void }} [options]
+ * @param {{ tables?: import('@civgraph/schema').TableSpec[], log?: (line: string) => void }} [options]
  */
 export function stabiliseOrder(db, seedFile, { tables = STABLE_ORDER_TABLES, log = () => {} } = {}) {
   if (!seedFile || !existsSync(seedFile)) return null;

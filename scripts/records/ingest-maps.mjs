@@ -20,7 +20,7 @@ import { legacyLayerId, renameLayerId } from '../lib/layer-renames.mjs';
 import { LEGACY_LAYER_ID_PREFIXES } from '../../src/map/app/url-compat.mjs';
 import { TableWriter, bool, readJson, transaction, txt } from './db.mjs';
 import { REPO_ROOT } from './paths.mjs';
-import { PART_CHARS } from './schema.mjs';
+import { PART_CHARS } from '@civgraph/schema';
 
 export const MAP_SOURCES = {
   maps: 'data/database/maps.json',

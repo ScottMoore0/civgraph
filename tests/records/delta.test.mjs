@@ -10,7 +10,7 @@ import { DatabaseSync } from 'node:sqlite';
 import { createDatabase, TableWriter, tableChecksums, transaction, rowHash, bindable } from '../../scripts/records/db.mjs';
 import { buildDelta, MAX_STATEMENT_BYTES } from '../../scripts/records/diff-load.mjs';
 import { REPO_ROOT } from '../../scripts/records/paths.mjs';
-import { HASHED_TABLES, TABLE } from '../../scripts/records/schema.mjs';
+import { HASHED_TABLES, TABLE } from '@civgraph/schema';
 
 const TMP = path.join(REPO_ROOT, 'tmp', 'records', 'test-delta');
 

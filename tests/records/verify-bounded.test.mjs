@@ -11,7 +11,7 @@ import { DatabaseSync } from 'node:sqlite';
 import { createDatabase, TableWriter, transaction, rowHash, bindable } from '../../scripts/records/db.mjs';
 import { buildDelta } from '../../scripts/records/diff-load.mjs';
 import { REPO_ROOT } from '../../scripts/records/paths.mjs';
-import { HASHED_TABLES, TABLE } from '../../scripts/records/schema.mjs';
+import { HASHED_TABLES, TABLE } from '@civgraph/schema';
 import {
   BOUNDS, batches, boundedPlan, evenSample, fullPlan, queryWithRetry, runPlan, verify,
 } from '../../scripts/records/verify-load.mjs';

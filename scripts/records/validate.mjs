@@ -10,7 +10,7 @@ import path from 'node:path';
 import { openDatabase } from './db.mjs';
 import { buildVar } from '../lib/config.mjs';
 import { REPO_ROOT } from './paths.mjs';
-import { MAX_VALUE_BYTES, TABLES } from './schema.mjs';
+import { MAX_VALUE_BYTES, TABLES } from '@civgraph/schema';
 
 // Source-file validators run as they are (stage C.3); each reads committed sources only.
 export const SOURCE_VALIDATORS = [

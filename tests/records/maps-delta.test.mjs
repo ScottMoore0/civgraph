@@ -11,7 +11,7 @@ import { createDatabase } from '../../scripts/records/db.mjs';
 import { buildDelta } from '../../scripts/records/diff-load.mjs';
 import { ingestMaps } from '../../scripts/records/ingest-maps.mjs';
 import { stabiliseOrder } from '../../scripts/records/stable-order.mjs';
-import { TABLES } from '../../scripts/records/schema.mjs';
+import { TABLES } from '@civgraph/schema';
 import { deltaKeys } from '../../scripts/records/verify-load.mjs';
 
 const MAP_TABLES = TABLES.filter((t) => t.group === 'maps').map((t) => t.name);

@@ -53,7 +53,7 @@ import { ingestRegistries } from './ingest-registries.mjs';
 import { ingestVotes } from './ingest-votes.mjs';
 import { buildVar } from '../lib/config.mjs';
 import { RECORDS_DB, recordPaths, REPO_ROOT, rel } from './paths.mjs';
-import { HASHED_TABLES } from './schema.mjs';
+import { HASHED_TABLES } from '@civgraph/schema';
 import { stabiliseOrder } from './stable-order.mjs';
 import { validateDatabase } from './validate.mjs';
 import { verifyVotesPin } from './votes-pin.mjs';
@@ -111,7 +111,7 @@ function run(cmd, cmdArgs, { env = BUILD_ENV } = {}) {
 
 /** A hash of every input the transforms read: committed blobs plus uncommitted changes. */
 function inputsHash() {
-  const dirs = ['data', 'scripts', 'src', 'render/metadata/maps-test.json', 'render/metadata/feature-indexes', 'migrations'];
+  const dirs = ['data', 'scripts', 'src', 'render/metadata/maps-test.json', 'render/metadata/feature-indexes', 'packages/schema'];
   const h = createHash('sha256');
   h.update(run('git', ['ls-files', '-s', '--', ...dirs], { env: process.env }));
   h.update(run('git', ['diff', 'HEAD', '--', ...dirs], { env: process.env }));

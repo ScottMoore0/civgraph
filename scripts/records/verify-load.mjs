@@ -56,7 +56,7 @@ import { verifyModeFor } from './deploy-plan.mjs';
 import { q } from './diff-load.mjs';
 import { buildVar } from '../lib/config.mjs';
 import { RECORDS_DB, REPO_ROOT } from './paths.mjs';
-import { HASHED_TABLES } from './schema.mjs';
+import { HASHED_TABLES } from '@civgraph/schema';
 
 /**
  * The D1 database behind the ELECTIONS_DB binding, read from wrangler.toml's production

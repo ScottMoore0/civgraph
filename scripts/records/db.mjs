@@ -13,9 +13,9 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync } from 'node:f
 import path from 'node:path';
 import { openSqliteHandle } from '@civgraph/storage/node';
 import { REPO_ROOT } from './paths.mjs';
-import { TABLE } from './schema.mjs';
+import { TABLE } from '@civgraph/schema';
 
-export const MIGRATIONS_DIR = path.join(REPO_ROOT, 'migrations');
+export const MIGRATIONS_DIR = path.join(REPO_ROOT, 'packages', 'schema', 'migrations');
 
 export function migrationFiles(dir = MIGRATIONS_DIR) {
   return readdirSync(dir).filter((f) => /^\d{4}_.*\.sql$/.test(f)).sort().map((f) => path.join(dir, f));

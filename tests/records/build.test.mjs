@@ -6,7 +6,7 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
 import { recordPaths, REPO_ROOT } from '../../scripts/records/paths.mjs';
-import { MAX_VALUE_BYTES, TABLES } from '../../scripts/records/schema.mjs';
+import { MAX_VALUE_BYTES, TABLES } from '@civgraph/schema';
 import { partyAsPrintedLabel } from '../../src/party-names.mjs';
 import { bundleChunks, bundleObject } from '../../functions/_api/_records.js';
 import { d1 } from './d1-shim.mjs';
