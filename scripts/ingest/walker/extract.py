@@ -51,7 +51,7 @@ except ImportError as exc:  # pragma: no cover - dependency hint
     sys.exit(f"missing dependency: {exc}. Needs pypdf, pillow and pytesseract.")
 
 # Both configurable: hardcoding either pins the script to one machine, which is what
-# scripts/validate-local-paths.mjs exists to prevent.
+# scripts/check/rules/local-paths.mjs exists to prevent.
 TESSERACT = os.environ.get('TESSERACT_CMD')
 if TESSERACT:
     pytesseract.pytesseract.tesseract_cmd = TESSERACT

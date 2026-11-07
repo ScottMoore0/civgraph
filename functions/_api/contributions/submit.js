@@ -176,7 +176,7 @@ function validateSubmission(payload) {
  * could not fire -- with no current record, every field reads as changed.
  *
  * Nothing caught it, and the reason is worth more than the fix.
- * scripts/test-contribution-flow.mjs asserts `checkedAgainstCurrentRecord ===
+ * tests/functions/contribution-flow.test.mjs asserts `checkedAgainstCurrentRecord ===
  * true` and passed throughout, because its fetch stub returned the envelope
  * shape. The fixture agreed with the caller and both disagreed with the
  * endpoint, so the test proved only that the caller was self-consistent. A mock

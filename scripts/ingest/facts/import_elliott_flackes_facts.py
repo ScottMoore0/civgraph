@@ -1064,7 +1064,7 @@ def main():
                        'party officers), registered so tenures can name them. Their ids are a block of their own (900001 and up) that '
                        'the candidate id assignment never uses; scripts/ingest/persons/build_person_registry_v2.py adds them to person_registry.json '
                        'with keyedBy "registered". A person here who later stands must be merged into the candidate record, not '
-                       'registered twice (scripts/validate-facts-model.mjs checks). Schema: data/schemas/non-candidate-persons.schema.json.',
+                       'registered twice (scripts/check/rules/facts-model.mjs checks). Schema: data/schemas/non-candidate-persons.schema.json.',
         'idBlock': {'from': NONCANDIDATE_BLOCK, 'to': 999999},
         'persons': persons_out,
     })

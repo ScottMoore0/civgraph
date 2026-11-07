@@ -4,7 +4,7 @@
 #
 #   check         npm run check:ci = the Pages build, the derived inputs the checks still
 #                 read (the records database, maps and catalogue included, and its tests), then
-#                 every offline check (scripts/check-clean.mjs --in-place); then the browser
+#                 every offline check (scripts/check/clean.mjs --in-place); then the browser
 #                 specs of the production map app at /maps/ (npm run test:browser:maps),
 #                 in the same job because they read the records build's election documents
 #                 (scripts/test-server.py serves them from tmp/records, as the compatibility
@@ -15,7 +15,7 @@
 #
 # No path filters, on purpose: a validator whose inputs fall outside a filter never runs
 # (the docs/** gap closed on 2026-09-20 was one), so every push and pull request runs
-# everything. scripts/validate-ci-workflow.mjs (npm run check:ci-workflow, in `check`)
+# everything. scripts/check/rules/ci-workflow.mjs (npm run check:ci-workflow, in `check`)
 # keeps it that way.
 #
 # Nothing here needs a secret or reaches production: no remote D1 or R2, no request to

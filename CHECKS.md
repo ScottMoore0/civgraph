@@ -13,7 +13,7 @@
 | 3. CI | `.github/workflows/ci.yml` (`npm run check:ci`, `npm run test:browser:maps`) | no | every push to main and every pull request |
 | 4. Opt-in remote | `npm run verify`, `npm run verify:public` | yes, bounded | by hand, after a publish; never by default, never in CI |
 
-**1. Fast local.** `check:fast` (`scripts/run-checks.mjs`) runs every step of `npm run check`
+**1. Fast local.** `check:fast` (`scripts/check/run.mjs`) runs every step of `npm run check`
 in parallel and prints only the failures. It is offline: nothing in it reads a remote
 database, R2 or the deployed site. Many steps read build output (the app build, the
 catalogue import, `tmp/records`), so run `npm run rebuild` first, which builds what the
@@ -33,7 +33,7 @@ changed files need and then runs the checks.
   shared shell (`functions/_templates/shell.js`) at 375 px and 1280 px, in light and dark:
   48 cases, each saving a screenshot to `test-results/site-shell/`. Run it after changing
   the shell, the token set (`assets/ui/`) or a page's head, header or footer.
-- `check:clean` (`scripts/check-clean.mjs`) exports exactly what a commit would contain into
+- `check:clean` (`scripts/check/clean.mjs`) exports exactly what a commit would contain into
   a temporary directory, links `node_modules`, runs the CI builds and the tier 1 checks
   there, and unlinks `node_modules` before deleting the export. A check that needs a
   gitignored file fails here as it would in CI. It needs about 11 GB of free space for the
@@ -44,7 +44,7 @@ whose inputs fell outside a filter never ran (the `docs/**` gap, closed 2026-09-
 - Job `check`: free disk (the records build writes about 10.8 GB; a runner guarantees
   14 GB), `npm ci`, then `npm run check:ci`, which is `check:clean`'s build-and-check run in
   place. The builds are `npm run build`, `records:build` and `records:check` (`BUILD_STEPS` in
-  `scripts/check-clean.mjs`); since data phase 3 the records build also loads the maps,
+  `scripts/check/clean.mjs`); since data phase 3 the records build also loads the maps,
   layers and catalogue, so there is no separate catalogue import. Then the browser specs of
   the map app (`test:browser:maps`), in the same job because they read the records build's
   election documents: `scripts/test-server.py` serves those URLs from `tmp/records`, as
@@ -63,7 +63,7 @@ whose inputs fell outside a filter never ran (the `docs/**` gap, closed 2026-09-
   and fails above 18,500 files or on a file over 25 MiB), and the 20,000-file hard limit
   counted in `dist/`.
 - No secrets, no remote D1 or R2, no request to the deployed site, no schedule.
-  `npm run check:ci-workflow` (`scripts/validate-ci-workflow.mjs`, in tier 1) fails if any
+  `npm run check:ci-workflow` (`scripts/check/rules/ci-workflow.mjs`, in tier 1) fails if any
   of that changes.
 - Do not push a branch to test CI: a pushed branch is a public Pages preview. Use
   `npm run check:clean`.
@@ -209,7 +209,7 @@ Retired earlier: `check:elections-d1` and `deploy:elections-d1` (6 Nov), and
     `check:vector-promote-id`.
   Phase 3 already retired `check:catalogue-sql` (by construction) and `verify:catalogue-d1`
   (into `verify:records`).
-- **A build the checks need:** add it to `BUILD_STEPS` in `scripts/check-clean.mjs` (CI and
+- **A build the checks need:** add it to `BUILD_STEPS` in `scripts/check/clean.mjs` (CI and
   `check:clean` share it). If a change makes `tmp/records` much larger, re-measure against
   the runner: the check job's last step prints `df` and `du`.
 - **A new `/_api` route:** decide whether it is public data. Add it to `ROUTES` in

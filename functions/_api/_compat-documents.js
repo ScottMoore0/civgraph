@@ -10,7 +10,7 @@
  *
  * Pages serves a static file in preference to a Function, so scripts/build/clean-for-pages.sh removes
  * these files from the deployment; _routes.json includes exactly these paths
- * (scripts/validate-routes-manifest.mjs reads ROUTE_PATTERNS).
+ * (scripts/check/rules/routes-manifest.mjs reads ROUTE_PATTERNS).
  */
 import { MAP_CACHE, mapsDocumentText, storedDocumentText } from './_maps.js';
 import { cachedJson, jsonResponse } from './_records.js';

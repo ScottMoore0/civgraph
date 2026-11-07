@@ -33,7 +33,7 @@ export const DEFAULT_RETURN = '/browse/';
 /**
  * Open-redirect guard: only same-origin, root-relative paths are honoured.
  *
- * Exported so it can be tested directly (scripts/test-contribution-flow.mjs).
+ * Exported so it can be tested directly (tests/functions/contribution-flow.test.mjs).
  * It is one regex, it is the only security-relevant line in this file, and a
  * regex is exactly the kind of thing that looks right and is not.
  *

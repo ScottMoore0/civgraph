@@ -193,7 +193,7 @@ Layout fixes in the Books grid:
   detail shards (`node scripts/build/build-browse-indexes.mjs`), which are a gitignored build output.
 - Catalogue, Tables and Books tests in `app.spec.js`: pass.
 - `npx eslint src/election-trend-chart.mjs app/src/election-manager.js app/src/app.js src/ui-controller.js`: no new warnings.
-- `node scripts/validate-app-shell-cache-tokens.mjs`: PASS after each rebuild.
+- `node scripts/check/rules/app-shell-cache-tokens.mjs`: PASS after each rebuild.
 - Shared CSS within its 225 KB budget.
 - Checked in a browser at 1920, 1600, 1280, 1000, 700 and 390 px widths, light and dark, with
   touch emulation for the phone width.

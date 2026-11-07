@@ -107,7 +107,7 @@ Verification:
 
 ```powershell
 node scripts/validate-already-on-site-enrichments.mjs
-node scripts/validate-external-sources.mjs
+node scripts/check/rules/external-sources.mjs
 node scripts/validate-pages-file-budget.mjs
 rg -n "D:\\\\" data/database/already-on-site-enrichments.json data/browse/sources.json data/browse/details/source-shards scripts/build-already-on-site-enrichment-records.mjs scripts/validate-already-on-site-enrichments.mjs scripts/review-already-on-site-remaining.mjs
 node scripts/validate-already-on-site-enrichments.mjs
@@ -129,7 +129,7 @@ Stage these files:
 
 ```powershell
 git add scripts/build-ni-register-interests.mjs
-git add scripts/validate-ni-register-interests.mjs
+git add scripts/check/rules/ni-register-interests.mjs
 git add data/database/ni-register-sources.json
 git add data/database/ni-register-interests.json
 git add data/database/ni-register-interests
@@ -176,9 +176,9 @@ Reason: the diffs add and verify two Irish hill PMTiles CDN objects, update rout
 Stage these code/report files:
 
 ```powershell
-git add scripts/audit-test2-election-data.mjs
-git add scripts/audit-test2-general-parity.mjs
-git add scripts/validate-test2-route.mjs
+git add scripts/check/rules/election-data-audit.mjs
+git add scripts/check/rules/general-parity.mjs
+git add scripts/check/rules/election-route.mjs
 git add test/metadata/cdn-upload-manifest.json
 git add test/metadata/cdn-upload-report.json
 git add test/metadata/cdn-range-report.json
@@ -215,7 +215,7 @@ Verification:
 ```powershell
 npm run check:test2
 npm run check:test
-node scripts/validate-test-cdn-manifest.mjs
+node scripts/check/rules/cdn-manifest.mjs
 node scripts/validate-test2-pmtiles-cdn.mjs
 node scripts/validate-pages-file-budget.mjs
 git diff --cached --stat

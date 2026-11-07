@@ -63,7 +63,7 @@ There is no dedicated `/test2` stanza in `_headers`. The bundle is versioned by 
 
 ### Current Guardrail Gap
 
-`scripts/validate-test2-mobile-performance.mjs` only tests one representative layer, Civil Parishes, and forces it to directory MVT when a fallback exists. The local repo currently does not have the Civil Parishes fallback tiles, so the test fails with "civil parishes produced no rendered features". This needs to be corrected because it means the smoke test is not currently a reliable production-performance signal.
+`scripts/check/browser/mobile-performance.mjs` only tests one representative layer, Civil Parishes, and forces it to directory MVT when a fallback exists. The local repo currently does not have the Civil Parishes fallback tiles, so the test fails with "civil parishes produced no rendered features". This needs to be corrected because it means the smoke test is not currently a reliable production-performance signal.
 
 ## Ranked Recommendations
 

@@ -80,7 +80,7 @@ function serviceWorkerPolicyHash(filePath) {
  * how the stylesheet is delivered busts it too -- either can change that without
  * changing a byte of the stylesheet.
  *
- * Exported because scripts/validate-app-shell-cache-tokens.mjs has to check this
+ * Exported because scripts/check/rules/app-shell-cache-tokens.mjs has to check this
  * token and must not re-implement the derivation. Two functions computing one
  * value is how the value drifts, which is the bug that check exists to catch;
  * writing it twice to guard against writing it wrong would be self-defeating.

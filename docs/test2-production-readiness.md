@@ -2,7 +2,7 @@
 
 > **Status: SUPERSEDED — last updated 2026-05-29.** The root promotion this
 > document was written to prepare for has since shipped. `npm run check:root`
-> (`scripts/validate-maplibre-root-promotion.mjs`) now asserts the opposite of
+> (`scripts/check/rules/maplibre-root-promotion.mjs`) now asserts the opposite of
 > the premise below: the root route serves `/app` MapLibre assets and `/test2`
 > is only a compatibility redirect. Retained for historical rationale. For
 > current behaviour see `docs/maplibre-root-promotion-runbook.md`.

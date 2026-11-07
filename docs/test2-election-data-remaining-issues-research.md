@@ -12,7 +12,7 @@ This report researches the current non-blocking `/test2` election-data audit war
 
 - `tasks/test2-election-data-audit.json`
 - `tasks/test2-election-data-audit.md`
-- `scripts/audit-test2-election-data.mjs`
+- `scripts/check/rules/election-data-audit.mjs`
 - `tasks/ireland_election_party_colour_wikipedia_audit.md`
 - repository-local generated `/test2` election and Browse data
 - external source-family checks for ARK Northern Ireland Elections, EONI election results, ElectionsIreland, Wikipedia election pages, and Wikipedia party-colour data

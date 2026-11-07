@@ -101,7 +101,7 @@
       "id": "check-cdn-manifest",
       "type": "command",
       "phase": "post-upload",
-      "argv": ["node", "scripts/validate-test-cdn-manifest.mjs"]
+      "argv": ["node", "scripts/check/rules/cdn-manifest.mjs"]
     },
     {
       "id": "check-fast",
@@ -130,7 +130,7 @@
       }
     ],
     "afterPostUpload": [
-      { "command": "node scripts/validate-test-cdn-manifest.mjs", "expect": "pass" },
+      { "command": "node scripts/check/rules/cdn-manifest.mjs", "expect": "pass" },
       { "command": "npm run check:fast", "expect": "pass" },
       { "command": "node scripts/build/stamp-map-cache-tokens.mjs --check", "expect": "pass" }
     ]

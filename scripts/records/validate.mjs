@@ -13,13 +13,13 @@ import { MAX_VALUE_BYTES, TABLES } from './schema.mjs';
 
 // Source-file validators run as they are (stage C.3); each reads committed sources only.
 export const SOURCE_VALIDATORS = [
-  'scripts/validate-external-sources.mjs',
-  'scripts/validate-raw-source-documents.mjs',
-  'scripts/validate-medium-priority-publication-sources.mjs',
-  'scripts/validate-peatland-geoportal-sources.mjs',
-  'scripts/validate-ni-register-interests.mjs',
-  'scripts/validate-election-source-enrichments.mjs',
-  'scripts/validate-candidate-name-party.mjs',
+  'scripts/check/rules/external-sources.mjs',
+  'scripts/check/rules/raw-source-documents.mjs',
+  'scripts/check/rules/medium-priority-sources.mjs',
+  'scripts/check/rules/peatland-geoportal.mjs',
+  'scripts/check/rules/ni-register-interests.mjs',
+  'scripts/check/rules/election-source-enrichments.mjs',
+  'scripts/check/rules/candidate-name-party.mjs',
 ];
 
 export function validateDatabase(db, { sourceValidators = false } = {}) {

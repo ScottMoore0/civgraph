@@ -11,7 +11,7 @@
 > than a promise to remember.
 >
 > Item 1 was taken **with** the permanent 405 harness the recommendation below
-> asks for: `scripts/test-method-guards.mjs`, 40 assertions, in `npm run check`.
+> asks for: `tests/functions/method-guards.test.mjs`, 40 assertions, in `npm run check`.
 
 Third of three review passes, alongside `docs/review/TECH-DEBT-AUDIT.md` and
 `docs/review/CODE-REVIEW.md`.

@@ -197,7 +197,7 @@ test('docs/intake-examples/batch-2026-11-05 reproduces that batch\'s upload.ps1 
     'npm run build',
     `python scripts/build/thumbnails/regen-thumbnails.py --download --ids ${thumbIds}`,
     'node --env-file=.env.local scripts/publish/r2-upload-tree.mjs assets/thumbnails assets/thumbnails --concurrency=16 --changed-only',
-    'node scripts/validate-test-cdn-manifest.mjs',
+    'node scripts/check/rules/cdn-manifest.mjs',
     'npm run check:fast',
     'node --env-file=.env.local scripts/build/stamp-map-cache-tokens.mjs --check',
   ]);

@@ -19,7 +19,7 @@ them winning ones, and only the name is missing. Deleting the rows would discard
 results, so the candidate rows are left exactly as they are and only the **person** is
 suppressed.
 
-**Step 2 is done.** `scripts/validate-candidate-name-party.mjs` implements the rule this
+**Step 2 is done.** `scripts/check/rules/candidate-name-party.mjs` implements the rule this
 document asked for and is wired into `npm run check` as `check:candidate-name-party`. It
 pins the known artefacts and fails on new ones, so the defect cannot grow. Note it reads
 the source bundles (19,199 rows), a different and smaller population than the published

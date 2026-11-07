@@ -62,7 +62,7 @@ push. **Let it prove itself over a few commits before starting this.**
 
 ## The surface, as measured
 
-`node scripts/validate-directory-name-references.mjs`
+`node scripts/check/rules/directory-names.mjs`
 
     total references : 461      (render/ 410, tests/ 32, test2/ 19)
 
