@@ -10,6 +10,11 @@
  * - `createFlag(name)`: a boolean that is set, or held for the length of an operation and put
  *   back after it (holds nest: each release restores what its own hold found). Setting it to the
  *   value it already has is allowed, as assigning the old boolean was.
+ * - `createState(machine, from)`: the current state of a full machine, kept without the run's
+ *   history. The map app's machines last as long as the page and some move on every gesture or
+ *   frame (the gestures, the point-cloud tiles), so a run that remembers every state it entered
+ *   would grow without limit; this holder checks each move against the table and keeps only
+ *   where it is.
  */
 
 import { defineMachine } from '../../scripts/lib/state-machine.mjs';
@@ -44,6 +49,31 @@ export function defineChoice(name, values) {
   });
 }
 
+/**
+ * @template {string} S
+ * @param {import('../../scripts/lib/state-machine.mjs').Machine<S>} machine
+ * @param {S} [from]  the state to start in (the machine's initial one by default)
+ */
+export function createState(machine, from = machine.initial) {
+  if (!machine.states.includes(from)) throw new Error(`${machine.name}: ${from} is not a state`);
+  let current = from;
+  return {
+    machine,
+    /** The current state (the same call as the shared helper's run, without its history). */
+    state: () => current,
+    /** @param {S} state */
+    is: (state) => current === state,
+    /** Whether the table allows a move from here to `next`. @param {S} next */
+    can: (next) => machine.can(current, next),
+    /** Move, or throw if the table has no such move; returns the new state. @param {S} next */
+    to(next) {
+      machine.assertTransition(current, next);
+      current = next;
+      return current;
+    }
+  };
+}
+
 /** The flag's two states, either reachable from either (itself included). */
 const FLAG_TRANSITIONS = Object.freeze({ off: ['off', 'on'], on: ['off', 'on'] });
 
@@ -53,7 +83,7 @@ const FLAG_TRANSITIONS = Object.freeze({ off: ['off', 'on'], on: ['off', 'on'] }
  */
 export function createFlag(name, initial = false) {
   const machine = defineMachine({ name, initial: 'off', transitions: FLAG_TRANSITIONS });
-  const run = machine.start(initial ? 'on' : 'off');
+  const run = createState(machine, initial ? 'on' : 'off');
   const set = (/** @type {boolean} */ value) => {
     if (typeof value !== 'boolean') throw new TypeError(`${name}: expected a boolean, got ${typeof value}`);
     const previous = run.state() === 'on';

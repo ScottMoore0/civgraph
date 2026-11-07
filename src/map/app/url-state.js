@@ -101,7 +101,7 @@ export class UrlStateMethods {
     // Back and Forward between the entries pushState makes fire hashchange (their addresses
     // differ only in the hash), as does editing the hash by hand; both mean "show this".
     window.addEventListener('hashchange', () => {
-      if (this.urlSuspend.on || this._ignoreHashChanges) return;
+      if (this.urlSuspend.on || this.hashListen.ignoring) return;
       // Back then Forward quickly: the second arrives while the first is still restoring. Do it
       // once that one is done, rather than drop it and leave the page on the wrong entry.
       if (this.urlRestore.active) {
@@ -169,12 +169,12 @@ export class UrlStateMethods {
     // "could not be loaded") goes once the reader does something else (UX review 2026-10-31, L6).
     this.dismissStaleMapMessage();
     if (this.urlRestore.active) return;
-    this._pushNextURL = label || 'Map';
+    this.navigationPush.begin(label || 'Map');
   }
 
   endNavigation() {
     this.updateURLState();
-    this._pushNextURL = null;
+    this.navigationPush.clear();
   }
 
   pushURLState(label) {
@@ -186,11 +186,11 @@ export class UrlStateMethods {
    * back over it, without restoring anything (the map is already as it was). */
   undoNavigationSince(mark) {
     if (!Number.isInteger(mark) || this.navIndex <= mark) return;
-    this._ignoreHashChanges = (this._ignoreHashChanges || 0) + 1;
+    this.hashListen.hold();
     history.go(mark - this.navIndex);
     // Forget the abandoned entry, so the History list does not offer it.
     this.navEntries = this.navEntries.slice(0, mark + 1);
-    setTimeout(() => { this._ignoreHashChanges = Math.max(0, (this._ignoreHashChanges || 0) - 1); }, 500);
+    setTimeout(() => this.hashListen.release(), 500);
   }
 
   /** A label for a history entry pushed by something other than the app (the catalogue's
@@ -286,9 +286,8 @@ export class UrlStateMethods {
     if (catalogueRoute) params.set('cat', catalogueRoute);
     const path = `${location.pathname}${location.search || ''}`;
     const next = params.toString() ? `${path}#${params.toString()}` : path;
-    if (this._pushNextURL && next !== `${location.pathname}${location.search || ''}${location.hash}`) {
-      this._pendingNavLabel = this._pushNextURL;
-      this._pushNextURL = null;
+    if (this.navigationPush.pending && next !== `${location.pathname}${location.search || ''}${location.hash}`) {
+      this._pendingNavLabel = this.navigationPush.take();
       history.pushState(null, '', next);
     } else {
       history.replaceState(null, '', next);

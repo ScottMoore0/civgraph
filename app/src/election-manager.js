@@ -106,6 +106,7 @@ import {
 } from '../../src/map/election/grouped-years.mjs';
 import { GroupedYearMethods } from '../../src/map/election/grouped-year-methods.js';
 import { ELECTION_LOAD } from '../../src/map/election/load-state.mjs';
+import { createState } from '../../src/map/state-helpers.mjs';
 import { installMethods } from '../../src/map/app/install-methods.mjs';
 
 const SEAT_SOURCE_ID = 'test2-election-seat-source';
@@ -178,7 +179,7 @@ export class Test2ElectionManager {
     this.overlayRefreshBound = false;
     this.loadSerial = 0;
     // closed, loading or open (src/map/election/load-state.mjs); pendingLoad is the load on its way.
-    this.loadRun = ELECTION_LOAD.start();
+    this.loadRun = createState(ELECTION_LOAD);
     this.pendingLoad = null;
     this.sharedRenderer = createElectionRenderer(this);
     this.mainPaneContract = new MainElectionPaneContract(this);
@@ -299,7 +300,7 @@ export class Test2ElectionManager {
         // Superseded or cancelled: the newer state is not this load's to report on.
         return;
       }
-      if (this.app._pushNextURL) this.app._pushNextURL = null;
+      this.app.navigationPush?.clear();
       const offline = typeof navigator !== 'undefined' && navigator.onLine === false;
       const title = entry.displayTitle || `${body} ${date}`;
       const wrapped = new Error(`${title} could not be loaded: ${offline ? 'you appear to be offline' : (bundleFailed ? 'its results did not arrive' : 'its map did not arrive')}.`);

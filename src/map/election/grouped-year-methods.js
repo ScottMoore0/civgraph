@@ -32,7 +32,7 @@ export class GroupedYearMethods {
         this.app.syncCatalogueMapState();
         this.app.updateActiveLayers();
       }
-      if (this.app._pushNextURL) this.app._pushNextURL = null;
+      this.app.navigationPush?.clear();
       const offline = typeof navigator !== 'undefined' && navigator.onLine === false;
       const wrapped = new Error(`${entry.displayTitle} could not be loaded: ${offline ? 'you appear to be offline' : 'its results or map did not arrive'}.`);
       wrapped.cause = error;
