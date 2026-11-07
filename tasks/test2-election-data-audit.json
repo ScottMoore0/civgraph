@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-07T12:28:46.686Z",
+  "generatedAt": "2026-11-07T14:44:57.533Z",
   "failOnBlocking": true,
   "stats": {
     "manifest": {
       "schemaVersion": 1,
-      "generatedAt": "2026-11-07T02:39:33.629Z",
+      "generatedAt": "2026-11-07T14:15:41.303Z",
       "entries": 2368,
       "totals": {
         "elections": 2368,
@@ -49,259 +49,18 @@
       "candidateRowsWithoutParty": 11266
     },
     "colours": {
-      "auditFilePresent": true,
-      "highConfidenceFilePresent": true,
+      "auditFilePresent": false,
+      "highConfidenceFilePresent": false,
       "reviewFilePresent": true,
-      "reviewedMismatches": 10,
-      "observations": 1032,
-      "matches": 73,
-      "mismatches": 135,
-      "highConfidenceMismatches": 85,
-      "noElectionColour": 777,
-      "noWikipediaMatch": 684,
-      "ambiguousWikipediaMatch": 31,
-      "examples": [
-        {
-          "party": "100% Redress",
-          "electionColour": "#C0C0C0",
-          "wikipediaName": "100% Redress",
-          "wikipediaColour": "#F90606",
-          "observations": 1,
-          "review": {
-            "party": "100% Redress",
-            "electionColour": "#C0C0C0",
-            "wikipediaName": "100% Redress",
-            "wikipediaColour": "#F90606",
-            "observations": 1,
-            "status": "needs-canonical-colour-decision",
-            "note": "Single-observation mismatch; verify whether Civgraph should keep a neutral local-label colour or adopt the saved Wikipedia colour."
-          }
-        },
-        {
-          "party": "An Rabharta Glas – Green Left",
-          "electionColour": "#C0C0C0",
-          "wikipediaName": "Rabharta",
-          "wikipediaColour": "#488A89",
-          "observations": 4,
-          "review": {
-            "party": "An Rabharta Glas - Green Left",
-            "electionColour": "#C0C0C0",
-            "wikipediaName": "Rabharta",
-            "wikipediaColour": "#488A89",
-            "observations": 4,
-            "status": "needs-canonical-colour-decision",
-            "note": "Verify label naming and whether the Wikipedia/Rabharta colour should be canonical for this election label."
-          }
-        },
-        {
-          "party": "Anti-Austerity Alliance",
-          "electionColour": "#E3170D",
-          "wikipediaName": "Anti-Austerity Alliance",
-          "wikipediaColour": "#FFFF00",
-          "observations": 46,
-          "review": {
-            "party": "Anti-Austerity Alliance",
-            "electionColour": "#E3170D",
-            "wikipediaName": "Anti-Austerity Alliance",
-            "wikipediaColour": "#FFFF00",
-            "observations": 46,
-            "status": "needs-canonical-colour-decision",
-            "note": "High-observation mismatch; decide whether historical Civgraph red or saved Wikipedia yellow is the canonical display colour."
-          }
-        },
-        {
-          "party": "Anti-Treaty Sinn Féin",
-          "electionColour": "#C0C0C0",
-          "wikipediaName": "Sinn Féin (Anti-Treaty)",
-          "wikipediaColour": "#326760",
-          "observations": 57,
-          "review": {
-            "party": "Anti-Treaty Sinn Fein",
-            "electionColour": "#C0C0C0",
-            "wikipediaName": "Sinn Fein (Anti-Treaty)",
-            "wikipediaColour": "#326760",
-            "observations": 57,
-            "status": "needs-canonical-colour-decision",
-            "note": "Historic Sinn Fein label mismatch; verify whether this should inherit modern Sinn Fein green or remain neutral."
-          }
-        },
-        {
-          "party": "Aontú",
-          "electionColour": "#C62828",
-          "wikipediaName": "Aontú",
-          "wikipediaColour": "#44532A",
-          "observations": 126,
-          "review": {
-            "party": "Aontu",
-            "electionColour": "#C62828",
-            "wikipediaName": "Aontu",
-            "wikipediaColour": "#44532A",
-            "observations": 126,
-            "status": "needs-canonical-colour-decision",
-            "note": "High-observation mismatch; likely canonical colour-map update candidate after checking existing Civgraph visual conventions."
-          }
-        },
-        {
-          "party": "Clann na Poblachta",
-          "electionColour": "#C0C0C0",
-          "wikipediaName": "Clann na Poblachta",
-          "wikipediaColour": "#BBE549",
-          "observations": 111,
-          "review": {
-            "party": "Clann na Poblachta",
-            "electionColour": "#C0C0C0",
-            "wikipediaName": "Clann na Poblachta",
-            "wikipediaColour": "#BBE549",
-            "observations": 111,
-            "status": "needs-canonical-colour-decision",
-            "note": "Historic party currently neutral; verify whether saved Wikipedia colour should be adopted."
-          }
-        },
-        {
-          "party": "Clann na Talmhan",
-          "electionColour": "#C0C0C0",
-          "wikipediaName": "Clann na Talmhan",
-          "wikipediaColour": "#BDB76B",
-          "observations": 50,
-          "review": {
-            "party": "Clann na Talmhan",
-            "electionColour": "#C0C0C0",
-            "wikipediaName": "Clann na Talmhan",
-            "wikipediaColour": "#BDB76B",
-            "observations": 50,
-            "status": "needs-canonical-colour-decision",
-            "note": "Historic party currently neutral; verify whether saved Wikipedia colour should be adopted."
-          }
-        },
-        {
-          "party": "Commonwealth Labour Party",
-          "electionColour": "#FF6666",
-          "wikipediaName": "Commonwealth Labour Party",
-          "wikipediaColour": "#B22222",
-          "observations": 6,
-          "review": {
-            "party": "Commonwealth Labour Party",
-            "electionColour": "#FF6666",
-            "wikipediaName": "Commonwealth Labour Party",
-            "wikipediaColour": "#B22222",
-            "observations": 6,
-            "status": "needs-canonical-colour-decision",
-            "note": "Low-observation historic label; verify whether to use the saved Wikipedia colour or existing Labour-family colour."
-          }
-        },
-        {
-          "party": "Communist Party of Ireland",
-          "electionColour": "#FF3300",
-          "wikipediaName": "Communist Party of Ireland",
-          "wikipediaColour": "#E3170D",
-          "observations": 6,
-          "review": {
-            "party": "Communist Party of Ireland",
-            "electionColour": "#FF3300",
-            "wikipediaName": "Communist Party of Ireland",
-            "wikipediaColour": "#E3170D",
-            "observations": 6,
-            "status": "needs-canonical-colour-decision",
-            "note": "Related red shades; verify whether exact Wikipedia shade should replace the existing display colour."
-          }
-        },
-        {
-          "party": "Communist Party of Ireland (Marxist-Leninist)",
-          "electionColour": "#E3170D",
-          "wikipediaName": "Communist Party of Ireland (Marxist–Leninist)",
-          "wikipediaColour": "#660000",
-          "observations": 3,
-          "review": {
-            "party": "Communist Party of Ireland (Marxist-Leninist)",
-            "electionColour": "#E3170D",
-            "wikipediaName": "Communist Party of Ireland (Marxist-Leninist)",
-            "wikipediaColour": "#660000",
-            "observations": 3,
-            "status": "needs-canonical-colour-decision",
-            "note": "Low-observation historic split label; verify before changing the canonical display colour."
-          }
-        },
-        {
-          "party": "Conservative",
-          "electionColour": "#0E7C42",
-          "wikipediaName": "Conservative and Unionist Party (UK)",
-          "wikipediaColour": "#0087DC",
-          "observations": 61,
-          "review": null
-        },
-        {
-          "party": "Conservative",
-          "electionColour": "#1F4E8C",
-          "wikipediaName": "Conservative and Unionist Party (UK)",
-          "wikipediaColour": "#0087DC",
-          "observations": 11,
-          "review": null
-        },
-        {
-          "party": "Conservative",
-          "electionColour": "#888888",
-          "wikipediaName": "Conservative and Unionist Party (UK)",
-          "wikipediaColour": "#0087DC",
-          "observations": 13,
-          "review": null
-        },
-        {
-          "party": "Conservative",
-          "electionColour": "#9E9E9E",
-          "wikipediaName": "Conservative and Unionist Party (UK)",
-          "wikipediaColour": "#0087DC",
-          "observations": 254,
-          "review": null
-        },
-        {
-          "party": "Cumann na nGaedheal",
-          "electionColour": "#C0C0C0",
-          "wikipediaName": "Cumann na nGaedheal",
-          "wikipediaColour": "#87CEFA",
-          "observations": 360,
-          "review": null
-        },
-        {
-          "party": "Democracy First",
-          "electionColour": "#000000",
-          "wikipediaName": "Democracy First",
-          "wikipediaColour": "#FF8C00",
-          "observations": 2,
-          "review": null
-        },
-        {
-          "party": "Democratic Left",
-          "electionColour": "#DC241F",
-          "wikipediaName": "Democratic Left (Ireland)",
-          "wikipediaColour": "#C700C7",
-          "observations": 21,
-          "review": null
-        },
-        {
-          "party": "Democratic Partnership",
-          "electionColour": "#FF9800",
-          "wikipediaName": "Democratic Partnership",
-          "wikipediaColour": "#F0E68C",
-          "observations": 10,
-          "review": null
-        },
-        {
-          "party": "Direct Democracy Ireland",
-          "electionColour": "#FFFF00",
-          "wikipediaName": "Direct Democracy Ireland",
-          "wikipediaColour": "#87CEFA",
-          "observations": 41,
-          "review": null
-        },
-        {
-          "party": "Éirígí",
-          "electionColour": "#C0C0C0",
-          "wikipediaName": "Éirígí",
-          "wikipediaColour": "#00A550",
-          "observations": 6,
-          "review": null
-        }
-      ]
+      "reviewedMismatches": 0,
+      "observations": 0,
+      "matches": 0,
+      "mismatches": 0,
+      "highConfidenceMismatches": 0,
+      "noElectionColour": 0,
+      "noWikipediaMatch": 0,
+      "ambiguousWikipediaMatch": 0,
+      "examples": []
     },
     "reviewSidecars": {
       "validPollRecords": 0,

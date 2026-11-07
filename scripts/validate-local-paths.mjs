@@ -61,7 +61,7 @@ const LOCAL_PATH_RE = /(?<![A-Za-z])(?<!%)[A-Za-z]:[\\/]/;
 const ROOTS = ['scripts', 'analysis'];
 const EXTENSIONS = new Set(['.mjs', '.js', '.py', '.md', '.json', '.ps1', '.sh', '.yml', '.yaml']);
 // Generated caches and data dumps, not authored source.
-const SKIP_DIRS = new Set(['node_modules', '.git', '__pycache__', '_geo', 'lps', '.venv']);
+const SKIP_DIRS = new Set(['node_modules', '.git', '__pycache__', '_geo', 'lps', '.venv', 'dist']);
 
 function walk(dir, out = []) {
   let entries;

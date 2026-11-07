@@ -53,7 +53,7 @@ const UPDATE = process.argv.includes('--update-baseline');
 // actually matters.
 const SKIP_DIRS = new Set([
   'node_modules', '.git', 'test-results', 'playwright-report', 'archive',
-  '__pycache__', '.wrangler', 'tasks', 'tmp', 'analysis', 'coverage',
+  '__pycache__', '.wrangler', 'tasks', 'tmp', 'analysis', 'coverage', 'dist',
 ]);
 // Data trees. A rename moves their PATHS, not their bytes, and scanning 2,000+
 // metadata files for the substring "render/" is pure noise.
