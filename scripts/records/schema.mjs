@@ -428,6 +428,15 @@ export const TABLES = [
     stableOrder: { sort: ['ord'], group: ['source_id'], identity: 'content' },
     columns: [c('source_id', T, true), c('ord', I, true), c('item', T, true), ...HASH],
   },
+  {
+    // Data phase 4: which keys each of the graph build's old index and shard files held, in their
+    // order, so functions/data/graph answers the /data/graph/ file URLs from the rows above for
+    // the 90 days the owner set (to 6 Feb 2027). `file` is the path under data/graph/; a long list
+    // is split into parts of GRAPH_FILE_PART_KEYS keys. `extra` is the lookup/entity files' shard
+    // numbers ([st, rv, ss] per key, null where absent). Drop with the R2 copies after the 90 days.
+    name: 'graph_files', group: 'graph', hashed: true, pk: ['file', 'part'], order: 'file, part', since: 4,
+    columns: [c('file', T, true), c('part', I, true), c('keys', T, true), c('extra'), ...HASH],
+  },
 
   // ---------------------------------------------------------------- maps, layers, catalogue (phase 3)
   // Loaded by scripts/records/ingest-maps.mjs from the source files where they are
@@ -501,6 +510,8 @@ export const HASHED_TABLES = TABLES.filter((t) => t.hashed);
 
 /** Largest value any one column may hold: D1's row limit is 2,000,000 bytes. */
 export const MAX_VALUE_BYTES = 1_900_000;
+/** graph_files splits a file's key list into parts of this many keys. */
+export const GRAPH_FILE_PART_KEYS = 10_000;
 /** election_aggregates splits a payload into parts of this many characters. */
 export const PART_CHARS = 600_000;
 

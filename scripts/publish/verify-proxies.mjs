@@ -46,22 +46,22 @@ const PROXIES = [
     key: 'data/maps/agriculture/ni-livestock-bovine.fgb',
     cacheControl: 'public, max-age=86400, stale-while-revalidate=604800',
   },
+  // data/graph and data/browse are answered from D1 since data phase 4 (no R2 read): the
+  // signature is cachedJson's (functions/_api/_records.js), and its ETag answers 304.
   {
     name: 'data/graph',
     fn: 'functions/data/graph/[[path]].js',
     key: 'data/graph/manifest.json',
-    cacheControl: 'public, max-age=86400, stale-while-revalidate=604800',
+    cacheControl: 'public, max-age=300, stale-while-revalidate=86400',
     miss: 'data/graph/entity-shards/entities-999999.json',
+    expectConditional: true,
   },
   {
     name: 'data/browse',
     fn: 'functions/data/browse/[[path]].js',
     key: 'data/browse/index.json',
-    cacheControl: 'public, max-age=0, must-revalidate',
+    cacheControl: 'public, max-age=300, stale-while-revalidate=86400',
     miss: 'data/browse/details/maps/definitely-not-a-real-map.json',
-    // Browse must answer 304 to a conditional request. Without it,
-    // `must-revalidate` re-downloads the body every time, and
-    // source-index-shards/sources-000.json alone is 6 MB per visit.
     expectConditional: true,
   },
 ];
