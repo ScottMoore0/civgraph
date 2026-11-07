@@ -31,6 +31,13 @@
 /assets/css/leaflet-1.9.4.css  https://unpkg.com/leaflet@1.9.4/dist/leaflet.css  301
 /assets/css/images/*  https://unpkg.com/leaflet@1.9.4/dist/images/:splat  301
 
+# Fuse.js 7.0.0 and pako 2.1.0 were self-hosted in May 2026 (82f0a49440) for the Leaflet map's search
+# and FlatGeobuf decoding. Nothing has loaded them since that map retired, and they left the tree on
+# 7 Nov 2026. Their addresses answer with the same releases on jsDelivr, byte-for-byte the files that
+# were here.
+/assets/js/fuse-7.0.0.min.js  https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js  301
+/assets/js/pako-2.1.0.min.js  https://cdn.jsdelivr.net/npm/pako@2.1.0/dist/pako.min.js  301
+
 # Bangor and Lisburn are one body each (2026-11): their 15 January 1920 rounds moved from the
 # urban district slugs to the borough slugs that hold the later rounds, titled for the era.
 # Splats only match at the end of a path, so each published address is listed.
