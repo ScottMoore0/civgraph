@@ -34,6 +34,8 @@ import * as spatial from '../../_api/spatial.js';
 import * as stats from '../../_api/stats/index.js';
 import * as votes from '../../_api/votes/index.js';
 import { jsonAnswer } from './delegate.js';
+import { CONTRACTS } from './contracts/v1.js';
+import { openApiDocument } from './openapi.js';
 import { API, SITE } from '../config.js';
 
 export const VERSION = 'v1';
@@ -110,6 +112,7 @@ export function indexDocument() {
     status: 'stable',
     compatibility: 'Routes, parameters and answer shapes in v1 change only compatibly (additions). An incompatible change is a new version; v1 keeps answering.',
     legacyPrefix: LEGACY_PREFIX,
+    openapi: `${PREFIX}/openapi.json`,
     methods: ['GET', 'HEAD'],
     endpoints: Object.entries(ROUTES).map(([path, r]) => ({
       path: `${PREFIX}/${path}`,
@@ -121,10 +124,24 @@ export function indexDocument() {
   };
 }
 
+/** The OpenAPI 3.1 document of v1: the route table and the contracts (contracts/v1.js). */
+export const openApi = () => openApiDocument({ version: VERSION, prefix: PREFIX, routes: ROUTES, contracts: CONTRACTS }, SITE);
+
 export const V1 = Object.freeze({
   version: VERSION,
   prefix: PREFIX,
   legacyPrefix: LEGACY_PREFIX,
   routes: ROUTES,
+  contracts: CONTRACTS,
   index: () => jsonAnswer(indexDocument()),
+  /** Documents about the version, served at <prefix>/<name> before any route is matched. */
+  documents: Object.freeze({ 'openapi.json': () => jsonAnswer(openApi()) }),
+  /**
+   * The version that replaces this one, once it exists ({ version, prefix, routes }); null
+   * while v1 is current. With a successor, every v1 answer for a route the successor also
+   * serves carries `Link: <successor path>; rel="successor-version"` (delegate.js).
+   */
+  successor: null,
+  /** An HTTP date for a `Sunset` header: only by the owner's decision. null: no sunset. */
+  sunset: null,
 });
