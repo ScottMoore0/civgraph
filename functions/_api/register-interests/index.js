@@ -10,10 +10,11 @@
  */
 import { browseIndexHandler } from '../_browse-index.js';
 import { parseJson } from '../_records.js';
+import { REGISTER } from '../../_lib/queries/cards.js';
 
 /** ?slug=&view=detail: the entry with its interests (was data/database/ni-register-browse-records). */
 async function detail({ db, slug, record, json }) {
-  const row = await db.prepare('SELECT detail FROM register_entries WHERE slug = ?1').bind(slug).first();
+  const row = await db.first(REGISTER.detail, [slug]);
   const match = parseJson(row?.detail);
   if (!match) return json({ error: 'no detail', slug }, 404);
   return json({ schemaVersion: 1, item: { ...record, ...match } });

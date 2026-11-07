@@ -23,18 +23,14 @@ const DB = path.join(REPO_ROOT, 'tmp/records/civgraph-records.sqlite');
 
 /** Function files that still call D1 directly (ST-5 empties this list). */
 const NOT_YET_ON_THE_ADAPTER = [
-  '_api/_browse-index.js',
   '_api/_maps.js',
   '_api/elections/index.js',
   '_api/graph/index.js',
   '_api/parties/index.js',
-  '_api/persons/index.js',
   '_api/proni/count.js',
   '_api/proni/export.js',
   '_api/proni/node.js',
   '_api/proni/search.js',
-  '_api/register-interests/index.js',
-  '_api/sources/index.js',
   '_api/votes/index.js',
   '_browse-page.js',
   '_templates/records/election.js',
@@ -47,7 +43,19 @@ const NOT_YET_ON_THE_ADAPTER = [
  * Sample arguments for each query builder (a named query that is a function), by
  * `<module>.<GROUP>.<name>`. A builder without samples fails the test: add them here.
  */
-const BUILDER_SAMPLES = {};
+const BUILDER_SAMPLES = {
+  'cards.CARDS.bySlug': [['person_cards', 'card AS record'], ['sources', 'card AS record'], ['register_entries', 'card AS record']],
+  'cards.CARDS.byAlias': [['person_cards', 'card AS record', 'person_aliases'], ['sources', 'card AS record', 'source_aliases']],
+  'cards.CARDS.facets': [['person_cards_facets'], ['sources_facets']],
+  'cards.CARDS.page': [['person_cards', 'card AS record', '', 'ord', 0], ['person_cards', 'card AS record', 'WHERE elected = ?1', 'title_norm', 1]],
+  'cards.CARDS.count': [['person_cards', ''], ['register_entries', 'WHERE elected_body = ?1']],
+  'cards.PERSONS.partyFilter': [[['?1', '?2']]],
+};
+
+/** Builders that return a clause, not a statement: prepared inside this statement. */
+const FRAGMENTS = {
+  'cards.PERSONS.partyFilter': 'SELECT 1 FROM person_cards WHERE ',
+};
 
 /**
  * The SQLite-only features the named queries use, each with a pattern. The test computes the set
@@ -71,6 +79,9 @@ const DIALECT = {
 };
 /** What the queries use today (keep sorted). */
 const DIALECT_USED = [
+  'LIMIT/OFFSET',
+  'json_each()',
+  'json_extract()',
   'numbered parameters (?1)',
 ];
 
@@ -100,7 +111,7 @@ async function namedQueries() {
         else if (typeof query === 'function') {
           const samples = BUILDER_SAMPLES[id];
           if (!samples) { missingSamples.push(id); continue; }
-          samples.forEach((args, i) => queries.push({ name: `${id}#${i}`, sql: query(...args) }));
+          samples.forEach((args, i) => queries.push({ name: `${id}#${i}`, sql: (FRAGMENTS[id] || '') + query(...args) }));
         }
       }
     }

@@ -23,6 +23,8 @@
 import { reportError } from './_error.js';
 import { cachedJson } from './_records.js';
 import { binding } from '../_lib/config.js';
+import { fromD1 } from '../_lib/storage/d1.js';
+import { CARDS } from '../_lib/queries/cards.js';
 
 const MAX_LIMIT = 200;
 const DEFAULT_LIMIT = 50;
@@ -94,8 +96,10 @@ export function browseIndexHandler({
     const limit = clampLimit(url.searchParams.get('limit'));
     const offset = Math.max(0, Number(url.searchParams.get('offset')) || 0);
 
-    const db = binding(context.env, 'ELECTIONS_DB');
-    if (!db) return json({ error: 'ELECTIONS_DB binding not configured' }, 503, false, version);
+    const binding_ = binding(context.env, 'ELECTIONS_DB');
+    if (!binding_) return json({ error: 'ELECTIONS_DB binding not configured' }, 503, false, version);
+    // through the storage adapter (functions/_lib/storage/); the SQL is named in queries/cards.js
+    const db = fromD1(binding_);
 
     try {
       // One record. The operation the shards were worst at, and the one worth being
@@ -110,10 +114,7 @@ export function browseIndexHandler({
       if (slug) {
         // Ordered, so a slug that is also another record's id or key resolves the same way on
         // every load: the record whose slug it is, then whose id, then source order.
-        const row = await db
-          .prepare(`SELECT ${RECORD}, slug FROM ${table} WHERE key_norm = ?1 OR slug = ?1 OR id = ?1 ORDER BY (slug = ?1) DESC, (id = ?1) DESC, ord LIMIT 1`)
-          .bind(slug)
-          .first();
+        const row = await db.first(CARDS.bySlug(table, RECORD), [slug]);
         let record = hasRecord(row) ? parse(row) : null;
         let foundSlug = row?.slug || null;
         // An old address (previousSlugs: a person's earlier id, a source merged into
@@ -121,10 +122,7 @@ export function browseIndexHandler({
         // with its aliases the lookup fails, and the miss stays a 404.
         if (!record) {
           try {
-            const aliased = await db
-              .prepare(`SELECT ${RECORD}, slug FROM ${table} WHERE slug = (SELECT slug FROM ${aliasTable} WHERE alias = ?1) LIMIT 1`)
-              .bind(slug)
-              .first();
+            const aliased = await db.first(CARDS.byAlias(table, RECORD, aliasTable), [slug]);
             record = parse(aliased);
             foundSlug = aliased?.slug || null;
           } catch { /* no aliases table yet */ }
@@ -142,7 +140,7 @@ export function browseIndexHandler({
       // derive these by scanning the whole loaded list; server-side that would be a
       // SELECT DISTINCT per facet per request.
       if (facets && url.searchParams.get('facets') === '1') {
-        const row = await db.prepare(`SELECT facets FROM ${facetsTable} LIMIT 1`).first();
+        const row = await db.first(CARDS.facets(facetsTable));
         let parsed = {};
         try { parsed = JSON.parse(row?.facets || '{}'); } catch { parsed = {}; }
         return json({ facets: parsed }, 200, true, version);
@@ -204,11 +202,10 @@ export function browseIndexHandler({
         // so the two statements deliberately do not share a bind list.
         const pageBinds = [...binds, limit, offset];
         const [rows, total] = await Promise.all([
-          db.prepare(`SELECT ${RECORD} FROM ${table} ${clause} ORDER BY ${orderBy} LIMIT ?${binds.length + 1} OFFSET ?${binds.length + 2}`)
-            .bind(...pageBinds).all(),
-          db.prepare(`SELECT COUNT(*) AS n FROM ${table} ${clause}`).bind(...binds).first(),
+          db.all(CARDS.page(table, RECORD, clause, orderBy, binds.length), pageBinds),
+          db.first(CARDS.count(table, clause), binds),
         ]);
-        const records = (rows.results || []).map(parse).filter(Boolean);
+        const records = rows.map(parse).filter(Boolean);
         return {
           [key]: records,
           total: total?.n ?? records.length,
