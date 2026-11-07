@@ -17,6 +17,7 @@
 import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { assertKnownFlags, mergeArtefactRecords } from '../lib/safe-artefact-write.mjs';
+import { pmtilesTargetSuffix } from './pmtiles-keys.mjs';
 
 assertKnownFlags([]);
 
@@ -36,16 +37,19 @@ const verifiedRemoteAssets = new Map(
     .filter((item) => item?.ok && item.layerId)
     .map((item) => [item.layerId, item])
 );
-// What the last manifest already knew. Read for `remoteVerified` only: everything else
+// What the last manifest already knew. Read for `remoteVerified`, and for the R2 key of an
+// archive that is neither on disk nor named by its layer (pmtiles-keys.mjs): everything else
 // here is derived from the metadata and the filesystem, which are authoritative.
-const priorRemoteVerified = new Map(
+const priorPmtiles = new Map(
   (existsSync(OUTPUT_PATH)
     ? (JSON.parse(readFileSync(OUTPUT_PATH, 'utf8')).assets || [])
     : []
   )
-    .filter((asset) => asset?.kind === 'pmtiles' && asset.remoteVerified && asset.layerId)
+    .filter((asset) => asset?.kind === 'pmtiles' && asset.layerId)
     .map((asset) => [asset.layerId, asset])
 );
+const priorRemoteVerified = new Map([...priorPmtiles].filter(([, asset]) => asset.remoteVerified));
+const keySources = {};
 
 const assets = [];
 let carriedForward = 0;
@@ -54,9 +58,9 @@ for (const layer of metadata.layers || []) {
   if (layer.loadable === false) continue;
   if (layer.aliasOf) continue;
   if (layer.sourceType === 'pmtiles' && layer.tileUrl) {
-    addAsset(layer, `pmtiles/generated/${layer.id}.pmtiles`);
+    addAsset(layer);
   } else if (layer.tilePackage?.localPath) {
-    addAsset(layer, `pmtiles/generated/${layer.id}.pmtiles`);
+    addAsset(layer);
   }
   if (layer.sourceType === 'mvt' && layer.tiles && !layer.tilePackage?.localPath) {
     const root = layer.tiles.replace('/{z}/{x}/{y}.pbf', '').replace(/^\//, '');
@@ -100,15 +104,21 @@ mkdirSync(dirname(OUTPUT_PATH), { recursive: true });
 writeFileSync(OUTPUT_PATH, `${JSON.stringify(manifest, null, 2)}\n`);
 console.log(`Wrote ${OUTPUT_PATH.replace(`${ROOT}\\`, '').replaceAll('\\', '/')}`);
 console.log(`Assets: ${manifest.assets.length} (${mergedAssets.kept} carried forward from earlier runs).`);
+console.log(`PMTiles keys from: ${Object.entries(keySources).map(([source, n]) => `${source} ${n}`).join(', ') || 'none'}.`);
 if (carriedForward) {
   console.log(`Carried forward remoteVerified for ${carriedForward} layer(s) the range report did not cover.`);
 }
 
-function addAsset(layer, targetSuffix) {
+function addAsset(layer) {
   const configuredLocal = layer.tilePackage?.localPath || layer.tileUrl;
   const local = String(configuredLocal || '').replace(/^\//, '').replaceAll('\\', '/');
   const path = resolve(ROOT, local);
   const exists = existsSync(path);
+  // The archive's existing key, never one rebuilt from the (renamed) layer id.
+  const { suffix: targetSuffix, source } = pmtilesTargetSuffix(layer, {
+    exists, r2Prefix: R2_PREFIX, cdnBase: CDN_BASE, prior: priorPmtiles.get(layer.id)
+  });
+  keySources[source] = (keySources[source] || 0) + 1;
   const remote = verifiedRemoteAssets.get(layer.id);
   const remoteBytes = parseContentRangeTotal(remote?.contentRange);
   const prior = priorRemoteVerified.get(layer.id);
