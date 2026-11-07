@@ -15,6 +15,8 @@ import { NO_LABEL } from '../../src/election-domain.mjs';
 import { partyAbbreviation, partyFullName, partyLabelHtml } from '../../src/party-names.mjs';
 import { printedLabelsToggleHtml } from '../../src/printed-labels.mjs';
 import { formatDisplayDate } from '../../src/date-format.mjs';
+import { NI_LOCAL_VIEW, niLocalViewActive } from '../../src/map/election/ni-local-state.mjs';
+import { createState } from '../../src/map/state-helpers.mjs';
 
 const YEAR_FILE_VERSION = 'nl-1';
 const PREF_KEY = 'civgraph.niLocal.view';
@@ -67,11 +69,15 @@ export function voteShareOpacity(share) {
 }
 
 export class NiLocalGroupedView {
+  /** The view is open (active or switching level): a read-only view of viewState. */
+  get active() { return niLocalViewActive(this.viewState.state()); }
+
   constructor(manager) {
     this.manager = manager;
     this.app = manager.app;
     this.mapController = manager.mapController;
-    this.active = false;
+    // inactive, opening, active or switching (src/map/election/ni-local-state.mjs).
+    this.viewState = createState(NI_LOCAL_VIEW);
     this.entry = null;
     this.data = null;
     this.cache = new Map();
@@ -172,7 +178,14 @@ export class NiLocalGroupedView {
   // ------------------------------------------------------------------ open / close
 
   async open(entry, { keepView = false, level = null, show = null, members = null, area = null } = {}) {
-    const data = await this.fetchYear(entry);
+    this.viewState.to('opening');
+    let data;
+    try {
+      data = await this.fetchYear(entry);
+    } catch (error) {
+      if (this.viewState.is('opening')) this.viewState.to('inactive');
+      throw error;
+    }
     this.data = data;
     this.entry = entry;
     const prefs = this.readPrefs();
@@ -182,7 +195,7 @@ export class NiLocalGroupedView {
     const wantMembers = members || prefs.members;
     this.members = wantMembers === 'aldermen' && this.aldermenAvailable() ? 'aldermen' : 'councillors';
     this.selectedKey = null;
-    this.active = true;
+    this.viewState.to('active');
     this.syncManagerEntry();
     await this.loadLevelLayer({ fit: !keepView });
     this.applyStyle();
@@ -233,7 +246,7 @@ export class NiLocalGroupedView {
     for (const id of new Set([this.sourceMapId(), ...this.loadedLayerIds].filter(Boolean))) {
       this.mapController.clearElectionStyle?.(id);
     }
-    this.active = false;
+    this.viewState.to('inactive');
     this.selectedKey = null;
     this.unwatchTheme();
     // The manager unloads the layers it is told are the election's (backingLayerIds).
@@ -270,6 +283,7 @@ export class NiLocalGroupedView {
 
   async setLevel(id) {
     if (!this.active || id === this.level || !this.levelAvailable(id)) return;
+    this.viewState.to('switching');
     const previous = this.sourceMapId();
     this.level = id;
     if (this.members === 'aldermen' && !this.aldermenAvailable()) this.members = 'councillors';
@@ -285,6 +299,8 @@ export class NiLocalGroupedView {
     this.syncManagerEntry();
     this.renderPanel({ push: false, busy: true });
     await this.loadLevelLayer({ fit: false });
+    // Done, unless a teardown came first (it stays inactive, as the old flag did).
+    if (this.viewState.is('switching')) this.viewState.to('active');
     this.applyStyle();
     this.renderPanel({ push: false });
     this.writePrefs();
