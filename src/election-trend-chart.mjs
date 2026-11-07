@@ -14,6 +14,7 @@
  * Gaps are real. A party with no comparable result at an election gets a break in its line,
  * not a segment drawn across the hole; the data model is the manager's and is not merged here.
  */
+import { defineFlagFields } from './map/state-helpers.mjs';
 
 const SERIES_LIMIT = 8;
 const LINE_WIDTH = 2.25;
@@ -458,9 +459,10 @@ export function mountTrendChart(container, model, options = {}) {
     lockedParty: null,
     hoverParty: null,
     column: -1,
-    pinned: false,
     destroyed: false
   };
+  // The crosshair pinned by a tap or a click (a flag, MA-L): reads and writes unchanged.
+  defineFlagFields(state, ['pinned']);
 
   const effectiveFocus = () => state.hoverParty || state.lockedParty;
 

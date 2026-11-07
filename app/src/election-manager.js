@@ -108,7 +108,7 @@ import {
 } from '../../src/map/election/grouped-years.mjs';
 import { GroupedYearMethods } from '../../src/map/election/grouped-year-methods.js';
 import { ELECTION_LOAD } from '../../src/map/election/load-state.mjs';
-import { createFlag, createState } from '../../src/map/state-helpers.mjs';
+import { createFlag, createState, defineFlagFields } from '../../src/map/state-helpers.mjs';
 import { installMethods } from '../../src/map/app/install-methods.mjs';
 
 const SEAT_SOURCE_ID = 'test2-election-seat-source';
@@ -179,18 +179,17 @@ export class Test2ElectionManager {
     Object.assign(this, createElectionCaches());
     this.trendChart = null;
     this.resultsByLayer = new Map();
-    this.seatCircleClickBound = false;
     this.seatCircleOverlay = null;
     this.seatCircleOverlayState = { groups: [], dotCount: 0 };
     this.seatCircleMarkers = [];
     this.lastSeatCircleRenderMs = 0;
-    this.overlayRefreshPending = false;
-    this.seatCirclePositionUpdatePending = false;
+    // The overlay's two frame-coalescing requests are flags; the click handlers' install-once
+    // guards are latches (MA-L).
+    defineFlagFields(this, ['overlayRefreshPending', 'seatCirclePositionUpdatePending']);
+    defineFlagFields(this, ['seatCircleClickBound', 'voteBarClickBound', 'recallLabelClickBound'], { latch: true });
     this.overlayWorker = null;
     this.overlayWorkerSeq = 0;
     this.overlayWorkerCallbacks = new Map();
-    this.voteBarClickBound = false;
-    this.recallLabelClickBound = false;
     this.overlayRefreshBound = false;
     this.loadSerial = 0;
     // closed, loading or open (src/map/election/load-state.mjs); pendingLoad is the load on its way.

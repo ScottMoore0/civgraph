@@ -2,6 +2,7 @@
  * NI Boundaries - Feature Loader
  * Handles viewport-aware loading of pre-processed per-feature JSON files with LOD support.
  */
+import { defineFlagFields } from './map/state-helpers.mjs';
 
 const FEATURE_THRESHOLD = 50;  // Only use LOD loading for maps with >50 features
 const CONCURRENT_LOADS = 50;   // Max parallel fetch requests
@@ -51,7 +52,8 @@ class FeatureLoader {
         this.spatialIndexByMap = new Map();  // mapId -> [features]
         this.loadedFeatures = new Map();     // "mapId:index:lod" -> L.geoJSON layer
         this.pendingLoads = new Map();       // URL -> Promise
-        this.initialized = false;
+        // Set once the index is loaded (a latch, MA-L).
+        defineFlagFields(this, ['initialized'], { latch: true });
         this._initPromise = null;
         this._chunkManifest = null;         // Per-map chunk manifest
         this._chunkPromises = new Map();    // mapId -> Promise (dedup concurrent loads)

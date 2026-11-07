@@ -207,13 +207,12 @@ export class TimelineControlMethods {
    * runs once, at the end, from settled state.
    */
   beginTimelineApply() {
-    this.timelineApplyDepth = (this.timelineApplyDepth || 0) + 1;
+    this.timelineApply.hold();
     this.timelineApplying = true;
   }
 
   endTimelineApply() {
-    this.timelineApplyDepth = Math.max(0, (this.timelineApplyDepth || 0) - 1);
-    this.timelineApplying = this.timelineApplyDepth > 0;
+    this.timelineApplying = !this.timelineApply.release();
     return !this.timelineApplying;
   }
 
