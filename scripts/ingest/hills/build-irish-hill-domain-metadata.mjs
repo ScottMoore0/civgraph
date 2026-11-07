@@ -7,6 +7,7 @@
 
 import { copyFileSync, existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
+import { LAYER } from '../../intake/lib/item-status.mjs';
 
 const ROOT = resolve(process.cwd());
 const REPORT_PATH = resolve(ROOT, 'tmp/dobih/domain-polygons/irish-hill-domain-build-report.json');
@@ -74,7 +75,7 @@ function main() {
   updateSpatialIndex(outputs);
   copyFeatureIndexes(outputs);
   console.log(JSON.stringify({
-    status: 'ok',
+    status: LAYER.ok,
     layers: LAYERS.map((layer) => ({
       id: layer.id,
       featureCount: outputs.get(layer.id).feature_count,
@@ -272,7 +273,7 @@ function updateMapLibreMetadata(outputs, report) {
       ],
       numericProperties: ['Number', 'Metres', 'Feet', 'Drop', 'Col height', 'Latitude', 'Longitude'],
       categoricalProperties: ['DomainType', 'DomainMethod', 'ClassificationNames', 'CountryName', 'County', 'Region', 'Area', 'Island', 'Feature'],
-      status: 'converted',
+      status: LAYER.converted,
       notes: `${layer.description} ${layer.caveat}`,
       generatedFrom: {
         pipeline: 'build_irish_hill_domain_assets.py',
