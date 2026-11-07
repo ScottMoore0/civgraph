@@ -2,6 +2,7 @@
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fixText, normalizeName, parseNumber } from '../../../src/election-domain.mjs';
+import { RESULT } from '../../intake/lib/item-status.mjs';
 
 const ROOT = process.cwd();
 const DAIL_ROOT = path.join(ROOT, 'data/elections-source', 'data', 'elections', 'dail-eireann');
@@ -407,7 +408,7 @@ function parseCandidateTemplate(source, index, numCounts) {
     counts,
     electedAt,
     lastCount,
-    status: electedAt ? 'Elected' : (lastCount && lastCount < numCounts ? 'Excluded' : 'Not Elected')
+    status: electedAt ? RESULT.Elected : (lastCount && lastCount < numCounts ? RESULT.Excluded : RESULT['Not Elected'])
   };
 }
 

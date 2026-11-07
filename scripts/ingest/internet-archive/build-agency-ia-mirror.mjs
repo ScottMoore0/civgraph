@@ -13,6 +13,7 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync, rmSync, statSync } from 'node:fs';
 import { join, basename } from 'node:path';
 import { spawnSync } from 'node:child_process';
+import { AGENCY_MIRROR } from '../../intake/lib/item-status.mjs';
 
 const ROOT = process.cwd();
 const MAPS_PATH = join(ROOT, 'data/database/maps.json');
@@ -100,8 +101,8 @@ function main() {
       const fname = basename(url.split('?')[0]) || `${map.id}.bin`;
       const remote = `${map.id}/${fname}`;
       const iaUrl = `${IA_DL}/${ag.id}/${encodeURI(remote)}`;
-      if (existing.has(remote)) { skipped++; recorded.push({ kind, name: fname, iaUrl, status: 'already-on-ia' }); continue; }
-      if (DRY) { console.log(`    [dry] ${map.id} <- ${url} -> ia:${ag.id}/${remote}`); recorded.push({ kind, name: fname, iaUrl, status: 'dry' }); continue; }
+      if (existing.has(remote)) { skipped++; recorded.push({ kind, name: fname, iaUrl, status: AGENCY_MIRROR['already-on-ia'] }); continue; }
+      if (DRY) { console.log(`    [dry] ${map.id} <- ${url} -> ia:${ag.id}/${remote}`); recorded.push({ kind, name: fname, iaUrl, status: AGENCY_MIRROR.dry }); continue; }
       const tmp = join(TMP, `${map.id}__${fname}`);
       if (!download(url, tmp)) { console.warn(`    ! download failed: ${url}`); continue; }
       const up = run(IA, ['upload', ag.id, tmp, `--remote-name=${remote}`, '--checksum', '--no-derive', '--retries', '5',
@@ -110,7 +111,7 @@ function main() {
       rmSync(tmp, { force: true });
       if (up.status !== 0) { console.warn(`    ! ia upload failed ${map.id}/${fname}: ${(up.stderr||'').slice(-200)}`); continue; }
       uploaded++; (iaFilesCache[ag.id] ||= new Set()).add(remote);
-      recorded.push({ kind, name: fname, iaUrl, status: 'uploaded' });
+      recorded.push({ kind, name: fname, iaUrl, status: AGENCY_MIRROR.uploaded });
       console.log(`    ✓ ${map.id}/${fname} -> ${ag.id}`);
     }
     if (recorded.length) {

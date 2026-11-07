@@ -2,6 +2,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { CLEANING, CSO_REPORT } from '../../intake/lib/item-status.mjs';
 
 const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..", "..");
 const CENSUS_DIR = path.join(REPO, "data", "census");
@@ -500,7 +501,7 @@ function buildValidationReport({ tables, sourceInventory, csoManifest, normalisa
         .reduce((sum, [, count]) => sum + count, 0)
     : null;
   const localMissing = (sourceInventory?.localArchives || []).filter((archive) => !archive.exists);
-  const failedCsoAssets = (csoManifest?.assets || []).filter((asset) => asset.download?.status === "failed");
+  const failedCsoAssets = (csoManifest?.assets || []).filter((asset) => asset.download?.status === CSO_REPORT.failed);
   const lowConfidence = tables.filter((table) => table.mappingConfidence === "low");
   const warnings = [];
   if (localMissing.length) warnings.push(`${localMissing.length} local source archives are missing.`);
@@ -509,7 +510,7 @@ function buildValidationReport({ tables, sourceInventory, csoManifest, normalisa
   if (lowConfidence.length) warnings.push(`${lowConfidence.length} tables/reports have low-confidence automatic mappings.`);
   return {
     generatedAt: new Date().toISOString(),
-    status: warnings.length ? "warnings" : "ok",
+    status: warnings.length ? CLEANING.warnings : CLEANING.ok,
     summary: {
       tables: tables.length,
       lowConfidenceMappings: lowConfidence.length,

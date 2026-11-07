@@ -397,6 +397,7 @@ export async function producePlugin(plugin, { repo, batchDir, steps = [], all = 
 
 /** @param {string} stagedDir */
 function listStaged(stagedDir) {
+  /** @type {string[]} */
   const out = [];
   /** @param {string} d */
   const walk = (d) => {
@@ -457,7 +458,7 @@ export function pluginManifest(plugin, { id, baseCommit, produced, stagedDir, to
 export async function parity(plugin, { repo, steps, args = [], inputs = {}, scratch, stdio = 'inherit', stageWrite, frozenClock = true }) {
   const resolved = resolveInputs(plugin, inputs);
   const env = frozenClock ? frozenClockEnv() : {};
-  const declared = steps.flatMap((s) => [...(/** @type {Record<string, Step>} */ (plugin.steps)[s].outputs || []), ...redirectedOutputs(plugin.steps[s])]);
+  const declared = steps.flatMap((s) => [...(/** @type {Record<string, Step>} */ (plugin.steps)[s].outputs || []), ...redirectedOutputs(/** @type {Record<string, Step>} */ (plugin.steps)[s])]);
 
   const volatile = steps.flatMap((s) => /** @type {Record<string, Step>} */ (plugin.steps)[s].volatile || []);
   const oldCopies = path.join(scratch, `parity-${plugin.id}-old`);

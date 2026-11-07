@@ -471,18 +471,34 @@ def dp(A, B, C, R, ref=None, W=7, D=6, GAP=-0.5, NM=-0.5, IMP=0.25):
     nothing does. d stays within a narrow band, so this costs one dimension of size 2D+1
     rather than one of size R.
     """
+    # SPEED, NOT SEMANTICS. This body does exactly what the plain version did -- the same
+    # moves, tried in the same order (M, C, B, A, then the three skips), the same strict
+    # '>' on ties, the same dict insertion and bucket orders -- so it returns the same rows
+    # bit for bit (proved on 7 Nov 2026: the CSV and the printed report are byte-identical).
+    # What changed: no per-state list of candidate moves, no abs() on bounds that the band
+    # invariant already guarantees (every stored state has |j-i|, |k-i| <= W and |d| <= D,
+    # so a move that keeps a coordinate's offset cannot leave the band), the year-half
+    # agreement factor computed once per state rather than once per move, and back-pointers
+    # kept per layer instead of in one dict keyed by 4-tuples.
     la, lb, lc = len(A), len(B), len(C)
     target = R - la
     if abs(target) > D:
         return None
     layers = [dict() for _ in range(la + 1)]
+    backs = [dict() for _ in range(la + 1)]
     layers[0][(0, 0, 0)] = 0.0
-    BK = {}
+    nref = len(ref) if ref is not None else 0
+    wM_hit, wM_miss = 1.0, NM
     for i in range(la + 1):
         cur = layers[i]
         if not cur:
             continue
-        nxt = layers[i + 1] if i < la else None
+        curb = backs[i]
+        notlast = i < la
+        if notlast:
+            nxt, nxtb, Ai, ni = layers[i + 1], backs[i + 1], A[i], i + 1
+        lo1 = ni - W if notlast else 0      # a move into layer i+1 keeps j (or k) >= this
+        hi0 = i + W                         # a move within layer i keeps j (or k) <= this
         buckets = {}
         for key in cur:
             buckets.setdefault(key[0] + key[1], []).append(key)
@@ -492,76 +508,124 @@ def dp(A, B, C, R, ref=None, W=7, D=6, GAP=-0.5, NM=-0.5, IMP=0.25):
                 continue
             qi = 0
             while qi < len(q):
-                j, k, d = q[qi]
+                key = q[qi]
                 qi += 1
-                cu = cur[(j, k, d)]
-                mv = []
-                if i < la and j < lb and k < lc:
-                    mv.append((1, 1, 1, 0, 1.0 if A[i] == B[j] + C[k] else NM, 'M'))
-                if i < la and j < lb and A[i] - B[j] > 0:
-                    mv.append((1, 1, 0, 0, IMP, 'C'))
-                if i < la and k < lc and A[i] - C[k] > 0:
-                    mv.append((1, 0, 1, 0, IMP, 'B'))
-                if j < lb and k < lc:
-                    mv.append((0, 1, 1, 1, IMP, 'A'))
-                if i < la:
-                    mv.append((1, 0, 0, -1, GAP, None))
-                if j < lb:
-                    mv.append((0, 1, 0, 0, GAP, None))
-                if k < lc:
-                    mv.append((0, 0, 1, 0, GAP, None))
-                for di, dj, dk, dd, w, tag in mv:
-                    ni, nj, nk, nd = i + di, j + dj, k + dk, d + dd
-                    if abs(nj - ni) > W or abs(nk - ni) > W or abs(nd) > D:
-                        continue
-                    # Agreement with the OTHER year-half, which is the only evidence
-                    # that can place a dropped row. A block shifted by one satisfies
-                    # PERSONS == MALES + FEMALES perfectly -- all three columns move
-                    # together -- so oracle (b) is blind to exactly this failure. Ward
-                    # populations between the two censuses are not: Toome held 2,058
-                    # people in 1971, so the 57,598 the shift handed it (Ards's district
-                    # total) is impossible and the correct placement is not.
-                    if ref is not None and tag:
-                        r = i + d
-                        if 0 <= r < len(ref) and ref[r] > 0:
-                            got = (B[j] + C[k]) if tag == 'A' else A[i]
-                            w += REF if RLO <= got / ref[r] <= RHI else -REF
-                    tgt = nxt if di else cur
-                    if tgt is None:
-                        continue
+                j, k, d = key
+                cu = cur[key]
+                jin, kin = j < lb, k < lc
+                # Agreement with the OTHER year-half, which is the only evidence that
+                # can place a dropped row. A block shifted by one satisfies PERSONS ==
+                # MALES + FEMALES perfectly -- all three columns move together -- so
+                # oracle (b) is blind to exactly this failure. Ward populations between
+                # the two censuses are not: Toome held 2,058 people in 1971, so the
+                # 57,598 the shift handed it (Ards's district total) is impossible and
+                # the correct placement is not. Row r = i + d; +REF, -REF, or no term.
+                rr = 0
+                if nref:
+                    r = i + d
+                    if 0 <= r < nref and ref[r] > 0:
+                        rr = ref[r]
+                if notlast:
+                    if rr:
+                        adjA = REF if RLO <= Ai / rr <= RHI else -REF
+                    # M: one token from each column.
+                    if jin and kin:
+                        w = wM_hit if Ai == B[j] + C[k] else wM_miss
+                        if rr:
+                            w += adjA
+                        v = cu + w
+                        nkey = (j + 1, k + 1, d)
+                        old = nxt.get(nkey)
+                        if old is None or v > old:
+                            nxt[nkey] = v
+                            nxtb[nkey] = (key, 'M', i)
+                    # C: F := P - M.
+                    if jin and Ai - B[j] > 0 and k >= lo1:
+                        w = IMP
+                        if rr:
+                            w += adjA
+                        v = cu + w
+                        nkey = (j + 1, k, d)
+                        old = nxt.get(nkey)
+                        if old is None or v > old:
+                            nxt[nkey] = v
+                            nxtb[nkey] = (key, 'C', i)
+                    # B: M := P - F.
+                    if kin and Ai - C[k] > 0 and j >= lo1:
+                        w = IMP
+                        if rr:
+                            w += adjA
+                        v = cu + w
+                        nkey = (j, k + 1, d)
+                        old = nxt.get(nkey)
+                        if old is None or v > old:
+                            nxt[nkey] = v
+                            nxtb[nkey] = (key, 'B', i)
+                # A: P := M + F, within this layer.
+                if jin and kin and j < hi0 and k < hi0 and d < D:
+                    w = IMP
+                    if rr:
+                        w += REF if RLO <= (B[j] + C[k]) / rr <= RHI else -REF
                     v = cu + w
-                    nkey = (nj, nk, nd)
-                    if v > tgt.get(nkey, NEG):
-                        fresh = nkey not in tgt
-                        tgt[nkey] = v
-                        BK[(ni, nj, nk, nd)] = ((i, j, k, d), tag,
-                                                A[i] if di else None,
-                                                B[j] if dj else None,
-                                                C[k] if dk else None)
-                        if di == 0 and fresh:
-                            buckets.setdefault(nj + nk, []).append(nkey)
+                    nkey = (j + 1, k + 1, d + 1)
+                    old = cur.get(nkey)
+                    if old is None or v > old:
+                        cur[nkey] = v
+                        curb[nkey] = (key, 'A', i)
+                        if old is None:
+                            buckets.setdefault(s + 2, []).append(nkey)
+                # The three skips carry no row, so no agreement term.
+                if notlast and j >= lo1 and k >= lo1 and d > -D:
+                    v = cu + GAP
+                    nkey = (j, k, d - 1)
+                    old = nxt.get(nkey)
+                    if old is None or v > old:
+                        nxt[nkey] = v
+                        nxtb[nkey] = (key, None, i)
+                if jin and j < hi0:
+                    v = cu + GAP
+                    nkey = (j + 1, k, d)
+                    old = cur.get(nkey)
+                    if old is None or v > old:
+                        cur[nkey] = v
+                        curb[nkey] = (key, None, i)
+                        if old is None:
+                            buckets.setdefault(s + 1, []).append(nkey)
+                if kin and k < hi0:
+                    v = cu + GAP
+                    nkey = (j, k + 1, d)
+                    old = cur.get(nkey)
+                    if old is None or v > old:
+                        cur[nkey] = v
+                        curb[nkey] = (key, None, i)
+                        if old is None:
+                            buckets.setdefault(s + 1, []).append(nkey)
     end = layers[la]
     best = None
     for (j, k, d), v in end.items():
         if d == target and (best is None or v > best[1]):
-            best = ((la, j, k, d), v)
+            best = ((j, k, d), v)
     if best is None:
         return None
     term, score = best
-    st, rows = term, []
-    while st in BK:
-        pr, tag, a, b, c = BK[st]
+    i, key, rows = la, term, []
+    while key in backs[i]:
+        pkey, tag, pi = backs[i][key]
+        pj, pk = pkey[0], pkey[1]
         if tag == 'M':
-            rows.append((a, b, c, ''))
+            rows.append((A[pi], B[pj], C[pk], ''))
         elif tag == 'C':
+            a, b = A[pi], B[pj]
             rows.append((a, b, a - b, 'C'))
         elif tag == 'B':
+            a, c = A[pi], C[pk]
             rows.append((a, a - c, c, 'B'))
         elif tag == 'A':
+            b, c = B[pj], C[pk]
             rows.append((b + c, b, c, 'A'))
-        st = pr
+        i, key = pi, pkey
     rows.reverse()
-    return rows, score, (term[1], term[2])
+    return rows, score, (term[0], term[1])
 
 
 def _try(seq, R, p, W, ref):
@@ -837,12 +901,31 @@ def repair(tot, blk):
     return out, fixed['name'], [COLS[x] for x in off]
 
 
+def _align_one(job):
+    return align_run(*job)
+
+
+def align_runs(runs):
+    """align_run over every page run, in parallel, results in run order.
+
+    The runs are independent -- align_run reads only its own names and tokens -- and the
+    alignment is nearly all of this script's time (about 9 of 10 runs take seconds to
+    tens of seconds each), so they go to one process each. The results come back in the
+    order of the runs, so everything after is unchanged. CIVGRAPH_SERIAL=1 runs them in
+    this process instead (for profiling, or where processes cannot be started).
+    """
+    if os.environ.get('CIVGRAPH_SERIAL') == '1' or len(runs) < 2:
+        return [_align_one(r) for r in runs]
+    from concurrent.futures import ProcessPoolExecutor
+    with ProcessPoolExecutor(max_workers=min(len(runs), os.cpu_count() or 1)) as ex:
+        return list(ex.map(_align_one, runs))
+
+
 def main():
     print("=" * 84)
     print("1981 Census Table 4 - ward population under the 1973 District Councils")
     all_rows, rejected, agree, total, imp = [], [], 0, 0, 0
-    for ri, (names, run) in enumerate(page_runs()):
-        ents, a1, a2 = align_run(names, run)
+    for ri, (ents, a1, a2) in enumerate(align_runs(list(page_runs()))):
         R = len(ents)
         if a1 is None or a2 is None:
             rejected.append((ri, f'no alignment into {R} rows'))

@@ -3,9 +3,9 @@
  * The item statuses and run modes the ingest scripts write (state-machine catalogue IN-L, light
  * weight): one frozen union per vocabulary, shared by the plugin framework, and the fields of
  * each script that carry it. tests/intake/item-status.test.mjs reads every script named here and
- * fails on a literal its vocabulary lacks, so a new status cannot appear unnoticed. The scripts'
- * own literals are left as they are (they are network scripts that cannot be run here to prove a
- * rewrite); a script may import its vocabulary from here when it is next edited.
+ * fails on a quoted literal for one of those fields and on a name its vocabulary lacks. The
+ * scripts write each value through the vocabulary's name map (MIRROR.uploaded, not 'uploaded'),
+ * which holds every value under its own name, so the strings they write are unchanged.
  *
  * Each item status is the outcome of one item (a file, a page, a layer): from pending to one
  * terminal value, never back. Modes are chosen once per run.
@@ -34,6 +34,49 @@ export const PRONI_BENCHMARK_MODE = Object.freeze(/** @type {const} */ (['baseli
 export const NIA_HARVEST_PHASE = Object.freeze(/** @type {const} */ (['seed', 'detail', 'supplement', 'all']));
 /** A candidate's result on a Dail count sheet (the candidate-count vocabulary, RG-01). */
 export const COUNT_RESULT = Object.freeze(/** @type {const} */ (['Elected', 'Excluded', 'Not Elected']));
+
+/**
+ * A vocabulary as a frozen name map: each value under its own name (NAME.value, or
+ * NAME['with-hyphens']), so a script names a status rather than spelling it.
+ * @template {string} V
+ * @param {readonly V[]} vocabulary
+ * @returns {Readonly<{ [K in V]: K }>}
+ */
+export function named(vocabulary) {
+  return Object.freeze(/** @type {{ [K in V]: K }} */ (Object.fromEntries(vocabulary.map((v) => [v, v]))));
+}
+
+export const MIRROR = named(MIRROR_ITEM);
+export const AGENCY_MIRROR = named(AGENCY_MIRROR_ITEM);
+export const CSO_REPORT = named(CSO_REPORT_ITEM);
+export const WAYBACK = named(WAYBACK_ITEM);
+export const LAYER = named(LAYER_REGISTRATION);
+export const CLEANING = named(CLEANING_CHECK);
+export const SNAPSHOT = named(PRONI_SNAPSHOT_MODE);
+export const INDEX_MODE = named(PRONI_INDEX_MODE);
+export const SCAN_LEVEL = named(PRONI_SCAN_LEVEL);
+export const BENCHMARK = named(PRONI_BENCHMARK_MODE);
+export const HARVEST = named(NIA_HARVEST_PHASE);
+export const RESULT = named(COUNT_RESULT);
+
+/** Each name map, by the name the scripts import it under, with its vocabulary. */
+export const NAME_MAPS = Object.freeze({
+  MIRROR: MIRROR_ITEM, AGENCY_MIRROR: AGENCY_MIRROR_ITEM, CSO_REPORT: CSO_REPORT_ITEM, WAYBACK: WAYBACK_ITEM,
+  LAYER: LAYER_REGISTRATION, CLEANING: CLEANING_CHECK, SNAPSHOT: PRONI_SNAPSHOT_MODE, INDEX_MODE: PRONI_INDEX_MODE,
+  SCAN_LEVEL: PRONI_SCAN_LEVEL, BENCHMARK: PRONI_BENCHMARK_MODE, HARVEST: NIA_HARVEST_PHASE, RESULT: COUNT_RESULT,
+});
+
+/**
+ * The names a script reads from one name map: NAME.value and NAME['value'].
+ * @param {string} source
+ * @param {string} map
+ */
+export function namesOf(source, map) {
+  const out = new Set();
+  const re = new RegExp(String.raw`\b${map}(?:\.([A-Za-z_$][\w$]*)|\[\s*(["'])([^"']+)\2\s*\])`, 'g');
+  for (const m of source.matchAll(re)) out.add(m[1] ?? m[3]);
+  return out;
+}
 
 /**
  * Which field of which script (under scripts/ingest/) carries which vocabulary.
