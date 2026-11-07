@@ -31,7 +31,7 @@ const YEAR_STEPS = [1, 2, 5, 10, 20, 25, 50, 100];
 /**
  * Turn the manager's flat point list into ordered elections and ranked series.
  *
- * @param {Array<{party:string, share:number, colour:string, entry:object}>} points
+ * @param {Array<{party:string, share:number, votes?:number, seats?:number, colour:string, entry:any}>} points
  * @param {{ seriesLimit?: number, abbreviate?: (party:string)=>string, bodyLabel?: (entry:object)=>string }} [options]
  */
 export function buildTrendChartModel(points = [], options = {}) {
@@ -116,7 +116,7 @@ export function buildTrendChartModel(points = [], options = {}) {
  * Compute every coordinate the renderer needs for a given pixel width.
  *
  * @param {ReturnType<typeof buildTrendChartModel>} model
- * @param {{ width:number, height?:number, measureText?:(text:string, bold?:boolean)=>number, directLabels?:boolean }} options
+ * @param {{ width?:number, height?:number, measureText?:(text:string, bold?:boolean, size?:number)=>number, directLabels?:boolean }} [options]
  */
 export function layoutTrendChart(model, options = {}) {
   const width = Math.max(240, Math.round(Number(options.width) || 640));
@@ -425,9 +425,9 @@ export function renderTrendChartSvg(model, layout, options = {}) {
  * Render the chart into `container` and wire up the interactions. Returns a controller with
  * `destroy()`; mounting again into the same container destroys the previous instance.
  *
- * @param {HTMLElement} container
+ * @param {HTMLElement & { __trendChart?: any }} container
  * @param {ReturnType<typeof buildTrendChartModel>} model
- * @param {{ ariaLabel?:string, footnotes?:string, formatDate?:(date:string)=>string, height?:number }} [options]
+ * @param {{ ariaLabel?:string, footnotes?:string, formatDate?:(date:string)=>string, height?:number | ((width:number)=>number), fitTo?:Element }} [options]
  */
 export function mountTrendChart(container, model, options = {}) {
   if (!container) return null;
@@ -445,7 +445,7 @@ export function mountTrendChart(container, model, options = {}) {
   container.replaceChildren(root);
 
   const stage = root.querySelector('.trend-chart__stage');
-  const tooltip = root.querySelector('.trend-tooltip');
+  const tooltip = /** @type {HTMLElement} */ (root.querySelector('.trend-tooltip'));
   const legend = root.querySelector('.test2-election-trends__legend');
   const measureText = createTextMeasurer(root);
   const formatDate = typeof options.formatDate === 'function' ? options.formatDate : (value) => value;
