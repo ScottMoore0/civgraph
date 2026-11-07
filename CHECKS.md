@@ -22,9 +22,12 @@ changed files need and then runs the checks.
 - `check:full` is tier 1, then `records:check` (the records database tests in
   `tests/records/`), `test:browser:maps` (the map app at `/maps/`, and the retired apps' service workers), `test:catalogue` and
   `test:i18n`. The last two serve the tree through `tools/dev-site/server.mjs`, which
-  proxies `/_api/` and `/_r/` to the live site, so they read production's public API
-  (GET only). That ends when they move to `wrangler pages dev` with the local database
-  (DESIGN.md step C3b).
+  answers the map APIs (`/_api/layers`, `/_api/catalogue`) from the working tree and the
+  records API (`/_api/parties`, `/_api/persons`, `/_api/elections` and the other routes that
+  read only the records database) from `tmp/records` through `scripts/records/local-api.mjs`,
+  and proxies the rest of `/_api/` and `/_r/` to the live site, so they read production's
+  public API (GET only) for those. That ends when they move to `wrangler pages dev` with the
+  local database (DESIGN.md step C3b).
 - `test:browser:shell` (`tests/browser/site-shell.spec.js`) holds every page type to the
   shared shell (`functions/_templates/shell.js`) at 375 px and 1280 px, in light and dark:
   48 cases, each saving a screenshot to `test-results/site-shell/`. Run it after changing
@@ -46,9 +49,12 @@ whose inputs fell outside a filter never ran (the `docs/**` gap, closed 2026-09-
   election documents: `scripts/test-server.py` serves those URLs from `tmp/records`, as
   the compatibility Functions serve them from D1, and the maps API URLs the app reads
   (`/_api/layers?view=index`, `/_api/catalogue?view=pane`, ...) from the tracked files
-  their rows are loaded from. That server runs no Functions, so
-  `playwright.config.js` turns the app's elections API off for the local origin and the
-  app loads the same documents by their bundle URLs; `records:check` tests the API. The
+  their rows are loaded from. It answers the records API (the party and person pages read
+  `/_api/parties` and `/_api/persons`) by running those Functions against the build's
+  database in a Node process (`scripts/records/local-api.mjs`, tested in `records:check`);
+  no other Function runs. `playwright.config.js` still turns the app's elections API off
+  for the local origin, so the app loads the election documents by their bundle URLs;
+  `records:check` tests the API. The
   config never reuses a server already on its port (one from another worktree would serve
   that tree); set `PW_REUSE_SERVER=1` to reuse your own.
 - Job `pages-build`: the Pages build exactly as Cloudflare runs it, the 18,500-file and

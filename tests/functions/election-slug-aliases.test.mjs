@@ -107,8 +107,60 @@ const RETIRED = new Map([
 const sitemapSlugs = () => new Set([...readFileSync(path.join(ROOT, 'sitemaps', 'browse-elections.xml'), 'utf8')
   .matchAll(/<loc>https:\/\/civgraph\.net\/browse\/elections\/([^<]+)<\/loc>/g)].map((m) => m[1]));
 
+// The district electoral areas of the general local elections of 1973-2011 that the index
+// names by ARK's import code ("lg85-NoD-Holywood"): Browse published them under those names
+// (data/browse/details/elections, 7308b71203, June 2026) and they took the area's own name
+// before the first sitemap. Read from the index, so a coded name added later is caught too.
+const GENERAL_ROUNDS = ['1973-05-30', '1977-05-18', '1981-05-20', '1985-05-15', '1989-05-17', '1993-05-19', '1997-05-21', '2001-06-07', '2005-05-05', '2011-05-05'];
+const DISTRICTS = 'local-government-local-government-districts';
+function arkCodedSlugs() {
+  const index = read('data/elections-source/data/elections_index.json');
+  const slugs = new Set();
+  for (const body of index.bodies) {
+    for (const d of body.dates || []) {
+      if (!GENERAL_ROUNDS.includes(d.date)) continue;
+      for (const name of d.constituencies || []) {
+        if (/^lg\d{2}-[a-z]{3}-/i.test(name)) slugs.add(`${DISTRICTS}-${d.date}-${slugify(name)}`);
+      }
+    }
+  }
+  return [...slugs].sort();
+}
+// Holywood's seven, by name.
+const HOLYWOOD = [['1985-05-15', 'lg85'], ['1989-05-17', 'lg89'], ['1993-05-19', 'lg93'], ['1997-05-21', 'lg97'], ['2001-06-07', 'lg01'], ['2005-05-05', 'lg05'], ['2011-05-05', 'lg11']]
+  .map(([date, code]) => [`${DISTRICTS}-${date}-${code}-nod-holywood`, `${DISTRICTS}-${date}-holywood`]);
+
+test('the ARK-coded district electoral areas of 1973-2011 resolve to their own names, exactly', () => {
+  const live = sitemapSlugs();
+  const coded = arkCodedSlugs();
+  assert.ok(coded.length >= 97, `${coded.length} coded names in the index`);
+  const retired = new Map(RETIRED_CONTEST_SLUGS);
+  for (const old of coded) {
+    if (live.has(old)) {
+      // Never renamed (Lg77-ANT-Area-B): its address stands.
+      assert.ok(!retired.has(old), `${old} is live and not retired`);
+      continue;
+    }
+    const now = resolveElectionSlugAlias(old);
+    assert.notEqual(now, old, `${old} answered 404 and has no redirect`);
+    assert.ok(live.has(now), `${old} -> ${now}, a live address`);
+    assert.equal(now.slice(0, DISTRICTS.length + 11), old.slice(0, DISTRICTS.length + 11), `${old} stays in its round`);
+    assert.equal(resolveElectionSlugAlias(old.toUpperCase()), now, 'case does not matter');
+    assert.equal(resolveElectionSlugAlias(`${old}-x`), `${old}-x`, 'matched exactly');
+  }
+  for (const [old, now] of HOLYWOOD) assert.equal(resolveElectionSlugAlias(old), now, old);
+  // The 1993 and 2001 Ballyholme and Groomsport ("Ballyholme-&-Groomsport") read "and".
+  assert.equal(resolveElectionSlugAlias(`${DISTRICTS}-1993-05-19-lg93-nod-ballyholme-and-groomsport`), `${DISTRICTS}-1993-05-19-ballyholme-and-groomsport`);
+  // The 1973-81 lettered areas carry their district's name, as the 1975 by-election does.
+  assert.equal(resolveElectionSlugAlias(`${DISTRICTS}-1973-05-30-lg73-nam-area-a`), `${DISTRICTS}-1973-05-30-newry-and-mourne-area-a`);
+  // Every coded entry of the list is one of the index's coded names.
+  for (const [old] of RETIRED_CONTEST_SLUGS) {
+    if (old.startsWith(`${DISTRICTS}-`)) assert.ok(coded.includes(old), `${old} is a coded name in the index`);
+  }
+});
+
 test('retired contest slugs resolve to where the contest is now, and only those slugs', () => {
-  assert.deepEqual(new Map(RETIRED_CONTEST_SLUGS), RETIRED);
+  assert.deepEqual(new Map(RETIRED_CONTEST_SLUGS.filter(([old]) => !old.startsWith(`${DISTRICTS}-`))), RETIRED);
   for (const [old, now] of RETIRED) {
     assert.equal(resolveElectionSlugAlias(old), now, old);
     assert.equal(resolveElectionSlugAlias(old.toUpperCase()), now, 'case does not matter');
@@ -150,6 +202,7 @@ transaction(sqlite, () => {
     ['belfast-rural-district-council__1936-06-04', 'Belfast Rural District Council', ['Ballyduff']],
     ['bangor-borough-council__1952-05-21', 'Bangor Borough Council', ['Castle Ward (Alderman)', 'Castle Ward (Councillors)']],
     ['dungannon-rural-district-council__1936-06-03', 'Dungannon Rural District Council', ['Altmore']],
+    ['local-government-local-government-districts__1985-05-15', 'Local Government Districts', ['Holywood', 'Abbey']],
   ].forEach(([key, body, names], i) => {
     const date = key.split('__')[1];
     elections.add({ key, slug: slugify(key), body_slug: key.split('__')[0], body, body_group: 'local-government', display_title: `${body} ${date.slice(0, 4)}`, date, year: Number(date.slice(0, 4)), ord: 10 + i, meta: '{}' });
@@ -234,4 +287,20 @@ test('the elections API sends a retired contest within its round to the new one'
   assert.equal(retiredSlugRedirect(new URL(`https://civgraph.net/_api/elections?key=${key}&contest=castle-ward-alderman`)), null);
   const record = retiredSlugRedirect(new URL('https://civgraph.net/_api/elections?view=record&slug=dungannon-rural-district-council-1936-06-03-bernagh'));
   assert.equal(record.headers.get('Location'), 'https://civgraph.net/_api/elections?view=record&slug=dungannon-rural-district-council-1936-06-03');
+});
+
+test('the Browse page and the elections API send the ARK-coded Holywood addresses to Holywood', async () => {
+  const old = `${DISTRICTS}-1985-05-15-lg85-nod-holywood`;
+  const res = await browse(old);
+  assert.equal(res.status, 301);
+  assert.equal(res.headers.get('Location'), `https://civgraph.net/browse/elections/${DISTRICTS}-1985-05-15-holywood`);
+  assert.equal((await browse(`${DISTRICTS}-1985-05-15-holywood`)).status, 200);
+  assert.equal((await browse(`${DISTRICTS}-1985-05-15-abbey`)).status, 200);
+  const key = `${DISTRICTS}__2011-05-05`;
+  const api = retiredSlugRedirect(new URL(`https://civgraph.net/_api/elections?key=${key}&contest=lg11-nod-holywood`));
+  assert.equal(api.status, 301);
+  assert.equal(api.headers.get('Location'), `https://civgraph.net/_api/elections?key=${key}&contest=holywood`);
+  const record = retiredSlugRedirect(new URL(`https://civgraph.net/_api/elections?view=record&slug=${DISTRICTS}-1997-05-21-lg97-nod-holywood`));
+  assert.equal(record.headers.get('Location'), `https://civgraph.net/_api/elections?view=record&slug=${DISTRICTS}-1997-05-21-holywood`);
+  assert.equal(retiredSlugRedirect(new URL(`https://civgraph.net/_api/elections?key=${key}&contest=holywood`)), null);
 });
