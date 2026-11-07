@@ -17,6 +17,8 @@ import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 import * as browse from '../../browse/state-machines.js';
 import * as proni from '../../apps/proni-search/state-machines.js';
+import * as words from '../../apps/words/state-machines.js';
+import { THEME_PREFERENCE } from '../../assets/ui/state/theme.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 
@@ -32,6 +34,9 @@ const MACHINES = {
   'proni CARD_CHILDREN': proni.CARD_CHILDREN,
   'proni CARD_DESCRIPTION': proni.CARD_DESCRIPTION,
   'proni MODAL': proni.MODAL,
+  'proni COPY_FLASH': proni.COPY_FLASH,
+  'words TOOLTIP': words.TOOLTIP,
+  'site THEME_PREFERENCE': THEME_PREFERENCE,
 };
 
 test('every move not in a table is refused, and every move in it is allowed', () => {
@@ -120,6 +125,12 @@ test('PRONI card children and description: no reload while loading, no load once
   d.assertPath(['expanded']);
   assert.equal(d.can('expanded', 'preview'), false);
   assert.equal(d.can('expanded', 'loading'), false);
+});
+
+test('Words chart tooltip: hidden and shown, no move to where it already is', () => {
+  assert.deepEqual(words.TOOLTIP.states, ['hidden', 'shown']);
+  words.TOOLTIP.assertPath(['shown', 'hidden', 'shown']);
+  assert.throws(() => words.TOOLTIP.assertTransition('shown', 'shown'), /is not a transition/);
 });
 
 test('the served helper is the shared one, byte for byte', () => {
