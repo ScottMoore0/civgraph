@@ -10,6 +10,8 @@
  */
 import { buildMatch, buildFilters } from './_query.js';
 import { binding } from '../../_lib/config.js';
+import { fromD1 } from '../../_lib/storage/d1.js';
+import { PRONI } from '../../_lib/queries/proni.js';
 
 const CACHE_VERSION = 'v4';
 
@@ -37,8 +39,10 @@ async function handle(context) {
     headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=3600, s-maxage=86400', 'Access-Control-Allow-Origin': '*' },
   });
 
-  const db = binding(context.env, 'PRONI_DB');
-  if (!db) return json({ count: null, error: 'PRONI_DB binding not configured' }, 503);
+  const bound = binding(context.env, 'PRONI_DB');
+  if (!bound) return json({ count: null, error: 'PRONI_DB binding not configured' }, 503);
+  // through the storage adapter (functions/_lib/storage/); the SQL is named in queries/proni.js
+  const db = fromD1(bound);
 
   const breakdown = g('breakdown') === '1'; // letter-browse: counts grouped by level
   const match = buildMatch(q, fields);
@@ -48,31 +52,13 @@ async function handle(context) {
 
   try {
     if (breakdown) {
-      let bsql, barr;
-      if (match) {
-        const w = where.length ? ' AND ' + where.join(' AND ') : '';
-        bsql = `SELECT p.level AS level, COUNT(*) AS n FROM proni_fts f JOIN proni p ON p.rowid = f.rowid${jx} WHERE proni_fts MATCH ?${w} GROUP BY p.level ORDER BY p.level`;
-        barr = [match, ...binds];
-      } else {
-        bsql = `SELECT p.level AS level, COUNT(*) AS n FROM proni p${jx} WHERE ${where.join(' AND ')} GROUP BY p.level ORDER BY p.level`;
-        barr = binds;
-      }
-      const rows = await db.prepare(bsql).bind(...barr).all();
-      const levels = (rows.results || []).map((r) => ({ level: r.level || '', n: r.n })).filter((l) => l.n > 0);
+      const rows = await db.all(PRONI.levelCounts(Boolean(match), jx, where), match ? [match, ...binds] : binds);
+      const levels = rows.map((r) => ({ level: r.level || '', n: r.n })).filter((l) => l.n > 0);
       const total = levels.reduce((s, l) => s + l.n, 0);
       return json({ count: total, levels, exact: true });
     }
 
-    let sql, bindArr;
-    if (match) {
-      const w = where.length ? ' AND ' + where.join(' AND ') : '';
-      sql = `SELECT COUNT(*) AS n FROM proni_fts f JOIN proni p ON p.rowid = f.rowid${jx} WHERE proni_fts MATCH ?${w}`;
-      bindArr = [match, ...binds];
-    } else {
-      sql = `SELECT COUNT(*) AS n FROM proni p${jx} WHERE ${where.join(' AND ')}`;
-      bindArr = binds;
-    }
-    const { results } = await db.prepare(sql).bind(...bindArr).all();
+    const results = await db.all(PRONI.count(Boolean(match), jx, where), match ? [match, ...binds] : binds);
     const n = (results && results[0] && results[0].n) != null ? results[0].n : null;
     return json({ count: n, exact: n != null });
   } catch (error) {
