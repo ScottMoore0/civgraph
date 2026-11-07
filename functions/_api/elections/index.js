@@ -20,10 +20,14 @@
  *   view=record&slug=<slug>       one Browse election record: an election's detail item or a contest's
  *                                 entry (resolving the parent server-side; replaces election-contest-parents)
  *
+ * A retired contest slug (functions/_lib/election-slug-aliases.js) in contest= or in a record
+ * view's slug= answers 301 to the same request with the slug that replaced it.
+ *
  * Every list is ordered by stored columns that end in the key (data design 4.3): a delta load
  * reorders rowids, and SQLite promises no order without ORDER BY.
  */
 import { reportError } from '../_error.js';
+import { resolveElectionSlugAlias } from '../../_lib/election-slug-aliases.js';
 import {
   T, bundleObject, cachedJson, documentBody, electionAggregates, isMarker, parseJson, withoutMarkers,
 } from '../_records.js';
@@ -70,7 +74,40 @@ function contestRow(row) {
 }
 
 export async function onRequestGet(context) {
+  const moved = retiredSlugRedirect(new URL(context.request.url));
+  if (moved) return moved;
   return cachedJson(context, CACHE_VERSION, () => handle(context));
+}
+
+/**
+ * The same request with a retired contest slug replaced, as a 301, or null. contest= holds the
+ * contest's own slug, so it is read with its election's slug in front (the key with "__" made
+ * "-"); a record view's slug= is the whole slug.
+ */
+export function retiredSlugRedirect(url) {
+  const params = url.searchParams;
+  const view = (params.get('view') || '').trim();
+  const key = (params.get('key') || '').trim();
+  const target = new URL(url);
+  if (view === 'record') {
+    const name = params.has('slug') ? 'slug' : 'key';
+    const slug = (params.get(name) || '').trim().replace(/__/g, '-');
+    const resolved = slug ? resolveElectionSlugAlias(slug) : slug;
+    if (!slug || resolved === slug.toLowerCase()) return null;
+    target.searchParams.set(name, resolved);
+  } else {
+    const contest = (params.get('contest') || '').trim().toLowerCase();
+    if (!contest || !key || view) return null;
+    const electionSlug = key.replace(/__/g, '-').toLowerCase();
+    const full = `${electionSlug}-${contest}`;
+    const resolved = resolveElectionSlugAlias(full);
+    if (resolved === full || !resolved.startsWith(`${electionSlug}-`)) return null;
+    target.searchParams.set('contest', resolved.slice(electionSlug.length + 1));
+  }
+  return new Response(null, {
+    status: 301,
+    headers: { Location: target.toString(), 'Cache-Control': 'public, max-age=86400', 'Access-Control-Allow-Origin': '*' },
+  });
 }
 
 /** Case, accents and punctuation folded, so "Cork North-Central" finds "Cork North Central". */
