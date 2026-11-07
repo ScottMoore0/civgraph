@@ -48,8 +48,13 @@ grep -iE '^records:build|warning' "$WORK/records-build.log" | head -8
 
 stamp "== D1 (records, catalogue)"
 if [ -n "$DRY" ]; then
-  npm run -s records:deploy -- --remote --dry-run 2>&1 | grep '^DRY RUN'
-  npm run -s deploy:catalogue -- --dry-run 2>&1 | grep '^DRY RUN'
+  # Each dry run's output goes to a log. Its summary lines are shown, and when the DRY RUN line is
+  # missing the log's tail is shown instead of nothing (a bare grep hid every failure).
+  npm run -s records:deploy -- --remote --dry-run > "$WORK/records-deploy-dry.log" 2>&1
+  grep -E '^DRY RUN|WARNING|migrations a real run|no migrations to apply|bounded statement' "$WORK/records-deploy-dry.log"
+  grep -q '^DRY RUN' "$WORK/records-deploy-dry.log" || { echo "(dry run) records:deploy reported no delta:"; tail -12 "$WORK/records-deploy-dry.log"; }
+  npm run -s deploy:catalogue -- --dry-run > "$WORK/catalogue-deploy-dry.log" 2>&1
+  grep '^DRY RUN' "$WORK/catalogue-deploy-dry.log" || { echo "(dry run) deploy:catalogue reported nothing:"; tail -8 "$WORK/catalogue-deploy-dry.log"; }
 else
   # The delta is idempotent and records:deploy retries each part; verify decides.
   npm run -s records:deploy -- --remote > "$WORK/records-deploy.log" 2>&1 || { echo "ABORT: records:deploy failed:"; tail -12 "$WORK/records-deploy.log"; exit 1; }
