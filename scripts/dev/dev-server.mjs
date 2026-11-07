@@ -97,7 +97,7 @@ function serveFile(req, res, filePath) {
 }
 
 const server = http.createServer((req, res) => {
-  const url = new URL(req.url, `http://localhost:${PORT}`);
+  const url = new URL(req.url || '/', `http://localhost:${PORT}`);
   const pathname = decodeURIComponent(url.pathname);
   if (pathname.startsWith('/_r/')) return proxy(req, res, `${CDN}/${pathname.slice(4)}${url.search}`);
   if (pathname.startsWith('/_api/')) {

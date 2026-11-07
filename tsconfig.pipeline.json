@@ -1,5 +1,5 @@
 {
-  "//": "Type checking of the pipeline scripts (scripts/publish, build, check, maps, dev, i18n) by JSDoc and checkJs (REFACTOR-PLAN.md item 2, stream rf-pipeline). Run by `npm run check:types:pipeline`. The include list is an allowlist that only grows.",
+  "//": "Type checking of the pipeline scripts (scripts/publish, build, check, maps, dev, i18n) by JSDoc and checkJs (REFACTOR-PLAN.md item 2, stream rf-pipeline). Run by `npm run check:types:pipeline`. The include list is an allowlist that only grows; harvest-untranslated.mjs is left out until it is typed (its page.evaluate bodies need the DOM types, which would change the Node fetch types for every other file).",
   "compilerOptions": {
     "allowJs": true,
     "checkJs": true,
@@ -13,5 +13,6 @@
     "resolveJsonModule": true,
     "strictNullChecks": true
   },
-  "include": ["scripts/publish/**/*.mjs", "scripts/i18n/translation-status.mjs"]
+  "include": ["scripts/publish/**/*.mjs", "scripts/i18n/**/*.mjs", "scripts/maps/**/*.mjs", "scripts/dev/**/*.mjs"],
+  "exclude": ["scripts/i18n/harvest-untranslated.mjs"]
 }
