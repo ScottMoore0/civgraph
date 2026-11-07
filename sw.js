@@ -62,7 +62,6 @@ const NETWORK_FIRST_PATHS = [
   '/app/src/overlay-worker.js',
   '/build/main.css',
   '/build/main.critical.css',
-  '/build/about.css',
   '/manifest.json',
   '/test2/',
   '/test2/index.html',

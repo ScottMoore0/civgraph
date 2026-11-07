@@ -85,9 +85,8 @@ assert(
 assert(!existsSync('scripts/bundle.mjs'), 'Retired mixed Leaflet/CSS bundle script must stay archived outside scripts/.');
 assert(
   sharedAssetBuilder.includes('assets/css/main.css') &&
-    sharedAssetBuilder.includes('assets/thumbnails') &&
-    sharedAssetBuilder.includes('build/about.css'),
-  'Shared asset builder must own the root CSS, thumbnail manifest, and about.css pipeline.'
+    sharedAssetBuilder.includes('assets/thumbnails'),
+  'Shared asset builder must own the root CSS and thumbnail manifest pipeline.'
 );
 assert(
   !sharedAssetBuilder.includes("entryPoints: ['js/app.js']") &&
