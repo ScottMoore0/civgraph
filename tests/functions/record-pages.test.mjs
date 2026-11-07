@@ -277,7 +277,11 @@ test('a grouped local-election year renders from its card and year file, server-
   // Every round links to its own page; the partial ones say so.
   for (const round of year.rounds) assert.ok(body.includes(`href="/browse/elections/${round.key.replace('__', '-')}"`), round.key);
   assert.match(body, /\d+ council rounds, [\d,]+ contests; \d+ complete, \d+ partial/);
-  assert.ok(body.includes('(partial: Results for 4 of 6 wards.'), 'a partial round carries its note');
+  // A partial round carries its completeness line (data/elections/round-completeness.json), read
+  // from the year file so the test follows the data as rounds are filled.
+  const partial = year.rounds.find((round) => round.status === 'partial' && round.note);
+  assert.ok(partial, 'the 1946 year file has a partial round with a note');
+  assert.ok(body.includes(`(partial: ${partial.note.split('. ')[0]}`), 'a partial round carries its note');
   assert.match(body, /Hatched on the map, where results are not available or incomplete: [\d,]+ of [\d,]+ wards and DEDs/);
   assert.ok(body.includes('href="/maps/#electionBody=Northern+Ireland+local+elections&amp;electionDate=1946">Open the year on the map</a>'));
   assert.equal((body.match(/id="browseHero"/g) || []).length, 1);
