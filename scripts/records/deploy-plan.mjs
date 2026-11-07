@@ -146,3 +146,41 @@ export function deployRun(mode) {
     },
   };
 }
+
+/**
+ * The persisted cursor of a load through wrangler (tmp/records/deploy-run-<target>.json): which
+ * build, against which snapshot, in how many parts, and how many of them D1 has taken. It makes
+ * --start-part checkable: the parts are regenerated on every run, so a resume is the same load
+ * only while the build and the snapshot are the ones of the run that stopped.
+ * @typedef {{ target: 'remote'|'local', build: string, from: string|null, parts: number, applied: number }} LoadRecord
+ */
+
+/**
+ * Whether `--start-part startPart` may resume `current` after the run that left `previous`.
+ * No record (a load started before the cursor existed, or none at all) leaves the resume to the
+ * operator, as before, with a warning.
+ * @param {{ startPart: number, previous: LoadRecord|null, current: Omit<LoadRecord, 'applied'> }} args
+ * @returns {{ errors: string[], warnings: string[] }}
+ */
+export function resumeCheck({ startPart, previous, current }) {
+  const errors = [];
+  const warnings = [];
+  if (!startPart) return { errors, warnings };
+  if (!Number.isInteger(startPart) || startPart < 0 || startPart >= current.parts) {
+    errors.push(`--start-part ${startPart}: this delta has parts 0 to ${current.parts - 1}`);
+    return { errors, warnings };
+  }
+  if (!previous) {
+    warnings.push('no record of the load that stopped: resuming on your word that the build and the snapshot are unchanged since');
+    return { errors, warnings };
+  }
+  for (const key of /** @type {const} */ (['target', 'build', 'from', 'parts'])) {
+    if (previous[key] !== current[key]) {
+      errors.push(`--start-part: the ${key} changed since the load that stopped (${previous[key]} then, ${current[key]} now), so its parts are not these; rerun without --start-part (every statement is idempotent)`);
+    }
+  }
+  if (!errors.length && startPart > previous.applied) {
+    errors.push(`--start-part ${startPart}: the load that stopped applied parts below ${previous.applied} only; resume with --start-part ${previous.applied}`);
+  }
+  return { errors, warnings };
+}

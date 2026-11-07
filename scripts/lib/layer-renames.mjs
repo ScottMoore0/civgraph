@@ -22,6 +22,21 @@ export const LAYER_ID_SUFFIXES = [
 export const OLD_PMTILES_PREFIX = 'data/maps/test/pmtiles/generated/';
 export const NEW_PMTILES_PREFIX = 'data/maps/pmtiles/';
 
+/**
+ * Which side of the rename an id is on (state-machine catalogue RC-L, light; the R2 key
+ * migration PL-03 moves keys from 'legacy' to 'current'): 'legacy' ends in an old suffix,
+ * 'current' in a new one, 'other' in neither (not a renamed layer id).
+ * @typedef {'legacy'|'current'|'other'} LayerIdForm
+ * @param {unknown} id
+ * @returns {LayerIdForm}
+ */
+export function layerIdForm(id) {
+  const value = String(id ?? '');
+  if (renameLayerId(value) !== value) return 'legacy';
+  if (legacyLayerId(value) !== value) return 'current';
+  return 'other';
+}
+
 /** The new id for an old one; an id without an old suffix is returned unchanged. */
 export function renameLayerId(id) {
   const value = String(id ?? '');

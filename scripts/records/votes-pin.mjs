@@ -43,16 +43,30 @@ export function checksumVotesDir(votesDir) {
   return out;
 }
 
-/** Throws unless the copy at votesDir matches the committed pin; returns the pin's digest. */
-export function verifyVotesPin(votesDir) {
-  if (!existsSync(PIN_FILE)) throw new Error('data/database/votes-source.json is missing: run node scripts/records/votes-pin.mjs --write');
-  const pin = JSON.parse(readFileSync(PIN_FILE, 'utf8'));
+/**
+ * The votes dataset against its pin (state-machine catalogue RC-L, light): 'unpinned' (no pin
+ * file), 'mismatch' (a pinned file differs or is missing), or 'pinned'.
+ * @typedef {'unpinned'|'mismatch'|'pinned'} VotesPinState
+ * @param {string} votesDir
+ * @param {string} [pinFile]
+ * @returns {{ state: VotesPinState, diffs: string[], pin: { files: { file: string, sha256: string }[] }|null }}
+ */
+export function votesPinState(votesDir, pinFile = PIN_FILE) {
+  if (!existsSync(pinFile)) return { state: 'unpinned', diffs: [], pin: null };
+  const pin = JSON.parse(readFileSync(pinFile, 'utf8'));
   const actual = checksumVotesDir(votesDir);
   const want = new Map(pin.files.map((f) => [f.file, f.sha256]));
   const diffs = [];
   for (const f of actual) if (want.get(f.file) !== f.sha256) diffs.push(f.file);
   for (const f of pin.files) if (!actual.some((a) => a.file === f.file)) diffs.push(`${f.file} (missing)`);
-  if (diffs.length) throw new Error(`the votes dataset differs from its pin: ${diffs.slice(0, 8).join(', ')}`);
+  return { state: diffs.length ? 'mismatch' : 'pinned', diffs, pin };
+}
+
+/** Throws unless the copy at votesDir matches the committed pin; returns the pin's digest. */
+export function verifyVotesPin(votesDir) {
+  const { state, diffs, pin } = votesPinState(votesDir);
+  if (state === 'unpinned') throw new Error('data/database/votes-source.json is missing: run node scripts/records/votes-pin.mjs --write');
+  if (state === 'mismatch') throw new Error(`the votes dataset differs from its pin: ${diffs.slice(0, 8).join(', ')}`);
   return createHash('sha256').update(JSON.stringify(pin.files)).digest('hex').slice(0, 16);
 }
 

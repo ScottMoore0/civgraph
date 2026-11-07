@@ -37,6 +37,18 @@ export function graphFilesRows(file) {
   }
 }
 
+/**
+ * Where a build's graph_files came from (state-machine catalogue RC-L, light): 'frozen', carried
+ * from a database that held it, or 'built' from the graph tree (a clean checkout, CI, or
+ * --fresh-graph-files). The table retires with the old graph URLs on 6 Feb 2027.
+ * @typedef {'frozen'|'built'} GraphFilesOrigin
+ * @param {string|null|undefined} frozenFrom
+ * @returns {GraphFilesOrigin}
+ */
+export function graphFilesOrigin(frozenFrom) {
+  return frozenFrom ? 'frozen' : 'built';
+}
+
 /** The first of `candidates` whose graph_files has rows, or null. */
 export function frozenSource(candidates) {
   return candidates.find((file) => graphFilesRows(file) > 0) || null;
