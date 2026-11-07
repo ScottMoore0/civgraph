@@ -27,7 +27,11 @@
  *      never scans a table of the live database. --full-verify scans every table instead: quiet
  *      hours only, never from the publish.
  *   --resync skips 3-5: verify, and on PASS reset the snapshot. Remote it requires --full-verify
- *      (with no delta there is nothing bounded to check), so it is a quiet-hours step.
+ *      (with no delta there is nothing bounded to check), so it is a quiet-hours step; it cannot
+ *      be a dry run.
+ *
+ * The steps are the state machine of deploy-plan.mjs: each step moves the run, and a move out of
+ * turn throws, so the snapshot cannot be replaced before a PASS or anything applied in a dry run.
  *
  * The R2 variables are removed from wrangler's environment, and its output goes to a file.
  */
@@ -37,23 +41,18 @@ import {
 } from 'node:fs';
 import path from 'node:path';
 import { openSqliteHandle } from '../lib/storage/sqlite.mjs';
+import { deployModeErrors, deployRun, parseDeployArgs } from './deploy-plan.mjs';
 import { buildDelta, estimateWrites, printSummary } from './diff-load.mjs';
 import { RECORDS_DB, REPO_ROOT } from './paths.mjs';
 import { D1_NAME, PERSIST_DIR, WRANGLER, boundedPlan, d1Env, verify } from './verify-load.mjs';
 
-const args = process.argv.slice(2);
-const remote = args.includes('--remote');
-const local = args.includes('--local');
-const dryRun = args.includes('--dry-run');
-const full = args.includes('--full');
-const resync = args.includes('--resync');
-const direct = args.includes('--direct');
-const fullVerify = args.includes('--full-verify');
-const verifyMode = fullVerify ? 'full' : remote || args.includes('--bounded') ? 'bounded' : 'full';
-// Resume a load that stopped part-way: skip the parts numbered below N. The parts of the same
-// build are the same files each time (the delta is deterministic), and every statement is
-// idempotent, so resuming at the part that failed is the same as rerunning the whole delta.
-const startPart = args.includes('--start-part') ? Number(args[args.indexOf('--start-part') + 1]) : 0;
+// The options, their checks and the order of the steps are deploy-plan.mjs's state machine.
+// --start-part N resumes a load that stopped part-way: the parts of the same build are the same
+// files each time (the delta is deterministic), and every statement is idempotent, so resuming at
+// the part that failed is the same as rerunning the whole delta.
+const mode = parseDeployArgs(process.argv.slice(2));
+const { remote, local, dryRun, full, resync, direct, startPart } = mode;
+const verifyMode = mode.verify;
 
 const BUILD = RECORDS_DB;
 const LAST = remote
@@ -119,6 +118,17 @@ export function localD1File(persistDir = path.join(REPO_ROOT, PERSIST_DIR)) {
 }
 
 async function main() {
+  const run = deployRun(mode);
+  try {
+    await steps(run);
+  } catch (error) {
+    run.to('failed');
+    throw error;
+  }
+}
+
+/** @param {import('./deploy-plan.mjs').DeployRun} run */
+async function steps(run) {
   if (!existsSync(BUILD)) throw new Error('no build: run npm run records:build first');
   mkdirSync(path.dirname(LAST), { recursive: true });
 
@@ -136,16 +146,19 @@ async function main() {
       const pending = list.text.match(/\d{4}_[\w-]+\.sql/g) || [];
       log(pending.length ? `migrations a real run would apply: ${[...new Set(pending)].join(', ')}` : 'no migrations to apply');
     }
+    run.to('migrations-listed');
   } else {
     const mig = wrangler(['d1', 'migrations', 'apply', D1_NAME, ...target], 'migrations.log');
     if (mig.status !== 0) throw new Error(`migrations apply failed:\n${mig.text.slice(-1500)}`);
     log('migrations applied');
+    run.to('migrated');
   }
 
   if (remote && !dryRun) {
     const tt = wrangler(['d1', 'time-travel', 'info', D1_NAME, '--json'], 'tt.json');
     if (tt.status === 0) appendFileSync(path.join(REPO_ROOT, '.claude', 'publish', 'work', 'bookmarks.log'), `${new Date().toISOString()} ${tt.text.replace(/\s+/g, ' ').trim()}\n`);
     log('time-travel bookmark recorded');
+    run.to('bookmarked');
   }
 
   // The snapshot D1 held before this load: the bounded verify checks the rows between it and
@@ -153,6 +166,7 @@ async function main() {
   const fromFile = full || !existsSync(LAST) ? null : LAST;
   if (!resync) {
     const { result, files } = writeParts(fromFile);
+    run.to(dryRun ? 'delta-previewed' : 'delta-written');
     printSummary(result, `${path.relative(REPO_ROOT, PARTS)} (${files.length} part${files.length === 1 ? '' : 's'})`);
     const { rows, writes } = estimateWrites(result.summary);
     if (dryRun) {
@@ -160,6 +174,7 @@ async function main() {
         const plan = boundedPlan({ file: BUILD, since: fromFile });
         log(`a real run would verify with ${plan.steps.length} bounded statement(s), one per wrangler call`);
       }
+      run.to('dry-run-reported');
       console.log(`DRY RUN: civgraph-records would apply ${result.statements} statements (${rows} rows, about ${writes} row writes, ${files.length} part(s), ${result.full ? 'full load' : 'delta'}) to ${remote ? 'remote' : 'local'} D1`);
       return;
     }
@@ -188,6 +203,7 @@ async function main() {
       }
     }
     log(`delta applied (${result.statements} statements)`);
+    run.to('applied');
   }
 
   const mismatches = verify({ file: BUILD, remote, mode: verifyMode, since: resync ? null : fromFile });
@@ -195,21 +211,16 @@ async function main() {
     for (const m of mismatches) console.error(`  ${m}`);
     throw new Error('verify failed: the last-loaded snapshot is left as it was');
   }
+  run.to('verified');
   copyFileSync(BUILD, LAST);
+  run.to('snapshotted');
   log(`PASS: ${remote ? 'remote' : 'local'} D1 verified; ${path.relative(REPO_ROOT, LAST)} updated`);
 }
 
 if (process.argv[1] && path.basename(process.argv[1]) === 'deploy-records.mjs') {
-  if (remote === local) {
-    console.error('say --local or --remote');
-    process.exit(1);
-  }
-  if (remote && direct) {
-    console.error('--direct is local only');
-    process.exit(1);
-  }
-  if (remote && resync && !fullVerify) {
-    console.error('--remote --resync needs --full-verify: it scans every table of the live database, so run it at a quiet time, never from the publish');
+  const errors = deployModeErrors(mode);
+  if (errors.length) {
+    console.error(errors[0]);
     process.exit(1);
   }
   main().catch((error) => {
