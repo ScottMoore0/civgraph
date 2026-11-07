@@ -100,8 +100,12 @@ export function ingestBrowse(db, { browseDir, paths = recordPaths() }) {
       const taken = new Set([...items.map((item) => item.slug), ...items.map((item) => String(item.id)), ...personAliases.map((a) => a.alias)]);
       const keepOf = new Map(db.prepare('SELECT drop_id, keep_id FROM person_merges ORDER BY drop_id').all().map((r) => [String(r.drop_id), String(r.keep_id)]));
       for (const drop of [...keepOf.keys()].sort()) {
+        // Followed only while the id reached is not a live person: a merge row whose drop id
+        // still holds a person (a temporary id a later rebuild gave back) must not carry the
+        // chain past it to an id that no longer exists (142098 -> 47167, a live person, not on
+        // to 102344).
         let keep = keepOf.get(drop);
-        for (let hops = 0; keepOf.has(keep) && hops < 10; hops += 1) keep = keepOf.get(keep);
+        for (let hops = 0; !slugById.has(keep) && keepOf.has(keep) && hops < 10; hops += 1) keep = keepOf.get(keep);
         if (!taken.has(drop) && slugById.has(keep)) {
           personAliases.push({ alias: drop, slug: slugById.get(keep) });
           taken.add(drop);

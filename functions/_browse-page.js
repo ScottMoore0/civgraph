@@ -159,15 +159,22 @@ async function lookupTableRecord(db, table, slug, aliasTable = `${table}_aliases
   if (row?.record) return parseJson(row.record);
   // An old address (a source merged into another, a person's earlier id) redirects to the
   // record it now belongs to: the caller sends a 301 when the slugs differ.
+  let aliased = null;
   try {
-    const aliased = await db
+    aliased = await db
       .prepare(`SELECT card AS record FROM ${table} WHERE slug = (SELECT slug FROM ${aliasTable} WHERE alias = ?1) LIMIT 1`)
       .bind(slug)
       .first();
-    return aliased?.record ? parseJson(aliased.record) : null;
   } catch {
     return null;   // no aliases table yet
   }
+  if (aliased?.record) return parseJson(aliased.record);
+  // A person's slug is their name and registry id. When a re-stamp retires the id (a merge) or
+  // the name changes, the published slug is neither a record nor an alias; its id still is
+  // (the person's own id, or a merged-away id in person_aliases), so the address is answered
+  // through it and the caller's slug check sends the 301.
+  const id = table === 'person_cards' ? /^[a-z0-9-]+-(\d+)$/.exec(String(slug))?.[1] : null;
+  return id ? lookupTableRecord(db, table, id, aliasTable) : null;
 }
 
 /**

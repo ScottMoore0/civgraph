@@ -119,6 +119,8 @@ transaction(sqlite, () => {
   card('sources', SOURCE, SOURCE.slug);
   card('register_entries', REGISTER, REGISTER.slug);
   new TableWriter(sqlite, 'person_aliases').add({ alias: 'name-gerry-adams', slug: PERSON.slug });
+  // An id merged away into him (a re-stamp's retired id), as person_aliases records it.
+  new TableWriter(sqlite, 'person_aliases').add({ alias: '99901', slug: PERSON.slug });
   // Two grouped local-election years: Browse cards only, no r_elections row.
   for (const [ord, year] of [[0, GROUPED_NI], [1, GROUPED_IRELAND]]) {
     new TableWriter(sqlite, 'election_cards').add({ slug: year.slug, id: year.key, key: year.key, entry_kind: 'election', election_key: year.key, title: year.title, ord, card: JSON.stringify(year) });
@@ -212,6 +214,19 @@ test('an old address redirects to the canonical slug and keeps the query', async
   assert.equal(res.headers.get('Location'), `https://civgraph.net/browse/persons/${PERSON.slug}?ssr=1`);
   const aliased = await get('persons', 'name-gerry-adams', ON);
   assert.equal(aliased.status, 301);
+});
+
+test('a person slug whose id was retired or whose name changed redirects through its id', async () => {
+  // A merged-away id's published slug: the id is an alias of the person it joined.
+  const merged = await get('persons', 'g-adams-99901', ON);
+  assert.equal(merged.status, 301);
+  assert.equal(merged.headers.get('Location'), `https://civgraph.net/browse/persons/${PERSON.slug}`);
+  // The same id under an earlier form of the name.
+  const renamed = await get('persons', 'gerard-adams-27771?ssr=1', ON);
+  assert.equal(renamed.status, 301);
+  assert.equal(renamed.headers.get('Location'), `https://civgraph.net/browse/persons/${PERSON.slug}?ssr=1`);
+  // An id that is no one's stays a 404.
+  assert.equal((await get('persons', 'nobody-424242', ON)).status, 404);
 });
 
 test('a preview is noindex and uncached', async () => {
