@@ -69,8 +69,7 @@ whose inputs fell outside a filter never ran (the `docs/**` gap, closed 2026-09-
 
 **4. Opt-in remote.** Run these by hand after a publish.
 - `verify` needs wrangler signed in. It runs `verify:proxies`, `verify:map-tokens`,
-  `verify:proni-roots`, `verify:deploy`, `verify:source-cache`, `verify:records` and
-  `check:r2-parity`. `verify:records` is bounded: one statement per wrangler call, 50 keys
+  `verify:deploy`, `verify:source-cache`, `verify:records` and `check:r2-parity`. `verify:records` is bounded: one statement per wrangler call, 50 keys
   sampled per table, no table scanned. Since data phase 3 it covers the maps, layers and
   catalogue tables too, which is what `verify:catalogue-d1` did for the old catalogue database.
 - `verify:public` needs no credentials. It runs the CDN byte-range check
@@ -87,7 +86,7 @@ whose inputs fell outside a filter never ran (the `docs/**` gap, closed 2026-09-
 | Election records | `check:provenance` (provenance budget and freshness), `check:candidate-name-party`, `check:graph`, `check:browse-contract`, `test:elections-unit`, `test:browse-pages` |
 | Maps catalogue (the tracked sources data phase 3 loads into D1; phase 4 replaces most) | `check:c1-coverage`, `check:catalogue-render-parity`, `check:catalogue-display-fields`, `check:render-time-series`, `check:test-index-parity`, `check:public-map-count`, `check:browse-hidden`, `check:catalogue-file-urls`, `check:provider-names`, `check:shared-file-attribution`, `check:composite-relations`, `check:polygon-labels`, `check:vector-promote-id`, `check:chunked-bounds`, `check:tile-freshness`, `check:tile-content` |
 | Map-layer intake | `check:intake-delivery`, `check:source-paths`, `check:composite-composition`, `test:intake-validators`, `test:intake` |
-| Committed generated files | `check:site-figures`, `check:status`, `check:sitemap`, `check:proni-roots`, `check:corpus-index`, `check:notices`, `check:og-preview`, `check:site-partials`, `check:i18n`, `check:viewer-parity`, `check:browse-cache`, `check:app-shell-cache` |
+| Committed generated files | `check:site-figures`, `check:status`, `check:sitemap`, `check:corpus-index`, `check:notices`, `check:og-preview`, `check:site-partials`, `check:i18n`, `check:viewer-parity`, `check:browse-cache`, `check:app-shell-cache` |
 | Site and docs hygiene | `check:site-nav`, `check:doc-status`, `check:doc-paths`, `check:dir-names`, `check:local-paths`, `check:ci-workflow`, `lint`, `lint:functions-strict` |
 | Code units | `test:unit`, `test:settle-outcome`, `test:scoped-writes`, `check:contributions`, `check:facts`, `test:facts` |
 | Versioned API, config, storage, gallery (REFACTOR-PLAN.md) | `test:unit`: `tests/functions/api-v1.test.mjs` (every `/api/v1` route is its `/_api` handler and answers alike; every `/_api` route is in v1 or excluded with a reason), `tests/unit/config.test.mjs` (the config module equals `wrangler.toml`, `scripts/records/paths.mjs`, the shell and `_records.js`; every `env.X` a Function reads is known), `tests/unit/storage.test.mjs` (one contract over the D1 and SQLite stores), `tests/functions/design-system.test.mjs` (the gallery shows every component and is noindex) |
@@ -105,6 +104,24 @@ These run only when someone names them. They are not part of any gate.
   directory) and `check:intake` (an alias of four tier 1 steps).
 
 ## Retired
+
+Retired on 7 November 2026 with data phase 4 (the leftovers: data-architecture DESIGN.md phase 4):
+- **`check:proni-roots`, `verify:proni-roots` and `build:proni-roots`, and their script
+  build-proni-roots.mjs (deleted), with the committed `data/browse/proni-roots.json`.** The file
+  answered 301 to `/_api/proni/node` since phase 3, which reads the PRONI database itself.
+  `sitemaps/proni.xml` stays committed as it is (build-sitemap.mjs keeps a group whose source is
+  absent).
+- **The committed per-layer sidecars** `render/metadata/layer-details-test2/` and
+  `duplicate-feature-ids/` (about 1,670 files). Production answers their URLs from D1 since
+  phase 3; `npm run build` now writes them to `tmp/layer-metadata/` for the local test server.
+- **Browse's data token** (`BROWSE_DATA_VERSION` in browse.js): `/data/browse/` and `/_api/`
+  answer with an ETag of the dataset version.
+- **The R2 reads of `/data/browse/` and `/data/graph/`.** Every old file kind is rebuilt from
+  D1 (functions/data/browse, functions/data/graph; migration 0004 adds `graph_files`, the keys
+  each old graph file held). **New:** `tests/records/legacy-files.test.mjs` (in `records:check`:
+  a sample of every file kind deep-equal to the build's files; the 301s, 404s and HEAD) and
+  `scripts/records/legacy-files-crawl.mjs` (the same comparison over HTTP, against
+  `wrangler pages dev` or, after a publish, production).
 
 Retired on 7 November 2026 with data phase 3 (the maps, layers and catalogue load into the
 records database; PHASE3.md):

@@ -1,5 +1,4 @@
 const DATA_ROOT = '/data/browse';
-const BROWSE_DATA_VERSION = '20260702-proni-4';
 const THUMBNAIL_ASSET_VERSION = '20260604-tight-admin-frame';
 // `layer` is the Civgraph 1.0 layer each entity belongs to (docs/CIVGRAPH_1.0.md):
 // 'source' is original material as published, 'data' is what has been derived from it.
@@ -5952,9 +5951,10 @@ async function loadShardDetail(item, slug) {
 }
 
 async function loadJson(url, init = undefined) {
-  const requestUrl = versionBrowseDataUrl(url);
-  // The browser's own cache, not no-store: the host answers max-age=0, must-revalidate, so a
-  // revisit asks whether the file changed and gets a 304 instead of downloading megabytes again.
+  // No ?v= data token (data phase 4): /data/browse/ and /_api/ are answered from D1 with an ETag
+  // of the dataset version, so a revisit asks whether the data changed and gets a 304, and a
+  // publish is seen at once.
+  const requestUrl = url;
   const response = await fetch(requestUrl, init);
   if (!response.ok) {
     const error = new Error(`${response.status} ${response.statusText} for ${url}`);
@@ -5963,20 +5963,6 @@ async function loadJson(url, init = undefined) {
     throw error;
   }
   return response.json();
-}
-
-function versionBrowseDataUrl(url) {
-  if (!url || typeof window === 'undefined') return url;
-  try {
-    const parsed = new URL(url, window.location.href);
-    if (parsed.origin === window.location.origin && /\/data\//.test(parsed.pathname)) {
-      parsed.searchParams.set('v', BROWSE_DATA_VERSION);
-      return parsed.href;
-    }
-  } catch {
-    return url;
-  }
-  return url;
 }
 
 function filterItems(items, query) {
