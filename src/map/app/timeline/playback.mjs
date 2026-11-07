@@ -14,10 +14,10 @@
  * `createTimelineAnimationState` builds the object the app keeps as `this.timelineAnimation`:
  * the same fields as before, with `playing`, `paused` and `atEnd` now read-only views of `phase`,
  * so a stray assignment throws instead of making a fifth combination. Moves go through
- * `to(state)` and the table below (the shared helper, src/map/state-machine.mjs).
+ * `to(state)` and the table below (the shared helper, scripts/lib/state-machine.mjs, bundled).
  */
 
-import { defineMachine } from '../../state-machine.mjs';
+import { defineMachine } from '../../../../scripts/lib/state-machine.mjs';
 
 /** @typedef {'idle' | 'playing' | 'paused' | 'ended'} TimelinePlaybackState */
 

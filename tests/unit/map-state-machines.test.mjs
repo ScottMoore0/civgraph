@@ -1,5 +1,5 @@
 // The map app's explicit state machines (refactor plan section 11), on the shared helper
-// (src/map/state-machine.mjs, a copy of scripts/lib/state-machine.mjs until that lands) and the
+// (scripts/lib/state-machine.mjs, which the app bundle inlines) and the
 // map app's light helpers (src/map/state-helpers.mjs). Each machine's whole table is pinned here,
 // every move it does not list is shown to throw, and the map-app sources are held to moving the
 // machines only through them.
@@ -33,10 +33,11 @@ function assertTableEnforced(machine) {
   }
 }
 
-test('the map app\'s copy of the shared helper is the one in scripts/lib, once that is on this branch', () => {
-  const shared = path.join(ROOT, 'scripts/lib/state-machine.mjs');
-  if (!existsSync(shared)) return;
-  assert.equal(read('src/map/state-machine.mjs'), readFileSync(shared, 'utf8'), 'src/map/state-machine.mjs differs from scripts/lib/state-machine.mjs');
+test('the map app uses the shared helper itself, with no copy of its own', () => {
+  assert.equal(existsSync(path.join(ROOT, 'src/map/state-machine.mjs')), false);
+  for (const file of ['src/map/state-helpers.mjs', 'src/map/app/url-sync.mjs', 'src/map/app/timeline/playback.mjs']) {
+    assert.match(read(file), /from '(\.\.\/)+scripts\/lib\/state-machine\.mjs'/, file);
+  }
 });
 
 test('defineChoice checks values without changing them', () => {

@@ -19,7 +19,7 @@
  * light weight, `createFlag`.
  */
 
-import { defineMachine } from '../state-machine.mjs';
+import { defineMachine } from '../../../scripts/lib/state-machine.mjs';
 import { createFlag } from '../state-helpers.mjs';
 
 /** @typedef {'idle' | 'restoring' | 'queued'} UrlRestoreState */
