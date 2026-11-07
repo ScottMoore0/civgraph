@@ -12,7 +12,6 @@
  */
 import { attrs, html, raw } from '../_lib/html.js';
 import { SITE } from '../_lib/config.js';
-import { themeBootstrapScript } from '../_lib/theme.js';
 
 /** The site's origin and name, from the configuration (functions/_lib/config.js). */
 export const SITE_ORIGIN = SITE.origin;
@@ -20,10 +19,9 @@ export const SITE_NAME = SITE.name;
 
 /**
  * The one copy of the theme bootstrap. It runs before first paint, so the saved or system
- * theme is on <html data-theme> before any stylesheet applies. One storage key, `theme`. Built
- * from the theme preference table (functions/_lib/theme.js, state machine UI-05).
+ * theme is on <html data-theme> before any stylesheet applies. One storage key, `theme`.
  */
-export const THEME_BOOTSTRAP = themeBootstrapScript();
+export const THEME_BOOTSTRAP = "<script>(function(){var t=null;try{t=localStorage.getItem('theme');}catch(e){}if(t!=='dark'&&t!=='light'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;})();</script>";
 
 const SVG_OPEN = (cls, name, extra = '') => `<svg aria-hidden="true" class="${cls}" data-icon="lucide" data-icon-name="${name}"${extra} fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">`;
 
