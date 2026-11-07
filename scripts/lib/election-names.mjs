@@ -1,3 +1,8 @@
+import { loadRegistry } from '../../registries/index.mjs';
+import {
+  councilNameOn, councilsById, eraTitles, plainTitleBodies, pre1973CouncilBodyNames
+} from '../../registries/councils.mjs';
+
 const NATIONAL_CONSTITUENCY_NAMES = new Set([
   'ireland',
   'republic of ireland',
@@ -253,83 +258,28 @@ export function electionConstituencyNames(constituencies = []) {
     .filter((name) => !NATIONAL_CONSTITUENCY_NAMES.has(normalizeName(name))))];
 }
 
-// NI councils 1923-67, instalment 1 (2026-11). One body each across its life, titled for the
-// era as Lurgan and Portadown are: [first poll date of the era, name]. A borough's first
-// election under its charter is titled for the borough (Bangor Jan 1928, Coleraine Jan 1929,
-// Newtownards May 1938, as the reports say); otherwise the charter or order date decides.
-const NI_COUNCIL_ERA_TITLES = new Map([
-  ['ballymena borough council', [['1939-05-23', 'Ballymena Borough Council'], ['', 'Ballymena Urban District Council']]],
-  ['bangor borough council', [['1928-01-01', 'Bangor Borough Council'], ['', 'Bangor Urban District Council']]],
-  ['carrickfergus borough council', [['1949-07-01', 'Carrickfergus Borough Council'], ['', 'Carrickfergus Urban District Council']]],
-  ['coleraine borough council', [['1929-01-01', 'Coleraine Borough Council'], ['', 'Coleraine Urban District Council']]],
-  ['enniskillen borough council', [['1949-05-30', 'Enniskillen Borough Council'], ['', 'Enniskillen Urban District Council']]],
-  ['larne borough council', [['1939-05-23', 'Larne Borough Council'], ['', 'Larne Urban District Council']]],
-  ['lisburn borough council', [['1964-06-02', 'Lisburn Borough Council'], ['', 'Lisburn Urban District Council']]],
-  ['newtownards borough council', [['1938-05-01', 'Newtownards Borough Council'], ['', 'Newtownards Urban District Council']]],
-  // Town commissioners before the urban district: Downpatrick to 1 Apr 1925, Whitehead
-  // 1 Apr 1925 to 1 Apr 1927, Kilkeel 1 Aug 1934 to 1 Apr 1937.
-  ['downpatrick urban district council', [['1925-04-01', 'Downpatrick Urban District Council'], ['', 'Downpatrick Town Commissioners']]],
-  ['whitehead urban district council', [['1927-04-01', 'Whitehead Urban District Council'], ['', 'Whitehead Town Commissioners']]],
-  ['kilkeel urban district council', [['1937-04-01', 'Kilkeel Urban District Council'], ['1934-08-01', 'Kilkeel Town Commissioners'], ['', 'Kilkeel Urban District Council']]],
-  // Instalment 2: three rural districts renamed in the period, one body each. Downpatrick RD
-  // became East Down RD on 1 Jan 1962, Newtownards RD North Down RD on 1 Aug 1954, and Kilkeel
-  // RD South Down RD on 4 Jul 1966.
-  ['east down rural district council', [['1962-01-01', 'East Down Rural District Council'], ['', 'Downpatrick Rural District Council']]],
-  ['north down rural district council', [['1954-08-01', 'North Down Rural District Council'], ['', 'Newtownards Rural District Council']]],
-  ['south down rural district council', [['1966-07-04', 'South Down Rural District Council'], ['', 'Kilkeel Rural District Council']]]
-]);
-const NI_COUNCILS_1923_67_PLAIN_TITLES = [
-  'antrim town commissioners',
-  'aughnacloy town commissioners',
-  'gilford town commissioners',
-  'ballycastle urban district council',
-  'ballyclare urban district council',
-  'ballymoney urban district council',
-  'banbridge urban district council',
-  'cookstown urban district council',
-  'donaghadee urban district council',
-  'dromore urban district council',
-  'dungannon urban district council',
-  'holywood urban district council',
-  'limavady urban district council',
-  'newcastle urban district council',
-  'newry urban district council',
-  'newtownabbey urban district council',
-  'omagh urban district council',
-  'portrush urban district council',
-  'portstewart urban district council',
-  'warrenpoint urban district council',
-  // Instalment 2: the county councils and rural districts 1924-67.
-  'antrim county council',
-  'down county council',
-  'fermanagh county council',
-  'londonderry county council',
-  'tyrone county council',
-  'antrim rural district council',
-  'ballycastle rural district council',
-  'ballymena rural district council',
-  'ballymoney rural district council',
-  'banbridge rural district council',
-  'belfast rural district council',
-  'castlederg rural district council',
-  'castlereagh rural district council',
-  'clogher rural district council',
-  'coleraine rural district council',
-  'cookstown rural district council',
-  'dungannon rural district council',
-  'enniskillen rural district council',
-  'hillsborough rural district council',
-  'irvinestown rural district council',
-  'larne rural district council',
-  'limavady rural district council',
-  'lisburn rural district council',
-  'lisnaskea rural district council',
-  'londonderry rural district council',
-  'magherafelt rural district council',
-  'newry no 1 rural district council', // normalizeName drops the full stop
-  'omagh rural district council',
-  'strabane rural district council'
-];
+// The pre-1973 NI councils come from the councils registry (data/registries/councils.json, REG-1):
+//   NI_COUNCIL_ERA_TITLES   councils titled for the era, one body each across its life, dated to
+//                           the day: [first poll date of the era, name], newest first, '' for the
+//                           earliest (the boroughs' charters, the town commissioners before their
+//                           urban districts, the three rural districts renamed 1954-66); the
+//                           dates and their sources are the registry's names[].
+//   NI_COUNCILS_1923_67_PLAIN_TITLES  the 1923-67 councils titled by their one name.
+//   PRE1973_COUNCIL_BODIES  every pre-1973 council body (one per council): their elections can
+//                           have one or two wards and are still whole-council elections.
+// Names are normalised as normalizeName does (it drops the full stop of "Newry No. 1").
+const COUNCILS = loadRegistry('councils');
+const NI_COUNCIL_ERA_TITLES = eraTitles(COUNCILS);
+const NI_COUNCILS_1923_67_PLAIN_TITLES = plainTitleBodies(COUNCILS);
+const PRE1973_COUNCIL_BODIES = pre1973CouncilBodyNames(COUNCILS);
+const COUNCILS_BY_ID = councilsById(COUNCILS);
+
+/** A council's registry name in a year (the councils the code dates by year: Lurgan, Portadown, Strabane). */
+function councilNameInYear(id, year) {
+  const council = COUNCILS_BY_ID.get(id);
+  if (!council) throw new Error(`councils registry has no ${id}`);
+  return councilNameOn(council, String(year));
+}
 
 function niCouncilEraName(normalizedBody, date) {
   const eras = NI_COUNCIL_ERA_TITLES.get(normalizedBody);
@@ -337,33 +287,6 @@ function niCouncilEraName(normalizedBody, date) {
   const day = String(date || '');
   return (eras.find(([from]) => day >= from) || eras.at(-1))[1];
 }
-
-// Pre-1973 Northern Ireland borough and urban district councils (one body per council). Their
-// elections can have one or two wards and are still whole-council elections, never by-elections.
-const PRE1973_COUNCIL_BODIES = new Set([
-  'belfast county borough council',
-  'belfast county borough council aldermen',
-  'strabane urban district council',
-  'armagh county council',
-  'armagh urban district council',
-  'keady urban district council',
-  'lurgan borough council',
-  'lurgan rural district council',
-  'portadown borough council',
-  'armagh rural district council',
-  'newry no 2 rural district council', // normalizeName drops the full stop
-  'tandragee rural district council',
-  'moira rural district council',
-  'aghalee rural district council',
-  'tandragee urban district council',
-  'castleblayney no 2 rural district council',
-  'londonderry county borough council',
-  'londonderry county borough council aldermen',
-  'enniskillen borough council aldermen',
-  ...NI_COUNCIL_ERA_TITLES.keys(),
-  ...NI_COUNCILS_1923_67_PLAIN_TITLES
-]);
-
 
 export function isElectionByElectionScope({ body = '', bodyGroup = null, date = '', constituencies = [], specialType = null, bodySlug = '' } = {}) {
   const normalizedBody = normalizeName(body);
@@ -477,18 +400,14 @@ export function canonicalElectionTitle({
   }
   if (normalizedBody === 'belfast county borough council') return `${year} Belfast County Borough Council election`.trim();
   if (normalizedBody === 'belfast county borough council aldermen') return `${year} Belfast County Borough Council aldermanic election`.trim();
+  // Titled for the era by year (the registry's names[], with their sources): Strabane's town
+  // commissioners became an urban district council under the 1898 Act; Lurgan and Portadown were
+  // urban districts until incorporated as municipal boroughs (Portadown 2 Oct 1947, Lurgan 7 Jul 1949).
   if (normalizedBody === 'strabane urban district council') {
-    // Strabane's town commissioners became an urban district council under the 1898 Act.
-    return String(year) === '1899' ? '1899 Strabane Town Commissioners election' : `${year} Strabane Urban District Council election`.trim();
+    return `${year} ${councilNameInYear('strabane-urban-district-council', year)} election`.trim();
   }
-  // Lurgan and Portadown were urban districts until incorporated as municipal boroughs
-  // (Portadown 2 Oct 1947, Belfast Gazette 18 Jul 1947; Lurgan 7 Jul 1949, Lurgan Mail 3 Sep 1949); one body each, titled for the era.
-  if (normalizedBody === 'lurgan borough council') {
-    return Number(year) < 1949 ? `${year} Lurgan Urban District Council election` : `${year} Lurgan Borough Council election`;
-  }
-  if (normalizedBody === 'portadown borough council') {
-    return Number(year) < 1947 ? `${year} Portadown Urban District Council election` : `${year} Portadown Borough Council election`;
-  }
+  if (normalizedBody === 'lurgan borough council') return `${year} ${councilNameInYear('lurgan-borough-council', year)} election`;
+  if (normalizedBody === 'portadown borough council') return `${year} ${councilNameInYear('portadown-borough-council', year)} election`;
   if (['armagh county council', 'armagh urban district council', 'keady urban district council', 'lurgan rural district council', 'armagh rural district council', 'newry no 2 rural district council', 'tandragee rural district council', 'moira rural district council', 'aghalee rural district council', 'tandragee urban district council', 'castleblayney no 2 rural district council'].includes(normalizedBody)) {
     // normalizeName drops the full stop: keyed "newry no 2", not "newry no. 2", or the two
     // No. 2 districts lost the word "election" from every title.
@@ -501,7 +420,7 @@ export function canonicalElectionTitle({
   if (normalizedBody === 'enniskillen borough council aldermen') return `${year} Enniskillen Borough Council aldermanic election`.trim();
   const niCouncilEra = niCouncilEraName(normalizedBody, date);
   if (niCouncilEra) return `${year} ${niCouncilEra} election`.trim();
-  if (NI_COUNCILS_1923_67_PLAIN_TITLES.includes(normalizedBody)) return `${year} ${body} election`.trim();
+  if (NI_COUNCILS_1923_67_PLAIN_TITLES.has(normalizedBody)) return `${year} ${body} election`.trim();
 
   if (normalizedBody === 'dail eireann') return `${year} Irish general election`.trim();
   if (normalizedBody === 'european parliament ireland') return `${year} European election in the Republic of Ireland`.trim();

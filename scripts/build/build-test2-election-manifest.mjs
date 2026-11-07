@@ -14,6 +14,9 @@ import { createPartyLabelInterpreter } from '../lib/party-label-interpretations.
 import { bracketedResultFile, seatTypeResultFile } from '../lib/election-result-files.mjs';
 import { writeStableGeneratedJson } from '../lib/stable-generated-json.mjs';
 import { ELECTION_BUNDLE_DIR, ELECTION_MANIFEST, ELECTION_REPORT } from '../records/paths.mjs';
+import { loadRegistry } from '../../registries/index.mjs';
+import { manifestCouncilSets } from '../../registries/councils.mjs';
+import { statesOf } from '../../registries/statuses.mjs';
 
 const ROOT = process.cwd();
 const ELECTION_ROOT = path.join(ROOT, 'data/elections-source', 'data', 'elections');
@@ -99,6 +102,11 @@ function applyNiLocalValidPollCorrection(electionKey, constituency, rawResult) {
 // pre-1918 electorates fill a field every imported pre-1918 file leaves empty, so they never
 // overwrite a figure that is already held.
 const WALKER_CORRECTIONS_DIR = path.join(ROOT, 'data', 'elections', 'corrections');
+// The correction record statuses (statuses registry, RG-05): the value that marks a record applied,
+// and the others a review may give (records with those are not used).
+const CORRECTIONS = loadRegistry('statuses');
+const CORRECTION_APPLIED = CORRECTIONS.machines.correction.appliedValue;
+const CORRECTION_STATES = new Set(statesOf(CORRECTIONS, 'correction'));
 const walkerCorrectionIndex = new Map();
 function addWalkerCorrection(sourceFile, field, value, onlyIfEmpty = false) {
   if (!sourceFile || value == null) return;
@@ -109,7 +117,7 @@ function addWalkerCorrection(sourceFile, field, value, onlyIfEmpty = false) {
 }
 for (const [file, read] of [
   ['walker-electorate-review.json', (doc) => (doc.records || [])
-    .filter((r) => r.status === 'applied' && r.field === 'electorate')
+    .filter((r) => r.status === CORRECTION_APPLIED && r.field === 'electorate')
     .forEach((r) => addWalkerCorrection(r.sourceFile, 'electorate', r.proposedValue))],
   ['walker-pre1918-electorates.json', (doc) => (doc.records || [])
     .forEach((r) => addWalkerCorrection(r.sourceFile, 'electorate', r.electorate, true))],
@@ -133,12 +141,12 @@ for (const [file, read] of [
   ['wikipedia-byelection-causes.json', (doc) => (doc.records || [])
     .forEach((r) => addWalkerCorrection(r.sourceFile, 'cause', `${r.cause} (Wikipedia, ${r.source?.title || 'list of by-elections'})`, true))],
   ['walker-seat-corrections.json', (doc) => (doc.records || [])
-    .filter((r) => r.status === 'applied' && r.field === 'seats')
+    .filter((r) => r.status === CORRECTION_APPLIED && r.field === 'seats')
     .forEach((r) => addWalkerCorrection(r.sourceFile, 'seats', r.proposedValue))],
   // Each seat's own date in the 1832-1880 general elections, as Walker prints it. The contest keeps
   // the election's date (so the election stays whole); this only adds a note to the panel.
   ['walker-constituency-dates-1832-1880.json', (doc) => (doc.records || [])
-    .filter((r) => r.status === 'applied')
+    .filter((r) => r.status === CORRECTION_APPLIED)
     .forEach((r) => addWalkerCorrection(r.sourceFile, 'dateNote', {
       label: r.dateKind === 'return' ? 'Date of return' : r.contested ? 'Polling day' : 'Returned unopposed',
       date: r.date,
@@ -146,7 +154,7 @@ for (const [file, read] of [
     }))],
   // Party labels Walker prints differently from the import (Wikipedia's "Peelite" where he prints L or C).
   ['walker-party-corrections.json', (doc) => (doc.records || [])
-    .filter((r) => r.status === 'applied' && r.field === 'party')
+    .filter((r) => r.status === CORRECTION_APPLIED && r.field === 'party')
     .forEach((r) => {
       const key = r.sourceFile.replace(/\\/g, '/');
       const held = walkerCorrectionIndex.get(key)?.party?.value || [];
@@ -155,7 +163,7 @@ for (const [file, read] of [
   // 1832-1880 figures Walker prints differently, settled for him: electorates replace the held figure
   // (listed last, so they win over the fill-if-empty electorates above); votes go on the named candidate.
   ['walker-1832-1880-figure-corrections.json', (doc) => (doc.records || [])
-    .filter((r) => r.status === 'applied')
+    .filter((r) => r.status === CORRECTION_APPLIED)
     .forEach((r) => {
       if (r.field === 'electorate') addWalkerCorrection(r.sourceFile, 'electorate', r.proposedValue);
       if (r.field === 'votes') {
@@ -165,11 +173,16 @@ for (const [file, read] of [
     })],
   // 1818-1831 contests whose date is Walker's date of return, not the day polling began.
   ['walker-1818-1831-return-dates.json', (doc) => (doc.records || [])
-    .filter((r) => r.status === 'applied')
+    .filter((r) => r.status === CORRECTION_APPLIED)
     .forEach((r) => addWalkerCorrection(r.sourceFile, 'pollDateKind', r.dateKind))]
 ]) {
   const full = path.join(WALKER_CORRECTIONS_DIR, file);
-  if (existsSync(full)) read(readJson(full));
+  if (!existsSync(full)) continue;
+  const doc = readJson(full);
+  // A Walker review status outside the registry's list is not applied, as before; the build names it.
+  const unknown = !file.startsWith('walker-') ? [] : [...new Set((doc.records || []).map((r) => r.status).filter((s) => s != null && !CORRECTION_STATES.has(s)))];
+  if (unknown.length) console.warn(`WARNING: ${file}: unknown correction status(es) ${unknown.join(', ')} (known: ${[...CORRECTION_STATES].join(', ')}); those records are not applied`);
+  read(doc);
 }
 
 function applyWalkerCorrections(resultPath, rawResult) {
@@ -421,172 +434,23 @@ const STYLE_MODES = ['winner', 'leadingParty', 'voteShare', 'turnout', 'majority
 // are a separate body because an aldermanship and the ward's councillorships were separate
 // contests on the same day in the same ward: kept in one election, two results would claim one
 // polygon and the map could colour only one of them.
-// NI councils 1923-67, instalment 1 (Irish Newspaper Archives and British Newspaper Archive
-// transcriptions, 2026-11): Londonderry's aldermen, the boroughs, urban districts and town
-// commissioners. The county boroughs' later rounds file under their existing slugs.
-const NI_COUNCILS_1923_67_BODY_SLUGS = [
-  'londonderry-county-borough-council-aldermen',
-  'antrim-town-commissioners',
-  'aughnacloy-town-commissioners',
-  'ballycastle-urban-district-council',
-  'ballyclare-urban-district-council',
-  'ballymena-borough-council',
-  'ballymoney-urban-district-council',
-  'banbridge-urban-district-council',
-  'bangor-borough-council',
-  'carrickfergus-borough-council',
-  'coleraine-borough-council',
-  'cookstown-urban-district-council',
-  'donaghadee-urban-district-council',
-  'downpatrick-urban-district-council',
-  'dromore-urban-district-council',
-  'dungannon-urban-district-council',
-  'enniskillen-borough-council',
-  'enniskillen-borough-council-aldermen',
-  'gilford-town-commissioners',
-  'holywood-urban-district-council',
-  'kilkeel-urban-district-council',
-  'larne-borough-council',
-  'limavady-urban-district-council',
-  'lisburn-borough-council',
-  'newcastle-urban-district-council',
-  'newry-urban-district-council',
-  'newtownabbey-urban-district-council',
-  'newtownards-borough-council',
-  'omagh-urban-district-council',
-  'portrush-urban-district-council',
-  'portstewart-urban-district-council',
-  'warrenpoint-urban-district-council',
-  'whitehead-urban-district-council',
-  // Instalment 2 (2026-11): the county councils and rural districts 1924-67, polled on the
-  // county's triennial day. Moira's later rounds file under its County Armagh pilot slug.
-  'antrim-county-council',
-  'down-county-council',
-  'fermanagh-county-council',
-  'londonderry-county-council',
-  'tyrone-county-council',
-  'antrim-rural-district-council',
-  'ballycastle-rural-district-council',
-  'ballymena-rural-district-council',
-  'ballymoney-rural-district-council',
-  'banbridge-rural-district-council',
-  'belfast-rural-district-council',
-  'castlederg-rural-district-council',
-  'castlereagh-rural-district-council',
-  'clogher-rural-district-council',
-  'coleraine-rural-district-council',
-  'cookstown-rural-district-council',
-  'dungannon-rural-district-council',
-  'east-down-rural-district-council',
-  'enniskillen-rural-district-council',
-  'hillsborough-rural-district-council',
-  'irvinestown-rural-district-council',
-  'larne-rural-district-council',
-  'limavady-rural-district-council',
-  'lisburn-rural-district-council',
-  'lisnaskea-rural-district-council',
-  'londonderry-rural-district-council',
-  'magherafelt-rural-district-council',
-  'newry-no-1-rural-district-council',
-  'north-down-rural-district-council',
-  'omagh-rural-district-council',
-  'south-down-rural-district-council',
-  'strabane-rural-district-council'
-];
-const PRE1973_COUNCIL_BODY_SLUGS = new Set([
-  'belfast-county-borough-council',
-  'belfast-county-borough-council-aldermen',
-  'strabane-urban-district-council',
-  // Londonderry's 15 January 1920 PR election (Londonderry Sentinel). Lisburn's and Bangor's
-  // 1920 rounds (Lisburn Standard, North Down Herald) file under their borough slugs, one body
-  // each titled for the era (scripts/lib/election-names.mjs). The 1920 electoral areas have no
-  // layer of their own: see pre1973CouncilGeography.
-  'londonderry-county-borough-council',
-  // County Armagh pilot (British Newspaper Archive transcriptions, 2026-10-31): results only.
-  'armagh-county-council',
-  'armagh-urban-district-council',
-  'keady-urban-district-council',
-  'lurgan-borough-council',
-  'lurgan-rural-district-council',
-  'portadown-borough-council',
-  'armagh-rural-district-council',
-  'newry-no-2-rural-district-council',
-  'tandragee-rural-district-council',
-  'moira-rural-district-council',
-  'aghalee-rural-district-council',
-  'tandragee-urban-district-council',
-  'castleblayney-no-2-rural-district-council',
-  ...NI_COUNCILS_1923_67_BODY_SLUGS
-]);
-// The 1923-67 councils' wards are those of the 1923 warding orders and their later revisions,
-// which no layer is confirmed to draw, so like the County Armagh pilot they are shown as results
-// without a map (the county councils' divisions and the rural districts' DEDs too, until their
-// names are checked against the 1924 county electoral division and DED layers). Londonderry's wards were redrawn in 1923, 1936 and 1946, so its later rounds
-// are results only too; Belfast's fifteen wards keep the 1921 DED map (pre1973CouncilGeography).
-const NI_COUNCILS_1923_67_RESULTS_ONLY_BODY_SLUGS = new Set([
-  ...NI_COUNCILS_1923_67_BODY_SLUGS,
-  'londonderry-county-borough-council'
-]);
-// Bodies whose only results are the January 1920 PR electoral areas. Those areas were drawn
-// for the 1920 scheme and no layer is known to draw them (Derry's North, West and Waterside
-// may match the 1921 DEDs of those names, and its South-East the SOUTH and EAST DEDs together,
-// but that is unconfirmed), so their results are shown without a map, like Strabane's 1920.
-const PR1920_ONLY_COUNCIL_BODY_SLUGS = new Set([
-  'londonderry-county-borough-council'
-]);
-const ARMAGH_PILOT_RESULTS_ONLY_BODY_SLUGS = new Set([
-  'armagh-county-council',
-  'armagh-urban-district-council',
-  'keady-urban-district-council',
-  'lurgan-borough-council',
-  'lurgan-rural-district-council',
-  'portadown-borough-council',
-  'armagh-rural-district-council',
-  'newry-no-2-rural-district-council',
-  'tandragee-rural-district-council',
-  'moira-rural-district-council',
-  'aghalee-rural-district-council',
-  'tandragee-urban-district-council',
-  'castleblayney-no-2-rural-district-council'
-]);
-const LOCAL_GOVERNMENT_BODIES = new Set([
-  'Antrim and Newtownabbey',
-  'Ards and North Down',
-  'Armagh, Banbridge and Craigavon',
-  'Causeway Coast and Glens',
-  'Fermanagh and Omagh',
-  'Lisburn and Castlereagh',
-  'Mid Ulster',
-  'Mid and East Antrim',
-  'Newry, Mourne and Down',
-  'Belfast',
-  'Antrim',
-  'Ards',
-  'Armagh',
-  'Ballymena',
-  'Ballymoney',
-  'Banbridge',
-  'Carrickfergus',
-  'Castlereagh',
-  'Coleraine',
-  'Cookstown',
-  'Craigavon',
-  'Derry',
-  'Down',
-  'Dungannon',
-  'Fermanagh',
-  'Larne',
-  'Limavady',
-  'Lisburn',
-  'Magherafelt',
-  'Moyle',
-  'Newry and Mourne',
-  'Newtownabbey',
-  'North Down',
-  'Omagh',
-  'Strabane',
-  'Derry City and Strabane'
-]);
+//
+// The council sets are the councils registry's (data/registries/councils.json, REG-1), each a flag
+// on the councils it names, with the reasons above kept there as notes:
+//   pre1973             every pre-1973 council body filed on its own (Belfast and its aldermen,
+//                       Strabane, Londonderry's 1920 PR round, the County Armagh pilot of
+//                       2026-10-31 and the NI councils 1923-67 intake)
+//   resultsOnly1923to67 the 1923-67 councils and Londonderry's later rounds: the 1923 warding
+//                       orders and their revisions have no confirmed layer, so results only
+//   pr1920Only          bodies whose only results are the January 1920 PR electoral areas
+//   armaghPilot         the County Armagh pilot (British Newspaper Archive transcriptions): results only
+//   localGovernmentBodies the 1973 and 2014 district councils, by elections-index name
+const COUNCIL_SETS = manifestCouncilSets(loadRegistry('councils'));
+const PRE1973_COUNCIL_BODY_SLUGS = COUNCIL_SETS.pre1973;
+const NI_COUNCILS_1923_67_RESULTS_ONLY_BODY_SLUGS = COUNCIL_SETS.resultsOnly1923to67;
+const PR1920_ONLY_COUNCIL_BODY_SLUGS = COUNCIL_SETS.pr1920Only;
+const ARMAGH_PILOT_RESULTS_ONLY_BODY_SLUGS = COUNCIL_SETS.armaghPilot;
+const LOCAL_GOVERNMENT_BODIES = COUNCIL_SETS.localGovernmentBodies;
 
 const NAME_ALIASES = new Map([
   ['laoighis offaly', 'laois offaly'],

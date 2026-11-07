@@ -7,7 +7,6 @@ import assert from 'node:assert/strict';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import { REPO_ROOT, loadRegistry, registryErrors } from '../../registries/index.mjs';
-import { evalDeclarations } from '../../registries/legacy-sources.mjs';
 import {
   candidateCountState, candidateStatusKind, canTransition, enumValues, isContested, missingRoundReason, siteRoundStatus, statesOf
 } from '../../registries/statuses.mjs';
@@ -116,14 +115,19 @@ test('RG-05 correction: every walker correction record has a registered status; 
       if (record.status !== undefined) assert.ok(states.includes(record.status) && record.status !== 'review', `${file}: ${record.status}`);
     }
   }
+  // The manifest builder reads the applied value from the registry (r2-pipeline adoption).
   const builder = read('scripts/build/build-test2-election-manifest.mjs');
-  assert.ok(builder.includes(`r.status === '${registry.machines.correction.appliedValue}'`));
+  assert.ok(builder.includes('machines.correction.appliedValue'));
+  assert.ok(!builder.includes(`r.status === '${registry.machines.correction.appliedValue}'`));
 });
 
 test('RG-02 contest: the audit\'s values and default, the map\'s labels', () => {
-  const { VALID_CONTEST_STATUSES } = evalDeclarations('scripts/check/rules/election-data-audit.mjs', 'const VALID_CONTEST_STATUSES', '\n', ['VALID_CONTEST_STATUSES']);
-  assert.deepEqual([...VALID_CONTEST_STATUSES].sort(), enumValues(registry, 'contest').sort());
-  assert.match(read('scripts/check/rules/election-data-audit.mjs'), /contestStatus \|\| 'contested'/);
+  // The data audit reads its values and default from the registry (r2-pipeline adoption).
+  const audit = read('scripts/check/rules/election-data-audit.mjs');
+  assert.match(audit, /new Set\(enumValues\(STATUSES, 'contest'\)\)/);
+  assert.match(audit, /contestStatus \|\| CONTEST_STATUS_IF_MISSING/);
+  assert.deepEqual(enumValues(registry, 'contest').sort(), ['contested', 'uncontested']);
+  assert.equal(registry.machines.contest.missingMeans, 'contested');
   assert.ok(isContested(registry, undefined) && isContested(registry, 'contested') && !isContested(registry, 'uncontested'));
   const { labels } = registry.machines.contest;
   assert.ok(read('app/src/ni-local-view.js').includes(`contest.contested ? '${labels.contested}' : '${labels.uncontested}'`));
