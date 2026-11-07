@@ -14,12 +14,13 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { SITE } from '../../lib/config.mjs';
 
 const ROOT = resolve(process.cwd());
 const MAPS_PATH = resolve(ROOT, 'data/database/maps.json');
 const URL_PREFIXES = [
-  'https://data.civgraph.net/',
-  'https://civgraph.net/'
+  `${SITE.dataOrigin}/`,
+  `${SITE.origin}/`
 ];
 
 const IRELAND_BBOX_LIMITS = {

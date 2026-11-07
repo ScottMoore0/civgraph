@@ -18,6 +18,7 @@ import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'no
 import { dirname, resolve } from 'node:path';
 import { assertKnownFlags, mergeArtefactRecords } from '../lib/safe-artefact-write.mjs';
 import { pmtilesTargetSuffix } from './pmtiles-keys.mjs';
+import { SITE } from '../lib/config.mjs';
 
 assertKnownFlags([]);
 
@@ -25,7 +26,7 @@ const ROOT = resolve(process.cwd());
 const METADATA_PATH = resolve(ROOT, 'render/metadata/maps-test.json');
 const OUTPUT_PATH = resolve(ROOT, 'render/metadata/cdn-upload-manifest.json');
 const RANGE_REPORT_PATH = resolve(ROOT, 'render/metadata/cdn-range-report.json');
-const CDN_BASE = process.env.TEST_CDN_BASE || 'https://data.civgraph.net/data/maps/test';
+const CDN_BASE = process.env.TEST_CDN_BASE || `${SITE.dataOrigin}/data/maps/test`;
 const R2_PREFIX = process.env.TEST_R2_PREFIX || 'data/maps/test';
 
 const metadata = JSON.parse(readFileSync(METADATA_PATH, 'utf8'));

@@ -31,6 +31,7 @@
  *   node scripts/build/corpus-index.mjs --check     # fails if stale; used by the gate
  */
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { SITE } from '../lib/config.mjs';
 
 const ALLOWLIST = 'data/database/r2-publication-allowlist.json';
 const IA_MIRRORS = 'data/database/raw-source-ia-mirrors.json';
@@ -38,7 +39,7 @@ const OUT = 'data/database/corpus-index.json';
 const CHECK = process.argv.includes('--check');
 
 const MEASURED_AT = '2026-08-31';
-const R2_BASE = 'https://data.civgraph.net/';
+const R2_BASE = `${SITE.dataOrigin}/`;
 const IA_DETAILS = 'https://archive.org/details/';
 const IA_DOWNLOAD = 'https://archive.org/download/';
 
@@ -191,8 +192,8 @@ const entries = CORPORA.map((corpus) => {
       baseUrl: R2_BASE + corpus.r2Prefix,
       allowlisted: rightsByPrefix.has(corpus.r2Prefix),
       listVia: corpus.access === 'public'
-        ? `https://civgraph.net/_api/data-index?prefix=${encodeURIComponent(corpus.r2Prefix)}`
-        : `https://civgraph.net/_api/contributions/r2-index?prefix=${encodeURIComponent(corpus.r2Prefix)}`,
+        ? `${SITE.origin}/_api/data-index?prefix=${encodeURIComponent(corpus.r2Prefix)}`
+        : `${SITE.origin}/_api/contributions/r2-index?prefix=${encodeURIComponent(corpus.r2Prefix)}`,
     };
   }
   if (corpus.iaIdentifiers?.length) {

@@ -36,8 +36,9 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, unlinkSync, writeFile
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { BROWSE_DIR, localPathForUrl } from '../records/paths.mjs';
+import { SITE as SITE_CONFIG } from '../lib/config.mjs';
 
-const SITE = 'https://civgraph.net';
+const SITE = SITE_CONFIG.origin;
 const OUT_DIR = 'sitemaps';
 const INDEX_FILE = 'sitemap.xml';
 // --data-root reads the Browse indexes from another checkout (a git worktree has none).
