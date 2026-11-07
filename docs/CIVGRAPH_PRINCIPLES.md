@@ -132,7 +132,7 @@ is not enforced, that is stated rather than hidden.
 | 2 | Negative controls | Convention, not automated. Applied to `check:contributions`, `check:browse-cache`, `verify:proxies` |
 | 3 | Derive, don't maintain | `check:browse-cache` (content-hash tokens); `check:pages-assets` (reads `.cfignore`, distrusts globs) |
 | 4 | Fail closed | `functions/_api/_auth.js`; `check:contributions` covers the empty-allowlist case |
-| 5 | Prove before removing | `preflight:migration`; `check:r2-parity` |
+| 5 | Prove before removing | `check:r2-parity` (and the archived `preflight:migration`) |
 | 6 | Provenance before publication | `check:r2-allowlist`; `check:approved-publication`; `lib/r2-publication-gate.mjs` |
 | 7 | Propose ≠ enact | `check:contributions` — 39 flow checks incl. "a contributor cannot approve" |
 | 8 | Justify difference | **Not enforced.** Convention only |
