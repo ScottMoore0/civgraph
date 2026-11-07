@@ -28,12 +28,21 @@ export const tokenise = (text) => normalise(text).split(' ').filter(Boolean);
 const STOP = new Set(['the', 'of', 'and', 'in', 'a', 'an', 'for', 'to', 'on', 'map', 'maps']);
 export const STOP_WORDS = STOP;
 
-/** Years and decades in a query, and the words left over. */
+/**
+ * Years and decades in a query, and the words left over.
+ * @param {unknown} query
+ * @returns {{ words: string[], period: { from: number, to: number } | null }}
+ */
 export function parseQuery(query) {
+  /** @type {string[]} */
   const words = [];
-  let from = null;
-  let to = null;
-  const widen = (a, b) => { from = from === null ? a : Math.min(from, a); to = to === null ? b : Math.max(to, b); };
+  // The years named so far, widened by each (both null until the first).
+  /** @type {{ from: number | null, to: number | null }} */
+  const span = { from: null, to: null };
+  const widen = (/** @type {number} */ a, /** @type {number} */ b) => {
+    span.from = span.from === null ? a : Math.min(span.from, a);
+    span.to = span.to === null ? b : Math.max(span.to, b);
+  };
   for (const raw of String(query ?? '').split(/\s+/)) {
     const w = raw.trim();
     if (!w) continue;
@@ -44,7 +53,7 @@ export function parseQuery(query) {
     else words.push(...tokenise(w));
   }
   const meaningful = words.filter((t) => !STOP.has(t));
-  return { words: meaningful.length ? meaningful : words, period: from === null ? null : { from, to } };
+  return { words: meaningful.length ? meaningful : words, period: span.from === null || span.to === null ? null : { from: span.from, to: span.to } };
 }
 
 /** Damerau-free edit distance, stopping as soon as it exceeds `max`. */
@@ -216,11 +225,21 @@ export function electionAliases(e) {
   return out.join(' ');
 }
 
+/** @typedef {{ id: string, tokens: string[], year: number | null }} SeriesMember */
+/** @typedef {Array<[string[], number]>} SearchFields */
+/**
+ * One searchable thing: a series of maps, an election or a book.
+ * @typedef {{ type: 'series', id: string, span: number[] | null, scope: string, kind: string, status: any, name: string, fields: SearchFields, members: SeriesMember[] }
+ *   | { type: 'election', id: string, span: number[] | null, name: string, fields: SearchFields, bodyTokens: string[] }
+ *   | { type: 'book', id: string, span: number[] | null, name: string, fields: SearchFields }} SearchDoc
+ */
+
 export class CatalogueSearch {
   constructor(catalogue, { books = [] } = {}) {
     this.catalogue = catalogue;
     const subjectName = new Map(catalogue.subjects.map((s) => [s.id, s.name]));
     const shelfName = new Map(catalogue.shelves.map((s) => [s.id, s.name]));
+    /** @type {SearchDoc[]} */
     this.docs = [];
     for (const s of catalogue.series) {
       const members = [...s.members, ...(s.local || [])].map((m) => {
@@ -295,6 +314,7 @@ export class CatalogueSearch {
     const fPeriod = filters.from || filters.to ? { from: filters.from || 0, to: filters.to || 9999 } : null;
     const period = qPeriod && fPeriod ? { from: Math.max(qPeriod.from, fPeriod.from), to: Math.min(qPeriod.to, fPeriod.to) } : (qPeriod || fPeriod);
     const phrase = words.join(' ');
+    /** @type {{ series: any[], elections: any[], books: any[], places: any[], contests: { name: string, keys: any, exact: boolean }[], period: object | null, words: string[], namesBody: boolean }} */
     const out = { series: [], elections: [], books: [], places: [], contests: [], period: qPeriod, words, namesBody: false };
     if (!words.length && !qPeriod) return out;
 

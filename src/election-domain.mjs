@@ -615,7 +615,7 @@ export function scraperCandidateAffiliatedParty(candidate = {}) {
 
 function positiveInteger(value) {
   const parsed = parseNumber(value);
-  return Number.isInteger(parsed) && parsed > 0 ? parsed : null;
+  return typeof parsed === 'number' && Number.isInteger(parsed) && parsed > 0 ? parsed : null;
 }
 
 function scraperCandidateElectedOrder(candidate = {}) {
@@ -838,6 +838,10 @@ function candidateLastCount(candidate = {}) {
   return Math.max(1, ...counts.map((count) => parseNumber(count?.count) || 0));
 }
 
+/**
+ * @param {any[]} [candidates]
+ * @param {number | null} [seatsTotal]
+ */
 function completeElectedCandidateSet(candidates = [], seatsTotal = null) {
   const seats = parseNumber(seatsTotal);
   if (!seats || seats <= 0 || !Array.isArray(candidates) || !candidates.length) return candidates;
@@ -970,12 +974,12 @@ function inferMainLikeCandidateLifecycle(candidate, info, lastCount) {
     const total = current?.total ?? 0;
     const transfer = current?.transfers ?? 0;
 
-    if (!electedAt && Number.isFinite(quota) && total >= (quota - 0.01)) electedAt = countNum;
+    if (!electedAt && typeof quota === 'number' && Number.isFinite(quota) && total >= (quota - 0.01)) electedAt = countNum;
     if (!excludedAt && previous && previous.total > 0.01 && total <= 0.01 && transfer < -0.01) {
       excludedAt = countNum;
       terminalCount = countNum;
     }
-    if (!terminalCount && previous && Number.isFinite(quota) && previous.total > (quota + 0.01)
+    if (!terminalCount && previous && typeof quota === 'number' && Number.isFinite(quota) && previous.total > (quota + 0.01)
       && Math.abs(total - quota) <= 0.01 && transfer < -0.01) {
       terminalCount = countNum;
     }
@@ -1052,7 +1056,7 @@ export function buildMainLikeCandidateSummaryFromRawResults(rawEntries = []) {
         const elected = scraperCandidateIsElected(candidate);
         const excluded = statusKind(candidate.status) === 'excluded';
         const finalCount = parseNumber(candidate.final_count);
-        const resolvedCount = Number.isInteger(finalCount) && finalCount > 0 ? finalCount : null;
+        const resolvedCount = typeof finalCount === 'number' && Number.isInteger(finalCount) && finalCount > 0 ? finalCount : null;
         const status = autoReturned ? 'Elected (auto returned)' : (elected ? 'Elected' : (excluded ? 'Excluded' : fixText(candidate.status || '') || 'Not Elected'));
         rows.push({
           id: String(index + 1),

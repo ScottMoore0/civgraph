@@ -99,6 +99,10 @@ function rewritePrefix(value) {
   return value;
 }
 
+/**
+ * @param {unknown} id
+ * @param {((id: string) => boolean) | null} [isKnown]
+ */
 export function resolveLegacyLayerId(id, isKnown = null) {
   const original = String(id || '');
   if (!original) return original;
