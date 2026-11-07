@@ -36,7 +36,7 @@ export function reportRounds(phaseB) {
   /** @type {Record<string, number>} */
   const counts = {};
   let implied = 0;
-  /** @type {Record<string, { round: string, status: string, reason?: string }[]>} */
+  /** @type {Record<string, { round: string, status: string, reason?: string | undefined }[]>} */
   const byVerdict = { apply: [], 'held-back': [], 'excluded-by-choice': [], 'would-apply-wrongly': [], 'unknown-status': [] };
   for (const slug of readdirSync(workDir).sort()) {
     const dir = path.join(workDir, slug);

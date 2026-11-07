@@ -8,20 +8,34 @@ import { batchPath, phaseOf, pmtilesKey, repoPath, resolveFgbPairs, resolveIds, 
 import { buildPostUploadSteps, buildUploadSteps, formatStep } from './commands.mjs';
 import { stageBatch } from './stage.mjs';
 
+/** @typedef {import('./batch.mjs').Batch} Batch */
+/** @typedef {import('./batch.mjs').Manifest} Manifest */
+/** @typedef {import('./batch.mjs').Operation} Operation */
+/** @typedef {import('./stage.mjs').StageResult} StageResult */
+/** @typedef {ReturnType<typeof planBatch>} Plan */
+/** @typedef {{ command: string, expect: string, note?: string, details?: string[] }} ExpectedCheck */
+
+/** @param {string | undefined} file */
 function sizeOf(file) {
   return file && existsSync(file) ? statSync(file).size : null;
 }
 
+/** @param {Batch} batch */
 export function planBatch(batch) {
   const m = batch.manifest;
+  /** @type {Map<string, string>} */
   const copiedFrom = new Map();
   for (const op of m.operations) {
     if (op.type === 'copy-files') for (const f of op.files) copiedFrom.set(f.to, batchPath(batch, f.from));
   }
+  /** @param {string} repoRel */
   const localSize = (repoRel) => sizeOf(repoPath(batch, repoRel)) ?? sizeOf(copiedFrom.get(repoRel));
 
+  /** @type {{ op: string, kind: string, key: string, file: string, bytes: number | null }[]} */
   const objects = [];
+  /** @type {{ op: string, prefix: string, ext: string }[]} */
   const cacheControl = [];
+  /** @type {{ op: string, layerId: string, key: string, file: string, bytes: number | null }[]} */
   const pmtiles = [];
   for (const op of m.operations) {
     if (op.type === 'r2-fgb') {
@@ -51,11 +65,14 @@ export function planBatch(batch) {
       real: buildUploadSteps(batch, { dryRun: false, writeManifests: false }),
     },
     postUpload: buildPostUploadSteps(batch),
+    /** @type {Record<string, ExpectedCheck[] | undefined>} */
     expectedChecks: m.expectedChecks || {},
+    /** @type {string[]} */
     phases: [...new Set(m.operations.map(phaseOf))],
   };
 }
 
+/** @param {number | null | undefined} n */
 export function formatBytes(n) {
   if (n == null) return '(not built yet)';
   if (n >= 1e6) return `${(n / 1e6).toFixed(1)} MB`;
@@ -63,7 +80,9 @@ export function formatBytes(n) {
   return `${n} B`;
 }
 
+/** @param {StageResult} stage */
 function summariseStage(stage) {
+  /** @type {Map<string, number>} */
   const byOp = new Map();
   for (const c of stage.changes) {
     const key = `${c.op}\u0000${c.action}\u0000${c.action === 'edit' ? c.path : ''}`;
@@ -72,8 +91,13 @@ function summariseStage(stage) {
   return byOp;
 }
 
-/** Plain-text plan for the terminal. */
+/**
+ * Plain-text plan for the terminal.
+ * @param {Plan} plan
+ * @param {{ verbose?: boolean }} [options]
+ */
 export function formatPlan(plan, { verbose = false } = {}) {
+  /** @type {string[]} */
   const lines = [];
   const { stage, r2 } = plan;
   lines.push(`Batch ${plan.batch.id} (${plan.batch.date}, ${plan.batch.status}): ${plan.batch.title}`);
@@ -85,6 +109,7 @@ export function formatPlan(plan, { verbose = false } = {}) {
     lines.push(c.action === 'edit' ? `     ${c.path}: ${c.detail}` : `     ${c.action.padEnd(7)} ${c.path}  ${formatBytes(c.bytes)}`);
   }
   if (!verbose && stage.changes.length > 40) {
+    /** @type {Record<string, number>} */
     const counts = {};
     for (const c of stage.changes) if (c.action !== 'edit') counts[c.action] = (counts[c.action] || 0) + 1;
     for (const [a, n] of Object.entries(counts)) lines.push(`     ${a}: ${n} file(s) (--verbose lists them)`);
@@ -109,6 +134,7 @@ export function formatPlan(plan, { verbose = false } = {}) {
   return lines.join('\n');
 }
 
+/** @param {string} title @param {ExpectedCheck[] | undefined} checks */
 function checksSection(title, checks) {
   if (!checks?.length) return [];
   const out = [`### ${title}`, ''];
@@ -120,8 +146,14 @@ function checksSection(title, checks) {
   return out;
 }
 
-/** REPORT.md: the upload list and handoff, generated. */
+/**
+ * REPORT.md: the upload list and handoff, generated.
+ * @param {Plan} plan
+ * @param {Manifest} manifest
+ * @param {{ generatedAt?: string, manifestLabel?: string, repoLabel?: string }} [options]
+ */
 export function renderReport(plan, manifest, { generatedAt = new Date().toISOString().slice(0, 10), manifestLabel = 'batch.json', repoLabel } = {}) {
+  /** @type {string[]} */
   const out = [];
   const b = plan.batch;
   out.push(`# ${b.title}`, '');
@@ -147,7 +179,7 @@ export function renderReport(plan, manifest, { generatedAt = new Date().toISOStr
   const grouped = summariseStage(s);
   for (const [key, n] of grouped) {
     const [op, action, p] = key.split('\u0000');
-    const opDef = manifest.operations.find((o) => o.id === op);
+    const opDef = manifest.operations.find((/** @type {Operation} */ o) => o.id === op);
     out.push(`- \`${op}\` (${opDef?.type}): ${action}${p ? ` in \`${p}\`` : ''}, ${n}${opDef?.note ? `. ${opDef.note}` : ''}`);
   }
   for (const c of s.conflicts) out.push(`- CONFLICT \`${c.path}\`: ${c.reason}`);
@@ -182,7 +214,7 @@ export function renderReport(plan, manifest, { generatedAt = new Date().toISOStr
     for (const st of plan.postUpload) out.push(formatStep(st));
     out.push('```', '');
   } else out.push('Nothing.', '');
-  for (const op of manifest.operations.filter((o) => o.type === 'command' || o.type === 'switch-to-cdn' || o.type === 'thumbnails')) {
+  for (const op of manifest.operations.filter((/** @type {Operation} */ o) => o.type === 'command' || o.type === 'switch-to-cdn' || o.type === 'thumbnails')) {
     if (op.note) out.push(`- \`${op.id}\`: ${op.note}`);
   }
   out.push('');
