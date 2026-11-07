@@ -1,6 +1,8 @@
 import { jsonResponse, jsonNotAllowed, requireContributor, sanitizeAuth } from '../_auth.js';
 import { methodGuard } from '../_method.js';
 import { VALID_KINDS, VALID_ENTITY_TYPES, dryRunPatch } from './_schema.js';
+import { INITIAL_STATUS } from '../../_lib/contribution-status.js';
+import { binding } from '../../_lib/config.js';
 
 /**
  * Accept a contribution as a TYPED PATCH, dry-run it, and queue it for review.
@@ -99,7 +101,7 @@ export async function onRequestPost(context) {
     userAgent: safeString(context.request.headers.get('User-Agent'), 240),
     // Set here and never changed by this endpoint. Only the decide endpoint,
     // which requires admin, may move a submission out of pending-review.
-    status: 'pending-review',
+    status: INITIAL_STATUS,
   };
 
   const stored = await persistSubmission(context.env || {}, submission);
@@ -205,12 +207,12 @@ async function persistSubmission(env, submission) {
   const key = `submissions/${submission.submittedAt.slice(0, 10)}/${submission.id}.json`;
   const body = JSON.stringify(submission, null, 2);
 
-  if (env.CIVGRAPH_CONTRIBUTION_QUEUE?.put) {
-    await env.CIVGRAPH_CONTRIBUTION_QUEUE.put(key, body, { metadata: queueMetadata(submission) });
+  if (binding(env, 'CIVGRAPH_CONTRIBUTION_QUEUE')?.put) {
+    await binding(env, 'CIVGRAPH_CONTRIBUTION_QUEUE').put(key, body, { metadata: queueMetadata(submission) });
     return { ok: true, storage: 'KV:CIVGRAPH_CONTRIBUTION_QUEUE', key };
   }
-  if (env.CIVGRAPH_SUBMISSIONS?.put) {
-    await env.CIVGRAPH_SUBMISSIONS.put(key, body, { httpMetadata: { contentType: 'application/json' } });
+  if (binding(env, 'CIVGRAPH_SUBMISSIONS')?.put) {
+    await binding(env, 'CIVGRAPH_SUBMISSIONS').put(key, body, { httpMetadata: { contentType: 'application/json' } });
     return { ok: true, storage: 'R2:CIVGRAPH_SUBMISSIONS', key };
   }
 

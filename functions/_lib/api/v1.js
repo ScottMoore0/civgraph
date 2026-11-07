@@ -33,7 +33,7 @@ import * as sources from '../../_api/sources/index.js';
 import * as spatial from '../../_api/spatial.js';
 import * as stats from '../../_api/stats/index.js';
 import * as votes from '../../_api/votes/index.js';
-import { jsonAnswer } from './delegate.js';
+import { jsonAnswer, versionStatus } from './delegate.js';
 import { CONTRACTS } from './contracts/v1.js';
 import { openApiDocument } from './openapi.js';
 import { API, SITE } from '../config.js';
@@ -109,7 +109,7 @@ export function indexDocument() {
   return {
     api: SITE.name,
     version: VERSION,
-    status: 'stable',
+    status: versionStatus(V1),
     compatibility: 'Routes, parameters and answer shapes in v1 change only compatibly (additions). An incompatible change is a new version; v1 keeps answering.',
     legacyPrefix: LEGACY_PREFIX,
     openapi: `${PREFIX}/openapi.json`,

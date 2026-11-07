@@ -17,6 +17,22 @@ import { CACHE } from '../config.js';
 
 export const ALLOW = 'GET, HEAD';
 
+/**
+ * A version's status (refactor FN-L), from its own fields: 'stable' while it is current,
+ * 'superseded' once a successor exists, 'sunset' once the owner has set a sunset date.
+ * @typedef {'stable' | 'superseded' | 'sunset'} VersionStatus
+ */
+export const VERSION_STATUSES = Object.freeze(/** @type {VersionStatus[]} */ (['stable', 'superseded', 'sunset']));
+
+/**
+ * @param {{ successor?: unknown, sunset?: string | null }} api
+ * @returns {VersionStatus}
+ */
+export function versionStatus(api) {
+  if (api.sunset) return 'sunset';
+  return api.successor ? 'superseded' : 'stable';
+}
+
 const JSON_HEADERS = { 'Content-Type': 'application/json; charset=utf-8', 'Access-Control-Allow-Origin': '*' };
 
 export function jsonAnswer(payload, status = 200, extra = {}) {

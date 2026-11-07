@@ -12,33 +12,20 @@
  * Error responses are never cached: a transient 503 pinned at the edge for a day would outlive
  * its cause (the rule in elections/index.js's json() helper).
  */
+import { STORE, phaseOf, readDataset, resetDatasetMemo } from '../_lib/dataset-state.js';
+import { CACHE, binding } from '../_lib/config.js';
 
 /** The two tables whose final names are still taken by live legacy tables (stage H renames them). */
 export const T = { elections: 'r_elections', counts: 'r_counts' };
 
-const MEMO_MS = 60_000;
-let memo = { version: '', loading: '', expires: 0 };
-
-export async function datasetState(db) {
-  const now = Date.now();
-  if (now < memo.expires) return memo;
-  let version = '';
-  let loading = '';
-  try {
-    const { results } = await db.prepare("SELECT key, value FROM dataset WHERE key IN ('version', 'loading') ORDER BY key").all();
-    for (const r of results || []) {
-      if (r.key === 'version') version = r.value || '';
-      if (r.key === 'loading') loading = r.value || '';
-    }
-  } catch { /* keep '' */ }
-  memo = { version, loading, expires: now + MEMO_MS };
-  return memo;
-}
+/**
+ * The dataset's version and loading flag, memoised a minute per isolate: one memo shared with
+ * the server-rendered pages (functions/_lib/dataset-state.js, state machine FN-03).
+ */
+export const datasetState = (/** @type {D1Database} */ db) => readDataset(db);
 
 /** For tests: forget the memoised dataset state. */
-export function resetDatasetMemo() {
-  memo = { version: '', loading: '', expires: 0 };
-}
+export { resetDatasetMemo };
 
 export const JSON_HEADERS = { 'Content-Type': 'application/json; charset=utf-8', 'Access-Control-Allow-Origin': '*' };
 
@@ -47,6 +34,82 @@ export function jsonResponse(payload, status = 200, extra = {}) {
     status,
     headers: { ...JSON_HEADERS, 'Cache-Control': status === 200 ? 'public, max-age=300' : 'no-store', ...extra },
   });
+}
+
+/**
+ * A transition table, frozen to its last array.
+ * @template {string} S
+ * @param {Record<S, S[]>} table
+ * @returns {Readonly<Record<S, readonly S[]>>}
+ */
+function freezeTable(table) {
+  for (const next of Object.values(table)) Object.freeze(next);
+  return Object.freeze(table);
+}
+
+/**
+ * Where a records answer comes from (refactor state machine FN-02): each request walks this
+ * ladder from `start` to one terminal state, and a step the table does not list throws, so a
+ * change to cachedJson cannot quietly skip a rung (say, store an answer built while a load is
+ * running, or answer a refused rebuild with nothing).
+ *
+ *   not-modified    304: If-None-Match is the current ETag
+ *   edge-hit        the answer stored at this data centre (caches.default)
+ *   waiting         gated: another request is rebuilding this URL; wait for it, then look again
+ *   gate            gated: ask the isolate's gate for a rebuild slot (GATE_SLOT below)
+ *   r2-first        `r2First`: try the R2 copy before D1
+ *   rebuild         ask D1 (the handler)
+ *   stored          200, stored at the edge and as last-good
+ *   unstored        200 built while the dataset is loading: no-store, nothing stored
+ *   client-error    4xx: no-store
+ *   passed-through  any other non-error answer (a 301 to another spelling of an id) as the handler gave it
+ *   failed          no answer, a 5xx, or no gate slot: fall back
+ *   last-good       the last 200 for this URL, with a Warning
+ *   from-r2         the file's R2 copy (stored like a rebuild)
+ *   unavailable     the handler's 5xx, or 503 with Retry-After
+ *
+ * @typedef {'start' | 'not-modified' | 'edge-hit' | 'waiting' | 'gate' | 'r2-first' | 'rebuild' | 'stored' | 'unstored'
+ *   | 'client-error' | 'passed-through' | 'failed' | 'last-good' | 'from-r2' | 'unavailable'} AnswerStep
+ */
+export const ANSWER_LADDER = freezeTable(/** @type {Record<AnswerStep, AnswerStep[]>} */ ({
+  start: ['not-modified', 'edge-hit', 'waiting', 'gate', 'r2-first', 'rebuild'],
+  waiting: ['edge-hit', 'gate'],
+  gate: ['r2-first', 'rebuild', 'failed'],
+  'r2-first': ['from-r2', 'rebuild'],
+  rebuild: ['stored', 'unstored', 'client-error', 'passed-through', 'failed'],
+  failed: ['last-good', 'from-r2', 'unavailable'],
+  'not-modified': [],
+  'edge-hit': [],
+  stored: [],
+  unstored: [],
+  'client-error': [],
+  'passed-through': [],
+  'last-good': [],
+  'from-r2': [],
+  unavailable: [],
+}));
+
+/**
+ * One request's walk down the ladder.
+ * @param {(path: AnswerStep[]) => void} [onDone]  called with the whole path on reaching a terminal step
+ */
+export function answerLadder(onDone) {
+  /** @type {AnswerStep} */
+  let at = 'start';
+  /** @type {AnswerStep[]} */
+  const path = [at];
+  return {
+    get at() { return at; },
+    path,
+    /** @param {AnswerStep} next */
+    to(next) {
+      if (!ANSWER_LADDER[at].includes(next)) throw new Error(`records answer: ${at} -> ${next} is not a transition`);
+      at = next;
+      path.push(next);
+      if (!ANSWER_LADDER[next].length) onDone?.([...path]);
+      return next;
+    },
+  };
 }
 
 /**
@@ -75,7 +138,9 @@ export function jsonResponse(payload, status = 200, extra = {}) {
  */
 export async function cachedJson(context, codeVersion, handler, options = {}) {
   const { stable = false, edgeTtl = 0, gate = false, r2Key = null, r2First = false } = options;
-  const db = context.env?.ELECTIONS_DB;
+  // options.onPath: for tests, the ladder's path (ANSWER_LADDER) once the answer is chosen.
+  const ladder = answerLadder(options.onPath);
+  const db = binding(context.env, 'ELECTIONS_DB');
   /** @type {{ version: string, loading: string } | null} */
   let state = null;
   const getState = async () => {
@@ -85,6 +150,7 @@ export async function cachedJson(context, codeVersion, handler, options = {}) {
   const version = stable ? '' : (await getState()).version;
   const etag = stable ? `"${codeVersion}"` : `"${codeVersion}-${version}"`;
   if ((stable || version) && context.request.headers.get('If-None-Match') === etag) {
+    ladder.to('not-modified');
     return new Response(null, { status: 304, headers: { ETag: etag } });
   }
   const requestUrl = new URL(context.request.url);
@@ -96,18 +162,18 @@ export async function cachedJson(context, codeVersion, handler, options = {}) {
   lastGoodUrl.searchParams.set('_lastgood', codeVersion);
   const lastGood = stable ? cacheKey : new Request(lastGoodUrl.toString(), { method: 'GET' });
   const cache = typeof caches !== 'undefined' ? caches.default : null;
-  const cacheControl = `${options.cacheControl || 'public, max-age=300, stale-while-revalidate=86400'}${edgeTtl ? `, s-maxage=${edgeTtl}` : ''}`;
+  const cacheControl = `${options.cacheControl || CACHE.records}${edgeTtl ? `, s-maxage=${edgeTtl}` : ''}`;
   const lookup = async () => (cache ? (await cache.match(cacheKey)) || null : null);
   if (cache && (stable || !(/** @type {{ loading: string } | null} */ (state))?.loading)) {
     const hit = await lookup();
-    if (hit) return hit;
+    if (hit) { ladder.to('edge-hit'); return hit; }
   }
 
   /** A 200's headers; stored unless a load is under way. Returns it and the put's promise. */
   const finish = (resp, loading) => {
     resp = new Response(resp.body, resp);
     if (version || stable) resp.headers.set('ETag', etag);
-    resp.headers.set('Cache-Control', loading ? 'no-store' : cacheControl);
+    resp.headers.set('Cache-Control', loading ? CACHE.loading : cacheControl);
     let put = null;
     if (cache && !loading) {
       put = Promise.all([cache.put(cacheKey, resp.clone()), stable ? null : cache.put(lastGood, resp.clone())]).catch(() => {});
@@ -118,29 +184,34 @@ export async function cachedJson(context, codeVersion, handler, options = {}) {
   const fallback = async (resp) => {
     const lg = cache ? await cache.match(lastGood) : null;
     if (lg) {
+      ladder.to('last-good');
       const headers = new Headers(lg.headers);
       headers.set('Warning', '110 - "stale: database unavailable"');
-      headers.set('Cache-Control', 'public, max-age=60');
+      headers.set('Cache-Control', CACHE.lastGood);
       return new Response(lg.body, { status: 200, headers });
     }
     const copy = await r2Copy(context.env, r2Key);
-    if (copy) return finish(copy, false).resp;
+    if (copy) { ladder.to('from-r2'); return finish(copy, false).resp; }
+    ladder.to('unavailable');
     return resp || jsonResponse({ error: 'unavailable' }, 503, { 'Retry-After': '5' });
   };
   const rebuild = async () => {
     if (r2First) {
+      ladder.to('r2-first');
       const copy = await r2Copy(context.env, r2Key);
-      if (copy) return finish(copy, false);
+      if (copy) { ladder.to('from-r2'); return finish(copy, false); }
     }
-    const { loading } = await getState();
+    ladder.to('rebuild');
+    const loading = !STORE[phaseOf(await getState())];
     let resp = null;
     try { resp = db ? await handler() : null; } catch { resp = null; }
-    if (!resp || resp.status >= 500) return { resp: await fallback(resp), put: null };
-    if (resp.status === 200) return finish(resp, loading);
+    if (!resp || resp.status >= 500) { ladder.to('failed'); return { resp: await fallback(resp), put: null }; }
+    if (resp.status === 200) { ladder.to(loading ? 'unstored' : 'stored'); return finish(resp, loading); }
     if (resp.status >= 400) {
+      ladder.to('client-error');
       resp = new Response(resp.body, resp);
-      resp.headers.set('Cache-Control', 'no-store');
-    }
+      resp.headers.set('Cache-Control', CACHE.error);
+    } else ladder.to('passed-through');
     // A redirect (another spelling of an id) keeps the Cache-Control its handler gave it.
     return { resp, put: null };
   };
@@ -148,17 +219,19 @@ export async function cachedJson(context, codeVersion, handler, options = {}) {
 
   const flight = GATE.inflight.get(cacheKey.url);
   if (flight) {
+    ladder.to('waiting');
     await flight;
     const hit = await lookup();
-    if (hit) return hit;
+    if (hit) { ladder.to('edge-hit'); return hit; }
   }
+  ladder.to('gate');
   let settle;
   const mine = new Promise((resolve) => { settle = resolve; });
   if (!flight) GATE.inflight.set(cacheKey.url, mine);
   let put = null;
   try {
     const release = await acquireGate();
-    if (!release) return await fallback(null);
+    if (!release) { ladder.to('failed'); return await fallback(null); }
     let out;
     try { out = await rebuild(); } finally { release(); }
     put = out.put;
@@ -175,7 +248,34 @@ export async function cachedJson(context, codeVersion, handler, options = {}) {
 export const GATE_ACTIVE = 2;
 export const GATE_QUEUE = 32;
 export const GATE_WAIT_MS = 20_000;
-/** @type {{ active: number, queue: Array<{ resolve: (release: (() => void) | null) => void, timer: any }>, inflight: Map<string, unknown>, peak: number }} */
+
+/**
+ * One request's slot at the gate (refactor state machine FN-01):
+ *   asking     -> active (a slot is free) | queued (wait, up to GATE_WAIT_MS) | refused (queue full)
+ *   queued     -> active (a released slot is handed over) | timed-out
+ *   active     -> released (the rebuild finished; the slot passes to the next waiter or is freed)
+ * Refused and timed-out requests fall back (ANSWER_LADDER `failed`). Releasing twice is a no-op.
+ *
+ * @typedef {'asking' | 'active' | 'queued' | 'refused' | 'timed-out' | 'released'} GateSlotState
+ */
+export const GATE_SLOT = freezeTable(/** @type {Record<GateSlotState, GateSlotState[]>} */ ({
+  asking: ['active', 'queued', 'refused'],
+  queued: ['active', 'timed-out'],
+  active: ['released'],
+  refused: [],
+  'timed-out': [],
+  released: [],
+}));
+
+/** @typedef {{ state: GateSlotState }} GateSlot */
+
+/** Move a slot, or throw if GATE_SLOT has no such move. */
+export function slotTo(/** @type {GateSlot} */ slot, /** @type {GateSlotState} */ next) {
+  if (!GATE_SLOT[slot.state].includes(next)) throw new Error(`records gate: ${slot.state} -> ${next} is not a transition`);
+  slot.state = next;
+}
+
+/** @type {{ active: number, queue: Array<{ resolve: (release: (() => void) | null) => void, timer: any, slot: GateSlot }>, inflight: Map<string, unknown>, peak: number }} */
 const GATE = { active: 0, queue: [], inflight: new Map(), peak: 0 };
 
 /** For tests: the gate's counters, and a reset. */
@@ -187,42 +287,50 @@ export const gateState = {
 };
 
 function acquireGate() {
+  /** @type {GateSlot} */
+  const slot = { state: 'asking' };
   if (GATE.active < GATE_ACTIVE) {
+    slotTo(slot, 'active');
     GATE.active += 1;
     GATE.peak = Math.max(GATE.peak, GATE.active);
-    return Promise.resolve(releaseGate());
+    return Promise.resolve(releaseGate(slot));
   }
-  if (GATE.queue.length >= GATE_QUEUE) return Promise.resolve(null);
+  if (GATE.queue.length >= GATE_QUEUE) {
+    slotTo(slot, 'refused');
+    return Promise.resolve(null);
+  }
   return new Promise((resolve) => {
+    slotTo(slot, 'queued');
     /** @type {(typeof GATE.queue)[number]} */
-    const waiter = { resolve, timer: null };
+    const waiter = { resolve, timer: null, slot };
     waiter.timer = setTimeout(() => {
       const i = GATE.queue.indexOf(waiter);
       if (i >= 0) GATE.queue.splice(i, 1);
+      slotTo(slot, 'timed-out');
       resolve(null);
     }, GATE_WAIT_MS);
     GATE.queue.push(waiter);
   });
 }
 
-/** One slot's release, good once: the slot passes to the next waiter, else it is freed. */
-function releaseGate() {
-  let used = false;
+/** An active slot's release, good once: the slot passes to the next waiter, else it is freed. */
+function releaseGate(/** @type {GateSlot} */ slot) {
   return () => {
-    if (used) return;
-    used = true;
+    if (slot.state === 'released') return;
+    slotTo(slot, 'released');
     const next = GATE.queue.shift();
     if (next) {
       clearTimeout(next.timer);
-      next.resolve(releaseGate());
+      slotTo(next.slot, 'active');
+      next.resolve(releaseGate(next.slot));
     } else GATE.active = Math.max(0, GATE.active - 1);
   };
 }
 
 async function r2Copy(env, key) {
-  if (!key || !env?.MAPS_BUCKET) return null;
+  if (!key || !binding(env, 'MAPS_BUCKET')) return null;
   try {
-    const obj = await env.MAPS_BUCKET.get(key);
+    const obj = await binding(env, 'MAPS_BUCKET').get(key);
     return obj ? new Response(obj.body, { headers: { ...JSON_HEADERS, 'X-Civgraph-Copy': 'r2' } }) : null;
   } catch {
     return null;
