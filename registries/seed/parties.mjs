@@ -24,7 +24,7 @@ export const PARTY_PARTS = {
   wikidata: 'data/elections/parties/party-wikidata.json',
   wikidataOverrides: 'data/elections/parties/party-wikidata-overrides.json',
   labelIds: 'data/elections-source/data/party-ids.json',
-  labelFolds: 'scripts/build/browse-party-label-folds.json',
+  labelFolds: 'data/registries/parties/label-folds.json',
   labelInterpretations: 'data/elections/party-label-interpretations.json',
   colourReviewOverrides: 'data/elections/party-colour-review-overrides.json'
 };

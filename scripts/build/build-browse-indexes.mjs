@@ -1505,9 +1505,9 @@ function buildParties(partyIds, electionDetails) {
   }
 
   // Party pages that are no longer built because their candidacies now carry another party's
-  // label (scripts/build/browse-party-label-folds.json, retiredSlugs: the Workers' Party merge of
+  // label (data/registries/parties/label-folds.json, retiredSlugs: the Workers' Party merge of
   // 2026-11-02, for one). The old address still opens the party, as a folded label's does.
-  const retired = readJson('scripts/build/browse-party-label-folds.json', { retiredSlugs: {} }).retiredSlugs || {};
+  const retired = readJson('data/registries/parties/label-folds.json', { retiredSlugs: {} }).retiredSlugs || {};
   const claimed = new Set([...byId.values()].flatMap((party) => party.previousSlugs || []));
   for (const [targetSlug, group] of Object.entries(retired)) {
     const target = byId.get(`party:${targetSlug}`);
@@ -1572,7 +1572,7 @@ function buildParties(partyIds, electionDetails) {
  * Which party-ids.json labels are another party under a different spelling.
  *
  * Three sources, in this order, each auditable:
- *   1. scripts/build/browse-party-label-folds.json, a curated list: misspellings, the party's other
+ *   1. data/registries/parties/label-folds.json, a curated list: misspellings, the party's other
  *      name, a leader's name or a candidate's occupation in the party field.
  *   2. The curated party registry: a label that is exactly one of a registry party's aliases.
  *   3. Plain typing errors: a label that differs from an established party's name only by a
@@ -1587,7 +1587,7 @@ function buildParties(partyIds, electionDetails) {
  */
 function partyLabelFolds(parties, registry, registryAliases, partyIdOf) {
   const ESTABLISHED = 50;
-  const curated = readJson('scripts/build/browse-party-label-folds.json', { folds: {}, neverFold: [] });
+  const curated = readJson('data/registries/parties/label-folds.json', { folds: {}, neverFold: [] });
   const ids = new Set(parties.map(partyIdOf));
   const byLabel = new Map(parties.map((party) => [cleanText(party.canonical_name), party]));
   const never = new Set(normalizeArray(curated.neverFold).map(cleanText));
@@ -3178,7 +3178,7 @@ function reportPartyLabelFolds(folds) {
   writeJson('party-label-folds.json', {
     schemaVersion: 1,
     generatedAt: GENERATED_AT,
-    curatedList: 'scripts/build/browse-party-label-folds.json',
+    curatedList: 'data/registries/parties/label-folds.json',
     total: rows.length,
     folds: rows,
     missing: folds.missing,

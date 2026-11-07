@@ -63,7 +63,7 @@ export function entityAliasStrings(entity) {
   return (entity.aliases || []).map((a) => (typeof a === 'string' ? a : a.string));
 }
 
-/** Ballot label -> the Browse party slug it is listed under (browse-party-label-folds.json). */
+/** Ballot label -> the Browse party slug it is listed under (data/registries/parties/label-folds.json). */
 export function labelFoldIndex(registry) {
   const out = new Map();
   for (const [slug, fold] of Object.entries(registry.labelFolds.folds)) for (const label of fold.labels) out.set(label, slug);
