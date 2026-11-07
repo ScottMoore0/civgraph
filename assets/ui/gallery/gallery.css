@@ -1,0 +1,102 @@
+/*
+ * The component gallery's own layout (/design-system/, functions/design-system/index.js).
+ * Reads tokens only; nothing here is a site component.
+ */
+.cg-gallery {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4) var(--space-16);
+}
+.cg-gallery__toc ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+  margin: 0 0 var(--space-8);
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-sm);
+}
+.cg-gallery__section {
+  margin: 0 0 var(--space-12);
+}
+.cg-gallery__specimen {
+  margin: 0 0 var(--space-8);
+  padding: var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+.cg-gallery__specimen > h3 {
+  margin: 0 0 var(--space-1);
+}
+.cg-gallery__source {
+  margin: 0 0 var(--space-4);
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+.cg-gallery__example {
+  padding: var(--space-4);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
+}
+.cg-gallery__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+.cg-gallery__markup {
+  margin-top: var(--space-3);
+  font-size: var(--text-sm);
+}
+.cg-gallery__markup pre {
+  max-height: 16rem;
+  overflow: auto;
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--surface-sunken);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.cg-gallery__h1 {
+  font-size: var(--text-4xl);
+}
+.cg-gallery__tokens table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+.cg-gallery__tokens th,
+.cg-gallery__tokens td {
+  padding: var(--space-1) var(--space-2);
+  border-bottom: 1px solid var(--table-rule);
+  text-align: left;
+  vertical-align: middle;
+}
+.cg-gallery__tokens code {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+}
+.cg-gallery__tokens h3 {
+  margin: var(--space-6) 0 var(--space-2);
+  font-size: var(--text-base);
+  text-transform: capitalize;
+}
+.cg-gallery__swatch {
+  display: inline-block;
+  width: 2.5rem;
+  height: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  vertical-align: middle;
+}
+.cg-gallery__bar {
+  display: inline-block;
+  height: 0.75rem;
+  border-radius: var(--radius-sm);
+  background: var(--color-accent);
+  vertical-align: middle;
+}
