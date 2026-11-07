@@ -12,6 +12,14 @@
 /status   /pages/status  301
 /status/  /pages/status  301
 
+# The Leaflet 1.9.4 files of the retired Leaflet map (archived in fb5d246cad, August 2026) left the
+# tree on 7 Nov 2026: no page has loaded them since the MapLibre map took over. Their addresses answer
+# with the same release on unpkg, the same bytes (the stylesheet bar its line endings), so a page or
+# cache that still asks for them gets what it asked for.
+/assets/js/leaflet-1.9.4.js  https://unpkg.com/leaflet@1.9.4/dist/leaflet.js  301
+/assets/css/leaflet-1.9.4.css  https://unpkg.com/leaflet@1.9.4/dist/leaflet.css  301
+/assets/css/images/*  https://unpkg.com/leaflet@1.9.4/dist/images/:splat  301
+
 # Bangor and Lisburn are one body each (2026-11): their 15 January 1920 rounds moved from the
 # urban district slugs to the borough slugs that hold the later rounds, titled for the era.
 # Splats only match at the end of a path, so each published address is listed.
