@@ -187,7 +187,7 @@ export function ingestElections(db, { bundleDir, manifestFile, summaryDir }) {
     for (const entry of manifestEntries) {
       const url = String(entry.summaryUrl || '');
       if (!url) continue;
-      const file = url.split('?')[0].split('/').pop();
+      const file = url.split('?')[0].split('/').pop() ?? '';
       let text;
       try { text = readFileSync(path.join(summaryDir, file), 'utf8'); } catch { continue; }
       W.summaries.add({ election_key: entry.key, file, summary: JSON.stringify(JSON.parse(text)) });

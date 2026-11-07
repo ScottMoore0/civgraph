@@ -55,7 +55,7 @@ const manifest = {
   schemaVersion: 1,
   version,
   licence: `See ${SITE.origin}/pages/about.html for the licence of each source; the records cite theirs.`,
-  files: [],
+  files: /** @type {{ name: string, bytes: number, sha256: string }[]} */ ([]),
 };
 for (const f of files) {
   const full = path.join(OUT, f);
