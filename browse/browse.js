@@ -837,15 +837,29 @@ function parseRoute() {
   // A deep link to the other layer still resolves rather than 404ing, so shared URLs keep
   // working; only the directory and the default view are scoped.
   if (!ENTITY_CONFIG[type]) type = fallback;
-  return { isHome: false, type, id: renamedRecordId(type, id), params };
+  const renamed = renamedRecordId(type, id);
+  // A retired #/ address becomes the record's own, as the server's 301 does for a path, so a
+  // copied link is the current one.
+  if (useHash && renamed !== id && !params.has('id')) {
+    history.replaceState(history.state, '', `${location.pathname}${location.search}#/${type}/${encodeURIComponent(renamed)}${hashQuery ? `?${hashQuery}` : ''}`);
+    lastRoutedAddress = currentAddress();
+  }
+  return { isHome: false, type, id: renamed, params };
 }
 
-// Records filed under another body since they were published, so their slugs changed: an old
-// in-app (#/) link still opens the record. Path-style addresses are redirected by _redirects.
-// Bangor's and Lisburn's 1920 rounds moved to the borough bodies that hold their later rounds.
+// Records whose slugs changed after they were published: an old in-app (#/) link still opens
+// the record. Path-style addresses get a 301 from the Browse page Function, from the same list
+// (functions/_lib/election-slug-aliases.js; tests/functions/election-slug-aliases.test.mjs
+// holds the two together). Bangor's and Lisburn's 1920 rounds moved to the borough bodies that
+// hold their later rounds; Carrickfergus 1955's aldermanic contests were "-2" of the
+// councillor contests; two North Down by-elections were named by ARK's import code.
 const RENAMED_RECORD_PREFIXES = [
   ['bangor-urban-district-council-1920-01-15', 'bangor-borough-council-1920-01-15'],
-  ['lisburn-urban-district-council-1920-01-15', 'lisburn-borough-council-1920-01-15']
+  ['lisburn-urban-district-council-1920-01-15', 'lisburn-borough-council-1920-01-15'],
+  ['carrickfergus-borough-council-1955-05-18-east-central-ward-2', 'carrickfergus-borough-council-1955-05-18-east-central-ward-alderman'],
+  ['carrickfergus-borough-council-1955-05-18-west-ward-2', 'carrickfergus-borough-council-1955-05-18-west-ward-alderman'],
+  ['local-government-north-down-1993-10-20-lg93-nod-holywood', 'local-government-north-down-1993-10-20-holywood'],
+  ['local-government-local-government-districts-1975-05-29-lg73-nod-area-b', 'local-government-local-government-districts-1975-05-29-north-down-area-b']
 ];
 
 function renamedRecordId(type, id) {
