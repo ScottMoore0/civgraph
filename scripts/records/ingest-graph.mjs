@@ -57,6 +57,7 @@ export function ingestGraph(db, { graphDir, frozenFrom = null }) {
   const idx = path.join(graphDir, 'indexes');
   // What each old file (path under data/graph/) held, in order: graph_files.
   const files = [];
+  /** @type {(file: string, keys: string[], extra?: unknown[][] | null) => number} */
   const fileKeys = (file, keys, extra = null) => files.push({ file, keys, extra });
   const lookupEntry = new Map();
   for (const [file, bucket] of jsonFiles(path.join(idx, 'lookup', 'entity'))) {
@@ -161,6 +162,7 @@ export function ingestGraph(db, { graphDir, frozenFrom = null }) {
       graph_reverse: rv.finish(), graph_source_statements: ss.finish(), graph_files: gf ? gf.finish() : 0,
     };
   });
+  /** @type {{ frozenFrom: string | null, drifted: unknown[], retired: number }} */
   let graphFiles = { frozenFrom: null, drifted: [], retired: 0 };
   if (frozenFrom) {
     const carried = carryGraphFiles(db, frozenFrom, freshFiles);

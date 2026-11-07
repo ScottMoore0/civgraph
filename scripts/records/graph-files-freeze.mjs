@@ -28,7 +28,7 @@ export function graphFilesRows(file) {
   try {
     const db = openSqliteHandle(file, { readOnly: true });
     try {
-      return Number(db.prepare('SELECT count(*) AS n FROM graph_files').get().n) || 0;
+      return Number(db.prepare('SELECT count(*) AS n FROM graph_files').get()?.n) || 0;
     } finally {
       db.close();
     }

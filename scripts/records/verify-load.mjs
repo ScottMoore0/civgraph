@@ -79,11 +79,11 @@ export const PERSIST_DIR = '.wrangler/state';
 
 /** wrangler's entry script: CIVGRAPH_WRANGLER_JS, the project's, the global install, or `npm root -g`. */
 export const WRANGLER = (() => {
-  const candidates = [
+  const candidates = /** @type {string[]} */ ([
     buildVar('CIVGRAPH_WRANGLER_JS'),
     path.join(REPO_ROOT, 'node_modules', 'wrangler', 'bin', 'wrangler.js'),
     process.env.APPDATA && path.join(process.env.APPDATA, 'npm', 'node_modules', 'wrangler', 'bin', 'wrangler.js'),
-  ].filter(Boolean);
+  ].filter(Boolean));
   const found = candidates.find((c) => existsSync(c));
   if (found) return found;
   const root = spawnSync('npm', ['root', '-g'], { encoding: 'utf8', shell: process.platform === 'win32' }).stdout?.trim();
@@ -165,7 +165,7 @@ export function queryWithRetry(query, sql, opts, { backoffMs = BOUNDS.backoffMs,
 
 export function localChecksums(file) {
   const db = openSqliteHandle(file, { readOnly: true });
-  const rows = HASHED_TABLES.map((t) => db.prepare(tableChecksumSql(t)).get());
+  const rows = HASHED_TABLES.map((t) => /** @type {{ t: string, n: number, s: number }} */ (db.prepare(tableChecksumSql(t)).get()));
   const schema = db.prepare(SCHEMA_SQL).all();
   db.close();
   return { tables: Object.fromEntries(rows.map((r) => [r.t, { n: Number(r.n), s: Number(r.s) }])), schema };
@@ -361,11 +361,11 @@ export function boundedPlan({ file, since = null, sample = BOUNDS.sampleKeys, bo
           },
         });
       }
-      const n = recorded[t.name]?.n ?? Number(db.prepare(`SELECT COUNT(*) AS n FROM ${t.name}`).get().n);
+      const n = recorded[t.name]?.n ?? Number(db.prepare(`SELECT COUNT(*) AS n FROM ${t.name}`).get()?.n);
       if (n <= bounds.smallTableRows) {
-        const size = Number(db.prepare(`SELECT COALESCE(SUM(${bytesExpr(t)}), 0) AS b FROM (SELECT * FROM ${t.name} LIMIT ${bounds.smallTableRows + 1})`).get().b);
+        const size = Number(db.prepare(`SELECT COALESCE(SUM(${bytesExpr(t)}), 0) AS b FROM (SELECT * FROM ${t.name} LIMIT ${bounds.smallTableRows + 1})`).get()?.b);
         if (size <= bounds.smallTableBytes) {
-          const s = recorded[t.name]?.s ?? Number(db.prepare(`SELECT COALESCE(SUM(row_hash_n), 0) AS s FROM ${t.name}`).get().s);
+          const s = recorded[t.name]?.s ?? Number(db.prepare(`SELECT COALESCE(SUM(row_hash_n), 0) AS s FROM ${t.name}`).get()?.s);
           steps.push({
             label: `${t.name} count+checksum (LIMIT ${n + 1})`,
             sql: boundedChecksumSql(t, n + 1),
@@ -429,7 +429,8 @@ if (process.argv[1] && path.basename(process.argv[1]) === 'verify-load.mjs') {
     process.exit(1);
   }
   const file = path.resolve(opt('--db') || RECORDS_DB);
-  const since = opt('--since') ? path.resolve(opt('--since')) : null;
+  const sinceOption = opt('--since');
+  const since = sinceOption ? path.resolve(sinceOption) : null;
   const mode = verifyModeFor({ remote, fullVerify: args.includes('--full-verify'), bounded: args.includes('--bounded') });
   if (remote && mode === 'full') console.warn('WARNING: --full-verify scans every row of every table of the live database (about 4 GB): quiet hours only');
   const mismatches = verify({

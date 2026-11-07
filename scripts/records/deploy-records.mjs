@@ -104,7 +104,7 @@ function writeParts(fromFile) {
       bytes += len;
     },
   });
-  closeSync(fd);
+  if (fd !== null) closeSync(fd);
   return { result, files };
 }
 
