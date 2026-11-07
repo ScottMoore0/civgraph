@@ -8,6 +8,7 @@
  *   node scripts/publish/r2-upload-files.mjs <file>=<r2/key> [<file>=<r2/key> ...] [--dry-run]
  */
 import { existsSync, readFileSync, statSync } from 'fs';
+import { r2CredentialsOrExit, s3ClientOptions } from './r2-env.mjs';
 
 const DRY = process.argv.includes('--dry-run');
 const pairs = process.argv.slice(2).filter((a) => a !== '--dry-run').map((a) => {
@@ -27,18 +28,10 @@ if (DRY) {
     for (const p of pairs) console.log(`${p.file} (${(statSync(p.file).size / 1e6).toFixed(2)} MB) -> ${p.key}`);
     process.exit(0);
 }
-process.loadEnvFile('.env.local');
+const R2 = r2CredentialsOrExit();
+const BUCKET = R2.bucket;
 const { S3Client, PutObjectCommand } = await import('@aws-sdk/client-s3');
-const { R2_S3_ENDPOINT: ENDPOINT, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY } = process.env;
-const BUCKET = process.env.R2_BUCKET || 'boundaries-data';
-if (!ENDPOINT || !R2_ACCESS_KEY_ID || !R2_SECRET_ACCESS_KEY) {
-    console.error('Missing R2_S3_ENDPOINT / R2_ACCESS_KEY_ID / R2_SECRET_ACCESS_KEY in .env.local');
-    process.exit(1);
-}
-const s3 = new S3Client({
-    region: 'auto', endpoint: ENDPOINT, maxAttempts: 5,
-    credentials: { accessKeyId: R2_ACCESS_KEY_ID, secretAccessKey: R2_SECRET_ACCESS_KEY },
-});
+const s3 = new S3Client(s3ClientOptions(R2, { maxAttempts: 5 }));
 for (const p of pairs) {
     const body = readFileSync(p.file);
     await s3.send(new PutObjectCommand({ Bucket: BUCKET, Key: p.key, Body: body, ContentType: 'application/octet-stream' }));
