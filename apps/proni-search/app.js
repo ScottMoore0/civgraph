@@ -13,7 +13,7 @@
  * @template {Event} [E=Event]
  * @typedef {E & { target: { closest(selectors: string): UiElement | null } & UiElement }} ElementEvent
  */
-import { AZ_SCOPE, CARD_CHILDREN, CARD_DESCRIPTION, MODAL, RESULTS, VIEW } from './state-machines.js';
+import { AZ_SCOPE, CARD_CHILDREN, CARD_DESCRIPTION, COPY_FLASH, MODAL, RESULTS, VIEW } from './state-machines.js';
 
 const API = '/_api/proni/search';
 const COUNT_API = '/_api/proni/count';
@@ -649,22 +649,56 @@ function fallbackCopy(text) {
   }
 }
 
+/**
+ * The copy confirmation of each element (COPY_FLASH). `show` puts it up and returns what takes
+ * it down; a second copy while it shows only restarts the timer, so the button no longer saves
+ * '✓ Copied' as the label to put back, and the guide's note no longer hides at the first timer.
+ * @type {WeakMap<Element, { run: ReturnType<typeof COPY_FLASH.start>, timer: ReturnType<typeof setTimeout> | undefined, hide: () => void }>}
+ */
+const copyFlashes = new WeakMap();
+/**
+ * @param {Element} el
+ * @param {number} ms
+ * @param {() => () => void} show
+ */
+function flashCopied(el, ms, show) {
+  let flash = copyFlashes.get(el);
+  if (!flash) {
+    flash = { run: COPY_FLASH.start(), timer: undefined, hide: () => {} };
+    copyFlashes.set(el, flash);
+  }
+  const current = flash;
+  if (current.run.state() === 'idle') {
+    current.run.to('copied');
+    current.hide = show();
+  }
+  clearTimeout(current.timer);
+  current.timer = setTimeout(() => {
+    current.run.to('idle');
+    current.hide();
+  }, ms);
+}
+
 async function copyRef(el) {
   const ref = el.getAttribute('data-copy');
   if (!ref) return;
   try { await navigator.clipboard.writeText(ref); } catch { fallbackCopy(ref); }
   if (el.classList.contains('ps-copy')) {
-    const old = el.innerHTML;
-    el.innerHTML = '✓ Copied'; el.classList.add('is-copied');
-    setTimeout(() => { el.innerHTML = old; el.classList.remove('is-copied'); }, 1400);
+    flashCopied(el, 1400, () => {
+      const old = el.innerHTML;
+      el.innerHTML = '✓ Copied'; el.classList.add('is-copied');
+      return () => { el.innerHTML = old; el.classList.remove('is-copied'); };
+    });
   } else {
-    el.classList.add('is-copied');
-    const note = el.parentElement && el.parentElement.querySelector('.ps-guide__copied');
-    if (note) { note.hidden = false; }
-    setTimeout(() => {
-      el.classList.remove('is-copied');
-      if (note) note.hidden = true;
-    }, 1600);
+    flashCopied(el, 1600, () => {
+      el.classList.add('is-copied');
+      const note = el.parentElement && el.parentElement.querySelector('.ps-guide__copied');
+      if (note) { note.hidden = false; }
+      return () => {
+        el.classList.remove('is-copied');
+        if (note) note.hidden = true;
+      };
+    });
   }
 }
 

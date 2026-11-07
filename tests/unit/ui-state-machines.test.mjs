@@ -34,6 +34,7 @@ const MACHINES = {
   'proni CARD_CHILDREN': proni.CARD_CHILDREN,
   'proni CARD_DESCRIPTION': proni.CARD_DESCRIPTION,
   'proni MODAL': proni.MODAL,
+  'proni COPY_FLASH': proni.COPY_FLASH,
   'words TOOLTIP': words.TOOLTIP,
   'site THEME_PREFERENCE': THEME_PREFERENCE,
 };

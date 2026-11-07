@@ -86,3 +86,9 @@ export const CARD_DESCRIPTION = defineMachine({
 
 /** UI-L. The record dialog. */
 export const MODAL = defineToggle('proni record dialog', ['closed', 'open']);
+
+/**
+ * UI-L. The "Copied" confirmation of a copy button or a guide reference line: idle, or copied
+ * until its timer ends. A copy while one shows restarts the timer and leaves the state alone.
+ */
+export const COPY_FLASH = defineToggle('proni copy confirmation', ['idle', 'copied']);

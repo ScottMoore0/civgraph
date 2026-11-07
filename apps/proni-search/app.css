@@ -238,6 +238,7 @@ a.ps-btn--export { text-decoration: none; display: inline-flex; align-items: cen
 .ps-guide__reffield:hover { background: #e7f1fc; }
 .ps-guide__reffield.is-copied { background: #e9f7ee; border-color: #2f9a56; color: #1a7a3e; }
 .ps-guide__copied { display: inline-block; margin-top: 0.45rem; font-size: 0.85rem; font-weight: 700; color: #1a7a3e; }
+.ps-guide__copied[hidden] { display: none; }
 /* frame the screenshot as an obvious browser-window screenshot, not live UI */
 .ps-shotframe { margin: 0.5rem 0 0; max-width: 640px; background: #fff; border: 1px solid #c4d0dd; border-radius: 10px; overflow: hidden; box-shadow: 0 8px 24px rgba(16, 40, 70, .2); }
 .ps-shotframe__bar { display: flex; align-items: center; gap: 0.6rem; background: linear-gradient(#f1f4f8, #e3e9f1); border-bottom: 1px solid #cfd8e3; padding: 0.45rem 0.7rem; }
