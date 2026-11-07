@@ -54,6 +54,7 @@
 import { execFileSync } from 'node:child_process';
 import { readFileSync, writeFileSync, mkdirSync, rmSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
+import { CONTRIBUTION_STATUS } from './lib/statuses.mjs';
 
 const CATALOGUE = 'data/database/maps.json';
 const KV_BINDING = 'CIVGRAPH_CONTRIBUTION_QUEUE';
@@ -68,10 +69,11 @@ const KV_BINDING = 'CIVGRAPH_CONTRIBUTION_QUEUE';
  * something refused had been enacted.
  */
 export const TERMINAL_STATUS = 'applied';
+// The full table (pending-review, approved, rejected, applied) is CONTRIBUTION_STATUS in lib/statuses.mjs.
 
 export function canMarkApplied(status) {
-  if (status === 'approved') return { ok: true };
   if (status === TERMINAL_STATUS) return { ok: false, reason: 'already marked applied' };
+  if (CONTRIBUTION_STATUS.can(status, TERMINAL_STATUS)) return { ok: true };
   return { ok: false, reason: `status is "${status}"; only an approved submission can be marked applied` };
 }
 
