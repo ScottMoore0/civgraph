@@ -43,6 +43,7 @@ mkdirSync(CACHE, { recursive: true });
 const out = createWriteStream(path.join(CACHE, 'place-name-crosswalk.tsv'));
 out.write('layer_id\tfeature_id\tenglish\tirish\tlogainm_id\tirish_field\n');
 
+/** @type {{ generatedFrom: string, byKind: Record<string, any>, layers: Record<string, any>, missingSource: string[] }} */
 const summary = { generatedFrom: 'local source cache (render/source-cache/vector-intake)', byKind: {}, layers: {}, missingSource: [] };
 const sample = {};
 const seenSources = new Set();

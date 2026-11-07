@@ -45,6 +45,17 @@ import path from 'node:path';
 import { formatDisplayDate } from '../../src/date-format.mjs';
 import { BROWSE_DIR, ELECTION_BUNDLE_DIR, PROVENANCE_FILE } from '../records/paths.mjs';
 
+/**
+ * A contest returned unopposed (state-machine catalogue PL-L, light): marked uncontested, or every
+ * candidate's status says unopposed. Counted with full figures.
+ * @param {{ contestStatus?: string, candidates?: Array<{ status?: string }> }} result
+ */
+export function isUnopposedContest(result) {
+  const cands = result.candidates || [];
+  return result.contestStatus === 'uncontested'
+    || (cands.length > 0 && cands.every((c) => /unopposed/i.test(c.status || '')));
+}
+
 const ROOT = process.cwd();
 const CHECK = process.argv.includes('--check');
 const OUT = path.join(ROOT, 'data/database/status.json');
@@ -231,8 +242,7 @@ for (const file of readdirSync(path.resolve(ROOT, ELECTION_DIR)).filter((f) => f
   bodyNames.set(e.bodySlug, e.body);
   for (const r of e.results || []) {
     const cands = r.candidates || [];
-    const unopposed = r.contestStatus === 'uncontested'
-      || (cands.length > 0 && cands.every((c) => /unopposed/i.test(c.status || '')));
+    const unopposed = isUnopposedContest(r);
     const voted = cands.length > 0 && cands.every((c) => [c.firstPrefs, c.finalVotes, c.votes].some((v) => Number.isFinite(v)));
     const rel = String(r.sourceFile || '').replace(/\\/g, '/').replace(SOURCE_PREFIX, '');
     const prov = provByFile.get(rel) || provByKey.get(`${e.bodySlug}|${e.date}|${r.constituency}`);

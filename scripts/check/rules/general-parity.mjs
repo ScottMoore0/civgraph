@@ -4,6 +4,12 @@ import { spawn } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
+/**
+ * A parity check's verdict (state-machine catalogue PL-L, light: a closed result set).
+ * @typedef {'pass' | 'fail' | 'warn' | 'reported-only'} ParityStatus
+ */
+export const PARITY_STATUSES = Object.freeze(['pass', 'fail', 'warn', 'reported-only']);
+
 const PORT = Number(process.env.TEST2_PARITY_PORT || 5055);
 const BASE = `http://127.0.0.1:${PORT}`;
 const MATRIX_PATH = 'docs/test2-general-parity-matrix.json';

@@ -6,6 +6,7 @@
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { writeStableGeneratedJson } from '../../lib/stable-generated-json.mjs';
+import { SITE } from '../../lib/config.mjs';
 
 const ROOT = resolve(process.cwd());
 const METADATA_PATH = resolve(ROOT, 'render/metadata/maps-test.json');
@@ -44,7 +45,7 @@ if (!manifest) {
     }
     if (!asset.targetKey?.startsWith('data/maps/test/')) errors.push(`${layer.id}: R2 key must live under data/maps/test/`);
     if (!asset.targetKey?.endsWith('.pmtiles')) errors.push(`${layer.id}: R2 key must end in .pmtiles`);
-    if (!asset.cdnUrl?.startsWith('https://data.civgraph.net/data/maps/test/')) errors.push(`${layer.id}: CDN URL must use data.civgraph.net/data/maps/test/`);
+    if (!asset.cdnUrl?.startsWith(`${SITE.dataOrigin}/data/maps/test/`)) errors.push(`${layer.id}: CDN URL must use data.civgraph.net/data/maps/test/`);
     if (!asset.localPath?.startsWith('render/pmtiles/generated/')) errors.push(`${layer.id}: local PMTiles path must live under render/pmtiles/generated/`);
     if (!asset.bytes || asset.bytes <= 0) errors.push(`${layer.id}: CDN manifest asset must record non-zero bytes`);
     if (layer.tileUrl?.startsWith('/render/pmtiles/')) warnings.push(`${layer.id}: still points at repo-local PMTiles URL`);

@@ -17,6 +17,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { createCanvas } from 'canvas';
 import { deserialize } from 'flatgeobuf/lib/mjs/geojson.js';
+import { SITE } from '../../lib/config.mjs';
 
 const ROOT = process.cwd();
 const MAPS_PATH = path.join(ROOT, 'data/database/maps.json');
@@ -558,7 +559,7 @@ async function main() {
   const registry = {
     schemaVersion: 1,
     generated: report.generated,
-    publicBase: process.env.FEATURE_THUMBNAIL_PUBLIC_BASE || 'https://data.civgraph.net/data/thumbnails/features',
+    publicBase: process.env.FEATURE_THUMBNAIL_PUBLIC_BASE || `${SITE.dataOrigin}/data/thumbnails/features`,
     extension,
     maps: {}
   };

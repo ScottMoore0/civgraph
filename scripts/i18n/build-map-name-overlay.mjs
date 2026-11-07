@@ -31,8 +31,10 @@ const CHECK = process.argv.includes('--check');
 const OUT = 'data/i18n/map-names.overlay.json';
 const SEP = '¦';
 
+/** @returns {Array<[string, string]>} */
 function readPairs(file, { skipPatterns = true } = {}) {
   if (!existsSync(file)) return [];
+  /** @type {Array<[string, string]>} */
   const pairs = [];
   for (const raw of readFileSync(file, 'utf8').replace(/\r\n/g, '\n').split('\n')) {
     const line = raw.trim();

@@ -9,6 +9,7 @@
  * Usage: node scripts/build/agent-index.mjs
  */
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { SITE } from '../lib/config.mjs';
 
 const doc = JSON.parse(readFileSync('data/database/maps.json', 'utf8'));
 const catGroup = new Map((doc.categories || []).map((c) => [c.id, c.group || '']));
@@ -46,13 +47,13 @@ try {
     geography: e.geography,
     valueColumn: e.valueColumn,
     joinKey: e.joinKey,
-    csv: e.csv ? `https://civgraph.net/${e.csv}` : undefined,
+    csv: e.csv ? `${SITE.origin}/${e.csv}` : undefined,
     source: e.source || undefined,
   }));
 } catch { /* none */ }
 
 const out = {
-  $schema: 'https://civgraph.net/agent/maps-index.schema (informal)',
+  $schema: `${SITE.origin}/agent/maps-index.schema (informal)`,
   generatedFrom: 'data/database/maps.json + data/database/data-entries.json',
   about: 'Civgraph catalogue for AI agents. `maps` links each layer to a FlatGeobuf (.fgb, EPSG:4326) geometry on https://data.civgraph.net. `dataOverlays` links statistical tables (census, NIMDM deprivation, …) as CSVs joined to a map layer by `joinKey`. Fetch the CSV(s) and/or geometry and compute directly — see https://civgraph.net/agent/guide.md.',
   count: maps.length,

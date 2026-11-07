@@ -8,6 +8,15 @@ import { join, relative, resolve } from 'node:path';
 import { platform } from 'node:os';
 import { spawn } from 'node:child_process';
 
+/**
+ * Each object's upload result (state-machine catalogue PL-L, light: a closed result set). The
+ * switch reads 'uploaded-directory' (layer-lifecycle.mjs mvtDirectoryState); 'dry-run' is ok but
+ * uploads nothing.
+ * @typedef {'uploaded' | 'dry-run' | 'missing-local-file' | 'upload-failed' | 'missing-local-directory'
+ *   | 'uploaded-directory' | 'partial-directory-upload'} UploadStatus
+ */
+export const UPLOAD_STATUSES = Object.freeze(['uploaded', 'dry-run', 'missing-local-file', 'upload-failed', 'missing-local-directory', 'uploaded-directory', 'partial-directory-upload']);
+
 const ROOT = resolve(process.cwd());
 const MANIFEST_PATH = resolve(ROOT, 'render/metadata/cdn-upload-manifest.json');
 const REPORT_PATH = resolve(ROOT, 'render/metadata/cdn-upload-report.json');

@@ -43,6 +43,7 @@ import {
 } from '../../src/ni-local-groups.mjs';
 import { printedLabelText } from '../../src/printed-labels.mjs';
 import { ELECTION_MANIFEST, localPathForUrl } from '../records/paths.mjs';
+import { defineMachine } from '../lib/state-machine.mjs';
 
 const ROOT = process.cwd();
 const OUT_DIR = path.join(ROOT, 'render', 'metadata', 'ni-local');
@@ -233,6 +234,50 @@ function addTo(map, key, n) {
   map[key] = (map[key] || 0) + n;
 }
 
+/**
+ * A published round's status, made explicit (state-machine catalogue PL-04). A round starts
+ * `complete` and may only be marked down, never back up:
+ *
+ *   complete -> partial   intake work 'partial', a round held back in review (excluded), or a
+ *                         round-completeness line saying it lacks divisions
+ *   complete -> held      intake work 'held'
+ *   partial, held         final
+ *
+ * The intake's work statuses are a closed list; any other value (a typo, a new status) still reads
+ * as complete, as it always did, but the build now names it. The list belongs in the round-status
+ * registry (RG-03, rf-registries) when that lands.
+ */
+export const ROUND_WORK_STATUSES = Object.freeze(['done', 'partial', 'held', 'no-election']);
+
+/** @typedef {'complete' | 'partial' | 'held'} GroupedRoundStatus */
+
+export const groupedRoundStatusMachine = defineMachine(/** @type {import('../lib/state-machine.mjs').MachineSpec<GroupedRoundStatus>} */ ({
+  name: 'grouped round status',
+  initial: 'complete',
+  transitions: { complete: ['partial', 'held'], partial: [], held: [] },
+}));
+
+/** True for no work status (a round the intake never tracked) or one on the closed list. */
+export function isKnownRoundWork(work) {
+  return work === undefined || work === null || work === '' || ROUND_WORK_STATUSES.includes(work);
+}
+
+/**
+ * @param {{ work?: string, excluded?: boolean, incomplete?: boolean }} facts
+ * @returns {GroupedRoundStatus}
+ */
+export function groupedRoundStatus({ work, excluded = false, incomplete = false }) {
+  /** @type {GroupedRoundStatus} */
+  let status = groupedRoundStatusMachine.initial;
+  const markDown = (/** @type {GroupedRoundStatus} */ to) => {
+    if (groupedRoundStatusMachine.can(status, to)) status = to;
+  };
+  if (work === 'partial' || work === 'held') markDown(work);
+  if (excluded) markDown('partial');
+  if (incomplete) markDown('partial');
+  return status;
+}
+
 function main() {
   const manifest = readJson(ELECTION_MANIFEST);
   const status = readJson('data/elections/ni-local/round-status.json');
@@ -268,6 +313,8 @@ function main() {
   const outputs = new Map();
   const coverageYears = [];
   const totals = { years: 0, rounds: 0, contests: 0, partialRounds: 0, missingRounds: 0, heldBackRounds: 0 };
+  /** Intake work statuses the derivation does not know (they count as complete, as before). */
+  const unknownWork = new Set();
 
   for (const [year, entries] of groups) {
     const statusRows = statusByYear.get(year) || [];
@@ -281,16 +328,17 @@ function main() {
       const bundle = readJson(localPathForUrl(entry.resultUrl));
       const row = statusFor(entry);
       const tier = councilTier(entry.bodySlug);
-      let roundStatus = 'complete';
-      const work = row?.work;
-      if (work === 'partial' || work === 'held') roundStatus = work;
-      if (row?.excluded && roundStatus === 'complete') roundStatus = 'partial';
       // A published round holding fewer divisions or wards than the council elected
       // (data/elections/round-completeness.json): its line says how many, and why where known.
       // A round marked complete there lacks only divisions the law left vacant: it keeps its line
       // (which names them) and still counts as complete.
       const completeness = roundCompleteness[entry.key];
-      if (completeness?.text && !completeness.complete && roundStatus === 'complete') roundStatus = 'partial';
+      if (!isKnownRoundWork(row?.work)) unknownWork.add(String(row?.work));
+      const roundStatus = groupedRoundStatus({
+        work: row?.work,
+        excluded: Boolean(row?.excluded),
+        incomplete: Boolean(completeness?.text && !completeness.complete),
+      });
       const contests = (bundle.results || []).map((result) => compactContest(result, entry.bodySlug));
       return {
         key: entry.key,
@@ -403,6 +451,9 @@ function main() {
     if (!writes.has(path.join(OUT_DIR, name))) fs.rmSync(path.join(OUT_DIR, name));
   }
   for (const [file, text] of writes) fs.writeFileSync(file, text);
+  if (unknownWork.size) {
+    console.warn(`WARNING: unknown intake work status(es) ${[...unknownWork].join(', ')} in round-status.json were read as complete (known: ${ROUND_WORK_STATUSES.join(', ')})`);
+  }
   console.log(`ni-local: ${totals.years} years, ${totals.rounds} rounds, ${totals.contests} contests; ${totals.partialRounds} partial, ${totals.missingRounds} missing, ${totals.heldBackRounds} held back`);
 }
 
