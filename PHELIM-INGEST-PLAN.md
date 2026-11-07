@@ -187,7 +187,7 @@ B-1's resolution. Ingest `DEDs_Connacht_1963.fgb` as `eds-connacht-1957`.
 
 ### P1-1 · Parse the notes into a build spec
 
-Write `scripts/parse-phelim-ed-notes.mjs`: read the 22 `.txt`, emit JSON with
+Write `scripts/ingest/idb-phelim/parse-phelim-ed-notes.mjs`: read the 22 `.txt`, emit JSON with
 `{year, name, provider, date, filesToUse[], notes, sources[], categoryCard, labelAttribute}`.
 Fail loudly on any note that does not match the expected shape rather than skipping it.
 

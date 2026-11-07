@@ -1,4 +1,4 @@
-// The Elliott & Flackes importer's rules (scripts/facts/import_elliott_flackes_facts.py and
+// The Elliott & Flackes importer's rules (scripts/ingest/facts/import_elliott_flackes_facts.py and
 // ef_offices.py): dates keep their precision, names match only with dates and a party or body,
 // and office strings resolve to the catalogue or are reported as not modelled.
 import assert from 'node:assert/strict';
@@ -6,7 +6,7 @@ import { spawnSync } from 'node:child_process';
 import test from 'node:test';
 
 function py(code) {
-  const r = spawnSync('python', ['-c', `import sys, json\nsys.path.insert(0, 'scripts/facts')\n${code}`], { encoding: 'utf8' });
+  const r = spawnSync('python', ['-c', `import sys, json\nsys.path.insert(0, 'scripts/ingest/facts')\n${code}`], { encoding: 'utf8' });
   assert.equal(r.status, 0, r.stderr);
   return JSON.parse(r.stdout.trim().split('\n').pop());
 }

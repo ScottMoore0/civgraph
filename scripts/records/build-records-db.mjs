@@ -124,8 +124,8 @@ function transformsPresent() {
 function transformElections() {
   run(process.execPath, ['scripts/build-test2-election-manifest.mjs']);
   run(process.execPath, ['scripts/build-test2-election-summaries.mjs']);
-  run('python', ['scripts/apply_person_ids_v2.py']);
-  run('python', ['scripts/build_name_registry.py', '--stamp-only']);
+  run('python', ['scripts/ingest/persons/apply_person_ids_v2.py']);
+  run('python', ['scripts/ingest/persons/build_name_registry.py', '--stamp-only']);
 }
 const transformProvenance = () => run(process.execPath, ['scripts/build-election-provenance.mjs']);
 function transformBrowse() {

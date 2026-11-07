@@ -77,7 +77,7 @@ export function writeStableGeneratedJson(file, data, options = {}) {
   const nextData = preserveVolatileFields(file, data, volatilePaths);
   // Indented for readable diffs, unless that would pass Cloudflare Pages' 25 MiB per-file
   // limit: clean-for-pages.sh deletes such files from the deploy, so an oversized election
-  // bundle would silently stop being served. scripts/generated_json.py applies the same rule.
+  // bundle would silently stop being served. scripts/ingest/persons/generated_json.py applies the same rule.
   const indented = `${JSON.stringify(nextData, null, 2)}\n`;
   const nextText = Buffer.byteLength(indented, 'utf8') > PAGES_SAFE_BYTES
     ? `${JSON.stringify(nextData)}\n`
@@ -92,7 +92,7 @@ export function writeStableGeneratedJson(file, data, options = {}) {
 
 // Windows Defender and the search indexer briefly lock a large file just written or read, and
 // the write then fails with UNKNOWN / EBUSY / EPERM. The lock clears within seconds, so wait and
-// retry rather than fail a long build on one file. scripts/generated_json.py does the same.
+// retry rather than fail a long build on one file. scripts/ingest/persons/generated_json.py does the same.
 function writeWithLockRetry(file, text) {
   for (let attempt = 0; ; attempt += 1) {
     try {

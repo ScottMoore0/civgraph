@@ -24,7 +24,7 @@ Do not commit raw local paths, address-granular fields, property-reference data,
 | `data/review-inputs/already-on-site-source-review-2026-06-24.csv` _(local only — git-ignored)_ | `scripts/sanitize-review-inputs.mjs` | Raw already-on-site source-review export in the private address-layer quarantine archive; row 555 is withheld | `scripts/build-already-on-site-enrichment-review.mjs` |
 | `data/review-inputs/content-blocker-review-2026-06-24.csv` _(local only — git-ignored)_ | `scripts/sanitize-review-inputs.mjs` | Raw content-blocker review export in the private address-layer quarantine archive; row 555 is withheld | `scripts/build-medium-priority-publication-prep.mjs`, `scripts/build-raw-source-document-records.mjs` |
 | `data/review-inputs/medium-priority-publication-prep-2026-06-25/row-staging-records.json` | `scripts/build-medium-priority-publication-prep.mjs` | `data/review-inputs/d-drive-content-blocker-review-2026-06-24.csv` | `scripts/build-medium-priority-publication-sources.mjs` |
-| `data/review-inputs/peatland-geoportal-duplicate-review-2026-06-25.csv` | `scripts/sanitize-review-inputs.mjs` from the local Peatland metadata audit CSV | Peatland Geoportal/ArcGIS item metadata audit; no feature geometry | `scripts/build-peatland-geoportal-sources.mjs` |
+| `data/review-inputs/peatland-geoportal-duplicate-review-2026-06-25.csv` | `scripts/sanitize-review-inputs.mjs` from the local Peatland metadata audit CSV | Peatland Geoportal/ArcGIS item metadata audit; no feature geometry | `scripts/ingest/geoportal/build-peatland-geoportal-sources.mjs` |
 | `data/review-inputs/remaining-decision-packs-2026-06-27/already-on-site-review-rankings.json` | `scripts/sanitize-review-inputs.mjs` | Remaining decision-pack review output | `scripts/review-already-on-site-remaining.mjs` |
 | `data/review-inputs/remaining-decision-packs-2026-06-27/licence-risk-review.json` | `scripts/sanitize-review-inputs.mjs` | Remaining decision-pack licence review output | `scripts/review-already-on-site-remaining.mjs` |
 | `data/review-inputs/already-on-site-remaining-full-review-2026-06-27/reviewed-rows.json` | `scripts/review-already-on-site-remaining.mjs` | Already-on-site enrichment sidecar plus tracked decision-pack inputs | Approval extraction for `USER_APPROVED_REVIEW_ONLY_ROWS` and `STATUTORY_BOUNDARY_FAMILY_ROWS` |
@@ -35,7 +35,7 @@ From a clean clone, use the tracked inputs directly:
 
 ```powershell
 node scripts/build-already-on-site-enrichment-records.mjs
-node scripts/build-peatland-geoportal-sources.mjs
+node scripts/ingest/geoportal/build-peatland-geoportal-sources.mjs
 node scripts/build-medium-priority-publication-sources.mjs
 node scripts/build-raw-source-document-records.mjs
 node scripts/build-browse-indexes.mjs

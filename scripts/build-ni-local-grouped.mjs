@@ -9,11 +9,11 @@
  *   the election manifest and each council round's bundle (the published results), wherever the
  *     record build writes them (ELECTION_MANIFEST, localPathForUrl in scripts/records/paths.mjs);
  *   data/elections/ni-local/round-status.json (the intake's calendar and round status, imported by
- *     scripts/ni-local/import-intake-status.py);
+ *     scripts/ingest/ni-local/import-intake-status.py);
  *   data/elections/round-completeness.json, where present (published rounds that hold only some of
  *     the council's divisions or wards, with the line that says so);
  *   data/elections/ni-local/layer-features.json (each boundary layer's features, written by
- *     scripts/ni-local/build-layer-features.py);
+ *     scripts/ingest/ni-local/build-layer-features.py);
  *   data/database/maps.json and render/metadata/maps-test-index.json (which editions exist).
  * Writes:
  *   render/metadata/ni-local/<year>.json   the year's rounds, contests and, per level, the

@@ -79,7 +79,7 @@ export const TABLES = [
       c('date', T, true), c('year', I), c('decade', I), c('source_map_id'), c('layer_id'),
       c('label_property'), c('candidate_rows_expected', I), c('transfer_data_expected', I),
       c('previous_key'), c('placeholder', I), c('ord', I, true),
-      // 1 when the bundle file was written compact (scripts/generated_json.py: indented text over
+      // 1 when the bundle file was written compact (scripts/ingest/persons/generated_json.py: indented text over
       // 24 MiB is written without indentation), so the compatibility route writes it the same way.
       c('compact', I),
       // The bundle without results[] and the two whole-election aggregates, in the bundle's

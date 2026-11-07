@@ -2,7 +2,7 @@
 /**
  * Render cited sources that only show their content in a real browser.
  *
- * The plain fetch in scripts/harvest_wikipedia_cited_sources.py got near-empty pages from
+ * The plain fetch in scripts/ingest/wikipedia/harvest_wikipedia_cited_sources.py got near-empty pages from
  * ElectionsIreland, irelandelection.com and some BBC results pages: the results are drawn
  * by JavaScript after load. This opens each one in headless Chromium, waits for the network
  * to settle, and saves the rendered HTML beside the fetched files.

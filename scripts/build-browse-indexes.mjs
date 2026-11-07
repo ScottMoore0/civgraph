@@ -53,7 +53,7 @@ function addBibliographyReferences(refs, bodySlug, date, scope) {
 }
 
 
-// IA download links for agency map layers (mirrored by scripts/build-agency-ia-mirror.mjs).
+// IA download links for agency map layers (mirrored by scripts/ingest/internet-archive/build-agency-ia-mirror.mjs).
 const AGENCY_IA_MIRRORS = (() => {
   try { return JSON.parse(readFileSync(path.join(ROOT, 'data/database/agency-ia-mirrors.json'), 'utf8')).items || {}; }
   catch { return {}; }
@@ -920,7 +920,7 @@ function buildElectionResultSubEntries(parentElections, electionDetails) {
  * Belfast Gazette polling-district schedules and an election's "Rules and costs" (returning
  * officers' charges, candidates' expense limits, Exchequer issues for returning officers'
  * expenses), each with its Gazette citation. The committed file is built from the Gazette
- * extracts by scripts/gazette/build_gazette_election_extras.py, so this build never needs the
+ * extracts by scripts/ingest/gazette-spn/build_gazette_election_extras.py, so this build never needs the
  * Gazette folder. Fields are added only where there is data.
  */
 function applyGazetteElectionExtras(parents, contests) {
@@ -1740,7 +1740,7 @@ function personSlug(personId, name) {
 }
 
 /**
- * The History of Parliament's biographies of the Irish members, 1790-1832 (scripts/hop), keyed
+ * The History of Parliament's biographies of the Irish members, 1790-1832 (scripts/ingest/hop), keyed
  * by the sourcePersonId a candidacy carries: "wikipedia:<article>" through Wikidata's HoP ID
  * (P1614), "hop:<page>" for a member with no article, and "person:<id>" where
  * link_hop_members.py matched him by seat. Each page is cited and linked; the birth and death
@@ -2088,7 +2088,7 @@ function buildPersons(electionDetails, partyRecords, partyNames = {}) {
   // (scripts/lib/reference-person-facts.mjs). Seats Civgraph's election results show are
   // not in the files; a Commons seat gives way to History of Parliament's seat list.
   // Formal names official notices print where Civgraph shows a familiar or shorter one ("John
-  // Beattie" for Jack Beattie), each cited (scripts/gazette/build_reference_names.py). Listed on
+  // Beattie" for Jack Beattie), each cited (scripts/ingest/gazette-spn/build_reference_names.py). Listed on
   // the record and searched as knownAliases; the display name is not changed.
   const referenceNamesDoc = readJson('data/elections/persons/reference-names.json', { sources: {}, people: {} });
   const formalNamesOf = (personId) => (referenceNamesDoc.people?.[personId] || []).map((entry) => ({

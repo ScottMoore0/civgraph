@@ -10,7 +10,7 @@
  *          CSS/JS, the election viewer, tests, CI and the check harness): rebuild the app
  *          bundle and shell, run the app-facing checks and the election/timeline browser tests.
  *   data   anything else: the full chain. Election source or corrections also re-stamp
- *          person ids first (scripts/rebuild-person-ids.sh).
+ *          person ids first (scripts/ingest/persons/rebuild-person-ids.sh).
  *
  *   node scripts/rebuild-changed.mjs              changes against HEAD, untracked included
  *   node scripts/rebuild-changed.mjs --since REF  changes since a commit (e.g. origin/main)
@@ -75,7 +75,7 @@ if (mode === 'app') {
   // src/ holds the catalogue renderer too (ui-controller, data-service), so its tests run as well.
   if (meaningful.some((file) => file.startsWith('src/'))) plan.push(['npm', ['run', '-s', 'test:catalogue']]);
 } else if (mode === 'data') {
-  if (electionData || forceFull) plan.push(['bash', ['scripts/rebuild-person-ids.sh']]);
+  if (electionData || forceFull) plan.push(['bash', ['scripts/ingest/persons/rebuild-person-ids.sh']]);
   // The records database and everything built with it (bundles, provenance, the Browse tree,
   // party profiles, office pages, the graph) into tmp/records; skipped inside when the inputs are
   // unchanged. The catalogue reads its people from it, the sitemaps and site figures its trees.

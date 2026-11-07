@@ -79,8 +79,8 @@
   - Scope: implement the six requested improvements: async hot path outside PowerShell, branch discovery vs row indexing separation, snapshot-first/local-parse support, hybrid partitioning, endpoint/page-size probe guardrails, and bounded adaptive throughput/correctness probes.
   - Constraints: do not run a full 1.5m-record crawl; stop if blocked/throttled/error responses appear; write live outputs under `D:\PRONI\eCatalogue\crawler-probes\...`; do not publish scraped data to the website.
   - Verification plan: syntax-check new tooling, run bounded live Browse probes, inspect rows/sec/failures/blocked counts, and commit only scoped crawler/tooling files.
-  - Completed: added `scripts/proni-fast-indexer.mjs`, a Node-based Browse indexer with async HTTP/session handling, separate branch discovery/listing-index/local-parse/probe modes, optional page snapshots, hybrid queue or in-session traversal, endpoint/page-size probing, bounded worker/global rate controls, failure JSONL logging, and detail-sample correctness checks.
-  - Verification evidence: `node --check scripts/proni-fast-indexer.mjs` passed; probe run `D:\PRONI\eCatalogue\crawler-probes\fast-index-node-20260627-201651` found no Browse page-size control; bounded in-session live run `D:\PRONI\eCatalogue\crawler-probes\fast-index-node-insession-20260627-202028` indexed 3,000 rows in 5.009 seconds = 598.91 rows/sec, with 0 failures and detail samples matching expected PRONI references; snapshot-first/local-parse run `D:\PRONI\eCatalogue\crawler-probes\fast-index-node-snapshot-20260627-202156` plus `...-local` parsed 200 saved rows locally at 7,630 rows/sec.
+  - Completed: added `scripts/ingest/proni/proni-fast-indexer.mjs`, a Node-based Browse indexer with async HTTP/session handling, separate branch discovery/listing-index/local-parse/probe modes, optional page snapshots, hybrid queue or in-session traversal, endpoint/page-size probing, bounded worker/global rate controls, failure JSONL logging, and detail-sample correctness checks.
+  - Verification evidence: `node --check scripts/ingest/proni/proni-fast-indexer.mjs` passed; probe run `D:\PRONI\eCatalogue\crawler-probes\fast-index-node-20260627-201651` found no Browse page-size control; bounded in-session live run `D:\PRONI\eCatalogue\crawler-probes\fast-index-node-insession-20260627-202028` indexed 3,000 rows in 5.009 seconds = 598.91 rows/sec, with 0 failures and detail samples matching expected PRONI references; snapshot-first/local-parse run `D:\PRONI\eCatalogue\crawler-probes\fast-index-node-snapshot-20260627-202156` plus `...-local` parsed 200 saved rows locally at 7,630 rows/sec.
 
 # PRONI DiscoverIndex Throughput Tuning
 
@@ -148,10 +148,10 @@
 - [x] Implement PRONI per-worker throughput improvements.
   - Task: increase effective per-worker records/second by implementing the seven agreed improvements: page/record-level queueing, reusable page snapshots/postback metadata, per-worker output shards, grouped index lookup structures, `HttpClient` as the default client, an async snapshot-fetch runtime, and direct-record-endpoint discovery tooling.
   - Constraints: keep Browse traversal as the authoritative crawl path; do not use search boxes as the primary crawl route; save live verification crawl data under `D:\PRONI\...`; keep full-corpus crawling out of this task.
-  - Completed: updated `scripts/proni-browse-corpus-crawler.ps1` so `HttpClient` is the default, queue work can be grouped by branch/page/record, Browse results pages are snapshotted with postback metadata, worker outputs are sharded then merged, index rows are pre-grouped for fast lookup, stale snapshot replay is detected before writing bad records, and stale snapshots fall back to reopening the Browse path live.
-  - Completed: added `scripts/proni-browse-async-fetch.mjs`, a bounded async fetch runtime for snapshot-backed indexes. It strips PowerShell JSON BOMs, reuses snapshot metadata/cookies, serializes records within the same ASP.NET snapshot/session to avoid postback races, and still runs independent snapshot groups concurrently.
-  - Completed: added `scripts/proni-direct-endpoint-probe.mjs`, which starts from a Browse-derived index row, confirms the normal Browse postback detail page, probes plausible direct detail URL patterns, and records whether any direct endpoint is safe to use.
-  - Verification evidence: `node --check scripts\proni-browse-async-fetch.mjs`; `node --check scripts\proni-direct-endpoint-probe.mjs`; PowerShell scriptblock parse of `scripts\proni-browse-corpus-crawler.ps1`.
+  - Completed: updated `scripts/ingest/proni/proni-browse-corpus-crawler.ps1` so `HttpClient` is the default, queue work can be grouped by branch/page/record, Browse results pages are snapshotted with postback metadata, worker outputs are sharded then merged, index rows are pre-grouped for fast lookup, stale snapshot replay is detected before writing bad records, and stale snapshots fall back to reopening the Browse path live.
+  - Completed: added `scripts/ingest/proni/proni-browse-async-fetch.mjs`, a bounded async fetch runtime for snapshot-backed indexes. It strips PowerShell JSON BOMs, reuses snapshot metadata/cookies, serializes records within the same ASP.NET snapshot/session to avoid postback races, and still runs independent snapshot groups concurrently.
+  - Completed: added `scripts/ingest/proni/proni-direct-endpoint-probe.mjs`, which starts from a Browse-derived index row, confirms the normal Browse postback detail page, probes plausible direct detail URL patterns, and records whether any direct endpoint is safe to use.
+  - Verification evidence: `node --check scripts\ingest\proni\proni-browse-async-fetch.mjs`; `node --check scripts\ingest\proni\proni-direct-endpoint-probe.mjs`; PowerShell scriptblock parse of `scripts\ingest\proni\proni-browse-corpus-crawler.ps1`.
   - Verification evidence: bounded stale-snapshot record queue run at `D:\PRONI\eCatalogue\per-worker-tests\20260626-optimized\record-v2` produced 8 detail rows, 0 failures, 0 mismatches, and explicit `fetch-page-snapshot-stale` followed by `fetch-page-browse-open` events.
   - Verification evidence: bounded page queue run at `D:\PRONI\eCatalogue\per-worker-tests\20260626-optimized\page-fetch-v1` produced 8 detail rows, 0 failures, 0 mismatches, and queue status 1 done / 0 pending / 0 failed.
   - Verification evidence: bounded async runtime run at `D:\PRONI\eCatalogue\per-worker-tests\20260626-optimized\aa-async-fresh-v3-async` fetched 8 details with 0 failures and 0 mismatches at 3.678 records/sec for a one-snapshot group.
@@ -174,7 +174,7 @@
   - Scope: crawler tooling and bounded verification samples only; do not run the full 1.5M-record corpus crawl in this task.
   - Constraints: Browse-only traversal; do not use search boxes or direct record-reference search as the primary crawler path; write crawl output under ignored `tmp/` paths by default.
   - Verification plan: parse/syntax-check the script, run a bounded live Browse sample with low rate limits, inspect summary counts and validation outputs, then commit/push only the crawler script and task documentation.
-  - Completed: added `scripts/proni-browse-corpus-crawler.ps1` with branch-page snapshot reuse, detail reference validation, append-only checkpoint logs, two-pass index/fetch modes, file-locked dynamic branch queues for workers, shared global rate limiting/backoff, and `PowerShell`/`.NET HttpClient` client paths.
+  - Completed: added `scripts/ingest/proni/proni-browse-corpus-crawler.ps1` with branch-page snapshot reuse, detail reference validation, append-only checkpoint logs, two-pass index/fetch modes, file-locked dynamic branch queues for workers, shared global rate limiting/backoff, and `PowerShell`/`.NET HttpClient` client paths.
   - Verification evidence: PowerShell syntax check passed; bounded `Mode Both` smoke against `AA > AA/1 > AA/1/2` indexed/fetched 8 records with 0 mismatches and 0 failures; separate index/fetch worker-queue smoke fetched 3 indexed records through a two-worker queue with queue status `done`, 0 mismatches, and 0 failures; `HttpClient` smoke fetched 1 record through the full Browse POST flow with 0 failures.
 
 
@@ -194,7 +194,7 @@
   - Completed: added a generated peatland Geoportal source sidecar with 330 Browse/source records, 66 direct existing-record enrichment rows, 25 likely-duplicate review rows without concrete targets, 34 Service Definition/package review rows, 128 conversion-candidate review rows, 26 DAERA/QUB SAC habitat-map candidates grouped under a proposed `Peatland SAC Habitat Maps` parent, 14 variant-review rows, and 241 best-source review groups.
   - Result: Browse source pages now preserve ArcGIS item IDs, owners, item URLs, service links, modified dates, tags, licence notes, source hierarchy, context/document links, structured-extraction notes for PDFs/code attachments, conversion cautions, and dedupe/variant recommendations without publishing geometry or creating runtime map layers.
   - Guardrail: added `scripts/validate-peatland-geoportal-sources.mjs` and wired it into `npm run check` as `check:peatland-geoportal`.
-  - Verification evidence: `node --check scripts/build-peatland-geoportal-sources.mjs`; `node --check scripts/validate-peatland-geoportal-sources.mjs`; `node --check scripts/build-browse-indexes.mjs`; `node scripts/build-peatland-geoportal-sources.mjs`; `node scripts/build-browse-indexes.mjs`; `node scripts/validate-peatland-geoportal-sources.mjs`; `node scripts/validate-pages-file-budget.mjs`; `node scripts/validate-raw-source-documents.mjs`; `node scripts/validate-already-on-site-enrichments.mjs`; `node scripts/validate-medium-priority-publication-sources.mjs`; `npm run check`.
+  - Verification evidence: `node --check scripts/ingest/geoportal/build-peatland-geoportal-sources.mjs`; `node --check scripts/validate-peatland-geoportal-sources.mjs`; `node --check scripts/build-browse-indexes.mjs`; `node scripts/ingest/geoportal/build-peatland-geoportal-sources.mjs`; `node scripts/build-browse-indexes.mjs`; `node scripts/validate-peatland-geoportal-sources.mjs`; `node scripts/validate-pages-file-budget.mjs`; `node scripts/validate-raw-source-documents.mjs`; `node scripts/validate-already-on-site-enrichments.mjs`; `node scripts/validate-medium-priority-publication-sources.mjs`; `npm run check`.
 
 - [x] Review Peatland Geoportal dataset metadata before any downloads.
   - Task: inspect the ArcGIS Hub/REST metadata for the Peatland Geoportal and identify likely duplicates, variants, source-only records, and unique candidates for Civgraph.
@@ -278,7 +278,7 @@
   - Verification: confirm raw inputs exist, run the generator, inspect output feature counts/bounds/schema, validate MapLibre metadata/catalogue wiring, run file-budget checks, then commit and push.
   - Completed: added a reproducible Python generator for land-clipped Irish hill summit-domain polygons and DEM-informed prominence-domain polygons, plus a narrow metadata updater that wires both generated datasets into the DoBIH/Hills and Mountains catalogue, Browse records, MapLibre runtime metadata, feature indexes, layer detail sidecars, duplicate-ID sidecars, and the spatial index.
   - Runtime assets: generated 1,664 summit-domain features and 1,664 prominence-domain features, built PMTiles packages, uploaded both PMTiles packages and both source FlatGeobuf files to the `boundaries-data` R2 bucket, and verified all four public CDN URLs return HTTP 206 byte ranges.
-  - Verification evidence: `python -m py_compile scripts\build_irish_hill_domain_assets.py`; `node --check scripts\build-irish-hill-domain-metadata.mjs`; focused Node assertions for database, Browse, MapLibre metadata, feature-index, detail, duplicate-ID, and index wiring; `node scripts\validate-pages-file-budget.mjs` passed at 8,152/18,500 deployable files. Broad `validate-test-app` and `validate-test2-route` still fail on unrelated pre-existing ED/ward feature-index, port-plan, and timeline-overlay gaps, not on these two hill-domain layers.
+  - Verification evidence: `python -m py_compile scripts\ingest\hills\build_irish_hill_domain_assets.py`; `node --check scripts\ingest\hills\build-irish-hill-domain-metadata.mjs`; focused Node assertions for database, Browse, MapLibre metadata, feature-index, detail, duplicate-ID, and index wiring; `node scripts\validate-pages-file-budget.mjs` passed at 8,152/18,500 deployable files. Broad `validate-test-app` and `validate-test2-route` still fail on unrelated pre-existing ED/ward feature-index, port-plan, and timeline-overlay gaps, not on these two hill-domain layers.
 
 # Hills and Mountains Catalogue Cards
 
@@ -293,7 +293,7 @@
 - [x] Review DoBIH Hills and Mountains map coverage.
   - Task: identify the coverage extent of each Hills and Mountains / DoBIH catalogue map, including whether each covers Britain and Ireland, Scotland only, Ireland only, England/Wales-only, England-only, etc.
   - Verification: inspect generated DoBIH map/detail metadata and feature data rather than relying only on visible labels.
-  - Completed: reviewed `scripts/build-dobih-assets.mjs`, DoBIH Browse detail records, and `tmp/dobih/generated/dobih-v18-4*.geojson`; classified each child layer by actual `Country` values and feature counts.
+  - Completed: reviewed `scripts/ingest/dobih/build-dobih-assets.mjs`, DoBIH Browse detail records, and `tmp/dobih/generated/dobih-v18-4*.geojson`; classified each child layer by actual `Country` values and feature counts.
 
 # Significant Islands Terminology
 
@@ -331,7 +331,7 @@
   - Required shape: parent card `Hills and Mountains`, parent map layer `Hills and Mountains`, and child/subentry map layers for the DoBIH classification lists.
   - Completed: added the visible `Hills and Mountains` flat catalogue card to the environment/water/geology section and kept the parent map layer named `Hills and Mountains`.
 - [x] Make the hierarchy reproducible from the DoBIH generator.
-  - Task: update `scripts/build-dobih-assets.mjs` so regenerated database, Browse, MapLibre, port-plan, and spatial-index metadata keep the same hierarchy and naming.
+  - Task: update `scripts/ingest/dobih/build-dobih-assets.mjs` so regenerated database, Browse, MapLibre, port-plan, and spatial-index metadata keep the same hierarchy and naming.
   - Completed: the DoBIH generator now writes the `hills-and-mountains` category, `dobih-hills-and-mountains` class, `hills-and-mountains-c1` hierarchy entry, parent map, child maps, Browse records, MapLibre runtime layers, port-plan rows, and spatial-index rows.
 - [x] Verify the catalogue/runtime outputs.
   - Task: regenerate affected metadata and assert that the ToC card, parent map, subentries, category, Browse records, and MapLibre layers are present and correctly grouped.
@@ -343,7 +343,7 @@
   - Task: use the scraped Hill Bagging/DoBIH downloads to generate a compact point-map bundle, catalogue metadata, Browse/source records, feature-search indexing, and classification child/filter entries for major hill lists.
   - Constraints: do not commit raw Hill Bagging downloads or large generated point bundles into Pages; store source metadata in the repo, mirror raw files on Internet Archive where credentials/licensing allow, and publish cleaned queryable/map-ready bundles to R2/CDN where credentials are available.
   - Attribution: credit the Database of British and Irish Hills editors/authors and Hill Bagging, record DoBIH CC BY 4.0 licensing, and record document/PDF attribution/licensing separately where each source file supports it.
-  - Completed: added `scripts/build-dobih-assets.mjs`, generated 24 DoBIH MapLibre point layers/classification child entries, wrote Browse map/source records, wrote feature-search indexes, mirrored raw source files to the Internet Archive item `civgraph-dobih-v18-4-source-files`, uploaded the PMTiles to R2/CDN, and updated the port-plan generator so DoBIH rows are reproducible.
+  - Completed: added `scripts/ingest/dobih/build-dobih-assets.mjs`, generated 24 DoBIH MapLibre point layers/classification child entries, wrote Browse map/source records, wrote feature-search indexes, mirrored raw source files to the Internet Archive item `civgraph-dobih-v18-4-source-files`, uploaded the PMTiles to R2/CDN, and updated the port-plan generator so DoBIH rows are reproducible.
   - Verification: generator produced 21,572 summit records and 24 FGB/PMTiles-backed layers; Internet Archive metadata shows the source mirror item with uploaded files; all 24 DoBIH PMTiles have CDN byte-range verification; CDN manifest validation passed; Pages file budget passed at 8,076/18,500 deployable files; tile budget validation passed with one unrelated DFI warning; external source validation passed. `validate-test-app` still has unrelated pre-existing ED/alias port-plan and feature-index errors, but DoBIH has 24 runtime layers, 24 port-plan rows, and 24 byte-range-verified CDN PMTiles.
 
 # Interactive Zoom Limit And Dail 1959/1961/1969 Maps
@@ -450,7 +450,7 @@
 - [x] Add a resumable Wayback recovery script
   - Task: enumerate archived `nisra.gov.uk` / `www.nisra.gov.uk` URLs from the Internet Archive CDX API, select the newest capture per URL, validate it is not a soft-error capture, fall back to older captures where needed, deduplicate against the existing `D:\nisra` mirror, and write provenance/reports.
   - Constraints: keep recovered Wayback files in a separate local mirror (`D:\nisra-wayback`) until reviewed; do not commit downloaded files; stop if disk space is insufficient or the Internet Archive throttles.
-  - Completed: added `scripts/wayback-nisra-recover.mjs` with resumable CDX discovery, capture validation, fallback handling, dedupe tracking, bounded downloads, and local audit reports.
+  - Completed: added `scripts/ingest/census/wayback-nisra-recover.mjs` with resumable CDX discovery, capture validation, fallback handling, dedupe tracking, bounded downloads, and local audit reports.
 - [x] Run inventory and bounded download pass
   - Task: build the archived URL inventory, classify already-present/duplicate/new/unavailable rows, download latest-valid missing captures, and preserve attempts for URLs whose latest capture is bad.
   - Completed: built the Wayback inventory and recovered missing assets into `D:\nisra-wayback`; raw files and audit CSVs remain local/untracked.
@@ -529,7 +529,7 @@
 ## Recurring issue: unbounded provider crawl appeared hung and left stale processes
 - Symptom: a NISRA crawl command appeared to run for nearly six hours and the provider continued returning `429 Too Many Requests`.
 - Root cause: two `scripts\complete-nisra-crawl.mjs` Node processes survived/interleaved with interrupted runs, and the original crawler only wrote final reports after normal exit.
-- Permanent prevention action: added `scripts/probe-nisra-throttle.mjs`, patched `scripts/complete-nisra-crawl.mjs` to persist discovered assets/frontier/progress summaries incrementally, and stopped the stale crawler processes before any further probing.
+- Permanent prevention action: added `scripts/ingest/census/probe-nisra-throttle.mjs`, patched `scripts/complete-nisra-crawl.mjs` to persist discovered assets/frontier/progress summaries incrementally, and stopped the stale crawler processes before any further probing.
 - Verification evidence: process inspection showed crawler PIDs `35664` and `59168`; both were stopped. The bounded throttle probe wrote `data/provider-mirror-audit/nisra-throttle-probe-20260617T222135Z.json` and stopped after the first request returned `429` at the most conservative `15000ms` starting delay. A single post-stop homepage HEAD still returned `429`, so NISRA is in provider-side cooldown.
 
 ## Review: NISRA throttle probe
@@ -769,7 +769,7 @@
 # Subagent lane 2: Civgraph all-Ireland Census pre-1926 readiness
 - [x] Record scope
   - Task: audit all-Ireland/pre-1926 Census readiness without publishing anything to the live site.
-  - Scope: inspect `data/census/cleaned`, `data/census/source-inventory`, readable `data/downloads`, `scripts/census`, and CSO scrape/recovery manifests.
+  - Scope: inspect `data/census/cleaned`, `data/census/source-inventory`, readable `data/downloads`, `scripts/ingest/census`, and CSO scrape/recovery manifests.
   - Output: compact readiness report under `tasks/` with exact file paths and recommendations for present/indexed material, OCR/table-extraction gaps, old geography representation, and ready/blocked/needs-review status.
 - [x] Inventory all-Ireland/pre-1926 Census records and source manifests
   - Completed: found 56 `all_ireland_historical` cleaned records, all 1911; confirmed the local 1911 archive inventory has 34 PDFs and 22 XLSX files; summarized CSO scrape and Wayback recovery coverage for 1841-1926.
@@ -806,7 +806,7 @@
   - Task: after the Irish general-election data update is complete, try to recover contents for the failed CSO historical-report links by looking them up on the Internet Archive Wayback Machine.
   - Constraint: keep recovered raw downloads local/ignored unless explicitly approved for git or site publication.
 - [x] Build a Wayback lookup/download script for failed CSO asset URLs
-  - Completed: added `scripts/census/recover-cso-failed-links-wayback.mjs`.
+  - Completed: added `scripts/ingest/census/recover-cso-failed-links-wayback.mjs`.
 - [x] Run the lookup against the failed-link manifest
   - Completed: checked 1,444 failed assets, found 1,217 available snapshots, and cached 1,087 snapshot files under ignored `data/downloads/wayback-cso/`.
 - [x] Record recovered, unavailable, and still-blocked links in a review report
@@ -830,9 +830,9 @@
   - Task: scrape the remaining CSO historical Census material first, then carry out the 1-9 Census data-cleaning workflow so the data is ready for later website integration without changing the live site yet.
   - Constraint: raw downloaded/scraped sources should stay out of git unless explicitly approved, because Census archives and reports may be large.
 - [x] Scrape/inventory/download remaining CSO historical Census report links from the CSO historical reports pages
-  - Completed: added `scripts/census/scrape-cso-historical-reports.mjs` and ran it against the official CSO historical reports pages before the cleaning steps. It visited 180 CSO pages, found 3,177 linked assets, downloaded 1,733 accepted assets into gitignored `data/downloads/cso-historical-reports`, and recorded 1,444 blocked/missing direct-download links in `data/census/source-inventory/cso-historical-reports.json`.
+  - Completed: added `scripts/ingest/census/scrape-cso-historical-reports.mjs` and ran it against the official CSO historical reports pages before the cleaning steps. It visited 180 CSO pages, found 3,177 linked assets, downloaded 1,733 accepted assets into gitignored `data/downloads/cso-historical-reports`, and recorded 1,444 blocked/missing direct-download links in `data/census/source-inventory/cso-historical-reports.json`.
 - [x] Inventory all local Census source ZIP/PDF/report archives listed by the user, without deleting or mutating source archives
-  - Completed: added `scripts/census/build-census-source-inventory.mjs`; it found all 11 local archives, inspects nested ZIP members in memory, and does not extract, delete, or mutate any source archive.
+  - Completed: added `scripts/ingest/census/build-census-source-inventory.mjs`; it found all 11 local archives, inspects nested ZIP members in memory, and does not extract, delete, or mutate any source archive.
 - [x] Build a canonical geography registry covering NI Census geographies, all-Ireland historical Census geographies, and known crosswalk requirements
   - Completed: generated `data/census/cleaned/canonical-geographies.json` from the existing Census schema mapping and crosswalk requirements.
 - [x] Extract table metadata from available repo Census files, local archive listings, and CSO scraped reports
@@ -951,7 +951,7 @@
   - Task: generate and open a local HTML report listing every failed CSO historical-report asset link, then review `C:\Users\scomo\Downloads\Dáil Elections.zip` for constituency spoiled/turnout extraction feasibility and any other useful election data.
   - Constraints: do not mutate or delete the source ZIP; keep any generated review report small and local unless explicitly promoted.
 - [x] Generate failed-link HTML report
-  - Completed: added `scripts/census/build-cso-failed-link-report.mjs` and generated `data/census/source-inventory/cso-failed-links.html` with all 1,444 failed asset links from the CSO manifest.
+  - Completed: added `scripts/ingest/census/build-cso-failed-link-report.mjs` and generated `data/census/source-inventory/cso-failed-links.html` with all 1,444 failed asset links from the CSO manifest.
 - [x] Open the report for user inspection
   - Completed with caveat: attempted to open the local `file://` report in the in-app browser, but the browser security policy blocked local-file navigation. The report exists at `C:\Users\scomo\boundaries-website\data\census\source-inventory\cso-failed-links.html`.
 - [x] Inspect Dail Elections ZIP contents without modifying the archive
@@ -1259,7 +1259,7 @@
   - Added 24 explicit non-animated/source-required records.
   - Regenerated `/test2` election metadata and build assets.
 - [x] Verify
-  - Verification evidence: `node --check scripts/import-dail-wikipedia-counts.mjs` passed; `node scripts/import-dail-wikipedia-counts.mjs --report-only` reports 842/973 represented, 24 non-transfer records, and 0 post-1921 pending rows; `node scripts/validate-test2-route.mjs` passed; `npm run check:test2` passed; escalated `npm run build:test2` passed after the known sandbox esbuild spawn restriction.
+  - Verification evidence: `node --check scripts/ingest/wikipedia/import-dail-wikipedia-counts.mjs` passed; `node scripts/ingest/wikipedia/import-dail-wikipedia-counts.mjs --report-only` reports 842/973 represented, 24 non-transfer records, and 0 post-1921 pending rows; `node scripts/validate-test2-route.mjs` passed; `npm run check:test2` passed; escalated `npm run build:test2` passed after the known sandbox esbuild spawn restriction.
 
 # Review Dail transfer gaps against Wikipedia sources
 - [x] Record scope
@@ -1274,7 +1274,7 @@
   - Completed: verified `data/elections/dail-wikipedia-counts/_report.json` still lists 973 Dail constituency targets, 789 local Wikipedia count-table sidecars, and 184 missing sidecars.
   - Completed: split the 184 missing rows into practical classes. The 103 rows from 1918 are not suitable for STV transfer animation because the source election used Westminster/FPTP-style returns rather than Dail PR-STV count stages. The 28 rows from 1921 are mostly not suitable because Southern Ireland seats were returned unopposed, leaving no transfer count.
   - Completed: identified the main fillable post-1921 gaps. `Dun Laoghaire Rathdown` is a page-title alias miss for the Wikipedia page `Dún Laoghaire and Rathdown`, whose 1948-1969 sections include multi-count tables. `Leix Offaly` is a page-title/normalisation miss for `Laois-Offaly`, whose old sections use `Leix-Offaly` and contain multi-count rows. `National Univeristy` is a local spelling bug and should normalise to `National University of Ireland`.
-  - Completed: identified parser/importer gaps. Several Wikipedia pages expose rendered multi-count tables but not necessarily through the exact `STV Election box candidate` template shape currently parsed by `scripts/import-dail-wikipedia-counts.mjs`; the importer needs an HTML/rendered-table parser fallback or broader wikitext table support before those can be imported safely.
+  - Completed: identified parser/importer gaps. Several Wikipedia pages expose rendered multi-count tables but not necessarily through the exact `STV Election box candidate` template shape currently parsed by `scripts/ingest/wikipedia/import-dail-wikipedia-counts.mjs`; the importer needs an HTML/rendered-table parser fallback or broader wikitext table support before those can be imported safely.
   - Completed: identified likely non-actionable count gaps. Some missing rows are unopposed sections, such as Donegal West 1938/1944 and Kerry South 1938, where Wikipedia has no multi-count data to animate. These should be represented as uncontested/no-transfer results, not as missing animation data.
   - Completed: identified non-Wikipedia/secondary-source candidates. Some 1922 combined constituencies and early university constituencies have partial/older Wikipedia-mirror or source references, but may require corroboration from ElectionsIreland, Walker, or Michael Gallagher's `Irish Elections 1922-44` rather than a current Wikipedia constituency page with usable count columns.
   - Verification evidence: local report audit via Node confirmed the exact missing-sidecar inventory by date; source review checked representative Wikipedia pages for `Laois-Offaly`, `Dún Laoghaire and Rathdown`, `Donegal West`, `Kerry South`, and the 1918/1921 summary pages.
@@ -1334,11 +1334,11 @@
   - Apply to every Dail election/constituency with matched sidecar data.
 - [x] Verify, commit, and push
   - Regenerate Dail `/test2` bundles, run focused 2024 constituency checks, route validation, `build:test2`, `check:test2`, and browser tests for By Count and Transfers.
-  - Completed: added `scripts/import-dail-wikipedia-counts.mjs` to import/cache Wikipedia constituency STV count tables into local sidecars under `data/elections/dail-wikipedia-counts`.
+  - Completed: added `scripts/ingest/wikipedia/import-dail-wikipedia-counts.mjs` to import/cache Wikipedia constituency STV count tables into local sidecars under `data/elections/dail-wikipedia-counts`.
   - Completed: updated `scripts/build-test2-election-manifest.mjs` so Dail `/test2` bundles prefer verified Wikipedia count rows, derive transfer deltas from cumulative count totals, attach row-level source URLs, and preserve non-zero transfer animation payloads.
   - Completed: regenerated `/test2` election bundles and build output. The local report now represents 789 of 973 Dail constituency sidecars; every represented sidecar has non-zero transfer deltas, while remaining unmatched/older sidecars stay non-fabricated fallback rows.
   - Completed: updated guardrails so Mayo, Cork North-Central, Galway East, and Roscommon Galway assert Wikipedia-derived later-stage/non-zero transfer data.
-  - Verification evidence: `node --check scripts\import-dail-wikipedia-counts.mjs`; `node --check scripts\build-test2-election-manifest.mjs`; `node --check scripts\validate-test2-route.mjs`; `node --check tests\browser\test2-app.spec.js`; `node scripts\import-dail-wikipedia-counts.mjs --report-only`; `node scripts\build-test2-election-manifest.mjs`; `node scripts\validate-test2-route.mjs`; escalated `npm run build:test2`; `npm run check:test2`; escalated `npm run test:browser:test2 -- --grep "Cork North-Central"`; escalated `npm run test:browser:test2 -- --grep "Galway East"`; generated-data audit: 25 Dail bundles, 973 constituency results, 789 with Wikipedia rows, 789 with non-zero transfers.
+  - Verification evidence: `node --check scripts\ingest\wikipedia\import-dail-wikipedia-counts.mjs`; `node --check scripts\build-test2-election-manifest.mjs`; `node --check scripts\validate-test2-route.mjs`; `node --check tests\browser\test2-app.spec.js`; `node scripts\ingest\wikipedia\import-dail-wikipedia-counts.mjs --report-only`; `node scripts\build-test2-election-manifest.mjs`; `node scripts\validate-test2-route.mjs`; escalated `npm run build:test2`; `npm run check:test2`; escalated `npm run test:browser:test2 -- --grep "Cork North-Central"`; escalated `npm run test:browser:test2 -- --grep "Galway East"`; generated-data audit: 25 Dail bundles, 973 constituency results, 789 with Wikipedia rows, 789 with non-zero transfers.
 
 # Fix Irish general-election per-count constituency results and transfers on `/test2`
 - [x] Record recurrence and scope
@@ -3653,7 +3653,7 @@ Election party-name normalisation batch
     - verified no requested exact/substrings remain except `Labour` inside longer names such as `Northern Ireland Labour Party`, which was intentionally not globally rewritten
     - verified `Ecology` appears only in 1982-1984 occurrences and `Green` appears only in 1987 onward occurrences for the old `Green / Ecology` label
     - `python scripts/audit-ireland-election-party-colours.py`
-    - `python -m py_compile scripts/normalize-election-party-names.py scripts/audit-ireland-election-party-colours.py scripts/extract-wikipedia-party-colours.py`
+    - `python -m py_compile scripts/normalize-election-party-names.py scripts/audit-ireland-election-party-colours.py scripts/ingest/wikipedia/extract-wikipedia-party-colours.py`
 
 Ireland election party colour audit against Wikipedia
 - [x] Locate election entry colour definitions for island-of-Ireland parties and tickets
@@ -3677,7 +3677,7 @@ Ireland election party colour audit against Wikipedia
     - 52 coloured observations have no Wikipedia match
   - Verification:
     - `python scripts/audit-ireland-election-party-colours.py`
-    - `python -m py_compile scripts/audit-ireland-election-party-colours.py scripts/extract-wikipedia-party-colours.py`
+    - `python -m py_compile scripts/audit-ireland-election-party-colours.py scripts/ingest/wikipedia/extract-wikipedia-party-colours.py`
 
 Wikipedia political party colour extraction
 - [x] Inspect the Wikipedia module page/raw format for `Module:Political_party/1` and `A`-`Z`
@@ -3685,7 +3685,7 @@ Wikipedia political party colour extraction
 - [x] Write the extracted data to a structured local file
 - [x] Verify parse coverage, row counts, and malformed values
   - What I did:
-    - scraped the rendered "Color values" tables from all 27 requested English Wikipedia module pages using `scripts/extract-wikipedia-party-colours.py`
+    - scraped the rendered "Color values" tables from all 27 requested English Wikipedia module pages using `scripts/ingest/wikipedia/extract-wikipedia-party-colours.py`
     - wrote `tasks/wikipedia_political_party_colours.csv` with source URL/module plus the requested fields
     - wrote `tasks/wikipedia_political_party_colours_requested_columns.csv` with exactly the eight requested fields
     - wrote `tasks/wikipedia_political_party_colours.xlsx` and `tasks/wikipedia_political_party_colours_metadata.json`
@@ -4001,10 +4001,10 @@ NI SPN gap-closure collection run
   - remaining hard gaps and blockers
   - Actions run:
     - `python scripts/download_council_spns_v4.py`
-    - `python scripts/parse_eoni_pdfs.py`
-    - `python scripts/convert_old26_to_markdown.py`
-    - `python scripts/scrape_26_councils.py` (timed out after ~20 minutes; no new manifest evidence beyond prior old-26 recovery state)
-    - `python scripts/scrape_bna.py 1979` (failed immediately; script filtered to zero elections for `1979` and Playwright persistent-context launch then exited)
+    - `python scripts/ingest/eoni/parse_eoni_pdfs.py`
+    - `python scripts/ingest/ark/convert_old26_to_markdown.py`
+    - `python scripts/ingest/council-websites/scrape_26_councils.py` (timed out after ~20 minutes; no new manifest evidence beyond prior old-26 recovery state)
+    - `python scripts/ingest/bna/scrape_bna.py 1979` (failed immediately; script filtered to zero elections for `1979` and Playwright persistent-context launch then exited)
   - New collection yield from the targeted council downloader:
     - `58` successful downloads, `16` failed
     - major additions landed for `2023_local_ards-north-down`, `2023_local_mid-east-antrim`, `2023_local_belfast`, `2023_local_antrim-newtownabbey`, `2023_local_derry-strabane`, `2023_local_mid-ulster`, `2023_local_armagh-banbridge-craigavon`
@@ -4014,19 +4014,19 @@ NI SPN gap-closure collection run
     - `_tmp_eoni_pdf_analysis.json` regenerated from `540` PDFs
     - `_tmp_gazette_markdown/old26_councils/index.json` regenerated with `146` files processed, `124` extracted, `22` flagged as manual-conversion DOC failures
   - Hard blockers:
-    - BNA automation is currently blocked by the Playwright browser launch failure in `scripts/scrape_bna.py`
+    - BNA automation is currently blocked by the Playwright browser launch failure in `scripts/ingest/bna/scrape_bna.py`
     - many legacy `.doc` files still require a separate converter/OCR path before text can be mined
     - some recovered PDFs are image-only or otherwise text-extraction-hostile (for example Lisburn & Castlereagh samples returned zero text from both PyPDF2 and PyMuPDF)
 
 NI SPN follow-up: BNA runner hardening and local-year correction
-- [x] Fix `scripts/scrape_bna.py` election selection and non-interactive login handling
+- [x] Fix `scripts/ingest/bna/scrape_bna.py` election selection and non-interactive login handling
   - Added explicit `1979`/`1983`/`1938` election entries that were missing from the configured search list.
-  - Replaced the year-only assumption with `select_elections(...)`, so `python scripts/scrape_bna.py 1987` now filters correctly to one configured election instead of zero.
+  - Replaced the year-only assumption with `select_elections(...)`, so `python scripts/ingest/bna/scrape_bna.py 1987` now filters correctly to one configured election instead of zero.
   - Added `launch_bna_context(...)` fallback from persistent profile to a fresh browser context with optional saved storage state.
   - Added non-interactive detection via `BNA_NONINTERACTIVE=1` or non-TTY stdin and converted the login prompt into a clean `SystemExit` instead of an `EOFError`.
 - [x] Verify the BNA runner behavior after the fix
-  - `python -m py_compile scripts\scrape_bna.py scripts\validate_local_spn_years.py`
-  - `$env:BNA_NONINTERACTIVE='1'; python scripts\scrape_bna.py 1987`
+  - `python -m py_compile scripts\ingest\bna\scrape_bna.py scripts\validate_local_spn_years.py`
+  - `$env:BNA_NONINTERACTIVE='1'; python scripts\ingest\bna\scrape_bna.py 1987`
   - Verified result: the script now reports `Filtering to year 1987: 1 elections`, falls back cleanly when the persistent Chromium profile crashes, and exits with `No reusable BNA login is available in this environment` rather than crashing on `input()`.
   - Remaining blocker: no reusable subscribed BNA session is available in this environment, so no historic article capture was completed.
 - [x] Add and run a year-validation pass for mislabeled local SPN files
@@ -4471,7 +4471,7 @@ Add 2026-05-25 IDB county and ROI local-authority maps
   - Verification:
     - Public `https://data.civgraph.net/...` HEAD checks verified all 72 objects returned `200` and matched local `Content-Length`.
     - `node --check scripts\add-idb-20260525-maps.mjs`
-    - `node --check scripts\build-idb-20260525-lods.mjs`
+    - `node --check scripts\ingest\idb-phelim\build-idb-20260525-lods.mjs`
     - Parsed `data/database/maps.json` and confirmed all expected new IDs are present.
     - `ogrinfo -so` opened representative 1922, 1927, and 1930 FGBs successfully.
     - `npm run build` passed after rerunning outside the sandbox because esbuild process spawning hit `EPERM` inside the sandbox.
@@ -4481,7 +4481,7 @@ Commit election party-normalisation data changes
 - [x] Stage only election-related files, leaving unrelated dirty worktree files untouched
 - [x] Commit the staged election data changes
   - Verification:
-    - `python -m py_compile scripts\normalize-election-party-names.py scripts\audit-ireland-election-party-colours.py scripts\build-election-party-ids.py scripts\extract-wikipedia-party-colours.py`
+    - `python -m py_compile scripts\normalize-election-party-names.py scripts\audit-ireland-election-party-colours.py scripts\build-election-party-ids.py scripts\ingest\wikipedia\extract-wikipedia-party-colours.py`
     - `node --check data/elections-source\js\stages2.js`
     - `python scripts\normalize-election-party-names.py` reported `changed_files=0`.
     - `python scripts\build-election-party-ids.py` wrote `759` party IDs and `1040` aliases.
@@ -6774,7 +6774,7 @@ Add election entries to /test2
   - Scope: execute the retry against the remaining unrecovered/download-failed CSO assets and regenerate the JSON/HTML reports.
 - [x] Verify and publish report updates
   - Scope: verify report totals, run relevant syntax/checks, commit report/script changes, and push.
-  - Completed: verified the recovery JSON has 1,444 rows, 1,404 downloaded/cached assets, and 40 unavailable rows; `node --check scripts\census\recover-cso-failed-links-wayback.mjs` and `npm run check:test2` passed.
+  - Completed: verified the recovery JSON has 1,444 rows, 1,404 downloaded/cached assets, and 40 unavailable rows; `node --check scripts\ingest\census\recover-cso-failed-links-wayback.mjs` and `npm run check:test2` passed.
 
 ## Review: retry remaining CSO Wayback failures
 - The recovery script now supports `--retry-failed`, `--retry-problems-only`, `--retry-download-failed-only`, and opt-in `--alternate-snapshots`.
@@ -7537,7 +7537,7 @@ Review:
 
 - [x] Run a permissioned stepped throttle test using unique Browse records.
   - Task: after user-confirmed PRONI permission, crawl through the Browse tree without search boxes, use distinct record paths rather than repeated hits to the same record, and ramp request rates until throttling, WAF rejection, non-200 responses, timeouts, or sustained latency collapse.
-  - Completed: added `scripts/proni-browse-crawl-throttle.ps1` for checkpointed Browse traversal and `scripts/proni-parallel-throttle.ps1` for controlled multi-worker phases. The crawler reopens each Browse branch path in a fresh WebForms session, extracts leaf detail records, writes JSONL records/logs under ignored `tmp/proni-crawl/`, and records stop-condition summaries.
+  - Completed: added `scripts/ingest/proni/proni-browse-crawl-throttle.ps1` for checkpointed Browse traversal and `scripts/ingest/proni/proni-parallel-throttle.ps1` for controlled multi-worker phases. The crawler reopens each Browse branch path in a fresh WebForms session, extracts leaf detail records, writes JSONL records/logs under ignored `tmp/proni-crawl/`, and records stop-condition summaries.
   - Verification: single-worker stepped run over Browse letter A completed 375 unique records at target phases 1, 2, 4, 8, and 10 records/sec with zero failures. Parallel smoke `2:1:A,B` completed 20 records at 2.165 actual records/sec with zero failures. Parallel phases completed `4:2:A,B` (100 records, 4.041 actual records/sec), `8:2:C,D,E,F` (200 records, 7.920 actual records/sec), `16:4:G,H,I,J` (180 records, 11.416 actual records/sec), `24:4:K,L,M,N,O,P` (300 records, 17.814 actual records/sec), and `40:4:Q,R,S,T,U,V,W,X,Y,Z` (266 records, 18.120 actual records/sec). No phase produced WAF rejection, non-200 response, timeout failure, or throttle text.
   - Result: no throttle point was observed up to the practical Browse-crawler ceiling reached here. The safe production recommendation is still to crawl well below the tested ceiling, preferably 1-2 records/sec sustained with checkpointing and exponential backoff, or at most a small parallel crawl around 4-8 records/sec after another longer-duration pilot.
 
@@ -7545,7 +7545,7 @@ Review:
 
 - [x] Research and derisk ways to reduce Browse traversal overhead.
   - Task: test whether branch page reuse, two-pass Browse indexing, branch-level parallelism, alternate HTTP clients, and checkpointed branch queues can reduce overhead without violating the Browse-only constraint or reintroducing WebForms state corruption.
-  - Completed: added `scripts/proni-overhead-research.ps1` and documented findings in `tasks/proni-overhead-derisking-2026-06-26.md`.
+  - Completed: added `scripts/ingest/proni/proni-overhead-research.ps1` and documented findings in `tasks/proni-overhead-derisking-2026-06-26.md`.
   - Verification: live Browse-only probe against `A > AA > AA/1 > AA/1/2` confirmed a branch snapshot can fetch 12 distinct detail records with no WebForms state corruption, averaging 107 ms per detail record after a 1.26 s branch open. Reopening the indexed branch reproduced 5/5 expected records. The note records guardrails for branch batching, two-pass indexing, parallelism, client choice, and checkpointing.
 
 # Remaining ROI Review For Pre-PRONI Work

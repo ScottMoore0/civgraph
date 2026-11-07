@@ -188,7 +188,7 @@ single measure: a withdrawn nominee *should* fail to join.
 
 ## Re-OCR with column detection — done, and it works
 
-`scripts/ocr/reocr-spn-columns.py`, output in `archive/ocr/text-v2/`.
+`scripts/ingest/gazette-spn/reocr-spn-columns.py`, output in `archive/ocr/text-v2/`.
 
 What did **not** work, recorded because it is the obvious approach: finding column gutters by
 ink density. It detected **one** column on the 1954 page. These are dense classified pages
@@ -262,7 +262,7 @@ did not invent this data", on the strength of a *trace* test — did any 4-chara
 each surname appear in the source text? It did, for 100% of names. **The test was too
 permissive and the conclusion was wrong.**
 
-`scripts/ocr/crop-spn-region.py` now locates the notice on a page and renders it large
+`scripts/ingest/gazette-spn/crop-spn-region.py` now locates the notice on a page and renders it large
 enough to read directly. Read that way, `BL_0000038_19541123_034_0002` — the 1954 Armagh
 notice, the very record quoted earlier as the exemplar of "clean structured data" — carries
 **exactly one candidate**, returned unopposed:

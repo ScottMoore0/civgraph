@@ -1054,7 +1054,7 @@ export function buildMainLikeCandidateSummaryFromRawResults(rawEntries = []) {
         rows.push({
           id: String(index + 1),
           // `id` is a per-constituency row index, not a person. The real personId is
-          // stamped afterwards by scripts/apply_person_ids_v2.py; until then it is unknown.
+          // stamped afterwards by scripts/ingest/persons/apply_person_ids_v2.py; until then it is unknown.
           personId: null,
           // The person as the source names them, so the stamper resolves this row on
           // evidence. Without it the row fell back to its name, and 1,627 summary rows
