@@ -433,7 +433,8 @@ export const TABLES = [
     // order, so functions/data/graph answers the /data/graph/ file URLs from the rows above for
     // the 90 days the owner set (to 6 Feb 2027). `file` is the path under data/graph/; a long list
     // is split into parts of GRAPH_FILE_PART_KEYS keys. `extra` is the lookup/entity files' shard
-    // numbers ([st, rv, ss] per key, null where absent). Drop with the R2 copies after the 90 days.
+    // numbers ([st, rv, ss] per key, null where absent). Frozen as loaded at go-live: records:build
+    // carries it forward (graph-files-freeze.mjs). Drop with the R2 copies after the 90 days.
     name: 'graph_files', group: 'graph', hashed: true, pk: ['file', 'part'], order: 'file, part', since: 4,
     columns: [c('file', T, true), c('part', I, true), c('keys', T, true), c('extra'), ...HASH],
   },

@@ -15,11 +15,14 @@
  * there) or 301 to the downloads. Use it locally against `wrangler pages dev` over a local D1
  * loaded from the same build, or after a publish against production with --delay 350 (requests
  * then go one at a time with the research User-Agent). Exit 0 when every URL answers correctly.
+ * graph_files is frozen (graph-files-freeze.mjs): the graph files the last build reported as
+ * drifted (tmp/records/graph-files-drift.json) need only answer, not match.
  */
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { isDeepStrictEqual } from 'node:util';
 import path from 'node:path';
 import { REPO_ROOT } from './paths.mjs';
+import { driftedFile, readDrift } from './graph-files-freeze.mjs';
 
 const args = process.argv.slice(2);
 const opt = (name, fallback) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : fallback; };
@@ -53,6 +56,7 @@ function kinds(root, rel = '') {
 
 function plan() {
   const urls = [];
+  const drift = readDrift();
   for (const [prefix, root] of [['/data/browse/', BROWSE], ['/data/graph/', GRAPH]]) {
     if (!existsSync(root)) throw new Error(`no build tree at ${root}`);
     for (const [dir, files] of kinds(root)) {
@@ -61,6 +65,9 @@ function plan() {
         const rel = dir ? `${dir}/${f}` : f;
         const kind = `${prefix}${dir || '(top)'}`;
         if (prefix === '/data/graph/' && BULK.test(rel)) urls.push({ kind, url: `${prefix}${rel}`, expect: 'bulk' });
+        // graph_files is frozen as loaded at go-live: a file whose keys changed since answers
+        // its go-live keys (or 404 if it is new), not this build's file.
+        else if (prefix === '/data/graph/' && driftedFile(rel, drift)) urls.push({ kind, url: `${prefix}${rel}`, expect: 'drifted' });
         else urls.push({ kind, url: `${prefix}${rel}`, expect: 'file', file: path.join(root, ...rel.split('/')) });
       }
     }
@@ -102,6 +109,10 @@ async function check(u) {
   const res = await fetch(`${BASE}${u.url}`, { method: u.expect === 'head' ? 'HEAD' : 'GET', redirect: 'manual', headers: HEADERS });
   const base = { kind: u.kind, url: u.url, status: res.status, ms: Date.now() - t0 };
   if (u.expect === 404) return { ...base, ok: res.status === 404 };
+  if (u.expect === 'drifted') {
+    if (res.status === 200) await res.arrayBuffer();
+    return { ...base, ok: res.status === 200 || res.status === 404, diff: 'graph_files frozen: not compared' };
+  }
   if (u.expect === 'head') return { ...base, ok: res.status === 200 && !(await res.text()) };
   if (u.expect === 'redirect') {
     const location = res.headers.get('Location');
