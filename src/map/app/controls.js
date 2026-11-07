@@ -48,10 +48,8 @@ export class MapControlMethods {
 
   setupMapControls() {
     const mapControlsToggle = document.getElementById('mapControlsToggle');
-    const mapControlPanel = document.getElementById('mapControlPanel');
     const mapControlsClose = document.getElementById('mapControlsClose');
     const activeLayersToggle = document.getElementById('activeLayersToggle');
-    const activeLayers = document.getElementById('activeLayers');
     const activeLayersClose = document.getElementById('activeLayersClose');
     const featureInfoClose = document.getElementById('featureInfoClose');
 
