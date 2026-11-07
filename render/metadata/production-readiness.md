@@ -20,7 +20,7 @@ Use this checklist before promoting the MapLibre rewrite from `/test` into the m
 - Run `npm run verify:test:pmtiles-cdn` after upload and before switching metadata.
 - Keep `render/pmtiles/generated/*.pmtiles` out of Git.
 - Keep `render/tiles/generated/` and `render/tiles/civil-parishes-v3/` out of Git and out of Cloudflare Pages deployments. They are local build/fallback artifacts; production Pages must serve the app shell while R2/CDN serves heavy map data.
-- Run `bash scripts/clean-for-pages.sh` only in a disposable build output or Cloudflare Pages build environment. It removes generated tile directories from the Pages asset output and fails if the output still exceeds Cloudflare's 20,000-file cap.
+- Run `bash scripts/build/clean-for-pages.sh` only in a disposable build output or Cloudflare Pages build environment. It removes generated tile directories from the Pages asset output and fails if the output still exceeds Cloudflare's 20,000-file cap.
 - Bump `TEST_ASSET_VERSION`, `render/index.html` bundle query strings, and `TEST_CACHE_VERSION` together for every `/test` runtime change.
 - Treat `render/metadata/cdn-range-report.json` as evidence that PMTiles byte ranges, CORS origin handling, `Content-Length`, and `Content-Range` are working.
 

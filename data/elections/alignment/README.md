@@ -64,7 +64,7 @@ Idempotent. Re-run after any rebuild of `render/metadata/elections-test2/`.
 EONI-shaped count data — one row per candidate *per count* — so there is no single
 object representing a candidacy to hang the field on. The test2 metadata is the form
 where each candidacy is exactly one object, and it is what both the site and the
-analysis read. `scripts/build-test2-election-manifest.mjs` copies candidates with an
+analysis read. `scripts/build/build-test2-election-manifest.mjs` copies candidates with an
 object spread, so both fields survive a manifest regeneration; they do not survive a
 rebuild that discards the files, hence the re-run note above.
 

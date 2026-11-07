@@ -271,7 +271,7 @@ Add these scripts:
 
 ```text
 scripts/build/graph/build-semantic-graph.mjs
-scripts/build/graph/validate-semantic-graph.mjs
+scripts/check/rules/semantic-graph.mjs
 scripts/build/graph/lib/ids.mjs
 scripts/build/graph/lib/schema.mjs
 scripts/build/graph/lib/statement-builder.mjs
@@ -292,7 +292,7 @@ Add or update package scripts:
 ```json
 {
   "build:graph": "node scripts/build/graph/build-semantic-graph.mjs",
-  "check:graph": "node scripts/build/graph/validate-semantic-graph.mjs",
+  "check:graph": "node scripts/check/rules/semantic-graph.mjs",
   "build:browse": "node scripts/build/thumbnails/manifest.mjs && node scripts/build/build-browse-indexes.mjs && npm run build:graph",
   "check": "... && npm run check:graph"
 }
@@ -1399,7 +1399,7 @@ Verification:
 
 ```text
 node --check scripts/build/graph/build-semantic-graph.mjs
-node --check scripts/build/graph/validate-semantic-graph.mjs
+node --check scripts/check/rules/semantic-graph.mjs
 ```
 
 Acceptance:
@@ -1826,7 +1826,7 @@ diff tmp/graph-a data/graph
 Automate with:
 
 ```text
-node scripts/build/graph/validate-semantic-graph.mjs --determinism
+node scripts/check/rules/semantic-graph.mjs --determinism
 ```
 
 ### 16.5 File Budget
@@ -2299,7 +2299,7 @@ Promotion order:
 
 ```text
 node --check scripts/build/graph/build-semantic-graph.mjs
-node --check scripts/build/graph/validate-semantic-graph.mjs
+node --check scripts/check/rules/semantic-graph.mjs
 node --check scripts/build/graph/extractors/persons.mjs
 node --check scripts/build/graph/extractors/register-interests.mjs
 ```
@@ -2418,7 +2418,7 @@ Add a non-UI graph layer for persons, register-interest records, bodies, parties
 data/database/graph-properties.json
 data/database/graph-entity-types.json
 scripts/build/graph/build-semantic-graph.mjs
-scripts/build/graph/validate-semantic-graph.mjs
+scripts/check/rules/semantic-graph.mjs
 scripts/build/graph/lib/ids.mjs
 scripts/build/graph/lib/statement-builder.mjs
 scripts/build/graph/lib/schema.mjs

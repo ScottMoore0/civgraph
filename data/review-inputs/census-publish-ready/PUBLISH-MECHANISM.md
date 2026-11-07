@@ -2,9 +2,9 @@
 
 > Some scripts named below were archived in November 2026 (ARCHIVE.md, "Archived scripts"); they are in the archive copies and in git history, not in `scripts/`.
 
-Investigated from `scripts/`, `package.json`, `scripts/build-browse-indexes.mjs`,
-`scripts/graph/build-semantic-graph.mjs`, `scripts/apply-approved-publication-records.mjs`,
-and `scripts/validate-approved-publication-path.mjs`. **No publish/build command was run** — this
+Investigated from `scripts/`, `package.json`, `scripts/build/build-browse-indexes.mjs`,
+`scripts/build/graph/build-semantic-graph.mjs`, `scripts/apply-approved-publication-records.mjs`,
+and `scripts/check/rules/approved-publication.mjs`. **No publish/build command was run** — this
 documents the path only.
 
 ## 1. The live publication pipeline (as it exists today)
@@ -24,18 +24,18 @@ The site's generic "approved source" publication path is fully wired and idempot
    `data/elections/dail-approved-candidate-aliases.json` via `writeStableGeneratedJson`
    (deterministic → **idempotent**; re-running with the same inputs yields byte-identical output).
 
-3. **Browse materialisation:** `node scripts/build-browse-indexes.mjs`
+3. **Browse materialisation:** `node scripts/build/build-browse-indexes.mjs`
    reads the gate file (line 47) and merges `approvedPublicationSourcesData.sources` into the browse
    records (line 57), writing `data/browse/sources.json` and its detail shards.
 
-4. **Graph materialisation:** `npm run build:graph` → `scripts/graph/build-semantic-graph.mjs`
+4. **Graph materialisation:** `npm run build:graph` → `scripts/build/graph/build-semantic-graph.mjs`
    reads `data/browse/sources.json` + shards (lines 1589–1605) and builds the semantic graph.
 
 5. **Convenience wrapper:** `npm run build:browse` =
    `build-feature-thumbnail-manifest` → `build-browse-indexes` → `build:graph`.
 
 6. **Gate check:** `npm run check:approved-publication` →
-   `scripts/validate-approved-publication-path.mjs` asserts every approved source is materialised
+   `scripts/check/rules/approved-publication.mjs` asserts every approved source is materialised
    into `data/browse/sources.json` (and validates the Dail alias counts). Part of `npm run check`.
 
 So the generic command to publish an already-approved tranche is:

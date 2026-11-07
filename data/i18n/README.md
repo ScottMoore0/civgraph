@@ -37,7 +37,7 @@ node tools/test-site/server.mjs --port 4177
 2. Have `review/map-names.tsv` reviewed as well. Its names are machine-composed.
 3. In `functions/_templates/shell.js` (`head()`, the language bootstrap), replace the flag test in the bootstrap script with
    "always load", and drop the Hide action (`assets/i18n/i18n.js`) and the phrase check
-   (`src/catalogue/lang-reveal.js`). Then run `node scripts/build-site-partials.mjs`.
+   (`src/catalogue/lang-reveal.js`). Then run `node scripts/build/build-site-partials.mjs`.
 4. Add the Logainm attribution line (see Sources) to the About page and the map attribution.
 
 ## How it works
