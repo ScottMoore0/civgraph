@@ -46,11 +46,17 @@ export const SKIP_FILES = new Set([
   'tests/unit/url-compat.test.mjs',
   'tests/functions/maps.test.mjs',
   'scripts/records/ingest-maps.mjs',
+  // the R2 key moves and the id-form state machine name the legacy spelling on purpose
+  'scripts/publish/key-migration.mjs',
+  'scripts/publish/pmtiles-keys.mjs',
+  'tests/unit/records-state-machines.test.mjs',
   // reproduces a historical batch (docs/intake-examples/batch-2026-11-05) with its old ids
   'tests/intake/upload.test.mjs',
 ]);
 
-const OLD = /-(vector|raster|alias)-test(?![A-Za-z0-9_-])/g;
+// An id ends the token, or is followed by the suffix of a MapLibre style layer or source the
+// renderer derives from it (`${id}-fill`, `${id}-fallback-hover-source`, ...), which the specs name.
+const OLD = /-(vector|raster|alias)-test(?=(?:-(?:fill|line|label|source|hover|selected|fallback)(?:-(?:fill|line|label|source|hover|selected))*)?(?![A-Za-z0-9_-]))/g;
 const DELIM = /["'`\s(),=<>[\]{}|]/;
 const TILE_TOKEN = /\/generated\/|\/tiles\/|pmtiles|\{z\}/i;
 

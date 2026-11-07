@@ -1644,9 +1644,9 @@ test('loads a converted layer through the main catalogue map callback', async ({
   await loadCivilParishes(page);
   const result = await page.evaluate(async () => {
     const renderedLayers = [
-      'civil-parishes-vector-test-fill',
-      'civil-parishes-vector-test-line',
-      'civil-parishes-vector-test-label'
+      'civil-parishes-vector-fill',
+      'civil-parishes-vector-line',
+      'civil-parishes-vector-label'
     ].filter((id) => window.__civgraphTest2.mapController.map.getLayer(id));
     return {
       loaded: window.__civgraphTest2.app.mapController.isLayerLoaded('civil-parishes-by-province'),
@@ -1678,7 +1678,7 @@ test('Settlements 2015 has labels, hover state, and feature details', async ({ p
     const map = window.__civgraphTest2.mapController.map;
     const layer = window.__civgraphTest2.metadataService.getLayer('settlements-2015-vector');
     const features = map.queryRenderedFeatures({
-      layers: ['settlements-2015-vector-test-fill'].filter((id) => map.getLayer(id))
+      layers: ['settlements-2015-vector-fill'].filter((id) => map.getLayer(id))
     });
     return {
       promoteId: layer.promoteId,
@@ -1742,7 +1742,7 @@ test('duplicate promoted IDs do not cross-highlight distant DEAs', async ({ page
     await new Promise((resolve) => map.once('idle', resolve));
     const renderer = adapter.renderer;
     const record = renderer.layers.get('deas-1972-vector');
-    const queryLayers = ['deas-1972-vector-test-fill', 'deas-1972-vector-test-line'].filter((id) => map.getLayer(id));
+    const queryLayers = ['deas-1972-vector-fill', 'deas-1972-vector-line'].filter((id) => map.getLayer(id));
     const features = map.queryRenderedFeatures({ layers: queryLayers });
     const featureName = (feature) => String(feature?.properties?.NAME || feature?.properties?.label_name || '').toUpperCase();
     const down = features.find((feature) => featureName(feature) === 'DOWN AREA C');
@@ -1802,7 +1802,7 @@ test('no-id vector layers still support labels, hover, and feature details', asy
   const state = await page.evaluate(() => {
     const map = window.__civgraphTest2.mapController.map;
     const layer = window.__civgraphTest2.metadataService.getLayer('place-names-gazetteer-vector');
-    const queryLayers = ['place-names-gazetteer-vector-test-line'].filter((id) => map.getLayer(id));
+    const queryLayers = ['place-names-gazetteer-vector-line'].filter((id) => map.getLayer(id));
     const features = map.queryRenderedFeatures({ layers: queryLayers });
     return {
       promoteId: layer.promoteId || '',
@@ -1824,7 +1824,7 @@ test('no-id vector layers still support labels, hover, and feature details', asy
   await expect(firstLabel).toHaveClass(/map-label--hover/);
   const hoverOverlay = await page.evaluate(() => {
     const map = window.__civgraphTest2.mapController.map;
-    return map.queryRenderedFeatures({ layers: ['place-names-gazetteer-vector-test-fallback-hover'] }).length;
+    return map.queryRenderedFeatures({ layers: ['place-names-gazetteer-vector-fallback-hover'] }).length;
   });
   expect(hoverOverlay).toBeGreaterThan(0);
   await firstLabel.click();
@@ -1887,11 +1887,11 @@ test('loads generated election entries with MapLibre styling and enriched featur
       panelVisible: document.getElementById('electionResultsPane')?.classList.contains('election-results-pane--open'),
       timelineVisible: !document.getElementById('timelineSlider')?.classList.contains('hidden'),
       timelineLabel: document.getElementById('timelineLabel')?.textContent || '',
-      fillColour: map.getPaintProperty('pc-2023-vector-test-fill', 'fill-color'),
-      fillOpacity: map.getPaintProperty('pc-2023-vector-test-fill', 'fill-opacity'),
-      lineColour: map.getPaintProperty('pc-2023-vector-test-line', 'line-color'),
-      lineOpacity: map.getPaintProperty('pc-2023-vector-test-line', 'line-opacity'),
-      lineWidth: map.getPaintProperty('pc-2023-vector-test-line', 'line-width'),
+      fillColour: map.getPaintProperty('pc-2023-vector-fill', 'fill-color'),
+      fillOpacity: map.getPaintProperty('pc-2023-vector-fill', 'fill-opacity'),
+      lineColour: map.getPaintProperty('pc-2023-vector-line', 'line-color'),
+      lineOpacity: map.getPaintProperty('pc-2023-vector-line', 'line-opacity'),
+      lineWidth: map.getPaintProperty('pc-2023-vector-line', 'line-width'),
       seatHaloLayer: Boolean(map.getLayer('test2-election-seat-halo-layer')),
       seatCircleLayer: Boolean(map.getLayer('test2-election-seat-layer')),
       seatOverlay: Boolean(document.getElementById('test2-election-seat-overlay')),
@@ -2720,26 +2720,26 @@ test('adapter supports overlays, partial features, and rich loaded-feature paylo
       labelProperty: 'name',
       style: {}
     };
-    const first = map.queryRenderedFeatures({ layers: ['civil-parishes-vector-test-fill'] })[0];
+    const first = map.queryRenderedFeatures({ layers: ['civil-parishes-vector-fill'] })[0];
     const featureId = first.id ?? first.properties?.id;
     const featureName = first.properties?.name || first.properties?.NAME || first.properties?.Name || String(featureId);
 
     adapter.unloadLayer('civil-parishes-by-province');
     await adapter.loadSingleFeature(mapConfig, featureId, featureName, null);
     await new Promise((resolve) => map.once('idle', resolve));
-    const afterLoadFeatures = map.queryRenderedFeatures({ layers: ['civil-parishes-vector-test-fill'] });
+    const afterLoadFeatures = map.queryRenderedFeatures({ layers: ['civil-parishes-vector-fill'] });
     const afterLoadIds = [...new Set(afterLoadFeatures.map((feature) => feature.id ?? feature.properties?.id).map(String))];
     const state = adapter.getLayerState('civil-parishes-by-province');
     const afterLoadFeatureNames = [...state.featureNames.values()];
 
     adapter.togglePartialFeature('civil-parishes-by-province', featureId);
     await new Promise((resolve) => setTimeout(resolve, 750));
-    const afterHideCount = map.queryRenderedFeatures({ layers: ['civil-parishes-vector-test-fill'] }).length;
+    const afterHideCount = map.queryRenderedFeatures({ layers: ['civil-parishes-vector-fill'] }).length;
     const hiddenVisible = adapter.isFeatureVisible('civil-parishes-by-province', featureId);
 
     adapter.togglePartialFeature('civil-parishes-by-province', featureId);
     await new Promise((resolve) => setTimeout(resolve, 750));
-    const afterShowCount = map.queryRenderedFeatures({ layers: ['civil-parishes-vector-test-fill'] }).length;
+    const afterShowCount = map.queryRenderedFeatures({ layers: ['civil-parishes-vector-fill'] }).length;
     const shownVisible = adapter.isFeatureVisible('civil-parishes-by-province', featureId);
 
     adapter.unloadPartialFeature('civil-parishes-by-province', featureId);
@@ -2748,7 +2748,7 @@ test('adapter supports overlays, partial features, and rich loaded-feature paylo
     await adapter.loadSingleFeature(mapConfig, featureId, featureName, null);
     await adapter.expandToFullMap(mapConfig);
     await new Promise((resolve) => map.once('idle', resolve));
-    const expandedCount = map.queryRenderedFeatures({ layers: ['civil-parishes-vector-test-fill'] }).length;
+    const expandedCount = map.queryRenderedFeatures({ layers: ['civil-parishes-vector-fill'] }).length;
     const expandedState = adapter.getLayerState('civil-parishes-by-province');
 
     return {
@@ -2820,7 +2820,7 @@ test('MapLibre controls handle opacity, labels, feature details, and active laye
   expect(styleParity.transparentDefault.fillOpacity).toBeUndefined();
   expect(styleParity.explicitFill.fillOpacity).toBe(0.4);
   const defaultFillOpacity = await page.evaluate(() => (
-    window.__civgraphTest2.mapController.map.getPaintProperty('civil-parishes-vector-test-fill', 'fill-opacity')
+    window.__civgraphTest2.mapController.map.getPaintProperty('civil-parishes-vector-fill', 'fill-opacity')
   ));
   expect(defaultFillOpacity).toBe(0);
   const labelState = await page.evaluate(() => {
@@ -2828,7 +2828,7 @@ test('MapLibre controls handle opacity, labels, feature details, and active laye
     return {
       count: labels.length,
       uniqueFeatureIds: new Set(labels.map((label) => `${label.dataset.layerId}:${label.dataset.featureId}`)).size,
-      nativeLabelOpacity: window.__civgraphTest2.mapController.map.getPaintProperty('civil-parishes-vector-test-label', 'text-opacity')
+      nativeLabelOpacity: window.__civgraphTest2.mapController.map.getPaintProperty('civil-parishes-vector-label', 'text-opacity')
     };
   });
   expect(labelState.count).toBeGreaterThan(0);
@@ -2854,15 +2854,15 @@ test('MapLibre controls handle opacity, labels, feature details, and active laye
       color: labelStyle.color,
       decoration: labelStyle.textDecorationLine,
       textShadow: labelStyle.textShadow,
-      fillColor: app.mapController.map.getPaintProperty('civil-parishes-vector-test-hover', 'fill-color'),
-      baseFillAntialias: app.mapController.map.getPaintProperty('civil-parishes-vector-test-fill', 'fill-antialias'),
-      hoverFillAntialias: app.mapController.map.getPaintProperty('civil-parishes-vector-test-hover', 'fill-antialias'),
-      hoverLineLayerExists: Boolean(app.mapController.map.getLayer('civil-parishes-vector-test-hover-line')),
+      fillColor: app.mapController.map.getPaintProperty('civil-parishes-vector-hover', 'fill-color'),
+      baseFillAntialias: app.mapController.map.getPaintProperty('civil-parishes-vector-fill', 'fill-antialias'),
+      hoverFillAntialias: app.mapController.map.getPaintProperty('civil-parishes-vector-hover', 'fill-antialias'),
+      hoverLineLayerExists: Boolean(app.mapController.map.getLayer('civil-parishes-vector-hover-line')),
       fallbackHoverCount: app.mapController.map.queryRenderedFeatures({
-        layers: ['civil-parishes-vector-test-fallback-hover-fill'].filter((layerId) => app.mapController.map.getLayer(layerId))
+        layers: ['civil-parishes-vector-fallback-hover-fill'].filter((layerId) => app.mapController.map.getLayer(layerId))
       }).length,
       featureHover: app.mapController.map.getFeatureState({
-        source: 'civil-parishes-vector-test-source',
+        source: 'civil-parishes-vector-source',
         sourceLayer: app.metadataService.getLayer('civil-parishes-vector').sourceLayer,
         id
       }).hover === true
@@ -2892,15 +2892,15 @@ test('MapLibre controls handle opacity, labels, feature details, and active laye
     return {
       labelColor: labelStyle.color,
       labelDecoration: labelStyle.textDecorationLine,
-      fillColor: app.mapController.map.getPaintProperty('civil-parishes-vector-test-selected-fill', 'fill-color'),
-      fillOpacity: app.mapController.map.getPaintProperty('civil-parishes-vector-test-selected-fill', 'fill-opacity'),
-      selectedFillAntialias: app.mapController.map.getPaintProperty('civil-parishes-vector-test-selected-fill', 'fill-antialias'),
-      selectedLineLayerExists: Boolean(app.mapController.map.getLayer('civil-parishes-vector-test-selected')),
+      fillColor: app.mapController.map.getPaintProperty('civil-parishes-vector-selected-fill', 'fill-color'),
+      fillOpacity: app.mapController.map.getPaintProperty('civil-parishes-vector-selected-fill', 'fill-opacity'),
+      selectedFillAntialias: app.mapController.map.getPaintProperty('civil-parishes-vector-selected-fill', 'fill-antialias'),
+      selectedLineLayerExists: Boolean(app.mapController.map.getLayer('civil-parishes-vector-selected')),
       fallbackSelectedCount: app.mapController.map.queryRenderedFeatures({
-        layers: ['civil-parishes-vector-test-fallback-selected-fill'].filter((layerId) => app.mapController.map.getLayer(layerId))
+        layers: ['civil-parishes-vector-fallback-selected-fill'].filter((layerId) => app.mapController.map.getLayer(layerId))
       }).length,
       featureSelected: app.mapController.map.getFeatureState({
-        source: 'civil-parishes-vector-test-source',
+        source: 'civil-parishes-vector-source',
         sourceLayer: app.metadataService.getLayer('civil-parishes-vector').sourceLayer,
         id
       }).selected === true
@@ -2930,7 +2930,7 @@ test('MapLibre controls handle opacity, labels, feature details, and active laye
   const target = await page.evaluate(() => {
     const map = window.__civgraphTest2.mapController.map;
     const feature = map.queryRenderedFeatures({
-      layers: ['civil-parishes-vector-test-fill'].filter((id) => map.getLayer(id))
+      layers: ['civil-parishes-vector-fill'].filter((id) => map.getLayer(id))
     })[0];
     const coords = [];
     const walk = (value) => {
@@ -2962,9 +2962,9 @@ test('MapLibre controls handle opacity, labels, feature details, and active laye
   const paints = await page.evaluate(() => {
     const map = window.__civgraphTest2.mapController.map;
     return {
-      lineOpacity: map.getPaintProperty('civil-parishes-vector-test-line', 'line-opacity'),
-      fillOpacity: map.getPaintProperty('civil-parishes-vector-test-fill', 'fill-opacity'),
-      labelsVisibility: map.getLayoutProperty('civil-parishes-vector-test-label', 'visibility'),
+      lineOpacity: map.getPaintProperty('civil-parishes-vector-line', 'line-opacity'),
+      fillOpacity: map.getPaintProperty('civil-parishes-vector-fill', 'fill-opacity'),
+      labelsVisibility: map.getLayoutProperty('civil-parishes-vector-label', 'visibility'),
       domLabelsHidden: [...document.querySelectorAll('.maplibre-dom-label')].every((label) => label.hidden)
     };
   });
@@ -2982,7 +2982,7 @@ test('MapLibre controls handle opacity, labels, feature details, and active laye
   const selected = await page.evaluate(() => {
     const map = window.__civgraphTest2.mapController.map;
     const feature = map.queryRenderedFeatures({
-      layers: ['civil-parishes-vector-test-fill', 'civil-parishes-vector-test-line'].filter((id) => map.getLayer(id))
+      layers: ['civil-parishes-vector-fill', 'civil-parishes-vector-line'].filter((id) => map.getLayer(id))
     })[0];
     const id = feature?.id ?? feature?.properties?.id;
     if (id === undefined || id === null) return false;
@@ -3007,7 +3007,7 @@ test('mobile-sized feature taps select geometry without double-tap zoom', async 
   await page.waitForFunction(() => {
     const map = window.__civgraphTest2?.mapController?.map;
     if (!map) return false;
-    const layers = ['civil-parishes-vector-test-fill'].filter((id) => map.getLayer(id));
+    const layers = ['civil-parishes-vector-fill'].filter((id) => map.getLayer(id));
     if (layers.length === 0) return false;
     const hasCoordinates = (value) => {
       if (!Array.isArray(value)) return false;
@@ -3020,7 +3020,7 @@ test('mobile-sized feature taps select geometry without double-tap zoom', async 
   const target = await page.evaluate(() => {
     const map = window.__civgraphTest2.mapController.map;
     const features = map.queryRenderedFeatures({
-      layers: ['civil-parishes-vector-test-fill'].filter((id) => map.getLayer(id))
+      layers: ['civil-parishes-vector-fill'].filter((id) => map.getLayer(id))
     });
     const coords = [];
     const walk = (value) => {
