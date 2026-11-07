@@ -17,8 +17,9 @@
  * committed: they are uploaded to R2. A local build has them; the Pages build, which runs
  * `npm run build` on a clean checkout, does not. So the record sitemaps are committed, and
  * a type whose index is absent keeps its committed file rather than being written empty:
- * a deploy can never shrink the sitemap to the top-level pages. proni-roots.json is
- * committed, so that one is always rebuilt.
+ * a deploy can never shrink the sitemap to the top-level pages. The same holds for
+ * sitemaps/proni.xml: proni-roots.json is no longer built (data phase 4; the roots come from
+ * /_api/proni/node), so it is rewritten only from a Browse tree that holds one.
  *
  * Limits: a sitemap holds at most 50,000 URLs and 50 MB. Files are split at 45,000 URLs,
  * and the size is checked as each file is written.

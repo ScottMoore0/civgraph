@@ -2,6 +2,12 @@
 /**
  * Build lightweight /test2 metadata for startup and lazy detail/duplicate-id
  * sidecars from the existing /test MapLibre metadata.
+ *
+ * Since data phase 4 the per-layer sidecars are written to tmp/layer-metadata/, not committed:
+ * production answers their URLs from D1 (/_api/layers/<id>, .../duplicates; the old
+ * /render/metadata/layer-details-test2/ and duplicate-feature-ids/ URLs answer 301 there), and
+ * only the local test server (scripts/test-server.py) reads the files. maps-test-index.json
+ * stays committed while the scripts that read it from disk do.
  */
 
 import { existsSync, mkdirSync, readFileSync, readdirSync, unlinkSync } from 'node:fs';
@@ -14,8 +20,9 @@ import { FILE_URLS, duplicateSidecar, indexDocument, indexEntry, layerFileName }
 const ROOT = process.cwd();
 const INPUT = path.join(ROOT, 'render', 'metadata', 'maps-test.json');
 const INDEX_OUTPUT = path.join(ROOT, 'render', 'metadata', 'maps-test-index.json');
-const DETAIL_DIR = path.join(ROOT, 'render', 'metadata', 'layer-details-test2');
-const DUPLICATE_DIR = path.join(ROOT, 'render', 'metadata', 'duplicate-feature-ids');
+const SIDECAR_ROOT = path.join(ROOT, 'tmp', 'layer-metadata');
+const DETAIL_DIR = path.join(SIDECAR_ROOT, 'layer-details-test2');
+const DUPLICATE_DIR = path.join(SIDECAR_ROOT, 'duplicate-feature-ids');
 
 function readJson(file) {
   return JSON.parse(readFileSync(file, 'utf8'));

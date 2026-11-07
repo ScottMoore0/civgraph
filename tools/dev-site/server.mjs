@@ -143,7 +143,6 @@ createServer(async (req, res) => {
     // from there; without a build the site answers 404 for them, as a fresh checkout would.
     const RECORD_URL = /^\/(render\/metadata\/(elections-test2(\.json|-report\.json|\/|-summaries\/)|election-provenance\/)|data\/(browse|graph)\/|data\/database\/election-provenance\.json$)/;
     let file = path.join(ROOT, p);
-    // A file still committed under these prefixes (data/browse/proni-roots.json) is served as it is.
     if (RECORD_URL.test(p) && !existsSync(file)) file = localPathForUrl(p);
     if (!file || !path.resolve(file).startsWith(ROOT)) return send(res, 403, 'forbidden');
     if (existsSync(file) && statSync(file).isDirectory()) file = path.join(file, 'index.html');

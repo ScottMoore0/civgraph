@@ -19,8 +19,7 @@
  * This is the fast local tier of CHECKS.md. `check` is offline: no step reads a remote
  * database, R2 or the deployed site. The comparisons with the LIVE databases and the R2 bucket
  * are in the opt-in `npm run verify` (verify:records, the bounded records check;
- * verify:proni-roots; check:r2-parity); check:proni-roots here checks the committed file
- * alone. For a run that equals CI, use npm run check:clean; for this plus the database tests
+ * check:r2-parity). For a run that equals CI, use npm run check:clean; for this plus the database tests
  * and the browser specs, npm run check:full.
  */
 import { spawn } from 'node:child_process';

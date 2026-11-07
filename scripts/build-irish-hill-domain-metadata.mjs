@@ -16,8 +16,6 @@ const MAPLIBRE_INDEX_PATH = resolve(ROOT, 'render/metadata/maps-test-index.json'
 const PORT_PLAN_PATH = resolve(ROOT, 'render/metadata/main-site-port-plan.json');
 const SPATIAL_INDEX_PATH = resolve(ROOT, 'data/database/spatial-index.json');
 const FEATURE_INDEX_DIR = resolve(ROOT, 'render/metadata/feature-indexes');
-const LAYER_DETAILS_DIR = resolve(ROOT, 'render/metadata/layer-details-test2');
-const DUPLICATE_FEATURE_IDS_DIR = resolve(ROOT, 'render/metadata/duplicate-feature-ids');
 const CDN_RANGE_REPORT_PATH = resolve(ROOT, 'render/metadata/cdn-range-report.json');
 
 const DATASET_DATE = '2026-06-24';
@@ -63,8 +61,6 @@ function main() {
     throw new Error(`Missing domain build report at ${relative(REPORT_PATH)}. Run python scripts/build_irish_hill_domain_assets.py first.`);
   }
   mkdirSync(FEATURE_INDEX_DIR, { recursive: true });
-  mkdirSync(LAYER_DETAILS_DIR, { recursive: true });
-  mkdirSync(DUPLICATE_FEATURE_IDS_DIR, { recursive: true });
   const report = readJson(REPORT_PATH);
   const outputs = new Map((report.outputs || []).map((output) => [output.id, output]));
   for (const layer of LAYERS) {
@@ -302,8 +298,8 @@ function updateMapLibreMetadata(outputs, report) {
     }));
   }
   writeJson(MAPLIBRE_PATH, metadata);
-  const generatedLayers = metadata.layers.filter((item) => LAYERS.some((layer) => item.id === `${layer.id}-vector`));
-  writeLayerSidecars(generatedLayers);
+  // The per-layer sidecars are not committed since data phase 4: npm run build:test2:metadata
+  // writes them to tmp/layer-metadata/ from maps-test.json, and production answers from D1.
 }
 
 function updateMapLibreIndex() {
@@ -330,20 +326,6 @@ function updateMapLibreIndex() {
   }
   index.detailLayerCount = index.layers.length;
   writeJson(MAPLIBRE_INDEX_PATH, index);
-}
-
-function writeLayerSidecars(layers) {
-  for (const layer of layers) {
-    writeJson(resolve(LAYER_DETAILS_DIR, `${layer.id}.json`), layer);
-    writeJson(resolve(DUPLICATE_FEATURE_IDS_DIR, `${layer.id}.json`), {
-      layerId: layer.id,
-      sourceMapId: layer.sourceMapId,
-      featureIndexUrl: layer.featureIndexUrl,
-      featureCount: layer.generatedFrom?.featureCount || 0,
-      featureIdMode: 'unique',
-      duplicateFeatureIds: []
-    });
-  }
 }
 
 function updatePortPlan(outputs, report) {

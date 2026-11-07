@@ -13,8 +13,7 @@ The record documents (the election manifest, bundles, summaries and provenance s
 Browse and graph trees) are not files in the tree since the records cutover: production
 answers them from D1 through the compatibility Functions, byte for byte the records build's
 output. So, as tools/dev-site/server.mjs does, they are read from that output (tmp/records,
-scripts/records/paths.py local_path_for_url) when it holds them, and from the tree otherwise
-(data/browse/proni-roots.json is still committed). Without a records build they answer 404,
+scripts/records/paths.py local_path_for_url) when it holds them. Without a records build they answer 404,
 as on a fresh checkout. Nothing is proxied: the suite never reaches the deployed site.
 
 The map documents moved into D1 in data design phase 3 (PHASE3.md): the app reads its startup
@@ -45,8 +44,10 @@ CATALOGUE_VIEWS = {'pane': 'catalogue.json', 'places': 'places.json', 'people': 
 
 
 def _api_file(path, query):
-    """The tracked file a phase-3 maps API URL answers with, or None (functions/_api/layers,
-    functions/_api/catalogue). Other /_api/ URLs are left to 404, as before."""
+    """The file a phase-3 maps API URL answers with, or None (functions/_api/layers,
+    functions/_api/catalogue): the tracked sources, and the per-layer sidecars that
+    npm run build (build-test2-metadata-shards.mjs) writes to tmp/layer-metadata/.
+    Other /_api/ URLs are left to 404, as before."""
     view = (parse_qs(query).get('view') or [''])[0]
     parts = [p for p in path.split('/') if p]
     if parts[:2] == ['_api', 'layers']:
@@ -56,9 +57,9 @@ def _api_file(path, query):
         if '..' in rest:
             return None
         if len(rest) == 1:
-            return os.path.join(REPO, 'render', 'metadata', 'layer-details-test2', rest[0] + '.json')
+            return os.path.join(REPO, 'tmp', 'layer-metadata', 'layer-details-test2', rest[0] + '.json')
         if len(rest) == 2 and rest[1] == 'duplicates':
-            return os.path.join(REPO, 'render', 'metadata', 'duplicate-feature-ids', rest[0] + '.json')
+            return os.path.join(REPO, 'tmp', 'layer-metadata', 'duplicate-feature-ids', rest[0] + '.json')
         return None
     if parts == ['_api', 'catalogue']:
         if view in CATALOGUE_VIEWS:
