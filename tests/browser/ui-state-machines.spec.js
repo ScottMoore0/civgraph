@@ -238,4 +238,30 @@ test.describe('PRONI Search', () => {
     await expect(page.locator('#viewSearch')).toBeHidden();
     await expect(page.locator('#viewRecord')).toBeHidden();
   });
+
+  test('copy confirmation: idle -> copied -> idle, and a second copy while it shows keeps the label', async ({ page }) => {
+    await stubProni(page);
+    await page.goto('/apps/proni-search/');
+    await page.locator('#q').fill('papers');
+    const copy = page.locator('.ps-card[data-ref="D1"] .ps-copy[data-copy]').first();
+    await expect(copy).toHaveText('⧉ Copy');
+    await copy.click();
+    await expect(copy).toHaveText('✓ Copied');
+    await copy.click();
+    await expect(copy).toHaveText('✓ Copied');
+    await expect(copy).toHaveText('⧉ Copy', { timeout: 4000 });
+    await expect(copy).not.toHaveClass(/is-copied/);
+
+    await page.locator('.ps-card[data-ref="D1"] [data-ecat]').first().click();
+    const line = page.locator('#viewEcat .ps-guide__reffield').first();
+    const note = page.locator('#viewEcat .ps-guide__copied').first();
+    await expect(line).toBeVisible();
+    await expect(note).toBeHidden();
+    await line.click();
+    await expect(note).toBeVisible();
+    await line.press('Enter');
+    await expect(note).toBeVisible();
+    await expect(note).toBeHidden({ timeout: 4000 });
+    await expect(line).not.toHaveClass(/is-copied/);
+  });
 });
