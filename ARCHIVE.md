@@ -49,6 +49,14 @@ experiments, superseded uploaders -- left `scripts/` (the `archive` verdicts of 
 restructure's script catalogue, less 22 that a reference audit found still run, imported or
 wired into npm, CI or Playwright; those stay).
 
+A second wave (7 November 2026, the script reorganisation) archived 15 more: 10 of those 22,
+whose remaining references were comments, documents or orphan npm entries
+(`build:test:tiles`, `census:recover:cso-wayback` and `preflight:migration`, removed), and the
+five working files of the superseded `apply_person_ids.py` (`ambiguous_cases.json`,
+`match_results.json`, `discrepancies.json` and the two `review_*.html` pages). They are in the
+same two copies, under their old paths, and in `docs/scripts-archived.sha256`; the last commit
+that holds them is the parent of the commit that removed them.
+
 - **Copies:** `E:\civgraph-archive\scripts-archived\` and `D:\civgraph-archive\scripts-archived\`,
   each with its own `SHA256SUMS`; both were checked file by file before the removal.
 - **List:** `docs/scripts-archived.sha256` (path and SHA-256 of each).
