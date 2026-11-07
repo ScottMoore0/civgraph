@@ -46,7 +46,7 @@ declare global {
     getWithMetadata?(key: string, type?: string | { type?: string }): Promise<{ value: any; metadata: any }>;
     put(key: string, value: string | ArrayBuffer | ReadableStream, options?: { expiration?: number; expirationTtl?: number; metadata?: unknown }): Promise<void>;
     delete(key: string): Promise<void>;
-    list(options?: { prefix?: string; cursor?: string; limit?: number }): Promise<{ keys: Array<{ name: string; expiration?: number; metadata?: unknown }>; list_complete: boolean; cursor?: string }>;
+    list(options?: { prefix?: string | undefined; cursor?: string | undefined; limit?: number | undefined }): Promise<{ keys: Array<{ name: string; expiration?: number; metadata?: unknown }>; list_complete: boolean; cursor?: string }>;
   }
 
   /** An R2 object's metadata (head, list). */
@@ -75,7 +75,7 @@ declare global {
     head(key: string): Promise<R2Object | null>;
     put(key: string, value: string | ArrayBuffer | ArrayBufferView | ReadableStream | Blob | null, options?: Record<string, unknown>): Promise<R2Object | null>;
     delete(keys: string | string[]): Promise<void>;
-    list(options?: { prefix?: string; cursor?: string; limit?: number; delimiter?: string; include?: string[] }): Promise<{ objects: R2Object[]; delimitedPrefixes: string[]; truncated: boolean; cursor?: string }>;
+    list(options?: { prefix?: string | undefined; cursor?: string | undefined; limit?: number | undefined; delimiter?: string | undefined; include?: string[] | undefined }): Promise<{ objects: R2Object[]; delimitedPrefixes: string[]; truncated: boolean; cursor?: string }>;
   }
 
   /** The `context` every Pages Function handler receives. */

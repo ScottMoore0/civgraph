@@ -87,7 +87,7 @@ export async function onRequest(context) {
       limit: parseLimit(url.searchParams.get('limit')),
     });
   } catch (error) {
-    return jsonResponse({ ok: false, error: `Listing failed: ${error.message}` }, { status: 502 });
+    return jsonResponse({ ok: false, error: `Listing failed: ${/** @type {Error} */ (error).message}` }, { status: 502 });
   }
 
   // A prefix may be a PARENT of an approved one (asking for "data/" when only "data/maps/"

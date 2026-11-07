@@ -222,7 +222,7 @@ export function browseIndexHandler({
         // The code was deployed before the table was re-imported with a new column (the
         // publish pushes, then imports). Answer without the column filters and sorts, and
         // say so through `applied`, rather than fail the whole list.
-        if (!/no such column/i.test(String(error?.message || error))) throw error;
+        if (!/no such column/i.test(String(/** @type {Error} */ (error)?.message || error))) throw error;
         return json(await runList(false), 200, false, version);
       }
     } catch (error) {

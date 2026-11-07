@@ -148,6 +148,6 @@ async function handle(context) {
       children: kids.map(mapChild),
     });
   } catch (error) {
-    return json({ error: String(error && error.message || error), ref }, 500);
+    return json({ error: String(error && /** @type {Error} */ (error).message || error), ref }, 500);
   }
 }
