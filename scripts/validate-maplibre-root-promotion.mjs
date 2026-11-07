@@ -6,7 +6,8 @@
  * It reads nothing under archive/ (that went with 49e65a9e43) and nothing of the legacy
  * /render/ app, so it survives the restructure as the data design's checks.csv says: its
  * assertions are source-file rules for the live app and move into check:schema (C2). The
- * /test2/ compatibility assertions change when F5 turns /test2/ into a redirect.
+ * /test2/ assertions follow F5 (7 Nov 2026): /test2/ is a 301 and test2/sw.js the retired-app
+ * kill switch, so no page there may carry the app.
  */
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { readMapAppSource } from './lib/map-app-source.mjs';
@@ -24,7 +25,6 @@ function read(path) {
 // page took that slot; every assertion below is about the page that carries the runtime,
 // so it follows the application rather than the URL. `appHtml` is named for what it is.
 const appHtml = read('maps/index.html');
-const test2Html = read('test2/index.html');
 const rootServiceWorker = read('sw.js');
 const appSource = readMapAppSource(); // app.js and the modules split out of it under src/map/app/
 const mainCss = read('assets/css/main.css');
@@ -50,8 +50,8 @@ assert(!/(?:src|href)=["']\/build\/app\.bundle\.js/i.test(appHtml), 'maps/index.
 assert(!/leaflet-1\.9\.4/i.test(appHtml), 'maps/index.html must not load the archived Leaflet assets.');
 assert(appHtml.includes('Root service-worker owns production cache'), 'maps/index.html must document root service-worker cache ownership.');
 
-assert(test2Html.includes('window.location.replace') && test2Html.includes('nextUrl.search') && test2Html.includes('nextUrl.hash'), '/test2 compatibility route must redirect while preserving query and hash state.');
-assert(!test2Html.includes('/app/build/app.bundle.js') && !test2Html.includes('id="map"'), '/test2 compatibility route must not duplicate the live app shell.');
+assert(!existsSync('test2/index.html'), '/test2/ must not serve a page: _redirects sends it to /maps/.');
+assert(!read('test2/sw.js').includes('/app/build/app.bundle.js'), '/test2/sw.js must not cache the live app: it only retires the legacy worker.');
 
 assert(rootServiceWorker.includes('root-maplibre-sw-'), 'Root service worker must use the MapLibre root cache version.');
 assert(rootServiceWorker.includes('/app/build/app.bundle.js'), 'Root service worker must handle the MapLibre runtime entry.');

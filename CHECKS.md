@@ -20,7 +20,7 @@ changed files need and then runs the checks.
 
 **2. Full local.**
 - `check:full` is tier 1, then `records:check` (the records database tests in
-  `tests/records/`), `test:browser:maps` (the map app at `/maps/`), `test:catalogue` and
+  `tests/records/`), `test:browser:maps` (the map app at `/maps/`, and the retired apps' service workers), `test:catalogue` and
   `test:i18n`. The last two serve the tree through `tools/dev-site/server.mjs`, which
   proxies `/_api/` and `/_r/` to the live site, so they read production's public API
   (GET only). That ends when they move to `wrangler pages dev` with the local database
@@ -76,7 +76,7 @@ whose inputs fell outside a filter never ran (the `docs/**` gap, closed 2026-09-
 | Area | Checks |
 |---|---|
 | Publication rights and sources | `check:approved-publication`, `check:raw-source-documents`, `check:medium-priority-publication`, `check:peatland-geoportal`, `check:external-sources`, `check:election-source-enrichments`, `check:ni-register-interests`, `check:book-files`, `check:r2-allowlist`, `check:public-prefixes` |
-| Pages deploy limits and routing | `check:pages-assets` (18,500 files, 25 MiB each), `check:routes-manifest`, `check:method-guards`, `check:asset-refs`, `check:root`, `check:test2`, `check:test` (the legacy `/render/` app, until F5) |
+| Pages deploy limits and routing | `check:pages-assets` (18,500 files, 25 MiB each), `check:routes-manifest`, `check:method-guards`, `check:asset-refs`, `check:root`, `check:test2` (`/test2/` is a 301 and `test2/sw.js` the kill switch), `check:map-tiles` (the layer metadata, tile budgets and CDN manifest) |
 | Election records | `check:provenance` (provenance budget and freshness), `check:candidate-name-party`, `check:graph`, `check:browse-contract`, `test:elections-unit`, `test:browse-pages` |
 | Maps catalogue (the tracked sources data phase 3 loads into D1; phase 4 replaces most) | `check:c1-coverage`, `check:catalogue-render-parity`, `check:catalogue-display-fields`, `check:render-time-series`, `check:test-index-parity`, `check:public-map-count`, `check:browse-hidden`, `check:catalogue-file-urls`, `check:provider-names`, `check:shared-file-attribution`, `check:composite-relations`, `check:polygon-labels`, `check:vector-promote-id`, `check:chunked-bounds`, `check:tile-freshness`, `check:tile-content` |
 | Map-layer intake | `check:intake-delivery`, `check:source-paths`, `check:composite-composition`, `test:intake-validators`, `test:intake` |
@@ -87,11 +87,10 @@ whose inputs fell outside a filter never ran (the `docs/**` gap, closed 2026-09-
 ## Outside the tiers
 
 These run only when someone names them. They are not part of any gate.
-- **Legacy `/render/` and `/test2` browser scripts.** They retire with the `/render/` app
-  (F5): `smoke:test:mobile`, `test:performance:test`, `test:performance:test2`,
-  `test:performance:test2:cold`, `check:performance:test2:cold`, `test:visual:test`,
-  `test:visual:test2`, `test:browser:test`, `audit:test2:parity`. The same goes for the
-  sub-chains `check:map-tiles` and `check:render-app` (both are inside `check:test`).
+- **Map app browser scripts named for `/test2`.** `test:performance:test2`,
+  `test:performance:test2:cold`, `check:performance:test2:cold`, `test:visual:test2` and
+  `audit:test2:parity` measure or compare the live map app; they keep their old names until
+  the script renames (renames.csv).
 - **Reports and curator tools.** `audit:test2:elections` (the blocking half is in
   `check:test2`), `catalogue:check`, `records:verify` (local),
   `monitor:test2:cdn` (network), `lint:strict`, `test:browser` (the whole Playwright
@@ -110,6 +109,28 @@ records database; PHASE3.md):
   first load inserts the new tables whole, one new map changes one row) and
   `tests/functions/maps.test.mjs` (in `test:unit`: every phase-3 route against the real
   sources, the byte-identical documents, the 301s and the layer-id aliases).
+
+Retired on 7 November 2026 with the legacy `/render/` and `/test2/` apps (site restructure F5):
+- **The apps.** `render/index.html`, `render/build/`, `render/src/app.js` and the modules only it
+  used, and `test2/index.html` are deleted. Their pages answer 301 to `/maps/` (`_redirects`,
+  with `/test/` and `/maps/test/`); `/render/metadata/*` keeps answering. `render/sw.js` and
+  `test2/sw.js` are now one kill switch (also served at `/test/sw.js` by a 200 rule) that
+  unregisters the old worker, clears its caches and moves its open pages to `/maps/`; the map
+  app asks the browser to check those workers (`src/map/app/retire-legacy-workers.mjs`).
+- **Checks of the app.** `check:test` and `check:render-app` (validate-test-shell-parity.mjs,
+  validate-test-security.mjs, validate-test-production-route.mjs, deleted), and `build:test`
+  (build-test-app.mjs). validate-test-app.mjs keeps its layer-metadata checks, which guard the
+  live app, and runs in `check:map-tiles`, which takes `check:test`'s place in `check`.
+- **Browser scripts of the app.** `test:browser:test` (test-app.spec.js), `smoke:test:mobile`,
+  `test:performance:test`, `test:visual:test` and scripts/test-static-server.mjs; also
+  time-series-panel.spec.js (the `/render/` picker) and test2-redirect.spec.js (the client-side
+  `/test2/` page, now a 301).
+- **New:** `tests/unit/retired-service-worker.test.mjs` and
+  `tests/unit/retire-legacy-workers.test.mjs` (in `test:unit`: the kill switch's pinned bytes,
+  the addresses that serve it, the 301s matched as Pages matches them by
+  `scripts/lib/pages-redirects.mjs`, and what it does in a fake worker scope), and
+  `tests/browser/retired-service-worker.spec.js` (in `test:browser:maps`: Chromium installs each
+  old worker and watches the kill switch retire it, for an open page and a returning visitor).
 
 Retired on 7 November 2026 (checks and CI):
 - **`check:elections-schema`, `build:elections-schema` and their script,

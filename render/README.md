@@ -1,7 +1,7 @@
 # `render/` — the development renderer, and the layer metadata
 
-> **Status: mixed. The metadata is load-bearing in production; the page at
-> `/render/` is a development harness.**
+> **Status: current, 7 November 2026. The metadata is load-bearing in production; the
+> development harness that was served at `/render/` is retired.**
 
 This directory does two quite different jobs, and confusing them is the main
 hazard.
@@ -21,11 +21,19 @@ node scripts/build-render-time-series-chains.mjs
 stale. Several validators read this file rather than the catalogue, because the
 renderer is what decides whether a map can actually be drawn.
 
-## 2. `render/src/` and `/render/` — the harness
+## 2. `/render/` — retired
 
-A development view of the same renderer, used to test layers before promoting
-them. It shares a lineage with `app/src/app.js` but is not the same code and does
-not ship to the public site.
+The page at `/render/` was a development view of the renderer, used to test layers
+before promoting them. It retired on 7 November 2026 (site restructure F5): `/render/`
+answers 301 to `/maps/` (`_redirects`), and its page and bundle are deleted. The renderer
+modules the map app imports live on, outside this directory.
+
+`sw.js` here is not the old app's worker but its **kill switch**, served byte for byte the
+same at `/render/sw.js`, `/test2/sw.js` and (proxied) `/test/sw.js`: a browser that still
+holds a worker registered from one of those addresses installs it on its next update check,
+and it unregisters itself, clears the old caches and moves any open page to `/maps/`. It must
+stay at this address, as a 200, while any such browser may be out there. Its bytes are
+pinned in `tests/unit/retired-service-worker.test.mjs`.
 
 ## 3. Tiles — 5.6 GB, almost all untracked
 

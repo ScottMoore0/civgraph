@@ -1,9 +1,10 @@
 /*
  * Civgraph root service worker for the promoted MapLibre shell.
  *
- * The root route now runs the MapLibre runtime generated under /app. Keep
- * /test2 as a tiny compatibility route, but let root own production navigation,
- * cache status, and stale-cache cleanup.
+ * The root route now runs the MapLibre runtime generated under /app. Root owns
+ * production navigation, cache status, and stale-cache cleanup. The retired apps'
+ * workers (/render/, /test/, /test2/) are retired by their own kill switch,
+ * render/sw.js; this worker never touches their scopes' registrations.
  */
 
 // Bump this on any change that must invalidate client caches, not only on a bundle
@@ -62,9 +63,7 @@ const NETWORK_FIRST_PATHS = [
   '/app/src/overlay-worker.js',
   '/build/main.css',
   '/build/main.critical.css',
-  '/manifest.json',
-  '/test2/',
-  '/test2/index.html'
+  '/manifest.json'
 ];
 
 const NEVER_CACHE_PATTERNS = [
