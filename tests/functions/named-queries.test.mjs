@@ -24,7 +24,6 @@ const DB = path.join(REPO_ROOT, 'tmp/records/civgraph-records.sqlite');
 
 /** Function files that still call D1 directly (ST-5 empties this list). */
 const NOT_YET_ON_THE_ADAPTER = [
-  '_api/proni/node.js',
   '_api/proni/search.js',
 ];
 

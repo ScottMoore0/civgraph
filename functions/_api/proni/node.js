@@ -10,6 +10,8 @@
  * container-title enrichment pass).
  */
 import { binding } from '../../_lib/config.js';
+import { fromD1 } from '../../_lib/storage/d1.js';
+import { PRONI } from '../../_lib/queries/proni.js';
 
 function ancestorRefs(ref) {
   const parts = String(ref).split('/');
@@ -18,14 +20,6 @@ function ancestorRefs(ref) {
   return out;
 }
 
-const childCols =
-  'ref, slug, title, level, dates, has_children AS hasChildren';
-// proni.* columns are qualified because the item query LEFT JOINs the Extracted
-// Dates "Additional Data" table (ext), which also has a `ref` column.
-const itemCols =
-  'proni.ref, proni.slug, proni.title, proni.level, proni.dates, proni.description, '
-  + 'proni.access, proni.digital_record AS digitalRecord, proni.has_children AS hasChildren, proni.fond, '
-  + 'ext.ext_display, ext.ext_start_year, ext.ext_end_year, ext.ext_circa, ext.ext_estimated, ext.ext_bound, ext.ext_undated';
 
 function mapChild(r) {
   return {
@@ -48,23 +42,17 @@ function parentRef(ref) {
 // sort numerically and any letter suffixes (e.g. 56C) break ties as text.
 async function siblingNav(db, ref) {
   const parent = parentRef(ref);
-  const seg = "substr(ref, CASE WHEN ?1 = '' THEN 1 ELSE length(?1) + 2 END)";
-  const asc = `ORDER BY CAST(${seg} AS INTEGER) ASC, ${seg} ASC`;
-  const desc = `ORDER BY CAST(${seg} AS INTEGER) DESC, ${seg} DESC`;
-  const lt = `(CAST(${seg} AS INTEGER), ${seg}) < (?2, ?3)`;
-  const gt = `(CAST(${seg} AS INTEGER), ${seg}) > (?2, ?3)`;
-  const le = `(CAST(${seg} AS INTEGER), ${seg}) <= (?2, ?3)`;
   const curSeg = parent === '' ? ref : ref.slice(parent.length + 1);
   const curInt = parseInt(curSeg, 10) || 0;
   const rows = await db.batch([
-    db.prepare(`SELECT ref FROM proni WHERE parent = ?1 ${asc} LIMIT 1`).bind(parent),
-    db.prepare(`SELECT ref FROM proni WHERE parent = ?1 ${desc} LIMIT 1`).bind(parent),
-    db.prepare(`SELECT ref FROM proni WHERE parent = ?1 AND ${lt} ${desc} LIMIT 1`).bind(parent, curInt, curSeg),
-    db.prepare(`SELECT ref FROM proni WHERE parent = ?1 AND ${gt} ${asc} LIMIT 1`).bind(parent, curInt, curSeg),
-    db.prepare('SELECT COUNT(*) AS n FROM proni WHERE parent = ?1').bind(parent),
-    db.prepare(`SELECT COUNT(*) AS n FROM proni WHERE parent = ?1 AND ${le}`).bind(parent, curInt, curSeg),
+    { sql: PRONI.firstSibling, params: [parent] },
+    { sql: PRONI.lastSibling, params: [parent] },
+    { sql: PRONI.previousSibling, params: [parent, curInt, curSeg] },
+    { sql: PRONI.nextSibling, params: [parent, curInt, curSeg] },
+    { sql: PRONI.siblingCount, params: [parent] },
+    { sql: PRONI.siblingPosition, params: [parent, curInt, curSeg] },
   ]);
-  const one = (r) => ((r.results || [])[0] || {});
+  const one = (/** @type {Record<string, any>[]} */ r) => (r[0] || {});
   return {
     parent,
     first: one(rows[0]).ref || null,
@@ -108,37 +96,31 @@ async function handle(context) {
     },
   });
 
-  const db = binding(context.env, 'PRONI_DB');
-  if (!db) return json({ error: 'PRONI_DB binding not configured' }, 503);
+  const bound = binding(context.env, 'PRONI_DB');
+  if (!bound) return json({ error: 'PRONI_DB binding not configured' }, 503);
+  // through the storage adapter (functions/_lib/storage/); the SQL is named in queries/proni.js
+  const db = fromD1(bound);
 
   try {
     if (!ref) {
-      const { results } = await db.prepare(
-        `SELECT ${childCols}, fond FROM proni WHERE parent = '' ORDER BY ref`
-      ).all();
-      return json({ roots: (results || []).map(mapChild), count: (results || []).length });
+      const results = await db.all(PRONI.roots);
+      return json({ roots: results.map(mapChild), count: results.length });
     }
 
-    const itemRow = await db.prepare(`SELECT ${itemCols} FROM proni LEFT JOIN ext ON ext.ref = proni.ref WHERE proni.ref = ?1 LIMIT 1`).bind(ref).all();
-    const item = (itemRow.results || [])[0];
+    const itemRow = await db.all(PRONI.item, [ref]);
+    const item = itemRow[0];
     if (!item) return json({ error: 'not found', ref }, 404);
 
-    const kseg = 'substr(ref, length(?1) + 2)'; // ?1 (a real record ref) is never ''
-    const kids = await db.prepare(
-      `SELECT ${childCols} FROM proni WHERE parent = ?1 ORDER BY CAST(${kseg} AS INTEGER), ${kseg}`
-    ).bind(ref).all();
+    const kids = await db.all(PRONI.children, [ref]);
 
     const nav = await siblingNav(db, ref);
 
     const ancRefs = ancestorRefs(ref);
     let ancestors = [];
     if (ancRefs.length) {
-      const placeholders = ancRefs.map((_, i) => `?${i + 1}`).join(',');
       // order-free: keyed into a Map by ref and read back in ancestor order
-      const anc = await db.prepare(
-        `SELECT ref, slug, title FROM proni WHERE ref IN (${placeholders})`
-      ).bind(...ancRefs).all();
-      const byRef = new Map((anc.results || []).map((a) => [a.ref, a]));
+      const anc = await db.all(PRONI.ancestors(ancRefs.length), ancRefs);
+      const byRef = new Map(anc.map((a) => [a.ref, a]));
       ancestors = ancRefs
         .map((r) => byRef.get(r))
         .filter(Boolean)
@@ -163,7 +145,7 @@ async function handle(context) {
       },
       ancestors,
       nav,
-      children: (kids.results || []).map(mapChild),
+      children: kids.map(mapChild),
     });
   } catch (error) {
     return json({ error: String(error && error.message || error), ref }, 500);
