@@ -104,8 +104,8 @@ export class UrlStateMethods {
       if (this.urlSuspend.on || this._ignoreHashChanges) return;
       // Back then Forward quickly: the second arrives while the first is still restoring. Do it
       // once that one is done, rather than drop it and leave the page on the wrong entry.
-      if (!this.urlRestore.is('idle')) {
-        this.urlRestore.send('queue');
+      if (this.urlRestore.active) {
+        this.urlRestore.queue();
         return;
       }
       this.restoreURLState({ updateAfterRestore: false, sync: true }).catch((error) => this.showMapError(error));
@@ -161,7 +161,7 @@ export class UrlStateMethods {
     // A message from an earlier step ("This link asks for something not found here", an old
     // "could not be loaded") goes once the reader does something else (UX review 2026-10-31, L6).
     this.dismissStaleMapMessage();
-    if (!this.urlRestore.is('idle')) return;
+    if (this.urlRestore.active) return;
     this._pushNextURL = label || 'Map';
   }
 
@@ -201,7 +201,7 @@ export class UrlStateMethods {
   }
 
   updateURLState() {
-    if (this.urlSuspend.on || !this.urlRestore.is('idle')) return;
+    if (this.urlSuspend.on || this.urlRestore.active) return;
     const loaded = this.getLoadedLayerIds();
     const electionState = this.elections?.getURLState?.();
     const electionSourceIds = new Set([
@@ -335,7 +335,7 @@ export class UrlStateMethods {
   }
 
   async restoreURLState(options = {}) {
-    this.urlRestore.send('begin');
+    this.urlRestore.begin();
     const shouldUpdateAfterRestore = options.updateAfterRestore !== false;
     const params = renameElectionDatesInParams(this.getCurrentURLParams());
     const query = params.get('q');
@@ -460,8 +460,7 @@ export class UrlStateMethods {
       this.setMapControlsOpen(params.get('controls') === '1');
     } finally {
       // A hashchange that came in while restoring is replayed once this restore is done.
-      const replay = this.urlRestore.is('queued');
-      this.urlRestore.send('end');
+      const replay = this.urlRestore.end();
       if (shouldUpdateAfterRestore) this.updateURLState();
       if (replay) {
         setTimeout(() => this.restoreURLState({ updateAfterRestore: false, sync: true }).catch((error) => this.showMapError(error)), 0);

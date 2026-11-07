@@ -1,213 +1,113 @@
-// @ts-check
 /**
- * Explicit state machines for the map app (refactor plan section 11, 7 Nov 2026).
+ * Explicit state machines (REFACTOR-PLAN.md section 11): a named set of states, a transition
+ * table, and a run that refuses any move the table does not list.
  *
- * Two weights, as the plan sets them:
+ *   const LOAD = defineMachine({
+ *     name: 'records deploy',
+ *     initial: 'start',
+ *     transitions: { start: ['migrated'], migrated: ['verified', 'failed'], verified: [], failed: [] },
+ *   });
+ *   const run = LOAD.start();
+ *   run.to('migrated');          // ok
+ *   run.to('start');             // throws: records deploy: migrated -> start is not a transition
  *
- * - Full (`defineMachine` + `createMachine`): a machine of three or more states, or one entered
- *   from several places, names its states and events and lists every allowed transition in one
- *   table. `send(event)` moves along the table and throws `InvalidTransitionError` for a move the
- *   table does not list, so a new code path cannot put the machine into a combination that the old
- *   loose flags allowed by accident. Each machine's table is pinned by tests under tests/unit/.
+ * Full weight (3 or more states, or several entry paths): defineMachine with its table, guards at
+ * the call sites, and tests that walk the forbidden moves. Light weight (a two-state toggle):
+ * defineToggle(name, [off, on]), which is the same machine with both moves allowed.
  *
- * - Light (`defineChoice`, `createFlag`): a two-state toggle keeps its plain value (a string the
- *   address and the panel read, or a boolean) and only gains a typed guard: `choice.check(value)`
- *   returns the value, or throws for one outside the choice; a flag is a named boolean with
- *   `set`, `hold` and `release`.
- *
- * Nothing here touches the DOM, so it runs under node --test as well as in the browser.
+ * Pure: no I/O, no Node or DOM APIs, so it can move to the shared core package unchanged.
  */
-
-/** A transition that the machine's table does not allow. */
-export class InvalidTransitionError extends Error {
-  /**
-   * @param {string} machine
-   * @param {string} state
-   * @param {string} event
-   */
-  constructor(machine, state, event) {
-    super(`${machine}: no transition for "${event}" from "${state}"`);
-    this.name = 'InvalidTransitionError';
-    this.machine = machine;
-    this.state = state;
-    this.event = event;
-  }
-}
 
 /**
  * @template {string} S
- * @template {string} E
- * @typedef {object} MachineDefinition
+ * @typedef {object} MachineSpec
  * @property {string} name
  * @property {S} initial
- * @property {readonly S[]} states
- * @property {readonly E[]} events
- * @property {Readonly<Record<S, Readonly<Partial<Record<E, S>>>>>} transitions
- * @property {(state: S, event: E) => S | undefined} next  The state `event` leads to from `state`, or undefined.
+ * @property {Readonly<Record<S, readonly S[]>>} transitions   every state, with where it may go
  */
 
 /**
- * Freeze and validate a machine's table: every state named in it exists, every event is declared,
- * and every state is reachable from the initial one.
- *
  * @template {string} S
- * @template {string} E
- * @param {{ name: string, initial: S, states: readonly S[], events: readonly E[], transitions: Record<S, Partial<Record<E, S>>> }} spec
- * @returns {MachineDefinition<S, E>}
+ * @typedef {object} Run
+ * @property {() => S} state           the current state
+ * @property {() => S[]} history       every state entered, in order, the initial one first
+ * @property {(next: S) => S} to       move, or throw if the table has no such move
+ * @property {() => boolean} done      the current state has no way out
  */
-export function defineMachine(spec) {
-  const { name, initial, states, events, transitions } = spec;
-  const stateSet = new Set(states);
-  const eventSet = new Set(events);
-  if (!stateSet.has(initial)) throw new Error(`${name}: initial state "${initial}" is not a state`);
-  /** @type {Record<string, Readonly<Record<string, string>>>} */
-  const table = {};
-  for (const state of states) {
-    const row = transitions[state] || {};
-    for (const [event, target] of Object.entries(row)) {
-      if (!eventSet.has(/** @type {E} */ (event))) throw new Error(`${name}: unknown event "${event}" in state "${state}"`);
-      if (!stateSet.has(/** @type {S} */ (target))) throw new Error(`${name}: "${state}" --${event}--> unknown state "${target}"`);
-    }
-    table[state] = /** @type {Readonly<Record<string, string>>} */ (Object.freeze({ ...row }));
-  }
-  for (const state of Object.keys(transitions)) {
-    if (!stateSet.has(/** @type {S} */ (state))) throw new Error(`${name}: transitions for unknown state "${state}"`);
-  }
-  const reachable = new Set([initial]);
-  for (let grew = true; grew;) {
-    grew = false;
-    for (const state of reachable) {
-      for (const target of Object.values(table[state])) {
-        if (!reachable.has(/** @type {S} */ (target))) { reachable.add(/** @type {S} */ (target)); grew = true; }
-      }
-    }
-  }
-  const unreachable = states.filter((state) => !reachable.has(state));
-  if (unreachable.length) throw new Error(`${name}: unreachable state(s) ${unreachable.join(', ')}`);
-  const frozen = /** @type {Readonly<Record<S, Readonly<Partial<Record<E, S>>>>>} */ (Object.freeze(table));
-  return Object.freeze({
-    name,
-    initial,
-    states: Object.freeze([...states]),
-    events: Object.freeze([...events]),
-    transitions: frozen,
-    next: (/** @type {S} */ state, /** @type {E} */ event) => /** @type {S | undefined} */ (frozen[state]?.[event])
-  });
-}
 
 /**
  * @template {string} S
- * @template {string} E
  * @typedef {object} Machine
- * @property {S} state  The current state.
- * @property {(event: E) => S} send  Take a transition; throws InvalidTransitionError if the table has none.
- * @property {(event: E) => boolean} can  Whether `event` has a transition from the current state.
- * @property {(...states: S[]) => boolean} is  Whether the current state is one of `states`.
- * @property {MachineDefinition<S, E>} definition
+ * @property {string} name
+ * @property {readonly S[]} states
+ * @property {S} initial
+ * @property {Readonly<Record<S, readonly S[]>>} transitions
+ * @property {(from: S, to: S) => boolean} can
+ * @property {(from: S, to: S) => void} assertTransition
+ * @property {(path: readonly S[]) => void} assertPath   a whole walk from the initial state
+ * @property {(from?: S) => Run<S>} start
  */
 
 /**
- * A running instance of a defined machine.
- *
  * @template {string} S
- * @template {string} E
- * @param {MachineDefinition<S, E>} definition
- * @param {{ initial?: S, onTransition?: (from: S, to: S, event: E) => void }} [options]
- * @returns {Machine<S, E>}
+ * @param {MachineSpec<S>} spec
+ * @returns {Machine<S>}
  */
-export function createMachine(definition, options = {}) {
-  let state = options.initial ?? definition.initial;
-  if (!definition.states.includes(state)) throw new Error(`${definition.name}: initial state "${state}" is not a state`);
-  const { onTransition } = options;
-  return {
-    get state() { return state; },
-    send(event) {
-      const target = definition.next(state, event);
-      if (target === undefined) throw new InvalidTransitionError(definition.name, state, event);
-      const from = state;
-      state = target;
-      if (onTransition) onTransition(from, target, event);
-      return target;
-    },
-    can(event) { return definition.next(state, event) !== undefined; },
-    is(...states) { return states.includes(state); },
-    definition
+export function defineMachine({ name, initial, transitions }) {
+  const states = /** @type {S[]} */ (Object.keys(transitions));
+  if (!states.includes(initial)) throw new Error(`${name}: initial state ${initial} is not in the table`);
+  for (const from of states) {
+    for (const to of transitions[from]) {
+      if (!states.includes(to)) throw new Error(`${name}: ${from} -> ${to} names a state that is not in the table`);
+    }
+  }
+  const table = Object.freeze(Object.fromEntries(states.map((s) => [s, Object.freeze([...transitions[s]])])));
+  const can = (/** @type {S} */ from, /** @type {S} */ to) => Boolean(table[from]?.includes(to));
+  const assertTransition = (/** @type {S} */ from, /** @type {S} */ to) => {
+    if (!can(from, to)) throw new Error(`${name}: ${from} -> ${to} is not a transition`);
   };
+  /** @type {Machine<S>} */
+  const machine = {
+    name,
+    states: Object.freeze(states),
+    initial,
+    transitions: /** @type {Readonly<Record<S, readonly S[]>>} */ (table),
+    can,
+    assertTransition,
+    assertPath(path) {
+      let at = initial;
+      for (const next of path) {
+        assertTransition(at, next);
+        at = next;
+      }
+    },
+    start(from = initial) {
+      if (!states.includes(from)) throw new Error(`${name}: ${from} is not a state`);
+      let current = from;
+      const seen = [from];
+      return {
+        state: () => current,
+        history: () => [...seen],
+        to(next) {
+          assertTransition(current, next);
+          current = next;
+          seen.push(next);
+          return current;
+        },
+        done: () => table[current].length === 0,
+      };
+    },
+  };
+  return Object.freeze(machine);
 }
 
 /**
- * @template {string} V
- * @typedef {object} Choice
- * @property {string} name
- * @property {readonly V[]} values
- * @property {V} initial
- * @property {(value: unknown) => value is V} has
- * @property {(value: unknown) => V} check  Returns `value` unchanged; throws a TypeError for one outside the choice.
- */
-
-/**
- * Light weight, for a value that is one of a few fixed strings (a two-state toggle such as the
- * election overlay's circles or bars). The field keeps its plain string; assignments go through
- * `check`, which returns the value unchanged and throws for one outside the choice.
- *
- * @template {string} V
+ * A two-state toggle (the light weight): either state may move to the other.
+ * @template {string} S
  * @param {string} name
- * @param {readonly V[]} values  The allowed values; the first is the initial one.
- * @returns {Choice<V>}
+ * @param {[S, S]} states   [initial, other]
+ * @returns {Machine<S>}
  */
-export function defineChoice(name, values) {
-  if (!values.length) throw new Error(`${name}: a choice needs at least one value`);
-  const allowed = new Set(values);
-  /** @type {(value: unknown) => value is V} */
-  const has = (value) => allowed.has(/** @type {V} */ (value));
-  return Object.freeze({
-    name,
-    values: Object.freeze([...values]),
-    initial: values[0],
-    has,
-    check(value) {
-      if (!has(value)) throw new TypeError(`${name}: "${String(value)}" is not one of ${values.join(', ')}`);
-      return value;
-    }
-  });
-}
-
-/**
- * @typedef {object} Flag
- * @property {string} name
- * @property {boolean} on
- * @property {(value: boolean) => boolean} set  Set the flag; returns the previous value.
- * @property {() => boolean} hold  Turn it on; returns the previous value, for `release`.
- * @property {(previous: boolean) => void} release  Put back the value `hold` returned.
- */
-
-/**
- * Light weight, for a boolean toggle that is held for the length of an operation and put back
- * after it (a hold may nest: each release restores what its own hold found).
- *
- * @param {string} name
- * @param {boolean} [initial]
- * @returns {Flag}
- */
-export function createFlag(name, initial = false) {
-  let on = Boolean(initial);
-  return {
-    name,
-    get on() { return on; },
-    set(value) {
-      if (typeof value !== 'boolean') throw new TypeError(`${name}: expected a boolean, got ${typeof value}`);
-      const previous = on;
-      on = value;
-      return previous;
-    },
-    hold() {
-      const previous = on;
-      on = true;
-      return previous;
-    },
-    release(previous) {
-      if (typeof previous !== 'boolean') throw new TypeError(`${name}: release needs the value hold returned`);
-      on = previous;
-    }
-  };
+export function defineToggle(name, [a, b]) {
+  return defineMachine({ name, initial: a, transitions: /** @type {Record<S, S[]>} */ ({ [a]: [b], [b]: [a] }) });
 }

@@ -19,28 +19,44 @@
  * light weight, `createFlag`.
  */
 
-import { createFlag, createMachine, defineMachine } from '../state-machine.mjs';
+import { defineMachine } from '../state-machine.mjs';
+import { createFlag } from '../state-helpers.mjs';
 
 /** @typedef {'idle' | 'restoring' | 'queued'} UrlRestoreState */
-/** @typedef {'begin' | 'queue' | 'end'} UrlRestoreEvent */
 
 export const URL_RESTORE = defineMachine({
   name: 'URL restore',
   initial: /** @type {UrlRestoreState} */ ('idle'),
-  states: /** @type {const} */ (['idle', 'restoring', 'queued']),
-  events: /** @type {const} */ (['begin', 'queue', 'end']),
   transitions: {
     // A restore that overlapped another (the replay racing a new hashchange) ends after the
     // first one has already set the state back to idle.
-    idle: { begin: 'restoring', end: 'idle' },
-    restoring: { begin: 'restoring', queue: 'queued', end: 'idle' },
-    queued: { begin: 'queued', queue: 'queued', end: 'idle' }
+    idle: ['restoring', 'idle'],
+    restoring: ['restoring', 'queued', 'idle'],
+    queued: ['queued', 'idle']
   }
 });
 
-/** A running URL-restore machine for the app (`this.urlRestore`). */
+/**
+ * A running URL-restore machine for the app (`this.urlRestore`), with the three moves the app
+ * makes named after what it is doing.
+ */
 export function createUrlRestore() {
-  return createMachine(URL_RESTORE);
+  const run = URL_RESTORE.start();
+  return {
+    state: () => run.state(),
+    /** Restoring (or restoring with a replay queued): nothing writes the address. */
+    get active() { return run.state() !== 'idle'; },
+    /** restoreURLState starts: restoring, or still queued if a replay was already due. */
+    begin: () => run.to(run.state() === 'queued' ? 'queued' : 'restoring'),
+    /** A hashchange during a restore: replay it once the restore is done. */
+    queue: () => run.to('queued'),
+    /** restoreURLState is done: idle; returns whether a queued hashchange is to be replayed. */
+    end() {
+      const replay = run.state() === 'queued';
+      run.to('idle');
+      return replay;
+    }
+  };
 }
 
 /** The app's hold on the address (`this.urlSuspend`): on while nothing may write it. */

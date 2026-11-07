@@ -8,7 +8,7 @@
  * changing behaviour. Pure: no DOM, no network; each function takes the facts it needs.
  */
 import { normalizeName } from '../../election-domain.mjs';
-import { defineChoice } from '../state-machine.mjs';
+import { defineChoice } from '../state-helpers.mjs';
 
 /** The map's colouring modes, in the order an election offers them. */
 export const DEFAULT_MODE_ORDER = Object.freeze(['winner', 'leadingParty', 'voteShare', 'turnout', 'majority', 'seats', 'quota']);

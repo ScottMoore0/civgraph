@@ -26,7 +26,7 @@ export class ElectionPaneMethods {
    * must win; re-fitting would silently discard the lng/lat/zoom someone shared.
    */
   refitAfterElectionPane(sourceMapId) {
-    if (!sourceMapId || !this.urlRestore.is('idle')) return;
+    if (!sourceMapId || this.urlRestore.active) return;
     const map = this.mapController?.map;
     if (!map) return;
     // Measure the container first. Without this the fit is computed against the
