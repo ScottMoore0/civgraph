@@ -200,15 +200,21 @@ export function sanitizeAuth(auth) {
  */
 const ACCESS_TEAM_DOMAIN = 'icy-mouse-ce2a.cloudflareaccess.com';
 const KEY_CACHE_MS = 60 * 60 * 1000;
+/** @type {{ team: string | null, at: number, keys: any[] | null }} */
 let accessKeys = { team: null, at: 0, keys: null };
 
+/**
+ * @param {string} team
+ * @returns {Promise<any[]>}
+ */
 async function accessSigningKeys(team) {
   if (accessKeys.team === team && accessKeys.keys && Date.now() - accessKeys.at < KEY_CACHE_MS) return accessKeys.keys;
   const res = await fetch(`https://${team}/cdn-cgi/access/certs`, { cf: { cacheTtl: 300 } });
   if (!res.ok) throw new Error(`Access certs: HTTP ${res.status}`);
   const body = await res.json();
-  accessKeys = { team, at: Date.now(), keys: Array.isArray(body?.keys) ? body.keys : [] };
-  return accessKeys.keys;
+  const keys = Array.isArray(body?.keys) ? body.keys : [];
+  accessKeys = { team, at: Date.now(), keys };
+  return keys;
 }
 
 function base64UrlBytes(part) {

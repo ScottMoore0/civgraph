@@ -76,6 +76,7 @@ export function jsonResponse(payload, status = 200, extra = {}) {
 export async function cachedJson(context, codeVersion, handler, options = {}) {
   const { stable = false, edgeTtl = 0, gate = false, r2Key = null, r2First = false } = options;
   const db = context.env?.ELECTIONS_DB;
+  /** @type {{ version: string, loading: string } | null} */
   let state = null;
   const getState = async () => {
     if (!state) state = db ? await datasetState(db) : { version: '', loading: '' };
@@ -97,7 +98,7 @@ export async function cachedJson(context, codeVersion, handler, options = {}) {
   const cache = typeof caches !== 'undefined' ? caches.default : null;
   const cacheControl = `${options.cacheControl || 'public, max-age=300, stale-while-revalidate=86400'}${edgeTtl ? `, s-maxage=${edgeTtl}` : ''}`;
   const lookup = async () => (cache ? (await cache.match(cacheKey)) || null : null);
-  if (cache && (stable || !state.loading)) {
+  if (cache && (stable || !(/** @type {{ loading: string } | null} */ (state))?.loading)) {
     const hit = await lookup();
     if (hit) return hit;
   }
@@ -174,6 +175,7 @@ export async function cachedJson(context, codeVersion, handler, options = {}) {
 export const GATE_ACTIVE = 2;
 export const GATE_QUEUE = 32;
 export const GATE_WAIT_MS = 20_000;
+/** @type {{ active: number, queue: Array<{ resolve: (release: (() => void) | null) => void, timer: any }>, inflight: Map<string, unknown>, peak: number }} */
 const GATE = { active: 0, queue: [], inflight: new Map(), peak: 0 };
 
 /** For tests: the gate's counters, and a reset. */
@@ -192,6 +194,7 @@ function acquireGate() {
   }
   if (GATE.queue.length >= GATE_QUEUE) return Promise.resolve(null);
   return new Promise((resolve) => {
+    /** @type {(typeof GATE.queue)[number]} */
     const waiter = { resolve, timer: null };
     waiter.timer = setTimeout(() => {
       const i = GATE.queue.indexOf(waiter);
@@ -226,9 +229,14 @@ async function r2Copy(env, key) {
   }
 }
 
+/**
+ * @param {unknown} text
+ * @param {any} [fallback]
+ * @returns {any}
+ */
 export function parseJson(text, fallback = null) {
   if (text === null || text === undefined) return fallback;
-  try { return JSON.parse(text); } catch { return fallback; }
+  try { return JSON.parse(/** @type {string} */ (text)); } catch { return fallback; }
 }
 
 /** A marker the loader put where a value lives in another table ("$contests", "$candidacies"...). */
