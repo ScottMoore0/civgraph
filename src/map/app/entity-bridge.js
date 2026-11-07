@@ -18,6 +18,8 @@ import {
 } from './helpers.mjs';
 import uiController from '../../ui-controller.js';
 import { partyFullName } from '../../party-names.mjs';
+import { ENTITY_PAGE_LOAD } from '../../ui-state-machines.mjs';
+import { createState } from '../state-helpers.mjs';
 import {
   addPartyChanges,
   addStandings,
@@ -50,6 +52,8 @@ export class EntityBridgeMethods {
     const keyText = String(key ?? '').trim();
     if (!pageKind || !keyText) return false;
     const token = (this.entityPageToken = (this.entityPageToken || 0) + 1);
+    // This opening's state: loading, then loaded, choice, error or missing (MA-10).
+    const load = createState(ENTITY_PAGE_LOAD);
     const label = options.label || entityKeyLabel(pageKind, keyText);
     const typeLabel = ENTITY_TYPE_LABEL[pageKind] || 'Page';
     const requested = { kind: pageKind, key: keyText, title: label, typeLabel };
@@ -57,7 +61,7 @@ export class EntityBridgeMethods {
     this.currentPage = requested;
     this.currentDetailMapId = null;
     this.revealCatalogueOnPhone();
-    uiController.showElectionEntityPlaceholder?.({ kind: pageKind, key: keyText, label, typeLabel, state: 'loading' }, { addToHistory: !options.fromHistory });
+    uiController.showElectionEntityPlaceholder?.({ kind: pageKind, key: keyText, label, typeLabel, state: load.state() }, { addToHistory: !options.fromHistory });
     this.endNavigation();
 
     let detail = null;
@@ -78,7 +82,7 @@ export class EntityBridgeMethods {
         key: keyText,
         label,
         typeLabel,
-        state: detail ? 'choice' : (failure ? 'error' : 'missing'),
+        state: load.to(detail ? 'choice' : (failure ? 'error' : 'missing')),
         choices: detail?.choices || [],
         browseUrl: entityBrowseSearchUrl(pageKind, label),
         retry: () => this.openElectionEntityDetailInCatalogue(pageKind, keyText, { ...options, fromHistory: true })
@@ -89,6 +93,7 @@ export class EntityBridgeMethods {
 
     // Cached under the key it was asked for as well as its own, so the pane's history and the
     // address can name it either way.
+    load.to('loaded');
     uiController._electionEntityDetailCache?.set(uiController.createElectionEntityDetailId(pageKind, keyText), detail);
     uiController.showElectionEntityDetailInCatalogue(detail, false, {
       restoreState: Boolean(options.fromHistory),
