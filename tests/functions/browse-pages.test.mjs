@@ -121,7 +121,11 @@ function fakeDb({ fail = false } = {}) {
   return {
     prepare(sql) {
       if (/\bLIKE\b[^']*\b(?:key|REPLACE)\b/i.test(sql)) throw new Error(`D1 refuses a LIKE pattern built from a column: ${sql}`);
-      return {
+      // As D1: a statement answers first()/all() bound or not (the storage adapter binds only
+      // when there are parameters).
+      const unbound = {
+        first: () => unbound.bind().first(),
+        all: () => unbound.bind().all(),
         bind(...args) {
           const statement = sqlite.prepare(sql);
           return {
@@ -136,6 +140,7 @@ function fakeDb({ fail = false } = {}) {
           };
         },
       };
+      return unbound;
     },
   };
 }
