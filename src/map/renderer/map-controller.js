@@ -23,6 +23,7 @@ import {
 import { repairFeatureProperties } from './feature-property-repairs.js';
 import { absoluteTileTemplate, boundsToFlatBbox, boundsToImageCoordinates, boundsToMapLibre, clamp } from './utils.js';
 import { approximateSegmentIds, approximateSegmentLabel, resolveApproximateSegmentsUrl } from './approximate-segments.js';
+import { LAYER_LOAD } from './layer-load.mjs';
 
 // The casing that breaks a boundary's solid line under its dotted approximate stretches. The app keeps a
 // light basemap in dark mode too (app.js, basemap notes), so the gap is the basemap's own paper colour.
@@ -961,7 +962,26 @@ export class TestMapLibreController {
       if (fit) this.fitToLayer(layer.id);
       return;
     }
+    // The layer's load machine (layer-load.mjs): a layer already loading is waited for, not
+    // added a second time.
+    const loads = this.layerLoads || (this.layerLoads = new Map());
+    const pending = loads.get(layer.id);
+    if (pending) {
+      await pending.promise;
+      if (fit && this.layers.has(layer.id)) this.fitToLayer(layer.id);
+      return;
+    }
+    const load = { run: LAYER_LOAD.start(), promise: null };
+    load.run.to('loading');
+    loads.set(layer.id, load);
+    load.promise = this.addLayerToMap(layer, { fit }, load).finally(() => {
+      if (loads.get(layer.id) === load) loads.delete(layer.id);
+    });
+    return load.promise;
+  }
 
+  /** loadLayer's work once the layer is known not to be on the map or on its way. */
+  async addLayerToMap(layer, { fit }, load) {
     const started = performance.now();
     const sourceId = `${layer.id}-source`;
     const fillId = `${layer.id}-fill`;
@@ -975,6 +995,8 @@ export class TestMapLibreController {
 
     await this.waitForMap();
     const duplicateFeatureIds = await this.loadDuplicateFeatureIds(layer);
+    // Taken off while it was loading (unloadLayer): add nothing.
+    if (load.run.state() !== 'loading') return;
 
     let interactionOverlayIds = { layerIds: [], sourceIds: [] };
     if (layer.sourceType === 'point-cloud') {
@@ -983,6 +1005,10 @@ export class TestMapLibreController {
       // source/layer to add, and the point-cloud modules are lazy-loaded on first
       // use so they cost zero bytes and zero runtime until a cloud is opened.
       await this.addPointCloudLayer(layer);
+      if (load.run.state() !== 'loading') {
+        this.removePointCloudLayer(layer.id);
+        return;
+      }
     } else {
       const source = this.buildSource(layer);
       this.map.addSource(sourceId, source);
@@ -1002,6 +1028,7 @@ export class TestMapLibreController {
     }
     const labelLayerIds = this.addLabelLayers(layer, { sourceId, labelId });
 
+    load.run.to('loaded');
     this.layers.set(layer.id, {
       config: layer,
       sourceId,
@@ -1479,7 +1506,15 @@ export class TestMapLibreController {
 
   unloadLayer(layerId) {
     const record = this.layers.get(layerId);
-    if (!record) return;
+    if (!record) {
+      // Still loading: cancel it, so it does not appear after the reader took it off.
+      const load = this.layerLoads?.get(layerId);
+      if (load) {
+        load.run.to('absent');
+        this.layerLoads.delete(layerId);
+      }
+      return;
+    }
     // Detach terrain before its raster-dem source is removed, or MapLibre throws.
     if (this.terrainLayerId === layerId) {
       this.map.setTerrain(null);

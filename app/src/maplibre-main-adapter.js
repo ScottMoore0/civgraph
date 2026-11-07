@@ -283,6 +283,8 @@ export class Test2MapLibreMainAdapter {
     this.mainToTest.set(mainId, runtimeLayer.id);
     this.testToMain.set(runtimeLayer.id, mainId);
     await this.renderer.loadLayer(runtimeLayer, { fit: options.fit !== false });
+    // Taken off while it loaded (the renderer's layer-load machine cancelled it): record nothing.
+    if (this.renderer.layers instanceof Map && !this.renderer.layers.has(runtimeLayer.id)) return null;
     const state = this.createMainLayerState(mainId, runtimeLayer, mainConfig);
     if (overlay) {
       state.censusOverlay = overlay;
