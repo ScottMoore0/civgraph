@@ -19,6 +19,7 @@ import { escapeHtml } from '../../src/map/app/helpers.mjs';
 import { installMethods } from '../../src/map/app/install-methods.mjs';
 import { LayerMethods } from '../../src/map/app/layers.js';
 import { UrlStateMethods } from '../../src/map/app/url-state.js';
+import { createUrlRestore, createUrlSuspend } from '../../src/map/app/url-sync.mjs';
 import { UiWiringMethods } from '../../src/map/app/ui-wiring.js';
 import { LazyRuntimeMethods } from '../../src/map/app/lazy-runtime.js';
 import { ElectionPaneMethods } from '../../src/map/app/election-pane.js';
@@ -27,6 +28,7 @@ import { CatalogueListMethods } from '../../src/map/app/catalogue-list.js';
 import { SearchMethods } from '../../src/map/app/search.js';
 import { TimelineControlMethods } from '../../src/map/app/timeline/controls.js';
 import { TimelineAnimationMethods } from '../../src/map/app/timeline/animation.js';
+import { createTimelineAnimationState } from '../../src/map/app/timeline/playback.mjs';
 import { TimelineChangeMethods } from '../../src/map/app/timeline/changes.js';
 import { SourcePanelMethods } from '../../src/map/app/sources.js';
 import { LegendMethods } from '../../src/map/app/legend.js';
@@ -50,8 +52,10 @@ class Test2App {
     this.searchQuery = '';
     this.mapController = null;
     this.metadataService = null;
-    this._suspendURLState = false;
-    this._restoringURLState = false;
+    // The address bar: held still while something else changes the map, and the restore-from-
+    // the-address machine, idle, restoring or queued (src/map/app/url-sync.mjs).
+    this.urlSuspend = createUrlSuspend();
+    this.urlRestore = createUrlRestore();
     this.currentDetailMapId = null;
     // The party, person, constituency or feature page open in the catalogue pane, if any:
     // { kind, key, title, typeLabel }. In the address as page=kind:key (updateURLState).
@@ -72,17 +76,16 @@ class Test2App {
     this.timelineChangeCache = new Map();
     this.timelineChangeView = null;
     this.editionRoles = new Map();
-    this.timelineAnimation = {
-      playing: false,
-      paused: false,
-      atEnd: false,
+    // The Play button's state machine (idle, playing, paused, ended) and the run's bookkeeping
+    // (src/map/app/timeline/playback.mjs).
+    this.timelineAnimation = createTimelineAnimationState({
       timer: 0,
       runId: 0,
       originalLayerId: null,
       currentIndex: 0,
       singleLayerReferenceId: null,
       sequenceItems: []
-    };
+    });
     this.booksPromise = null;
     this.electionModulePromise = null;
     this.electionLoadPromise = null;
@@ -182,7 +185,7 @@ class Test2App {
     uiController.init();
     this.configureCataloguePerformanceProfile();
 
-    this._suspendURLState = true;
+    this.urlSuspend.set(true);
     this.mapController.init('map');
     // Layers are added only once the style has loaded. The controller's own wait gave up after
     // 3 s and added them anyway, which threw "Style is not done loading" and dropped them --
@@ -226,7 +229,7 @@ class Test2App {
       /** The URL state the app would write right now, without writing it. */
       urlState: () => ({
         hash: window.location.hash,
-        suspended: this._suspendURLState,
+        suspended: this.urlSuspend.on,
       }),
     };
     this.scheduleIdleTask(() => this.prepareSearchWorker(), { timeout: 3500 });
@@ -249,7 +252,7 @@ class Test2App {
       .then(() => this.restoreURLState())
       .catch((error) => this.showMapError(error))
       .finally(() => {
-        this._suspendURLState = false;
+        this.urlSuspend.set(false);
         this.updateURLState();
       });
     await window.__civgraphTest2.restorePromise;

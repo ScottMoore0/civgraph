@@ -88,7 +88,9 @@ import {
   clearedSelection,
   electionURLState,
   freshPanelState,
+  LOCAL_MODE,
   normalizePanelView as modelNormalizePanelView,
+  OVERLAY_MODE,
   restoredPanelView,
   selectedResultKey,
   stylingModeFor
@@ -146,13 +148,13 @@ export class Test2ElectionManager {
     this.activeBundle = null;
     this.previousBundle = null;
     this.activeMode = 'winner';
-    this.overlayMode = 'circles';
+    this.overlayMode = OVERLAY_MODE.check('circles');
     this.activePanelView = 'party';
     this.activeSelectedResultKey = null;
     this.activeEntityKind = null;
     this.activeEntityKey = null;
     this.activeEntityReturnView = 'party';
-    this.activeLocalMode = 'dea';
+    this.activeLocalMode = LOCAL_MODE.check('dea');
     this.activeGeographyModeId = null;
     this.countDetailedView = false;
     // bundleCache, trendSummaryCache, trendSummaryPromiseCache, trendRenderCache and featureIndexCache
@@ -296,7 +298,7 @@ export class Test2ElectionManager {
     this.activeBundle = bundle;
     this.previousBundle = entry.isByElection ? sameAreaPreviousBundle(previousBundle, bundle) : previousBundle;
     this.activeMode = stylingModeFor(entry, this.activeMode);
-    if (!this.shouldRenderElectionOverlays()) this.overlayMode = 'circles';
+    if (!this.shouldRenderElectionOverlays()) this.overlayMode = OVERLAY_MODE.check('circles');
     Object.assign(this, freshPanelState(entry));
     this.activeGeographyModeId = this.defaultGeographyModeId();
     this.countDetailedView = false;
@@ -328,12 +330,11 @@ export class Test2ElectionManager {
     const { unloadBackingLayer = true, updateURL = true } = options || {};
     if (!updateURL) {
       // Taking the layers off writes the address on the way (each layer's onChange); hold it.
-      const wasSuspended = this.app._suspendURLState;
-      this.app._suspendURLState = true;
+      const wasSuspended = this.app.urlSuspend.hold();
       try {
         this.unloadElection({ ...options, updateURL: true, label: null });
       } finally {
-        this.app._suspendURLState = wasSuspended;
+        this.app.urlSuspend.release(wasSuspended);
       }
       return;
     }
@@ -476,8 +477,8 @@ export class Test2ElectionManager {
       this.activeMode = mode;
       this.applyActiveStyle();
     }
-    this.overlayMode = params.get('electionOverlay') === 'bars' ? 'bars' : this.overlayMode;
-    this.activeLocalMode = params.get('electionLocalMode') === 'district' ? 'district' : this.activeLocalMode;
+    this.overlayMode = OVERLAY_MODE.check(params.get('electionOverlay') === 'bars' ? 'bars' : this.overlayMode);
+    this.activeLocalMode = LOCAL_MODE.check(params.get('electionLocalMode') === 'district' ? 'district' : this.activeLocalMode);
     await this.syncLocalGovernmentBackingLayers();
     this.applyActiveStyle();
     const explicitSelected = params.has('electionSelected') || Boolean(mainElectionSelected);
@@ -866,13 +867,13 @@ export class Test2ElectionManager {
       this.switchGeographyMode(event.target.value);
     });
     pane.querySelector('#test2ElectionOverlay')?.addEventListener('change', async (event) => {
-      this.overlayMode = event.target.value === 'bars' ? 'bars' : 'circles';
+      this.overlayMode = OVERLAY_MODE.check(event.target.value === 'bars' ? 'bars' : 'circles');
       await this.renderElectionOverlay();
       this.app.updateURLState();
     });
     pane.querySelectorAll('[data-election-local-mode]').forEach((button) => {
       button.addEventListener('click', async () => {
-        this.activeLocalMode = button.dataset.electionLocalMode === 'district' ? 'district' : 'dea';
+        this.activeLocalMode = LOCAL_MODE.check(button.dataset.electionLocalMode === 'district' ? 'district' : 'dea');
         await this.syncLocalGovernmentBackingLayers();
         this.applyActiveStyle();
         this.renderPanel(null, this.activeLocalMode === 'district' ? 'party' : this.activePanelView);
@@ -4066,7 +4067,7 @@ export class Test2ElectionManager {
 
   handleSeatCircleActivation(key, aggregateType = '') {
     if (aggregateType === 'council' || aggregateType === 'district') {
-      this.activeLocalMode = 'district';
+      this.activeLocalMode = LOCAL_MODE.check('district');
       const result = this.findCouncilAggregateResultByName(key);
       this.renderPanel(result || null, 'party');
       this.app.updateURLState();
