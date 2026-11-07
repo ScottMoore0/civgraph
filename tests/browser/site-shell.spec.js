@@ -113,3 +113,40 @@ for (const pageDef of PAGES) {
     }
   }
 }
+
+/*
+ * The component gallery (/design-system/, functions/design-system/index.js: REFACTOR-PLAN.md
+ * G-3) at the same widths and themes: every token and component on the one page, so this is the
+ * visual check of the whole component set (screenshots to test-results/site-shell/design-system-*)
+ * and its accessibility check (axe, WCAG 2 A and AA). The static test server does not run Pages
+ * Functions, so the page is the Function's own render, served at its path.
+ */
+for (const size of SIZES) {
+  for (const theme of ['light', 'dark']) {
+    test(`design-system ${size.width}px ${theme}: gallery renders and passes axe`, async ({ browser }) => {
+      const { pathToFileURL } = require('url');
+      const gallery = await import(pathToFileURL(path.join(__dirname, '..', '..', 'functions', 'design-system', 'index.js')).href);
+      const body = await (await gallery.onRequestGet()).text();
+      const context = await browser.newContext({ viewport: size, colorScheme: theme, reducedMotion: 'reduce' });
+      await context.addInitScript((t) => { try { localStorage.setItem('theme', t); } catch (e) { /* private mode */ } }, theme);
+      const page = await context.newPage();
+      await page.route('**/design-system/', (route) => route.fulfill({ status: 200, contentType: 'text/html; charset=utf-8', body }));
+      await page.goto('/design-system/', { waitUntil: 'load' });
+      await expect(page.locator('header.app-header')).toBeVisible();
+      expect(await page.evaluate(() => document.documentElement.dataset.theme)).toBe(theme);
+      expect(await page.locator('main#main-content').count()).toBe(1);
+      // Wide content scrolls inside its own box, never the page.
+      const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+      expect(overflow).toBeLessThanOrEqual(1);
+
+      const AxeBuilder = require('@axe-core/playwright').default;
+      const results = await new AxeBuilder({ page }).include('main').withTags(['wcag2a', 'wcag2aa']).analyze();
+      const found = results.violations.map((v) => `${v.id}: ${v.nodes.length} (${v.nodes.slice(0, 3).map((n) => n.target.join(' ')).join(', ')})`);
+      expect(found).toEqual([]);
+
+      await page.waitForTimeout(300);
+      await page.screenshot({ path: path.join(OUT, `design-system-${size.width}-${theme}.png`), fullPage: true });
+      await context.close();
+    });
+  }
+}
