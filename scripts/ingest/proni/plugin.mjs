@@ -1,5 +1,5 @@
 // The Public Record Office of Northern Ireland eCatalogue: the crawl (outside the repository,
-// under D:\PRONI) and the static browse landing built from the imported records.
+// in the local PRONI crawl folder) and the static browse landing built from the imported records.
 import { definePlugin } from '../../intake/lib/plugins.mjs';
 
 export default definePlugin({
@@ -23,7 +23,7 @@ export default definePlugin({
       network: true,
     },
     'fast-index': { title: 'Fast Browse indexer (listing index)', argv: ['node', 'scripts/ingest/proni/proni-fast-indexer.mjs'], network: true },
-    'detail-scan': { title: 'Record-detail scan of a listing index into JSONL under D:\\PRONI', argv: ['node', 'scripts/ingest/proni/proni-detail-quick-scan.mjs'], network: true },
+    'detail-scan': { title: 'Record-detail scan of a listing index into JSONL in the local PRONI crawl folder', argv: ['node', 'scripts/ingest/proni/proni-detail-quick-scan.mjs'], network: true },
     'detail-fetch': { title: 'Async detail fetch for Browse index snapshots', argv: ['node', 'scripts/ingest/proni/proni-browse-async-fetch.mjs'], network: true },
   },
   research: ['proni-browse-crawl-throttle.ps1', 'proni-dfs-benchmark.mjs', 'proni-direct-endpoint-probe.mjs', 'proni-overhead-research.ps1', 'proni-parallel-throttle.ps1'],

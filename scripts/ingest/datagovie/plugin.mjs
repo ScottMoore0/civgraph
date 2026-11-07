@@ -10,7 +10,7 @@ export default definePlugin({
   inputs: { harvest: { description: 'the CKAN harvest JSON the catalogue records are emitted from' } },
   steps: {
     mirror: {
-      title: 'Mirror the selected resources to D:\\datagovie',
+      title: 'Mirror the selected resources to the local data.gov.ie mirror folder (outside the repository)',
       argv: ['python', 'scripts/ingest/datagovie/mirror_datagovie.py'],
       network: true,
     },
