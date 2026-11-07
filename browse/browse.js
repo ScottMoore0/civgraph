@@ -1,3 +1,18 @@
+import {
+  BALLOT_LABELS, CONTRIBUTOR_FORM, CONTRIBUTOR_SUBMISSION, PRINTED_LABELS, ROUTER, SUBMISSION_STATUS_CLASS, settle,
+} from './state-machines.js';
+
+/**
+ * An element of the page reached by a delegated listener or a selector: any HTML element, with
+ * the form-control fields read where it is one.
+ * @typedef {HTMLElement & Partial<Pick<HTMLInputElement, 'value' | 'checked' | 'disabled' | 'type' | 'placeholder'>>} UiElement
+ */
+/** An Error carrying the HTTP status and URL of the request that failed. @typedef {Error & { status?: number, url?: string }} HttpError */
+/**
+ * An event from a delegated listener, whose target is an element of the page.
+ * @template {Event} [E=Event]
+ * @typedef {E & { target: { closest(selectors: string): UiElement | null } & UiElement }} ElementEvent
+ */
 const DATA_ROOT = '/data/browse';
 const THUMBNAIL_ASSET_VERSION = '20260604-tight-admin-frame';
 // `layer` is the Civgraph 1.0 layer each entity belongs to (docs/CIVGRAPH_1.0.md):
@@ -366,7 +381,7 @@ const state = {
   // Filters of the lists read from a static index (LIST_FILTERS), per type: { body: 'Dáil Éireann' }.
   listFilters: {},
   // Parties: whether the one-off ballot-paper labels are listed (?labels=1).
-  showBallotLabels: false,
+  ballotLabels: BALLOT_LABELS.start(),
   // Sort order of the People and Parties lists (LIST_SORTS key; '' is the list's own order).
   listSort: {},
   personFacets: null,
@@ -378,7 +393,10 @@ const state = {
   loadedFeatureMap: null,
   auth: null,
   currentDetail: null,
-  modalMode: null,
+  // Where the shared contributor form is (browse/state-machines.js CONTRIBUTOR_FORM).
+  contributorForm: CONTRIBUTOR_FORM.start(),
+  // The router (ROUTER): scroll positions are not saved while a navigation is `routing`.
+  router: ROUTER.start(),
   registerInterestControls: {
     sortKey: 'date',
     sortDir: 'desc',
@@ -389,12 +407,12 @@ const state = {
 const els = {
   announcer: document.getElementById('announcer'),
   groups: document.getElementById('browseGroups'),
-  search: document.getElementById('browseSearch'),
+  search: /** @type {HTMLInputElement | null} */ (document.getElementById('browseSearch')),
   hero: document.getElementById('browseHero'),
   results: document.getElementById('browseResults'),
   contributorPanel: document.getElementById('contributorPanel'),
   contributorModal: document.getElementById('contributorModal'),
-  contributorForm: document.getElementById('contributorForm'),
+  contributorForm: /** @type {HTMLFormElement | null} */ (document.getElementById('contributorForm')),
   contributorModalTitle: document.getElementById('contributorModalTitle'),
   contributorEditor: document.getElementById('contributorEditor'),
   contributorEditorTitle: document.getElementById('contributorEditorTitle'),
@@ -429,6 +447,8 @@ async function init() {
 }
 
 let lastRoutedAddress = null;
+// Counts navigations, so a render can tell whether a newer one has begun since it started.
+let routeNavigation = 0;
 
 // Every navigation, search or filter change starts a new render. A render that finishes after
 // a newer one has started must not write: a slow record opened just before the reader moved
@@ -447,7 +467,7 @@ function bindEvents() {
       // On the PRONI page the sidebar box searches PRONI, the only search that page has; it
       // used to re-render the page and move the cursor into the PRONI box after one letter.
       if (!state.isHome && state.activeType === 'proni' && !state.activeId) {
-        const box = document.getElementById('proni-search-input');
+        const box = /** @type {HTMLInputElement | null} */ (document.getElementById('proni-search-input'));
         if (box) box.value = state.query;
         scheduleProniSearch(state.query);
         return;
@@ -463,16 +483,16 @@ function bindEvents() {
   // would overwrite the one being restored.
   let scrollPending = false;
   window.addEventListener('scroll', () => {
-    if (scrollPending || state.routing) return;
+    if (scrollPending || state.router.state() === 'routing') return;
     scrollPending = true;
     setTimeout(() => {
       scrollPending = false;
-      if (state.routing) return;
+      if (state.router.state() === 'routing') return;
       try { sessionStorage.setItem(`browse-scroll:${currentAddress()}`, String(Math.round(window.scrollY))); } catch { /* storage blocked */ }
     }, 150);
   }, { passive: true });
 
-  document.addEventListener('click', (event) => {
+  document.addEventListener('click', (/** @type {ElementEvent<MouseEvent>} */ event) => {
     const portalJump = event.target.closest('[data-portal-jump]');
     if (portalJump) {
       event.preventDefault();
@@ -578,7 +598,7 @@ function bindEvents() {
     const ballotLabels = event.target.closest('[data-ballot-labels]');
     if (ballotLabels) {
       event.preventDefault();
-      state.showBallotLabels = !state.showBallotLabels;
+      state.ballotLabels.to(ballotLabelsShown() ? 'hidden' : 'shown');
       rerenderList();
       return;
     }
@@ -606,7 +626,7 @@ function bindEvents() {
     }
   });
 
-  document.addEventListener('change', (event) => {
+  document.addEventListener('change', (/** @type {ElementEvent} */ event) => {
     const sourceFilter = event.target.closest('[data-source-filter]');
     if (sourceFilter) {
       const key = sourceFilter.dataset.sourceFilter;
@@ -679,11 +699,19 @@ function applyRoute() {
   state.listShown = Math.max(LIST_PAGE_SIZE, Math.min(5000, Number(route.params.get('shown')) || LIST_PAGE_SIZE));
   if (!route.id) readListControls(route.type, route.params);
   renderGroups();
-  state.routing = true;
+  // Only the latest navigation moves the router: an earlier render that finishes or fails
+  // after a newer one began is stale.
+  const navigation = ++routeNavigation;
+  state.router.to('routing');
   renderCurrent().then(
-    () => afterRouteRender(address, { firstRoute, isList: !route.id && !route.isHome }),
-    (error) => { state.routing = false; console.error(error); }
+    () => { if (navigation === routeNavigation) afterRouteRender(address, { firstRoute, isList: !route.id && !route.isHome }); },
+    (error) => { if (navigation === routeNavigation) state.router.to('failed'); console.error(error); }
   );
+}
+
+/** Whether the parties list shows the ballot-paper labels. */
+function ballotLabelsShown() {
+  return state.ballotLabels.state() === 'shown';
 }
 
 function currentAddress() {
@@ -700,13 +728,13 @@ function readListControls(type, params) {
     }
     state.listFilters[type] = filters;
   }
-  if (type === 'parties') state.showBallotLabels = params.get('labels') === '1';
+  if (type === 'parties') settle(state.ballotLabels, params.get('labels') === '1' ? 'shown' : 'hidden');
   if (LIST_SORTS[type]) {
     const sort = params.get('sort') || '';
     state.listSort[type] = LIST_SORTS[type].some((option) => option.key === sort) ? sort : '';
   }
   if (type === 'sources') {
-    state.sourceFilters = Object.fromEntries(Object.keys(state.sourceFilters).map((key) => [key, params.get(`f.${key}`) || '']));
+    state.sourceFilters = /** @type {typeof state.sourceFilters} */ (Object.fromEntries(Object.keys(state.sourceFilters).map((key) => [key, params.get(`f.${key}`) || ''])));
   }
   if (type === 'register-interests') {
     const filters = {};
@@ -733,7 +761,7 @@ function syncListAddress() {
     for (const [key, value] of Object.entries(state.sourceFilters)) if (value) params.set(`f.${key}`, value);
   }
   for (const [key, value] of Object.entries(state.listFilters[state.activeType] || {})) if (value) params.set(`f.${key}`, value);
-  if (state.activeType === 'parties' && state.showBallotLabels) params.set('labels', '1');
+  if (state.activeType === 'parties' && ballotLabelsShown()) params.set('labels', '1');
   if (LIST_SORTS[state.activeType] && state.listSort[state.activeType]) params.set('sort', state.listSort[state.activeType]);
   if (state.activeType === 'register-interests') {
     const controls = state.registerInterestControls;
@@ -755,7 +783,7 @@ function syncListAddress() {
  */
 function afterRouteRender(address, { firstRoute, isList }) {
   if (address !== lastRoutedAddress && address !== currentAddress()) return;
-  state.routing = false;
+  state.router.to('rendered');
   let saved = null;
   try { saved = sessionStorage.getItem(`browse-scroll:${currentAddress()}`); } catch { /* storage blocked */ }
   window.scrollTo(0, isList && saved !== null ? Number(saved) || 0 : 0);
@@ -773,8 +801,8 @@ async function rerenderList() {
   syncListAddress();
   const key = focusKeyFor(document.activeElement);
   await renderCurrent();
-  const target = key ? document.querySelector(key) : null;
-  (target || els.results.querySelector('select, button'))?.focus({ preventScroll: true });
+  const target = key ? /** @type {HTMLElement | null} */ (document.querySelector(key)) : null;
+  (target || /** @type {HTMLElement | null} */ (els.results.querySelector('select, button')))?.focus({ preventScroll: true });
 }
 
 function focusKeyFor(element) {
@@ -791,7 +819,7 @@ function cardCount() {
 /** After "Show more", move focus to the first card that was added. */
 function focusCard(index) {
   const card = els.results.querySelectorAll('.browse-card')[index];
-  card?.querySelector('a, button')?.focus({ preventScroll: true });
+  /** @type {HTMLElement | null} */ (card?.querySelector('a, button'))?.focus({ preventScroll: true });
 }
 
 // Path-style record URLs: /browse/<type>/<slug>, served by functions/browse/<type>/ with the
@@ -998,7 +1026,7 @@ function renderGroups() {
     `;
   }).join('');
   // On a phone the sections are one scrolling row: bring the current one into view.
-  const active = els.groups.querySelector('.browse-group-link--active');
+  const active = /** @type {HTMLElement | null} */ (els.groups.querySelector('.browse-group-link--active'));
   if (active && els.groups.scrollWidth > els.groups.clientWidth) els.groups.scrollLeft = Math.max(0, active.offsetLeft - 16);
 }
 
@@ -1411,6 +1439,7 @@ function recordDocumentTitle(type, config, title) {
   return `${title} – ${config.singular} – Civgraph`;
 }
 
+/** @param {{ title?: string, description?: string, canonical?: string }} [head] */
 function setDocumentHead({ title, description, canonical } = {}) {
   document.title = title || BASE_HEAD.title;
   const text = truncateDescription(description || BASE_HEAD.description);
@@ -1494,15 +1523,16 @@ function renderList(type, items) {
   let labelsNote = '';
   if (type === 'parties') {
     const labels = filtered.filter((item) => item.ballotLabel).length;
-    if (!state.showBallotLabels) filtered = filtered.filter((item) => !item.ballotLabel);
+    const shown = ballotLabelsShown();
+    if (!shown) filtered = filtered.filter((item) => !item.ballotLabel);
     else filtered = [...filtered.filter((item) => !item.ballotLabel), ...filtered.filter((item) => item.ballotLabel)];
     if (labels) {
       labelsNote = `
         <p class="browse-description browse-labels-note">
-          ${state.showBallotLabels
+          ${shown
             ? `Including ${formatNumber(labels)} ballot-paper ${labels === 1 ? 'label' : 'labels'}, listed last.`
             : `${formatNumber(labels)} ballot-paper ${labels === 1 ? 'label' : 'labels'} ${state.query ? 'also match' : 'are not listed'}: party names as printed on a few ballot papers that are in no election's party table.`}
-          <button type="button" class="browse-btn browse-btn--small" data-ballot-labels aria-pressed="${state.showBallotLabels}">${state.showBallotLabels ? 'Hide' : 'Show'} ballot-paper labels</button>
+          <button type="button" class="browse-btn browse-btn--small" data-ballot-labels aria-pressed="${shown}">${shown ? 'Hide' : 'Show'} ballot-paper labels</button>
         </p>`;
     }
   }
@@ -1876,7 +1906,7 @@ function renderProniLanding(config, items) {
       </ul>
       ${items.length > 800 ? `<p class="browse-description">Showing the first 800 of ${formatNumber(items.length)} collections. Use the search box above to find any record.</p>` : ''}
     </section>`;
-  const input = document.getElementById('proni-search-input');
+  const input = /** @type {HTMLInputElement | null} */ (document.getElementById('proni-search-input'));
   if (input) {
     input.addEventListener('input', () => scheduleProniSearch(input.value));
     if ((state.proniQuery || '').trim().length >= 2) runProniSearch(state.proniQuery);
@@ -2882,7 +2912,7 @@ function rerenderVotesTable(control) {
   if (host) host.innerHTML = renderPersonVotesRows();
 }
 
-document.addEventListener('change', (event) => {
+document.addEventListener('change', (/** @type {ElementEvent} */ event) => {
   const control = event.target.closest?.('[data-votes-filter]');
   if (!control) return;
   const key = control.dataset.votesFilter;
@@ -2891,7 +2921,7 @@ document.addEventListener('change', (event) => {
   rerenderVotesTable(control);
 });
 
-document.addEventListener('click', (event) => {
+document.addEventListener('click', (/** @type {ElementEvent<MouseEvent>} */ event) => {
   const more = event.target.closest?.('[data-votes-more]');
   if (!more) return;
   event.preventDefault();
@@ -3667,10 +3697,13 @@ async function renderEntityRoute(slug) {
 }
 
 async function renderEntitySearchRoute() {
+  const token = renderSeq;
   setHero({ label: 'Entities', singular: 'Entity' }, null);
   const query = normalizeSearchQuery(state.query);
   // The server narrows by label and entry; the page keeps its own match on the full text.
   const search = await loadGraphEntitySearch(query);
+  // A newer navigation began while the search loaded: it owns the page now.
+  if (token !== renderSeq) return;
   const items = query
     ? search.items.filter((item) => entitySearchText(item).includes(query)).slice(0, 200)
     : search.items.slice(0, 200);
@@ -4749,7 +4782,7 @@ function handleContributorAction(action) {
 async function openEditSubmissionForm(type, item) {
   const entityType = entityTypeForBrowseType(type);
   const entityId = item.id || item.key || item.slug || item.title;
-  state.modalMode = 'metadata-edit';
+  state.contributorForm.to('metadata-edit');
   state.editBaseline = null;
   els.contributorModalTitle.textContent = `Propose edit: ${item.title || entityId}`;
   // Guard first: replacing a dirty form for another record would silently throw
@@ -4835,16 +4868,16 @@ function showInlineEditor(title) {
   els.contributorEditorTitle.textContent = title;
   els.contributorEditorSlot.appendChild(els.contributorForm);
   els.contributorEditor.hidden = false;
-  state.modalMode = 'metadata-edit';
+  state.contributorForm.to('metadata-edit');
   els.contributorEditor.scrollIntoView({ block: 'start', behavior: 'smooth' });
-  els.contributorForm.querySelector('input:not([type="hidden"]), textarea')?.focus();
+  /** @type {HTMLElement | null} */ (els.contributorForm.querySelector('input:not([type="hidden"]), textarea'))?.focus();
 }
 
 function closeInlineEditor() {
   if (!els.contributorEditor) return;
   els.contributorEditor.hidden = true;
   els.contributorForm.innerHTML = '';
-  state.modalMode = null;
+  state.contributorForm.to('closed');
   state.editEntityId = null;
   state.editBaseline = null;
   state.editFields = null;
@@ -4858,7 +4891,7 @@ function closeInlineEditor() {
  */
 function isEditorDirty() {
   if (!els.contributorEditor || els.contributorEditor.hidden) return false;
-  const summary = els.contributorForm.querySelector('[name="summary"]')?.value?.trim();
+  const summary = /** @type {HTMLInputElement | null} */ (els.contributorForm.querySelector('[name="summary"]'))?.value?.trim();
   if (summary) return true;
   try {
     collectPatch();
@@ -5045,7 +5078,7 @@ function renumberObjectEntries(fieldset) {
  * single binding possible.
  */
 function bindObjectArrayControls() {
-  els.contributorForm.addEventListener('click', (event) => {
+  els.contributorForm.addEventListener('click', (/** @type {ElementEvent<MouseEvent>} */ event) => {
     const byName = new Map((state.editFields || []).map((f) => [f.name, f]));
     const addButton = event.target.closest('[data-object-add]');
     if (addButton) {
@@ -5106,7 +5139,7 @@ function openMapSubmissionForm() {
   // new" is what a modal is for. Move the shared form back into the modal panel.
   closeInlineEditor();
   document.querySelector('.contributor-modal__panel')?.appendChild(els.contributorForm);
-  state.modalMode = 'map-submission';
+  state.contributorForm.to('map-submission');
   els.contributorModalTitle.textContent = 'Submit map for review';
   els.contributorForm.innerHTML = `
     <input type="hidden" name="kind" value="map-submission">
@@ -5154,21 +5187,28 @@ function openMapSubmissionForm() {
 
 function openContributorModal() {
   els.contributorModal?.classList.remove('hidden');
-  els.contributorForm?.querySelector('input:not([type="hidden"]), textarea, select, button')?.focus();
+  /** @type {HTMLElement | null} */ (els.contributorForm?.querySelector('input:not([type="hidden"]), textarea, select, button'))?.focus();
 }
 
 function closeContributorModal() {
   els.contributorModal?.classList.add('hidden');
-  state.modalMode = null;
+  state.contributorForm.to('closed');
 }
 
 async function submitContributorForm(event) {
   event.preventDefault();
   const status = els.contributorForm.querySelector('.contributor-form__status');
-  const submitButton = els.contributorForm.querySelector('button[type="submit"]');
-  status.className = 'contributor-form__status';
+  const submitButton = /** @type {HTMLButtonElement} */ (els.contributorForm.querySelector('button[type="submit"]'));
+  // This submission's own machine (browse/state-machines.js CONTRIBUTOR_SUBMISSION): the
+  // status line's class and the button follow its state.
+  const submission = CONTRIBUTOR_SUBMISSION.start();
+  const show = () => {
+    status.className = SUBMISSION_STATUS_CLASS[submission.state()];
+    submitButton.disabled = submission.state() === 'submitting';
+  };
+  submission.to('submitting');
+  show();
   status.textContent = 'Submitting...';
-  submitButton.disabled = true;
   try {
     const payload = buildContributorPayload(new FormData(els.contributorForm));
     const response = await fetch('/_api/contributions/submit', {
@@ -5185,18 +5225,19 @@ async function submitContributorForm(event) {
       const detail = (data.dryRun?.errors || []).join(' ');
       throw new Error(detail || data.hint || data.error || `${response.status} ${response.statusText}`);
     }
-    status.className = 'contributor-form__status contributor-form__status--success';
     const warnings = data.dryRun?.warnings || [];
-    status.textContent = `Submitted for review: ${data.submission?.id || 'pending'}.`
+    const message = `Submitted for review: ${data.submission?.id || 'pending'}.`
       + (warnings.length ? ` Note: ${warnings.join(' ')}` : '')
       + ' Nothing changes on the site until an administrator approves and applies it.';
+    submission.to('sent');
+    show();
+    status.textContent = message;
     announce('Contributor submission sent for review.');
   } catch (error) {
-    status.className = 'contributor-form__status contributor-form__status--error';
+    submission.to('failed');
+    show();
     status.textContent = error.message;
     announce('Contributor submission failed.');
-  } finally {
-    submitButton.disabled = false;
   }
 }
 
@@ -5262,14 +5303,14 @@ function collectPatch() {
 
   // Object arrays first: their state lives across many inputs, so they are read
   // per fieldset rather than per input.
-  for (const fieldset of els.contributorForm.querySelectorAll('[data-object-array]')) {
+  for (const fieldset of /** @type {NodeListOf<HTMLElement>} */ (els.contributorForm.querySelectorAll('[data-object-array]'))) {
     const field = fieldset.dataset.objectArray;
     const entries = readObjectArray(fieldset);
     if (JSON.stringify(entries) === String(baseline[field] ?? '[]')) continue;
     patch[field] = entries.length ? entries : null;
   }
 
-  const inputs = els.contributorForm.querySelectorAll('[data-edit-field]');
+  const inputs = /** @type {NodeListOf<UiElement>} */ (els.contributorForm.querySelectorAll('[data-edit-field]'));
   const seenRadioGroups = new Set();
 
   for (const input of inputs) {
@@ -5280,7 +5321,7 @@ function collectPatch() {
     if (input.type === 'radio') {
       if (seenRadioGroups.has(field)) continue;
       seenRadioGroups.add(field);
-      const checked = els.contributorForm.querySelector(`input[type="radio"][data-edit-field="${field}"]:checked`);
+      const checked = /** @type {HTMLInputElement | null} */ (els.contributorForm.querySelector(`input[type="radio"][data-edit-field="${field}"]:checked`));
       const nowValue = checked ? String(checked.value) : '';
       if (nowValue === String(baseline[field] ?? '')) continue;
       patch[field] = nowValue === '' ? null : nowValue === 'true';
@@ -5766,12 +5807,17 @@ function printedLabelsShown() {
 
 function applyPrintedLabels(shown) {
   document.documentElement.toggleAttribute(PRINTED_LABELS_ROOT_ATTRIBUTE, shown);
-  for (const input of document.querySelectorAll('input[data-printed-labels-toggle]')) input.checked = shown;
+  for (const input of /** @type {NodeListOf<HTMLInputElement>} */ (document.querySelectorAll('input[data-printed-labels-toggle]'))) input.checked = shown;
 }
 
+// The reader's choice on this page; it is also kept in localStorage when storage allows.
+const printedLabels = PRINTED_LABELS.start();
+/** @param {unknown} shown @returns {boolean} the reader's choice, now `shown` */
+const setPrintedLabels = (shown) => settle(printedLabels, shown ? 'shown' : 'hidden') === 'shown';
+
 function initPrintedLabels() {
-  applyPrintedLabels(printedLabelsShown());
-  document.addEventListener('change', (event) => {
+  applyPrintedLabels(setPrintedLabels(printedLabelsShown()));
+  document.addEventListener('change', (/** @type {ElementEvent} */ event) => {
     const input = event.target;
     if (!input?.matches?.('input[data-printed-labels-toggle]')) return;
     try {
@@ -5780,7 +5826,7 @@ function initPrintedLabels() {
     } catch {
       // Storage blocked: the choice holds for this page only.
     }
-    applyPrintedLabels(Boolean(input.checked));
+    applyPrintedLabels(setPrintedLabels(input.checked));
   });
 }
 
@@ -5942,7 +5988,7 @@ async function loadShardDetail(item, slug) {
     String(candidate.id || '').toLowerCase() === String(item.id || '').toLowerCase()
   ));
   if (!match) {
-    const error = new Error(`Source detail ${slug} was not found in ${shardUrl}`);
+    const error = /** @type {HttpError} */ (new Error(`Source detail ${slug} was not found in ${shardUrl}`));
     error.status = 404;
     error.url = shardUrl;
     throw error;
@@ -5957,7 +6003,7 @@ async function loadJson(url, init = undefined) {
   const requestUrl = url;
   const response = await fetch(requestUrl, init);
   if (!response.ok) {
-    const error = new Error(`${response.status} ${response.statusText} for ${url}`);
+    const error = /** @type {HttpError} */ (new Error(`${response.status} ${response.statusText} for ${url}`));
     error.status = response.status;
     error.url = requestUrl;
     throw error;
