@@ -1,5 +1,5 @@
 /**
- * scripts/check-clean.mjs: the export holds what a commit would, and removing the export
+ * scripts/check/clean.mjs: the export holds what a commit would, and removing the export
  * never reaches the real node_modules through the link.
  */
 import { test } from 'node:test';
@@ -8,7 +8,7 @@ import { spawnSync } from 'node:child_process';
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { BUILD_STEPS, exportTree, linkNodeModules, listExportFiles, parseArgs, unlinkNodeModules } from '../../scripts/check-clean.mjs';
+import { BUILD_STEPS, exportTree, linkNodeModules, listExportFiles, parseArgs, unlinkNodeModules } from '../../scripts/check/clean.mjs';
 
 function scratch() {
   return mkdtempSync(path.join(os.tmpdir(), 'check-clean-test-'));

@@ -90,7 +90,7 @@ side. `render/metadata/maps-test-index.json` is **generated** from
 
 All three edges are guarded by validators in `npm run check`. If you add a layer
 and it does not appear, the answer is almost always that no card lists it —
-`scripts/validate-c1-coverage.mjs` explains this at length and is worth reading.
+`scripts/check/rules/c1-coverage.mjs` explains this at length and is worth reading.
 
 ---
 

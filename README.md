@@ -151,7 +151,7 @@ The build enforces performance budgets and fails if CSS exceeds 225 KB.
 Each of those is referenced from `index.html` with a `?v=` cache token derived
 from the file's content hash. **Never hand-edit a token** — `npm run check` fails
 if one does not match, because a stale token means returning visitors keep running
-the old file. `scripts/validate-app-shell-cache-tokens.mjs` explains why.
+the old file. `scripts/check/rules/app-shell-cache-tokens.mjs` explains why.
 
 This file told you to run a bundle script at scripts/bundle.mjs until 2026-08-17.
 There is no such file — it moved to archive/legacy-scripts/ when the Leaflet

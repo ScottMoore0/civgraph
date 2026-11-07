@@ -71,7 +71,7 @@ if (mode === 'app') {
   plan.push(['node', ['scripts/build/shell-assets.mjs']]);
   plan.push(['node', ['scripts/build/app-bundle.mjs']]);
   plan.push(['node', ['scripts/build/promote-test2-root.mjs']]);
-  plan.push(['node', ['scripts/run-checks.mjs', '--only', APP_CHECKS]]);
+  plan.push(['node', ['scripts/check/run.mjs', '--only', APP_CHECKS]]);
   // src/ holds the catalogue renderer too (ui-controller, data-service), so its tests run as well.
   if (meaningful.some((file) => file.startsWith('src/'))) plan.push(['npm', ['run', '-s', 'test:catalogue']]);
 } else if (mode === 'data') {
@@ -86,7 +86,7 @@ if (mode === 'app') {
   // The pre-1973 NI council rounds grouped by year, from the election catalogue (seconds).
   plan.push(['node', ['scripts/build/build-ni-local-grouped.mjs']]);
   plan.push(['node', ['scripts/catalogue/build-catalogue.mjs']]);
-  plan.push(['node', ['scripts/catalogue/check-catalogue.mjs']]);
+  plan.push(['node', ['scripts/check/rules/catalogue.mjs']]);
   plan.push(['npm', ['run', '-s', 'build']]);
   // Committed artefacts the Pages build no longer makes: sitemaps, Browse cache tokens, the
   // status page and site figures.
@@ -94,7 +94,7 @@ if (mode === 'app') {
   // --apply takes one page; passing both stamped only the homepage and left About stale.
   plan.push(['node', ['scripts/build/build-site-stats.mjs', '--apply', 'index.html']]);
   plan.push(['node', ['scripts/build/build-site-stats.mjs', '--apply', 'pages/about.html']]);
-  plan.push(['node', ['scripts/run-checks.mjs']]);
+  plan.push(['node', ['scripts/check/run.mjs']]);
   plan.push(['npm', ['run', '-s', 'test:catalogue']]);
 }
 // Through node, not npx: on Windows npx needs a shell, and the shell reads the | in the -g

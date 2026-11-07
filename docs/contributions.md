@@ -113,7 +113,7 @@ Two rules earn their place from real incidents:
 - **Name/date year disagreement warns** (does not block). Six layers carried a
   wrong year until they were corrected by hand.
 
-`scripts/test-contribution-schema.mjs` covers 28 cases and runs in `npm run
+`tests/functions/contribution-schema.test.mjs` covers 28 cases and runs in `npm run
 check`. It has been negative-controlled: removing the line-break rule fails
 exactly the two tests that cover it.
 
@@ -195,5 +195,5 @@ map records hold a list.
 Identity now comes only from a **verified** Access JWT (`verifyAccessJwt` in
 `functions/_api/_auth.js`: RS256 signature against the team's certs, issuer, expiry, and the
 application audience when `CIVGRAPH_ACCESS_AUD` is set). The bare `CF-Access-Authenticated-User-Email`
-header is no longer trusted on its own. `scripts/test-access-jwt.mjs` (part of
+header is no longer trusted on its own. `tests/functions/access-jwt.test.mjs` (part of
 `npm run check:contributions`) covers forged, expired, wrong-issuer and wrong-audience tokens.

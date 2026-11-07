@@ -13,7 +13,7 @@ Implemented on 2026-06-08:
 - Regenerated 29 new Wikipedia count-table sidecars.
 - Added 24 explicit non-animated records in `data/elections/dail-wikipedia-counts/_no-transfer.json`.
 - Regenerated `/test2` election metadata so the new sidecars are embedded in Dail bundles.
-- Added a route validation guardrail: `scripts/validate-test2-route.mjs` now fails if any post-1921 Dail row remains silently unresolved in `_report.json`.
+- Added a route validation guardrail: `scripts/check/rules/election-route.mjs` now fails if any post-1921 Dail row remains silently unresolved in `_report.json`.
 
 Current audit state: `data/elections/dail-wikipedia-counts/_report.json` represents 842 of 973 Dail targets. The remaining 131 are pre-1922 rows. There are now zero unresolved post-1921 rows in the importer report.
 

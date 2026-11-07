@@ -21,7 +21,7 @@
  *      Then a sweep: any file still tracked in GENERATED_TREES leaves the index the same way.
  *   2. TOKENS. A conflicted file whose every conflict hunk differs only in ?v=<hex> / sw VERSION
  *      tokens takes this branch's side; the tokens are restamped after the merge by
- *      `npm run build` (maps pages, sw.js) and `node scripts/validate-browse-cache-tokens.mjs`
+ *      `npm run build` (maps pages, sw.js) and `node scripts/check/rules/browse-cache-tokens.mjs`
  *      (browse.js and browse.css tokens).
  *   3. PACKAGE.JSON. A three-way merge per key. A value both sides changed that is a chain of
  *      `cmd && cmd` steps is merged step by step: main's additions are kept at main's position
@@ -35,7 +35,7 @@
  *      scripts/records/paths.mjs, then run npm run check:clean.
  *
  * After a clean run (exit 0) or after the hand resolutions:
- *   npm run build && node scripts/validate-browse-cache-tokens.mjs
+ *   npm run build && node scripts/check/rules/browse-cache-tokens.mjs
  *   git add -A -- maps browse catalogue records sw.js index.html
  *   npm run records:build && npm run records:check
  *   git commit                      (a prose message naming what main brought in)
@@ -258,7 +258,7 @@ function main() {
     for (const f of left) console.log(`  ${f}`);
     return 2;
   }
-  console.log('\nall conflicts resolved by rule. Next: npm run build && node scripts/validate-browse-cache-tokens.mjs, then records:build, records:check, commit.');
+  console.log('\nall conflicts resolved by rule. Next: npm run build && node scripts/check/rules/browse-cache-tokens.mjs, then records:build, records:check, commit.');
   return 0;
 }
 

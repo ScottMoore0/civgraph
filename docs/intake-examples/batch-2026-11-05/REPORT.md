@@ -77,7 +77,7 @@ npm run rebuild -- --plan
 npm run build
 python scripts/build/thumbnails/regen-thumbnails.py --download --ids dispensary-districts-ni-1921-04-01,dispensary-districts-ni-1924-04-01,dispensary-districts-ni-1929-01-01,tia-towns-ni-1921-05-03,tia-towns-ni-1925-04-01,tia-towns-ni-1927-04-01,tia-towns-ni-1934-08-01,tia-towns-ni-1937-04-01,tia-towns-ni-1959-05-29
 node --env-file=.env.local scripts/publish/r2-upload-tree.mjs assets/thumbnails assets/thumbnails --concurrency=16 --changed-only
-node scripts/validate-test-cdn-manifest.mjs
+node scripts/check/rules/cdn-manifest.mjs
 npm run check:fast
 node --env-file=.env.local scripts/build/stamp-map-cache-tokens.mjs --check
 ```
@@ -96,7 +96,7 @@ node --env-file=.env.local scripts/build/stamp-map-cache-tokens.mjs --check
 
 ### After the post-upload steps
 
-- `node scripts/validate-test-cdn-manifest.mjs`: expected to **pass**
+- `node scripts/check/rules/cdn-manifest.mjs`: expected to **pass**
 - `npm run check:fast`: expected to **pass**
 - `node scripts/build/stamp-map-cache-tokens.mjs --check`: expected to **pass**
 

@@ -1,7 +1,7 @@
 /**
  * The facts model: offices and tenures, party events, and affiliation over time
  * (docs/facts-model.md). One loader and one set of rules, shared by the validator
- * (scripts/validate-facts-model.mjs), the Browse build (scripts/build/build-browse-indexes.mjs,
+ * (scripts/check/rules/facts-model.mjs), the Browse build (scripts/build/build-browse-indexes.mjs,
  * scripts/build/build-party-profiles.mjs) and the tests (tests/facts/).
  *
  *   data/offices/offices.json                          institutions and offices

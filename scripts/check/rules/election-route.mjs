@@ -1,0 +1,1122 @@
+#!/usr/bin/env node
+import path from 'node:path';
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
+import { mapAppSourceFiles, readElectionManagerSource, readMapAppSource } from '../../lib/map-app-source.mjs';
+import { BROWSE_DIR, ELECTION_BUNDLE_DIR, ELECTION_MANIFEST, ELECTION_REPORT } from '../../records/paths.mjs';
+
+const failures = [];
+// The MapLibre app. It was index.html until the landing page took the root; this kept
+// reading index.html, so every shell assertion below was checking the Home page.
+const index = readFileSync('maps/index.html', 'utf8');
+// /test2/ is a 301 to /maps/ (_redirects) since the legacy apps retired; test2/sw.js is the
+// retired-app kill switch, the same bytes as render/sw.js.
+const redirectsSource = readFileSync('_redirects', 'utf8');
+const bootSource = readFileSync('app/src/boot.js', 'utf8');
+// app.js and the modules split out of it under src/map/app/ (frontend-plan.md 5.2).
+const appSource = readMapAppSource();
+const adapterSource = readFileSync('app/src/maplibre-main-adapter.js', 'utf8');
+// The election manager and the modules split out of it under src/map/election/ (frontend-plan.md
+// 5.1): a rule checked against its source holds wherever the code now lives.
+const electionManagerSource = readElectionManagerSource();
+const electionPaneContractSource = readFileSync('app/src/election-pane-main-contract.js', 'utf8');
+const test2ServiceWorkerSource = readFileSync('test2/sw.js', 'utf8');
+const rootServiceWorkerSource = readFileSync('sw.js', 'utf8');
+const mainElectionPaneContractSource = readFileSync('src/election-main-pane-contract.mjs', 'utf8');
+const electionDomainSource = readFileSync('src/election-domain.mjs', 'utf8');
+const electionViewModelSource = readFileSync('src/election-view-model.mjs', 'utf8');
+const electionRendererSource = readFileSync('src/election-renderer.mjs', 'utf8');
+const electionManifestBuilderSource = readFileSync('scripts/build/build-test2-election-manifest.mjs', 'utf8');
+// Boundary changes between consecutive timeline editions (scripts/build/timeline-changes.py,
+// data/timeline-changes/). They replace the Play-only transition overlays of
+// data/timeline-transition-overlays/, whose source sidecars were untracked: a clean checkout
+// skipped this whole validator for want of them. The change files are tracked.
+const timelineChangesBuilderSource = readFileSync('scripts/build/timeline-changes.py', 'utf8');
+const MAX_PAGES_FILE_BYTES = 25 * 1024 * 1024;
+const timelineChangePairs = JSON.parse(readFileSync('data/timeline-changes/index.json', 'utf8'))?.pairs || {};
+const readTimelineChangePair = (id) => {
+  const entry = timelineChangePairs[id] || null;
+  return { entry, data: entry?.path ? JSON.parse(readFileSync(entry.path, 'utf8')) : null };
+};
+const browseIndexBuilderSource = readFileSync('scripts/build/build-browse-indexes.mjs', 'utf8');
+const electionDataAuditSource = readFileSync('scripts/check/rules/election-data-audit.mjs', 'utf8');
+const uiControllerSource = readFileSync('src/ui-controller.js', 'utf8');
+const mapControllerSource = readFileSync('src/map/renderer/map-controller.js', 'utf8');
+const labelsSource = readFileSync('src/map/renderer/labels.js', 'utf8');
+const featureRepairsSource = readFileSync('src/map/renderer/feature-property-repairs.js', 'utf8');
+const test2Css = readFileSync('app/src/test2.css', 'utf8');
+const mainCss = readFileSync('assets/css/main.css', 'utf8');
+const packageJsonSource = readFileSync('package.json', 'utf8');
+const portPlan = JSON.parse(readFileSync('render/metadata/main-site-port-plan.json', 'utf8'));
+const testMetadata = JSON.parse(readFileSync('render/metadata/maps-test.json', 'utf8'));
+const mapsDb = JSON.parse(readFileSync('data/database/maps.json', 'utf8'));
+// data/browse/ is built by `npm run build` and published to R2, never tracked, so a clean
+// checkout has none of it. (This validator used to skip on a clean checkout for want of the
+// untracked timeline sidecars; that guard went with them, and this one keeps the same outcome
+// for the same kind of reason.)
+if (!existsSync(path.join(BROWSE_DIR, 'maps.json'))) {
+  console.log('SKIP: data/browse/maps.json is absent (built by npm run build and published to R2; untracked).');
+  process.exit(0);
+}
+const browseMapsIndex = JSON.parse(readFileSync(path.join(BROWSE_DIR, 'maps.json'), 'utf8'));
+const test2BundleVersion = index.match(/\/app\/build\/app\.bundle\.js\?v=([0-9a-f]{12})/)?.[1] || '';
+
+function assert(condition, message) {
+  if (!condition) failures.push(message);
+}
+
+function findMap(id) {
+  const direct = mapsDb.maps?.find((map) => map.id === id);
+  if (direct) return direct;
+  for (const map of mapsDb.maps || []) {
+    const variant = map.variants?.find((item) => item.id === id);
+    if (variant) return { ...map, ...variant, parentId: map.id };
+  }
+  return null;
+}
+
+function assertCatalogueMetadata() {
+  const chainClassIds = new Set();
+  for (const chain of mapsDb.timeSeriesChains || []) {
+    for (const segment of chain.segments || []) {
+      for (const classId of segment.classIds || []) chainClassIds.add(classId);
+    }
+    for (const column of chain.columns || []) {
+      for (const classId of column.classIds || []) chainClassIds.add(classId);
+    }
+  }
+
+  const classById = new Map((mapsDb.classes || []).map((item) => [item.id, item]));
+  const mapById = new Map((mapsDb.maps || []).map((item) => [item.id, item]));
+  const layerSourceIds = new Set((testMetadata.layers || []).map((layer) => layer.sourceMapId || layer.id).filter(Boolean));
+  const layerIds = new Set((testMetadata.layers || []).map((layer) => layer.id).filter(Boolean));
+  assert(chainClassIds.has('ni-counties'), 'Counties class must be attached to a time-series chain');
+  assert(chainClassIds.has('ireland-provinces'), 'Provinces class must be attached to a time-series chain');
+  assert((classById.get('ni-counties')?.maps || []).includes('counties-ireland-1955'), 'Counties class must include historical county variants instead of unrelated ED maps');
+  assert((classById.get('ireland-provinces')?.maps || []).includes('provinces-1899'), 'Provinces class must exist and include historical province maps');
+
+  const counties = mapById.get('counties-ireland');
+  const countySubmaps = new Set((counties?.variants || []).map((variant) => variant.id));
+  assert(countySubmaps.has('counties-ni-1915') && countySubmaps.has('roi-counties-2011'), 'Current counties map must keep the intentional NI and ROI component submaps');
+  for (const staleSubmap of ['counties-ireland-1957', 'counties-ireland-1922', 'counties-ireland-1915', 'counties-ireland-1955']) {
+    assert(!countySubmaps.has(staleSubmap), `Current counties map must not expose ${staleSubmap} as a sub-map`);
+  }
+
+  const provinces = mapById.get('provinces');
+  // Provinces 2019 was hidden when these checks were written and deliberately unhidden in
+  // 49d23489fd ("Provinces.fgb returns 200"); it now belongs to the Provinces class. What
+  // still matters is that it serves a file.
+  assert(Boolean(provinces?.files?.fgb), 'Provinces 2019 must serve its own FlatGeobuf');
+  const publicBrowseMapIds = new Set((browseMapsIndex.items || browseMapsIndex || []).map((item) => item.id));
+  for (const hiddenId of ['eds-roi-1921-06-28']) {
+    assert(!publicBrowseMapIds.has(hiddenId), `Public Browse maps index must not expose hidden map ${hiddenId}`);
+  }
+  assert(!uiControllerSource.includes("'eds-roi-1921-06-28'"), 'Flat catalogue must not hard-code the hidden duplicate 28 June 1921 ED/Ward record');
+  assert(uiControllerSource.includes("id: 'flat-provinces', name: 'Provinces', years: '1899-1955'"), 'Flat catalogue Provinces card must reflect the visible 1899-1955 records, not hidden Provinces 2019');
+  assert(uiControllerSource.includes('shouldExpandVariantsByDefault(map)') && uiControllerSource.includes("'eds-1983'"), 'Flat catalogue must expand 1971/1977/1980/1983 ED/Ward province child variants by default');
+
+  const localAuthorities2008 = mapById.get('local-authorities-2008');
+  assert(Array.isArray(localAuthorities2008?.provider) && localAuthorities2008.provider.includes('CSO') && !localAuthorities2008.provider.includes('Phelim Birch'), 'Local Authorities 2008 must be credited to CSO, not the collaborator');
+  const localAuthorities2008Layer = (testMetadata.layers || []).find((layer) => layer.sourceMapId === 'local-authorities-2008');
+  assert(Array.isArray(localAuthorities2008Layer?.provider) && localAuthorities2008Layer.provider.includes('CSO') && !localAuthorities2008Layer.provider.includes('Phelim Birch'), 'Local Authorities 2008 generated MapLibre layer must be credited to CSO, not the collaborator');
+
+  function variantIsLoadable(variant) {
+    return Boolean(variant?.files?.fgb) || layerSourceIds.has(variant?.id);
+  }
+
+  for (const id of ['eds-roi-1957', 'eds-roi-1965', 'eds-roi-1966', 'eds-roi-1970', 'eds-1971', 'eds-1977', 'eds-1980', 'eds-1983']) {
+    const map = mapById.get(id);
+    const variants = map?.variants || [];
+    assert(variants.length >= 4 && variants.every(variantIsLoadable), `${id} must resolve through loadable provincial component FGBs`);
+    assert(variants.every((variant) => variant?.style?.color === map?.style?.color), `${id} provincial variants must inherit the parent style so provinces render consistently`);
+  }
+
+  // Provincial ED rows that compose by cloneOf. The targets are read from the catalogue
+  // rather than pinned: they were re-pointed from the 1919/1921 base records to year-matched
+  // ones when the spec cards were applied (245ccc53ef), and eds-ulster-1986 deliberately serves
+  // the 1921 Ulster file (49d23489fd), so its alias targets the 1921 tiles. What must hold is
+  // that the row names a real base record and its alias reaches tiles that exist.
+  const edProvinceCloneIds = [
+    'eds-roi-1957-connacht',
+    'eds-roi-1957-leinster',
+    'eds-roi-1957-munster',
+    'eds-roi-1957-ulster',
+    'eds-roi-1965-connacht',
+    'eds-roi-1965-leinster',
+    'eds-roi-1965-munster',
+    'eds-roi-1965-ulster',
+    'eds-roi-1966-connacht',
+    'eds-roi-1966-leinster',
+    'eds-roi-1966-munster',
+    'eds-roi-1966-ulster',
+    'eds-roi-1970-connacht',
+    'eds-roi-1970-leinster',
+    'eds-roi-1970-munster',
+    'eds-roi-1970-ulster',
+    'eds-1971-connacht',
+    'eds-1971-leinster',
+    'eds-1971-munster',
+    'eds-1971-ulster',
+    'eds-1977-connacht',
+    'eds-1977-leinster',
+    'eds-1977-munster',
+    'eds-1977-ulster',
+    'eds-1980-connacht',
+    'eds-1980-leinster',
+    'eds-1980-munster',
+    'eds-1980-ulster',
+    'eds-1983-connacht',
+    'eds-1983-leinster',
+    'eds-1983-munster',
+    'eds-1983-ulster'
+  ];
+  const renderLayerIds = new Set((testMetadata.layers || []).map((item) => item.id));
+  for (const id of edProvinceCloneIds) {
+    const variant = findMap(id);
+    const layer = (testMetadata.layers || []).find((item) => item.sourceMapId === id);
+    assert(Boolean(variant?.cloneOf) && Boolean(findMap(variant.cloneOf)), `${id} must declare a cloneOf naming an existing base record so its visible catalogue row resolves to converted province geometry`);
+    assert(layer?.aliasOf === variant?.cloneOf && renderLayerIds.has(layer?.aliasTargetLayerId), `${id} must have a generated MapLibre alias to its cloneOf record's tiles`);
+  }
+
+  for (const id of ['eds-2019', 'eds-1997', 'eds-1994', 'eds-1986', 'eds-1983', 'eds-1980', 'eds-1977', 'eds-1971', 'eds-roi-1957', 'eds-roi-1965', 'eds-roi-1966', 'eds-roi-1970']) {
+    const map = findMap(id);
+    assert(map?.isGroup === true && Array.isArray(map.variants) && map.variants.length >= 4, `${id} parent map must remain a grouped all-ROI load across all provincial variants`);
+  }
+
+  assert(findMap('tailte-built-up-1m')?.labelProperty === 'F_CODE', 'Tailte Built-Up Areas polygon map must label with F_CODE');
+  assert(findMap('tailte-built-up-points-250k')?.labelProperty === 'NAMN1', 'Tailte Built-Up Areas point map must label with NAMN1');
+  assert(findMap('cso-urban-areas-2022')?.date === 2022, 'CSO Urban Areas 2022 must have date metadata so catalogue display derives 2022');
+  const roiDailClass = mapsDb.classes?.find((item) => item.id === 'roi-dail');
+  const dail1959Browse = browseMapsIndex.items?.find((item) => item.id === 'dail-1959');
+  const dail1959Layer = testMetadata.layers?.find((item) => item.sourceMapId === 'dail-1959');
+  assert(roiDailClass?.maps?.includes('dail-1959'), 'Dail 1959 must be included in the roi-dail catalogue class so it appears in the Dail card.');
+  assert(dail1959Browse?.loadable === true, 'Dail 1959 must remain loadable in the Browse maps index.');
+  assert(dail1959Layer?.sourceType === 'pmtiles' && dail1959Layer?.tileUrl, 'Dail 1959 must have a converted PMTiles layer for the MapLibre route.');
+  assert(uiControllerSource.includes("name: 'TÉ Built-Up Areas'") || uiControllerSource.includes("name: 'TE Built-Up Areas'"), 'Catalogue must title Tailte built-up areas as Tailte Built-Up Areas');
+  assert(uiControllerSource.includes("name: 'Heritage Sites'"), 'Catalogue must title NI HED heritage card as Heritage Sites');
+  assert(uiControllerSource.includes("map.id === 'cso-urban-areas-2022'") && uiControllerSource.includes("displayName = '2022'"), 'Catalogue must display CSO Urban Areas 2022 using derived name 2022');
+
+  const thumbnailIds = new Set(JSON.parse(readFileSync('assets/thumbnails/manifest.json', 'utf8')));
+  for (const id of [
+    'hed-listed-buildings',
+    'hed-sites-and-monuments',
+    'hed-scheduled-monument-areas',
+    'hed-defence-heritage',
+    'hed-industrial-heritage',
+    'ni-listed-buildings',
+    'ni-scheduled-monument-areas',
+    'ni-defence-heritage',
+    'ni-industrial-heritage',
+    'glpr-2020-03',
+    'glpr-2021-03',
+    'roi-national-planning-applications'
+  ]) {
+    assert(thumbnailIds.has(id), `${id} must be present in the catalogue thumbnail manifest`);
+  }
+
+  // GLPR features are labelled by their address where the release has one. The field is
+  // ADDRESS in every release that carries it (2021-03 onward); the catalogue had 'Address'
+  // for 2022/2023, which names no field, and the render records labelled every release by
+  // OWNER. 2020-03 has no address field at all, so it keeps OWNER.
+  const glprLabelFields = { 'glpr-2020-03': 'OWNER', 'glpr-2021-03': 'ADDRESS', 'glpr-2021-08': 'ADDRESS', 'glpr-2021-09': 'ADDRESS', 'glpr-2022-04': 'ADDRESS', 'glpr-2023-04': 'ADDRESS' };
+  for (const [id, field] of Object.entries(glprLabelFields)) {
+    const renderLayer = (testMetadata.layers || []).find((item) => item.id === `${id}-vector`);
+    assert(findMap(id)?.labelProperty === field && renderLayer?.labelProperty === field, `${id} must label GLPR features by ${field} in the catalogue and the render record`);
+  }
+  assert(findMap('roi-national-planning-applications')?.labelProperty === 'Development Address', 'ROI National Planning Applications must label features by Development Address');
+}
+
+function mainSelectedPaneStatusKind(status) {
+  const text = String(status || '').toLowerCase();
+  if (!text) return 'unknown';
+  if (text.includes('not elected')) return 'not_elected';
+  if (text.includes('excluded')) return 'excluded';
+  if (text.includes('elected') || text.includes('made quota') || text.includes('counted as elected') || text.includes('deemed elected')) return 'elected';
+  return 'unknown';
+}
+
+assert(index.includes('<base href="/">'), '/test2 must keep root-relative production assets via <base href="/">');
+assert(existsSync('docs/test2-general-parity-matrix.json'), '/test2 general parity matrix is missing');
+assert(existsSync('scripts/check/rules/general-parity.mjs'), '/test2 general parity audit script is missing');
+assert(packageJsonSource.includes('"audit:test2:parity"'), '/test2 general parity audit must be exposed through package scripts');
+assert(!existsSync('test2/index.html'), '/test2/ must not serve a page: it answers 301 to /maps/');
+assert(/^\/test2\/\s+\/maps\/\s+301$/m.test(redirectsSource), '_redirects must send /test2/ to /maps/ with a 301');
+assert(index.includes('/app/build/app.bundle.js'), 'Root must load the production MapLibre bundle from /app');
+assert(index.includes('/app/build/app.bundle.css'), 'Root must load the production MapLibre CSS bundle from /app');
+assert(index.includes('/app/election-viewer-package/css/election-viewer.css') && index.includes('/app/election-viewer-package/css/stages.css'), 'Root must load production-scoped election animation CSS assets from /app');
+assert(Boolean(test2BundleVersion), '/test2 bundle script must include a content-hash cache key');
+assert(test2ServiceWorkerSource === readFileSync('render/sw.js', 'utf8') && test2ServiceWorkerSource.includes('civgraph-test2-') && test2ServiceWorkerSource.includes('registration.unregister()'), '/test2/sw.js must be the retired-app kill switch (render/sw.js): clear the legacy caches and unregister');
+assert(bootSource.includes("import('./app.js')") && bootSource.includes('requestAnimationFrame'), '/test2 must keep a startup bootstrap that paints the shell before lazy-loading the heavy MapLibre app runtime');
+assert(!index.includes('flatgeobuf-geojson.min.js') && !index.includes('pako-2.1.0.min.js'), '/test2 must not load FlatGeobuf or pako on the first navigation');
+assert(appSource.includes('ensureFlatgeobufRuntime') && appSource.includes('installLazyRuntimeHelpersBridge'), '/test2 must lazy-load FlatGeobuf only for feature export/schema workflows');
+assert(index.includes('href="/build/main.css'), 'Root must keep loading shared main CSS from the site root');
+assert(!index.includes('leaflet-1.9.4'), '/test2 must not load Leaflet assets');
+assert(!/(?:src|href)=["']\/build\/app\.bundle\.js/i.test(index), '/test2 must not load the archived Leaflet app bundle');
+assert(!index.includes("register('/sw.js'"), '/test2 must not register the production service worker');
+assert(index.includes('class="app-header"'), '/test2 must preserve the production header shell');
+assert(index.includes('class="pane pane--info"'), '/test2 must preserve the production catalogue pane');
+assert(index.includes('class="pane pane--map"'), '/test2 must preserve the production map pane');
+assert(index.includes('id="catalogueFlatView"'), '/test2 must preserve production catalogue containers');
+assert(appSource.includes('installRouteGuard()'), '/test2 must install the hash route guard before shell boot');
+assert(appSource.includes('preserveCurrentPath'), '/test2 hash-only URL updates must preserve the current path');
+assert(appSource.includes("a[href^=\"#\"]"), '/test2 must intercept hash-only catalogue anchors under <base href="/">');
+assert(appSource.includes("params.has('lng') && params.has('lat')"), '/test2 must not treat missing viewport URL params as 0,0');
+assert(appSource.includes("params.set('hidden', hidden.join(','))"), '/test2 URL state must preserve loaded-but-hidden layers');
+assert(appSource.includes("params.set('detail', this.currentDetailMapId)"), '/test2 URL state must preserve catalogue detail views');
+assert(appSource.includes("params.set('source', this.currentSourceMapId)"), '/test2 URL state must preserve source panel views');
+assert(appSource.includes("params.set('electionBody', electionState.body)") && appSource.includes('restoreURLState?.(params)'), '/test2 URL state must preserve and restore active election body/date/substate');
+assert(appSource.includes('installCatalogueStateBridge'), '/test2 must bridge production catalogue detail navigation into URL state');
+assert(appSource.includes('setupURLStateListener'), '/test2 must restore state on hash navigation, not only first boot');
+assert(appSource.includes('setActiveLayersPanelOpen') && appSource.includes('setMapControlsOpen'), '/test2 panel restore must set panel state directly instead of click-toggling');
+assert(appSource.includes('applyBaseMap') && appSource.includes('isStyleLoaded'), '/test2 restored base-map state must wait for the MapLibre style to load');
+assert(appSource.includes('setupSourcePanel') && appSource.includes('renderSourcePanel'), '/test2 must expose source metadata for active/restored layers');
+assert(appSource.includes('colour: item.colour || item.color || item.partyColour'), '/test2 catalogue party entity pages must preserve party/label colours from Browse details');
+assert(test2Css.includes('.test2-source-panel'), '/test2 source panel must have scoped route CSS');
+// 1060: above the active-layers box (1050), whose source buttons open the panel.
+assert(test2Css.includes('position: fixed') && test2Css.includes('z-index: 1060'), '/test2 source panel must sit above restored map overlay panels and the active-layers box');
+assert(appSource.includes('getConvertedCompositeChildIds'), '/test2 must expand converted child sources when a main catalogue parent lacks a direct converted layer');
+assert(appSource.includes('compositeSources') && appSource.includes('mapConfig.variants.map'), '/test2 composite fallback must cover main composite sources and non-group variant parents');
+assert(buildPlanSourceIncludesCompositeCoverage(), '/test2 port-plan generation must classify converted composite/alias rows without reintroducing false conversion gaps');
+assertPoint2Coverage();
+assert(mapControllerSource.includes('maplibre-dom-label'), '/test2 must use deduplicated DOM labels for main-site label interaction parity');
+assert(mapControllerSource.includes("'text-opacity': 0"), '/test2 native MapLibre symbol labels must stay visually hidden to avoid duplicate labels');
+assert(adapterSource.includes('installMainStyleMapControls') && test2Css.includes('.test2-main-zoom-control'), '/test2 must replace visible MapLibre zoom controls with main-style custom controls');
+assert(adapterSource.includes('leaflet-control-compass') && adapterSource.includes("map.easeTo({ bearing: 0, pitch: 0") && test2Css.includes('.test2-main-zoom-control__compass'), '/test2 custom main-style map controls must include a compass/reset-north button beside zoom');
+assert(adapterSource.includes('.maplibregl-ctrl-scale') && adapterSource.includes('element.remove()'), '/test2 must remove native MapLibre controls after boot so only main-style map controls remain visible');
+assert(test2Css.includes('#map .maplibregl-ctrl-top-left') && test2Css.includes('display: none') && test2Css.includes('#map .maplibregl-ctrl-bottom-right'), '/test2 route CSS must hide native MapLibre control containers while custom main-style controls are installed');
+assert(mapControllerSource.includes("this.map.on('dblclick', onDoubleClick)"), '/test2 feature geometry selection must be wired to double-click');
+assert(mapControllerSource.includes('this.map.doubleClickZoom?.disable()'), '/test2 must disable MapLibre double-tap zoom so mobile feature taps can open details');
+assert(mapControllerSource.includes("this.map.on('click', onClick)"), '/test2 feature geometry selection must be wired to ordinary tap/click as well as double-click');
+assert(mapControllerSource.includes('installMobileGestureGuards') && mapControllerSource.includes('installDirectPanGestureFallback') && mapControllerSource.includes('installDirectWheelGestureFallback') && mapControllerSource.includes('installMobileGestureResizeObserver') && mapControllerSource.includes('ResizeObserver') && mapControllerSource.includes('applyMobileTouchContract') && mapControllerSource.includes('getMobileGestureDiagnostics') && adapterSource.includes('getMobileGestureDiagnostics') && adapterSource.includes('applyMobileTouchContract'), '/test2 MapLibre controller and adapter must runtime-enforce the mobile touch contract, direct pan/wheel fallbacks, and gesture diagnostics');
+assert(mapControllerSource.includes('touchstart') && mapControllerSource.includes('guardTargetCount') && mapControllerSource.includes('scrollZoomEnabled'), '/test2 gesture guards must refresh the touch contract at touch gesture start and expose target diagnostics');
+assert(!mapControllerSource.includes("addEventListener('pointerdown', refreshTouchContract") && !mapControllerSource.includes("addEventListener('pointermove', refreshTouchContract") && !mapControllerSource.includes("addEventListener('touchmove', refreshTouchContract"), '/test2 touch contract must not be re-applied on desktop pointerdown or every pointer/touch move because that can freeze drag gestures');
+assert(mapControllerSource.includes('nativeGesturePrimary: true') && mapControllerSource.includes("directPanFallbackMode: 'emergency'") && mapControllerSource.includes("directWheelFallbackMode: 'emergency'") && mapControllerSource.includes("directTwoFingerFallbackMode: 'emergency'"), '/test2 gesture diagnostics must declare native MapLibre as the primary gesture path and direct fallbacks as emergency-only');
+assert(mapControllerSource.includes('directPanGestureInstalled') && mapControllerSource.includes('directPanFrame') && mapControllerSource.includes('fallbackThresholds') && mapControllerSource.includes('noCameraSamples') && mapControllerSource.includes('schedulePanDelta') && mapControllerSource.includes('scheduleNativeFailureCheck(state)') && mapControllerSource.includes('cameraMovedSince(state.camera') && mapControllerSource.includes('directPanFallbackActivations'), '/test2 must keep a delayed, frame-coalesced direct pan fallback, but only after repeated native camera movement failures');
+assert(mapControllerSource.includes('directWheelGestureInstalled') && mapControllerSource.includes("root.addEventListener('wheel'") && mapControllerSource.includes('scheduleWheelFallback(nextZoom') && mapControllerSource.includes('directWheelFallbackActivations'), '/test2 must keep a frame-coalesced direct wheel fallback, but only after native scroll zoom fails');
+assert(mapControllerSource.includes('directTwoFingerGestureInstalled') && mapControllerSource.includes('computeTwoFingerCamera') && mapControllerSource.includes('centerPoint.x - (nextMidpoint.x - state.midpoint.x)') && mapControllerSource.includes('normalizeDeltaDegrees(radiansToDegrees(angle(points) - state.angle))') && mapControllerSource.includes('directTwoFingerFallbackActivations'), '/test2 two-finger emergency fallback must model midpoint pan, distance zoom, angle rotation, and pitch');
+assert(mapControllerSource.includes('touchRotationAllowed()') && mapControllerSource.includes('has3dLayer()') && mapControllerSource.includes("'(pointer: coarse)'") && mapControllerSource.includes('disableRotation') && mapControllerSource.includes('NATIVE_GRACE_FRAMES'), '/test2 touch screens must not rotate the map with two fingers, and the two-finger fallback must give the native handler a grace period before taking over');
+assert(!mapControllerSource.includes('captureOptions = { passive: false, capture: true }'), '/test2 direct gesture fallbacks must not be installed as capture-phase movement handlers that pre-empt native MapLibre gestures');
+assert(mapControllerSource.includes('setMapCursor(cursor =') && mapControllerSource.includes('cursorMutationCount') && mapControllerSource.includes('this.clearHover({ resetCursor: false })'), '/test2 map hover must use stable cursor writes and avoid clearing the cursor between directly-switched hovered features');
+assert(!mapControllerSource.includes('this.map.getCanvas().style.cursor') && !electionManagerSource.includes('map.getCanvas().style.cursor'), '/test2 must centralize visible map cursor writes through the MapLibre controller to avoid desktop cursor flicker');
+assert(mapControllerSource.includes('mobileGestureResizeSize') && mapControllerSource.includes('sizeChanged') && mapControllerSource.includes('resizeObserverTargets') && mapControllerSource.includes('shouldInstallMobileGestureResizeObserver') && mapControllerSource.includes('(pointer: coarse)') && mapControllerSource.includes('(max-width: 768px)') && !mapControllerSource.includes('observe(canvasContainer)'), '/test2 map resize observer must be size-change guarded, mobile/small-screen scoped, and must not observe the MapLibre canvas container in a resize loop');
+assert(adapterSource.includes('resizeFrame') && adapterSource.includes('lastResizeSize') && adapterSource.includes('shouldResizeMap(nextSize)') && !adapterSource.includes('setTimeout(() => {\\n      this.applyMobileTouchContract();\\n      this.map.resize();'), '/test2 main adapter must coalesce invalidateSize and avoid same-size MapLibre resize loops that clear hover/cursor state');
+assert(!mapControllerSource.includes('dragPan?.disable'), '/test2 direct touch fallback must not disable dragPan because interrupted touch sequences can freeze subsequent pan/drag gestures');
+assert(rootServiceWorkerSource.includes("root-maplibre-sw-") && rootServiceWorkerSource.includes("'/app/build/app.bundle.js'") && rootServiceWorkerSource.includes("request.headers.has('range')") && rootServiceWorkerSource.includes('/\\.pmtiles(?:[?#]|$)/i') && rootServiceWorkerSource.includes('networkFirst(request, RUNTIME_CACHE)'), 'root service worker must route /app entry assets network-first and must not intercept PMTiles byte-range requests');
+assert(test2Css.includes('#map .maplibregl-map') && test2Css.includes('overscroll-behavior: contain') && test2Css.includes('-webkit-touch-callout: none'), '/test2 route CSS must apply a full mobile touch contract to the map container and canvas');
+assert(appSource.includes('relocateMobileCatalogueToggle') && appSource.includes('mobile-toggle--map-stack') && appSource.includes("document.querySelector('#map .test2-main-control-stack')"), '/test2 must move the mobile catalogue toggle into the map control stack above zoom/compass');
+assert(adapterSource.includes('test2-main-control-stack') && adapterSource.includes('stack.appendChild(control)') && adapterSource.includes('host.appendChild(stack)'), '/test2 custom main-style map controls must live in a shared stack so the mobile menu can displace zoom/compass instead of overlapping them');
+assert(test2Css.includes('#map .test2-main-control-stack') && test2Css.includes('flex-direction: column') && test2Css.includes('#map #mobileToggle.mobile-toggle.mobile-toggle--map-stack'), '/test2 mobile catalogue toggle must be styled as the first map-control stack item above zoom/compass');
+assert(test2Css.includes('body.app-shell .app-header') && test2Css.includes('position: fixed') && test2Css.includes('height: 100dvh') && test2Css.includes('body.app-shell .app-main') && test2Css.includes('grid-row: 2'), '/test2 shell must keep the navbar fixed in the viewport with dynamic-viewport app sizing');
+assert(!test2Css.includes('bottom: 14px !important'), '/test2 mobile catalogue toggle must not be restored to the bottom-right map overlay position');
+assert(index.indexOf('id="timelineSlider"') > index.indexOf('</div><!-- end #map -->'), '/test2 timeline slider must be a separate row below #map, not a DOM overlay inside the map');
+assert(index.includes('id="timelinePlay"') && index.includes('id="timelineStop"'), '/test2 timeline slider must expose territorial animation play and stop controls');
+assert(!test2Css.includes('#map .timeline-slider'), '/test2 route CSS must not style the timeline as map-overlay chrome');
+assert(test2Css.includes('.pane--map > #timelineSlider.timeline-slider') && test2Css.includes('position: static') && test2Css.includes('min-height: var(--timeline-row-height)'), '/test2 timeline slider must be styled as an in-flow rectangular pane below the interactive map');
+assert(test2Css.includes('.timeline-playback-group') && test2Css.includes('.timeline-btn--play.is-playing') && test2Css.includes('.timeline-btn--stop:not(:disabled)'), '/test2 territorial animation controls must be visibly styled in the timeline row');
+assert(test2Css.includes('#map .map-controls') && test2Css.includes('bottom: 14px'), '/test2 map controls should sit inside the map now that the timeline is an in-flow row');
+assert(appSource.includes('const variantIds = mapConfig.variants') && appSource.includes('fitToLayers(variantIds)'), '/test2 parent maps with variants must load every child variant as one grouped layer instead of only the first variant');
+assertCatalogueMetadata();
+assert(test2Css.includes('.maplibre-dom-label.map-label--hover'), '/test2 DOM labels must expose hover styling');
+assert(test2Css.includes('.maplibre-dom-label.map-label--selected'), '/test2 selected DOM labels must keep the same orange styling as hover labels');
+assert(test2Css.includes('color: #ff7a1a !important'), '/test2 hovered labels must change text colour directly like the main site');
+assert(mapControllerSource.includes("const INTERACTION_FILL_COLOR = '#FDBA74'"), '/test2 selected and hover fills must share the main-style light orange colour');
+assert(mapControllerSource.includes("const INTERACTION_STROKE_COLOR = '#FF7A1A'"), '/test2 selected and hover strokes must share the main-style deep orange colour');
+assert(mapControllerSource.includes('selectedFillId') && mapControllerSource.includes("['feature-state', 'selected']"), '/test2 polygon selections must include a selected fill, not only an outline');
+assert(mapControllerSource.includes('Polygon vector-tile features are clipped at tile boundaries'), '/test2 polygon interaction strokes must stay disabled to avoid tile-seam highlight artifacts');
+assert(mapControllerSource.includes("'fill-antialias': false"), '/test2 polygon interaction fills must disable antialiasing to avoid tile-fragment seam lines');
+assert(!mapControllerSource.includes("'line-color': '#111827'") && !mapControllerSource.includes("'circle-color': '#111827'"), '/test2 selections must not use the old thick black selected styling');
+assert(mapControllerSource.includes('loadDuplicateFeatureIds') && mapControllerSource.includes('duplicateIds?.has(String(id))'), '/test2 must avoid MapLibre feature-state cross-highlighting when a source has duplicate promoted feature IDs');
+assert(adapterSource.includes('normalizeRenderedFeature(selection.feature') && adapterSource.includes('this.options.enrichFeature'), '/test2 feature selections must pass normalized nested properties/geometry to main feature-info rendering');
+assert(adapterSource.includes('const OVERLAY_LAYERS') && adapterSource.includes('showOverlay(overlayId)') && adapterSource.includes('hideOverlay(overlayId)'), '/test2 adapter must support existing raster overlay toggles');
+assert(!adapterSource.includes('toggleOverlay() {\n    return false;\n  }'), '/test2 overlay toggles must not remain stubbed');
+assert(adapterSource.includes('applyPartialFeatureFilter') && adapterSource.includes('buildFeatureFilter'), '/test2 adapter must implement partial feature visibility with MapLibre filters');
+assert(!adapterSource.includes('togglePartialFeature() {}') && !adapterSource.includes('unloadPartialFeature() {}'), '/test2 partial feature load/visibility methods must not remain empty stubs');
+assert(adapterSource.includes('normalizeRenderedFeature') && adapterSource.includes('featureName') && adapterSource.includes('properties,'), '/test2 loaded/query feature results must include rich normalized feature payloads');
+assert(mapControllerSource.includes('const DEFAULT_VECTOR_FILL_OPACITY = 0'), '/test2 ordinary MapLibre polygon fills must default transparent like the main Leaflet site');
+assert(mapControllerSource.includes("'fill-opacity': resolveFillOpacity(layer)"), '/test2 fill layers must resolve opacity from explicit map style before falling back to transparent');
+assert(adapterSource.includes('_fillOpacity: resolveFillOpacity(layer)'), '/test2 main-shell layer state must preserve explicit fill opacity and default ordinary fills to transparent');
+assert(appSource.includes('getMainMap: (mapId) => dataService.getMapById(mapId)'), '/test2 adapter must receive main-site map config so style parity is based on the source catalogue');
+assert(adapterSource.includes('applyMainStyle(layer, mainConfig') && adapterSource.includes('delete style.fillOpacity'), '/test2 must discard converted-metadata fill opacity when the main catalogue has no explicit fill opacity');
+assert(!mapControllerSource.includes('fillOpacity ?? 0.18') && !adapterSource.includes('fillOpacity ?? 0.18'), '/test2 must not reintroduce the old semi-opaque vector fill fallback');
+assert(mapControllerSource.includes('if (!feature)') && mapControllerSource.includes('this.clearHover();'), '/test2 map interactions must clear transient hover state on empty map taps/clicks');
+assert(mapControllerSource.includes('installDocumentHoverClear()') && mapControllerSource.includes("document.addEventListener('pointerdown', this.documentHoverClearHandler, true)") && mapControllerSource.includes('.test2-election-seat-group'), '/test2 must clear transient hover state when the user clicks outside real map/label interaction targets');
+assert(appSource.includes('Test2ElectionManager'), '/test2 must wire the election manager into the main shell route');
+assert(!appSource.includes('Election map workflows are not converted for /test2 yet'), '/test2 election callbacks must not remain disabled stubs');
+assert(appSource.includes('onBuildElectionCatalogueCards') && appSource.includes('this.elections.buildCatalogueCards()'), '/test2 catalogue must expose generated election entries');
+assert(appSource.includes('includeMobileElectionCatalogue = true'), '/test2 must opt in to visible election catalogue entries on mobile');
+assert(!appSource.includes('includeElectionTocRows = true'), '/test2 must not opt in to individual election rows in the top catalogue table');
+assert(uiControllerSource.includes('catalogue-flat__toc-decade-btn') && uiControllerSource.includes('flat-election-entry'), '/test2 catalogue must keep main-style decade TOC buttons with election entries inside decade cards');
+assert(
+  uiControllerSource.includes('flat-election-date') &&
+    uiControllerSource.includes('flat-election-separator') &&
+    uiControllerSource.includes('flat-election-body') &&
+    uiControllerSource.includes('formatElectionDate(entry.date)'),
+  '/test2 election catalogue rows must split the monospace date from the normal derived election title'
+);
+assert(
+  mainCss.includes('.flat-election-date') &&
+    mainCss.includes('.flat-election-body') &&
+    mainCss.includes('font-family: inherit') &&
+    !/\.flat-election-link\s*\{[^}]*ui-monospace/s.test(mainCss),
+  '/test2 shared election catalogue CSS must apply monospace only to the date span, not the whole election title link'
+);
+assert(
+  test2Css.includes('.flat-election-date') &&
+    test2Css.includes('.flat-election-body') &&
+    test2Css.includes('font-family: inherit') &&
+    !/\.flat-election-link\s*\{[^}]*ui-monospace/s.test(test2Css),
+  '/test2 route CSS must apply monospace only to the date span, because /test2 does not load the root catalogue CSS directly'
+);
+assert(uiControllerSource.includes("catalogue-flat__toc-decade-btn')") || uiControllerSource.includes('catalogue-flat__toc-decade-btn, .catalogue-flat__toc'), '/test2 decade TOC buttons must be handled by the delegated flat-catalogue navigation path');
+assert(appSource.includes("anchor.closest?.('#catalogueFlatView')") && appSource.includes('anchor.dataset?.catalogueTarget'), '/test2 route guard must not pre-empt catalogue-managed hash links before lazy section rendering can run');
+assert(!uiControllerSource.includes('flat-election-toc-link') && !uiControllerSource.includes('catalogue-flat__toc-election-row'), '/test2 must not render individual election entries directly in the catalogue table of contents');
+assert(
+    uiControllerSource.includes('singleSectionFlatCatalogue')
+      && uiControllerSource.includes('_flatActiveSectionKey')
+      && uiControllerSource.includes('_flatTargetToSection')
+      && uiControllerSource.includes('_flatSectionTargets')
+      && uiControllerSource.includes('flatSectionKey')
+      && uiControllerSource.includes('ensureCatalogueTargetRendered')
+      && uiControllerSource.includes('scrollCatalogueTargetIntoView')
+      && uiControllerSource.includes('data-catalogue-target')
+      && uiControllerSource.includes('data-catalogue-section')
+      && uiControllerSource.includes('catalogue-flat__toc-subheading-link')
+      && appSource.includes('uiController.singleSectionFlatCatalogue = true'),
+  '/test2 flat catalogue must render TOC-first and hydrate only the requested top-level section before scrolling within the catalogue pane'
+);
+assert(appSource.includes('enrichFeature: (feature, selection) => this.elections?.enrichFeature'), '/test2 selected feature details must merge election results where active');
+assert(appSource.includes('this.elections?.showFeatureResults(feature)') && appSource.includes('uiController.hideFeatureInfo'), '/test2 active election feature selection must update the election pane before falling back to generic feature info');
+assert(electionManagerSource.includes('isFeatureFromActiveElection') && electionManagerSource.includes('return true;'), '/test2 election manager must report handled active-election feature selections');
+assert(test2Css.includes('body.app-shell.test2-election-open #electionResultsPane.election-results-pane--open') && test2Css.includes('calc(100% - var(--test2-election-pane-height))'), '/test2 fixed-header layout must place the open election pane below the map, sized by --test2-election-pane-height');
+assert(appSource.includes('setupTimelineControls') && appSource.includes('setTimelineItems'), '/test2 must wire the production timeline slider for map chains and elections');
+assert(appSource.includes('formatTimelineItemLabel') && appSource.includes('formatDisplayDate(date)'), '/test2 timeline labels must use the site date form, "1 Jan 1950" (src/date-format.mjs)');
+assert(appSource.includes('startTimelineAnimation') && appSource.includes('applyTimelineAnimationTransition') && appSource.includes('TIMELINE_CHANGES_BASE_PATH') && appSource.includes('loadTimelineChangeIndex') && appSource.includes('showTimelineStepChanges') && appSource.includes("contentType.includes('text/html')"), '/test2 timeline must highlight boundary changes at every step (drag, previous/next, Play) from data/timeline-changes/, rejecting an HTML fallback');
+assert(appSource.includes('TIMELINE_HIGHLIGHT_STORAGE_KEY') && appSource.includes('role="switch"') && appSource.includes('toggleTimelineChangesPanel') && appSource.includes('zoomToTimelineChange'), '/test2 timeline must offer a remembered "Highlight changes" switch and a list of changes with zoom-to');
+assert(appSource.includes('sequenceItems: []') && appSource.includes('getTimelineAnimationItems') && appSource.includes('if (this.timelineAnimation?.playing) return;') && appSource.includes('applyTimelineAnimationTransition(fromIndex, toIndex, runId, timelineItems)'), '/test2 territorial animation must lock its sequence during playback instead of rebuilding the slider mid-run');
+assert(appSource.includes('updateEditionRoles') && appSource.includes('older edition, grey dashed'), '/test2 two editions of one series must be told apart: the older grey and dashed, and the legend saying which is which');
+const niWardsClass = (mapsDb.classes || []).find((item) => item.id === 'ni-wards');
+const parseValidationMapDate = (map) => {
+  const raw = map?.date;
+  if (raw === null || raw === undefined || raw === '') return Number.POSITIVE_INFINITY;
+  if (typeof raw === 'number') return raw > 9999 ? raw : Date.UTC(raw, 0, 1);
+  const text = String(raw).trim();
+  if (/^\d{4}$/.test(text)) return Date.UTC(Number(text), 0, 1);
+  const parsed = Date.parse(text);
+  return Number.isFinite(parsed) ? parsed : Number.POSITIVE_INFINITY;
+};
+const niWardsTimelineMapIds = (niWardsClass?.maps || [])
+  .map((id) => findMap(id))
+  .filter(Boolean)
+  .sort((a, b) => parseValidationMapDate(a) - parseValidationMapDate(b))
+  .map((map) => map.id);
+const niWardsTransitionKeys = niWardsTimelineMapIds
+  .slice(1)
+  .map((id, index) => niWardsTimelineMapIds[index] + '__' + id);
+assert(niWardsTransitionKeys.length >= 4 && niWardsTransitionKeys.every((id) => timelineChangePairs[id]?.kind && timelineChangePairs[id].kind !== 'unavailable'), '/test2 NI Wards timeline must have change data for every adjacent edition');
+assert(niWardsTransitionKeys.map(readTimelineChangePair).every(({ entry, data }) => entry.kind !== 'changes' || (Array.isArray(data?.changes) && data.changes.length > 0 && data.changes.every((change) => Array.isArray(change.bbox) && Array.isArray(change.point)))), '/test2 Wards change files must list each change with a bbox and a label point');
+assert(Object.values(timelineChangePairs).every((entry) => !entry.path || statSync(entry.path).size < MAX_PAGES_FILE_BYTES), '/test2 timeline change files must stay below the Cloudflare Pages per-file limit');
+const counties1927To1955 = timelineChangePairs['counties-ireland-1927__counties-ireland-1955'];
+assert(counties1927To1955 && ['changes', 'redrawn', 'none'].includes(counties1927To1955.kind) && Number(counties1927To1955.count) < 20, '/test2 Counties 1927 to 1955 must list its few real changes (or say it was redrawn), not paint the whole island');
+assert((readTimelineChangePair('eds-1915-04-01__eds-1916-01-26').data?.changes || []).some((change) => change.type === 'created' && /portstewart urban/i.test(change.to || '')), '/test2 the 1916 DEDs must show Portstewart Urban formed out of Portstewart');
+assert(!(readTimelineChangePair('wards-1972__wards-1984').data?.changes || []).some((change) => change.from === 'WEST' && change.to === 'WEST'), '/test2 the 1972 Strabane West to 1984 West overlap is the same ward carried on, not a change');
+assert(timelineChangesBuilderSource.includes('OPEN_RADIUS_M') && timelineChangesBuilderSource.includes('MIN_AREA_HA') && timelineChangesBuilderSource.includes('def same_name') && timelineChangesBuilderSource.includes("'redrawn'"), '/test2 timeline change builder must separate real changes from redrawing (opening, minimum area, same-name continuity) and say when a pair was only redrawn');
+const ded1922Placeholder = findMap('ded-1922-10-31');
+assert(ded1922Placeholder?.placeholder === true, '/test2 validation fixture must keep District Electoral Divisions 31 October 1922 marked as a placeholder');
+assert(appSource.includes('isPlaceholderTimelineMap') && appSource.includes('isTimelineMapPlayable') && appSource.includes('!item?.mapId || this.isTimelineMapPlayable(item.mapId)') && appSource.includes('filter((item) => this.isTimelineMapPlayable(item.mapId))') && appSource.includes('!this.isTimelineMapPlayable(newId)'), '/test2 territorial timeline must skip placeholder and non-loadable map frames before playback can load them');
+assert(adapterSource.includes('setTimelineChanges') && adapterSource.includes('clearTimelineChanges') && adapterSource.includes('isTimelineChangeEventAtPoint') && adapterSource.includes('TIMELINE_CHANGE_MARKER_MIN_PX') && adapterSource.includes('line-dasharray') && adapterSource.includes('setEditionRole') && adapterSource.includes('clearTransientHighlight'), '/test2 MapLibre adapter must draw timeline changes (areas, new lines, dashed ghosts of gone lines, minimum-size markers) above the boundaries, and grey-dash an older edition');
+assert(adapterSource.includes('applyElectionStyle') && adapterSource.includes('clearElectionStyle'), '/test2 adapter must support MapLibre election styling expressions');
+assert(adapterSource.includes('fillOpacityExpression') && adapterSource.includes('lineOpacityExpression'), '/test2 adapter must accept expression-based election opacity so main matched/unmatched paint can be mirrored');
+assert(electionManagerSource.includes('ELECTION_MANIFEST_URL') && electionManagerSource.includes('loadElection(body, date)'), '/test2 election manager must lazy-load generated election result bundles');
+assert(electionManagerSource.includes('renderLoadingPanel') && electionManagerSource.includes('Promise.all') && electionManagerSource.includes('loadFeatureIndexForBundle'), '/test2 election loads must use a progressive pane and parallel map/result/index fetch path');
+assert(electionManagerSource.includes('voteShare') && electionManagerSource.includes('turnout') && electionManagerSource.includes('quota'), '/test2 election manager must expose requested election styling modes');
+assert(packageJsonSource.includes('"audit:test2:elections": "node scripts/check/rules/election-data-audit.mjs"'), '/test2 election data audit must be runnable as npm run audit:test2:elections');
+assert(packageJsonSource.includes('audit-test2-election-data.mjs --fail-on-blocking'), '/test2 checks must run the election data audit in fail-on-blocking mode');
+assert(electionDataAuditSource.includes('render/metadata/elections-test2.json') && electionDataAuditSource.includes('data/browse/elections.json') && electionDataAuditSource.includes('ireland_election_party_colour_wikipedia_audit.csv'), '/test2 election data audit must cover manifest, Browse entries, and saved Wikipedia colour audit data');
+assert(electionDataAuditSource.includes('rowsMissingExpectedTransferData') && electionDataAuditSource.includes('source-record-single-reference'), '/test2 election data audit must report transfer/count gaps and weak source-reference coverage');
+assert(electionManagerSource.includes('renderSeatCircles') && electionManagerSource.includes('new maplibregl.Marker') && electionManagerSource.includes('seatCircleMarkers'), '/test2 election manager must render map-anchored DOM seat-circle markers for ordinary elections');
+assert(electionManagerSource.includes('ensureSeatCircleOverlay') && electionManagerSource.includes('election-seat-circle') && electionManagerSource.includes('seat-dot'), '/test2 seat circles must use main-style DOM marker structure instead of MapLibre circle paint');
+assert(appSource.includes('unloadActiveElectionForLayer(mapId)') && appSource.includes('isActiveElectionLayerId(mapId)') && (appSource.includes('this.elections.unloadElection()') || appSource.includes('this.elections.unloadElection({ unloadBackingLayer: false })')), '/test2 active-layer removal must route active election source/canonical IDs through the election manager so DOM seat-circle markers are removed');
+assert(test2Css.includes('.test2-election-seat-dot') && test2Css.includes('rgba(0, 0, 0, .6)') && test2Css.includes('box-shadow: 0 0 0 1px #fff'), '/test2 election seat-circle DOM dots must use the main-style black stroke plus white outer halo');
+assert(electionManagerSource.includes('SEAT_CIRCLE_COLLISION_MARGIN = 4') && electionManagerSource.includes('SEAT_CIRCLE_MIN_TOTAL_EXTENT = 120'), '/test2 seat-circle zoom collision constants must match the main Leaflet overlay rules');
+assert(electionManagerSource.includes('scheduleElectionOverlayRefresh') && electionManagerSource.includes('overlayRefreshPending'), '/test2 seat-circle overlays must coalesce zoomend/moveend refreshes instead of running overlapping rebuilds');
+assert(electionManagerSource.includes('Math.abs(group.point.x - existing.point.x)') && electionManagerSource.includes('Math.abs(group.point.y - existing.point.y)'), '/test2 seat-circle collision must use main-style centre distance and half-extent checks');
+assert(electionManagerSource.includes('const ne = map.project([east, north])') && electionManagerSource.includes('const sw = map.project([west, south])'), '/test2 seat-circle projected bounds must mirror main NE/SW extent projection');
+assert(!electionManagerSource.includes('* 0.002'), '/test2 seat circles must not use old geographic-degree offsets for pixel seat layouts');
+assert(electionManagerSource.includes('getCanonicalLayerId') && electionManagerSource.includes('mainElectionSlug') && appSource.includes('isCanonicalElectionLayerId'), '/test2 election URL state must use main-style canonical election layer IDs instead of raw geography IDs');
+assert(electionManagerSource.includes("const explicitSelected = params.has('electionSelected')") && electionManagerSource.includes("const view = validSelected") && electionManagerSource.includes("requestedView && requestedView !== 'counts' && requestedView !== 'animation' ? requestedView : 'party'"), '/test2 layer-only election URLs must restore the main-style overall party pane instead of inheriting selected/count state');
+assert(appSource.includes('focusActiveElectionCatalogueEntry') && appSource.includes('flat-election-entry'), '/test2 active election URL/catalogue restore must focus the same election catalogue state as main');
+assert(appSource.includes('flat-election-entry--active') && appSource.includes('restoreCatalogueListState') && appSource.includes("params.set('zoom'"), '/test2 must restore active election catalogue state and use main-style zoom URL state');
+assert(mapControllerSource.includes('test2LabelMinZoomOverride') && adapterSource.includes('labelMinZoomOverride'), '/test2 election label density must remain tunable through the MapLibre adapter for non-hidden label modes');
+assert(electionManagerSource.includes('hideLabels: true') && adapterSource.includes('style.hideLabels === true') && adapterSource.includes('labelsEnabled'), '/test2 election layers must suppress ordinary feature labels while election styling is active');
+assert(electionManagerSource.includes('renderVoteBars') && electionManagerSource.includes('test2-election-vote-bar-layer'), '/test2 election manager must render vote-bar overlays for ordinary elections');
+assert(electionManagerSource.includes('renderLocalPartySummaryTable') && electionManagerSource.includes('By Local Party'), '/test2 local-government elections must expose local party/district aggregate views');
+assert(electionManagerSource.includes('activeLocalMode') && electionManagerSource.includes('renderDistrictResults') && electionManagerSource.includes('data-election-local-mode'), '/test2 local-government elections must expose DEA/district mode switching');
+const districtResultsStart = electionManagerSource.indexOf("renderDistrictResults(view = 'party')");
+const districtResultsEnd = electionManagerSource.indexOf('\n  renderCouncilResults', districtResultsStart);
+const districtResultsSource = districtResultsStart >= 0 && districtResultsEnd > districtResultsStart
+  ? electionManagerSource.slice(districtResultsStart, districtResultsEnd)
+  : '';
+assert(districtResultsSource && !districtResultsSource.includes('return this.renderCouncilResults(view);'), '/test2 District mode must not redirect multi-council NI local elections into a separate By Council tab');
+assert(mainElectionPaneContractSource.includes('isCouncilAggregateResult') && mainElectionPaneContractSource.includes('data-election-local-mode="district">District'), '/test2 local-government selected council panes must use the main DEA/District mode control');
+assert(electionManagerSource.includes('findCouncilAggregateResultByName') && electionManagerSource.includes('renderCouncilAggregateResults') && electionManagerSource.includes("aggregateType === 'council' || aggregateType === 'district'"), '/test2 district-mode LGD features and seat circles must resolve to selected council aggregate panes');
+assert(electionManagerSource.includes('councilFeatureAliases') && electionManagerSource.includes('Armagh City, Banbridge and Craigavon'), '/test2 Council/District mode must bridge official election council names to LGD feature names such as Armagh City, Banbridge and Craigavon');
+assert(electionManagerSource.includes('loadFeatureIndexForLayer(styleLayer)') && electionManagerSource.includes('getActiveElectionStyleLayer?.()') && electionManagerSource.includes('const aggregateCenter = aggregateResult ? this.findCentreForResult(centres, aggregateResult) : null'), '/test2 Council/District seat circles must use the active council feature index before falling back to DEA aggregate bounds');
+assert(electionManagerSource.includes('renderRecallPetitionResult') && electionDomainSource.includes('recallPetition'), '/test2 recall-petition data must be preserved and rendered when available');
+assert(electionManagerSource.includes('renderRecallPetitionOverview') && electionManagerSource.includes('Incumbent'), '/test2 recall-petition UI must include overview and incumbent detail support where data exists');
+assert(electionManagerSource.includes('renderRecallLabels') && electionManagerSource.includes('Petition not successful'), '/test2 recall petitions must expose main-style map labels where recall data is available');
+assert(mainElectionPaneContractSource.includes('test2ElectionCountDetail') && mainElectionPaneContractSource.includes('election-detail-toggle-btn--header') && mainElectionPaneContractSource.includes('Detailed View: On'), '/test2 count tables must expose the main-style detailed count toggle in the pane header');
+assert(electionManagerSource.includes('nonTransferable') && electionManagerSource.includes('inferCountEvents') && electionDomainSource.includes('isNonTransferableRow'), '/test2 count parity must preserve non-transferable rows and count event hints');
+assert(electionDomainSource.includes('not elected') && electionDomainSource.indexOf('not elected') < electionDomainSource.indexOf('/elected|made quota'), '/test2 election domain must not classify "Not Elected" as elected');
+assert(electionManagerSource.includes('electionResultsPane') && electionManagerSource.includes('election-results-pane--open'), '/test2 election results must render in the production below-map election pane');
+assert(electionDomainSource.includes('summarizeResult') && electionDomainSource.includes('extractElected') && electionDomainSource.includes('buildEntityIndex'), '/test2 must use shared election-domain logic for result summaries, elected extraction, and entity indexes');
+assert(electionManagerSource.includes("from '../../src/election-domain.mjs'") && electionManagerSource.includes('renderCountTable') && electionManagerSource.includes('renderEntityPanel'), '/test2 election rendering must consume shared domain logic and expose count/entity views');
+assert(electionViewModelSource.includes('buildElectionViewModel') && electionViewModelSource.includes('buildElectionViewModelFromMainController') && electionViewModelSource.includes('buildElectionViewModelFromTest2Manager'), 'main and /test2 must share an engine-neutral election view-model contract');
+assert(electionRendererSource.includes('class SharedElectionRenderer') && electionRendererSource.includes('data-election-renderer="shared"') && electionRendererSource.includes('renderElectionSummaryFromViewModel'), 'main and /test2 must share an engine-neutral election renderer/mirror');
+assert(electionRendererSource.includes('renderMainCompatibleOverallResults') && electionRendererSource.includes('renderMainCompatibleConstituencyResults'), 'shared election renderer must support main-compatible host adapters for visible pane parity');
+assert(electionManagerSource.includes('createElectionRenderer(this)') && electionManagerSource.includes('this.sharedRenderer'), '/test2 must keep shared election renderer available for secondary fallback views');
+assert(mainElectionPaneContractSource.includes('class MainElectionPaneContract') && mainElectionPaneContractSource.includes('renderHeaderRight') && mainElectionPaneContractSource.includes('renderPanelContent'), '/test2 must expose an explicit shared main election pane contract for visible pane parity');
+assert(electionPaneContractSource.includes('MainElectionPaneContract as Test2MainElectionPaneContract') && electionPaneContractSource.includes('../../src/election-main-pane-contract.mjs'), '/test2 local election pane contract must re-export the shared main election pane contract');
+assert(mainElectionPaneContractSource.includes("this.rendererId = host?.paneRendererId || 'test2-main-pane-contract'") && !mainElectionPaneContractSource.includes('test2-election-panel--main-parity'), '/test2 main election pane contract must not add a test2-only wrapper around visible main-pane output');
+assert(electionManagerSource.includes('this.mainPaneContract = new MainElectionPaneContract(this)') && electionManagerSource.includes('this.mainPaneContract.renderHeaderRight(selectedResult, nextView)') && electionManagerSource.includes('this.mainPaneContract.renderPanelContent(selectedResult, nextView)'), '/test2 visible election pane header/content must enter through the shared main-pane contract');
+assert(/renderOverallResults\(view = 'party'\)\s*{\s*return this\.mainPaneContract\.renderOverallResults\(view\);/.test(electionManagerSource) && /renderConstituencyResults\(result, view = 'party'\)\s*{\s*return this\.mainPaneContract\.renderConstituencyResults\(result, view\);/.test(electionManagerSource), '/test2 visible election pane helpers must delegate to the main-pane contract, not bypass it with route-specific branches');
+assert(electionManagerSource.includes('renderMainCompatibleOverallResults') && electionManagerSource.includes('renderMainCompatibleConstituencyResults') && electionManagerSource.includes('return this.mainPaneContract.renderOverallResults(view);') && electionManagerSource.includes('return this.mainPaneContract.renderConstituencyResults(result, view);'), '/test2 must expose main-compatible shared-renderer host adapters backed by the main-pane contract');
+assert(electionManagerSource.includes('renderMainParityPartyTable') && electionManagerSource.includes('election-party-table election-party-table--grouped') && electionManagerSource.includes('Candidates') && electionManagerSource.includes('1st preferences'), '/test2 visible election pane must follow the main grouped party-table contract');
+const overallPartyStart = electionManagerSource.indexOf('renderMainParityPartyTable(rowsWithDeltas = [], results = []');
+const overallPartyEnd = electionManagerSource.indexOf('renderConstituencyCandidateTable', overallPartyStart);
+const overallPartySource = overallPartyStart >= 0 && overallPartyEnd > overallPartyStart
+  ? electionManagerSource.slice(overallPartyStart, overallPartyEnd)
+  : '';
+assert(overallPartySource.includes('<table class="election-party-table election-party-table--grouped">') && !overallPartySource.includes('election-results-table--fixed'), '/test2 overall party pane must use the same non-fixed grouped party-table class as main');
+assert(overallPartySource.includes('data-election-entity-kind="${safeKind}"') || electionManagerSource.includes('data-election-entity-kind="${safeKind}"'), '/test2 election entity buttons must expose the main data-election-entity-kind contract');
+assert(electionManagerSource.includes('dataset.tableControlsReady') && !electionManagerSource.includes('test2TableControlsReady'), '/test2 election table controls must use the main data-table-controls-ready marker, not a test2-only marker');
+assert(electionManagerSource.includes('ROI_MAIN_PARTY_COLOURS') && electionManagerSource.includes('mainPanePartyColour') && electionManagerSource.includes("'fine gael', '#6699FF'"), '/test2 Dail/election pane colours must route through the Wikipedia-aligned ROI party palette');
+assert(/ELECTION_MANIFEST_URL = '\/render\/metadata\/elections-test2\.json\?v=test-\d{3}'/.test(electionManagerSource), '/test2 election metadata cache key must be bumped when generated election bundle contracts change');
+assert(/`\$\{entry\.resultUrl\}\?v=test-\d{3}`/.test(electionManagerSource), '/test2 election result bundle cache key must be bumped when generated constituency result JSON changes');
+assert(electionManagerSource.includes('election-delta--pos') && electionManagerSource.includes('election-delta--neg') && !electionManagerSource.includes('election-delta--up') && !electionManagerSource.includes('election-delta--down'), '/test2 election pane deltas must use the same pos/neg classes as main');
+const selectedPartyStart = electionManagerSource.indexOf('renderConstituencyPartyTable(candidates = [], result = {})');
+const selectedPartyEnd = electionManagerSource.indexOf('renderMainParityLeafTh', selectedPartyStart);
+const selectedPartySource = selectedPartyStart >= 0 && selectedPartyEnd > selectedPartyStart
+  ? electionManagerSource.slice(selectedPartyStart, selectedPartyEnd)
+  : '';
+assert(selectedPartySource.includes('election-results-table--constituency-party') && selectedPartySource.includes('data-sort-key="stood"') && selectedPartySource.includes('data-sort-key="elected"') && selectedPartySource.includes('data-sort-key="firstPrefs"') && selectedPartySource.includes('No change in party control'), '/test2 selected constituency/DEA party panes must use the main flat selected-party table contract');
+assert(!selectedPartySource.includes('<th colspan="2">Candidates</th>') && !selectedPartySource.includes('<th colspan="2">Seats</th>') && !selectedPartySource.includes('<th colspan="4">1st preferences</th>'), '/test2 selected constituency/DEA party panes must not reuse the overall grouped party table headers');
+assert(selectedPartySource.includes('selectedPaneStatusKind(row.Status)') && !selectedPartySource.includes("status.includes('quota')") && !selectedPartySource.includes('status.includes("quota")'), '/test2 selected constituency/DEA party panes must use main selected-pane status semantics and must not count quota-only statuses as directly elected');
+assert(electionManagerSource.includes('mainStyleCandidateDisplayName(row)') && electionManagerSource.includes('row.candidateName') && electionManagerSource.includes('row.Firstname') && electionManagerSource.includes('row.Surname'), '/test2 selected constituency/DEA party panes must mirror main _isValidCandidateRow candidate-name admissibility');
+// The change sits under its value in one cell (valueWithChange) since 2026-10-29; the selected
+// pane's share change keeps its form without a percent sign ('points').
+assert(selectedPartySource.includes("valueWithChange(formatFixedPercent(row.pct), row.pctDelta, 'points')") && electionManagerSource.includes('function valueWithChange') && !selectedPartySource.includes("row.pctDelta, 'percent')") && !selectedPartySource.includes('data-sort-key="stoodDelta"'), '/test2 selected constituency/DEA party panes must show each change under its value, the share change without a percent sign');
+const selectedPaneStatusStart = electionManagerSource.indexOf('function selectedPaneStatusKind(status)');
+const selectedPaneStatusEnd = (() => {
+  const ends = ['\nfunction ', '\nexport function ', '\nexport const ']
+    .map((marker) => electionManagerSource.indexOf(marker, selectedPaneStatusStart + 10)).filter((i) => i > 0);
+  return ends.length ? Math.min(...ends) : -1;
+})();
+const selectedPaneStatusSource = selectedPaneStatusStart >= 0 && selectedPaneStatusEnd > selectedPaneStatusStart
+  ? electionManagerSource.slice(selectedPaneStatusStart, selectedPaneStatusEnd)
+  : '';
+assert(selectedPaneStatusSource.includes("text.includes('not elected')") && selectedPaneStatusSource.includes("text.includes('excluded')") && selectedPaneStatusSource.includes("text.includes('elected')") && selectedPaneStatusSource.includes('made quota'), '/test2 selected-pane status helper must treat Dail scraper Made Quota statuses as elected after guarding against Not Elected');
+assert(electionManagerSource.includes('buildMainStyleConstituencyPartyRows') && electionManagerSource.includes('result?.countGroup') && electionManagerSource.includes('findPreviousSelectedResult'), '/test2 selected constituency/DEA party panes must derive rows from the main-shaped countGroup payload and previous-election result');
+assert(electionManagerSource.includes('numberOrZero(countInfo.Valid_Poll) || numberOrZero(result?.validPoll)') && !electionManagerSource.includes('countInfo.Valid_Poll ?? result?.validPoll'), '/test2 selected constituency party panes must treat blank countInfo Valid_Poll as missing and fall back to result.validPoll');
+assert(electionManagerSource.includes('renderConstituencyCandidateTable') && electionManagerSource.includes('election-party-table--candidate-sticky3'), '/test2 candidate panes must use the main grouped candidate-table contract');
+assert(electionManagerSource.includes('renderLocalPartySummaryTable') && electionManagerSource.includes('election-party-table--district-local-party-sticky4'), '/test2 local-party panes must use the main grouped local-party table contract');
+const resultHasAnimationStart = electionManagerSource.indexOf('resultHasAnimation(result = null)');
+const resultHasAnimationEnd = electionManagerSource.indexOf('\n  currentResults()', resultHasAnimationStart);
+const resultHasAnimationSource = resultHasAnimationStart >= 0 && resultHasAnimationEnd > resultHasAnimationStart
+  ? electionManagerSource.slice(resultHasAnimationStart, resultHasAnimationEnd)
+  : '';
+assert(resultHasAnimationSource.includes('result.syntheticCountGroup') && resultHasAnimationSource.includes('animationRows.length') && resultHasAnimationSource.includes('Number(row.Count_Number) > 1') && !resultHasAnimationSource.includes('if (result.animationPayload) return true'), '/test2 selected result Transfers tab must expose Dail scraper stage payloads while still requiring an animation payload');
+assert(electionManagerSource.includes('renderCountTable') && electionManagerSource.includes('election-count-row') && electionManagerSource.includes('election-count-wrapper--pane-sticky') && electionManagerSource.includes('visibleCounts'), '/test2 count panes must use the main visible-count table contract');
+assert(electionManagerSource.includes('terminalTransferOutCount') && electionManagerSource.includes('terminalTransferOutDisplayRow') && electionManagerSource.includes('previousSourceCount') && electionManagerSource.includes('negativeAbs') && electionManagerSource.includes('shouldDashAfterTerminalTransfer') && !electionManagerSource.includes('quotaHoldStartCount') && !electionManagerSource.includes('laterHeldAtQuota || candidate.elected'), '/test2 STV By Count panes must show real transfer-out terminal counts and must not infer fictional post-final deductions from elected/not-elected state alone');
+assert(electionManagerSource.includes('inferCountTransferOutEvents') && electionManagerSource.includes('${uniqueNameList(elected)} elected') && electionManagerSource.includes('${uniqueNameList(excluded)} excluded') && electionManagerSource.includes('candidateEventSurname') && electionManagerSource.includes('? inferCountTransferOutEvents(result, candidates, rawCountNumbers)'), '/test2 STV Detailed By Count headers must label transfer-out donor events with candidate surnames ("Smyth elected", "Smyth, Jones excluded")');
+assert(electionDomainSource.includes('__syntheticCountGroup: true') && electionDomainSource.includes('__syntheticCountStages') && electionDomainSource.includes('Synthetic_Scraper_Stage_Row') && electionManagerSource.includes('const rawCountNumbers = sourceCountNumbers') && !electionManagerSource.includes('Not Elected<br>Count 1/1'), '/test2 scraper-style election results must expose available encoded Dail count stages without hard-coding all synthetic rows as first-count-only');
+assert(existsSync('scripts/ingest/wikipedia/import-dail-wikipedia-counts.mjs') && electionManifestBuilderSource.includes('DAIL_WIKIPEDIA_COUNTS_ROOT') && electionManifestBuilderSource.includes('Wikipedia_Count_Row') && electionManifestBuilderSource.includes('buildDailWikipediaCountPayload'), '/test2 Dail bundles must prefer locally imported Wikipedia count-table sidecars over synthetic scraper rows where available');
+assert(
+  existsSync('scripts/ingest/oireachtas/import-dail-official-zip.py')
+    && existsSync('data/elections/dail-official-results.json')
+    && electionManifestBuilderSource.includes('DAIL_OFFICIAL_RESULTS')
+    && electionManifestBuilderSource.includes('enrichDailResultWithOfficialData')
+    && electionManifestBuilderSource.includes('officialDail')
+    && electionDomainSource.includes('officialCandidateId')
+    && electionDomainSource.includes('dailAbbreviation')
+    && browseIndexBuilderSource.includes('genders: new Map()')
+    && browseIndexBuilderSource.includes('candidate.gender'),
+  '/test2 Dail bundles and Browse person pages must consume official Dail sidecar metadata for constituency IDs, party abbreviations, turnout/spoiled, and candidate gender'
+);
+assert(electionManagerSource.includes('renderPartyEntity') && electionManagerSource.includes('renderCandidateEntity') && electionManagerSource.includes('election-entity-page__hero'), '/test2 entity panes must use main-style entity page structure');
+assert(appSource.includes('setupElectionPaneResize()') && appSource.includes('[data-election-pane-resize]') && appSource.includes('--test2-election-pane-height'), '/test2 must wire a draggable horizontal splitter for the bottom election pane');
+assert(electionManagerSource.includes('data-election-pane-resize') && electionManagerSource.includes('aria-orientation="horizontal"'), '/test2 election pane must render an accessible horizontal resize handle between the map/catalogue area and results pane');
+assert(test2Css.includes('.test2-election-pane-resizer') && test2Css.includes('cursor: row-resize') && test2Css.includes('grid-template-rows') && test2Css.includes('var(--test2-election-pane-height)'), '/test2 CSS must expose the election-pane row-resize handle and use its height variable in the open-pane grid');
+assert(!/headerRight\.innerHTML = `[\s\S]{0,700}<span>Style<\/span>/.test(electionManagerSource), '/test2 must not put MapLibre style controls in the main election pane header');
+// The parity check on the retired Leaflet election controller went with archive/ (see ARCHIVE.md).
+assert(electionManifestBuilderSource.includes('OUT_ANCHOR_DIR') && electionManifestBuilderSource.includes('geometryAnchor') && electionManifestBuilderSource.includes('anchorUrl'), '/test2 election manifest build must generate geometry-derived election anchor sidecars');
+assert(electionManifestBuilderSource.includes('previousKey') && electionManifestBuilderSource.includes('partySummary') && electionManifestBuilderSource.includes('entityIndex'), '/test2 election bundles must include previous-election linkage and rich pane data');
+assert(electionManifestBuilderSource.includes('comparableElectionGroup') && electionManifestBuilderSource.includes('ni-devolved') && electionManifestBuilderSource.includes('european-roi') && electionManifestBuilderSource.includes('electionsOverlapByArea') && !electionManifestBuilderSource.includes('isGeneralElectionPreviousBaselineEntry'), '/test2 election previousKey generation must use comparable-election groups, not body-adjacent chronology');
+assert(browseIndexBuilderSource.includes('const PERSON_RELATED_LIMIT = Number.POSITIVE_INFINITY') && browseIndexBuilderSource.includes('const PARTY_RELATED_LIMIT = Number.POSITIVE_INFINITY'), '/test2 Browse party/candidate detail pages must keep full cross-election histories instead of truncated samples');
+assert(electionManifestBuilderSource.includes('localByDate') && electionManifestBuilderSource.includes('Local Government Districts'), '/test2 election manifest builder must group general local elections by jurisdiction/date instead of per council');
+assert(electionManifestBuilderSource.includes('matchEntryForConstituency') && electionManifestBuilderSource.includes('localBodyByConstituency'), '/test2 grouped local-election entries must preserve council-specific matching context');
+assert(electionManagerSource.includes('filterOverlayGroupsByCollision') && electionManagerSource.includes('SEAT_CIRCLE_COLLISION_MARGIN'), '/test2 election overlays must have main-style MapLibre-native collision suppression');
+assert(electionManagerSource.includes('projectAnchorBounds') && electionManagerSource.includes('pixelArea'), '/test2 election overlay collision must use generated anchor bounds, not only centre-point spacing');
+assert(
+  electionManagerSource.includes('orderPartyRowsLikeMain')
+    && electionManagerSource.includes('setupResultsTableControls')
+    && electionManagerSource.includes('election-filter-menu')
+    && electionManagerSource.includes('filterState')
+    && electionManagerSource.includes('data-action="sort-asc"')
+    && electionManagerSource.includes('data-action="deselect-all"')
+    && electionManagerSource.includes('data-action="clear-filter"')
+    && electionManagerSource.includes('election-th-btn--open')
+    && electionManagerSource.includes('positionElectionFilterMenu')
+    && electionManagerSource.includes('clampToViewport')
+    && electionManagerSource.includes("window.addEventListener('resize', activeMenuPositioner)")
+    && electionManagerSource.includes("window.addEventListener('scroll', activeMenuPositioner, true)"),
+  '/test2 election tables must preserve main-style party ordering, full menu-based sort/filter controls, and viewport-contained filter menus'
+);
+assert(electionManagerSource.includes('MAIN_ELECTION_GEOGRAPHY_STYLE') && electionManagerSource.includes("unmatchedFillColor: '#dfe4ec'") && electionManagerSource.includes('matchedFillOpacity: 0.6') && electionManagerSource.includes("matchedStrokeColor: '#333'"), '/test2 election geography styling must mirror main fill/stroke constants');
+assert(electionManagerSource.includes('buildElectionMatchExpression') && electionManagerSource.includes('fillOpacityExpression'), '/test2 election geography styling must distinguish matched and unmatched features with MapLibre expressions');
+assert(electionDomainSource.includes('buildMainLikePartySummaryFromRawResults') && electionManifestBuilderSource.includes('mainLikePartySummary'), '/test2 election bundles must carry main-controller-compatible party summaries, not only independent test2 summaries');
+assert(mainElectionPaneContractSource.includes('this.host.activeBundle.mainLikePartySummary') && electionManagerSource.includes('this.previousBundle?.mainLikePartySummary'), '/test2 election pane must consume main-compatible current and previous party summaries');
+assert(
+  mainElectionPaneContractSource.includes("['results', 'Results']")
+    && mainElectionPaneContractSource.includes('isSingleSeatFptpResult')
+    && mainElectionPaneContractSource.includes('renderSingleSeatFptpResultsTable')
+    && electionManagerSource.includes('isSingleSeatFptpResult(result = {}')
+    // Plurality, not only 'fptp': block-vote two-member seats count too (4ecf840c5b, 2026-09-25).
+    && (electionManagerSource.includes('if (!plurality.includes(votingSystem)) return false;') || electionManagerSource.includes('if (!PLURALITY_SYSTEMS.includes(votingSystem)) return false;'))
+    && electionManagerSource.includes("return value === 'trends' ? 'trends' : 'results'")
+    && electionManagerSource.includes('election-results-table--single-seat-fptp')
+    && electionManagerSource.includes('renderSingleSeatFptpVoteGraphic')
+    && electionManagerSource.includes('valueWithPartyAndCandidateChange(formatNumber(votes), partyVoteDelta, candidateVoteDelta')
+    && electionManagerSource.includes('valueWithPartyAndCandidateChange(formatFixedPercent(votePct), partyPctDelta, candidatePctDelta')
+    && electionManagerSource.includes("${line('Party', partyChange)}${line('Cand.', candidateChange)}")
+    && electionManagerSource.includes('test2-fptp-vote-graphic')
+    && test2Css.includes('.test2-fptp-results-layout')
+    && test2Css.includes('.test2-fptp-vote-graphic__bar')
+    && !electionManagerSource.includes('test2-fptp-vote-graphic__post')
+    && !electionManagerSource.includes('test2-fptp-vote-graphic__line')
+    && !electionManagerSource.includes('Static FPTP result'),
+  '/test2 single-seat FPTP selected results must collapse By Party/By Count into a combined Results table with an adjacent static vote graphic and no quota/post caption chrome'
+);
+assert(
+  mainElectionPaneContractSource.includes("['trends', 'Trends']")
+    && electionManagerSource.includes('renderTrendsPanel')
+    && electionManagerSource.includes('hydrateTrendsPanel')
+    && electionManagerSource.includes('test2ElectionTrendsScope')
+    && electionManagerSource.includes('electionTrendFamily')
+    && test2Css.includes('.test2-election-trends')
+    && test2Css.includes('.trend-marker'),
+  '/test2 election panes must expose a lazy Trends tab with chart styling and same-family/all-family controls'
+);
+assert(
+  electionManagerSource.includes('Stage ${formatNumber(count)}')
+    && electionManagerSource.includes("'Stage'")
+    && electionManagerSource.includes('Elected<br>Stage')
+    && !electionManagerSource.includes('Elected<br>Count')
+    && !electionManagerSource.includes('Excluded<br>Count')
+    && !electionManagerSource.includes('Not Elected<br>Count'),
+  '/test2 STV count panes must display Stage labels instead of Count labels in visible table headers/status cells'
+);
+assert(
+  mainElectionPaneContractSource.includes("['party', 'Full Results']")
+    && mainElectionPaneContractSource.includes("['constituency', 'By Constituency']")
+    && mainElectionPaneContractSource.includes('renderReferendumConstituencySummaryTable')
+    && electionManagerSource.includes('renderReferendumFullResultsTable')
+    && electionManagerSource.includes('renderReferendumResultTable')
+    && electionManagerSource.includes('renderReferendumConstituencySummaryTable')
+    && electionManagerSource.includes('Proposal passed')
+    && electionManagerSource.includes('Proposal did not pass')
+    && electionDomainSource.includes('Math.round(electorate * turnoutPct / 100)')
+    && electionDomainSource.includes('const constituencySpoiled = explicitSpoiled ??'),
+  '/test2 ROI referendum panes must use Full Results/By Constituency tabs, referendum-specific proposal labels, and derived turnout/spoiled metadata'
+);
+assert(
+  electionDomainSource.includes('const currentFirstPrefPct')
+    && electionDomainSource.includes('firstPrefPct: currentFirstPrefPct')
+    && electionDomainSource.includes('return normalizeName(candidate.name || candidate.candidateName')
+    && electionManagerSource.includes('candidateDeltaForResultCandidate(candidate = {}, result = {})')
+    && electionManagerSource.includes('const previousResult = this.findPreviousSelectedResult(result)')
+    && electionManagerSource.includes('this.candidateDeltaLookupKey(candidate.previous, previousResult) === key')
+    && electionManagerSource.includes('previousRows.find((row) => this.candidateDeltaLookupKey(row, previousResult) === key)')
+    && electionManagerSource.includes('candidateDeltasEligible(result = {})')
+    && electionManagerSource.includes("valueWithChange(formatNumber(firstPrefs), candidateDelta.deltas?.firstPrefs ?? null)")
+    && electionManagerSource.includes('no previous result'),
+  '/test2 candidate first-preference deltas must compare same-name candidates in the previous comparable contest and show "no previous result" (an en dash) when absent'
+);
+assert(electionManagerSource.includes('getSeatCircleOverlayState') && electionManagerSource.includes('seatCircleOverlayState') && electionManagerSource.includes('visibleGroups'), '/test2 seat-circle drawing order/counts must be deterministic and inspectable like the main overlay DOM order');
+assert(electionManagerSource.includes('dataset.lng') && electionManagerSource.includes('dataset.lat') && electionManagerSource.includes('marker.setLngLat'), '/test2 DOM seat circles must retain geographic anchors and be pinned by MapLibre during pan/zoom');
+assert(electionManagerSource.includes('removeSeatCircleMarkers') && electionManagerSource.includes('marker.remove()'), '/test2 DOM seat-circle markers must be cleaned up when overlays switch or unload');
+assert(uiControllerSource.includes('ensureMobileThumbnailDismissal') && uiControllerSource.includes('catalogue-flat__toc-thumbzoom--visible'), '/test2/main catalogue thumbnails must dismiss stuck mobile hover previews on outside touch/click');
+assert(electionManagerSource.includes('renderCouncilResults') && electionManagerSource.includes('buildCouncilSummary'), '/test2 grouped local elections must expose a council-level results view');
+assert(electionManagerSource.includes('buildLocalAggregateSeatCircleGroups') && electionManagerSource.includes('aggregateType'), '/test2 local-government district/council mode must aggregate seat-circle overlays instead of always drawing DEA-level groups');
+assert(electionManagerSource.includes('activeEntityKind') && appSource.includes('electionEntityKind') && electionManagerSource.includes('electionEntityReturnView'), '/test2 election entity pages must round-trip through URL state');
+assert(appSource.includes('loadAreaBrowseDetail') && appSource.includes('buildPartyCandidateSummaries') && appSource.includes('mapPersonAppearanceRow') && appSource.includes('onOpenElectionConstituencyFeature'), '/test2 election entity links must open full party/candidate/area Browse detail pages in the left catalogue pane');
+assert(appSource.includes('uiController.hideAutocomplete?.()') && appSource.includes('this.workerSearchResultIds = ids') && !appSource.includes('uiController.renderCombinedAutocomplete(results, [], addressResults, query);'), '/test2 search must render search results in the catalogue pane body instead of the autocomplete dropdown');
+assert(
+  mainCss.includes('[data-theme="dark"] .catalogue-flat__toc-toplink')
+    && mainCss.includes(':root:not([data-theme="light"]) .catalogue-flat__toc-toplink')
+    && mainCss.includes('[data-theme="dark"] .election-entity-page')
+    && mainCss.includes(':root:not([data-theme="light"]) .election-entity-page')
+    && mainCss.includes('[data-theme="dark"] .catalogue-flat__toc-thumb')
+    && mainCss.includes(':root:not([data-theme="light"]) .catalogue-flat__toc-thumb'),
+  '/test2 promoted shell must keep catalogue top labels, info pages, and thumbnails readable/consistent in explicit and system dark modes'
+);
+assert(electionManagerSource.includes('data-election-selected-area') && electionManagerSource.includes('selectedResultEntityKind') && test2Css.includes('.election-pane__title-link'), '/test2 selected constituency/DEA result titles must be clickable links to full left-pane area pages');
+assert(uiControllerSource.includes("entry.kind === 'constituency'") && uiControllerSource.includes("entry.level || 'dea'"), '/test2 shared catalogue entity renderer must support constituency detail pages and preserve non-DEA constituency link levels');
+assert(electionManagerSource.includes('withCouncilDeltas') && electionManagerSource.includes('Seat change') && electionManagerSource.includes('Turnout change'), '/test2 grouped local council summaries must expose previous-election deltas where available');
+assert(electionManagerSource.includes('withLocalPartyDeltas') && electionManagerSource.includes('row.deltas?.share') && electionManagerSource.includes('formatMainPercentDelta'), '/test2 local-party summaries must expose previous-election deltas where available');
+assert(test2Css.includes('body.app-shell.test2-election-open'), '/test2 must resize the production shell when the election pane opens below the map');
+assert(uiControllerSource.includes('flat-election-entry--loading') && uiControllerSource.includes("aria-busy', 'true'"), '/test2 election catalogue entries must show a busy state and block duplicate mobile taps while loading');
+assert(featureRepairsSource.includes('ARMAGH AREA D') && featureRepairsSource.includes('DUNGANNON AREA C') && featureRepairsSource.includes('LIMAVADY AREA C'), '/test2 must repair known unnamed/misnamed deas-1972 feature labels');
+assert(labelsSource.includes('buildRepairedLabelValueExpression') && labelsSource.includes('repairFeatureProperties'), '/test2 label rendering must use repaired feature properties for known source-data label defects');
+assert(mapControllerSource.includes('repairFeatureProperties(layer, feature.properties || {})'), '/test2 feature selection payloads must include repaired source-data labels');
+assert(adapterSource.includes('repairFeatureProperties(layerConfig'), '/test2 normalized MapLibre features must include repaired source-data labels');
+assert(electionManagerSource.includes('buildRepairedLabelValueExpression') && electionManagerSource.includes('repairFeatureProperties'), '/test2 election matching/styling must use repaired source-data labels');
+assert(electionManifestBuilderSource.includes('isSyntheticNonGeographicResult') && electionManifestBuilderSource.includes('syntheticNonGeographicMatch') && electionManifestBuilderSource.includes('synthetic-northeast-non-geographic'), '/test2 election manifest builder must synthesize safe northeast anchors for non-geographical election rows');
+assert(electionManagerSource.includes('test2-election-synthetic-label') && electionManagerSource.includes('result.syntheticNonGeographic') && test2Css.includes('.test2-election-synthetic-label'), '/test2 election overlays must render clickable labels for synthetic non-geographical constituency entries');
+assert(electionManagerSource.includes('syntheticDelta') && electionManagerSource.includes('syntheticNonGeographic'), '/test2 election overlay collision must prioritize synthetic non-geographical markers so they do not disappear behind real constituencies');
+assert(electionManagerSource.includes('/app/js/jquery-shim.js') && electionManagerSource.includes('/app/election-viewer-package/js/stages2.js'), 'Election animation runtime must lazy-load production-scoped shared animation scripts from /app');
+assert(!test2ServiceWorkerSource.includes("addEventListener('fetch'"), '/test2 service worker must not handle fetches: it only retires itself');
+
+for (const path of [
+  'app/build/app.bundle.js',
+  'app/build/app.bundle.css',
+  'app/js/jquery-shim.js',
+  'app/election-viewer-package/js/stages2.js',
+  'app/election-viewer-package/js/animation_preview.js',
+  'app/election-viewer-package/js/animation_preview_manager.js',
+  'app/election-viewer-package/js/election_viewer.js',
+  'app/election-viewer-package/css/stages.css',
+  'app/election-viewer-package/css/election-viewer.css',
+  ...mapAppSourceFiles(),
+  'app/src/maplibre-main-adapter.js',
+  'app/src/election-manager.js',
+  'app/src/election-pane-main-contract.js',
+  'src/election-main-pane-contract.mjs',
+  'src/election-domain.mjs',
+  'src/election-view-model.mjs',
+  'src/election-renderer.mjs',
+  'src/map/renderer/feature-property-repairs.js',
+  ELECTION_MANIFEST,
+  ELECTION_REPORT,
+  'render/metadata/election-anchors-test2'
+]) {
+  assert(existsSync(path), `${path} is missing`);
+}
+
+if (existsSync(ELECTION_MANIFEST)) {
+  const electionManifest = JSON.parse(readFileSync(ELECTION_MANIFEST, 'utf8'));
+  assert((electionManifest.elections || []).length > 100, '/test2 election manifest is unexpectedly small');
+  assert((electionManifest.totals?.loadable || 0) > 100, '/test2 election manifest has too few loadable entries');
+  assert((electionManifest.elections || []).some((entry) => entry.resultUrl && entry.stylingModes?.includes('winner')), '/test2 election manifest must include lazy result URLs and winner styling');
+  assert((electionManifest.elections || []).some((entry) => entry.anchorUrl && entry.previousKey), '/test2 election manifest must include anchor sidecars and previous-election links where available');
+  const dail2024Bundle = JSON.parse(readFileSync(path.join(ELECTION_BUNDLE_DIR, 'dail-eireann__2024-11-29.json'), 'utf8'));
+  const dail2024Rows = dail2024Bundle.mainLikePartySummary || [];
+  const dail2024ByParty = new Map(dail2024Rows.map((row) => [row.party, row]));
+  const assertDail2024Party = (party, expected) => {
+    const row = dail2024ByParty.get(party);
+    assert(row?.stood === expected.stood && row?.seats === expected.seats && row?.votes === expected.votes, `/test2 Dail 2024 ${party} summary must use ElectionsIreland first preferences and explicit elected statuses`);
+  };
+  assertDail2024Party('Fianna F\u00e1il', { stood: 82, seats: 48, votes: 481414 });
+  assertDail2024Party('Sinn F\u00e9in', { stood: 71, seats: 39, votes: 418627 });
+  assertDail2024Party('Fine Gael', { stood: 80, seats: 38, votes: 458134 });
+  assertDail2024Party('Independent', { stood: 171, seats: 16, votes: 290748 });
+  assert(!dail2024ByParty.has('Ceann Comhairle (Speaker)'), '/test2 Dail 2024 bundle must count the automatically returned Ceann Comhairle under party affiliation, not as a standalone contested party row');
+  assert(dail2024Bundle.mainLikeTotals?.validPoll === 2202453, '/test2 Dail 2024 bundle must exclude the Ceann Comhairle placeholder from the first-preference valid-poll denominator');
+  assert(dail2024Bundle.mainLikeTotals?.totalSeats === 174, '/test2 Dail 2024 bundle must include the automatically returned Ceann Comhairle seat');
+  const family2024ReferendumEntry = (electionManifest.elections || []).find((entry) => entry.key === 'ireland-referendum__2024-03-08-the-family');
+  const care2024ReferendumEntry = (electionManifest.elections || []).find((entry) => entry.key === 'ireland-referendum__2024-03-08-care');
+  assert(family2024ReferendumEntry?.sourceMapId === 'dail-2017' && family2024ReferendumEntry?.matchedCount === 39 && family2024ReferendumEntry?.unmatchedCount === 0, '/test2 2024 family referendum must use the pre-2024 Dail geography, not the post-election Wicklow-Wexford geometry');
+  assert(care2024ReferendumEntry?.sourceMapId === 'dail-2017' && care2024ReferendumEntry?.matchedCount === 39 && care2024ReferendumEntry?.unmatchedCount === 0, '/test2 2024 care referendum must use the pre-2024 Dail geography, not the post-election Wicklow-Wexford geometry');
+  for (const referendumKey of ['ireland-referendum__2024-03-08-the-family', 'ireland-referendum__2024-03-08-care']) {
+    const referendumBundle = JSON.parse(readFileSync(path.join(ELECTION_BUNDLE_DIR, `${referendumKey}.json`), 'utf8'));
+    assert(Number(referendumBundle.mainLikeTotals?.totalPoll || 0) > 0, `/test2 ${referendumKey} must derive overall referendum total poll from electorate and turnout where the source lacks total poll`);
+    assert(Number(referendumBundle.mainLikeTotals?.totalElectorate || 0) > 0, `/test2 ${referendumKey} must carry overall referendum electorate totals`);
+    assert(Number(referendumBundle.mainLikeTotals?.totalSpoiled || 0) > 0, `/test2 ${referendumKey} must derive overall referendum spoiled votes from total poll and valid votes`);
+    const wexfordResult = (referendumBundle.results || []).find((result) => result.constituency === 'Wexford');
+    const wicklowResult = (referendumBundle.results || []).find((result) => result.constituency === 'Wicklow');
+    assert(wexfordResult?.featureName === 'Wexford (5)' && wicklowResult?.featureName === 'Wicklow (5)', `/test2 ${referendumKey} must match Wexford/Wicklow referendum rows to the correct pre-2024 Dail features`);
+    assert(!(referendumBundle.results || []).some((result) => /Wicklow-Wexford/i.test(`${result.featureName || ''} ${result.matchName || ''}`)), `/test2 ${referendumKey} must not expose the post-2024 Wicklow-Wexford feature for March 2024 referendum results`);
+    const donegalResult = (referendumBundle.results || []).find((result) => result.constituency === 'Donegal');
+    assert(Number(donegalResult?.countInfo?.Total_Electorate || 0) > 0, `/test2 ${referendumKey} Donegal must carry constituency electorate`);
+    assert(Number(donegalResult?.countInfo?.Total_Poll || 0) > 0, `/test2 ${referendumKey} Donegal must derive constituency total poll`);
+    assert(Number(donegalResult?.countInfo?.Spoiled || 0) > 0, `/test2 ${referendumKey} Donegal must derive constituency spoiled votes`);
+    assert(Number(donegalResult?.turnoutPct || 0) > 0, `/test2 ${referendumKey} Donegal must carry constituency turnout`);
+  }
+  const european2024Bundle = JSON.parse(readFileSync(path.join(ELECTION_BUNDLE_DIR, 'ireland-european__2024-06-07.json'), 'utf8'));
+  const midlandsNorthWest = (european2024Bundle.results || []).find((result) => result.constituency === 'Midlands North West');
+  const electedMidlands = (midlandsNorthWest?.candidates || []).filter((candidate) => candidate.elected);
+  const electedMidlandsNames = new Set(electedMidlands.map((candidate) => candidate.name));
+  for (const name of ['Luke Flanagan', 'Nina Carberry', 'Maria Walsh', 'Barry Cowen', 'Ciar\u00e1n Mullooly']) {
+    assert(electedMidlandsNames.has(name), `/test2 2024 European Midlands North West must mark ${name} elected`);
+  }
+  const electedMidlandsByParty = new Map();
+  for (const candidate of electedMidlands) {
+    electedMidlandsByParty.set(candidate.party, (electedMidlandsByParty.get(candidate.party) || 0) + 1);
+  }
+  assert(Number(midlandsNorthWest?.seatsTotal || midlandsNorthWest?.countInfo?.Number_Of_Seats || 0) === 5, '/test2 2024 European Midlands North West must expose five seats');
+  assert(electedMidlandsByParty.get('Fine Gael') === 2 && electedMidlandsByParty.get('Fianna F\u00e1il') === 1 && electedMidlandsByParty.get('Independent') === 1 && electedMidlandsByParty.get('Independent Ireland') === 1, '/test2 2024 European Midlands North West elected-party counts must be Fine Gael 2, Fianna Fail 1, Independent 1, Independent Ireland 1');
+  for (const filename of readdirSync(ELECTION_BUNDLE_DIR).filter((name) => /^ireland-referendum__.*\.json$/.test(name))) {
+    const referendumBundle = JSON.parse(readFileSync(path.join(ELECTION_BUNDLE_DIR, `${filename}`), 'utf8'));
+    for (const result of referendumBundle.results || []) {
+      const constituency = String(result.constituency || '').toLowerCase();
+      const matchedName = String(result.matchName || result.featureName || '').toLowerCase();
+      assert(!(['wexford', 'wicklow', 'county wexford', 'county wicklow'].includes(constituency) && matchedName.includes('waterford')), `/test2 ${filename} must not match ${result.constituency} referendum results to ${result.matchName || result.featureName}`);
+    }
+  }
+  const dail2024IndependentRows = new Map((dail2024Bundle.partySummary || []).map((row) => [row.party, row]));
+  for (const [party, row] of dail2024ByParty) {
+    const independent = dail2024IndependentRows.get(party);
+    assert(!independent || (row.stood === independent.stood && row.seats === independent.seats && row.votes === independent.votes), `/test2 Dail 2024 ${party} main-like summary must match the independent source-shaped summary`);
+  }
+  for (const filename of readdirSync(ELECTION_BUNDLE_DIR).filter((name) => /^dail-eireann__20\d\d-\d\d-\d\d\.json$/.test(name))) {
+    const bundle = JSON.parse(readFileSync(path.join(ELECTION_BUNDLE_DIR, `${filename}`), 'utf8'));
+    const partyRows = new Map((bundle.partySummary || []).map((row) => [row.party, row]));
+    for (const row of bundle.mainLikePartySummary || []) {
+      const sourceRow = partyRows.get(row.party);
+      assert(sourceRow && row.stood === sourceRow.stood && row.seats === sourceRow.seats && row.votes === sourceRow.votes, `/test2 ${filename} ${row.party} main-like summary must not drift from source-shaped partySummary`);
+    }
+  }
+  const dail2024Mayo = (dail2024Bundle.results || []).find((result) => String(result.constituency || '').toLowerCase() === 'mayo');
+  const dail2024MayoAnimationRows = dail2024Mayo?.animationPayload?.Constituency?.countGroup || [];
+  assert(dail2024MayoAnimationRows.length > 0 && dail2024MayoAnimationRows.some((row) => Number(row.Count_Number) > 1), '/test2 Dail 2024 Mayo Wikipedia count rows must expose count-stage rows');
+  assert(dail2024MayoAnimationRows.some((row) => row.Wikipedia_Count_Row === '1') && dail2024MayoAnimationRows.some((row) => Number(row.Transfers || 0) !== 0), '/test2 Dail 2024 Mayo must use Wikipedia-derived non-zero transfer deltas');
+  assert(dail2024Mayo?.syntheticCountGroup !== true && dail2024Mayo?.hasCountDetail === true, '/test2 Dail 2024 Mayo must prefer verified Wikipedia count detail over synthetic scraper rows');
+  const dail2024RoscommonGalway = (dail2024Bundle.results || []).find((result) => String(result.constituency || '').toLowerCase() === 'roscommon galway');
+  const roscommonGalwayCountRows = dail2024RoscommonGalway?.countGroup || [];
+  const roscommonGalwayMadeQuotaRows = roscommonGalwayCountRows.filter((row) => /quota/i.test(String(row.Status || '')));
+  assert(roscommonGalwayMadeQuotaRows.length >= 2, '/test2 Dail 2024 Roscommon Galway must retain the quota-status rows used by the screenshot parity guard');
+  assert(roscommonGalwayMadeQuotaRows.every((row) => mainSelectedPaneStatusKind(row.Status) === 'elected'), '/test2 selected-pane status guard must treat Dail 2024 Roscommon Galway Made Quota rows as explicit elected statuses');
+  assert(roscommonGalwayCountRows.some((row) => String(row.Party_Name || '') === 'Independent Ireland' && Number(row.Count_Number) === 1 && Number(row.Total_Votes) === 12002), '/test2 Dail 2024 Roscommon Galway must retain main-compatible first-count Independent Ireland row data');
+  assert(roscommonGalwayCountRows.some((row) => String(row.Party_Name || '') === 'Sinn F\u00e9in' && Number(row.Count_Number) === 1 && Number(row.Total_Votes) === 8039), '/test2 Dail 2024 Roscommon Galway must keep synthetic Sinn Fein first-preference row data');
+  assert(roscommonGalwayCountRows.some((row) => String(row.Party_Name || '') === 'Sinn F\u00e9in' && Number(row.Count_Number) > 1 && Number(row.Transfers || 0) > 0), '/test2 Dail 2024 Roscommon Galway must expose Wikipedia-derived later-stage Sinn Fein transfer data');
+  const dail2024CorkNorthCentral = (dail2024Bundle.results || []).find((result) => String(result.constituency || '').toLowerCase() === 'cork north central');
+  const corkNorthCentralRows = dail2024CorkNorthCentral?.countGroup || [];
+  assert(dail2024CorkNorthCentral?.hasCountDetail === true, '/test2 Dail 2024 Cork North-Central result must expose count stages and the Transfers tab scaffold');
+  assert(corkNorthCentralRows.length > 0 && corkNorthCentralRows.some((row) => row.Wikipedia_Count_Row === '1' && Number(row.Count_Number) > 1 && Number(row.Transfers || 0) !== 0), '/test2 Dail 2024 Cork North-Central must use Wikipedia-derived later-stage transfer rows');
+  const assertCorkCandidate = (name, party, votes, status, colour) => {
+    const rows = corkNorthCentralRows.filter((row) => String(row.candidateName || '') === name);
+    const firstCountRow = rows.find((row) => Number(row.Count_Number) === 1);
+    const statusRow = rows.find((row) => mainSelectedPaneStatusKind(row.Status) === status);
+    assert(firstCountRow && statusRow && String(firstCountRow.Party_Name || '') === party && Number(firstCountRow.Candidate_First_Pref_Votes) === votes && String(firstCountRow.Party_Colour || '').toLowerCase() === colour.toLowerCase(), `/test2 Dail 2024 Cork North-Central ${name} must match Wikipedia constituency first preferences/status/colour`);
+  };
+  assertCorkCandidate("P\u00e1draig O'Sullivan", 'Fianna F\u00e1il', 7708, 'elected', '#66bb66');
+  assertCorkCandidate('Thomas Gould', 'Sinn F\u00e9in', 7399, 'elected', '#326760');
+  assertCorkCandidate('Colm Burke', 'Fine Gael', 5736, 'elected', '#6699ff');
+  assertCorkCandidate("Kenneth O'Flynn", 'Independent Ireland', 5733, 'elected', '#3bee56');
+  assertCorkCandidate('Eoghan Kenny', 'Irish Labour', 3329, 'elected', '#cc0000');
+  const dail2024MissingStageResults = [];
+  const dail2024FakeTransferRows = [];
+  const dail2024BlankValidPollResults = [];
+  const dail2024ZeroPercentRows = [];
+  const dail2024MissingWikipediaRows = [];
+  const dail2024ZeroWikipediaTransferResults = [];
+  for (const result of dail2024Bundle.results || []) {
+    const rows = Array.isArray(result.countGroup) ? result.countGroup : [];
+    const wikipediaRows = rows.filter((row) => String(row.Wikipedia_Count_Row || '') === '1');
+    if (!wikipediaRows.length) {
+      dail2024MissingWikipediaRows.push(result.constituency || 'Unknown');
+    } else if (!wikipediaRows.some((row) => Number(row.Transfers || 0) !== 0)) {
+      dail2024ZeroWikipediaTransferResults.push(result.constituency || 'Unknown');
+    }
+    const syntheticRows = rows.filter((row) => String(row.Synthetic_Scraper_Row || '') === '1');
+    const validPoll = Number(result.countInfo?.Valid_Poll || result.validPoll || 0);
+    if (!validPoll) {
+      dail2024BlankValidPollResults.push(result.constituency || 'Unknown');
+    }
+    for (const row of syntheticRows) {
+      if (Number(row.Transfers || 0) !== 0) {
+        dail2024FakeTransferRows.push(`${result.constituency || 'Unknown'}:${row.candidateName || row.Candidate || 'Unknown'}`);
+      }
+    }
+    for (const row of rows) {
+      const firstPrefs = Number(row.Candidate_First_Pref_Votes || row.Total_Votes || 0);
+      const firstPrefPct = validPoll > 0 ? firstPrefs / validPoll * 100 : 0;
+      if (firstPrefs > 0 && firstPrefPct <= 0) {
+        dail2024ZeroPercentRows.push(`${result.constituency || 'Unknown'}:${row.candidateName || row.Candidate || 'Unknown'}`);
+      }
+    }
+    const countNumbers = Array.isArray(result.countNumbers) ? result.countNumbers : [];
+    if (result.hasCountDetail !== true || !countNumbers.some((count) => Number(count) > 1)) {
+      dail2024MissingStageResults.push(result.constituency || 'Unknown');
+    }
+  }
+  assert(dail2024BlankValidPollResults.length === 0, `/test2 Dail 2024 all synthetic scraper constituencies must expose a non-blank Valid_Poll denominator: ${dail2024BlankValidPollResults.slice(0, 5).join(', ')}`);
+  assert(dail2024ZeroPercentRows.length === 0, `/test2 Dail 2024 selected constituency rows with votes must compute non-zero first-preference percentages: ${dail2024ZeroPercentRows.slice(0, 5).join(', ')}`);
+  assert(dail2024MissingWikipediaRows.length === 0, `/test2 Dail 2024 constituencies must use Wikipedia-derived count rows where those transfer tables are available: ${dail2024MissingWikipediaRows.slice(0, 5).join(', ')}`);
+  assert(dail2024ZeroWikipediaTransferResults.length === 0, `/test2 Dail 2024 Wikipedia-derived count rows must expose non-zero transfer deltas: ${dail2024ZeroWikipediaTransferResults.slice(0, 5).join(', ')}`);
+  assert(dail2024FakeTransferRows.length === 0, `/test2 Dail 2024 synthetic scraper rows must not fabricate non-zero transfer amounts: ${dail2024FakeTransferRows.slice(0, 5).join(', ')}`);
+  assert(dail2024MissingStageResults.length === 0, `/test2 Dail 2024 synthetic scraper constituencies must expose encoded count-stage detail: ${dail2024MissingStageResults.slice(0, 5).join(', ')}`);
+  if (existsSync('data/elections/dail-wikipedia-counts/_report.json')) {
+    const dailCountReport = JSON.parse(readFileSync('data/elections/dail-wikipedia-counts/_report.json', 'utf8'));
+    const post1921Missing = (dailCountReport.unmatched || []).filter((row) => Number(String(row.date || '').slice(0, 4)) > 1921);
+    assert(post1921Missing.length === 0, `/test2 Dail count sidecar audit must not leave post-1921 rows unresolved: ${post1921Missing.slice(0, 5).map((row) => `${row.date} ${row.constituency}`).join(', ')}`);
+  }
+  const forumEntry = (electionManifest.elections || []).find((entry) => entry.body === 'Northern Ireland Forum for Political Dialogue' && entry.date === '1996-05-30');
+  assert(forumEntry?.matchedCount === forumEntry?.totalConstituencies, '/test2 1996 Forum election must include the NI-wide regional-list result via a synthetic anchor');
+  const forum1996Bundle = JSON.parse(readFileSync(path.join(ELECTION_BUNDLE_DIR, 'northern-ireland-forum-for-political-dialogue__1996-05-30.json'), 'utf8'));
+  const forumRegionalList = (forum1996Bundle.results || []).find((result) => result.syntheticNonGeographic && result.featureName === 'Regional List');
+  assert(forumRegionalList?.matched === true && Array.isArray(forumRegionalList.anchor?.center), '/test2 1996 Forum Regional List must be a clickable synthetic non-geographical result with a map anchor');
+  assert(forumRegionalList?.anchor?.method === 'synthetic-northeast-non-geographic', '/test2 1996 Forum Regional List synthetic anchor must stay on the northeast side of the election geography');
+  const stormont1921Bundle = JSON.parse(readFileSync(path.join(ELECTION_BUNDLE_DIR, 'parliament-of-northern-ireland__1921-05-24.json'), 'utf8'));
+  const queensUniversity = (stormont1921Bundle.results || []).find((result) => result.syntheticNonGeographic && /Queen's University/.test(result.constituency || ''));
+  assert(queensUniversity?.matched === true && Array.isArray(queensUniversity.anchor?.center), '/test2 Queen\'s University Stormont rows must be clickable synthetic non-geographical results with map anchors');
+  assert(queensUniversity?.anchor?.method === 'synthetic-northeast-non-geographic', '/test2 Queen\'s University synthetic anchor must stay on the northeast side of the election geography');
+  const local1977Bundle = JSON.parse(readFileSync(path.join(ELECTION_BUNDLE_DIR, 'local-government-local-government-districts__1977-05-18.json'), 'utf8'));
+  const strayBelfastAreaA = (local1977Bundle.results || []).find((result) => result.constituency === 'Area-A-corrected');
+  const canonicalBelfastAreaA = (local1977Bundle.results || []).find((result) => result.constituency === 'Belfast Area A');
+  assert(!strayBelfastAreaA, '/test2 1977 local-government bundle must suppress source-less Area-A-corrected duplicate of Belfast Area A');
+  assert(canonicalBelfastAreaA?.sourceFile && canonicalBelfastAreaA?.featureName === 'BELFAST AREA A' && (canonicalBelfastAreaA.candidates || []).length > 0, '/test2 1977 Belfast Area A (from the corrected ARK sheet) must remain source-backed and candidate-populated');
+  assertDailOfficialMetadataCoverage();
+  assertStvTerminalTransferCoverage();
+  assertStvSyntheticTerminalTransferCoverage();
+  assertNiElectionSeatCoverage();
+  assertWestminsterGeneralElectionBaselines();
+  assertComparableElectionBaselines(electionManifest);
+  const localEntries = (electionManifest.elections || []).filter((entry) => entry.bodyGroup === 'local-government');
+  // By-elections held in two councils on one day (29 May 1975: Belfast Area B and North Down Area B)
+  // share a date entry too; they are by-elections, not a general round, and keep their own title.
+  const generalLocalEntries = localEntries.filter((entry) => (entry.localBodies || []).length > 1 && !entry.isByElection);
+  const generalLocalDates = new Map();
+  for (const entry of generalLocalEntries) {
+    const key = `${entry.displayProvider || ''}|${entry.date}`;
+    generalLocalDates.set(key, (generalLocalDates.get(key) || 0) + 1);
+    assert(entry.body === 'Local Government Districts', `/test2 grouped local election ${entry.date} must use the synthetic all-district body`);
+    assert(/Northern Ireland local election/.test(entry.displayTitle || ''), `/test2 grouped local election ${entry.date} must carry an all-NI title`);
+  }
+  assert(generalLocalEntries.length >= 10, '/test2 should expose historical NI general local elections as grouped date entries');
+  assert([...generalLocalDates.values()].every((count) => count === 1), '/test2 must not expose multiple council rows for the same grouped local-election date');
+  assert(localEntries.some((entry) => (entry.localBodies || []).length === 1 && entry.body !== 'Local Government Districts'), '/test2 must preserve single-council local by-elections as their own entries');
+}
+
+if (existsSync(ELECTION_REPORT)) {
+  const electionReport = JSON.parse(readFileSync(ELECTION_REPORT, 'utf8'));
+  assert(!electionReport.residualSummary?.['historic-dea-not-in-source'], '/test2 deas-1972 election residuals should be resolved by source-data label repairs');
+  assert(!electionReport.residualSummary?.['university-seat-no-polygon'], '/test2 university-seat rows should be represented by synthetic non-geographical anchors, not left as unmatched polygon gaps');
+  assert(!electionReport.closureSummary?.byStatus?.['blocked-on-implementation'], '/test2 must not leave feasible implementation-blocked election geography gaps in the generated report');
+  assert(!electionReport.closureSummary?.byStatus?.['blocked-on-data-cleanup'], '/test2 must not leave deterministic source-name typo fixes in the generated election gap report');
+  assert(electionReport.closureSummary?.feasibleUnmatchedRemaining === 0, '/test2 election unmatched report must classify all remaining gaps as blocked, not silently feasible');
+}
+
+if (existsSync('render/metadata/feature-indexes')) {
+  for (const filename of readdirSync('render/metadata/feature-indexes').filter((name) => name.endsWith('.json'))) {
+    const featureIndex = JSON.parse(readFileSync(`render/metadata/feature-indexes/${filename}`, 'utf8'));
+    const items = featureIndex.items || featureIndex.features || (Array.isArray(featureIndex) ? featureIndex : []);
+    const badItem = items.find((item) => !String(item.name || item.label || item.title || '').trim()
+      || /unnamed feature/i.test(String(item.name || item.label || item.title || '')));
+    assert(!badItem, `/test2 feature index ${filename} contains a blank or unnamed feature label`);
+  }
+}
+
+const bundleBytes = existsSync('app/build/app.bundle.js') ? statSync('app/build/app.bundle.js').size : 0;
+const lazyChunkBytes = sumFiles('app/build/chunks', (name) => name.endsWith('.js'));
+const lazyChunkCount = countFiles('app/build/chunks', (name) => name.endsWith('.js'));
+assert(bundleBytes > 500, '/test2 bootstrap bundle is unexpectedly empty');
+assert(bundleBytes < 90_000, `/test2 bootstrap bundle is too large for first-load budget: ${bundleBytes} bytes`);
+assert(lazyChunkCount >= 1 && lazyChunkBytes > 100_000, '/test2 lazy runtime chunks are missing after bootstrap split');
+
+if (failures.length) {
+  console.error('Test2 Route Validation');
+  failures.forEach((failure) => console.error(`- FAIL: ${failure}`));
+  process.exit(1);
+}
+
+console.log('PASS: /test2 route shell and engine isolation checks passed.');
+
+function buildPlanSourceIncludesCompositeCoverage() {
+  const source = readFileSync('scripts/build/tiles/layer-plan.mjs', 'utf8');
+  return source.includes('MANUAL_ALIAS_TARGETS')
+    && source.includes('convertedCompositeChildIds')
+    && source.includes('convertedSourceIds');
+}
+
+function assertPoint2Coverage() {
+  const actionableStatuses = new Set(['needsVectorTileConversion', 'needsRasterStrategy', 'needsMapLibreSourceMapping']);
+  const actionableRows = (portPlan.rows || []).filter((row) => actionableStatuses.has(row.conversionStatus));
+  assert(actionableRows.length === 0, `/test2 point-2 data coverage has ${actionableRows.length} actionable unconverted row(s): ${actionableRows.slice(0, 5).map((row) => row.sourceMapId).join(', ')}`);
+
+  const townlands = (portPlan.rows || []).find((row) => row.sourceMapId === 'all-ireland-townlands');
+  assert(townlands?.conversionStatus === 'convertedComposite' && /ni-townlands/.test(townlands.testLayerId || '') && /roi-townlands/.test(townlands.testLayerId || ''), '/test2 all-Ireland Townlands must resolve through converted NI and ROI Townlands child layers');
+
+  const civilPlan = (portPlan.rows || []).find((row) => row.sourceMapId === 'civil-parishes');
+  const civilAlias = (testMetadata.layers || []).find((layer) => layer.sourceMapId === 'civil-parishes' && layer.aliasTargetLayerId === 'civil-parishes-vector');
+  assert(civilPlan?.conversionStatus === 'convertedAlias', '/test2 Civil Parishes legacy catalogue row must be recorded as a converted alias');
+  assert(Boolean(civilAlias), '/test2 maps-test metadata must include a loadable Civil Parishes alias to the unified converted layer');
+}
+
+function assertDailOfficialMetadataCoverage() {
+  if (!existsSync(path.join(ELECTION_BUNDLE_DIR, 'dail-eireann__2024-11-29.json'))) return;
+  const dail2024Bundle = JSON.parse(readFileSync(path.join(ELECTION_BUNDLE_DIR, 'dail-eireann__2024-11-29.json'), 'utf8'));
+  const carlowKilkenny = (dail2024Bundle.results || []).find((result) => /carlow/i.test(result.constituency || '') && /kilkenny/i.test(result.constituency || ''));
+  assert(carlowKilkenny?.officialDail?.constituencyId, '/test2 Dail 2024 Carlow-Kilkenny must carry the official constituency ID sidecar field');
+  assert(Number(carlowKilkenny?.spoiled) === 563, '/test2 Dail 2024 Carlow-Kilkenny must use official spoiled-ballot metadata from the Dail ZIP');
+  assert(Math.abs(Number(carlowKilkenny?.turnoutPct) - 58.21) < 0.02, '/test2 Dail 2024 Carlow-Kilkenny must use official turnout metadata from the Dail ZIP');
+  const officialCandidate = (carlowKilkenny?.candidates || []).find((candidate) => candidate.gender && candidate.dailAbbreviation);
+  assert(Boolean(officialCandidate), '/test2 Dail 2024 candidate summaries must carry official candidate gender and Dail party abbreviation fields');
+  if (existsSync(path.join(ELECTION_BUNDLE_DIR, 'dail-eireann__2021-07-08.json'))) {
+    const byElection = JSON.parse(readFileSync(path.join(ELECTION_BUNDLE_DIR, 'dail-eireann__2021-07-08.json'), 'utf8'));
+    assert((byElection.results || []).some((result) => /dublin bay south/i.test(result.constituency || '') && Number(result.spoiled) === 162), '/test2 must include official Dublin Bay South 2021 by-election spoiled/turnout metadata from the Dail ZIP');
+  }
+}
+
+function sumFiles(relativeDir, predicate) {
+  if (!existsSync(relativeDir)) return 0;
+  let total = 0;
+  for (const entry of readdirSync(relativeDir, { withFileTypes: true })) {
+    if (entry.isDirectory()) total += sumFiles(`${relativeDir}/${entry.name}`, predicate);
+    else if (predicate(entry.name)) total += statSync(`${relativeDir}/${entry.name}`).size;
+  }
+  return total;
+}
+
+function countFiles(relativeDir, predicate) {
+  if (!existsSync(relativeDir)) return 0;
+  let total = 0;
+  for (const entry of readdirSync(relativeDir, { withFileTypes: true })) {
+    if (entry.isDirectory()) total += countFiles(`${relativeDir}/${entry.name}`, predicate);
+    else if (predicate(entry.name)) total += 1;
+  }
+  return total;
+}
+
+function assertNiElectionSeatCoverage() {
+  const filenames = readdirSync(ELECTION_BUNDLE_DIR)
+    .filter((name) => /^(northern-ireland-assembly|northern-ireland-constitutional-convention|local-government-)/.test(name) && name.endsWith('.json'));
+  const mismatches = [];
+  for (const filename of filenames) {
+    const bundle = JSON.parse(readFileSync(path.join(ELECTION_BUNDLE_DIR, `${filename}`), 'utf8'));
+    for (const result of bundle.results || []) {
+      const year = Number(bundle.year || String(bundle.date || '').slice(0, 4));
+      const seatTotal = Number(result.seatsTotal || result.countInfo?.Number_Of_Seats || 0);
+      let expected = seatTotal;
+      if (bundle.body === 'Northern Ireland Assembly' && year >= 2017 && !bundle.isByElection) expected = 5;
+      if (bundle.body === 'Northern Ireland Assembly' && year >= 1998 && year <= 2016 && !bundle.isByElection) expected = 6;
+      // A party-list election (the 1996 Forum) elects list rows that can each win several
+      // seats, so its coverage is the seats won, not the number of rows marked elected.
+      const elected = String(bundle.votingSystem || '').startsWith('party-list')
+        ? Number(result.seatsWon || 0)
+        : (result.candidates || []).filter((candidate) => candidate.elected).length;
+      if (expected > 0 && elected !== expected) {
+        mismatches.push(`${filename}: ${result.constituency} elected ${elected}/${expected}`);
+      }
+    }
+  }
+  assert(mismatches.length === 0, `/test2 NI election seat coverage must match constituency/DEA seat totals: ${mismatches.slice(0, 8).join('; ')}`);
+}
+
+function assertWestminsterGeneralElectionBaselines() {
+  if (!existsSync(ELECTION_BUNDLE_DIR)) return;
+  const bundles = readdirSync(ELECTION_BUNDLE_DIR)
+    .filter((name) => /^house-of-commons-of-the-united-kingdom__\d{4}-\d{2}-\d{2}\.json$/.test(name))
+    .map((filename) => JSON.parse(readFileSync(path.join(ELECTION_BUNDLE_DIR, `${filename}`), 'utf8')))
+    .filter((bundle) => bundle.body === 'House of Commons of the United Kingdom'
+      && bundle.contestType === 'election'
+      && bundle.kind === 'general')
+    .sort((a, b) => String(a.date).localeCompare(String(b.date)));
+  assert(bundles.length >= 25, '/test2 Westminster general-election validation found too few generated bundles');
+  for (let index = 1; index < bundles.length; index += 1) {
+    const bundle = bundles[index];
+    const previous = bundles[index - 1];
+    assert(bundle.previousDate === previous.date, `/test2 Westminster ${bundle.date} must compare against previous general election ${previous.date}, not ${bundle.previousDate || 'none'}`);
+    assert(bundle.previousKey === previous.key, `/test2 Westminster ${bundle.date} previousKey must point to ${previous.key}, not ${bundle.previousKey || 'none'}`);
+  }
+  const westminster2019 = bundles.find((bundle) => bundle.date === '2019-12-12');
+  assert(westminster2019?.previousDate === '2017-06-08', '/test2 Westminster 2019 must compare against the 2017 UK general election, not the 2018 North Antrim recall petition');
+}
+
+function assertComparableElectionBaselines(electionManifest) {
+  const entries = new Map((electionManifest.elections || []).map((entry) => [entry.key, entry]));
+  const expectPrevious = (key, expectedPreviousKey) => {
+    const entry = entries.get(key);
+    assert(Boolean(entry), `/test2 comparable-baseline check could not find ${key}`);
+    assert(entry?.previousKey === expectedPreviousKey, `/test2 ${key} must compare against ${expectedPreviousKey}, not ${entry?.previousKey || 'none'}`);
+  };
+  expectPrevious('dail-eireann__2024-11-29', 'dail-eireann__2020-02-08');
+  expectPrevious('northern-ireland-assembly__2022-05-05', 'northern-ireland-assembly__2017-03-02');
+  expectPrevious('ireland-european__2024-06-07', 'ireland-european__2019-05-24');
+  expectPrevious('european-parliament__2019-05-23', 'european-parliament__2014-05-22');
+  const westTyrone2018 = entries.get('house-of-commons-of-the-united-kingdom__2018-05-03');
+  assert(westTyrone2018?.previousKey === 'house-of-commons-of-the-united-kingdom__2017-06-08', '/test2 Westminster by-elections must compare against the previous comparable election in that constituency');
+  const comparedNonElections = [...entries.values()].filter((entry) => /referendum|recall petition/i.test(`${entry.contestType || ''} ${entry.displayTitle || ''}`) && entry.previousKey);
+  assert(comparedNonElections.length === 0, `/test2 referendums and recall petitions must not carry previousKey comparisons: ${comparedNonElections.slice(0, 5).map((entry) => entry.key).join(', ')}`);
+}
+
+function assertStvTerminalTransferCoverage() {
+  if (!existsSync(ELECTION_BUNDLE_DIR)) return;
+  const filenames = readdirSync(ELECTION_BUNDLE_DIR)
+    .filter((name) => name.endsWith('.json'));
+  const surplusTerminalRows = [];
+  const excludedTerminalRows = [];
+  for (const filename of filenames) {
+    const bundle = JSON.parse(readFileSync(path.join(ELECTION_BUNDLE_DIR, `${filename}`), 'utf8'));
+    for (const result of bundle.results || []) {
+      const votingSystem = String(result.votingSystem || bundle.votingSystem || '').toLowerCase();
+      if (!votingSystem.startsWith('stv-')) continue;
+      const quota = finiteValidationNumber(result.quota ?? result.Quota ?? result.countInfo?.Quota);
+      for (const candidate of result.candidates || []) {
+        const rows = (candidate.counts || [])
+          .map((row) => ({ ...row, count: Number(row.count) }))
+          .filter((row) => Number.isFinite(row.count))
+          .sort((a, b) => a.count - b.count);
+        for (let index = 1; index < rows.length; index += 1) {
+          const row = rows[index];
+          if (row.count <= 1) continue;
+          const previous = rows[index - 1];
+          const total = finiteValidationNumber(row.total ?? row.firstPrefs);
+          const previousTotal = finiteValidationNumber(previous.total ?? previous.firstPrefs);
+          const transfer = finiteValidationNumber(row.transfers);
+          if (total === null || previousTotal === null || transfer === null || transfer >= -0.01) continue;
+          if (previousTotal > 0.01 && total <= 0.01) {
+            excludedTerminalRows.push(`${filename}:${result.constituency}:${candidate.name}:count${row.count}`);
+          }
+          if (quota !== null && quota > 0 && previousTotal > quota + 0.01 && Math.abs(total - quota) <= 0.01) {
+            surplusTerminalRows.push(`${filename}:${result.constituency}:${candidate.name}:count${row.count}`);
+          }
+        }
+      }
+    }
+  }
+  assert(excludedTerminalRows.length > 0, '/test2 STV By Count validation must find real exclusion transfer-out rows in generated bundles');
+  assert(surplusTerminalRows.length > 0, '/test2 STV By Count validation must find real surplus-to-quota transfer-out rows in generated bundles');
+}
+
+function assertStvSyntheticTerminalTransferCoverage() {
+  if (!existsSync(ELECTION_BUNDLE_DIR)) return;
+  const filenames = readdirSync(ELECTION_BUNDLE_DIR)
+    .filter((name) => name.endsWith('.json'));
+  const syntheticExcludedRows = [];
+  const syntheticSurplusRows = [];
+  for (const filename of filenames) {
+    const bundle = JSON.parse(readFileSync(path.join(ELECTION_BUNDLE_DIR, `${filename}`), 'utf8'));
+    for (const result of bundle.results || []) {
+      const votingSystem = String(result.votingSystem || bundle.votingSystem || '').toLowerCase();
+      if (!votingSystem.startsWith('stv-')) continue;
+      const countNumbers = [...new Set((result.countNumbers || []).map(Number).filter(Number.isFinite))].sort((a, b) => a - b);
+      if (countNumbers.length < 2) continue;
+      const quota = finiteValidationNumber(result.quota ?? result.Quota ?? result.countInfo?.Quota);
+      for (const candidate of result.candidates || []) {
+        const counts = new Map((candidate.counts || []).map((row) => [Number(row.count), row]));
+        const excludedAt = Number(candidate.excludedAt || 0);
+        const electedAt = Number(candidate.electedAt || 0);
+        const eventCount = excludedAt || electedAt;
+        if (!eventCount) continue;
+        const nextCount = countNumbers.find((count) => count > eventCount);
+        if (!nextCount) continue;
+        const explicitNextTransfer = finiteValidationNumber(counts.get(nextCount)?.transfers);
+        if (explicitNextTransfer !== null && explicitNextTransfer < -0.01) continue;
+        const eventTotal = finiteValidationNumber(counts.get(eventCount)?.total ?? counts.get(eventCount)?.firstPrefs);
+        if (eventTotal === null || eventTotal <= 0.01) continue;
+        if (excludedAt) {
+          syntheticExcludedRows.push(`${filename}:${result.constituency}:${candidate.name}:count${nextCount}`);
+        } else if (quota !== null && quota > 0 && eventTotal > quota + 0.01) {
+          syntheticSurplusRows.push(`${filename}:${result.constituency}:${candidate.name}:count${nextCount}`);
+        }
+      }
+    }
+  }
+  assert(syntheticExcludedRows.length > 0, '/test2 STV By Count validation must cover excluded candidates that need display-only transfer-out rows in the following real count');
+  assert(syntheticSurplusRows.length > 0, '/test2 STV By Count validation must cover elected candidates that need display-only surplus transfer rows in the following real count');
+}
+
+function finiteValidationNumber(value) {
+  const number = Number(value);
+  return Number.isFinite(number) ? number : null;
+}
+

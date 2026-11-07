@@ -22,7 +22,7 @@ Every fact carries a citation in the repository's shape (`data/elections/web-che
 | `data/elections/persons/honours.json` | peerages, knighthoods, the Privy Council, lieutenancies, public appointments, and seats in appointed or indirectly chosen bodies (the NI Senate, Seanad Éireann, the nominated European Parliament) | `data/schemas/honours.schema.json` |
 | `data/elections-source/data/elections/<party>-leadership/…` | internal contests, as ordinary contest files | the elections format |
 
-Citations share `data/schemas/citation.schema.json`. `npm run check:facts` (`scripts/validate-facts-model.mjs`) runs the schemas and the rules a schema cannot state:
+Citations share `data/schemas/citation.schema.json`. `npm run check:facts` (`scripts/check/rules/facts-model.mjs`) runs the schemas and the rules a schema cannot state:
 
 - every id is unique;
 - every person, party, office and contest reference resolves;

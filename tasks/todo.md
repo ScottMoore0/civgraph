@@ -50,7 +50,7 @@
   - Completed: added filters for elected body, member type, chamber, constituency, category, source kind, and interest status.
 - [x] Update validation guardrails.
   - Task: validate grouped Browse totals, source-reference coverage, per-record grouped interest payloads, and sort/filter metadata.
-  - Completed: extended `scripts/validate-ni-register-interests.mjs` to require grouped tuple records, Assembly and House of Commons coverage, full source-reference coverage, sharded Browse detail payloads, compact-index sort/filter metadata, and default newest-first ordering.
+  - Completed: extended `scripts/check/rules/ni-register-interests.mjs` to require grouped tuple records, Assembly and House of Commons coverage, full source-reference coverage, sharded Browse detail payloads, compact-index sort/filter metadata, and default newest-first ordering.
   - Verification evidence: `npm run build:ni-register-interests`, `npm run build:browse`, `npm run check:ni-register-interests`, `npm run build`, and a sequential `npm run check` passed.
 - [x] Record review findings.
   - Task: summarize counts, verification evidence, and any remaining caveats.
@@ -185,7 +185,7 @@
   - Constraints: metadata-only enrichment; do not download ArcGIS geometry, source exports, attachments, Service Definitions, or create runtime map layers in this pass.
   - Verification plan: rebuild Browse source outputs, validate that peatland enrichment targets carry ArcGIS item/service references and provenance summaries, then stage only scoped files.
   - Completed: extended the shared Browse source enrichment merge so matched existing records now expose ArcGIS item IDs/pages, service URLs, related ArcGIS sibling/context records, access states, modified dates, licence notes, and provenance summaries as first-class references/provenance rather than burying them only inside `sourceItems`.
-  - Verification evidence: `node --check scripts/build/build-browse-indexes.mjs`; `node --check scripts/validate-peatland-geoportal-sources.mjs`; `node scripts/build/build-browse-indexes.mjs`; `node scripts/validate-peatland-geoportal-sources.mjs`; `node scripts/validate-medium-priority-publication-sources.mjs`; `node scripts/validate-already-on-site-enrichments.mjs`; `node scripts/validate-pages-file-budget.mjs`; `npm run check`.
+  - Verification evidence: `node --check scripts/build/build-browse-indexes.mjs`; `node --check scripts/check/rules/peatland-geoportal.mjs`; `node scripts/build/build-browse-indexes.mjs`; `node scripts/check/rules/peatland-geoportal.mjs`; `node scripts/check/rules/medium-priority-sources.mjs`; `node scripts/validate-already-on-site-enrichments.mjs`; `node scripts/validate-pages-file-budget.mjs`; `npm run check`.
 
 - [x] Publish peatland geoportal metadata/provenance and source-page review records.
   - Task: use the metadata-only Peatland Geoportal audit to enrich existing Civgraph records, create source/document/context Browse records, group DAERA/QUB SAC habitat-map conversion candidates under a coherent parent, and document best-source/variant/dedupe recommendations.
@@ -193,8 +193,8 @@
   - Verification plan: generate a public sidecar from the local audit CSV, rebuild Browse source indexes, validate expected counts and no local-path/geometry leakage, then commit only the scoped files.
   - Completed: added a generated peatland Geoportal source sidecar with 330 Browse/source records, 66 direct existing-record enrichment rows, 25 likely-duplicate review rows without concrete targets, 34 Service Definition/package review rows, 128 conversion-candidate review rows, 26 DAERA/QUB SAC habitat-map candidates grouped under a proposed `Peatland SAC Habitat Maps` parent, 14 variant-review rows, and 241 best-source review groups.
   - Result: Browse source pages now preserve ArcGIS item IDs, owners, item URLs, service links, modified dates, tags, licence notes, source hierarchy, context/document links, structured-extraction notes for PDFs/code attachments, conversion cautions, and dedupe/variant recommendations without publishing geometry or creating runtime map layers.
-  - Guardrail: added `scripts/validate-peatland-geoportal-sources.mjs` and wired it into `npm run check` as `check:peatland-geoportal`.
-  - Verification evidence: `node --check scripts/ingest/geoportal/build-peatland-geoportal-sources.mjs`; `node --check scripts/validate-peatland-geoportal-sources.mjs`; `node --check scripts/build/build-browse-indexes.mjs`; `node scripts/ingest/geoportal/build-peatland-geoportal-sources.mjs`; `node scripts/build/build-browse-indexes.mjs`; `node scripts/validate-peatland-geoportal-sources.mjs`; `node scripts/validate-pages-file-budget.mjs`; `node scripts/validate-raw-source-documents.mjs`; `node scripts/validate-already-on-site-enrichments.mjs`; `node scripts/validate-medium-priority-publication-sources.mjs`; `npm run check`.
+  - Guardrail: added `scripts/check/rules/peatland-geoportal.mjs` and wired it into `npm run check` as `check:peatland-geoportal`.
+  - Verification evidence: `node --check scripts/ingest/geoportal/build-peatland-geoportal-sources.mjs`; `node --check scripts/check/rules/peatland-geoportal.mjs`; `node --check scripts/build/build-browse-indexes.mjs`; `node scripts/ingest/geoportal/build-peatland-geoportal-sources.mjs`; `node scripts/build/build-browse-indexes.mjs`; `node scripts/check/rules/peatland-geoportal.mjs`; `node scripts/validate-pages-file-budget.mjs`; `node scripts/check/rules/raw-source-documents.mjs`; `node scripts/validate-already-on-site-enrichments.mjs`; `node scripts/check/rules/medium-priority-sources.mjs`; `npm run check`.
 
 - [x] Review Peatland Geoportal dataset metadata before any downloads.
   - Task: inspect the ArcGIS Hub/REST metadata for the Peatland Geoportal and identify likely duplicates, variants, source-only records, and unique candidates for Civgraph.
@@ -212,7 +212,7 @@
   - Constraints: publish source/provenance/download/reference metadata only; do not fabricate live MapLibre layers, PMTiles, IA mirrors, or R2/CDN assets for rows whose runtime conversion/geography/duplicate review is still pending.
   - Verification plan: generate a public sidecar, rebuild Browse indexes, validate expected counts, ensure no local filesystem paths leak, run the Pages file budget and relevant source validators, then commit and push.
   - Completed: added a generated medium-priority source sidecar with all 2,347 approved/review-approved rows, wired it into Browse source generation, compacted source index records so heavy references/downloads remain in detail shards, and added a focused validator to guard counts, group totals, materialised source detail records, and local-path scrubbing.
-  - Verification evidence: `node --check scripts\build-medium-priority-publication-sources.mjs`; `node --check scripts\validate-medium-priority-publication-sources.mjs`; `node --check scripts\build\build-browse-indexes.mjs`; `node scripts\build-medium-priority-publication-sources.mjs`; `node scripts\build\build-browse-indexes.mjs`; `node scripts\validate-medium-priority-publication-sources.mjs`; `node scripts\validate-raw-source-documents.mjs`; `node scripts\validate-already-on-site-enrichments.mjs`; `node scripts\validate-pages-file-budget.mjs`; `npm run check`.
+  - Verification evidence: `node --check scripts\build-medium-priority-publication-sources.mjs`; `node --check scripts\check\rules\medium-priority-sources.mjs`; `node --check scripts\build\build-browse-indexes.mjs`; `node scripts\build-medium-priority-publication-sources.mjs`; `node scripts\build\build-browse-indexes.mjs`; `node scripts\check\rules\medium-priority-sources.mjs`; `node scripts\check\rules\raw-source-documents.mjs`; `node scripts\validate-already-on-site-enrichments.mjs`; `node scripts\validate-pages-file-budget.mjs`; `npm run check`.
 
 - [x] Prepare medium-priority D-drive content queues for later website publication.
   - Task: clean and stage the five approved D-drive queues: Irish election source/enrichment data, authoritative boundary variants, Open Data NI boundary/statistical geographies, transport/roads/infrastructure/public assets, and local authority planning/property/open-data layers.
@@ -228,8 +228,8 @@
   - Constraints: do not upload anything to IA/R2/CDN in this task; do not create duplicate map/election parent records; do not expose local `D:\` or user filesystem paths in public generated data.
   - Verification: generated sidecar must contain exactly 252 raw-source records; Browse source output must include those records; validators must prove no local filesystem paths leak and Pages file-budget/checks remain safe.
   - Completed: added `data/database/raw-source-documents.json` with 252 IA-ready source-only records, wired those records into Browse source generation and detail shards, preserved source hierarchy/viewport/citation/status metadata, and kept IA mirror URLs as pending metadata rather than fabricating links before upload.
-  - Guardrail: added `scripts/validate-raw-source-documents.mjs` and wired it into `npm run check` as `check:raw-source-documents`.
-  - Verification evidence: `node --check scripts\build-raw-source-document-records.mjs`; `node --check scripts\build\build-browse-indexes.mjs`; `node --check scripts\validate-raw-source-documents.mjs`; `node scripts\build-raw-source-document-records.mjs`; `node scripts\build\build-browse-indexes.mjs`; `npm run check:raw-source-documents`; `npm run check`. The raw-source validator confirmed 252 generated records, 252 Browse details, and no exposed local paths.
+  - Guardrail: added `scripts/check/rules/raw-source-documents.mjs` and wired it into `npm run check` as `check:raw-source-documents`.
+  - Verification evidence: `node --check scripts\build-raw-source-document-records.mjs`; `node --check scripts\build\build-browse-indexes.mjs`; `node --check scripts\check\rules\raw-source-documents.mjs`; `node scripts\build-raw-source-document-records.mjs`; `node scripts\build\build-browse-indexes.mjs`; `npm run check:raw-source-documents`; `npm run check`. The raw-source validator confirmed 252 generated records, 252 Browse details, and no exposed local paths.
 
 - [x] Apply already-on-site duplicate-match enrichment to existing records.
   - Task: use the exact/high-confidence duplicate-match audit to enrich existing Civgraph records with source/provenance/download/format/version metadata while avoiding duplicate parent records.
@@ -322,7 +322,7 @@
   - Completed: added ignore rules for local provider-audit/poster/scratch scripts, excluded provider mirror audits from the Pages cleaner and local file-budget validator, and recorded a cleanup-specific lesson.
 - [x] Verify and report.
   - Task: run focused status/check commands, commit/push safe cleanup changes where appropriate, and list anything still requiring a user decision.
-  - Completed: verified ED child `cloneOf` metadata and DoBIH Browse feature entries, ran `node scripts/validate-pages-file-budget.mjs`, `node scripts/validate-maplibre-root-promotion.mjs`, and full `npm run check`.
+  - Completed: verified ED child `cloneOf` metadata and DoBIH Browse feature entries, ran `node scripts/validate-pages-file-budget.mjs`, `node scripts/check/rules/maplibre-root-promotion.mjs`, and full `npm run check`.
 
 # Hills and Mountains Catalogue Hierarchy
 
@@ -597,7 +597,7 @@
   - Task: after user approval, apply the three remaining Dail probable alias approvals, keep the Glenn Brady false match rejected, publish five user-confirmed distinct source rows, group the CPD January 2026 Access/CSV/TXT rows as one source family, and merge the LFS Claimant Count Oct 2021 ODS row as an alternate-format variant.
   - Constraints: do not publish unapproved probable aliases; do not treat Glenn Brady as John Brady; do not upload anything to R2/CDN; do not expose local filesystem paths; do not stage provider-audit scratch.
 - [x] Extend generator and validation
-  - Completed: updated `scripts/apply-approved-publication-records.mjs` and `scripts/validate-approved-publication-path.mjs` so the approvals are repeatable, Glenn Brady remains rejected, and user-approved distinct source records cannot inherit unrelated fuzzy references/downloads.
+  - Completed: updated `scripts/apply-approved-publication-records.mjs` and `scripts/check/rules/approved-publication.mjs` so the approvals are repeatable, Glenn Brady remains rejected, and user-approved distinct source records cannot inherit unrelated fuzzy references/downloads.
 - [x] Regenerate generated data
   - Completed: rebuilt approved Dail aliases, approved publication sources, Browse source records, and election metadata derived from the alias sidecar.
 - [x] Verify, commit, and push
@@ -615,7 +615,7 @@
   - Task: after user approval, apply the approved remaining Dail candidate aliases and Category 3 source decisions into the repeatable publication generator, while keeping probable/held rows excluded.
   - Constraints: do not publish probable aliases or probable variants; do not upload anything to R2/CDN; do not commit provider-audit scratch; preserve local/private paths out of generated public data.
 - [x] Extend generator and validation
-  - Update `scripts/apply-approved-publication-records.mjs` to consume the remaining-decision pack, and update `scripts/validate-approved-publication-path.mjs` to prove the approved counts and excluded held rows are correct.
+  - Update `scripts/apply-approved-publication-records.mjs` to consume the remaining-decision pack, and update `scripts/check/rules/approved-publication.mjs` to prove the approved counts and excluded held rows are correct.
 - [x] Regenerate generated data
   - Rebuild Dail approved aliases, approved publication sources, Browse source indexes/details, and the election manifest.
 - [x] Verify and push
@@ -638,7 +638,7 @@
 - [x] Materialise approved Dail aliases and Category 3 records
   - Completed: generated `data/elections/dail-approved-candidate-aliases.json` for the safe auto-match and encoding/name-cleanup aliases, and generated `data/database/approved-publication-sources.json` for approved publish and variant records only.
 - [x] Add validation scripts for approved publication path
-  - Completed: added `scripts/validate-approved-publication-path.mjs` and `npm run check:approved-publication` to verify approved counts, quarantined rows, variant parents, generated source details, and absence of local filesystem paths.
+  - Completed: added `scripts/check/rules/approved-publication.mjs` and `npm run check:approved-publication` to verify approved counts, quarantined rows, variant parents, generated source details, and absence of local filesystem paths.
 - [x] Rebuild generated Browse indexes and run focused validation
   - Completed: rebuilt Browse indexes and regenerated the Test2 election manifest so the approved publication records and Dail aliases are reflected in generated site data.
 - [x] Commit implementation branch
@@ -797,7 +797,7 @@
 - [x] Regenerate Browse/person metadata so candidate gender and party abbreviations surface correctly
   - Completed: Browse person history now carries candidate gender and Dail party abbreviations where the official sidecar supplies them.
 - [x] Verify Irish general election coverage, build `/`, and run focused validation
-  - Completed: official Dail coverage guardrails passed through `node scripts\validate-test2-route.mjs` and `npm run check:test2`.
+  - Completed: official Dail coverage guardrails passed through `node scripts\check\rules\election-route.mjs` and `npm run check:test2`.
 - [x] Commit and push the scoped public data/site update if verification passes
   - Completed: verification passed; commit/push is covered by the final combined task commit.
 
@@ -821,7 +821,7 @@
 - [x] Patch layout so the menu control and zoom/compass stack are one non-overlapping vertical control group
   - Completed: created `.test2-main-control-stack`, inserted `#mobileToggle` above zoom/compass after MapLibre boot, and styled the stack as a single mobile-safe control group.
 - [x] Add/adjust responsive regression coverage for mobile control overlap
-  - Completed: updated `scripts/validate-test2-route.mjs` to assert the shared control stack and map-stack toggle contract.
+  - Completed: updated `scripts/check/rules/election-route.mjs` to assert the shared control stack and map-stack toggle contract.
 - [x] Verify on mobile viewport, commit, and push
   - Completed: source syntax checks, route validation, `npm run build:test2`, `npm run check:test2`, and full `npm run check` passed; commit/push is covered by the final combined task commit.
 
@@ -932,7 +932,7 @@
 - [x] Add route/data validation guardrails
   - Completed: route validation now asserts comparable-election baseline generation, full Browse entity history limits, selected constituency/DEA title links, and full left-pane party/candidate/area detail routing.
 - [x] Rebuild `/test2`, verify, commit, and push scoped fix
-  - Completed: regenerated `/test2` election bundles and Browse indexes, rebuilt the `/test2` bundle, and verified with syntax checks, `node scripts/validate-test2-route.mjs`, targeted Westminster sequence probes, and `npm run check:test2`.
+  - Completed: regenerated `/test2` election bundles and Browse indexes, rebuilt the `/test2` bundle, and verified with syntax checks, `node scripts/check/rules/election-route.mjs`, targeted Westminster sequence probes, and `npm run check:test2`.
 
 ## Review: /test2 election entity links and comparable deltas
 - Party/label and candidate links in election tables now route to full catalogue-pane entity pages backed by complete Browse histories instead of one-election summaries.
@@ -970,7 +970,7 @@
 - [x] Add validation coverage for UK general-election figure completeness
   - Completed: route validation now asserts Westminster general-election `previousDate` and `previousKey` form a general-election-only sequence, including the specific 2019 -> 2017 guard.
 - [x] Rebuild `/test2`, verify, commit, and push scoped fix
-  - Completed: rebuilt `/test2`, confirmed 2019 now points to 2017, 2015 to 2010, and 1983 to 1979, and ran `node scripts/validate-test2-route.mjs` plus `npm run check:test2` successfully.
+  - Completed: rebuilt `/test2`, confirmed 2019 now points to 2017, 2015 to 2010, and 1983 to 1979, and ran `node scripts/check/rules/election-route.mjs` plus `npm run check:test2` successfully.
 
 # Add STV By Count donor-event headers
 - [x] Record scope
@@ -981,7 +981,7 @@
 - [x] Add validation guardrail
   - Completed: route validation now asserts the `/test2` STV count header path uses donor-event labels from `inferCountTransferOutEvents`.
 - [x] Rebuild `/test2`, verify, commit, and push scoped fix
-  - Completed: `node --check test2/src/election-manager.js`, `node --check scripts/validate-test2-route.mjs`, route validation, `/test2` build, `npm run check:test2`, and built-bundle string checks passed.
+  - Completed: `node --check test2/src/election-manager.js`, `node --check scripts/check/rules/election-route.mjs`, route validation, `/test2` build, `npm run check:test2`, and built-bundle string checks passed.
 
 # Fix STV By Count negative transfer-out cells
 - [x] Record scope
@@ -1011,14 +1011,14 @@
   - Added route validation that rejects the old quota/elected-state shortcut.
   - Added generated-bundle validation for real STV surplus-to-quota and exclusion transfer-out rows.
 - [x] Rebuild `/test2`, verify, commit, and push scoped fix
-  - Completed: `node --check test2/src/election-manager.js`, `node --check scripts/validate-test2-route.mjs`, `node scripts/validate-test2-route.mjs`, rebuilt `/test2`, and ran `npm run check:test2`; the scoped STV By Count fix is ready for commit and push.
+  - Completed: `node --check test2/src/election-manager.js`, `node --check scripts/check/rules/election-route.mjs`, `node scripts/check/rules/election-route.mjs`, rebuilt `/test2`, and ran `npm run check:test2`; the scoped STV By Count fix is ready for commit and push.
 
 # Fix deployed /test2 election catalogue typography
 - [x] Record correction scope
   - Task: make the visible `/test2` election catalogue entries show a monospace date followed by a normal derived election title, not only the unbundled source controller.
   - Root cause: the previous fix changed `js/ui-controller.js` and root CSS, but `/test2` uses a prebuilt `test2/build/test2.bundle.js` plus route CSS; the deployed bundle and route CSS were not regenerated with the visible change.
 - [x] Patch `/test2` route CSS and route validation
-  - Completed: added split date/title typography to `test2/src/test2.css` and extended `scripts/validate-test2-route.mjs` so `/test2` route CSS is checked directly, not just the shared root CSS.
+  - Completed: added split date/title typography to `test2/src/test2.css` and extended `scripts/check/rules/election-route.mjs` so `/test2` route CSS is checked directly, not just the shared root CSS.
 - [x] Rebuild `/test2` deployable bundle
   - Completed: ran `npm run build:test2`, regenerating `/test2` JS/CSS bundles, service-worker version, performance dashboard, and cache-busted route references.
 - [x] Verify bundle contains split date/title markup
@@ -1033,9 +1033,9 @@
 - [x] Patch renderer and stylesheet
   - Completed: split election row labels into `.flat-election-date`, `.flat-election-separator`, and `.flat-election-body` spans; only the date span keeps monospace/tabular numeral styling.
 - [x] Add route-validation guardrail
-  - Completed: `scripts/validate-test2-route.mjs` now asserts the split markup and rejects CSS that applies monospace to the full election link.
+  - Completed: `scripts/check/rules/election-route.mjs` now asserts the split markup and rejects CSS that applies monospace to the full election link.
 - [x] Run focused verification
-  - Completed: `node --check js/ui-controller.js`, `node --check scripts/validate-test2-route.mjs`, and `npm run check:test2` passed.
+  - Completed: `node --check js/ui-controller.js`, `node --check scripts/check/rules/election-route.mjs`, and `npm run check:test2` passed.
 - [x] Commit and push scoped changes
   - Completed: committed the scoped renderer/CSS/validation/task-log change as `Restore election catalogue date typography`; push follows after commit.
 
@@ -1167,7 +1167,7 @@
   - Completed: source-record missing/single-reference and sampled party-colour warnings are now separated from true unresolved data queues.
 - [x] Regenerate and verify
   - Regenerated election manifest, Browse election details, Browse election source details, summaries, and audit outputs affected by the metadata changes.
-  - Verification evidence: `node --check scripts/build/build-test2-election-manifest.mjs`; `node --check scripts/build/build-browse-indexes.mjs`; `node --check scripts/audit-test2-election-data.mjs`; `node scripts/build/build-test2-election-manifest.mjs`; `node scripts/build/build-browse-indexes.mjs`; `node scripts/build/build-test2-election-summaries.mjs`; `node scripts/audit-test2-election-data.mjs --fail-on-blocking`; `npm run check:test2`; escalated `npm run build:test2`; final `npm run check:test2`.
+  - Verification evidence: `node --check scripts/build/build-test2-election-manifest.mjs`; `node --check scripts/build/build-browse-indexes.mjs`; `node --check scripts/check/rules/election-data-audit.mjs`; `node scripts/build/build-test2-election-manifest.mjs`; `node scripts/build/build-browse-indexes.mjs`; `node scripts/build/build-test2-election-summaries.mjs`; `node scripts/check/rules/election-data-audit.mjs --fail-on-blocking`; `npm run check:test2`; escalated `npm run build:test2`; final `npm run check:test2`.
   - Completed: the election-data audit now reports `0` blocking issues. Remaining warnings are explicit review queues only: 26 `valid-poll-review` and 29 `candidate-list-review`.
 - [x] Commit and push scoped changes
   - Stage only intentional files for this task; preserve unrelated dirty generated/map files.
@@ -1222,7 +1222,7 @@
   - Completed: fixed the shared election summariser so raw local-election `Party` and boolean `Elected` fields are honoured, and so under-marked STV rows are completed against source seat totals where possible.
   - Completed: corrected upstream raw NI local/Assembly rows for 1973 Ballymoney Area C, 1981 Belfast Area H, 1981 Omagh Area C, 1985 Lisburn Town, 2005 Antrim Line, 2005 Coleraine East, 2005 Skerries, and the 1984 Belfast South Assembly by-election.
   - Completed: added `/test2` route validation that fails if NI Assembly, Northern Ireland Constitutional Convention, or NI local-government generated results have elected-candidate counts that disagree with fixed Assembly-era rules or source seat metadata.
-  - Verification evidence: `node --check js/election-domain.mjs`; `node --check scripts/validate-test2-route.mjs`; `node scripts/build/build-test2-election-manifest.mjs`; `node scripts/validate-test2-route.mjs`; focused NI seat audit reported `ISSUES 0`; `npm run check:test2`; escalated `npm run build:test2`.
+  - Verification evidence: `node --check js/election-domain.mjs`; `node --check scripts/check/rules/election-route.mjs`; `node scripts/build/build-test2-election-manifest.mjs`; `node scripts/check/rules/election-route.mjs`; focused NI seat audit reported `ISSUES 0`; `npm run check:test2`; escalated `npm run build:test2`.
 
 # Research remaining post-1921 Dail transfer gaps
 - [x] Record scope
@@ -1248,7 +1248,7 @@
   - Task: fix aliases and older Wikipedia table parsing first, regenerate sidecars, then add explicit non-animated records for rows that should not be treated as missing transfer animations.
   - Symptom: 53 post-1921 Dail rows lacked local Wikipedia count sidecars even though many were alias/title misses rather than true data gaps.
   - Root cause: importer title aliases were incomplete for older Dail constituency names, non-Dail university constituency titles were not handled, leading punctuation and ampersands were not normalised consistently, and the report had no way to represent source-backed non-animated rows.
-  - Permanent prevention action: `scripts/validate-test2-route.mjs` now fails if `data/elections/dail-wikipedia-counts/_report.json` contains any post-1921 unresolved Dail rows.
+  - Permanent prevention action: `scripts/check/rules/election-route.mjs` now fails if `data/elections/dail-wikipedia-counts/_report.json` contains any post-1921 unresolved Dail rows.
 - [x] Implement importer and report fixes
   - Added aliases for the recurring old names: `Leix Offaly`, `Dun Laoghaire Rathdown`, 1922 Cork/Tipperary/Sligo/Waterford combinations, 1969 Clare/Cork variants, and university constituency names.
   - Added source-name normalisation for leading punctuation and ampersands.
@@ -1259,7 +1259,7 @@
   - Added 24 explicit non-animated/source-required records.
   - Regenerated `/test2` election metadata and build assets.
 - [x] Verify
-  - Verification evidence: `node --check scripts/ingest/wikipedia/import-dail-wikipedia-counts.mjs` passed; `node scripts/ingest/wikipedia/import-dail-wikipedia-counts.mjs --report-only` reports 842/973 represented, 24 non-transfer records, and 0 post-1921 pending rows; `node scripts/validate-test2-route.mjs` passed; `npm run check:test2` passed; escalated `npm run build:test2` passed after the known sandbox esbuild spawn restriction.
+  - Verification evidence: `node --check scripts/ingest/wikipedia/import-dail-wikipedia-counts.mjs` passed; `node scripts/ingest/wikipedia/import-dail-wikipedia-counts.mjs --report-only` reports 842/973 represented, 24 non-transfer records, and 0 post-1921 pending rows; `node scripts/check/rules/election-route.mjs` passed; `npm run check:test2` passed; escalated `npm run build:test2` passed after the known sandbox esbuild spawn restriction.
 
 # Review Dail transfer gaps against Wikipedia sources
 - [x] Record scope
@@ -1296,7 +1296,7 @@
   - Run route validation, focused browser or script coverage for transfer runtime availability, `build:test2`, then commit/push intended files only.
   - Completed: copied the shared election animation runtime into route-scoped `/test2` assets during `scripts/build/app-bundle.mjs`, including `jquery-shim.js`, the election-viewer animation scripts, and their CSS.
   - Completed: changed `/test2/index.html` and `/test2/sw.js` to use/network-first the route-scoped animation CSS/JS assets so the transfer pane no longer depends on missing `/test2` files.
-  - Guardrail: `scripts/validate-test2-route.mjs` now fails if the `/test2` animation runtime assets are not present; the focused Dail browser test now fails if the transfer animation status reports a runtime load failure.
+  - Guardrail: `scripts/check/rules/election-route.mjs` now fails if the `/test2` animation runtime assets are not present; the focused Dail browser test now fails if the transfer animation status reports a runtime load failure.
   - Transfer-data audit result: 2002, 2007, 2011, 2016, 2020, and 2024 Dail elections have verified Wikipedia-derived rows for every constituency. Earlier Dail elections retain some synthetic/fallback constituency rows; 1918 and 1921 have no verified count-stage sidecars in the generated bundle.
   - Verification evidence: `npm run build:test2` passed after rerunning outside the sandbox for the known esbuild spawn restriction; `npm run check:test2` passed; escalated `npx playwright test tests/browser/test2-app.spec.js -g "Dail 2024 Cork North-Central"` passed with the stricter runtime-load assertion.
 
@@ -1314,7 +1314,7 @@
   - Run syntax checks, route validation, focused browser coverage, build/check as needed, then commit/push intended files only.
   - Completed: added a remembered `/test2` draw-order list in `test2/src/maplibre-main-adapter.js`, sorted active-layer rendering by that order in `test2/src/app.js`, persisted user order to `layerOrder` hash state and `localStorage`, and rebuilt `/test2` assets.
   - Guardrail: added Playwright coverage that drags active-layer rows, verifies row order, verifies MapLibre style-layer stack order, verifies URL/localStorage persistence, and verifies localStorage restore.
-  - Verification: `npm run build:test2` passed after running outside the sandbox for esbuild process spawning; `node scripts/validate-test2-route.mjs` passed; `npx playwright test tests/browser/test2-app.spec.js -g "active-layer drag order"` passed.
+  - Verification: `npm run build:test2` passed after running outside the sandbox for esbuild process spawning; `node scripts/check/rules/election-route.mjs` passed; `npx playwright test tests/browser/test2-app.spec.js -g "active-layer drag order"` passed.
   - Note: full `npm run check:test2` remains blocked by existing election-data audit blockers unrelated to this layer-order change.
 
 # Ingest Wikipedia Dail constituency transfer/count tables for `/test2`
@@ -1338,7 +1338,7 @@
   - Completed: updated `scripts/build/build-test2-election-manifest.mjs` so Dail `/test2` bundles prefer verified Wikipedia count rows, derive transfer deltas from cumulative count totals, attach row-level source URLs, and preserve non-zero transfer animation payloads.
   - Completed: regenerated `/test2` election bundles and build output. The local report now represents 789 of 973 Dail constituency sidecars; every represented sidecar has non-zero transfer deltas, while remaining unmatched/older sidecars stay non-fabricated fallback rows.
   - Completed: updated guardrails so Mayo, Cork North-Central, Galway East, and Roscommon Galway assert Wikipedia-derived later-stage/non-zero transfer data.
-  - Verification evidence: `node --check scripts\ingest\wikipedia\import-dail-wikipedia-counts.mjs`; `node --check scripts\build\build-test2-election-manifest.mjs`; `node --check scripts\validate-test2-route.mjs`; `node --check tests\browser\test2-app.spec.js`; `node scripts\ingest\wikipedia\import-dail-wikipedia-counts.mjs --report-only`; `node scripts\build\build-test2-election-manifest.mjs`; `node scripts\validate-test2-route.mjs`; escalated `npm run build:test2`; `npm run check:test2`; escalated `npm run test:browser:test2 -- --grep "Cork North-Central"`; escalated `npm run test:browser:test2 -- --grep "Galway East"`; generated-data audit: 25 Dail bundles, 973 constituency results, 789 with Wikipedia rows, 789 with non-zero transfers.
+  - Verification evidence: `node --check scripts\ingest\wikipedia\import-dail-wikipedia-counts.mjs`; `node --check scripts\build\build-test2-election-manifest.mjs`; `node --check scripts\check\rules\election-route.mjs`; `node --check tests\browser\test2-app.spec.js`; `node scripts\ingest\wikipedia\import-dail-wikipedia-counts.mjs --report-only`; `node scripts\build\build-test2-election-manifest.mjs`; `node scripts\check\rules\election-route.mjs`; escalated `npm run build:test2`; `npm run check:test2`; escalated `npm run test:browser:test2 -- --grep "Cork North-Central"`; escalated `npm run test:browser:test2 -- --grep "Galway East"`; generated-data audit: 25 Dail bundles, 973 constituency results, 789 with Wikipedia rows, 789 with non-zero transfers.
 
 # Fix Irish general-election per-count constituency results and transfers on `/test2`
 - [x] Record recurrence and scope
@@ -1359,7 +1359,7 @@
   - Completed: expanded compact Dail scraper rows into synthetic count-stage rows when the source candidate row contains an encoded count marker; preserved first-preference totals/status values; inferred elected status from explicit status text or elected-order slots; and kept transfer amounts at zero where source files do not provide transfer totals.
   - Completed: changed `/test2` so synthetic Dail result panes consume those stage rows, show the Transfers view when the generated payload exists, keep source/main candidate ordering in the Count pane, and no longer hard-code all synthetic rows as `Not Elected Count 1/1`.
   - Completed: regenerated Dail `/test2` election bundles and bumped the built `/test2` bundle references.
-  - Verification evidence: `node --check js/election-domain.mjs`; `node --check test2/src/election-manager.js`; `node --check scripts/validate-test2-route.mjs`; `node --check tests/browser/test2-app.spec.js`; `node scripts/validate-test2-route.mjs`; escalated `npm run build:test2`; `npm run check:test2`; escalated `npx playwright test tests/browser/test2-app.spec.js -g "selected Dail 2024 Cork North-Central"`; escalated `npx playwright test tests/browser/test2-app.spec.js -g "selected Dail 2024 Galway East"`.
+  - Verification evidence: `node --check js/election-domain.mjs`; `node --check test2/src/election-manager.js`; `node --check scripts/check/rules/election-route.mjs`; `node --check tests/browser/test2-app.spec.js`; `node scripts/check/rules/election-route.mjs`; escalated `npm run build:test2`; `npm run check:test2`; escalated `npx playwright test tests/browser/test2-app.spec.js -g "selected Dail 2024 Cork North-Central"`; escalated `npx playwright test tests/browser/test2-app.spec.js -g "selected Dail 2024 Galway East"`.
 
 # Fix `/test2` mobile election pane selection and decade TOC jumps
 - [x] Record recurrence and scope
@@ -1376,7 +1376,7 @@
   - Completed: added decade-button delegation to the flat catalogue TOC handler, made `/test2` route guards leave catalogue-managed hash links alone, and extended single-section Elections rendering so all requested decade cards hydrate before the jump.
   - Completed: changed `/test2` feature selection so active election geographies are handled by `ElectionManager.showFeatureResults()` before the generic feature-info card path, including a fallback that suppresses generic cards for active election features even when a result match is missing.
   - Completed: fixed the fixed-header election-pane grid placement so the election pane remains visible and clickable on mobile/desktop after selecting an election geography.
-  - Verification evidence: `node --check js\ui-controller.js`; `node --check test2\src\app.js`; `node --check test2\src\election-manager.js`; `node --check js\election-main-pane-contract.mjs`; `node --check tests\browser\test2-app.spec.js`; `node --check scripts\validate-test2-route.mjs`; `node scripts\validate-test2-route.mjs`; escalated `npm run build:test2`; escalated `npm run test:browser:test2 -- --grep "mobile catalogue renders TOC first|loads generated election entries"`; escalated `npm run test:browser:test2 -- --grep "mobile election seat-circle overlays"`; `npm run check:test2`.
+  - Verification evidence: `node --check js\ui-controller.js`; `node --check test2\src\app.js`; `node --check test2\src\election-manager.js`; `node --check js\election-main-pane-contract.mjs`; `node --check tests\browser\test2-app.spec.js`; `node --check scripts\check\rules\election-route.mjs`; `node scripts\check\rules\election-route.mjs`; escalated `npm run build:test2`; escalated `npm run test:browser:test2 -- --grep "mobile catalogue renders TOC first|loads generated election entries"`; escalated `npm run test:browser:test2 -- --grep "mobile election seat-circle overlays"`; `npm run check:test2`.
 
 # Fix `/test2` mobile navbar so it cannot scroll out of view
 - [x] Record recurrence and scope
@@ -1392,8 +1392,8 @@
   - Add mobile browser coverage that tries to scroll the document and asserts the header remains at the viewport top and the mobile toggle remains hit-testable.
 - [x] Verify, commit, and push
   - Run syntax/static validation, rebuild `/test2`, run focused browser coverage, run `check:test2`, then commit/push only intended files.
-  - Completed: added a dynamic-viewport, fixed-header shell contract to `test2/src/test2.css`, explicitly placed the main app area below the fixed header, added a static validator assertion in `scripts/validate-test2-route.mjs`, and extended `/test2 mobile map and catalogue controls do not collide` to simulate document/pane scrolling before checking the navbar toggle remains fixed, hit-testable, and above the main app area.
-  - Verification evidence: `node --check tests\browser\test2-app.spec.js`; `node --check scripts\validate-test2-route.mjs`; `node --check test2\src\app.js`; `node scripts\validate-test2-route.mjs`; `npm run build:test2`; `npm run test:browser:test2 -- --grep "mobile map and catalogue controls do not collide"`; `npm run check:test2`.
+  - Completed: added a dynamic-viewport, fixed-header shell contract to `test2/src/test2.css`, explicitly placed the main app area below the fixed header, added a static validator assertion in `scripts/check/rules/election-route.mjs`, and extended `/test2 mobile map and catalogue controls do not collide` to simulate document/pane scrolling before checking the navbar toggle remains fixed, hit-testable, and above the main app area.
+  - Verification evidence: `node --check tests\browser\test2-app.spec.js`; `node --check scripts\check\rules\election-route.mjs`; `node --check test2\src\app.js`; `node scripts\check\rules\election-route.mjs`; `npm run build:test2`; `npm run test:browser:test2 -- --grep "mobile map and catalogue controls do not collide"`; `npm run check:test2`.
 
 # Fix `/test2` flat catalogue to load only one requested section
 - [x] Record recurrence and scope
@@ -1413,7 +1413,7 @@
   - Run syntax checks, `/test2` route validation, focused Playwright catalogue coverage, `build:test2`, `check:test2`, and commit/push only intended files.
   - Completed: `/test2` now opts into `singleSectionFlatCatalogue`; default flat catalogue render leaves `#catalogueFlatCards` empty below the table of contents; Elections, Books, and each Maps subheading are section keys; subheading rows are clickable links; clicking a map item loads that item's whole maps subheading section and replaces the previous active section.
   - Completed: fixed the delegated click selector so the new map subheading links route through the catalogue section loader instead of falling through to plain hash navigation.
-  - Verification evidence: `node --check js\ui-controller.js`; `node --check test2\src\app.js`; `node --check tests\browser\test2-app.spec.js`; `node --check scripts\validate-test2-route.mjs`; `node scripts\validate-test2-route.mjs`; escalated `npm run build:test2`; `npm run check:test2`; escalated focused `npm run test:browser:test2 -- --grep "mobile catalogue renders TOC first"`.
+  - Verification evidence: `node --check js\ui-controller.js`; `node --check test2\src\app.js`; `node --check tests\browser\test2-app.spec.js`; `node --check scripts\check\rules\election-route.mjs`; `node scripts\check\rules\election-route.mjs`; escalated `npm run build:test2`; `npm run check:test2`; escalated focused `npm run test:browser:test2 -- --grep "mobile catalogue renders TOC first"`.
 
 # Plan `/test2` mobile catalogue reliability, mobile app packaging, and election-data audit
 - [x] Record scope and local evidence
@@ -1432,7 +1432,7 @@
   - Completed: added a central `_flatTocTargetIds` registry for real catalogue navigation targets, `data-catalogue-target` attributes on TOC controls, deferred placeholder anchors marked with `data-catalogue-deferred-target` and `data-catalogue-toc-target`, a pane-specific `scrollCatalogueTargetIntoView()` path, and `ensureCatalogueTargetRendered()` hydration before scrolling.
   - Completed: fixed TOC/tab semantics so Books remains a catalogue navigation target and Tables changes tabs instead of being swallowed by the generic TOC handler.
   - Completed: kept the initial mobile catalogue bounded while allowing TOC taps to hydrate full catalogue content only when needed; the Playwright mobile catalogue test now verifies a deferred TOC target hydrates, scrolls into the catalogue pane, loses deferred status, and clears the Show more control.
-  - Verification evidence: `node --check js\ui-controller.js`; `node --check tests\browser\test2-app.spec.js`; `node --check scripts\validate-test2-route.mjs`; escalated `npm run build:test2`; escalated focused `npm run test:browser:test2 -- --grep "mobile catalogue stays bounded"`; `npm run check:test2`; escalated `npm run check`.
+  - Verification evidence: `node --check js\ui-controller.js`; `node --check tests\browser\test2-app.spec.js`; `node --check scripts\check\rules\election-route.mjs`; escalated `npm run build:test2`; escalated focused `npm run test:browser:test2 -- --grep "mobile catalogue stays bounded"`; `npm run check:test2`; escalated `npm run check`.
 - [x] Section 2 implementation: election-data/source correctness audit
   - Build a canonical election audit index from `data/elections-source/data/elections`, `test/metadata/elections-test2.json`, `test/metadata/elections-test2-summaries`, `data/browse/elections.json`, `data/browse/details/elections`, and source-reference records under `data/browse/details/sources`.
   - For each parent election and constituency/DEA/entity sub-entry, compare candidates, parties/labels, seats/elected status, first preferences, valid poll, turnout, quota, count totals, transfer-stage data, aggregate results, and previous-election deltas against all available corroborating sources.
@@ -1442,12 +1442,12 @@
   - Validate all rendered surfaces: overall results, selected constituency/DEA panes, by-party/by-candidate/by-local-party/count/detailed/transfers modes, seat circles, labels, browse election pages, active layer cards, URL restore, and transfer animation state.
   - Classify discrepancies as source-data mismatch, normalisation/alias mismatch, aggregation bug, geography join bug, renderer/view-model bug, colour mismatch, or intentional MapLibre rendering difference.
   - Add CI guardrails so new or regenerated election data cannot silently change totals, party colours, source citations, or render contracts without an audit diff.
-  - Completed: added `scripts/audit-test2-election-data.mjs`, which builds a repository-local audit from `test/metadata/elections-test2.json`, generated election result bundles, `/browse` election entries/sub-entries, source/reference records, and the saved Wikipedia party-colour audit CSVs.
+  - Completed: added `scripts/check/rules/election-data-audit.mjs`, which builds a repository-local audit from `test/metadata/elections-test2.json`, generated election result bundles, `/browse` election entries/sub-entries, source/reference records, and the saved Wikipedia party-colour audit CSVs.
   - Completed: generated machine-readable and human-readable reports at `tasks/test2-election-data-audit.json` and `tasks/test2-election-data-audit.md`.
   - Completed: wired the audit into `npm run check:test2` with `--fail-on-blocking`, and added standalone `npm run audit:test2:elections`.
   - Current audit result: 268 parent elections, 249 loadable elections, 19 placeholders, 4,684 Browse constituency/DEA sub-entries, 268 overall sub-entries, 4,684 result rows audited, 28,309 candidate rows audited, 4,500 rows with count detail, 4,500 rows with animation payload, 0 blocking issues, and 255 warnings.
   - Current warning classes: missing/weak source records, first-preference sums exceeding stated valid polls in some local-election records, missing candidate lists/party labels in some legacy local data, unmatched list counts, and saved Wikipedia colour mismatches for follow-up data correction.
-  - Verification evidence: `node --check scripts\audit-test2-election-data.mjs`; `node scripts\audit-test2-election-data.mjs --fail-on-blocking`; `npm run check:test2`; escalated `npm run check`.
+  - Verification evidence: `node --check scripts\check\rules\election-data-audit.mjs`; `node scripts\check\rules\election-data-audit.mjs --fail-on-blocking`; `npm run check:test2`; escalated `npm run check`.
 - [ ] Section 3 implementation plan: iOS/Android/PWA feasibility
   - Treat PWA-grade `/test2` as the foundation: robust gestures, bounded catalogue render, offline shell, service-worker quota discipline, update prompts, app manifest, standalone viewport/safe-area CSS, and route/cache versioning.
   - Android path: publish a PWA-backed app via Trusted Web Activity once the web app meets mobile performance and installability requirements.
@@ -1471,7 +1471,7 @@
   - Completed: browser coverage now verifies bounded mobile catalogue performance remains intact, TOC links beyond the initial cap render and scroll correctly, and the direct pan fallback count does not increase during a normal one-finger mobile pan.
 - [x] Verify, document, commit, and push
   - Scope: run focused syntax/check/browser coverage, update lessons for this recurrence, commit only the intended files, and push.
-  - Verification evidence: `node --check` passed for `test/src/map-controller.js`, `js/ui-controller.js`, `tests/browser/test2-app.spec.js`, and `scripts/validate-test2-route.mjs`; `node scripts/validate-test2-route.mjs` passed; escalated `npm run build:test2` passed and generated bundle `12508192bd38`; escalated `npm run check:test2` passed; focused Playwright mobile catalogue/mobile gesture tests passed; focused Playwright desktop drag/wheel test passed; escalated `npm run check` passed.
+  - Verification evidence: `node --check` passed for `test/src/map-controller.js`, `js/ui-controller.js`, `tests/browser/test2-app.spec.js`, and `scripts/check/rules/election-route.mjs`; `node scripts/check/rules/election-route.mjs` passed; escalated `npm run build:test2` passed and generated bundle `12508192bd38`; escalated `npm run check:test2` passed; focused Playwright mobile catalogue/mobile gesture tests passed; focused Playwright desktop drag/wheel test passed; escalated `npm run check` passed.
 
 ## Recurring issue: `/test2` one-finger fallback and bounded mobile catalogue links
 - Symptom: one-finger map movement could feel laggy/stepwise on phones, and mobile TOC links could fail when they targeted cards hidden behind the bounded mobile catalogue render.
@@ -1492,7 +1492,7 @@
   - Done: verified existing `/test2` mobile overlay CSS keeps labels and election seat circles passive on coarse/mobile, and exposed native-first/emergency fallback diagnostics plus fallback activation counters for browser tests and future diagnostics.
 - [x] Add hard regression coverage and verify
   - Scope: browser tests for desktop drag pan, desktop wheel zoom, one-finger mobile pan, two-finger pan, pinch zoom, rotate, pitch, pan-after-pinch, and gestures with a loaded layer/election overlays visible.
-  - Verification evidence: `node --check` passed for `test/src/map-controller.js`, `tests/browser/test2-app.spec.js`, and `scripts/validate-test2-route.mjs`; escalated `npm run build:test2` passed and generated `/test2` bundle `eea30b57c07d`; escalated `npm run check:test2` passed; escalated focused Playwright tests for desktop drag/wheel, mobile one-finger pan/two-finger pan/pinch/rotate/pitch/pan-after-pinch, and mobile election-overlay gestures all passed; escalated `npm run check` passed. Full `/test2` Playwright suite was also run: all gesture tests passed, while six existing non-gesture tests failed in election-pane/data/service-worker assertions unrelated to this scoped gesture refactor.
+  - Verification evidence: `node --check` passed for `test/src/map-controller.js`, `tests/browser/test2-app.spec.js`, and `scripts/check/rules/election-route.mjs`; escalated `npm run build:test2` passed and generated `/test2` bundle `eea30b57c07d`; escalated `npm run check:test2` passed; escalated focused Playwright tests for desktop drag/wheel, mobile one-finger pan/two-finger pan/pinch/rotate/pitch/pan-after-pinch, and mobile election-overlay gestures all passed; escalated `npm run check` passed. Full `/test2` Playwright suite was also run: all gesture tests passed, while six existing non-gesture tests failed in election-pane/data/service-worker assertions unrelated to this scoped gesture refactor.
 
 ## Recurring issue: `/test2` gesture fallbacks pre-empt native MapLibre movement
 - Symptom: repeated live reports of inert or partial map movement even though MapLibre gesture handlers report enabled.
@@ -1510,7 +1510,7 @@
   - Done: added a central `setMapCursor()` helper with cursor mutation diagnostics, kept cursor state stable when switching hovered features, routed election-overlay cursor writes through the controller, made the mobile resize observer mobile/small-screen scoped, and made the `/test2` main adapter coalesce `invalidateSize()` and skip same-size MapLibre `resize()` calls.
 - [x] Add regression coverage and verify
   - Scope: browser test for bounded cursor mutations during desktop hover movement, route guardrail for the stable helper, rebuild `/test2`, run checks, commit, and push.
-  - Verification evidence: `node --check` passed for `test/src/map-controller.js`, `test2/src/maplibre-main-adapter.js`, `test2/src/election-manager.js`, `tests/browser/test2-app.spec.js`, and `scripts/validate-test2-route.mjs`; escalated `npm run build:test2` passed and generated `/test2` bundle `2983cb1bae2f`; focused Playwright `/test2 Settlements 2015 has labels, hover state, and feature details` passed with zero cursor mutations while moving inside a hovered label; focused desktop drag/wheel Playwright test passed; mobile gesture Playwright group passed; escalated `npm run check:test2` and full `npm run check` passed.
+  - Verification evidence: `node --check` passed for `test/src/map-controller.js`, `test2/src/maplibre-main-adapter.js`, `test2/src/election-manager.js`, `tests/browser/test2-app.spec.js`, and `scripts/check/rules/election-route.mjs`; escalated `npm run build:test2` passed and generated `/test2` bundle `2983cb1bae2f`; focused Playwright `/test2 Settlements 2015 has labels, hover state, and feature details` passed with zero cursor mutations while moving inside a hovered label; focused desktop drag/wheel Playwright test passed; mobile gesture Playwright group passed; escalated `npm run check:test2` and full `npm run check` passed.
 
 ## Recurring issue: `/test2` desktop cursor flicker from resize-driven hover clearing
 - Symptom: the desktop cursor flickered while using `/test2`, especially over hoverable map labels/features.
@@ -1528,7 +1528,7 @@
   - Done: added a shared `resetDirectPanGestureState()` helper, call it when pinch starts and finishes, clear pending pan frames/centres, release pointer capture if present, and keep the pan fallback frame-coalesced.
 - [x] Add regression coverage and verify
   - Scope: add a mobile browser regression proving pan still changes the camera after a completed pinch, then rebuild `/test2`, run route checks, browser tests, and push.
-  - Verification evidence: `node --check` passed for `test/src/map-controller.js`, `tests/browser/test2-app.spec.js`, and `scripts/validate-test2-route.mjs`; escalated `npm run build:test2` passed and generated bundle `2cefdf49c82a`; escalated `npm run check:test2` passed; focused Playwright `/test2 mobile map accepts actual touch pan pinch and pitch gestures` passed after loading `settlements-2015`, panning, pinching, and panning again; broader `/test2` mobile Playwright group passed; full `npm run check` passed.
+  - Verification evidence: `node --check` passed for `test/src/map-controller.js`, `tests/browser/test2-app.spec.js`, and `scripts/check/rules/election-route.mjs`; escalated `npm run build:test2` passed and generated bundle `2cefdf49c82a`; escalated `npm run check:test2` passed; focused Playwright `/test2 mobile map accepts actual touch pan pinch and pitch gestures` passed after loading `settlements-2015`, panning, pinching, and panning again; broader `/test2` mobile Playwright group passed; full `npm run check` passed.
 
 ## Recurring issue: `/test2` mobile pan stops after pinch
 - Symptom: after loading a layer on a phone, one-finger pan works before the first pinch and then stops working after the pinch completes.
@@ -1696,7 +1696,7 @@
 - Symptom: selected Dail 2024 constituency panes can show real first-preference vote totals but `0.00%` first-preference percentages.
 - Root cause: scraper-shaped synthetic count payloads did not populate the main-pane `countInfo.Valid_Poll` denominator, and previous checks inspected row shape without asserting final rendered percentages.
 - Permanent prevention action: route validation now checks every 2024 Dail synthetic scraper constituency has a nonblank valid-poll denominator and positive computed first-preference percentages when votes exist; the browser suite checks Galway East rendered values and splitter drag.
-- Verification evidence: `scripts/validate-test2-route.mjs` and the Galway East Playwright regression both pass.
+- Verification evidence: `scripts/check/rules/election-route.mjs` and the Galway East Playwright regression both pass.
 
 # Implement `/test2` performance recommendations 1-10
 - [x] Record scope and plan
@@ -1741,7 +1741,7 @@
 - Symptom: selected Dail 2024 constituency panes can show real first-preference vote totals but `0.00%` first-preference percentages and invalid summary rows.
 - Root cause: selected-result table rendering has repeatedly drifted from main-site election pane data contracts; the previous fix normalized scraper count rows but did not globally verify selected-pane computed percentages and summary denominators.
 - Permanent prevention action: add a route validation guard over every 2024 Dail constituency result requiring valid-poll denominators and non-zero first-preference percentages whenever first-preference votes exist.
-- Verification evidence: `scripts/validate-test2-route.mjs` now checks all 2024 Dail synthetic scraper constituencies expose non-blank `Valid_Poll` and non-zero first-preference percentages when votes exist; focused Playwright now covers Galway East visible percentages and splitter resizing.
+- Verification evidence: `scripts/check/rules/election-route.mjs` now checks all 2024 Dail synthetic scraper constituencies expose non-blank `Valid_Poll` and non-zero first-preference percentages when votes exist; focused Playwright now covers Galway East visible percentages and splitter resizing.
 
 # Audit /test2 performance and write recommendations
 - [x] Record scope and plan
@@ -1768,13 +1768,13 @@
 - [x] Regenerate Browse/election outputs
   - Run the Browse index generator from the intended generator state.
 - [x] Stage scoped commit
-  - Stage generator/reference logic, regenerated Browse/election outputs, and only the Dail 2024 guard hunk from `scripts/validate-test2-route.mjs`.
+  - Stage generator/reference logic, regenerated Browse/election outputs, and only the Dail 2024 guard hunk from `scripts/check/rules/election-route.mjs`.
 - [x] Verify
   - Run syntax/static checks and JSON parse validation over the staged metadata scope.
 - [x] Review
   - Report commit hash, verification evidence, and any remaining ambiguous dirty worktree items.
   - Done: committed `9e152a9fb Add Browse election references and metadata` with 974 scoped files: `scripts/build/build-browse-indexes.mjs`, generated election Browse details/indexes, party details/indexes, election-source details/indexes, and `/test2` generated election metadata.
-  - Scope check: commit excludes map catalogue files, map-source/table-source detail files, `data/browse/maps.json`, `data/browse/features.json`, task logs, JS app files, `/test2` app/test files, election anchor sidecars, and `scripts/validate-test2-route.mjs`.
+  - Scope check: commit excludes map catalogue files, map-source/table-source detail files, `data/browse/maps.json`, `data/browse/features.json`, task logs, JS app files, `/test2` app/test files, election anchor sidecars, and `scripts/check/rules/election-route.mjs`.
   - Note: the Dail 2024 `/test2` validPoll/totalSeats/Ceann Comhairle guard is already present in parent commit `124102874`, so it is included in the branch history but not repeated in the metadata commit.
   - Verification evidence: `node --check scripts/build/build-browse-indexes.mjs`, staged JSON parse over 973 JSON files, `npm run check`, and `npm run check:test2` passed.
 
@@ -1799,7 +1799,7 @@
   - Done: existing WebP thumbnails are wired by the regenerated manifest; validation now guards the requested thumbnail IDs.
 - [x] Verify
   - Run metadata/static checks, rebuilds, and browser-smoke the timeline and representative catalogue cards.
-  - Verification evidence: `node --check test2/src/app.js`, `node --check scripts/validate-test2-route.mjs`, JSON parses, `node scripts/build/build-browse-indexes.mjs`, `node scripts/build/app-bundle.mjs`, `node scripts/bundle.mjs`, `npm run check:test2`, `npm run check`, metadata spot check, `git diff --check`, and headless browser geometry smoke passed.
+  - Verification evidence: `node --check test2/src/app.js`, `node --check scripts/check/rules/election-route.mjs`, JSON parses, `node scripts/build/build-browse-indexes.mjs`, `node scripts/build/app-bundle.mjs`, `node scripts/bundle.mjs`, `npm run check:test2`, `npm run check`, metadata spot check, `git diff --check`, and headless browser geometry smoke passed.
   - Browser geometry evidence: `timelineInsideMap=false`, `timelineBelowMap=true`, map height `598px`, timeline height `58px`, timeline `position=static`, and `/test2` loads `/build/main.css` from the site root.
 - [x] Review
   - Summarize changed files, verification evidence, and residual risks.
@@ -1857,7 +1857,7 @@
   - Updated shared and `/test2` CSS so `.pane--map` reserves map and timeline space, the timeline is an in-flow rectangular row, map overlay controls remain inside the map, and election panes are height-capped against the reserved map/timeline rows.
   - Added resize notifications after timeline show/hide so Leaflet/MapLibre can recompute the map viewport when the row appears or disappears.
   - Updated `/test2` route validation to guard against putting `.timeline-slider` back under `#map`.
-  - Verification evidence: `node --check js/time-slider-controller.js`, `node --check test2/src/app.js`, `node --check scripts/validate-test2-route.mjs`, `npm run check:test2`, and `npm run check` passed. Rebuilt main and `/test2` bundles; esbuild required approved escalation because the Windows sandbox blocks process spawn.
+  - Verification evidence: `node --check js/time-slider-controller.js`, `node --check test2/src/app.js`, `node --check scripts/check/rules/election-route.mjs`, `npm run check:test2`, and `npm run check` passed. Rebuilt main and `/test2` bundles; esbuild required approved escalation because the Windows sandbox blocks process spawn.
   - Browser evidence on `/test2/index.html#layers=election-dil-ireann-2024-11-29&zoom=7&lat=53.7&lng=-8.2`: `timelineInsideMap=false`, `timelineBelowMap=true`, `paneBelowTimeline=true`, map height `332px`, timeline height `50px`, election pane height `274px`, and the election pane was open. A later narrow-viewport retry timed out in browser control after the desktop/election-pane pass, so responsive behavior is covered by CSS/static checks rather than a completed browser measurement.
 
 # Cleanly separate /test2 fix from dirty worktree
@@ -1874,7 +1874,7 @@
   - Report what was committed, what remains dirty, and which decisions need user clarification.
   - Committed the isolated seat-circle fix as `07ec4233b Fix test2 election active-layer unload`, using a clean temporary worktree so unrelated local edits in the same files were not included.
   - Committed unambiguous ignore rules as `52def5cd8 Ignore local processing caches` and `a1406d809 Ignore browser control artifacts`; this reduced visible untracked files from 3,320 to 26 by hiding local caches/quarantine outputs, root tmp output, transient missing-ID/session files, and browser-control artifacts.
-  - Verification evidence for the isolated fix: clean `/test2` bundle build succeeded; `node --check` passed for `test2/src/app.js`, `tests/browser/test2-app.spec.js`, and `scripts/validate-test2-route.mjs`; targeted Playwright test `tests/browser/test2-app.spec.js --grep "active-layers remove"` passed in the clean temporary worktree.
+  - Verification evidence for the isolated fix: clean `/test2` bundle build succeeded; `node --check` passed for `test2/src/app.js`, `tests/browser/test2-app.spec.js`, and `scripts/check/rules/election-route.mjs`; targeted Playwright test `tests/browser/test2-app.spec.js --grep "active-layers remove"` passed in the clean temporary worktree.
   - `npm run check:test2` in the clean worktree is currently blocked by a separate pending `test2/src/election-manager.js` main-pane contract change that exists in the dirty main worktree and was deliberately not pulled into the seat-circle commit.
   - Remaining visible untracked files are ambiguous: 8 data/chunk JSON outputs, 17 scratch/research scripts, and 1 private/reference repo directory group. These should not be committed or ignored without a product/data decision.
 
@@ -1892,9 +1892,9 @@
   - Document changed files and verification evidence.
   - Changed `test2/src/app.js` so active election canonical IDs and backing source IDs are detected before generic unload. Active-layer removal now tears down `Test2ElectionManager` first, then unloads the backing MapLibre layer.
   - Added `tests/browser/test2-app.spec.js` coverage for the active-layers remove button on Dail 2024, asserting no seat-circle DOM markers, no overlay node, no active election state, and no backing `dail-2023` layer state afterward.
-  - Added a static `/test2` route validation guard in `scripts/validate-test2-route.mjs`.
+  - Added a static `/test2` route validation guard in `scripts/check/rules/election-route.mjs`.
   - Rebuilt `test2/build/test2.bundle.js` and CSS assets from the changed source.
-  - Verification evidence: `node --check test2/src/app.js`, `node --check tests/browser/test2-app.spec.js`, `node --check scripts/validate-test2-route.mjs`, `npm run check:test2`, `npx playwright test tests/browser/test2-app.spec.js --grep "active-layers remove"`, and `npm run check` passed. Browser/esbuild commands required approved escalation because the Windows sandbox blocks process spawn.
+  - Verification evidence: `node --check test2/src/app.js`, `node --check tests/browser/test2-app.spec.js`, `node --check scripts/check/rules/election-route.mjs`, `npm run check:test2`, `npx playwright test tests/browser/test2-app.spec.js --grep "active-layers remove"`, and `npm run check` passed. Browser/esbuild commands required approved escalation because the Windows sandbox blocks process spawn.
 
 # Research /test2 election seat circles persisting after unload
 - [x] Record scope and expected behavior
@@ -1985,7 +1985,7 @@
   - Regenerated `/test2` election metadata. Coverage remained stable at 249 loadable election entries, 19 placeholders, 4,004 matched rows, and 680 unmatched rows.
   - Representative generated anchors now use `synthetic-northeast-non-geographic`: 1996 Forum Regional List at `[-5.784092, 55.007114]`; 1921 Queen's University at `[-5.784092, 55.20297]`.
   - Added route-validation assertions that those representative rows must keep the northeast synthetic-anchor method.
-  - Verification passed: `node --check scripts/build/build-test2-election-manifest.mjs`, `node --check scripts/validate-test2-route.mjs`, `node scripts/build/build-test2-election-manifest.mjs`, `npm run check:test2`, `npm run check`, `npm run build:test2`, and a targeted generated-row anchor check.
+  - Verification passed: `node --check scripts/build/build-test2-election-manifest.mjs`, `node --check scripts/check/rules/election-route.mjs`, `node scripts/build/build-test2-election-manifest.mjs`, `npm run check:test2`, `npm run check`, `npm run build:test2`, and a targeted generated-row anchor check.
 
 # Add /test2 synthetic anchors for non-geographical election constituencies
 - [x] Record scope
@@ -2062,7 +2062,7 @@
   - Updated the promotion script so future alias regeneration preserves the same manual alias rule.
 - [x] Verify
   - Run generation, route validation, parity/data-coverage audits, and build checks.
-  - Verification evidence: `node scripts/build/tiles/layer-plan.mjs`, `node scripts/validate-test2-route.mjs`, `npm run check:test2`, `npm run audit:test2:parity`, and `npm run check` all passed. The full parity audit now includes `data.coverage` as a passing automated check.
+  - Verification evidence: `node scripts/build/tiles/layer-plan.mjs`, `node scripts/check/rules/election-route.mjs`, `npm run check:test2`, `npm run audit:test2:parity`, and `npm run check` all passed. The full parity audit now includes `data.coverage` as a passing automated check.
 - [x] Review
   - Document resolved entries and any residual data-blocked rows.
   - Added route validation and parity-audit guardrails for zero actionable conversion rows, all-Ireland Townlands composite loading through `ni-townlands` + `roi-townlands`, and Civil Parishes alias loading through `civil-parishes-vector-test`.
@@ -2079,7 +2079,7 @@
 - [x] Review
   - Document what coverage was added and what remains deliberately deferred.
   - Added automated runtime coverage for representative ordinary non-election layers, feature-card loading, election pane party/candidate/count/transfer/entity/non-Dáil modes, Browse category/detail routes, and mobile landscape shell/control layout.
-  - Verification evidence: `node --check scripts/audit-test2-general-parity.mjs`, `node --check scripts/validate-test2-route.mjs`, `npm run audit:test2:parity`, `npm run check:test2`, `npm run check`, and `npm run test:visual:test2` all passed.
+  - Verification evidence: `node --check scripts/check/rules/general-parity.mjs`, `node --check scripts/check/rules/election-route.mjs`, `npm run audit:test2:parity`, `npm run check:test2`, `npm run check`, and `npm run test:visual:test2` all passed.
   - Expanded parity report result: 16 pass, 0 fail, 0 warn, 2 reported-only. The reported-only items are deliberately deferred point-2/point-3/point-4 scope: full data coverage, blocked geography/data gaps, and production/engine hardening.
 
 # Maximize Browse item detail and thumbnails
@@ -2225,7 +2225,7 @@
 - [x] Add tests/guardrails
   - Completed: expanded static validation and browser coverage so `/test2` Dail candidate rows are compared against the public main-site DOM, and so count pane markup uses the main-like detail-toggle/table contract rather than the old `/test2` toolbar.
 - [x] Verify
-  - Completed: `node --check js/election-domain.mjs`, `node --check scripts/build/build-test2-election-manifest.mjs`, `node --check test2/src/election-manager.js`, `node --check tests/browser/test2-app.spec.js`, `node --check scripts/validate-test2-route.mjs`, `npm run check:test2`, `npm run build:test2`, `npx playwright test tests/browser/test2-app.spec.js --grep candidate`, and `npx playwright test tests/browser/test2-app.spec.js --grep "local-government aggregates"` all passed. Build and browser runs required approved escalation for local binary/browser spawning.
+  - Completed: `node --check js/election-domain.mjs`, `node --check scripts/build/build-test2-election-manifest.mjs`, `node --check test2/src/election-manager.js`, `node --check tests/browser/test2-app.spec.js`, `node --check scripts/check/rules/election-route.mjs`, `npm run check:test2`, `npm run build:test2`, `npx playwright test tests/browser/test2-app.spec.js --grep candidate`, and `npx playwright test tests/browser/test2-app.spec.js --grep "local-government aggregates"` all passed. Build and browser runs required approved escalation for local binary/browser spawning.
 - [x] Review
   - Completed: `/test2` now has generated main-like candidate sidecars and stricter pane parity tests for candidate/count states. Remaining parity work, if any, should be found by adding more public-DOM comparisons for additional election types rather than by inspecting private main controller internals.
 
@@ -2255,10 +2255,10 @@
   - Completed: MapLibre-specific drawing, style, overlay, seat-circle, feature matching, and viewport logic remain in `/test2` manager/adapter code; the change only affects pane-rendering entrypoints and renderer validation.
 - [x] Add guardrails
   - Add tests/static validation proving `/test2` uses main-compatible pane classes/structure for representative election views.
-  - Completed: `scripts/validate-test2-route.mjs` now asserts that shared renderer supports the main-compatible host adapters and that `/test2` visible overall/selected pane rendering enters through `this.sharedRenderer`.
+  - Completed: `scripts/check/rules/election-route.mjs` now asserts that shared renderer supports the main-compatible host adapters and that `/test2` visible overall/selected pane rendering enters through `this.sharedRenderer`.
 - [x] Verify
   - Run syntax checks and focused `/test2` validation/tests.
-  - Completed: `node --check js/election-renderer.mjs`, `node --check test2/src/election-manager.js`, `node --check scripts/validate-test2-route.mjs`, `npm run check:test2`, `npm run build:test2`, focused Playwright parity test `npx playwright test tests/browser/test2-app.spec.js --grep "Dail 2024 election pane"`, and full `npm run test:browser:test2` all passed. Build and Playwright needed approved escalation for local process/browser spawning.
+  - Completed: `node --check js/election-renderer.mjs`, `node --check test2/src/election-manager.js`, `node --check scripts/check/rules/election-route.mjs`, `npm run check:test2`, `npm run build:test2`, focused Playwright parity test `npx playwright test tests/browser/test2-app.spec.js --grep "Dail 2024 election pane"`, and full `npm run test:browser:test2` all passed. Build and Playwright needed approved escalation for local process/browser spawning.
 - [x] Review
   - Summarize what changed, what remains, and verification evidence.
   - Completed: `/test2` is now structurally closer to using the same election pane contract: shared renderer entrypoints own the visible overall/selected pane flow, while route-specific main-compatible host adapters provide the current main-parity table markup. Remaining full parity work is further extraction of every main special-case branch into true engine-neutral renderer modules, not more map-engine work.
@@ -2295,7 +2295,7 @@
   - Completed: timeline items now pass through a central formatter that handles timestamps, years, ISO dates, election dates, and labels as `DD MMM YYYY`.
 - [x] Verify
   - Run syntax checks, `/test2` validation/build, and focused browser/static checks where practical.
-  - Completed: `node --check test2/src/app.js`, `node --check test2/src/maplibre-main-adapter.js`, `node --check tests/browser/test2-app.spec.js`, `node --check scripts/validate-test2-route.mjs`, `npm run check:test2`, `npm run build:test2`, focused Playwright checks for map controls and election timeline, and the full `npm run test:browser:test2` suite all passed. Build/browser runs required approved escalation for local binary/browser spawning.
+  - Completed: `node --check test2/src/app.js`, `node --check test2/src/maplibre-main-adapter.js`, `node --check tests/browser/test2-app.spec.js`, `node --check scripts/check/rules/election-route.mjs`, `npm run check:test2`, `npm run build:test2`, focused Playwright checks for map controls and election timeline, and the full `npm run test:browser:test2` suite all passed. Build/browser runs required approved escalation for local binary/browser spawning.
 - [x] Review
   - Summarize behaviour and residual limits.
   - Completed: `/test2` now has a visible compass/reset-north button in the main-style zoom control, and timeline labels render as `DD MMM YYYY`.
@@ -2315,7 +2315,7 @@
   - Completed: route validation now requires the election label suppression path, and the representative election browser test expects zero visible `.maplibre-dom-label` elements while still selecting a feature from geometry.
 - [x] Verify
   - Run syntax checks, `/test2` validation, build, and focused browser tests.
-  - Completed: `node --check test2/src/election-manager.js`, `node --check test2/src/maplibre-main-adapter.js`, `node --check tests/browser/test2-app.spec.js`, `node --check scripts/validate-test2-route.mjs`, `npm run check:test2`, `npm run build:test2`, focused representative election Playwright coverage, and the full `npm run test:browser:test2` suite all passed. Build/browser runs required approved escalation for local binary/browser spawning.
+  - Completed: `node --check test2/src/election-manager.js`, `node --check test2/src/maplibre-main-adapter.js`, `node --check tests/browser/test2-app.spec.js`, `node --check scripts/check/rules/election-route.mjs`, `npm run check:test2`, `npm run build:test2`, focused representative election Playwright coverage, and the full `npm run test:browser:test2` suite all passed. Build/browser runs required approved escalation for local binary/browser spawning.
 - [x] Review
   - Summarize behaviour and residual limits.
   - Completed: active `/test2` election layers now suppress ordinary geography feature labels while preserving election-specific overlays and geometry-based feature selection. The adapter restores the previous label-enabled state when election styling is cleared.
@@ -2335,7 +2335,7 @@
   - Completed: browser tests now assert `.election-filter-menu` bounds against the viewport in normal and constrained mobile-sized viewports, and static validation requires the viewport-clamping path.
 - [x] Verify
   - Run syntax checks, `/test2` validation, build, and focused browser tests.
-  - Completed: `node --check test2/src/election-manager.js`, `node --check tests/browser/test2-app.spec.js`, `node --check scripts/validate-test2-route.mjs`, `npm run check:test2`, `npm run build:test2`, and `npm run test:browser:test2` all passed. Build/browser verification required approved escalation for local binary/browser spawning.
+  - Completed: `node --check test2/src/election-manager.js`, `node --check tests/browser/test2-app.spec.js`, `node --check scripts/check/rules/election-route.mjs`, `npm run check:test2`, `npm run build:test2`, and `npm run test:browser:test2` all passed. Build/browser verification required approved escalation for local binary/browser spawning.
 - [x] Review
   - Summarize containment behaviour and remaining edge-case limits.
   - Completed: sort/filter panes now remain within the viewport where possible, with internal value-list scrolling on constrained screens. Remaining limit: extremely tiny browser windows can force the menu to use the minimum viable height/width, but it still clamps to the visible viewport.
@@ -2355,7 +2355,7 @@
   - Completed: static validation now requires menu/filter primitives, and the `/test2` browser test opens a numeric sort menu, applies descending sort, opens a party filter menu, filters to Sinn Féin, and clears the filter.
 - [x] Verify
   - Run syntax checks, `/test2` validation, build, and focused browser tests.
-  - Completed: `node --check test2/src/election-manager.js`, `node --check tests/browser/test2-app.spec.js`, `node --check scripts/validate-test2-route.mjs`, `npm run check:test2`, `npm run build:test2`, and `npm run test:browser:test2` all passed. Build/browser runs required approved escalation for local binary/browser spawning.
+  - Completed: `node --check test2/src/election-manager.js`, `node --check tests/browser/test2-app.spec.js`, `node --check scripts/check/rules/election-route.mjs`, `npm run check:test2`, `npm run build:test2`, and `npm run test:browser:test2` all passed. Build/browser runs required approved escalation for local binary/browser spawning.
 - [x] Review
   - Summarize implemented parity, verification evidence, and any residual limits.
   - Completed: `/test2` now mirrors the main election results table sort/filter control contract while keeping the MapLibre-specific map implementation untouched.
@@ -2405,7 +2405,7 @@
   - Completed: `/test2` route validation now checks the seat-circle constants, coalesced refresh path, NE/SW projection, and main-style collision math. Browser coverage samples election seat-circle DOM overlays across several zoom levels.
 - [x] Verify
   - Run syntax checks, `/test2` validation, build, and focused browser tests.
-  - Completed: `node --check test2/src/election-manager.js`, `node --check tests/browser/test2-app.spec.js`, `node --check scripts/validate-test2-route.mjs`, `npm run check:test2`, `npm run build:test2`, and `npm run test:browser -- tests/browser/test2-app.spec.js` all passed. Build and browser tests required approved sandbox escalation for local binary execution.
+  - Completed: `node --check test2/src/election-manager.js`, `node --check tests/browser/test2-app.spec.js`, `node --check scripts/check/rules/election-route.mjs`, `npm run check:test2`, `npm run build:test2`, and `npm run test:browser -- tests/browser/test2-app.spec.js` all passed. Build and browser tests required approved sandbox escalation for local binary execution.
 - [x] Review
   - Summarize what now matches main and what remains limited by MapLibre projection/generated anchors.
   - Completed: behaviour is now aligned on the feasible mechanics: fixed DOM dots, black-plus-white halo, 120px extent cutoff, 4px greedy collision margin, largest-first ordering, and coalesced rebuild timing. Remaining possible differences are exact anchor positions where `/test2` uses generated sidecar anchors/MapLibre projection rather than main's live Leaflet geometry path.
@@ -2444,7 +2444,7 @@
   - Completed: `test2/src/election-manager.js` now projects seat-circle group anchors into an absolute `#test2-election-seat-overlay`, renders main-style DOM groups/dots, keeps click and keyboard activation, exposes deterministic overlay state for tests, and removes legacy MapLibre circle layers.
 - [x] Update guardrails
   - Change route validation and browser tests to assert DOM seat groups, dot counts, black outline styling, and removal when switching to bar overlays.
-  - Completed: `scripts/validate-test2-route.mjs` and `tests/browser/test2-app.spec.js` now assert DOM overlay markup, dot counts, black outline styling, no legacy MapLibre seat-circle layers, and cleanup when switching overlays.
+  - Completed: `scripts/check/rules/election-route.mjs` and `tests/browser/test2-app.spec.js` now assert DOM overlay markup, dot counts, black outline styling, no legacy MapLibre seat-circle layers, and cleanup when switching overlays.
 - [x] Verify
   - Run syntax checks, `/test2` validation, build, and focused browser tests.
   - Completed: `node --check` passed for changed JS/test files; `npm run check:test2` passed; `npm run build:test2` passed after approved esbuild escalation; `npm run test:browser -- tests/browser/test2-app.spec.js` passed 23/23.
@@ -2586,7 +2586,7 @@
   - No Leaflet overlay objects were ported to `/test2`.
   - Map-specific drawing remains in `js/election-controller.js`, `test2/src/election-manager.js`, and `test2/src/maplibre-main-adapter.js`; the new shared modules only build data/view HTML.
 - [x] Add parity and visual/overlay guardrails
-  - Extended `scripts/validate-test2-route.mjs` to require shared view-model and shared renderer usage from both main and `/test2`.
+  - Extended `scripts/check/rules/election-route.mjs` to require shared view-model and shared renderer usage from both main and `/test2`.
   - Extended `/test2` browser coverage to assert loaded election panes render through `[data-election-renderer="shared"]` and include production-style election table classes.
 - [x] Verify with static checks, builds, and test suites
   - `node --check js/election-view-model.mjs`, `node --check js/election-renderer.mjs`, `node --check test2/src/election-manager.js`, and `node --check js/election-controller.js` passed.
@@ -2632,10 +2632,10 @@
   - Added recall-petition map labels where recall data is available.
   - Aligned the `/test2` pane close/back ids and behaviour closer to the production election pane.
 - [x] Add or tighten automated guardrails
-  - Extended `scripts/validate-test2-route.mjs` to require the progressive/parallel election load path, local aggregate overlays, recall labels, and mobile busy state.
+  - Extended `scripts/check/rules/election-route.mjs` to require the progressive/parallel election load path, local aggregate overlays, recall labels, and mobile busy state.
   - Extended browser coverage for the loading skeleton and aggregate seat-circle overlay mode.
 - [x] Verify and document remaining data/architecture limits
-  - `node --check test2/src/election-manager.js`, `node --check js/ui-controller.js`, and `node --check scripts/validate-test2-route.mjs` passed.
+  - `node --check test2/src/election-manager.js`, `node --check js/ui-controller.js`, and `node --check scripts/check/rules/election-route.mjs` passed.
   - `npm run build:test2` passed after approved escalation for esbuild process spawning.
   - `npm run check:test2` passed.
   - `npm run test:browser:test2` passed after approved escalation for Playwright process spawning: 21/21 tests.
@@ -2670,7 +2670,7 @@
 - [x] Rebuild generated `/test2` election bundles where shared election-domain logic changes
   - Regenerated `test/metadata/elections-test2.json`, `test/metadata/elections-test2-report.json`, per-election result bundles, and `/test2` build artifacts through `npm run build:test2`.
 - [x] Add/tighten regression guardrails
-  - Extended `scripts/validate-test2-route.mjs` to require election URL restore, DEA/district switching, recall overview/incumbent hooks, non-transferable count preservation, count events, safe elected-status matching, and overlay collision suppression.
+  - Extended `scripts/check/rules/election-route.mjs` to require election URL restore, DEA/district switching, recall overview/incumbent hooks, non-transferable count preservation, count events, safe elected-status matching, and overlay collision suppression.
 - [x] Verify with static checks, `/test2` build, and browser coverage where available
   - `node --check js/election-domain.mjs`, `node --check test2/src/election-manager.js`, and `node --check test2/src/app.js` passed.
   - `npm run build:test2` passed after approved sandbox escalation for esbuild process spawning.
@@ -2700,7 +2700,7 @@
   - Static `/test2` validation now requires vote bars, local-party aggregates, recall preservation/rendering, and detailed count-table support.
   - Browser coverage now exercises vote-bar overlay switching, local-government aggregate rendering, and detailed count toggle rendering.
 - [x] Rebuild and verify
-  - `node scripts/validate-test2-route.mjs` passed.
+  - `node scripts/check/rules/election-route.mjs` passed.
   - `npm run build:test2` passed after approved sandbox escalation because esbuild spawning was blocked by `EPERM`.
   - `npm run check:test2` passed.
   - `npm run build` passed after approved sandbox escalation because esbuild spawning was blocked by `EPERM`.
@@ -2733,7 +2733,7 @@
   - Static route validation now fails if `/test2` reintroduces `includeElectionTocRows` or individual election TOC row classes.
   - Browser coverage now asserts more than 10 decade TOC buttons, more than 10 election entries inside cards, and zero individual election TOC links.
 - [x] Rebuild and verify
-  - `node scripts/validate-test2-route.mjs` passed.
+  - `node scripts/check/rules/election-route.mjs` passed.
   - `npm run build:test2` passed after approved sandbox escalation because esbuild spawning was blocked by `EPERM`.
   - `npm run build` passed after approved sandbox escalation because esbuild spawning was blocked by `EPERM`.
   - `npm run check:test2` passed.
@@ -2757,7 +2757,7 @@
   - Added `/test2` static route checks for `includeElectionTocRows`, `flat-election-toc-link`, and `catalogue-flat__toc-election-row`.
   - Updated browser boot coverage to require more than 10 loadable election rows in the top catalogue table and to assert the first visible election row appears near the top of the viewport.
 - [x] Rebuild and verify `/test2`
-  - `node scripts/validate-test2-route.mjs` passed.
+  - `node scripts/check/rules/election-route.mjs` passed.
   - `npm run build:test2` passed after approved sandbox escalation because esbuild spawning was blocked by `EPERM`.
   - `npm run build` passed after approved sandbox escalation because esbuild spawning was blocked by `EPERM`.
   - Render inspection passed: 519 top-table election rows and 548 lower decade-card election rows.
@@ -2793,7 +2793,7 @@
 - [x] Update lessons/guardrails for the recurring failures
   - Added guardrails for route-scoped control placement, vector-tile seam prevention, mobile geometry selection, and route-specific election catalogue parity opt-ins.
 - [x] Verify with `/test2` route checks, build, and browser tests
-  - `node scripts/validate-test2-route.mjs` passed.
+  - `node scripts/check/rules/election-route.mjs` passed.
   - `npm run check:test2` passed.
   - `npm run build:test2` passed after approved sandbox escalation because esbuild process spawning was blocked by `EPERM`.
   - `npm run test:browser:test2` passed after approved sandbox escalation because Playwright browser spawning was blocked by `EPERM`: 19/19 tests passed.
@@ -2876,7 +2876,7 @@
 - [x] Add regression coverage and verify
   - Added static route guardrails for scale-control placement, timeline wiring, seat-circle rendering, and below-map election pane usage.
   - Expanded browser coverage for active-layers vs zoom overlap, settings vs scale overlap, election pane visibility, timeline visibility, seat-circle layer rendering, and enriched election feature details.
-  - `node --check` passed for `test2/src/app.js`, `test2/src/election-manager.js`, `test/src/map-controller.js`, `tests/browser/test2-app.spec.js`, and `scripts/validate-test2-route.mjs`.
+  - `node --check` passed for `test2/src/app.js`, `test2/src/election-manager.js`, `test/src/map-controller.js`, `tests/browser/test2-app.spec.js`, and `scripts/check/rules/election-route.mjs`.
   - `npm run check:test2` passed.
   - `npm run build:test2` passed after approved sandbox escalation because esbuild spawning was blocked by `EPERM`.
   - `npm run test:browser:test2` passed after approved sandbox escalation because Playwright browser spawning was blocked by `EPERM`: 16/16 tests passed.
@@ -2900,7 +2900,7 @@
   - Browser coverage should prove polygon interaction line layers are absent for civil parishes, preventing tile-seam highlight artifacts from returning.
 - [x] Verify and document results
   - Run `/test2` route checks and targeted browser tests.
-  - `node --check test\src\map-controller.js`, `node --check tests\browser\test2-app.spec.js`, and `node --check scripts\validate-test2-route.mjs` passed.
+  - `node --check test\src\map-controller.js`, `node --check tests\browser\test2-app.spec.js`, and `node --check scripts\check\rules\election-route.mjs` passed.
   - `npm run check:test2` passed.
   - `npm run build:test2` passed after approved sandbox escalation because esbuild spawning was blocked by `EPERM`.
   - `npm run test:browser:test2` passed after approved sandbox escalation because Playwright browser spawning was blocked by `EPERM`: 16/16 tests passed.
@@ -2926,7 +2926,7 @@
   - Audited 538 local source-backed converted layers against their generated indexes: 17 layers have source rows that do not produce searchable labels, mostly because the source label field is blank for some rows or because the configured label is ID-only.
 - [x] Add recurrence guardrails for blank feature-index labels
   - Tightened `scripts/build/tiles/feature-indexes.mjs` so feature-index names/aliases/ids are trimmed and blank labels fall back to a stable feature name instead of indexing whitespace.
-  - Tightened `scripts/validate-test2-route.mjs` so `/test2` validation fails if any generated feature index contains a blank or `Unnamed Feature` label.
+  - Tightened `scripts/check/rules/election-route.mjs` so `/test2` validation fails if any generated feature index contains a blank or `Unnamed Feature` label.
 
 # /test2 election residual parity classification against main site
 - [x] Record the parity-classification request
@@ -2973,7 +2973,7 @@
 
 Bounded /test2 UI parity slice for URL/state/search/detail/source/active panel behavior
 - [x] Record the implementation request and owned-file scope
-  - Scope is limited to `test2/src/app.js`, `test2/src/test2.css`, `tests/browser/test2-app.spec.js`, `scripts/validate-test2-route.mjs`, plus this task tracker.
+  - Scope is limited to `test2/src/app.js`, `test2/src/test2.css`, `tests/browser/test2-app.spec.js`, `scripts/check/rules/election-route.mjs`, plus this task tracker.
 - [x] Inspect production `uiController` state/search/detail/source/active-panel behavior and compare it with `/test2`
   - Production already owns catalogue detail rendering, map action strips, source download/reference surfaces, feature detail links, and active layer controls.
   - `/test2` currently restores only layers, search text, camera, active panel, and controls, with no detail/source/hidden-layer state and panel restore implemented through click side effects.
@@ -2989,7 +2989,7 @@ Bounded /test2 UI parity slice for URL/state/search/detail/source/active panel b
 - [x] Verify with syntax checks, `/test2` route validation, build/check commands, and browser tests
   - `node --check test2/src/app.js` passed.
   - `node --check tests/browser/test2-app.spec.js` passed.
-  - `node --check scripts/validate-test2-route.mjs` passed.
+  - `node --check scripts/check/rules/election-route.mjs` passed.
   - `npm run check:test2` passed.
   - Temporary esbuild verification to `C:\tmp\test2-parity.bundle.js` and `C:\tmp\test2-parity.bundle.css` passed after approved reruns outside the sandbox due esbuild `spawn EPERM`.
   - Targeted local Playwright smoke with route interception to the temporary bundle passed for restored URL/detail/source/active-panel behavior.
@@ -3017,8 +3017,8 @@ Bounded non-data /test2 adapter parity slice
 - [x] Run focused verification and record results
   - `node --check test2/src/maplibre-main-adapter.js` passed.
   - `node --check tests/browser/test2-app.spec.js` passed.
-  - `node --check scripts/validate-test2-route.mjs` passed.
-  - `node scripts/validate-test2-route.mjs` passed.
+  - `node --check scripts/check/rules/election-route.mjs` passed.
+  - `node scripts/check/rules/election-route.mjs` passed.
   - `npm run check:test2` passed.
   - In-memory adapter harness passed for overlay show/hide, partial filter hide/show/unload, group visibility, and loaded-feature deduplication/payload shape.
   - `npm run build:test2` was attempted for browser verification but failed in the sandbox with esbuild `spawn EPERM`; escalation was rejected because it would modify generated bundles, so browser tests were not run in this no-generated-bundle slice.
@@ -3111,7 +3111,7 @@ Review main site versus /test2 parity
   - `index.html` and `test2/index.html` expose the same 90 DOM ids and the same production shell containers; `/test2` replaces Leaflet assets with its MapLibre bundle and CSS.
   - `/test2` reuses production `dataService`, `featureLoader`, and `uiController`, then wires the UI contract to `Test2MapLibreMainAdapter`.
 - [x] Compare runtime behavior and existing parity guardrails
-  - `node scripts/validate-test2-route.mjs` passes, covering shell preservation, route isolation, hash preservation, MapLibre-only engine, DOM label dedupe, orange hover/selection styling, transparent polygon fills, and composite fallback checks.
+  - `node scripts/check/rules/election-route.mjs` passes, covering shell preservation, route isolation, hash preservation, MapLibre-only engine, DOM label dedupe, orange hover/selection styling, transparent polygon fills, and composite fallback checks.
   - Existing browser coverage exercises boot, Ireland default camera, converted layer loading, URL restore, townlands/1926 composite children, hash preservation, labels, selected feature cards, support/theme/mobile shell, and no production service worker.
 - [x] Separate differences into feasible/sensible alignment, MapLibre-specific intentional divergence, and data-blocked gaps
   - Main callbacks still have real election, data-entry, co-load, partial-feature, chunk-download, time-slider, conditional-styling, runtime-debug, and production service-worker paths; `/test2` implements the same surface where currently practical and stubs or approximates the Leaflet-specific paths.
@@ -3282,7 +3282,7 @@ Test2 selected feature orange parity regression
   - Added static `/test2` route checks rejecting the old black selected styling and requiring selected fill/stroke/label support.
   - Extended the `/test2` browser interaction test to assert selected label class, orange label text, selected fill colour, selected stroke colour, selected stroke width, and selected feature-state.
 - [x] Verify with focused `/test2` build/check/browser coverage
-  - `node --check test/src/map-controller.js`, `node --check test/src/labels.js`, `node --check tests/browser/test2-app.spec.js`, and `node scripts/validate-test2-route.mjs` passed.
+  - `node --check test/src/map-controller.js`, `node --check test/src/labels.js`, `node --check tests/browser/test2-app.spec.js`, and `node scripts/check/rules/election-route.mjs` passed.
   - `npm run build:test2` passed after rerunning outside the sandbox because esbuild hit the known `spawn EPERM`.
   - `npm run check:test2` passed.
   - `npm run test:browser:test2` passed all 8 tests.
@@ -4558,7 +4558,7 @@ Harden chunked-map fit regression prevention
     - Permanent prevention action: static validation now blocks chunked maps unless they have explicit metadata bounds or a local chunk-index extent fallback; runtime fitting now skips chunked/spatial auto-fit when full bounds are missing; a headless regression test locks in that control flow.
     - Verification evidence: `npm run check` passed with `71` chunked entries and `71` explicit bounds; `npm run build` passed outside the sandbox after the expected esbuild spawn `EPERM`; cache-key check confirmed `app.bundle.js?v=116`, dynamic chunks under `chunks/v116/`, and service worker `v6`; production poll confirmed `https://civgraph.net/` serves `app.bundle.js?v=116` and `https://civgraph.net/sw.js` serves service worker `v6`.
   - Review:
-    - Added `scripts/validate-chunked-map-bounds.mjs` with offline validation and `--fix` support.
+    - Added `scripts/check/rules/chunked-map-bounds.mjs` with offline validation and `--fix` support.
     - Added `scripts/test-chunked-fit-bounds.mjs` for headless regression coverage.
     - Added `check`, `check:chunked-bounds`, `fix:chunked-bounds`, and `test:chunked-fit` npm scripts; build now runs the chunked-bounds validator before bundling.
     - Updated `fitToLayer()` and `fitToLayers()` so chunked/spatial layers require full-map bounds and never fall through to rendered group bounds.
@@ -4618,7 +4618,7 @@ Balance /test MapLibre label parity with performance
     - Label density is now rank/size based: 12 labels at z8, 57 at z9, 438 at z10, and all 2448 from z11 upward.
     - `/test` labels remain MapLibre `symbol` layers with renderer collision, `symbol-sort-key` priority, metadata-driven text fallbacks, configurable text colour, label visibility, and text scale controls.
     - Fill and label layers are both included in throttled hover/click hit-testing; no DOM label markers were added.
-    - Verification evidence: `node --check test\src\app.js`, `node --check scripts\build-test-civil-parishes-tiles.mjs`, `node --check scripts\validate-test-app.mjs`, `npm run check:test`, `npm run build:test:tiles`, and `npm run build:test` passed. Representative MVT inspection confirmed `label_name`, `label_rank`, and `label_minzoom` in `test\tiles\civil-parishes-v3\9\244\165.pbf`; MapLibre style-spec validation accepted the generated label layer expression; browser smoke loaded `/test/index.html`, loaded Civil Parishes in 144 ms locally, confirmed the label controls, toggled labels, changed text scale to 150, and clicked a rendered feature successfully.
+    - Verification evidence: `node --check test\src\app.js`, `node --check scripts\build-test-civil-parishes-tiles.mjs`, `node --check scripts\check\rules\test-app.mjs`, `npm run check:test`, `npm run build:test:tiles`, and `npm run build:test` passed. Representative MVT inspection confirmed `label_name`, `label_rank`, and `label_minzoom` in `test\tiles\civil-parishes-v3\9\244\165.pbf`; MapLibre style-spec validation accepted the generated label layer expression; browser smoke loaded `/test/index.html`, loaded Civil Parishes in 144 ms locally, confirmed the label controls, toggled labels, changed text scale to 150, and clicked a rendered feature successfully.
 
 Style /test MapLibre labels like main-site feature labels
 - [x] Add a metadata-driven label style contract for colour, halo, size, weight, wrapping, and hover state
@@ -4632,7 +4632,7 @@ Style /test MapLibre labels like main-site feature labels
     - Updated the MapLibre label layer to read style metadata for font stack, max width, line height, halo, text size, and hover/selected `feature-state` paint expressions.
     - Preserved MapLibre `symbol` rendering, renderer collision, ranked density, label toggling, and text scaling; no DOM label markers or CSS overlays were added.
     - Remaining difference: MapLibre halo and glyph rendering approximate the main site's CSS `text-shadow`/HTML text; underline-on-hover is not available for symbol text.
-    - Verification evidence: `node --check test\src\app.js`, `node --check scripts\validate-test-app.mjs`, `npm run check:test`, representative MapLibre style-spec validation, and `npm run build:test` passed. Browser smoke loaded `/test/index.html`, loaded Civil Parishes, reached z9.631 where labels are active, found no relevant label/glyph runtime errors, toggled labels off/on, changed text scale to 150, and selected a rendered feature successfully.
+    - Verification evidence: `node --check test\src\app.js`, `node --check scripts\check\rules\test-app.mjs`, `npm run check:test`, representative MapLibre style-spec validation, and `npm run build:test` passed. Browser smoke loaded `/test/index.html`, loaded Civil Parishes, reached z9.631 where labels are active, found no relevant label/glyph runtime errors, toggled labels off/on, changed text scale to 150, and selected a rendered feature successfully.
 
 Compare current main-site and /test feature labels
 - [x] Inspect the main Leaflet label creation and CSS
@@ -4653,7 +4653,7 @@ Fix /test label styling not appearing on mobile
     - Bumped JS/CSS bundle URLs to `test-004`, bumped the scoped `/test` service worker cache to `test-v4`, and made the app fetch `/test/metadata/maps-test.json?v=test-004`.
     - Added `assetVersion` to the diagnostics panel so stale mobile bundles are visible.
     - Added validator coverage so `npm run check:test` fails if the `/test` index, app asset version, and service-worker cache version drift apart.
-    - Verification evidence: `node --check test\src\app.js`, `node --check scripts\validate-test-app.mjs`, `npm run check:test`, and `npm run build:test` passed; local headless browser smoke loaded `/test`, requested `test.bundle.css?v=test-004`, `test.bundle.js?v=test-004`, and `maps-test.json?v=test-004`, then loaded `civil-parishes-vector-test` with diagnostics showing `assetVersion: test-004`.
+    - Verification evidence: `node --check test\src\app.js`, `node --check scripts\check\rules\test-app.mjs`, `npm run check:test`, and `npm run build:test` passed; local headless browser smoke loaded `/test`, requested `test.bundle.css?v=test-004`, `test.bundle.js?v=test-004`, and `maps-test.json?v=test-004`, then loaded `civil-parishes-vector-test` with diagnostics showing `assetVersion: test-004`.
 
 Show /test feature labels at every zoom and compare architecture
 - [x] Remove hard label zoom gates from the /test MapLibre symbol layer
@@ -4666,8 +4666,8 @@ Show /test feature labels at every zoom and compare architecture
     - Removed the per-feature `label_minzoom` filter, set Civil Parishes `labelMinZoom` to `0`, and removed the label max-zoom cap by allowing `labelMaxZoom: null`.
     - Kept MapLibre symbol collision, `symbol-sort-key` rank priority, hover/selected feature-state styling, label toggles, and text-scale controls.
     - Bumped `/test` assets to `test-005` and the scoped service worker to `test-v5`; diagnostics now report label layer zoom bounds and rendered label feature count.
-    - Updated `scripts/validate-test-app.mjs` so null/omitted `labelMaxZoom` is a valid intentional uncapped state while invalid numeric caps still fail validation.
-    - Verification evidence: `node --check test\src\app.js`, `node --check scripts\validate-test-app.mjs`, `npm run check:test`, and approved `npm run build:test` passed; headless mobile smoke loaded `/test`, requested `test.bundle.css?v=test-005`, `test.bundle.js?v=test-005`, and `maps-test.json?v=test-005`, then loaded Civil Parishes at z5.372 with label diagnostics showing `minzoom: 0`, `maxzoom: null`, and `renderedLabelFeatures: 46`.
+    - Updated `scripts/check/rules/test-app.mjs` so null/omitted `labelMaxZoom` is a valid intentional uncapped state while invalid numeric caps still fail validation.
+    - Verification evidence: `node --check test\src\app.js`, `node --check scripts\check\rules\test-app.mjs`, `npm run check:test`, and approved `npm run build:test` passed; headless mobile smoke loaded `/test`, requested `test.bundle.css?v=test-005`, `test.bundle.js?v=test-005`, and `maps-test.json?v=test-005`, then loaded Civil Parishes at z5.372 with label diagnostics showing `minzoom: 0`, `maxzoom: null`, and `renderedLabelFeatures: 46`.
 
 Plan main-site functionality transfer into /test
 - [x] Review main-site controllers, metadata, catalogue, labels, search, elections, time slider, styling, and /test rewrite structure
@@ -4782,7 +4782,7 @@ Implement /test non-data-blocked hardening and PMTiles pass
     - Diagnostics now report PMTiles/directory-MVT counts, slow loads, large layers, oversized tiles, and missing feature indexes.
     - Feature search now returns more results, groups by layer, shows badges/context, supports Arrow key navigation, and still caps results to avoid excessive DOM.
     - Added warning badges for PMTiles, large layers, large tiles, and heavy layers such as townlands.
-    - Added `scripts/validate-test-tile-budgets.mjs`; `npm run check:test` now fails on invalid bounds, missing PMTiles archives, hard tile-size budget breaches, and reappearance of the invalid `roi-counties-2011` generated directory.
+    - Added `scripts/check/rules/tile-budgets.mjs`; `npm run check:test` now fails on invalid bounds, missing PMTiles archives, hard tile-size budget breaches, and reappearance of the invalid `roi-counties-2011` generated directory.
     - Removed the invalid `test/tiles/generated/roi-counties-2011` tile directory and added `test/metadata/quarantine/roi-counties-2011.json` as the audit trail.
     - Added `npm run smoke:test:mobile`, including a range-capable local static server because PMTiles requires HTTP byte serving.
     - Bumped `/test` assets and scoped service worker to `test-010`.
@@ -5401,7 +5401,7 @@ Add election entries to /test2
     - `node --check test2/src/election-manager.js` passed.
     - `node --check test2/src/app.js` passed.
     - `node --check test2/src/maplibre-main-adapter.js` passed.
-    - `node --check scripts/validate-test2-route.mjs` passed.
+    - `node --check scripts/check/rules/election-route.mjs` passed.
     - `node --check tests/browser/test2-app.spec.js` passed.
     - `npm run build:test2` passed after sandbox escalation for esbuild spawn.
     - `npm run check:test2` passed.
@@ -5475,7 +5475,7 @@ Add election entries to /test2
 - Verification:
   - `node --check test2/src/election-manager.js` passed.
   - `node --check test2/src/app.js` passed.
-  - `node --check scripts/validate-test2-route.mjs` passed.
+  - `node --check scripts/check/rules/election-route.mjs` passed.
   - `node --check tests/browser/test2-app.spec.js` passed.
   - `npm run build:test2` passed after approved sandbox escalation for esbuild spawning.
   - `npm run check:test2` passed.
@@ -5525,7 +5525,7 @@ Add election entries to /test2
   - Added empty-map click hover cleanup to the MapLibre controller.
   - Changed `/test2` election seat circles to use the shared main-style seat-position algorithm, fixed 12px-equivalent MapLibre dots, white halo, black outline, and pixel-offset placement instead of geographic-degree offsets and zoom-scaled radii.
   - Added route/static checks and browser coverage for mobile thumbnail dismissal and seat-circle paint/halo/source generation.
-  - Verification passed: `node --check` on edited JS files, `node scripts/validate-test2-route.mjs`, `npm run build:test2`, `npm run check:test2`, `npm run test:browser:test2` (21/21), `npm run build`, and `npm run check`.
+  - Verification passed: `node --check` on edited JS files, `node scripts/check/rules/election-route.mjs`, `npm run build:test2`, `npm run check:test2`, `npm run test:browser:test2` (21/21), `npm run build`, and `npm run check`.
 
 # /test2 remaining feasible parity gap resolution
 - [x] Record scope and recurring defect
@@ -5557,7 +5557,7 @@ Add election entries to /test2
 - Verification:
   - `node --check scripts/build/build-test2-election-manifest.mjs` passed.
   - `node --check test2/src/election-manager.js` passed.
-  - `node --check scripts/validate-test2-route.mjs` passed.
+  - `node --check scripts/check/rules/election-route.mjs` passed.
   - `node --check tests/browser/test2-app.spec.js` passed.
   - `npm run build:test2:elections` passed.
   - `npm run build:test2` passed after approved sandbox escalation for esbuild spawning.
@@ -5585,7 +5585,7 @@ Add election entries to /test2
 - [x] Verify
   - Run `/test2` static checks, bundle build, and browser smoke where available.
   - `node --check test2/src/election-manager.js` passed.
-  - `node --check scripts/validate-test2-route.mjs` passed.
+  - `node --check scripts/check/rules/election-route.mjs` passed.
   - `npm run check:test2` passed.
   - `npm run build:test2` passed after approved sandbox escalation for esbuild helper spawning.
   - `npm run test:browser:test2` passed after approved sandbox escalation for Playwright/browser worker spawning: 21/21 tests.
@@ -5608,7 +5608,7 @@ Add election entries to /test2
 - [x] Verify
   - Run syntax checks, `/test2` validation, `/test2` build, and browser suite.
   - `node --check test2/src/election-manager.js` passed.
-  - `node --check scripts/validate-test2-route.mjs` passed.
+  - `node --check scripts/check/rules/election-route.mjs` passed.
   - `node --check tests/browser/test2-app.spec.js` passed.
   - `npm run check:test2` passed.
   - `npm run build:test2` passed after approved sandbox escalation for esbuild helper spawning.
@@ -5909,8 +5909,8 @@ Add election entries to /test2
   - Completed: added `js/election-main-pane-contract.mjs` as the shared engine-neutral election pane contract and changed `/test2` to instantiate it directly.
   - Completed: reduced `test2/src/election-pane-main-contract.js` to a compatibility re-export so the old local wrapper no longer owns the visible pane contract.
   - Completed: changed selected-result pane titles to use the main-style area title rather than appending the election title, and removed the test2-only selected-result stats strip before the table.
-  - Completed: updated `scripts/validate-test2-route.mjs` so `check:test2` enforces the shared contract path instead of checking stale local-wrapper strings.
-  - Verification evidence: `node --check js/election-main-pane-contract.mjs`, `node --check test2/src/election-manager.js`, `node --check test2/src/election-pane-main-contract.js`, and `node --check scripts/validate-test2-route.mjs` passed; `npm run check:test2` passed; `npm run check` passed; `npm run build:test2` passed after approved esbuild spawn escalation.
+  - Completed: updated `scripts/check/rules/election-route.mjs` so `check:test2` enforces the shared contract path instead of checking stale local-wrapper strings.
+  - Verification evidence: `node --check js/election-main-pane-contract.mjs`, `node --check test2/src/election-manager.js`, `node --check test2/src/election-pane-main-contract.js`, and `node --check scripts/check/rules/election-route.mjs` passed; `npm run check:test2` passed; `npm run check` passed; `npm run build:test2` passed after approved esbuild spawn escalation.
   - Remaining constraint: this is a structural shared-contract step, not a literal wholesale extraction of every private method from `js/election-controller.js`; MapLibre selection/drawing remains in `/test2`, and exact transfer-animation/count-data parity still depends on the available generated election sidecars.
 
 # Restore test2 election transfer animation parity
@@ -5927,7 +5927,7 @@ Add election entries to /test2
   - Completed: changed `summarizeResult()` so scraper-style election result files are normalized through the same main-shaped synthetic count payload used by the production election controller.
   - Completed: removed the `/test2` Transfers-tab early fallback and made the tab auto-run `stages2.js` against the generated animation payload.
   - Completed: added a `check:test2` guardrail asserting Dáil 2024 Mayo carries a multi-stage animation payload.
-  - Verification evidence: `node --check js/election-domain.mjs`, `node --check test2/src/election-manager.js`, and `node --check scripts/validate-test2-route.mjs` passed; `npm run build:test2:elections` passed; generated Dáil 2024 Mayo has `hasCountDetail: true`, count stages `1-5`, and 16 animation rows; `npm run check:test2` passed; local Playwright smoke for explicit Dáil 2024 Mayo `/test2` election state showed active tab `Transfers`, no no-data fallback, visible animation container, stage numbers `12345`, and 59 animation children; `npm run check` passed; `npm run build:test2` and `npm run build` passed after approved esbuild spawn escalation.
+  - Verification evidence: `node --check js/election-domain.mjs`, `node --check test2/src/election-manager.js`, and `node --check scripts/check/rules/election-route.mjs` passed; `npm run build:test2:elections` passed; generated Dáil 2024 Mayo has `hasCountDetail: true`, count stages `1-5`, and 16 animation rows; `npm run check:test2` passed; local Playwright smoke for explicit Dáil 2024 Mayo `/test2` election state showed active tab `Transfers`, no no-data fallback, visible animation container, stage numbers `12345`, and 59 animation children; `npm run check` passed; `npm run build:test2` and `npm run build` passed after approved esbuild spawn escalation.
 # Align test2 selected-election count panes and transfer autoplay
 - [x] Record correction
   - Symptom: For Dail 2024 selected constituencies, the main site's `By Count` pane shows the compact first-preference count table while `/test2` shows a wide detailed multi-count table with compressed headers; the Transfers pane also behaves as though it needs a separate start action rather than auto-starting like main.
@@ -5953,7 +5953,7 @@ Add election entries to /test2
   - Clear selected result and selected count view unless the URL explicitly requests election selected-result state.
 - [x] Verify
   - `node --check test2\src\election-manager.js` passed.
-  - `node --check scripts\validate-test2-route.mjs` passed.
+  - `node --check scripts\check\rules\election-route.mjs` passed.
   - `npm run check:test2` passed.
   - `npm run build:test2` passed after rerunning outside the sandbox because Windows blocked esbuild spawn in the sandbox.
   - Browser smoke against `/test2/#layers=election-dil-ireann-2024-11-29&zoom=7&lat=53.70000&lng=-8.20000` restored `Dáil - 29 Nov 2024`, `By Party`, no selected constituency, and first rows Fine Gael, Fianna Fail, Independent, Sinn Fein.
@@ -6005,7 +6005,7 @@ Add election entries to /test2
   - Completed: changed `/test2` selected constituency/DEA `By Party` rendering from a simplified grouped candidate-summary aggregate to a main-style flat selected-party table derived from the same `countGroup` shape used by the main election controller.
   - Completed: added previous-election matching for selected results so selected-party deltas are calculated from the matching previous constituency/DEA result.
   - Completed: added route validation that fails if selected-party panes reuse the overall grouped headers.
-  - Verification evidence: `node --check test2/src/election-manager.js`, `node --check scripts/validate-test2-route.mjs`, `npm run check:test2`, `npm run build:test2` after approved esbuild spawn escalation, targeted renderer contract smoke, and `npm run check` passed.
+  - Verification evidence: `node --check test2/src/election-manager.js`, `node --check scripts/check/rules/election-route.mjs`, `npm run check:test2`, `npm run build:test2` after approved esbuild spawn escalation, targeted renderer contract smoke, and `npm run check` passed.
 
 # Fix failed run after test2 selected-pane parity push
 - [x] Record failure and lesson
@@ -6015,7 +6015,7 @@ Add election entries to /test2
 - [x] Reproduce locally
   - Ran `/test2`, `/test`, and production build checks. Local `/test` initially masked the CI failure because the missing generated files existed untracked on this machine.
 - [x] Inspect remote failure if local checks pass
-  - Used GitHub Actions logs for run `27035384699`; failure occurred in `npm run build:test` via `scripts/validate-test-app.mjs`.
+  - Used GitHub Actions logs for run `27035384699`; failure occurred in `npm run build:test` via `scripts/check/rules/test-app.mjs`.
 - [x] Implement fix and guardrail
   - Updated `opw-nifm-river-flood-extents-current-vector-test` to use CDN tile and metadata URLs instead of repo-local generated paths.
   - Removed stale `featureIndexUrl` from `dfi-surface-defects-2017-vector-test` until that feature index is generated and committed or served remotely.
@@ -6023,7 +6023,7 @@ Add election entries to /test2
   - Made `/test` catalogue detail pages always render a `Source files` section, including an explicit empty state, so unconverted/detail entries satisfy the shell contract consistently.
   - Constrained `smoke:test:mobile` to a CI-safe representative layer set by default, with `TEST_SMOKE_ALL=1` retained for exhaustive mobile smoke runs.
 - [x] Verify, commit, and push
-  - Verification evidence: `node scripts/validate-test-app.mjs`, `npm run build:test`, `npm run check:test`, `npm run check:test2`, `npm run test:browser:test`, `npm run smoke:test:mobile`, `npm run test:performance:test`, and `npm run test:visual:test` passed. `npm run check:test` now emits only a non-fatal missing feature-search warning for the DfI layer.
+  - Verification evidence: `node scripts/check/rules/test-app.mjs`, `npm run build:test`, `npm run check:test`, `npm run check:test2`, `npm run test:browser:test`, `npm run smoke:test:mobile`, `npm run test:performance:test`, and `npm run test:visual:test` passed. `npm run check:test` now emits only a non-fatal missing feature-search warning for the DfI layer.
   - CI evidence: run `27036348924` passed `npm run build:test` and `npm run check:test:ci-safe`; its later browser-smoke failure was reproduced and fixed locally before the follow-up push.
   - CI hang prevention: run `27037397009` passed `validate-test`; the remaining active job was `mobile-smoke`, which was reproduced locally as an exhaustive 674-layer default and fixed with a bounded smoke default.
   - Follow-up failure: run `27038433056` passed `validate-test` but failed `mobile-smoke` because the smoke page reported two 404 console errors in a clean checkout.
@@ -6044,7 +6044,7 @@ Add election entries to /test2
   - Added `/test2` route validation that asserts selected party tables call the main-pane status helper and do not use quota string matching.
   - Added a Dáil 2024 Roscommon Galway data guard so quota rows remain present but are not treated as direct elected statuses for selected-pane parity.
 - [x] Verify build/check/browser paths
-  - Verification evidence: `node --check test2/src/election-manager.js`, `node --check js/election-main-pane-contract.mjs`, `node --check scripts/validate-test2-route.mjs`, `npm run check:test2`, `npm run build:test2`, and `npm run check` passed.
+  - Verification evidence: `node --check test2/src/election-manager.js`, `node --check js/election-main-pane-contract.mjs`, `node --check scripts/check/rules/election-route.mjs`, `npm run check:test2`, `npm run build:test2`, and `npm run check` passed.
   - Browser evidence: focused Playwright parity checks passed with `npx playwright test tests/browser/test2-app.spec.js -g "Dail 2024 election pane|Dail election candidate"`.
   - Broader browser-suite note: `npm run test:browser:test2` still depends on local generated vector-tile fixtures that are absent in this checkout (`/test/tiles/generated/...` 404s), so I treated the data-fixture failures as outside this scoped pane-semantics fix and used the focused parity tests for this commit.
 - [x] Commit and push
@@ -6067,7 +6067,7 @@ Add election entries to /test2
   - Completed: changed selected-party percent-delta formatting to match main's selected-pane fixed-decimal output without an appended percent sign.
   - Completed: added a browser regression that loads main and `/test2` side-by-side, selects Roscommon Galway for Dáil 2024 on both, and compares the visible title, tabs, headers, and first selected-party rows.
   - Completed: added route validation so the selected-pane formatter and candidate-name admissibility do not drift silently.
-  - Verification evidence: `node --check test2/src/election-manager.js`, `node --check scripts/validate-test2-route.mjs`, `node --check tests/browser/test2-app.spec.js`, `node --check js/election-main-pane-contract.mjs`, `node scripts/validate-test2-route.mjs`, `npm run check:test2`, `npm run build:test2`, and focused browser checks for `Dail 2024 election pane|Dail election candidate|selected Dail constituency` passed.
+  - Verification evidence: `node --check test2/src/election-manager.js`, `node --check scripts/check/rules/election-route.mjs`, `node --check tests/browser/test2-app.spec.js`, `node --check js/election-main-pane-contract.mjs`, `node scripts/check/rules/election-route.mjs`, `npm run check:test2`, `npm run build:test2`, and focused browser checks for `Dail 2024 election pane|Dail election candidate|selected Dail constituency` passed.
 
 # General main vs /test2 parity audit guardrail
 - [x] Record scope
@@ -6086,9 +6086,9 @@ Add election entries to /test2
   - Completed: staged only scoped parity-audit files and task/lesson updates for commit and push.
 - Review:
   - Completed: added `docs/test2-general-parity-matrix.json` to define must-match, MapLibre-equivalent, acceptable-engine-difference, and blocked-on-data parity categories.
-  - Completed: added `scripts/audit-test2-general-parity.mjs`, which loads main and `/test2` side by side and checks representative shell, catalogue, map control, ordinary-map, election-overall, selected-election, election-overlay, timeline, Browse, URL restore, and mobile states.
+  - Completed: added `scripts/check/rules/general-parity.mjs`, which loads main and `/test2` side by side and checks representative shell, catalogue, map control, ordinary-map, election-overall, selected-election, election-overlay, timeline, Browse, URL restore, and mobile states.
   - Completed: exposed the audit as `npm run audit:test2:parity` and made `npm run check:test2` assert that the audit and matrix remain present.
-  - Verification evidence: `node --check scripts/audit-test2-general-parity.mjs`, `node --check scripts/validate-test2-route.mjs`, JSON matrix parsing, `npm run check:test2`, `npm run audit:test2:parity`, `npm run test:visual:test2`, and `npm run check` passed. Playwright-based commands required approved escalation because the Windows sandbox blocks Chromium spawn.
+  - Verification evidence: `node --check scripts/check/rules/general-parity.mjs`, `node --check scripts/check/rules/election-route.mjs`, JSON matrix parsing, `npm run check:test2`, `npm run audit:test2:parity`, `npm run test:visual:test2`, and `npm run check` passed. Playwright-based commands required approved escalation because the Windows sandbox blocks Chromium spawn.
 
 # Explain Civgraph election entry data sources
 - [x] Identify website election-entry data used by Civgraph.net
@@ -6146,7 +6146,7 @@ Add election entries to /test2
   - Diagnosis: the bad screenshot row came from treating ElectionsIreland scraper-shaped records as if they were real STV count tables; the old parity test only asserted that main and `/test2` matched each other, so it could pass while both showed wrong 2024 values.
   - Source comparison: Wikipedia's 2024 headline table reports 174 Dáil seats, total valid votes `2,202,453`, and the top rows Fianna Fáil `48/82/481,414`, Sinn Féin `39/71/418,627`, Fine Gael `38/80/458,134`, Independent `16/171/290,748`; the constituency table confirms Kildare South has one reserved Ceann Comhairle seat and only three contested seats.
   - Completed: preserved scraper-aware summary derivation and Ceann Comhairle auto-return handling, then tightened `tests/browser/test2-app.spec.js` so the 2024 Dáil pane must show the actual Wikipedia headline values, not merely match main.
-  - Verification evidence: `node --check tests/browser/test2-app.spec.js`, `node --check scripts/validate-test2-route.mjs`, `npm run build:test2`, `npx playwright test tests/browser/test2-app.spec.js -g "Dail 2024 election pane matches"`, `npm run check:test2`, `npm run check`, and a focused generated-data audit passed. Browser/esbuild commands required approved escalation because the Windows sandbox blocks Chromium/esbuild process spawn.
+  - Verification evidence: `node --check tests/browser/test2-app.spec.js`, `node --check scripts/check/rules/election-route.mjs`, `npm run build:test2`, `npx playwright test tests/browser/test2-app.spec.js -g "Dail 2024 election pane matches"`, `npm run check:test2`, `npm run check`, and a focused generated-data audit passed. Browser/esbuild commands required approved escalation because the Windows sandbox blocks Chromium/esbuild process spawn.
 
 # Fix erroneous Irish general election data on /test2
 - [x] Investigate 2024 Dáil data failure first
@@ -6161,10 +6161,10 @@ Add election entries to /test2
   - Completed: regenerated all `/test2` election bundles and audited every `dail-eireann__*.json`; `mainLikePartySummary` now has zero drift from source-shaped `partySummary` across the Dáil series.
   - Finding: broad all-election comparisons still show non-Dáil mismatches where `partySummary` is not authoritative for seats, so the permanent guardrail is scoped to Dáil source-shaped summaries rather than blindly forcing all election families to match.
 - [x] Add guardrails and regenerate data
-  - Completed: replaced the old Dáil 2024 parity guard in `scripts/validate-test2-route.mjs` with source-correct assertions for 2024 totals and a modern Dáil drift detector.
+  - Completed: replaced the old Dáil 2024 parity guard in `scripts/check/rules/election-route.mjs` with source-correct assertions for 2024 totals and a modern Dáil drift detector.
   - Completed: regenerated `/test2` election bundles, `/test2` app bundle, Browse indexes, and the production app bundle so both `/test2` and main use the corrected election summaries.
 - [x] Verify and document
-  - Verification evidence: `node --check js/election-domain.mjs`, `node --check js/election-controller.js`, `node --check scripts/validate-test2-route.mjs`, `npm run build:test2:elections`, `npm run build:browse`, `npm run build:test2`, `npm run build`, `npm run check:test2`, `npm run check`, focused Dáil drift audit (`dailDriftCount=0`), and focused Playwright `npx playwright test tests/browser/test2-app.spec.js -g "Dail 2024 election pane matches"` passed.
+  - Verification evidence: `node --check js/election-domain.mjs`, `node --check js/election-controller.js`, `node --check scripts/check/rules/election-route.mjs`, `npm run build:test2:elections`, `npm run build:browse`, `npm run build:test2`, `npm run build`, `npm run check:test2`, `npm run check`, focused Dáil drift audit (`dailDriftCount=0`), and focused Playwright `npx playwright test tests/browser/test2-app.spec.js -g "Dail 2024 election pane matches"` passed.
   - Note: `npm run build:test2`, `npm run build`, and Playwright required approved escalation because the Windows sandbox blocks esbuild/browser process spawn.
 
 # Fix /test2 election backing-layer unload and ROI labels
@@ -6209,8 +6209,8 @@ Add election entries to /test2
   - Recurring issue: selected election panes reused transfer-table semantics for scraper-only first-preference data.
     - Symptom: Cork North-Central showed zero first preferences for most candidates, false `Made Quota` transfer stages, and wrong party colours.
     - Root cause: synthetic scraper rows were encoded as if `final_count` were a real `Count_Number`; `/test2` also treated any animation payload as transfer detail and used stale ROI colour fallback maps.
-    - Permanent prevention action: `scripts/validate-test2-route.mjs` now asserts synthetic Dáil 2024 rows stay first-count-only and includes named Cork North-Central candidate/value/colour checks; the focused browser regression asserts party rows, candidate rows, swatches, and no fake Transfers tab.
-    - Verification evidence: `node --check js/election-domain.mjs`, `node --check js/election-controller.js`, `node --check test2/src/election-manager.js`, `node --check scripts/build/build-test2-election-manifest.mjs`, `node --check scripts/validate-test2-route.mjs`, `node --check tests/browser/test2-app.spec.js`, `npm run build:test2:elections`, `npm run build:browse`, `npm run check:test2`, `npm run build:test2`, `npm run build`, `npm run check`, and focused Playwright `npx playwright test tests/browser/test2-app.spec.js --grep "Cork North-Central"` passed. The esbuild and Playwright commands required approved escalation because the Windows sandbox blocks process/browser spawn.
+    - Permanent prevention action: `scripts/check/rules/election-route.mjs` now asserts synthetic Dáil 2024 rows stay first-count-only and includes named Cork North-Central candidate/value/colour checks; the focused browser regression asserts party rows, candidate rows, swatches, and no fake Transfers tab.
+    - Verification evidence: `node --check js/election-domain.mjs`, `node --check js/election-controller.js`, `node --check test2/src/election-manager.js`, `node --check scripts/build/build-test2-election-manifest.mjs`, `node --check scripts/check/rules/election-route.mjs`, `node --check tests/browser/test2-app.spec.js`, `npm run build:test2:elections`, `npm run build:browse`, `npm run check:test2`, `npm run build:test2`, `npm run build`, `npm run check`, and focused Playwright `npx playwright test tests/browser/test2-app.spec.js --grep "Cork North-Central"` passed. The esbuild and Playwright commands required approved escalation because the Windows sandbox blocks process/browser spawn.
     - Residual test note: a broader `--grep "Dail"` browser subset still has two pre-existing/brittle UI-test failures unrelated to the Cork data fix: a filter-menu visibility timeout and a renderer-marker assertion after a direct-rendered candidate view. The source-specific Cork regression and static route checks pass.
 
 # Finish /test2 election parity, catalogue naming, and R2 queue
@@ -6287,7 +6287,7 @@ Add election entries to /test2
   - Completed: route validation now rejects the old `renderCouncilResults(view)` redirect from district mode, requires the `District` geography control contract, and requires council aggregate lookup/rendering hooks. The focused browser test now asserts that selected council aggregates use the main-compatible normal result tabs and do not expose a separate `By Council` tab.
 - [x] Verify and commit
   - Scope: run syntax/static checks, focused `/test2` browser checks if available, then commit and push the scoped source changes.
-  - Verification evidence: `node --check test2/src/election-manager.js`, `node --check js/election-main-pane-contract.mjs`, `node --check scripts/validate-test2-route.mjs`, `node --check tests/browser/test2-app.spec.js`, `npm run check:test2`, `npm run build:test2`, and focused Playwright `npx playwright test tests/browser/test2-app.spec.js --grep "local-government aggregates"` passed. The build and Playwright commands required approved escalation because the Windows sandbox blocks process/browser spawn.
+  - Verification evidence: `node --check test2/src/election-manager.js`, `node --check js/election-main-pane-contract.mjs`, `node --check scripts/check/rules/election-route.mjs`, `node --check tests/browser/test2-app.spec.js`, `npm run check:test2`, `npm run build:test2`, and focused Playwright `npx playwright test tests/browser/test2-app.spec.js --grep "local-government aggregates"` passed. The build and Playwright commands required approved escalation because the Windows sandbox blocks process/browser spawn.
   - Recurring issue: local-government parity was previously assessed from metadata or helper state rather than the visible main-site contract.
     - Symptom: `/test2` showed a Council aggregate tab/path where the main site exposes a `DEA`/`District` geography switch plus normal result tabs.
     - Root cause: `/test2` mixed geography mode and analysis view mode; council seat-circle activation rendered the old aggregate view instead of selecting a council result.
@@ -6303,7 +6303,7 @@ Add election entries to /test2
 - [x] Add line-ending guardrails
   - Completed: added `.gitattributes` LF normalization for generated metadata/report JSON and the `/test2` election audit markdown report so Windows rebuilds do not produce CRLF-only dirty-tree churn.
 - [x] Verify and commit
-  - Verification evidence: `node --check` passed for `scripts/lib/stable-generated-json.mjs`, `scripts/build/build-test2-election-manifest.mjs`, `scripts/build/build-test2-election-summaries.mjs`, `scripts/build/build-test2-metadata-shards.mjs`, `scripts/audit-test2-election-data.mjs`, `scripts/validate-test2-pmtiles-cdn.mjs`, and `scripts/build/build-test2-performance-dashboard.mjs`.
+  - Verification evidence: `node --check` passed for `scripts/lib/stable-generated-json.mjs`, `scripts/build/build-test2-election-manifest.mjs`, `scripts/build/build-test2-election-summaries.mjs`, `scripts/build/build-test2-metadata-shards.mjs`, `scripts/check/rules/election-data-audit.mjs`, `scripts/validate-test2-pmtiles-cdn.mjs`, and `scripts/build/build-test2-performance-dashboard.mjs`.
   - Verification evidence: `npm run build:test2:elections`, `npm run build:test2`, and `npm run check:test2` passed, and `git status --porcelain=v1` stayed limited to the intended source/task files after the generators reran. `build:test2` reported `Test2 layer details: 0 changed, 0 stale removed` and `Test2 duplicate-id sidecars: 0 changed, 0 stale removed`.
   - Recurring issue: generated metadata/audit reports repeatedly dirtied the working tree after verification.
     - Symptom: hundreds of tracked `/test` metadata files appeared modified, while true diffs were mostly generated timestamps.
@@ -6334,7 +6334,7 @@ Add election entries to /test2
   - Completed: deferred search-worker prep, election catalogue warmup, performance dashboard rendering, books/geographies database loads, and FlatGeobuf startup scripts until the user hits a path that needs them.
 - [x] Add performance guardrails and measurement
   - Task: extend `/test2` performance validation to check the startup split, entry bundle size, lazy chunk size, and provide a cold-load measurement script.
-  - Completed: added startup-split route validation, performance dashboard checks for bootstrap/lazy chunk sizes, and `scripts/measure-test2-cold-load.mjs` with npm scripts for cold-load measurement.
+  - Completed: added startup-split route validation, performance dashboard checks for bootstrap/lazy chunk sizes, and `scripts/check/browser/cold-load.mjs` with npm scripts for cold-load measurement.
 - [x] Rebuild `/test2` and validate
   - Task: run `/test2` build and checks, then fix any regressions caused by the split or lazy loading.
   - Completed: `npm run build:test2`, `npm run check:test2`, `npm run test:performance:test2:cold`, `npm run check:performance:test2:cold`, `npm run build`, and `npm run check` passed. Cold-load initial JS is now 9.3 KB, with validation-mode desktop shell/runtime at 25 ms / 217 ms and mobile shell/runtime at 29 ms / 187 ms in the local harness.
@@ -6378,7 +6378,7 @@ Add election entries to /test2
   - Completed: added route-aware service-worker configuration in `test2/src/app.js`; diagnostics now report whether the root or `/test2` worker is active.
 - [x] Add promotion guardrails
   - Scope: make root promotion/cache ownership fail validation if future builds drift back toward the old Leaflet root or lose `/test2` compatibility.
-  - Completed: extended `scripts/validate-maplibre-root-promotion.mjs` to assert root MapLibre HTML, root service-worker cache/status/range behavior, route-aware app registration, and preserved `/test2` runtime loading.
+  - Completed: extended `scripts/check/rules/maplibre-root-promotion.mjs` to assert root MapLibre HTML, root service-worker cache/status/range behavior, route-aware app registration, and preserved `/test2` runtime loading.
 - [x] Document cutover and rollback
   - Scope: keep the root promotion operational steps and rollback path in-repo.
   - Completed: added `docs/maplibre-root-promotion-runbook.md` covering build/check commands, live cutover checks, the Leaflet archive tag, emergency revert flow, and why the unused Leaflet JS output remains until the CSS pipeline is separated.
@@ -6404,7 +6404,7 @@ Add election entries to /test2
   - Completed: added `scripts/build-legacy-leaflet-app.mjs` and `npm run build:legacy-leaflet`; verified the manual legacy command still builds the archived Leaflet bundle, then verified the normal build removes it again.
 - [x] Add guardrails
   - Scope: make validation fail if the normal production build path drifts back to `scripts/bundle.mjs`, the legacy Leaflet bundle, or Leaflet assets.
-  - Completed: extended `scripts/validate-maplibre-root-promotion.mjs` so the production build must use the shared-assets script, must not run the Leaflet bundler, must keep the legacy build command separate, and must not leave `build/app.bundle.js` behind after a normal build.
+  - Completed: extended `scripts/check/rules/maplibre-root-promotion.mjs` so the production build must use the shared-assets script, must not run the Leaflet bundler, must keep the legacy build command separate, and must not leave `build/app.bundle.js` behind after a normal build.
 - [x] Verify and push
   - Scope: run build/check paths, confirm root still serves MapLibre and `/test2`, then commit and push the refactor.
   - Verification evidence: `npm run build`, `npm run build:legacy-leaflet`, `npm run build`, `npm run check`, and `npm run check:test2` passed. After the final normal build, `build/app.bundle.js` and `build/chunks/v116` were absent.
@@ -6421,10 +6421,10 @@ Add election entries to /test2
 - [x] Document archived status
   - Completed: updated `archive/README.md` and `docs/maplibre-root-promotion-runbook.md` to identify the file as historical reference only.
 - [x] Add guardrail
-  - Completed: updated `scripts/validate-maplibre-root-promotion.mjs` to fail if `scripts/bundle.mjs` returns to the active scripts directory or if the archived copy is missing.
+  - Completed: updated `scripts/check/rules/maplibre-root-promotion.mjs` to fail if `scripts/bundle.mjs` returns to the active scripts directory or if the archived copy is missing.
 - [x] Verify and push
   - Scope: run the root/full checks, commit, push, and advise what remains.
-  - Verification evidence: `node --check scripts/validate-maplibre-root-promotion.mjs`, `node --check archive/legacy-scripts/bundle.mjs`, `npm run build`, `npm run check`, and `npm run check:test2` passed. `scripts/bundle.mjs` is absent, `archive/legacy-scripts/bundle.mjs` is present, and the normal build leaves both `build/app.bundle.js` and `build/chunks/v116` absent.
+  - Verification evidence: `node --check scripts/check/rules/maplibre-root-promotion.mjs`, `node --check archive/legacy-scripts/bundle.mjs`, `npm run build`, `npm run check`, and `npm run check:test2` passed. `scripts/bundle.mjs` is absent, `archive/legacy-scripts/bundle.mjs` is present, and the normal build leaves both `build/app.bundle.js` and `build/chunks/v116` absent.
 
 ## Review: archived mixed bundle script
 - `scripts/bundle.mjs` is now archived at `archive/legacy-scripts/bundle.mjs` with a header explaining that it is historical reference only.
@@ -6443,7 +6443,7 @@ Add election entries to /test2
   - Completed: extended root promotion validation to require system dark-mode coverage for election tables, feature-info blocks, active election rows, and `/test2` panels.
 - [x] Verify and push
   - Scope: rebuild promoted root and `/test2`, run checks, then commit and push.
-  - Verification evidence: `node --check scripts/validate-maplibre-root-promotion.mjs`, `git diff --check`, a Playwright dark-mode contrast fixture, `npm run build`, `npm run check:root`, `npm run check:test2`, and `npm run check` passed.
+  - Verification evidence: `node --check scripts/check/rules/maplibre-root-promotion.mjs`, `git diff --check`, a Playwright dark-mode contrast fixture, `npm run build`, `npm run check:root`, `npm run check:test2`, and `npm run check` passed.
 
 ## Review: dark-mode UI sweep
 - The reported election pane failure was a system dark-mode cascade gap, not a MapLibre rendering issue: table rows, sticky columns, and several supporting panels used hardcoded light backgrounds while text switched to dark-mode colours.
@@ -6469,13 +6469,13 @@ Add election entries to /test2
 # Add transfer-style static vote graphic for single-seat FPTP Results panes
 - [x] Record scope and inspect current renderer
   - Scope: for constituency-level single-seat First Past The Post Results panes on `/test2` and the promoted root, show a static transfer-animation-style vote graphic beside the Results table, using the same candidate order and vote data as the table.
-  - Completed: confirmed the live path is `renderSingleSeatFptpResultsTable` in `test2/src/election-manager.js`, with route validation in `scripts/validate-test2-route.mjs`.
+  - Completed: confirmed the live path is `renderSingleSeatFptpResultsTable` in `test2/src/election-manager.js`, with route validation in `scripts/check/rules/election-route.mjs`.
 - [x] Implement static companion vote graphic
   - Scope: render a non-interactive, accessible graphic using first-preference vote totals, party colours, candidate names, and vote shares; stack it below the table on narrow/mobile layouts.
   - Completed: added `renderSingleSeatFptpVoteGraphic` beside the single-seat FPTP Results table, using the same normalized row array as the table and responsive/dark-mode CSS for side-by-side desktop and stacked mobile layouts.
 - [x] Add guardrail, rebuild, verify, and push
   - Scope: validate the renderer and CSS hooks, rebuild `/test2` and root assets, run checks, then commit and push.
-  - Completed: extended `scripts/validate-test2-route.mjs` to assert the static FPTP vote graphic renderer and CSS hooks, rebuilt `/test2` plus the promoted root, and verified with route validation, `npm run check:test2`, and `npm run check`.
+  - Completed: extended `scripts/check/rules/election-route.mjs` to assert the static FPTP vote graphic renderer and CSS hooks, rebuilt `/test2` plus the promoted root, and verified with route validation, `npm run check:test2`, and `npm run check`.
 
 ## Review: static FPTP vote graphic
 - Single-seat FPTP selected Results panes now render a static transfer-animation-style candidate vote graphic beside the Results table.
@@ -6511,7 +6511,7 @@ Add election entries to /test2
   - Scope: update aliases, source parsing, generated sidecars, or rendering as needed so Wicklow-Wexford appears correctly in Irish referendum results.
 - [x] Verify and publish
   - Scope: run focused audits/checks, confirm the affected referendum entries include/match Wicklow-Wexford, then commit and push.
-  - Completed: updated Irish referendum geography selection so March 2024 family/care referendums use `dail-2017` rather than post-election `dail-2023`, preventing false Wicklow-Wexford matching. Removed the unsafe single-county fallback for older Irish referendums, classified resulting split/merge gaps as aggregation blockers, regenerated election bundles/summaries, and verified with `node scripts/validate-test2-route.mjs`.
+  - Completed: updated Irish referendum geography selection so March 2024 family/care referendums use `dail-2017` rather than post-election `dail-2023`, preventing false Wicklow-Wexford matching. Removed the unsafe single-county fallback for older Irish referendums, classified resulting split/merge gaps as aggregation blockers, regenerated election bundles/summaries, and verified with `node scripts/check/rules/election-route.mjs`.
 
 # Fix candidate first-preference deltas and theme formatting
 - [x] Inspect candidate-level previous-result matching
@@ -6520,7 +6520,7 @@ Add election entries to /test2
   - Scope: show numeric deltas only when the same candidate stood in the previous comparable election for that constituency/DEA; otherwise show `N/A`; exclude referendums and recall petitions.
 - [x] Verify formatting in light and dark modes
   - Scope: ensure number, percentage, and `N/A` cells use the correct positive/negative/neutral styling and remain readable in both themes.
-  - Completed: changed candidate comparisons to use same-name/same-area matching rather than unstable per-election candidate ids or party-only fallbacks. Candidate delta fields now show numeric vote and vote-share changes only when a previous same-candidate result exists, and render a themed `N/A` cell otherwise. Verified with a North Down 2024 vs 2019 smoke check where Alex Easton and Stephen Farry receive real deltas, plus `node scripts/validate-test2-route.mjs`, `npm run check:test2`, `npm run build`, and `npm run check`.
+  - Completed: changed candidate comparisons to use same-name/same-area matching rather than unstable per-election candidate ids or party-only fallbacks. Candidate delta fields now show numeric vote and vote-share changes only when a previous same-candidate result exists, and render a themed `N/A` cell otherwise. Verified with a North Down 2024 vs 2019 smoke check where Alex Easton and Stephen Farry receive real deltas, plus `node scripts/check/rules/election-route.mjs`, `npm run check:test2`, `npm run build`, and `npm run check`.
 
 # Fix Northern Ireland local council mode gaps
 - [x] Inspect council aggregate matching
@@ -6569,13 +6569,13 @@ Add election entries to /test2
 - Recurring issue guardrail:
   - Symptom: grouped catalogue entries could point at stale direct generated layers or drop existing sibling layers during promotion.
   - Root cause: promotion logic mixed direct parent map IDs with variant/source child IDs and scoped CDN/PMTiles regeneration did not prove every runtime layer remained represented.
-  - Permanent prevention action: `scripts/validate-test2-route.mjs` now checks grouped DED parent resolution, stale counties variants, Local Authorities 2008 attribution, and Provinces Irish-name preservation; `scripts/build/tiles/promote-layers.mjs` now separates direct map IDs from variant/source IDs and refreshes layer catalogue metadata.
+  - Permanent prevention action: `scripts/check/rules/election-route.mjs` now checks grouped DED parent resolution, stale counties variants, Local Authorities 2008 attribution, and Provinces Irish-name preservation; `scripts/build/tiles/promote-layers.mjs` now separates direct map IDs from variant/source IDs and refreshes layer catalogue metadata.
   - Verification evidence: `npm run check:test2` reports 605 PMTiles layers, 544 unique URLs, PMTiles/CDN errors 0, and warnings 0 after restoring unrelated runtime layers and regenerating the CDN manifest.
 
 # Complete remaining unfinished election/catalogue/Browse fixes
 - [x] Inspect current implementation paths
   - Scope: map the remaining unfinished requests to the promoted MapLibre runtime, shared shell CSS, generated election data, Browse indexes, and metadata generators without staging unrelated dirty files.
-  - Completed: confirmed the live paths are `app/src/election-manager.js`, `js/election-main-pane-contract.mjs`, `app/src/app.js`, `app/src/test2.css`, `assets/css/main.css`, and `scripts/validate-test2-route.mjs`; the worktree also contains broad unrelated generated metadata churn which must stay unstaged unless explicitly regenerated for this fix.
+  - Completed: confirmed the live paths are `app/src/election-manager.js`, `js/election-main-pane-contract.mjs`, `app/src/app.js`, `app/src/test2.css`, `assets/css/main.css`, and `scripts/check/rules/election-route.mjs`; the worktree also contains broad unrelated generated metadata churn which must stay unstaged unless explicitly regenerated for this fix.
 - [x] Fix dark-mode UI readability
   - Scope: catalogue top labels; election pane; transfer animation; party/candidate/map/info pages; readable `N/A`/delta values; thumbnail backgrounds.
   - Completed: added late source-order dark-mode overrides for catalogue top links, browse/detail/entity surfaces, election tables, neutral/`N/A` cells, and thumbnail wrappers in both explicit and system-dark modes.
@@ -6596,7 +6596,7 @@ Add election entries to /test2
   - Completed: added a networked, explicit `npm run build:external-sources` metadata builder for Wikipedia ROI council-election article entries and Internet Archive raster-map entries from `ScottMoore0`; generated `data/database/external-sources.json`; integrated those records into Browse source indexes and source detail pages; added support for external/hotlinked thumbnails; and kept the repository metadata-only, with Wikipedia pages and Internet Archive raster files referenced/hotlinked rather than copied into the repo.
 - [x] Verify, commit, and push
   - Scope: run focused route/static checks plus full `npm run build`, `npm run check`, and `npm run check:test2`, then commit/push scoped changes only.
-  - Verification so far: `node --check app/src/app.js`, `node --check test/src/map-controller.js`, `node --check scripts/validate-test2-route.mjs`, `node scripts/validate-test2-route.mjs`, `node --check scripts/build/build-external-source-indexes.mjs`, `node --check scripts/validate-external-sources.mjs`, `node --check scripts/build/build-browse-indexes.mjs`, `npm run build:external-sources`, `npm run build`, `npm run check:test2`, `npm run check:external-sources`, and `npm run check` passed.
+  - Verification so far: `node --check app/src/app.js`, `node --check test/src/map-controller.js`, `node --check scripts/check/rules/election-route.mjs`, `node scripts/check/rules/election-route.mjs`, `node --check scripts/build/build-external-source-indexes.mjs`, `node --check scripts/check/rules/external-sources.mjs`, `node --check scripts/build/build-browse-indexes.mjs`, `npm run build:external-sources`, `npm run build`, `npm run check:test2`, `npm run check:external-sources`, and `npm run check` passed.
   - Completed: external-source validation now proves 20 Wikipedia ROI council-election article records and 117 Internet Archive raster-map records are present in Browse, that they have detail pages, and that no copied article bodies or local raster downloads were introduced.
 
 ## Review: external Browse source indexing
@@ -6605,7 +6605,7 @@ Add election entries to /test2
 - Recurring issue guardrail:
   - Symptom: external data requests could remain unresolved or be handled ad hoc without proving what was indexed and without protecting against accidental third-party content copies.
   - Root cause: there was no deterministic metadata-only external-source ingestion path or repository check.
-  - Permanent prevention action: `scripts/build/build-external-source-indexes.mjs` performs explicit networked source discovery when requested, and `scripts/validate-external-sources.mjs` is part of `npm run check` so the indexed records, Browse detail pages, hotlink-only raster policy, and no-copied-article-text policy are verified.
+  - Permanent prevention action: `scripts/build/build-external-source-indexes.mjs` performs explicit networked source discovery when requested, and `scripts/check/rules/external-sources.mjs` is part of `npm run check` so the indexed records, Browse detail pages, hotlink-only raster policy, and no-copied-article-text policy are verified.
   - Verification evidence: `npm run check` passed with `PASS: 20 Wikipedia council-election articles and 117 Internet Archive raster map records are indexed as external Browse sources.`
 
 # Resolve remaining generated Browse/test metadata outputs
@@ -6620,7 +6620,7 @@ Add election entries to /test2
   - Completed: scope confirmed as `data/browse/**`, `test/metadata/**`, `.gitattributes`, and `tasks/todo.md`; no non-generated source/runtime files remain dirty in the unstaged set.
 - [x] Verify and publish generated-output sync
   - Scope: rerun route/test checks, commit the generated-output sync separately, and push.
-  - Verification: `node scripts/validate-test2-route.mjs`, `node scripts/validate-maplibre-root-promotion.mjs`, `git diff --cached --check`, `npm run check:test2`, and `npm run check` passed. The first sandboxed `npm run check` hit `spawnSync git EPERM` in the Pages file-budget validator, then passed when rerun with escalation so the validator could invoke `git ls-files`.
+  - Verification: `node scripts/check/rules/election-route.mjs`, `node scripts/check/rules/maplibre-root-promotion.mjs`, `git diff --cached --check`, `npm run check:test2`, and `npm run check` passed. The first sandboxed `npm run check` hit `spawnSync git EPERM` in the Pages file-budget validator, then passed when rerun with escalation so the validator could invoke `git ls-files`.
 
 # Scrape Wikipedia ROI council-election articles into local cache only
 - [x] Record scope
@@ -7229,11 +7229,11 @@ Add election entries to /test2
   - hid the redundant 2019 Provinces record and removed it from the Provinces class;
   - hid the redundant 28 June 1921 DED/Ward duplicate from the visible class;
   - confirmed Local Authorities 2008 is credited to CSO and hardened the importer against reverting that.
-- Added `scripts/fix-idb-map-records-20260619.mjs` for deterministic repair and updated `scripts/add-idb-20260525-maps.mjs` plus `scripts/validate-test2-route.mjs` so regeneration cannot reintroduce the same errors.
+- Added `scripts/fix-idb-map-records-20260619.mjs` for deterministic repair and updated `scripts/add-idb-20260525-maps.mjs` plus `scripts/check/rules/election-route.mjs` so regeneration cannot reintroduce the same errors.
 - Verification evidence:
   - `node --check scripts/fix-idb-map-records-20260619.mjs`
   - `node --check scripts/add-idb-20260525-maps.mjs`
-  - `node --check scripts/validate-test2-route.mjs`
+  - `node --check scripts/check/rules/election-route.mjs`
   - `npm run build:browse`
   - `npm run check:test2` passed with zero blocking election-audit issues, zero PMTiles/CDN errors, and zero performance-dashboard failures.
 
@@ -7249,7 +7249,7 @@ Add election entries to /test2
   - Completed: `eds-1971`, `eds-1977`, `eds-1980`, and `eds-1983` now render their Connacht/Leinster/Munster/Ulster variants expanded by default.
 - [x] Harden generation and validation
   - Task: remove hidden maps from generated Browse map indexes, exclude hidden maps from the Fuse search index, and add validation checks so hidden maps cannot leak back into the public catalogue/search/Browse surfaces.
-  - Completed: `scripts/build/build-browse-indexes.mjs` excludes hidden map/data-entry records, `js/data-service.js` excludes hidden maps from Fuse search by indexing `getAllMaps()`, and `scripts/validate-test2-route.mjs` now asserts hidden duplicate records are absent from Browse output and the flat catalogue.
+  - Completed: `scripts/build/build-browse-indexes.mjs` excludes hidden map/data-entry records, `js/data-service.js` excludes hidden maps from Fuse search by indexing `getAllMaps()`, and `scripts/check/rules/election-route.mjs` now asserts hidden duplicate records are absent from Browse output and the flat catalogue.
 
 ## Review: visible catalogue repair for historical ROI ED/County/Province maps
 - The visible catalogue now matches the intended source data:
@@ -7259,7 +7259,7 @@ Add election entries to /test2
   - redundant Provinces 2019 and duplicate 28 June 1921 ED/Ward records are hidden from the flat catalogue, Browse maps, Browse sources, and map search.
 - Verification evidence:
   - `node --check scripts/build/build-browse-indexes.mjs`
-  - `node --check scripts/validate-test2-route.mjs`
+  - `node --check scripts/check/rules/election-route.mjs`
   - `node --check js/data-service.js`
   - `node --check js/ui-controller.js`
   - `npm run build:browse`
@@ -7335,7 +7335,7 @@ Add election entries to /test2
 - `scripts/build/clean-for-pages.sh` now removes non-runtime legacy election source JSON and the build-time approved-publication source blob from Pages output.
 - `scripts/validate-pages-file-budget.mjs` now mirrors those exclusions and enforces an `18,500` deployable-file budget.
 - `scripts/build/build-browse-indexes.mjs` now writes source detail data into fixed-size shards under `data/browse/details/source-shards/`, with `data/browse/sources.json` acting as a compact index. The largest generated source shard is about `3.4 MB`, and the compact source index is about `17.7 MB`.
-- `browse/browse.js`, `scripts/validate-approved-publication-path.mjs`, and `scripts/validate-external-sources.mjs` understand the new sharded source-detail layout.
+- `browse/browse.js`, `scripts/check/rules/approved-publication.mjs`, and `scripts/check/rules/external-sources.mjs` understand the new sharded source-detail layout.
 - Verification evidence:
   - `npm run build`
   - `npm run check`
@@ -7349,7 +7349,7 @@ Add election entries to /test2
 - [x] Regenerate affected metadata/build outputs.
   - Completed: added MapLibre alias records for the eight variants and rebuilt the test2 metadata index/detail sidecars.
 - [x] Verify route/catalogue validation and build checks.
-  - Completed: `node --check scripts/validate-test2-route.mjs` and `npm run check:test2` both passed; PMTiles/CDN validation now reports `613/613` PMTiles layers on CDN URLs.
+  - Completed: `node --check scripts/check/rules/election-route.mjs` and `npm run check:test2` both passed; PMTiles/CDN validation now reports `613/613` PMTiles layers on CDN URLs.
 - [x] Commit and push.
   - Completed: staged only the scoped Connacht alias/runtime metadata changes; commit/push completed after validation.
 
@@ -7367,7 +7367,7 @@ Add election entries to /test2
 - [x] Extend validation so every child row in those cards must resolve to a MapLibre layer.
   - Completed: expanded `validate-test2-route.mjs` from the Connacht-only check to the complete 32-row province child matrix.
 - [x] Verify and push.
-  - Verification before push: `node --check scripts/build/tiles/promote-layers.mjs`; `node --check scripts/validate-test2-route.mjs`; structured 32-child alias check; `node scripts/validate-test2-route.mjs`; `npm run check:test2`.
+  - Verification before push: `node --check scripts/build/tiles/promote-layers.mjs`; `node --check scripts/check/rules/election-route.mjs`; structured 32-child alias check; `node scripts/check/rules/election-route.mjs`; `npm run check:test2`.
 
 ## Recurring issue: grouped ED/Ward child rows missing runtime aliases
 - Symptom: a visible province child row in the ED/Ward catalogue card could not load in the MapLibre route even though the equivalent canonical geometry had already been converted.
@@ -7553,25 +7553,25 @@ Review:
 - [x] Rank remaining tasks across peatland Geoportal work, D-drive content integration, and immediate site-facing fixes.
   - Task: use the inherited context, generated review artifacts, and current validators to list remaining work in descending ROI with caveats/blockers.
   - Completed: reviewed the attached inherited-context summary, `tasks/peatland-geoportal-duplicate-review-2026-06-25.md`, `tasks/d-drive-content-blocker-summary-2026-06-24.json`, `tasks/medium-priority-publication-prep-2026-06-25/summary.json`, `tasks/already-on-site-enrichment-summary-2026-06-24.json`, and the relevant task-log sections.
-  - Verification evidence: `node scripts/validate-peatland-geoportal-sources.mjs` passed with 330 source records, 66 enrichment rows, 26 SAC candidates, and 14 variant rows; `node scripts/validate-medium-priority-publication-sources.mjs` passed with 2,347 records and no local paths exposed; `node scripts/validate-pages-file-budget.mjs` passed at 8,178/18,500 deployable files; `node scripts/validate-maplibre-root-promotion.mjs` passed. `node scripts/validate-test2-route.mjs` is currently blocked by missing `data/timeline-transition-overlays/wards-1993__wards-2012.geojson`, so route-level UI verification still needs that blocker resolved.
+  - Verification evidence: `node scripts/check/rules/peatland-geoportal.mjs` passed with 330 source records, 66 enrichment rows, 26 SAC candidates, and 14 variant rows; `node scripts/check/rules/medium-priority-sources.mjs` passed with 2,347 records and no local paths exposed; `node scripts/validate-pages-file-budget.mjs` passed at 8,178/18,500 deployable files; `node scripts/check/rules/maplibre-root-promotion.mjs` passed. `node scripts/check/rules/election-route.mjs` is currently blocked by missing `data/timeline-transition-overlays/wards-1993__wards-2012.geojson`, so route-level UI verification still needs that blocker resolved.
 
 # Restore Route-Level UI Verification
 
 - [x] Update route validator for sharded timeline transition overlays.
-  - Task: replace the stale single-file runtime overlay assumption in `scripts/validate-test2-route.mjs` with manifest/runtimePaths-aware validation.
-  - Verification plan: run `node --check scripts/validate-test2-route.mjs`, `node scripts/validate-test2-route.mjs`, and `node scripts/validate-timeline-transition-overlays.mjs`.
-  - Completed: `scripts/validate-test2-route.mjs` now reads `data/timeline-transition-overlays/manifest.json`, loads each required Wards transition via `runtimePaths`, and validates shard size, runtime metadata, feature counts, and visible transition types across all shards.
-  - Verification evidence: `node --check scripts\validate-test2-route.mjs`; `node scripts\validate-timeline-transition-overlays.mjs` passed with 136 runtime overlays; `node scripts\validate-test2-route.mjs` passed.
+  - Task: replace the stale single-file runtime overlay assumption in `scripts/check/rules/election-route.mjs` with manifest/runtimePaths-aware validation.
+  - Verification plan: run `node --check scripts/check/rules/election-route.mjs`, `node scripts/check/rules/election-route.mjs`, and `node scripts/validate-timeline-transition-overlays.mjs`.
+  - Completed: `scripts/check/rules/election-route.mjs` now reads `data/timeline-transition-overlays/manifest.json`, loads each required Wards transition via `runtimePaths`, and validates shard size, runtime metadata, feature counts, and visible transition types across all shards.
+  - Verification evidence: `node --check scripts\check\rules\election-route.mjs`; `node scripts\validate-timeline-transition-overlays.mjs` passed with 136 runtime overlays; `node scripts\check\rules\election-route.mjs` passed.
 - [x] Re-run publication and deployment guardrails.
   - Task: prove the existing peatland/D-drive source publication state and deploy file budget remain clean after the validator fix.
   - Verification plan: run peatland, medium-priority publication, root route promotion, and Pages file-budget validators.
   - Completed: re-ran the non-browser publication, file-budget, route-promotion, PMTiles CDN metadata, raw-source, external-source, election-audit, performance-dashboard, and full `npm run check` guardrails.
-  - Verification evidence: `npm run check` passed end-to-end; `node scripts\validate-test2-pmtiles-cdn.mjs` passed metadata validation with 666 PMTiles layers and 2 warnings for Irish hill-domain PMTiles not directly represented in the CDN upload manifest; `node scripts\audit-test2-election-data.mjs --fail-on-blocking` reported 0 blocking issues and 331 non-blocking warnings.
+  - Verification evidence: `npm run check` passed end-to-end; `node scripts\validate-test2-pmtiles-cdn.mjs` passed metadata validation with 666 PMTiles layers and 2 warnings for Irish hill-domain PMTiles not directly represented in the CDN upload manifest; `node scripts\check\rules\election-data-audit.mjs --fail-on-blocking` reported 0 blocking issues and 331 non-blocking warnings.
 - [x] Browser-smoke the visible route flows.
   - Task: verify the mobile catalogue/map toggle remains reachable, Civil Parishes can load, and visible catalogue/source records are reachable through the app route.
   - Verification plan: use the app's existing browser smoke tooling or a local dev server plus Playwright/browser checks.
   - Completed: ran the focused `/test2` Playwright smoke checks for mobile map/catalogue controls, TOC-first mobile catalogue rendering, and the Civil Parishes converted-layer catalogue callback.
-  - Verification evidence: `npx playwright test tests/browser/test2-app.spec.js -g "mobile map and catalogue controls do not collide|mobile catalogue renders TOC first"` passed 2/2 tests; `npx playwright test tests/browser/test2-app.spec.js -g "loads a converted layer through the main catalogue map callback"` passed 1/1 test and verified the Civil Parishes layer rendered features. The broader `node scripts\audit-test2-general-parity.mjs` probe stalled and was stopped, so focused browser smoke coverage was used instead of the full parity audit.
+  - Verification evidence: `npx playwright test tests/browser/test2-app.spec.js -g "mobile map and catalogue controls do not collide|mobile catalogue renders TOC first"` passed 2/2 tests; `npx playwright test tests/browser/test2-app.spec.js -g "loads a converted layer through the main catalogue map callback"` passed 1/1 test and verified the Civil Parishes layer rendered features. The broader `node scripts\check\rules\general-parity.mjs` probe stalled and was stopped, so focused browser smoke coverage was used instead of the full parity audit.
 - [x] Record review findings.
   - Task: summarize what was fixed, what passed, and any remaining blockers or caveats.
   - Completed: findings recorded in this task log and ready for handoff.
@@ -7583,7 +7583,7 @@ Review:
   - Completed: the regenerated election audit report should not be kept as-is with the route-validator fix because it reports `source detail records: 0` after looking in obsolete `data/browse/details/sources`, while the current 276 election detail records live under `data/browse/details/elections`. The regenerated PMTiles CDN report is useful as diagnostic evidence, but it should only be kept if paired with the CDN manifest/upload follow-up or intentionally refreshed report baseline.
   - Verification evidence: `data/browse/details/sources` is absent; `data/browse/details/elections` contains 276 JSON records including `dail-eireann-2024-11-29.json`; `tasks/test2-election-data-audit.json` warning counts are 276 `source-record-missing`, 26 `valid-poll-review`, and 29 `candidate-list-review`.
 - [x] Investigate the stalled broad parity audit.
-  - Task: inspect `scripts/audit-test2-general-parity.mjs`, rerun it with bounded diagnostics, and identify whether it is blocked by browser startup, network/tiles, route boot, or audit-script control flow.
+  - Task: inspect `scripts/check/rules/general-parity.mjs`, rerun it with bounded diagnostics, and identify whether it is blocked by browser startup, network/tiles, route boot, or audit-script control flow.
   - Completed: reran the audit under a 120 second wrapper with output captured to `tmp/test2-general-parity-debug.*`; it completed rather than hanging. The audit produced 13 passes, 4 required failures, and 1 reported-only item. The long waits were two 20 second failures looking for Roscommon Galway on the main map. The audit is partly stale after root promotion: `/test2/index.html` redirects to `/`, but the audit still asserts `/test2/`, and its mobile check uses old `#mobileToggle` header expectations instead of the current `#mobilePaneToggle` header control.
   - Verification evidence: `tmp/test2-general-parity-report-debug.json` recorded failures for `elections.selected-pane`, `elections.mode-coverage`, `url.restore`, and `mobile`; `test2/index.html` redirects to `/` while preserving hash/query; focused Playwright tests for mobile controls and Civil Parishes already pass.
 - [x] Explain warning handling for election audit and PMTiles CDN manifest warnings.
@@ -7597,10 +7597,10 @@ Review:
 # Route Parity Audit And CDN Manifest Follow-Up
 
 - [x] Update broad parity audit for root promotion and current mobile selectors.
-  - Task: revise `scripts/audit-test2-general-parity.mjs` so `/test2` redirecting to `/` is accepted, mobile checks use the current fixed-header `#mobilePaneToggle`, and brittle selected-election setup no longer depends on finding a main-map feature by scanning rendered layers.
+  - Task: revise `scripts/check/rules/general-parity.mjs` so `/test2` redirecting to `/` is accepted, mobile checks use the current fixed-header `#mobilePaneToggle`, and brittle selected-election setup no longer depends on finding a main-map feature by scanning rendered layers.
   - Verification plan: run syntax check and a bounded broad parity audit.
   - Completed: updated the broad parity audit to accept the root-promoted route, use `#mobilePaneToggle` for fixed-header mobile checks, validate selected election panes through URL-restored state instead of a main-map feature scan, and validate election entity links against the current catalogue-detail behavior.
-  - Verification evidence: `node --check scripts\audit-test2-general-parity.mjs` passed; bounded `node scripts/audit-test2-general-parity.mjs` run passed every required area and wrote `tmp/test2-general-parity-report-root-promotion.json`.
+  - Verification evidence: `node --check scripts\check\rules\general-parity.mjs` passed; bounded `node scripts/check/rules/general-parity.mjs` run passed every required area and wrote `tmp/test2-general-parity-report-root-promotion.json`.
 - [x] Regenerate/update the CDN upload manifest.
   - Task: run the manifest generator against current `test/metadata/maps-test.json` so the two Irish hill-domain PMTiles layers are represented.
   - Verification plan: inspect manifest entries for `irish-hill-summit-domains-vector-test` and `irish-hill-prominence-domains-vector-test`.
@@ -7614,7 +7614,7 @@ Review:
 - [x] Rerun CDN validation.
   - Task: rerun `validate-test2-pmtiles-cdn` and record whether warnings are cleared.
   - Completed: added `byteRangeVerifiedAt` for the two uploaded layers in `test/metadata/maps-test.json` and reran the PMTiles/CDN validators.
-  - Verification evidence: `node scripts\validate-test2-pmtiles-cdn.mjs` passed with 666 PMTiles layers, 573 unique URLs, 0 errors, and 0 warnings; `node scripts\validate-test-cdn-manifest.mjs` passed with 0 errors and 0 warnings; `npm run check:test2` passed, including PMTiles metadata coverage `666/666 PMTiles layers use CDN URLs`.
+  - Verification evidence: `node scripts\validate-test2-pmtiles-cdn.mjs` passed with 666 PMTiles layers, 573 unique URLs, 0 errors, and 0 warnings; `node scripts\check\rules\cdn-manifest.mjs` passed with 0 errors and 0 warnings; `npm run check:test2` passed, including PMTiles metadata coverage `666/666 PMTiles layers use CDN URLs`.
 - [x] Record review findings.
   - Task: summarize code/data changes, upload status, verification evidence, and any remaining blockers.
   - Completed: findings recorded here and summarized for handoff. The election audit still reports 331 non-blocking warnings; those are unchanged from the earlier classification and are separate from the CDN manifest/upload fix.
@@ -7622,10 +7622,10 @@ Review:
 # Election Audit Source Detail Path Fix
 
 - [x] Update election audit to use current Browse election detail records.
-  - Task: fix `scripts/audit-test2-election-data.mjs` so it reads the current `data/browse/details/elections` records instead of treating the removed `data/browse/details/sources/election-source-*.json` path as mandatory.
+  - Task: fix `scripts/check/rules/election-data-audit.mjs` so it reads the current `data/browse/details/elections` records instead of treating the removed `data/browse/details/sources/election-source-*.json` path as mandatory.
   - Verification plan: rerun `npm run check:test2`, inspect warning category counts, and confirm stale `source-record-missing` warnings are gone.
   - Completed: updated `keyToSourceDetailPaths` to check `data/browse/details/elections/*.json` first while retaining the legacy `data/browse/details/sources/election-source-*.json` fallback; updated source-detail file counting to use current election details when present.
-  - Verification evidence: direct `node scripts\audit-test2-election-data.mjs --fail-on-blocking` passed with 0 blocking issues and 55 warnings; source detail stats now show 276 detail files, 0 parent source records missing, and 276 source records with multiple references.
+  - Verification evidence: direct `node scripts\check\rules\election-data-audit.mjs --fail-on-blocking` passed with 0 blocking issues and 55 warnings; source detail stats now show 276 detail files, 0 parent source records missing, and 276 source records with multiple references.
 - [x] Record remaining warnings.
   - Task: summarize the remaining warning categories after the path fix and distinguish real data-review items from tooling drift.
   - Completed: stale `source-record-missing` warnings are gone. Remaining warnings are 26 `valid-poll-review` records and 29 `candidate-list-review` records, all already marked `source-review-required`.
@@ -7634,7 +7634,7 @@ Review:
 # Election Audit Source Detail Path Fix
 
 - [ ] Update election data audit for current Browse detail layout.
-  - Task: change `scripts/audit-test2-election-data.mjs` so election source/detail presence checks use current `data/browse/details/elections` records rather than obsolete `data/browse/details/sources/election-source-*.json` records.
+  - Task: change `scripts/check/rules/election-data-audit.mjs` so election source/detail presence checks use current `data/browse/details/elections` records rather than obsolete `data/browse/details/sources/election-source-*.json` records.
   - Verification plan: run syntax check and `npm run check:test2`.
 - [ ] Advise remaining election audit warnings.
   - Task: report the remaining warning categories after stale source-detail warnings are removed.
@@ -7695,7 +7695,7 @@ Review:
   - Task: inspect the existing D-drive publication, raw-source, and enrichment artifacts; distinguish already-published approved batches from material still gated by rights, IA mirroring, duplicate/variant, or map-conversion decisions.
   - Verification plan: rerun the focused D-drive/source validators and file-budget checks, then record what can be done immediately versus what requires user approval.
   - Completed: confirmed the self-actionable D-drive work is already materialised as metadata/source records: 2,347 medium-priority source records, 252 raw source-document records, and 91 applied already-on-site enrichment rows across 89 targets. No additional public D-drive publication is safe without new approval because the remaining queues are review-only, residual-review, IA-mirroring, duplicate/variant, special-format, or map-conversion gated.
-  - Verification evidence: `node scripts\validate-medium-priority-publication-sources.mjs`; `node scripts\validate-raw-source-documents.mjs`; `node scripts\validate-already-on-site-enrichments.mjs`; `node scripts\validate-approved-publication-path.mjs`; `node scripts\validate-external-sources.mjs`; `node scripts\validate-pages-file-budget.mjs`; `node scripts\validate-peatland-geoportal-sources.mjs`; `npm run check`.
+  - Verification evidence: `node scripts\check\rules\medium-priority-sources.mjs`; `node scripts\check\rules\raw-source-documents.mjs`; `node scripts\validate-already-on-site-enrichments.mjs`; `node scripts\check\rules\approved-publication.mjs`; `node scripts\check\rules\external-sources.mjs`; `node scripts\validate-pages-file-budget.mjs`; `node scripts\check\rules\peatland-geoportal.mjs`; `npm run check`.
 - [x] Record current findings and remaining user-owned decisions.
   - Task: summarize whether any additional local-only implementation is safe now, list validation evidence, and identify the decisions the user still needs to make before further publication.
   - Completed: recorded that further progress now requires user decisions on IA mirroring for 252 raw-source rows, review-only already-on-site rows, medium-priority residual-review/runtime-conversion rows, and any new interactive map/PMTiles promotion.
@@ -7734,7 +7734,7 @@ Review:
 - [x] Record findings and remaining holds.
   - Task: document applied counts, held rows, verification evidence, and any caveats.
   - Completed: verified the four held rows remain review-only, and verified the Tailte/OSI statutory-boundary family target carries the approved family-level relationship wording.
-  - Verification evidence: `node --check scripts\build-already-on-site-enrichment-records.mjs`; `node --check scripts\build\build-browse-indexes.mjs`; `node --check scripts\validate-already-on-site-enrichments.mjs`; `node scripts\build-already-on-site-enrichment-records.mjs`; `node scripts\build\build-browse-indexes.mjs`; `node scripts\validate-already-on-site-enrichments.mjs`; `node scripts\validate-external-sources.mjs`; `node scripts\validate-pages-file-budget.mjs`; `npm run check`.
+  - Verification evidence: `node --check scripts\build-already-on-site-enrichment-records.mjs`; `node --check scripts\build\build-browse-indexes.mjs`; `node --check scripts\validate-already-on-site-enrichments.mjs`; `node scripts\build-already-on-site-enrichment-records.mjs`; `node scripts\build\build-browse-indexes.mjs`; `node scripts\validate-already-on-site-enrichments.mjs`; `node scripts\check\rules\external-sources.mjs`; `node scripts\validate-pages-file-budget.mjs`; `npm run check`.
 
 # NI Register Interests Browse Publication
 
@@ -7751,7 +7751,7 @@ Review:
 - [x] Add validation guardrails.
   - Task: validate source coverage, NI-only MP filtering, current MLA API row counts, structured row counts, and Browse materialization.
   - Verification plan: add and run a focused `check:ni-register-interests` script.
-  - Completed: added `scripts/validate-ni-register-interests.mjs` and included it in `npm run check`.
+  - Completed: added `scripts/check/rules/ni-register-interests.mjs` and included it in `npm run check`.
   - Verification evidence: `npm run check:ni-register-interests` passed; `npm run check` passed; `npm run build` passed.
 - [x] Record review findings.
   - Task: document what was published, extraction coverage, verification evidence, and remaining feasibility caveats.
@@ -7806,7 +7806,7 @@ Review:
 - [x] Guard against duplicate Browse rows.
   - Task: update validation to fail if exact HTML/PDF duplicate rows appear as separate Browse items, while allowing source-specific audit rows in backend shards.
   - Verification plan: run `npm run check:ni-register-interests`.
-  - Completed: updated `scripts/validate-ni-register-interests.mjs` to validate source rows, canonical rows, source-reference coverage, merged duplicate counts, and Browse canonical totals.
+  - Completed: updated `scripts/check/rules/ni-register-interests.mjs` to validate source rows, canonical rows, source-reference coverage, merged duplicate counts, and Browse canonical totals.
   - Verification evidence: `npm run check:ni-register-interests` passed and confirms all 75,908 source rows are covered by canonical `sourceRefs`.
 - [x] Record final counts and caveats.
   - Task: document source-row count, canonical Browse-row count, source-reference coverage, and verification evidence.
@@ -7854,7 +7854,7 @@ Review:
 - [x] Record findings and dirty-tree cleanup guidance.
   - Task: explain sensitive held-row handling, summarize the full review, and describe clean packaging options for the current mixed working tree.
   - Completed: recorded findings in this section and prepared dirty-tree guidance for handoff. The current tree remains mixed with unrelated route/CDN/NI-register/build artifacts; a clean task-2 package should be split in a clean worktree or intentionally bundled with the later source-index work.
-  - Verification evidence: `node --check scripts/build-already-on-site-enrichment-records.mjs`; `node --check scripts/validate-already-on-site-enrichments.mjs`; `node --check scripts/review-already-on-site-remaining.mjs`; `node scripts/build-already-on-site-enrichment-records.mjs`; `node scripts/build/build-browse-indexes.mjs`; `node scripts/review-already-on-site-remaining.mjs`; `node scripts/validate-already-on-site-enrichments.mjs`; `node scripts/validate-external-sources.mjs`; `node scripts/validate-pages-file-budget.mjs`; `npm run check`; `npm run build`.
+  - Verification evidence: `node --check scripts/build-already-on-site-enrichment-records.mjs`; `node --check scripts/validate-already-on-site-enrichments.mjs`; `node --check scripts/review-already-on-site-remaining.mjs`; `node scripts/build-already-on-site-enrichment-records.mjs`; `node scripts/build/build-browse-indexes.mjs`; `node scripts/review-already-on-site-remaining.mjs`; `node scripts/validate-already-on-site-enrichments.mjs`; `node scripts/check/rules/external-sources.mjs`; `node scripts/validate-pages-file-budget.mjs`; `npm run check`; `npm run build`.
 
 # Dirty Tree Cleanup Research Without New Branch
 
@@ -7877,7 +7877,7 @@ Review:
   - Task: determine whether the test2/CDN/election generated diffs, build/UI artifacts, and untracked helper/generated files should be kept, reverted, or left untracked before in-place cleanup.
   - Verification plan: inspect representative diffs, generated report semantics, build-output provenance, and untracked file contents without staging, deleting, or creating another branch.
   - Completed: inspected CDN manifest/range/upload reports, test2 validation reports, route/election audit script diffs, representative layer-detail diffs, map-test index diffs, generated Browse/thumbnail/build artifacts, untracked helper scripts, and untracked DOBIH sidecar references.
-  - Test2/CDN decision: keep as an intentional package, but stage it as its own package. The diffs add the two Irish hill PMTiles objects to `cdn-upload-manifest.json`, record successful upload of both objects, verify 573/573 CDN byte-range assets, and leave `cdn-manifest-validation-report.json` plus `test2-cdn-validation-report.json` at zero warnings and zero errors. `scripts/validate-test-cdn-manifest.mjs` requires active PMTiles layers to have `tilePackage.byteRangeVerifiedAt` and matching successful range-report rows, so most of the broad layer-detail churn is noisy generated proof rather than arbitrary drift.
+  - Test2/CDN decision: keep as an intentional package, but stage it as its own package. The diffs add the two Irish hill PMTiles objects to `cdn-upload-manifest.json`, record successful upload of both objects, verify 573/573 CDN byte-range assets, and leave `cdn-manifest-validation-report.json` plus `test2-cdn-validation-report.json` at zero warnings and zero errors. `scripts/check/rules/cdn-manifest.mjs` requires active PMTiles layers to have `tilePackage.byteRangeVerifiedAt` and matching successful range-report rows, so most of the broad layer-detail churn is noisy generated proof rather than arbitrary drift.
   - Test2 metadata caveat: `test/metadata/maps-test-index.json` now references the untracked DOBIH detail/duplicate sidecars. All 48 untracked DOBIH sidecars are referenced by `maps-test-index.json` or `maps-test.json`, so if the regenerated test2 index is kept, those untracked sidecars must be staged with it.
   - Election audit decision: keep the audit-script changes because they update the audit path for current election detail files, root promotion, and current mobile selectors. The regenerated `tasks/test2-election-data-audit.*` diffs are timestamp-only against the previous baseline, so keep them only if the test2 audit-baseline refresh is intentionally included in the test2 package; otherwise they can be reverted without losing code fixes.
   - Build/UI decision: no content diffs remain in `browse/browse.js` or `browse/browse.css`; they should not be staged as UI changes unless future status shows real diffs. Keep `data/browse/features.json`, `assets/thumbnails/manifest.json`, `data/database/feature-thumbnails/_manifest.json`, and `app/build/performance-dashboard.json` with the data/test2 package because they reflect generated metadata changes, including the two Irish hill domain feature groups and the Local Authorities 2024 title fix. Treat `index.html` as build/release output generated by `scripts/build/shell-assets.mjs`; keep it only in the final build/release package, not in an earlier data-only package.
@@ -7901,7 +7901,7 @@ Review:
   - Verification plan: run already-on-site validation, external-source validation, NI register validation, Browse build, file-budget validation, sensitive-source scans, and cached-diff review before committing.
   - Execution note: first file-budget validation failed because grouped NI register Browse detail shards were row-sharded and four generated files exceeded the 25 MB Pages limit.
   - Permanent prevention action: changed the NI register grouped Browse shard generator to split by serialized byte budget and updated the NI register validator to assert shard byte metadata plus actual file sizes.
-  - Verification evidence: after regenerating NI register sidecars and Browse indexes, `node scripts/validate-already-on-site-enrichments.mjs`, `node scripts/validate-external-sources.mjs`, `npm run check:ni-register-interests`, `node scripts/validate-pages-file-budget.mjs`, and targeted private-source scans passed; grouped Browse record shards are now ten files under the configured 20 MiB byte budget.
+  - Verification evidence: after regenerating NI register sidecars and Browse indexes, `node scripts/validate-already-on-site-enrichments.mjs`, `node scripts/check/rules/external-sources.mjs`, `npm run check:ni-register-interests`, `node scripts/validate-pages-file-budget.mjs`, and targeted private-source scans passed; grouped Browse record shards are now ten files under the configured 20 MiB byte budget.
   - Completed: committed the protected source-index package as `a56a09794` (`Protect source enrichment and NI register browse data`).
 - [x] Protect test2 route/CDN/election metadata package.
   - Task: stage route/audit validator updates, CDN manifests/reports, test metadata, and referenced DOBIH sidecars while leaving timestamp-only election-audit baselines unstaged unless explicitly refreshed.

@@ -1,5 +1,5 @@
 /**
- * scripts/validate-ci-workflow.mjs: the real ci.yml passes, and each way CI has gone wrong
+ * scripts/check/rules/ci-workflow.mjs: the real ci.yml passes, and each way CI has gone wrong
  * here turns it red (the negative controls the house rule asks for).
  */
 import { test } from 'node:test';
@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { codeLines, jobSteps, validateChecksDoc, validateCi, validateWorkflow } from '../../scripts/validate-ci-workflow.mjs';
+import { codeLines, jobSteps, validateChecksDoc, validateCi, validateWorkflow } from '../../scripts/check/rules/ci-workflow.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const CI = readFileSync(path.join(ROOT, '.github', 'workflows', 'ci.yml'), 'utf8');

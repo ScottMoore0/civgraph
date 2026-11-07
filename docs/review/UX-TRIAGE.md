@@ -81,7 +81,7 @@ now returns `settled` / `timeout` / `unavailable` instead of `undefined`, and th
 announcement branches on it. The bug it fixes was worse than the item described --
 the old announcement read `isLayerLoaded()`, which is style membership, so a
 twenty-second stall was announced as *"loaded"* over a blank map. Tested in
-`scripts/test-settle-outcome.mjs`, negative-controlled. Original triage below.
+`tests/unit/settle-outcome.test.mjs`, negative-controlled. Original triage below.
 
 **`T0-05` · Distinguish loaded / failed / gave up.** The user-visible half is
 done: `src/ui-controller.js:9004` announces `"${label} failed to load"` based on

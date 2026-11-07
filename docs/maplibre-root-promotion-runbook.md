@@ -1,7 +1,7 @@
 # MapLibre Root Promotion Runbook
 
 > **Status: COMPLETED — the promotion this runbook prepared has shipped.**
-> `npm run check:root` (`scripts/validate-maplibre-root-promotion.mjs`) now
+> `npm run check:root` (`scripts/check/rules/maplibre-root-promotion.mjs`) now
 > asserts the finished state: `/` serves the `/app` MapLibre assets and `/test2/`
 > is a compatibility redirect. Kept as the record of how it was done, not as
 > pending work.

@@ -26,7 +26,7 @@
  * candidate rows are left alone and only the PERSON is suppressed. Deleting the rows
  * would discard genuine votes, several of them winning ones.
  *
- * scripts/validate-candidate-name-party.mjs guards the candidate rows themselves and
+ * scripts/check/rules/candidate-name-party.mjs guards the candidate rows themselves and
  * stops new fragments appearing. This governs the separate question of whether a name
  * earns an entry in the persons index.
  *

@@ -413,7 +413,7 @@ const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'Ju
 /**
  * A party-internal body: a party's leadership or nomination ballots, whose electorate is a party
  * body (data/elections-source/data/elections_index.json bodyType "party-internal"; the slug ends
- * -leadership or -nomination, which scripts/validate-facts-model.mjs holds to).
+ * -leadership or -nomination, which scripts/check/rules/facts-model.mjs holds to).
  */
 export function isPartyInternalBody({ body = '', bodySlug = '' } = {}) {
   if (bodySlug) return /-(leadership|nomination)$/.test(String(bodySlug));

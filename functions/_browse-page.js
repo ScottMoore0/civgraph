@@ -372,7 +372,7 @@ export function canonicalUrl(type, slug) {
  * Put a record's head and hero into the Browse shell.
  *
  * String edits rather than HTMLRewriter so the same code runs under Node in
- * scripts/test-browse-pages.mjs. The shell is our own file (browse/index.html) and every
+ * tests/functions/browse-pages.test.mjs. The shell is our own file (browse/index.html) and every
  * edit asserts nothing: a pattern that no longer matches leaves the shell as it was, which
  * still works, just without the record's head.
  */
