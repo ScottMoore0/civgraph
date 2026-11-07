@@ -11,7 +11,7 @@
  */
 import { readFileSync } from 'node:fs';
 import { dryRunPatch, EDITABLE_FIELDS, VALID_KINDS, describeSchema } from '../../functions/_api/contributions/_schema.js';
-import { canMarkApplied, TERMINAL_STATUS } from '../../scripts/apply-contributions.mjs';
+import { canMarkApplied, TERMINAL_STATUS } from '../../scripts/intake/contributions.mjs';
 
 let passed = 0;
 const failures = [];

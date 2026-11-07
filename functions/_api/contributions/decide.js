@@ -8,7 +8,7 @@ import { methodGuard } from '../_method.js';
  *
  * Approving does not apply anything. It sets `status` on the queued record and
  * nothing else: no catalogue write, no R2 write, no commit. Turning an approved
- * submission into a change is done by scripts/apply-contributions.mjs, run by
+ * submission into a change is done by scripts/intake/contributions.mjs, run by
  * the owner on their own machine, which produces a git branch for review.
  *
  * That split is deliberate and is the whole security model. If approval wrote

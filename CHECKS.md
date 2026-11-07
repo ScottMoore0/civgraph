@@ -47,7 +47,7 @@ whose inputs fell outside a filter never ran (the `docs/**` gap, closed 2026-09-
   `scripts/check/clean.mjs`); since data phase 3 the records build also loads the maps,
   layers and catalogue, so there is no separate catalogue import. Then the browser specs of
   the map app (`test:browser:maps`), in the same job because they read the records build's
-  election documents: `scripts/test-server.py` serves those URLs from `tmp/records`, as
+  election documents: `scripts/dev/test-server.py` serves those URLs from `tmp/records`, as
   the compatibility Functions serve them from D1, and the maps API URLs the app reads
   (`/_api/layers?view=index`, `/_api/catalogue?view=pane`, ...) from the tracked files
   their rows are loaded from. It answers the records API (the party and person pages read

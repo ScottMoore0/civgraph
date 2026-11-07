@@ -128,7 +128,7 @@ Reason: this is intentional data-publication work. It is large, but coherent: so
 Stage these files:
 
 ```powershell
-git add scripts/build-ni-register-interests.mjs
+git add scripts/ingest/ni-assembly-opendata/build-ni-register-interests.mjs
 git add scripts/check/rules/ni-register-interests.mjs
 git add data/database/ni-register-sources.json
 git add data/database/ni-register-interests.json

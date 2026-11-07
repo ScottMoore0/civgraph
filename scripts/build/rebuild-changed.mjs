@@ -85,7 +85,7 @@ if (mode === 'app') {
   plan.push(['python', ['scripts/build/timeline-changes.py']]);
   // The pre-1973 NI council rounds grouped by year, from the election catalogue (seconds).
   plan.push(['node', ['scripts/build/build-ni-local-grouped.mjs']]);
-  plan.push(['node', ['scripts/catalogue/build-catalogue.mjs']]);
+  plan.push(['node', ['scripts/build/catalogue/build-catalogue.mjs']]);
   plan.push(['node', ['scripts/check/rules/catalogue.mjs']]);
   plan.push(['npm', ['run', '-s', 'build']]);
   // Committed artefacts the Pages build no longer makes: sitemaps, Browse cache tokens, the

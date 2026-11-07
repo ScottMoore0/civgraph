@@ -20,13 +20,13 @@ after import if the data is static (see "Downgrading" below).
 
 ```bash
 # 1. Build the local SQLite (external-content FTS5) from the combined JSONL
-python scripts/build-proni-d1.py \
+python scripts/records/proni/build-proni-d1.py \
   --src D:/PRONI/eCatalogue/detail-combined-with-containers-20260701.jsonl \
   --sqlite D:/PRONI/eCatalogue/proni.sqlite \
   --sql D:/PRONI/eCatalogue/proni-d1.sql.gz
 
 # 2. Emit small, retry-safe D1 import parts from that SQLite
-python scripts/build-proni-d1-parts.py \
+python scripts/records/proni/build-proni-d1-parts.py \
   --sqlite D:/PRONI/eCatalogue/proni.sqlite \
   --outdir D:/PRONI/eCatalogue/d1-parts
 # -> 000-schema.sql (table + FTS + AFTER INSERT trigger) + numbered insert parts
@@ -98,7 +98,7 @@ fonds (landing) and `?ref=<ref>` returns a node's metadata, children
 shipped, so it scales to the whole tree.
 
 This needs the display columns `description`, `access`, `digital_record` in the
-base table. `scripts/build-proni-d1.py` includes them in a fresh build. To add
+base table. `scripts/records/proni/build-proni-d1.py` includes them in a fresh build. To add
 them to an existing (search-only) DB without downtime:
 
 ```bash
@@ -107,7 +107,7 @@ npx wrangler d1 execute proni-catalogue --remote --command \
   "ALTER TABLE proni ADD COLUMN description TEXT; ALTER TABLE proni ADD COLUMN access TEXT; ALTER TABLE proni ADD COLUMN digital_record TEXT;"
 
 # 2. upsert the values (updates existing rows; ~85 KB cap keeps statements < 100 KB)
-python scripts/build-proni-d1-parts.py --sqlite proni.sqlite --outdir d1-upsert --upsert
+python scripts/records/proni/build-proni-d1-parts.py --sqlite proni.sqlite --outdir d1-upsert --upsert
 for f in $(ls d1-upsert/*.sql | sort); do npx wrangler d1 execute proni-catalogue --remote --yes --file="$f"; done
 
 # 3. restore the ~128 descriptions over 85 KB in full via chunked concatenation

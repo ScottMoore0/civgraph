@@ -16,7 +16,7 @@
  * deciding where it belongs, and that can need the contributor. The point is that the
  * decision is recorded rather than implied by silence.
  *
- * Usage: node scripts/validate-intake-delivery.mjs [--intake-dir <path>] [--metadata <path>]...
+ * Usage: node scripts/intake/checks/delivery.mjs [--intake-dir <path>] [--metadata <path>]...
  *
  * The path arguments exist so tests can point at copies under a temporary directory,
  * rather than mutating a tracked file and relying on a revert afterwards.

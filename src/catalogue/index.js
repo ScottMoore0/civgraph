@@ -12,7 +12,7 @@
  * in reach. Search also finds places (each named feature, with its own buttons) and people,
  * parties and sources, through the current pane's own search code.
  *
- * Data: data/catalogue/catalogue.json, built by scripts/catalogue/build-catalogue.mjs; places on
+ * Data: data/catalogue/catalogue.json, built by scripts/build/catalogue/build-catalogue.mjs; places on
  * demand from data/catalogue/places.json. Map actions go through the callbacks the app already
  * gives UIController (onMapLoad, onMapUnload, onMapToggle, onDownloadFgb, onLoadElection...).
  *

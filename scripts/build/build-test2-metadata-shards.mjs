@@ -6,7 +6,7 @@
  * Since data phase 4 the per-layer sidecars are written to tmp/layer-metadata/, not committed:
  * production answers their URLs from D1 (/_api/layers/<id>, .../duplicates; the old
  * /render/metadata/layer-details-test2/ and duplicate-feature-ids/ URLs answer 301 there), and
- * only the local test server (scripts/test-server.py) reads the files. maps-test-index.json
+ * only the local test server (scripts/dev/test-server.py) reads the files. maps-test-index.json
  * stays committed while the scripts that read it from disk do.
  */
 

@@ -188,7 +188,7 @@ Signed-in contributors also see **Suggest an edit** on a map in the catalogue at
 row's actions, and the row's ⋯ menu; anyone else is sent to the Access sign-in). It edits a map's
 name, description, date, licence, keywords and references, and sends a `metadata-edit` to the same
 review queue as Browse's form (`src/catalogue/edit.js` → `/_api/contributions/submit`). Nothing
-changes on the site until an administrator approves it and `scripts/apply-contributions.mjs`
+changes on the site until an administrator approves it and `scripts/intake/contributions.mjs`
 applies it through git. Provider is not offered: the submit schema takes it as one string, while
 map records hold a list.
 

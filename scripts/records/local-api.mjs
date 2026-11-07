@@ -11,7 +11,7 @@
  *   answerRecordApi(url, { method, headers })  a Response, or null when the URL is not a
  *                                              records route or there is no records build
  *   node scripts/records/local-api.mjs --port <n> [--exit-with-stdin]
- *                                              the same over HTTP, for scripts/test-server.py;
+ *                                              the same over HTTP, for scripts/dev/test-server.py;
  *                                              prints "ready <port>" once listening, and with
  *                                              --exit-with-stdin exits when its stdin closes
  *                                              (the parent server has gone)

@@ -2,11 +2,11 @@
 /**
  * Build the rebuilt catalogue's client data from its curated source and the site's own records.
  *
- *   node scripts/catalogue/build-catalogue.mjs [--check]
+ *   node scripts/build/catalogue/build-catalogue.mjs [--check]
  *
  * Inputs
  *   data/catalogue/catalogue.source.json   the arrangement: shelves, subjects, series (curated)
- *   scripts/catalogue/records.mjs          every map the site can load: maps.json, the renderer's
+ *   scripts/build/catalogue/records.mjs          every map the site can load: maps.json, the renderer's
  *                                          own layers (maps-test.json), census statistics
  *   render/metadata/maps-test-index.json   per-layer bounds, geometry type, renderer
  *   assets/thumbnails/manifest.json        which thumbnails exist
@@ -23,13 +23,13 @@
  * that exists. With --check it builds in memory and fails if the files on disk differ.
  */
 import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
-import { compareElectionsNewestFirst } from '../lib/election-names.mjs';
+import { compareElectionsNewestFirst } from '../../lib/election-names.mjs';
 import path from 'node:path';
 import { loadRecords } from './records.mjs';
-import { formatDatesInText, formatDisplayDate } from '../../src/date-format.mjs';
+import { formatDatesInText, formatDisplayDate } from '../../../src/date-format.mjs';
 import { DatabaseSync } from 'node:sqlite';
-import { BROWSE_DIR, ELECTION_MANIFEST, RECORDS_DB } from '../records/paths.mjs';
-import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLocalCouncilRound, niLocalGroupKey } from '../../src/ni-local-groups.mjs';
+import { BROWSE_DIR, ELECTION_MANIFEST, RECORDS_DB } from '../../records/paths.mjs';
+import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLocalCouncilRound, niLocalGroupKey } from '../../../src/ni-local-groups.mjs';
 
 const ROOT = process.cwd();
 const rel = (p) => path.resolve(ROOT, p);
@@ -545,7 +545,7 @@ for (const h of source.hidden || []) {
 // ------------------------------------------------------------------ write
 const catalogue = {
   schemaVersion: 1,
-  about: 'Built by scripts/catalogue/build-catalogue.mjs from data/catalogue/catalogue.source.json; do not edit.',
+  about: 'Built by scripts/build/catalogue/build-catalogue.mjs from data/catalogue/catalogue.source.json; do not edit.',
   shelves: source.shelves,
   subjects: source.subjects.map((s) => ({ id: s.id, name: s.name, kind: s.kind, shelf: shelfOfSubject.get(s.id), series: s.series, toBeAdded: s.toBeAdded || [] })),
   series: seriesOut,

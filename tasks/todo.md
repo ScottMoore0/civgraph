@@ -7741,7 +7741,7 @@ Review:
 - [x] Build NI register data sidecars.
   - Task: create tracked generated JSON sidecars for NI Assembly register sources and structured MLA/NI MP register-interest rows.
   - Verification plan: run the builder, inspect record counts, and confirm generated files do not expose local scratch paths.
-  - Completed: added `scripts/build-ni-register-interests.mjs`, generated `data/database/ni-register-sources.json`, `data/database/ni-register-interests.json`, and 35 structured-data shards under `data/database/ni-register-interests/`.
+  - Completed: added `scripts/ingest/ni-assembly-opendata/build-ni-register-interests.mjs`, generated `data/database/ni-register-sources.json`, `data/database/ni-register-interests.json`, and 35 structured-data shards under `data/database/ni-register-interests/`.
   - Verification evidence: builder produced 80 NI register source records and 34,360 interest rows: 424 current MLA API rows, 32,314 historical MLA HTML rows, and 1,622 deduplicated Northern Ireland MP rows.
 - [x] Wire NI register data into Browse.
   - Task: include NI register source records in the existing Sources Browse section and add a dedicated Browse index for register-interest rows.
@@ -7773,7 +7773,7 @@ Review:
 - [x] Implement PDF row extraction.
   - Task: extend the NI register generator so PDF editions produce structured MLA member/category rows, deduplicated per source document.
   - Verification plan: regenerate structured shards and compare counts for `historical-pdf-register` rows against the 38 PDF source records.
-  - Completed: added `scripts/extract-pdf-text.py`, integrated PDF parsing into `scripts/build-ni-register-interests.mjs`, regenerated structured shards, and added inferred empty-category rows where PDFs omit text under a numbered category.
+  - Completed: added `scripts/extract-pdf-text.py`, integrated PDF parsing into `scripts/ingest/ni-assembly-opendata/build-ni-register-interests.mjs`, regenerated structured shards, and added inferred empty-category rows where PDFs omit text under a numbered category.
   - Verification evidence: builder produced 39,297 `historical-pdf-register` rows across all 38 PDF source documents; total structured interest rows are now 73,657.
 - [x] Extend validation.
   - Task: update the NI register validator so PDF source records must have structured row coverage, and so source-only PDF publication cannot pass.
@@ -7796,7 +7796,7 @@ Review:
 - [x] Build canonical interest rows.
   - Task: group source-specific HTML/PDF/API/CSV extraction rows into canonical register-interest rows and attach all matching source references.
   - Verification plan: regenerate structured data and confirm source-specific audit rows are retained while Browse-facing canonical rows are fewer than source rows.
-  - Completed: added canonical interest shard generation to `scripts/build-ni-register-interests.mjs`. Raw source-specific extraction shards remain available for audit, while canonical shards merge exact normalized duplicate interests and retain `sourceRefs`.
+  - Completed: added canonical interest shard generation to `scripts/ingest/ni-assembly-opendata/build-ni-register-interests.mjs`. Raw source-specific extraction shards remain available for audit, while canonical shards merge exact normalized duplicate interests and retain `sourceRefs`.
   - Verification evidence: regenerated 75,908 source-specific extraction rows into 8,289 canonical Browse interests, merging 67,619 duplicate source rows.
 - [x] Switch Browse to canonical rows.
   - Task: update Browse generation so `Register Interests` lists canonical interests, with source references for duplicate HTML/PDF/API evidence.

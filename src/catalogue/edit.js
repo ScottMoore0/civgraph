@@ -5,7 +5,7 @@
  * (/_api/contributions/login), who is signed in (/_api/auth/status, then
  * /_api/contributions/whoami, which sits inside the Access application and so can see the
  * identity), and the review queue (/_api/contributions/submit). A suggestion changes nothing on
- * the site: an administrator approves it (/_api/contributions/decide), scripts/apply-contributions.mjs
+ * the site: an administrator approves it (/_api/contributions/decide), scripts/intake/contributions.mjs
  * writes it into data/database/maps.json on a branch, and it goes out with the next build and
  * catalogue deploy, through every check the data already passes.
  *

@@ -2,7 +2,7 @@
 /**
  * Apply a boundary-audit patch of approximate stretches to the catalogue.
  *
- *   node scripts/apply-approximate-segments.mjs <patch.json> [--check]
+ *   node scripts/maps/apply-approximate-segments.mjs <patch.json> [--check]
  *
  * The patch ({edition id: {approximateSegments: {url, count, totalKm, note}}}) comes from the audit
  * folder (build_patch.py), which measures each reconstructed edition's lines against the source lines
@@ -15,7 +15,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 const [patchPath] = process.argv.slice(2).filter((a) => !a.startsWith('--'));
 const CHECK = process.argv.includes('--check');
 if (!patchPath) {
-  console.error('usage: node scripts/apply-approximate-segments.mjs <patch.json> [--check]');
+  console.error('usage: node scripts/maps/apply-approximate-segments.mjs <patch.json> [--check]');
   process.exit(2);
 }
 const FILE = 'data/database/maps.json';

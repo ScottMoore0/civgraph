@@ -13,7 +13,7 @@ npx playwright test                       # everything
 npx playwright test tests/browser/app.spec.js
 ```
 
-The suite serves the site with `scripts/test-server.py`, **not**
+The suite serves the site with `scripts/dev/test-server.py`, **not**
 `python -m http.server`. That matters: the stdlib server has a listen backlog of
 5, and under the suite's parallel load it refused connections, producing
 `ECONNREFUSED` failures that looked like application bugs. The replacement sets
