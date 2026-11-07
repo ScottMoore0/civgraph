@@ -187,7 +187,11 @@ export function compareLoad(local, remote) {
   return mismatches;
 }
 
-/** The full mode as steps: one whole-table checksum per statement, then the schema. */
+/**
+ * The full mode as steps: one whole-table checksum per statement, then the schema.
+ * @param {string} file
+ * @returns {Plan}
+ */
 export function fullPlan(file) {
   const local = localChecksums(file);
   const steps = HASHED_TABLES.map((t) => ({
@@ -284,12 +288,23 @@ export const boundedChecksumSql = (t, limit) => `SELECT COUNT(*) AS n, COALESCE(
  * from local files only. `since` is the snapshot D1 held before this load (null: sample every
  * table).
  */
+/**
+ * @typedef {Record<string, any>[] & { rowsRead?: number }} QueryRows
+ * @typedef {(sql: string, opts: { remote?: boolean }) => QueryRows} Query
+ * @typedef {{ label: string, sql: string, check: (rows: QueryRows) => string[] }} PlanStep
+ * @typedef {{ steps: PlanStep[], notes: string[], mode: 'bounded'|'full' }} Plan
+ */
+
+/**
+ * @param {{ file: string, since?: string|null, sample?: number, bounds?: typeof BOUNDS }} options
+ * @returns {Plan}
+ */
 export function boundedPlan({ file, since = null, sample = BOUNDS.sampleKeys, bounds = BOUNDS }) {
   const db = new DatabaseSync(file, { readOnly: true });
   const notes = [];
   const steps = [];
   try {
-    const dataset = db.prepare('SELECT key, value FROM dataset ORDER BY key').all();
+    const dataset = /** @type {{ key: string, value: string|null }[]} */ (db.prepare('SELECT key, value FROM dataset ORDER BY key').all());
     const recorded = JSON.parse(dataset.find((r) => r.key === 'table_checksums')?.value || '{}');
     steps.push({
       label: 'dataset',
@@ -365,7 +380,13 @@ export function boundedPlan({ file, since = null, sample = BOUNDS.sampleKeys, bo
   return { steps, notes, mode: 'bounded' };
 }
 
-/** Run a plan: one statement per call, a pause between calls, a 7429 retried with backoff. */
+/**
+ * Run a plan: one statement per call, a pause between calls, a 7429 retried with backoff.
+ * @param {Plan} plan
+ * @param {{ remote?: boolean, query?: Query, pauseMs?: number, sleep?: (ms: number) => void,
+ *   log?: (line: string) => void, backoffMs?: number[] }} [options]
+ * @returns {string[]} the mismatches
+ */
 export function runPlan(plan, { remote = false, query = wranglerQuery, pauseMs = BOUNDS.pauseMs, sleep = sleepSync, log = () => {}, backoffMs } = {}) {
   const mismatches = [];
   let rowsRead = 0;
@@ -384,8 +405,12 @@ export function runPlan(plan, { remote = false, query = wranglerQuery, pauseMs =
 /**
  * Verify a load. mode: 'bounded' (the default for the remote database) or 'full' (the default
  * for the local D1; against the remote only with --full-verify, at a quiet time).
+ * @param {{ file: string, remote?: boolean, mode?: 'bounded'|'full', since?: string|null, sample?: number,
+ *   query?: Query, pauseMs?: number, sleep?: (ms: number) => void, log?: (line: string) => void,
+ *   bounds?: typeof BOUNDS }} options
+ * @returns {string[]} the mismatches
  */
-export function verify({ file, remote = false, mode = remote ? 'bounded' : 'full', since = null, sample, query = wranglerQuery, pauseMs, sleep, log, bounds } = {}) {
+export function verify({ file, remote = false, mode = remote ? 'bounded' : 'full', since = null, sample, query = wranglerQuery, pauseMs, sleep, log, bounds } = /** @type {any} */ ({})) {
   const plan = mode === 'full' ? fullPlan(file) : boundedPlan({ file, since, sample, bounds });
   for (const note of plan.notes) (log || console.log)(`  note: ${note}`);
   (log || console.log)(`  verify (${plan.mode}, ${remote ? 'remote' : 'local'}): ${plan.steps.length} statement(s), one per call`);

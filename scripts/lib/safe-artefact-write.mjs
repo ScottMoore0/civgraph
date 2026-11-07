@@ -103,6 +103,7 @@ export function allowDeletionsFlag(argv = process.argv) {
  * @param {string} path       artefact being written
  * @param {Array}  fresh      records produced by this run
  * @param {object} opts
+ * @param {string} [opts.collection]  key holding the array of records (required: throws without it)
  * @param {string} [opts.idKey]  record identity field (default 'id')
  * @returns {{records: Array, updated: number, added: number, kept: number}}
  */

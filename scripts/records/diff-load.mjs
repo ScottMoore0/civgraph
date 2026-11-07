@@ -48,18 +48,27 @@ export function tableOrder() {
 }
 
 /**
+ * @typedef {{ deleted: number, upserted: number }} TableDelta
+ * @typedef {{ summary: Record<string, TableDelta>, statements: number, version: string, full: boolean }} DeltaResult
+ */
+
+/**
  * Write the delta. `from` may be null (full load). Returns per-table counts and the statement
  * count. `write(text)` receives statements, one per line.
+ * @param {{ toFile: string, fromFile?: string|null, write: (text: string) => unknown,
+ *   version?: string, gitCommit?: string, loadedAt?: string }} options
+ * @returns {DeltaResult}
  */
 export function buildDelta({ toFile, fromFile = null, write, version, gitCommit, loadedAt }) {
   const db = new DatabaseSync(toFile, { readOnly: true });
   const full = !fromFile;
   if (!full) db.exec(`ATTACH DATABASE '${fromFile.replace(/'/g, "''")}' AS f`);
+  /** @type {Record<string, TableDelta>} */
   const summary = {};
   let statements = 0;
   const emit = (sql) => { write(`${sql}\n`); statements += 1; };
 
-  const datasetRows = db.prepare('SELECT key, value FROM dataset ORDER BY key').all();
+  const datasetRows = /** @type {{ key: string, value: string|null }[]} */ (db.prepare('SELECT key, value FROM dataset ORDER BY key').all());
   const newVersion = version || datasetRows.find((r) => r.key === 'version')?.value || '';
   emit(`INSERT OR REPLACE INTO dataset (key, value) VALUES ('loading', ${q(newVersion || 'loading')});`);
 
@@ -100,7 +109,7 @@ export function buildDelta({ toFile, fromFile = null, write, version, gitCommit,
       batch = [];
       bytes = 0;
     };
-    for (const row of db.prepare(sql).iterate()) {
+    for (const row of /** @type {Iterable<Record<string, any>>} */ (db.prepare(sql).iterate())) {
       s.upserted += 1;
       let tuple = `(${cols.map((c) => q(row[c])).join(', ')})`;
       if (tuple.length + prefix.length > MAX_STATEMENT_BYTES) {

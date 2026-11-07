@@ -34,6 +34,11 @@ function* jsonFiles(dir) {
 const graphRel = (url) => String(url).replace(/^\/data\/graph\//, '');
 
 /** The items of a head file's parts, each part also passed to onPart(relativeFile, partDoc). */
+/**
+ * @param {string} headFile
+ * @param {string} graphDir
+ * @param {(rel: string, doc: any) => void} [onPart]
+ */
 function readParts(headFile, graphDir, onPart = () => {}) {
   const head = readJson(headFile, null);
   if (!head) return [];

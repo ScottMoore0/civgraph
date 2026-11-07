@@ -91,11 +91,16 @@ const step = (name, fn) => {
   return result;
 };
 
+/**
+ * @param {string} cmd
+ * @param {string[]} cmdArgs
+ * @param {{ env?: NodeJS.ProcessEnv }} [options]
+ */
 function run(cmd, cmdArgs, { env = BUILD_ENV } = {}) {
   const res = spawnSync(cmd, cmdArgs, { cwd: REPO_ROOT, env, encoding: 'utf8', maxBuffer: 256 * 1024 * 1024 });
   if (res.status !== 0) {
     const tail = `${res.stdout || ''}\n${res.stderr || ''}`.trim().split('\n').slice(-12).join('\n');
-    const error = new Error(`${cmd} ${cmdArgs.join(' ')} exited ${res.status}\n${tail}`);
+    const error = /** @type {Error & { status?: number|null }} */ (new Error(`${cmd} ${cmdArgs.join(' ')} exited ${res.status}\n${tail}`));
     error.status = res.status;
     throw error;
   }
@@ -247,7 +252,7 @@ function main() {
   if (seed) {
     try {
       const s = new DatabaseSync(seed, { readOnly: true });
-      seedVersion = s.prepare("SELECT value FROM dataset WHERE key = 'version'").get()?.value || '';
+      seedVersion = /** @type {string} */ (s.prepare("SELECT value FROM dataset WHERE key = 'version'").get()?.value || '');
       s.close();
     } catch { /* a seed without a dataset table still seeds */ }
     console.log(`  stable order: seeded from ${rel(seed)}${seedVersion ? ` (${seedVersion})` : ''}`);
