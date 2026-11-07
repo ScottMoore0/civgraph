@@ -39,7 +39,11 @@ whose inputs fell outside a filter never ran (the `docs/**` gap, closed 2026-09-
   `records:check` (`BUILD_STEPS` in `scripts/check-clean.mjs`). Then the browser specs of
   the map app (`test:browser:maps`), in the same job because they read the records build's
   election documents: `scripts/test-server.py` serves those URLs from `tmp/records`, as
-  the compatibility Functions serve them from D1.
+  the compatibility Functions serve them from D1. That server runs no Functions, so
+  `playwright.config.js` turns the app's elections API off for the local origin and the
+  app loads the same documents by their bundle URLs; `records:check` tests the API. The
+  config never reuses a server already on its port (one from another worktree would serve
+  that tree); set `PW_REUSE_SERVER=1` to reuse your own.
 - Job `pages-build`: the Pages build exactly as Cloudflare runs it, the 18,500-file and
   25 MiB-per-file budget (`scripts/validate-pages-file-budget.mjs`), and the 20,000-file
   hard limit on disk after `scripts/clean-for-pages.sh`.
