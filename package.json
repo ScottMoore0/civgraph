@@ -13,6 +13,9 @@
   "author": "Scott Moore (https://scottmoore.xyz)",
   "license": "MIT",
   "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "build": "node scripts/build/public-prefixes.mjs && node scripts/build/corpus-index.mjs && node scripts/build/thumbnails/manifest.mjs && node scripts/build/agent-index.mjs && node scripts/check/rules/chunked-map-bounds.mjs && node scripts/build/sync-catalogue-display-fields.mjs && node scripts/build/build-render-time-series-chains.mjs && node scripts/build/build-site-partials.mjs && node scripts/build/shell-assets.mjs && npm run build:test2:app && node scripts/build/promote-test2-root.mjs",
     "build:site": "npm run build && node scripts/build/site.mjs",
