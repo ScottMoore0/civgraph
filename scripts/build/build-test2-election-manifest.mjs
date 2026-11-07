@@ -16,6 +16,7 @@ import { writeStableGeneratedJson } from '../lib/stable-generated-json.mjs';
 import { ELECTION_BUNDLE_DIR, ELECTION_MANIFEST, ELECTION_REPORT } from '../records/paths.mjs';
 import { loadRegistry } from '../../registries/index.mjs';
 import { manifestCouncilSets } from '../../registries/councils.mjs';
+import { labelInterpretationRules } from '../../registries/parties.mjs';
 import { statesOf } from '../../registries/statuses.mjs';
 
 const ROOT = process.cwd();
@@ -277,9 +278,8 @@ function rawForTotals(resultPath, officialRawResult, wikiEnrichedRawResult) {
 // Applied to every contest after the source-checked fixes, so a fix that names a candidate's
 // party wins; the printed label (Party_As_Printed) is never changed. Honours (J.P., M.B.E.) and
 // anything no rule settles stay blank, which the site shows as "No label".
-const PARTY_LABEL_INTERPRETATIONS = path.join(ROOT, 'data', 'elections', 'party-label-interpretations.json');
-const partyLabelInterpreter = createPartyLabelInterpreter(existsSync(PARTY_LABEL_INTERPRETATIONS)
-  ? readJson(PARTY_LABEL_INTERPRETATIONS) : {});
+// The file is part of the parties registry (data/registries/parties.json parts.labelInterpretations).
+const partyLabelInterpreter = createPartyLabelInterpreter(labelInterpretationRules(loadRegistry('parties')));
 
 function applyPartyLabelInterpretations(resultPath, rawResult) {
   if (!resultPath || !rawResult) return rawResult;
