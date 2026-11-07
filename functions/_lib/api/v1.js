@@ -40,6 +40,22 @@ export const VERSION = 'v1';
 export const PREFIX = API.prefix(VERSION);
 export const LEGACY_PREFIX = API.legacyPrefix;
 
+/**
+ * @typedef {object} V1Route
+ * @property {any} module            the /_api handler module
+ * @property {string} legacy         its /_api path
+ * @property {string} summary
+ * @property {string[]} parameters   the query parameters it reads
+ * @property {boolean} [catchAll]    a catch-all route: the segments after it reach the handler
+ */
+/**
+ * @param {any} module
+ * @param {string} legacy
+ * @param {string} summary
+ * @param {string[]} [parameters]
+ * @param {{ catchAll?: boolean }} [extra]
+ * @returns {Readonly<V1Route>}
+ */
 const route = (module, legacy, summary, parameters = [], extra = {}) => Object.freeze({ module, legacy, summary, parameters, ...extra });
 
 /** v1 route (path under /api/v1) -> its handler and legacy path. */

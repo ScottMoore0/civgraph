@@ -157,7 +157,7 @@ export async function browseMapsText(db) {
   ]);
   if (!headRow) return null;
   const head = parseJson(headRow.body, {});
-  return compactDocument(Object.entries(head).map(([key, v], i) => ({ key, ord: i, value: JSON.stringify(v) }))
+  return compactDocument(/** @type {Array<{ key: string, ord: number, value: string | null }>} */ (Object.entries(head).map(([key, v], i) => ({ key, ord: i, value: JSON.stringify(v) })))
     .concat([{ key: 'items', ord: 1e9, value: null }]), (cards.results || []).map((r) => r.card));
 }
 
@@ -168,7 +168,7 @@ export async function browseFeaturesText(db) {
   ]);
   if (!headRow) return null;
   const head = parseJson(headRow.body, {});
-  return compactDocument(Object.entries(head).map(([key, v], i) => ({ key, ord: i, value: JSON.stringify(v) }))
+  return compactDocument(/** @type {Array<{ key: string, ord: number, value: string | null }>} */ (Object.entries(head).map(([key, v], i) => ({ key, ord: i, value: JSON.stringify(v) })))
     .concat([{ key: 'items', ord: 1e9, value: null }]), (groups.results || []).map((r) => r.card));
 }
 

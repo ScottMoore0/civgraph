@@ -13,6 +13,10 @@ import { assertRecordStore, bindParams } from './store.js';
 
 const plain = (row) => (row ? { ...row } : null);
 
+/**
+ * @param {D1Database} binding
+ * @param {{ session?: string }} [options]
+ */
 export function fromD1(binding, { session } = {}) {
   if (!binding || typeof binding.prepare !== 'function') throw new TypeError('fromD1(): not a D1 binding');
   // Read replication (D1 Sessions API): a session reads from a nearby replica when allowed.

@@ -22,6 +22,10 @@ function relatedHref(item) {
   return '';
 }
 
+/**
+ * @param {any} record
+ * @param {{ canonical?: string }} [options]
+ */
 export function sourceBody(record, { canonical } = {}) {
   const title = record.title || record.slug;
   const providers = asList(record.provider);

@@ -61,7 +61,7 @@ const clampLimit = (raw) => {
  *   '|a|b|' (several values per record), matched as LIKE '%|value|%'
  * @param {Record<string,string|{column:string,dir:string}>} [options.sorts] sort key ->
  *   column for ORDER BY (ascending unless ?dir=desc, or the declared dir when none is given)
- * @param {(url: URL, bind: (v: unknown) => string) => {param: string, sql: string}[]} [options.where]
+ * @param {((url: URL, bind: (v: unknown) => string) => {param: string, sql: string}[]) | null} [options.where]
  *   extra conditions an entity builds itself (persons: a party matched inside the record)
  * @param {boolean} [options.facets]  serve precomputed facet options at ?facets=1
  * @param {string} [options.recordColumn] the column holding the record JSON ('card' in the

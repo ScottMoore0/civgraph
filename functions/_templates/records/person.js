@@ -60,6 +60,10 @@ function sourceItems(record) {
  * @param {object} record  a browse_persons record
  * @returns {{ body: import('../../_lib/html.js').SafeHtml, jsonLd: object }}
  */
+/**
+ * @param {any} record
+ * @param {{ canonical?: string }} [options]
+ */
 export function personBody(record, { canonical } = {}) {
   const name = record.name || record.title || record.slug;
   const totals = record.totals || {};

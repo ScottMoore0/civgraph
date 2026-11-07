@@ -20,6 +20,7 @@ export function facts(rows) {
  * A complete data table.
  * columns: [{ label, num?: boolean, rowHeader?: boolean }]
  * rows: arrays of cells (strings, numbers or html``), one per column; or { cells, className }
+ * @param {{ caption?: string, columns: Array<{ label: string, num?: boolean, rowHeader?: boolean }>, rows: any[], className?: string, label?: string }} options
  */
 export function dataTable({ caption, columns, rows, className = '', label }) {
   if (!rows?.length) return '';
@@ -50,7 +51,10 @@ export function citations(items) {
   return html`<ol class="cg-citations">${shown.map((item) => html`<li>${link(item.url, item.label || item.url)}${item.note ? html` – ${item.note}` : ''}${item.licence ? html` <span class="cg-citations__licence">(${item.licence})</span>` : ''}</li>`)}</ol>`;
 }
 
-/** A callout. tone: info | warning | danger | success */
+/**
+ * A callout. tone: info | warning | danger | success
+ * @param {{ title?: any, body: any, tone?: string }} options
+ */
 export function notice({ title, body, tone = 'info' }) {
   return html`<div${attrs({ class: tone === 'info' ? 'cg-notice' : `cg-notice cg-notice--${tone}`, role: tone === 'danger' ? 'alert' : null })}>${title ? html`<strong class="cg-notice__title">${title}</strong>` : ''}<p>${body}</p></div>`;
 }
