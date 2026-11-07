@@ -122,8 +122,7 @@ export class TimelineAnimationMethods {
     if (wasActive) this.timelineAnimation.runId += 1;
     this.clearTimelineAnimationTimer();
     if (wasActive) {
-      this.timelineAnimation.playing = false;
-      this.timelineAnimation.paused = true;
+      this.timelineAnimation.to('paused');
       this.timelineAnimation.currentIndex = this.getTimelineRangeIndex();
     }
     if (wasActive && options.preserveOverlay !== true) this.setTimelineChangeView(null);
@@ -136,9 +135,7 @@ export class TimelineAnimationMethods {
     const wasActive = this.timelineAnimation.playing || this.timelineAnimation.paused || originalLayerId;
     this.timelineAnimation.runId += 1;
     this.clearTimelineAnimationTimer();
-    this.timelineAnimation.playing = false;
-    this.timelineAnimation.paused = false;
-    this.timelineAnimation.atEnd = false;
+    this.timelineAnimation.to('idle');
     if (wasActive) this.setTimelineChangeView(null);
     if (!wasActive) {
       this.updateTimelineAnimationButtons();
@@ -190,9 +187,7 @@ export class TimelineAnimationMethods {
     startIndex = this.clampTimelineIndex(startIndex, sequenceItems);
     const runId = this.timelineAnimation.runId + 1;
     this.timelineAnimation.runId = runId;
-    this.timelineAnimation.playing = true;
-    this.timelineAnimation.paused = false;
-    this.timelineAnimation.atEnd = false;
+    this.timelineAnimation.to('playing');
     this.timelineAnimation.currentIndex = startIndex;
     this.setTimelineRangeIndex(startIndex);
     this.updateTimelineAnimationButtons();
@@ -201,8 +196,7 @@ export class TimelineAnimationMethods {
     if (startItem?.timestamp !== undefined) await this.applyTimelineTimestamp(startItem.timestamp, { fit: false });
     if (!this.isTimelineRunCurrent(runId)) return;
     if (startIndex >= sequenceItems.length - 1) {
-      this.timelineAnimation.playing = false;
-      this.timelineAnimation.atEnd = true;
+      this.timelineAnimation.to('ended');
       this.updateTimelineAnimationButtons();
       return;
     }
@@ -217,9 +211,7 @@ export class TimelineAnimationMethods {
     const fromIndex = this.clampTimelineIndex(this.timelineAnimation.currentIndex, timelineItems);
     const toIndex = fromIndex + 1;
     if (toIndex >= timelineItems.length) {
-      this.timelineAnimation.playing = false;
-      this.timelineAnimation.paused = false;
-      this.timelineAnimation.atEnd = true;
+      this.timelineAnimation.to('ended');
       this.updateTimelineAnimationButtons();
       return;
     }
@@ -227,9 +219,7 @@ export class TimelineAnimationMethods {
     if (!this.isTimelineRunCurrent(runId)) return;
     this.timelineAnimation.currentIndex = toIndex;
     if (toIndex >= timelineItems.length - 1) {
-      this.timelineAnimation.playing = false;
-      this.timelineAnimation.paused = false;
-      this.timelineAnimation.atEnd = true;
+      this.timelineAnimation.to('ended');
       this.updateTimelineAnimationButtons();
       return;
     }

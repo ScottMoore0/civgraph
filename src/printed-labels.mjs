@@ -43,7 +43,7 @@ function applyPrintedLabels(shown) {
   if (!root) return;
   if (shown) root.setAttribute(PRINTED_LABELS_ROOT_ATTRIBUTE, '');
   else root.removeAttribute(PRINTED_LABELS_ROOT_ATTRIBUTE);
-  for (const input of globalThis.document.querySelectorAll('input[data-printed-labels-toggle]')) {
+  for (const input of /** @type {NodeListOf<HTMLInputElement>} */ (globalThis.document.querySelectorAll('input[data-printed-labels-toggle]'))) {
     input.checked = shown;
   }
 }
@@ -71,7 +71,7 @@ export function initPrintedLabels() {
   initialised = true;
   applyPrintedLabels(printedLabelsShown());
   globalThis.document.addEventListener('change', (event) => {
-    const input = event.target;
+    const input = /** @type {HTMLInputElement | null} */ (event.target);
     if (input?.matches?.('input[data-printed-labels-toggle]')) setPrintedLabelsShown(Boolean(input.checked));
   });
 }

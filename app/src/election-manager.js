@@ -88,7 +88,9 @@ import {
   clearedSelection,
   electionURLState,
   freshPanelState,
+  LOCAL_MODE,
   normalizePanelView as modelNormalizePanelView,
+  OVERLAY_MODE,
   restoredPanelView,
   selectedResultKey,
   stylingModeFor
@@ -103,6 +105,7 @@ import {
   listedElections
 } from '../../src/map/election/grouped-years.mjs';
 import { GroupedYearMethods } from '../../src/map/election/grouped-year-methods.js';
+import { ELECTION_LOAD } from '../../src/map/election/load-state.mjs';
 import { installMethods } from '../../src/map/app/install-methods.mjs';
 
 const SEAT_SOURCE_ID = 'test2-election-seat-source';
@@ -146,13 +149,13 @@ export class Test2ElectionManager {
     this.activeBundle = null;
     this.previousBundle = null;
     this.activeMode = 'winner';
-    this.overlayMode = 'circles';
+    this.overlayMode = OVERLAY_MODE.check('circles');
     this.activePanelView = 'party';
     this.activeSelectedResultKey = null;
     this.activeEntityKind = null;
     this.activeEntityKey = null;
     this.activeEntityReturnView = 'party';
-    this.activeLocalMode = 'dea';
+    this.activeLocalMode = LOCAL_MODE.check('dea');
     this.activeGeographyModeId = null;
     this.countDetailedView = false;
     // bundleCache, trendSummaryCache, trendSummaryPromiseCache, trendRenderCache and featureIndexCache
@@ -174,6 +177,9 @@ export class Test2ElectionManager {
     this.recallLabelClickBound = false;
     this.overlayRefreshBound = false;
     this.loadSerial = 0;
+    // closed, loading or open (src/map/election/load-state.mjs); pendingLoad is the load on its way.
+    this.loadRun = ELECTION_LOAD.start();
+    this.pendingLoad = null;
     this.sharedRenderer = createElectionRenderer(this);
     this.mainPaneContract = new MainElectionPaneContract(this);
   }
@@ -235,6 +241,8 @@ export class Test2ElectionManager {
   async loadElection(body, date, { keepView = false } = {}) {
     const groupEntry = this.findEntry(body, date);
     if (groupEntry?.niLocalGroup) {
+      // The grouped year supersedes an ordinary load still on its way.
+      this.cancelPendingLoad({ unloadBackingLayer: false });
       // Stepping from one year to the next keeps the level, votes or seats, and members.
       return this.loadNiLocalGroup(groupEntry, { keepView, ...keptGroupedYearView(this.niLocal) });
     }
@@ -251,11 +259,13 @@ export class Test2ElectionManager {
     if (this.activeEntry && (this.activeEntry.body !== body || this.activeEntry.date !== date)) {
       // Quietly: the address is written once this one is open, so the entry the reader steps
       // back to still has the election being replaced.
-      this.unloadElection({ updateURL: false });
+      this.unloadElection({ updateURL: false, keepLoad: true });
     }
 
     this.renderLoadingPanel(entry);
     const hadMap = Boolean(entry.sourceMapId && this.mapController.isLayerLoaded?.(entry.sourceMapId));
+    this.loadRun.to('loading');
+    this.pendingLoad = { requestId, body, date, sourceMapId: entry.resultsOnly ? null : entry.sourceMapId, hadMap };
     // Results-only: there is no boundary layer for this year, so nothing is added to the map.
     const mapPromise = entry.resultsOnly ? Promise.resolve(null) : this.app.loadMap(entry.sourceMapId, { fit: !keepView });
     const bundlePromise = this.loadBundle(entry);
@@ -283,6 +293,11 @@ export class Test2ElectionManager {
         if (!hadMap && entry.sourceMapId && this.mapController.isLayerLoaded?.(entry.sourceMapId)) this.mapController.unloadLayer(entry.sourceMapId);
         this.app.syncCatalogueMapState();
         this.app.updateActiveLayers();
+        this.loadRun.to('closed');
+        this.pendingLoad = null;
+      } else {
+        // Superseded or cancelled: the newer state is not this load's to report on.
+        return;
       }
       if (this.app._pushNextURL) this.app._pushNextURL = null;
       const offline = typeof navigator !== 'undefined' && navigator.onLine === false;
@@ -292,11 +307,13 @@ export class Test2ElectionManager {
       throw wrapped;
     }
     if (requestId !== this.loadSerial) return;
+    this.loadRun.to('open');
+    this.pendingLoad = null;
     this.activeEntry = entry;
     this.activeBundle = bundle;
     this.previousBundle = entry.isByElection ? sameAreaPreviousBundle(previousBundle, bundle) : previousBundle;
     this.activeMode = stylingModeFor(entry, this.activeMode);
-    if (!this.shouldRenderElectionOverlays()) this.overlayMode = 'circles';
+    if (!this.shouldRenderElectionOverlays()) this.overlayMode = OVERLAY_MODE.check('circles');
     Object.assign(this, freshPanelState(entry));
     this.activeGeographyModeId = this.defaultGeographyModeId();
     this.countDetailedView = false;
@@ -324,16 +341,29 @@ export class Test2ElectionManager {
 
   /** options.updateURL false: leave the address alone (another election is about to replace
    * this one and write it). options.label: closing it is a step of its own, for Back. */
+  /** Cancel a load still on its way (MA-03): its result is dropped when it arrives, and the
+   * boundary layer it added is taken off unless it was on the map before or should stay. */
+  cancelPendingLoad({ unloadBackingLayer = true } = {}) {
+    if (this.loadRun.state() !== 'loading') return;
+    this.loadSerial += 1;
+    this.loadRun.to('closed');
+    const pending = this.pendingLoad;
+    this.pendingLoad = null;
+    if (unloadBackingLayer && pending?.sourceMapId && !pending.hadMap) this.mapController.unloadLayer(pending.sourceMapId);
+  }
+
   unloadElection(options = {}) {
     const { unloadBackingLayer = true, updateURL = true } = options || {};
+    // Closing (or Back) while an election loads cancels that load; loadElection's own unload of
+    // the election it replaces does not.
+    if (!options?.keepLoad) this.cancelPendingLoad({ unloadBackingLayer });
     if (!updateURL) {
       // Taking the layers off writes the address on the way (each layer's onChange); hold it.
-      const wasSuspended = this.app._suspendURLState;
-      this.app._suspendURLState = true;
+      const wasSuspended = this.app.urlSuspend.hold();
       try {
         this.unloadElection({ ...options, updateURL: true, label: null });
       } finally {
-        this.app._suspendURLState = wasSuspended;
+        this.app.urlSuspend.release(wasSuspended);
       }
       return;
     }
@@ -355,6 +385,7 @@ export class Test2ElectionManager {
     this.activeEntry = null;
     this.activeBundle = null;
     this.previousBundle = null;
+    if (this.loadRun.state() === 'open') this.loadRun.to('closed');
     Object.assign(this, clearedSelection());
     this.removePanel();
     this.unloadElectionBackingLayers(backingLayerIds);
@@ -476,8 +507,8 @@ export class Test2ElectionManager {
       this.activeMode = mode;
       this.applyActiveStyle();
     }
-    this.overlayMode = params.get('electionOverlay') === 'bars' ? 'bars' : this.overlayMode;
-    this.activeLocalMode = params.get('electionLocalMode') === 'district' ? 'district' : this.activeLocalMode;
+    this.overlayMode = OVERLAY_MODE.check(params.get('electionOverlay') === 'bars' ? 'bars' : this.overlayMode);
+    this.activeLocalMode = LOCAL_MODE.check(params.get('electionLocalMode') === 'district' ? 'district' : this.activeLocalMode);
     await this.syncLocalGovernmentBackingLayers();
     this.applyActiveStyle();
     const explicitSelected = params.has('electionSelected') || Boolean(mainElectionSelected);
@@ -866,13 +897,13 @@ export class Test2ElectionManager {
       this.switchGeographyMode(event.target.value);
     });
     pane.querySelector('#test2ElectionOverlay')?.addEventListener('change', async (event) => {
-      this.overlayMode = event.target.value === 'bars' ? 'bars' : 'circles';
+      this.overlayMode = OVERLAY_MODE.check(event.target.value === 'bars' ? 'bars' : 'circles');
       await this.renderElectionOverlay();
       this.app.updateURLState();
     });
     pane.querySelectorAll('[data-election-local-mode]').forEach((button) => {
       button.addEventListener('click', async () => {
-        this.activeLocalMode = button.dataset.electionLocalMode === 'district' ? 'district' : 'dea';
+        this.activeLocalMode = LOCAL_MODE.check(button.dataset.electionLocalMode === 'district' ? 'district' : 'dea');
         await this.syncLocalGovernmentBackingLayers();
         this.applyActiveStyle();
         this.renderPanel(null, this.activeLocalMode === 'district' ? 'party' : this.activePanelView);
@@ -4066,7 +4097,7 @@ export class Test2ElectionManager {
 
   handleSeatCircleActivation(key, aggregateType = '') {
     if (aggregateType === 'council' || aggregateType === 'district') {
-      this.activeLocalMode = 'district';
+      this.activeLocalMode = LOCAL_MODE.check('district');
       const result = this.findCouncilAggregateResultByName(key);
       this.renderPanel(result || null, 'party');
       this.app.updateURLState();

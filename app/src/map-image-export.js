@@ -30,6 +30,7 @@
  */
 import dataService, { resolveMapDownloadUrl } from '../../src/data-service.js';
 import { compositeChildIds } from '../../src/map-relations.mjs';
+import { SITE } from '../../functions/_lib/config.js';
 
 export const WIKI_STYLE = Object.freeze({
   fill: '#ffc8c8',
@@ -268,8 +269,9 @@ export function resolveVectorSourceUrl(mapConfig) {
 
 function rewriteForLocalDev(url) {
   // The same rule as src/fgb-worker.js: the dev server proxies R2 at /_r/ on localhost.
-  if (typeof location !== 'undefined' && location.hostname === 'localhost' && url.startsWith('https://data.civgraph.net/')) {
-    return url.replace('https://data.civgraph.net/', `${location.origin}/_r/`);
+  const dataOrigin = `${SITE.dataOrigin}/`;
+  if (typeof location !== 'undefined' && location.hostname === 'localhost' && url.startsWith(dataOrigin)) {
+    return url.replace(dataOrigin, `${location.origin}/_r/`);
   }
   return url;
 }
@@ -692,7 +694,7 @@ export async function buildMapSvg(app, mapId, options = {}) {
   const mapDate = String(mainConfig.dateEffective || mainConfig.date || '');
   const heading = election ? election.title : `${mapName}${mapDate ? ` (${mapDate})` : ''}`;
   const titleText = selected?.name ? `${selected.name}: ${heading}` : heading;
-  const pageUrl = `https://civgraph.net/maps/#layers=${encodeURIComponent(drawId)}`;
+  const pageUrl = `${SITE.origin}/maps/#layers=${encodeURIComponent(drawId)}`;
   const descLines = [
     election ? `${election.title}: areas coloured by ${election.modeLabel}, from ${mapName}.` : `${mapName}${mapDate ? `, ${mapDate}` : ''}.`,
     selected?.name ? `Highlighted: ${selected.name}.` : '',

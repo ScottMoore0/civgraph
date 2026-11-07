@@ -488,9 +488,7 @@ export class TimelineControlMethods {
     this.timelineItems = [];
     this.timelineOnSelect = null;
     this.timelineAnimation.runId += 1;
-    this.timelineAnimation.playing = false;
-    this.timelineAnimation.paused = false;
-    this.timelineAnimation.atEnd = false;
+    this.timelineAnimation.to('idle');
     this.timelineAnimation.singleLayerReferenceId = null;
     this.timelineAnimation.sequenceItems = [];
     this.setTimelineChangeView(null);
