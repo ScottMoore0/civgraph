@@ -1,7 +1,7 @@
 // The stages of scripts/publish/layers.mjs (scripts/publish/layer-publish-run.mjs).
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { layerPublishRun, layerPublishSteps } from '../../scripts/publish/layer-publish-run.mjs';
+import { checkRunTransition, layerPublishRun, layerPublishSteps } from '../../scripts/publish/layer-publish-run.mjs';
 
 // The commands layers.mjs ran before the machine, in order: the steps must not change.
 const BEFORE = (idList, build) => [
@@ -30,26 +30,26 @@ test('a run cannot skip or reorder a stage', () => {
     ['pending', 'uploaded'], ['built', 'manifested'], ['manifested', 'verified'], ['uploaded', 'switched'],
     ['verified', 'planned'], ['switched', 'published'], ['published', 'pending'], ['failed', 'built'],
   ];
-  for (const [from, to] of forbidden) assert.equal(layerPublishRun.check(from, to, { build: true }).ok, false, `${from} -> ${to}`);
+  for (const [from, to] of forbidden) assert.equal(checkRunTransition(from, to, { build: true }).ok, false, `${from} -> ${to}`);
 });
 
 test('the two entries: a build run must build, a --no-build run must not', () => {
-  assert.equal(layerPublishRun.check('pending', 'built', { build: true }).ok, true);
-  assert.equal(layerPublishRun.check('pending', 'manifested', { build: true }).ok, false);
-  assert.equal(layerPublishRun.check('pending', 'manifested', { build: false }).ok, true);
-  assert.equal(layerPublishRun.check('pending', 'built', { build: false }).ok, false);
+  assert.equal(checkRunTransition('pending', 'built', { build: true }).ok, true);
+  assert.equal(checkRunTransition('pending', 'manifested', { build: true }).ok, false);
+  assert.equal(checkRunTransition('pending', 'manifested', { build: false }).ok, true);
+  assert.equal(checkRunTransition('pending', 'built', { build: false }).ok, false);
 });
 
 test('any stage may fail; published needs every layer on the CDN', () => {
   for (const stage of layerPublishRun.states) {
     if (stage === 'published' || stage === 'failed') continue;
-    assert.equal(layerPublishRun.check(stage, 'failed').ok, true, stage);
+    assert.equal(checkRunTransition(stage, 'failed').ok, true, stage);
   }
-  const notYet = layerPublishRun.check('planned', 'published', { notOnCdn: ['b-vector'] });
+  const notYet = checkRunTransition('planned', 'published', { notOnCdn: ['b-vector'] });
   assert.equal(notYet.ok, false);
   assert.match(notYet.reason, /b-vector/);
-  assert.equal(layerPublishRun.check('planned', 'published', { notOnCdn: [] }).ok, true);
-  assert.ok(layerPublishRun.isFinal('published') && layerPublishRun.isFinal('failed'));
+  assert.equal(checkRunTransition('planned', 'published', { notOnCdn: [] }).ok, true);
+  assert.ok(layerPublishRun.start('published').done() && layerPublishRun.start('failed').done());
 });
 
 test('a failed run leaves a resume marker that skips the build once the archives exist', async () => {

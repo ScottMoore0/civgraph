@@ -17,7 +17,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { assertKnownFlags } from '../lib/safe-artefact-write.mjs';
-import { contentRangeTotal, layerLifecycle, mvtDirectoryState, pmtilesLayerState } from './layer-lifecycle.mjs';
+import { checkLayerTransition, contentRangeTotal, mvtDirectoryState, pmtilesLayerState } from './layer-lifecycle.mjs';
 
 assertKnownFlags(['--ids']);
 
@@ -75,7 +75,7 @@ const layers = (metadata.layers || []).map((layer) => {
   // Switching is the lifecycle's `-> serving` transition (layer-lifecycle.mjs): a PMTiles layer
   // needs a passing range check of the very URL it will serve, of its local archive's size.
   const pmtilesVerdict = asset
-    ? layerLifecycle.check(pmtilesLayerState({ layer, asset, range }), 'serving', {
+    ? checkLayerTransition(pmtilesLayerState({ layer, asset, range }), 'serving', {
       kind: 'pmtiles',
       cdnUrl: asset.cdnUrl,
       checkedUrl: range?.cdnUrl,
@@ -88,7 +88,7 @@ const layers = (metadata.layers || []).map((layer) => {
     const mvtAsset = mvtAssetByLayer.get(layer.id);
     if (!mvtAsset) return layer;
     const upload = uploadByLayer.get(layer.id);
-    const mvtVerdict = layerLifecycle.check(mvtDirectoryState({ upload }), 'serving', { kind: 'mvt-directory', uploadStatus: upload?.status });
+    const mvtVerdict = checkLayerTransition(mvtDirectoryState({ upload }), 'serving', { kind: 'mvt-directory', uploadStatus: upload?.status });
     if (!mvtVerdict.ok) return layer;
     switchedMvtDirectories += 1;
     return {
