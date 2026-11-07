@@ -75,6 +75,9 @@ export const EXCLUDE = [
   'data/database/medium-priority-publication-sources.json', 'data/database/ni-register-interests/',
   'data/provider-mirror-audit/', 'data/timeline-transitions/', 'data/documents/', 'data/downloads/',
   'data/books/', 'data/maps/', 'data/census/', 'data/sources/',
+  // The registries (councils, parties, statuses, layer types) are build-time configuration, not
+  // published (owner, refactor round 2, 7 Nov 2026).
+  'data/registries/',
 ];
 // data/census/explorer-bundle.json is the one file of data/census the Census Explorer fetches.
 export const INCLUDE_ANYWAY = ['data/census/explorer-bundle.json'];
