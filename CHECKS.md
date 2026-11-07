@@ -1,6 +1,7 @@
 # Checks
 
-> **Status: current, 7 November 2026.** Area 4 of the site restructure (checks and CI).
+> **Status: current, 7 November 2026.** Area 4 of the site restructure (checks and CI), with the
+> refactor groundwork's tests (REFACTOR-PLAN.md, kept with the design documents outside the repository).
 > Every check, test and verify script is in exactly one tier below.
 
 ## The four tiers
@@ -89,6 +90,7 @@ whose inputs fell outside a filter never ran (the `docs/**` gap, closed 2026-09-
 | Committed generated files | `check:site-figures`, `check:status`, `check:sitemap`, `check:proni-roots`, `check:corpus-index`, `check:notices`, `check:og-preview`, `check:site-partials`, `check:i18n`, `check:viewer-parity`, `check:browse-cache`, `check:app-shell-cache` |
 | Site and docs hygiene | `check:site-nav`, `check:doc-status`, `check:doc-paths`, `check:dir-names`, `check:local-paths`, `check:ci-workflow`, `lint`, `lint:functions-strict` |
 | Code units | `test:unit`, `test:settle-outcome`, `test:scoped-writes`, `check:contributions`, `check:facts`, `test:facts` |
+| Versioned API, config, storage, gallery (REFACTOR-PLAN.md) | `test:unit`: `tests/functions/api-v1.test.mjs` (every `/api/v1` route is its `/_api` handler and answers alike; every `/_api` route is in v1 or excluded with a reason), `tests/unit/config.test.mjs` (the config module equals `wrangler.toml`, `scripts/records/paths.mjs`, the shell and `_records.js`; every `env.X` a Function reads is known), `tests/unit/storage.test.mjs` (one contract over the D1 and SQLite stores), `tests/functions/design-system.test.mjs` (the gallery shows every component and is noindex) |
 
 ## Outside the tiers
 
@@ -179,5 +181,10 @@ Retired earlier: `check:elections-d1` and `deploy:elections-d1` (6 Nov), and
 - **A build the checks need:** add it to `BUILD_STEPS` in `scripts/check-clean.mjs` (CI and
   `check:clean` share it). If a change makes `tmp/records` much larger, re-measure against
   the runner: the check job's last step prints `df` and `du`.
+- **A new `/_api` route:** decide whether it is public data. Add it to `ROUTES` in
+  `functions/_lib/api/v1.js` (and it answers at `/api/v1/` too), or to `EXCLUDED` there with the
+  reason; `tests/functions/api-v1.test.mjs` fails until one is done. A new binding or runtime
+  variable goes into `functions/_lib/config.js` (`tests/unit/config.test.mjs`), and a new UI
+  component stylesheet needs a specimen in the gallery (`functions/design-system/index.js`).
 - **A check that needs the network:** it belongs in tier 4. Add it to `verify` (credentials)
   or `verify:public` (none), never to `check`.
