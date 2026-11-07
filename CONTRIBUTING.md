@@ -69,8 +69,8 @@ What matters specifically for contributing:
 modules, so a browser-imported module cannot be moved into `scripts/` without
 breaking at runtime.
 
-`app/build/` is committed. If you change anything under `render/src/`, rebuild and
-commit the build output with it.
+`app/build/` is a build output, not committed. If you change anything under `app/src/` or
+`src/map/`, rebuild it (`npm run rebuild`) before running the browser tests.
 
 ### The catalogue is three stores
 

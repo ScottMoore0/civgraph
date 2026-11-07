@@ -12,15 +12,15 @@ const METADATA_PATH = resolve(ROOT, 'render/metadata/maps-test.json');
 const PORT_PLAN_PATH = resolve(ROOT, 'render/metadata/main-site-port-plan.json');
 const INDEX_PATH = resolve(ROOT, 'render/index.html');
 const APP_PATH = resolve(ROOT, 'render/src/app.js');
-const CONFIG_PATH = resolve(ROOT, 'render/src/config.js');
+const CONFIG_PATH = resolve(ROOT, 'src/map/renderer/config.js');
 const SERVICE_WORKER_PATH = resolve(ROOT, 'render/sw.js');
 const REQUIRED_MODULES = [
-  'render/src/config.js',
+  'src/map/renderer/config.js',
   'render/src/dom.js',
-  'render/src/utils.js',
-  'render/src/labels.js',
-  'render/src/metadata-service.js',
-  'render/src/map-controller.js',
+  'src/map/renderer/utils.js',
+  'src/map/renderer/labels.js',
+  'src/map/renderer/metadata-service.js',
+  'src/map/renderer/map-controller.js',
   'render/src/catalogue-controller.js',
   'render/src/active-layers.js',
   'render/src/feature-details.js',
@@ -207,7 +207,7 @@ function validateAssetVersions() {
 
   const indexVersion = uniqueIndexVersions[0];
   const indexVersionNumber = indexVersion?.match(/^test-(\d+)$/)?.[1];
-  if (!appVersion) errors.push('render/src/config.js must define TEST_ASSET_VERSION');
+  if (!appVersion) errors.push('src/map/renderer/config.js must define TEST_ASSET_VERSION');
   if (!swVersion) errors.push('render/sw.js must define TEST_CACHE_VERSION as test-vN');
 
   if (indexVersion && appVersion && indexVersion !== appVersion) {

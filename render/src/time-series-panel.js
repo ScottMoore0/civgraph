@@ -1,4 +1,4 @@
-import { escapeHtml } from './utils.js';
+import { escapeHtml } from '../../src/map/renderer/utils.js';
 
 export function renderTimeSeriesPanel(els, timeSeries, controller, options = {}) {
   if (!els.timeSeriesPanel) return;

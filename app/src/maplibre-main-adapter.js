@@ -1,7 +1,7 @@
 import maplibregl from 'maplibre-gl';
-import { TestMapLibreController } from '../../render/src/map-controller.js';
-import { repairFeatureProperties } from '../../render/src/feature-property-repairs.js';
-import { boundsToMapLibre } from '../../render/src/utils.js';
+import { TestMapLibreController } from '../../src/map/renderer/map-controller.js';
+import { repairFeatureProperties } from '../../src/map/renderer/feature-property-repairs.js';
+import { boundsToMapLibre } from '../../src/map/renderer/utils.js';
 import { waitForMapSettle } from './settle.js';
 import { compositeChildIds } from '../../src/map-relations.mjs';
 import { cdnUrl } from '../../src/cdn-url.js';

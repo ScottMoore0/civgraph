@@ -1,5 +1,5 @@
-import { getFeatureLabel } from './labels.js';
-import { escapeHtml, formatValue } from './utils.js';
+import { getFeatureLabel } from '../../src/map/renderer/labels.js';
+import { escapeHtml, formatValue } from '../../src/map/renderer/utils.js';
 
 const FIELD_ALIASES = {
   name: 'Name',

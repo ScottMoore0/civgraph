@@ -6,7 +6,7 @@
  * build, the semantic graph, site stats, all 61 checks and the browser tests -- so a
  * one-line CSS fix cost as long as a data batch. This looks at what changed and picks:
  *
- *   app    only interface code changed (app/src, src/*.js|css, render/src, sw.js, site
+ *   app    only interface code changed (app/src, src/*.js|css, src/map, render/src, sw.js, site
  *          CSS/JS, the election viewer, tests, CI and the check harness): rebuild the app
  *          bundle and shell, run the app-facing checks and the election/timeline browser tests.
  *   data   anything else: the full chain. Election source or corrections also re-stamp
@@ -37,7 +37,7 @@ const GENERATED = [
   /^app\/election-viewer-package\/(css|js)\//, /^app\/js\//, /^sitemap\.xml$/, /^sitemaps\//
 ];
 const APP = [
-  /^app\/src\//, /^src\/[^/]+\.(js|css)$/, /^render\/src\//, /^sw\.js$/,
+  /^app\/src\//, /^src\/[^/]+\.(js|css)$/, /^src\/map\//, /^render\/src\//, /^sw\.js$/,
   /^assets\/(css|site|js)\//, /^tests\//, /^scripts\/run-checks\.mjs$/, /^scripts\/rebuild-changed\.mjs$/,
   // The check machinery itself (CHECKS.md): CI, the clean-export harness, the test server.
   /^\.github\/workflows\//, /^CHECKS\.md$/, /^scripts\/(validate-ci-workflow|check-clean)\.mjs$/, /^scripts\/test-server\.py$/

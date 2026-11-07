@@ -1,7 +1,7 @@
 import {
   buildRepairedLabelValueExpression,
   repairFeatureProperties
-} from '../../render/src/feature-property-repairs.js';
+} from '../../src/map/renderer/feature-property-repairs.js';
 import maplibregl from 'maplibre-gl';
 import {
   createElectionRenderer,
@@ -69,106 +69,42 @@ import {
   withPartyDeltas as modelWithPartyDeltas
 } from '../../src/map/election/results-model.mjs';
 import {
-  LOCAL_GROUP_BODIES,
-  buildNiLocalGroupEntry,
-  groupNiLocalRounds,
-  isNiLocalCouncilRound
-} from '../../src/ni-local-groups.mjs';
-import { NiLocalGroupedView } from './ni-local-view.js';
+  fetchConstituencyDetail,
+  fetchElectionManifest,
+  fetchFeatureIndex,
+  fetchResultsBundle,
+  fetchTrendBundle,
+  useElectionsApi
+} from '../../src/map/election/transport.mjs';
+import {
+  cachedLoad,
+  createElectionCaches,
+  ELECTION_CACHE_LIMITS,
+  mapWithConcurrency,
+  rememberLimitedCache,
+  sharedLoad
+} from '../../src/map/election/cache.mjs';
+import {
+  clearedSelection,
+  electionURLState,
+  freshPanelState,
+  normalizePanelView as modelNormalizePanelView,
+  restoredPanelView,
+  selectedResultKey,
+  stylingModeFor
+} from '../../src/map/election/panel-model.mjs';
+import {
+  addGroupedYears,
+  findGroupedYear,
+  groupedYearForLayerId,
+  groupedYearOptionsFromParams,
+  inTimelineSeries,
+  keptGroupedYearView,
+  listedElections
+} from '../../src/map/election/grouped-years.mjs';
+import { GroupedYearMethods } from '../../src/map/election/grouped-year-methods.js';
+import { installMethods } from '../../src/map/app/install-methods.mjs';
 
-const ELECTION_MANIFEST_URL = '/render/metadata/elections-test2.json?v=test-023';
-
-/**
- * Read election results from the D1-backed API instead of the static bundles.
- *
- * Off by default: the static files remain the live path until this has been exercised
- * properly. Enable per-session with ?electionsApi=1 (or ?electionsApi=0 to force it
- * off), or persistently by setting localStorage 'civgraph.electionsApi' to '1'.
- *
- * The API's bundle mode returns the same shape as the static file, so nothing
- * downstream of loadBundle changes. It is not smaller -- it returns every
- * constituency, exactly as the file does. What it fixes is provenance: the static
- * bundles are regenerated at deploy time from sources the deploy environment does not
- * have, which is how production came to serve matchedCount 0 for 223 elections. D1 is
- * not rewritten by a deploy.
- */
-function useElectionsApi() {
-    try {
-        const param = new URLSearchParams(window.location.search).get('electionsApi');
-        if (param === '1' || param === 'true') return true;
-        if (param === '0' || param === 'false') return false;
-        // Default ON. localStorage 'civgraph.electionsApi' = '0' opts out, as does
-        // ?electionsApi=0, so the static path stays reachable without a deploy.
-        const stored = window.localStorage?.getItem('civgraph.electionsApi');
-        if (stored === '0') return false;
-        return true;
-    } catch {
-        return true;
-    }
-}
-
-function electionBundleUrl(entry) {
-    return useElectionsApi()
-        ? `/_api/elections?key=${encodeURIComponent(entry.key)}&format=bundle&lite=1`
-        : `${entry.resultUrl}?v=test-023`;
-}
-
-/**
- * Where each result in an election came from, and how far that was checked.
- *
- * One small file per election, written by scripts/build-election-provenance.mjs and keyed by the
- * constituency name as rendered. Only 213 elections have any attribution yet, so a miss is the
- * normal case and must never disturb the results themselves: every failure returns null and the
- * pane simply shows no source line.
- */
-async function loadProvenanceShard(key) {
-    try {
-        // From D1 (data design phase 2); the old shard URL answers the same from the same rows.
-        const response = await fetch(`/_api/elections?key=${encodeURIComponent(key)}&view=provenance`, { cache: 'default' });
-        if (!response.ok) return null;
-        const shard = await response.json();
-        return shard?.contests || null;
-    } catch {
-        return null;
-    }
-}
-
-/**
- * Report an elections-API problem so it is visible outside one user's console.
- *
- * The API is the default path and falls back to the static bundles on failure, which
- * means a broken API looks like a working site. Without a beacon the only trace is a
- * console.warn in a tab nobody is watching. /_api/rum structured-logs what it receives,
- * so these show up in `wrangler pages tail civgraph` and the Functions log.
- *
- * Fire-and-forget: telemetry must never break a page that is otherwise working.
- */
-function reportElectionsApiIssue(metric, reason, key) {
-    try {
-        const body = JSON.stringify({
-            source: 'elections',
-            metric,
-            value: 1,
-            path: (typeof window !== 'undefined' && window.location && window.location.pathname) || '',
-            event: { reason: String(reason).slice(0, 240), layerId: String(key || '') }
-        });
-        const endpoint = '/_api/rum';
-        if (typeof navigator !== 'undefined' && navigator.sendBeacon) {
-            navigator.sendBeacon(endpoint, new Blob([body], { type: 'application/json' }));
-        } else {
-            fetch(endpoint, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body,
-                keepalive: true
-            });
-        }
-    } catch {
-        /* never throw from telemetry */
-    }
-}
-
-const DEFAULT_MODE_ORDER = ['winner', 'leadingParty', 'voteShare', 'turnout', 'majority', 'seats', 'quota'];
 const SEAT_SOURCE_ID = 'test2-election-seat-source';
 const SEAT_HALO_LAYER_ID = 'test2-election-seat-halo-layer';
 const SEAT_LAYER_ID = 'test2-election-seat-layer';
@@ -182,10 +118,6 @@ const SEAT_CIRCLE_SPACING = SEAT_CIRCLE_SIZE + 1;
 const SEAT_CIRCLE_COLLISION_MARGIN = 4;
 const SEAT_CIRCLE_MIN_TOTAL_EXTENT = 120;
 const SYNTHETIC_ELECTION_LABEL_HEIGHT = 18;
-const ELECTION_BUNDLE_CACHE_LIMIT = 4;
-const ELECTION_FEATURE_INDEX_CACHE_LIMIT = 3;
-const ELECTION_TREND_SUMMARY_CACHE_LIMIT = 160;
-const ELECTION_TREND_RENDER_CACHE_LIMIT = 40;
 const SEAT_CIRCLE_GROUP_LIMIT_DESKTOP = 260;
 const SEAT_CIRCLE_GROUP_LIMIT_TABLET = 160;
 const SEAT_CIRCLE_GROUP_LIMIT_MOBILE = 90;
@@ -223,12 +155,10 @@ export class Test2ElectionManager {
     this.activeLocalMode = 'dea';
     this.activeGeographyModeId = null;
     this.countDetailedView = false;
-    this.bundleCache = new Map();
-    this.trendSummaryCache = new Map();
-    this.trendSummaryPromiseCache = new Map();
-    this.trendRenderCache = new Map();
+    // bundleCache, trendSummaryCache, trendSummaryPromiseCache, trendRenderCache and featureIndexCache
+    // (src/map/election/cache.mjs).
+    Object.assign(this, createElectionCaches());
     this.trendChart = null;
-    this.featureIndexCache = new Map();
     this.resultsByLayer = new Map();
     this.seatCircleClickBound = false;
     this.seatCircleOverlay = null;
@@ -248,10 +178,9 @@ export class Test2ElectionManager {
     this.mainPaneContract = new MainElectionPaneContract(this);
   }
 
+  /** The election catalogue (ELECTION_MANIFEST_URL, src/map/election/transport.mjs), with its grouped years. */
   async load() {
-    const response = await fetch(ELECTION_MANIFEST_URL, { cache: 'default' });
-    if (!response.ok) throw new Error(`Failed to load the MapLibre election catalogue: ${response.status}`);
-    this.catalogue = await response.json();
+    this.catalogue = await fetchElectionManifest();
     this.addNiLocalGroups();
     return this.catalogue;
   }
@@ -262,23 +191,11 @@ export class Test2ElectionManager {
    * and the links to them still open them; the lists show the year instead.
    */
   addNiLocalGroups() {
-    const elections = this.catalogue?.elections;
-    if (!Array.isArray(elections) || elections.some((entry) => entry.niLocalGroup)) return;
-    const groups = groupNiLocalRounds(elections);
-    for (const [year, rounds] of groups) {
-      elections.push({
-        ...buildNiLocalGroupEntry(year, rounds),
-        loadable: true,
-        resultsOnly: false,
-        placeholder: false,
-        sourceMapId: null,
-        stylingModes: []
-      });
-    }
+    addGroupedYears(this.catalogue);
   }
 
   buildCatalogueCards() {
-    return (this.catalogue?.elections || []).filter((entry) => !isNiLocalCouncilRound(entry)).map((entry) => ({
+    return listedElections(this.catalogue?.elections || []).map((entry) => ({
       ...entry,
       canonicalLayerId: this.getCanonicalLayerId(entry),
       // A results-only election (no boundary layer for its year) is listed and opens like
@@ -319,8 +236,7 @@ export class Test2ElectionManager {
     const groupEntry = this.findEntry(body, date);
     if (groupEntry?.niLocalGroup) {
       // Stepping from one year to the next keeps the level, votes or seats, and members.
-      const keep = this.niLocal?.active ? { level: this.niLocal.level, show: this.niLocal.show, members: this.niLocal.members } : {};
-      return this.loadNiLocalGroup(groupEntry, { keepView, ...keep });
+      return this.loadNiLocalGroup(groupEntry, { keepView, ...keptGroupedYearView(this.niLocal) });
     }
     const requestId = ++this.loadSerial;
     const entry = groupEntry;
@@ -379,16 +295,9 @@ export class Test2ElectionManager {
     this.activeEntry = entry;
     this.activeBundle = bundle;
     this.previousBundle = entry.isByElection ? sameAreaPreviousBundle(previousBundle, bundle) : previousBundle;
-    this.activeMode = entry.stylingModes?.includes(this.activeMode)
-      ? this.activeMode
-      : (entry.stylingModes?.find((mode) => DEFAULT_MODE_ORDER.includes(mode)) || 'winner');
+    this.activeMode = stylingModeFor(entry, this.activeMode);
     if (!this.shouldRenderElectionOverlays()) this.overlayMode = 'circles';
-    this.activePanelView = 'party';
-    this.activeSelectedResultKey = null;
-    this.activeEntityKind = null;
-    this.activeEntityKey = null;
-    this.activeEntityReturnView = 'party';
-    this.activeLocalMode = entry.bodyGroup === 'local-government' ? 'dea' : 'constituency';
+    Object.assign(this, freshPanelState(entry));
     this.activeGeographyModeId = this.defaultGeographyModeId();
     this.countDetailedView = false;
     this.indexBundle(bundle);
@@ -409,53 +318,6 @@ export class Test2ElectionManager {
     // pane has taken its space.
     if (entry.sourceMapId && !keepView) this.app.refitAfterElectionPane?.(entry.sourceMapId);
     this.app.focusActiveElectionCatalogueEntry?.(entry, { scroll: false });
-    if (!keepView && this.app.endNavigation) this.app.endNavigation();
-    else this.app.updateURLState();
-  }
-
-  /**
-   * A year of pre-1973 Northern Ireland council elections (app/src/ni-local-view.js): the year's
-   * rounds at the reader's level (or `level`), coloured by votes or seats. Opening it is a step
-   * Back can undo, as for any election; the timeline steps through the years.
-   */
-  async loadNiLocalGroup(entry, { keepView = false, level = null, show = null, members = null, area = null } = {}) {
-    const requestId = ++this.loadSerial;
-    if (!keepView) this.app.beginNavigation?.(`Opened ${entry.displayTitle}`);
-    if (this.activeEntry && this.activeEntry.key !== entry.key) this.unloadElection({ updateURL: false });
-    else if (this.niLocal?.active) {
-      this.niLocal.teardown();
-      this.unloadElectionBackingLayers(this.niLocal.backingLayerIds());
-      this.niLocal.forgetLoadedLayers();
-    }
-    this.renderLoadingPanel(entry);
-    if (!this.niLocal) this.niLocal = new NiLocalGroupedView(this);
-    try {
-      await this.niLocal.open(entry, { keepView, level, show, members, area });
-    } catch (error) {
-      if (requestId === this.loadSerial) {
-        this.niLocal.teardown();
-        this.unloadElectionBackingLayers(this.niLocal.backingLayerIds());
-        this.niLocal.forgetLoadedLayers();
-        this.activeEntry = null;
-        this.activeBundle = null;
-        this.removePanel();
-        this.app.syncCatalogueMapState();
-        this.app.updateActiveLayers();
-      }
-      if (this.app._pushNextURL) this.app._pushNextURL = null;
-      const offline = typeof navigator !== 'undefined' && navigator.onLine === false;
-      const wrapped = new Error(`${entry.displayTitle} could not be loaded: ${offline ? 'you appear to be offline' : 'its results or map did not arrive'}.`);
-      wrapped.cause = error;
-      throw wrapped;
-    }
-    if (requestId !== this.loadSerial) return;
-    this.removeElectionOverlays();
-    this.updateElectionTimeline();
-    this.app.syncCatalogueMapState();
-    this.app.updateActiveLayers();
-    const sourceMapId = this.niLocal.sourceMapId();
-    if (sourceMapId && !keepView) this.app.refitAfterElectionPane?.(sourceMapId);
-    this.app.focusActiveElectionCatalogueEntry?.(this.activeEntry, { scroll: false });
     if (!keepView && this.app.endNavigation) this.app.endNavigation();
     else this.app.updateURLState();
   }
@@ -493,10 +355,7 @@ export class Test2ElectionManager {
     this.activeEntry = null;
     this.activeBundle = null;
     this.previousBundle = null;
-    this.activeSelectedResultKey = null;
-    this.activeEntityKind = null;
-    this.activeEntityKey = null;
-    this.activeEntityReturnView = 'party';
+    Object.assign(this, clearedSelection());
     this.removePanel();
     this.unloadElectionBackingLayers(backingLayerIds);
     this.app.updateTimeline();
@@ -574,21 +433,7 @@ export class Test2ElectionManager {
         niLocal: this.niLocal.urlState()
       };
     }
-    return {
-      layerId: this.getCanonicalLayerId(this.activeEntry),
-      body: this.activeEntry.body,
-      date: this.activeEntry.date,
-      mode: this.activeMode,
-      overlay: this.overlayMode,
-      view: this.activePanelView,
-      localMode: this.activeLocalMode,
-      geographyMode: this.activeGeographyModeId,
-      selected: this.activeSelectedResultKey,
-      countDetail: this.countDetailedView,
-      entityKind: this.activeEntityKind,
-      entityKey: this.activeEntityKey,
-      entityReturnView: this.activeEntityReturnView
-    };
+    return electionURLState(this, this.getCanonicalLayerId(this.activeEntry));
   }
 
   async restoreURLState(params) {
@@ -618,12 +463,7 @@ export class Test2ElectionManager {
     if (!body || !date) return;
     const group = this.findEntry(body, date);
     if (group?.niLocalGroup) {
-      await this.loadNiLocalGroup(group, {
-        level: params.get('electionLevel'),
-        show: params.get('electionShow'),
-        members: params.get('electionMembers'),
-        area: params.get('electionArea')
-      });
+      await this.loadNiLocalGroup(group, groupedYearOptionsFromParams(params));
       return;
     }
     await this.loadElection(body, date);
@@ -646,9 +486,7 @@ export class Test2ElectionManager {
     const validSelected = Boolean(selectedResult);
     const explicitView = params.has('electionView');
     const requestedView = explicitView ? params.get('electionView') : null;
-    const view = validSelected
-      ? (requestedView || 'party')
-      : (requestedView && requestedView !== 'counts' && requestedView !== 'animation' ? requestedView : 'party');
+    const view = restoredPanelView(validSelected, requestedView);
     this.countDetailedView = validSelected && params.get('electionCountDetail') === '1';
     if (!validSelected) {
       this.activeSelectedResultKey = null;
@@ -667,48 +505,27 @@ export class Test2ElectionManager {
     this.app.focusActiveElectionCatalogueEntry?.(this.activeEntry, { scroll: false });
   }
 
+  /** An election's results bundle (src/map/election/transport.mjs), kept for the last few opened. */
   async loadBundle(entry) {
-    if (this.bundleCache.has(entry.key)) return this.bundleCache.get(entry.key);
-    const response = await fetch(electionBundleUrl(entry), { cache: 'default' });
-    // No static fallback: the bundles are no longer deployed as files. The API keeps a
-    // last-good copy of every answer and serves it if D1 is unavailable
-    // (functions/_api/_records.js cachedJson), which is what the fallback was for.
-    if (!response.ok && useElectionsApi()) {
-      console.warn(`[test2 elections] elections API returned ${response.status} for ${entry.key}`);
-      reportElectionsApiIssue('elections-api-error', `bundle fetch returned ${response.status}`, entry.key);
-    }
-    if (!response.ok) throw new Error(`Failed to load election results for ${entry.body} ${entry.date}: ${response.status}`);
-    const bundle = await response.json();
-    bundle.provenance = await loadProvenanceShard(entry.key);
-    rememberLimitedCache(this.bundleCache, entry.key, bundle, ELECTION_BUNDLE_CACHE_LIMIT);
-    return bundle;
+    return cachedLoad(this.bundleCache, entry.key, ELECTION_CACHE_LIMITS.bundles, () => fetchResultsBundle(entry));
   }
 
   async loadTrendSummary(entry) {
     if (!entry?.key || !entry.resultUrl) return null;
     if (this.trendSummaryCache.has(entry.key)) return this.trendSummaryCache.get(entry.key);
-    if (this.trendSummaryPromiseCache.has(entry.key)) return this.trendSummaryPromiseCache.get(entry.key);
-    const promise = (async () => {
+    return sharedLoad(this.trendSummaryPromiseCache, entry.key, async () => {
       let bundle = null;
       if (this.activeEntry?.key === entry.key && this.activeBundle) {
         bundle = this.activeBundle;
       } else if (this.bundleCache.has(entry.key)) {
         bundle = this.bundleCache.get(entry.key);
       } else {
-        const response = await fetch(electionBundleUrl(entry), { cache: 'default' });
-        if (!response.ok) throw new Error(`Failed to load trend data for ${entry.body} ${entry.date}: ${response.status}`);
-        bundle = await response.json();
+        bundle = await fetchTrendBundle(entry);
       }
       const summary = this.buildTrendSummary(entry, bundle);
-      rememberLimitedCache(this.trendSummaryCache, entry.key, summary, ELECTION_TREND_SUMMARY_CACHE_LIMIT);
+      rememberLimitedCache(this.trendSummaryCache, entry.key, summary, ELECTION_CACHE_LIMITS.trendSummaries);
       return summary;
-    })();
-    this.trendSummaryPromiseCache.set(entry.key, promise);
-    try {
-      return await promise;
-    } finally {
-      this.trendSummaryPromiseCache.delete(entry.key);
-    }
+    });
   }
 
   buildTrendSummary(entry, bundle) {
@@ -1020,7 +837,7 @@ export class Test2ElectionManager {
     const nextView = this.normalizePanelView(view || this.activePanelView || 'party', selectedResult);
     this.activePanelView = nextView;
     const previousSelectedKey = this.activeSelectedResultKey;
-    this.activeSelectedResultKey = selectedResult ? normalizeName(selectedResult.matchName || selectedResult.constituency || '') : null;
+    this.activeSelectedResultKey = selectedResultKey(selectedResult);
     // Choosing a constituency (or going back to the whole election) is a step the reader can
     // take back with the browser's Back button: a new history entry, not a rewrite of this one.
     const selectionChanged = previousSelectedKey !== this.activeSelectedResultKey;
@@ -1141,21 +958,14 @@ export class Test2ElectionManager {
     }
   }
 
+  /** The view the pane can show for this selection (src/map/election/panel-model.mjs). */
   normalizePanelView(view, selectedResult = null) {
-    const value = view || 'party';
-    if (selectedResult && this.isSingleSeatFptpResult(selectedResult)) {
-      return value === 'trends' ? 'trends' : 'results';
-    }
-    if (this.isCouncilAggregateResult(selectedResult)) {
-      return ['party', 'candidate', 'local-party', 'trends'].includes(value) ? value : 'party';
-    }
-    if (!selectedResult && this.isLocalGovernmentElection() && this.activeLocalMode === 'district') {
-      return ['party', 'candidate', 'local-party', 'trends'].includes(value) ? value : 'party';
-    }
-    if (!selectedResult) {
-      return ['party', 'candidate', 'local-party', 'constituency', 'trends'].includes(value) ? value : 'party';
-    }
-    return value;
+    return modelNormalizePanelView(view, {
+      selected: Boolean(selectedResult),
+      singleSeatFptp: Boolean(selectedResult) && this.isSingleSeatFptpResult(selectedResult),
+      councilAggregate: this.isCouncilAggregateResult(selectedResult),
+      districtMode: !selectedResult && this.isLocalGovernmentElection() && this.activeLocalMode === 'district'
+    });
   }
 
   renderPanelTitle(title, selectedResult = null) {
@@ -2791,7 +2601,7 @@ export class Test2ElectionManager {
       }
       for (const row of rows) points.push(row);
     }
-    rememberLimitedCache(this.trendRenderCache, renderCacheKey, { points, comparableCount: entries.length }, ELECTION_TREND_RENDER_CACHE_LIMIT);
+    rememberLimitedCache(this.trendRenderCache, renderCacheKey, { points, comparableCount: entries.length }, ELECTION_CACHE_LIMITS.trendRenders);
     if (chart.dataset.trendRequestKey === renderCacheKey) {
       this.renderTrendChart(chart, points, selectedResult, includeAllTypes, entries.length);
     }
@@ -3632,31 +3442,18 @@ export class Test2ElectionManager {
       if (!Array.isArray(result.countGroup)) result.countGroup = rows[seq].countGroup || result.animationPayload?.Constituency?.countGroup || [];
       return result.animationPayload;
     }
-    try {
-      const response = await fetch(
-        `/_api/elections?key=${encodeURIComponent(key)}&constituency=${seq}`,
-        { cache: 'default' }
-      );
-      if (!response.ok) {
-        reportElectionsApiIssue('elections-api-animation-failed', `constituency fetch returned ${response.status}`, `${key}#${seq}`);
-        return null;
-      }
-      const detail = await response.json();
-      if (detail?.animationPayload) {
-        // On the bundle's own row too, so the copy and the original never fetch it twice.
-        for (const target of new Set([result, rows[seq]])) {
-          target.animationPayload = detail.animationPayload;
-          if (!Array.isArray(target.countGroup)) {
-            target.countGroup = detail.animationPayload?.Constituency?.countGroup || [];
-          }
+    // A failed request is reported and answers null (src/map/election/transport.mjs).
+    const detail = await fetchConstituencyDetail(key, seq);
+    if (detail?.animationPayload) {
+      // On the bundle's own row too, so the copy and the original never fetch it twice.
+      for (const target of new Set([result, rows[seq]])) {
+        target.animationPayload = detail.animationPayload;
+        if (!Array.isArray(target.countGroup)) {
+          target.countGroup = detail.animationPayload?.Constituency?.countGroup || [];
         }
       }
-      return result.animationPayload || null;
-    } catch (error) {
-      console.warn('[test2 elections] Could not load animation payload:', error);
-      reportElectionsApiIssue('elections-api-animation-failed', error && error.message ? error.message : String(error), key);
-      return null;
     }
+    return result.animationPayload || null;
   }
 
   /**
@@ -4779,16 +4576,8 @@ export class Test2ElectionManager {
         || layer);
     const url = resolvedLayer?.featureIndexUrl;
     if (!url) return null;
-    if (this.featureIndexCache.has(url)) return this.featureIndexCache.get(url);
-    const response = await fetch(url, { cache: 'default' });
-    if (!response.ok) return null;
-    const raw = await response.json();
-    const index = {
-      ...raw,
-      items: raw.items || raw.features || (Array.isArray(raw) ? raw : [])
-    };
-    rememberLimitedCache(this.featureIndexCache, url, index, ELECTION_FEATURE_INDEX_CACHE_LIMIT);
-    return index;
+    // A missing index answers null and is asked for again next time.
+    return cachedLoad(this.featureIndexCache, url, ELECTION_CACHE_LIMITS.featureIndexes, () => fetchFeatureIndex(url));
   }
 
   buildFeatureCentreLookup(items) {
@@ -4877,9 +4666,7 @@ export class Test2ElectionManager {
     if (!this.activeEntry || !this.catalogue?.elections) return;
     const all = this.catalogue.elections
       // The council years run as one series, the island's (before 1921) into Northern Ireland's.
-      .filter((entry) => (entry.loadable || entry.resultsOnly) && (this.activeEntry.niLocalGroup
-        ? Boolean(entry.niLocalGroup)
-        : entry.body === this.activeEntry.body))
+      .filter((entry) => (entry.loadable || entry.resultsOnly) && inTimelineSeries(entry, this.activeEntry))
       .sort((a, b) => String(a.date).localeCompare(String(b.date)));
     // By-elections far outnumber general elections (879 to 206 across the catalogue), so a
     // body's slider is mostly by-election stops. The filter steps through the rest; the open
@@ -4914,10 +4701,7 @@ export class Test2ElectionManager {
     if (found) return found;
     // A council year's earlier name: before 1921 the year is "Irish local elections", which an
     // address may still call "Northern Ireland local elections".
-    if (LOCAL_GROUP_BODIES.includes(body) && /^\d{4}$/.test(String(date || ''))) {
-      return elections.find((entry) => entry.niLocalGroup && entry.date === String(date)) || null;
-    }
-    return null;
+    return findGroupedYear(elections, body, date);
   }
 
   getCanonicalLayerId(entry = this.activeEntry) {
@@ -4930,14 +4714,17 @@ export class Test2ElectionManager {
     const found = (this.catalogue?.elections || []).find((entry) => this.getCanonicalLayerId(entry) === layerId);
     if (found) return found;
     // election-northern-ireland-local-elections-1911: a pre-1921 year by its earlier name.
-    const year = String(layerId).match(/^election-northern-ireland-local-elections-(\d{4})$/)?.[1];
-    return year ? this.findEntry(LOCAL_GROUP_BODIES[1], year) : null;
+    const year = groupedYearForLayerId(layerId);
+    return year ? this.findEntry(year.body, year.date) : null;
   }
 
   isCanonicalElectionLayerId(layerId) {
     return Boolean(this.findEntryByCanonicalLayerId(layerId));
   }
 }
+
+// Opening a grouped year (src/map/election/grouped-year-methods.js).
+installMethods(Test2ElectionManager, [GroupedYearMethods]);
 
 function mainElectionSlug(value) {
   return String(value || '')
@@ -5162,33 +4949,6 @@ function loadScriptOnce(src) {
 
 function nextFrame() {
   return new Promise((resolve) => requestAnimationFrame(() => resolve()));
-}
-
-function rememberLimitedCache(cache, key, value, limit) {
-  if (!cache || !key) return value;
-  if (cache.has(key)) cache.delete(key);
-  cache.set(key, value);
-  while (cache.size > limit) {
-    const oldestKey = cache.keys().next().value;
-    cache.delete(oldestKey);
-  }
-  return value;
-}
-
-async function mapWithConcurrency(items, limit, mapper) {
-  const values = Array.isArray(items) ? items : [];
-  const size = Math.max(1, Number(limit) || 1);
-  const results = new Array(values.length);
-  let index = 0;
-  const workers = Array.from({ length: Math.min(size, values.length) }, async () => {
-    while (index < values.length) {
-      const current = index;
-      index += 1;
-      results[current] = await mapper(values[current], current);
-    }
-  });
-  await Promise.all(workers);
-  return results;
 }
 
 function normalizeName(value) {

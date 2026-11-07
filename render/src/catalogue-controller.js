@@ -1,4 +1,4 @@
-import { escapeHtml } from './utils.js';
+import { escapeHtml } from '../../src/map/renderer/utils.js';
 
 const MAX_INITIAL_CARDS = 140;
 const COLLAPSE_KEY = 'civgraph.test.catalogue.collapsed';

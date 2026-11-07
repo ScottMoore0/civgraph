@@ -25,7 +25,9 @@ renderer is what decides whether a map can actually be drawn.
 
 A development view of the same renderer, used to test layers before promoting
 them. It shares a lineage with `app/src/app.js` but is not the same code and does
-not ship to the public site.
+not ship to the public site. The renderer modules both use (the map controller,
+labels, metadata service and their helpers) live in `src/map/renderer/`; only the
+harness's own modules are here.
 
 ## 3. Tiles — 5.6 GB, almost all untracked
 
