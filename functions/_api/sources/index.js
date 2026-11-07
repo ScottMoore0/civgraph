@@ -13,13 +13,14 @@
  */
 import { browseIndexHandler } from '../_browse-index.js';
 import { parseJson } from '../_records.js';
+import { SOURCES } from '../../_lib/queries/cards.js';
 
 /**
  * ?slug=&view=detail: { schemaVersion, item } as browse.js loadShardDetail builds it from a
  * details/source-shards file, the card with the shard record over it.
  */
 async function detail({ db, slug, record, json }) {
-  const row = await db.prepare('SELECT detail FROM sources WHERE slug = ?1').bind(slug).first();
+  const row = await db.first(SOURCES.detail, [slug]);
   const match = parseJson(row?.detail);
   if (!match) return json({ error: 'no detail', slug }, 404);
   return json({ schemaVersion: 1, item: { ...record, ...match } });
