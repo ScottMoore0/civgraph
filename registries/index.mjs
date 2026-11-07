@@ -13,6 +13,8 @@
  * |          | party files it names (they stay where they are) |                           |
  * | offices  | data/offices/offices.json + tenures/*.json      | registries/offices.mjs    |
  * | layers   | data/registries/layer-types.json                | registries/layers.mjs     |
+ * | statuses | data/registries/statuses.json                   | registries/statuses.mjs,  |
+ * |          |                                                 | registries/status-machines.mjs |
  *
  * Node only (reads files). The views modules are pure and take the loaded value, so a Worker or
  * the browser can use them over a generated copy. `node registries/check.mjs` validates them all.
@@ -25,6 +27,7 @@ import { checkCouncils } from './councils.mjs';
 import { assembleParties, checkParties } from './parties.mjs';
 import { assembleOffices, checkOffices } from './offices.mjs';
 import { checkLayerTypes } from './layers.mjs';
+import { checkStatuses } from './statuses.mjs';
 
 /** The repository root (this file is registries/index.mjs). */
 export const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -53,6 +56,11 @@ export const REGISTRIES = {
     schema: 'registries/schemas/layer-types.schema.json',
     load: (root) => readJson(root, 'data/registries/layer-types.json'),
     check: (data) => checkLayerTypes(data)
+  },
+  statuses: {
+    schema: 'registries/schemas/statuses.schema.json',
+    load: (root) => readJson(root, 'data/registries/statuses.json'),
+    check: (data) => checkStatuses(data)
   }
 };
 
