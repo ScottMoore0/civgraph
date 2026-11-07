@@ -23,7 +23,6 @@ const DB = path.join(REPO_ROOT, 'tmp/records/civgraph-records.sqlite');
 
 /** Function files that still call D1 directly (ST-5 empties this list). */
 const NOT_YET_ON_THE_ADAPTER = [
-  '_api/_maps.js',
   '_api/proni/count.js',
   '_api/proni/export.js',
   '_api/proni/node.js',
@@ -48,6 +47,8 @@ const BUILDER_SAMPLES = {
   'cards.PERSONS.partyFilter': [[['?1', '?2']]],
   'graph.GRAPH.search': [[0, 200], [2, 50]],
   'graph.GRAPH.browseKeys': [[1], [3]],
+  'maps.MAPS.headParts': [['catalogue_parts'], ['layer_parts']],
+  'maps.MAPS.headOrds': [['catalogue_parts'], ['layer_parts']],
   'elections.ELECTION_CARDS.bodyFilter': [[['?1'], ['?2']]],
   'elections.ELECTION_CARDS.decadeFilter': [[['?1', '?2']]],
   'elections.ELECTION_CARDS.wordFilter': [['?1']],
