@@ -1,3 +1,7 @@
+import {
+  BALLOT_LABELS, CONTRIBUTOR_FORM, CONTRIBUTOR_SUBMISSION, PRINTED_LABELS, ROUTER, SUBMISSION_STATUS_CLASS, settle,
+} from './state-machines.js';
+
 /**
  * An element of the page reached by a delegated listener or a selector: any HTML element, with
  * the form-control fields read where it is one.
@@ -377,7 +381,7 @@ const state = {
   // Filters of the lists read from a static index (LIST_FILTERS), per type: { body: 'Dáil Éireann' }.
   listFilters: {},
   // Parties: whether the one-off ballot-paper labels are listed (?labels=1).
-  showBallotLabels: false,
+  ballotLabels: BALLOT_LABELS.start(),
   // Sort order of the People and Parties lists (LIST_SORTS key; '' is the list's own order).
   listSort: {},
   personFacets: null,
@@ -389,7 +393,10 @@ const state = {
   loadedFeatureMap: null,
   auth: null,
   currentDetail: null,
-  modalMode: null,
+  // Where the shared contributor form is (browse/state-machines.js CONTRIBUTOR_FORM).
+  contributorForm: CONTRIBUTOR_FORM.start(),
+  // The router (ROUTER): scroll positions are not saved while a navigation is `routing`.
+  router: ROUTER.start(),
   registerInterestControls: {
     sortKey: 'date',
     sortDir: 'desc',
@@ -440,6 +447,8 @@ async function init() {
 }
 
 let lastRoutedAddress = null;
+// Counts navigations, so a render can tell whether a newer one has begun since it started.
+let routeNavigation = 0;
 
 // Every navigation, search or filter change starts a new render. A render that finishes after
 // a newer one has started must not write: a slow record opened just before the reader moved
@@ -474,11 +483,11 @@ function bindEvents() {
   // would overwrite the one being restored.
   let scrollPending = false;
   window.addEventListener('scroll', () => {
-    if (scrollPending || state.routing) return;
+    if (scrollPending || state.router.state() === 'routing') return;
     scrollPending = true;
     setTimeout(() => {
       scrollPending = false;
-      if (state.routing) return;
+      if (state.router.state() === 'routing') return;
       try { sessionStorage.setItem(`browse-scroll:${currentAddress()}`, String(Math.round(window.scrollY))); } catch { /* storage blocked */ }
     }, 150);
   }, { passive: true });
@@ -589,7 +598,7 @@ function bindEvents() {
     const ballotLabels = event.target.closest('[data-ballot-labels]');
     if (ballotLabels) {
       event.preventDefault();
-      state.showBallotLabels = !state.showBallotLabels;
+      state.ballotLabels.to(ballotLabelsShown() ? 'hidden' : 'shown');
       rerenderList();
       return;
     }
@@ -690,11 +699,19 @@ function applyRoute() {
   state.listShown = Math.max(LIST_PAGE_SIZE, Math.min(5000, Number(route.params.get('shown')) || LIST_PAGE_SIZE));
   if (!route.id) readListControls(route.type, route.params);
   renderGroups();
-  state.routing = true;
+  // Only the latest navigation moves the router: an earlier render that finishes or fails
+  // after a newer one began is stale.
+  const navigation = ++routeNavigation;
+  state.router.to('routing');
   renderCurrent().then(
-    () => afterRouteRender(address, { firstRoute, isList: !route.id && !route.isHome }),
-    (error) => { state.routing = false; console.error(error); }
+    () => { if (navigation === routeNavigation) afterRouteRender(address, { firstRoute, isList: !route.id && !route.isHome }); },
+    (error) => { if (navigation === routeNavigation) state.router.to('failed'); console.error(error); }
   );
+}
+
+/** Whether the parties list shows the ballot-paper labels. */
+function ballotLabelsShown() {
+  return state.ballotLabels.state() === 'shown';
 }
 
 function currentAddress() {
@@ -711,7 +728,7 @@ function readListControls(type, params) {
     }
     state.listFilters[type] = filters;
   }
-  if (type === 'parties') state.showBallotLabels = params.get('labels') === '1';
+  if (type === 'parties') settle(state.ballotLabels, params.get('labels') === '1' ? 'shown' : 'hidden');
   if (LIST_SORTS[type]) {
     const sort = params.get('sort') || '';
     state.listSort[type] = LIST_SORTS[type].some((option) => option.key === sort) ? sort : '';
@@ -744,7 +761,7 @@ function syncListAddress() {
     for (const [key, value] of Object.entries(state.sourceFilters)) if (value) params.set(`f.${key}`, value);
   }
   for (const [key, value] of Object.entries(state.listFilters[state.activeType] || {})) if (value) params.set(`f.${key}`, value);
-  if (state.activeType === 'parties' && state.showBallotLabels) params.set('labels', '1');
+  if (state.activeType === 'parties' && ballotLabelsShown()) params.set('labels', '1');
   if (LIST_SORTS[state.activeType] && state.listSort[state.activeType]) params.set('sort', state.listSort[state.activeType]);
   if (state.activeType === 'register-interests') {
     const controls = state.registerInterestControls;
@@ -766,7 +783,7 @@ function syncListAddress() {
  */
 function afterRouteRender(address, { firstRoute, isList }) {
   if (address !== lastRoutedAddress && address !== currentAddress()) return;
-  state.routing = false;
+  state.router.to('rendered');
   let saved = null;
   try { saved = sessionStorage.getItem(`browse-scroll:${currentAddress()}`); } catch { /* storage blocked */ }
   window.scrollTo(0, isList && saved !== null ? Number(saved) || 0 : 0);
@@ -1506,15 +1523,16 @@ function renderList(type, items) {
   let labelsNote = '';
   if (type === 'parties') {
     const labels = filtered.filter((item) => item.ballotLabel).length;
-    if (!state.showBallotLabels) filtered = filtered.filter((item) => !item.ballotLabel);
+    const shown = ballotLabelsShown();
+    if (!shown) filtered = filtered.filter((item) => !item.ballotLabel);
     else filtered = [...filtered.filter((item) => !item.ballotLabel), ...filtered.filter((item) => item.ballotLabel)];
     if (labels) {
       labelsNote = `
         <p class="browse-description browse-labels-note">
-          ${state.showBallotLabels
+          ${shown
             ? `Including ${formatNumber(labels)} ballot-paper ${labels === 1 ? 'label' : 'labels'}, listed last.`
             : `${formatNumber(labels)} ballot-paper ${labels === 1 ? 'label' : 'labels'} ${state.query ? 'also match' : 'are not listed'}: party names as printed on a few ballot papers that are in no election's party table.`}
-          <button type="button" class="browse-btn browse-btn--small" data-ballot-labels aria-pressed="${state.showBallotLabels}">${state.showBallotLabels ? 'Hide' : 'Show'} ballot-paper labels</button>
+          <button type="button" class="browse-btn browse-btn--small" data-ballot-labels aria-pressed="${shown}">${shown ? 'Hide' : 'Show'} ballot-paper labels</button>
         </p>`;
     }
   }
@@ -3679,10 +3697,13 @@ async function renderEntityRoute(slug) {
 }
 
 async function renderEntitySearchRoute() {
+  const token = renderSeq;
   setHero({ label: 'Entities', singular: 'Entity' }, null);
   const query = normalizeSearchQuery(state.query);
   // The server narrows by label and entry; the page keeps its own match on the full text.
   const search = await loadGraphEntitySearch(query);
+  // A newer navigation began while the search loaded: it owns the page now.
+  if (token !== renderSeq) return;
   const items = query
     ? search.items.filter((item) => entitySearchText(item).includes(query)).slice(0, 200)
     : search.items.slice(0, 200);
@@ -4761,7 +4782,7 @@ function handleContributorAction(action) {
 async function openEditSubmissionForm(type, item) {
   const entityType = entityTypeForBrowseType(type);
   const entityId = item.id || item.key || item.slug || item.title;
-  state.modalMode = 'metadata-edit';
+  state.contributorForm.to('metadata-edit');
   state.editBaseline = null;
   els.contributorModalTitle.textContent = `Propose edit: ${item.title || entityId}`;
   // Guard first: replacing a dirty form for another record would silently throw
@@ -4847,7 +4868,7 @@ function showInlineEditor(title) {
   els.contributorEditorTitle.textContent = title;
   els.contributorEditorSlot.appendChild(els.contributorForm);
   els.contributorEditor.hidden = false;
-  state.modalMode = 'metadata-edit';
+  state.contributorForm.to('metadata-edit');
   els.contributorEditor.scrollIntoView({ block: 'start', behavior: 'smooth' });
   /** @type {HTMLElement | null} */ (els.contributorForm.querySelector('input:not([type="hidden"]), textarea'))?.focus();
 }
@@ -4856,7 +4877,7 @@ function closeInlineEditor() {
   if (!els.contributorEditor) return;
   els.contributorEditor.hidden = true;
   els.contributorForm.innerHTML = '';
-  state.modalMode = null;
+  state.contributorForm.to('closed');
   state.editEntityId = null;
   state.editBaseline = null;
   state.editFields = null;
@@ -5118,7 +5139,7 @@ function openMapSubmissionForm() {
   // new" is what a modal is for. Move the shared form back into the modal panel.
   closeInlineEditor();
   document.querySelector('.contributor-modal__panel')?.appendChild(els.contributorForm);
-  state.modalMode = 'map-submission';
+  state.contributorForm.to('map-submission');
   els.contributorModalTitle.textContent = 'Submit map for review';
   els.contributorForm.innerHTML = `
     <input type="hidden" name="kind" value="map-submission">
@@ -5171,16 +5192,23 @@ function openContributorModal() {
 
 function closeContributorModal() {
   els.contributorModal?.classList.add('hidden');
-  state.modalMode = null;
+  state.contributorForm.to('closed');
 }
 
 async function submitContributorForm(event) {
   event.preventDefault();
   const status = els.contributorForm.querySelector('.contributor-form__status');
   const submitButton = /** @type {HTMLButtonElement} */ (els.contributorForm.querySelector('button[type="submit"]'));
-  status.className = 'contributor-form__status';
+  // This submission's own machine (browse/state-machines.js CONTRIBUTOR_SUBMISSION): the
+  // status line's class and the button follow its state.
+  const submission = CONTRIBUTOR_SUBMISSION.start();
+  const show = () => {
+    status.className = SUBMISSION_STATUS_CLASS[submission.state()];
+    submitButton.disabled = submission.state() === 'submitting';
+  };
+  submission.to('submitting');
+  show();
   status.textContent = 'Submitting...';
-  submitButton.disabled = true;
   try {
     const payload = buildContributorPayload(new FormData(els.contributorForm));
     const response = await fetch('/_api/contributions/submit', {
@@ -5197,18 +5225,19 @@ async function submitContributorForm(event) {
       const detail = (data.dryRun?.errors || []).join(' ');
       throw new Error(detail || data.hint || data.error || `${response.status} ${response.statusText}`);
     }
-    status.className = 'contributor-form__status contributor-form__status--success';
     const warnings = data.dryRun?.warnings || [];
-    status.textContent = `Submitted for review: ${data.submission?.id || 'pending'}.`
+    const message = `Submitted for review: ${data.submission?.id || 'pending'}.`
       + (warnings.length ? ` Note: ${warnings.join(' ')}` : '')
       + ' Nothing changes on the site until an administrator approves and applies it.';
+    submission.to('sent');
+    show();
+    status.textContent = message;
     announce('Contributor submission sent for review.');
   } catch (error) {
-    status.className = 'contributor-form__status contributor-form__status--error';
+    submission.to('failed');
+    show();
     status.textContent = error.message;
     announce('Contributor submission failed.');
-  } finally {
-    submitButton.disabled = false;
   }
 }
 
@@ -5781,8 +5810,13 @@ function applyPrintedLabels(shown) {
   for (const input of /** @type {NodeListOf<HTMLInputElement>} */ (document.querySelectorAll('input[data-printed-labels-toggle]'))) input.checked = shown;
 }
 
+// The reader's choice on this page; it is also kept in localStorage when storage allows.
+const printedLabels = PRINTED_LABELS.start();
+/** @param {unknown} shown @returns {boolean} the reader's choice, now `shown` */
+const setPrintedLabels = (shown) => settle(printedLabels, shown ? 'shown' : 'hidden') === 'shown';
+
 function initPrintedLabels() {
-  applyPrintedLabels(printedLabelsShown());
+  applyPrintedLabels(setPrintedLabels(printedLabelsShown()));
   document.addEventListener('change', (/** @type {ElementEvent} */ event) => {
     const input = event.target;
     if (!input?.matches?.('input[data-printed-labels-toggle]')) return;
@@ -5792,7 +5826,7 @@ function initPrintedLabels() {
     } catch {
       // Storage blocked: the choice holds for this page only.
     }
-    applyPrintedLabels(Boolean(input.checked));
+    applyPrintedLabels(setPrintedLabels(input.checked));
   });
 }
 
