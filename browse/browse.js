@@ -291,61 +291,6 @@ const TECHNICAL_FIELD_KEYS = new Set([
   'type'
 ]);
 
-const PUBLIC_METADATA_KEYS = new Set([
-  'body',
-  'canonicalName',
-  'category',
-  'categories',
-  'categoryCount',
-  'constituencies',
-  'date',
-  'dateEnd',
-  'dateStart',
-  'description',
-  'downloads',
-  'chamber',
-  'constituency',
-  'constituencies',
-  'electedBody',
-  'elections',
-  'featured',
-  'geography',
-  'group',
-  'keywords',
-  'interestCount',
-  'interests',
-  'memberName',
-  'memberType',
-  'nonNilInterestCount',
-  'name',
-  'observedNames',
-  'parentCard',
-  'partySummary',
-  'provider',
-  'references',
-  'relatedElections',
-  'sampleFeatures',
-  'interestSummary',
-  'interestText',
-  'isNone',
-  'hasNilInterests',
-  'jurisdiction',
-  'sourceFiles',
-  'sourceCount',
-  'sourceKinds',
-  'sourceRefs',
-  'sourceKind',
-  'sourceTitle',
-  'sourceTitles',
-  'status',
-  'subtitle',
-  'title',
-  'totals',
-  'url',
-  'variants',
-  'years'
-]);
-
 // Per-map feature attribute pages live on R2 (data.civgraph.net), sharded into
 // pages and fetched lazily by the map detail page only — never by the homepage.
 const MAP_FEATURES_BASE = 'https://data.civgraph.net/data/browse/map-features';
@@ -492,7 +437,7 @@ function bindEvents() {
     }, 150);
   }, { passive: true });
 
-  document.addEventListener('click', (/** @type {ElementEvent<MouseEvent>} */ event) => {
+  document.addEventListener('click', (/** @type {MouseEvent} */ rawEvent) => { const event = /** @type {ElementEvent<MouseEvent>} */ (rawEvent);
     const portalJump = event.target.closest('[data-portal-jump]');
     if (portalJump) {
       event.preventDefault();
@@ -626,7 +571,7 @@ function bindEvents() {
     }
   });
 
-  document.addEventListener('change', (/** @type {ElementEvent} */ event) => {
+  document.addEventListener('change', (/** @type {Event} */ rawEvent) => { const event = /** @type {ElementEvent} */ (rawEvent);
     const sourceFilter = event.target.closest('[data-source-filter]');
     if (sourceFilter) {
       const key = sourceFilter.dataset.sourceFilter;
@@ -1829,7 +1774,7 @@ function renderInlineActions(config, item, title = item.title || item.name || ''
 function readerTitle(type, item) {
   const title = item.title || item.name || item.id || '';
   if (type === 'register-interests') {
-    return String(title).replace(/ - (\d{4}-\d{2}-\d{2})$/, (match, date) => ` – ${formatDate(date)}`).replace(/ - /g, ' – ');
+    return String(title).replace(/ - (\d{4}-\d{2}-\d{2})$/, (_match, date) => ` – ${formatDate(date)}`).replace(/ - /g, ' – ');
   }
   return title;
 }
@@ -1842,7 +1787,6 @@ function readerTitle(type, item) {
 const PRONI_LICENCE_NOTE = 'Catalogue data from the PRONI eCatalogue (Public Record Office of Northern Ireland), Crown copyright, published under the Open Government Licence.';
 const PRONI_ECAT_URL = 'https://apps.proni.gov.uk/eCatNI_IE/Default.aspx';
 
-function proniRefToSlug(ref) { return String(ref).replace(/\//g, '~'); }
 function proniSlugToRef(slug) { return String(slug).replace(/~/g, '/'); }
 
 // Browse data is served from D1 via the node API (not static shards), so it
@@ -1882,7 +1826,7 @@ async function renderProniRoute(id) {
   els.results.innerHTML = renderProniDetailPage(node);
 }
 
-function renderProniLanding(config, items) {
+function renderProniLanding(_config, items) {
   els.results.innerHTML = `
     <section class="proni-search">
       <input type="search" id="proni-search-input" class="proni-search-input" autocomplete="off"
@@ -2823,7 +2767,7 @@ async function loadVotesJson(url) {
     data = await loadJson(url);
   } catch (error) {
     // No votes for this person or party is the ordinary case, not an error.
-    if (error.status !== 404) console.warn('Votes data could not be loaded.', error);
+    if (/** @type {HttpError} */ (error).status !== 404) console.warn('Votes data could not be loaded.', error);
   }
   state.details.set(url, data);
   return data;
@@ -2912,7 +2856,7 @@ function rerenderVotesTable(control) {
   if (host) host.innerHTML = renderPersonVotesRows();
 }
 
-document.addEventListener('change', (/** @type {ElementEvent} */ event) => {
+document.addEventListener('change', (/** @type {Event} */ rawEvent) => { const event = /** @type {ElementEvent} */ (rawEvent);
   const control = event.target.closest?.('[data-votes-filter]');
   if (!control) return;
   const key = control.dataset.votesFilter;
@@ -2921,7 +2865,7 @@ document.addEventListener('change', (/** @type {ElementEvent} */ event) => {
   rerenderVotesTable(control);
 });
 
-document.addEventListener('click', (/** @type {ElementEvent<MouseEvent>} */ event) => {
+document.addEventListener('click', (/** @type {MouseEvent} */ rawEvent) => { const event = /** @type {ElementEvent<MouseEvent>} */ (rawEvent);
   const more = event.target.closest?.('[data-votes-more]');
   if (!more) return;
   event.preventDefault();
@@ -3018,7 +2962,7 @@ async function loadPartyProfile(item) {
     profile = await loadJson(`/_api/parties?slug=${encodeURIComponent(slug)}&view=profile`);
   } catch (error) {
     // A party with no profile (a one-off ballot label) keeps the plain record page.
-    if (error.status !== 404) console.warn('Party profile could not be loaded.', error);
+    if (/** @type {HttpError} */ (error).status !== 404) console.warn('Party profile could not be loaded.', error);
   }
   state.details.set(cacheKey, profile);
   return profile;
@@ -3109,7 +3053,7 @@ function renderPartyHistoryPanel(item, profile) {
         <li class="browse-party-timeline__item browse-party-timeline__item--${escapeAttr(event.kind || 'note')}">
           <time datetime="${escapeAttr(event.date || '')}">${escapeHtml(formatDate(event.date))}</time>
           <div>
-            <p>${event.electionKey ? escapeHtml(event.text).replace(/: (.*)\.$/, (match, title) => `: ${electionRecordLink(event.electionKey, unescapeText(title))}.`) : escapeHtml(event.text)}${citationLinks(event.citations)}</p>
+            <p>${event.electionKey ? escapeHtml(event.text).replace(/: (.*)\.$/, (_match, title) => `: ${electionRecordLink(event.electionKey, unescapeText(title))}.`) : escapeHtml(event.text)}${citationLinks(event.citations)}</p>
             ${normalizeArray(event.related).length ? `<p class="browse-party-timeline__related">${event.related.map((row) => `${escapeHtml(row.relation)}: ${partyRecordLink(row.slug, row.title)}`).join(' · ')}</p>` : ''}
             ${event.basis ? `<p class="browse-party-timeline__basis">${escapeHtml(event.basis)}</p>` : ''}
             ${event.note ? `<p class="browse-party-timeline__basis">${escapeHtml(event.note)}</p>` : ''}
@@ -3266,7 +3210,7 @@ function renderPartyBarChart(series, colour, label) {
   const maxSeats = niceMax(Math.max(...series.map((point) => Number(point.seats) || 0)));
   const { grid, xLabels, plotBottom, plotHeight } = partyChartAxes(maxSeats, (value) => formatNumber(Math.round(value)), frame);
   // Bars as wide as the closest pair of elections allows, less a 2px gap, within 3-14px.
-  const xs = series.map((point, index) => frame.x(index));
+  const xs = series.map((_point, index) => frame.x(index));
   const closest = xs.slice(1).reduce((gap, value, index) => Math.min(gap, value - xs[index]), frame.plotWidth);
   const barWidth = Math.max(3, Math.min(14, closest - 2));
   const bars = series.map((point, index) => {
@@ -3921,7 +3865,6 @@ function renderGraphStatementGroup(group) {
 }
 
 function renderGraphStatement(statement) {
-  const value = graphStatementValueText(statement);
   const qualifiers = normalizeArray(statement.qualifiers)
     .filter((qualifier) => qualifier.propertyId !== 'cg:property:name')
     .slice(0, 8);
@@ -4495,26 +4438,6 @@ function versionedThumbnailUrl(url) {
   return `${url}${separator}v=${THUMBNAIL_ASSET_VERSION}`;
 }
 
-function renderThumbnailPanel(item) {
-  const thumbnail = normalizedThumbnail(item);
-  const caption = thumbnail.kind === 'asset'
-    ? `Thumbnail asset: ${thumbnail.id || fileName(thumbnail.url)}`
-    : thumbnail.kind === 'external'
-      ? 'External thumbnail from the linked source; the image is not stored by Civgraph.'
-      : 'No image asset is available for this item; Browse is showing a generated placeholder.';
-  return `
-    <section class="browse-detail__panel browse-detail__panel--thumbnail">
-      <h2>Thumbnail</h2>
-      <div class="browse-detail__body">
-        ${renderThumbnail(item, 'detail')}
-        <p class="browse-thumb-caption">${escapeHtml(caption)}</p>
-        ${thumbnail.kind === 'asset' && thumbnail.url ? `<p class="browse-thumb-caption"><a href="${escapeAttr(versionedThumbnailUrl(thumbnail.url))}" target="_blank" rel="noopener noreferrer">Open thumbnail at actual size</a></p>` : ''}
-        ${thumbnail.kind === 'external' && thumbnail.url ? `<p class="browse-thumb-caption"><a href="${escapeAttr(thumbnail.url)}" target="_blank" rel="noopener noreferrer">Open external thumbnail</a></p>` : ''}
-      </div>
-    </section>
-  `;
-}
-
 function normalizedThumbnail(item) {
   const thumbnail = item.thumbnail || fallbackThumbnail(item);
   if (thumbnail?.kind === 'placeholder' && (item?.type === 'map' || item?.type === 'data-entry')) {
@@ -4848,7 +4771,7 @@ async function openEditSubmissionForm(type, item) {
   } catch (error) {
     host.innerHTML = '';
     status.className = 'contributor-form__status contributor-form__status--error';
-    status.textContent = error.message;
+    status.textContent = /** @type {Error} */ (error).message;
   }
   showInlineEditor(`Propose edit: ${item.title || entityId}`);
 }
@@ -5078,7 +5001,7 @@ function renumberObjectEntries(fieldset) {
  * single binding possible.
  */
 function bindObjectArrayControls() {
-  els.contributorForm.addEventListener('click', (/** @type {ElementEvent<MouseEvent>} */ event) => {
+  els.contributorForm.addEventListener('click', (/** @type {MouseEvent} */ rawEvent) => { const event = /** @type {ElementEvent<MouseEvent>} */ (rawEvent);
     const byName = new Map((state.editFields || []).map((f) => [f.name, f]));
     const addButton = event.target.closest('[data-object-add]');
     if (addButton) {
@@ -5236,7 +5159,7 @@ async function submitContributorForm(event) {
   } catch (error) {
     submission.to('failed');
     show();
-    status.textContent = error.message;
+    status.textContent = /** @type {Error} */ (error).message;
     announce('Contributor submission failed.');
   }
 }
@@ -5817,7 +5740,7 @@ const setPrintedLabels = (shown) => settle(printedLabels, shown ? 'shown' : 'hid
 
 function initPrintedLabels() {
   applyPrintedLabels(setPrintedLabels(printedLabelsShown()));
-  document.addEventListener('change', (/** @type {ElementEvent} */ event) => {
+  document.addEventListener('change', (/** @type {Event} */ rawEvent) => { const event = /** @type {ElementEvent} */ (rawEvent);
     const input = event.target;
     if (!input?.matches?.('input[data-printed-labels-toggle]')) return;
     try {
@@ -5960,7 +5883,7 @@ async function loadDetail(type, item) {
       detail = await loadJson(`${DATA_ROOT}/details/${config.detailDir}/${encodeURIComponent(slug)}.json`);
     }
   } catch (error) {
-    if (type === 'elections' && error.status === 404) {
+    if (type === 'elections' && /** @type {HttpError} */ (error).status === 404) {
       detail = { item };
     } else {
       throw error;
