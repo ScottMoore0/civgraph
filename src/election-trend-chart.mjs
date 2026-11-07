@@ -17,7 +17,6 @@
 import { defineFlagFields } from './map/state-helpers.mjs';
 
 const SERIES_LIMIT = 8;
-const LINE_WIDTH = 2.25;
 const LABEL_FONT_SIZE = 12;
 const AXIS_FONT_SIZE = 11.5;
 const LABEL_GAP = 14;          // Minimum vertical distance between two direct labels.
@@ -186,7 +185,7 @@ export function layoutTrendChart(model, options = {}) {
   } else if (timed && span > 0) {
     columns = times.map((time) => plot.left + ((time - minTime) / span) * plot.width);
   } else {
-    columns = elections.map((election, index) => plot.left + (index / (elections.length - 1)) * plot.width);
+    columns = elections.map((_election, index) => plot.left + (index / (elections.length - 1)) * plot.width);
   }
   for (let index = 1; index < columns.length; index += 1) {
     columns[index] = Math.max(columns[index], columns[index - 1] + MIN_COLUMN_GAP);

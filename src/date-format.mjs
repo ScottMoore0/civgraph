@@ -42,7 +42,7 @@ export function formatDisplayDate(value) {
 /** The same rule for dates written inside a longer label ("Cavan — 01 April 1969"). */
 export function formatDatesInText(value) {
   return String(value ?? '')
-    .replace(/\b(\d{1,2})\/(\d{1,2})\/(\d{4})\b/g, (all, d, mo, y) => formatDisplayDate(`${d}/${mo}/${y}`))
+    .replace(/\b(\d{1,2})\/(\d{1,2})\/(\d{4})\b/g, (_all, d, mo, y) => formatDisplayDate(`${d}/${mo}/${y}`))
     .replace(/\b(\d{1,2})(?:st|nd|rd|th)?\s+([A-Z][a-z]+\.?),?\s+(\d{4})\b/g, (all, d, mo, y) => (
       monthIndex(mo) >= 0 ? dayMonthYear(d, monthIndex(mo), y) : all));
 }
