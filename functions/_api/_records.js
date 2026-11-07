@@ -14,9 +14,13 @@
  */
 import { STORE, phaseOf, readDataset, resetDatasetMemo } from '../_lib/dataset-state.js';
 import { CACHE, binding } from '../_lib/config.js';
+import { asStore } from '../_lib/storage/d1.js';
+import { T } from '../_lib/queries/tables.js';
+import { ELECTIONS } from '../_lib/queries/elections.js';
+import { DOCUMENTS } from '../_lib/queries/documents.js';
 
 /** The two tables whose final names are still taken by live legacy tables (stage H renames them). */
-export const T = { elections: 'r_elections', counts: 'r_counts' };
+export { T };
 
 /**
  * The dataset's version and loading flag, memoised a minute per isolate: one memo shared with
@@ -411,14 +415,15 @@ export function pyJsonCompact(value) {
 
 // ---------------------------------------------------------------- election bundles
 
-const AGGREGATE_SQL = 'SELECT name, payload FROM election_aggregates WHERE election_key = ?1 ORDER BY name, part';
+// Each helper takes a RecordStore or a D1 binding (asStore), so callers move to the adapter one
+// route at a time; the SQL is named in functions/_lib/queries/elections.js (ST-6).
 
 export async function electionRow(db, key) {
-  return db.prepare(`SELECT key, slug, compact, meta FROM ${T.elections} WHERE key = ?1`).bind(key).first();
+  return asStore(db).first(ELECTIONS.row, [key]);
 }
 
 export async function electionAggregates(db, key) {
-  const { results } = await db.prepare(AGGREGATE_SQL).bind(key).all();
+  const results = await asStore(db).all(ELECTIONS.aggregates, [key]);
   const joined = new Map();
   for (const r of results || []) joined.set(r.name, (joined.get(r.name) || '') + r.payload);
   return new Map([...joined].map(([name, text]) => [name, parseJson(text)]));
@@ -442,27 +447,28 @@ export function contestObject(contestMeta, candidacyMetas, animationPayloadText)
 
 /** The contests of an election, in order, each with its candidacies and animation payload. */
 export async function* contestsOf(db, key, { perContest = true } = {}) {
-  const { results: contests } = await db.prepare('SELECT seq, meta FROM contests WHERE election_key = ?1 ORDER BY seq').bind(key).all();
+  const store = asStore(db);
+  const contests = await store.all(ELECTIONS.contests, [key]);
   if (!perContest) {
     const [cands, anims] = await Promise.all([
-      db.prepare('SELECT contest_seq AS seq, meta FROM candidacies WHERE election_key = ?1 ORDER BY contest_seq, ord').bind(key).all(),
-      db.prepare('SELECT contest_seq AS seq, payload FROM contest_animation WHERE election_key = ?1 ORDER BY contest_seq').bind(key).all(),
+      store.all(ELECTIONS.candidacyMetas, [key]),
+      store.all(ELECTIONS.animations, [key]),
     ]);
     const bySeq = new Map();
-    for (const r of cands.results || []) {
+    for (const r of cands) {
       if (!bySeq.has(r.seq)) bySeq.set(r.seq, []);
       bySeq.get(r.seq).push(r.meta);
     }
-    const animBySeq = new Map((anims.results || []).map((r) => [r.seq, r.payload]));
+    const animBySeq = new Map(anims.map((r) => [r.seq, r.payload]));
     for (const c of contests || []) yield contestObject(c.meta, bySeq.get(c.seq) || [], animBySeq.get(c.seq));
     return;
   }
   for (const c of contests || []) {
     const [cands, anim] = await Promise.all([
-      db.prepare('SELECT meta FROM candidacies WHERE election_key = ?1 AND contest_seq = ?2 ORDER BY ord').bind(key, c.seq).all(),
-      db.prepare('SELECT payload FROM contest_animation WHERE election_key = ?1 AND contest_seq = ?2').bind(key, c.seq).first(),
+      store.all(ELECTIONS.contestCandidacyMetas, [key, c.seq]),
+      store.first(ELECTIONS.contestAnimation, [key, c.seq]),
     ]);
-    yield contestObject(c.meta, (cands.results || []).map((r) => r.meta), anim?.payload);
+    yield contestObject(c.meta, cands.map((r) => r.meta), anim?.payload);
   }
 }
 
@@ -532,6 +538,6 @@ export function streamFrom(iterator) {
 }
 
 export async function documentBody(db, name) {
-  const row = await db.prepare('SELECT body FROM documents WHERE name = ?1').bind(name).first();
+  const row = await asStore(db).first(DOCUMENTS.body, [name]);
   return row ? parseJson(row.body) : null;
 }
