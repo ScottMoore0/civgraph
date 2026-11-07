@@ -442,6 +442,7 @@ const NI_COUNCILS_1923_67_BODY_SLUGS = [
   'dromore-urban-district-council',
   'dungannon-urban-district-council',
   'enniskillen-borough-council',
+  'enniskillen-borough-council-aldermen',
   'gilford-town-commissioners',
   'holywood-urban-district-council',
   'kilkeel-urban-district-council',

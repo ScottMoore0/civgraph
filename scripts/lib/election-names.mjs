@@ -358,6 +358,7 @@ const PRE1973_COUNCIL_BODIES = new Set([
   'castleblayney no 2 rural district council',
   'londonderry county borough council',
   'londonderry county borough council aldermen',
+  'enniskillen borough council aldermen',
   ...NI_COUNCIL_ERA_TITLES.keys(),
   ...NI_COUNCILS_1923_67_PLAIN_TITLES
 ]);
@@ -496,6 +497,7 @@ export function canonicalElectionTitle({
     return `${year} ${body} election`.trim();
   }
   if (normalizedBody === 'londonderry county borough council aldermen') return `${year} Londonderry County Borough Council aldermanic election`.trim();
+  if (normalizedBody === 'enniskillen borough council aldermen') return `${year} Enniskillen Borough Council aldermanic election`.trim();
   const niCouncilEra = niCouncilEraName(normalizedBody, date);
   if (niCouncilEra) return `${year} ${niCouncilEra} election`.trim();
   if (NI_COUNCILS_1923_67_PLAIN_TITLES.includes(normalizedBody)) return `${year} ${body} election`.trim();

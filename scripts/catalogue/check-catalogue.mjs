@@ -26,6 +26,7 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import path from 'node:path';
 import { loadRecords, placeable } from './records.mjs';
+import { ELECTION_MANIFEST } from '../records/paths.mjs';
 
 const ROOT = process.cwd();
 const read = (p) => JSON.parse(readFileSync(path.join(ROOT, p), 'utf8'));
@@ -167,7 +168,8 @@ if (existsSync(peoplePath)) {
 {
   const desc = read('data/catalogue/descriptions.json');
   const seriesIds = new Set(source.series.map((s) => s.id));
-  const electionKeys = new Set((read('render/metadata/elections-test2.json').elections || []).map((e) => e.key));
+  // The election manifest is built into tmp/records by the records build (scripts/records/paths.mjs).
+  const electionKeys = new Set((JSON.parse(readFileSync(path.resolve(ROOT, ELECTION_MANIFEST), 'utf8')).elections || []).map((e) => e.key));
   const checkOne = (where, d) => {
     if (!Array.isArray(d?.text) || !d.text.length || !d.text.every((p) => typeof p === 'string' && p.trim())) fail(`descriptions: ${where} has no text`);
     for (const l of d?.links || []) if (!l?.label || !/^https?:\/\//.test(l.url || '')) fail(`descriptions: ${where} has a link without a label or an http(s) address`);
