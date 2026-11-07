@@ -559,7 +559,7 @@ export function schemaSql(migration = 1) {
   ].join('\n\n');
 }
 
-if (process.argv[1] && import.meta.url.endsWith(process.argv[1].replace(/\\/g, '/').split('/').pop()) && process.argv.includes('--sql')) {
+if (process.argv[1] && import.meta.url.endsWith(String(process.argv[1].replace(/\\/g, '/').split('/').pop())) && process.argv.includes('--sql')) {
   const n = Number(process.argv[process.argv.indexOf('--sql') + 1]) || 1;
   process.stdout.write(schemaSql(n));
 }

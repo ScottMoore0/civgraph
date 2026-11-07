@@ -74,8 +74,9 @@ const LAST_LOADED = path.join(REPO_ROOT, '.claude', 'publish', 'work', 'last-loa
 /** The database whose sort keys this build keeps (see step 4), or null. */
 function orderSeed() {
   if (flag('--no-ord-seed')) return null;
-  if (option('--ord-seed')) {
-    const file = path.resolve(option('--ord-seed'));
+  const ordSeed = option('--ord-seed');
+  if (ordSeed) {
+    const file = path.resolve(ordSeed);
     if (!existsSync(file)) throw new Error(`--ord-seed: no database at ${file}`);
     return file;
   }
@@ -150,7 +151,8 @@ function transformVotes() {
     run('python', ['scripts/build/build_browse_votes.py', '--votes-dir', votesDir, '--out', votesOut]);
     return { from: 'built', dir: votesOut };
   }
-  if (option('--votes-tree')) return { from: 'tree', dir: path.resolve(option('--votes-tree')) };
+  const votesTree = option('--votes-tree');
+  if (votesTree) return { from: 'tree', dir: path.resolve(votesTree) };
   if (existsSync(path.join(votesOut, 'index.json'))) return { from: 'tree', dir: votesOut };
   if (existsSync(OUT)) return { from: 'previous', dir: null };
   return { from: 'none', dir: null };
@@ -162,7 +164,8 @@ const VOTE_TABLES = ['divisions', 'division_votes', 'vote_persons', 'vote_partie
 function mainMapsOnly() {
   const out = path.resolve(option('--out') || path.join(REPO_ROOT, BUILD_REL, 'civgraph-records.maps.sqlite'));
   const next = `${out}.next`;
-  const browseDir = option('--browse-dir') ? path.resolve(option('--browse-dir')) : P.BROWSE_DIR;
+  const browseDirOption = option('--browse-dir');
+  const browseDir = browseDirOption ? path.resolve(browseDirOption) : P.BROWSE_DIR;
   console.log(`records:build --only maps (Browse map files from ${existsSync(browseDir) ? rel(browseDir) : 'nowhere'})`);
   const db = createDatabase(next);
   const result = step('ingest maps', () => ingestMaps(db, { browseDir }));

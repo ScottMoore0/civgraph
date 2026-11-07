@@ -7,7 +7,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { loadRegistry, registryErrors } from '../../registries/index.mjs';
 import {
-  allTenures, councilForInstitution, institutionsById, officesOfInstitution, tenuresOfOffice
+  allTenures, councilForInstitution, councilsForInstitution, institutionsById, officesOfInstitution, tenuresOfOffice
 } from '../../registries/offices.mjs';
 import { partiesById } from '../../registries/parties.mjs';
 import { loadFactsModel, schemaErrors } from '../../scripts/lib/facts-model.mjs';
@@ -58,9 +58,12 @@ test('offices: links to the councils and parties registries', () => {
   for (const inst of registry.offices.institutions.filter((i) => i.kind === 'council')) {
     if (!councilForInstitution(councils, inst.id)) unlinked.push(inst.id);
   }
-  // One institution stands for several councils (Belfast) or for councils outside the registry's
-  // dated councils (Dublin, Cork): left for the owner (LANDING.md).
+  // Belfast's institution stands for a succession of three councils (councilsForInstitution);
+  // Dublin's and Cork's stand for councils outside the registry's dated councils.
   assert.deepEqual(unlinked.sort(), ['council-belfast', 'council-cork', 'council-dublin']);
+  assert.deepEqual(councilsForInstitution(councils, 'council-belfast').map((c) => c.id),
+    ['belfast-county-borough-council', 'ni-1973-belfast', 'ni-2014-belfast']);
+  assert.deepEqual(councilsForInstitution(councils, 'council-dublin'), []);
   for (const id of [...registry.offices.institutions, ...registry.offices.offices].map((x) => x.partyId).filter(Boolean)) {
     assert.ok(parties.has(id), `partyId ${id} is a parties-registry entity`);
   }

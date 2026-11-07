@@ -150,6 +150,7 @@ export function stabiliseOrder(db, seedFile, { tables = STABLE_ORDER_TABLES, log
   const result = {};
   try {
     for (const t of tables) {
+      if (!t.stableOrder) throw new Error(`table ${t.name} has no stableOrder`);
       const { sort, group = [] } = t.stableOrder;
       const idCols = identityColumns(t);
       const need = [...new Set([...group, ...sort, ...idCols])];

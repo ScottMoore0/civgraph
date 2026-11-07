@@ -61,40 +61,37 @@ export function pythonLiteral(rel, name, root = REPO_ROOT) {
   return JSON.parse(out.replace(/,(\s*[\]}])/g, '$1'));
 }
 
-/** Every council list the councils registry replaces, keyed by where it lives. */
+/** `read()`, or null once the literal it reads has gone (its caller reads the registry now). */
+function optional(read) {
+  try {
+    return read();
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * The council lists the councils registry replaces that still exist, keyed by where they live;
+ * null for a list whose literal is gone. Gone (r2-pipeline, 7 Nov 2026): the manifest builder's
+ * six council sets, scripts/lib/election-names.mjs's three lists and the grouped build's
+ * AUTHORITY_STEM_ALIASES. With them went registries/seed/councils.mjs: since then
+ * data/registries/councils.json is the source, edited by hand and checked by
+ * node registries/check.mjs and tests/unit/registries-councils.test.mjs.
+ */
 export function councilSources(root = REPO_ROOT) {
-  const manifest = evalDeclarations('scripts/build/build-test2-election-manifest.mjs',
-    'const NI_COUNCILS_1923_67_BODY_SLUGS', 'const NAME_ALIASES',
-    ['NI_COUNCILS_1923_67_BODY_SLUGS', 'PRE1973_COUNCIL_BODY_SLUGS', 'NI_COUNCILS_1923_67_RESULTS_ONLY_BODY_SLUGS',
-      'PR1920_ONLY_COUNCIL_BODY_SLUGS', 'ARMAGH_PILOT_RESULTS_ONLY_BODY_SLUGS', 'LOCAL_GOVERNMENT_BODIES'], root);
-  const electionNames = evalDeclarations('scripts/lib/election-names.mjs',
-    'const NI_COUNCIL_ERA_TITLES', 'export function isElectionByElectionScope',
-    ['NI_COUNCIL_ERA_TITLES', 'NI_COUNCILS_1923_67_PLAIN_TITLES', 'PRE1973_COUNCIL_BODIES'], root);
-  const niLocalGroups = evalDeclarations('src/ni-local-groups.mjs',
-    'export const NI_COUNCIL_SLUGS', '/** Whether a year is grouped',
-    ['NI_COUNCIL_SLUGS'], root);
-  const niLocalTiers = evalDeclarations('src/ni-local-groups.mjs',
-    'export const NI_LOCAL_TIERS', '/** The kind of council a body slug names',
-    ['NI_LOCAL_TIERS'], root);
-  const search = evalDeclarations('src/catalogue/search.js',
-    'const BODY_ALIASES', '/** The other names an election goes by',
-    ['BODY_ALIASES', 'NI_COUNCILS_2014', 'NI_COUNCILS_1973', 'IRISH_COUNCILS'], root);
-  const groupedStems = evalDeclarations('scripts/build/build-ni-local-grouped.mjs',
-    'const AUTHORITY_STEM_ALIASES', '/** Every name a council',
-    ['AUTHORITY_STEM_ALIASES'], root);
+  const js = (rel, start, end, names) => optional(() => evalDeclarations(rel, start, end, names, root));
+  const py = (rel, name) => optional(() => pythonLiteral(rel, name, root));
   return {
-    manifest,
-    electionNames,
-    niCouncilSlugs: niLocalGroups.NI_COUNCIL_SLUGS,
-    niLocalTiers: niLocalTiers.NI_LOCAL_TIERS,
-    search,
-    authorityStemAliases: groupedStems.AUTHORITY_STEM_ALIASES,
-    councilWebsites: pythonLiteral('scripts/ingest/council-websites/scrape_26_councils.py', 'COUNCILS', root),
-    wikipedia1973: pythonLiteral('scripts/ingest/wikipedia/scrape_old_lgov_wikipedia.py', 'COUNCILS', root),
-    wikipedia1973Compare: pythonLiteral('scripts/ingest/wikipedia/scrape_and_compare_lgov_wikipedia.py', 'COUNCILS', root),
-    wikipedia2014: pythonLiteral('scripts/ingest/wikipedia/modern_lgov_wikipedia_common.py', 'MODERN_COUNCILS', root),
-    wikipedia2014Display: pythonLiteral('scripts/ingest/wikipedia/modern_lgov_wikipedia_common.py', 'COUNCIL_DISPLAY_BY_KEY', root),
-    officesCouncils: pythonLiteral('scripts/ingest/facts/ef_offices.py', 'COUNCILS', root),
+    niCouncilSlugs: js('src/ni-local-groups.mjs', 'export const NI_COUNCIL_SLUGS', '/** Whether a year is grouped', ['NI_COUNCIL_SLUGS'])?.NI_COUNCIL_SLUGS ?? null,
+    niLocalTiers: js('src/ni-local-groups.mjs', 'export const NI_LOCAL_TIERS', '/** The kind of council a body slug names', ['NI_LOCAL_TIERS'])?.NI_LOCAL_TIERS ?? null,
+    search: js('src/catalogue/search.js', 'const BODY_ALIASES', '/** The other names an election goes by',
+      ['BODY_ALIASES', 'NI_COUNCILS_2014', 'NI_COUNCILS_1973', 'IRISH_COUNCILS']),
+    councilWebsites: py('scripts/ingest/council-websites/scrape_26_councils.py', 'COUNCILS'),
+    wikipedia1973: py('scripts/ingest/wikipedia/scrape_old_lgov_wikipedia.py', 'COUNCILS'),
+    wikipedia1973Compare: py('scripts/ingest/wikipedia/scrape_and_compare_lgov_wikipedia.py', 'COUNCILS'),
+    wikipedia2014: py('scripts/ingest/wikipedia/modern_lgov_wikipedia_common.py', 'MODERN_COUNCILS'),
+    wikipedia2014Display: py('scripts/ingest/wikipedia/modern_lgov_wikipedia_common.py', 'COUNCIL_DISPLAY_BY_KEY'),
+    officesCouncils: py('scripts/ingest/facts/ef_offices.py', 'COUNCILS'),
     electionsIndex: readJson('data/elections-source/data/elections_index.json', root),
     counties: readJson('data/elections/persons/ni-council-counties.json', root),
     geography: readJson('data/elections/persons/ni-council-geography.json', root),
