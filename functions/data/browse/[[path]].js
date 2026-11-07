@@ -1,14 +1,14 @@
 /**
- * /data/browse/** -- the Browse files, now answered from D1 (data design stage D.9).
+ * /data/browse/** -- the Browse files, answered from D1 (data design stage D.9; phase 4).
  *
  * The files were build output of scripts/build-browse-indexes.mjs published to R2. Each path
  * below is rebuilt from the records tables in the file's shape (its wrapper's generatedAt is the
- * one field that is gone); everything else -- source detail shards -- is still read from R2 as
- * before. Data design phase 3 moved the map files into tables (maps.json, features.json,
- * details/maps/<slug>.json: map_cards and feature_groups) and retired proni-roots.json, which
- * answers 301 to /_api/proni/node (the same { roots, count }, from the PRONI database). The R2 objects stay where they are for the
- * dual run, and the fallback to them stays until stage I; old file URLs keep answering for 90
- * days (owner decision, 2026-11-06), after which unknown paths will answer 410.
+ * one field that is gone). Data design phase 3 moved the map files into tables (maps.json,
+ * features.json, details/maps/<slug>.json: map_cards and feature_groups) and retired
+ * proni-roots.json; phase 4 answers the source detail shards from `sources` and ends the read of
+ * the R2 copies. Old file URLs keep answering for 90 days from 6 Nov 2026 (owner decision);
+ * after that the R2 objects can go (a separate, approved step; not map-features/, which
+ * browse.js reads from data.civgraph.net). Anything not listed answers 404.
  *
  *   index.json, persons.json, sources.json, register-interests.json, persons-facets.json
  *   person-shards/*, source-index-shards/*, register-interest-shards/*   (slices of the rows in source order)
@@ -21,44 +21,61 @@
  *   votes/index.json, votes/persons/<id>.json, votes/parties/<slug>.json, votes/divisions/<nnn>.json
  *   maps.json, features.json, details/maps/<slug>.json   (phase 3)
  *   proni-roots.json                                       301 /_api/proni/node (phase 3)
+ *   details/source-shards/<name>.json                      sources.detail (phase 4)
+ *   details/sources|register-interests/<slug>.json, details/proni/<slug>.json, proni.json
+ *                                                          301 to their /_api routes (older layouts)
+ *   map-features/**                                        301 to the same object on data.civgraph.net
  *
- * Pages serves a matching static asset in preference to a Function, so data/browse/ must stay
- * out of the deployment (.cfignore, clean-for-pages.sh).
+ * Pages serves a matching static asset in preference to a Function, so data/browse/ is never
+ * deployed (scripts/build/site.mjs builds dist/ from an allow-list that does not include it).
  */
 import { cachedJson, documentBody, jsonResponse, parseJson, streamFrom } from '../../_api/_records.js';
 import { divisionShard } from '../../_api/votes/index.js';
 import { resolvePartySlug } from '../../_api/parties/index.js';
 import { browseFeaturesText, browseMapsText } from '../../_api/_maps.js';
 
-const VERSION = 'data-browse-3';
-const R2_CACHE_CONTROL = 'public, max-age=0, must-revalidate';
+const VERSION = 'data-browse-4';
 const CONTEST_PARENT_BUCKETS = 64;
+export const MAP_FEATURES_ORIGIN = 'https://data.civgraph.net/data/browse/map-features';
+
+const moved = (location) => new Response(null, {
+  status: 301, headers: { Location: location, 'Cache-Control': 'public, max-age=86400', 'Access-Control-Allow-Origin': '*' },
+});
+
+/** Where an older file layout moved to (a 301), or null. */
+export function movedPath(parts) {
+  const p = parts.join('/');
+  const json = (s) => (s && s.endsWith('.json') ? s.slice(0, -5) : null);
+  const enc = encodeURIComponent;
+  if (p === 'proni-roots.json' || p === 'proni.json') return '/_api/proni/node';
+  if (parts[0] === 'map-features' && parts.length > 1) return `${MAP_FEATURES_ORIGIN}/${parts.slice(1).map(enc).join('/')}`;
+  const [a, b, c] = parts;
+  if (parts.length !== 3 || a !== 'details' || !json(c)) return null;
+  if (b === 'sources') return `/_api/sources?slug=${enc(json(c))}&view=detail`;
+  if (b === 'register-interests') return `/_api/register-interests?slug=${enc(json(c))}&view=detail`;
+  if (b === 'proni') return `/_api/proni/node?ref=${enc(json(c).replace(/~/g, '/'))}`;
+  return null;
+}
+
+export async function onRequest(context) {
+  const method = context.request.method;
+  if (method !== 'GET' && method !== 'HEAD') {
+    return new Response('Method Not Allowed', { status: 405, headers: { Allow: 'GET, HEAD' } });
+  }
+  const resp = await onRequestGet(context);
+  return method === 'HEAD' ? new Response(null, { status: resp.status, headers: resp.headers }) : resp;
+}
 
 export async function onRequestGet(context) {
   const parts = (context.params.path || []).map(decodeURIComponent);
-  if (parts.join('/') === 'proni-roots.json') {
-    return new Response(null, { status: 301, headers: { Location: '/_api/proni/node', 'Cache-Control': 'public, max-age=86400', 'Access-Control-Allow-Origin': '*' } });
-  }
+  if (parts.includes('..')) return notFound();
+  const location = movedPath(parts);
+  if (location) return moved(location);
+  const route = matchBrowsePath(parts);
+  if (!route) return notFound();
   const db = context.env.ELECTIONS_DB;
-  const route = db ? matchBrowsePath(parts) : null;
-  if (route) {
-    const resp = await cachedJson(context, VERSION, () => answer(db, route));
-    if (resp.status !== 503 && resp.status < 500) return resp;
-  }
-  return fromR2(context, parts);
-}
-
-/** The R2 copy, as this Function served it before (ETag, 304, must-revalidate). */
-async function fromR2(context, parts) {
-  const bucket = context.env.MAPS_BUCKET;
-  if (!bucket) return context.next();
-  const key = `data/browse/${parts.join('/')}`;
-  const object = await bucket.get(key, { onlyIf: context.request.headers });
-  if (!object) return new Response('Not found', { status: 404, headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
-  const headers = new Headers({ 'Cache-Control': R2_CACHE_CONTROL, 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8' });
-  if (object.httpEtag) headers.set('ETag', object.httpEtag);
-  if (!('body' in object) || object.body === null || object.body === undefined) return new Response(null, { status: 304, headers });
-  return new Response(object.body, { headers });
+  if (!db) return jsonResponse({ error: 'records database not bound' }, 503);
+  return cachedJson(context, VERSION, () => answer(db, route));
 }
 
 const SHARDED = {
@@ -88,6 +105,7 @@ export function matchBrowsePath(parts) {
   if (parts.length === 3 && a === 'details' && b === 'parties' && json(c)) return { kind: 'party-detail', slug: json(c) };
   if (parts.length === 3 && a === 'details' && b === 'offices' && json(c)) return { kind: 'office-detail', slug: json(c) };
   if (parts.length === 3 && a === 'details' && b === 'maps' && json(c)) return { kind: 'map-detail', slug: json(c) };
+  if (parts.length === 3 && a === 'details' && b === 'source-shards' && json(c)) return { kind: 'source-shard', name: c };
   if (parts.length === 3 && a === 'details' && b === 'elections' && json(c)) return { kind: 'election-detail', slug: json(c) };
   if (parts.length === 3 && a === 'details' && b === 'election-contests' && json(c)) return { kind: 'election-contests', slug: json(c) };
   if (parts.length === 3 && a === 'votes' && b === 'persons' && json(c)) return { kind: 'votes-person', id: json(c) };
@@ -218,6 +236,17 @@ async function answer(db, route) {
     case 'features': {
       const text = await browseFeaturesText(db);
       return text === null ? notFound() : jsonResponse(text);
+    }
+    case 'source-shard': {
+      // The sources whose card names this shard, sorted by slug as the build wrote them
+      // (build-browse-indexes.mjs writeSourceDetailShards: localeCompare in the default locale).
+      const url = `/data/browse/details/source-shards/${route.name}`;
+      const { results } = await db.prepare("SELECT detail FROM sources WHERE json_extract(card, '$.detailUrl') = ?1 AND detail IS NOT NULL")
+        .bind(url).all();
+      if (!results?.length) return notFound();
+      const items = results.map((r) => parseJson(r.detail)).filter(Boolean);
+      items.sort((x, y) => String(x.slug || '').localeCompare(String(y.slug || '')));
+      return jsonResponse({ schemaVersion: 1, kind: 'sources', shard: route.name, total: items.length, items });
     }
     case 'map-detail': {
       // The file was named by slug: only an exact slug answers (no id fallback, as before).
