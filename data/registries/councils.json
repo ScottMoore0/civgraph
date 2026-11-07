@@ -13,8 +13,64 @@
   "data/timeline-changes/admin-areas-*, lgd-* (abolished, renamed, created)",
   "data/offices/offices.json and scripts/ingest/facts/ef_offices.py (official names, offices institutions)",
   "scripts/ingest/council-websites/scrape_26_councils.py (websites)",
-  "scripts/ingest/wikipedia/scrape_old_lgov_wikipedia.py, modern_lgov_wikipedia_common.py (Wikipedia title variants)"
+  "scripts/ingest/wikipedia/scrape_old_lgov_wikipedia.py, modern_lgov_wikipedia_common.py (Wikipedia title variants)",
+  "Published sources for the research of 7 Nov 2026 (refactor round 2): citations, cited as cite:<id>"
  ],
+ "citations": {
+  "census-1926-fermanagh": {
+   "title": "Census of Northern Ireland 1926: County of Fermanagh",
+   "published": "Belfast: HMSO, 1928",
+   "cites": "p. vii, Administrative Divisions, changes since 1911: (g) Belleek Rural District abolished and its area added to Irvinestown Rural District (1 April 1921); (h) Clones No. 2 Rural District abolished and its area added to Lisnaskea Rural District (1 April 1921).",
+   "url": "https://www.nisra.gov.uk/sites/nisra.gov.uk/files/publications/1926-census-county-fermanagh-report.PDF",
+   "accessed": "2026-11-07"
+  },
+  "census-1926-tyrone": {
+   "title": "Census of Northern Ireland 1926: County of Tyrone",
+   "published": "Belfast: HMSO, 1928",
+   "cites": "p. vi, Administrative Divisions, changes since 1911: (a) Trillick Rural District abolished and its area added to Omagh Rural District (1 April 1920).",
+   "url": "https://www.nisra.gov.uk/sites/nisra.gov.uk/files/publications/1926-census-county-tyrone-report.PDF",
+   "accessed": "2026-11-07"
+  },
+  "srno-ni-1967-57": {
+   "title": "New Towns (Municipal Functions—Craigavon) Order (Northern Ireland) 1967, S.R. & O. (N.I.) 1967 No. 57",
+   "published": "Ministry of Development, 16 March 1967",
+   "cites": "Art. 2 (the appointed day is 1 April 1967); art. 4 (from that day the Craigavon Development Commission exercises the functions of an urban district council for the whole of the Rural District of Lurgan except the part in Schedule 1, and that area is called \"the Urban District of Craigavon\"); art. 5 (the Schedule 1 part is added to the Borough of Lurgan).",
+   "url": "https://www.legislation.gov.uk/nisro/1967/57/pdfs/nisro_19670057_en.pdf",
+   "accessed": "2026-11-07"
+  },
+  "srno-ni-1969-62": {
+   "title": "Londonderry Area (Municipal Functions—Londonderry Rural District) Order (Northern Ireland) 1969, S.R. & O. (N.I.) 1969 No. 62",
+   "published": "Ministry of Development, 27 March 1969",
+   "cites": "Art. 2 (the appointed day is 2 April 1969); art. 4(1) (from that day the Londonderry Development Commission exercises the functions of an urban district council for the area of the Rural District of Londonderry, and that area is called \"the Urban District of Londonderry\").",
+   "url": "https://www.legislation.gov.uk/nisro/1969/62/pdfs/nisro_19690062_en.pdf",
+   "accessed": "2026-11-07"
+  },
+  "lgba-ni-2008-s1": {
+   "title": "Local Government (Boundaries) Act (Northern Ireland) 2008, section 1",
+   "published": "2008 c. 7 (N.I.)",
+   "cites": "s. 1(1)-(2): Northern Ireland is divided into 11 districts, each incorporating the whole or the major part of the former districts listed for it; district 6 is Belfast. In operation in full from 1 April 2015.",
+   "url": "https://www.legislation.gov.uk/nia/2008/7/section/1",
+   "accessed": "2026-11-07"
+  },
+  "uksi-2013-3156": {
+   "title": "S.I. 2013/3156, \"Temporary modifications to facilitate transition from the existing councils to the new councils\"",
+   "cites": "Art. 4(1): existing councillors retire together on 1 April 2015; art. 8: the existing and the new councils sit side by side from the 2014 election until 31 March 2015.",
+   "url": "https://www.legislation.gov.uk/uksi/2013/3156/crossheading/temporary-modifications-to-facilitate-transition-from-the-existing-councils-to-the-new-councils/made",
+   "accessed": "2026-11-07"
+  },
+  "wikipedia-ni-districts": {
+   "title": "List of rural and urban districts in Northern Ireland (Wikipedia)",
+   "cites": "Craigavon Urban District created in 1967 on the abolition of Lurgan Rural District (1 April 1967), its successor in 1973 Craigavon; Londonderry Rural District reconstituted as an urban district in 1969 (citing Cmd. 534, para. 35); the county boroughs replaced under the Local Government Act (Northern Ireland) 1972 from 1 October 1973, Belfast by the district of Belfast.",
+   "url": "https://en.wikipedia.org/wiki/List_of_rural_and_urban_districts_in_Northern_Ireland",
+   "accessed": "2026-11-07"
+  },
+  "wikipedia-belfast-city-council": {
+   "title": "Belfast City Council (Wikipedia)",
+   "cites": "History: the council has its origins in Belfast Corporation; the Lord Mayoralty dates from 1892; the council took its present form after the elections of May 1973 (the Local Government (Modification of Borough Charters) Order (Northern Ireland) 1973 keeps its aldermen); the council elected on 22 May 2014 sat in shadow until it took its powers on 1 April 2015, its district enlarged by parts of Castlereagh, Lisburn and North Down.",
+   "url": "https://en.wikipedia.org/wiki/Belfast_City_Council",
+   "accessed": "2026-11-07"
+  }
+ },
  "types": {
   "county-council": {
    "label": "County council",
@@ -693,7 +749,29 @@
    "flags": {
     "niLocalGroup": true,
     "pre1973Council": true
-   }
+   },
+   "successors": [
+    {
+     "id": "ni-1973-belfast",
+     "basis": [
+      {
+       "type": "incorporated",
+       "source": "cite:wikipedia-ni-districts"
+      }
+     ]
+    }
+   ],
+   "officesInstitution": "council-belfast",
+   "findings": [
+    {
+     "about": "offices",
+     "text": "The offices institution council-belfast (Lord Mayor, Deputy Lord Mayor, High Sheriff, co-opted councillors) runs unbroken from Belfast Corporation (the county borough council) through the councils of 1973 and 2015, so it is linked to all three, which the registry relates as one succession.",
+     "sources": [
+      "cite:wikipedia-belfast-city-council",
+      "cite:wikipedia-ni-districts"
+     ]
+    }
+   ]
   },
   {
    "id": "belfast-county-borough-council-aldermen",
@@ -734,7 +812,7 @@
   },
   {
    "id": "belleek-rural-district-council",
-   "name": null,
+   "name": "Belleek Rural District Council",
    "bodySlug": "belleek-rural-district-council",
    "type": "rural-district",
    "generation": "pre-1973",
@@ -747,7 +825,34 @@
    ],
    "flags": {
     "niLocalGroup": true
-   }
+   },
+   "findings": [
+    {
+     "about": "name",
+     "text": "The council of Belleek Rural District (County Fermanagh).",
+     "sources": [
+      "cite:census-1926-fermanagh"
+     ]
+    },
+    {
+     "about": "abolished",
+     "text": "Abolished 1 April 1921; its area added to Irvinestown Rural District.",
+     "sources": [
+      "cite:census-1926-fermanagh"
+     ]
+    }
+   ],
+   "successors": [
+    {
+     "id": "irvinestown-rural-district-council",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "cite:census-1926-fermanagh"
+      }
+     ]
+    }
+   ]
   },
   {
    "id": "carrickfergus-borough-council",
@@ -918,7 +1023,7 @@
   },
   {
    "id": "clones-no-2-rural-district-council",
-   "name": null,
+   "name": "Clones No. 2 Rural District Council",
    "bodySlug": "clones-no-2-rural-district-council",
    "type": "rural-district",
    "generation": "pre-1973",
@@ -928,7 +1033,34 @@
    ],
    "flags": {
     "niLocalGroup": true
-   }
+   },
+   "findings": [
+    {
+     "about": "name",
+     "text": "The council of Clones No. 2 Rural District (County Fermanagh).",
+     "sources": [
+      "cite:census-1926-fermanagh"
+     ]
+    },
+    {
+     "about": "abolished",
+     "text": "Abolished 1 April 1921; its area added to Lisnaskea Rural District.",
+     "sources": [
+      "cite:census-1926-fermanagh"
+     ]
+    }
+   ],
+   "successors": [
+    {
+     "id": "lisnaskea-rural-district-council",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "cite:census-1926-fermanagh"
+      }
+     ]
+    }
+   ]
   },
   {
    "id": "coleraine-borough-council",
@@ -1019,7 +1151,7 @@
   },
   {
    "id": "craigavon-urban-district-council",
-   "name": null,
+   "name": "Urban District of Craigavon",
    "bodySlug": "craigavon-urban-district-council",
    "type": "urban-district",
    "generation": "pre-1973",
@@ -1029,7 +1161,54 @@
    ],
    "flags": {
     "niLocalGroup": true
-   }
+   },
+   "officialName": "Craigavon Development Commission",
+   "findings": [
+    {
+     "about": "name",
+     "text": "Named \"the Urban District of Craigavon\" by the 1967 order; it had no elected council: the Craigavon Development Commission exercised the functions of its urban district council.",
+     "sources": [
+      "cite:srno-ni-1967-57"
+     ]
+    },
+    {
+     "about": "created",
+     "text": "From 1 April 1967, out of the whole of Lurgan Rural District but the part added to the Borough of Lurgan.",
+     "sources": [
+      "cite:srno-ni-1967-57",
+      "cite:wikipedia-ni-districts"
+     ]
+    },
+    {
+     "about": "abolished",
+     "text": "Replaced in 1973 by the district of Craigavon.",
+     "sources": [
+      "cite:wikipedia-ni-districts"
+     ]
+    }
+   ],
+   "predecessors": [
+    {
+     "id": "lurgan-rural-district-council",
+     "basis": [
+      {
+       "type": "created",
+       "source": "cite:srno-ni-1967-57"
+      }
+     ]
+    }
+   ],
+   "successors": [
+    {
+     "id": "ni-1973-craigavon",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "cite:wikipedia-ni-districts"
+      }
+     ]
+    }
+   ]
   },
   {
    "id": "donaghadee-urban-district-council",
@@ -1421,6 +1600,17 @@
      "text": "Irvinestown Rural District abolished, joined to FERMANAGH",
      "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c1"
     }
+   ],
+   "predecessors": [
+    {
+     "id": "belleek-rural-district-council",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "cite:census-1926-fermanagh"
+      }
+     ]
+    }
    ]
   },
   {
@@ -1737,7 +1927,18 @@
     "pre1973Council": true,
     "niCouncils1923_67": true,
     "resultsOnly1923_67": true
-   }
+   },
+   "predecessors": [
+    {
+     "id": "clones-no-2-rural-district-council",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "cite:census-1926-fermanagh"
+      }
+     ]
+    }
+   ]
   },
   {
    "id": "londonderry-county-borough-council",
@@ -1862,7 +2063,7 @@
   },
   {
    "id": "londonderry-urban-district-council",
-   "name": null,
+   "name": "Urban District of Londonderry",
    "bodySlug": "londonderry-urban-district-council",
    "type": "urban-district",
    "generation": "pre-1973",
@@ -1914,6 +2115,17 @@
      "text": "Londonderry Urban District renamed LONDONDERRY",
      "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c42"
     }
+   ],
+   "officialName": "Londonderry Development Commission",
+   "findings": [
+    {
+     "about": "name",
+     "text": "Named \"the Urban District of Londonderry\" by the 1969 order, for the area of Londonderry Rural District; it had no elected council: the Londonderry Development Commission exercised the functions of its urban district council from 2 April 1969.",
+     "sources": [
+      "cite:srno-ni-1969-62",
+      "cite:wikipedia-ni-districts"
+     ]
+    }
    ]
   },
   {
@@ -1960,6 +2172,17 @@
      "text": "Lurgan Urban District renamed Lurgan Municipal Borough",
      "source": "data/timeline-changes/admin-areas-1949-07-01__admin-areas-1949-07-07.json#c1"
     }
+   ],
+   "predecessors": [
+    {
+     "id": "lurgan-rural-district-council",
+     "basis": [
+      {
+       "type": "incorporated",
+       "source": "cite:srno-ni-1967-57"
+      }
+     ]
+    }
    ]
   },
   {
@@ -1978,7 +2201,27 @@
     "niLocalGroup": true,
     "pre1973Council": true,
     "armaghPilot": true
-   }
+   },
+   "successors": [
+    {
+     "id": "craigavon-urban-district-council",
+     "basis": [
+      {
+       "type": "created",
+       "source": "cite:srno-ni-1967-57"
+      }
+     ]
+    },
+    {
+     "id": "lurgan-borough-council",
+     "basis": [
+      {
+       "type": "incorporated",
+       "source": "cite:srno-ni-1967-57"
+      }
+     ]
+    }
+   ]
   },
   {
    "id": "magherafelt-rural-district-council",
@@ -2318,6 +2561,17 @@
      ],
      "text": "Omagh Rural District renamed OMAGH",
      "source": "data/timeline-changes/admin-areas-1969-04-02__lgd-1972.json#c33"
+    }
+   ],
+   "predecessors": [
+    {
+     "id": "trillick-rural-district-council",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "cite:census-1926-tyrone"
+      }
+     ]
     }
    ]
   },
@@ -2692,7 +2946,7 @@
   },
   {
    "id": "trillick-rural-district-council",
-   "name": null,
+   "name": "Trillick Rural District Council",
    "bodySlug": "trillick-rural-district-council",
    "type": "rural-district",
    "generation": "pre-1973",
@@ -2705,7 +2959,34 @@
    ],
    "flags": {
     "niLocalGroup": true
-   }
+   },
+   "findings": [
+    {
+     "about": "name",
+     "text": "The council of Trillick Rural District (County Tyrone).",
+     "sources": [
+      "cite:census-1926-tyrone"
+     ]
+    },
+    {
+     "about": "abolished",
+     "text": "Abolished 1 April 1920; its area added to Omagh Rural District.",
+     "sources": [
+      "cite:census-1926-tyrone"
+     ]
+    }
+   ],
+   "successors": [
+    {
+     "id": "omagh-rural-district-council",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "cite:census-1926-tyrone"
+      }
+     ]
+    }
+   ]
   },
   {
    "id": "tyrone-county-council",
@@ -3672,7 +3953,52 @@
    },
    "flags": {
     "localGovernmentGroup": true
-   }
+   },
+   "successors": [
+    {
+     "id": "ni-2014-belfast",
+     "basis": [
+      {
+       "type": "incorporated",
+       "source": "cite:lgba-ni-2008-s1"
+      },
+      {
+       "type": "incorporated",
+       "source": "cite:uksi-2013-3156"
+      }
+     ]
+    }
+   ],
+   "predecessors": [
+    {
+     "id": "belfast-county-borough-council",
+     "basis": [
+      {
+       "type": "incorporated",
+       "source": "cite:wikipedia-ni-districts"
+      }
+     ]
+    }
+   ],
+   "findings": [
+    {
+     "about": "relation",
+     "text": "The county borough was replaced from 1 October 1973 by the district of Belfast under the Local Government Act (Northern Ireland) 1972.",
+     "sources": [
+      "cite:wikipedia-ni-districts",
+      "cite:wikipedia-belfast-city-council"
+     ]
+    },
+    {
+     "about": "offices",
+     "text": "The offices institution council-belfast (Lord Mayor, Deputy Lord Mayor, High Sheriff, co-opted councillors) runs unbroken from Belfast Corporation (the county borough council) through the councils of 1973 and 2015, so it is linked to all three, which the registry relates as one succession.",
+     "sources": [
+      "cite:wikipedia-belfast-city-council",
+      "cite:wikipedia-ni-districts"
+     ]
+    }
+   ],
+   "officesInstitution": "council-belfast"
   },
   {
    "id": "ni-2014-belfast",
@@ -3710,6 +4036,19 @@
        "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c16"
       }
      ]
+    },
+    {
+     "id": "ni-1973-belfast",
+     "basis": [
+      {
+       "type": "incorporated",
+       "source": "cite:lgba-ni-2008-s1"
+      },
+      {
+       "type": "incorporated",
+       "source": "cite:uksi-2013-3156"
+      }
+     ]
     }
    ],
    "events": [
@@ -3731,7 +4070,27 @@
      "text": "NORTH DOWN abolished, joined to Ards and North Down, Belfast",
      "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c16"
     }
-   ]
+   ],
+   "findings": [
+    {
+     "about": "relation",
+     "text": "The district of 2015 incorporates the whole of the 1973 district of Belfast (2008 Act s. 1(2), district 6), enlarged by parts of Castlereagh, Lisburn and North Down; the council elected on 22 May 2014 took over on 1 April 2015, when the existing councillors retired.",
+     "sources": [
+      "cite:lgba-ni-2008-s1",
+      "cite:uksi-2013-3156",
+      "cite:wikipedia-belfast-city-council"
+     ]
+    },
+    {
+     "about": "offices",
+     "text": "The offices institution council-belfast (Lord Mayor, Deputy Lord Mayor, High Sheriff, co-opted councillors) runs unbroken from Belfast Corporation (the county borough council) through the councils of 1973 and 2015, so it is linked to all three, which the registry relates as one succession.",
+     "sources": [
+      "cite:wikipedia-belfast-city-council",
+      "cite:wikipedia-ni-districts"
+     ]
+    }
+   ],
+   "officesInstitution": "council-belfast"
   },
   {
    "id": "ni-1973-carrickfergus",
@@ -4186,6 +4545,17 @@
      ],
      "text": "CRAIGAVON abolished, joined to Armagh City, Banbridge and Craigavon",
      "source": "data/timeline-changes/lgd-1993__lgd-2012.json#c11"
+    }
+   ],
+   "predecessors": [
+    {
+     "id": "craigavon-urban-district-council",
+     "basis": [
+      {
+       "type": "abolished",
+       "source": "cite:wikipedia-ni-districts"
+      }
+     ]
     }
    ]
   },

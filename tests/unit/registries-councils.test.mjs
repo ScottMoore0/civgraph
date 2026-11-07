@@ -112,7 +112,11 @@ test('councils: counties, offices institutions and the scrapers\' lists', () => 
   const institutions = new Set(src.offices.institutions.map((i) => i.id));
   const linked = registry.councils.filter((c) => c.officesInstitution);
   for (const c of linked) assert.ok(institutions.has(c.officesInstitution), c.id);
-  assert.equal(new Set(linked.map((c) => c.officesInstitution)).size, linked.length, 'one council per institution');
+  // One council per institution, but for Belfast's, which stands for its three councils in succession.
+  const shared = linked.filter((c) => c.officesInstitution === 'council-belfast').map((c) => c.id);
+  assert.deepEqual(shared, ['belfast-county-borough-council', 'ni-1973-belfast', 'ni-2014-belfast']);
+  const single = linked.filter((c) => c.officesInstitution !== 'council-belfast');
+  assert.equal(new Set(single.map((c) => c.officesInstitution)).size, single.length, 'one council per institution');
 
   const byWebKey = new Map(registry.councils.filter((c) => c.websites).map((c) => [c.websites.key, c.websites.hosts]));
   if (src.councilWebsites) assert.deepEqual(new Map(src.councilWebsites.map(([k, hosts]) => [k, hosts])), byWebKey);
@@ -137,16 +141,10 @@ test('councils: every 1973 and 2014 council is accounted for with relations', ()
   const ni2014 = registry.councils.filter((c) => c.generation === '2014' && c.jurisdiction === 'northern-ireland');
   assert.equal(ni1973.length, 26);
   assert.equal(ni2014.length, 11);
-  // Every 1973 council but Belfast has a 2014 successor (Belfast to Belfast is the same name in
-  // both maps, which neither source can state as a change).
-  for (const c of ni1973) {
-    if (c.name === 'Belfast') continue;
-    assert.ok(c.successors?.some((s) => s.id.startsWith('ni-2014-')), c.id);
-  }
-  for (const c of ni2014) {
-    if (c.name === 'Belfast') continue;
-    assert.ok(c.predecessors?.length, c.id);
-  }
+  // Every 1973 council has a 2014 successor and every 2014 one a predecessor (Belfast's by the
+  // 2008 Act, cited: research of 7 Nov 2026).
+  for (const c of ni1973) assert.ok(c.successors?.some((s) => s.id.startsWith('ni-2014-')), c.id);
+  for (const c of ni2014) assert.ok(c.predecessors?.length, c.id);
 });
 
 test('councils: the checks reject what the schema cannot', () => {
@@ -183,4 +181,40 @@ test('councils: councilNameOn picks the era a date falls in', () => {
   assert.equal(councilNameOn(strabane, '1902-01-15'), 'Strabane Urban District Council');
   assert.equal(councilNameOn(byId.get('ni-1973-derry'), '1990'), 'Derry');
   assert.equal(normalizeCouncilName('Newry No. 2 Rural District Council'), 'newry no 2 rural district council');
+});
+
+test('councils: the researched councils are named, related and cited', () => {
+  const byId = councilsById(registry);
+  const names = {
+    'belleek-rural-district-council': 'Belleek Rural District Council',
+    'clones-no-2-rural-district-council': 'Clones No. 2 Rural District Council',
+    'trillick-rural-district-council': 'Trillick Rural District Council',
+    'craigavon-urban-district-council': 'Urban District of Craigavon',
+    'londonderry-urban-district-council': 'Urban District of Londonderry'
+  };
+  for (const [id, name] of Object.entries(names)) {
+    assert.equal(byId.get(id).name, name, id);
+    assert.ok(byId.get(id).findings?.some((f) => f.about === 'name' && f.sources.every((s) => s.startsWith('cite:'))), id);
+  }
+  assert.equal(registry.councils.filter((c) => c.name === null).length, 0, 'every council is named');
+  const successor = (from, to) => byId.get(from).successors?.find((s) => s.id === to);
+  assert.ok(successor('belleek-rural-district-council', 'irvinestown-rural-district-council'));
+  assert.ok(successor('clones-no-2-rural-district-council', 'lisnaskea-rural-district-council'));
+  assert.ok(successor('trillick-rural-district-council', 'omagh-rural-district-council'));
+  assert.ok(successor('lurgan-rural-district-council', 'craigavon-urban-district-council'));
+  assert.ok(successor('ni-1973-belfast', 'ni-2014-belfast'));
+  assert.ok(successor('belfast-county-borough-council', 'ni-1973-belfast'));
+  for (const c of Object.values(registry.citations)) assert.match(c.url, /^https:\/\//);
+});
+
+test('councils: the checks reject an unknown or unused citation and a split offices institution', () => {
+  const unknown = clone();
+  unknown.councils.find((c) => c.id === 'ni-2014-belfast').findings[0].sources.push('cite:no-such-source');
+  assert.ok(registryErrors('councils', unknown).some((e) => /cites unknown source no-such-source/.test(e)));
+  const unused = clone();
+  unused.citations['spare-source'] = { title: 'A source', cites: 'p. 1' };
+  assert.ok(registryErrors('councils', unused).some((e) => /citation spare-source is not cited/.test(e)));
+  const split = clone();
+  split.councils.find((c) => c.id === 'armagh-county-council').officesInstitution = 'council-belfast';
+  assert.ok(registryErrors('councils', split).some((e) => /council-belfast: linked to .* not one succession/.test(e)));
 });
