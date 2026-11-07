@@ -52,6 +52,7 @@ const ID = /^[a-z0-9][a-z0-9-]*$/;
  * @property {boolean} [network]        it fetches from outside; refused without --allow-network
  * @property {string[]} [needs]         repository paths it reads that may be missing from a checkout (for `plugins --check`)
  * @property {Record<string, string>} [env]
+ * @property {string[]} [volatile]      JSON keys that hold the run's own time (generatedAt...): parity ignores them
  * @property {string} [note]
  */
 
@@ -448,13 +449,17 @@ export function pluginManifest(plugin, { id, baseCommit, produced, stagedDir, to
  * same starting tree, and compare every path either touched. The tree is put back after each.
  * @param {Plugin} plugin
  * @param {{ repo: string, steps: string[], args?: string[], inputs?: Record<string, string>, scratch: string, stdio?: any, stageWrite: (batchDir: string) => void, frozenClock?: boolean }} options
- * @returns {Promise<{ same: string[], differ: { path: string, old: string, new: string }[], oldDeleted: string[], newDeleted: string[] }>}
+ * @returns {Promise<{ same: string[], differ: { path: string, old: string, new: string }[], oldDeleted: string[], newDeleted: string[], sameIgnoringVolatile: string[] }>}
  */
 export async function parity(plugin, { repo, steps, args = [], inputs = {}, scratch, stdio = 'inherit', stageWrite, frozenClock = true }) {
   const resolved = resolveInputs(plugin, inputs);
   const env = frozenClock ? frozenClockEnv() : {};
   const declared = steps.flatMap((s) => [...(/** @type {Record<string, Step>} */ (plugin.steps)[s].outputs || []), ...redirectedOutputs(plugin.steps[s])]);
 
+  const volatile = steps.flatMap((s) => /** @type {Record<string, Step>} */ (plugin.steps)[s].volatile || []);
+  const oldCopies = path.join(scratch, `parity-${plugin.id}-old`);
+  const newCopies = path.join(scratch, `parity-${plugin.id}-new`);
+  for (const d of [oldCopies, newCopies]) rmSync(d, { recursive: true, force: true });
   const s1 = snapshot(repo, { outputs: declared });
   /** @type {Map<string, string>} */
   let oldHashes;
@@ -466,6 +471,7 @@ export async function parity(plugin, { repo, steps, args = [], inputs = {}, scra
       const { changed, deleted } = changesSince(s1);
       oldHashes = hashPaths(repo, changed);
       oldDeleted = deleted;
+      if (volatile.length) for (const p of changed) if (p.endsWith('.json')) keepCopy(repo, p, oldCopies);
       restore(s1, [...changed, ...deleted]);
     }
   } finally {
@@ -488,6 +494,7 @@ export async function parity(plugin, { repo, steps, args = [], inputs = {}, scra
     } finally {
       const { changed, deleted } = changesSince(s2);
       newHashes = hashPaths(repo, new Set([...changed, ...oldHashes.keys()]));
+      if (volatile.length) for (const p of changed) if (p.endsWith('.json')) keepCopy(repo, p, newCopies);
       restore(s2, [...changed, ...deleted]);
     }
   } finally {
@@ -498,20 +505,49 @@ export async function parity(plugin, { repo, steps, args = [], inputs = {}, scra
   const all = new Set([...oldHashes.keys(), ...newHashes.keys()]);
   const same = [];
   const differ = [];
+  /** @type {string[]} */
+  const sameIgnoringVolatile = [];
   const baseline = hashPaths(repo, all);
   for (const p of [...all].sort()) {
     const o = oldHashes.get(p) ?? baseline.get(p) ?? 'absent';
     const n = newHashes.get(p) ?? baseline.get(p) ?? 'absent';
-    if (o === n) same.push(p); else differ.push({ path: p, old: o, new: n });
+    if (o === n) same.push(p);
+    else if (volatile.length && sameIgnoring(path.join(oldCopies, p), path.join(newCopies, p), volatile)) { same.push(p); sameIgnoringVolatile.push(p); }
+    else differ.push({ path: p, old: o, new: n });
   }
-  return { same, differ, oldDeleted, newDeleted: produced.deleted };
+  return { same, differ, oldDeleted, newDeleted: produced.deleted, sameIgnoringVolatile };
+}
+
+/** @param {string} repo @param {string} rel @param {string} dir */
+function keepCopy(repo, rel, dir) {
+  const dest = path.join(dir, rel);
+  mkdirSync(path.dirname(dest), { recursive: true });
+  copyFileSync(path.join(repo, rel), dest);
+}
+
+/**
+ * Two JSON files equal once every key named in `keys` is removed at any depth.
+ * @param {string} a @param {string} b @param {string[]} keys
+ */
+export function sameIgnoring(a, b, keys) {
+  if (!existsSync(a) || !existsSync(b)) return false;
+  const drop = new Set(keys);
+  /** @param {any} v @returns {any} */
+  const strip = (v) => (Array.isArray(v) ? v.map(strip) : v && typeof v === 'object'
+    ? Object.fromEntries(Object.entries(v).filter(([k]) => !drop.has(k)).map(([k, x]) => [k, strip(x)])) : v);
+  try {
+    return JSON.stringify(strip(JSON.parse(readFileSync(a, 'utf8')))) === JSON.stringify(strip(JSON.parse(readFileSync(b, 'utf8'))));
+  } catch {
+    return false;
+  }
 }
 
 const CLOCK_DIR = path.join(path.dirname(fileURLToPath(import.meta.url)), 'frozen-clock');
 
 /**
- * The environment that gives every Node and Python step of a parity run the same wall clock
- * (frozen-clock/clock.mjs by --import, frozen-clock/sitecustomize.py on PYTHONPATH).
+ * The environment that gives every Node step of a parity run the same wall clock
+ * (frozen-clock/clock.mjs by --import), and every Python step the same time.time()
+ * (frozen-clock/sitecustomize.py on PYTHONPATH; datetime.now is left alone, see that file).
  * @returns {Record<string, string>}
  */
 export function frozenClockEnv() {

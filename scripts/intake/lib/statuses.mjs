@@ -25,8 +25,10 @@
  *   rejected; scripts/intake/contributions.mjs --mark-applied applied.
  *
  *     pending-review --> approved --> applied
- *            |            ^   |
- *            +--> rejected <--+   (a decision can be reversed until the submission is applied)
+ *            |
+ *            +--> rejected
+ *   The table is the one in data/registries/statuses.json (rf-registries, RG-04); once that lands,
+ *   this machine is read from registries/statuses.mjs instead of being written out here.
  *
  * ROUND_STATUS (IN-03): a council election round in an NI councils staging folder
  *   (work/<slug>/<round>.json `status`; absent means done, as tools/build.py reads it).
@@ -119,8 +121,8 @@ export const CONTRIBUTION_STATUS = defineMachine(/** @type {import('../../lib/st
   initial: 'pending-review',
   transitions: {
     'pending-review': ['approved', 'rejected'],
-    approved: ['applied', 'rejected'],
-    rejected: ['approved'],
+    approved: ['applied'],
+    rejected: [],
     applied: [],
   },
 }));

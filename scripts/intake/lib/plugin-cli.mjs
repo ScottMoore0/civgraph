@@ -153,6 +153,7 @@ async function parityCommand(repo, o, { log, err, stdio }) {
       if (r.errors.length || r.conflicts.length) throw new Error(`stage failed: ${[...r.errors, ...r.conflicts.map((c) => `${c.path}: ${c.reason}`)].join('; ')}`);
     },
   });
+  if (res.sameIgnoringVolatile.length) log(`note: ${res.sameIgnoringVolatile.length} output(s) equal once the steps' volatile keys are ignored: ${res.sameIgnoringVolatile.join(', ')}`);
   for (const d of res.differ) log(`DIFFER ${d.path}: old ${d.old.slice(0, 12)} new ${d.new.slice(0, 12)}`);
   const delMismatch = JSON.stringify(res.oldDeleted) !== JSON.stringify(res.newDeleted);
   if (delMismatch) log(`DELETIONS differ: old ${res.oldDeleted.join(', ') || 'none'}; plugin ${res.newDeleted.join(', ') || 'none'}`);
