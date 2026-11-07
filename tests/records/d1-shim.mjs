@@ -1,43 +1,20 @@
 /**
  * The D1 binding API over node:sqlite, so every Function handler runs against a local records
- * database with no wrangler at all: prepare(sql).bind(...).first()/all()/run(), and batch().
- * all() resolves to { results }, first() to a row or null. Booleans are not translated: D1
- * returns 0/1 too. Rows are plain objects (node:sqlite returns null-prototype ones).
+ * database with no wrangler at all: prepare(sql).bind(...).first()/all()/raw()/run(), batch()
+ * and exec(). Since storage slice ST-3 this is the storage adapter itself, toD1(openSqlite(file))
+ * (functions/_lib/storage/store.js, scripts/lib/storage/sqlite.mjs): the tests run the handlers
+ * over the same RecordStore the Functions use in production through fromD1(), so parameters bind
+ * as they do there (booleans as 1/0, undefined as NULL) and a batch is one transaction. Rows are
+ * plain objects; booleans are not translated in results (D1 returns 0/1 too). `_db` is the
+ * underlying DatabaseSync, for tests that close it or read it directly.
  */
 import { DatabaseSync } from 'node:sqlite';
+import { toD1 } from '../../functions/_lib/storage/store.js';
+import { openSqlite } from '../../scripts/lib/storage/sqlite.mjs';
 
 export function d1(file, { readOnly = true } = {}) {
-  const db = typeof file === 'string' ? new DatabaseSync(file, { readOnly }) : file;
-  const plain = (row) => (row ? { ...row } : null);
-  const statement = (sql, params = []) => ({
-    bind: (...args) => statement(sql, args),
-    async first(column) {
-      const row = plain(db.prepare(sql).get(...params));
-      if (column) return row ? row[column] : null;
-      return row;
-    },
-    async all() {
-      return { results: db.prepare(sql).all(...params).map(plain), success: true };
-    },
-    async raw() {
-      return db.prepare(sql).all(...params).map((r) => Object.values(r));
-    },
-    async run() {
-      const info = db.prepare(sql).run(...params);
-      return { success: true, meta: { changes: Number(info.changes) } };
-    },
-  });
-  return {
-    prepare: (sql) => statement(sql),
-    async batch(statements) {
-      return Promise.all(statements.map((s) => s.all()));
-    },
-    async exec(sql) {
-      db.exec(sql);
-      return { count: 1 };
-    },
-    _db: db,
-  };
+  const store = openSqlite(file, { readOnly });
+  return Object.assign(toD1(store), { _db: store._db, _store: store });
 }
 
 /** An in-memory caches.default (match/put by URL). */
