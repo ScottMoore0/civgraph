@@ -10,6 +10,10 @@
  * - `createFlag(name)`: a boolean that is set, or held for the length of an operation and put
  *   back after it (holds nest: each release restores what its own hold found). Setting it to the
  *   value it already has is allowed, as assigning the old boolean was.
+ * - `createLatch(name)`: a flag that may be set but never cleared (install-once guards), and
+ *   `defineFlagFields(target, names)`, the one-line conversion of boolean fields to accessors
+ *   over flags or latches, reads and writes unchanged.
+ * - `createHoldCount(name)`: a re-entrancy count, idle or held.
  * - `createState(machine, from)`: the current state of a full machine, kept without the run's
  *   history. The map app's machines last as long as the page and some move on every gesture or
  *   frame (the gestures, the point-cloud tiles), so a run that remembers every state it entered
@@ -75,14 +79,55 @@ export function createState(machine, from = machine.initial) {
 }
 
 /** The flag's two states, either reachable from either (itself included). */
-const FLAG_TRANSITIONS = Object.freeze({ off: ['off', 'on'], on: ['off', 'on'] });
+/** @typedef {'off' | 'on'} FlagState */
+const FLAG_TRANSITIONS = /** @type {Readonly<Record<FlagState, readonly FlagState[]>>} */ (Object.freeze({ off: ['off', 'on'], on: ['off', 'on'] }));
+/** A latch: set once and never cleared (install-once guards). */
+const LATCH_TRANSITIONS = /** @type {Readonly<Record<FlagState, readonly FlagState[]>>} */ (Object.freeze({ off: ['off', 'on'], on: ['on'] }));
 
 /**
  * @param {string} name
  * @param {boolean} [initial]
  */
 export function createFlag(name, initial = false) {
-  const machine = defineMachine({ name, initial: 'off', transitions: FLAG_TRANSITIONS });
+  return booleanState(name, initial, FLAG_TRANSITIONS);
+}
+
+/**
+ * A boolean that may be set but never cleared: clearing it once set throws.
+ * @param {string} name
+ * @param {boolean} [initial]
+ */
+export function createLatch(name, initial = false) {
+  return booleanState(name, initial, LATCH_TRANSITIONS);
+}
+
+/**
+ * The one-line conversion of boolean fields (refactor plan section 11, light weight): each named
+ * field of `target` becomes an accessor over a flag (or a latch), so reads and writes stay as
+ * they were and a write that is not a boolean (or that clears a latch) throws.
+ * @param {object} target
+ * @param {readonly string[]} names
+ * @param {{ latch?: boolean, initial?: boolean }} [options]
+ */
+export function defineFlagFields(target, names, { latch = false, initial = false } = {}) {
+  for (const name of names) {
+    const flag = latch ? createLatch(name, initial) : createFlag(name, initial);
+    Object.defineProperty(target, name, {
+      get: () => flag.on,
+      set: (/** @type {boolean} */ value) => { flag.set(value); },
+      enumerable: true,
+      configurable: true
+    });
+  }
+}
+
+/**
+ * @param {string} name
+ * @param {boolean} initial
+ * @param {Readonly<Record<'off' | 'on', readonly ('off' | 'on')[]>>} transitions
+ */
+function booleanState(name, initial, transitions) {
+  const machine = defineMachine({ name, initial: /** @type {'off' | 'on'} */ ('off'), transitions });
   const run = createState(machine, initial ? 'on' : 'off');
   const set = (/** @type {boolean} */ value) => {
     if (typeof value !== 'boolean') throw new TypeError(`${name}: expected a boolean, got ${typeof value}`);
@@ -102,6 +147,36 @@ export function createFlag(name, initial = false) {
     release(/** @type {boolean} */ previous) {
       if (typeof previous !== 'boolean') throw new TypeError(`${name}: release needs the value hold returned`);
       set(previous);
+    }
+  };
+}
+
+/** A re-entrancy count's two states: idle, or held by one or more callers. */
+const HOLD_TRANSITIONS = /** @type {Readonly<Record<'idle' | 'held', readonly ('idle' | 'held')[]>>} */ (Object.freeze({ idle: ['held', 'idle'], held: ['held', 'idle'] }));
+
+/**
+ * A count of nested holds (a re-entrancy guard): `hold()` adds one, `release()` takes one off
+ * (never below zero) and returns whether it is now idle. The state is `held` while any hold is out.
+ * @param {string} name
+ */
+export function createHoldCount(name) {
+  const machine = defineMachine({ name, initial: /** @type {'idle' | 'held'} */ ('idle'), transitions: HOLD_TRANSITIONS });
+  const run = createState(machine);
+  let depth = 0;
+  return {
+    name,
+    machine,
+    state: () => run.state(),
+    get active() { return run.state() === 'held'; },
+    get depth() { return depth; },
+    hold() {
+      depth += 1;
+      run.to('held');
+    },
+    release() {
+      depth = Math.max(0, depth - 1);
+      run.to(depth ? 'held' : 'idle');
+      return depth === 0;
     }
   };
 }

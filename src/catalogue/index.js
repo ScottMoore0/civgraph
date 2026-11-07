@@ -36,6 +36,8 @@ import * as MapsView from './view-maps.js';
 import * as ElectionsView from './view-elections.js';
 import { BODY_GROUPS, groupOfBody, shelvesOf } from './view-elections.js';
 import * as BooksView from './view-books.js';
+import { CATALOGUE_TAB } from './route-state.mjs';
+import { defineFlagFields } from '../map/state-helpers.mjs';
 import { forgetTypedPhrase, isLanguagePhrase, languageOptionsShown, revealLanguageOptions, typedLanguagePhrase } from './lang-reveal.js';
 
 // From D1 since data design phase 3 (the /data/catalogue/*.json URLs still answer, from the same rows).
@@ -63,7 +65,14 @@ export function unitWord(unit, n) {
 const cssId = (s) => (window.CSS?.escape ? CSS.escape(s) : String(s).replace(/["\\]/g, '\\$&'));
 
 export class CatalogueNext {
+  /** The open tab: maps, elections or books (route-state.mjs; any other value throws). */
+  get tab() { return this._tab; }
+  set tab(value) { this._tab = CATALOGUE_TAB.check(value); }
+
   constructor(ui) {
+    // Two-state fields as flags, and placesReady as a latch (MA-L): reads and writes unchanged.
+    defineFlagFields(this, ['drawn', 'picking', 'electionsFirst', 'langNotice']);
+    defineFlagFields(this, ['placesReady'], { latch: true });
     this.ui = ui;
     this.data = null;
     this.loading = null;

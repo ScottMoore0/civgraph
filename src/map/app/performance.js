@@ -6,10 +6,15 @@
 
 import { escapeHtml, formatBytes, shortCacheName } from './helpers.mjs';
 import { retireLegacyServiceWorkers } from './retire-legacy-workers.mjs';
+import { SW_REGISTRATION } from './service-worker-state.mjs';
+import { createState } from '../state-helpers.mjs';
 
 export class PerformanceMethods {
   registerServiceWorker() {
+    // idle, unavailable, registering, ready or failed (service-worker-state.mjs).
+    const registrationState = (this.serviceWorkerRegistration = createState(SW_REGISTRATION));
     if (!('serviceWorker' in navigator) || location.protocol === 'file:') {
+      registrationState.to('unavailable');
       this.serviceWorkerStatusPromise = Promise.resolve({ available: false, reason: 'service-worker API unavailable' });
       return;
     }
@@ -17,15 +22,21 @@ export class PerformanceMethods {
     // redirected here, so this is where the kill switch gets its chance (retire-legacy-workers.mjs).
     retireLegacyServiceWorkers(navigator.serviceWorker);
     this.serviceWorkerConfig = this.getServiceWorkerConfig();
+    registrationState.to('registering');
     this.serviceWorkerStatusPromise = navigator.serviceWorker.register(this.serviceWorkerConfig.url, { scope: this.serviceWorkerConfig.scope })
       .then(async (registration) => {
         await navigator.serviceWorker.ready.catch(() => registration);
+        registrationState.to('ready');
         return this.getServiceWorkerStatus(registration);
       })
-      .catch((error) => ({
-        available: false,
-        reason: String(error?.message || error)
-      }));
+      .catch((error) => {
+        // A status query that failed after the registration was ready leaves it ready.
+        if (registrationState.state() === 'registering') registrationState.to('failed');
+        return {
+          available: false,
+          reason: String(error?.message || error)
+        };
+      });
   }
 
   getServiceWorkerConfig() {

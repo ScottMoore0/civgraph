@@ -12,6 +12,7 @@
 // projection matrix each frame. Precision is kept with a relative-to-center
 // (RTC) reference per node.
 import maplibregl from 'maplibre-gl';
+import { POINT_CLOUD_NODE, moveNode } from './point-cloud-node-state.mjs';
 
 // ---------- math ----------------------------------------------------------
 const A_WGS = 6378137.0;                 // WGS84 semi-major
@@ -256,7 +257,7 @@ function makeNode(raw, parentWorld, baseUrl, parentRefine) {
     rawChildren: raw.children || null,
     children: null,        // resolved lazily
     resolving: false,
-    state: 'unloaded',     // for pnts content
+    state: POINT_CLOUD_NODE.initial,     // for pnts content (point-cloud-node-state.mjs)
     buf: null, colBuf: null, count: 0,
     lastFrame: 0
   };
@@ -359,7 +360,7 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
 
     _enqueue(node) {
       if (node.state !== 'unloaded') return;
-      node.state = 'queued';
+      moveNode(node, 'queued');
       this._queue.push(node);
     },
 
@@ -372,12 +373,12 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
       while (this._inflight < this._maxConcurrent && this._queue.length) {
         const node = this._queue.shift();
         if (node.state !== 'queued') continue;
-        if (node.lastFrame < staleCut) { node.state = 'unloaded'; continue; }
-        node.state = 'loading';
+        if (node.lastFrame < staleCut) { moveNode(node, 'unloaded'); continue; }
+        moveNode(node, 'loading');
         this._inflight++;
         fetch(node.contentUri).then((r) => r.arrayBuffer()).then((buf) => {
           this._upload(gl, node, buf);
-        }).catch(() => { node.state = 'unloaded'; }).finally(() => {
+        }).catch(() => { moveNode(node, 'unloaded'); }).finally(() => {
           this._inflight--;
           this._map?.triggerRepaint();
         });
@@ -428,7 +429,7 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
       gl.bindBuffer(gl.ARRAY_BUFFER, node.colBuf);
       gl.bufferData(gl.ARRAY_BUFFER, cols, gl.STATIC_DRAW);
       node.count = n;
-      node.state = 'loaded';
+      moveNode(node, 'loaded');
       this._loadedPoints += n;
       this._loadedNodes.add(node);
     },
@@ -446,7 +447,7 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
         if (this._loadedPoints <= this._maxPoints * 0.85) break;
         gl.deleteBuffer(node.buf); gl.deleteBuffer(node.colBuf);
         this._loadedPoints -= node.count;
-        node.buf = node.colBuf = null; node.count = 0; node.state = 'unloaded';
+        node.buf = node.colBuf = null; node.count = 0; moveNode(node, 'unloaded');
         this._loadedNodes.delete(node);
       }
     },
