@@ -1,0 +1,734 @@
+{
+ "schemaVersion": 1,
+ "description": "The parties registry: one validated view over the party files named in `parts` (loadRegistry('parties') reads and joins them; registries/parties.mjs holds the views), plus the abbreviations that results tables show, with every spelling of each party found in the election data (from src/party-names.mjs). A party with no abbreviation is shown as spelled. `notParties` are labels found in the party column that are not parties. Schema: registries/schemas/parties.schema.json.",
+ "parts": {
+  "entities": "data/elections/parties/party_registry.json",
+  "lifespans": "data/elections/parties/party_lifespans.json",
+  "lineage": "data/elections/parties/party-lineage.json",
+  "events": "data/elections/parties/party-events.json",
+  "wikidata": "data/elections/parties/party-wikidata.json",
+  "wikidataOverrides": "data/elections/parties/party-wikidata-overrides.json",
+  "labelIds": "data/elections-source/data/party-ids.json",
+  "labelFolds": "scripts/build/browse-party-label-folds.json",
+  "labelInterpretations": "data/elections/party-label-interpretations.json",
+  "colourReviewOverrides": "data/elections/party-colour-review-overrides.json"
+ },
+ "abbreviations": [
+  {
+   "abbreviation": "DUP",
+   "fullName": "Democratic Unionist Party",
+   "spellings": [
+    "DUP Civil Servant (Retired)"
+   ]
+  },
+  {
+   "abbreviation": "UUP",
+   "fullName": "Ulster Unionist Party",
+   "spellings": [
+    "Ulster Unionist",
+    "Official Unionist Party",
+    "Official Unionist",
+    "Shopkeeper, Ulster Unionist",
+    "Businssman Ulster Unionist"
+   ]
+  },
+  {
+   "abbreviation": "AP",
+   "fullName": "Alliance Party",
+   "spellings": [
+    "Alliance",
+    "Alliance Party of Northern Ireland"
+   ]
+  },
+  {
+   "abbreviation": "SDLP",
+   "fullName": "Social Democratic and Labour Party"
+  },
+  {
+   "abbreviation": "SF",
+   "fullName": "Sinn Féin",
+   "spellings": [
+    "Sinn Fein"
+   ]
+  },
+  {
+   "abbreviation": "Ind U",
+   "fullName": "Independent Unionist",
+   "spellings": [
+    "Independent  Progressive Unionist",
+    "Independent Liberal Unionist",
+    "Unofficial Unionist"
+   ]
+  },
+  {
+   "abbreviation": "Ind O",
+   "fullName": "Independent Other"
+  },
+  {
+   "abbreviation": "Ind N",
+   "fullName": "Independent Nationalist",
+   "spellings": [
+    "Ind Nat",
+    "unofficial (non-party) Sinn Féin",
+    "Irish Republican"
+   ]
+  },
+  {
+   "abbreviation": "Ind",
+   "fullName": "Independent",
+   "spellings": [
+    "Non party/Independent",
+    "Non-party",
+    "Non party",
+    "NON-P",
+    "Independent - Northern Ireland independence",
+    "Non party/An Chomhdhail Phobail | People's Convention",
+    "Non party/Fathers Rights Responsibilities",
+    "Independent Farmer"
+   ]
+  },
+  {
+   "abbreviation": "GP",
+   "fullName": "Green Party",
+   "spellings": [
+    "Green",
+    "Green Party Northern Ireland",
+    "Green / Ecology",
+    "Green/Comhaontas Glas",
+    "Green Alliance/Comhaontas Glas",
+    "G.P."
+   ]
+  },
+  {
+   "abbreviation": "PBP",
+   "fullName": "People Before Profit",
+   "spellings": [
+    "People Before Profit Alliance",
+    "P.B.P.A."
+   ]
+  },
+  {
+   "abbreviation": "S-PBP",
+   "fullName": "Solidarity–People Before Profit",
+   "spellings": [
+    "Solidarity-PBP",
+    "S.P.B.P."
+   ]
+  },
+  {
+   "abbreviation": "TUV",
+   "fullName": "Traditional Unionist Voice"
+  },
+  {
+   "abbreviation": "CCLA",
+   "fullName": "Cross-Community Labour Alternative"
+  },
+  {
+   "abbreviation": "CON",
+   "fullName": "Conservative Party",
+   "spellings": [
+    "Conservative",
+    "Conservatives",
+    "NI Conservatives"
+   ]
+  },
+  {
+   "abbreviation": "AO",
+   "fullName": "Aontú"
+  },
+  {
+   "abbreviation": "FF",
+   "fullName": "Fianna Fáil",
+   "spellings": [
+    "Fianna Fail"
+   ]
+  },
+  {
+   "abbreviation": "FG",
+   "fullName": "Fine Gael"
+  },
+  {
+   "abbreviation": "LAB",
+   "fullName": "Labour Party",
+   "spellings": [
+    "Irish Labour",
+    "Labour",
+    "Irish Labour Party",
+    "Lab.",
+    "LAB.",
+    "Ir Lab"
+   ]
+  },
+  {
+   "abbreviation": "SD",
+   "fullName": "Social Democrats"
+  },
+  {
+   "abbreviation": "PUP",
+   "fullName": "Progressive Unionist Party",
+   "spellings": [
+    "Progressive Unionist"
+   ]
+  },
+  {
+   "abbreviation": "UKIP",
+   "fullName": "UK Independence Party"
+  },
+  {
+   "abbreviation": "WP",
+   "fullName": "Workers' Party",
+   "spellings": [
+    "Workers Party",
+    "Workers'",
+    "W.P."
+   ]
+  },
+  {
+   "abbreviation": "SFWP",
+   "fullName": "Sinn Féin The Workers' Party",
+   "spellings": [
+    "Sinn Féin Workers'"
+   ]
+  },
+  {
+   "abbreviation": "RC",
+   "fullName": "Republican Clubs"
+  },
+  {
+   "abbreviation": "VUPP",
+   "fullName": "Vanguard Unionist Progressive Party"
+  },
+  {
+   "abbreviation": "NILP",
+   "fullName": "Northern Ireland Labour Party",
+   "spellings": [
+    "NI Labour"
+   ]
+  },
+  {
+   "abbreviation": "LPNI",
+   "fullName": "Labour Party of Northern Ireland"
+  },
+  {
+   "abbreviation": "NALAB",
+   "fullName": "Newtownabbey Labour"
+  },
+  {
+   "abbreviation": "NILRC",
+   "fullName": "Northern Ireland Labour Representation Committee"
+  },
+  {
+   "abbreviation": "PD",
+   "fullName": "Progressive Democrats",
+   "spellings": [
+    "P.D."
+   ]
+  },
+  {
+   "abbreviation": "IIP",
+   "fullName": "Irish Independence Party"
+  },
+  {
+   "abbreviation": "UPNI",
+   "fullName": "Unionist Party of Northern Ireland"
+  },
+  {
+   "abbreviation": "CnaG",
+   "fullName": "Cumann na nGaedheal"
+  },
+  {
+   "abbreviation": "UDP",
+   "fullName": "Ulster Democratic Party"
+  },
+  {
+   "abbreviation": "UKUP",
+   "fullName": "UK Unionist Party"
+  },
+  {
+   "abbreviation": "Nat",
+   "fullName": "Nationalist Party",
+   "spellings": [
+    "Nationalist Party (Northern Ireland)"
+   ]
+  },
+  {
+   "abbreviation": "IPP",
+   "fullName": "Irish Parliamentary Party",
+   "spellings": [
+    "Irish Parliamentary"
+   ]
+  },
+  {
+   "abbreviation": "UPUP",
+   "fullName": "Ulster Popular Unionist Party"
+  },
+  {
+   "abbreviation": "SP",
+   "fullName": "Socialist Party",
+   "spellings": [
+    "S.P."
+   ]
+  },
+  {
+   "abbreviation": "IUA",
+   "fullName": "Irish Unionist Alliance"
+  },
+  {
+   "abbreviation": "NIWC",
+   "fullName": "Northern Ireland Women's Coalition",
+   "spellings": [
+    "NI Women's Coalition"
+   ]
+  },
+  {
+   "abbreviation": "LC",
+   "fullName": "Labour Coalition"
+  },
+  {
+   "abbreviation": "IRSP",
+   "fullName": "Irish Republican Socialist Party"
+  },
+  {
+   "abbreviation": "NLP",
+   "fullName": "Natural Law Party",
+   "spellings": [
+    "Natural Law"
+   ]
+  },
+  {
+   "abbreviation": "FP",
+   "fullName": "Farmers' Party",
+   "spellings": [
+    "Farmers"
+   ]
+  },
+  {
+   "abbreviation": "CnaP",
+   "fullName": "Clann na Poblachta"
+  },
+  {
+   "abbreviation": "INF",
+   "fullName": "Irish National Federation"
+  },
+  {
+   "abbreviation": "CPI",
+   "fullName": "Communist Party of Ireland"
+  },
+  {
+   "abbreviation": "RLP",
+   "fullName": "Republican Labour Party",
+   "spellings": [
+    "Republican Labour",
+    "Rep Lab"
+   ]
+  },
+  {
+   "abbreviation": "BNP",
+   "fullName": "British National Party"
+  },
+  {
+   "abbreviation": "CISTA",
+   "fullName": "Cannabis Is Safer Than Alcohol"
+  },
+  {
+   "abbreviation": "DL",
+   "fullName": "Democratic Left",
+   "spellings": [
+    "Democratic Left (Ireland)"
+   ]
+  },
+  {
+   "abbreviation": "INL",
+   "fullName": "Irish National League"
+  },
+  {
+   "abbreviation": "UUUP",
+   "fullName": "United Ulster Unionist Party"
+  },
+  {
+   "abbreviation": "CSP",
+   "fullName": "Christian Solidarity Party",
+   "spellings": [
+    "Comhar Criostai / Christian Solidarity",
+    "Comhar Criostai/Christian Solidarity",
+    "C.S.P."
+   ]
+  },
+  {
+   "abbreviation": "II",
+   "fullName": "Independent Ireland"
+  },
+  {
+   "abbreviation": "RNU",
+   "fullName": "Republican Network for Unity"
+  },
+  {
+   "abbreviation": "CnaT",
+   "fullName": "Clann na Talmhan"
+  },
+  {
+   "abbreviation": "AAA",
+   "fullName": "Anti-Austerity Alliance",
+   "spellings": [
+    "A.A.A."
+   ]
+  },
+  {
+   "abbreviation": "ULP",
+   "fullName": "Ulster Liberal Party",
+   "spellings": [
+    "Ulster Liberal"
+   ]
+  },
+  {
+   "abbreviation": "NP",
+   "fullName": "National Party"
+  },
+  {
+   "abbreviation": "RSF",
+   "fullName": "Republican Sinn Féin"
+  },
+  {
+   "abbreviation": "TIP",
+   "fullName": "The Irish People"
+  },
+  {
+   "abbreviation": "UIM",
+   "fullName": "Ulster Independence Movement"
+  },
+  {
+   "abbreviation": "LIB",
+   "fullName": "Liberal Party",
+   "spellings": [
+    "Liberal"
+   ]
+  },
+  {
+   "abbreviation": "LU",
+   "fullName": "Liberal Unionist"
+  },
+  {
+   "abbreviation": "NIUP",
+   "fullName": "Northern Ireland Unionist Party",
+   "spellings": [
+    "NI Unionist Party"
+   ]
+  },
+  {
+   "abbreviation": "SEA",
+   "fullName": "Socialist Environmental Alliance"
+  },
+  {
+   "abbreviation": "IFP",
+   "fullName": "Irish Freedom Party"
+  },
+  {
+   "abbreviation": "DDI",
+   "fullName": "Direct Democracy Ireland",
+   "spellings": [
+    "D.D.I."
+   ]
+  },
+  {
+   "abbreviation": "SWP",
+   "fullName": "Socialist Workers Party",
+   "spellings": [
+    "Socialist Workers"
+   ]
+  },
+  {
+   "abbreviation": "AHB",
+   "fullName": "Anti H-Block"
+  },
+  {
+   "abbreviation": "Ind Lab",
+   "fullName": "Independent Labour",
+   "spellings": [
+    "Ind Lab"
+   ]
+  },
+  {
+   "abbreviation": "AFIL",
+   "fullName": "All-for-Ireland League",
+   "spellings": [
+    "All-for-Ireland"
+   ]
+  },
+  {
+   "abbreviation": "I4C",
+   "fullName": "Independents 4 Change"
+  },
+  {
+   "abbreviation": "IA",
+   "fullName": "Independent Alliance"
+  },
+  {
+   "abbreviation": "NCP",
+   "fullName": "National Centre Party"
+  },
+  {
+   "abbreviation": "UCUNF",
+   "fullName": "Ulster Conservatives and Unionists – New Force"
+  },
+  {
+   "abbreviation": "PDem",
+   "fullName": "People's Democracy",
+   "spellings": [
+    "People's Democracy (Ireland)"
+   ]
+  },
+  {
+   "abbreviation": "NDP",
+   "fullName": "National Democratic Party"
+  },
+  {
+   "abbreviation": "Eco",
+   "fullName": "Ecology Party",
+   "spellings": [
+    "Ecology",
+    "Ecology Party Ireland"
+   ]
+  },
+  {
+   "abbreviation": "Ind Rep",
+   "fullName": "Independent Republican",
+   "spellings": [
+    "Ind Rep"
+   ]
+  },
+  {
+   "abbreviation": "Ind FF",
+   "fullName": "Independent Fianna Fáil",
+   "spellings": [
+    "Independent Fianna Fail"
+   ]
+  },
+  {
+   "abbreviation": "Ind FG",
+   "fullName": "Independent Fine Gael"
+  },
+  {
+   "abbreviation": "Ind CON",
+   "fullName": "Independent Conservative",
+   "spellings": [
+    "Ind. Conservative"
+   ]
+  },
+  {
+   "abbreviation": "Ind Soc",
+   "fullName": "Independent Socialist"
+  },
+  {
+   "abbreviation": "IUP",
+   "fullName": "Independent Unionist Party",
+   "spellings": [
+    "Ind. Unionist Party"
+   ]
+  },
+  {
+   "abbreviation": "Prot U",
+   "fullName": "Protestant Unionist Party",
+   "spellings": [
+    "Protestant Unionist"
+   ]
+  },
+  {
+   "abbreviation": "PT SF",
+   "fullName": "Pro-Treaty Sinn Féin"
+  },
+  {
+   "abbreviation": "AT SF",
+   "fullName": "Anti-Treaty Sinn Féin"
+  },
+  {
+   "abbreviation": "DVP",
+   "fullName": "Democrats and Veterans"
+  },
+  {
+   "abbreviation": "WUAG",
+   "fullName": "Workers and Unemployed Action Group"
+  },
+  {
+   "abbreviation": "ULA",
+   "fullName": "United Left Alliance"
+  },
+  {
+   "abbreviation": "IHA",
+   "fullName": "Independent Health Alliance"
+  },
+  {
+   "abbreviation": "CC",
+   "fullName": "Ceann Comhairle (Speaker)"
+  },
+  {
+   "abbreviation": "RDT",
+   "fullName": "Vote For Yourself / Rainbow Dream Ticket / Make Politicians History"
+  },
+  {
+   "abbreviation": "Joint",
+   "fullName": "Joint Panel Nomination (Pro/Anti Treaty)"
+  },
+  {
+   "abbreviation": "ARG",
+   "fullName": "An Rabharta Glas – Green Left",
+   "spellings": [
+    "An Rabharta Glas – Green Left Lozenge"
+   ]
+  },
+  {
+   "abbreviation": "HRRA",
+   "fullName": "Housing Rights and Reform Alliance"
+  },
+  {
+   "abbreviation": "DLTU",
+   "fullName": "Derry Labour and Trade Union Party"
+  },
+  {
+   "abbreviation": "UCDP",
+   "fullName": "Ulster Christian Democratic Party"
+  },
+  {
+   "abbreviation": "SKIA",
+   "fullName": "South Kerry Independent Alliance"
+  },
+  {
+   "abbreviation": "ILPU",
+   "fullName": "Irish Loyal and Patriotic Union"
+  },
+  {
+   "abbreviation": "AÉ",
+   "fullName": "Aontacht Eireann (Irish Unity)"
+  },
+  {
+   "abbreviation": "LTUG",
+   "fullName": "Labour and Trade Union Group"
+  },
+  {
+   "abbreviation": "3W",
+   "fullName": "Third Way (UK organisation)"
+  },
+  {
+   "abbreviation": "UIV",
+   "fullName": "Ulster's Independent Voice"
+  },
+  {
+   "abbreviation": "SRP",
+   "fullName": "Socialist Republican Party"
+  },
+  {
+   "abbreviation": "KIA",
+   "fullName": "Kerry Independent Alliance"
+  },
+  {
+   "abbreviation": "PPP",
+   "fullName": "People's Progressive Party"
+  },
+  {
+   "abbreviation": "CLP",
+   "fullName": "Commonwealth Labour Party"
+  },
+  {
+   "abbreviation": "UCP",
+   "fullName": "Ulster Constitution Party"
+  },
+  {
+   "abbreviation": "Unity",
+   "fullName": "Unity (Northern Ireland)"
+  },
+  {
+   "abbreviation": "PAW",
+   "fullName": "Party for Animal Welfare"
+  },
+  {
+   "abbreviation": "UPA",
+   "fullName": "Ulster Protestant Action"
+  },
+  {
+   "abbreviation": "UPL",
+   "fullName": "Ulster Protestant League"
+  },
+  {
+   "abbreviation": "SBU",
+   "fullName": "South Belfast Unionists"
+  },
+  {
+   "abbreviation": "Centre",
+   "fullName": "Centre Party of Ireland"
+  },
+  {
+   "abbreviation": "ISN",
+   "fullName": "Irish Socialist Network"
+  },
+  {
+   "abbreviation": "NDUK",
+   "fullName": "National Democrats (UK)"
+  },
+  {
+   "abbreviation": "DP",
+   "fullName": "Democratic Partnership"
+  },
+  {
+   "abbreviation": "NI1ST",
+   "fullName": "Northern Ireland First"
+  },
+  {
+   "abbreviation": "IDP",
+   "fullName": "Irish Democratic Party"
+  },
+  {
+   "abbreviation": "TTA",
+   "fullName": "Town Tenants' Association",
+   "spellings": [
+    "Town Tenants Association"
+   ]
+  },
+  {
+   "abbreviation": "VPP",
+   "fullName": "Volunteer Political Party"
+  },
+  {
+   "abbreviation": "NF",
+   "fullName": "National Front",
+   "spellings": [
+    "National Front (UK)"
+   ]
+  },
+  {
+   "abbreviation": "Socialist",
+   "fullName": "Socialist",
+   "spellings": [
+    "Socialist Lozenge"
+   ]
+  },
+  {
+   "abbreviation": "AWP",
+   "fullName": "Animal Welfare Party"
+  },
+  {
+   "abbreviation": "LRC",
+   "fullName": "Labour Representation Committee",
+   "spellings": [
+    "Labour Repr. Cmte."
+   ]
+  },
+  {
+   "abbreviation": "WSP",
+   "fullName": "World Socialist Party"
+  },
+  {
+   "abbreviation": "FOL",
+   "fullName": "Federation of Labour"
+  },
+  {
+   "abbreviation": "NIM",
+   "fullName": "New Ireland Movement"
+  },
+  {
+   "abbreviation": "U3W",
+   "fullName": "Ulster Third Way"
+  }
+ ],
+ "notParties": [
+  "Non-transferable"
+ ]
+}
