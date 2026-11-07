@@ -192,7 +192,7 @@
     "check:composite-relations": "node scripts/validate-composite-relations.mjs",
     "catalogue:build": "node scripts/catalogue/build-catalogue.mjs",
     "catalogue:check": "node scripts/catalogue/check-catalogue.mjs",
-    "test:catalogue": "node --test tests/catalogue/search.test.mjs tests/catalogue/entity-detail-data.test.mjs tests/catalogue/census-overlay.test.mjs tests/catalogue/lang-reveal.test.mjs tests/catalogue/approximate-segments.test.mjs && npx playwright test --config tests/catalogue/playwright.config.cjs",
+    "test:catalogue": "node --test tests/catalogue/search.test.mjs tests/catalogue/entity-detail-data.test.mjs tests/catalogue/census-overlay.test.mjs tests/catalogue/lang-reveal.test.mjs tests/catalogue/approximate-segments.test.mjs tests/catalogue/ded-ced-editions.test.mjs && npx playwright test --config tests/catalogue/playwright.config.cjs",
     "test-site": "node tools/dev-site/server.mjs --port 4177 --catalogue next",
     "test:elections-unit": "node --test tests/elections/party-as-printed.test.mjs tests/elections/party-label-regions.test.mjs tests/elections/party-label-occupations.test.mjs tests/elections/election-provenance-slim.test.mjs tests/elections/ni-local-grouped.test.mjs tests/elections/source-checked-stage-totals.test.mjs",
     "check:facts": "node scripts/validate-facts-model.mjs",
