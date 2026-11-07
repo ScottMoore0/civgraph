@@ -16,6 +16,7 @@ export const STAGE_TYPES = new Set(['copy-files', 'maps-json-patch', 'election-s
 export const UPLOAD_TYPES = new Set(['r2-fgb', 'r2-tree', 'r2-cache-control', 'r2-pmtiles', 'stamp-cache-tokens']);
 export const POST_UPLOAD_TYPES = new Set(['switch-to-cdn', 'thumbnails']);
 
+/** @param {Operation} op */
 export function phaseOf(op) {
   if (op.type === 'command') return op.phase;
   if (STAGE_TYPES.has(op.type)) return 'stage';
@@ -23,6 +24,18 @@ export function phaseOf(op) {
   if (POST_UPLOAD_TYPES.has(op.type)) return 'post-upload';
   return 'unknown';
 }
+
+/**
+ * A parsed batch.json. Its shape is scripts/intake/batch.schema.json, checked at run time by
+ * validateBatch, so the fields are read as JSON.
+ * @typedef {Record<string, any>} Manifest
+ */
+/**
+ * One operation of batch.json; which fields it has depends on its `type` (see the schema).
+ * @typedef {Record<string, any>} Operation
+ */
+/** @typedef {{ dir: string, manifestPath: string, repo: string, manifest: Manifest }} Batch */
+/** @typedef {{ local: string, rel: string | null, repoRel: string | null }} TreeEntry */
 
 /** Never list or rewrite these whole: data/maps/ alone is 1.2 million objects. */
 export const FORBIDDEN_PREFIXES = new Set(['', 'data/', 'data/maps/']);
@@ -32,6 +45,7 @@ export const FORBIDDEN_PREFIXES = new Set(['', 'data/', 'data/maps/']);
  * @param {object} [options]
  * @param {string} [options.manifest]  batch.json elsewhere (docs/intake-examples/ point at past batch folders)
  * @param {string} [options.repo]      repository root the batch applies to
+ * @returns {Batch}
  */
 export function loadBatch(batchDir, { manifest, repo } = {}) {
   const dir = path.resolve(batchDir);
@@ -42,35 +56,47 @@ export function loadBatch(batchDir, { manifest, repo } = {}) {
   try {
     data = JSON.parse(raw);
   } catch (err) {
-    throw new Error(`${manifestPath} is not valid JSON: ${err.message}`);
+    throw new Error(`${manifestPath} is not valid JSON: ${/** @type {Error} */ (err).message}`);
   }
   return { dir, manifestPath, repo: path.resolve(repo || DEFAULT_REPO), manifest: data };
 }
 
+/** @param {Batch} batch @param {string} p */
 export const batchPath = (batch, p) => (path.isAbsolute(p) ? p : path.resolve(batch.dir, p));
+/** @param {Batch} batch @param {string} p */
 export const repoPath = (batch, p) => path.resolve(batch.repo, p);
+/** @param {string} p */
 export const toPosix = (p) => p.split(path.sep).join('/');
 
+/** @param {string} file */
 export function sha256File(file) {
   return createHash('sha256').update(readFileSync(file)).digest('hex');
 }
 
+/** @param {string} file @returns {any} */
 export function readJson(file) {
   return JSON.parse(readFileSync(file, 'utf8'));
 }
 
+/** @param {string} text */
 function splitList(text) {
   return text.split(/[\s,]+/).map((s) => s.trim()).filter(Boolean);
 }
 
 /** Layer ids of an r2-pmtiles / switch-to-cdn op: inline, from a file, or from another op. */
+/**
+ * @param {Batch} batch
+ * @param {Operation} op
+ * @param {Set<string>} [seen]
+ * @returns {string[]}
+ */
 export function resolveIds(batch, op, seen = new Set()) {
   if (op.ids) return op.ids;
   if (op.idsFile) return splitList(readFileSync(batchPath(batch, op.idsFile), 'utf8'));
   if (op.idsFrom) {
     if (seen.has(op.id)) throw new Error(`idsFrom cycle at ${op.id}`);
     seen.add(op.id);
-    const from = batch.manifest.operations.find((o) => o.id === op.idsFrom);
+    const from = batch.manifest.operations.find((/** @type {Operation} */ o) => o.id === op.idsFrom);
     if (!from) throw new Error(`${op.id}: idsFrom ${op.idsFrom} names no operation`);
     return resolveIds(batch, from, seen);
   }
@@ -78,8 +104,13 @@ export function resolveIds(batch, op, seen = new Set()) {
 }
 
 /** FGB pairs of an r2-fgb op: inline, or "local=key" lines as the hand-written batches kept them. */
+/**
+ * @param {Batch} batch
+ * @param {Operation} op
+ * @returns {{ file: string, key: string }[]}
+ */
 export function resolveFgbPairs(batch, op) {
-  if (op.pairs) return op.pairs.map((p) => ({ file: p.file, key: p.key.replace(/^\/+/, '') }));
+  if (op.pairs) return op.pairs.map((/** @type {{ file: string, key: string }} */ p) => ({ file: p.file, key: p.key.replace(/^\/+/, '') }));
   if (!op.pairsFile) return [];
   return readFileSync(batchPath(batch, op.pairsFile), 'utf8')
     .split(/\r?\n/).map((l) => l.trim()).filter(Boolean)
@@ -94,21 +125,28 @@ export function resolveFgbPairs(batch, op) {
  * The [{local, rel}] list an r2-tree op sends. `files` are repo-relative and must sit under the
  * prefix; `manifest` is an upload-tree-r2 manifest already on disk; `dir` is listed now if it exists.
  */
+/**
+ * @param {Batch} batch
+ * @param {Operation} op
+ * @returns {TreeEntry[]}
+ */
 export function resolveTreeEntries(batch, op) {
   if (op.files) {
-    return op.files.map((f) => ({
+    return op.files.map((/** @type {string} */ f) => ({
       local: toPosix(repoPath(batch, f)),
       rel: f.startsWith(op.prefix) ? f.slice(op.prefix.length) : null,
       repoRel: f,
     }));
   }
   if (op.manifest) {
-    return readJson(batchPath(batch, op.manifest)).map((e) => ({ local: e.local, rel: e.rel, repoRel: null }));
+    return readJson(batchPath(batch, op.manifest)).map((/** @type {{ local: string, rel: string }} */ e) => ({ local: e.local, rel: e.rel, repoRel: null }));
   }
   if (op.dir) {
     const root = repoPath(batch, op.dir);
     if (!existsSync(root)) return [];
+    /** @type {TreeEntry[]} */
     const out = [];
+    /** @param {string} d */
     const walk = (d) => {
       for (const name of readdirSync(d)) {
         const full = path.join(d, name);
@@ -122,10 +160,13 @@ export function resolveTreeEntries(batch, op) {
   return [];
 }
 
+/** @param {string} layerId */
 export const pmtilesKey = (layerId) => `data/maps/test/pmtiles/generated/${layerId}.pmtiles`;
 
 /** Every R2 key the batch writes (for the publication gate and the plan). */
+/** @param {Batch} batch @returns {string[]} */
 export function r2Keys(batch) {
+  /** @type {string[]} */
   const keys = [];
   for (const op of batch.manifest.operations || []) {
     if (op.type === 'r2-fgb') keys.push(...resolveFgbPairs(batch, op).map((p) => p.key));
@@ -149,8 +190,15 @@ const SKIP_DIRS = new Set(['node_modules', '.git', '__pycache__']);
 const SECRET_FILES = /^(?:\.env(?:\..*)?|.*\.pem|.*\.key|credentials(?:\.json)?)$/i;
 
 /** Credentials never belong in a batch folder or manifest. */
+/**
+ * @param {string[]} paths
+ * @param {{ maxBytes?: number }} [options]
+ * @returns {string[]}
+ */
 export function scanSecrets(paths, { maxBytes = 5e6 } = {}) {
+  /** @type {string[]} */
   const hits = [];
+  /** @param {string} file */
   const visit = (file) => {
     const st = statSync(file);
     if (st.isDirectory()) {
@@ -168,8 +216,11 @@ export function scanSecrets(paths, { maxBytes = 5e6 } = {}) {
   return hits;
 }
 
+/** @param {Operation} op @param {Batch} batch @returns {string[]} */
 function checkCommandArgv(op, batch) {
+  /** @type {string[]} */
   const errors = [];
+  /** @type {string[]} */
   const [prog, ...rest] = op.argv;
   const joined = op.argv.join(' ');
   if (/\.claude[\\/]+publish/.test(joined)) errors.push(`${op.id}: nothing under .claude/publish/ runs from an intake batch (publishing needs the owner's approval)`);
@@ -192,27 +243,36 @@ function checkCommandArgv(op, batch) {
 /**
  * Everything that can be known before touching the repository or R2.
  * Returns { errors, warnings }; errors make `validate` exit non-zero.
+ * @param {Batch} batch
+ * @param {{ checkPublicationGate?: boolean }} [options]
+ * @returns {{ errors: string[], warnings: string[] }}
  */
 export function validateBatch(batch, { checkPublicationGate = true } = {}) {
+  /** @type {string[]} */
   const errors = [];
+  /** @type {string[]} */
   const warnings = [];
   const m = batch.manifest;
   const schema = readJson(SCHEMA_PATH);
   errors.push(...validateAgainstSchema(m, schema).map((e) => `schema ${e}`));
   if (errors.length) return { errors, warnings };
 
+  /** @param {unknown[]} list */
   const dupes = (list) => [...new Set(list.filter((v, i) => list.indexOf(v) !== i))];
-  for (const d of dupes(m.operations.map((o) => o.id))) errors.push(`operation id ${d} is used more than once`);
-  for (const d of dupes(m.sources.map((s) => s.id))) errors.push(`source id ${d} is used more than once`);
-  const sourceIds = new Set(m.sources.map((s) => s.id));
+  for (const d of dupes(m.operations.map((/** @type {Operation} */ o) => o.id))) errors.push(`operation id ${d} is used more than once`);
+  for (const d of dupes(m.sources.map((/** @type {{ id: string }} */ s) => s.id))) errors.push(`source id ${d} is used more than once`);
+  const sourceIds = new Set(m.sources.map((/** @type {{ id: string }} */ s) => s.id));
   for (const op of m.operations) {
     for (const s of op.sources || []) if (!sourceIds.has(s)) errors.push(`${op.id}: cites unknown source ${s}`);
   }
 
+  /** @param {Operation} op @param {string} p @param {string} what */
   const mustExist = (op, p, what) => {
     if (!existsSync(batchPath(batch, p))) errors.push(`${op.id}: ${what} ${p} does not exist`);
   };
+  /** @type {Set<string>} */
   const copyTargets = new Set();
+  /** @type {string[]} */
   const repoTargets = [];
 
   for (const op of m.operations) {
@@ -239,7 +299,7 @@ export function validateBatch(batch, { checkPublicationGate = true } = {}) {
         }
         if (op.classes && existsSync(batchPath(batch, op.classes))) {
           const classes = readJson(batchPath(batch, op.classes));
-          for (const d of dupes(classes.map((c) => c.id))) errors.push(`${op.id}: class id ${d} appears twice`);
+          for (const d of dupes(classes.map((/** @type {{ id: string }} */ c) => c.id))) errors.push(`${op.id}: class id ${d} appears twice`);
         }
         if (op.edits && existsSync(batchPath(batch, op.edits))) {
           for (const [i, ed] of readJson(batchPath(batch, op.edits)).entries()) {
@@ -262,7 +322,7 @@ export function validateBatch(batch, { checkPublicationGate = true } = {}) {
           if (!Array.isArray(records)) errors.push(`${op.id}: records must be an array or {records: [...]}`);
           else {
             records.forEach((r, i) => { for (const k of op.key) if (!(k in r)) errors.push(`${op.id}: record ${i} lacks key field ${k}`); });
-            for (const d of dupes(records.map((r) => JSON.stringify(op.key.map((k) => r[k]))))) errors.push(`${op.id}: key ${d} appears twice`);
+            for (const d of dupes(records.map((r) => JSON.stringify(op.key.map((/** @type {string} */ k) => r[k]))))) errors.push(`${op.id}: key ${d} appears twice`);
           }
         }
         repoTargets.push(op.target);
@@ -298,7 +358,7 @@ export function validateBatch(batch, { checkPublicationGate = true } = {}) {
         const given = ['ids', 'idsFile', 'idsFrom'].filter((k) => op[k]);
         if (given.length !== 1) { errors.push(`${op.id}: give exactly one of ids, idsFile${op.type === 'switch-to-cdn' ? ', idsFrom' : ''}`); break; }
         if (op.idsFile && !existsSync(batchPath(batch, op.idsFile))) { errors.push(`${op.id}: idsFile ${op.idsFile} does not exist`); break; }
-        if (op.idsFrom && !m.operations.some((o) => o.id === op.idsFrom && o.type === 'r2-pmtiles')) { errors.push(`${op.id}: idsFrom must name an r2-pmtiles operation`); break; }
+        if (op.idsFrom && !m.operations.some((/** @type {Operation} */ o) => o.id === op.idsFrom && o.type === 'r2-pmtiles')) { errors.push(`${op.id}: idsFrom must name an r2-pmtiles operation`); break; }
         const ids = resolveIds(batch, op);
         if (!ids.length) errors.push(`${op.id}: no layer ids (an empty --ids would mean every layer)`);
         for (const d of dupes(ids)) errors.push(`${op.id}: layer id ${d} is listed twice`);
@@ -324,7 +384,7 @@ export function validateBatch(batch, { checkPublicationGate = true } = {}) {
     if (!existsSync(allowlist)) warnings.push('no data/database/r2-publication-allowlist.json in the repository; R2 keys were not checked against it');
     else {
       const { prefixes } = readJson(allowlist);
-      const unlisted = keys.filter((k) => !prefixes.some((p) => k.startsWith(p.prefix.replace(/^\/+/, ''))));
+      const unlisted = keys.filter((k) => !prefixes.some((/** @type {{ prefix: string }} */ p) => k.startsWith(p.prefix.replace(/^\/+/, ''))));
       for (const k of unlisted.slice(0, 20)) errors.push(`R2 key ${k} is not covered by the publication allowlist`);
     }
   }

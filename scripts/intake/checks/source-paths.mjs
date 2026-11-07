@@ -29,7 +29,9 @@ const ROOT = resolve(process.cwd());
 const LIVE_CACHE = 'render/source-cache/vector-intake/';
 const DEFAULT_METADATA = ['render/metadata/maps-test.json', 'render/metadata/maps-test-index.json'];
 
+/** @param {string} flag */
 function readPathArgs(flag) {
+  /** @type {string[]} */
   const values = [];
   for (let i = 0; i < process.argv.length - 1; i += 1) {
     if (process.argv[i] === flag) values.push(process.argv[i + 1]);
