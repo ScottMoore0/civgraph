@@ -35,7 +35,7 @@ import { divisionShard } from '../../_api/votes/index.js';
 import { resolvePartySlug } from '../../_api/parties/index.js';
 import { browseFeaturesText, browseMapsText } from '../../_api/_maps.js';
 import { binding } from '../../_lib/config.js';
-import { fromD1 } from '../../_lib/storage/d1.js';
+import { fromD1 } from '../../../packages/storage/src/d1.js';
 import { OFFICES, SHARDS, SOURCES } from '../../_lib/queries/cards.js';
 import { ELECTION_CARDS } from '../../_lib/queries/elections.js';
 import { MAP_CARDS } from '../../_lib/queries/maps.js';
@@ -83,7 +83,7 @@ export async function onRequestGet(context) {
   if (!route) return notFound();
   const bound = binding(context.env, 'ELECTIONS_DB');
   if (!bound) return jsonResponse({ error: 'records database not bound' }, 503);
-  // through the storage adapter (functions/_lib/storage/); the SQL is named in functions/_lib/queries/
+  // through the storage adapter (packages/storage/); the SQL is named in functions/_lib/queries/
   const db = fromD1(bound);
   return cachedJson(context, VERSION, () => answer(db, route), {
     edgeTtl: EDGE_TTL, gate: HEAVY.has(route.kind),

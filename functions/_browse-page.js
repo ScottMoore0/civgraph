@@ -52,7 +52,7 @@ import { loadElectionPage } from './_templates/records/election.js';
 import { groupedYearHero, groupedYearKey } from './_templates/records/grouped-year.js';
 import { resolveElectionSlugAlias } from './_lib/election-slug-aliases.js';
 import { binding } from './_lib/config.js';
-import { asStore } from './_lib/storage/d1.js';
+import { asStore } from '../packages/storage/src/d1.js';
 import { CARDS } from './_lib/queries/cards.js';
 import { ELECTION_PAGES, RECORD_PAGES } from './_lib/queries/pages.js';
 

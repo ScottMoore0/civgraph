@@ -14,7 +14,7 @@ import { createReadStream, createWriteStream, existsSync, mkdirSync, statSync, w
 import path from 'node:path';
 import { pipeline } from 'node:stream/promises';
 import { createGzip } from 'node:zlib';
-import { openSqliteHandle } from '../lib/storage/sqlite.mjs';
+import { openSqliteHandle } from '@civgraph/storage/node';
 import { SITE } from '../lib/config.mjs';
 import { RECORDS_DB, recordPaths, REPO_ROOT } from './paths.mjs';
 

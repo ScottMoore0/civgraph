@@ -9,7 +9,7 @@
  */
 import { buildMatch, buildFilters } from './_query.js';
 import { binding } from '../../_lib/config.js';
-import { fromD1 } from '../../_lib/storage/d1.js';
+import { fromD1 } from '../../../packages/storage/src/d1.js';
 import { PRONI } from '../../_lib/queries/proni.js';
 
 const MAX_ROWS = 50000;
@@ -33,7 +33,7 @@ export async function onRequestGet(context) {
 
   const bound = binding(context.env, 'PRONI_DB');
   if (!bound) return new Response('PRONI_DB binding not configured', { status: 503 });
-  // through the storage adapter (functions/_lib/storage/); the SQL is named in queries/proni.js
+  // through the storage adapter (packages/storage/); the SQL is named in queries/proni.js
   const db = fromD1(bound);
 
   const match = buildMatch(q, fields);

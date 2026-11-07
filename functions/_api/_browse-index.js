@@ -23,7 +23,7 @@
 import { reportError } from './_error.js';
 import { cachedJson } from './_records.js';
 import { binding } from '../_lib/config.js';
-import { fromD1 } from '../_lib/storage/d1.js';
+import { fromD1 } from '../../packages/storage/src/d1.js';
 import { CARDS } from '../_lib/queries/cards.js';
 
 const MAX_LIMIT = 200;
@@ -98,7 +98,7 @@ export function browseIndexHandler({
 
     const binding_ = binding(context.env, 'ELECTIONS_DB');
     if (!binding_) return json({ error: 'ELECTIONS_DB binding not configured' }, 503, false, version);
-    // through the storage adapter (functions/_lib/storage/); the SQL is named in queries/cards.js
+    // through the storage adapter (packages/storage/); the SQL is named in queries/cards.js
     const db = fromD1(binding_);
 
     try {

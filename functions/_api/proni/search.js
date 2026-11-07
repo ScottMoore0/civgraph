@@ -17,7 +17,7 @@
 import { buildMatch, buildFilters } from './_query.js';
 import { reportError } from '../_error.js';
 import { binding } from '../../_lib/config.js';
-import { fromD1 } from '../../_lib/storage/d1.js';
+import { fromD1 } from '../../../packages/storage/src/d1.js';
 import { PRONI } from '../../_lib/queries/proni.js';
 
 const CACHE_VERSION = 'v10';
@@ -112,7 +112,7 @@ async function handle(context) {
 
   // Serve reads from a nearby D1 replica when replication is enabled (falls back
   // to the primary otherwise; harmless where withSession is unavailable).
-  // Through the storage adapter (functions/_lib/storage/); the SQL is named in queries/proni.js.
+  // Through the storage adapter (packages/storage/); the SQL is named in queries/proni.js.
   const rdb = fromD1(bound, { session: 'first-unconstrained' });
 
   try {

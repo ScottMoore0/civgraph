@@ -34,7 +34,7 @@
  */
 import { createHash } from 'node:crypto';
 import { existsSync } from 'node:fs';
-import { openSqliteHandle } from '../lib/storage/sqlite.mjs';
+import { openSqliteHandle } from '@civgraph/storage/node';
 import { bindable, hashValues, rowHash, transaction } from './db.mjs';
 import { TABLES } from './schema.mjs';
 

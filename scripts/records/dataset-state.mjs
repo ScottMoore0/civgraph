@@ -3,7 +3,7 @@
  * section 11, light weight): `loaded` while dataset.loading is '' (or absent), `loading` while it
  * holds the version being loaded. A delta's first statement moves it to loading and its last back
  * to loaded (diff-load.mjs); the Functions cache nothing while it is loading
- * (functions/_lib/storage/store.js datasetState); a verify fails while it is still loading.
+ * (packages/storage/src/store.js datasetState); a verify fails while it is still loading.
  */
 import { defineToggle } from '../lib/state-machine.mjs';
 

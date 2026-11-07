@@ -17,15 +17,15 @@
  * follow any other between two reads. What the state decides is what a Function may do with an
  * answer (STORE below), and that is the table the tests hold.
  *
- * Read through the storage adapter (functions/_lib/storage/: fromD1, datasetState), so the
+ * Read through the storage adapter (packages/storage/: fromD1, datasetState), so the
  * same reader runs over D1 and over a local SQLite store.
  *
  * ONE memo per isolate, read at most once a minute, shared by the JSON answers (cachedJson) and
  * the server-rendered pages (respond.js datasetVersion): before this they kept a memo each and
  * could disagree for up to a minute about which version was loaded.
  */
-import { fromD1 } from './storage/d1.js';
-import { datasetState } from './storage/store.js';
+import { fromD1 } from '../../packages/storage/src/d1.js';
+import { datasetState } from '../../packages/storage/src/store.js';
 
 /** @typedef {'unknown' | 'loaded' | 'loading'} DatasetPhase */
 

@@ -28,7 +28,7 @@
  */
 import { bundleChunks, cachedJson, datasetState, documentBody, parseJson, streamFrom } from '../../_api/_records.js';
 import { binding } from '../../_lib/config.js';
-import { fromD1 } from '../../_lib/storage/d1.js';
+import { fromD1 } from '../../../packages/storage/src/d1.js';
 import { ELECTIONS_API } from '../../_lib/queries/elections.js';
 
 const VERSION = 'render-metadata-1';
@@ -71,7 +71,7 @@ export async function onRequestGet(context) {
   const route = matchRoute(parts);
   const bound = binding(context.env, 'ELECTIONS_DB');
   if (!route || !bound) return context.next();
-  // through the storage adapter (functions/_lib/storage/); the SQL is named in queries/elections.js
+  // through the storage adapter (packages/storage/); the SQL is named in queries/elections.js
   const db = fromD1(bound);
   const resp = await cachedJson(context, VERSION, () => answer(db, route));
   // A key D1 does not know is left to Pages (a static copy, or its 404).

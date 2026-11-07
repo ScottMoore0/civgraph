@@ -16,7 +16,7 @@
 import { cachedJson, documentBody, jsonResponse, parseJson } from '../_records.js';
 import { reportError } from '../_error.js';
 import { binding } from '../../_lib/config.js';
-import { asStore } from '../../_lib/storage/d1.js';
+import { asStore } from '../../../packages/storage/src/d1.js';
 import { GRAPH } from '../../_lib/queries/graph.js';
 
 const VERSION = 'graph-1';
@@ -53,7 +53,7 @@ async function entityPayload(db, entityId, { related, limit, offset }) {
 
 async function handle(context) {
   const bound = binding(context.env, 'ELECTIONS_DB');
-  // through the storage adapter (functions/_lib/storage/); the SQL is named in queries/graph.js
+  // through the storage adapter (packages/storage/); the SQL is named in queries/graph.js
   const db = bound && asStore(bound);
   const url = new URL(context.request.url);
   const p = (name) => (url.searchParams.get(name) || '').trim();

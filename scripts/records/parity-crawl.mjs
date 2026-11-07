@@ -37,7 +37,7 @@
 import { createHash } from 'node:crypto';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { openSqliteHandle } from '../lib/storage/sqlite.mjs';
+import { openSqliteHandle } from '@civgraph/storage/node';
 import { SITE } from '../lib/config.mjs';
 import { RECORDS_DB, REPO_ROOT } from './paths.mjs';
 import { CatalogueSearch, PeopleSearch } from '../../src/catalogue/search.js';

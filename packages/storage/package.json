@@ -1,0 +1,12 @@
+{
+  "name": "@civgraph/storage",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "The storage adapter: the RecordStore interface, the D1 runtime adapter and the node:sqlite adapter (REFACTOR-PLAN.md items 1 and 4).",
+  "exports": {
+    ".": "./src/index.js",
+    "./node": "./src/sqlite.mjs",
+    "./*": "./src/*"
+  }
+}

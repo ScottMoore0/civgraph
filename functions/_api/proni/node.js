@@ -10,7 +10,7 @@
  * container-title enrichment pass).
  */
 import { binding } from '../../_lib/config.js';
-import { fromD1 } from '../../_lib/storage/d1.js';
+import { fromD1 } from '../../../packages/storage/src/d1.js';
 import { PRONI } from '../../_lib/queries/proni.js';
 
 function ancestorRefs(ref) {
@@ -98,7 +98,7 @@ async function handle(context) {
 
   const bound = binding(context.env, 'PRONI_DB');
   if (!bound) return json({ error: 'PRONI_DB binding not configured' }, 503);
-  // through the storage adapter (functions/_lib/storage/); the SQL is named in queries/proni.js
+  // through the storage adapter (packages/storage/); the SQL is named in queries/proni.js
   const db = fromD1(bound);
 
   try {

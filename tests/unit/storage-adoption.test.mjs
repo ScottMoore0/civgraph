@@ -2,7 +2,7 @@
  * The records loader opens databases through the storage adapter (REFACTOR-PLAN.md ST-7):
  *
  * - no module under scripts/records or scripts/lib imports node:sqlite except
- *   scripts/lib/storage/sqlite.mjs (a JSDoc type import is not an import);
+ *   packages/storage/src/sqlite.mjs (a JSDoc type import is not an import);
  * - openSqliteHandle() opens read-only when asked and read-write by default, as new DatabaseSync did;
  * - the local records API (scripts/records/local-api.mjs), now on toD1(openSqlite()), answers
  *   every records route over a fresh migrated database exactly as it did over the D1 test shim.
@@ -13,7 +13,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import test from 'node:test';
-import { openSqliteHandle } from '../../scripts/lib/storage/sqlite.mjs';
+import { openSqliteHandle } from '@civgraph/storage/node';
 import { createDatabase } from '../../scripts/records/db.mjs';
 import { answerRecordApi, RECORD_API_ROUTES } from '../../scripts/records/local-api.mjs';
 import { REPO_ROOT } from '../../scripts/records/paths.mjs';

@@ -7,7 +7,7 @@ import { html } from '../../_lib/html.js';
 import { dateText, numberText, percentText } from '../../_lib/format.js';
 import { badges, dataTable, facts, link, partyChip } from '../components/index.js';
 import { parseJson, withoutMarkers } from '../../_api/_records.js';
-import { asStore } from '../../_lib/storage/d1.js';
+import { asStore } from '../../../packages/storage/src/d1.js';
 import { ELECTION_PAGES } from '../../_lib/queries/pages.js';
 
 const elected = (v) => v === 1 || v === true;

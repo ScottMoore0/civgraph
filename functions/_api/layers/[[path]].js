@@ -18,7 +18,7 @@
 import { MAP_CACHE, layerIndexDocument, layerRow, layersDocumentText, resolveLayerId } from '../_maps.js';
 import { cachedJson, jsonResponse } from '../_records.js';
 import { binding } from '../../_lib/config.js';
-import { fromD1 } from '../../_lib/storage/d1.js';
+import { fromD1 } from '../../../packages/storage/src/d1.js';
 
 const VERSION = 'layers-1';
 const notFound = () => jsonResponse({ error: 'not found' }, 404);
@@ -34,7 +34,7 @@ export function matchLayersPath(parts) {
 export async function onRequestGet(context) {
   const bound = binding(context.env, 'ELECTIONS_DB');
   if (!bound) return jsonResponse({ error: 'ELECTIONS_DB binding not configured' }, 503);
-  // through the storage adapter (functions/_lib/storage/); the SQL is named in queries/maps.js
+  // through the storage adapter (packages/storage/); the SQL is named in queries/maps.js
   const db = fromD1(bound);
   const parts = [].concat(context.params?.path || []).map((p) => decodeURIComponent(p));
   const route = matchLayersPath(parts);

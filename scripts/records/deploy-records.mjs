@@ -42,7 +42,7 @@ import {
   appendFileSync, closeSync, copyFileSync, existsSync, mkdirSync, openSync, readdirSync, readFileSync, rmSync, writeFileSync, writeSync,
 } from 'node:fs';
 import path from 'node:path';
-import { openSqliteHandle } from '../lib/storage/sqlite.mjs';
+import { openSqliteHandle } from '@civgraph/storage/node';
 import { deployModeErrors, deployRun, parseDeployArgs, resumeCheck } from './deploy-plan.mjs';
 import { buildDelta, estimateWrites, printSummary } from './diff-load.mjs';
 import { RECORDS_DB, REPO_ROOT } from './paths.mjs';

@@ -11,7 +11,7 @@
 import { cachedJson, documentBody, isMarker, jsonResponse, parseJson } from '../_records.js';
 import { reportError } from '../_error.js';
 import { binding } from '../../_lib/config.js';
-import { asStore } from '../../_lib/storage/d1.js';
+import { asStore } from '../../../packages/storage/src/d1.js';
 import { VOTES } from '../../_lib/queries/votes.js';
 
 const VERSION = 'votes-1';
@@ -28,7 +28,7 @@ function fillVotes(recordText, votes) {
 }
 
 /**
- * @param {import('../../_lib/storage/store.js').RecordStore | D1Database} source a store or a D1 binding
+ * @param {import('../../../packages/storage/src/store.js').RecordStore | D1Database} source a store or a D1 binding
  * @param {number} shard
  */
 export async function divisionShard(source, shard) {
@@ -50,7 +50,7 @@ export async function divisionShard(source, shard) {
 
 async function handle(context) {
   const bound = binding(context.env, 'ELECTIONS_DB');
-  // through the storage adapter (functions/_lib/storage/); the SQL is named in queries/votes.js
+  // through the storage adapter (packages/storage/); the SQL is named in queries/votes.js
   const db = bound && asStore(bound);
   const url = new URL(context.request.url);
   const p = (name) => (url.searchParams.get(name) || '').trim();
