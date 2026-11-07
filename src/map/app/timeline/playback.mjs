@@ -14,29 +14,27 @@
  * `createTimelineAnimationState` builds the object the app keeps as `this.timelineAnimation`:
  * the same fields as before, with `playing`, `paused` and `atEnd` now read-only views of `phase`,
  * so a stray assignment throws instead of making a fifth combination. Moves go through
- * `send(event)` and the table below.
+ * `to(state)` and the table below (the shared helper, src/map/state-machine.mjs).
  */
 
-import { createMachine, defineMachine } from '../../state-machine.mjs';
+import { defineMachine } from '../../state-machine.mjs';
 
 /** @typedef {'idle' | 'playing' | 'paused' | 'ended'} TimelinePlaybackState */
-/** @typedef {'play' | 'pause' | 'finish' | 'stop'} TimelinePlaybackEvent */
 
 export const TIMELINE_PLAYBACK = defineMachine({
   name: 'timeline playback',
   initial: /** @type {TimelinePlaybackState} */ ('idle'),
-  states: /** @type {const} */ (['idle', 'playing', 'paused', 'ended']),
-  events: /** @type {const} */ (['play', 'pause', 'finish', 'stop']),
   transitions: {
-    // startTimelineAnimation: from the start, from where it was paused, or again from the first
-    // step after the end. Play while playing restarts the run (the button pauses instead, but
-    // startTimelineAnimation itself has always allowed it).
-    idle: { play: 'playing', stop: 'idle' },
-    playing: { play: 'playing', pause: 'paused', finish: 'ended', stop: 'idle' },
-    // pauseTimelineAnimation pauses only a run that is playing or paused.
-    paused: { play: 'playing', pause: 'paused', stop: 'idle' },
-    // stopTimelineAnimation and hideTimeline stop from any state.
-    ended: { play: 'playing', stop: 'idle' }
+    // startTimelineAnimation plays from the start, from where it was paused, or again from the
+    // first step after the end; Play while playing restarts the run (the button pauses instead,
+    // but startTimelineAnimation itself has always allowed it). stopTimelineAnimation and
+    // hideTimeline stop from any state, idle included.
+    idle: ['playing', 'idle'],
+    // advance reaches the last step: ended. pauseTimelineAnimation pauses only a run that is
+    // playing or paused.
+    playing: ['playing', 'paused', 'ended', 'idle'],
+    paused: ['playing', 'paused', 'idle'],
+    ended: ['playing', 'idle']
   }
 });
 
@@ -46,8 +44,7 @@ export const TIMELINE_PLAYBACK = defineMachine({
  * @property {boolean} playing  phase === 'playing' (read-only)
  * @property {boolean} paused  phase === 'paused' (read-only)
  * @property {boolean} atEnd  phase === 'ended' (read-only)
- * @property {(event: TimelinePlaybackEvent) => TimelinePlaybackState} send
- * @property {(event: TimelinePlaybackEvent) => boolean} can
+ * @property {(next: TimelinePlaybackState) => TimelinePlaybackState} to  move, or throw if the table has no such move
  * @property {number} timer
  * @property {number} runId
  * @property {string | null} originalLayerId
@@ -61,18 +58,17 @@ export const TIMELINE_PLAYBACK = defineMachine({
  * The app's `timelineAnimation`: the playback machine plus the run's bookkeeping, which keeps
  * its plain fields.
  *
- * @param {Partial<Omit<TimelineAnimationState, 'phase' | 'playing' | 'paused' | 'atEnd' | 'send' | 'can'>>} fields
+ * @param {Partial<Omit<TimelineAnimationState, 'phase' | 'playing' | 'paused' | 'atEnd' | 'to'>>} fields
  * @returns {TimelineAnimationState}
  */
 export function createTimelineAnimationState(fields = {}) {
-  const machine = createMachine(TIMELINE_PLAYBACK);
+  const run = TIMELINE_PLAYBACK.start();
   const state = {
-    get phase() { return machine.state; },
-    get playing() { return machine.state === 'playing'; },
-    get paused() { return machine.state === 'paused'; },
-    get atEnd() { return machine.state === 'ended'; },
-    send: (/** @type {TimelinePlaybackEvent} */ event) => machine.send(event),
-    can: (/** @type {TimelinePlaybackEvent} */ event) => machine.can(event),
+    get phase() { return run.state(); },
+    get playing() { return run.state() === 'playing'; },
+    get paused() { return run.state() === 'paused'; },
+    get atEnd() { return run.state() === 'ended'; },
+    to: (/** @type {TimelinePlaybackState} */ next) => run.to(next),
     timer: 0,
     runId: 0,
     originalLayerId: null,

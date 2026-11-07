@@ -20,7 +20,7 @@ import { installMethods } from '../../src/map/app/install-methods.mjs';
 import { LayerMethods } from '../../src/map/app/layers.js';
 import { UrlStateMethods } from '../../src/map/app/url-state.js';
 import { createUrlRestore, createUrlSuspend } from '../../src/map/app/url-sync.mjs';
-import { createFlag } from '../../src/map/state-machine.mjs';
+import { createFlag } from '../../src/map/state-helpers.mjs';
 import { UiWiringMethods } from '../../src/map/app/ui-wiring.js';
 import { LazyRuntimeMethods } from '../../src/map/app/lazy-runtime.js';
 import { ElectionPaneMethods } from '../../src/map/app/election-pane.js';

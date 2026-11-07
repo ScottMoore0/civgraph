@@ -1,17 +1,16 @@
-// The map app's explicit state machines (src/map/state-machine.mjs and the machines built on it;
-// refactor plan section 11). Each machine's whole transition table is pinned here, every move it
-// does not list is shown to throw, and the map-app sources are held to moving the machines only
-// through send().
+// The map app's explicit state machines (refactor plan section 11), on the shared helper
+// (src/map/state-machine.mjs, a copy of scripts/lib/state-machine.mjs until that lands) and the
+// map app's light helpers (src/map/state-helpers.mjs). Each machine's whole table is pinned here,
+// every move it does not list is shown to throw, and the map-app sources are held to moving the
+// machines only through them.
 //
 //   node --test tests/unit/map-state-machines.test.mjs
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
-import {
-  InvalidTransitionError, createFlag, createMachine, defineChoice, defineMachine
-} from '../../src/map/state-machine.mjs';
+import { createFlag, defineChoice } from '../../src/map/state-helpers.mjs';
 import { TIMELINE_PLAYBACK, createTimelineAnimationState } from '../../src/map/app/timeline/playback.mjs';
 import { URL_RESTORE, createUrlRestore, createUrlSuspend } from '../../src/map/app/url-sync.mjs';
 import { mapAppSourceFiles } from '../../scripts/lib/map-app-source.mjs';
@@ -19,62 +18,25 @@ import { mapAppSourceFiles } from '../../scripts/lib/map-app-source.mjs';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const read = (file) => readFileSync(path.join(ROOT, file), 'utf8');
 
-/** Every (state, event) pair of a definition, as 'state --event--> target' or 'state --event--> x'. */
-function tableOf(definition) {
-  const rows = [];
-  for (const state of definition.states) {
-    for (const event of definition.events) {
-      rows.push(`${state} --${event}--> ${definition.next(state, event) ?? 'x'}`);
-    }
-  }
-  return rows;
-}
-
-/** Each listed move works from a fresh machine put in its state; each unlisted one throws. */
-function assertTableEnforced(definition) {
-  for (const state of definition.states) {
-    for (const event of definition.events) {
-      const machine = createMachine(definition, { initial: state });
-      const target = definition.next(state, event);
-      if (target === undefined) {
-        assert.equal(machine.can(event), false, `${state} --${event}--> should be refused`);
-        assert.throws(() => machine.send(event), InvalidTransitionError, `${state} --${event}--> should throw`);
-        assert.equal(machine.state, state, 'a refused move leaves the state as it was');
+/** Every (from, to) pair: the listed ones work from a run started there, the rest throw. */
+function assertTableEnforced(machine) {
+  for (const from of machine.states) {
+    for (const to of machine.states) {
+      const run = machine.start(from);
+      if (machine.transitions[from].includes(to)) {
+        assert.equal(run.to(to), to);
       } else {
-        assert.equal(machine.can(event), true);
-        assert.equal(machine.send(event), target);
-        assert.equal(machine.state, target);
+        assert.throws(() => run.to(to), /is not a transition/, `${machine.name}: ${from} -> ${to} should throw`);
+        assert.equal(run.state(), from, 'a refused move leaves the state as it was');
       }
     }
   }
 }
 
-test('defineMachine refuses a table with unknown states or events, or unreachable states', () => {
-  const base = { name: 't', initial: 'a', states: ['a', 'b'], events: ['go'] };
-  assert.throws(() => defineMachine({ ...base, transitions: { a: { go: 'c' } } }), /unknown state "c"/);
-  assert.throws(() => defineMachine({ ...base, transitions: { a: { jump: 'b' } } }), /unknown event "jump"/);
-  assert.throws(() => defineMachine({ ...base, transitions: { a: {}, z: {} } }), /unknown state "z"/);
-  assert.throws(() => defineMachine({ ...base, transitions: { a: {} } }), /unreachable state\(s\) b/);
-  assert.throws(() => defineMachine({ ...base, initial: 'q', transitions: { a: { go: 'b' } } }), /initial state/);
-  const ok = defineMachine({ ...base, transitions: { a: { go: 'b' }, b: { go: 'a' } } });
-  assert.ok(Object.isFrozen(ok.transitions) && Object.isFrozen(ok.transitions.a));
-});
-
-test('createMachine moves along the table, reports transitions and refuses the rest', () => {
-  const definition = defineMachine({
-    name: 'door', initial: 'shut', states: ['shut', 'open'], events: ['open', 'shut'],
-    transitions: { shut: { open: 'open' }, open: { shut: 'shut' } }
-  });
-  const seen = [];
-  const door = createMachine(definition, { onTransition: (from, to, event) => seen.push(`${from}>${event}>${to}`) });
-  assert.equal(door.state, 'shut');
-  assert.ok(door.is('shut', 'open'));
-  door.send('open');
-  assert.deepEqual(seen, ['shut>open>open']);
-  const error = assert.throws(() => door.send('open'), InvalidTransitionError);
-  assert.equal(seen.length, 1, 'a refused move is not reported');
-  assert.throws(() => createMachine(definition, { initial: 'ajar' }), /not a state/);
-  void error;
+test('the map app\'s copy of the shared helper is the one in scripts/lib, once that is on this branch', () => {
+  const shared = path.join(ROOT, 'scripts/lib/state-machine.mjs');
+  if (!existsSync(shared)) return;
+  assert.equal(read('src/map/state-machine.mjs'), readFileSync(shared, 'utf8'), 'src/map/state-machine.mjs differs from scripts/lib/state-machine.mjs');
 });
 
 test('defineChoice checks values without changing them', () => {
@@ -88,7 +50,7 @@ test('defineChoice checks values without changing them', () => {
   assert.throws(() => defineChoice('empty', []), /at least one/);
 });
 
-test('createFlag holds and releases, nesting as the code that saved and restored it did', () => {
+test('createFlag sets, holds and releases, nesting as the code that saved and restored it did', () => {
   const flag = createFlag('suspend');
   assert.equal(flag.on, false);
   const outer = flag.hold();
@@ -98,73 +60,80 @@ test('createFlag holds and releases, nesting as the code that saved and restored
   assert.equal(flag.on, true, 'the inner release puts back the outer hold');
   flag.release(outer);
   assert.equal(flag.on, false);
-  assert.equal(flag.set(true), false);
+  assert.equal(flag.set(false), false, 'setting the value it has is allowed');
   assert.throws(() => flag.set('yes'), TypeError);
   assert.throws(() => flag.release(undefined), TypeError);
 });
 
 test('timeline playback: the whole table', () => {
-  assert.deepEqual(tableOf(TIMELINE_PLAYBACK), [
-    'idle --play--> playing', 'idle --pause--> x', 'idle --finish--> x', 'idle --stop--> idle',
-    'playing --play--> playing', 'playing --pause--> paused', 'playing --finish--> ended', 'playing --stop--> idle',
-    'paused --play--> playing', 'paused --pause--> paused', 'paused --finish--> x', 'paused --stop--> idle',
-    'ended --play--> playing', 'ended --pause--> x', 'ended --finish--> x', 'ended --stop--> idle'
-  ]);
+  assert.deepEqual(TIMELINE_PLAYBACK.transitions, {
+    idle: ['playing', 'idle'],
+    playing: ['playing', 'paused', 'ended', 'idle'],
+    paused: ['playing', 'paused', 'idle'],
+    ended: ['playing', 'idle']
+  });
   assertTableEnforced(TIMELINE_PLAYBACK);
+  // Forbidden: pausing or ending a run that is not playing.
+  assert.equal(TIMELINE_PLAYBACK.can('idle', 'paused'), false);
+  assert.equal(TIMELINE_PLAYBACK.can('ended', 'paused'), false);
+  assert.equal(TIMELINE_PLAYBACK.can('paused', 'ended'), false);
 });
 
 test('timeline playback: the flags the app reads are views of the one state', () => {
   const animation = createTimelineAnimationState({ sequenceItems: [] });
   const flags = () => [animation.phase, animation.playing, animation.paused, animation.atEnd];
   assert.deepEqual(flags(), ['idle', false, false, false]);
-  animation.send('play');
+  animation.to('playing');
   assert.deepEqual(flags(), ['playing', true, false, false]);
-  animation.send('pause');
+  animation.to('paused');
   assert.deepEqual(flags(), ['paused', false, true, false]);
-  animation.send('play');
-  animation.send('finish');
+  animation.to('playing');
+  animation.to('ended');
   assert.deepEqual(flags(), ['ended', false, false, true]);
-  assert.throws(() => animation.send('pause'), InvalidTransitionError, 'an ended run cannot be paused');
-  animation.send('stop');
+  assert.throws(() => animation.to('paused'), /is not a transition/, 'an ended run cannot be paused');
+  animation.to('idle');
   assert.deepEqual(flags(), ['idle', false, false, false]);
   // The old fields keep their defaults and stay writable; the three flags do not.
   assert.equal(animation.runId, 0);
   assert.equal(animation.originalLayerId, null);
   animation.runId += 1;
   assert.equal(animation.runId, 1);
-  assert.throws(() => { 'use strict'; animation.playing = true; }, TypeError);
+  assert.throws(() => { animation.playing = true; }, TypeError);
 });
 
-test('the map-app sources move timeline playback only through send()', () => {
+test('the map-app sources move timeline playback only through to()', () => {
   const files = mapAppSourceFiles();
   assert.ok(files.length > 10);
   for (const file of files) {
-    const source = read(file);
-    assert.doesNotMatch(source, /timelineAnimation\??\.(playing|paused|atEnd)\s*=[^=]/, `${file} assigns a playback flag`);
+    assert.doesNotMatch(read(file), /timelineAnimation\??\.(playing|paused|atEnd)\s*=[^=]/, `${file} assigns a playback flag`);
   }
   assert.match(read('app/src/app.js'), /this\.timelineAnimation = createTimelineAnimationState\(/);
 });
 
 test('URL restore: the whole table', () => {
-  assert.deepEqual(tableOf(URL_RESTORE), [
-    'idle --begin--> restoring', 'idle --queue--> x', 'idle --end--> idle',
-    'restoring --begin--> restoring', 'restoring --queue--> queued', 'restoring --end--> idle',
-    'queued --begin--> queued', 'queued --queue--> queued', 'queued --end--> idle'
-  ]);
+  assert.deepEqual(URL_RESTORE.transitions, {
+    idle: ['restoring', 'idle'],
+    restoring: ['restoring', 'queued', 'idle'],
+    queued: ['queued', 'idle']
+  });
   assertTableEnforced(URL_RESTORE);
+  assert.equal(URL_RESTORE.can('idle', 'queued'), false, 'a hashchange is queued only during a restore');
 });
 
 test('URL restore: a hashchange during a restore is replayed once, after it', () => {
   // The two old booleans, (restoring, pending), map onto the states one to one.
   const restore = createUrlRestore();
-  restore.send('begin');
-  restore.send('queue');
-  restore.send('queue');
-  assert.equal(restore.state, 'queued');
-  const replay = restore.is('queued');
-  restore.send('end');
-  assert.equal(replay, true);
-  assert.equal(restore.state, 'idle');
+  assert.equal(restore.active, false);
+  restore.begin();
+  assert.equal(restore.active, true);
+  restore.queue();
+  restore.queue();
+  restore.begin();
+  assert.equal(restore.state(), 'queued', 'a restore begun while one is queued keeps the replay');
+  assert.equal(restore.end(), true);
+  assert.equal(restore.state(), 'idle');
+  assert.equal(restore.end(), false, 'the later of two overlapping restores ends on idle');
+  assert.throws(() => restore.queue(), /is not a transition/);
   const suspend = createUrlSuspend();
   const was = suspend.hold();
   assert.equal(suspend.on, true);
@@ -179,9 +148,9 @@ test('the map-app sources use the URL machines, not the old flags', () => {
     assert.doesNotMatch(read(file), /_restoringURLState|_hashRestorePending|_suspendURLState/, file);
   }
   const urlState = read('src/map/app/url-state.js');
-  assert.match(urlState, /this\.urlRestore\.send\('begin'\)/);
-  assert.match(urlState, /this\.urlRestore\.send\('end'\)/);
-  assert.match(urlState, /this\.urlRestore\.send\('queue'\)/);
+  assert.match(urlState, /this\.urlRestore\.begin\(\)/);
+  assert.match(urlState, /this\.urlRestore\.end\(\)/);
+  assert.match(urlState, /this\.urlRestore\.queue\(\)/);
 });
 
 test('election pane toggles: overlay and local level assignments go through their choice', async () => {
