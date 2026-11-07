@@ -10,10 +10,10 @@
  */
 import { API_URLS, indexDocument, indexEntry } from '../_lib/layer-index.js';
 import { parseJson } from './_records.js';
-import { asStore } from '../_lib/storage/d1.js';
+import { asStore } from '../../packages/storage/src/d1.js';
 import { LAYERS, MAPS, MAP_CARDS } from '../_lib/queries/maps.js';
 
-/** @typedef {import('../_lib/storage/store.js').RecordStore | D1Database} StoreOrBinding a store or a D1 binding (asStore) */
+/** @typedef {import('../../packages/storage/src/store.js').RecordStore | D1Database} StoreOrBinding a store or a D1 binding (asStore) */
 
 /**
  * The browser policy of every map document: revalidate each load (the ETag is the code and

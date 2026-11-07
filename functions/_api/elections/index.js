@@ -32,7 +32,7 @@ import {
   bundleObject, cachedJson, documentBody, electionAggregates, isMarker, parseJson, withoutMarkers,
 } from '../_records.js';
 import { binding } from '../../_lib/config.js';
-import { fromD1 } from '../../_lib/storage/d1.js';
+import { fromD1 } from '../../../packages/storage/src/d1.js';
 import { ELECTIONS, ELECTIONS_API, ELECTION_CARDS } from '../../_lib/queries/elections.js';
 
 // Bump whenever the RESPONSE SHAPE changes, not just when the data does: it is part of the
@@ -131,7 +131,7 @@ async function handle(context) {
 
   const bound = binding(context.env, 'ELECTIONS_DB');
   if (!bound) return json({ error: 'ELECTIONS_DB binding not configured' }, 503);
-  // through the storage adapter (functions/_lib/storage/); the SQL is named in queries/elections.js
+  // through the storage adapter (packages/storage/); the SQL is named in queries/elections.js
   const db = fromD1(bound);
 
   try {

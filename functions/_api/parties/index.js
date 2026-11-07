@@ -12,7 +12,7 @@
 import { cachedJson, documentBody, jsonResponse, parseJson } from '../_records.js';
 import { reportError } from '../_error.js';
 import { binding } from '../../_lib/config.js';
-import { asStore } from '../../_lib/storage/d1.js';
+import { asStore } from '../../../packages/storage/src/d1.js';
 import { PARTIES } from '../../_lib/queries/parties.js';
 
 const VERSION = 'parties-1';
@@ -23,7 +23,7 @@ export async function onRequestGet(context) {
 
 /**
  * The live slug for a slug or a retired one, and whether it was retired.
- * @param {import('../../_lib/storage/store.js').RecordStore | D1Database} source a store or a D1 binding
+ * @param {import('../../../packages/storage/src/store.js').RecordStore | D1Database} source a store or a D1 binding
  * @param {string} slug
  */
 export async function resolvePartySlug(source, slug) {
@@ -36,7 +36,7 @@ export async function resolvePartySlug(source, slug) {
 
 async function handle(context) {
   const bound = binding(context.env, 'ELECTIONS_DB');
-  // through the storage adapter (functions/_lib/storage/); the SQL is named in queries/parties.js
+  // through the storage adapter (packages/storage/); the SQL is named in queries/parties.js
   const db = bound && asStore(bound);
   const url = new URL(context.request.url);
   const slugParam = (url.searchParams.get('slug') || '').trim().toLowerCase();

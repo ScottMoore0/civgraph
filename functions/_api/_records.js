@@ -14,7 +14,7 @@
  */
 import { STORE, phaseOf, readDataset, resetDatasetMemo } from '../_lib/dataset-state.js';
 import { CACHE, binding } from '../_lib/config.js';
-import { asStore } from '../_lib/storage/d1.js';
+import { asStore } from '../../packages/storage/src/d1.js';
 import { T } from '../_lib/queries/tables.js';
 import { ELECTIONS } from '../_lib/queries/elections.js';
 import { DOCUMENTS } from '../_lib/queries/documents.js';

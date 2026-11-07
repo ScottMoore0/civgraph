@@ -1,9 +1,9 @@
 // The Functions' named queries (REFACTOR-PLAN.md item 4, storage slice ST-6).
 //
 // Every SQL string the Functions run lives in functions/_lib/queries/, one module per table
-// group, and reaches the database only through the RecordStore (functions/_lib/storage/). This
+// group, and reaches the database only through the RecordStore (packages/storage/). This
 // file holds that in place:
-//   1. the boundary: no Function file outside functions/_lib/storage/ calls an engine API
+//   1. the boundary: no Function file outside packages/storage/ (and the re-exports left in functions/_lib/storage/) calls an engine API
 //      (`.prepare(`, `.withSession(`) on a binding, apart from the pinned
 //      list of files not yet moved (ST-5 moves them one route per commit and shrinks the list);
 //   2. every named query, and every query builder over its sample arguments, prepares on its
@@ -147,7 +147,7 @@ async function namedQueries() {
   return { queries, missingSamples };
 }
 
-test('only functions/_lib/storage/ calls the D1 engine API (the files not yet moved are pinned)', () => {
+test('only packages/storage/ calls the D1 engine API (the files not yet moved are pinned)', () => {
   // A RecordStore has batch() too; an engine batch needs prepare() first.
   const engine = /\.(prepare|withSession)\s*\(/;
   const calling = walk(FUNCTIONS)

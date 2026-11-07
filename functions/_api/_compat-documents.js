@@ -15,7 +15,7 @@
 import { MAP_CACHE, mapsDocumentText, storedDocumentText } from './_maps.js';
 import { cachedJson, jsonResponse } from './_records.js';
 import { binding } from '../_lib/config.js';
-import { fromD1 } from '../_lib/storage/d1.js';
+import { fromD1 } from '../../packages/storage/src/d1.js';
 
 const VERSION = 'compat-documents-1';
 

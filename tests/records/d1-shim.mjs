@@ -2,15 +2,15 @@
  * The D1 binding API over node:sqlite, so every Function handler runs against a local records
  * database with no wrangler at all: prepare(sql).bind(...).first()/all()/raw()/run(), batch()
  * and exec(). Since storage slice ST-3 this is the storage adapter itself, toD1(openSqlite(file))
- * (functions/_lib/storage/store.js, scripts/lib/storage/sqlite.mjs): the tests run the handlers
+ * (packages/storage/src/store.js, packages/storage/src/sqlite.mjs): the tests run the handlers
  * over the same RecordStore the Functions use in production through fromD1(), so parameters bind
  * as they do there (booleans as 1/0, undefined as NULL) and a batch is one transaction. Rows are
  * plain objects; booleans are not translated in results (D1 returns 0/1 too). `_db` is the
  * underlying DatabaseSync, for tests that close it or read it directly.
  */
 import { DatabaseSync } from 'node:sqlite';
-import { toD1 } from '../../functions/_lib/storage/store.js';
-import { openSqlite } from '../../scripts/lib/storage/sqlite.mjs';
+import { toD1 } from '@civgraph/storage/store.js';
+import { openSqlite } from '@civgraph/storage/node';
 
 export function d1(file, { readOnly = true } = {}) {
   const store = openSqlite(file, { readOnly });

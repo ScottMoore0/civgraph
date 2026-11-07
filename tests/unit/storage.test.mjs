@@ -1,5 +1,5 @@
 /**
- * The storage adapter (functions/_lib/storage/): one conformance suite run over every RecordStore,
+ * The storage adapter (packages/storage/): one conformance suite run over every RecordStore,
  * so D1 and a local SQLite file answer alike. D1 is exercised through a D1-shaped binding over
  * node:sqlite whose batch() is one transaction, as D1's is.
  *
@@ -11,9 +11,9 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync } from 'node:fs';
 import { DatabaseSync } from 'node:sqlite';
-import { assertRecordStore, bindValue, datasetState, toD1 } from '../../functions/_lib/storage/store.js';
-import { fromD1 } from '../../functions/_lib/storage/d1.js';
-import { openSqlite } from '../../scripts/lib/storage/sqlite.mjs';
+import { assertRecordStore, bindValue, datasetState, toD1 } from '@civgraph/storage/store.js';
+import { fromD1 } from '@civgraph/storage/d1.js';
+import { openSqlite } from '@civgraph/storage/node';
 import { loadConfig } from '../../scripts/lib/config.mjs';
 
 /** A D1 binding over node:sqlite: the calling convention of D1, batch() as one transaction. */

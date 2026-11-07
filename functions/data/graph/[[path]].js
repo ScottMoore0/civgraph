@@ -30,7 +30,7 @@
  */
 import { cachedJson, documentBody, jsonResponse, parseJson } from '../../_api/_records.js';
 import { binding } from '../../_lib/config.js';
-import { fromD1 } from '../../_lib/storage/d1.js';
+import { fromD1 } from '../../../packages/storage/src/d1.js';
 import { GRAPH_FILES } from '../../_lib/queries/graph.js';
 
 const VERSION = 'data-graph-2';
@@ -95,7 +95,7 @@ export async function onRequestGet(context) {
   const bound = binding(context.env, 'ELECTIONS_DB');
   if (!route) return notFound();
   if (!bound) return jsonResponse({ error: 'records database not bound' }, 503);
-  // through the storage adapter (functions/_lib/storage/); the SQL is named in queries/graph.js
+  // through the storage adapter (packages/storage/); the SQL is named in queries/graph.js
   const db = fromD1(bound);
   return cachedJson(context, VERSION, () => answer(db, route, p), {
     stable: true, edgeTtl: EDGE_TTL, cacheControl: 'public, max-age=86400', gate: route.kind !== 'doc',

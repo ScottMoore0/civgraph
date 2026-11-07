@@ -49,7 +49,7 @@
 import { spawnSync } from 'node:child_process';
 import { closeSync, existsSync, mkdirSync, openSync, readFileSync, rmSync } from 'node:fs';
 import path from 'node:path';
-import { openSqliteHandle } from '../lib/storage/sqlite.mjs';
+import { openSqliteHandle } from '@civgraph/storage/node';
 import { datasetLoadState, LOADING_KEY } from './dataset-state.mjs';
 import { snapshotTable } from './db.mjs';
 import { verifyModeFor } from './deploy-plan.mjs';

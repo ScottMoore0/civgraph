@@ -41,7 +41,7 @@ import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { openSqliteHandle } from '../lib/storage/sqlite.mjs';
+import { openSqliteHandle } from '@civgraph/storage/node';
 import { createDatabase, tableChecksums, TableWriter, transaction } from './db.mjs';
 import { ingestBrowse } from './ingest-browse.mjs';
 import { ingestElections } from './ingest-elections.mjs';
