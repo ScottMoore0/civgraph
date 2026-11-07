@@ -244,3 +244,12 @@ test('MA-L: latches, flags and hold counts', async () => {
   }
   assert.doesNotMatch(read('src/map/app/timeline/controls.js'), /timelineApplyDepth/);
 });
+
+test('the map app theme fallback uses the site theme table (UI-05) and survives blocked storage', () => {
+  const chrome = read('src/map/app/site-chrome.js');
+  assert.match(chrome, /from '\.\.\/\.\.\/\.\.\/assets\/ui\/state\/theme\.js'/);
+  assert.match(chrome, /themeFor\(preference, prefersDark\)/);
+  assert.match(chrome, /THEME_PREFERENCE\.assertTransition\(preference, next\)/);
+  assert.doesNotMatch(chrome, /localStorage\.(get|set)Item\('theme'/);
+  assert.match(chrome, /try \{ stored = localStorage\.getItem\(THEME_KEY\); \} catch/);
+});

@@ -9,6 +9,8 @@
  * Methods of the map app (Test2App, app/src/app.js), installed on its prototype by installMethods: `this` is the app.
  */
 
+import { THEME_KEY, THEME_PREFERENCE, preferenceOf, themeFor, toggledFrom } from '../../../assets/ui/state/theme.js';
+
 export class SiteChromeMethods {
   setupThemeToggle() {
     // The shared site header (functions/_templates/shell.js) brings its own toggle, wired by
@@ -20,9 +22,13 @@ export class SiteChromeMethods {
       return;
     }
     const toggles = [document.getElementById('themeToggle'), document.getElementById('themeToggleMobile')].filter(Boolean);
-    const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
-    document.documentElement.dataset.theme = savedTheme || (prefersDark ? 'dark' : 'light');
+    // The site's one theme table (assets/ui/state/theme.js, UI-05), as the shared header uses it:
+    // a stored value other than light or dark, or storage that is blocked, means the system's.
+    let stored = null;
+    try { stored = localStorage.getItem(THEME_KEY); } catch { /* blocked: follow the system */ }
+    let preference = preferenceOf(stored);
+    const prefersDark = Boolean(window.matchMedia?.('(prefers-color-scheme: dark)').matches);
+    document.documentElement.dataset.theme = themeFor(preference, prefersDark);
 
     // T1-06: the basemap follows the theme from the first paint, not just on
     // toggle — someone arriving with prefers-color-scheme: dark should not get one
@@ -32,9 +38,11 @@ export class SiteChromeMethods {
 
     toggles.forEach((toggle) => {
       toggle.addEventListener('click', () => {
-        const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+        const next = toggledFrom(document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light');
+        THEME_PREFERENCE.assertTransition(preference, next);
+        preference = next;
         document.documentElement.dataset.theme = next;
-        localStorage.setItem('theme', next);
+        try { localStorage.setItem(THEME_KEY, next); } catch { /* blocked: the theme still changes for this page */ }
         void this.syncBasemapToTheme();
       });
     });
