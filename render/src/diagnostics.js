@@ -1,5 +1,5 @@
-import { TEST_ASSET_VERSION, TEST_CAPABILITIES } from './config.js';
-import { escapeHtml } from './utils.js';
+import { TEST_ASSET_VERSION, TEST_CAPABILITIES } from '../../src/map/renderer/config.js';
+import { escapeHtml } from '../../src/map/renderer/utils.js';
 
 const DIAGNOSTIC_HISTORY_KEY = 'civgraph.test.diagnostics.history';
 

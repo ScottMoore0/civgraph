@@ -1,4 +1,4 @@
-import { copyText } from './utils.js';
+import { copyText } from '../../src/map/renderer/utils.js';
 
 export class MapLibreShellEngine {
   constructor(controller) {

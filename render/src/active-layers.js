@@ -1,5 +1,5 @@
-import { DEFAULT_TEXT_SCALE } from './config.js';
-import { copyText, escapeHtml } from './utils.js';
+import { DEFAULT_TEXT_SCALE } from '../../src/map/renderer/config.js';
+import { copyText, escapeHtml } from '../../src/map/renderer/utils.js';
 
 export function renderActiveLayers(els, controller, options = {}) {
   if (controller.layers.size === 0) {

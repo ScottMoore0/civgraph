@@ -8,7 +8,7 @@ import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import {
   APPROXIMATE_REASONS, approximateSegmentIds, approximateSegmentLabel, resolveApproximateSegmentsUrl
-} from '../../render/src/approximate-segments.js';
+} from '../../src/map/renderer/approximate-segments.js';
 
 const maps = JSON.parse(readFileSync('data/database/maps.json', 'utf8')).maps;
 const render = JSON.parse(readFileSync('render/metadata/maps-test.json', 'utf8')).layers;

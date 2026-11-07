@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import path from 'node:path';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
-import { mapAppSourceFiles, readMapAppSource } from './lib/map-app-source.mjs';
+import { mapAppSourceFiles, readElectionManagerSource, readMapAppSource } from './lib/map-app-source.mjs';
 import { BROWSE_DIR, ELECTION_BUNDLE_DIR, ELECTION_MANIFEST, ELECTION_REPORT } from './records/paths.mjs';
 
 const failures = [];
@@ -13,10 +13,9 @@ const bootSource = readFileSync('app/src/boot.js', 'utf8');
 // app.js and the modules split out of it under src/map/app/ (frontend-plan.md 5.2).
 const appSource = readMapAppSource();
 const adapterSource = readFileSync('app/src/maplibre-main-adapter.js', 'utf8');
-// The election manager and the pure modules split out of it (frontend-plan.md 5.1, E1 and E2):
-// a rule checked against its source holds wherever the code now lives.
-const electionManagerSource = ['app/src/election-manager.js', 'src/map/election/palette.mjs', 'src/map/election/results-model.mjs']
-  .filter((file) => existsSync(file)).map((file) => readFileSync(file, 'utf8')).join('\n');
+// The election manager and the modules split out of it under src/map/election/ (frontend-plan.md
+// 5.1): a rule checked against its source holds wherever the code now lives.
+const electionManagerSource = readElectionManagerSource();
 const electionPaneContractSource = readFileSync('app/src/election-pane-main-contract.js', 'utf8');
 const test2ServiceWorkerSource = readFileSync('test2/sw.js', 'utf8');
 const rootServiceWorkerSource = readFileSync('sw.js', 'utf8');
@@ -39,9 +38,9 @@ const readTimelineChangePair = (id) => {
 const browseIndexBuilderSource = readFileSync('scripts/build-browse-indexes.mjs', 'utf8');
 const electionDataAuditSource = readFileSync('scripts/audit-test2-election-data.mjs', 'utf8');
 const uiControllerSource = readFileSync('src/ui-controller.js', 'utf8');
-const mapControllerSource = readFileSync('render/src/map-controller.js', 'utf8');
-const labelsSource = readFileSync('render/src/labels.js', 'utf8');
-const featureRepairsSource = readFileSync('render/src/feature-property-repairs.js', 'utf8');
+const mapControllerSource = readFileSync('src/map/renderer/map-controller.js', 'utf8');
+const labelsSource = readFileSync('src/map/renderer/labels.js', 'utf8');
+const featureRepairsSource = readFileSync('src/map/renderer/feature-property-repairs.js', 'utf8');
 const test2Css = readFileSync('app/src/test2.css', 'utf8');
 const mainCss = readFileSync('assets/css/main.css', 'utf8');
 const packageJsonSource = readFileSync('package.json', 'utf8');
@@ -692,7 +691,7 @@ for (const path of [
   'src/election-domain.mjs',
   'src/election-view-model.mjs',
   'src/election-renderer.mjs',
-  'render/src/feature-property-repairs.js',
+  'src/map/renderer/feature-property-repairs.js',
   ELECTION_MANIFEST,
   ELECTION_REPORT,
   'render/metadata/election-anchors-test2'

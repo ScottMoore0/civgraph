@@ -2,10 +2,11 @@
 /**
  * Build shared static shell assets for the promoted MapLibre root.
  *
- * This intentionally does not bundle the archived Leaflet app. The old Leaflet
- * runtime can still be built through `npm run build:legacy-leaflet` when needed
- * for archive/debug work, but the normal production build should only emit the
- * shared CSS and thumbnail assets plus the MapLibre runtime under /app.
+ * This intentionally does not bundle the archived Leaflet app: it emits only the
+ * shared CSS and thumbnail assets, and the MapLibre runtime is built under /app.
+ * The Leaflet runtime's build script retired on 9 Aug 2026 (59c9fc1fa1); the app
+ * as it last served the root is the git tag leaflet-main-before-maplibre-root-20260612.
+ * removeLegacyLeafletBuildOutputs below still clears what that build used to write.
  */
 
 import * as esbuild from 'esbuild';

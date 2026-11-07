@@ -10,7 +10,7 @@ module.exports = defineConfig({
     baseURL: 'http://127.0.0.1:5050',
     // scripts/test-server.py is static: it has no Pages Functions, so /_api/elections, the map
     // app's default election transport, answers 404 and no election loads. The app's own opt-out
-    // (localStorage civgraph.electionsApi = '0', app/src/election-manager.js useElectionsApi)
+    // (localStorage civgraph.electionsApi = '0', src/map/election/transport.mjs useElectionsApi)
     // sends it to the bundle URLs instead, which production serves from D1 through the
     // compatibility Functions and the test server from the records build: the same documents.
     // The API itself is tested against the records database by records:check (tests/records/).
