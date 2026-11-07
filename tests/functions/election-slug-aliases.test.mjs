@@ -14,7 +14,7 @@ import { DatabaseSync } from 'node:sqlite';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { browsePageHandler, resolveElectionSlugAlias } from '../../functions/_browse-page.js';
-import { ELECTION_SLUG_ALIASES } from '../../functions/_lib/election-slug-aliases.js';
+import { ELECTION_SLUG_ALIASES, RETIRED_CONTEST_SLUGS } from '../../functions/_lib/election-slug-aliases.js';
 import { slugify } from '../../functions/_lib/format.js';
 import { canonicalElectionTitle } from '../../scripts/lib/election-names.mjs';
 import { onRequestGet as electionsApi, retiredSlugRedirect } from '../../functions/_api/elections/index.js';
@@ -86,6 +86,51 @@ test('browse.js maps the same retired slugs for #/ addresses', () => {
   assert.ok(block, 'browse.js has RENAMED_RECORD_PREFIXES');
   const pairs = [...block[1].matchAll(/\[\s*'([^']+)',\s*'([^']+)'\s*\]/g)].map((m) => [m[1], m[2]]);
   assert.deepEqual(pairs, ELECTION_SLUG_ALIASES, 'browse.js and functions/_lib/election-slug-aliases.js hold the same list');
+  const exact = source.match(/const RETIRED_CONTEST_SLUGS = \[([\s\S]*?)\n\];/);
+  assert.ok(exact, 'browse.js has RETIRED_CONTEST_SLUGS');
+  const exactPairs = [...exact[1].matchAll(/\[\s*'([^']+)',\s*'([^']+)'\s*\]/g)].map((m) => [m[1], m[2]]);
+  assert.deepEqual(exactPairs, RETIRED_CONTEST_SLUGS, 'browse.js and functions/_lib/election-slug-aliases.js hold the same retired contests');
+});
+
+// The contest files the November 2026 council rounds deleted, renamed or refiled (12cd5ac496,
+// 22c749eecb): their published addresses answer 301 to where the content lives now.
+const RETIRED = new Map([
+  ['belfast-rural-district-council-1936-06-04-dundonald', 'castlereagh-rural-district-council-1936-06-04-dundonald'],
+  ['dungannon-rural-district-council-1952-06-05-aughnacloy', 'dungannon-rural-district-council-1952-06-05-clonaneese'],
+  ['newry-no-1-rural-district-council-1949-06-02-dromore', 'newry-no-1-rural-district-council-1949-06-02-damolly'],
+  ['newry-no-1-rural-district-council-1949-06-02-glenn', 'newry-no-1-rural-district-council-1949-06-02-glen'],
+  ['bangor-borough-council-1952-05-21-castle-ward', 'bangor-borough-council-1952-05-21-castle-ward-councillors'],
+  ['larne-borough-council-1964-05-20-gardenmore-ward-aldermanship', 'larne-borough-council-1964-05-20-gardenmore-ward-alderman'],
+  ['lisnaskea-rural-district-council-1927-05-25-springfield', 'lisnaskea-rural-district-council-1927-05-25-springtown'],
+  ['dungannon-rural-district-council-1936-06-03-bernagh', 'dungannon-rural-district-council-1936-06-03'],
+]);
+const sitemapSlugs = () => new Set([...readFileSync(path.join(ROOT, 'sitemaps', 'browse-elections.xml'), 'utf8')
+  .matchAll(/<loc>https:\/\/civgraph\.net\/browse\/elections\/([^<]+)<\/loc>/g)].map((m) => m[1]));
+
+test('retired contest slugs resolve to where the contest is now, and only those slugs', () => {
+  assert.deepEqual(new Map(RETIRED_CONTEST_SLUGS), RETIRED);
+  for (const [old, now] of RETIRED) {
+    assert.equal(resolveElectionSlugAlias(old), now, old);
+    assert.equal(resolveElectionSlugAlias(old.toUpperCase()), now, 'case does not matter');
+    assert.equal(resolveElectionSlugAlias(now), now, `${now} is unchanged`);
+  }
+  // Matched exactly: the contests that continue a retired slug keep their own.
+  for (const slug of [
+    'bangor-borough-council-1952-05-21-castle-ward-alderman',
+    'bangor-borough-council-1952-05-21-castle-ward-councillors',
+    'larne-borough-council-1964-05-20-gardenmore-ward',
+    'belfast-rural-district-council-1936-06-04',
+    'belfast-rural-district-council-1936-06-04-ballyduff',
+  ]) assert.equal(resolveElectionSlugAlias(slug), slug, slug);
+});
+
+test('every retired contest slug is gone from the sitemap and every target is in it', () => {
+  const live = sitemapSlugs();
+  for (const [old, now] of RETIRED) {
+    assert.ok(!live.has(old), `${old} is not a live address`);
+    assert.ok(live.has(now), `${now} is a live address`);
+  }
+  for (const [from] of ELECTION_SLUG_ALIASES) assert.ok(!live.has(from), `${from} is not a live address`);
 });
 
 // A records database with the two elections and their contests under the new names.
@@ -97,6 +142,18 @@ transaction(sqlite, () => {
   RENAMED.forEach((c, ord) => {
     elections.add({ key: c.key, slug: slugify(c.key), body_slug: 'local-government', body: c.body, body_group: 'local-government', display_title: `${c.date.slice(0, 4)} ${c.name} by-election`, date: c.date, year: Number(c.date.slice(0, 4)), ord, meta: '{}' });
     contests.add({ election_key: c.key, seq: 0, name: c.name, slug: slugify(c.name), seats_total: 1, meta: '{}' });
+  });
+  // Rounds the retired contest slugs lead to: a contest refiled under another council, a
+  // retitled contest beside one that continues its old slug, and a round whose contest is held.
+  [
+    ['castlereagh-rural-district-council__1936-06-04', 'Castlereagh Rural District Council', ['Dundonald']],
+    ['belfast-rural-district-council__1936-06-04', 'Belfast Rural District Council', ['Ballyduff']],
+    ['bangor-borough-council__1952-05-21', 'Bangor Borough Council', ['Castle Ward (Alderman)', 'Castle Ward (Councillors)']],
+    ['dungannon-rural-district-council__1936-06-03', 'Dungannon Rural District Council', ['Altmore']],
+  ].forEach(([key, body, names], i) => {
+    const date = key.split('__')[1];
+    elections.add({ key, slug: slugify(key), body_slug: key.split('__')[0], body, body_group: 'local-government', display_title: `${body} ${date.slice(0, 4)}`, date, year: Number(date.slice(0, 4)), ord: 10 + i, meta: '{}' });
+    names.forEach((name, seq) => contests.add({ election_key: key, seq, name, slug: slugify(name), seats_total: 1, meta: '{}' }));
   });
 });
 
@@ -150,4 +207,31 @@ test('the elections API answers an old contest slug with a 301 to the new one', 
   // Through the route itself, before any database read.
   const res = await electionsApi({ request: new Request(`https://civgraph.net/_api/elections?key=${holywood.key}&contest=lg93-nod-holywood`), env: {} });
   assert.equal(res.status, 301);
+});
+
+test('the Browse page answers a retired contest address with a 301 to where it is now', async () => {
+  for (const [old, now] of [
+    ['belfast-rural-district-council-1936-06-04-dundonald', 'castlereagh-rural-district-council-1936-06-04-dundonald'],
+    ['bangor-borough-council-1952-05-21-castle-ward', 'bangor-borough-council-1952-05-21-castle-ward-councillors'],
+    ['dungannon-rural-district-council-1936-06-03-bernagh', 'dungannon-rural-district-council-1936-06-03'],
+  ]) {
+    const res = await browse(old);
+    assert.equal(res.status, 301, old);
+    assert.equal(res.headers.get('Location'), `https://civgraph.net/browse/elections/${now}`);
+    assert.equal((await browse(now)).status, 200, now);
+  }
+  // The contests beside them answer as they did.
+  for (const slug of ['bangor-borough-council-1952-05-21-castle-ward-alderman', 'belfast-rural-district-council-1936-06-04-ballyduff']) {
+    assert.equal((await browse(slug)).status, 200, slug);
+  }
+});
+
+test('the elections API sends a retired contest within its round to the new one', () => {
+  const key = 'bangor-borough-council__1952-05-21';
+  const res = retiredSlugRedirect(new URL(`https://civgraph.net/_api/elections?key=${key}&contest=castle-ward`));
+  assert.equal(res.status, 301);
+  assert.equal(res.headers.get('Location'), `https://civgraph.net/_api/elections?key=${key}&contest=castle-ward-councillors`);
+  assert.equal(retiredSlugRedirect(new URL(`https://civgraph.net/_api/elections?key=${key}&contest=castle-ward-alderman`)), null);
+  const record = retiredSlugRedirect(new URL('https://civgraph.net/_api/elections?view=record&slug=dungannon-rural-district-council-1936-06-03-bernagh'));
+  assert.equal(record.headers.get('Location'), 'https://civgraph.net/_api/elections?view=record&slug=dungannon-rural-district-council-1936-06-03');
 });
