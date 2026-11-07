@@ -1,30 +1,32 @@
-# One workflow, no path filters (site-restructure DESIGN.md 4.2, step C1).
+# CI: one workflow, the CI tier of CHECKS.md (site-restructure DESIGN.md 4.2).
 #
-# It replaces three workflows whose path filters left validators untriggered by the files
-# they validate (data-readiness.yml, test-readiness.yml) and the Pages build parity job
-# (pages-build.yml), and it runs the same steps a developer runs:
+# It runs what a developer runs, on a clean checkout:
 #
 #   check         npm run check:ci = the Pages build, the derived inputs the checks still
-#                 read, then every offline check (scripts/check-clean.mjs --in-place).
-#                 Locally, npm run check:clean runs the same on a clean export of the tree,
-#                 so a check that needs a gitignored file fails in both places or neither.
-#   pages-build   the Pages build exactly as Cloudflare runs it, plus the file-count budget.
-#   browser       the production map app at /maps/, built first (npm run test:browser:maps).
-#                 The legacy /render/ app is no longer tested here: it is being retired (F5),
-#                 and testing it said nothing about the app users get.
-#   verify        nightly and on demand, against production: the checks that need the
-#                 network (npm run verify:ci) and the production-parity browser specs,
-#                 with retries for timing-sensitive assertions.
+#                 read (the catalogue D1 import, the records database and its tests), then
+#                 every offline check (scripts/check-clean.mjs --in-place); then the browser
+#                 specs of the production map app at /maps/ (npm run test:browser:maps),
+#                 in the same job because they read the records build's election documents
+#                 (scripts/test-server.py serves them from tmp/records, as the compatibility
+#                 Functions serve them from D1). Locally, npm run check:clean runs the same
+#                 checks on a clean export of the tree, so a check that needs a gitignored
+#                 file fails in both places or neither.
+#   pages-build   the Pages build exactly as Cloudflare runs it, plus the file-count limits.
 #
-# Network checks never run on push: `npm run check` is offline by design.
+# No path filters, on purpose: a validator whose inputs fall outside a filter never runs
+# (the docs/** gap closed on 2026-09-20 was one), so every push and pull request runs
+# everything. scripts/validate-ci-workflow.mjs (npm run check:ci-workflow, in `check`)
+# keeps it that way.
+#
+# Nothing here needs a secret or reaches production: no remote D1 or R2, no request to
+# civgraph.net. The checks against the deployed site and the live databases are the opt-in
+# remote tier, run by hand after a publish (npm run verify, npm run verify:public).
 name: CI
 
 on:
   push:
     branches: [main]
   pull_request:
-  schedule:
-    - cron: '17 5 * * *'
   workflow_dispatch:
 
 permissions:
@@ -32,20 +34,17 @@ permissions:
 
 jobs:
   check:
-    if: github.event_name != 'schedule'
     runs-on: ubuntu-latest
-    # check:graph rebuilds data/graph (~2 GB) twice to assert determinism.
-    timeout-minutes: 90
+    # check:graph rebuilds the graph to assert determinism; the records build is the long pole.
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
           cache: npm
-      # npm ci, not npm install: check:notices compares exact installed versions with the
-      # committed notices. --ignore-scripts: the canvas devDependency builds natively and
-      # fails on the runner (pixman-1); nothing in the checks imports it.
-      # Python runs the person-id stamping inside records:build (scripts/records/).
+      # Python runs the person-id stamping inside records:build (scripts/records/) and the
+      # Playwright suite's static server (scripts/test-server.py).
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -58,13 +57,17 @@ jobs:
           df -h /
           sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/.ghcup /opt/hostedtoolcache/CodeQL
           df -h /
+      # npm ci, not npm install: check:notices compares exact installed versions with the
+      # committed notices. --ignore-scripts: the canvas devDependency builds natively and
+      # fails on the runner (pixman-1); nothing in the checks imports it.
       - run: npm ci --ignore-scripts
       - run: npm run check:ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:browser:maps
       - if: always()
         run: df -h / && du -sh tmp/records 2>/dev/null || true
 
   pages-build:
-    if: github.event_name != 'schedule'
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
@@ -78,6 +81,7 @@ jobs:
         run: npm install --ignore-scripts
       - name: npm run build
         run: npm run build
+      # The 18,500-file and 25 MiB-per-file budget, modelled from what would deploy.
       - name: Assert modelled deployable file count under budget
         run: node scripts/validate-pages-file-budget.mjs
       - name: clean-for-pages.sh
@@ -90,46 +94,3 @@ jobs:
             echo "::error::$COUNT files on disk; Cloudflare Pages hard-fails at 20,000."
             exit 1
           fi
-
-  browser:
-    if: github.event_name != 'schedule'
-    runs-on: ubuntu-latest
-    timeout-minutes: 45
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          cache: npm
-      - run: npm ci --ignore-scripts
-      - run: npx playwright install --with-deps chromium
-      # The specs serve the working tree (playwright.config.js); /maps/ needs the build.
-      - run: npm run build
-      - run: npm run test:browser:maps
-
-  verify:
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
-    timeout-minutes: 45
-    env:
-      PARITY_BASE_URL: https://civgraph.net
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          cache: npm
-      - run: npm ci --ignore-scripts
-      - run: npm run verify:ci
-      - run: npx playwright install --with-deps chromium
-      # Against the deployed site, on purpose, on the schedule -- not on every push, which
-      # would hammer the live site. Retries absorb the timing assertions that failed the
-      # nightly on 2 and 4 November 2026 (ux-plan-items.spec.js) without hiding a real break.
-      - run: >-
-          npx playwright test --retries 2
-          tests/browser/ux-plan-items.spec.js
-          tests/browser/ux-t1-05-t1-03.spec.js
-          tests/browser/catalogue-load-a11y.spec.js
-          tests/browser/eds-1931-1936.spec.js
-          tests/browser/elections-api-fallback.spec.js
-          tests/browser/elections-api-parity.spec.js

@@ -7,8 +7,8 @@
  * one-line CSS fix cost as long as a data batch. This looks at what changed and picks:
  *
  *   app    only interface code changed (app/src, src/*.js|css, render/src, sw.js, site
- *          CSS/JS, the election viewer, tests): rebuild the app bundle and shell, run the
- *          app-facing checks and the election/timeline browser tests.
+ *          CSS/JS, the election viewer, tests, CI and the check harness): rebuild the app
+ *          bundle and shell, run the app-facing checks and the election/timeline browser tests.
  *   data   anything else: the full chain. Election source or corrections also re-stamp
  *          person ids first (scripts/rebuild-person-ids.sh).
  *
@@ -38,7 +38,9 @@ const GENERATED = [
 ];
 const APP = [
   /^app\/src\//, /^src\/[^/]+\.(js|css)$/, /^render\/src\//, /^sw\.js$/,
-  /^assets\/(css|site|js)\//, /^tests\//, /^scripts\/run-checks\.mjs$/, /^scripts\/rebuild-changed\.mjs$/
+  /^assets\/(css|site|js)\//, /^tests\//, /^scripts\/run-checks\.mjs$/, /^scripts\/rebuild-changed\.mjs$/,
+  // The check machinery itself (CHECKS.md): CI, the clean-export harness, the test server.
+  /^\.github\/workflows\//, /^CHECKS\.md$/, /^scripts\/(validate-ci-workflow|check-clean)\.mjs$/, /^scripts\/test-server\.py$/
 ];
 // data/elections/ni-local/ is the grouped-years snapshot (calendar, boundary features): no person ids.
 const ELECTION_DATA = [/^data\/elections-source\//, /^data\/elections\/(?!ni-local\/)/];
@@ -62,7 +64,7 @@ const BROWSER_TESTS = [
   '-g', 'boundary changes on the timeline|runtime exposes|round-trips|clamps out-of-range|rapid timeline|FPTP Results|main DOM contract|candidate and count panes|Cork North-Central|Galway East|local-government aggregates|restores and persists|twist does not rotate|seat-circle overlays',
   '--timeout=180000'
 ];
-const APP_CHECKS = 'check:root,check:asset-refs,check:app-shell-cache,check:pages-assets,check:site-partials,check:site-nav,check:test2,lint';
+const APP_CHECKS = 'check:root,check:asset-refs,check:app-shell-cache,check:pages-assets,check:site-partials,check:site-nav,check:test2,check:ci-workflow,check:doc-paths,check:doc-status,lint';
 
 const plan = [];
 if (mode === 'app') {
