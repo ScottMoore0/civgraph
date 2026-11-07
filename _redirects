@@ -10,14 +10,36 @@
 # map app, not through /render/ (the legacy test app) and then on: one hop, no chain. The
 # metadata paths under /test/ still reach the files and Functions now under /render/metadata/.
 # The hash (#layers=...) is kept by the browser across a redirect; Pages keeps the query.
+#
+# /test/sw.js is the exception, and must stay above /test/*: browsers that opened /test/ before
+# the rename still hold a worker registered from that address, and a browser refuses a redirect
+# when it checks a worker for an update, so a 301 there would leave the old worker (and up to
+# 270 MB of its caches) installed for good. It answers 200 with the retired-app kill switch
+# (render/sw.js), which unregisters it and clears its caches. Keep it as long as /render/sw.js.
+/test/sw.js  /render/sw.js  200
 /test/metadata/*  /render/metadata/:splat  301
 /test/*  /maps/  301
 /test    /maps/  301
 
-# /maps/test/ was where the MapLibre app was reviewed before it became /maps/ (the build still
-# writes a copy there). Shared links land on the app itself.
-/maps/test/  /maps/  301
-/maps/test/index.html  /maps/  301
+# The legacy test apps are retired (site restructure F5, 7 Nov 2026): /render/ was the MapLibre
+# rewrite's development harness and /test2/ the app's address before it became the root and then
+# /maps/. Their pages answer 301 to the map app, which reads the same hash (layers, lng, lat, and
+# z as well as zoom). The workers they registered are retired by the kill switch still served at
+# /render/sw.js and /test2/sw.js (those two files, byte for byte the same), so neither address may
+# gain a splat rule here. /render/metadata/* keeps answering: the map app and third parties read it.
+/render            /maps/  301
+/render/           /maps/  301
+/render/index.html /maps/  301
+/render/build/*    /maps/  301
+/test2             /maps/  301
+/test2/            /maps/  301
+/test2/index.html  /maps/  301
+
+# /maps/test/ was where the MapLibre app was reviewed before it became /maps/. Shared links land
+# on the app itself; the page is no longer written.
+/maps/test            /maps/  301
+/maps/test/           /maps/  301
+/maps/test/index.html /maps/  301
 
 # The Status page sits beside About, at /pages/status.html; /status is its short address.
 /status   /pages/status  301

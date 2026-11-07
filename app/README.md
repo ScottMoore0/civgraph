@@ -19,8 +19,8 @@ almost certainly change something here.
 ## The trap
 
 `npm run build` (or `npm run build:test2:app`) also stamps cache tokens into tracked
-files: the `?v=` of the bundle in `maps/index.html` (and the `maps/test/` and
-`maps/classic/` copies written from it) and `VERSION` in `sw.js`. After editing
+files: the `?v=` of the bundle in `maps/index.html` (and the `maps/classic/`
+copy written from it) and `VERSION` in `sw.js`. After editing
 anything the bundle includes (`app/src/`, `src/map/`, `src/`), rebuild
 and commit those stamped files with the change, so the tokens follow the bundle.
 

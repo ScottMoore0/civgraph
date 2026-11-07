@@ -6,7 +6,7 @@
  * build, the semantic graph, site stats, all 61 checks and the browser tests -- so a
  * one-line CSS fix cost as long as a data batch. This looks at what changed and picks:
  *
- *   app    only interface code changed (app/src, src/*.js|css, src/map, render/src, sw.js, site
+ *   app    only interface code changed (app/src, src/*.js|css, src/map, sw.js, site
  *          CSS/JS, the election viewer, tests, CI and the check harness): rebuild the app
  *          bundle and shell, run the app-facing checks and the election/timeline browser tests.
  *   data   anything else: the full chain. Election source or corrections also re-stamp
@@ -29,7 +29,7 @@ const noBrowser = args.includes('--no-browser');
 
 // Outputs the builds themselves write: a change here says nothing about what to rebuild.
 const GENERATED = [
-  /^app\/build\//, /^(maps\/(classic\/|test\/)?)?index\.html$/, /^test2\/index\.html$/,
+  /^app\/build\//, /^(maps\/(classic\/)?)?index\.html$/,
   /^agent\//, /^data\/catalogue\//, /^data\/browse\//, /^data\/graph\//,
   /^data\/database\/(corpus-index|election-provenance|site-stats|status)\.json$/,
   /^data\/database\/[a-z-]+-d1-import\.sql$/, /^data\/database\/elections-schema\.sql$/,

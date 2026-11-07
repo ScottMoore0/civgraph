@@ -150,10 +150,10 @@ function updateHtmlVersions(jsVersion, cssVersion, viewerAssetVersions) {
   }
 }
 
-// The rebuilt catalogue (src/catalogue/) became civgraph.net/maps on 2026-10-12. Two more pages
-// are written from maps/index.html on every build, so they never drift from it, and kept out of
-// search engines:
-//   maps/test     -- where it was reviewed; links shared from there keep working.
+// The rebuilt catalogue (src/catalogue/) became civgraph.net/maps on 2026-10-12. One more page is
+// written from maps/index.html on every build, so it never drifts from it, and kept out of search
+// engines (maps/test, where the catalogue was reviewed, was written here too until 7 Nov 2026; its
+// address answers 301 to /maps/ in _redirects):
 //   maps/classic  -- the archived classic pane, kept in case anything is needed from it or the
 //                    switch is reverted (git tag maps-classic-2026-10-12 is the last commit that
 //                    served it at /maps).
@@ -170,7 +170,6 @@ function writeCatalogueTestPage() {
     mkdirSync(`maps/${dir}`, { recursive: true });
     writeFileSync(`maps/${dir}/index.html`, html);
   };
-  page('test', 'next');
   page('classic', 'classic');
 }
 
