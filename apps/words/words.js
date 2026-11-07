@@ -8,7 +8,11 @@
  * labels folded to Civgraph's party records, built by scripts/build/words-parties.mjs).
  *
  * ?data=<origin> points the page at another copy of the bucket, as on the Census Explorer.
+ *
+ * An ES module (its imports are versioned by the import map in apps/words/index.html).
  */
+import { TOOLTIP } from './state-machines.js';
+
 (function () {
   'use strict';
 
@@ -400,6 +404,9 @@
     var old = plot.querySelector('svg'); if (old) plot.replaceChild(svg, old); else plot.insertBefore(svg, plot.firstChild);
     var tip = plot.querySelector('.tip'); var live = fig.querySelector('.live');
     var curYear = null;
+    // The tooltip element outlives a redraw (only the svg is replaced), so the run starts where it is.
+    var tipState = TOOLTIP.start(tip.hidden ? 'hidden' : 'shown');
+    function setTip(next) { if (tipState.state() !== next) tipState.to(next); tip.hidden = next === 'hidden'; }
     function show(yv0, announce) {
       var y = Math.max(yr[0], Math.min(yr[1], yv0)); curYear = y;
       var idx = y - yr[0]; var xx = x(y);
@@ -415,13 +422,13 @@
         tip.appendChild(el('div', { class: 'row' }, [el('i', { class: 'sw ' + s.cls, 'aria-hidden': 'true' }), el('span', { text: s.label }), el('span', { text: txt }), sub ? el('small', { text: sub }) : null]));
         spoken.push(s.label + ' ' + txt + (p ? ', ' + int(p.c) + ' uses' : ''));
       });
-      tip.hidden = false;
+      setTip('shown');
       var tw = tip.offsetWidth; var left = xx / width * plot.clientWidth + 12;
       if (left + tw > plot.clientWidth) left = Math.max(0, xx / width * plot.clientWidth - tw - 12);
       tip.style.left = left + 'px'; tip.style.top = '8px';
       if (announce) live.textContent = y + ': ' + spoken.join('; ');
     }
-    function hide() { cross.setAttribute('visibility', 'hidden'); dots.forEach(function (d) { d.setAttribute('visibility', 'hidden'); }); tip.hidden = true; }
+    function hide() { cross.setAttribute('visibility', 'hidden'); dots.forEach(function (d) { d.setAttribute('visibility', 'hidden'); }); setTip('hidden'); }
     function yearAt(evt) { var r = svg.getBoundingClientRect(); var px = (evt.clientX - r.left) / r.width * width; return Math.round(yr[0] + (px - M.l) / iw * (yr[1] - yr[0])); }
     hit.addEventListener('pointermove', function (e) { show(yearAt(e), false); });
     hit.addEventListener('pointerdown', function (e) { show(yearAt(e), false); });
