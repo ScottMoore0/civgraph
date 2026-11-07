@@ -14,6 +14,7 @@
 import { spawnSync } from 'node:child_process';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { SITE } from '../lib/config.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 export const SPECS = [
@@ -23,7 +24,7 @@ export const SPECS = [
   'tests/browser/eds-1931-1936.spec.js',
 ];
 
-const env = { ...process.env, PARITY_BASE_URL: process.env.PARITY_BASE_URL || 'https://civgraph.net' };
+const env = { ...process.env, PARITY_BASE_URL: process.env.PARITY_BASE_URL || SITE.origin };
 console.log(`verify:browser against ${env.PARITY_BASE_URL}`);
 const res = spawnSync(process.execPath, [path.join(ROOT, 'node_modules/@playwright/test/cli.js'), 'test', '--retries', '2', ...SPECS, ...process.argv.slice(2)], { cwd: ROOT, env, stdio: 'inherit' });
 process.exitCode = res.status ?? 1;

@@ -32,6 +32,7 @@ import { statSync, existsSync, readdirSync, createReadStream, readFileSync } fro
 import path from 'node:path';
 import { S3Client, PutObjectCommand, ListObjectsV2Command } from '@aws-sdk/client-s3';
 import { assertPublishable } from '../lib/r2-publication-gate.mjs';
+import { r2CredentialsOrExit, s3ClientOptions } from './r2-env.mjs';
 
 const args = process.argv.slice(2);
 const argVal = (n, d) => { const i = args.indexOf(`--${n}`); return i >= 0 && args[i + 1] ? args[i + 1] : d; };
@@ -56,19 +57,11 @@ if ((!DIR && !MANIFEST) || PREFIX === '/') {
 if (DIR && !existsSync(DIR)) { console.error(`Missing directory: ${DIR}`); process.exit(2); }
 if (MANIFEST && !existsSync(MANIFEST)) { console.error(`Missing manifest: ${MANIFEST}`); process.exit(2); }
 
-const ENDPOINT = process.env.R2_S3_ENDPOINT;
-const BUCKET = process.env.R2_BUCKET;
-const ACCESS = process.env.R2_ACCESS_KEY_ID;
-const SECRET = process.env.R2_SECRET_ACCESS_KEY;
-if (!ENDPOINT || !BUCKET || !ACCESS || !SECRET) {
-  console.error('Missing R2 credentials. Source .env.local first.');
-  process.exit(2);
-}
+// .env.local is loaded here (r2-env.mjs); --env-file and a sourced shell still win.
+const R2 = r2CredentialsOrExit({ exitCode: 2 });
+const BUCKET = R2.bucket;
 
-const s3 = new S3Client({
-  region: 'auto', endpoint: ENDPOINT,
-  credentials: { accessKeyId: ACCESS, secretAccessKey: SECRET }
-});
+const s3 = new S3Client(s3ClientOptions(R2));
 
 // Files at or below this go up as a rewindable Buffer; larger ones stream.
 const STREAM_THRESHOLD = 128 * 1024 * 1024;

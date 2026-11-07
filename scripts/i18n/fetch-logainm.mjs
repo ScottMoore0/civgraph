@@ -33,6 +33,7 @@
  */
 import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
+import { SITE } from '../lib/config.mjs';
 
 const arg = (name, fallback) => { const i = process.argv.indexOf(name); return i > 0 ? process.argv[i + 1] : fallback; };
 // Same cache as build-place-name-crosswalk.mjs: CIVGRAPH_I18N_CACHE, --cache, or tmp/i18n-cache.
@@ -42,7 +43,7 @@ const DRY = process.argv.includes('--dry-run');
 const REFRESH = process.argv.includes('--refresh');
 const KEY = process.env.LOGAINM_API_KEY || '';
 const API = 'https://www.logainm.ie/api/v1.0/';
-const UA = 'civgraph-research (+https://civgraph.net)';
+const UA = SITE.userAgent;
 const DELAY_MS = 1100;
 
 const crosswalk = path.join(CACHE, 'place-name-crosswalk.tsv');

@@ -13,12 +13,13 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { mergeArtefactRecords, assertKnownFlags } from '../lib/safe-artefact-write.mjs';
+import { SITE } from '../lib/config.mjs';
 
 const ROOT = resolve(process.cwd());
 const MANIFEST_PATH = resolve(ROOT, 'render/metadata/cdn-upload-manifest.json');
 const REPORT_PATH = resolve(ROOT, 'render/metadata/cdn-range-report.json');
 const APPLY = process.argv.includes('--apply');
-const ORIGIN = process.env.TEST_CDN_VERIFY_ORIGIN || 'https://civgraph.net';
+const ORIGIN = process.env.TEST_CDN_VERIFY_ORIGIN || SITE.origin;
 assertKnownFlags(['--ids', '--apply']);
 const ONLY_IDS = new Set(readArgList('--ids'));
 const manifest = JSON.parse(readFileSync(MANIFEST_PATH, 'utf8'));

@@ -5,7 +5,7 @@
  * doesn't share the account-level rate limit.
  *
  * Usage:
- *   R2_ACCESS_KEY_ID=...  R2_SECRET_ACCESS_KEY=...  R2_S3_ENDPOINT=https://<account>.r2.cloudflarestorage.com \
+ *   (credentials: .env.local at the repository root, loaded by r2-env.mjs; the environment wins)
  *   node scripts/publish/r2-upload-tree.mjs <local-dir> <r2-key-prefix> [--concurrency=N] [--dry-run] [--check]
  *
  *   --check         HEAD each key first and skip if already uploaded (default: skip checks)
@@ -18,6 +18,7 @@ import { join, relative, sep, resolve as resolvePath } from 'path';
 import { execFileSync } from 'child_process';
 import { S3Client, PutObjectCommand, HeadObjectCommand, ListObjectsV2Command } from '@aws-sdk/client-s3';
 import { assertPublishable } from '../lib/r2-publication-gate.mjs';
+import { r2CredentialsOrExit, s3ClientOptions } from './r2-env.mjs';
 
 const args = process.argv.slice(2);
 const flags = new Set(args.filter(a => a.startsWith('--') && !a.includes('=')));
@@ -36,28 +37,16 @@ const CHECK_FIRST = flags.has('--check');
 const CHANGED_ONLY = flags.has('--changed-only');
 const CONCURRENCY = parseInt(opts.concurrency || '32', 10);
 
-const ACCESS_KEY_ID = process.env.R2_ACCESS_KEY_ID;
-const SECRET_ACCESS_KEY = process.env.R2_SECRET_ACCESS_KEY;
-const ENDPOINT = process.env.R2_S3_ENDPOINT;
-const BUCKET = process.env.R2_BUCKET || 'boundaries-data';
-
-if (!ACCESS_KEY_ID || !SECRET_ACCESS_KEY || !ENDPOINT) {
-    console.error('Missing one of R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_S3_ENDPOINT in env.');
-    process.exit(1);
-}
+// .env.local is loaded here (r2-env.mjs), so npm run sync:thumbnails needs no sourced shell.
+const R2 = r2CredentialsOrExit();
+const BUCKET = R2.bucket;
 
 // Kept identical to scripts/set-r2-cache-control.mjs. If you change one, change
 // both -- objects uploaded after a divergence would quietly differ from the ones
 // backfilled before it, and nothing downstream would notice.
 const CACHE_CONTROL = 'public, max-age=3600, stale-while-revalidate=86400';
 
-const s3 = new S3Client({
-    region: 'auto',
-    endpoint: ENDPOINT,
-    credentials: { accessKeyId: ACCESS_KEY_ID, secretAccessKey: SECRET_ACCESS_KEY },
-    forcePathStyle: false,
-    maxAttempts: 5,
-});
+const s3 = new S3Client(s3ClientOptions(R2, { forcePathStyle: false, maxAttempts: 5 }));
 
 function walk(dir, files = []) {
     for (const e of readdirSync(dir, { withFileTypes: true })) {

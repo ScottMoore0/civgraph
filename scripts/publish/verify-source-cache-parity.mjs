@@ -64,6 +64,7 @@
  */
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync } from 'node:fs';
+import { SITE } from '../lib/config.mjs';
 
 const CATALOGUE = 'data/database/maps.json';
 const RENDER = 'render/metadata/maps-test.json';
@@ -120,7 +121,7 @@ for (const map of catalogue.maps || []) {
   let url = published;
   if (!/^https?:\/\//i.test(published)) {
     relativePaths.push(map.id);
-    url = `https://data.civgraph.net/${String(published).replace(/^\/+/, '')}`;
+    url = `${SITE.dataOrigin}/${String(published).replace(/^\/+/, '')}`;
   }
   work.push({ id: map.id, published: url, local });
 }

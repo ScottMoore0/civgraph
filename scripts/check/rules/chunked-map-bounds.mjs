@@ -14,12 +14,13 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { SITE } from '../../lib/config.mjs';
 
 const ROOT = resolve(process.cwd());
 const MAPS_PATH = resolve(ROOT, 'data/database/maps.json');
 const URL_PREFIXES = [
-  'https://data.civgraph.net/',
-  'https://civgraph.net/'
+  `${SITE.dataOrigin}/`,
+  `${SITE.origin}/`
 ];
 
 const IRELAND_BBOX_LIMITS = {
@@ -116,6 +117,12 @@ function chunkIndexBbox(chunkIndex) {
   const union = unionBboxes(chunkBboxes);
   return union && isValidBbox(union) ? union.map(roundCoord) : null;
 }
+
+/**
+ * What loading a map's chunk index found (state-machine catalogue PL-L, light: a closed result set).
+ * @typedef {'ok' | 'missing-path' | 'missing-file' | 'invalid-bbox' | 'parse-error'} ChunkIndexStatus
+ */
+export const CHUNK_INDEX_STATUSES = Object.freeze(['ok', 'missing-path', 'missing-file', 'invalid-bbox', 'parse-error']);
 
 function loadChunkIndex(entry) {
   const relativePath = chunkIndexPathFor(entry);

@@ -20,6 +20,7 @@
 import { createRequire } from 'node:module';
 import { existsSync, mkdirSync, statSync } from 'node:fs';
 import path from 'node:path';
+import { SITE } from '../lib/config.mjs';
 
 // Resolve relative to this module. This previously hardcoded an absolute path
 // to one developer's checkout, which resolves nowhere else -- so
@@ -56,7 +57,7 @@ if (args.includes('--check')) {
 // /maps/, not /: the interactive map moved there when the landing page took the root.
 // The preview is meant to show what a visitor gets, and what they get from a shared map
 // link is the map. Capturing / now would produce a picture of the landing page.
-const URL_ = argVal('--url', 'https://civgraph.net/maps/');
+const URL_ = argVal('--url', `${SITE.origin}/maps/`);
 // A counties layer, deliberately. The first attempt used eds-roi-1941, whose ~4,000
 // electoral divisions render as overlapping labels -- visual noise at the thumbnail size
 // a social card is actually viewed at. Counties are recognisable and readable when small.

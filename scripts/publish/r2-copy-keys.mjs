@@ -6,8 +6,8 @@
  * stay where it is (12 months, then one listed deletion); this only ever ADDS objects.
  *
  *   node scripts/publish/r2-copy-keys.mjs plan   [--source render/metadata/maps-test.json] [--out <manifest.json>]
- *   node --env-file=.env.local scripts/publish/r2-copy-keys.mjs copy   --manifest <m.json> [--apply]
- *   node --env-file=.env.local scripts/publish/r2-copy-keys.mjs verify --manifest <m.json>
+ *   node scripts/publish/r2-copy-keys.mjs copy   --manifest <m.json> [--apply]
+ *   node scripts/publish/r2-copy-keys.mjs verify --manifest <m.json>
  *
  * plan    offline: reads every tileUrl in the layer registry, applies the rename rule
  *         (scripts/lib/layer-renames.mjs) and writes the manifest of { from, to } pairs,
@@ -28,6 +28,8 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { NEW_PMTILES_PREFIX, OLD_PMTILES_PREFIX, renamePmtilesKey } from '../lib/layer-renames.mjs';
+import { r2Credentials, s3ClientOptions } from './r2-env.mjs';
+import { pairShapeProblem, stateAfterCopy, stateFromVerify } from './key-migration.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const DEFAULT_SOURCE = 'render/metadata/maps-test.json';
@@ -96,6 +98,8 @@ export function validateManifest(manifest) {
         errors.push(`pair ${i}: ${key} is outside ${ALLOWED_PREFIXES.join(' and ')}`);
       }
     }
+    const shape = pairShapeProblem(p);
+    if (shape) errors.push(`pair ${i}: ${shape}`);
     if (seenTo.has(p.to)) errors.push(`pair ${i}: ${p.to} is a destination twice`);
     seenTo.add(p.to);
   }
@@ -121,7 +125,10 @@ const sameObject = (a, b) => Boolean(a && b && a.size === b.size && (!a.etag || 
 
 /**
  * Copy (or, without apply, plan) every pair. `client` is an S3Client; `commands` holds the
- * command classes, injected so tests need no network. Returns per-pair results.
+ * command classes, injected so tests need no network. Returns per-pair results. A plan
+ * (apply false) needs no client.
+ * @param {Array<{ from: string, to: string }>} pairs
+ * @param {{ client?: any, commands?: any, bucket?: string, apply?: boolean, log?: (message: string) => void }} options
  */
 export async function copyPairs(pairs, { client, commands, bucket, apply = false, log = console.log }) {
   const results = [];
@@ -166,17 +173,11 @@ export async function verifyPairs(pairs, { client, commands, bucket }) {
 }
 
 async function s3FromEnv() {
-  const { R2_S3_ENDPOINT, R2_BUCKET, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY } = process.env;
-  if (!R2_S3_ENDPOINT || !R2_BUCKET || !R2_ACCESS_KEY_ID || !R2_SECRET_ACCESS_KEY) {
-    throw new Error('R2_S3_ENDPOINT, R2_BUCKET, R2_ACCESS_KEY_ID and R2_SECRET_ACCESS_KEY must be set (node --env-file=.env.local ...)');
-  }
+  // Loads .env.local; throws R2CredentialsError (names only) when a variable is still missing.
+  const r2 = r2Credentials();
   const sdk = await import('@aws-sdk/client-s3');
-  const client = new sdk.S3Client({
-    region: 'auto',
-    endpoint: R2_S3_ENDPOINT,
-    credentials: { accessKeyId: R2_ACCESS_KEY_ID, secretAccessKey: R2_SECRET_ACCESS_KEY },
-  });
-  return { client, commands: sdk, bucket: R2_BUCKET };
+  const client = new sdk.S3Client(s3ClientOptions(r2));
+  return { client, commands: sdk, bucket: r2.bucket };
 }
 
 function argValue(argv, name) {
@@ -231,9 +232,14 @@ export async function main(argv = process.argv.slice(2)) {
     const results = await verifyPairs(manifest.pairs, s3);
     for (const r of results.filter((x) => x.status !== 'ok')) console.log(`${r.status}: ${r.from} -> ${r.to}`);
     console.log(`verify: ${summarise(results)}`);
+    // Where each pair stands in the migration (key-migration.mjs): only `copied` may switch.
+    console.log(`migration: ${summarise(results.map((r) => ({ status: stateFromVerify(r.status) })))}`);
     return results.every((r) => r.status === 'ok') ? 0 : 1;
   }
-  const results = await copyPairs(manifest.pairs, { ...s3, apply: true });
+  // Each result carries its migration state (key-migration.mjs), so the receipt records which
+  // keys are copied (catalogue PL-03: nothing did).
+  const results = (await copyPairs(manifest.pairs, { ...s3, apply: true }))
+    .map((r) => ({ ...r, state: stateAfterCopy(r.status) }));
   const receipt = manifestPath.replace(/\.json$/, '') + '.receipt.json';
   writeFileSync(receipt, `${JSON.stringify({ manifest: path.basename(manifestPath), finishedAt: new Date().toISOString(), results }, null, 2)}\n`);
   for (const r of results.filter((x) => x.status === 'error')) console.error(`ERROR ${r.from}: ${r.detail}`);

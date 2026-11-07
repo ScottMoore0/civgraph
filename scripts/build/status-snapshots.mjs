@@ -40,10 +40,11 @@
  */
 import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
+import { SITE } from '../lib/config.mjs';
 
 const ROOT = process.cwd();
 const OUT = path.join(ROOT, 'data/status/source-snapshots.json');
-const UA = 'civgraph-research (+https://civgraph.net)';
+const UA = SITE.userAgent;
 
 try { process.loadEnvFile?.(path.join(ROOT, '.env.local')); } catch { /* optional */ }
 

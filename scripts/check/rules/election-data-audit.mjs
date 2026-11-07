@@ -3,6 +3,21 @@ import path from 'node:path';
 import { writeStableGeneratedJson } from '../../lib/stable-generated-json.mjs';
 import { recordPath } from '../../records/paths.mjs';
 
+/**
+ * The party-colour comparison's outcome (state-machine catalogue PL-L, light). The audit rows spell
+ * three outcomes five ways; this is the one place that reads them.
+ * @typedef {'match' | 'mismatch' | 'no-election-colour'} ColourOutcome
+ */
+export const COLOUR_STATUS_SPELLINGS = Object.freeze({
+  match: 'match', matched: 'match', colour_match: 'match',
+  colour_mismatch: 'mismatch',
+  no_election_colour: 'no-election-colour',
+});
+/** @param {unknown} status @returns {ColourOutcome | null} */
+export function colourOutcome(status) {
+  return Object.hasOwn(COLOUR_STATUS_SPELLINGS, String(status)) ? /** @type {ColourOutcome} */ (COLOUR_STATUS_SPELLINGS[/** @type {keyof typeof COLOUR_STATUS_SPELLINGS} */ (String(status))]) : null;
+}
+
 const ROOT = process.cwd();
 const FAIL_ON_BLOCKING = process.argv.includes('--fail-on-blocking');
 const JSON_OUT = path.join(ROOT, 'tasks', 'test2-election-data-audit.json');
@@ -493,9 +508,10 @@ if (fs.existsSync(colourAuditPath)) {
   const colourRows = parseCsv(fs.readFileSync(colourAuditPath, 'utf8'));
   stats.colours.observations = colourRows.length;
   for (const row of colourRows) {
-    if (row.colour_status === 'match' || row.colour_status === 'matched' || row.colour_status === 'colour_match') stats.colours.matches += 1;
-    if (row.colour_status === 'colour_mismatch') stats.colours.mismatches += 1;
-    if (row.colour_status === 'no_election_colour') stats.colours.noElectionColour += 1;
+    const colour = colourOutcome(row.colour_status);
+    if (colour === 'match') stats.colours.matches += 1;
+    if (colour === 'mismatch') stats.colours.mismatches += 1;
+    if (colour === 'no-election-colour') stats.colours.noElectionColour += 1;
     if (row.match_status === 'no_match') stats.colours.noWikipediaMatch += 1;
     if (String(row.match_status || '').startsWith('ambiguous')) stats.colours.ambiguousWikipediaMatch += 1;
   }

@@ -20,11 +20,12 @@ import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node
 import { dirname, join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
 import { spawnSync } from 'node:child_process';
+import { SITE } from '../../lib/config.mjs';
 
 const ROOT = resolve(dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1')), '..', '..', '..');
 const METADATA = join(ROOT, 'render/metadata/maps-test.json');
 const MAX_INDEX_ITEMS = 20000;
-const env = { ...process.env, MSYS_NO_PATHCONV: '1', GDAL_HTTP_USERAGENT: 'civgraph-research (+https://civgraph.net)' };
+const env = { ...process.env, MSYS_NO_PATHCONV: '1', GDAL_HTTP_USERAGENT: SITE.userAgent };
 
 const args = process.argv.slice(2);
 const idsAt = args.indexOf('--ids');

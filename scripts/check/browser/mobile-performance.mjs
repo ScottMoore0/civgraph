@@ -2,11 +2,17 @@
 import { chromium, devices } from '@playwright/test';
 import { spawn } from 'node:child_process';
 import { mkdirSync, writeFileSync } from 'node:fs';
+import { defineToggle } from '../../lib/state-machine.mjs';
 
 const PORT = Number(process.env.TEST2_PERF_PORT || 5053);
 const BASE = `http://127.0.0.1:${PORT}`;
+// Two modes (state-machine catalogue PL-L, light): the offline fixture or the CDN; 'production'
+// is another spelling of 'cdn', and any other value means the fixture, as before.
+const PERF_MODE = defineToggle('performance mode', ['fixture', 'cdn']);
 const MODE = (process.env.TEST2_PERF_MODE || 'fixture').toLowerCase();
-const USE_CDN = MODE === 'cdn' || MODE === 'production';
+/** @type {'fixture' | 'cdn'} */
+const PERF = MODE === 'cdn' || MODE === 'production' ? 'cdn' : PERF_MODE.initial;
+const USE_CDN = PERF === 'cdn';
 const REPORT_PATH = process.env.TEST2_PERF_REPORT || 'app/build/mobile-performance-report.json';
 const BUDGETS = {
   bootMs: Number(process.env.TEST2_PERF_BOOT_MS || 5000),
