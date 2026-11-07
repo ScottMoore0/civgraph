@@ -14,21 +14,25 @@
  * never be recorded and a rebuild would have reset it. It now asks `languageFileStatus`. With no
  * reviewer named (today, for Irish and Ulster-Scots) the output is unchanged.
  */
-import { defineMachine } from '../publish/state-machine.mjs';
+import { defineMachine } from '../lib/state-machine.mjs';
+import { checkTransition, defineGuards } from '../publish/transition-check.mjs';
 
 /** @typedef {'source' | 'generated' | 'draft' | 'reviewed'} TranslationStatus */
 
-export const translationStatus = defineMachine(/** @type {import('../publish/state-machine.mjs').MachineDefinition<TranslationStatus>} */ ({
+export const translationStatus = defineMachine(/** @type {import('../lib/state-machine.mjs').MachineSpec<TranslationStatus>} */ ({
   name: 'translation file status',
-  states: ['source', 'generated', 'draft', 'reviewed'],
   initial: 'draft',
   transitions: { source: [], generated: [], draft: ['reviewed'], reviewed: ['draft'] },
-  guards: {
-    'draft->reviewed': (/** @type {{ reviewedBy?: string | null }} */ ctx) => (
-      String(ctx.reviewedBy ?? '').trim() ? null : 'no reviewer is named (META.<lang>.reviewedBy)'
-    ),
-  },
 }));
+
+export const translationStatusGuards = defineGuards(translationStatus, {
+  'draft->reviewed': (/** @type {{ reviewedBy?: string | null }} */ ctx) => (
+    String(ctx.reviewedBy ?? '').trim() ? null : 'no reviewer is named (META.<lang>.reviewedBy)'
+  ),
+});
+
+/** @param {string} from @param {string} to @param {object} [context] */
+export const checkTranslationStatus = (from, to, context) => checkTransition(translationStatus, translationStatusGuards, from, to, context);
 
 /**
  * The status a language file is built with: `reviewed` once a reviewer is named, else `draft`.
@@ -36,5 +40,5 @@ export const translationStatus = defineMachine(/** @type {import('../publish/sta
  * @returns {TranslationStatus}
  */
 export function languageFileStatus(meta) {
-  return translationStatus.check('draft', 'reviewed', meta).ok ? 'reviewed' : 'draft';
+  return checkTranslationStatus('draft', 'reviewed', meta).ok ? 'reviewed' : 'draft';
 }

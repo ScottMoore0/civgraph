@@ -22,7 +22,7 @@
 import { spawnSync } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname } from 'node:path';
-import { RESUME_MARKER, layerPublishRun, layerPublishSteps, resumeMarker } from './layer-publish-run.mjs';
+import { RESUME_MARKER, assertRunTransition, checkRunTransition, layerPublishRun, layerPublishSteps, resumeMarker } from './layer-publish-run.mjs';
 
 const args = process.argv.slice(2);
 const idsAt = args.indexOf('--ids');
@@ -51,7 +51,7 @@ for (const { label, args: stepArgs, reaches } of steps) {
     .filter((line) => line.trim() && !/ExperimentalWarning|MODULE_TYPELESS|trace-warnings|eliminate this warning|Reparsing as ES module/.test(line));
   if (result.status !== 0) {
     const marker = resumeMarker({ ids, build, reached: stage, failedStep: label });
-    stage = layerPublishRun.assert(stage, 'failed');
+    stage = assertRunTransition(stage, 'failed');
     console.log(`FAIL ${seconds.padStart(4)}s  ${label}`);
     console.log(output.slice(-25).join('\n'));
     // The resume marker: a failure after the build leaves the layers on local tileUrls, and the
@@ -61,7 +61,7 @@ for (const { label, args: stepArgs, reaches } of steps) {
     console.log(`\nStopped after "${marker.reached}"${marker.tileUrlsLocal ? '; the listed layers may still point at local archives' : ''}. Resume: ${marker.resume}`);
     process.exit(result.status || 1);
   }
-  stage = layerPublishRun.assert(stage, reaches, { build });
+  stage = assertRunTransition(stage, reaches, { build });
   console.log(`ok   ${seconds.padStart(4)}s  ${label}  -- ${(output.slice(-1)[0] || '').trim().slice(0, 110)}`);
 }
 
@@ -72,7 +72,7 @@ const local = ids.filter((id) => {
   const layer = layers.find((entry) => entry.id === id);
   return !layer || !/^https:\/\//.test(String(layer.tileUrl || ''));
 });
-const done = layerPublishRun.check(stage, 'published', { notOnCdn: local });
+const done = checkRunTransition(stage, 'published', { notOnCdn: local });
 if (!done.ok) {
   console.log(`FAIL: ${local.length ? `still not on the CDN: ${local.join(', ')}` : done.reason}`);
   process.exit(1);

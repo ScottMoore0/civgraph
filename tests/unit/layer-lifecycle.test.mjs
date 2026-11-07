@@ -1,28 +1,21 @@
-// The tile-layer lifecycle (scripts/publish/layer-lifecycle.mjs) and the machine helper under it.
+// The tile-layer lifecycle (scripts/publish/layer-lifecycle.mjs) and the guarded transitions under it.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { InvalidTransitionError, defineMachine, defineToggle } from '../../scripts/publish/state-machine.mjs';
-import { layerLifecycle, mvtDirectoryState, pmtilesLayerState } from '../../scripts/publish/layer-lifecycle.mjs';
+import { defineMachine } from '../../scripts/lib/state-machine.mjs';
+import { checkTransition, defineGuards } from '../../scripts/publish/transition-check.mjs';
+import { assertLayerTransition, checkLayerTransition, mvtDirectoryState, pmtilesLayerState } from '../../scripts/publish/layer-lifecycle.mjs';
 
 const URL_OLD = 'https://data.civgraph.net/data/maps/test/pmtiles/generated/x-vector-test.pmtiles';
 const URL_NEW = 'https://data.civgraph.net/data/maps/test/pmtiles/generated/x-vector.pmtiles';
 
-test('defineMachine rejects malformed tables', () => {
-  assert.throws(() => defineMachine({ name: 'm', states: ['a', 'a'], initial: 'a', transitions: { a: [] } }), /twice/);
-  assert.throws(() => defineMachine({ name: 'm', states: ['a'], initial: 'b', transitions: { a: [] } }), /initial/);
-  assert.throws(() => defineMachine({ name: 'm', states: ['a', 'b'], initial: 'a', transitions: { a: ['b'] } }), /no transitions given for b/);
-  assert.throws(() => defineMachine({ name: 'm', states: ['a'], initial: 'a', transitions: { a: ['c'] } }), /unknown state/);
-  assert.throws(() => defineMachine({ name: 'm', states: ['a'], initial: 'a', transitions: { a: [], z: [] } }), /unknown state z/);
-  assert.throws(() => defineMachine({ name: 'm', states: ['a', 'b'], initial: 'a', transitions: { a: [], b: [] }, guards: { 'a->b': () => null } }), /guard a->b/);
-});
-
-test('defineToggle flips both ways and nothing else', () => {
-  const t = defineToggle('dry run', ['real', 'dry']);
-  assert.equal(t.initial, 'real');
-  assert.equal(t.assert('real', 'dry'), 'dry');
-  assert.equal(t.assert('dry', 'real'), 'real');
-  assert.equal(t.check('dry', 'dry').ok, false);
-  assert.throws(() => t.assert('real', 'maybe'), InvalidTransitionError);
+test('guards must sit on a transition the table lists', () => {
+  const m = defineMachine({ name: 'm', initial: 'a', transitions: { a: ['b'], b: [] } });
+  assert.throws(() => defineGuards(m, { 'b->a': () => null }), /guard b->a/);
+  const guards = defineGuards(m, { 'a->b': (ctx) => (ctx.allow ? null : 'not allowed yet') });
+  assert.deepEqual(checkTransition(m, guards, 'a', 'b', { allow: true }), { ok: true });
+  assert.match(checkTransition(m, guards, 'a', 'b', {}).reason, /m: a -> b: not allowed yet/);
+  assert.match(checkTransition(m, guards, 'b', 'a').reason, /not allowed \(from b: none, it is final\)/);
+  assert.match(checkTransition(m, guards, 'z', 'a').reason, /"z" is not a state/);
 });
 
 test('the lifecycle table forbids skipping verification or serving from a failure', () => {
@@ -31,30 +24,30 @@ test('the lifecycle table forbids skipping verification or serving from a failur
     ['serving', 'serving'], ['verified', 'failed'], ['nonsense', 'local'],
   ];
   for (const [from, to] of forbidden) {
-    assert.equal(layerLifecycle.check(from, to, { kind: 'pmtiles' }).ok, false, `${from} -> ${to}`);
-    assert.throws(() => layerLifecycle.assert(from, to, { kind: 'pmtiles' }), InvalidTransitionError);
+    assert.equal(checkLayerTransition(from, to, { kind: 'pmtiles' }).ok, false, `${from} -> ${to}`);
+    assert.throws(() => assertLayerTransition(from, to, { kind: 'pmtiles' }), /layer lifecycle/);
   }
   for (const [from, to] of [['local', 'uploaded'], ['uploaded', 'verified'], ['local', 'verified'], ['failed', 'uploaded'], ['serving', 'local'], ['verified', 'local']]) {
-    assert.equal(layerLifecycle.check(from, to).ok, true, `${from} -> ${to}`);
+    assert.equal(checkLayerTransition(from, to).ok, true, `${from} -> ${to}`);
   }
 });
 
 test('a PMTiles switch needs a passing range check of the URL it will serve', () => {
-  const ok = layerLifecycle.check('verified', 'serving', { kind: 'pmtiles', cdnUrl: URL_OLD, checkedUrl: URL_OLD });
+  const ok = checkLayerTransition('verified', 'serving', { kind: 'pmtiles', cdnUrl: URL_OLD, checkedUrl: URL_OLD });
   assert.deepEqual(ok, { ok: true });
   // The 7 Nov hazard: the manifest names a new key, the range check fetched the old one.
-  const stale = layerLifecycle.check('verified', 'serving', { kind: 'pmtiles', cdnUrl: URL_NEW, checkedUrl: URL_OLD });
+  const stale = checkLayerTransition('verified', 'serving', { kind: 'pmtiles', cdnUrl: URL_NEW, checkedUrl: URL_OLD });
   assert.equal(stale.ok, false);
   assert.match(stale.reason, /fetched .*x-vector-test\.pmtiles, not .*x-vector\.pmtiles/);
-  assert.equal(layerLifecycle.check('verified', 'serving', { kind: 'pmtiles', checkedUrl: URL_OLD }).ok, false);
+  assert.equal(checkLayerTransition('verified', 'serving', { kind: 'pmtiles', checkedUrl: URL_OLD }).ok, false);
   // An uploaded but unverified archive never serves.
-  assert.equal(layerLifecycle.check('uploaded', 'serving', { kind: 'pmtiles', uploadStatus: 'uploaded' }).ok, false);
+  assert.equal(checkLayerTransition('uploaded', 'serving', { kind: 'pmtiles', uploadStatus: 'uploaded' }).ok, false);
 });
 
 test('an MVT directory switches from its directory upload, and only that', () => {
-  assert.equal(layerLifecycle.check('uploaded', 'serving', { kind: 'mvt-directory', uploadStatus: 'uploaded-directory' }).ok, true);
-  assert.equal(layerLifecycle.check('uploaded', 'serving', { kind: 'mvt-directory', uploadStatus: 'dry-run' }).ok, false);
-  assert.equal(layerLifecycle.check('verified', 'serving', { kind: 'mvt-directory', cdnUrl: URL_OLD, checkedUrl: URL_OLD }).ok, false);
+  assert.equal(checkLayerTransition('uploaded', 'serving', { kind: 'mvt-directory', uploadStatus: 'uploaded-directory' }).ok, true);
+  assert.equal(checkLayerTransition('uploaded', 'serving', { kind: 'mvt-directory', uploadStatus: 'dry-run' }).ok, false);
+  assert.equal(checkLayerTransition('verified', 'serving', { kind: 'mvt-directory', cdnUrl: URL_OLD, checkedUrl: URL_OLD }).ok, false);
   assert.equal(mvtDirectoryState({ upload: { ok: true, status: 'uploaded-directory' } }), 'uploaded');
   assert.equal(mvtDirectoryState({ upload: { ok: true, status: 'dry-run' } }), 'local');
   assert.equal(mvtDirectoryState({ upload: { ok: false, status: 'partial-directory-upload' } }), 'failed');
@@ -80,11 +73,11 @@ test('a rebuilt archive that was never uploaded cannot switch on the old bytes p
   assert.equal(contentRangeTotal('bytes 0-15/*'), null);
   const base = { kind: 'pmtiles', cdnUrl: URL_OLD, checkedUrl: URL_OLD };
   // The admin-areas 1921/1924/1928 case on 7 Nov: local 903,571 bytes, CDN 812,905.
-  const stale = layerLifecycle.check('verified', 'serving', { ...base, localBytes: 903571, remoteBytes: 812905 });
+  const stale = checkLayerTransition('verified', 'serving', { ...base, localBytes: 903571, remoteBytes: 812905 });
   assert.equal(stale.ok, false);
   assert.match(stale.reason, /rebuilt and not uploaded/);
-  assert.equal(layerLifecycle.check('verified', 'serving', { ...base, localBytes: 62661, remoteBytes: 62661 }).ok, true);
+  assert.equal(checkLayerTransition('verified', 'serving', { ...base, localBytes: 62661, remoteBytes: 62661 }).ok, true);
   // Remote-only archives (no local bytes) and checks without a Content-Range are not refused for size.
-  assert.equal(layerLifecycle.check('verified', 'serving', { ...base, localBytes: null, remoteBytes: 812905 }).ok, true);
-  assert.equal(layerLifecycle.check('verified', 'serving', { ...base, localBytes: 903571, remoteBytes: null }).ok, true);
+  assert.equal(checkLayerTransition('verified', 'serving', { ...base, localBytes: null, remoteBytes: 812905 }).ok, true);
+  assert.equal(checkLayerTransition('verified', 'serving', { ...base, localBytes: 903571, remoteBytes: null }).ok, true);
 });

@@ -14,7 +14,8 @@
  *
  * `published` is guarded: every listed layer must serve from the CDN.
  */
-import { defineMachine } from './state-machine.mjs';
+import { defineMachine } from '../lib/state-machine.mjs';
+import { assertTransition, checkTransition, defineGuards } from './transition-check.mjs';
 
 /**
  * @typedef {'pending' | 'built' | 'indexed' | 'manifested' | 'uploaded' | 'verified' | 'switched'
@@ -38,19 +39,24 @@ const transitions = {
   failed: [],
 };
 
-export const layerPublishRun = defineMachine(/** @type {import('./state-machine.mjs').MachineDefinition<RunStage>} */ ({
+export const layerPublishRun = defineMachine(/** @type {import('../lib/state-machine.mjs').MachineSpec<RunStage>} */ ({
   name: 'layers.mjs run',
-  states: [...ORDER, 'failed'],
   initial: 'pending',
   transitions,
-  guards: {
+}));
+
+export const layerPublishGuards = defineGuards(layerPublishRun, {
     'pending->built': (/** @type {{ build?: boolean }} */ ctx) => (ctx.build === false ? 'the run was started with --no-build' : null),
     'pending->manifested': (/** @type {{ build?: boolean }} */ ctx) => (ctx.build === false ? null : 'a build run builds the archives first (--no-build skips them)'),
     'planned->published': (/** @type {{ notOnCdn?: string[] }} */ ctx) => (
       ctx.notOnCdn?.length ? `still not on the CDN: ${ctx.notOnCdn.join(', ')}` : null
     ),
-  },
-}));
+});
+
+/** The verdict on a run move, with the guards applied. @param {string} from @param {string} to @param {object} [context] */
+export const checkRunTransition = (from, to, context) => checkTransition(layerPublishRun, layerPublishGuards, from, to, context);
+/** @param {string} from @param {RunStage} to @param {object} [context] */
+export const assertRunTransition = (from, to, context) => assertTransition(layerPublishRun, layerPublishGuards, from, to, context);
 
 /**
  * The steps of a run: what each runs and the stage it reaches. Asserted against the machine, so a
@@ -76,7 +82,7 @@ export function layerPublishSteps({ idList, build }) {
     { label: 'Rebuild the layer metadata', args: ['scripts/build/tiles/layer-plan.mjs'], reaches: 'planned' },
   ];
   let stage = layerPublishRun.initial;
-  for (const step of steps) stage = layerPublishRun.assert(stage, step.reaches, { build });
+  for (const step of steps) stage = assertRunTransition(stage, step.reaches, { build });
   return steps;
 }
 

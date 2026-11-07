@@ -20,7 +20,8 @@
  * MVT directories have no byte-range check: an `uploaded-directory` report switches them
  * (`uploaded -> serving`, guarded to that kind).
  */
-import { defineMachine } from './state-machine.mjs';
+import { defineMachine } from '../lib/state-machine.mjs';
+import { assertTransition, checkTransition, defineGuards } from './transition-check.mjs';
 
 /** @typedef {'local' | 'uploaded' | 'verified' | 'serving' | 'failed'} LayerState */
 
@@ -34,9 +35,8 @@ import { defineMachine } from './state-machine.mjs';
  * @property {string} [uploadStatus]
  */
 
-export const layerLifecycle = defineMachine(/** @type {import('./state-machine.mjs').MachineDefinition<LayerState>} */ ({
+export const layerLifecycle = defineMachine(/** @type {import('../lib/state-machine.mjs').MachineSpec<LayerState>} */ ({
   name: 'layer lifecycle',
-  states: ['local', 'uploaded', 'verified', 'serving', 'failed'],
   initial: 'local',
   transitions: {
     local: ['uploaded', 'verified', 'failed'],
@@ -45,7 +45,9 @@ export const layerLifecycle = defineMachine(/** @type {import('./state-machine.m
     verified: ['serving', 'local'],
     serving: ['verified', 'local'],
   },
-  guards: {
+}));
+
+export const layerLifecycleGuards = defineGuards(layerLifecycle, {
     'verified->serving': (/** @type {SwitchContext} */ ctx) => {
       if (ctx.kind !== 'pmtiles') return `a ${ctx.kind} is switched from its upload, not a range check`;
       if (!ctx.cdnUrl) return 'no CDN URL in the upload manifest';
@@ -61,8 +63,12 @@ export const layerLifecycle = defineMachine(/** @type {import('./state-machine.m
       if (ctx.uploadStatus !== 'uploaded-directory') return `the directory upload reported ${ctx.uploadStatus || 'nothing'}`;
       return null;
     },
-  },
-}));
+});
+
+/** The verdict on a lifecycle move, with the guards applied. @param {string} from @param {string} to @param {SwitchContext | {}} [context] */
+export const checkLayerTransition = (from, to, context) => checkTransition(layerLifecycle, layerLifecycleGuards, from, to, context);
+/** @param {string} from @param {LayerState} to @param {SwitchContext | {}} [context] */
+export const assertLayerTransition = (from, to, context) => assertTransition(layerLifecycle, layerLifecycleGuards, from, to, context);
 
 /**
  * The total size in a Content-Range header (`bytes 0-15/62661` -> 62661), else null.

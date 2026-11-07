@@ -26,11 +26,11 @@ test('the machine gives the same status as the old derivation for every combinat
 
 test('a round is only ever marked down, never back up', () => {
   for (const [from, to] of [['partial', 'complete'], ['held', 'complete'], ['held', 'partial'], ['partial', 'held'], ['complete', 'complete']]) {
-    assert.equal(groupedRoundStatusMachine.check(from, to).ok, false, `${from} -> ${to}`);
+    assert.equal(groupedRoundStatusMachine.can(from, to), false, `${from} -> ${to}`);
   }
-  assert.equal(groupedRoundStatusMachine.check('complete', 'partial').ok, true);
-  assert.equal(groupedRoundStatusMachine.check('complete', 'held').ok, true);
-  assert.equal(groupedRoundStatusMachine.check('complete', 'published').ok, false);
+  assert.equal(groupedRoundStatusMachine.can('complete', 'partial'), true);
+  assert.equal(groupedRoundStatusMachine.can('complete', 'held'), true);
+  assert.equal(groupedRoundStatusMachine.can('complete', 'published'), false);
 });
 
 test('the intake work statuses are a closed list; anything else is flagged', () => {

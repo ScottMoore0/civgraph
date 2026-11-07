@@ -43,7 +43,7 @@ import {
 } from '../../src/ni-local-groups.mjs';
 import { printedLabelText } from '../../src/printed-labels.mjs';
 import { ELECTION_MANIFEST, localPathForUrl } from '../records/paths.mjs';
-import { defineMachine } from '../publish/state-machine.mjs';
+import { defineMachine } from '../lib/state-machine.mjs';
 
 const ROOT = process.cwd();
 const OUT_DIR = path.join(ROOT, 'render', 'metadata', 'ni-local');
@@ -251,9 +251,8 @@ export const ROUND_WORK_STATUSES = Object.freeze(['done', 'partial', 'held', 'no
 
 /** @typedef {'complete' | 'partial' | 'held'} GroupedRoundStatus */
 
-export const groupedRoundStatusMachine = defineMachine(/** @type {import('../publish/state-machine.mjs').MachineDefinition<GroupedRoundStatus>} */ ({
+export const groupedRoundStatusMachine = defineMachine(/** @type {import('../lib/state-machine.mjs').MachineSpec<GroupedRoundStatus>} */ ({
   name: 'grouped round status',
-  states: ['complete', 'partial', 'held'],
   initial: 'complete',
   transitions: { complete: ['partial', 'held'], partial: [], held: [] },
 }));
@@ -271,7 +270,7 @@ export function groupedRoundStatus({ work, excluded = false, incomplete = false 
   /** @type {GroupedRoundStatus} */
   let status = groupedRoundStatusMachine.initial;
   const markDown = (/** @type {GroupedRoundStatus} */ to) => {
-    if (groupedRoundStatusMachine.check(status, to).ok) status = to;
+    if (groupedRoundStatusMachine.can(status, to)) status = to;
   };
   if (work === 'partial' || work === 'held') markDown(work);
   if (excluded) markDown('partial');
