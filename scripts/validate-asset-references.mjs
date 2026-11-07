@@ -27,15 +27,16 @@
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { mapAppSourceFiles } from './lib/map-app-source.mjs';
+import { electionManagerSourceFiles, mapAppSourceFiles } from './lib/map-app-source.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const JSON_OUT = process.argv.includes('--json');
 
 // Entry points that describe what the browser will fetch.
 const HTML_FILES = ['index.html', '404.html', 'browse/index.html', 'app/index.html'];
-// The map app is app/src/app.js and the modules split out of it under src/map/app/.
-const JS_FILES = [...mapAppSourceFiles(), 'app/src/election-manager.js', 'browse/browse.js'];
+// The map app is app/src/app.js and the modules split out of it under src/map/app/; the election
+// manager is app/src/election-manager.js and the modules split out of it under src/map/election/.
+const JS_FILES = [...mapAppSourceFiles(), ...electionManagerSourceFiles(), 'browse/browse.js'];
 // sw.js is scanned with an extra pattern the others must NOT get -- see below.
 const PRECACHE_FILES = ['sw.js'];
 
