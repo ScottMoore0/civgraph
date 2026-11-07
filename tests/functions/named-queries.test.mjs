@@ -25,7 +25,6 @@ const DB = path.join(REPO_ROOT, 'tmp/records/civgraph-records.sqlite');
 const NOT_YET_ON_THE_ADAPTER = [
   '_api/_maps.js',
   '_api/elections/index.js',
-  '_api/graph/index.js',
   '_api/proni/count.js',
   '_api/proni/export.js',
   '_api/proni/node.js',
@@ -48,6 +47,8 @@ const BUILDER_SAMPLES = {
   'cards.CARDS.page': [['person_cards', 'card AS record', '', 'ord', 0], ['person_cards', 'card AS record', 'WHERE elected = ?1', 'title_norm', 1]],
   'cards.CARDS.count': [['person_cards', ''], ['register_entries', 'WHERE elected_body = ?1']],
   'cards.PERSONS.partyFilter': [[['?1', '?2']]],
+  'graph.GRAPH.search': [[0, 200], [2, 50]],
+  'graph.GRAPH.browseKeys': [[1], [3]],
 };
 
 /** Builders that return a clause, not a statement: prepared inside this statement. */
