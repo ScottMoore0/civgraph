@@ -175,5 +175,45 @@ export function checkCouncils(registry) {
     }
     if (c.flags?.pr1920Only && !c.flags?.pre1973Council) errors.push(`${c.id}: pr1920Only without pre1973Council`);
   }
+  // Published sources: every cite:<id> resolves, and every citation is cited.
+  const citations = registry.citations || {};
+  const cited = new Set();
+  for (const c of list(registry)) {
+    const sources = [
+      ...[...(c.predecessors || []), ...(c.successors || [])].flatMap((r) => r.basis.map((b) => b.source)),
+      ...(c.events || []).map((e) => e.source),
+      ...(c.findings || []).flatMap((f) => f.sources)
+    ];
+    for (const source of sources) {
+      if (!source.startsWith('cite:')) continue;
+      const id = source.slice('cite:'.length);
+      if (!citations[id]) errors.push(`${c.id}: cites unknown source ${id}`);
+      cited.add(id);
+    }
+  }
+  for (const id of Object.keys(citations)) if (!cited.has(id)) errors.push(`citation ${id} is not cited`);
+  // An offices institution stands for one council, or for councils the registry relates as one
+  // succession (Belfast's county borough council and the district councils of 1973 and 2015).
+  const byInstitution = new Map();
+  for (const c of list(registry)) {
+    if (!c.officesInstitution) continue;
+    if (!byInstitution.has(c.officesInstitution)) byInstitution.set(c.officesInstitution, []);
+    byInstitution.get(c.officesInstitution).push(c);
+  }
+  for (const [institution, councils] of byInstitution) {
+    if (councils.length < 2) continue;
+    const ids = new Set(councils.map((c) => c.id));
+    const reached = new Set([councils[0].id]);
+    for (let grew = true; grew;) {
+      grew = false;
+      for (const id of [...reached]) {
+        const c = byId.get(id);
+        for (const r of [...(c.predecessors || []), ...(c.successors || [])]) {
+          if (ids.has(r.id) && !reached.has(r.id)) { reached.add(r.id); grew = true; }
+        }
+      }
+    }
+    if (reached.size !== ids.size) errors.push(`${institution}: linked to ${[...ids].join(', ')}, which are not one succession`);
+  }
   return errors;
 }

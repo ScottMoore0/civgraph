@@ -35,9 +35,18 @@ export function tenuresOfOffice(registry, officeId) {
   return allTenures(registry).filter((t) => t.officeId === officeId);
 }
 
-/** The councils-registry council an offices institution stands for, or null (Belfast, Dublin, Cork: several or none). */
+/**
+ * The councils-registry council an offices institution stands for, or null when it stands for
+ * none (Dublin, Cork) or for a succession of councils (Belfast: councilsForInstitution).
+ */
 export function councilForInstitution(councilsRegistry, institutionId) {
-  return councilsRegistry.councils.find((c) => c.officesInstitution === institutionId) || null;
+  const found = councilsForInstitution(councilsRegistry, institutionId);
+  return found.length === 1 ? found[0] : null;
+}
+
+/** Every council an offices institution stands for, in registry order. */
+export function councilsForInstitution(councilsRegistry, institutionId) {
+  return councilsRegistry.councils.filter((c) => c.officesInstitution === institutionId);
 }
 
 /**
