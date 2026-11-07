@@ -1,8 +1,8 @@
 {
  "schemaVersion": 2,
  "description": "Stable identifiers for people appearing as candidates in the current election data. The id is independent of name spelling, so a correction changes displayName and adds an alias, never the id.",
- "idPolicy": "Ids are permanent. PersonIDs 1-100011 are the curated block carried forward from scripts/person_registry.json; 100012+ are derived.",
- "supersedes": "scripts/person_registry.json (2,388 curated persons; its source workbook is no longer present and apply_person_ids.py targets an _aggregates.json layout that no longer exists)",
+ "idPolicy": "Ids are permanent. PersonIDs 1-100011 are the curated block carried forward from scripts/ingest/persons/person_registry.json; 100012+ are derived.",
+ "supersedes": "scripts/ingest/persons/person_registry.json (2,388 curated persons; its source workbook is no longer present and apply_person_ids.py targets an _aggregates.json layout that no longer exists)",
  "evidence": {
   "rowIndexIdsDiscarded": [
    "1",
@@ -1072313,6 +1072313,6 @@
    "SAME-SEAT-SEQUENCE": 4,
    "STRAY-INTO-CURATED": 4
   },
-  "note": "Only the two mechanically-caused classes were merged; see scripts/merge_person_ids.py for the tests applied."
+  "note": "Only the two mechanically-caused classes were merged; see scripts/ingest/persons/merge_person_ids.py for the tests applied."
  }
 }
