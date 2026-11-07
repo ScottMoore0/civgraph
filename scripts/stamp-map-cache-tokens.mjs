@@ -138,6 +138,4 @@ if (!changed) {
 
 writeFileSync(CATALOGUE, `${JSON.stringify(catalogue, null, 2)}\n`);
 console.log(`\nStamped ${changed} URL(s) in ${CATALOGUE}.`);
-console.log('Remember: the client reads the catalogue from D1, so run');
-console.log('  npm run build:catalogue-d1');
-console.log('or the file will be right and the site will not.');
+console.log('The client reads the catalogue from D1: the next publish loads it (records:deploy).');

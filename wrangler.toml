@@ -69,10 +69,9 @@ binding = "PRONI_DB"
 database_name = "proni-catalogue"
 database_id = "a66d0846-6186-460d-a7b2-e88918a6b341"
 
-[[d1_databases]]
-binding = "CATALOGUE_DB"
-database_name = "civgraph-catalogue"
-database_id = "d7ed9845-ba30-4925-956c-d6bde885cb30"
+# CATALOGUE_DB (civgraph-catalogue, d7ed9845-ba30-4925-956c-d6bde885cb30) was unbound in data
+# design phase 3: its two tables moved into civgraph-records (maps, catalogue_parts). The database
+# itself is kept, as last loaded, for the rollback window (PHASE3.md section 6).
 
 [[d1_databases]]
 binding = "ELECTIONS_DB"

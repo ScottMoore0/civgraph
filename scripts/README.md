@@ -38,7 +38,6 @@ and it was diagnosing that by a round trip to production.
 
 | | Runs | Asserts |
 |---|---|---|
-| `check:catalogue-sql` | offline, always | the generated SQL matches `maps.json` |
 | `verify:catalogue-d1` | network | the loaded database matches the file |
 
 Ask which half of a check is genuinely remote. Usually most of it is not.

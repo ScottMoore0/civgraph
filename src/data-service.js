@@ -58,11 +58,11 @@ class DataService {
    * data/database/maps.json, so nothing downstream changes -- in particular the
    * 68 synchronous call sites that read the catalogue out of memory afterwards.
    *
-   * The static file is kept as a fallback rather than deleted. It is the whole
-   * catalogue: if the endpoint is unreachable, or CATALOGUE_DB is unbound after
-   * a configuration change, falling back means a degraded deploy instead of a
-   * site with no layers at all. scripts/validate-catalogue-d1-parity.mjs keeps
-   * the two honest, so the fallback cannot quietly serve stale data.
+   * Since data design phase 3 the endpoint reads the records database (D1
+   * civgraph-records), loaded by the publish from data/database/maps.json, and
+   * /data/database/maps.json is answered by a Function from the same rows. The
+   * fallback is kept: the Function caches a last good copy, so it can still
+   * answer while /_api/catalogue cannot.
    */
   async loadCatalogue() {
     // ?catalogue=v2 loads the restructured document instead: same shape plus `shelves`,

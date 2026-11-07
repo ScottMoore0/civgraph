@@ -36,7 +36,6 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 /** The builds CI runs before the checks, in order. Keep in step with .github/workflows/ci.yml. */
 export const BUILD_STEPS = [
   ['npm', ['run', 'build']],
-  ['node', ['scripts/build-catalogue-d1-import.mjs']],
   // The records database (data design phase 2): the election, Browse and graph trees the
   // checks read are no longer tracked; this writes them to tmp/records, then records:check
   // tests the database itself. Without CIVGRAPH_VOTES_DIR the votes tables stay empty.
