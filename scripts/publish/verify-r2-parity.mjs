@@ -41,6 +41,7 @@ import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { S3Client, ListObjectsV2Command } from '@aws-sdk/client-s3';
+import { r2Credentials, s3ClientOptions } from './r2-env.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const JSON_OUT = process.argv.includes('--json');
@@ -132,9 +133,10 @@ console.log('R2 serving parity');
 console.log(`  served prefixes : ${PREFIXES.join(', ')}`);
 console.log(`  references found: ${referenced.size}`);
 
-const ENDPOINT = process.env.R2_S3_ENDPOINT;
-const BUCKET = process.env.R2_BUCKET;
-if (!ENDPOINT || !BUCKET || !process.env.R2_ACCESS_KEY_ID) {
+// Loads .env.local when there is one; without credentials it still skips (below), never fails.
+const R2 = r2Credentials({ required: false });
+const BUCKET = R2.bucket;
+if (!R2.ok) {
   // Skip rather than fail: a contributor without R2 credentials should still be
   // able to run npm run check. But say so loudly and in the language of what was
   // NOT established -- a silent pass here would recreate the exact failure this
@@ -145,10 +147,7 @@ if (!ENDPOINT || !BUCKET || !process.env.R2_ACCESS_KEY_ID) {
   process.exit(0);
 }
 
-const s3 = new S3Client({
-  region: 'auto', endpoint: ENDPOINT,
-  credentials: { accessKeyId: process.env.R2_ACCESS_KEY_ID, secretAccessKey: process.env.R2_SECRET_ACCESS_KEY }
-});
+const s3 = new S3Client(s3ClientOptions(R2));
 
 const held = new Set();
 for (const pre of PREFIXES) {

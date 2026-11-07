@@ -7,6 +7,7 @@
  *   node scripts/publish/r2-orphans.mjs --prefix data/graph/indexes/ --match "statements-by-subject-shards/statements-by-subject-\d{3}\.json$" [--delete]
  */
 import { existsSync } from 'fs';
+import { r2CredentialsOrExit, s3ClientOptions } from './r2-env.mjs';
 
 const arg = (name) => { const i = process.argv.indexOf(name); return i > -1 ? process.argv[i + 1] : null; };
 const PREFIX = arg('--prefix');
@@ -17,12 +18,10 @@ if (!PREFIX || !MATCH) {
   process.exit(1);
 }
 const pattern = new RegExp(MATCH);
-process.loadEnvFile('.env.local');
+const R2 = r2CredentialsOrExit();
+const BUCKET = R2.bucket;
 const { S3Client, ListObjectsV2Command, DeleteObjectsCommand } = await import('@aws-sdk/client-s3');
-const { R2_S3_ENDPOINT: ENDPOINT, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY } = process.env;
-const BUCKET = process.env.R2_BUCKET || 'boundaries-data';
-const s3 = new S3Client({ region: 'auto', endpoint: ENDPOINT, maxAttempts: 5,
-  credentials: { accessKeyId: R2_ACCESS_KEY_ID, secretAccessKey: R2_SECRET_ACCESS_KEY } });
+const s3 = new S3Client(s3ClientOptions(R2, { maxAttempts: 5 }));
 
 const orphans = [];
 let listed = 0;

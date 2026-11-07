@@ -85,7 +85,7 @@
  * objects -- worth a run with --ext when convenient.
  *
  * Usage:
- *   set -a; . ./.env.local; set +a
+ *   (credentials: .env.local at the repository root, loaded by r2-env.mjs)
  *   node scripts/publish/r2-cache-control.mjs                        # dry run
  *   node scripts/publish/r2-cache-control.mjs --apply
  *   node scripts/publish/r2-cache-control.mjs --ext png --apply      # widen if wanted
@@ -95,6 +95,7 @@ import {
   S3Client, ListObjectsV2Command, HeadObjectCommand, CopyObjectCommand,
 } from '@aws-sdk/client-s3';
 import { assertPublishable } from '../lib/r2-publication-gate.mjs';
+import { r2CredentialsOrExit, s3ClientOptions } from './r2-env.mjs';
 
 const CACHE_CONTROL = 'public, max-age=3600, stale-while-revalidate=86400';
 
@@ -134,24 +135,15 @@ function extensionOf(key) {
   return dot === -1 ? '' : base.slice(dot + 1).toLowerCase();
 }
 
-const { R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_S3_ENDPOINT, R2_BUCKET } = process.env;
-if (!R2_ACCESS_KEY_ID || !R2_SECRET_ACCESS_KEY || !R2_S3_ENDPOINT || !R2_BUCKET) {
-  console.error('FAIL: R2 credentials are not in the environment.');
-  console.error('  set -a; . ./.env.local; set +a');
-  process.exit(1);
-}
+const R2 = r2CredentialsOrExit();
+const R2_BUCKET = R2.bucket;
 
 // This only ever rewrites metadata on objects that are ALREADY public, so it
 // cannot publish anything new. The gate is still asserted, because "it cannot
 // publish" is a property of today's code and the check costs nothing.
 assertPublishable([PREFIX]);
 
-const s3 = new S3Client({
-  region: 'auto',
-  endpoint: R2_S3_ENDPOINT,
-  credentials: { accessKeyId: R2_ACCESS_KEY_ID, secretAccessKey: R2_SECRET_ACCESS_KEY },
-  maxAttempts: 5,
-});
+const s3 = new S3Client(s3ClientOptions(R2, { maxAttempts: 5 }));
 
 async function* listAll(prefix) {
   let token;

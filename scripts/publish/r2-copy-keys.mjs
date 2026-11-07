@@ -6,8 +6,8 @@
  * stay where it is (12 months, then one listed deletion); this only ever ADDS objects.
  *
  *   node scripts/publish/r2-copy-keys.mjs plan   [--source render/metadata/maps-test.json] [--out <manifest.json>]
- *   node --env-file=.env.local scripts/publish/r2-copy-keys.mjs copy   --manifest <m.json> [--apply]
- *   node --env-file=.env.local scripts/publish/r2-copy-keys.mjs verify --manifest <m.json>
+ *   node scripts/publish/r2-copy-keys.mjs copy   --manifest <m.json> [--apply]
+ *   node scripts/publish/r2-copy-keys.mjs verify --manifest <m.json>
  *
  * plan    offline: reads every tileUrl in the layer registry, applies the rename rule
  *         (scripts/lib/layer-renames.mjs) and writes the manifest of { from, to } pairs,
@@ -28,6 +28,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { NEW_PMTILES_PREFIX, OLD_PMTILES_PREFIX, renamePmtilesKey } from '../lib/layer-renames.mjs';
+import { r2Credentials, s3ClientOptions } from './r2-env.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const DEFAULT_SOURCE = 'render/metadata/maps-test.json';
@@ -166,17 +167,11 @@ export async function verifyPairs(pairs, { client, commands, bucket }) {
 }
 
 async function s3FromEnv() {
-  const { R2_S3_ENDPOINT, R2_BUCKET, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY } = process.env;
-  if (!R2_S3_ENDPOINT || !R2_BUCKET || !R2_ACCESS_KEY_ID || !R2_SECRET_ACCESS_KEY) {
-    throw new Error('R2_S3_ENDPOINT, R2_BUCKET, R2_ACCESS_KEY_ID and R2_SECRET_ACCESS_KEY must be set (node --env-file=.env.local ...)');
-  }
+  // Loads .env.local; throws R2CredentialsError (names only) when a variable is still missing.
+  const r2 = r2Credentials();
   const sdk = await import('@aws-sdk/client-s3');
-  const client = new sdk.S3Client({
-    region: 'auto',
-    endpoint: R2_S3_ENDPOINT,
-    credentials: { accessKeyId: R2_ACCESS_KEY_ID, secretAccessKey: R2_SECRET_ACCESS_KEY },
-  });
-  return { client, commands: sdk, bucket: R2_BUCKET };
+  const client = new sdk.S3Client(s3ClientOptions(r2));
+  return { client, commands: sdk, bucket: r2.bucket };
 }
 
 function argValue(argv, name) {
