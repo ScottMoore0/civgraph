@@ -21,6 +21,11 @@
 # Order: refuse uncommitted changes; build the records database for HEAD (skipped when the
 # inputs are unchanged); load the delta into D1 and verify it; push, so the Pages build that
 # switches the Functions finds its tables already loaded.
+#
+# Each stage is a move of scripts/publish/publish-run.mjs (start, built, loaded or would-load,
+# downloads, pushed, logged; refused and the three aborts), which refuses a move out of order
+# and records the run in $WORK/publish-run.json, so a run after an abort says what the last one
+# left (state-machine catalogue PL-01). Aborted runs are logged in publish.log too.
 set -uo pipefail
 cd "$(dirname "$0")/../.."
 WORK=.claude/publish/work
@@ -35,14 +40,22 @@ for a in "$@"; do
 done
 started=$(date +%s)
 stamp() { echo "[$(( $(date +%s) - started ))s] $*"; }
+stage() { node scripts/publish/publish-run.mjs "$WORK" "$@" || { echo "ABORT: the publish stage record refused: $*"; exit 1; }; }
+# An abort: record the final stage and log the run (the abort itself is the caller's exit).
+aborted() {
+  node scripts/publish/publish-run.mjs "$WORK" to "$1" || true
+  echo "$(date -u +%FT%TZ) $(git rev-parse --short HEAD) $(( $(date +%s) - started ))s${DRY:+ dry-run} aborted:$1" >> "$WORK/publish.log"
+}
+stage start ${DRY:+--dry}
 
 if [ -n "$(git status --porcelain --untracked-files=no)" ]; then
   if [ -n "$DRY" ]; then echo "(dry run) WARNING: uncommitted changes to tracked files; a real publish would abort"
-  else echo "ABORT: uncommitted changes to tracked files; commit first"; exit 1; fi
+  else echo "ABORT: uncommitted changes to tracked files; commit first"; aborted refused; exit 1; fi
 fi
 
 stamp "== records:build"
-npm run -s records:build > "$WORK/records-build.log" 2>&1 || { echo "ABORT: records:build failed:"; tail -15 "$WORK/records-build.log"; exit 1; }
+npm run -s records:build > "$WORK/records-build.log" 2>&1 || { echo "ABORT: records:build failed:"; tail -15 "$WORK/records-build.log"; aborted aborted-before-load; exit 1; }
+stage to built
 # Case-insensitive: the votes notice ("WARNING: CIVGRAPH_VOTES_DIR is unset ...") is upper case.
 grep -iE '^records:build|warning' "$WORK/records-build.log" | head -8
 
@@ -53,15 +66,18 @@ if [ -n "$DRY" ]; then
   npm run -s records:deploy -- --remote --dry-run > "$WORK/records-deploy-dry.log" 2>&1
   grep -E '^DRY RUN|WARNING|migrations a real run|no migrations to apply|bounded statement' "$WORK/records-deploy-dry.log"
   grep -q '^DRY RUN' "$WORK/records-deploy-dry.log" || { echo "(dry run) records:deploy reported no delta:"; tail -12 "$WORK/records-deploy-dry.log"; }
+  stage to would-load
 else
   # The delta is idempotent and records:deploy retries each part; verify decides.
-  npm run -s records:deploy -- --remote > "$WORK/records-deploy.log" 2>&1 || { echo "ABORT: records:deploy failed:"; tail -12 "$WORK/records-deploy.log"; exit 1; }
+  npm run -s records:deploy -- --remote > "$WORK/records-deploy.log" 2>&1 || { echo "ABORT: records:deploy failed:"; tail -12 "$WORK/records-deploy.log"; aborted load-failed; exit 1; }
   tail -1 "$WORK/records-deploy.log"
+  stage to loaded
 fi
 
 if [ -n "$DOWNLOADS" ]; then
   stamp "== downloads"
   npm run -s records:downloads 2>&1 | tail -1
+  stage to downloads
 fi
 
 stamp "== push"
@@ -69,8 +85,10 @@ git log --oneline origin/main..HEAD
 if [ -n "$DRY" ]; then
   echo "(dry run) nothing pushed, uploaded or loaded"
 else
-  git push -q origin HEAD:main || { echo "ABORT: push failed (D1 already holds this build; rerun after fixing)"; exit 1; }
+  git push -q origin HEAD:main || { echo "ABORT: push failed (D1 already holds this build; rerun after fixing)"; aborted aborted-after-load; exit 1; }
   git log --oneline -1 origin/main
+  stage to pushed
 fi
 stamp "== done: nothing uploaded to R2"
 echo "$(date -u +%FT%TZ) $(git rev-parse --short HEAD) $(( $(date +%s) - started ))s${DRY:+ dry-run}" >> "$WORK/publish.log"
+stage to logged
