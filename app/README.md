@@ -9,23 +9,18 @@ almost certainly change something here.
 
 | Path | What it is |
 |---|---|
-| `src/app.js` | The application. One file, and the entry point for everything the map does — catalogue, layer loading, election panes, URL state, the support modal. |
-| `build/` | **Generated. Do not edit.** esbuild output (`app.bundle.js`, `app.bundle.css`, `chunks/`) produced by `scripts/build-test2-app.mjs`. Tracked in git so Cloudflare Pages can serve it without a build step. |
+| `src/app.js` | The application's entry: `Test2App`, its state (the constructor) and start-up (`init`). Its other methods live in `../src/map/app/` (layers, URL state, timeline, election pane, search, legend, sources, controls, ...), one module per concern, and are installed on the class by `installMethods`. Each module says in its header what it covers. |
+| `build/` | **Generated. Do not edit. Not in git.** esbuild output (`app.bundle.js`, `app.bundle.css`, `chunks/`, `metafile.json`) produced by `scripts/build-test2-app.mjs`; the Pages build (`npm run build`) makes it on every deploy. |
 | `election-viewer-package/` | The STV count animation and election viewer. Derived from ElectionsNI's `stages.css` — see `data/database/external-sources.json` for the attribution that derivation requires. |
 | `js/` | Two vendored shims (`jquery-shim.js`, a FlatGeobuf build) that the election viewer expects. |
 
 ## The trap
 
-`build/` is **tracked**, so an edit to `src/app.js` that is committed without
-rebuilding produces a repository where the source and the deployed bundle
-disagree, and the site keeps serving the old behaviour. After editing anything
-under `src/`, run:
-
-```bash
-npm run build          # includes build:test2 and promote-test2-root
-```
-
-and commit the resulting `build/` changes in the same commit.
+`npm run build` (or `npm run build:test2:app`) also stamps cache tokens into tracked
+files: the `?v=` of the bundle in `maps/index.html` (and the `maps/test/` and
+`maps/classic/` copies written from it) and `VERSION` in `sw.js`. After editing
+anything the bundle includes (`app/src/`, `src/map/`, `src/`, `render/src/`), rebuild
+and commit those stamped files with the change, so the tokens follow the bundle.
 
 ## What it shares with `/render/`
 

@@ -9,6 +9,7 @@
  * /test2/ compatibility assertions change when F5 turns /test2/ into a redirect.
  */
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { readMapAppSource } from './lib/map-app-source.mjs';
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -25,7 +26,7 @@ function read(path) {
 const appHtml = read('maps/index.html');
 const test2Html = read('test2/index.html');
 const rootServiceWorker = read('sw.js');
-const appSource = read('app/src/app.js');
+const appSource = readMapAppSource(); // app.js and the modules split out of it under src/map/app/
 const mainCss = read('assets/css/main.css');
 const test2Css = read('app/src/test2.css');
 const sharedAssetBuilder = read('scripts/build-shared-shell-assets.mjs');

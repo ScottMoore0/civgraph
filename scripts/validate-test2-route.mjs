@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import path from 'node:path';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
+import { mapAppSourceFiles, readMapAppSource } from './lib/map-app-source.mjs';
 import { BROWSE_DIR, ELECTION_BUNDLE_DIR, ELECTION_MANIFEST, ELECTION_REPORT } from './records/paths.mjs';
 
 const failures = [];
@@ -9,7 +10,8 @@ const failures = [];
 const index = readFileSync('maps/index.html', 'utf8');
 const compatibilityIndex = readFileSync('test2/index.html', 'utf8');
 const bootSource = readFileSync('app/src/boot.js', 'utf8');
-const appSource = readFileSync('app/src/app.js', 'utf8');
+// app.js and the modules split out of it under src/map/app/ (frontend-plan.md 5.2).
+const appSource = readMapAppSource();
 const adapterSource = readFileSync('app/src/maplibre-main-adapter.js', 'utf8');
 // The election manager and the pure modules split out of it (frontend-plan.md 5.1, E1 and E2):
 // a rule checked against its source holds wherever the code now lives.
@@ -682,7 +684,7 @@ for (const path of [
   'app/election-viewer-package/js/election_viewer.js',
   'app/election-viewer-package/css/stages.css',
   'app/election-viewer-package/css/election-viewer.css',
-  'app/src/app.js',
+  ...mapAppSourceFiles(),
   'app/src/maplibre-main-adapter.js',
   'app/src/election-manager.js',
   'app/src/election-pane-main-contract.js',
