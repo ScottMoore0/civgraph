@@ -1,6 +1,6 @@
 # Test2 Election Data Audit
 
-Generated: 2026-11-07T14:44:57.533Z
+Generated: 2026-11-07T15:18:27.847Z
 
 This is a repeatable repository-local audit of the generated /test2 election data, Browse election entries, source/reference records, transfer/count payload availability, and saved Wikipedia party-colour comparison outputs. It intentionally does not fetch live web pages, so CI can run it deterministically.
 
@@ -135,21 +135,42 @@ _2133 more not shown; see JSON report._
 
 |metric|value|
 |---|---:|
-|saved Wikipedia colour audit present|no|
-|high-confidence mismatch file present|no|
+|saved Wikipedia colour audit present|yes|
+|high-confidence mismatch file present|yes|
 |review override file present|yes|
-|sampled mismatches already reviewed|0|
-|unique colour observations|0|
-|colour matches|0|
-|colour mismatches|0|
-|high-confidence mismatches|0|
-|entries with no explicit election colour|0|
-|entries with no Wikipedia match|0|
-|ambiguous Wikipedia matches|0|
+|sampled mismatches already reviewed|10|
+|unique colour observations|1032|
+|colour matches|73|
+|colour mismatches|135|
+|high-confidence mismatches|85|
+|entries with no explicit election colour|777|
+|entries with no Wikipedia match|684|
+|ambiguous Wikipedia matches|31|
 
 ### High-Confidence Colour Examples
 
-_None found from the saved audit._
+|party/label|election colour|Wikipedia match|Wikipedia colour|observations|review|
+|---|---|---|---|---:|---|
+|100% Redress|#C0C0C0|100% Redress|#F90606|1|needs-canonical-colour-decision|
+|An Rabharta Glas – Green Left|#C0C0C0|Rabharta|#488A89|4|needs-canonical-colour-decision|
+|Anti-Austerity Alliance|#E3170D|Anti-Austerity Alliance|#FFFF00|46|needs-canonical-colour-decision|
+|Anti-Treaty Sinn Féin|#C0C0C0|Sinn Féin (Anti-Treaty)|#326760|57|needs-canonical-colour-decision|
+|Aontú|#C62828|Aontú|#44532A|126|needs-canonical-colour-decision|
+|Clann na Poblachta|#C0C0C0|Clann na Poblachta|#BBE549|111|needs-canonical-colour-decision|
+|Clann na Talmhan|#C0C0C0|Clann na Talmhan|#BDB76B|50|needs-canonical-colour-decision|
+|Commonwealth Labour Party|#FF6666|Commonwealth Labour Party|#B22222|6|needs-canonical-colour-decision|
+|Communist Party of Ireland|#FF3300|Communist Party of Ireland|#E3170D|6|needs-canonical-colour-decision|
+|Communist Party of Ireland (Marxist-Leninist)|#E3170D|Communist Party of Ireland (Marxist–Leninist)|#660000|3|needs-canonical-colour-decision|
+|Conservative|#0E7C42|Conservative and Unionist Party (UK)|#0087DC|61||
+|Conservative|#1F4E8C|Conservative and Unionist Party (UK)|#0087DC|11||
+|Conservative|#888888|Conservative and Unionist Party (UK)|#0087DC|13||
+|Conservative|#9E9E9E|Conservative and Unionist Party (UK)|#0087DC|254||
+|Cumann na nGaedheal|#C0C0C0|Cumann na nGaedheal|#87CEFA|360||
+|Democracy First|#000000|Democracy First|#FF8C00|2||
+|Democratic Left|#DC241F|Democratic Left (Ireland)|#C700C7|21||
+|Democratic Partnership|#FF9800|Democratic Partnership|#F0E68C|10||
+|Direct Democracy Ireland|#FFFF00|Direct Democracy Ireland|#87CEFA|41||
+|Éirígí|#C0C0C0|Éirígí|#00A550|6||
 
 ## Next Fix Queue
 
