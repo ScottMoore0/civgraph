@@ -23,6 +23,18 @@ export const CARDS = Object.freeze({
   count: (/** @type {string} */ table, /** @type {string} */ clause) => `SELECT COUNT(*) AS n FROM ${table} ${clause}`,
 });
 
+export const SHARDS = Object.freeze({
+  /** [size, offset] -> { card }: one index shard of a card table, in source order */
+  page: (/** @type {string} */ table) => `SELECT card FROM ${table} ORDER BY ord LIMIT ?1 OFFSET ?2`,
+});
+
+export const OFFICES = Object.freeze({
+  /** [] -> { card } */
+  cards: 'SELECT card FROM office_cards ORDER BY ord, slug',
+  /** [slug] -> { detail } */
+  detail: 'SELECT detail FROM office_cards WHERE slug = ?1',
+});
+
 export const PERSONS = Object.freeze({
   /** [personId] -> a person's candidacies in date order */
   candidacies: `SELECT c.election_key AS electionKey, e.slug AS electionSlug, e.display_title AS electionTitle, e.date, e.body,
@@ -46,6 +58,10 @@ export const PERSONS = Object.freeze({
 export const SOURCES = Object.freeze({
   /** [slug] -> { detail } */
   detail: 'SELECT detail FROM sources WHERE slug = ?1',
+  /** [] -> { item } */
+  merges: 'SELECT item FROM source_merges ORDER BY ord',
+  /** [detailUrl] -> { detail }: the sources whose card names this detail shard, by slug */
+  detailsInShard: "SELECT detail FROM sources WHERE json_extract(card, '$.detailUrl') = ?1 AND detail IS NOT NULL ORDER BY slug",
 });
 
 export const REGISTER = Object.freeze({

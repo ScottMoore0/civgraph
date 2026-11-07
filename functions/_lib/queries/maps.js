@@ -48,6 +48,8 @@ export const MAP_CARDS = Object.freeze({
   cards: 'SELECT card FROM map_cards ORDER BY ord, slug',
   /** [] -> { card } */
   featureGroups: 'SELECT card FROM feature_groups ORDER BY ord',
+  /** [slug] -> { detail } */
+  detail: 'SELECT detail FROM map_cards WHERE slug = ?1',
   /** [slug] -> { slug, detail, card } */
   bySlug: 'SELECT slug, detail, card FROM map_cards WHERE slug = ?1',
   /** [mapId] -> { slug, detail, card } */

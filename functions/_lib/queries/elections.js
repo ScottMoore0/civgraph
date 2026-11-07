@@ -87,6 +87,14 @@ export const ELECTION_CARDS = Object.freeze({
   slugFor: "SELECT slug FROM election_cards WHERE (slug = ?1 OR key = ?1) AND entry_kind = 'election' ORDER BY (slug = ?1) DESC, ord LIMIT 1",
   /** [slug] -> { slug, entryKind, electionKey } */
   card: 'SELECT slug, entry_kind AS entryKind, election_key AS electionKey FROM election_cards WHERE slug = ?1',
+  /** [offset] -> { card }: data/browse/elections.json in pages of 1,000 */
+  cardsPage: 'SELECT card FROM election_cards ORDER BY ord, slug LIMIT 1000 OFFSET ?1',
+  /** [] -> { list_card } the whole elections list */
+  listCards: 'SELECT list_card FROM election_cards WHERE list_card IS NOT NULL ORDER BY ord, slug',
+  /** [] -> { slug, parent }: every contest or overall entry with its election's slug */
+  contestParents: `SELECT c.slug, p.slug AS parent FROM election_cards c
+        JOIN election_cards p ON p.key = c.election_key AND p.entry_kind = 'election'
+        WHERE c.entry_kind <> 'election' ORDER BY c.ord, c.slug`,
   /** [slug] -> { detail } */
   detail: 'SELECT detail FROM election_details WHERE slug = ?1',
   /** [slug] -> { contests } */
