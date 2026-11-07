@@ -2,9 +2,9 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import './styles.css';
 
 import { getElements } from './dom.js';
-import { TestMapLibreController } from './map-controller.js';
+import { TestMapLibreController } from '../../src/map/renderer/map-controller.js';
 import { MapLibreShellEngine } from './map-engine.js';
-import { TestMetadataService } from './metadata-service.js';
+import { TestMetadataService } from '../../src/map/renderer/metadata-service.js';
 import { TestCatalogue } from './catalogue-controller.js';
 import { renderActiveLayers } from './active-layers.js';
 import { renderFeatureDetails } from './feature-details.js';
@@ -17,7 +17,7 @@ import { TimeSeriesController } from './time-series-controller.js';
 import { ElectionService } from './election-service.js';
 import { ConditionalStylingController } from './conditional-styling.js';
 import { assessMigrationReadiness } from './migration-readiness.js';
-import { copyText, showToast } from './utils.js';
+import { copyText, showToast } from '../../src/map/renderer/utils.js';
 import { TestTelemetry } from './telemetry.js';
 
 const PANEL_PREF_KEY = 'civgraph.test.panels.collapsed';

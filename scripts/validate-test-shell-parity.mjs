@@ -117,7 +117,7 @@ const checks = [
     ]
   },
   {
-    file: 'render/src/map-controller.js',
+    file: 'src/map/renderer/map-controller.js',
     required: [
       'moveLayerOrder',
       'reorderFromSavedLayerOrder',
