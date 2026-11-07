@@ -51,7 +51,7 @@ export function timelineChangeName(name) {
   const bare = text.replace(/\b(and|of|the)\b/g, '');
   if (bare !== bare.toUpperCase() || !/[A-Z]/.test(text)) return text;
   return text.toLowerCase()
-    .replace(/(^|[\s\-(/.])([a-z])/g, (match, lead, letter) => lead + letter.toUpperCase())
+    .replace(/(^|[\s\-(/.])([a-z])/g, (_match, lead, letter) => lead + letter.toUpperCase())
     .replace(/\s(And|Of|The|Na|An)\s/g, (match) => match.toLowerCase());
 }
 

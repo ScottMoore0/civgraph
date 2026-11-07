@@ -158,7 +158,8 @@ export async function fetchConstituencyDetail(key, seq, { fetchImpl = defaultFet
     return await response.json();
   } catch (error) {
     console.warn('[test2 elections] Could not load animation payload:', error);
-    reportElectionsApiIssue('elections-api-animation-failed', error && error.message ? error.message : String(error), key, env);
+    const message = error && /** @type {{ message?: string }} */ (error).message;
+    reportElectionsApiIssue('elections-api-animation-failed', message ? message : String(error), key, env);
     return null;
   }
 }

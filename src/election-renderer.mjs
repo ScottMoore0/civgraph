@@ -6,7 +6,6 @@ import {
   partyColour
 } from './election-domain.mjs';
 import {
-  averageNumbers,
   buildCouncilSummary,
   buildElectionViewModelFromTest2Manager,
   buildLocalPartySummary,

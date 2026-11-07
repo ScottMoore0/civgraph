@@ -7,13 +7,41 @@
     "module": "esnext",
     "moduleResolution": "bundler",
     "target": "es2023",
-    "lib": ["es2023", "dom", "dom.iterable"],
+    "lib": [
+      "es2023",
+      "dom",
+      "dom.iterable"
+    ],
     "types": [],
     "strictNullChecks": false,
     "strictBindCallApply": true,
     "strictFunctionTypes": true,
     "noFallthroughCasesInSwitch": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "useUnknownInCatchVariables": true,
+    "noImplicitReturns": true,
+    "noImplicitOverride": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
   },
-  "include": ["../scripts/lib/state-machine.mjs", "map/state-helpers.mjs", "map/app/**/*.mjs", "map/election/*.mjs", "*.mjs", "map/renderer/config.js", "map/renderer/utils.js", "map/renderer/labels.js", "map/renderer/feature-property-repairs.js", "map/renderer/approximate-segments.js", "map/renderer/layer-load.mjs", "cdn-url.js", "election-utils.js"]
+  "include": [
+    "../scripts/lib/state-machine.mjs",
+    "map/state-helpers.mjs",
+    "map/app/**/*.mjs",
+    "map/election/*.mjs",
+    "*.mjs",
+    "map/renderer/config.js",
+    "map/renderer/utils.js",
+    "map/renderer/labels.js",
+    "map/renderer/feature-property-repairs.js",
+    "map/renderer/approximate-segments.js",
+    "map/renderer/layer-load.mjs",
+    "cdn-url.js",
+    "election-utils.js",
+    "map/renderer/gesture-state.mjs",
+    "map/renderer/point-cloud-node-state.mjs",
+    "catalogue/route-state.mjs"
+  ]
 }
