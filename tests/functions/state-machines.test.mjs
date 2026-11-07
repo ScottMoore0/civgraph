@@ -114,12 +114,32 @@ test('FN-04: the decide endpoint decides a pending submission once, and refuses 
   }
 });
 
+// functions/_lib/contribution-status.js mirrors the registry rather than importing it: a Function
+// importing data/registries/statuses.json and registries/status-machines.mjs would put a JSON
+// import and scripts/lib/ into the Pages Functions bundle, which no Function does yet and only a
+// Pages preview deploy can prove. These tests hold the mirror equal to the registry instead.
 const REGISTRY = path.join(REPO_ROOT, 'data', 'registries', 'statuses.json');
-test("FN-04: the table is the registry's contribution machine", { skip: !existsSync(REGISTRY) && 'data/registries/statuses.json is not on this branch yet (rf-registries lands it)' }, () => {
+test("FN-04: the table is the registry's contribution machine", () => {
+  assert.ok(existsSync(REGISTRY), 'data/registries/statuses.json is on main since rf-registries');
   const machine = JSON.parse(readFileSync(REGISTRY, 'utf8')).machines.contribution;
   assert.equal(machine.initial, INITIAL_STATUS);
   assert.deepEqual(JSON.parse(JSON.stringify(CONTRIBUTION_TRANSITIONS)), machine.transitions);
   assert.deepEqual([...DECISIONS], machine.decisions);
+});
+
+test("FN-04: the registry's runnable machine answers every move as the mirror does", async () => {
+  const registry = JSON.parse(readFileSync(REGISTRY, 'utf8'));
+  const { statusMachines, canMarkContributionApplied } = await import('../../registries/status-machines.mjs');
+  const machine = statusMachines(registry).contribution;
+  const states = Object.keys(CONTRIBUTION_TRANSITIONS);
+  assert.deepEqual([...machine.states].sort(), [...states].sort());
+  for (const from of states) {
+    for (const to of states) {
+      assert.equal(machine.can(from, to), CONTRIBUTION_TRANSITIONS[from].includes(to), `${from} -> ${to}`);
+    }
+    assert.equal(canMarkContributionApplied(registry, from).ok, CONTRIBUTION_TRANSITIONS[from].includes('applied'), `${from} -> applied`);
+    for (const decision of DECISIONS) assert.equal(canDecide(from, decision).ok, machine.can(from, decision), `decide ${decision} from ${from}`);
+  }
 });
 
 // ------------------------------------------------------------------ FN-02 the answer ladder

@@ -1,8 +1,11 @@
 /**
  * The contribution queue's statuses and the moves between them (refactor state machine FN-04).
  * The table is the registry's (data/registries/statuses.json, machine `contribution`, RG-04),
- * mirrored here because a Function cannot import the registry module yet (Pages deletes
- * scripts/ before bundling, and top-level modules wait for dist/); the test holds the two equal.
+ * mirrored here rather than imported: importing data/registries/statuses.json and
+ * registries/status-machines.mjs would put a JSON import and scripts/lib/ into the Pages
+ * Functions bundle, which no Function does yet and only a Pages preview deploy can prove (the
+ * registry itself stays out of dist/ either way). tests/functions/state-machines.test.mjs holds
+ * the mirror equal to the registry's table and to its runnable machine.
  *
  *   pending-review  set by POST /_api/contributions/submit, never by anything else
  *   approved        POST /_api/contributions/decide (admin), from pending-review only
