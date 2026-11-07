@@ -3,6 +3,18 @@
 //   /proni                      -> search (home)
 //   /proni/<reference>          -> individual record page (e.g. /proni/AA/3)
 //   /proni…?ecat=<reference>    -> "View on PRONI eCatalogue" instructions
+/**
+ * An element of the page reached by a delegated listener or a selector: any HTML element, with
+ * the form-control fields read where it is one.
+ * @typedef {HTMLElement & Partial<Pick<HTMLInputElement, 'value' | 'checked' | 'disabled' | 'type' | 'placeholder'>>} UiElement
+ */
+/**
+ * An event from a delegated listener, whose target is an element of the page.
+ * @template {Event} [E=Event]
+ * @typedef {E & { target: { closest(selectors: string): UiElement | null } & UiElement }} ElementEvent
+ */
+import { AZ_SCOPE, CARD_CHILDREN, CARD_DESCRIPTION, MODAL, RESULTS, VIEW } from './state-machines.js';
+
 const API = '/_api/proni/search';
 const COUNT_API = '/_api/proni/count';
 const EXPORT_API = '/_api/proni/export';
@@ -10,6 +22,7 @@ const NODE_API = '/_api/proni/node';
 const ECAT_BROWSE = 'https://apps.proni.gov.uk/eCatNI_IE/BrowseSearchPage.aspx';
 const LIMIT = 25;
 
+/** @param {string} id @returns {UiElement} */
 const $ = (id) => document.getElementById(id);
 const els = {
   q: $('q'), clear: $('clearBtn'), adv: $('advToggle'), advanced: $('advanced'),
@@ -22,7 +35,14 @@ const els = {
   exportResults: $('exportResults'), exportAll: $('exportAll'),
 };
 
-const state = { offset: 0, done: false, loading: false, seen: new Set(), letter: '', reqId: 0, queryId: 0, total: null, levels: null, allRoots: false };
+const state = {
+  offset: 0, seen: new Set(), letter: '', reqId: 0, queryId: 0, total: null, levels: null,
+  // The current query's results (state-machines.js RESULTS) and the A-Z bar's scope (AZ_SCOPE).
+  results: RESULTS.start(),
+  azScope: AZ_SCOPE.start(),
+};
+/** Whether the current query has no more results to load (its last page came, or it failed). */
+const resultsEnded = () => state.results.state() === 'done' || state.results.state() === 'failed';
 
 // Every top-level PRONI record (parent = ''), 9,404 of them, as { roots, count } from
 // /_api/proni/node (edge-cached for a day). The 'All' view and letter browsing are both fully
@@ -190,7 +210,7 @@ function params(offset) {
 function hasAnyInput() {
   return els.q.value.trim() || els.fTitle.value.trim() || els.fDescription.value.trim() ||
     els.fRef.value.trim() || els.fDates.value.trim() || els.fLevel.value || els.fAccess.value ||
-    yearOf(els.from.value) || yearOf(els.to.value) || state.letter || state.allRoots;
+    yearOf(els.from.value) || yearOf(els.to.value) || state.letter || state.azScope.state() === 'all';
 }
 
 // The status line prefers the exact total once the (async, parallel) count
@@ -202,7 +222,7 @@ function updateStatus() {
   // letter alone browses fonds -> summarise everything under the letter by level;
   // letter + search terms is a filtered search -> show the matching-result count
   const browseMode = state.letter && !hasTextInput();
-  if (state.allRoots) {
+  if (state.azScope.state() === 'all') {
     els.status.textContent = state.total != null
       ? `${state.total.toLocaleString()} top-level references, A–Z`
       : 'Loading the full reference list…';
@@ -223,12 +243,12 @@ function updateStatus() {
   }
   // Deliberately no "N+" while the exact count is in flight. It is only ever wrong for a
   // few hundred milliseconds, but a number that changes under the reader is worse than
-  // no number: it invites them to read a partial figure as the answer. Once state.done
-  // is set the loaded count IS exact, so it is shown then.
+  // no number: it invites them to read a partial figure as the answer. Once the results have
+  // ended the loaded count IS exact, so it is shown then.
   const n = state.seen.size;
   if (browseMode) { els.status.textContent = `Reference ${state.letter} - counting…`; return; }
-  if (state.done && n) els.status.textContent = `${n.toLocaleString()} result${n === 1 ? '' : 's'}`;
-  else if (state.done) els.status.textContent = 'No matching records.';
+  if (resultsEnded() && n) els.status.textContent = `${n.toLocaleString()} result${n === 1 ? '' : 's'}`;
+  else if (resultsEnded()) els.status.textContent = 'No matching records.';
   else els.status.textContent = 'Searching…';
 }
 
@@ -275,12 +295,13 @@ function groupRootsByLetter(roots) {
     .map(([letter, items]) => [letter, items.sort((a, b) => String(a.ref).localeCompare(String(b.ref), undefined, { numeric: true }))]);
 }
 
-async function renderAllRoots(reset) {
-  if (reset) { els.results.innerHTML = ''; state.allSections = null; state.allIndex = 0; state.done = false; }
+/** @param {boolean} reset @param {number} rid this load's request id (state.reqId when it began) */
+async function renderAllRoots(reset, rid) {
+  if (reset) { els.results.innerHTML = ''; state.allSections = null; state.allIndex = 0; }
   const roots = await loadRoots();
   if (!roots) {
     els.status.textContent = 'Could not load the full reference list.';
-    state.done = true;
+    if (rid === state.reqId) state.results.to('failed');
     return;
   }
   if (!state.allSections) {
@@ -295,27 +316,33 @@ async function renderAllRoots(reset) {
     els.results.insertAdjacentHTML('beforeend', heading + items.map((r) => card(r)).join(''));
   }
   state.allIndex += slice.length;
-  if (state.allIndex >= state.allSections.length) state.done = true;
+  if (rid === state.reqId) state.results.to(state.allIndex >= state.allSections.length ? 'done' : 'idle');
   updateStatus();
 }
 
 async function search(reset) {
-  if (state.loading && !reset) return; // a new query interrupts an in-flight load; only pagination waits
-  if (reset) { state.offset = 0; state.done = false; state.seen = new Set(); state.total = null; state.levels = null; state.queryId += 1; }
-  if (state.done) return;
+  if (state.results.state() === 'loading' && !reset) return; // a new query interrupts an in-flight load; only pagination waits
+  if (reset) {
+    // A new query: a page still loading for the old one is stale from here (its request id
+    // is behind), so it neither writes results nor moves the machine.
+    state.offset = 0; state.seen = new Set(); state.total = null; state.levels = null; state.queryId += 1; state.reqId += 1;
+    state.results.to('idle');
+  }
+  if (resultsEnded()) return;
   if (!hasAnyInput()) {
     els.results.innerHTML = '';
-    state.done = true;
+    state.results.to('done');
     updateStatus();
     return;
   }
-  if (state.allRoots) {
-    state.loading = true;
-    try { await renderAllRoots(reset); } finally { state.loading = false; }
+  const rid = ++state.reqId;
+  state.results.to('loading');
+  if (state.azScope.state() === 'all') {
+    try { await renderAllRoots(reset, rid); } finally {
+      if (rid === state.reqId && state.results.state() === 'loading') state.results.to('idle');
+    }
     return;
   }
-  state.loading = true;
-  const rid = ++state.reqId;
   if (reset) { els.status.textContent = 'Searching…'; fetchCount(state.queryId); }
   try {
     const search = params(state.offset);
@@ -323,28 +350,30 @@ async function search(reset) {
       // Inverted date range. reportDateRangeError has already said so beside the inputs;
       // saying "no records" here as well would contradict it.
       els.status.textContent = 'Check the date range.';
-      state.done = true;
+      state.results.to('done');
       return;
     }
     const resp = await fetch(`${API}?${search}`);
     const data = await resp.json();
     if (rid !== state.reqId) return; // stale
-    if (data.error) { els.status.textContent = 'Search error.'; state.done = true; return; }
+    if (data.error) { els.status.textContent = 'Search error.'; state.results.to('failed'); return; }
     const batch = data.results || [];
     if (reset) els.results.innerHTML = '';
     const fresh = batch.filter((r) => !state.seen.has(r.ref));
     fresh.forEach((r) => { state.seen.add(r.ref); els.results.insertAdjacentHTML('beforeend', card(r)); });
     state.offset += LIMIT;
-    if (batch.length < LIMIT) state.done = true;
+    state.results.to(batch.length < LIMIT ? 'done' : 'idle');
     if (!state.seen.size) els.results.innerHTML = '<li class="ps-empty">No records match your search. Try fewer or broader terms.</li>';
     updateStatus();
   } catch {
     if (rid === state.reqId) els.status.textContent = 'Search is temporarily unavailable.';
   } finally {
-    state.loading = false;
+    // Only this query's latest request settles the machine: a stale one used to clear the
+    // loading flag while the newer request was still in flight.
+    if (rid === state.reqId && state.results.state() === 'loading') state.results.to('idle');
     // keep loading until the results fill the viewport (short result sets, so the
     // scroll observer alone would never re-fire) — only while the home view is up
-    if (currentView === 'search' && !state.done && hasAnyInput() &&
+    if (rid === state.reqId && view.state() === 'search' && !resultsEnded() && hasAnyInput() &&
         els.sentinel.getBoundingClientRect().top < window.innerHeight + 300) {
       setTimeout(() => search(false), 80);
     }
@@ -368,8 +397,12 @@ async function toggleExpand(ref, btn) {
   if (!li) return;
   const kids = li.querySelector(':scope > .ps-children');
   const depth = Number(li.dataset.depth) || 0;
+  // The card's sub-records (state-machines.js CARD_CHILDREN); the card's class holds the state
+  // between clicks, and the button is disabled while `loading`, so a click never meets it.
+  const children = CARD_CHILDREN.start(li.classList.contains('is-expanded') ? 'expanded' : 'collapsed');
 
-  if (li.classList.contains('is-expanded')) {
+  if (children.state() === 'expanded') {
+    children.to('collapsed');
     // Collapse — then land the user back on the card they collapsed, rather than
     // wherever the shrinking page leaves the scroll position.
     li.classList.remove('is-expanded');
@@ -380,18 +413,21 @@ async function toggleExpand(ref, btn) {
     return;
   }
 
+  children.to('loading');
   setExpandLabel(btn, false, true);
   btn.disabled = true;
   try {
     const data = await (await fetch(`${NODE_API}?ref=${encodeURIComponent(ref)}`)).json();
-    const children = data.children || [];
-    kids.innerHTML = children.length
-      ? children.map((c) => card(c, depth + 1)).join('')
+    const records = data.children || [];
+    kids.innerHTML = records.length
+      ? records.map((c) => card(c, depth + 1)).join('')
       : '<li class="ps-children__empty">No sub-records found.</li>';
     kids.hidden = false;
     li.classList.add('is-expanded');
+    children.to('expanded');
     setExpandLabel(btn, true);
   } catch {
+    if (children.state() === 'loading') children.to('collapsed');
     setExpandLabel(btn, false);
   } finally {
     btn.disabled = false;
@@ -425,8 +461,7 @@ function levelsNav(ancestors, it) {
 }
 
 async function renderRecord(ref) {
-  currentView = 'record';
-  els.viewSearch.hidden = true; els.viewEcat.hidden = true; els.viewRecord.hidden = false;
+  showView('record');
   window.scrollTo(0, 0);
   document.title = `${ref} - Independent PRONI Search`;
   els.viewRecord.innerHTML = '<p class="ps-loading">Loading record…</p>';
@@ -514,8 +549,7 @@ function recordShell(inner) {
 /* ==================== "View on PRONI eCatalogue" page ==================== */
 
 function renderEcat(ref) {
-  currentView = 'ecat';
-  els.viewSearch.hidden = true; els.viewRecord.hidden = true; els.viewEcat.hidden = false;
+  showView('ecat');
   window.scrollTo(0, 0);
   document.title = 'View on PRONI eCatalogue - Independent PRONI Search';
   const rid = esc(ref);
@@ -550,7 +584,15 @@ function renderEcat(ref) {
 
 /* =============================== router =============================== */
 
-let currentView = 'search';
+// Which view is shown (state-machines.js VIEW); each view's `hidden` follows the machine.
+const view = VIEW.start();
+/** @param {'search' | 'record' | 'ecat'} name */
+function showView(name) {
+  view.to(name);
+  els.viewSearch.hidden = name !== 'search';
+  els.viewRecord.hidden = name !== 'record';
+  els.viewEcat.hidden = name !== 'ecat';
+}
 let homeScrollY = 0;
 let routeToken = 0;
 let inAppNavs = 0;
@@ -563,14 +605,13 @@ function currentRef() {
 }
 
 function showHome() {
-  currentView = 'search';
-  els.viewRecord.hidden = true; els.viewEcat.hidden = true; els.viewSearch.hidden = false;
+  showView('search');
   document.title = 'Independent PRONI Search';
   window.scrollTo(0, homeScrollY);
 }
 
 function route() {
-  if (currentView === 'search') homeScrollY = window.scrollY;
+  if (view.state() === 'search') homeScrollY = window.scrollY;
   routeToken += 1;
   closeModal();
   const ecat = new URLSearchParams(location.search).get('ecat');
@@ -597,7 +638,7 @@ function fallbackCopy(text) {
   // Restore focus afterwards. The textarea has to take focus for execCommand('copy') to
   // work, and removing it leaves focus on <body> -- so a keyboard user who copied a
   // reference lost their place in the results and had to tab back from the top.
-  const previous = document.activeElement;
+  const previous = /** @type {HTMLElement | null} */ (document.activeElement);
   const ta = document.createElement('textarea');
   ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
   document.body.appendChild(ta); ta.focus(); ta.select();
@@ -656,12 +697,15 @@ async function expandOrOpen(button) {
   const card = button.closest('.ps-card');
   if (!card) { openModal(ref); return; }
 
-  if (card.classList.contains('is-expanded')) { openModal(ref); return; }
+  // The description (state-machines.js CARD_DESCRIPTION); the card holds the state between clicks.
+  const description = CARD_DESCRIPTION.start(card.classList.contains('is-expanded') ? 'expanded' : 'preview');
+  if (description.state() === 'expanded') { description.to('expanded'); openModal(ref); return; }
 
   const desc = card.querySelector('.ps-card__desc');
   if (!desc) { openModal(ref); return; }
 
   if (!card.dataset.fullLoaded) {
+    description.to('loading');
     button.disabled = true;
     const previous = button.textContent;
     button.textContent = 'Loading…';
@@ -672,6 +716,7 @@ async function expandOrOpen(button) {
     } catch {
       // Leave the preview in place and fall through to the modal, which reports its own
       // failure. A silent no-op on a button press is the one outcome to avoid.
+      description.to('preview');
       button.disabled = false;
       button.textContent = previous;
       openModal(ref);
@@ -679,6 +724,7 @@ async function expandOrOpen(button) {
     }
     button.disabled = false;
   }
+  description.to('expanded');
 
   const before = card.getBoundingClientRect().top;
   card.classList.add('is-expanded');
@@ -688,10 +734,19 @@ async function expandOrOpen(button) {
   if (after !== before) window.scrollBy(0, after - before);
 }
 
+// The record dialog, open or closed; the page behind it does not scroll while it is open.
+const modal = MODAL.start();
+/** @param {boolean} open */
+function showModal(open) {
+  const next = open ? 'open' : 'closed';
+  if (modal.state() !== next) modal.to(next);
+  els.modal.hidden = !open;
+  document.body.style.overflow = open ? 'hidden' : '';
+}
+
 async function openModal(ref) {
-  els.modal.hidden = false;
+  showModal(true);
   els.modalBody.innerHTML = '<p class="ps-loading">Loading record…</p>';
-  document.body.style.overflow = 'hidden';
   try {
     const data = await (await fetch(`${NODE_API}?ref=${encodeURIComponent(ref)}`)).json();
     const it = data.item;
@@ -711,7 +766,7 @@ async function openModal(ref) {
     els.modalBody.innerHTML = '<p class="ps-empty">Could not load this record.</p>';
   }
 }
-function closeModal() { els.modal.hidden = true; document.body.style.overflow = ''; }
+function closeModal() { showModal(false); }
 
 /* ============================== A-Z bar ============================== */
 
@@ -759,27 +814,32 @@ els.exportResults.addEventListener('click', () => {
   if (!qp) return;   // do not export a query the user cannot have meant
   window.location.href = `${EXPORT_API}?${qp}`; // streamed CSV download
 });
-els.az.addEventListener('click', (e) => {
+els.az.addEventListener('click', (/** @type {ElementEvent<MouseEvent>} */ e) => {
   const btn = e.target.closest('[data-letter]');
   if (btn) {
     // toggle the letter; it filters alongside any active search terms
-    state.letter = state.letter === btn.dataset.letter ? '' : btn.dataset.letter;
+    if (state.letter === btn.dataset.letter) {
+      state.azScope.to('none');
+      state.letter = '';
+    } else {
+      state.azScope.to('letter');
+      state.letter = btn.dataset.letter;
+    }
   } else if (e.target === azClear) {
     // 'All' now MEANS all: every top-level record, grouped by letter. It used to clear
     // the filter and leave an empty screen, which is the opposite of what the word says.
     state.letter = '';
-    state.allRoots = !state.allRoots;
-    azClear.classList.toggle('is-active', state.allRoots);
-    azClear.setAttribute('aria-pressed', String(state.allRoots));
+    state.azScope.to(state.azScope.state() === 'all' ? 'none' : 'all');
   } else return;
-  if (btn) { state.allRoots = false; azClear.classList.remove('is-active'); azClear.setAttribute('aria-pressed', 'false'); }
-  els.az.querySelectorAll('.ps-az__btn').forEach((b) => b.classList.toggle('is-active', b.dataset.letter === state.letter));
+  azClear.classList.toggle('is-active', state.azScope.state() === 'all');
+  azClear.setAttribute('aria-pressed', String(state.azScope.state() === 'all'));
+  /** @type {NodeListOf<HTMLElement>} */ (els.az.querySelectorAll('.ps-az__btn')).forEach((b) => b.classList.toggle('is-active', b.dataset.letter === state.letter));
   search(true);
 });
 
 // One delegated handler for the whole app (search cards, record page, guide).
 const isModified = (e) => e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0;
-document.addEventListener('click', (e) => {
+document.addEventListener('click', (/** @type {ElementEvent<MouseEvent>} */ e) => {
   const copyEl = e.target.closest('[data-copy]');
   if (copyEl) { e.preventDefault(); copyRef(copyEl); return; }
 
@@ -806,8 +866,8 @@ document.addEventListener('click', (e) => {
   if (goEl) { e.preventDefault(); go(goEl.getAttribute('data-go')); return; }
 });
 
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && !els.modal.hidden) { closeModal(); return; }
+document.addEventListener('keydown', (/** @type {ElementEvent<KeyboardEvent>} */ e) => {
+  if (e.key === 'Escape' && modal.state() === 'open') { closeModal(); return; }
   if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('[data-copy].ps-guide__reffield')) {
     e.preventDefault(); copyRef(e.target);
   }
@@ -816,7 +876,7 @@ document.addEventListener('keydown', (e) => {
 window.addEventListener('popstate', route);
 
 new IntersectionObserver((entries) => {
-  if (entries[0].isIntersecting && currentView === 'search' && !state.loading && !state.done && hasAnyInput()) search(false);
+  if (entries[0].isIntersecting && view.state() === 'search' && state.results.state() === 'idle' && hasAnyInput()) search(false);
 }, { rootMargin: '600px' }).observe(els.sentinel);
 
 // Initialise the home view, then render whatever the current URL asks for.
