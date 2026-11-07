@@ -29,6 +29,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { NEW_PMTILES_PREFIX, OLD_PMTILES_PREFIX, renamePmtilesKey } from '../lib/layer-renames.mjs';
 import { r2Credentials, s3ClientOptions } from './r2-env.mjs';
+import { pairShapeProblem, stateAfterCopy, stateFromVerify } from './key-migration.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const DEFAULT_SOURCE = 'render/metadata/maps-test.json';
@@ -97,6 +98,8 @@ export function validateManifest(manifest) {
         errors.push(`pair ${i}: ${key} is outside ${ALLOWED_PREFIXES.join(' and ')}`);
       }
     }
+    const shape = pairShapeProblem(p);
+    if (shape) errors.push(`pair ${i}: ${shape}`);
     if (seenTo.has(p.to)) errors.push(`pair ${i}: ${p.to} is a destination twice`);
     seenTo.add(p.to);
   }
@@ -229,9 +232,14 @@ export async function main(argv = process.argv.slice(2)) {
     const results = await verifyPairs(manifest.pairs, s3);
     for (const r of results.filter((x) => x.status !== 'ok')) console.log(`${r.status}: ${r.from} -> ${r.to}`);
     console.log(`verify: ${summarise(results)}`);
+    // Where each pair stands in the migration (key-migration.mjs): only `copied` may switch.
+    console.log(`migration: ${summarise(results.map((r) => ({ status: stateFromVerify(r.status) })))}`);
     return results.every((r) => r.status === 'ok') ? 0 : 1;
   }
-  const results = await copyPairs(manifest.pairs, { ...s3, apply: true });
+  // Each result carries its migration state (key-migration.mjs), so the receipt records which
+  // keys are copied (catalogue PL-03: nothing did).
+  const results = (await copyPairs(manifest.pairs, { ...s3, apply: true }))
+    .map((r) => ({ ...r, state: stateAfterCopy(r.status) }));
   const receipt = manifestPath.replace(/\.json$/, '') + '.receipt.json';
   writeFileSync(receipt, `${JSON.stringify({ manifest: path.basename(manifestPath), finishedAt: new Date().toISOString(), results }, null, 2)}\n`);
   for (const r of results.filter((x) => x.status === 'error')) console.error(`ERROR ${r.from}: ${r.detail}`);
