@@ -1,58 +1,22 @@
-/* Civgraph pages (Home, About) — shared page styling.
+/* Civgraph pages (Home, About, Status) — shared page styling.
    The header, navigation, Support Us button and footer are NOT styled here: they are
    shared with every page and live in assets/site/site-chrome.css, with the markup in
-   partials/. Everything else is self-contained: system font stack, no external
-   requests. */
+   functions/_templates/shell.js. Tokens, fonts, the box model and reduced motion come
+   from assets/ui/ (tokens.css, base.css), which the shell head loads before this file. */
 
 :root {
+  /* Page-level overrides of assets/ui/tokens.css (loaded first, by the shell head): these
+     pages have a taller header and a hero that runs up under it. Every other token
+     (colours, type, radius, shadow, dark mode) comes from the token set. */
   --header-height: 76px;
   --hero-overlap: 5.25rem;
-  /* Primary palette — deep professional blues (main.css) */
-  --color-primary: #1a365d;
-  --color-primary-light: #2c5282;
-  --color-primary-dark: #0f2744;
-  --color-primary-50: #ebf4ff;
-
-  /* Accent */
-  --color-accent: #38a169;
-  --color-accent-dark: #276749;
-
-  /* Header gradient stops (main.css .app-header) */
-  --header-base: #065a6e;
-  --header-green: #0fa55a;
-  --header-navy: #003870;
-  --header-teal: #0a7a78;
-
-  --color-gray-50: #f7fafc;
-  --color-gray-100: #edf2f7;
-  --color-gray-200: #e2e8f0;
-  --color-gray-500: #718096;
-  --color-gray-600: #4a5568;
-  --color-gray-700: #2d3748;
-
-  --color-surface: #ffffff;
-  --color-text: #1a202c;
-  --color-text-muted: #5f6b7c;
-  --color-text-inverse: #ffffff;
-  --color-border: #e2e8f0;
-
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-full: 9999px;
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, .1), 0 2px 4px -1px rgba(0, 0, 0, .06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, .1), 0 4px 6px -2px rgba(0, 0, 0, .05);
-
-  --font-display: "Plus Jakarta Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
-
-* { box-sizing: border-box; }
 
 body {
   margin: 0;
   background: var(--color-surface);
   color: var(--color-text);
-  font-family: var(--font-body);
+  font-family: var(--font-sans);
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
 }
@@ -64,11 +28,11 @@ body {
 
 /* Hero, on the same gradient family as the header so the brand carries down the page */
 .hero {
-  background: var(--header-base);
+  background: var(--chrome-base);
   background-image:
-    radial-gradient(circle at 10% 10%, var(--header-green) 0%, transparent 45%),
-    radial-gradient(circle at 95% 30%, var(--header-navy) 0%, transparent 55%),
-    radial-gradient(circle at 50% 110%, var(--header-teal) 0%, transparent 60%);
+    radial-gradient(circle at 10% 10%, var(--chrome-green) 0%, transparent 45%),
+    radial-gradient(circle at 95% 30%, var(--chrome-navy) 0%, transparent 55%),
+    radial-gradient(circle at 50% 110%, var(--chrome-teal) 0%, transparent 60%);
   color: #fff;
   padding: 5.5rem 0 7rem;
   margin-bottom: 0;
@@ -96,7 +60,7 @@ body {
 .btn {
   display: inline-block;
   padding: .8rem 1.6rem;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   text-decoration: none;
   font-weight: 600;
   font-size: .98rem;
@@ -118,7 +82,7 @@ body {
   gap: 1px;
   background: var(--color-border);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   overflow: hidden;
   margin: 0 0 2.5rem;
   box-shadow: var(--shadow-md);
@@ -127,7 +91,7 @@ body {
 .stat__n {
   font-family: var(--font-display);
   font-size: 1.8rem; font-weight: 700; letter-spacing: -.02em; line-height: 1.1;
-  background: linear-gradient(135deg, var(--header-green) 0%, var(--header-navy) 100%);
+  background: linear-gradient(135deg, var(--chrome-green) 0%, var(--chrome-navy) 100%);
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
 .stat__l { font-size: .8rem; color: var(--color-text-muted); margin-top: .3rem; }
@@ -136,7 +100,7 @@ body {
 .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.1rem; margin: 1.6rem 0; }
 .card {
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   padding: 1.5rem;
   background: var(--color-surface);
   box-shadow: var(--shadow-md);
@@ -145,7 +109,7 @@ body {
 }
 .card::before {
   content: ""; position: absolute; inset: 0 0 auto 0; height: 3px;
-  background: linear-gradient(90deg, var(--header-green), var(--header-teal), var(--header-navy));
+  background: linear-gradient(90deg, var(--chrome-green), var(--chrome-teal), var(--chrome-navy));
 }
 .card h3 { font-family: var(--font-display); margin: .2rem 0 .5rem; font-size: 1.1rem; color: var(--color-primary-dark); }
 .card p { margin: 0 0 .85rem; color: var(--color-gray-600); font-size: .93rem; }
@@ -171,37 +135,17 @@ th { color: var(--color-primary-dark); font-weight: 700; }
 td.num { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
 
 /* ------------------------------------------------------------------ theming
-   Three states, as main.css requires: explicit light, explicit dark, and system
-   default with nothing stamped on the root. */
+   Light and dark come from assets/ui/tokens.css. Two greys these pages use for secondary
+   text have no token of their own; they lighten in dark mode here, as they always have. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --color-surface: #0f1720;
-    --color-text: #e6edf3;
-    --color-text-muted: #8fa1b3;
-    --color-border: #23303d;
-    --color-gray-50: #131c26;
-    --color-gray-100: #18222d;
     --color-gray-600: #b3c2d1;
     --color-gray-700: #cdd9e5;
-    --color-primary: #7aa7dd;
-    --color-primary-dark: #cfe0f5;
-    --color-primary-light: #a8c6ea;
-    --color-accent-dark: #6cd39a;
   }
 }
 :root[data-theme="dark"] {
-  --color-surface: #0f1720;
-  --color-text: #e6edf3;
-  --color-text-muted: #8fa1b3;
-  --color-border: #23303d;
-  --color-gray-50: #131c26;
-  --color-gray-100: #18222d;
   --color-gray-600: #b3c2d1;
   --color-gray-700: #cdd9e5;
-  --color-primary: #7aa7dd;
-  --color-primary-dark: #cfe0f5;
-  --color-primary-light: #a8c6ea;
-  --color-accent-dark: #6cd39a;
 }
 
 /* ------------------------------------------------------------------ figures
@@ -220,10 +164,10 @@ figure { margin: 0 0 1.6rem; }
   display: block;
   width: 100%;
   height: auto;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   border: 1px solid var(--color-border);
   box-shadow: var(--shadow-lg);
-  background: var(--color-gray-50);
+  background: var(--surface-raised);
 }
 
 figcaption {
@@ -240,7 +184,7 @@ figcaption {
 /* Screenshot inside a card */
 .card__shot {
   display: block; width: 100%; height: auto;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   border: 1px solid var(--color-border);
   margin: 0 0 .9rem;
 }
@@ -361,10 +305,10 @@ figcaption {
 .stat { display: flex; flex-direction: column; align-items: flex-start; gap: .1rem; }
 .stat__icon {
   width: 26px; height: 26px;
-  color: var(--header-green);
+  color: var(--chrome-green);
   margin-bottom: .45rem;
 }
-.card__icon { width: 20px; height: 20px; color: var(--header-green); vertical-align: -.2em; margin-right: .4rem; }
+.card__icon { width: 20px; height: 20px; color: var(--chrome-green); vertical-align: -.2em; margin-right: .4rem; }
 .card h3 { display: flex; align-items: center; }
 
 /* Hero gradient intentionally left exactly as in the original Civgraph draft. */
@@ -670,7 +614,7 @@ figure,
 
   .stats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-lg);
   }
 
   .stat {
@@ -1061,17 +1005,17 @@ figure,
    the counts note records a defect that is live on the site, so it should travel with
    the page for as long as the figures below are hard-coded. */
 .note {
-  border-left: 3px solid var(--header-green);
-  background: var(--color-gray-50);
+  border-left: 3px solid var(--chrome-green);
+  background: var(--surface-raised);
   padding: 1rem 1.25rem;
-  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
   margin: 1.5rem 0 2.5rem;
   font-size: .94rem;
   line-height: 1.6;
   color: var(--color-gray-700);
 }
 .note code {
-  background: var(--color-gray-100);
+  background: var(--surface-sunken);
   padding: .1em .4em;
   border-radius: 4px;
   font-size: .92em;

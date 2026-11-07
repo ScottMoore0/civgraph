@@ -13,7 +13,9 @@
 @font-face {
   font-family: 'Plus Jakarta Sans';
   font-style: normal;
-  font-weight: 500 800;
+  /* 600-700, as the map app, Browse and the catalogue have always declared it: a heavier or
+     lighter request is drawn at the nearest of these, so headings look the same everywhere. */
+  font-weight: 600 700;
   font-display: swap;
   src: url(/assets/fonts/plus-jakarta-sans-latin.woff2) format('woff2');
 }

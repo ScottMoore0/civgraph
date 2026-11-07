@@ -1,9 +1,10 @@
 /*
  * Legacy token names as aliases of tokens.css (frontend-plan.md section 3).
  *
- * Each page that moves onto the shell loads tokens.css and then this file, so the rules it
- * still has (main.css, browse.css, shared.css, test2.css, site-chrome.css) keep working on
- * the new values. An alias goes when the last rule that reads it goes; when this file is
+ * The shell head loads tokens.css and then this file on every page, so the rules that still
+ * read the older names (main.css, browse.css, shared.css, test2.css, the apps index) keep
+ * working on the new values. The site chrome (site-chrome.css) and the home, about and status
+ * pages' rename of the header colours have moved to the token names themselves. An alias goes when the last rule that reads it goes; when this file is
  * empty, delete it. Aliases point at tokens, never at literal colours, so dark mode follows.
  * tests/unit/ui-tokens.test.mjs checks that every alias resolves to a defined token.
  */
@@ -31,32 +32,11 @@
   --color-gray-700: var(--gray-700);
   --color-gray-800: var(--gray-800);
   --color-gray-900: var(--gray-900);
-  /* main.css type weights */
+  /* main.css type weights (also the apps index) */
   --font-normal: var(--weight-normal);
   --font-medium: var(--weight-medium);
   --font-semibold: var(--weight-semibold);
   --font-bold: var(--weight-bold);
-  /* shared.css */
-  --font-body: var(--font-sans);
-  --header-base: var(--chrome-base);
-  --header-green: var(--chrome-green);
-  --header-navy: var(--chrome-navy);
-  --header-teal: var(--chrome-teal);
-  /* site-chrome.css: modal and menu surfaces */
-  --chrome-radius-md: var(--radius-lg);
-  --chrome-radius-lg: var(--radius-xl);
-  --chrome-shadow-md: var(--shadow-md);
-  --chrome-shadow-lg: var(--shadow-lg);
-  --chrome-modal-surface: var(--surface);
-  --chrome-modal-text: var(--text);
-  --chrome-modal-muted: var(--text-muted);
-  --chrome-modal-hover: var(--surface-raised);
-  --chrome-modal-border: var(--border-subtle);
-  --menu-surface: var(--surface);
-  --menu-text: var(--text);
-  --menu-muted: var(--text-muted);
-  --menu-hover: var(--surface-raised);
-  --menu-line: var(--border);
   /* test2.css: map pane tables and trend chart */
   --table-surface: var(--surface);
   --table-text: var(--text);

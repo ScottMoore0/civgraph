@@ -13,8 +13,8 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16.png">
   <style>
     /* Deliberately SELF-CONTAINED, with no stylesheet link at all.
-       404.html can link /build/main.css because the network is up when it renders. This
-       page renders precisely when the network is NOT available, so an external stylesheet
+       Every other page links the shell's stylesheets (assets/ui/, site-chrome.css) because
+       the network is up when it renders. This page renders precisely when it is NOT available, so an external stylesheet
        would either be a cache hit or a blank unstyled page. Inlining removes the gamble. */
     :root { color-scheme: light dark; }
 
