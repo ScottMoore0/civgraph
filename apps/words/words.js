@@ -45,6 +45,11 @@
   var renderToken = 0;
 
   // ------------------------------------------------------------------ helpers
+  /**
+   * An element of the page: any HTML element, with the form-control fields read where it is one.
+   * @typedef {HTMLElement & Partial<Pick<HTMLInputElement, 'value' | 'checked' | 'disabled' | 'type' | 'placeholder'>>} UiElement
+   */
+  /** @param {string} id @returns {UiElement} */
   function $(id) { return document.getElementById(id); }
   function el(tag, attrs, kids) {
     var n = document.createElement(tag);
@@ -341,6 +346,7 @@
     var yv = function (v) { return M.t + ih - v / ymax * ih; };
     var svg = sv('svg', { viewBox: '0 0 ' + width + ' ' + height, width: width, height: height, role: 'img',
       'aria-label': (panel.title ? panel.title + ': ' : '') + 'uses per million words, ' + yr[0] + ' to ' + yr[1] + '. ' + panel.series.map(function (s, i) {
+        /** @type {{ r: number, y: number } | null} */
         var best = null; data[i].forEach(function (p) { if (p && (!best || p.r > best.r)) best = p; });
         return s.label + (best ? ', highest ' + rateFmt(best.r) + ' in ' + best.y : ', no uses');
       }).join('; ') + '.' });
@@ -397,7 +403,7 @@
     function show(yv0, announce) {
       var y = Math.max(yr[0], Math.min(yr[1], yv0)); curYear = y;
       var idx = y - yr[0]; var xx = x(y);
-      cross.setAttribute('x1', xx); cross.setAttribute('x2', xx); cross.setAttribute('visibility', 'visible');
+      cross.setAttribute('x1', String(xx)); cross.setAttribute('x2', String(xx)); cross.setAttribute('visibility', 'visible');
       clear(tip); tip.appendChild(el('strong', { text: String(y) }));
       var spoken = [];
       panel.series.forEach(function (s, i) {
@@ -591,6 +597,7 @@
     var body = S.cb; var yr = years();
     var wp = (META.WP[S.lang] && META.WP[S.lang][body]) || {};
     var cp = r.entry.CP[body] || {};
+    /** @type {Array<{ key: string, w: number, c: number, label?: string }>} */
     var rows = Object.keys(wp).map(function (k) {
       var w = 0, c = 0; for (var y = yr[0]; y <= yr[1]; y++) { w += wp[k][y] || 0; c += (cp[k] && cp[k][y]) || 0; }
       return { key: k, w: w, c: c };
@@ -663,21 +670,21 @@
     ['pb', 'cmpBody'].forEach(function (id) {
       var s = clear($(id)); BODIES.forEach(function (b) { s.appendChild(el('option', { value: b.code, text: b.label })); });
     });
-    $('split').addEventListener('change', function () { S.split = this.value; changed(); });
-    $('pb').addEventListener('change', function () { S.pb = this.value; S.cb = this.value; changed(); });
-    $('cmpBody').addEventListener('change', function () { S.cb = this.value; writeUrl(false); renderParties(); });
-    $('sm').addEventListener('change', function () { S.sm = Number(this.value); changed(); });
+    $('split').addEventListener('change', /** @this {UiElement} */ function () { S.split = this.value; changed(); });
+    $('pb').addEventListener('change', /** @this {UiElement} */ function () { S.pb = this.value; S.cb = this.value; changed(); });
+    $('cmpBody').addEventListener('change', /** @this {UiElement} */ function () { S.cb = this.value; writeUrl(false); renderParties(); });
+    $('sm').addEventListener('change', /** @this {UiElement} */ function () { S.sm = Number(this.value); changed(); });
     document.querySelectorAll('input[name="lang"]').forEach(function (r) {
-      r.addEventListener('change', function () { if (this.checked) { S.lang = this.value; run(false); } });
+      r.addEventListener('change', /** @this {UiElement} */ function () { if (this.checked) { S.lang = this.value; run(false); } });
     });
     ['from', 'to'].forEach(function (id) {
-      $(id).addEventListener('change', function () {
+      $(id).addEventListener('change', /** @this {UiElement} */ function () {
         var v = Number(this.value); S[id] = this.value && v >= 1803 && v <= 2026 ? v : null; changed();
       });
     });
-    $('focus').addEventListener('change', function () { S.t = Number(this.value); writeUrl(false); renderSpeakers(); renderParties(); });
-    $('spkBody').addEventListener('change', function () { S.sb = this.value; writeUrl(false); renderSpeakers(); });
-    $('spkSort').addEventListener('change', function () { S.sort = this.value; writeUrl(false); renderSpeakers(); });
+    $('focus').addEventListener('change', /** @this {UiElement} */ function () { S.t = Number(this.value); writeUrl(false); renderSpeakers(); renderParties(); });
+    $('spkBody').addEventListener('change', /** @this {UiElement} */ function () { S.sb = this.value; writeUrl(false); renderSpeakers(); });
+    $('spkSort').addEventListener('change', /** @this {UiElement} */ function () { S.sort = this.value; writeUrl(false); renderSpeakers(); });
     $('csvBtn').addEventListener('click', downloadCsv);
     $('copyBtn').addEventListener('click', function () {
       var msg = $('copyMsg'); var url = location.href;
@@ -697,7 +704,7 @@
     BODIES.forEach(function (b) { $('b-' + b.code).checked = S.b.indexOf(b.code) >= 0; });
     $('split').value = S.split; $('pb').value = S.pb; $('pbField').hidden = S.split !== 'party';
     $('cmpBody').value = S.cb; $('sm').value = String(S.sm);
-    document.querySelectorAll('input[name="lang"]').forEach(function (r) { r.checked = r.value === S.lang; });
+    /** @type {NodeListOf<HTMLInputElement>} */ (document.querySelectorAll('input[name="lang"]')).forEach(function (r) { r.checked = r.value === S.lang; });
     var yr = META ? years() : [1803, 2026];
     $('from').value = S.from || ''; $('to').value = S.to || '';
     $('from').placeholder = String(yr[0]); $('to').placeholder = String(yr[1]);

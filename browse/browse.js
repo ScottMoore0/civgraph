@@ -1,3 +1,14 @@
+/**
+ * An element of the page reached by a delegated listener or a selector: any HTML element, with
+ * the form-control fields read where it is one.
+ * @typedef {HTMLElement & Partial<Pick<HTMLInputElement, 'value' | 'checked' | 'disabled' | 'type' | 'placeholder'>>} UiElement
+ */
+/** An Error carrying the HTTP status and URL of the request that failed. @typedef {Error & { status?: number, url?: string }} HttpError */
+/**
+ * An event from a delegated listener, whose target is an element of the page.
+ * @template {Event} [E=Event]
+ * @typedef {E & { target: { closest(selectors: string): UiElement | null } & UiElement }} ElementEvent
+ */
 const DATA_ROOT = '/data/browse';
 const THUMBNAIL_ASSET_VERSION = '20260604-tight-admin-frame';
 // `layer` is the Civgraph 1.0 layer each entity belongs to (docs/CIVGRAPH_1.0.md):
@@ -389,12 +400,12 @@ const state = {
 const els = {
   announcer: document.getElementById('announcer'),
   groups: document.getElementById('browseGroups'),
-  search: document.getElementById('browseSearch'),
+  search: /** @type {HTMLInputElement | null} */ (document.getElementById('browseSearch')),
   hero: document.getElementById('browseHero'),
   results: document.getElementById('browseResults'),
   contributorPanel: document.getElementById('contributorPanel'),
   contributorModal: document.getElementById('contributorModal'),
-  contributorForm: document.getElementById('contributorForm'),
+  contributorForm: /** @type {HTMLFormElement | null} */ (document.getElementById('contributorForm')),
   contributorModalTitle: document.getElementById('contributorModalTitle'),
   contributorEditor: document.getElementById('contributorEditor'),
   contributorEditorTitle: document.getElementById('contributorEditorTitle'),
@@ -447,7 +458,7 @@ function bindEvents() {
       // On the PRONI page the sidebar box searches PRONI, the only search that page has; it
       // used to re-render the page and move the cursor into the PRONI box after one letter.
       if (!state.isHome && state.activeType === 'proni' && !state.activeId) {
-        const box = document.getElementById('proni-search-input');
+        const box = /** @type {HTMLInputElement | null} */ (document.getElementById('proni-search-input'));
         if (box) box.value = state.query;
         scheduleProniSearch(state.query);
         return;
@@ -472,7 +483,7 @@ function bindEvents() {
     }, 150);
   }, { passive: true });
 
-  document.addEventListener('click', (event) => {
+  document.addEventListener('click', (/** @type {ElementEvent<MouseEvent>} */ event) => {
     const portalJump = event.target.closest('[data-portal-jump]');
     if (portalJump) {
       event.preventDefault();
@@ -606,7 +617,7 @@ function bindEvents() {
     }
   });
 
-  document.addEventListener('change', (event) => {
+  document.addEventListener('change', (/** @type {ElementEvent} */ event) => {
     const sourceFilter = event.target.closest('[data-source-filter]');
     if (sourceFilter) {
       const key = sourceFilter.dataset.sourceFilter;
@@ -706,7 +717,7 @@ function readListControls(type, params) {
     state.listSort[type] = LIST_SORTS[type].some((option) => option.key === sort) ? sort : '';
   }
   if (type === 'sources') {
-    state.sourceFilters = Object.fromEntries(Object.keys(state.sourceFilters).map((key) => [key, params.get(`f.${key}`) || '']));
+    state.sourceFilters = /** @type {typeof state.sourceFilters} */ (Object.fromEntries(Object.keys(state.sourceFilters).map((key) => [key, params.get(`f.${key}`) || ''])));
   }
   if (type === 'register-interests') {
     const filters = {};
@@ -773,8 +784,8 @@ async function rerenderList() {
   syncListAddress();
   const key = focusKeyFor(document.activeElement);
   await renderCurrent();
-  const target = key ? document.querySelector(key) : null;
-  (target || els.results.querySelector('select, button'))?.focus({ preventScroll: true });
+  const target = key ? /** @type {HTMLElement | null} */ (document.querySelector(key)) : null;
+  (target || /** @type {HTMLElement | null} */ (els.results.querySelector('select, button')))?.focus({ preventScroll: true });
 }
 
 function focusKeyFor(element) {
@@ -791,7 +802,7 @@ function cardCount() {
 /** After "Show more", move focus to the first card that was added. */
 function focusCard(index) {
   const card = els.results.querySelectorAll('.browse-card')[index];
-  card?.querySelector('a, button')?.focus({ preventScroll: true });
+  /** @type {HTMLElement | null} */ (card?.querySelector('a, button'))?.focus({ preventScroll: true });
 }
 
 // Path-style record URLs: /browse/<type>/<slug>, served by functions/browse/<type>/ with the
@@ -998,7 +1009,7 @@ function renderGroups() {
     `;
   }).join('');
   // On a phone the sections are one scrolling row: bring the current one into view.
-  const active = els.groups.querySelector('.browse-group-link--active');
+  const active = /** @type {HTMLElement | null} */ (els.groups.querySelector('.browse-group-link--active'));
   if (active && els.groups.scrollWidth > els.groups.clientWidth) els.groups.scrollLeft = Math.max(0, active.offsetLeft - 16);
 }
 
@@ -1411,6 +1422,7 @@ function recordDocumentTitle(type, config, title) {
   return `${title} – ${config.singular} – Civgraph`;
 }
 
+/** @param {{ title?: string, description?: string, canonical?: string }} [head] */
 function setDocumentHead({ title, description, canonical } = {}) {
   document.title = title || BASE_HEAD.title;
   const text = truncateDescription(description || BASE_HEAD.description);
@@ -1876,7 +1888,7 @@ function renderProniLanding(config, items) {
       </ul>
       ${items.length > 800 ? `<p class="browse-description">Showing the first 800 of ${formatNumber(items.length)} collections. Use the search box above to find any record.</p>` : ''}
     </section>`;
-  const input = document.getElementById('proni-search-input');
+  const input = /** @type {HTMLInputElement | null} */ (document.getElementById('proni-search-input'));
   if (input) {
     input.addEventListener('input', () => scheduleProniSearch(input.value));
     if ((state.proniQuery || '').trim().length >= 2) runProniSearch(state.proniQuery);
@@ -2882,7 +2894,7 @@ function rerenderVotesTable(control) {
   if (host) host.innerHTML = renderPersonVotesRows();
 }
 
-document.addEventListener('change', (event) => {
+document.addEventListener('change', (/** @type {ElementEvent} */ event) => {
   const control = event.target.closest?.('[data-votes-filter]');
   if (!control) return;
   const key = control.dataset.votesFilter;
@@ -2891,7 +2903,7 @@ document.addEventListener('change', (event) => {
   rerenderVotesTable(control);
 });
 
-document.addEventListener('click', (event) => {
+document.addEventListener('click', (/** @type {ElementEvent<MouseEvent>} */ event) => {
   const more = event.target.closest?.('[data-votes-more]');
   if (!more) return;
   event.preventDefault();
@@ -4837,7 +4849,7 @@ function showInlineEditor(title) {
   els.contributorEditor.hidden = false;
   state.modalMode = 'metadata-edit';
   els.contributorEditor.scrollIntoView({ block: 'start', behavior: 'smooth' });
-  els.contributorForm.querySelector('input:not([type="hidden"]), textarea')?.focus();
+  /** @type {HTMLElement | null} */ (els.contributorForm.querySelector('input:not([type="hidden"]), textarea'))?.focus();
 }
 
 function closeInlineEditor() {
@@ -4858,7 +4870,7 @@ function closeInlineEditor() {
  */
 function isEditorDirty() {
   if (!els.contributorEditor || els.contributorEditor.hidden) return false;
-  const summary = els.contributorForm.querySelector('[name="summary"]')?.value?.trim();
+  const summary = /** @type {HTMLInputElement | null} */ (els.contributorForm.querySelector('[name="summary"]'))?.value?.trim();
   if (summary) return true;
   try {
     collectPatch();
@@ -5045,7 +5057,7 @@ function renumberObjectEntries(fieldset) {
  * single binding possible.
  */
 function bindObjectArrayControls() {
-  els.contributorForm.addEventListener('click', (event) => {
+  els.contributorForm.addEventListener('click', (/** @type {ElementEvent<MouseEvent>} */ event) => {
     const byName = new Map((state.editFields || []).map((f) => [f.name, f]));
     const addButton = event.target.closest('[data-object-add]');
     if (addButton) {
@@ -5154,7 +5166,7 @@ function openMapSubmissionForm() {
 
 function openContributorModal() {
   els.contributorModal?.classList.remove('hidden');
-  els.contributorForm?.querySelector('input:not([type="hidden"]), textarea, select, button')?.focus();
+  /** @type {HTMLElement | null} */ (els.contributorForm?.querySelector('input:not([type="hidden"]), textarea, select, button'))?.focus();
 }
 
 function closeContributorModal() {
@@ -5165,7 +5177,7 @@ function closeContributorModal() {
 async function submitContributorForm(event) {
   event.preventDefault();
   const status = els.contributorForm.querySelector('.contributor-form__status');
-  const submitButton = els.contributorForm.querySelector('button[type="submit"]');
+  const submitButton = /** @type {HTMLButtonElement} */ (els.contributorForm.querySelector('button[type="submit"]'));
   status.className = 'contributor-form__status';
   status.textContent = 'Submitting...';
   submitButton.disabled = true;
@@ -5262,14 +5274,14 @@ function collectPatch() {
 
   // Object arrays first: their state lives across many inputs, so they are read
   // per fieldset rather than per input.
-  for (const fieldset of els.contributorForm.querySelectorAll('[data-object-array]')) {
+  for (const fieldset of /** @type {NodeListOf<HTMLElement>} */ (els.contributorForm.querySelectorAll('[data-object-array]'))) {
     const field = fieldset.dataset.objectArray;
     const entries = readObjectArray(fieldset);
     if (JSON.stringify(entries) === String(baseline[field] ?? '[]')) continue;
     patch[field] = entries.length ? entries : null;
   }
 
-  const inputs = els.contributorForm.querySelectorAll('[data-edit-field]');
+  const inputs = /** @type {NodeListOf<UiElement>} */ (els.contributorForm.querySelectorAll('[data-edit-field]'));
   const seenRadioGroups = new Set();
 
   for (const input of inputs) {
@@ -5280,7 +5292,7 @@ function collectPatch() {
     if (input.type === 'radio') {
       if (seenRadioGroups.has(field)) continue;
       seenRadioGroups.add(field);
-      const checked = els.contributorForm.querySelector(`input[type="radio"][data-edit-field="${field}"]:checked`);
+      const checked = /** @type {HTMLInputElement | null} */ (els.contributorForm.querySelector(`input[type="radio"][data-edit-field="${field}"]:checked`));
       const nowValue = checked ? String(checked.value) : '';
       if (nowValue === String(baseline[field] ?? '')) continue;
       patch[field] = nowValue === '' ? null : nowValue === 'true';
@@ -5766,12 +5778,12 @@ function printedLabelsShown() {
 
 function applyPrintedLabels(shown) {
   document.documentElement.toggleAttribute(PRINTED_LABELS_ROOT_ATTRIBUTE, shown);
-  for (const input of document.querySelectorAll('input[data-printed-labels-toggle]')) input.checked = shown;
+  for (const input of /** @type {NodeListOf<HTMLInputElement>} */ (document.querySelectorAll('input[data-printed-labels-toggle]'))) input.checked = shown;
 }
 
 function initPrintedLabels() {
   applyPrintedLabels(printedLabelsShown());
-  document.addEventListener('change', (event) => {
+  document.addEventListener('change', (/** @type {ElementEvent} */ event) => {
     const input = event.target;
     if (!input?.matches?.('input[data-printed-labels-toggle]')) return;
     try {
@@ -5942,7 +5954,7 @@ async function loadShardDetail(item, slug) {
     String(candidate.id || '').toLowerCase() === String(item.id || '').toLowerCase()
   ));
   if (!match) {
-    const error = new Error(`Source detail ${slug} was not found in ${shardUrl}`);
+    const error = /** @type {HttpError} */ (new Error(`Source detail ${slug} was not found in ${shardUrl}`));
     error.status = 404;
     error.url = shardUrl;
     throw error;
@@ -5957,7 +5969,7 @@ async function loadJson(url, init = undefined) {
   const requestUrl = url;
   const response = await fetch(requestUrl, init);
   if (!response.ok) {
-    const error = new Error(`${response.status} ${response.statusText} for ${url}`);
+    const error = /** @type {HttpError} */ (new Error(`${response.status} ${response.statusText} for ${url}`));
     error.status = response.status;
     error.url = requestUrl;
     throw error;

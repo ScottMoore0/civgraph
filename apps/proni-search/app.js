@@ -3,6 +3,16 @@
 //   /proni                      -> search (home)
 //   /proni/<reference>          -> individual record page (e.g. /proni/AA/3)
 //   /proni…?ecat=<reference>    -> "View on PRONI eCatalogue" instructions
+/**
+ * An element of the page reached by a delegated listener or a selector: any HTML element, with
+ * the form-control fields read where it is one.
+ * @typedef {HTMLElement & Partial<Pick<HTMLInputElement, 'value' | 'checked' | 'disabled' | 'type' | 'placeholder'>>} UiElement
+ */
+/**
+ * An event from a delegated listener, whose target is an element of the page.
+ * @template {Event} [E=Event]
+ * @typedef {E & { target: { closest(selectors: string): UiElement | null } & UiElement }} ElementEvent
+ */
 const API = '/_api/proni/search';
 const COUNT_API = '/_api/proni/count';
 const EXPORT_API = '/_api/proni/export';
@@ -10,6 +20,7 @@ const NODE_API = '/_api/proni/node';
 const ECAT_BROWSE = 'https://apps.proni.gov.uk/eCatNI_IE/BrowseSearchPage.aspx';
 const LIMIT = 25;
 
+/** @param {string} id @returns {UiElement} */
 const $ = (id) => document.getElementById(id);
 const els = {
   q: $('q'), clear: $('clearBtn'), adv: $('advToggle'), advanced: $('advanced'),
@@ -597,7 +608,7 @@ function fallbackCopy(text) {
   // Restore focus afterwards. The textarea has to take focus for execCommand('copy') to
   // work, and removing it leaves focus on <body> -- so a keyboard user who copied a
   // reference lost their place in the results and had to tab back from the top.
-  const previous = document.activeElement;
+  const previous = /** @type {HTMLElement | null} */ (document.activeElement);
   const ta = document.createElement('textarea');
   ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
   document.body.appendChild(ta); ta.focus(); ta.select();
@@ -759,7 +770,7 @@ els.exportResults.addEventListener('click', () => {
   if (!qp) return;   // do not export a query the user cannot have meant
   window.location.href = `${EXPORT_API}?${qp}`; // streamed CSV download
 });
-els.az.addEventListener('click', (e) => {
+els.az.addEventListener('click', (/** @type {ElementEvent<MouseEvent>} */ e) => {
   const btn = e.target.closest('[data-letter]');
   if (btn) {
     // toggle the letter; it filters alongside any active search terms
@@ -773,13 +784,13 @@ els.az.addEventListener('click', (e) => {
     azClear.setAttribute('aria-pressed', String(state.allRoots));
   } else return;
   if (btn) { state.allRoots = false; azClear.classList.remove('is-active'); azClear.setAttribute('aria-pressed', 'false'); }
-  els.az.querySelectorAll('.ps-az__btn').forEach((b) => b.classList.toggle('is-active', b.dataset.letter === state.letter));
+  /** @type {NodeListOf<HTMLElement>} */ (els.az.querySelectorAll('.ps-az__btn')).forEach((b) => b.classList.toggle('is-active', b.dataset.letter === state.letter));
   search(true);
 });
 
 // One delegated handler for the whole app (search cards, record page, guide).
 const isModified = (e) => e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0;
-document.addEventListener('click', (e) => {
+document.addEventListener('click', (/** @type {ElementEvent<MouseEvent>} */ e) => {
   const copyEl = e.target.closest('[data-copy]');
   if (copyEl) { e.preventDefault(); copyRef(copyEl); return; }
 
@@ -806,7 +817,7 @@ document.addEventListener('click', (e) => {
   if (goEl) { e.preventDefault(); go(goEl.getAttribute('data-go')); return; }
 });
 
-document.addEventListener('keydown', (e) => {
+document.addEventListener('keydown', (/** @type {ElementEvent<KeyboardEvent>} */ e) => {
   if (e.key === 'Escape' && !els.modal.hidden) { closeModal(); return; }
   if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('[data-copy].ps-guide__reffield')) {
     e.preventDefault(); copyRef(e.target);

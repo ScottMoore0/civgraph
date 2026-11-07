@@ -1,0 +1,30 @@
+{
+  "//": [
+    "Type checking of the browser UI: Browse (browse/), the apps (apps/), the shared UI helpers",
+    "(assets/ui/), by JSDoc and checkJs. Nothing is emitted; the browser runs the same .js files.",
+    "`npm run check:types:ui` runs it, and it is a step of `npm run check`.",
+    "The `include` list is an allowlist that only grows: tests/unit/ui-types.test.mjs fails when",
+    "a browser script in these folders is in neither `include` nor UI_TYPES_PENDING there."
+  ],
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "target": "es2023",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "moduleDetection": "force",
+    "lib": ["es2023", "dom", "dom.iterable"],
+    "types": [],
+    "skipLibCheck": true,
+    "strict": false,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": [
+    "browse/browse.js",
+    "apps/proni-search/app.js",
+    "apps/words/words.js",
+    "assets/ui/gallery/gallery.js",
+    "assets/ui/state/*.js"
+  ]
+}
