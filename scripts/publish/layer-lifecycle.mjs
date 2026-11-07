@@ -9,7 +9,8 @@
  * that had an ok range result under its id, whichever URL that result had checked; after the
  * 7 Nov manifest regeneration rewrote every key, an older ok result would have let the switch
  * point a layer at a key that was never uploaded. The switch is now a transition with a guard:
- * the range result must be for the URL the layer is about to serve.
+ * the range result must be for the URL the layer is about to serve, and when the archive is on
+ * disk, of the same size (a rebuild that was never uploaded fails the check it once passed).
  *
  *   local ----upload----> uploaded ----verify----> verified ----switch----> serving
  *     |  \___________________________________________/^ |                    |
@@ -28,6 +29,8 @@ import { defineMachine } from './state-machine.mjs';
  * @property {'pmtiles' | 'mvt-directory'} kind
  * @property {string} [cdnUrl]     the URL the switch would serve (the manifest's)
  * @property {string} [checkedUrl] the URL the range check fetched
+ * @property {number | null} [localBytes]  the local archive's size, when it is on disk
+ * @property {number | null} [remoteBytes] the size the CDN reported (Content-Range total)
  * @property {string} [uploadStatus]
  */
 
@@ -47,6 +50,10 @@ export const layerLifecycle = defineMachine(/** @type {import('./state-machine.m
       if (ctx.kind !== 'pmtiles') return `a ${ctx.kind} is switched from its upload, not a range check`;
       if (!ctx.cdnUrl) return 'no CDN URL in the upload manifest';
       if (ctx.checkedUrl !== ctx.cdnUrl) return `the range check fetched ${ctx.checkedUrl || '(no URL)'}, not ${ctx.cdnUrl}`;
+      // Rebuilt and not uploaded: the check passed on the CDN's older bytes.
+      if (ctx.localBytes && ctx.remoteBytes && ctx.localBytes !== ctx.remoteBytes) {
+        return `the CDN holds ${ctx.remoteBytes} bytes and the local archive ${ctx.localBytes}: rebuilt and not uploaded`;
+      }
       return null;
     },
     'uploaded->serving': (/** @type {SwitchContext} */ ctx) => {
@@ -56,6 +63,16 @@ export const layerLifecycle = defineMachine(/** @type {import('./state-machine.m
     },
   },
 }));
+
+/**
+ * The total size in a Content-Range header (`bytes 0-15/62661` -> 62661), else null.
+ * @param {unknown} value
+ */
+export function contentRangeTotal(value) {
+  const match = String(value || '').match(/\/(\d+)$/);
+  const total = match ? Number(match[1]) : NaN;
+  return Number.isFinite(total) && total > 0 ? total : null;
+}
 
 /**
  * @typedef {object} LayerEvidence

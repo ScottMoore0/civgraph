@@ -17,7 +17,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { assertKnownFlags } from '../lib/safe-artefact-write.mjs';
-import { layerLifecycle, mvtDirectoryState, pmtilesLayerState } from './layer-lifecycle.mjs';
+import { contentRangeTotal, layerLifecycle, mvtDirectoryState, pmtilesLayerState } from './layer-lifecycle.mjs';
 
 assertKnownFlags(['--ids']);
 
@@ -73,9 +73,15 @@ const layers = (metadata.layers || []).map((layer) => {
   const asset = assetByLayer.get(layer.id);
   const range = rangeByLayer.get(layer.id);
   // Switching is the lifecycle's `-> serving` transition (layer-lifecycle.mjs): a PMTiles layer
-  // needs a passing range check of the very URL it will serve.
+  // needs a passing range check of the very URL it will serve, of its local archive's size.
   const pmtilesVerdict = asset
-    ? layerLifecycle.check(pmtilesLayerState({ layer, asset, range }), 'serving', { kind: 'pmtiles', cdnUrl: asset.cdnUrl, checkedUrl: range?.cdnUrl })
+    ? layerLifecycle.check(pmtilesLayerState({ layer, asset, range }), 'serving', {
+      kind: 'pmtiles',
+      cdnUrl: asset.cdnUrl,
+      checkedUrl: range?.cdnUrl,
+      localBytes: asset.exists ? asset.bytes : null,
+      remoteBytes: contentRangeTotal(range?.contentRange),
+    })
     : null;
   if (asset && range?.ok && pmtilesVerdict && !pmtilesVerdict.ok) refused.push(`${layer.id}: ${pmtilesVerdict.reason}`);
   if (!pmtilesVerdict?.ok) {

@@ -18,6 +18,7 @@ import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'no
 import { dirname, resolve } from 'node:path';
 import { assertKnownFlags, mergeArtefactRecords } from '../lib/safe-artefact-write.mjs';
 import { pmtilesTargetSuffix } from './pmtiles-keys.mjs';
+import { contentRangeTotal } from './layer-lifecycle.mjs';
 import { SITE } from '../lib/config.mjs';
 
 assertKnownFlags([]);
@@ -122,7 +123,7 @@ function addAsset(layer) {
   });
   keySources[source] = (keySources[source] || 0) + 1;
   const remote = verifiedRemoteAssets.get(layer.id);
-  const remoteBytes = parseContentRangeTotal(remote?.contentRange);
+  const remoteBytes = contentRangeTotal(remote?.contentRange);
   const prior = priorRemoteVerified.get(layer.id);
   // Verified by THIS report, or -- when the report is silent about this layer -- still
   // verified by an earlier one. Absence of evidence is not evidence of absence, and a
@@ -141,11 +142,4 @@ function addAsset(layer) {
     remoteVerifiedAt: verifiedNow ? remote?.checkedAt : (verified ? prior?.remoteVerifiedAt : undefined)
   });
   if (verified && !verifiedNow) carriedForward += 1;
-}
-
-function parseContentRangeTotal(value) {
-  const match = String(value || '').match(/\/(\d+)$/);
-  if (!match) return null;
-  const total = Number(match[1]);
-  return Number.isFinite(total) && total > 0 ? total : null;
 }
