@@ -1,0 +1,149 @@
+/**
+ * The explicit state machines of the records loader (REFACTOR-PLAN.md section 11):
+ *
+ * - scripts/lib/state-machine.mjs: the table refuses undeclared moves and malformed tables;
+ * - the records deploy (scripts/records/deploy-plan.mjs, full weight): every mode's path is a
+ *   walk of the table; the forbidden moves throw (snapshot before PASS, anything applied or
+ *   verified in a dry run, a local bookmark, a delta in --resync); the option checks give the
+ *   messages deploy-records.mjs printed before, plus the refused --dry-run --resync;
+ * - the dataset loading flag (scripts/records/dataset-state.mjs, light weight): the values the
+ *   delta writes are the ones it wrote before, byte for byte.
+ */
+import assert from 'node:assert/strict';
+import { mkdtempSync, rmSync } from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import test from 'node:test';
+import { defineMachine, defineToggle } from '../../scripts/lib/state-machine.mjs';
+import { DATASET_LOAD, datasetLoadState, loadingValue } from '../../scripts/records/dataset-state.mjs';
+import { createDatabase } from '../../scripts/records/db.mjs';
+import { DEPLOY, deployModeErrors, deployPath, deployRun, parseDeployArgs, verifyModeFor } from '../../scripts/records/deploy-plan.mjs';
+import { buildDelta } from '../../scripts/records/diff-load.mjs';
+
+test('defineMachine: moves only along the table', () => {
+  const m = defineMachine({ name: 'm', initial: 'a', transitions: { a: ['b'], b: ['c', 'a'], c: [] } });
+  const run = m.start();
+  assert.equal(run.to('b'), 'b');
+  assert.throws(() => run.to('b'), /m: b -> b is not a transition/);
+  run.to('c');
+  assert.ok(run.done());
+  assert.deepEqual(run.history(), ['a', 'b', 'c']);
+  assert.throws(() => m.assertPath(['c']), /a -> c/);
+  assert.throws(() => defineMachine({ name: 'x', initial: 'z', transitions: { a: [] } }), /initial state z/);
+  assert.throws(() => defineMachine({ name: 'x', initial: 'a', transitions: { a: ['q'] } }), /a -> q names a state/);
+  const t = defineToggle('t', ['off', 'on']);
+  assert.ok(t.can('off', 'on') && t.can('on', 'off') && !t.can('on', 'on'));
+});
+
+const MODES = {
+  'publish dry run': ['--remote', '--dry-run'],
+  'publish load': ['--remote'],
+  'remote full load': ['--remote', '--full'],
+  'remote resync': ['--remote', '--resync', '--full-verify'],
+  'local load': ['--local'],
+  'local direct bounded': ['--local', '--direct', '--bounded'],
+  'local resync': ['--local', '--resync'],
+  'local dry run': ['--local', '--dry-run'],
+  'remote resume': ['--remote', '--start-part', '3'],
+};
+
+test('deploy: every mode walks the table and ends in a final state', () => {
+  for (const [label, args] of Object.entries(MODES)) {
+    const mode = parseDeployArgs(args);
+    assert.deepEqual(deployModeErrors(mode), [], label);
+    const p = deployPath(mode);
+    DEPLOY.assertPath(p);
+    assert.deepEqual(DEPLOY.transitions[p.at(-1)], [], label);
+    const run = deployRun(mode);
+    for (const s of p) run.to(s);
+    assert.deepEqual(run.history(), ['start', ...p], label);
+  }
+  assert.deepEqual(deployPath(parseDeployArgs(MODES['publish load'])), ['migrated', 'bookmarked', 'delta-written', 'applied', 'verified', 'snapshotted']);
+  assert.deepEqual(deployPath(parseDeployArgs(MODES['publish dry run'])), ['migrations-listed', 'delta-previewed', 'dry-run-reported']);
+  assert.deepEqual(deployPath(parseDeployArgs(MODES['local resync'])), ['migrated', 'verified', 'snapshotted']);
+  assert.equal(parseDeployArgs(MODES['remote resume']).startPart, 3);
+});
+
+test('deploy: the snapshot is replaced only after a PASS', () => {
+  for (const s of DEPLOY.states) assert.equal(DEPLOY.can(s, 'snapshotted'), s === 'verified', s);
+  for (const s of DEPLOY.states) if (s !== 'failed') assert.ok(DEPLOY.can(s, 'failed') || DEPLOY.transitions[s].length === 0, s);
+});
+
+test('deploy: a dry run applies, verifies and snapshots nothing', () => {
+  const reach = new Set();
+  const walk = (s) => { if (reach.has(s)) return; reach.add(s); for (const n of DEPLOY.transitions[s]) walk(n); };
+  walk('migrations-listed');
+  for (const s of ['migrated', 'bookmarked', 'applied', 'verified', 'snapshotted']) assert.ok(!reach.has(s), s);
+  const run = deployRun(parseDeployArgs(MODES['publish dry run']));
+  run.to('migrations-listed');
+  assert.throws(() => run.to('delta-written'), /not a transition/);
+  run.to('delta-previewed');
+  assert.throws(() => run.to('applied'), /not a transition/);
+  run.to('dry-run-reported');
+  assert.throws(() => run.to('failed'), /is not a transition/);
+});
+
+test('deploy: steps out of turn throw', () => {
+  const local = deployRun(parseDeployArgs(MODES['local load']));
+  local.to('migrated');
+  assert.throws(() => local.to('bookmarked'), /out of turn/);
+  local.to('delta-written');
+  assert.throws(() => local.to('verified'), /not a transition/);
+  local.to('applied');
+  assert.throws(() => local.to('snapshotted'), /not a transition/);
+  local.to('verified');
+  local.to('snapshotted');
+
+  const remote = deployRun(parseDeployArgs(MODES['publish load']));
+  remote.to('migrated');
+  assert.throws(() => remote.to('delta-written'), /out of turn/);
+  remote.to('bookmarked');
+
+  const resync = deployRun(parseDeployArgs(MODES['local resync']));
+  resync.to('migrated');
+  assert.throws(() => resync.to('delta-written'), /out of turn/);
+  resync.to('verified');
+  assert.equal(resync.to('failed'), 'failed');
+});
+
+test('deploy: the option checks', () => {
+  const first = (args) => deployModeErrors(parseDeployArgs(args))[0];
+  assert.equal(first([]), 'say --local or --remote');
+  assert.equal(first(['--local', '--remote']), 'say --local or --remote');
+  assert.equal(first(['--remote', '--direct']), '--direct is local only');
+  assert.match(first(['--remote', '--resync']), /^--remote --resync needs --full-verify/);
+  assert.match(first(['--local', '--resync', '--dry-run']), /^--dry-run --resync has nothing to list/);
+  assert.throws(() => deployRun(parseDeployArgs(['--remote', '--direct'])), /--direct is local only/);
+});
+
+test('verify mode: remote and --bounded are bounded, --full-verify and local are full', () => {
+  assert.equal(verifyModeFor({ remote: true }), 'bounded');
+  assert.equal(verifyModeFor({ remote: true, fullVerify: true }), 'full');
+  assert.equal(verifyModeFor({}), 'full');
+  assert.equal(verifyModeFor({ bounded: true }), 'bounded');
+  assert.equal(parseDeployArgs(['--local', '--bounded']).verify, 'bounded');
+});
+
+test('dataset flag: the toggle and the values the delta writes', () => {
+  assert.ok(DATASET_LOAD.can('loaded', 'loading') && DATASET_LOAD.can('loading', 'loaded'));
+  assert.equal(loadingValue('loading', 'abc'), 'abc');
+  assert.equal(loadingValue('loading', ''), 'loading');
+  assert.equal(loadingValue('loaded', 'abc'), '');
+  assert.equal(datasetLoadState(''), 'loaded');
+  assert.equal(datasetLoadState(null), 'loaded');
+  assert.equal(datasetLoadState('abc'), 'loading');
+
+  const dir = mkdtempSync(path.join(os.tmpdir(), 'civgraph-dataset-flag-'));
+  try {
+    const file = path.join(dir, 'r.sqlite');
+    const db = createDatabase(file);
+    db.exec("INSERT INTO dataset (key, value) VALUES ('version', 'v1'), ('git_commit', 'c1')");
+    db.close();
+    const lines = [];
+    buildDelta({ toFile: file, write: (s) => lines.push(s), loadedAt: 'T' });
+    assert.equal(lines[0], "INSERT OR REPLACE INTO dataset (key, value) VALUES ('loading', 'v1');\n");
+    assert.equal(lines.at(-1), "INSERT OR REPLACE INTO dataset (key, value) VALUES ('version', 'v1'), ('loading', ''), ('git_commit', 'c1'), ('loaded_at', 'T');\n");
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});

@@ -20,6 +20,7 @@ import { createWriteStream, existsSync } from 'node:fs';
 import path from 'node:path';
 import { openSqliteHandle } from '../lib/storage/sqlite.mjs';
 import { HASHED_TABLES, TABLES } from './schema.mjs';
+import { DATASET_LOAD, LOADING_KEY, loadingValue } from './dataset-state.mjs';
 import { snapshotTable } from './db.mjs';
 
 export const MAX_STATEMENT_BYTES = 60 * 1024;
@@ -70,7 +71,9 @@ export function buildDelta({ toFile, fromFile = null, write, version, gitCommit,
 
   const datasetRows = /** @type {{ key: string, value: string|null }[]} */ (db.prepare('SELECT key, value FROM dataset ORDER BY key').all());
   const newVersion = version || datasetRows.find((r) => r.key === 'version')?.value || '';
-  emit(`INSERT OR REPLACE INTO dataset (key, value) VALUES ('loading', ${q(newVersion || 'loading')});`);
+  // The dataset flag: loaded -> loading here, back to loaded in the last statement.
+  DATASET_LOAD.assertPath(['loading', 'loaded']);
+  emit(`INSERT OR REPLACE INTO dataset (key, value) VALUES (${q(LOADING_KEY)}, ${q(loadingValue('loading', newVersion))});`);
 
   const order = tableOrder();
   // Deletes, children first.
@@ -132,9 +135,9 @@ export function buildDelta({ toFile, fromFile = null, write, version, gitCommit,
     flush();
   }
 
-  const finalRows = datasetRows.filter((r) => !['loading', 'version', 'git_commit', 'loaded_at'].includes(r.key));
+  const finalRows = datasetRows.filter((r) => ![LOADING_KEY, 'version', 'git_commit', 'loaded_at'].includes(r.key));
   const values = [
-    ['version', newVersion], ['loading', ''], ['git_commit', gitCommit || datasetRows.find((r) => r.key === 'git_commit')?.value || ''],
+    ['version', newVersion], [LOADING_KEY, loadingValue('loaded')], ['git_commit', gitCommit || datasetRows.find((r) => r.key === 'git_commit')?.value || ''],
     ['loaded_at', loadedAt || new Date().toISOString()], ...finalRows.map((r) => [r.key, r.value]),
   ];
   emit(`INSERT OR REPLACE INTO dataset (key, value) VALUES ${values.map(([k, v]) => `(${q(k)}, ${q(v)})`).join(', ')};`);

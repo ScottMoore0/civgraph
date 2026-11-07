@@ -50,7 +50,9 @@ import { spawnSync } from 'node:child_process';
 import { closeSync, existsSync, mkdirSync, openSync, readFileSync, rmSync } from 'node:fs';
 import path from 'node:path';
 import { openSqliteHandle } from '../lib/storage/sqlite.mjs';
+import { datasetLoadState, LOADING_KEY } from './dataset-state.mjs';
 import { snapshotTable } from './db.mjs';
+import { verifyModeFor } from './deploy-plan.mjs';
 import { q } from './diff-load.mjs';
 import { buildVar } from '../lib/config.mjs';
 import { RECORDS_DB, REPO_ROOT } from './paths.mjs';
@@ -112,7 +114,7 @@ const tableChecksumSql = (t) => `SELECT '${t.name}' AS t, COUNT(*) AS n, COALESC
 const SCHEMA_SQL = "SELECT name, sql FROM sqlite_master WHERE type IN ('table', 'index') AND name NOT LIKE 'sqlite_%' AND name NOT LIKE '_cf_%' AND name NOT LIKE 'd1_%' ORDER BY name";
 const DATASET_SQL = 'SELECT key, value FROM dataset ORDER BY key LIMIT 100';
 /** Dataset keys a load writes that are not the build's own. */
-const LOAD_KEYS = new Set(['loading', 'loaded_at']);
+const LOAD_KEYS = new Set([LOADING_KEY, 'loaded_at']);
 
 /** Run SQL through wrangler d1 execute and return the result rows. */
 export function wranglerQuery(sql, { remote = false, cwd = REPO_ROOT } = {}) {
@@ -317,7 +319,7 @@ export function boundedPlan({ file, since = null, sample = BOUNDS.sampleKeys, bo
           if (LOAD_KEYS.has(r.key)) continue;
           if (remote.get(r.key) !== r.value) out.push(`dataset ${r.key}: local ${String(r.value).slice(0, 40)}, D1 ${String(remote.get(r.key) ?? '(absent)').slice(0, 40)}`);
         }
-        if (remote.get('loading')) out.push(`dataset loading is '${remote.get('loading')}': the load did not finish`);
+        if (datasetLoadState(remote.get(LOADING_KEY)) === 'loading') out.push(`dataset loading is '${remote.get(LOADING_KEY)}': the load did not finish`);
         return out;
       },
     });
@@ -428,7 +430,7 @@ if (process.argv[1] && path.basename(process.argv[1]) === 'verify-load.mjs') {
   }
   const file = path.resolve(opt('--db') || RECORDS_DB);
   const since = opt('--since') ? path.resolve(opt('--since')) : null;
-  const mode = args.includes('--full-verify') ? 'full' : args.includes('--bounded') || remote ? 'bounded' : 'full';
+  const mode = verifyModeFor({ remote, fullVerify: args.includes('--full-verify'), bounded: args.includes('--bounded') });
   if (remote && mode === 'full') console.warn('WARNING: --full-verify scans every row of every table of the live database (about 4 GB): quiet hours only');
   const mismatches = verify({
     file, remote, mode, since,
