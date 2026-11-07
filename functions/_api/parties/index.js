@@ -12,6 +12,8 @@
 import { cachedJson, documentBody, jsonResponse, parseJson } from '../_records.js';
 import { reportError } from '../_error.js';
 import { binding } from '../../_lib/config.js';
+import { asStore } from '../../_lib/storage/d1.js';
+import { PARTIES } from '../../_lib/queries/parties.js';
 
 const VERSION = 'parties-1';
 
@@ -19,24 +21,31 @@ export async function onRequestGet(context) {
   return cachedJson(context, VERSION, () => handle(context));
 }
 
-/** The live slug for a slug or a retired one, and whether it was retired. */
-export async function resolvePartySlug(db, slug) {
-  const live = await db.prepare('SELECT slug FROM party_cards WHERE slug = ?1').bind(slug).first();
+/**
+ * The live slug for a slug or a retired one, and whether it was retired.
+ * @param {import('../../_lib/storage/store.js').RecordStore | D1Database} source a store or a D1 binding
+ * @param {string} slug
+ */
+export async function resolvePartySlug(source, slug) {
+  const db = asStore(source);
+  const live = await db.first(PARTIES.live, [slug]);
   if (live) return { slug: live.slug, redirect: null };
-  const alias = await db.prepare('SELECT slug FROM party_aliases WHERE alias = ?1').bind(slug).first();
+  const alias = await db.first(PARTIES.alias, [slug]);
   return alias ? { slug: alias.slug, redirect: alias.slug } : null;
 }
 
 async function handle(context) {
-  const db = binding(context.env, 'ELECTIONS_DB');
+  const bound = binding(context.env, 'ELECTIONS_DB');
+  // through the storage adapter (functions/_lib/storage/); the SQL is named in queries/parties.js
+  const db = bound && asStore(bound);
   const url = new URL(context.request.url);
   const slugParam = (url.searchParams.get('slug') || '').trim().toLowerCase();
   const view = (url.searchParams.get('view') || '').trim();
   try {
     if (view === 'names') {
       const head = (await documentBody(db, 'browse/party-names.json')) || {};
-      const { results } = await db.prepare('SELECT label, party_slug FROM party_label_map ORDER BY ord, label').all();
-      return jsonResponse({ ...head, items: Object.fromEntries((results || []).map((r) => [r.label, r.party_slug])) });
+      const results = await db.all(PARTIES.labelMap);
+      return jsonResponse({ ...head, items: Object.fromEntries(results.map((r) => [r.label, r.party_slug])) });
     }
     if (view === 'folds') {
       const doc = await documentBody(db, 'browse/party-label-folds.json');
@@ -45,7 +54,7 @@ async function handle(context) {
     if (slugParam) {
       const resolved = await resolvePartySlug(db, slugParam);
       if (!resolved) return jsonResponse({ error: 'not found', slug: slugParam }, 404);
-      const row = await db.prepare('SELECT card, detail, profile FROM party_cards WHERE slug = ?1').bind(resolved.slug).first();
+      const row = await db.first(PARTIES.detail, [resolved.slug]);
       if (view === 'profile') {
         return row?.profile ? jsonResponse(row.profile) : jsonResponse({ error: 'no profile', slug: resolved.slug }, 404);
       }
@@ -55,8 +64,8 @@ async function handle(context) {
     }
     if (view) return jsonResponse({ error: `unknown view ${view}` }, 400);
     const head = (await documentBody(db, 'browse/parties.json')) || {};
-    const { results } = await db.prepare('SELECT card FROM party_cards ORDER BY ord, slug').all();
-    return jsonResponse({ ...head, items: (results || []).map((r) => parseJson(r.card)) });
+    const results = await db.all(PARTIES.cards);
+    return jsonResponse({ ...head, items: results.map((r) => parseJson(r.card)) });
   } catch (error) {
     return jsonResponse({ error: 'parties query failed', ...reportError(context.env, 'parties', error) }, 500);
   }
