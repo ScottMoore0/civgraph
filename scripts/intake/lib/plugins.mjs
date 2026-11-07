@@ -41,13 +41,13 @@ import { changesSince, dispose, hashPaths, restore, sha256File, snapshot } from 
 export const KINDS = Object.freeze(['maps', 'elections', 'persons', 'parties', 'sources', 'catalogue', 'census', 'votes', 'interests', 'contribution', 'research-only']);
 const RIGHTS = new Set(['OGL', 'CC-BY', 'CC-BY-SA', 'public-domain', 'facts-with-citation', 'owner-permission', 'unknown']);
 const HANDLING = new Set(['none', 'names-only', 'addresses-to-census-unit', 'private-not-published']);
-const PROGRAMS = new Set(['node', 'python', 'bash']);
+const PROGRAMS = new Set(['node', 'python', 'bash', 'powershell']);
 const ID = /^[a-z0-9][a-z0-9-]*$/;
 
 /**
  * @typedef {object} Step
  * @property {string} title
- * @property {string[]} argv            program (node, python or bash) and its arguments
+ * @property {string[]} argv            program (node, python, bash or powershell) and its arguments
  * @property {string[]} [outputs]       repository paths it writes that git cannot see (gitignored); "dir/" for a folder
  * @property {boolean} [network]        it fetches from outside; refused without --allow-network
  * @property {string[]} [needs]         repository paths it reads that may be missing from a checkout (for `plugins --check`)
@@ -150,7 +150,7 @@ export function pluginProblems(def) {
       for (const [name, st] of Object.entries(def.steps)) {
         if (!ID.test(name)) p.push(`step ${name}: not an id`);
         if (!st || typeof st.title !== 'string') p.push(`step ${name}: title is required`);
-        if (!Array.isArray(st?.argv) || st.argv.length < 2 || !PROGRAMS.has(st.argv[0])) p.push(`step ${name}: argv must be [node|python|bash, script, ...]`);
+        if (!Array.isArray(st?.argv) || st.argv.length < 2 || !PROGRAMS.has(st.argv[0])) p.push(`step ${name}: argv must be [node|python|bash|powershell, script, ...]`);
         else if (!/^scripts\//.test(st.argv[1])) p.push(`step ${name}: the script must be under scripts/`);
         for (const o of st?.outputs || []) if (!/^(?![A-Za-z]:|\/|\\)(?!.*(^|\/)\.\.(\/|$)).+$/.test(o)) p.push(`step ${name}: output ${o} is not a repository path`);
         for (const a of st?.argv || []) {
@@ -282,8 +282,11 @@ export function redirectedOutputs(step) {
  * @param {{ cwd: string, env?: Record<string, string>, stdio?: any, input?: string }} options
  */
 export function spawnArgv(argv, { cwd, env = {}, stdio = 'inherit', input }) {
-  const [prog, ...rest] = argv;
+  const [prog, ...given] = argv;
   const exe = prog === 'node' ? process.execPath : prog;
+  // A PowerShell script runs as `powershell -NoProfile -File <script> ...`, under the machine's
+  // own execution policy.
+  const rest = prog === 'powershell' ? ['-NoProfile', '-File', ...given] : given;
   const res = spawnSync(exe, rest, { cwd, env: { ...process.env, ...env }, stdio: input !== undefined ? ['pipe', 'pipe', 'inherit'] : stdio, input, encoding: 'utf8', maxBuffer: 512 * 1024 * 1024 });
   return res;
 }
