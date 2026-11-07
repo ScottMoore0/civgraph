@@ -11,7 +11,8 @@
  * reasons unrelated to their edit.
  *
  * Local is now the default, because a test run should measure the code you have. Testing
- * production is a deliberate act: set PARITY_BASE_URL, which CI does in its own job.
+ * production is a deliberate act: set PARITY_BASE_URL, as npm run verify:browser does. CI never
+ * does (CHECKS.md).
  *
  *   npx playwright test                                    # local
  *   PARITY_BASE_URL=https://civgraph.net npx playwright test tests/browser/ux-plan-items.spec.js

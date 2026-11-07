@@ -17,7 +17,10 @@ The suite serves the site with `scripts/test-server.py`, **not**
 `python -m http.server`. That matters: the stdlib server has a listen backlog of
 5, and under the suite's parallel load it refused connections, producing
 `ECONNREFUSED` failures that looked like application bugs. The replacement sets
-`request_queue_size = 128`.
+`request_queue_size = 128`. It also serves the election documents and the Browse
+and graph trees from the records build (`tmp/records`), as the compatibility
+Functions serve them from D1, so build with `npm run rebuild` first. Which specs run
+where (locally, in CI, against production) is in [CHECKS.md](../CHECKS.md).
 
 ## What is covered
 
