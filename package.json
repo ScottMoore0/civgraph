@@ -105,7 +105,6 @@
     "check:ci-workflow": "node scripts/check/rules/ci-workflow.mjs",
     "test:browser:maps": "playwright test tests/browser/smoke.spec.js tests/browser/retired-service-worker.spec.js tests/browser/accessible-names.spec.js tests/browser/header-brand.spec.js tests/browser/timeline-and-url-state.spec.js tests/browser/map-svg-export.spec.js tests/browser/election-layout.spec.js tests/browser/catalogue-load-a11y.spec.js tests/browser/load-races.spec.js",
     "test:unit": "node --test \"tests/unit/*.test.mjs\" \"tests/functions/*.test.mjs\"",
-    "demo:ui": "node tools/ui-demo.mjs",
     "dev:records:load": "node scripts/dev/load-local-browse-d1.mjs",
     "dev:records": "npx wrangler pages dev . --port 8788 --ip 127.0.0.1 --compatibility-date 2026-04-04 --persist-to .wrangler/state --binding CIVGRAPH_SSR_RECORDS=persons,sources,register-interests --binding CIVGRAPH_SSR_PREVIEW=1",
     "records:build": "node scripts/records/build-records-db.mjs",
