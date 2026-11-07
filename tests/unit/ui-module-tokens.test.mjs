@@ -1,8 +1,8 @@
 /**
- * The modules Browse and the PRONI Search app import are versioned by an import map.
+ * The modules Browse, the PRONI Search app and Words in parliament import are versioned by an import map.
  *
  * Each page loads its entry script with a hand-stamped ?v= token (browse-cache-tokens.mjs keeps
- * those). The modules that script imports (its state machines and the shared helper,
+ * those; Words in parliament loads words.js without one, as before). The modules that script imports (its state machines and the shared helper,
  * assets/ui/state/machine.js) are imported by plain paths, which the page's
  * <script type="importmap"> maps to the same path with ?v=<first 12 hex of the file's SHA-256>.
  * So a deploy that changes a module changes its URL, and the service worker's
@@ -25,7 +25,7 @@ import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
-const PAGES = ['browse/index.html', 'catalogue/index.html', 'records/index.html', 'apps/proni-search/index.html'];
+const PAGES = ['browse/index.html', 'catalogue/index.html', 'records/index.html', 'apps/proni-search/index.html', 'apps/words/index.html'];
 
 const read = (rel) => readFileSync(path.join(ROOT, rel));
 export const token = (rel) => createHash('sha256').update(read(rel)).digest('hex').slice(0, 12);

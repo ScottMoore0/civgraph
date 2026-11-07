@@ -99,6 +99,37 @@ test.describe('Words in parliament', () => {
     expect(lines.some((l) => /^housing,en,body,Dáil,2020,\d+,\d+,/.test(l))).toBe(true);
   });
 
+  test('the year tooltip follows the pointer, hides when it leaves and survives a redraw', async ({ page }) => {
+    const errors = [];
+    page.on('pageerror', (e) => errors.push(String(e)));
+    await routeWords(page);
+    await page.goto(PAGE + '?q=housing');
+    const plot = page.locator('#panels .plot').first();
+    const tip = plot.locator('.tip');
+    await expect(plot.locator('svg')).toBeVisible();
+    await expect(tip).toBeHidden();
+    await plot.scrollIntoViewIfNeeded();
+    const box = await plot.locator('rect.hit').boundingBox();
+    await page.mouse.move(box.x + box.width * 0.5, box.y + box.height * 0.5);
+    await expect(tip).toBeVisible();
+    await page.mouse.move(box.x + box.width * 0.7, box.y + box.height * 0.5);
+    await expect(tip).toBeVisible();
+    await page.mouse.move(box.x + box.width * 0.5, box.y - 40);
+    await expect(tip).toBeHidden();
+    // A redraw while the tooltip shows (the window resized) keeps one tooltip that still hides.
+    await page.mouse.move(box.x + box.width * 0.5, box.y + box.height * 0.5);
+    await expect(tip).toBeVisible();
+    await page.setViewportSize({ width: 900, height: 800 });
+    await expect(plot.locator('svg')).toHaveCount(1);
+    await plot.scrollIntoViewIfNeeded();
+    const hit = await plot.locator('rect.hit').boundingBox();
+    await page.mouse.move(hit.x + hit.width * 0.4, hit.y + hit.height * 0.5);
+    await expect(tip).toBeVisible();
+    await page.mouse.move(hit.x + hit.width * 0.4, hit.y - 40);
+    await expect(tip).toBeHidden();
+    expect(errors).toEqual([]);
+  });
+
   test('Irish counts are a separate toggle', async ({ page }) => {
     await routeWords(page);
     await page.goto(PAGE);
