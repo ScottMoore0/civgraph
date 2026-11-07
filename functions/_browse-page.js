@@ -44,7 +44,6 @@
  * CIVGRAPH_SSR_PREVIEW is set; with neither, this file behaves exactly as before.
  */
 import { reportError } from './_api/_error.js';
-import { T } from './_api/_records.js';
 import { browseMapRecord } from './_api/_maps.js';
 import { dateText, listText, numberText, slugify } from './_lib/format.js';
 import { datasetVersion, htmlResponse } from './_lib/respond.js';
@@ -53,6 +52,9 @@ import { loadElectionPage } from './_templates/records/election.js';
 import { groupedYearHero, groupedYearKey } from './_templates/records/grouped-year.js';
 import { resolveElectionSlugAlias } from './_lib/election-slug-aliases.js';
 import { binding } from './_lib/config.js';
+import { asStore } from './_lib/storage/d1.js';
+import { CARDS } from './_lib/queries/cards.js';
+import { ELECTION_PAGES, RECORD_PAGES } from './_lib/queries/pages.js';
 
 // Retired election and contest slugs (functions/_lib/election-slug-aliases.js): lookupElection
 // finds the record under its new slug and the handler's slug check answers 301.
@@ -151,22 +153,17 @@ function recordMeta(type, record) {
   };
 }
 
-async function lookupTableRecord(db, table, slug, aliasTable = `${table}_aliases`) {
+async function lookupTableRecord(source, table, slug, aliasTable = `${table}_aliases`) {
+  const db = asStore(source);
   // Ordered, so a value that is one record's slug and another's id resolves the same way
   // whatever order the rows were loaded in (data design 4.3, query 7).
-  const row = await db
-    .prepare(`SELECT card AS record FROM ${table} WHERE key_norm = ?1 OR slug = ?1 OR id = ?1 ORDER BY (slug = ?1) DESC, (id = ?1) DESC, ord LIMIT 1`)
-    .bind(slug)
-    .first();
+  const row = await db.first(CARDS.bySlug(table, 'card AS record'), [slug]);
   if (row?.record) return parseJson(row.record);
   // An old address (a source merged into another, a person's earlier id) redirects to the
   // record it now belongs to: the caller sends a 301 when the slugs differ.
   let aliased = null;
   try {
-    aliased = await db
-      .prepare(`SELECT card AS record FROM ${table} WHERE slug = (SELECT slug FROM ${aliasTable} WHERE alias = ?1) LIMIT 1`)
-      .bind(slug)
-      .first();
+    aliased = await db.first(CARDS.byAlias(table, 'card AS record', aliasTable), [slug]);
   } catch {
     return null;   // no aliases table yet
   }
@@ -191,10 +188,10 @@ async function lookupTableRecord(db, table, slug, aliasTable = `${table}_aliases
  * A grouped local-election year (ni-local-1946, ireland-local-1911): not an r_elections row but a
  * Browse card listing its council rounds. Null when there is no such year.
  */
-export async function lookupGroupedYear(db, slug) {
+export async function lookupGroupedYear(source, slug) {
   const grouped = groupedYearKey(slug);
   if (!grouped) return null;
-  const row = await db.prepare('SELECT card FROM election_cards WHERE slug = ?1 LIMIT 1').bind(grouped.slug).first();
+  const row = await asStore(source).first(ELECTION_PAGES.groupedYear, [grouped.slug]);
   const card = parseJson(row?.card || '');
   if (!card) return null;
   const title = card.title || grouped.key;
@@ -206,7 +203,8 @@ export async function lookupGroupedYear(db, slug) {
   };
 }
 
-export async function lookupElection(db, slug) {
+export async function lookupElection(source, slug) {
+  const db = asStore(source);
   const wanted = resolveElectionSlugAlias(slug);
   // A grouped year first: its slug is no election's, and r_elections does not hold it.
   if (groupedYearKey(wanted)) {
@@ -215,15 +213,8 @@ export async function lookupElection(db, slug) {
   }
   // r_elections.slug is the key with "__" made "-". A contest slug is its election's slug plus
   // the contest's own (contests.slug), so the election is the longest slug that prefixes it.
-  const election = await db
-    .prepare(
-      `SELECT key, slug, display_title AS title, body, date, voting_system AS votingSystem, meta FROM ${T.elections} `
-      // A prefix test by substr, not LIKE: D1 refuses a LIKE whose pattern is a column.
-      + "WHERE key = ?1 OR slug = ?1 OR substr(?1, 1, LENGTH(slug) + 1) = slug || '-' "
-      + 'ORDER BY LENGTH(key) DESC, key LIMIT 1'
-    )
-    .bind(wanted)
-    .first();
+  const election = /** @type {{ key: string, slug: string | null, title: string | null, body: string | null, date: string | null, votingSystem: string | null, meta: string | null } | null} */ (
+    await db.first(ELECTION_PAGES.electionOfSlug, [wanted]));
   if (!election) return null;
   const meta = parseJson(election.meta || '') || {};
   const electionTitle = election.title || election.key;
@@ -249,18 +240,14 @@ export async function lookupElection(db, slug) {
     };
   }
 
-  const contest = await db
-    .prepare('SELECT seq, name, slug, electorate, turnout_pct AS turnoutPct, seats_total AS seatsTotal, quota FROM contests WHERE election_key = ?1 AND slug = ?2 ORDER BY seq LIMIT 1')
-    .bind(election.key, remainder)
-    .first();
+  const contest = /** @type {{ seq: number, name: string, slug: string, electorate: number | null, turnoutPct: number | null, seatsTotal: number | null, quota: number | null } | null} */ (
+    await db.first(ELECTION_PAGES.contestOfSlug, [election.key, remainder]));
   if (!contest) return null;
   const forum = contest.slug === 'regional-list';
   const name = forum ? 'Regional List' : contest.name;
-  const { results: elected } = await db
-    .prepare('SELECT name, party_label AS party, elected FROM candidacies WHERE election_key = ?1 AND contest_seq = ?2 ORDER BY first_prefs DESC, ord')
-    .bind(election.key, contest.seq)
-    .all();
-  const winners = (elected || [])
+  const elected = /** @type {{ name: string, party: string | null, elected: number | boolean | string | null }[]} */ (
+    await db.all(ELECTION_PAGES.contestWinners, [election.key, contest.seq]));
+  const winners = elected
     .filter((row) => row.elected === 1 || row.elected === true || row.elected === '1')
     .map((row) => row.name);
   const facts = [
@@ -281,22 +268,16 @@ export async function lookupElection(db, slug) {
 }
 
 /** A party's detail record from D1, following a retired slug to the party it is now. */
-export async function lookupPartyRecord(db, slug) {
+export async function lookupPartyRecord(source, slug) {
   const wanted = slug.toLowerCase();
-  const row = await db
-    .prepare('SELECT slug, card, detail FROM party_cards WHERE slug = ?1 OR slug = (SELECT slug FROM party_aliases WHERE alias = ?1) ORDER BY (slug = ?1) DESC LIMIT 1')
-    .bind(wanted)
-    .first();
+  const row = await asStore(source).first(RECORD_PAGES.party, [wanted]);
   if (!row) return null;
   return parseJson(row.detail || '') || parseJson(row.card || '');
 }
 
 /** An office's page record from D1 (office_cards, built by scripts/build/build-office-pages.mjs). */
-export async function lookupOfficeRecord(db, slug) {
-  const row = await db
-    .prepare('SELECT detail, card FROM office_cards WHERE slug = ?1 ORDER BY ord LIMIT 1')
-    .bind(String(slug))
-    .first();
+export async function lookupOfficeRecord(source, slug) {
+  const row = await asStore(source).first(RECORD_PAGES.office, [String(slug)]);
   if (!row) return null;
   return parseJson(row.detail || '') || parseJson(row.card || '');
 }
@@ -306,10 +287,11 @@ export async function lookupOfficeRecord(db, slug) {
  * Null when it certainly does not exist; undefined when the table is empty (a database loaded
  * without the Browse build), so the page keeps the generic head rather than answering 404.
  */
-export async function lookupMapRecord(db, slug) {
+export async function lookupMapRecord(source, slug) {
+  const db = asStore(source);
   const row = await browseMapRecord(db, String(slug));
   if (row) return parseJson(row.detail || '') || parseJson(row.card || '');
-  const any = await db.prepare('SELECT slug FROM map_cards LIMIT 1').bind().first();
+  const any = await db.first(RECORD_PAGES.anyMap);
   return any ? null : undefined;
 }
 

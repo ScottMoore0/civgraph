@@ -27,7 +27,6 @@ const NOT_YET_ON_THE_ADAPTER = [
   '_api/proni/export.js',
   '_api/proni/node.js',
   '_api/proni/search.js',
-  '_browse-page.js',
 ];
 
 /**
