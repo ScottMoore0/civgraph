@@ -1,8 +1,8 @@
 // @ts-check
 /**
  * The map app's light-weight state helpers (refactor plan section 11), built on the shared
- * machine helper (src/map/state-machine.mjs, a copy of scripts/lib/state-machine.mjs until that
- * lands; see LANDING.md of rf-mapapp).
+ * machine helper, scripts/lib/state-machine.mjs (the app bundle inlines it, as it does
+ * scripts/lib/layer-renames.mjs for url-compat.mjs).
  *
  * - `defineChoice(name, values)`: a field that holds one of a few fixed strings (the election
  *   overlay, the local level) keeps its plain string, and every assignment goes through
@@ -12,7 +12,7 @@
  *   value it already has is allowed, as assigning the old boolean was.
  */
 
-import { defineMachine } from './state-machine.mjs';
+import { defineMachine } from '../../scripts/lib/state-machine.mjs';
 
 /**
  * @template {string} V
