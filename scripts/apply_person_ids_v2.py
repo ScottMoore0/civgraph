@@ -28,7 +28,7 @@ attributed one is not.
 import os, re, sys, json, glob, argparse, collections, unicodedata
 
 from generated_json import dump_generated_json
-from build_person_registry_v2 import council_area
+from build_person_registry_v2 import council_area, label_blanked_identity_keys, check_label_blanked_used
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..'))
@@ -152,6 +152,18 @@ def main():
     def modern_for(mk):
         return [p for p in name_hits.get(mk, ()) if span.get(p, (0, 9999))[1] >= 1918]
 
+    # A row whose label was blanked under the printed-label rule keeps the candidacy id it had
+    # before as its identity key, exactly as the registry build groups it (see
+    # label_blanked_identity_keys in build_person_registry_v2.py).
+    blanked, blanked_used = label_blanked_identity_keys(), set()
+
+    def identity_id(c, constituency):
+        k = (doc2.get('key'), str(constituency or ''), c.get('name') or '')
+        if k in blanked:
+            blanked_used.add(k)
+            return blanked[k]
+        return str(c.get('id') or '').strip()
+
     stats = collections.Counter()
     changed = 0
     for path in files:
@@ -163,7 +175,7 @@ def main():
         local_contest = doc2.get('bodySlug') == 'ireland-local'
         here = {'area': ''}
 
-        def stamp(c):
+        def stamp(c, constituency):
             nonlocal dirty
             spid = str(c.get('sourcePersonId') or '').strip()
             owners = {p for o in c.get('officialPersonIds') or [] for p in by_official.get(o, ())}
@@ -173,7 +185,7 @@ def main():
                 pid = pick(by_person.get(spid, []), year) if spid else None
                 how = 'by-source-person' if pid else None
             if not pid:
-                cid = str(c.get('id') or '').strip()
+                cid = identity_id(c, constituency)
                 pid = pick(by_srcid.get(cid, []), year)
                 how = 'by-id' if pid else None
             if not pid and local_contest:
@@ -219,7 +231,7 @@ def main():
                     if c.pop('personId', None) is not None:
                         dirty = True
                 elif (c.get('name') or '').strip():
-                    stamp(c)
+                    stamp(c, r.get('constituency'))
         # A summary row restates a candidacy stamped just above, so it takes that stamp.
         # Re-derived from the summary row's own fields, 25 rows carried an id their own
         # candidacy did not.
@@ -233,7 +245,7 @@ def main():
                     dirty = True
                 continue
             if (c.get('name') or '').strip():
-                cid = str(c.get('id') or '').strip()
+                cid = identity_id(c, c.get('constituency'))
                 spid = str(c.get('sourcePersonId') or '').strip()
                 mk = matchkey(c.get('name') or '')
                 own = stamped.get((str(c.get('constituency') or '').strip(), (c.get('name') or '').strip()), set())
@@ -248,6 +260,7 @@ def main():
             if not args.check:
                 dump_generated_json(path, doc2)
 
+    check_label_blanked_used(blanked, blanked_used)
     tot = sum(stats.values())
     print(f'{tot:,} named candidacies')
     for k in ('by-official-id', 'by-source-person', 'by-id', 'by-name-local', 'by-name', 'by-name-group', 'ambiguous-name', 'unresolved'):
