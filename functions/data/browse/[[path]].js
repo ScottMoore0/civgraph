@@ -3,8 +3,10 @@
  *
  * The files were build output of scripts/build-browse-indexes.mjs published to R2. Each path
  * below is rebuilt from the records tables in the file's shape (its wrapper's generatedAt is the
- * one field that is gone); everything else -- the map records (phase 3), source detail shards,
- * proni-roots.json -- is still read from R2 as before. The R2 objects stay where they are for the
+ * one field that is gone); everything else -- source detail shards -- is still read from R2 as
+ * before. Data design phase 3 moved the map files into tables (maps.json, features.json,
+ * details/maps/<slug>.json: map_cards and feature_groups) and retired proni-roots.json, which
+ * answers 301 to /_api/proni/node (the same { roots, count }, from the PRONI database). The R2 objects stay where they are for the
  * dual run, and the fallback to them stays until stage I; old file URLs keep answering for 90
  * days (owner decision, 2026-11-06), after which unknown paths will answer 410.
  *
@@ -17,6 +19,8 @@
  *   offices.json, details/offices/<slug>.json   (the facts model's office pages)
  *   source-merges.json
  *   votes/index.json, votes/persons/<id>.json, votes/parties/<slug>.json, votes/divisions/<nnn>.json
+ *   maps.json, features.json, details/maps/<slug>.json   (phase 3)
+ *   proni-roots.json                                       301 /_api/proni/node (phase 3)
  *
  * Pages serves a matching static asset in preference to a Function, so data/browse/ must stay
  * out of the deployment (.cfignore, clean-for-pages.sh).
@@ -24,13 +28,17 @@
 import { cachedJson, documentBody, jsonResponse, parseJson, streamFrom } from '../../_api/_records.js';
 import { divisionShard } from '../../_api/votes/index.js';
 import { resolvePartySlug } from '../../_api/parties/index.js';
+import { browseFeaturesText, browseMapsText } from '../../_api/_maps.js';
 
-const VERSION = 'data-browse-2';
+const VERSION = 'data-browse-3';
 const R2_CACHE_CONTROL = 'public, max-age=0, must-revalidate';
 const CONTEST_PARENT_BUCKETS = 64;
 
 export async function onRequestGet(context) {
   const parts = (context.params.path || []).map(decodeURIComponent);
+  if (parts.join('/') === 'proni-roots.json') {
+    return new Response(null, { status: 301, headers: { Location: '/_api/proni/node', 'Cache-Control': 'public, max-age=86400', 'Access-Control-Allow-Origin': '*' } });
+  }
   const db = context.env.ELECTIONS_DB;
   const route = db ? matchBrowsePath(parts) : null;
   if (route) {
@@ -70,6 +78,8 @@ export function matchBrowsePath(parts) {
   if (p === 'elections-list.json') return { kind: 'elections-list' };
   if (p === 'election-contest-parents.json') return { kind: 'contest-parents' };
   if (p === 'source-merges.json') return { kind: 'source-merges' };
+  if (p === 'maps.json') return { kind: 'maps' };
+  if (p === 'features.json') return { kind: 'features' };
   if (p === 'votes/index.json') return { kind: 'doc', name: 'votes/index.json' };
   const [a, b, c] = parts;
   if (parts.length === 2 && SHARDED[a] && json(b)) return { kind: 'shard', dir: a, name: b };
@@ -77,6 +87,7 @@ export function matchBrowsePath(parts) {
   if (parts.length === 2 && a === 'party-profiles' && json(b)) return { kind: 'party-profile', slug: json(b) };
   if (parts.length === 3 && a === 'details' && b === 'parties' && json(c)) return { kind: 'party-detail', slug: json(c) };
   if (parts.length === 3 && a === 'details' && b === 'offices' && json(c)) return { kind: 'office-detail', slug: json(c) };
+  if (parts.length === 3 && a === 'details' && b === 'maps' && json(c)) return { kind: 'map-detail', slug: json(c) };
   if (parts.length === 3 && a === 'details' && b === 'elections' && json(c)) return { kind: 'election-detail', slug: json(c) };
   if (parts.length === 3 && a === 'details' && b === 'election-contests' && json(c)) return { kind: 'election-contests', slug: json(c) };
   if (parts.length === 3 && a === 'votes' && b === 'persons' && json(c)) return { kind: 'votes-person', id: json(c) };
@@ -199,6 +210,19 @@ async function answer(db, route) {
     case 'votes-shard': {
       const shard = await divisionShard(db, route.shard);
       return shard ? jsonResponse(shard) : notFound();
+    }
+    case 'maps': {
+      const text = await browseMapsText(db);
+      return text === null ? notFound() : jsonResponse(text);
+    }
+    case 'features': {
+      const text = await browseFeaturesText(db);
+      return text === null ? notFound() : jsonResponse(text);
+    }
+    case 'map-detail': {
+      // The file was named by slug: only an exact slug answers (no id fallback, as before).
+      const row = await db.prepare('SELECT detail FROM map_cards WHERE slug = ?1').bind(route.slug).first();
+      return row?.detail ? jsonResponse(`{"schemaVersion":1,"item":${row.detail}}`) : notFound();
     }
     default: return notFound();
   }

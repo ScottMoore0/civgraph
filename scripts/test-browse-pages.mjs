@@ -97,6 +97,9 @@ transaction(sqlite, () => {
   aliases.add({ alias: 'uup-farmer', slug: UUP.slug });
   // An office page (the facts model), from office_cards.
   const OFFICE = { slug: 'alliance-chair', title: 'Chair of the Alliance Party', subtitle: 'Alliance Party / 3 holder records / 1970–1975' };
+  // A map page record (map_cards, data design phase 3; it was an R2 detail file before).
+  const WARDS = { slug: 'wards-1984', id: 'wards-1984', title: '1984 council wards', description: 'Northern Ireland council wards, 1984.' };
+  new TableWriter(sqlite, 'map_cards').add({ slug: WARDS.slug, id: WARDS.id, title: WARDS.title, ord: 0, card: JSON.stringify(WARDS), detail: JSON.stringify(WARDS) });
   new TableWriter(sqlite, 'office_cards').add({ slug: OFFICE.slug, id: `office:${OFFICE.slug}`, title: OFFICE.title, ord: 0, card: JSON.stringify(OFFICE), detail: JSON.stringify(OFFICE) });
   const e = new TableWriter(sqlite, 'r_elections');
   ELECTIONS.forEach((row, ord) => e.add({ key: row.key, slug: slugOf(row.key), body_slug: row.key.split('__')[0], display_title: row.title, body: row.body, date: row.date, voting_system: row.votingSystem, ord, meta: row.meta }));
@@ -137,14 +140,6 @@ function fakeDb({ fail = false } = {}) {
   };
 }
 
-function fakeBucket(files) {
-  return {
-    async get(key) {
-      return key in files ? { text: async () => JSON.stringify(files[key]) } : null;
-    },
-  };
-}
-
 const ASSETS = {
   async fetch(request) {
     const { pathname } = new URL(request.url);
@@ -155,9 +150,6 @@ const ASSETS = {
 
 const env = {
   ELECTIONS_DB: fakeDb(),
-  MAPS_BUCKET: fakeBucket({
-    'data/browse/details/maps/wards-1984.json': { item: { slug: 'wards-1984', title: '1984 council wards', description: 'Northern Ireland council wards, 1984.' } },
-  }),
   ASSETS,
 };
 
@@ -236,8 +228,8 @@ check('types: the sitemap and the pages route the same types',
   check('lookup: absent election is null (404)', (await lookupBrowseRecord(env, 'elections', 'no-such-body-1900-01-01')) === null);
 
   const map = await lookupBrowseRecord(env, 'maps', 'wards-1984');
-  check('lookup: map from its R2 detail file', map?.title === '1984 council wards');
-  check('lookup: map without a detail file is unknown, not absent', (await lookupBrowseRecord(env, 'maps', 'some-map-id')) === undefined);
+  check('lookup: map from map_cards', map?.title === '1984 council wards');
+  check('lookup: absent map is null (404)', (await lookupBrowseRecord(env, 'maps', 'some-map-id')) === null);
   check('lookup: no binding is unknown, not absent', (await lookupBrowseRecord({}, 'persons', 'gerry-adams-27771')) === undefined);
 }
 

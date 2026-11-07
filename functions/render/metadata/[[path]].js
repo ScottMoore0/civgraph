@@ -10,9 +10,18 @@
  *   election-provenance/<key>.json             the per-election provenance shard
  *   elections-test2-summaries/<file>.json      the trend summary
  *
- * Anything else under /render/metadata/ (maps-test-index.json, layer-details-test2/, feature
- * indexes, anchors...) is still a static file: context.next() hands it to Pages. So does a key
- * D1 does not hold. The _redirects entries for renamed keys (Bangor and Lisburn) run first.
+ * The layer metadata moved to /_api/layers in data design phase 3 (PHASE3.md; renamed per the
+ * site-restructure renames.csv), so its old file URLs answer a permanent redirect there, with no
+ * database read:
+ *
+ *   maps-test.json                             301 /_api/layers
+ *   maps-test-index.json                       301 /_api/layers?view=index
+ *   layer-details-test2/<id>.json              301 /_api/layers/<id>
+ *   duplicate-feature-ids/<id>.json            301 /_api/layers/<id>/duplicates
+ *
+ * Anything else under /render/metadata/ (feature indexes, anchors, the ni-local year files...)
+ * is still a static file: context.next() hands it to Pages. So does a key D1 does not hold. The
+ * _redirects entries for renamed keys (Bangor and Lisburn) run first.
  *
  * Pages serves a static file in preference to a Function: this answers only once the files are
  * no longer deployed (.gitignore, .cfignore and clean-for-pages.sh, stage G).
@@ -27,7 +36,24 @@ export const ROUTE_PATTERNS = [
   '/render/metadata/elections-test2/*',
   '/render/metadata/election-provenance/*',
   '/render/metadata/elections-test2-summaries/*',
+  '/render/metadata/maps-test.json',
+  '/render/metadata/maps-test-index.json',
+  '/render/metadata/layer-details-test2/*',
+  '/render/metadata/duplicate-feature-ids/*',
 ];
+
+/** The phase-3 renames: an old layer-metadata path -> its /_api/layers URL, or null. */
+export function renamedLayerUrl(parts) {
+  const [first, second, ...rest] = parts;
+  if (rest.length) return null;
+  if (first === 'maps-test.json' && !second) return '/_api/layers';
+  if (first === 'maps-test-index.json' && !second) return '/_api/layers?view=index';
+  if (!second || !second.endsWith('.json')) return null;
+  const id = encodeURIComponent(second.slice(0, -5));
+  if (first === 'layer-details-test2') return `/_api/layers/${id}`;
+  if (first === 'duplicate-feature-ids') return `/_api/layers/${id}/duplicates`;
+  return null;
+}
 const HEADERS = { 'Content-Type': 'application/json; charset=utf-8', 'Access-Control-Allow-Origin': '*' };
 
 const text = (body) => new Response(body, { status: 200, headers: HEADERS });
@@ -35,6 +61,10 @@ const notHere = () => new Response(null, { status: 404 });
 
 export async function onRequestGet(context) {
   const parts = (context.params.path || []).map((p) => decodeURIComponent(p));
+  const renamed = renamedLayerUrl(parts);
+  if (renamed) {
+    return new Response(null, { status: 301, headers: { Location: renamed, 'Cache-Control': 'public, max-age=86400', 'Access-Control-Allow-Origin': '*' } });
+  }
   const route = matchRoute(parts);
   const db = context.env.ELECTIONS_DB;
   if (!route || !db) return context.next();
