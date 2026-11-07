@@ -129,6 +129,8 @@ export function isAldermanicContest(bodySlug, seatType = '') {
  * island before 1921, a Northern Ireland one from 1921 to 1972. (The rounds held are all of the
  * Local Government (Ireland) Act 1898's councils; the Republic's local elections, bodySlug
  * ireland-local, are not grouped.)
+ *
+ * @param {any} [entry]
  */
 export function isNiLocalCouncilRound(entry = {}) {
   if (!entry || typeof entry !== 'object') return false;
@@ -223,6 +225,9 @@ export function buildNiLocalGroupEntry(year, rounds = []) {
 /**
  * An election list with each year's pre-1973 council rounds replaced by the year's entry, placed
  * where the year's first round was. Everything else keeps its place.
+ *
+ * @param {any[]} [entries]
+ * @param {{ decorate?: (group: any, rounds: any[]) => any }} [options]
  */
 export function replaceNiLocalRoundsWithGroups(entries = [], { decorate = (group) => group } = {}) {
   const groups = groupNiLocalRounds(entries);
