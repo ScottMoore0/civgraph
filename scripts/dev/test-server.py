@@ -69,7 +69,7 @@ def _api_file(path, query):
     return None
 
 
-_LOCAL_API = os.path.join(REPO, 'scripts', 'records', 'local-api.mjs')
+_LOCAL_API = os.path.join(REPO, 'packages', 'loader', 'src', 'local-api.mjs')
 _RECORDS_DB = os.path.join(REPO, 'tmp', 'records', 'civgraph-records.sqlite')
 # The same routes as RECORD_API_ROUTES in scripts/records/local-api.mjs.
 _API_ROUTE = re.compile(r'^/_api/(elections|graph|parties|persons|register-interests|sources|stats|votes)/?$')

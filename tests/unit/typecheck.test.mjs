@@ -17,10 +17,10 @@ import { REPO_ROOT, typecheck } from '../../scripts/lib/typecheck.mjs';
 
 const config = JSON.parse(readFileSync(path.join(REPO_ROOT, 'tsconfig.records.json'), 'utf8'));
 
-test('tsconfig.records.json checks scripts/lib and scripts/records', () => {
+test('tsconfig.records.json checks scripts/lib, scripts/records and the loader, schema and storage packages', () => {
   assert.equal(config.compilerOptions.checkJs, true);
   assert.equal(config.compilerOptions.noEmit, true);
-  for (const entry of ['scripts/lib/**/*.mjs', 'scripts/records/**/*.mjs']) assert.ok(config.include.includes(entry), entry);
+  for (const entry of ['scripts/lib/**/*.mjs', 'scripts/records/**/*.mjs', 'packages/loader/src/**/*.mjs', 'packages/schema/src/*.mjs', 'packages/storage/src/sqlite.mjs']) assert.ok(config.include.includes(entry), entry);
 });
 
 test('no type-check suppressions in the allowlisted folders', () => {
@@ -34,6 +34,7 @@ test('no type-check suppressions in the allowlisted folders', () => {
   };
   walk(path.join(REPO_ROOT, 'scripts', 'lib'));
   walk(path.join(REPO_ROOT, 'scripts', 'records'));
+  for (const p of ['loader', 'schema', 'storage']) walk(path.join(REPO_ROOT, 'packages', p, 'src'));
   assert.deepEqual(found, []);
 });
 

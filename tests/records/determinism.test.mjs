@@ -6,8 +6,8 @@ import assert from 'node:assert/strict';
 import { copyFileSync, existsSync } from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { REPO_ROOT } from '../../scripts/records/paths.mjs';
-import { buildDelta } from '../../scripts/records/diff-load.mjs';
+import { REPO_ROOT } from '@civgraph/loader/paths.mjs';
+import { buildDelta } from '@civgraph/loader/diff-load.mjs';
 
 const DB = path.join(REPO_ROOT, 'tmp/records/civgraph-records.sqlite');
 const mode = process.env.RECORDS_DETERMINISM;

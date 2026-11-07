@@ -41,7 +41,7 @@ import {
   niLocalNameKey
 } from '../../src/ni-local-groups.mjs';
 import { printedLabelText } from '../../src/printed-labels.mjs';
-import { ELECTION_MANIFEST, localPathForUrl } from '../records/paths.mjs';
+import { ELECTION_MANIFEST, localPathForUrl } from '@civgraph/loader/paths.mjs';
 import { loadRegistry } from '../../registries/index.mjs';
 import { councilType } from '../../registries/councils.mjs';
 import { missingRoundReason, siteRoundStatus } from '../../registries/statuses.mjs';

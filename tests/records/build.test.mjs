@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
-import { recordPaths, REPO_ROOT } from '../../scripts/records/paths.mjs';
+import { recordPaths, REPO_ROOT } from '@civgraph/loader/paths.mjs';
 import { MAX_VALUE_BYTES, TABLES } from '@civgraph/schema';
 import { partyAsPrintedLabel } from '../../src/party-names.mjs';
 import { bundleChunks, bundleObject } from '../../functions/_api/_records.js';

@@ -8,8 +8,8 @@
 import { existsSync, mkdirSync, readFileSync, rmSync } from 'node:fs';
 import path from 'node:path';
 import { writeStableGeneratedJson } from '../lib/stable-generated-json.mjs';
-import { ELECTION_MANIFEST, ELECTION_SUMMARY_DIR } from '../records/paths.mjs';
-import { localPathForUrl } from '../records/paths.mjs';
+import { ELECTION_MANIFEST, ELECTION_SUMMARY_DIR } from '@civgraph/loader/paths.mjs';
+import { localPathForUrl } from '@civgraph/loader/paths.mjs';
 
 const ROOT = process.cwd();
 const MANIFEST_PATH = ELECTION_MANIFEST;

@@ -5,8 +5,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
-import { REPO_ROOT, RECORDS_DB } from '../../scripts/records/paths.mjs';
-import { answerRecordApi, RECORD_API_ROUTES, recordApiRoute } from '../../scripts/records/local-api.mjs';
+import { REPO_ROOT, RECORDS_DB } from '@civgraph/loader/paths.mjs';
+import { answerRecordApi, RECORD_API_ROUTES, recordApiRoute } from '@civgraph/loader/local-api.mjs';
 
 const skip = !existsSync(RECORDS_DB) && 'no records build (npm run records:build)';
 

@@ -6,10 +6,10 @@ import assert from 'node:assert/strict';
 import { mkdirSync, rmSync } from 'node:fs';
 import path from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
-import { createDatabase, TableWriter, transaction } from '../../scripts/records/db.mjs';
-import { buildDelta } from '../../scripts/records/diff-load.mjs';
-import { REPO_ROOT } from '../../scripts/records/paths.mjs';
-import { GRID, longestIncreasing, placeGroup, stabiliseOrder } from '../../scripts/records/stable-order.mjs';
+import { createDatabase, TableWriter, transaction } from '@civgraph/loader/db.mjs';
+import { buildDelta } from '@civgraph/loader/diff-load.mjs';
+import { REPO_ROOT } from '@civgraph/loader/paths.mjs';
+import { GRID, longestIncreasing, placeGroup, stabiliseOrder } from '@civgraph/loader/stable-order.mjs';
 
 const TMP = path.join(REPO_ROOT, 'tmp', 'records', 'test-stable-order');
 

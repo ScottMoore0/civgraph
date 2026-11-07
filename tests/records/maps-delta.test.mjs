@@ -7,12 +7,12 @@ import { mkdirSync, mkdtempSync, writeFileSync } from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
-import { createDatabase } from '../../scripts/records/db.mjs';
-import { buildDelta } from '../../scripts/records/diff-load.mjs';
-import { ingestMaps } from '../../scripts/records/ingest-maps.mjs';
-import { stabiliseOrder } from '../../scripts/records/stable-order.mjs';
+import { createDatabase } from '@civgraph/loader/db.mjs';
+import { buildDelta } from '@civgraph/loader/diff-load.mjs';
+import { ingestMaps } from '@civgraph/loader/ingest-maps.mjs';
+import { stabiliseOrder } from '@civgraph/loader/stable-order.mjs';
 import { TABLES } from '@civgraph/schema';
-import { deltaKeys } from '../../scripts/records/verify-load.mjs';
+import { deltaKeys } from '@civgraph/loader/verify-load.mjs';
 
 const MAP_TABLES = TABLES.filter((t) => t.group === 'maps').map((t) => t.name);
 

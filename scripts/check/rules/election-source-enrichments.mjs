@@ -8,7 +8,7 @@
  */
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
-import { BROWSE_DIR, localPathForUrl } from '../../records/paths.mjs';
+import { BROWSE_DIR, localPathForUrl } from '@civgraph/loader/paths.mjs';
 
 const ROOT = process.cwd();
 const SIDE = path.join(ROOT, 'data', 'database', 'election-source-enrichments.json');
