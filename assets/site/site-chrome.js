@@ -12,6 +12,11 @@
 
   var root = document.documentElement;
   var THEME_KEY = 'theme';
+  // The theme preference (state-machine catalogue UI-05): a copy of THEME_PREFERENCE in
+  // assets/ui/state/theme.js, which this classic script cannot import. `system` is nothing saved
+  // (follow prefers-color-scheme); there is no way back to it once the toggle has saved a theme.
+  // tests/unit/ui-theme.test.mjs fails when the two tables differ.
+  var THEME_TRANSITIONS = { system: ['light', 'dark'], light: ['dark'], dark: ['light'] };
   // Must match the collapsed-navigation media queries in site-chrome.css.
   var COLLAPSED_NAV = '(max-width: 900px), (hover: none) and (pointer: coarse) and (max-width: 1180px)';
 
@@ -34,10 +39,18 @@
     root.dataset.theme = storedTheme() || systemTheme();
   }
 
+  // The preference the page is honouring: the saved theme when it is the one shown, otherwise
+  // the system's (nothing saved, storage blocked, or another tab saved one since this page drew).
+  function themePreference() {
+    var stored = storedTheme();
+    return stored && stored === root.dataset.theme ? stored : 'system';
+  }
+
   function setupTheme(header) {
     header.querySelectorAll('[data-theme-toggle]').forEach(function (button) {
       button.addEventListener('click', function () {
         var next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+        if (THEME_TRANSITIONS[themePreference()].indexOf(next) === -1) return;
         root.dataset.theme = next;
         try { localStorage.setItem(THEME_KEY, next); } catch (error) { /* private mode */ }
         document.dispatchEvent(new CustomEvent('civgraph:themechange', { detail: { theme: next } }));
