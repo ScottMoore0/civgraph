@@ -79,3 +79,25 @@ export function layerPublishSteps({ idList, build }) {
   for (const step of steps) stage = layerPublishRun.assert(stage, step.reaches, { build });
   return steps;
 }
+
+/** Where a failed run leaves its resume marker (gitignored tmp/). */
+export const RESUME_MARKER = 'tmp/layer-publish-run.json';
+
+/**
+ * The resume marker for a run that failed after reaching `reached`: which layers, how far it got,
+ * and the command that resumes it. Once the archives are built (or the run was --no-build) the
+ * resume skips the build; before that it reruns the whole chain.
+ * @param {{ ids: string[], build: boolean, reached: RunStage, failedStep: string, at?: string }} run
+ */
+export function resumeMarker({ ids, build, reached, failedStep, at = new Date().toISOString() }) {
+  const built = !build || ORDER.indexOf(/** @type {any} */ (reached)) >= ORDER.indexOf('indexed');
+  return {
+    ids,
+    reached,
+    failedStep,
+    at,
+    // Until the switch, listed layers still point at their local archives (the in-between state).
+    tileUrlsLocal: ORDER.indexOf(/** @type {any} */ (reached)) < ORDER.indexOf('switched'),
+    resume: `node scripts/publish/layers.mjs --ids ${ids.join(',')}${built ? ' --no-build' : ''}`,
+  };
+}
