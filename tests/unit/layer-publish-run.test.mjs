@@ -51,3 +51,17 @@ test('any stage may fail; published needs every layer on the CDN', () => {
   assert.equal(layerPublishRun.check('planned', 'published', { notOnCdn: [] }).ok, true);
   assert.ok(layerPublishRun.isFinal('published') && layerPublishRun.isFinal('failed'));
 });
+
+test('a failed run leaves a resume marker that skips the build once the archives exist', async () => {
+  const { resumeMarker } = await import('../../scripts/publish/layer-publish-run.mjs');
+  const at = '2026-11-07T00:00:00Z';
+  const afterUpload = resumeMarker({ ids: ['a-vector'], build: true, reached: 'uploaded', failedStep: 'Verify byte ranges on the CDN', at });
+  assert.deepEqual(afterUpload, {
+    ids: ['a-vector'], reached: 'uploaded', failedStep: 'Verify byte ranges on the CDN', at,
+    tileUrlsLocal: true, resume: 'node scripts/publish/layers.mjs --ids a-vector --no-build',
+  });
+  assert.equal(resumeMarker({ ids: ['a'], build: true, reached: 'pending', failedStep: 'x', at }).resume, 'node scripts/publish/layers.mjs --ids a');
+  assert.equal(resumeMarker({ ids: ['a'], build: true, reached: 'built', failedStep: 'x', at }).resume, 'node scripts/publish/layers.mjs --ids a');
+  assert.equal(resumeMarker({ ids: ['a'], build: false, reached: 'pending', failedStep: 'x', at }).resume, 'node scripts/publish/layers.mjs --ids a --no-build');
+  assert.equal(resumeMarker({ ids: ['a'], build: true, reached: 'switched', failedStep: 'x', at }).tileUrlsLocal, false);
+});

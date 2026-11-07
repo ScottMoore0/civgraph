@@ -20,7 +20,9 @@
  * after the tile build undoes it.
  */
 import { spawnSync } from 'node:child_process';
-import { layerPublishRun, layerPublishSteps } from './layer-publish-run.mjs';
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { dirname } from 'node:path';
+import { RESUME_MARKER, layerPublishRun, layerPublishSteps, resumeMarker } from './layer-publish-run.mjs';
 
 const args = process.argv.slice(2);
 const idsAt = args.indexOf('--ids');
@@ -34,6 +36,10 @@ const build = !args.includes('--no-build');
 
 // The stages are a machine (layer-publish-run.mjs): a skipped or reordered step throws here.
 const steps = layerPublishSteps({ idList, build });
+if (existsSync(RESUME_MARKER)) {
+  const prior = JSON.parse(readFileSync(RESUME_MARKER, 'utf8'));
+  console.log(`Note: the last layers.mjs run (${prior.at}) stopped after "${prior.reached}" at "${prior.failedStep}" for ${prior.ids?.length ?? '?'} layer(s).`);
+}
 /** @type {import('./layer-publish-run.mjs').RunStage} */
 let stage = layerPublishRun.initial;
 
@@ -44,9 +50,15 @@ for (const { label, args: stepArgs, reaches } of steps) {
   const output = `${result.stdout || ''}${result.stderr || ''}`.split(/\r?\n/)
     .filter((line) => line.trim() && !/ExperimentalWarning|MODULE_TYPELESS|trace-warnings|eliminate this warning|Reparsing as ES module/.test(line));
   if (result.status !== 0) {
+    const marker = resumeMarker({ ids, build, reached: stage, failedStep: label });
     stage = layerPublishRun.assert(stage, 'failed');
     console.log(`FAIL ${seconds.padStart(4)}s  ${label}`);
     console.log(output.slice(-25).join('\n'));
+    // The resume marker: a failure after the build leaves the layers on local tileUrls, and the
+    // next run should know (state-machine catalogue PL-02).
+    mkdirSync(dirname(RESUME_MARKER), { recursive: true });
+    writeFileSync(RESUME_MARKER, `${JSON.stringify(marker, null, 2)}\n`);
+    console.log(`\nStopped after "${marker.reached}"${marker.tileUrlsLocal ? '; the listed layers may still point at local archives' : ''}. Resume: ${marker.resume}`);
     process.exit(result.status || 1);
   }
   stage = layerPublishRun.assert(stage, reaches, { build });
@@ -54,7 +66,7 @@ for (const { label, args: stepArgs, reaches } of steps) {
 }
 
 // What the run should have left: every listed layer served from the CDN.
-const metadata = JSON.parse((await import('node:fs')).readFileSync('render/metadata/maps-test.json', 'utf8'));
+const metadata = JSON.parse(readFileSync('render/metadata/maps-test.json', 'utf8'));
 const layers = Array.isArray(metadata) ? metadata : (metadata.layers || []);
 const local = ids.filter((id) => {
   const layer = layers.find((entry) => entry.id === id);
@@ -65,4 +77,5 @@ if (!done.ok) {
   console.log(`FAIL: ${local.length ? `still not on the CDN: ${local.join(', ')}` : done.reason}`);
   process.exit(1);
 }
+rmSync(RESUME_MARKER, { force: true });
 console.log(`\nPUBLISHED ${ids.length} layer(s): built, uploaded, byte-range verified and switched to the CDN.`);
