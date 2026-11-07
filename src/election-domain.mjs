@@ -113,6 +113,8 @@ const DEFAULT_PARTY_COLOURS = new Map([
  * file's. Colours follow Wikipedia's party colours (Module:Political party); where that
  * colour is near-white or plain grey it would read as "no data" on the map, and a darker
  * shade of the same hue (or the successor party's colour) is used instead -- noted per row.
+ *
+ * @returns {Array<[string, string]>}
  */
 function HISTORIC_PARTY_COLOURS_ENTRIES() {
   return [
@@ -217,7 +219,8 @@ export function resolvePartyColour(party, sourceColour = '', fallback = '#6b7280
 // the function so it exists however early the module calls it.
 export function normalizeName(value) {
   if (typeof value !== 'string') return normalizeNameUncached(value);
-  const cache = normalizeName.cache || (normalizeName.cache = new Map());
+  const memo = /** @type {{ cache?: Map<string, string> }} */ (/** @type {unknown} */ (normalizeName));
+  const cache = memo.cache || (memo.cache = new Map());
   let result = cache.get(value);
   if (result === undefined) {
     if (cache.size > 200000) cache.clear();

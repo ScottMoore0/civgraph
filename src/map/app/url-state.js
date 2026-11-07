@@ -101,11 +101,11 @@ export class UrlStateMethods {
     // Back and Forward between the entries pushState makes fire hashchange (their addresses
     // differ only in the hash), as does editing the hash by hand; both mean "show this".
     window.addEventListener('hashchange', () => {
-      if (this._suspendURLState || this._ignoreHashChanges) return;
+      if (this.urlSuspend.on || this._ignoreHashChanges) return;
       // Back then Forward quickly: the second arrives while the first is still restoring. Do it
       // once that one is done, rather than drop it and leave the page on the wrong entry.
-      if (this._restoringURLState) {
-        this._hashRestorePending = true;
+      if (this.urlRestore.active) {
+        this.urlRestore.queue();
         return;
       }
       this.restoreURLState({ updateAfterRestore: false, sync: true }).catch((error) => this.showMapError(error));
@@ -126,6 +126,13 @@ export class UrlStateMethods {
       const sameElection = (params.get('electionBody') === active.body && params.get('electionDate') === active.date)
         || wanted.has(this.elections.getCanonicalLayerId?.(active));
       if (!sameElection) this.elections.unloadElection();
+    } else if (this.elections?.loadRun?.state() === 'loading') {
+      // An election still loading that this entry does not have: cancel it, or it would open
+      // after the step back (MA-03).
+      const pending = this.elections.pendingLoad;
+      if (!(pending && params.get('electionBody') === pending.body && params.get('electionDate') === pending.date)) {
+        this.elections.cancelPendingLoad();
+      }
     }
     const backing = new Set(this.elections?.activeEntry ? this.elections.getActiveElectionBackingLayerIds?.() || [] : []);
     for (const id of this.getLoadedLayerIds()) {
@@ -161,7 +168,7 @@ export class UrlStateMethods {
     // A message from an earlier step ("This link asks for something not found here", an old
     // "could not be loaded") goes once the reader does something else (UX review 2026-10-31, L6).
     this.dismissStaleMapMessage();
-    if (this._restoringURLState) return;
+    if (this.urlRestore.active) return;
     this._pushNextURL = label || 'Map';
   }
 
@@ -201,7 +208,7 @@ export class UrlStateMethods {
   }
 
   updateURLState() {
-    if (this._suspendURLState || this._restoringURLState) return;
+    if (this.urlSuspend.on || this.urlRestore.active) return;
     const loaded = this.getLoadedLayerIds();
     const electionState = this.elections?.getURLState?.();
     const electionSourceIds = new Set([
@@ -335,7 +342,7 @@ export class UrlStateMethods {
   }
 
   async restoreURLState(options = {}) {
-    this._restoringURLState = true;
+    this.urlRestore.begin();
     const shouldUpdateAfterRestore = options.updateAfterRestore !== false;
     const params = renameElectionDatesInParams(this.getCurrentURLParams());
     const query = params.get('q');
@@ -459,10 +466,10 @@ export class UrlStateMethods {
       this.setActiveLayersPanelOpen(params.get('activePanel') === '1');
       this.setMapControlsOpen(params.get('controls') === '1');
     } finally {
-      this._restoringURLState = false;
+      // A hashchange that came in while restoring is replayed once this restore is done.
+      const replay = this.urlRestore.end();
       if (shouldUpdateAfterRestore) this.updateURLState();
-      if (this._hashRestorePending) {
-        this._hashRestorePending = false;
+      if (replay) {
         setTimeout(() => this.restoreURLState({ updateAfterRestore: false, sync: true }).catch((error) => this.showMapError(error)), 0);
       }
     }

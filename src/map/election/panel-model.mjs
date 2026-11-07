@@ -8,6 +8,7 @@
  * changing behaviour. Pure: no DOM, no network; each function takes the facts it needs.
  */
 import { normalizeName } from '../../election-domain.mjs';
+import { defineChoice } from '../state-helpers.mjs';
 
 /** The map's colouring modes, in the order an election offers them. */
 export const DEFAULT_MODE_ORDER = Object.freeze(['winner', 'leadingParty', 'voteShare', 'turnout', 'majority', 'seats', 'quota']);
@@ -15,6 +16,15 @@ export const DEFAULT_MODE_ORDER = Object.freeze(['winner', 'leadingParty', 'vote
 /** The views of a whole election, and of a council (or a local election in district mode). */
 export const ELECTION_VIEWS = Object.freeze(['party', 'candidate', 'local-party', 'constituency', 'trends']);
 export const COUNCIL_VIEWS = Object.freeze(['party', 'candidate', 'local-party', 'trends']);
+
+/**
+ * The pane's two small toggles (refactor plan section 11, light weight): the overlay drawn on the
+ * map, seat circles or vote bars, and the level a local election is shown at, its district
+ * electoral areas or the whole council (a non-local election is at constituency level). The
+ * manager's fields stay plain strings; every assignment goes through `check`.
+ */
+export const OVERLAY_MODE = defineChoice('election overlay', ['circles', 'bars']);
+export const LOCAL_MODE = defineChoice('election local level', ['dea', 'district', 'constituency']);
 
 /** The colouring mode an election opens in: the current one if it offers it, else its first usual mode, else winner. */
 export function stylingModeFor(entry, currentMode) {
@@ -31,7 +41,7 @@ export function freshPanelState(entry) {
     activeEntityKind: null,
     activeEntityKey: null,
     activeEntityReturnView: 'party',
-    activeLocalMode: entry?.bodyGroup === 'local-government' ? 'dea' : 'constituency'
+    activeLocalMode: LOCAL_MODE.check(entry?.bodyGroup === 'local-government' ? 'dea' : 'constituency')
   };
 }
 

@@ -13,7 +13,10 @@
  * for every tile request and is not worth disturbing for tidiness.
  */
 
-export const CDN_BASE = 'https://data.civgraph.net';
+import { SITE } from '../functions/_lib/config.js';
+
+/** The data origin, from the site's config (functions/_lib/config.js; bundled into the app). */
+export const CDN_BASE = SITE.dataOrigin;
 
 /**
  * @param {string} key Bucket key, with or without a leading slash (e.g. 'assets/thumbnails/x.webp').

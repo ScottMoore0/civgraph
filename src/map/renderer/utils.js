@@ -53,8 +53,9 @@ export function absoluteTileTemplate(template) {
 export function showToast(els, message) {
   els.toast.textContent = message;
   els.toast.hidden = false;
-  window.clearTimeout(showToast._timer);
-  showToast._timer = window.setTimeout(() => {
+  const toast = /** @type {{ _timer?: number }} */ (/** @type {unknown} */ (showToast));
+  window.clearTimeout(toast._timer);
+  toast._timer = window.setTimeout(() => {
     els.toast.hidden = true;
   }, 5000);
 }

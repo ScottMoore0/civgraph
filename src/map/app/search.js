@@ -75,7 +75,7 @@ export class SearchMethods {
       this.searchWorker.addEventListener('message', (event) => {
         const message = event.data || {};
         if (message.type === 'ready') {
-          this.searchWorkerReady = true;
+          this.searchWorkerReady.set(true);
           return;
         }
         if (message.type === 'results') {
@@ -86,7 +86,7 @@ export class SearchMethods {
         }
       });
       this.searchWorker.addEventListener('error', () => {
-        this.searchWorkerReady = false;
+        this.searchWorkerReady.set(false);
       });
       this.searchWorker.postMessage({
         type: 'init',
