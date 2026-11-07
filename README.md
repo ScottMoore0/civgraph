@@ -74,7 +74,7 @@ mislead you.** This section is the canonical layout;
 | `app/` | **the live site** — MapLibre GL. Built bundle in `app/build/`, committed. |
 | `src/` | shared browser modules, served **unbundled**. Live, not legacy. |
 | `src/map/` | the map app's modules: `app/` (the app's methods), `election/` (the election pane's model, data and palette) and `renderer/` (the MapLibre renderer, moved from `render/src/` in November 2026) |
-| `render/src/` | the legacy `/render/` harness; it imports the renderer from `src/map/renderer/` |
+| `render/sw.js` | the kill switch that retires the old `/render/`, `/test2/` and `/test/` service workers (the legacy `/render/` harness and its `render/src/` were deleted in November 2026) |
 | `render/metadata/` | the render catalogue — see "three stores" below |
 | `tests/` | the Playwright suite |
 | `test2/` | the retired-app kill switch (`test2/sw.js`, the same bytes as `render/sw.js`); `/test2/` itself answers 301 to `/maps/`. Not a directory of tests. |
