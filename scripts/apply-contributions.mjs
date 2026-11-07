@@ -313,7 +313,7 @@ function main() {
   console.log(`\nWrote ${CATALOGUE} on branch ${branch}.`);
   console.log('Next:');
   console.log('  npm run check          # the same gate every other change passes');
-  console.log('  npm run build:catalogue-d1 && review the diff');
+  console.log('  review the diff (the next publish loads maps.json into D1 with the records)');
   console.log(`  git add ${CATALOGUE} && git commit && git push -u origin ${branch}`);
   console.log('\nNothing has been merged. Review the branch before it reaches main.');
   console.log('\nAFTER MERGING, close the queue entries or they stay "approved" forever:');

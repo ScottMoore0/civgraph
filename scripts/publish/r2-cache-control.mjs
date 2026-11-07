@@ -53,7 +53,7 @@
  * and if it fails, the fix is:
  *
  *   node scripts/stamp-map-cache-tokens.mjs --write
- *   npm run build:catalogue-d1   (and load it into D1)
+ *   (the next publish loads maps.json into D1 with the records)
  *
  * MEASURE WITH GET, NOT HEAD
  *
@@ -266,7 +266,7 @@ if (problems.length) {
 if (APPLY && stats.updated) {
   console.log('\nNEXT, and not optional:');
   console.log('  node scripts/stamp-map-cache-tokens.mjs --write   # ETags may have changed');
-  console.log('  npm run build:catalogue-d1                        # then load it into D1');
+  console.log('  # the next publish loads maps.json into D1 (records:deploy)');
   console.log('  npm run verify:map-tokens                         # proves the tokens still match');
 }
 

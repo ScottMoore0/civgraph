@@ -9,18 +9,18 @@
 # step), and the three D1 loads (deploy:browse-indexes, deploy:elections-d1 and the full 342 MB
 # elections reload) are replaced by one delta load of the records database with a bounded
 # verify (scripts/records/verify-load.mjs: only the rows the delta wrote, by primary key, one
-# statement per wrangler call; it never scans a table of the live database). The catalogue keeps its own load until phase 3, and so do the few Browse files that
-# are still read from R2 until phase 3 moves them into tables: the map and feature-group lists
-# (maps.json, features.json), the map pages (details/maps/) and the PRONI roots. Those are synced
-# here, changed files only (r2-upload-tree.mjs --changed-only, the S3 path).
+# statement per wrangler call; it never scans a table of the live database). Since data design
+# phase 3 the map catalogue (maps.json), the layer metadata (maps-test.json), the catalogue pane's
+# documents and the Browse map files are tables of the same load (scripts/records/ingest-maps.mjs),
+# so there is no separate catalogue load and no R2 sync: nothing is uploaded to R2 at all.
 #
 #   --dry-run    build, then say what would be loaded and pushed; push, load and upload nothing
 #   --downloads  also write the bulk downloads (tmp/records/downloads/); uploading them is the
 #                S3 path with --i-have-reviewed-this-publication, a step of its own
 #
 # Order: refuse uncommitted changes; build the records database for HEAD (skipped when the
-# inputs are unchanged); load the delta into D1 and verify it; load the catalogue; push, so the
-# Pages build that switches the Functions finds its tables already loaded.
+# inputs are unchanged); load the delta into D1 and verify it; push, so the Pages build that
+# switches the Functions finds its tables already loaded.
 set -uo pipefail
 cd "$(dirname "$0")/../.."
 WORK=.claude/publish/work
@@ -46,43 +46,17 @@ npm run -s records:build > "$WORK/records-build.log" 2>&1 || { echo "ABORT: reco
 # Case-insensitive: the votes notice ("WARNING: CIVGRAPH_VOTES_DIR is unset ...") is upper case.
 grep -iE '^records:build|warning' "$WORK/records-build.log" | head -8
 
-stamp "== D1 (records, catalogue)"
+stamp "== D1 (records, maps and catalogue included)"
 if [ -n "$DRY" ]; then
   # Each dry run's output goes to a log. Its summary lines are shown, and when the DRY RUN line is
   # missing the log's tail is shown instead of nothing (a bare grep hid every failure).
   npm run -s records:deploy -- --remote --dry-run > "$WORK/records-deploy-dry.log" 2>&1
   grep -E '^DRY RUN|WARNING|migrations a real run|no migrations to apply|bounded statement' "$WORK/records-deploy-dry.log"
   grep -q '^DRY RUN' "$WORK/records-deploy-dry.log" || { echo "(dry run) records:deploy reported no delta:"; tail -12 "$WORK/records-deploy-dry.log"; }
-  npm run -s deploy:catalogue -- --dry-run > "$WORK/catalogue-deploy-dry.log" 2>&1
-  grep '^DRY RUN' "$WORK/catalogue-deploy-dry.log" || { echo "(dry run) deploy:catalogue reported nothing:"; tail -8 "$WORK/catalogue-deploy-dry.log"; }
 else
   # The delta is idempotent and records:deploy retries each part; verify decides.
   npm run -s records:deploy -- --remote > "$WORK/records-deploy.log" 2>&1 || { echo "ABORT: records:deploy failed:"; tail -12 "$WORK/records-deploy.log"; exit 1; }
   tail -1 "$WORK/records-deploy.log"
-  ok=
-  for attempt in 1 2 3 4; do
-    if out=$(npm run -s deploy:catalogue 2>&1); then ok=1; break; fi
-    echo "deploy:catalogue attempt $attempt failed; waiting 90s"; sleep 90
-  done
-  [ -n "$ok" ] || { echo "deploy:catalogue FAILED 4 times:"; echo "$out" | tail -5; exit 1; }
-  echo "$out" | grep -viE 'deprecation|trace-warnings|^$' | tail -1
-fi
-
-stamp "== R2: the Browse files phase 3 has not moved yet (maps, features, map pages, PRONI roots)"
-LEFT="$WORK/r2-leftovers"
-rm -rf "$LEFT"; mkdir -p "$LEFT/details"
-B=tmp/records/browse
-for f in maps.json features.json; do [ -f "$B/$f" ] && cp "$B/$f" "$LEFT/$f"; done
-[ -d "$B/details/maps" ] && cp -r "$B/details/maps" "$LEFT/details/maps"
-[ -f data/browse/proni-roots.json ] && cp data/browse/proni-roots.json "$LEFT/proni-roots.json"
-n=$(find "$LEFT" -type f | wc -l | tr -d ' ')
-if [ -n "$DRY" ]; then
-  echo "(dry run) would sync $n file(s) to R2 data/browse/, uploading only those that changed"
-else
-  set -a; source .env.local; set +a
-  node scripts/publish/r2-upload-tree.mjs "$LEFT" data/browse --changed-only --concurrency=16 --i-have-reviewed-this-publication > "$WORK/r2-leftovers.log" 2>&1 \
-    || { echo "ABORT: the R2 sync failed (D1 already holds this build; rerun after fixing):"; tail -8 "$WORK/r2-leftovers.log"; exit 1; }
-  grep -E '^Done in|errors=' "$WORK/r2-leftovers.log" | tail -1
 fi
 
 if [ -n "$DOWNLOADS" ]; then
@@ -98,5 +72,5 @@ else
   git push -q origin HEAD:main || { echo "ABORT: push failed (D1 already holds this build; rerun after fixing)"; exit 1; }
   git log --oneline -1 origin/main
 fi
-stamp "== done: no election, person, party, source or graph files uploaded to R2"
+stamp "== done: nothing uploaded to R2"
 echo "$(date -u +%FT%TZ) $(git rev-parse --short HEAD) $(( $(date +%s) - started ))s${DRY:+ dry-run}" >> "$WORK/publish.log"
