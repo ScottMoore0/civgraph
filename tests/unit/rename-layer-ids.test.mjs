@@ -19,6 +19,13 @@ test('tile keys and URLs keep the old suffix', () => {
   assert.equal(renameInText(idx).text, '"featureIndexUrl": "/render/metadata/feature-indexes/lgd-2012-vector.json"');
 });
 
+test('style-layer and source ids derived from an id are renamed', () => {
+  const src = "['civil-parishes-vector-test-fill', 'x-vector-test-label', 'x-vector-test-fallback-hover-source', 'x-alias-test-selected-fill']";
+  const { text, count } = renameInText(src);
+  assert.equal(count, 4);
+  assert.equal(text, "['civil-parishes-vector-fill', 'x-vector-label', 'x-vector-fallback-hover-source', 'x-alias-selected-fill']");
+});
+
 test('words that merely contain the suffix are left', () => {
   assert.equal(renameInText('a-vector-test-suite and vector-tests').count, 0);
 });
