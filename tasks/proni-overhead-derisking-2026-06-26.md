@@ -6,7 +6,7 @@ Scope: reduce PRONI Browse-only crawl overhead while preserving the constraint t
 
 ## Live Evidence
 
-The probe script `scripts/proni-overhead-research.ps1` tested the Browse branch:
+The probe script `scripts/ingest/proni/proni-overhead-research.ps1` tested the Browse branch:
 
 `SearchPage > Browse > A > AA > AA/1 > AA/1/2`
 
@@ -210,7 +210,7 @@ Guardrails:
 
 ## Recommended Next Implementation Order
 
-1. Add branch-page batch reuse to `scripts/proni-browse-crawl-throttle.ps1`.
+1. Add branch-page batch reuse to `scripts/ingest/proni/proni-browse-crawl-throttle.ps1`.
 2. Add extracted-reference validation to every detail fetch.
 3. Add durable branch/page/record checkpoint files.
 4. Add a two-pass mode:

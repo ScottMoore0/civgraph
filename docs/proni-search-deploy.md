@@ -127,14 +127,14 @@ The data is a static snapshot, so responses are edge-cached:
   Cloudflare edge cache (`caches.default`), keyed by URL + a `CACHE_VERSION`
   constant. Warm requests never touch D1.
 - The landing (top-level fonds) is served as a static CDN asset
-  `data/browse/proni-roots.json` (regenerate with `scripts/build-proni-roots.py`),
+  `data/browse/proni-roots.json` (regenerate with `scripts/ingest/proni/build-proni-roots.py`),
   with the node API as a fallback.
 
 After any re-import, invalidate caches by **bumping `CACHE_VERSION`** in both
 Functions and **regenerating `proni-roots.json`**, then redeploy:
 
 ```bash
-python scripts/build-proni-roots.py --sqlite proni.sqlite --out data/browse/proni-roots.json
+python scripts/ingest/proni/build-proni-roots.py --sqlite proni.sqlite --out data/browse/proni-roots.json
 # edit CACHE_VERSION 'v1' -> 'v2' in functions/_api/proni/search.js and node.js
 ```
 

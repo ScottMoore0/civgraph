@@ -69,7 +69,7 @@ These rows should be importable from current Wikipedia-style constituency pages 
 
 Implementation notes:
 
-- Add title aliases in `scripts/import-dail-wikipedia-counts.mjs`.
+- Add title aliases in `scripts/ingest/wikipedia/import-dail-wikipedia-counts.mjs`.
 - Strip leading punctuation from report/source names before title matching.
 - Prefer constituency/Dail pages over generic county or place pages.
 - Add fallback parsing for `STV Election box begin2`, rendered `wikitable` count columns, and pages that do not use the current exact `STV Election box candidate` template shape.

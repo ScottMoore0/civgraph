@@ -1,7 +1,7 @@
 /**
  * Whether two written names can be the same person, as far as the letters show.
  *
- * The JavaScript twin of names_compatible() in scripts/harvest_ei_candidate_ids.py, and
+ * The JavaScript twin of names_compatible() in scripts/ingest/electionsireland/harvest_ei_candidate_ids.py, and
  * it must stay in step with it. Same surname, and forenames that agree as far as both go,
  * where an initial agrees with any name it begins; titles are ignored and name particles
  * are kept out of the forenames. So "General Richard Mulcahy" is Richard Mulcahy and

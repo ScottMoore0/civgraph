@@ -131,7 +131,7 @@ function validateApprovedSources(validationReport, approvedSources) {
   // because none of them are census cubes. Measured against the live catalogue on
   // 2026-08-31: 12,528 published cubes, 12,314 already gated. Same CC BY 4.0 collection
   // licence as the other CSO tranches -- no new rights decision, see
-  // scripts/cso-emit-pxstat-gap-records.mjs.
+  // scripts/ingest/census/cso-emit-pxstat-gap-records.mjs.
   const csoPxstatCompletion = approvedSources.counts?.csoPxstatCompletion?.publish || 0;
   assert(censusCso === 6560, `Expected 6,560 approved CSO census records, found ${censusCso}.`);
   assert(censusNisra === 645, `Expected 645 approved NISRA census records, found ${censusNisra}.`);

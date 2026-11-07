@@ -17,7 +17,7 @@
  *   data/elections/parties/party_registry.json              curated dates (owner-supplied)
  *   data/elections/parties/party-lineage.json               cited founding/split/rename events
  *   data/elections/parties/party-wikidata.json              Wikidata (CC0) facts, fetched by
- *                                                            scripts/fetch-party-wikidata.mjs
+ *                                                            scripts/ingest/wikipedia/fetch-party-wikidata.mjs
  *   the facts model (docs/facts-model.md, scripts/lib/facts-model.mjs):
  *     data/offices/                                         the party's offices and who held them
  *     data/elections/parties/party-events.json              cited founding, renaming, split ... events

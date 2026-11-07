@@ -9,7 +9,7 @@
  *      recorded and run forwards, registered people stay in their id block and share no
  *      official id with a candidate;
  *   3. the registry is current: every registered non-candidate is in person_registry.json
- *      (run scripts/build_person_registry_v2.py --force after adding one);
+ *      (run scripts/ingest/persons/build_person_registry_v2.py --force after adding one);
  *   4. every party-internal body in the elections index is declared as one.
  *
  *   node scripts/validate-facts-model.mjs
@@ -45,7 +45,7 @@ const errors = [
 
 const registered = new Set(registry.entities.filter((e) => e.keyedBy === 'registered').map((e) => String(e.personId)));
 for (const p of model.nonCandidates) {
-  if (!registered.has(p.personId)) errors.push(`non-candidate ${p.personId} (${p.displayName}) is not in person_registry.json: run python scripts/build_person_registry_v2.py --force`);
+  if (!registered.has(p.personId)) errors.push(`non-candidate ${p.personId} (${p.displayName}) is not in person_registry.json: run python scripts/ingest/persons/build_person_registry_v2.py --force`);
 }
 for (const id of registered) {
   if (!model.nonCandidates.some((p) => p.personId === id)) errors.push(`person_registry.json registers ${id}, which non-candidate-persons.json no longer lists`);

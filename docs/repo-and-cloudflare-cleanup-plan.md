@@ -272,7 +272,7 @@ Recorded 2026-08-12.
 a generated header asserting a source that would have made publishing them
 unwise. The site owner confirmed that header was **factually wrong** — the
 material was obtained legitimately — and it has been removed from the markdown,
-from `data/database/books.json`, and from `scripts/clean_hansard_ocr.py`, which
+from `data/database/books.json`, and from `scripts/ingest/hansard/clean_hansard_ocr.py`, which
 was stamping it on every file it produced.
 
 The lesson worth keeping is about the generator, not the works: a hardcoded

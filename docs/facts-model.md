@@ -38,7 +38,7 @@ The shared loader and rules are in `scripts/lib/facts-model.mjs`. The tests are 
 - A **tenure** id is `<office>:<person>:<start>`, or `<office>:<person>:to-<end>` where only the end is known.
 - A **party event** id is `<party>:<type>:<date>`.
 - **Party** ids are `data/elections/parties/party_registry.json` ids, not Browse label slugs. Browse maps one to the other through the party's labels (`browsePartySlugResolver`).
-- **Person** ids are `person_registry.json` ids. People who never stood are registered in `non-candidate-persons.json`, in a block of their own (900001–999999) that candidate ids never reach. `scripts/build_person_registry_v2.py` appends them with `keyedBy: "registered"`, after the candidate entities, so adding one renumbers nothing.
+- **Person** ids are `person_registry.json` ids. People who never stood are registered in `non-candidate-persons.json`, in a block of their own (900001–999999) that candidate ids never reach. `scripts/ingest/persons/build_person_registry_v2.py` appends them with `keyedBy: "registered"`, after the candidate entities, so adding one renumbers nothing.
   - `apply_person_ids_v2.py`, `merge_person_ids.py` and `audit_person_ids.py` ignore them: no candidacy is ever stamped with a registered id, and no merge is made by name.
   - A registered person later found among the candidates is merged into the candidate record by hand, never registered twice; the validator fails if the two share an official id.
 
@@ -139,12 +139,12 @@ The manifest already carries `bodyType` and `partyId` on these elections. A part
 
 ## The first load: Elliott & Flackes (1999)
 
-`scripts/facts/import_elliott_flackes_facts.py` reads the staged extraction of *Northern Ireland: A Political Directory 1968–1999* (`facts.jsonl`, outside the repo). It writes the files above and lists everything it could not load, with the reason, in `unmapped.csv` (`D:\civgraph-intake\facts-model-2026-11-06\`).
+`scripts/ingest/facts/import_elliott_flackes_facts.py` reads the staged extraction of *Northern Ireland: A Political Directory 1968–1999* (`facts.jsonl`, outside the repo). It writes the files above and lists everything it could not load, with the reason, in `unmapped.csv` (`D:\civgraph-intake\facts-model-2026-11-06\`).
 
 - People are matched to existing ids only where the name **and** the dates **and** a party or the office's body agree. A name alone never decides.
 - Where two records fit, the one with official identifiers is taken; otherwise the fact is listed as ambiguous.
 - A dictionary entry's other offices follow the person matched for one of them.
 - A person is registered as a non-candidate only when no record of the name exists in the era, or the office is a Whitehall or Northern Ireland Office post that candidates never held.
-- `scripts/facts/link_noncandidates_wikidata.py` then adds a person's Wikidata item and UK Parliament id. It does so only where exactly one Wikidata human of that name held a fitting position.
+- `scripts/ingest/facts/link_noncandidates_wikidata.py` then adds a person's Wikidata item and UK Parliament id. It does so only where exactly one Wikidata human of that name held a fitting position.
 - The gaps the first load left (council co-options, offices given without dates or with several in one statement, ambiguous people, honours, unresolved parties) were filled on 7 November 2026 by hand from researched facts, each cited to the book page and a second source (Wikipedia, the Oireachtas and UK Parliament records, the Gazette, ARK, CAIN, newspapers). The importer is a one-off: re-running it would discard those additions and the batch-5 merges.
-- `scripts/facts/ef_offices.py` holds the office catalogue the import resolves the book's office strings against. Honours, memberships and posts in non-party bodies are not offices and are listed as unmapped.
+- `scripts/ingest/facts/ef_offices.py` holds the office catalogue the import resolves the book's office strings against. Honours, memberships and posts in non-party bodies are not offices and are listed as unmapped.

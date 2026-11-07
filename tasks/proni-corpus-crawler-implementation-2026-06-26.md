@@ -50,7 +50,7 @@ This implements the seven agreed PRONI Browse-crawler improvements as tooling. I
 Bounded index-and-fetch pilot:
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts\proni-browse-corpus-crawler.ps1 `
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts\ingest\proni\proni-browse-corpus-crawler.ps1 `
   -Mode Both `
   -Letters A `
   -MaxBranches 4 `
@@ -63,14 +63,14 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts\proni-browse-corpus-
 Separate index and fetch:
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts\proni-browse-corpus-crawler.ps1 `
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts\ingest\proni\proni-browse-corpus-crawler.ps1 `
   -Mode Index `
   -Letters A `
   -MaxBranches 25 `
   -MaxRecords 250 `
   -OutDir tmp\proni-corpus-index
 
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts\proni-browse-corpus-crawler.ps1 `
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts\ingest\proni\proni-browse-corpus-crawler.ps1 `
   -Mode Fetch `
   -IndexPath tmp\proni-corpus-index\records-index.jsonl `
   -Workers 2 `
@@ -99,7 +99,7 @@ Increase only after checking:
 ## Verification Completed
 
 - PowerShell syntax check:
-  - `[scriptblock]::Create((Get-Content 'scripts\proni-browse-corpus-crawler.ps1' -Raw)) | Out-Null`
+  - `[scriptblock]::Create((Get-Content 'scripts\ingest\proni\proni-browse-corpus-crawler.ps1' -Raw)) | Out-Null`
 - Branch-page batch reuse smoke:
   - Branch: `A > AA > AA/1 > AA/1/2`
   - Command shape: `-Mode Both -Client PowerShell -MaxBranches 1 -MaxRecords 8 -GlobalRps 1 -WorkerRps 1`

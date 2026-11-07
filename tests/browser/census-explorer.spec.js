@@ -6,7 +6,7 @@ const path = require('path');
 // https://civgraph.net. Here those requests are answered from the local copies the bundle
 // builder writes (data/census/, gitignored), the CSO PxStat mirror when present, and
 // otherwise passed through to the bucket. Without the local bundle the suite is skipped:
-// it needs `node scripts/census/build-census-explorer-bundle.mjs` to have been run.
+// it needs `node scripts/ingest/census/build-census-explorer-bundle.mjs` to have been run.
 const ROOT = path.join(__dirname, '..', '..');
 const BUNDLE = path.join(ROOT, 'data/census/explorer-bundle.json');
 const PXSTAT = process.env.CSO_PXSTAT_DIR || 'D:/cso-pxstat';

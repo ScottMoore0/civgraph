@@ -15,7 +15,7 @@
  *                      page by page against ours. The books themselves are in copyright and are
  *                      NOT published by this project -- only these citations are.
  *   wikipedia-citation the sources Wikipedia cites for the same contest, harvested by
- *                      scripts/harvest_wikipedia_cited_sources.py and fetched by Civgraph, which
+ *                      scripts/ingest/wikipedia/harvest_wikipedia_cited_sources.py and fetched by Civgraph, which
  *                      compared each one against the candidates and votes it holds. Those that
  *                      matched are marked checked, and are the only citations this project can
  *                      stand behind.
@@ -48,7 +48,7 @@ const BIBLIOGRAPHY_VERIFIED = path.join('data', 'elections', 'walker-verified-co
 // compared by eye with his printed page (agreeing ones join the verified list; differences are noted).
 const BIBLIOGRAPHY_FIGURE_CHECKS = path.join('data', 'elections', 'walker-1832-1880-figure-checks.json');
 // The History of Parliament page each 1801-1832 Irish contest cites, with what was compared
-// against it and what was taken from it (scripts/walker/import_walker_1801_1831.py).
+// against it and what was taken from it (scripts/ingest/walker/import_walker_1801_1831.py).
 const HOP_CITATIONS = path.join('data', 'elections', 'hop', 'hop-contest-citations.json');
 // Sources Civgraph fetched and compared figure by figure (data/elections/web-checked-sources.json):
 // checked only where every compared figure agreed; otherwise the check says what differed.
@@ -320,7 +320,7 @@ function bibliographyLayer() {
 /**
  * The Wikipedia article for a whole general election, and the sources it cites.
  *
- * Harvested by scripts/walker/harvest_wikipedia_full.py from the two categories of UK general
+ * Harvested by scripts/ingest/walker/harvest_wikipedia_full.py from the two categories of UK general
  * elections in Ireland and Northern Ireland, and committed, so this layer -- unlike the
  * per-contest wikipedia-citation layer above -- builds without any working material.
  *

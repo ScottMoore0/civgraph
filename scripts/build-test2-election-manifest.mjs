@@ -30,7 +30,7 @@ const PRESIDENT_COUNTS_ROOT = path.join(ROOT, 'data', 'elections', 'president-co
 const DAIL_OFFICIAL_RESULTS = path.join(ROOT, 'data', 'elections', 'dail-official-results.json');
 const DAIL_APPROVED_CANDIDATE_ALIASES = path.join(ROOT, 'data', 'elections', 'dail-approved-candidate-aliases.json');
 // Birth and death dates ElectionsIreland publishes for source person ids whose careers
-// look impossible. Written by scripts/harvest_ei_candidate_ids.py --lifespans.
+// look impossible. Written by scripts/ingest/electionsireland/harvest_ei_candidate_ids.py --lifespans.
 const EI_CANDIDATE_LIFESPANS = path.join(ROOT, 'data', 'elections', 'persons', 'ei-candidate-lifespans.json');
 const dailOfficialResults = existsSync(DAIL_OFFICIAL_RESULTS)
   ? readJson(DAIL_OFFICIAL_RESULTS)
