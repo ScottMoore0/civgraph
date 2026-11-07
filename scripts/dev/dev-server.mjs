@@ -28,6 +28,7 @@
 import http from 'node:http';
 import { createReadStream, existsSync, readFileSync, statSync } from 'node:fs';
 import path from 'node:path';
+import { SITE as SITE_CONFIG } from '../lib/config.mjs';
 
 const args = process.argv.slice(2);
 const opt = (name, fallback) => {
@@ -37,8 +38,8 @@ const opt = (name, fallback) => {
 const PORT = Number(opt('--port', '8793'));
 const API = opt('--api', 'static');
 const ROOT = process.cwd();
-const CDN = 'https://data.civgraph.net';
-const SITE = 'https://civgraph.net';
+const CDN = SITE_CONFIG.dataOrigin;
+const SITE = SITE_CONFIG.origin;
 const USER_AGENT = 'civgraph-dev-preview (+https://civgraph.net)';
 
 const TYPES = {

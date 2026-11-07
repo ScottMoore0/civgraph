@@ -12,6 +12,7 @@ import { basename, extname, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { writeArtefactJson, allowDeletionsFlag } from '../../lib/safe-artefact-write.mjs';
 import { isValidBounds } from '../../lib/layer-bounds.mjs';
+import { SITE } from '../../lib/config.mjs';
 
 const ROOT = resolve(process.cwd());
 const MAIN_PATH = resolve(ROOT, 'data/database/maps.json');
@@ -20,7 +21,7 @@ const REPORT_PATH = resolve(ROOT, 'render/metadata/vector-conversion-report.json
 const TEST_PATH = resolve(ROOT, 'render/metadata/maps-test.json');
 const PMTILES_DIR = resolve(ROOT, 'render/pmtiles/generated');
 const MAX_GITHUB_BYTES = 95 * 1024 * 1024;
-const DATA_HOST = 'https://data.civgraph.net';
+const DATA_HOST = SITE.dataOrigin;
 const INCLUDE_RASTERS = !process.argv.includes('--no-rasters');
 const RASTER_LIMIT = readNumberArg('--raster-limit', Infinity);
 const GENERATED_PIPELINE = 'build-test-vector-batch';

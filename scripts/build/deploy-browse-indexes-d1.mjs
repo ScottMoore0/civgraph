@@ -19,6 +19,7 @@
 import { spawnSync } from 'node:child_process';
 import { readFileSync, existsSync } from 'node:fs';
 import { alreadyDeployed, markDeployed, DRY_RUN } from '../lib/d1-deploy-cache.mjs';
+import { SITE } from '../lib/config.mjs';
 
 /**
  * `shell` is set ONLY for npx, never for node.
@@ -96,7 +97,7 @@ for (const name of names) {
   }
   const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
   const expected = Number(manifest.total) || 0;
-  const endpoint = `https://civgraph.net/_api/${name}?limit=1`;
+  const endpoint = `${SITE.origin}/_api/${name}?limit=1`;
 
   let payload;
   try {

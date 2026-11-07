@@ -50,13 +50,14 @@
 import { readFileSync, existsSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
+import { SITE as SITE_CONFIG } from '../lib/config.mjs';
 
 const argv = process.argv.slice(2);
 const arg = (name, fallback) => {
   const i = argv.indexOf(name);
   return i === -1 ? fallback : argv[i + 1];
 };
-const SITE = String(arg('--url', process.env.CIVGRAPH_SITE_URL || 'https://civgraph.net')).replace(/\/+$/, '');
+const SITE = String(arg('--url', process.env.CIVGRAPH_SITE_URL || SITE_CONFIG.origin)).replace(/\/+$/, '');
 const WAIT_SECONDS = Number(arg('--wait', 0)) || 0;
 const POLL_SECONDS = 15;
 
