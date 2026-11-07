@@ -10,6 +10,8 @@
  * the legend names them and Browse prints the note.
  */
 
+import { SITE } from '../../../functions/_lib/config.js';
+
 export const APPROXIMATE_REASONS = Object.freeze([
   'map-line-deposited-plan',
   'map-line-~150m',
@@ -18,7 +20,7 @@ export const APPROXIMATE_REASONS = Object.freeze([
   'modern-townland-may-differ'
 ]);
 
-const CDN_ORIGIN = 'https://data.civgraph.net/';
+const CDN_ORIGIN = `${SITE.dataOrigin}/`;
 
 /** The layer's segment file, or '' when it has none. On localhost it goes through the dev proxy (/_r/),
  * as the FGB and other CDN files do, because the bucket's CORS rules do not admit localhost. */
