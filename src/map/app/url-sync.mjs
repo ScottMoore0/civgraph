@@ -20,7 +20,7 @@
  */
 
 import { defineMachine } from '../../../scripts/lib/state-machine.mjs';
-import { createFlag } from '../state-helpers.mjs';
+import { createFlag, createState } from '../state-helpers.mjs';
 
 /** @typedef {'idle' | 'restoring' | 'queued'} UrlRestoreState */
 
@@ -41,7 +41,7 @@ export const URL_RESTORE = defineMachine({
  * makes named after what it is doing.
  */
 export function createUrlRestore() {
-  const run = URL_RESTORE.start();
+  const run = createState(URL_RESTORE);
   return {
     state: () => run.state(),
     /** Restoring (or restoring with a replay queued): nothing writes the address. */
@@ -62,4 +62,91 @@ export function createUrlRestore() {
 /** The app's hold on the address (`this.urlSuspend`): on while nothing may write it. */
 export function createUrlSuspend() {
   return createFlag('URL suspend');
+}
+
+/** @typedef {'none' | 'pending'} NavigationPushState */
+
+/**
+ * The next address write as a history entry (MA-02, full weight): `beginNavigation(label)`
+ * marks that the next write pushes an entry named `label` rather than replacing the current
+ * one; the write takes the label (pending -> none), and `endNavigation`, a failed load or a
+ * superseded election clear it. It was `_pushNextURL`, null or a label, written from three
+ * modules.
+ */
+export const NAVIGATION_PUSH = defineMachine({
+  name: 'navigation push',
+  initial: /** @type {NavigationPushState} */ ('none'),
+  transitions: {
+    // Clearing with nothing pending is a no-op, as setting the old field to null was.
+    none: ['pending', 'none'],
+    // A second beginNavigation before the write renames the entry.
+    pending: ['pending', 'none']
+  }
+});
+
+/** The app's pending history push (`this.navigationPush`). */
+export function createNavigationPush() {
+  const run = createState(NAVIGATION_PUSH);
+  /** @type {string | null} */
+  let label = null;
+  return {
+    state: () => run.state(),
+    get pending() { return run.state() === 'pending'; },
+    /** The label the next pushed entry will carry, or null. */
+    get label() { return label; },
+    /** @param {string} next */
+    begin(next) {
+      run.to('pending');
+      label = next;
+    },
+    /** Forget the pending push. */
+    clear() {
+      run.to('none');
+      label = null;
+    },
+    /** The write pushes: returns the label and clears. */
+    take() {
+      const taken = label;
+      run.to('none');
+      label = null;
+      return taken;
+    }
+  };
+}
+
+/** @typedef {'listening' | 'ignoring'} HashListenState */
+
+/**
+ * The hashchange listener's two states (MA-02): `undoNavigationSince` steps back over a failed
+ * step with history.go, whose hashchange is not the reader's; the listener ignores hashchanges
+ * until each such step's 500 ms release has run. Holds nest (a count), as the old
+ * `_ignoreHashChanges` counter did; the state is `ignoring` while any hold is out.
+ */
+export const HASH_LISTEN = defineMachine({
+  name: 'hash listen',
+  initial: /** @type {HashListenState} */ ('listening'),
+  transitions: {
+    // A release with no hold out leaves it listening (the old Math.max(0, n - 1)).
+    listening: ['ignoring', 'listening'],
+    ignoring: ['ignoring', 'listening']
+  }
+});
+
+/** The app's hashchange ignore count (`this.hashListen`). */
+export function createHashListen() {
+  const run = createState(HASH_LISTEN);
+  let holds = 0;
+  return {
+    state: () => run.state(),
+    get ignoring() { return run.state() === 'ignoring'; },
+    get holds() { return holds; },
+    hold() {
+      holds += 1;
+      run.to('ignoring');
+    },
+    release() {
+      holds = Math.max(0, holds - 1);
+      run.to(holds ? 'ignoring' : 'listening');
+    }
+  };
 }

@@ -19,7 +19,7 @@ import { escapeHtml } from '../../src/map/app/helpers.mjs';
 import { installMethods } from '../../src/map/app/install-methods.mjs';
 import { LayerMethods } from '../../src/map/app/layers.js';
 import { UrlStateMethods } from '../../src/map/app/url-state.js';
-import { createUrlRestore, createUrlSuspend } from '../../src/map/app/url-sync.mjs';
+import { createHashListen, createNavigationPush, createUrlRestore, createUrlSuspend } from '../../src/map/app/url-sync.mjs';
 import { createFlag } from '../../src/map/state-helpers.mjs';
 import { UiWiringMethods } from '../../src/map/app/ui-wiring.js';
 import { LazyRuntimeMethods } from '../../src/map/app/lazy-runtime.js';
@@ -57,6 +57,10 @@ class Test2App {
     // the-address machine, idle, restoring or queued (src/map/app/url-sync.mjs).
     this.urlSuspend = createUrlSuspend();
     this.urlRestore = createUrlRestore();
+    // The next address write as a history entry (beginNavigation), and the hashchanges to ignore
+    // while a failed step is stepped back over (undoNavigationSince).
+    this.navigationPush = createNavigationPush();
+    this.hashListen = createHashListen();
     this.currentDetailMapId = null;
     // The party, person, constituency or feature page open in the catalogue pane, if any:
     // { kind, key, title, typeLabel }. In the address as page=kind:key (updateURLState).

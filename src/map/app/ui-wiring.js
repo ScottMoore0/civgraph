@@ -88,7 +88,7 @@ export class UiWiringMethods {
       try {
         await this.loadMap(mapId);
       } catch (error) {
-        this._pushNextURL = null;
+        this.navigationPush.clear();
         this.undoNavigationSince(navMark);
         this.reportMapLoadFailure(mapId, error);
         throw error;

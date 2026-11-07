@@ -18,6 +18,7 @@
  */
 
 import { defineMachine } from '../../../../scripts/lib/state-machine.mjs';
+import { createState } from '../../state-helpers.mjs';
 
 /** @typedef {'idle' | 'playing' | 'paused' | 'ended'} TimelinePlaybackState */
 
@@ -62,7 +63,7 @@ export const TIMELINE_PLAYBACK = defineMachine({
  * @returns {TimelineAnimationState}
  */
 export function createTimelineAnimationState(fields = {}) {
-  const run = TIMELINE_PLAYBACK.start();
+  const run = createState(TIMELINE_PLAYBACK);
   const state = {
     get phase() { return run.state(); },
     get playing() { return run.state() === 'playing'; },
