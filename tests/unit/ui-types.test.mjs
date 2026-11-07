@@ -74,3 +74,22 @@ test('no checked file silences the checker', () => {
   }
   assert.ok(expectError <= EXPECT_ERROR_BUDGET, `@ts-expect-error count ${expectError} > ${EXPECT_ERROR_BUDGET}`);
 });
+
+// The strict-family flags tsconfig.ui.json met on 7 Nov 2026 (r2-ui), and the files that check
+// under full `strict` (tsconfig.ui-strict.json): neither list may shrink.
+const FLAGS_SINCE_R2_UI = ['strictFunctionTypes', 'strictBindCallApply', 'noImplicitThis', 'alwaysStrict',
+  'useUnknownInCatchVariables', 'noImplicitReturns', 'noImplicitOverride', 'noUnusedLocals', 'noUnusedParameters'];
+const STRICT_SINCE_R2_UI = ['assets/ui/state/machine.js', 'assets/ui/state/theme.js', 'browse/state-machines.js',
+  'apps/proni-search/state-machines.js', 'apps/words/state-machines.js', 'assets/ui/gallery/gallery.js'];
+
+test('the strictness the UI has reached stays', () => {
+  for (const flag of FLAGS_SINCE_R2_UI) assert.equal(CONFIG.compilerOptions[flag], true, `tsconfig.ui.json ${flag} was turned off`);
+  const strict = JSON.parse(readFileSync(path.join(ROOT, 'tsconfig.ui-strict.json'), 'utf8'));
+  assert.equal(strict.extends, './tsconfig.ui.json');
+  assert.equal(strict.compilerOptions.strict, true);
+  for (const rel of STRICT_SINCE_R2_UI) assert.ok(strict.include.includes(rel), `${rel} left tsconfig.ui-strict.json include`);
+  for (const rel of strict.include) assert.ok(included(rel), `${rel} is strict-checked but not in tsconfig.ui.json include`);
+  for (const rel of strict.include) {
+    assert.ok(!/@ts-nocheck|@ts-ignore|@ts-expect-error/.test(readFileSync(path.join(ROOT, rel), 'utf8')), `${rel} silences the checker`);
+  }
+});

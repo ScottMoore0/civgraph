@@ -848,7 +848,7 @@ els.exportResults.addEventListener('click', () => {
   if (!qp) return;   // do not export a query the user cannot have meant
   window.location.href = `${EXPORT_API}?${qp}`; // streamed CSV download
 });
-els.az.addEventListener('click', (/** @type {ElementEvent<MouseEvent>} */ e) => {
+els.az.addEventListener('click', (/** @type {MouseEvent} */ rawEvent) => { const e = /** @type {ElementEvent<MouseEvent>} */ (rawEvent);
   const btn = e.target.closest('[data-letter]');
   if (btn) {
     // toggle the letter; it filters alongside any active search terms
@@ -873,7 +873,7 @@ els.az.addEventListener('click', (/** @type {ElementEvent<MouseEvent>} */ e) => 
 
 // One delegated handler for the whole app (search cards, record page, guide).
 const isModified = (e) => e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0;
-document.addEventListener('click', (/** @type {ElementEvent<MouseEvent>} */ e) => {
+document.addEventListener('click', (/** @type {MouseEvent} */ rawEvent) => { const e = /** @type {ElementEvent<MouseEvent>} */ (rawEvent);
   const copyEl = e.target.closest('[data-copy]');
   if (copyEl) { e.preventDefault(); copyRef(copyEl); return; }
 
@@ -900,7 +900,7 @@ document.addEventListener('click', (/** @type {ElementEvent<MouseEvent>} */ e) =
   if (goEl) { e.preventDefault(); go(goEl.getAttribute('data-go')); return; }
 });
 
-document.addEventListener('keydown', (/** @type {ElementEvent<KeyboardEvent>} */ e) => {
+document.addEventListener('keydown', (/** @type {KeyboardEvent} */ rawEvent) => { const e = /** @type {ElementEvent<KeyboardEvent>} */ (rawEvent);
   if (e.key === 'Escape' && modal.state() === 'open') { closeModal(); return; }
   if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('[data-copy].ps-guide__reffield')) {
     e.preventDefault(); copyRef(e.target);

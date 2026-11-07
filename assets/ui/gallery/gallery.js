@@ -6,7 +6,11 @@
  * the current theme. A token added to tokens.css appears here with no other edit.
  * Also opens the specimen dialog, and keeps the specimen search form from navigating.
  */
-/** The declarations of the block that starts at `opener`, grouped by the comment above them. */
+/**
+ * The declarations of the block that starts at `opener`, grouped by the comment above them.
+ * @param {string} text
+ * @param {string} opener
+ */
 export function parseTokens(text, opener) {
   const start = text.indexOf(opener);
   if (start < 0) return [];
@@ -28,6 +32,10 @@ export function parseTokens(text, opener) {
   return out;
 }
 
+/**
+ * @param {string} name   the token, `--name`
+ * @param {string} live   its computed value now
+ */
 function preview(name, live) {
   const el = document.createElement('span');
   if (/^--(font)/.test(name)) {
@@ -57,6 +65,10 @@ function preview(name, live) {
   return el;
 }
 
+/**
+ * @param {string} tag
+ * @param {Node | string} content
+ */
 function cell(tag, content) {
   const el = document.createElement(tag);
   if (content instanceof Node) el.append(content);
@@ -74,11 +86,11 @@ async function drawTokens() {
   const src = container.dataset.tokensSrc;
   let text;
   try {
-    const res = await fetch(src, { cache: 'no-cache' });
+    const res = await fetch(String(src), { cache: 'no-cache' });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     text = await res.text();
   } catch (error) {
-    container.textContent = `Could not read ${src}: ${error.message}`;
+    container.textContent = `Could not read ${src}: ${/** @type {Error} */ (error).message}`;
     return;
   }
   const light = parseTokens(text, ':root {');
@@ -116,7 +128,7 @@ async function drawTokens() {
 
 function wireSpecimens() {
   for (const button of /** @type {NodeListOf<HTMLElement>} */ (document.querySelectorAll('[data-gallery-open]'))) {
-    button.addEventListener('click', () => /** @type {HTMLDialogElement | null} */ (document.getElementById(button.dataset.galleryOpen))?.showModal?.());
+    button.addEventListener('click', () => /** @type {HTMLDialogElement | null} */ (document.getElementById(String(button.dataset.galleryOpen)))?.showModal?.());
   }
   for (const form of document.querySelectorAll('.cg-gallery__example form[role="search"]')) {
     form.addEventListener('submit', (event) => event.preventDefault());

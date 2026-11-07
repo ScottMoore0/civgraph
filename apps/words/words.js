@@ -479,7 +479,7 @@ import { TOOLTIP } from './state-machines.js';
       : S.split === 'body' ? 'One chart per term, a line per chamber.'
         : 'One chart per term, a line for each of the seven parties with the most words in the ' + BODY[S.pb].name + ' over these years; the rest are Other parties.')
       + (S.lang === 'ga' ? ' Irish-language paragraphs only.' : '') + ' Hover over a chart, or focus it and use the arrow keys, to read the figures for a year.';
-    ps.forEach(function (panel, pi) {
+    ps.forEach(function (panel) {
       var fig = el('figure', { class: 'panel' }, [
         el('figcaption', {}, [panel.title ? el('h3', { text: panel.title }) : el('span', { class: 'visually-hidden', text: 'Uses per million words' }), el('span', { class: 'unit', text: 'uses per million words' })]),
         el('div', { class: 'plot', tabindex: '0', 'aria-label': (panel.title || 'Chart') + '. Use the left and right arrow keys to read values by year.' }, [el('div', { class: 'tip', hidden: true })]),
