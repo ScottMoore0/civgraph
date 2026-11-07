@@ -34,7 +34,7 @@ export const SCOPE = [
   /^data\/(database|catalogue|elections|i18n|timeline-[a-z-]+)\/.*\.(json|csv)$/,
   /^assets\/i18n\/.*\.json$/,
   /^agent\/.*\.json$/,
-  /^(scripts|tests|src|app\/src|render\/src|functions|browse|apps)\/.*\.(mjs|js|cjs|py|json|sh)$/,
+  /^(scripts|tests|src|app\/src|render\/src|functions|browse|apps|packages)\/.*\.(mjs|js|cjs|py|json|sh)$/,
 ];
 export const SKIP_FILES = new Set([
   'scripts/maps/rename-layer-ids.mjs',
@@ -46,6 +46,7 @@ export const SKIP_FILES = new Set([
   'tests/unit/url-compat.test.mjs',
   'tests/functions/maps.test.mjs',
   'scripts/records/ingest-maps.mjs',
+  'packages/loader/src/ingest-maps.mjs',
   // the R2 key moves and the id-form state machine name the legacy spelling on purpose
   'scripts/publish/key-migration.mjs',
   'scripts/publish/pmtiles-keys.mjs',
