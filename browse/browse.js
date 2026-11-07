@@ -861,10 +861,25 @@ const RENAMED_RECORD_PREFIXES = [
   ['local-government-north-down-1993-10-20-lg93-nod-holywood', 'local-government-north-down-1993-10-20-holywood'],
   ['local-government-local-government-districts-1975-05-29-lg73-nod-area-b', 'local-government-local-government-districts-1975-05-29-north-down-area-b']
 ];
+// Contest slugs the November 2026 council rounds retired, each matched exactly (another contest
+// of the round may continue it), as RETIRED_CONTEST_SLUGS in functions/_lib/election-slug-aliases.js.
+const RETIRED_CONTEST_SLUGS = [
+  ['belfast-rural-district-council-1936-06-04-dundonald', 'castlereagh-rural-district-council-1936-06-04-dundonald'],
+  ['dungannon-rural-district-council-1952-06-05-aughnacloy', 'dungannon-rural-district-council-1952-06-05-clonaneese'],
+  ['newry-no-1-rural-district-council-1949-06-02-dromore', 'newry-no-1-rural-district-council-1949-06-02-damolly'],
+  ['newry-no-1-rural-district-council-1949-06-02-glenn', 'newry-no-1-rural-district-council-1949-06-02-glen'],
+  ['bangor-borough-council-1952-05-21-castle-ward', 'bangor-borough-council-1952-05-21-castle-ward-councillors'],
+  ['larne-borough-council-1964-05-20-gardenmore-ward-aldermanship', 'larne-borough-council-1964-05-20-gardenmore-ward-alderman'],
+  ['lisnaskea-rural-district-council-1927-05-25-springfield', 'lisnaskea-rural-district-council-1927-05-25-springtown'],
+  ['dungannon-rural-district-council-1936-06-03-bernagh', 'dungannon-rural-district-council-1936-06-03']
+];
 
 function renamedRecordId(type, id) {
   if (!id || (type !== 'elections' && type !== 'sources')) return id;
   const prefix = type === 'sources' ? 'election-source-' : '';
+  for (const [from, to] of RETIRED_CONTEST_SLUGS) {
+    if (id === `${prefix}${from}`) return `${prefix}${to}`;
+  }
   for (const [from, to] of RENAMED_RECORD_PREFIXES) {
     const old = `${prefix}${from}`;
     if (id === old || id.startsWith(`${old}-`)) return `${prefix}${to}${id.slice(old.length)}`;
