@@ -24,8 +24,8 @@ in `feature-loader.js`.
 
 ## What imports it
 
-`app/src/app.js` — the entry point of the public homepage — imports from here on
-lines 1–3 and drives `ui-controller` throughout: `init()`, feature-info display,
+`app/src/app.js` — the entry point of the public homepage — and its method modules
+under `src/map/app/` import from here and drive `ui-controller` throughout: `init()`, feature-info display,
 split-pane state, catalogue rendering, and the whole election wiring block.
 
 ```js

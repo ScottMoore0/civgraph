@@ -5,7 +5,7 @@
  * This intentionally does not bundle the archived Leaflet app. The old Leaflet
  * runtime can still be built through `npm run build:legacy-leaflet` when needed
  * for archive/debug work, but the normal production build should only emit the
- * shared CSS/about/thumbnail assets plus the MapLibre runtime under /app.
+ * shared CSS and thumbnail assets plus the MapLibre runtime under /app.
  */
 
 import * as esbuild from 'esbuild';
@@ -253,27 +253,6 @@ function inlineCriticalCss(htmlPath) {
   console.log(`Inlined critical CSS into ${htmlPath} (${(css.length / 1024).toFixed(1)} KB)`);
 }
 
-function buildAboutCss() {
-  const css = readFileSync('build/main.critical.css', 'utf8');
-  const rootMatch = css.match(/:root\s*\{[^}]+\}/);
-  const headerRules = css.match(/\.app-header[^{]*\{[^}]+\}/g) || [];
-  const mediaBlocks = css.match(/@media[^{]+\{(?:[^{}]|\{[^}]*\})*\}/g) || [];
-  const headerMedia = mediaBlocks.filter((block) => block.includes('app-header'));
-  let about = "*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif}body{background:var(--surface-primary);color:var(--text-primary);line-height:1.6}a{color:var(--primary);text-decoration:none}a:hover{text-decoration:underline}\n";
-  if (rootMatch) about += `${rootMatch[0]}\n`;
-  about += `${headerRules.join('\n')}\n`;
-  about += `${headerMedia.join('\n')}\n`;
-  // .visually-hidden is not an .app-header rule, so the extractor never carried it --
-  // which meant a skip link added to /apps rendered as ordinary visible body text.
-  // Included explicitly, with the focus escape, so the link stays hidden until focused
-  // and is properly visible when it is. A skip link nobody can see while focused is a
-  // silent stop in the tab order (T3-09 #41, T3-03 #12).
-  about += '.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}\n';
-  about += 'a.visually-hidden:focus,a.visually-hidden:focus-visible{position:fixed;top:.5rem;left:.5rem;width:auto;height:auto;min-height:44px;padding:.6rem 1rem;margin:0;overflow:visible;clip:auto;clip-path:none;z-index:10000;background:#fff;color:#12303a;border:2px solid currentColor;border-radius:.375rem;font-weight:600;line-height:1.9;text-decoration:none;outline:3px solid currentColor;outline-offset:2px}\n';
-  writeTextIfChanged('build/about.css', about);
-  console.log(`About CSS extracted: build/about.css (${(about.length / 1024).toFixed(1)} KB)`);
-}
-
 function versionSharedCss() {
   const cssVersion = sharedCssVersion();
 
@@ -305,7 +284,6 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
   buildThumbnailManifest();
   await buildMainCss();
   for (const htmlPath of HTML_TARGETS) inlineCriticalCss(htmlPath);
-  buildAboutCss();
   versionSharedCss();
   enforceBudgets();
 }

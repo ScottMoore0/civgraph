@@ -57,7 +57,7 @@
 
   <!-- Modulepreload — start fetching the entry bundle before parser reaches
        the <script type=module> tag at the end of <body>. -->
-  <link rel="modulepreload" href="/app/build/app.bundle.js?v=319d8322ff56" fetchpriority="high">
+  <link rel="modulepreload" href="/app/build/app.bundle.js?v=e56c08f3fba4" fetchpriority="high">
   <style>
     @font-face {
       font-family: 'Inter';
@@ -86,10 +86,17 @@
 
 <!-- site:head -->
 <script>(function(){var t=null;try{t=localStorage.getItem('theme');}catch(e){}if(t!=='dark'&&t!=='light'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;})();</script>
-<script>(function(){var K='civgraph.langPreview',S='/assets/i18n/i18n.js?v=2542293cbc03',on=false;function load(){var i=window.civgraphI18n;if(i){if(i.show)i.show();return;}if(document.querySelector('script[data-i18n-runtime]'))return;var s=document.createElement('script');s.src=S;s.setAttribute('data-i18n-runtime','');document.head.appendChild(s);}window.civgraphLangReveal=function(){try{localStorage.setItem(K,'1');}catch(e){}load();};try{if(/[?&]lang-preview=0(?:&|$)/.test(location.search)){localStorage.removeItem(K);localStorage.removeItem('civgraph.lang');}on=localStorage.getItem(K)==='1';}catch(e){}if(on)load();})();</script>
-<link rel="stylesheet" href="/assets/site/site-chrome.css?v=9081ee7c9078">
-<script defer src="/assets/site/site-chrome.js?v=533c9263f1be"></script>
+<script>(function(){var K='civgraph.langPreview',S='/assets/i18n/i18n.js?v=5c3981d6e5fd',on=false;function load(){var i=window.civgraphI18n;if(i){if(i.show)i.show();return;}if(document.querySelector('script[data-i18n-runtime]'))return;var s=document.createElement('script');s.src=S;s.setAttribute('data-i18n-runtime','');document.head.appendChild(s);}window.civgraphLangReveal=function(){try{localStorage.setItem(K,'1');}catch(e){}load();};try{if(/[?&]lang-preview=0(?:&|$)/.test(location.search)){localStorage.removeItem(K);localStorage.removeItem('civgraph.lang');}on=localStorage.getItem(K)==='1';}catch(e){}if(on)load();})();</script>
+<link rel="stylesheet" href="/assets/ui/tokens.css?v=9a3dca6e608e">
+<link rel="stylesheet" href="/assets/ui/tokens-legacy.css?v=17646fa133f3">
+<link rel="stylesheet" href="/assets/ui/base.css?v=3afe8b0c1381">
+<link rel="stylesheet" href="/assets/site/site-chrome.css?v=ac7ea448e3cb">
+<script defer src="/assets/site/site-chrome.js?v=d80944d7bb11"></script>
 <!-- /site:head -->
+<!-- The shell's tokens ask for dark form controls in dark mode (color-scheme: dark). The map app
+     has never had that, and some of its catalogue buttons take the browser's default colours, so
+     it is kept off on this page until the map app styles them itself; then delete this line. -->
+<style>:root[data-theme]{color-scheme:normal}</style>
 <!-- The catalogue intro can be closed with its x; once closed it stays closed (per browser), and
      the flag is set here, before first paint, so the box never flashes in and then vanishes. -->
 <script>(function(){var r=document.documentElement;try{if(localStorage.getItem('civgraph.catalogueIntro.hidden')==='1')r.dataset.introHidden='1';}catch(e){}document.addEventListener('click',function(e){if(!e.target.closest||!e.target.closest('.catalogue-intro__close'))return;r.dataset.introHidden='1';try{localStorage.setItem('civgraph.catalogueIntro.hidden','1');}catch(e2){}var f=document.getElementById('searchInput');if(f&&window.matchMedia&&window.matchMedia('(hover: hover)').matches)f.focus();});})();</script>
@@ -101,8 +108,8 @@
   <!-- Deferred CSS: remaining ~186 KB (catalogue cards, modals, charts, …)
        loaded async via media=print + onload swap so it doesn't block first
        paint. Browsers without JS fall back via <noscript>. -->
-    <link rel="stylesheet" href="/build/main.css?v=b5723dd36192" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="/build/main.css?v=b5723dd36192"></noscript>
+    <link rel="stylesheet" href="/build/main.css?v=4d20dbecb441" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="/build/main.css?v=4d20dbecb441"></noscript>
   <link rel="stylesheet" href="/app/build/app.bundle.css?v=9860bb1a10a2">
 
   <!-- Election Viewer & Animation CSS (deferred — not needed for first paint) -->
@@ -189,7 +196,7 @@
   <a href="#main-content" class="visually-hidden">Skip to main content</a>
   <a href="#map" class="visually-hidden">Skip to map</a>
 
-<!-- site:header active="maps" layout="app" -->
+<!-- site:header active="maps" layout="app" skip-link="page" -->
 <header class="app-header" data-site-chrome data-header-layout="app">
 <a class="app-header__brand" href="/">
 <img alt="" class="app-header__logo-icon" src="/assets/pages/img/bd2feea987bf.svg"/>
@@ -760,7 +767,7 @@
        and animation code are loaded lazily by the /app module bundle. -->
 
   <!-- Application (bundled + minified) -->
-  <script type="module" src="/app/build/app.bundle.js?v=319d8322ff56"></script>
+  <script type="module" src="/app/build/app.bundle.js?v=e56c08f3fba4"></script>
 
   <!-- Service worker — repeat-visit cache + offline tolerance. Registered
        after window.load so it doesn't contend with critical resources.

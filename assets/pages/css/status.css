@@ -2,30 +2,17 @@
    Bars are decoration over figures that are always written out beside them, so nothing
    here carries meaning by colour alone; the four bar levels run from pale (earliest stage)
    to dark (furthest stage), and keep enough contrast between neighbours in both themes. */
+/* The bar ramp (--status-track, --status-l1 ... --status-l4) is in assets/ui/tokens.css,
+   light and dark; only the bar edge is this page's own. */
 :root {
-  --status-track: #e6ebf0;
-  --status-l1: #c6e8d3;
-  --status-l2: #7cc79b;
-  --status-l3: #38a169;
-  --status-l4: #1f6b46;
   --status-edge: rgba(15, 39, 68, .18);
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --status-track: #1d2833;
-    --status-l1: #24483a;
-    --status-l2: #2f7a55;
-    --status-l3: #48b27a;
-    --status-l4: #9be3bb;
     --status-edge: rgba(230, 237, 243, .2);
   }
 }
 :root[data-theme="dark"] {
-  --status-track: #1d2833;
-  --status-l1: #24483a;
-  --status-l2: #2f7a55;
-  --status-l3: #48b27a;
-  --status-l4: #9be3bb;
   --status-edge: rgba(230, 237, 243, .2);
 }
 
@@ -52,7 +39,7 @@
 
 .status-item {
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg, 12px);
+  border-radius: var(--radius-xl, 12px);
   background: var(--color-surface);
   padding: 1.1rem 1.25rem 1rem;
   margin: 1.1rem 0;

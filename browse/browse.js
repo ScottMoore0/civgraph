@@ -837,20 +837,49 @@ function parseRoute() {
   // A deep link to the other layer still resolves rather than 404ing, so shared URLs keep
   // working; only the directory and the default view are scoped.
   if (!ENTITY_CONFIG[type]) type = fallback;
-  return { isHome: false, type, id: renamedRecordId(type, id), params };
+  const renamed = renamedRecordId(type, id);
+  // A retired #/ address becomes the record's own, as the server's 301 does for a path, so a
+  // copied link is the current one.
+  if (useHash && renamed !== id && !params.has('id')) {
+    history.replaceState(history.state, '', `${location.pathname}${location.search}#/${type}/${encodeURIComponent(renamed)}${hashQuery ? `?${hashQuery}` : ''}`);
+    lastRoutedAddress = currentAddress();
+  }
+  return { isHome: false, type, id: renamed, params };
 }
 
-// Records filed under another body since they were published, so their slugs changed: an old
-// in-app (#/) link still opens the record. Path-style addresses are redirected by _redirects.
-// Bangor's and Lisburn's 1920 rounds moved to the borough bodies that hold their later rounds.
+// Records whose slugs changed after they were published: an old in-app (#/) link still opens
+// the record. Path-style addresses get a 301 from the Browse page Function, from the same list
+// (functions/_lib/election-slug-aliases.js; tests/functions/election-slug-aliases.test.mjs
+// holds the two together). Bangor's and Lisburn's 1920 rounds moved to the borough bodies that
+// hold their later rounds; Carrickfergus 1955's aldermanic contests were "-2" of the
+// councillor contests; two North Down by-elections were named by ARK's import code.
 const RENAMED_RECORD_PREFIXES = [
   ['bangor-urban-district-council-1920-01-15', 'bangor-borough-council-1920-01-15'],
-  ['lisburn-urban-district-council-1920-01-15', 'lisburn-borough-council-1920-01-15']
+  ['lisburn-urban-district-council-1920-01-15', 'lisburn-borough-council-1920-01-15'],
+  ['carrickfergus-borough-council-1955-05-18-east-central-ward-2', 'carrickfergus-borough-council-1955-05-18-east-central-ward-alderman'],
+  ['carrickfergus-borough-council-1955-05-18-west-ward-2', 'carrickfergus-borough-council-1955-05-18-west-ward-alderman'],
+  ['local-government-north-down-1993-10-20-lg93-nod-holywood', 'local-government-north-down-1993-10-20-holywood'],
+  ['local-government-local-government-districts-1975-05-29-lg73-nod-area-b', 'local-government-local-government-districts-1975-05-29-north-down-area-b']
+];
+// Contest slugs the November 2026 council rounds retired, each matched exactly (another contest
+// of the round may continue it), as RETIRED_CONTEST_SLUGS in functions/_lib/election-slug-aliases.js.
+const RETIRED_CONTEST_SLUGS = [
+  ['belfast-rural-district-council-1936-06-04-dundonald', 'castlereagh-rural-district-council-1936-06-04-dundonald'],
+  ['dungannon-rural-district-council-1952-06-05-aughnacloy', 'dungannon-rural-district-council-1952-06-05-clonaneese'],
+  ['newry-no-1-rural-district-council-1949-06-02-dromore', 'newry-no-1-rural-district-council-1949-06-02-damolly'],
+  ['newry-no-1-rural-district-council-1949-06-02-glenn', 'newry-no-1-rural-district-council-1949-06-02-glen'],
+  ['bangor-borough-council-1952-05-21-castle-ward', 'bangor-borough-council-1952-05-21-castle-ward-councillors'],
+  ['larne-borough-council-1964-05-20-gardenmore-ward-aldermanship', 'larne-borough-council-1964-05-20-gardenmore-ward-alderman'],
+  ['lisnaskea-rural-district-council-1927-05-25-springfield', 'lisnaskea-rural-district-council-1927-05-25-springtown'],
+  ['dungannon-rural-district-council-1936-06-03-bernagh', 'dungannon-rural-district-council-1936-06-03']
 ];
 
 function renamedRecordId(type, id) {
   if (!id || (type !== 'elections' && type !== 'sources')) return id;
   const prefix = type === 'sources' ? 'election-source-' : '';
+  for (const [from, to] of RETIRED_CONTEST_SLUGS) {
+    if (id === `${prefix}${from}`) return `${prefix}${to}`;
+  }
   for (const [from, to] of RENAMED_RECORD_PREFIXES) {
     const old = `${prefix}${from}`;
     if (id === old || id.startsWith(`${old}-`)) return `${prefix}${to}${id.slice(old.length)}`;

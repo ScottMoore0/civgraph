@@ -11,7 +11,7 @@
 // changing it is what flushes stale entries already sitting in visitors' browsers --
 // necessary here because the browse indexes cached under the previous routing rule
 // would otherwise outlive the fix below.
-const VERSION = 'root-maplibre-sw-319d8322ff56';
+const VERSION = 'root-maplibre-sw-e56c08f3fba4';
 const STATIC_CACHE = `civgraph-root-maplibre-${VERSION}-static`;
 const RUNTIME_CACHE = `civgraph-root-maplibre-${VERSION}-runtime`;
 const CACHE_PREFIX = 'civgraph-root-maplibre-';
@@ -62,7 +62,6 @@ const NETWORK_FIRST_PATHS = [
   '/app/src/overlay-worker.js',
   '/build/main.css',
   '/build/main.critical.css',
-  '/build/about.css',
   '/manifest.json',
   '/test2/',
   '/test2/index.html'

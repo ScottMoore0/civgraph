@@ -52,13 +52,22 @@ export const NAV_KEYS = new Set([...NAV.map((n) => n.key), 'none']);
 const LOGO = '/assets/pages/img/bd2feea987bf.svg';
 
 /**
- * The shared head lines: theme bootstrap, chrome stylesheet and chrome script.
+ * The design-system layer every page carries, in cascade order, before any page stylesheet:
+ * the tokens (one light and one dark palette), the aliases that keep older token names working,
+ * and the base rules (fonts, box model, focus ring, skip link, reduced motion). A page
+ * stylesheet loaded after them may still override a token for that page; the site chrome
+ * (assets/site/site-chrome.css) reads only these tokens.
+ */
+export const SHELL_STYLES = ['assets/ui/tokens.css', 'assets/ui/tokens-legacy.css', 'assets/ui/base.css', 'assets/site/site-chrome.css'];
+
+/**
+ * The shared head lines: theme bootstrap, the design-system stylesheets and the chrome script.
  * @param {object} [options]
  * @param {(path: string) => string|null} [options.version]  content hash for an asset path;
  *   the build passes a real one, Functions pass the build's manifest (or nothing, and the
  *   URLs go out without ?v=).
  */
-/** The i18n reveal script of partials/site-head.html, with the runtime's URL filled in. */
+/** The i18n reveal script of the site head, with the runtime's URL filled in. */
 const LANG_PREVIEW = (src) => "<script>(function(){var K='civgraph.langPreview',S='" + src + "',on=false;function load(){var i=window.civgraphI18n;if(i){if(i.show)i.show();return;}if(document.querySelector('script[data-i18n-runtime]'))return;var s=document.createElement('script');s.src=S;s.setAttribute('data-i18n-runtime','');document.head.appendChild(s);}window.civgraphLangReveal=function(){try{localStorage.setItem(K,'1');}catch(e){}load();};try{if(/[?&]lang-preview=0(?:&|$)/.test(location.search)){localStorage.removeItem(K);localStorage.removeItem('civgraph.lang');}on=localStorage.getItem(K)==='1';}catch(e){}if(on)load();})();</script>";
 
 export function head({ version } = {}) {
@@ -70,7 +79,7 @@ export function head({ version } = {}) {
     THEME_BOOTSTRAP,
     // The language control (fc1efce887): loads nothing unless the reader has revealed it.
     LANG_PREVIEW(url('assets/i18n/i18n.js')),
-    `<link rel="stylesheet" href="${url('assets/site/site-chrome.css')}">`,
+    ...SHELL_STYLES.map((path) => `<link rel="stylesheet" href="${url(path)}">`),
     `<script defer src="${url('assets/site/site-chrome.js')}"></script>`,
   ].join('\n'));
 }
@@ -81,15 +90,27 @@ function navLink(item, active) {
     + `${SVG_OPEN('icon', item.icon)}${item.paths}</svg><span>${item.label}</span></a>`;
 }
 
+/** The skip link every page starts with; its target is the page's <main id="main-content">. */
+export const SKIP_LINK = '<a class="cg-skip-link" href="#main-content">Skip to main content</a>';
+
+const skipLinkTo = ({ href, label }) => {
+  if (!/^#[A-Za-z][\w-]*$/.test(href)) throw new Error(`header(): a skip link goes to an id on the page, not ${href}`);
+  return `<a class="cg-skip-link" href="${href}">${String(label).replace(/[&<>"]/g, (c) => `&#${c.charCodeAt(0)};`)}</a>`;
+};
+
 /**
- * The site header and its collapsed mobile navigation (behaviour: assets/site/site-chrome.js).
- * @param {{active?: string, layout?: string}} [options] active is a NAV key or 'none';
- *   layout is 'page' (default) or 'app' (the map app's full-bleed header).
+ * The site header and its collapsed mobile navigation (behaviour: assets/site/site-chrome.js),
+ * preceded by the skip link.
+ * @param {{active?: string, layout?: string, skipLink?: boolean}} [options] active is a NAV key
+ *   or 'none'; layout is 'page' (default) or 'app' (the map app's full-bleed header); skipLink
+ *   false leaves the skip link to the page (the map app has its own pair: content and map);
+ *   skipAlso adds skip links after it to other places on the page ({ href: '#id', label }).
  */
-export function header({ active = 'none', layout = 'page' } = {}) {
+export function header({ active = 'none', layout = 'page', skipLink = true, skipAlso = [] } = {}) {
   if (!NAV_KEYS.has(active)) throw new Error(`header(): active must be one of ${[...NAV_KEYS].join(', ')}`);
   if (!/^[a-z-]+$/.test(layout)) throw new Error('header(): layout must be a plain word');
   return raw([
+    ...(skipLink ? [SKIP_LINK, ...skipAlso.map(skipLinkTo)] : []),
     `<header class="app-header" data-site-chrome data-header-layout="${layout}">`,
     '<a class="app-header__brand" href="/">',
     `<img alt="" class="app-header__logo-icon" src="${LOGO}"/>`,
@@ -125,7 +146,7 @@ export function header({ active = 'none', layout = 'page' } = {}) {
   ].join('\n'));
 }
 
-// The submission mailto is the site's own public contact link, as in partials/site-footer.html.
+// The submission mailto is the site's own public contact link, used by the footer below.
 const SUBMIT_MAP_HREF = 'mailto:scott@civgraph.net?subject=Civgraph%20map%20submission&body=What%20the%20map%20shows%20%28the%20area%2C%20the%20subject%2C%20and%20the%20year%20or%20period%20it%20covers%29%3A%0A%0A%0AWhere%20it%20came%20from%20%28who%20made%20it%2C%20and%20where%20you%20got%20it%29%3A%0A%0A%0AWhat%20form%20it%20is%20in%20%28a%20scan%2C%20a%20PDF%2C%20a%20shapefile%2C%20GeoJSON%2C%20or%20something%20else%29%3A%0A%0A%0AWhether%20it%20can%20be%20republished%2C%20and%20under%20what%20licence%2C%20if%20you%20know%3A%0A%0A%0AYour%20name%2C%20if%20you%20would%20like%20the%20contribution%20credited%3A%0A%0A';
 
 export function footer() {
@@ -216,8 +237,8 @@ export function sectionNav({ label = 'Breadcrumb', items = [], current } = {}) {
   }</li>`)}</ol></nav>`;
 }
 
-/** The design-system stylesheets every shell page loads, in cascade order. */
-export const UI_STYLES = ['assets/ui/tokens.css', 'assets/ui/tokens-legacy.css', 'assets/ui/base.css', 'assets/ui/components.css'];
+/** The component stylesheets a server-rendered page loads after head()'s SHELL_STYLES. */
+export const UI_STYLES = ['assets/ui/components.css'];
 
 /**
  * A whole document.
@@ -261,7 +282,6 @@ ${head({ version })}
 ${[...UI_STYLES, ...styles].map((path) => html`<link rel="stylesheet"${attrs({ href: url(path) })}>\n`)}${scripts.map((path) => html`<script type="module"${attrs({ src: url(path) })}></script>\n`)}${ld}
 </head>
 <body class="cg-page">
-<a class="cg-skip-link" href="#main-content">Skip to main content</a>
 <div id="cg-announcer" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
 ${header({ active: section, layout })}
 ${supportModal()}

@@ -1,7 +1,7 @@
 /*
  * Civgraph interface languages: English, Irish (Gaeilge) and Ulster-Scots (Ulstèr-Scotch).
  *
- * PREVIEW ONLY. This file is loaded by the bootstrap in partials/site-head.html only when the
+ * PREVIEW ONLY. This file is loaded by the bootstrap in shell head (functions/_templates/shell.js head()) only when the
  * preview flag is on (localStorage 'civgraph.langPreview'). Nothing on the site offers it: the
  * flag is set by typing a phrase into the Maps search box (src/catalogue/lang-reveal.js), which
  * calls the bootstrap's civgraphLangReveal(). The control's Hide action, or ?lang-preview=0,

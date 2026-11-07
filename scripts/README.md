@@ -34,11 +34,13 @@ That rule was being broken by `check:catalogue-d1`, which fetched the live
 `/_api/catalogue` from inside `npm run check` until 2026-08-20. It is now split, and
 the split is worth copying when you hit the same shape: the mistake it actually caught
 was almost always local — *you edited the catalogue and did not regenerate the SQL* —
-and it was diagnosing that by a round trip to production.
+and it was diagnosing that by a round trip to production. (Since data phase 3 both
+halves are gone: the records build writes the catalogue's rows, and the bounded
+`verify:records` is the remote half.)
 
 | | Runs | Asserts |
 |---|---|---|
-| `verify:catalogue-d1` | network | the loaded database matches the file |
+| `verify:records` | network, bounded | the loaded records database (the catalogue included, since data phase 3) matches the build |
 
 Ask which half of a check is genuinely remote. Usually most of it is not.
 
@@ -48,7 +50,7 @@ Ask which half of a check is genuinely remote. Usually most of it is not.
 |---|---|
 | understand why a validator exists | its own header comment — they record the incident that caused them |
 | add a map layer | `validate-c1-coverage.mjs` (explains at length why a layer can be invisible) |
-| change catalogue data | `build-catalogue-d1-import.mjs`, then load it into D1 |
+| change catalogue data | edit `data/database/maps.json`; `records:build` loads it (`scripts/records/ingest-maps.mjs`) |
 | change render metadata | `build-test2-metadata-shards.mjs` — the client reads the generated shards |
 | publish to R2 | `upload-tile-pyramid-s3.mjs` (S3 endpoint; the REST path is rate-limited) |
 | set cache headers on R2 | `set-r2-cache-control.mjs` |
@@ -80,4 +82,4 @@ a clean pass while checking 6 of 21 things it matched, and says so.
 
 **A `--check` mode beats a separate validator.** Where a script generates an
 artefact, giving it `--check` means the generator and the checker cannot drift.
-`build-proni-roots.mjs` and `validate-elections-schema.mjs` both do this.
+`build-proni-roots.mjs` and `build-election-provenance.mjs` both do this.

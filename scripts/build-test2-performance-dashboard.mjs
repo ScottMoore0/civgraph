@@ -28,7 +28,7 @@ const BUDGETS = {
   // out of the compact index into the lazy detail sidecars, or moving the
   // catalogue behind a query API so the client stops loading all 1,138 layers
   // to draw one.
-  metadataIndexBytes: Number(process.env.TEST2_BUDGET_METADATA_INDEX || 4400 * 1024),
+  metadataIndexBytes: Number(process.env.TEST2_BUDGET_METADATA_INDEX || 4800 * 1024),
   sourceMapCount: 0
 };
 

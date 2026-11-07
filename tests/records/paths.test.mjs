@@ -63,3 +63,32 @@ test('paths.py agrees with paths.mjs, with and without the variable', (t) => {
     }
   }
 });
+
+test('paths.py local_path_for_url maps the record URLs as localPathForUrl does (the Playwright server uses it)', (t) => {
+  const probe = spawnSync('python', ['--version'], { encoding: 'utf8' });
+  if (probe.status !== 0) return t.skip('python is not available');
+  const urls = [
+    '/render/metadata/elections-test2.json',
+    '/render/metadata/elections-test2-report.json',
+    '/render/metadata/elections-test2/a__b.json?v=1',
+    '/render/metadata/elections-test2-summaries/x.json',
+    '/render/metadata/election-provenance/k.json',
+    '/data/database/election-provenance.json',
+    '/data/browse/person-shards/persons-000.json',
+    '/data/graph/manifest.json',
+  ];
+  const py = spawnSync('python', ['-c', [
+    'import runpy, json, sys',
+    `p = runpy.run_path(${JSON.stringify(path.join(REPO_ROOT, 'scripts', 'records', 'paths.py'))})`,
+    'urls = json.loads(sys.argv[1])',
+    "print(json.dumps([p['local_path_for_url'](u) for u in urls + ['/maps/', '/render/metadata/maps-test.json', '/data/browse/../x']]))",
+  ].join('\n'), JSON.stringify(urls)], { encoding: 'utf8', env: { ...process.env, CIVGRAPH_BUILD_DIR: '' } });
+  assert.equal(py.status, 0, py.stderr);
+  const fromPy = JSON.parse(py.stdout);
+  const p = recordPaths({});
+  urls.forEach((url, i) => {
+    assert.equal(path.normalize(fromPy[i]).toLowerCase(), path.normalize(localPathForUrl(url, p)).toLowerCase(), url);
+  });
+  // Not a record URL: the tree answers, so the Python twin says None.
+  assert.deepEqual(fromPy.slice(urls.length), [null, null, null]);
+});

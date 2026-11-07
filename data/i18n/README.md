@@ -35,7 +35,7 @@ node tools/test-site/server.mjs --port 4177
 1. Have every string in `review/strings-ga.tsv` (and `strings-sco.tsv`) reviewed. Record the
    reviewer in `META.<lang>.reviewedBy` in `scripts/i18n/build-i18n.mjs`.
 2. Have `review/map-names.tsv` reviewed as well. Its names are machine-composed.
-3. In `partials/site-head.html`, replace the flag test in the bootstrap script with
+3. In `functions/_templates/shell.js` (`head()`, the language bootstrap), replace the flag test in the bootstrap script with
    "always load", and drop the Hide action (`assets/i18n/i18n.js`) and the phrase check
    (`src/catalogue/lang-reveal.js`). Then run `node scripts/build-site-partials.mjs`.
 4. Add the Logainm attribution line (see Sources) to the About page and the map attribution.
@@ -79,7 +79,7 @@ node tools/test-site/server.mjs --port 4177
   - The feature details pane (`src/ui-controller.js`) shows the Irish name, then
     "Ainm Béarla: <English>".
   - Features with no Irish name keep their English label.
-- **Bootstrap:** a few lines in `partials/site-head.html` decide whether to load the runtime.
+- **Bootstrap:** a few lines in the shell head (`functions/_templates/shell.js` `head()`) decide whether to load the runtime.
   Every page with the shared head has them.
 
 ### BCP-47 tags
