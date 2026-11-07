@@ -50,6 +50,7 @@ export default [
       'src/**/*.js',
       'browse/**/*.js',
       'functions/**/*.js',
+      'packages/**/*.js',
     ],
     languageOptions: {
       ecmaVersion: 'latest',
