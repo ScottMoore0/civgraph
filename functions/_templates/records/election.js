@@ -6,29 +6,31 @@
 import { html } from '../../_lib/html.js';
 import { dateText, numberText, percentText } from '../../_lib/format.js';
 import { badges, dataTable, facts, link, partyChip } from '../components/index.js';
-import { T, parseJson, withoutMarkers } from '../../_api/_records.js';
+import { parseJson, withoutMarkers } from '../../_api/_records.js';
+import { asStore } from '../../_lib/storage/d1.js';
+import { ELECTION_PAGES } from '../../_lib/queries/pages.js';
 
 const elected = (v) => v === 1 || v === true;
 
 /** Everything one election page needs, or null. `meta` is lookupElection's answer for the slug. */
-export async function loadElectionPage(db, meta) {
+export async function loadElectionPage(source, meta) {
   if (!meta?.electionKey) return null;
-  const e = await db.prepare(`SELECT key, slug, display_title AS title, body, date, kind, voting_system AS votingSystem, meta FROM ${T.elections} WHERE key = ?1`).bind(meta.electionKey).first();
+  const db = asStore(source);
+  const e = await db.first(ELECTION_PAGES.election, [meta.electionKey]);
   if (!e) return null;
   const election = { ...e, meta: withoutMarkers(parseJson(e.meta, {})) };
   if (Number.isInteger(meta.contestSeq)) {
     const [contest, candidates] = await Promise.all([
-      db.prepare('SELECT seq, name, slug, seats_total AS seatsTotal, electorate, quota, turnout_pct AS turnoutPct, source_file AS sourceFile, meta FROM contests WHERE election_key = ?1 AND seq = ?2').bind(e.key, meta.contestSeq).first(),
-      db.prepare('SELECT ord, name, person_id AS personId, party_label AS party, party_as_printed AS partyAsPrinted, colour, first_prefs AS firstPrefs, final_votes AS finalVotes, elected, status FROM candidacies WHERE election_key = ?1 AND contest_seq = ?2 ORDER BY first_prefs DESC, ord').bind(e.key, meta.contestSeq).all(),
+      db.first(ELECTION_PAGES.contest, [e.key, meta.contestSeq]),
+      db.all(ELECTION_PAGES.candidates, [e.key, meta.contestSeq]),
     ]);
     const provenance = contest?.sourceFile
-      ? await db.prepare("SELECT title, publisher, url FROM citations WHERE subject_type = 'contest' AND subject_key = ?1 ORDER BY ord")
-        .bind(String(contest.sourceFile).replace(/^data\/elections-source\/data\/elections\//, '')).all()
-      : { results: [] };
-    return { kind: 'contest', election, contest, candidates: candidates.results || [], citations: provenance.results || [] };
+      ? await db.all(ELECTION_PAGES.citations, [String(contest.sourceFile).replace(/^data\/elections-source\/data\/elections\//, '')])
+      : [];
+    return { kind: 'contest', election, contest, candidates, citations: provenance };
   }
-  const { results: contests } = await db.prepare('SELECT seq, name, slug, seats_total AS seatsTotal, winner_party AS winnerParty, winner_name AS winnerName FROM contests WHERE election_key = ?1 ORDER BY seq').bind(e.key).all();
-  return { kind: /-overall-results$/.test(meta.slug) ? 'overall' : 'election', election, contests: contests || [] };
+  const contests = await db.all(ELECTION_PAGES.contests, [e.key]);
+  return { kind: /-overall-results$/.test(meta.slug) ? 'overall' : 'election', election, contests };
 }
 
 function personLink(row) {
