@@ -93,9 +93,15 @@ test('render/metadata: manifest, provenance shards and summaries byte-identical'
 });
 
 test('render/metadata: other files and unknown keys go to Pages (context.next)', { skip }, async () => {
-  for (const rel of ['maps-test-index.json', 'layer-details-test2/x.json', 'elections-test2/no-such__1900-01-01.json']) {
+  // The layer metadata (maps-test-index.json, layer-details-test2/...) is no longer static since
+  // data phase 3: it answers 301 to /_api/layers, which tests/functions/maps.test.mjs holds.
+  for (const rel of ['ni-local/1900.json', 'election-anchors-test2/x.json', 'elections-test2/no-such__1900-01-01.json']) {
     const r = await metaUrl(rel);
     assert.equal(r.headers.get('X-Static'), '1', rel);
+  }
+  for (const rel of ['maps-test-index.json', 'layer-details-test2/x.json']) {
+    const r = await metaUrl(rel);
+    assert.equal(r.status, 301, rel);
   }
 });
 
