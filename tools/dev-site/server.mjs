@@ -15,6 +15,7 @@ import { createServer } from 'node:http';
 import { createReadStream, existsSync, readFileSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { localPathForUrl } from '../../scripts/records/paths.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '..', '..');
@@ -70,8 +71,17 @@ createServer(async (req, res) => {
       return res.end(req.method === 'HEAD' ? undefined : buf);
     }
 
+    // The record documents production answers from D1 through the compatibility Functions
+    // (functions/render/metadata/[[path]].js, functions/data/browse, functions/data/graph): the
+    // election manifest, bundles, summaries and provenance shards, and the Browse and graph trees.
+    // Since the records cutover they are not files in the tree but the records build's output
+    // (tmp/records, scripts/records/paths.mjs), byte for byte what D1 serves, so they are read
+    // from there; without a build the site answers 404 for them, as a fresh checkout would.
+    const RECORD_URL = /^\/(render\/metadata\/(elections-test2(\.json|-report\.json|\/|-summaries\/)|election-provenance\/)|data\/(browse|graph)\/|data\/database\/election-provenance\.json$)/;
     let file = path.join(ROOT, p);
-    if (!file.startsWith(ROOT)) return send(res, 403, 'forbidden');
+    // A file still committed under these prefixes (data/browse/proni-roots.json) is served as it is.
+    if (RECORD_URL.test(p) && !existsSync(file)) file = localPathForUrl(p);
+    if (!file || !path.resolve(file).startsWith(ROOT)) return send(res, 403, 'forbidden');
     if (existsSync(file) && statSync(file).isDirectory()) file = path.join(file, 'index.html');
     if (!existsSync(file)) {
       if (existsSync(file + '.html')) file += '.html';
