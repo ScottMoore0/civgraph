@@ -15,6 +15,8 @@
  * tests/unit/retire-legacy-workers.test.mjs and, in Chromium, by
  * tests/browser/retired-service-worker.spec.js.
  */
+import { LEGACY_RETIREMENT } from './service-worker-state.mjs';
+import { createState } from '../state-helpers.mjs';
 
 /** Scopes the retired apps registered workers under. */
 export const RETIRED_WORKER_SCOPES = ['/test/', '/render/', '/test2/'];
@@ -41,9 +43,12 @@ export async function retireLegacyServiceWorkers(container) {
     }
     if (!RETIRED_WORKER_SCOPES.includes(scope)) return;
     retired.push(scope);
+    const retirement = createState(LEGACY_RETIREMENT);
     try {
       await registration.update();
+      retirement.to('updated');
     } catch {
+      retirement.to('unregistered');
       await registration.unregister().catch(() => false);
     }
   }));

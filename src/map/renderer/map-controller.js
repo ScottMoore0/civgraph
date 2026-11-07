@@ -24,6 +24,8 @@ import { repairFeatureProperties } from './feature-property-repairs.js';
 import { absoluteTileTemplate, boundsToFlatBbox, boundsToImageCoordinates, boundsToMapLibre, clamp } from './utils.js';
 import { approximateSegmentIds, approximateSegmentLabel, resolveApproximateSegmentsUrl } from './approximate-segments.js';
 import { LAYER_LOAD } from './layer-load.mjs';
+import { DIRECT_GESTURE } from './gesture-state.mjs';
+import { createState, defineFlagFields } from '../state-helpers.mjs';
 
 // The casing that breaks a boundary's solid line under its dotted approximate stretches. The app keeps a
 // light basemap in dark mode too (app.js, basemap notes), so the gap is the basemap's own paper colour.
@@ -178,7 +180,13 @@ export class TestMapLibreController {
     this.duplicateFeatureIdCache = new Map();
     this.pmtilesArchiveCache = new Map();
     this.runtimeProfile = resolveRuntimeProfile();
-    this.mobileGestureGuardInstalled = false;
+    // Install-once guards (latches) and two-state toggles (flags), as accessors over the shared
+    // typed-state helper (MA-L): reads and writes are unchanged, a non-boolean write throws, and
+    // an installed guard cannot be cleared.
+    defineFlagFields(this, ['mobileGestureGuardInstalled', 'directPanGestureInstalled', 'directWheelGestureInstalled', 'directTwoFingerGestureInstalled', 'documentHoverClearInstalled'], { latch: true });
+    defineFlagFields(this, ['mobileGestureResizeObserverEligible', 'directWheelFallbackActive', 'autoTilted']);
+    // Which direct gesture is driving the camera, if any (MA-11, gesture-state.mjs).
+    this.directGesture = createState(DIRECT_GESTURE);
     // Interface language (preview only: assets/i18n/i18n.js): relabel when it changes or loads.
     if (typeof document !== 'undefined') {
       document.addEventListener('civgraph:langchange', () => this.applyLabelLanguage());
@@ -187,28 +195,21 @@ export class TestMapLibreController {
     this.mobileGestureResizeObserver = null;
     this.mobileGestureResizeFrame = 0;
     this.mobileGestureResizeSize = null;
-    this.mobileGestureResizeObserverEligible = false;
-    this.directGestureActive = false;
-    this.directPanGestureInstalled = false;
     this.directPanGestureState = null;
     this.directPanFrame = 0;
     this.directPanPendingCenter = null;
     this.directPanPendingDelta = null;
     this.directPanFallbackActivations = 0;
-    this.directWheelGestureInstalled = false;
     this.directWheelFrame = 0;
     this.directWheelPendingZoom = null;
     this.directWheelEndTimer = 0;
-    this.directWheelFallbackActive = false;
     this.directWheelFallbackActivations = 0;
-    this.directTwoFingerGestureInstalled = false;
     this.directTwoFingerGestureState = null;
     this.directTwoFingerGestureFrame = 0;
     this.directTwoFingerGesturePending = null;
     this.directTwoFingerFallbackActivations = 0;
     this.mapCursor = '';
     this.cursorMutationCount = 0;
-    this.documentHoverClearInstalled = false;
     this.documentHoverClearHandler = null;
     maplibregl.addProtocol('pmtiles', this.protocol.tile);
   }
@@ -296,6 +297,11 @@ export class TestMapLibreController {
       if (!this.directGestureActive) this.notifyChange();
     });
     this.map.fitBounds(IRELAND_BOUNDS, { padding: 28, duration: 0 });
+  }
+
+  /** A direct gesture is driving the camera (a view of directGesture, MA-11). */
+  get directGestureActive() {
+    return this.directGesture.state() !== 'idle';
   }
 
   installDocumentHoverClear() {
@@ -519,7 +525,7 @@ export class TestMapLibreController {
         state.fallbackActive = true;
         state.moved = true;
         this.directPanFallbackActivations += 1;
-        this.directGestureActive = true;
+        this.directGesture.to('pan');
         schedulePanDelta(state.latestDx, state.latestDy);
         state.lastX = state.latestX;
         state.lastY = state.latestY;
@@ -587,7 +593,7 @@ export class TestMapLibreController {
           // Pointer capture is best-effort; document-level pointerup still clears state.
         }
       }
-      this.directGestureActive = true;
+      this.directGesture.to('pan');
       const stepDx = event.clientX - state.lastX;
       const stepDy = event.clientY - state.lastY;
       state.lastX = event.clientX;
@@ -609,7 +615,7 @@ export class TestMapLibreController {
           if (event?.cancelable) event.preventDefault();
           event?.stopPropagation?.();
         }
-        this.directGestureActive = false;
+        this.directGesture.to('idle');
         this.notifyChange();
       }
       this.resetDirectPanGestureState(event?.currentTarget || root, state.pointerId);
@@ -642,7 +648,7 @@ export class TestMapLibreController {
       this.directWheelEndTimer = setTimeout(() => {
         this.directWheelEndTimer = 0;
         this.directWheelFallbackActive = false;
-        this.directGestureActive = false;
+        this.directGesture.to('idle');
         this.notifyChange();
       }, 140);
     };
@@ -654,7 +660,7 @@ export class TestMapLibreController {
           this.directWheelFallbackActivations += 1;
         }
         this.directWheelPendingZoom = zoom;
-        this.directGestureActive = true;
+        this.directGesture.to('wheel');
         if (!this.directWheelFrame) this.directWheelFrame = requestAnimationFrame(applyPendingWheel);
         scheduleWheelEnd();
       });
@@ -675,7 +681,7 @@ export class TestMapLibreController {
         return;
       }
       this.directWheelPendingZoom = nextZoom;
-      this.directGestureActive = true;
+      this.directGesture.to('wheel');
       if (!this.directWheelFrame) this.directWheelFrame = requestAnimationFrame(applyPendingWheel);
       scheduleWheelEnd();
       if (event.cancelable) event.preventDefault();
@@ -766,7 +772,7 @@ export class TestMapLibreController {
         if (!next) return;
         state.fallbackActive = true;
         this.directTwoFingerFallbackActivations += 1;
-        this.directGestureActive = true;
+        this.directGesture.to('pinch');
         scheduleTwoFingerGesture(next);
       });
     };
@@ -812,7 +818,7 @@ export class TestMapLibreController {
       }
       const next = computeTwoFingerCamera(state, points);
       if (!next) return;
-      this.directGestureActive = true;
+      this.directGesture.to('pinch');
       scheduleTwoFingerGesture(next);
       blockBrowserGesture(event);
     };
@@ -829,7 +835,7 @@ export class TestMapLibreController {
       this.resetDirectPanGestureState(root);
       this.enableGestureHandlers();
       if (state.fallbackActive) {
-        this.directGestureActive = false;
+        this.directGesture.to('idle');
         this.notifyChange();
         blockBrowserGesture(event);
       }
