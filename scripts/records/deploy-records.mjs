@@ -17,7 +17,9 @@
  *   4. --dry-run: print "DRY RUN: civgraph-records would apply N statements (...)" and stop
  *      (publish.sh greps the ^DRY RUN prefix)
  *   5. each part through wrangler d1 execute --file, in order, retried up to 4 times 90 s apart
- *      (every statement is idempotent, so a part can be re-run). --local --direct applies the
+ *      (every statement is idempotent, so a part can be re-run). tmp/records/deploy-run-<target>.json
+ *      records the build, the snapshot and how many parts D1 has taken, and --start-part N is
+ *      refused unless they are the stopped load's and N is no further than it got. --local --direct applies the
  *      same statements straight to the local D1's SQLite file instead (a full local load of
  *      four million rows through wrangler takes hours; the statements are the same).
  *   6. verify-load through wrangler; on PASS the build becomes the last-loaded snapshot. Remote
@@ -37,11 +39,11 @@
  */
 import { spawnSync } from 'node:child_process';
 import {
-  appendFileSync, closeSync, copyFileSync, existsSync, mkdirSync, openSync, readdirSync, readFileSync, rmSync, writeSync,
+  appendFileSync, closeSync, copyFileSync, existsSync, mkdirSync, openSync, readdirSync, readFileSync, rmSync, writeFileSync, writeSync,
 } from 'node:fs';
 import path from 'node:path';
 import { openSqliteHandle } from '../lib/storage/sqlite.mjs';
-import { deployModeErrors, deployRun, parseDeployArgs } from './deploy-plan.mjs';
+import { deployModeErrors, deployRun, parseDeployArgs, resumeCheck } from './deploy-plan.mjs';
 import { buildDelta, estimateWrites, printSummary } from './diff-load.mjs';
 import { RECORDS_DB, REPO_ROOT } from './paths.mjs';
 import { D1_NAME, PERSIST_DIR, WRANGLER, boundedPlan, d1Env, verify } from './verify-load.mjs';
@@ -59,6 +61,9 @@ const LAST = remote
   ? path.join(REPO_ROOT, '.claude', 'publish', 'work', 'last-loaded.sqlite')
   : path.join(REPO_ROOT, 'tmp', 'records', 'last-loaded-local.sqlite');
 const PARTS = path.join(REPO_ROOT, 'tmp', 'records', 'delta');
+// The cursor of a load through wrangler (deploy-plan.mjs LoadRecord), outside PARTS so a dry run,
+// which rewrites the parts, leaves the record of a stopped load in place.
+const RUN_FILE = path.join(REPO_ROOT, 'tmp', 'records', `deploy-run-${remote ? 'remote' : 'local'}.json`);
 const PART_BYTES = 50 * 1024 * 1024;
 const target = remote ? ['--remote'] : ['--local', '--persist-to', PERSIST_DIR];
 const t0 = Date.now();
@@ -101,6 +106,23 @@ function writeParts(fromFile) {
   });
   closeSync(fd);
   return { result, files };
+}
+
+/** A records database's dataset version ('' when it has none). */
+function datasetVersion(file) {
+  const db = openSqliteHandle(file, { readOnly: true });
+  try {
+    return String(db.prepare("SELECT value FROM dataset WHERE key = 'version'").get()?.value ?? '');
+  } catch {
+    return '';
+  } finally {
+    db.close();
+  }
+}
+
+/** @returns {import('./deploy-plan.mjs').LoadRecord|null} */
+function readRunRecord() {
+  try { return JSON.parse(readFileSync(RUN_FILE, 'utf8')); } catch { return null; }
 }
 
 /** The local D1's SQLite file: the one whose migrations list 0001_records.sql. */
@@ -187,7 +209,14 @@ async function steps(run) {
       db.close();
       log(`delta applied directly to ${path.relative(REPO_ROOT, file)} (${result.statements} statements)`);
     } else {
+      /** @type {Omit<import('./deploy-plan.mjs').LoadRecord, 'applied'>} */
+      const current = { target: remote ? 'remote' : 'local', build: datasetVersion(BUILD), from: fromFile ? datasetVersion(fromFile) : null, parts: files.length };
+      const resume = resumeCheck({ startPart, previous: readRunRecord(), current });
+      for (const w of resume.warnings) log(`WARNING: ${w}`);
+      if (resume.errors.length) throw new Error(resume.errors.join('; '));
       if (startPart) log(`resuming at part ${String(startPart).padStart(4, '0')} (parts below it were applied by an earlier run)`);
+      const record = (/** @type {number} */ applied) => writeFileSync(RUN_FILE, `${JSON.stringify({ ...current, applied }, null, 2)}\n`);
+      record(startPart);
       for (const part of files.slice(startPart)) {
         let ok = false;
         for (let attempt = 1; attempt <= 4 && !ok; attempt += 1) {
@@ -199,6 +228,7 @@ async function steps(run) {
           }
         }
         if (!ok) throw new Error(`${path.basename(part)} could not be applied; the statements are idempotent, so rerun the deploy (add --start-part ${Number(path.basename(part, '.sql'))} to resume there)`);
+        record(Number(path.basename(part, '.sql')) + 1);
         log(`${path.basename(part)} applied`);
       }
     }

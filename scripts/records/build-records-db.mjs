@@ -46,7 +46,7 @@ import { createDatabase, tableChecksums, TableWriter, transaction } from './db.m
 import { ingestBrowse } from './ingest-browse.mjs';
 import { ingestElections } from './ingest-elections.mjs';
 import { ingestGraph } from './ingest-graph.mjs';
-import { DRIFT_FILE, frozenSource } from './graph-files-freeze.mjs';
+import { DRIFT_FILE, frozenSource, graphFilesOrigin } from './graph-files-freeze.mjs';
 import { ingestMaps } from './ingest-maps.mjs';
 import { ingestProvenance } from './ingest-provenance.mjs';
 import { ingestRegistries } from './ingest-registries.mjs';
@@ -240,7 +240,7 @@ function main() {
     const gf = graph.graphFiles;
     writeFileSync(DRIFT_FILE, `${JSON.stringify({ ...gf, frozenFrom: gf.frozenFrom && rel(gf.frozenFrom) }, null, 2)}
 `);
-    if (gf.frozenFrom) console.log(`  graph_files: carried from ${rel(gf.frozenFrom)} (frozen); ${gf.drifted.length} file(s) differ from this graph, ${gf.retired} gone from it`);
+    if (graphFilesOrigin(gf.frozenFrom) === 'frozen') console.log(`  graph_files: carried from ${rel(gf.frozenFrom)} (frozen); ${gf.drifted.length} file(s) differ from this graph, ${gf.retired} gone from it`);
     else console.warn('  WARNING: graph_files built from the graph tree (no frozen copy, or --fresh-graph-files): a publish would load it whole');
   }
   step('ingest maps', () => merge(ingestMaps(db, { browseDir: P.BROWSE_DIR })));

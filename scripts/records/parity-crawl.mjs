@@ -71,9 +71,18 @@ function sample(list, n) {
   return a.slice(0, k).sort();
 }
 
+/**
+ * How a URL is compared (state-machine catalogue RC-L, light): 'json' answers compared as JSON,
+ * 'html' pages by their record content, 'search' a catalogue or people query run against both
+ * sides' search documents instead of fetched.
+ * @typedef {'json'|'html'|'search'} CrawlMode
+ */
+export const CRAWL_MODES = /** @type {readonly CrawlMode[]} */ (Object.freeze(['json', 'html', 'search']));
+
 export function buildUrlList(db) {
   const col = (sql) => db.prepare(sql).all().map((r) => Object.values(r)[0]).filter((v) => v !== null && v !== undefined);
   const urls = [];
+  /** @type {(kind: string, url: string, mode?: CrawlMode, extra?: Record<string, unknown>) => number} */
   const add = (kind, url, mode = 'json', extra = {}) => urls.push({ kind, url, mode, ...extra });
   const hasRows = (name) => Boolean(db.prepare("SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = ?").get(name))
     && Boolean(db.prepare(`SELECT 1 FROM ${name} LIMIT 1`).get());

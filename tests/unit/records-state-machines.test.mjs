@@ -6,18 +6,24 @@
  *   walk of the table; the forbidden moves throw (snapshot before PASS, anything applied or
  *   verified in a dry run, a local bookmark, a delta in --resync); the option checks give the
  *   messages deploy-records.mjs printed before, plus the refused --dry-run --resync;
+ * - --start-part resumes only the load that stopped (the persisted cursor, resumeCheck);
  * - the dataset loading flag (scripts/records/dataset-state.mjs, light weight): the values the
- *   delta writes are the ones it wrote before, byte for byte.
+ *   delta writes are the ones it wrote before, byte for byte;
+ * - the light enumerations: graph_files origin, the votes pin, the layer-id rename side.
  */
 import assert from 'node:assert/strict';
-import { mkdtempSync, rmSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
 import { defineMachine, defineToggle } from '../../scripts/lib/state-machine.mjs';
 import { DATASET_LOAD, datasetLoadState, loadingValue } from '../../scripts/records/dataset-state.mjs';
 import { createDatabase } from '../../scripts/records/db.mjs';
-import { DEPLOY, deployModeErrors, deployPath, deployRun, parseDeployArgs, verifyModeFor } from '../../scripts/records/deploy-plan.mjs';
+import { layerIdForm } from '../../scripts/lib/layer-renames.mjs';
+import { DEPLOY, deployModeErrors, deployPath, deployRun, parseDeployArgs, resumeCheck, verifyModeFor } from '../../scripts/records/deploy-plan.mjs';
+import { graphFilesOrigin } from '../../scripts/records/graph-files-freeze.mjs';
+import { votesPinState } from '../../scripts/records/votes-pin.mjs';
 import { buildDelta } from '../../scripts/records/diff-load.mjs';
 
 test('defineMachine: moves only along the table', () => {
@@ -143,6 +149,45 @@ test('dataset flag: the toggle and the values the delta writes', () => {
     buildDelta({ toFile: file, write: (s) => lines.push(s), loadedAt: 'T' });
     assert.equal(lines[0], "INSERT OR REPLACE INTO dataset (key, value) VALUES ('loading', 'v1');\n");
     assert.equal(lines.at(-1), "INSERT OR REPLACE INTO dataset (key, value) VALUES ('version', 'v1'), ('loading', ''), ('git_commit', 'c1'), ('loaded_at', 'T');\n");
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test('deploy: --start-part resumes only the load that stopped', () => {
+  const current = { target: 'remote', build: 'b2', from: 'b1', parts: 5 };
+  const previous = { ...current, applied: 3 };
+  assert.deepEqual(resumeCheck({ startPart: 0, previous: null, current }), { errors: [], warnings: [] });
+  assert.deepEqual(resumeCheck({ startPart: 3, previous, current }).errors, []);
+  assert.deepEqual(resumeCheck({ startPart: 1, previous, current }).errors, []);
+  assert.match(resumeCheck({ startPart: 4, previous, current }).errors[0], /resume with --start-part 3/);
+  assert.match(resumeCheck({ startPart: 3, previous: { ...previous, build: 'b3' }, current }).errors[0], /the build changed/);
+  assert.match(resumeCheck({ startPart: 3, previous: { ...previous, from: 'b0' }, current }).errors[0], /the from changed/);
+  assert.match(resumeCheck({ startPart: 3, previous: { ...previous, target: 'local' }, current }).errors[0], /the target changed/);
+  assert.match(resumeCheck({ startPart: 5, previous, current }).errors[0], /parts 0 to 4/);
+  const blind = resumeCheck({ startPart: 2, previous: null, current });
+  assert.deepEqual(blind.errors, []);
+  assert.equal(blind.warnings.length, 1);
+});
+
+test('light: graph_files origin, the votes pin, the layer-id rename side', () => {
+  assert.equal(graphFilesOrigin('x.sqlite'), 'frozen');
+  assert.equal(graphFilesOrigin(null), 'built');
+  assert.equal(layerIdForm('eds-ulster-1911-vector-test'), 'legacy');
+  assert.equal(layerIdForm('eds-ulster-1911-vector'), 'current');
+  assert.equal(layerIdForm('eds-ulster-1911'), 'other');
+  const dir = mkdtempSync(path.join(os.tmpdir(), 'civgraph-votes-pin-'));
+  try {
+    mkdirSync(path.join(dir, 'tidy'));
+    writeFileSync(path.join(dir, 'tidy', 'divisions.csv'), 'a');
+    writeFileSync(path.join(dir, 'tidy', 'votes.csv'), 'b');
+    const pinFile = path.join(dir, 'pin.json');
+    assert.equal(votesPinState(dir, pinFile).state, 'unpinned');
+    const sha = (text) => createHash('sha256').update(text).digest('hex');
+    writeFileSync(pinFile, JSON.stringify({ files: [{ file: 'tidy/divisions.csv', sha256: sha('a') }, { file: 'tidy/votes.csv', sha256: sha('b') }] }));
+    assert.equal(votesPinState(dir, pinFile).state, 'pinned');
+    writeFileSync(path.join(dir, 'tidy', 'votes.csv'), 'c');
+    assert.deepEqual(votesPinState(dir, pinFile), { ...votesPinState(dir, pinFile), state: 'mismatch', diffs: ['tidy/votes.csv'] });
   } finally {
     rmSync(dir, { recursive: true, force: true });
   }
