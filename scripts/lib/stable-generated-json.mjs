@@ -28,7 +28,7 @@ function setPath(value, pathExpression, nextValue) {
     if (!current[part] || typeof current[part] !== 'object') current[part] = {};
     current = current[part];
   }
-  if (parts.length) current[parts.at(-1)] = nextValue;
+  if (parts.length) current[parts[parts.length - 1]] = nextValue;
 }
 
 function deletePath(value, pathExpression) {
@@ -38,7 +38,7 @@ function deletePath(value, pathExpression) {
     if (!current || typeof current !== 'object') return;
     current = current[part];
   }
-  if (current && typeof current === 'object' && parts.length) delete current[parts.at(-1)];
+  if (current && typeof current === 'object' && parts.length) delete current[parts[parts.length - 1]];
 }
 
 function normalizeForComparison(value, volatilePaths) {

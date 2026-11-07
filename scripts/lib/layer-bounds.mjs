@@ -45,6 +45,10 @@ const WIDER = [
   }
 ];
 
+/**
+ * @param {unknown} bounds
+ * @param {{ sourceMapId?: string, id?: string } | null} [layer]
+ */
 export function isValidBounds(bounds, layer = null) {
   if (!Array.isArray(bounds) || bounds.length !== 2) return false;
   const [pair0, pair1] = bounds;

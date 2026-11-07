@@ -11,6 +11,13 @@
     "types": ["node"],
     "skipLibCheck": true,
     "resolveJsonModule": true,
+    "noImplicitThis": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "alwaysStrict": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
     "strictNullChecks": true
   },
   "include": ["scripts/publish/**/*.mjs", "scripts/i18n/**/*.mjs", "scripts/maps/**/*.mjs", "scripts/dev/**/*.mjs"],

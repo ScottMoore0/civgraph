@@ -132,7 +132,7 @@ const SAME_DAY_REFERENDUM_AMENDMENTS = new Map([
 ]);
 
 export function sameDayReferendumAmendment(keyOrDate) {
-  const tail = String(keyOrDate || '').split('__').pop();
+  const tail = String(keyOrDate || '').split('__').pop() ?? '';
   return SAME_DAY_REFERENDUM_AMENDMENTS.get(tail) ?? null;
 }
 
@@ -193,7 +193,7 @@ function referendumTopicFromKey({ key = '', bodySlug = '', date = '' } = {}) {
   const rawKey = String(key || '');
   const rawBodySlug = String(bodySlug || '');
   const candidates = [
-    rawKey.includes('__') ? rawKey.split('__').pop() : rawKey,
+    rawKey.includes('__') ? rawKey.split('__').pop() ?? '' : rawKey,
     String(date || ''),
     rawBodySlug
   ].filter(Boolean);
@@ -224,7 +224,7 @@ const NI_REFERENDUM_TITLES = new Map([
 function niReferendumTitle(params = {}) {
   const { year } = dateParts(params.date);
   const rawKey = String(params.key || '');
-  const dateKey = rawKey.includes('__') ? rawKey.split('__').pop() : String(params.date || '');
+  const dateKey = rawKey.includes('__') ? rawKey.split('__').pop() ?? '' : String(params.date || '');
   if (NI_REFERENDUM_TITLES.has(dateKey)) return NI_REFERENDUM_TITLES.get(dateKey);
   return `${year} Northern Ireland referendum`.trim();
 }
@@ -288,6 +288,9 @@ function niCouncilEraName(normalizedBody, date) {
   return (eras.find(([from]) => day >= from) || eras.at(-1))[1];
 }
 
+/**
+ * @param {{ body?: string, bodyGroup?: string | null, date?: string, constituencies?: any[], specialType?: string | null, bodySlug?: string }} [scope]
+ */
 export function isElectionByElectionScope({ body = '', bodyGroup = null, date = '', constituencies = [], specialType = null, bodySlug = '' } = {}) {
   const normalizedBody = normalizeName(body);
   if (PRE1973_COUNCIL_BODIES.has(normalizedBody)) return false;
