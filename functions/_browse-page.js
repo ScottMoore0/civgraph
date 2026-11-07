@@ -25,7 +25,7 @@
  *                                         file, for a server-rendered hero (grouped-year.js)
  *   parties                               D1 party_cards (and party_aliases for retired slugs)
  *   offices                               D1 office_cards (the facts model's office pages)
- *   maps                                 R2 data/browse/details/maps/<slug>.json (until phase 3)
+ *   maps                                  D1 map_cards (data design phase 3; R2 details/maps before)
  *
  * A record that is definitely absent answers 404 (with the shell, which says "not found");
  * a lookup that cannot be made (no binding, a failed query, a detail file under another
@@ -45,6 +45,7 @@
  */
 import { reportError } from './_api/_error.js';
 import { T } from './_api/_records.js';
+import { browseMapRecord } from './_api/_maps.js';
 import { dateText, listText, numberText, slugify } from './_lib/format.js';
 import { datasetVersion, htmlResponse } from './_lib/respond.js';
 import { renderRecordPage, ssrMode } from './_templates/records/index.js';
@@ -61,7 +62,7 @@ export const BROWSE_PAGE_TYPES = {
   sources: { singular: 'Source', table: 'sources', aliasTable: 'source_aliases' },
   'register-interests': { singular: 'Register interest', table: 'register_entries', aliasTable: 'register_entries_aliases' },
   elections: { singular: 'Election' },
-  maps: { singular: 'Map', detailDir: 'maps' },
+  maps: { singular: 'Map' },
   parties: { singular: 'Party / label' },
   offices: { singular: 'Office' },
 };
@@ -311,11 +312,16 @@ export async function lookupOfficeRecord(db, slug) {
   return parseJson(row.detail || '') || parseJson(row.card || '');
 }
 
-async function lookupDetailFile(bucket, dir, slug) {
-  const object = await bucket.get(`data/browse/details/${dir}/${slug}.json`);
-  if (!object) return undefined;   // the file is named by slug; another id may still render
-  const detail = parseJson(await object.text());
-  return detail?.item || undefined;
+/**
+ * A map's page record from D1 (map_cards, the Browse build's map pages): by slug, or by map id.
+ * Null when it certainly does not exist; undefined when the table is empty (a database loaded
+ * without the Browse build), so the page keeps the generic head rather than answering 404.
+ */
+export async function lookupMapRecord(db, slug) {
+  const row = await browseMapRecord(db, String(slug));
+  if (row) return parseJson(row.detail || '') || parseJson(row.card || '');
+  const any = await db.prepare('SELECT slug FROM map_cards LIMIT 1').bind().first();
+  return any ? null : undefined;
 }
 
 /**
@@ -358,10 +364,14 @@ export async function lookupBrowseRecord(env, type, slug) {
       return undefined;   // a database without office_cards: the generic head
     }
   }
-  if (config.detailDir) {
-    if (!env?.MAPS_BUCKET) return undefined;
-    const item = await lookupDetailFile(env.MAPS_BUCKET, config.detailDir, slug);
-    return item ? recordMeta(type, item) : undefined;
+  if (type === 'maps') {
+    if (!env?.ELECTIONS_DB) return undefined;
+    try {
+      const item = await lookupMapRecord(env.ELECTIONS_DB, slug);
+      return item ? recordMeta(type, item) : item;
+    } catch {
+      return undefined;   // a database without map_cards: the generic head
+    }
   }
   return undefined;
 }

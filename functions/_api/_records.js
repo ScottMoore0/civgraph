@@ -49,7 +49,12 @@ export function jsonResponse(payload, status = 200, extra = {}) {
   });
 }
 
-export async function cachedJson(context, codeVersion, handler) {
+/**
+ * `options.cacheControl` replaces the browser policy of a 200 (default: max-age=300 with
+ * stale-while-revalidate). The map documents use must-revalidate: the browser asks each load and
+ * the ETag (code and dataset version) answers 304, so a publish is seen at once.
+ */
+export async function cachedJson(context, codeVersion, handler, options = {}) {
   const db = context.env?.ELECTIONS_DB;
   const { version, loading } = db ? await datasetState(db) : { version: '', loading: '' };
   const etag = `"${codeVersion}-${version}"`;
@@ -84,17 +89,18 @@ export async function cachedJson(context, codeVersion, handler) {
   if (resp.status === 200) {
     resp = new Response(resp.body, resp);
     if (version) resp.headers.set('ETag', etag);
-    resp.headers.set('Cache-Control', loading ? 'no-store' : 'public, max-age=300, stale-while-revalidate=86400');
+    resp.headers.set('Cache-Control', loading ? 'no-store' : (options.cacheControl || 'public, max-age=300, stale-while-revalidate=86400'));
     if (cache && !loading) {
       const copy = resp.clone();
       const copy2 = resp.clone();
       context.waitUntil?.(cache.put(cacheKey, copy));
       context.waitUntil?.(cache.put(lastGood, copy2));
     }
-  } else {
+  } else if (resp.status >= 400) {
     resp = new Response(resp.body, resp);
     resp.headers.set('Cache-Control', 'no-store');
   }
+  // A redirect (another spelling of an id) keeps the Cache-Control its handler gave it.
   return resp;
 }
 

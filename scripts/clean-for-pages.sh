@@ -43,6 +43,19 @@ remove_path "render/metadata/election-provenance"
 remove_path "render/metadata/elections-test2.json"
 remove_path "render/metadata/elections-test2-report.json"
 remove_path "data/database/election-provenance.json"
+# Map and catalogue documents answered from D1 since data design phase 3 (PHASE3.md): the files
+# stay in git as sources (maps.json, maps-test.json) or as build outputs scripts still read, but a
+# deployed copy would shadow its compatibility Function or its 301 (functions/data/database,
+# functions/agent, functions/data/catalogue, functions/render/metadata).
+remove_path "data/database/maps.json"
+remove_path "agent/maps-index.json"
+remove_path "data/catalogue/catalogue.json"
+remove_path "data/catalogue/places.json"
+remove_path "data/catalogue/people.json"
+remove_path "render/metadata/maps-test.json"
+remove_path "render/metadata/maps-test-index.json"
+remove_path "render/metadata/layer-details-test2"
+remove_path "render/metadata/duplicate-feature-ids"
 remove_path "tmp"
 remove_path "boundary-gazette"
 remove_path "docs"

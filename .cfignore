@@ -148,3 +148,14 @@ data/database/approved-publication-sources-shards/*
 data/database/medium-priority-publication-sources.json
 data/database/ni-register-interests/*
 tmp/
+# Map and catalogue documents answered from D1 (data design phase 3): a deployed copy would
+# shadow the compatibility Functions. clean-for-pages.sh deletes them physically as well.
+data/database/maps.json
+agent/maps-index.json
+data/catalogue/catalogue.json
+data/catalogue/places.json
+data/catalogue/people.json
+render/metadata/maps-test.json
+render/metadata/maps-test-index.json
+render/metadata/layer-details-test2/*
+render/metadata/duplicate-feature-ids/*
