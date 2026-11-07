@@ -241,7 +241,7 @@ async function answer(db, route) {
       // The sources whose card names this shard, sorted by slug as the build wrote them
       // (build-browse-indexes.mjs writeSourceDetailShards: localeCompare in the default locale).
       const url = `/data/browse/details/source-shards/${route.name}`;
-      const { results } = await db.prepare("SELECT detail FROM sources WHERE json_extract(card, '$.detailUrl') = ?1 AND detail IS NOT NULL")
+      const { results } = await db.prepare("SELECT detail FROM sources WHERE json_extract(card, '$.detailUrl') = ?1 AND detail IS NOT NULL ORDER BY slug")
         .bind(url).all();
       if (!results?.length) return notFound();
       const items = results.map((r) => parseJson(r.detail)).filter(Boolean);
