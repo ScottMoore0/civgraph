@@ -1,0 +1,17 @@
+{
+  "//": "Type checking of the pipeline scripts (scripts/publish, build, check, maps, dev, i18n) by JSDoc and checkJs (REFACTOR-PLAN.md item 2, stream rf-pipeline). Run by `npm run check:types:pipeline`. The include list is an allowlist that only grows.",
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "target": "es2023",
+    "lib": ["es2023"],
+    "types": ["node"],
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "strictNullChecks": true
+  },
+  "include": ["scripts/publish/**/*.mjs"]
+}

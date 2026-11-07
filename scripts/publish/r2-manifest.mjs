@@ -51,6 +51,7 @@ const priorPmtiles = new Map(
 const priorRemoteVerified = new Map([...priorPmtiles].filter(([, asset]) => asset.remoteVerified));
 const keySources = {};
 
+/** @type {Array<Record<string, any>>} the pmtiles and mvt-directory entries */
 const assets = [];
 let carriedForward = 0;
 

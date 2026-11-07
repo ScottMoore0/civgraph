@@ -11,11 +11,12 @@ import { existsSync, readFileSync, statSync } from 'fs';
 import { r2CredentialsOrExit, s3ClientOptions } from './r2-env.mjs';
 
 const DRY = process.argv.includes('--dry-run');
-const pairs = process.argv.slice(2).filter((a) => a !== '--dry-run').map((a) => {
+const parsed = process.argv.slice(2).filter((a) => a !== '--dry-run').map((a) => {
     const i = a.indexOf('=');
     return i > 0 ? { file: a.slice(0, i), key: a.slice(i + 1).replace(/^\/+/, '') } : null;
 });
-if (!pairs.length || pairs.some((p) => !p || !p.key.endsWith('.fgb'))) {
+const pairs = parsed.filter((p) => p !== null);
+if (!parsed.length || pairs.length !== parsed.length || pairs.some((p) => !p.key.endsWith('.fgb'))) {
     console.error('Usage: node scripts/publish/r2-upload-files.mjs <file>=<r2/key.fgb> [...] [--dry-run]');
     process.exit(1);
 }
