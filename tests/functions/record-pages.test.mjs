@@ -19,7 +19,7 @@ import { candidacyLinks, personBody } from '../../functions/_templates/records/p
 import { registerInterestBody } from '../../functions/_templates/records/register-interest.js';
 import { sourceBody } from '../../functions/_templates/records/source.js';
 import { ssrMode } from '../../functions/_templates/records/index.js';
-import { migrationFiles, TableWriter, transaction } from '../../scripts/records/db.mjs';
+import { migrationFiles, TableWriter, transaction } from '@civgraph/loader/db.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const SHELL = readFileSync(path.join(ROOT, 'browse', 'index.html'), 'utf8');

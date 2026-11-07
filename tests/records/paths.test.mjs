@@ -4,7 +4,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { recordPaths, localPathForUrl, recordPath, REPO_ROOT } from '../../scripts/records/paths.mjs';
+import { recordPaths, localPathForUrl, recordPath, REPO_ROOT } from '@civgraph/loader/paths.mjs';
 
 const LEGACY = {
   ELECTION_BUNDLE_DIR: 'render/metadata/elections-test2',

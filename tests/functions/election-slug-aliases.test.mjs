@@ -19,7 +19,7 @@ import { slugify } from '../../functions/_lib/format.js';
 import { canonicalElectionTitle } from '../../scripts/lib/election-names.mjs';
 import { onRequestGet as electionsApi, retiredSlugRedirect } from '../../functions/_api/elections/index.js';
 import { resetDatasetVersionCache } from '../../functions/_lib/respond.js';
-import { migrationFiles, TableWriter, transaction } from '../../scripts/records/db.mjs';
+import { migrationFiles, TableWriter, transaction } from '@civgraph/loader/db.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const read = (rel) => JSON.parse(readFileSync(path.join(ROOT, rel), 'utf8'));

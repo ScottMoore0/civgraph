@@ -35,7 +35,7 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, unlinkSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { BROWSE_DIR, localPathForUrl } from '../records/paths.mjs';
+import { BROWSE_DIR, localPathForUrl } from '@civgraph/loader/paths.mjs';
 import { SITE as SITE_CONFIG } from '../lib/config.mjs';
 
 const SITE = SITE_CONFIG.origin;

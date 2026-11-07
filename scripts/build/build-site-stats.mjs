@@ -50,7 +50,7 @@
  */
 import { readdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs';
 import path from 'node:path';
-import { BROWSE_DIR, ELECTION_BUNDLE_DIR, GRAPH_DIR } from '../records/paths.mjs';
+import { BROWSE_DIR, ELECTION_BUNDLE_DIR, GRAPH_DIR } from '@civgraph/loader/paths.mjs';
 
 const ROOT = process.cwd();
 const OUT = path.join(ROOT, 'data/database/site-stats.json');

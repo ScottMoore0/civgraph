@@ -9,7 +9,7 @@ import { buildPartyVocabulary, classifyPersonName, stripWikipediaQualifier, NOT_
 import { referenceOffices, referenceRelatives } from '../lib/reference-person-facts.mjs';
 import { browsePartySlugResolver, formatSpan, indexFactsModel, loadFactsModel } from '../lib/facts-model.mjs';
 import { CDN_BASE } from '../../src/cdn-url.js';
-import { BROWSE_DIR, ELECTION_MANIFEST, PROVENANCE_FILE, localPathForUrl } from '../records/paths.mjs';
+import { BROWSE_DIR, ELECTION_MANIFEST, PROVENANCE_FILE, localPathForUrl } from '@civgraph/loader/paths.mjs';
 import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLocalCouncilRound, niLocalGroupKey } from '../../src/ni-local-groups.mjs';
 
 const ROOT = process.cwd();

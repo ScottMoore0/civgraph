@@ -14,14 +14,14 @@ import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import test from 'node:test';
 import { openSqliteHandle } from '@civgraph/storage/node';
-import { createDatabase } from '../../scripts/records/db.mjs';
-import { answerRecordApi, RECORD_API_ROUTES } from '../../scripts/records/local-api.mjs';
-import { REPO_ROOT } from '../../scripts/records/paths.mjs';
+import { createDatabase } from '@civgraph/loader/db.mjs';
+import { answerRecordApi, RECORD_API_ROUTES } from '@civgraph/loader/local-api.mjs';
+import { REPO_ROOT } from '@civgraph/loader/paths.mjs';
 import { d1 } from '../records/d1-shim.mjs';
 
 test('node:sqlite is imported only by the storage adapter', () => {
   const found = [];
-  for (const dir of ['scripts/records', 'scripts/lib']) {
+  for (const dir of ['scripts/records', 'scripts/lib', 'packages/loader/src', 'packages/schema/src']) {
     for (const name of readdirSync(path.join(REPO_ROOT, dir))) {
       if (!name.endsWith('.mjs')) continue;
       if (/from\s+['"]node:sqlite['"]|await\s+import\(\s*['"]node:sqlite['"]/.test(readFileSync(path.join(REPO_ROOT, dir, name), 'utf8'))) found.push(`${dir}/${name}`);

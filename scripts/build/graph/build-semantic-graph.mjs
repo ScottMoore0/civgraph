@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { gunzip, gzip } from 'node:zlib';
 import { isGraphExcludedSource } from './graph-source-exclusions.mjs';
 import { buildTimestamp } from '../../lib/build-timestamp.mjs';
-import { BROWSE_DIR as RECORD_BROWSE_DIR, GRAPH_DIR, localPathForUrl } from '../../records/paths.mjs';
+import { BROWSE_DIR as RECORD_BROWSE_DIR, GRAPH_DIR, localPathForUrl } from '@civgraph/loader/paths.mjs';
 
 // Summary labels that are the absence of a party, not one: "No party recorded" (before 1832),
 // "No label" (nothing printed or inferred) and a person record's "Unknown".

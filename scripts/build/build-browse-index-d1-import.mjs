@@ -39,7 +39,7 @@ import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 // D1 rejects very large single statements. The catalogue importer settled on 60 KB.
 const MAX_STATEMENT_BYTES = 60 * 1024;
 
-import { ENTITIES, q, lit, searchText } from '../records/browse-columns.mjs';
+import { ENTITIES, q, lit, searchText } from '@civgraph/loader/browse-columns.mjs';
 
 /** Read a sharded index the same way browse.js does, so this cannot drift from it. */
 function readIndex(path) {

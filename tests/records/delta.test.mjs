@@ -7,9 +7,9 @@ import assert from 'node:assert/strict';
 import { copyFileSync, existsSync, mkdirSync, rmSync } from 'node:fs';
 import path from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
-import { createDatabase, TableWriter, tableChecksums, transaction, rowHash, bindable } from '../../scripts/records/db.mjs';
-import { buildDelta, MAX_STATEMENT_BYTES } from '../../scripts/records/diff-load.mjs';
-import { REPO_ROOT } from '../../scripts/records/paths.mjs';
+import { createDatabase, TableWriter, tableChecksums, transaction, rowHash, bindable } from '@civgraph/loader/db.mjs';
+import { buildDelta, MAX_STATEMENT_BYTES } from '@civgraph/loader/diff-load.mjs';
+import { REPO_ROOT } from '@civgraph/loader/paths.mjs';
 import { HASHED_TABLES, TABLE } from '@civgraph/schema';
 
 const TMP = path.join(REPO_ROOT, 'tmp', 'records', 'test-delta');

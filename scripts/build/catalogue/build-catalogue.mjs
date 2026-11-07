@@ -28,7 +28,7 @@ import path from 'node:path';
 import { loadRecords } from './records.mjs';
 import { formatDatesInText, formatDisplayDate } from '../../../src/date-format.mjs';
 import { DatabaseSync } from 'node:sqlite';
-import { BROWSE_DIR, ELECTION_MANIFEST, RECORDS_DB } from '../../records/paths.mjs';
+import { BROWSE_DIR, ELECTION_MANIFEST, RECORDS_DB } from '@civgraph/loader/paths.mjs';
 import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLocalCouncilRound, niLocalGroupKey } from '../../../src/ni-local-groups.mjs';
 
 const ROOT = process.cwd();

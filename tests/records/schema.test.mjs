@@ -5,7 +5,7 @@ import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
 import { TABLES, schemaSql } from '@civgraph/schema';
-import { REPO_ROOT } from '../../scripts/records/paths.mjs';
+import { REPO_ROOT } from '@civgraph/loader/paths.mjs';
 
 const MIGRATIONS = path.join(REPO_ROOT, 'packages', 'schema', 'migrations');
 

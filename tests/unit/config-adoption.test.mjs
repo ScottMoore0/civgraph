@@ -14,7 +14,7 @@ import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 import * as config from '../../scripts/lib/config.mjs';
-import * as paths from '../../scripts/records/paths.mjs';
+import * as paths from '@civgraph/loader/paths.mjs';
 
 test('paths.mjs re-exports the config module', () => {
   assert.equal(paths.recordPaths, config.recordPaths);
@@ -42,7 +42,7 @@ test('buildVar: value, default, blank, unknown', () => {
 
 test('no hard-coded origin, User-Agent or database path in scripts/records and scripts/lib code', () => {
   const found = [];
-  for (const dir of ['scripts/records', 'scripts/lib', 'scripts/lib/storage']) {
+  for (const dir of ['scripts/records', 'scripts/lib', 'scripts/lib/storage', 'packages/loader/src', 'packages/schema/src', 'packages/storage/src']) {
     for (const name of readdirSync(path.join(config.REPO_ROOT, dir))) {
       if (!name.endsWith('.mjs') || (dir === 'scripts/lib' && name === 'config.mjs')) continue;
       const lines = readFileSync(path.join(config.REPO_ROOT, dir, name), 'utf8').split('\n');

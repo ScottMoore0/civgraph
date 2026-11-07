@@ -13,7 +13,7 @@ import { readdirSync, readFileSync, statSync } from 'node:fs';
 import path from 'node:path';
 import * as runtime from '../../functions/_lib/config.js';
 import * as config from '../../scripts/lib/config.mjs';
-import { recordPaths as legacyRecordPaths } from '../../scripts/records/paths.mjs';
+import { recordPaths as legacyRecordPaths } from '@civgraph/loader/paths.mjs';
 import { SITE_NAME, SITE_ORIGIN } from '../../functions/_templates/shell.js';
 
 const ROOT = config.REPO_ROOT;

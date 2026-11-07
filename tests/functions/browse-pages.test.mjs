@@ -11,7 +11,7 @@
  */
 import { readFileSync } from 'node:fs';
 import { DatabaseSync } from 'node:sqlite';
-import { migrationFiles, TableWriter, transaction } from '../../scripts/records/db.mjs';
+import { migrationFiles, TableWriter, transaction } from '@civgraph/loader/db.mjs';
 import {
   BROWSE_PAGE_TYPES,
   browsePageHandler,
