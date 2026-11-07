@@ -17,6 +17,8 @@
 import { buildMatch, buildFilters } from './_query.js';
 import { reportError } from '../_error.js';
 import { binding } from '../../_lib/config.js';
+import { fromD1 } from '../../_lib/storage/d1.js';
+import { PRONI } from '../../_lib/queries/proni.js';
 
 const CACHE_VERSION = 'v10';
 const MAX_LIMIT = 60;
@@ -31,10 +33,6 @@ const ORDER = {
   level: 'p.level',
 };
 
-const SELECT_COLS = `p.ref, p.slug, p.title, p.level, p.dates, p.parent,
-  p.parent_slug AS parentSlug, p.has_children AS hasChildren, p.fond,
-  p.access, p.digital_record AS digitalRecord, ext.ext_start_year AS startYear, ext.ext_end_year AS endYear,
-  substr(p.description,1,${DESC_PREVIEW + 1}) AS descPreview, length(p.description) AS descLen`;
 
 function mapRow(r, exact) {
   const desc = r.descPreview || '';
@@ -100,8 +98,8 @@ async function handle(context) {
     headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=3600, s-maxage=86400', 'Access-Control-Allow-Origin': '*' },
   });
 
-  const db = binding(context.env, 'PRONI_DB');
-  if (!db) return json({ results: [], error: 'PRONI_DB binding not configured' }, 503);
+  const bound = binding(context.env, 'PRONI_DB');
+  if (!bound) return json({ results: [], error: 'PRONI_DB binding not configured' }, 503);
 
   const top = g('top') === '1'; // letter-browse: top-level records only, alphabetical
   const level = g('level'); const access = g('access');
@@ -114,7 +112,8 @@ async function handle(context) {
 
   // Serve reads from a nearby D1 replica when replication is enabled (falls back
   // to the primary otherwise; harmless where withSession is unavailable).
-  const rdb = db.withSession ? db.withSession('first-unconstrained') : db;
+  // Through the storage adapter (functions/_lib/storage/); the SQL is named in queries/proni.js.
+  const rdb = fromD1(bound, { session: 'first-unconstrained' });
 
   try {
     const out = [];
@@ -122,29 +121,23 @@ async function handle(context) {
 
     // exact-ref fast path (page 1 only, no explicit sort)
     if (!offset && q && !/\s/.test(q) && !q.includes(':') && sort === 'relevance') {
-      const ex = await rdb.prepare(`SELECT ${SELECT_COLS} FROM proni p LEFT JOIN ext ON ext.ref = p.ref WHERE p.ref = ?1 LIMIT 1`).bind(q.toUpperCase()).all();
-      for (const r of ex.results || []) { out.push(mapRow(r, true)); seen.add(r.ref); }
+      const ex = await rdb.all(PRONI.exactRef(DESC_PREVIEW), [q.toUpperCase()]);
+      for (const r of ex) { out.push(mapRow(r, true)); seen.add(r.ref); }
     }
 
     let sql, bindArr;
     if (match) {
       // Ties broken by ref, so a page boundary never repeats or skips a record (data design 4.3, query 9).
       const order = top ? 'p.ref ASC' : (sort === 'relevance' ? 'bm25(proni_fts), p.ref' : `${ORDER[sort] || 'p.ref'} ${dir}, p.ref`);
-      const w = where.length ? ' AND ' + where.join(' AND ') : '';
-      sql = `SELECT ${SELECT_COLS}${sort === 'relevance' ? ', bm25(proni_fts) AS rank' : ''}
-             FROM proni_fts f JOIN proni p ON p.rowid = f.rowid LEFT JOIN ext ON ext.ref = p.ref
-             WHERE proni_fts MATCH ?${w}
-             ORDER BY ${order} LIMIT ? OFFSET ?`;
+      sql = PRONI.searchMatched(DESC_PREVIEW, where, order, sort === 'relevance');
       bindArr = [match, ...binds, limit, offset];
     } else {
       const order = top ? 'p.ref ASC' : `${ORDER[sort] && sort !== 'relevance' ? ORDER[sort] : 'p.ref'} ${dir}, p.ref`;
-      sql = `SELECT ${SELECT_COLS} FROM proni p LEFT JOIN ext ON ext.ref = p.ref
-             WHERE ${where.join(' AND ')}
-             ORDER BY ${order} LIMIT ? OFFSET ?`;
+      sql = PRONI.searchFiltered(DESC_PREVIEW, where, order);
       bindArr = [...binds, limit, offset];
     }
-    const { results } = await rdb.prepare(sql).bind(...bindArr).all();
-    for (const r of results || []) { if (!seen.has(r.ref)) out.push(mapRow(r, false)); }
+    const results = await rdb.all(sql, bindArr);
+    for (const r of results) { if (!seen.has(r.ref)) out.push(mapRow(r, false)); }
 
     return json({ query: q, match, sort, dir, letter, from: from || null, to: to || null, offset, limit, count: out.length, results: out.slice(0, limit + 1) });
   } catch (error) {
