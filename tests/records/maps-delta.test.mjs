@@ -34,7 +34,7 @@ function build(dir, file, seed = null) {
 }
 
 const maps = (ids) => ids.map((id) => ({ id, slug: id, name: id.toUpperCase(), category: 'c' }));
-const layers = (ids) => ids.map((id) => ({ id: `${id}-vector-test`, sourceMapId: id }));
+const layers = (ids) => ids.map((id) => ({ id: `${id}-vector`, sourceMapId: id }));
 
 test('a snapshot without the phase-3 tables: the delta inserts them whole and deletes nothing', () => {
   const tmp = mkdtempSync(path.join(os.tmpdir(), 'civgraph-maps-delta-'));

@@ -30,7 +30,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '.
 
 /** Where ids live: sources, the code that builds or reads them, and the files named by id. */
 export const SCOPE = [
-  /^render\/metadata\/(maps-test\.json|maps-test-index\.json|layer-details-test2\/|duplicate-feature-ids\/|feature-indexes\/|election-anchors-test2\/|ni-local\/|ni-local-coverage\.json)/,
+  /^render\/metadata\/(maps-test\.json|maps-test-index\.json|layer-details-test2\/|duplicate-feature-ids\/|feature-indexes\/|election-anchors-test2\/|ni-local\/|ni-local-coverage\.json|cdn-upload-manifest\.json|cdn-range-report\.json)/,
   /^data\/(database|catalogue|elections|i18n|timeline-[a-z-]+)\/.*\.(json|csv)$/,
   /^assets\/i18n\/.*\.json$/,
   /^agent\/.*\.json$/,
@@ -46,6 +46,8 @@ export const SKIP_FILES = new Set([
   'tests/unit/url-compat.test.mjs',
   'tests/functions/maps.test.mjs',
   'scripts/records/ingest-maps.mjs',
+  // reproduces a historical batch (docs/intake-examples/batch-2026-11-05) with its old ids
+  'tests/intake/upload.test.mjs',
 ]);
 
 const OLD = /-(vector|raster|alias)-test(?![A-Za-z0-9_-])/g;

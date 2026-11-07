@@ -10,8 +10,8 @@
  *   GET /_api/layers/<id>                 one layer's full record (its layer-details file)
  *   GET /_api/layers/<id>/duplicates      its duplicate-feature-id sidecar
  *
- * <id> may be any spelling of a layer id (layer_aliases: -vector-test and -vector, renamed
- * prefixes): another spelling answers 301 to the live id, so each record has one URL. The old
+ * <id> may be any spelling of a layer id (layer_aliases: -vector and its retired spelling with a
+ * further -test suffix, likewise -raster and -alias; renamed prefixes): another spelling answers 301 to the live id, so each record has one URL. The old
  * file URLs answer 301 to these (functions/render/metadata/[[path]].js). Cached per dataset
  * version (cachedJson).
  */

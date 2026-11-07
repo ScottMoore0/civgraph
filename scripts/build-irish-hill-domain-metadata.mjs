@@ -179,10 +179,10 @@ function updateMapLibreMetadata(outputs, report) {
     .filter((item) => item?.ok && item.layerId)
     .map((item) => [item.layerId, item]));
 
-  metadata.layers = metadata.layers.filter((layer) => !LAYERS.some((item) => layer.sourceMapId === item.id || layer.id === `${item.id}-vector-test`));
+  metadata.layers = metadata.layers.filter((layer) => !LAYERS.some((item) => layer.sourceMapId === item.id || layer.id === `${item.id}-vector`));
   for (const layer of LAYERS) {
     const output = outputs.get(layer.id);
-    const layerId = `${layer.id}-vector-test`;
+    const layerId = `${layer.id}-vector`;
     const sourceLayer = sourceLayerName(layer.id);
     const rangeVerified = rangeVerifiedByLayer.get(layerId);
     metadata.layers.push(compactObject({
@@ -302,14 +302,14 @@ function updateMapLibreMetadata(outputs, report) {
     }));
   }
   writeJson(MAPLIBRE_PATH, metadata);
-  const generatedLayers = metadata.layers.filter((item) => LAYERS.some((layer) => item.id === `${layer.id}-vector-test`));
+  const generatedLayers = metadata.layers.filter((item) => LAYERS.some((layer) => item.id === `${layer.id}-vector`));
   writeLayerSidecars(generatedLayers);
 }
 
 function updateMapLibreIndex() {
   const index = readJson(MAPLIBRE_INDEX_PATH);
   const metadata = readJson(MAPLIBRE_PATH);
-  const generatedLayers = metadata.layers.filter((item) => LAYERS.some((layer) => item.id === `${layer.id}-vector-test`));
+  const generatedLayers = metadata.layers.filter((item) => LAYERS.some((layer) => item.id === `${layer.id}-vector`));
   index.categories = index.categories || [];
   index.layers = index.layers || [];
   upsert(index.categories, {
@@ -318,7 +318,7 @@ function updateMapLibreIndex() {
     group: GROUP_NAME,
     description: 'Hill and mountain summit datasets, lists, classifications, and modelled domains.'
   });
-  index.layers = index.layers.filter((item) => !LAYERS.some((layer) => item.id === `${layer.id}-vector-test` || item.sourceMapId === layer.id));
+  index.layers = index.layers.filter((item) => !LAYERS.some((layer) => item.id === `${layer.id}-vector` || item.sourceMapId === layer.id));
   for (const layer of generatedLayers) {
     index.layers.push(compactObject({
       ...layer,
@@ -349,7 +349,7 @@ function writeLayerSidecars(layers) {
 function updatePortPlan(outputs, report) {
   const plan = readJson(PORT_PLAN_PATH);
   plan.rows = plan.rows || [];
-  plan.rows = plan.rows.filter((row) => !LAYERS.some((layer) => row.sourceMapId === layer.id || row.testLayerId === `${layer.id}-vector-test`));
+  plan.rows = plan.rows.filter((row) => !LAYERS.some((layer) => row.sourceMapId === layer.id || row.testLayerId === `${layer.id}-vector`));
   for (const layer of LAYERS) {
     const output = outputs.get(layer.id);
     plan.rows.push(compactObject({
@@ -368,7 +368,7 @@ function updatePortPlan(outputs, report) {
       sourceCredits: ['Database of British and Irish Hills editors', 'Hill Bagging', 'Copernicus DEM'],
       conversionStatus: 'converted',
       recommendedTarget: 'pmtiles',
-      testLayerId: `${layer.id}-vector-test`,
+      testLayerId: `${layer.id}-vector`,
       aliasTargetLayerId: null,
       bounds: output.bounds,
       style: styleFor(layer),
@@ -409,7 +409,7 @@ function updateSpatialIndex(outputs) {
 function copyFeatureIndexes(outputs) {
   for (const layer of LAYERS) {
     const output = outputs.get(layer.id);
-    const target = resolve(FEATURE_INDEX_DIR, `${layer.id}-vector-test.json`);
+    const target = resolve(FEATURE_INDEX_DIR, `${layer.id}-vector.json`);
     copyFileSync(resolve(ROOT, output.feature_index_path), target);
   }
 }

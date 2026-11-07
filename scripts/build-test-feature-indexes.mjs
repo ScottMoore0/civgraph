@@ -168,7 +168,7 @@ function featureIndexWhere(layer) {
 }
 
 function featureRepairProperties(layer) {
-  if (layer.sourceMapId === 'deas-1972' || layer.id === 'deas-1972-vector-test') return ['Area_SqKM', 'OBJECTID'];
+  if (layer.sourceMapId === 'deas-1972' || layer.id === 'deas-1972-vector') return ['Area_SqKM', 'OBJECTID'];
   return [];
 }
 
@@ -191,7 +191,7 @@ function cleanIndexValue(value) {
 }
 
 function repairFeatureIndexProperties(layer, props = {}) {
-  if (layer.sourceMapId !== 'deas-1972' && layer.id !== 'deas-1972-vector-test') return props;
+  if (layer.sourceMapId !== 'deas-1972' && layer.id !== 'deas-1972-vector') return props;
   const repairedName = deas1972RepairedName(props);
   if (!repairedName) return props;
   return {

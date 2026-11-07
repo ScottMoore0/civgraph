@@ -9,7 +9,7 @@ async function loadCivilParishes(page) {
   const useLocalFallback = fs.existsSync(CIVIL_PARISHES_FALLBACK_DIR);
   return page.evaluate(async ({ useLocalFallback }) => {
     const app = window.__civgraphTest2.app;
-    const layer = window.__civgraphTest2.metadataService.getLayer('civil-parishes-vector-test');
+    const layer = window.__civgraphTest2.metadataService.getLayer('civil-parishes-vector');
     if (useLocalFallback && layer?.tilesFallback) {
       layer.sourceType = 'mvt';
       layer.tiles = layer.tilesFallback;
@@ -1671,12 +1671,12 @@ test('Settlements 2015 has labels, hover state, and feature details', async ({ p
     await new Promise((resolve) => window.__civgraphTest2.mapController.map.once('idle', resolve));
   });
   await page.waitForFunction(() => (
-    document.querySelectorAll('.maplibre-dom-label[data-layer-id="settlements-2015-vector-test"]:not([hidden])').length > 0
+    document.querySelectorAll('.maplibre-dom-label[data-layer-id="settlements-2015-vector"]:not([hidden])').length > 0
   ));
 
   const state = await page.evaluate(() => {
     const map = window.__civgraphTest2.mapController.map;
-    const layer = window.__civgraphTest2.metadataService.getLayer('settlements-2015-vector-test');
+    const layer = window.__civgraphTest2.metadataService.getLayer('settlements-2015-vector');
     const features = map.queryRenderedFeatures({
       layers: ['settlements-2015-vector-test-fill'].filter((id) => map.getLayer(id))
     });
@@ -1686,7 +1686,7 @@ test('Settlements 2015 has labels, hover state, and feature details', async ({ p
       labelProperty: layer.labelProperty,
       featureCount: features.length,
       featureIds: features.slice(0, 8).map((feature) => feature.id ?? feature.properties?.[layer.promoteId]),
-      labelCount: document.querySelectorAll('.maplibre-dom-label[data-layer-id="settlements-2015-vector-test"]:not([hidden])').length
+      labelCount: document.querySelectorAll('.maplibre-dom-label[data-layer-id="settlements-2015-vector"]:not([hidden])').length
     };
   });
   expect(state.promoteId).toBe('Code');
@@ -1696,14 +1696,14 @@ test('Settlements 2015 has labels, hover state, and feature details', async ({ p
   expect(state.featureIds.every((id) => id !== undefined && id !== null && id !== '')).toBe(true);
   expect(state.labelCount).toBeGreaterThan(0);
 
-  const firstLabel = page.locator('.maplibre-dom-label[data-layer-id="settlements-2015-vector-test"]:not([hidden])').first();
+  const firstLabel = page.locator('.maplibre-dom-label[data-layer-id="settlements-2015-vector"]:not([hidden])').first();
   await expect(firstLabel).toBeVisible();
   const labelBox = await firstLabel.boundingBox();
   expect(labelBox).not.toBeNull();
   await page.mouse.move(labelBox.x + labelBox.width * 0.5, labelBox.y + labelBox.height * 0.5);
   await page.waitForFunction(() => {
     const renderer = window.__civgraphTest2?.mapController?.renderer;
-    const label = document.querySelector('.maplibre-dom-label[data-layer-id="settlements-2015-vector-test"]:not([hidden])');
+    const label = document.querySelector('.maplibre-dom-label[data-layer-id="settlements-2015-vector"]:not([hidden])');
     const diagnostics = renderer?.getMobileGestureDiagnostics?.();
     return label?.classList.contains('map-label--hover') && diagnostics?.mapCursor === 'pointer';
   });
@@ -1741,7 +1741,7 @@ test('duplicate promoted IDs do not cross-highlight distant DEAs', async ({ page
     const map = adapter.map;
     await new Promise((resolve) => map.once('idle', resolve));
     const renderer = adapter.renderer;
-    const record = renderer.layers.get('deas-1972-vector-test');
+    const record = renderer.layers.get('deas-1972-vector');
     const queryLayers = ['deas-1972-vector-test-fill', 'deas-1972-vector-test-line'].filter((id) => map.getLayer(id));
     const features = map.queryRenderedFeatures({ layers: queryLayers });
     const featureName = (feature) => String(feature?.properties?.NAME || feature?.properties?.label_name || '').toUpperCase();
@@ -1796,12 +1796,12 @@ test('no-id vector layers still support labels, hover, and feature details', asy
     await new Promise((resolve) => window.__civgraphTest2.mapController.map.once('idle', resolve));
   });
   await page.waitForFunction(() =>
-    document.querySelectorAll('.maplibre-dom-label[data-layer-id="place-names-gazetteer-vector-test"]:not([hidden])').length > 0
+    document.querySelectorAll('.maplibre-dom-label[data-layer-id="place-names-gazetteer-vector"]:not([hidden])').length > 0
   );
 
   const state = await page.evaluate(() => {
     const map = window.__civgraphTest2.mapController.map;
-    const layer = window.__civgraphTest2.metadataService.getLayer('place-names-gazetteer-vector-test');
+    const layer = window.__civgraphTest2.metadataService.getLayer('place-names-gazetteer-vector');
     const queryLayers = ['place-names-gazetteer-vector-test-line'].filter((id) => map.getLayer(id));
     const features = map.queryRenderedFeatures({ layers: queryLayers });
     return {
@@ -1809,7 +1809,7 @@ test('no-id vector layers still support labels, hover, and feature details', asy
       idProperty: layer.idProperty || '',
       featureCount: features.length,
       nativeIds: features.slice(0, 8).map((feature) => feature.id ?? feature.properties?.id).filter(Boolean).length,
-      labelCount: document.querySelectorAll('.maplibre-dom-label[data-layer-id="place-names-gazetteer-vector-test"]:not([hidden])').length
+      labelCount: document.querySelectorAll('.maplibre-dom-label[data-layer-id="place-names-gazetteer-vector"]:not([hidden])').length
     };
   });
   expect(state.promoteId).toBe('');
@@ -1818,7 +1818,7 @@ test('no-id vector layers still support labels, hover, and feature details', asy
   expect(state.nativeIds).toBe(0);
   expect(state.labelCount).toBeGreaterThan(0);
 
-  const firstLabel = page.locator('.maplibre-dom-label[data-layer-id="place-names-gazetteer-vector-test"]:not([hidden])').first();
+  const firstLabel = page.locator('.maplibre-dom-label[data-layer-id="place-names-gazetteer-vector"]:not([hidden])').first();
   await expect(firstLabel).toBeVisible();
   await firstLabel.hover();
   await expect(firstLabel).toHaveClass(/map-label--hover/);
@@ -1985,7 +1985,7 @@ test('loads generated election entries with MapLibre styling and enriched featur
     const app = window.__civgraphTest2.app;
     const mapController = window.__civgraphTest2.mapController;
     const state = app.mapController.getLayerState('pc-2023');
-    const testLayerId = state?.testLayerId || 'pc-2023-vector-test';
+    const testLayerId = state?.testLayerId || 'pc-2023-vector';
     const record = mapController.renderer?.layers.get(testLayerId);
     const layerIds = [`${testLayerId}-fill`, `${testLayerId}-line`].filter((id) => mapController.map.getLayer(id));
     const feature = mapController.map.queryRenderedFeatures({ layers: layerIds })
@@ -2598,7 +2598,7 @@ test('loads converted child layers for main catalogue composite parents', async 
         loaded: true,
         visible: true,
         config: { id, name: id },
-        testLayerId: `${id}-vector-test`,
+        testLayerId: `${id}-vector`,
         layerIds: []
       });
       return app.mapController.layerStates.get(id);
@@ -2863,7 +2863,7 @@ test('MapLibre controls handle opacity, labels, feature details, and active laye
       }).length,
       featureHover: app.mapController.map.getFeatureState({
         source: 'civil-parishes-vector-test-source',
-        sourceLayer: app.metadataService.getLayer('civil-parishes-vector-test').sourceLayer,
+        sourceLayer: app.metadataService.getLayer('civil-parishes-vector').sourceLayer,
         id
       }).hover === true
     };
@@ -2901,7 +2901,7 @@ test('MapLibre controls handle opacity, labels, feature details, and active laye
       }).length,
       featureSelected: app.mapController.map.getFeatureState({
         source: 'civil-parishes-vector-test-source',
-        sourceLayer: app.metadataService.getLayer('civil-parishes-vector-test').sourceLayer,
+        sourceLayer: app.metadataService.getLayer('civil-parishes-vector').sourceLayer,
         id
       }).selected === true
     };
@@ -2987,7 +2987,7 @@ test('MapLibre controls handle opacity, labels, feature details, and active laye
     const id = feature?.id ?? feature?.properties?.id;
     if (id === undefined || id === null) return false;
     return window.__civgraphTest2.mapController.renderer.selectFeatureById(
-      'civil-parishes-vector-test',
+      'civil-parishes-vector',
       id,
       feature.properties
     );

@@ -612,7 +612,7 @@ function updateMapLibreMetadata(datasets, sourceInventory) {
     .map((item) => [item.layerId, item]));
 
   for (const dataset of datasets) {
-    const layerId = `${dataset.id}-vector-test`;
+    const layerId = `${dataset.id}-vector`;
     const rangeVerified = rangeVerifiedByLayer.get(layerId);
     metadata.layers.push(compactObject({
       id: layerId,
@@ -779,7 +779,7 @@ function updateMainSitePortPlan(datasets, sourceInventory) {
       sourceCredits: ['Database of British and Irish Hills editors', 'Hill Bagging'],
       conversionStatus: 'converted',
       recommendedTarget: 'pmtiles',
-      testLayerId: `${dataset.id}-vector-test`,
+      testLayerId: `${dataset.id}-vector`,
       aliasTargetLayerId: null,
       bounds: dataset.bounds,
       style: {
@@ -832,7 +832,7 @@ function updateSpatialIndex(datasets) {
 
 function updateFeatureIndexes(datasets) {
   for (const dataset of datasets) {
-    const layerId = `${dataset.id}-vector-test`;
+    const layerId = `${dataset.id}-vector`;
     const indexPath = resolve(FEATURE_INDEX_DIR, `${layerId}.json`);
     writeJson(indexPath, {
       layerId,

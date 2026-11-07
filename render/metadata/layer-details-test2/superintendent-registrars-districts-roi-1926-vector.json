@@ -1,0 +1,214 @@
+{
+  "id": "superintendent-registrars-districts-roi-1926-vector",
+  "sourceMapId": "superintendent-registrars-districts-roi-1926",
+  "name": "Superintendent Registrars' Districts 18 Apr 1926",
+  "category": "Local Government Districts",
+  "group": "Elections and Government",
+  "date": "1926-04-18",
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Scott Moore",
+    "Phelim Birch",
+    "Paddy Matthews"
+  ],
+  "description": "The 126 superintendent registrars' districts of the Irish Free State at the census of 18 Apr 1926, the registration areas for births, deaths and marriages. Table 10 prints them county by county under the names of the former Poor Law Unions, each within one county. Each is the union of its dispensary districts on Dispensary Districts 18 Apr 1926, so it has the same source (CSO Census of Population 1926, Vol. 1, Table 10) and checks; every printed district total is the sum of its dispensary districts. It carries the number of DEDs and dispensary districts it holds and their combined 1926 population; the district holding a county borough (Dublin, Cork, Limerick, Waterford) takes in the city on the map, but its population leaves the city out.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/render/tiles/generated/superintendent-registrars-districts-roi-1926/{z}/{x}/{y}.pbf",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/superintendent-registrars-districts-roi-1926-vector-test.pmtiles",
+  "tilesFallback": "/render/tiles/generated/superintendent-registrars-districts-roi-1926/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/render/tiles/generated/superintendent-registrars-districts-roi-1926/metadata.json",
+  "sourceLayer": "superintendent_registrars_districts_roi_1926",
+  "promoteId": "superintendent_registrars_district",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.3888583,
+      -10.662971
+    ],
+    [
+      55.4465808,
+      -5.9962778
+    ]
+  ],
+  "style": {
+    "color": "#004D40",
+    "fillColor": "#004D40",
+    "fillOpacity": 0.18,
+    "weight": 3
+  },
+  "references": [
+    {
+      "label": "Census of Population 1926, Vol. 1, Table 10: population, area and valuation of dispensary districts, registrars' districts and superintendent registrars' districts",
+      "url": "http://web.archive.org/web/20160427074414/http://www.cso.ie/en/media/csoie/census/census1926results/volume1/C_1926_V1_T10.pdf",
+      "note": "Each district with its 1911 Table VII DED reference numbers, area and 1926 population, read from the page images (Wayback Machine copy of the CSO file, captured 27 Apr 2016; CC BY 4.0)."
+    },
+    {
+      "label": "Census of Population 1936, Vol. 1, Table 11: population, area and valuation of each District Electoral Division",
+      "url": "https://www.cso.ie/en/media/csoie/census/census1936results/volume1/C_1936_Vol_1_T11.pdf",
+      "note": "Each DED with its 1911 Table VII reference number and acreage, used to check the 1926 printed areas (the 1926 Table 11 is not held)."
+    },
+    {
+      "label": "Census of Population 1936, Vol. 1, Table 10: population, area and valuation of dispensary districts, registrars' districts and superintendent registrars' districts",
+      "url": "https://www.cso.ie/en/media/csoie/census/census1936results/volume1/C_1936_Vol_1_T10.pdf",
+      "note": "Cross-check: each 1936 district's 1926 population as constituted in 1936."
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "render/source-cache/vector-intake/superintendent-registrars-districts-roi-1926.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Scott Moore",
+    "Phelim Birch",
+    "Paddy Matthews"
+  ],
+  "keywords": [
+    "superintendent registrar's district",
+    "registration district",
+    "civil registration",
+    "births deaths marriages",
+    "poor law union",
+    "census",
+    "1926",
+    "Irish Free State",
+    "republic of ireland",
+    "Superintendent Registrars' Districts 18 Apr 1926",
+    "Local Government Districts",
+    "Elections and Government",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "superintendent_registrars_district",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#004D40",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/render/metadata/feature-indexes/superintendent-registrars-districts-roi-1926-vector.json",
+  "sourceFile": "render/source-cache/vector-intake/superintendent-registrars-districts-roi-1926.fgb",
+  "sourceDatasetLayer": "superintendent-registrars-districts-roi-1926",
+  "idProperty": "superintendent_registrars_district",
+  "popupProperties": [
+    "superintendent_registrars_district",
+    "county",
+    "ded_count",
+    "population",
+    "dd_count",
+    "area_km2"
+  ],
+  "numericProperties": [
+    "ded_count",
+    "population",
+    "dd_count",
+    "area_km2"
+  ],
+  "categoricalProperties": [
+    "county",
+    "superintendent_registrars_district"
+  ],
+  "categoricalValues": {
+    "county": [
+      "Carlow",
+      "Cavan",
+      "Clare",
+      "Cork",
+      "Donegal",
+      "Dublin",
+      "Galway",
+      "Kerry",
+      "Kildare",
+      "Kilkenny",
+      "Laoighis",
+      "Leitrim",
+      "Limerick",
+      "Longford",
+      "Louth",
+      "Mayo",
+      "Meath",
+      "Monaghan",
+      "Offaly",
+      "Sligo",
+      "Wexford",
+      "Wicklow",
+      "Roscommon",
+      "Tipperary",
+      "Waterford",
+      "Westmeath"
+    ],
+    "superintendent_registrars_district": [
+      "An Uaimh",
+      "Ardee",
+      "Athlone",
+      "Athy",
+      "Ballina",
+      "Bawnboy",
+      "Birr",
+      "Boyle",
+      "Callan",
+      "Carlow",
+      "Cashel",
+      "Cavan",
+      "Clifden",
+      "Clogheen",
+      "Clones",
+      "Clonmel",
+      "Corrofin",
+      "Delvin",
+      "Donegal",
+      "Drogheda",
+      "Dublin",
+      "Dundalk",
+      "Fermoy",
+      "Galway",
+      "Glenties",
+      "Gorey",
+      "Gort",
+      "Granard",
+      "Kilkenny",
+      "Kilrush",
+      "Lismore",
+      "Listowel"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from render/source-cache/vector-intake/superintendent-registrars-districts-roi-1926.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "render/source-cache/vector-intake/superintendent-registrars-districts-roi-1926.fgb",
+    "bytes": 9494919,
+    "files": 3337,
+    "pbfFiles": 3336,
+    "maxTileBytes": 74951
+  },
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "render/pmtiles/generated/superintendent-registrars-districts-roi-1926-vector-test.pmtiles",
+    "url": "/render/pmtiles/generated/superintendent-registrars-districts-roi-1926-vector-test.pmtiles",
+    "bytes": 6330754,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-11-01T15:15:34.580Z",
+    "fallback": "/render/tiles/generated/superintendent-registrars-districts-roi-1926/{z}/{x}/{y}.pbf",
+    "sourceSha256": "0811b72e11524847a2bc321d5653b72934e9350275ee9340f02ef73515f22113",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/superintendent-registrars-districts-roi-1926-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/superintendent-registrars-districts-roi-1926-vector-test.pmtiles",
+    "localUrl": "/render/pmtiles/generated/superintendent-registrars-districts-roi-1926-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-11-01T20:48:28.830Z"
+  }
+}

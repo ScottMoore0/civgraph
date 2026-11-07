@@ -28,7 +28,11 @@ test('files named by id are renamed; scope and skips', () => {
   assert.equal(renamedPath('render/metadata/maps-test.json'), null);
   assert.ok(inScope('render/metadata/maps-test.json'));
   assert.ok(inScope('scripts/promote-test-converted-layers.mjs'));
-  assert.ok(!inScope('render/metadata/cdn-upload-manifest.json'), 'reports keep their history');
+  // The CDN manifest and range report are keyed by layer id (check:map-tiles, the upload, verify
+  // and switch scripts); their R2 keys and URLs keep the old spelling (tile tokens are skipped).
+  assert.ok(inScope('render/metadata/cdn-upload-manifest.json'));
+  assert.ok(inScope('render/metadata/cdn-range-report.json'));
+  assert.ok(!inScope('render/metadata/tile-budget-report.json'), 'reports keep their history');
   assert.ok(!inScope('scripts/lib/layer-renames.mjs'), 'the rename rule names both spellings');
   assert.ok(!inScope('docs/x.md'));
 });

@@ -219,7 +219,7 @@ function assertCatalogueMetadata() {
   // OWNER. 2020-03 has no address field at all, so it keeps OWNER.
   const glprLabelFields = { 'glpr-2020-03': 'OWNER', 'glpr-2021-03': 'ADDRESS', 'glpr-2021-08': 'ADDRESS', 'glpr-2021-09': 'ADDRESS', 'glpr-2022-04': 'ADDRESS', 'glpr-2023-04': 'ADDRESS' };
   for (const [id, field] of Object.entries(glprLabelFields)) {
-    const renderLayer = (testMetadata.layers || []).find((item) => item.id === `${id}-vector-test`);
+    const renderLayer = (testMetadata.layers || []).find((item) => item.id === `${id}-vector`);
     assert(findMap(id)?.labelProperty === field && renderLayer?.labelProperty === field, `${id} must label GLPR features by ${field} in the catalogue and the render record`);
   }
   assert(findMap('roi-national-planning-applications')?.labelProperty === 'Development Address', 'ROI National Planning Applications must label features by Development Address');
@@ -936,7 +936,7 @@ function assertPoint2Coverage() {
   assert(townlands?.conversionStatus === 'convertedComposite' && /ni-townlands/.test(townlands.testLayerId || '') && /roi-townlands/.test(townlands.testLayerId || ''), '/test2 all-Ireland Townlands must resolve through converted NI and ROI Townlands child layers');
 
   const civilPlan = (portPlan.rows || []).find((row) => row.sourceMapId === 'civil-parishes');
-  const civilAlias = (testMetadata.layers || []).find((layer) => layer.sourceMapId === 'civil-parishes' && layer.aliasTargetLayerId === 'civil-parishes-vector-test');
+  const civilAlias = (testMetadata.layers || []).find((layer) => layer.sourceMapId === 'civil-parishes' && layer.aliasTargetLayerId === 'civil-parishes-vector');
   assert(civilPlan?.conversionStatus === 'convertedAlias', '/test2 Civil Parishes legacy catalogue row must be recorded as a converted alias');
   assert(Boolean(civilAlias), '/test2 maps-test metadata must include a loadable Civil Parishes alias to the unified converted layer');
 }

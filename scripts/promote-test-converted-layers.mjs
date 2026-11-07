@@ -255,7 +255,7 @@ function summarizeRows(rows) {
 function findLayerForSource(inputLayers, sourceMapId) {
   return inputLayers.find((layer) => layer.sourceMapId === sourceMapId && layer.loadable !== false)
     || inputLayers.find((layer) => layer.id === sourceMapId && layer.loadable !== false)
-    || inputLayers.find((layer) => layer.id === `${sourceMapId}-vector-test` && layer.loadable !== false)
+    || inputLayers.find((layer) => layer.id === `${sourceMapId}-vector` && layer.loadable !== false)
     || null;
 }
 
@@ -280,7 +280,7 @@ function buildVectorLayer(converted, row, map) {
   const categoricalValues = parsed.categoricalValues || {};
   const popupProperties = unique([labelProperty, idProperty, ...Object.keys(fields).slice(0, 10)]).filter(Boolean);
   const style = normalizeStyle(row.style || map.style);
-  const id = `${row.sourceMapId}-vector-test`;
+  const id = `${row.sourceMapId}-vector`;
   const pmtilesPath = resolve(PMTILES_DIR, `${id}.pmtiles`);
   const pmtiles = existsSync(pmtilesPath) ? {
     url: `/render/pmtiles/generated/${id}.pmtiles`,
@@ -408,7 +408,7 @@ function buildRasterTileLayer(row, map) {
   const style = normalizeStyle(row.style || map.style);
   const rasterStyle = map.rasterStyle || {};
   return {
-    id: `${row.sourceMapId}-raster-test`,
+    id: `${row.sourceMapId}-raster`,
     sourceMapId: row.sourceMapId,
     name: row.name || map.name || row.sourceMapId,
     category: row.category || map.category || 'Raster',
@@ -450,7 +450,7 @@ function buildAliasLayer(row, map, target, aliasTargetId = row.cloneOf) {
     : (target.sourceCredits || creditsFromProvider(row.provider || map.provider || target.provider));
   return {
     ...target,
-    id: `${row.sourceMapId}-alias-test`,
+    id: `${row.sourceMapId}-alias`,
     sourceMapId: row.sourceMapId,
     name: row.name || map.name || row.sourceMapId,
     category: row.category || target.category || map.category || 'Maps',
@@ -782,6 +782,6 @@ function slugify(value) {
 
 function featureIndexUrlIfBuilt(sourceMapId, labelProperty) {
   if (!labelProperty) return undefined;
-  const rel = `/render/metadata/feature-indexes/${sourceMapId}-vector-test.json`;
+  const rel = `/render/metadata/feature-indexes/${sourceMapId}-vector.json`;
   return existsSync(resolve(ROOT, rel.replace(/^\//, ''))) ? rel : undefined;
 }

@@ -64,21 +64,21 @@ const REPORT_ONLY = process.argv.includes('--report-only');
 // warnings, so the check fails only on a NEW layer with an unpopulated promoteId. Remove an id here
 // once its layer is switched to a populated key.
 const KNOWN_UNPOPULATED = new Set([
-  'admin-areas-1930-04-01-vector-test',
-  'counties-county-boroughs-1915-vector-test',
-  'dcc-journey-times-across-dublin-city-from-dublin-city-council-traffic-departments-trips-system-vector-test',
-  'dcc-noise-maps-from-traffic-sources-in-dublin-city-council-vector-test',
-  'deds-ni-1926-vector-test',
-  'eds-munster-1911-vector-test',
-  'lgd-1972-vector-test',
-  'nuts-3-vector-test',
-  'pc-1885-ireland-vector-test',
-  'pc-1920-vector-test',
-  'settlements-2015-craigavon-vector-test',
-  'sligo-townlands-vector-test',
-  'stormont-1920-v2-vector-test',
-  'tii-national-road-network-vector-test',
-  'county-ed-1911-vector-test',
+  'admin-areas-1930-04-01-vector',
+  'counties-county-boroughs-1915-vector',
+  'dcc-journey-times-across-dublin-city-from-dublin-city-council-traffic-departments-trips-system-vector',
+  'dcc-noise-maps-from-traffic-sources-in-dublin-city-council-vector',
+  'deds-ni-1926-vector',
+  'eds-munster-1911-vector',
+  'lgd-1972-vector',
+  'nuts-3-vector',
+  'pc-1885-ireland-vector',
+  'pc-1920-vector',
+  'settlements-2015-craigavon-vector',
+  'sligo-townlands-vector',
+  'stormont-1920-v2-vector',
+  'tii-national-road-network-vector',
+  'county-ed-1911-vector',
 ]);
 const unpopulated = [];
 const knownUnpopulated = [];

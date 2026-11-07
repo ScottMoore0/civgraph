@@ -21,10 +21,10 @@ const BUDGETS = {
 };
 
 const CDN_LAYER_SCENARIOS = [
-  { label: 'Civil Parishes', ids: ['civil-parishes-vector-test'] },
-  { label: 'Townlands', ids: ['antrim-townlands-vector-test', 'down-townlands-vector-test'] },
-  { label: 'Small Areas', ids: ['roi-small-areas-2022-vector-test', 'roi-small-areas-2011-vector-test'] },
-  { label: 'Counties', ids: ['counties-ireland-vector-test', 'counties-ireland-1957-vector-test'] }
+  { label: 'Civil Parishes', ids: ['civil-parishes-vector'] },
+  { label: 'Townlands', ids: ['antrim-townlands-vector', 'down-townlands-vector'] },
+  { label: 'Small Areas', ids: ['roi-small-areas-2022-vector', 'roi-small-areas-2011-vector'] },
+  { label: 'Counties', ids: ['counties-ireland-vector', 'counties-ireland-1957-vector'] }
 ];
 
 const server = spawn('python', ['-m', 'http.server', String(PORT)], {
@@ -118,7 +118,7 @@ try {
       }
       return metadata.layers.find((candidate) => (
         candidate.loadable
-        && ids.some((id) => `${candidate.id} ${candidate.sourceMapId || ''} ${candidate.name || ''}`.includes(id.replace('-vector-test', '')))
+        && ids.some((id) => `${candidate.id} ${candidate.sourceMapId || ''} ${candidate.name || ''}`.includes(id.replace('-vector', '')))
       ));
     };
 

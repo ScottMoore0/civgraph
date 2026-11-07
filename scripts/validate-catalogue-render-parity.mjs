@@ -91,7 +91,7 @@ const catalogue = catalogueDoc.maps || [];
 const render = renderDoc.layers || [];
 
 /** The render store suffixes converted layers; the join is otherwise the bare id. */
-const joinKey = (id) => String(id || '').replace(/-vector-test$/, '');
+const joinKey = (id) => String(id || '').replace(/-vector$/, '');
 const renderById = new Map(render.map((l) => [joinKey(l.id), l]));
 
 // --- the four systematic transforms, normalised away -----------------------

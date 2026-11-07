@@ -577,7 +577,7 @@ def write_domain_output(
 
     bounds = to_civgraph_bounds(gdf.total_bounds)
     feature_index = {
-        "layerId": f"{layer_id}-vector-test",
+        "layerId": f"{layer_id}-vector",
         "itemLimit": len(gdf),
         "totalItems": len(gdf),
         "truncated": False,

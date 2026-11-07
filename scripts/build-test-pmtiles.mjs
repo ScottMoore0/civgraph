@@ -679,7 +679,7 @@ function mbtilesArgs({ outputPath, sourcePath, minzoom, maxzoom, profile, layerN
 function usesMbtilesIntermediate(layer) {
   return new Set([
     'habitat-wetland-grouped',
-    'habitat-wetland-grouped-vector-test'
+    'habitat-wetland-grouped-vector'
   ]).has(layer.sourceMapId || layer.id);
 }
 

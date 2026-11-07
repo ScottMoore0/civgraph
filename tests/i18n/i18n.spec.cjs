@@ -243,7 +243,7 @@ test.describe('language preview flag on', () => {
         date: i.translate('01 Apr 1969'),
         composite: i.translate('01 Nov 1957 · Phelim Birch · 32 Counties'),
         title: i.translate('2016 Irish general election'),
-        field: i.placeNameField({ id: 'counties-ireland-vector-test' }),
+        field: i.placeNameField({ id: 'counties-ireland-vector' }),
         fieldByMap: i.placeNameField({ id: 'counties-ireland' }),
         none: i.placeNameField({ id: 'no-such-layer' }),
         number: i.formatNumber(1234567.5)
@@ -263,7 +263,7 @@ test.describe('language preview flag on', () => {
   test('English never uses an Irish place-name field', async ({ page }) => {
     await page.goto('/pages/about.html?lang=en');
     await ready(page);
-    expect(await page.evaluate(() => window.civgraphI18n.placeNameField({ id: 'counties-ireland-vector-test' }))).toBeNull();
+    expect(await page.evaluate(() => window.civgraphI18n.placeNameField({ id: 'counties-ireland-vector' }))).toBeNull();
   });
 
   test('the map catalogue renders in Irish', async ({ page }) => {

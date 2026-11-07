@@ -2249,7 +2249,7 @@ function loadFeatureIndexes(layers) {
   const indexes = new Map();
   for (const layer of layers) {
     const file = path.join(FEATURE_INDEX_DIR, `${layer.id}.json`);
-    const aliasFile = layer.aliasOf ? path.join(FEATURE_INDEX_DIR, `${layer.aliasOf}-vector-test.json`) : null;
+    const aliasFile = layer.aliasOf ? path.join(FEATURE_INDEX_DIR, `${layer.aliasOf}-vector.json`) : null;
     const indexFile = existsSync(file) ? file : aliasFile && existsSync(aliasFile) ? aliasFile : null;
     if (!indexFile) continue;
     const index = readJson(indexFile);

@@ -195,7 +195,7 @@ function validatePortPlan(metadata) {
   const convertedIds = new Set(convertedRows.map((row) => row.testLayerId));
   // A COMPOSITE ROW NAMES ITS PARTS, NOT THE LAYER. counties-ireland is planned as a
   // composite of counties-ni-1915 and roi-counties-2011, so its row carries the pseudo-id
-  // 'composite:counties-ni-1915,roi-counties-2011' rather than counties-ireland-vector-test.
+  // 'composite:counties-ni-1915,roi-counties-2011' rather than counties-ireland-vector.
   // The layer is nonetheless a real conversion -- its archive is on the CDN -- so matching
   // only on testLayerId reported a healthy layer as unplanned. sourceMapId is the stable
   // link between a layer and its plan row, and still requires a row to exist.

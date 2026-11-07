@@ -40,7 +40,7 @@ const WIDER = [
       && south < 57 && north > 49 && west < -4 && east > -12
   },
   {
-    match: (key) => key === 'tailte-ferry-crossing' || key === 'tailte-ferry-crossing-vector-test',
+    match: (key) => key === 'tailte-ferry-crossing' || key === 'tailte-ferry-crossing-vector',
     test: ({ south, north, west, east }) => south >= 47 && north <= 59 && west >= -13 && east <= 2
   }
 ];

@@ -61,7 +61,7 @@ export function buildRepairedLabelFilterExpression(layer) {
 function isDeas1972(layer) {
   return layer?.sourceMapId === 'deas-1972'
     || layer?.id === 'deas-1972'
-    || layer?.id === 'deas-1972-vector-test'
+    || layer?.id === 'deas-1972-vector'
     || layer?.sourceLayer === 'deas_1972';
 }
 

@@ -146,7 +146,7 @@ function normalize(value) {
 }
 
 function isResolvedRoiCountiesLayer(layer) {
-  return (layer.id === 'roi-counties-2011-vector-test' || layer.sourceMapId === 'roi-counties-2011')
+  return (layer.id === 'roi-counties-2011-vector' || layer.sourceMapId === 'roi-counties-2011')
     && layer.sourceType === 'pmtiles'
     && /^https:\/\/data\.civgraph\.net\/data\/maps\/test\/pmtiles\/generated\/roi-counties-2011-vector-test\.pmtiles$/i.test(layer.tileUrl || '')
     && /data\/maps\/baronies-parishes\/ROI_Counties_2011\.fgb$/i.test(String(layer.sourceFile || '').replaceAll('\\', '/'))

@@ -83,13 +83,13 @@ test('files must exist, and a given sha256 must match', () => {
 test('duplicate map ids, layer ids and R2 keys are refused', () => {
   const { manifest } = makeBatch();
   const ops = JSON.parse(JSON.stringify(manifest.operations));
-  ops.find((o) => o.id === 'pmtiles').ids = ['a-vector-test', 'a-vector-test'];
+  ops.find((o) => o.id === 'pmtiles').ids = ['a-vector', 'a-vector'];
   ops.find((o) => o.id === 'fgb').pairs.push({ file: 'data/maps/health/existing.fgb', key: 'data/maps/health/New_Layer.fgb' });
   const { errors } = validate({ operations: ops }, ({ dir }) => {
     writeFile(dir, 'proposed/entries.json', [{ id: 'dd-1921' }, { id: 'dd-1921' }]);
   });
   assert.ok(errors.includes('catalogue: map id dd-1921 appears twice in entries'));
-  assert.ok(errors.includes('pmtiles: layer id a-vector-test is listed twice'));
+  assert.ok(errors.includes('pmtiles: layer id a-vector is listed twice'));
   assert.ok(errors.includes('R2 key data/maps/health/New_Layer.fgb is written more than once'));
 });
 

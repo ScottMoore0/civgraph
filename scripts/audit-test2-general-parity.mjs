@@ -365,7 +365,7 @@ function extractDataCoverageState() {
   const actionableStatuses = new Set(['needsVectorTileConversion', 'needsRasterStrategy', 'needsMapLibreSourceMapping']);
   const actionableRows = (plan.rows || []).filter((row) => actionableStatuses.has(row.conversionStatus));
   const metadataOnlyRows = (plan.rows || []).filter((row) => row.conversionStatus === 'metadataOnly');
-  const civilAlias = (metadata.layers || []).find((layer) => layer.sourceMapId === 'civil-parishes' && layer.aliasTargetLayerId === 'civil-parishes-vector-test');
+  const civilAlias = (metadata.layers || []).find((layer) => layer.sourceMapId === 'civil-parishes' && layer.aliasTargetLayerId === 'civil-parishes-vector');
   const townlands = (plan.rows || []).find((row) => row.sourceMapId === 'all-ireland-townlands');
   const civilPlan = (plan.rows || []).find((row) => row.sourceMapId === 'civil-parishes');
   return {
@@ -488,7 +488,7 @@ try {
       const app = window.__civgraphTest2.app;
       const adapter = window.__civgraphTest2.mapController;
       const map = adapter.map;
-      const index = await fetch('/render/metadata/feature-indexes/deas-1972-vector-test.json').then((response) => response.json());
+      const index = await fetch('/render/metadata/feature-indexes/deas-1972-vector.json').then((response) => response.json());
       const indexed = (index.items || []).find((item) => item.name === 'BELFAST AREA H')
         || (index.items || []).find((item) => /BELFAST AREA/i.test(item.name || ''))
         || (index.items || []).find((item) => item.name && !/Unnamed Feature/i.test(item.name));
@@ -752,7 +752,7 @@ try {
     assert(state.townlands?.conversionStatus === 'convertedComposite', '/test2 all-Ireland Townlands is not recorded as a converted composite');
     assert(/ni-townlands/.test(state.townlands?.testLayerId || '') && /roi-townlands/.test(state.townlands?.testLayerId || ''), '/test2 all-Ireland Townlands composite does not include both NI and ROI child layers');
     assert(state.civilPlan?.conversionStatus === 'convertedAlias', '/test2 Civil Parishes legacy route is not recorded as a converted alias');
-    assert(state.civilAlias?.aliasTargetLayerId === 'civil-parishes-vector-test', '/test2 Civil Parishes alias is missing from maps-test metadata');
+    assert(state.civilAlias?.aliasTargetLayerId === 'civil-parishes-vector', '/test2 Civil Parishes alias is missing from maps-test metadata');
     return state;
   });
 
