@@ -1,12 +1,13 @@
 // Browse rendering of the facts model: a person's Offices and Affiliation timeline, an office's
 // holders, a party's officers and internal contests. browse/browse.js is a browser script, so it
-// is run in a sandbox with an inert document and its render functions called directly.
+// is run in a sandbox with an inert document and its render functions called directly. Its
+// static imports (browse/state-machines.js) are loaded here and handed to it as constants.
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import vm from 'node:vm';
 
-function loadBrowse() {
+async function loadBrowse() {
   const handler = {
     get: (target, prop) => {
       if (prop === Symbol.toPrimitive) return () => '';
@@ -36,12 +37,20 @@ function loadBrowse() {
   };
   ctx.window = ctx;
   ctx.self = ctx;
+  const imports = {};
+  let source = readFileSync('browse/browse.js', 'utf8');
+  for (const [, , spec] of source.matchAll(/^import\s*\{([^}]*)\}\s*from\s*'([^']+)';/gm)) {
+    imports[spec] = await import(new URL(spec, new URL('../../browse/browse.js', import.meta.url)).href);
+  }
+  source = source.replace(/^import\s*\{([^}]*)\}\s*from\s*'([^']+)';/gm,
+    (_match, names, spec) => `const {${names}} = __imports[${JSON.stringify(spec)}];`);
+  ctx.__imports = imports;
   vm.createContext(ctx);
-  vm.runInContext(readFileSync('browse/browse.js', 'utf8'), ctx, { filename: 'browse.js' });
+  vm.runInContext(source, ctx, { filename: 'browse.js' });
   return (name) => vm.runInContext(name, ctx);
 }
 
-const fn = loadBrowse();
+const fn = await loadBrowse();
 const cite = [{ title: 'Elliott and Flackes (1999), Dictionary, p. 469' }];
 
 test('Offices is a type Browse lists and opens', () => {
