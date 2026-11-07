@@ -620,7 +620,7 @@ test('Dail 2024 election pane matches the main DOM contract for the compared sta
 
   await Promise.all([
     mainPage.goto('/maps/'),
-    test2Page.goto(`/test2/#${hash}`)
+    test2Page.goto(`/maps/#${hash}`)
   ]);
   await mainPage.waitForFunction(() => window.uiController?.onLoadElection);
   await mainPage.evaluate(() => window.uiController.onLoadElection('Dáil Éireann', '2024-11-29'));
@@ -669,7 +669,7 @@ test('Dail election candidate and count panes follow the main pane contract', as
 
   await Promise.all([
     mainPage.goto('/maps/'),
-    test2Page.goto(`/test2/#${hash}`)
+    test2Page.goto(`/maps/#${hash}`)
   ]);
   await mainPage.waitForFunction(() => window.uiController?.onLoadElection);
   await mainPage.evaluate(() => window.uiController.onLoadElection('Dáil Éireann', '2024-11-29'));
@@ -708,7 +708,7 @@ test('Dail election candidate and count panes follow the main pane contract', as
 
 test('selected Dail 2024 Cork North-Central pane uses constituency source values', async ({ page }) => {
   const hash = 'layers=election-dil-ireann-2024-11-29&electionSelected=cork-north-central&electionView=party&lng=-8.12&lat=53.48&zoom=7.00';
-  await page.goto(`/test2/#${hash}`);
+  await page.goto(`/maps/#${hash}`);
   await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
   await page.evaluate(() => window.__civgraphTest2.restorePromise);
   await page.waitForSelector('#electionPaneContent .election-party-table tbody tr');
@@ -816,7 +816,7 @@ test('selected Dail 2024 Cork North-Central pane uses constituency source values
 test('selected Dail 2024 Galway East pane computes constituency percentages and resizes', async ({ page }) => {
   test.setTimeout(90000);
   const hash = 'layers=election-dil-ireann-2024-11-29&electionSelected=galway-east&electionView=party&lng=-8.12&lat=53.48&zoom=7.00';
-  await page.goto(`/test2/#${hash}`);
+  await page.goto(`/maps/#${hash}`);
   await page.waitForFunction(() => window.__civgraphTest2?.restorePromise, null, { timeout: 60000 });
   await page.evaluate(() => window.__civgraphTest2.restorePromise);
   await page.waitForSelector('#electionPaneContent .election-party-table tbody tr');
@@ -930,7 +930,7 @@ test('selected Dail 2024 Galway East pane computes constituency percentages and 
 test('Trends tab renders without getting stuck on loading', async ({ page }) => {
   test.setTimeout(90000);
   const hash = 'layers=election-dil-ireann-2024-11-29&electionView=trends&lng=-8.12&lat=53.48&zoom=7.00';
-  await page.goto(`/test2/#${hash}`);
+  await page.goto(`/maps/#${hash}`);
   await page.waitForFunction(() => window.__civgraphTest2?.restorePromise, null, { timeout: 60000 });
   await page.evaluate(() => window.__civgraphTest2.restorePromise);
   await page.waitForSelector('#test2ElectionTrendsChart .test2-election-trends__svg', { timeout: 60000 });
@@ -941,7 +941,7 @@ test('Trends tab renders without getting stuck on loading', async ({ page }) => 
 test('Trends include-all scope stays within the active election jurisdiction', async ({ page }) => {
   test.setTimeout(90000);
   const hash = 'layers=election-dil-ireann-2024-11-29&electionView=trends&lng=-8.12&lat=53.48&zoom=7.00';
-  await page.goto(`/test2/#${hash}`);
+  await page.goto(`/maps/#${hash}`);
   await page.waitForFunction(() => window.__civgraphTest2?.restorePromise, null, { timeout: 60000 });
   await page.evaluate(() => window.__civgraphTest2.restorePromise);
   await page.waitForSelector('#test2ElectionTrendsChart .test2-election-trends__svg', { timeout: 60000 });
@@ -2495,7 +2495,7 @@ test('restores and persists detail, source, hidden layer, and panel URL state', 
     'lat=53.35',
     'zoom=6.25'
   ].join('&');
-  await page.goto(`/test2/#${hash}`);
+  await page.goto(`/maps/#${hash}`);
   await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
   await page.evaluate(() => window.__civgraphTest2.restorePromise);
 
