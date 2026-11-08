@@ -83,7 +83,7 @@ export const REPO_PATHS = Object.freeze({
   wranglerToml: 'wrangler.toml',
   tmp: 'tmp',
   appBuild: 'app/build',
-  uiTokens: 'assets/ui',
+  uiTokens: 'packages/ui/assets', // served at /assets/ui/ (packages/served.json)
   electionsSource: 'data/elections-source/data/elections',
   electionsData: 'data/elections',
   mapsCatalogue: 'data/database/maps.json',

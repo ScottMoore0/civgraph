@@ -15,10 +15,10 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { browsePageHandler, resolveElectionSlugAlias } from '../../functions/_browse-page.js';
 import { resetDatasetVersionCache } from '../../packages/api/src/respond.js';
-import { candidacyLinks, personBody } from '../../functions/_templates/records/person.js';
-import { registerInterestBody } from '../../functions/_templates/records/register-interest.js';
-import { sourceBody } from '../../functions/_templates/records/source.js';
-import { ssrMode } from '../../functions/_templates/records/index.js';
+import { candidacyLinks, personBody } from '../../packages/ui/src/templates/records/person.js';
+import { registerInterestBody } from '../../packages/ui/src/templates/records/register-interest.js';
+import { sourceBody } from '../../packages/ui/src/templates/records/source.js';
+import { ssrMode } from '../../packages/ui/src/templates/records/index.js';
 import { migrationFiles, TableWriter, transaction } from '../../packages/loader/src/db.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');

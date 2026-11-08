@@ -14,7 +14,7 @@ import path from 'node:path';
 import * as runtime from '../../packages/config/src/config.js';
 import * as config from '../../packages/config/src/node.mjs';
 import { recordPaths as legacyRecordPaths } from '../../packages/loader/src/paths.mjs';
-import { SITE_NAME, SITE_ORIGIN } from '../../functions/_templates/shell.js';
+import { SITE_NAME, SITE_ORIGIN } from '../../packages/ui/src/templates/shell.js';
 
 const ROOT = config.REPO_ROOT;
 const read = (rel) => readFileSync(path.join(ROOT, rel), 'utf8');

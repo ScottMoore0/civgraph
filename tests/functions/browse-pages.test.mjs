@@ -202,9 +202,9 @@ check('types: the sitemap and the pages route the same types',
   const retired = await lookupBrowseRecord(env, 'parties', 'sinn-fein-sinn-fein');
   check('lookup: retired party slug resolves to its party (301)', retired?.slug === 'sinn-fein', JSON.stringify(retired));
   check('lookup: absent party is null (404)', (await lookupBrowseRecord(env, 'parties', 'no-such-party')) === null);
-  const ssrContest = await (await import('../../functions/_templates/records/election.js')).loadElectionPage(env.ELECTIONS_DB, await lookupBrowseRecord(env, 'elections', 'dail-eireann-2024-11-29-cork-north-central'));
+  const ssrContest = await (await import('../../packages/ui/src/templates/records/election.js')).loadElectionPage(env.ELECTIONS_DB, await lookupBrowseRecord(env, 'elections', 'dail-eireann-2024-11-29-cork-north-central'));
   check('ssr: contest page loads its candidates from candidacies', ssrContest?.kind === 'contest' && ssrContest.candidates.length === 2, JSON.stringify(ssrContest?.kind));
-  const { electionBody } = await import('../../functions/_templates/records/election.js');
+  const { electionBody } = await import('../../packages/ui/src/templates/records/election.js');
   const { toHtmlString } = await import('../../packages/core/src/html.js');
   const contestHtml = toHtmlString(electionBody(ssrContest, {}).body);
   check('ssr: contest body lists the candidates, escaped', contestHtml.includes('Pádraig O&#39;Sullivan') || contestHtml.includes("Pádraig O&#x27;Sullivan") || contestHtml.includes('Pádraig O'), contestHtml.slice(0, 200));

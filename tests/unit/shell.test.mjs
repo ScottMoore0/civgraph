@@ -10,7 +10,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { footer, head, header, NAV, NAV_KEYS, page, sectionNav, SHELL_STYLES, SKIP_LINK, supportModal, THEME_BOOTSTRAP } from '../../functions/_templates/shell.js';
+import { footer, head, header, NAV, NAV_KEYS, page, sectionNav, SHELL_STYLES, SKIP_LINK, supportModal, THEME_BOOTSTRAP } from '../../packages/ui/src/templates/shell.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const read = (rel) => readFileSync(path.join(ROOT, rel), 'utf8').replace(/\r\n/g, '\n');

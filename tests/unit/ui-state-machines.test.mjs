@@ -18,7 +18,7 @@ import { fileURLToPath } from 'node:url';
 import * as browse from '../../browse/state-machines.js';
 import * as proni from '../../apps/proni-search/state-machines.js';
 import * as words from '../../apps/words/state-machines.js';
-import { THEME_PREFERENCE } from '../../assets/ui/state/theme.js';
+import { THEME_PREFERENCE } from '../../packages/ui/assets/state/theme.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 
@@ -137,6 +137,6 @@ test('Words chart tooltip: hidden and shown, no move to where it already is', ()
 test('the served helper is the shared one, byte for byte', () => {
   const shared = path.join(ROOT, 'scripts/lib/state-machine.mjs');
   if (!existsSync(shared)) return; // until rf-records lands scripts/lib/state-machine.mjs
-  assert.equal(readFileSync(path.join(ROOT, 'assets/ui/state/machine.js'), 'utf8'), readFileSync(shared, 'utf8'),
-    'assets/ui/state/machine.js must be a copy of scripts/lib/state-machine.mjs (then re-stamp the import maps)');
+  assert.equal(readFileSync(path.join(ROOT, 'packages/ui/assets/state/machine.js'), 'utf8'), readFileSync(shared, 'utf8'),
+    'packages/ui/assets/state/machine.js (served as /assets/ui/state/machine.js) must be a copy of scripts/lib/state-machine.mjs (then re-stamp the import maps)');
 });

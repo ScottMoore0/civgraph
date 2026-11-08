@@ -27,7 +27,7 @@ import {
 } from '../../packages/api/src/handlers/_records.js';
 import { DATASET_PHASES, STORE, phaseOf, readDataset } from '../../packages/api/src/dataset-state.js';
 import { datasetVersion } from '../../packages/api/src/respond.js';
-import { SSR_MODES, ssrMode, ssrModeName } from '../../functions/_templates/records/index.js';
+import { SSR_MODES, ssrMode, ssrModeName } from '../../packages/ui/src/templates/records/index.js';
 import { FEATURE_ID_MODES } from '../../packages/core/src/layer-index.js';
 import { LAYER_VIEWS } from '../../packages/api/src/handlers/layers/[[path]].js';
 import { VERSION_STATUSES, versionStatus } from '../../packages/api/src/v1/delegate.js';

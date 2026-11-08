@@ -8,7 +8,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import vm from 'node:vm';
-import { defineMachine } from '../../assets/ui/state/machine.js';
+import { defineMachine } from '../../packages/ui/assets/state/machine.js';
 
 const SOURCE = readFileSync('sw.js', 'utf8');
 const VERSION = SOURCE.match(/const VERSION = '([^']+)';/)?.[1];

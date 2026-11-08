@@ -23,11 +23,13 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
+import { sourceOf } from '../../scripts/build/site.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const PAGES = ['browse/index.html', 'catalogue/index.html', 'records/index.html', 'apps/proni-search/index.html', 'apps/words/index.html'];
 
-const read = (rel) => readFileSync(path.join(ROOT, rel));
+// A served path a package provides is read from the package (packages/served.json).
+const read = (rel) => readFileSync(path.join(ROOT, sourceOf(rel)));
 export const token = (rel) => createHash('sha256').update(read(rel)).digest('hex').slice(0, 12);
 
 /** Static import specifiers of a module (import ... from '...'; export ... from '...'). */

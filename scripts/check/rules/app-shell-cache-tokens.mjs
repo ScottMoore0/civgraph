@@ -53,6 +53,7 @@
 import { readFileSync, existsSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { sharedCssVersion, stripDerivedServiceWorkerVersion } from '../../build/shell-assets.mjs';
+import { sourceOf } from '../../build/site.mjs';
 
 const HTML = 'index.html';
 const SW = 'sw.js';
@@ -95,7 +96,7 @@ for (const [, assetPath, token] of html.matchAll(REFERENCE)) {
   if (seen.has(key)) continue;
   seen.add(key);
 
-  const file = assetPath.replace(/^\//, '');
+  const file = sourceOf(assetPath.replace(/^\//, '')); // /assets/ui/ is packages/ui (packages/served.json)
   if (!existsSync(file)) {
     problems.push(`${HTML}: ${assetPath} is referenced but does not exist on disk`);
     continue;

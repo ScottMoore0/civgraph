@@ -49,7 +49,8 @@ import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { toHtmlString } from '../../packages/core/src/html.js';
-import { footer, head, header, supportModal } from '../../functions/_templates/shell.js';
+import { footer, head, header, supportModal } from '../../packages/ui/src/templates/shell.js';
+import { sourceOf } from './site.mjs';
 
 const CHECK = process.argv.includes('--check');
 
@@ -121,8 +122,9 @@ const OPENING = /<!-- ((?:site|proni):[a-z-]+)(?:\s+[a-z-]+="[^"]*")* -->/g;
 const hashes = new Map();
 function versionOf(path) {
   if (!hashes.has(path)) {
-    if (!existsSync(path)) throw new Error(`{{version:${path}}}: ${path} does not exist`);
-    hashes.set(path, createHash('sha256').update(readFileSync(path)).digest('hex').slice(0, 12));
+    const file = sourceOf(path); // /assets/ui/ is packages/ui (packages/served.json)
+    if (!existsSync(file)) throw new Error(`{{version:${path}}}: ${file} does not exist`);
+    hashes.set(path, createHash('sha256').update(readFileSync(file)).digest('hex').slice(0, 12));
   }
   return hashes.get(path);
 }
