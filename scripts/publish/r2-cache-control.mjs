@@ -129,6 +129,9 @@ const extArg = argv.includes('--ext')
   : (EXCLUDED.size ? '*' : 'fgb,gz,br');
 const EXTENSIONS = extArg === '*' ? null : new Set(extArg.split(',').map((e) => e.trim().toLowerCase()).filter(Boolean));
 
+/**
+ * @param {string} key
+ */
 function extensionOf(key) {
   const base = key.slice(key.lastIndexOf('/') + 1);
   const dot = base.lastIndexOf('.');
@@ -145,25 +148,37 @@ assertPublishable([PREFIX]);
 
 const s3 = new S3Client(s3ClientOptions(R2, { maxAttempts: 5 }));
 
+/** @typedef {import('@aws-sdk/client-s3')._Object & { Key: string, Size: number }} ListedObject  a listed object always has its Key and Size */
+
+/**
+ * @param {string} prefix
+ * @returns {AsyncGenerator<ListedObject>}
+ */
 async function* listAll(prefix) {
+  /** @type {string | undefined} */
   let token;
   do {
     const page = await s3.send(new ListObjectsV2Command({
       Bucket: R2_BUCKET, Prefix: prefix, ContinuationToken: token, MaxKeys: 1000,
     }));
-    for (const obj of page.Contents || []) yield obj;
+    for (const obj of page.Contents || []) yield /** @type {ListedObject} */ (obj);
     token = page.IsTruncated ? page.NextContinuationToken : undefined;
   } while (token);
 }
 
 const stats = { listed: 0, considered: 0, alreadySet: 0, updated: 0, tooLarge: 0, failed: 0 };
+/** @type {Map<string, number>} out-of-scope extension -> objects */
 const skippedByExt = new Map();
+/** @type {string[]} */
 const problems = [];
 
 console.log(`${APPLY ? 'Setting' : 'Checking (dry run)'} Cache-Control on s3://${R2_BUCKET}/${PREFIX}`);
 console.log(`  value      : ${CACHE_CONTROL}`);
 console.log(`  extensions : ${EXTENSIONS ? [...EXTENSIONS].join(', ') : 'ALL'}\n`);
 
+/**
+ * @param {ListedObject} obj
+ */
 async function handle(obj) {
   let head;
   try {
@@ -210,6 +225,7 @@ async function handle(obj) {
   }
 }
 
+/** @type {Promise<void>[]} */
 let inFlight = [];
 for await (const obj of listAll(PREFIX)) {
   stats.listed += 1;

@@ -68,10 +68,10 @@ const PROXIES = [
   },
 ];
 
-const encode = (key) => key.split('/').map(encodeURIComponent).join('/');
+const encode = (/** @type {string} */ key) => key.split('/').map(encodeURIComponent).join('/');
 
 const failures = [];
-const note = (msg) => console.log(`  ${msg}`);
+const note = (/** @type {string} */ msg) => console.log(`  ${msg}`);
 
 for (const proxy of PROXIES) {
   console.log(`\n${proxy.name}  (${proxy.fn})`);

@@ -9,7 +9,7 @@
 import { existsSync } from 'fs';
 import { r2CredentialsOrExit, s3ClientOptions } from './r2-env.mjs';
 
-const arg = (name) => { const i = process.argv.indexOf(name); return i > -1 ? process.argv[i + 1] : null; };
+const arg = (/** @type {string} */ name) => { const i = process.argv.indexOf(name); return i > -1 ? process.argv[i + 1] : null; };
 const PREFIX = arg('--prefix');
 const MATCH = arg('--match');
 const DELETE = process.argv.includes('--delete');
@@ -23,12 +23,15 @@ const BUCKET = R2.bucket;
 const { S3Client, ListObjectsV2Command, DeleteObjectsCommand } = await import('@aws-sdk/client-s3');
 const s3 = new S3Client(s3ClientOptions(R2, { maxAttempts: 5 }));
 
+/** @type {string[]} */
 const orphans = [];
 let listed = 0;
+/** @type {string | undefined} */
 let token;
 do {
   const page = await s3.send(new ListObjectsV2Command({ Bucket: BUCKET, Prefix: PREFIX, ContinuationToken: token }));
-  for (const object of page.Contents || []) {
+  // A listed object always has its Key.
+  for (const object of /** @type {Array<{ Key: string }>} */ (page.Contents || [])) {
     listed += 1;
     // R2 keys mirror the local paths; .br/.gz variants belong to their base file.
     const base = object.Key.replace(/\.(br|gz)$/, '');
