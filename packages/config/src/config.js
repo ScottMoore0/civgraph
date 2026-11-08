@@ -83,6 +83,11 @@ export const BINDINGS = /* @__PURE__ */ Object.freeze({
  * @template {string} [P=string]
  * @typedef {PagesContext<Env, P>} FunctionContext
  */
+/**
+ * A [[path]] route's context: Pages hands the path's segments over as an array, still
+ * percent-encoded, and leaves it out at the route's own root.
+ * @typedef {Omit<FunctionContext<'path'>, 'params'> & { params: { path?: string[] } }} CatchAllContext
+ */
 
 /**
  * Environment variables the Functions read. Secrets are set with `wrangler pages secret put`

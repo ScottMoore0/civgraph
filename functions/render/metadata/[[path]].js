@@ -31,6 +31,11 @@ import { binding } from '../../../packages/config/src/config.js';
 import { fromD1 } from '../../../packages/storage/src/d1.js';
 import { ELECTIONS_API } from '../../../packages/api/src/queries/elections.js';
 
+/**
+ * @typedef {{ kind: 'manifest' } | { kind: 'bundle' | 'provenance', key: string } | { kind: 'summary', file: string }} MetadataRoute
+ *   what a /render/metadata/ path asks for
+ */
+
 const VERSION = 'render-metadata-1';
 
 /** The paths this answers; _routes.json includes exactly these (validate-routes-manifest.mjs). */
@@ -45,7 +50,11 @@ export const ROUTE_PATTERNS = [
   '/render/metadata/duplicate-feature-ids/*',
 ];
 
-/** The phase-3 renames: an old layer-metadata path -> its /_api/layers URL, or null. */
+/**
+ * The phase-3 renames: an old layer-metadata path -> its /_api/layers URL, or null.
+ * @param {string[]} parts  the decoded path segments under /render/metadata/
+ * @returns {string | null}
+ */
 export function renamedLayerUrl(parts) {
   const [first, second, ...rest] = parts;
   if (rest.length) return null;
@@ -59,9 +68,10 @@ export function renamedLayerUrl(parts) {
 }
 const HEADERS = { 'Content-Type': 'application/json; charset=utf-8', 'Access-Control-Allow-Origin': '*' };
 
-const text = (body) => new Response(body, { status: 200, headers: HEADERS });
+const text = (/** @type {string} */ body) => new Response(body, { status: 200, headers: HEADERS });
 const notHere = () => new Response(null, { status: 404 });
 
+/** @param {import('../../../packages/config/src/config.js').CatchAllContext} context */
 export async function onRequestGet(context) {
   const parts = (context.params.path || []).map((p) => decodeURIComponent(p));
   const renamed = renamedLayerUrl(parts);
@@ -78,6 +88,10 @@ export async function onRequestGet(context) {
   return resp.status === 404 ? context.next() : resp;
 }
 
+/**
+ * @param {string[]} parts  the decoded path segments under /render/metadata/
+ * @returns {MetadataRoute | null}
+ */
 export function matchRoute(parts) {
   const [first, second, ...rest] = parts;
   if (rest.length) return null;
@@ -90,6 +104,11 @@ export function matchRoute(parts) {
   return null;
 }
 
+/**
+ * @param {import('../../../packages/storage/src/store.js').RecordStore} db
+ * @param {MetadataRoute} route
+ * @returns {Promise<Response>}
+ */
 async function answer(db, route) {
   if (route.kind === 'manifest') {
     const head = await documentBody(db, 'elections-test2.json');
