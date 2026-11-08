@@ -49,12 +49,15 @@ import { StringDecoder } from 'node:string_decoder';
  * execFileSync passes the raw string straight through. The symptom is a
  * baffling "gzip: stdin: unexpected end of file" on an archive that gzip -t
  * passes cleanly.
+ * @param {string} archive
+ * @returns {Set<string> | null} null when tar cannot read the archive
  */
 function tarIndex(archive) {
   try {
     const out = execFileSync('tar', ['--force-local', '-tzf', archive], {
       encoding: 'utf8', maxBuffer: 1024 * 1024 * 512, windowsHide: true
     });
+    /** @type {Set<string>} */
     const keys = new Set();
     for (const line of out.split(/\r?\n/)) {
       if (!line || line.endsWith('/')) continue;
@@ -76,7 +79,7 @@ function tarIndex(archive) {
 /** tarIndex's last failure, kept on the function as before. */
 const tarState = /** @type {{ lastError?: string }} */ (/** @type {unknown} */ (tarIndex));
 
-const stripExt = (n) => n.replace(/\.(json|xml)$/i, '');
+const stripExt = (/** @type {string} */ n) => n.replace(/\.(json|xml)$/i, '');
 
 /**
  * Read every member of a tar.gz into a Map of key -> body, in ONE pass.
@@ -89,12 +92,16 @@ const stripExt = (n) => n.replace(/\.(json|xml)$/i, '');
  * `-xzOf` with no member named concatenates all bodies in archive order, so the
  * sizes from `-tzvf` give the split points. Reading them individually would cost
  * one process spawn per record.
+ * @param {string} archive
+ * @returns {Map<string, string>} key -> body
  */
 function archiveBodies(archive) {
+  /** @type {Map<string, string>} */
   const bodies = new Map();
   try {
     const listing = execFileSync('tar', ['--force-local', '-tzvf', archive],
       { encoding: 'utf8', maxBuffer: 1024 * 1024 * 512, windowsHide: true });
+    /** @type {{ name: string, size: number }[]} */
     const members = [];
     for (const line of listing.split(/\r?\n/)) {
       if (!line || line.startsWith('d')) continue;
@@ -127,6 +134,8 @@ function archiveBodies(archive) {
  * StringDecoder is what makes chunking safe: a fixed-size read can split a
  * multi-byte UTF-8 sequence, and buf.toString('utf8') on the fragment would
  * corrupt that character silently.
+ * @param {string} file
+ * @returns {Generator<string, void, undefined>}
  */
 function* jsonlLines(file) {
   const fd = openSync(file, 'r');
@@ -148,8 +157,13 @@ function* jsonlLines(file) {
   } finally { closeSync(fd); }
 }
 
-/** Keys already recorded in an append-only JSONL, read without parsing bodies. */
+/**
+ * Keys already recorded in an append-only JSONL, read without parsing bodies.
+ * @param {string} file
+ * @returns {Set<string>}
+ */
 function jsonlIndex(file) {
+  /** @type {Set<string>} */
   const keys = new Set();
   if (!existsSync(file)) return keys;
   for (const line of jsonlLines(file)) {
@@ -161,19 +175,41 @@ function jsonlIndex(file) {
   return keys;
 }
 
+/**
+ * A record key: anything String() turns into the key (an id, a date, a page number).
+ * @typedef {string | number} RecordKey
+ */
+
+/**
+ * @param {string} outDir
+ * @param {{ verbose?: boolean }} [options]
+ */
 export function openStore(outDir, { verbose = true } = {}) {
+  /** @type {Map<string, Set<string>>} */
   const indexes = new Map();    // "service/op" -> Set of keys
+  /** @type {Map<string, string>} */
   const handles = new Map();    // "service/op" -> jsonl path
+  /** @type {Map<string, Map<string, string>>} */
   const bodyCache = new Map();  // "service/op" -> Map of key -> body (lazy, get() only)
   let loadedArchives = 0;
 
+  /**
+   * @param {string} service
+   * @param {string} op
+   */
   function idFor(service, op) { return `${service}/${op}`; }
 
+  /**
+   * @param {string} service
+   * @param {string} op
+   * @returns {Set<string>}
+   */
   function ensure(service, op) {
     const id = idFor(service, op);
-    if (indexes.has(id)) return indexes.get(id);
+    if (indexes.has(id)) return /** @type {Set<string>} */ (indexes.get(id));
 
     const svcDir = path.join(outDir, service);
+    /** @type {Set<string>} */
     const keys = new Set();
 
     const archive = path.join(svcDir, `${op}.tar.gz`);
@@ -204,15 +240,27 @@ export function openStore(outDir, { verbose = true } = {}) {
   }
 
   return {
+    /**
+     * @param {string} service
+     * @param {string} op
+     * @param {RecordKey} key
+     */
     has(service, op, key) { return ensure(service, op).has(String(key)); },
 
+    /**
+     * Append a record; false when the key is already held (nothing written).
+     * @param {string} service
+     * @param {string} op
+     * @param {RecordKey} key
+     * @param {string} body  the raw response text
+     */
     put(service, op, key, body) {
       const keys = ensure(service, op);
       const k = String(key);
       if (keys.has(k)) return false;
       const svcDir = path.join(outDir, service);
       mkdirSync(svcDir, { recursive: true });
-      appendFileSync(handles.get(idFor(service, op)),
+      appendFileSync(/** @type {string} */ (handles.get(idFor(service, op))),
         `${JSON.stringify({ k, b: String(body) })}\n`);
       keys.add(k);
       return true;
@@ -225,6 +273,10 @@ export function openStore(outDir, { verbose = true } = {}) {
      * caller actually reads from, because loading them is what costs memory
      * (GetWrittenAnswerHtml alone is 144 MB of content). Phases that merely ask
      * "do I already have this?" go through has() and never pay for it.
+     * @param {string} service
+     * @param {string} op
+     * @param {RecordKey} key
+     * @returns {string | null}
      */
     get(service, op, key) {
       ensure(service, op);
@@ -260,6 +312,10 @@ export function openStore(outDir, { verbose = true } = {}) {
       return bodies.get(String(key)) ?? null;
     },
 
+    /**
+     * @param {string} service
+     * @param {string} op
+     */
     count(service, op) { return ensure(service, op).size; },
 
     stats() {
@@ -270,7 +326,13 @@ export function openStore(outDir, { verbose = true } = {}) {
   };
 }
 
-/** Stream records out of a store for downstream use, across all three layers. */
+/**
+ * Stream records out of a store for downstream use, across all three layers.
+ * @param {string} outDir
+ * @param {string} service
+ * @param {string} op
+ * @returns {Generator<{ key: string, body: string }, void, undefined>}
+ */
 export function* readRecords(outDir, service, op) {
   const archive = path.join(outDir, service, `${op}.tar.gz`);
   if (existsSync(archive)) {
