@@ -1,5 +1,5 @@
 {
-  "//": "Type checking of the Pages Functions by JSDoc and checkJs (REFACTOR-PLAN.md item 2). Run by `npm run check:types:functions`. Named tsconfig.check.json, not tsconfig.json, so esbuild (the Pages bundler) never reads it. Every strict-family flag but noImplicitAny is on (r2-functions); noImplicitAny (641 findings on 7 Nov), noUncheckedIndexedAccess (34) and noPropertyAccessFromIndexSignature (72) wait (TS-3/TS-4).",
+  "//": "Type checking of the Pages Functions by JSDoc and checkJs (REFACTOR-PLAN.md item 2). Run by `npm run check:types:functions`. Named tsconfig.check.json, not tsconfig.json, so esbuild (the Pages bundler) never reads it. Every strict-family flag is on (r2-functions; noImplicitAny since the nia-s2a/s2b review, 8 Nov 2026); noUncheckedIndexedAccess (34) and noPropertyAccessFromIndexSignature (72) wait (TS-4).",
   "compilerOptions": {
     "allowJs": true,
     "checkJs": true,
@@ -9,6 +9,7 @@
     "target": "es2023",
     "lib": ["es2023", "dom", "dom.iterable"],
     "types": [],
+    "noImplicitAny": true,
     "strictNullChecks": true,
     "strictBindCallApply": true,
     "strictFunctionTypes": true,
