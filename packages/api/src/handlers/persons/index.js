@@ -26,7 +26,12 @@ import { browseIndexHandler } from '../_browse-index.js';
 import { parseJson } from '../_records.js';
 import { PERSONS } from '../../queries/cards.js';
 
-/** A person's candidacies from the records tables, in date order (data design stage D.3). */
+/** @typedef {import('../_browse-index.js').ViewContext} ViewContext */
+
+/**
+ * A person's candidacies from the records tables, in date order (data design stage D.3).
+ * @param {ViewContext} view
+ */
 async function candidacies({ db, slug, record, json }) {
   const personId = String(record.id || '').replace(/^person:/, '');
   const results = await db.all(PERSONS.candidacies, [personId]);
@@ -34,10 +39,13 @@ async function candidacies({ db, slug, record, json }) {
   return json({ slug, personId, total: items.length, candidacies: items });
 }
 
-/** The votes/persons/<id>.json document for this person, or 404 when they cast none. */
+/**
+ * The votes/persons/<id>.json document for this person, or 404 when they cast none.
+ * @param {ViewContext} view
+ */
 async function votes({ db, record, json }) {
   const personId = String(record.id || '').replace(/^person:/, '');
-  const row = await db.first(PERSONS.votes, [personId]);
+  const row = /** @type {{ record: string } | null} */ (await db.first(PERSONS.votes, [personId]));
   if (!row) return json({ error: 'no votes', personId }, 404);
   return json(parseJson(row.record));
 }
@@ -64,7 +72,7 @@ export const onRequestGet = browseIndexHandler({
     firstYear: 'first_year',
     lastYear: { column: 'last_year', dir: 'desc' },
   },
-  where: (url, bind) => {
+  where: (/** @type {URL} */ url, /** @type {(v: unknown) => string} */ bind) => {
     const parties = url.searchParams.getAll('party').map((v) => v.trim()).filter(Boolean).slice(0, 200);
     if (!parties.length) return [];
     return [{

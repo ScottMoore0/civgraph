@@ -23,6 +23,12 @@ import { fromD1 } from '../../../../storage/src/d1.js';
 const VERSION = 'layers-1';
 const notFound = () => jsonResponse({ error: 'not found' }, 404);
 
+/** @typedef {{ kind: 'collection' } | { kind: 'layer' | 'duplicates', id: string }} LayersRoute */
+
+/**
+ * @param {string[]} parts the path's segments after /_api/layers
+ * @returns {LayersRoute | null}
+ */
 export function matchLayersPath(parts) {
   const clean = parts.filter((p) => p !== '');
   if (!clean.length) return { kind: 'collection' };
@@ -31,12 +37,14 @@ export function matchLayersPath(parts) {
   return null;
 }
 
+/** @param {import('../../types.js').ApiContext} context */
 export async function onRequestGet(context) {
   const bound = binding(context.env, 'ELECTIONS_DB');
   if (!bound) return jsonResponse({ error: 'ELECTIONS_DB binding not configured' }, 503);
   // through the storage adapter (packages/storage/); the SQL is named in queries/maps.js
+  /** @type {import('../../../../storage/src/store.js').RecordStore} */
   const db = fromD1(bound);
-  const parts = [].concat(context.params?.path || []).map((p) => decodeURIComponent(p));
+  const parts = /** @type {string[]} */ ([]).concat(context.params?.path || []).map((p) => decodeURIComponent(p));
   const route = matchLayersPath(parts);
   if (!route) return notFound();
   const url = new URL(context.request.url);
@@ -46,6 +54,11 @@ export async function onRequestGet(context) {
 /** The collection's views (refactor FN-L): 'full' (also no view) and 'index'. */
 export const LAYER_VIEWS = Object.freeze(/** @type {const} */ (['full', 'index']));
 
+/**
+ * @param {import('../../../../storage/src/store.js').RecordStore | D1Database} db
+ * @param {LayersRoute} route
+ * @param {URL} url
+ */
 export async function answer(db, route, url) {
   if (route.kind === 'collection') {
     const view = url.searchParams.get('view');

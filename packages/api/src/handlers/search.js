@@ -19,14 +19,22 @@ import { binding } from '../../../config/src/config.js';
 // Five minutes: long enough that a burst of searches costs one fetch, short
 // enough that a rebuild is picked up without anyone intervening.
 const NAMES_TTL_MS = 5 * 60 * 1000;
+/** @typedef {{ name?: string, [key: string]: unknown }} PlaceName one entry of the names index (_names.json) */
+/** @type {PlaceName[] | null} */
 let cachedNames = null;
 let cachedAt = 0;
 
+/**
+ * @param {import('../types.js').ApiContext} context
+ * @param {string} origin
+ * @returns {Promise<PlaceName[]>}
+ */
 async function getNames(context, origin) {
     if (cachedNames && Date.now() - cachedAt < NAMES_TTL_MS) return cachedNames;
 
     // Try KV first
     if (binding(context.env, 'SPATIAL_INDEX')) {
+        /** @type {PlaceName[] | null} */
         const data = await binding(context.env, 'SPATIAL_INDEX').get('names', 'json');
         if (data) {
             cachedNames = data;
@@ -39,7 +47,7 @@ async function getNames(context, origin) {
     try {
         const resp = await fetch(new URL('/data/database/spatial-index/_names.json', origin).toString());
         if (resp.ok) {
-            cachedNames = await resp.json();
+            cachedNames = /** @type {PlaceName[]} */ (await resp.json());
             cachedAt = Date.now();
             return cachedNames;
         }
@@ -50,6 +58,7 @@ async function getNames(context, origin) {
     return [];
 }
 
+/** @param {import('../types.js').ApiContext} context */
 export async function onRequestGet(context) {
     const url = new URL(context.request.url);
     const query = (url.searchParams.get('q') || '').trim();

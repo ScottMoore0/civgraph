@@ -19,6 +19,7 @@ import { fromD1 } from '../../../storage/src/d1.js';
 
 const VERSION = 'compat-documents-1';
 
+/** @type {Readonly<Record<string, { maps: true, name?: undefined } | { maps?: undefined, name: string }>>} */
 export const COMPAT_DOCUMENTS = {
   '/data/database/maps.json': { maps: true },
   '/agent/maps-index.json': { name: 'agent/maps-index.json' },
@@ -27,11 +28,15 @@ export const COMPAT_DOCUMENTS = {
   '/data/catalogue/people.json': { name: 'catalogue/people.json' },
 };
 
-/** A Pages handler for these paths: the document, or Pages' own answer for any other path. */
+/**
+ * A Pages handler for these paths: the document, or Pages' own answer for any other path.
+ * @param {import('../types.js').ApiContext} context
+ */
 export async function onCompatDocument(context) {
   const doc = COMPAT_DOCUMENTS[new URL(context.request.url).pathname];
   const bound = binding(context.env, 'ELECTIONS_DB');
   if (!doc || !bound) return context.next();
+  /** @type {import('../../../storage/src/store.js').RecordStore} */
   const db = fromD1(bound);
   const resp = await cachedJson(context, VERSION, async () => {
     const text = doc.maps ? await mapsDocumentText(db, { pretty: true }) : await storedDocumentText(db, doc.name);
