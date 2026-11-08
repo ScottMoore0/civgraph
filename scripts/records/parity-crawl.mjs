@@ -42,7 +42,35 @@ import { SITE } from '../../packages/config/src/node.mjs';
 import { RECORDS_DB, REPO_ROOT } from '../../packages/loader/src/paths.mjs';
 import { CatalogueSearch, PeopleSearch } from '../../src/catalogue/search.js';
 
+/** @typedef {import('../../packages/storage/src/sqlite.mjs').SqliteHandle} SqliteHandle */
+/**
+ * One URL of the crawl: `urlB` when side B answers it at another URL, `follow` to follow a 301
+ * (whose target must be `expect`).
+ * @typedef {{ kind: string, url: string, mode: CrawlMode, urlB?: string, follow?: boolean, expect?: string }} CrawlUrl
+ */
+/** @typedef {(kind: string, url: string, mode?: CrawlMode, extra?: Record<string, unknown>) => number} AddUrl */
+/**
+ * One side's answer to a URL (status 0 with `error` when it could not be fetched); `hop` is the
+ * last redirect followed.
+ * @typedef {{ status: number, location?: string | null, type?: string, body: Buffer, ms?: number, error?: string,
+ *   hop?: { status: number, location: string } }} Fetched
+ */
+/** Where two JSON values first differ. @typedef {{ path: string, a: unknown, b: unknown }} Diff */
+/**
+ * The comparison of one URL; `result` is 'same' or the kind of difference.
+ * @typedef {{ kind: string, url: string, statusA: number, statusB: number, result: string, retried?: boolean,
+ *   [field: string]: unknown }} CompareResult
+ */
+/** The catalogue pane's search over one side's documents. @typedef {{ maps: CatalogueSearch, people: PeopleSearch }} SearchEngines */
+/** @typedef {{ id: string, detailUrl?: string, duplicateFeatureIdsUrl?: string, [key: string]: unknown }} LayerIndexEntry */
+
 const args = process.argv.slice(2);
+/**
+ * @template {string | number} F
+ * @param {string} name
+ * @param {F} fallback
+ * @returns {string | F}
+ */
 const opt = (name, fallback) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : fallback; };
 const A = String(opt('--a', SITE.origin)).replace(/\/$/, '');
 const B = String(opt('--b', 'http://127.0.0.1:8788')).replace(/\/$/, '');
@@ -56,11 +84,18 @@ const OUT = path.resolve(opt('--out', path.join(REPO_ROOT, 'tmp', 'records', 'pa
 const UA = SITE.userAgent;
 
 // ---------------------------------------------------------------- sampling
+/** @param {number} seed */
 function rng(seed) {
   let s = seed >>> 0 || 1;
   return () => { s ^= s << 13; s >>>= 0; s ^= s >>> 17; s ^= s << 5; s >>>= 0; return s / 2 ** 32; };
 }
 const rand = rng(SEED);
+/**
+ * @template T
+ * @param {T[]} list
+ * @param {number} n
+ * @returns {T[]}
+ */
 function sample(list, n) {
   const a = [...list];
   const k = Math.min(a.length, Math.max(0, Math.round(n * SCALE)));
@@ -79,12 +114,18 @@ function sample(list, n) {
  */
 export const CRAWL_MODES = /** @type {readonly CrawlMode[]} */ (Object.freeze(['json', 'html', 'search']));
 
+/**
+ * @param {SqliteHandle} db
+ * @returns {CrawlUrl[]}
+ */
 export function buildUrlList(db) {
-  const col = (sql) => db.prepare(sql).all().map((r) => Object.values(r)[0]).filter((v) => v !== null && v !== undefined);
+  /** The first column's values (every query here reads one TEXT column), nulls left out. */
+  const col = (/** @type {string} */ sql) => /** @type {string[]} */ (db.prepare(sql).all().map((r) => Object.values(r)[0]).filter((v) => v !== null && v !== undefined));
+  /** @type {CrawlUrl[]} */
   const urls = [];
   /** @type {(kind: string, url: string, mode?: CrawlMode, extra?: Record<string, unknown>) => number} */
   const add = (kind, url, mode = 'json', extra = {}) => urls.push({ kind, url, mode, ...extra });
-  const hasRows = (name) => Boolean(db.prepare("SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = ?").get(name))
+  const hasRows = (/** @type {string} */ name) => Boolean(db.prepare("SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = ?").get(name))
     && Boolean(db.prepare(`SELECT 1 FROM ${name} LIMIT 1`).get());
   if (hasRows('maps')) addMapUrls(db, { col, add, enc: encodeURIComponent });
   if (!hasRows('r_elections')) return urls.filter((u) => !ONLY || ONLY.has(u.kind));
@@ -148,7 +189,7 @@ export function buildUrlList(db) {
   const voteParties = col('SELECT slug FROM vote_parties ORDER BY slug');
   for (const s of sample(voteParties, 10)) add('votes-party', `/data/browse/votes/parties/${s}.json`);
 
-  const page = (type, slugs, n) => { for (const s of sample(slugs, n)) add(`page-${type}`, `/browse/${type}/${enc(s)}`, 'html'); };
+  const page = (/** @type {string} */ type, /** @type {string[]} */ slugs, /** @type {number} */ n) => { for (const s of sample(slugs, n)) add(`page-${type}`, `/browse/${type}/${enc(s)}`, 'html'); };
   page('persons', persons, 60);
   page('parties', parties, 30);
   page('sources', sources, 40);
@@ -170,7 +211,10 @@ export function buildUrlList(db) {
   return urls.filter((u) => !ONLY || ONLY.has(u.kind));
 }
 
-/** The intended differences of phase 3, removed from both sides before comparing. */
+/**
+ * The intended differences of phase 3, removed from both sides before comparing.
+ * @type {Partial<Record<string, (doc: { layers?: LayerIndexEntry[], [key: string]: unknown }) => unknown>>}
+ */
 const NORMALISE = {
   // The startup index's entries name where the record and sidecar are served: the old files
   // before phase 3, /_api/layers after. The layer id is what both name.
@@ -180,7 +224,11 @@ const NORMALISE = {
   }),
 };
 
-/** Phase 3: the map, layer and catalogue URLs, drawn from the maps tables. */
+/**
+ * Phase 3: the map, layer and catalogue URLs, drawn from the maps tables.
+ * @param {SqliteHandle} db
+ * @param {{ col: (sql: string) => string[], add: AddUrl, enc: (value: string) => string }} helpers
+ */
 export function addMapUrls(db, { col, add, enc }) {
   add('maps-doc', '/data/database/maps.json');
   add('agent-index', '/agent/maps-index.json');
@@ -200,7 +248,7 @@ export function addMapUrls(db, { col, add, enc }) {
   add('layers-full', '/render/metadata/maps-test.json', 'json', { follow: true, expect: '/_api/layers' });
   add('layers-index', '/render/metadata/maps-test-index.json', 'json', { follow: true, expect: '/_api/layers?view=index' });
   const layerIds = col('SELECT layer_id FROM layers ORDER BY layer_id');
-  const fileName = (id) => `${String(id).replace(/[^A-Za-z0-9_.-]+/g, '-')}.json`;
+  const fileName = (/** @type {string} */ id) => `${String(id).replace(/[^A-Za-z0-9_.-]+/g, '-')}.json`;
   for (const id of sample(layerIds, 60)) {
     add('layer-detail', `/render/metadata/layer-details-test2/${fileName(id)}`, 'json', { follow: true, expect: `/_api/layers/${enc(id)}` });
   }
@@ -210,7 +258,7 @@ export function addMapUrls(db, { col, add, enc }) {
   }
   // Another spelling of a layer id: on side B its record (through the alias's 301, then the API),
   // against the live id's old detail file on side A.
-  const aliases = db.prepare('SELECT alias, layer_id FROM layer_aliases ORDER BY alias').all()
+  const aliases = /** @type {{ alias: string, layer_id: string }[]} */ (db.prepare('SELECT alias, layer_id FROM layer_aliases ORDER BY alias').all())
     .filter((r) => !/-test$/.test(r.alias)).map((r) => `${r.alias}|${r.layer_id}`);
   for (const a of sample(aliases, 20)) {
     const [alias, id] = a.split('|');
@@ -233,9 +281,17 @@ export const CATALOGUE_QUERIES = ['wards', 'townlands 1911', 'dail constituencie
 export const PEOPLE_QUERIES = ['paisley', 'hume', 'devlin', 'kelly', 'mary mcaleese'];
 
 // ---------------------------------------------------------------- fetching
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-const isLocal = (base) => /^https?:\/\/(127\.0\.0\.1|localhost)(:|\/|$)/.test(base);
+const sleep = (/** @type {number} */ ms) => new Promise((r) => setTimeout(r, ms));
+const isLocal = (/** @type {string} */ base) => /^https?:\/\/(127\.0\.0\.1|localhost)(:|\/|$)/.test(base);
 
+/**
+ * GET `url` from `base` (a 5xx retried twice), following redirects with `follow`. Null only
+ * past the last attempt, which always returns.
+ * @param {string} base
+ * @param {string} url
+ * @param {{ follow?: boolean }} [options]
+ * @returns {Promise<Fetched | null>}
+ */
 async function get(base, url, { follow = false } = {}) {
   if (follow) {
     const first = await get(base, url);
@@ -243,7 +299,7 @@ async function get(base, url, { follow = false } = {}) {
     const target = new URL(first.location, `${base}${url}`);
     const hop = { status: first.status, location: `${target.pathname}${target.search}` };
     // An alias may redirect twice (alias -> live id); the expected hop is the last one.
-    const next = await get(base, hop.location, { follow: true });
+    const next = /** @type {Fetched} */ (await get(base, hop.location, { follow: true }));
     return { ...next, hop: next.hop || hop };
   }
   const started = Date.now();
@@ -265,7 +321,8 @@ async function get(base, url, { follow = false } = {}) {
 
 /** Each side's catalogue, places and people documents (A at the file URLs, B at the API's). */
 async function searchDocuments() {
-  const load = async (base, urls) => {
+  const load = async (/** @type {string} */ base, /** @type {Record<string, string>} */ urls) => {
+    /** @type {Record<string, unknown>} */
     const out = {};
     for (const [k, url] of Object.entries(urls)) {
       const r = await get(base, url);
@@ -276,22 +333,28 @@ async function searchDocuments() {
   };
   const docsA = await load(A, { catalogue: '/data/catalogue/catalogue.json', places: '/data/catalogue/places.json', people: '/data/catalogue/people.json' });
   const docsB = await load(B, { catalogue: '/_api/catalogue?view=pane', places: '/_api/catalogue?view=places', people: '/_api/catalogue?view=people' });
-  const engines = (docs) => {
+  /** @returns {SearchEngines | null} */
+  const engines = (/** @type {Record<string, unknown>} */ docs) => {
     if (!docs.catalogue || !docs.people) return null;
-    const maps = new CatalogueSearch(docs.catalogue);
-    if (docs.places) maps.setPlaces(docs.places);
-    return { maps, people: new PeopleSearch(docs.people) };
+    const maps = new CatalogueSearch(/** @type {ConstructorParameters<typeof CatalogueSearch>[0]} */ (docs.catalogue));
+    if (docs.places) maps.setPlaces(/** @type {Parameters<CatalogueSearch['setPlaces']>[0]} */ (docs.places));
+    return { maps, people: new PeopleSearch(/** @type {ConstructorParameters<typeof PeopleSearch>[0]} */ (docs.people)) };
   };
   return { a: engines(docsA), b: engines(docsB) };
 }
 
+/**
+ * @param {CrawlUrl} u
+ * @param {{ a: SearchEngines | null, b: SearchEngines | null } | null} searches
+ * @returns {CompareResult}
+ */
 export function compareSearch(u, searches) {
   const base = { kind: u.kind, url: u.url, statusA: searches?.a ? 200 : 0, statusB: searches?.b ? 200 : 0 };
   if (!searches?.a || !searches?.b) return { ...base, result: 'status', note: 'a side could not load the catalogue documents' };
   const at = u.url.indexOf(':');
   const which = u.url.slice(0, at);
   const q = u.url.slice(at + 1);
-  const run = (e) => JSON.stringify(which === 'people' ? e.people.query(q, { limit: 50 }) : e.maps.query(q));
+  const run = (/** @type {SearchEngines} */ e) => JSON.stringify(which === 'people' ? e.people.query(q, { limit: 50 }) : e.maps.query(q));
   const ra = run(searches.a);
   const rb = run(searches.b);
   return ra === rb ? { ...base, result: 'same', note: `${JSON.parse(ra).length} results` } : { ...base, result: 'data', diff: firstDiff(JSON.parse(ra), JSON.parse(rb)) };
@@ -299,24 +362,46 @@ export function compareSearch(u, searches) {
 
 // ---------------------------------------------------------------- comparing
 const DROP = new Set(['generatedAt', 'builtAt']);
+/**
+ * The value with generatedAt / builtAt dropped at any depth.
+ * @param {unknown} v
+ * @returns {unknown}
+ */
 function clean(v) {
   if (Array.isArray(v)) return v.map(clean);
   if (v && typeof v === 'object') {
+    /** @type {Record<string, unknown>} */
     const out = {};
-    for (const k of Object.keys(v)) if (!DROP.has(k)) out[k] = clean(v[k]);
+    for (const k of Object.keys(v)) if (!DROP.has(k)) out[k] = clean(/** @type {Record<string, unknown>} */ (v)[k]);
     return out;
   }
   return v;
 }
+/**
+ * The value with object keys sorted and arrays sorted by their JSON.
+ * @param {unknown} v
+ * @returns {unknown}
+ */
 function canon(v) {
   if (Array.isArray(v)) return v.map(canon).map((x) => JSON.stringify(x)).sort().map((s) => JSON.parse(s));
-  if (v && typeof v === 'object') return Object.fromEntries(Object.keys(v).sort().map((k) => [k, canon(v[k])]));
+  if (v && typeof v === 'object') return Object.fromEntries(Object.keys(v).sort().map((k) => [k, canon(/** @type {Record<string, unknown>} */ (v)[k])]));
   return v;
 }
-const stable = (v) => JSON.stringify(canon(v));
-const sorted = (v) => (v && typeof v === 'object' && !Array.isArray(v) ? Object.fromEntries(Object.keys(v).sort().map((k) => [k, sorted(v[k])])) : Array.isArray(v) ? v.map(sorted) : v);
+const stable = (/** @type {unknown} */ v) => JSON.stringify(canon(v));
+/**
+ * The value with object keys sorted (arrays keep their order).
+ * @param {unknown} v
+ * @returns {unknown}
+ */
+const sorted = (v) => (v && typeof v === 'object' && !Array.isArray(v) ? Object.fromEntries(Object.keys(v).sort().map((k) => [k, sorted(/** @type {Record<string, unknown>} */ (v)[k])])) : Array.isArray(v) ? v.map(sorted) : v);
 
-/** The first path at which two JSON values differ, with both values (clipped). */
+/**
+ * The first path at which two JSON values differ, with both values (clipped).
+ * @param {unknown} a
+ * @param {unknown} b
+ * @param {string} [at]
+ * @returns {Diff | null}
+ */
 export function firstDiff(a, b, at = '$') {
   if (JSON.stringify(sorted(a)) === JSON.stringify(sorted(b))) return null;
   if (Array.isArray(a) && Array.isArray(b)) {
@@ -326,19 +411,20 @@ export function firstDiff(a, b, at = '$') {
   }
   if (a && b && typeof a === 'object' && typeof b === 'object' && !Array.isArray(a) && !Array.isArray(b)) {
     for (const k of [...new Set([...Object.keys(a), ...Object.keys(b)])].sort()) {
-      if (!(k in a)) return { path: `${at}.${k}`, a: '(absent)', b: clip(b[k]) };
-      if (!(k in b)) return { path: `${at}.${k}`, a: clip(a[k]), b: '(absent)' };
-      const d = firstDiff(a[k], b[k], `${at}.${k}`); if (d) return d;
+      if (!(k in a)) return { path: `${at}.${k}`, a: '(absent)', b: clip(/** @type {Record<string, unknown>} */ (b)[k]) };
+      if (!(k in b)) return { path: `${at}.${k}`, a: clip(/** @type {Record<string, unknown>} */ (a)[k]), b: '(absent)' };
+      const d = firstDiff(/** @type {Record<string, unknown>} */ (a)[k], /** @type {Record<string, unknown>} */ (b)[k], `${at}.${k}`); if (d) return d;
     }
     return null;
   }
   return { path: at, a: clip(a), b: clip(b) };
 }
-const clip = (v) => { const s = JSON.stringify(v); return s && s.length > 200 ? `${s.slice(0, 200)}...` : v; };
+const clip = (/** @type {unknown} */ v) => { const s = JSON.stringify(v); return s && s.length > 200 ? `${s.slice(0, 200)}...` : v; };
 
+/** @param {Buffer} body */
 function htmlHead(body) {
   const text = body.toString('utf8');
-  const pick = (re) => (text.match(re)?.[1] || '').replace(/\s+/g, ' ').trim();
+  const pick = (/** @type {RegExp} */ re) => (text.match(re)?.[1] || '').replace(/\s+/g, ' ').trim();
   return {
     title: pick(/<title>([^<]*)<\/title>/i),
     description: pick(/<meta\s+name="description"\s+content="([^"]*)"/i),
@@ -346,37 +432,52 @@ function htmlHead(body) {
   };
 }
 
+/**
+ * @param {CrawlUrl} u
+ * @param {Fetched} a
+ * @param {Fetched} b
+ * @returns {CompareResult}
+ */
 export function compare(u, a, b) {
   const base = { kind: u.kind, url: u.url, statusA: a.status, statusB: b.status, ...(u.urlB ? { urlB: u.urlB } : {}) };
   // A renamed URL: B must redirect where the rename says (A, the old site, may answer directly).
   if (u.expect && (!b.hop || b.hop.location !== u.expect)) return { ...base, result: 'redirect', a: a.hop?.location || '(direct)', b: b.hop?.location || '(no redirect)', expected: u.expect };
-  const sha = (buf) => createHash('sha1').update(buf).digest('hex').slice(0, 12);
+  const sha = (/** @type {Buffer} */ buf) => createHash('sha1').update(buf).digest('hex').slice(0, 12);
   if (a.status !== b.status) return { ...base, result: 'status', note: a.error || b.error || undefined };
   if (a.status >= 300 && a.status < 400) {
-    const loc = (l) => String(l || '').replace(/^https?:\/\/[^/]+/, '');
+    const loc = (/** @type {unknown} */ l) => String(l || '').replace(/^https?:\/\/[^/]+/, '');
     return loc(a.location) === loc(b.location) ? { ...base, result: 'same' } : { ...base, result: 'redirect', a: a.location, b: b.location };
   }
   if (a.status !== 200) return { ...base, result: 'same' };
   if (u.mode === 'html') {
     const ha = htmlHead(a.body);
     const hb = htmlHead(b.body);
-    const keys = ['title', 'description', 'canonical'].filter((k) => ha[k] !== hb[k]);
+    const keys = /** @type {('title' | 'description' | 'canonical')[]} */ (['title', 'description', 'canonical']).filter((k) => ha[k] !== hb[k]);
     return keys.length ? { ...base, result: 'html', fields: keys.map((k) => ({ field: k, a: ha[k], b: hb[k] })) } : { ...base, result: 'same' };
   }
   if (sha(a.body) === sha(b.body)) return { ...base, result: 'same', bytes: a.body.length };
-  let ja; let jb;
+  /** @type {unknown} */
+  let ja;
+  /** @type {unknown} */
+  let jb;
   try { ja = clean(JSON.parse(a.body.toString('utf8'))); jb = clean(JSON.parse(b.body.toString('utf8'))); } catch {
     return { ...base, result: 'bytes', bytesA: a.body.length, bytesB: b.body.length };
   }
   const intended = NORMALISE[u.kind];
-  if (intended) { ja = intended(ja); jb = intended(jb); }
+  if (intended) { ja = intended(/** @type {{ layers?: LayerIndexEntry[] }} */ (ja)); jb = intended(/** @type {{ layers?: LayerIndexEntry[] }} */ (jb)); }
   if (JSON.stringify(sorted(ja)) === JSON.stringify(sorted(jb))) return { ...base, result: 'same', note: `equal after dropping generatedAt / key order${intended ? ' / the intended differences of its kind' : ''}` };
   if (stable(ja) === stable(jb)) return { ...base, result: 'order', diff: firstDiff(ja, jb) };
   return { ...base, result: 'data', diff: firstDiff(ja, jb), bytesA: a.body.length, bytesB: b.body.length };
 }
 
+/**
+ * @param {CrawlUrl[]} urls
+ * @returns {Promise<CompareResult[]>}
+ */
 async function crawl(urls) {
+  /** @type {CompareResult[]} */
   const results = new Array(urls.length);
+  /** @type {(Fetched | null)[]} */
   const fetchB = new Array(urls.length);
   // B (local) in parallel; A (production) one at a time, politely.
   let next = 0;
@@ -394,7 +495,7 @@ async function crawl(urls) {
   for (let i = 0; i < urls.length; i += 1) {
     if (urls[i].mode === 'search') { results[i] = compareSearch(urls[i], searches); continue; }
     const a = await get(A, urls[i].url, { follow: Boolean(urls[i].follow) });
-    results[i] = compare(urls[i], a, fetchB[i]);
+    results[i] = compare(urls[i], /** @type {Fetched} */ (a), /** @type {Fetched} */ (fetchB[i]));
     if (!isLocal(A)) await sleep(DELAY_A);
     if ((i + 1) % 100 === 0) console.log(`  ${i + 1}/${urls.length}`);
   }
@@ -407,7 +508,7 @@ async function crawl(urls) {
     for (const i of again) {
       const a = await get(A, urls[i].url);
       const b = await get(B, urls[i].url);
-      results[i] = { ...compare(urls[i], a, b), retried: true };
+      results[i] = { ...compare(urls[i], /** @type {Fetched} */ (a), /** @type {Fetched} */ (b)), retried: true };
       if (!isLocal(A)) await sleep(DELAY_A);
     }
   }
@@ -421,6 +522,7 @@ async function main() {
   console.log(`parity: ${urls.length} URLs, A=${A} B=${B}`);
   const t0 = Date.now();
   const results = await crawl(urls);
+  /** @type {Record<string, { urls: number, same: number, differ: number }>} */
   const byKind = {};
   for (const r of results) {
     const k = (byKind[r.kind] ||= { urls: 0, same: 0, differ: 0 });
