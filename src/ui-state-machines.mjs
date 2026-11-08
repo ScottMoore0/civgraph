@@ -6,7 +6,7 @@
  * the set, or a move the table does not list, throws instead of leaving the pane in a state no
  * code expects.
  *
- * Pure: no DOM, no storage. The shared helper is scripts/lib/state-machine.mjs (bundled).
+ * Pure: no DOM, no storage. The shared helper is packages/core/src/state-machine.mjs (bundled).
  */
 import { defineMachine } from '../packages/core/src/state-machine.mjs';
 import { defineChoice } from '../packages/map/src/state-helpers.mjs';

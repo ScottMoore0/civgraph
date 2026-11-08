@@ -13,7 +13,7 @@
 import { attrs, html, raw } from '../../../core/src/html.js';
 import { SITE } from '../../../config/src/config.js';
 
-/** The site's origin and name, from the configuration (functions/_lib/config.js). */
+/** The site's origin and name, from the configuration (packages/config/src/config.js). */
 export const SITE_ORIGIN = SITE.origin;
 export const SITE_NAME = SITE.name;
 

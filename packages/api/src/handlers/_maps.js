@@ -4,7 +4,7 @@
  * tables replaced (/data/database/maps.json, /agent/maps-index.json, /data/catalogue/*.json,
  * /data/browse/maps.json, features.json, details/maps/*).
  *
- * The records are stored as compact JSON text (scripts/records/ingest-maps.mjs), so most
+ * The records are stored as compact JSON text (packages/loader/src/ingest-maps.mjs), so most
  * answers are concatenations of stored text with no parse: a whole document is its head keys
  * in their stored order with the list spliced in at its own place.
  */

@@ -190,7 +190,7 @@ plus `stage --write`, from the same tree, compares every path either changed byt
 puts the tree back after each. Both runs see the same frozen wall clock (Node's `Date`, Python's
 `time.time()`); a Python step that stamps a `datetime` names the stamp's JSON keys as `volatile`.
 
-`mark` moves a batch's `status` one step along the table in `scripts/intake/lib/statuses.mjs`
+`mark` moves a batch's `status` one step along the table in `packages/intake/src/statuses.mjs`
 (draft, staged, committed, uploaded, published; abandoned from any but published), refusing a
 move the table lacks or whose guard fails (committed needs `repo.commits`, uploaded and published
 the owner's `approvals`). It refuses a batch changed since `validate --lock`, and refreshes the

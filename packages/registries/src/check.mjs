@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Validate every registry (schema and checks): node registries/check.mjs [name ...]
+ * Validate every registry (schema and checks): node packages/registries/src/check.mjs [name ...]
  * Exit 1 on the first invalid one. The unit tests (tests/unit/registries-*.test.mjs) run the
  * same checks inside npm run test:unit; this is the quick form for an editor of a registry.
  */

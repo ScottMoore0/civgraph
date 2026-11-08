@@ -58,7 +58,7 @@ function collect(dir, prefix = '') {
     if (!entry.endsWith('.js')) continue;
     if (entry.startsWith('_')) continue;     // helper modules are not routes
     // Pages makes a route only of a module that exports a handler (onRequest,
-    // onRequestGet, ...). Shared modules without one, such as functions/_lib/html.js and
+    // onRequestGet, ...). Shared modules without one, such as packages/core/src/html.js and
     // functions/_templates/*, get no route: `wrangler pages functions build
     // --output-routes-path` lists none for them (checked 2026-11-06).
     if (!/export\s+(?:async\s+)?(?:const|function|let|var)\s+onRequest\w*\b|export\s*\{[^}]*\bonRequest\w*/.test(readFileSync(full, 'utf8'))) continue;

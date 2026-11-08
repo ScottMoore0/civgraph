@@ -4,14 +4,14 @@
  * The records loader writes D1's `dataset` table (scripts/records/, RC-01): `version` is the
  * loaded dataset, `loading` holds the version being loaded while a delta runs and is '' once it
  * is loaded. The writer names those two states `loaded` and `loading`
- * (scripts/records/dataset-state.mjs); the reader adds `unknown`, for a database with no
+ * (packages/loader/src/dataset-state.mjs); the reader adds `unknown`, for a database with no
  * dataset table or one that could not be read. Same names on both sides, mirrored here because a
  * Function cannot import scripts/.
  *
  *   unknown   no version and no loading flag: answers carry no dataset version
  *   loaded    version v, loading ''
  *   loading   loading set (the version being loaded); answers are not stored at the edge
- *             (functions/_api/_records.js cachedJson), so a half-applied delta is never cached
+ *             (packages/api/src/handlers/_records.js cachedJson), so a half-applied delta is never cached
  *
  * The reader cannot refuse what D1 says, so there is no transition guard here: any state may
  * follow any other between two reads. What the state decides is what a Function may do with an

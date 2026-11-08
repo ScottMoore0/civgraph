@@ -1,6 +1,6 @@
 /**
- * The OpenAPI 3.1 document of a version, built from its route table (functions/_lib/api/v1.js)
- * and its contracts (functions/_lib/api/contracts/v1.js) at request time, so it cannot drift
+ * The OpenAPI 3.1 document of a version, built from its route table (packages/api/src/v1/v1.js)
+ * and its contracts (packages/api/src/v1/contracts/v1.js) at request time, so it cannot drift
  * from what the router serves. REFACTOR-PLAN.md item 5, slice API-3.
  *
  * Each route is one path; its variants are the 200 answer's `anyOf`, each titled with the

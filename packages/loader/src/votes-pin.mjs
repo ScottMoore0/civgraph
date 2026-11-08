@@ -4,10 +4,10 @@
  * it by checksum, so a records build can say exactly which copy it was built from and refuses a
  * copy that changed without the pin being updated.
  *
- *   node scripts/records/votes-pin.mjs --write   record the SHA-256 of each file the build
+ *   node packages/loader/src/votes-pin.mjs --write   record the SHA-256 of each file the build
  *                                                 reads (VOTES_INPUTS) in
  *                                                 data/database/votes-source.json
- *   node scripts/records/votes-pin.mjs           check the copy at CIVGRAPH_VOTES_DIR against it
+ *   node packages/loader/src/votes-pin.mjs           check the copy at CIVGRAPH_VOTES_DIR against it
  *
  * The pin names files by their path under the dataset folder, never the folder's own location.
  */
@@ -71,7 +71,7 @@ export function votesPinState(votesDir, pinFile = PIN_FILE) {
  */
 export function verifyVotesPin(votesDir) {
   const { state, diffs, pin } = votesPinState(votesDir);
-  if (state === 'unpinned' || !pin) throw new Error('data/database/votes-source.json is missing: run node scripts/records/votes-pin.mjs --write');
+  if (state === 'unpinned' || !pin) throw new Error('data/database/votes-source.json is missing: run node packages/loader/src/votes-pin.mjs --write');
   if (state === 'mismatch') throw new Error(`the votes dataset differs from its pin: ${diffs.slice(0, 8).join(', ')}`);
   return createHash('sha256').update(JSON.stringify(pin.files)).digest('hex').slice(0, 16);
 }
@@ -81,7 +81,7 @@ if (process.argv[1] && path.basename(process.argv[1]) === 'votes-pin.mjs') {
   if (!dir) { console.error('set CIVGRAPH_VOTES_DIR to the division dataset folder'); process.exit(1); }
   if (process.argv.includes('--write')) {
     const files = checksumVotesDir(dir);
-    writeFileSync(PIN_FILE, `${JSON.stringify({ schemaVersion: 1, description: 'SHA-256 of the parliamentary division dataset (kept outside the repository, CIVGRAPH_VOTES_DIR) that records:build reads. Update with node scripts/records/votes-pin.mjs --write when the dataset is refreshed.', files }, null, 2)}\n`);
+    writeFileSync(PIN_FILE, `${JSON.stringify({ schemaVersion: 1, description: 'SHA-256 of the parliamentary division dataset (kept outside the repository, CIVGRAPH_VOTES_DIR) that records:build reads. Update with node packages/loader/src/votes-pin.mjs --write when the dataset is refreshed.', files }, null, 2)}\n`);
     console.log(`pinned ${files.length} file(s) in ${path.relative(REPO_ROOT, PIN_FILE)}`);
   } else {
     try { console.log(`PASS: votes dataset matches its pin (${verifyVotesPin(dir)})`); } catch (e) { console.error(`FAIL: ${e.message}`); process.exit(1); }

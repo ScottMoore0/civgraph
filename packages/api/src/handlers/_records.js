@@ -30,7 +30,7 @@ export { T };
 
 /**
  * The dataset's version and loading flag, memoised a minute per isolate: one memo shared with
- * the server-rendered pages (functions/_lib/dataset-state.js, state machine FN-03).
+ * the server-rendered pages (packages/api/src/dataset-state.js, state machine FN-03).
  */
 export const datasetState = (/** @type {D1Database} */ db) => readDataset(db);
 

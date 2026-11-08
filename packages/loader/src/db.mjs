@@ -3,7 +3,7 @@
  * table writer that fills one table in one transaction.
  *
  * A row's hash is SHA-1 over JSON.stringify of its values in the schema's column order (row_hash
- * and row_hash_n left out). The column order is fixed by scripts/records/schema.mjs, so this is
+ * and row_hash_n left out). The column order is fixed by packages/schema/src/schema.mjs, so this is
  * canonical: the same row always hashes the same, on any machine. Numbers are bound as numbers,
  * absent values as null. The one exception is a build stamp inside a JSON column the schema names
  * (`volatileJson`, documents only), which is left out (hashValues).
@@ -225,7 +225,7 @@ export function readJson(file, fallback) {
  * Replace the keys named in `sentinels` ({key: '$where-it-lives'}) with that marker string,
  * keeping their place, so the stored JSON keeps the document's key order and the
  * compatibility routes can put each value back where it was. A marker is a string beginning
- * with '$' that no source value takes (functions/_api/_records.js isMarker).
+ * with '$' that no source value takes (packages/api/src/handlers/_records.js isMarker).
  * @param {object} object
  * @param {Record<string, string>} sentinels
  */

@@ -12,21 +12,21 @@
  *                   else read from --votes-tree <dir>; else carried over from the last build.
  *   3. a fresh civgraph-records.next.sqlite from migrations/*.sql, then every ingest
  *   4. stable order: the sort keys (`ord`) of the tables with `stableOrder` keep their values from
- *      the seed (scripts/records/stable-order.mjs), so the delta of a change is about its own
+ *      the seed (packages/loader/src/stable-order.mjs), so the delta of a change is about its own
  *      size. The seed is --ord-seed <file>; else the publish's last-loaded snapshot
  *      (.claude/publish/work/last-loaded.sqlite: what D1 holds); else the previous build; with
  *      --no-ord-seed, or none of them, the positions the ingests wrote are kept.
- *   5. validate (scripts/records/validate.mjs); errors stop the build
+ *   5. validate (packages/loader/src/validate.mjs); errors stop the build
  *   6. dataset rows: version (hash of every table's count and checksum), git_commit, inputs_hash,
  *      table checksums; then the file is renamed into place.
  *
  * The person-registry curation loop (npm run persons:rebuild) rewrites committed files and stays a
  * separate step; this build only stamps from the committed registry.
  *
- *   node scripts/records/build-records-db.mjs [--no-transform] [--force-transform] [--votes-tree DIR]
+ *   node packages/loader/src/build-records-db.mjs [--no-transform] [--force-transform] [--votes-tree DIR]
  *                                             [--skip graph,votes] [--no-source-checks]
  *                                             [--ord-seed FILE | --no-ord-seed]
- *   node scripts/records/build-records-db.mjs --only maps [--browse-dir DIR] [--out FILE]
+ *   node packages/loader/src/build-records-db.mjs --only maps [--browse-dir DIR] [--out FILE]
  *
  * --only maps (development): a database with every table but only the maps group filled
  * (ingest-maps.mjs: maps.json, maps-test.json, the catalogue documents and, from --browse-dir or

@@ -3,7 +3,7 @@
  * and the environment variables the Functions read, and the cache policies.
  *
  * REFACTOR-PLAN.md item 7 (config). This is the half that runs in Pages Functions, so it has no
- * file system, no process.env and no Node imports. scripts/lib/config.mjs is the build-time half
+ * file system, no process.env and no Node imports. packages/config/src/node.mjs is the build-time half
  * (paths and the environment variables of the scripts) and re-exports everything here.
  *
  * NOTHING IS SWITCHED OVER YET. The constants below are still also written out where they are
@@ -84,7 +84,7 @@ export const SECRETS = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.keys
 
 /** Cache-Control policies, by what is being served. */
 export const CACHE = /* @__PURE__ */ Object.freeze({
-  /** records answers (functions/_api/_records.js cachedJson): invalidated by the dataset version */
+  /** records answers (packages/api/src/handlers/_records.js cachedJson): invalidated by the dataset version */
   records: 'public, max-age=300, stale-while-revalidate=86400',
   /** a records answer while a delta load is running */
   loading: 'no-store',

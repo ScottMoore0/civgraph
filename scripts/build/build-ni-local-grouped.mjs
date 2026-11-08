@@ -7,7 +7,7 @@
  *
  * Reads only committed inputs:
  *   the election manifest and each council round's bundle (the published results), wherever the
- *     record build writes them (ELECTION_MANIFEST, localPathForUrl in scripts/records/paths.mjs);
+ *     record build writes them (ELECTION_MANIFEST, localPathForUrl in packages/loader/src/paths.mjs);
  *   data/elections/ni-local/round-status.json (the intake's calendar and round status, imported by
  *     scripts/ingest/ni-local/import-intake-status.py);
  *   data/elections/round-completeness.json, where present (published rounds that hold only some of
@@ -273,7 +273,7 @@ export function isKnownRoundWork(work) {
 
 /**
  * The site status of a published round from its round-status.json row and its round-completeness
- * entry (registries/statuses.mjs siteRoundStatus).
+ * entry (packages/registries/src/statuses.mjs siteRoundStatus).
  * @param {{ work?: string, excluded?: unknown } | null | undefined} row
  * @param {{ text?: string, complete?: boolean } | undefined} completeness
  * @returns {GroupedRoundStatus}

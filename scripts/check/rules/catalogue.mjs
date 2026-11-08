@@ -168,7 +168,7 @@ if (existsSync(peoplePath)) {
 {
   const desc = read('data/catalogue/descriptions.json');
   const seriesIds = new Set(source.series.map((s) => s.id));
-  // The election manifest is built into tmp/records by the records build (scripts/records/paths.mjs).
+  // The election manifest is built into tmp/records by the records build (packages/loader/src/paths.mjs).
   const electionKeys = new Set((JSON.parse(readFileSync(path.resolve(ROOT, ELECTION_MANIFEST), 'utf8')).elections || []).map((e) => e.key));
   const checkOne = (where, d) => {
     if (!Array.isArray(d?.text) || !d.text.length || !d.text.every((p) => typeof p === 'string' && p.trim())) fail(`descriptions: ${where} has no text`);

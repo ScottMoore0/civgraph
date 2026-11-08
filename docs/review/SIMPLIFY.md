@@ -70,7 +70,7 @@ export async function onRequest(context) {
 }
 ```
 
-Now `functions/_api/_method.js` holds `methodGuard(method, handler, notAllowed)`
+Now `packages/api/src/handlers/_method.js` holds `methodGuard(method, handler, notAllowed)`
 and each route reads:
 
 ```js
@@ -101,7 +101,7 @@ protected by nothing.
 
 ### 2. `joinExt` - a documented contract nobody honoured
 
-`functions/_api/proni/_query.js` returned a `joinExt` flag and documented it:
+`packages/api/src/handlers/proni/_query.js` returned a `joinExt` flag and documented it:
 
 > signalled by the returned `joinExt` flag so callers can add the join only when
 > it's needed

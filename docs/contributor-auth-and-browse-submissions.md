@@ -6,7 +6,7 @@
 >
 > **This document is actively wrong about a security property.** It states that
 > with no allowlist configured, any Access-authenticated email is treated as
-> allowed. That was true when written; `functions/_api/_auth.js` was changed on
+> allowed. That was true when written; `packages/api/src/handlers/_auth.js` was changed on
 > 2026-08-13 to fail CLOSED, so an empty allowlist now admits nobody. Do not use
 > this file to reason about who can contribute.
 

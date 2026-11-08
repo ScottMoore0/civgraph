@@ -15,7 +15,7 @@
 
 import { SITE } from '../packages/config/src/config.js';
 
-/** The data origin, from the site's config (functions/_lib/config.js; bundled into the app). */
+/** The data origin, from the site's config (packages/config/src/config.js; bundled into the app). */
 export const CDN_BASE = SITE.dataOrigin;
 
 /**

@@ -211,7 +211,7 @@ if (mismatched.length) {
   console.error('  download is the corrected one, the map is drawing the old geometry and');
   console.error('  every other check will pass. Copy the download over the source cache,');
   console.error('  rebuild the tiles, and upload:');
-  console.error('    node scripts/build/tiles/pmtiles.mjs --force --ids <layer-id>');
+  console.error('    node packages/maps-pipeline/src/tiles/pmtiles.mjs --force --ids <layer-id>');
   console.error('    node scripts/publish/r2-upload-pmtiles.mjs --ids <layer-id>');
   process.exitCode = 1;
 }

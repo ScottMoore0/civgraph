@@ -8,10 +8,10 @@
 # objects stay where they are for the 90-day dual run; deleting them is a separate, approved
 # step), and the three D1 loads (deploy:browse-indexes, deploy:elections-d1 and the full 342 MB
 # elections reload) are replaced by one delta load of the records database with a bounded
-# verify (scripts/records/verify-load.mjs: only the rows the delta wrote, by primary key, one
+# verify (packages/loader/src/verify-load.mjs: only the rows the delta wrote, by primary key, one
 # statement per wrangler call; it never scans a table of the live database). Since data design
 # phase 3 the map catalogue (maps.json), the layer metadata (maps-test.json), the catalogue pane's
-# documents and the Browse map files are tables of the same load (scripts/records/ingest-maps.mjs),
+# documents and the Browse map files are tables of the same load (packages/loader/src/ingest-maps.mjs),
 # so there is no separate catalogue load and no R2 sync: nothing is uploaded to R2 at all.
 #
 #   --dry-run    build, then say what would be loaded and pushed; push, load and upload nothing

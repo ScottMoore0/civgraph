@@ -11,8 +11,8 @@
  * same civ_fid the map uses: each feature's tile pieces are unioned back into one shape
  * for its centre and its geodesic area and perimeter.
  *
- *   node scripts/build/tiles/feature-index-from-tiles.mjs --ids a,b   rebuild these layers' indexes
- *   node scripts/build/tiles/feature-index-from-tiles.mjs --missing   every civ_fid layer with no local source
+ *   node packages/maps-pipeline/src/tiles/feature-index-from-tiles.mjs --ids a,b   rebuild these layers' indexes
+ *   node packages/maps-pipeline/src/tiles/feature-index-from-tiles.mjs --missing   every civ_fid layer with no local source
  *
  * Layers sharing one tileset (province aliases) share one index file, built once.
  */

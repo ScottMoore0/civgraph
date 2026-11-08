@@ -100,7 +100,7 @@ function optional(read) {
  * NI_COUNCIL_SLUGS and NI_LOCAL_TIERS and src/catalogue/search.js's council lists and aliases,
  * which read registries/browser/councils.json. With the first went registries/seed/councils.mjs: since then
  * data/registries/councils.json is the source, edited by hand and checked by
- * node registries/check.mjs and tests/unit/registries-councils.test.mjs.
+ * node packages/registries/src/check.mjs and tests/unit/registries-councils.test.mjs.
  * @param {string} [root]
  */
 export function councilSources(root = REPO_ROOT) {

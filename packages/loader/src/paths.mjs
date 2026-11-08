@@ -21,7 +21,7 @@
 import path from 'node:path';
 import { DEFAULT_BUILD_DIR, REPO_ROOT, recordPaths } from '../../config/src/node.mjs';
 
-// The locations themselves are the config module's (scripts/lib/config.mjs recordPaths, plan
+// The locations themselves are the config module's (packages/config/src/node.mjs recordPaths, plan
 // slice CFG-2); this module keeps its exports so no caller changes.
 export { DEFAULT_BUILD_DIR, REPO_ROOT, recordPaths };
 

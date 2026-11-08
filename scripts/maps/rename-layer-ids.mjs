@@ -45,7 +45,7 @@ export const SKIP_FILES = new Set([
   'packages/map/src/app/url-compat.mjs',
   'tests/unit/url-compat.test.mjs',
   'tests/functions/maps.test.mjs',
-  'scripts/records/ingest-maps.mjs',
+  'packages/loader/src/ingest-maps.mjs',
   'packages/loader/src/ingest-maps.mjs',
   // the R2 key moves and the id-form state machine name the legacy spelling on purpose
   'scripts/publish/key-migration.mjs',

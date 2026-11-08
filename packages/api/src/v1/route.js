@@ -2,7 +2,7 @@
  * The versioned public API: /api/<version>/*.
  *
  *   GET /api/                  the versions
- *   GET /api/v1/               the v1 index (functions/_lib/api/v1.js)
+ *   GET /api/v1/               the v1 index (packages/api/src/v1/v1.js)
  *   GET /api/v1/<route>?...    the /_api/<route> answer, by the same handler (delegate.js)
  *
  * /_api/* keeps answering for good; it is what the site's own pages call. REFACTOR-PLAN.md item 5.

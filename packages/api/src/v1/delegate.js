@@ -1,12 +1,12 @@
 /**
  * Serving a versioned API path by delegating to an existing handler, unchanged.
  *
- * REFACTOR-PLAN.md item 5. A version (functions/_lib/api/v1.js) is a table of routes; each names
+ * REFACTOR-PLAN.md item 5. A version (packages/api/src/v1/v1.js) is a table of routes; each names
  * the handler module of the original `/_api/*` route and that route's path. A request for
  * `/api/v1/<route>[/<rest>]?<query>` is handed to that module as a GET of
  * `/_api/<route>[/<rest>]?<query>`, so:
  *   - the answer is the legacy answer, byte for byte (tests/functions/api-v1.test.mjs);
- *   - the records cache (functions/_api/_records.js, keyed on the request URL) is shared by both
+ *   - the records cache (packages/api/src/handlers/_records.js, keyed on the request URL) is shared by both
  *     spellings, and D1 is read once for either;
  *   - a redirect to another legacy API path comes back as the versioned path.
  *

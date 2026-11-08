@@ -4,7 +4,7 @@
  * - no module under scripts/records or scripts/lib imports node:sqlite except
  *   packages/storage/src/sqlite.mjs (a JSDoc type import is not an import);
  * - openSqliteHandle() opens read-only when asked and read-write by default, as new DatabaseSync did;
- * - the local records API (scripts/records/local-api.mjs), now on toD1(openSqlite()), answers
+ * - the local records API (packages/loader/src/local-api.mjs), now on toD1(openSqlite()), answers
  *   every records route over a fresh migrated database exactly as it did over the D1 test shim.
  */
 import assert from 'node:assert/strict';

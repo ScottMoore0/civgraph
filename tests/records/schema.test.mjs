@@ -1,4 +1,4 @@
-// The migrations and scripts/records/schema.mjs describe the same database.
+// The migrations and packages/schema/src/schema.mjs describe the same database.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readdirSync, readFileSync } from 'node:fs';

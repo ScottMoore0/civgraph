@@ -168,7 +168,7 @@ export async function fetchResultsBundle(entry, { fetchImpl = defaultFetch, env 
   const response = await fetchImpl(electionBundleUrl(entry, useElectionsApi(env)), { cache: 'default' });
   // No static fallback: the bundles are no longer deployed as files. The API keeps a
   // last-good copy of every answer and serves it if D1 is unavailable
-  // (functions/_api/_records.js cachedJson), which is what the fallback was for.
+  // (packages/api/src/handlers/_records.js cachedJson), which is what the fallback was for.
   if (!response.ok && useElectionsApi(env)) {
     console.warn(`[test2 elections] elections API returned ${response.status} for ${entry.key}`);
     reportElectionsApiIssue('elections-api-error', `bundle fetch returned ${response.status}`, entry.key, env);

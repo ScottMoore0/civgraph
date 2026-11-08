@@ -1,13 +1,13 @@
 /**
  * The explicit state machines of the records loader (REFACTOR-PLAN.md section 11):
  *
- * - scripts/lib/state-machine.mjs: the table refuses undeclared moves and malformed tables;
- * - the records deploy (scripts/records/deploy-plan.mjs, full weight): every mode's path is a
+ * - packages/core/src/state-machine.mjs: the table refuses undeclared moves and malformed tables;
+ * - the records deploy (packages/loader/src/deploy-plan.mjs, full weight): every mode's path is a
  *   walk of the table; the forbidden moves throw (snapshot before PASS, anything applied or
  *   verified in a dry run, a local bookmark, a delta in --resync); the option checks give the
  *   messages deploy-records.mjs printed before, plus the refused --dry-run --resync;
  * - --start-part resumes only the load that stopped (the persisted cursor, resumeCheck);
- * - the dataset loading flag (scripts/records/dataset-state.mjs, light weight): the values the
+ * - the dataset loading flag (packages/loader/src/dataset-state.mjs, light weight): the values the
  *   delta writes are the ones it wrote before, byte for byte;
  * - the light enumerations: the votes pin, the layer-id rename side.
  */

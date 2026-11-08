@@ -1,14 +1,14 @@
 /**
  * The Functions' state machines (REFACTOR-PLAN.md section 11; the catalogue's stream 2):
  *
- *   FN-04 the contribution queue's statuses (functions/_lib/contribution-status.js)
- *   FN-02 where a records answer comes from (ANSWER_LADDER in functions/_api/_records.js)
+ *   FN-04 the contribution queue's statuses (packages/api/src/contribution-status.js)
+ *   FN-02 where a records answer comes from (ANSWER_LADDER in packages/api/src/handlers/_records.js)
  *   FN-01 a request's slot at the rebuild gate (GATE_SLOT, the same file)
- *   FN-03 the dataset state as the Functions read it (functions/_lib/dataset-state.js)
+ *   FN-03 the dataset state as the Functions read it (packages/api/src/dataset-state.js)
  *   FN-L  the modes: record-page SSR, a layer's feature-id mode, the layer views, a version's status
  *
  * The tables are plain data so a Function can use them; here each is built into a machine with
- * the shared helper (scripts/lib/state-machine.mjs), which refuses a table naming an unknown
+ * the shared helper (packages/core/src/state-machine.mjs), which refuses a table naming an unknown
  * state, and every move the table does not list is shown to be refused where it is guarded.
  */
 import { test } from 'node:test';
@@ -114,8 +114,8 @@ test('FN-04: the decide endpoint decides a pending submission once, and refuses 
   }
 });
 
-// functions/_lib/contribution-status.js mirrors the registry rather than importing it: a Function
-// importing data/registries/statuses.json and registries/status-machines.mjs would put a JSON
+// packages/api/src/contribution-status.js mirrors the registry rather than importing it: a Function
+// importing data/registries/statuses.json and packages/registries/src/status-machines.mjs would put a JSON
 // import and scripts/lib/ into the Pages Functions bundle, which no Function does yet and only a
 // Pages preview deploy can prove. These tests hold the mirror equal to the registry instead.
 const REGISTRY = path.join(REPO_ROOT, 'data', 'registries', 'statuses.json');

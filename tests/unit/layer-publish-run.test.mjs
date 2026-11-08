@@ -6,15 +6,15 @@ import { checkRunTransition, layerPublishRun, layerPublishSteps } from '../../sc
 // The commands layers.mjs ran before the machine, in order: the steps must not change.
 const BEFORE = (idList, build) => [
   ...(build ? [
-    ['Build the tile archives', ['scripts/build/tiles/pmtiles.mjs', '--force', '--ids', idList]],
-    ['Build the feature indexes', ['scripts/build/tiles/feature-indexes.mjs', '--ids', idList]],
+    ['Build the tile archives', ['packages/maps-pipeline/src/tiles/pmtiles.mjs', '--force', '--ids', idList]],
+    ['Build the feature indexes', ['packages/maps-pipeline/src/tiles/feature-indexes.mjs', '--ids', idList]],
   ] : []),
   ['Write the CDN upload manifest', ['scripts/publish/r2-manifest.mjs']],
   ['Upload to R2', ['scripts/publish/r2-upload-pmtiles.mjs', '--ids', idList]],
   ['Verify byte ranges on the CDN', ['scripts/publish/verify-pmtiles-cdn.mjs', '--ids', idList]],
   ['Switch the layers to their CDN URLs', ['scripts/publish/switch-pmtiles-to-cdn.mjs', '--ids', idList]],
-  ['Repair alias layers', ['scripts/build/tiles/repair-alias-layers.mjs']],
-  ['Rebuild the layer metadata', ['scripts/build/tiles/layer-plan.mjs']],
+  ['Repair alias layers', ['packages/maps-pipeline/src/tiles/repair-alias-layers.mjs']],
+  ['Rebuild the layer metadata', ['packages/maps-pipeline/src/tiles/layer-plan.mjs']],
 ];
 
 for (const build of [true, false]) {

@@ -23,7 +23,7 @@ with those files (_api_file): the generated copies the Functions' rows are built
 
 The records API (/_api/parties, /_api/persons, /_api/elections and the other routes whose
 Functions read only the records database) is answered by those same Functions, run in a
-Node process against the records build's database (scripts/records/local-api.mjs, through
+Node process against the records build's database (packages/loader/src/local-api.mjs, through
 the D1 shim the records tests use). This server starts it on a free local port and passes
 those requests to it; it exits when this server does. Without a records build, or without
 node, those URLs answer 404 as before. Any other /_api/ route answers 404.
@@ -75,13 +75,13 @@ def _api_file(path, query):
 
 _LOCAL_API = os.path.join(REPO, 'packages', 'loader', 'src', 'local-api.mjs')
 _RECORDS_DB = os.path.join(REPO, 'tmp', 'records', 'civgraph-records.sqlite')
-# The same routes as RECORD_API_ROUTES in scripts/records/local-api.mjs.
+# The same routes as RECORD_API_ROUTES in packages/loader/src/local-api.mjs.
 _API_ROUTE = re.compile(r'^/_api/(elections|graph|parties|persons|register-interests|sources|stats|votes)/?$')
 _api_port = None
 
 
 def start_records_api():
-    """Start scripts/records/local-api.mjs; return its port, or None without a records build."""
+    """Start packages/loader/src/local-api.mjs; return its port, or None without a records build."""
     if not os.path.exists(_RECORDS_DB):
         return None
     try:

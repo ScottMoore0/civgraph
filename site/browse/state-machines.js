@@ -1,7 +1,7 @@
 /**
  * Browse's state machines (REFACTOR-PLAN.md section 11; catalogue ids UI-01, UI-02, UI-L), as
  * tables over the shared helper (assets/ui/state/machine.js, the browser copy of
- * scripts/lib/state-machine.mjs).
+ * packages/core/src/state-machine.mjs).
  *
  * browse.js runs them; tests/unit/ui-state-machines.test.mjs walks the tables, including every
  * forbidden move, and tests/browser/ui-state-machines.spec.js drives the page.

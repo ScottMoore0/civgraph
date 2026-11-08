@@ -3322,7 +3322,7 @@ function normalizeParty(value) {
 
 function partyColour(value) {
   const key = normalizeName(value);
-  // The shared registry (src/election-domain.mjs) holds the historic and minor parties.
+  // The shared registry (packages/core/src/election-domain.mjs) holds the historic and minor parties.
   return PARTY_COLOURS.get(key) || ElectionDomain.partyColour(value);
 }
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * verifyAccessJwt (functions/_api/_auth.js) accepts only a Cloudflare Access token that is
+ * verifyAccessJwt (packages/api/src/handlers/_auth.js) accepts only a Cloudflare Access token that is
  * genuine: signed by one of the team's keys, issued by the team, unexpired, and for this
  * application when CIVGRAPH_ACCESS_AUD is set. Tokens are signed here with a throwaway RSA key
  * whose public half stands in for the team's published certs (fetch is stubbed), so the check

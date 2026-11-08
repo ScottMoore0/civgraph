@@ -3,8 +3,8 @@
  * Writes data/registries/layer-types.json: the map layer types (a layer record's sourceType), the
  * fields every published layer of a type carries, and how the map app treats each type.
  *
- *   node registries/seed/layer-types.mjs           write the file
- *   node registries/seed/layer-types.mjs --check   exit 1 if it differs from a fresh seed
+ *   node packages/registries/src/seed/layer-types.mjs           write the file
+ *   node packages/registries/src/seed/layer-types.mjs --check   exit 1 if it differs from a fresh seed
  *
  * Fields, geometry types and renderers are read from render/metadata/maps-test.json (the
  * published layer index): `requiredFields` are the fields every layer of the type has there.
@@ -40,7 +40,7 @@ export const behaviourLine = (/** @type {string} */ flag) => `const ${BEHAVIOUR_
 
 /** @type {{ [type: string]: { note: string, sources: string[] } }} */
 const RUNTIME_ONLY = {
-  mvt: { note: 'Built by the app as the z/x/y.pbf fallback of a PMTiles layer (tilesFallback) or when promote-layers finds no PMTiles archive; never in the published index.', sources: ['packages/map/src/renderer/map-controller.js', 'scripts/build/tiles/promote-layers.mjs', 'packages/map/app/maplibre-main-adapter.js'] },
+  mvt: { note: 'Built by the app as the z/x/y.pbf fallback of a PMTiles layer (tilesFallback) or when promote-layers finds no PMTiles archive; never in the published index.', sources: ['packages/map/src/renderer/map-controller.js', 'packages/maps-pipeline/src/tiles/promote-layers.mjs', 'packages/map/app/maplibre-main-adapter.js'] },
   unconverted: { note: 'A catalogue entry with no tiles yet (metadata-service.js); the map refuses to load it, as it does any layer with loadable false.', sources: ['packages/map/src/renderer/metadata-service.js', 'packages/map/src/renderer/map-controller.js'] }
 };
 
@@ -116,7 +116,7 @@ export function seedLayerTypes(root = REPO_ROOT) {
   };
 }
 
-// Also run through the re-export at registries/seed/layer-types.mjs (kept until 8 Dec 2026).
+// Also run through the re-export at packages/registries/src/seed/layer-types.mjs (kept until 8 Dec 2026).
 const isMain = Boolean(process.argv[1]) && /registries[\\/](?:src[\\/])?seed[\\/]layer-types\.mjs$/.test(path.resolve(process.argv[1]));
 if (isMain) {
   const out = `${JSON.stringify(seedLayerTypes(), null, 1)}\n`;

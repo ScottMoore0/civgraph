@@ -9,7 +9,7 @@
  *   contests.meta      candidates -> "$candidacies", animationPayload -> "$animation",
  *                      countGroup -> "$animation.countGroup" when it equals the payload's rows
  *   candidacies.meta   the candidate verbatim
- * so functions/_api/_records.js can rebuild the bundle exactly (the compatibility route at
+ * so packages/api/src/handlers/_records.js can rebuild the bundle exactly (the compatibility route at
  * /render/metadata/elections-test2/<key>.json).
  */
 import { readdirSync, readFileSync } from 'node:fs';

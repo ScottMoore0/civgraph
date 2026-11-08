@@ -56,7 +56,7 @@ import { asStore } from '../packages/storage/src/d1.js';
 import { CARDS } from '../packages/api/src/queries/cards.js';
 import { ELECTION_PAGES, RECORD_PAGES } from '../packages/api/src/queries/pages.js';
 
-// Retired election and contest slugs (functions/_lib/election-slug-aliases.js): lookupElection
+// Retired election and contest slugs (packages/core/src/election-slug-aliases.js): lookupElection
 // finds the record under its new slug and the handler's slug check answers 301.
 export { slugify, resolveElectionSlugAlias };
 export const SITE_ORIGIN = 'https://civgraph.net';

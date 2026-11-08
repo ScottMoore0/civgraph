@@ -13,7 +13,7 @@
  *
  * Nine routes each carried a hand-written six-line guard against that, and none
  * of them said why, so it read as ceremony. Consolidating them into
- * functions/_api/_method.js gave the reason one home -- but a refactor of nine
+ * packages/api/src/handlers/_method.js gave the reason one home -- but a refactor of nine
  * files on the auth path, verified once by a script that was then deleted, is a
  * worse position than the duplication it replaced. This is that verification,
  * kept.

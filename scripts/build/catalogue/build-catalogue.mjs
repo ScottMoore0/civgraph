@@ -285,7 +285,7 @@ for (const s of source.series) {
   for (const m of members) if (s.versionLabels?.[m.id]) m.version = s.versionLabels[m.id];
   // A label the curator gives (catalogue.source.json `labels`) wins over a derived one.
   for (const m of members) if (s.labels?.[m.id]) m.label = s.labels[m.id];
-  // Dates in labels follow the site's one form, "1 Apr 1969" (src/date-format.mjs), whether they
+  // Dates in labels follow the site's one form, "1 Apr 1969" (packages/core/src/date-format.mjs), whether they
   // came from a map's name ("01 April 1969") or a curator's label ("04/10/1920").
   for (const m of members) m.label = formatDatesInText(m.label);
   // A row's own note on one of its maps (why 2001 Wards sit with the census areas).

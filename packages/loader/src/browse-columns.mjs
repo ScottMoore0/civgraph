@@ -3,7 +3,7 @@
  * register-of-interests card are lifted into columns, how the search text and the client's
  * lookup key are made, and the facet options. Moved here unchanged from
  * scripts/build/build-browse-index-d1-import.mjs (deleted 8 Nov 2026 with civgraph-elections); the
- * records loader (scripts/records/ingest-browse.mjs) reads it.
+ * records loader (packages/loader/src/ingest-browse.mjs) reads it.
  *
  * `index` and `out` name the legacy files; the records loader ignores them.
  */
@@ -54,7 +54,7 @@ export const flattenValue = (value) => {
   return [String(value)];
 };
 
-// Accents are folded, as functions/_api/_browse-index.js folds the query: "Micheal Martin" and
+// Accents are folded, as packages/api/src/handlers/_browse-index.js folds the query: "Micheal Martin" and
 // "fianna fail" must find the records spelt with fadas.
 export const searchText = (/** @type {BrowseItem} */ item) => SEARCH_FIELDS
   .flatMap((field) => flattenValue(item[field]))

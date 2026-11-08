@@ -23,7 +23,7 @@ The obvious design is: admin clicks approve, the Function writes to the
 catalogue. It is rejected here deliberately.
 
 That design makes the boundary between *requesting* and *enacting* rest on
-`functions/_api/_auth.js` being correct. In this project, that file has carried
+`packages/api/src/handlers/_auth.js` being correct. In this project, that file has carried
 both of the following at once:
 
 - `allowed = authenticated && (!allowlistConfigured || ...)` — with no allowlist
@@ -86,7 +86,7 @@ entry — it is a research lead, not a change.
 
 ## What they cannot propose, and why
 
-`EDITABLE_FIELDS` in `functions/_api/contributions/_schema.js` is narrower than
+`EDITABLE_FIELDS` in `packages/api/src/handlers/contributions/_schema.js` is narrower than
 the record. Excluded from `map`: `id`, `slug`, `files`, `style`. Changing any of
 those silently repoints or unpublishes a layer, which is not a metadata
 correction and should not arrive looking like one.
@@ -193,7 +193,7 @@ applies it through git. Provider is not offered: the submit schema takes it as o
 map records hold a list.
 
 Identity now comes only from a **verified** Access JWT (`verifyAccessJwt` in
-`functions/_api/_auth.js`: RS256 signature against the team's certs, issuer, expiry, and the
+`packages/api/src/handlers/_auth.js`: RS256 signature against the team's certs, issuer, expiry, and the
 application audience when `CIVGRAPH_ACCESS_AUD` is set). The bare `CF-Access-Authenticated-User-Email`
 header is no longer trusted on its own. `tests/functions/access-jwt.test.mjs` (part of
 `npm run check:contributions`) covers forged, expired, wrong-issuer and wrong-audience tokens.

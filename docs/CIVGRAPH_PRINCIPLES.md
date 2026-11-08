@@ -131,7 +131,7 @@ is not enforced, that is stated rather than hidden.
 | 1 | Verify what matters | `npm run verify:proxies` — asserts cache-header signatures, not status codes |
 | 2 | Negative controls | Convention, not automated. Applied to `check:contributions`, `check:browse-cache`, `verify:proxies` |
 | 3 | Derive, don't maintain | `check:browse-cache` (content-hash tokens); `check:pages-assets` (reads `.cfignore`, distrusts globs) |
-| 4 | Fail closed | `functions/_api/_auth.js`; `check:contributions` covers the empty-allowlist case |
+| 4 | Fail closed | `packages/api/src/handlers/_auth.js`; `check:contributions` covers the empty-allowlist case |
 | 5 | Prove before removing | `check:r2-parity` (and the archived `preflight:migration`) |
 | 6 | Provenance before publication | `check:r2-allowlist`; `check:approved-publication`; `lib/r2-publication-gate.mjs` |
 | 7 | Propose ≠ enact | `check:contributions` — 39 flow checks incl. "a contributor cannot approve" |

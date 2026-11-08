@@ -1,6 +1,6 @@
 {
  "schemaVersion": 1,
- "description": "The parties registry: one validated view over the party files named in `parts` (loadRegistry('parties') reads and joins them; packages/registries/src/parties.mjs holds the views), plus the abbreviations that results tables show, with every spelling of each party found in the election data (from src/party-names.mjs). A party with no abbreviation is shown as spelled. `notParties` are labels found in the party column that are not parties. Schema: packages/registries/schemas/parties.schema.json.",
+ "description": "The parties registry: one validated view over the party files named in `parts` (loadRegistry('parties') reads and joins them; packages/registries/src/parties.mjs holds the views), plus the abbreviations that results tables show, with every spelling of each party found in the election data (from packages/core/src/party-names.mjs). A party with no abbreviation is shown as spelled. `notParties` are labels found in the party column that are not parties. Schema: packages/registries/schemas/parties.schema.json.",
  "parts": {
   "entities": "data/elections/parties/party_registry.json",
   "lifespans": "data/elections/parties/party_lifespans.json",

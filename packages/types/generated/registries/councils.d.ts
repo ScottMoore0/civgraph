@@ -5,7 +5,7 @@
 /**
  * Councils registry (data/registries/councils.json)
  *
- * Every council the site files elections, offices or boundaries under. registries/councils.mjs holds the checks a schema cannot state (unique ids, resolvable references, symmetric relations).
+ * Every council the site files elections, offices or boundaries under. packages/registries/src/councils.mjs holds the checks a schema cannot state (unique ids, resolvable references, symmetric relations).
  */
 export interface CouncilsRegistry {
   schemaVersion: 1;

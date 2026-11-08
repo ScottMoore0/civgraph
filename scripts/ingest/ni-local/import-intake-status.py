@@ -21,7 +21,7 @@ OUT = os.path.join(ROOT, 'data', 'elections', 'ni-local', 'round-status.json')
 
 
 # The two status vocabularies this snapshot carries (state machines IN-05 and IN-03; the work
-# statuses are ROUND_STATUS in scripts/intake/lib/statuses.mjs). A value outside them is still
+# statuses are ROUND_STATUS in packages/intake/src/statuses.mjs). A value outside them is still
 # written as before, but reported on stderr so a new phrasing is not lost silently as 'unknown'.
 CALENDAR_STATES = ('held', 'not-held', 'unknown')
 WORK_STATES = ('done', 'partial', 'held', 'no-election')

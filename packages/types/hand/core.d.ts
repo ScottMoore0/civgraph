@@ -326,7 +326,7 @@ export interface LayerEntry extends LayersLayerAnswer {
 /** The two JSON error envelopes of /api/v1 (functions/README.md, "v2 candidates"). @handwritten */
 export type ApiError = { error: string } | { ok: false; error: string };
 
-/** A Browse list page (functions/_api/_browse-index.js), its items under `key`. @handwritten */
+/** A Browse list page (packages/api/src/handlers/_browse-index.js), its items under `key`. @handwritten */
 export type BrowsePage<K extends string, T> = { [P in K]: T[] } & {
   total: number;
   count: number;

@@ -26,7 +26,7 @@ import { binding } from '../../../../config/src/config.js';
  *         { "key": "submissions/2026-08-13/sub_...json",
  *           "decision": "approved" | "rejected", "note": "..." }
  *
- * The moves a decision may make are functions/_lib/contribution-status.js: from pending-review
+ * The moves a decision may make are packages/api/src/contribution-status.js: from pending-review
  * only; a submission already decided answers 409.
  */
 

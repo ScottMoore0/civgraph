@@ -6,7 +6,7 @@
  * unchanged record hashes the same from one build to the next.
  *
  * The card columns, search text and lookup key are exactly those of
- * scripts/build/build-browse-index-d1-import.mjs (scripts/records/browse-columns.mjs).
+ * scripts/build/build-browse-index-d1-import.mjs (packages/loader/src/browse-columns.mjs).
  */
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';

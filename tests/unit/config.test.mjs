@@ -1,7 +1,7 @@
 /**
- * The config module (functions/_lib/config.js, scripts/lib/config.mjs) agrees with every copy of
+ * The config module (packages/config/src/config.js, packages/config/src/node.mjs) agrees with every copy of
  * the facts it is to replace, so switching a caller over to it changes nothing:
- * - recordPaths() equals scripts/records/paths.mjs for each CIVGRAPH_BUILD_DIR spelling;
+ * - recordPaths() equals packages/loader/src/paths.mjs for each CIVGRAPH_BUILD_DIR spelling;
  * - the site origin and name equal the shell's, the records cache policy equals _records.js's;
  * - the bindings equal wrangler.toml's, per environment, both ways;
  * - every env.X a Function reads is a binding or variable the config knows.
@@ -25,7 +25,7 @@ test('the build half re-exports the runtime half', () => {
   assert.equal(config.API, runtime.API);
 });
 
-test('recordPaths() equals scripts/records/paths.mjs for every build-dir spelling', () => {
+test('recordPaths() equals packages/loader/src/paths.mjs for every build-dir spelling', () => {
   for (const env of [{}, { CIVGRAPH_BUILD_DIR: '' }, { CIVGRAPH_BUILD_DIR: 'tmp/other' }, { CIVGRAPH_BUILD_DIR: 'legacy' }, { CIVGRAPH_BUILD_DIR: path.join(ROOT, 'tmp', 'abs') }]) {
     assert.deepEqual(config.recordPaths(env), legacyRecordPaths(env), JSON.stringify(env));
   }
@@ -71,7 +71,7 @@ test('the bindings equal wrangler.toml\'s, per environment, in both directions',
   for (const envName of ['production', 'preview']) {
     for (const [name, kind] of declared[envName]) {
       const spec = runtime.BINDINGS[name];
-      assert.ok(spec, `${name} (wrangler.toml, ${envName}) is missing from functions/_lib/config.js BINDINGS`);
+      assert.ok(spec, `${name} (wrangler.toml, ${envName}) is missing from packages/config/src/config.js BINDINGS`);
       assert.equal(spec.kind, kind, `${name}: kind`);
       assert.ok(spec.environments.includes(envName), `${name}: wrangler.toml binds it in ${envName}`);
     }
@@ -104,7 +104,7 @@ test('every env.X a Function reads is a binding or variable the config knows', (
       if (!Object.hasOwn(runtime.BINDINGS, name) && !Object.hasOwn(runtime.RUNTIME_VARS, name)) unknown.add(`${name} (${path.relative(ROOT, file)})`);
     }
   }
-  assert.deepEqual([...unknown], [], 'add these to BINDINGS or RUNTIME_VARS in functions/_lib/config.js');
+  assert.deepEqual([...unknown], [], 'add these to BINDINGS or RUNTIME_VARS in packages/config/src/config.js');
 });
 
 test('binding() and runtimeVar() refuse a name the config does not know', () => {

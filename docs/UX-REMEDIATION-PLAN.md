@@ -851,7 +851,7 @@ confirmation and no progress (#195).
 
 **Change.**
 1. **Unify the query.** `functions/_api/proni/export.js` and `functions/_api/proni/search.js`
-   should share a single query builder in `functions/_api/proni/_query.js` (which already exists —
+   should share a single query builder in `packages/api/src/handlers/proni/_query.js` (which already exists —
    verify whether both currently use it).
 2. **Add a pre-flight count.** Before exporting, call `/_api/proni/count` (exists) and show
    *"Export 18 records (~4 KB)?"* with a confirm for anything over, say, 5,000 rows or 5 MB.

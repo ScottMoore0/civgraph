@@ -1,8 +1,8 @@
 // @ts-check
 /**
  * The map app's light-weight state helpers (refactor plan section 11), built on the shared
- * machine helper, scripts/lib/state-machine.mjs (the app bundle inlines it, as it does
- * scripts/lib/layer-renames.mjs for url-compat.mjs).
+ * machine helper, packages/core/src/state-machine.mjs (the app bundle inlines it, as it does
+ * packages/core/src/layer-renames.mjs for url-compat.mjs).
  *
  * - `defineChoice(name, values)`: a field that holds one of a few fixed strings (the election
  *   overlay, the local level) keeps its plain string, and every assignment goes through

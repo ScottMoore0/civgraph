@@ -19,7 +19,7 @@
  * decided wrongly is resubmitted. Every decision is still appended to the `decisions` log.
  *
  * tests/functions/state-machines.test.mjs builds the machine from this table with the shared
- * helper (scripts/lib/state-machine.mjs) and walks every forbidden move.
+ * helper (packages/core/src/state-machine.mjs) and walks every forbidden move.
  */
 
 import statuses from '../../registries/src/browser/statuses.mjs';

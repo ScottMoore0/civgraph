@@ -23,7 +23,7 @@ test('the allow-list publishes the site and leaves out the repository', () => {
     assert.equal(isSiteFile(rel), true, rel);
   }
   for (const rel of ['package.json', 'package-lock.json', 'wrangler.toml', 'README.md', 'CLAUDE.md', '.gitignore',
-    'functions/_api/_records.js', 'tools/dev-site/server.mjs', 'packages/schema/migrations/0001_records.sql', 'scripts/build/site.mjs',
+    'packages/api/src/handlers/_records.js', 'tools/dev-site/server.mjs', 'packages/schema/migrations/0001_records.sql', 'scripts/build/site.mjs',
     'tests/unit/site-build.test.mjs', 'docs/x.md', 'partials/browse-shell.html', 'tmp/records/x.json',
     'data/browse/index.json', 'data/graph/manifest.json', 'data/elections/persons/x.json',
     'data/elections-source/data/elections/x.json', 'data/database/maps.json', 'data/database/r2-publication-allowlist.json',

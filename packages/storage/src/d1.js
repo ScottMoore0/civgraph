@@ -71,7 +71,7 @@ export function fromD1(binding, { session } = {}) {
 const wrapped = new WeakMap();
 
 /**
- * A RecordStore from either a store or a D1 binding: the shared helpers (functions/_api/_records.js
+ * A RecordStore from either a store or a D1 binding: the shared helpers (packages/api/src/handlers/_records.js
  * and the like) take whichever their caller holds, so the handlers move onto the adapter one route
  * at a time (storage slice ST-5). One store per binding object.
  * @param {import('./store.js').RecordStore | D1Database} db

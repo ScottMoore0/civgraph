@@ -1,7 +1,7 @@
 /**
  * The PRONI Search app's state machines (REFACTOR-PLAN.md section 11; catalogue ids UI-03,
  * UI-04, UI-L), as tables over the shared helper (assets/ui/state/machine.js, the browser
- * copy of scripts/lib/state-machine.mjs).
+ * copy of packages/core/src/state-machine.mjs).
  *
  * app.js runs them; tests/unit/ui-state-machines.test.mjs walks the tables, including every
  * forbidden move, and tests/browser/ui-state-machines.spec.js drives the page.

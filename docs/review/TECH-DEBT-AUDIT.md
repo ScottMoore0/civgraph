@@ -19,7 +19,7 @@
 > layers already used). Four of twenty.
 >
 > **Item 12 is NOT done.** An earlier version of this banner said it "landed with
-> the simplification merge". It did not: `functions/_api/_auth.js` still reads
+> the simplification merge". It did not: `packages/api/src/handlers/_auth.js` still reads
 > `CIVGRAPH_CONTRIBUTORS || CONTRIBUTOR_EMAILS || BROWSE_CONTRIBUTORS`, and the
 > same for admins. That claim was written without checking — the same failure this
 > document's own item 4 was corrected for, in the same week, by the same author.
@@ -60,7 +60,7 @@ be worked from.
 | 6 | `.git` is 5.86 GiB | Still 5.86 GiB, but the CAUSE is fixed — see the rewritten item below |
 | 7 | `proni-roots.json` has no generator | `scripts/build-proni-roots.mjs` |
 | 8 | Dependencies uniformly behind | Updated |
-| 12 | Triple-named binding tolerance | 0 matches in `functions/_api/_auth.js` |
+| 12 | Triple-named binding tolerance | 0 matches in `packages/api/src/handlers/_auth.js` |
 | 15 | `render/` `test2/` `tests/` naming | `test/` → `render/` done. `test2/` REMAINS DELIBERATELY: it is the service-worker unregister shim, and a redirect cannot unregister a worker |
 | 16 | 371 baselined parity findings | 371 → 73 |
 | 17 | Timeline rebuild race | Fixed (`beginTimelineApply`/`endTimelineApply` depth counter) |

@@ -293,7 +293,7 @@ Add or update package scripts:
 {
   "build:graph": "node scripts/build/graph/build-semantic-graph.mjs",
   "check:graph": "node scripts/check/rules/semantic-graph.mjs",
-  "build:browse": "node scripts/build/thumbnails/manifest.mjs && node scripts/build/build-browse-indexes.mjs && npm run build:graph",
+  "build:browse": "node packages/maps-pipeline/src/thumbnails/manifest.mjs && node scripts/build/build-browse-indexes.mjs && npm run build:graph",
   "check": "... && npm run check:graph"
 }
 ```

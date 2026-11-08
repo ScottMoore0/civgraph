@@ -10,7 +10,7 @@
  * no way back to `system` (as before this table; clearing site data is the way).
  *
  * Three places act on it, and none of them can import this module before first paint:
- *   - the head bootstrap, functions/_templates/shell.js THEME_BOOTSTRAP (inline, before any
+ *   - the head bootstrap, packages/ui/src/templates/shell.js THEME_BOOTSTRAP (inline, before any
  *     stylesheet), stamped into every page by the shell and by scripts/build/build-site-partials.mjs;
  *   - the shared header's toggle, assets/site/site-chrome.js (a classic script, which carries a
  *     copy of this table in THEME_TRANSITIONS and guards its click with it);

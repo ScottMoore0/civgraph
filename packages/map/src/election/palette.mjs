@@ -188,7 +188,7 @@ export function mainPanePartyColour(party, explicit = '', roi = false) {
   const explicitColour = String(explicit || '').trim();
   const normalizedParty = normalizeName(party);
   // The pre-1922 parties always take the shared registry's colour: their files' colours
-  // were assigned by an old party code and are wrong (src/election-domain.mjs). A file's
+  // were assigned by an old party code and are wrong (packages/core/src/election-domain.mjs). A file's
   // placeholder grey never hides a colour the party has.
   if (normalizedParty && isRegistryColourParty(party)) return electionPartyColour(party);
   if (explicitColour && !(isPlaceholderPartyColour(explicitColour) && knownPartyColour(party, roi))) return explicitColour;

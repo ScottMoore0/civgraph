@@ -8,16 +8,16 @@
  *
  * | name     | data                                            | views                     |
  * |----------|-------------------------------------------------|---------------------------|
- * | councils | data/registries/councils.json                   | registries/councils.mjs   |
- * | parties  | data/registries/parties.json, joined with the   | registries/parties.mjs    |
+ * | councils | data/registries/councils.json                   | packages/registries/src/councils.mjs   |
+ * | parties  | data/registries/parties.json, joined with the   | packages/registries/src/parties.mjs    |
  * |          | party files it names (they stay where they are) |                           |
- * | offices  | data/offices/offices.json + tenures/*.json      | registries/offices.mjs    |
- * | layers   | data/registries/layer-types.json                | registries/layers.mjs     |
- * | statuses | data/registries/statuses.json                   | registries/statuses.mjs,  |
- * |          |                                                 | registries/status-machines.mjs |
+ * | offices  | data/offices/offices.json + tenures/*.json      | packages/registries/src/offices.mjs    |
+ * | layers   | data/registries/layer-types.json                | packages/registries/src/layers.mjs     |
+ * | statuses | data/registries/statuses.json                   | packages/registries/src/statuses.mjs,  |
+ * |          |                                                 | packages/registries/src/status-machines.mjs |
  *
  * Node only (reads files). The views modules are pure and take the loaded value, so a Worker or
- * the browser can use them over a generated copy. `node registries/check.mjs` validates them all.
+ * the browser can use them over a generated copy. `node packages/registries/src/check.mjs` validates them all.
  */
 import { readFileSync } from 'node:fs';
 import path from 'node:path';

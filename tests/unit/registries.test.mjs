@@ -1,6 +1,6 @@
 /**
- * The registry framework: the schema checker (registries/validate.mjs) and the loader
- * (registries/index.mjs). Each registry has its own registries-<name>.test.mjs.
+ * The registry framework: the schema checker (packages/registries/src/validate.mjs) and the loader
+ * (packages/registries/src/index.mjs). Each registry has its own registries-<name>.test.mjs.
  */
 import test from 'node:test';
 import assert from 'node:assert/strict';

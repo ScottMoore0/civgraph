@@ -2,7 +2,7 @@
  * Version 1 of the public API: /api/v1/*.
  *
  * REFACTOR-PLAN.md item 5. Each route is the existing /_api route, delegated to unchanged
- * (functions/_lib/api/delegate.js): the same handler module, the same parameters, the same
+ * (packages/api/src/v1/delegate.js): the same handler module, the same parameters, the same
  * answer, byte for byte. /_api/* stays as it is, for good, as the alias the site's own pages
  * call; /api/v1/* is the address to publish and keep stable.
  *

@@ -5,7 +5,7 @@
 /**
  * Parties registry (data/registries/parties.json joined with the party files it names)
  *
- * The shape of each party file as its readers use it today. registries/parties.mjs checkParties holds the cross-file rules. party-events.json keeps its own schema (data/schemas/party-events.schema.json, check:facts); here only its envelope is held.
+ * The shape of each party file as its readers use it today. packages/registries/src/parties.mjs checkParties holds the cross-file rules. party-events.json keeps its own schema (data/schemas/party-events.schema.json, check:facts); here only its envelope is held.
  */
 export interface PartiesRegistry {
   schemaVersion: 1;

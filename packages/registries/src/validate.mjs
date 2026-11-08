@@ -122,7 +122,7 @@ export function validateAgainstSchema(value, schema, root = schema, at = '$', op
   /** @type {(v: unknown, s: Schema) => boolean} */
   const passes = (v, s) => validateAgainstSchema(v, s, root, at, options).length === 0;
   for (const key of Object.keys(schema)) {
-    if (!KNOWN.has(key)) errors.push(`${at}: schema keyword ${key} is not supported by registries/validate.mjs`);
+    if (!KNOWN.has(key)) errors.push(`${at}: schema keyword ${key} is not supported by packages/registries/src/validate.mjs`);
   }
   if (schema.$ref) {
     const [target, base] = resolveRef(root, schema.$ref, options.schemas);

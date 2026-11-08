@@ -1,8 +1,8 @@
 /**
  * The statuses registry (data/registries/statuses.json): the data statuses of the state-machine
  * catalogue (RG-01 to RG-06), as values, transition tables, spellings and site rules. Pure: the
- * runnable machines are built by registries/status-machines.mjs over the shared helper
- * (scripts/lib/state-machine.mjs), which every stream uses.
+ * runnable machines are built by packages/registries/src/status-machines.mjs over the shared helper
+ * (packages/core/src/state-machine.mjs), which every stream uses.
  */
 
 /** @typedef {import('../../types/index.js').StatusesRegistry} StatusesRegistry */
@@ -83,7 +83,7 @@ export function enumValues(registry, name) {
 
 /**
  * The kind a candidate's Status means (RG-01): '' while continuing, else elected, not-elected,
- * excluded, or the folded text itself when no pattern matches; exactly src/election-domain.mjs
+ * excluded, or the folded text itself when no pattern matches; exactly packages/core/src/election-domain.mjs
  * statusKind, which normalises the text the same way first.
  * @param {StatusesRegistry} registry
  * @param {unknown} status

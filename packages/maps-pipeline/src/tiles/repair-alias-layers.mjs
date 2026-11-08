@@ -24,7 +24,7 @@
  *
  * Idempotent. Safe to run after any metadata step.
  *
- * Usage: node scripts/build/tiles/repair-alias-layers.mjs [--check]
+ * Usage: node packages/maps-pipeline/src/tiles/repair-alias-layers.mjs [--check]
  */
 
 import { existsSync, readFileSync } from 'node:fs';

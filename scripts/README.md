@@ -64,7 +64,7 @@ Ask which half of a check is genuinely remote. Usually most of it is not.
 |---|---|
 | understand why a validator exists | its own header comment — they record the incident that caused them |
 | add a map layer | `check/rules/c1-coverage.mjs` (explains at length why a layer can be invisible) |
-| change catalogue data | edit `data/database/maps.json`; `records:build` loads it (`scripts/records/ingest-maps.mjs`) |
+| change catalogue data | edit `data/database/maps.json`; `records:build` loads it (`packages/loader/src/ingest-maps.mjs`) |
 | change render metadata | `build/build-test2-metadata-shards.mjs` — the client reads the generated shards |
 | publish to R2 | `publish/r2-upload-tree.mjs` (S3 endpoint; the REST path is rate-limited) |
 | set cache headers on R2 | `publish/r2-cache-control.mjs` |

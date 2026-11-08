@@ -1,6 +1,6 @@
 /**
  * The records tables' names where they are not yet final, for every named query
- * (packages/api/src/queries/, storage slice ST-6). Re-exported by functions/_api/_records.js as T.
+ * (packages/api/src/queries/, storage slice ST-6). Re-exported by packages/api/src/handlers/_records.js as T.
  */
 
 /** The two tables whose final names are still taken by live legacy tables (stage H renames them). */

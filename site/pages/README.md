@@ -19,7 +19,7 @@ deployed or reviewed.
 
 ## Styling
 
-Every page here wears the shared shell (`functions/_templates/shell.js`, stamped by
+Every page here wears the shared shell (`packages/ui/src/templates/shell.js`, stamped by
 `scripts/build/build-site-partials.mjs`): the token set (`assets/ui/tokens.css`,
 `tokens-legacy.css`, `base.css`) loads from the shell head before the page's own
 stylesheet in `assets/pages/css/`, and the header and footer are styled by
