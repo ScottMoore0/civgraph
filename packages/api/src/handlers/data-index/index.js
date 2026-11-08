@@ -37,6 +37,7 @@ import { binding } from '../../../../config/src/config.js';
 
 const CACHE = 'public, max-age=300, stale-while-revalidate=600';
 
+/** @param {import('../../types.js').ApiContext} context */
 export async function onRequest(context) {
   if (context.request.method !== 'GET') return jsonNotAllowed(context.request.method);
 

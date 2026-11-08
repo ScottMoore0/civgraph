@@ -38,6 +38,7 @@ const ALLOWED_EXTENSIONS = new Set([
   'pdf', 'png', 'jpg', 'jpeg', 'webp', 'tif', 'tiff', 'md', 'xlsx',
 ]);
 
+/** @param {import('../../types.js').ApiContext} context */
 export async function onRequestPost(context) {
   const { auth, response } = await requireContributor(context);
   if (response) return response;

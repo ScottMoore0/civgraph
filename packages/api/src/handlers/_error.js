@@ -25,6 +25,8 @@
  */
 import { runtimeVar } from '../../../config/src/config.js';
 
+/** @typedef {{ message?: unknown, stack?: unknown } | null | undefined} ErrorLike what a caught value may carry */
+
 /** Short, unguessable, and enough to find one request among a day of logs. */
 function correlationId() {
   const bytes = new Uint8Array(6);
@@ -33,12 +35,15 @@ function correlationId() {
 }
 
 /**
+ * @param {import('../types.js').ApiEnv | undefined} env
+ * @param {string} where
+ * @param {unknown} error
  * @returns {{ errorId: string, detail?: string }} `detail` only when verbose
  *   errors are switched on.
  */
 export function reportError(env, where, error) {
   const errorId = correlationId();
-  const message = String(error?.message || error);
+  const message = String(/** @type {ErrorLike} */ (error)?.message || error);
 
   // Structured, so `wrangler tail | jq` can filter it.
   console.error(JSON.stringify({
@@ -46,7 +51,7 @@ export function reportError(env, where, error) {
     errorId,
     where,
     message,
-    stack: typeof error?.stack === 'string' ? error.stack.slice(0, 2000) : undefined,
+    stack: typeof /** @type {ErrorLike} */ (error)?.stack === 'string' ? String(/** @type {ErrorLike} */ (error)?.stack).slice(0, 2000) : undefined,
   }));
 
   if (runtimeVar(env, 'CIVGRAPH_VERBOSE_ERRORS').toLowerCase() === 'true') {

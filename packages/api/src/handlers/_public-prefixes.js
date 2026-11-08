@@ -29,13 +29,19 @@ export const PUBLIC_PREFIXES = [
   "data/timeline-transitions/"
 ];
 
-/** True when a key or prefix sits inside an approved prefix. */
+/**
+ * True when a key or prefix sits inside an approved prefix.
+ * @param {unknown} key
+ */
 export function isPublicPrefix(key) {
   const value = String(key || '').replace(/^\/+/, '');
   return PUBLIC_PREFIXES.some((prefix) => value.startsWith(prefix));
 }
 
-/** True when a listing prefix is approved, or is a parent an approved prefix sits under. */
+/**
+ * True when a listing prefix is approved, or is a parent an approved prefix sits under.
+ * @param {unknown} prefix
+ */
 export function isListablePrefix(prefix) {
   const value = String(prefix || '').replace(/^\/+/, '');
   if (!value) return true;

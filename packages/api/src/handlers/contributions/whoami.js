@@ -31,6 +31,7 @@ import { methodGuard } from '../_method.js';
  *
  * Callers should treat any non-200 -- including an opaque redirect to the Access
  * login -- as "not signed in". That is the normal anonymous case, not an error.
+ * @param {import('../../types.js').ApiContext} context
  */
 export async function onRequestGet(context) {
   const auth = await getContributorAuth(context);
