@@ -56,6 +56,14 @@ export function writeArtefactJson(path, next, opts) {
   return { removed: removed.length };
 }
 
+/**
+ * The ids in the file at `path` that `next` no longer holds.
+ * @param {string} path
+ * @param {object} next
+ * @param {string} collection
+ * @param {string} idKey
+ * @returns {unknown[]}
+ */
 function findRemoved(path, next, collection, idKey) {
   let before;
   try {
@@ -64,10 +72,15 @@ function findRemoved(path, next, collection, idKey) {
     return [];   // unreadable/absent: treat as a first write, nothing can be lost
   }
   const prevIds = idsOf(before?.[collection], idKey);
-  const nextIds = idsOf(next?.[collection], idKey);
+  const nextIds = idsOf(/** @type {Record<string, unknown>} */ (next)?.[collection], idKey);
   return [...prevIds].filter((id) => !nextIds.has(id));
 }
 
+/**
+ * @param {unknown} records  the collection as found (not an array: no ids)
+ * @param {string} idKey
+ * @returns {Set<unknown>}
+ */
 function idsOf(records, idKey) {
   if (!Array.isArray(records)) return new Set();
   return new Set(records.map((r) => r?.[idKey]).filter((id) => id != null && id !== ''));
@@ -100,12 +113,15 @@ export function allowDeletionsFlag(argv = process.argv) {
  * Existing order is preserved and new records are appended, so a scoped run produces a
  * minimal diff instead of reshuffling the file.
  *
+ * The records already in the file are taken to have the shape of this run's.
+ *
+ * @template {Record<string, unknown>} R
  * @param {string} path       artefact being written
- * @param {Array}  fresh      records produced by this run
+ * @param {R[]}    fresh      records produced by this run
  * @param {object} opts
  * @param {string} [opts.collection]  key holding the array of records (required: throws without it)
  * @param {string} [opts.idKey]  record identity field (default 'id')
- * @returns {{records: Array, updated: number, added: number, kept: number}}
+ * @returns {{records: R[], updated: number, added: number, kept: number}}
  */
 export function mergeArtefactRecords(path, fresh, opts = {}) {
   const { idKey = 'id', collection } = opts;
@@ -113,6 +129,7 @@ export function mergeArtefactRecords(path, fresh, opts = {}) {
   const freshList = Array.isArray(fresh) ? fresh : [];
   const byId = new Map(freshList.filter((r) => r?.[idKey] != null).map((r) => [r[idKey], r]));
 
+  /** @type {R[]} */
   let existing = [];
   if (existsSync(path)) {
     try {
@@ -124,13 +141,14 @@ export function mergeArtefactRecords(path, fresh, opts = {}) {
   }
 
   const seen = new Set();
+  /** @type {R[]} */
   const records = [];
   let updated = 0;
   let kept = 0;
   for (const record of existing) {
     const id = record?.[idKey];
     if (id != null && byId.has(id)) {
-      records.push(byId.get(id));
+      records.push(/** @type {R} */ (byId.get(id)));
       seen.add(id);
       updated += 1;
     } else {
