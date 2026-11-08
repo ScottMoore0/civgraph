@@ -13,6 +13,8 @@ import {
 } from '../packages/core/src/election-view-model.mjs';
 
 import { partyLabelHtml } from '../packages/core/src/party-names.mjs';
+
+/** @typedef {import('../packages/core/src/election-view-model.mjs').ElectionResult} ElectionResult */
 export function createElectionRenderer(host) {
   return new SharedElectionRenderer(host);
 }
@@ -53,6 +55,10 @@ export class SharedElectionRenderer {
     this.host = host;
   }
 
+  /**
+   * @param {ElectionResult | null} [selectedResult]
+   * @param {string | null} [view]
+   */
   viewModel(selectedResult = null, view = null) {
     return buildElectionViewModelFromTest2Manager(this.host, selectedResult, view);
   }

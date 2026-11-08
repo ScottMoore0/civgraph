@@ -3,6 +3,8 @@ import {
   buildPartySummary
 } from '../packages/core/src/election-domain.mjs';
 
+/** @typedef {import('../packages/core/src/election-view-model.mjs').ElectionResult} ElectionResult */
+
 /**
  * Engine-neutral election results pane contract.
  *
@@ -16,11 +18,13 @@ export class MainElectionPaneContract {
     this.rendererId = host?.paneRendererId || 'test2-main-pane-contract';
   }
 
+  /** @param {ElectionResult | null} [selectedResult] */
   renderTitle(selectedResult = null) {
     if (selectedResult?.constituency) return selectedResult.constituency;
     return this.host.formatPaneElectionTitle();
   }
 
+  /** @param {ElectionResult | null} [selectedResult] */
   renderHeaderRight(selectedResult = null, activeView = 'party') {
     const isCouncilAggregate = Boolean(selectedResult && this.host.isCouncilAggregateResult?.(selectedResult));
     const isSingleSeatFptp = Boolean(selectedResult && !isCouncilAggregate && this.host.isSingleSeatFptpResult?.(selectedResult));
@@ -76,6 +80,7 @@ export class MainElectionPaneContract {
     `;
   }
 
+  /** @param {ElectionResult | null} [selectedResult] */
   renderPanelContent(selectedResult = null, view = 'party') {
     // The citation follows the figures it is a citation for. Above the table it sat between the
     // tabs and the results, pushing the first rows down and reading as a heading rather than an
