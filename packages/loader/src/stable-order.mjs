@@ -44,7 +44,13 @@ const PARKED = -1e13;
 
 export const STABLE_ORDER_TABLES = TABLES.filter((t) => t.stableOrder);
 
-const cmp = (a, b) => {
+/** @typedef {import('../../storage/src/sqlite.mjs').SqliteHandle} SqliteHandle */
+/** @typedef {import('../../schema/src/schema.mjs').TableSpec} TableSpec */
+/** A row's sort key: the values of its table's stableOrder.sort columns (ord, shard: numbers). @typedef {number[]} SortKey */
+/** A sort key or a group's values (group columns may be text), compared element by element. @typedef {(string | number)[]} Key */
+/** A table whose stableOrder is set. @typedef {TableSpec & { stableOrder: NonNullable<TableSpec['stableOrder']> }} StableTable */
+
+const cmp = (/** @type {Key} */ a, /** @type {Key} */ b) => {
   for (let i = 0; i < a.length; i += 1) {
     if (a[i] < b[i]) return -1;
     if (a[i] > b[i]) return 1;
@@ -52,6 +58,12 @@ const cmp = (a, b) => {
   return 0;
 };
 
+/**
+ * @param {SqliteHandle} db
+ * @param {string} schema
+ * @param {string} table
+ * @returns {Set<unknown>}
+ */
 function columnsOf(db, schema, table) {
   try {
     return new Set(db.prepare(`SELECT name FROM ${schema}.pragma_table_info('${table}')`).all().map((r) => r.name));
@@ -60,8 +72,13 @@ function columnsOf(db, schema, table) {
   }
 }
 
-/** Indexes of a longest strictly increasing subsequence of keys[i] (nulls skipped). */
+/**
+ * Indexes of a longest strictly increasing subsequence of keys[i] (nulls skipped).
+ * @param {(Key | null)[]} keys
+ * @returns {number[]}
+ */
 export function longestIncreasing(keys) {
+  /** @type {number[]} */
   const tails = []; // index into keys of the smallest tail of each length
   const prev = new Array(keys.length).fill(-1);
   for (let i = 0; i < keys.length; i += 1) {
@@ -70,11 +87,12 @@ export function longestIncreasing(keys) {
     let hi = tails.length;
     while (lo < hi) {
       const mid = (lo + hi) >> 1;
-      if (cmp(keys[tails[mid]], keys[i]) < 0) lo = mid + 1; else hi = mid;
+      if (cmp(/** @type {Key} */ (keys[tails[mid]]), /** @type {Key} */ (keys[i])) < 0) lo = mid + 1; else hi = mid;
     }
     if (lo > 0) prev[i] = tails[lo - 1];
     tails[lo] = i;
   }
+  /** @type {number[]} */
   const out = [];
   for (let i = tails.length ? tails[tails.length - 1] : -1; i >= 0; i = prev[i]) out.push(i);
   return out.reverse();
@@ -83,24 +101,27 @@ export function longestIncreasing(keys) {
 /**
  * New sort keys for one group: `seedKeys[i]` is row i's matched seed key (or null), rows in new
  * source order. Returns an array of keys, or null when no row matched (keep the positions).
+ * @param {(SortKey | null)[]} seedKeys
+ * @returns {SortKey[] | null}
  */
 export function placeGroup(seedKeys) {
   const anchors = longestIncreasing(seedKeys);
   if (!anchors.length) return null;
+  /** @type {SortKey[]} */
   const out = new Array(seedKeys.length);
-  for (const i of anchors) out[i] = seedKeys[i];
-  const last = (k) => k[k.length - 1];
-  const withLast = (k, v) => [...k.slice(0, -1), v];
-  // Before the first anchor: first-m, ..., first-1.
-  const first = seedKeys[anchors[0]];
+  for (const i of anchors) out[i] = /** @type {SortKey} */ (seedKeys[i]);
+  const last = (/** @type {SortKey} */ k) => k[k.length - 1];
+  const withLast = (/** @type {SortKey} */ k, /** @type {number} */ v) => [...k.slice(0, -1), v];
+  // Before the first anchor: first-m, ..., first-1 (an anchor's key is never null).
+  const first = /** @type {SortKey} */ (seedKeys[anchors[0]]);
   for (let i = 0; i < anchors[0]; i += 1) out[i] = withLast(first, last(first) - (anchors[0] - i));
   let a = 0; // index into anchors of the left anchor of the current window
   while (a < anchors.length) {
     const left = anchors[a];
-    const lk = seedKeys[left];
+    const lk = /** @type {SortKey} */ (seedKeys[left]);
     let b = a + 1;
     while (b < anchors.length) {
-      const rk = seedKeys[anchors[b]];
+      const rk = /** @type {SortKey} */ (seedKeys[anchors[b]]);
       const m = anchors[b] - left - 1;
       if (m === 0) break;
       const samePrefix = cmp(lk.slice(0, -1), rk.slice(0, -1)) === 0;
@@ -127,19 +148,18 @@ export function placeGroup(seedKeys) {
   return out;
 }
 
+/** @param {StableTable} t */
 function identityColumns(t) {
   const sort = new Set(t.stableOrder.sort);
   if (t.stableOrder.identity === 'key') return t.pk.filter((c) => !sort.has(c));
   return t.columns.map((c) => c.name).filter((n) => !sort.has(n) && n !== 'row_hash' && n !== 'row_hash_n');
 }
 
-const idOf = (values) => createHash('sha1').update(JSON.stringify(values)).digest('base64');
+const idOf = (/** @type {unknown[]} */ values) => createHash('sha1').update(JSON.stringify(values)).digest('base64');
 
 /**
  * Rewrite the sort keys of `db` (an open, writable build) against `seedFile`. Returns per table
  * the number of rows whose key changed, and the groups that had a seed.
- */
-/**
  * @param {import('node:sqlite').DatabaseSync} db
  * @param {string|null} seedFile
  * @param {{ tables?: import('../../schema/src/schema.mjs').TableSpec[], log?: (line: string) => void }} [options]
@@ -147,12 +167,13 @@ const idOf = (values) => createHash('sha1').update(JSON.stringify(values)).diges
 export function stabiliseOrder(db, seedFile, { tables = STABLE_ORDER_TABLES, log = () => {} } = {}) {
   if (!seedFile || !existsSync(seedFile)) return null;
   const seed = openSqliteHandle(seedFile, { readOnly: true });
+  /** @type {Record<string, { changed: number, seeded: boolean }>} */
   const result = {};
   try {
     for (const t of tables) {
       if (!t.stableOrder) throw new Error(`table ${t.name} has no stableOrder`);
       const { sort, group = [] } = t.stableOrder;
-      const idCols = identityColumns(t);
+      const idCols = identityColumns(/** @type {StableTable} */ (t));
       const need = [...new Set([...group, ...sort, ...idCols])];
       const have = columnsOf(seed, 'main', t.name);
       if (!need.every((c) => have.has(c))) { log(`  ${t.name}: not in the seed, positions kept`); result[t.name] = { changed: 0, seeded: false }; continue; }
@@ -160,16 +181,20 @@ export function stabiliseOrder(db, seedFile, { tables = STABLE_ORDER_TABLES, log
       const seedStmt = group.length
         ? seed.prepare(`SELECT ${[...sort, ...idCols].join(', ')} FROM ${t.name} WHERE ${group.map((c, i) => `${c} = ?${i + 1}`).join(' AND ')} ORDER BY ${sort.join(', ')}`)
         : seed.prepare(`SELECT ${[...sort, ...idCols].join(', ')} FROM ${t.name} ORDER BY ${sort.join(', ')}`);
+      /** @type {[number, SortKey][]} */
       const changes = [];
+      /** @type {{ rid: number, key: SortKey, id: string }[]} */
       let rows = [];
+      /** @type {Key | null} */
       let groupValues = null;
       const flush = () => {
         if (!rows.length) return;
+        /** @type {Map<string, SortKey[]>} */
         const byId = new Map();
         for (const r of seedStmt.iterate(...(groupValues || []))) {
           const id = idOf(idCols.map((c) => r[c]));
           const list = byId.get(id);
-          const key = sort.map((c) => r[c]);
+          const key = /** @type {SortKey} */ (sort.map((c) => r[c]));
           if (list) list.push(key); else byId.set(id, [key]);
         }
         const seedKeys = rows.map((r) => byId.get(r.id)?.shift() || null);
@@ -181,13 +206,13 @@ export function stabiliseOrder(db, seedFile, { tables = STABLE_ORDER_TABLES, log
       };
       const iter = db.prepare(`SELECT rowid AS _rid, ${need.join(', ')} FROM ${t.name} ORDER BY ${orderBy}`).iterate();
       for (const r of iter) {
-        const gv = group.map((c) => r[c]);
+        const gv = /** @type {Key} */ (group.map((c) => r[c]));
         if (groupValues && cmp(gv, groupValues) !== 0) flush();
         groupValues = gv;
-        rows.push({ rid: r._rid, key: sort.map((c) => r[c]), id: idOf(idCols.map((c) => r[c])) });
+        rows.push({ rid: /** @type {number} */ (r._rid), key: /** @type {SortKey} */ (sort.map((c) => r[c])), id: idOf(idCols.map((c) => r[c])) });
       }
       flush();
-      applyKeys(db, t, changes);
+      applyKeys(db, /** @type {StableTable} */ (t), changes);
       result[t.name] = { changed: changes.length, seeded: true };
       log(`  ${t.name}: ${changes.length} sort key(s) rewritten`);
     }
@@ -197,7 +222,12 @@ export function stabiliseOrder(db, seedFile, { tables = STABLE_ORDER_TABLES, log
   return result;
 }
 
-/** Write the new sort keys and the rows' new hashes, in one transaction. */
+/**
+ * Write the new sort keys and the rows' new hashes, in one transaction.
+ * @param {SqliteHandle} db
+ * @param {StableTable} t
+ * @param {[number, SortKey][]} changes   [rowid, new key]
+ */
 function applyKeys(db, t, changes) {
   if (!changes.length) return;
   const { sort } = t.stableOrder;
@@ -210,7 +240,7 @@ function applyKeys(db, t, changes) {
     // A key in the primary key could collide with a row not yet moved: park them all first.
     if (keyInPk) changes.forEach(([rid], i) => park.run(PARKED - i, rid));
     for (const [rid, key] of changes) {
-      const row = read.get(rid);
+      const row = /** @type {Record<string, unknown>} */ (read.get(rid));
       sort.forEach((c, i) => { row[c] = key[i]; });
       const values = valueColumns.map((c) => bindable(row[c]));
       const [h, hn] = rowHash(hashValues(t, row, values, valueColumns));

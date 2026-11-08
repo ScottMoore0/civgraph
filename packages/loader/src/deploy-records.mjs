@@ -67,8 +67,13 @@ const RUN_FILE = path.join(REPO_ROOT, 'tmp', 'records', `deploy-run-${remote ? '
 const PART_BYTES = 50 * 1024 * 1024;
 const target = remote ? ['--remote'] : ['--local', '--persist-to', PERSIST_DIR];
 const t0 = Date.now();
-const log = (s) => console.log(`[${((Date.now() - t0) / 1000).toFixed(1)}s] ${s}`);
+const log = (/** @type {string} */ s) => console.log(`[${((Date.now() - t0) / 1000).toFixed(1)}s] ${s}`);
 
+/**
+ * Run wrangler with its output in tmp/records/<outName>.
+ * @param {string[]} cmdArgs
+ * @param {string} outName
+ */
 function wrangler(cmdArgs, outName) {
   const outFile = path.join(REPO_ROOT, 'tmp', 'records', outName);
   const fd = openSync(outFile, 'w');
@@ -77,13 +82,18 @@ function wrangler(cmdArgs, outName) {
   return { status: res.status, text: readFileSync(outFile, 'utf8') };
 }
 
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const sleep = (/** @type {number} */ ms) => new Promise((r) => setTimeout(r, ms));
 
-/** The delta as numbered part files of whole statements. */
+/**
+ * The delta as numbered part files of whole statements.
+ * @param {string | null} fromFile
+ */
 function writeParts(fromFile) {
   rmSync(PARTS, { recursive: true, force: true });
   mkdirSync(PARTS, { recursive: true });
+  /** @type {string[]} */
   const files = [];
+  /** @type {number | null} */
   let fd = null;
   let bytes = 0;
   const open = () => {
@@ -100,7 +110,7 @@ function writeParts(fromFile) {
     write: (statement) => {
       const len = Buffer.byteLength(statement);
       if (bytes && bytes + len > PART_BYTES) open();
-      writeSync(fd, statement);
+      writeSync(/** @type {number} */ (fd), statement); // open() ran above
       bytes += len;
     },
   });
@@ -108,7 +118,10 @@ function writeParts(fromFile) {
   return { result, files };
 }
 
-/** A records database's dataset version ('' when it has none). */
+/**
+ * A records database's dataset version ('' when it has none).
+ * @param {string} file
+ */
 function datasetVersion(file) {
   const db = openSqliteHandle(file, { readOnly: true });
   try {

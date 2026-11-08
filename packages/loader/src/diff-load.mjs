@@ -27,7 +27,10 @@ export const MAX_STATEMENT_BYTES = 60 * 1024;
 const MAX_DELETE_KEYS = 100;
 const PIECE_CHARS = 20_000;
 
-export const q = (value) => {
+/** @typedef {import('../../schema/src/schema.mjs').TableSpec} TableSpec */
+
+/** A value as an SQL literal. */
+export const q = (/** @type {unknown} */ value) => {
   if (value === null || value === undefined) return 'NULL';
   if (typeof value === 'number') return Number.isFinite(value) ? String(value) : 'NULL';
   if (typeof value === 'bigint') return value.toString();
@@ -36,12 +39,13 @@ export const q = (value) => {
 
 /** Children before parents for deletes, parents before children for inserts. */
 export function tableOrder() {
+  /** @type {TableSpec[]} */
   const order = [];
   const seen = new Set();
-  const visit = (t) => {
+  const visit = (/** @type {TableSpec} */ t) => {
     if (seen.has(t.name)) return;
     seen.add(t.name);
-    for (const p of t.parents || []) visit(TABLES.find((x) => x.name === p));
+    for (const p of t.parents || []) visit(/** @type {TableSpec} */ (TABLES.find((x) => x.name === p)));
     order.push(t);
   };
   for (const t of HASHED_TABLES) visit(t);
@@ -67,7 +71,7 @@ export function buildDelta({ toFile, fromFile = null, write, version, gitCommit,
   /** @type {Record<string, TableDelta>} */
   const summary = {};
   let statements = 0;
-  const emit = (sql) => { write(`${sql}\n`); statements += 1; };
+  const emit = (/** @type {string} */ sql) => { write(`${sql}\n`); statements += 1; };
 
   const datasetRows = /** @type {{ key: string, value: string|null }[]} */ (db.prepare('SELECT key, value FROM dataset ORDER BY key').all());
   const newVersion = version || datasetRows.find((r) => r.key === 'version')?.value || '';
@@ -105,6 +109,7 @@ export function buildDelta({ toFile, fromFile = null, write, version, gitCommit,
       ? `SELECT * FROM main.${t.name}`
       : `SELECT m.* FROM main.${t.name} m LEFT JOIN ${ft} ON ${join} WHERE ${ft}.row_hash IS NOT m.row_hash ORDER BY ${t.pk.map((c) => `m.${c}`).join(', ')}`;
     const prefix = `INSERT OR REPLACE INTO ${t.name} (${cols.join(', ')}) VALUES `;
+    /** @type {string[]} */
     let batch = [];
     let bytes = 0;
     const flush = () => {
@@ -112,7 +117,7 @@ export function buildDelta({ toFile, fromFile = null, write, version, gitCommit,
       batch = [];
       bytes = 0;
     };
-    for (const row of /** @type {Iterable<Record<string, any>>} */ (db.prepare(sql).iterate())) {
+    for (const row of /** @type {Iterable<Record<string, import('node:sqlite').SQLOutputValue>>} */ (db.prepare(sql).iterate())) {
       s.upserted += 1;
       let tuple = `(${cols.map((c) => q(row[c])).join(', ')})`;
       if (tuple.length + prefix.length > MAX_STATEMENT_BYTES) {
@@ -122,8 +127,9 @@ export function buildDelta({ toFile, fromFile = null, write, version, gitCommit,
         emit(`${prefix}(${cols.map((c) => (wide.includes(c) ? "''" : q(row[c]))).join(', ')});`);
         const where = t.pk.map((c) => `${c} = ${q(row[c])}`).join(' AND ');
         for (const c of wide) {
-          for (let at = 0; at < row[c].length; at += PIECE_CHARS) {
-            emit(`UPDATE ${t.name} SET ${c} = ${c} || ${q(row[c].slice(at, at + PIECE_CHARS))} WHERE ${where};`);
+          // A wide column holds text (the filter above).
+          for (let at = 0; at < /** @type {string} */ (row[c]).length; at += PIECE_CHARS) {
+            emit(`UPDATE ${t.name} SET ${c} = ${c} || ${q(/** @type {string} */ (row[c]).slice(at, at + PIECE_CHARS))} WHERE ${where};`);
           }
         }
         continue;
@@ -148,6 +154,7 @@ export function buildDelta({ toFile, fromFile = null, write, version, gitCommit,
 /**
  * Rows written by the delta including index writes: each changed row costs one write plus one per
  * index on its table (D1 bills rows written).
+ * @param {Record<string, TableDelta>} summary
  */
 export function estimateWrites(summary) {
   let rows = 0;
@@ -164,7 +171,7 @@ export function estimateWrites(summary) {
 
 async function main() {
   const args = process.argv.slice(2);
-  const opt = (name) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : null; };
+  const opt = (/** @type {string} */ name) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : null; };
   const to = opt('--to');
   const from = opt('--from');
   const out = opt('--out') || 'tmp/records/delta.sql';
@@ -176,6 +183,10 @@ async function main() {
   printSummary(result, out);
 }
 
+/**
+ * @param {DeltaResult} result
+ * @param {string} out
+ */
 export function printSummary(result, out) {
   const { rows, writes } = estimateWrites(result.summary);
   console.log(`${result.full ? 'FULL load' : 'delta'} -> ${out}: ${result.statements} statements, ${rows} rows (about ${writes} row writes with indexes), version ${result.version}`);
