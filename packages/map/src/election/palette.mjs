@@ -19,6 +19,7 @@ import {
 } from '../../../core/src/election-domain.mjs';
 
 /** @typedef {import('../../../core/src/election-view-model.mjs').ElectionRecord} ElectionRecord */
+/** @typedef {import('../../../core/src/election-view-model.mjs').ElectionResult} ElectionResult */
 
 /** Labels for the map style selector, keyed by mode. */
 export const MODE_LABELS = {
@@ -95,12 +96,19 @@ export const ROI_MAIN_PARTY_COLOURS = new Map([
   ['no', '#E53935']
 ]);
 
-/** The local palette's colour for a party, or grey. */
+/**
+ * The local palette's colour for a party, or grey.
+ * @param {unknown} value
+ */
 export function partyColour(value) {
   return PARTY_COLOURS.get(normalizeName(value)) || '#6b7280';
 }
 
-/** A colour safe to put in a style attribute (hex or rgb/rgba), otherwise the fallback. */
+/**
+ * A colour safe to put in a style attribute (hex or rgb/rgba), otherwise the fallback.
+ * @param {unknown} value
+ * @param {string} [fallback]
+ */
 export function safeCssColour(value, fallback = '#6b7280') {
   const text = String(value || '').trim();
   if (/^#[0-9a-f]{3,8}$/i.test(text)) return text;
@@ -111,6 +119,9 @@ export function safeCssColour(value, fallback = '#6b7280') {
 /**
  * The five-step amber ramp for numeric modes (turnout, share, majority, seats, quota); grey for
  * a value that is not a number. Same ramp as numericColour in src/election-renderer.mjs.
+ * @param {unknown} value
+ * @param {number} min
+ * @param {number} max
  */
 export function numericColour(value, min, max) {
   const number = Number(value);
@@ -153,7 +164,11 @@ export function usesMainRoiPartyPalette(bundle = null, entry = null) {
   return false;
 }
 
-/** The colour a party has in the route palette (ROI or local), the registry or the local palette; '' if none. */
+/**
+ * The colour a party has in the route palette (ROI or local), the registry or the local palette; '' if none.
+ * @param {unknown} party
+ * @param {boolean} [roi]
+ */
 export function knownPartyColour(party, roi = false) {
   const normalizedParty = normalizeName(party);
   if (!normalizedParty) return '';
@@ -165,6 +180,9 @@ export function knownPartyColour(party, roi = false) {
  * The colour the election pane shows for a party: a file's explicit colour unless it is a
  * placeholder grey hiding a known colour, then the route palette, the shared registry and the
  * local palette. `roi` is usesMainRoiPartyPalette() for the active election.
+ * @param {unknown} party
+ * @param {unknown} [explicit]  the file's own colour
+ * @param {boolean} [roi]
  */
 export function mainPanePartyColour(party, explicit = '', roi = false) {
   const explicitColour = String(explicit || '').trim();
@@ -190,10 +208,14 @@ export function mainPanePartyColour(party, explicit = '', roi = false) {
  * A party's colour within one result: the colour a candidate of that party carries (an elected
  * one first when options.preferElected, then the leader, the winner, any), through
  * mainPanePartyColour. options.roi is usesMainRoiPartyPalette() for the active election.
+ * @param {ElectionResult} [result]
+ * @param {unknown} [party]
+ * @param {unknown} [explicit]
+ * @param {{ preferElected?: boolean, roi?: boolean }} [options]
  */
 export function partyColourForResult(result = {}, party = '', explicit = '', options = {}) {
   const normalizedParty = normalizeName(party);
-  const candidates = Array.isArray(result?.candidates) ? result.candidates : [];
+  const candidates = Array.isArray(result?.candidates) ? /** @type {NonNullable<ElectionResult['candidates']>} */ (result.candidates) : [];
   const byParty = candidates.filter((candidate) => normalizeName(candidate.party) === normalizedParty);
   const preferredCandidate = options.preferElected
     ? byParty.find((candidate) => candidate.elected && candidate.colour)
@@ -205,7 +227,12 @@ export function partyColourForResult(result = {}, party = '', explicit = '', opt
   return mainPanePartyColour(party, colourCandidate?.colour || explicit, Boolean(options.roi));
 }
 
-/** The map fill colour for a result in a style mode. */
+/**
+ * The map fill colour for a result in a style mode.
+ * @param {string} mode
+ * @param {ElectionResult} result
+ * @param {boolean} [roi]
+ */
 export function colourForMode(mode, result, roi = false) {
   if (mode === 'winner') return partyColourForResult(result, result.winnerParty, result.colour, { preferElected: true, roi }) || '#6b7280';
   if (mode === 'leadingParty') return partyColourForResult(result, result.leadingParty, result.leadingColour, { roi }) || '#6b7280';

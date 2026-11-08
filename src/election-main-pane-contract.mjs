@@ -4,6 +4,73 @@ import {
 } from '../packages/core/src/election-domain.mjs';
 
 /** @typedef {import('../packages/core/src/election-view-model.mjs').ElectionResult} ElectionResult */
+/** @typedef {import('../packages/core/src/election-view-model.mjs').ElectionRecord} ElectionRecord */
+/** @typedef {NonNullable<ElectionResult['candidates']>[number]} ResultCandidate */
+
+/**
+ * Where a contest's figures came from: one entry of the provenance shard the manager attaches
+ * to the bundle (packages/map/src/election/transport.mjs loadProvenanceShard), keyed by the
+ * contest name lower-cased with everything but letters and digits removed.
+ * @typedef {{
+ *   source?: {
+ *     title?: string,
+ *     publisher?: string,
+ *     host?: string,
+ *     url?: string,
+ *     edition?: string,
+ *     locator?: string,
+ *     scope?: string,
+ *     checked?: boolean,
+ *     archiveUrl?: string
+ *   },
+ *   status?: string,
+ *   relatedWikipedia?: string,
+ *   figureNotes?: Array<{ title?: string, text?: string }>
+ * }} ProvenanceEntry
+ */
+
+/**
+ * What the pane asks of its host, the election manager (packages/map/app/election-manager.js):
+ * the active election, the pane's settings and the table renderers, each returning HTML.
+ * @typedef {{
+ *   paneRendererId?: string,
+ *   activeLocalMode?: string,
+ *   countDetailedView?: boolean,
+ *   activeBundle: ElectionRecord & { provenance?: Record<string, ProvenanceEntry> | null },
+ *   currentResults: () => ElectionResult[],
+ *   formatPaneElectionTitle: () => string,
+ *   isLocalGovernmentElection: () => boolean,
+ *   isCouncilAggregateResult?: (result: ElectionResult) => boolean,
+ *   isSingleSeatFptpResult?: (result: ElectionResult) => boolean,
+ *   isReferendumElection?: (result?: ElectionResult | null) => boolean,
+ *   isTurnoutGeographyMode?: () => boolean,
+ *   isForumResult: (result: ElectionResult | null) => boolean,
+ *   resultHasAnimation: (result: ElectionResult) => boolean,
+ *   withPartyDeltas: (rows: unknown[], options: { mainLike: boolean }) => unknown[],
+ *   withCandidateDeltas: (rows: unknown[], options?: { mainLike: boolean }) => unknown[],
+ *   renderTrendsPanel?: (result: ElectionResult | null) => string,
+ *   renderTurnoutGeographyPanel: () => string,
+ *   renderTurnoutConstituencyDetail: (result: ElectionResult) => string,
+ *   renderRecallPetitionOverview: (results: ElectionResult[]) => string,
+ *   renderRecallPetitionResult: (result: ElectionResult) => string,
+ *   renderDistrictResults: (view: string) => string,
+ *   renderDataCoverageNotice: () => string,
+ *   renderMapDisplayControls: () => string,
+ *   renderReferendumConstituencySummaryTable: (results: ElectionResult[]) => string,
+ *   renderMainParityPartyTable: (rows: unknown[], results: ElectionResult[], options?: { referendum?: boolean }) => string,
+ *   renderCandidateSummaryTable: (rows: unknown[]) => string,
+ *   renderLocalPartySummaryTable: (results: ElectionResult[]) => string,
+ *   renderCouncilAggregateResults: (result: ElectionResult, view: string) => string,
+ *   renderReferendumResultTable: (candidates: ResultCandidate[], result: ElectionResult) => string,
+ *   renderSingleSeatFptpResultsTable?: (candidates: ResultCandidate[], result: ElectionResult) => string,
+ *   renderConstituencyCandidateTable: (candidates: ResultCandidate[], result: ElectionResult) => string,
+ *   renderConstituencyPartyTable: (candidates: ResultCandidate[], result: ElectionResult) => string,
+ *   renderCountTable: (result: ElectionResult, candidates: ResultCandidate[]) => string,
+ *   renderAnimationNotice: (result: ElectionResult) => string,
+ *   renderCandidateEntity: (entity: unknown) => string,
+ *   renderPartyEntity: (entity: unknown) => string
+ * }} PaneHost
+ */
 
 /**
  * Engine-neutral election results pane contract.
@@ -13,6 +80,7 @@ import {
  * separate election-pane wrapper that drifts from the main UI.
  */
 export class MainElectionPaneContract {
+  /** @param {PaneHost} host */
   constructor(host) {
     this.host = host;
     this.rendererId = host?.paneRendererId || 'test2-main-pane-contract';
@@ -100,14 +168,19 @@ export class MainElectionPaneContract {
    * stands as its source, while one given for the election as a whole was only found to contain
    * these figures. An unchecked citation says so plainly. The Wikipedia article is offered as
    * related reading, never as the citation.
+   * @param {ElectionResult | null | undefined} result
    */
   renderSourceNote(result) {
     const contests = this.host.activeBundle?.provenance;
-    const name = result?.constituency || result?.localBody || '';
+    const name = /** @type {string} */ (result?.constituency || result?.localBody || '');
     if (!contests || !name) return '';
     const entry = contests[name.toLowerCase().replace(/[^a-z0-9]+/g, '')];
     const source = entry?.source;
     if (!source) return '';
+    /**
+     * @param {unknown} url
+     * @param {unknown} text
+     */
     const link = (url, text) => `<a href="${escapeHtml(url)}" target="_blank" rel="noopener">${escapeHtml(text)}</a>`;
     const label = source.title || source.publisher || source.host || 'the source';
     // A printed volume has no URL; what identifies it is where in it the contest is tabulated,
@@ -165,11 +238,19 @@ export class MainElectionPaneContract {
     `;
   }
 
+  /**
+   * @param {ElectionResult} result
+   * @param {string} [view]
+   */
   renderConstituencyResults(result, view = 'party') {
     const body = this.renderConstituencyResultsBody(result, view);
     return view === 'trends' ? body : body + renderContestNotes(result);
   }
 
+  /**
+   * @param {ElectionResult} result
+   * @param {string} [view]
+   */
   renderConstituencyResultsBody(result, view = 'party') {
     if (view === 'trends') return this.host.renderTrendsPanel?.(result) || '<p class="election-no-data">No trend data is available.</p>';
     if (this.host.isTurnoutGeographyMode?.()) return this.host.renderTurnoutConstituencyDetail(result);
@@ -193,6 +274,10 @@ export class MainElectionPaneContract {
     `;
   }
 
+  /**
+   * @param {string} kind
+   * @param {unknown} entity
+   */
   renderEntityPanel(kind, entity) {
     return kind === 'candidate'
       ? this.host.renderCandidateEntity(entity)
@@ -204,8 +289,9 @@ export class MainElectionPaneContract {
 // right of election...), set by the manifest from the contest file. Closed to a one-line
 // bar by default: a long correction note open under the table took the pane's height and
 // squeezed the results table to a single row.
+/** @param {ElectionResult} [result] */
 function renderContestNotes(result = {}) {
-  const notes = Array.isArray(result.contestNotes) ? result.contestNotes : [];
+  const notes = Array.isArray(result.contestNotes) ? /** @type {Array<{ label?: string, text?: string }>} */ (result.contestNotes) : [];
   if (!notes.length) return '';
   const labels = [...new Set(notes.map((note) => note.label).filter(Boolean))].join(', ') || 'Note';
   return `<details class="election-contest-notes">
@@ -216,12 +302,13 @@ function renderContestNotes(result = {}) {
   </details>`;
 }
 
+/** @param {unknown} value */
 function escapeHtml(value) {
-  return String(value ?? '').replace(/[&<>"']/g, (char) => ({
+  return String(value ?? '').replace(/[&<>"']/g, (char) => (/** @type {Record<string, string>} */ ({
     '&': '&amp;',
     '<': '&lt;',
     '>': '&gt;',
     '"': '&quot;',
     "'": '&#39;'
-  }[char]));
+  })[char]));
 }

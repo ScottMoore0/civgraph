@@ -11,7 +11,28 @@
  * is null on every row is left out.
  */
 
-/** True for a value that is a real number (0 included), false for null, '' and NaN. */
+/**
+ * A row of a person's or party's election history as the Browse / D1 record gives it: the
+ * fields read here by name; the others stay unknown, and the helpers below add their own.
+ * @typedef {{
+ *   [field: string]: unknown,
+ *   date?: string | null,
+ *   electionDisplayName?: string | null,
+ *   electionType?: string | null,
+ *   body?: string | null,
+ *   constituency?: unknown,
+ *   elected?: unknown,
+ *   isByElection?: unknown,
+ *   contested?: unknown,
+ *   isRecallPetition?: unknown
+ * }} HistoryRow
+ */
+/** @typedef {import('../packages/core/src/election-view-model.mjs').ElectionResult} ElectionResult */
+
+/**
+ * True for a value that is a real number (0 included), false for null, '' and NaN.
+ * @param {unknown} value
+ */
 export function hasNumber(value) {
   if (value === null || value === undefined || value === '') return false;
   return Number.isFinite(Number(value));
@@ -21,6 +42,8 @@ export function hasNumber(value) {
  * A count the summary may not have carried. Browse's rule (browse.js knownCount): a 0 beside
  * seats won is an unopposed return or an older file with no candidate counts, not a real zero,
  * so "Stood 0, Seats 1" becomes "Stood -, Seats 1".
+ * @param {unknown} value
+ * @param {boolean} [zeroIsUnknown]
  */
 export function knownCount(value, zeroIsUnknown = false) {
   if (!hasNumber(value)) return null;
@@ -31,6 +54,7 @@ export function knownCount(value, zeroIsUnknown = false) {
 /** Body groups, for the filter chips above a long history and the party headline cards. */
 export const BODY_GROUP_ORDER = ['Dáil', 'Westminster', 'Devolved', 'Local', 'European', 'Presidential', 'Referendum', 'Other'];
 
+/** @param {unknown} electionType */
 export function bodyGroupOf(electionType) {
   const t = String(electionType || '');
   if (/D[aá]il/i.test(t)) return 'Dáil';
@@ -43,7 +67,10 @@ export function bodyGroupOf(electionType) {
   return 'Other';
 }
 
-/** What the members of each body are called, for the party headline cards. */
+/**
+ * What the members of each body are called, for the party headline cards.
+ * @type {Record<string, [string, string]>}
+ */
 const MEMBER_WORD = {
   Westminster: ['MP', 'MPs'],
   'Dáil': ['TD', 'TDs'],
@@ -53,6 +80,10 @@ const MEMBER_WORD = {
   Local: ['councillor', 'councillors'],
 };
 
+/**
+ * @param {HistoryRow} a
+ * @param {HistoryRow} b
+ */
 const byDateAsc = (a, b) => String(a.date || '9999').localeCompare(String(b.date || '9999'))
   || String(a.electionDisplayName || '').localeCompare(String(b.electionDisplayName || ''));
 
@@ -61,6 +92,7 @@ const byDateAsc = (a, b) => String(a.date || '9999').localeCompare(String(b.date
  * the-post win, "Made Quota" for a Dáil STV win and "Elected" for an Assembly one, and leave a
  * loss blank; the reader sees Elected / Elected unopposed / Not elected, and the source's own
  * word stays in the tooltip.
+ * @param {{ status?: unknown, firstPref?: unknown, firstPrefs?: unknown, votes?: unknown, elected?: unknown }} [row]
  */
 export function normaliseStatus(row = {}) {
   const raw = String(row.status || '').trim();
@@ -81,6 +113,8 @@ export function normaliseStatus(row = {}) {
  * Number each appearance in a career (H1): the 12th time standing, the 10th win, the 5th
  * Assembly election, the 4th Assembly win. The D1 record does not carry these, and the four
  * columns that showed them were blank; they follow from the list itself, oldest first.
+ * @param {HistoryRow[]} [appearances]
+ * @returns {HistoryRow[]}
  */
 export function addStandings(appearances = []) {
   const ordered = [...appearances].sort(byDateAsc);
@@ -104,7 +138,11 @@ export function addStandings(appearances = []) {
   return ordered;
 }
 
-/** "1970–2007", "1969–70", "1979–99", or one year. */
+/**
+ * "1970–2007", "1969–70", "1979–99", or one year.
+ * @param {unknown} from
+ * @param {unknown} to
+ */
 export function yearRange(from, to) {
   const a = Number(from);
   const b = Number(to);
@@ -118,8 +156,11 @@ export function yearRange(from, to) {
  * A person's constituencies once each, with the years they stood there (M3): "North Antrim
  * 1970–2007 · Bannside 1969–70" rather than a 26-item list repeating North Antrim per election.
  * Ordered by the first year; `elected` is true if they ever won there.
+ * @template {HistoryRow} R
+ * @param {R[]} [appearances]
  */
 export function groupConstituencies(appearances = []) {
+  /** @type {Map<string, { name: string, label: string, from: number | null, to: number | null, count: number, elected: boolean, latest: R }>} */
   const groups = new Map();
   for (const row of appearances) {
     const name = String(row.constituency || '').trim();
@@ -129,7 +170,7 @@ export function groupConstituencies(appearances = []) {
     if (!groups.has(key)) {
       groups.set(key, { name, label: name === 'Northern Ireland' && row.electionType === 'European' ? 'Northern Ireland (Europe)' : name, from: year, to: year, count: 0, elected: false, latest: row });
     }
-    const g = groups.get(key);
+    const g = /** @type {{ name: string, label: string, from: number | null, to: number | null, count: number, elected: boolean, latest: R }} */ (groups.get(key));
     g.count += 1;
     if (year && (!g.from || year < g.from)) g.from = year;
     if (year && (!g.to || year > g.to)) { g.to = year; g.latest = row; }
@@ -144,13 +185,17 @@ export function groupConstituencies(appearances = []) {
  * Changes since the party's previous general election to the same body (the "+/-" columns,
  * which the Browse record does not carry and which were blank). A by-election is compared with
  * nothing, and nothing is compared with it.
+ * @param {HistoryRow[]} [rows]
+ * @returns {HistoryRow[]}
  */
 export function addPartyChanges(rows = []) {
+  /** @type {Map<unknown, HistoryRow>} */
   const previous = new Map();
   for (const row of [...rows].sort(byDateAsc)) {
     if (row.isByElection || !row.contested) continue;
     const key = row.body || row.electionType;
     const prev = previous.get(key);
+    /** @param {string} field */
     const delta = (field) => (prev && hasNumber(row[field]) && hasNumber(prev[field]) ? Number(row[field]) - Number(prev[field]) : null);
     row.electedDelta = delta('elected');
     row.stoodDelta = delta('stood');
@@ -166,8 +211,12 @@ export function addPartyChanges(rows = []) {
  * The headline cards on a party page (M1): its latest general election for each body it
  * actually contested, newest first, so Fianna Fáil shows TDs and Sinn Féin shows TDs, MPs and
  * MLAs, rather than every party showing Northern Ireland's MPs and MLAs and four N/As.
+ * @template {HistoryRow} R
+ * @param {R[]} [rows]
+ * @param {{ max?: number }} [options]
  */
 export function partyHeadlineCards(rows = [], { max = 4 } = {}) {
+  /** @type {Map<string, R>} */
   const latest = new Map();
   for (const row of rows) {
     if (row.isByElection || !row.contested || row.isRecallPetition) continue;
@@ -196,8 +245,11 @@ export function partyHeadlineCards(rows = [], { max = 4 } = {}) {
  * The party that led a contest on votes (H3). "Leading party" used to be the poll-topper's
  * party with the poll-topper's own first preferences: North Antrim 2022 read "UUP 9,530" when
  * the DUP's three candidates had 12,989 between them. For a single-seat contest the two agree.
+ * @param {ElectionResult} [result]
+ * @param {{ normalise?: (value: unknown) => string }} [options]
  */
 export function leadingPartyOf(result = {}, { normalise = (v) => String(v || '').toLowerCase() } = {}) {
+  /** @type {Map<string, { party: unknown, votes: number, colour: unknown, counted: boolean }>} */
   const totals = new Map();
   for (const candidate of result.candidates || []) {
     // Nothing printed and nothing inferred is "No label" (src/election-domain.mjs NO_LABEL), never Independent.
@@ -232,7 +284,10 @@ export function leadingPartyOf(result = {}, { normalise = (v) => String(v || '')
   };
 }
 
-/** Labels like "DUP list": the 1996 Forum's regional lists, which are not people (H8). */
+/**
+ * Labels like "DUP list": the 1996 Forum's regional lists, which are not people (H8).
+ * @param {unknown} name
+ */
 export function isListPseudoCandidate(name) {
   return /(^|\s)list$/i.test(String(name || '').trim());
 }

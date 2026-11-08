@@ -27,6 +27,15 @@
  */
 
 /**
+ * The part-of fields of a catalogue map (a MapEntry, packages/types) as this module reads them.
+ * @typedef {{
+ *   variants?: Array<string | { id?: string } | null>,
+ *   members?: string[],
+ *   compositeSources?: string[]
+ * }} MapRelations
+ */
+
+/**
  * The child layer ids of a composite map, in declared order.
  *
  * Reads `variants` first, then the legacy fields. The fallbacks stay so a stale
@@ -34,14 +43,14 @@
  * rather than silently expanding to nothing -- which for a group map means a blank map
  * and no error.
  *
- * @param {object|null} mapConfig
+ * @param {MapRelations | null | undefined} mapConfig
  * @returns {string[]}
  */
 export function compositeChildIds(mapConfig) {
   if (!mapConfig) return [];
-  const fromVariants = (mapConfig.variants || [])
+  const fromVariants = /** @type {string[]} */ ((mapConfig.variants || [])
     .map((variant) => (typeof variant === 'string' ? variant : variant?.id))
-    .filter(Boolean);
+    .filter(Boolean));
   if (fromVariants.length) return fromVariants;
   if (Array.isArray(mapConfig.members) && mapConfig.members.length) return mapConfig.members.filter(Boolean);
   if (Array.isArray(mapConfig.compositeSources) && mapConfig.compositeSources.length) {
@@ -50,7 +59,10 @@ export function compositeChildIds(mapConfig) {
   return [];
 }
 
-/** True when this map is assembled from child layers rather than drawing its own data. */
+/**
+ * True when this map is assembled from child layers rather than drawing its own data.
+ * @param {MapRelations | null | undefined} mapConfig
+ */
 export function isComposite(mapConfig) {
   return compositeChildIds(mapConfig).length > 0;
 }

@@ -4,6 +4,11 @@
  * enabling future code-splitting of the election controller.
  */
 
+/**
+ * @template {string | null | undefined} D
+ * @param {D} dateStr
+ * @returns {D | string}
+ */
 export function formatElectionDate(dateStr) {
     try {
         // Some bodies (e.g. ROI Referendum) use composite dates of the form
@@ -18,7 +23,9 @@ export function formatElectionDate(dateStr) {
     }
 }
 
+/** @param {string} name */
 export function shortBodyName(name) {
+    /** @type {Record<string, string>} */
     const map = {
         'European Parliament': 'European',
         'European Parliament (Ireland)': 'European (Republic of Ireland)',
@@ -33,12 +40,21 @@ export function shortBodyName(name) {
     return map[name] || name;
 }
 
+/** @param {unknown} str */
 export function escapeHtml(str) {
     const div = document.createElement('div');
     div.textContent = String(str ?? '');
     return div.innerHTML;
 }
 
+/**
+ * @param {unknown} body
+ * @param {unknown} date
+ * @param {unknown} constituency
+ * @param {unknown} label
+ * @param {string} [extraClass]
+ * @param {string} [level]
+ */
 export function renderElectionConstituencyFeatureLink(body, date, constituency, label, extraClass = '', level = 'dea') {
     const safeLabel = escapeHtml(label || '');
     const safeName = String(constituency || '').trim();

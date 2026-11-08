@@ -22,7 +22,10 @@ export const PRINTED_LABELS_ROOT_ATTRIBUTE = 'data-show-printed-labels';
 export const PRINTED_LABELS_NOTE = 'Ballot papers carried no party descriptions before the late 1960s: '
   + 'a historical label is as printed in the cited newspaper or report. Modern labels are the ballot paper description.';
 
-/** The verbatim label for a candidate: the ballot description, else the printed label, else ''. */
+/**
+ * The verbatim label for a candidate: the ballot description, else the printed label, else ''.
+ * @param {{ ballotDescription?: unknown, partyAsPrinted?: unknown } | null | undefined} candidate
+ */
 export function printedLabelText(candidate) {
   const ballot = String(candidate?.ballotDescription || '').trim();
   if (ballot) return ballot;
@@ -38,6 +41,7 @@ export function printedLabelsShown() {
   }
 }
 
+/** @param {boolean} shown */
 function applyPrintedLabels(shown) {
   const root = globalThis.document?.documentElement;
   if (!root) return;
@@ -48,7 +52,10 @@ function applyPrintedLabels(shown) {
   }
 }
 
-/** Remember the choice (where storage allows) and apply it to every table on the page. */
+/**
+ * Remember the choice (where storage allows) and apply it to every table on the page.
+ * @param {boolean} shown
+ */
 export function setPrintedLabelsShown(shown) {
   try {
     if (shown) globalThis.localStorage?.setItem(PRINTED_LABELS_STORAGE_KEY, '1');
@@ -76,7 +83,11 @@ export function initPrintedLabels() {
   });
 }
 
-/** The control, as HTML: a labelled checkbox (keyboard reachable, Space toggles it). */
+/**
+ * The control, as HTML: a labelled checkbox (keyboard reachable, Space toggles it).
+ * @param {(value: string) => string} escape  the caller's HTML escaper
+ * @param {string} [className]
+ */
 export function printedLabelsToggleHtml(escape, className = 'printed-labels-toggle') {
   const checked = printedLabelsShown() ? ' checked' : '';
   return `<label class="${escape(className)}" title="${escape(PRINTED_LABELS_NOTE)}">`
