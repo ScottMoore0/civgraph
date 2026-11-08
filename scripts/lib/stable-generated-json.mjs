@@ -4,49 +4,77 @@ import path from 'node:path';
 // 24 MiB: a margin under Cloudflare Pages' 25 MiB per-file limit.
 const PAGES_SAFE_BYTES = 24 * 1024 * 1024;
 
+/**
+ * @template T
+ * @param {T} value  JSON-serialisable
+ * @returns {T}
+ */
 function cloneJson(value) {
   return JSON.parse(JSON.stringify(value));
 }
 
+/** @param {string} pathExpression  dot-separated, e.g. 'meta.generatedAt' */
 function pathParts(pathExpression) {
   return String(pathExpression).split('.').filter(Boolean);
 }
 
+/**
+ * @param {unknown} value
+ * @param {string} pathExpression
+ * @returns {unknown}
+ */
 function getPath(value, pathExpression) {
   let current = value;
   for (const part of pathParts(pathExpression)) {
     if (!current || typeof current !== 'object' || !(part in current)) return undefined;
-    current = current[part];
+    current = /** @type {Record<string, unknown>} */ (current)[part];
   }
   return current;
 }
 
+/**
+ * @param {Record<string, unknown>} value
+ * @param {string} pathExpression
+ * @param {unknown} nextValue
+ */
 function setPath(value, pathExpression, nextValue) {
   const parts = pathParts(pathExpression);
   let current = value;
   for (const part of parts.slice(0, -1)) {
     if (!current[part] || typeof current[part] !== 'object') current[part] = {};
-    current = current[part];
+    current = /** @type {Record<string, unknown>} */ (current[part]);
   }
   if (parts.length) current[parts[parts.length - 1]] = nextValue;
 }
 
+/**
+ * @param {unknown} value
+ * @param {string} pathExpression
+ */
 function deletePath(value, pathExpression) {
   const parts = pathParts(pathExpression);
   let current = value;
   for (const part of parts.slice(0, -1)) {
     if (!current || typeof current !== 'object') return;
-    current = current[part];
+    current = /** @type {Record<string, unknown>} */ (current)[part];
   }
-  if (current && typeof current === 'object' && parts.length) delete current[parts[parts.length - 1]];
+  if (current && typeof current === 'object' && parts.length) delete /** @type {Record<string, unknown>} */ (current)[parts[parts.length - 1]];
 }
 
+/**
+ * @param {unknown} value
+ * @param {string[]} volatilePaths
+ */
 function normalizeForComparison(value, volatilePaths) {
   const copy = cloneJson(value);
   for (const volatilePath of volatilePaths) deletePath(copy, volatilePath);
   return copy;
 }
 
+/**
+ * @param {string} file
+ * @returns {unknown} the parsed file, or null when it is missing or not JSON
+ */
 function readExistingJson(file) {
   if (!existsSync(file)) return null;
   try {
@@ -56,6 +84,14 @@ function readExistingJson(file) {
   }
 }
 
+/**
+ * `data`, with the volatile fields' values taken from `file` when nothing else differs.
+ * @template T
+ * @param {string} file
+ * @param {T} data  JSON-serialisable
+ * @param {string[]} [volatilePaths]
+ * @returns {T}
+ */
 export function preserveVolatileFields(file, data, volatilePaths = ['generatedAt']) {
   const existing = readExistingJson(file);
   if (!existing) return data;
@@ -67,11 +103,18 @@ export function preserveVolatileFields(file, data, volatilePaths = ['generatedAt
   const preserved = cloneJson(data);
   for (const volatilePath of volatilePaths) {
     const existingValue = getPath(existing, volatilePath);
-    if (existingValue !== undefined) setPath(preserved, volatilePath, existingValue);
+    if (existingValue !== undefined) setPath(/** @type {Record<string, unknown>} */ (preserved), volatilePath, existingValue);
   }
   return preserved;
 }
 
+/**
+ * @template T
+ * @param {string} file
+ * @param {T} data  JSON-serialisable
+ * @param {{ volatilePaths?: string[] }} [options]
+ * @returns {T}
+ */
 export function writeStableGeneratedJson(file, data, options = {}) {
   const volatilePaths = options.volatilePaths || ['generatedAt'];
   const nextData = preserveVolatileFields(file, data, volatilePaths);
@@ -93,6 +136,10 @@ export function writeStableGeneratedJson(file, data, options = {}) {
 // Windows Defender and the search indexer briefly lock a large file just written or read, and
 // the write then fails with UNKNOWN / EBUSY / EPERM. The lock clears within seconds, so wait and
 // retry rather than fail a long build on one file. scripts/ingest/persons/generated_json.py does the same.
+/**
+ * @param {string} file
+ * @param {string} text
+ */
 function writeWithLockRetry(file, text) {
   for (let attempt = 0; ; attempt += 1) {
     try {
