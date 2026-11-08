@@ -42,29 +42,47 @@ import { MAP_CARDS } from '../../../packages/api/src/queries/maps.js';
 import { PARTIES } from '../../../packages/api/src/queries/parties.js';
 import { VOTES } from '../../../packages/api/src/queries/votes.js';
 
+/**
+ * What a /data/browse/ path asks for (matchBrowsePath).
+ * @typedef {{ kind: 'doc', name: string }
+ *   | { kind: 'parties' | 'party-names' | 'offices' | 'elections' | 'elections-list' | 'source-merges' | 'maps' | 'features' }
+ *   | { kind: 'contest-parents', bucket?: number }
+ *   | { kind: 'shard', dir: string, name: string }
+ *   | { kind: 'source-shard', name: string }
+ *   | { kind: 'party-profile' | 'party-detail' | 'office-detail' | 'map-detail' | 'election-detail' | 'election-contests' | 'votes-party', slug: string }
+ *   | { kind: 'votes-person', id: string }
+ *   | { kind: 'votes-shard', shard: number }} BrowseRoute
+ * @typedef {import('../../../packages/types/index.js').RecordsDb.Tables} Tables
+ */
+
 const VERSION = 'data-browse-4';
 const CONTEST_PARENT_BUCKETS = 64;
 export const MAP_FEATURES_ORIGIN = 'https://data.civgraph.net/data/browse/map-features';
 
-const moved = (location) => new Response(null, {
+const moved = (/** @type {string} */ location) => new Response(null, {
   status: 301, headers: { Location: location, 'Cache-Control': 'public, max-age=86400', 'Access-Control-Allow-Origin': '*' },
 });
 
-/** Where an older file layout moved to (a 301), or null. */
+/**
+ * Where an older file layout moved to (a 301), or null.
+ * @param {string[]} parts  the decoded path segments under /data/browse/
+ * @returns {string | null}
+ */
 export function movedPath(parts) {
   const p = parts.join('/');
-  const json = (s) => (s && s.endsWith('.json') ? s.slice(0, -5) : null);
+  const json = (/** @type {string | undefined} */ s) => (s && s.endsWith('.json') ? s.slice(0, -5) : null);
   const enc = encodeURIComponent;
   if (p === 'proni-roots.json' || p === 'proni.json') return '/_api/proni/node';
   if (parts[0] === 'map-features' && parts.length > 1) return `${MAP_FEATURES_ORIGIN}/${parts.slice(1).map(enc).join('/')}`;
   const [a, b, c] = parts;
   if (parts.length !== 3 || a !== 'details' || !json(c)) return null;
-  if (b === 'sources') return `/_api/sources?slug=${enc(json(c))}&view=detail`;
-  if (b === 'register-interests') return `/_api/register-interests?slug=${enc(json(c))}&view=detail`;
-  if (b === 'proni') return `/_api/proni/node?ref=${enc(json(c).replace(/~/g, '/'))}`;
+  if (b === 'sources') return `/_api/sources?slug=${enc(/** @type {string} */ (json(c)))}&view=detail`;
+  if (b === 'register-interests') return `/_api/register-interests?slug=${enc(/** @type {string} */ (json(c)))}&view=detail`;
+  if (b === 'proni') return `/_api/proni/node?ref=${enc(/** @type {string} */ (json(c)).replace(/~/g, '/'))}`;
   return null;
 }
 
+/** @param {CatchAllContext} context */
 export async function onRequest(context) {
   const method = context.request.method;
   if (method !== 'GET' && method !== 'HEAD') {
@@ -74,6 +92,7 @@ export async function onRequest(context) {
   return method === 'HEAD' ? new Response(null, { status: resp.status, headers: resp.headers }) : resp;
 }
 
+/** @param {CatchAllContext} context */
 export async function onRequestGet(context) {
   const parts = (context.params.path || []).map(decodeURIComponent);
   if (parts.includes('..')) return notFound();
@@ -103,15 +122,20 @@ const EDGE_TTL = 30 * 86400;
 export const HEAVY = new Set(['shard', 'source-shard', 'contest-parents', 'elections', 'elections-list', 'source-merges', 'election-contests', 'maps', 'features', 'parties']);
 export const LEGACY_HEAVY = new Set(['source-shard', 'contest-parents', 'elections-list', 'source-merges']);
 
+/** @type {Record<string, { table: keyof Tables, manifest: string, kind: string }>} */
 const SHARDED = {
   'person-shards': { table: 'person_cards', manifest: 'browse/persons.json', kind: 'person-index' },
   'source-index-shards': { table: 'sources', manifest: 'browse/sources.json', kind: 'source-index' },
   'register-interest-shards': { table: 'register_entries', manifest: 'browse/register-interests.json', kind: 'register-interest-index' },
 };
 
+/**
+ * @param {string[]} parts  the decoded path segments under /data/browse/
+ * @returns {BrowseRoute | null}
+ */
 export function matchBrowsePath(parts) {
   const p = parts.join('/');
-  const json = (s) => (s && s.endsWith('.json') ? s.slice(0, -5) : null);
+  const json = (/** @type {string | undefined} */ s) => (s && s.endsWith('.json') ? s.slice(0, -5) : null);
   if (['index.json', 'persons.json', 'sources.json', 'register-interests.json', 'persons-facets.json', 'party-label-folds.json'].includes(p)) return { kind: 'doc', name: `browse/${p}` };
   if (p === 'parties.json') return { kind: 'parties' };
   if (p === 'party-names.json') return { kind: 'party-names' };
@@ -126,20 +150,25 @@ export function matchBrowsePath(parts) {
   const [a, b, c] = parts;
   if (parts.length === 2 && SHARDED[a] && json(b)) return { kind: 'shard', dir: a, name: b };
   if (parts.length === 2 && a === 'election-contest-parents' && /^\d{4}$/.test(json(b) || '')) return { kind: 'contest-parents', bucket: Number(json(b)) };
-  if (parts.length === 2 && a === 'party-profiles' && json(b)) return { kind: 'party-profile', slug: json(b) };
-  if (parts.length === 3 && a === 'details' && b === 'parties' && json(c)) return { kind: 'party-detail', slug: json(c) };
-  if (parts.length === 3 && a === 'details' && b === 'offices' && json(c)) return { kind: 'office-detail', slug: json(c) };
-  if (parts.length === 3 && a === 'details' && b === 'maps' && json(c)) return { kind: 'map-detail', slug: json(c) };
+  if (parts.length === 2 && a === 'party-profiles' && json(b)) return { kind: 'party-profile', slug: /** @type {string} */ (json(b)) };
+  if (parts.length === 3 && a === 'details' && b === 'parties' && json(c)) return { kind: 'party-detail', slug: /** @type {string} */ (json(c)) };
+  if (parts.length === 3 && a === 'details' && b === 'offices' && json(c)) return { kind: 'office-detail', slug: /** @type {string} */ (json(c)) };
+  if (parts.length === 3 && a === 'details' && b === 'maps' && json(c)) return { kind: 'map-detail', slug: /** @type {string} */ (json(c)) };
   if (parts.length === 3 && a === 'details' && b === 'source-shards' && json(c)) return { kind: 'source-shard', name: c };
-  if (parts.length === 3 && a === 'details' && b === 'elections' && json(c)) return { kind: 'election-detail', slug: json(c) };
-  if (parts.length === 3 && a === 'details' && b === 'election-contests' && json(c)) return { kind: 'election-contests', slug: json(c) };
-  if (parts.length === 3 && a === 'votes' && b === 'persons' && json(c)) return { kind: 'votes-person', id: json(c) };
-  if (parts.length === 3 && a === 'votes' && b === 'parties' && json(c)) return { kind: 'votes-party', slug: json(c) };
+  if (parts.length === 3 && a === 'details' && b === 'elections' && json(c)) return { kind: 'election-detail', slug: /** @type {string} */ (json(c)) };
+  if (parts.length === 3 && a === 'details' && b === 'election-contests' && json(c)) return { kind: 'election-contests', slug: /** @type {string} */ (json(c)) };
+  if (parts.length === 3 && a === 'votes' && b === 'persons' && json(c)) return { kind: 'votes-person', id: /** @type {string} */ (json(c)) };
+  if (parts.length === 3 && a === 'votes' && b === 'parties' && json(c)) return { kind: 'votes-party', slug: /** @type {string} */ (json(c)) };
   if (parts.length === 3 && a === 'votes' && b === 'divisions' && /^\d{1,4}$/.test(json(c) || '')) return { kind: 'votes-shard', shard: Number(json(c)) };
   return null;
 }
 
-/** FNV-1a over UTF-16 code units, as build-browse-indexes.mjs lookupBucket buckets contest parents. */
+/**
+ * FNV-1a over UTF-16 code units, as build-browse-indexes.mjs lookupBucket buckets contest parents.
+ * @param {unknown} key
+ * @param {number} count
+ * @returns {number}
+ */
 export function lookupBucket(key, count) {
   let hash = 0x811c9dc5;
   const text = String(key);
@@ -152,6 +181,11 @@ export function lookupBucket(key, count) {
 
 const notFound = () => jsonResponse({ error: 'not found' }, 404);
 
+/**
+ * @param {import('../../../packages/storage/src/store.js').RecordStore} db
+ * @param {BrowseRoute} route
+ * @returns {Promise<Response>}
+ */
 async function answer(db, route) {
   switch (route.kind) {
     case 'doc': {
@@ -187,10 +221,11 @@ async function answer(db, route) {
     }
     case 'shard': {
       const spec = SHARDED[route.dir];
-      const manifest = await documentBody(db, spec.manifest);
+      const manifest = /** @type {{ shards?: { name: string }[], indexShardSize?: number | string } | null} */ (await documentBody(db, spec.manifest));
       const index = (manifest?.shards || []).findIndex((s) => s.name === route.name);
       if (index < 0) return notFound();
-      const size = Number(manifest.indexShardSize) || 5000;
+      // index >= 0, so the manifest was there
+      const size = Number(/** @type {NonNullable<typeof manifest>} */ (manifest).indexShardSize) || 5000;
       // Shard n is rows n*size .. (n+1)*size-1 in source order. ord is a sort key with gaps
       // (scripts/records/stable-order.mjs), not a position, so the slice is LIMIT/OFFSET.
       const results = await db.all(SHARDS.page(spec.table), [size, index * size]);
@@ -227,7 +262,8 @@ async function answer(db, route) {
       return row?.contests ? jsonResponse(`{"schemaVersion":1,"items":${row.contests}}`) : notFound();
     }
     case 'contest-parents': {
-      const results = await db.all(ELECTION_CARDS.contestParents);
+      const results = /** @type {{ slug: string, parent: string | null }[]} */ (await db.all(ELECTION_CARDS.contestParents));
+      /** @type {Record<string, string | null>} */
       const items = {};
       for (const r of results) {
         if (route.bucket !== undefined && lookupBucket(r.slug, CONTEST_PARENT_BUCKETS) !== route.bucket) continue;

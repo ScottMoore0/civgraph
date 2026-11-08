@@ -8,14 +8,21 @@ import { html } from '../../../../core/src/html.js';
 import { dateText, numberText, percentText } from '../../../../core/src/format.js';
 import { badges, dataTable, facts, link, partyChip } from '../components/index.js';
 
-const elected = (v) => v === 1 || v === true;
+/**
+ * @typedef {import('../../../../api/src/pages/election.js').ElectionPage} ElectionPage
+ * @typedef {import('../../../../api/src/pages/election.js').ElectionPageCandidate} ElectionPageCandidate
+ */
 
+/** A candidacy's `elected` flag: 1 from D1; true kept for a record built elsewhere. */
+const elected = (/** @type {number | boolean | null} */ v) => v === 1 || v === true;
+
+/** @param {Pick<ElectionPageCandidate, 'personId' | 'name'>} row */
 function personLink(row) {
   return row.personId ? link(`/browse/persons/${encodeURIComponent(row.personId)}`, row.name) : row.name;
 }
 
 /**
- * @param {any} page
+ * @param {ElectionPage} page  loadElectionPage's answer
  * @param {{ canonical?: string }} [options]
  */
 export function electionBody(page, { canonical } = {}) {

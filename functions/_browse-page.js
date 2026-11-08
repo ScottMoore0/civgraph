@@ -63,6 +63,41 @@ export const SITE_ORIGIN = 'https://civgraph.net';
 const SITE_NAME = 'Civgraph';
 const DESCRIPTION_LIMIT = 300;
 
+/**
+ * @typedef {CivgraphEnv} Env
+ * @typedef {import('../packages/storage/src/store.js').RecordStore} RecordStore
+ * @typedef {import('../packages/ui/src/templates/records/person.js').PersonRecord} PersonRecord
+ * @typedef {import('../packages/ui/src/templates/records/grouped-year.js').YearCard} YearCard
+ * @typedef {import('../packages/ui/src/templates/records/grouped-year.js').YearFile} YearFile
+ * @typedef {import('../packages/ui/src/templates/records/grouped-year.js').YearCoverage} YearCoverage
+ *
+ * @typedef {object} RecordHeadFields  what recordMeta reads from a record of any type
+ * @property {string} [title]
+ * @property {string} [name]
+ * @property {string} [memberName]
+ * @property {string} [slug]
+ * @property {string} [id]
+ * @property {string} [key]
+ * @property {string} [electedBody]
+ * @property {string} [date]
+ * @property {number} [interestCount]
+ * @property {string} [description]
+ * @property {string} [subtitle]
+ * @property {string | string[]} [provider]
+ * @typedef {RecordHeadFields & PersonRecord & { nonCandidate?: boolean }} BrowseRecord
+ *   a Browse record (a card or detail JSON from D1): the fields this file reads
+ *
+ * @typedef {{ key: string, slug: string, year: number, card: YearCard }} GroupedYear
+ * @typedef {object} RecordHead  a record page's head: what the shell and the redirect need
+ * @property {string} title
+ * @property {string} description
+ * @property {string} slug                 the canonical slug
+ * @property {string} [electionKey]        an election or contest page: its election
+ * @property {number} [contestSeq]         a contest page: its contest
+ * @property {GroupedYear} [groupedYear]   a grouped local-election year
+ */
+
+/** @type {Record<string, { singular: string, table?: string, aliasTable?: string }>} */
 export const BROWSE_PAGE_TYPES = {
   persons: { singular: 'Person', table: 'person_cards', aliasTable: 'person_aliases' },
   sources: { singular: 'Source', table: 'sources', aliasTable: 'source_aliases' },
@@ -73,14 +108,19 @@ export const BROWSE_PAGE_TYPES = {
   offices: { singular: 'Office' },
 };
 
-const htmlEscape = (value) => String(value ?? '')
+const htmlEscape = (/** @type {unknown} */ value) => String(value ?? '')
   .replace(/&/g, '&amp;')
   .replace(/</g, '&lt;')
   .replace(/>/g, '&gt;')
   .replace(/"/g, '&quot;')
   .replace(/'/g, '&#39;');
 
-/** Cut at a word boundary, so a description never ends mid-word. */
+/**
+ * Cut at a word boundary, so a description never ends mid-word.
+ * @param {unknown} text
+ * @param {number} [limit]
+ * @returns {string}
+ */
 export function clip(text, limit = DESCRIPTION_LIMIT) {
   const value = String(text || '').replace(/\s+/g, ' ').trim();
   if (value.length <= limit) return value;
@@ -89,15 +129,25 @@ export function clip(text, limit = DESCRIPTION_LIMIT) {
   return `${(space > limit * 0.6 ? cut.slice(0, space) : cut).replace(/[\s,;:.-]+$/, '')}…`;
 }
 
+/**
+ * The parsed JSON of a D1 text column, or null.
+ * @param {unknown} text
+ * @returns {unknown}
+ */
 function parseJson(text) {
   try {
-    return JSON.parse(text);
+    return JSON.parse(/** @type {string} */ (text));
   } catch {
     return null;
   }
 }
 
 /** "Gerry Adams – Person – Civgraph"; elections already say what they are. */
+/**
+ * @param {string} type
+ * @param {string} title
+ * @returns {string}
+ */
 export function pageTitle(type, title) {
   const singular = BROWSE_PAGE_TYPES[type]?.singular;
   return type === 'elections' || !singular
@@ -105,6 +155,7 @@ export function pageTitle(type, title) {
     : `${title} – ${singular} – ${SITE_NAME}`;
 }
 
+/** @param {BrowseRecord} record */
 function personDescription(record) {
   const name = record.name || record.title;
   const parties = listText((record.parties || []).map((party) => party.name), 3);
@@ -129,6 +180,11 @@ function personDescription(record) {
   return `${sentence}. Election results, parties and sources on Civgraph.`;
 }
 
+/**
+ * @param {string} type
+ * @param {BrowseRecord} record
+ * @returns {RecordHead}
+ */
 function recordMeta(type, record) {
   const title = record.title || record.name || record.memberName || record.slug;
   let description = '';
@@ -147,18 +203,25 @@ function recordMeta(type, record) {
     if (!description && provider) description = `${title}, published by ${provider}.`;
   }
   return {
-    title,
+    title: /** @type {string} */ (title),   // every record has at least its slug
     description: clip(description || `${title} on Civgraph.`),
-    slug: record.slug || slugify(record.id || record.key || title),
+    slug: /** @type {string} */ (record.slug || slugify(record.id || record.key || title)),
   };
 }
 
+/**
+ * @param {RecordStore | D1Database} source
+ * @param {string} table       the cards table (person_cards, sources, register_entries)
+ * @param {string} slug
+ * @param {string} [aliasTable]
+ * @returns {Promise<BrowseRecord | null>}
+ */
 async function lookupTableRecord(source, table, slug, aliasTable = `${table}_aliases`) {
   const db = asStore(source);
   // Ordered, so a value that is one record's slug and another's id resolves the same way
   // whatever order the rows were loaded in (data design 4.3, query 7).
   const row = await db.first(CARDS.bySlug(table, 'card AS record'), [slug]);
-  if (row?.record) return parseJson(row.record);
+  if (row?.record) return /** @type {BrowseRecord | null} */ (parseJson(row.record));
   // An old address (a source merged into another, a person's earlier id) redirects to the
   // record it now belongs to: the caller sends a 301 when the slugs differ.
   let aliased = null;
@@ -167,7 +230,7 @@ async function lookupTableRecord(source, table, slug, aliasTable = `${table}_ali
   } catch {
     return null;   // no aliases table yet
   }
-  if (aliased?.record) return parseJson(aliased.record);
+  if (aliased?.record) return /** @type {BrowseRecord | null} */ (parseJson(aliased.record));
   // A person's slug is their name and registry id. When a re-stamp retires the id (a merge) or
   // the name changes, the published slug is neither a record nor an alias; its id still is
   // (the person's own id, or a merged-away id in person_aliases), so the address is answered
@@ -187,12 +250,15 @@ async function lookupTableRecord(source, table, slug, aliasTable = `${table}_ali
 /**
  * A grouped local-election year (ni-local-1946, ireland-local-1911): not an r_elections row but a
  * Browse card listing its council rounds. Null when there is no such year.
+ * @param {RecordStore | D1Database} source
+ * @param {string} slug
+ * @returns {Promise<RecordHead | null>}
  */
 export async function lookupGroupedYear(source, slug) {
   const grouped = groupedYearKey(slug);
   if (!grouped) return null;
   const row = await asStore(source).first(ELECTION_PAGES.groupedYear, [grouped.slug]);
-  const card = parseJson(row?.card || '');
+  const card = /** @type {(YearCard & { slug?: string }) | null} */ (parseJson(row?.card || ''));
   if (!card) return null;
   const title = card.title || grouped.key;
   return {
@@ -203,6 +269,11 @@ export async function lookupGroupedYear(source, slug) {
   };
 }
 
+/**
+ * @param {RecordStore | D1Database} source
+ * @param {string} slug
+ * @returns {Promise<RecordHead | null>}
+ */
 export async function lookupElection(source, slug) {
   const db = asStore(source);
   const wanted = resolveElectionSlugAlias(slug);
@@ -216,7 +287,7 @@ export async function lookupElection(source, slug) {
   const election = /** @type {{ key: string, slug: string | null, title: string | null, body: string | null, date: string | null, votingSystem: string | null, meta: string | null } | null} */ (
     await db.first(ELECTION_PAGES.electionOfSlug, [wanted]));
   if (!election) return null;
-  const meta = parseJson(election.meta || '') || {};
+  const meta = /** @type {{ constituencies?: unknown, description?: string }} */ (parseJson(election.meta || '') || {});
   const electionTitle = election.title || election.key;
   const electionSlug = election.slug || slugify(election.key);
   const remainder = wanted === election.key || wanted === electionSlug ? '' : wanted.slice(electionSlug.length + 1);
@@ -268,29 +339,42 @@ export async function lookupElection(source, slug) {
 }
 
 /** A party's detail record from D1, following a retired slug to the party it is now. */
+/**
+ * @param {RecordStore | D1Database} source
+ * @param {string} slug
+ * @returns {Promise<BrowseRecord | null>}
+ */
 export async function lookupPartyRecord(source, slug) {
   const wanted = slug.toLowerCase();
   const row = await asStore(source).first(RECORD_PAGES.party, [wanted]);
   if (!row) return null;
-  return parseJson(row.detail || '') || parseJson(row.card || '');
+  return /** @type {BrowseRecord | null} */ (parseJson(row.detail || '') || parseJson(row.card || ''));
 }
 
 /** An office's page record from D1 (office_cards, built by scripts/build/build-office-pages.mjs). */
+/**
+ * @param {RecordStore | D1Database} source
+ * @param {string} slug
+ * @returns {Promise<BrowseRecord | null>}
+ */
 export async function lookupOfficeRecord(source, slug) {
   const row = await asStore(source).first(RECORD_PAGES.office, [String(slug)]);
   if (!row) return null;
-  return parseJson(row.detail || '') || parseJson(row.card || '');
+  return /** @type {BrowseRecord | null} */ (parseJson(row.detail || '') || parseJson(row.card || ''));
 }
 
 /**
  * A map's page record from D1 (map_cards, the Browse build's map pages): by slug, or by map id.
  * Null when it certainly does not exist; undefined when the table is empty (a database loaded
  * without the Browse build), so the page keeps the generic head rather than answering 404.
+ * @param {RecordStore | D1Database} source
+ * @param {string} slug
+ * @returns {Promise<BrowseRecord | null | undefined>}
  */
 export async function lookupMapRecord(source, slug) {
   const db = asStore(source);
   const row = await browseMapRecord(db, String(slug));
-  if (row) return parseJson(row.detail || '') || parseJson(row.card || '');
+  if (row) return /** @type {BrowseRecord | null} */ (parseJson(row.detail || '') || parseJson(row.card || ''));
   const any = await db.first(RECORD_PAGES.anyMap);
   return any ? null : undefined;
 }
@@ -298,15 +382,22 @@ export async function lookupMapRecord(source, slug) {
 /**
  * The whole browse_* record for a D1-backed type (persons, sources, register-interests):
  * the object, null when it certainly does not exist, undefined when that cannot be told.
+ * @param {Env} env
+ * @param {string} type
+ * @param {string} slug
+ * @returns {Promise<BrowseRecord | null | undefined>}
  */
 export async function lookupBrowseTableRecord(env, type, slug) {
   const config = BROWSE_PAGE_TYPES[type];
   if (!config?.table || !slug || !binding(env, 'ELECTIONS_DB')) return undefined;
-  return lookupTableRecord(binding(env, 'ELECTIONS_DB'), config.table, slug, config.aliasTable);
+  return lookupTableRecord(/** @type {D1Database} */ (binding(env, 'ELECTIONS_DB')), config.table, slug, config.aliasTable);
 }
 
 /**
- * @returns {Promise<{title:string, description:string, slug:string}|null|undefined>}
+ * @param {Env} env
+ * @param {string} type
+ * @param {string} slug
+ * @returns {Promise<RecordHead | null | undefined>}
  *   the record's head; null when it certainly does not exist; undefined when that cannot
  *   be told, in which case the page is served with the generic head.
  */
@@ -319,17 +410,17 @@ export async function lookupBrowseRecord(env, type, slug) {
   }
   if (type === 'elections') {
     if (!binding(env, 'ELECTIONS_DB')) return undefined;
-    return lookupElection(binding(env, 'ELECTIONS_DB'), slug);
+    return lookupElection(/** @type {D1Database} */ (binding(env, 'ELECTIONS_DB')), slug);
   }
   if (type === 'parties') {
     if (!binding(env, 'ELECTIONS_DB')) return undefined;
-    const item = await lookupPartyRecord(binding(env, 'ELECTIONS_DB'), slug);
+    const item = await lookupPartyRecord(/** @type {D1Database} */ (binding(env, 'ELECTIONS_DB')), slug);
     return item ? recordMeta(type, item) : null;
   }
   if (type === 'offices') {
     if (!binding(env, 'ELECTIONS_DB')) return undefined;
     try {
-      const item = await lookupOfficeRecord(binding(env, 'ELECTIONS_DB'), slug);
+      const item = await lookupOfficeRecord(/** @type {D1Database} */ (binding(env, 'ELECTIONS_DB')), slug);
       return item ? recordMeta(type, item) : null;
     } catch {
       return undefined;   // a database without office_cards: the generic head
@@ -338,7 +429,7 @@ export async function lookupBrowseRecord(env, type, slug) {
   if (type === 'maps') {
     if (!binding(env, 'ELECTIONS_DB')) return undefined;
     try {
-      const item = await lookupMapRecord(binding(env, 'ELECTIONS_DB'), slug);
+      const item = await lookupMapRecord(/** @type {D1Database} */ (binding(env, 'ELECTIONS_DB')), slug);
       return item ? recordMeta(type, item) : item;
     } catch {
       return undefined;   // a database without map_cards: the generic head
@@ -347,6 +438,11 @@ export async function lookupBrowseRecord(env, type, slug) {
   return undefined;
 }
 
+/**
+ * @param {string} type
+ * @param {string} slug
+ * @returns {string}
+ */
 export function canonicalUrl(type, slug) {
   return `${SITE_ORIGIN}/browse/${type}/${encodeURIComponent(slug)}`;
 }
@@ -358,6 +454,9 @@ export function canonicalUrl(type, slug) {
  * tests/functions/browse-pages.test.mjs. The shell is our own file (browse/index.html) and every
  * edit asserts nothing: a pattern that no longer matches leaves the shell as it was, which
  * still works, just without the record's head.
+ * @param {string} html  the shell
+ * @param {{ title?: string, description?: string, canonical?: string, kicker?: string, heading?: string, heroHtml?: string | null }} head
+ * @returns {string}
  */
 export function renderBrowseShell(html, { title, description, canonical, kicker, heading, heroHtml }) {
   let out = html;
@@ -390,17 +489,27 @@ export function renderBrowseShell(html, { title, description, canonical, kicker,
   return out;
 }
 
+/**
+ * @param {FunctionContext} context
+ * @param {URL} url
+ */
 async function fetchShell(context, url) {
   const shellUrl = new URL('/browse/', url);
-  if (binding(context.env, 'ASSETS')?.fetch) return binding(context.env, 'ASSETS').fetch(new Request(shellUrl));
+  if (binding(context.env, 'ASSETS')?.fetch) return /** @type {NonNullable<Env['ASSETS']>} */ (binding(context.env, 'ASSETS')).fetch(new Request(shellUrl));
   return fetch(shellUrl);
 }
 
 /** A committed static JSON file (the grouped years' files), or null. */
+/**
+ * @param {FunctionContext} context
+ * @param {URL} url
+ * @param {string} pathname
+ * @returns {Promise<unknown>}
+ */
 async function fetchStaticJson(context, url, pathname) {
   try {
     const assetUrl = new URL(pathname, url);
-    const res = binding(context.env, 'ASSETS')?.fetch ? await binding(context.env, 'ASSETS').fetch(new Request(assetUrl)) : await fetch(assetUrl);
+    const res = binding(context.env, 'ASSETS')?.fetch ? await /** @type {NonNullable<Env['ASSETS']>} */ (binding(context.env, 'ASSETS')).fetch(new Request(assetUrl)) : await fetch(assetUrl);
     return res.ok ? await res.json() : null;
   } catch {
     return null;
@@ -408,16 +517,23 @@ async function fetchStaticJson(context, url, pathname) {
 }
 
 /** The server-rendered hero of a grouped year: its rounds, completeness, hatching and map link. */
+/**
+ * @param {FunctionContext} context
+ * @param {URL} url
+ * @param {GroupedYear} grouped
+ * @returns {Promise<string>}
+ */
 async function groupedYearHeroHtml(context, url, grouped) {
-  const [yearFile, coverage] = await Promise.all([
+  const [yearFile, coverage] = /** @type {[(YearFile & { key?: string }) | null, { years?: (YearCoverage & { key?: string })[] } | null]} */ (await Promise.all([
     fetchStaticJson(context, url, `/render/metadata/ni-local/${grouped.year}.json`),
     fetchStaticJson(context, url, '/render/metadata/ni-local-coverage.json'),
-  ]);
+  ]));
   const year = yearFile && yearFile.key === grouped.key ? yearFile : null;
   const cover = (coverage?.years || []).find((y) => y.key === grouped.key) || null;
   return String(groupedYearHero({ card: grouped.card, yearFile: year, coverage: cover }));
 }
 
+/** @param {string} value */
 function decodePath(value) {
   try {
     return decodeURIComponent(value);
@@ -427,6 +543,10 @@ function decodePath(value) {
 }
 
 /** The onRequestGet for /browse/<type>/*. */
+/**
+ * @param {string} type  a BROWSE_PAGE_TYPES key
+ * @returns {(context: FunctionContext) => Promise<Response>}
+ */
 export function browsePageHandler(type) {
   return async function onRequestGet(context) {
     const url = new URL(context.request.url);
@@ -435,14 +555,16 @@ export function browsePageHandler(type) {
     if (!slug) return Response.redirect(`${url.origin}/browse/#/${type}`, 302);
 
     const { ssr, preview } = ssrMode(context.env, type, url);
+    /** @type {RecordHead | null | undefined} */
     let found;
+    /** @type {object | null | undefined} */
     let record;
     try {
       if (ssr && type === 'elections') {
         found = await lookupBrowseRecord(context.env, type, slug);
-        record = found ? await loadElectionPage(binding(context.env, 'ELECTIONS_DB'), found) : found;
+        record = found ? await loadElectionPage(/** @type {D1Database} */ (binding(context.env, 'ELECTIONS_DB')), found) : found;
       } else if (ssr && type === 'parties') {
-        record = binding(context.env, 'ELECTIONS_DB') ? await lookupPartyRecord(binding(context.env, 'ELECTIONS_DB'), slug) : undefined;
+        record = binding(context.env, 'ELECTIONS_DB') ? await lookupPartyRecord(/** @type {D1Database} */ (binding(context.env, 'ELECTIONS_DB')), slug) : undefined;
         found = record ? recordMeta(type, record) : record;
       } else if (ssr) {
         record = await lookupBrowseTableRecord(context.env, type, slug);

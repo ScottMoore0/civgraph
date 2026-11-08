@@ -43,6 +43,15 @@
  * @property {(key: string) => Promise<{ size: number, etag: string, contentType: string|null }|null>} head
  * @property {(prefix: string, options?: { cursor?: string, limit?: number, delimiter?: string }) => Promise<{ keys: string[], prefixes: string[], cursor: string|null }>} list
  * @property {(key: string, body: Uint8Array|string, options?: { contentType?: string, cacheControl?: string }) => Promise<void>} put
+ *
+ * @typedef {object} D1ShimStatement  one statement of toD1()'s binding
+ * @property {string} sql
+ * @property {unknown[]} params
+ * @property {(...args: unknown[]) => D1ShimStatement} bind
+ * @property {(column?: string) => Promise<Row|SqlValue|null>} first
+ * @property {() => Promise<{ results: Row[], success: true, meta: {} }>} all
+ * @property {() => Promise<SqlValue[][]>} raw
+ * @property {() => Promise<{ results: [], success: true, meta: { changes: number, last_row_id: number|null } }>} run
  */
 
 export const RECORD_STORE_METHODS = Object.freeze(['first', 'all', 'value', 'run', 'batch', 'exec', 'close']);
@@ -51,6 +60,8 @@ export const RECORD_STORE_METHODS = Object.freeze(['first', 'all', 'value', 'run
  * One parameter as both stores bind it: booleans as 1/0 (D1 does this itself, node:sqlite
  * refuses them), undefined as NULL. Anything else that is not a SQL value is refused here, in
  * the same words on every store, rather than in each engine's own way.
+ * @param {unknown} value
+ * @returns {SqlValue}
  */
 export function bindValue(value) {
   if (value === undefined || value === null) return null;
@@ -63,23 +74,33 @@ export function bindValue(value) {
   throw new TypeError(`storage: cannot bind a ${Object.prototype.toString.call(value).slice(8, -1)}; pass JSON text or a scalar`);
 }
 
+/** @param {unknown[] | null | undefined} [params] */
 export const bindParams = (params = []) => (params || []).map(bindValue);
 
-/** Throws unless `store` has every RecordStore method; returns it. */
+/**
+ * Throws unless `store` has every RecordStore method; returns it.
+ * @template {RecordStore} S
+ * @param {S} store
+ * @returns {S}
+ */
 export function assertRecordStore(store) {
-  const missing = RECORD_STORE_METHODS.filter((m) => typeof store?.[m] !== 'function');
+  const missing = RECORD_STORE_METHODS.filter((m) => typeof /** @type {Record<string, unknown> | null | undefined} */ (/** @type {unknown} */ (store))?.[m] !== 'function');
   if (missing.length || typeof store?.kind !== 'string') {
     throw new TypeError(`not a RecordStore: missing ${missing.length ? missing.join(', ') : 'kind'}`);
   }
   return store;
 }
 
-/** The records dataset's version and loading flag (DESIGN.md 3.2), on any store. */
+/**
+ * The records dataset's version and loading flag (DESIGN.md 3.2), on any store.
+ * @param {Pick<RecordStore, 'all'>} store
+ * @returns {Promise<{ version: string, loading: string }>}
+ */
 export async function datasetState(store) {
   let version = '';
   let loading = '';
   try {
-    for (const r of await store.all("SELECT key, value FROM dataset WHERE key IN ('version', 'loading') ORDER BY key")) {
+    for (const r of /** @type {import('../../types/index.js').RecordsDb.DatasetRow[]} */ (/** @type {unknown} */ (await store.all("SELECT key, value FROM dataset WHERE key IN ('version', 'loading') ORDER BY key")))) {
       if (r.key === 'version') version = r.value || '';
       if (r.key === 'loading') loading = r.value || '';
     }
@@ -91,9 +112,15 @@ export async function datasetState(store) {
  * The D1 binding shape over any RecordStore: prepare(sql).bind(...).first(column?)/all()/raw()/
  * run(), batch() and exec(), as the handlers call them today. withSession() returns the same
  * object (a local store has no replicas).
+ * @param {RecordStore} store
  */
 export function toD1(store) {
   assertRecordStore(store);
+  /**
+   * @param {string} sql
+   * @param {unknown[]} [params]
+   * @returns {D1ShimStatement}
+   */
   const statement = (sql, params = []) => ({
     sql,
     params,
@@ -115,11 +142,13 @@ export function toD1(store) {
     },
   });
   const binding = {
-    prepare: (sql) => statement(sql),
+    prepare: (/** @type {string} */ sql) => statement(sql),
+    /** @param {Statement[]} statements */
     async batch(statements) {
-      const results = await store.batch(statements.map((s) => ({ sql: s.sql, params: s.params })));
+      const results = await store.batch(statements.map((s) => (/** @type {Statement} */ ({ sql: s.sql, params: s.params }))));
       return results.map((rows) => ({ results: rows, success: true, meta: {} }));
     },
+    /** @param {string} sqlText */
     async exec(sqlText) {
       await store.exec(sqlText);
       return { count: 1, duration: 0 };
