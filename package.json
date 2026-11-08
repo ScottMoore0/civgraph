@@ -27,6 +27,7 @@
     "build:external-sources": "node scripts/build/build-external-source-indexes.mjs",
     "build:graph": "node scripts/build/graph/build-semantic-graph.mjs",
     "build:sitemap": "node scripts/build/build-sitemap.mjs",
+    "build:types": "node packages/types/src/generate.mjs",
     "build:ni-register-interests": "node scripts/ingest/ni-assembly-opendata/build-ni-register-interests.mjs",
     "build:test2": "node scripts/build/build-test2-election-summaries.mjs && node scripts/build/build-test2-metadata-shards.mjs && node scripts/build/app-bundle.mjs && node scripts/build/build-test2-performance-dashboard.mjs",
     "build:test2:app": "node scripts/build/build-test2-metadata-shards.mjs && node scripts/build/app-bundle.mjs && node scripts/build/notices.mjs && node scripts/build/build-test2-performance-dashboard.mjs",
