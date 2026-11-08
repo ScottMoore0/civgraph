@@ -83,13 +83,15 @@ const FLAGS_SINCE_R2_UI = ['strictFunctionTypes', 'strictBindCallApply', 'noImpl
   'strictNullChecks'];
 const STRICT_SINCE_R2_UI = ['packages/ui/assets/state/machine.js', 'packages/ui/assets/state/theme.js', 'browse/state-machines.js',
   'apps/proni-search/state-machines.js', 'apps/words/state-machines.js', 'packages/ui/assets/gallery/gallery.js'];
+// The apps that met noImplicitAny in the 8 Nov 2026 review (S5c) and so check under full strict.
+const STRICT_SINCE_NIA_S5C = ['apps/proni-search/app.js', 'apps/words/words.js'];
 
 test('the strictness the UI has reached stays', () => {
   for (const flag of FLAGS_SINCE_R2_UI) assert.equal(CONFIG.compilerOptions[flag], true, `tsconfig.ui.json ${flag} was turned off`);
   const strict = JSON.parse(readFileSync(path.join(ROOT, 'tsconfig.ui-strict.json'), 'utf8'));
   assert.equal(strict.extends, './tsconfig.ui.json');
   assert.equal(strict.compilerOptions.strict, true);
-  for (const rel of STRICT_SINCE_R2_UI) assert.ok(strict.include.includes(rel), `${rel} left tsconfig.ui-strict.json include`);
+  for (const rel of [...STRICT_SINCE_R2_UI, ...STRICT_SINCE_NIA_S5C]) assert.ok(strict.include.includes(rel), `${rel} left tsconfig.ui-strict.json include`);
   for (const rel of strict.include) assert.ok(included(rel), `${rel} is strict-checked but not in tsconfig.ui.json include`);
   for (const rel of strict.include) {
     assert.ok(!/@ts-nocheck|@ts-ignore|@ts-expect-error/.test(readFileSync(path.join(ROOT, rel), 'utf8')), `${rel} silences the checker`);
