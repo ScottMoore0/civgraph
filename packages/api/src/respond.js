@@ -2,7 +2,7 @@
  * HTML responses for server-rendered pages: Content-Type, Cache-Control, a strong ETag over
  * the body and a 304 for a matching If-None-Match.
  *
- * The HTML twin of the data design's cachedJson wrapper (functions/_api/_records.js, D2).
+ * The HTML twin of the data design's cachedJson wrapper (packages/api/src/handlers/_records.js, D2).
  * The ETag folds in the template version and, once D2 writes it, the dataset version, so a
  * template change or a publish gives every page a new tag. The edge Cache API (cache key =
  * URL + code version + dataset version, no put while dataset.loading is set, last-good copy
@@ -18,7 +18,7 @@ export const TEMPLATE_VERSION = 'records-1';
 /**
  * The loaded dataset's version from D1's `dataset` table (data design 3.2), read at most
  * once a minute per isolate, from the memo the JSON answers share
- * (functions/_lib/dataset-state.js); null while there is none.
+ * (packages/api/src/dataset-state.js); null while there is none.
  * @param {D1Database | null | undefined} db
  * @param {number} [now]
  * @returns {Promise<string | null>}

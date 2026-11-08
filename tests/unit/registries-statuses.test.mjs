@@ -19,7 +19,7 @@ const readJson = (rel) => JSON.parse(read(rel));
 const clone = () => structuredClone(registry);
 const browser = readJson('packages/registries/src/browser/statuses.json');
 const HELPER = path.join(REPO_ROOT, 'packages/core/src/state-machine.mjs');
-const helperMissing = existsSync(HELPER) ? false : 'scripts/lib/state-machine.mjs lands with rf-records; rebase brings it';
+const helperMissing = existsSync(HELPER) ? false : 'packages/core/src/state-machine.mjs lands with rf-records; rebase brings it';
 
 test('statuses: valid', () => {
   assert.deepEqual(registryErrors('statuses', registry), []);

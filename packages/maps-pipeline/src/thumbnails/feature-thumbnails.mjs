@@ -9,8 +9,8 @@
  * assets to R2/CDN, then provide the public base path to the manifest builder.
  *
  * Examples:
- *   node scripts/build/thumbnails/feature-thumbnails.mjs --map counties-ireland --limit 3
- *   node scripts/build/thumbnails/feature-thumbnails.mjs --all --output D:/civgraph-feature-thumbnails
+ *   node packages/maps-pipeline/src/thumbnails/feature-thumbnails.mjs --map counties-ireland --limit 3
+ *   node packages/maps-pipeline/src/thumbnails/feature-thumbnails.mjs --all --output D:/civgraph-feature-thumbnails
  */
 
 import fs from 'node:fs';
@@ -76,7 +76,7 @@ function parseArgs(argv) {
 }
 
 function printHelp() {
-  console.log(`Usage: node scripts/build/thumbnails/feature-thumbnails.mjs [--map id[,id]] [--all] [--limit n] [--output dir] [--format png|webp] [--force]\n\nRendered assets are local/CDN artifacts and are not meant to be committed to Pages.`);
+  console.log(`Usage: node packages/maps-pipeline/src/thumbnails/feature-thumbnails.mjs [--map id[,id]] [--all] [--limit n] [--output dir] [--format png|webp] [--force]\n\nRendered assets are local/CDN artifacts and are not meant to be committed to Pages.`);
 }
 
 function readJson(filePath) {

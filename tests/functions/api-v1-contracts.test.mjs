@@ -1,5 +1,5 @@
 /**
- * The response contracts of /api/v1 (functions/_lib/api/contracts/v1.js; REFACTOR-PLAN.md API-2,
+ * The response contracts of /api/v1 (packages/api/src/v1/contracts/v1.js; REFACTOR-PLAN.md API-2,
  * API-3): the frozen surface of v1, held three ways.
  *
  * - Shape: every route has a contract; every variant's `when` names only parameters the route

@@ -94,7 +94,7 @@ if (stale.length) {
   console.error('  The map renders from the PMTiles, not from the source and not from the');
   console.error('  published download. A source updated without a rebuild means the map');
   console.error('  keeps drawing the old geometry while every other check passes.');
-  console.error('  Rebuild: node scripts/build/tiles/pmtiles.mjs --force --ids <id>');
+  console.error('  Rebuild: node packages/maps-pipeline/src/tiles/pmtiles.mjs --force --ids <id>');
   console.error('  Then upload: node scripts/publish/r2-upload-pmtiles.mjs --ids <id>');
   process.exit(1);
 }

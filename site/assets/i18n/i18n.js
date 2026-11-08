@@ -1,7 +1,7 @@
 /*
  * Civgraph interface languages: English, Irish (Gaeilge) and Ulster-Scots (Ulstèr-Scotch).
  *
- * PREVIEW ONLY. This file is loaded by the bootstrap in shell head (functions/_templates/shell.js head()) only when the
+ * PREVIEW ONLY. This file is loaded by the bootstrap in shell head (packages/ui/src/templates/shell.js head()) only when the
  * preview flag is on (localStorage 'civgraph.langPreview'). Nothing on the site offers it: the
  * flag is set by typing a phrase into the Maps search box (src/catalogue/lang-reveal.js), which
  * calls the bootstrap's civgraphLangReveal(). The control's Hide action, or ?lang-preview=0,
@@ -661,7 +661,7 @@
   function formatDate(date, opts) {
     try { return new Intl.DateTimeFormat(LANGS[state.lang].locale, opts || { day: '2-digit', month: 'short', year: 'numeric', timeZone: 'UTC' }).format(date); } catch (e) { return String(date); }
   }
-  /** "01 Apr 1969" in the current language (src/date-format.mjs calls this when present). */
+  /** "01 Apr 1969" in the current language (packages/core/src/date-format.mjs calls this when present). */
   function formatShortDate(day, monthIndex, year) {
     var m = state.lang === 'ga' ? months().short[monthIndex] : SHORT_MONTHS[monthIndex];
     return (day === null || day === undefined ? '' : String(Number(day)).padStart(2, '0') + ' ') + m + ' ' + year;

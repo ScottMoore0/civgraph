@@ -1,4 +1,4 @@
-// The map app reads the site's origins from the config module (functions/_lib/config.js,
+// The map app reads the site's origins from the config module (packages/config/src/config.js,
 // REFACTOR-PLAN.md item 7), which the app bundle inlines, instead of writing them out.
 //
 //   node --test tests/unit/map-config.test.mjs

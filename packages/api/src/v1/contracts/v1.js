@@ -12,10 +12,10 @@
  *   - tests/functions/api-v1-contracts.test.mjs validates real answers of every variant (over
  *     the records build when present, over fixtures otherwise) and every route's error answers;
  *   - the same test compares these schemas with tests/functions/api-v1-contracts.baseline.json
- *     by incompatibilities() (functions/_lib/api/json-schema.js): a dropped required field, a
+ *     by incompatibilities() (packages/api/src/v1/json-schema.js): a dropped required field, a
  *     widened type or a removed variant fails. Additions pass; to take them into the baseline,
  *     run the test with API_CONTRACT_BASELINE=write and commit the file.
- *   - /api/v1/openapi.json (functions/_lib/api/openapi.js) publishes them.
+ *   - /api/v1/openapi.json (packages/api/src/v1/openapi.js) publishes them.
  *
  * A variant is chosen by its `when`, the first that matches in table order:
  *   `param: '*'`        the parameter is given, non-empty;
@@ -50,7 +50,7 @@ const either = (...types) => ({ type: types });
 const ERROR = obj({ error: str });
 const OK_FALSE_ERROR = obj({ ok: { const: false }, error: str });
 
-/** A Browse list page (functions/_api/_browse-index.js). */
+/** A Browse list page (packages/api/src/handlers/_browse-index.js). */
 const page = (/** @type {string} */ key, /** @type {JsonSchemaNode} */ item) => obj({
   [key]: arr(item), total: num, count: num, limit: num, offset: num,
   applied: obj({ filters: arr(), sort: {} }),

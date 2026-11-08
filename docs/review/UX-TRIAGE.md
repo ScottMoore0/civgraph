@@ -68,7 +68,7 @@ Three more were closed the same day; see "Closed since triage".
 | `T1-05` | Site heading, title, description | 6 source references; test coverage |
 | `T1-09` | Escape closes overlays | 2 source references; test coverage |
 | `T2-01` | PRONI export filter mismatch | `functions/_api/proni/export.js:10` imports the same `buildMatch`/`buildFilters` as `search.js`, so the two cannot diverge |
-| `T2-02` | Party colour fallback | `src/election-domain.mjs:77` — `partyColour(value, fallback = '#6b7280')` |
+| `T2-02` | Party colour fallback | `packages/core/src/election-domain.mjs:77` — `partyColour(value, fallback = '#6b7280')` |
 | `T2-04` | Restore `/about` and `/census` | both serve 200 |
 | `T2-07` | Per-view URLs and titles | `app/src/app.js:3023` `syncDocumentTitle()`, called from `updateURLState` so title and URL cannot drift |
 | `T2-08` | Keyboard-operable search | 2 source references; test coverage |

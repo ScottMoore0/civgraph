@@ -4,19 +4,19 @@
  * environment variable the scripts read, resolved in one place from one environment.
  *
  * REFACTOR-PLAN.md item 7 (config). The runtime half, which Pages Functions can bundle, is
- * functions/_lib/config.js; this module re-exports it, so a script needs one import.
+ * packages/config/src/config.js; this module re-exports it, so a script needs one import.
  *
  * It replaces the constants scattered through scripts/ (the data origin, the User-Agent,
- * CIVGRAPH_* defaults). Switched over so far: scripts/records/paths.mjs re-exports recordPaths()
+ * CIVGRAPH_* defaults). Switched over so far: packages/loader/src/paths.mjs re-exports recordPaths()
  * from here (CFG-2; paths.py stays the Python twin, held equal by tests/records/paths.test.mjs),
  * and scripts/records and scripts/lib take the origins, the User-Agent and their CIVGRAPH_*
  * variables from here (CFG-4 for those folders).
  *
- *   node scripts/lib/config.mjs            the resolved configuration, as JSON
- *   node scripts/lib/config.mjs --env      the environment variables it knows, and which are set
+ *   node packages/config/src/node.mjs            the resolved configuration, as JSON
+ *   node packages/config/src/node.mjs --env      the environment variables it knows, and which are set
  *
  * Neither prints a secret's value: a secret is reported as set or unset. The Python scripts can
- * read the same values with `node scripts/lib/config.mjs` until paths.py is retired.
+ * read the same values with `node packages/config/src/node.mjs` until paths.py is retired.
  */
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -56,7 +56,7 @@ export const BUILD_VARS = Object.freeze({
   CLOUDFLARE_API_TOKEN: { secret: true, purpose: 'wrangler and the Pages API' },
 });
 
-/** The record build's file locations (the contract of scripts/records/paths.mjs recordPaths). */
+/** The record build's file locations (the contract of packages/loader/src/paths.mjs recordPaths). */
 export function recordPaths(env = process.env) {
   const value = String(env.CIVGRAPH_BUILD_DIR || '').trim() || DEFAULT_BUILD_DIR;
   const BUILD = value === 'legacy' ? null : path.resolve(REPO_ROOT, value);
@@ -111,7 +111,7 @@ export function repoPath(nameOrRelative) {
  * @returns {string}
  */
 export function buildVar(name, env = process.env) {
-  if (!Object.hasOwn(BUILD_VARS, name)) throw new Error(`unknown build variable ${name} (scripts/lib/config.mjs BUILD_VARS)`);
+  if (!Object.hasOwn(BUILD_VARS, name)) throw new Error(`unknown build variable ${name} (packages/config/src/node.mjs BUILD_VARS)`);
   return String(env[name] ?? '').trim() || BUILD_VARS[name].default || '';
 }
 
@@ -161,7 +161,7 @@ export function describeEnv(env = process.env) {
   return rows;
 }
 
-// Run directly, or through the one-month re-export at scripts/lib/config.mjs.
+// Run directly, or through the one-month re-export at packages/config/src/node.mjs.
 const invokedDirectly = process.argv[1] && /[\\/](scripts[\\/]lib[\\/]config|packages[\\/]config[\\/]src[\\/]node)\.mjs$/.test(path.resolve(process.argv[1]));
 if (invokedDirectly) {
   if (process.argv.includes('--env')) {

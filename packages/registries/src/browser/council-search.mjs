@@ -1,5 +1,5 @@
 // The browser's slice of data/registries/councils.json the catalogue search reads (generated:
-// node registries/browser/build.mjs). Readers import this module, not the JSON, so a file Node or
+// node packages/registries/src/browser/build.mjs). Readers import this module, not the JSON, so a file Node or
 // TypeScript takes for CommonJS needs no import attributes; esbuild inlines the slice into the bundle.
 import councilSearch from './council-search.data.mjs';
 

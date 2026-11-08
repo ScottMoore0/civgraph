@@ -10,7 +10,7 @@
  * self-contained tree that incompatibilities() can compare.
  *
  * Properties not named in a schema are allowed unless `additionalProperties` says otherwise:
- * adding a field is a compatible change (functions/_lib/api/v1.js, THE CONTRACT).
+ * adding a field is a compatible change (packages/api/src/v1/v1.js, THE CONTRACT).
  */
 
 /**

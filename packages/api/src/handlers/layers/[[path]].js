@@ -1,7 +1,7 @@
 /**
  * The map layers from the records database (data design phase 3): what the static files
  * render/metadata/maps-test.json, maps-test-index.json, layer-details-test2/ and
- * duplicate-feature-ids/ held, answered from the `layers` tables (scripts/records/ingest-maps.mjs).
+ * duplicate-feature-ids/ held, answered from the `layers` tables (packages/loader/src/ingest-maps.mjs).
  *
  *   GET /_api/layers                      the full render metadata (maps-test.json's shape)
  *   GET /_api/layers?view=index           the map app's startup index (maps-test-index.json's

@@ -29,8 +29,8 @@
  * Anything ambiguous is REPORTED, NOT GUESSED. A layer with no name-like attribute keeps
  * no labelProperty, because "no label" is honest and a wrong label is not.
  *
- *   node scripts/build/tiles/assign-missing-label-properties.mjs            # report only
- *   node scripts/build/tiles/assign-missing-label-properties.mjs --write    # apply to maps.json
+ *   node packages/maps-pipeline/src/tiles/assign-missing-label-properties.mjs            # report only
+ *   node packages/maps-pipeline/src/tiles/assign-missing-label-properties.mjs --write    # apply to maps.json
  */
 import { readFileSync, writeFileSync, existsSync, openSync, readSync } from 'node:fs';
 import { gunzipSync } from 'node:zlib';

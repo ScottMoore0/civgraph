@@ -12,8 +12,8 @@
  *
  * The slices are generated, never edited: change data/registries/*.json, then run
  *
- *   node registries/browser/build.mjs           rewrite the slices
- *   node registries/browser/build.mjs --check   exit 1 if a slice differs from a fresh build
+ *   node packages/registries/src/browser/build.mjs           rewrite the slices
+ *   node packages/registries/src/browser/build.mjs --check   exit 1 if a slice differs from a fresh build
  *
  * tests/unit/registries-browser.test.mjs fails when a slice is stale.
  *
@@ -110,13 +110,13 @@ export function staleSlices(root = REPO_ROOT, dir = HERE) {
   ]);
 }
 
-// Also run through the re-export at registries/browser/build.mjs (kept until 8 Dec 2026).
+// Also run through the re-export at packages/registries/src/browser/build.mjs (kept until 8 Dec 2026).
 const isMain = Boolean(process.argv[1]) && /registries[\\/](?:src[\\/])?browser[\\/]build\.mjs$/.test(path.resolve(process.argv[1]));
 if (isMain) {
   if (process.argv.includes('--check')) {
     const stale = staleSlices();
     if (stale.length) {
-      console.error(`registries/browser: stale ${stale.join(', ')}; run node registries/browser/build.mjs`);
+      console.error(`registries/browser: stale ${stale.join(', ')}; run node packages/registries/src/browser/build.mjs`);
       process.exit(1);
     }
     console.log('registries/browser: every slice matches the registries');

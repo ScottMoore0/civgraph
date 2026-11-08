@@ -1,4 +1,4 @@
-// Stable sort keys (scripts/records/stable-order.mjs): a build keeps the seed's `ord` for every row
+// Stable sort keys (packages/loader/src/stable-order.mjs): a build keeps the seed's `ord` for every row
 // still in seed order, so adding N rows to a list gives a delta of about N rows, and the rows still
 // come back in source order.
 import test from 'node:test';

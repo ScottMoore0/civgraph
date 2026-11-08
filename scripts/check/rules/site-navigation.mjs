@@ -90,7 +90,7 @@ function navLabels(html) {
 
 /**
  * Does the page carry the shared header partial, so it inherits the shared CSS and
- * behaviour? Since 2026-09 every public page does (functions/_templates/shell.js header(), stamped in
+ * behaviour? Since 2026-09 every public page does (packages/ui/src/templates/shell.js header(), stamped in
  * by scripts/build/build-site-partials.mjs), so a page without it is a failure, not a note.
  * Whether the stamped copy is current is build-site-partials.mjs --check's job.
  */
@@ -114,7 +114,7 @@ for (const page of PAGES) {
     continue;
   }
   checked += 1;
-  if (!usesSharedHeader(html)) failures.push(`${page}: does not use the shared site header (<!-- site:header --> from functions/_templates/shell.js)`);
+  if (!usesSharedHeader(html)) failures.push(`${page}: does not use the shared site header (<!-- site:header --> from packages/ui/src/templates/shell.js)`);
 
   const missing = CORE.filter((c) => !labels.includes(c));
   if (missing.length) {

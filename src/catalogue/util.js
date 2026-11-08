@@ -5,7 +5,7 @@ export const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&a
 
 export const plural = (n, one, many = `${one}s`) => `${Number(n).toLocaleString('en-GB')} ${n === 1 ? one : many}`;
 
-/** "1993-04-01" -> "1 Apr 1993"; a year alone stays a year (src/date-format.mjs). */
+/** "1993-04-01" -> "1 Apr 1993"; a year alone stays a year (packages/core/src/date-format.mjs). */
 export const longDate = (d) => formatDisplayDate(d);
 export const shortDate = (d) => formatDisplayDate(d);
 

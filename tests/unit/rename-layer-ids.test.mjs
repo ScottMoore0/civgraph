@@ -34,7 +34,7 @@ test('files named by id are renamed; scope and skips', () => {
   assert.equal(renamedPath('render/metadata/feature-indexes/lgd-2012-vector-test.json'), 'render/metadata/feature-indexes/lgd-2012-vector.json');
   assert.equal(renamedPath('render/metadata/maps-test.json'), null);
   assert.ok(inScope('render/metadata/maps-test.json'));
-  assert.ok(inScope('scripts/build/tiles/promote-layers.mjs'));
+  assert.ok(inScope('packages/maps-pipeline/src/tiles/promote-layers.mjs'));
   // The CDN manifest and range report are keyed by layer id (check:map-tiles, the upload, verify
   // and switch scripts); their R2 keys and URLs keep the old spelling (tile tokens are skipped).
   assert.ok(inScope('render/metadata/cdn-upload-manifest.json'));

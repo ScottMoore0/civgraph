@@ -20,7 +20,7 @@
  *   view=record&slug=<slug>       one Browse election record: an election's detail item or a contest's
  *                                 entry (resolving the parent server-side; replaces election-contest-parents)
  *
- * A retired contest slug (functions/_lib/election-slug-aliases.js) in contest= or in a record
+ * A retired contest slug (packages/core/src/election-slug-aliases.js) in contest= or in a record
  * view's slug= answers 301 to the same request with the slug that replaced it.
  *
  * Every list is ordered by stored columns that end in the key (data design 4.3): a delta load

@@ -101,7 +101,7 @@ export function browseIndexHandler({
   const RECORD = recordColumn === 'record' ? 'record' : `${recordColumn} AS record`;
   /** @param {ApiContext} context */
   return async function onRequestGet(context) {
-    // Cached by code version and dataset version (functions/_api/_records.js): a load
+    // Cached by code version and dataset version (packages/api/src/handlers/_records.js): a load
     // invalidates every response without a purge.
     return cachedJson(context, version, () => handle(context));
   };

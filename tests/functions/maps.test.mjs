@@ -1,7 +1,7 @@
 /**
  * Data design phase 3: the map catalogue, the layer metadata and the catalogue pane's documents
- * are loaded from the working tree (scripts/records/ingest-maps.mjs) and answered by the
- * Functions (functions/_api/_maps.js and its routes) in the shapes, and where promised the bytes,
+ * are loaded from the working tree (packages/loader/src/ingest-maps.mjs) and answered by the
+ * Functions (packages/api/src/handlers/_maps.js and its routes) in the shapes, and where promised the bytes,
  * of the files they replaced. The database is built in memory from the real source files, so a
  * change to any of them is tested as it lands.
  *

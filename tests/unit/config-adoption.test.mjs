@@ -1,7 +1,7 @@
 /**
  * The records loader and script libraries read the config module (REFACTOR-PLAN.md CFG-2, CFG-4):
  *
- * - scripts/records/paths.mjs re-exports the config's recordPaths, REPO_ROOT and DEFAULT_BUILD_DIR
+ * - packages/loader/src/paths.mjs re-exports the config's recordPaths, REPO_ROOT and DEFAULT_BUILD_DIR
  *   (the very functions, so they cannot drift), and its RECORDS_DB is the config's;
  * - the values that replaced literals are the literals they replaced (origins, User-Agent);
  * - buildVar() reads a listed variable, falls back to its default when unset or blank, and throws

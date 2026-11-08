@@ -68,8 +68,8 @@ export function layerPublishSteps({ idList, build }) {
   /** @type {Array<{ label: string, args: string[], reaches: RunStage }>} */
   const steps = [
     ...(build ? [
-      { label: 'Build the tile archives', args: ['scripts/build/tiles/pmtiles.mjs', '--force', '--ids', idList], reaches: /** @type {RunStage} */ ('built') },
-      { label: 'Build the feature indexes', args: ['scripts/build/tiles/feature-indexes.mjs', '--ids', idList], reaches: /** @type {RunStage} */ ('indexed') },
+      { label: 'Build the tile archives', args: ['packages/maps-pipeline/src/tiles/pmtiles.mjs', '--force', '--ids', idList], reaches: /** @type {RunStage} */ ('built') },
+      { label: 'Build the feature indexes', args: ['packages/maps-pipeline/src/tiles/feature-indexes.mjs', '--ids', idList], reaches: /** @type {RunStage} */ ('indexed') },
     ] : []),
     { label: 'Write the CDN upload manifest', args: ['scripts/publish/r2-manifest.mjs'], reaches: 'manifested' },
     { label: 'Upload to R2', args: ['scripts/publish/r2-upload-pmtiles.mjs', '--ids', idList], reaches: 'uploaded' },
@@ -78,8 +78,8 @@ export function layerPublishSteps({ idList, build }) {
     // written. The switch is the next step, scoped to the same ids.
     { label: 'Verify byte ranges on the CDN', args: ['scripts/publish/verify-pmtiles-cdn.mjs', '--ids', idList], reaches: 'verified' },
     { label: 'Switch the layers to their CDN URLs', args: ['scripts/publish/switch-pmtiles-to-cdn.mjs', '--ids', idList], reaches: 'switched' },
-    { label: 'Repair alias layers', args: ['scripts/build/tiles/repair-alias-layers.mjs'], reaches: 'aliases-repaired' },
-    { label: 'Rebuild the layer metadata', args: ['scripts/build/tiles/layer-plan.mjs'], reaches: 'planned' },
+    { label: 'Repair alias layers', args: ['packages/maps-pipeline/src/tiles/repair-alias-layers.mjs'], reaches: 'aliases-repaired' },
+    { label: 'Rebuild the layer metadata', args: ['packages/maps-pipeline/src/tiles/layer-plan.mjs'], reaches: 'planned' },
   ];
   let stage = layerPublishRun.initial;
   for (const step of steps) stage = assertRunTransition(stage, step.reaches, { build });

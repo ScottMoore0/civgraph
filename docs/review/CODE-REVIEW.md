@@ -282,7 +282,7 @@ This is the exact case principle 8 exists for.
 
 ### 9. `joinExt` is a contract nobody honours
 
-**CONFIRMED.** `functions/_api/proni/_query.js:57-59` documents:
+**CONFIRMED.** `packages/api/src/handlers/proni/_query.js:57-59` documents:
 
 > any caller that passes from/to must JOIN `ext` — signalled by the returned
 > `joinExt` flag so callers can add the join only when it's needed

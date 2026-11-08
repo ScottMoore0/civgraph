@@ -2,10 +2,10 @@
 /**
  * npm run records:deploy -- load the local records build into D1 by delta, then verify.
  *
- *   node scripts/records/deploy-records.mjs --local  [--dry-run] [--full] [--resync] [--direct] [--bounded]
- *   node scripts/records/deploy-records.mjs --remote [--dry-run] [--full] [--start-part N]
+ *   node packages/loader/src/deploy-records.mjs --local  [--dry-run] [--full] [--resync] [--direct] [--bounded]
+ *   node packages/loader/src/deploy-records.mjs --remote [--dry-run] [--full] [--start-part N]
  *                                                                          (approved publish only)
- *   node scripts/records/deploy-records.mjs --remote --resync --full-verify  (quiet hours only)
+ *   node packages/loader/src/deploy-records.mjs --remote --resync --full-verify  (quiet hours only)
  *
  * The database is the one wrangler.toml binds as ELECTIONS_DB (verify-load.mjs D1_NAME).
  *

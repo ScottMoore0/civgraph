@@ -1,7 +1,7 @@
 /**
  * Named queries: the PRONI eCatalogue (D1 civgraph-proni, binding PRONI_DB): records, their
  * full-text index (proni_fts, FTS5) and Extracted Dates (ext) (storage slice ST-6). The filter
- * clauses and the FTS match text come from functions/_api/proni/_query.js (buildFilters,
+ * clauses and the FTS match text come from packages/api/src/handlers/proni/_query.js (buildFilters,
  * buildMatch); the builders here assemble the statements around them. `matched` says whether a
  * full-text match leads the parameters.
  */

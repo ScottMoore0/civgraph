@@ -10,7 +10,7 @@
  *   node scripts/publish/r2-copy-keys.mjs verify --manifest <m.json>
  *
  * plan    offline: reads every tileUrl in the layer registry, applies the rename rule
- *         (scripts/lib/layer-renames.mjs) and writes the manifest of { from, to } pairs,
+ *         (packages/core/src/layer-renames.mjs) and writes the manifest of { from, to } pairs,
  *         one per distinct object (alias layers share their target's file).
  * copy    a dry run unless --apply: lists what it would copy. With --apply it refuses a
  *         manifest without an `approval` entry (recorded by the main session from the owner's

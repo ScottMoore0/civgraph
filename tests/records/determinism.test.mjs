@@ -15,7 +15,7 @@ const mode = process.env.RECORDS_DETERMINISM;
 test('a second build of the same tree gives an empty delta', { skip: (!mode || !existsSync(DB)) && 'set RECORDS_DETERMINISM=1 (or full) with a build present', timeout: 3_600_000 }, () => {
   const first = path.join(REPO_ROOT, 'tmp/records/determinism-first.sqlite');
   copyFileSync(DB, first);
-  const args = ['scripts/records/build-records-db.mjs', mode === 'full' ? '--force-transform' : '--no-transform', '--no-source-checks'];
+  const args = ['packages/loader/src/build-records-db.mjs', mode === 'full' ? '--force-transform' : '--no-transform', '--no-source-checks'];
   const run = spawnSync(process.execPath, args, { cwd: REPO_ROOT, encoding: 'utf8', maxBuffer: 256 * 1024 * 1024 });
   assert.equal(run.status, 0, run.stderr.slice(-2000));
   const lines = [];

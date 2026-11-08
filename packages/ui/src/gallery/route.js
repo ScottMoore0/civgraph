@@ -3,7 +3,7 @@
  *
  * REFACTOR-PLAN.md item 6. Every design token and every shell and UI component, in isolation,
  * with sample data and its markup, rendered at request time by the same template functions the
- * record pages use (functions/_templates/shell.js, functions/_templates/components/index.js) and
+ * record pages use (packages/ui/src/templates/shell.js, packages/ui/src/templates/components/index.js) and
  * styled by the same stylesheets (assets/ui/). It cannot go stale: there is no copy to rebuild.
  * The theme toggle in the header shows everything in light and dark.
  *
@@ -171,7 +171,7 @@ ${tokensSection()}
 ${typographySection()}
 <section class="cg-gallery__section" id="shell" aria-labelledby="shell-h">
 <h2 id="shell-h">Shell</h2>
-<p>This page's own header (with the skip link, navigation, Support button and theme toggle), the Support dialog and the footer are <code>header()</code>, <code>supportModal()</code> and <code>footer()</code> from <code>functions/_templates/shell.js</code>, through <code>page()</code>, as on every page. <button class="cg-button" type="button" data-support-open>Open the Support dialog</button></p>
+<p>This page's own header (with the skip link, navigation, Support button and theme toggle), the Support dialog and the footer are <code>header()</code>, <code>supportModal()</code> and <code>footer()</code> from <code>packages/ui/src/templates/shell.js</code>, through <code>page()</code>, as on every page. <button class="cg-button" type="button" data-support-open>Open the Support dialog</button></p>
 </section>
 <section class="cg-gallery__section" id="components" aria-labelledby="components-h">
 <h2 id="components-h">Components</h2>

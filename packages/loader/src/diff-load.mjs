@@ -2,9 +2,9 @@
 /**
  * The delta between two records databases, as SQL for `wrangler d1 execute --file` (stage E).
  *
- *   node scripts/records/diff-load.mjs --to <new.sqlite> [--from <last-loaded.sqlite>] --out tmp/records/delta.sql
+ *   node packages/loader/src/diff-load.mjs --to <new.sqlite> [--from <last-loaded.sqlite>] --out tmp/records/delta.sql
  *
- * Per table of scripts/records/schema.mjs, on primary key plus row_hash:
+ * Per table of packages/schema/src/schema.mjs, on primary key plus row_hash:
  *   - rows gone from the new database:  DELETE ... WHERE (pk) IN (VALUES ...), at most 100 per statement
  *   - rows new or changed:              INSERT OR REPLACE ..., statements capped at 60 KB
  * Without --from it is a full load: DELETE FROM every table, then every row.

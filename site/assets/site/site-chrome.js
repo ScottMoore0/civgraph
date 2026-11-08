@@ -1,6 +1,6 @@
 /*
  * Shared behaviour for the site chrome: the header, the Support Us popup and the footer
- * (markup: functions/_templates/shell.js).
+ * (markup: packages/ui/src/templates/shell.js).
  *
  * Every page that carries the shared header loads this one script, so the theme toggle,
  * the collapsed mobile navigation and the popup behave identically everywhere. The map
@@ -33,7 +33,7 @@
     return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   }
 
-  // the shell head (functions/_templates/shell.js) stamps the theme before first paint; this covers a page
+  // the shell head (packages/ui/src/templates/shell.js) stamps the theme before first paint; this covers a page
   // that loads the script without it.
   if (root.dataset.theme !== 'dark' && root.dataset.theme !== 'light') {
     root.dataset.theme = storedTheme() || systemTheme();

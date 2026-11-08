@@ -16,7 +16,7 @@ import { isNonParty, partyAbbreviation, partyFullName } from '../../packages/cor
 const read = (rel) => readFileSync(path.join(REPO_ROOT, rel), 'utf8');
 
 test('registries/browser: every slice matches a fresh build from data/registries', () => {
-  assert.deepEqual(staleSlices(), [], 'run node registries/browser/build.mjs');
+  assert.deepEqual(staleSlices(), [], 'run node packages/registries/src/browser/build.mjs');
   const slices = browserSlices();
   assert.deepEqual(Object.keys(slices), ['councils.json', 'council-search.json', 'parties.json', 'statuses.json', 'layer-types.json']);
   for (const [file, slice] of Object.entries(slices)) assert.equal(read(`packages/registries/src/browser/${file}`), sliceText(slice), file);
@@ -60,7 +60,7 @@ test('registries/browser: the readers answer as the registries say', () => {
   const parties = loadRegistry('parties', { validate: false });
   for (const { abbreviation, fullName, spellings = [] } of parties.abbreviations) {
     for (const spelling of [fullName, ...spellings]) {
-      // The first row naming a spelling wins (registries/parties.mjs abbreviationIndex).
+      // The first row naming a spelling wins (packages/registries/src/parties.mjs abbreviationIndex).
       const owner = parties.abbreviations.find((r) => [r.abbreviation, r.fullName, ...(r.spellings || [])].includes(spelling));
       if (owner.abbreviation !== abbreviation) continue;
       assert.equal(partyAbbreviation(spelling), abbreviation, spelling);

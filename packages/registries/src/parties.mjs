@@ -29,7 +29,7 @@ export function assembleParties(readJson, manifest) {
 }
 
 /**
- * A label folded for matching, exactly as src/party-names.mjs keys its spellings: accents,
+ * A label folded for matching, exactly as packages/core/src/party-names.mjs keys its spellings: accents,
  * a trailing ballot-paper "Lozenge", "&", full stops and apostrophes, dashes, slashes and commas.
  * @param {unknown} value
  * @returns {string}
@@ -48,7 +48,7 @@ export function partyLabelKey(value) {
 }
 
 /**
- * key -> { abbreviation, fullName }: the first row naming a spelling wins (src/party-names.mjs BY_KEY).
+ * key -> { abbreviation, fullName }: the first row naming a spelling wins (packages/core/src/party-names.mjs BY_KEY).
  * @param {Pick<PartiesRegistry, 'abbreviations'>} registry
  * @returns {Map<string, PartyAbbreviation>}
  */
@@ -65,7 +65,7 @@ export function abbreviationIndex(registry) {
 }
 
 /**
- * { abbreviation, fullName } for a label as spelled in the data, or null (src/party-names.mjs partyInfo).
+ * { abbreviation, fullName } for a label as spelled in the data, or null (packages/core/src/party-names.mjs partyInfo).
  * @param {Map<string, PartyAbbreviation>} index from abbreviationIndex
  * @param {unknown} value
  * @returns {PartyAbbreviation | null}

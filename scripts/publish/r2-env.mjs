@@ -9,7 +9,7 @@
  * sync:thumbnails` failed unless the caller remembered which kind it was. Now every one of them
  * calls `r2Credentials()`:
  *
- *   - the repository's `.env.local` (scripts/lib/config.mjs REPO_PATHS.envFile, found from the
+ *   - the repository's `.env.local` (packages/config/src/node.mjs REPO_PATHS.envFile, found from the
  *     repository root, not the working directory) is loaded when it exists;
  *   - a variable already in the environment wins over the file (Node's loadEnvFile never
  *     overwrites), so `--env-file`, a sourced shell and CI secrets keep working;

@@ -92,7 +92,7 @@ if (mismatched.length) {
   console.error('');
   console.error('  The map renders from the archive. A source edited without a rebuild means');
   console.error('  the map keeps drawing the old geometry while every other check passes.');
-  console.error('  Rebuild: node scripts/build/tiles/pmtiles.mjs --force --ids <id>');
+  console.error('  Rebuild: node packages/maps-pipeline/src/tiles/pmtiles.mjs --force --ids <id>');
   console.error('  Then upload: node scripts/publish/r2-upload-pmtiles.mjs --ids <id>');
   process.exit(1);
 }

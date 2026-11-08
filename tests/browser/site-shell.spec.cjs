@@ -1,6 +1,6 @@
 /**
  * One site shell on every page type: the shared header, footer, skip link and token layer
- * (functions/_templates/shell.js, assets/ui/), in light and dark, at a phone width and a
+ * (packages/ui/src/templates/shell.js, assets/ui/), in light and dark, at a phone width and a
  * desktop width.
  *
  * For each page, viewport and theme it checks that

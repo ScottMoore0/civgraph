@@ -7,7 +7,7 @@
  *
  * Serves the working tree as the static site does, answers the records API (/_api/parties,
  * /_api/persons, /_api/elections ...) from the local records build when there is one
- * (scripts/records/local-api.mjs: the real Functions against tmp/records), proxies /_r/ (CDN)
+ * (packages/loader/src/local-api.mjs: the real Functions against tmp/records), proxies /_r/ (CDN)
  * and the rest of /_api/ (the live API) as the site expects on localhost, and sets
  * window.CIVGRAPH_CATALOGUE on every page so the catalogue pane mounts the new implementation (src/catalogue/) instead of the current
  * one. The live site is unaffected: without that setting, or ?catalogue=next, it renders the
@@ -15,7 +15,7 @@
  *
  * The map and catalogue APIs of data design phase 3 (/_api/layers, /_api/catalogue) are answered
  * here, not upstream: the real Functions run over an in-memory records database built from the
- * working tree's maps.json, maps-test.json and catalogue documents (scripts/records/ingest-maps.mjs),
+ * working tree's maps.json, maps-test.json and catalogue documents (packages/loader/src/ingest-maps.mjs),
  * rebuilt when one of them changes, so the site shows the tree's maps, not production's.
  */
 import { createServer } from 'node:http';
@@ -140,7 +140,7 @@ createServer(async (req, res) => {
     // (functions/render/metadata/[[path]].js, functions/data/browse, functions/data/graph): the
     // election manifest, bundles, summaries and provenance shards, and the Browse and graph trees.
     // Since the records cutover they are not files in the tree but the records build's output
-    // (tmp/records, scripts/records/paths.mjs), byte for byte what D1 serves, so they are read
+    // (tmp/records, packages/loader/src/paths.mjs), byte for byte what D1 serves, so they are read
     // from there; without a build the site answers 404 for them, as a fresh checkout would.
     const RECORD_URL = /^\/(render\/metadata\/(elections-test2(\.json|-report\.json|\/|-summaries\/)|election-provenance\/)|data\/(browse|graph)\/|data\/database\/election-provenance\.json$)/;
     let file = path.join(ROOT, sourceOf(p)); // /assets/ui/ is served from packages/ui (packages/served.json)

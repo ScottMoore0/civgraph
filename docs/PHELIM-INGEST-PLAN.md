@@ -204,7 +204,7 @@ canonical rename separately, so a future diff against his delivery is possible. 
 31 July ingest renamed `Wards_DEDs_Leinster_1963.fgb` → `eds-leinster-1963.fgb` with no
 record, which is why the Connacht mislabel went unnoticed.
 
-**Verify:** manifest entry count rises by 21; `node scripts/build/tiles/vector-intake.mjs`
+**Verify:** manifest entry count rises by 21; `node packages/maps-pipeline/src/tiles/vector-intake.mjs`
 reports them as present in cache, nothing to download.
 
 ### P1-3 · Convert, tile, upload, promote
@@ -214,13 +214,13 @@ dry inventory unless `--execute`, and `build-test-pmtiles` retains directory MVT
 fallback "so a bad or oversized archive cannot strand a layer".
 
 ```bash
-node scripts/build/tiles/vector-batch.mjs                      # dry inventory — review first
-node scripts/build/tiles/vector-batch.mjs --execute --limit 5   # in small batches
-node scripts/build/tiles/pmtiles.mjs
+node packages/maps-pipeline/src/tiles/vector-batch.mjs                      # dry inventory — review first
+node packages/maps-pipeline/src/tiles/vector-batch.mjs --execute --limit 5   # in small batches
+node packages/maps-pipeline/src/tiles/pmtiles.mjs
 node scripts/publish/r2-manifest.mjs
 node scripts/publish/r2-upload-pmtiles.mjs                        # see note below
-node scripts/build/tiles/promote-layers.mjs
-node scripts/build/tiles/repair-alias-layers.mjs                           # idempotent; restores alias invariant
+node packages/maps-pipeline/src/tiles/promote-layers.mjs
+node packages/maps-pipeline/src/tiles/repair-alias-layers.mjs                           # idempotent; restores alias invariant
 npm run check
 ```
 
@@ -235,7 +235,7 @@ about in batches of five.
 **Verify after each batch:**
 - deployed tile `Last-Modified` is today and size is in the new-generation band
   (Leinster ≈ 5.3 MB, Munster ≈ 7.2 MB, Connacht ≈ 4.65 MB, Ulster ≈ 2.5 MB)
-- `node scripts/build/tiles/repair-alias-layers.mjs --check` → `0 out of sync`
+- `node packages/maps-pipeline/src/tiles/repair-alias-layers.mjs --check` → `0 out of sync`
 - `npm run check` → exit 0
 
 **Rollback:** the previous pyramids remain in R2 under their existing keys until
@@ -322,7 +322,7 @@ Fix: ingest `DEDs_Ulster_1921` and `DEDs_Connacht_1919` (both outstanding), then
 the 1941–1957 alias targets to match the notes, then re-run `repair-alias-layers.mjs`.
 
 **Do not "fix" the aliasing itself.** Alias reuse is deliberate deduplication —
-`scripts/build/tiles/repair-alias-layers.mjs` documents it: *"Where a boundary set did not change
+`packages/maps-pipeline/src/tiles/repair-alias-layers.mjs` documents it: *"Where a boundary set did not change
 between two years, the later year does not get its own PMTiles archive — it points at the
 earlier year's. That is deliberate deduplication, not an error, and 149 layers rely on
 it."* All 56 `eds-roi` aliases disclose their province/year provenance in their

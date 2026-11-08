@@ -4,7 +4,7 @@
  * assets/ui/state/theme.js holds the table (THEME_PREFERENCE) and the rules: a stored value
  * means a preference, a preference shows a theme, the toggle flips the theme shown. Two scripts
  * act on it without importing it, because both must run before or without modules:
- *   - the head bootstrap, THEME_BOOTSTRAP in functions/_templates/shell.js;
+ *   - the head bootstrap, THEME_BOOTSTRAP in packages/ui/src/templates/shell.js;
  *   - the shared header's toggle, assets/site/site-chrome.js, which carries a copy of the table.
  * This test runs both, in a vm with stubbed storage and media queries, for every stored value
  * and system setting, and requires them to agree with the module; it fails when the copied

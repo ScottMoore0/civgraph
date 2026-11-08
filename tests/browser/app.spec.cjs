@@ -473,7 +473,7 @@ test('restores active Dail election catalogue, viewport, labels, and party table
   expect(restored.lat).toBeCloseTo(53.48, 1);
   expect(restored.zoom).toBeCloseTo(7, 1);
   expect(restored.domLabels).toBe(0);
-  // Results tables show party abbreviations, with the full name on hover (src/party-names.mjs).
+  // Results tables show party abbreviations, with the full name on hover (packages/core/src/party-names.mjs).
   expect(restored.rowTexts[0]).toBe('FF');
   expect(restored.rowTexts[1]).toBe('SF');
   expect(restored.rowTexts[2]).toBe('FG');
@@ -1919,7 +1919,7 @@ test('loads generated election entries with MapLibre styling and enriched featur
   expect(loaded.layerLoaded).toBe(true);
   expect(loaded.panelVisible).toBe(true);
   expect(loaded.timelineVisible).toBe(true);
-  // src/date-format.mjs is the one date style: the day always two digits ("04 Jul 2024").
+  // packages/core/src/date-format.mjs is the one date style: the day always two digits ("04 Jul 2024").
   expect(loaded.timelineLabel).toBe('04 Jul 2024');
   expect(JSON.stringify(loaded.fillColour)).toContain('match');
   expect(JSON.stringify(loaded.fillColour)).toContain('#dfe4ec');

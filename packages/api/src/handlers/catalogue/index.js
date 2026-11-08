@@ -1,7 +1,7 @@
 /**
  * The map catalogue from the records database (D1 civgraph-records, binding ELECTIONS_DB; data
  * design phase 3). It was the separate civgraph-catalogue database until phase 3 moved its two
- * tables into the records load (scripts/records/ingest-maps.mjs: maps, catalogue_parts).
+ * tables into the records load (packages/loader/src/ingest-maps.mjs: maps, catalogue_parts).
  *
  *   GET /_api/catalogue                    the whole data/database/maps.json document
  *                                          ({ categories, timeSeriesChains, classes, c1s, maps }),
@@ -15,7 +15,7 @@
  *
  * The document shape is the one dataService already expects, so its 68 synchronous readers of
  * the catalogue in memory never changed. The views answer the stored documents byte for byte.
- * Cached per dataset version (cachedJson, functions/_api/_records.js).
+ * Cached per dataset version (cachedJson, packages/api/src/handlers/_records.js).
  */
 import { CATALOGUE_VIEWS, MAP_CACHE, mapRecord, mapsDocumentText, mapsInCategory, storedDocumentText } from '../_maps.js';
 import { cachedJson, jsonResponse } from '../_records.js';

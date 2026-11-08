@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://civgraph.net/schemas/registries/councils.schema.json",
   "title": "Councils registry (data/registries/councils.json)",
-  "description": "Every council the site files elections, offices or boundaries under. registries/councils.mjs holds the checks a schema cannot state (unique ids, resolvable references, symmetric relations).",
+  "description": "Every council the site files elections, offices or boundaries under. packages/registries/src/councils.mjs holds the checks a schema cannot state (unique ids, resolvable references, symmetric relations).",
   "type": "object",
   "required": ["schemaVersion", "description", "sources", "types", "councils"],
   "additionalProperties": false,

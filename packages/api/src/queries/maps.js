@@ -1,6 +1,6 @@
 /**
  * Named queries: maps, layers, the catalogue's documents and the Browse map files (data design
- * phase 3; storage slice ST-6). Used by functions/_api/_maps.js for /_api/catalogue, /_api/layers
+ * phase 3; storage slice ST-6). Used by packages/api/src/handlers/_maps.js for /_api/catalogue, /_api/layers
  * and the compatibility routes.
  */
 import { DOCUMENTS } from './documents.js';

@@ -37,10 +37,10 @@
  * time, and never from the publish. It is for a quiet hour after a recovery (records:deploy
  * --remote --resync requires it).
  *
- *   node scripts/records/verify-load.mjs --local  [--db FILE] [--since FILE] [--bounded] [--sample N]
- *   node scripts/records/verify-load.mjs --remote [--db FILE] [--since FILE] [--sample N] [--pause-ms N]
+ *   node packages/loader/src/verify-load.mjs --local  [--db FILE] [--since FILE] [--bounded] [--sample N]
+ *   node packages/loader/src/verify-load.mjs --remote [--db FILE] [--since FILE] [--sample N] [--pause-ms N]
  *                                                  (bounded; only inside an approved publish or --check)
- *   node scripts/records/verify-load.mjs --remote --full-verify      (full scan: quiet hours only)
+ *   node packages/loader/src/verify-load.mjs --remote --full-verify      (full scan: quiet hours only)
  *
  * Exits non-zero on any difference, naming the tables. Wrangler's output is redirected to a file
  * and read back (piping wrangler through a shell on Windows loses output), and the R2 variables

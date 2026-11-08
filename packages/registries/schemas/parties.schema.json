@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://civgraph.net/schemas/registries/parties.schema.json",
   "title": "Parties registry (data/registries/parties.json joined with the party files it names)",
-  "description": "The shape of each party file as its readers use it today. registries/parties.mjs checkParties holds the cross-file rules. party-events.json keeps its own schema (data/schemas/party-events.schema.json, check:facts); here only its envelope is held.",
+  "description": "The shape of each party file as its readers use it today. packages/registries/src/parties.mjs checkParties holds the cross-file rules. party-events.json keeps its own schema (data/schemas/party-events.schema.json, check:facts); here only its envelope is held.",
   "type": "object",
   "required": ["schemaVersion", "description", "parts", "abbreviations", "notParties", "entities", "lifespans", "lineage", "events", "wikidata", "wikidataOverrides", "labelIds", "labelFolds", "labelInterpretations", "colourReviewOverrides"],
   "additionalProperties": false,

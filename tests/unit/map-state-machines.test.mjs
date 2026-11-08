@@ -1,5 +1,5 @@
 // The map app's explicit state machines (refactor plan section 11), on the shared helper
-// (scripts/lib/state-machine.mjs, which the app bundle inlines) and the
+// (packages/core/src/state-machine.mjs, which the app bundle inlines) and the
 // map app's light helpers (packages/map/src/state-helpers.mjs). Each machine's whole table is pinned here,
 // every move it does not list is shown to throw, and the map-app sources are held to moving the
 // machines only through them.

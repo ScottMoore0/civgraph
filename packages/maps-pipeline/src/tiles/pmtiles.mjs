@@ -395,7 +395,7 @@ function buildArchiveOnce(layer, sourcePath, outputPath, profile, srsOptions, op
  * for. Dropping ATTRIBUTES at low zoom keeps every feature on screen and removes the
  * part that is actually large.
  *
- * WHAT IS KEPT is derived, not listed. isPrimaryKey (scripts/lib/primary-feature-keys.mjs)
+ * WHAT IS KEPT is derived, not listed. isPrimaryKey (packages/core/src/primary-feature-keys.mjs)
  * keeps the name and label fields a feature panel shows first. promoteId is kept unconditionally -- it is MapLibre's feature
  * identity, and losing it breaks hover, selection and feature state rather than just
  * the panel.

@@ -35,7 +35,7 @@ test('slugifyEntityKey drops the party part, accents and prefixes', () => {
   assert.equal(slugifyEntityKey(''), '');
 });
 
-test('slugifyEntityKey matches the records build (scripts/records/browse-columns.mjs)', () => {
+test('slugifyEntityKey matches the records build (packages/loader/src/browse-columns.mjs)', () => {
   for (const value of ['Seán Lemass|Fianna Fáil', 'party:Sinn Féin', "O'Neill, Terence", 'name:Ian Paisley']) {
     assert.equal(slugifyEntityKey(value), browseSlug(value), value);
   }

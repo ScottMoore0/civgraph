@@ -1,5 +1,5 @@
 /**
- * The wave-3 rename rules (scripts/lib/layer-renames.mjs) and the server-side R2 copy
+ * The wave-3 rename rules (packages/core/src/layer-renames.mjs) and the server-side R2 copy
  * (scripts/publish/r2-copy-keys.mjs), against a fake S3 client: no network.
  */
 import { test } from 'node:test';

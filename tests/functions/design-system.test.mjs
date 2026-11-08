@@ -2,7 +2,7 @@
  * The component gallery (/design-system/, functions/design-system/index.js) keeps up with the
  * design system and stays out of search:
  * - every component stylesheet under assets/ui/components/ has a specimen, and every template
- *   function of functions/_templates/components/index.js and shell.js's sectionNav is shown;
+ *   function of packages/ui/src/templates/components/index.js and shell.js's sectionNav is shown;
  * - every cg-* class the gallery uses is defined by a stylesheet under assets/ui/ (no typos,
  *   no classes that exist only here);
  * - it is a shelled page (skip link, main landmark), noindex in the page and the header, routed

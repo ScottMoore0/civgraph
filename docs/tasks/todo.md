@@ -402,13 +402,13 @@
 # Rendered Feature Thumbnail Pipeline
 
 - [x] Add a build-side renderer that reads local map geometry and creates exact per-feature thumbnail assets using the same IDs as search results.
-  - Completed: added `scripts/build/thumbnails/feature-thumbnails.mjs`, which reads local FlatGeobuf geometry, matches features back to the spatial-index thumbnail IDs, and renders per-feature PNG thumbnails into an ignored local/CDN staging directory.
+  - Completed: added `packages/maps-pipeline/src/thumbnails/feature-thumbnails.mjs`, which reads local FlatGeobuf geometry, matches features back to the spatial-index thumbnail IDs, and renders per-feature PNG thumbnails into an ignored local/CDN staging directory.
 - [x] Keep rendered feature thumbnails outside the Pages repo by default and expose CDN/R2-ready manifest paths instead.
   - Completed: ignored local rendered thumbnail output and added manifest controls for rendered asset root, public base URL, and optional rendered-asset registry.
 - [x] Update the feature-thumbnail manifest/browser lookup so rendered thumbnails are not hard-coded to one image extension.
   - Completed: feature-thumbnail manifests now record rendered asset extensions, and search result lookup uses the manifest extension instead of assuming `.webp`.
 - [x] Verify with a small local render sample, manifest rebuild, production build/check scripts, and search-thumbnail lookup assertions.
-  - Verification: `node scripts/build/thumbnails/feature-thumbnails.mjs --map counties-ireland --limit 1 --force`, `node scripts/build/thumbnails/manifest.mjs`, `npm run build:browse`, `npm run check:pages-assets`, and `npm run check:root` passed.
+  - Verification: `node packages/maps-pipeline/src/thumbnails/feature-thumbnails.mjs --map counties-ireland --limit 1 --force`, `node packages/maps-pipeline/src/thumbnails/manifest.mjs`, `npm run build:browse`, `npm run check:pages-assets`, and `npm run check:root` passed.
   - Note: the pipeline is ready for full corpus rendering and CDN/R2 publication; the repository intentionally does not commit the generated bitmap corpus.
 # Manifest-Backed Feature Thumbnails
 - [x] Generate a stable feature-thumbnail manifest from the spatial index.
@@ -2057,12 +2057,12 @@
   - Confirmed the prior two actionable false gaps were `all-ireland-townlands` and `civil-parishes`.
 - [x] Implement feasible coverage fixes
   - Wire alias/same-boundary entries to converted layers and register any locally available converted outputs without deleting source data.
-  - Added composite detection to `scripts/build/tiles/layer-plan.mjs` so parent entries with fully converted children, including all-Ireland Townlands, no longer regress to `needsVectorTileConversion`.
+  - Added composite detection to `packages/maps-pipeline/src/tiles/layer-plan.mjs` so parent entries with fully converted children, including all-Ireland Townlands, no longer regress to `needsVectorTileConversion`.
   - Added a Civil Parishes legacy-route alias in `test/metadata/maps-test.json`, pointing `civil-parishes` to the unified `civil-parishes-vector-test` PMTiles layer.
   - Updated the promotion script so future alias regeneration preserves the same manual alias rule.
 - [x] Verify
   - Run generation, route validation, parity/data-coverage audits, and build checks.
-  - Verification evidence: `node scripts/build/tiles/layer-plan.mjs`, `node scripts/check/rules/election-route.mjs`, `npm run check:test2`, `npm run audit:test2:parity`, and `npm run check` all passed. The full parity audit now includes `data.coverage` as a passing automated check.
+  - Verification evidence: `node packages/maps-pipeline/src/tiles/layer-plan.mjs`, `node scripts/check/rules/election-route.mjs`, `npm run check:test2`, `npm run audit:test2:parity`, and `npm run check` all passed. The full parity audit now includes `data.coverage` as a passing automated check.
 - [x] Review
   - Document resolved entries and any residual data-blocked rows.
   - Added route validation and parity-audit guardrails for zero actionable conversion rows, all-Ireland Townlands composite loading through `ni-townlands` + `roi-townlands`, and Civil Parishes alias loading through `civil-parishes-vector-test`.
@@ -2150,7 +2150,7 @@
 - [x] Verify
   - Run syntax checks, Browse generation/build checks, and targeted browser smoke checks.
 - [x] Review
-  - Verified: `node --check functions/_api/_auth.js`, `node --check functions/_api/auth/status.js`, `node --check functions/_api/contributions/submit.js`, `node --check browse/browse.js`, `npm run build`, and `npm run check` all passed.
+  - Verified: `node --check packages/api/src/handlers/_auth.js`, `node --check functions/_api/auth/status.js`, `node --check functions/_api/contributions/submit.js`, `node --check browse/browse.js`, `npm run build`, and `npm run check` all passed.
   - Browser smoke: opened local `/browse/` and `#/maps/east-west-bann`; confirmed the unauthenticated contributor panel shows a Cloudflare Access login link, Browse data still loads, and contributor-only edit controls stay hidden when unauthenticated. The local static server cannot exercise Cloudflare Access headers; production verification requires Access policy and queue binding configuration.
 
 # Implement read-only Browse section
@@ -2925,7 +2925,7 @@
   - Audited 525 generated feature-index files: no `Unnamed Feature` labels remained after the DEA repair, but three indexes contained whitespace-only names (`dlr-bicycle-parking-stands`, `osni-coverage-grid-10k`, and `translink-rail-bridges`).
   - Audited 538 local source-backed converted layers against their generated indexes: 17 layers have source rows that do not produce searchable labels, mostly because the source label field is blank for some rows or because the configured label is ID-only.
 - [x] Add recurrence guardrails for blank feature-index labels
-  - Tightened `scripts/build/tiles/feature-indexes.mjs` so feature-index names/aliases/ids are trimmed and blank labels fall back to a stable feature name instead of indexing whitespace.
+  - Tightened `packages/maps-pipeline/src/tiles/feature-indexes.mjs` so feature-index names/aliases/ids are trimmed and blank labels fall back to a stable feature name instead of indexing whitespace.
   - Tightened `scripts/check/rules/election-route.mjs` so `/test2` validation fails if any generated feature index contains a blank or `Unnamed Feature` label.
 
 # /test2 election residual parity classification against main site
@@ -4719,7 +4719,7 @@ Implement remaining feasible /test main-site parity items
     - Feature details now include richer layer context, source/reference/download links, and source credits.
     - Raster source support is implemented in the MapLibre controller and validator for future raster tile/image metadata entries.
     - Time-series and election choropleth work remains data-gated: switching and election catalogue scaffolds exist, conditional styling is available for converted vector layers, but no converted election/time-chain layers exist yet.
-    - Added `scripts/build/tiles/vector-batch.mjs` and `npm run build:test:batch-vectors`. The dry report found 18 locally available vector candidates and 610 skipped vector rows whose source files are external or ignored local-only assets; the script deliberately does not promote generated tiles without per-layer metadata/source-layer verification.
+    - Added `packages/maps-pipeline/src/tiles/vector-batch.mjs` and `npm run build:test:batch-vectors`. The dry report found 18 locally available vector candidates and 610 skipped vector rows whose source files are external or ignored local-only assets; the script deliberately does not promote generated tiles without per-layer metadata/source-layer verification.
     - Bumped `/test` assets and service worker to `test-008`.
   - Verification:
     - `node --check` passed for all `test/src/*.js` files and the changed scripts.
@@ -4866,7 +4866,7 @@ Implement /test production-readiness and main-shell parity pass
     - Source/reference/download rows now include copy-link actions and fallback badges.
     - The `/test` service worker now trims caches more aggressively under storage pressure and can report cache status to clients.
     - Added `test/metadata/production-readiness.md` and linked it from PMTiles/CDN deployment docs.
-    - Added `scripts/build/tiles/tile-profiles.mjs` and wired profiles into directory MVT and PMTiles generation. The two budget-warning layers were regenerated, PMTiles were rebuilt, uploaded to R2, CDN range-verified, and metadata was switched back to CDN URLs.
+    - Added `packages/maps-pipeline/src/tiles/tile-profiles.mjs` and wired profiles into directory MVT and PMTiles generation. The two budget-warning layers were regenerated, PMTiles were rebuilt, uploaded to R2, CDN range-verified, and metadata was switched back to CDN URLs.
     - Tuning reduced `roi-townlands-vector-test` PMTiles from about 66.1 MB to 52.6 MB and lowered the fallback tile directory from about 102.6 MB to 84.3 MB. It did not fully clear all warning thresholds, so the hard validation still reports warning-only findings rather than hiding them.
     - Restored the full 18 converted vector-layer metadata after a narrowed tuning report exposed a promotion hazard; `build-test-vector-batch` now includes already-converted rows when regenerating the full report.
     - Bumped `/test` assets and scoped service worker to `test-012`.
@@ -5318,7 +5318,7 @@ Fix Settlements 2015 labels and feature interaction
   - Root cause:
     - The vector-tile metadata had a usable unique `Code` field and `Name` labels, but the promoted `/test` metadata lacked `promoteId`/`idProperty`. The MapLibre interaction path depends on a stable feature id for DOM labels, hover feature-state, and selection.
   - Permanent prevention action:
-    - Extended `scripts/build/tiles/promote-layers.mjs` to infer stable ids from tile metadata/tilestats for both newly promoted and pre-existing vector layers. The inference prefers explicit id/code/object id fields, then unique label fields, then other unique non-geometry fields.
+    - Extended `packages/maps-pipeline/src/tiles/promote-layers.mjs` to infer stable ids from tile metadata/tilestats for both newly promoted and pre-existing vector layers. The inference prefers explicit id/code/object id fields, then unique label fields, then other unique non-geometry fields.
     - Added a `/test2` browser regression for `Settlements 2015` that checks `Code` promotion, visible DOM labels, hover styling, and non-empty feature details.
   - Broader review:
     - Before the fix, 314 labelable vector layers lacked configured stable ids. Regenerating metadata now enriches affected layers where tile metadata exposes a safe unique field, including `settlements-2015`.
@@ -6569,7 +6569,7 @@ Add election entries to /test2
 - Recurring issue guardrail:
   - Symptom: grouped catalogue entries could point at stale direct generated layers or drop existing sibling layers during promotion.
   - Root cause: promotion logic mixed direct parent map IDs with variant/source child IDs and scoped CDN/PMTiles regeneration did not prove every runtime layer remained represented.
-  - Permanent prevention action: `scripts/check/rules/election-route.mjs` now checks grouped DED parent resolution, stale counties variants, Local Authorities 2008 attribution, and Provinces Irish-name preservation; `scripts/build/tiles/promote-layers.mjs` now separates direct map IDs from variant/source IDs and refreshes layer catalogue metadata.
+  - Permanent prevention action: `scripts/check/rules/election-route.mjs` now checks grouped DED parent resolution, stale counties variants, Local Authorities 2008 attribution, and Provinces Irish-name preservation; `packages/maps-pipeline/src/tiles/promote-layers.mjs` now separates direct map IDs from variant/source IDs and refreshes layer catalogue metadata.
   - Verification evidence: `npm run check:test2` reports 605 PMTiles layers, 544 unique URLs, PMTiles/CDN errors 0, and warnings 0 after restoring unrelated runtime layers and regenerating the CDN manifest.
 
 # Complete remaining unfinished election/catalogue/Browse fixes
@@ -7367,7 +7367,7 @@ Add election entries to /test2
 - [x] Extend validation so every child row in those cards must resolve to a MapLibre layer.
   - Completed: expanded `validate-test2-route.mjs` from the Connacht-only check to the complete 32-row province child matrix.
 - [x] Verify and push.
-  - Verification before push: `node --check scripts/build/tiles/promote-layers.mjs`; `node --check scripts/check/rules/election-route.mjs`; structured 32-child alias check; `node scripts/check/rules/election-route.mjs`; `npm run check:test2`.
+  - Verification before push: `node --check packages/maps-pipeline/src/tiles/promote-layers.mjs`; `node --check scripts/check/rules/election-route.mjs`; structured 32-child alias check; `node scripts/check/rules/election-route.mjs`; `npm run check:test2`.
 
 ## Recurring issue: grouped ED/Ward child rows missing runtime aliases
 - Symptom: a visible province child row in the ED/Ward catalogue card could not load in the MapLibre route even though the equivalent canonical geometry had already been converted.

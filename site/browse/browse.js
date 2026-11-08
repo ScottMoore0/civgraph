@@ -952,7 +952,7 @@ function parseRoute() {
 
 // Records whose slugs changed after they were published: an old in-app (#/) link still opens
 // the record. Path-style addresses get a 301 from the Browse page Function, from the same list
-// (functions/_lib/election-slug-aliases.js; tests/functions/election-slug-aliases.test.mjs
+// (packages/core/src/election-slug-aliases.js; tests/functions/election-slug-aliases.test.mjs
 // holds the two together). Bangor's and Lisburn's 1920 rounds moved to the borough bodies that
 // hold their later rounds; Carrickfergus 1955's aldermanic contests were "-2" of the
 // councillor contests; two North Down by-elections were named by ARK's import code.
@@ -965,7 +965,7 @@ const RENAMED_RECORD_PREFIXES = [
   ['local-government-local-government-districts-1975-05-29-lg73-nod-area-b', 'local-government-local-government-districts-1975-05-29-north-down-area-b']
 ];
 // Contest slugs the November 2026 council rounds retired, each matched exactly (another contest
-// of the round may continue it), as RETIRED_CONTEST_SLUGS in functions/_lib/election-slug-aliases.js.
+// of the round may continue it), as RETIRED_CONTEST_SLUGS in packages/core/src/election-slug-aliases.js.
 const RETIRED_CONTEST_SLUGS = [
   ['belfast-rural-district-council-1936-06-04-dundonald', 'castlereagh-rural-district-council-1936-06-04-dundonald'],
   ['dungannon-rural-district-council-1952-06-05-aughnacloy', 'dungannon-rural-district-council-1952-06-05-clonaneese'],
@@ -6907,7 +6907,7 @@ function formatDate(value) {
   if (month) return `${['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][Number(month[2]) - 1]} ${month[1]}`;
   const date = new Date(`${value}T00:00:00Z`);
   if (Number.isNaN(date.getTime())) return String(value);
-  // "1 Jan 1950", as everywhere on the site (src/date-format.mjs): no zero-padded day, and a
+  // "1 Jan 1950", as everywhere on the site (packages/core/src/date-format.mjs): no zero-padded day, and a
   // fixed month list because en-GB's short month for September is "Sept".
   return `${date.getUTCDate()} ${['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][date.getUTCMonth()]} ${date.getUTCFullYear()}`;
 }

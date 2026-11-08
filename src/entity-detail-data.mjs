@@ -252,7 +252,7 @@ export function leadingPartyOf(result = {}, { normalise = (v) => String(v || '')
   /** @type {Map<string, { party: unknown, votes: number, colour: unknown, counted: boolean }>} */
   const totals = new Map();
   for (const candidate of result.candidates || []) {
-    // Nothing printed and nothing inferred is "No label" (src/election-domain.mjs NO_LABEL), never Independent.
+    // Nothing printed and nothing inferred is "No label" (packages/core/src/election-domain.mjs NO_LABEL), never Independent.
     const party = candidate.party || 'No label';
     const key = normalise(party);
     const current = totals.get(key) || { party, votes: 0, colour: candidate.colour || null, counted: false };

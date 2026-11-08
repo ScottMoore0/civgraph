@@ -39,7 +39,7 @@ already deletes inside `data/`.
 `.app-header` rules with an independent `900px` breakpoint, so a header change made
 in one place did not reach the other; fixing the mobile wordmark in August required
 editing both. That is **no longer true** — the header now comes from
-`functions/_templates/shell.js` (`header()`) and `assets/site/site-chrome.css`, and `browse.css`
+`packages/ui/src/templates/shell.js` (`header()`) and `assets/site/site-chrome.css`, and `browse.css`
 contains no header rules at all. The warning is kept here because the shape of the
 mistake is worth remembering, not because the defect is live.
 

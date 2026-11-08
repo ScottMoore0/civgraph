@@ -220,7 +220,7 @@ async function answer(db, route) {
       // index >= 0, so the manifest was there
       const size = Number(/** @type {NonNullable<typeof manifest>} */ (manifest).indexShardSize) || 5000;
       // Shard n is rows n*size .. (n+1)*size-1 in source order. ord is a sort key with gaps
-      // (scripts/records/stable-order.mjs), not a position, so the slice is LIMIT/OFFSET.
+      // (packages/loader/src/stable-order.mjs), not a position, so the slice is LIMIT/OFFSET.
       const results = await db.all(SHARDS.page(spec.table), [size, index * size]);
       const items = results.map((r) => parseJson(r.card));
       return jsonResponse({ schemaVersion: 1, kind: spec.kind, shard: route.name, total: items.length, items });

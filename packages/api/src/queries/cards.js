@@ -1,5 +1,5 @@
 /**
- * Named queries: the Browse card tables served by functions/_api/_browse-index.js (person_cards,
+ * Named queries: the Browse card tables served by packages/api/src/handlers/_browse-index.js (person_cards,
  * sources, register_entries), their alias and facet tables, and the per-record views of persons,
  * sources and the register (storage slice ST-6). The index queries are builders over the table a
  * route names, its record column (`record`, or `card AS record`) and the filter clause the index

@@ -2,7 +2,7 @@
  * Constraints on a built records database (stage C.3). Returns { errors, warnings, facts };
  * build-records-db.mjs refuses to publish a database with errors.
  *
- *   node scripts/records/validate.mjs [file]      validate tmp/records/civgraph-records.next.sqlite
+ *   node packages/loader/src/validate.mjs [file]      validate tmp/records/civgraph-records.next.sqlite
  *                                                 (or the given file) and print the result
  */
 import { spawnSync } from 'node:child_process';

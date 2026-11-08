@@ -10,7 +10,7 @@
  *
  * THE SCOPE IS THE ALLOWLIST, NOT THE BUCKET
  *
- * Listing is restricted to the prefixes compiled into functions/_api/_public-prefixes.js,
+ * Listing is restricted to the prefixes compiled into packages/api/src/handlers/_public-prefixes.js,
  * generated from data/database/r2-publication-allowlist.json. That is deliberate and it is
  * the whole safety property. Six prefixes are readable on the public bucket today that
  * never passed the allowlist -- data/deprivation/, data/nisra-files/, data/nisra-portal/,

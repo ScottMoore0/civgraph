@@ -1,11 +1,11 @@
 // @ts-check
 /**
- * A transition with guards, on the shared machines of scripts/lib/state-machine.mjs: the table
+ * A transition with guards, on the shared machines of packages/core/src/state-machine.mjs: the table
  * says whether a move exists; a guard (a pure function of the evidence) says whether it may be
  * taken now. The verdict names the reason, so a refusing pipeline step can print it.
  *
  * Guards are keyed `from->to` and must sit on a transition the table lists (checked when the
- * guards are declared). Candidate for scripts/lib/state-machine.mjs when the streams land.
+ * guards are declared). Candidate for packages/core/src/state-machine.mjs when the streams land.
  */
 
 /** @typedef {{ ok: true } | { ok: false, reason: string }} Verdict */

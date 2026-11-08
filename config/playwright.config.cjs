@@ -15,7 +15,7 @@ module.exports = defineConfig({
     baseURL: 'http://127.0.0.1:5050',
     // scripts/dev/test-server.py serves the tree statically. It answers the records API
     // (/_api/parties, /_api/persons, /_api/elections ...) with the real Functions run against the
-    // records build (scripts/records/local-api.mjs), but the map app's elections still load by
+    // records build (packages/loader/src/local-api.mjs), but the map app's elections still load by
     // their bundle URLs here, as before: the app's own opt-out (localStorage
     // civgraph.electionsApi = '0', packages/map/src/election/transport.mjs useElectionsApi) sends it to the
     // bundle URLs, which production serves from D1 through the compatibility Functions and the

@@ -1,6 +1,6 @@
 /**
  * Runnable status machines from the statuses registry, over the shared helper
- * (scripts/lib/state-machine.mjs: defineMachine for the full ones, defineToggle for the light
+ * (packages/core/src/state-machine.mjs: defineMachine for the full ones, defineToggle for the light
  * ones). Callers in other folders import these instead of keeping their own tables:
  *
  *   import { statusMachines } from '../../../../registries/status-machines.mjs';

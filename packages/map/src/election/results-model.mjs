@@ -11,8 +11,8 @@
  * src/election-main-pane-contract.mjs calls them on the manager.
  *
  * Reconciled with the shared modules: sumNumbers and averageNumbers are the ones in
- * src/election-view-model.mjs (identical) and are re-exported from there; normalizeName is
- * src/election-domain.mjs's (identical output, memoised). buildLocalPartySummary and
+ * packages/core/src/election-view-model.mjs (identical) and are re-exported from there; normalizeName is
+ * packages/core/src/election-domain.mjs's (identical output, memoised). buildLocalPartySummary and
  * buildCouncilSummary are NOT the view-model's functions of the same names: the map pane's
  * versions add seatShare, sort by share, resolve registry colours and keep a council's own
  * party colour and share, so they stay separate here.

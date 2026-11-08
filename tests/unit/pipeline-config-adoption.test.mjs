@@ -1,5 +1,5 @@
 // The pipeline scripts take the site and data origins and the research User-Agent from
-// scripts/lib/config.mjs (REFACTOR-PLAN.md CFG-4), not from string literals. A ratchet: a new
+// packages/config/src/node.mjs (REFACTOR-PLAN.md CFG-4), not from string literals. A ratchet: a new
 // literal in scripts/{build,publish,check,maps,dev,i18n} fails here unless it is listed below.
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -46,5 +46,5 @@ test('no pipeline script spells out the origins or the research User-Agent', () 
     }
   }
   const over = Object.entries(found).filter(([rel, n]) => n > (ALLOWED[rel] || 0));
-  assert.deepEqual(over, [], `use SITE from scripts/lib/config.mjs: ${over.map(([rel, n]) => `${rel} (${n})`).join(', ')}`);
+  assert.deepEqual(over, [], `use SITE from packages/config/src/node.mjs: ${over.map(([rel, n]) => `${rel} (${n})`).join(', ')}`);
 });

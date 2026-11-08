@@ -1,7 +1,7 @@
 /**
  * The councils registry (data/registries/councils.json) is valid, its callers read it, and it
  * says exactly what the lists it replaces still say. Each parity half is skipped once its literal
- * is gone (registries/legacy-sources.mjs returns null for it). Since r2-pipeline the registry file
+ * is gone (packages/registries/src/legacy-sources.mjs returns null for it). Since r2-pipeline the registry file
  * itself is the source: the council seed went with the manifest builder's, election-names' and
  * the grouped build's literals; since reg-app (8 Nov 2026) the map app's (src/ni-local-groups.mjs,
  * src/catalogue/search.js) are gone too, and their tests hold what those modules export to the
