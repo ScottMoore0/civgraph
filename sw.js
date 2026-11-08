@@ -12,7 +12,7 @@
 // changing it is what flushes stale entries already sitting in visitors' browsers --
 // necessary here because the browse indexes cached under the previous routing rule
 // would otherwise outlive the fix below.
-const VERSION = 'root-maplibre-sw-46ff2006d552';
+const VERSION = 'root-maplibre-sw-1775c2db067a';
 const STATIC_CACHE = `civgraph-root-maplibre-${VERSION}-static`;
 const RUNTIME_CACHE = `civgraph-root-maplibre-${VERSION}-runtime`;
 const CACHE_PREFIX = 'civgraph-root-maplibre-';
