@@ -29,6 +29,8 @@ const IRELAND = { south: 49, north: 57, west: -12.5, east: -4 };
 
 // Envelopes for layers whose subject legitimately extends past Ireland. Matched on
 // sourceMapId, or on id where a layer has no sourceMapId.
+/** @typedef {{ south: number, north: number, west: number, east: number }} Box */
+/** @type {{ match: (key: string) => boolean, test: (box: Box) => boolean }[]} */
 const WIDER = [
   {
     match: (key) => key.startsWith('dobih-v18-4'),
