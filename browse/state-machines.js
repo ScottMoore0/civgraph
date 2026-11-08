@@ -69,6 +69,12 @@ export const SUBMISSION_STATUS_CLASS = Object.freeze({
 /** UI-L. The parties list's one-off ballot-paper labels (?labels=1). */
 export const BALLOT_LABELS = defineToggle('browse ballot labels', ['hidden', 'shown']);
 
+/**
+ * UI-L. The inline contributor editor under a record (#contributorEditor, hidden in the markup):
+ * shown by showInlineEditor, hidden by closeInlineEditor; its `hidden` attribute follows this.
+ */
+export const CONTRIBUTOR_EDITOR = defineToggle('browse inline contributor editor', ['hidden', 'shown']);
+
 /** UI-L. Party labels as printed on historical ballot papers (kept in localStorage when it can be). */
 export const PRINTED_LABELS = defineToggle('browse printed labels', ['hidden', 'shown']);
 

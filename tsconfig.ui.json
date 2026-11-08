@@ -5,8 +5,8 @@
     "`npm run check:types:ui` runs it, and it is a step of `npm run check`.",
     "The `include` list is an allowlist that only grows: tests/unit/ui-types.test.mjs fails when",
     "a browser script in these folders is in neither `include` nor UI_TYPES_PENDING there.",
-    "Every strict-family flag is on except strictNullChecks (183 findings, 7 Nov 2026) and",
-    "noImplicitAny (1,031), which browse.js, the PRONI app and words.js do not meet yet;",
+    "Every strict-family flag is on except noImplicitAny (1,031 findings, 7 Nov 2026), which",
+    "browse.js, the PRONI app and words.js do not meet yet (strictNullChecks on since 8 Nov 2026);",
     "tsconfig.ui-strict.json holds the files that check under full `strict`."
   ],
   "compilerOptions": {
@@ -21,6 +21,7 @@
     "types": [],
     "skipLibCheck": true,
     "strict": false,
+    "strictNullChecks": true,
     "strictFunctionTypes": true,
     "strictBindCallApply": true,
     "noImplicitThis": true,

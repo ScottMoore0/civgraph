@@ -53,8 +53,12 @@ import { TOOLTIP } from './state-machines.js';
    * An element of the page: any HTML element, with the form-control fields read where it is one.
    * @typedef {HTMLElement & Partial<Pick<HTMLInputElement, 'value' | 'checked' | 'disabled' | 'type' | 'placeholder'>>} UiElement
    */
+  // The page's HTML (index.html) holds every element looked up here, so each lookup is typed as
+  // present; the text input is typed as what it is.
   /** @param {string} id @returns {UiElement} */
-  function $(id) { return document.getElementById(id); }
+  function $(id) { return /** @type {UiElement} */ (document.getElementById(id)); }
+  /** @param {string} id @returns {HTMLInputElement} */
+  function $input(id) { return /** @type {HTMLInputElement} */ (document.getElementById(id)); }
   function el(tag, attrs, kids) {
     var n = document.createElement(tag);
     if (attrs) Object.keys(attrs).forEach(function (k) {
@@ -163,24 +167,30 @@ import { TOOLTIP } from './state-machines.js';
   }
 
   // ------------------------------------------------------------------ state <-> URL
+  /**
+   * The page's state, as the URL carries it.
+   * @typedef {{ q: string[], b: string[], split: string, pb: string, lang: string, sm: number,
+   *   from: number | null, to: number | null, t: number, sort: string, sb: string, cb: string }} WordsState
+   */
+  /** @returns {WordsState} */
   function defaults() {
     return { q: [], b: BODIES.map(function (b) { return b.code; }), split: 'none', pb: 'dail', lang: 'en', sm: 0, from: null, to: null, t: 0, sort: 'uses', sb: '', cb: 'dail' };
   }
   function readUrl() {
     var p = new URLSearchParams(location.search);
     var s = defaults();
-    if (p.get('q')) s.q = parseQuery(p.get('q')).map(function (x) { return x.term; });
-    if (p.get('b')) { var b = p.get('b').split(',').filter(function (c) { return BODY[c]; }); if (b.length) s.b = b; }
-    if (['none', 'body', 'party'].indexOf(p.get('split')) >= 0) s.split = p.get('split');
-    if (BODY[p.get('pb')]) s.pb = p.get('pb');
-    if (BODY[p.get('cb')]) s.cb = p.get('cb'); else s.cb = s.pb;
+    var q = p.get('q'); if (q) s.q = parseQuery(q).map(function (x) { return x.term; });
+    var bs = p.get('b'); if (bs) { var b = bs.split(',').filter(function (c) { return BODY[c]; }); if (b.length) s.b = b; }
+    var split = p.get('split'); if (split === 'none' || split === 'body' || split === 'party') s.split = split;
+    var pb = p.get('pb'); if (pb !== null && BODY[pb]) s.pb = pb;
+    var cb = p.get('cb'); if (cb !== null && BODY[cb]) s.cb = cb; else s.cb = s.pb;
     if (p.get('lang') === 'ga') s.lang = 'ga';
     var sm = Number(p.get('sm')); if ([1, 2, 3, 5].indexOf(sm) >= 0) s.sm = sm;
     var f = Number(p.get('from')); if (f >= 1800 && f <= 2100) s.from = f;
     var t = Number(p.get('to')); if (t >= 1800 && t <= 2100) s.to = t;
     var ti = Number(p.get('t')); if (ti > 0 && ti < MAX_TERMS) s.t = ti;
     if (p.get('sort') === 'rate') s.sort = 'rate';
-    if (BODY[p.get('sb')]) s.sb = p.get('sb');
+    var sb = p.get('sb'); if (sb !== null && BODY[sb]) s.sb = sb;
     return s;
   }
   function enc(v) { return encodeURIComponent(v).replace(/%2C/g, ',').replace(/%20/g, '+'); }
@@ -350,8 +360,9 @@ import { TOOLTIP } from './state-machines.js';
     var yv = function (v) { return M.t + ih - v / ymax * ih; };
     var svg = sv('svg', { viewBox: '0 0 ' + width + ' ' + height, width: width, height: height, role: 'img',
       'aria-label': (panel.title ? panel.title + ': ' : '') + 'uses per million words, ' + yr[0] + ' to ' + yr[1] + '. ' + panel.series.map(function (s, i) {
-        /** @type {{ r: number, y: number } | null} */
-        var best = null; data[i].forEach(function (p) { if (p && (!best || p.r > best.r)) best = p; });
+        var best = data[i].reduce(function (/** @type {{ r: number, y: number } | null} */ top, /** @type {{ r: number, y: number } | null} */ p) {
+          return p && (!top || p.r > top.r) ? p : top;
+        }, null);
         return s.label + (best ? ', highest ' + rateFmt(best.r) + ' in ' + best.y : ', no uses');
       }).join('; ') + '.' });
     for (var v = 0; v <= ymax + 1e-9; v += ystep) {
@@ -677,21 +688,21 @@ import { TOOLTIP } from './state-machines.js';
     ['pb', 'cmpBody'].forEach(function (id) {
       var s = clear($(id)); BODIES.forEach(function (b) { s.appendChild(el('option', { value: b.code, text: b.label })); });
     });
-    $('split').addEventListener('change', /** @this {UiElement} */ function () { S.split = this.value; changed(); });
-    $('pb').addEventListener('change', /** @this {UiElement} */ function () { S.pb = this.value; S.cb = this.value; changed(); });
-    $('cmpBody').addEventListener('change', /** @this {UiElement} */ function () { S.cb = this.value; writeUrl(false); renderParties(); });
-    $('sm').addEventListener('change', /** @this {UiElement} */ function () { S.sm = Number(this.value); changed(); });
+    $('split').addEventListener('change', /** @this {HTMLSelectElement} */ function () { S.split = this.value; changed(); });
+    $('pb').addEventListener('change', /** @this {HTMLSelectElement} */ function () { S.pb = this.value; S.cb = this.value; changed(); });
+    $('cmpBody').addEventListener('change', /** @this {HTMLSelectElement} */ function () { S.cb = this.value; writeUrl(false); renderParties(); });
+    $('sm').addEventListener('change', /** @this {HTMLSelectElement} */ function () { S.sm = Number(this.value); changed(); });
     document.querySelectorAll('input[name="lang"]').forEach(function (r) {
-      r.addEventListener('change', /** @this {UiElement} */ function () { if (this.checked) { S.lang = this.value; run(false); } });
+      r.addEventListener('change', /** @this {HTMLInputElement} */ function () { if (this.checked) { S.lang = this.value; run(false); } });
     });
     ['from', 'to'].forEach(function (id) {
-      $(id).addEventListener('change', /** @this {UiElement} */ function () {
+      $(id).addEventListener('change', /** @this {HTMLInputElement} */ function () {
         var v = Number(this.value); S[id] = this.value && v >= 1803 && v <= 2026 ? v : null; changed();
       });
     });
-    $('focus').addEventListener('change', /** @this {UiElement} */ function () { S.t = Number(this.value); writeUrl(false); renderSpeakers(); renderParties(); });
-    $('spkBody').addEventListener('change', /** @this {UiElement} */ function () { S.sb = this.value; writeUrl(false); renderSpeakers(); });
-    $('spkSort').addEventListener('change', /** @this {UiElement} */ function () { S.sort = this.value; writeUrl(false); renderSpeakers(); });
+    $('focus').addEventListener('change', /** @this {HTMLSelectElement} */ function () { S.t = Number(this.value); writeUrl(false); renderSpeakers(); renderParties(); });
+    $('spkBody').addEventListener('change', /** @this {HTMLSelectElement} */ function () { S.sb = this.value; writeUrl(false); renderSpeakers(); });
+    $('spkSort').addEventListener('change', /** @this {HTMLSelectElement} */ function () { S.sort = this.value; writeUrl(false); renderSpeakers(); });
     $('csvBtn').addEventListener('click', downloadCsv);
     $('copyBtn').addEventListener('click', function () {
       var msg = $('copyMsg'); var url = location.href;
@@ -699,7 +710,7 @@ import { TOOLTIP } from './state-machines.js';
       if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(done, function () { msg.textContent = url; });
       else msg.textContent = url;
     });
-    $('searchForm').addEventListener('submit', function (e) { e.preventDefault(); closeSuggest(); search($('q').value); });
+    $('searchForm').addEventListener('submit', function (e) { e.preventDefault(); closeSuggest(); search($input('q').value); });
     var ex = $('examples');
     EXAMPLES.forEach(function (x) {
       ex.appendChild(el('button', { type: 'button', class: 'linkish', text: x.label, on: { click: function () { search(x.q, x); } } }));
@@ -707,13 +718,13 @@ import { TOOLTIP } from './state-machines.js';
     setupSuggest();
   }
   function syncControls() {
-    $('q').value = S.q.join(', ');
+    $input('q').value = S.q.join(', ');
     BODIES.forEach(function (b) { $('b-' + b.code).checked = S.b.indexOf(b.code) >= 0; });
     $('split').value = S.split; $('pb').value = S.pb; $('pbField').hidden = S.split !== 'party';
     $('cmpBody').value = S.cb; $('sm').value = String(S.sm);
     /** @type {NodeListOf<HTMLInputElement>} */ (document.querySelectorAll('input[name="lang"]')).forEach(function (r) { r.checked = r.value === S.lang; });
     var yr = META ? years() : [1803, 2026];
-    $('from').value = S.from || ''; $('to').value = S.to || '';
+    $('from').value = String(S.from || ''); $('to').value = String(S.to || '');
     $('from').placeholder = String(yr[0]); $('to').placeholder = String(yr[1]);
     $('spkSort').value = S.sort;
     var sb = clear($('spkBody'));
@@ -738,15 +749,17 @@ import { TOOLTIP } from './state-machines.js';
   }
 
   // ------------------------------------------------------------------ autocomplete
-  var sugActive = -1; var sugItems = [];
-  function lastSegment() { var v = $('q').value; var i = v.lastIndexOf(','); return { head: i >= 0 ? v.slice(0, i + 1) + ' ' : '', seg: (i >= 0 ? v.slice(i + 1) : v).trim() }; }
+  var sugActive = -1;
+  /** The suggestions on show, as [term, uses] rows of suggest/<lang>-<n>.json.gz. @type {Array<[string, number]>} */
+  var sugItems = [];
+  function lastSegment() { var v = $input('q').value; var i = v.lastIndexOf(','); return { head: i >= 0 ? v.slice(0, i + 1) + ' ' : '', seg: (i >= 0 ? v.slice(i + 1) : v).trim() }; }
   function closeSuggest() { $('suggest').hidden = true; $('q').setAttribute('aria-expanded', 'false'); $('q').removeAttribute('aria-activedescendant'); sugActive = -1; sugItems = []; }
   function setupSuggest() {
-    var input = $('q'); var list = $('suggest'); var seq = 0;
+    var input = $input('q'); var list = $('suggest'); var seq = 0;
     input.addEventListener('input', function () {
       var ls = lastSegment(); var t = tokens(ls.seg); var mine = ++seq;
       if (t.length === 0 || t.length > 2 || ls.seg.length < 2) { closeSuggest(); return; }
-      var prefix = t.join(' ') + (/\s$/.test($('q').value) && t.length === 1 ? ' ' : '');
+      var prefix = t.join(' ') + (/\s$/.test($input('q').value) && t.length === 1 ? ' ' : '');
       var n = prefix.indexOf(' ') >= 0 ? 2 : 1;
       fetchData('suggest/' + S.lang + '-' + n + '.json.gz').then(function (rows) {
         if (mine !== seq) return;
