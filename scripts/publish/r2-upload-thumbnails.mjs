@@ -30,6 +30,32 @@ const DEFAULT_ACCOUNT_ID = 'e51cbcff3bf6c7509f93f4e4ed67a394';
  * @typedef {'uploaded' | 'exists' | 'dry-run' | 'upload-failed'} ThumbnailUploadStatus
  */
 const THUMBNAIL_UPLOAD_STATUSES = /** @type {readonly ThumbnailUploadStatus[]} */ (Object.freeze(['uploaded', 'exists', 'dry-run', 'upload-failed']));
+/**
+ * One thumbnail's line in the upload report.
+ * @typedef {object} ThumbnailUploadResult
+ * @property {number} index        its place in the sorted file list
+ * @property {string} file         relative to the local root
+ * @property {string} key          the R2 object key
+ * @property {number} bytes
+ * @property {string} contentType
+ * @property {boolean} ok
+ * @property {ThumbnailUploadStatus} status
+ * @property {string} [error]      for 'upload-failed'
+ */
+/**
+ * The command line (parseArgs); values are strings as given.
+ * @typedef {object} ThumbnailArgs
+ * @property {boolean} [dryRun]
+ * @property {boolean} [skipCheck]
+ * @property {boolean} [noResume]
+ * @property {string} [root]
+ * @property {string} [report]
+ * @property {string} [bucket]
+ * @property {string} [accountId]
+ * @property {string} [prefix]
+ * @property {string} [concurrency]
+ * @property {string} [limit]
+ */
 const SUPPORTED_EXTENSIONS = new Set(['.png', '.webp', '.jpg', '.jpeg', '.avif']);
 
 const args = parseArgs(process.argv.slice(2));
@@ -98,7 +124,11 @@ async function worker() {
   }
 }
 
-/** @returns {Promise<{ ok: boolean, status: ThumbnailUploadStatus } & Record<string, unknown>>} */
+/**
+ * @param {string} file    absolute path
+ * @param {number} index   its place in the sorted file list
+ * @returns {Promise<ThumbnailUploadResult>}
+ */
 async function uploadOne(file, index) {
   const relativePath = path.relative(LOCAL_ROOT, file).replace(/\\/g, '/');
   const key = keyFor(file);
@@ -118,6 +148,9 @@ async function uploadOne(file, index) {
   }
 }
 
+/**
+ * @param {string} key
+ */
 async function r2Head(key) {
   const response = await fetch(apiObjectUrl(key), { method: 'HEAD', headers: authHeaders() });
   if (response.status === 404) return false;
@@ -125,6 +158,11 @@ async function r2Head(key) {
   throw new Error(`HEAD ${key} -> ${response.status}: ${await safeText(response)}`);
 }
 
+/**
+ * @param {string} key
+ * @param {Buffer} body
+ * @param {string} contentType
+ */
 async function r2Put(key, body, contentType) {
   const response = await fetch(apiObjectUrl(key), {
     method: 'PUT',
@@ -134,6 +172,9 @@ async function r2Put(key, body, contentType) {
   if (!response.ok) throw new Error(`PUT ${key} -> ${response.status}: ${await safeText(response)}`);
 }
 
+/**
+ * @param {string} key
+ */
 function apiObjectUrl(key) {
   return `https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/r2/buckets/${BUCKET}/objects/${encodeURIComponent(key)}`;
 }
@@ -142,10 +183,18 @@ function authHeaders() {
   return { Authorization: `Bearer ${token}` };
 }
 
+/**
+ * @param {Response} response
+ */
 async function safeText(response) {
   try { return (await response.text()).slice(0, 500); } catch { return ''; }
 }
 
+/**
+ * @template T
+ * @param {() => Promise<T>} fn
+ * @returns {Promise<T>}
+ */
 async function withRetries(fn, attempts = 4) {
   let lastError;
   for (let attempt = 1; attempt <= attempts; attempt += 1) {
@@ -190,12 +239,17 @@ function writeReport() {
   return report;
 }
 
+/**
+ * The ok results of an earlier report, to resume from.
+ * @param {string} reportPath
+ * @returns {ThumbnailUploadResult[]}
+ */
 function readCompletedResults(reportPath) {
   if (!fs.existsSync(reportPath)) return [];
   try {
     const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
     return Array.isArray(report.results)
-      ? report.results.filter((item) => item?.ok && item.key)
+      ? report.results.filter((/** @type {ThumbnailUploadResult | null} */ item) => item?.ok && item.key)
       : [];
   } catch (error) {
     console.warn(`Could not read previous upload report for resume: ${String(error.message || error)}`);
@@ -203,12 +257,20 @@ function readCompletedResults(reportPath) {
   }
 }
 
+/**
+ * @param {string} file
+ */
 function keyFor(file) {
   const relativePath = path.relative(LOCAL_ROOT, file).replace(/\\/g, '/');
   return `${KEY_PREFIX}/${relativePath}`;
 }
 
+/**
+ * @param {string} directory
+ * @returns {string[]}
+ */
 function listFiles(directory) {
+  /** @type {string[]} */
   const output = [];
   for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
     const fullPath = path.join(directory, entry.name);
@@ -218,6 +280,9 @@ function listFiles(directory) {
   return output;
 }
 
+/**
+ * @param {string} file
+ */
 function contentTypeFor(file) {
   const extension = path.extname(file).toLowerCase();
   if (extension === '.png') return 'image/png';
@@ -227,7 +292,9 @@ function contentTypeFor(file) {
   return 'application/octet-stream';
 }
 
+/** @returns {string | null} */
 function readWranglerToken() {
+  /** @type {Array<{ token?: string, source?: string, path?: string }>} */
   const candidates = [];
   if (process.env.CLOUDFLARE_API_TOKEN) candidates.push({ token: process.env.CLOUDFLARE_API_TOKEN, source: 'CLOUDFLARE_API_TOKEN' });
   const appData = process.env.APPDATA;
@@ -244,7 +311,12 @@ function readWranglerToken() {
   return null;
 }
 
+/**
+ * @param {string[]} argv
+ * @returns {ThumbnailArgs}
+ */
 function parseArgs(argv) {
+  /** @type {ThumbnailArgs} */
   const parsed = {};
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
@@ -270,6 +342,9 @@ function parseArgs(argv) {
   return parsed;
 }
 
+/**
+ * @param {number} ms
+ */
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }

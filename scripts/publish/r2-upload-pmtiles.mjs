@@ -17,6 +17,24 @@ import { spawn } from 'node:child_process';
  */
 export const UPLOAD_STATUSES = Object.freeze(['uploaded', 'dry-run', 'missing-local-file', 'upload-failed', 'missing-local-directory', 'uploaded-directory', 'partial-directory-upload']);
 
+/**
+ * One line of render/metadata/cdn-upload-report.json `results`: an archive (targetKey), a
+ * whole tile directory (targetPrefix, with its file counts) or one failed tile of a directory.
+ * @typedef {object} UploadResult
+ * @property {string} layerId
+ * @property {string} [targetKey]
+ * @property {string} [targetPrefix]
+ * @property {boolean} ok
+ * @property {UploadStatus} status
+ * @property {number} [bytes]
+ * @property {string} [output]     the tail of wrangler's output
+ * @property {string} [error]
+ * @property {number} [files]
+ * @property {number} [uploaded]
+ * @property {number} [failed]
+ */
+/** @typedef {import('./r2-manifest.mjs').CdnUploadAsset} CdnUploadAsset */
+
 const ROOT = resolve(process.cwd());
 const MANIFEST_PATH = resolve(ROOT, 'render/metadata/cdn-upload-manifest.json');
 const REPORT_PATH = resolve(ROOT, 'render/metadata/cdn-upload-report.json');
@@ -53,6 +71,7 @@ if (process.argv.includes('--failed-range-report')) {
     console.error('No CDN range report found. Run `npm run verify:test:pmtiles-cdn` first.');
     process.exit(1);
   }
+  /** @type {{ results?: import('./verify-pmtiles-cdn.mjs').RangeCheck[] }} */
   const rangeReport = JSON.parse(readFileSync(RANGE_REPORT_PATH, 'utf8'));
   for (const item of rangeReport.results || []) {
     if (!item.ok && item.layerId) ONLY_IDS.add(item.layerId);
@@ -63,10 +82,12 @@ if (process.argv.includes('--failed-range-report')) {
   }
 }
 
+/** @type {{ assets?: CdnUploadAsset[] }} */
 const manifest = JSON.parse(readFileSync(MANIFEST_PATH, 'utf8'));
 const assets = (manifest.assets || [])
   .filter((asset) => asset.kind === 'pmtiles' || asset.kind === 'mvt-directory')
   .filter((asset) => !ONLY_IDS.size || ONLY_IDS.has(asset.layerId));
+/** @type {UploadResult[]} */
 const results = [];
 
 if (!assets.length) {
@@ -111,6 +132,11 @@ const report = writeReport();
 console.log(`Wrote ${REPORT_PATH.replace(`${ROOT}\\`, '').replaceAll('\\', '/')}`);
 if (report.totals.failed) process.exit(1);
 
+/**
+ * @param {import('./r2-manifest.mjs').MvtDirectoryAsset} asset
+ * @param {number} assetIndex
+ * @param {number} assetCount
+ */
 async function uploadMvtDirectory(asset, assetIndex, assetCount) {
   const directory = resolve(ROOT, asset.localPath || '');
   if (!existsSync(directory)) {
@@ -171,7 +197,12 @@ async function uploadMvtDirectory(asset, assetIndex, assetCount) {
   writeReport();
 }
 
+/**
+ * @param {string} directory
+ * @returns {string[]}
+ */
 function listFiles(directory) {
+  /** @type {string[]} */
   const output = [];
   for (const entry of readdirSync(directory, { withFileTypes: true })) {
     const fullPath = join(directory, entry.name);
@@ -211,6 +242,10 @@ function writeReport() {
   return report;
 }
 
+/**
+ * @param {string[]} args
+ * @returns {Promise<string>}  wrangler's stdout
+ */
 function runWrangler(args) {
   return new Promise((resolvePromise, rejectPromise) => {
     const child = spawn('npx', ['wrangler', ...args], {
@@ -230,11 +265,20 @@ function runWrangler(args) {
   });
 }
 
+/**
+ * @param {number} bytes
+ */
 function formatBytes(bytes) {
   return `${(Number(bytes || 0) / 1024 / 1024).toFixed(1)} MB`;
 }
 
+/**
+ * The comma-separated values of every `name <list>` / `name=<list>` in argv.
+ * @param {string} name
+ * @returns {string[]}
+ */
 function readArgList(name) {
+  /** @type {string[]} */
   const values = [];
   for (let index = 0; index < process.argv.length; index += 1) {
     const arg = process.argv[index];

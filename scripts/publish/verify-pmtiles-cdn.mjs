@@ -22,10 +22,33 @@ const APPLY = process.argv.includes('--apply');
 const ORIGIN = process.env.TEST_CDN_VERIFY_ORIGIN || SITE.origin;
 assertKnownFlags(['--ids', '--apply']);
 const ONLY_IDS = new Set(readArgList('--ids'));
+
+/**
+ * One row of render/metadata/cdn-range-report.json `results`: written here, read by
+ * r2-manifest.mjs (remoteVerified), r2-upload-pmtiles.mjs --failed-range-report and
+ * switch-pmtiles-to-cdn.mjs. A failed fetch has `error` and none of the header fields.
+ * @typedef {object} RangeCheck
+ * @property {string} layerId
+ * @property {string} cdnUrl
+ * @property {boolean} ok
+ * @property {number} [status]
+ * @property {number} [bodyBytes]
+ * @property {string | null} [acceptRanges]
+ * @property {string | null} [contentLength]
+ * @property {string | null} [contentRange]
+ * @property {string | null} [accessControlAllowOrigin]
+ * @property {string | null} [accessControlExposeHeaders]
+ * @property {string | null} [cacheStatus]
+ * @property {string} [error]
+ * @property {string} [checkedAt]   read by r2-manifest.mjs for remoteVerifiedAt; not written here
+ */
+
+/** @type {{ assets?: import('./r2-manifest.mjs').CdnUploadAsset[] }} */
 const manifest = JSON.parse(readFileSync(MANIFEST_PATH, 'utf8'));
 const assets = (manifest.assets || [])
   .filter((asset) => asset.kind === 'pmtiles')
   .filter((asset) => !ONLY_IDS.size || ONLY_IDS.has(asset.layerId));
+/** @type {RangeCheck[]} */
 const results = [];
 
 for (const [index, asset] of assets.entries()) {
@@ -95,7 +118,13 @@ if (APPLY) {
   await import('./switch-pmtiles-to-cdn.mjs');
 }
 
+/**
+ * The comma-separated values of every `name <list>` / `name=<list>` in argv.
+ * @param {string} name
+ * @returns {string[]}
+ */
 function readArgList(name) {
+  /** @type {string[]} */
   const values = [];
   for (let index = 0; index < process.argv.length; index += 1) {
     const arg = process.argv[index];

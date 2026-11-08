@@ -23,6 +23,37 @@ import { SITE } from '../../packages/config/src/node.mjs';
 
 assertKnownFlags([]);
 
+/**
+ * A PMTiles archive in render/metadata/cdn-upload-manifest.json `assets`.
+ * @typedef {object} PmtilesAsset
+ * @property {string} layerId
+ * @property {'pmtiles'} kind
+ * @property {string} localPath             repository-relative
+ * @property {boolean} exists               the local archive is on disk
+ * @property {string} targetKey             the R2 key
+ * @property {string} cdnUrl
+ * @property {number | null} bytes          null when neither on disk nor verified remotely
+ * @property {true} [remoteVerified]        the archive exists only in R2 (see the header)
+ * @property {string} [remoteVerifiedAt]
+ */
+/**
+ * A directory of MVT tiles in the manifest's `assets`.
+ * @typedef {object} MvtDirectoryAsset
+ * @property {string} layerId
+ * @property {'mvt-directory'} kind
+ * @property {string} localPath             repository-relative
+ * @property {boolean} exists               the local directory is on disk
+ * @property {string} targetPrefix          the R2 prefix of the tiles
+ * @property {string} cdnUrlTemplate
+ */
+/**
+ * One entry of render/metadata/cdn-upload-manifest.json `assets`: written here, read by
+ * r2-upload-pmtiles.mjs, verify-pmtiles-cdn.mjs, verify-pmtiles-cdn-urls.mjs and
+ * switch-pmtiles-to-cdn.mjs.
+ * @typedef {PmtilesAsset | MvtDirectoryAsset} CdnUploadAsset
+ */
+/** @typedef {import('../../packages/types/index.js').LayerEntry & import('./pmtiles-keys.mjs').PmtilesLayer} ManifestLayer */
+
 const ROOT = resolve(process.cwd());
 const METADATA_PATH = resolve(ROOT, 'render/metadata/maps-test.json');
 const OUTPUT_PATH = resolve(ROOT, 'render/metadata/cdn-upload-manifest.json');
@@ -30,10 +61,13 @@ const RANGE_REPORT_PATH = resolve(ROOT, 'render/metadata/cdn-range-report.json')
 const CDN_BASE = process.env.TEST_CDN_BASE || `${SITE.dataOrigin}/data/maps/test`;
 const R2_PREFIX = process.env.TEST_R2_PREFIX || 'data/maps/test';
 
+/** @type {{ layers?: ManifestLayer[] }} */
 const metadata = JSON.parse(readFileSync(METADATA_PATH, 'utf8'));
+/** @type {{ results?: import('./verify-pmtiles-cdn.mjs').RangeCheck[] }} */
 const rangeReport = existsSync(RANGE_REPORT_PATH)
   ? JSON.parse(readFileSync(RANGE_REPORT_PATH, 'utf8'))
   : { results: [] };
+/** @type {Map<string, import('./verify-pmtiles-cdn.mjs').RangeCheck>} */
 const verifiedRemoteAssets = new Map(
   (rangeReport.results || [])
     .filter((item) => item?.ok && item.layerId)
@@ -42,18 +76,20 @@ const verifiedRemoteAssets = new Map(
 // What the last manifest already knew. Read for `remoteVerified`, and for the R2 key of an
 // archive that is neither on disk nor named by its layer (pmtiles-keys.mjs): everything else
 // here is derived from the metadata and the filesystem, which are authoritative.
+/** @type {Map<string, PmtilesAsset>} */
 const priorPmtiles = new Map(
-  (existsSync(OUTPUT_PATH)
+  /** @type {CdnUploadAsset[]} */ (existsSync(OUTPUT_PATH)
     ? (JSON.parse(readFileSync(OUTPUT_PATH, 'utf8')).assets || [])
     : []
   )
     .filter((asset) => asset?.kind === 'pmtiles' && asset.layerId)
-    .map((asset) => [asset.layerId, asset])
+    .map((asset) => [asset.layerId, /** @type {PmtilesAsset} */ (asset)])
 );
 const priorRemoteVerified = new Map([...priorPmtiles].filter(([, asset]) => asset.remoteVerified));
+/** @type {Record<string, number>} how many keys came from each KeySource */
 const keySources = {};
 
-/** @type {Array<Record<string, any>>} the pmtiles and mvt-directory entries */
+/** @type {CdnUploadAsset[]} the pmtiles and mvt-directory entries */
 const assets = [];
 let carriedForward = 0;
 
@@ -86,7 +122,7 @@ const manifest = {
   assets,
   commands: assets
     .filter((asset) => asset.kind === 'pmtiles' && asset.exists)
-    .map((asset) => `npx wrangler r2 object put boundaries-data/${asset.targetKey} --file ${asset.localPath} --remote --content-type application/octet-stream`)
+    .map((asset) => `npx wrangler r2 object put boundaries-data/${/** @type {PmtilesAsset} */ (asset).targetKey} --file ${asset.localPath} --remote --content-type application/octet-stream`)
 };
 
 // MERGE, DO NOT REPLACE.
@@ -112,6 +148,9 @@ if (carriedForward) {
   console.log(`Carried forward remoteVerified for ${carriedForward} layer(s) the range report did not cover.`);
 }
 
+/**
+ * @param {ManifestLayer} layer
+ */
 function addAsset(layer) {
   const configuredLocal = layer.tilePackage?.localPath || layer.tileUrl;
   const local = String(configuredLocal || '').replace(/^\//, '').replaceAll('\\', '/');

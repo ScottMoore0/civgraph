@@ -48,6 +48,11 @@ const CACHE_CONTROL = 'public, max-age=3600, stale-while-revalidate=86400';
 
 const s3 = new S3Client(s3ClientOptions(R2, { forcePathStyle: false, maxAttempts: 5 }));
 
+/**
+ * @param {string} dir
+ * @param {string[]} [files]
+ * @returns {string[]}
+ */
 function walk(dir, files = []) {
     for (const e of readdirSync(dir, { withFileTypes: true })) {
         const p = join(dir, e.name);
@@ -57,6 +62,9 @@ function walk(dir, files = []) {
     return files;
 }
 
+/**
+ * @param {string} name
+ */
 function ctOf(name) {
     if (name.endsWith('.png')) return 'image/png';
     if (name.endsWith('.webp')) return 'image/webp';
@@ -66,6 +74,22 @@ function ctOf(name) {
     return 'application/octet-stream';
 }
 
+/**
+ * The running counts of one upload run (runPool).
+ * @typedef {object} PoolStats
+ * @property {number} total
+ * @property {number} done
+ * @property {number} uploaded
+ * @property {number} skipped
+ * @property {number} planned   dry run: what would be uploaded
+ * @property {number} errors
+ * @property {number} start     Date.now() at the start
+ */
+
+/**
+ * @param {string} localPath
+ * @param {PoolStats} stats
+ */
 async function uploadOne(localPath, stats) {
     const rel = relative(LOCAL_DIR, localPath).split(sep).join('/');
     const key = `${KEY_PREFIX}/${rel}`;
@@ -130,18 +154,30 @@ async function uploadOne(localPath, stats) {
 
 // ETags of the objects already under the prefix. A single-part PUT's ETag is the MD5 of its
 // body, which is all this script ever does, so equal MD5 means the object is already current.
+/** @type {Map<string, string>} key -> ETag without its quotes */
 const remoteEtags = new Map();
+/**
+ * @param {string} prefix
+ */
 async function loadRemoteEtags(prefix) {
+    /** @type {string | undefined} */
     let token;
     do {
         const page = await s3.send(new ListObjectsV2Command({ Bucket: BUCKET, Prefix: `${prefix}/`, ContinuationToken: token }));
-        for (const o of page.Contents || []) remoteEtags.set(o.Key, String(o.ETag || '').replace(/"/g, ''));
+        for (const o of page.Contents || []) remoteEtags.set(/** @type {string} */ (o.Key), String(o.ETag || '').replace(/"/g, ''));
         token = page.IsTruncated ? page.NextContinuationToken : undefined;
     } while (token);
 }
 
+/**
+ * @param {string[]} items
+ * @param {(item: string, stats: PoolStats) => Promise<void>} worker
+ * @param {number} n   how many run at once
+ * @returns {Promise<PoolStats>}
+ */
 async function runPool(items, worker, n) {
     let i = 0;
+    /** @type {PoolStats} */
     const stats = { total: items.length, done: 0, uploaded: 0, skipped: 0, planned: 0, errors: 0, start: Date.now() };
     const workers = Array.from({ length: n }, async () => {
         while (i < items.length) {
