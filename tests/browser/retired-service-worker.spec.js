@@ -110,7 +110,15 @@ async function workerState(page) {
 
 let site;
 test.beforeEach(async () => { site = await startSite(); });
-test.afterEach(async () => { await new Promise((resolve) => site.server.close(resolve)); });
+// close() alone can wait for the browser: Chromium sometimes opens a spare connection that never
+// sends a request, and Node does not count that as idle, so it stays open until the page's context
+// is torn down, which comes after this hook (the hook then hit the test timeout: 4 of 720 runs
+// under load, 8 Nov 2026). Every request the test made has been answered by now, so drop the rest.
+test.afterEach(async () => {
+  const closed = new Promise((resolve) => site.server.close(resolve));
+  site.server.closeAllConnections();
+  await closed;
+});
 
 for (const scope of Object.keys(LEGACY_WORKERS)) {
   test(`an open /${scope}/ page: the kill switch unregisters, clears the old caches and moves it to /maps/`, async ({ page }) => {
