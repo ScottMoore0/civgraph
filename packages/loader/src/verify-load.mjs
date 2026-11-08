@@ -58,11 +58,25 @@ import { buildVar } from '../../config/src/node.mjs';
 import { RECORDS_DB, REPO_ROOT } from './paths.mjs';
 import { HASHED_TABLES } from '../../schema/src/schema.mjs';
 
+/** @typedef {import('../../storage/src/sqlite.mjs').SqliteHandle} SqliteHandle */
+/** @typedef {import('../../schema/src/schema.mjs').TableSpec} TableSpec */
+/** A value as D1 answers it in wrangler's JSON (TEXT, INTEGER/REAL, NULL). @typedef {string | number | null} D1Value */
+/** A sqlite_master row (name, sql): read locally or from D1. @typedef {{ name?: unknown, sql?: unknown }} SchemaRow */
+/** Per table: COUNT(*) and SUM(row_hash_n). @typedef {Record<string, { n: number, s: number }>} TableSums */
+/** @typedef {{ tables: TableSums, schema: SchemaRow[] }} Checksums */
+/**
+ * A row's primary key as verify compares it: `key` is the JSON of its values as text, `hash` its
+ * row_hash (null: deleted), `bytes` the size of its values.
+ * @typedef {{ key: string, values: unknown[], hash: string | null, bytes: number }} KeyRef
+ */
+/** @typedef {{ deleted: KeyRef[], upserted: KeyRef[], sampled?: boolean }} TouchedKeys */
+
 /**
  * The D1 database behind the ELECTIONS_DB binding, read from wrangler.toml's production
  * [[d1_databases]] block, so the binding the Functions use and the database every records
  * command loads or verifies are one setting (go-live switches both by editing wrangler.toml).
  */
+/** @param {string} tomlText */
 export function recordsDbName(tomlText) {
   const top = String(tomlText).split(/^\[env\./m)[0];
   for (const block of top.split(/^\[\[d1_databases\]\]\s*$/m).slice(1)) {
@@ -110,13 +124,18 @@ export const BOUNDS = {
   backoffMs: [15_000, 30_000, 60_000, 120_000, 240_000],
 };
 
-const tableChecksumSql = (t) => `SELECT '${t.name}' AS t, COUNT(*) AS n, COALESCE(SUM(row_hash_n), 0) AS s FROM ${t.name}`;
+const tableChecksumSql = (/** @type {Pick<TableSpec, 'name'>} */ t) => `SELECT '${t.name}' AS t, COUNT(*) AS n, COALESCE(SUM(row_hash_n), 0) AS s FROM ${t.name}`;
 const SCHEMA_SQL = "SELECT name, sql FROM sqlite_master WHERE type IN ('table', 'index') AND name NOT LIKE 'sqlite_%' AND name NOT LIKE '_cf_%' AND name NOT LIKE 'd1_%' ORDER BY name";
 const DATASET_SQL = 'SELECT key, value FROM dataset ORDER BY key LIMIT 100';
 /** Dataset keys a load writes that are not the build's own. */
 const LOAD_KEYS = new Set([LOADING_KEY, 'loaded_at']);
 
-/** Run SQL through wrangler d1 execute and return the result rows. */
+/**
+ * Run SQL through wrangler d1 execute and return the result rows.
+ * @param {string} sql
+ * @param {{ remote?: boolean, cwd?: string }} [options]
+ * @returns {QueryRows}
+ */
 export function wranglerQuery(sql, { remote = false, cwd = REPO_ROOT } = {}) {
   const dir = path.join(REPO_ROOT, 'tmp', 'records');
   mkdirSync(dir, { recursive: true });
@@ -131,7 +150,9 @@ export function wranglerQuery(sql, { remote = false, cwd = REPO_ROOT } = {}) {
   const text = readFileSync(outFile, 'utf8');
   rmSync(outFile, { force: true });
   if (res.status !== 0) throw new Error(`wrangler d1 execute failed (${res.status}): ${(res.stderr || text).slice(-800)}`);
+  /** @type {{ results?: Record<string, D1Value>[], meta?: { rows_read?: number } }[]} */
   const parsed = JSON.parse(text.slice(text.indexOf('[')));
+  /** @type {QueryRows} */
   const rows = parsed.flatMap((r) => r.results || []);
   // D1's own count of the rows the statement read, for the cost line runPlan prints.
   // (The local D1 does not report it.)
@@ -141,13 +162,18 @@ export function wranglerQuery(sql, { remote = false, cwd = REPO_ROOT } = {}) {
   return rows;
 }
 
-export const sleepSync = (ms) => { if (ms > 0) Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms); };
+export const sleepSync = (/** @type {number} */ ms) => { if (ms > 0) Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms); };
 
-export const isOverloaded = (error) => /7429|overloaded/i.test(String(error?.message || error));
+export const isOverloaded = (/** @type {unknown} */ error) => /7429|overloaded/i.test(String(/** @type {{ message?: string } | null | undefined} */ (error)?.message || error));
 
 /**
  * `query(sql)` with a 7429 retried after each wait in `backoffMs` (never at once, never more
  * often than that list says); any other error is thrown as it is.
+ * @param {Query} query
+ * @param {string} sql
+ * @param {{ remote?: boolean }} opts
+ * @param {{ backoffMs?: number[], sleep?: (ms: number) => void, log?: (line: string) => void }} [retry]
+ * @returns {QueryRows}
  */
 export function queryWithRetry(query, sql, opts, { backoffMs = BOUNDS.backoffMs, sleep = sleepSync, log = console.warn } = {}) {
   for (let attempt = 0; ; attempt += 1) {
@@ -163,6 +189,10 @@ export function queryWithRetry(query, sql, opts, { backoffMs = BOUNDS.backoffMs,
 
 // ------------------------------------------------------------------ the full mode
 
+/**
+ * @param {string} file
+ * @returns {Checksums}
+ */
 export function localChecksums(file) {
   const db = openSqliteHandle(file, { readOnly: true });
   const rows = HASHED_TABLES.map((t) => /** @type {{ t: string, n: number, s: number }} */ (db.prepare(tableChecksumSql(t)).get()));
@@ -171,15 +201,24 @@ export function localChecksums(file) {
   return { tables: Object.fromEntries(rows.map((r) => [r.t, { n: Number(r.n), s: Number(r.s) }])), schema };
 }
 
-const norm = (sql) => String(sql || '').replace(/\s+/g, ' ').trim();
+const norm = (/** @type {unknown} */ sql) => String(sql || '').replace(/\s+/g, ' ').trim();
 
+/**
+ * @param {SchemaRow[]} localSchema
+ * @param {SchemaRow[]} remoteSchema
+ */
 function compareSchema(localSchema, remoteSchema) {
   const remote = new Map(remoteSchema.map((r) => [r.name, norm(r.sql)]));
   return localSchema.filter((r) => remote.get(r.name) !== norm(r.sql)).map((r) => `schema ${r.name} differs or is missing`);
 }
 
-/** Compare a local database's full checksums with D1's (or with any query function, for tests). */
+/**
+ * Compare a local database's full checksums with D1's (or with any query function, for tests).
+ * @param {Checksums} local
+ * @param {Checksums} remote
+ */
 export function compareLoad(local, remote) {
+  /** @type {string[]} */
   const mismatches = [];
   for (const t of HASHED_TABLES) {
     const a = local.tables[t.name];
@@ -197,6 +236,7 @@ export function compareLoad(local, remote) {
  */
 export function fullPlan(file) {
   const local = localChecksums(file);
+  /** @type {PlanStep[]} */
   const steps = HASHED_TABLES.map((t) => ({
     label: `${t.name} (full scan)`,
     sql: tableChecksumSql(t),
@@ -210,14 +250,18 @@ export function fullPlan(file) {
 
 // ------------------------------------------------------------------ the bounded mode
 
-const keyOf = (pk, row) => JSON.stringify(pk.map((c) => (row[c] === null || row[c] === undefined ? null : String(row[c]))));
-const bytesExpr = (t, alias = '') => t.columns.map((c) => `COALESCE(length(${alias}${c.name}), 0)`).join(' + ');
+const keyOf = (/** @type {string[]} */ pk, /** @type {Record<string, unknown>} */ row) => JSON.stringify(pk.map((c) => (row[c] === null || row[c] === undefined ? null : String(row[c]))));
+const bytesExpr = (/** @type {TableSpec} */ t, alias = '') => t.columns.map((c) => `COALESCE(length(${alias}${c.name}), 0)`).join(' + ');
 
 /**
  * The keys the delta from `since` to the build touched, per table: the same comparison
  * diff-load.mjs makes (primary key plus row_hash), reading keys, hashes and sizes only.
+ * @param {SqliteHandle} db
+ * @param {TableSpec[]} [tables]
+ * @returns {Record<string, TouchedKeys>}
  */
 export function deltaKeys(db, tables = HASHED_TABLES) {
+  /** @type {Record<string, TouchedKeys>} */
   const out = {};
   for (const t of tables) {
     const pk = t.pk.join(', ');
@@ -228,32 +272,49 @@ export function deltaKeys(db, tables = HASHED_TABLES) {
     const upserted = db.prepare(
       `SELECT ${t.pk.map((c) => `m.${c}`).join(', ')}, m.row_hash AS row_hash, ${bytesExpr(t, 'm.')} AS bytes FROM main.${t.name} m `
       + `LEFT JOIN ${ft} ON ${join} WHERE ${ft}.row_hash IS NOT m.row_hash ORDER BY ${t.pk.map((c) => `m.${c}`).join(', ')}`,
-    ).all().map((r) => ({ key: keyOf(t.pk, r), values: t.pk.map((c) => r[c]), hash: r.row_hash, bytes: Number(r.bytes) }));
+    ).all().map((r) => ({ key: keyOf(t.pk, r), values: t.pk.map((c) => r[c]), hash: /** @type {string} */ (r.row_hash), bytes: Number(r.bytes) }));
     if (deleted.length || upserted.length) out[t.name] = { deleted, upserted };
   }
   return out;
 }
 
-/** About `n` rows of a table spread evenly over its rowids (rowid lookups, no scan). */
+/**
+ * About `n` rows of a table spread evenly over its rowids (rowid lookups, no scan).
+ * @param {SqliteHandle} db
+ * @param {TableSpec} t
+ * @param {number} n
+ * @returns {KeyRef[]}
+ */
 export function sampleKeys(db, t, n) {
-  const range = db.prepare(`SELECT MIN(rowid) AS lo, MAX(rowid) AS hi FROM ${t.name}`).get();
+  const range = /** @type {{ lo: number | null, hi: number | null }} */ (db.prepare(`SELECT MIN(rowid) AS lo, MAX(rowid) AS hi FROM ${t.name}`).get());
   if (range.lo === null || range.lo === undefined) return [];
   const lo = Number(range.lo);
   const hi = Number(range.hi);
   const ids = [...new Set(Array.from({ length: n }, (_, i) => Math.round(lo + ((hi - lo) * i) / Math.max(1, n - 1))))];
   return db.prepare(`SELECT ${t.pk.join(', ')}, row_hash, ${bytesExpr(t)} AS bytes FROM ${t.name} WHERE rowid IN (${ids.join(', ')})`).all()
-    .map((r) => ({ key: keyOf(t.pk, r), values: t.pk.map((c) => r[c]), hash: r.row_hash, bytes: Number(r.bytes) }));
+    .map((r) => ({ key: keyOf(t.pk, r), values: t.pk.map((c) => r[c]), hash: /** @type {string} */ (r.row_hash), bytes: Number(r.bytes) }));
 }
 
-/** Every k-th of a list, at most `n` of them, first and last kept. */
+/**
+ * Every k-th of a list, at most `n` of them, first and last kept.
+ * @template T
+ * @param {T[]} list
+ * @param {number} n
+ * @returns {T[]}
+ */
 export function evenSample(list, n) {
   if (list.length <= n) return list;
+  /** @type {T[]} */
   const out = [];
   for (let i = 0; i < n; i += 1) out.push(list[Math.round((i * (list.length - 1)) / (n - 1))]);
   return out;
 }
 
-/** A keyed lookup: the rows of `keys` by primary key, with their row_hash. Uses the key's index. */
+/**
+ * A keyed lookup: the rows of `keys` by primary key, with their row_hash. Uses the key's index.
+ * @param {TableSpec} t
+ * @param {KeyRef[]} keys
+ */
 export function keyedSql(t, keys) {
   const where = t.pk.length === 1
     ? `${t.pk[0]} IN (${keys.map((k) => q(k.values[0])).join(', ')})`
@@ -261,9 +322,17 @@ export function keyedSql(t, keys) {
   return `SELECT ${t.pk.join(', ')}, row_hash FROM ${t.name} WHERE ${where}`;
 }
 
-/** Batches of at most batchKeys keys, batchBytes of row data and statementBytes of SQL. */
+/**
+ * Batches of at most batchKeys keys, batchBytes of row data and statementBytes of SQL.
+ * @param {TableSpec} t
+ * @param {KeyRef[]} keys
+ * @param {typeof BOUNDS} [bounds]
+ * @returns {KeyRef[][]}
+ */
 export function batches(t, keys, bounds = BOUNDS) {
+  /** @type {KeyRef[][]} */
   const out = [];
+  /** @type {KeyRef[]} */
   let cur = [];
   let bytes = 0;
   let sqlBytes = 0;
@@ -284,7 +353,7 @@ export function batches(t, keys, bounds = BOUNDS) {
 }
 
 /** A small table's count and checksum, bounded by LIMIT: it still sees one row too many. */
-export const boundedChecksumSql = (t, limit) => `SELECT COUNT(*) AS n, COALESCE(SUM(row_hash_n), 0) AS s FROM (SELECT row_hash_n FROM ${t.name} LIMIT ${limit})`;
+export const boundedChecksumSql = (/** @type {Pick<TableSpec, 'name'>} */ t, /** @type {number} */ limit) => `SELECT COUNT(*) AS n, COALESCE(SUM(row_hash_n), 0) AS s FROM (SELECT row_hash_n FROM ${t.name} LIMIT ${limit})`;
 
 /**
  * The bounded verification as a list of steps ({label, sql, check(rows) -> mismatches}), built
@@ -292,7 +361,7 @@ export const boundedChecksumSql = (t, limit) => `SELECT COUNT(*) AS n, COALESCE(
  * table).
  */
 /**
- * @typedef {Record<string, any>[] & { rowsRead?: number }} QueryRows
+ * @typedef {Record<string, D1Value>[] & { rowsRead?: number }} QueryRows
  * @typedef {(sql: string, opts: { remote?: boolean }) => QueryRows} Query
  * @typedef {{ label: string, sql: string, check: (rows: QueryRows) => string[] }} PlanStep
  * @typedef {{ steps: PlanStep[], notes: string[], mode: 'bounded'|'full' }} Plan
@@ -304,16 +373,20 @@ export const boundedChecksumSql = (t, limit) => `SELECT COUNT(*) AS n, COALESCE(
  */
 export function boundedPlan({ file, since = null, sample = BOUNDS.sampleKeys, bounds = BOUNDS }) {
   const db = openSqliteHandle(file, { readOnly: true });
+  /** @type {string[]} */
   const notes = [];
+  /** @type {PlanStep[]} */
   const steps = [];
   try {
     const dataset = /** @type {{ key: string, value: string|null }[]} */ (db.prepare('SELECT key, value FROM dataset ORDER BY key').all());
+    /** @type {TableSums} */
     const recorded = JSON.parse(dataset.find((r) => r.key === 'table_checksums')?.value || '{}');
     steps.push({
       label: 'dataset',
       sql: DATASET_SQL,
       check: (rows) => {
         const remote = new Map(rows.map((r) => [r.key, r.value]));
+        /** @type {string[]} */
         const out = [];
         for (const r of dataset) {
           if (LOAD_KEYS.has(r.key)) continue;
@@ -326,6 +399,7 @@ export function boundedPlan({ file, since = null, sample = BOUNDS.sampleKeys, bo
     const schema = db.prepare(SCHEMA_SQL).all();
     steps.push({ label: 'schema', sql: `${SCHEMA_SQL} LIMIT 1000`, check: (rows) => compareSchema(schema, rows) });
 
+    /** @type {Record<string, TouchedKeys>} */
     let touched;
     if (since) {
       db.exec(`ATTACH DATABASE '${since.replace(/'/g, "''")}' AS f`);
@@ -350,6 +424,7 @@ export function boundedPlan({ file, since = null, sample = BOUNDS.sampleKeys, bo
           label: `${t.name} keys ${i + 1} (${batch.length})`,
           sql: keyedSql(t, batch),
           check: (rows) => {
+            /** @type {string[]} */
             const out = [];
             const got = new Map(rows.map((r) => [keyOf(t.pk, r), r.row_hash]));
             for (const [k, hash] of expect) {
@@ -391,6 +466,7 @@ export function boundedPlan({ file, since = null, sample = BOUNDS.sampleKeys, bo
  * @returns {string[]} the mismatches
  */
 export function runPlan(plan, { remote = false, query = wranglerQuery, pauseMs = BOUNDS.pauseMs, sleep = sleepSync, log = () => {}, backoffMs } = {}) {
+  /** @type {string[]} */
   const mismatches = [];
   let rowsRead = 0;
   plan.steps.forEach((step, i) => {
@@ -413,7 +489,7 @@ export function runPlan(plan, { remote = false, query = wranglerQuery, pauseMs =
  *   bounds?: typeof BOUNDS }} options
  * @returns {string[]} the mismatches
  */
-export function verify({ file, remote = false, mode = remote ? 'bounded' : 'full', since = null, sample, query = wranglerQuery, pauseMs, sleep, log, bounds } = /** @type {any} */ ({})) {
+export function verify({ file, remote = false, mode = remote ? 'bounded' : 'full', since = null, sample, query = wranglerQuery, pauseMs, sleep, log, bounds } = /** @type {{ file: string }} */ ({})) {
   const plan = mode === 'full' ? fullPlan(file) : boundedPlan({ file, since, sample, bounds });
   for (const note of plan.notes) (log || console.log)(`  note: ${note}`);
   (log || console.log)(`  verify (${plan.mode}, ${remote ? 'remote' : 'local'}): ${plan.steps.length} statement(s), one per call`);
@@ -422,7 +498,7 @@ export function verify({ file, remote = false, mode = remote ? 'bounded' : 'full
 
 if (process.argv[1] && path.basename(process.argv[1]) === 'verify-load.mjs') {
   const args = process.argv.slice(2);
-  const opt = (name) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : null; };
+  const opt = (/** @type {string} */ name) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : null; };
   const remote = args.includes('--remote');
   if (remote === args.includes('--local')) {
     console.error('say --local or --remote');

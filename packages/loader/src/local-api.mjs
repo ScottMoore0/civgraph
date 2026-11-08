@@ -31,25 +31,40 @@ import { openSqlite } from '../../storage/src/sqlite.mjs';
 export const RECORD_API_ROUTES = ['elections', 'graph', 'parties', 'persons', 'register-interests', 'sources', 'stats', 'votes'];
 const ROUTE = new RegExp(`^/_api/(${RECORD_API_ROUTES.join('|')})/?$`);
 
-/** The route name for a pathname (/_api/parties -> 'parties'), or null. */
+/**
+ * A records Function's handler, called with the Pages context answerRecordApi builds.
+ * @typedef {(context: { request: Request, env: object, params: object, waitUntil: (p: Promise<unknown>) => void,
+ *   next: () => Promise<Response> }) => Response | Promise<Response>} RecordHandler
+ */
+
+/**
+ * The route name for a pathname (/_api/parties -> 'parties'), or null.
+ * @param {string | null | undefined} pathname
+ */
 export function recordApiRoute(pathname) {
   const match = ROUTE.exec(String(pathname || ''));
   return match ? match[1] : null;
 }
 
+/** @type {Map<string, Promise<{ onRequestGet?: RecordHandler, onRequest?: RecordHandler }>>} */
 const modules = new Map();
+/** @type {Map<string, { ELECTIONS_DB: ReturnType<typeof toD1> }>} */
 const envs = new Map();
 
+/** @param {string} route */
 async function functionModule(route) {
   if (!modules.has(route)) {
     modules.set(route, import(pathToFileURL(path.join(REPO_ROOT, 'functions', '_api', route, 'index.js')).href));
   }
-  return modules.get(route);
+  return /** @type {Promise<{ onRequestGet?: RecordHandler, onRequest?: RecordHandler }>} */ (modules.get(route));
 }
 
 /**
  * Answer a records API request from the local build. `url` is absolute or a path; `dbFile`
  * defaults to the records build. GET and HEAD only, as the app uses them.
+ * @param {string | URL} url
+ * @param {{ method?: string, headers?: Record<string, string>, dbFile?: string }} [options]
+ * @returns {Promise<Response | null>}
  */
 export async function answerRecordApi(url, { method = 'GET', headers = {}, dbFile = RECORDS_DB } = {}) {
   const requestUrl = new URL(url, 'http://127.0.0.1');
@@ -60,21 +75,28 @@ export async function answerRecordApi(url, { method = 'GET', headers = {}, dbFil
   }
   if (!envs.has(dbFile)) envs.set(dbFile, { ELECTIONS_DB: toD1(openSqlite(dbFile, { readOnly: true })) });
   const mod = await functionModule(route);
-  const handler = mod.onRequestGet || mod.onRequest;
+  const handler = /** @type {RecordHandler} */ (mod.onRequestGet || mod.onRequest);
+  /** @type {Promise<unknown>[]} */
   const pending = [];
   const context = {
     request: new Request(requestUrl.toString(), { method: 'GET', headers }),
-    env: envs.get(dbFile),
+    env: /** @type {{ ELECTIONS_DB: ReturnType<typeof toD1> }} */ (envs.get(dbFile)),
     params: {},
-    waitUntil: (p) => pending.push(p),
+    waitUntil: (/** @type {Promise<unknown>} */ p) => pending.push(p),
     next: async () => new Response('not found', { status: 404 }),
   };
   return handler(context);
 }
 
-/** Write a fetch Response to a node:http ServerResponse. */
+/**
+ * Write a fetch Response to a node:http ServerResponse.
+ * @param {import('node:http').ServerResponse} res
+ * @param {Response} response
+ * @param {{ head?: boolean }} [options]
+ */
 export async function sendResponse(res, response, { head = false } = {}) {
   const body = Buffer.from(await response.arrayBuffer());
+  /** @type {Record<string, string | number>} */
   const out = {};
   response.headers.forEach((value, key) => { out[key] = value; });
   out['content-length'] = body.length;
@@ -82,12 +104,17 @@ export async function sendResponse(res, response, { head = false } = {}) {
   res.end(head ? undefined : body);
 }
 
+/**
+ * @param {number} port
+ * @param {boolean} exitWithStdin
+ */
 async function serve(port, exitWithStdin) {
   const server = createServer(async (req, res) => {
     try {
+      /** @type {Record<string, string>} */
       const headers = {};
-      for (const h of ['accept', 'if-none-match']) if (req.headers[h]) headers[h] = req.headers[h];
-      const response = await answerRecordApi(req.url, { method: req.method, headers });
+      for (const h of /** @type {const} */ (['accept', 'if-none-match'])) if (req.headers[h]) headers[h] = /** @type {string} */ (req.headers[h]);
+      const response = await answerRecordApi(/** @type {string} */ (req.url), { method: req.method, headers });
       if (!response) {
         res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
         res.end('not found');

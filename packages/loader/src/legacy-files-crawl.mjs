@@ -25,7 +25,24 @@ import { SITE } from '../../config/src/node.mjs';
 import { REPO_ROOT } from './paths.mjs';
 import { driftedFile, readDrift } from './graph-files-freeze.mjs';
 
+/**
+ * One URL to ask for, and what it must answer.
+ * @typedef {{ kind: string, url: string, expect: 'file' | 'bulk' | 'drifted' | 'redirect' | 'head' | 404,
+ *   file?: string, location?: string }} CrawlUrl
+ */
+/**
+ * What a URL answered.
+ * @typedef {{ kind: string, url: string, status?: number, ms?: number, ok: boolean, diff?: string,
+ *   location?: string | null }} CrawlResult
+ */
+
 const args = process.argv.slice(2);
+/**
+ * @template {string | number} F
+ * @param {string} name
+ * @param {F} fallback
+ * @returns {string | F}
+ */
 const opt = (name, fallback) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : fallback; };
 const BASE = String(opt('--base', 'http://127.0.0.1:8788')).replace(/\/$/, '');
 const BROWSE = path.resolve(opt('--browse-dir', path.join(REPO_ROOT, 'tmp/records/browse')));
@@ -35,17 +52,30 @@ const DELAY = Number(opt('--delay', 0));
 const local = /^https?:\/\/(127\.0\.0\.1|localhost)(:|\/|$)/.test(BASE);
 const CONCURRENCY = local ? Number(opt('--concurrency', 6)) : 1;
 const OUT = path.resolve(opt('--out', path.join(REPO_ROOT, 'tmp/records/legacy-files-report.json')));
+/** @type {Record<string, string>} */
 const HEADERS = local ? {} : { 'User-Agent': SITE.userAgent };
 const BULK = /^(statement-shards|exports)(\/|$)/;
 
+/**
+ * @template T
+ * @param {T[]} list
+ * @param {number} n
+ * @returns {T[]}
+ */
 const sample = (list, n) => {
   if (list.length <= n) return list;
   const step = list.length / n;
   return Array.from({ length: n }, (_, i) => list[Math.floor(i * step)]);
 };
 
-/** Every directory of a tree (relative), with its files sorted. */
+/**
+ * Every directory of a tree (relative), with its files sorted.
+ * @param {string} root
+ * @param {string} [rel]
+ * @returns {[string, string[]][]}
+ */
 function kinds(root, rel = '') {
+  /** @type {[string, string[]][]} */
   const out = [];
   const abs = path.join(root, rel);
   const entries = readdirSync(abs).sort();
@@ -56,6 +86,7 @@ function kinds(root, rel = '') {
 }
 
 function plan() {
+  /** @type {CrawlUrl[]} */
   const urls = [];
   const drift = readDrift();
   for (const [prefix, root] of [['/data/browse/', BROWSE], ['/data/graph/', GRAPH]]) {
@@ -86,12 +117,19 @@ function plan() {
   return urls;
 }
 
-const dropGeneratedAt = (doc) => {
+const dropGeneratedAt = (/** @type {unknown} */ doc) => {
   if (!doc || typeof doc !== 'object' || Array.isArray(doc)) return doc;
-  const { generatedAt: _g, ...rest } = doc;
+  const { generatedAt: _g, ...rest } = /** @type {Record<string, unknown>} */ (doc);
   return rest;
 };
 
+/**
+ * Where two JSON values first differ (a path and the two values), or null when equal.
+ * @param {unknown} a
+ * @param {unknown} b
+ * @param {string} [at]
+ * @returns {string | null}
+ */
 function firstDiff(a, b, at = '') {
   if (isDeepStrictEqual(a, b)) return null;
   if (!a || !b || typeof a !== 'object' || typeof b !== 'object' || Array.isArray(a) !== Array.isArray(b)) {
@@ -99,12 +137,16 @@ function firstDiff(a, b, at = '') {
   }
   const keys = [...new Set([...Object.keys(a), ...Object.keys(b)])];
   for (const k of keys) {
-    const d = firstDiff(a[k], b[k], `${at}/${k}`);
+    const d = firstDiff(/** @type {Record<string, unknown>} */ (a)[k], /** @type {Record<string, unknown>} */ (b)[k], `${at}/${k}`);
     if (d) return d;
   }
   return `${at || '/'}: differs`;
 }
 
+/**
+ * @param {CrawlUrl} u
+ * @returns {Promise<CrawlResult>}
+ */
 async function check(u) {
   const t0 = Date.now();
   const res = await fetch(`${BASE}${u.url}`, { method: u.expect === 'head' ? 'HEAD' : 'GET', redirect: 'manual', headers: HEADERS });
@@ -127,12 +169,13 @@ async function check(u) {
   }
   if (res.status !== 200) return { ...base, ok: false, diff: `status ${res.status}` };
   const got = dropGeneratedAt(await res.json());
-  const want = dropGeneratedAt(JSON.parse(readFileSync(u.file, 'utf8')));
+  const want = dropGeneratedAt(JSON.parse(readFileSync(/** @type {string} */ (u.file), 'utf8')));
   const diff = firstDiff(got, want);
   return { ...base, ok: !diff, ...(diff ? { diff } : {}) };
 }
 
 const urls = plan();
+/** @type {CrawlResult[]} */
 const results = [];
 let next = 0;
 async function worker() {
@@ -144,6 +187,7 @@ async function worker() {
 }
 await Promise.all(Array.from({ length: CONCURRENCY }, worker));
 
+/** @type {Map<string, { urls: number, ok: number }>} */
 const byKind = new Map();
 for (const r of results) {
   const k = byKind.get(r.kind) || { urls: 0, ok: 0 };
