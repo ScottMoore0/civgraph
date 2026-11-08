@@ -8,7 +8,7 @@ import { DatabaseSync } from 'node:sqlite';
 import { recordPaths, REPO_ROOT } from '../../packages/loader/src/paths.mjs';
 import { MAX_VALUE_BYTES, TABLES } from '../../packages/schema/src/schema.mjs';
 import { partyAsPrintedLabel } from '../../packages/core/src/party-names.mjs';
-import { bundleChunks, bundleObject } from '../../functions/_api/_records.js';
+import { bundleChunks, bundleObject } from '../../packages/api/src/handlers/_records.js';
 import { d1 } from './d1-shim.mjs';
 
 const DB = path.join(REPO_ROOT, 'tmp/records/civgraph-records.sqlite');

@@ -1,18 +1,2 @@
-import { getContributorAuth, jsonResponse, jsonNotAllowed, sanitizeAuth } from '../_auth.js';
-import { methodGuard } from '../_method.js';
-
-export async function onRequestGet(context) {
-  const auth = await getContributorAuth(context);
-  return jsonResponse({
-    ok: true,
-    auth: sanitizeAuth(auth),
-    capabilities: {
-      browse: true,
-      proposeEdits: auth.allowed,
-      submitMapRequests: auth.allowed,
-      approveSubmissions: auth.isAdmin
-    }
-  });
-}
-
-export const onRequest = methodGuard('GET', onRequestGet, jsonNotAllowed);
+// Moved to packages/api/src/handlers/auth/status.js (refactor PKG-8); this re-export is kept until 8 Dec 2026.
+export { onRequest, onRequestGet } from '../../../packages/api/src/handlers/auth/status.js';

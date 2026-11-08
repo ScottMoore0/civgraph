@@ -43,10 +43,10 @@
  * That happens only when CIVGRAPH_SSR_RECORDS names the type, or for ?ssr=1 when
  * CIVGRAPH_SSR_PREVIEW is set; with neither, this file behaves exactly as before.
  */
-import { reportError } from './_api/_error.js';
-import { browseMapRecord } from './_api/_maps.js';
+import { reportError } from '../packages/api/src/handlers/_error.js';
+import { browseMapRecord } from '../packages/api/src/handlers/_maps.js';
 import { dateText, listText, numberText, slugify } from '../packages/core/src/format.js';
-import { datasetVersion, htmlResponse } from './_lib/respond.js';
+import { datasetVersion, htmlResponse } from '../packages/api/src/respond.js';
 import { renderRecordPage, ssrMode } from './_templates/records/index.js';
 import { loadElectionPage } from './_templates/records/election.js';
 import { groupedYearHero, groupedYearKey } from './_templates/records/grouped-year.js';

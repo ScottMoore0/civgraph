@@ -9,7 +9,7 @@ import path from 'node:path';
 import { recordPaths, REPO_ROOT } from '../../packages/loader/src/paths.mjs';
 import { driftedFile, readDrift } from '../../packages/loader/src/graph-files-freeze.mjs';
 import { context, d1, installCaches } from './d1-shim.mjs';
-import { resetDatasetMemo } from '../../functions/_api/_records.js';
+import { resetDatasetMemo } from '../../packages/api/src/handlers/_records.js';
 import * as dataBrowse from '../../functions/data/browse/[[path]].js';
 import * as dataGraph from '../../functions/data/graph/[[path]].js';
 

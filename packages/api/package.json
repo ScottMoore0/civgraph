@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "description": "The API's shared modules (REFACTOR-PLAN.md item 1). So far the named queries (src/queries/, storage slice ST-6); the handlers of /_api and /api/vN follow (PKG-8).",
+  "description": "The API: the handlers of /_api (src/handlers/, the same tree as functions/_api) and /api/v1 (src/v1/), the records cache wrapper and dataset state, and the named queries (src/queries/). Each route file under functions/ is a one-line re-export (PKG-8).",
   "exports": {
     "./*": "./src/*"
   }

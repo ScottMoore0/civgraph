@@ -8,7 +8,7 @@
  * Sources (each generated file names its own):
  *   - data/schemas/*.schema.json          the facts files (offices, tenures, affiliations, ...)
  *   - registries/schemas/*.schema.json    the registries (councils, parties, statuses, ...)
- *   - functions/_lib/api/contracts/v1.js  the /api/v1 answer contracts (CONTRACTS)
+ *   - packages/api/src/v1/contracts/v1.js  the /api/v1 answer contracts (CONTRACTS)
  *   - packages/schema/src/schema.mjs      the records database tables (TABLES)
  *
  *   node packages/types/src/generate.mjs           write the files
@@ -242,10 +242,10 @@ async function recordsTables() {
 
 /** /api/v1: one type per route and variant, its error answer, and the route map. */
 async function apiContracts() {
-  const { CONTRACTS } = await import(pathToFileURL(path.join(REPO_ROOT, 'functions/_lib/api/contracts/v1.js')).href);
+  const { CONTRACTS } = await import(pathToFileURL(path.join(REPO_ROOT, 'packages/api/src/v1/contracts/v1.js')).href);
   /** @type {Ctx} */
   const ctx = { file: 'v1.js', rootOf: () => 'unknown', importPath: () => { throw new Error('v1.js: a contract has no file $ref'); } };
-  let text = BANNER('functions/_lib/api/contracts/v1.js (CONTRACTS)');
+  let text = BANNER('packages/api/src/v1/contracts/v1.js (CONTRACTS)');
   text += '\n// The fields a contract names in `required` are promised; others may come and go, so every\n// object keeps an index signature (a client ignores fields it does not know).\n';
   const routes = [];
   for (const [route, contract] of Object.entries(CONTRACTS)) {

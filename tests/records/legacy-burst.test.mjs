@@ -5,7 +5,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { context, installCaches } from './d1-shim.mjs';
-import { cachedJson, gateState, GATE_ACTIVE, GATE_QUEUE, resetDatasetMemo } from '../../functions/_api/_records.js';
+import { cachedJson, gateState, GATE_ACTIVE, GATE_QUEUE, resetDatasetMemo } from '../../packages/api/src/handlers/_records.js';
 import * as dataBrowse from '../../functions/data/browse/[[path]].js';
 import * as dataGraph from '../../functions/data/graph/[[path]].js';
 

@@ -20,18 +20,18 @@ import { defineMachine } from '../../scripts/lib/state-machine.mjs';
 import { canMarkApplied } from '../../scripts/intake/contributions.mjs';
 import {
   CONTRIBUTION_TRANSITIONS, DECISIONS, INITIAL_STATUS, canDecide, isContributionStatus,
-} from '../../functions/_lib/contribution-status.js';
-import { onRequestPost as decidePost } from '../../functions/_api/contributions/decide.js';
+} from '../../packages/api/src/contribution-status.js';
+import { onRequestPost as decidePost } from '../../packages/api/src/handlers/contributions/decide.js';
 import {
   ANSWER_LADDER, GATE_SLOT, answerLadder, cachedJson, gateState, resetDatasetMemo, slotTo,
-} from '../../functions/_api/_records.js';
-import { DATASET_PHASES, STORE, phaseOf, readDataset } from '../../functions/_lib/dataset-state.js';
-import { datasetVersion } from '../../functions/_lib/respond.js';
+} from '../../packages/api/src/handlers/_records.js';
+import { DATASET_PHASES, STORE, phaseOf, readDataset } from '../../packages/api/src/dataset-state.js';
+import { datasetVersion } from '../../packages/api/src/respond.js';
 import { SSR_MODES, ssrMode, ssrModeName } from '../../functions/_templates/records/index.js';
-import { FEATURE_ID_MODES } from '../../functions/_lib/layer-index.js';
-import { LAYER_VIEWS } from '../../functions/_api/layers/[[path]].js';
-import { VERSION_STATUSES, versionStatus } from '../../functions/_lib/api/delegate.js';
-import { V1 } from '../../functions/_lib/api/v1.js';
+import { FEATURE_ID_MODES } from '../../packages/core/src/layer-index.js';
+import { LAYER_VIEWS } from '../../packages/api/src/handlers/layers/[[path]].js';
+import { VERSION_STATUSES, versionStatus } from '../../packages/api/src/v1/delegate.js';
+import { V1 } from '../../packages/api/src/v1/v1.js';
 import { installCaches } from '../records/d1-shim.mjs';
 
 /** Every (from, to) pair the table does NOT list. */

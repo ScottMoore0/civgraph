@@ -16,15 +16,15 @@ import { createDatabase, TableWriter, transaction } from '../../packages/loader/
 import { ingestMaps, layerAliasRows, layerKind, MAP_SOURCES, splitParts } from '../../packages/loader/src/ingest-maps.mjs';
 import { REPO_ROOT } from '../../packages/loader/src/paths.mjs';
 import { d1, installCaches } from '../records/d1-shim.mjs';
-import { API_URLS, FILE_URLS, duplicateSidecar, indexEntry } from '../../functions/_lib/layer-index.js';
-import * as catalogueApi from '../../functions/_api/catalogue/index.js';
-import * as layersApi from '../../functions/_api/layers/[[path]].js';
+import { API_URLS, FILE_URLS, duplicateSidecar, indexEntry } from '../../packages/core/src/layer-index.js';
+import * as catalogueApi from '../../packages/api/src/handlers/catalogue/index.js';
+import * as layersApi from '../../packages/api/src/handlers/layers/[[path]].js';
 import * as databaseRoute from '../../functions/data/database/[name].js';
 import * as catalogueRoute from '../../functions/data/catalogue/[name].js';
 import * as agentRoute from '../../functions/agent/[name].js';
 import * as browseRoute from '../../functions/data/browse/[[path]].js';
 import * as metadataRoute from '../../functions/render/metadata/[[path]].js';
-import { resetDatasetMemo } from '../../functions/_api/_records.js';
+import { resetDatasetMemo } from '../../packages/api/src/handlers/_records.js';
 
 const file = (rel) => readFileSync(path.join(REPO_ROOT, ...rel.split('/')), 'utf8');
 const MAPS = JSON.parse(file(MAP_SOURCES.maps));

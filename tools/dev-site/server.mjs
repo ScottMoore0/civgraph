@@ -26,8 +26,8 @@ import { localPathForUrl, BROWSE_DIR } from '../../packages/loader/src/paths.mjs
 import { createDatabase, TableWriter, transaction } from '../../packages/loader/src/db.mjs';
 import { ingestMaps, MAP_SOURCES } from '../../packages/loader/src/ingest-maps.mjs';
 import { d1, installCaches } from '../../tests/records/d1-shim.mjs';
-import * as layersApi from '../../functions/_api/layers/[[path]].js';
-import * as catalogueApi from '../../functions/_api/catalogue/index.js';
+import * as layersApi from '../../packages/api/src/handlers/layers/[[path]].js';
+import * as catalogueApi from '../../packages/api/src/handlers/catalogue/index.js';
 import { answerRecordApi, sendResponse } from '../../packages/loader/src/local-api.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));

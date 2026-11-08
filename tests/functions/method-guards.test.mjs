@@ -21,8 +21,8 @@
  * Offline: the handlers are imported and called directly with a stub context.
  * No network, no wrangler, no bindings.
  */
-import { methodGuard, textNotAllowed } from '../../functions/_api/_method.js';
-import { jsonNotAllowed } from '../../functions/_api/_auth.js';
+import { methodGuard, textNotAllowed } from '../../packages/api/src/handlers/_method.js';
+import { jsonNotAllowed } from '../../packages/api/src/handlers/_auth.js';
 
 const ROUTES = [
   // file, allowed verb, a verb that must be refused, JSON body expected
@@ -73,7 +73,7 @@ for (const [file, allow, wrong, isJson] of ROUTES) {
 // Every assertion above passes if methodGuard simply returns 405 for everything,
 // which would take the whole API offline while looking perfectly healthy here.
 // So: the correct verb must get through to the handler.
-const login = await import('../../functions/_api/contributions/login.js');
+const login = await import('../../packages/api/src/handlers/contributions/login.js');
 const allowed = await login.onRequest({
   request: new Request('https://civgraph.net/_api/contributions/login?return=/browse/', { method: 'GET' }),
   env: {},

@@ -10,9 +10,9 @@
  * a budget check measuring the wrong set.
  */
 import { readFileSync } from 'node:fs';
-import { dryRunPatch, EDITABLE_FIELDS, VALID_KINDS, describeSchema } from '../../functions/_api/contributions/_schema.js';
+import { dryRunPatch, EDITABLE_FIELDS, VALID_KINDS, describeSchema } from '../../packages/api/src/handlers/contributions/_schema.js';
 import { canMarkApplied, TERMINAL_STATUS } from '../../scripts/intake/contributions.mjs';
-import { DECISIONS, isDecision } from '../../functions/_lib/contribution-status.js';
+import { DECISIONS, isDecision } from '../../packages/api/src/contribution-status.js';
 
 let passed = 0;
 const failures = [];
@@ -158,7 +158,7 @@ check('marking an applied submission again is refused', !canMarkApplied(TERMINAL
 check('the refusal says why', /only an approved submission/.test(canMarkApplied('pending-review').reason || ''));
 check('applied is not a decision the web endpoint can set',
   !DECISIONS.includes('applied') && !isDecision('applied')
-    && /if \(!isDecision\(decision\)\)/.test(readFileSync(new URL('../../functions/_api/contributions/decide.js', import.meta.url), 'utf8')));
+    && /if \(!isDecision\(decision\)\)/.test(readFileSync(new URL('../../packages/api/src/handlers/contributions/decide.js', import.meta.url), 'utf8')));
 
 if (failures.length) {
   console.error(`FAIL: ${failures.length} of ${passed + failures.length} contribution schema checks failed:`);
