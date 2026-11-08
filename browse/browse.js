@@ -13,6 +13,42 @@ import {
  * @template {Event} [E=Event]
  * @typedef {E & { target: { closest(selectors: string): UiElement | null } & UiElement }} ElementEvent
  */
+
+// ---------------------------------------------------------------- shared JSDoc typedefs
+// One block for the whole file (noImplicitAny review, 8 Nov 2026): both halves of browse.js use
+// these. Json, BrowseManifest, ContributorAuth and PersonFacets are declared above `state`.
+/**
+ * A record, row or nested object of a Browse answer (/_api/* or data/browse/*.json), read field
+ * by field with fallbacks. Its fields vary by record type and are not validated here, so each
+ * is a parsed JSON value (Json). The /api/v1 contracts (packages/types ApiV1) type the same
+ * fields `unknown`, which these readers cannot use without narrowing every read.
+ * @typedef {Record<string, Json>} BrowseItem
+ */
+/**
+ * One Browse record type's settings (ENTITY_CONFIG). `detailApi` builds the address of one
+ * record's answer from its slug; `layer` is the Civgraph 1.0 layer the type belongs to.
+ * @typedef {{
+ *   label: string, singular: string, index: string, detailDir: string | null, layer: string,
+ *   action?: string, listIndex?: string, listApi?: string, indexApi?: string, recordApi?: string,
+ *   detailApi?: (slug: string) => string
+ * }} EntityConfig
+ */
+/**
+ * A facet of a list read whole from a static index (LIST_FILTERS): `value` reads an item's one
+ * value, `values` the several a record has; `optionLabel` names an option.
+ * @typedef {{
+ *   key: string, label: string, value?: (item: BrowseItem) => Json, values?: (item: BrowseItem) => Json[],
+ *   optionLabel?: (value: string) => string, order?: 'asc' | 'desc', allLabel?: string
+ * }} ListFilter
+ */
+/**
+ * A sort order of the People or Parties list (LIST_SORTS): `dir` is sent to /_api/persons,
+ * `compare` sorts a list read whole.
+ * @typedef {{ key: string, label: string, dir?: 'asc' | 'desc', compare?: (a: BrowseItem, b: BrowseItem) => number }} ListSort
+ */
+/** A list's facet options as the filter bar draws them. @typedef {{ value: string, label: string, count?: number }} FacetOption */
+// ---------------------------------------------------------------- end of shared typedefs
+
 const DATA_ROOT = '/data/browse';
 const THUMBNAIL_ASSET_VERSION = '20260604-tight-admin-frame';
 // `layer` is the Civgraph 1.0 layer each entity belongs to (docs/CIVGRAPH_1.0.md):
@@ -20,6 +56,7 @@ const THUMBNAIL_ASSET_VERSION = '20260604-tight-admin-frame';
 // The same app serves /catalogue/ (source) and /records/ (data) and scopes itself by the
 // section the shell page declares; /browse/ declares none and still shows everything, so
 // no existing link breaks.
+/** @type {Record<string, EntityConfig>} */
 const ENTITY_CONFIG = {
   maps: { label: 'Maps', singular: 'Map', index: 'maps.json', detailDir: 'maps', action: 'Open in interactive map', layer: 'data' },
   elections: { label: 'Elections', singular: 'Election', index: 'elections.json', listIndex: 'elections-list.json', listApi: '/_api/elections?view=list', detailDir: 'elections', detailApi: (slug) => `/_api/elections?view=detail&key=${encodeURIComponent(slug)}`, action: 'Open election layer', layer: 'data' },
@@ -78,7 +115,9 @@ const SOURCE_FILTERS = [
 
 // Filters for the lists read whole from a static index, so the options come from every record
 // rather than a page of them. `value` reads the facet from an item; `label` names an option.
+/** @type {Record<string, string>} */
 const ELECTION_KIND_LABELS = { general: 'General elections', 'by-election': 'By-elections', referendum: 'Referendums', other: 'Other' };
+/** @type {Record<string, ListFilter[]>} */
 const LIST_FILTERS = {
   elections: [
     { key: 'body', label: 'Body', value: (item) => item.body },
@@ -118,7 +157,12 @@ const LIST_FILTERS = {
 
 // Sort orders of the People and Parties lists (?sort=). The first is each list's own order.
 // `dir` is sent to /_api/persons with the sort; `compare` sorts a list read whole.
+/** @param {(item: BrowseItem) => Json} read @returns {(a: BrowseItem, b: BrowseItem) => number} */
 const byNumberDesc = (read) => (a, b) => (Number(read(b)) || 0) - (Number(read(a)) || 0);
+/**
+ * @param {(item: BrowseItem) => Json} read @param {'asc' | 'desc'} dir
+ * @returns {(a: BrowseItem, b: BrowseItem) => number}
+ */
 const byYear = (read, dir) => (a, b) => {
   const x = Number(read(a)) || null;
   const y = Number(read(b)) || null;
@@ -127,7 +171,9 @@ const byYear = (read, dir) => (a, b) => {
   if (y === null) return -1;
   return dir === 'desc' ? y - x : x - y;
 };
+/** @param {BrowseItem} a @param {BrowseItem} b */
 const byTitle = (a, b) => String(a.title || a.name || '').localeCompare(String(b.title || b.name || ''));
+/** @type {Record<string, ListSort[]>} */
 const LIST_SORTS = {
   persons: [
     { key: '', label: 'Most often elected' },
@@ -148,23 +194,25 @@ const LIST_SORTS = {
 // The sorts /_api/persons answered before it reported what it applied (persons-4).
 const PERSON_SORTS_BEFORE_APPLIED = new Set(['name', 'firstYear', 'lastYear']);
 
+/** @param {string} type */
 function listSortOption(type) {
   const options = LIST_SORTS[type] || [];
   return options.find((option) => option.key === (state.listSort[type] || '')) || options[0] || null;
 }
 
+/** @param {string} type @param {BrowseItem[]} items */
 function sortListItems(type, items) {
   const option = listSortOption(type);
-  return option?.compare ? [...items].sort((a, b) => option.compare(a, b) || byTitle(a, b)) : items;
+  return option?.compare ? [...items].sort((a, b) => /** @type {NonNullable<ListSort['compare']>} */ (option.compare)(a, b) || byTitle(a, b)) : items;
 }
 
-/** The decades a person stood in, from their contests. */
+/** The decades a person stood in, from their contests. @param {BrowseItem} item */
 function personDecades(item) {
   return [...new Set(normalizeArray(item.elections).map((row) => Number(row.year || String(row.date || '').slice(0, 4)))
     .filter((year) => year > 0).map((year) => `${Math.floor(year / 10) * 10}s`))];
 }
 
-/** A person's parties as party slugs, through the spellings persons-facets.json lists. */
+/** A person's parties as party slugs, through the spellings persons-facets.json lists. @param {BrowseItem} item */
 function personPartySlugs(item) {
   const bySpelling = state.personFacets?.partyBySpelling;
   if (!bySpelling) return [];
@@ -189,6 +237,7 @@ async function loadPersonFacets() {
   return state.personFacets;
 }
 
+/** @param {BrowseItem} item */
 function electionKind(item) {
   if (item.kind === 'general' || item.kind === 'by-election') return item.kind;
   return /referendum/i.test(`${item.body || ''} ${item.title || ''}`) ? 'referendum' : 'other';
@@ -344,12 +393,15 @@ const state = {
   serverFacets: new Map(),
   // Catalogue facets, in the shape the /_api/sources filters already accept. Empty string
   // means "All", which is also what the endpoint treats as absent.
+  /** @type {Record<string, string>} */
   sourceFilters: { provider: '', category: '', publicationStatus: '', license: '' },
   // Filters of the lists read from a static index (LIST_FILTERS), per type: { body: 'Dáil Éireann' }.
+  /** @type {Record<string, Record<string, string>>} */
   listFilters: {},
   // Parties: whether the one-off ballot-paper labels are listed (?labels=1).
   ballotLabels: BALLOT_LABELS.start(),
   // Sort order of the People and Parties lists (LIST_SORTS key; '' is the list's own order).
+  /** @type {Record<string, string>} */
   listSort: {},
   /** @type {PersonFacets | null} */
   personFacets: null,
@@ -365,6 +417,24 @@ const state = {
   auth: null,
   /** The record on screen, for the contributor's edit form. @type {{ type: string, item: Json } | null} */
   currentDetail: null,
+  // Declared for the type check (noImplicitAny review, 8 Nov 2026): each was set on first use
+  // before, and every read is a truthiness, ?. or === test, which null answers as a missing key did.
+  /** The parsed route's parameters (applyRoute). @type {URLSearchParams | null} */
+  routeParams: null,
+  /** Re-renders the listing on screen ("Show more"), registered by each listing. @type {(() => void) | null} */
+  lastListRender: null,
+  /** The last listing announced to screen readers (announceList). @type {string | null} */
+  lastListAnnouncement: null,
+  /** What the PRONI search box asks (scheduleProniSearch). @type {string | null} */
+  proniQuery: null,
+  /** The edit form's values as opened, by field name, to tell whether it is dirty. @type {Record<string, string> | null} */
+  editBaseline: null,
+  /** The record the edit form is open on. @type {string | null} */
+  editEntityId: null,
+  /** The edit form's fields. @type {Json[] | null} */
+  editFields: null,
+  /** Ballot label -> party slug (/_api/parties?view=names), or the request for it. @type {Promise<Record<string, string>> | Record<string, string> | null} */
+  partyNames: null,
   // Where the shared contributor form is (browse/state-machines.js CONTRIBUTOR_FORM).
   contributorForm: CONTRIBUTOR_FORM.start(),
   // Whether the inline editor (#contributorEditor) is shown (CONTRIBUTOR_EDITOR); its `hidden` follows.
@@ -374,6 +444,7 @@ const state = {
   registerInterestControls: {
     sortKey: 'date',
     sortDir: 'desc',
+    /** @type {Record<string, string>} */
     filters: {}
   }
 };
@@ -709,6 +780,7 @@ function currentAddress() {
 /** Sort and filters of the two server-side lists, from ?sort, ?dir and ?f.<facet> in the address. */
 function readListControls(type, params) {
   if (LIST_FILTERS[type]) {
+    /** @type {Record<string, string>} */
     const filters = {};
     for (const filter of LIST_FILTERS[type]) {
       const value = params.get(`f.${filter.key}`);
@@ -725,6 +797,7 @@ function readListControls(type, params) {
     state.sourceFilters = /** @type {typeof state.sourceFilters} */ (Object.fromEntries(Object.keys(state.sourceFilters).map((key) => [key, params.get(`f.${key}`) || ''])));
   }
   if (type === 'register-interests') {
+    /** @type {Record<string, string>} */
     const filters = {};
     for (const [key, value] of params) if (key.startsWith('f.') && value) filters[key.slice(2)] = value;
     state.registerInterestControls = {
