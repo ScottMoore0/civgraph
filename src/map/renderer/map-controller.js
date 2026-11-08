@@ -25,7 +25,7 @@ import { absoluteTileTemplate, boundsToFlatBbox, boundsToImageCoordinates, bound
 import { approximateSegmentIds, approximateSegmentLabel, resolveApproximateSegmentsUrl } from './approximate-segments.js';
 import { LAYER_LOAD } from './layer-load.mjs';
 import { DIRECT_GESTURE } from './gesture-state.mjs';
-import { createState, defineFlagFields } from '../state-helpers.mjs';
+import { createState, defineFlagFields, setHidden } from '../state-helpers.mjs';
 import layerTypes from '../../../registries/browser/layer-types.mjs';
 
 // The casing that breaks a boundary's solid line under its dotted approximate stretches. The app keeps a
@@ -1671,7 +1671,7 @@ export class TestMapLibreController {
       if (this.map.getLayer(labelLayerId)) this.map.setLayoutProperty(labelLayerId, 'visibility', visibility);
     }
     for (const marker of record.domLabelMarkers?.values?.() || []) {
-      marker.getElement().hidden = !record.labelsEnabled;
+      setHidden(marker.getElement(), !record.labelsEnabled);
     }
     this.notifyChange();
   }
@@ -2398,7 +2398,7 @@ export class TestMapLibreController {
         element.classList.toggle('map-label--selected', isSelected);
       }
       const shouldHide = !record.labelsEnabled;
-      if (element.hidden !== shouldHide) element.hidden = shouldHide;
+      if (element.hidden !== shouldHide) setHidden(element, shouldHide);
       const lngLatKey = `${Number(lngLat[0]).toFixed(7)},${Number(lngLat[1]).toFixed(7)}`;
       if (element.__civgraphLngLatKey !== lngLatKey) {
         marker.setLngLat(lngLat);

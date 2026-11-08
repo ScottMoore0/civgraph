@@ -18,6 +18,8 @@ import {
   partyColour as electionPartyColour
 } from '../../../packages/core/src/election-domain.mjs';
 
+/** @typedef {import('../../../packages/core/src/election-view-model.mjs').ElectionRecord} ElectionRecord */
+
 /** Labels for the map style selector, keyed by mode. */
 export const MODE_LABELS = {
   winner: 'Winner',
@@ -124,6 +126,8 @@ export function numericColour(value, min, max) {
 /**
  * Whether an election takes the Republic of Ireland palette, judged from the active bundle and
  * its catalogue entry (body, body group, jurisdiction, region, id, key).
+ * @param {ElectionRecord | null} [bundle]
+ * @param {ElectionRecord | null} [entry]
  */
 export function usesMainRoiPartyPalette(bundle = null, entry = null) {
   const values = [

@@ -14,7 +14,7 @@
  * Gaps are real. A party with no comparable result at an election gets a break in its line,
  * not a segment drawn across the hole; the data model is the manager's and is not merged here.
  */
-import { defineFlagFields } from './map/state-helpers.mjs';
+import { defineFlagFields, present, setHidden } from './map/state-helpers.mjs';
 
 const SERIES_LIMIT = 8;
 const LABEL_FONT_SIZE = 12;
@@ -444,13 +444,27 @@ export function mountTrendChart(container, model, options = {}) {
   `;
   container.replaceChildren(root);
 
-  const stage = root.querySelector('.trend-chart__stage');
+  // The stage, tooltip and legend are the markup just above, so they are there.
+  const stage = /** @type {HTMLElement} */ (root.querySelector('.trend-chart__stage'));
   const tooltip = /** @type {HTMLElement} */ (root.querySelector('.trend-tooltip'));
-  const legend = root.querySelector('.test2-election-trends__legend');
+  const legend = /** @type {HTMLElement} */ (root.querySelector('.test2-election-trends__legend'));
   const measureText = createTextMeasurer(root);
   const formatDate = typeof options.formatDate === 'function' ? options.formatDate : (value) => value;
   const seriesByKey = new Map(model.series.map((item) => [item.key, item]));
 
+  /**
+   * @type {{
+   *   layout: ReturnType<typeof layoutTrendChart> | null,
+   *   svg: SVGSVGElement | null,
+   *   width: number,
+   *   height?: number,
+   *   lockedParty: string | null,
+   *   hoverParty: string | null,
+   *   column: number,
+   *   destroyed: boolean,
+   *   pinned?: boolean
+   * }}
+   */
   const state = {
     layout: null,
     svg: null,
@@ -482,11 +496,11 @@ export function mountTrendChart(container, model, options = {}) {
     if (!layout || !state.svg) return;
     const next = Number.isInteger(index) && index >= 0 && index < layout.columns.length ? index : -1;
     state.column = next;
-    const crosshair = state.svg.querySelector('.trend-crosshair');
+    const crosshair = present(state.svg.querySelector('.trend-crosshair'), 'the trend crosshair');
     state.svg.querySelectorAll('.trend-marker.is-active').forEach((node) => node.classList.remove('is-active'));
     if (next < 0) {
       crosshair.classList.remove('is-active');
-      tooltip.hidden = true;
+      setHidden(tooltip, true);
       root.classList.remove('is-hovering');
       return;
     }
@@ -502,7 +516,7 @@ export function mountTrendChart(container, model, options = {}) {
   const renderTooltip = (index) => {
     const election = model.elections[index];
     if (!election) {
-      tooltip.hidden = true;
+      setHidden(tooltip, true);
       return;
     }
     const rows = model.series
@@ -521,7 +535,7 @@ export function mountTrendChart(container, model, options = {}) {
           </tr>`).join('')}
       </tbody></table>
     `;
-    tooltip.hidden = false;
+    setHidden(tooltip, false);
     positionTooltip(index);
   };
 
@@ -529,7 +543,7 @@ export function mountTrendChart(container, model, options = {}) {
     const layout = state.layout;
     if (!layout) return;
     const rootRect = root.getBoundingClientRect();
-    const svgRect = state.svg.getBoundingClientRect();
+    const svgRect = present(state.svg, 'the trend chart').getBoundingClientRect();
     const scale = svgRect.width / layout.width || 1;
     const columnX = (svgRect.left - rootRect.left) + layout.columns[index] * scale;
     const tipWidth = tooltip.offsetWidth;
@@ -546,7 +560,7 @@ export function mountTrendChart(container, model, options = {}) {
   const nearestColumn = (clientX) => {
     const layout = state.layout;
     if (!layout || !layout.columns.length) return -1;
-    const rect = state.svg.getBoundingClientRect();
+    const rect = present(state.svg, 'the trend chart').getBoundingClientRect();
     const scale = rect.width / layout.width || 1;
     const x = (clientX - rect.left) / scale;
     let best = -1;
@@ -653,16 +667,17 @@ export function mountTrendChart(container, model, options = {}) {
     state.layout = layoutTrendChart(model, { width, height, measureText });
     stage.innerHTML = renderTrendChartSvg(model, state.layout, { ariaLabel: options.ariaLabel });
     state.svg = stage.querySelector('svg');
-    state.svg.addEventListener('pointermove', onPointerMove);
-    state.svg.addEventListener('pointerleave', onPointerLeave);
-    state.svg.addEventListener('pointerdown', onPointerDown);
-    state.svg.addEventListener('click', onClick);
-    state.svg.addEventListener('keydown', onKeyDown);
+    const svg = present(state.svg, 'the trend chart');
+    svg.addEventListener('pointermove', onPointerMove);
+    svg.addEventListener('pointerleave', onPointerLeave);
+    svg.addEventListener('pointerdown', onPointerDown);
+    svg.addEventListener('click', onClick);
+    svg.addEventListener('keydown', onKeyDown);
     applyFocus();
     const column = state.column;
     state.column = -1;
     if (column >= 0 && state.pinned) setColumn(column);
-    else tooltip.hidden = true;
+    else setHidden(tooltip, true);
   };
 
   legend.addEventListener('click', onLegendClick);

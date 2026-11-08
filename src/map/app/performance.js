@@ -7,7 +7,7 @@
 import { escapeHtml, formatBytes, shortCacheName } from './helpers.mjs';
 import { retireLegacyServiceWorkers } from './retire-legacy-workers.mjs';
 import { SW_REGISTRATION } from './service-worker-state.mjs';
-import { createState } from '../state-helpers.mjs';
+import { createState, setHidden } from '../state-helpers.mjs';
 
 export class PerformanceMethods {
   registerServiceWorker() {
@@ -109,7 +109,8 @@ export class PerformanceMethods {
   }
 
   setupPerformanceDashboard() {
-    document.getElementById('performanceDashboard')?.setAttribute('hidden', '');
+    const dashboard = document.getElementById('performanceDashboard');
+    if (dashboard) setHidden(dashboard, true);
     const button = document.getElementById('performanceDashboardRefresh');
     const render = () => this.renderPerformanceDashboard().catch((error) => {
       const target = document.getElementById('performanceDashboardStatus');

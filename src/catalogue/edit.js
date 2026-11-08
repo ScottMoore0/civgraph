@@ -15,6 +15,7 @@
  */
 import { esc } from './util.js';
 import { icon } from './icons.js';
+import { setHidden } from '../map/state-helpers.mjs';
 
 /** Who is signed in: the public status first (works signed out), then whoami (inside Access). */
 export async function loadAuth() {
@@ -133,7 +134,7 @@ export function openEditDialog(record, { onDone, host = document.body } = {}) {
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data.ok) throw new Error((data.dryRun?.errors || []).join(' ') || data.hint || data.error || `${res.status} ${res.statusText}`);
       status.textContent = `Sent for review (${data.submission?.id || 'pending'}). Nothing changes on the site until an administrator approves it.`;
-      button.hidden = true;
+      setHidden(button, true);
       dialog.querySelector('[data-edit-cancel]').textContent = 'Close';
       onDone?.(data);
     } catch (err) {

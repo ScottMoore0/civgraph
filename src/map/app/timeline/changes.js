@@ -9,6 +9,7 @@
 import dataService from '../../../data-service.js';
 import { escapeHtml } from '../helpers.mjs';
 import { formatHectares, timelineChangeName } from './dates.mjs';
+import { setHidden } from '../../state-helpers.mjs';
 
 // Boundary changes between consecutive editions (scripts/build/timeline-changes.py). They
 // replace the Play-only transition overlays of data/timeline-transition-overlays/.
@@ -260,11 +261,11 @@ export class TimelineChangeMethods {
     const view = this.timelineChangeView;
     const items = this.getTimelineAnimationItems();
     const boundaryTimeline = !this.elections?.activeEntry && items.some((item) => item?.mapId);
-    group.hidden = !boundaryTimeline;
+    setHidden(group, !boundaryTimeline);
     const toggle = document.getElementById('timelineHighlight');
     toggle?.setAttribute('aria-checked', this.getTimelineHighlightEnabled() ? 'true' : 'false');
     const known = view && view.kind !== 'unknown';
-    button.hidden = !known;
+    setHidden(button, !known);
     if (!known) {
       this.closeTimelineChangesPanel();
       return;
@@ -287,7 +288,7 @@ export class TimelineChangeMethods {
     panel.id = 'timelineChangesPanel';
     panel.className = 'timeline-changes-panel';
     panel.setAttribute('aria-label', 'Boundary changes');
-    panel.hidden = true;
+    setHidden(panel, true);
     panel.addEventListener('click', (event) => {
       const zoom = event.target.closest?.('[data-change-key]');
       if (zoom) {
@@ -316,7 +317,7 @@ export class TimelineChangeMethods {
       this.drawTimelineChanges();
     }
     this.renderTimelineChangesPanel();
-    panel.hidden = false;
+    setHidden(panel, false);
     document.getElementById('timelineChanges')?.setAttribute('aria-expanded', 'true');
     panel.querySelector('.timeline-changes-panel__close')?.focus({ preventScroll: true });
   }
@@ -325,7 +326,7 @@ export class TimelineChangeMethods {
     const panel = document.getElementById('timelineChangesPanel');
     const button = document.getElementById('timelineChanges');
     if (panel && !panel.hidden) {
-      panel.hidden = true;
+      setHidden(panel, true);
       if (options.focusButton) button?.focus({ preventScroll: true });
     }
     button?.setAttribute('aria-expanded', 'false');

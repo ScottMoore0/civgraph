@@ -14,6 +14,12 @@
  *   `defineFlagFields(target, names)`, the one-line conversion of boolean fields to accessors
  *   over flags or latches, reads and writes unchanged.
  * - `createHoldCount(name)`: a re-entrancy count, idle or held.
+ * - `setHidden(node, hidden)`: the DOM `hidden` toggles (a status line, a panel, a tooltip, a
+ *   label): the element's own boolean, set through one checked call, so a value that is not a
+ *   boolean throws instead of being coerced. Nothing the app sets today is anything else.
+ * - `present(value, what)`: a value the code goes on to use as present (a node its own markup
+ *   created, a field set before the call): returned as it is, or a TypeError, the error that
+ *   reading a property of null or undefined at the same statement raised before.
  * - `createState(machine, from)`: the current state of a full machine, kept without the run's
  *   history. The map app's machines last as long as the page and some move on every gesture or
  *   frame (the gestures, the point-cloud tiles), so a run that remembers every state it entered
@@ -179,4 +185,30 @@ export function createHoldCount(name) {
       return depth === 0;
     }
   };
+}
+
+/**
+ * A value the caller is about to use as present: returned as it is, or a TypeError when it is
+ * null or undefined (what reading a property of it at the same statement would have thrown).
+ * @template T
+ * @param {T} value
+ * @param {string} what  named in the error
+ * @returns {NonNullable<T>}
+ */
+export function present(value, what) {
+  if (value === null || value === undefined) throw new TypeError(`${what} is ${value === null ? 'null' : 'undefined'}`);
+  return /** @type {NonNullable<T>} */ (value);
+}
+
+/**
+ * Show or hide an element through its `hidden` property (the platform's own boolean state,
+ * MA-L): the value must be a boolean (true hides), the same assignment as before otherwise.
+ * A missing element throws as the assignment did. Returns the value set.
+ * @param {{ hidden: boolean | string }} node
+ * @param {boolean} hidden
+ */
+export function setHidden(node, hidden) {
+  if (typeof hidden !== 'boolean') throw new TypeError(`hidden: expected a boolean, got ${typeof hidden}`);
+  node.hidden = hidden;
+  return hidden;
 }

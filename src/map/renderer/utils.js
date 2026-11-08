@@ -1,3 +1,5 @@
+import { setHidden } from '../state-helpers.mjs';
+
 export function clamp(value, min, max) {
   const number = Number(value);
   if (!Number.isFinite(number)) return min;
@@ -52,11 +54,11 @@ export function absoluteTileTemplate(template) {
 
 export function showToast(els, message) {
   els.toast.textContent = message;
-  els.toast.hidden = false;
+  setHidden(els.toast, false);
   const toast = /** @type {{ _timer?: number }} */ (/** @type {unknown} */ (showToast));
   window.clearTimeout(toast._timer);
   toast._timer = window.setTimeout(() => {
-    els.toast.hidden = true;
+    setHidden(els.toast, true);
   }, 5000);
 }
 
