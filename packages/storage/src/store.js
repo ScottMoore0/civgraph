@@ -83,8 +83,7 @@ export const bindParams = (params = []) => (params || []).map(bindValue);
  * @returns {RecordStore}
  */
 export function assertRecordStore(store) {
-  const methods = /** @type {Record<string, unknown> | null | undefined} */ (/** @type {unknown} */ (store));
-  const missing = RECORD_STORE_METHODS.filter((m) => typeof methods?.[m] !== 'function');
+  const missing = RECORD_STORE_METHODS.filter((m) => typeof /** @type {Record<string, unknown> | null | undefined} */ (/** @type {unknown} */ (store))?.[m] !== 'function');
   if (missing.length || typeof store?.kind !== 'string') {
     throw new TypeError(`not a RecordStore: missing ${missing.length ? missing.join(', ') : 'kind'}`);
   }
@@ -100,8 +99,7 @@ export async function datasetState(store) {
   let version = '';
   let loading = '';
   try {
-    const rows = /** @type {import('../../types/index.js').RecordsDb.DatasetRow[]} */ (/** @type {unknown} */ (await store.all("SELECT key, value FROM dataset WHERE key IN ('version', 'loading') ORDER BY key")));
-    for (const r of rows) {
+    for (const r of /** @type {import('../../types/index.js').RecordsDb.DatasetRow[]} */ (/** @type {unknown} */ (await store.all("SELECT key, value FROM dataset WHERE key IN ('version', 'loading') ORDER BY key")))) {
       if (r.key === 'version') version = r.value || '';
       if (r.key === 'loading') loading = r.value || '';
     }

@@ -78,7 +78,7 @@ const wrapped = new WeakMap();
  */
 export function asStore(db) {
   const maybe = /** @type {{ kind?: unknown, all?: unknown, prepare?: unknown } | null} */ (db);
-  if (maybe && typeof maybe.kind === 'string' && typeof maybe.all === 'function' && typeof maybe.prepare !== 'function') return /** @type {import('./store.js').RecordStore} */ (db);
+  if (maybe && typeof maybe.kind === 'string' && typeof maybe.all === 'function' && typeof maybe.prepare !== 'function') return /** @type {import('./store.js').RecordStore} */ (/** @type {unknown} */ (maybe));
   const known = wrapped.get(/** @type {object} */ (db));
   if (known) return known;
   /** @type {import('./store.js').RecordStore} */
