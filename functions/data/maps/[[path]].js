@@ -29,7 +29,12 @@ export async function onRequestGet(context) {
     // rejects a bad percent sequence at the edge with 400 before the Function
     // runs, so decodeURIComponent cannot throw here. Verified with
     // /data/browse/foo%zz.json, which returns 400 rather than a 1101.
-    const key = `data/maps/${/** @type {string[]} */ (context.params.path).map(decodeURIComponent).join('/')}`;
+    // /data/maps/ with nothing after it has no path segments (params.path is undefined, not an
+    // empty array), which used to throw here and answer 500. There is no file to serve: 404.
+    const raw = context.params.path;
+    const parts = Array.isArray(raw) ? raw : (raw ? [raw] : []);
+    if (!parts.length) return new Response('Not found', { status: 404 });
+    const key = `data/maps/${parts.map(decodeURIComponent).join('/')}`;
     const accept = (context.request.headers.get('Accept-Encoding') || '').toLowerCase();
     const lowerKey = key.toLowerCase();
     const isJson = lowerKey.endsWith('.json');
