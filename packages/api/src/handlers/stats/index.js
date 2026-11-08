@@ -28,7 +28,8 @@ const COUNTS = {
 /** @param {import('../../types.js').ApiContext} context */
 export async function onRequestGet(context) {
   return cachedJson(context, VERSION, async () => {
-    const db = binding(context.env, 'ELECTIONS_DB');
+    // cachedJson calls this only when ELECTIONS_DB is bound
+    const db = /** @type {D1Database} */ (binding(context.env, 'ELECTIONS_DB'));
     try {
       // through the storage adapter (packages/storage/): the same SQL over D1 or SQLite
       const store = fromD1(db);

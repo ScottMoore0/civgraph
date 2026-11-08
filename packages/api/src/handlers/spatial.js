@@ -25,7 +25,7 @@ export async function onRequestGet(context) {
 
     // Try KV first (faster, no origin fetch)
     if (binding(context.env, 'SPATIAL_INDEX')) {
-        const data = await binding(context.env, 'SPATIAL_INDEX').get(`map:${mapId}`, 'json');
+        const data = await /** @type {KVNamespace} */ (binding(context.env, 'SPATIAL_INDEX')).get(`map:${mapId}`, 'json');
         features = data || [];
     } else {
         // Fallback: fetch the static chunk file from the origin

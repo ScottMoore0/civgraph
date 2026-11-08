@@ -35,7 +35,7 @@ async function getNames(context, origin) {
     // Try KV first
     if (binding(context.env, 'SPATIAL_INDEX')) {
         /** @type {PlaceName[] | null} */
-        const data = await binding(context.env, 'SPATIAL_INDEX').get('names', 'json');
+        const data = await /** @type {KVNamespace} */ (binding(context.env, 'SPATIAL_INDEX')).get('names', 'json');
         if (data) {
             cachedNames = data;
             cachedAt = Date.now();

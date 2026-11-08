@@ -368,7 +368,7 @@ function releaseGate(/** @type {GateSlot} */ slot) {
 async function r2Copy(env, key) {
   if (!key || !binding(env, 'MAPS_BUCKET')) return null;
   try {
-    const obj = await binding(env, 'MAPS_BUCKET').get(key);
+    const obj = await /** @type {R2Bucket} */ (binding(env, 'MAPS_BUCKET')).get(key); // bound: checked above
     return obj ? new Response(obj.body, { headers: { ...JSON_HEADERS, 'X-Civgraph-Copy': 'r2' } }) : null;
   } catch {
     return null;

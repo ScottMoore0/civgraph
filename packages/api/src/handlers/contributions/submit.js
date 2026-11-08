@@ -250,11 +250,11 @@ async function persistSubmission(env, submission) {
   const body = JSON.stringify(submission, null, 2);
 
   if (binding(env, 'CIVGRAPH_CONTRIBUTION_QUEUE')?.put) {
-    await binding(env, 'CIVGRAPH_CONTRIBUTION_QUEUE').put(key, body, { metadata: queueMetadata(submission) });
+    await /** @type {KVNamespace} */ (binding(env, 'CIVGRAPH_CONTRIBUTION_QUEUE')).put(key, body, { metadata: queueMetadata(submission) });
     return { ok: true, storage: 'KV:CIVGRAPH_CONTRIBUTION_QUEUE', key };
   }
   if (binding(env, 'CIVGRAPH_SUBMISSIONS')?.put) {
-    await binding(env, 'CIVGRAPH_SUBMISSIONS').put(key, body, { httpMetadata: { contentType: 'application/json' } });
+    await /** @type {R2Bucket} */ (binding(env, 'CIVGRAPH_SUBMISSIONS')).put(key, body, { httpMetadata: { contentType: 'application/json' } });
     return { ok: true, storage: 'R2:CIVGRAPH_SUBMISSIONS', key };
   }
 
