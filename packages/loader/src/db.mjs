@@ -15,13 +15,23 @@ import { openSqliteHandle } from '../../storage/src/sqlite.mjs';
 import { REPO_ROOT } from './paths.mjs';
 import { TABLE } from '../../schema/src/schema.mjs';
 
+/** @typedef {import('../../storage/src/sqlite.mjs').SqliteHandle} SqliteHandle */
+/** @typedef {import('../../schema/src/schema.mjs').TableSpec} TableSpec */
+/** A row as an ingest builds it: column name to value (bindable() normalises the value). @typedef {Record<string, unknown>} RowObject */
+/** A value node:sqlite binds. @typedef {string | number | bigint | null} BoundValue */
+/** A documents row: a whole small document, stored as its JSON text. @typedef {{ name: string, body: string }} DocumentRow */
+
 export const MIGRATIONS_DIR = path.join(REPO_ROOT, 'packages', 'schema', 'migrations');
 
+/** @param {string} [dir] */
 export function migrationFiles(dir = MIGRATIONS_DIR) {
   return readdirSync(dir).filter((f) => /^\d{4}_.*\.sql$/.test(f)).sort().map((f) => path.join(dir, f));
 }
 
-/** A new SQLite file with every migration applied, WAL off. Replaces any file at `file`. */
+/**
+ * A new SQLite file with every migration applied, WAL off. Replaces any file at `file`.
+ * @param {string} file
+ */
 export function createDatabase(file) {
   mkdirSync(path.dirname(file), { recursive: true });
   for (const suffix of ['', '-journal', '-wal', '-shm']) rmSync(file + suffix, { force: true });
@@ -31,11 +41,19 @@ export function createDatabase(file) {
   return db;
 }
 
+/**
+ * @param {string} file
+ * @param {{ readOnly?: boolean }} [options]
+ */
 export function openDatabase(file, { readOnly = false } = {}) {
   if (!existsSync(file)) throw new Error(`no database at ${file}`);
   return openSqliteHandle(file, { readOnly });
 }
 
+/**
+ * @param {BoundValue[]} values
+ * @returns {[string, number]}
+ */
 export function rowHash(values) {
   const hex = createHash('sha1').update(JSON.stringify(values)).digest('hex');
   return [hex, parseInt(hex.slice(0, 8), 16)];
@@ -45,6 +63,13 @@ export function rowHash(values) {
  * The values a row's hash is taken over: its values, except that a table with `volatileJson`
  * (schema.mjs: documents) has the named top-level keys left out of that JSON column, so a build
  * stamp alone never changes the hash. A value that is not a JSON object hashes as it is.
+ */
+/**
+ * @param {TableSpec} spec
+ * @param {RowObject} row
+ * @param {BoundValue[]} values
+ * @param {string[]} [valueColumns]
+ * @returns {BoundValue[]}
  */
 export function hashValues(spec, row, values, valueColumns = spec.columns.map((c) => c.name).filter((n) => n !== 'row_hash' && n !== 'row_hash_n')) {
   const v = spec.volatileJson;
@@ -62,7 +87,11 @@ export function hashValues(spec, row, values, valueColumns = spec.columns.map((c
   return out;
 }
 
-/** node:sqlite binds null, numbers, strings, bigints and bytes; everything else is normalised. */
+/**
+ * node:sqlite binds null, numbers, strings, bigints and bytes; everything else is normalised.
+ * @param {unknown} value
+ * @returns {BoundValue}
+ */
 export function bindable(value) {
   if (value === undefined || value === null) return null;
   if (typeof value === 'boolean') return value ? 1 : 0;
@@ -71,22 +100,22 @@ export function bindable(value) {
   return JSON.stringify(value);
 }
 
-export const txt = (v) => {
+export const txt = (/** @type {unknown} */ v) => {
   if (v === null || v === undefined) return null;
   if (typeof v === 'string') return v;
   if (typeof v === 'object') return JSON.stringify(v);
   return String(v);
 };
-export const num = (v) => {
+export const num = (/** @type {unknown} */ v) => {
   if (v === null || v === undefined || v === '') return null;
   const n = Number(v);
   return Number.isFinite(n) ? n : null;
 };
-export const int = (v) => {
+export const int = (/** @type {unknown} */ v) => {
   const n = num(v);
   return n === null ? null : Math.trunc(n);
 };
-export const bool = (v) => (v === null || v === undefined ? null : v ? 1 : 0);
+export const bool = (/** @type {unknown} */ v) => (v === null || v === undefined ? null : v ? 1 : 0);
 
 /**
  * Writes rows into one table. `add(row)` takes an object keyed by column name
@@ -94,6 +123,10 @@ export const bool = (v) => (v === null || v === undefined ? null : v ? 1 : 0);
  * silently. Transactions are the caller's: wrap an ingest in transaction().
  */
 export class TableWriter {
+  /**
+   * @param {SqliteHandle} db
+   * @param {string} tableName
+   */
   constructor(db, tableName) {
     const spec = TABLE[tableName];
     if (!spec) throw new Error(`unknown table ${tableName}`);
@@ -106,6 +139,7 @@ export class TableWriter {
     this.count = 0;
   }
 
+  /** @param {RowObject} row */
   add(row) {
     for (const key of Object.keys(row)) if (!this.known.has(key)) throw new Error(`${this.spec.name}: unknown column ${key}`);
     const values = this.valueColumns.map((name) => bindable(row[name]));
@@ -124,7 +158,13 @@ export class TableWriter {
   }
 }
 
-/** Run fn inside one transaction (rolled back if it throws). */
+/**
+ * Run fn inside one transaction (rolled back if it throws).
+ * @template T
+ * @param {SqliteHandle} db
+ * @param {() => T} fn
+ * @returns {T}
+ */
 export function transaction(db, fn) {
   db.exec('BEGIN');
   try {
@@ -137,7 +177,12 @@ export function transaction(db, fn) {
   }
 }
 
-/** Fill a table from an iterable of row objects, in one transaction; returns the row count. */
+/**
+ * Fill a table from an iterable of row objects, in one transaction; returns the row count.
+ * @param {SqliteHandle} db
+ * @param {string} tableName
+ * @param {Iterable<RowObject>} rows
+ */
 export function fillTable(db, tableName, rows) {
   return transaction(db, () => {
     const writer = new TableWriter(db, tableName);
@@ -146,22 +191,34 @@ export function fillTable(db, tableName, rows) {
   });
 }
 
-/** Per table: count and SUM(row_hash_n), the figures verify compares. */
+/**
+ * Per table: count and SUM(row_hash_n), the figures verify compares.
+ * @param {SqliteHandle} db
+ * @param {Pick<TableSpec, 'name'>[]} tables
+ */
 export function tableChecksums(db, tables) {
+  /** @type {Record<string, { n: number, s: number }>} */
   const out = {};
   for (const t of tables) {
-    const row = db.prepare(`SELECT COUNT(*) AS n, COALESCE(SUM(row_hash_n), 0) AS s FROM ${t.name}`).get();
+    const row = /** @type {{ n: number, s: number }} */ (db.prepare(`SELECT COUNT(*) AS n, COALESCE(SUM(row_hash_n), 0) AS s FROM ${t.name}`).get());
     out[t.name] = { n: Number(row.n), s: Number(row.s) };
   }
   return out;
 }
 
+/**
+ * A generated JSON document (or `fallback` when the file is absent and a fallback is given).
+ * @param {string | null} file
+ * @param {unknown} [fallback]
+ * @returns {any} kept open: the documents are the transforms' outputs, each read by the
+ *   ingest that knows its shape (as JSON.parse returns them)
+ */
 export function readJson(file, fallback) {
-  if (!existsSync(file)) {
+  if (!existsSync(/** @type {string} */ (file))) { // existsSync(null) is false: a URL that resolves to no file
     if (fallback !== undefined) return fallback;
     throw new Error(`missing ${file}`);
   }
-  return JSON.parse(readFileSync(file, 'utf8'));
+  return JSON.parse(readFileSync(/** @type {string} */ (file), 'utf8'));
 }
 
 /**
@@ -169,8 +226,11 @@ export function readJson(file, fallback) {
  * keeping their place, so the stored JSON keeps the document's key order and the
  * compatibility routes can put each value back where it was. A marker is a string beginning
  * with '$' that no source value takes (functions/_api/_records.js isMarker).
+ * @param {object} object
+ * @param {Record<string, string>} sentinels
  */
 export function withPlaceholders(object, sentinels) {
+  /** @type {Record<string, unknown>} */
   const out = {};
   for (const [k, v] of Object.entries(object)) {
     if (v === undefined) continue;
@@ -179,9 +239,12 @@ export function withPlaceholders(object, sentinels) {
   return out;
 }
 
-/** The record without the wrapper fields a generator adds (schemaVersion, generatedAt). */
+/**
+ * The record without the wrapper fields a generator adds (schemaVersion, generatedAt).
+ * @param {unknown} doc
+ */
 export function unwrapItem(doc) {
-  return doc && typeof doc === 'object' ? doc.item ?? doc : doc;
+  return doc && typeof doc === 'object' ? /** @type {{ item?: unknown }} */ (doc).item ?? doc : doc;
 }
 
 /**
@@ -189,6 +252,9 @@ export function unwrapItem(doc) {
  * predates the table (a migration added it since: the phase-3 maps tables against a phase-2
  * last-loaded snapshot), an empty TEMP view of the same columns, so every row of the build reads
  * as new and nothing as deleted.
+ * @param {SqliteHandle} db
+ * @param {string} schema
+ * @param {Pick<TableSpec, 'name'>} t
  */
 export function snapshotTable(db, schema, t) {
   const has = db.prepare(`SELECT 1 FROM ${schema}.sqlite_master WHERE type = 'table' AND name = ?`).get(t.name);

@@ -14,6 +14,10 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { TableWriter, readJson, transaction, txt, withPlaceholders } from './db.mjs';
 
+/**
+ * @param {import('../../storage/src/sqlite.mjs').SqliteHandle} db
+ * @param {{ votesDir: string }} options
+ */
 export function ingestVotes(db, { votesDir }) {
   const index = readJson(path.join(votesDir, 'index.json'));
   const out = transaction(db, () => {
@@ -29,7 +33,7 @@ export function ingestVotes(db, { votesDir }) {
           number: txt(record.number), title: txt(record.title),
           record: JSON.stringify(withPlaceholders(record, { votes: '$votes' })),
         });
-        (record.votes || []).forEach((v, i) => votes.add({
+        (record.votes || []).forEach((/** @type {unknown} */ v, /** @type {number} */ i) => votes.add({
           division_id: id, ord: i,
           person_id: Array.isArray(v) && v[1] !== null && v[1] !== undefined ? String(v[1]) : null,
           vote: Array.isArray(v) ? txt(v[2]) : null,

@@ -22,7 +22,15 @@ export const LAST_LOADED = path.join(REPO_ROOT, '.claude', 'publish', 'work', 'l
 export const DRIFT_FILE = path.join(REPO_ROOT, 'tmp', 'records', 'graph-files-drift.json');
 const COLUMNS = 'file, part, keys, extra, row_hash, row_hash_n';
 
-/** The rows a database's graph_files holds, or 0 (no file, no table). */
+/**
+ * A graph_files row as a build works it out: one part of an old /data/graph file's keys.
+ * @typedef {{ file: string, part: number, keys: string, extra: string | null }} GraphFileRow
+ */
+
+/**
+ * The rows a database's graph_files holds, or 0 (no file, no table).
+ * @param {string | null | undefined} file
+ */
 export function graphFilesRows(file) {
   if (!file || !existsSync(file)) return 0;
   try {
@@ -49,7 +57,10 @@ export function graphFilesOrigin(frozenFrom) {
   return frozenFrom ? 'frozen' : 'built';
 }
 
-/** The first of `candidates` whose graph_files has rows, or null. */
+/**
+ * The first of `candidates` whose graph_files has rows, or null.
+ * @param {string[]} candidates
+ */
 export function frozenSource(candidates) {
   return candidates.find((file) => graphFilesRows(file) > 0) || null;
 }
@@ -58,35 +69,45 @@ export function frozenSource(candidates) {
  * Copy graph_files from `source` into `db` (outside any transaction: ATTACH needs that) and
  * compare it with `fresh`, the rows this build would have written ({ file, part, keys, extra }).
  * Returns { rows, drifted: files whose rows differ or are new, retired: files only frozen }.
+ * @param {import('../../storage/src/sqlite.mjs').SqliteHandle} db
+ * @param {string} source
+ * @param {GraphFileRow[]} fresh
  */
 export function carryGraphFiles(db, source, fresh) {
   db.exec(`ATTACH DATABASE '${source.replace(/'/g, "''")}' AS frozen`);
   try {
     transaction(db, () => db.exec(`INSERT INTO graph_files (${COLUMNS}) SELECT ${COLUMNS} FROM frozen.graph_files`));
+    /** @type {Map<string, string[]>} */
     const want = new Map();
     for (const r of fresh) {
       if (!want.has(r.file)) want.set(r.file, []);
-      want.get(r.file).push(`${r.keys}\u0001${r.extra ?? ''}`);
+      /** @type {string[]} */ (want.get(r.file)).push(`${r.keys}\u0001${r.extra ?? ''}`);
     }
+    /** @type {Map<string, string[]>} */
     const have = new Map();
-    for (const r of db.prepare('SELECT file, keys, extra FROM frozen.graph_files ORDER BY file, part').iterate()) {
+    for (const r of /** @type {Iterable<{ file: string, keys: string, extra: string | null }>} */ (db.prepare('SELECT file, keys, extra FROM frozen.graph_files ORDER BY file, part').iterate())) {
       if (!have.has(r.file)) have.set(r.file, []);
-      have.get(r.file).push(`${r.keys}\u0001${r.extra ?? ''}`);
+      /** @type {string[]} */ (have.get(r.file)).push(`${r.keys}\u0001${r.extra ?? ''}`);
     }
+    /** @type {string[]} */
     const drifted = [];
     for (const [file, parts] of want) {
       const old = have.get(file);
       if (!old || old.length !== parts.length || old.some((v, i) => v !== parts[i])) drifted.push(file);
     }
     const retired = [...have.keys()].filter((file) => !want.has(file)).length;
-    const rows = Number(db.prepare('SELECT count(*) AS n FROM graph_files').get().n);
+    const rows = Number(/** @type {{ n: number }} */ (db.prepare('SELECT count(*) AS n FROM graph_files').get()).n);
     return { rows, drifted: drifted.sort(), retired };
   } finally {
     db.exec('DETACH DATABASE frozen');
   }
 }
 
-/** The drift the last build recorded: a Set of graph file paths, empty when none or unknown. */
+/**
+ * The drift the last build recorded: a Set of graph file paths, empty when none or unknown.
+ * @param {string} [file]
+ * @returns {Set<string>}
+ */
 export function readDrift(file = DRIFT_FILE) {
   try {
     return new Set(JSON.parse(readFileSync(file, 'utf8')).drifted || []);
@@ -100,11 +121,13 @@ export function readDrift(file = DRIFT_FILE) {
  * graph_files is frozen: its own keys drifted, or it is assembled from files that did (the
  * -map.json files from their shard directory; the entity-slugs parts' byIdShard from the
  * entity summaries).
+ * @param {string} rel
+ * @param {Set<string>} drifted
  */
 export function driftedFile(rel, drifted) {
   if (!drifted.size) return false;
   if (drifted.has(rel)) return true;
-  const under = (dir) => [...drifted].some((f) => f.startsWith(`${dir}/`));
+  const under = (/** @type {string} */ dir) => [...drifted].some((f) => f.startsWith(`${dir}/`));
   const map = /^indexes\/(statements-by-subject|reverse-entity-value|source-statements)-map\.json$/.exec(rel);
   if (map) return under(`indexes/${map[1]}-shards`);
   if (/^indexes\/entity-slugs-part-\d+\.json$/.test(rel)) return under('indexes/entity-summary-shards');

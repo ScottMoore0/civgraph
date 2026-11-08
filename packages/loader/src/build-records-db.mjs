@@ -59,9 +59,12 @@ import { validateDatabase } from './validate.mjs';
 import { verifyVotesPin } from './votes-pin.mjs';
 
 const args = process.argv.slice(2);
-const flag = (name) => args.includes(name);
-const option = (name) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : null; };
+const flag = (/** @type {string} */ name) => args.includes(name);
+const option = (/** @type {string} */ name) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : null; };
 const skip = new Set(String(option('--skip') || '').split(',').filter(Boolean));
+
+/** @typedef {import('./db.mjs').DocumentRow} DocumentRow */
+/** @typedef {{ from: 'built' | 'tree' | 'previous' | 'none', dir?: string | null }} VotesFrom */
 
 export const BUILD_REL = 'tmp/records';
 const BUILD_ENV = { ...process.env, CIVGRAPH_BUILD_DIR: BUILD_REL };
@@ -84,7 +87,14 @@ function orderSeed() {
 }
 
 const t0 = Date.now();
+/** @type {Record<string, number>} */
 const timings = {};
+/**
+ * @template T
+ * @param {string} name
+ * @param {() => T} fn
+ * @returns {T}
+ */
 const step = (name, fn) => {
   const start = Date.now();
   const result = fn();
@@ -142,7 +152,10 @@ function transformBrowse() {
 }
 const transformGraph = () => run(process.execPath, ['scripts/build/graph/build-semantic-graph.mjs']);
 
-/** Where this build's votes come from: 'built' | 'tree' | 'previous' | 'none'. */
+/**
+ * Where this build's votes come from: 'built' | 'tree' | 'previous' | 'none'.
+ * @returns {VotesFrom}
+ */
 function transformVotes() {
   const votesOut = path.join(P.BROWSE_DIR, 'votes');
   const votesDir = buildVar('CIVGRAPH_VOTES_DIR');
@@ -209,14 +222,16 @@ function main() {
     if (!skip.has('graph')) step('transform graph', transformGraph);
     writeFileSync(STATE, `${JSON.stringify({ inputs, builtAt: new Date().toISOString() }, null, 2)}\n`);
   }
-  const votes = skip.has('votes') ? { from: 'none' } : step('transform votes', transformVotes);
+  const votes = skip.has('votes') ? /** @type {VotesFrom} */ ({ from: 'none' }) : step('transform votes', transformVotes);
   if (votes.from === 'previous') console.warn('  WARNING: CIVGRAPH_VOTES_DIR is unset: votes carried over from the last build.');
   if (votes.from === 'none') console.warn('  WARNING: no votes dataset and no previous build: the votes tables are empty.');
 
   const db = createDatabase(NEXT);
+  /** @type {Record<string, number>} */
   const counts = {};
+  /** @type {DocumentRow[]} */
   const docs = [];
-  const merge = (r) => { Object.assign(counts, r.counts || r); if (r.docs) docs.push(...r.docs); };
+  const merge = (/** @type {object & { counts?: Record<string, number>, docs?: DocumentRow[] }} */ r) => { Object.assign(counts, r.counts || r); if (r.docs) docs.push(...r.docs); };
   const elections = step('ingest elections', () => ingestElections(db, { bundleDir: P.ELECTION_BUNDLE_DIR, manifestFile: P.ELECTION_MANIFEST, summaryDir: P.ELECTION_SUMMARY_DIR }));
   Object.assign(counts, elections.counts);
   docs.push({ name: 'elections-test2.json', body: JSON.stringify(elections.stats.manifestHead) });
@@ -224,7 +239,7 @@ function main() {
   const prov = step('ingest provenance', () => ingestProvenance(db, { provenanceFile: P.PROVENANCE_FILE, shardDir: P.PROVENANCE_SHARD_DIR }));
   merge(prov);
   step('ingest browse', () => merge(ingestBrowse(db, { browseDir: P.BROWSE_DIR, paths: P })));
-  if (votes.dir) step('ingest votes', () => merge(ingestVotes(db, { votesDir: votes.dir })));
+  if (votes.dir) step('ingest votes', () => merge(ingestVotes(db, { votesDir: /** @type {string} */ (votes.dir) })));
   else if (votes.from === 'previous') {
     step('carry votes', () => {
       db.exec(`ATTACH DATABASE '${OUT.replace(/'/g, "''")}' AS prev`);
@@ -243,7 +258,7 @@ function main() {
     const gf = graph.graphFiles;
     writeFileSync(DRIFT_FILE, `${JSON.stringify({ ...gf, frozenFrom: gf.frozenFrom && rel(gf.frozenFrom) }, null, 2)}
 `);
-    if (graphFilesOrigin(gf.frozenFrom) === 'frozen') console.log(`  graph_files: carried from ${rel(gf.frozenFrom)} (frozen); ${gf.drifted.length} file(s) differ from this graph, ${gf.retired} gone from it`);
+    if (graphFilesOrigin(gf.frozenFrom) === 'frozen') console.log(`  graph_files: carried from ${rel(/** @type {string} */ (gf.frozenFrom))} (frozen); ${gf.drifted.length} file(s) differ from this graph, ${gf.retired} gone from it`);
     else console.warn('  WARNING: graph_files built from the graph tree (no frozen copy, or --fresh-graph-files): a publish would load it whole');
   }
   step('ingest maps', () => merge(ingestMaps(db, { browseDir: P.BROWSE_DIR })));
