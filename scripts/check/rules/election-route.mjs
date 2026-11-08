@@ -467,7 +467,7 @@ assert(mainElectionPaneContractSource.includes('test2ElectionCountDetail') && ma
 assert(electionManagerSource.includes('nonTransferable') && electionManagerSource.includes('inferCountEvents') && electionDomainSource.includes('isNonTransferableRow'), '/test2 count parity must preserve non-transferable rows and count event hints');
 // statusKind tries the statuses registry's candidate-count kindPatterns in order (RG-01), so "not
 // elected" must be tried before "elected".
-const statusKindOrder = JSON.parse(readFileSync('registries/browser/statuses.json', 'utf8')).candidateKindPatterns.map(([kind]) => kind);
+const statusKindOrder = JSON.parse(readFileSync('packages/registries/src/browser/statuses.json', 'utf8')).candidateKindPatterns.map(([kind]) => kind);
 assert(electionDomainSource.includes('statuses.candidateKindPatterns') && statusKindOrder.includes('not-elected') && statusKindOrder.indexOf('not-elected') < statusKindOrder.indexOf('elected'), '/test2 election domain must not classify "Not Elected" as elected');
 assert(electionManagerSource.includes('electionResultsPane') && electionManagerSource.includes('election-results-pane--open'), '/test2 election results must render in the production below-map election pane');
 assert(electionDomainSource.includes('summarizeResult') && electionDomainSource.includes('extractElected') && electionDomainSource.includes('buildEntityIndex'), '/test2 must use shared election-domain logic for result summaries, elected extraction, and entity indexes');

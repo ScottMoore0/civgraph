@@ -26,7 +26,7 @@ import { approximateSegmentIds, approximateSegmentLabel, resolveApproximateSegme
 import { LAYER_LOAD } from './layer-load.mjs';
 import { DIRECT_GESTURE } from './gesture-state.mjs';
 import { createState, defineFlagFields, setHidden } from '../state-helpers.mjs';
-import layerTypes from '../../../registries/browser/layer-types.mjs';
+import layerTypes from '../../../packages/registries/src/browser/layer-types.mjs';
 
 // The casing that breaks a boundary's solid line under its dotted approximate stretches. The app keeps a
 // light basemap in dark mode too (app.js, basemap notes), so the gap is the basemap's own paper colour.

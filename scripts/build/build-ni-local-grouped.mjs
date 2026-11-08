@@ -42,10 +42,10 @@ import {
 } from '../../src/ni-local-groups.mjs';
 import { printedLabelText } from '../../src/printed-labels.mjs';
 import { ELECTION_MANIFEST, localPathForUrl } from '../../packages/loader/src/paths.mjs';
-import { loadRegistry } from '../../registries/index.mjs';
-import { councilType } from '../../registries/councils.mjs';
-import { missingRoundReason, siteRoundStatus } from '../../registries/statuses.mjs';
-import { statusMachines } from '../../registries/status-machines.mjs';
+import { loadRegistry } from '../../packages/registries/src/index.mjs';
+import { councilType } from '../../packages/registries/src/councils.mjs';
+import { missingRoundReason, siteRoundStatus } from '../../packages/registries/src/statuses.mjs';
+import { statusMachines } from '../../packages/registries/src/status-machines.mjs';
 
 // The councils and statuses registries (data/registries; REG-1, RG-03): the type of each council,
 // the names its district went by, and the round-status machine with its vocabularies.

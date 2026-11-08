@@ -1,6 +1,2 @@
-// The browser's slice of data/registries/councils.json the catalogue search reads (generated:
-// node registries/browser/build.mjs). Readers import this module, not the JSON, so a file Node or
-// TypeScript takes for CommonJS needs no import attributes; esbuild inlines the slice into the bundle.
-import councilSearch from './council-search.json' with { type: 'json' };
-
-export default councilSearch;
+// Moved to packages/registries/src/browser/council-search.mjs (refactor: registries became a package); this re-export is kept until 8 Dec 2026.
+export { default } from '../../packages/registries/src/browser/council-search.mjs';

@@ -17,7 +17,7 @@ import { printedLabelsToggleHtml } from '../../src/printed-labels.mjs';
 import { formatDisplayDate } from '../../packages/core/src/date-format.mjs';
 import { NI_LOCAL_VIEW, niLocalViewActive } from '../../src/map/election/ni-local-state.mjs';
 import { createState } from '../../src/map/state-helpers.mjs';
-import statuses from '../../registries/browser/statuses.mjs';
+import statuses from '../../packages/registries/src/browser/statuses.mjs';
 
 // The words for a round's site status, a missing round and a contest: the statuses registry's
 // election-round siteLabels and missingReasons (RG-03) and contest labels (RG-02).

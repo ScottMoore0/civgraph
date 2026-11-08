@@ -8,7 +8,7 @@
  * data/elections-source/data/elections is listed against one abbreviation and one full name.
  * A party with no entry is shown as it is spelled in the data.
  */
-import parties from '../../../registries/browser/parties.mjs';
+import parties from '../../registries/src/browser/parties.mjs';
 
 // [abbreviation, full name, ...other spellings in the data]: the parties registry's abbreviations
 // (data/registries/parties.json; the slice in registries/browser/parties.json).

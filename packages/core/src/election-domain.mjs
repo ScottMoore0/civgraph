@@ -1,4 +1,4 @@
-import statuses from '../../../registries/browser/statuses.mjs';
+import statuses from '../../registries/src/browser/statuses.mjs';
 
 const DEFAULT_PARTY_COLOURS = new Map([
   ['alliance', '#f6cb2f'],

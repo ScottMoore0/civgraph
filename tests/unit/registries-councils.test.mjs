@@ -11,12 +11,12 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
-import { REPO_ROOT, loadRegistry, registryErrors } from '../../registries/index.mjs';
-import { councilSources } from '../../registries/legacy-sources.mjs';
+import { REPO_ROOT, loadRegistry, registryErrors } from '../../packages/registries/src/index.mjs';
+import { councilSources } from '../../packages/registries/src/legacy-sources.mjs';
 import {
   catalogueBodyAliases, catalogueCouncilNames, councilNameOn, councilsById, manifestCouncilSets,
   niCouncils1923to67BodySlugs, niLocalGroupSlugs, normalizeCouncilName
-} from '../../registries/councils.mjs';
+} from '../../packages/registries/src/councils.mjs';
 import { NI_COUNCIL_SLUGS, NI_LOCAL_TIERS, councilTier } from '../../src/ni-local-groups.mjs';
 import { electionAliases } from '../../src/catalogue/search.js';
 import { canonicalElectionTitle } from '../../scripts/lib/election-names.mjs';

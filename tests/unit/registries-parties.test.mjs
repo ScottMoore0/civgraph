@@ -6,11 +6,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { loadRegistry, registryErrors } from '../../registries/index.mjs';
+import { loadRegistry, registryErrors } from '../../packages/registries/src/index.mjs';
 import {
   abbreviationIndex, entityAliasStrings, labelFoldIndex, labelInterpretationRules, partiesById, partyInfoFrom,
   partyLabelKey, retiredPartySlugs
-} from '../../registries/parties.mjs';
+} from '../../packages/registries/src/parties.mjs';
 import { isNonParty, partyInfo } from '../../packages/core/src/party-names.mjs';
 import { createPartyLabelInterpreter } from '../../scripts/lib/party-label-interpretations.mjs';
 

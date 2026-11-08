@@ -1,6 +1,6 @@
 {
  "schemaVersion": 1,
- "description": "Councils: every council the site files elections, offices or boundaries under. Pre-1973 Northern Ireland councils are each their own elections body (id = body slug); the 26 district councils of 1973 and the 11 of 2014 share the local-government body; the Republic's city and county councils share ireland-local. Nothing here is invented: each field comes from a source listed below, and a date or name no source gives is absent. Schema: registries/schemas/councils.schema.json; views: registries/councils.mjs.",
+ "description": "Councils: every council the site files elections, offices or boundaries under. Pre-1973 Northern Ireland councils are each their own elections body (id = body slug); the 26 district councils of 1973 and the 11 of 2014 share the local-government body; the Republic's city and county councils share ireland-local. Nothing here is invented: each field comes from a source listed below, and a date or name no source gives is absent. Schema: packages/registries/schemas/councils.schema.json; views: packages/registries/src/councils.mjs.",
  "sources": [
   "scripts/build/build-test2-election-manifest.mjs (council sets)",
   "scripts/lib/election-names.mjs (era titles, plain titles, pre-1973 bodies, year-dated titles)",

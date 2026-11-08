@@ -6,10 +6,10 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
-import { REPO_ROOT, loadRegistry, registryErrors } from '../../registries/index.mjs';
+import { REPO_ROOT, loadRegistry, registryErrors } from '../../packages/registries/src/index.mjs';
 import {
   candidateCountState, candidateStatusKind, canTransition, enumValues, isContested, missingRoundReason, siteRoundStatus, statesOf
-} from '../../registries/statuses.mjs';
+} from '../../packages/registries/src/statuses.mjs';
 import { statusKind } from '../../packages/core/src/election-domain.mjs';
 import { canMarkApplied } from '../../scripts/intake/contributions.mjs';
 
@@ -17,7 +17,7 @@ const registry = loadRegistry('statuses');
 const read = (rel) => readFileSync(path.join(REPO_ROOT, rel), 'utf8');
 const readJson = (rel) => JSON.parse(read(rel));
 const clone = () => structuredClone(registry);
-const browser = readJson('registries/browser/statuses.json');
+const browser = readJson('packages/registries/src/browser/statuses.json');
 const HELPER = path.join(REPO_ROOT, 'scripts/lib/state-machine.mjs');
 const helperMissing = existsSync(HELPER) ? false : 'scripts/lib/state-machine.mjs lands with rf-records; rebase brings it';
 
@@ -157,7 +157,7 @@ test('RG-06 enums: each is exactly the values its file writes', () => {
 });
 
 test('statuses: the machines run on the shared helper and refuse unlisted moves', { skip: helperMissing }, async () => {
-  const { statusMachines, canMarkContributionApplied } = await import('../../registries/status-machines.mjs');
+  const { statusMachines, canMarkContributionApplied } = await import('../../packages/registries/src/status-machines.mjs');
   const machines = statusMachines(registry);
   for (const [name, entry] of Object.entries(registry.machines)) {
     const machine = machines[name];

@@ -7,7 +7,7 @@
  *
  * Sources (each generated file names its own):
  *   - data/schemas/*.schema.json          the facts files (offices, tenures, affiliations, ...)
- *   - registries/schemas/*.schema.json    the registries (councils, parties, statuses, ...)
+ *   - packages/registries/schemas/*.schema.json    the registries (councils, parties, statuses, ...)
  *   - packages/api/src/v1/contracts/v1.js  the /api/v1 answer contracts (CONTRACTS)
  *   - packages/schema/src/schema.mjs      the records database tables (TABLES)
  *
@@ -30,7 +30,7 @@ export const OUT_DIR = path.join(PACKAGE_DIR, 'generated');
 /** The schema folders: [source folder, output subfolder, root-type suffix]. */
 export const SCHEMA_SETS = /** @type {const} */ ([
   ['data/schemas', 'facts', 'Document'],
-  ['registries/schemas', 'registries', 'Registry'],
+  ['packages/registries/schemas', 'registries', 'Registry'],
 ]);
 
 const BANNER = (sources) => [

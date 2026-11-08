@@ -4,8 +4,8 @@
  */
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { validateAgainstSchema } from '../../registries/validate.mjs';
-import { REGISTRY_NAMES, loadRegistry, registryErrors } from '../../registries/index.mjs';
+import { validateAgainstSchema } from '../../packages/registries/src/validate.mjs';
+import { REGISTRY_NAMES, loadRegistry, registryErrors } from '../../packages/registries/src/index.mjs';
 
 test('registries validate: types, enums, patterns, required, unknown properties', () => {
   const schema = {
