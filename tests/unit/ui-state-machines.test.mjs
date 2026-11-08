@@ -28,6 +28,7 @@ const MACHINES = {
   'browse CONTRIBUTOR_SUBMISSION': browse.CONTRIBUTOR_SUBMISSION,
   'browse BALLOT_LABELS': browse.BALLOT_LABELS,
   'browse PRINTED_LABELS': browse.PRINTED_LABELS,
+  'browse CONTRIBUTOR_EDITOR': browse.CONTRIBUTOR_EDITOR,
   'proni RESULTS': proni.RESULTS,
   'proni VIEW': proni.VIEW,
   'proni AZ_SCOPE': proni.AZ_SCOPE,

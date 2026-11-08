@@ -1,5 +1,5 @@
 import {
-  BALLOT_LABELS, CONTRIBUTOR_FORM, CONTRIBUTOR_SUBMISSION, PRINTED_LABELS, ROUTER, SUBMISSION_STATUS_CLASS, settle,
+  BALLOT_LABELS, CONTRIBUTOR_EDITOR, CONTRIBUTOR_FORM, CONTRIBUTOR_SUBMISSION, PRINTED_LABELS, ROUTER, SUBMISSION_STATUS_CLASS, settle,
 } from './state-machines.js';
 
 /**
@@ -174,6 +174,7 @@ function personPartySlugs(item) {
 /** The People filter options (/_api/persons?facets=1, from D1; was data/browse/persons-facets.json), loaded once. */
 async function loadPersonFacets() {
   if (state.personFacets) return state.personFacets;
+  /** @type {Record<string, Json[]>} */
   let facets = {};
   try {
     facets = (await loadJson('/_api/persons?facets=1')).facets || {};
@@ -302,10 +303,30 @@ const MAP_FEATURES_BASE = 'https://data.civgraph.net/data/browse/map-features';
 // replacing, so scroll position survives.
 const LIST_PAGE_SIZE = 200;
 
+/**
+ * A value parsed from a JSON answer (data/browse or /_api), as loadJson returns it: not
+ * validated here, so read like any parsed JSON.
+ * @typedef {ReturnType<JSON['parse']>} Json
+ */
+/**
+ * data/browse/index.json: the record counts by type and the groups the Browse home lists.
+ * @typedef {{ counts?: Record<string, number>, groups?: Array<{ id: string, label: string, description?: string }> }} BrowseManifest
+ */
+/**
+ * Who is signed in (/_api/auth/status, then /_api/contributions/whoami).
+ * @typedef {{ authenticated: boolean, allowed: boolean, loginUrl?: string, logoutUrl?: string, email?: string }} ContributorAuth
+ */
+/**
+ * The People filter options (loadPersonFacets).
+ * @typedef {{ facets: Record<string, Json[]>, partyBySpelling: Map<string, string>, partyNames: Map<string, string[]> }} PersonFacets
+ */
+
 const state = {
+  /** @type {BrowseManifest | null} */
   manifest: null,
   isHome: true,
   activeType: 'maps',
+  /** The record on screen's id (a slug), or null on a listing. @type {string | null} */
   activeId: null,
   query: '',
   indexes: new Map(),
@@ -318,6 +339,7 @@ const state = {
   // Pages accumulated from D1 for the current listing, and the facet options for each
   // type. serverList is replaced (not appended) whenever the query, sort or filters
   // change, because the earlier pages no longer describe the same result set.
+  /** @type {{ type: string | null, items: Json[], total: number }} */
   serverList: { type: null, items: [], total: 0 },
   serverFacets: new Map(),
   // Catalogue facets, in the shape the /_api/sources filters already accept. Empty string
@@ -329,17 +351,24 @@ const state = {
   ballotLabels: BALLOT_LABELS.start(),
   // Sort order of the People and Parties lists (LIST_SORTS key; '' is the list's own order).
   listSort: {},
+  /** @type {PersonFacets | null} */
   personFacets: null,
   graph: {
     // /_api/graph answers, by URL (loadGraphJson).
     responses: new Map()
   },
+  /** The feature map the route asks for (?map=). @type {string | null} */
   selectedFeatureMap: null,
+  /** @type {string | null} */
   loadedFeatureMap: null,
+  /** @type {ContributorAuth | null} */
   auth: null,
+  /** The record on screen, for the contributor's edit form. @type {{ type: string, item: Json } | null} */
   currentDetail: null,
   // Where the shared contributor form is (browse/state-machines.js CONTRIBUTOR_FORM).
   contributorForm: CONTRIBUTOR_FORM.start(),
+  // Whether the inline editor (#contributorEditor) is shown (CONTRIBUTOR_EDITOR); its `hidden` follows.
+  contributorEditor: CONTRIBUTOR_EDITOR.start(),
   // The router (ROUTER): scroll positions are not saved while a navigation is `routing`.
   router: ROUTER.start(),
   registerInterestControls: {
@@ -349,19 +378,33 @@ const state = {
   }
 };
 
+/**
+ * `value`, which the page's markup (or HTML this script has just written) always holds. A missing
+ * one throws a TypeError, as reading a property of it did before.
+ * @template T @param {T | null | undefined} value @param {string} what @returns {T}
+ */
+function present(value, what) {
+  if (value === null || value === undefined) throw new TypeError(`${what} is missing`);
+  return value;
+}
+
+// The pages that load this script (browse/, records/ and catalogue/index.html) hold every one of
+// these elements, so each is typed as present. The optional chaining some uses keep is harmless.
+/** @template {HTMLElement} [T=HTMLElement] @param {string} id @returns {T} */
+const byId = (id) => /** @type {T} */ (document.getElementById(id));
 const els = {
-  announcer: document.getElementById('announcer'),
-  groups: document.getElementById('browseGroups'),
-  search: /** @type {HTMLInputElement | null} */ (document.getElementById('browseSearch')),
-  hero: document.getElementById('browseHero'),
-  results: document.getElementById('browseResults'),
-  contributorPanel: document.getElementById('contributorPanel'),
-  contributorModal: document.getElementById('contributorModal'),
-  contributorForm: /** @type {HTMLFormElement | null} */ (document.getElementById('contributorForm')),
-  contributorModalTitle: document.getElementById('contributorModalTitle'),
-  contributorEditor: document.getElementById('contributorEditor'),
-  contributorEditorTitle: document.getElementById('contributorEditorTitle'),
-  contributorEditorSlot: document.getElementById('contributorEditorSlot')
+  announcer: byId('announcer'),
+  groups: byId('browseGroups'),
+  search: /** @type {HTMLInputElement} */ (byId('browseSearch')),
+  hero: byId('browseHero'),
+  results: byId('browseResults'),
+  contributorPanel: byId('contributorPanel'),
+  contributorModal: byId('contributorModal'),
+  contributorForm: /** @type {HTMLFormElement} */ (byId('contributorForm')),
+  contributorModalTitle: byId('contributorModalTitle'),
+  contributorEditor: byId('contributorEditor'),
+  contributorEditorTitle: byId('contributorEditorTitle'),
+  contributorEditorSlot: byId('contributorEditorSlot')
 };
 
 init().catch((error) => {
@@ -441,7 +484,7 @@ function bindEvents() {
     const portalJump = event.target.closest('[data-portal-jump]');
     if (portalJump) {
       event.preventDefault();
-      const target = document.querySelector(portalJump.getAttribute('href'));
+      const target = document.querySelector(String(portalJump.getAttribute('href')));
       target?.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
       return;
     }
@@ -496,7 +539,7 @@ function bindEvents() {
     const link = event.target.closest('[data-browse-link]');
     if (link) {
       event.preventDefault();
-      location.hash = link.getAttribute('href').replace(/^.*#/, '#');
+      location.hash = present(link.getAttribute('href'), 'href').replace(/^.*#/, '#');
       return;
     }
 
@@ -563,7 +606,7 @@ function bindEvents() {
     }
 
     if (event.target.closest('[data-contributor-close]')) {
-      if (els.contributorEditor && !els.contributorEditor.hidden) {
+      if (els.contributorEditor && state.contributorEditor.state() === 'shown') {
         closeInlineEditor();
         return;
       }
@@ -591,7 +634,7 @@ function bindEvents() {
 
     const listFilter = event.target.closest('[data-list-filter]');
     if (listFilter) {
-      const key = listFilter.dataset.listFilter;
+      const key = String(listFilter.dataset.listFilter); // matched by [data-list-filter], so a string
       const filters = { ...(state.listFilters[state.activeType] || {}) };
       if (listFilter.value) filters[key] = listFilter.value;
       else delete filters[key];
@@ -636,7 +679,7 @@ function applyRoute() {
   state.selectedFeatureMap = route.params.get('map');
   state.routeParams = route.params;
   if (route.params.has('q')) {
-    state.query = route.params.get('q').trim();
+    state.query = String(route.params.get('q')).trim(); // has('q'), so a string
     if (els.search) els.search.value = state.query;
   }
   // A list's depth, sort and filters come from its address, so Back, a reload or a shared
@@ -1076,7 +1119,7 @@ async function renderCurrent() {
     // Reached by an old address (a party label folded into its party, #/parties/uup-farmer):
     // the address becomes the record's own, as the D1 indexes do above.
     if (item.slug && String(item.slug).toLowerCase() !== decodeURIComponent(state.activeId).toLowerCase()
-      && normalizeArray(item.previousSlugs).some((slug) => String(slug).toLowerCase() === decodeURIComponent(state.activeId).toLowerCase())) {
+      && normalizeArray(item.previousSlugs).some((slug) => String(slug).toLowerCase() === decodeURIComponent(String(state.activeId)).toLowerCase())) {
       state.activeId = item.slug;
       history.replaceState(history.state, '', `${location.pathname}${location.search}#/${state.activeType}/${encodeURIComponent(item.slug)}`);
       lastRoutedAddress = currentAddress();
@@ -1508,6 +1551,7 @@ function filterValues(filter, item) {
  * record -- or, for a list paged from the server (People), from its precomputed `facets`
  * ({ key: [{ value, label?, count }] }). A sort select where the list has LIST_SORTS.
  */
+/** @param {string} type @param {Json[] | null} items @param {Record<string, Json[]> | null} [facets] */
 function renderListFilterControls(type, items, facets = null) {
   const defs = LIST_FILTERS[type];
   if (!defs) return '';
@@ -1664,6 +1708,7 @@ function renderRegisterInterestFilter(filter, items, facets = null) {
   `;
 }
 
+/** @param {string} key @param {Json[]} items @param {Record<string, Json[]> | null} [facets] */
 function registerInterestFilterOptions(key, items, facets = null) {
   if (key === 'nilStatus') {
     return [
@@ -2758,6 +2803,7 @@ const VOTE_WORDS = { aye: 'Aye', no: 'No', abstain: 'Abstained', both: 'Both lob
 const VOTE_WORDS_BODY = { dail: { aye: 'Tá', no: 'Níl', abstain: 'Staon' }, seanad: { aye: 'Tá', no: 'Níl', abstain: 'Staon' } };
 const VOTES_PAGE = 50;
 const VOTE_BODY_SHORT = { dail: 'Dáil', seanad: 'Seanad', commons: 'Commons', niassembly: 'Assembly', stormont: 'Stormont' };
+/** @type {{ personId: string | null, rows: Json[], titles: Json[], filters: Record<string, string | boolean | undefined>, shown: number }} */
 const votesView = { personId: null, rows: [], titles: [], filters: { body: '', vote: '', against: false }, shown: VOTES_PAGE };
 
 async function loadVotesJson(url) {
@@ -2859,7 +2905,7 @@ function rerenderVotesTable(control) {
 document.addEventListener('change', (/** @type {Event} */ rawEvent) => { const event = /** @type {ElementEvent} */ (rawEvent);
   const control = event.target.closest?.('[data-votes-filter]');
   if (!control) return;
-  const key = control.dataset.votesFilter;
+  const key = String(control.dataset.votesFilter); // matched by [data-votes-filter], so a string
   votesView.filters[key] = key === 'against' ? control.checked : control.value;
   votesView.shown = VOTES_PAGE;
   rerenderVotesTable(control);
@@ -3186,7 +3232,8 @@ function niceMax(value) {
   if (value <= 0) return 1;
   const magnitude = 10 ** Math.floor(Math.log10(value));
   const steps = [1, 2, 2.5, 5, 10];
-  const unit = steps.find((step) => step * magnitude >= value) * magnitude;
+  // 10 * magnitude > value, so a step is always found.
+  const unit = Number(steps.find((step) => step * magnitude >= value)) * magnitude;
   return unit;
 }
 
@@ -4638,6 +4685,7 @@ async function refreshAuth() {
 
 function renderContributorPanel() {
   if (!els.contributorPanel) return;
+  /** @type {Partial<ContributorAuth>} */
   const auth = state.auth || {};
   // Titles are not headings: the panel came before the page's h1, so every page's outline
   // opened on "Contributor".
@@ -4738,15 +4786,15 @@ async function openEditSubmissionForm(type, item) {
       <button type="button" class="contributor-btn" data-contributor-close>Cancel</button>
     </div>
   `;
-  const host = els.contributorForm.querySelector('[data-edit-fields]');
-  const status = els.contributorForm.querySelector('.contributor-form__status');
+  const host = present(els.contributorForm.querySelector('[data-edit-fields]'), '[data-edit-fields]');
+  const status = present(els.contributorForm.querySelector('.contributor-form__status'), '.contributor-form__status');
 
   try {
     const [schema, record] = await Promise.all([
       loadContributorSchema(),
       loadCurrentRecord(entityType, entityId, item),
     ]);
-    const fields = schema.entityTypes?.[entityType] || [];
+    const fields = schema.entityTypes?.[String(entityType)] || [];
     if (!fields.length) throw new Error(`No editable fields are defined for ${entityType}.`);
 
     // The baseline is what the diff is taken against. Object arrays are stored
@@ -4790,7 +4838,7 @@ function showInlineEditor(title) {
   closeContributorModal();
   els.contributorEditorTitle.textContent = title;
   els.contributorEditorSlot.appendChild(els.contributorForm);
-  els.contributorEditor.hidden = false;
+  els.contributorEditor.hidden = settle(state.contributorEditor, 'shown') !== 'shown';
   state.contributorForm.to('metadata-edit');
   els.contributorEditor.scrollIntoView({ block: 'start', behavior: 'smooth' });
   /** @type {HTMLElement | null} */ (els.contributorForm.querySelector('input:not([type="hidden"]), textarea'))?.focus();
@@ -4798,7 +4846,7 @@ function showInlineEditor(title) {
 
 function closeInlineEditor() {
   if (!els.contributorEditor) return;
-  els.contributorEditor.hidden = true;
+  els.contributorEditor.hidden = settle(state.contributorEditor, 'hidden') !== 'shown';
   els.contributorForm.innerHTML = '';
   state.contributorForm.to('closed');
   state.editEntityId = null;
@@ -4813,7 +4861,7 @@ function closeInlineEditor() {
  * the question being asked -- so the throw is the answer, not an error.
  */
 function isEditorDirty() {
-  if (!els.contributorEditor || els.contributorEditor.hidden) return false;
+  if (!els.contributorEditor || state.contributorEditor.state() !== 'shown') return false;
   const summary = /** @type {HTMLInputElement | null} */ (els.contributorForm.querySelector('[name="summary"]'))?.value?.trim();
   if (summary) return true;
   try {
@@ -4838,13 +4886,13 @@ function showDiscardPrompt(nextEntityId, proceed) {
     </span>`;
   els.contributorEditor.insertBefore(bar, els.contributorEditor.firstChild);
   els.contributorEditor.scrollIntoView({ block: 'start', behavior: 'smooth' });
-  bar.querySelector('[data-discard-confirm]').addEventListener('click', () => {
+  present(bar.querySelector('[data-discard-confirm]'), '[data-discard-confirm]').addEventListener('click', () => {
     bar.remove();
     state.editEntityId = null;
     state.editBaseline = null;
     proceed();
   });
-  bar.querySelector('[data-discard-cancel]').addEventListener('click', () => bar.remove());
+  present(bar.querySelector('[data-discard-cancel]'), '[data-discard-cancel]').addEventListener('click', () => bar.remove());
 }
 
 /**
@@ -5120,7 +5168,8 @@ function closeContributorModal() {
 
 async function submitContributorForm(event) {
   event.preventDefault();
-  const status = els.contributorForm.querySelector('.contributor-form__status');
+  // Every form with a submit button has its status line (openEditSubmissionForm, openMapSubmissionForm).
+  const status = present(els.contributorForm.querySelector('.contributor-form__status'), '.contributor-form__status');
   const submitButton = /** @type {HTMLButtonElement} */ (els.contributorForm.querySelector('button[type="submit"]'));
   // This submission's own machine (browse/state-machines.js CONTRIBUTOR_SUBMISSION): the
   // status line's class and the button follow its state.
@@ -5227,7 +5276,7 @@ function collectPatch() {
   // Object arrays first: their state lives across many inputs, so they are read
   // per fieldset rather than per input.
   for (const fieldset of /** @type {NodeListOf<HTMLElement>} */ (els.contributorForm.querySelectorAll('[data-object-array]'))) {
-    const field = fieldset.dataset.objectArray;
+    const field = String(fieldset.dataset.objectArray); // matched by [data-object-array], so a string
     const entries = readObjectArray(fieldset);
     if (JSON.stringify(entries) === String(baseline[field] ?? '[]')) continue;
     patch[field] = entries.length ? entries : null;
@@ -5237,7 +5286,7 @@ function collectPatch() {
   const seenRadioGroups = new Set();
 
   for (const input of inputs) {
-    const field = input.dataset.editField;
+    const field = String(input.dataset.editField); // matched by [data-edit-field], so a string
     const type = input.dataset.editType || 'string';
 
     // Radio groups: read the checked member once, not once per button.

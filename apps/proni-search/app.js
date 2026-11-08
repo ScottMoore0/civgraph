@@ -22,13 +22,29 @@ const NODE_API = '/_api/proni/node';
 const ECAT_BROWSE = 'https://apps.proni.gov.uk/eCatNI_IE/BrowseSearchPage.aspx';
 const LIMIT = 25;
 
+// The page's HTML (index.html) holds every element looked up here, so each lookup is typed as
+// present; the input and select fields are typed as what they are.
 /** @param {string} id @returns {UiElement} */
-const $ = (id) => document.getElementById(id);
+const $ = (id) => /** @type {UiElement} */ (document.getElementById(id));
+/** @param {string} id @returns {HTMLInputElement} */
+const $input = (id) => /** @type {HTMLInputElement} */ (document.getElementById(id));
+/** @param {string} id @returns {HTMLSelectElement} */
+const $select = (id) => /** @type {HTMLSelectElement} */ (document.getElementById(id));
+/**
+ * The element `selector` finds inside `root`, which the page's markup always contains. A missing
+ * one throws a TypeError where the old `root.querySelector(selector).x` did.
+ * @param {ParentNode} root @param {string} selector @returns {Element}
+ */
+function child(root, selector) {
+  const el = root.querySelector(selector);
+  if (!el) throw new TypeError(`${selector} is missing`);
+  return el;
+}
 const els = {
-  q: $('q'), clear: $('clearBtn'), adv: $('advToggle'), advanced: $('advanced'),
-  fTitle: $('fTitle'), fDescription: $('fDescription'), fRef: $('fRef'), fDates: $('fDates'),
-  fLevel: $('fLevel'), fAccess: $('fAccess'),
-  from: $('dateFrom'), to: $('dateTo'), sort: $('sort'), dir: $('dirBtn'),
+  q: $input('q'), clear: $('clearBtn'), adv: $('advToggle'), advanced: $('advanced'),
+  fTitle: $input('fTitle'), fDescription: $input('fDescription'), fRef: $input('fRef'), fDates: $input('fDates'),
+  fLevel: $select('fLevel'), fAccess: $select('fAccess'),
+  from: $input('dateFrom'), to: $input('dateTo'), sort: $select('sort'), dir: $('dirBtn'),
   az: $('azBar'), status: $('status'), results: $('results'), sentinel: $('sentinel'),
   modal: $('modal'), modalBody: $('modalBody'),
   viewSearch: $('viewSearch'), viewRecord: $('viewRecord'), viewEcat: $('viewEcat'),
@@ -36,7 +52,11 @@ const els = {
 };
 
 const state = {
-  offset: 0, seen: new Set(), letter: '', reqId: 0, queryId: 0, total: null, levels: null,
+  offset: 0, seen: new Set(), letter: '', reqId: 0, queryId: 0,
+  /** The current query's exact count once it lands. @type {number | null} */
+  total: null,
+  /** Browse mode's per-level breakdown from count.js. @type {Array<{ level: string, n: number }> | null} */
+  levels: null,
   // The current query's results (state-machines.js RESULTS) and the A-Z bar's scope (AZ_SCOPE).
   results: RESULTS.start(),
   azScope: AZ_SCOPE.start(),
@@ -201,7 +221,7 @@ function params(offset) {
   const p = queryParams();
   if (!p) return null;   // inverted date range; reportDateRangeError has said so
   p.set('sort', els.sort.value);
-  p.set('dir', els.dir.dataset.dir);
+  p.set('dir', String(els.dir.dataset.dir));
   p.set('limit', String(LIMIT));
   p.set('offset', String(offset));
   return p;
@@ -829,8 +849,8 @@ const debounced = () => {
 els.dir.addEventListener('click', () => {
   const next = els.dir.dataset.dir === 'asc' ? 'desc' : 'asc';
   els.dir.dataset.dir = next;
-  els.dir.querySelector('.ps-sortdir__label').textContent = next === 'asc' ? 'A–Z' : 'Z–A';
-  els.dir.querySelector('.ps-sortdir__arrow').textContent = next === 'asc' ? '▲' : '▼';
+  child(els.dir, '.ps-sortdir__label').textContent = next === 'asc' ? 'A–Z' : 'Z–A';
+  child(els.dir, '.ps-sortdir__arrow').textContent = next === 'asc' ? '▲' : '▼';
   els.dir.title = next === 'asc' ? 'Sort ascending - click for descending' : 'Sort descending - click for ascending';
   els.dir.setAttribute('aria-label', `Sort direction: ${next === 'asc' ? 'ascending' : 'descending'}`);
   search(true);
@@ -857,7 +877,7 @@ els.az.addEventListener('click', (/** @type {MouseEvent} */ rawEvent) => { const
       state.letter = '';
     } else {
       state.azScope.to('letter');
-      state.letter = btn.dataset.letter;
+      state.letter = btn.dataset.letter ?? ''; // matched by [data-letter], so always a string
     }
   } else if (e.target === azClear) {
     // 'All' now MEANS all: every top-level record, grouped by letter. It used to clear
@@ -891,7 +911,7 @@ document.addEventListener('click', (/** @type {MouseEvent} */ rawEvent) => { con
   if (isModified(e)) return; // let ctrl/cmd-click open a new tab
 
   const ecatEl = e.target.closest('[data-ecat]');
-  if (ecatEl) { e.preventDefault(); go(`${location.pathname}?ecat=${encodeURIComponent(ecatEl.getAttribute('data-ecat'))}`); return; }
+  if (ecatEl) { e.preventDefault(); go(`${location.pathname}?ecat=${encodeURIComponent(String(ecatEl.getAttribute('data-ecat')))}`); return; }
 
   const homeEl = e.target.closest('[data-home]');
   if (homeEl) { e.preventDefault(); go('/proni'); return; }
