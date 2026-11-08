@@ -18,15 +18,16 @@ const HEADER = ['PRONI Reference', 'Title', 'Level', 'Dates', 'Access', 'Digitis
   'Extracted Dates', 'Extracted start year', 'Extracted end year', 'Approximate', 'Cataloguer-supplied', 'Open-ended bound', 'Undated',
   'Description'];
 
-const csvCell = (v) => {
+const csvCell = (/** @type {unknown} */ v) => {
   const s = v == null ? '' : String(v);
   return /[",\r\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
 };
-const csvRow = (arr) => arr.map(csvCell).join(',') + '\r\n';
+const csvRow = (/** @type {unknown[]} */ arr) => arr.map(csvCell).join(',') + '\r\n';
 
+/** @param {import('../../types.js').ApiContext} context */
 export async function onRequestGet(context) {
   const url = new URL(context.request.url);
-  const g = (k) => (url.searchParams.get(k) || '').trim();
+  const g = (/** @type {string} */ k) => (url.searchParams.get(k) || '').trim();
   const q = g('q');
   const fields = { title: g('title'), description: g('description'), ref: g('ref'), text: g('text'), dates: g('dates') };
   const from = parseInt(g('from'), 10); const to = parseInt(g('to'), 10);
@@ -34,6 +35,7 @@ export async function onRequestGet(context) {
   const bound = binding(context.env, 'PRONI_DB');
   if (!bound) return new Response('PRONI_DB binding not configured', { status: 503 });
   // through the storage adapter (packages/storage/); the SQL is named in queries/proni.js
+  /** @type {import('../../../../storage/src/store.js').RecordStore} */
   const db = fromD1(bound);
 
   const match = buildMatch(q, fields);
