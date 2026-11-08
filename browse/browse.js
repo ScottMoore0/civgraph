@@ -35,18 +35,26 @@ import {
  */
 /**
  * A facet of a list read whole from a static index (LIST_FILTERS): `value` reads an item's one
- * value, `values` the several a record has; `optionLabel` names an option.
- * @typedef {{
- *   key: string, label: string, value?: (item: BrowseItem) => Json, values?: (item: BrowseItem) => Json[],
- *   optionLabel?: (value: string) => string, order?: 'asc' | 'desc', allLabel?: string
- * }} ListFilter
+ * value, `values` the several a record has (each facet has one of the two); `optionLabel` names
+ * an option.
+ * @typedef {{ key: string, label: string, optionLabel?: (value: string) => string, order?: 'asc' | 'desc', allLabel?: string }
+ *   & ({ value: (item: BrowseItem) => Json, values?: undefined } | { values: (item: BrowseItem) => Json[], value?: undefined })} ListFilter
  */
 /**
  * A sort order of the People or Parties list (LIST_SORTS): `dir` is sent to /_api/persons,
  * `compare` sorts a list read whole.
  * @typedef {{ key: string, label: string, dir?: 'asc' | 'desc', compare?: (a: BrowseItem, b: BrowseItem) => number }} ListSort
  */
-/** A list's facet options as the filter bar draws them. @typedef {{ value: string, label: string, count?: number }} FacetOption */
+/** A section of the Browse home (allPortalSections). @typedef {ReturnType<typeof allPortalSections>[number]} PortalSection */
+/** A PRONI catalogue node (loadProniNode): the record, with its ancestors (`path`) and `children`. @typedef {{ item: BrowseItem }} ProniNode */
+/**
+ * A map's sharded feature table on screen (renderMapFeaturesFromShards), by map id in
+ * state.featureTables: where its pages are, its columns, and how many pages are loaded.
+ * @typedef {{
+ *   base: string, attrColumns: Json[], linkBySlug: Record<string, Json>, pageCount: Json, total: Json,
+ *   loaded: number, nextPage: number
+ * }} FeatureTable
+ */
 // ---------------------------------------------------------------- end of shared typedefs
 
 const DATA_ROOT = '/data/browse';
@@ -98,6 +106,7 @@ function sectionTypes() {
   return all.filter((type) => ENTITY_CONFIG[type].layer === SECTION_LAYER);
 }
 
+/** @param {string} type */
 function inSection(type) {
   return !SECTION_LAYER || ENTITY_CONFIG[type]?.layer === SECTION_LAYER;
 }
@@ -380,6 +389,7 @@ const state = {
   query: '',
   indexes: new Map(),
   details: new Map(),
+  /** @type {Record<string, FeatureTable>} */
   featureTables: {},
   // T2-09: how many cards of the current listing are shown. Reset on every
   // navigation and every query change, so a filter never inherits a page depth
@@ -505,6 +515,7 @@ async function init() {
   });
 }
 
+/** @type {string | null} */
 let lastRoutedAddress = null;
 // Counts navigations, so a render can tell whether a newer one has begun since it started.
 let routeNavigation = 0;
@@ -518,9 +529,10 @@ let renderSeq = 0;
 function bindEvents() {
   // A quarter-second pause before searching, as the PRONI box already did: each key used to
   // send its own /_api request (seven for "Paisley") or re-render 200 cards.
+  /** @type {number | null} */
   let searchTimer = null;
   els.search?.addEventListener('input', () => {
-    clearTimeout(searchTimer);
+    clearTimeout(/** @type {number | undefined} clearTimeout ignores null as it does undefined */ (searchTimer));
     searchTimer = setTimeout(() => {
       state.query = els.search.value.trim();
       // On the PRONI page the sidebar box searches PRONI, the only search that page has; it
@@ -777,7 +789,7 @@ function currentAddress() {
   return `${location.pathname}${location.search}${location.hash}`;
 }
 
-/** Sort and filters of the two server-side lists, from ?sort, ?dir and ?f.<facet> in the address. */
+/** Sort and filters of the two server-side lists, from ?sort, ?dir and ?f.<facet> in the address. @param {string} type @param {URLSearchParams} params */
 function readListControls(type, params) {
   if (LIST_FILTERS[type]) {
     /** @type {Record<string, string>} */
@@ -841,6 +853,8 @@ function syncListAddress() {
  * After a navigation: a list returns to where the reader left it; anything else starts at the
  * top with focus on its heading, so keyboard and screen-reader users land on the new page
  * rather than on <body> half-way down the old one. The first page load leaves focus alone.
+ * @param {string} address
+ * @param {{ firstRoute: boolean, isList: boolean }} options
  */
 function afterRouteRender(address, { firstRoute, isList }) {
   if (address !== lastRoutedAddress && address !== currentAddress()) return;
@@ -866,9 +880,10 @@ async function rerenderList() {
   (target || /** @type {HTMLElement | null} */ (els.results.querySelector('select, button')))?.focus({ preventScroll: true });
 }
 
+/** @param {Element | null} element */
 function focusKeyFor(element) {
   for (const attr of ['data-source-filter', 'data-register-filter', 'data-register-sort', 'data-register-direction', 'data-list-filter', 'data-list-sort', 'data-ballot-labels']) {
-    if (element?.hasAttribute?.(attr)) return `[${attr}="${CSS.escape(element.getAttribute(attr))}"]`;
+    if (element?.hasAttribute?.(attr)) return `[${attr}="${CSS.escape(/** @type {string} it has the attribute */ (element.getAttribute(attr)))}"]`;
   }
   return null;
 }
@@ -877,7 +892,7 @@ function cardCount() {
   return els.results.querySelectorAll('.browse-card').length;
 }
 
-/** After "Show more", move focus to the first card that was added. */
+/** After "Show more", move focus to the first card that was added. @param {number} index */
 function focusCard(index) {
   const card = els.results.querySelectorAll('.browse-card')[index];
   /** @type {HTMLElement | null} */ (card?.querySelector('a, button'))?.focus({ preventScroll: true });
@@ -929,7 +944,7 @@ function parseRoute() {
   // A retired #/ address becomes the record's own, as the server's 301 does for a path, so a
   // copied link is the current one.
   if (useHash && renamed !== id && !params.has('id')) {
-    history.replaceState(history.state, '', `${location.pathname}${location.search}#/${type}/${encodeURIComponent(renamed)}${hashQuery ? `?${hashQuery}` : ''}`);
+    history.replaceState(history.state, '', `${location.pathname}${location.search}#/${type}/${encodeURIComponent(/** @type {string} not id, so a new slug */ (renamed))}${hashQuery ? `?${hashQuery}` : ''}`);
     lastRoutedAddress = currentAddress();
   }
   return { isHome: false, type, id: renamed, params };
@@ -1060,6 +1075,7 @@ const RETIRED_CONTEST_SLUGS = [
   ['local-government-local-government-districts-2011-05-05-lg11-nod-holywood', 'local-government-local-government-districts-2011-05-05-holywood']
 ];
 
+/** @param {string} type @param {string | null} id */
 function renamedRecordId(type, id) {
   if (!id || (type !== 'elections' && type !== 'sources')) return id;
   const prefix = type === 'sources' ? 'election-source-' : '';
@@ -1091,6 +1107,7 @@ function renderGroups() {
   if (active && els.groups.scrollWidth > els.groups.clientWidth) els.groups.scrollLeft = Math.max(0, active.offsetLeft - 16);
 }
 
+/** @param {string} id @param {Record<string, number>} counts */
 function countForGroup(id, counts) {
   if (id === 'features') return counts.featureGroups || counts.features || 0;
   return counts[id] || 0;
@@ -1203,7 +1220,7 @@ async function renderCurrent() {
   renderList(state.activeType, data.items || []);
 }
 
-/** A record that does not exist: say so, link back to its list, and offer a search for the slug. */
+/** A record that does not exist: say so, link back to its list, and offer a search for the slug. @param {EntityConfig} config @param {string | null} id */
 function renderNotFound(config, id) {
   const words = decodeURIComponent(String(id || '')).replace(/[-_]+/g, ' ').replace(/\b\d{3,}\b/g, '').replace(/\s+/g, ' ').trim();
   els.hero.innerHTML = `
@@ -1229,7 +1246,7 @@ function setPortalHero() {
     + (counts.persons || 0)
     + (counts['register-interests'] || 0)
     + (counts.sources || 0);
-  const copy = SECTION_COPY[SECTION_LAYER] || {
+  const copy = SECTION_COPY[/** @type {'source' | 'data'} null reads undefined: the default copy below */ (SECTION_LAYER)] || {
     kicker: 'Browse',
     title: 'Civgraph data directory',
     description: 'A structured portal into maps, elections, boundary features, parties and labels, people, books, tables, downloads, and source records. Use the directory below to browse by subject, or search within a chosen section.'
@@ -1315,12 +1332,13 @@ function portalSections() {
 // Every link under a section filters or searches it. About a hundred of them used to point at
 // the bare section ("Townlands", "2020s", "Seats won" all opened #/maps or #/elections), which
 // looked like a filter and was not one; links that could not be made to filter are gone.
+/** @param {string} type @param {Record<string, string>} params */
 const portalLink = (type, params) => `#/${type}?${new URLSearchParams(params)}`;
 
 function allPortalSections() {
   const counts = state.manifest?.counts || {};
-  const elections = (params) => portalLink('elections', params);
-  const maps = (params) => portalLink('maps', params);
+  const elections = (/** @type {Record<string, string>} */ params) => portalLink('elections', params);
+  const maps = (/** @type {Record<string, string>} */ params) => portalLink('maps', params);
   return [
     {
       id: 'maps',
@@ -1411,6 +1429,7 @@ function allPortalSections() {
   ];
 }
 
+/** @param {PortalSection} section */
 function renderPortalSection(section) {
   return `
     <section id="portal-${escapeAttr(section.id)}" class="browse-portal-section">
@@ -1435,6 +1454,7 @@ function renderPortalSection(section) {
   `;
 }
 
+/** @param {string} label @param {number | undefined} value */
 function renderPortalStat(label, value) {
   return `
     <div class="browse-portal-stat">
@@ -1444,6 +1464,7 @@ function renderPortalStat(label, value) {
   `;
 }
 
+/** @param {{ label: string, singular: string }} config @param {BrowseItem | null} item */
 function setHero(config, item) {
   const title = item ? readerTitle(state.activeType, item) : config.label;
   const description = item ? heroDescriptionForItem(state.activeType, item) : (state.manifest?.groups || []).find((group) => group.id === state.activeType)?.description || '';
@@ -1494,7 +1515,7 @@ function sectionName() {
   return 'Browse';
 }
 
-/** "Gerry Adams – Person – Civgraph"; an election's title already says what it is. */
+/** "Gerry Adams – Person – Civgraph"; an election's title already says what it is. @param {string} type @param {{ singular?: string } | undefined} config @param {string} title */
 function recordDocumentTitle(type, config, title) {
   if (type === 'elections' || !config?.singular) return `${title} – Civgraph`;
   return `${title} – ${config.singular} – Civgraph`;
@@ -1524,6 +1545,7 @@ function resetDocumentHead() {
   setDocumentHead({});
 }
 
+/** @param {Json} value @param {number} [limit] */
 function truncateDescription(value, limit = 300) {
   const text = String(value || '').replace(/\s+/g, ' ').trim();
   if (text.length <= limit) return text;
@@ -1534,12 +1556,14 @@ function truncateDescription(value, limit = 300) {
 
 // Records with a path-style page canonicalise there, whichever shell (/browse/, /records/,
 // /catalogue/) and whichever id they were opened by, so each is indexed once.
+/** @param {string} type @param {BrowseItem} item */
 function recordCanonicalUrl(type, item) {
   if (!PATH_ROUTE_TYPES.has(type)) return BASE_HEAD.canonical;
   const slug = item.slug || slugify(item.id || item.key || item.title);
   return `${SITE_ORIGIN}/browse/${type}/${encodeURIComponent(slug)}`;
 }
 
+/** @param {string} type @param {BrowseItem} item */
 function documentDescriptionForItem(type, item) {
   if (type === 'persons') {
     const name = item.name || item.title;
@@ -1558,6 +1582,7 @@ function documentDescriptionForItem(type, item) {
   return heroDescriptionForItem(type, item) || readerSummaryText(type, item) || `${item.title} on Civgraph.`;
 }
 
+/** @param {string} type @param {BrowseItem} item */
 function heroDescriptionForItem(type, item) {
   if (type === 'register-interests') {
     const parts = [
@@ -1572,6 +1597,7 @@ function heroDescriptionForItem(type, item) {
   return item.description || item.subtitle || '';
 }
 
+/** @param {string} type @param {BrowseItem[]} items */
 function renderList(type, items) {
   if (type === 'register-interests') {
     renderRegisterInterestList(items);
@@ -1601,19 +1627,21 @@ function renderList(type, items) {
     ${renderListFilterControls(type, items, type === 'persons' ? state.personFacets?.facets : null)}
     ${renderFilterSummary(filtered.length, items.length)}
     ${labelsNote}
-    ${renderListPage(filtered, (item) => renderCard(type, item, config))}
+    ${renderListPage(filtered, (/** @type {BrowseItem} */ item) => renderCard(type, item, config))}
   `;
   state.lastListRender = () => renderList(type, items);
   announceList(config, filtered.length);
 }
 
+/** @param {string} type @param {BrowseItem[]} items */
 function applyListFilters(type, items) {
   const filters = Object.entries(state.listFilters[type] || {}).filter(([, value]) => value);
   if (!filters.length || !LIST_FILTERS[type]) return items;
   const defs = new Map(LIST_FILTERS[type].map((filter) => [filter.key, filter]));
-  return items.filter((item) => filters.every(([key, value]) => !defs.has(key) || filterValues(defs.get(key), item).includes(value)));
+  return items.filter((item) => filters.every(([key, value]) => !defs.has(key) || filterValues(/** @type {ListFilter} it has the key */ (defs.get(key)), item).includes(value)));
 }
 
+/** @param {ListFilter} filter @param {BrowseItem} item */
 function filterValues(filter, item) {
   return (filter.values ? filter.values(item) : [filter.value(item)])
     .filter((value) => value !== null && value !== undefined && value !== '').map(String);
@@ -1631,7 +1659,9 @@ function renderListFilterControls(type, items, facets = null) {
   const current = state.listFilters[type] || {};
   const active = Object.values(current).filter(Boolean).length;
   const selects = defs.map((filter) => {
+    /** @type {Map<string, number>} */
     const counts = new Map();
+    /** @type {Map<string, string>} */
     const labels = new Map();
     if (facets) {
       for (const option of facets[filter.key] || []) {
@@ -1643,7 +1673,7 @@ function renderListFilterControls(type, items, facets = null) {
         for (const value of filterValues(filter, item)) counts.set(value, (counts.get(value) || 0) + 1);
       }
     }
-    const labelOf = (option) => labels.get(option) || (filter.optionLabel ? filter.optionLabel(option) : option);
+    const labelOf = (/** @type {string} */ option) => labels.get(option) || (filter.optionLabel ? filter.optionLabel(option) : option);
     const options = [...counts.keys()].sort((a, b) => (filter.order === 'desc' ? b.localeCompare(a) : labelOf(a).localeCompare(labelOf(b))));
     if (options.length < 2) return '';
     const value = current[filter.key] || '';
@@ -1679,6 +1709,8 @@ function renderListFilterControls(type, items, facets = null) {
  * Say what a list now holds through the polite announcer, once per change of list, search or
  * count: #browseResults is no longer a live region (a whole page of cards read out on every
  * view), so this is how a screen-reader user hears that a search did something.
+ * @param {EntityConfig} config
+ * @param {number} count
  */
 function announceList(config, count) {
   const key = `${config.label}|${state.query}|${JSON.stringify(state.listFilters[state.activeType] || {})}|${count}`;
@@ -1687,6 +1719,7 @@ function announceList(config, count) {
   announce(`${config.label}: ${formatNumber(count)} ${count === 1 ? 'record' : 'records'}${state.query ? ` matching ${state.query}` : ''}.`);
 }
 
+/** @param {BrowseItem[]} items */
 function renderRegisterInterestList(items) {
   const textFiltered = filterItems(items, state.query);
   const filtered = applyRegisterInterestFilters(textFiltered);
@@ -1695,11 +1728,12 @@ function renderRegisterInterestList(items) {
   els.results.innerHTML = `
     ${renderRegisterInterestControls(items, sorted.length, items.length)}
     ${renderFilterSummary(sorted.length, items.length)}
-    ${renderListPage(sorted, (item) => renderCard('register-interests', item, config))}
+    ${renderListPage(sorted, (/** @type {BrowseItem} */ item) => renderCard('register-interests', item, config))}
   `;
   state.lastListRender = () => renderRegisterInterestList(items);
 }
 
+/** @param {BrowseItem[] | null} items @param {number} filteredCount @param {number} totalCount @param {Record<string, Json> | null} [facets] */
 function renderRegisterInterestControls(items, filteredCount, totalCount, facets = null) {
   const controls = state.registerInterestControls;
   const activeFilters = Object.values(controls.filters || {}).filter(Boolean).length;
@@ -1738,6 +1772,9 @@ function renderRegisterInterestControls(items, filteredCount, totalCount, facets
  * Options come from `/_api/sources?facets=1`, never from the rendered page: a filter built
  * from the 200 records currently on screen would silently omit every value that appears
  * later in the 40,553.
+ * @param {number} filteredCount
+ * @param {number} totalCount
+ * @param {Record<string, Json> | null | undefined} facets
  */
 function renderSourceControls(filteredCount, totalCount, facets) {
   const active = SOURCE_FILTERS.filter((f) => state.sourceFilters[f.key]).length;
@@ -1750,7 +1787,7 @@ function renderSourceControls(filteredCount, totalCount, facets) {
         <span>${escapeHtml(filter.label)}</span>
         <select data-source-filter="${escapeAttr(filter.key)}">
           <option value="">All</option>
-          ${options.map((option) => `<option value="${escapeAttr(option)}"${option === value ? ' selected' : ''}>${escapeHtml(filter.key === 'publicationStatus' ? `${publicationStatusLabel(option)} (${option.replace(/-/g, ' ')})` : option)}</option>`).join('')}
+          ${options.map((/** @type {string} */ option) => `<option value="${escapeAttr(option)}"${option === value ? ' selected' : ''}>${escapeHtml(filter.key === 'publicationStatus' ? `${publicationStatusLabel(option)} (${option.replace(/-/g, ' ')})` : option)}</option>`).join('')}
         </select>
       </label>
     `;
@@ -1767,6 +1804,7 @@ function renderSourceControls(filteredCount, totalCount, facets) {
   `;
 }
 
+/** @param {{ key: string, label: string }} filter @param {BrowseItem[] | null} items @param {Record<string, Json> | null} [facets] */
 function renderRegisterInterestFilter(filter, items, facets = null) {
   const value = state.registerInterestControls.filters[filter.key] || '';
   const options = registerInterestFilterOptions(filter.key, items, facets);
@@ -1781,7 +1819,7 @@ function renderRegisterInterestFilter(filter, items, facets = null) {
   `;
 }
 
-/** @param {string} key @param {Json[]} items @param {Record<string, Json[]> | null} [facets] */
+/** @param {string} key @param {BrowseItem[] | null} items @param {Record<string, Json[]> | null} [facets] */
 function registerInterestFilterOptions(key, items, facets = null) {
   if (key === 'nilStatus') {
     return [
@@ -1808,6 +1846,7 @@ function registerInterestFilterOptions(key, items, facets = null) {
     .map((value) => ({ value, label: key === 'sourceKinds' ? sourceKindLabel(value) : value }));
 }
 
+/** @param {BrowseItem} item @param {string} key */
 function registerInterestFilterValues(item, key) {
   if (key === 'categories') return normalizeArray(item.categories || item.category);
   if (key === 'sourceKinds') return normalizeArray(item.sourceKinds || item.sourceKind);
@@ -1815,11 +1854,13 @@ function registerInterestFilterValues(item, key) {
   return normalizeArray(item[key]);
 }
 
+/** @param {BrowseItem[]} items */
 function applyRegisterInterestFilters(items) {
   const filters = state.registerInterestControls.filters || {};
   return items.filter((item) => Object.entries(filters).every(([key, value]) => registerInterestMatchesFilter(item, key, value)));
 }
 
+/** @param {BrowseItem} item @param {string} key @param {string} value */
 function registerInterestMatchesFilter(item, key, value) {
   if (!value) return true;
   if (key === 'nilStatus') {
@@ -1831,6 +1872,7 @@ function registerInterestMatchesFilter(item, key, value) {
   return registerInterestFilterValues(item, key).some((itemValue) => String(itemValue) === String(value));
 }
 
+/** @param {BrowseItem[]} items */
 function sortRegisterInterestItems(items) {
   const controls = state.registerInterestControls;
   const sortKey = REGISTER_INTEREST_SORT_OPTIONS.some((option) => option.key === controls.sortKey) ? controls.sortKey : 'date';
@@ -1844,6 +1886,7 @@ function sortRegisterInterestItems(items) {
   });
 }
 
+/** @param {BrowseItem} item @param {string} key */
 function registerInterestSortValue(item, key) {
   if (key === 'date') return /^\d{4}-\d{2}-\d{2}$/.test(String(item.date || '')) ? item.date : '';
   if (key === 'constituency') return item.constituency || normalizeArray(item.constituencies)[0] || '';
@@ -1851,11 +1894,13 @@ function registerInterestSortValue(item, key) {
   return item[key] || '';
 }
 
+/** @param {Json} left @param {Json} right @param {string} key */
 function compareRegisterInterestValues(left, right, key) {
   if (key === 'interestCount' || key === 'sourceCount') return Number(left || 0) - Number(right || 0);
   return String(left || '').localeCompare(String(right || ''), undefined, { numeric: true });
 }
 
+/** @param {string} type @param {BrowseItem} item @param {EntityConfig} config */
 function renderCard(type, item, config) {
   const slug = item.slug || slugify(item.id || item.key || item.title);
   const status = cleanStatus(item.status);
@@ -1877,6 +1922,7 @@ function renderCard(type, item, config) {
 
 // Each button names its record for a screen reader ("Open election layer: 2024 general
 // election"), where a page of identical "Open" links said nothing (WCAG 2.4.4).
+/** @param {EntityConfig} config @param {BrowseItem} item @param {string} [title] */
 function renderInlineActions(config, item, title = item.title || item.name || '') {
   const actions = [];
   const label = config.action || 'Open in interactive map';
@@ -1888,6 +1934,8 @@ function renderInlineActions(config, item, title = item.title || item.name || ''
 /**
  * A record's title for display. A register entry's title ends in its ISO date ("David Trimble
  * - House of Commons - 2000-11-10"); it is shown as the site shows dates elsewhere.
+ * @param {string} type
+ * @param {BrowseItem} item
  */
 function readerTitle(type, item) {
   const title = item.title || item.name || item.id || '';
@@ -1905,10 +1953,12 @@ function readerTitle(type, item) {
 const PRONI_LICENCE_NOTE = 'Catalogue data from the PRONI eCatalogue (Public Record Office of Northern Ireland), Crown copyright, published under the Open Government Licence.';
 const PRONI_ECAT_URL = 'https://apps.proni.gov.uk/eCatNI_IE/Default.aspx';
 
+/** @param {string} slug */
 function proniSlugToRef(slug) { return String(slug).replace(/~/g, '/'); }
 
 // Browse data is served from D1 via the node API (not static shards), so it
 // scales to the full ~1.5M-record tree without shipping shard files.
+/** @param {string} slug @returns {Promise<ProniNode | null>} */
 async function loadProniNode(slug) {
   const ref = proniSlugToRef(slug);
   const data = await loadJson(`/_api/proni/node?ref=${encodeURIComponent(ref)}`).catch(() => null);
@@ -1917,6 +1967,7 @@ async function loadProniNode(slug) {
   return { item };
 }
 
+/** @param {string | null} id */
 async function renderProniRoute(id) {
   const token = renderSeq;
   const config = ENTITY_CONFIG.proni;
@@ -1944,6 +1995,7 @@ async function renderProniRoute(id) {
   els.results.innerHTML = renderProniDetailPage(node);
 }
 
+/** @param {EntityConfig} _config @param {BrowseItem[]} items */
 function renderProniLanding(_config, items) {
   els.results.innerHTML = `
     <section class="proni-search">
@@ -1977,13 +2029,16 @@ function renderProniLanding(_config, items) {
   }
 }
 
+/** @type {number | null} */
 let proniSearchTimer = null;
+/** @param {string} query */
 function scheduleProniSearch(query) {
   state.proniQuery = query;
-  clearTimeout(proniSearchTimer);
+  clearTimeout(/** @type {number | undefined} clearTimeout ignores null as it does undefined */ (proniSearchTimer));
   proniSearchTimer = setTimeout(() => runProniSearch(query), 250);
 }
 
+/** @param {string | null} query */
 async function runProniSearch(query) {
   const box = document.getElementById('proni-search-results');
   if (!box) return;
@@ -2005,6 +2060,7 @@ async function runProniSearch(query) {
 
 const PRONI_SEARCH_LIMIT = 30;
 
+/** @param {HTMLElement} box @param {BrowseItem} data */
 function renderProniSearchResults(box, data) {
   const results = data.results || [];
   if (!results.length) {
@@ -2018,7 +2074,7 @@ function renderProniSearchResults(box, data) {
   box.innerHTML = `
     <p class="proni-search-count">${count}</p>
     <ul class="proni-child-list">
-      ${results.map((r) => `
+      ${results.map((/** @type {BrowseItem} */ r) => `
         <li class="proni-child proni-child--${r.hasChildren ? 'container' : 'item'}">
           <a href="#/proni/${encodeURIComponent(r.slug)}" data-browse-link>
             <span class="proni-child-icon" aria-hidden="true">${r.hasChildren ? '&#128193;' : '&#128196;'}</span>
@@ -2031,17 +2087,19 @@ function renderProniSearchResults(box, data) {
     </ul>`;
 }
 
+/** @param {ProniNode} node */
 function proniBreadcrumb(node) {
   // The node API returns the full ancestor chain for any node.
-  const ancestors = (node.item.path || []).map((a) => ({ slug: a.slug, title: a.title || a.ref }));
+  const ancestors = (node.item.path || []).map((/** @type {BrowseItem} */ a) => ({ slug: a.slug, title: a.title || a.ref }));
   const crumbs = ['<a href="#/proni" data-browse-link>PRONI Records</a>'];
-  ancestors.forEach((a) => {
+  ancestors.forEach((/** @type {{ slug: Json, title: Json }} */ a) => {
     crumbs.push(`<a href="#/proni/${encodeURIComponent(a.slug)}" data-browse-link>${escapeHtml(a.title)}</a>`);
   });
   crumbs.push(`<span aria-current="page">${escapeHtml(node.item.title || node.item.ref)}</span>`);
   return `<nav class="proni-breadcrumb" aria-label="Record hierarchy">${crumbs.join('<span class="proni-crumb-sep">/</span>')}</nav>`;
 }
 
+/** @param {BrowseItem} it */
 function proniMetaRows(it) {
   const rows = [
     ['Reference', it.ref],
@@ -2055,6 +2113,7 @@ function proniMetaRows(it) {
     <div class="proni-meta-row"><dt>${escapeHtml(k)}</dt><dd>${escapeHtml(v)}</dd></div>`).join('');
 }
 
+/** @param {BrowseItem} c */
 function proniChildRow(c) {
   const badge = c.hasChildren ? 'container' : 'item';
   const icon = c.hasChildren ? '&#128193;' : '&#128196;'; // folder / page
@@ -2079,6 +2138,7 @@ const PRONI_DESC_LIMIT = 280;
 // Render description text as HTML paragraphs, preserving the line/paragraph
 // breaks captured from PRONI: blank lines (\n\n) split paragraphs, single
 // newlines become <br>. Every segment is escaped before any markup is added.
+/** @param {string} text */
 function proniDescParas(text) {
   return String(text)
     .replace(/\r\n?/g, '\n')
@@ -2089,6 +2149,7 @@ function proniDescParas(text) {
     .join('');
 }
 
+/** @param {string | null | undefined} text */
 function renderProniDescription(text) {
   if (!text) return '';
   const heading = '<h2 class="proni-section-title">Description</h2>';
@@ -2108,6 +2169,7 @@ function renderProniDescription(text) {
     </section>`;
 }
 
+/** @param {ProniNode} node */
 function renderProniDetailPage(node) {
   const it = node.item;
   const children = it.children || [];
@@ -2134,6 +2196,7 @@ function renderProniDetailPage(node) {
   `;
 }
 
+/** @param {string} type @param {BrowseItem} indexItem */
 async function renderDetail(type, indexItem) {
   const token = renderSeq;
   const config = ENTITY_CONFIG[type];
@@ -2204,6 +2267,7 @@ async function renderDetail(type, indexItem) {
   announce(`Loaded ${item.title || config.singular}.`);
 }
 
+/** @param {EntityConfig} config @param {BrowseItem} item */
 function renderDetailActions(config, item) {
   const actions = [];
   if (item.interactiveUrl) actions.push(`<a class="browse-btn browse-btn--primary" href="${escapeAttr(item.interactiveUrl)}">${escapeHtml(config.action || 'Open in interactive map')}</a>`);
@@ -2211,6 +2275,7 @@ function renderDetailActions(config, item) {
   return `<div class="browse-actions">${actions.join('')}</div>`;
 }
 
+/** @param {string} type @param {BrowseItem} item */
 function renderContributorDetailActions(type, item) {
   if (!state.auth?.allowed) return '';
   const entityType = entityTypeForBrowseType(type);
@@ -2230,6 +2295,7 @@ function renderContributorDetailActions(type, item) {
 // metadata) move into a single "More fields" disclosure. When the record has no
 // statements, the curated reader summary is the pinned fallback so non-graph
 // items still get a header.
+/** @param {string} type @param {BrowseItem} item @param {Json[][]} [pinnedRows] */
 function renderHeaderPanel(type, item, pinnedRows = []) {
   // The curated facts lead (a person's dates and contests, an election's body, date and
   // constituencies) and the graph's pinned statements follow, where they add something. The
@@ -2266,6 +2332,7 @@ function renderHeaderPanel(type, item, pinnedRows = []) {
   `;
 }
 
+/** @param {Json[][]} rows @param {string} [label] */
 function renderMoreFields(rows, label = 'More fields') {
   return `
     <details class="browse-more-fields">
@@ -2275,15 +2342,17 @@ function renderMoreFields(rows, label = 'More fields') {
   `;
 }
 
+/** @param {string} type @param {BrowseItem} item */
 function readerSummaryText(type, item) {
   if (type === 'elections') return item.description || `${formatNumber(item.totalConstituencies || 0)} constituencies/features in this election record.`;
-  if (type === 'persons') return joinList(item.parties?.slice(0, 4).map((party) => party.name)) || item.subtitle || '';
+  if (type === 'persons') return joinList(item.parties?.slice(0, 4).map((/** @type {BrowseItem} */ party) => party.name)) || item.subtitle || '';
   // The detail record has no relatedElectionCount, so this read 0 above a 141-row table.
   if (type === 'parties') return `${item.title || item.canonicalName} appears in ${formatNumber(item.relatedElectionCount ?? item.relatedElections?.length ?? 0)} election summaries.`;
-  if (type === 'sources') return item.description || joinList(item.downloads?.slice(0, 2).map((link) => link.label)) || '';
+  if (type === 'sources') return item.description || joinList(item.downloads?.slice(0, 2).map((/** @type {BrowseItem} */ link) => link.label)) || '';
   return item.description || item.subtitle || '';
 }
 
+/** @param {string} type @param {BrowseItem} item */
 function readerSummaryRows(type, item) {
   if (type === 'elections') {
     if (item.entryKind && item.entryKind !== 'election') {
@@ -2315,11 +2384,11 @@ function readerSummaryRows(type, item) {
   if (type === 'persons') {
     return [
       ['Name', item.name || item.title],
-      ['Formal name', joinList(item.formalNames?.map((entry) => entry.name))],
+      ['Formal name', joinList(item.formalNames?.map((/** @type {BrowseItem} */ entry) => entry.name))],
       ['Born', formatDate(item.born)],
       ['Died', formatDate(item.died)],
       ['Years', yearRange(item.firstYear, item.lastYear) || item.subtitle],
-      ['Parties', joinList(item.parties?.slice(0, 5).map((party) => party.name))],
+      ['Parties', joinList(item.parties?.slice(0, 5).map((/** @type {BrowseItem} */ party) => party.name))],
       ['Contests', item.totals?.stood],
       ['Elected', item.totals?.elected]
     ];
@@ -2353,6 +2422,7 @@ function readerSummaryRows(type, item) {
   ];
 }
 
+/** @param {EntityConfig} config @param {BrowseItem} item @param {string} graphPanel */
 function renderRegisterInterestDetailPage(config, item, graphPanel) {
   return `
     <div class="browse-detail browse-detail--reader browse-register-detail">
@@ -2367,6 +2437,7 @@ function renderRegisterInterestDetailPage(config, item, graphPanel) {
   `;
 }
 
+/** @param {BrowseItem} item */
 function renderRegisterInterestSummaryPanel(item) {
   // The member and their party link to their own records (personSlug is matched at build by
   // name and constituency); the entry used to link only to graph entity pages.
@@ -2397,6 +2468,7 @@ function renderRegisterInterestSummaryPanel(item) {
   `;
 }
 
+/** @param {BrowseItem} item */
 function renderRegisterInterestEntriesPanel(item) {
   const interests = normalizeArray(item.interests);
   if (!interests.length) {
@@ -2423,6 +2495,7 @@ function renderRegisterInterestEntriesPanel(item) {
   `;
 }
 
+/** @param {BrowseItem} interest @param {number} index */
 function renderInterestEntry(interest, index) {
   const sourceSummary = summarizeInterestSources(interest);
   return `
@@ -2440,6 +2513,7 @@ function renderInterestEntry(interest, index) {
   `;
 }
 
+/** @param {string} text */
 function renderInterestText(text) {
   const parsed = parseInterestText(text);
   if (parsed.fields.length >= 2) {
@@ -2458,6 +2532,7 @@ function renderInterestText(text) {
   return `<p class="browse-interest-entry__text">${escapeHtml(cleanInterestText(text))}</p>`;
 }
 
+/** @param {string} text */
 function parseInterestText(text) {
   const normalized = cleanInterestText(text);
   const labels = [
@@ -2507,6 +2582,7 @@ function parseInterestText(text) {
   return { leading, fields };
 }
 
+/** @param {string} text */
 function cleanInterestText(text) {
   return String(text || '')
     .replace(/([a-z)])([A-Z][a-z]+ interest details:)/g, '$1 $2')
@@ -2515,10 +2591,12 @@ function cleanInterestText(text) {
     .trim();
 }
 
+/** @param {string} label */
 function canonicalInterestLabel(label) {
   return String(label || '').replace(/\b(Of|For|And|The|In|Uk)\b/g, (match) => match.toLowerCase() === 'uk' ? 'UK' : match.toLowerCase());
 }
 
+/** @param {BrowseItem} interest */
 function summarizeInterestSources(interest) {
   const refs = normalizeArray(interest.sourceRefs);
   const labels = [...new Set(refs.map((ref) => [ref.sourceTitle || sourceKindLabel(ref.sourceKind), formatDate(ref.date)].filter(Boolean).join(', ')).filter(Boolean))];
@@ -2530,6 +2608,7 @@ function summarizeInterestSources(interest) {
   return parts.length ? parts.map((part) => `<span>${escapeHtml(part)}</span>`).join('') : '';
 }
 
+/** @param {BrowseItem} item */
 function renderRegisterSourcePanel(item) {
   const sourceRows = normalizeArray(item.sourceRefs);
   if (!sourceRows.length) return '';
@@ -2564,6 +2643,7 @@ function renderRegisterSourcePanel(item) {
 
 // Curated secondary fields for a record, as data. The header panel pins the
 // headline subset and tucks the rest behind its "More fields" disclosure.
+/** @param {string} type @param {BrowseItem} item */
 function metadataRows(type, item) {
   const rows = [
     ['Status', statusLabel(item.status)],
@@ -2616,6 +2696,7 @@ function metadataRows(type, item) {
 // Map page header: thumbnail box (with asset name + link) on the left; title,
 // entry type, and year/date on the right. Every other attribute is a semantic
 // statement in the body below, so nothing else lives here.
+/** @param {BrowseItem} item */
 function renderMapHeaderPanel(item) {
   const dateLabel = item.subtitle || (item.date !== undefined && item.date !== null && item.date !== '' ? String(item.date) : '') || joinList(item.years);
   return `
@@ -2637,9 +2718,10 @@ function renderMapHeaderPanel(item) {
 
 /** A census statistic says what it measures and cites its source and licence on its record:
  * a map's facts come from the graph, which has none for a statistic. */
+/** @param {BrowseItem} item */
 function renderStatisticSummary(item) {
   const refs = Array.isArray(item.references) ? item.references : [];
-  const link = (ref) => (ref.url
+  const link = (/** @type {BrowseItem} */ ref) => (ref.url
     ? `<a href="${escapeAttr(ref.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(ref.label || ref.url)}</a>`
     : escapeHtml(ref.label || ''));
   const source = refs.filter((ref) => !/^Licence:/i.test(ref.label || '')).map(link).join('; ');
@@ -2650,6 +2732,7 @@ function renderStatisticSummary(item) {
   `;
 }
 
+/** @param {BrowseItem} item */
 function renderMapThumbnailNote(item) {
   const thumbnail = item.thumbnail || fallbackThumbnail(item);
   if (thumbnail.kind === 'asset') {
@@ -2670,6 +2753,7 @@ function renderMapThumbnailNote(item) {
 // A "Downloads & files" statement group: the actual downloadable artifacts,
 // rendered inside the Semantic statements panel rather than as a separate
 // section. Each file is a single clickable line (the filename).
+/** @param {BrowseItem[]} links */
 function renderDownloadStatementGroup(links) {
   return `
     <div class="browse-graph-group">
@@ -2691,6 +2775,7 @@ function renderDownloadStatementGroup(links) {
 // extracted from the source .fgb (data/browse/map-features/<id>.json, fetched
 // lazily only on this page); falls back to the sampled graph features (name +
 // bounding box) when no attribute file exists.
+/** @param {BrowseItem} item @param {string | null} entityId */
 async function renderMapFeaturesTable(item, entityId) {
   let related;
   try {
@@ -2719,6 +2804,7 @@ async function renderMapFeaturesTable(item, entityId) {
   const attrMaps = await Promise.all(shown.map(async (feature) => {
     try {
       const detail = await loadGraphStatementsForEntity(feature.subjectId);
+      /** @type {Record<string, string>} */
       const attrs = {};
       for (const statement of detail.statements || []) {
         if (['cg:property:name', 'cg:property:instance-of', 'cg:property:feature-in-layer'].includes(statement.propertyId)) continue;
@@ -2729,6 +2815,7 @@ async function renderMapFeaturesTable(item, entityId) {
       return {};
     }
   }));
+  /** @type {string[]} */
   const columns = [];
   for (const attrs of attrMaps) for (const key of Object.keys(attrs)) if (!columns.includes(key)) columns.push(key);
   const headerRow = `<tr><th scope="col">Thumbnail</th><th scope="col">Feature</th>${columns.map((col) => `<th scope="col">${escapeHtml(col)}</th>`).join('')}</tr>`;
@@ -2762,6 +2849,7 @@ async function renderMapFeaturesTable(item, entityId) {
 // so even a 100k+ feature layer never fetches or renders more than is scrolled
 // to. Each source property is a column, the bounding box uses the rounded/
 // expandable cell, and each feature links to its graph entity when one exists.
+/** @param {string} mapId @param {BrowseItem} meta @param {Json} graphFeatures */
 async function renderMapFeaturesFromShards(mapId, meta, graphFeatures) {
   const base = `${MAP_FEATURES_BASE}/${encodeURIComponent(mapId)}`;
   let firstPage;
@@ -2770,6 +2858,7 @@ async function renderMapFeaturesFromShards(mapId, meta, graphFeatures) {
   } catch (error) {
     return '';
   }
+  /** @type {Record<string, Json>} */
   const linkBySlug = {};
   for (const feature of normalizeArray(graphFeatures)) {
     const key = feature.subjectSlug || slugify(feature.subjectLabel || '');
@@ -2800,6 +2889,7 @@ async function renderMapFeaturesFromShards(mapId, meta, graphFeatures) {
   `;
 }
 
+/** @param {BrowseItem} feature @param {FeatureTable} ctx */
 function featureRowHtml(feature, ctx) {
   const entityId = ctx.linkBySlug[slugify(feature.name || '')];
   const nameCell = entityId
@@ -2813,9 +2903,10 @@ function featureRowHtml(feature, ctx) {
   return `<tr><td class="browse-feature-thumb"></td><td>${nameCell}</td><td>${bboxCell}</td>${attrCells}</tr>`;
 }
 
+/** @param {UiElement} button */
 async function handleFeatureLoadMore(button) {
   const mapId = button.dataset.featureMap;
-  const ctx = state.featureTables[mapId];
+  const ctx = state.featureTables[/** @type {string} the button carries data-feature-map */ (mapId)];
   if (!ctx) return;
   button.disabled = true;
   let page;
@@ -2837,12 +2928,14 @@ async function handleFeatureLoadMore(button) {
   }
 }
 
+/** @param {string} col */
 function isBoundingBoxColumn(col) {
   return /bounding box|bbox|extent/i.test(String(col));
 }
 
 // A bounding box cell shows the coordinates rounded to 3 decimal places by
 // default; clicking it toggles the full-precision figures (pure <details>).
+/** @param {string} raw */
 function renderBoundingBoxCell(raw) {
   const parts = String(raw).split(',').map((part) => part.trim()).filter(Boolean);
   const numbers = parts.map(Number);
@@ -2859,7 +2952,7 @@ function renderBoundingBoxCell(raw) {
   `;
 }
 
-/** Rows in date order, oldest first; rows without a date keep their place at the end. */
+/** Rows in date order, oldest first; rows without a date keep their place at the end. @param {Json[] | null | undefined} rows */
 function byDate(rows) {
   return [...(rows || [])].sort((a, b) => String(a?.date || '9999').localeCompare(String(b?.date || '9999')));
 }
@@ -2872,13 +2965,17 @@ function byDate(rows) {
 // Votes come from /_api/votes (D1, data design phase 2); the files under /data/browse/votes are
 // answered from the same rows for old links.
 const VOTES_API = '/_api/votes';
+/** @type {Record<string, string>} */
 const VOTE_WORDS = { aye: 'Aye', no: 'No', abstain: 'Abstained', both: 'Both lobbies' };
+/** @type {Record<string, Record<string, string>>} */
 const VOTE_WORDS_BODY = { dail: { aye: 'Tá', no: 'Níl', abstain: 'Staon' }, seanad: { aye: 'Tá', no: 'Níl', abstain: 'Staon' } };
 const VOTES_PAGE = 50;
+/** @type {Record<string, string>} */
 const VOTE_BODY_SHORT = { dail: 'Dáil', seanad: 'Seanad', commons: 'Commons', niassembly: 'Assembly', stormont: 'Stormont' };
 /** @type {{ personId: string | null, rows: Json[], titles: Json[], filters: Record<string, string | boolean | undefined>, shown: number }} */
 const votesView = { personId: null, rows: [], titles: [], filters: { body: '', vote: '', against: false }, shown: VOTES_PAGE };
 
+/** @param {string} url */
 async function loadVotesJson(url) {
   if (state.details.has(url)) return state.details.get(url);
   let data = null;
@@ -2892,18 +2989,22 @@ async function loadVotesJson(url) {
   return data;
 }
 
+/** @param {string} body @param {string} vote */
 function voteWord(body, vote) {
   return VOTE_WORDS_BODY[body]?.[vote] ? `${VOTE_WORDS[vote]} (${VOTE_WORDS_BODY[body][vote]})` : (VOTE_WORDS[vote] || vote || '');
 }
 
+/** @param {string} id @param {string} [title] */
 function divisionLink(id, title) {
   return `<a href="#/divisions/${encodeURIComponent(id)}" data-browse-link>${escapeHtml(title || id)}</a>`;
 }
 
+/** @param {BrowseItem} row */
 function termLabel(row) {
   return /^\d{4}-\d{2}-\d{2}$/.test(row.term) ? `elected ${formatDate(row.term)}` : row.term;
 }
 
+/** @param {BrowseItem} item */
 async function renderPersonVotesPanel(item) {
   const personId = String(item.id || '').replace(/^person:/, '');
   if (!/^\d+$/.test(personId)) return '';
@@ -2922,7 +3023,7 @@ async function renderPersonVotesPanel(item) {
     row.heldInPeriod ? `${formatNumber(row.heldInPeriod)} <span class="browse-muted">(${Math.round(100 * row.voted / row.heldInPeriod)}% voted)</span>` : '<span class="browse-muted">–</span>',
     formatNumber(row.againstParty)
   ]));
-  const bodies = [...new Set(data.divisions.map((row) => row[2]))];
+  const bodies = [...new Set(data.divisions.map((/** @type {Json[]} */ row) => row[2]))];
   const bodyOptions = bodies.map((body) => `<option value="${escapeAttr(body)}">${escapeHtml(terms.find((row) => row.body === body)?.bodyLabel || body)}</option>`).join('');
   const controls = `
     <div class="browse-votes-controls" data-votes-controls>
@@ -2970,6 +3071,7 @@ function renderPersonVotesRows() {
   return table + more;
 }
 
+/** @param {UiElement} control */
 function rerenderVotesTable(control) {
   const host = control.closest('.browse-collapsible')?.querySelector('[data-votes-table]');
   if (host) host.innerHTML = renderPersonVotesRows();
@@ -2992,6 +3094,7 @@ document.addEventListener('click', (/** @type {MouseEvent} */ rawEvent) => { con
   rerenderVotesTable(more);
 });
 
+/** @param {BrowseItem} item */
 async function renderPartyVotesPanel(item) {
   const slug = item.slug || slugify(item.id || item.title);
   const data = await loadVotesJson(`${VOTES_API}?party=${encodeURIComponent(slug)}`);
@@ -3018,6 +3121,7 @@ async function renderPartyVotesPanel(item) {
   return renderCollapsiblePanel('Votes in divisions', body, countText(terms.reduce((n, row) => n + row.divisions, 0), 'division'), { open: false });
 }
 
+/** @param {string | null} divisionId */
 async function renderDivisionRoute(divisionId) {
   const token = renderSeq;
   state.currentDetail = null;
@@ -3041,7 +3145,7 @@ async function renderDivisionRoute(divisionId) {
     <p class="browse-description">${escapeHtml(bodyLabel)}, ${escapeHtml(formatDate(record.date))}${record.result ? ` · ${escapeHtml(record.result)}` : ''}</p>`;
   setDocumentHead({ title: `${title} (${formatDate(record.date)}) – Division – Civgraph`, description: `${bodyLabel} division of ${formatDate(record.date)}: ${title}.` });
   const counts = [['Ayes', record.ayes], ['Noes', record.noes], ['Abstained', record.abstain]].filter(([, n]) => n !== '' && n !== null && n !== undefined);
-  const source = index?.sources?.find((row) => row.body === record.body);
+  const source = index?.sources?.find((/** @type {BrowseItem} */ row) => row.body === record.body);
   const facts = `
     <section class="browse-detail__panel">
       <h2>Result</h2>
@@ -3072,6 +3176,7 @@ async function renderDivisionRoute(divisionId) {
 
 // ---- Party profiles (data/browse/party-profiles/<slug>.json, scripts/build/build-party-profiles.mjs) ----
 
+/** @param {BrowseItem} item */
 async function loadPartyProfile(item) {
   const slug = item.slug || slugify(item.id || item.title);
   const cacheKey = `party-profile:${slug}`;
@@ -3087,17 +3192,20 @@ async function loadPartyProfile(item) {
   return profile;
 }
 
+/** @param {string} [slug] @param {string} [title] */
 function partyRecordLink(slug, title) {
   return slug
     ? `<a href="#/parties/${encodeURIComponent(slug)}" data-browse-link>${escapeHtml(title || slug)}</a>`
     : escapeHtml(title || '');
 }
 
+/** @param {string} [key] @param {string} [title] */
 function electionRecordLink(key, title) {
   return key ? `<a href="#/elections/${encodeURIComponent(electionSlug(key))}" data-browse-link>${escapeHtml(title || key)}</a>` : escapeHtml(title || '');
 }
 
 // Citations as small numbered links after a fact; the full titles are in each link's title.
+/** @param {Json} citations */
 function citationLinks(citations) {
   const list = normalizeArray(citations).filter((citation) => citation?.title);
   if (!list.length) return '';
@@ -3106,6 +3214,7 @@ function citationLinks(citations) {
     : `<span title="${escapeAttr(citation.title)}">[${index + 1}]</span>`)).join('')}</span>`;
 }
 
+/** @param {Json} citations */
 function citationList(citations) {
   const list = normalizeArray(citations).filter((citation) => citation?.title);
   if (!list.length) return '';
@@ -3114,8 +3223,10 @@ function citationList(citations) {
     : escapeHtml(citation.title)}</li>`).join('')}</ol>`;
 }
 
+/** @type {Record<string, string>} */
 const PARTY_SOURCE_LABELS = { registry: 'Civgraph party registry', lineage: 'cited documents', wikidata: 'Wikidata', elections: 'Civgraph election records' };
 
+/** @param {BrowseItem} item @param {BrowseItem} profile */
 function renderPartyProfilePanels(item, profile) {
   return [
     renderPartyHistoryPanel(item, profile),
@@ -3128,6 +3239,7 @@ function renderPartyProfilePanels(item, profile) {
   ].join('');
 }
 
+/** @param {BrowseItem} item @param {BrowseItem} profile */
 function partySummarySentence(item, profile) {
   const title = escapeHtml(profile.title || item.title);
   const parts = [];
@@ -3144,6 +3256,7 @@ function partySummarySentence(item, profile) {
   return lead.trim();
 }
 
+/** @param {BrowseItem} item @param {BrowseItem} profile */
 function renderPartyHistoryPanel(item, profile) {
   const relationGroups = ['predecessor', 'successor', 'related'].map((relation) => {
     const rows = normalizeArray(profile.relations).filter((row) => row.relation === relation);
@@ -3157,8 +3270,8 @@ function renderPartyHistoryPanel(item, profile) {
     ['Other founding date recorded', normalizeArray(profile.otherFoundingDates).map((row) => `${escapeHtml(formatDate(row.date))} <small class="browse-party-source">${escapeHtml(PARTY_SOURCE_LABELS[row.source] || '')}</small>${citationLinks(row.citations)}`).join('; ')],
     ['Dissolved', profile.dissolved?.date ? `${escapeHtml(formatDate(profile.dissolved.date))} <small class="browse-party-source">${escapeHtml(PARTY_SOURCE_LABELS[profile.dissolved.source] || '')}</small>${citationLinks(profile.dissolved.citations)}` : ''],
     ['Status', profile.status ? escapeHtml(profile.status.charAt(0).toUpperCase() + profile.status.slice(1)) : ''],
-    ['Ideology', normalizeArray(profile.ideologies).length ? `${profile.ideologies.map((row) => escapeHtml(row.label)).join(', ')} <small class="browse-party-source">Wikidata</small>` : ''],
-    ['Political position', normalizeArray(profile.alignment).length ? `${profile.alignment.map((row) => escapeHtml(row.label)).join(', ')} <small class="browse-party-source">Wikidata</small>` : ''],
+    ['Ideology', normalizeArray(profile.ideologies).length ? `${profile.ideologies.map((/** @type {BrowseItem} */ row) => escapeHtml(row.label)).join(', ')} <small class="browse-party-source">Wikidata</small>` : ''],
+    ['Political position', normalizeArray(profile.alignment).length ? `${profile.alignment.map((/** @type {BrowseItem} */ row) => escapeHtml(row.label)).join(', ')} <small class="browse-party-source">Wikidata</small>` : ''],
     ['Elsewhere', [
       profile.wikidata?.enwiki ? `<a href="https://en.wikipedia.org/wiki/${encodeURIComponent(profile.wikidata.enwiki.replace(/ /g, '_'))}" rel="noopener" target="_blank">Wikipedia</a>` : '',
       profile.wikidata?.qid ? `<a href="https://www.wikidata.org/wiki/${escapeAttr(profile.wikidata.qid)}" rel="noopener" target="_blank">Wikidata ${escapeHtml(profile.wikidata.qid)}</a>` : ''
@@ -3173,7 +3286,7 @@ function renderPartyHistoryPanel(item, profile) {
           <time datetime="${escapeAttr(event.date || '')}">${escapeHtml(formatDate(event.date))}</time>
           <div>
             <p>${event.electionKey ? escapeHtml(event.text).replace(/: (.*)\.$/, (_match, title) => `: ${electionRecordLink(event.electionKey, unescapeText(title))}.`) : escapeHtml(event.text)}${citationLinks(event.citations)}</p>
-            ${normalizeArray(event.related).length ? `<p class="browse-party-timeline__related">${event.related.map((row) => `${escapeHtml(row.relation)}: ${partyRecordLink(row.slug, row.title)}`).join(' · ')}</p>` : ''}
+            ${normalizeArray(event.related).length ? `<p class="browse-party-timeline__related">${event.related.map((/** @type {BrowseItem} */ row) => `${escapeHtml(row.relation)}: ${partyRecordLink(row.slug, row.title)}`).join(' · ')}</p>` : ''}
             ${event.basis ? `<p class="browse-party-timeline__basis">${escapeHtml(event.basis)}</p>` : ''}
             ${event.note ? `<p class="browse-party-timeline__basis">${escapeHtml(event.note)}</p>` : ''}
           </div>
@@ -3195,10 +3308,12 @@ function renderPartyHistoryPanel(item, profile) {
 }
 
 // escapeHtml output is matched above to link a contest title; undo it before re-escaping.
+/** @param {string} value */
 function unescapeText(value) {
   return String(value).replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
 }
 
+/** @param {BrowseItem} profile */
 function renderPartyLeadersPanel(profile) {
   const leaders = normalizeArray(profile.leaders);
   if (!leaders.length) return '';
@@ -3224,6 +3339,7 @@ function renderPartyLeadersPanel(profile) {
   `;
 }
 
+/** @param {BrowseItem} item @param {BrowseItem} profile */
 function renderPartyBodiesPanel(item, profile) {
   const bodies = normalizeArray(profile.bodies);
   if (!bodies.length) return '';
@@ -3239,6 +3355,7 @@ function renderPartyBodiesPanel(item, profile) {
   `;
 }
 
+/** @param {BrowseItem} body @param {string} colour @param {string} partyTitle */
 function renderPartyBody(body, colour, partyTitle) {
   const totals = body.totals || {};
   const series = normalizeArray(body.series);
@@ -3289,18 +3406,20 @@ function renderPartyBody(body, colour, partyTitle) {
 // chart with two y-scales. Marks wear the party's colour; text stays in the text tokens.
 const PARTY_CHART = { width: 320, height: 150, left: 34, right: 40, top: 14, bottom: 22 };
 
+/** @param {BrowseItem[]} series */
 function partyChartFrame(series) {
   const times = series.map((point) => Date.parse(`${String(point.date).slice(0, 10)}T00:00:00Z`));
   const min = Math.min(...times);
   const max = Math.max(...times);
   const span = Math.max(max - min, 1);
   const plotWidth = PARTY_CHART.width - PARTY_CHART.left - PARTY_CHART.right;
-  const x = (index) => PARTY_CHART.left + ((times[index] - min) / span) * plotWidth;
+  const x = (/** @type {number} */ index) => PARTY_CHART.left + ((times[index] - min) / span) * plotWidth;
   const firstYear = new Date(min).getUTCFullYear();
   const lastYear = new Date(max).getUTCFullYear();
   return { x, firstYear, lastYear, plotWidth, times };
 }
 
+/** @param {number} value */
 function niceMax(value) {
   if (value <= 0) return 1;
   const magnitude = 10 ** Math.floor(Math.log10(value));
@@ -3310,6 +3429,7 @@ function niceMax(value) {
   return unit;
 }
 
+/** @param {number} maxValue @param {(value: number) => string} format @param {ReturnType<typeof partyChartFrame>} frame */
 function partyChartAxes(maxValue, format, frame) {
   const plotBottom = PARTY_CHART.height - PARTY_CHART.bottom;
   const plotHeight = plotBottom - PARTY_CHART.top;
@@ -3325,6 +3445,7 @@ function partyChartAxes(maxValue, format, frame) {
   return { grid, xLabels, plotBottom, plotHeight };
 }
 
+/** @param {BrowseItem[]} series @param {string} colour @param {string} label */
 function renderPartyBarChart(series, colour, label) {
   const frame = partyChartFrame(series);
   const maxSeats = niceMax(Math.max(...series.map((point) => Number(point.seats) || 0)));
@@ -3359,6 +3480,7 @@ function renderPartyBarChart(series, colour, label) {
   `;
 }
 
+/** @param {BrowseItem[]} series @param {string} colour @param {string} label */
 function renderPartyLineChart(series, colour, label) {
   const frame = partyChartFrame(series);
   const maxShare = Math.min(100, niceMax(Math.max(...series.map((point) => Number(point.share) || 0))));
@@ -3384,6 +3506,7 @@ function renderPartyLineChart(series, colour, label) {
   `;
 }
 
+/** @param {BrowseItem} profile */
 function renderPartyMembersPanel(profile) {
   const members = normalizeArray(profile.notableMembers);
   if (!members.length) return '';
