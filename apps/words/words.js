@@ -31,6 +31,8 @@ import { TOOLTIP } from './state-machines.js';
     { code: 'nia', label: 'NI Assembly', name: 'Northern Ireland Assembly', slot: 4 },
     { code: 'lords', label: 'Lords', name: 'House of Lords (NI-linked peers)', slot: 5 }
   ];
+  /** @typedef {typeof BODIES[number]} WordsBody a chamber shown on the page */
+  /** The chambers by code. @type {Record<string, WordsBody>} */
   var BODY = {}; BODIES.forEach(function (b) { BODY[b.code] = b; });
   var EXAMPLES = [
     { q: 'partition, home rule', label: 'partition, home rule' },
@@ -40,11 +42,42 @@ import { TOOLTIP } from './state-machines.js';
     { q: 'gaeilge', label: 'gaeilge (in Irish)', lang: 'ga' }
   ];
 
-  var META = null;     // indexed meta.json
-  var PARTIES = null;  // label -> [slug, name]
-  var SPEAKERS = null; // speakers.json rows
-  var fileCache = {};  // url -> Promise<object>
-  var RESULTS = [];    // [{term, n, entry|null, error}]
+  /**
+   * The shapes of the shards (scripts/build/words-fixture.mjs cuts a copy of them) and of what
+   * this page builds from them.
+   * @typedef {ReturnType<JSON['parse']>} Json a parsed shard, before the caller says which one it is
+   * @typedef {Record<number, number>} YearCounts uses or words, by year
+   * @typedef {{ bodies: string[], parties: string[], buckets: Record<string, number>,
+   *   totals: Array<[body: number, year: number, party: number, lang: string, words: number, ...rest: number[]]> }} WordsMetaFile
+   *   meta.json: the words spoken per chamber, year, party and language (indexes into bodies and parties)
+   * @typedef {{ key: string, name: string, slug: string }} PartyGroup a party label folded to Civgraph's party record
+   * @typedef {{ bodies: Record<number, string>, groups: PartyGroup[], gByKey: Record<string, PartyGroup>,
+   *   W: Record<string, Record<string, YearCounts>>, WP: Record<string, Record<string, Record<string, YearCounts>>>,
+   *   years: Record<string, Record<string, [number, number]>>, buckets: Record<string, number> }} WordsMeta
+   *   meta.json indexed (indexMeta): words by language and chamber (W), and by party too (WP), and each chamber's years
+   * @typedef {{ c: number, s: number[], k: number[] }} TermEntryFile a term in its bucket: total uses, (body, year, party, uses) quads, (speaker, uses) pairs
+   * @typedef {Record<string, TermEntryFile>} TermFile a bucket file, by term
+   * @typedef {{ total: number, C: Record<string, YearCounts>, CP: Record<string, Record<string, YearCounts>>, k: number[] }} TermEntry
+   *   a term indexed (indexEntry): uses by chamber (C), and by party too (CP)
+   * @typedef {{ term: string, n: number }} WordsQueryItem a searched term and its number of words
+   * @typedef {WordsQueryItem & { entry: TermEntry | null, reason?: 'long' | 'absent', error?: string }} WordsResult
+   *   a term's counts, or why there are none
+   * @typedef {WordsResult & { entry: TermEntry }} FoundResult a term the counts hold
+   * @typedef {[key: string, name: string, body: string, party: string, pid: string | null, words: number, from: number, to: number]} WordsSpeaker
+   *   a speakers.json row
+   * @typedef {{ si: number, sp: WordsSpeaker, c: number, rate: number }} SpeakerRow
+   *   a row of the speakers table: si the speaker's index in speakers.json, rate per 10,000 words
+   */
+  /** Indexed meta.json: null until boot() has loaded it; every reader runs after that, except syncControls, which checks. */
+  var META = /** @type {WordsMeta} */ (/** @type {unknown} */ (null));
+  /** parties.json: label -> [slug, name]. @type {Record<string, [string, string]> | null} */
+  var PARTIES = null;
+  /** speakers.json rows, once loaded. @type {WordsSpeaker[] | null} */
+  var SPEAKERS = null;
+  /** url -> its parsed file. @type {Partial<Record<string, Promise<Json>>>} */
+  var fileCache = {};
+  /** @type {WordsResult[]} */
+  var RESULTS = [];
   var S = defaults();
   var renderToken = 0;
 
@@ -59,27 +92,43 @@ import { TOOLTIP } from './state-machines.js';
   function $(id) { return /** @type {UiElement} */ (document.getElementById(id)); }
   /** @param {string} id @returns {HTMLInputElement} */
   function $input(id) { return /** @type {HTMLInputElement} */ (document.getElementById(id)); }
+  /**
+   * An attribute for el() and sv(): `text` sets the text, `class` the class name, `on` the
+   * listeners by event; any other is set as an attribute (true: present, null or false: absent).
+   * @typedef {string | number | boolean | null | undefined} AttrValue
+   * @typedef {Record<string, (e: Event) => void>} Listeners
+   */
+  /**
+   * @param {string} tag
+   * @param {Record<string, AttrValue | Listeners>} [attrs]
+   * @param {Array<Node | string | null | false>} [kids]
+   * @returns {UiElement}
+   */
   function el(tag, attrs, kids) {
     var n = document.createElement(tag);
     if (attrs) Object.keys(attrs).forEach(function (k) {
       var v = attrs[k];
       if (v == null || v === false) return;
-      if (k === 'text') n.textContent = v;
-      else if (k === 'class') n.className = v;
-      else if (k === 'on') Object.keys(v).forEach(function (e) { n.addEventListener(e, v[e]); });
-      else n.setAttribute(k, v === true ? '' : v);
+      if (k === 'text') n.textContent = /** @type {string} */ (v);
+      else if (k === 'class') n.className = /** @type {string} */ (v);
+      else if (k === 'on') Object.keys(v).forEach(function (e) { n.addEventListener(e, /** @type {Listeners} */ (v)[e]); });
+      else n.setAttribute(k, v === true ? '' : /** @type {string} */ (v));
     });
     (kids || []).forEach(function (c) { if (c != null && c !== false) n.appendChild(typeof c === 'string' ? document.createTextNode(c) : c); });
     return n;
   }
   var SVGNS = 'http://www.w3.org/2000/svg';
+  /** @param {string} tag @param {Record<string, string | number>} attrs (`text` sets the text) @returns {SVGElement} */
   function sv(tag, attrs) {
-    var n = document.createElementNS(SVGNS, tag);
-    Object.keys(attrs || {}).forEach(function (k) { if (k === 'text') n.textContent = attrs[k]; else n.setAttribute(k, attrs[k]); });
+    var n = /** @type {SVGElement} */ (document.createElementNS(SVGNS, tag));
+    Object.keys(attrs || {}).forEach(function (k) { if (k === 'text') n.textContent = /** @type {string} */ (attrs[k]); else n.setAttribute(k, /** @type {string} */ (attrs[k])); });
     return n;
   }
+  /** @template {Node} N @param {N} n @returns {N} */
   function clear(n) { while (n.firstChild) n.removeChild(n.firstChild); return n; }
+  /** @param {number} n */
   function int(n) { return Math.round(n).toLocaleString('en-GB'); }
+  /** @param {number | null | undefined} v a rate per million */
   function rateFmt(v) {
     if (v == null || !isFinite(v)) return '–';
     if (v === 0) return '0';
@@ -88,14 +137,17 @@ import { TOOLTIP } from './state-machines.js';
     if (v >= 1) return v.toFixed(2);
     return v.toPrecision(2);
   }
+  /** @param {number} n */
   function words(n) {
     if (n >= 1e6) return (n / 1e6).toFixed(n >= 1e7 ? 0 : 1) + 'M';
     if (n >= 1e4) return Math.round(n / 1e3) + 'k';
     return int(n);
   }
+  /** @param {string} t */
   function quote(t) { return '“' + t + '”'; }
 
   // md5 of a UTF-8 string, as the shard builder's bucket rule: int(md5(term)[:8], 16) % buckets.
+  /** @param {string} str */
   function md5hex(str) {
     var bytes = new TextEncoder().encode(str);
     var n = bytes.length;
@@ -125,13 +177,15 @@ import { TOOLTIP } from './state-machines.js';
       var h = ''; for (var q = 0; q < 4; q++) h += ((v >>> (q * 8)) & 255).toString(16).padStart(2, '0'); return h;
     }).join('');
   }
+  /** @param {string} term @param {number} n its number of words */
   function bucketOf(term, n) { return parseInt(md5hex(term).slice(0, 8), 16) % META.buckets[String(n)]; }
 
   // The shards are gzip JSON. R2 serves them either as stored bytes (decompressed here) or
   // with Content-Encoding: gzip (already decompressed by the browser); both are handled.
+  /** @param {string} path @param {{ missingOk?: boolean }} [opts] missingOk: a 404 answers null @returns {Promise<Json>} */
   function fetchData(path, opts) {
     var url = DATA + path;
-    if (fileCache[url]) return fileCache[url];
+    if (fileCache[url]) return /** @type {Promise<Json>} */ (fileCache[url]);
     var p = fetch(url).then(function (r) {
       if (r.status === 404 && opts && opts.missingOk) return null;
       if (!r.ok) throw new Error('HTTP ' + r.status + ' for ' + path);
@@ -150,12 +204,17 @@ import { TOOLTIP } from './state-machines.js';
   }
 
   // Tokenise as the counts did: letters and digits, inner apostrophes kept, lower case.
+  /** @param {string} raw */
   function tokens(raw) {
     var s = String(raw || '').normalize('NFC').replace(/[‘’ʼ]/g, "'").toLowerCase();
     return s.match(/[\p{L}\p{N}]+(?:'[\p{L}\p{N}]+)*/gu) || [];
   }
+  /** @param {string} raw comma-separated terms @returns {WordsQueryItem[]} */
   function parseQuery(raw) {
-    var seen = {}; var out = [];
+    /** @type {Record<string, number>} */
+    var seen = {};
+    /** @type {WordsQueryItem[]} */
+    var out = [];
     String(raw || '').split(',').forEach(function (part) {
       var t = tokens(part);
       if (!t.length) return;
@@ -193,8 +252,11 @@ import { TOOLTIP } from './state-machines.js';
     var sb = p.get('sb'); if (sb !== null && BODY[sb]) s.sb = sb;
     return s;
   }
+  /** @param {string} v */
   function enc(v) { return encodeURIComponent(v).replace(/%2C/g, ',').replace(/%20/g, '+'); }
+  /** @param {WordsState} s */
   function urlFor(s) {
+    /** @type {string[]} */
     var parts = [];
     var keep = new URLSearchParams(location.search).get('data');
     if (s.q.length) parts.push('q=' + enc(s.q.join(',')));
@@ -212,6 +274,7 @@ import { TOOLTIP } from './state-machines.js';
     if (keep) parts.push('data=' + encodeURIComponent(keep));
     return location.pathname + (parts.length ? '?' + parts.join('&') : '');
   }
+  /** @param {boolean} push add a history entry (else replace this one) */
   function writeUrl(push) {
     var u = urlFor(S);
     if (u === location.pathname + location.search) return;
@@ -219,16 +282,24 @@ import { TOOLTIP } from './state-machines.js';
   }
 
   // ------------------------------------------------------------------ meta
+  /** @param {string} label a party label as the counts have it @returns {PartyGroup} */
   function groupOf(label) {
     var m = PARTIES && PARTIES[label];
     if (!m) return { key: 'x:' + label, name: label, slug: '' };
     if (!m[0]) return { key: m[1] === 'No party recorded' ? 'none' : 'x:' + m[1], name: m[1], slug: '' };
     return { key: m[0], name: m[1], slug: m[0] };
   }
+  /** @param {WordsMetaFile} raw @returns {WordsMeta} */
   function indexMeta(raw) {
+    /** @type {WordsMeta['bodies']} */
     var bi = {}; raw.bodies.forEach(function (c, i) { bi[i] = c; });
     var groups = raw.parties.map(groupOf);
-    var W = {}; var WP = {}; var yrs = {};
+    /** @type {WordsMeta['W']} */
+    var W = {};
+    /** @type {WordsMeta['WP']} */
+    var WP = {};
+    /** @type {WordsMeta['years']} */
+    var yrs = {};
     raw.totals.forEach(function (r) {
       var body = bi[r[0]]; if (!BODY[body]) return; // the Stormont sample is not shown
       var y = r[1]; var g = groups[r[2]]; var lang = r[3]; var w = r[4];
@@ -241,9 +312,11 @@ import { TOOLTIP } from './state-machines.js';
       yrs[lang] = yrs[lang] || {}; yrs[lang][body] = yrs[lang][body] || [9999, 0];
       if (w > 0) { yrs[lang][body][0] = Math.min(yrs[lang][body][0], y); yrs[lang][body][1] = Math.max(yrs[lang][body][1], y); }
     });
+    /** @type {WordsMeta['gByKey']} */
     var gByKey = {}; groups.forEach(function (g) { gByKey[g.key] = g; });
     return { bodies: bi, groups: groups, gByKey: gByKey, W: W, WP: WP, years: yrs, buckets: raw.buckets };
   }
+  /** @param {string} lang @param {string[]} bodies @returns {[number, number] | null} the years they have words in */
   function span(lang, bodies) {
     var lo = 9999, hi = 0;
     bodies.forEach(function (b) { var y = META.years[lang] && META.years[lang][b]; if (y && y[1]) { lo = Math.min(lo, y[0]); hi = Math.max(hi, y[1]); } });
@@ -251,17 +324,22 @@ import { TOOLTIP } from './state-machines.js';
   }
 
   // ------------------------------------------------------------------ term data
+  /** @param {string} lang @param {WordsQueryItem} item @returns {Promise<WordsResult>} */
   function loadTerm(lang, item) {
     if (item.n > 2) return Promise.resolve({ term: item.term, n: item.n, entry: null, reason: 'long' });
     var path = 'terms/' + lang + '/' + item.n + '/' + bucketOf(item.term, item.n) + '.json.gz';
-    return fetchData(path, { missingOk: true }).then(function (obj) {
+    return fetchData(path, { missingOk: true }).then(function (/** @type {TermFile | null} */ obj) {
       var e = obj && obj[item.term];
       if (!e) return { term: item.term, n: item.n, entry: null, reason: 'absent' };
       return { term: item.term, n: item.n, entry: indexEntry(e) };
     });
   }
+  /** @param {TermEntryFile} e @returns {TermEntry} */
   function indexEntry(e) {
-    var C = {}; var CP = {};
+    /** @type {TermEntry['C']} */
+    var C = {};
+    /** @type {TermEntry['CP']} */
+    var CP = {};
     for (var i = 0; i < e.s.length; i += 4) {
       var body = META.bodies[e.s[i]]; if (!BODY[body]) continue;
       var y = e.s[i + 1]; var g = META.groups[e.s[i + 2]]; var c = e.s[i + 3];
@@ -272,6 +350,7 @@ import { TOOLTIP } from './state-machines.js';
   }
 
   // ------------------------------------------------------------------ series
+  /** @returns {[number, number]} the years shown */
   function years() {
     var sp = span(S.lang, S.b) || [1803, 2026];
     var from = S.from ? Math.max(S.from, 1803) : sp[0];
@@ -279,15 +358,29 @@ import { TOOLTIP } from './state-machines.js';
     if (from > to) { var t = from; from = to; to = t; }
     return [from, to];
   }
+  /**
+   * @typedef {{ y: number, c: number, w: number }} WordsPoint a year's uses and words
+   * @typedef {{ key: string, label: string, cls: string, pts: WordsPoint[] }} WordsSeries a line of a chart
+   * @typedef {{ title: string | null, series: WordsSeries[] }} WordsPanel a chart
+   */
+  /**
+   * @param {string} key @param {string} label @param {string} cls its colour class
+   * @param {(y: number) => number} cFn uses in a year @param {(y: number) => number} wFn words in a year
+   * @param {[number, number]} yr
+   * @returns {WordsSeries}
+   */
   function mkSeries(key, label, cls, cFn, wFn, yr) {
+    /** @type {WordsPoint[]} */
     var pts = [];
     for (var y = yr[0]; y <= yr[1]; y++) pts.push({ y: y, c: cFn(y), w: wFn(y) });
     return { key: key, label: label, cls: cls, pts: pts };
   }
+  /** @param {Record<string, YearCounts>} map by chamber @param {string[]} bodies @param {number} y */
   function sumBodies(map, bodies, y) { var s = 0; bodies.forEach(function (b) { s += (map[b] && map[b][y]) || 0; }); return s; }
 
   // Party lines for one chamber: the seven parties with the most words in the years shown,
   // in that order, so a party keeps its colour whatever the term; the rest fold into Other.
+  /** @param {string} body @param {[number, number]} yr @returns {{ top: string[], rest: string[] }} party keys */
   function partyLineup(body, yr) {
     var wp = (META.WP[S.lang] && META.WP[S.lang][body]) || {};
     var tot = Object.keys(wp).map(function (k) {
@@ -297,9 +390,10 @@ import { TOOLTIP } from './state-machines.js';
     return { top: tot.slice(0, 7).map(function (x) { return x.key; }), rest: tot.slice(7).map(function (x) { return x.key; }) };
   }
 
+  /** @returns {WordsPanel[]} */
   function panels() {
     var yr = years(); var lang = S.lang;
-    var found = RESULTS.filter(function (r) { return r.entry; });
+    var found = /** @type {FoundResult[]} */ (RESULTS.filter(function (r) { return r.entry; }));
     var W = META.W[lang] || {};
     var bodies = S.b.filter(function (b) { return W[b]; });
     if (S.split === 'none') {
@@ -329,6 +423,8 @@ import { TOOLTIP } from './state-machines.js';
     });
   }
   // Rate per million at each point, pooled over the smoothing window (sum of uses over sum of words).
+  /** @typedef {{ y: number, r: number, raw: number, c: number, w: number, low: boolean }} WordsRate a year's rate per million (r smoothed, raw not) */
+  /** @param {WordsSeries} series @returns {Array<WordsRate | null>} null for a year with no words */
   function rates(series) {
     var k = S.sm; var pts = series.pts;
     return pts.map(function (p, i) {
@@ -340,12 +436,14 @@ import { TOOLTIP } from './state-machines.js';
   }
 
   // ------------------------------------------------------------------ chart
+  /** @param {number} span @param {number} target ticks wanted */
   function niceStep(span, target) {
     var raw = span / Math.max(1, target); var mag = Math.pow(10, Math.floor(Math.log10(raw)));
     var f = raw / mag; return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10) * mag;
   }
+  /** @param {HTMLElement} fig the panel's figure (renderPanels) @param {WordsPanel} panel */
   function drawPanel(fig, panel) {
-    var plot = fig.querySelector('.plot');
+    var plot = /** @type {HTMLElement} */ (fig.querySelector('.plot'));
     var width = Math.max(280, Math.round(plot.clientWidth || 640));
     var data = panel.series.map(function (s) { return rates(s); });
     var yr = years();
@@ -356,8 +454,8 @@ import { TOOLTIP } from './state-machines.js';
     var height = Math.round(Math.min(380, Math.max(230, width * 0.46)));
     var iw = width - M.l - M.r; var ih = height - M.t - M.b;
     var ystep = niceStep(max, 5); var ymax = Math.ceil(max * 1.04 / ystep) * ystep;
-    var x = function (y) { return M.l + (yr[1] === yr[0] ? iw / 2 : (y - yr[0]) / (yr[1] - yr[0]) * iw); };
-    var yv = function (v) { return M.t + ih - v / ymax * ih; };
+    var x = function (/** @type {number} */ y) { return M.l + (yr[1] === yr[0] ? iw / 2 : (y - yr[0]) / (yr[1] - yr[0]) * iw); };
+    var yv = function (/** @type {number} */ v) { return M.t + ih - v / ymax * ih; };
     var svg = sv('svg', { viewBox: '0 0 ' + width + ' ' + height, width: width, height: height, role: 'img',
       'aria-label': (panel.title ? panel.title + ': ' : '') + 'uses per million words, ' + yr[0] + ' to ' + yr[1] + '. ' + panel.series.map(function (s, i) {
         var best = data[i].reduce(function (/** @type {{ r: number, y: number } | null} */ top, /** @type {{ r: number, y: number } | null} */ p) {
@@ -374,18 +472,24 @@ import { TOOLTIP } from './state-machines.js';
       svg.appendChild(sv('line', { class: 'axis', x1: x(t), x2: x(t), y1: M.t + ih, y2: M.t + ih + 4 }));
       svg.appendChild(sv('text', { x: x(t), y: M.t + ih + 17, 'text-anchor': 'middle', text: String(t) }));
     }
-    var anyLow = false; var labels = [];
+    var anyLow = false;
+    /** @type {Array<{ y: number, x: number, s: WordsSeries }>} */
+    var labels = [];
     panel.series.forEach(function (s, i) {
       var d = data[i];
       // A path per run of points, solid or dotted (low volume); a gap where there were no words.
-      var runs = []; var cur = null;
+      /** @typedef {{ low: boolean, pts: WordsRate[] }} WordsRun */
+      /** @type {WordsRun[]} */
+      var runs = [];
+      /** @type {WordsRun | null} */
+      var cur = null;
       for (var j = 0; j < d.length; j++) {
         var p = d[j];
         if (!p) { cur = null; continue; }
         if (p.low) anyLow = true;
         if (cur && j > 0 && d[j - 1]) {
-          var low = p.low || d[j - 1].low;
-          if (cur.low !== low) { cur = { low: low, pts: [d[j - 1]] }; runs.push(cur); }
+          var low = p.low || /** @type {WordsRate} */ (d[j - 1]).low; // d[j - 1] is checked just above
+          if (cur.low !== low) { cur = { low: low, pts: [/** @type {WordsRate} */ (d[j - 1])] }; runs.push(cur); }
           cur.pts.push(p);
         } else { cur = { low: p.low, pts: [p] }; runs.push(cur); }
       }
@@ -393,6 +497,7 @@ import { TOOLTIP } from './state-machines.js';
         if (run.pts.length === 1) { svg.appendChild(sv('circle', { class: s.cls, cx: x(run.pts[0].y), cy: yv(run.pts[0].r), r: 2.5 })); return; }
         svg.appendChild(sv('path', { class: 'ln ' + s.cls + (run.low ? ' low' : ''), d: run.pts.map(function (q, m) { return (m ? 'L' : 'M') + x(q.y).toFixed(1) + ',' + yv(q.r).toFixed(1); }).join('') }));
       });
+      /** @type {WordsRate | null} */
       var last = null; for (var z = d.length - 1; z >= 0; z--) if (d[z]) { last = d[z]; break; }
       if (direct && last) labels.push({ y: yv(last.r), x: x(last.y), s: s });
     });
@@ -413,20 +518,24 @@ import { TOOLTIP } from './state-machines.js';
     var hit = sv('rect', { class: 'hit', x: M.l, y: M.t, width: iw, height: ih });
     svg.appendChild(hit);
     var old = plot.querySelector('svg'); if (old) plot.replaceChild(svg, old); else plot.insertBefore(svg, plot.firstChild);
-    var tip = plot.querySelector('.tip'); var live = fig.querySelector('.live');
+    var tip = /** @type {HTMLElement} */ (plot.querySelector('.tip')); var live = /** @type {HTMLElement} */ (fig.querySelector('.live'));
+    /** @type {number | null} */
     var curYear = null;
     // The tooltip element outlives a redraw (only the svg is replaced), so the run starts where it is.
     var tipState = TOOLTIP.start(tip.hidden ? 'hidden' : 'shown');
+    /** @param {'hidden' | 'shown'} next */
     function setTip(next) { if (tipState.state() !== next) tipState.to(next); tip.hidden = next === 'hidden'; }
+    /** @param {number} yv0 a year, clamped to those shown @param {boolean} announce say it in the live region */
     function show(yv0, announce) {
       var y = Math.max(yr[0], Math.min(yr[1], yv0)); curYear = y;
       var idx = y - yr[0]; var xx = x(y);
       cross.setAttribute('x1', String(xx)); cross.setAttribute('x2', String(xx)); cross.setAttribute('visibility', 'visible');
       clear(tip); tip.appendChild(el('strong', { text: String(y) }));
+      /** @type {string[]} */
       var spoken = [];
       panel.series.forEach(function (s, i) {
         var p = data[i][idx];
-        if (p) { dots[i].setAttribute('cx', xx); dots[i].setAttribute('cy', yv(p.r)); dots[i].setAttribute('visibility', 'visible'); }
+        if (p) { dots[i].setAttribute('cx', String(xx)); dots[i].setAttribute('cy', String(yv(p.r))); dots[i].setAttribute('visibility', 'visible'); }
         else dots[i].setAttribute('visibility', 'hidden');
         var txt = p ? rateFmt(p.r) + ' per million' : 'no words in scope';
         var sub = p ? int(p.c) + ' uses in ' + words(p.w) + ' words' + (S.sm ? ' (that year)' : '') + (p.low ? ', low volume' : '') : '';
@@ -440,32 +549,35 @@ import { TOOLTIP } from './state-machines.js';
       if (announce) live.textContent = y + ': ' + spoken.join('; ');
     }
     function hide() { cross.setAttribute('visibility', 'hidden'); dots.forEach(function (d) { d.setAttribute('visibility', 'hidden'); }); setTip('hidden'); }
+    /** @param {PointerEvent} evt */
     function yearAt(evt) { var r = svg.getBoundingClientRect(); var px = (evt.clientX - r.left) / r.width * width; return Math.round(yr[0] + (px - M.l) / iw * (yr[1] - yr[0])); }
     hit.addEventListener('pointermove', function (e) { show(yearAt(e), false); });
     hit.addEventListener('pointerdown', function (e) { show(yearAt(e), false); });
     hit.addEventListener('pointerleave', hide);
     plot.onkeydown = function (e) {
-      var step = { ArrowLeft: -1, ArrowRight: 1, PageDown: -10, PageUp: 10 }[e.key];
+      var step = /** @type {Record<string, number>} */ ({ ArrowLeft: -1, ArrowRight: 1, PageDown: -10, PageUp: 10 })[e.key];
       if (step) { e.preventDefault(); show((curYear == null ? yr[1] : curYear) + step, true); }
       else if (e.key === 'Home') { e.preventDefault(); show(yr[0], true); }
       else if (e.key === 'End') { e.preventDefault(); show(yr[1], true); }
       else if (e.key === 'Escape') hide();
     };
     plot.onblur = hide;
-    var notes = fig.querySelector('.chart-notes');
+    var notes = /** @type {HTMLElement} */ (fig.querySelector('.chart-notes'));
     clear(notes);
     if (anyLow) notes.appendChild(el('span', {}, [el('i', { class: 'sw-low', 'aria-hidden': 'true' }), 'Dotted: fewer than 100,000 words spoken that year in scope. ']));
     notes.appendChild(document.createTextNode('Gaps: no sittings or no members in scope.' + (S.sm ? ' Smoothed over ' + (2 * S.sm + 1) + ' years.' : '')));
   }
 
+  /** @param {WordsPanel} panel */
   function panelTable(panel) {
     var data = panel.series.map(rates);
+    /** @type {HTMLElement[]} */
     var rows = [];
     var n = panel.series[0] ? panel.series[0].pts.length : 0;
     for (var i = 0; i < n; i++) {
       if (!data.some(function (d) { return d[i]; })) continue;
       rows.push(el('tr', {}, [el('th', { scope: 'row', text: String(panel.series[0].pts[i].y) })].concat(data.map(function (d) {
-        return el('td', { class: 'num', text: d[i] ? rateFmt(d[i].r) + ' (' + int(d[i].c) + ')' : '–' });
+        return el('td', { class: 'num', text: d[i] ? rateFmt(/** @type {WordsRate} */ (d[i]).r) + ' (' + int(/** @type {WordsRate} */ (d[i]).c) + ')' : '–' });
       }))));
     }
     return el('details', { class: 'tbl' }, [
@@ -480,7 +592,10 @@ import { TOOLTIP } from './state-machines.js';
     ]);
   }
 
-  var resizeObs = null; var drawn = [];
+  /** @type {ResizeObserver | null} */
+  var resizeObs = null;
+  /** The panels drawn, with the plot width each was drawn at. @type {Array<{ fig: HTMLElement, panel: WordsPanel, w: number }>} */
+  var drawn = [];
   function renderPanels() {
     var mount = clear($('panels'));
     drawn = [];
@@ -502,20 +617,21 @@ import { TOOLTIP } from './state-machines.js';
         panelTable(panel)
       ]);
       if (!panel.series.length) {
-        fig.querySelector('.plot').replaceWith(el('p', { class: 'empty', text: 'No chamber selected has words in this language.' }));
+        /** @type {Element} */ (fig.querySelector('.plot')).replaceWith(el('p', { class: 'empty', text: 'No chamber selected has words in this language.' }));
         mount.appendChild(fig); return;
       }
       mount.appendChild(fig);
       drawPanel(fig, panel);
-      drawn.push({ fig: fig, panel: panel, w: fig.querySelector('.plot').clientWidth });
+      drawn.push({ fig: fig, panel: panel, w: /** @type {Element} */ (fig.querySelector('.plot')).clientWidth });
     });
     if (!resizeObs && typeof ResizeObserver !== 'undefined') {
+      /** @type {number | null} */
       var pending = null;
       resizeObs = new ResizeObserver(function () {
         if (pending) return;
         pending = requestAnimationFrame(function () {
           pending = null;
-          drawn.forEach(function (d) { var w = d.fig.querySelector('.plot').clientWidth; if (Math.abs(w - d.w) > 4) { d.w = w; drawPanel(d.fig, d.panel); } });
+          drawn.forEach(function (d) { var w = /** @type {Element} */ (d.fig.querySelector('.plot')).clientWidth; if (Math.abs(w - d.w) > 4) { d.w = w; drawPanel(d.fig, d.panel); } });
         });
       });
       resizeObs.observe($('panels'));
@@ -523,10 +639,12 @@ import { TOOLTIP } from './state-machines.js';
   }
 
   // ------------------------------------------------------------------ speakers
+  /** @param {WordsSpeaker} row */
   function personLink(row) {
     var key = row[0]; var pid = row[4];
     var m = /^p(\d+)$/.exec(pid || '');
     if (m) return el('a', { href: '/browse/#/persons/' + m[1], text: row[1] });
+    /** The member's page elsewhere: [url, site]. @type {[string, string] | null} */
     var ext = null;
     if (/^oireachtas:/.test(key)) ext = ['https://www.oireachtas.ie/en/members/member/' + encodeURIComponent(key.slice(11)) + '/', 'Oireachtas'];
     else if (/^niassembly:\d+$/.test(key)) ext = ['https://aims.niassembly.gov.uk/mlas/details.aspx?per=' + key.slice(11), 'NI Assembly'];
@@ -534,18 +652,21 @@ import { TOOLTIP } from './state-machines.js';
     if (!ext) return document.createTextNode(row[1]);
     return el('span', {}, [el('a', { href: ext[0], rel: 'noopener', text: row[1] }), el('span', { class: 'tag', text: ext[1] })]);
   }
+  /** @param {string} label */
   function partyCell(label) {
     var g = groupOf(label);
     return g.slug ? el('a', { href: '/browse/#/parties/' + encodeURIComponent(g.slug), text: g.name }) : document.createTextNode(g.name);
   }
+  /** @returns {FoundResult | null} the term the speakers and parties tables are about */
   function focusResult() {
-    var found = RESULTS.filter(function (r) { return r.entry; });
+    var found = /** @type {FoundResult[]} */ (RESULTS.filter(function (r) { return r.entry; }));
     return found[Math.min(S.t, found.length - 1)] || null;
   }
   function renderSpeakers() {
     var mount = clear($('speakers'));
     var r = focusResult(); if (!r) return;
     if (!SPEAKERS) { mount.appendChild(el('p', { class: 'hint', text: 'Loading speakers…' })); return; }
+    /** @type {SpeakerRow[]} */
     var rows = [];
     for (var i = 0; i < r.entry.k.length; i += 2) {
       var sp = SPEAKERS[r.entry.k[i]]; if (!sp || !BODY[sp[2]]) continue;
@@ -553,6 +674,7 @@ import { TOOLTIP } from './state-machines.js';
       if (S.sb && sp[2] !== S.sb) continue;
       rows.push({ si: r.entry.k[i], sp: sp, c: r.entry.k[i + 1], rate: sp[5] > 0 ? r.entry.k[i + 1] / sp[5] * 1e4 : 0 });
     }
+    /** @type {string | null} */
     var note = null;
     if (S.sort === 'rate') {
       var before = rows.length;
@@ -577,7 +699,7 @@ import { TOOLTIP } from './state-machines.js';
         el('td', {}, [distBtn])
       ]);
       tbody.appendChild(tr);
-      if (distBtn) distBtn.addEventListener('click', function () { toggleDistinct(distBtn, tr, x); });
+      if (distBtn) distBtn.addEventListener('click', function () { toggleDistinct(/** @type {HTMLElement} */ (distBtn), tr, x); });
     });
     mount.appendChild(el('div', { class: 'tablewrap' }, [el('table', { class: 'data' }, [
       el('caption', { class: 'visually-hidden', text: 'Top speakers for ' + r.term }),
@@ -591,13 +713,14 @@ import { TOOLTIP } from './state-machines.js';
     var foot = 'Party as most often recorded for the speaker in that chamber. * fewer than 20,000 words on record, so the rate is unreliable.';
     mount.appendChild(el('p', { class: 'hint', text: (note ? note + ' ' : '') + foot }));
   }
+  /** @param {HTMLElement} btn @param {HTMLElement} tr @param {SpeakerRow} x */
   function toggleDistinct(btn, tr, x) {
     var next = tr.nextElementSibling;
     if (next && next.classList.contains('dist')) { next.remove(); btn.setAttribute('aria-expanded', 'false'); return; }
     var cell = el('td', { colspan: '8' }, [el('span', { class: 'hint', text: 'Loading…' })]);
     var row = el('tr', { class: 'dist' }, [cell]);
     tr.after(row); btn.setAttribute('aria-expanded', 'true');
-    fetchData('speaker_terms/' + Math.floor(x.si / 200) + '.json.gz').then(function (obj) {
+    fetchData('speaker_terms/' + Math.floor(x.si / 200) + '.json.gz').then(function (/** @type {Record<string, Array<[term: string, uses: number, ratio: number]>> | null} */ obj) {
       clear(cell);
       var list = (obj && obj[String(x.si)]) || [];
       if (!list.length) { cell.appendChild(el('span', { class: 'hint', text: 'No distinctive words recorded for this speaker.' })); return; }
@@ -630,6 +753,7 @@ import { TOOLTIP } from './state-machines.js';
       rest.forEach(function (x) { o.w += x.w; o.c += x.c; }); show.push(o);
     }
     var maxShare = 0; show.forEach(function (x) { maxShare = Math.max(maxShare, x.c / C, x.w / W); });
+    /** @param {string} cls @param {number} share */
     function bar(cls, share) {
       return el('div', { class: 'bar' }, [el('i', { class: cls, style: 'width:' + Math.max(1, share / maxShare * 90).toFixed(0) + 'px', 'aria-hidden': 'true' }), el('span', { text: (share * 100).toFixed(1) + '%' })]);
     }
@@ -654,7 +778,7 @@ import { TOOLTIP } from './state-machines.js';
   // ------------------------------------------------------------------ CSV
   function downloadCsv() {
     var lines = [['term', 'language', 'lines', 'series', 'year', 'uses', 'words', 'per_million', 'per_million_smoothed', 'smoothing_years'].join(',')];
-    var q = function (v) { v = String(v); return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; };
+    var q = function (/** @type {string} */ v) { v = String(v); return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; };
     var ps = panels();
     var terms = RESULTS.filter(function (r) { return r.entry; });
     ps.forEach(function (panel, pi) {
@@ -670,7 +794,7 @@ import { TOOLTIP } from './state-machines.js';
     var csv = lines.join('\r\n') + '\r\n';
     var a = el('a', { href: URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' })), download: 'civgraph-words-' + terms.map(function (r) { return r.term.replace(/[^\p{L}\p{N}]+/gu, '-'); }).join('_').slice(0, 80) + '.csv' });
     document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(function () { URL.revokeObjectURL(a.href); }, 2000);
+    setTimeout(function () { URL.revokeObjectURL(/** @type {HTMLAnchorElement} */ (a).href); }, 2000);
   }
 
   // ------------------------------------------------------------------ controls
@@ -695,7 +819,7 @@ import { TOOLTIP } from './state-machines.js';
     document.querySelectorAll('input[name="lang"]').forEach(function (r) {
       r.addEventListener('change', /** @this {HTMLInputElement} */ function () { if (this.checked) { S.lang = this.value; run(false); } });
     });
-    ['from', 'to'].forEach(function (id) {
+    /** @type {Array<'from' | 'to'>} */ (['from', 'to']).forEach(function (id) {
       $(id).addEventListener('change', /** @this {HTMLInputElement} */ function () {
         var v = Number(this.value); S[id] = this.value && v >= 1803 && v <= 2026 ? v : null; changed();
       });
@@ -738,6 +862,7 @@ import { TOOLTIP } from './state-machines.js';
     f.value = String(S.t); $('focusField').hidden = found.length < 2;
   }
   function changed() { writeUrl(false); syncControls(); render(); }
+  /** @param {string} raw comma-separated terms @param {{ lang?: string, split?: string, pb?: string }} [opts] settings that come with it (an example, a distinctive word) */
   function search(raw, opts) {
     var items = parseQuery(raw);
     S.q = items.map(function (x) { return x.term; });
@@ -761,7 +886,7 @@ import { TOOLTIP } from './state-machines.js';
       if (t.length === 0 || t.length > 2 || ls.seg.length < 2) { closeSuggest(); return; }
       var prefix = t.join(' ') + (/\s$/.test($input('q').value) && t.length === 1 ? ' ' : '');
       var n = prefix.indexOf(' ') >= 0 ? 2 : 1;
-      fetchData('suggest/' + S.lang + '-' + n + '.json.gz').then(function (rows) {
+      fetchData('suggest/' + S.lang + '-' + n + '.json.gz').then(function (/** @type {Array<[string, number]>} */ rows) {
         if (mine !== seq) return;
         sugItems = [];
         for (var i = 0; i < rows.length && sugItems.length < 8; i++) if (rows[i][0].indexOf(prefix) === 0) sugItems.push(rows[i]);
@@ -779,17 +904,19 @@ import { TOOLTIP } from './state-machines.js';
       if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
         e.preventDefault();
         sugActive = (sugActive + (e.key === 'ArrowDown' ? 1 : -1) + sugItems.length) % sugItems.length;
-        Array.prototype.forEach.call(list.children, function (li, i) { li.setAttribute('aria-selected', i === sugActive ? 'true' : 'false'); });
+        Array.prototype.forEach.call(list.children, function (/** @type {Element} */ li, /** @type {number} */ i) { li.setAttribute('aria-selected', i === sugActive ? 'true' : 'false'); });
         input.setAttribute('aria-activedescendant', 'sug-' + sugActive);
         list.children[sugActive].scrollIntoView({ block: 'nearest' });
       } else if (e.key === 'Enter' && sugActive >= 0) { e.preventDefault(); pick(sugActive); }
       else if (e.key === 'Escape') { e.preventDefault(); closeSuggest(); }
     });
     input.addEventListener('blur', function () { setTimeout(closeSuggest, 120); });
+    /** @param {number} i */
     function pick(i) { var ls = lastSegment(); input.value = ls.head + sugItems[i][0]; closeSuggest(); input.focus(); }
   }
 
   // ------------------------------------------------------------------ run
+  /** @param {string} t */
   function setStatus(t) { $('status').textContent = t; }
   function notices() {
     var mount = clear($('notices'));
@@ -821,6 +948,7 @@ import { TOOLTIP } from './state-machines.js';
     if (!found.length) return;
     renderPanels(); renderSpeakers(); renderParties();
   }
+  /** @param {boolean} push add a history entry (else replace this one) */
   function run(push) {
     var mine = ++renderToken;
     writeUrl(push);
@@ -828,14 +956,14 @@ import { TOOLTIP } from './state-machines.js';
     if (!S.q.length) { RESULTS = []; setStatus(''); render(); return; }
     var items = S.q.slice(0, MAX_TERMS).map(function (t) { return { term: t, n: t.split(' ').length }; });
     setStatus('Loading ' + items.map(function (x) { return quote(x.term); }).join(', ') + '…');
-    var speakers = SPEAKERS ? Promise.resolve(SPEAKERS) : fetchData('speakers.json.gz').then(function (s) { SPEAKERS = s; return s; }).catch(function () { return null; });
+    var speakers = SPEAKERS ? Promise.resolve(SPEAKERS) : fetchData('speakers.json.gz').then(function (/** @type {WordsSpeaker[]} */ s) { SPEAKERS = s; return s; }).catch(function () { return null; });
     Promise.all(items.map(function (it) {
       return loadTerm(S.lang, it).catch(function (e) { return { term: it.term, n: it.n, entry: null, error: e.message }; });
     })).then(function (res) {
       if (mine !== renderToken) return;
       RESULTS = res;
       syncControls();
-      var found = res.filter(function (r) { return r.entry; });
+      var found = /** @type {FoundResult[]} */ (res.filter(function (r) { return r.entry; }));
       setStatus(found.length ? found.map(function (r) { return quote(r.term) + ': ' + int(r.entry.total) + ' uses'; }).join('; ') + (S.lang === 'ga' ? ' (in Irish).' : '.') : '');
       render();
       speakers.then(function () { if (mine === renderToken) renderSpeakers(); });
