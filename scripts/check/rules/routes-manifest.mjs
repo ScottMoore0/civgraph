@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 /**
- * `_routes.json` must cover every Pages Function, and nothing else.
+ * `site/_routes.json` must cover every Pages Function, and nothing else.
  *
  * WHY THE FILE EXISTS
  *
- * Without `_routes.json`, Cloudflare Pages routes EVERY request through the Functions
+ * Without `site/_routes.json`, Cloudflare Pages routes EVERY request through the Functions
  * runtime, including the ones that just want a static file. The site is overwhelmingly
  * static -- one HTML shell, a bundle, tiles and JSON -- so nearly every invocation was
  * doing nothing but handing the request back.
@@ -33,7 +33,7 @@
 import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 
-const ROUTES = '_routes.json';
+const ROUTES = 'site/_routes.json';
 const FUNCTIONS = 'functions';
 
 if (!existsSync(ROUTES)) {

@@ -83,10 +83,10 @@ test('it is a shelled page, kept out of search', async () => {
 });
 
 test('_routes.json routes it, and no sitemap lists it', () => {
-  const routes = JSON.parse(read(REPO_ROOT, '_routes.json')).include;
+  const routes = JSON.parse(read(REPO_ROOT, 'site/_routes.json')).include;
   assert.ok(routes.includes('/design-system') && routes.includes('/design-system/'));
   assert.equal(gallery.GALLERY_PATH, '/design-system/');
-  const sitemaps = [path.join(REPO_ROOT, 'sitemap.xml'), ...(existsSync(path.join(REPO_ROOT, 'sitemaps')) ? readdirSync(path.join(REPO_ROOT, 'sitemaps')).map((f) => path.join(REPO_ROOT, 'sitemaps', f)) : [])];
+  const sitemaps = [path.join(REPO_ROOT, 'site/sitemap.xml'), ...(existsSync(path.join(REPO_ROOT, 'site', 'sitemaps')) ? readdirSync(path.join(REPO_ROOT, 'site', 'sitemaps')).map((f) => path.join(REPO_ROOT, 'site', 'sitemaps', f)) : [])];
   for (const f of [...sitemaps, path.join(REPO_ROOT, 'scripts', 'build', 'build-sitemap.mjs')]) {
     if (existsSync(f)) assert.ok(!read(f).includes('design-system'), `${path.relative(REPO_ROOT, f)} names the gallery`);
   }

@@ -79,10 +79,10 @@ export function recordPaths(env = process.env) {
 export const REPO_PATHS = Object.freeze({
   functions: 'functions',
   migrations: 'packages/schema/migrations',
-  routesManifest: '_routes.json',
+  routesManifest: 'site/_routes.json',
   wranglerToml: 'wrangler.toml',
   tmp: 'tmp',
-  appBuild: 'app/build',
+  appBuild: 'site/app/build',
   uiTokens: 'packages/ui/assets', // served at /assets/ui/ (packages/served.json)
   electionsSource: 'data/elections-source/data/elections',
   electionsData: 'data/elections',

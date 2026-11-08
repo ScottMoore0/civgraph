@@ -1,15 +1,17 @@
 {
   "//": [
-    "Type checking of the browser UI: Browse (browse/), the apps (apps/), the shared UI helpers",
+    "Type checking of the browser UI: Browse (site/browse/), the apps (site/apps/), the shared UI helpers",
     "(assets/ui/), by JSDoc and checkJs. Nothing is emitted; the browser runs the same .js files.",
     "`npm run check:types:ui` runs it, and it is a step of `npm run check`.",
     "The `include` list is an allowlist that only grows: tests/unit/ui-types.test.mjs fails when",
     "a browser script in these folders is in neither `include` nor UI_TYPES_PENDING there.",
     "Every strict-family flag is on: strictNullChecks since 8 Nov 2026 and noImplicitAny since the",
     "8 Nov 2026 review (browse.js typed by hand; the PRONI app and words.js also moved to the strict list);",
-    "tsconfig.ui-strict.json holds the files that check under full `strict`."
+    "tsconfig.ui-strict.json holds the files that check under full `strict`.",
+    "rootDirs: site/ is the served root, so a served-URL relative import in site/ (../../packages/types/) resolves from the repository root (8 Nov 2026)."
   ],
   "compilerOptions": {
+    "rootDirs": ["..", "../site"],
     "allowJs": true,
     "checkJs": true,
     "noEmit": true,
@@ -35,12 +37,12 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": [
-    "../browse/browse.js",
-    "../browse/state-machines.js",
-    "../apps/proni-search/app.js",
-    "../apps/proni-search/state-machines.js",
-    "../apps/words/state-machines.js",
-    "../apps/words/words.js",
+    "../site/browse/browse.js",
+    "../site/browse/state-machines.js",
+    "../site/apps/proni-search/app.js",
+    "../site/apps/proni-search/state-machines.js",
+    "../site/apps/words/state-machines.js",
+    "../site/apps/words/words.js",
     "../packages/ui/assets/gallery/gallery.js",
     "../packages/ui/assets/state/*.js"
   ]

@@ -33,7 +33,7 @@ const argVal = (name, fallback) => {
   return i >= 0 && args[i + 1] ? args[i + 1] : fallback;
 };
 
-const OUT = path.resolve('assets/images/og-preview.png');
+const OUT = path.resolve('site/assets/images/og-preview.png');
 const WIDTH = 1200;
 const HEIGHT = 630;
 const MAX_BYTES = 1_000_000; // og:image should stay small enough to fetch eagerly

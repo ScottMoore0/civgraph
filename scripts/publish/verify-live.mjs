@@ -93,7 +93,7 @@ try {
   LOCAL_COMMIT = execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim();
 } catch { LOCAL_COMMIT = ''; }
 
-const localPaths = assetPaths(readFileSync('index.html', 'utf8'));
+const localPaths = assetPaths(readFileSync('site/index.html', 'utf8'));
 if (!localPaths.length) {
   console.error('FAIL: no versioned /build/ assets found in the local index.html.');
   console.error('  Either the build did not stamp it, or the reference format changed and');

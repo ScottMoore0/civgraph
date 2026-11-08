@@ -17,16 +17,16 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const CONFIG = JSON.parse(readFileSync(path.join(ROOT, 'config', 'tsconfig.ui.json'), 'utf8').replaceAll('"../', '"'));
-const UI_DIRS = ['browse', 'apps', 'packages/ui/assets'];
+const UI_DIRS = ['site/browse', 'site/apps', 'packages/ui/assets'];
 
 // Browser scripts in UI_DIRS that tsconfig.ui.json does not check yet, with the reason.
 export const UI_TYPES_PENDING = new Map([]);
 
 // Checked since the slice that introduced the config; never removed.
 const CHECKED_SINCE_TS_UI_1 = [
-  'browse/browse.js',
-  'apps/proni-search/app.js',
-  'apps/words/words.js',
+  'site/browse/browse.js',
+  'site/apps/proni-search/app.js',
+  'site/apps/words/words.js',
   'packages/ui/assets/gallery/gallery.js',
 ];
 const EXPECT_ERROR_BUDGET = 0;
@@ -81,10 +81,10 @@ test('no checked file silences the checker', () => {
 const FLAGS_SINCE_R2_UI = ['strictFunctionTypes', 'strictBindCallApply', 'noImplicitThis', 'alwaysStrict',
   'useUnknownInCatchVariables', 'noImplicitReturns', 'noImplicitOverride', 'noUnusedLocals', 'noUnusedParameters',
   'strictNullChecks', 'noImplicitAny'];
-const STRICT_SINCE_R2_UI = ['packages/ui/assets/state/machine.js', 'packages/ui/assets/state/theme.js', 'browse/state-machines.js',
-  'apps/proni-search/state-machines.js', 'apps/words/state-machines.js', 'packages/ui/assets/gallery/gallery.js'];
+const STRICT_SINCE_R2_UI = ['packages/ui/assets/state/machine.js', 'packages/ui/assets/state/theme.js', 'site/browse/state-machines.js',
+  'site/apps/proni-search/state-machines.js', 'site/apps/words/state-machines.js', 'packages/ui/assets/gallery/gallery.js'];
 // The apps that met noImplicitAny in the 8 Nov 2026 review (S5c) and so check under full strict.
-const STRICT_SINCE_NIA_S5C = ['apps/proni-search/app.js', 'apps/words/words.js'];
+const STRICT_SINCE_NIA_S5C = ['site/apps/proni-search/app.js', 'site/apps/words/words.js'];
 
 test('the strictness the UI has reached stays', () => {
   for (const flag of FLAGS_SINCE_R2_UI) assert.equal(CONFIG.compilerOptions[flag], true, `tsconfig.ui.json ${flag} was turned off`);

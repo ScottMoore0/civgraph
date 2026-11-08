@@ -49,9 +49,11 @@ const server = http.createServer((req, res) => {
   }
 
   // Local file serving
-  let filePath = path.join(ROOT, pathname);
+  // The site's own files are in site/ (8 Nov 2026); the data directories stay at the root.
+  const inSite = path.join(ROOT, 'site', pathname);
+  let filePath = fs.existsSync(inSite) ? inSite : path.join(ROOT, pathname);
   if (filePath.endsWith(path.sep) || pathname === '/') {
-    filePath = path.join(ROOT, 'index.html');
+    filePath = path.join(ROOT, 'site', 'index.html');
   }
 
   if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {

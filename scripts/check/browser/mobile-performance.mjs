@@ -13,7 +13,7 @@ const MODE = (process.env.TEST2_PERF_MODE || 'fixture').toLowerCase();
 /** @type {'fixture' | 'cdn'} */
 const PERF = MODE === 'cdn' || MODE === 'production' ? 'cdn' : PERF_MODE.initial;
 const USE_CDN = PERF === 'cdn';
-const REPORT_PATH = process.env.TEST2_PERF_REPORT || 'app/build/mobile-performance-report.json';
+const REPORT_PATH = process.env.TEST2_PERF_REPORT || 'site/app/build/mobile-performance-report.json';
 const BUDGETS = {
   bootMs: Number(process.env.TEST2_PERF_BOOT_MS || 5000),
   fixtureLayerMs: Number(process.env.TEST2_PERF_FIXTURE_LAYER_MS || 2000),
@@ -326,6 +326,6 @@ async function waitForServer() {
 }
 
 function writeReport(report) {
-  mkdirSync('app/build', { recursive: true });
+  mkdirSync('site/app/build', { recursive: true });
   writeFileSync(REPORT_PATH, `${JSON.stringify(report, null, 2)}\n`);
 }

@@ -14,10 +14,10 @@ import { matchRedirect, parseRedirects } from '../../scripts/lib/pages-redirects
 // worker still installed in the field, so a change here must be deliberate: update the pin, run the
 // browser spec, and keep both copies identical.
 const KILL_SWITCH_SHA256 = 'da1d26a0d1f71824165491f3c00f7252b3c04e430eb865b008159ca3d815d253';
-const COPIES = ['render/sw.js', 'test2/sw.js'];
+const COPIES = ['render/sw.js', 'site/test2/sw.js'];
 
 const source = readFileSync('render/sw.js', 'utf8');
-const rules = parseRedirects(readFileSync('_redirects', 'utf8'));
+const rules = parseRedirects(readFileSync('site/_redirects', 'utf8'));
 
 test('the kill switch is the pinned bytes, and every copy is identical', () => {
   for (const file of COPIES) {
@@ -56,7 +56,7 @@ test('the data the old apps read keeps its addresses', () => {
 
 test('the kill switch clears only the legacy caches, never the root worker\'s', () => {
   const prefixes = JSON.parse(source.match(/RETIRED_CACHE_PREFIXES = (\[[^\]]*\])/)[1].replace(/'/g, '"'));
-  const rootPrefix = readFileSync('sw.js', 'utf8').match(/const CACHE_PREFIX = '([^']+)'/)[1];
+  const rootPrefix = readFileSync('site/sw.js', 'utf8').match(/const CACHE_PREFIX = '([^']+)'/)[1];
   assert.ok(rootPrefix);
   for (const prefix of prefixes) assert.ok(!rootPrefix.startsWith(prefix), `${prefix} would delete ${rootPrefix}*`);
   // Each legacy worker's own cache names are covered.

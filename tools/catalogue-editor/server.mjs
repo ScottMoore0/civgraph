@@ -17,6 +17,7 @@ import { createServer } from 'node:http';
 import { appendFileSync, existsSync, mkdirSync, readFileSync, statSync, writeFileSync, createReadStream } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { sourceOf } from '../../scripts/build/site.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '..', '..');
@@ -97,8 +98,8 @@ createServer(async (req, res) => {
       return res.end(req.method === 'HEAD' ? undefined : buf);
     }
 
-    // The site, from the working tree.
-    let file = path.join(ROOT, p);
+    // The site, from the working tree (site/, packages and data dirs: sourceOf).
+    let file = path.join(ROOT, sourceOf(p));
     if (!file.startsWith(ROOT)) return send(res, 403, 'forbidden');
     if (existsSync(file) && statSync(file).isDirectory()) file = path.join(file, 'index.html');
     if (!existsSync(file)) {

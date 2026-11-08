@@ -15,7 +15,7 @@
  *
  * MATCHING IS ANCHORED ON PURPOSE. While investigating the above I repeatedly
  * matched substrings and drew false conclusions: 'js/web-vitals-4.iife.js'
- * matched inside 'assets/js/web-vitals-4.iife.js' and invented a bug that did
+ * matched inside 'site/assets/js/web-vitals-4.iife.js' and invented a bug that did
  * not exist; 'js/stages2.js' matched inside 'data/elections-source/js/...'
  * and implied the live app depended on the legacy directory. Every pattern here
  * captures a complete quoted path and resolves it, so a reference can never be
@@ -34,12 +34,12 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '.
 const JSON_OUT = process.argv.includes('--json');
 
 // Entry points that describe what the browser will fetch.
-const HTML_FILES = ['index.html', '404.html', 'browse/index.html', 'app/index.html'];
+const HTML_FILES = ['site/index.html', 'site/404.html', 'site/browse/index.html', 'site/app/index.html'];
 // The map app is packages/map/app/app.js and the modules split out of it under packages/map/src/app/; the election
 // manager is packages/map/app/election-manager.js and the modules split out of it under packages/map/src/election/.
-const JS_FILES = [...mapAppSourceFiles(), ...electionManagerSourceFiles(), 'browse/browse.js'];
+const JS_FILES = [...mapAppSourceFiles(), ...electionManagerSourceFiles(), 'site/browse/browse.js'];
 // sw.js is scanned with an extra pattern the others must NOT get -- see below.
-const PRECACHE_FILES = ['sw.js'];
+const PRECACHE_FILES = ['site/sw.js'];
 
 // Each pattern captures ONE complete path in group 1.
 const HTML_PATTERNS = [

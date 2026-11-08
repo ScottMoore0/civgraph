@@ -40,19 +40,19 @@ import { readFileSync, existsSync } from 'node:fs';
 const CORE = ['Home', 'Maps', 'Browse', 'Apps', 'About'];
 
 const PAGES = [
-  'index.html',
-  'maps/index.html',
-  'browse/index.html',
-  'catalogue/index.html',
-  'records/index.html',
-  'apps/index.html',
-  'apps/words/index.html',
-  'pages/about.html',
-  'pages/census-explorer.html',
-  'pages/status.html',
+  'site/index.html',
+  'site/maps/index.html',
+  'site/browse/index.html',
+  'site/catalogue/index.html',
+  'site/records/index.html',
+  'site/apps/index.html',
+  'site/apps/words/index.html',
+  'site/pages/about.html',
+  'site/pages/census-explorer.html',
+  'site/pages/status.html',
   // PRONI Search and the 404 joined the shared shell on 7 Nov 2026 (site-shell stream).
-  'apps/proni-search/index.html',
-  '404.html',
+  'site/apps/proni-search/index.html',
+  'site/404.html',
 ];
 
 /**
@@ -129,7 +129,7 @@ for (const page of PAGES) {
 // so it is named too.
 const KNOWN = new Set([...PAGES, ...EXEMPT.keys()]);
 const unlisted = [];
-for (const candidate of ['partials/about.html', 'partials/home.html', 'partials/books.html']) {
+for (const candidate of ['site/partials/about.html', 'site/partials/home.html', 'site/partials/books.html']) {
   if (existsSync(candidate) && !KNOWN.has(candidate)) unlisted.push(candidate);
 }
 

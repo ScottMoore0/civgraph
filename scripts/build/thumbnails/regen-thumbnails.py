@@ -16,7 +16,7 @@ from matplotlib.patches import Polygon as MplPolygon
 from matplotlib.collections import PatchCollection, LineCollection
 import numpy as np
 
-THUMB_DIR = 'assets/thumbnails'
+THUMB_DIR = 'site/assets/thumbnails'
 MAPS_JSON = 'data/database/maps.json'
 LAND_GEOJSON = 'british_isles_land.geojson'
 DATA_HOST_PREFIX = 'https://data.civgraph.net/'

@@ -49,13 +49,13 @@ import { sourceOf } from '../../build/site.mjs';
 // Left off this list they would keep whatever token they were created with and serve the
 // previous JavaScript after a deploy -- the same stale-asset bug in two more directories.
 const HTML_FILES = [
-  'browse/index.html',
-  'catalogue/index.html',
-  'records/index.html',
-  'apps/proni-search/index.html',
+  'site/browse/index.html',
+  'site/catalogue/index.html',
+  'site/records/index.html',
+  'site/apps/proni-search/index.html',
   // Words in parliament loads words.js as a module (r2-ui, 7 Nov 2026); its import map versions
   // the modules words.js imports.
-  'apps/words/index.html',
+  'site/apps/words/index.html',
 ];
 const CHECK = process.argv.includes('--check');
 

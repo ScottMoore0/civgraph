@@ -62,6 +62,6 @@ const out = {
   maps,
   dataOverlays,
 };
-mkdirSync('agent', { recursive: true });
-writeFileSync('agent/maps-index.json', JSON.stringify(out, null, 0) + '\n');
+mkdirSync('site/agent', { recursive: true });
+writeFileSync('site/agent/maps-index.json', JSON.stringify(out, null, 0) + '\n');
 console.log(`Wrote agent/maps-index.json: ${maps.length} maps (${out.withGeometry} with fetchable geometry).`);

@@ -31,7 +31,7 @@ const SAMPLE_PER_KIND = 25;
 /** @typedef {import('../../packages/types/index.js').LayerEntry & { sourceFile?: string }} IndexLayer  a maps-test-index.json layer */
 
 /** @type {Record<string, string>} layer id -> the property holding its Irish names */
-const fields = JSON.parse(readFileSync('assets/i18n/place-name-fields.json', 'utf8')).layers;
+const fields = JSON.parse(readFileSync('site/assets/i18n/place-name-fields.json', 'utf8')).layers;
 /** @type {IndexLayer[]} */
 const index = JSON.parse(readFileSync('render/metadata/maps-test-index.json', 'utf8')).layers;
 const review = readFileSync('data/i18n/review/place-name-fields.tsv', 'utf8').split('\n').filter((l) => l && !l.startsWith('#')).slice(1).map((l) => l.split('\t'));

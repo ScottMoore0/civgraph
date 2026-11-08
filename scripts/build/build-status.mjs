@@ -59,7 +59,7 @@ export function isUnopposedContest(result) {
 const ROOT = process.cwd();
 const CHECK = process.argv.includes('--check');
 const OUT = path.join(ROOT, 'data/database/status.json');
-const PAGE = path.join(ROOT, 'pages/status.html');
+const PAGE = path.join(ROOT, 'site/pages/status.html');
 
 const fail = (message) => {
   console.error(`FAIL: ${message}`);
@@ -587,16 +587,16 @@ ${mapShelves.map(renderShelf).join('\n')}
 </section>`;
 
 const MARKER = /(<!-- status:body -->)[\s\S]*?(<!-- \/status:body -->)/;
-if (!existsSync(PAGE)) fail('pages/status.html does not exist.');
+if (!existsSync(PAGE)) fail('site/pages/status.html does not exist.');
 const pageBefore = readFileSync(PAGE, 'utf8');
-if (!MARKER.test(pageBefore)) fail('pages/status.html has no <!-- status:body --> ... <!-- /status:body --> region.');
+if (!MARKER.test(pageBefore)) fail('site/pages/status.html has no <!-- status:body --> ... <!-- /status:body --> region.');
 const eol = pageBefore.includes('\r\n') ? '\r\n' : '\n';
 const pageAfter = pageBefore.replace(MARKER, (_m, open, close) => `${open}\n${body}\n${close}`.replace(/\r?\n/g, eol));
 
 if (CHECK) {
   const problems = [];
   if (!unchanged) problems.push('data/database/status.json does not match the figures computed from the data');
-  if (pageAfter !== pageBefore) problems.push('pages/status.html does not match status.json');
+  if (pageAfter !== pageBefore) problems.push('site/pages/status.html does not match status.json');
   if (problems.length) fail(`${problems.join('; ')}.\n  Regenerate: node scripts/build/build-status.mjs`);
   console.log('PASS: the Status page and data/database/status.json are current.');
   process.exit(0);
@@ -607,4 +607,4 @@ if (pageAfter !== pageBefore) writeFileSync(PAGE, pageAfter);
 console.log(`Status: ${sources.length} sources, ${electionGroups.length} election groups (${fmt(contests.length)} contests), `
   + `${mapShelves.length} map shelves (${fmt(mapTotals.known)} known editions)`);
 console.log(unchanged ? 'Unchanged; data/database/status.json left as it is.' : 'Wrote data/database/status.json');
-console.log(pageAfter !== pageBefore ? 'Wrote pages/status.html' : 'pages/status.html already current.');
+console.log(pageAfter !== pageBefore ? 'Wrote pages/status.html' : 'site/pages/status.html already current.');

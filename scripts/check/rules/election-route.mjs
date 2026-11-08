@@ -7,10 +7,10 @@ import { BROWSE_DIR, ELECTION_BUNDLE_DIR, ELECTION_MANIFEST, ELECTION_REPORT } f
 const failures = [];
 // The MapLibre app. It was index.html until the landing page took the root; this kept
 // reading index.html, so every shell assertion below was checking the Home page.
-const index = readFileSync('maps/index.html', 'utf8');
+const index = readFileSync('site/maps/index.html', 'utf8');
 // /test2/ is a 301 to /maps/ (_redirects) since the legacy apps retired; test2/sw.js is the
 // retired-app kill switch, the same bytes as render/sw.js.
-const redirectsSource = readFileSync('_redirects', 'utf8');
+const redirectsSource = readFileSync('site/_redirects', 'utf8');
 const bootSource = readFileSync('packages/map/app/boot.js', 'utf8');
 // app.js and the modules split out of it under packages/map/src/app/ (frontend-plan.md 5.2).
 const appSource = readMapAppSource();
@@ -19,8 +19,8 @@ const adapterSource = readFileSync('packages/map/app/maplibre-main-adapter.js', 
 // 5.1): a rule checked against its source holds wherever the code now lives.
 const electionManagerSource = readElectionManagerSource();
 const electionPaneContractSource = readFileSync('packages/map/app/election-pane-main-contract.js', 'utf8');
-const test2ServiceWorkerSource = readFileSync('test2/sw.js', 'utf8');
-const rootServiceWorkerSource = readFileSync('sw.js', 'utf8');
+const test2ServiceWorkerSource = readFileSync('site/test2/sw.js', 'utf8');
+const rootServiceWorkerSource = readFileSync('site/sw.js', 'utf8');
 const mainElectionPaneContractSource = readFileSync('src/election-main-pane-contract.mjs', 'utf8');
 const electionDomainSource = readFileSync('packages/core/src/election-domain.mjs', 'utf8');
 const electionViewModelSource = readFileSync('packages/core/src/election-view-model.mjs', 'utf8');
@@ -44,7 +44,7 @@ const mapControllerSource = readFileSync('packages/map/src/renderer/map-controll
 const labelsSource = readFileSync('packages/map/src/renderer/labels.js', 'utf8');
 const featureRepairsSource = readFileSync('packages/map/src/renderer/feature-property-repairs.js', 'utf8');
 const test2Css = readFileSync('packages/map/app/test2.css', 'utf8');
-const mainCss = readFileSync('assets/css/main.css', 'utf8');
+const mainCss = readFileSync('site/assets/css/main.css', 'utf8');
 const packageJsonSource = readFileSync('package.json', 'utf8');
 const portPlan = JSON.parse(readFileSync('render/metadata/main-site-port-plan.json', 'utf8'));
 const testMetadata = JSON.parse(readFileSync('render/metadata/maps-test.json', 'utf8'));
@@ -195,7 +195,7 @@ function assertCatalogueMetadata() {
   assert(uiControllerSource.includes("name: 'Heritage Sites'"), 'Catalogue must title NI HED heritage card as Heritage Sites');
   assert(uiControllerSource.includes("map.id === 'cso-urban-areas-2022'") && uiControllerSource.includes("displayName = '2022'"), 'Catalogue must display CSO Urban Areas 2022 using derived name 2022');
 
-  const thumbnailIds = new Set(JSON.parse(readFileSync('assets/thumbnails/manifest.json', 'utf8')));
+  const thumbnailIds = new Set(JSON.parse(readFileSync('site/assets/thumbnails/manifest.json', 'utf8')));
   for (const id of [
     'hed-listed-buildings',
     'hed-sites-and-monuments',
@@ -238,7 +238,7 @@ assert(index.includes('<base href="/">'), '/test2 must keep root-relative produc
 assert(existsSync('docs/test2-general-parity-matrix.json'), '/test2 general parity matrix is missing');
 assert(existsSync('scripts/check/rules/general-parity.mjs'), '/test2 general parity audit script is missing');
 assert(packageJsonSource.includes('"audit:test2:parity"'), '/test2 general parity audit must be exposed through package scripts');
-assert(!existsSync('test2/index.html'), '/test2/ must not serve a page: it answers 301 to /maps/');
+assert(!existsSync('site/test2/index.html'), '/test2/ must not serve a page: it answers 301 to /maps/');
 assert(/^\/test2\/\s+\/maps\/\s+301$/m.test(redirectsSource), '_redirects must send /test2/ to /maps/ with a 301');
 assert(index.includes('/app/build/app.bundle.js'), 'Root must load the production MapLibre bundle from /app');
 assert(index.includes('/app/build/app.bundle.css'), 'Root must load the production MapLibre CSS bundle from /app');
@@ -679,15 +679,15 @@ assert(electionManagerSource.includes('/app/js/jquery-shim.js') && electionManag
 assert(!test2ServiceWorkerSource.includes("addEventListener('fetch'"), '/test2 service worker must not handle fetches: it only retires itself');
 
 for (const path of [
-  'app/build/app.bundle.js',
-  'app/build/app.bundle.css',
-  'app/js/jquery-shim.js',
-  'app/election-viewer-package/js/stages2.js',
-  'app/election-viewer-package/js/animation_preview.js',
-  'app/election-viewer-package/js/animation_preview_manager.js',
-  'app/election-viewer-package/js/election_viewer.js',
-  'app/election-viewer-package/css/stages.css',
-  'app/election-viewer-package/css/election-viewer.css',
+  'site/app/build/app.bundle.js',
+  'site/app/build/app.bundle.css',
+  'site/app/js/jquery-shim.js',
+  'site/app/election-viewer-package/js/stages2.js',
+  'site/app/election-viewer-package/js/animation_preview.js',
+  'site/app/election-viewer-package/js/animation_preview_manager.js',
+  'site/app/election-viewer-package/js/election_viewer.js',
+  'site/app/election-viewer-package/css/stages.css',
+  'site/app/election-viewer-package/css/election-viewer.css',
   ...mapAppSourceFiles(),
   'packages/map/app/maplibre-main-adapter.js',
   'packages/map/app/election-manager.js',
@@ -908,9 +908,9 @@ if (existsSync('render/metadata/feature-indexes')) {
   }
 }
 
-const bundleBytes = existsSync('app/build/app.bundle.js') ? statSync('app/build/app.bundle.js').size : 0;
-const lazyChunkBytes = sumFiles('app/build/chunks', (name) => name.endsWith('.js'));
-const lazyChunkCount = countFiles('app/build/chunks', (name) => name.endsWith('.js'));
+const bundleBytes = existsSync('site/app/build/app.bundle.js') ? statSync('site/app/build/app.bundle.js').size : 0;
+const lazyChunkBytes = sumFiles('site/app/build/chunks', (name) => name.endsWith('.js'));
+const lazyChunkCount = countFiles('site/app/build/chunks', (name) => name.endsWith('.js'));
 assert(bundleBytes > 500, '/test2 bootstrap bundle is unexpectedly empty');
 assert(bundleBytes < 90_000, `/test2 bootstrap bundle is too large for first-load budget: ${bundleBytes} bytes`);
 assert(lazyChunkCount >= 1 && lazyChunkBytes > 100_000, '/test2 lazy runtime chunks are missing after bootstrap split');

@@ -99,7 +99,7 @@ test('splitParts never cuts a surrogate pair and concatenates back', () => {
 
 test('/data/database/maps.json, /agent/maps-index.json and /data/catalogue/*.json are the files byte for byte', async () => {
   assert.equal((await get(databaseRoute, '/data/database/maps.json')).text, file('data/database/maps.json'));
-  assert.equal((await get(agentRoute, '/agent/maps-index.json')).text, file('agent/maps-index.json'));
+  assert.equal((await get(agentRoute, '/agent/maps-index.json')).text, file('site/agent/maps-index.json'));
   for (const name of ['catalogue', 'places', 'people']) {
     const r = await get(catalogueRoute, `/data/catalogue/${name}.json`);
     assert.equal(r.status, 200);

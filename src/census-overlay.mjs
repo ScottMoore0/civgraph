@@ -60,7 +60,7 @@
  */
 /** @typedef {ReturnType<typeof joinRows>} JoinedRows */
 
-// Matplotlib samples, as the Leaflet loader had them (archive/leaflet/js/colour-palettes.js, see docs/ARCHIVE.md), less
+// Matplotlib samples, as the Leaflet loader had them (archive/leaflet/js/colour-palettes.js, see ARCHIVE.md), less
 // the repeated last stop three of them carried, which made the top two classes one colour.
 // 'protestant-catholic' diverges: blue at 0 %, grey at 50 %, green at 100 %.
 /** @type {Record<string, string[]>} */

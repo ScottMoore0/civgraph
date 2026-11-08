@@ -5,10 +5,10 @@ import { existsSync, readFileSync } from 'node:fs';
 // landing page took the root. This checks the page that actually carries the runtime,
 // which is what every assertion below is about; pointing it at the root would now be
 // checking a static landing page for a bundle it has no reason to load.
-const ROOT_INDEX = 'maps/index.html';
+const ROOT_INDEX = 'site/maps/index.html';
 const MAIN_CSS = 'build/main.css';
-const APP_JS = 'app/build/app.bundle.js';
-const APP_CSS = 'app/build/app.bundle.css';
+const APP_JS = 'site/app/build/app.bundle.js';
+const APP_CSS = 'site/app/build/app.bundle.css';
 const ARCHIVE_TAG = 'leaflet-main-before-maplibre-root-20260612';
 
 function assert(condition, message) {
@@ -25,11 +25,11 @@ function main() {
   assert(existsSync(MAIN_CSS), `Missing shared CSS output: ${MAIN_CSS}`);
   assert(existsSync(APP_JS), `Missing MapLibre app JS output: ${APP_JS}`);
   assert(existsSync(APP_CSS), `Missing MapLibre app CSS output: ${APP_CSS}`);
-  assert(html.includes('/app/build/app.bundle.js'), 'maps/index.html must load the MapLibre runtime from /app.');
-  assert(html.includes('/app/build/app.bundle.css'), 'maps/index.html must load the MapLibre CSS from /app.');
-  assert(html.includes('/app/election-viewer-package/css/election-viewer.css'), 'maps/index.html must load election viewer CSS from /app.');
-  assert(!html.includes('/test2/build/') && !html.includes('/test2/src/') && !html.includes('/test2/js/'), 'maps/index.html must not load runtime assets from /test2.');
-  assert(!/(?:src|href)=["']\/build\/app\.bundle\.js|leaflet-1\.9\.4/i.test(html), 'maps/index.html must not load the archived Leaflet runtime.');
+  assert(html.includes('/app/build/app.bundle.js'), 'site/maps/index.html must load the MapLibre runtime from /app.');
+  assert(html.includes('/app/build/app.bundle.css'), 'site/maps/index.html must load the MapLibre CSS from /app.');
+  assert(html.includes('/app/election-viewer-package/css/election-viewer.css'), 'site/maps/index.html must load election viewer CSS from /app.');
+  assert(!html.includes('/test2/build/') && !html.includes('/test2/src/') && !html.includes('/test2/js/'), 'site/maps/index.html must not load runtime assets from /test2.');
+  assert(!/(?:src|href)=["']\/build\/app\.bundle\.js|leaflet-1\.9\.4/i.test(html), 'site/maps/index.html must not load the archived Leaflet runtime.');
   console.log(`MapLibre shell at maps/index.html uses /app assets. Leaflet root archive tag: ${ARCHIVE_TAG}.`);
 }
 

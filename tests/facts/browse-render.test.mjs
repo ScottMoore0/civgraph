@@ -38,9 +38,9 @@ async function loadBrowse() {
   ctx.window = ctx;
   ctx.self = ctx;
   const imports = {};
-  let source = readFileSync('browse/browse.js', 'utf8');
+  let source = readFileSync('site/browse/browse.js', 'utf8');
   for (const [, , spec] of source.matchAll(/^import\s*\{([^}]*)\}\s*from\s*'([^']+)';/gm)) {
-    imports[spec] = await import(new URL(spec, new URL('../../browse/browse.js', import.meta.url)).href);
+    imports[spec] = await import(new URL(spec, new URL('../../site/browse/browse.js', import.meta.url)).href);
   }
   source = source.replace(/^import\s*\{([^}]*)\}\s*from\s*'([^']+)';/gm,
     (_match, names, spec) => `const {${names}} = __imports[${JSON.stringify(spec)}];`);

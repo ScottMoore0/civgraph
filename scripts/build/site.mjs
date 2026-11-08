@@ -17,6 +17,11 @@
  * files over 25 MiB are left out (Cloudflare's per-file limit, as clean-for-pages.sh did), and
  * the build FAILS above MAX_FILES (18,500; Cloudflare's hard limit is 20,000).
  *
+ * Where the files live (root tidy, 8 Nov 2026): the site's own pages, assets and top-level files
+ * are in site/ (site/X is served at /X), package files where packages/served.json says, and the
+ * data directories (data/, render/, src/) at the repository root. ROOT_FILES, SITE_DIRS,
+ * BUILD_DIRS and EXCLUDE name SERVED paths; sourceOf() gives the repository file.
+ *
  * functions/ is not copied: Pages bundles it from the project root, beside dist/. _routes.json,
  * _headers and _redirects are copied, since Pages reads them from the output directory.
  *
@@ -91,20 +96,29 @@ const toPosix = (p) => p.replace(/\\/g, '/');
 export const SERVED_FROM = Object.fromEntries(Object.entries(
   JSON.parse(readFileSync(path.join(REPO_ROOT, 'packages', 'served.json'), 'utf8'))).filter(([k]) => k !== '//'));
 
+/** The folder of the site's own files: site/X is served at /X (root tidy, 8 Nov 2026). */
+export const SITE_SOURCE = 'site';
+/** The top-level served names that live in site/ (whatever site/ holds). */
+export const SITE_ENTRIES = new Set(existsSync(path.join(REPO_ROOT, SITE_SOURCE)) ? readdirSync(path.join(REPO_ROOT, SITE_SOURCE)) : []);
+
 /** The repository file a served (dist-relative) path is copied from. */
 export function sourceOf(rel) {
   const p = toPosix(rel).replace(/^\/+/, '');
+  if (!p) return SITE_SOURCE; // the served root is site/
   for (const [served, from] of Object.entries(SERVED_FROM)) {
     if (p.startsWith(served)) return from + p.slice(served.length);
     if (`${p}/` === served) return from.slice(0, -1); // the served directory itself
   }
+  const top = p.split('/')[0];
+  if (top && SITE_ENTRIES.has(top)) return `${SITE_SOURCE}/${p}`;
   return p;
 }
 
-/** The served path of a repository file (itself unless a package serves it elsewhere). */
+/** The served path of a repository file (itself unless a package or site/ serves it elsewhere). */
 export function servedOf(rel) {
   const p = toPosix(rel);
   for (const [served, from] of Object.entries(SERVED_FROM)) if (p.startsWith(from)) return served + p.slice(from.length);
+  if (p.startsWith(`${SITE_SOURCE}/`)) return p.slice(SITE_SOURCE.length + 1);
   return p;
 }
 
@@ -144,10 +158,10 @@ function gitFiles(root) {
 export function siteFiles(root = REPO_ROOT) {
   let candidates = gitFiles(root);
   if (candidates) {
-    for (const d of BUILD_DIRS) walk(root, d, candidates);
+    for (const d of BUILD_DIRS) walk(root, sourceOf(d), candidates);
   } else {
-    candidates = [...ROOT_FILES];
-    for (const d of [...SITE_DIRS, ...BUILD_DIRS.filter((b) => !SITE_DIRS.includes(b.split('/')[0]))]) walk(root, d, candidates);
+    candidates = ROOT_FILES.map(sourceOf);
+    for (const d of [...SITE_DIRS, ...BUILD_DIRS.filter((b) => !SITE_DIRS.includes(b.split('/')[0]))]) walk(root, sourceOf(d), candidates);
   }
   const files = [];
   const oversized = [];

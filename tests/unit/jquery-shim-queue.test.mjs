@@ -10,13 +10,13 @@ import vm from 'node:vm';
 import { createFlag } from '../../packages/map/src/state-helpers.mjs';
 
 const SOURCE = readFileSync('src/jquery-shim.js', 'utf8');
-const COPY = readFileSync('app/js/jquery-shim.js', 'utf8');
+const COPY = readFileSync('site/app/js/jquery-shim.js', 'utf8');
 const TABLE = /const QUEUE_RUNNING_TRANSITIONS = (\{[^\n]*\});/;
 
 test('the inline table is the shared flag table, in both copies', () => {
   const literal = SOURCE.match(TABLE)?.[1];
   assert.ok(literal, 'QUEUE_RUNNING_TRANSITIONS not found in src/jquery-shim.js');
-  assert.equal(COPY.match(TABLE)?.[1], literal, 'app/js/jquery-shim.js has a different table');
+  assert.equal(COPY.match(TABLE)?.[1], literal, 'site/app/js/jquery-shim.js has a different table');
   const table = vm.runInNewContext(`(${literal})`);
   const flag = createFlag('queue running');
   assert.deepEqual(Object.keys(table).sort(), [...flag.machine.states].sort());

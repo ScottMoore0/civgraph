@@ -22,7 +22,7 @@ import { ssrMode } from '../../packages/ui/src/templates/records/index.js';
 import { migrationFiles, TableWriter, transaction } from '../../packages/loader/src/db.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
-const SHELL = readFileSync(path.join(ROOT, 'browse', 'index.html'), 'utf8');
+const SHELL = readFileSync(path.join(ROOT, 'site', 'browse', 'index.html'), 'utf8');
 
 const GROUPED_NI = {
   id: 'ni-local__1946', key: 'ni-local__1946', slug: 'ni-local-1946', entryKind: 'election',

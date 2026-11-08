@@ -36,7 +36,7 @@ spec = importlib.util.spec_from_file_location('regen', os.path.join(ROOT, 'scrip
 regen = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(regen)
 
-THUMBS = os.path.join(ROOT, 'assets', 'thumbnails')
+THUMBS = os.path.join(ROOT, 'site', 'assets', 'thumbnails')
 EXCLUDED = os.path.join(THUMBS, 'excluded-transparent.json')
 INDEX = os.path.join(ROOT, 'render', 'metadata', 'maps-test-index.json')
 MAPS = os.path.join(ROOT, 'data', 'database', 'maps.json')

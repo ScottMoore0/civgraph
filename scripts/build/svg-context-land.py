@@ -25,7 +25,7 @@ from shapely.geometry import shape, box, MultiPolygon, Polygon, LineString, Mult
 from shapely.ops import unary_union, linemerge
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-OUT = os.path.join(ROOT, 'assets', 'map', 'context-land.json')
+OUT = os.path.join(ROOT, 'site', 'assets', 'map', 'context-land.json')
 Q = 10000
 CLIP = box(-16.0, 47.0, 5.0, 63.0)
 IRELAND_TOL = 0.0006

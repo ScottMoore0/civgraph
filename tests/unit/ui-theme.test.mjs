@@ -22,7 +22,7 @@ import { THEME_BOOTSTRAP } from '../../packages/ui/src/templates/shell.js';
 import { preferenceOf, THEME_KEY, THEME_PREFERENCE, themeFor, toggledFrom } from '../../packages/ui/assets/state/theme.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
-const CHROME = readFileSync(path.join(ROOT, 'assets/site/site-chrome.js'), 'utf8');
+const CHROME = readFileSync(path.join(ROOT, 'site/assets/site/site-chrome.js'), 'utf8');
 
 const STORED = [null, 'light', 'dark', 'sepia', 'BLOCKED'];
 const SYSTEM = [true, false, undefined]; // prefers dark, prefers light, no matchMedia
@@ -76,7 +76,7 @@ test('the theme preference table: from nothing saved to either theme, then betwe
   }
 });
 
-test('assets/site/site-chrome.js carries the same table as assets/ui/state/theme.js', () => {
+test('site/assets/site/site-chrome.js carries the same table as assets/ui/state/theme.js', () => {
   const literal = CHROME.match(/var THEME_TRANSITIONS = (\{[^\n]*\});/)?.[1];
   assert.ok(literal, 'THEME_TRANSITIONS not found in site-chrome.js');
   const copy = vm.runInNewContext(`(${literal})`);

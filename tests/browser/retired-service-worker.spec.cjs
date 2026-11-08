@@ -35,7 +35,7 @@ const ROOT_CACHE = 'civgraph-root-maplibre-root-maplibre-sw-kept-static';
 
 async function startSite() {
   const { parseRedirects, matchRedirect } = await import('../../scripts/lib/pages-redirects.mjs');
-  const rules = parseRedirects(fs.readFileSync(path.join(ROOT, '_redirects'), 'utf8'));
+  const rules = parseRedirects(fs.readFileSync(path.join(ROOT, 'site', '_redirects'), 'utf8'));
   const site = { phase: 'legacy' };
   const send = (res, status, type, body, headers = {}) => {
     res.writeHead(status, { 'Content-Type': type, 'Cache-Control': 'no-store', ...headers });
@@ -75,7 +75,7 @@ async function startSite() {
     if (hit && hit.status !== 200) return send(res, hit.status, 'text/plain', '', { Location: hit.location });
     if (hit) file = hit.location.split('?')[0];
     if (!/^\/(render|test2)\/sw\.js$/.test(file)) return send(res, 404, 'text/plain', 'not found');
-    return send(res, 200, 'text/javascript', fs.readFileSync(path.join(ROOT, file)));
+    return send(res, 200, 'text/javascript', fs.readFileSync(path.join(ROOT, file.startsWith('/test2/') ? 'site' : '', file))); // test2/ is in site/
   });
   await new Promise((resolve) => site.server.listen(0, '127.0.0.1', resolve));
   site.origin = `http://127.0.0.1:${site.server.address().port}`;

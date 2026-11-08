@@ -38,7 +38,7 @@ import { languageFileStatus } from './translation-status.mjs';
 
 const CHECK = process.argv.includes('--check');
 const SRC_DIR = 'data/i18n/strings';
-const OUT_DIR = 'assets/i18n';
+const OUT_DIR = 'site/assets/i18n';
 const REVIEW_DIR = 'data/i18n/review';
 const OVERLAY = 'data/i18n/map-names.overlay.json';
 /** @typedef {'ga' | 'sco'} Lang  a translated language (English is the source) */
