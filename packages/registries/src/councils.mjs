@@ -8,7 +8,15 @@
  * literal is gone.
  */
 
-/** Lower-case ASCII words, as scripts/lib/election-names.mjs normalises a body name. */
+/** @typedef {import('../../types/index.js').CouncilsRegistry} CouncilsRegistry */
+/** @typedef {import('../../types/index.js').Council} Council */
+/** @typedef {keyof NonNullable<Council['flags']>} CouncilFlag */
+
+/**
+ * Lower-case ASCII words, as scripts/lib/election-names.mjs normalises a body name.
+ * @param {unknown} value
+ * @returns {string}
+ */
 export function normalizeCouncilName(value) {
   return String(value || '')
     .normalize('NFKD')
@@ -18,26 +26,45 @@ export function normalizeCouncilName(value) {
     .trim();
 }
 
-const list = (registry) => registry.councils;
-const flagged = (registry, flag) => list(registry).filter((c) => c.flags?.[flag]);
+const list = (/** @type {CouncilsRegistry} */ registry) => registry.councils;
+const flagged = (/** @type {CouncilsRegistry} */ registry, /** @type {CouncilFlag} */ flag) => list(registry).filter((c) => c.flags?.[flag]);
 
-/** id -> council. */
+/**
+ * id -> council.
+ * @param {CouncilsRegistry} registry
+ * @returns {Map<string, Council>}
+ */
 export function councilsById(registry) {
   return new Map(list(registry).map((c) => [c.id, c]));
 }
 
-/** Councils filed under an elections body slug (one per pre-1973 council; many for local-government). */
+/**
+ * Councils filed under an elections body slug (one per pre-1973 council; many for local-government).
+ * @param {CouncilsRegistry} registry
+ * @param {string} bodySlug
+ * @returns {Council[]}
+ */
 export function councilsByBodySlug(registry, bodySlug) {
   return list(registry).filter((c) => c.bodySlug === bodySlug);
 }
 
-/** The council a body slug names (pre-1973 councils, whose body is the council), or null. */
+/**
+ * The council a body slug names (pre-1973 councils, whose body is the council), or null.
+ * @param {CouncilsRegistry} registry
+ * @param {string} bodySlug
+ * @returns {Council | null}
+ */
 export function councilForBodySlug(registry, bodySlug) {
   const found = councilsByBodySlug(registry, bodySlug);
   return found.length === 1 ? found[0] : null;
 }
 
-/** Body slugs of the councils carrying `flag`, in registry order. */
+/**
+ * Body slugs of the councils carrying `flag`, in registry order.
+ * @param {CouncilsRegistry} registry
+ * @param {CouncilFlag} flag
+ * @returns {string[]}
+ */
 export function bodySlugsWithFlag(registry, flag) {
   return flagged(registry, flag).map((c) => c.bodySlug);
 }
@@ -45,6 +72,8 @@ export function bodySlugsWithFlag(registry, flag) {
 /**
  * Body slugs of the NI councils 1923-67 intake: NI_COUNCILS_1923_67_BODY_SLUGS of
  * scripts/build/build-test2-election-manifest.mjs (an array there, only ever spread into sets).
+ * @param {CouncilsRegistry} registry
+ * @returns {Set<string>}
  */
 export function niCouncils1923to67BodySlugs(registry) {
   return new Set(bodySlugsWithFlag(registry, 'niCouncils1923_67'));
@@ -55,6 +84,7 @@ export function niCouncils1923to67BodySlugs(registry) {
  * PRE1973_COUNCIL_BODY_SLUGS, NI_COUNCILS_1923_67_RESULTS_ONLY_BODY_SLUGS,
  * PR1920_ONLY_COUNCIL_BODY_SLUGS, ARMAGH_PILOT_RESULTS_ONLY_BODY_SLUGS and LOCAL_GOVERNMENT_BODIES
  * (the last by elections-index name, as the builder matches it).
+ * @param {CouncilsRegistry} registry
  */
 export function manifestCouncilSets(registry) {
   return {
@@ -66,7 +96,11 @@ export function manifestCouncilSets(registry) {
   };
 }
 
-/** NI_COUNCIL_SLUGS of src/ni-local-groups.mjs: the councils of 1921-72 a year groups. */
+/**
+ * NI_COUNCIL_SLUGS of src/ni-local-groups.mjs: the councils of 1921-72 a year groups.
+ * @param {CouncilsRegistry} registry
+ * @returns {Set<string>}
+ */
 export function niLocalGroupSlugs(registry) {
   return new Set(bodySlugsWithFlag(registry, 'niLocalGroup'));
 }
@@ -75,12 +109,16 @@ export function niLocalGroupSlugs(registry) {
  * A council's name on a date (YYYY, YYYY-MM or YYYY-MM-DD). `names` is ascending; an entry
  * applies from `from` and, if it has one, until `until` (inclusive), each compared at its own
  * precision; the entry with neither is the name otherwise. Without `names`, the council's name.
+ * @param {Council} council
+ * @param {unknown} date
+ * @returns {string | null}
  */
 export function councilNameOn(council, date) {
   const names = council.names || [];
   if (!names.length) return council.name;
   const day = String(date || '');
   const fallback = names.find((n) => n.from == null && n.until == null);
+  /** @type {NonNullable<Council['names']>[number] | null} */
   let found = null;
   for (const n of names) {
     if (n === fallback) continue;
@@ -95,12 +133,15 @@ export function councilNameOn(council, date) {
  * NI_COUNCIL_ERA_TITLES of scripts/lib/election-names.mjs: normalised body name ->
  * [[from, name], ...] newest first, '' for the earliest. Only the councils whose eras are
  * dated to the day (`names[].basis` "date").
+ * @param {CouncilsRegistry} registry
+ * @returns {Map<string, Array<[string, string]>>}
  */
 export function eraTitles(registry) {
+  /** @type {Map<string, Array<[string, string]>>} */
   const out = new Map();
   for (const c of list(registry)) {
     if (!c.names || c.names.some((n) => n.basis !== 'date')) continue;
-    out.set(normalizeCouncilName(c.indexName || c.name), [...c.names].reverse().map((n) => [n.from || '', n.name]));
+    out.set(normalizeCouncilName(c.indexName || c.name), [...c.names].reverse().map((n) => /** @type {[string, string]} */ ([n.from || '', n.name])));
   }
   return out;
 }
@@ -109,6 +150,8 @@ export function eraTitles(registry) {
  * NI_COUNCILS_1923_67_PLAIN_TITLES of scripts/lib/election-names.mjs (only ever tested with
  * includes): the 1923-67 councils titled by their one name, i.e. without era names and not an
  * aldermanic body.
+ * @param {CouncilsRegistry} registry
+ * @returns {Set<string>}
  */
 export function plainTitleBodies(registry) {
   return new Set(flagged(registry, 'niCouncils1923_67')
@@ -116,24 +159,42 @@ export function plainTitleBodies(registry) {
     .map((c) => normalizeCouncilName(c.indexName)));
 }
 
-/** PRE1973_COUNCIL_BODIES of scripts/lib/election-names.mjs: normalised index names. */
+/**
+ * PRE1973_COUNCIL_BODIES of scripts/lib/election-names.mjs: normalised index names.
+ * @param {CouncilsRegistry} registry
+ * @returns {Set<string>}
+ */
 export function pre1973CouncilBodyNames(registry) {
   return new Set(flagged(registry, 'pre1973Council').map((c) => normalizeCouncilName(c.indexName)));
 }
 
-/** The names src/catalogue/search.js gives a local election's councils, by generation. */
+/**
+ * The names src/catalogue/search.js gives a local election's councils, by generation.
+ * @param {CouncilsRegistry} registry
+ * @param {{ generation: Council['generation'], jurisdiction?: Council['jurisdiction'] }} options
+ * @returns {string[]}
+ */
 export function catalogueCouncilNames(registry, { generation, jurisdiction = 'northern-ireland' }) {
   return list(registry)
     .filter((c) => c.generation === generation && c.jurisdiction === jurisdiction && c.searchName)
-    .map((c) => c.searchName);
+    .map((c) => /** @type {string} */ (c.searchName)); // kept above only where set
 }
 
-/** BODY_ALIASES of src/catalogue/search.js, for the councils (body slug -> words). */
+/**
+ * BODY_ALIASES of src/catalogue/search.js, for the councils (body slug -> words).
+ * @param {CouncilsRegistry} registry
+ * @returns {{ [bodySlug: string]: string }}
+ */
 export function catalogueBodyAliases(registry) {
-  return Object.fromEntries(list(registry).filter((c) => c.searchAliases && c.bodySlug).map((c) => [c.bodySlug, c.searchAliases]));
+  return Object.fromEntries(list(registry).filter((c) => c.searchAliases && c.bodySlug).map((c) => [c.bodySlug, /** @type {string} */ (c.searchAliases)])); // kept above only where set
 }
 
-/** The type of council a body slug names (NI_LOCAL_TIERS key), or null. */
+/**
+ * The type of council a body slug names (NI_LOCAL_TIERS key), or null.
+ * @param {CouncilsRegistry} registry
+ * @param {string} bodySlug
+ * @returns {string | null}
+ */
 export function councilType(registry, bodySlug) {
   return councilForBodySlug(registry, bodySlug)?.type ?? null;
 }
@@ -141,15 +202,19 @@ export function councilType(registry, bodySlug) {
 /**
  * Checks beyond the schema: unique ids and body slugs, every reference resolves, relations are
  * symmetric, types are declared, and a flag's companion data is present.
+ * @param {CouncilsRegistry} registry
  * @returns {string[]} errors
  */
 export function checkCouncils(registry) {
+  /** @type {string[]} */
   const errors = [];
   const byId = councilsById(registry);
   if (byId.size !== list(registry).length) {
+    /** @type {Set<string>} */
     const seen = new Set();
     for (const c of list(registry)) { if (seen.has(c.id)) errors.push(`duplicate id ${c.id}`); seen.add(c.id); }
   }
+  /** @type {Map<string, string>} */
   const slugs = new Map();
   for (const c of list(registry)) {
     if (c.bodySlug && c.generation === 'pre-1973') {
@@ -164,7 +229,7 @@ export function checkCouncils(registry) {
       const dated = c.names.filter((n) => n.from != null).map((n) => n.from);
       if (dated.join() !== [...dated].sort().join()) errors.push(`${c.id}: names are not in ascending order`);
     }
-    for (const [side, other] of [['predecessors', 'successors'], ['successors', 'predecessors']]) {
+    for (const [side, other] of /** @type {const} */ ([['predecessors', 'successors'], ['successors', 'predecessors']])) {
       for (const rel of c[side] || []) {
         const target = byId.get(rel.id);
         if (!target) { errors.push(`${c.id}: ${side} names unknown council ${rel.id}`); continue; }
@@ -177,6 +242,7 @@ export function checkCouncils(registry) {
   }
   // Published sources: every cite:<id> resolves, and every citation is cited.
   const citations = registry.citations || {};
+  /** @type {Set<string>} */
   const cited = new Set();
   for (const c of list(registry)) {
     const sources = [
@@ -194,11 +260,12 @@ export function checkCouncils(registry) {
   for (const id of Object.keys(citations)) if (!cited.has(id)) errors.push(`citation ${id} is not cited`);
   // An offices institution stands for one council, or for councils the registry relates as one
   // succession (Belfast's county borough council and the district councils of 1973 and 2015).
+  /** @type {Map<string, Council[]>} */
   const byInstitution = new Map();
   for (const c of list(registry)) {
     if (!c.officesInstitution) continue;
     if (!byInstitution.has(c.officesInstitution)) byInstitution.set(c.officesInstitution, []);
-    byInstitution.get(c.officesInstitution).push(c);
+    /** @type {Council[]} */ (byInstitution.get(c.officesInstitution)).push(c); // set above
   }
   for (const [institution, councils] of byInstitution) {
     if (councils.length < 2) continue;
@@ -207,7 +274,7 @@ export function checkCouncils(registry) {
     for (let grew = true; grew;) {
       grew = false;
       for (const id of [...reached]) {
-        const c = byId.get(id);
+        const c = /** @type {Council} */ (byId.get(id)); // reached holds ids of councils only
         for (const r of [...(c.predecessors || []), ...(c.successors || [])]) {
           if (ids.has(r.id) && !reached.has(r.id)) { reached.add(r.id); grew = true; }
         }

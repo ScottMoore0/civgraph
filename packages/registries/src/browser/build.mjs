@@ -31,6 +31,8 @@ import { loadRegistry, REPO_ROOT } from '../index.mjs';
 import { catalogueBodyAliases, catalogueCouncilNames, niLocalGroupSlugs } from '../councils.mjs';
 import { typesWithBehaviour } from '../layers.mjs';
 
+/** @typedef {import('../statuses.mjs').StatusMachineFields} StatusMachineFields */
+
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 
 /** file name -> slice, from the registries under `root`. */
@@ -39,7 +41,7 @@ export function browserSlices(root = REPO_ROOT) {
   const parties = loadRegistry('parties', { root });
   const statuses = loadRegistry('statuses', { root });
   const layers = loadRegistry('layers', { root });
-  const round = statuses.machines['election-round'];
+  const round = /** @type {StatusMachineFields} */ (statuses.machines['election-round']);
   return {
     'councils.json': {
       niLocalGroupSlugs: [...niLocalGroupSlugs(councils)],
@@ -64,10 +66,10 @@ export function browserSlices(root = REPO_ROOT) {
       notParties: [...parties.notParties]
     },
     'statuses.json': {
-      candidateKindPatterns: statuses.machines['candidate-count'].kindPatterns.map(({ kind, pattern }) => [kind, pattern]),
+      candidateKindPatterns: /** @type {NonNullable<StatusMachineFields['kindPatterns']>} */ (statuses.machines['candidate-count'].kindPatterns).map(({ kind, pattern }) => [kind, pattern]),
       roundSiteLabels: { ...round.siteLabels },
       missingReasons: structuredClone(round.missingReasons),
-      contestLabels: { ...statuses.machines.contest.labels }
+      contestLabels: { .../** @type {StatusMachineFields} */ (statuses.machines.contest).labels }
     },
     'layer-types.json': {
       behaviour: Object.fromEntries(Object.keys(layers.behaviourFlags).map((flag) => [flag, typesWithBehaviour(layers, flag)]))
@@ -75,7 +77,10 @@ export function browserSlices(root = REPO_ROOT) {
   };
 }
 
-/** The text a slice file holds. */
+/**
+ * The text a slice file holds.
+ * @type {(slice: unknown) => string}
+ */
 export const sliceText = (slice) => `${JSON.stringify(slice, null, 1)}\n`;
 
 /** Slice files that differ from a fresh build (names), reading the files in `dir`. */

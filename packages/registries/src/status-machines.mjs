@@ -10,10 +10,19 @@
  */
 import { defineMachine, defineToggle } from '../../core/src/state-machine.mjs';
 
-/** name -> Machine, one per entry of `machines` in data/registries/statuses.json. */
+/** @typedef {import('../../types/index.js').StatusesRegistry} StatusesRegistry */
+/** @typedef {import('./statuses.mjs').StatusMachineEntry} StatusMachineEntry */
+/** @typedef {import('../../core/src/state-machine.mjs').Machine<string>} Machine */
+
+/**
+ * name -> Machine, one per entry of `machines` in data/registries/statuses.json.
+ * @param {StatusesRegistry} registry
+ * @returns {{ [name: string]: Machine }}
+ */
 export function statusMachines(registry) {
+  /** @type {{ [name: string]: Machine }} */
   const out = {};
-  for (const [name, m] of Object.entries(registry.machines)) {
+  for (const [name, m] of Object.entries(/** @type {{ [name: string]: StatusMachineEntry }} */ (registry.machines))) {
     out[name] = m.weight === 'full'
       ? defineMachine({ name: `${name} status`, initial: m.initial, transitions: m.transitions })
       : defineToggle(`${name} status`, /** @type {[string, string]} */ ([m.values[0], m.values[1]]));
@@ -24,6 +33,9 @@ export function statusMachines(registry) {
 /**
  * Whether a contribution in `status` may be marked applied, with the reason when not: the rule
  * scripts/intake/contributions.mjs canMarkApplied states, read from the table.
+ * @param {StatusesRegistry} registry
+ * @param {string} status
+ * @returns {{ ok: true } | { ok: false, reason: string }}
  */
 export function canMarkContributionApplied(registry, status) {
   const machine = statusMachines(registry).contribution;

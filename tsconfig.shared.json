@@ -1,0 +1,28 @@
+{
+  "//": "Type checking of the shared modules every area imports: packages/core/src/*.mjs (the election domain and view model, dates, party names, layer renames, the state-machine helper) and packages/registries/src (loader, views, checks, the browser slices and the layer-types seed). Run by `npm run check:types:shared` (tsc -p, so any finding fails). Full `strict`, noImplicitAny stated on its own as well: tests/unit/shared-types.test.mjs fails if either is turned off, an entry is dropped, or a file silences the checker. packages/core/src/*.js belong to functions/tsconfig.check.json.",
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "resolveJsonModule": true,
+    "target": "es2023",
+    "lib": ["es2023"],
+    "types": ["node"],
+    "skipLibCheck": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
+  },
+  "include": [
+    "packages/core/src/*.mjs",
+    "packages/registries/src/*.mjs",
+    "packages/registries/src/browser/*.mjs",
+    "packages/registries/src/seed/*.mjs"
+  ]
+}
