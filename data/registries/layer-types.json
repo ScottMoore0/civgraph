@@ -1,22 +1,22 @@
 {
  "schemaVersion": 1,
- "description": "Map layer types: the sourceType of a layer record, the fields every published layer of the type carries (render/metadata/maps-test.json), its tile format, and how the map app treats it (behaviour: src/map/renderer/map-controller.js). Schema: packages/registries/schemas/layer-types.schema.json; views: packages/registries/src/layers.mjs.",
+ "description": "Map layer types: the sourceType of a layer record, the fields every published layer of the type carries (render/metadata/maps-test.json), its tile format, and how the map app treats it (behaviour: packages/map/src/renderer/map-controller.js). Schema: packages/registries/schemas/layer-types.schema.json; views: packages/registries/src/layers.mjs.",
  "behaviourFlags": {
   "threeD": {
    "meaning": "a 3D layer: terrain or a point cloud; turns on the 3D gesture handlers and terrain",
-   "source": "src/map/renderer/map-controller.js: THREE_D_TYPES"
+   "source": "packages/map/src/renderer/map-controller.js: THREE_D_TYPES"
   },
   "rasterSource": {
    "meaning": "drawn from raster tiles or an image, so it has no features to pick",
-   "source": "src/map/renderer/map-controller.js: RASTER_SOURCE_TYPES"
+   "source": "packages/map/src/renderer/map-controller.js: RASTER_SOURCE_TYPES"
   },
   "noFeatureState": {
    "meaning": "feature-state (hover, selection) is never set on it",
-   "source": "src/map/renderer/map-controller.js: NO_FEATURE_STATE_TYPES"
+   "source": "packages/map/src/renderer/map-controller.js: NO_FEATURE_STATE_TYPES"
   },
   "noLabels": {
    "meaning": "never gets a label layer",
-   "source": "src/map/renderer/map-controller.js: NO_LABEL_TYPES"
+   "source": "packages/map/src/renderer/map-controller.js: NO_LABEL_TYPES"
   }
  },
  "types": {
@@ -64,9 +64,9 @@
    "runtimeOnly": true,
    "note": "Built by the app as the z/x/y.pbf fallback of a PMTiles layer (tilesFallback) or when promote-layers finds no PMTiles archive; never in the published index.",
    "sources": [
-    "src/map/renderer/map-controller.js",
+    "packages/map/src/renderer/map-controller.js",
     "scripts/build/tiles/promote-layers.mjs",
-    "app/src/maplibre-main-adapter.js"
+    "packages/map/app/maplibre-main-adapter.js"
    ]
   },
   "pmtiles": {
@@ -234,8 +234,8 @@
    "runtimeOnly": true,
    "note": "A catalogue entry with no tiles yet (metadata-service.js); the map refuses to load it, as it does any layer with loadable false.",
    "sources": [
-    "src/map/renderer/metadata-service.js",
-    "src/map/renderer/map-controller.js"
+    "packages/map/src/renderer/metadata-service.js",
+    "packages/map/src/renderer/map-controller.js"
    ]
   }
  },

@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const fs = require('fs');
 
 /**
- * "Download SVG" (app/src/map-image-export.js): a map as a Wikipedia-style locator map.
+ * "Download SVG" (packages/map/app/map-image-export.js): a map as a Wikipedia-style locator map.
  * Driven through the real app on NI Westminster 2023 (the 2024 general election boundaries):
  * the feature details box offers the download, the file is a valid standalone SVG, the
  * clicked constituency is #ff0000, the rest #ffc8c8, the neighbouring land is grey, and the

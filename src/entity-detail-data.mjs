@@ -2,7 +2,7 @@
  * The figures behind the person, party and constituency pages in the map app's catalogue pane.
  *
  * Pure: no DOM and no fetch, so the arithmetic can be tested on its own
- * (tests/catalogue/entity-detail-data.test.mjs). app/src/app.js shapes the Browse / D1 records
+ * (tests/catalogue/entity-detail-data.test.mjs). packages/map/app/app.js shapes the Browse / D1 records
  * with these, and src/ui-controller.js renders the result.
  *
  * The rule throughout (UX review 2026-10-31, H1): a figure the record does not carry is null,

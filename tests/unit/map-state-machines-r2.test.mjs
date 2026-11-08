@@ -9,8 +9,8 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
-import { createFlag, createState } from '../../src/map/state-helpers.mjs';
-import { HASH_LISTEN, NAVIGATION_PUSH, createHashListen, createNavigationPush } from '../../src/map/app/url-sync.mjs';
+import { createFlag, createState } from '../../packages/map/src/state-helpers.mjs';
+import { HASH_LISTEN, NAVIGATION_PUSH, createHashListen, createNavigationPush } from '../../packages/map/src/app/url-sync.mjs';
 import { mapAppSourceFiles } from '../../scripts/lib/map-app-source.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
@@ -73,10 +73,10 @@ test('MA-02 hash listen: holds nest, and a stray release stays listening', () =>
 });
 
 test('MA-02: the sources use the push and listen machines, not the old fields', () => {
-  for (const file of [...mapAppSourceFiles(), 'app/src/election-manager.js'].filter((f) => !f.endsWith('/url-sync.mjs'))) {
+  for (const file of [...mapAppSourceFiles(), 'packages/map/app/election-manager.js'].filter((f) => !f.endsWith('/url-sync.mjs'))) {
     assert.doesNotMatch(read(file), /_pushNextURL|_ignoreHashChanges/, file);
   }
-  const urlState = read('src/map/app/url-state.js');
+  const urlState = read('packages/map/src/app/url-state.js');
   assert.match(urlState, /this\.navigationPush\.begin\(/);
   assert.match(urlState, /this\.navigationPush\.take\(\)/);
   assert.match(urlState, /this\.hashListen\.hold\(\)/);
@@ -84,7 +84,7 @@ test('MA-02: the sources use the push and listen machines, not the old fields', 
 });
 
 test('MA-04 entity page: the table, the fields it writes, and the manager writing only through it', async () => {
-  const { ENTITY_PAGE, PANEL_VIEWS, entityPageFields } = await import('../../src/map/election/panel-model.mjs');
+  const { ENTITY_PAGE, PANEL_VIEWS, entityPageFields } = await import('../../packages/map/src/election/panel-model.mjs');
   assert.deepEqual(ENTITY_PAGE.transitions, { closed: ['closed', 'open'], open: ['open', 'closed'] });
   assertTableEnforced(ENTITY_PAGE);
   assert.ok(PANEL_VIEWS.includes('results') && PANEL_VIEWS.includes('counts'));
@@ -93,13 +93,13 @@ test('MA-04 entity page: the table, the fields it writes, and the manager writin
   assert.equal(page.state(), 'open');
   assert.deepEqual(entityPageFields(page, null), { activeEntityKind: null, activeEntityKey: null }, 'the return view is kept when not given');
   assert.equal(page.state(), 'closed');
-  const manager = read('app/src/election-manager.js');
+  const manager = read('packages/map/app/election-manager.js');
   assert.doesNotMatch(manager, /this\.activeEntity(Kind|Key) = /, 'kind and key are written only through setEntityPage');
   assert.match(manager, /set countDetailedView\(value\) \{ this\.countDetail\.set\(value\); \}/);
 });
 
 test('MA-05 NI grouped view: the table, active as a view of it, and the view moving only through it', async () => {
-  const { NI_LOCAL_VIEW, niLocalViewActive } = await import('../../src/map/election/ni-local-state.mjs');
+  const { NI_LOCAL_VIEW, niLocalViewActive } = await import('../../packages/map/src/election/ni-local-state.mjs');
   assert.deepEqual(NI_LOCAL_VIEW.transitions, {
     inactive: ['opening', 'inactive', 'active'],
     opening: ['opening', 'active', 'inactive'],
@@ -111,7 +111,7 @@ test('MA-05 NI grouped view: the table, active as a view of it, and the view mov
   assert.equal(NI_LOCAL_VIEW.can('opening', 'switching'), false);
   assert.equal(NI_LOCAL_VIEW.can('active', 'opening'), false, 'open() always follows a teardown');
   assert.deepEqual(NI_LOCAL_VIEW.states.filter(niLocalViewActive), ['active', 'switching']);
-  const view = read('app/src/ni-local-view.js');
+  const view = read('packages/map/app/ni-local-view.js');
   assert.doesNotMatch(view, /this\.active = /);
   assert.match(view, /get active\(\) \{ return niLocalViewActive\(this\.viewState\.state\(\)\); \}/);
   for (const move of ['opening', 'active', 'inactive', 'switching']) assert.ok(view.includes(`this.viewState.to('${move}')`), move);
@@ -146,17 +146,17 @@ test('MA-07 to MA-10: the sources write the pane state only through them', async
   for (const [, type] of ui.matchAll(/_pushCatalogueHistoryEntry\(\{ type: '([a-z-]+)'/g)) assert.ok(CATALOGUE_HISTORY_ENTRY.has(type), type);
   assert.match(ui, /CATALOGUE_HISTORY_ENTRY\.check\(entry\.type\);/);
   assert.match(ui, /const state = ENTITY_PLACEHOLDER\.check\(/);
-  const bridge = read('src/map/app/entity-bridge.js');
+  const bridge = read('packages/map/src/app/entity-bridge.js');
   assert.match(bridge, /state: load\.to\(detail \? 'choice' : \(failure \? 'error' : 'missing'\)\)/);
   assert.match(bridge, /load\.to\('loaded'\);/);
 });
 
 test('MA-11 direct gesture: the table, and directGestureActive a view of it', async () => {
-  const { DIRECT_GESTURE } = await import('../../src/map/renderer/gesture-state.mjs');
+  const { DIRECT_GESTURE } = await import('../../packages/map/src/renderer/gesture-state.mjs');
   const all = ['idle', 'pan', 'pinch', 'wheel'];
   assert.deepEqual(DIRECT_GESTURE.transitions, { idle: all, pan: all, pinch: all, wheel: all });
   assertTableEnforced(DIRECT_GESTURE);
-  const renderer = read('src/map/renderer/map-controller.js');
+  const renderer = read('packages/map/src/renderer/map-controller.js');
   assert.doesNotMatch(renderer, /this\.directGestureActive = /);
   assert.match(renderer, /return this\.directGesture\.state\(\) !== 'idle';/);
   const moves = [...renderer.matchAll(/this\.directGesture\.to\('([a-z]+)'\)/g)].map((m) => m[1]);
@@ -164,7 +164,7 @@ test('MA-11 direct gesture: the table, and directGestureActive a view of it', as
 });
 
 test('MA-12 point-cloud tile: the table, and every write through moveNode', async () => {
-  const { POINT_CLOUD_NODE, moveNode } = await import('../../src/map/renderer/point-cloud-node-state.mjs');
+  const { POINT_CLOUD_NODE, moveNode } = await import('../../packages/map/src/renderer/point-cloud-node-state.mjs');
   assert.deepEqual(POINT_CLOUD_NODE.transitions, { unloaded: ['queued'], queued: ['loading', 'unloaded'], loading: ['loaded', 'unloaded'], loaded: ['unloaded'] });
   assertTableEnforced(POINT_CLOUD_NODE);
   const node = { state: 'unloaded' };
@@ -173,7 +173,7 @@ test('MA-12 point-cloud tile: the table, and every write through moveNode', asyn
   assert.throws(() => moveNode(node, 'queued'), /is not a transition/, 'a tile in flight is not queued again');
   moveNode(node, 'loaded');
   assert.equal(node.state, 'loaded');
-  const layer = read('src/map/renderer/point-cloud-stream-layer.js');
+  const layer = read('packages/map/src/renderer/point-cloud-stream-layer.js');
   assert.doesNotMatch(layer, /node\.state = /);
   assert.equal([...layer.matchAll(/moveNode\(node, '/g)].length, 6);
 });
@@ -193,17 +193,17 @@ test('MA-13 /maps tab and route kinds', async () => {
 });
 
 test('MA-14 service worker registration, and the legacy sweep standalone', async () => {
-  const { SW_REGISTRATION } = await import('../../src/map/app/service-worker-state.mjs');
+  const { SW_REGISTRATION } = await import('../../packages/map/src/app/service-worker-state.mjs');
   assert.deepEqual(SW_REGISTRATION.transitions, { idle: ['unavailable', 'registering'], registering: ['ready', 'failed'], ready: [], failed: [], unavailable: [] });
   assertTableEnforced(SW_REGISTRATION);
   // The sweep is served on its own by the retired-service-worker spec: it must import nothing.
-  assert.doesNotMatch(read('src/map/app/retire-legacy-workers.mjs'), /^import /m);
-  const perf = read('src/map/app/performance.js');
+  assert.doesNotMatch(read('packages/map/src/app/retire-legacy-workers.mjs'), /^import /m);
+  const perf = read('packages/map/src/app/performance.js');
   for (const move of ['unavailable', 'registering', 'ready', 'failed']) assert.ok(perf.includes(`registrationState.to('${move}')`), move);
 });
 
 test('MA-L: latches, flags and hold counts', async () => {
-  const { createHoldCount, createLatch, defineFlagFields } = await import('../../src/map/state-helpers.mjs');
+  const { createHoldCount, createLatch, defineFlagFields } = await import('../../packages/map/src/state-helpers.mjs');
   const latch = createLatch('installed');
   latch.set(false);
   latch.set(true);
@@ -229,9 +229,9 @@ test('MA-L: latches, flags and hold counts', async () => {
   assert.equal(apply.depth, 0);
   // Each converted field is declared through the helper.
   const expect = {
-    'src/map/renderer/map-controller.js': ['directPanGestureInstalled', 'directWheelFallbackActive', 'autoTilted', 'documentHoverClearInstalled'],
-    'app/src/election-manager.js': ['overlayRefreshPending', 'seatCirclePositionUpdatePending', 'voteBarClickBound', 'recallLabelClickBound'],
-    'app/src/app.js': ['electionCatalogueWarmScheduled', 'featuresHereKeepOpen'],
+    'packages/map/src/renderer/map-controller.js': ['directPanGestureInstalled', 'directWheelFallbackActive', 'autoTilted', 'documentHoverClearInstalled'],
+    'packages/map/app/election-manager.js': ['overlayRefreshPending', 'seatCirclePositionUpdatePending', 'voteBarClickBound', 'recallLabelClickBound'],
+    'packages/map/app/app.js': ['electionCatalogueWarmScheduled', 'featuresHereKeepOpen'],
     'src/catalogue/index.js': ['drawn', 'picking', 'electionsFirst', 'langNotice', 'placesReady'],
     'src/feature-loader.js': ['initialized'],
     'src/election-trend-chart.mjs': ['pinned']
@@ -242,12 +242,12 @@ test('MA-L: latches, flags and hold counts', async () => {
       assert.match(source, new RegExp(String.raw`defineFlagFields\([a-z]+, \[[^\]]*'${name}'`), `${file}: ${name}`);
     }
   }
-  assert.doesNotMatch(read('src/map/app/timeline/controls.js'), /timelineApplyDepth/);
+  assert.doesNotMatch(read('packages/map/src/app/timeline/controls.js'), /timelineApplyDepth/);
 });
 
 test('the map app theme fallback uses the site theme table (UI-05) and survives blocked storage', () => {
-  const chrome = read('src/map/app/site-chrome.js');
-  assert.match(chrome, /from '\.\.\/\.\.\/\.\.\/packages\/ui\/assets\/state\/theme\.js'/);
+  const chrome = read('packages/map/src/app/site-chrome.js');
+  assert.match(chrome, /from '\.\.\/\.\.\/\.\.\/ui\/assets\/state\/theme\.js'/);
   assert.match(chrome, /themeFor\(preference, prefersDark\)/);
   assert.match(chrome, /THEME_PREFERENCE\.assertTransition\(preference, next\)/);
   assert.doesNotMatch(chrome, /localStorage\.(get|set)Item\('theme'/);

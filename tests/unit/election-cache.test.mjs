@@ -1,5 +1,5 @@
-// Election caching (src/map/election/cache.mjs): the election pane's in-memory caches and the
-// helpers that fill them, moved out of app/src/election-manager.js.
+// Election caching (packages/map/src/election/cache.mjs): the election pane's in-memory caches and the
+// helpers that fill them, moved out of packages/map/app/election-manager.js.
 //
 //   node --test tests/unit/election-cache.test.mjs
 import assert from 'node:assert/strict';
@@ -11,7 +11,7 @@ import {
   mapWithConcurrency,
   rememberLimitedCache,
   sharedLoad
-} from '../../src/map/election/cache.mjs';
+} from '../../packages/map/src/election/cache.mjs';
 
 test('limits and empty caches', () => {
   assert.deepEqual({ ...ELECTION_CACHE_LIMITS }, { bundles: 4, featureIndexes: 3, trendSummaries: 160, trendRenders: 40 });

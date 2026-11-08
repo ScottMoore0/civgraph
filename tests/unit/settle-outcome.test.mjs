@@ -21,7 +21,7 @@ import { readFileSync } from 'node:fs';
 import { readMapAppSource } from '../../scripts/lib/map-app-source.mjs';
 import {
   waitForMapSettle, SETTLE_SETTLED, SETTLE_TIMEOUT, SETTLE_UNAVAILABLE
-} from '../../app/src/settle.js';
+} from '../../packages/map/app/settle.js';
 
 let failures = 0;
 function check(name, actual, expected) {
@@ -105,7 +105,7 @@ check('map without on/off -> unavailable', await waitForMapSettle({}), SETTLE_UN
 //    outcomes are worthless if nobody reads them, and that is a deletion no other check
 //    here would notice.
 console.log('wiring:');
-// app.js and the modules split out of it under src/map/app/.
+// app.js and the modules split out of it under packages/map/src/app/.
 const appSrc = readMapAppSource();
 const uiSrc = readFileSync('src/ui-controller.js', 'utf8');
 // The add path now waits through waitForMapOutcome(), which also reports a layer that failed

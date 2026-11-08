@@ -1,9 +1,9 @@
-// Timeline dates and change wording (src/map/app/timeline/dates.mjs, frontend-plan.md 5.2 A3).
+// Timeline dates and change wording (packages/map/src/app/timeline/dates.mjs, frontend-plan.md 5.2 A3).
 //
 //   node --test tests/unit/timeline-dates.test.mjs
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { formatHectares, parseTimelineDate, timelineChangeName, yearOnlyMapDate } from '../../src/map/app/timeline/dates.mjs';
+import { formatHectares, parseTimelineDate, timelineChangeName, yearOnlyMapDate } from '../../packages/map/src/app/timeline/dates.mjs';
 
 const iso = (date) => date?.toISOString().slice(0, 10) ?? null;
 

@@ -1,6 +1,6 @@
 /**
  * The pre-1973 Northern Ireland local elections, grouped by year (src/ni-local-groups.mjs,
- * scripts/build/build-ni-local-grouped.mjs, app/src/ni-local-view.js).
+ * scripts/build/build-ni-local-grouped.mjs, packages/map/app/ni-local-view.js).
  *
  * Holds: every pre-1973 NI council round is in exactly one year's entry and nothing else is;
  * the year files agree with the election catalogue; hatching is decided from the published
@@ -28,7 +28,7 @@ import {
   niLocalGroupYear,
   replaceNiLocalRoundsWithGroups
 } from '../../src/ni-local-groups.mjs';
-import { leadingParty, niLocalAreaName, voteShareOpacity } from '../../app/src/ni-local-view.js';
+import { leadingParty, niLocalAreaName, voteShareOpacity } from '../../packages/map/app/ni-local-view.js';
 import { ELECTION_MANIFEST } from '../../packages/loader/src/paths.mjs';
 
 const ROOT = process.cwd();

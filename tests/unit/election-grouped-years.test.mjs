@@ -1,6 +1,6 @@
-// The grouped years in the map's election catalogue (src/map/election/grouped-years.mjs) and the
-// methods that open one (src/map/election/grouped-year-methods.js), moved out of
-// app/src/election-manager.js.
+// The grouped years in the map's election catalogue (packages/map/src/election/grouped-years.mjs) and the
+// methods that open one (packages/map/src/election/grouped-year-methods.js), moved out of
+// packages/map/app/election-manager.js.
 //
 //   node --test tests/unit/election-grouped-years.test.mjs
 import assert from 'node:assert/strict';
@@ -17,7 +17,7 @@ import {
   inTimelineSeries,
   keptGroupedYearView,
   listedElections
-} from '../../src/map/election/grouped-years.mjs';
+} from '../../packages/map/src/election/grouped-years.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const espree = createRequire(import.meta.url)('espree');
@@ -97,11 +97,11 @@ test('the election manager installs the grouped-year methods and defines none of
     .map((node) => (node.type === 'ExportNamedDeclaration' ? node.declaration : node))
     .find((node) => node?.type === 'ClassDeclaration' && node.id.name === name)
     .body.body.filter((member) => member.type === 'MethodDefinition').map((member) => member.key.name);
-  const manager = parse('app/src/election-manager.js');
+  const manager = parse('packages/map/app/election-manager.js');
   const own = new Set(methodsOf(manager, 'Test2ElectionManager'));
-  const grouped = methodsOf(parse('src/map/election/grouped-year-methods.js'), 'GroupedYearMethods');
+  const grouped = methodsOf(parse('packages/map/src/election/grouped-year-methods.js'), 'GroupedYearMethods');
   assert.deepEqual(grouped, ['loadNiLocalGroup', 'closeGroupedYearLayers']);
   for (const name of grouped) assert.equal(own.has(name), false, `${name} is defined in both`);
-  const source = readFileSync(path.join(ROOT, 'app/src/election-manager.js'), 'utf8');
+  const source = readFileSync(path.join(ROOT, 'packages/map/app/election-manager.js'), 'utf8');
   assert.match(source, /installMethods\(Test2ElectionManager, \[GroupedYearMethods\]\)/);
 });

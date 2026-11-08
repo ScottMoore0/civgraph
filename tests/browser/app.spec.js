@@ -370,7 +370,7 @@ test('desktop map accepts actual mouse drag and wheel zoom gestures', async ({ p
 // FIXED 2026-08-23, and by a one-line cause I had misdiagnosed as a catalogue problem.
 //
 // Restoring an election from a URL left the catalogue with no active indication, and I
-// recorded it as the TOC deferring election rows. It was not. app/src/app.js
+// recorded it as the TOC deferring election rows. It was not. packages/map/app/app.js
 // setTimelineItems matched the requested item with
 //
 //   item.mapId === requested.mapId || item.timestamp === requested.timestamp
@@ -1836,11 +1836,11 @@ test('no-id vector layers still support labels, hover, and feature details', asy
 // test.fixme() — known broken, measurement recorded.
 //
 // The timeline half of this test was a real bug and IS fixed (see setTimelineItems in
-// app/src/app.js -- it matched `undefined === undefined` and always selected index 0, so
+// packages/map/app/app.js -- it matched `undefined === undefined` and always selected index 0, so
 // every election showed the earliest date in its series).
 //
 // What is left: `#electionPaneContent .election-results-table--constituency-party` has
-// count 0. The class is NOT dead -- app/src/election-manager.js:1656 still renders it --
+// count 0. The class is NOT dead -- packages/map/app/election-manager.js:1656 still renders it --
 // so the table exists in the code and is not being produced on this path. Either the
 // constituency-party view is no longer reached by this flow, or it renders under a
 // condition the test does not set up.

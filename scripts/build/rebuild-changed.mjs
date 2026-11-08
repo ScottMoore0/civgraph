@@ -6,7 +6,7 @@
  * build, the semantic graph, site stats, all 61 checks and the browser tests -- so a
  * one-line CSS fix cost as long as a data batch. This looks at what changed and picks:
  *
- *   app    only interface code changed (app/src, src/*.js|css, src/map, sw.js, site
+ *   app    only interface code changed (packages/map/app, src/*.js|css, packages/map/src, sw.js, site
  *          CSS/JS, the election viewer, tests, CI and the check harness): rebuild the app
  *          bundle and shell, run the app-facing checks and the election/timeline browser tests.
  *   data   anything else: the full chain. Election source or corrections also re-stamp

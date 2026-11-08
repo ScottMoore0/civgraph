@@ -53,7 +53,7 @@ const viewerAssetVersions = Object.fromEntries(
 );
 
 const result = await esbuild.build({
-  entryPoints: ['app/src/boot.js'],
+  entryPoints: ['packages/map/app/boot.js'],
   bundle: true,
   minify: true,
   define: {
@@ -188,7 +188,7 @@ function updateServiceWorkerVersion(jsVersion) {
 function copyAnimationRuntimeAssets() {
   const assets = [
     ['src/jquery-shim.js', 'app/js/jquery-shim.js'],
-    // app/src/app.js loads this at runtime via
+    // packages/map/app/app.js loads this at runtime via
     // loadClassicScript('/app/js/libs/flatgeobuf-geojson.min.js', 'flatgeobuf'),
     // but it was never copied here, so that path did not exist in the deploy.
     // Pages' SPA fallback then answered the request with index.html at HTTP 200,

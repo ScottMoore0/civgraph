@@ -1,11 +1,11 @@
 // Round 3 of the map app's light state (state-machine catalogue MA-L): the DOM `hidden` toggles
-// go through setHidden in src/map/state-helpers.mjs, and present() keeps a null that used to
+// go through setHidden in packages/map/src/state-helpers.mjs, and present() keeps a null that used to
 // throw throwing at the same statement (the strictNullChecks fixes in the trend chart).
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
-import { present, setHidden } from '../../src/map/state-helpers.mjs';
+import { present, setHidden } from '../../packages/map/src/state-helpers.mjs';
 
 test('setHidden sets the hidden property from a boolean and returns it', () => {
   const node = { hidden: false };
@@ -43,7 +43,7 @@ function sources(dir) {
   });
 }
 
-test('src/ and app/src/ toggle hidden only through setHidden', () => {
+test('src/ and packages/map/app/ toggle hidden only through setHidden', () => {
   const helper = path.join('src', 'map', 'state-helpers.mjs');
   const offenders = [];
   for (const file of [...sources('src'), ...sources(path.join('app', 'src'))]) {

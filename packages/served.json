@@ -1,4 +1,6 @@
 {
-  "//": "Package files the site serves, by served path prefix -> source prefix (refactor PKG-9). scripts/build/site.mjs copies them into dist/ at the served path (a package file wins over any file at that path), and the dev servers (scripts/dev/test-server.py, tools/dev-site/server.mjs, scripts/dev/dev-server.mjs) and the cache-token stamps read them through it. Served URLs do not change.",
-  "assets/ui/": "packages/ui/assets/"
+  "//": "Package files the site serves, by served path prefix -> source prefix (refactor PKG-9). scripts/build/site.mjs copies them into dist/ at the served path (a package file wins over any file at that path), and the dev servers (scripts/dev/test-server.py, tools/dev-site/server.mjs, scripts/dev/dev-server.mjs) and the cache-token stamps read them through it. Served URLs do not change. app/src/ carries the two module workers the map app starts by URL; src/map/ is served only because src/ is.",
+  "assets/ui/": "packages/ui/assets/",
+  "app/src/": "packages/map/app/",
+  "src/map/": "packages/map/src/"
 }

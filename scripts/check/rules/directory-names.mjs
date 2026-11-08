@@ -58,7 +58,7 @@ const SKIP_DIRS = new Set([
 // Data trees. A rename moves their PATHS, not their bytes, and scanning 2,000+
 // metadata files for the substring "render/" is pure noise.
 //
-// app/ and render/src are deliberately NOT here: app/src and render/src are the
+// app/ and render/src are deliberately NOT here: packages/map/app and render/src are the
 // runtime source, and they are exactly where a missed string becomes a
 // production 404. An earlier draft skipped app/ and reported one runtime
 // reference in the whole repository, which was obviously wrong and is why this
@@ -89,7 +89,7 @@ function classify(file) {
   if (f.endsWith('.html')) return 'RUNTIME';
   if (f.startsWith('tests/')) return 'TEST';
   if (f.startsWith('scripts/')) return 'BUILD';
-  if (f.startsWith('app/src/') || f.startsWith('src/') || f.startsWith('render/src/')) return 'RUNTIME';
+  if (f.startsWith('packages/map/') || f.startsWith('src/') || f.startsWith('render/src/')) return 'RUNTIME';
   if (f.endsWith('.md')) return 'DOC';
   if (f.endsWith('.json')) return 'CONFIG';
   return 'BUILD';

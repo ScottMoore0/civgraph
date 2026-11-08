@@ -1,5 +1,5 @@
-// Pure helpers of the map app (src/map/app/helpers.mjs, frontend-plan.md 5.2): moved out of
-// app/src/app.js unchanged.
+// Pure helpers of the map app (packages/map/src/app/helpers.mjs, frontend-plan.md 5.2): moved out of
+// packages/map/app/app.js unchanged.
 //
 //   node --test tests/unit/map-app-helpers.test.mjs
 import assert from 'node:assert/strict';
@@ -19,7 +19,7 @@ import {
   parsePageParam,
   shortCacheName,
   slugifyEntityKey
-} from '../../src/map/app/helpers.mjs';
+} from '../../packages/map/src/app/helpers.mjs';
 import { entityKey as browseSlug } from '../../packages/loader/src/browse-columns.mjs';
 
 test('escapeHtml escapes the five HTML characters and stringifies null', () => {

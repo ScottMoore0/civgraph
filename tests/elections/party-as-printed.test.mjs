@@ -181,7 +181,7 @@ test('the default view hides printed labels: the column is rendered but hidden b
     assert.match(css, new RegExp(`\\.${cls} \\{\\n  display: none;`), `${file} hides the column by default`);
     assert.match(css, new RegExp(`:root\\[data-show-printed-labels\\] \\.${cls} \\{\\n  display: table-cell;`), `${file} shows it on request`);
   }
-  const manager = read('app/src/election-manager.js');
+  const manager = read('packages/map/app/election-manager.js');
   assert.doesNotMatch(manager, />printed \$\{/, 'no inline "printed X" under the party in the map app');
   const browse = read('browse/browse.js');
   assert.doesNotMatch(browse, /partyAsPrintedHtml\(/, 'no inline "printed X" in Browse');

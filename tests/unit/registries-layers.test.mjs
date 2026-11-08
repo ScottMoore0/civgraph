@@ -26,8 +26,8 @@ test('layers: every published layer record conforms to its type', () => {
 });
 
 test('layers: the map app builds each behaviour flag set of types from the registry', () => {
-  const controller = read('src/map/renderer/map-controller.js');
-  assert.ok(controller.includes("import layerTypes from '../../../packages/registries/src/browser/layer-types.mjs';"));
+  const controller = read('packages/map/src/renderer/map-controller.js');
+  assert.ok(controller.includes("import layerTypes from '../../../registries/src/browser/layer-types.mjs';"));
   for (const flag of Object.keys(BEHAVIOUR_FLAGS)) {
     assert.ok(controller.includes(behaviourLine(flag)), `map-controller.js no longer builds ${flag}: ${behaviourLine(flag)}`);
     assert.ok(registry.behaviourFlags[flag], flag);

@@ -1,7 +1,7 @@
 const { test, expect } = require('@playwright/test');
 
 /**
- * The pre-1973 Northern Ireland local elections, one entry a year (app/src/ni-local-view.js):
+ * The pre-1973 Northern Ireland local elections, one entry a year (packages/map/app/ni-local-view.js):
  * the level, votes/seats and aldermen toggles, the hatching of areas whose results are missing
  * or incomplete, the address, the old addresses of single council rounds, and the pane at phone
  * width. See tests/elections/ni-local-grouped.test.mjs for the data behind it.

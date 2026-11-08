@@ -12,7 +12,7 @@
  *
  * That is not hypothetical. On 2026-08-23 exactly this bug was found in the OTHER reader:
  * data/browse/persons.json had been sharded into a manifest with no `items` array, and
- * app/src/app.js still read `payload.items`. It resolved to [], every person link in the
+ * packages/map/app/app.js still read `payload.items`. It resolved to [], every person link in the
  * election panes silently did nothing, and no test, validator or error surfaced it.
  * browse.js happened to handle the sharded layout; nothing guaranteed that it would.
  *

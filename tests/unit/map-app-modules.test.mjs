@@ -1,7 +1,7 @@
-// The map app's method modules (src/map/app/*, frontend-plan.md 5.2) and installMethods.
+// The map app's method modules (packages/map/src/app/*, frontend-plan.md 5.2) and installMethods.
 //
-// app/src/app.js keeps the state and start-up of Test2App; its other methods are written in
-// classes under src/map/app/ and installed on Test2App.prototype. These tests hold that wiring:
+// packages/map/app/app.js keeps the state and start-up of Test2App; its other methods are written in
+// classes under packages/map/src/app/ and installed on Test2App.prototype. These tests hold that wiring:
 // every method class is installed, no method is defined twice, and installMethods copies methods
 // as a class body would define them.
 //
@@ -12,7 +12,7 @@ import { createRequire } from 'node:module';
 import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
-import { installMethods } from '../../src/map/app/install-methods.mjs';
+import { installMethods } from '../../packages/map/src/app/install-methods.mjs';
 import { mapAppSourceFiles } from '../../scripts/lib/map-app-source.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
@@ -57,10 +57,10 @@ test('installMethods refuses a name defined twice', () => {
   assert.throws(() => installMethods(class T {}, [One, Two]), /\.b is defined twice \(again in Two\)/);
 });
 
-test('every method class under src/map/app is installed on Test2App, and no method is defined twice', () => {
+test('every method class under packages/map/src/app is installed on Test2App, and no method is defined twice', () => {
   const files = mapAppSourceFiles(ROOT);
-  assert.equal(files[0], 'app/src/app.js');
-  const app = parse('app/src/app.js');
+  assert.equal(files[0], 'packages/map/app/app.js');
+  const app = parse('packages/map/app/app.js');
   const appClass = app.body.find((n) => n.type === 'ClassDeclaration' && n.id.name === 'Test2App');
   assert.ok(appClass, 'app.js declares Test2App');
   const install = app.body.find((n) => n.type === 'ExpressionStatement' && n.expression.callee?.name === 'installMethods');

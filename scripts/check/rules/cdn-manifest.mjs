@@ -14,7 +14,7 @@ const MANIFEST_PATH = resolve(ROOT, 'render/metadata/cdn-upload-manifest.json');
 const QUARANTINE_PATH = resolve(ROOT, 'render/metadata/quarantine/roi-counties-2011.json');
 const REPORT_PATH = resolve(ROOT, 'render/metadata/cdn-manifest-validation-report.json');
 const RANGE_REPORT_PATH = resolve(ROOT, 'render/metadata/cdn-range-report.json');
-const MAP_CONTROLLER_PATH = resolve(ROOT, 'src/map/renderer/map-controller.js');
+const MAP_CONTROLLER_PATH = resolve(ROOT, 'packages/map/src/renderer/map-controller.js');
 
 const metadata = JSON.parse(readFileSync(METADATA_PATH, 'utf8'));
 const manifest = existsSync(MANIFEST_PATH) ? JSON.parse(readFileSync(MANIFEST_PATH, 'utf8')) : null;

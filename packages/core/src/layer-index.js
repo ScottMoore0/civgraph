@@ -79,7 +79,7 @@ export const COMPACT_LAYER_FIELDS = [
   'numericProperties',
   'categoricalProperties',
   'popupProperties',
-  // dotted approximate stretches of a reconstructed edition (src/map/renderer/approximate-segments.js)
+  // dotted approximate stretches of a reconstructed edition (packages/map/src/renderer/approximate-segments.js)
   'approximateSegments',
   'variants',
   'aliasOf',

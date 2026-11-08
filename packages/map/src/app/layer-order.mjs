@@ -1,0 +1,91 @@
+/**
+ * Map layer draw order: parsing a layer order from a URL parameter, a saved value or an array,
+ * normalising it against the layers actually loaded, the saved form, and which order to
+ * restore on load.
+ *
+ * Moved out of packages/map/app/app.js (frontend plan section 5.2, seam A1) without changing
+ * behaviour. Only the pure parts live here: Test2App keeps the localStorage reads and writes
+ * (wrapped in try, since storage can throw in private browsing) and the map calls, and
+ * delegates the parsing and normalising to these functions.
+ *
+ * Pure: no DOM, no storage, no module state.
+ */
+
+/** The localStorage key the saved layer order lives under. */
+export const LAYER_ORDER_STORAGE_KEY = 'civgraph:maplibre:layer-order';
+
+/**
+ * Layer ids from an array, a JSON array string or a comma-separated string: trimmed, empty
+ * ids dropped, duplicates dropped (first wins).
+ */
+export function parseLayerOrder(value) {
+  if (!value) return [];
+  let items = [];
+  if (Array.isArray(value)) {
+    items = value;
+  } else {
+    const text = String(value).trim();
+    if (!text) return [];
+    if (text.startsWith('[')) {
+      try {
+        const parsed = JSON.parse(text);
+        if (Array.isArray(parsed)) items = parsed;
+      } catch {
+        items = [];
+      }
+    }
+    if (!items.length) items = text.split(',');
+  }
+  const seen = new Set();
+  const result = [];
+  for (const rawId of items) {
+    const id = String(rawId || '').trim();
+    if (!id || seen.has(id)) continue;
+    seen.add(id);
+    result.push(id);
+  }
+  return result;
+}
+
+/**
+ * The value to save for a layer order: a JSON array when it orders two or more layers, else
+ * null (meaning: remove the saved order).
+ */
+export function serializeSavedLayerOrder(order) {
+  const ids = parseLayerOrder(order);
+  return ids.length > 1 ? JSON.stringify(ids) : null;
+}
+
+/**
+ * An order restricted to the loaded layers: the order's loaded ids first, in its order, then
+ * every other loaded id in load order.
+ */
+export function normalizeLoadedLayerOrder(order, loadedIds = []) {
+  const loadedSet = new Set(loadedIds);
+  const result = [];
+  const seen = new Set();
+  for (const id of parseLayerOrder(order)) {
+    if (!loadedSet.has(id) || seen.has(id)) continue;
+    seen.add(id);
+    result.push(id);
+  }
+  for (const id of loadedIds) {
+    if (seen.has(id)) continue;
+    seen.add(id);
+    result.push(id);
+  }
+  return result;
+}
+
+/**
+ * The order to restore on load: the URL's `layerOrder`, else the saved order, normalised
+ * against the loaded layers. An empty array when there is nothing to restore (no order, or
+ * fewer than two loaded layers). `readSaved` and `getLoadedIds` are called only when needed.
+ */
+export function layerOrderToRestore(params, readSaved = () => [], getLoadedIds = () => []) {
+  const explicitOrder = parseLayerOrder(params?.get?.('layerOrder'));
+  const savedOrder = explicitOrder.length ? explicitOrder : readSaved();
+  if (!savedOrder.length) return [];
+  const normalized = normalizeLoadedLayerOrder(savedOrder, getLoadedIds());
+  return normalized.length < 2 ? [] : normalized;
+}

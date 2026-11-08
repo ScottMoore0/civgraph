@@ -1,5 +1,5 @@
-// Election transport (src/map/election/transport.mjs): where the election pane's data comes from,
-// moved out of app/src/election-manager.js. Exercised with a stub fetch and a stub page.
+// Election transport (packages/map/src/election/transport.mjs): where the election pane's data comes from,
+// moved out of packages/map/app/election-manager.js. Exercised with a stub fetch and a stub page.
 //
 //   node --test tests/unit/election-transport.test.mjs
 import assert from 'node:assert/strict';
@@ -17,7 +17,7 @@ import {
   provenanceUrl,
   reportElectionsApiIssue,
   useElectionsApi
-} from '../../src/map/election/transport.mjs';
+} from '../../packages/map/src/election/transport.mjs';
 
 const ENTRY = { key: 'westminster__2019-12-12', body: 'House of Commons', date: '2019-12-12', resultUrl: '/render/metadata/elections-test2/westminster__2019-12-12.json' };
 

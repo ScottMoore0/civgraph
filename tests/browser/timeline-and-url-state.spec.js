@@ -14,7 +14,7 @@ const { test, expect } = require('@playwright/test');
  *
  * READ THIS BEFORE DEBUGGING A FAILURE HERE
  *
- * app/src/boot.js starts the runtime inside a double requestAnimationFrame, and
+ * packages/map/app/boot.js starts the runtime inside a double requestAnimationFrame, and
  * Chrome does not fire requestAnimationFrame in a hidden or backgrounded tab.
  * A run where the browser window is not foregrounded will show no map, no
  * canvas, no catalogue fetches and no __civgraphTest2 — a completely convincing

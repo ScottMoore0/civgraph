@@ -28,7 +28,7 @@
           "behaviour": { "type": "array", "uniqueItems": true, "items": { "type": "string" } },
           "runtimeOnly": { "const": true },
           "note": { "type": "string", "minLength": 1 },
-          "sources": { "type": "array", "items": { "type": "string", "pattern": "^(src|app|scripts)/[^\\s]+$" } }
+          "sources": { "type": "array", "items": { "type": "string", "pattern": "^(src|app|scripts|packages)/[^\\s]+$" } }
         }
       }
     },

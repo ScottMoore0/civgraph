@@ -26,6 +26,8 @@
  * otherwise would be the sort of check that passes for the wrong reason.
  */
 import { readFileSync, existsSync } from 'node:fs';
+// A served path a package provides (packages/served.json: app/src/ is packages/map/app/) resolves too.
+import { sourceOf } from '../../build/site.mjs';
 
 const DOCS = [
   'README.md',
@@ -105,7 +107,7 @@ for (const doc of DOCS) {
     if (NEGATED.test(lineContaining(text, match.index))) continue;
 
     checked += 1;
-    if (!existsSync(p)) problems.push(`${doc}: \`${p}\` does not exist`);
+    if (!existsSync(p) && !existsSync(sourceOf(p))) problems.push(`${doc}: \`${p}\` does not exist`);
   }
 }
 
@@ -146,7 +148,7 @@ if (existsSync('README.md')) {
       const p = raw.replace(/\/$/, '');
       if (TOLERATED_PREFIXES.some((t) => `${p}/`.startsWith(t))) continue;
       checked += 1;
-      if (!existsSync(p)) problems.push(`README.md layout table: \`${raw}\` does not exist`);
+      if (!existsSync(p) && !existsSync(sourceOf(p))) problems.push(`README.md layout table: \`${raw}\` does not exist`);
     }
   }
 }

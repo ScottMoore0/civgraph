@@ -4,7 +4,7 @@
  *
  * WHY THIS EXISTS
  *
- * app/src/app.js loaded '/app/js/libs/flatgeobuf-geojson.min.js' before parsing
+ * packages/map/app/app.js loaded '/app/js/libs/flatgeobuf-geojson.min.js' before parsing
  * any FlatGeobuf layer, and sw.js precached the same path, but nothing ever put
  * a file there -- copyAnimationRuntimeAssets() had not been told to copy it.
  * Every FGB layer load failed on the live site, and it went unnoticed because a
@@ -35,8 +35,8 @@ const JSON_OUT = process.argv.includes('--json');
 
 // Entry points that describe what the browser will fetch.
 const HTML_FILES = ['index.html', '404.html', 'browse/index.html', 'app/index.html'];
-// The map app is app/src/app.js and the modules split out of it under src/map/app/; the election
-// manager is app/src/election-manager.js and the modules split out of it under src/map/election/.
+// The map app is packages/map/app/app.js and the modules split out of it under packages/map/src/app/; the election
+// manager is packages/map/app/election-manager.js and the modules split out of it under packages/map/src/election/.
 const JS_FILES = [...mapAppSourceFiles(), ...electionManagerSourceFiles(), 'browse/browse.js'];
 // sw.js is scanned with an extra pattern the others must NOT get -- see below.
 const PRECACHE_FILES = ['sw.js'];
@@ -53,7 +53,7 @@ const JS_PATTERNS = [
 ];
 
 // Bare quoted absolute paths. Correct for a service-worker precache array,
-// WRONG for general source: in app/src/app.js the string '/metadata.json' is a
+// WRONG for general source: in packages/map/app/app.js the string '/metadata.json' is a
 // replacement fragment inside layer.tilesFallback.replace('/{z}/{x}/{y}.pbf',
 // '/metadata.json') -- it is a URL suffix, never fetched on its own. Running
 // this pattern over ordinary JS reported it as a missing asset. Restricted to

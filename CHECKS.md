@@ -158,7 +158,7 @@ Retired on 7 November 2026 with the legacy `/render/` and `/test2/` apps (site r
   with `/test/` and `/maps/test/`); `/render/metadata/*` keeps answering. `render/sw.js` and
   `test2/sw.js` are now one kill switch (also served at `/test/sw.js` by a 200 rule) that
   unregisters the old worker, clears its caches and moves its open pages to `/maps/`; the map
-  app asks the browser to check those workers (`src/map/app/retire-legacy-workers.mjs`).
+  app asks the browser to check those workers (`packages/map/src/app/retire-legacy-workers.mjs`).
 - **Checks of the app.** `check:test` and `check:render-app` (validate-test-shell-parity.mjs,
   validate-test-security.mjs, validate-test-production-route.mjs, deleted), and `build:test`
   (build-test-app.mjs). validate-test-app.mjs keeps its layer-metadata checks, which guard the

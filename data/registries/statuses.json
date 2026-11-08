@@ -50,7 +50,7 @@
    "sources": [
     "scripts/ingest/ni-local/import-intake-status.py",
     "scripts/build/build-ni-local-grouped.mjs (roundStatus, missing)",
-    "app/src/ni-local-view.js (councilsHtml)"
+    "packages/map/app/ni-local-view.js (councilsHtml)"
    ]
   },
   "candidate-count": {
@@ -78,8 +78,8 @@
    },
    "derived": {
     "Elected unopposed": { "kind": "elected", "source": "scripts/build/build-test2-election-manifest.mjs (an unopposed return's winners)" },
-    "Excluded transfer": { "kind": "row", "source": "src/map/election/results-model.mjs (the transfer row of an exclusion)" },
-    "Surplus transfer": { "kind": "row", "source": "src/map/election/results-model.mjs (the transfer row of a surplus)" }
+    "Excluded transfer": { "kind": "row", "source": "packages/map/src/election/results-model.mjs (the transfer row of an exclusion)" },
+    "Surplus transfer": { "kind": "row", "source": "packages/map/src/election/results-model.mjs (the transfer row of a surplus)" }
    },
    "sources": [
     "data/elections-source/data/elections (Status)",
@@ -113,7 +113,7 @@
    "labels": { "contested": "Polled", "uncontested": "Returned unopposed" },
    "sources": [
     "scripts/check/rules/election-data-audit.mjs",
-    "app/src/ni-local-view.js (contestHtml)"
+    "packages/map/app/ni-local-view.js (contestHtml)"
    ]
   }
  },
