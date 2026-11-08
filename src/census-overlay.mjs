@@ -21,9 +21,49 @@
  * (packages/map/app/app.js, src/ui-controller.js) and the Browse and catalogue builders. Pure: no DOM.
  */
 
+/** @typedef {{ name: string, short: string, url: string }} Licence */
+
+/**
+ * A census statistic: one entry of data/database/data-entries.json, the fields read here.
+ * @typedef {{
+ *   id: string,
+ *   name?: string,
+ *   description?: string,
+ *   category?: string,
+ *   geography: string,
+ *   csv?: string,
+ *   joinKey: string,
+ *   csvKeyColumn?: string,
+ *   valueColumn: string,
+ *   valueLabel?: string,
+ *   numeratorColumn?: string,
+ *   denominator?: { column?: string, label?: string } | null,
+ *   tableColumns?: string[],
+ *   areaNameColumn?: string,
+ *   domain?: number[],
+ *   ramp?: string,
+ *   logarithmic?: boolean,
+ *   classCount?: number,
+ *   classLabels?: string[],
+ *   licence?: string | Licence,
+ *   source?: { licence?: string | Licence, title?: string, url?: string }
+ * }} CensusEntry
+ */
+
+/**
+ * One row of a statistic's CSV (parseCsv), by column name.
+ * @typedef {Record<string, unknown>} CsvRow
+ */
+/**
+ * One class of the overlay's legend: values from min (inclusive) to max (exclusive).
+ * @typedef {{ min: number, max: number, colour: string, label: string }} OverlayClass
+ */
+/** @typedef {ReturnType<typeof joinRows>} JoinedRows */
+
 // Matplotlib samples, as the Leaflet loader had them (archive/leaflet/js/colour-palettes.js, see ARCHIVE.md), less
 // the repeated last stop three of them carried, which made the top two classes one colour.
 // 'protestant-catholic' diverges: blue at 0 %, grey at 50 %, green at 100 %.
+/** @type {Record<string, string[]>} */
 export const RAMPS = {
   viridis: ['#440154', '#482878', '#3E4989', '#31688E', '#26828E', '#1F9E89', '#35B779', '#6CCE59', '#B4DD2C', '#FDE725'],
   inferno: ['#000004', '#1B0C41', '#4A0C6B', '#781C6D', '#A52C60', '#CF4446', '#ED6925', '#FB9A06', '#F7D03C', '#FCFFA4'],
@@ -40,14 +80,28 @@ export const LICENCES = {
   ccby: { name: 'Creative Commons Attribution 4.0 International', short: 'CC BY 4.0', url: 'https://creativecommons.org/licenses/by/4.0/' }
 };
 
+/**
+ * @param {string} a
+ * @param {string} b
+ * @param {number} t
+ */
 function lerpHex(a, b, t) {
   const ai = parseInt(a.slice(1), 16);
   const bi = parseInt(b.slice(1), 16);
+  /**
+   * @param {number} x
+   * @param {number} s
+   */
   const ch = (x, s) => (x >> s) & 255;
+  /** @param {number} s */
   const mix = (s) => Math.round(ch(ai, s) + (ch(bi, s) - ch(ai, s)) * t);
   return `#${((1 << 24) | (mix(16) << 16) | (mix(8) << 8) | mix(0)).toString(16).slice(1).toUpperCase()}`;
 }
 
+/**
+ * @param {string} rampName
+ * @param {unknown} t  0 to 1
+ */
 export function rampSample(rampName, t) {
   const stops = RAMPS[rampName] || RAMPS.viridis;
   const x = Math.max(0, Math.min(1, Number(t) || 0)) * (stops.length - 1);
@@ -56,9 +110,14 @@ export function rampSample(rampName, t) {
   return lerpHex(stops[i], stops[i + 1], x - i);
 }
 
-/** RFC 4180 enough for these files: quoted cells, doubled quotes, CRLF or LF. */
+/**
+ * RFC 4180 enough for these files: quoted cells, doubled quotes, CRLF or LF.
+ * @param {unknown} text
+ */
 export function parseCsv(text) {
+  /** @type {string[][]} */
   const records = [];
+  /** @type {string[]} */
   let row = [];
   let cell = '';
   let quoted = false;
@@ -84,17 +143,23 @@ export function parseCsv(text) {
   return { header, rows };
 }
 
+/** @param {unknown} raw */
 export function toNumber(raw) {
   if (raw === null || raw === undefined || raw === '') return NaN;
   const n = typeof raw === 'number' ? raw : Number(String(raw).replace(/,/g, ''));
   return Number.isFinite(n) ? n : NaN;
 }
 
+/** @param {unknown} column */
 export function isPercentColumn(column) {
   return /(_pct$|percent|%)/i.test(String(column || ''));
 }
 
-/** Round a class break to a figure a reader can take in: 2 significant figures, or whole. */
+/**
+ * Round a class break to a figure a reader can take in: 2 significant figures, or whole.
+ * @param {number} value
+ * @param {number} step
+ */
 function niceBreak(value, step) {
   if (!Number.isFinite(value)) return value;
   if (value === 0) return 0;
@@ -103,6 +168,7 @@ function niceBreak(value, step) {
   return Number((Math.round(value / unit) * unit).toPrecision(12));
 }
 
+/** @param {number[]} values */
 function decimalsFor(values) {
   let d = 0;
   for (const v of values) {
@@ -114,6 +180,10 @@ function decimalsFor(values) {
   return Math.min(d, 3);
 }
 
+/**
+ * @param {unknown} value
+ * @param {{ decimals?: number | null, percent?: boolean }} [options]
+ */
 export function formatNumber(value, { decimals = /** @type {number | null} */ (null), percent = false } = {}) {
   const n = toNumber(value);
   if (!Number.isFinite(n)) return '';
@@ -124,7 +194,11 @@ export function formatNumber(value, { decimals = /** @type {number | null} */ (n
   return percent ? `${text}%` : text;
 }
 
-/** A CSV cell for a reader: counts whole, rates to two places, percentages with a %. */
+/**
+ * A CSV cell for a reader: counts whole, rates to two places, percentages with a %.
+ * @param {unknown} column
+ * @param {unknown} raw
+ */
 export function formatCell(column, raw) {
   if (raw === null || raw === undefined || raw === '') return '';
   const n = toNumber(raw);
@@ -132,6 +206,7 @@ export function formatCell(column, raw) {
   return formatNumber(n, { percent: isPercentColumn(column) });
 }
 
+/** @type {Record<string, string>} */
 const COLUMN_LABELS = {
   AllUsualResidents: 'All usual residents',
   AllHouseholds: 'All households',
@@ -192,7 +267,10 @@ const COLUMN_LABELS = {
   Total: 'Total'
 };
 
-/** "SomeIrish_pct" -> "Some knowledge of Irish (%)"; unknown columns are split on case. */
+/**
+ * "SomeIrish_pct" -> "Some knowledge of Irish (%)"; unknown columns are split on case.
+ * @param {unknown} column
+ */
 export function columnLabel(column) {
   const col = String(column || '');
   if (COLUMN_LABELS[col]) return COLUMN_LABELS[col];
@@ -214,6 +292,8 @@ export function columnLabel(column) {
  * The classes a statistic is drawn in. Equal steps across entry.domain (log steps when
  * entry.logarithmic); an integer scale of up to 12 values (a decile) is one class a value.
  * The first and last classes are open: a figure outside the domain falls into them.
+ * @param {CensusEntry | null | undefined} entry
+ * @returns {OverlayClass[]}
  */
 export function overlayClasses(entry) {
   const [lo, hi] = (Array.isArray(entry?.domain) ? entry.domain : [0, 1]).map(Number);
@@ -243,6 +323,7 @@ export function overlayClasses(entry) {
     return niceBreak(v, step);
   });
   const decimals = decimalsFor(edges.slice(1, -1));
+  /** @param {number} v */
   const fmt = (v) => formatNumber(v, { decimals, percent });
   return Array.from({ length: n }, (_, i) => {
     const min = i === 0 ? -Infinity : edges[i];
@@ -255,6 +336,10 @@ export function overlayClasses(entry) {
   });
 }
 
+/**
+ * @param {OverlayClass[]} classes
+ * @param {unknown} value
+ */
 export function classIndexFor(classes, value) {
   const n = toNumber(value);
   if (!Number.isFinite(n) || !classes.length) return -1;
@@ -267,12 +352,16 @@ export function classIndexFor(classes, value) {
 /**
  * Join a statistic's rows to its tiles. Returns the tile property to match on and, per row,
  * the tile value it is drawn under. `crosswalk` is the parsed entry.joinCrosswalk, if any.
+ * @param {CensusEntry} entry
+ * @param {CsvRow[]} rows
  * @param {{ tileKey?: string, map?: { [key: string]: unknown } } | null} [crosswalk]
  */
 export function joinRows(entry, rows, crosswalk = null) {
   const csvKey = entry.csvKeyColumn || entry.joinKey;
   const tileKey = crosswalk?.tileKey || entry.joinKey;
+  /** @type {Map<string, CsvRow>} */
   const byTileValue = new Map();
+  /** @type {string[]} */
   const unmatched = [];
   for (const row of rows) {
     const key = String(row[csvKey] ?? '').trim();
@@ -284,7 +373,12 @@ export function joinRows(entry, rows, crosswalk = null) {
   return { tileKey, byTileValue, unmatched };
 }
 
-/** One MapLibre fill-color expression: the tile's key -> its class colour, else no fill. */
+/**
+ * One MapLibre fill-color expression: the tile's key -> its class colour, else no fill.
+ * @param {CensusEntry} entry
+ * @param {JoinedRows} joined
+ * @param {OverlayClass[]} [classes]
+ */
 export function fillColorExpression(entry, joined, classes = overlayClasses(entry)) {
   const groups = classes.map(() => /** @type {string[]} */ ([]));
   for (const [tileValue, row] of joined.byTileValue) {
@@ -298,7 +392,12 @@ export function fillColorExpression(entry, joined, classes = overlayClasses(entr
   return expr;
 }
 
-/** How many areas fall in each class, for the legend. */
+/**
+ * How many areas fall in each class, for the legend.
+ * @param {CensusEntry} entry
+ * @param {JoinedRows} joined
+ * @param {OverlayClass[]} [classes]
+ */
 export function classCounts(entry, joined, classes = overlayClasses(entry)) {
   const counts = classes.map(() => 0);
   for (const row of joined.byTileValue.values()) {
@@ -308,7 +407,11 @@ export function classCounts(entry, joined, classes = overlayClasses(entry)) {
   return counts;
 }
 
-/** The licence a statistic is published under: its own, else its publisher's. */
+/**
+ * The licence a statistic is published under: its own, else its publisher's.
+ * @param {CensusEntry | null | undefined} entry
+ * @returns {Licence | null}
+ */
 export function licenceFor(entry) {
   const own = entry?.source?.licence || entry?.licence;
   if (own && typeof own === 'object') return own;
@@ -325,6 +428,8 @@ export function licenceFor(entry) {
 /**
  * The figures a feature details pane shows for one area: the mapped value, and where the
  * statistic is a share, its count and the total it is a share of.
+ * @param {CensusEntry | null | undefined} entry
+ * @param {CsvRow | null | undefined} row
  */
 export function statisticFor(entry, row) {
   if (!entry || !row) return null;
@@ -342,9 +447,10 @@ export function statisticFor(entry, row) {
     .map((c) => ({ column: c, label: columnLabel(c), text: formatCell(c, row[c]) }));
   let summary = '';
   if (Number.isFinite(numeratorValue) && Number.isFinite(denominatorValue)) {
-    summary = `${formatNumber(numeratorValue)} of ${formatNumber(denominatorValue)} ${denominator.label || ''}`.trim();
+    // A finite denominatorValue means denominator.column was read.
+    summary = `${formatNumber(numeratorValue)} of ${formatNumber(denominatorValue)} ${/** @type {{ label?: string }} */ (denominator).label || ''}`.trim();
   } else if (Number.isFinite(denominatorValue)) {
-    summary = `of ${formatNumber(denominatorValue)} ${denominator.label || ''}`.trim();
+    summary = `of ${formatNumber(denominatorValue)} ${/** @type {{ label?: string }} */ (denominator).label || ''}`.trim();
   } else if (denominator?.label && percent) {
     summary = `of ${denominator.label}`;
   }
@@ -365,7 +471,11 @@ export function statisticFor(entry, row) {
   };
 }
 
-/** The runtime layer a statistic is drawn as: its geography's tiles under the statistic's own id. */
+/**
+ * The runtime layer a statistic is drawn as: its geography's tiles under the statistic's own id.
+ * @param {CensusEntry} entry
+ * @param {import('../packages/types/index.js').LayerEntry} geographyLayer
+ */
 export function overlayRuntimeLayer(entry, geographyLayer) {
   return {
     ...geographyLayer,
