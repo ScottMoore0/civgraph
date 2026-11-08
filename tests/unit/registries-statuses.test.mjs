@@ -10,7 +10,7 @@ import { REPO_ROOT, loadRegistry, registryErrors } from '../../registries/index.
 import {
   candidateCountState, candidateStatusKind, canTransition, enumValues, isContested, missingRoundReason, siteRoundStatus, statesOf
 } from '../../registries/statuses.mjs';
-import { statusKind } from '../../src/election-domain.mjs';
+import { statusKind } from '@civgraph/core/election-domain.mjs';
 import { canMarkApplied } from '../../scripts/intake/contributions.mjs';
 
 const registry = loadRegistry('statuses');

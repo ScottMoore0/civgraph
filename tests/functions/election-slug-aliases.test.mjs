@@ -1,5 +1,5 @@
 /**
- * Retired election and contest slugs (functions/_lib/election-slug-aliases.js) keep working:
+ * Retired election and contest slugs (packages/core/src/election-slug-aliases.js) keep working:
  * the Browse page answers a 301, the elections API answers a 301, and browse.js maps the old
  * #/ address to the new one from the same list.
  *
@@ -14,8 +14,8 @@ import { DatabaseSync } from 'node:sqlite';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { browsePageHandler, resolveElectionSlugAlias } from '../../functions/_browse-page.js';
-import { ELECTION_SLUG_ALIASES, RETIRED_CONTEST_SLUGS } from '../../functions/_lib/election-slug-aliases.js';
-import { slugify } from '../../functions/_lib/format.js';
+import { ELECTION_SLUG_ALIASES, RETIRED_CONTEST_SLUGS } from '@civgraph/core/election-slug-aliases.js';
+import { slugify } from '@civgraph/core/format.js';
 import { canonicalElectionTitle } from '../../scripts/lib/election-names.mjs';
 import { onRequestGet as electionsApi, retiredSlugRedirect } from '../../functions/_api/elections/index.js';
 import { resetDatasetVersionCache } from '../../functions/_lib/respond.js';
@@ -85,11 +85,11 @@ test('browse.js maps the same retired slugs for #/ addresses', () => {
   const block = source.match(/const RENAMED_RECORD_PREFIXES = \[([\s\S]*?)\n\];/);
   assert.ok(block, 'browse.js has RENAMED_RECORD_PREFIXES');
   const pairs = [...block[1].matchAll(/\[\s*'([^']+)',\s*'([^']+)'\s*\]/g)].map((m) => [m[1], m[2]]);
-  assert.deepEqual(pairs, ELECTION_SLUG_ALIASES, 'browse.js and functions/_lib/election-slug-aliases.js hold the same list');
+  assert.deepEqual(pairs, ELECTION_SLUG_ALIASES, 'browse.js and packages/core/src/election-slug-aliases.js hold the same list');
   const exact = source.match(/const RETIRED_CONTEST_SLUGS = \[([\s\S]*?)\n\];/);
   assert.ok(exact, 'browse.js has RETIRED_CONTEST_SLUGS');
   const exactPairs = [...exact[1].matchAll(/\[\s*'([^']+)',\s*'([^']+)'\s*\]/g)].map((m) => [m[1], m[2]]);
-  assert.deepEqual(exactPairs, RETIRED_CONTEST_SLUGS, 'browse.js and functions/_lib/election-slug-aliases.js hold the same retired contests');
+  assert.deepEqual(exactPairs, RETIRED_CONTEST_SLUGS, 'browse.js and packages/core/src/election-slug-aliases.js hold the same retired contests');
 });
 
 // The contest files the November 2026 council rounds deleted, renamed or refiled (12cd5ac496,

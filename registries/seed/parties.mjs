@@ -30,7 +30,7 @@ export const PARTY_PARTS = {
 };
 
 export function partyNamesSource(root = REPO_ROOT) {
-  return evalDeclarations('src/party-names.mjs', 'const PARTIES', 'function key(', ['PARTIES', 'NOT_PARTIES'], root);
+  return evalDeclarations('packages/core/src/party-names.mjs', 'const PARTIES', 'function key(', ['PARTIES', 'NOT_PARTIES'], root);
 }
 
 export function seedParties(root = REPO_ROOT) {

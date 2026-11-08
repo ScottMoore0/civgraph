@@ -17,7 +17,7 @@ import {
   safeCssColour,
   usesMainRoiPartyPalette
 } from '../../src/map/election/palette.mjs';
-import { partyColour as registryPartyColour } from '../../src/election-domain.mjs';
+import { partyColour as registryPartyColour } from '@civgraph/core/election-domain.mjs';
 import { numericColour as rendererNumericColour } from '../../src/election-renderer.mjs';
 
 test('tables and labels', () => {

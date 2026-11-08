@@ -3,14 +3,14 @@
 // imported for that order alone.
 import dataService from '../../src/data-service.js';
 import { prefetchCatalogueData } from '../../src/catalogue/flag.js';
-import '../../src/date-format.mjs';
+import '../../packages/core/src/date-format.mjs';
 import '../../src/feature-loader.js';
 import uiController from '../../src/ui-controller.js';
 import '../../src/public-map.mjs';
 import '../../src/map-relations.mjs';
 import '../../src/storage-keys.mjs';
 import { TestMetadataService } from '../../src/map/renderer/metadata-service.js';
-import '../../src/party-names.mjs';
+import '../../packages/core/src/party-names.mjs';
 import '../../src/entity-detail-data.mjs';
 import { Test2MapLibreMainAdapter } from './maplibre-main-adapter.js';
 import '../../src/map/app/layer-order.mjs';

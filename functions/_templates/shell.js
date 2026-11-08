@@ -10,7 +10,7 @@
  *
  * No file system, no DOM: this runs in Pages Functions and in Node.
  */
-import { attrs, html, raw } from '../_lib/html.js';
+import { attrs, html, raw } from '../../packages/core/src/html.js';
 import { SITE } from '../../packages/config/src/config.js';
 
 /** The site's origin and name, from the configuration (functions/_lib/config.js). */

@@ -14,7 +14,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
-import { normalizeParty, partyColour } from '../../src/election-domain.mjs';
+import { normalizeParty, partyColour } from '@civgraph/core/election-domain.mjs';
 import { createPartyLabelInterpreter } from '../../scripts/lib/party-label-interpretations.mjs';
 import { bracketedResultFile, seatTypeResultFile } from '../../scripts/lib/election-result-files.mjs';
 

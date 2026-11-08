@@ -4,15 +4,15 @@ import {
   normalizeName,
   numberOrZero,
   partyColour
-} from './election-domain.mjs';
+} from '../packages/core/src/election-domain.mjs';
 import {
   buildCouncilSummary,
   buildElectionViewModelFromTest2Manager,
   buildLocalPartySummary,
   sumNumbers
-} from './election-view-model.mjs';
+} from '../packages/core/src/election-view-model.mjs';
 
-import { partyLabelHtml } from './party-names.mjs';
+import { partyLabelHtml } from '../packages/core/src/party-names.mjs';
 export function createElectionRenderer(host) {
   return new SharedElectionRenderer(host);
 }

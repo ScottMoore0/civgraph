@@ -15,7 +15,7 @@
  * sets one. `npm run dev:records` sets both locally.
  */
 import { runtimeVar } from '../../../packages/config/src/config.js';
-import { toHtmlString } from '../../_lib/html.js';
+import { toHtmlString } from '../../../packages/core/src/html.js';
 import { page, sectionNav } from '../shell.js';
 import { electionBody } from './election.js';
 import { partyBody } from './party.js';

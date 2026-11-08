@@ -13,8 +13,8 @@
  * own page, the completeness and hatching lines, and the map link. The Browse client replaces
  * the hero with its own rendering when it runs, so nothing is shown twice.
  */
-import { html } from '../../_lib/html.js';
-import { dateText, numberText, slugify } from '../../_lib/format.js';
+import { html } from '../../../packages/core/src/html.js';
+import { dateText, numberText, slugify } from '../../../packages/core/src/format.js';
 
 /** ni-local-1946, ni-local__1946, ireland-local-1911, ireland-local__1911. */
 export const GROUPED_YEAR = /^(ni-local|ireland-local)(?:-|__)(\d{4})$/;

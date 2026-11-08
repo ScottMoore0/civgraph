@@ -14,7 +14,7 @@
  * tests/functions/design-system.test.mjs requires a specimen for every component stylesheet and
  * every template function, and every cg-* class used here to exist in a stylesheet.
  */
-import { html, raw, toHtmlString } from '../_lib/html.js';
+import { html, raw, toHtmlString } from '../../packages/core/src/html.js';
 import { page, sectionNav } from '../_templates/shell.js';
 import { badges, citations, dataTable, facts, link, notice, partyChip } from '../_templates/components/index.js';
 

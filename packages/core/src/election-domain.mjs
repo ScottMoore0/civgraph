@@ -1,0 +1,1632 @@
+const DEFAULT_PARTY_COLOURS = new Map([
+  ['alliance', '#f6cb2f'],
+  ['aontu', '#44532a'],
+  ['conservative', '#0087dc'],
+  ['dup', '#d46a4c'],
+  ['fianna fail', '#66bb66'],
+  ['fine gael', '#6699ff'],
+  ['green', '#22ac6f'],
+  ['green party', '#22ac6f'],
+  ['independent', '#b8b8b8'],
+  ['independent ireland', '#3bee56'],
+  ['irish labour', '#cc0000'],
+  ['labour', '#cc0000'],
+  ['pbp', '#ff0090'],
+  ['sdlp', '#2aa82c'],
+  ['sinn fein', '#326760'],
+  ['social democrats', '#752f8b'],
+  ['solidarity pbp', '#8e2420'],
+  ['solidarity-pbp', '#8e2420'],
+  ['tuv', '#0c3a6a'],
+  ['uup', '#48a5ee'],
+  ['yes', '#2aa82c'],
+  ['no', '#d46a4c'],
+  ['remain', '#2aa82c'],
+  ['leave', '#d46a4c'],
+  ...HISTORIC_PARTY_COLOURS_ENTRIES(),
+  // Later parties whose result files carry no colour (or the build's grey fallback), so
+  // their seats were drawn grey. Colours are Wikipedia's (Module:Political party) unless
+  // the site already had its own, which is kept.
+  ['nationalist party', '#32cd32'],
+  ['independent labour', '#ff9999'],
+  ['labour unionist', '#7a2a82'],
+  // Unity (1966-74, Westminster): the site's own colour; the 1970 files carried none.
+  ['unity', '#90ee90'],
+  // Ulster Popular Unionist Party: Wikipedia's #FFDEAD is near-white and read as a blank seat
+  // (North Down, 1983-92); the files also used #C7D57C, kept here as its one colour.
+  ['ulster popular unionist party', '#c7d57c'],
+  ['clann na talmhan', '#bdb76b'],
+  ['clann na poblachta', '#bbe549'],
+  ['independent fianna fail', '#7fff00'],
+  ['progressive democrats', '#1251a2'],
+  ['democratic left', '#c700c7'],
+  ['socialist party', '#ff3300'],
+  ['socialist', '#ff3300'],
+  ['s p', '#ff3300'],
+  ['united left alliance', '#ff3300'],
+  ['anti austerity alliance', '#e3170d'],
+  ['a a a', '#e3170d'],
+  ['lab', '#cc0000'],
+  ['green comhaontas glas', '#22ac6f'],
+  ['independents 4 change', '#ffc0cb'],
+  ['non party independent', '#dcdcdc'],
+  ['non party', '#dcdcdc'],
+  ['non p', '#dcdcdc'],
+  ['ceann comhairle', '#dcdcdc'],
+  // Ballot-paper spellings of DUP and UUP labels (data/elections-source/data/party-ids.json).
+  ['d u u u u c', '#d46a4c'],
+  ['united loy dup', '#d46a4c'],
+  ['ulster unionist', '#48a5ee'],
+  ['shopkeeper ulster unionist', '#48a5ee'],
+  // Short labels whose full party already has a colour on the site.
+  ['rep lab', '#85de59'],
+  ['republican labour', '#85de59'],
+  ['republican labour party', '#85de59'],
+  ['ir lab', '#cc0000'],
+  ['ind lab', '#ff9999'],
+  ['ind labour group', '#ff9999'],
+  ['ind unionist party', '#aadfff'],
+  ['ind nat', '#cdffab'],
+  ['loyalist', '#ffd700'],
+  ['united loyalist', '#ffd700'],
+  ['newtownabbey labour', '#dc241f'],
+  // Labels of the NI councils 1920-67 (data/elections/party-label-interpretations.json), so the
+  // rows a printed label is read into are not drawn in the file's placeholder grey. Existing site
+  // colours where the label already had one (NI Labour, Anti-Partitionist, Ulster Liberal, NDP).
+  ['ni labour', '#dc241f'],
+  ['anti partitionist', '#228b22'],
+  ['ulster liberal', '#daa520'],
+  ['national democratic party', '#3cb371'],
+  ['belfast labour', '#e4572e'],
+  ['british legion', '#4b6584'],
+  ['town tenants association', '#9b59b6'],
+  ['ratepayers association', '#a0785a'],
+  ['nationalist labour', '#6fbf3f'],
+  ['newry labour', '#e8604c'],
+  ['derry labour party', '#ff6f61'],
+  ['expelled workers', '#8b4513'],
+  ['individual traders association', '#c9a227'],
+  ['campaign for social justice', '#2e8b57'],
+  ['trade unionist labour', '#e8743b'],
+  ['trades council', '#d35400'],
+  ['progressive', '#20b2aa'],
+  ['efficiency party', '#4682b4'],
+  ['unemployed workers', '#b22222'],
+  ['jubilee protestant defence association', '#ff8c00'],
+  // Batch 4b: Labour with no party named, the NAUL's 1920 nominees, ex-servicemen not printed
+  // as the Legion's, and the citizens' associations of Newry and Lurgan.
+  ['local labour', '#f08080'],
+  ['national amalgamated union of labour', '#c0392b'],
+  ['ex servicemen', '#5d7b93'],
+  ['irish citizen association', '#2e7d6b'],
+  ['independent citizens association', '#7f8c8d'],
+  // Nothing printed and nothing inferred: a neutral grey of its own, lighter than Independent's.
+  ['no label', '#d4d4d4']
+]);
+
+/**
+ * Pre-1922 parties. Their result files' Party_Colour fields are not reliable: the first
+ * import coloured rows by a party CODE (N = Irish Parliamentary green, U = Irish Unionist
+ * Alliance navy) and later relabelled the parties without recolouring them, so Conservatives
+ * came out green and Irish Parliamentary rows blue; the Wikipedia backfill wrote a neutral
+ * #888888 on every row it touched. For these parties the colour below always wins over the
+ * file's. Colours follow Wikipedia's party colours (Module:Political party); where that
+ * colour is near-white or plain grey it would read as "no data" on the map, and a darker
+ * shade of the same hue (or the successor party's colour) is used instead -- noted per row.
+ *
+ * @returns {Array<[string, string]>}
+ */
+function HISTORIC_PARTY_COLOURS_ENTRIES() {
+  return [
+    // Home Rule / Irish Parliamentary Party (Wikipedia #99FF66), 1874-1918.
+    ['home rule', '#99ff66'],
+    ['home rule league', '#99ff66'],
+    ['irish parliamentary', '#99ff66'],
+    ['irish parliamentary party', '#99ff66'],
+    ['irish nationalist', '#99ff66'],
+    ['united irish league', '#99ff66'],
+    // Walker's HR (P), "Parnellite (supporter of Parnell, 1880)": home rulers, before the split.
+    ['parnellite home rule league', '#99ff66'],
+    // The 1890-91 split: Anti-Parnellites (Irish National Federation, Wikipedia #00FA9A) and
+    // Parnellites (Irish National League, which Wikipedia also draws #99FF66: shown here in a
+    // yellower green so the two sides of the split can be told apart on one map).
+    ['irish national federation', '#00fa9a'],
+    ['anti parnellite', '#00fa9a'],
+    ['anti parnellite nationalist', '#00fa9a'],
+    ['irish national league', '#c6e64a'],
+    ['parnellite', '#c6e64a'],
+    ['parnellite nationalist', '#c6e64a'],
+    // Independent and Healyite Nationalists (Wikipedia #cdffab; Healyite #DDFFDD is
+    // near-white, so it takes the Independent Nationalist colour).
+    ['independent nationalist', '#cdffab'],
+    ['ind nationalist', '#cdffab'],
+    ['healyite nationalist', '#cdffab'],
+    // All-for-Ireland League (Wikipedia #66FF99).
+    ['all for ireland', '#66ff99'],
+    ['all for ireland league', '#66ff99'],
+    ['independent all for ireland league', '#66ff99'],
+    ['sinn fein', '#326760'],
+    // Unionists. Irish Unionist Alliance (Wikipedia #9999FF); the Irish Loyal and Patriotic
+    // Union, its 1885 forerunner, is grey on Wikipedia (#DDDDDD) and takes the IUA colour.
+    ['irish unionist', '#9999ff'],
+    ['irish unionist alliance', '#9999ff'],
+    ['irish unionist party', '#9999ff'],
+    ['irish loyal and patriotic union', '#9999ff'],
+    ['unionist', '#9999ff'],
+    ['conservative', '#0087dc'],
+    ['irish conservative', '#0087dc'],
+    // Independent Conservative is near-white on Wikipedia (#DDEEFF); a mid blue is used.
+    ['ind conservative', '#7fb2e5'],
+    ['independent conservative', '#7fb2e5'],
+    ['liberal unionist', '#2061a2'],
+    ['independent liberal unionist', '#2061ff'],
+    ['ind unionist', '#aadfff'],
+    ['independent unionist', '#aadfff'],
+    ['russellite unionist', '#ffa500'],
+    ['liberal', '#ffd700'],
+    ['independent liberal', '#ffd700']
+  ];
+}
+
+// The parties whose registry colour wins over the file's: the pre-1922 parties above, and two
+// later ones whose files disagree with each other (some rows near-white or uncoloured).
+const REGISTRY_COLOUR_KEYS = new Set([
+  ...HISTORIC_PARTY_COLOURS_ENTRIES().map(([key]) => key),
+  'no label',
+  'unity',
+  'ulster popular unionist party'
+]);
+
+// Colours that mean "no colour": the build's fallback slate (#6b7280) and the neutral greys
+// importers wrote as placeholders. A party that has a colour of its own is never drawn in one.
+const PLACEHOLDER_PARTY_COLOURS = new Set(['#6b7280', '#888888', '#9ca3af', '#9e9e9e', '#a0a0a0', '#a9a9a9', '#808080']);
+
+function isNeutralGrey(colour) {
+  const text = String(colour || '').trim().toLowerCase();
+  if (!text) return true;
+  if (PLACEHOLDER_PARTY_COLOURS.has(text)) return true;
+  const match = text.match(/^#([0-9a-f]{6})$/);
+  if (!match) return false;
+  const [r, g, b] = [0, 2, 4].map((offset) => parseInt(match[1].slice(offset, offset + 2), 16));
+  return Math.max(r, g, b) - Math.min(r, g, b) <= 8 && r >= 0x60 && r <= 0xc0;
+}
+
+/** True when a source colour is a placeholder that a known party colour should replace. */
+export function isPlaceholderPartyColour(colour) {
+  return isNeutralGrey(colour);
+}
+
+/** True for the parties whose file colours are overridden (see REGISTRY_COLOUR_KEYS). */
+export function isRegistryColourParty(party) {
+  return REGISTRY_COLOUR_KEYS.has(normalizeName(party));
+}
+
+/**
+ * The colour a party is drawn in. The registry wins for REGISTRY_COLOUR_KEYS and over a
+ * placeholder grey; otherwise the result file's own colour is kept.
+ */
+export function resolvePartyColour(party, sourceColour = '', fallback = '#6b7280') {
+  const key = normalizeName(party);
+  const registry = DEFAULT_PARTY_COLOURS.get(key);
+  if (registry && REGISTRY_COLOUR_KEYS.has(key)) return registry;
+  const source = String(sourceColour || '').trim();
+  if (source && !(registry && isNeutralGrey(source))) return source;
+  return registry || source || fallback;
+}
+
+// Memoised: a pure string function called hundreds of thousands of times on a few thousand
+// distinct names (the largest single cost of the election manifest build). The cache lives on
+// the function so it exists however early the module calls it.
+export function normalizeName(value) {
+  if (typeof value !== 'string') return normalizeNameUncached(value);
+  const memo = /** @type {{ cache?: Map<string, string> }} */ (/** @type {unknown} */ (normalizeName));
+  const cache = memo.cache || (memo.cache = new Map());
+  let result = cache.get(value);
+  if (result === undefined) {
+    if (cache.size > 200000) cache.clear();
+    result = normalizeNameUncached(value);
+    cache.set(value, result);
+  }
+  return result;
+}
+
+export function normalizeNameUncached(value) {
+  return String(value ?? '')
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/\([^)]*\)/g, ' ')
+    .replace(/&/g, ' and ')
+    .replace(/[''`]/g, '')
+    .replace(/[-_/.,()]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase();
+}
+
+export function fixText(value) {
+  return String(value ?? '')
+    .replace(/\u00c3\u00a1/g, 'a')
+    .replace(/\u00c3\u00a9/g, 'e')
+    .replace(/\u00c3\u0089/g, 'E')
+    .replace(/\u00e2\u20ac\u2122/g, "'")
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+// ARK's re-issued result sheets named some NI council contests "Omagh Area C corrected"; the
+// word is the sheet's, not the area's, so it is dropped from the name shown.
+function contestName(value) {
+  return fixText(value).replace(/\s+corrected$/i, '');
+}
+
+export function parseNumber(value) {
+  if (value === null || value === undefined || value === '') return null;
+  const number = Number(String(value).replace(/,/g, '').replace(/%$/, ''));
+  return Number.isFinite(number) ? number : null;
+}
+
+export function numberOrZero(value) {
+  const number = parseNumber(value);
+  return number === null ? 0 : number;
+}
+
+export function round(value, places = 2) {
+  const factor = 10 ** places;
+  return Math.round(value * factor) / factor;
+}
+
+export function normalizeParty(value) {
+  const text = fixText(value || '').trim();
+  if (!text) return '';
+  return text
+    .replace(/^Sinn Fein$/i, 'Sinn F\u00e9in')
+    .replace(/^Fianna Fail$/i, 'Fianna F\u00e1il')
+    .replace(/^Labour$/i, 'Irish Labour')
+    .replace(/^People Before Profit(?: Alliance)?$/i, 'PBP');
+}
+
+export function partyColour(value, fallback = '#6b7280') {
+  return DEFAULT_PARTY_COLOURS.get(normalizeName(value)) || fallback;
+}
+
+export function statusKind(status) {
+  const normalized = normalizeName(status);
+  if (!normalized) return '';
+  if (/not elected|unelected|not deemed elected/.test(normalized)) return 'not-elected';
+  if (/elected|made quota|counted as elected|deemed elected/.test(normalized)) return 'elected';
+  if (/excluded|eliminated/.test(normalized)) return 'excluded';
+  return normalized;
+}
+
+export function candidateDisplayName(row = {}, fallback = '') {
+  return fixText(row.candidateName || row.name || [row.Firstname, row.Surname].filter(Boolean).join(' ') || fallback);
+}
+
+export function summarizeForumRows(rows = []) {
+  return rows.map((row, index) => {
+    const party = normalizeParty(row.party);
+    return {
+      id: row.party_id || row.id || `${party || 'list'}-${index + 1}`,
+      name: row.party ? `${fixText(row.party)} list` : `List ${index + 1}`,
+      party,
+      firstPrefs: parseNumber(row.votes),
+      finalVotes: parseNumber(row.votes),
+      voteShare: parseNumber(row.vote_share),
+      elected: Number(row.allocated_seats || 0) > 0,
+      seats: parseNumber(row.allocated_seats),
+      status: Number(row.allocated_seats || 0) > 0 ? 'Elected' : '',
+      colour: partyColour(party)
+    };
+  });
+}
+
+// Harvest bookkeeping that must not reach the published bundles. ei_candidate_id rides
+// on the intermediate count rows only so summarizeCandidateRows can read it, and
+// ei_candidates is the raw roster of the source page; the published identity is the
+// candidate's sourcePersonId. Carried through verbatim they added over a hundred
+// thousand lines to the election bundles -- on every count row and inside the raw
+// animation payload -- and from there to the browse indexes and D1.
+const HARVEST_FIELDS = new Set(['ei_candidate_id', 'eiCandidateId', 'ei_candidates', 'source_person_id']);
+function withoutHarvestFields(value) {
+  if (Array.isArray(value)) return value.map(withoutHarvestFields);
+  if (!value || typeof value !== 'object') return value;
+  const out = {};
+  for (const [key, inner] of Object.entries(value)) {
+    if (!HARVEST_FIELDS.has(key)) out[key] = withoutHarvestFields(inner);
+  }
+  return out;
+}
+
+function sourcePersonIdFor(row) {
+  const ei = String(row?.ei_candidate_id ?? row?.eiCandidateId ?? '').trim();
+  if (/^\d+$/.test(ei)) return `ei:${Number(ei)}`;
+  // Another source's own person id ("ie:<n>" from IrelandElection.com), carried on scraper
+  // rows that ElectionsIreland has no page for (source-checked fills).
+  const existing = String(row?.sourcePersonId || row?.source_person_id || '').trim();
+  return existing || '';
+}
+
+/**
+ * The verbatim label fields a candidate row carries, for the candidate summaries: the label as
+ * printed, the ballot paper description, and an inferred label's flag and evidence. Only those
+ * present, so a summary row without them stays as small as before ("Show labels as printed",
+ * src/printed-labels.mjs, reads them).
+ */
+function printedLabelEntry(row = {}) {
+  const out = {};
+  const printed = fixText(row.Party_As_Printed || row.partyAsPrinted || '');
+  const ballot = fixText(row.Ballot_Description || row.ballotDescription || '');
+  if (printed && printed !== ballot) out.partyAsPrinted = printed;
+  if (ballot) out.ballotDescription = ballot;
+  if (row.Party_Inferred === true || row.partyInferred === true || String(row.Party_Inferred || '') === 'true') {
+    out.partyInferred = true;
+    const basis = fixText(row.Party_Basis || row.partyBasis || '');
+    if (basis) out.partyBasis = basis;
+  }
+  return out;
+}
+
+/** `{ sourcePersonId }` when the source names the person, otherwise nothing at all. */
+function sourcePersonIdEntry(row) {
+  const id = sourcePersonIdFor(row);
+  return id ? { sourcePersonId: id } : {};
+}
+
+export function summarizeCandidateRows(rows = []) {
+  const byCandidate = new Map();
+  for (const row of Array.isArray(rows) ? rows : []) {
+    const name = candidateDisplayName(row);
+    const party = normalizeParty(row.Party_Name || row.Party || row.party || row.party_name);
+    const key = row.Candidate_Id || row.person_id || `${name}|${party}`;
+    if (!String(key || '').trim() || isNonTransferableRow(row, key, name, party)) continue;
+    const existing = byCandidate.get(key) || {
+      id: String(key),
+      name,
+      party,
+      firstPrefs: null,
+      finalVotes: null,
+      elected: false,
+      electedAt: null,
+      autoReturnedCeannComhairle: String(row.Auto_Returned_Ceann_Comhairle || '') === '1',
+      excluded: false,
+      excludedAt: null,
+      status: '',
+      colour: resolvePartyColour(party, row.Party_Colour),
+      gender: fixText(row.Gender || row.gender || ''),
+      dailAbbreviation: fixText(row.Dail_Abbreviation || row.Party_Abbreviation || row.dailAbbreviation || row.partyAbbreviation || ''),
+      officialCandidateId: fixText(row.Official_Candidate_Id || row.officialCandidateId || ''),
+      officialStatus: fixText(row.Official_Status || row.officialStatus || ''),
+      // What the ballot paper said, where it differs from the party: kept apart from `party` so a
+      // joke description ("Ereck Shun's All Night Party") never stands in for the party stood for.
+      ballotDescription: fixText(row.Ballot_Description || row.ballotDescription || ''),
+      // A label the sources did not print for this election, inferred from the same person's
+      // label at other elections (Party_Inferred), with the evidence for it (Party_Basis).
+      partyInferred: row.Party_Inferred === true || String(row.Party_Inferred || '') === 'true',
+      partyBasis: fixText(row.Party_Basis || ''),
+      // The label exactly as the source printed it ("HR (P)", "Rep Clubs"), where a source-checked
+      // fix records it (Party_As_Printed). Printed labels are shown as printed beside the party.
+      partyAsPrinted: fixText(row.Party_As_Printed || ''),
+      // The PERSON, where the source names one. `id` above is a candidacy key and on
+      // older contests it is a row index -- id '1' sits on 2,260 candidacies under
+      // unrelated names -- so it cannot carry identity. ElectionsIreland does name the
+      // person, and the same id follows Seamus Pattison from 1961 to 1997 while the two
+      // Jim Gibbonses keep ids of their own. Namespaced, because a second source with
+      // its own numbering must not silently collide with this one.
+      sourcePersonId: sourcePersonIdFor(row),
+      counts: []
+    };
+    const countNo = parseNumber(row.Count_Number) || 1;
+    const firstPref = parseNumber(row.Candidate_First_Pref_Votes ?? row.first_pref ?? row.firstPreferenceVotes ?? row.votes);
+    const totalVotes = parseNumber(row.Total_Votes ?? row.final_votes ?? row.finalVote);
+    const transfers = parseNumber(row.Transfers ?? row.transfer ?? row.transfers);
+    const status = fixText(row.Status || row.status || row.outcome || '');
+    if ((countNo === 1 || existing.firstPrefs === null) && firstPref !== null) existing.firstPrefs = firstPref;
+    if (totalVotes !== null) existing.finalVotes = Math.max(existing.finalVotes || 0, totalVotes);
+    if (!existing.status && status) existing.status = status;
+    if (!existing.gender && (row.Gender || row.gender)) existing.gender = fixText(row.Gender || row.gender || '');
+    if (!existing.dailAbbreviation && (row.Dail_Abbreviation || row.Party_Abbreviation || row.dailAbbreviation || row.partyAbbreviation)) {
+      existing.dailAbbreviation = fixText(row.Dail_Abbreviation || row.Party_Abbreviation || row.dailAbbreviation || row.partyAbbreviation || '');
+    }
+    if (!existing.officialCandidateId && (row.Official_Candidate_Id || row.officialCandidateId)) {
+      existing.officialCandidateId = fixText(row.Official_Candidate_Id || row.officialCandidateId || '');
+    }
+    if (!existing.officialStatus && (row.Official_Status || row.officialStatus)) {
+      existing.officialStatus = fixText(row.Official_Status || row.officialStatus || '');
+    }
+    if (!existing.sourcePersonId) existing.sourcePersonId = sourcePersonIdFor(row);
+    if (!existing.ballotDescription && (row.Ballot_Description || row.ballotDescription)) {
+      existing.ballotDescription = fixText(row.Ballot_Description || row.ballotDescription || '');
+    }
+    if (!existing.partyAsPrinted && row.Party_As_Printed) existing.partyAsPrinted = fixText(row.Party_As_Printed);
+    // Many files (the NI council ones) mark Status on EVERY row of a candidate and record the stage
+    // that decided it in Occurred_On_Count; the first such row is count 1, not that stage.
+    const occurred = parseNumber(row.Occurred_On_Count);
+    if (statusKind(status) === 'elected' || row.Elected === true || row.counted_as_elected === true) {
+      existing.elected = true;
+      existing.electedAt ||= countNo;
+      if (occurred) existing.decidedAt = Math.max(existing.decidedAt || 0, occurred);
+      if (!existing.status) existing.status = 'Elected';
+    }
+    if (statusKind(status) === 'excluded') {
+      existing.excluded = true;
+      existing.excludedAt ||= countNo;
+      if (occurred) existing.decidedAt = Math.max(existing.decidedAt || 0, occurred);
+    }
+    // The count at which the candidate's votes went out and left nothing: a recorded stage after this
+    // cannot be right (Carrick Castle 2018 records every candidate at its last count).
+    if (transfers !== null && transfers < 0 && totalVotes !== null && totalVotes <= 0.005 && !existing.droppedAt) existing.droppedAt = countNo;
+    existing.counts.push({
+      count: countNo,
+      total: totalVotes,
+      transfers,
+      status,
+      firstPrefs: firstPref
+    });
+    byCandidate.set(key, existing);
+  }
+  // Carried only where the source names a person. Emitting an empty string on every
+  // candidacy would add a quarter of a million meaningless lines to the metadata, the
+  // browse indexes and D1, and would make "we do not know who this is" look like data.
+  for (const candidate of byCandidate.values()) {
+    if (candidate.decidedAt) {
+      if (candidate.elected) candidate.electedAt = candidate.decidedAt;
+      else if (candidate.excluded) {
+        candidate.excludedAt = candidate.droppedAt && candidate.droppedAt < candidate.decidedAt ? candidate.droppedAt : candidate.decidedAt;
+      }
+    }
+    delete candidate.decidedAt;
+    delete candidate.droppedAt;
+    if (!candidate.sourcePersonId) delete candidate.sourcePersonId;
+    // Only where the source records one. Kept verbatim even where it repeats the party: it is what
+    // the "Show labels as printed" column shows (src/printed-labels.mjs); the default view does not.
+    if (!candidate.ballotDescription) delete candidate.ballotDescription;
+    // Only where the source printed one, and not where it repeats the ballot description that
+    // column already shows.
+    if (!candidate.partyAsPrinted || candidate.partyAsPrinted === candidate.ballotDescription) delete candidate.partyAsPrinted;
+  }
+  return [...byCandidate.values()].sort((a, b) => numberOrZero(b.firstPrefs) - numberOrZero(a.firstPrefs));
+}
+
+export function normalizeScraperPayloadForMain(payload, fallbackConstituency = '') {
+  if (!payload || payload.Constituency || !Array.isArray(payload.candidates)) return payload;
+  const meta = payload.meta || {};
+  const encodedCounts = payload.candidates
+    .map((candidate) => scraperCandidateEventCount(candidate))
+    .filter((count) => count !== null);
+  const lastCount = Math.max(1, ...encodedCounts);
+  const hasSyntheticCountStages = lastCount > 1;
+  const countGroup = payload.candidates.flatMap((candidate, index) => {
+    const autoReturned = scraperCandidateIsAutoReturned(candidate);
+    const firstPref = scraperCandidateFirstPref(candidate);
+    const occurredOn = scraperCandidateEventCount(candidate) || 1;
+    const elected = scraperCandidateIsElected(candidate);
+    const name = fixText(candidate.name || '').trim();
+    const space = name.indexOf(' ');
+    const firstname = space > 0 ? name.slice(0, space) : name;
+    const surname = space > 0 ? name.slice(space + 1) : '';
+    const party = scraperCandidateParty(candidate);
+    const status = autoReturned
+      ? (candidate.status || 'Elected (auto returned)')
+      : (candidate.status || (elected ? 'Elected' : ''));
+    const rowCountNumbers = hasSyntheticCountStages
+      ? Array.from({ length: lastCount }, (_, countIndex) => countIndex + 1)
+      : [1];
+    return rowCountNumbers.map((countNumber) => ({
+      Auto_Returned_Ceann_Comhairle: autoReturned ? '1' : '',
+      // A ROW INDEX, despite the name, and the reason the person registry cannot key
+      // on it: '1' is whoever happened to be listed first, in every contest. The
+      // person travels in ei_candidate_id below instead.
+      Candidate_Id: String(index + 1),
+      ei_candidate_id: candidate.ei_candidate_id ?? candidate.eiCandidateId ?? '',
+      source_person_id: candidate.sourcePersonId || '',
+      Candidate_First_Pref_Votes: String(firstPref),
+      Constituency_Number: String(payload.constituencyNumber || payload.officialDail?.constituencyNumber || meta.Constituency_Number || ''),
+      Count_Number: String(countNumber),
+      Dail_Abbreviation: candidate.dailAbbreviation || candidate.partyAbbreviation || '',
+      Firstname: firstname,
+      Gender: candidate.gender || '',
+      Official_Candidate_Id: candidate.officialCandidateId || '',
+      Official_Status: candidate.officialStatus || '',
+      Ballot_Description: candidate.ballotDescription || '',
+      // Set on a few candidates by source-checked fixes; written only where present.
+      ...(candidate.Party_As_Printed || candidate.partyAsPrinted ? { Party_As_Printed: candidate.Party_As_Printed || candidate.partyAsPrinted } : {}),
+      ...(candidate.partyInferred === true || candidate.Party_Inferred === true ? { Party_Inferred: true } : {}),
+      ...(candidate.partyBasis || candidate.Party_Basis ? { Party_Basis: candidate.partyBasis || candidate.Party_Basis } : {}),
+      Party_Abbreviation: candidate.partyAbbreviation || candidate.dailAbbreviation || '',
+      Surname: surname,
+      Occurred_On_Count: String(occurredOn),
+      Party_Colour: partyColour(party),
+      Party_Name: party,
+      Status: countNumber === occurredOn ? status : '',
+      Synthetic_Scraper_Row: '1',
+      Synthetic_Scraper_Stage_Row: hasSyntheticCountStages ? '1' : '',
+      Total_Votes: String(firstPref),
+      Transfers: '0',
+      candidateName: name,
+      id: index
+    }));
+  });
+  const validPoll = parseNumber(meta.Valid_Poll ?? meta.valid_poll ?? meta.validPoll)
+    || countGroup
+      .filter((row) => Number(row.Count_Number) === 1)
+      .reduce((sum, row) => sum + numberOrZero(row.Candidate_First_Pref_Votes), 0);
+  const electorate = parseNumber(meta.Total_Electorate ?? meta.electorate ?? meta.electorate_total);
+  const turnoutPct = parseNumber(meta.turnout_pct ?? meta.turnoutPct);
+  const explicitTotalPoll = parseNumber(meta.Total_Poll ?? meta.total_poll ?? meta.totalPoll);
+  const totalPoll = explicitTotalPoll ?? (electorate !== null && turnoutPct !== null
+    ? Math.round(electorate * turnoutPct / 100)
+    : null);
+  const explicitSpoiled = parseNumber(meta.Spoiled ?? meta.spoiled);
+  const spoiled = explicitSpoiled ?? (totalPoll !== null && validPoll
+    ? Math.max(0, totalPoll - validPoll)
+    : null);
+  const seatCount = parseNumber(payload.seats)
+    || countGroup.filter((row) => statusKind(row.Status) === 'elected').length;
+  return {
+    Constituency: {
+      __syntheticCountGroup: true,
+      __syntheticCountStages: hasSyntheticCountStages,
+      countInfo: {
+        Constituency_Name: payload.constituency || fallbackConstituency || '',
+        Constituency_Number: String(payload.constituencyNumber || payload.officialDail?.constituencyNumber || meta.Constituency_Number || ''),
+        Number_Of_Seats: seatCount ? String(seatCount) : '',
+        Quota: meta.Quota != null || meta.quota != null ? String(meta.Quota ?? meta.quota) : '',
+        Spoiled: spoiled != null ? String(spoiled) : '',
+        Total_Electorate: electorate != null ? String(electorate) : '',
+        Total_Poll: totalPoll != null ? String(totalPoll) : '',
+        Valid_Poll: validPoll ? String(validPoll) : ''
+      },
+      countGroup
+    },
+    officialDail: payload.officialDail || null,
+    constituencyId: payload.constituencyId || payload.officialDail?.constituencyId || null,
+    constituencyNumber: payload.constituencyNumber || payload.officialDail?.constituencyNumber || null
+  };
+}
+
+function isScraperCandidatePayload(payload = {}) {
+  return Boolean(payload && !payload.Constituency && Array.isArray(payload.candidates));
+}
+
+const CEANN_COMHAIRLE_AFFILIATION_BY_NAME = new Map([
+  ['michael hayes', 'Cumann na nGaedheal'],
+  ['frank fahy', 'Fianna F\u00e1il'],
+  ['cormac breslin', 'Fianna F\u00e1il'],
+  ['seamus pattison', 'Irish Labour'],
+  ['seamus kirk', 'Fianna F\u00e1il'],
+  ['sean barrett', 'Fine Gael'],
+  ['sean o fearghail', 'Fianna F\u00e1il'],
+  ["rory o'hanlon", 'Fianna F\u00e1il'],
+  ['rory ohanlon', 'Fianna F\u00e1il']
+]);
+
+function isCeannComhairleParty(value) {
+  return normalizeName(value).includes('ceann comhairle');
+}
+
+export function scraperCandidateIsAutoReturned(candidate = {}) {
+  return isCeannComhairleParty(candidate.party);
+}
+
+export function scraperCandidateAffiliatedParty(candidate = {}) {
+  const candidateName = normalizeName(fixText(candidate.name || ''));
+  return CEANN_COMHAIRLE_AFFILIATION_BY_NAME.get(candidateName) || 'Ceann Comhairle (Speaker)';
+}
+
+function positiveInteger(value) {
+  const parsed = parseNumber(value);
+  return typeof parsed === 'number' && Number.isInteger(parsed) && parsed > 0 ? parsed : null;
+}
+
+function scraperCandidateElectedOrder(candidate = {}) {
+  if (Array.isArray(candidate.counts)) {
+    const order = positiveInteger(candidate.counts[3]);
+    if (order !== null) return order;
+  }
+  return null;
+}
+
+function scraperCandidateEventCount(candidate = {}) {
+  if (scraperCandidateIsAutoReturned(candidate)) return 1;
+  if (Array.isArray(candidate.counts)) {
+    const encodedCount = positiveInteger(candidate.counts[2]);
+    if (encodedCount !== null) return encodedCount;
+  }
+  return null;
+}
+
+function scraperCandidateIsElected(candidate = {}) {
+  return statusKind(candidate.status) === 'elected'
+    || candidate.counted_as_elected === true
+    || scraperCandidateElectedOrder(candidate) !== null
+    || scraperCandidateIsAutoReturned(candidate);
+}
+
+function scraperCandidateFirstPref(candidate = {}) {
+  if (scraperCandidateIsAutoReturned(candidate)) return 0;
+  return parseNumber(
+    candidate.first_pref != null
+      ? candidate.first_pref
+      : (Array.isArray(candidate.counts) ? candidate.counts[0] : null)
+  ) || 0;
+}
+
+function scraperCandidateParty(candidate = {}) {
+  if (scraperCandidateIsAutoReturned(candidate)) {
+    return normalizeParty(scraperCandidateAffiliatedParty(candidate));
+  }
+  return normalizeParty(String(candidate.party || '').replace(/\s*Lozenge\s*$/i, '').trim() || 'Independent');
+}
+
+export function buildMainLikePartySummaryFromRawResults(rawEntries = []) {
+  const partyTotals = new Map();
+  let totalValid = 0;
+  let totalPoll = 0;
+  let totalElectorate = 0;
+  let totalSpoiled = 0;
+  let totalSeats = 0;
+
+  for (const entry of rawEntries || []) {
+    const raw = entry?.raw;
+    if (isScraperCandidatePayload(raw)) {
+      const meta = raw.meta || {};
+      let constituencyValid = parseNumber(meta.Valid_Poll ?? meta.valid_poll ?? meta.validPoll);
+      let inferredValid = 0;
+      let explicitSeats = parseNumber(raw.seats ?? meta.seats ?? meta.Number_Of_Seats);
+      let electedCount = 0;
+
+      for (const candidate of raw.candidates || []) {
+        const party = scraperCandidateParty(candidate);
+        const votes = scraperCandidateFirstPref(candidate);
+        inferredValid += votes;
+        if (!partyTotals.has(party)) {
+          partyTotals.set(party, {
+            party,
+            seats: 0,
+            stood: 0,
+            votes: 0,
+            colour: partyColour(party)
+          });
+        }
+        const totals = partyTotals.get(party);
+        const elected = scraperCandidateIsElected(candidate);
+        const autoReturned = scraperCandidateIsAutoReturned(candidate);
+        if (!autoReturned) {
+          totals.votes += votes;
+          totals.stood += 1;
+        }
+        if (elected) {
+          const seatParty = scraperCandidateParty(candidate);
+          if (!partyTotals.has(seatParty)) {
+            partyTotals.set(seatParty, {
+              party: seatParty,
+              seats: 0,
+              stood: 0,
+              votes: 0,
+              colour: partyColour(seatParty)
+            });
+          }
+          partyTotals.get(seatParty).seats += 1;
+          electedCount += 1;
+        }
+      }
+
+      if (constituencyValid === null) constituencyValid = inferredValid;
+      const electorate = parseNumber(meta.Total_Electorate ?? meta.electorate ?? meta.electorate_total);
+      const turnoutPct = parseNumber(meta.turnout_pct ?? meta.turnoutPct);
+      const explicitTotalPoll = parseNumber(meta.Total_Poll ?? meta.total_poll ?? meta.totalPoll);
+      const constituencyTotalPoll = explicitTotalPoll ?? (electorate !== null && turnoutPct !== null
+        ? Math.round(electorate * turnoutPct / 100)
+        : null);
+      const explicitSpoiled = parseNumber(meta.Spoiled ?? meta.spoiled);
+      const constituencySpoiled = explicitSpoiled ?? (constituencyTotalPoll !== null && constituencyValid !== null
+        ? Math.max(0, constituencyTotalPoll - constituencyValid)
+        : null);
+      totalValid += constituencyValid || 0;
+      totalPoll += numberOrZero(constituencyTotalPoll);
+      totalElectorate += numberOrZero(electorate);
+      totalSpoiled += numberOrZero(constituencySpoiled);
+      totalSeats += explicitSeats !== null && explicitSeats > 0 ? explicitSeats : electedCount;
+      continue;
+    }
+
+    const payload = withCandidateRowIds(normalizeScraperPayloadForMain(entry.raw, entry.constituency));
+    const cg = payload?.Constituency?.countGroup || [];
+    const info = payload?.Constituency?.countInfo || {};
+    if (!cg.length) continue;
+
+    const validPoll = safeValidPoll(info, cg);
+    totalValid += validPoll;
+    totalPoll += numberOrZero(info.Total_Poll);
+    totalElectorate += numberOrZero(info.Total_Electorate);
+    totalSpoiled += numberOrZero(info.Spoiled);
+    totalSeats += numberOrZero(info.Number_Of_Seats);
+
+    // Before 1832 no party was printed at all (partyLabels: "none-recorded"): a blank there is
+    // "No party recorded", as the contest's own tables say; elsewhere it is "No label".
+    const blankParty = (entry.raw?.partyLabels || entry.raw?.Constituency?.partyLabels) === 'none-recorded'
+      ? NO_PARTY_RECORDED : NO_LABEL;
+    const seenCandidates = new Set();
+    for (const row of cg) {
+      if (!isValidCandidateRow(row)) continue;
+      const countNum = parseInt(row.Count_Number, 10) || 1;
+      const candidateId = String(row.Candidate_Id || '');
+      const party = normalizeParty(row.Party_Name) || blankParty;
+      if (!partyTotals.has(party)) {
+        partyTotals.set(party, {
+          party,
+          seats: 0,
+          stood: 0,
+          votes: 0,
+          colour: resolvePartyColour(party, row.Party_Colour)
+        });
+      }
+      if (countNum === 1 && !seenCandidates.has(candidateId)) {
+        seenCandidates.add(candidateId);
+        const total = numberOrZero(row.Total_Votes);
+        const totals = partyTotals.get(party);
+        totals.votes += total;
+        totals.stood += 1;
+      }
+    }
+
+    for (const member of extractMainLikeElected(payload)) {
+      const party = normalizeParty(member.party) || blankParty;
+      if (!partyTotals.has(party)) {
+        partyTotals.set(party, {
+          party,
+          seats: 0,
+          stood: 0,
+          votes: 0,
+          colour: resolvePartyColour(party, member.colour)
+        });
+      }
+      partyTotals.get(party).seats += 1;
+    }
+  }
+
+  const rows = [...partyTotals.values()]
+    .map((row) => ({
+      ...row,
+      share: totalValid > 0 ? (row.votes / totalValid * 100) : null
+    }))
+    .sort((a, b) => numberOrZero(b.seats) - numberOrZero(a.seats)
+      || numberOrZero(b.votes) - numberOrZero(a.votes)
+      || String(a.party || '').localeCompare(String(b.party || '')));
+
+  return {
+    rows,
+    totals: {
+      validPoll: totalValid,
+      totalPoll,
+      totalElectorate,
+      totalSpoiled,
+      totalSeats
+    }
+  };
+}
+
+export function extractElected(result = {}) {
+  const candidates = Array.isArray(result.candidates) ? result.candidates : [];
+  const seats = parseNumber(result.seatsTotal ?? result.seatsWon);
+  const complete = completeElectedCandidateSet(candidates, seats);
+  const explicit = complete.filter((candidate) => candidate.elected);
+  if (explicit.length) {
+    return explicit
+      .map((candidate) => ({ ...candidate, colour: resolvePartyColour(candidate.party, candidate.colour) }))
+      .sort((a, b) => numberOrZero(a.electedAt) - numberOrZero(b.electedAt) || numberOrZero(b.finalVotes) - numberOrZero(a.finalVotes))
+      .slice(0, seats && seats > 0 ? seats : explicit.length);
+  }
+  if (seats && seats > 0) {
+    return [...complete]
+      .filter((candidate) => !candidate.excluded)
+      .sort((a, b) => numberOrZero(b.finalVotes ?? b.firstPrefs) - numberOrZero(a.finalVotes ?? a.firstPrefs))
+      .slice(0, seats)
+      // A win inferred from the votes is a plain "Elected"; only a return with no vote is unopposed.
+      .map((candidate) => ({
+        ...candidate,
+        elected: true,
+        status: candidate.status || (numberOrZero(candidate.finalVotes ?? candidate.firstPrefs) > 0 ? 'Elected' : 'Elected unopposed'),
+        colour: resolvePartyColour(candidate.party, candidate.colour)
+      }));
+  }
+  return [];
+}
+
+function candidateLastCount(candidate = {}) {
+  const counts = Array.isArray(candidate.counts) ? candidate.counts : [];
+  return Math.max(1, ...counts.map((count) => parseNumber(count?.count) || 0));
+}
+
+/**
+ * @param {any[]} [candidates]
+ * @param {number | null} [seatsTotal]
+ */
+function completeElectedCandidateSet(candidates = [], seatsTotal = null) {
+  const seats = parseNumber(seatsTotal);
+  if (!seats || seats <= 0 || !Array.isArray(candidates) || !candidates.length) return candidates;
+  const explicit = candidates.filter((candidate) => candidate.elected);
+  if (explicit.length >= seats) return candidates;
+
+  const explicitIds = new Set(explicit.map((candidate) => candidate.id || `${candidate.name}|${candidate.party}`));
+  const needed = seats - explicit.length;
+  const inferred = candidates
+    .filter((candidate) => {
+      const id = candidate.id || `${candidate.name}|${candidate.party}`;
+      if (explicitIds.has(id)) return false;
+      if (candidate.excluded || statusKind(candidate.status) === 'excluded') return false;
+      if (candidate.autoReturnedCeannComhairle) return false;
+      return numberOrZero(candidate.finalVotes ?? candidate.firstPrefs) > 0;
+    })
+    .sort((a, b) => numberOrZero(b.finalVotes ?? b.firstPrefs) - numberOrZero(a.finalVotes ?? a.firstPrefs)
+      || numberOrZero(b.firstPrefs) - numberOrZero(a.firstPrefs)
+      || String(a.name || '').localeCompare(String(b.name || '')))
+    .slice(0, needed);
+
+  if (!inferred.length) return candidates;
+  const inferredIds = new Set(inferred.map((candidate) => candidate.id || `${candidate.name}|${candidate.party}`));
+  return candidates.map((candidate) => {
+    const id = candidate.id || `${candidate.name}|${candidate.party}`;
+    if (!inferredIds.has(id)) return candidate;
+    const lastCount = candidateLastCount(candidate);
+    // These candidates polled (finalVotes > 0 above): a contested win reads "Elected", as the
+    // sources' own winners do. "Deemed elected" was shown on every inferred winner, including
+    // first-past-the-post seats and the last STV seats filled without a quota.
+    const counts = Array.isArray(candidate.counts)
+      ? candidate.counts.map((count) => Number(count?.count) === lastCount
+        ? { ...count, status: count.status || 'Elected' }
+        : count)
+      : candidate.counts;
+    return {
+      ...candidate,
+      elected: true,
+      electedAt: candidate.electedAt || lastCount,
+      excluded: false,
+      excludedAt: null,
+      status: 'Elected',
+      counts
+    };
+  });
+}
+
+function extractMainLikeElected(payload = {}) {
+  const cg = payload.Constituency?.countGroup || [];
+  if (!cg.length) return [];
+  const info = payload.Constituency?.countInfo || {};
+  const numSeats = parseNumber(info.Number_Of_Seats) || 5;
+  const elected = [];
+  const excluded = new Set();
+  const seen = new Set();
+  const lastCount = Math.max(...cg.map((row) => parseInt(row.Count_Number, 10) || 0), 1);
+  const grouped = new Map();
+
+  for (const row of cg) {
+    const cid = row.Candidate_Id;
+    if (!cid || String(cid).toLowerCase() === 'nontransferable') continue;
+    if (!grouped.has(cid)) {
+      grouped.set(cid, {
+        rows: [],
+        name: candidateDisplayName(row),
+        party: normalizeParty(row.Party_Name),
+        colour: resolvePartyColour(row.Party_Name, row.Party_Colour)
+      });
+    }
+    grouped.get(cid).rows.push(row);
+  }
+
+  grouped.forEach((entry, cid) => {
+    const candidate = { counts: {} };
+    for (const row of entry.rows) {
+      candidate.counts[parseInt(row.Count_Number, 10) || 1] = {
+        total: numberOrZero(row.Total_Votes),
+        transfers: numberOrZero(row.Transfers),
+        status: row.Status || ''
+      };
+      if (statusKind(row.Status) === 'excluded') excluded.add(cid);
+    }
+    const lifecycle = inferMainLikeCandidateLifecycle(candidate, info, lastCount);
+    if (lifecycle.electedAt && !seen.has(cid)) {
+      seen.add(cid);
+      elected.push({
+        name: entry.name,
+        party: entry.party,
+        colour: entry.colour,
+        count: lifecycle.electedAt
+      });
+    }
+  });
+
+  if (elected.length < numSeats) {
+    const finalRound = cg
+      .filter((row) => (parseInt(row.Count_Number, 10) || 0) === lastCount)
+      .sort((a, b) => numberOrZero(b.Total_Votes) - numberOrZero(a.Total_Votes));
+    for (const row of finalRound) {
+      if (!seen.has(row.Candidate_Id)
+        && !excluded.has(row.Candidate_Id)
+        && row.Candidate_Id !== 'nontransferable') {
+        seen.add(row.Candidate_Id);
+        elected.push({
+          name: candidateDisplayName(row),
+          party: normalizeParty(row.Party_Name),
+          colour: resolvePartyColour(row.Party_Name, row.Party_Colour),
+          count: lastCount
+        });
+      }
+    }
+  }
+
+  return elected.sort((a, b) => numberOrZero(a.count) - numberOrZero(b.count)).slice(0, numSeats);
+}
+
+function inferMainLikeCandidateLifecycle(candidate, info, lastCount) {
+  const quota = parseNumber(info?.Quota);
+  const counts = Object.keys(candidate.counts || {})
+    .map(Number)
+    .filter(Number.isFinite)
+    .sort((a, b) => a - b);
+  let electedAt = null;
+  let excludedAt = null;
+  let terminalCount = null;
+
+  counts.forEach((countNum, index) => {
+    const current = candidate.counts[countNum];
+    const previous = index > 0 ? candidate.counts[counts[index - 1]] : null;
+    const total = current?.total ?? 0;
+    const transfer = current?.transfers ?? 0;
+
+    if (!electedAt && typeof quota === 'number' && Number.isFinite(quota) && total >= (quota - 0.01)) electedAt = countNum;
+    if (!excludedAt && previous && previous.total > 0.01 && total <= 0.01 && transfer < -0.01) {
+      excludedAt = countNum;
+      terminalCount = countNum;
+    }
+    if (!terminalCount && previous && typeof quota === 'number' && Number.isFinite(quota) && previous.total > (quota + 0.01)
+      && Math.abs(total - quota) <= 0.01 && transfer < -0.01) {
+      terminalCount = countNum;
+    }
+  });
+
+  return { electedAt, excludedAt, terminalCount, lastCount };
+}
+
+function safeValidPoll(info = {}, countGroup = []) {
+  const explicit = parseNumber(info.Valid_Poll);
+  if (explicit !== null) return explicit;
+  const seen = new Set();
+  let total = 0;
+  for (const row of countGroup) {
+    const cid = String(row.Candidate_Id || '');
+    const countNum = parseInt(row.Count_Number, 10) || 1;
+    if (countNum !== 1 || !isValidCandidateRow(row) || seen.has(cid)) continue;
+    seen.add(cid);
+    total += numberOrZero(row.Total_Votes);
+  }
+  if (total > 0) return total;
+  const fallback = numberOrZero(info.Total_Poll) - numberOrZero(info.Spoiled);
+  return Number.isFinite(fallback) && fallback > 0 ? fallback : 0;
+}
+
+function candidateKey(name, party) {
+  const norm = (value) => String(value || '').toLowerCase().replace(/\s+/g, ' ').trim();
+  return `${norm(name)}|${norm(party)}`;
+}
+
+/**
+ * Count rows with no Candidate_Id (the 1801-1922 Westminster files, imported from Wikipedia and
+ * Walker, leave it blank) get one from the candidate's name and party, so the national tables
+ * count each candidate once instead of skipping every row: the pre-1922 party table showed
+ * every party with 0 candidates and 0 votes.
+ */
+function withCandidateRowIds(payload) {
+  const cg = payload?.Constituency?.countGroup;
+  if (!Array.isArray(cg) || cg.every((row) => String(row?.Candidate_Id || '').trim())) return payload;
+  const countGroup = cg.map((row) => {
+    if (String(row?.Candidate_Id || '').trim()) return row;
+    const name = candidateDisplayName(row, '');
+    return name ? { ...row, Candidate_Id: `row:${name}|${normalizeParty(row.Party_Name)}` } : row;
+  });
+  return { ...payload, Constituency: { ...payload.Constituency, countGroup } };
+}
+
+function isValidCandidateRow(row = {}) {
+  const cid = String(row.Candidate_Id || '').trim();
+  const name = candidateDisplayName(row, '');
+  if (!cid || cid.toLowerCase() === 'nontransferable') return false;
+  if (!name || name.toLowerCase() === 'party') return false;
+  return true;
+}
+
+export function buildMainLikeCandidateSummaryFromRawResults(rawEntries = []) {
+  const rows = [];
+  let totalValid = 0;
+
+  for (const entry of rawEntries || []) {
+    const raw = entry?.raw;
+    if (isScraperCandidatePayload(raw)) {
+      const meta = raw.meta || {};
+      const inferredValid = (raw.candidates || []).reduce((sum, candidate) => sum + scraperCandidateFirstPref(candidate), 0);
+      const constValid = parseNumber(meta.Valid_Poll ?? meta.valid_poll ?? meta.validPoll) || inferredValid;
+      const constituency = fixText(raw.constituency || entry.constituency || '');
+      totalValid += constValid;
+
+      for (const [index, candidate] of (raw.candidates || []).entries()) {
+        const name = fixText(candidate.name || '').trim();
+        const party = scraperCandidateParty(candidate);
+        const votes = scraperCandidateFirstPref(candidate);
+        const autoReturned = scraperCandidateIsAutoReturned(candidate);
+        const elected = scraperCandidateIsElected(candidate);
+        const excluded = statusKind(candidate.status) === 'excluded';
+        const finalCount = parseNumber(candidate.final_count);
+        const resolvedCount = typeof finalCount === 'number' && Number.isInteger(finalCount) && finalCount > 0 ? finalCount : null;
+        const status = autoReturned ? 'Elected (auto returned)' : (elected ? 'Elected' : (excluded ? 'Excluded' : fixText(candidate.status || '') || 'Not Elected'));
+        rows.push({
+          id: String(index + 1),
+          // `id` is a per-constituency row index, not a person. The real personId is
+          // stamped afterwards by scripts/ingest/persons/apply_person_ids_v2.py; until then it is unknown.
+          personId: null,
+          // The person as the source names them, so the stamper resolves this row on
+          // evidence. Without it the row fell back to its name, and 1,627 summary rows
+          // disagreed with the results they summarise: the 1918 Austin Stack was filed
+          // under the 2024 candidate of the same name.
+          ...sourcePersonIdEntry(candidate),
+          constituency,
+          name,
+          party,
+          ...printedLabelEntry(candidate),
+          colour: partyColour(party),
+          firstPrefs: votes,
+          votes,
+          constPct: constValid > 0 ? (votes / constValid * 100) : 0,
+          firstPrefPct: constValid > 0 ? (votes / constValid * 100) : 0,
+          finalVotes: votes,
+          elected,
+          electedAt: elected ? (resolvedCount || 1) : null,
+          excluded,
+          excludedAt: excluded ? (resolvedCount || null) : null,
+          resolvedCount,
+          countDisplay: resolvedCount ? String(resolvedCount) : '',
+          status,
+          autoReturnedCeannComhairle: autoReturned,
+          counts: [{
+            total: votes,
+            transfers: 0,
+            status: fixText(candidate.status || ''),
+            firstPrefs: votes,
+            count: resolvedCount || 1
+          }],
+          candidateKey: candidateKey(name, party)
+        });
+      }
+      continue;
+    }
+
+    const payload = withCandidateRowIds(normalizeScraperPayloadForMain(entry.raw, entry.constituency));
+    const cg = payload?.Constituency?.countGroup || [];
+    const info = payload?.Constituency?.countInfo || {};
+    if (!cg.length) continue;
+
+    const constValid = safeValidPoll(info, cg);
+    const seatCount = parseNumber(info.Number_Of_Seats) || 0;
+    const constituency = contestName(entry.constituency || info.Constituency_Name || '');
+    totalValid += constValid;
+
+    const byCandidate = new Map();
+    const countNums = unique(cg.map((row) => parseInt(row.Count_Number, 10) || 1)).sort((a, b) => a - b);
+    const lastCount = countNums[countNums.length - 1] || 1;
+    const totalCountCount = countNums.length || 1;
+
+    for (const row of cg) {
+      if (!isValidCandidateRow(row)) continue;
+      const cid = String(row.Candidate_Id || '');
+      const countNum = parseInt(row.Count_Number, 10) || 1;
+      if (!byCandidate.has(cid)) {
+        const name = candidateDisplayName(row);
+        const party = normalizeParty(row.Party_Name);
+        byCandidate.set(cid, {
+          id: cid,
+          // Candidate_Id is a row index here too; see the scraper branch above.
+          personId: null,
+          ...sourcePersonIdEntry(row),
+          constituency,
+          name,
+          party,
+          ...printedLabelEntry(row),
+          colour: resolvePartyColour(party, row.Party_Colour),
+          firstPrefs: 0,
+          votes: 0,
+          constPct: 0,
+          firstPrefPct: 0,
+          finalVotes: 0,
+          elected: false,
+          electedAt: null,
+          excluded: false,
+          excludedAt: null,
+          resolvedCount: null,
+          countDisplay: '',
+          status: '',
+          counts: {}
+        });
+      }
+      const candidate = byCandidate.get(cid);
+      const total = numberOrZero(row.Total_Votes);
+      if (countNum === 1) {
+        candidate.firstPrefs = total;
+        candidate.votes = total;
+        candidate.constPct = constValid > 0 ? (total / constValid * 100) : 0;
+        candidate.firstPrefPct = candidate.constPct;
+      }
+      candidate.counts[countNum] = {
+        total,
+        transfers: numberOrZero(row.Transfers),
+        status: row.Status || ''
+      };
+      if (total > candidate.finalVotes) candidate.finalVotes = total;
+    }
+
+    byCandidate.forEach((candidate) => {
+      const lifecycle = inferMainLikeCandidateLifecycle(candidate, info, lastCount);
+      candidate.electedAt = lifecycle.electedAt;
+      candidate.excludedAt = lifecycle.excludedAt;
+    });
+
+    const explicitElected = [...byCandidate.values()].filter((candidate) => !!candidate.electedAt).length;
+    if (seatCount > 0 && explicitElected < seatCount) {
+      const needed = seatCount - explicitElected;
+      [...byCandidate.values()]
+        .filter((candidate) => !candidate.electedAt && !candidate.excludedAt)
+        .sort((a, b) => numberOrZero(b.finalVotes) - numberOrZero(a.finalVotes))
+        .slice(0, needed)
+        .forEach((candidate) => {
+          candidate.electedAt ||= lastCount;
+        });
+    }
+
+    byCandidate.forEach((candidate) => {
+      candidate.resolvedCount = candidate.electedAt
+        ? (candidate.electedAt || lastCount)
+        : candidate.excludedAt
+        ? (candidate.excludedAt || lastCount)
+        : lastCount;
+      candidate.elected = Boolean(candidate.electedAt);
+      candidate.excluded = Boolean(candidate.excludedAt);
+      candidate.status = candidate.electedAt ? 'Elected' : (candidate.excludedAt ? 'Excluded' : 'Not Elected');
+      candidate.countDisplay = `${candidate.resolvedCount}/${totalCountCount}`;
+      candidate.candidateKey = candidateKey(candidate.name, candidate.party);
+      rows.push(candidate);
+    });
+  }
+
+  return {
+    rows: rows.sort((a, b) => {
+      const pctDelta = numberOrZero(b.constPct) - numberOrZero(a.constPct);
+      if (Math.abs(pctDelta) > 1e-9) return pctDelta;
+      return numberOrZero(b.votes) - numberOrZero(a.votes)
+        || String(a.name || '').localeCompare(String(b.name || ''));
+    }),
+    totals: {
+      validPoll: totalValid
+    }
+  };
+}
+
+export const NO_PARTY_RECORDED = 'No party recorded';
+
+/**
+ * The label summaries and tables give a candidate with no party or independent label: nothing
+ * was printed against the name and nothing could be inferred. It is a group of its own in seat
+ * and vote summaries, never folded into Independent (an independent is a label someone stood
+ * under; this is the absence of one), drawn in neutral grey and given no party page.
+ */
+export const NO_LABEL = 'No label';
+
+export function summarizeResult(raw, fallbackConstituency) {
+  const mainPayload = normalizeScraperPayloadForMain(raw, fallbackConstituency);
+  const source = mainPayload?.Constituency || raw?.Constituency || raw || {};
+  const syntheticCountGroup = Boolean(source.__syntheticCountGroup);
+  const info = source.countInfo || raw?.meta || raw?.metaData || {};
+  const forumRows = Array.isArray(source.forum?.rows) ? source.forum.rows : null;
+  const rows = forumRows || source.countGroup || raw?.candidates || [];
+  const constituency = contestName(source.constituency || raw?.constituency || info.Constituency_Name || fallbackConstituency);
+  const recallPetition = source.recallPetition || raw?.recallPetition || raw?.petition || null;
+  let candidates = forumRows ? summarizeForumRows(forumRows) : summarizeCandidateRows(rows);
+  // Before 1832 no party was printed against a candidate. Such a contest says so
+  // (partyLabels: "none-recorded") and a blank party reads "No party recorded" rather than
+  // falling through to "Independent", which nobody was.
+  if ((raw?.partyLabels || source.partyLabels) === 'none-recorded') {
+    candidates = candidates.map((candidate) => (candidate.party ? candidate : { ...candidate, party: NO_PARTY_RECORDED }));
+  }
+  const ranked = [...candidates].sort((a, b) => numberOrZero(b.firstPrefs) - numberOrZero(a.firstPrefs));
+  const seatsTotal = parseNumber(info.Number_Of_Seats ?? raw?.meta?.seats ?? raw?.seats);
+  if (!forumRows) candidates = completeElectedCandidateSet(candidates, seatsTotal);
+  let elected = extractElected({ candidates, seatsTotal });
+  const leading = ranked[0] || null;
+  const runnerUp = ranked[1] || null;
+  const validPoll = parseNumber(info.Valid_Poll ?? raw?.validPoll ?? raw?.meta?.valid_poll ?? raw?.meta?.validPoll);
+  const totalPoll = parseNumber(info.Total_Poll ?? raw?.totalPoll ?? raw?.meta?.total_poll ?? raw?.meta?.totalPoll);
+  const spoiled = parseNumber(info.Spoiled ?? raw?.spoiled ?? raw?.meta?.spoiled);
+  const electorate = parseNumber(info.Total_Electorate ?? raw?.electorate ?? raw?.meta?.electorate);
+  const totalVotes = validPoll || candidates.reduce((sum, candidate) => sum + numberOrZero(candidate.firstPrefs), 0);
+  const turnoutPct = parseNumber(info.Turnout_Pct ?? raw?.turnoutPct ?? raw?.turnout_pct ?? raw?.meta?.turnout_pct ?? raw?.meta?.turnoutPct)
+    || (electorate && totalPoll ? round((totalPoll / electorate) * 100, 2) : null);
+  const majority = leading && runnerUp ? numberOrZero(leading.firstPrefs) - numberOrZero(runnerUp.firstPrefs) : null;
+  const majorityPct = majority !== null && totalVotes ? round((majority / totalVotes) * 100, 2) : null;
+  const electedByParty = countBy(elected, (candidate) => candidate.party || NO_LABEL);
+  const topElectedParty = topCount(electedByParty);
+  const winnerParty = topElectedParty?.key || leading?.party || null;
+  const winnerName = elected.length === 1 ? elected[0].name : elected.length ? `${elected.length} elected` : leading?.name || null;
+  const leadingPct = leading && totalVotes ? round((numberOrZero(leading.firstPrefs) / totalVotes) * 100, 2) : null;
+  const quota = parseNumber(info.Quota ?? raw?.meta?.quota ?? raw?.quota);
+  const countNumbers = unique(candidates.flatMap((candidate) => (candidate.counts || []).map((count) => count.count))).sort((a, b) => a - b);
+
+  return {
+    constituency,
+    winnerParty,
+    winnerName,
+    leadingParty: leading?.party || null,
+    leadingName: leading?.name || null,
+    leadingVotes: leading?.firstPrefs ?? null,
+    leadingPct,
+    turnoutPct,
+    majority,
+    majorityPct,
+    seatsWon: elected.length || topElectedParty?.count || null,
+    seatsTotal: seatsTotal || null,
+    quota: quota || null,
+    electorate: electorate || null,
+    totalPoll: totalPoll || null,
+    spoiled: spoiled || null,
+    validPoll: validPoll || totalVotes || null,
+    totalVotes: totalVotes || null,
+    colour: partyColour(winnerParty || leading?.party),
+    leadingColour: partyColour(leading?.party),
+    candidates,
+    elected,
+    countInfo: info,
+    countGroup: Array.isArray(source.countGroup) ? withoutHarvestFields(source.countGroup) : [],
+    syntheticCountGroup,
+    nonTransferable: summarizeNonTransferableRows(rows),
+    forum: source.forum || null,
+    countNumbers,
+    ...(recallPetition ? { recallPetition } : {}),
+    hasCountDetail: countNumbers.length > 1 || candidates.some((candidate) => (candidate.counts || []).length > 1),
+    animationPayload: withoutHarvestFields(mainPayload || raw || null),
+    constituencyId: raw?.constituencyId || raw?.officialDail?.constituencyId || null,
+    constituencyNumber: raw?.constituencyNumber || raw?.officialDail?.constituencyNumber || info.Constituency_Number || null,
+    officialDail: raw?.officialDail || null
+  };
+}
+
+export function buildPartySummary(results = []) {
+  const rows = new Map();
+  let totalVotes = 0;
+  for (const result of results) {
+    for (const candidate of extractElected(result)) {
+      // A member with no label is counted as such, never as the winning party of the contest.
+      const party = candidate.party || NO_LABEL;
+      const key = normalizeName(party) || party;
+      if (!rows.has(key)) rows.set(key, { party, seats: 0, stood: 0, votes: 0, colour: partyColour(party) });
+      rows.get(key).seats += 1;
+    }
+    for (const candidate of result.candidates || []) {
+      if (candidate.autoReturnedCeannComhairle) continue;
+      const votes = numberOrZero(candidate.firstPrefs ?? candidate.votes);
+      const party = candidate.party || NO_LABEL;
+      const key = normalizeName(party) || party;
+      if (!rows.has(key)) rows.set(key, { party, seats: 0, stood: 0, votes: 0, colour: partyColour(party) });
+      rows.get(key).stood += 1;
+      rows.get(key).votes += votes;
+      totalVotes += votes;
+    }
+  }
+  return [...rows.values()]
+    .map((row) => ({ ...row, share: totalVotes ? row.votes / totalVotes * 100 : null }))
+    .sort((a, b) => b.seats - a.seats || b.votes - a.votes || a.party.localeCompare(b.party));
+}
+
+export function buildCandidateSummary(results = []) {
+  const rows = [];
+  for (const result of results) {
+    for (const candidate of result.candidates || []) {
+      rows.push({
+        ...candidate,
+        constituency: result.constituency,
+        firstPrefPct: result.validPoll ? numberOrZero(candidate.firstPrefs) / result.validPoll * 100 : null
+      });
+    }
+  }
+  return rows.sort((a, b) => Number(Boolean(b.elected)) - Number(Boolean(a.elected)) || numberOrZero(b.firstPrefs) - numberOrZero(a.firstPrefs));
+}
+
+export function buildEntityIndex(results = []) {
+  const parties = new Map();
+  const candidates = new Map();
+  let totalValid = 0;
+  for (const result of results) {
+    totalValid += numberOrZero(result.validPoll);
+    for (const candidate of result.candidates || []) {
+      // Keyed on the person where the source names one, otherwise on name and party, and
+      // never on candidate.id. That id is a per-constituency row index on most contests,
+      // so keying on it filed the first-listed candidate of every constituency under one
+      // entry: the 2024 "John McGuinness" page listed 43 unrelated people, and 1969 "Tom
+      // Nolan" 42. The index carries `id` rather than personId, because a name-and-party
+      // key is not a person; `key` is the name|party form the candidate buttons link with.
+      const key = `${candidate.name}|${candidate.party}`;
+      const id = candidate.sourcePersonId || key;
+      if (!candidates.has(id)) {
+        candidates.set(id, {
+          id,
+          key,
+          name: candidate.name,
+          party: candidate.party,
+          colour: resolvePartyColour(candidate.party, candidate.colour),
+          firstPrefs: 0,
+          finalVotes: 0,
+          electedCount: 0,
+          constituencies: new Set(),
+          appearances: []
+        });
+      }
+      const candidateEntry = candidates.get(id);
+      candidateEntry.firstPrefs += numberOrZero(candidate.firstPrefs);
+      candidateEntry.finalVotes += numberOrZero(candidate.finalVotes);
+      if (candidate.elected) candidateEntry.electedCount += 1;
+      candidateEntry.constituencies.add(result.constituency);
+      candidateEntry.appearances.push({
+        constituency: result.constituency,
+        firstPref: numberOrZero(candidate.firstPrefs),
+        finalVotes: numberOrZero(candidate.finalVotes),
+        status: candidate.elected ? 'Elected' : candidate.status || ''
+      });
+
+      const party = candidate.party || NO_LABEL;
+      const partyKey = normalizeName(party);
+      if (!parties.has(partyKey)) {
+        parties.set(partyKey, {
+          name: party,
+          colour: resolvePartyColour(party, candidate.colour),
+          firstPrefs: 0,
+          finalVotes: 0,
+          stood: 0,
+          elected: 0,
+          constituencies: new Set(),
+          candidates: []
+        });
+      }
+      const partyEntry = parties.get(partyKey);
+      if (!candidate.autoReturnedCeannComhairle) {
+        partyEntry.firstPrefs += numberOrZero(candidate.firstPrefs);
+        partyEntry.finalVotes += numberOrZero(candidate.finalVotes);
+        partyEntry.stood += 1;
+      }
+      if (candidate.elected) partyEntry.elected += 1;
+      partyEntry.constituencies.add(result.constituency);
+      partyEntry.candidates.push({
+        id,
+        name: candidate.name,
+        constituency: result.constituency,
+        firstPref: numberOrZero(candidate.firstPrefs),
+        finalVotes: numberOrZero(candidate.finalVotes),
+        status: candidate.elected ? 'Elected' : candidate.status || ''
+      });
+    }
+  }
+  const finalize = (entry) => ({
+    ...entry,
+    constituencies: [...entry.constituencies].sort((a, b) => String(a).localeCompare(String(b))),
+    shareOfTotal: totalValid ? entry.firstPrefs / totalValid * 100 : null
+  });
+  return {
+    totalValid,
+    parties: [...parties.values()].map(finalize).sort((a, b) => b.elected - a.elected || b.firstPrefs - a.firstPrefs),
+    candidates: [...candidates.values()].map(finalize).sort((a, b) => b.electedCount - a.electedCount || b.firstPrefs - a.firstPrefs)
+  };
+}
+
+export function compareResults(currentResults = [], previousResults = []) {
+  const previousByName = new Map(previousResults.map((result) => [normalizeName(result.constituency), result]));
+  return currentResults.map((result) => {
+    const previous = previousByName.get(normalizeName(result.constituency));
+    const previousCandidates = new Map((previous?.candidates || []).map((candidate) => [
+      candidateCompareKey(candidate),
+      candidate
+    ]));
+    const candidates = (result.candidates || []).map((candidate) => {
+      const previousCandidate = previousCandidates.get(candidateCompareKey(candidate));
+      const currentFirstPrefPct = result.validPoll ? numberOrZero(candidate.firstPrefs) / result.validPoll * 100 : null;
+      const previousFirstPrefPct = previous?.validPoll && previousCandidate ? numberOrZero(previousCandidate.firstPrefs) / previous.validPoll * 100 : null;
+      return {
+        ...candidate,
+        previous: previousCandidate ? {
+          firstPrefs: previousCandidate.firstPrefs,
+          firstPrefPct: previousFirstPrefPct,
+          finalVotes: previousCandidate.finalVotes,
+          elected: previousCandidate.elected,
+          status: previousCandidate.status
+        } : null,
+        deltas: previousCandidate ? {
+          firstPrefs: numberOrZero(candidate.firstPrefs) - numberOrZero(previousCandidate.firstPrefs),
+          firstPrefPct: currentFirstPrefPct !== null && previousFirstPrefPct !== null ? round(currentFirstPrefPct - previousFirstPrefPct, 2) : null,
+          finalVotes: numberOrZero(candidate.finalVotes) - numberOrZero(previousCandidate.finalVotes)
+        } : null
+      };
+    });
+    return {
+      ...result,
+      candidates,
+      previous: previous ? {
+        leadingParty: previous.leadingParty,
+        winnerParty: previous.winnerParty,
+        leadingVotes: previous.leadingVotes,
+        leadingPct: previous.leadingPct,
+        turnoutPct: previous.turnoutPct,
+        seatsWon: previous.seatsWon,
+        validPoll: previous.validPoll,
+        candidates: previous.candidates || []
+      } : null,
+      deltas: previous ? {
+        leadingVotes: numberOrZero(result.leadingVotes) - numberOrZero(previous.leadingVotes),
+        leadingPct: result.leadingPct !== null && previous.leadingPct !== null ? round(result.leadingPct - previous.leadingPct, 2) : null,
+        turnoutPct: result.turnoutPct !== null && previous.turnoutPct !== null ? round(result.turnoutPct - previous.turnoutPct, 2) : null,
+        seatsWon: numberOrZero(result.seatsWon) - numberOrZero(previous.seatsWon),
+        validPoll: numberOrZero(result.validPoll) - numberOrZero(previous.validPoll)
+      } : null
+    };
+  });
+}
+
+export function seatPositions(total, spacing = 13) {
+  if (total <= 0) return [];
+  if (total === 1) return [{ x: 0, y: 0 }];
+  if (total === 2) return [{ x: 0, y: 0 }, { x: spacing, y: 0 }];
+  if (total === 3) return [{ x: 0, y: 0 }, { x: spacing, y: 0 }, { x: spacing * 2, y: 0 }];
+  if (total > 12) {
+    const spanRadians = Math.PI;
+    const getRowsFromNRows = (rowTotal) => {
+      const rowThicc = 1 / ((4 * rowTotal) - 2);
+      return Array.from({ length: rowTotal }, (_, rowIndex) => {
+        const rowArcRadius = 0.5 + (2 * rowIndex * rowThicc);
+        return Math.max(1, Math.floor((spanRadians * rowArcRadius) / (2 * rowThicc)));
+      });
+    };
+    let nRows = 1;
+    let capacities = getRowsFromNRows(nRows);
+    while (capacities.reduce((sum, value) => sum + value, 0) < total) {
+      nRows += 1;
+      capacities = getRowsFromNRows(nRows);
+    }
+
+    const totalCapacity = capacities.reduce((sum, value) => sum + value, 0);
+    const fillRatio = total / totalCapacity;
+    const rowCounts = capacities.map((capacity) => Math.max(1, Math.round(capacity * fillRatio)));
+    let assigned = rowCounts.reduce((sum, value) => sum + value, 0);
+    while (assigned > total) {
+      const idx = findLastIndex(rowCounts, (count) => count > 1);
+      if (idx < 0) break;
+      rowCounts[idx] -= 1;
+      assigned -= 1;
+    }
+    while (assigned < total) {
+      const target = capacities
+        .map((capacity, idx) => ({ idx, deficit: capacity - rowCounts[idx] }))
+        .filter((item) => item.deficit > 0)
+        .sort((a, b) => b.deficit - a.deficit)[0];
+      if (!target) break;
+      rowCounts[target.idx] += 1;
+      assigned += 1;
+    }
+
+    const rowThicc = 1 / ((4 * nRows) - 2);
+    const desiredCenterSpacing = spacing * 1.02;
+    const scale = desiredCenterSpacing / (2 * rowThicc);
+    const positions = [];
+
+    rowCounts.forEach((countOnRow, rowIndex) => {
+      const rowArcRadius = 0.5 + (2 * rowIndex * rowThicc);
+      if (countOnRow <= 0) return;
+      if (countOnRow === 1) {
+        positions.push({ x: scale, y: 0 });
+        return;
+      }
+      const angleMargin = Math.asin(rowThicc / rowArcRadius);
+      const angleIncrement = (Math.PI - (2 * angleMargin)) / (countOnRow - 1);
+      for (let seat = 0; seat < countOnRow; seat += 1) {
+        const angle = angleMargin + (seat * angleIncrement);
+        positions.push({
+          x: ((rowArcRadius * Math.cos(angle)) + 1) * scale,
+          y: (-Math.sin(angle) * rowArcRadius) * scale
+        });
+      }
+    });
+
+    const minX = Math.min(...positions.map((point) => point.x));
+    const minY = Math.min(...positions.map((point) => point.y));
+    positions.forEach((point) => {
+      point.x -= minX;
+      point.y -= minY;
+    });
+    positions.sort((a, b) => a.x - b.x || a.y - b.y);
+    return positions;
+  }
+
+  const topCount = Math.ceil(total / 2);
+  const botCount = total - topCount;
+  const positions = [];
+  const topWidth = (topCount - 1) * spacing;
+  const topStartX = -topWidth / 2;
+  for (let index = 0; index < topCount; index += 1) {
+    positions.push({ x: topStartX + index * spacing, y: 0 });
+  }
+  const botWidth = (botCount - 1) * spacing;
+  const botStartX = -botWidth / 2;
+  for (let index = 0; index < botCount; index += 1) {
+    positions.push({ x: botStartX + index * spacing, y: spacing });
+  }
+  const minX = Math.min(...positions.map((point) => point.x));
+  const minY = Math.min(...positions.map((point) => point.y));
+  positions.forEach((point) => {
+    point.x -= minX;
+    point.y -= minY;
+  });
+  return positions;
+}
+
+function findLastIndex(items, predicate) {
+  for (let index = items.length - 1; index >= 0; index -= 1) {
+    if (predicate(items[index], index, items)) return index;
+  }
+  return -1;
+}
+
+function countBy(items, keyFn) {
+  const counts = new Map();
+  for (const item of items) {
+    const key = keyFn(item);
+    counts.set(key, (counts.get(key) || 0) + 1);
+  }
+  return counts;
+}
+
+function topCount(counts) {
+  let best = null;
+  for (const [key, count] of counts) {
+    if (!best || count > best.count) best = { key, count };
+  }
+  return best;
+}
+
+function unique(values) {
+  return [...new Set(values.filter((value) => value !== null && value !== undefined && value !== ''))];
+}
+
+function isNonTransferableRow(row = {}, key = '', name = '', party = '') {
+  return [
+    key,
+    name,
+    party,
+    row.Candidate_Id,
+    row.candidateName,
+    row.Party_Name
+  ].some((value) => /non\s*transferable/.test(normalizeName(value)));
+}
+
+function summarizeNonTransferableRows(rows = []) {
+  const counts = [];
+  for (const row of Array.isArray(rows) ? rows : []) {
+    const name = candidateDisplayName(row);
+    const party = normalizeParty(row.Party_Name || row.party || row.party_name);
+    const key = row.Candidate_Id || row.person_id || `${name}|${party}`;
+    if (!isNonTransferableRow(row, key, name, party)) continue;
+    const count = parseNumber(row.Count_Number ?? row.count);
+    if (!count) continue;
+    counts.push({
+      count,
+      total: parseNumber(row.Total_Votes ?? row.total),
+      transfers: parseNumber(row.Transfers ?? row.transfer ?? row.transfers),
+      status: fixText(row.Status || row.status || '')
+    });
+  }
+  return counts.sort((a, b) => a.count - b.count);
+}
+
+function candidateCompareKey(candidate = {}) {
+  return normalizeName(candidate.name || candidate.candidateName || candidate.Candidate_Name || candidate.id || '');
+}

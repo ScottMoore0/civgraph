@@ -1,5 +1,5 @@
 /** Small helpers shared by the rebuilt catalogue's views. */
-import { formatDisplayDate } from '../date-format.mjs';
+import { formatDisplayDate } from '../../packages/core/src/date-format.mjs';
 
 export const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 

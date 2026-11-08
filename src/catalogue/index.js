@@ -27,7 +27,7 @@ import { initialCatalogueRoute, takeCatalogueData } from './flag.js';
 import { compositeChildIds } from '../map-relations.mjs';
 import { icon, SHELF_LOOK, SHELF_ICON_IN, BOOK_CATEGORY_ICONS, MERGED_SHELVES, FLAT_SECTIONS } from './icons.js';
 import { esc, yearOf, longDate, mapDate, shortProvider } from './util.js';
-import { formatDisplayDate } from '../date-format.mjs';
+import { formatDisplayDate } from '../../packages/core/src/date-format.mjs';
 import { cdnUrl } from '../cdn-url.js';
 import { openMenu, closeMenu } from './menu.js';
 import { loadAuth, loginHref, openEditDialog } from './edit.js';
