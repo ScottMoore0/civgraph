@@ -114,7 +114,7 @@ function decimalsFor(values) {
   return Math.min(d, 3);
 }
 
-export function formatNumber(value, { decimals = null, percent = false } = {}) {
+export function formatNumber(value, { decimals = /** @type {number | null} */ (null), percent = false } = {}) {
   const n = toNumber(value);
   if (!Number.isFinite(n)) return '';
   const opts = decimals === null
@@ -267,6 +267,7 @@ export function classIndexFor(classes, value) {
 /**
  * Join a statistic's rows to its tiles. Returns the tile property to match on and, per row,
  * the tile value it is drawn under. `crosswalk` is the parsed entry.joinCrosswalk, if any.
+ * @param {{ tileKey?: string, map?: { [key: string]: unknown } } | null} [crosswalk]
  */
 export function joinRows(entry, rows, crosswalk = null) {
   const csvKey = entry.csvKeyColumn || entry.joinKey;
@@ -285,7 +286,7 @@ export function joinRows(entry, rows, crosswalk = null) {
 
 /** One MapLibre fill-color expression: the tile's key -> its class colour, else no fill. */
 export function fillColorExpression(entry, joined, classes = overlayClasses(entry)) {
-  const groups = classes.map(() => []);
+  const groups = classes.map(() => /** @type {string[]} */ ([]));
   for (const [tileValue, row] of joined.byTileValue) {
     const i = classIndexFor(classes, row[entry.valueColumn]);
     if (i >= 0) groups[i].push(tileValue);

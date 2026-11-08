@@ -37,7 +37,7 @@ import * as ElectionsView from './view-elections.js';
 import { BODY_GROUPS, groupOfBody, shelvesOf } from './view-elections.js';
 import * as BooksView from './view-books.js';
 import { CATALOGUE_TAB } from './route-state.mjs';
-import { defineFlagFields } from '../map/state-helpers.mjs';
+import { defineFlagFields, setHidden } from '../map/state-helpers.mjs';
 import { forgetTypedPhrase, isLanguagePhrase, languageOptionsShown, revealLanguageOptions, typedLanguagePhrase } from './lang-reveal.js';
 
 // From D1 since data design phase 3 (the /data/catalogue/*.json URLs still answer, from the same rows).
@@ -263,21 +263,21 @@ export class CatalogueNext {
       // The to-be-added switch is a control, not a map: it stays on the line beside "+N more".
       const keep = box.querySelector(':scope > [data-cn-todo]');
       const items = [...box.children].filter((el) => el !== more && el !== keep);
-      items.forEach((el) => { el.hidden = false; });
-      more.hidden = true;
+      items.forEach((el) => { setHidden(el, false); });
+      setHidden(more, true);
       const top = items[0]?.offsetTop;
       const wraps = (el) => el.offsetTop > top + 2;
       const firstWrapped = items.findIndex(wraps);
       if (firstWrapped < 0) return;
       let shown = firstWrapped;
-      items.slice(shown).forEach((el) => { el.hidden = true; });
+      items.slice(shown).forEach((el) => { setHidden(el, true); });
       const label = () => { more.textContent = `+${items.length - shown} more`; };
-      more.hidden = false;
+      setHidden(more, false);
       label();
       // "+N more" sits on the first line too: give it room by hiding chips from the end.
       while (shown > 1 && (wraps(more) || (keep && wraps(keep)))) {
         shown -= 1;
-        items[shown].hidden = true;
+        setHidden(items[shown], true);
         label();
       }
       more.setAttribute('aria-label', `Show ${items.length - shown} more`);
@@ -344,7 +344,7 @@ export class CatalogueNext {
     const bins = key === 'maps' ? this.mapBins : this.electionBins;
     updateSlider(bar.querySelector('[data-cn-slider]'), bins, i, j, this.yearState(key));
     const undated = bar.querySelector('[data-cn-undated-wrap]');
-    if (undated) undated.hidden = !narrowed;
+    if (undated) setHidden(undated, !narrowed);
     const n = this.activeFilterCount(key);
     const toggle = bar.querySelector('.cn-filters-toggle');
     if (toggle) toggle.innerHTML = `${icon('sliders')}Filters${n ? ` <span class="cn-badge">${n}</span>` : ''}`;
@@ -376,7 +376,7 @@ export class CatalogueNext {
       }
     }
     const original = this.viewEl?.querySelector('[data-cn-toolbar] .cn-filters-toggle');
-    copy.hidden = !original || getComputedStyle(original).display === 'none';
+    setHidden(copy, !original || getComputedStyle(original).display === 'none');
     if (original) {
       copy.innerHTML = original.innerHTML.replace('Filters', '<span class="cn-filters-button__label">Filters</span>');
       copy.title = 'Filters';
@@ -1349,7 +1349,7 @@ export class CatalogueNext {
     if (open) this.opened.add(id); else this.opened.delete(id);
     btn.setAttribute('aria-expanded', String(open));
     const body = btn.closest('.cn-shelf')?.querySelector('.cn-shelf__body');
-    if (body) body.hidden = !open;
+    if (body) setHidden(body, !open);
     if (open && body) this.fitChips(body);
     this.saveStore();
   }
@@ -1768,7 +1768,7 @@ export class CatalogueNext {
     if (!map) { this.announce('The map is not ready yet'); return; }
     this.ensurePlaces();
     this.picking = true;
-    this.pickEl.hidden = false;
+    setHidden(this.pickEl, false);
     this.pickEl.innerHTML = `${icon('crosshair')}<span>Click a point on the map to list the maps that cover it</span><button type="button" class="cn-btn" data-cn-act="cancel-pick">Cancel</button>`;
     const canvas = map.getCanvas?.();
     if (canvas) canvas.style.cursor = 'crosshair';
@@ -1787,7 +1787,7 @@ export class CatalogueNext {
     if (canvas) canvas.style.cursor = '';
     this.pickHandler = null;
     this.picking = false;
-    this.pickEl.hidden = true;
+    setHidden(this.pickEl, true);
     this.pickEl.innerHTML = '';
   }
 
@@ -1803,7 +1803,7 @@ export class CatalogueNext {
     this.root.querySelectorAll('[data-cn-visibility]').forEach((btn) => {
       const id = btn.dataset.cnVisibility;
       const on = this.isLoaded(id);
-      btn.hidden = !on;
+      setHidden(btn, !on);
       if (on) {
         const vis = this.isVisible(id);
         const html = `${icon(vis ? 'eye-off' : 'eye')}<span>${vis ? 'Hide' : 'Show'}</span>`;

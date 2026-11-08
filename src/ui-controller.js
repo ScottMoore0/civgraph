@@ -14,7 +14,7 @@ import { cdnUrl } from './cdn-url.js';
 import { catalogueNextRequested, initialCatalogueRoute } from './catalogue/flag.js';
 import { installSplit } from './catalogue/split.js';
 import { CATALOGUE_HISTORY_ENTRY, CATALOGUE_VIEW, ENTITY_PLACEHOLDER, MOBILE_CATALOGUE, SPLIT_ALLOWED, SPLIT_LAYOUT } from './ui-state-machines.mjs';
-import { createFlag, createState } from './map/state-helpers.mjs';
+import { createFlag, createState, setHidden } from './map/state-helpers.mjs';
 import { partyFullName, partyLabelHtml } from '../packages/core/src/party-names.mjs';
 import { BODY_GROUP_ORDER, hasNumber, yearRange } from './entity-detail-data.mjs';
 
@@ -2673,13 +2673,13 @@ class UIController {
             const map = dataService.getMapById(btn.dataset.mapId);
             const url = resolveMapDownloadUrl(map);
             if (url) {
-                btn.hidden = false;
+                setHidden(btn, false);
                 btn.dataset.downloadUrl = url;
                 const label = 'Download data file (FlatGeobuf)';
                 btn.title = label;
                 btn.setAttribute('aria-label', label);
             } else {
-                btn.hidden = true;
+                setHidden(btn, true);
                 btn.setAttribute('aria-hidden', 'true');
                 btn.tabIndex = -1;
             }

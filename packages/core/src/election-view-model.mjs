@@ -10,6 +10,64 @@ import {
   summarizeResult
 } from './election-domain.mjs';
 
+/**
+ * An election as the map app holds it: a manifest entry, a loaded bundle, or the stand-in the
+ * main controller builds. The models read these optional fields by name and coerce what they
+ * find; anything else the loaders attach stays readable, as unknown.
+ * @typedef {{
+ *   [field: string]: unknown,
+ *   key?: string,
+ *   id?: string,
+ *   body?: string,
+ *   bodyGroup?: string | null,
+ *   date?: string,
+ *   displayTitle?: string,
+ *   contestType?: string,
+ *   type?: string,
+ *   votingSystem?: string,
+ *   jurisdiction?: string,
+ *   region?: string,
+ *   aggregateType?: string,
+ *   results?: ElectionResult[],
+ *   partySummary?: ReturnType<typeof buildPartySummary>,
+ *   mainLikePartySummary?: ReturnType<typeof buildPartySummary>,
+ *   mainLikeCandidateSummary?: ReturnType<typeof buildCandidateSummary>,
+ *   entityIndex?: unknown,
+ *   matchedCount?: unknown,
+ *   unmatchedCount?: unknown,
+ *   totalConstituencies?: unknown
+ * }} ElectionRecord
+ */
+
+/**
+ * One contest's result as the loaders build it (summarizeResult and the bundle rows); fields are
+ * read by name and coerced.
+ * @typedef {{
+ *   [field: string]: unknown,
+ *   countInfo?: { [field: string]: unknown } | null,
+ *   candidates?: Array<{ [field: string]: unknown }>
+ * }} ElectionResult
+ */
+
+/**
+ * The active elections a model reads alongside a result.
+ * @typedef {{ bundle?: ElectionRecord | null, entry?: ElectionRecord | null, previousBundle?: ElectionRecord | null }} ElectionContext
+ */
+
+/**
+ * @param {{
+ *   entry?: ElectionRecord | null,
+ *   bundle?: ElectionRecord | null,
+ *   results?: ElectionResult[],
+ *   previousResults?: ElectionResult[],
+ *   selectedResult?: ElectionResult | null,
+ *   view?: string,
+ *   mode?: string,
+ *   overlayMode?: string,
+ *   localMode?: string,
+ *   countDetailedView?: boolean
+ * }} [options]
+ */
 export function buildElectionViewModel({
   entry = null,
   bundle = null,
@@ -59,6 +117,10 @@ export function buildElectionViewModel({
   };
 }
 
+/**
+ * @param {ElectionResult | null} [selectedResult]
+ * @param {string | null} [view]
+ */
 export function buildElectionViewModelFromTest2Manager(manager, selectedResult = null, view = null) {
   return buildElectionViewModel({
     entry: manager.activeEntry,
@@ -74,6 +136,10 @@ export function buildElectionViewModelFromTest2Manager(manager, selectedResult =
   });
 }
 
+/**
+ * @param {string} [view]
+ * @param {string | null} [selectedConstituency]
+ */
 export function buildElectionViewModelFromMainController(controller, view = 'party', selectedConstituency = null) {
   const results = Object.entries(controller.resultsByConstituency || {})
     .map(([constituency, payload]) => summarizeResult(payload, constituency));

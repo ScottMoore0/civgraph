@@ -7,6 +7,7 @@
 import { escapeHtml } from './helpers.mjs';
 import uiController from '../../ui-controller.js';
 import dataService from '../../data-service.js';
+import { setHidden } from '../state-helpers.mjs';
 
 export class SourcePanelMethods {
   setupSourcePanel() {
@@ -45,7 +46,7 @@ export class SourcePanelMethods {
       <ul id="${listId}" class="feature-info__here-list" hidden>${entries.map((entry, i) => `<li><button type="button" data-here="${i}"${isCurrent(entry) ? ' aria-current="true"' : ''}><span class="feature-info__here-name">${escapeHtml(entry.featureName)}</span><span class="feature-info__here-layer">${escapeHtml(entry.layerName || '')}</span></button></li>`).join('')}</ul>`;
     const toggle = wrap.querySelector('.feature-info__here-btn');
     const list = wrap.querySelector('ul');
-    const setOpen = (open) => { list.hidden = !open; toggle.setAttribute('aria-expanded', String(open)); };
+    const setOpen = (open) => { setHidden(list, !open); toggle.setAttribute('aria-expanded', String(open)); };
     toggle.addEventListener('click', () => setOpen(list.hidden));
     list.addEventListener('click', (event) => {
       const button = event.target.closest('button[data-here]');

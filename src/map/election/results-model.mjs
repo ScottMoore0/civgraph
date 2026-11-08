@@ -29,6 +29,10 @@ import {
 import { averageNumbers, sumNumbers } from '../../../packages/core/src/election-view-model.mjs';
 import { mainPanePartyColour, partyColour } from './palette.mjs';
 
+/** @typedef {import('../../../packages/core/src/election-view-model.mjs').ElectionRecord} ElectionRecord */
+/** @typedef {import('../../../packages/core/src/election-view-model.mjs').ElectionResult} ElectionResult */
+/** @typedef {import('../../../packages/core/src/election-view-model.mjs').ElectionContext} ElectionContext */
+
 export { averageNumbers, sumNumbers };
 
 const PLURALITY_SYSTEMS = ['fptp', 'first past the post', 'first past post', 'block vote', 'block-vote'];
@@ -62,12 +66,18 @@ export function selectedPaneStatusKind(status) {
 // ---------------------------------------------------------------------------------------------
 // Contest classification
 
-/** A Northern Ireland Forum result (allocation rounds instead of counts). */
+/**
+ * A Northern Ireland Forum result (allocation rounds instead of counts).
+ * @param {ElectionResult | null} [result]
+ */
 export function isForumResult(result = null) {
   return Boolean(result?.forum || result?.forumSequence || result?.allocationRounds);
 }
 
-/** Whether the active election is a local-government one. */
+/**
+ * Whether the active election is a local-government one.
+ * @param {ElectionContext} [context]
+ */
 export function isLocalGovernmentElection({ bundle = null, entry = null } = {}) {
   return (bundle?.bodyGroup || entry?.bodyGroup) === 'local-government';
 }
@@ -80,7 +90,11 @@ export function isStvResult(result = {}) {
   return quota !== null && Array.isArray(result.countNumbers) && result.countNumbers.some((count) => Number(count) > 1);
 }
 
-/** A plurality (FPTP or block vote) result: its own voting system, else the election's. */
+/**
+ * A plurality (FPTP or block vote) result: its own voting system, else the election's.
+ * @param {ElectionResult} [result]
+ * @param {ElectionContext} [context]
+ */
 export function isPluralityResult(result = {}, { bundle = null, entry = null } = {}) {
   if (!result || isStvResult(result)) return false;
   const votingSystem = normalizeName(
@@ -95,7 +109,11 @@ export function isPluralityElection(results = [], context = {}) {
   return results.length > 0 && results.every((result) => isPluralityResult(result, context));
 }
 
-/** A council or district aggregate built from a local election's DEA results. */
+/**
+ * A council or district aggregate built from a local election's DEA results.
+ * @param {ElectionResult | null} [result]
+ * @param {ElectionContext} [context]
+ */
 export function isCouncilAggregateResult(result = null, context = {}) {
   if (!result || !isLocalGovernmentElection(context)) return false;
   return result.aggregateType === 'council' || result.aggregateType === 'district';
@@ -104,6 +122,8 @@ export function isCouncilAggregateResult(result = null, context = {}) {
 /**
  * A plurality election contest with at least one seat: shown as a candidate list. Two-member
  * plurality seats count too (the name predates them).
+ * @param {ElectionResult} [result]
+ * @param {ElectionContext} [context]
  */
 export function isSingleSeatFptpResult(result = {}, context = {}) {
   const { bundle = null, entry = null } = context;
@@ -129,7 +149,7 @@ export function isSingleSeatFptpResult(result = {}, context = {}) {
     result.countInfo?.Seats
   ]
     .map(finiteNumber)
-    .filter((value) => value !== null && value > 0);
+    .filter(/** @returns {value is number} */ (value) => value !== null && value > 0);
   // A two-member plurality seat (Cork City and Dublin University before 1918,
   // Antrim and Down 1922-45) reads as a candidate list too: each candidate is marked
   // elected from their own status. The party table these seats used to fall through to
@@ -143,7 +163,11 @@ export function isSingleSeatFptpResult(result = {}, context = {}) {
   return electedCount >= 1;
 }
 
-/** Whether the result, or else the active election, is a referendum. */
+/**
+ * Whether the result, or else the active election, is a referendum.
+ * @param {ElectionResult | null} [result]
+ * @param {ElectionContext} [context]
+ */
 export function isReferendumElection(result = null, { bundle = null, entry = null } = {}) {
   const values = [
     result?.contestType,
@@ -221,7 +245,7 @@ export function referendumOutcomeRows(sourceRows = [], validPoll = null, roi = f
  * options.previousRows, else the summary of options.previousResults, else the previous
  * bundle's (its main-like summary when options.mainLike).
  */
-export function withPartyDeltas(rows = [], options = {}, { previousBundle = null } = {}) {
+export function withPartyDeltas(rows = [], options = {}, { previousBundle = /** @type {ElectionRecord | null} */ (null) } = {}) {
   const previousRows = Array.isArray(options.previousRows)
     ? options.previousRows
     : Array.isArray(options.previousResults)
@@ -249,7 +273,11 @@ export function withPartyDeltas(rows = [], options = {}, { previousBundle = null
   });
 }
 
-/** Candidate changes are shown for elections only: not referendums, recall petitions, list or forum contests. */
+/**
+ * Candidate changes are shown for elections only: not referendums, recall petitions, list or forum contests.
+ * @param {ElectionResult} [result]
+ * @param {ElectionContext} [context]
+ */
 export function candidateDeltasEligible(result = {}, { bundle = null, entry = null } = {}) {
   const contestType = normalizeName(result?.contestType || bundle?.contestType || entry?.contestType || 'election');
   if (contestType && contestType !== 'election') return false;
@@ -312,7 +340,10 @@ export function buildCandidateDelta(row = {}, previous = null, result = {}, prev
   };
 }
 
-/** Candidate rows with `previous` and `deltas`, matched by name and area. */
+/**
+ * Candidate rows with `previous` and `deltas`, matched by name and area.
+ * @param {ElectionContext} [context]
+ */
 export function withCandidateDeltas(rows = [], options = {}, context = {}) {
   const { previousBundle = null } = context;
   if (!candidateDeltasEligible(options.result || {}, context)) {
@@ -347,8 +378,10 @@ export function withCandidateDeltas(rows = [], options = {}, context = {}) {
   });
 }
 
-/** Council summary rows with `previous` and `deltas` against the previous bundle's councils. */
-export function withCouncilDeltas(rows = [], { previousBundle = null } = {}) {
+/**
+ * Council summary rows with `previous` and `deltas` against the previous bundle's councils.
+ */
+export function withCouncilDeltas(rows = [], { previousBundle = /** @type {ElectionRecord | null} */ (null) } = {}) {
   const previousRows = previousBundle?.results?.length ? buildCouncilSummary(previousBundle.results) : [];
   const previousByCouncil = new Map(previousRows.map((row) => [normalizeName(row.council), row]));
   return rows.map((row) => {
@@ -365,8 +398,10 @@ export function withCouncilDeltas(rows = [], { previousBundle = null } = {}) {
   });
 }
 
-/** Local party rows (party within area) with `previous` and `deltas`. */
-export function withLocalPartyDeltas(rows = [], options = {}, { previousBundle = null } = {}) {
+/**
+ * Local party rows (party within area) with `previous` and `deltas`.
+ */
+export function withLocalPartyDeltas(rows = [], options = {}, { previousBundle = /** @type {ElectionRecord | null} */ (null) } = {}) {
   const previousRows = Array.isArray(options.previousResults)
     ? buildLocalPartySummary(options.previousResults)
     : (previousBundle?.results?.length ? buildLocalPartySummary(previousBundle.results) : []);
@@ -391,8 +426,10 @@ export function withLocalPartyDeltas(rows = [], options = {}, { previousBundle =
   });
 }
 
-/** The previous bundle's results for one council. */
-export function previousResultsForCouncil(councilName, { previousBundle = null } = {}) {
+/**
+ * The previous bundle's results for one council.
+ */
+export function previousResultsForCouncil(councilName, { previousBundle = /** @type {ElectionRecord | null} */ (null) } = {}) {
   const normalized = normalizeName(councilName);
   if (!normalized) return [];
   return (previousBundle?.results || []).filter((result) => normalizeName(result.localBody || '') === normalized);
@@ -513,7 +550,7 @@ export function shouldDashAfterTerminalTransfer(count, terminalCount) {
  * The row to show for a candidate at a count, inferring the transfer out (an exclusion or a
  * surplus) when the source left it out on the count after the event.
  */
-export function terminalTransferOutDisplayRow(candidate = {}, count, counts = new Map(), result = {}, countNumbers = [], baseRow = null) {
+export function terminalTransferOutDisplayRow(candidate = {}, count, counts = new Map(), result = {}, countNumbers = [], baseRow = /** @type {{ [field: string]: unknown } | null} */ (null)) {
   const numericCount = Number(count);
   if (!Number.isFinite(numericCount) || numericCount <= 1) return baseRow || null;
   const actualTransfer = finiteNumber(baseRow?.transfers);
