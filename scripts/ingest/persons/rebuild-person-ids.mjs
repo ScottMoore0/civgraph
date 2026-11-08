@@ -31,11 +31,11 @@ import { spawnSync } from 'node:child_process';
 import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { defineMachine } from '../../lib/state-machine.mjs';
+import { defineMachine } from '../../../packages/core/src/state-machine.mjs';
 
 /** @typedef {'start' | 'manifest' | 'summaries' | 'registry' | 'applied' | 'merging' | 'reapplied' | 'converged' | 'not-converged' | 'needs-relatives' | 'name-registry' | 'audited' | 'failed'} RebuildState */
 
-export const REBUILD = defineMachine(/** @type {import('../../lib/state-machine.mjs').MachineSpec<RebuildState>} */ ({
+export const REBUILD = defineMachine(/** @type {import('../../../packages/core/src/state-machine.mjs').MachineSpec<RebuildState>} */ ({
   name: 'person-id rebuild',
   initial: 'start',
   transitions: {

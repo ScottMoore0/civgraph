@@ -17,11 +17,11 @@
  *
  * Pure (no I/O), so the tests can walk every mode and every forbidden move.
  */
-import { defineMachine } from '../../../scripts/lib/state-machine.mjs';
+import { defineMachine } from '../../core/src/state-machine.mjs';
 
 /** @typedef {'start'|'migrations-listed'|'delta-previewed'|'dry-run-reported'|'migrated'|'bookmarked'|'delta-written'|'applied'|'verified'|'snapshotted'|'failed'} DeployState */
 
-export const DEPLOY = defineMachine(/** @type {import('../../../scripts/lib/state-machine.mjs').MachineSpec<DeployState>} */ ({
+export const DEPLOY = defineMachine(/** @type {import('../../core/src/state-machine.mjs').MachineSpec<DeployState>} */ ({
   name: 'records deploy',
   initial: 'start',
   transitions: {

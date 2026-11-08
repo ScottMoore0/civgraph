@@ -27,7 +27,7 @@ import { mkdtempSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { mergeArtefactRecords, writeArtefactJson } from '../../scripts/lib/safe-artefact-write.mjs';
+import { mergeArtefactRecords, writeArtefactJson } from '../../packages/maps-pipeline/src/safe-artefact-write.mjs';
 
 let failures = 0;
 function check(name, actual, expected) {
@@ -99,7 +99,7 @@ console.log('writeArtefactJson (the July half, still enforced):');
 console.log('assertKnownFlags:');
 {
   const probe = join(dir, 'probe.mjs');
-  const lib = new URL('../../scripts/lib/safe-artefact-write.mjs', import.meta.url).href;
+  const lib = new URL('../../packages/maps-pipeline/src/safe-artefact-write.mjs', import.meta.url).href;
   writeFileSync(probe, `import { assertKnownFlags } from ${JSON.stringify(lib)};\nassertKnownFlags(['--ids']);\nconsole.log('RAN');\n`);
   const run = (...args) => spawnSync(process.execPath, [probe, ...args], { encoding: 'utf8' });
   check('unknown flag aborts', run('--nope').status, 2);

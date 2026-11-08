@@ -15,7 +15,7 @@ const config = JSON.parse(readFileSync(path.join(SRC, 'tsconfig.check.json'), 'u
 
 // The allowlist as of 7 Nov 2026. Add to it; never take an entry out.
 const BASELINE = [
-  '../scripts/lib/state-machine.mjs',
+  '../packages/core/src/state-machine.mjs',
   '../packages/map/src/state-helpers.mjs',
   '../packages/map/src/app/**/*.mjs',
   '../packages/map/src/election/*.mjs',

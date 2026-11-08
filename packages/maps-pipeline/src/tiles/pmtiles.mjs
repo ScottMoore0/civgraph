@@ -12,7 +12,7 @@ import { dirname, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { getTileProfile } from './tile-profiles.mjs';
-import { isPrimaryKey } from '../../../../scripts/lib/primary-feature-keys.mjs';
+import { isPrimaryKey } from '../../../core/src/primary-feature-keys.mjs';
 
 // Mean value length above which a field is treated as free text and dropped from
 // low-zoom tiles. Sits above any realistic categorical value or code, well below prose.

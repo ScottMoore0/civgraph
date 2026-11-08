@@ -10,8 +10,8 @@
 import { existsSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { basename, extname, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { writeArtefactJson, allowDeletionsFlag } from '../../../../scripts/lib/safe-artefact-write.mjs';
-import { isValidBounds } from '../../../../scripts/lib/layer-bounds.mjs';
+import { writeArtefactJson, allowDeletionsFlag } from '../safe-artefact-write.mjs';
+import { isValidBounds } from '../layer-bounds.mjs';
 import { SITE } from '../../../config/src/node.mjs';
 
 const ROOT = resolve(process.cwd());

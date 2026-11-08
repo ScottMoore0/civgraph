@@ -42,11 +42,11 @@
  *   excluded; any round may also be excluded for a citation still to confirm or an unknown poll
  *   day. checks/ni-council-rounds.mjs reports a staging folder against this gate.
  */
-import { defineMachine } from '../../../scripts/lib/state-machine.mjs';
+import { defineMachine } from '../../core/src/state-machine.mjs';
 
 /** @typedef {'draft' | 'staged' | 'committed' | 'uploaded' | 'published' | 'abandoned'} BatchStatus */
 
-export const BATCH_STATUS = defineMachine(/** @type {import('../../../scripts/lib/state-machine.mjs').MachineSpec<BatchStatus>} */ ({
+export const BATCH_STATUS = defineMachine(/** @type {import('../../core/src/state-machine.mjs').MachineSpec<BatchStatus>} */ ({
   name: 'batch status',
   initial: 'draft',
   transitions: {
@@ -116,7 +116,7 @@ export function commandAllowed(command, status) {
 
 /** @typedef {'pending-review' | 'approved' | 'rejected' | 'applied'} ContributionStatus */
 
-export const CONTRIBUTION_STATUS = defineMachine(/** @type {import('../../../scripts/lib/state-machine.mjs').MachineSpec<ContributionStatus>} */ ({
+export const CONTRIBUTION_STATUS = defineMachine(/** @type {import('../../core/src/state-machine.mjs').MachineSpec<ContributionStatus>} */ ({
   name: 'contribution status',
   initial: 'pending-review',
   transitions: {
@@ -129,7 +129,7 @@ export const CONTRIBUTION_STATUS = defineMachine(/** @type {import('../../../scr
 
 /** @typedef {'queued' | 'held' | 'done' | 'partial' | 'no-election' | 'applied'} RoundStatus */
 
-export const ROUND_STATUS = defineMachine(/** @type {import('../../../scripts/lib/state-machine.mjs').MachineSpec<RoundStatus>} */ ({
+export const ROUND_STATUS = defineMachine(/** @type {import('../../core/src/state-machine.mjs').MachineSpec<RoundStatus>} */ ({
   name: 'council round status',
   initial: 'queued',
   transitions: {

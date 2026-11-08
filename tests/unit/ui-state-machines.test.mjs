@@ -135,8 +135,8 @@ test('Words chart tooltip: hidden and shown, no move to where it already is', ()
 });
 
 test('the served helper is the shared one, byte for byte', () => {
-  const shared = path.join(ROOT, 'scripts/lib/state-machine.mjs');
+  const shared = path.join(ROOT, 'packages/core/src/state-machine.mjs');
   if (!existsSync(shared)) return; // until rf-records lands scripts/lib/state-machine.mjs
   assert.equal(readFileSync(path.join(ROOT, 'packages/ui/assets/state/machine.js'), 'utf8'), readFileSync(shared, 'utf8'),
-    'packages/ui/assets/state/machine.js (served as /assets/ui/state/machine.js) must be a copy of scripts/lib/state-machine.mjs (then re-stamp the import maps)');
+    'packages/ui/assets/state/machine.js (served as /assets/ui/state/machine.js) must be a copy of packages/core/src/state-machine.mjs (then re-stamp the import maps)');
 });

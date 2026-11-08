@@ -48,7 +48,7 @@ import { browseMapRecord } from '../packages/api/src/handlers/_maps.js';
 import { dateText, listText, numberText, slugify } from '../packages/core/src/format.js';
 import { datasetVersion, htmlResponse } from '../packages/api/src/respond.js';
 import { renderRecordPage, ssrMode } from '../packages/ui/src/templates/records/index.js';
-import { loadElectionPage } from '../packages/ui/src/templates/records/election.js';
+import { loadElectionPage } from '../packages/api/src/pages/election.js';
 import { groupedYearHero, groupedYearKey } from '../packages/ui/src/templates/records/grouped-year.js';
 import { resolveElectionSlugAlias } from '../packages/core/src/election-slug-aliases.js';
 import { binding } from '../packages/config/src/config.js';

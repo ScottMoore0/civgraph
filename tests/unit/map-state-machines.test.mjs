@@ -36,7 +36,7 @@ function assertTableEnforced(machine) {
 test('the map app uses the shared helper itself, with no copy of its own', () => {
   assert.equal(existsSync(path.join(ROOT, 'packages/map/src/state-machine.mjs')), false);
   for (const file of ['packages/map/src/state-helpers.mjs', 'packages/map/src/app/url-sync.mjs', 'packages/map/src/app/timeline/playback.mjs']) {
-    assert.match(read(file), /from '(\.\.\/)+scripts\/lib\/state-machine\.mjs'/, file);
+    assert.match(read(file), /from '(\.\.\/)+(packages\/)?core\/src\/state-machine\.mjs'/, file);
   }
 });
 

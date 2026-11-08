@@ -27,7 +27,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { NEW_PMTILES_PREFIX, OLD_PMTILES_PREFIX, renamePmtilesKey } from '../lib/layer-renames.mjs';
+import { NEW_PMTILES_PREFIX, OLD_PMTILES_PREFIX, renamePmtilesKey } from '../../packages/core/src/layer-renames.mjs';
 import { r2Credentials, s3ClientOptions } from './r2-env.mjs';
 import { pairShapeProblem, stateAfterCopy, stateFromVerify } from './key-migration.mjs';
 

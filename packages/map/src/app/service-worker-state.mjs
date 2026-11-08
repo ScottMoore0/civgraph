@@ -18,7 +18,7 @@
  * the kill switch) or unregistered (the update failed), and is not a machine here: that module is
  * served on its own, without imports, by tests/browser/retired-service-worker.spec.js.
  */
-import { defineMachine } from '../../../../scripts/lib/state-machine.mjs';
+import { defineMachine } from '../../../core/src/state-machine.mjs';
 
 /** @typedef {'idle' | 'unavailable' | 'registering' | 'ready' | 'failed'} SwRegistrationState */
 

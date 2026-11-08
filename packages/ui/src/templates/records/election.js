@@ -1,37 +1,14 @@
 /**
  * Server-rendered election pages (data design stage D.8, frontend-plan F3b), from the records
  * tables: an election (its contests), its overall results (seats and votes by party), and one
- * contest (candidates and votes). The loader reads D1 once per page; templates never query.
+ * contest (candidates and votes). The loader (packages/api/src/pages/election.js loadElectionPage)
+ * reads D1 once per page; templates never query.
  */
 import { html } from '../../../../core/src/html.js';
 import { dateText, numberText, percentText } from '../../../../core/src/format.js';
 import { badges, dataTable, facts, link, partyChip } from '../components/index.js';
-import { parseJson, withoutMarkers } from '../../../../api/src/handlers/_records.js';
-import { asStore } from '../../../../storage/src/d1.js';
-import { ELECTION_PAGES } from '../../../../api/src/queries/pages.js';
 
 const elected = (v) => v === 1 || v === true;
-
-/** Everything one election page needs, or null. `meta` is lookupElection's answer for the slug. */
-export async function loadElectionPage(source, meta) {
-  if (!meta?.electionKey) return null;
-  const db = asStore(source);
-  const e = await db.first(ELECTION_PAGES.election, [meta.electionKey]);
-  if (!e) return null;
-  const election = { ...e, meta: withoutMarkers(parseJson(e.meta, {})) };
-  if (Number.isInteger(meta.contestSeq)) {
-    const [contest, candidates] = await Promise.all([
-      db.first(ELECTION_PAGES.contest, [e.key, meta.contestSeq]),
-      db.all(ELECTION_PAGES.candidates, [e.key, meta.contestSeq]),
-    ]);
-    const provenance = contest?.sourceFile
-      ? await db.all(ELECTION_PAGES.citations, [String(contest.sourceFile).replace(/^data\/elections-source\/data\/elections\//, '')])
-      : [];
-    return { kind: 'contest', election, contest, candidates, citations: provenance };
-  }
-  const contests = await db.all(ELECTION_PAGES.contests, [e.key]);
-  return { kind: /-overall-results$/.test(meta.slug) ? 'overall' : 'election', election, contests };
-}
 
 function personLink(row) {
   return row.personId ? link(`/browse/persons/${encodeURIComponent(row.personId)}`, row.name) : row.name;

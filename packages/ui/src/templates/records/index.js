@@ -28,7 +28,7 @@ export const SSR_RECORD_TYPES = {
   sources: { body: sourceBody, crumb: 'Sources', listHash: '#/sources' },
   'register-interests': { body: registerInterestBody, crumb: 'Register of interests', listHash: '#/register-interests' },
   // From the records tables (data design phase 2): an election page is assembled from several
-  // rows (functions/_templates/records/election.js loadElectionPage), a party from party_cards.
+  // rows (packages/api/src/pages/election.js loadElectionPage), a party from party_cards.
   elections: { body: electionBody, crumb: 'Elections', listHash: '#/elections' },
   parties: { body: partyBody, crumb: 'Parties', listHash: '#/parties' },
 };

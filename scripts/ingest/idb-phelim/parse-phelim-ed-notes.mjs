@@ -16,7 +16,7 @@
  */
 import { readdirSync, readFileSync, existsSync } from 'node:fs';
 import { resolve, join } from 'node:path';
-import { writeArtefactJson } from '../../lib/safe-artefact-write.mjs';
+import { writeArtefactJson } from '../../../packages/maps-pipeline/src/safe-artefact-write.mjs';
 
 const args = process.argv.slice(2);
 const NOTES_DIR = args.find((a) => !a.startsWith('--'));

@@ -8,7 +8,7 @@
  *
  * Pure: no DOM, no storage. The shared helper is scripts/lib/state-machine.mjs (bundled).
  */
-import { defineMachine } from '../scripts/lib/state-machine.mjs';
+import { defineMachine } from '../packages/core/src/state-machine.mjs';
 import { defineChoice } from '../packages/map/src/state-helpers.mjs';
 
 /**

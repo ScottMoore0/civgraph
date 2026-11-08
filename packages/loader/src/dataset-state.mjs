@@ -5,7 +5,7 @@
  * to loaded (diff-load.mjs); the Functions cache nothing while it is loading
  * (packages/storage/src/store.js datasetState); a verify fails while it is still loading.
  */
-import { defineToggle } from '../../../scripts/lib/state-machine.mjs';
+import { defineToggle } from '../../core/src/state-machine.mjs';
 
 /** @typedef {'loaded'|'loading'} DatasetLoadState */
 

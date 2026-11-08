@@ -5,7 +5,7 @@
 
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { isValidBounds } from '../../lib/layer-bounds.mjs';
+import { isValidBounds } from '../../../packages/maps-pipeline/src/layer-bounds.mjs';
 import { writeStableGeneratedJson } from '../../lib/stable-generated-json.mjs';
 
 const ROOT = resolve(process.cwd());

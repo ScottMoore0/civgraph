@@ -12,7 +12,7 @@
  * to finish and reopen it; a grouped NI year supersedes an ordinary load still on its way; and a
  * superseded load that fails no longer reports its error over the newer one.
  */
-import { defineMachine } from '../../../../scripts/lib/state-machine.mjs';
+import { defineMachine } from '../../../core/src/state-machine.mjs';
 
 /** @typedef {'closed' | 'loading' | 'open'} ElectionLoadState */
 

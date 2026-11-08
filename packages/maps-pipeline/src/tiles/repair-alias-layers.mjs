@@ -29,7 +29,7 @@
 
 import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { writeArtefactJson } from '../../../../scripts/lib/safe-artefact-write.mjs';
+import { writeArtefactJson } from '../safe-artefact-write.mjs';
 
 const ROOT = resolve(process.cwd());
 const FILES = ['render/metadata/maps-test.json', 'render/metadata/maps-test-index.json'];

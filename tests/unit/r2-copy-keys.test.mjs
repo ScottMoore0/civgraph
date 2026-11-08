@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { legacyLayerId, renameLayerId, renamePmtilesKey } from '../../scripts/lib/layer-renames.mjs';
+import { legacyLayerId, renameLayerId, renamePmtilesKey } from '../../packages/core/src/layer-renames.mjs';
 import { copyPairs, copySource, MAX_SINGLE_COPY_BYTES, planManifest, validateManifest, verifyPairs } from '../../scripts/publish/r2-copy-keys.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');

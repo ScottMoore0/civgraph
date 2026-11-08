@@ -12,7 +12,7 @@
 
 /**
  * @template {string} S
- * @param {import('../lib/state-machine.mjs').Machine<S>} machine
+ * @param {import('../../packages/core/src/state-machine.mjs').Machine<S>} machine
  * @param {Partial<Record<`${S}->${S}`, (context: any) => string | null>>} guards
  */
 export function defineGuards(machine, guards) {
@@ -27,7 +27,7 @@ export function defineGuards(machine, guards) {
 
 /**
  * @template {string} S
- * @param {import('../lib/state-machine.mjs').Machine<S>} machine
+ * @param {import('../../packages/core/src/state-machine.mjs').Machine<S>} machine
  * @param {Partial<Record<string, (context: any) => string | null>>} guards
  * @param {string} from
  * @param {string} to
@@ -51,7 +51,7 @@ export function checkTransition(machine, guards, from, to, context = {}) {
 /**
  * `checkTransition`, throwing the reason.
  * @template {string} S
- * @param {import('../lib/state-machine.mjs').Machine<S>} machine
+ * @param {import('../../packages/core/src/state-machine.mjs').Machine<S>} machine
  * @param {Partial<Record<string, (context: any) => string | null>>} guards
  * @param {string} from
  * @param {S} to
