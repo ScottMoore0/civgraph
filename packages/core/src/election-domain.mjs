@@ -1,5 +1,155 @@
 import statuses from '../../registries/src/browser/statuses.mjs';
 
+/** @typedef {import('../../types/index.js').Candidacy} Candidacy */
+/** @typedef {import('../../types/index.js').Contest} Contest */
+
+/**
+ * A row as a source writes it: a count row of a results file (the source CSVs' PascalCase:
+ * Candidate_Id, Count_Number, Total_Votes, Party_Name, Status ...), a scraper candidate, a forum
+ * list row, or a payload's meta. The domain reads fields by name and coerces what it finds
+ * (fixText, parseNumber), so each field is unknown until then.
+ * @typedef {{ [field: string]: unknown }} SourceRow
+ */
+
+/**
+ * The contest of a count-group results file (`{ Constituency: ... }`), or the one
+ * normalizeScraperPayloadForMain writes for a scraper payload.
+ * @typedef {SourceRow & {
+ *   countInfo?: SourceRow,
+ *   countGroup?: SourceRow[],
+ *   forum?: (SourceRow & { rows?: SourceRow[] }) | null,
+ *   __syntheticCountGroup?: boolean,
+ *   __syntheticCountStages?: boolean
+ * }} SourceConstituency
+ */
+
+/**
+ * One contest's raw result as its file holds it: a count-group file (`Constituency`) or a
+ * scraper payload (`candidates`, `meta`, `seats`, `officialDail`).
+ * @typedef {SourceRow & {
+ *   Constituency?: SourceConstituency,
+ *   candidates?: SourceRow[],
+ *   meta?: SourceRow,
+ *   metaData?: SourceRow,
+ *   officialDail?: SourceRow | null
+ * }} RawResult
+ */
+
+/**
+ * A raw result with the constituency its file is filed under (the manifest build's input).
+ * @typedef {{ raw?: RawResult | null, constituency?: string }} RawResultEntry
+ */
+
+/**
+ * One count of a candidate in a contest result: the votes held after it, the transfer it
+ * brought, and the status recorded at it.
+ * @typedef {{ count: number, total: number | null, transfers: number | null, status: string, firstPrefs?: number | null }} CandidateCount
+ */
+
+/**
+ * A candidate of a contest result (summarizeCandidateRows, summarizeForumRows; an election
+ * bundle result's `candidates[]`): Candidacy with the fields the summaries add.
+ * @typedef {Candidacy & {
+ *   votes?: number | null,
+ *   voteShare?: number | null,
+ *   seats?: number | null,
+ *   candidateName?: string,
+ *   autoReturnedCeannComhairle?: boolean,
+ *   sourcePersonId?: string,
+ *   dailAbbreviation?: string,
+ *   officialCandidateId?: string,
+ *   officialStatus?: string,
+ *   partyInferred?: boolean,
+ *   partyBasis?: string,
+ *   counts?: CandidateCount[],
+ *   decidedAt?: number,
+ *   droppedAt?: number
+ * }} ResultCandidate
+ */
+
+/**
+ * One contest's result as summarizeResult builds it (an election bundle's `results[]` item):
+ * Contest's fields, every one optional, plus the summary's own. Loaders and the map app attach
+ * more; those stay readable, as unknown.
+ * @typedef {Pick<Contest, 'seatsTotal' | 'seatsWon' | 'electorate' | 'quota' | 'turnoutPct'
+ *     | 'winnerParty' | 'winnerName' | 'leadingParty' | 'leadingName' | 'leadingVotes' | 'leadingPct'
+ *     | 'majority' | 'majorityPct' | 'matched' | 'matchName' | 'featureId' | 'featureName'>
+ *   & {
+ *   [field: string]: unknown,
+ *   constituency?: string,
+ *   candidates?: ResultCandidate[],
+ *   elected?: ResultCandidate[],
+ *   validPoll?: number | null,
+ *   totalPoll?: number | null,
+ *   totalVotes?: number | null,
+ *   spoiled?: number | null,
+ *   colour?: string,
+ *   leadingColour?: string,
+ *   countInfo?: SourceRow | null,
+ *   countGroup?: SourceRow[],
+ *   countNumbers?: number[],
+ *   localBody?: string
+ * }} ContestResult
+ */
+
+/**
+ * A candidate's stages in a contest by count number (the main-like summaries): the votes held,
+ * the transfer, and the status the row records.
+ * @typedef {{ [count: number]: { total: number, transfers: number, status: unknown } }} CountStages
+ */
+
+/**
+ * A candidate row of the main-like candidate summary: the contest, the share and the outcome,
+ * with `counts` the stages list (scraper payloads) or the stages by count number.
+ * @typedef {PrintedLabelEntry & {
+ *   id: string,
+ *   personId: null,
+ *   sourcePersonId?: string,
+ *   constituency: string,
+ *   name: string,
+ *   party: string,
+ *   colour: string,
+ *   firstPrefs: number,
+ *   votes: number,
+ *   constPct: number,
+ *   firstPrefPct: number,
+ *   finalVotes: number,
+ *   elected: boolean,
+ *   electedAt: number | null,
+ *   excluded: boolean,
+ *   excludedAt: number | null,
+ *   resolvedCount: number | null,
+ *   countDisplay: string,
+ *   status: string,
+ *   autoReturnedCeannComhairle?: boolean,
+ *   counts: CandidateCount[] | CountStages,
+ *   candidateKey?: string
+ * }} MainLikeCandidateRow
+ */
+
+/**
+ * A candidate of buildEntityIndex: totals over the contests, and one appearance per contest.
+ * @typedef {{
+ *   id: string, key: string, name: string | undefined, party: string | null | undefined, colour: string,
+ *   firstPrefs: number, finalVotes: number, electedCount: number, constituencies: Set<string | undefined>,
+ *   appearances: Array<{ constituency: string | undefined, firstPref: number, finalVotes: number, status: string }>
+ * }} EntityCandidateEntry
+ */
+
+/**
+ * A party of buildEntityIndex: totals over the contests, and its candidates.
+ * @typedef {{
+ *   name: string, colour: string, firstPrefs: number, finalVotes: number, stood: number, elected: number,
+ *   constituencies: Set<string | undefined>,
+ *   candidates: Array<{ id: string, name: string | undefined, constituency: string | undefined, firstPref: number, finalVotes: number, status: string }>
+ * }} EntityPartyEntry
+ */
+
+/**
+ * A party's row of a seats-and-votes summary (buildPartySummary, the main-like summary).
+ * @typedef {{ party: string, seats: number, stood: number, votes: number, colour: string, share: number | null }} PartySummaryRow
+ */
+
 const DEFAULT_PARTY_COLOURS = new Map([
   ['alliance', '#f6cb2f'],
   ['aontu', '#44532a'],
@@ -183,6 +333,10 @@ const REGISTRY_COLOUR_KEYS = new Set([
 // importers wrote as placeholders. A party that has a colour of its own is never drawn in one.
 const PLACEHOLDER_PARTY_COLOURS = new Set(['#6b7280', '#888888', '#9ca3af', '#9e9e9e', '#a0a0a0', '#a9a9a9', '#808080']);
 
+/**
+ * @param {unknown} colour
+ * @returns {boolean}
+ */
 function isNeutralGrey(colour) {
   const text = String(colour || '').trim().toLowerCase();
   if (!text) return true;
@@ -193,12 +347,20 @@ function isNeutralGrey(colour) {
   return Math.max(r, g, b) - Math.min(r, g, b) <= 8 && r >= 0x60 && r <= 0xc0;
 }
 
-/** True when a source colour is a placeholder that a known party colour should replace. */
+/**
+ * True when a source colour is a placeholder that a known party colour should replace.
+ * @param {unknown} colour
+ * @returns {boolean}
+ */
 export function isPlaceholderPartyColour(colour) {
   return isNeutralGrey(colour);
 }
 
-/** True for the parties whose file colours are overridden (see REGISTRY_COLOUR_KEYS). */
+/**
+ * True for the parties whose file colours are overridden (see REGISTRY_COLOUR_KEYS).
+ * @param {unknown} party
+ * @returns {boolean}
+ */
 export function isRegistryColourParty(party) {
   return REGISTRY_COLOUR_KEYS.has(normalizeName(party));
 }
@@ -206,6 +368,10 @@ export function isRegistryColourParty(party) {
 /**
  * The colour a party is drawn in. The registry wins for REGISTRY_COLOUR_KEYS and over a
  * placeholder grey; otherwise the result file's own colour is kept.
+ * @param {unknown} party
+ * @param {unknown} [sourceColour] the result file's colour (Party_Colour)
+ * @param {string} [fallback]
+ * @returns {string}
  */
 export function resolvePartyColour(party, sourceColour = '', fallback = '#6b7280') {
   const key = normalizeName(party);
@@ -219,6 +385,10 @@ export function resolvePartyColour(party, sourceColour = '', fallback = '#6b7280
 // Memoised: a pure string function called hundreds of thousands of times on a few thousand
 // distinct names (the largest single cost of the election manifest build). The cache lives on
 // the function so it exists however early the module calls it.
+/**
+ * @param {unknown} value
+ * @returns {string}
+ */
 export function normalizeName(value) {
   if (typeof value !== 'string') return normalizeNameUncached(value);
   const memo = /** @type {{ cache?: Map<string, string> }} */ (/** @type {unknown} */ (normalizeName));
@@ -232,6 +402,10 @@ export function normalizeName(value) {
   return result;
 }
 
+/**
+ * @param {unknown} value
+ * @returns {string}
+ */
 export function normalizeNameUncached(value) {
   return String(value ?? '')
     .normalize('NFKD')
@@ -245,6 +419,11 @@ export function normalizeNameUncached(value) {
     .toLowerCase();
 }
 
+/**
+ * The text with the sources' mojibake repaired and its whitespace collapsed.
+ * @param {unknown} value
+ * @returns {string}
+ */
 export function fixText(value) {
   return String(value ?? '')
     .replace(/\u00c3\u00a1/g, 'a')
@@ -257,26 +436,49 @@ export function fixText(value) {
 
 // ARK's re-issued result sheets named some NI council contests "Omagh Area C corrected"; the
 // word is the sheet's, not the area's, so it is dropped from the name shown.
+/**
+ * @param {unknown} value
+ * @returns {string}
+ */
 function contestName(value) {
   return fixText(value).replace(/\s+corrected$/i, '');
 }
 
+/**
+ * A number from a source field ("1,234", "12.5%", 7); null when there is none.
+ * @param {unknown} value
+ * @returns {number | null}
+ */
 export function parseNumber(value) {
   if (value === null || value === undefined || value === '') return null;
   const number = Number(String(value).replace(/,/g, '').replace(/%$/, ''));
   return Number.isFinite(number) ? number : null;
 }
 
+/**
+ * @param {unknown} value
+ * @returns {number}
+ */
 export function numberOrZero(value) {
   const number = parseNumber(value);
   return number === null ? 0 : number;
 }
 
+/**
+ * @param {number} value
+ * @param {number} [places]
+ * @returns {number}
+ */
 export function round(value, places = 2) {
   const factor = 10 ** places;
   return Math.round(value * factor) / factor;
 }
 
+/**
+ * The party name the site uses for a source spelling ("Sinn Fein" -> "Sinn Féin"); '' for none.
+ * @param {unknown} value
+ * @returns {string}
+ */
 export function normalizeParty(value) {
   const text = fixText(value || '').trim();
   if (!text) return '';
@@ -287,6 +489,11 @@ export function normalizeParty(value) {
     .replace(/^People Before Profit(?: Alliance)?$/i, 'PBP');
 }
 
+/**
+ * @param {unknown} value a party name
+ * @param {string} [fallback]
+ * @returns {string}
+ */
 export function partyColour(value, fallback = '#6b7280') {
   return DEFAULT_PARTY_COLOURS.get(normalizeName(value)) || fallback;
 }
@@ -295,6 +502,11 @@ export function partyColour(value, fallback = '#6b7280') {
 // candidate-count kindPatterns (data/registries/statuses.json; registries/browser/statuses.json).
 const STATUS_KIND_PATTERNS = statuses.candidateKindPatterns.map(([kind, pattern]) => ({ kind, pattern: new RegExp(pattern) }));
 
+/**
+ * What a candidate's Status means ('elected', 'excluded', ...), or the normalized status itself.
+ * @param {unknown} status
+ * @returns {string}
+ */
 export function statusKind(status) {
   const normalized = normalizeName(status);
   if (!normalized) return '';
@@ -304,15 +516,25 @@ export function statusKind(status) {
   return normalized;
 }
 
+/**
+ * @param {SourceRow} [row]
+ * @param {string} [fallback]
+ * @returns {string}
+ */
 export function candidateDisplayName(row = {}, fallback = '') {
   return fixText(row.candidateName || row.name || [row.Firstname, row.Surname].filter(Boolean).join(' ') || fallback);
 }
 
+/**
+ * The party lists of a forum election (1996), one candidate-like row per list.
+ * @param {SourceRow[]} [rows]
+ * @returns {ResultCandidate[]}
+ */
 export function summarizeForumRows(rows = []) {
   return rows.map((row, index) => {
     const party = normalizeParty(row.party);
     return {
-      id: row.party_id || row.id || `${party || 'list'}-${index + 1}`,
+      id: /** @type {string | number} */ (row.party_id || row.id || `${party || 'list'}-${index + 1}`),
       name: row.party ? `${fixText(row.party)} list` : `List ${index + 1}`,
       party,
       firstPrefs: parseNumber(row.votes),
@@ -333,16 +555,27 @@ export function summarizeForumRows(rows = []) {
 // thousand lines to the election bundles -- on every count row and inside the raw
 // animation payload -- and from there to the browse indexes and D1.
 const HARVEST_FIELDS = new Set(['ei_candidate_id', 'eiCandidateId', 'ei_candidates', 'source_person_id']);
+/**
+ * The value with the harvest fields taken out at every depth; its shape is otherwise the same.
+ * @template T
+ * @param {T} value
+ * @returns {T}
+ */
 function withoutHarvestFields(value) {
-  if (Array.isArray(value)) return value.map(withoutHarvestFields);
+  if (Array.isArray(value)) return /** @type {T} */ (value.map(withoutHarvestFields));
   if (!value || typeof value !== 'object') return value;
+  /** @type {{ [field: string]: unknown }} */
   const out = {};
   for (const [key, inner] of Object.entries(value)) {
     if (!HARVEST_FIELDS.has(key)) out[key] = withoutHarvestFields(inner);
   }
-  return out;
+  return /** @type {T} */ (out);
 }
 
+/**
+ * @param {SourceRow | null | undefined} row
+ * @returns {string}
+ */
 function sourcePersonIdFor(row) {
   const ei = String(row?.ei_candidate_id ?? row?.eiCandidateId ?? '').trim();
   if (/^\d+$/.test(ei)) return `ei:${Number(ei)}`;
@@ -357,8 +590,11 @@ function sourcePersonIdFor(row) {
  * printed, the ballot paper description, and an inferred label's flag and evidence. Only those
  * present, so a summary row without them stays as small as before ("Show labels as printed",
  * src/printed-labels.mjs, reads them).
+ * @param {SourceRow} [row]
+ * @returns {PrintedLabelEntry}
  */
 function printedLabelEntry(row = {}) {
+  /** @type {PrintedLabelEntry} */
   const out = {};
   const printed = fixText(row.Party_As_Printed || row.partyAsPrinted || '');
   const ballot = fixText(row.Ballot_Description || row.ballotDescription || '');
@@ -372,19 +608,33 @@ function printedLabelEntry(row = {}) {
   return out;
 }
 
-/** `{ sourcePersonId }` when the source names the person, otherwise nothing at all. */
+/** @typedef {{ partyAsPrinted?: string, ballotDescription?: string, partyInferred?: true, partyBasis?: string }} PrintedLabelEntry */
+
+/**
+ * `{ sourcePersonId }` when the source names the person, otherwise nothing at all.
+ * @param {SourceRow} row
+ * @returns {{ sourcePersonId?: string }}
+ */
 function sourcePersonIdEntry(row) {
   const id = sourcePersonIdFor(row);
   return id ? { sourcePersonId: id } : {};
 }
 
+/**
+ * The candidates of a contest from its count rows: one entry per candidate, with first
+ * preferences, final votes, outcome and the count-by-count stages.
+ * @param {SourceRow[]} [rows]
+ * @returns {ResultCandidate[]}
+ */
 export function summarizeCandidateRows(rows = []) {
+  /** @type {Map<unknown, ResultCandidate & { counts: CandidateCount[] }>} */
   const byCandidate = new Map();
   for (const row of Array.isArray(rows) ? rows : []) {
     const name = candidateDisplayName(row);
     const party = normalizeParty(row.Party_Name || row.Party || row.party || row.party_name);
     const key = row.Candidate_Id || row.person_id || `${name}|${party}`;
     if (!String(key || '').trim() || isNonTransferableRow(row, key, name, party)) continue;
+    /** @type {ResultCandidate & { counts: CandidateCount[] }} */
     const existing = byCandidate.get(key) || {
       id: String(key),
       name,
@@ -493,6 +743,14 @@ export function summarizeCandidateRows(rows = []) {
   return [...byCandidate.values()].sort((a, b) => numberOrZero(b.firstPrefs) - numberOrZero(a.firstPrefs));
 }
 
+/**
+ * A scraper payload (`{ candidates, meta }`) rewritten as a count-group results file
+ * (`{ Constituency: { countInfo, countGroup } }`), one synthetic count row per candidate and
+ * stage; any other payload is returned as it is.
+ * @param {RawResult | null | undefined} payload
+ * @param {string} [fallbackConstituency]
+ * @returns {RawResult | null | undefined}
+ */
 export function normalizeScraperPayloadForMain(payload, fallbackConstituency = '') {
   if (!payload || payload.Constituency || !Array.isArray(payload.candidates)) return payload;
   const meta = payload.meta || {};
@@ -590,10 +848,15 @@ export function normalizeScraperPayloadForMain(payload, fallbackConstituency = '
   };
 }
 
+/**
+ * @param {RawResult | null | undefined} [payload]
+ * @returns {payload is RawResult & { candidates: SourceRow[] }}
+ */
 function isScraperCandidatePayload(payload = {}) {
   return Boolean(payload && !payload.Constituency && Array.isArray(payload.candidates));
 }
 
+/** @type {Map<string, string>} */
 const CEANN_COMHAIRLE_AFFILIATION_BY_NAME = new Map([
   ['michael hayes', 'Cumann na nGaedheal'],
   ['frank fahy', 'Fianna F\u00e1il'],
@@ -606,24 +869,46 @@ const CEANN_COMHAIRLE_AFFILIATION_BY_NAME = new Map([
   ['rory ohanlon', 'Fianna F\u00e1il']
 ]);
 
+/**
+ * @param {unknown} value
+ * @returns {boolean}
+ */
 function isCeannComhairleParty(value) {
   return normalizeName(value).includes('ceann comhairle');
 }
 
+/**
+ * True for the Ceann Comhairle, returned without a contest.
+ * @param {SourceRow} [candidate] a scraper payload's candidate
+ * @returns {boolean}
+ */
 export function scraperCandidateIsAutoReturned(candidate = {}) {
   return isCeannComhairleParty(candidate.party);
 }
 
+/**
+ * The party a Ceann Comhairle belonged to, by name.
+ * @param {SourceRow} [candidate] a scraper payload's candidate
+ * @returns {string}
+ */
 export function scraperCandidateAffiliatedParty(candidate = {}) {
   const candidateName = normalizeName(fixText(candidate.name || ''));
   return CEANN_COMHAIRLE_AFFILIATION_BY_NAME.get(candidateName) || 'Ceann Comhairle (Speaker)';
 }
 
+/**
+ * @param {unknown} value
+ * @returns {number | null}
+ */
 function positiveInteger(value) {
   const parsed = parseNumber(value);
   return typeof parsed === 'number' && Number.isInteger(parsed) && parsed > 0 ? parsed : null;
 }
 
+/**
+ * @param {SourceRow} [candidate]
+ * @returns {number | null}
+ */
 function scraperCandidateElectedOrder(candidate = {}) {
   if (Array.isArray(candidate.counts)) {
     const order = positiveInteger(candidate.counts[3]);
@@ -632,6 +917,10 @@ function scraperCandidateElectedOrder(candidate = {}) {
   return null;
 }
 
+/**
+ * @param {SourceRow} [candidate]
+ * @returns {number | null}
+ */
 function scraperCandidateEventCount(candidate = {}) {
   if (scraperCandidateIsAutoReturned(candidate)) return 1;
   if (Array.isArray(candidate.counts)) {
@@ -641,6 +930,10 @@ function scraperCandidateEventCount(candidate = {}) {
   return null;
 }
 
+/**
+ * @param {SourceRow} [candidate]
+ * @returns {boolean}
+ */
 function scraperCandidateIsElected(candidate = {}) {
   return statusKind(candidate.status) === 'elected'
     || candidate.counted_as_elected === true
@@ -648,6 +941,10 @@ function scraperCandidateIsElected(candidate = {}) {
     || scraperCandidateIsAutoReturned(candidate);
 }
 
+/**
+ * @param {SourceRow} [candidate]
+ * @returns {number}
+ */
 function scraperCandidateFirstPref(candidate = {}) {
   if (scraperCandidateIsAutoReturned(candidate)) return 0;
   return parseNumber(
@@ -657,6 +954,10 @@ function scraperCandidateFirstPref(candidate = {}) {
   ) || 0;
 }
 
+/**
+ * @param {SourceRow} [candidate]
+ * @returns {string}
+ */
 function scraperCandidateParty(candidate = {}) {
   if (scraperCandidateIsAutoReturned(candidate)) {
     return normalizeParty(scraperCandidateAffiliatedParty(candidate));
@@ -664,7 +965,13 @@ function scraperCandidateParty(candidate = {}) {
   return normalizeParty(String(candidate.party || '').replace(/\s*Lozenge\s*$/i, '').trim() || 'Independent');
 }
 
+/**
+ * The national seats-and-votes table of an election, straight from its raw results.
+ * @param {RawResultEntry[]} [rawEntries]
+ * @returns {{ rows: PartySummaryRow[], totals: { validPoll: number, totalPoll: number, totalElectorate: number, totalSpoiled: number, totalSeats: number } }}
+ */
 export function buildMainLikePartySummaryFromRawResults(rawEntries = []) {
+  /** @type {Map<string, Omit<PartySummaryRow, 'share'>>} */
   const partyTotals = new Map();
   let totalValid = 0;
   let totalPoll = 0;
@@ -694,7 +1001,7 @@ export function buildMainLikePartySummaryFromRawResults(rawEntries = []) {
             colour: partyColour(party)
           });
         }
-        const totals = partyTotals.get(party);
+        const totals = /** @type {Omit<PartySummaryRow, 'share'>} */ (partyTotals.get(party)); // set above
         const elected = scraperCandidateIsElected(candidate);
         const autoReturned = scraperCandidateIsAutoReturned(candidate);
         if (!autoReturned) {
@@ -712,7 +1019,7 @@ export function buildMainLikePartySummaryFromRawResults(rawEntries = []) {
               colour: partyColour(seatParty)
             });
           }
-          partyTotals.get(seatParty).seats += 1;
+          /** @type {Omit<PartySummaryRow, 'share'>} */ (partyTotals.get(seatParty)).seats += 1;
           electedCount += 1;
         }
       }
@@ -755,7 +1062,7 @@ export function buildMainLikePartySummaryFromRawResults(rawEntries = []) {
     const seenCandidates = new Set();
     for (const row of cg) {
       if (!isValidCandidateRow(row)) continue;
-      const countNum = parseInt(row.Count_Number, 10) || 1;
+      const countNum = parseInt(String(row.Count_Number), 10) || 1;
       const candidateId = String(row.Candidate_Id || '');
       const party = normalizeParty(row.Party_Name) || blankParty;
       if (!partyTotals.has(party)) {
@@ -770,13 +1077,14 @@ export function buildMainLikePartySummaryFromRawResults(rawEntries = []) {
       if (countNum === 1 && !seenCandidates.has(candidateId)) {
         seenCandidates.add(candidateId);
         const total = numberOrZero(row.Total_Votes);
-        const totals = partyTotals.get(party);
+        const totals = /** @type {Omit<PartySummaryRow, 'share'>} */ (partyTotals.get(party)); // set above
         totals.votes += total;
         totals.stood += 1;
       }
     }
 
-    for (const member of extractMainLikeElected(payload)) {
+    // payload is set: its countGroup has rows (above).
+    for (const member of extractMainLikeElected(/** @type {RawResult} */ (payload))) {
       const party = normalizeParty(member.party) || blankParty;
       if (!partyTotals.has(party)) {
         partyTotals.set(party, {
@@ -787,7 +1095,7 @@ export function buildMainLikePartySummaryFromRawResults(rawEntries = []) {
           colour: resolvePartyColour(party, member.colour)
         });
       }
-      partyTotals.get(party).seats += 1;
+      /** @type {Omit<PartySummaryRow, 'share'>} */ (partyTotals.get(party)).seats += 1;
     }
   }
 
@@ -812,6 +1120,11 @@ export function buildMainLikePartySummaryFromRawResults(rawEntries = []) {
   };
 }
 
+/**
+ * The members a contest returned, in the order elected.
+ * @param {ContestResult} [result]
+ * @returns {ResultCandidate[]}
+ */
 export function extractElected(result = {}) {
   const candidates = Array.isArray(result.candidates) ? result.candidates : [];
   const seats = parseNumber(result.seatsTotal ?? result.seatsWon);
@@ -839,14 +1152,21 @@ export function extractElected(result = {}) {
   return [];
 }
 
+/**
+ * @param {ResultCandidate} [candidate]
+ * @returns {number}
+ */
 function candidateLastCount(candidate = {}) {
   const counts = Array.isArray(candidate.counts) ? candidate.counts : [];
   return Math.max(1, ...counts.map((count) => parseNumber(count?.count) || 0));
 }
 
 /**
- * @param {any[]} [candidates]
+ * The candidates, with the winners the files do not mark (the top polls, up to the seats)
+ * marked elected.
+ * @param {ResultCandidate[]} [candidates]
  * @param {number | null} [seatsTotal]
+ * @returns {ResultCandidate[]}
  */
 function completeElectedCandidateSet(candidates = [], seatsTotal = null) {
   const seats = parseNumber(seatsTotal);
@@ -895,15 +1215,23 @@ function completeElectedCandidateSet(candidates = [], seatsTotal = null) {
   });
 }
 
+/**
+ * @param {RawResult} [payload] a count-group results file
+ * @returns {Array<{ name: string, party: string, colour: string, count: number }>}
+ */
 function extractMainLikeElected(payload = {}) {
   const cg = payload.Constituency?.countGroup || [];
   if (!cg.length) return [];
   const info = payload.Constituency?.countInfo || {};
   const numSeats = parseNumber(info.Number_Of_Seats) || 5;
+  /** @type {Array<{ name: string, party: string, colour: string, count: number }>} */
   const elected = [];
+  /** @type {Set<unknown>} */
   const excluded = new Set();
+  /** @type {Set<unknown>} */
   const seen = new Set();
-  const lastCount = Math.max(...cg.map((row) => parseInt(row.Count_Number, 10) || 0), 1);
+  const lastCount = Math.max(...cg.map((row) => parseInt(String(row.Count_Number), 10) || 0), 1);
+  /** @type {Map<unknown, { rows: SourceRow[], name: string, party: string, colour: string }>} */
   const grouped = new Map();
 
   for (const row of cg) {
@@ -917,13 +1245,14 @@ function extractMainLikeElected(payload = {}) {
         colour: resolvePartyColour(row.Party_Name, row.Party_Colour)
       });
     }
-    grouped.get(cid).rows.push(row);
+    /** @type {{ rows: SourceRow[] }} */ (grouped.get(cid)).rows.push(row);
   }
 
   grouped.forEach((entry, cid) => {
+    /** @type {{ counts: CountStages }} */
     const candidate = { counts: {} };
     for (const row of entry.rows) {
-      candidate.counts[parseInt(row.Count_Number, 10) || 1] = {
+      candidate.counts[parseInt(String(row.Count_Number), 10) || 1] = {
         total: numberOrZero(row.Total_Votes),
         transfers: numberOrZero(row.Transfers),
         status: row.Status || ''
@@ -944,7 +1273,7 @@ function extractMainLikeElected(payload = {}) {
 
   if (elected.length < numSeats) {
     const finalRound = cg
-      .filter((row) => (parseInt(row.Count_Number, 10) || 0) === lastCount)
+      .filter((row) => (parseInt(String(row.Count_Number), 10) || 0) === lastCount)
       .sort((a, b) => numberOrZero(b.Total_Votes) - numberOrZero(a.Total_Votes));
     for (const row of finalRound) {
       if (!seen.has(row.Candidate_Id)
@@ -964,14 +1293,24 @@ function extractMainLikeElected(payload = {}) {
   return elected.sort((a, b) => numberOrZero(a.count) - numberOrZero(b.count)).slice(0, numSeats);
 }
 
+/**
+ * The counts a candidate was elected and excluded at, read from the vote totals and the quota.
+ * @param {{ counts: CountStages }} candidate
+ * @param {SourceRow | null | undefined} info the contest's countInfo
+ * @param {number} lastCount
+ * @returns {{ electedAt: number | null, excludedAt: number | null, terminalCount: number | null, lastCount: number }}
+ */
 function inferMainLikeCandidateLifecycle(candidate, info, lastCount) {
   const quota = parseNumber(info?.Quota);
   const counts = Object.keys(candidate.counts || {})
     .map(Number)
     .filter(Number.isFinite)
     .sort((a, b) => a - b);
+  /** @type {number | null} */
   let electedAt = null;
+  /** @type {number | null} */
   let excludedAt = null;
+  /** @type {number | null} */
   let terminalCount = null;
 
   counts.forEach((countNum, index) => {
@@ -994,6 +1333,12 @@ function inferMainLikeCandidateLifecycle(candidate, info, lastCount) {
   return { electedAt, excludedAt, terminalCount, lastCount };
 }
 
+/**
+ * The valid poll the file states, else the first preferences counted, else poll less spoiled.
+ * @param {SourceRow} [info]
+ * @param {SourceRow[]} [countGroup]
+ * @returns {number}
+ */
 function safeValidPoll(info = {}, countGroup = []) {
   const explicit = parseNumber(info.Valid_Poll);
   if (explicit !== null) return explicit;
@@ -1001,7 +1346,7 @@ function safeValidPoll(info = {}, countGroup = []) {
   let total = 0;
   for (const row of countGroup) {
     const cid = String(row.Candidate_Id || '');
-    const countNum = parseInt(row.Count_Number, 10) || 1;
+    const countNum = parseInt(String(row.Count_Number), 10) || 1;
     if (countNum !== 1 || !isValidCandidateRow(row) || seen.has(cid)) continue;
     seen.add(cid);
     total += numberOrZero(row.Total_Votes);
@@ -1011,8 +1356,13 @@ function safeValidPoll(info = {}, countGroup = []) {
   return Number.isFinite(fallback) && fallback > 0 ? fallback : 0;
 }
 
+/**
+ * @param {unknown} name
+ * @param {unknown} party
+ * @returns {string}
+ */
 function candidateKey(name, party) {
-  const norm = (value) => String(value || '').toLowerCase().replace(/\s+/g, ' ').trim();
+  const norm = (/** @type {unknown} */ value) => String(value || '').toLowerCase().replace(/\s+/g, ' ').trim();
   return `${norm(name)}|${norm(party)}`;
 }
 
@@ -1021,6 +1371,8 @@ function candidateKey(name, party) {
  * Walker, leave it blank) get one from the candidate's name and party, so the national tables
  * count each candidate once instead of skipping every row: the pre-1922 party table showed
  * every party with 0 candidates and 0 votes.
+ * @param {RawResult | null | undefined} payload
+ * @returns {RawResult | null | undefined}
  */
 function withCandidateRowIds(payload) {
   const cg = payload?.Constituency?.countGroup;
@@ -1030,9 +1382,14 @@ function withCandidateRowIds(payload) {
     const name = candidateDisplayName(row, '');
     return name ? { ...row, Candidate_Id: `row:${name}|${normalizeParty(row.Party_Name)}` } : row;
   });
-  return { ...payload, Constituency: { ...payload.Constituency, countGroup } };
+  // payload is set: its countGroup is an array (above).
+  return { ...payload, Constituency: { .../** @type {RawResult} */ (payload).Constituency, countGroup } };
 }
 
+/**
+ * @param {SourceRow} [row]
+ * @returns {boolean}
+ */
 function isValidCandidateRow(row = {}) {
   const cid = String(row.Candidate_Id || '').trim();
   const name = candidateDisplayName(row, '');
@@ -1041,7 +1398,13 @@ function isValidCandidateRow(row = {}) {
   return true;
 }
 
+/**
+ * The national candidates table of an election, straight from its raw results.
+ * @param {RawResultEntry[]} [rawEntries]
+ * @returns {{ rows: MainLikeCandidateRow[], totals: { validPoll: number } }}
+ */
 export function buildMainLikeCandidateSummaryFromRawResults(rawEntries = []) {
+  /** @type {MainLikeCandidateRow[]} */
   const rows = [];
   let totalValid = 0;
 
@@ -1115,15 +1478,16 @@ export function buildMainLikeCandidateSummaryFromRawResults(rawEntries = []) {
     const constituency = contestName(entry.constituency || info.Constituency_Name || '');
     totalValid += constValid;
 
+    /** @type {Map<string, MainLikeCandidateRow & { counts: CountStages }>} */
     const byCandidate = new Map();
-    const countNums = unique(cg.map((row) => parseInt(row.Count_Number, 10) || 1)).sort((a, b) => a - b);
+    const countNums = unique(cg.map((row) => parseInt(String(row.Count_Number), 10) || 1)).sort((a, b) => a - b);
     const lastCount = countNums[countNums.length - 1] || 1;
     const totalCountCount = countNums.length || 1;
 
     for (const row of cg) {
       if (!isValidCandidateRow(row)) continue;
       const cid = String(row.Candidate_Id || '');
-      const countNum = parseInt(row.Count_Number, 10) || 1;
+      const countNum = parseInt(String(row.Count_Number), 10) || 1;
       if (!byCandidate.has(cid)) {
         const name = candidateDisplayName(row);
         const party = normalizeParty(row.Party_Name);
@@ -1152,7 +1516,7 @@ export function buildMainLikeCandidateSummaryFromRawResults(rawEntries = []) {
           counts: {}
         });
       }
-      const candidate = byCandidate.get(cid);
+      const candidate = /** @type {MainLikeCandidateRow & { counts: CountStages }} */ (byCandidate.get(cid)); // set above
       const total = numberOrZero(row.Total_Votes);
       if (countNum === 1) {
         candidate.firstPrefs = total;
@@ -1224,9 +1588,16 @@ export const NO_PARTY_RECORDED = 'No party recorded';
  */
 export const NO_LABEL = 'No label';
 
+/**
+ * One contest's result from its raw file: the candidates, who was elected, the winner and
+ * leader, poll figures and the count detail.
+ * @param {RawResult | null | undefined} raw
+ * @param {string} [fallbackConstituency]
+ * @returns {ContestResult}
+ */
 export function summarizeResult(raw, fallbackConstituency) {
   const mainPayload = normalizeScraperPayloadForMain(raw, fallbackConstituency);
-  const source = mainPayload?.Constituency || raw?.Constituency || raw || {};
+  const source = /** @type {SourceConstituency} */ (mainPayload?.Constituency || raw?.Constituency || raw || {});
   const syntheticCountGroup = Boolean(source.__syntheticCountGroup);
   const info = source.countInfo || raw?.meta || raw?.metaData || {};
   const forumRows = Array.isArray(source.forum?.rows) ? source.forum.rows : null;
@@ -1301,7 +1672,13 @@ export function summarizeResult(raw, fallbackConstituency) {
   };
 }
 
+/**
+ * Seats, candidates and first preferences by party over a set of contest results.
+ * @param {ContestResult[]} [results]
+ * @returns {PartySummaryRow[]}
+ */
 export function buildPartySummary(results = []) {
+  /** @type {Map<string, Omit<PartySummaryRow, 'share'>>} */
   const rows = new Map();
   let totalVotes = 0;
   for (const result of results) {
@@ -1310,7 +1687,7 @@ export function buildPartySummary(results = []) {
       const party = candidate.party || NO_LABEL;
       const key = normalizeName(party) || party;
       if (!rows.has(key)) rows.set(key, { party, seats: 0, stood: 0, votes: 0, colour: partyColour(party) });
-      rows.get(key).seats += 1;
+      /** @type {Omit<PartySummaryRow, 'share'>} */ (rows.get(key)).seats += 1;
     }
     for (const candidate of result.candidates || []) {
       if (candidate.autoReturnedCeannComhairle) continue;
@@ -1318,8 +1695,9 @@ export function buildPartySummary(results = []) {
       const party = candidate.party || NO_LABEL;
       const key = normalizeName(party) || party;
       if (!rows.has(key)) rows.set(key, { party, seats: 0, stood: 0, votes: 0, colour: partyColour(party) });
-      rows.get(key).stood += 1;
-      rows.get(key).votes += votes;
+      const row = /** @type {Omit<PartySummaryRow, 'share'>} */ (rows.get(key)); // set above
+      row.stood += 1;
+      row.votes += votes;
       totalVotes += votes;
     }
   }
@@ -1328,7 +1706,13 @@ export function buildPartySummary(results = []) {
     .sort((a, b) => b.seats - a.seats || b.votes - a.votes || a.party.localeCompare(b.party));
 }
 
+/**
+ * Every candidate of a set of contest results, with their contest and first-preference share;
+ * the elected first, then by first preferences.
+ * @param {ContestResult[]} [results]
+ */
 export function buildCandidateSummary(results = []) {
+  /** @type {Array<ResultCandidate & { constituency: string | undefined, firstPrefPct: number | null }>} */
   const rows = [];
   for (const result of results) {
     for (const candidate of result.candidates || []) {
@@ -1342,8 +1726,15 @@ export function buildCandidateSummary(results = []) {
   return rows.sort((a, b) => Number(Boolean(b.elected)) - Number(Boolean(a.elected)) || numberOrZero(b.firstPrefs) - numberOrZero(a.firstPrefs));
 }
 
+/**
+ * The parties and candidates of a set of contest results, each with its totals and the
+ * contests it appears in.
+ * @param {ContestResult[]} [results]
+ */
 export function buildEntityIndex(results = []) {
+  /** @type {Map<string, EntityPartyEntry>} */
   const parties = new Map();
+  /** @type {Map<string, EntityCandidateEntry>} */
   const candidates = new Map();
   let totalValid = 0;
   for (const result of results) {
@@ -1371,7 +1762,7 @@ export function buildEntityIndex(results = []) {
           appearances: []
         });
       }
-      const candidateEntry = candidates.get(id);
+      const candidateEntry = /** @type {EntityCandidateEntry} */ (candidates.get(id)); // set above
       candidateEntry.firstPrefs += numberOrZero(candidate.firstPrefs);
       candidateEntry.finalVotes += numberOrZero(candidate.finalVotes);
       if (candidate.elected) candidateEntry.electedCount += 1;
@@ -1397,7 +1788,7 @@ export function buildEntityIndex(results = []) {
           candidates: []
         });
       }
-      const partyEntry = parties.get(partyKey);
+      const partyEntry = /** @type {EntityPartyEntry} */ (parties.get(partyKey)); // set above
       if (!candidate.autoReturnedCeannComhairle) {
         partyEntry.firstPrefs += numberOrZero(candidate.firstPrefs);
         partyEntry.finalVotes += numberOrZero(candidate.finalVotes);
@@ -1415,6 +1806,10 @@ export function buildEntityIndex(results = []) {
       });
     }
   }
+  /**
+   * @template {EntityPartyEntry | EntityCandidateEntry} E
+   * @param {E} entry
+   */
   const finalize = (entry) => ({
     ...entry,
     constituencies: [...entry.constituencies].sort((a, b) => String(a).localeCompare(String(b))),
@@ -1427,6 +1822,11 @@ export function buildEntityIndex(results = []) {
   };
 }
 
+/**
+ * The current results with each contest's and candidate's previous result and the change.
+ * @param {ContestResult[]} [currentResults]
+ * @param {ContestResult[]} [previousResults]
+ */
 export function compareResults(currentResults = [], previousResults = []) {
   const previousByName = new Map(previousResults.map((result) => [normalizeName(result.constituency), result]));
   return currentResults.map((result) => {
@@ -1470,8 +1870,8 @@ export function compareResults(currentResults = [], previousResults = []) {
       } : null,
       deltas: previous ? {
         leadingVotes: numberOrZero(result.leadingVotes) - numberOrZero(previous.leadingVotes),
-        leadingPct: result.leadingPct !== null && previous.leadingPct !== null ? round(result.leadingPct - previous.leadingPct, 2) : null,
-        turnoutPct: result.turnoutPct !== null && previous.turnoutPct !== null ? round(result.turnoutPct - previous.turnoutPct, 2) : null,
+        leadingPct: result.leadingPct !== null && previous.leadingPct !== null ? round(Number(result.leadingPct) - Number(previous.leadingPct), 2) : null,
+        turnoutPct: result.turnoutPct !== null && previous.turnoutPct !== null ? round(Number(result.turnoutPct) - Number(previous.turnoutPct), 2) : null,
         seatsWon: numberOrZero(result.seatsWon) - numberOrZero(previous.seatsWon),
         validPoll: numberOrZero(result.validPoll) - numberOrZero(previous.validPoll)
       } : null
@@ -1479,6 +1879,13 @@ export function compareResults(currentResults = [], previousResults = []) {
   });
 }
 
+/**
+ * Where each of `total` seats is drawn in a seat diagram: a hemicycle past 12 seats, two
+ * rows below that.
+ * @param {number} total
+ * @param {number} [spacing]
+ * @returns {Array<{ x: number, y: number }>}
+ */
 export function seatPositions(total, spacing = 13) {
   if (total <= 0) return [];
   if (total === 1) return [{ x: 0, y: 0 }];
@@ -1486,7 +1893,7 @@ export function seatPositions(total, spacing = 13) {
   if (total === 3) return [{ x: 0, y: 0 }, { x: spacing, y: 0 }, { x: spacing * 2, y: 0 }];
   if (total > 12) {
     const spanRadians = Math.PI;
-    const getRowsFromNRows = (rowTotal) => {
+    const getRowsFromNRows = (/** @type {number} */ rowTotal) => {
       const rowThicc = 1 / ((4 * rowTotal) - 2);
       return Array.from({ length: rowTotal }, (_, rowIndex) => {
         const rowArcRadius = 0.5 + (2 * rowIndex * rowThicc);
@@ -1523,6 +1930,7 @@ export function seatPositions(total, spacing = 13) {
     const rowThicc = 1 / ((4 * nRows) - 2);
     const desiredCenterSpacing = spacing * 1.02;
     const scale = desiredCenterSpacing / (2 * rowThicc);
+    /** @type {Array<{ x: number, y: number }>} */
     const positions = [];
 
     rowCounts.forEach((countOnRow, rowIndex) => {
@@ -1555,6 +1963,7 @@ export function seatPositions(total, spacing = 13) {
 
   const topCount = Math.ceil(total / 2);
   const botCount = total - topCount;
+  /** @type {Array<{ x: number, y: number }>} */
   const positions = [];
   const topWidth = (topCount - 1) * spacing;
   const topStartX = -topWidth / 2;
@@ -1575,6 +1984,12 @@ export function seatPositions(total, spacing = 13) {
   return positions;
 }
 
+/**
+ * @template T
+ * @param {T[]} items
+ * @param {(item: T, index: number, items: T[]) => boolean} predicate
+ * @returns {number}
+ */
 function findLastIndex(items, predicate) {
   for (let index = items.length - 1; index >= 0; index -= 1) {
     if (predicate(items[index], index, items)) return index;
@@ -1582,7 +1997,14 @@ function findLastIndex(items, predicate) {
   return -1;
 }
 
+/**
+ * @template T, K
+ * @param {T[]} items
+ * @param {(item: T) => K} keyFn
+ * @returns {Map<K, number>}
+ */
 function countBy(items, keyFn) {
+  /** @type {Map<K, number>} */
   const counts = new Map();
   for (const item of items) {
     const key = keyFn(item);
@@ -1591,7 +2013,13 @@ function countBy(items, keyFn) {
   return counts;
 }
 
+/**
+ * @template K
+ * @param {Map<K, number>} counts
+ * @returns {{ key: K, count: number } | null}
+ */
 function topCount(counts) {
+  /** @type {{ key: K, count: number } | null} */
   let best = null;
   for (const [key, count] of counts) {
     if (!best || count > best.count) best = { key, count };
@@ -1599,10 +2027,23 @@ function topCount(counts) {
   return best;
 }
 
+/**
+ * The values without repeats, nulls or blanks, in first-seen order.
+ * @template T
+ * @param {T[]} values
+ * @returns {T[]}
+ */
 function unique(values) {
   return [...new Set(values.filter((value) => value !== null && value !== undefined && value !== ''))];
 }
 
+/**
+ * @param {SourceRow} [row]
+ * @param {unknown} [key]
+ * @param {string} [name]
+ * @param {string} [party]
+ * @returns {boolean}
+ */
 function isNonTransferableRow(row = {}, key = '', name = '', party = '') {
   return [
     key,
@@ -1614,7 +2055,13 @@ function isNonTransferableRow(row = {}, key = '', name = '', party = '') {
   ].some((value) => /non\s*transferable/.test(normalizeName(value)));
 }
 
+/**
+ * The non-transferable votes of a contest, by count.
+ * @param {SourceRow[]} [rows]
+ * @returns {CandidateCount[]}
+ */
 function summarizeNonTransferableRows(rows = []) {
+  /** @type {CandidateCount[]} */
   const counts = [];
   for (const row of Array.isArray(rows) ? rows : []) {
     const name = candidateDisplayName(row);
@@ -1633,6 +2080,10 @@ function summarizeNonTransferableRows(rows = []) {
   return counts.sort((a, b) => a.count - b.count);
 }
 
+/**
+ * @param {ResultCandidate} [candidate]
+ * @returns {string}
+ */
 function candidateCompareKey(candidate = {}) {
   return normalizeName(candidate.name || candidate.candidateName || candidate.Candidate_Name || candidate.id || '');
 }

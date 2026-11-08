@@ -40,13 +40,27 @@ import {
  */
 
 /**
- * One contest's result as the loaders build it (summarizeResult and the bundle rows); fields are
- * read by name and coerced.
+ * One contest's result as the loaders build it (summarizeResult and the bundle rows): the
+ * domain's ContestResult, whose other fields stay readable, as unknown.
+ * @typedef {import('./election-domain.mjs').ContestResult} ElectionResult
+ */
+
+/** @typedef {import('./election-domain.mjs').PartySummaryRow} PartySummaryRow */
+
+/**
+ * A party's row of a local election's party table (buildLocalPartySummary).
  * @typedef {{
- *   [field: string]: unknown,
- *   countInfo?: { [field: string]: unknown } | null,
- *   candidates?: Array<{ [field: string]: unknown }>
- * }} ElectionResult
+ *   party: string, constituency: string, resultKey: string, colour: string,
+ *   stood: number, seats: number, firstPrefs: number, share: number | null
+ * }} LocalPartyRow
+ */
+
+/**
+ * A council's running totals (buildCouncilSummary), before its leading party is picked.
+ * @typedef {{
+ *   council: string, deas: number, seats: number, validPoll: number, electorate: number,
+ *   partySeats: Map<string, number>, partyVotes: Map<string, number>
+ * }} CouncilTotals
  */
 
 /**
@@ -120,6 +134,16 @@ export function buildElectionViewModel({
 /**
  * @param {ElectionResult | null} [selectedResult]
  * @param {string | null} [view]
+ * @param {{
+ *   activeEntry?: ElectionRecord | null,
+ *   activeBundle?: ElectionRecord | null,
+ *   previousBundle?: ElectionRecord | null,
+ *   activePanelView?: string,
+ *   activeMode?: string,
+ *   overlayMode?: string,
+ *   activeLocalMode?: string,
+ *   countDetailedView?: boolean
+ * }} manager the test2 election manager (packages/map/app/election-manager.js)
  */
 export function buildElectionViewModelFromTest2Manager(manager, selectedResult = null, view = null) {
   return buildElectionViewModel({
@@ -139,6 +163,18 @@ export function buildElectionViewModelFromTest2Manager(manager, selectedResult =
 /**
  * @param {string} [view]
  * @param {string | null} [selectedConstituency]
+ * @param {{
+ *   resultsByConstituency?: { [constituency: string]: import('./election-domain.mjs').RawResult } | null,
+ *   previousResultsByConstituency?: { [constituency: string]: import('./election-domain.mjs').RawResult } | null,
+ *   body?: string,
+ *   date?: string,
+ *   bodyGroup?: string | null,
+ *   _niWideTitle?: () => string,
+ *   _currentStyleMode?: string,
+ *   overlayMode?: string,
+ *   _localResultsMode?: string,
+ *   _countDetailedView?: boolean
+ * }} controller the main map's election controller
  */
 export function buildElectionViewModelFromMainController(controller, view = 'party', selectedConstituency = null) {
   const results = Object.entries(controller.resultsByConstituency || {})
@@ -176,9 +212,15 @@ export function buildElectionViewModelFromMainController(controller, view = 'par
   });
 }
 
+/**
+ * One row per party per local contest: candidates stood, seats and first-preference share.
+ * @param {ElectionResult[]} [results]
+ */
 export function buildLocalPartySummary(results = []) {
+  /** @type {LocalPartyRow[]} */
   const rows = [];
   for (const result of results) {
+    /** @type {Map<string, LocalPartyRow>} */
     const byParty = new Map();
     const validPoll = Number(result.validPoll || result.totalVotes || 0);
     for (const candidate of result.candidates || []) {
@@ -196,7 +238,7 @@ export function buildLocalPartySummary(results = []) {
           share: null
         });
       }
-      const row = byParty.get(key);
+      const row = /** @type {LocalPartyRow} */ (byParty.get(key)); // set above
       row.stood += 1;
       row.firstPrefs += Number(candidate.firstPrefs ?? candidate.votes ?? 0) || 0;
       if (candidate.elected) row.seats += 1;
@@ -213,7 +255,12 @@ export function buildLocalPartySummary(results = []) {
   );
 }
 
+/**
+ * One row per council of a local election: its DEAs, seats, poll, and the leading party.
+ * @param {ElectionResult[]} [results]
+ */
 export function buildCouncilSummary(results = []) {
+  /** @type {Map<string, CouncilTotals>} */
   const councils = new Map();
   for (const result of results) {
     const council = result.localBody || 'Unknown council';
@@ -228,7 +275,7 @@ export function buildCouncilSummary(results = []) {
         partyVotes: new Map()
       });
     }
-    const row = councils.get(council);
+    const row = /** @type {CouncilTotals} */ (councils.get(council)); // set above
     row.deas += 1;
     row.seats += Number(result.seatsWon ?? result.seatsTotal ?? 0) || 0;
     row.validPoll += Number(result.validPoll || result.totalVotes || 0) || 0;
@@ -252,13 +299,25 @@ export function buildCouncilSummary(results = []) {
   }).sort((a, b) => String(a.council).localeCompare(String(b.council)));
 }
 
+/**
+ * The sum of a numeric field over the results, skipping values that are not numbers.
+ * @param {Array<{ [field: string]: unknown } | null | undefined>} results
+ * @param {string} key
+ * @returns {number}
+ */
 export function sumNumbers(results, key) {
-  return results.reduce((sum, result) => {
+  return results.reduce((/** @type {number} */ sum, result) => {
     const value = Number(result?.[key]);
     return Number.isFinite(value) ? sum + value : sum;
   }, 0);
 }
 
+/**
+ * The mean of a numeric field over the results that have one; null when none do.
+ * @param {Array<{ [field: string]: unknown } | null | undefined>} results
+ * @param {string} key
+ * @returns {number | null}
+ */
 export function averageNumbers(results, key) {
   const values = results
     .map((result) => Number(result?.[key]))
@@ -267,6 +326,10 @@ export function averageNumbers(results, key) {
   return values.reduce((sum, value) => sum + value, 0) / values.length;
 }
 
+/**
+ * @param {ElectionResult[]} results
+ * @param {Array<{ seats?: number | null }>} partySummary
+ */
 function buildElectionTotals(results, partySummary) {
   const validPoll = sumNumbers(results, 'validPoll');
   const totalPoll = sumNumbers(results, 'totalPoll');

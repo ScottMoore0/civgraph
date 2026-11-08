@@ -10,6 +10,9 @@
  */
 import parties from '../../registries/src/browser/parties.mjs';
 
+/** @typedef {import('../../types/index.js').Candidacy} Candidacy */
+/** @typedef {{ abbreviation: string, fullName: string }} PartyInfo */
+
 // [abbreviation, full name, ...other spellings in the data]: the parties registry's abbreviations
 // (data/registries/parties.json; the slice in registries/browser/parties.json).
 const PARTIES = parties.abbreviations;
@@ -23,6 +26,11 @@ const PARTIES = parties.abbreviations;
  */
 const NOT_PARTIES = parties.notParties;
 
+/**
+ * The matching key of a spelling: accents, "Lozenge", punctuation and case folded away.
+ * @param {unknown} value
+ * @returns {string}
+ */
 function key(value) {
   return String(value ?? '')
     .normalize('NFKD')
@@ -36,6 +44,7 @@ function key(value) {
     .toLowerCase();
 }
 
+/** @type {Map<string, PartyInfo>} */
 const BY_KEY = new Map();
 for (const [abbreviation, fullName, ...spellings] of PARTIES) {
   for (const spelling of [abbreviation, fullName, ...spellings]) {
@@ -46,12 +55,20 @@ for (const [abbreviation, fullName, ...spellings] of PARTIES) {
 
 const NOT_PARTY_KEYS = new Set(NOT_PARTIES.map(key));
 
-/** True for a label that is not a party at all, so callers can leave it out of party lists. */
+/**
+ * True for a label that is not a party at all, so callers can leave it out of party lists.
+ * @param {unknown} value
+ * @returns {boolean}
+ */
 export function isNonParty(value) {
   return NOT_PARTY_KEYS.has(key(value));
 }
 
-/** {abbreviation, fullName} for a party as spelled in the data, or null if unlisted. */
+/**
+ * {abbreviation, fullName} for a party as spelled in the data, or null if unlisted.
+ * @param {unknown} value
+ * @returns {PartyInfo | null}
+ */
 export function partyInfo(value) {
   const text = String(value ?? '').trim();
   if (!text) return null;
@@ -62,10 +79,20 @@ export function partyInfo(value) {
   return BY_KEY.get(withoutQualifier) || null;
 }
 
+/**
+ * The abbreviation a results table shows; the label itself when the party is unlisted.
+ * @param {unknown} value
+ * @returns {string}
+ */
 export function partyAbbreviation(value) {
   return partyInfo(value)?.abbreviation || String(value ?? '').trim();
 }
 
+/**
+ * The full name shown on hover; the label itself when the party is unlisted.
+ * @param {unknown} value
+ * @returns {string}
+ */
 export function partyFullName(value) {
   return partyInfo(value)?.fullName || String(value ?? '').trim();
 }
@@ -74,6 +101,8 @@ export function partyFullName(value) {
  * The party label as the source printed it ("HR (P)", "Rep Clubs"), when it says something the
  * party shown does not: not the party itself, its abbreviation or full name, or the ballot
  * description already shown. Empty otherwise. Printed labels are shown as printed.
+ * @param {Pick<Candidacy, 'partyAsPrinted' | 'party' | 'ballotDescription'> | null | undefined} candidate
+ * @returns {string}
  */
 export function partyAsPrintedLabel(candidate) {
   const printed = String(candidate?.partyAsPrinted || '').trim();
@@ -86,6 +115,9 @@ export function partyAsPrintedLabel(candidate) {
 /**
  * HTML for a party name in a table cell: the abbreviation, with the full name on hover.
  * `escape` is the caller's HTML escaper.
+ * @param {unknown} value
+ * @param {(text: string) => string} escape
+ * @returns {string}
  */
 export function partyLabelHtml(value, escape) {
   const text = String(value ?? '').trim();
