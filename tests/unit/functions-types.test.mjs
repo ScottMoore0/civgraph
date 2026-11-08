@@ -17,7 +17,9 @@ const config = JSON.parse(readFileSync(CONFIG_PATH, 'utf8'));
 const FLAGS = ['strictNullChecks', 'strictBindCallApply', 'strictFunctionTypes', 'noFallthroughCasesInSwitch',
   'noImplicitThis', 'alwaysStrict', 'useUnknownInCatchVariables', 'strictPropertyInitialization',
   'strictBuiltinIteratorReturn', 'noImplicitReturns', 'noImplicitOverride', 'noUnusedLocals', 'noUnusedParameters',
-  'exactOptionalPropertyTypes', 'checkJs'];
+  'exactOptionalPropertyTypes', 'checkJs',
+  // since the noImplicitAny review (nia-s2a and nia-s2b, 8 Nov 2026)
+  'noImplicitAny'];
 
 test('the strict-family flags stay on', () => {
   for (const flag of FLAGS) assert.equal(config.compilerOptions[flag], true, `functions/tsconfig.check.json turned ${flag} off`);
