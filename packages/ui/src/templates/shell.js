@@ -23,7 +23,7 @@ export const SITE_NAME = SITE.name;
  */
 export const THEME_BOOTSTRAP = "<script>(function(){var t=null;try{t=localStorage.getItem('theme');}catch(e){}if(t!=='dark'&&t!=='light'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;})();</script>";
 
-const SVG_OPEN = (cls, name, extra = '') => `<svg aria-hidden="true" class="${cls}" data-icon="lucide" data-icon-name="${name}"${extra} fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">`;
+const SVG_OPEN = (/** @type {string} */ cls, /** @type {string} */ name, extra = '') => `<svg aria-hidden="true" class="${cls}" data-icon="lucide" data-icon-name="${name}"${extra} fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">`;
 
 /** Main navigation, in order. `key` is what header({ active }) and the partial markers use. */
 export const NAV = [
@@ -70,11 +70,11 @@ export const SHELL_STYLES = ['assets/ui/tokens.css', 'assets/ui/tokens-legacy.cs
  *   URLs go out without ?v=).
  */
 /** The i18n reveal script of the site head, with the runtime's URL filled in. */
-const LANG_PREVIEW = (src) => "<script>(function(){var K='civgraph.langPreview',S='" + src + "',on=false;function load(){var i=window.civgraphI18n;if(i){if(i.show)i.show();return;}if(document.querySelector('script[data-i18n-runtime]'))return;var s=document.createElement('script');s.src=S;s.setAttribute('data-i18n-runtime','');document.head.appendChild(s);}window.civgraphLangReveal=function(){try{localStorage.setItem(K,'1');}catch(e){}load();};try{if(/[?&]lang-preview=0(?:&|$)/.test(location.search)){localStorage.removeItem(K);localStorage.removeItem('civgraph.lang');}on=localStorage.getItem(K)==='1';}catch(e){}if(on)load();})();</script>";
+const LANG_PREVIEW = (/** @type {string} */ src) => "<script>(function(){var K='civgraph.langPreview',S='" + src + "',on=false;function load(){var i=window.civgraphI18n;if(i){if(i.show)i.show();return;}if(document.querySelector('script[data-i18n-runtime]'))return;var s=document.createElement('script');s.src=S;s.setAttribute('data-i18n-runtime','');document.head.appendChild(s);}window.civgraphLangReveal=function(){try{localStorage.setItem(K,'1');}catch(e){}load();};try{if(/[?&]lang-preview=0(?:&|$)/.test(location.search)){localStorage.removeItem(K);localStorage.removeItem('civgraph.lang');}on=localStorage.getItem(K)==='1';}catch(e){}if(on)load();})();</script>";
 
 /** @param {{ version?: ((path: string) => string | null) | undefined }} [options] */
 export function head({ version } = {}) {
-  const url = (path) => {
+  const url = (/** @type {string} */ path) => {
     const v = version ? version(path) : null;
     return v ? `/${path}?v=${v}` : `/${path}`;
   };
@@ -87,6 +87,10 @@ export function head({ version } = {}) {
   ].join('\n'));
 }
 
+/**
+ * @param {(typeof NAV)[number]} item
+ * @param {string} active  the NAV key of the page
+ */
 function navLink(item, active) {
   const on = item.key === active;
   return `<a class="app-header__link${on ? ' app-header__link--active' : ''}" href="${item.href}"${on ? ' aria-current="page"' : ''}>`
@@ -96,7 +100,7 @@ function navLink(item, active) {
 /** The skip link every page starts with; its target is the page's <main id="main-content">. */
 export const SKIP_LINK = '<a class="cg-skip-link" href="#main-content">Skip to main content</a>';
 
-const skipLinkTo = ({ href, label }) => {
+const skipLinkTo = (/** @type {{ href: string, label: string }} */ { href, label }) => {
   if (!/^#[A-Za-z][\w-]*$/.test(href)) throw new Error(`header(): a skip link goes to an id on the page, not ${href}`);
   return `<a class="cg-skip-link" href="${href}">${String(label).replace(/[&<>"]/g, (c) => `&#${c.charCodeAt(0)};`)}</a>`;
 };
@@ -249,10 +253,10 @@ export const UI_STYLES = ['assets/ui/components.css'];
  * @param {string} p.title              <title>, already including " – Civgraph" if wanted
  * @param {string} [p.description]
  * @param {string} [p.canonical]        absolute URL
- * @param {object} [p.og]               extra Open Graph properties ({ type: 'profile' })
+ * @param {Record<string, string>} [p.og]  extra Open Graph properties ({ type: 'profile' })
  * @param {string} [p.section]          NAV key for the header
  * @param {string} [p.layout]           header layout
- * @param {*}      p.body               html`` for <main>
+ * @param {import('../../../core/src/html.js').Interpolation} p.body  html`` for <main>
  * @param {string[]} [p.styles]         extra stylesheet paths (no leading slash)
  * @param {string[]} [p.scripts]        extra deferred module scripts (no leading slash)
  * @param {string} [p.robots]           e.g. 'noindex'
@@ -263,7 +267,7 @@ export function page({
   title, description, canonical, og = {}, section = 'none', layout = 'page', body,
   styles = [], scripts = [], robots, jsonLd, version,
 }) {
-  const url = (path) => {
+  const url = (/** @type {string} */ path) => {
     const v = version ? version(path) : null;
     return v ? `/${path}?v=${v}` : `/${path}`;
   };
