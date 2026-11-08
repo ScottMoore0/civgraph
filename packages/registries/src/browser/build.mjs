@@ -69,7 +69,13 @@ export function browserSlices(root = REPO_ROOT) {
       candidateKindPatterns: /** @type {NonNullable<StatusMachineFields['kindPatterns']>} */ (statuses.machines['candidate-count'].kindPatterns).map(({ kind, pattern }) => [kind, pattern]),
       roundSiteLabels: { ...round.siteLabels },
       missingReasons: structuredClone(round.missingReasons),
-      contestLabels: { .../** @type {StatusMachineFields} */ (statuses.machines.contest).labels }
+      contestLabels: { .../** @type {StatusMachineFields} */ (statuses.machines.contest).labels },
+      // The contribution queue's machine (RG-04): the Functions' decide.js reads it from here
+      // (packages/api/src/contribution-status.js) instead of keeping a copy of the table.
+      contribution: {
+        initial: /** @type {StatusMachineFields} */ (statuses.machines.contribution).initial,
+        transitions: structuredClone(/** @type {StatusMachineFields} */ (statuses.machines.contribution).transitions),
+      }
     },
     'layer-types.json': {
       behaviour: Object.fromEntries(Object.keys(layers.behaviourFlags).map((flag) => [flag, typesWithBehaviour(layers, flag)]))
