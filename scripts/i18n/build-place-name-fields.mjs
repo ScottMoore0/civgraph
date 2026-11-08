@@ -27,7 +27,9 @@ const INDEX = 'render/metadata/maps-test-index.json';
 const OUT = 'assets/i18n/place-name-fields.json';
 const REVIEW = 'data/i18n/review/place-name-fields.tsv';
 
-/** label property -> Irish properties to try, in order. */
+/** @typedef {import('../../packages/types/index.js').LayerEntry} LayerEntry */
+
+/** @type {Record<string, string[]>} label property -> Irish properties to try, in order. */
 const PAIRS = {
   ENGLISH: ['GAEILGE'],
   ENG_NAME_VALUE: ['GLE_NAME_VALUE'],
@@ -46,7 +48,11 @@ const PAIRS = {
   Townland: ['Townland_Irish']
 };
 
-/** Where the Irish names in each kind of property come from, for the attribution column. */
+/**
+ * Where the Irish names in each kind of property come from, for the attribution column.
+ * @param {string} field
+ * @param {LayerEntry} layer
+ */
 function sourceOf(field, layer) {
   const providers = (Array.isArray(layer.provider) ? layer.provider : [layer.provider]).filter(Boolean).join(', ');
   if (/^(GAEILGE|GLE_NAME_VALUE|CONTAE|ED_GAEILGE|LE_GAEILGE)$/.test(field)) return `${providers || 'Tailte Éireann / CSO'}; the layer's own Irish-name attribute (Tailte Éireann / CSO boundary data, Irish forms from Logainm, CC BY 4.0)`;
@@ -54,6 +60,9 @@ function sourceOf(field, layer) {
   return providers || 'layer source';
 }
 
+/**
+ * @param {LayerEntry} layer
+ */
 function kindOf(layer) {
   const text = `${layer.id} ${layer.category || ''} ${layer.name || ''}`.toLowerCase();
   if (/townland/.test(text)) return 'townlands';
@@ -67,14 +76,18 @@ function kindOf(layer) {
 }
 
 function build() {
+  /** @type {{ layers?: LayerEntry[] }} */
   const index = JSON.parse(readFileSync(INDEX, 'utf8'));
+  /** @type {Record<string, string>} layer id (and source map id) -> Irish-name property */
   const layers = {};
   const rows = [['layer_id', 'name', 'kind', 'label_property', 'irish_property', 'source_and_licence']];
   const unpaired = [];
+  /** @type {Record<string, number>} */
   const byKind = {};
   for (const layer of index.layers || []) {
     const props = new Set([...(layer.categoricalProperties || []), ...(layer.popupProperties || [])]);
-    const candidates = PAIRS[layer.labelProperty] || [];
+    // A layer without a label property looks up 'undefined' / 'null', which no PAIRS key is.
+    const candidates = PAIRS[/** @type {string} */ (layer.labelProperty)] || [];
     const field = candidates.find((c) => props.has(c));
     if (!field) {
       const irishLooking = [...props].filter((p) => /gaeilge|_ga$|:ga$|irish/i.test(p) && !/grid|_x$|_y$/i.test(p));
@@ -86,7 +99,7 @@ function build() {
     if (layer.sourceMapId && !(layer.sourceMapId in layers)) layers[layer.sourceMapId] = field;
     const kind = kindOf(layer);
     byKind[kind] = (byKind[kind] || 0) + 1;
-    rows.push([layer.id, layer.name || '', kind, layer.labelProperty, field, sourceOf(field, layer)]);
+    rows.push([layer.id, layer.name || '', kind, /** @type {string} */ (layer.labelProperty), field, sourceOf(field, layer)]); // paired, so it has one
   }
   const json = {
     _status: 'generated',

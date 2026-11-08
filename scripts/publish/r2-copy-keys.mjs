@@ -38,10 +38,32 @@ const DEFAULT_OUT = 'tmp/r2-key-renames/pmtiles.json';
 export const MAX_SINGLE_COPY_BYTES = 5 * 1024 ** 3;
 const ALLOWED_PREFIXES = [OLD_PMTILES_PREFIX, NEW_PMTILES_PREFIX];
 
-/** Every tileUrl string in a JSON document, wherever it sits. */
+/** @typedef {{ from: string, to: string }} KeyPair  one object's old key and its new key */
+/**
+ * The manifest `plan` writes and `copy` / `verify` read.
+ * @typedef {object} KeyRenameManifest
+ * @property {1} schemaVersion
+ * @property {'r2-key-renames'} kind
+ * @property {string} description
+ * @property {string} source          the layer registry it was planned from
+ * @property {string} generatedAt
+ * @property {string} retainOldUntil  YYYY-MM-DD
+ * @property {{ date?: string, note?: string } | null} approval  recorded by the main session from the owner's words
+ * @property {KeyPair[]} pairs
+ * @property {Array<{ url: string, count: number }>} notCovered  tileUrls the rename rule leaves alone
+ */
+/** @typedef {import('@aws-sdk/client-s3').S3Client} S3Client */
+/** @typedef {Pick<typeof import('@aws-sdk/client-s3'), 'HeadObjectCommand' | 'CopyObjectCommand'>} S3Commands */
+/** @typedef {{ size: number, etag: string | null }} ObjectHead */
+
+/**
+ * Every tileUrl string in a JSON document, wherever it sits.
+ * @param {unknown} doc
+ */
 export function collectTileUrls(doc) {
+  /** @type {string[]} */
   const urls = [];
-  const walk = (node) => {
+  const walk = (/** @type {unknown} */ node) => {
     if (Array.isArray(node)) node.forEach(walk);
     else if (node && typeof node === 'object') {
       for (const [key, value] of Object.entries(node)) {
@@ -54,15 +76,22 @@ export function collectTileUrls(doc) {
   return urls;
 }
 
-/** The manifest for a layer registry: distinct pairs, sorted, plus what was left out. */
+/**
+ * The manifest for a layer registry: distinct pairs, sorted, plus what was left out.
+ * @param {unknown} doc   the layer registry (render/metadata/maps-test.json)
+ * @returns {KeyRenameManifest}
+ */
 export function planManifest(doc, { source = DEFAULT_SOURCE, today = new Date() } = {}) {
+  /** @type {Map<string, string>} */
   const pairs = new Map();
+  /** @type {Map<string, number>} */
   const skipped = new Map();
   for (const url of collectTileUrls(doc)) {
     const pair = renamePmtilesKey(url);
     if (pair) pairs.set(pair.from, pair.to);
     else skipped.set(url, (skipped.get(url) || 0) + 1);
   }
+  /** @type {Map<string, string>} */
   const targets = new Map();
   for (const [from, to] of pairs) {
     if (targets.has(to)) throw new Error(`${from} and ${targets.get(to)} would both be copied to ${to}`);
@@ -83,11 +112,14 @@ export function planManifest(doc, { source = DEFAULT_SOURCE, today = new Date() 
   };
 }
 
-/** Problems that make a manifest unsafe to run. */
+/**
+ * Problems that make a manifest unsafe to run.
+ * @param {{ kind?: unknown, schemaVersion?: unknown, pairs?: unknown } | null | undefined} manifest   as read from disk
+ */
 export function validateManifest(manifest) {
   const errors = [];
   if (manifest?.kind !== 'r2-key-renames' || manifest.schemaVersion !== 1) errors.push('not an r2-key-renames v1 manifest');
-  const pairs = Array.isArray(manifest?.pairs) ? manifest.pairs : [];
+  const pairs = /** @type {Array<Partial<KeyPair> | null>} */ (Array.isArray(manifest?.pairs) ? manifest.pairs : []);
   if (!pairs.length) errors.push('no pairs');
   const seenTo = new Set();
   for (const [i, p] of pairs.entries()) {
@@ -98,7 +130,7 @@ export function validateManifest(manifest) {
         errors.push(`pair ${i}: ${key} is outside ${ALLOWED_PREFIXES.join(' and ')}`);
       }
     }
-    const shape = pairShapeProblem(p);
+    const shape = pairShapeProblem(/** @type {KeyPair} */ (p)); // from and to are checked above
     if (shape) errors.push(`pair ${i}: ${shape}`);
     if (seenTo.has(p.to)) errors.push(`pair ${i}: ${p.to} is a destination twice`);
     seenTo.add(p.to);
@@ -106,10 +138,21 @@ export function validateManifest(manifest) {
   return errors;
 }
 
+/**
+ * @param {string | undefined} bucket
+ * @param {string} key
+ */
 export function copySource(bucket, key) {
   return `${bucket}/${key.split('/').map(encodeURIComponent).join('/')}`;
 }
 
+/**
+ * @param {S3Client} client
+ * @param {S3Commands} commands
+ * @param {string | undefined} bucket
+ * @param {string} key
+ * @returns {Promise<ObjectHead | null>}  null when there is no such object
+ */
 async function head(client, commands, bucket, key) {
   try {
     const res = await client.send(new commands.HeadObjectCommand({ Bucket: bucket, Key: key }));
@@ -121,7 +164,7 @@ async function head(client, commands, bucket, key) {
   }
 }
 
-const sameObject = (a, b) => Boolean(a && b && a.size === b.size && (!a.etag || !b.etag || a.etag === b.etag));
+const sameObject = (/** @type {ObjectHead | null} */ a, /** @type {ObjectHead | null} */ b) => Boolean(a && b && a.size === b.size && (!a.etag || !b.etag || a.etag === b.etag));
 
 /**
  * Copy (or, without apply, plan) every pair. `client` is an S3Client; `commands` holds the
@@ -158,7 +201,11 @@ export async function copyPairs(pairs, { client, commands, bucket, apply = false
   return results;
 }
 
-/** Read-only comparison of every pair. */
+/**
+ * Read-only comparison of every pair.
+ * @param {KeyPair[]} pairs
+ * @param {{ client: S3Client, commands: S3Commands, bucket?: string }} s3
+ */
 export async function verifyPairs(pairs, { client, commands, bucket }) {
   const results = [];
   for (const { from, to } of pairs) {
@@ -180,12 +227,20 @@ async function s3FromEnv() {
   return { client, commands: sdk, bucket: r2.bucket };
 }
 
+/**
+ * @param {string[]} argv
+ * @param {string} name
+ */
 function argValue(argv, name) {
   const i = argv.indexOf(name);
   return i >= 0 ? argv[i + 1] : undefined;
 }
 
+/**
+ * @param {Array<{ status: string }>} results
+ */
 function summarise(results) {
+  /** @type {Record<string, number>} */
   const counts = {};
   for (const r of results) counts[r.status] = (counts[r.status] || 0) + 1;
   return Object.entries(counts).map(([k, v]) => `${v} ${k}`).join(', ');
@@ -211,6 +266,7 @@ export async function main(argv = process.argv.slice(2)) {
     console.error('r2-copy-keys: --manifest <file> is required (make one with plan)');
     return 2;
   }
+  /** @type {KeyRenameManifest} checked by validateManifest before use */
   const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
   const errors = validateManifest(manifest);
   if (errors.length) {

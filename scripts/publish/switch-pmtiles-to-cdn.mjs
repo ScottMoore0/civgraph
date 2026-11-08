@@ -41,22 +41,41 @@ const MANIFEST_PATH = resolve(ROOT, 'render/metadata/cdn-upload-manifest.json');
 const RANGE_REPORT_PATH = resolve(ROOT, 'render/metadata/cdn-range-report.json');
 const UPLOAD_REPORT_PATH = resolve(ROOT, 'render/metadata/cdn-upload-report.json');
 
+/**
+ * A maps-test.json layer as this switch reads and rewrites it.
+ * @typedef {import('../../packages/types/index.js').LayerEntry & {
+ *   tilePackage?: { url?: string, fallback?: string, localPath?: string, r2Key?: string, cdnUrl?: string, serving?: string, [key: string]: unknown }
+ * }} SwitchLayer
+ */
+/** @typedef {import('./r2-manifest.mjs').PmtilesAsset} PmtilesAsset */
+/** @typedef {import('./r2-manifest.mjs').MvtDirectoryAsset} MvtDirectoryAsset */
+/** @typedef {import('./verify-pmtiles-cdn.mjs').RangeCheck} RangeCheck */
+/** @typedef {import('./r2-upload-pmtiles.mjs').UploadResult} UploadResult */
+
+/** @type {{ layers?: SwitchLayer[], [key: string]: unknown }} */
 const metadata = JSON.parse(readFileSync(METADATA_PATH, 'utf8'));
+/** @type {{ assets?: import('./r2-manifest.mjs').CdnUploadAsset[] }} */
 const manifest = JSON.parse(readFileSync(MANIFEST_PATH, 'utf8'));
+/** @type {{ generatedAt?: string, results?: RangeCheck[] }} */
 const rangeReport = JSON.parse(readFileSync(RANGE_REPORT_PATH, 'utf8'));
+/** @type {{ results?: UploadResult[] }} */
 const uploadReport = JSON.parse(readFileSync(UPLOAD_REPORT_PATH, 'utf8'));
+/** @type {Map<string, PmtilesAsset>} */
 const assetByLayer = new Map((manifest.assets || []).filter((asset) => asset.kind === 'pmtiles').map((asset) => [asset.layerId, asset]));
+/** @type {Map<string, MvtDirectoryAsset>} */
 const mvtAssetByLayer = new Map((manifest.assets || []).filter((asset) => asset.kind === 'mvt-directory').map((asset) => [asset.layerId, asset]));
 const verified = new Set((rangeReport.results || []).filter((result) => result.ok).map((result) => result.layerId));
 // Each layer's range result: an ok one for the manifest's URL when there is one, else any.
+/** @type {Map<string, RangeCheck>} */
 const rangeByLayer = new Map();
 for (const result of rangeReport.results || []) {
   if (!result?.layerId) continue;
   const held = rangeByLayer.get(result.layerId);
   const asset = assetByLayer.get(result.layerId);
-  const rank = (r) => (r?.ok ? 2 : 0) + (r?.ok && asset && r.cdnUrl === asset.cdnUrl ? 1 : 0);
+  const rank = (/** @type {RangeCheck} */ r) => (r?.ok ? 2 : 0) + (r?.ok && asset && r.cdnUrl === asset.cdnUrl ? 1 : 0);
   if (!held || rank(result) > rank(held)) rangeByLayer.set(result.layerId, result);
 }
+/** @type {Map<string, UploadResult>} */
 const uploadByLayer = new Map();
 for (const result of uploadReport.results || []) {
   if (!result?.layerId) continue;
@@ -65,7 +84,10 @@ for (const result of uploadReport.results || []) {
 }
 let switched = 0;
 let switchedMvtDirectories = 0;
-/** Layers with a passing range check the lifecycle refused to switch, and why. */
+/**
+ * Layers with a passing range check the lifecycle refused to switch, and why.
+ * @type {string[]}
+ */
 const refused = [];
 
 const layers = (metadata.layers || []).map((layer) => {
@@ -105,18 +127,19 @@ const layers = (metadata.layers || []).map((layer) => {
     };
   }
   switched += 1;
+  // Only a layer with an asset gets a passing pmtilesVerdict.
   return {
     ...layer,
     sourceType: 'pmtiles',
-    tileUrl: asset.cdnUrl,
+    tileUrl: /** @type {PmtilesAsset} */ (asset).cdnUrl,
     tilesFallback: layer.tilesFallback || layer.tiles || layer.tilePackage?.fallback || null,
     tilePackage: {
       ...(layer.tilePackage || {}),
       preferred: true,
       serving: 'cdn',
-      cdnUrl: asset.cdnUrl,
-      r2Key: asset.targetKey,
-      localPath: asset.localPath,
+      cdnUrl: /** @type {PmtilesAsset} */ (asset).cdnUrl,
+      r2Key: /** @type {PmtilesAsset} */ (asset).targetKey,
+      localPath: /** @type {PmtilesAsset} */ (asset).localPath,
       localUrl: (layer.tilePackage?.url || layer.tileUrl || '').startsWith('/render/')
         ? (layer.tilePackage?.url || layer.tileUrl)
         : `/render/pmtiles/generated/${layer.id}.pmtiles`,

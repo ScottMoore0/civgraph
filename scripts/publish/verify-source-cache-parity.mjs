@@ -78,24 +78,32 @@ if (idsAt !== -1 && !ONLY.size) {
   process.exit(2);
 }
 
+/** @type {import('../../packages/types/index.js').MapCatalogue} */
 const catalogue = JSON.parse(readFileSync(CATALOGUE, 'utf8'));
+/** @type {{ layers?: Array<import('../../packages/types/index.js').LayerEntry & { sourceFile?: string }> }} */
 const render = JSON.parse(readFileSync(RENDER, 'utf8'));
 
 // sourceMapId is the join between the catalogue's published download and the render
 // pipeline's local copy of the same geometry.
+/** @type {Map<string, string>} map id -> local source file */
 const sourceByMapId = new Map();
 for (const layer of render.layers || []) {
   const mapId = layer.sourceMapId || layer.id;
   if (layer.sourceFile && !sourceByMapId.has(mapId)) sourceByMapId.set(mapId, layer.sourceFile);
 }
 
+/** @typedef {{ id: string, published: string, local: string }} ParityItem  a published download (URL) and its local copy */
+/** @type {ParityItem[]} */
 const work = [];
+/** @type {string[]} */
 const derived = [];
+/** @type {string[]} */
 const differentFormat = [];
+/** @type {string[]} */
 const relativePaths = [];
 for (const map of catalogue.maps || []) {
   if (ONLY.size && !ONLY.has(map.id)) continue;
-  const published = map.files?.fgb;
+  const published = /** @type {string | undefined} */ (map.files?.fgb); // a URL or (8 entries) a repo-relative path
   if (!published) continue;
   const local = sourceByMapId.get(map.id);
   if (!local) continue;
@@ -128,13 +136,19 @@ for (const map of catalogue.maps || []) {
 
 console.log(`Comparing ${work.length} published download(s) against the local source cache.\n`);
 
+/** @type {string[]} */
 const mismatched = [];
+/** @type {string[]} */
 const unverifiable = [];
+/** @type {string[]} */
 const unreachable = [];
 let matched = 0;
 let noLocal = 0;
 let done = 0;
 
+/**
+ * @param {ParityItem} item
+ */
 async function check(item) {
   if (!existsSync(item.local)) { noLocal += 1; return; }
   let etag;

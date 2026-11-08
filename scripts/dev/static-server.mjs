@@ -2,6 +2,10 @@ import { createServer } from 'node:http';
 import { existsSync, readFileSync, statSync } from 'node:fs';
 import { extname, resolve } from 'node:path';
 
+/**
+ * @param {number} port   only builds the base URL request paths are parsed against
+ * @param {string} [root]
+ */
 export function createTestStaticServer(port, root = process.cwd()) {
   const ROOT = resolve(root);
   return createServer((req, res) => {
@@ -50,6 +54,9 @@ export function createTestStaticServer(port, root = process.cwd()) {
   });
 }
 
+/**
+ * @param {string} filePath
+ */
 function contentType(filePath) {
   const extension = extname(filePath).toLowerCase();
   if (filePath.endsWith('.pbf')) return 'application/x-protobuf';
