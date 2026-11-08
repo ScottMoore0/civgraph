@@ -14,6 +14,18 @@ import { asStore } from '../../../storage/src/d1.js';
 import { LAYERS, MAPS, MAP_CARDS } from '../queries/maps.js';
 
 /** @typedef {import('../../../storage/src/store.js').RecordStore | D1Database} StoreOrBinding a store or a D1 binding (asStore) */
+/** @typedef {import('../../../storage/src/store.js').RecordStore} RecordStore */
+/** @typedef {import('../../../types/index.js').RecordsDb.CataloguePartsRow} CataloguePartsRow the head rows of catalogue_parts and layer_parts have the same shape */
+/** @typedef {import('../../../types/index.js').RecordsDb.MapsRow} MapsRow */
+/** @typedef {import('../../../types/index.js').RecordsDb.LayersRow} LayersRow */
+/** @typedef {import('../../../types/index.js').RecordsDb.MapCardsRow} MapCardsRow */
+/** @typedef {import('../../../types/index.js').RecordsDb.FeatureGroupsRow} FeatureGroupsRow */
+/** @typedef {import('../../../types/index.js').RecordsDb.DocumentPartsRow} DocumentPartsRow */
+/**
+ * One top-level key of a stored document, in order: its JSON text, or null for the list's place.
+ * @typedef {{ key: string, ord: number, value: string | null }} HeadPart
+ */
+/** @typedef {{ detail: (id: string) => string, duplicates: (id: string) => string }} LayerUrls where an index entry points (API_URLS or FILE_URLS) */
 
 /**
  * The browser policy of every map document: revalidate each load (the ETag is the code and
@@ -22,15 +34,27 @@ import { LAYERS, MAPS, MAP_CARDS } from '../queries/maps.js';
  */
 export const MAP_CACHE = { cacheControl: 'public, max-age=0, must-revalidate' };
 
-/** The document's head rows (key, ord, value) and the list's place, as [key, valueText][] in order. */
+/**
+ * The document's head rows (key, ord, value) and the list's place, as [key, valueText][] in order.
+ * @param {RecordStore} db
+ * @param {'catalogue_parts' | 'layer_parts'} table
+ * @param {string} listKey
+ * @param {number} listOrd
+ * @returns {Promise<HeadPart[]>}
+ */
 async function headParts(db, table, listKey, listOrd) {
-  const results = await db.all(MAPS.headParts(table));
+  const results = /** @type {Pick<CataloguePartsRow, 'key' | 'ord' | 'value'>[]} */ (await db.all(MAPS.headParts(table)));
+  /** @type {HeadPart[]} */
   const rows = results.map((r) => ({ key: r.key, ord: Number(r.ord), value: r.value }));
   rows.push({ key: listKey, ord: listOrd, value: null });
   return rows.sort((a, b) => a.ord - b.ord || (a.key < b.key ? -1 : 1));
 }
 
-/** Where the list sits in a document: one past the last head key before it (its ord is the gap). */
+/**
+ * Where the list sits in a document: one past the last head key before it (its ord is the gap).
+ * @param {RecordStore} db
+ * @param {'catalogue_parts' | 'layer_parts'} table
+ */
 async function listOrd(db, table) {
   // ingest-maps.mjs numbers every top-level key, the list included, and stores the others: the
   // list's ord is the one number in 0..n missing from the head rows.
@@ -41,14 +65,22 @@ async function listOrd(db, table) {
   return i;
 }
 
-/** Compact JSON text of a document whose list is the given texts (each already JSON). */
+/**
+ * Compact JSON text of a document whose list is the given texts (each already JSON).
+ * @param {HeadPart[]} parts
+ * @param {string[]} listTexts
+ */
 function compactDocument(parts, listTexts) {
   return `{${parts.map((p) => `${JSON.stringify(p.key)}:${p.value === null ? `[${listTexts.join(',')}]` : p.value}`).join(',')}}`;
 }
 
-/** JSON.stringify(doc, null, 2) + "\n", written from the parts without building the object. */
+/**
+ * JSON.stringify(doc, null, 2) + "\n", written from the parts without building the object.
+ * @param {HeadPart[]} parts
+ * @param {unknown[]} listValues
+ */
 function prettyDocument(parts, listValues) {
-  const indent = (text, pad) => text.replace(/\n/g, `\n${pad}`);
+  const indent = (/** @type {string} */ text, /** @type {string} */ pad) => text.replace(/\n/g, `\n${pad}`);
   const lines = parts.map((p) => {
     let value;
     if (p.value === null) {
@@ -63,12 +95,17 @@ function prettyDocument(parts, listValues) {
 
 // ---------------------------------------------------------------- maps.json
 
-/** The catalogue document (maps.json) as text: compact for the API, or the file's own bytes. */
+/**
+ * The catalogue document (maps.json) as text: compact for the API, or the file's own bytes.
+ * @param {StoreOrBinding} source
+ * @param {{ visibleOnly?: boolean, pretty?: boolean }} [options]
+ * @returns {Promise<string | null>}
+ */
 export async function mapsDocumentText(source, { visibleOnly = false, pretty = false } = {}) {
   const db = asStore(source);
   const [ord, maps] = await Promise.all([
     listOrd(db, 'catalogue_parts'),
-    db.all(visibleOnly ? MAPS.visible : MAPS.all),
+    /** @type {Promise<Pick<MapsRow, 'record'>[]>} */ (db.all(visibleOnly ? MAPS.visible : MAPS.all)),
   ]);
   const parts = await headParts(db, 'catalogue_parts', 'maps', ord);
   const records = maps.map((r) => r.record);
@@ -76,17 +113,29 @@ export async function mapsDocumentText(source, { visibleOnly = false, pretty = f
   return pretty ? prettyDocument(parts, records.map((t) => parseJson(t))) : compactDocument(parts, records);
 }
 
+/**
+ * One catalogue record's JSON text, by id or else by slug; null when there is none.
+ * @param {StoreOrBinding} source
+ * @param {{ id?: string | null, slug?: string | null }} key
+ * @returns {Promise<string | null>}
+ */
 export async function mapRecord(source, { id = null, slug = null }) {
   const db = asStore(source);
-  const row = id
+  const row = /** @type {Pick<MapsRow, 'record'> | null} */ (id
     ? await db.first(MAPS.byId, [id])
-    : await db.first(MAPS.bySlug, [slug]);
+    : await db.first(MAPS.bySlug, [slug]));
   return row ? row.record : null;
 }
 
+/**
+ * The catalogue records of one category, as `{"maps":[...]}` text.
+ * @param {StoreOrBinding} source
+ * @param {string} category
+ * @param {boolean} visibleOnly
+ */
 export async function mapsInCategory(source, category, visibleOnly) {
   const db = asStore(source);
-  const results = await db.all(visibleOnly ? MAPS.categoryVisible : MAPS.category, [category]);
+  const results = /** @type {Pick<MapsRow, 'record'>[]} */ (await db.all(visibleOnly ? MAPS.categoryVisible : MAPS.category, [category]));
   return `{"maps":[${results.map((r) => r.record).join(',')}]}`;
 }
 
@@ -106,12 +155,16 @@ export async function resolveLayerId(source, id) {
   return alias ? { id: String(alias.layer_id), alias: true } : null;
 }
 
-/** The full render metadata (maps-test.json), compact. */
+/**
+ * The full render metadata (maps-test.json), compact.
+ * @param {StoreOrBinding} source
+ * @returns {Promise<string | null>}
+ */
 export async function layersDocumentText(source) {
   const db = asStore(source);
   const [ord, layers] = await Promise.all([
     listOrd(db, 'layer_parts'),
-    db.all(LAYERS.records),
+    /** @type {Promise<Pick<LayersRow, 'record'>[]>} */ (db.all(LAYERS.records)),
   ]);
   const parts = await headParts(db, 'layer_parts', 'layers', ord);
   const records = layers.map((r) => r.record);
@@ -119,38 +172,57 @@ export async function layersDocumentText(source) {
   return compactDocument(parts, records);
 }
 
-/** The startup index (maps-test-index.json's shape), its entries pointing at this API. */
+/**
+ * The startup index (maps-test-index.json's shape), its entries pointing at this API.
+ * @param {StoreOrBinding} source
+ * @param {LayerUrls} [urls]
+ */
 export async function layerIndexDocument(source, urls = API_URLS) {
   const db = asStore(source);
   const [ord, layers, head] = await Promise.all([
     listOrd(db, 'layer_parts'),
-    db.all(LAYERS.index),
+    /** @type {Promise<Pick<LayersRow, 'record' | 'duplicates'>[]>} */ (db.all(LAYERS.index)),
     db.all(LAYERS.head),
   ]);
   const rows = layers;
   if (!rows.length && !head.length) return null;
   const parts = await headParts(db, 'layer_parts', 'layers', ord);
+  /** @type {Record<string, unknown>} */
   const headObject = {};
   for (const p of parts) headObject[p.key] = p.value === null ? [] : parseJson(p.value);
   const entries = rows.map((r) => indexEntry(parseJson(r.record, {}), parseJson(r.duplicates), urls));
   return indexDocument(headObject, entries);
 }
 
+/**
+ * One layer's row (its record and duplicate-id sidecar, as JSON text).
+ * @param {StoreOrBinding} source
+ * @param {string} id
+ * @returns {Promise<Pick<LayersRow, 'record' | 'duplicates'> | null>}
+ */
 export async function layerRow(source, id) {
   const db = asStore(source);
-  return db.first(LAYERS.row, [id]);
+  return /** @type {Promise<Pick<LayersRow, 'record' | 'duplicates'> | null>} */ (db.first(LAYERS.row, [id]));
 }
 
 // ---------------------------------------------------------------- verbatim documents
 
-/** A document stored in parts (document_parts), as its exact text, or null. */
+/**
+ * A document stored in parts (document_parts), as its exact text, or null.
+ * @param {StoreOrBinding} source
+ * @param {string} name
+ * @returns {Promise<string | null>}
+ */
 export async function storedDocumentText(source, name) {
   const db = asStore(source);
-  const results = await db.all(MAPS.documentParts, [name]);
+  const results = /** @type {Pick<DocumentPartsRow, 'body'>[]} */ (await db.all(MAPS.documentParts, [name]));
   return results.length ? results.map((r) => r.body).join('') : null;
 }
 
-/** The catalogue-pane documents by their API view name. */
+/**
+ * The catalogue-pane documents by their API view name.
+ * @type {Readonly<Record<string, string>>}
+ */
 export const CATALOGUE_VIEWS = {
   pane: 'catalogue/catalogue.json',
   places: 'catalogue/places.json',
@@ -160,11 +232,16 @@ export const CATALOGUE_VIEWS = {
 
 // ---------------------------------------------------------------- Browse map files
 
+/**
+ * The Browse maps list (/data/browse/maps.json) as compact text; null when not loaded.
+ * @param {StoreOrBinding} source
+ * @returns {Promise<string | null>}
+ */
 export async function browseMapsText(source) {
   const db = asStore(source);
   const [headRow, cards] = await Promise.all([
     db.first(MAP_CARDS.head, ['browse/maps.json']),
-    db.all(MAP_CARDS.cards),
+    /** @type {Promise<Pick<MapCardsRow, 'card'>[]>} */ (db.all(MAP_CARDS.cards)),
   ]);
   if (!headRow) return null;
   const head = parseJson(headRow.body, {});
@@ -172,11 +249,16 @@ export async function browseMapsText(source) {
     .concat([{ key: 'items', ord: 1e9, value: null }]), cards.map((r) => r.card));
 }
 
+/**
+ * The Browse features list (/data/browse/features.json) as compact text; null when not loaded.
+ * @param {StoreOrBinding} source
+ * @returns {Promise<string | null>}
+ */
 export async function browseFeaturesText(source) {
   const db = asStore(source);
   const [headRow, groups] = await Promise.all([
     db.first(MAP_CARDS.head, ['browse/features.json']),
-    db.all(MAP_CARDS.featureGroups),
+    /** @type {Promise<Pick<FeatureGroupsRow, 'card'>[]>} */ (db.all(MAP_CARDS.featureGroups)),
   ]);
   if (!headRow) return null;
   const head = parseJson(headRow.body, {});
@@ -184,7 +266,11 @@ export async function browseFeaturesText(source) {
     .concat([{ key: 'items', ord: 1e9, value: null }]), groups.map((r) => r.card));
 }
 
-/** A Browse map record (its page's item) by slug, or by map id when no slug matches. */
+/**
+ * A Browse map record (its page's item) by slug, or by map id when no slug matches.
+ * @param {StoreOrBinding} source
+ * @param {string} slugOrId
+ */
 export async function browseMapRecord(source, slugOrId) {
   const db = asStore(source);
   const bySlug = await db.first(MAP_CARDS.bySlug, [slugOrId]);

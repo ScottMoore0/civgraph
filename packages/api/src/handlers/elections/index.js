@@ -37,12 +37,29 @@ import { ELECTIONS, ELECTIONS_API, ELECTION_CARDS } from '../../queries/election
 
 // Bump whenever the RESPONSE SHAPE changes, not just when the data does: it is part of the
 // cache key. elections-8: the records tables; ORDER BY on every list; the views above.
+/** @typedef {import('../../types.js').ApiContext} ApiContext */
+/** @typedef {import('../../../../storage/src/store.js').RecordStore} RecordStore */
+/** @typedef {import('../../../../types/index.js').ApiV1.ElectionsListAnswer} ElectionsListAnswer */
+/**
+ * A bundle result as lite=1 trims it: the fields it drops and the two it adds.
+ * @typedef {object} LiteResult
+ * @property {unknown} [elected]
+ * @property {unknown} [countGroup]
+ * @property {{ Constituency?: { countGroup?: Array<{ Count_Number?: unknown }> } }} [animationPayload]
+ * @property {number} [animationRowCount]
+ * @property {boolean} [animationHasMultipleCounts]
+ */
+
 const CACHE_VERSION = 'elections-8';
 
 // Fields of a contest that the constituency views never carried (they live in other tables).
 const CONTEST_TABLE_FIELDS = ['candidates', 'countGroup', 'animationPayload', 'featureId', 'featureName', 'matchName', 'matched'];
 
-/** Columns first, then the stored record over them, as the old meta column was spread. */
+/**
+ * Columns first, then the stored record over them, as the old meta column was spread.
+ * @param {Record<string, unknown> | null} row
+ * @returns {Record<string, unknown> | null}
+ */
 function withMeta(row) {
   if (!row) return row;
   const { meta, ...rest } = row;
@@ -50,12 +67,14 @@ function withMeta(row) {
   return parsed ? { ...rest, ...withoutMarkers(parsed) } : rest;
 }
 
+/** @param {Record<string, unknown>} row */
 function contestRow(row) {
-  const out = withMeta(row);
+  const out = /** @type {Record<string, unknown>} */ (withMeta(row));
   for (const k of CONTEST_TABLE_FIELDS) delete out[k];
   return out;
 }
 
+/** @param {import('../../types.js').ApiContext} context */
 export async function onRequestGet(context) {
   const moved = retiredSlugRedirect(new URL(context.request.url));
   if (moved) return moved;
@@ -66,6 +85,7 @@ export async function onRequestGet(context) {
  * The same request with a retired contest slug replaced, as a 301, or null. contest= holds the
  * contest's own slug, so it is read with its election's slug in front (the key with "__" made
  * "-"); a record view's slug= is the whole slug.
+ * @param {URL} url
  */
 export function retiredSlugRedirect(url) {
   const params = url.searchParams;
@@ -93,7 +113,10 @@ export function retiredSlugRedirect(url) {
   });
 }
 
-/** Case, accents and punctuation folded, so "Cork North-Central" finds "Cork North Central". */
+/**
+ * Case, accents and punctuation folded, so "Cork North-Central" finds "Cork North Central".
+ * @param {unknown} value
+ */
 function foldName(value) {
   return String(value || '')
     .normalize('NFKD')
@@ -104,7 +127,7 @@ function foldName(value) {
     .trim();
 }
 
-const json = (payload, status = 200) => new Response(typeof payload === 'string' ? payload : JSON.stringify(payload), {
+const json = (/** @type {unknown} */ payload, status = 200) => new Response(typeof payload === 'string' ? payload : JSON.stringify(payload), {
   status,
   headers: {
     'Content-Type': 'application/json',
@@ -113,13 +136,19 @@ const json = (payload, status = 200) => new Response(typeof payload === 'string'
   },
 });
 
-/** An election key from a key or a Browse slug (dail-eireann-2024-11-29). */
+/**
+ * An election key from a key or a Browse slug (dail-eireann-2024-11-29).
+ * @param {RecordStore} db
+ * @param {string} value
+ * @returns {Promise<string | null>}
+ */
 async function electionKeyFor(db, value) {
   if (!value) return null;
-  const row = await db.first(ELECTIONS_API.keyFor, [value]);
+  const row = /** @type {{ key: string } | null} */ (await db.first(ELECTIONS_API.keyFor, [value]));
   return row?.key || null;
 }
 
+/** @param {ApiContext} context */
 async function handle(context) {
   const url = new URL(context.request.url);
   const key = (url.searchParams.get('key') || '').trim();
@@ -132,6 +161,7 @@ async function handle(context) {
   const bound = binding(context.env, 'ELECTIONS_DB');
   if (!bound) return json({ error: 'ELECTIONS_DB binding not configured' }, 503);
   // through the storage adapter (packages/storage/); the SQL is named in queries/elections.js
+  /** @type {RecordStore} */
   const db = fromD1(bound);
 
   try {
@@ -153,7 +183,7 @@ async function handle(context) {
       constituency = String(row.seq);
     }
     if (constituencyName && (constituency === null || constituency === '')) {
-      const names = await db.all(ELECTIONS_API.contestNames, [key]);
+      const names = /** @type {Array<{ seq: number, name: string }>} */ (await db.all(ELECTIONS_API.contestNames, [key]));
       const wanted = foldName(constituencyName);
       const match = (names || []).find((row) => row.name === constituencyName)
         || (names || []).find((row) => foldName(row.name) === wanted);
@@ -191,7 +221,7 @@ async function handle(context) {
         // lite=1 drops the two redundant structures (38.6% of a bundle): countGroup, which the
         // client derives from the animation payload, and `elected`, a subset of candidates no
         // client reads; the payload itself becomes two signals, fetched per constituency.
-        for (const result of bundle.results || []) {
+        for (const result of /** @type {{ results?: LiteResult[] }} */ (bundle).results || []) {
           delete result.elected;
           delete result.countGroup;
           const rows = result.animationPayload?.Constituency?.countGroup || [];
@@ -210,10 +240,10 @@ async function handle(context) {
       electionAggregates(db, key),
     ]);
     if (!election) return json({ error: 'election not found' }, 404);
-    const head = withMeta(election);
+    const head = /** @type {Record<string, unknown>} */ (withMeta(election));
     for (const k of ['matchedCount', 'unmatchedCount', 'loadable']) delete head[k];
     for (const [name, value] of aggregates) head[name] = value;
-    const rows = cons.map((row) => {
+    const rows = cons.map((/** @type {Record<string, unknown>} */ row) => {
       const { featureId, featureName, matched, ...rest } = row;
       const mapped = contestRow(rest);
       return { ...mapped, featureId, featureName, matched: matched === 1 || matched === true };
@@ -229,14 +259,19 @@ async function handle(context) {
   }
 }
 
-const listFold = (value) => String(value || '').normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase();
+const listFold = (/** @type {unknown} */ value) => String(value || '').normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase();
 
+/**
+ * @param {RecordStore} db
+ * @param {string} view
+ * @param {URL} url
+ */
 async function handleView(db, view, url) {
   const key = (url.searchParams.get('key') || '').trim();
   switch (view) {
     case 'manifest': {
       const head = await documentBody(db, 'elections-test2.json');
-      const results = await db.all(ELECTIONS_API.manifest);
+      const results = /** @type {Array<{ entry: string }>} */ (await db.all(ELECTIONS_API.manifest));
       return json({ ...(head || {}), elections: results.map((r) => parseJson(r.entry)) });
     }
     case 'summary': {
@@ -265,18 +300,27 @@ async function handleView(db, view, url) {
   }
 }
 
-/** The Browse slug of an election from its key or slug. */
+/**
+ * The Browse slug of an election from its key or slug.
+ * @param {RecordStore} db
+ * @param {string | null} value
+ * @returns {Promise<string | null>}
+ */
 async function electionSlugFor(db, value) {
   if (!value) return null;
-  const row = await db.first(ELECTION_CARDS.slugFor, [value]);
+  const row = /** @type {{ slug: string } | null} */ (await db.first(ELECTION_CARDS.slugFor, [value]));
   return row?.slug || null;
 }
 
-/** One Browse election record by slug: an election's detail item, or a contest or overall entry. */
+/**
+ * One Browse election record by slug: an election's detail item, or a contest or overall entry.
+ * @param {RecordStore} db
+ * @param {string} slugIn
+ */
 async function electionRecord(db, slugIn) {
   let slug = String(slugIn || '');
   if (slug.includes('__')) slug = slug.replace(/__/g, '-');
-  const card = await db.first(ELECTION_CARDS.card, [slug]);
+  const card = /** @type {{ slug: string, entryKind: string | null, electionKey: string | null } | null} */ (await db.first(ELECTION_CARDS.card, [slug]));
   if (!card) return json({ error: 'not found', slug }, 404);
   if (card.entryKind === 'election') {
     const row = await db.first(ELECTION_CARDS.detail, [slug]);
@@ -284,19 +328,24 @@ async function electionRecord(db, slugIn) {
   }
   const parent = await electionSlugFor(db, card.electionKey);
   const row = parent ? await db.first(ELECTION_CARDS.contests, [parent]) : null;
-  const item = (parseJson(row?.contests, []) || []).find((entry) => entry.slug === slug);
+  const item = (parseJson(row?.contests, []) || []).find((/** @type {{ slug?: unknown }} */ entry) => entry.slug === slug);
   return item ? json({ item, parent }) : json({ error: 'not found', slug }, 404);
 }
 
 /**
  * data/browse/elections-list.json, whole (no limit) or one page of it. Filtered pages answer
  * from the columns: body (slug or name), decade ("1990s"), q (words over the search text).
+ * @param {RecordStore} db
+ * @param {URL} url
+ * @returns {Promise<ElectionsListAnswer>}
  */
 async function electionList(db, url) {
   const head = (await documentBody(db, 'browse/elections-list.json')) || {};
+  /** @type {string[]} */
   const where = [];
+  /** @type {string[]} */
   const binds = [];
-  const bind = (v) => `?${binds.push(v)}`;
+  const bind = (/** @type {string} */ v) => `?${binds.push(v)}`;
   const bodies = url.searchParams.getAll('body').map((v) => v.trim()).filter(Boolean);
   if (bodies.length) where.push(ELECTION_CARDS.bodyFilter(bodies.map(bind), bodies.map(bind)));
   const decades = url.searchParams.getAll('decade').map((v) => v.trim()).filter(Boolean);
@@ -309,10 +358,10 @@ async function electionList(db, url) {
   const offset = Math.max(0, Number(url.searchParams.get('offset')) || 0);
   const page = limit ? ` LIMIT ${limit} OFFSET ${offset}` : '';
   const filtered = where.length > 1;
-  const [rows, total] = await Promise.all([
+  const [rows, total] = /** @type {[Array<{ list_card: string }>, { n: number } | null]} */ (await Promise.all([
     db.all(ELECTION_CARDS.list(clause, page), binds),
     db.first(ELECTION_CARDS.listCount(clause), binds),
-  ]);
+  ]));
   const items = rows.map((r) => parseJson(r.list_card));
   // The whole list keeps `of` (a contest's place of its election in the list) valid; a page or a
   // filtered list cannot, so its entries carry their election's fields instead.
