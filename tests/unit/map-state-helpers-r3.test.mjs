@@ -43,10 +43,10 @@ function sources(dir) {
   });
 }
 
-test('src/ and packages/map/app/ toggle hidden only through setHidden', () => {
-  const helper = path.join('src', 'map', 'state-helpers.mjs');
+test('src/ and packages/map toggle hidden only through setHidden', () => {
+  const helper = path.join('packages', 'map', 'src', 'state-helpers.mjs');
   const offenders = [];
-  for (const file of [...sources('src'), ...sources(path.join('app', 'src'))]) {
+  for (const file of [...sources('src'), ...sources(path.join('packages', 'map', 'src')), ...sources(path.join('packages', 'map', 'app'))]) {
     if (file === helper || file.includes(`${path.sep}libs${path.sep}`)) continue;
     const text = readFileSync(file, 'utf8');
     text.split('\n').forEach((line, index) => {

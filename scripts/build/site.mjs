@@ -94,7 +94,10 @@ export const SERVED_FROM = Object.fromEntries(Object.entries(
 /** The repository file a served (dist-relative) path is copied from. */
 export function sourceOf(rel) {
   const p = toPosix(rel).replace(/^\/+/, '');
-  for (const [served, from] of Object.entries(SERVED_FROM)) if (p.startsWith(served)) return from + p.slice(served.length);
+  for (const [served, from] of Object.entries(SERVED_FROM)) {
+    if (p.startsWith(served)) return from + p.slice(served.length);
+    if (`${p}/` === served) return from.slice(0, -1); // the served directory itself
+  }
   return p;
 }
 
