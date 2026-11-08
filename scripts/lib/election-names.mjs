@@ -3,6 +3,20 @@ import {
   councilNameOn, councilsById, eraTitles, plainTitleBodies, pre1973CouncilBodyNames
 } from '../../packages/registries/src/councils.mjs';
 
+/**
+ * What a title is made from: an election's body, date, constituencies and key, as the election
+ * index and manifest give them. Every field may be missing.
+ * @typedef {object} ElectionNameScope
+ * @property {string} [body]
+ * @property {string | null} [bodyGroup]          'local-government' for the NI councils
+ * @property {string} [date]                      ISO day (a longer ISO string is cut to the day)
+ * @property {(string | null | undefined)[]} [constituencies]
+ * @property {string | null} [specialType]        'recall-petition'
+ * @property {string | null} [specialDisplayName] a title the index gives outright
+ * @property {string} [key]                       the election key ('<body>__<date>-<topic>' for referendums)
+ * @property {string} [bodySlug]
+ */
+
 const NATIONAL_CONSTITUENCY_NAMES = new Set([
   'ireland',
   'republic of ireland',
@@ -12,6 +26,10 @@ const NATIONAL_CONSTITUENCY_NAMES = new Set([
 // Memoised: a pure string function called hundreds of thousands of times on a few thousand
 // distinct names (the largest single cost of the election manifest build). The cache lives on
 // the function so it exists however early the module calls it.
+/**
+ * @param {unknown} value
+ * @returns {string}
+ */
 function normalizeName(value) {
   if (typeof value !== 'string') return normalizeNameUncached(value);
   const memo = /** @type {{ cache?: Map<string, string> }} */ (/** @type {unknown} */ (normalizeName));
@@ -25,6 +43,7 @@ function normalizeName(value) {
   return result;
 }
 
+/** @param {unknown} value */
 function normalizeNameUncached(value) {
   return String(value || '')
     .normalize('NFKD')
@@ -34,6 +53,7 @@ function normalizeNameUncached(value) {
     .trim();
 }
 
+/** @param {string | null | undefined} dateValue */
 function dateParts(dateValue) {
   const raw = String(dateValue || '').slice(0, 10);
   const date = new Date(`${raw}T00:00:00`);
@@ -131,12 +151,17 @@ const SAME_DAY_REFERENDUM_AMENDMENTS = new Map([
   ['2024-03-08-care', 40]
 ]);
 
+/** @param {string | null | undefined} keyOrDate */
 export function sameDayReferendumAmendment(keyOrDate) {
   const tail = String(keyOrDate || '').split('__').pop() ?? '';
   return SAME_DAY_REFERENDUM_AMENDMENTS.get(tail) ?? null;
 }
 
 // Newest first; on a shared day, referendums by descending amendment number.
+/**
+ * @param {{ date?: string, key?: string }} a
+ * @param {{ date?: string, key?: string }} b
+ */
 export function compareElectionsNewestFirst(a, b) {
   const day = String(b.date || '').slice(0, 10).localeCompare(String(a.date || '').slice(0, 10));
   if (day) return day;
@@ -177,6 +202,7 @@ const REFERENDUM_TOPIC_LABELS = new Map([
   ['alternative-vote', 'Alternative Vote']
 ]);
 
+/** @param {string} value */
 function slugToWords(value) {
   return String(value || '')
     .replace(/[-_]+/g, ' ')
@@ -184,10 +210,12 @@ function slugToWords(value) {
     .trim();
 }
 
+/** @param {string} value */
 function titleCaseTopic(value) {
   return slugToWords(value).replace(/\b([a-z])/g, (match) => match.toUpperCase());
 }
 
+/** @param {ElectionNameScope} [scope] */
 function referendumTopicFromKey({ key = '', bodySlug = '', date = '' } = {}) {
   const datePrefix = String(date || '').slice(0, 10);
   const rawKey = String(key || '');
@@ -221,20 +249,28 @@ const NI_REFERENDUM_TITLES = new Map([
   ['2016-06-23-eu-membership', '2016 EU referendum in Northern Ireland']
 ]);
 
+/**
+ * @param {ElectionNameScope} [params]
+ * @returns {string}
+ */
 function niReferendumTitle(params = {}) {
   const { year } = dateParts(params.date);
   const rawKey = String(params.key || '');
   const dateKey = rawKey.includes('__') ? rawKey.split('__').pop() ?? '' : String(params.date || '');
-  if (NI_REFERENDUM_TITLES.has(dateKey)) return NI_REFERENDUM_TITLES.get(dateKey);
+  if (NI_REFERENDUM_TITLES.has(dateKey)) return /** @type {string} */ (NI_REFERENDUM_TITLES.get(dateKey));
   return `${year} Northern Ireland referendum`.trim();
 }
 
+/**
+ * @param {ElectionNameScope} [params]
+ * @returns {string}
+ */
 function referendumTitle(params = {}) {
   const { year } = dateParts(params.date);
   const datePrefix = String(params.date || '').slice(0, 10);
   const topic = referendumTopicFromKey(params);
   const exactKey = topic ? `${datePrefix}-${topic}` : datePrefix;
-  if (REFERENDUM_TOPIC_OVERRIDES.has(exactKey)) return REFERENDUM_TOPIC_OVERRIDES.get(exactKey);
+  if (REFERENDUM_TOPIC_OVERRIDES.has(exactKey)) return /** @type {string} */ (REFERENDUM_TOPIC_OVERRIDES.get(exactKey));
   const normalizedTopic = REFERENDUM_TOPIC_LABELS.get(topic) || titleCaseTopic(topic).toLowerCase();
   if (!normalizedTopic) return `${year} Irish referendum`.trim();
   const prefix = ['brexit', 'alternative vote', 'good friday agreement'].includes(normalizedTopic.toLowerCase())
@@ -243,14 +279,21 @@ function referendumTitle(params = {}) {
   return `${year} Irish ${prefix} referendum`.trim();
 }
 
+/** @param {string | null | undefined} dateValue */
 export function electionYear(dateValue) {
   return dateParts(dateValue).year;
 }
 
+/** @param {string | null | undefined} dateValue */
 export function formatElectionDayMonthYear(dateValue) {
   return dateParts(dateValue).dayMonthYear;
 }
 
+/**
+ * The constituency names, trimmed, deduplicated, without the national ones ("Ireland").
+ * @param {(string | null | undefined)[] | null} [constituencies]
+ * @returns {string[]}
+ */
 export function electionConstituencyNames(constituencies = []) {
   return [...new Set((constituencies || [])
     .map((name) => String(name || '').trim())
@@ -274,23 +317,31 @@ const NI_COUNCILS_1923_67_PLAIN_TITLES = plainTitleBodies(COUNCILS);
 const PRE1973_COUNCIL_BODIES = pre1973CouncilBodyNames(COUNCILS);
 const COUNCILS_BY_ID = councilsById(COUNCILS);
 
-/** A council's registry name in a year (the councils the code dates by year: Lurgan, Portadown, Strabane). */
+/**
+ * A council's registry name in a year (the councils the code dates by year: Lurgan, Portadown, Strabane).
+ * @param {string} id
+ * @param {string | number} year
+ */
 function councilNameInYear(id, year) {
   const council = COUNCILS_BY_ID.get(id);
   if (!council) throw new Error(`councils registry has no ${id}`);
   return councilNameOn(council, String(year));
 }
 
+/**
+ * @param {string} normalizedBody
+ * @param {string | null | undefined} date
+ * @returns {string | null}
+ */
 function niCouncilEraName(normalizedBody, date) {
   const eras = NI_COUNCIL_ERA_TITLES.get(normalizedBody);
   if (!eras) return null;
   const day = String(date || '');
-  return (eras.find(([from]) => day >= from) || eras.at(-1))[1];
+  const dated = /** @type {[string, string][]} */ (eras);
+  return (dated.find(([from]) => day >= from) || /** @type {[string, string]} */ (dated.at(-1)))[1];
 }
 
-/**
- * @param {{ body?: string, bodyGroup?: string | null, date?: string, constituencies?: any[], specialType?: string | null, bodySlug?: string }} [scope]
- */
+/** @param {ElectionNameScope} [scope] */
 export function isElectionByElectionScope({ body = '', bodyGroup = null, date = '', constituencies = [], specialType = null, bodySlug = '' } = {}) {
   const normalizedBody = normalizeName(body);
   if (PRE1973_COUNCIL_BODIES.has(normalizedBody)) return false;
@@ -319,6 +370,10 @@ export function isElectionByElectionScope({ body = '', bodyGroup = null, date = 
   return names.length <= 2;
 }
 
+/**
+ * @param {string} body
+ * @param {string | null} bodyGroup
+ */
 function byElectionRegion(body, bodyGroup) {
   if (bodyGroup === 'local-government') return 'Northern Ireland';
   const normalizedBody = normalizeName(body);
@@ -341,12 +396,17 @@ const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'Ju
  * A party-internal body: a party's leadership or nomination ballots, whose electorate is a party
  * body (data/elections-source/data/elections_index.json bodyType "party-internal"; the slug ends
  * -leadership or -nomination, which scripts/check/rules/facts-model.mjs holds to).
+ * @param {ElectionNameScope} [scope]
  */
 export function isPartyInternalBody({ body = '', bodySlug = '' } = {}) {
   if (bodySlug) return /-(leadership|nomination)$/.test(String(bodySlug));
   return /(leadership|nomination)$/i.test(String(body || '').trim());
 }
 
+/**
+ * @param {ElectionNameScope} [scope]
+ * @returns {string}
+ */
 export function canonicalElectionTitle({
   body = '',
   bodyGroup = null,
@@ -452,6 +512,11 @@ export function canonicalElectionTitle({
 }
 
 // The site separates the parts of a title with a spaced en dash ("Cromac – 1920 Belfast ...").
+/**
+ * @param {string} parentTitle
+ * @param {string | null | undefined} resultName
+ * @param {{ regionalList?: boolean, overall?: boolean }} [options]
+ */
 export function electionResultEntryLabel(parentTitle, resultName, { regionalList = false, overall = false } = {}) {
   if (overall) return `Overall results – ${parentTitle}`;
   const label = regionalList ? 'Regional List' : String(resultName || '').trim();
