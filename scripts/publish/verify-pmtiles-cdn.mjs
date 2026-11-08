@@ -40,7 +40,7 @@ const ONLY_IDS = new Set(readArgList('--ids'));
  * @property {string | null} [accessControlExposeHeaders]
  * @property {string | null} [cacheStatus]
  * @property {string} [error]
- * @property {string} [checkedAt]   read by r2-manifest.mjs for remoteVerifiedAt; not written here
+ * @property {string} [checkedAt]   when this layer was checked; r2-manifest.mjs copies it to remoteVerifiedAt
  */
 
 /** @type {{ assets?: import('./r2-manifest.mjs').CdnUploadAsset[] }} */
@@ -53,6 +53,9 @@ const results = [];
 
 for (const [index, asset] of assets.entries()) {
   console.log(`[${index + 1}/${assets.length}] ${asset.cdnUrl}`);
+  // Recorded on every row, ok or not: r2-manifest.mjs reads it as remoteVerifiedAt, and without
+  // it a newly verified archive never got that date.
+  const checkedAt = new Date().toISOString();
   try {
     const response = await fetch(asset.cdnUrl, {
       method: 'GET',
@@ -78,10 +81,11 @@ for (const [index, asset] of assets.entries()) {
       contentRange: headers['content-range'] || null,
       accessControlAllowOrigin: headers['access-control-allow-origin'] || null,
       accessControlExposeHeaders: headers['access-control-expose-headers'] || null,
-      cacheStatus: headers['cf-cache-status'] || null
+      cacheStatus: headers['cf-cache-status'] || null,
+      checkedAt
     });
   } catch (err) {
-    results.push({ layerId: asset.layerId, cdnUrl: asset.cdnUrl, ok: false, error: String(err.message).slice(0, 1000) });
+    results.push({ layerId: asset.layerId, cdnUrl: asset.cdnUrl, ok: false, error: String(err.message).slice(0, 1000), checkedAt });
   }
 }
 
