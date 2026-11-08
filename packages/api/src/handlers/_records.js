@@ -19,6 +19,12 @@ import { T } from '../queries/tables.js';
 import { ELECTIONS } from '../queries/elections.js';
 import { DOCUMENTS } from '../queries/documents.js';
 
+/** @typedef {import('../types.js').ApiContext} ApiContext */
+/** @typedef {import('../types.js').ApiEnv} ApiEnv */
+/** @typedef {import('../../../storage/src/store.js').RecordStore | D1Database} StoreOrBinding a store or a D1 binding (asStore) */
+/** @typedef {import('../../../types/index.js').RecordsDb.RElectionsRow} RElectionsRow */
+/** @typedef {import('../../../types/index.js').RecordsDb.ElectionAggregatesRow} ElectionAggregatesRow */
+
 /** The two tables whose final names are still taken by live legacy tables (stage H renames them). */
 export { T };
 
@@ -33,6 +39,12 @@ export { resetDatasetMemo };
 
 export const JSON_HEADERS = { 'Content-Type': 'application/json; charset=utf-8', 'Access-Control-Allow-Origin': '*' };
 
+/**
+ * A JSON answer: a string is sent as it is (already JSON text), anything else is stringified.
+ * @param {unknown} payload
+ * @param {number} [status]
+ * @param {Record<string, string>} [extra] more headers
+ */
 export function jsonResponse(payload, status = 200, extra = {}) {
   return new Response(typeof payload === 'string' ? payload : JSON.stringify(payload), {
     status,
@@ -139,6 +151,21 @@ export function answerLadder(onDone) {
  *              the last-good copy, the R2 copy or 503 with Retry-After.
  *   `r2Key`    the file's copy on R2 (MAPS_BUCKET), left by the old publish: read before D1 with
  *              `r2First`, else only when D1 fails and no last-good copy is held.
+ *
+ * @typedef {object} CachedJsonOptions
+ * @property {boolean} [stable]
+ * @property {number} [edgeTtl]
+ * @property {boolean} [gate]
+ * @property {string | null} [r2Key]
+ * @property {boolean} [r2First]
+ * @property {string} [cacheControl]
+ * @property {(path: AnswerStep[]) => void} [onPath] for tests: the ladder's path once the answer is chosen
+ *
+ * @param {ApiContext} context
+ * @param {string} codeVersion
+ * @param {() => Response | null | Promise<Response | null>} handler builds the answer from D1
+ * @param {CachedJsonOptions} [options]
+ * @returns {Promise<Response>}
  */
 export async function cachedJson(context, codeVersion, handler, options = {}) {
   const { stable = false, edgeTtl = 0, gate = false, r2Key = null, r2First = false } = options;
@@ -174,7 +201,7 @@ export async function cachedJson(context, codeVersion, handler, options = {}) {
   }
 
   /** A 200's headers; stored unless a load is under way. Returns it and the put's promise. */
-  const finish = (resp, loading) => {
+  const finish = (/** @type {Response} */ resp, /** @type {boolean} */ loading) => {
     resp = new Response(resp.body, resp);
     if (version || stable) resp.headers.set('ETag', etag);
     resp.headers.set('Cache-Control', loading ? CACHE.loading : cacheControl);
@@ -185,7 +212,7 @@ export async function cachedJson(context, codeVersion, handler, options = {}) {
     }
     return { resp, put };
   };
-  const fallback = async (resp) => {
+  const fallback = async (/** @type {Response | null} */ resp) => {
     const lg = cache ? await cache.match(lastGood) : null;
     if (lg) {
       ladder.to('last-good');
@@ -229,6 +256,7 @@ export async function cachedJson(context, codeVersion, handler, options = {}) {
     if (hit) { ladder.to('edge-hit'); return hit; }
   }
   ladder.to('gate');
+  /** @type {(value?: unknown) => void} */
   let settle;
   const mine = new Promise((resolve) => { settle = resolve; });
   if (!flight) GATE.inflight.set(cacheKey.url, mine);
@@ -279,7 +307,7 @@ export function slotTo(/** @type {GateSlot} */ slot, /** @type {GateSlotState} *
   slot.state = next;
 }
 
-/** @type {{ active: number, queue: Array<{ resolve: (release: (() => void) | null) => void, timer: any, slot: GateSlot }>, inflight: Map<string, unknown>, peak: number }} */
+/** @type {{ active: number, queue: Array<{ resolve: (release: (() => void) | null) => void, timer: number | null, slot: GateSlot }>, inflight: Map<string, unknown>, peak: number }} */
 const GATE = { active: 0, queue: [], inflight: new Map(), peak: 0 };
 
 /** For tests: the gate's counters, and a reset. */
@@ -324,17 +352,23 @@ function releaseGate(/** @type {GateSlot} */ slot) {
     slotTo(slot, 'released');
     const next = GATE.queue.shift();
     if (next) {
-      clearTimeout(next.timer);
+      clearTimeout(/** @type {number} */ (next.timer)); // set as the waiter was queued
       slotTo(next.slot, 'active');
       next.resolve(releaseGate(next.slot));
     } else GATE.active = Math.max(0, GATE.active - 1);
   };
 }
 
+/**
+ * The file's copy on R2 (MAPS_BUCKET), as a JSON answer; null when there is none.
+ * @param {ApiEnv | undefined} env
+ * @param {string | null} key
+ * @returns {Promise<Response | null>}
+ */
 async function r2Copy(env, key) {
   if (!key || !binding(env, 'MAPS_BUCKET')) return null;
   try {
-    const obj = await binding(env, 'MAPS_BUCKET').get(key);
+    const obj = await /** @type {R2Bucket} */ (binding(env, 'MAPS_BUCKET')).get(key); // bound: checked above
     return obj ? new Response(obj.body, { headers: { ...JSON_HEADERS, 'X-Civgraph-Copy': 'r2' } }) : null;
   } catch {
     return null;
@@ -351,19 +385,31 @@ export function parseJson(text, fallback = null) {
   try { return JSON.parse(/** @type {string} */ (text)); } catch { return fallback; }
 }
 
-/** A marker the loader put where a value lives in another table ("$contests", "$candidacies"...). */
+/**
+ * A marker the loader put where a value lives in another table ("$contests", "$candidacies"...).
+ * @type {(value: unknown) => value is string}
+ */
 export const isMarker = (value) => typeof value === 'string' && value.length > 1 && value[0] === '$'
   && /^\$[a-zA-Z.]+$/.test(value);
 
-/** The object without its marker keys. */
+/**
+ * The object without its marker keys.
+ * @param {Record<string, unknown> | null | undefined} object
+ */
 export function withoutMarkers(object) {
+  /** @type {Record<string, unknown>} */
   const out = {};
   for (const [k, v] of Object.entries(object || {})) if (!isMarker(v)) out[k] = v;
   return out;
 }
 
-/** Replace marker values by fill(key, marker) in place of the marker, keeping key order. */
+/**
+ * Replace marker values by fill(key, marker) in place of the marker, keeping key order.
+ * @param {Record<string, unknown> | null | undefined} object
+ * @param {(key: string, marker: string) => unknown} fill
+ */
 export function fillMarkers(object, fill) {
+  /** @type {Record<string, unknown>} */
   const out = {};
   for (const [k, v] of Object.entries(object || {})) out[k] = isMarker(v) ? fill(k, v) : v;
   return out;
@@ -376,6 +422,8 @@ export function fillMarkers(object, fill) {
  * but scientific notation below 1e-4 ("6.0498446131848995e-05") where JavaScript writes fixed.
  * The election bundles were last written by the Python person-id scripts (indent 2,
  * ensure_ascii False), so this is what makes the compatibility route byte-identical.
+ * @param {number} n
+ * @returns {string}
  */
 export function pyNumber(n) {
   if (!Number.isFinite(n)) return 'null';
@@ -388,7 +436,12 @@ export function pyNumber(n) {
   return `${mantissa}e${sign}${String(Math.abs(e)).padStart(2, '0')}`;
 }
 
-/** JSON text as Python's json.dumps(value, indent=2, ensure_ascii=False) writes it. */
+/**
+ * JSON text as Python's json.dumps(value, indent=2, ensure_ascii=False) writes it.
+ * @param {unknown} value
+ * @param {number} [level]
+ * @returns {string}
+ */
 export function pyJson(value, level = 0) {
   if (value === null || value === undefined) return 'null';
   if (typeof value === 'number') return pyNumber(value);
@@ -404,7 +457,11 @@ export function pyJson(value, level = 0) {
   return `{\n${entries.map(([k, v]) => `${pad}${JSON.stringify(k)}: ${pyJson(v, level + 1)}`).join(',\n')}\n${close}}`;
 }
 
-/** JSON text as Python's json.dumps(value, ensure_ascii=False, separators=(',', ':')) writes it. */
+/**
+ * JSON text as Python's json.dumps(value, ensure_ascii=False, separators=(',', ':')) writes it.
+ * @param {unknown} value
+ * @returns {string}
+ */
 export function pyJsonCompact(value) {
   if (value === null || value === undefined) return 'null';
   if (typeof value === 'number') return pyNumber(value);
@@ -418,20 +475,39 @@ export function pyJsonCompact(value) {
 // Each helper takes a RecordStore or a D1 binding (asStore), so callers move to the adapter one
 // route at a time; the SQL is named in packages/api/src/queries/elections.js (ST-6).
 
+/**
+ * @param {StoreOrBinding} db
+ * @param {string} key
+ * @returns {Promise<Pick<RElectionsRow, 'key' | 'slug' | 'compact' | 'meta'> | null>}
+ */
 export async function electionRow(db, key) {
-  return asStore(db).first(ELECTIONS.row, [key]);
+  return /** @type {Promise<Pick<RElectionsRow, 'key' | 'slug' | 'compact' | 'meta'> | null>} */ (asStore(db).first(ELECTIONS.row, [key]));
 }
 
+/**
+ * An election's aggregates (its `$aggregate` keys), by name, parsed.
+ * @param {StoreOrBinding} db
+ * @param {string} key
+ * @returns {Promise<Map<string, any>>} the values are stored JSON of any shape (parseJson)
+ */
 export async function electionAggregates(db, key) {
-  const results = await asStore(db).all(ELECTIONS.aggregates, [key]);
+  const results = /** @type {Pick<ElectionAggregatesRow, 'name' | 'payload'>[]} */ (await asStore(db).all(ELECTIONS.aggregates, [key]));
+  /** @type {Map<string, string>} */
   const joined = new Map();
   for (const r of results || []) joined.set(r.name, (joined.get(r.name) || '') + r.payload);
   return new Map([...joined].map(([name, text]) => [name, parseJson(text)]));
 }
 
-/** One contest of a bundle, exactly as the file held it. */
+/**
+ * One contest of a bundle, exactly as the file held it.
+ * @param {string} contestMeta the contest's meta JSON (contests.meta)
+ * @param {string[]} candidacyMetas its candidacies' meta JSON, in order (candidacies.meta)
+ * @param {string | undefined} animationPayloadText its animation payload JSON (contest_animation.payload)
+ * @returns {Record<string, unknown>}
+ */
 export function contestObject(contestMeta, candidacyMetas, animationPayloadText) {
   const meta = parseJson(contestMeta, {});
+  /** @type {{ Constituency?: { countGroup?: unknown } } | null | undefined} */
   let anim;
   const animation = () => {
     if (anim === undefined) anim = parseJson(animationPayloadText, null);
@@ -445,29 +521,36 @@ export function contestObject(contestMeta, candidacyMetas, animationPayloadText)
   });
 }
 
-/** The contests of an election, in order, each with its candidacies and animation payload. */
+/**
+ * The contests of an election, in order, each with its candidacies and animation payload.
+ * @param {StoreOrBinding} db
+ * @param {string} key
+ * @param {{ perContest?: boolean }} [options] false: two queries for the whole election instead of two per contest
+ * @returns {AsyncGenerator<Record<string, unknown>, void, unknown>}
+ */
 export async function* contestsOf(db, key, { perContest = true } = {}) {
   const store = asStore(db);
-  const contests = await store.all(ELECTIONS.contests, [key]);
+  const contests = /** @type {Array<{ seq: number, meta: string }>} */ (await store.all(ELECTIONS.contests, [key]));
   if (!perContest) {
-    const [cands, anims] = await Promise.all([
+    const [cands, anims] = /** @type {[Array<{ seq: number, meta: string }>, Array<{ seq: number, payload: string }>]} */ (await Promise.all([
       store.all(ELECTIONS.candidacyMetas, [key]),
       store.all(ELECTIONS.animations, [key]),
-    ]);
+    ]));
+    /** @type {Map<number, string[]>} */
     const bySeq = new Map();
     for (const r of cands) {
       if (!bySeq.has(r.seq)) bySeq.set(r.seq, []);
-      bySeq.get(r.seq).push(r.meta);
+      /** @type {string[]} */ (bySeq.get(r.seq)).push(r.meta);
     }
     const animBySeq = new Map(anims.map((r) => [r.seq, r.payload]));
     for (const c of contests || []) yield contestObject(c.meta, bySeq.get(c.seq) || [], animBySeq.get(c.seq));
     return;
   }
   for (const c of contests || []) {
-    const [cands, anim] = await Promise.all([
+    const [cands, anim] = /** @type {[Array<{ meta: string }>, { payload: string } | null]} */ (await Promise.all([
       store.all(ELECTIONS.contestCandidacyMetas, [key, c.seq]),
       store.first(ELECTIONS.contestAnimation, [key, c.seq]),
-    ]);
+    ]));
     yield contestObject(c.meta, cands.map((r) => r.meta), anim?.payload);
   }
 }
@@ -476,6 +559,9 @@ export async function* contestsOf(db, key, { perContest = true } = {}) {
  * The bundle as text chunks, in the file's own key order and Python formatting: the head, then
  * one contest at a time, so the largest bundle (ireland-local 2019, 24.7 MB) is never held whole.
  * Returns null when the election does not exist.
+ * @param {StoreOrBinding} db
+ * @param {string} key
+ * @returns {Promise<AsyncGenerator<string, void, unknown> | null>}
  */
 export async function bundleChunks(db, key) {
   const row = await electionRow(db, key);
@@ -483,6 +569,7 @@ export async function bundleChunks(db, key) {
   const meta = parseJson(row.meta, {});
   const aggregates = Object.values(meta).some((v) => v === '$aggregate') ? await electionAggregates(db, key) : new Map();
   const compact = row.compact === 1;
+  /** @type {(v: unknown, level?: number) => string} */
   const text = (v, level) => (compact ? pyJsonCompact(v) : pyJson(v, level));
   async function* generate() {
     const entries = Object.entries(meta);
@@ -514,18 +601,27 @@ export async function bundleChunks(db, key) {
   return generate();
 }
 
-/** The bundle as an object (format=bundle). */
+/**
+ * The bundle as an object (format=bundle).
+ * @param {StoreOrBinding} db
+ * @param {string} key
+ */
 export async function bundleObject(db, key) {
   const row = await electionRow(db, key);
   if (!row) return null;
   const meta = parseJson(row.meta, {});
   const aggregates = await electionAggregates(db, key);
+  /** @type {Record<string, unknown>[]} */
   const contests = [];
   for await (const c of contestsOf(db, key, { perContest: false })) contests.push(c);
   return fillMarkers(meta, (k, marker) => (marker === '$contests' ? contests : (aggregates.get(k) ?? null)));
 }
 
-/** A ReadableStream of text chunks from an async iterator. */
+/**
+ * A ReadableStream of text chunks from an async iterator.
+ * @param {AsyncIterator<string>} iterator
+ * @returns {ReadableStream<Uint8Array>}
+ */
 export function streamFrom(iterator) {
   const encoder = new TextEncoder();
   return new ReadableStream({
@@ -537,6 +633,11 @@ export function streamFrom(iterator) {
   });
 }
 
+/**
+ * A stored document (documents.body), parsed; null when there is none.
+ * @param {StoreOrBinding} db
+ * @param {string} name
+ */
 export async function documentBody(db, name) {
   const row = await asStore(db).first(DOCUMENTS.body, [name]);
   return row ? parseJson(row.body) : null;

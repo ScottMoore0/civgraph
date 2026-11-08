@@ -26,6 +26,7 @@ const MAX_LIMIT = 200;
 // `complete: false` in the response says the bottom was not reached.
 const MAX_SCAN = 2000;
 
+/** @param {import('../../types.js').ApiContext} context */
 export async function onRequestGet(context) {
   const { auth, response } = await requireAdmin(context);
   if (response) return response;
@@ -65,12 +66,13 @@ export async function onRequestGet(context) {
     // The scan is bounded so a large queue cannot turn one request into an
     // unbounded walk; `complete` reports whether the bottom was reached, so a
     // truncated answer says so instead of impersonating an empty one.
+    /** @type {string | undefined} */
     let cursor;
     for (;;) {
       const listing = await queue.list({ prefix: 'submissions/', limit: MAX_LIMIT, cursor });
       for (const key of listing.keys || []) {
         scanned += 1;
-        const meta = key.metadata || {};
+        const meta = /** @type {Record<string, unknown>} */ (key.metadata || {}); // queueMetadata() in submit.js
         if (wantStatus !== 'all' && meta.status !== wantStatus) continue;
         items.push({ key: key.name, ...meta });
         if (items.length >= limit) break;
@@ -85,7 +87,7 @@ export async function onRequestGet(context) {
     // holding a partial answer and must be told so.
     complete = !cursor;
   } else {
-    const listing = await bucket.list({ prefix: 'submissions/', limit: MAX_LIMIT });
+    const listing = await /** @type {R2Bucket} */ (bucket).list({ prefix: 'submissions/', limit: MAX_LIMIT }); // no queue: the check above says the bucket is there
     for (const object of listing.objects || []) {
       scanned += 1;
       items.push({ key: object.key, size: object.size, uploaded: object.uploaded });

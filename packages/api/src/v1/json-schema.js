@@ -13,18 +13,50 @@
  * adding a field is a compatible change (functions/_lib/api/v1.js, THE CONTRACT).
  */
 
+/**
+ * A schema node of the subset this validator reads (KNOWN): `true` (anything) or an object of
+ * the known keywords. The contracts never use the `false` schema below the root.
+ * @typedef {JsonSchemaObject | true} JsonSchemaNode
+ */
+/** @typedef {JsonSchemaNode | false} JsonSchema a schema as validate() takes it */
+/**
+ * @typedef {object} JsonSchemaObject
+ * @property {string | string[]} [type]
+ * @property {Record<string, JsonSchemaNode>} [properties]
+ * @property {string[]} [required]
+ * @property {JsonSchemaNode} [additionalProperties]
+ * @property {JsonSchemaNode} [items]
+ * @property {unknown[]} [enum]
+ * @property {unknown} [const]
+ * @property {JsonSchemaNode[]} [anyOf]
+ * @property {number} [minimum]
+ * @property {string} [pattern]
+ * @property {number} [minItems]
+ * @property {string} [title]
+ * @property {string} [description]
+ * @property {unknown[]} [examples]
+ */
+
 const KNOWN = new Set([
   'type', 'properties', 'required', 'additionalProperties', 'items', 'enum', 'const', 'anyOf',
   'minimum', 'pattern', 'minItems', 'title', 'description', 'examples',
 ]);
 
-/** The JSON Schema type name of a value. */
+/**
+ * The JSON Schema type name of a value.
+ * @param {unknown} value
+ * @returns {string}
+ */
 export function typeOf(value) {
   if (value === null) return 'null';
   if (Array.isArray(value)) return 'array';
   return typeof value === 'number' ? 'number' : typeof value;
 }
 
+/**
+ * @param {string} type
+ * @param {unknown} value
+ */
 function typeMatches(type, value) {
   if (type === 'integer') return Number.isInteger(value);
   if (type === 'number') return typeof value === 'number' && Number.isFinite(value);
@@ -33,7 +65,7 @@ function typeMatches(type, value) {
 
 /**
  * The problems with `value` against `schema`, as `<path>: <what>` strings; [] when it conforms.
- * @param {any} schema
+ * @param {JsonSchema | undefined} schema
  * @param {unknown} value
  * @param {{ path?: string, limit?: number }} [options]
  * @returns {string[]}
@@ -41,7 +73,7 @@ function typeMatches(type, value) {
 export function validate(schema, value, { path = '$', limit = 50 } = {}) {
   /** @type {string[]} */
   const errors = [];
-  const walk = (/** @type {any} */ s, /** @type {any} */ v, /** @type {string} */ at) => {
+  const walk = (/** @type {JsonSchema | undefined} */ s, /** @type {unknown} */ v, /** @type {string} */ at) => {
     if (errors.length >= limit) return;
     if (s === true || s === undefined) return;
     if (s === false) { errors.push(`${at}: not allowed`); return; }
@@ -56,7 +88,7 @@ export function validate(schema, value, { path = '$', limit = 50 } = {}) {
     if (s.const !== undefined && v !== s.const) errors.push(`${at}: expected ${JSON.stringify(s.const)}`);
     if (s.enum && !s.enum.includes(v)) errors.push(`${at}: ${JSON.stringify(v)} is not one of ${s.enum.map((e) => JSON.stringify(e)).join(', ')}`);
     if (s.anyOf) {
-      const fits = s.anyOf.some((/** @type {any} */ alt) => validate(alt, v, { path: at, limit: 1 }).length === 0);
+      const fits = s.anyOf.some((alt) => validate(alt, v, { path: at, limit: 1 }).length === 0);
       if (!fits) errors.push(`${at}: matches none of ${s.anyOf.length} alternatives`);
     }
     if (typeof v === 'number' && s.minimum !== undefined && v < s.minimum) errors.push(`${at}: ${v} is below ${s.minimum}`);
@@ -82,8 +114,8 @@ export function validate(schema, value, { path = '$', limit = 50 } = {}) {
  * a client can tell: no required field dropped, no type widened, no enum value added to a
  * field a client switches on, no variant removed. Additions (new optional or required fields,
  * new variants) are compatible. Returns the incompatibilities; [] when compatible.
- * @param {any} older
- * @param {any} newer
+ * @param {JsonSchemaNode | undefined} older
+ * @param {JsonSchemaNode | undefined} newer
  * @param {string} [at]
  * @returns {string[]}
  */
@@ -92,7 +124,7 @@ export function incompatibilities(older, newer, at = '$') {
   if (newer === true || newer === undefined) return [`${at}: the schema no longer says anything`];
   /** @type {string[]} */
   const out = [];
-  const types = (/** @type {any} */ s) => (s.type === undefined ? null : new Set(Array.isArray(s.type) ? s.type : [s.type]));
+  const types = (/** @type {JsonSchemaObject} */ s) => (s.type === undefined ? null : new Set(Array.isArray(s.type) ? s.type : [s.type]));
   const was = types(older);
   const now = types(newer);
   if (was && !now) out.push(`${at}: lost its type`);
@@ -109,7 +141,7 @@ export function incompatibilities(older, newer, at = '$') {
   if (older.anyOf) {
     const alternatives = newer.anyOf || [newer];
     for (const alt of alternatives) {
-      if (!older.anyOf.some((/** @type {any} */ o) => incompatibilities(o, alt).length === 0)) out.push(`${at}: an alternative no older one covers`);
+      if (!older.anyOf.some((o) => incompatibilities(o, alt).length === 0)) out.push(`${at}: an alternative no older one covers`);
     }
   }
   if (older.items !== undefined) out.push(...incompatibilities(older.items, newer.items, `${at}[]`));

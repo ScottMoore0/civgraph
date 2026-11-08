@@ -35,11 +35,14 @@ const num = Object.freeze({ type: 'number' });
 const int = Object.freeze({ type: 'integer' });
 const bool = Object.freeze({ type: 'boolean' });
 const object = Object.freeze({ type: 'object' });
-/** @param {Record<string, any>} properties @param {string[]} [required] every property unless given */
+/** @typedef {import('../json-schema.js').JsonSchemaNode} JsonSchemaNode */
+/** @typedef {import('../json-schema.js').JsonSchemaObject} JsonSchemaObject */
+
+/** @param {Record<string, JsonSchemaNode>} properties @param {string[]} [required] every property unless given */
 const obj = (properties, required = Object.keys(properties)) => ({ type: 'object', properties, required });
-/** @param {any} [items] */
+/** @param {JsonSchemaNode} [items] */
 const arr = (items) => (items === undefined ? { type: 'array' } : { type: 'array', items });
-/** @param {any} values */
+/** @param {JsonSchemaNode} values */
 const dict = (values) => ({ type: 'object', additionalProperties: values });
 /** @param {...string} types */
 const either = (...types) => ({ type: types });
@@ -48,7 +51,7 @@ const ERROR = obj({ error: str });
 const OK_FALSE_ERROR = obj({ ok: { const: false }, error: str });
 
 /** A Browse list page (functions/_api/_browse-index.js). */
-const page = (/** @type {string} */ key, /** @type {any} */ item) => obj({
+const page = (/** @type {string} */ key, /** @type {JsonSchemaNode} */ item) => obj({
   [key]: arr(item), total: num, count: num, limit: num, offset: num,
   applied: obj({ filters: arr(), sort: {} }),
 });
@@ -71,15 +74,15 @@ const PRONI_ROW = obj({ ref: str, slug: str, title: str, level: str, dates: str,
  * @property {string} name
  * @property {Record<string, string>} when
  * @property {string} summary
- * @property {any} [schema]          the JSON answer's schema (absent for a non-JSON answer)
+ * @property {JsonSchemaObject | undefined} [schema] the JSON answer's schema (absent for a non-JSON answer)
  * @property {string} [contentType]  when the answer is not JSON
  *
  * @typedef {object} Contract
- * @property {any} errors            the JSON error answers' schema (null: errors are text)
+ * @property {JsonSchemaObject | null} errors the JSON error answers' schema (null: errors are text)
  * @property {Variant[]} variants
  */
 
-/** @param {string} name @param {Record<string, string>} when @param {string} summary @param {any} schema @returns {Variant} */
+/** @param {string} name @param {Record<string, string>} when @param {string} summary @param {JsonSchemaObject | undefined} schema @returns {Variant} */
 const v = (name, when, summary, schema) => ({ name, when, summary, schema });
 
 /** @type {Readonly<Record<string, Contract>>} */

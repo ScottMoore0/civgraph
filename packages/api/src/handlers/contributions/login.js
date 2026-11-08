@@ -45,6 +45,7 @@ export const DEFAULT_RETURN = '/browse/';
  *                    character class, so it is rejected.
  *   https://…        absolute URL, no leading slash, rejected.
  *   javascript:…     no leading slash, rejected.
+ * @param {string | null | undefined} requested
  */
 export function safeReturnPath(requested) {
   const value = String(requested || '');
@@ -52,6 +53,7 @@ export function safeReturnPath(requested) {
   return /^\/(?!\/)[A-Za-z0-9._~\-/?=&#%+]*$/.test(value) ? value : DEFAULT_RETURN;
 }
 
+/** @param {import('../../types.js').ApiContext} context */
 export async function onRequestGet(context) {
   const url = new URL(context.request.url);
   const safePath = safeReturnPath(url.searchParams.get('return'));

@@ -7,6 +7,7 @@
  */
 import { binding } from '../../../config/src/config.js';
 
+/** @param {import('../types.js').ApiContext} context */
 export async function onRequestGet(context) {
     const url = new URL(context.request.url);
     const mapId = url.searchParams.get('mapId');
@@ -19,11 +20,12 @@ export async function onRequestGet(context) {
         });
     }
 
+    /** @type {Array<{ bbox?: number[], [key: string]: unknown }>} the map's spatial chunk: features with their bboxes */
     let features;
 
     // Try KV first (faster, no origin fetch)
     if (binding(context.env, 'SPATIAL_INDEX')) {
-        const data = await binding(context.env, 'SPATIAL_INDEX').get(`map:${mapId}`, 'json');
+        const data = await /** @type {KVNamespace} */ (binding(context.env, 'SPATIAL_INDEX')).get(`map:${mapId}`, 'json');
         features = data || [];
     } else {
         // Fallback: fetch the static chunk file from the origin
