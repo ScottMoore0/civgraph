@@ -19,6 +19,39 @@
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 
+/**
+ * The facts documents (packages/types, generated from data/schemas). A missing file reads as
+ * the empty document loadFactsModel gives it, so each is Partial.
+ * @typedef {import('../../packages/types/index.js').OfficesDocument} OfficesDocument
+ * @typedef {import('../../packages/types/index.js').TenuresDocument} TenuresDocument
+ * @typedef {import('../../packages/types/index.js').PartyEventsDocument} PartyEventsDocument
+ * @typedef {import('../../packages/types/index.js').AffiliationsDocument} AffiliationsDocument
+ * @typedef {import('../../packages/types/index.js').NonCandidatePersonsDocument} NonCandidatePersonsDocument
+ * @typedef {import('../../packages/types/index.js').HonoursDocument} HonoursDocument
+ * @typedef {import('../../packages/types/index.js').Institution} Institution
+ * @typedef {import('../../packages/types/index.js').Office} Office
+ * @typedef {import('../../packages/types/index.js').Tenure} Tenure
+ * @typedef {PartyEventsDocument['events'][number]} PartyEvent
+ * @typedef {AffiliationsDocument['affiliations'][number]} Affiliation
+ * @typedef {NonCandidatePersonsDocument['persons'][number]} NonCandidatePerson
+ * @typedef {HonoursDocument['honours'][number]} Honour
+ *
+ * @typedef {object} FactsModel
+ * @property {Partial<OfficesDocument>} officesDoc
+ * @property {Record<string, Partial<TenuresDocument>>} tenureDocs  by file name
+ * @property {Partial<PartyEventsDocument>} eventsDoc
+ * @property {Partial<AffiliationsDocument>} affiliationsDoc
+ * @property {Partial<NonCandidatePersonsDocument>} nonCandidatesDoc
+ * @property {Partial<HonoursDocument>} [honoursDoc]
+ * @property {Institution[]} institutions
+ * @property {Office[]} offices
+ * @property {Tenure[]} tenures
+ * @property {PartyEvent[]} events
+ * @property {Affiliation[]} affiliations
+ * @property {NonCandidatePerson[]} nonCandidates
+ * @property {Honour[]} [honours]
+ */
+
 export const FACT_PATHS = {
   offices: 'data/offices/offices.json',
   tenuresDir: 'data/offices/tenures',
@@ -31,12 +64,23 @@ export const FACT_PATHS = {
 
 export const NONCANDIDATE_BLOCK = { from: 900001, to: 999999 };
 
+/**
+ * @template T
+ * @param {string} file
+ * @param {T} fallback  what a missing file reads as
+ * @returns {T}
+ */
 const readJson = (file, fallback) => (existsSync(file) ? JSON.parse(readFileSync(file, 'utf8')) : fallback);
 
-/** Every facts file under `root`, parsed; a missing file reads as empty. */
+/**
+ * Every facts file under `root`, parsed; a missing file reads as empty.
+ * @returns {FactsModel}
+ */
 export function loadFactsModel(root = process.cwd()) {
-  const at = (rel) => path.join(root, rel);
+  const at = (/** @type {string} */ rel) => path.join(root, rel);
+  /** @type {Partial<OfficesDocument>} */
   const officesDoc = readJson(at(FACT_PATHS.offices), { institutions: [], offices: [] });
+  /** @type {Record<string, Partial<TenuresDocument>>} */
   const tenureDocs = {};
   const dir = at(FACT_PATHS.tenuresDir);
   if (existsSync(dir)) {
@@ -44,9 +88,13 @@ export function loadFactsModel(root = process.cwd()) {
       tenureDocs[name] = readJson(path.join(dir, name), { tenures: [] });
     }
   }
+  /** @type {Partial<PartyEventsDocument>} */
   const eventsDoc = readJson(at(FACT_PATHS.partyEvents), { events: [] });
+  /** @type {Partial<AffiliationsDocument>} */
   const affiliationsDoc = readJson(at(FACT_PATHS.affiliations), { affiliations: [] });
+  /** @type {Partial<NonCandidatePersonsDocument>} */
   const nonCandidatesDoc = readJson(at(FACT_PATHS.nonCandidates), { persons: [] });
+  /** @type {Partial<HonoursDocument>} */
   const honoursDoc = readJson(at(FACT_PATHS.honours), { honours: [] });
   return {
     officesDoc, tenureDocs, eventsDoc, affiliationsDoc, nonCandidatesDoc, honoursDoc,
@@ -62,14 +110,22 @@ export function loadFactsModel(root = process.cwd()) {
 
 const DATE = /^(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?$/;
 
-/** The precision a date string carries: year, month or day. */
+/**
+ * The precision a date string carries: year, month or day.
+ * @param {string | null | undefined} date
+ * @returns {'day' | 'month' | 'year' | null}
+ */
 export function precisionOf(date) {
   const m = DATE.exec(String(date || ''));
   if (!m) return null;
   return m[3] ? 'day' : m[2] ? 'month' : 'year';
 }
 
-/** a <= b, comparing only as far as the less precise of the two goes ("1974" vs "1974-05"). */
+/**
+ * a <= b, comparing only as far as the less precise of the two goes ("1974" vs "1974-05").
+ * @param {string | null | undefined} a
+ * @param {string | null | undefined} b
+ */
 export function notAfter(a, b) {
   if (!a || !b) return true;
   const n = Math.min(a.length, b.length);
@@ -78,6 +134,7 @@ export function notAfter(a, b) {
 
 /** "1974-05-28" -> "28 May 1974"; "1974-05" -> "May 1974"; "1974" -> "1974". */
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+/** @param {string | null | undefined} date */
 export function formatFactDate(date) {
   const m = DATE.exec(String(date || ''));
   if (!m) return '';
@@ -90,6 +147,9 @@ export function formatFactDate(date) {
  * "1972-03 to 1974-01" as a reader's span: "March 1972 – January 1974", "from 1998", "until May
  * 1987". Where a source shows only that the person was in post by a date (startBy), and not when
  * they began, the span says so: "in post by June 1972", "in post by 1974 – 1983".
+ * @param {string | null | undefined} start
+ * @param {string | null | undefined} end
+ * @param {{ startBy?: string | null }} [options]
  */
 export function formatSpan(start, end, { startBy = null } = {}) {
   const a = formatFactDate(start) || (startBy ? `in post by ${formatFactDate(startBy)}` : '');
@@ -109,11 +169,16 @@ export function formatSpan(start, end, { startBy = null } = {}) {
  *   partyIds    Set of party_registry.json ids
  *   electionKeys  Set of "<body>__<date>" keys under data/elections-source
  * Returns a list of error strings; empty means valid.
+ * @param {FactsModel} model
+ * @param {{ personIds?: Set<string>, candidateOfficialIds?: Map<string, string>, partyIds?: Set<string>, electionKeys?: Set<string> }} [refs]
+ * @returns {string[]}
  */
 export function checkFactsModel(model, refs = {}) {
+  /** @type {string[]} */
   const errors = [];
-  const err = (msg) => errors.push(msg);
-  const unique = (rows, what) => {
+  const err = (/** @type {string} */ msg) => errors.push(msg);
+  const unique = (/** @type {{ id: string }[]} */ rows, /** @type {string} */ what) => {
+    /** @type {Set<string>} */
     const seen = new Set();
     for (const row of rows) {
       if (seen.has(row.id)) err(`${what}: duplicate id ${row.id}`);
@@ -127,6 +192,7 @@ export function checkFactsModel(model, refs = {}) {
   unique(model.events, 'party event');
   unique(model.affiliations, 'affiliation');
   unique(model.honours || [], 'honour');
+  /** @type {Set<string>} */
   const registered = new Set();
   for (const p of model.nonCandidates) {
     const n = Number(p.personId);
@@ -138,11 +204,16 @@ export function checkFactsModel(model, refs = {}) {
       if (holder) err(`non-candidate ${p.personId} (${p.displayName}) shares ${o} with candidate ${holder}: merge them instead`);
     }
   }
-  const knownPerson = (id) => !refs.personIds || refs.personIds.has(String(id)) || registered.has(String(id));
-  const knownParty = (id) => !refs.partyIds || refs.partyIds.has(id);
+  const knownPerson = (/** @type {string | undefined} */ id) => !refs.personIds || refs.personIds.has(String(id)) || registered.has(String(id));
+  const knownParty = (/** @type {string} */ id) => !refs.partyIds || refs.partyIds.has(id);
+  /**
+   * @param {Record<string, unknown>} row
+   * @param {string} what
+   * @param {[string, string][]} pairs  [date field, its precision field]
+   */
   const dates = (row, what, pairs) => {
     for (const [field, prec] of pairs) {
-      const value = row[field];
+      const value = /** @type {string | null | undefined} */ (row[field]);
       if (value === null || value === undefined) {
         if (row[prec] !== null && row[prec] !== undefined) err(`${what}: ${prec} without a ${field}`);
         continue;
@@ -162,7 +233,7 @@ export function checkFactsModel(model, refs = {}) {
     const what = `tenure ${t.id}`;
     if (!officeIds.has(t.officeId)) err(`${what}: unknown office ${t.officeId}`);
     if (!knownPerson(t.personId)) err(`${what}: unknown person ${t.personId}`);
-    for (const f of ['predecessor', 'successor']) if (t[f] && !knownPerson(t[f])) err(`${what}: unknown ${f} ${t[f]}`);
+    for (const f of /** @type {const} */ (['predecessor', 'successor'])) if (t[f] && !knownPerson(t[f])) err(`${what}: unknown ${f} ${t[f]}`);
     if (!t.start && !t.end && !t.startBy) err(`${what}: neither a start nor an end`);
     dates(t, what, [['start', 'startPrecision'], ['end', 'endPrecision']]);
     if (!notAfter(t.start, t.end)) err(`${what}: ends (${t.end}) before it starts (${t.start})`);
@@ -201,7 +272,11 @@ export function checkFactsModel(model, refs = {}) {
   return errors;
 }
 
-/** Validate every document against its JSON schema (data/schemas). Returns error strings. */
+/**
+ * Validate every document against its JSON schema (data/schemas). Returns error strings.
+ * @param {FactsModel} model
+ * @returns {Promise<string[]>}
+ */
 export async function schemaErrors(model, root = process.cwd()) {
   const { default: Ajv } = await import('ajv');
   const ajv = new Ajv({ allErrors: true, jsonPointers: true });
@@ -209,8 +284,9 @@ export async function schemaErrors(model, root = process.cwd()) {
   for (const name of ['citation', 'offices', 'tenures', 'party-events', 'affiliations', 'non-candidate-persons', 'honours']) {
     ajv.addSchema(JSON.parse(readFileSync(path.join(dir, `${name}.schema.json`), 'utf8')), name);
   }
+  /** @type {string[]} */
   const errors = [];
-  const run = (schema, doc, label) => {
+  const run = (/** @type {string} */ schema, /** @type {unknown} */ doc, /** @type {string} */ label) => {
     if (!ajv.validate(schema, doc)) {
       for (const e of (ajv.errors || []).slice(0, 20)) errors.push(`${label}${e.dataPath || ''}: ${e.message}${/** @type {{ allowedValues?: string[] }} */ (e.params)?.allowedValues ? ` (${/** @type {{ allowedValues: string[] }} */ (e.params).allowedValues.join(', ')})` : ''}`);
     }
@@ -224,7 +300,10 @@ export async function schemaErrors(model, root = process.cwd()) {
   return errors;
 }
 
-/** Folded as build-browse-indexes.mjs normalizeName folds the party-names.json keys. */
+/**
+ * Folded as build-browse-indexes.mjs normalizeName folds the party-names.json keys.
+ * @param {string | null | undefined} value
+ */
 export function normalizeLabel(value) {
   return String(value || '').replace(/\s+/g, ' ').trim().normalize('NFKD').replace(/[̀-ͯ]/g, '')
     .toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
@@ -235,13 +314,19 @@ export function normalizeLabel(value) {
  * keys parties by label, the registry by identity, and the two coincide for most parties
  * (uup, alliance, fianna-fail); otherwise the registry entity's name and aliases are looked up
  * in party-names.json (label -> slug), as a candidacy's label is.
+ * @param {{ id: string, name?: string, shortName?: string, aliases?: (string | { string?: string } | null)[] }[]} registryEntities
+ *   party_registry.json entities
+ * @param {Record<string, string>} partyNames  party-names.json: folded label -> Browse slug
+ * @param {Set<string>} browseSlugs
+ * @returns {(id: string | null | undefined) => string | null}
  */
 export function browsePartySlugResolver(registryEntities, partyNames, browseSlugs) {
   const byId = new Map(registryEntities.map((e) => [e.id, e]));
+  /** @type {Map<string, string | null>} */
   const cache = new Map();
   return (id) => {
     if (!id) return null;
-    if (cache.has(id)) return cache.get(id);
+    if (cache.has(id)) return /** @type {string | null} */ (cache.get(id));
     let slug = browseSlugs.has(id) ? id : null;
     const e = byId.get(id);
     if (!slug && e) {
@@ -255,23 +340,35 @@ export function browsePartySlugResolver(registryEntities, partyNames, browseSlug
   };
 }
 
-/** Lookups the Browse build uses: tenures by person and by office, events and leaders by party. */
+/**
+ * Lookups the Browse build uses: tenures by person and by office, events and leaders by party.
+ * @param {FactsModel} model
+ */
 export function indexFactsModel(model) {
   const officeById = new Map(model.offices.map((o) => [o.id, o]));
   const institutionById = new Map(model.institutions.map((i) => [i.id, i]));
+  /**
+   * Rows grouped by an id field, or by what `key(row)` returns; rows without one are left out.
+   * @template R
+   * @param {R[]} rows
+   * @param {keyof R | ((row: R) => string | null | undefined)} key  every key used is a string id
+   * @returns {Map<string, R[]>}
+   */
   const by = (rows, key) => {
+    /** @type {Map<string, R[]>} */
     const map = new Map();
     for (const row of rows) {
-      const k = typeof key === 'function' ? key(row) : row[key];
+      const k = /** @type {string | null | undefined} */ (typeof key === 'function' ? key(row) : row[key]);
       if (k === null || k === undefined) continue;
       if (!map.has(k)) map.set(k, []);
-      map.get(k).push(row);
+      /** @type {R[]} */ (map.get(k)).push(row);
     }
     return map;
   };
   // By start, else end; at the same date a tenure that only ends there comes before one that
   // starts there (Faulkner's leadership ending January 1974 before West's beginning).
-  const sortByStart = (a, b) => String(a.start || a.end || '').slice(0, 7).localeCompare(String(b.start || b.end || '').slice(0, 7))
+  /** @typedef {{ start?: string | null, end?: string | null }} Dated */
+  const sortByStart = (/** @type {Dated} */ a, /** @type {Dated} */ b) => String(a.start || a.end || '').slice(0, 7).localeCompare(String(b.start || b.end || '').slice(0, 7))
     || (a.start ? 1 : 0) - (b.start ? 1 : 0) || String(a.start || a.end || '').localeCompare(String(b.start || b.end || ''));
   const tenuresByPerson = by(model.tenures, 'personId');
   const tenuresByOffice = by(model.tenures, 'officeId');
