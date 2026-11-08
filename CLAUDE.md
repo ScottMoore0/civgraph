@@ -30,7 +30,7 @@ Files where this matters most:
 
 - `render/metadata/maps-test.json` (~270,000 lines)
 - `data/database/maps.json` (~52,000 lines)
-- `browse/browse.js`, `app/src/app.js`, `scripts/build/build-browse-indexes.mjs`
+- `browse/browse.js`, `packages/map/app/app.js`, `scripts/build/build-browse-indexes.mjs`
   (3,700–5,400 lines each)
 
 ### 3. Build only what changed; trust verdicts
