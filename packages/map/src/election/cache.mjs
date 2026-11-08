@@ -27,13 +27,21 @@ export function createElectionCaches() {
   };
 }
 
-/** Store `value` under `key` as the newest entry, dropping the oldest beyond `limit`. A falsy key is not stored. */
+/**
+ * Store `value` under `key` as the newest entry, dropping the oldest beyond `limit`. A falsy key is not stored.
+ * @template K, V
+ * @param {Map<K, V> | null | undefined} cache
+ * @param {K} key
+ * @param {V} value
+ * @param {number} limit
+ * @returns {V}
+ */
 export function rememberLimitedCache(cache, key, value, limit) {
   if (!cache || !key) return value;
   if (cache.has(key)) cache.delete(key);
   cache.set(key, value);
   while (cache.size > limit) {
-    const oldestKey = cache.keys().next().value;
+    const oldestKey = /** @type {K} */ (cache.keys().next().value);
     cache.delete(oldestKey);
   }
   return value;
@@ -42,6 +50,12 @@ export function rememberLimitedCache(cache, key, value, limit) {
 /**
  * The cached value for `key`, or `load()`'s, stored for next time. A null or undefined result
  * (nothing there) is returned but not stored, so the next call asks again.
+ * @template K, V
+ * @param {Map<K, V>} cache
+ * @param {K} key
+ * @param {number} limit
+ * @param {() => V | null | undefined | Promise<V | null | undefined>} load
+ * @returns {Promise<V | null | undefined>}
  */
 export async function cachedLoad(cache, key, limit, load) {
   if (cache.has(key)) return cache.get(key);
@@ -53,9 +67,14 @@ export async function cachedLoad(cache, key, limit, load) {
 /**
  * One load at a time per key: a call while `run()` for the same key is still in flight gets
  * that call's promise instead of starting another. `inflight` is a Map of the running promises.
+ * @template K, V
+ * @param {Map<K, Promise<V>>} inflight
+ * @param {K} key
+ * @param {() => Promise<V>} run
+ * @returns {Promise<V>}
  */
 export async function sharedLoad(inflight, key, run) {
-  if (inflight.has(key)) return inflight.get(key);
+  if (inflight.has(key)) return /** @type {Promise<V>} */ (inflight.get(key));
   const promise = run();
   inflight.set(key, promise);
   try {
@@ -65,10 +84,18 @@ export async function sharedLoad(inflight, key, run) {
   }
 }
 
-/** `mapper` over `items`, at most `limit` at a time, the results in the items' order. */
+/**
+ * `mapper` over `items`, at most `limit` at a time, the results in the items' order.
+ * @template T, R
+ * @param {readonly T[] | null | undefined} items
+ * @param {unknown} limit
+ * @param {(item: T, index: number) => R | Promise<R>} mapper
+ * @returns {Promise<R[]>}
+ */
 export async function mapWithConcurrency(items, limit, mapper) {
   const values = Array.isArray(items) ? items : [];
   const size = Math.max(1, Number(limit) || 1);
+  /** @type {R[]} */
   const results = new Array(values.length);
   let index = 0;
   const workers = Array.from({ length: Math.min(size, values.length) }, async () => {

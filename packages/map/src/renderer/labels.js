@@ -6,18 +6,67 @@ import {
 } from './feature-property-repairs.js';
 import { clamp, unique } from './utils.js';
 
+/**
+ * How a label's text is cleaned: strip a trailing bracket, or map whole values to others.
+ * @typedef {'stripTrailingBracketNumber' | { type: 'mapValues', map?: Record<string, string> }} LabelCleanupRule
+ */
+
+/**
+ * A layer's label style as maps-test.json writes it (every field optional; getLabelStyle fills
+ * the defaults and clamps the numbers).
+ * @typedef {{
+ *   color?: string,
+ *   hoverColor?: string,
+ *   selectedColor?: string,
+ *   haloColor?: string,
+ *   haloWidth?: number,
+ *   haloBlur?: number,
+ *   fontSize?: number,
+ *   fontWeight?: string,
+ *   maxWidth?: number,
+ *   lineHeight?: number
+ * }} LabelStyleInput
+ */
+
+/**
+ * A layer as the renderer reads it (a LayerEntry, packages/types: render/metadata/maps-test.json
+ * `layers[]`): only the fields read here, any of which may be missing; the rest stay unknown.
+ * @typedef {{
+ *   [field: string]: unknown,
+ *   id?: string,
+ *   sourceMapId?: string,
+ *   sourceLayer?: string,
+ *   style?: { color?: string, [key: string]: unknown },
+ *   labelStyle?: LabelStyleInput,
+ *   labelMinZoom?: number | string,
+ *   labelMaxZoom?: number | string | null,
+ *   labelProperty?: string | null,
+ *   labelPropertyFallbacks?: string[],
+ *   labelCanonicalProperty?: string,
+ *   labelRankProperty?: string,
+ *   labelTextColor?: string,
+ *   labelCleanup?: LabelCleanupRule
+ * }} RendererLayer
+ */
+
+/** @typedef {ReturnType<typeof getLabelStyle>} LabelStyle */
+
+/** @param {RendererLayer} layer */
 export function getLabelMinZoom(layer) {
   const value = Number(layer.labelMinZoom);
   return Number.isFinite(value) ? value : DEFAULT_LABEL_MIN_ZOOM;
 }
 
+/** @param {RendererLayer} layer */
 export function getLabelMaxZoom(layer) {
   if (layer.labelMaxZoom === undefined || layer.labelMaxZoom === null || layer.labelMaxZoom === '') return undefined;
   const value = Number(layer.labelMaxZoom);
   return Number.isFinite(value) ? value : undefined;
 }
 
+/** @param {RendererLayer} layer */
 export function getLabelStyle(layer) {
+  /** @type {LabelStyleInput} */
   const style = layer.labelStyle || {};
   const baseColor = resolveLabelColor(layer, style.color || layer.labelTextColor || 'layer');
   return {
@@ -34,12 +83,17 @@ export function getLabelStyle(layer) {
   };
 }
 
+/**
+ * @param {RendererLayer} layer
+ * @param {unknown} value
+ */
 export function resolveLabelColor(layer, value) {
   if (value === 'layer') return layer.style?.color || '#3388ff';
   if (typeof value === 'string' && value.trim()) return value.trim();
   return '#3388ff';
 }
 
+/** @param {RendererLayer} layer */
 export function buildLabelColorExpression(layer) {
   const style = getLabelStyle(layer);
   return [
@@ -52,6 +106,7 @@ export function buildLabelColorExpression(layer) {
   ];
 }
 
+/** @param {Pick<LabelStyle, 'fontWeight'>} labelStyle */
 export function buildLabelFontStack(labelStyle) {
   return labelStyle.fontWeight === 'bold'
     ? ['Open Sans Bold', 'Arial Unicode MS Bold']
@@ -62,28 +117,34 @@ export function buildLabelFontStack(labelStyle) {
  * The tile property holding the Irish name of this layer's features, when the interface is in
  * Irish (assets/i18n/i18n.js, loaded only with the language preview on) and the layer's data
  * carries one (assets/i18n/place-name-fields.json). Otherwise null, and labels are as before.
+ * @param {RendererLayer} layer
+ * @returns {string | null}
  */
 export function irishNameProperty(layer) {
-  const i18n = typeof globalThis !== 'undefined' ? globalThis.civgraphI18n : null;
+  const i18n = typeof globalThis !== 'undefined' ? /** @type {{ civgraphI18n?: { placeNameField?: (layer: RendererLayer) => string | null } }} */ (globalThis).civgraphI18n : null;
   return i18n && typeof i18n.placeNameField === 'function' ? i18n.placeNameField(layer) : null;
 }
 
+/** @param {RendererLayer} layer */
 export function getLabelProperties(layer) {
   const irish = irishNameProperty(layer);
-  return unique([
+  // unique() drops the empty ones.
+  return /** @type {string[]} */ (unique([
     ...(irish ? [irish] : []),
     layer.labelCanonicalProperty || 'label_name',
     layer.labelProperty,
     ...(Array.isArray(layer.labelPropertyFallbacks) ? layer.labelPropertyFallbacks : [])
-  ]);
+  ]));
 }
 
+/** @param {RendererLayer} layer */
 export function buildLabelTextExpression(layer) {
   const props = getLabelProperties(layer);
   if (props.length === 0) return '';
   return buildRepairedLabelValueExpression(layer, ['coalesce', ...props.map((prop) => ['get', prop]), '']);
 }
 
+/** @param {RendererLayer} layer */
 export function buildLabelFilter(layer) {
   const props = getLabelProperties(layer);
   const baseFilter = props.length > 0 ? ['any', ...props.map((prop) => ['has', prop])] : true;
@@ -91,16 +152,25 @@ export function buildLabelFilter(layer) {
   return repairFilter ? ['any', baseFilter, repairFilter] : baseFilter;
 }
 
+/**
+ * @param {RendererLayer} layer
+ * @param {unknown} scale
+ */
 export function buildLabelTextSizeExpression(layer, scale) {
   const style = getLabelStyle(layer);
   const multiplier = clamp(scale, 50, 200) / 100;
   return style.fontSize * multiplier;
 }
 
+/** @param {RendererLayer} layer */
 export function buildLabelSortExpression(layer) {
   return ['*', -1, ['to-number', ['get', layer.labelRankProperty || 'label_rank'], 0]];
 }
 
+/**
+ * @param {RendererLayer} layer
+ * @param {Record<string, unknown> | null | undefined} props
+ */
 export function getFeatureLabel(layer, props) {
   const repairedProps = repairFeatureProperties(layer, props || {});
   for (const prop of getLabelProperties(layer)) {
@@ -110,6 +180,10 @@ export function getFeatureLabel(layer, props) {
   return '';
 }
 
+/**
+ * @param {unknown} value
+ * @param {LabelCleanupRule | null | undefined} cleanupRule
+ */
 export function cleanLabelValue(value, cleanupRule) {
   if (value === undefined || value === null) return '';
   const text = String(value).trim();

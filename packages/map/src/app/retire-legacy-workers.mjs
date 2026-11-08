@@ -22,6 +22,8 @@ export const RETIRED_WORKER_SCOPES = ['/test/', '/render/', '/test2/'];
 /**
  * Ask the browser to update every legacy registration (installing the kill switch), and
  * unregister any whose update fails. Resolves with the scopes it acted on; never rejects.
+ * @param {Pick<ServiceWorkerContainer, 'getRegistrations'> | null | undefined} container
+ * @returns {Promise<string[]>}
  */
 export async function retireLegacyServiceWorkers(container) {
   if (!container?.getRegistrations) return [];
@@ -31,6 +33,7 @@ export async function retireLegacyServiceWorkers(container) {
   } catch {
     return [];
   }
+  /** @type {string[]} */
   const retired = [];
   await Promise.all(registrations.map(async (registration) => {
     let scope;

@@ -5,7 +5,9 @@
  */
 
 /** A Date (UTC) from a timestamp, a year, an ISO date ("1950", "1950-06", "1950-06-02") or a
- * date string; null when there is none. */
+ * date string; null when there is none.
+ * @param {string | number | Date | null | undefined} value
+ */
 export function parseTimelineDate(value) {
   if (value === null || value === undefined || value === '') return null;
   if (typeof value === 'number' || /^\d+$/.test(String(value))) {
@@ -33,6 +35,7 @@ export function parseTimelineDate(value) {
  * A map's year when its date is known only to the year: a bare year (2023), or 1 January of
  * it with nothing saying the day is meant (the 1977 DEDs are "1977-01-01"). A map named
  * "1 Jan 1919", or in force from that day, keeps its day. Null otherwise.
+ * @param {{ id?: string, name?: string, date?: string | number | null, dateEffective?: string | null }} map
  */
 export function yearOnlyMapDate(map) {
   const raw = String(map?.date ?? '').trim();
@@ -43,7 +46,9 @@ export function yearOnlyMapDate(map) {
 }
 
 /** An area's name in a change description: as given, or title case when the source wrote it in
- * capitals. */
+ * capitals.
+ * @param {unknown} name
+ */
 export function timelineChangeName(name) {
   const text = String(name || '').trim();
   if (!text) return 'an unnamed area';
@@ -55,7 +60,10 @@ export function timelineChangeName(name) {
     .replace(/\s(And|Of|The|Na|An)\s/g, (match) => match.toLowerCase());
 }
 
-/** An area in hectares: whole numbers from 10 ha (grouped from 100), one decimal below. */
+/**
+ * An area in hectares: whole numbers from 10 ha (grouped from 100), one decimal below.
+ * @param {unknown} value
+ */
 export function formatHectares(value) {
   const ha = Number(value) || 0;
   if (ha >= 100) return `${Math.round(ha).toLocaleString('en-GB')} ha`;

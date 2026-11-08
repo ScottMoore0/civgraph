@@ -23,7 +23,10 @@ export const APPROXIMATE_REASONS = Object.freeze([
 const CDN_ORIGIN = `${SITE.dataOrigin}/`;
 
 /** The layer's segment file, or '' when it has none. On localhost it goes through the dev proxy (/_r/),
- * as the FGB and other CDN files do, because the bucket's CORS rules do not admit localhost. */
+ * as the FGB and other CDN files do, because the bucket's CORS rules do not admit localhost.
+ * @param {{ approximateSegments?: { url?: unknown } | null } | null | undefined} layer
+ * @param {Pick<Location, 'hostname' | 'origin'> | null} [loc]
+ */
 export function resolveApproximateSegmentsUrl(layer, loc = (typeof location !== 'undefined' ? location : null)) {
   const url = layer?.approximateSegments?.url;
   if (typeof url !== 'string' || !/^https?:\/\//i.test(url)) return '';
@@ -33,7 +36,10 @@ export function resolveApproximateSegmentsUrl(layer, loc = (typeof location !== 
   return url;
 }
 
-/** Map style ids for a layer's approximate stretches. */
+/**
+ * Map style ids for a layer's approximate stretches.
+ * @param {string} layerId
+ */
 export function approximateSegmentIds(layerId) {
   return {
     sourceId: `${layerId}-approx-source`,
@@ -43,6 +49,7 @@ export function approximateSegmentIds(layerId) {
   };
 }
 
+/** @type {Record<string, string>} */
 const FALLBACK_LABEL = {
   'map-line-deposited-plan': 'Traced from the map deposited with the Order or Act',
   'map-line-~150m': 'Cut along the line of a small-scale map',
@@ -51,10 +58,13 @@ const FALLBACK_LABEL = {
   'modern-townland-may-differ': "Follows today's townland or coast line; the line of the time may differ"
 };
 
-/** The tooltip's second line: the segment's own label, else one built from its reason and uncertainty. */
+/**
+ * The tooltip's second line: the segment's own label, else one built from its reason and uncertainty.
+ * @param {{ label?: unknown, reason?: unknown, uncertainty_m?: unknown }} [properties]
+ */
 export function approximateSegmentLabel(properties = {}) {
   if (typeof properties.label === 'string' && properties.label.trim()) return properties.label.trim();
-  const base = FALLBACK_LABEL[properties.reason] || 'This stretch of the line is approximate';
+  const base = FALLBACK_LABEL[/** @type {string} */ (properties.reason)] || 'This stretch of the line is approximate';
   const metres = Number(properties.uncertainty_m);
   return Number.isFinite(metres) && metres > 0 ? `${base}; may be out by about ${Math.round(metres)} m.` : `${base}.`;
 }

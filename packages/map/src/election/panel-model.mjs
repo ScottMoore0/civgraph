@@ -68,14 +68,21 @@ export function entityPageFields(page, entity, returnView) {
   return fields;
 }
 
-/** The colouring mode an election opens in: the current one if it offers it, else its first usual mode, else winner. */
+/**
+ * The colouring mode an election opens in: the current one if it offers it, else its first usual mode, else winner.
+ * @param {{ stylingModes?: string[] } | null | undefined} entry
+ * @param {string} currentMode
+ */
 export function stylingModeFor(entry, currentMode) {
   return entry?.stylingModes?.includes(currentMode)
     ? currentMode
     : (entry?.stylingModes?.find((mode) => DEFAULT_MODE_ORDER.includes(mode)) || 'winner');
 }
 
-/** The pane as an election opens: the party view, nothing selected, the election's own level. */
+/**
+ * The pane as an election opens: the party view, nothing selected, the election's own level.
+ * @param {{ bodyGroup?: string | null } | null | undefined} entry
+ */
 export function freshPanelState(entry) {
   return {
     activePanelView: 'party',
@@ -97,7 +104,10 @@ export function clearedSelection() {
   };
 }
 
-/** The key a selected result is remembered by (and written to the address as). */
+/**
+ * The key a selected result is remembered by (and written to the address as).
+ * @param {{ matchName?: unknown, constituency?: unknown } | null | undefined} result
+ */
 export function selectedResultKey(result) {
   return result ? normalizeName(result.matchName || result.constituency || '') : null;
 }
@@ -107,6 +117,8 @@ export function selectedResultKey(result) {
  * council is open), `singleSeatFptp` (it is a one-seat first-past-the-post result),
  * `councilAggregate` (it is a council's aggregate) and `districtMode` (a local election shown by
  * council). A view the selection cannot show falls back to the party view.
+ * @param {string | null | undefined} view
+ * @param {{ selected?: boolean, singleSeatFptp?: boolean, councilAggregate?: boolean, districtMode?: boolean }} [facts]
  */
 export function normalizePanelView(view, { selected = false, singleSeatFptp = false, councilAggregate = false, districtMode = false } = {}) {
   const value = view || 'party';
@@ -129,6 +141,8 @@ export function normalizePanelView(view, { selected = false, singleSeatFptp = fa
  * The view an address opens. With a constituency selected, the view it names (or party). Without
  * one, a view that needs a constituency (counts, animation) is not inherited: the overall party
  * pane opens instead.
+ * @param {unknown} validSelected
+ * @param {string | null | undefined} requestedView
  */
 export function restoredPanelView(validSelected, requestedView) {
   const view = validSelected
@@ -137,7 +151,23 @@ export function restoredPanelView(validSelected, requestedView) {
   return view;
 }
 
-/** What the address records about an open election (packages/map/src/app/url-state.js writes it). */
+/**
+ * What the address records about an open election (packages/map/src/app/url-state.js writes it).
+ * @param {{
+ *   activeEntry: { body?: string, date?: string },
+ *   activeMode?: string,
+ *   overlayMode?: string,
+ *   activePanelView?: string,
+ *   activeLocalMode?: string,
+ *   activeGeographyModeId?: string | null,
+ *   activeSelectedResultKey?: string | null,
+ *   countDetailedView?: boolean,
+ *   activeEntityKind?: string | null,
+ *   activeEntityKey?: string | null,
+ *   activeEntityReturnView?: string | null
+ * }} state  the election manager's fields
+ * @param {string} layerId
+ */
 export function electionURLState(state, layerId) {
   return {
     layerId,
