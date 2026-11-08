@@ -30,10 +30,10 @@
  * Pages serves a matching static asset in preference to a Function, so data/browse/ is never
  * deployed (scripts/build/site.mjs builds dist/ from an allow-list that does not include it).
  */
-import { cachedJson, documentBody, jsonResponse, parseJson, streamFrom } from '../../_api/_records.js';
-import { divisionShard } from '../../_api/votes/index.js';
-import { resolvePartySlug } from '../../_api/parties/index.js';
-import { browseFeaturesText, browseMapsText } from '../../_api/_maps.js';
+import { cachedJson, documentBody, jsonResponse, parseJson, streamFrom } from '../../../packages/api/src/handlers/_records.js';
+import { divisionShard } from '../../../packages/api/src/handlers/votes/index.js';
+import { resolvePartySlug } from '../../../packages/api/src/handlers/parties/index.js';
+import { browseFeaturesText, browseMapsText } from '../../../packages/api/src/handlers/_maps.js';
 import { binding } from '../../../packages/config/src/config.js';
 import { fromD1 } from '../../../packages/storage/src/d1.js';
 import { OFFICES, SHARDS, SOURCES } from '../../../packages/api/src/queries/cards.js';

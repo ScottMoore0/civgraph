@@ -14,7 +14,7 @@ import { DatabaseSync } from 'node:sqlite';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { browsePageHandler, resolveElectionSlugAlias } from '../../functions/_browse-page.js';
-import { resetDatasetVersionCache } from '../../functions/_lib/respond.js';
+import { resetDatasetVersionCache } from '../../packages/api/src/respond.js';
 import { candidacyLinks, personBody } from '../../functions/_templates/records/person.js';
 import { registerInterestBody } from '../../functions/_templates/records/register-interest.js';
 import { sourceBody } from '../../functions/_templates/records/source.js';

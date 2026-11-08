@@ -133,7 +133,7 @@
     "check:r2-allowlist": "node scripts/check/rules/r2-allowlist.mjs",
     "lint": "eslint .",
     "lint:strict": "eslint . --max-warnings 0",
-    "lint:functions-strict": "eslint functions --max-warnings 0",
+    "lint:functions-strict": "eslint functions packages/api --max-warnings 0",
     "check:types:functions": "node node_modules/typescript/bin/tsc -p functions/tsconfig.check.json",
     "check:local-paths": "node scripts/check/rules/local-paths.mjs",
     "check:asset-refs": "node scripts/check/rules/asset-references.mjs",

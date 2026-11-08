@@ -44,9 +44,9 @@ test('RG-04 contribution: the table is the queue\'s rule (contributions.mjs, sub
   for (const s of [...statesOf(registry, 'contribution'), 'unknown', '']) {
     assert.deepEqual({ ...canMarkApplied(s) }, { ok: canTransition(registry, 'contribution', s, 'applied'), ...(canMarkApplied(s).reason ? { reason: canMarkApplied(s).reason } : {}) }, s);
   }
-  assert.match(read('functions/_api/contributions/submit.js'), /status "pending-review"/);
+  assert.match(read('packages/api/src/handlers/contributions/submit.js'), /status "pending-review"/);
   assert.equal(registry.machines.contribution.initial, 'pending-review');
-  assert.match(read('functions/_api/contributions/decide.js'), /decision must be "approved" or "rejected"/);
+  assert.match(read('packages/api/src/handlers/contributions/decide.js'), /decision must be "approved" or "rejected"/);
   assert.deepEqual(registry.machines.contribution.decisions, ['approved', 'rejected']);
 });
 

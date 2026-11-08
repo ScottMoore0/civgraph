@@ -18,10 +18,10 @@ import assert from 'node:assert/strict';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
-import * as apiRoute from '../../functions/api/[[path]].js';
-import { PREFIX, ROUTES, indexDocument, openApi } from '../../functions/_lib/api/v1.js';
-import { CONTRACTS, variantFor } from '../../functions/_lib/api/contracts/v1.js';
-import { incompatibilities, validate } from '../../functions/_lib/api/json-schema.js';
+import * as apiRoute from '../../packages/api/src/v1/route.js';
+import { PREFIX, ROUTES, indexDocument, openApi } from '../../packages/api/src/v1/v1.js';
+import { CONTRACTS, variantFor } from '../../packages/api/src/v1/contracts/v1.js';
+import { incompatibilities, validate } from '../../packages/api/src/v1/json-schema.js';
 import { REPO_ROOT, loadConfig } from '../../packages/config/src/node.mjs';
 
 const ORIGIN = 'https://civgraph.net';
@@ -307,7 +307,7 @@ test('/api/v1/openapi.json describes every route with its variants and errors', 
 const RECORDS_DB = loadConfig().recordsDb;
 test('over the records build, every records variant and its errors fit the contracts', { skip: !existsSync(RECORDS_DB) && `no records build at ${RECORDS_DB}` }, async () => {
   const { d1, installCaches } = await import('../records/d1-shim.mjs');
-  const { resetDatasetMemo } = await import('../../functions/_api/_records.js');
+  const { resetDatasetMemo } = await import('../../packages/api/src/handlers/_records.js');
   const env = { ELECTIONS_DB: d1(RECORDS_DB) };
   const db = env.ELECTIONS_DB;
   const one = (sql) => db.prepare(sql).first();

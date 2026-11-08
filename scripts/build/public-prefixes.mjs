@@ -30,7 +30,7 @@
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 
 const ALLOWLIST = 'data/database/r2-publication-allowlist.json';
-const OUT = 'functions/_api/_public-prefixes.js';
+const OUT = 'packages/api/src/handlers/_public-prefixes.js';
 const CHECK = process.argv.includes('--check');
 
 if (!existsSync(ALLOWLIST)) {

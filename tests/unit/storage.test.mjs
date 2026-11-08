@@ -148,9 +148,9 @@ const haveRecords = existsSync(RECORDS_DB);
 
 test('a real handler answers alike over the records tests\' D1 shim and over toD1(openSqlite())', { skip: !haveRecords && `no records build at ${RECORDS_DB}` }, async () => {
   const { context, d1, installCaches } = await import('../records/d1-shim.mjs');
-  const { resetDatasetMemo } = await import('../../functions/_api/_records.js');
-  const stats = await import('../../functions/_api/stats/index.js');
-  const parties = await import('../../functions/_api/parties/index.js');
+  const { resetDatasetMemo } = await import('../../packages/api/src/handlers/_records.js');
+  const stats = await import('../../packages/api/src/handlers/stats/index.js');
+  const parties = await import('../../packages/api/src/handlers/parties/index.js');
   const store = openSqlite(RECORDS_DB, { readOnly: true });
   const viaShim = { ELECTIONS_DB: d1(RECORDS_DB) };
   const viaStore = { ELECTIONS_DB: toD1(store) };

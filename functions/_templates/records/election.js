@@ -6,7 +6,7 @@
 import { html } from '../../../packages/core/src/html.js';
 import { dateText, numberText, percentText } from '../../../packages/core/src/format.js';
 import { badges, dataTable, facts, link, partyChip } from '../components/index.js';
-import { parseJson, withoutMarkers } from '../../_api/_records.js';
+import { parseJson, withoutMarkers } from '../../../packages/api/src/handlers/_records.js';
 import { asStore } from '../../../packages/storage/src/d1.js';
 import { ELECTION_PAGES } from '../../../packages/api/src/queries/pages.js';
 

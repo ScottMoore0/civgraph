@@ -28,7 +28,7 @@
  * Pages serves a matching static asset in preference to a Function, so data/graph/ is never
  * deployed (scripts/build/site.mjs builds dist/ from an allow-list that does not include it).
  */
-import { cachedJson, documentBody, jsonResponse, parseJson } from '../../_api/_records.js';
+import { cachedJson, documentBody, jsonResponse, parseJson } from '../../../packages/api/src/handlers/_records.js';
 import { binding } from '../../../packages/config/src/config.js';
 import { fromD1 } from '../../../packages/storage/src/d1.js';
 import { GRAPH_FILES } from '../../../packages/api/src/queries/graph.js';

@@ -26,7 +26,7 @@
  * Pages serves a static file in preference to a Function: this answers only once the files are
  * no longer deployed (.gitignore, .cfignore and clean-for-pages.sh, stage G).
  */
-import { bundleChunks, cachedJson, datasetState, documentBody, parseJson, streamFrom } from '../../_api/_records.js';
+import { bundleChunks, cachedJson, datasetState, documentBody, parseJson, streamFrom } from '../../../packages/api/src/handlers/_records.js';
 import { binding } from '../../../packages/config/src/config.js';
 import { fromD1 } from '../../../packages/storage/src/d1.js';
 import { ELECTIONS_API } from '../../../packages/api/src/queries/elections.js';

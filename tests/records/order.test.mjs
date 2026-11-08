@@ -13,14 +13,14 @@ import { REPO_ROOT } from '../../packages/loader/src/paths.mjs';
 import { createDatabase } from '../../packages/loader/src/db.mjs';
 import { TABLES } from '../../packages/schema/src/schema.mjs';
 import { buildHasVotes, context, d1, installCaches } from './d1-shim.mjs';
-import { resetDatasetMemo } from '../../functions/_api/_records.js';
-import * as elections from '../../functions/_api/elections/index.js';
-import * as persons from '../../functions/_api/persons/index.js';
-import * as sources from '../../functions/_api/sources/index.js';
-import * as register from '../../functions/_api/register-interests/index.js';
-import * as parties from '../../functions/_api/parties/index.js';
-import * as votes from '../../functions/_api/votes/index.js';
-import * as graph from '../../functions/_api/graph/index.js';
+import { resetDatasetMemo } from '../../packages/api/src/handlers/_records.js';
+import * as elections from '../../packages/api/src/handlers/elections/index.js';
+import * as persons from '../../packages/api/src/handlers/persons/index.js';
+import * as sources from '../../packages/api/src/handlers/sources/index.js';
+import * as register from '../../packages/api/src/handlers/register-interests/index.js';
+import * as parties from '../../packages/api/src/handlers/parties/index.js';
+import * as votes from '../../packages/api/src/handlers/votes/index.js';
+import * as graph from '../../packages/api/src/handlers/graph/index.js';
 import * as renderMetadata from '../../functions/render/metadata/[[path]].js';
 import * as dataBrowse from '../../functions/data/browse/[[path]].js';
 import * as browsePage from '../../functions/_browse-page.js';
@@ -135,9 +135,10 @@ function functionFiles(dir) {
 
 test('no records Function reads several rows without ORDER BY', () => {
   const offenders = [];
-  const roots = ['_api/_records.js', '_api/_browse-index.js', '_api/elections', '_api/persons', '_api/sources', '_api/register-interests',
-    '_api/parties', '_api/votes', '_api/graph', '_api/stats', '_api/catalogue', '_api/proni', 'render', 'data/browse', 'data/graph', '_browse-page.js', '_templates']
-    .map((p) => path.join(REPO_ROOT, 'functions', p));
+  const roots = ['packages/api/src/handlers/_records.js', 'packages/api/src/handlers/_browse-index.js', ...['elections', 'persons', 'sources',
+    'register-interests', 'parties', 'votes', 'graph', 'stats', 'catalogue', 'proni'].map((p) => `packages/api/src/handlers/${p}`),
+    ...['render', 'data/browse', 'data/graph', '_browse-page.js', '_templates'].map((p) => `functions/${p}`)]
+    .map((p) => path.join(REPO_ROOT, p));
   const files = roots.flatMap((p) => (existsSync(p) ? (statSync(p).isDirectory() ? functionFiles(p) : [p]) : []));
   // A statement is fine if it orders, returns one row (LIMIT 1, or COUNT without GROUP BY), or
   // carries an "order-free:" comment. A prepare(<identifier>) is judged by every assignment to

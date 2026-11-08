@@ -14,9 +14,9 @@ import assert from 'node:assert/strict';
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
-import * as apiRoute from '../../functions/api/[[path]].js';
-import { EXCLUDED, PREFIX, ROUTES, indexDocument } from '../../functions/_lib/api/v1.js';
-import { delegate, lifecycleHeaders, matchRoute, rewriteLocation } from '../../functions/_lib/api/delegate.js';
+import * as apiRoute from '../../packages/api/src/v1/route.js';
+import { EXCLUDED, PREFIX, ROUTES, indexDocument } from '../../packages/api/src/v1/v1.js';
+import { delegate, lifecycleHeaders, matchRoute, rewriteLocation } from '../../packages/api/src/v1/delegate.js';
 import { REPO_ROOT, loadConfig } from '../../packages/config/src/node.mjs';
 
 const FUNCTIONS = path.join(REPO_ROOT, 'functions');
@@ -46,7 +46,8 @@ function legacyRouteFiles(dir = path.join(FUNCTIONS, '_api'), prefix = '/_api') 
     const full = path.join(dir, entry);
     if (statSync(full).isDirectory()) { out.push(...legacyRouteFiles(full, `${prefix}/${entry}`)); continue; }
     if (!entry.endsWith('.js') || entry.startsWith('_')) continue;
-    if (!/export\s+(?:async\s+)?(?:const|function)\s+onRequest\w*\b/.test(readFileSync(full, 'utf8'))) continue;
+    // A route file is a one-line re-export of its handler in packages/api (PKG-8).
+    if (!/export\s+(?:async\s+)?(?:const|function)\s+onRequest\w*\b|export\s*\{[^}]*\bonRequest\w*/.test(readFileSync(full, 'utf8'))) continue;
     const base = entry.replace(/\.js$/, '');
     const route = base === 'index' ? prefix : base.startsWith('[[') ? `${prefix}/*` : `${prefix}/${base}`;
     out.push({ route, file: full });
@@ -60,8 +61,10 @@ test('every v1 route is the handler module of its /_api route file', async () =>
     const file = files.get(route.catchAll ? `${route.legacy}/*` : route.legacy);
     assert.ok(file, `${key}: no route file serves ${route.legacy}`);
     const mod = await import(pathToFileURL(file).href);
-    assert.equal(mod, route.module, `${key}: v1 must delegate to ${path.relative(REPO_ROOT, file)} itself`);
-    assert.equal(typeof (mod.onRequestGet || mod.onRequest), 'function', `${key}: no GET handler`);
+    const handler = mod.onRequestGet || mod.onRequest;
+    assert.equal(typeof handler, 'function', `${key}: no GET handler`);
+    assert.equal(route.module.onRequestGet || route.module.onRequest, handler,
+      `${key}: v1 must delegate to the handler ${path.relative(REPO_ROOT, file)} serves`);
   }
 });
 
@@ -69,7 +72,7 @@ test('every /_api route is in v1 or excluded with a reason', () => {
   const inV1 = new Set(Object.values(ROUTES).map((r) => (r.catchAll ? `${r.legacy}/*` : r.legacy)));
   const excluded = (route) => Object.keys(EXCLUDED).some((p) => (p.endsWith('/*') ? route.startsWith(p.slice(0, -1)) : p === route));
   const undecided = legacyRouteFiles().map((r) => r.route).filter((r) => !inV1.has(r) && !excluded(r));
-  assert.deepEqual(undecided, [], 'add each to ROUTES or EXCLUDED in functions/_lib/api/v1.js');
+  assert.deepEqual(undecided, [], 'add each to ROUTES or EXCLUDED in packages/api/src/v1/v1.js');
   for (const reason of Object.values(EXCLUDED)) assert.ok(reason.length > 10);
 });
 
@@ -231,7 +234,7 @@ async function v1Answer(url, env, resetState) {
 
 async function freshState() {
   const { installCaches } = await import('../records/d1-shim.mjs');
-  const { resetDatasetMemo } = await import('../../functions/_api/_records.js');
+  const { resetDatasetMemo } = await import('../../packages/api/src/handlers/_records.js');
   installCaches();
   resetDatasetMemo();
 }

@@ -15,7 +15,7 @@ import path from 'node:path';
 import { writeStableGeneratedJson } from '../lib/stable-generated-json.mjs';
 // The index entry and the duplicate-id sidecar are built by the same code the /_api/layers
 // Function uses (data design phase 3), with the file URLs this committed copy has always had.
-import { FILE_URLS, duplicateSidecar, indexDocument, indexEntry, layerFileName } from '../../functions/_lib/layer-index.js';
+import { FILE_URLS, duplicateSidecar, indexDocument, indexEntry, layerFileName } from '../../packages/core/src/layer-index.js';
 
 const ROOT = process.cwd();
 const INPUT = path.join(ROOT, 'render', 'metadata', 'maps-test.json');

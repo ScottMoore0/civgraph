@@ -17,8 +17,8 @@ import { browsePageHandler, resolveElectionSlugAlias } from '../../functions/_br
 import { ELECTION_SLUG_ALIASES, RETIRED_CONTEST_SLUGS } from '../../packages/core/src/election-slug-aliases.js';
 import { slugify } from '../../packages/core/src/format.js';
 import { canonicalElectionTitle } from '../../scripts/lib/election-names.mjs';
-import { onRequestGet as electionsApi, retiredSlugRedirect } from '../../functions/_api/elections/index.js';
-import { resetDatasetVersionCache } from '../../functions/_lib/respond.js';
+import { onRequestGet as electionsApi, retiredSlugRedirect } from '../../packages/api/src/handlers/elections/index.js';
+import { resetDatasetVersionCache } from '../../packages/api/src/respond.js';
 import { migrationFiles, TableWriter, transaction } from '../../packages/loader/src/db.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');

@@ -39,8 +39,8 @@ test('the site identity equals the shell\'s, and the User-Agent names no person'
 });
 
 test('the records wrapper writes its cache policies from the config', () => {
-  const records = read('functions/_api/_records.js');
-  assert.match(records, /import \{[^}]*\bCACHE\b[^}]*\} from '\.\.\/\.\.\/packages\/config\/src\/config\.js'/);
+  const records = read('packages/api/src/handlers/_records.js');
+  assert.match(records, /import \{[^}]*\bCACHE\b[^}]*\} from '(?:\.\.\/)+config\/src\/config\.js'/);
   for (const name of ['records', 'loading', 'lastGood', 'error']) {
     assert.ok(records.includes(`CACHE.${name}`), `_records.js no longer writes CACHE.${name}`);
   }
@@ -96,7 +96,7 @@ function functionFiles(dir) {
 
 test('every env.X a Function reads is a binding or variable the config knows', () => {
   const unknown = new Set();
-  for (const file of functionFiles(path.join(ROOT, 'functions'))) {
+  for (const file of [...functionFiles(path.join(ROOT, 'functions')), ...functionFiles(path.join(ROOT, 'packages', 'api', 'src'))]) {
     const text = readFileSync(file, 'utf8');
     // env.X, and binding(env, 'X') since the Functions read bindings through config.binding()
     for (const m of text.matchAll(/\benv\??\.([A-Z][A-Z0-9_]{2,})\b|\bbinding\([^,()]+,\s*'([A-Z][A-Z0-9_]{2,})'\)/g)) {
