@@ -8,12 +8,62 @@ import { html } from '../../../../core/src/html.js';
 import { dateText, numberText, percentText, slugify, yearSpan } from '../../../../core/src/format.js';
 import { badges, citations, dataTable, facts, link, notice } from '../components/index.js';
 
-const counted = (rows) => (rows || [])
+/**
+ * The browse_persons record fields this page reads (scripts/build/build-browse-indexes.mjs
+ * writes them; every one may be absent).
+ * @typedef {{ name?: string, count: number }} NamedCount  a party, constituency, ... with its count
+ * @typedef {object} PersonCandidacy  one of record.elections
+ * @property {string} [key]            the election key
+ * @property {string} [title]
+ * @property {string} [date]
+ * @property {number | null} [year]
+ * @property {string} [constituency]
+ * @property {string} [party]
+ * @property {string} [partyAsPrinted]
+ * @property {string} [status]
+ * @property {boolean} [elected]
+ * @property {number | null} [firstPrefs]
+ * @property {number | null} [share]
+ * @typedef {object} PersonRecord
+ * @property {string} [name]
+ * @property {string} [title]
+ * @property {string} [slug]
+ * @property {string} [subtitle]
+ * @property {{ stood?: number, elected?: number, firstPrefs?: number }} [totals]
+ * @property {PersonCandidacy[]} [elections]
+ * @property {string} [wikidata]
+ * @property {boolean} [spanImplausible]
+ * @property {string} [reviewNote]
+ * @property {string} [born]
+ * @property {string} [died]
+ * @property {string} [bornSource]
+ * @property {string} [diedSource]
+ * @property {NamedCount[]} [parties]
+ * @property {NamedCount[]} [constituencies]
+ * @property {string[]} [bodies]
+ * @property {number | null} [firstYear]
+ * @property {number | null} [lastYear]
+ * @property {{ name?: string, source?: string, url?: string }[]} [formalNames]
+ * @property {string[]} [knownAliases]
+ * @property {string[]} [alsoStoodAs]
+ * @property {string | null} [interactiveUrl]
+ * @property {{ office?: string, start?: string, end?: string, source?: string }[]} [officesHeld]
+ * @property {{ constituency?: string, dates?: string, source?: string }[]} [seatsHeld]
+ * @property {{ relation?: string, slug?: string, name?: string, source?: string }[]} [relatives]
+ * @property {{ label?: string, source?: string, url?: string, licence?: string }[]} [officialProfiles]
+ * @property {{ title?: string, heading?: string, url?: string, edition?: string }[]} [historyOfParliament]
+ */
+
+const counted = (/** @type {NamedCount[] | undefined} */ rows) => (rows || [])
   .filter((row) => row?.name)
   .map((row) => (row.count > 1 ? `${row.name} (${numberText(row.count)})` : row.name))
   .join(', ');
 
-/** The election page and the contest page a candidacy belongs to. */
+/**
+ * The election page and the contest page a candidacy belongs to.
+ * @param {Pick<PersonCandidacy, 'key' | 'constituency'> | null | undefined} row
+ * @returns {{ election: string, contest: string }}
+ */
 export function candidacyLinks(row) {
   if (!row?.key) return { election: '', contest: '' };
   const election = `/browse/elections/${slugify(row.key)}`;
@@ -22,6 +72,7 @@ export function candidacyLinks(row) {
   return { election, contest: place ? `${election}-${place}` : '' };
 }
 
+/** @param {PersonRecord} record */
 function candidacyRows(record) {
   return (record.elections || []).map((row) => {
     const links = candidacyLinks(row);
@@ -46,7 +97,9 @@ function candidacyRows(record) {
   });
 }
 
+/** @param {PersonRecord} record */
 function sourceItems(record) {
+  /** @type {import('../components/index.js').Citation[]} */
   const items = [];
   for (const p of record.officialProfiles || []) items.push({ label: p.label || p.source, url: p.url, licence: p.licence });
   for (const h of record.historyOfParliament || []) items.push({ label: [h.title, h.heading].filter(Boolean).join(': '), url: h.url, note: h.edition });
@@ -57,12 +110,9 @@ function sourceItems(record) {
 }
 
 /**
- * @param {object} record  a browse_persons record
- * @returns {{ body: import('../../../../core/src/html.js').SafeHtml, jsonLd: object }}
- */
-/**
- * @param {any} record
+ * @param {PersonRecord} record  a browse_persons record
  * @param {{ canonical?: string }} [options]
+ * @returns {{ body: import('../../../../core/src/html.js').SafeHtml, jsonLd: object }}
  */
 export function personBody(record, { canonical } = {}) {
   const name = record.name || record.title || record.slug;

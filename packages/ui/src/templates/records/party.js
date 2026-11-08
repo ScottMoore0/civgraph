@@ -7,11 +7,38 @@ import { html } from '../../../../core/src/html.js';
 import { dateText, numberText, yearSpan } from '../../../../core/src/format.js';
 import { dataTable, facts, link, partyChip } from '../components/index.js';
 
-const names = (record) => [...new Set([...(record.observedNames || []), ...(record.knownAliases || [])].map(String))]
+/**
+ * The party_cards.detail fields this page reads (details/parties/<slug>.json `item`; every one
+ * may be absent).
+ * @typedef {object} PartyElection  one of record.relatedElections
+ * @property {string} [key]
+ * @property {string} [title]
+ * @property {string} [date]
+ * @property {number} [year]
+ * @property {number} [candidates]
+ * @property {number} [elected]
+ * @typedef {object} PartyRecord
+ * @property {string} [title]
+ * @property {string} [canonicalName]
+ * @property {string} [slug]
+ * @property {string} [shortName]
+ * @property {string} [subtitle]
+ * @property {string} [colour]
+ * @property {string} [interactiveUrl]
+ * @property {string[]} [observedNames]
+ * @property {string[]} [knownAliases]
+ * @property {number} [occurrenceCount]
+ * @property {number} [firstYear]
+ * @property {number} [lastYear]
+ * @property {{ candidates?: number, elected?: number }} [totals]
+ * @property {PartyElection[]} [relatedElections]
+ */
+
+const names = (/** @type {PartyRecord} */ record) => [...new Set([...(record.observedNames || []), ...(record.knownAliases || [])].map(String))]
   .filter((n) => n && n !== record.title);
 
 /**
- * @param {any} record
+ * @param {PartyRecord} record  a party_cards.detail record
  * @param {{ canonical?: string }} [options]
  */
 export function partyBody(record, { canonical } = {}) {

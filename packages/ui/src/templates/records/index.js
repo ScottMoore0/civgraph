@@ -52,7 +52,7 @@ const SSR_MODE_FLAGS = Object.freeze(/** @type {Record<SsrMode, { ssr: boolean, 
 
 /**
  * The mode of this request.
- * @param {any} env
+ * @param {{ CIVGRAPH_SSR_RECORDS?: string, CIVGRAPH_SSR_PREVIEW?: string } | null | undefined} env  the Function's env
  * @param {string} type
  * @param {URL} [url]
  * @returns {SsrMode}
@@ -68,7 +68,7 @@ export function ssrModeName(env, type, url) {
 
 /**
  * Whether this request gets the server-rendered page, and whether as a preview.
- * @param {any} env
+ * @param {Parameters<typeof ssrModeName>[0]} env  the Function's env
  * @param {string} type
  * @param {URL} [url]
  * @returns {{ ssr: boolean, preview: boolean }}
@@ -88,9 +88,10 @@ export function ssrMode(env, type, url) {
  * @param {boolean} [p.preview]
  */
 export function renderRecordPage({ type, record, meta, pageTitle, canonical, preview = false }) {
-  const config = SSR_RECORD_TYPES[type];
+  const config = SSR_RECORD_TYPES[/** @type {keyof typeof SSR_RECORD_TYPES} */ (type)];
   if (!config) throw new Error(`no server-rendered template for ${type}`);
-  const { body, jsonLd } = config.body(record, { canonical });
+  // Each type's body takes that type's record; the caller passes the record of `type`.
+  const { body, jsonLd } = /** @type {(record: object, options: { canonical?: string }) => { body: import('../../../../core/src/html.js').SafeHtml, jsonLd: object }} */ (config.body)(record, { canonical });
   const crumbs = sectionNav({
     items: [
       { href: '/browse/', label: 'Browse' },

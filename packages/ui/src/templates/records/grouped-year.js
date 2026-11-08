@@ -19,11 +19,28 @@ import { dateText, numberText, slugify } from '../../../../core/src/format.js';
 /** ni-local-1946, ni-local__1946, ireland-local-1911, ireland-local__1911. */
 export const GROUPED_YEAR = /^(ni-local|ireland-local)(?:-|__)(\d{4})$/;
 
+/**
+ * The files this page reads (fields used here; every one may be absent).
+ * @typedef {{ key: string, body?: string, date?: string, status?: string, note?: string, contests?: unknown[] }} YearRound
+ *   one council round of the year file
+ * @typedef {{ reason?: string }} YearMissing  a round not yet available
+ * @typedef {{ rounds?: YearRound[], missing?: YearMissing[] }} YearFile  /render/metadata/ni-local/<year>.json
+ * @typedef {{ available?: boolean, areas?: number, hatched?: number }} CoverageLevel
+ * @typedef {{ levels?: Record<string, CoverageLevel> }} YearCoverage  the year's entry in ni-local-coverage.json
+ * @typedef {{ title?: string, description?: string, interactiveUrl?: string }} YearCard  election_cards.card
+ */
+
+/**
+ * The grouped year a slug names, or null.
+ * @param {string | null | undefined} slug
+ * @returns {{ key: string, slug: string, year: number } | null}
+ */
 export function groupedYearKey(slug) {
   const m = GROUPED_YEAR.exec(String(slug || '').toLowerCase());
   return m ? { key: `${m[1]}__${m[2]}`, slug: `${m[1]}-${m[2]}`, year: Number(m[2]) } : null;
 }
 
+/** @type {[string, string][]} */
 const LEVELS = [
   ['ded', 'wards and DEDs'],
   ['ced', 'county electoral divisions'],
@@ -32,17 +49,17 @@ const LEVELS = [
   ['counties', 'counties'],
 ];
 
-const plural = (n, one, many) => `${numberText(n)} ${n === 1 ? one : many}`;
+const plural = (/** @type {number} */ n, /** @type {string} */ one, /** @type {string} */ many) => `${numberText(n)} ${n === 1 ? one : many}`;
 
 /** The round's own page: its key with "__" made "-", as every election slug. */
-export const roundHref = (key) => `/browse/elections/${encodeURIComponent(slugify(key))}`;
+export const roundHref = (/** @type {string} */ key) => `/browse/elections/${encodeURIComponent(slugify(key))}`;
 
 /**
  * The hero's markup.
  * @param {object} p
- * @param {object} p.card       the year's Browse card (election_cards.card)
- * @param {object} [p.yearFile] /render/metadata/ni-local/<year>.json
- * @param {object} [p.coverage] the year's entry in ni-local-coverage.json
+ * @param {YearCard} p.card                 the year's Browse card (election_cards.card)
+ * @param {YearFile | null} [p.yearFile]    /render/metadata/ni-local/<year>.json
+ * @param {YearCoverage | null} [p.coverage] the year's entry in ni-local-coverage.json
  */
 export function groupedYearHero({ card, yearFile = null, coverage = null }) {
   const rounds = Array.isArray(yearFile?.rounds) ? yearFile.rounds : [];

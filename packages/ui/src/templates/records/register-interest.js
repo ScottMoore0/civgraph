@@ -10,11 +10,39 @@ import { html } from '../../../../core/src/html.js';
 import { dateText, numberText } from '../../../../core/src/format.js';
 import { badges, facts, link, notice } from '../components/index.js';
 
+/**
+ * The browse_register_interests record fields this page reads (every one may be absent).
+ * @typedef {object} RegisterInterestRecord
+ * @property {string} [title]
+ * @property {string} [slug]
+ * @property {string} [memberName]
+ * @property {string} [personSlug]
+ * @property {number} [interestCount]
+ * @property {number} [nonNilInterestCount]
+ * @property {string[]} [sourceKinds]
+ * @property {string} [sourceKind]
+ * @property {number} [sourceCount]
+ * @property {string} [memberType]
+ * @property {string} [chamber]
+ * @property {string} [electedBody]
+ * @property {boolean} [isNone]
+ * @property {string} [description]
+ * @property {string[]} [constituencies]
+ * @property {string} [constituency]
+ * @property {(string | { name?: string } | null)[]} [parties]
+ * @property {string} [date]
+ * @property {string} [dateStart]
+ * @property {string} [dateEnd]
+ * @property {string[]} [categories]
+ */
+
+/** @type {Record<string, string>} */
 const SOURCE_KIND_LABELS = {
   'historical-pdf-register': 'historical register (PDF)',
   'historical-html-register': 'historical register (web page)',
 };
 
+/** @param {RegisterInterestRecord} record */
 function dateRange(record) {
   const start = record.dateStart || record.date;
   const end = record.dateEnd;
@@ -23,7 +51,7 @@ function dateRange(record) {
 }
 
 /**
- * @param {any} record
+ * @param {RegisterInterestRecord} record  a browse_register_interests record
  * @param {{ canonical?: string }} [options]
  */
 export function registerInterestBody(record, { canonical } = {}) {
@@ -34,7 +62,7 @@ export function registerInterestBody(record, { canonical } = {}) {
   const interests = record.interestCount
     ? `${numberText(record.interestCount)} ${record.interestCount === 1 ? 'entry' : 'entries'}${record.nonNilInterestCount !== undefined ? `, ${numberText(record.nonNilInterestCount)} declaring an interest` : ''}`
     : '';
-  const kinds = (record.sourceKinds || [record.sourceKind]).filter(Boolean).map((k) => SOURCE_KIND_LABELS[k] || k);
+  const kinds = (record.sourceKinds || [record.sourceKind]).filter(Boolean).map((k) => SOURCE_KIND_LABELS[/** @type {string} */ (k)] || k);
 
   const body = html`
 <header class="cg-record-header">
