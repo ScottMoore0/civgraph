@@ -6,7 +6,7 @@ import { resolveApprovedPublicationSources } from '../../lib/approved-publicatio
 import { BROWSE_DIR, localPathForUrl } from '../../../packages/loader/src/paths.mjs';
 
 const ROOT = process.cwd();
-const APPROVAL_ROOT = path.join(ROOT, 'tasks', 'absence-integration-ready-2026-06-15', 'publication-approval-pack', 'approval-refinement');
+const APPROVAL_ROOT = path.join(ROOT, 'docs', 'tasks', 'absence-integration-ready-2026-06-15', 'publication-approval-pack', 'approval-refinement');
 const failures = [];
 
 const SAFE_DAIL_CLASSIFICATIONS = new Set([

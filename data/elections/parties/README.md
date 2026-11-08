@@ -1,6 +1,6 @@
 # Party registry and lifespans
 
-> Some scripts named below were archived in November 2026 (ARCHIVE.md, "Archived scripts"); they are in the archive copies and in git history, not in `scripts/`.
+> Some scripts named below were archived in November 2026 (docs/ARCHIVE.md, "Archived scripts"); they are in the archive copies and in git history, not in `scripts/`.
 
 ## `party_registry.json` — stable ids
 

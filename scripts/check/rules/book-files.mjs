@@ -113,7 +113,7 @@ if (missing.length) {
   console.error('');
   console.error('  Each of these renders a download the reader cannot have. Either add the');
   console.error('  file, remove the `file` field, or set `fileWithheld` to a reason.');
-  console.error(`  See ${CATALOGUE} and UX-REMEDIATION-PLAN.md item T0-04b.`);
+  console.error(`  See ${CATALOGUE} and docs/UX-REMEDIATION-PLAN.md item T0-04b.`);
   process.exit(1);
 }
 

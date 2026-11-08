@@ -9,7 +9,7 @@
 >
 > **Status: current as of 2026-08-17, updated after implementing three items.**
 > `T1-06`, `T0-04b` and `T2-09` moved to done — see "Closed since triage" at the
-> end. Reconciles `UX-REMEDIATION-PLAN.md`
+> end. Reconciles `docs/UX-REMEDIATION-PLAN.md`
 > (audited 2026-08-01, 220 findings, 35 items) against the code and the running
 > site. Each verdict below carries the evidence it rests on. This is tech-debt
 > item 10 — the debt was never the findings, it was that nobody could say which

@@ -22,8 +22,8 @@ export function colourOutcome(status) {
 
 const ROOT = process.cwd();
 const FAIL_ON_BLOCKING = process.argv.includes('--fail-on-blocking');
-const JSON_OUT = path.join(ROOT, 'tasks', 'test2-election-data-audit.json');
-const MD_OUT = path.join(ROOT, 'tasks', 'test2-election-data-audit.md');
+const JSON_OUT = path.join(ROOT, 'docs', 'tasks', 'test2-election-data-audit.json');
+const MD_OUT = path.join(ROOT, 'docs', 'tasks', 'test2-election-data-audit.md');
 
 const readJson = (relativePath) => {
   const absolute = recordPath(relativePath);

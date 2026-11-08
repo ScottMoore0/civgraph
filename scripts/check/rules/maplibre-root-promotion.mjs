@@ -33,7 +33,7 @@ const test2Css = read('packages/map/app/test2.css');
 const sharedAssetBuilder = read('scripts/build/shell-assets.mjs');
 const packageJson = JSON.parse(read('package.json'));
 // The retired Leaflet manifest and bundle.mjs used to be asserted present under
-// archive/. archive/ left the repository in November 2026 (see ARCHIVE.md); the
+// archive/. archive/ left the repository in November 2026 (see docs/ARCHIVE.md); the
 // tag leaflet-main-before-maplibre-root-20260612 still pins the Leaflet main.
 const buildScript = String(packageJson.scripts?.build || '');
 
