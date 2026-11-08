@@ -1,3 +1,5 @@
+import statuses from '../../../registries/browser/statuses.mjs';
+
 const DEFAULT_PARTY_COLOURS = new Map([
   ['alliance', '#f6cb2f'],
   ['aontu', '#44532a'],
@@ -289,12 +291,16 @@ export function partyColour(value, fallback = '#6b7280') {
   return DEFAULT_PARTY_COLOURS.get(normalizeName(value)) || fallback;
 }
 
+// What a candidate's Status means (RG-01), in the order tried: the statuses registry's
+// candidate-count kindPatterns (data/registries/statuses.json; registries/browser/statuses.json).
+const STATUS_KIND_PATTERNS = statuses.candidateKindPatterns.map(([kind, pattern]) => ({ kind, pattern: new RegExp(pattern) }));
+
 export function statusKind(status) {
   const normalized = normalizeName(status);
   if (!normalized) return '';
-  if (/not elected|unelected|not deemed elected/.test(normalized)) return 'not-elected';
-  if (/elected|made quota|counted as elected|deemed elected/.test(normalized)) return 'elected';
-  if (/excluded|eliminated/.test(normalized)) return 'excluded';
+  for (const { kind, pattern } of STATUS_KIND_PATTERNS) {
+    if (pattern.test(normalized)) return kind;
+  }
   return normalized;
 }
 

@@ -17,6 +17,13 @@ import { printedLabelsToggleHtml } from '../../src/printed-labels.mjs';
 import { formatDisplayDate } from '../../packages/core/src/date-format.mjs';
 import { NI_LOCAL_VIEW, niLocalViewActive } from '../../src/map/election/ni-local-state.mjs';
 import { createState } from '../../src/map/state-helpers.mjs';
+import statuses from '../../registries/browser/statuses.mjs';
+
+// The words for a round's site status, a missing round and a contest: the statuses registry's
+// election-round siteLabels and missingReasons (RG-03) and contest labels (RG-02).
+const ROUND_LABELS = statuses.roundSiteLabels;
+const MISSING_REASONS = statuses.missingReasons;
+const CONTEST_LABELS = statuses.contestLabels;
 
 const YEAR_FILE_VERSION = 'nl-1';
 const PREF_KEY = 'civgraph.niLocal.view';
@@ -570,9 +577,9 @@ export class NiLocalGroupedView {
 
   councilsHtml() {
     const { rounds, missing } = this.roundsAtLevel();
-    const status = (round) => (round.status === 'complete' ? '' : `<span class="ni-local-badge"${round.note ? ` title="${escapeHtml(round.note)}"` : ''}>${round.status === 'held' ? 'Held back' : 'Incomplete'}</span>`);
+    const status = (round) => (round.status === 'complete' ? '' : `<span class="ni-local-badge"${round.note ? ` title="${escapeHtml(round.note)}"` : ''}>${round.status === 'held' ? ROUND_LABELS.held : ROUND_LABELS.partial}</span>`);
     const items = rounds.map(({ round }) => `<li><button type="button" class="ni-local-council" data-ni-round="${escapeHtml(round.key)}">${escapeHtml(round.body)}</button> <span class="ni-local-council__meta">${escapeHtml(formatDisplayDate(round.date))} · ${formatNumber(round.contests.length)} contest${round.contests.length === 1 ? '' : 's'}</span>${status(round)}</li>`);
-    const gaps = missing.map((item) => `<li class="ni-local-council--missing"><i class="ni-hatch-swatch" aria-hidden="true"></i>${escapeHtml(this.councilName(item.bodySlug))} <span class="ni-local-council__meta">${escapeHtml(item.reason === 'held back in review' ? 'results held back in review' : 'results not yet transcribed')}</span></li>`);
+    const gaps = missing.map((item) => `<li class="ni-local-council--missing"><i class="ni-hatch-swatch" aria-hidden="true"></i>${escapeHtml(this.councilName(item.bodySlug))} <span class="ni-local-council__meta">${escapeHtml(item.reason === MISSING_REASONS.excluded.reason ? MISSING_REASONS.excluded.label : MISSING_REASONS.otherwise.label)}</span></li>`);
     if (!items.length && !gaps.length) return '';
     return `<details class="ni-local-councils">
       <summary>Councils at this level <span class="ni-local-count">${formatNumber(rounds.length)}${gaps.length ? ` + ${formatNumber(gaps.length)} without results` : ''}</span></summary>
@@ -677,7 +684,7 @@ export class NiLocalGroupedView {
 
   contestHtml(contest) {
     const seats = Number(contest.seats) || 1;
-    const status = contest.contested ? 'Polled' : 'Returned unopposed';
+    const status = contest.contested ? CONTEST_LABELS.contested : CONTEST_LABELS.uncontested;
     const rows = (contest.cands || []).map(([name, party, printed, votes, elected]) => `<tr>
       <td>${escapeHtml(name)}</td>
       <td class="election-party-cell" style="--party-colour:${escapeHtml(this.partyColour(party))}">${this.partyLabel(party)}</td>

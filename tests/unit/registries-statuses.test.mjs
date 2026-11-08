@@ -17,6 +17,7 @@ const registry = loadRegistry('statuses');
 const read = (rel) => readFileSync(path.join(REPO_ROOT, rel), 'utf8');
 const readJson = (rel) => JSON.parse(read(rel));
 const clone = () => structuredClone(registry);
+const browser = readJson('registries/browser/statuses.json');
 const HELPER = path.join(REPO_ROOT, 'scripts/lib/state-machine.mjs');
 const helperMissing = existsSync(HELPER) ? false : 'scripts/lib/state-machine.mjs lands with rf-records; rebase brings it';
 
@@ -80,10 +81,13 @@ test('RG-03 election round: every published round\'s site status is the registry
     }
   }
   assert.ok(rounds > 500 && missing > 0, `${rounds} rounds, ${missing} missing`);
+  // The map's year view words a round's status and a missing round from the registry (RG-03).
   const view = read('app/src/ni-local-view.js');
   const m = registry.machines['election-round'];
-  assert.ok(view.includes(`round.status === 'held' ? '${m.siteLabels.held}' : '${m.siteLabels.partial}'`));
-  assert.ok(view.includes(`item.reason === '${m.missingReasons.excluded.reason}' ? '${m.missingReasons.excluded.label}' : '${m.missingReasons.otherwise.label}'`));
+  assert.ok(view.includes("round.status === 'held' ? ROUND_LABELS.held : ROUND_LABELS.partial"));
+  assert.ok(view.includes('item.reason === MISSING_REASONS.excluded.reason ? MISSING_REASONS.excluded.label : MISSING_REASONS.otherwise.label'));
+  assert.deepEqual(browser.roundSiteLabels, m.siteLabels);
+  assert.deepEqual(browser.missingReasons, m.missingReasons);
 });
 
 test('RG-01 candidate count: every Status in the data has a meaning, folded as statusKind folds it', () => {
@@ -130,7 +134,8 @@ test('RG-02 contest: the audit\'s values and default, the map\'s labels', () => 
   assert.equal(registry.machines.contest.missingMeans, 'contested');
   assert.ok(isContested(registry, undefined) && isContested(registry, 'contested') && !isContested(registry, 'uncontested'));
   const { labels } = registry.machines.contest;
-  assert.ok(read('app/src/ni-local-view.js').includes(`contest.contested ? '${labels.contested}' : '${labels.uncontested}'`));
+  assert.ok(read('app/src/ni-local-view.js').includes('contest.contested ? CONTEST_LABELS.contested : CONTEST_LABELS.uncontested'));
+  assert.deepEqual(browser.contestLabels, labels);
 });
 
 /** Every string literal assigned to `key` in a source file (ternaries included). */

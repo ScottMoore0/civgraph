@@ -8,9 +8,11 @@
  *
  * Fields, geometry types and renderers are read from render/metadata/maps-test.json (the
  * published layer index): `requiredFields` are the fields every layer of the type has there.
- * The behaviour flags are the map app's branches on sourceType (src/map/renderer/
- * map-controller.js), each cited by the anchor tests/unit/registries-layers.test.mjs finds them
- * by. Two types never appear in the index: `mvt`, the z/x/y fallback the app builds for a
+ * The behaviour flags say how the map app treats each type. They were first read from its
+ * branches on sourceType (src/map/renderer/map-controller.js); since 8 Nov 2026 the app reads them
+ * (registries/browser/layer-types.json, one Set per flag), so the file itself is their source and a
+ * fresh seed keeps each flag's types as the file has them. tests/unit/registries-layers.test.mjs
+ * checks that the app builds each flag's Set from the registry. Two types never appear in the index: `mvt`, the z/x/y fallback the app builds for a
  * PMTiles layer, and `unconverted`, a catalogue entry with no tiles yet.
  */
 import { readFileSync, writeFileSync } from 'node:fs';
@@ -20,13 +22,16 @@ import { REPO_ROOT } from '../index.mjs';
 const OUT = 'data/registries/layer-types.json';
 const CONTROLLER = 'src/map/renderer/map-controller.js';
 
-/** The map app's branches: flag -> [anchor text that finds the line, what the flag means]. */
+/** The map app's flags: flag -> [the Set map-controller.js builds from it, what the flag means]. */
 export const BEHAVIOUR_FLAGS = {
-  threeD: ['const is3d = (r) =>', 'a 3D layer: terrain or a point cloud; turns on the 3D gesture handlers and terrain'],
-  rasterSource: ["if (layer?.sourceType === 'raster' ||", 'drawn from raster tiles or an image, so it has no features to pick'],
-  noFeatureState: ['featureId === undefined || featureId === null ||', 'feature-state (hover, selection) is never set on it'],
-  noLabels: ['!record.config?.labelProperty ||', 'never gets a label layer']
+  threeD: ['THREE_D_TYPES', 'a 3D layer: terrain or a point cloud; turns on the 3D gesture handlers and terrain'],
+  rasterSource: ['RASTER_SOURCE_TYPES', 'drawn from raster tiles or an image, so it has no features to pick'],
+  noFeatureState: ['NO_FEATURE_STATE_TYPES', 'feature-state (hover, selection) is never set on it'],
+  noLabels: ['NO_LABEL_TYPES', 'never gets a label layer']
 };
+
+/** The line of map-controller.js that builds a flag's Set of source types from the registry. */
+export const behaviourLine = (flag) => `const ${BEHAVIOUR_FLAGS[flag][0]} = new Set(layerTypes.behaviour.${flag});`;
 
 const RUNTIME_ONLY = {
   mvt: { note: 'Built by the app as the z/x/y.pbf fallback of a PMTiles layer (tilesFallback) or when promote-layers finds no PMTiles archive; never in the published index.', sources: ['src/map/renderer/map-controller.js', 'scripts/build/tiles/promote-layers.mjs', 'app/src/maplibre-main-adapter.js'] },
@@ -43,26 +48,18 @@ const TILE_FORMAT = {
   unconverted: 'none'
 };
 
-/** Quoted sourceType values on the first line of `text` containing `anchor`. */
-export function typesOnAnchorLine(text, anchor) {
-  const line = text.split('\n').find((l) => l.includes(anchor));
-  if (!line) return null;
-  return [...new Set([...line.matchAll(/sourceType === '([a-z-]+)'/g)].map((m) => m[1]))].sort();
-}
 
 export function seedLayerTypes(root = REPO_ROOT) {
   const index = JSON.parse(readFileSync(path.join(root, 'render/metadata/maps-test.json'), 'utf8'));
-  const controller = readFileSync(path.join(root, CONTROLLER), 'utf8');
+  const current = JSON.parse(readFileSync(path.join(root, OUT), 'utf8'));
   const byType = new Map();
   for (const layer of index.layers) {
     if (!byType.has(layer.sourceType)) byType.set(layer.sourceType, []);
     byType.get(layer.sourceType).push(layer);
   }
-  const flagTypes = Object.fromEntries(Object.entries(BEHAVIOUR_FLAGS).map(([flag, [anchor]]) => {
-    const types = typesOnAnchorLine(controller, anchor);
-    if (!types) throw new Error(`${CONTROLLER}: anchor not found: ${anchor}`);
-    return [flag, new Set(types)];
-  }));
+  const flagTypes = Object.fromEntries(Object.keys(BEHAVIOUR_FLAGS).map((flag) => [flag, new Set(
+    Object.entries(current.types).filter(([, entry]) => entry.behaviour?.includes(flag)).map(([type]) => type)
+  )]));
   const types = {};
   for (const type of [...byType.keys(), ...Object.keys(RUNTIME_ONLY)].sort()) {
     const layers = byType.get(type) || [];
@@ -89,7 +86,7 @@ export function seedLayerTypes(root = REPO_ROOT) {
   return {
     schemaVersion: 1,
     description: 'Map layer types: the sourceType of a layer record, the fields every published layer of the type carries (render/metadata/maps-test.json), its tile format, and how the map app treats it (behaviour: src/map/renderer/map-controller.js). Schema: registries/schemas/layer-types.schema.json; views: registries/layers.mjs.',
-    behaviourFlags: Object.fromEntries(Object.entries(BEHAVIOUR_FLAGS).map(([flag, [anchor, meaning]]) => [flag, { meaning, source: `${CONTROLLER}: ${anchor}` }])),
+    behaviourFlags: Object.fromEntries(Object.entries(BEHAVIOUR_FLAGS).map(([flag, [name, meaning]]) => [flag, { meaning, source: `${CONTROLLER}: ${name}` }])),
     types,
     variants: {
       alias: {

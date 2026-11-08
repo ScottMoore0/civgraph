@@ -3,7 +3,9 @@
  * says exactly what the lists it replaces still say. Each parity half is skipped once its literal
  * is gone (registries/legacy-sources.mjs returns null for it). Since r2-pipeline the registry file
  * itself is the source: the council seed went with the manifest builder's, election-names' and
- * the grouped build's literals.
+ * the grouped build's literals; since reg-app (8 Nov 2026) the map app's (src/ni-local-groups.mjs,
+ * src/catalogue/search.js) are gone too, and their tests hold what those modules export to the
+ * registry's views.
  */
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -15,7 +17,8 @@ import {
   catalogueBodyAliases, catalogueCouncilNames, councilNameOn, councilsById, manifestCouncilSets,
   niCouncils1923to67BodySlugs, niLocalGroupSlugs, normalizeCouncilName
 } from '../../registries/councils.mjs';
-import { councilTier } from '../../src/ni-local-groups.mjs';
+import { NI_COUNCIL_SLUGS, NI_LOCAL_TIERS, councilTier } from '../../src/ni-local-groups.mjs';
+import { electionAliases } from '../../src/catalogue/search.js';
 import { canonicalElectionTitle } from '../../scripts/lib/election-names.mjs';
 import { authorityStems, councilTypeOf } from '../../scripts/build/build-ni-local-grouped.mjs';
 
@@ -67,13 +70,12 @@ test('councils: the grouped build\'s former district names (formerStems)', () =>
   assert.equal(registry.councils.filter((c) => c.formerStems).length, 5);
 });
 
-test('councils: src/ni-local-groups.mjs (NI_COUNCIL_SLUGS, NI_LOCAL_TIERS)', (t) => {
-  if (!src.niCouncilSlugs || !src.niLocalTiers) return t.skip('the literals are gone: src reads the registry');
-  assert.deepEqual(sorted(niLocalGroupSlugs(registry)), sorted(src.niCouncilSlugs));
-  for (const [type, tier] of Object.entries(src.niLocalTiers)) {
-    assert.equal(registry.types[type].label, tier.label);
-    assert.deepEqual(registry.types[type].levels, [...tier.levels]);
-  }
+test('councils: src/ni-local-groups.mjs reads NI_COUNCIL_SLUGS and NI_LOCAL_TIERS from the registry', () => {
+  assert.deepEqual(sorted(NI_COUNCIL_SLUGS), sorted(niLocalGroupSlugs(registry)));
+  assert.equal(NI_COUNCIL_SLUGS.size, 84);
+  const withLevels = Object.entries(registry.types).filter(([, type]) => type.levels);
+  assert.deepEqual(Object.keys(NI_LOCAL_TIERS), withLevels.map(([id]) => id));
+  for (const [type, { label, levels }] of withLevels) assert.deepEqual(NI_LOCAL_TIERS[type], { label, levels }, type);
   for (const c of registry.councils.filter((x) => x.generation === 'pre-1973')) {
     assert.equal(councilTier(c.bodySlug), c.type, c.id);
   }
@@ -94,14 +96,22 @@ test('councils: a council\'s name on each poll date is the one canonicalElection
   assert.ok(checked > 200, `checked ${checked} polls`);
 });
 
-test('councils: src/catalogue/search.js (council names by generation, body aliases)', (t) => {
-  const s = src.search;
-  if (!s) return t.skip('the literals are gone: search.js reads the registry');
-  assert.deepEqual(catalogueCouncilNames(registry, { generation: '1973' }), [...s.NI_COUNCILS_1973]);
-  assert.deepEqual(catalogueCouncilNames(registry, { generation: '2014' }), [...s.NI_COUNCILS_2014]);
-  assert.deepEqual(catalogueCouncilNames(registry, { generation: '2014', jurisdiction: 'ireland' }), [...s.IRISH_COUNCILS]);
-  const councilAliases = Object.fromEntries(Object.entries(s.BODY_ALIASES).filter(([slug]) => councilTier(slug)));
-  assert.deepEqual(catalogueBodyAliases(registry), councilAliases);
+test('councils: src/catalogue/search.js names the councils and their aliases from the registry', () => {
+  const joined = (names) => names.join(' ');
+  const local = (date) => electionAliases({ bodySlug: 'local-government', date });
+  assert.ok(local('1973-05-30').endsWith(joined(catalogueCouncilNames(registry, { generation: '1973' }))));
+  assert.ok(local('2014-05-22').endsWith(joined(catalogueCouncilNames(registry, { generation: '2014' }))));
+  assert.ok(electionAliases({ bodySlug: 'ireland-local', date: '2019-05-24' })
+    .endsWith(joined(catalogueCouncilNames(registry, { generation: '2014', jurisdiction: 'ireland' }))));
+  assert.equal(catalogueCouncilNames(registry, { generation: '1973' }).length, 26);
+  assert.equal(catalogueCouncilNames(registry, { generation: '2014' }).length, 11);
+  assert.equal(catalogueCouncilNames(registry, { generation: '2014', jurisdiction: 'ireland' }).length, 31);
+  const aliases = catalogueBodyAliases(registry);
+  assert.equal(Object.keys(aliases).length, 82);
+  for (const [slug, words] of Object.entries(aliases)) {
+    assert.ok(councilTier(slug), slug);
+    assert.equal(electionAliases({ bodySlug: slug, date: '1950-05-01' }), words, slug);
+  }
 });
 
 test('councils: counties, offices institutions and the scrapers\' lists', () => {

@@ -7,7 +7,6 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { loadRegistry, registryErrors } from '../../registries/index.mjs';
-import { seedParties } from '../../registries/seed/parties.mjs';
 import {
   abbreviationIndex, entityAliasStrings, labelFoldIndex, labelInterpretationRules, partiesById, partyInfoFrom,
   partyLabelKey, retiredPartySlugs
@@ -24,10 +23,15 @@ test('parties: the registry passes its schema and cross-file checks', () => {
   assert.equal(registry.entities.entities.length, 257);
 });
 
-test('parties: data/registries/parties.json is what packages/core/src/party-names.mjs and the part list give', () => {
+test('parties: data/registries/parties.json names every party file, and party-names reads its abbreviations', () => {
   const file = JSON.parse(readFileSync(new URL('../../data/registries/parties.json', import.meta.url), 'utf8'));
-  assert.deepEqual(seedParties(), file);
   for (const rel of Object.values(file.parts)) assert.ok(readFileSync(new URL(`../../${rel}`, import.meta.url)), rel);
+  // Since 8 Nov 2026 the file is the source: packages/core/src/party-names.mjs reads its slice
+  // (registries/browser/parties.json) and keeps no table of its own.
+  const code = readFileSync(new URL('../../packages/core/src/party-names.mjs', import.meta.url), 'utf8');
+  assert.match(code, /const PARTIES = parties\.abbreviations;/);
+  assert.match(code, /const NOT_PARTIES = parties\.notParties;/);
+  assert.equal(file.abbreviations.length, 134);
 });
 
 test('parties: the abbreviation view answers every spelling as partyInfo does', () => {

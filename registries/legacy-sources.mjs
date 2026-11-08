@@ -74,18 +74,15 @@ function optional(read) {
  * The council lists the councils registry replaces that still exist, keyed by where they live;
  * null for a list whose literal is gone. Gone (r2-pipeline, 7 Nov 2026): the manifest builder's
  * six council sets, scripts/lib/election-names.mjs's three lists and the grouped build's
- * AUTHORITY_STEM_ALIASES. With them went registries/seed/councils.mjs: since then
+ * AUTHORITY_STEM_ALIASES; and (reg-app, 8 Nov 2026) the map app's: src/ni-local-groups.mjs's
+ * NI_COUNCIL_SLUGS and NI_LOCAL_TIERS and src/catalogue/search.js's council lists and aliases,
+ * which read registries/browser/councils.json. With the first went registries/seed/councils.mjs: since then
  * data/registries/councils.json is the source, edited by hand and checked by
  * node registries/check.mjs and tests/unit/registries-councils.test.mjs.
  */
 export function councilSources(root = REPO_ROOT) {
-  const js = (rel, start, end, names) => optional(() => evalDeclarations(rel, start, end, names, root));
   const py = (rel, name) => optional(() => pythonLiteral(rel, name, root));
   return {
-    niCouncilSlugs: js('src/ni-local-groups.mjs', 'export const NI_COUNCIL_SLUGS', '/** Whether a year is grouped', ['NI_COUNCIL_SLUGS'])?.NI_COUNCIL_SLUGS ?? null,
-    niLocalTiers: js('src/ni-local-groups.mjs', 'export const NI_LOCAL_TIERS', '/** The kind of council a body slug names', ['NI_LOCAL_TIERS'])?.NI_LOCAL_TIERS ?? null,
-    search: js('src/catalogue/search.js', 'const BODY_ALIASES', '/** The other names an election goes by',
-      ['BODY_ALIASES', 'NI_COUNCILS_2014', 'NI_COUNCILS_1973', 'IRISH_COUNCILS']),
     councilWebsites: py('scripts/ingest/council-websites/scrape_26_councils.py', 'COUNCILS'),
     wikipedia1973: py('scripts/ingest/wikipedia/scrape_old_lgov_wikipedia.py', 'COUNCILS'),
     wikipedia1973Compare: py('scripts/ingest/wikipedia/scrape_and_compare_lgov_wikipedia.py', 'COUNCILS'),
