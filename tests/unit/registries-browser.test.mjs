@@ -34,10 +34,13 @@ test('registries/browser: each reader imports its slice statically, through its 
   for (const [file, spec] of Object.entries(readers)) {
     assert.ok(read(file).split('\n').some((line) => /^import \w+ from '/.test(line) && line.endsWith(` from '${spec}';`)), file);
   }
-  // Each module re-exports its slice: a static JSON import esbuild inlines.
+  // Each module re-exports its slice through the generated plain-ES twin (<name>.data.mjs), never a
+  // JSON import: Cloudflare's Pages build (wrangler 3.114.17) rejects `with { type: 'json' }`.
   for (const file of Object.keys(browserSlices())) {
     const name = file.replace('.json', '');
-    assert.match(read(`packages/registries/src/browser/${name}.mjs`), new RegExp(`^import (\\w+) from '\\./${name}\\.json' with \\{ type: 'json' \\};\\n\\nexport default \\1;$`, 'm'), name);
+    const text = read(`packages/registries/src/browser/${name}.mjs`);
+    assert.doesNotMatch(text, /with \{ type: 'json' \}/, `${name}.mjs must not use a JSON import attribute`);
+    assert.match(text, new RegExp(`\\nimport (\\w+) from '\\./${name}\\.data\\.mjs';\\n\\nexport default \\1;\\n?$`), `${name}.mjs re-exports ${name}.data.mjs`);
   }
 });
 
