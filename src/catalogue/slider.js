@@ -8,6 +8,7 @@
  * while other filters change only the count.
  */
 import { esc, plural } from './util.js';
+import { setHidden } from '../map/state-helpers.mjs';
 
 const FLOOR = 1800;
 
@@ -93,5 +94,5 @@ export function updateSlider(el, bins, i, j, st) {
     if (box && document.activeElement !== box) box.value = v ?? '';
   }
   const reset = el.querySelector('[data-cn-act="years-reset"]');
-  if (reset) reset.hidden = st.from === null && st.to === null;
+  if (reset) setHidden(reset, st.from === null && st.to === null);
 }
