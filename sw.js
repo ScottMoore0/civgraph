@@ -21,6 +21,46 @@ const MAX_STATIC_ENTRIES = 320;
 const QUOTA_CLEANUP_THRESHOLD = 0.75;
 
 const ALL_CACHES = [STATIC_CACHE, RUNTIME_CACHE];
+
+// The worker's lifecycle (state-machine catalogue MA-14, REFACTOR-PLAN section 11; full weight).
+// The browser runs it: this table only names the states this worker's global scope passes
+// through and the order the platform guarantees, so a move outside it is reported, not obeyed.
+//   parsed      the script ran; no lifecycle event yet. A worker the browser stopped and woke
+//               again (to answer a fetch or a message) stays here: it is already active.
+//   installing  the install event: the shell is precached (best effort)
+//   installed   precache done and skipWaiting() called (ACTIVATION_POLICY)
+//   activating  the activate event: caches of other versions are deleted (cacheVersionOf)
+//   active      clients.claim() done: this worker controls the open pages
+// parsed -> activating is the browser waking a stopped, installed worker to activate it.
+// This is a classic worker script and cannot import assets/ui/state/machine.js, so the table is
+// inline; tests/unit/service-worker-lifecycle.test.mjs builds it with defineMachine and checks
+// that lifecycleMove() agrees with the helper's semantics.
+const LIFECYCLE_TRANSITIONS = { parsed: ['installing', 'activating'], installing: ['installed'], installed: ['activating'], activating: ['active'], active: [] };
+let lifecycleState = 'parsed';
+
+/** Enter `next`; a move the table does not list is warned about, then taken (the platform decides). */
+function lifecycleMove(next) {
+  const allowed = LIFECYCLE_TRANSITIONS[lifecycleState] || [];
+  if (allowed.indexOf(next) === -1) console.warn(`service worker lifecycle: ${lifecycleState} -> ${next} is not a transition`);
+  lifecycleState = next;
+  return lifecycleState;
+}
+
+// When a new version takes over: at once (skipWaiting at install, not when the last page
+// using the old one closes) and over the pages already open (clients.claim at activate).
+// The SKIP_WAITING message asks for the same thing early.
+const ACTIVATION_POLICY = { skipWaitingOnInstall: true, claimOnActivate: true };
+
+/**
+ * A cache's standing against this VERSION: `current` (STATIC_CACHE or RUNTIME_CACHE), `retired`
+ * (a root or legacy prefix under another version: deleted at activate) or `foreign` (another
+ * worker's, such as the retired apps' kill switch: never touched).
+ */
+function cacheVersionOf(name) {
+  if (ALL_CACHES.includes(name)) return 'current';
+  if (LEGACY_ROOT_CACHE_PREFIXES.some((prefix) => name.startsWith(prefix))) return 'retired';
+  return 'foreign';
+}
 const LEGACY_ROOT_CACHE_PREFIXES = [
   CACHE_PREFIX,
   'civgraph-test2-',
@@ -79,6 +119,7 @@ const NEVER_CACHE_PATTERNS = [
 ];
 
 self.addEventListener('install', (event) => {
+  lifecycleMove('installing');
   event.waitUntil((async () => {
     const cache = await caches.open(STATIC_CACHE);
     await Promise.all(PRECACHE_URLS.map(async (url) => {
@@ -89,18 +130,20 @@ self.addEventListener('install', (event) => {
         // Install should not fail because the shell could not be warmed.
       }
     }));
-    await self.skipWaiting();
+    if (ACTIVATION_POLICY.skipWaitingOnInstall) await self.skipWaiting();
+    lifecycleMove('installed');
   })());
 });
 
 self.addEventListener('activate', (event) => {
+  lifecycleMove('activating');
   event.waitUntil((async () => {
     const names = await caches.keys();
     await Promise.all(names
-      .filter((name) => LEGACY_ROOT_CACHE_PREFIXES.some((prefix) => name.startsWith(prefix)))
-      .filter((name) => !ALL_CACHES.includes(name))
+      .filter((name) => cacheVersionOf(name) === 'retired')
       .map((name) => caches.delete(name)));
-    await self.clients.claim();
+    if (ACTIVATION_POLICY.claimOnActivate) await self.clients.claim();
+    lifecycleMove('active');
   })());
 });
 
