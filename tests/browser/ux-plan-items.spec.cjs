@@ -7,7 +7,7 @@ const { test, expect } = require('@playwright/test');
  * The service worker is blocked so nothing is served from its runtime cache.
  */
 test.use({ serviceWorkers: 'block' });
-const { BASE } = require('./helpers/base-url');
+const { BASE } = require('./helpers/base-url.cjs');
 
 /**
  * Open a maps section so the catalogue's load buttons exist.

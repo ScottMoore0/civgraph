@@ -7,7 +7,7 @@ const { test, expect } = require('@playwright/test');
  * document.title === 'Civgraph' in every state, and aria-live on the whole result list.
  */
 test.use({ serviceWorkers: 'block' });
-const { BASE } = require('./helpers/base-url');
+const { BASE } = require('./helpers/base-url.cjs');
 
 test('T1-05 · the page has a visible heading, a lede, and a descriptive title', async ({ page }) => {
   test.setTimeout(120000);

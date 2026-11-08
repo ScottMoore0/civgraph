@@ -10,7 +10,7 @@ project are end-to-end behaviours.
 
 ```bash
 npx playwright test                       # everything
-npx playwright test tests/browser/app.spec.js
+npx playwright test tests/browser/app.spec.cjs
 ```
 
 The suite serves the site with `scripts/dev/test-server.py`, **not**
@@ -27,7 +27,7 @@ where (locally, in CI, against production) is in [CHECKS.md](../CHECKS.md).
 Catalogue loading and history, election panes and API parity, accessibility
 (`accessible-names`, `contrast-audit`, `catalogue-load-a11y`), mobile layout,
 the header brand across six phone widths, and specific past regressions such as
-`eds-1931-1936.spec.js`.
+`eds-1931-1936.spec.cjs`.
 
 ## Writing one
 

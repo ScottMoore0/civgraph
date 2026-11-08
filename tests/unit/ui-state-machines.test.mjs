@@ -3,7 +3,7 @@
  * apps/proni-search/state-machines.js; REFACTOR-PLAN.md section 11, catalogue stream 7):
  * every table allows exactly the moves it lists, the moves the pages make are walks the tables
  * allow, and the moves they must never make are refused. The pages themselves are driven by
- * tests/browser/ui-state-machines.spec.js.
+ * tests/browser/ui-state-machines.spec.cjs.
  *
  * Also holds the served helper (assets/ui/state/machine.js) byte-identical to the shared one
  * (scripts/lib/state-machine.mjs) once that is in the tree.

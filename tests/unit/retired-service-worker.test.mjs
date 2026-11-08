@@ -1,6 +1,6 @@
 // The retired-app kill switch (render/sw.js, test2/sw.js, and /test/sw.js through a 200 rule in
 // _redirects): its bytes, the addresses that serve it, and what it does when a browser installs it
-// in place of a legacy worker. The browser half is tests/browser/retired-service-worker.spec.js.
+// in place of a legacy worker. The browser half is tests/browser/retired-service-worker.spec.cjs.
 //
 //   node --test tests/unit/retired-service-worker.test.mjs
 import assert from 'node:assert/strict';

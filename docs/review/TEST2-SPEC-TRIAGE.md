@@ -47,7 +47,7 @@ that worker installed. That is why `test2/` is kept.
 14 failed  ->  6 failed, 36 passed
 ```
 
-The file is now `tests/browser/app.spec.js` and its 39 test titles no longer begin
+The file is now `tests/browser/app.spec.cjs` and its 39 test titles no longer begin
 `/test2 `, because every one of them loads `/`.
 
 ### Two fixed, and one of them was a real bug with a one-line cause
