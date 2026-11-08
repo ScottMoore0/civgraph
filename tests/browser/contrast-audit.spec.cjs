@@ -4,7 +4,7 @@
  * related violations to tests/browser/contrast-audit-report.json.
  *
  * axe-core is loaded from CDN at test runtime so this spec adds no npm deps.
- * Re-run with: npx playwright test contrast-audit
+ * Re-run with: npx playwright test --config config/playwright.config.cjs contrast-audit
  */
 const { test, expect } = require('@playwright/test');
 const fs = require('fs');

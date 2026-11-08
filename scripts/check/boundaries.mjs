@@ -18,7 +18,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
-const config = JSON.parse(readFileSync(path.join(ROOT, 'boundaries.json'), 'utf8'));
+const config = JSON.parse(readFileSync(path.join(ROOT, 'config', 'boundaries.json'), 'utf8'));
 const UNITS = Object.entries(config.units);
 const SKIP = /(^|\/)(node_modules|dist|build|vendor)\/|\.min\.js$|^app\/build\/|^src\/sql\.js-httpvfs\//;
 

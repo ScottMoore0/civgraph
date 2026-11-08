@@ -175,7 +175,7 @@ This generates:
 ## Tests
 
 ```bash
-npx playwright test
+npx playwright test --config config/playwright.config.cjs
 ```
 
 ## Author

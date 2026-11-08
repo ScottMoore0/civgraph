@@ -10,7 +10,7 @@ import test from 'node:test';
 import { REPO_ROOT } from '../../scripts/lib/typecheck.mjs';
 
 const FOLDERS = ['scripts/publish', 'scripts/i18n', 'scripts/maps', 'scripts/dev'];
-const config = JSON.parse(readFileSync(path.join(REPO_ROOT, 'tsconfig.pipeline.json'), 'utf8'));
+const config = JSON.parse(readFileSync(path.join(REPO_ROOT, 'config', 'tsconfig.pipeline.json'), 'utf8').replaceAll('"../', '"'));
 
 test('tsconfig.pipeline.json checks the pipeline folders with noImplicitAny on', () => {
   assert.equal(config.compilerOptions.checkJs, true);

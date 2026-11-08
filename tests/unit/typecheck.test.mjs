@@ -17,7 +17,7 @@ import path from 'node:path';
 import test from 'node:test';
 import { REPO_ROOT, typecheck } from '../../scripts/lib/typecheck.mjs';
 
-const config = JSON.parse(readFileSync(path.join(REPO_ROOT, 'tsconfig.records.json'), 'utf8'));
+const config = JSON.parse(readFileSync(path.join(REPO_ROOT, 'config', 'tsconfig.records.json'), 'utf8').replaceAll('"../', '"'));
 
 test('tsconfig.records.json checks scripts/lib, scripts/records and the loader, schema and storage packages', () => {
   assert.equal(config.compilerOptions.checkJs, true);
@@ -29,7 +29,7 @@ test('tsconfig.records.json keeps noImplicitAny on for scripts/lib, scripts/reco
   assert.equal(config.compilerOptions.noImplicitAny, true);
   for (const entry of ['scripts/lib/**/*.mjs', 'scripts/records/**/*.mjs', 'packages/loader/src/**/*.mjs', 'packages/storage/src/sqlite.mjs', 'packages/config/src/node.mjs', 'packages/schema/src/*.mjs', 'packages/maps-pipeline/src/layer-bounds.mjs', 'packages/maps-pipeline/src/safe-artefact-write.mjs']) assert.ok(config.include.includes(entry), entry);
   const scripts = JSON.parse(readFileSync(path.join(REPO_ROOT, 'package.json'), 'utf8')).scripts;
-  assert.match(scripts['check:types:records'], /typecheck\.mjs tsconfig\.records\.json/);
+  assert.match(scripts['check:types:records'], /typecheck\.mjs config\/tsconfig\.records\.json/);
 });
 
 test('no type-check suppressions in the allowlisted folders', () => {

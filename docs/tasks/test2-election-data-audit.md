@@ -1,6 +1,6 @@
 # Test2 Election Data Audit
 
-Generated: 2026-11-07T15:18:27.847Z
+Generated: 2026-11-08T18:02:22.956Z
 
 This is a repeatable repository-local audit of the generated /test2 election data, Browse election entries, source/reference records, transfer/count payload availability, and saved Wikipedia party-colour comparison outputs. It intentionally does not fetch live web pages, so CI can run it deterministically.
 
@@ -14,119 +14,162 @@ This is a repeatable repository-local audit of the generated /test2 election dat
 |Browse parent election entries|2414|
 |Browse constituency/DEA sub-entries|21010|
 |Browse overall sub-entries|2368|
-|source detail records|2414|
-|result bundles loaded|2368|
-|result rows audited|21010|
-|candidate rows audited|76994|
-|rows with count detail|20990|
-|rows with animation payload|20990|
-|rows expected to have transfer/count data|4129|
+|source detail records|0|
+|result bundles loaded|0|
+|result rows audited|0|
+|candidate rows audited|0|
+|rows with count detail|0|
+|rows with animation payload|0|
+|rows expected to have transfer/count data|0|
 |expected transfer/count rows missing detail|0|
 |valid-poll review sidecar records|0|
 |candidate-row review sidecar records|0|
 |party-colour review sidecar records|10|
-|blocking issues|0|
-|warnings|2213|
+|blocking issues|2368|
+|warnings|2369|
 
 ## Blocking Structural Issues
 
-_None._
+|severity|category|key|message|
+|---|---|---|---|
+|blocking|result-file-missing|dail-eireann__2026-05-22|Result bundle is missing: /render/metadata/elections-test2/dail-eireann__2026-05-22.json.|
+|blocking|result-file-missing|ireland-president__2025-10-24|Result bundle is missing: /render/metadata/elections-test2/ireland-president__2025-10-24.json.|
+|blocking|result-file-missing|dail-eireann__2024-11-29|Result bundle is missing: /render/metadata/elections-test2/dail-eireann__2024-11-29.json.|
+|blocking|result-file-missing|house-of-commons-of-the-united-kingdom__2024-07-04|Result bundle is missing: /render/metadata/elections-test2/house-of-commons-of-the-united-kingdom__2024-07-04.json.|
+|blocking|result-file-missing|ireland-european__2024-06-07|Result bundle is missing: /render/metadata/elections-test2/ireland-european__2024-06-07.json.|
+|blocking|result-file-missing|ireland-local__2024-06-07|Result bundle is missing: /render/metadata/elections-test2/ireland-local__2024-06-07.json.|
+|blocking|result-file-missing|ireland-referendum__2024-03-08-care|Result bundle is missing: /render/metadata/elections-test2/ireland-referendum__2024-03-08-care.json.|
+|blocking|result-file-missing|ireland-referendum__2024-03-08-the-family|Result bundle is missing: /render/metadata/elections-test2/ireland-referendum__2024-03-08-the-family.json.|
+|blocking|result-file-missing|local-government-local-government-districts__2023-05-18|Result bundle is missing: /render/metadata/elections-test2/local-government-local-government-districts__2023-05-18.json.|
+|blocking|result-file-missing|northern-ireland-assembly__2022-05-05|Result bundle is missing: /render/metadata/elections-test2/northern-ireland-assembly__2022-05-05.json.|
+|blocking|result-file-missing|dail-eireann__2021-07-08|Result bundle is missing: /render/metadata/elections-test2/dail-eireann__2021-07-08.json.|
+|blocking|result-file-missing|dail-eireann__2020-02-08|Result bundle is missing: /render/metadata/elections-test2/dail-eireann__2020-02-08.json.|
+|blocking|result-file-missing|house-of-commons-of-the-united-kingdom__2019-12-12|Result bundle is missing: /render/metadata/elections-test2/house-of-commons-of-the-united-kingdom__2019-12-12.json.|
+|blocking|result-file-missing|dail-eireann__2019-11-29|Result bundle is missing: /render/metadata/elections-test2/dail-eireann__2019-11-29.json.|
+|blocking|result-file-missing|ireland-referendum__2019-05-24-regulation-of-divorce|Result bundle is missing: /render/metadata/elections-test2/ireland-referendum__2019-05-24-regulation-of-divorce.json.|
+|blocking|result-file-missing|ireland-european__2019-05-24|Result bundle is missing: /render/metadata/elections-test2/ireland-european__2019-05-24.json.|
+|blocking|result-file-missing|ireland-local__2019-05-24|Result bundle is missing: /render/metadata/elections-test2/ireland-local__2019-05-24.json.|
+|blocking|result-file-missing|european-parliament__2019-05-23|Result bundle is missing: /render/metadata/elections-test2/european-parliament__2019-05-23.json.|
+|blocking|result-file-missing|local-government-local-government-districts__2019-05-02|Result bundle is missing: /render/metadata/elections-test2/local-government-local-government-districts__2019-05-02.json.|
+|blocking|result-file-missing|ireland-referendum__2018-10-26-repeal-of-blasphemy-offence|Result bundle is missing: /render/metadata/elections-test2/ireland-referendum__2018-10-26-repeal-of-blasphemy-offence.json.|
+|blocking|result-file-missing|ireland-president__2018-10-26|Result bundle is missing: /render/metadata/elections-test2/ireland-president__2018-10-26.json.|
+|blocking|result-file-missing|local-government-mid-and-east-antrim__2018-10-18|Result bundle is missing: /render/metadata/elections-test2/local-government-mid-and-east-antrim__2018-10-18.json.|
+|blocking|result-file-missing|house-of-commons-of-the-united-kingdom__2018-08-29|Result bundle is missing: /render/metadata/elections-test2/house-of-commons-of-the-united-kingdom__2018-08-29.json.|
+|blocking|result-file-missing|ireland-referendum__2018-05-25-regulation-of-termination-of-pregnancy-repeal-of-8th-amendment|Result bundle is missing: /render/metadata/elections-test2/ireland-referendum__2018-05-25-regulation-of-termination-of-pregnancy-repeal-of-8th-amendment.json.|
+|blocking|result-file-missing|house-of-commons-of-the-united-kingdom__2018-05-03|Result bundle is missing: /render/metadata/elections-test2/house-of-commons-of-the-united-kingdom__2018-05-03.json.|
+|blocking|result-file-missing|house-of-commons-of-the-united-kingdom__2017-06-08|Result bundle is missing: /render/metadata/elections-test2/house-of-commons-of-the-united-kingdom__2017-06-08.json.|
+|blocking|result-file-missing|northern-ireland-assembly__2017-03-02|Result bundle is missing: /render/metadata/elections-test2/northern-ireland-assembly__2017-03-02.json.|
+|blocking|result-file-missing|northern-ireland-referendum__2016-06-23-eu-membership|Result bundle is missing: /render/metadata/elections-test2/northern-ireland-referendum__2016-06-23-eu-membership.json.|
+|blocking|result-file-missing|northern-ireland-assembly__2016-05-05|Result bundle is missing: /render/metadata/elections-test2/northern-ireland-assembly__2016-05-05.json.|
+|blocking|result-file-missing|dail-eireann__2016-02-26|Result bundle is missing: /render/metadata/elections-test2/dail-eireann__2016-02-26.json.|
+|blocking|result-file-missing|ireland-referendum__2015-05-22-age-of-president|Result bundle is missing: /render/metadata/elections-test2/ireland-referendum__2015-05-22-age-of-president.json.|
+|blocking|result-file-missing|ireland-referendum__2015-05-22-equal-marriage|Result bundle is missing: /render/metadata/elections-test2/ireland-referendum__2015-05-22-equal-marriage.json.|
+|blocking|result-file-missing|dail-eireann__2015-05-22|Result bundle is missing: /render/metadata/elections-test2/dail-eireann__2015-05-22.json.|
+|blocking|result-file-missing|house-of-commons-of-the-united-kingdom__2015-05-07|Result bundle is missing: /render/metadata/elections-test2/house-of-commons-of-the-united-kingdom__2015-05-07.json.|
+|blocking|result-file-missing|dail-eireann__2014-10-10|Result bundle is missing: /render/metadata/elections-test2/dail-eireann__2014-10-10.json.|
+|blocking|result-file-missing|dail-eireann__2014-05-23|Result bundle is missing: /render/metadata/elections-test2/dail-eireann__2014-05-23.json.|
+|blocking|result-file-missing|ireland-european__2014-05-23|Result bundle is missing: /render/metadata/elections-test2/ireland-european__2014-05-23.json.|
+|blocking|result-file-missing|ireland-local__2014-05-23|Result bundle is missing: /render/metadata/elections-test2/ireland-local__2014-05-23.json.|
+|blocking|result-file-missing|european-parliament__2014-05-22|Result bundle is missing: /render/metadata/elections-test2/european-parliament__2014-05-22.json.|
+|blocking|result-file-missing|local-government-local-government-districts__2014-05-22|Result bundle is missing: /render/metadata/elections-test2/local-government-local-government-districts__2014-05-22.json.|
+
+_2328 more not shown; see JSON report._
 
 ## Warning Issues
 
 |severity|category|key|message|
 |---|---|---|---|
 |warning|browse-parent-count|data/browse/elections.json|Browse has 2414 parent elections, manifest has 2368.|
-|warning|source-record-single-reference|fianna-fail-presidential-nomination__1997-09-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|fianna-fail-presidential-nomination__1997-09-17|2 candidate rows have no party/label. Examples: Mary McAleese in Fianna Fáil Parliamentary Party (first ballot); Mary McAleese in Fianna Fáil Parliamentary Party (second ballot).|
-|warning|source-record-single-reference|uup-leadership__1995-09-08|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|source-record-single-reference|uup-leadership__1995-03-18|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|source-record-single-reference|fianna-fail-leadership__1979-12-07|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|source-record-single-reference|belfast-county-borough-council__1972-05-10|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|source-record-single-reference|belfast-county-borough-council__1972-01-24|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|source-record-single-reference|uup-leadership__1969-05-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|source-record-single-reference|belfast-county-borough-council__1969-02-12|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|source-record-single-reference|antrim-county-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|antrim-county-council__1967-06-01|26 candidate rows have no party/label. Examples: William Robert Yarr in Aghalee; William Millar Cameron in Ahoghill; William Clark in Antrim; Alexander McConnell in Ballyclare; Allan Johnston in Ballymena.|
-|warning|source-record-single-reference|antrim-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|source-record-single-reference|armagh-county-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|armagh-county-council__1967-06-01|1 candidate rows have no party/label. Examples: Frank Hayes in Killyman.|
-|warning|source-record-single-reference|armagh-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|armagh-rural-district-council__1967-06-01|2 candidate rows have no party/label. Examples: Ernest William Charles Weir in Killyman; Kenneth Kelly in Richhill.|
-|warning|source-record-single-reference|ballymena-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|ballymena-rural-district-council__1967-06-01|23 candidate rows have no party/label. Examples: Andrew Hugh Simpson in Ahoghill; William Hugh Simpson in Ballyclug; Robert Hamilton in Ballyconnolly; John McNeilly in Ballyscullion; William Houston in Broughshane.|
-|warning|source-record-single-reference|ballymoney-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|ballymoney-rural-district-council__1967-06-01|4 candidate rows have no party/label. Examples: John P. Mulholland in Ballyhoe; John McCollam in Ballyhoe; Mrs. Mary Hunter in Seacon; D. Moore in Seacon.|
-|warning|source-record-single-reference|banbridge-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|banbridge-rural-district-council__1967-06-01|19 candidate rows have no party/label. Examples: Robert A. Frazer in Annaclone; Eric Williamson in Ballooleymore; T. H. C. Murray in Ballybrick; J. S. Higginson in Ballyward; John Martin in Banbridge Rural.|
-|warning|source-record-single-reference|castlederg-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|source-record-single-reference|castlereagh-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|castlereagh-rural-district-council__1967-06-01|4 candidate rows have no party/label. Examples: F. J. R. Storey in Ballycultra; J. C. Marks in Ballyhackamore; Thomas Gray in Craigavad; Thomas H. Boyd in Holywood Rural.|
-|warning|source-record-single-reference|clogher-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|source-record-single-reference|coleraine-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|coleraine-rural-district-council__1967-06-01|4 candidate rows have no party/label. Examples: David Lennox in Kilrea; J. H. Knipe in Kilrea; C. R. Lee in Slaughtneil; W. W. Houston in Slaughtneil.|
-|warning|source-record-single-reference|cookstown-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|cookstown-rural-district-council__1967-06-01|15 candidate rows have no party/label. Examples: William McIntyre in Ballyclog; Peter Conway in Beaghmore; James P. Duff in Coagh; William J. McCulla in Grange; Bernard Conway in Killeenan.|
-|warning|source-record-single-reference|down-county-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|down-county-council__1967-06-01|19 candidate rows have no party/label. Examples: Richard John Dougherty in Ardglass; Edward McVeigh in Ballynahinch; William Smyth in Banbridge; Frederick Charles Tughan in Bangor; Felix McKenna in Castlewellan.|
-|warning|source-record-single-reference|dungannon-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|dungannon-rural-district-council__1967-06-01|19 candidate rows have no party/label. Examples: P. J. Donnelly in Altmore; W. R. Knox in Anahoe; A. M. Reid in Benburb; R. Kempton in Bernagh; C. J. Burrowes in Bush.|
-|warning|source-record-single-reference|east-down-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|east-down-rural-district-council__1967-06-01|6 candidate rows have no party/label. Examples: Robert Magee in Ardglass; George Joseph Connor in Ardglass; James Gerard Fitzpatrick in Castlewellan Urban; Felix McKenna in Castlewellan Urban; James Cleland in Downpatrick.|
-|warning|source-record-single-reference|fermanagh-county-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|fermanagh-county-council__1967-06-01|41 candidate rows have no party/label. Examples: David Brien in Ballinamallard; Warren Loane in Ballinamallard; John Brooke in Brookeborough; Francis Ebbitt in Brookeborough; Albert J. Anderson in Clonelly.|
-|warning|source-record-single-reference|hillsborough-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|hillsborough-rural-district-council__1967-06-01|15 candidate rows have no party/label. Examples: James Campbell in Annahilt; Nelson Magowan in Ballykeel; John Johnston in Ballymacbrennan; John W. Henderson in Ballyskeagh; Samuel J. Bell in Ballyworfy.|
-|warning|source-record-single-reference|larne-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|larne-rural-district-council__1967-06-01|18 candidate rows have no party/label. Examples: Francis Joseph O'Neill in Ardclinis; Thomas Snoddy in Ballycorr; James Park in Ballynure; Robert John Moore in Cairncastle; Edward Albert Reid in Carrickfergus Rural.|
-|warning|source-record-single-reference|limavady-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|source-record-single-reference|lisburn-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|lisburn-rural-district-council__1967-06-01|11 candidate rows have no party/label. Examples: Thomas C. Wilson in Aghalee; Joseph Smyth in Andersonstown; William R. Yarr in Ballinderry; William R. Totten in Ballyscolly; John Maze in Islandkelly.|
-|warning|source-record-single-reference|londonderry-county-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|londonderry-county-council__1967-06-01|18 candidate rows have no party/label. Examples: George Haslett in Bellarena; Thomas James Bradley in Castledawson; Hugh Alphonsus McGurk in Clady; Robert Cunningham Bond in Claudy; Daniel Jackson Christie in Coleraine.|
-|warning|source-record-single-reference|londonderry-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|londonderry-rural-district-council__1967-06-01|12 candidate rows have no party/label. Examples: Thomas Montgomery Craig in Ardmore; Francis Joseph O'Kane in Ballymullins; John Conway in Banagher; Robert Cunningham Bond in Bond's Glen; William John Eakin in Claudy.|
-|warning|source-record-single-reference|magherafelt-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|magherafelt-rural-district-council__1967-06-01|25 candidate rows have no party/label. Examples: Hugh M'Clelland in Aughagaskin; Patrick John Scullion in Ballynease; Wm. Lees in Ballyronan; John Mallon in Bancran; William J. Overend in Bellaghy.|
-|warning|source-record-single-reference|moira-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|moira-rural-district-council__1967-06-01|6 candidate rows have no party/label. Examples: J. Wilson in Bleary; T. H. Creith in Clare; James Baird in Donacloney; T. Megarrell in Marlin; G. McCartney in Moira.|
-|warning|source-record-single-reference|newry-no-1-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|newry-no-1-rural-district-council__1967-06-01|18 candidate rows have no party/label. Examples: Thomas A. Shilliday in Ballycoshone; John McAteer in Ballyholland; Thomas David Maginnis in Ballyholland; Hugh Patrick Sands in Carrickcrossan; Thomas Edward Treanor in Clonallon.|
-|warning|source-record-single-reference|newry-no-2-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|newry-no-2-rural-district-council__1967-06-01|43 candidate rows have no party/label. Examples: Donald J. Mulligan in Ballybot; Gerald Mulholland in Ballybot; Harold Kinney in Ballybot; Patrick J. Luckie in Ballymoyer; Oliver B. Murphy in Belleek.|
-|warning|source-record-single-reference|north-down-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|source-record-single-reference|omagh-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|omagh-rural-district-council__1967-06-01|39 candidate rows have no party/label. Examples: Mrs. Mary Ellen McGurn in Aughafad; Fred Giboney in Bencran; William Kirk in Beragh; Vincent O'Brien in Camderry; Michael Donaghy in Carrickmore.|
-|warning|source-record-single-reference|south-down-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|source-record-single-reference|strabane-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|strabane-rural-district-council__1967-06-01|26 candidate rows have no party/label. Examples: J. Stewart in Ardstraw; Patrick Devine in Balix; William Mehaffy in Ballyfatton; Robert P. Cummings in Ballymagorry; Thomas Moore in Baronscourt.|
-|warning|source-record-single-reference|tandragee-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|tandragee-rural-district-council__1967-06-01|5 candidate rows have no party/label. Examples: Andrew Isaac Crothers in Ballyshiel; Robert Woolsey in Laurelvale; Norman Alexander Beattie in Mullabrack; John McIntyre in Mullahead; Robert John McClelland in Tandragee Rural.|
-|warning|source-record-single-reference|tyrone-county-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|tyrone-county-council__1967-06-01|26 candidate rows have no party/label. Examples: Rea in Aughnacloy; Higgins in Ballygawley; Gray in Benburb; Mullan in Carrickmore; Patterson in Castlecaulfield.|
-|warning|source-record-single-reference|ballycastle-urban-district-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|source-record-single-reference|ballyclare-urban-district-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|ballyclare-urban-district-council__1967-05-17|12 candidate rows have no party/label. Examples: William J. Workman in Ballyclare; Sidney Cameron in Ballyclare; James Craig in Ballyclare; Alan Moore in Ballyclare; Robert Fleming in Ballyclare.|
-|warning|source-record-single-reference|ballymena-borough-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|ballymena-borough-council__1967-05-17|14 candidate rows have no party/label. Examples: James Black Millar in Market Ward; Patrick Joseph Burke in Market Ward; David Holden in Market Ward; David McCarthy in Market Ward; Robert Humphries in Market Ward.|
-|warning|source-record-single-reference|banbridge-urban-district-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|source-record-single-reference|bangor-borough-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|source-record-single-reference|belfast-county-borough-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|belfast-county-borough-council__1967-05-17|1 candidate rows have no party/label. Examples: J. G. Armstrong in St. George's.|
-|warning|source-record-single-reference|belfast-county-borough-council-aldermen__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|source-record-single-reference|carrickfergus-borough-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|source-record-single-reference|coleraine-borough-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|source-record-missing|dail-eireann__2026-05-22|No election source detail record found at data/browse/details/elections/dail-eireann-2026-05-22.json or data/browse/details/sources/election-source-dail-eireann-2026-05-22.json.|
+|warning|source-record-missing|ireland-president__2025-10-24|No election source detail record found at data/browse/details/elections/ireland-president-2025-10-24.json or data/browse/details/sources/election-source-ireland-president-2025-10-24.json.|
+|warning|source-record-missing|dail-eireann__2024-11-29|No election source detail record found at data/browse/details/elections/dail-eireann-2024-11-29.json or data/browse/details/sources/election-source-dail-eireann-2024-11-29.json.|
+|warning|source-record-missing|house-of-commons-of-the-united-kingdom__2024-07-04|No election source detail record found at data/browse/details/elections/house-of-commons-of-the-united-kingdom-2024-07-04.json or data/browse/details/sources/election-source-house-of-commons-of-the-united-kingdom-2024-07-04.json.|
+|warning|source-record-missing|ireland-european__2024-06-07|No election source detail record found at data/browse/details/elections/ireland-european-2024-06-07.json or data/browse/details/sources/election-source-ireland-european-2024-06-07.json.|
+|warning|source-record-missing|ireland-local__2024-06-07|No election source detail record found at data/browse/details/elections/ireland-local-2024-06-07.json or data/browse/details/sources/election-source-ireland-local-2024-06-07.json.|
+|warning|source-record-missing|ireland-referendum__2024-03-08-care|No election source detail record found at data/browse/details/elections/ireland-referendum-2024-03-08-care.json or data/browse/details/sources/election-source-ireland-referendum-2024-03-08-care.json.|
+|warning|source-record-missing|ireland-referendum__2024-03-08-the-family|No election source detail record found at data/browse/details/elections/ireland-referendum-2024-03-08-the-family.json or data/browse/details/sources/election-source-ireland-referendum-2024-03-08-the-family.json.|
+|warning|source-record-missing|local-government-local-government-districts__2023-05-18|No election source detail record found at data/browse/details/elections/local-government-local-government-districts-2023-05-18.json or data/browse/details/sources/election-source-local-government-local-government-districts-2023-05-18.json or data/browse/details/elections/local-government-2023-05-18.json or data/browse/details/sources/election-source-local-government-2023-05-18.json.|
+|warning|source-record-missing|northern-ireland-assembly__2022-05-05|No election source detail record found at data/browse/details/elections/northern-ireland-assembly-2022-05-05.json or data/browse/details/sources/election-source-northern-ireland-assembly-2022-05-05.json.|
+|warning|source-record-missing|dail-eireann__2021-07-08|No election source detail record found at data/browse/details/elections/dail-eireann-2021-07-08.json or data/browse/details/sources/election-source-dail-eireann-2021-07-08.json.|
+|warning|source-record-missing|dail-eireann__2020-02-08|No election source detail record found at data/browse/details/elections/dail-eireann-2020-02-08.json or data/browse/details/sources/election-source-dail-eireann-2020-02-08.json.|
+|warning|source-record-missing|house-of-commons-of-the-united-kingdom__2019-12-12|No election source detail record found at data/browse/details/elections/house-of-commons-of-the-united-kingdom-2019-12-12.json or data/browse/details/sources/election-source-house-of-commons-of-the-united-kingdom-2019-12-12.json.|
+|warning|source-record-missing|dail-eireann__2019-11-29|No election source detail record found at data/browse/details/elections/dail-eireann-2019-11-29.json or data/browse/details/sources/election-source-dail-eireann-2019-11-29.json.|
+|warning|source-record-missing|ireland-referendum__2019-05-24-regulation-of-divorce|No election source detail record found at data/browse/details/elections/ireland-referendum-2019-05-24-regulation-of-divorce.json or data/browse/details/sources/election-source-ireland-referendum-2019-05-24-regulation-of-divorce.json.|
+|warning|source-record-missing|ireland-european__2019-05-24|No election source detail record found at data/browse/details/elections/ireland-european-2019-05-24.json or data/browse/details/sources/election-source-ireland-european-2019-05-24.json.|
+|warning|source-record-missing|ireland-local__2019-05-24|No election source detail record found at data/browse/details/elections/ireland-local-2019-05-24.json or data/browse/details/sources/election-source-ireland-local-2019-05-24.json.|
+|warning|source-record-missing|european-parliament__2019-05-23|No election source detail record found at data/browse/details/elections/european-parliament-2019-05-23.json or data/browse/details/sources/election-source-european-parliament-2019-05-23.json.|
+|warning|source-record-missing|local-government-local-government-districts__2019-05-02|No election source detail record found at data/browse/details/elections/local-government-local-government-districts-2019-05-02.json or data/browse/details/sources/election-source-local-government-local-government-districts-2019-05-02.json or data/browse/details/elections/local-government-2019-05-02.json or data/browse/details/sources/election-source-local-government-2019-05-02.json.|
+|warning|source-record-missing|ireland-referendum__2018-10-26-repeal-of-blasphemy-offence|No election source detail record found at data/browse/details/elections/ireland-referendum-2018-10-26-repeal-of-blasphemy-offence.json or data/browse/details/sources/election-source-ireland-referendum-2018-10-26-repeal-of-blasphemy-offence.json.|
+|warning|source-record-missing|ireland-president__2018-10-26|No election source detail record found at data/browse/details/elections/ireland-president-2018-10-26.json or data/browse/details/sources/election-source-ireland-president-2018-10-26.json.|
+|warning|source-record-missing|local-government-mid-and-east-antrim__2018-10-18|No election source detail record found at data/browse/details/elections/local-government-mid-and-east-antrim-2018-10-18.json or data/browse/details/sources/election-source-local-government-mid-and-east-antrim-2018-10-18.json or data/browse/details/elections/local-government-2018-10-18.json or data/browse/details/sources/election-source-local-government-2018-10-18.json.|
+|warning|source-record-missing|house-of-commons-of-the-united-kingdom__2018-08-29|No election source detail record found at data/browse/details/elections/house-of-commons-of-the-united-kingdom-2018-08-29.json or data/browse/details/sources/election-source-house-of-commons-of-the-united-kingdom-2018-08-29.json.|
+|warning|source-record-missing|ireland-referendum__2018-05-25-regulation-of-termination-of-pregnancy-repeal-of-8th-amendment|No election source detail record found at data/browse/details/elections/ireland-referendum-2018-05-25-regulation-of-termination-of-pregnancy-repeal-of-8th-amendment.json or data/browse/details/sources/election-source-ireland-referendum-2018-05-25-regulation-of-termination-of-pregnancy-repeal-of-8th-amendment.json.|
+|warning|source-record-missing|house-of-commons-of-the-united-kingdom__2018-05-03|No election source detail record found at data/browse/details/elections/house-of-commons-of-the-united-kingdom-2018-05-03.json or data/browse/details/sources/election-source-house-of-commons-of-the-united-kingdom-2018-05-03.json.|
+|warning|source-record-missing|house-of-commons-of-the-united-kingdom__2017-06-08|No election source detail record found at data/browse/details/elections/house-of-commons-of-the-united-kingdom-2017-06-08.json or data/browse/details/sources/election-source-house-of-commons-of-the-united-kingdom-2017-06-08.json.|
+|warning|source-record-missing|northern-ireland-assembly__2017-03-02|No election source detail record found at data/browse/details/elections/northern-ireland-assembly-2017-03-02.json or data/browse/details/sources/election-source-northern-ireland-assembly-2017-03-02.json.|
+|warning|source-record-missing|northern-ireland-referendum__2016-06-23-eu-membership|No election source detail record found at data/browse/details/elections/northern-ireland-referendum-2016-06-23-eu-membership.json or data/browse/details/sources/election-source-northern-ireland-referendum-2016-06-23-eu-membership.json.|
+|warning|source-record-missing|northern-ireland-assembly__2016-05-05|No election source detail record found at data/browse/details/elections/northern-ireland-assembly-2016-05-05.json or data/browse/details/sources/election-source-northern-ireland-assembly-2016-05-05.json.|
+|warning|source-record-missing|dail-eireann__2016-02-26|No election source detail record found at data/browse/details/elections/dail-eireann-2016-02-26.json or data/browse/details/sources/election-source-dail-eireann-2016-02-26.json.|
+|warning|source-record-missing|ireland-referendum__2015-05-22-age-of-president|No election source detail record found at data/browse/details/elections/ireland-referendum-2015-05-22-age-of-president.json or data/browse/details/sources/election-source-ireland-referendum-2015-05-22-age-of-president.json.|
+|warning|source-record-missing|ireland-referendum__2015-05-22-equal-marriage|No election source detail record found at data/browse/details/elections/ireland-referendum-2015-05-22-equal-marriage.json or data/browse/details/sources/election-source-ireland-referendum-2015-05-22-equal-marriage.json.|
+|warning|source-record-missing|dail-eireann__2015-05-22|No election source detail record found at data/browse/details/elections/dail-eireann-2015-05-22.json or data/browse/details/sources/election-source-dail-eireann-2015-05-22.json.|
+|warning|source-record-missing|house-of-commons-of-the-united-kingdom__2015-05-07|No election source detail record found at data/browse/details/elections/house-of-commons-of-the-united-kingdom-2015-05-07.json or data/browse/details/sources/election-source-house-of-commons-of-the-united-kingdom-2015-05-07.json.|
+|warning|source-record-missing|dail-eireann__2014-10-10|No election source detail record found at data/browse/details/elections/dail-eireann-2014-10-10.json or data/browse/details/sources/election-source-dail-eireann-2014-10-10.json.|
+|warning|source-record-missing|dail-eireann__2014-05-23|No election source detail record found at data/browse/details/elections/dail-eireann-2014-05-23.json or data/browse/details/sources/election-source-dail-eireann-2014-05-23.json.|
+|warning|source-record-missing|ireland-european__2014-05-23|No election source detail record found at data/browse/details/elections/ireland-european-2014-05-23.json or data/browse/details/sources/election-source-ireland-european-2014-05-23.json.|
+|warning|source-record-missing|ireland-local__2014-05-23|No election source detail record found at data/browse/details/elections/ireland-local-2014-05-23.json or data/browse/details/sources/election-source-ireland-local-2014-05-23.json.|
+|warning|source-record-missing|european-parliament__2014-05-22|No election source detail record found at data/browse/details/elections/european-parliament-2014-05-22.json or data/browse/details/sources/election-source-european-parliament-2014-05-22.json.|
+|warning|source-record-missing|local-government-local-government-districts__2014-05-22|No election source detail record found at data/browse/details/elections/local-government-local-government-districts-2014-05-22.json or data/browse/details/sources/election-source-local-government-local-government-districts-2014-05-22.json or data/browse/details/elections/local-government-2014-05-22.json or data/browse/details/sources/election-source-local-government-2014-05-22.json.|
+|warning|source-record-missing|ireland-referendum__2013-10-04-court-of-appeal|No election source detail record found at data/browse/details/elections/ireland-referendum-2013-10-04-court-of-appeal.json or data/browse/details/sources/election-source-ireland-referendum-2013-10-04-court-of-appeal.json.|
+|warning|source-record-missing|ireland-referendum__2013-10-04-abolition-of-the-seanad|No election source detail record found at data/browse/details/elections/ireland-referendum-2013-10-04-abolition-of-the-seanad.json or data/browse/details/sources/election-source-ireland-referendum-2013-10-04-abolition-of-the-seanad.json.|
+|warning|source-record-missing|dail-eireann__2013-03-27|No election source detail record found at data/browse/details/elections/dail-eireann-2013-03-27.json or data/browse/details/sources/election-source-dail-eireann-2013-03-27.json.|
+|warning|source-record-missing|house-of-commons-of-the-united-kingdom__2013-03-07|No election source detail record found at data/browse/details/elections/house-of-commons-of-the-united-kingdom-2013-03-07.json or data/browse/details/sources/election-source-house-of-commons-of-the-united-kingdom-2013-03-07.json.|
+|warning|source-record-missing|ireland-referendum__2012-11-10-children|No election source detail record found at data/browse/details/elections/ireland-referendum-2012-11-10-children.json or data/browse/details/sources/election-source-ireland-referendum-2012-11-10-children.json.|
+|warning|source-record-missing|ireland-referendum__2012-05-31-fiscal-treaty|No election source detail record found at data/browse/details/elections/ireland-referendum-2012-05-31-fiscal-treaty.json or data/browse/details/sources/election-source-ireland-referendum-2012-05-31-fiscal-treaty.json.|
+|warning|source-record-missing|ireland-referendum__2011-10-27-houses-of-the-oireachtas-inquiries|No election source detail record found at data/browse/details/elections/ireland-referendum-2011-10-27-houses-of-the-oireachtas-inquiries.json or data/browse/details/sources/election-source-ireland-referendum-2011-10-27-houses-of-the-oireachtas-inquiries.json.|
+|warning|source-record-missing|ireland-referendum__2011-10-27-judges-remuneration|No election source detail record found at data/browse/details/elections/ireland-referendum-2011-10-27-judges-remuneration.json or data/browse/details/sources/election-source-ireland-referendum-2011-10-27-judges-remuneration.json.|
+|warning|source-record-missing|dail-eireann__2011-10-27|No election source detail record found at data/browse/details/elections/dail-eireann-2011-10-27.json or data/browse/details/sources/election-source-dail-eireann-2011-10-27.json.|
+|warning|source-record-missing|ireland-president__2011-10-27|No election source detail record found at data/browse/details/elections/ireland-president-2011-10-27.json or data/browse/details/sources/election-source-ireland-president-2011-10-27.json.|
+|warning|source-record-missing|house-of-commons-of-the-united-kingdom__2011-06-09|No election source detail record found at data/browse/details/elections/house-of-commons-of-the-united-kingdom-2011-06-09.json or data/browse/details/sources/election-source-house-of-commons-of-the-united-kingdom-2011-06-09.json.|
+|warning|source-record-missing|northern-ireland-referendum__2011-05-05-alternative-vote|No election source detail record found at data/browse/details/elections/northern-ireland-referendum-2011-05-05-alternative-vote.json or data/browse/details/sources/election-source-northern-ireland-referendum-2011-05-05-alternative-vote.json.|
+|warning|source-record-missing|local-government-local-government-districts__2011-05-05|No election source detail record found at data/browse/details/elections/local-government-local-government-districts-2011-05-05.json or data/browse/details/sources/election-source-local-government-local-government-districts-2011-05-05.json or data/browse/details/elections/local-government-2011-05-05.json or data/browse/details/sources/election-source-local-government-2011-05-05.json.|
+|warning|source-record-missing|northern-ireland-assembly__2011-05-05|No election source detail record found at data/browse/details/elections/northern-ireland-assembly-2011-05-05.json or data/browse/details/sources/election-source-northern-ireland-assembly-2011-05-05.json.|
+|warning|source-record-missing|dail-eireann__2011-02-25|No election source detail record found at data/browse/details/elections/dail-eireann-2011-02-25.json or data/browse/details/sources/election-source-dail-eireann-2011-02-25.json.|
+|warning|source-record-missing|dail-eireann__2010-11-25|No election source detail record found at data/browse/details/elections/dail-eireann-2010-11-25.json or data/browse/details/sources/election-source-dail-eireann-2010-11-25.json.|
+|warning|source-record-missing|house-of-commons-of-the-united-kingdom__2010-05-06|No election source detail record found at data/browse/details/elections/house-of-commons-of-the-united-kingdom-2010-05-06.json or data/browse/details/sources/election-source-house-of-commons-of-the-united-kingdom-2010-05-06.json.|
+|warning|source-record-missing|local-government-craigavon__2010-01-13|No election source detail record found at data/browse/details/elections/local-government-craigavon-2010-01-13.json or data/browse/details/sources/election-source-local-government-craigavon-2010-01-13.json or data/browse/details/elections/local-government-2010-01-13.json or data/browse/details/sources/election-source-local-government-2010-01-13.json.|
+|warning|source-record-missing|ireland-referendum__2009-10-02-treaty-of-lisbon-ii|No election source detail record found at data/browse/details/elections/ireland-referendum-2009-10-02-treaty-of-lisbon-ii.json or data/browse/details/sources/election-source-ireland-referendum-2009-10-02-treaty-of-lisbon-ii.json.|
+|warning|source-record-missing|dail-eireann__2009-06-05|No election source detail record found at data/browse/details/elections/dail-eireann-2009-06-05.json or data/browse/details/sources/election-source-dail-eireann-2009-06-05.json.|
+|warning|source-record-missing|ireland-european__2009-06-05|No election source detail record found at data/browse/details/elections/ireland-european-2009-06-05.json or data/browse/details/sources/election-source-ireland-european-2009-06-05.json.|
+|warning|source-record-missing|ireland-local__2009-06-05|No election source detail record found at data/browse/details/elections/ireland-local-2009-06-05.json or data/browse/details/sources/election-source-ireland-local-2009-06-05.json.|
+|warning|source-record-missing|european-parliament__2009-06-04|No election source detail record found at data/browse/details/elections/european-parliament-2009-06-04.json or data/browse/details/sources/election-source-european-parliament-2009-06-04.json.|
+|warning|source-record-missing|ireland-referendum__2008-06-12-treaty-of-lisbon-i|No election source detail record found at data/browse/details/elections/ireland-referendum-2008-06-12-treaty-of-lisbon-i.json or data/browse/details/sources/election-source-ireland-referendum-2008-06-12-treaty-of-lisbon-i.json.|
+|warning|source-record-missing|dail-eireann__2007-05-24|No election source detail record found at data/browse/details/elections/dail-eireann-2007-05-24.json or data/browse/details/sources/election-source-dail-eireann-2007-05-24.json.|
+|warning|source-record-missing|northern-ireland-assembly__2007-03-07|No election source detail record found at data/browse/details/elections/northern-ireland-assembly-2007-03-07.json or data/browse/details/sources/election-source-northern-ireland-assembly-2007-03-07.json.|
+|warning|source-record-missing|local-government-newry-and-mourne__2006-08-02|No election source detail record found at data/browse/details/elections/local-government-newry-and-mourne-2006-08-02.json or data/browse/details/sources/election-source-local-government-newry-and-mourne-2006-08-02.json or data/browse/details/elections/local-government-2006-08-02.json or data/browse/details/sources/election-source-local-government-2006-08-02.json.|
+|warning|source-record-missing|house-of-commons-of-the-united-kingdom__2005-05-05|No election source detail record found at data/browse/details/elections/house-of-commons-of-the-united-kingdom-2005-05-05.json or data/browse/details/sources/election-source-house-of-commons-of-the-united-kingdom-2005-05-05.json.|
+|warning|source-record-missing|local-government-local-government-districts__2005-05-05|No election source detail record found at data/browse/details/elections/local-government-local-government-districts-2005-05-05.json or data/browse/details/sources/election-source-local-government-local-government-districts-2005-05-05.json or data/browse/details/elections/local-government-2005-05-05.json or data/browse/details/sources/election-source-local-government-2005-05-05.json.|
+|warning|source-record-missing|dail-eireann__2005-03-11|No election source detail record found at data/browse/details/elections/dail-eireann-2005-03-11.json or data/browse/details/sources/election-source-dail-eireann-2005-03-11.json.|
+|warning|source-record-missing|ireland-president__2004-10-01|No election source detail record found at data/browse/details/elections/ireland-president-2004-10-01.json or data/browse/details/sources/election-source-ireland-president-2004-10-01.json.|
+|warning|source-record-missing|ireland-referendum__2004-06-11-irish-citizenship|No election source detail record found at data/browse/details/elections/ireland-referendum-2004-06-11-irish-citizenship.json or data/browse/details/sources/election-source-ireland-referendum-2004-06-11-irish-citizenship.json.|
+|warning|source-record-missing|ireland-european__2004-06-11|No election source detail record found at data/browse/details/elections/ireland-european-2004-06-11.json or data/browse/details/sources/election-source-ireland-european-2004-06-11.json.|
+|warning|source-record-missing|ireland-local__2004-06-11|No election source detail record found at data/browse/details/elections/ireland-local-2004-06-11.json or data/browse/details/sources/election-source-ireland-local-2004-06-11.json.|
+|warning|source-record-missing|european-parliament__2004-06-10|No election source detail record found at data/browse/details/elections/european-parliament-2004-06-10.json or data/browse/details/sources/election-source-european-parliament-2004-06-10.json.|
+|warning|source-record-missing|northern-ireland-assembly__2003-11-26|No election source detail record found at data/browse/details/elections/northern-ireland-assembly-2003-11-26.json or data/browse/details/sources/election-source-northern-ireland-assembly-2003-11-26.json.|
+|warning|source-record-missing|local-government-newry-and-mourne__2003-06-18|No election source detail record found at data/browse/details/elections/local-government-newry-and-mourne-2003-06-18.json or data/browse/details/sources/election-source-local-government-newry-and-mourne-2003-06-18.json or data/browse/details/elections/local-government-2003-06-18.json or data/browse/details/sources/election-source-local-government-2003-06-18.json.|
+|warning|source-record-missing|ireland-referendum__2002-10-19-treaty-of-nice-ii|No election source detail record found at data/browse/details/elections/ireland-referendum-2002-10-19-treaty-of-nice-ii.json or data/browse/details/sources/election-source-ireland-referendum-2002-10-19-treaty-of-nice-ii.json.|
+|warning|source-record-missing|dail-eireann__2002-05-17|No election source detail record found at data/browse/details/elections/dail-eireann-2002-05-17.json or data/browse/details/sources/election-source-dail-eireann-2002-05-17.json.|
 
-_2133 more not shown; see JSON report._
+_2289 more not shown; see JSON report._
 
 ## Source And Reference Coverage
 
 |metric|value|
 |---|---:|
-|parent source records missing|0|
+|parent source records missing|2368|
 |source records with no references|0|
-|source records with one reference|1248|
-|source records with multiple references|1120|
+|source records with one reference|0|
+|source records with multiple references|0|
 |Browse sub-entries with no references|0|
 |Browse sub-entries with one reference|12117|
 |Browse sub-entries with multiple references|11261|
@@ -135,42 +178,21 @@ _2133 more not shown; see JSON report._
 
 |metric|value|
 |---|---:|
-|saved Wikipedia colour audit present|yes|
-|high-confidence mismatch file present|yes|
+|saved Wikipedia colour audit present|no|
+|high-confidence mismatch file present|no|
 |review override file present|yes|
-|sampled mismatches already reviewed|10|
-|unique colour observations|1032|
-|colour matches|73|
-|colour mismatches|135|
-|high-confidence mismatches|85|
-|entries with no explicit election colour|777|
-|entries with no Wikipedia match|684|
-|ambiguous Wikipedia matches|31|
+|sampled mismatches already reviewed|0|
+|unique colour observations|0|
+|colour matches|0|
+|colour mismatches|0|
+|high-confidence mismatches|0|
+|entries with no explicit election colour|0|
+|entries with no Wikipedia match|0|
+|ambiguous Wikipedia matches|0|
 
 ### High-Confidence Colour Examples
 
-|party/label|election colour|Wikipedia match|Wikipedia colour|observations|review|
-|---|---|---|---|---:|---|
-|100% Redress|#C0C0C0|100% Redress|#F90606|1|needs-canonical-colour-decision|
-|An Rabharta Glas – Green Left|#C0C0C0|Rabharta|#488A89|4|needs-canonical-colour-decision|
-|Anti-Austerity Alliance|#E3170D|Anti-Austerity Alliance|#FFFF00|46|needs-canonical-colour-decision|
-|Anti-Treaty Sinn Féin|#C0C0C0|Sinn Féin (Anti-Treaty)|#326760|57|needs-canonical-colour-decision|
-|Aontú|#C62828|Aontú|#44532A|126|needs-canonical-colour-decision|
-|Clann na Poblachta|#C0C0C0|Clann na Poblachta|#BBE549|111|needs-canonical-colour-decision|
-|Clann na Talmhan|#C0C0C0|Clann na Talmhan|#BDB76B|50|needs-canonical-colour-decision|
-|Commonwealth Labour Party|#FF6666|Commonwealth Labour Party|#B22222|6|needs-canonical-colour-decision|
-|Communist Party of Ireland|#FF3300|Communist Party of Ireland|#E3170D|6|needs-canonical-colour-decision|
-|Communist Party of Ireland (Marxist-Leninist)|#E3170D|Communist Party of Ireland (Marxist–Leninist)|#660000|3|needs-canonical-colour-decision|
-|Conservative|#0E7C42|Conservative and Unionist Party (UK)|#0087DC|61||
-|Conservative|#1F4E8C|Conservative and Unionist Party (UK)|#0087DC|11||
-|Conservative|#888888|Conservative and Unionist Party (UK)|#0087DC|13||
-|Conservative|#9E9E9E|Conservative and Unionist Party (UK)|#0087DC|254||
-|Cumann na nGaedheal|#C0C0C0|Cumann na nGaedheal|#87CEFA|360||
-|Democracy First|#000000|Democracy First|#FF8C00|2||
-|Democratic Left|#DC241F|Democratic Left (Ireland)|#C700C7|21||
-|Democratic Partnership|#FF9800|Democratic Partnership|#F0E68C|10||
-|Direct Democracy Ireland|#FFFF00|Direct Democracy Ireland|#87CEFA|41||
-|Éirígí|#C0C0C0|Éirígí|#00A550|6||
+_None found from the saved audit._
 
 ## Next Fix Queue
 
