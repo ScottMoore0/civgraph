@@ -167,8 +167,18 @@ export const sleepSync = (/** @type {number} */ ms) => { if (ms > 0) Atomics.wai
 export const isOverloaded = (/** @type {unknown} */ error) => /7429|overloaded/i.test(String(/** @type {{ message?: string } | null | undefined} */ (error)?.message || error));
 
 /**
- * `query(sql)` with a 7429 retried after each wait in `backoffMs` (never at once, never more
- * often than that list says); any other error is thrown as it is.
+ * Cloudflare's "The given account is not valid or is not authorized to access this service
+ * [code: 7403]". On 8 Nov 2026 two publishes failed with it on the bounded verify's reads straight
+ * after a successful load; the same reads passed alone minutes later and a third publish went
+ * through, so it is treated as transient and retried like a 7429 (a real permission fault still
+ * fails, after the last backoff).
+ */
+export const isTransientAuth = (/** @type {unknown} */ error) => /\b7403\b/.test(String(/** @type {{ message?: string } | null | undefined} */ (error)?.message || error));
+
+/**
+ * `query(sql)` with a 7429 (overloaded) or a 7403 (the transient authorisation refusal above)
+ * retried after each wait in `backoffMs` (never at once, never more often than that list says);
+ * any other error is thrown as it is.
  * @param {Query} query
  * @param {string} sql
  * @param {{ remote?: boolean }} opts
@@ -180,8 +190,9 @@ export function queryWithRetry(query, sql, opts, { backoffMs = BOUNDS.backoffMs,
     try {
       return query(sql, opts);
     } catch (error) {
-      if (!isOverloaded(error) || attempt >= backoffMs.length) throw error;
-      log(`  D1 overloaded (7429); waiting ${backoffMs[attempt] / 1000}s before retry ${attempt + 1} of ${backoffMs.length}`);
+      const auth = isTransientAuth(error);
+      if (!(isOverloaded(error) || auth) || attempt >= backoffMs.length) throw error;
+      log(`  D1 ${auth ? 'refused the request (7403)' : 'overloaded (7429)'}; waiting ${backoffMs[attempt] / 1000}s before retry ${attempt + 1} of ${backoffMs.length}`);
       sleep(backoffMs[attempt]);
     }
   }

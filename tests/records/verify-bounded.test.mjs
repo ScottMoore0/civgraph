@@ -184,6 +184,17 @@ test('calls are paced and a 7429 is retried with backoff, never at once; other e
   let calls = 0;
   assert.throws(() => queryWithRetry(() => { calls += 1; throw new Error('syntax error'); }, 'SELECT 1', {}, { sleep: () => assert.fail('no wait for a non-7429 error') }), /syntax/);
   assert.equal(calls, 1);
+
+  // A 7403 refusal (seen right after a load on 8 Nov 2026) is retried the same way...
+  let refusals = 2;
+  const waits = [];
+  assert.deepEqual(queryWithRetry(() => {
+    if (refusals > 0) { refusals -= 1; throw new Error('A request to the Cloudflare API failed. The given account is not valid or is not authorized to access this service [code: 7403]'); }
+    return [{ ok: 1 }];
+  }, 'SELECT 1', {}, { sleep: (ms) => waits.push(ms), log: () => {} }), [{ ok: 1 }]);
+  assert.deepEqual(waits, [BOUNDS.backoffMs[0], BOUNDS.backoffMs[1]]);
+  // ...and still fails once the backoffs run out, so a real permission fault is not hidden.
+  assert.throws(() => queryWithRetry(() => { throw new Error('[code: 7403]'); }, 'SELECT 1', {}, { sleep: () => {}, log: () => {} }), /7403/);
 });
 
 test('large deltas are sampled evenly and batched within the limits', () => {
