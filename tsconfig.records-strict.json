@@ -1,0 +1,22 @@
+{
+  "//": [
+    "The records files that type-check with noImplicitAny: tsconfig.records.json's options with it on",
+    "(noImplicitAny review stream S1a, 8 Nov 2026). `npm run check:types:records` runs it after",
+    "tsconfig.records.json; tests/unit/typecheck.test.mjs keeps the flag on. scripts/lib and the storage,",
+    "config and schema packages' Node files are here, and layer-bounds and safe-artefact-write, which",
+    "moved from scripts/lib to packages/maps-pipeline. The loader (packages/loader, S1b) joins when it is",
+    "typed, and then tsconfig.records.json can take the flag itself and this file can go."
+  ],
+  "extends": "./tsconfig.records.json",
+  "compilerOptions": {
+    "noImplicitAny": true
+  },
+  "include": [
+    "scripts/lib/**/*.mjs",
+    "packages/storage/src/sqlite.mjs",
+    "packages/config/src/node.mjs",
+    "packages/schema/src/schema.mjs",
+    "packages/maps-pipeline/src/layer-bounds.mjs",
+    "packages/maps-pipeline/src/safe-artefact-write.mjs"
+  ]
+}

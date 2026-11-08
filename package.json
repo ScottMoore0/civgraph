@@ -103,7 +103,7 @@
     "intake": "node scripts/intake/intake.mjs",
     "test:intake": "node --test \"tests/intake/*.test.mjs\"",
     "check:clean": "node scripts/check/clean.mjs",
-    "check:types:records": "node scripts/lib/typecheck.mjs tsconfig.records.json",
+    "check:types:records": "node scripts/lib/typecheck.mjs tsconfig.records.json && node scripts/lib/typecheck.mjs tsconfig.records-strict.json",
     "check:types:ui": "node scripts/lib/typecheck.mjs tsconfig.ui.json && node scripts/lib/typecheck.mjs tsconfig.ui-strict.json",
     "check:types:intake": "node node_modules/typescript/bin/tsc -p scripts/intake/tsconfig.json",
     "check:ci": "node scripts/check/clean.mjs --in-place",
