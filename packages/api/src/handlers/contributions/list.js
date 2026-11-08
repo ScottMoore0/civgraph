@@ -26,6 +26,7 @@ const MAX_LIMIT = 200;
 // `complete: false` in the response says the bottom was not reached.
 const MAX_SCAN = 2000;
 
+/** @param {import('../../types.js').ApiContext} context */
 export async function onRequestGet(context) {
   const { auth, response } = await requireAdmin(context);
   if (response) return response;
@@ -65,6 +66,7 @@ export async function onRequestGet(context) {
     // The scan is bounded so a large queue cannot turn one request into an
     // unbounded walk; `complete` reports whether the bottom was reached, so a
     // truncated answer says so instead of impersonating an empty one.
+    /** @type {string | undefined} */
     let cursor;
     for (;;) {
       const listing = await queue.list({ prefix: 'submissions/', limit: MAX_LIMIT, cursor });

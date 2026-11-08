@@ -30,7 +30,11 @@
 const MAX_LIMIT = 1000;
 const DEFAULT_LIMIT = 200;
 
-/** Normalise a caller-supplied prefix: no leading slash, no traversal, no wildcards. */
+/**
+ * Normalise a caller-supplied prefix: no leading slash, no traversal, no wildcards.
+ * @param {string | null | undefined} raw
+ * @returns {string | null}
+ */
 export function normalisePrefix(raw) {
   const value = String(raw || '').replace(/^\/+/, '');
   if (!value) return '';
@@ -38,6 +42,7 @@ export function normalisePrefix(raw) {
   return value;
 }
 
+/** @param {string | null | undefined} raw */
 export function parseLimit(raw) {
   const n = Number.parseInt(String(raw || ''), 10);
   if (!Number.isFinite(n) || n <= 0) return DEFAULT_LIMIT;
@@ -85,7 +90,10 @@ export async function listLevel(bucket, { prefix = '', cursor, limit = DEFAULT_L
   };
 }
 
-/** Public URL for a key on the R2 custom domain. */
+/**
+ * Public URL for a key on the R2 custom domain.
+ * @param {string} key
+ */
 export function publicUrl(key) {
   return `https://data.civgraph.net/${String(key).replace(/^\/+/, '')}`;
 }

@@ -21,6 +21,7 @@ import { methodGuard } from './_method.js';
  * the client snippet.
  */
 
+/** @param {import('../types.js').ApiContext} context */
 export async function onRequestPost(context) {
     let body;
     try {

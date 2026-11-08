@@ -30,6 +30,7 @@ import { binding } from '../../../../config/src/config.js';
  * only; a submission already decided answers 409.
  */
 
+/** @param {import('../../types.js').ApiContext} context */
 export async function onRequestPost(context) {
   const { auth, response } = await requireAdmin(context);
   if (response) return response;

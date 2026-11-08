@@ -46,6 +46,7 @@ import { listLevel, normalisePrefix, parseLimit, publicUrl } from '../_r2-listin
 import { isPublicPrefix } from '../_public-prefixes.js';
 import { binding } from '../../../../config/src/config.js';
 
+/** @param {import('../../types.js').ApiContext} context */
 export async function onRequest(context) {
   if (context.request.method !== 'GET') return jsonNotAllowed(context.request.method);
 

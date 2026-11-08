@@ -1,4 +1,14 @@
 import { runtimeVar } from '../../../config/src/config.js';
+
+/** @typedef {import('../types.js').ApiContext} ApiContext */
+/** @typedef {import('../types.js').ApiEnv} ApiEnv */
+/** @typedef {Awaited<ReturnType<typeof getContributorAuth>>} ContributorAuth */
+/** @typedef {JsonWebKey & { kid?: string }} AccessSigningKey one key of the Access team's certs */
+/**
+ * The claims of a Cloudflare Access JWT this file reads (unverified until verifyAccessJwt says so).
+ * @typedef {{ exp?: unknown, nbf?: unknown, iss?: unknown, aud?: unknown, email?: unknown, identity?: { email?: unknown } }} AccessJwtPayload
+ */
+
 const ACCESS_EMAIL_HEADERS = [
   'CF-Access-Authenticated-User-Email',
   'Cf-Access-Authenticated-User-Email',
@@ -11,6 +21,10 @@ const ACCESS_JWT_HEADERS = [
   'cf-access-jwt-assertion'
 ];
 
+/**
+ * @param {unknown} body
+ * @param {{ status?: number, headers?: Record<string, string> }} [init]
+ */
 export function jsonResponse(body, init = {}) {
   return new Response(JSON.stringify(body, null, 2), {
     ...init,
@@ -26,11 +40,13 @@ export function jsonResponse(body, init = {}) {
  * The 405 body for routes that answer in JSON. Lives here rather than in
  * _method.js so that _method.js stays dependency-free and this stays next to the
  * jsonResponse envelope every JSON route already shares.
+ * @param {string} method
  */
 export function jsonNotAllowed(method) {
   return jsonResponse({ ok: false, error: 'Method Not Allowed' }, { status: 405, headers: { Allow: method } });
 }
 
+/** @param {ApiContext} context */
 export async function getContributorAuth(context) {
   const request = context.request;
   const env = context.env || {};
@@ -104,6 +120,7 @@ export async function getContributorAuth(context) {
   };
 }
 
+/** @param {ApiContext} context */
 export async function requireContributor(context) {
   const auth = await getContributorAuth(context);
   if (!auth.authenticated) {
@@ -146,6 +163,7 @@ export async function requireContributor(context) {
  * Note the deliberate asymmetry with requireContributor: being allowed to
  * PROPOSE never implies being allowed to APPROVE. The two lists are separate and
  * an admin must be named explicitly in the admin one.
+ * @param {ApiContext} context
  */
 export async function requireAdmin(context) {
   const auth = await getContributorAuth(context);
@@ -165,6 +183,7 @@ export async function requireAdmin(context) {
   return { auth, response: null };
 }
 
+/** @param {ContributorAuth} auth */
 export function sanitizeAuth(auth) {
   return {
     authenticated: auth.authenticated,
@@ -201,34 +220,44 @@ export function sanitizeAuth(auth) {
  */
 const ACCESS_TEAM_DOMAIN = 'icy-mouse-ce2a.cloudflareaccess.com';
 const KEY_CACHE_MS = 60 * 60 * 1000;
-/** @type {{ team: string | null, at: number, keys: any[] | null }} */
+/** @type {{ team: string | null, at: number, keys: AccessSigningKey[] | null }} */
 let accessKeys = { team: null, at: 0, keys: null };
 
 /**
  * @param {string} team
- * @returns {Promise<any[]>}
+ * @returns {Promise<AccessSigningKey[]>}
  */
 async function accessSigningKeys(team) {
   if (accessKeys.team === team && accessKeys.keys && Date.now() - accessKeys.at < KEY_CACHE_MS) return accessKeys.keys;
   const res = await fetch(`https://${team}/cdn-cgi/access/certs`, { cf: { cacheTtl: 300 } });
   if (!res.ok) throw new Error(`Access certs: HTTP ${res.status}`);
+  /** @type {{ keys?: unknown } | null} */
   const body = await res.json();
+  /** @type {AccessSigningKey[]} */
   const keys = Array.isArray(body?.keys) ? body.keys : [];
   accessKeys = { team, at: Date.now(), keys };
   return keys;
 }
 
+/** @param {string} part */
 function base64UrlBytes(part) {
   const padded = String(part).replace(/-/g, '+').replace(/_/g, '/');
   const bin = atob(padded + '='.repeat((4 - (padded.length % 4)) % 4));
   return Uint8Array.from(bin, (c) => c.charCodeAt(0));
 }
 
+/**
+ * @param {string | null | undefined} assertion
+ * @param {ApiEnv} [env]
+ * @returns {Promise<{ email: string, payload: AccessJwtPayload } | null>}
+ */
 export async function verifyAccessJwt(assertion, env = {}) {
   const parts = String(assertion || '').split('.');
   if (parts.length !== 3) return null;
   try {
+    /** @type {{ alg?: unknown, kid?: unknown } | null} */
     const header = JSON.parse(new TextDecoder().decode(base64UrlBytes(parts[0])));
+    /** @type {AccessJwtPayload | null} */
     const payload = JSON.parse(new TextDecoder().decode(base64UrlBytes(parts[1])));
     if (header?.alg !== 'RS256') return null;
     const team = String(env.CIVGRAPH_ACCESS_TEAM_DOMAIN || ACCESS_TEAM_DOMAIN).replace(/^https?:\/\//, '').replace(/\/$/, '');
@@ -250,6 +279,10 @@ export async function verifyAccessJwt(assertion, env = {}) {
   }
 }
 
+/**
+ * @param {Request} request
+ * @param {readonly string[]} names
+ */
 function firstHeader(request, names) {
   for (const name of names) {
     const value = request.headers.get(name);
@@ -258,6 +291,7 @@ function firstHeader(request, names) {
   return null;
 }
 
+/** @param {unknown} value */
 function parseList(value) {
   return String(value || '')
     .split(/[,\s;]+/)
@@ -265,6 +299,7 @@ function parseList(value) {
     .filter(Boolean);
 }
 
+/** @param {unknown} value */
 function normalizeEmail(value) {
   return String(value || '').trim().toLowerCase();
 }
@@ -281,6 +316,7 @@ function normalizeEmail(value) {
  * Requiring CIVGRAPH_ALLOW_DEV_AUTH=true as well means the bypass cannot be
  * enabled by accident: it takes two variables that no deploy sets together
  * unless someone meant it. Neither belongs in production under any circumstance.
+ * @param {ApiEnv} env
  */
 function devEmail(env) {
   if (String(env.CIVGRAPH_ALLOW_DEV_AUTH || '').toLowerCase() !== 'true') return null;
@@ -300,6 +336,7 @@ function devEmail(env) {
  * Access intercept. functions/_api/contributions/login.js is that path, and it
  * redirects back afterwards.
  */
+/** @param {Request} request */
 function accessLoginUrl(request) {
   const url = new URL(request.url);
   // Return the visitor to the page they were on, not to this API route. Only the
@@ -309,6 +346,7 @@ function accessLoginUrl(request) {
   return `/_api/contributions/login?return=${encodeURIComponent(safeReturn)}`;
 }
 
+/** @param {Request} request */
 function accessLogoutUrl(request) {
   const url = new URL(request.url);
   const returnTo = encodeURIComponent(`${url.origin}/browse/`);

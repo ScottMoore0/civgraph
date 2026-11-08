@@ -32,6 +32,10 @@ export async function datasetVersion(db, now = Date.now()) {
 /** For tests: forget the cached dataset version (the shared memo). */
 export const resetDatasetVersionCache = resetDatasetMemo;
 
+/**
+ * @param {string} text
+ * @returns {Promise<string>}
+ */
 async function sha1Hex(text) {
   const digest = await crypto.subtle.digest('SHA-1', new TextEncoder().encode(text));
   return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, '0')).join('').slice(0, 20);

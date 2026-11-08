@@ -29,7 +29,19 @@
  * attention on something a machine could have rejected.
  */
 
-/** Field allowlists per entity type. Anything absent cannot be proposed. */
+/**
+ * One attribute of an object-array entry (OBJECT_ARRAY_FIELDS).
+ * @typedef {{ name: string, type: 'string' | 'url' | 'number', required?: boolean }} ObjectAttribute
+ */
+/**
+ * A field as describeSchema() reports it.
+ * @typedef {{ name: string, type: string, attributes?: ObjectAttribute[] }} DescribedField
+ */
+
+/**
+ * Field allowlists per entity type. Anything absent cannot be proposed.
+ * @type {Record<string, Set<string>>}
+ */
 export const EDITABLE_FIELDS = {
   map: new Set([
     'name', 'category', 'description', 'provider', 'attribution', 'keywords',
@@ -61,6 +73,7 @@ export const VALID_KINDS = new Set(['metadata-edit', 'map-submission', 'retire']
  * objects, all carrying label/url/note and not one plain string; 564
  * sourceDownloads objects carrying label/file, with hash/bytes/mirror on about
  * half. So these key sets are the real ones, not a guess.
+ * @type {Record<string, ObjectAttribute[]>}
  */
 export const OBJECT_ARRAY_FIELDS = {
   references: [
@@ -95,6 +108,7 @@ const MAX_ARRAY_ITEMS = 200;
  * them. A hand-copied field list in browse.js would drift from this one, and the
  * symptom would be a contributor filling in a field the server then rejects --
  * the drift only showing up as someone else's failed submission.
+ * @param {string} field
  */
 export function fieldType(field) {
   if (BOOLEAN_FIELDS.has(field)) return 'boolean';
@@ -107,10 +121,12 @@ export function fieldType(field) {
 
 /** Editable fields with their shapes, for every entity type. */
 export function describeSchema() {
+  /** @type {Record<string, DescribedField[]>} */
   const out = {};
   for (const [entityType, fields] of Object.entries(EDITABLE_FIELDS)) {
     out[entityType] = [...fields].sort().map((name) => {
       const type = fieldType(name);
+      /** @type {DescribedField} */
       const described = { name, type };
       // Object arrays carry their attribute list so a client can render one
       // input per attribute rather than a JSON textarea.
@@ -128,6 +144,9 @@ export function describeSchema() {
  * dail-2013 tiles broke the 2016 general-election fill on the live map, and it
  * took a client-side workaround to recover. A label that contains a line break
  * is never intentional, and this is the cheapest place to stop it.
+ * @param {string} field
+ * @param {unknown} value
+ * @returns {string | null} the problem, or null when the value is acceptable
  */
 export function validateValue(field, value) {
   if (value === null) return null; // an explicit clear is legitimate
@@ -149,7 +168,7 @@ export function validateValue(field, value) {
       if (!entry || typeof entry !== 'object' || Array.isArray(entry)) return `${where} must be an object`;
       for (const [key, item] of Object.entries(entry)) {
         if (!allowed.has(key)) return `${where}: "${key}" is not a recognised attribute (expected ${[...allowed].join(', ')})`;
-        const spec = attributes.find((a) => a.name === key);
+        const spec = /** @type {ObjectAttribute} */ (attributes.find((a) => a.name === key)); // allowed.has(key) said it is there
         if (item === null || item === '') continue;
         if (spec.type === 'number') {
           if (typeof item !== 'number' || !Number.isFinite(item)) return `${where}.${key} must be a number`;
@@ -212,11 +231,17 @@ export function validateValue(field, value) {
  * from the edge -- the result then reports what could not be checked instead of
  * quietly reporting success. A dry run that cannot distinguish "passed" from
  * "did not run" is the failure mode this project has hit repeatedly.
+ * @param {string} entityType
+ * @param {Record<string, unknown> | null | undefined} patch
+ * @param {Record<string, unknown> | null | undefined} current
  */
 export function dryRunPatch(entityType, patch, current) {
   const allowed = EDITABLE_FIELDS[entityType];
+  /** @type {string[]} */
   const errors = [];
+  /** @type {string[]} */
   const warnings = [];
+  /** @type {string[]} */
   const effective = [];
 
   if (!allowed) return { ok: false, errors: [`Unknown entity type: ${entityType}`], warnings, effective };

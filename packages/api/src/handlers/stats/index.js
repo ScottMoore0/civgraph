@@ -25,6 +25,7 @@ const COUNTS = {
   graphEntities: 'SELECT COUNT(*) AS n FROM graph_entities',
 };
 
+/** @param {import('../../types.js').ApiContext} context */
 export async function onRequestGet(context) {
   return cachedJson(context, VERSION, async () => {
     const db = binding(context.env, 'ELECTIONS_DB');

@@ -1,6 +1,7 @@
 import { getContributorAuth, jsonResponse, jsonNotAllowed, sanitizeAuth } from '../_auth.js';
 import { methodGuard } from '../_method.js';
 
+/** @param {import('../../types.js').ApiContext} context */
 export async function onRequestGet(context) {
   const auth = await getContributorAuth(context);
   return jsonResponse({
