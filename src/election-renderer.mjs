@@ -15,11 +15,76 @@ import {
 import { partyLabelHtml } from '../packages/core/src/party-names.mjs';
 
 /** @typedef {import('../packages/core/src/election-view-model.mjs').ElectionResult} ElectionResult */
+/** @typedef {import('../packages/core/src/election-view-model.mjs').ElectionRecord} ElectionRecord */
+
+/**
+ * A row the tables print: a contest, a candidate or a summary row. Every field is read by name
+ * and coerced where it is printed (escapeHtml, formatNumber); the nested ones are typed so they
+ * can be read.
+ * @typedef {{
+ *   [field: string]: unknown,
+ *   deltas?: { [field: string]: unknown } | null,
+ *   previous?: { [field: string]: unknown } | null
+ * }} TableRow
+ */
+/**
+ * One count of a candidate (or of the non-transferable votes): its number and the votes held.
+ * @typedef {{ [field: string]: unknown, count?: unknown, total?: unknown, transfers?: unknown, status?: unknown, firstPrefs?: unknown }} CountRow
+ */
+/** @typedef {TableRow & { counts?: CountRow[] }} CountCandidate */
+/** @typedef {{ [field: string]: unknown }} RecallPetition */
+/**
+ * A contest as the renderer reads it (an election bundle's `results[]` item).
+ * @typedef {TableRow & {
+ *   candidates?: CountCandidate[],
+ *   countNumbers?: number[],
+ *   nonTransferable?: CountRow[],
+ *   recallPetition?: RecallPetition | null
+ * }} RenderResult
+ */
+/**
+ * What the renderer asks of its host: the election manager (packages/map/app/election-manager.js),
+ * or the stand-in renderElectionSummaryFromViewModel builds. A host with the main-compatible
+ * renderers draws the pane itself.
+ * @typedef {{
+ *   activeEntry?: ElectionRecord | null,
+ *   activeBundle: ElectionRecord & { areaLabel?: string, completenessNote?: string, localBodies?: unknown[] },
+ *   previousBundle?: { results?: ElectionResult[] } | null,
+ *   activePanelView?: string,
+ *   activeMode?: string,
+ *   overlayMode?: string,
+ *   activeLocalMode?: string,
+ *   countDetailedView?: boolean,
+ *   currentResults: () => ElectionResult[],
+ *   isLocalGovernmentElection: () => boolean,
+ *   localBodyCount: () => number,
+ *   renderMainCompatibleOverallResults?: (view: string) => string,
+ *   renderMainCompatibleConstituencyResults?: (result: RenderResult, view: string) => string
+ * }} RendererHost
+ */
+
+/** @param {RendererHost} host */
 export function createElectionRenderer(host) {
   return new SharedElectionRenderer(host);
 }
 
+/**
+ * @param {{
+ *   entry?: ElectionRecord | null,
+ *   bundle: ElectionRecord & { localBodies?: unknown[] },
+ *   results?: ElectionResult[],
+ *   previousResults?: ElectionResult[],
+ *   selectedResult?: RenderResult | null,
+ *   view?: string,
+ *   mode?: string,
+ *   overlayMode?: string,
+ *   localMode?: string,
+ *   countDetailedView?: boolean,
+ *   localGovernment?: boolean
+ * }} model  an election view model (packages/core/src/election-view-model.mjs)
+ */
 export function renderElectionSummaryFromViewModel(model) {
+  /** @type {RendererHost} */
   const host = {
     activeEntry: model.entry,
     activeBundle: model.bundle,
@@ -39,6 +104,11 @@ export function renderElectionSummaryFromViewModel(model) {
     : renderer.renderOverallResults(model.view);
 }
 
+/**
+ * @param {unknown} value
+ * @param {number} min
+ * @param {number} max
+ */
 export function numericColour(value, min, max) {
   const number = Number(value);
   if (!Number.isFinite(number)) return '#9ca3af';
@@ -51,6 +121,7 @@ export function numericColour(value, min, max) {
 }
 
 export class SharedElectionRenderer {
+  /** @param {RendererHost} host */
   constructor(host) {
     this.host = host;
   }
@@ -103,6 +174,10 @@ export class SharedElectionRenderer {
     `;
   }
 
+  /**
+   * @param {RenderResult} result
+   * @param {string} [view]
+   */
   renderConstituencyResults(result, view = 'party') {
     if (typeof this.host.renderMainCompatibleConstituencyResults === 'function') {
       return this.host.renderMainCompatibleConstituencyResults(result, view);
@@ -200,6 +275,7 @@ export class SharedElectionRenderer {
     `;
   }
 
+  /** @param {TableRow[]} [rows] */
   renderPartySummaryTable(rows = []) {
     return rows.length ? `
       <div class="test2-election-table-wrap">
@@ -214,6 +290,7 @@ export class SharedElectionRenderer {
       </div>` : '';
   }
 
+  /** @param {TableRow[]} [candidates] */
   renderCandidateResultTable(candidates = []) {
     return `
       <div class="test2-election-table-wrap">
@@ -229,6 +306,7 @@ export class SharedElectionRenderer {
       </div>`;
   }
 
+  /** @param {TableRow[]} [candidates] */
   renderCandidateSummaryTable(candidates = []) {
     return `
       <div class="test2-election-table-wrap">
@@ -244,6 +322,7 @@ export class SharedElectionRenderer {
       </div>`;
   }
 
+  /** @param {RenderResult[]} [results] */
   renderConstituencySummaryTable(results = []) {
     return `
       <div class="test2-election-table-wrap test2-election-table-wrap--constituencies">
@@ -258,6 +337,7 @@ export class SharedElectionRenderer {
       </div>`;
   }
 
+  /** @param {ElectionResult[]} [results] */
   renderLocalPartySummaryTable(results = []) {
     const rows = this.withLocalPartyDeltas(buildLocalPartySummary(results));
     if (!rows.length) return '<p class="election-no-data">No local-party summary is available for this election.</p>';
@@ -274,6 +354,7 @@ export class SharedElectionRenderer {
       </div>`;
   }
 
+  /** @param {TableRow[]} [rows] */
   renderCouncilSummaryTable(rows = []) {
     return `
       <div class="test2-election-table-wrap">
@@ -286,6 +367,7 @@ export class SharedElectionRenderer {
       </div>`;
   }
 
+  /** @param {TableRow[]} [rows] */
   renderDistrictPartyTable(rows = []) {
     return `
       <div class="test2-election-table-wrap">
@@ -298,12 +380,13 @@ export class SharedElectionRenderer {
       </div>`;
   }
 
+  /** @param {RenderResult[]} [results] */
   renderRecallPetitionOverview(results = []) {
     return `
       <section class="test2-election-panel shared-election-renderer" data-election-renderer="shared" aria-label="Recall petition overview">
         <div class="test2-election-panel__summary"><dl class="test2-election-panel__stats"><div><dt>Petitions</dt><dd>${formatNumber(results.length)}</dd></div><div><dt>Triggered</dt><dd>${formatNumber(results.filter((result) => recallTriggered(result)).length)}</dd></div><div><dt>Not triggered</dt><dd>${formatNumber(results.filter((result) => result.recallPetition && !recallTriggered(result)).length)}</dd></div></dl></div>
         <div class="test2-election-table-wrap"><table class="test2-election-table catalogue-detail__entity-table election-party-table"><thead><tr><th>Constituency</th><th>Signed</th><th>Threshold</th><th>Shortfall/Surplus</th><th>Outcome</th></tr></thead><tbody>${results.map((result) => {
-          const petition = result.recallPetition || {};
+          const petition = /** @type {RecallPetition} */ (result.recallPetition || {});
           const signed = petition.signed ?? petition.signatures ?? result.leadingVotes ?? null;
           const threshold = petition.threshold ?? petition.required ?? null;
           const shortfall = Number.isFinite(Number(signed)) && Number.isFinite(Number(threshold)) ? Number(signed) - Number(threshold) : null;
@@ -312,10 +395,14 @@ export class SharedElectionRenderer {
       </section>`;
   }
 
+  /**
+   * @param {RenderResult} result
+   * @param {CountCandidate[]} [candidates]
+   */
   renderCountTable(result, candidates = []) {
     const countNumbers = result.countNumbers?.length
       ? result.countNumbers
-      : [...new Set(candidates.flatMap((candidate) => (candidate.counts || []).map((count) => count.count)))].sort((a, b) => a - b);
+      : /** @type {number[]} */ ([...new Set(candidates.flatMap((candidate) => (candidate.counts || []).map((count) => count.count)))]).sort((a, b) => a - b);
     if (!countNumbers.length) return '<p class="election-no-data">No count-by-count data is available for this entry.</p>';
     const countEvents = inferCountEvents(candidates, countNumbers);
     const nonTransferable = new Map((result.nonTransferable || []).map((row) => [Number(row.count), row]));
@@ -327,6 +414,11 @@ export class SharedElectionRenderer {
       </tbody></table></div>`;
   }
 
+  /**
+   * @param {CountCandidate} candidate
+   * @param {number[]} countNumbers
+   * @param {RenderResult} result
+   */
   renderCountCandidateRow(candidate, countNumbers, result) {
     const counts = new Map((candidate.counts || []).map((count) => [Number(count.count), count]));
     return `<tr class="${candidate.elected ? 'test2-election-table__elected' : ''}"><td>${escapeHtml(candidate.name || '')}</td><td class="election-party-cell" style="--party-colour:${escapeHtml(candidate.colour || partyColour(candidate.party))}">${partyLabelHtml(candidate.party || '', escapeHtml)}</td>${countNumbers.map((count) => {
@@ -343,6 +435,10 @@ export class SharedElectionRenderer {
     }).join('')}<td>${candidate.elected ? 'Elected' : escapeHtml(candidate.status || '')}${candidate.previous ? `<div class="test2-election-count-detail">Previous: ${escapeHtml(candidate.previous.status || '')}</div>` : ''}</td></tr>`;
   }
 
+  /**
+   * @param {Map<number, CountRow>} nonTransferable
+   * @param {number[]} countNumbers
+   */
   renderNonTransferableRow(nonTransferable, countNumbers) {
     return `<tr class="test2-election-table__summary"><th>Non-<br>transferable</th><td></td>${countNumbers.map((count) => {
       const row = nonTransferable.get(Number(count));
@@ -351,8 +447,9 @@ export class SharedElectionRenderer {
     }).join('')}<td></td></tr>`;
   }
 
+  /** @param {RenderResult} result */
   renderRecallPetitionResult(result) {
-    const petition = result.recallPetition || {};
+    const petition = /** @type {RecallPetition} */ (result.recallPetition || {});
     const signed = petition.signed ?? petition.signatures ?? result.leadingVotes ?? null;
     const threshold = petition.threshold ?? petition.required ?? null;
     const electorate = petition.electorate ?? result.electorate ?? null;
@@ -361,6 +458,7 @@ export class SharedElectionRenderer {
     return `<section class="test2-election-panel shared-election-renderer" data-election-renderer="shared" aria-label="${escapeHtml(result.constituency)} recall petition result"><dl class="test2-election-panel__stats"><div><dt>Constituency</dt><dd>${escapeHtml(result.constituency || '')}</dd></div>${electorate ? `<div><dt>Electorate</dt><dd>${formatNumber(electorate)}</dd></div>` : ''}${threshold ? `<div><dt>Threshold</dt><dd>${formatNumber(threshold)}</dd></div>` : ''}${signed ? `<div><dt>Signed</dt><dd>${formatNumber(signed)}</dd></div>` : ''}${shortfall !== null ? `<div><dt>${shortfall <= 0 ? 'Above threshold' : 'Shortfall'}</dt><dd>${formatNumber(Math.abs(shortfall))}</dd></div>` : ''}${triggered !== null ? `<div><dt>By-election triggered</dt><dd>${triggered ? 'Yes' : 'No'}</dd></div>` : ''}${petition.incumbent ? `<div><dt>Incumbent</dt><dd>${escapeHtml(petition.incumbent)}</dd></div>` : ''}${petition.incumbentParty ? `<div><dt>Incumbent party</dt><dd>${escapeHtml(petition.incumbentParty)}</dd></div>` : ''}</dl></section>`;
   }
 
+  /** @param {RenderResult} result */
   renderAnimationNotice(result) {
     if (result.hasCountDetail && result.animationPayload) {
       const key = normalizeName(result.matchName || result.constituency || '');
@@ -369,14 +467,20 @@ export class SharedElectionRenderer {
     return '<p class="election-no-data">No transfer animation data is available for this entry.</p>';
   }
 
+  /** @param {{ [field: string]: unknown, constituencies?: unknown[], candidates?: TableRow[] }} entity  a party of the election's entity index */
   renderPartyEntity(entity) {
     return `<section class="election-entity-page shared-election-renderer" data-election-renderer="shared"><div class="election-entity-page__hero"><span class="election-party-dot election-party-dot--hero" style="background:${escapeHtml(entity.colour || partyColour(entity.name))}"></span><div><div class="election-entity-page__eyebrow">Party Information</div><h3 class="election-entity-page__title">${escapeHtml(entity.name || '')}</h3><p class="election-entity-page__subtitle">${escapeHtml(this.host.activeBundle.displayTitle || this.host.activeBundle.body)} - ${escapeHtml(this.host.activeBundle.date)}</p></div></div><div class="election-entity-metrics"><div class="election-entity-metric"><span class="election-entity-metric__label">Candidates stood</span><strong>${formatNumber(entity.stood)}</strong></div><div class="election-entity-metric"><span class="election-entity-metric__label">Candidates elected</span><strong>${formatNumber(entity.elected)}</strong></div><div class="election-entity-metric"><span class="election-entity-metric__label">First prefs</span><strong>${formatNumber(entity.firstPrefs)}</strong></div><div class="election-entity-metric"><span class="election-entity-metric__label">Final votes</span><strong>${formatNumber(entity.finalVotes)}</strong></div><div class="election-entity-metric"><span class="election-entity-metric__label">Constituencies/DEAs</span><strong>${formatNumber(entity.constituencies?.length || 0)}</strong></div><div class="election-entity-metric"><span class="election-entity-metric__label">Share</span><strong>${formatPercent(entity.shareOfTotal)}</strong></div></div>${this.renderCandidateSummaryTable((entity.candidates || []).map((candidate) => ({ ...candidate, party: entity.name, colour: entity.colour, firstPrefs: candidate.firstPref })))}</section>`;
   }
 
+  /** @param {{ [field: string]: unknown, constituencies?: unknown[], appearances?: TableRow[] }} entity  a candidate of the election's entity index */
   renderCandidateEntity(entity) {
     return `<section class="election-entity-page shared-election-renderer" data-election-renderer="shared"><div class="election-entity-page__hero"><span class="election-party-dot election-party-dot--hero" style="background:${escapeHtml(entity.colour || partyColour(entity.party))}"></span><div><div class="election-entity-page__eyebrow">Candidate Information</div><h3 class="election-entity-page__title">${escapeHtml(entity.name || '')}</h3><p class="election-entity-page__subtitle">${escapeHtml(entity.party || '')}</p></div></div><div class="election-entity-metrics"><div class="election-entity-metric"><span class="election-entity-metric__label">Appearances</span><strong>${formatNumber(entity.appearances?.length || 0)}</strong></div><div class="election-entity-metric"><span class="election-entity-metric__label">Elected</span><strong>${formatNumber(entity.electedCount)}</strong></div><div class="election-entity-metric"><span class="election-entity-metric__label">First prefs</span><strong>${formatNumber(entity.firstPrefs)}</strong></div><div class="election-entity-metric"><span class="election-entity-metric__label">Final votes</span><strong>${formatNumber(entity.finalVotes)}</strong></div><div class="election-entity-metric"><span class="election-entity-metric__label">Constituencies/DEAs</span><strong>${formatNumber(entity.constituencies?.length || 0)}</strong></div><div class="election-entity-metric"><span class="election-entity-metric__label">Share</span><strong>${formatPercent(entity.shareOfTotal)}</strong></div></div><div class="test2-election-table-wrap"><table class="test2-election-table catalogue-detail__entity-table election-party-table"><thead><tr><th>Constituency/DEA</th><th>First prefs</th><th>Final votes</th><th>Status</th></tr></thead><tbody>${(entity.appearances || []).map((row) => `<tr><td><button type="button" class="test2-election-link" data-election-result-key="${escapeHtml(normalizeName(row.constituency || ''))}">${escapeHtml(row.constituency)}</button></td><td>${formatNumber(row.firstPref)}</td><td>${formatNumber(row.finalVotes)}</td><td>${escapeHtml(row.status || '')}</td></tr>`).join('')}</tbody></table></div></section>`;
   }
 
+  /**
+   * @param {string[][]} tabs  [id, label] pairs
+   * @param {string} active
+   */
   renderViewTabs(tabs, active) {
     return `<div class="election-view-tabs test2-election-tabs" role="tablist">${tabs.map(([id, label]) => `<button type="button" role="tab" aria-selected="${id === active ? 'true' : 'false'}" class="election-view-tab${id === active ? ' election-view-tab--active' : ''}" data-election-view="${escapeHtml(id)}">${escapeHtml(label)}</button>`).join('')}</div>`;
   }
@@ -393,6 +497,7 @@ export class SharedElectionRenderer {
     return `${partial}<div class="test2-election-coverage-notice" role="note">${formatNumber(unmatched)} result ${unmatched === 1 ? 'row is' : 'rows are'} not styled on the map because no exact converted geography match is available yet.</div>`;
   }
 
+  /** @param {ReturnType<typeof buildPartySummary>} [rows] */
   withPartyDeltas(rows = []) {
     const previousRows = this.host.previousBundle?.results?.length ? buildPartySummary(this.host.previousBundle.results) : [];
     const previousByParty = new Map(previousRows.map((row) => [normalizeName(row.party), row]));
@@ -410,6 +515,7 @@ export class SharedElectionRenderer {
     });
   }
 
+  /** @param {ReturnType<typeof buildCouncilSummary>} [rows] */
   withCouncilDeltas(rows = []) {
     const previousRows = this.host.previousBundle?.results?.length ? buildCouncilSummary(this.host.previousBundle.results) : [];
     const previousByCouncil = new Map(previousRows.map((row) => [normalizeName(row.council), row]));
@@ -427,6 +533,7 @@ export class SharedElectionRenderer {
     });
   }
 
+  /** @param {ReturnType<typeof buildLocalPartySummary>} [rows] */
   withLocalPartyDeltas(rows = []) {
     const previousRows = this.host.previousBundle?.results?.length ? buildLocalPartySummary(this.host.previousBundle.results) : [];
     const previousByPartyAndArea = new Map(previousRows.map((row) => [`${normalizeName(row.party)}|${normalizeName(row.constituency)}`, row]));
@@ -445,38 +552,53 @@ export class SharedElectionRenderer {
   }
 }
 
+/** @param {unknown} value */
 function formatNumber(value) {
   if (value === null || value === undefined || value === '') return '';
   const number = Number(value);
   return Number.isFinite(number) ? number.toLocaleString() : String(value);
 }
 
+/** @param {unknown} value */
 function formatPercent(value) {
   if (value === null || value === undefined || value === '') return '';
   const number = Number(value);
   return Number.isFinite(number) ? `${number.toFixed(2).replace(/\.00$/, '')}%` : String(value);
 }
 
+/** @param {unknown} value */
 function formatSigned(value) {
   const number = Number(value);
   if (!Number.isFinite(number)) return '';
   return `${number > 0 ? '+' : ''}${number.toLocaleString()}`;
 }
 
+/** @param {unknown} value */
 function formatSignedPercent(value) {
   const number = Number(value);
   if (!Number.isFinite(number)) return '';
   return `${number > 0 ? '+' : ''}${number.toFixed(2).replace(/\.00$/, '')}%`;
 }
 
+/**
+ * @param {unknown} primary
+ * @param {unknown} secondary
+ */
 function formatDeltaPair(primary, secondary) {
   return [formatSigned(primary), formatSigned(secondary)].filter(Boolean).join(' / ');
 }
 
+/**
+ * @param {CountCandidate[]} [candidates]
+ * @param {number[]} [countNumbers]
+ */
 function inferCountEvents(candidates = [], countNumbers = []) {
+  /** @type {Array<{ count: number, label: string }>} */
   const events = [];
   for (const count of countNumbers) {
+    /** @type {unknown[]} */
     const elected = [];
+    /** @type {unknown[]} */
     const excluded = [];
     for (const candidate of candidates) {
       const row = (candidate.counts || []).find((item) => Number(item.count) === Number(count));
@@ -493,20 +615,22 @@ function inferCountEvents(candidates = [], countNumbers = []) {
   return events;
 }
 
+/** @param {RenderResult} [result] */
 function recallTriggered(result = {}) {
-  const petition = result.recallPetition || {};
+  const petition = /** @type {RecallPetition} */ (result.recallPetition || {});
   if (typeof petition.triggered === 'boolean') return petition.triggered;
   const signed = Number(petition.signed ?? petition.signatures ?? result.leadingVotes);
   const threshold = Number(petition.threshold ?? petition.required);
   return Number.isFinite(signed) && Number.isFinite(threshold) ? signed >= threshold : false;
 }
 
+/** @param {unknown} value */
 function escapeHtml(value) {
-  return String(value ?? '').replace(/[&<>"']/g, (char) => ({
+  return String(value ?? '').replace(/[&<>"']/g, (char) => (/** @type {Record<string, string>} */ ({
     '&': '&amp;',
     '<': '&lt;',
     '>': '&gt;',
     '"': '&quot;',
     "'": '&#39;'
-  }[char]));
+  })[char]));
 }
