@@ -1,0 +1,13 @@
+{
+  "name": "@civgraph/types",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Type declarations (.d.ts) of the shared data shapes for JSDoc: generated from the JSON Schemas, the /api/v1 contracts and the records tables (src/generate.mjs, generated/), plus the hand-written core shapes (hand/core.d.ts). Types only: nothing here runs on the site.",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": { "types": "./index.d.ts" },
+    "./generated/*": { "types": "./generated/*" },
+    "./hand/*": { "types": "./hand/*" }
+  }
+}
