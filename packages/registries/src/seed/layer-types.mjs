@@ -19,10 +19,15 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { REPO_ROOT } from '../index.mjs';
 
+/** @typedef {import('../../../types/index.js').LayerTypesRegistry} LayerTypesRegistry */
+/** @typedef {LayerTypesRegistry['types'][string]} LayerType */
+/** @typedef {import('../../../types/index.js').LayerEntry} LayerEntry */
+
 const OUT = 'data/registries/layer-types.json';
 const CONTROLLER = 'packages/map/src/renderer/map-controller.js';
 
 /** The map app's flags: flag -> [the Set map-controller.js builds from it, what the flag means]. */
+/** @type {{ [flag: string]: [string, string] }} */
 export const BEHAVIOUR_FLAGS = {
   threeD: ['THREE_D_TYPES', 'a 3D layer: terrain or a point cloud; turns on the 3D gesture handlers and terrain'],
   rasterSource: ['RASTER_SOURCE_TYPES', 'drawn from raster tiles or an image, so it has no features to pick'],
@@ -31,13 +36,15 @@ export const BEHAVIOUR_FLAGS = {
 };
 
 /** The line of map-controller.js that builds a flag's Set of source types from the registry. */
-export const behaviourLine = (flag) => `const ${BEHAVIOUR_FLAGS[flag][0]} = new Set(layerTypes.behaviour.${flag});`;
+export const behaviourLine = (/** @type {string} */ flag) => `const ${BEHAVIOUR_FLAGS[flag][0]} = new Set(layerTypes.behaviour.${flag});`;
 
+/** @type {{ [type: string]: { note: string, sources: string[] } }} */
 const RUNTIME_ONLY = {
   mvt: { note: 'Built by the app as the z/x/y.pbf fallback of a PMTiles layer (tilesFallback) or when promote-layers finds no PMTiles archive; never in the published index.', sources: ['packages/map/src/renderer/map-controller.js', 'scripts/build/tiles/promote-layers.mjs', 'packages/map/app/maplibre-main-adapter.js'] },
   unconverted: { note: 'A catalogue entry with no tiles yet (metadata-service.js); the map refuses to load it, as it does any layer with loadable false.', sources: ['packages/map/src/renderer/metadata-service.js', 'packages/map/src/renderer/map-controller.js'] }
 };
 
+/** @type {{ [type: string]: string }} */
 const TILE_FORMAT = {
   pmtiles: 'vector tiles (MVT) in a PMTiles archive (tileUrl), with a z/x/y.pbf fallback (tilesFallback)',
   mvt: 'vector tiles (MVT) at z/x/y.pbf',
@@ -48,27 +55,37 @@ const TILE_FORMAT = {
   unconverted: 'none'
 };
 
-
+/**
+ * The layer-types registry as the map index and the current file give it.
+ * @param {string} [root]
+ * @returns {LayerTypesRegistry}
+ */
 export function seedLayerTypes(root = REPO_ROOT) {
+  /** @type {{ layers: LayerEntry[] }} */
   const index = JSON.parse(readFileSync(path.join(root, 'render/metadata/maps-test.json'), 'utf8'));
+  /** @type {LayerTypesRegistry} */
   const current = JSON.parse(readFileSync(path.join(root, OUT), 'utf8'));
+  /** @type {Map<string, LayerEntry[]>} */
   const byType = new Map();
   for (const layer of index.layers) {
     if (!byType.has(layer.sourceType)) byType.set(layer.sourceType, []);
-    byType.get(layer.sourceType).push(layer);
+    /** @type {LayerEntry[]} */ (byType.get(layer.sourceType)).push(layer); // set above
   }
   const flagTypes = Object.fromEntries(Object.keys(BEHAVIOUR_FLAGS).map((flag) => [flag, new Set(
     Object.entries(current.types).filter(([, entry]) => entry.behaviour?.includes(flag)).map(([type]) => type)
   )]));
+  /** @type {LayerTypesRegistry['types']} */
   const types = {};
   for (const type of [...byType.keys(), ...Object.keys(RUNTIME_ONLY)].sort()) {
     const layers = byType.get(type) || [];
+    /** @type {LayerType} */
     const entry = { tileFormat: TILE_FORMAT[type] };
     if (layers.length) {
+      /** @type {Map<string, number>} */
       const counts = new Map();
       for (const l of layers) for (const k of Object.keys(l)) counts.set(k, (counts.get(k) || 0) + 1);
       entry.requiredFields = [...counts].filter(([, n]) => n === layers.length).map(([k]) => k).sort();
-      entry.geometryTypes = [...new Set(layers.map((l) => l.geometryType))].sort();
+      entry.geometryTypes = /** @type {LayerType['geometryTypes']} */ ([...new Set(layers.map((l) => l.geometryType))].sort());
       entry.renderers = [...new Set(layers.map((l) => l.renderer))].sort();
     } else {
       entry.runtimeOnly = true;
