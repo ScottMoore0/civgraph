@@ -37,7 +37,7 @@ const DOCS = [
   // Added 2026-08-17: this plan cited `js/ui-controller.js` sixteen times. That
   // directory was renamed to src/ in fb5d246cad, so every "Files:" line in a
   // 1,253-line worklist pointed at nothing. See docs/review/UX-TRIAGE.md.
-  'UX-REMEDIATION-PLAN.md',
+  'docs/UX-REMEDIATION-PLAN.md',
   // Added 2026-11-07: the tiers of checks name the scripts and workflows they run.
   'CHECKS.md',
 ];
@@ -58,7 +58,7 @@ const TOLERATED_PREFIXES = [
  */
 const CANDIDATE = /`([a-zA-Z0-9_][a-zA-Z0-9_.\-]*\/[a-zA-Z0-9_./\-[\]]*)`/g;
 
-// archive/ is not a root: it left the repository in November 2026 (ARCHIVE.md),
+// archive/ is not a root: it left the repository in November 2026 (docs/ARCHIVE.md),
 // so documents that mention its old paths describe history, not the tree.
 const ROOTS = new Set([
   'app', 'apps', 'assets', 'browse', 'build', 'data', 'docs',
@@ -69,7 +69,7 @@ const ROOTS = new Set([
 /**
  * A document is allowed to say a path is ABSENT.
  *
- * UX-REMEDIATION-PLAN.md lists five book PDFs precisely because they are missing;
+ * docs/UX-REMEDIATION-PLAN.md lists five book PDFs precisely because they are missing;
  * that is the finding. Failing it for naming them would punish the document for
  * being accurate, and would push the next author to describe the file vaguely
  * instead of naming it -- which is worse for the reader than either.

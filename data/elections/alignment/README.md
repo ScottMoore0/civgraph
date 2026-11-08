@@ -1,6 +1,6 @@
 # Candidate attributes
 
-> Some scripts named below were archived in November 2026 (ARCHIVE.md, "Archived scripts"); they are in the archive copies and in git history, not in `scripts/`.
+> Some scripts named below were archived in November 2026 (docs/ARCHIVE.md, "Archived scripts"); they are in the archive copies and in git history, not in `scripts/`.
 
 Two fields on every individual candidacy in `render/metadata/elections-test2/*.json`:
 

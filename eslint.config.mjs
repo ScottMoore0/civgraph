@@ -31,7 +31,7 @@ export default [
       '**/node_modules/**',
       '.claude/**',
       'app/build/**',
-      'archive/**',                        // left the repository (ARCHIVE.md); ignored so a
+      'archive/**',                        // left the repository (docs/ARCHIVE.md); ignored so a
                                            // temporarily restored copy is never linted.
       'data/elections-source/**',
       'app/election-viewer-package/**',

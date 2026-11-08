@@ -25,7 +25,7 @@ Since the script reorganisation (November 2026) the folders say what a script do
 The files left at the top level are one-month shims from the first move (wave 1, 6
 November 2026): each runs the publish-layer script or tool it names, so older notes
 and commands keep working. Script-style tests moved to `tests/`, and archived scripts
-are listed in `ARCHIVE.md`.
+are listed in `docs/ARCHIVE.md`.
 
 ## The npm entries, by prefix
 

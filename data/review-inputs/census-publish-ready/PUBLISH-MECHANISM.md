@@ -1,6 +1,6 @@
 # How a staged census/statistical record becomes live on civgraph
 
-> Some scripts named below were archived in November 2026 (ARCHIVE.md, "Archived scripts"); they are in the archive copies and in git history, not in `scripts/`.
+> Some scripts named below were archived in November 2026 (docs/ARCHIVE.md, "Archived scripts"); they are in the archive copies and in git history, not in `scripts/`.
 
 Investigated from `scripts/`, `package.json`, `scripts/build/build-browse-indexes.mjs`,
 `scripts/build/graph/build-semantic-graph.mjs`, `scripts/apply-approved-publication-records.mjs`,

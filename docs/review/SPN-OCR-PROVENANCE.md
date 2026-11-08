@@ -1,6 +1,6 @@
 # Statements of Persons Nominated: can the 822 extracted candidates be published?
 
-> Some scripts named below were archived in November 2026 (ARCHIVE.md, "Archived scripts"); they are in the archive copies and in git history, not in `scripts/`.
+> Some scripts named below were archived in November 2026 (docs/ARCHIVE.md, "Archived scripts"); they are in the archive copies and in git history, not in `scripts/`.
 
 > **Status: findings for review — 2026-08-27. NOTHING HAS BEEN PUBLISHED.**
 > `scripts/review/match-spn-ocr-candidates.mjs` reproduces every number here. It writes
@@ -8,7 +8,7 @@
 > `proposer`/`seconder`/`agent` to candidate `meta` and surfacing them — was **not carried
 > out**, because step 3's gate said not to. The reasoning is below.
 >
-> **Location, November 2026:** `archive/` left the repository (see `ARCHIVE.md`). The
+> **Location, November 2026:** `archive/` left the repository (see `docs/ARCHIVE.md`). The
 > archive/ocr/ paths below now live in the offline copy, E:\civgraph-archive\archive\ocr\;
 > point the scripts at it with `CIVGRAPH_ARCHIVE_DIR=E:/civgraph-archive/archive`.
 
