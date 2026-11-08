@@ -13,8 +13,15 @@
  * support them either) or the 2,000/100 rule limits.
  */
 
-/** Parse the text of a `_redirects` file into ordered rules. */
+/** @typedef {{ line: number, from: string, to: string, status: number }} RedirectRule */
+
+/**
+ * Parse the text of a `_redirects` file into ordered rules.
+ * @param {string} text
+ * @returns {RedirectRule[]}
+ */
 export function parseRedirects(text) {
+  /** @type {RedirectRule[]} */
   const rules = [];
   for (const [index, raw] of String(text).split(/\r?\n/).entries()) {
     const line = raw.trim();
@@ -26,7 +33,9 @@ export function parseRedirects(text) {
   return rules;
 }
 
+/** @param {string} from */
 function sourcePattern(from) {
+  /** @type {string[]} */
   const names = [];
   let pattern = '';
   const parts = from.split(/(\*|:[A-Za-z]\w*)/);
@@ -48,6 +57,10 @@ function sourcePattern(from) {
  * The first rule matching `pathname`, with its destination filled in, or null.
  * Returns { rule, status, location } where location keeps the request's query when the
  * destination names none (as Pages does for these rules).
+ * @param {RedirectRule[]} rules
+ * @param {string} pathname
+ * @param {string} [search]
+ * @returns {{ rule: RedirectRule, status: number, location: string } | null}
  */
 export function matchRedirect(rules, pathname, search = '') {
   for (const rule of rules) {

@@ -12,6 +12,8 @@ const SEAT_TYPE_SUFFIX = /\(\s*(aldermen|councillors)\s*\)\s*$/i;
  * the part that names the file, so it is matched before any fuzzy match on the area name, which
  * would drop it and find nothing (or the town's single-list file of another year).
  * Returns the file's path, or null when the name has no seat-type bracket or no such file.
+ * @param {string} dateDir
+ * @param {string | null | undefined} constituency
  */
 export function seatTypeResultFile(dateDir, constituency) {
   const match = SEAT_TYPE_SUFFIX.exec(String(constituency ?? ''));
@@ -27,6 +29,8 @@ export function seatTypeResultFile(dateDir, constituency) {
  * wards each have a councillor list (east-central-ward.json) beside the aldermanic one, and with
  * the bracket dropped first both contests were built from the councillor file, the aldermen
  * nowhere. Returns the file's path, or null when the name has no bracket or no such file.
+ * @param {string} dateDir
+ * @param {string | null | undefined} constituency
  */
 export function bracketedResultFile(dateDir, constituency) {
   const name = String(constituency ?? '');

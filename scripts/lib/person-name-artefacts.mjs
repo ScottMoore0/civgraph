@@ -74,12 +74,21 @@ export const RULE_NOTES = {
 };
 
 /**
+ * A party-shaped record (parties registry entry, Browse party): the name fields read here.
+ * @typedef {{ title?: string, canonicalName?: string, name?: string, observedNames?: string[] }} PartyLike
+ * @typedef {{ partyNames: Set<string>, partyWords: Set<string> }} PartyVocabulary
+ */
+
+/**
  * Party vocabulary, derived from the data rather than a hardcoded list that would rot.
  *
  * `records` is anything iterable of party-shaped objects; title, canonicalName and
  * observedNames are all read where present.
+ * @param {Iterable<PartyLike | null | undefined> | null | undefined} records
+ * @returns {PartyVocabulary}
  */
 export function buildPartyVocabulary(records) {
+  /** @type {Set<string>} */
   const partyNames = new Set();
   for (const party of records || []) {
     const values = [party?.title, party?.canonicalName, party?.name, ...(party?.observedNames || [])];
@@ -90,6 +99,7 @@ export function buildPartyVocabulary(records) {
   // Only words of MULTI-word party names, and only longer ones: a short token like "of"
   // or "na" would match far too much, and a single-word party name is handled by the
   // exact-match rule instead.
+  /** @type {Set<string>} */
   const partyWords = new Set();
   for (const name of partyNames) {
     const words = name.split(/\s+/);
@@ -102,6 +112,8 @@ export function buildPartyVocabulary(records) {
  * Returns the rule a name breaks, or null when it looks like a person.
  * Order matters: the exact-party check runs before the fragment check so a single-word
  * party name is reported as what it is.
+ * @param {string | null | undefined} rawName
+ * @param {PartyVocabulary | null | undefined} vocabulary
  */
 export function classifyPersonName(rawName, vocabulary) {
   const name = String(rawName || '').trim();
@@ -131,6 +143,7 @@ export function classifyPersonName(rawName, vocabulary) {
  * Frederick Thompson does, so removing it used to risk presenting two people as one.
  * Identity now rides on the registry id, which is in the slug, and the three ids that
  * were really one man were merged as WIKI-DISAMBIGUATED first.
+ * @param {string | null | undefined} rawName
  */
 export function stripWikipediaQualifier(rawName) {
   const name = String(rawName || '').trim();
@@ -138,7 +151,11 @@ export function stripWikipediaQualifier(rawName) {
   return name.replace(/\s*\([^)]*\bpolitician\b[^)]*\)\s*$/i, '').trim() || name;
 }
 
-/** True when the name must not become an entry in the persons index. */
+/**
+ * True when the name must not become an entry in the persons index.
+ * @param {string | null | undefined} rawName
+ * @param {PartyVocabulary | null | undefined} vocabulary
+ */
 export function isNotAPerson(rawName, vocabulary) {
   return NOT_A_PERSON.has(classifyPersonName(rawName, vocabulary));
 }

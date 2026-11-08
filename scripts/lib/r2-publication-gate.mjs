@@ -23,6 +23,16 @@ import { SITE } from '../../packages/config/src/node.mjs';
 
 const ALLOWLIST_PATH = path.join(process.cwd(), 'data', 'database', 'r2-publication-allowlist.json');
 
+/**
+ * data/database/r2-publication-allowlist.json (schemaVersion 1); each entry also carries its
+ * rationale, evidence and rights.
+ * @typedef {{ schemaVersion: 1, prefixes: { prefix: string, [field: string]: unknown }[], [field: string]: unknown }} Allowlist
+ */
+
+/**
+ * @param {string} [file]
+ * @returns {Allowlist}
+ */
 export function loadAllowlist(file = ALLOWLIST_PATH) {
   const parsed = JSON.parse(readFileSync(file, 'utf8'));
   if (parsed.schemaVersion !== 1) throw new Error(`Unsupported allowlist schemaVersion: ${parsed.schemaVersion}`);
@@ -30,8 +40,12 @@ export function loadAllowlist(file = ALLOWLIST_PATH) {
   return parsed;
 }
 
-const normalise = (key) => String(key).replace(/^\/+/, '');
+const normalise = (/** @type {string} */ key) => String(key).replace(/^\/+/, '');
 
+/**
+ * @param {string} key
+ * @param {Pick<Allowlist, 'prefixes'>} allowlist
+ */
 export function isPublishable(key, allowlist) {
   const k = normalise(key);
   return allowlist.prefixes.some((entry) => k.startsWith(normalise(entry.prefix)));
@@ -39,6 +53,8 @@ export function isPublishable(key, allowlist) {
 
 /**
  * Throws unless every key is covered. Returns the matched prefixes for logging.
+ * @param {string[]} keys
+ * @param {{ file?: string, override?: boolean }} [options]
  */
 export function assertPublishable(keys, { file = ALLOWLIST_PATH, override = false } = {}) {
   const allowlist = loadAllowlist(file);

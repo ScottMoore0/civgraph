@@ -22,15 +22,21 @@ export const FORCE = process.argv.includes('--force');
 // wrangler. Used by `.claude/publish/publish.sh --dry-run`.
 export const DRY_RUN = process.argv.includes('--dry-run');
 
+/** @param {string} key */
 function recordPath(key) {
   return `${RECORD_DIR}/${key.replace(/[^a-z0-9._-]+/gi, '_')}.sha256`;
 }
 
+/** @param {string} path */
 export function fileHash(path) {
   return createHash('sha256').update(readFileSync(path)).digest('hex');
 }
 
-/** True when this SQL file is byte-identical to the one last loaded under `key`. */
+/**
+ * True when this SQL file is byte-identical to the one last loaded under `key`.
+ * @param {string} key
+ * @param {string} sqlPath
+ */
 export function alreadyDeployed(key, sqlPath) {
   if (FORCE || !existsSync(sqlPath)) return false;
   const record = recordPath(key);
@@ -38,7 +44,11 @@ export function alreadyDeployed(key, sqlPath) {
   return readFileSync(record, 'utf8').trim() === fileHash(sqlPath);
 }
 
-/** Record a load that has been verified. */
+/**
+ * Record a load that has been verified.
+ * @param {string} key
+ * @param {string} sqlPath
+ */
 export function markDeployed(key, sqlPath) {
   const record = recordPath(key);
   mkdirSync(dirname(record), { recursive: true });

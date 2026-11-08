@@ -60,7 +60,7 @@ export const BUILD_VARS = Object.freeze({
 export function recordPaths(env = process.env) {
   const value = String(env.CIVGRAPH_BUILD_DIR || '').trim() || DEFAULT_BUILD_DIR;
   const BUILD = value === 'legacy' ? null : path.resolve(REPO_ROOT, value);
-  const at = (built, legacy) => (BUILD ? path.join(BUILD, built) : path.join(REPO_ROOT, legacy));
+  const at = (/** @type {string} */ built, /** @type {string} */ legacy) => (BUILD ? path.join(BUILD, built) : path.join(REPO_ROOT, legacy));
   return {
     BUILD_DIR: BUILD,
     ELECTION_BUNDLE_DIR: at('elections', 'render/metadata/elections-test2'),
@@ -94,9 +94,12 @@ export const REPO_PATHS = Object.freeze({
   envFile: '.env.local',
 });
 
-/** Absolute path of a REPO_PATHS entry or of any repository-relative path. */
+/**
+ * Absolute path of a REPO_PATHS entry or of any repository-relative path.
+ * @param {keyof typeof REPO_PATHS | string} nameOrRelative
+ */
 export function repoPath(nameOrRelative) {
-  const rel = Object.hasOwn(REPO_PATHS, nameOrRelative) ? REPO_PATHS[nameOrRelative] : nameOrRelative;
+  const rel = Object.hasOwn(REPO_PATHS, nameOrRelative) ? REPO_PATHS[/** @type {keyof typeof REPO_PATHS} */ (nameOrRelative)] : nameOrRelative;
   return path.join(REPO_ROOT, ...String(rel).split('/'));
 }
 
@@ -112,7 +115,8 @@ export function buildVar(name, env = process.env) {
   return String(env[name] ?? '').trim() || BUILD_VARS[name].default || '';
 }
 
-const isSecret = (name) => Boolean(BUILD_VARS[name]?.secret || RUNTIME_VARS[name]?.secret);
+// RUNTIME_VARS (config.js) is read by any name here: an unknown name reads as undefined.
+const isSecret = (/** @type {string} */ name) => Boolean(BUILD_VARS[name]?.secret || /** @type {Readonly<Record<string, { secret?: boolean } | undefined>>} */ (RUNTIME_VARS)[name]?.secret);
 
 /**
  * The whole configuration for one environment. Pure: everything comes from `env`, so a test can
@@ -120,7 +124,7 @@ const isSecret = (name) => Boolean(BUILD_VARS[name]?.secret || RUNTIME_VARS[name
  */
 export function loadConfig(env = process.env) {
   const get = (/** @type {string} */ name) => buildVar(name, env);
-  const abs = (p) => (p ? path.resolve(REPO_ROOT, p) : null);
+  const abs = (/** @type {string} */ p) => (p ? path.resolve(REPO_ROOT, p) : null);
   return {
     site: SITE,
     api: { current: API.current, versions: [...API.versions], legacyPrefix: API.legacyPrefix, prefix: API.prefix(API.current) },

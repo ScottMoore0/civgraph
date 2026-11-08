@@ -35,7 +35,11 @@ const T = 'TEXT';
 const I = 'INTEGER';
 const R = 'REAL';
 
-/** [name, type, notNull?] */
+/**
+ * [name, type, notNull?]
+ * @param {string} name
+ * @returns {ColumnSpec}
+ */
 const c = (name, type = T, notNull = false) => ({ name, type, notNull });
 
 const HASH = [c('row_hash', T, true), c('row_hash_n', I, true)];
@@ -523,6 +527,7 @@ export const GRAPH_FILE_PART_KEYS = 10_000;
 /** election_aggregates splits a payload into parts of this many characters. */
 export const PART_CHARS = 600_000;
 
+/** @param {TableSpec} t */
 export function createTableSql(t) {
   const cols = t.columns.map((col) => `  ${col.name} ${col.type}${col.notNull ? ' NOT NULL' : ''}`);
   cols.push(`  PRIMARY KEY (${t.pk.join(', ')})`);

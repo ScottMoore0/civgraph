@@ -13,6 +13,8 @@ import { DatabaseSync } from 'node:sqlite';
 import { assertRecordStore, bindParams } from './store.js';
 
 /** @typedef {import('node:sqlite').DatabaseSync} SqliteHandle */
+/** @typedef {import('./store.js').RecordStore} RecordStore */
+/** @typedef {import('./store.js').Row} Row */
 
 /**
  * A raw node:sqlite handle, for the records loader's bulk paths (prepared inserts by the million,
@@ -27,7 +29,8 @@ export function openSqliteHandle(file, { readOnly = false } = {}) {
   return new DatabaseSync(file, { readOnly });
 }
 
-const plain = (row) => (row ? { ...row } : null);
+/** A node:sqlite row copied to a plain object, or null when there is none. */
+const plain = (/** @type {Record<string, import('node:sqlite').SQLOutputValue>|undefined} */ row) => (row ? /** @type {Row} */ ({ ...row }) : null);
 
 /**
  * @param {string|SqliteHandle} file   a path, ':memory:', or a handle to wrap
@@ -36,8 +39,9 @@ const plain = (row) => (row ? { ...row } : null);
  */
 export function openSqlite(file, { readOnly = false } = {}) {
   const db = file instanceof DatabaseSync ? file : openSqliteHandle(file, { readOnly: file === ':memory:' ? false : readOnly });
+  /** @type {Map<string, import('node:sqlite').StatementSync>} */
   const cache = new Map();
-  const statement = (sql) => {
+  const statement = (/** @type {string} */ sql) => {
     let stmt = cache.get(sql);
     if (!stmt) {
       stmt = db.prepare(sql);
@@ -46,13 +50,14 @@ export function openSqlite(file, { readOnly = false } = {}) {
     }
     return stmt;
   };
-  return assertRecordStore({
+  /** @type {RecordStore & { _db: SqliteHandle }} */
+  const store = {
     kind: 'sqlite',
     async first(sql, params) {
       return plain(statement(sql).get(...bindParams(params)));
     },
     async all(sql, params) {
-      return statement(sql).all(...bindParams(params)).map(plain);
+      return /** @type {Row[]} */ (statement(sql).all(...bindParams(params)).map(plain));
     },
     async value(sql, params) {
       const row = statement(sql).get(...bindParams(params));
@@ -66,10 +71,10 @@ export function openSqlite(file, { readOnly = false } = {}) {
       if (!statements.length) return [];
       // Bind every statement before the transaction opens, so a bad parameter fails with
       // nothing written, as D1 refuses a batch that does not prepare.
-      const ready = statements.map((s) => [statement(s.sql), bindParams(s.params)]);
+      const ready = statements.map((s) => /** @type {const} */ ([statement(s.sql), bindParams(s.params)]));
       db.exec('BEGIN');
       try {
-        const out = ready.map(([stmt, values]) => stmt.all(...values).map(plain));
+        const out = ready.map(([stmt, values]) => /** @type {Row[]} */ (stmt.all(...values).map(plain)));
         db.exec('COMMIT');
         return out;
       } catch (error) {
@@ -86,5 +91,6 @@ export function openSqlite(file, { readOnly = false } = {}) {
     },
     /** The underlying DatabaseSync, for the loader's bulk paths. Not part of the interface. */
     _db: db,
-  });
+  };
+  return assertRecordStore(store);
 }

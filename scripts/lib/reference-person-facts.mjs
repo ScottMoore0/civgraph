@@ -14,7 +14,18 @@
 
 const COMMONS = 'House of Commons of the United Kingdom';
 
-/** "Henry Boylan, A Dictionary of Irish Biography (3rd edition, 1998), pp. 1–2, s.v. Frank Aiken" */
+/**
+ * @typedef {{ title?: string, author?: string, edition?: string, year?: number | string, page?: string | number, entry?: string }} ReferenceSource
+ * @typedef {{ value?: string, start?: string | number, end?: string | number, body?: string, constituency?: string, person?: string | number, source?: ReferenceSource }} ReferenceRow
+ *   one row of reference-offices.json (value = the office) or reference-relations.json
+ *   (value = the relation, person = the other Civgraph person id)
+ * @typedef {{ people?: Record<string, ReferenceRow[] | undefined> }} ReferenceDoc
+ */
+
+/**
+ * "Henry Boylan, A Dictionary of Irish Biography (3rd edition, 1998), pp. 1–2, s.v. Frank Aiken"
+ * @param {ReferenceSource | null | undefined} source
+ */
 export function referenceCitation(source) {
   if (!source?.title) return '';
   const page = source.page ? String(source.page) : '';
@@ -25,6 +36,11 @@ export function referenceCitation(source) {
     .filter(Boolean).join(', ');
 }
 
+/**
+ * @param {ReferenceDoc | null | undefined} doc
+ * @param {string | number} personId
+ * @param {{ hasHop?: boolean }} [options]
+ */
 export function referenceOffices(doc, personId, { hasHop = false } = {}) {
   const rows = doc?.people?.[personId];
   if (!Array.isArray(rows)) return [];
@@ -43,10 +59,15 @@ export function referenceOffices(doc, personId, { hasHop = false } = {}) {
 /**
  * `lookup(id)` returns { title, slug } for a Civgraph person, or null. A link to an id the
  * person index no longer holds (merged or renumbered) is dropped and reported, not shown.
+ * @param {ReferenceDoc | null | undefined} doc
+ * @param {string | number} personId
+ * @param {(id: string) => { title: string, slug: string } | null | undefined} lookup
+ * @param {Set<string>} [missing]
  */
 export function referenceRelatives(doc, personId, lookup, missing = new Set()) {
   const rows = doc?.people?.[personId];
   if (!Array.isArray(rows)) return [];
+  /** @type {{ relation: string | undefined, personId: string, name: string, slug: string, source: string }[]} */
   const out = [];
   for (const row of rows) {
     const other = row?.person ? lookup(String(row.person)) : null;
