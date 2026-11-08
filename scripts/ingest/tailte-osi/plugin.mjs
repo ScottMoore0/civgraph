@@ -1,6 +1,6 @@
 // Tailte Eireann / Ordnance Survey boundary derivations: the 1920s NI DED files and the county
 // electoral divisions drawn from them.
-import { definePlugin } from '@civgraph/intake/plugins.mjs';
+import { definePlugin } from '../../../packages/intake/src/plugins.mjs';
 
 const ED = 'data/maps/electoral-divisions';
 const CACHE = 'render/source-cache/vector-intake';

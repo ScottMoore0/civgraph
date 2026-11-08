@@ -4,8 +4,8 @@ import assert from 'node:assert/strict';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
-import { loadBatch, validateBatch } from '@civgraph/intake/batch.mjs';
-import { checkLock, scanAddressFields, writeLock } from '@civgraph/intake/review.mjs';
+import { loadBatch, validateBatch } from '../../packages/intake/src/batch.mjs';
+import { checkLock, scanAddressFields, writeLock } from '../../packages/intake/src/review.mjs';
 import { main } from '../../scripts/intake/intake.mjs';
 import { makeBatch, makeRepo, tempDir, writeFile } from './helpers.mjs';
 

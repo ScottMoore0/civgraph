@@ -20,7 +20,7 @@
 import { createRequire } from 'node:module';
 import { existsSync, mkdirSync, statSync } from 'node:fs';
 import path from 'node:path';
-import { SITE } from '@civgraph/config/node';
+import { SITE } from '../../packages/config/src/node.mjs';
 
 // Resolve relative to this module. This previously hardcoded an absolute path
 // to one developer's checkout, which resolves nowhere else -- so

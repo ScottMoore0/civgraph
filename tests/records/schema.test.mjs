@@ -4,8 +4,8 @@ import assert from 'node:assert/strict';
 import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
-import { TABLES, schemaSql } from '@civgraph/schema';
-import { REPO_ROOT } from '@civgraph/loader/paths.mjs';
+import { TABLES, schemaSql } from '../../packages/schema/src/schema.mjs';
+import { REPO_ROOT } from '../../packages/loader/src/paths.mjs';
 
 const MIGRATIONS = path.join(REPO_ROOT, 'packages', 'schema', 'migrations');
 

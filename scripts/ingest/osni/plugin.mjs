@@ -1,5 +1,5 @@
 // Ordnance Survey of Northern Ireland LiDAR and the island-wide terrain built from it.
-import { definePlugin } from '@civgraph/intake/plugins.mjs';
+import { definePlugin } from '../../../packages/intake/src/plugins.mjs';
 
 export default definePlugin({
   id: 'osni',

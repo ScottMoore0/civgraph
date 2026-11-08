@@ -13,8 +13,8 @@ import assert from 'node:assert/strict';
 import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
-import * as config from '@civgraph/config/node';
-import * as paths from '@civgraph/loader/paths.mjs';
+import * as config from '../../packages/config/src/node.mjs';
+import * as paths from '../../packages/loader/src/paths.mjs';
 
 test('paths.mjs re-exports the config module', () => {
   assert.equal(paths.recordPaths, config.recordPaths);

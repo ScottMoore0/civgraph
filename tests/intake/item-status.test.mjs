@@ -5,10 +5,10 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
-import * as itemStatus from '@civgraph/intake/item-status.mjs';
+import * as itemStatus from '../../packages/intake/src/item-status.mjs';
 
 const { isItemStatus, literalsOf, namesOf, named, MIRROR_ITEM, NAME_MAPS, SCRIPT_VOCABULARIES } = itemStatus;
-const IMPORT = /import \{ ([^}]+) \} from '@civgraph\/intake\/item-status\.mjs';/;
+const IMPORT = /import \{ ([^}]+) \} from '(?:\.\.\/)+packages\/intake\/src\/item-status\.mjs';/;
 
 test('every item status in the ingest scripts comes from its vocabulary', () => {
   const problems = [];

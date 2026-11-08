@@ -31,7 +31,7 @@
  * Network-dependent, so deliberately NOT part of `npm run check`. Run it after
  * any deploy that moves data to R2:  npm run verify:proxies
  */
-import { SITE as SITE_CONFIG } from '@civgraph/config/node';
+import { SITE as SITE_CONFIG } from '../../packages/config/src/node.mjs';
 
 const SITE = process.env.VERIFY_SITE || SITE_CONFIG.origin;
 const ORIGIN = process.env.VERIFY_ORIGIN || 'https://boundaries-website.pages.dev';

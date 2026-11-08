@@ -5,9 +5,9 @@ import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
-import { loadBatch } from '@civgraph/intake/batch.mjs';
-import { SCRIPTS, buildPostUploadSteps, buildUploadSteps, formatStep, runSteps } from '@civgraph/intake/commands.mjs';
-import { planBatch, renderReport } from '@civgraph/intake/plan.mjs';
+import { loadBatch } from '../../packages/intake/src/batch.mjs';
+import { SCRIPTS, buildPostUploadSteps, buildUploadSteps, formatStep, runSteps } from '../../packages/intake/src/commands.mjs';
+import { planBatch, renderReport } from '../../packages/intake/src/plan.mjs';
 import { main } from '../../scripts/intake/intake.mjs';
 import { makeBatch, makeRepo, tempDir, writeFile } from './helpers.mjs';
 

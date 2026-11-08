@@ -1,5 +1,5 @@
 // The Database of British and Irish Hills: point layers and catalogue records.
-import { definePlugin } from '@civgraph/intake/plugins.mjs';
+import { definePlugin } from '../../../packages/intake/src/plugins.mjs';
 
 export default definePlugin({
   id: 'dobih',

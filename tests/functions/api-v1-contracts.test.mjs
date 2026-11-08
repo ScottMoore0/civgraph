@@ -22,7 +22,7 @@ import * as apiRoute from '../../functions/api/[[path]].js';
 import { PREFIX, ROUTES, indexDocument, openApi } from '../../functions/_lib/api/v1.js';
 import { CONTRACTS, variantFor } from '../../functions/_lib/api/contracts/v1.js';
 import { incompatibilities, validate } from '../../functions/_lib/api/json-schema.js';
-import { REPO_ROOT, loadConfig } from '@civgraph/config/node';
+import { REPO_ROOT, loadConfig } from '../../packages/config/src/node.mjs';
 
 const ORIGIN = 'https://civgraph.net';
 const BASELINE = path.join(REPO_ROOT, 'tests', 'functions', 'api-v1-contracts.baseline.json');

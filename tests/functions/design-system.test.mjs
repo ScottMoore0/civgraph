@@ -16,7 +16,7 @@ import path from 'node:path';
 import * as gallery from '../../functions/design-system/index.js';
 import * as components from '../../functions/_templates/components/index.js';
 import { parseTokens } from '../../assets/ui/gallery/gallery.js';
-import { REPO_ROOT } from '@civgraph/config/node';
+import { REPO_ROOT } from '../../packages/config/src/node.mjs';
 
 const UI = path.join(REPO_ROOT, 'assets', 'ui');
 const read = (...p) => readFileSync(path.join(...p), 'utf8');

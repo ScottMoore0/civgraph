@@ -19,7 +19,7 @@
  */
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
-import { SITE } from '@civgraph/config/node';
+import { SITE } from '../../packages/config/src/node.mjs';
 
 const ALLOWLIST_PATH = path.join(process.cwd(), 'data', 'database', 'r2-publication-allowlist.json');
 

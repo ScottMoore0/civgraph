@@ -8,13 +8,13 @@ import assert from 'node:assert/strict';
 import { copyFileSync, mkdirSync, rmSync } from 'node:fs';
 import path from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
-import { createDatabase, TableWriter, transaction, rowHash, bindable } from '@civgraph/loader/db.mjs';
-import { buildDelta } from '@civgraph/loader/diff-load.mjs';
-import { REPO_ROOT } from '@civgraph/loader/paths.mjs';
-import { HASHED_TABLES, TABLE } from '@civgraph/schema';
+import { createDatabase, TableWriter, transaction, rowHash, bindable } from '../../packages/loader/src/db.mjs';
+import { buildDelta } from '../../packages/loader/src/diff-load.mjs';
+import { REPO_ROOT } from '../../packages/loader/src/paths.mjs';
+import { HASHED_TABLES, TABLE } from '../../packages/schema/src/schema.mjs';
 import {
   BOUNDS, batches, boundedPlan, evenSample, fullPlan, queryWithRetry, runPlan, verify,
-} from '@civgraph/loader/verify-load.mjs';
+} from '../../packages/loader/src/verify-load.mjs';
 
 const TMP = path.join(REPO_ROOT, 'tmp', 'records', 'test-verify');
 const TABLE_NAMES = new Set(HASHED_TABLES.map((t) => t.name));

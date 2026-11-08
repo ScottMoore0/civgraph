@@ -24,8 +24,8 @@ import { createServer } from 'node:http';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { RECORDS_DB, REPO_ROOT } from './paths.mjs';
-import { toD1 } from '@civgraph/storage/store.js';
-import { openSqlite } from '@civgraph/storage/node';
+import { toD1 } from '../../storage/src/store.js';
+import { openSqlite } from '../../storage/src/sqlite.mjs';
 
 /** The /_api/ routes whose Functions read only the records database (binding ELECTIONS_DB). */
 export const RECORD_API_ROUTES = ['elections', 'graph', 'parties', 'persons', 'register-interests', 'sources', 'stats', 'votes'];

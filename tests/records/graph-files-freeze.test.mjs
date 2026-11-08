@@ -6,11 +6,11 @@ import assert from 'node:assert/strict';
 import { mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
-import { createDatabase } from '@civgraph/loader/db.mjs';
-import { buildDelta } from '@civgraph/loader/diff-load.mjs';
-import { driftedFile, frozenSource, graphFilesRows } from '@civgraph/loader/graph-files-freeze.mjs';
-import { ingestGraph } from '@civgraph/loader/ingest-graph.mjs';
-import { REPO_ROOT } from '@civgraph/loader/paths.mjs';
+import { createDatabase } from '../../packages/loader/src/db.mjs';
+import { buildDelta } from '../../packages/loader/src/diff-load.mjs';
+import { driftedFile, frozenSource, graphFilesRows } from '../../packages/loader/src/graph-files-freeze.mjs';
+import { ingestGraph } from '../../packages/loader/src/ingest-graph.mjs';
+import { REPO_ROOT } from '../../packages/loader/src/paths.mjs';
 
 const TMP = path.join(REPO_ROOT, 'tmp', 'records', 'test-graph-files-freeze');
 

@@ -9,8 +9,8 @@
  * underlying DatabaseSync, for tests that close it or read it directly.
  */
 import { DatabaseSync } from 'node:sqlite';
-import { toD1 } from '@civgraph/storage/store.js';
-import { openSqlite } from '@civgraph/storage/node';
+import { toD1 } from '../../packages/storage/src/store.js';
+import { openSqlite } from '../../packages/storage/src/sqlite.mjs';
 
 export function d1(file, { readOnly = true } = {}) {
   const store = openSqlite(file, { readOnly });

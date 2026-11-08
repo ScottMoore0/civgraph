@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { writeStableGeneratedJson } from '../../lib/stable-generated-json.mjs';
-import { recordPath } from '@civgraph/loader/paths.mjs';
+import { recordPath } from '../../../packages/loader/src/paths.mjs';
 import { loadRegistry } from '../../../registries/index.mjs';
 import { enumValues } from '../../../registries/statuses.mjs';
 

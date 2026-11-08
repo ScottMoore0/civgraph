@@ -29,7 +29,7 @@ import {
   replaceNiLocalRoundsWithGroups
 } from '../../src/ni-local-groups.mjs';
 import { leadingParty, niLocalAreaName, voteShareOpacity } from '../../app/src/ni-local-view.js';
-import { ELECTION_MANIFEST } from '@civgraph/loader/paths.mjs';
+import { ELECTION_MANIFEST } from '../../packages/loader/src/paths.mjs';
 
 const ROOT = process.cwd();
 const read = (rel) => JSON.parse(fs.readFileSync(path.resolve(ROOT, rel), 'utf8'));

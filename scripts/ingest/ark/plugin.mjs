@@ -1,6 +1,6 @@
 // The ARK (Access Research Knowledge) Northern Ireland local government election results: the
 // ARK spreadsheets (1985-2005) to the per-DEA election JSON.
-import { definePlugin } from '@civgraph/intake/plugins.mjs';
+import { definePlugin } from '../../../packages/intake/src/plugins.mjs';
 
 export default definePlugin({
   id: 'ark',

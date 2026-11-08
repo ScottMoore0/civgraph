@@ -1,5 +1,5 @@
 // The all-Ireland planning applications layer: chunked and LOD files for the map.
-import { definePlugin } from '@civgraph/intake/plugins.mjs';
+import { definePlugin } from '../../../packages/intake/src/plugins.mjs';
 
 export default definePlugin({
   id: 'opendatani',

@@ -2,14 +2,14 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { resolveApprovedPublicationSources } from '../lib/approved-publication-index.mjs';
-import { partyColour, NO_LABEL, NO_PARTY_RECORDED } from '@civgraph/core/election-domain.mjs';
+import { partyColour, NO_LABEL, NO_PARTY_RECORDED } from '../../packages/core/src/election-domain.mjs';
 import { isPublicMap, isPublicStatistic, statisticGeographyIds } from '../../src/public-map.mjs';
 import { canonicalElectionTitle, compareElectionsNewestFirst, electionResultEntryLabel } from '../lib/election-names.mjs';
 import { buildPartyVocabulary, classifyPersonName, stripWikipediaQualifier, NOT_A_PERSON } from '../lib/person-name-artefacts.mjs';
 import { referenceOffices, referenceRelatives } from '../lib/reference-person-facts.mjs';
 import { browsePartySlugResolver, formatSpan, indexFactsModel, loadFactsModel } from '../lib/facts-model.mjs';
 import { CDN_BASE } from '../../src/cdn-url.js';
-import { BROWSE_DIR, ELECTION_MANIFEST, PROVENANCE_FILE, localPathForUrl } from '@civgraph/loader/paths.mjs';
+import { BROWSE_DIR, ELECTION_MANIFEST, PROVENANCE_FILE, localPathForUrl } from '../../packages/loader/src/paths.mjs';
 import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLocalCouncilRound, niLocalGroupKey } from '../../src/ni-local-groups.mjs';
 
 const ROOT = process.cwd();

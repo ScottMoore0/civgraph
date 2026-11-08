@@ -6,7 +6,7 @@ import assert from 'node:assert/strict';
 import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { SITE } from '@civgraph/config/node';
+import { SITE } from '../../packages/config/src/node.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const FOLDERS = ['scripts/build', 'scripts/publish', 'scripts/check', 'scripts/maps', 'scripts/dev', 'scripts/i18n'];

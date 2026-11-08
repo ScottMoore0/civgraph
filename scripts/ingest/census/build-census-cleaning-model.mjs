@@ -2,7 +2,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { CLEANING, CSO_REPORT } from '@civgraph/intake/item-status.mjs';
+import { CLEANING, CSO_REPORT } from '../../../packages/intake/src/item-status.mjs';
 
 const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..", "..");
 const CENSUS_DIR = path.join(REPO, "data", "census");

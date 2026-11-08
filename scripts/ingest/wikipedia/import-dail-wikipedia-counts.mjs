@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { fixText, normalizeName, parseNumber } from '@civgraph/core/election-domain.mjs';
-import { RESULT } from '@civgraph/intake/item-status.mjs';
+import { fixText, normalizeName, parseNumber } from '../../../packages/core/src/election-domain.mjs';
+import { RESULT } from '../../../packages/intake/src/item-status.mjs';
 
 const ROOT = process.cwd();
 const DAIL_ROOT = path.join(ROOT, 'data/elections-source', 'data', 'elections', 'dail-eireann');

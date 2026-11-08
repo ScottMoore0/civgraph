@@ -1,6 +1,6 @@
 // Wikipedia and Wikidata: NI local, Stormont and referendum results, party colours and facts,
 // the Dail count sheets, and the sources Wikipedia cites.
-import { definePlugin } from '@civgraph/intake/plugins.mjs';
+import { definePlugin } from '../../../packages/intake/src/plugins.mjs';
 
 const WP = 'scripts/ingest/wikipedia';
 

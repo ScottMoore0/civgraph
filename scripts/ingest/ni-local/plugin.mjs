@@ -1,6 +1,6 @@
 // The grouped pre-1973 Northern Ireland local elections: the committed snapshots the grouped
 // build reads (round status from the council intake, the boundary layers' feature lists).
-import { definePlugin } from '@civgraph/intake/plugins.mjs';
+import { definePlugin } from '../../../packages/intake/src/plugins.mjs';
 
 export default definePlugin({
   id: 'ni-local',

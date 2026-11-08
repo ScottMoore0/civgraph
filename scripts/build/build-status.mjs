@@ -42,8 +42,8 @@
  */
 import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { formatDisplayDate } from '@civgraph/core/date-format.mjs';
-import { BROWSE_DIR, ELECTION_BUNDLE_DIR, PROVENANCE_FILE } from '@civgraph/loader/paths.mjs';
+import { formatDisplayDate } from '../../packages/core/src/date-format.mjs';
+import { BROWSE_DIR, ELECTION_BUNDLE_DIR, PROVENANCE_FILE } from '../../packages/loader/src/paths.mjs';
 
 /**
  * A contest returned unopposed (state-machine catalogue PL-L, light): marked uncontested, or every

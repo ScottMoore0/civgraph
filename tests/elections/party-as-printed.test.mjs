@@ -8,8 +8,8 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
-import { buildPartySummary, NO_LABEL, normalizeScraperPayloadForMain, partyColour, summarizeCandidateRows, summarizeResult } from '@civgraph/core/election-domain.mjs';
-import { partyAsPrintedLabel } from '@civgraph/core/party-names.mjs';
+import { buildPartySummary, NO_LABEL, normalizeScraperPayloadForMain, partyColour, summarizeCandidateRows, summarizeResult } from '../../packages/core/src/election-domain.mjs';
+import { partyAsPrintedLabel } from '../../packages/core/src/party-names.mjs';
 import { createPartyLabelInterpreter } from '../../scripts/lib/party-label-interpretations.mjs';
 import {
   PRINTED_LABELS_ROOT_ATTRIBUTE,

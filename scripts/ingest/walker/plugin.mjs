@@ -2,7 +2,7 @@
 // Gallagher's Irish Elections 1922-44, and the Wikipedia election boxes and lists they are
 // checked against. Scans are read from WALKER_DIR (with TESSERACT_CMD for OCR), set in the
 // environment as the scripts have always read them.
-import { definePlugin } from '@civgraph/intake/plugins.mjs';
+import { definePlugin } from '../../../packages/intake/src/plugins.mjs';
 
 const W = 'scripts/ingest/walker';
 

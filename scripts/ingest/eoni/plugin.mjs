@@ -1,6 +1,6 @@
 // The Electoral Office for Northern Ireland's statements of persons nominated and agent notices:
 // only a coverage survey lives here.
-import { definePlugin } from '@civgraph/intake/plugins.mjs';
+import { definePlugin } from '../../../packages/intake/src/plugins.mjs';
 
 export default definePlugin({
   id: 'eoni',

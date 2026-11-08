@@ -36,7 +36,7 @@
  */
 import { readFileSync, existsSync } from 'node:fs';
 import path from 'node:path';
-import { BROWSE_DIR, localPathForUrl } from '@civgraph/loader/paths.mjs';
+import { BROWSE_DIR, localPathForUrl } from '../../packages/loader/src/paths.mjs';
 
 const BROWSE_JS = 'browse/browse.js';
 // The Browse tree the record build wrote (tmp/records/browse under CIVGRAPH_BUILD_DIR, else

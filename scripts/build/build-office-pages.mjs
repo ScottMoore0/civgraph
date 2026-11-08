@@ -15,7 +15,7 @@
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { browsePartySlugResolver, formatSpan, indexFactsModel, loadFactsModel } from '../lib/facts-model.mjs';
-import { BROWSE_DIR } from '@civgraph/loader/paths.mjs';
+import { BROWSE_DIR } from '../../packages/loader/src/paths.mjs';
 
 const ROOT = process.cwd();
 // The Browse tree the records build writes (tmp/records/browse; CIVGRAPH_BUILD_DIR=legacy for data/browse).

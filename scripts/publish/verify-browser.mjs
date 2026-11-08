@@ -14,7 +14,7 @@
 import { spawnSync } from 'node:child_process';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { SITE } from '@civgraph/config/node';
+import { SITE } from '../../packages/config/src/node.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 export const SPECS = [

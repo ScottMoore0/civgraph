@@ -26,9 +26,9 @@ import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { compareElectionsNewestFirst } from '../../lib/election-names.mjs';
 import path from 'node:path';
 import { loadRecords } from './records.mjs';
-import { formatDatesInText, formatDisplayDate } from '@civgraph/core/date-format.mjs';
+import { formatDatesInText, formatDisplayDate } from '../../../packages/core/src/date-format.mjs';
 import { DatabaseSync } from 'node:sqlite';
-import { BROWSE_DIR, ELECTION_MANIFEST, RECORDS_DB } from '@civgraph/loader/paths.mjs';
+import { BROWSE_DIR, ELECTION_MANIFEST, RECORDS_DB } from '../../../packages/loader/src/paths.mjs';
 import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLocalCouncilRound, niLocalGroupKey } from '../../../src/ni-local-groups.mjs';
 
 const ROOT = process.cwd();

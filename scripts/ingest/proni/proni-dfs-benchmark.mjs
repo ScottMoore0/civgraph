@@ -25,7 +25,7 @@ import {
   clickMore,
   parseGridRows,
 } from "./proni-detail-quick-scan.mjs";
-import { BENCHMARK } from '@civgraph/intake/item-status.mjs';
+import { BENCHMARK } from '../../../packages/intake/src/item-status.mjs';
 
 const RECORDS_FILE = process.argv[2];
 const ROOT_BRANCH = process.argv[3] || "YESB";

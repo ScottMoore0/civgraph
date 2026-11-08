@@ -11,10 +11,10 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync } from 'node:fs';
 import { DatabaseSync } from 'node:sqlite';
-import { assertRecordStore, bindValue, datasetState, toD1 } from '@civgraph/storage/store.js';
-import { fromD1 } from '@civgraph/storage/d1.js';
-import { openSqlite } from '@civgraph/storage/node';
-import { loadConfig } from '@civgraph/config/node';
+import { assertRecordStore, bindValue, datasetState, toD1 } from '../../packages/storage/src/store.js';
+import { fromD1 } from '../../packages/storage/src/d1.js';
+import { openSqlite } from '../../packages/storage/src/sqlite.mjs';
+import { loadConfig } from '../../packages/config/src/node.mjs';
 
 /** A D1 binding over node:sqlite: the calling convention of D1, batch() as one transaction. */
 function fakeD1(db = new DatabaseSync(':memory:')) {

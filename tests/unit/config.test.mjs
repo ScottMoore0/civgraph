@@ -11,9 +11,9 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import path from 'node:path';
-import * as runtime from '@civgraph/config';
-import * as config from '@civgraph/config/node';
-import { recordPaths as legacyRecordPaths } from '@civgraph/loader/paths.mjs';
+import * as runtime from '../../packages/config/src/config.js';
+import * as config from '../../packages/config/src/node.mjs';
+import { recordPaths as legacyRecordPaths } from '../../packages/loader/src/paths.mjs';
 import { SITE_NAME, SITE_ORIGIN } from '../../functions/_templates/shell.js';
 
 const ROOT = config.REPO_ROOT;

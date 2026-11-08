@@ -20,7 +20,7 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { TableWriter, readJson, transaction } from './db.mjs';
 import { carryGraphFiles } from './graph-files-freeze.mjs';
-import { GRAPH_FILE_PART_KEYS } from '@civgraph/schema';
+import { GRAPH_FILE_PART_KEYS } from '../../schema/src/schema.mjs';
 
 const fold = (value) => String(value || '').normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase();
 

@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
-import { localPathForUrl } from '@civgraph/loader/paths.mjs';
+import { localPathForUrl } from '../../packages/loader/src/paths.mjs';
 
 // The Browse "sources" aggregate search index outgrew the 25 MB Cloudflare Pages
 // per-file limit, so it is emitted as a shard manifest ({ indexLayout: 'sharded',

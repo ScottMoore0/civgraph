@@ -11,7 +11,7 @@
  */
 import { readFileSync } from 'node:fs';
 import { DatabaseSync } from 'node:sqlite';
-import { migrationFiles, TableWriter, transaction } from '@civgraph/loader/db.mjs';
+import { migrationFiles, TableWriter, transaction } from '../../packages/loader/src/db.mjs';
 import {
   BROWSE_PAGE_TYPES,
   browsePageHandler,
@@ -205,7 +205,7 @@ check('types: the sitemap and the pages route the same types',
   const ssrContest = await (await import('../../functions/_templates/records/election.js')).loadElectionPage(env.ELECTIONS_DB, await lookupBrowseRecord(env, 'elections', 'dail-eireann-2024-11-29-cork-north-central'));
   check('ssr: contest page loads its candidates from candidacies', ssrContest?.kind === 'contest' && ssrContest.candidates.length === 2, JSON.stringify(ssrContest?.kind));
   const { electionBody } = await import('../../functions/_templates/records/election.js');
-  const { toHtmlString } = await import('@civgraph/core/html.js');
+  const { toHtmlString } = await import('../../packages/core/src/html.js');
   const contestHtml = toHtmlString(electionBody(ssrContest, {}).body);
   check('ssr: contest body lists the candidates, escaped', contestHtml.includes('Pádraig O&#39;Sullivan') || contestHtml.includes("Pádraig O&#x27;Sullivan") || contestHtml.includes('Pádraig O'), contestHtml.slice(0, 200));
 

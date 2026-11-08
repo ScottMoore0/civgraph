@@ -19,7 +19,7 @@
  */
 import path from 'node:path';
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
-import { BROWSE_DIR } from '@civgraph/loader/paths.mjs';
+import { BROWSE_DIR } from '../../../packages/loader/src/paths.mjs';
 
 const CATALOGUE = 'data/database/maps.json';
 const BROWSE_INDEX = path.join(BROWSE_DIR, 'maps.json');
