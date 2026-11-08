@@ -18,9 +18,10 @@ import { SOURCES } from '../../queries/cards.js';
 /**
  * ?slug=&view=detail: { schemaVersion, item } as browse.js loadShardDetail builds it from a
  * details/source-shards file, the card with the shard record over it.
+ * @param {import('../_browse-index.js').ViewContext} view
  */
 async function detail({ db, slug, record, json }) {
-  const row = await db.first(SOURCES.detail, [slug]);
+  const row = /** @type {{ detail: string | null } | null} */ (await db.first(SOURCES.detail, [slug]));
   const match = parseJson(row?.detail);
   if (!match) return json({ error: 'no detail', slug }, 404);
   return json({ schemaVersion: 1, item: { ...record, ...match } });

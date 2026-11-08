@@ -26,10 +26,24 @@ import { binding } from '../../../config/src/config.js';
 import { fromD1 } from '../../../storage/src/d1.js';
 import { CARDS } from '../queries/cards.js';
 
+/** @typedef {import('../types.js').ApiContext} ApiContext */
+/** @typedef {import('../../../storage/src/store.js').RecordStore} RecordStore */
+/** @typedef {{ record: string, slug?: string }} CardRow a row of an index table: its record JSON (the record column, or `card AS record`) and slug */
+/** @typedef {Record<string, unknown>} BrowseRecord one record of an index, parsed */
+/**
+ * What a record view (options.views) is handed.
+ * @typedef {object} ViewContext
+ * @property {RecordStore} db
+ * @property {URL} url
+ * @property {string | null} slug the record's stored slug
+ * @property {BrowseRecord} record
+ * @property {(body: unknown, status?: number) => Response} json the index's JSON answer, cacheable when 200
+ */
+
 const MAX_LIMIT = 200;
 const DEFAULT_LIMIT = 50;
 
-const json = (body, status = 200, cacheable = true, version = '') => new Response(JSON.stringify(body), {
+const json = (/** @type {unknown} */ body, status = 200, cacheable = true, version = '') => new Response(JSON.stringify(body), {
   status,
   headers: {
     'Content-Type': 'application/json; charset=utf-8',
@@ -41,14 +55,15 @@ const json = (body, status = 200, cacheable = true, version = '') => new Respons
   },
 });
 
-const parse = (row) => {
+/** @returns {BrowseRecord | null} */
+const parse = (/** @type {CardRow | null} */ row) => {
   if (!row) return null;
   try { return JSON.parse(row.record); } catch { return null; }
 };
 
-const hasRecord = (row) => Boolean(row && row.record);
+const hasRecord = (/** @type {CardRow | null} */ row) => Boolean(row && row.record);
 
-const clampLimit = (raw) => {
+const clampLimit = (/** @type {string | null} */ raw) => {
   const value = Number(raw);
   if (!Number.isFinite(value) || value <= 0) return DEFAULT_LIMIT;
   return Math.min(Math.floor(value), MAX_LIMIT);
@@ -71,24 +86,27 @@ const clampLimit = (raw) => {
  *   records tables, 'record' in the legacy browse_* ones)
  * @param {string} [options.aliasTable]   old addresses -> slug (default `${table}_aliases`)
  * @param {string} [options.facetsTable]  the one-row facet table (default `${table}_facets`)
- * @param {Record<string, (ctx: {db, url, slug, record, json}) => Promise<Response>>} [options.views]
+ * @param {Record<string, (ctx: ViewContext) => Promise<Response>>} [options.views]
  *   extra ?view=<name> answers for one record (?slug=), e.g. a person's candidacies
  *
  * A list response says which filters and which sort it applied (`applied`), so a client can
  * tell a filter this deployment does not know -- or a table not yet re-imported with its
  * column -- from one that matched nothing, and fall back rather than show the wrong list.
+ * @returns {import('../types.js').ApiHandler}
  */
 export function browseIndexHandler({
   table, key, version, filters = {}, listFilters = {}, sorts = {}, where: extraWhere = null, facets = false,
   recordColumn = 'record', aliasTable = `${table}_aliases`, facetsTable = `${table}_facets`, views = {},
 }) {
   const RECORD = recordColumn === 'record' ? 'record' : `${recordColumn} AS record`;
+  /** @param {ApiContext} context */
   return async function onRequestGet(context) {
     // Cached by code version and dataset version (functions/_api/_records.js): a load
     // invalidates every response without a purge.
     return cachedJson(context, version, () => handle(context));
   };
 
+  /** @param {ApiContext} context */
   async function handle(context) {
     const url = new URL(context.request.url);
     const slug = url.searchParams.get('slug');
@@ -99,6 +117,7 @@ export function browseIndexHandler({
     const binding_ = binding(context.env, 'ELECTIONS_DB');
     if (!binding_) return json({ error: 'ELECTIONS_DB binding not configured' }, 503, false, version);
     // through the storage adapter (packages/storage/); the SQL is named in queries/cards.js
+    /** @type {RecordStore} */
     const db = fromD1(binding_);
 
     try {
@@ -114,7 +133,7 @@ export function browseIndexHandler({
       if (slug) {
         // Ordered, so a slug that is also another record's id or key resolves the same way on
         // every load: the record whose slug it is, then whose id, then source order.
-        const row = await db.first(CARDS.bySlug(table, RECORD), [slug]);
+        const row = /** @type {CardRow | null} */ (await db.first(CARDS.bySlug(table, RECORD), [slug]));
         let record = hasRecord(row) ? parse(row) : null;
         let foundSlug = row?.slug || null;
         // An old address (previousSlugs: a person's earlier id, a source merged into
@@ -122,7 +141,7 @@ export function browseIndexHandler({
         // with its aliases the lookup fails, and the miss stays a 404.
         if (!record) {
           try {
-            const aliased = await db.first(CARDS.byAlias(table, RECORD, aliasTable), [slug]);
+            const aliased = /** @type {CardRow | null} */ (await db.first(CARDS.byAlias(table, RECORD, aliasTable), [slug]));
             record = parse(aliased);
             foundSlug = aliased?.slug || null;
           } catch { /* no aliases table yet */ }
@@ -131,7 +150,7 @@ export function browseIndexHandler({
         const view = url.searchParams.get('view');
         if (view) {
           if (!Object.prototype.hasOwnProperty.call(views, view)) return json({ error: `unknown view ${view}` }, 400, false, version);
-          return views[view]({ db, url, slug: foundSlug, record, json: (body, status = 200) => json(body, status, status === 200, version) });
+          return /** @type {(ctx: ViewContext) => Promise<Response>} */ (views[view])({ db, url, slug: foundSlug, record, json: (body, status = 200) => json(body, status, status === 200, version) });
         }
         return json({ [key.replace(/s$/, '')]: record, record }, 200, true, version);
       }
@@ -140,7 +159,7 @@ export function browseIndexHandler({
       // derive these by scanning the whole loaded list; server-side that would be a
       // SELECT DISTINCT per facet per request.
       if (facets && url.searchParams.get('facets') === '1') {
-        const row = await db.first(CARDS.facets(facetsTable));
+        const row = /** @type {{ facets: string | null } | null} */ (await db.first(CARDS.facets(facetsTable)));
         let parsed = {};
         try { parsed = JSON.parse(row?.facets || '{}'); } catch { parsed = {}; }
         return json({ facets: parsed }, 200, true, version);
@@ -149,13 +168,16 @@ export function browseIndexHandler({
       // Exact-match filters, declared per entity. Repeated params are ORed, because a
       // party or a body is known by several names across a century and accepting one
       // would silently undercount.
-      const runList = async (useColumns) => {
+      const runList = async (/** @type {boolean} */ useColumns) => {
+        /** @type {string[]} */
         const where = [];
+        /** @type {unknown[]} */
         const binds = [];
+        /** @type {string[]} */
         const applied = [];
         /** Append a bind and return its 1-based placeholder, so the two cannot drift. */
-        const bind = (value) => `?${binds.push(value)}`;
-        const valuesOf = (param) => url.searchParams.getAll(param).map((v) => v.trim()).filter(Boolean);
+        const bind = (/** @type {unknown} */ value) => `?${binds.push(value)}`;
+        const valuesOf = (/** @type {string} */ param) => url.searchParams.getAll(param).map((v) => v.trim()).filter(Boolean);
 
         if (useColumns) {
           for (const [param, column] of Object.entries(filters)) {
@@ -201,10 +223,10 @@ export function browseIndexHandler({
         // The COUNT runs with the filter binds only; the page adds limit/offset after them,
         // so the two statements deliberately do not share a bind list.
         const pageBinds = [...binds, limit, offset];
-        const [rows, total] = await Promise.all([
+        const [rows, total] = /** @type {[CardRow[], { n: number } | null]} */ (await Promise.all([
           db.all(CARDS.page(table, RECORD, clause, orderBy, binds.length), pageBinds),
           db.first(CARDS.count(table, clause), binds),
-        ]);
+        ]));
         const records = rows.map(parse).filter(Boolean);
         return {
           [key]: records,

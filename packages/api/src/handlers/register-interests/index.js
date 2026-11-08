@@ -12,9 +12,12 @@ import { browseIndexHandler } from '../_browse-index.js';
 import { parseJson } from '../_records.js';
 import { REGISTER } from '../../queries/cards.js';
 
-/** ?slug=&view=detail: the entry with its interests (was data/database/ni-register-browse-records). */
+/**
+ * ?slug=&view=detail: the entry with its interests (was data/database/ni-register-browse-records).
+ * @param {import('../_browse-index.js').ViewContext} view
+ */
 async function detail({ db, slug, record, json }) {
-  const row = await db.first(REGISTER.detail, [slug]);
+  const row = /** @type {{ detail: string | null } | null} */ (await db.first(REGISTER.detail, [slug]));
   const match = parseJson(row?.detail);
   if (!match) return json({ error: 'no detail', slug }, 404);
   return json({ schemaVersion: 1, item: { ...record, ...match } });

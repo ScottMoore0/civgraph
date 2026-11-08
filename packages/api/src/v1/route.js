@@ -10,8 +10,10 @@
 import { V1 } from './v1.js';
 import { delegate, jsonAnswer, methodNotAllowed, notFound, segments, versionStatus } from './delegate.js';
 
+/** @type {Readonly<Record<string, import('./delegate.js').VersionApi>>} */
 export const VERSIONS = Object.freeze({ v1: V1 });
 
+/** @param {import('../types.js').ApiContext} context */
 export async function onRequest(context) {
   const segs = segments(context.params?.path);
   if (!segs.length) {

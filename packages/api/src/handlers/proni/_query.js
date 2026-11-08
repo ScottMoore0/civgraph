@@ -7,16 +7,26 @@
  *   fields per-field advanced boxes: {title,description,ref,text,dates}
  *   filters letter (A-Z ref prefix) + from/to (inclusive year range)
  */
+/**
+ * One term of a parsed query: its FTS column (null for all), its text, and whether it came
+ * from a field (field:value or an advanced box) rather than free text.
+ * @typedef {{ col: string | null, val: string, isField: boolean }} QueryTerm
+ */
+
+/** @type {Readonly<Record<string, string>>} */
 export const FIELD_COL = { title: 'title', ref: 'ref', date: 'dates', dates: 'dates', description: 'description', desc: 'description', text: '{title description}' };
 
-const cleanTerm = (t) => String(t).replace(/["]/g, '').trim();
-const ftsPhrase = (t, col, prefix) => {
+const cleanTerm = (/** @type {unknown} */ t) => String(t).replace(/["]/g, '').trim();
+const ftsPhrase = (/** @type {string} */ t, /** @type {string | null} */ col, /** @type {boolean} */ prefix) => {
   const q = `"${cleanTerm(t)}"${prefix ? '*' : ''}`;
   return col ? `${col}:${q}` : q;
 };
 
+/** @param {string} q */
 export function parseQuery(q) {
+  /** @type {QueryTerm[]} */
   const positives = [];
+  /** @type {QueryTerm[]} */
   const negatives = [];
   const re = /(-)?([a-zA-Z]+):"([^"]+)"|(-)?([a-zA-Z]+):(\S+)|(-)?"([^"]+)"|(-)?(\+)?(\S+)/g;
   let m;
@@ -34,6 +44,12 @@ export function parseQuery(q) {
   return { positives, negatives };
 }
 
+/**
+ * The FTS5 MATCH text for a query and the advanced boxes, or null when there is nothing to match.
+ * @param {string | null | undefined} q
+ * @param {Record<string, string | undefined>} [fields] the advanced boxes: title, description, ref, text, dates
+ * @returns {string | null}
+ */
 export function buildMatch(q, fields = {}) {
   const { positives, negatives } = parseQuery(q || '');
   for (const [key, col] of [['title', 'title'], ['description', 'description'], ['ref', 'ref'], ['text', '{title description}'], ['dates', 'dates']]) {
@@ -62,8 +78,14 @@ export function buildMatch(q, fields = {}) {
 // always LEFT JOIN ext regardless, and neither ever read the flag. It was a
 // documented contract describing an arrangement that was never built, so it has
 // been removed rather than left to mislead the next caller.
+/**
+ * @param {{ letter?: string, from?: number, to?: number, top?: boolean, level?: string, access?: string }} filters
+ * @returns {{ where: string[], binds: unknown[] }}
+ */
 export function buildFilters({ letter, from, to, top, level, access }) {
+  /** @type {string[]} */
   const where = [];
+  /** @type {unknown[]} */
   const binds = [];
   const L = (letter || '').slice(0, 1).toUpperCase();
   if (L && /^[A-Z]$/.test(L)) { where.push('p.ref LIKE ?'); binds.push(L + '%'); }

@@ -28,14 +28,22 @@
  * Wrap a single-method handler so every other verb gets 405 + Allow.
  *
  *   export const onRequest = methodGuard('POST', onRequestPost, jsonNotAllowed);
+ *
+ * @template {string} [P=string]
+ * @param {string} method
+ * @param {import('../types.js').ApiHandler<P>} handler
+ * @param {(method: string) => Response} [notAllowed]
+ * @returns {import('../types.js').ApiHandler<P>}
  */
 export function methodGuard(method, handler, notAllowed = textNotAllowed) {
+  /** @param {import('../types.js').ApiContext<P>} context */
   return async function onRequest(context) {
     if (context.request.method !== method) return notAllowed(method);
     return handler(context);
   };
 }
 
+/** @param {string} method */
 export function textNotAllowed(method) {
   return new Response('Method Not Allowed', { status: 405, headers: { Allow: method } });
 }

@@ -13,6 +13,10 @@ import { binding } from '../../../../config/src/config.js';
 import { fromD1 } from '../../../../storage/src/d1.js';
 import { PRONI } from '../../queries/proni.js';
 
+/** @typedef {import('../../../../storage/src/store.js').Row} Row */
+/** @typedef {import('../../../../storage/src/store.js').RecordStore} RecordStore */
+
+/** @param {string} ref */
 function ancestorRefs(ref) {
   const parts = String(ref).split('/');
   const out = [];
@@ -21,6 +25,7 @@ function ancestorRefs(ref) {
 }
 
 
+/** @param {Row} r a child row (queries/proni.js CHILD_COLS) */
 function mapChild(r) {
   return {
     ref: r.ref, slug: r.slug, title: r.title || r.ref,
@@ -30,6 +35,7 @@ function mapChild(r) {
 
 // The immediate parent of a reference is its '/'-prefix minus the last segment
 // ('' for a top-level fond). Siblings are all records that share that parent.
+/** @param {string} ref */
 function parentRef(ref) {
   const anc = ancestorRefs(ref);
   return anc.length ? anc[anc.length - 1] : '';
@@ -40,6 +46,10 @@ function parentRef(ref) {
 // …/10, not after it. The segment is the part of the reference after the parent
 // prefix; the sort key is (CAST(segment AS INTEGER), segment) so numeric parts
 // sort numerically and any letter suffixes (e.g. 56C) break ties as text.
+/**
+ * @param {RecordStore} db
+ * @param {string} ref
+ */
 async function siblingNav(db, ref) {
   const parent = parentRef(ref);
   const curSeg = parent === '' ? ref : ref.slice(parent.length + 1);
@@ -52,7 +62,7 @@ async function siblingNav(db, ref) {
     { sql: PRONI.siblingCount, params: [parent] },
     { sql: PRONI.siblingPosition, params: [parent, curInt, curSeg] },
   ]);
-  const one = (/** @type {Record<string, any>[]} */ r) => (r[0] || {});
+  const one = (/** @type {Row[]} */ r) => /** @type {Row} */ (r[0] || {});
   return {
     parent,
     first: one(rows[0]).ref || null,
@@ -71,6 +81,7 @@ const CACHE_VERSION = 'v7';
 // The PRONI data is a static snapshot, so responses are safe to edge-cache
 // aggressively. Serve from Cloudflare's cache when warm; otherwise compute and
 // store. Keyed by URL + CACHE_VERSION so a data change is a one-line bust.
+/** @param {import('../../types.js').ApiContext} context */
 export async function onRequestGet(context) {
   const cache = caches.default;
   const keyUrl = new URL(context.request.url);
@@ -83,11 +94,12 @@ export async function onRequestGet(context) {
   return resp;
 }
 
+/** @param {import('../../types.js').ApiContext} context */
 async function handle(context) {
   const url = new URL(context.request.url);
   const ref = (url.searchParams.get('ref') || '').trim();
 
-  const json = (body, status = 200) => new Response(JSON.stringify(body), {
+  const json = (/** @type {unknown} */ body, status = 200) => new Response(JSON.stringify(body), {
     status,
     headers: {
       'Content-Type': 'application/json',
@@ -99,6 +111,7 @@ async function handle(context) {
   const bound = binding(context.env, 'PRONI_DB');
   if (!bound) return json({ error: 'PRONI_DB binding not configured' }, 503);
   // through the storage adapter (packages/storage/); the SQL is named in queries/proni.js
+  /** @type {RecordStore} */
   const db = fromD1(bound);
 
   try {
@@ -116,14 +129,15 @@ async function handle(context) {
     const nav = await siblingNav(db, ref);
 
     const ancRefs = ancestorRefs(ref);
+    /** @type {Array<{ ref: unknown, slug: unknown, title: unknown }>} */
     let ancestors = [];
     if (ancRefs.length) {
       // order-free: keyed into a Map by ref and read back in ancestor order
       const anc = await db.all(PRONI.ancestors(ancRefs.length), ancRefs);
       const byRef = new Map(anc.map((a) => [a.ref, a]));
-      ancestors = ancRefs
+      ancestors = /** @type {Row[]} */ (ancRefs
         .map((r) => byRef.get(r))
-        .filter(Boolean)
+        .filter(Boolean))
         .map((a) => ({ ref: a.ref, slug: a.slug, title: a.title || a.ref }));
     }
 

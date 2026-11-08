@@ -30,6 +30,7 @@ import { binding } from '../../../../config/src/config.js';
  * only; a submission already decided answers 409.
  */
 
+/** @param {import('../../types.js').ApiContext} context */
 export async function onRequestPost(context) {
   const { auth, response } = await requireAdmin(context);
   if (response) return response;
@@ -62,7 +63,8 @@ export async function onRequestPost(context) {
     return jsonResponse({ ok: false, error: 'Contribution queue is not configured.' }, { status: 503 });
   }
 
-  const rawValue = queue?.get ? await queue.get(key) : await (await bucket.get(key))?.text();
+  // No queue: the bucket, which the check above says is there.
+  const rawValue = queue?.get ? await queue.get(key) : await (await /** @type {R2Bucket} */ (bucket).get(key))?.text();
   if (!rawValue) return jsonResponse({ ok: false, error: 'Submission not found' }, { status: 404 });
 
   let submission;
@@ -100,7 +102,7 @@ export async function onRequestPost(context) {
   };
 
   if (queue?.put) await queue.put(key, body, { metadata });
-  else await bucket.put(key, body, { httpMetadata: { contentType: 'application/json' } });
+  else await /** @type {R2Bucket} */ (bucket).put(key, body, { httpMetadata: { contentType: 'application/json' } });
 
   return jsonResponse({
     ok: true,

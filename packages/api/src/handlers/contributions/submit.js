@@ -30,9 +30,37 @@ import { binding } from '../../../../config/src/config.js';
  * proposals costs review attention for no possible benefit.
  */
 
+/** @typedef {import('../../types.js').ApiContext} ApiContext */
+/** @typedef {import('../../types.js').ApiEnv} ApiEnv */
+/** @typedef {import('../../../../types/index.js').Json} Json */
+/** @typedef {ReturnType<typeof sanitizeMapRequest>} MapRequest */
+/**
+ * A queued submission, as stored in the contribution queue.
+ * @typedef {object} Submission
+ * @property {string} id
+ * @property {number} schemaVersion
+ * @property {string} kind
+ * @property {string | null} entityType
+ * @property {string | null} entityId
+ * @property {string} title
+ * @property {string} summary
+ * @property {Record<string, unknown> | null} patch
+ * @property {{ reason: string } | null} retire
+ * @property {MapRequest} mapRequest
+ * @property {string[]} sourceUrls
+ * @property {string[]} quarantineKeys
+ * @property {ReturnType<typeof dryRunPatch> | null} dryRun
+ * @property {string} pageUrl
+ * @property {string | null} submittedBy
+ * @property {string} submittedAt
+ * @property {string} userAgent
+ * @property {import('../../contribution-status.js').ContributionStatus} status
+ */
+
 const MAX_JSON_BYTES = 96 * 1024;
 const MAX_QUARANTINE_KEYS = 20;
 
+/** @param {ApiContext} context */
 export async function onRequestPost(context) {
   const { auth, response } = await requireContributor(context);
   if (response) return response;
@@ -80,6 +108,7 @@ export async function onRequestPost(context) {
     }
   }
 
+  /** @type {Submission} */
   const submission = {
     id: createSubmissionId(),
     schemaVersion: 2,
@@ -134,6 +163,10 @@ export async function onRequestPost(context) {
 
 export const onRequest = methodGuard('POST', onRequestPost, jsonNotAllowed);
 
+/**
+ * @param {any} payload the posted JSON before any check: this function is what checks its shape
+ * @returns {{ error?: string }}
+ */
 function validateSubmission(payload) {
   if (!payload || typeof payload !== 'object') return { error: 'Submission must be an object' };
   if (!VALID_KINDS.has(payload.kind)) {
@@ -186,6 +219,10 @@ function validateSubmission(payload) {
  *
  * Both shapes are accepted below: `?id=` and `?category=` genuinely differ, and
  * a later caller may reasonably use either.
+ * @param {ApiContext} context
+ * @param {string} entityType
+ * @param {string} entityId
+ * @returns {Promise<Record<string, unknown> | null>}
  */
 async function fetchCurrentRecord(context, entityType, entityId) {
   if (entityType !== 'map') return null; // only the catalogue is reachable from the edge today
@@ -195,24 +232,29 @@ async function fetchCurrentRecord(context, entityType, entityId) {
       headers: { Accept: 'application/json' },
     });
     if (!res.ok) return null;
+    /** @type {{ maps?: unknown, id?: unknown } | null} */
     const doc = await res.json();
-    if (Array.isArray(doc?.maps)) return doc.maps.find((m) => m?.id === entityId) || null;
+    if (Array.isArray(doc?.maps)) return doc.maps.find((/** @type {Record<string, unknown> | null} */ m) => m?.id === entityId) || null;
     return doc?.id === entityId ? doc : null;
   } catch {
     return null;
   }
 }
 
+/**
+ * @param {ApiEnv} env
+ * @param {Submission} submission
+ */
 async function persistSubmission(env, submission) {
   const key = `submissions/${submission.submittedAt.slice(0, 10)}/${submission.id}.json`;
   const body = JSON.stringify(submission, null, 2);
 
   if (binding(env, 'CIVGRAPH_CONTRIBUTION_QUEUE')?.put) {
-    await binding(env, 'CIVGRAPH_CONTRIBUTION_QUEUE').put(key, body, { metadata: queueMetadata(submission) });
+    await /** @type {KVNamespace} */ (binding(env, 'CIVGRAPH_CONTRIBUTION_QUEUE')).put(key, body, { metadata: queueMetadata(submission) });
     return { ok: true, storage: 'KV:CIVGRAPH_CONTRIBUTION_QUEUE', key };
   }
   if (binding(env, 'CIVGRAPH_SUBMISSIONS')?.put) {
-    await binding(env, 'CIVGRAPH_SUBMISSIONS').put(key, body, { httpMetadata: { contentType: 'application/json' } });
+    await /** @type {R2Bucket} */ (binding(env, 'CIVGRAPH_SUBMISSIONS')).put(key, body, { httpMetadata: { contentType: 'application/json' } });
     return { ok: true, storage: 'R2:CIVGRAPH_SUBMISSIONS', key };
   }
 
@@ -223,6 +265,7 @@ async function persistSubmission(env, submission) {
   };
 }
 
+/** @param {Submission} submission */
 function queueMetadata(submission) {
   return {
     kind: submission.kind,
@@ -233,6 +276,7 @@ function queueMetadata(submission) {
   };
 }
 
+/** @param {Json | undefined} value */
 function sanitizeMapRequest(value) {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
   return {
@@ -247,6 +291,7 @@ function sanitizeMapRequest(value) {
   };
 }
 
+/** @param {Json | undefined} value */
 function sanitizeUrlList(value) {
   const values = Array.isArray(value) ? value : String(value || '').split(/\s+/);
   return values
@@ -261,6 +306,7 @@ function sanitizeUrlList(value) {
  * Only the KEY is carried, and only keys under the quarantine prefix are
  * accepted, so a submission cannot be used to point the review tooling at an
  * arbitrary object elsewhere in storage.
+ * @param {Json | undefined} value
  */
 function sanitizeQuarantineKeys(value) {
   if (!Array.isArray(value)) return [];
@@ -270,6 +316,10 @@ function sanitizeQuarantineKeys(value) {
     .slice(0, MAX_QUARANTINE_KEYS);
 }
 
+/**
+ * @param {unknown} value
+ * @param {number} maxLength
+ */
 function safeString(value, maxLength) {
   return String(value ?? '').replace(/\s+/g, ' ').trim().slice(0, maxLength);
 }
