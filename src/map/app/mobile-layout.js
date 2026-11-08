@@ -7,6 +7,7 @@
 
 import uiController from '../../ui-controller.js';
 import { readStored, writeStored } from '../../storage-keys.mjs';
+import { setHidden } from '../state-helpers.mjs';
 
 export class MobileLayoutMethods {
   relocateMobileCatalogueToggle() {
@@ -136,7 +137,7 @@ export class MobileLayoutMethods {
     close.textContent = '×';
     const hide = () => {
       clearTimeout(this._mobilePeekTimer);
-      peek.hidden = true;
+      setHidden(peek, true);
       onDismiss?.();
     };
     open.addEventListener('click', () => {
@@ -146,7 +147,7 @@ export class MobileLayoutMethods {
     });
     close.addEventListener('click', hide);
     peek.append(text, open, close);
-    peek.hidden = false;
+    setHidden(peek, false);
     this.hideMobilePeek = hide;
     if (timeoutMs) this._mobilePeekTimer = setTimeout(hide, timeoutMs);
     return peek;

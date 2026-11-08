@@ -14,7 +14,7 @@
  * Gaps are real. A party with no comparable result at an election gets a break in its line,
  * not a segment drawn across the hole; the data model is the manager's and is not merged here.
  */
-import { defineFlagFields, present } from './map/state-helpers.mjs';
+import { defineFlagFields, present, setHidden } from './map/state-helpers.mjs';
 
 const SERIES_LIMIT = 8;
 const LABEL_FONT_SIZE = 12;
@@ -500,7 +500,7 @@ export function mountTrendChart(container, model, options = {}) {
     state.svg.querySelectorAll('.trend-marker.is-active').forEach((node) => node.classList.remove('is-active'));
     if (next < 0) {
       crosshair.classList.remove('is-active');
-      tooltip.hidden = true;
+      setHidden(tooltip, true);
       root.classList.remove('is-hovering');
       return;
     }
@@ -516,7 +516,7 @@ export function mountTrendChart(container, model, options = {}) {
   const renderTooltip = (index) => {
     const election = model.elections[index];
     if (!election) {
-      tooltip.hidden = true;
+      setHidden(tooltip, true);
       return;
     }
     const rows = model.series
@@ -535,7 +535,7 @@ export function mountTrendChart(container, model, options = {}) {
           </tr>`).join('')}
       </tbody></table>
     `;
-    tooltip.hidden = false;
+    setHidden(tooltip, false);
     positionTooltip(index);
   };
 
@@ -677,7 +677,7 @@ export function mountTrendChart(container, model, options = {}) {
     const column = state.column;
     state.column = -1;
     if (column >= 0 && state.pinned) setColumn(column);
-    else tooltip.hidden = true;
+    else setHidden(tooltip, true);
   };
 
   legend.addEventListener('click', onLegendClick);

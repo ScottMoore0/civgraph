@@ -7,6 +7,7 @@
 
 import uiController from '../../ui-controller.js';
 import dataService from '../../data-service.js';
+import { setHidden } from '../state-helpers.mjs';
 
 export class MessageMethods {
   triggerDownload(url, filename) {
@@ -117,14 +118,14 @@ export class MessageMethods {
     status.className = `map-error${options.kind === 'info' ? ' map-error--info' : ''}`;
     status.setAttribute('role', 'group');
     status.setAttribute('aria-label', options.kind === 'info' ? 'Message' : 'Error');
-    status.hidden = false;
+    setHidden(status, false);
     status.innerHTML = '';
     const shownAt = Date.now();
     status.dataset.shownAt = String(shownAt);
     // A note (not an error) clears itself after a while; an error waits to be dismissed or retried.
     if (options.kind === 'info') {
       setTimeout(() => {
-        if (status.dataset.shownAt === String(shownAt)) { status.hidden = true; status.innerHTML = ''; }
+        if (status.dataset.shownAt === String(shownAt)) { setHidden(status, true); status.innerHTML = ''; }
       }, 15000);
     }
     const text = document.createElement('span');
@@ -132,7 +133,7 @@ export class MessageMethods {
     text.textContent = message;
     status.appendChild(text);
     const close = () => {
-      status.hidden = true;
+      setHidden(status, true);
       status.innerHTML = '';
     };
     if (typeof options.retry === 'function') {
@@ -169,7 +170,7 @@ export class MessageMethods {
 
   hideMapError() {
     const status = document.getElementById('test2Status');
-    if (status) { status.hidden = true; status.innerHTML = ''; }
+    if (status) { setHidden(status, true); status.innerHTML = ''; }
   }
 
   /** A map's name, for a message: its series and edition as the catalogue shows them

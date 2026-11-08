@@ -30,13 +30,35 @@
     /** Active animation timers keyed by element */
     const _animTimers = new WeakMap();
 
+    /**
+     * Whether an element's animation queue is running: a flag (state-machine catalogue MA-L),
+     * either state reachable from either. This classic script cannot import
+     * src/map/state-helpers.mjs, so the flag's table is inline, and
+     * tests/unit/jquery-shim-queue.test.mjs checks it against the helper's createFlag. An
+     * element that never ran a queue reads as off, as the unset property did.
+     */
+    const QUEUE_RUNNING_TRANSITIONS = { off: ['off', 'on'], on: ['off', 'on'] };
+
+    /** Set an element's queue flag through the table; the value must be a boolean. */
+    function _setQueueRunning(el, running) {
+        if (typeof running !== 'boolean') {
+            throw new TypeError('_shimQueueRunning: expected a boolean, got ' + typeof running);
+        }
+        const from = el._shimQueueRunning ? 'on' : 'off';
+        const to = running ? 'on' : 'off';
+        if (!QUEUE_RUNNING_TRANSITIONS[from].includes(to)) {
+            throw new Error('_shimQueueRunning: ' + from + ' -> ' + to + ' is not a transition');
+        }
+        el._shimQueueRunning = running;
+    }
+
     /** Process the next entry in an element's animation queue */
     function _processQueue(el) {
         if (!el._shimAnimQueue || !el._shimAnimQueue.length) {
-            el._shimQueueRunning = false;
+            _setQueueRunning(el, false);
             return;
         }
-        el._shimQueueRunning = true;
+        _setQueueRunning(el, true);
         const entry = el._shimAnimQueue[0];
 
         if (entry.type === 'delay') {
@@ -400,7 +422,7 @@
                 }
                 if (clearQueue && el._shimAnimQueue) {
                     el._shimAnimQueue = [];
-                    el._shimQueueRunning = false;
+                    _setQueueRunning(el, false);
                 }
                 if (jumpToEnd && el._shimAnimTarget) {
                     // Jump to final values

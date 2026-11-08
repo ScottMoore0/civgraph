@@ -9,6 +9,7 @@ import dataService from '../../../data-service.js';
 import { compositeChildIds } from '../../../map-relations.mjs';
 import { formatDisplayDate } from '../../../../packages/core/src/date-format.mjs';
 import { parseTimelineDate, yearOnlyMapDate } from './dates.mjs';
+import { setHidden } from '../../state-helpers.mjs';
 
 export class TimelineControlMethods {
   isPlaceholderTimelineMap(mapConfig) {
@@ -252,7 +253,7 @@ export class TimelineControlMethods {
     generals.type = 'button';
     generals.id = 'timelineGenerals';
     generals.className = 'timeline-chip';
-    generals.hidden = true;
+    setHidden(generals, true);
     generals.innerHTML = 'Generals<span class="timeline-chip__more"> only</span>';
     generals.title = 'Step through general elections only, skipping by-elections';
     generals.setAttribute('aria-pressed', 'false');
@@ -268,7 +269,7 @@ export class TimelineControlMethods {
     const changes = document.createElement('div');
     changes.className = 'timeline-changes';
     changes.id = 'timelineChangesGroup';
-    changes.hidden = true;
+    setHidden(changes, true);
     changes.innerHTML = `
       <button type="button" id="timelineHighlight" class="timeline-switch" role="switch" aria-checked="${this.getTimelineHighlightEnabled() ? 'true' : 'false'}" aria-label="Highlight changes" title="Highlight boundary changes when the date changes">
         <span class="timeline-switch__track" aria-hidden="true"><span class="timeline-switch__thumb"></span></span>
@@ -434,7 +435,7 @@ export class TimelineControlMethods {
     const generals = document.getElementById('timelineGenerals');
     if (generals) {
       const filter = options?.generalsFilter;
-      generals.hidden = !filter?.available;
+      setHidden(generals, !filter?.available);
       generals.setAttribute('aria-pressed', filter?.active ? 'true' : 'false');
     }
     // An election's timeline has no boundary changes to show; a boundary series has.
