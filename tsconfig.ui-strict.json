@@ -2,8 +2,8 @@
   "//": [
     "The UI files that type-check under `strict`: tsconfig.ui.json's options with strict on.",
     "`npm run check:types:ui` runs it after tsconfig.ui.json. A file joins `include` once it checks",
-    "clean here; browse.js, the PRONI app and words.js are not yet (strictNullChecks and",
-    "noImplicitAny findings; see tsconfig.ui.json for the flags they already meet)."
+    "clean here. The PRONI app and words.js joined on 8 Nov 2026 (the noImplicitAny review, S5c);",
+    "browse.js is not yet (noImplicitAny findings; see tsconfig.ui.json for the flags it already meets)."
   ],
   "extends": "./tsconfig.ui.json",
   "compilerOptions": {
@@ -15,6 +15,8 @@
     "browse/state-machines.js",
     "apps/proni-search/state-machines.js",
     "apps/words/state-machines.js",
-    "packages/ui/assets/gallery/gallery.js"
+    "packages/ui/assets/gallery/gallery.js",
+    "apps/proni-search/app.js",
+    "apps/words/words.js"
   ]
 }

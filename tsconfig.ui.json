@@ -6,7 +6,8 @@
     "The `include` list is an allowlist that only grows: tests/unit/ui-types.test.mjs fails when",
     "a browser script in these folders is in neither `include` nor UI_TYPES_PENDING there.",
     "Every strict-family flag is on except noImplicitAny (1,031 findings, 7 Nov 2026), which",
-    "browse.js, the PRONI app and words.js do not meet yet (strictNullChecks on since 8 Nov 2026);",
+    "browse.js does not meet yet (strictNullChecks on since 8 Nov 2026; the PRONI app and words.js",
+    "met noImplicitAny on 8 Nov 2026 and moved to the strict list);",
     "tsconfig.ui-strict.json holds the files that check under full `strict`."
   ],
   "compilerOptions": {
