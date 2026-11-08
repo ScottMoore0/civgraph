@@ -26,7 +26,9 @@ const BASELINE = [
   '../packages/map/src/renderer/feature-property-repairs.js',
   '../packages/map/src/renderer/approximate-segments.js',
   'cdn-url.js',
-  'election-utils.js'
+  'election-utils.js',
+  // 8 Nov 2026 (noImplicitAny review): the catalogue search joins the check.
+  'catalogue/search.js'
 ];
 
 /** The files a simple include pattern names (a file, dir/*.ext, or dir/**\/*.ext). */

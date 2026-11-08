@@ -14,7 +14,74 @@
  */
 import councilSearch from '../../packages/registries/src/browser/council-search.mjs';
 
+/**
+ * The rebuilt catalogue (data/catalogue/catalogue.json, scripts/build/catalogue/build-catalogue.mjs),
+ * the parts searched here.
+ * @typedef {{ id: string, label: string, of?: string }} CatalogueMember
+ * @typedef {{ ready?: number, incomplete?: number }} SeriesStatus
+ * @typedef {{
+ *   id: string,
+ *   name: string,
+ *   subject: string,
+ *   shelf: string,
+ *   scope?: string,
+ *   members: CatalogueMember[],
+ *   local?: CatalogueMember[],
+ *   years?: number[] | null,
+ *   aliases?: string[],
+ *   provider?: string[],
+ *   status?: SeriesStatus
+ * }} CatalogueSeries
+ * @typedef {{ name?: string, date?: string, keywords?: string[], bounds?: number[] }} CatalogueMapRecord
+ * @typedef {{
+ *   key: string,
+ *   title: string,
+ *   body: string,
+ *   bodySlug: string,
+ *   date: string,
+ *   kind?: string,
+ *   subtitle?: string,
+ *   scope?: string
+ * }} CatalogueElection
+ * @typedef {{
+ *   subjects: Array<{ id: string, name: string, kind?: string }>,
+ *   shelves: Array<{ id: string, name: string }>,
+ *   series: CatalogueSeries[],
+ *   maps: Record<string, CatalogueMapRecord>,
+ *   elections: CatalogueElection[],
+ *   contestIndex?: Record<string, string[]>
+ * }} Catalogue
+ * @typedef {{ id: string, title: string, date?: string, dateDisplay?: string, authors?: string[], keywords?: string[] }} CatalogueBook
+ */
+
+/**
+ * data/catalogue/places.json: the map ids, and each named feature as
+ * [name, index into maps, west, south, east, north].
+ * @typedef {{ maps: string[], places: Array<[string, number, number, number, number, number]> }} PlacesDoc
+ * @typedef {{ name: string, norm: string, map: string, bbox: number[] }} PlaceRow
+ */
+
+/**
+ * One person of data/catalogue/people.json: id, name, party and constituency (indexes into the
+ * file's tables), first and last year, contests stood and won, the contests, then (when there
+ * are any) their other names and their Browse slug.
+ * @typedef {[
+ *   id: string,
+ *   name: string,
+ *   party: number,
+ *   constituency: number,
+ *   firstYear: number,
+ *   lastYear: number,
+ *   stood: number,
+ *   won: number,
+ *   contests: number[][],
+ *   otherNames?: string[],
+ *   slug?: string
+ * ]} PersonRow
+ */
+
 const DIACRITICS = /[̀-ͯ]/g;
+/** @param {unknown} text */
 export function normalise(text) {
   return String(text ?? '')
     .normalize('NFKD').replace(DIACRITICS, '')
@@ -24,6 +91,7 @@ export function normalise(text) {
     .replace(/[^a-z0-9]+/g, ' ')
     .trim();
 }
+/** @param {unknown} text */
 export const tokenise = (text) => normalise(text).split(' ').filter(Boolean);
 
 const STOP = new Set(['the', 'of', 'and', 'in', 'a', 'an', 'for', 'to', 'on', 'map', 'maps']);
@@ -57,7 +125,11 @@ export function parseQuery(query) {
   return { words: meaningful.length ? meaningful : words, period: span.from === null || span.to === null ? null : { from: span.from, to: span.to } };
 }
 
-/** Damerau-free edit distance, stopping as soon as it exceeds `max`. */
+/**
+ * Damerau-free edit distance, stopping as soon as it exceeds `max`.
+ * @param {string} a
+ * @param {string} b
+ */
 export function withinOneEdit(a, b) {
   if (a === b) return true;
   const la = a.length;
@@ -77,7 +149,11 @@ export function withinOneEdit(a, b) {
   return edits + (la - i) + (lb - j) <= 1;
 }
 
-/** How well a query word matches a document word: 1 exact, 0.8 prefix, 0.5 one typo, 0 none. */
+/**
+ * How well a query word matches a document word: 1 exact, 0.8 prefix, 0.5 one typo, 0 none.
+ * @param {string} q
+ * @param {string} d
+ */
 export function wordMatch(q, d) {
   if (d === q) return 1;
   if (q.length >= 2 && d.startsWith(q)) return 0.8;
@@ -86,6 +162,10 @@ export function wordMatch(q, d) {
   return 0;
 }
 
+/**
+ * @param {string} word
+ * @param {string[]} tokens
+ */
 function bestIn(word, tokens) {
   let best = 0;
   for (const t of tokens) {
@@ -96,6 +176,10 @@ function bestIn(word, tokens) {
   return best;
 }
 
+/**
+ * @param {number[] | null} span  [from, to] years
+ * @param {{ from: number, to: number } | null} period
+ */
 const overlaps = (span, period) => !period || (span && span[0] <= period.to && span[1] >= period.from);
 
 /*
@@ -105,6 +189,7 @@ const overlaps = (span, period) => !period || (span && span[0] <= period.to && s
  * "Belfast City Council 2023" (UX review 2026-10-30, #14). The councils' aliases come from the
  * councils registry (searchAliases; registries/browser/council-search.json).
  */
+/** @type {Record<string, string>} */
 const BODY_ALIASES = {
   'house-of-commons-of-the-united-kingdom': 'Westminster House of Commons UK parliament MP',
   'dail-eireann': 'Dáil Dail Irish TD Oireachtas',
@@ -129,7 +214,10 @@ const BODY_ALIASES = {
 // carry). The councils registry holds them (searchName), as it does the council aliases above.
 const { ni2014: NI_COUNCILS_2014, ni1973: NI_COUNCILS_1973, ireland: IRISH_COUNCILS } = councilSearch.catalogueCouncilNames;
 
-/** The other names an election goes by: its body's, and for a local election its councils'. */
+/**
+ * The other names an election goes by: its body's, and for a local election its councils'.
+ * @param {CatalogueElection} e
+ */
 export function electionAliases(e) {
   const out = [BODY_ALIASES[e.bodySlug] || ''];
   const year = Number(String(e.date).slice(0, 4)) || 0;
@@ -148,12 +236,24 @@ export function electionAliases(e) {
 /** @typedef {Array<[string[], number]>} SearchFields */
 /**
  * One searchable thing: a series of maps, an election or a book.
- * @typedef {{ type: 'series', id: string, span: number[] | null, scope: string, kind: string, status: any, name: string, fields: SearchFields, members: SeriesMember[] }
+ * @typedef {{ type: 'series', id: string, span: number[] | null, scope: string, kind: string, status: SeriesStatus | undefined, name: string, fields: SearchFields, members: SeriesMember[] }
  *   | { type: 'election', id: string, span: number[] | null, name: string, fields: SearchFields, bodyTokens: string[] }
  *   | { type: 'book', id: string, span: number[] | null, name: string, fields: SearchFields }} SearchDoc
  */
+/**
+ * A search hit: the thing's id and score, and for a series its matching editions.
+ * @typedef {{ id: string, score: number, members?: string[] }} SearchHit
+ */
+/**
+ * A place search result: a name, and the maps that draw it.
+ * @typedef {{ name: string, exact: boolean, hits: Array<{ map: string, bbox: number[] }> }} PlaceHit
+ */
 
 export class CatalogueSearch {
+  /**
+   * @param {Catalogue} catalogue
+   * @param {{ books?: CatalogueBook[] }} [options]
+   */
   constructor(catalogue, { books = [] } = {}) {
     this.catalogue = catalogue;
     const subjectName = new Map(catalogue.subjects.map((s) => [s.id, s.name]));
@@ -213,18 +313,22 @@ export class CatalogueSearch {
     }
     // Constituency names, normalised, for the elections they were contested in.
     this.contests = Object.entries(catalogue.contestIndex || {}).map(([name, keys]) => ({ name, norm: normalise(name), keys }));
+    /** @type {{ maps: string[], rows: PlaceRow[] } | null} */
     this.places = null;
   }
 
-  /** Load the place list (data/catalogue/places.json) to enable place search. */
+  /**
+   * Load the place list (data/catalogue/places.json) to enable place search.
+   * @param {PlacesDoc | null | undefined} doc
+   */
   setPlaces(doc) {
-    this.places = doc ? { maps: doc.maps, rows: doc.places.map((p) => ({ name: p[0], norm: normalise(p[0]), map: doc.maps[p[1]], bbox: p.slice(2, 6) })) } : null;
+    this.places = doc ? { maps: doc.maps, rows: doc.places.map((p) => ({ name: p[0], norm: normalise(p[0]), map: doc.maps[p[1]], bbox: /** @type {number[]} */ (p.slice(2, 6)) })) } : null;
   }
 
   /**
    * @param {string} query
    * @param {{scope?:string, kind?:string, from?:number, to?:number, includeToAdd?:boolean, types?:string[]}} filters
-   * @returns {{series:Array, elections:Array, books:Array, places:Array, contests:Array, period:object|null, words:string[], namesBody:boolean}}
+   * @returns {{ series: SearchHit[], elections: SearchHit[], books: SearchHit[], places: PlaceHit[], contests: { name: string, keys: string[], exact: boolean }[], period: { from: number, to: number } | null, words: string[], namesBody: boolean }}
    *   namesBody: every word of the query names an election's body ("Westminster", "Dáil", "NI
    *   local"), so the reader is after elections, not the parties or people sharing a word.
    */
@@ -233,7 +337,7 @@ export class CatalogueSearch {
     const fPeriod = filters.from || filters.to ? { from: filters.from || 0, to: filters.to || 9999 } : null;
     const period = qPeriod && fPeriod ? { from: Math.max(qPeriod.from, fPeriod.from), to: Math.min(qPeriod.to, fPeriod.to) } : (qPeriod || fPeriod);
     const phrase = words.join(' ');
-    /** @type {{ series: any[], elections: any[], books: any[], places: any[], contests: { name: string, keys: any, exact: boolean }[], period: object | null, words: string[], namesBody: boolean }} */
+    /** @type {{ series: SearchHit[], elections: SearchHit[], books: SearchHit[], places: PlaceHit[], contests: { name: string, keys: string[], exact: boolean }[], period: { from: number, to: number } | null, words: string[], namesBody: boolean }} */
     const out = { series: [], elections: [], books: [], places: [], contests: [], period: qPeriod, words, namesBody: false };
     if (!words.length && !qPeriod) return out;
 
@@ -260,6 +364,7 @@ export class CatalogueSearch {
       if (phrase && doc.name === phrase) score += 12;
       else if (phrase && doc.name.startsWith(phrase)) score += 6;
       else if (phrase && doc.name.includes(phrase)) score += 3;
+      /** @type {SearchHit} */
       const hit = { id: doc.id, score };
       if (doc.type === 'series') {
         // The editions that match: by words where they name one, by period where one is given.
@@ -281,18 +386,23 @@ export class CatalogueSearch {
       out.contests.sort((a, b) => Number(b.exact) - Number(a.exact) || a.name.localeCompare(b.name));
       out.contests = out.contests.slice(0, 12);
       if (this.places) {
+        /** @type {Map<string, PlaceHit>} */
         const byName = new Map();
         for (const p of this.places.rows) {
           if (!(p.norm === phrase || p.norm.startsWith(phrase))) continue;
           const key = p.norm;
           if (!byName.has(key)) byName.set(key, { name: p.name, exact: p.norm === phrase, hits: [] });
-          byName.get(key).hits.push({ map: p.map, bbox: p.bbox });
+          /** @type {PlaceHit} */ (byName.get(key)).hits.push({ map: p.map, bbox: p.bbox });
         }
         out.places = [...byName.values()]
           .sort((a, b) => Number(b.exact) - Number(a.exact) || b.hits.length - a.hits.length || a.name.localeCompare(b.name))
           .slice(0, 15);
       }
     }
+    /**
+     * @param {SearchHit} a
+     * @param {SearchHit} b
+     */
     const byScore = (a, b) => b.score - a.score;
     out.series.sort(byScore);
     out.elections.sort(byScore);
@@ -301,14 +411,23 @@ export class CatalogueSearch {
   }
 }
 
-/** Series whose maps cover a point, by layer bounds; and the named features there, by box. */
+/**
+ * Series whose maps cover a point, by layer bounds; and the named features there, by box.
+ * @param {Catalogue} catalogue
+ * @param {{ rows: PlaceRow[] } | null | undefined} places  CatalogueSearch's places
+ * @param {number} lng
+ * @param {number} lat
+ */
 export function coveringPoint(catalogue, places, lng, lat) {
+  /** @param {number[] | undefined} b  [west, south, east, north] */
   const inBox = (b) => b && lng >= b[0] && lng <= b[2] && lat >= b[1] && lat <= b[3];
+  /** @type {Array<{ id: string, members: string[] }>} */
   const series = [];
   for (const s of catalogue.series) {
     const members = s.members.filter((m) => inBox(catalogue.maps[m.id]?.bounds)).map((m) => m.id);
     if (members.length) series.push({ id: s.id, members });
   }
+  /** @type {Array<{ name: string, map: string, bbox: number[] }>} */
   const named = [];
   if (places) {
     for (const p of places.rows) if (inBox(p.bbox)) named.push({ name: p.name, map: p.map, bbox: p.bbox });
@@ -324,6 +443,7 @@ export function coveringPoint(catalogue, places, lng, lat) {
  * Ties go to the better known: more contests won, then more stood.
  */
 export class PeopleSearch {
+  /** @param {{ people: PersonRow[] }} doc  data/catalogue/people.json */
   constructor(doc) {
     this.doc = doc;
     this.rows = doc.people.map((row) => ({
@@ -333,16 +453,26 @@ export class PeopleSearch {
     }));
   }
 
+  /**
+   * @param {unknown} query
+   * @param {{ limit?: number }} [options]
+   * @returns {Array<{ row: PersonRow, score: number }>}
+   */
   query(query, { limit = 200 } = {}) {
     const { words, period } = parseQuery(query);
     if (!words.length) return [];
     const phrase = words.join(' ');
+    /**
+     * @param {string} q
+     * @param {string} d
+     */
     const match = (q, d) => {
       if (d === q) return 1;
       if (q.length >= 2 && d.startsWith(q)) return 0.8;
       if (q.length >= 6 && withinOneEdit(q, d)) return 0.5;
       return 0;
     };
+    /** @type {Array<{ row: PersonRow, score: number }>} */
     const out = [];
     for (const x of this.rows) {
       const [, , , , first, last] = x.row;
@@ -368,12 +498,18 @@ export class PeopleSearch {
     return out.slice(0, limit);
   }
 
-  /** A person's record slug: Browse's, else their name and id as Browse makes it. */
+  /**
+   * A person's record slug: Browse's, else their name and id as Browse makes it.
+   * @param {PersonRow} row
+   */
   static slug(row) {
     return row[10] || `${String(row[1]).normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}-${row[0]}`;
   }
 
-  /** A person's Browse page. */
+  /**
+   * A person's Browse page.
+   * @param {PersonRow} row
+   */
   static url(row) {
     // Browse routes in the hash: /browse/persons/<slug> is not served (404).
     return `/browse/#/persons/${encodeURIComponent(PeopleSearch.slug(row))}`;
