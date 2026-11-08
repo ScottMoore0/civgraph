@@ -63,6 +63,28 @@ export const BINDINGS = /* @__PURE__ */ Object.freeze({
 });
 
 /**
+ * What each kind of binding is at run time (the runtime's types: functions/_lib/runtime.d.mts).
+ * @typedef {object} BindingKinds
+ * @property {D1Database} d1
+ * @property {KVNamespace} kv
+ * @property {R2Bucket} r2
+ * @property {{ fetch(input: Request | URL | string, init?: RequestInit): Promise<Response> }} assets
+ */
+/**
+ * A Pages Function's env, from BINDINGS and RUNTIME_VARS: every binding and variable is
+ * optional, because a Function reads it through binding()/runtimeVar() and answers 503 (or a
+ * fallback) when it is absent.
+ * @typedef {{ [K in keyof typeof BINDINGS]?: BindingKinds[(typeof BINDINGS)[K]['kind']] }
+ *   & { [K in keyof typeof RUNTIME_VARS]?: string }} Env
+ */
+/**
+ * The context a Pages Function handler receives, with civgraph's env; P names the route's
+ * parameters (a [[path]] route: 'path').
+ * @template {string} [P=string]
+ * @typedef {PagesContext<Env, P>} FunctionContext
+ */
+
+/**
  * Environment variables the Functions read. Secrets are set with `wrangler pages secret put`
  * and never appear in the repository; flags are plain switches.
  */
