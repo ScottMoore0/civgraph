@@ -22,6 +22,7 @@ const plain = (row) => (row ? /** @type {import('./store.js').Row} */ ({ ...row 
 /**
  * @param {D1Database} binding
  * @param {{ session?: string }} [options]
+ * @returns {import('./store.js').RecordStore}
  */
 export function fromD1(binding, { session } = {}) {
   if (!binding || typeof binding.prepare !== 'function') throw new TypeError('fromD1(): not a D1 binding');

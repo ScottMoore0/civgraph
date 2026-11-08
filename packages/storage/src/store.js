@@ -79,8 +79,9 @@ export const bindParams = (params = []) => (params || []).map(bindValue);
 
 /**
  * Throws unless `store` has every RecordStore method; returns it.
- * @param {RecordStore} store
- * @returns {RecordStore}
+ * @template {RecordStore} S
+ * @param {S} store
+ * @returns {S}
  */
 export function assertRecordStore(store) {
   const missing = RECORD_STORE_METHODS.filter((m) => typeof /** @type {Record<string, unknown> | null | undefined} */ (/** @type {unknown} */ (store))?.[m] !== 'function');
