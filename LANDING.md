@@ -40,13 +40,13 @@ JSDoc casts kept (41, all `/** @type {X} */ (expr)`, none to any). By kind:
 - the `escapeHtml` lookup tables (`Record<string, string>`), ENTITY_TYPE_LABEL key.
 - (The temporary cast on `candidate.colour` in results-model.mjs, needed only while packages/core was untyped, was dropped after the rebase on S0.)
 
-## Rebased on main 382a5a4f53 (S0, S1a, S2a, S3, UI landed); flag flipped
+## Rebased on main 18ddb93b12 (S0, S1a, S1b, S2a, S2b, S3, UI landed); flag flipped
 
 Last two commits: the cast removal, then the flip (`"noImplicitAny": true` in
 `src/tsconfig.check.json`, its comment, and `'noImplicitAny'` in the strict-flags test of
 `tests/unit/map-typecheck.test.mjs`).
 
-**Landing order: nia-s2b must land before (or with) this branch.** The map app's program
+**Update: nia-s2b's config.js is on main 18ddb93b12 now, and `tsc -p src/tsconfig.check.json` with the flag on is clean there (0 errors).** Before that: The map app's program
 imports `packages/config/src/config.js`, which still has 6 implicit-any findings on main
 (lines 83, 104, 117, 123); nia-s2b fixes them. With nia-s2b's config.js in place,
 `tsc -p src/tsconfig.check.json` is clean; on main alone, `check:types:mapapp` fails on those 6
@@ -62,7 +62,7 @@ lines only. If S2b is delayed, land everything but the last commit (846739f900, 
 
 ## Landing steps (main session)
 
-1. Land nia-s2b (config.js) first, then merge nia-s4.
+1. Merge nia-s4 (rebased on 18ddb93b12; nia-s2b's config.js already there).
 2. Run `npm run check:types:mapapp`, `node --test tests/unit/map-typecheck.test.mjs`, `npm run test:unit`.
 3. No regeneration needed: no runtime line changed, app/build is gitignored and byte-identical, no cache token moves. Nothing to upload or migrate; nothing needs the owner.
 
