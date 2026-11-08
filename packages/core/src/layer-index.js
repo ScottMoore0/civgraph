@@ -9,6 +9,11 @@
  *
  * An entry is the layer's COMPACT_LAYER_FIELDS, then where its full record lives (detailUrl)
  * and, when its feature index has been read, its duplicate-feature-id summary.
+ *
+ * @typedef {{ id: string, sourceMapId?: string | null, featureIndexUrl?: string, tilePackage?: unknown, [field: string]: unknown }} LayerRecord
+ *   one full layer record (a `layers` row's JSON, or a maps-test.json layer): open-ended JSON
+ * @typedef {{ detail: (id: string) => string, duplicates: (id: string) => string }} LayerUrls
+ * @typedef {{ id?: string | number | null }} FeatureIndexItem  one feature of a feature index
  */
 
 export const COMPACT_LAYER_FIELDS = [
@@ -92,23 +97,36 @@ export const COMPACT_LAYER_FIELDS = [
   'members'
 ];
 
-/** The file name a layer's sidecars had under render/metadata (build-test2-metadata-shards). */
+/**
+ * The file name a layer's sidecars had under render/metadata (build-test2-metadata-shards).
+ * @param {string | null | undefined} id
+ * @returns {string}
+ */
 export function layerFileName(id) {
   return `${String(id || 'layer').replace(/[^A-Za-z0-9_.-]+/g, '-')}.json`;
 }
 
-/** Where the full record and the duplicate-id sidecar are served: the API, or the old files. */
+/**
+ * Where the full record and the duplicate-id sidecar are served: the API, or the old files.
+ * @type {LayerUrls}
+ */
 export const API_URLS = {
   detail: (id) => `/_api/layers/${encodeURIComponent(id)}`,
   duplicates: (id) => `/_api/layers/${encodeURIComponent(id)}/duplicates`,
 };
+/** @type {LayerUrls} */
 export const FILE_URLS = {
   detail: (id) => `/render/metadata/layer-details-test2/${layerFileName(id)}`,
   duplicates: (id) => `/render/metadata/duplicate-feature-ids/${layerFileName(id)}`,
 };
 
-/** The compact copy of one layer record. */
+/**
+ * The compact copy of one layer record.
+ * @param {LayerRecord} layer
+ * @returns {Record<string, unknown>}
+ */
 export function compactLayer(layer) {
+  /** @type {Record<string, unknown>} */
   const compact = {};
   for (const field of COMPACT_LAYER_FIELDS) {
     if (layer[field] !== undefined) compact[field] = layer[field];
@@ -117,7 +135,7 @@ export function compactLayer(layer) {
   // (validate-test2-pmtiles-cdn). Its build record -- source hash, byte counts, verification
   // dates -- stays in the full record, where the checks that use it read it.
   if (layer.tilePackage && typeof layer.tilePackage === 'object') {
-    const { serving, localPath } = layer.tilePackage;
+    const { serving, localPath } = /** @type {{ serving?: unknown, localPath?: unknown }} */ (layer.tilePackage);
     compact.tilePackage = Object.fromEntries(Object.entries({ serving, localPath }).filter(([, value]) => value !== undefined));
   }
   return compact;
@@ -133,6 +151,10 @@ export const FEATURE_ID_MODES = Object.freeze(/** @type {FeatureIdMode[]} */ (['
 /**
  * The index entry of one layer. `duplicates` is its sidecar ({ featureCount, featureIdMode,
  * duplicateFeatureIds, ... }) or null when the layer has no readable feature index.
+ * @param {LayerRecord} layer
+ * @param {{ duplicateFeatureIds?: readonly string[] | null, featureIdMode?: FeatureIdMode } | null | undefined} duplicates
+ * @param {LayerUrls} [urls]
+ * @returns {Record<string, unknown>}
  */
 export function indexEntry(layer, duplicates, urls = API_URLS) {
   const entry = compactLayer(layer);
@@ -148,6 +170,8 @@ export function indexEntry(layer, duplicates, urls = API_URLS) {
 /**
  * The whole index document: maps-test.json's head with the compact layers. `head` keeps its
  * `layers` key (any value) in its place, so the index has the same key order as the file.
+ * @param {object} head
+ * @param {readonly unknown[]} entries
  */
 export function indexDocument(head, entries) {
   return {
@@ -159,7 +183,11 @@ export function indexDocument(head, entries) {
   };
 }
 
-/** A feature index's items, whatever its shape. */
+/**
+ * A feature index's items, whatever its shape.
+ * @param {FeatureIndexItem[] | { items?: FeatureIndexItem[], features?: FeatureIndexItem[] } | null | undefined} index
+ * @returns {(FeatureIndexItem | null | undefined)[]}
+ */
 export function itemsFromFeatureIndex(index) {
   if (Array.isArray(index)) return index;
   if (Array.isArray(index?.items)) return index.items;
@@ -167,8 +195,13 @@ export function itemsFromFeatureIndex(index) {
   return [];
 }
 
-/** The duplicate-feature-id sidecar of a layer, from its parsed feature index. */
+/**
+ * The duplicate-feature-id sidecar of a layer, from its parsed feature index.
+ * @param {Pick<LayerRecord, 'id' | 'sourceMapId' | 'featureIndexUrl'>} layer
+ * @param {Parameters<typeof itemsFromFeatureIndex>[0]} featureIndex
+ */
 export function duplicateSidecar(layer, featureIndex) {
+  /** @type {Map<string, number>} */
   const counts = new Map();
   for (const item of itemsFromFeatureIndex(featureIndex)) {
     const id = item?.id;
