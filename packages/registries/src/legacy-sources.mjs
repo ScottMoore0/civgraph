@@ -17,10 +17,20 @@ import { fileURLToPath } from 'node:url';
 
 export const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
 
+/** @type {(rel: string, root?: string) => string} */
 const read = (rel, root = REPO_ROOT) => readFileSync(path.join(root, rel), 'utf8');
+/** @type {(rel: string, root?: string) => unknown} */
 const readJson = (rel, root = REPO_ROOT) => JSON.parse(read(rel, root));
 
-/** Run the JS declarations between `start` (inclusive) and `end` (exclusive); return `names`. */
+/**
+ * Run the JS declarations between `start` (inclusive) and `end` (exclusive); return `names`.
+ * @param {string} rel
+ * @param {string} start
+ * @param {string} end
+ * @param {string[]} names
+ * @param {string} [root]
+ * @returns {{ [name: string]: unknown }} the declared values, by name
+ */
 export function evalDeclarations(rel, start, end, names, root = REPO_ROOT) {
   const text = read(rel, root);
   const from = text.indexOf(start);
@@ -31,7 +41,13 @@ export function evalDeclarations(rel, start, end, names, root = REPO_ROOT) {
   return vm.runInNewContext(code, {}, { filename: rel });
 }
 
-/** A Python list or dict literal assigned to `name` (strings, numbers, lists, tuples, dicts). */
+/**
+ * A Python list or dict literal assigned to `name` (strings, numbers, lists, tuples, dicts).
+ * @param {string} rel
+ * @param {string} name
+ * @param {string} [root]
+ * @returns {unknown} the literal as JSON
+ */
 export function pythonLiteral(rel, name, root = REPO_ROOT) {
   const text = read(rel, root);
   const at = text.search(new RegExp(`^${name}\\s*=\\s*[\\[{]`, 'm'));
@@ -41,6 +57,7 @@ export function pythonLiteral(rel, name, root = REPO_ROOT) {
   const startChar = text[i];
   let depth = 0;
   let out = '';
+  /** @type {string | null} */
   let quote = null;
   for (; i < text.length; i += 1) {
     const ch = text[i];
@@ -61,7 +78,12 @@ export function pythonLiteral(rel, name, root = REPO_ROOT) {
   return JSON.parse(out.replace(/,(\s*[\]}])/g, '$1'));
 }
 
-/** `read()`, or null once the literal it reads has gone (its caller reads the registry now). */
+/**
+ * `read()`, or null once the literal it reads has gone (its caller reads the registry now).
+ * @template T
+ * @param {() => T} read
+ * @returns {T | null}
+ */
 function optional(read) {
   try {
     return read();
@@ -79,9 +101,10 @@ function optional(read) {
  * which read registries/browser/councils.json. With the first went registries/seed/councils.mjs: since then
  * data/registries/councils.json is the source, edited by hand and checked by
  * node registries/check.mjs and tests/unit/registries-councils.test.mjs.
+ * @param {string} [root]
  */
 export function councilSources(root = REPO_ROOT) {
-  const py = (rel, name) => optional(() => pythonLiteral(rel, name, root));
+  const py = (/** @type {string} */ rel, /** @type {string} */ name) => optional(() => pythonLiteral(rel, name, root));
   return {
     councilWebsites: py('scripts/ingest/council-websites/scrape_26_councils.py', 'COUNCILS'),
     wikipedia1973: py('scripts/ingest/wikipedia/scrape_old_lgov_wikipedia.py', 'COUNCILS'),
