@@ -75,10 +75,12 @@ test('no checked file silences the checker', () => {
   assert.ok(expectError <= EXPECT_ERROR_BUDGET, `@ts-expect-error count ${expectError} > ${EXPECT_ERROR_BUDGET}`);
 });
 
-// The strict-family flags tsconfig.ui.json met on 7 Nov 2026 (r2-ui), and the files that check
-// under full `strict` (tsconfig.ui-strict.json): neither list may shrink.
+// The strict-family flags tsconfig.ui.json met on 7 Nov 2026 (r2-ui) and 8 Nov (r3-ui:
+// strictNullChecks), and the files that check under full `strict` (tsconfig.ui-strict.json):
+// neither list may shrink.
 const FLAGS_SINCE_R2_UI = ['strictFunctionTypes', 'strictBindCallApply', 'noImplicitThis', 'alwaysStrict',
-  'useUnknownInCatchVariables', 'noImplicitReturns', 'noImplicitOverride', 'noUnusedLocals', 'noUnusedParameters'];
+  'useUnknownInCatchVariables', 'noImplicitReturns', 'noImplicitOverride', 'noUnusedLocals', 'noUnusedParameters',
+  'strictNullChecks'];
 const STRICT_SINCE_R2_UI = ['assets/ui/state/machine.js', 'assets/ui/state/theme.js', 'browse/state-machines.js',
   'apps/proni-search/state-machines.js', 'apps/words/state-machines.js', 'assets/ui/gallery/gallery.js'];
 
