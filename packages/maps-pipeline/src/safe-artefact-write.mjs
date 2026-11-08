@@ -30,7 +30,7 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 /**
  * @param {string} path        artefact to write
  * @param {object} next        the new document
- * @param {object} opts
+ * @param {object} [opts]
  * @param {string} opts.collection  key holding the array of records (e.g. 'layers')
  * @param {string} [opts.idKey]     record identity field (default 'id')
  * @param {boolean} [opts.allowDeletions]  set from an explicit --allow-deletions flag
@@ -118,7 +118,7 @@ export function allowDeletionsFlag(argv = process.argv) {
  * @template {Record<string, unknown>} R
  * @param {string} path       artefact being written
  * @param {R[]}    fresh      records produced by this run
- * @param {object} opts
+ * @param {object} [opts]
  * @param {string} [opts.collection]  key holding the array of records (required: throws without it)
  * @param {string} [opts.idKey]  record identity field (default 'id')
  * @returns {{records: R[], updated: number, added: number, kept: number}}

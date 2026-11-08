@@ -15,8 +15,29 @@ if (!existsSync(METADATA_PATH)) {
   process.exit(1);
 }
 
+/**
+ * A maps-test-index.json layer, with the tilePackage fields read here.
+ * @typedef {import('../../packages/types/index.js').LayerEntry & { tilePackage?: { localPath?: string, serving?: string } }} IndexLayer
+ */
+/**
+ * One network check of a PMTiles URL.
+ * @typedef {object} ByteRangeResult
+ * @property {string} url
+ * @property {boolean} ok
+ * @property {string} reason         '' when ok
+ * @property {number} [headStatus]
+ * @property {number} [rangeStatus]
+ * @property {string} [acceptRanges]
+ * @property {number} [contentLength]
+ * @property {string} [contentType]
+ * @property {string} [cacheControl]
+ */
+
+/** @type {{ layers?: IndexLayer[] }} */
 const metadata = JSON.parse(readFileSync(METADATA_PATH, 'utf8'));
+/** @type {{ assets?: import('./r2-manifest.mjs').CdnUploadAsset[] } | null} */
 const manifest = existsSync(MANIFEST_PATH) ? JSON.parse(readFileSync(MANIFEST_PATH, 'utf8')) : null;
+/** @type {Map<string, import('./r2-manifest.mjs').PmtilesAsset>} keyed `layer:`, `url:` and `local:` */
 const manifestAssets = new Map((manifest?.assets || [])
   .filter((asset) => asset.kind === 'pmtiles')
   .flatMap((asset) => [
@@ -24,10 +45,14 @@ const manifestAssets = new Map((manifest?.assets || [])
     [`url:${asset.cdnUrl}`, asset],
     [`local:${normalize(asset.localPath)}`, asset]
   ]));
+/** @type {string[]} */
 const errors = [];
+/** @type {string[]} */
 const warnings = [];
+/** @type {string[]} */
 const notes = [];
 const layers = (metadata.layers || []).filter((layer) => layer.sourceType === 'pmtiles');
+/** @type {Map<string, string>} tileUrl -> layer id */
 const uniqueUrls = new Map();
 
 for (const layer of layers) {
@@ -53,6 +78,7 @@ for (const layer of layers) {
   }
 }
 
+/** @type {ByteRangeResult[]} */
 let networkResults = [];
 if (NETWORK) {
   networkResults = await validateByteRanges([...uniqueUrls.keys()].slice(0, MAX_NETWORK_CHECKS));
@@ -93,7 +119,12 @@ if (errors.length) {
 }
 console.log('PASS: /test2 PMTiles/CDN metadata is valid.');
 
+/**
+ * @param {string[]} urls
+ * @returns {Promise<ByteRangeResult[]>}
+ */
 async function validateByteRanges(urls) {
+  /** @type {ByteRangeResult[]} */
   const results = [];
   for (const url of urls) {
     try {
@@ -123,6 +154,9 @@ async function validateByteRanges(urls) {
   return results;
 }
 
+/**
+ * @param {string | undefined} value   a repository path, either slash
+ */
 function normalize(value) {
   return String(value || '').replaceAll('\\', '/').replace(/^\/+/, '');
 }

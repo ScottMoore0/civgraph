@@ -49,9 +49,10 @@ const LIST_ORPHANS = process.argv.includes('--list-orphans');
 
 /** Which prefixes does a Pages Function serve from R2? Derived, not hardcoded. */
 function servedPrefixes() {
+  /** @type {string[]} */
   const out = [];
   const fnRoot = path.join(ROOT, 'functions');
-  const walk = (dir, parts) => {
+  const walk = (/** @type {string} */ dir, /** @type {string[]} */ parts) => {
     if (!existsSync(dir)) return;
     for (const e of readdirSync(dir, { withFileTypes: true })) {
       if (e.isDirectory()) walk(path.join(dir, e.name), [...parts, e.name]);
@@ -76,8 +77,13 @@ if (!PREFIXES.length) {
 // sourceNotes (prose), xyz (tile template containing {z}/{x}/{y}).
 const ASSET_KEYS = new Set(['fgb', 'geojson', 'url', 'image', 'file', 'kml', 'zip', 'shapefile', 'pmtiles', 'csv']);
 
+/** @type {Map<string, Set<string>>} */
 const referenced = new Map();   // key -> Set of "where it was referenced"
 
+/**
+ * @param {unknown} raw   a value from maps.json or a chunk index; only a string can name an object
+ * @param {string} origin
+ */
 function noteRef(raw, origin) {
   if (typeof raw !== 'string' || !raw) return;
   if (raw.includes('{z}') || raw.includes('{x}') || raw.includes('{y}')) return;   // tile template
@@ -88,7 +94,7 @@ function noteRef(raw, origin) {
   try { p = decodeURIComponent(p); } catch { /* leave as-is */ }
   if (!PREFIXES.some((pre) => p.startsWith(pre))) return;
   if (!referenced.has(p)) referenced.set(p, new Set());
-  referenced.get(p).add(origin);
+  /** @type {Set<string>} */ (referenced.get(p)).add(origin);
 }
 
 // 1. The layer registry.
@@ -96,17 +102,22 @@ const mapsPath = path.join(ROOT, 'data/database/maps.json');
 if (existsSync(mapsPath)) {
   const db = JSON.parse(readFileSync(mapsPath, 'utf8'));
   const maps = db.maps || db;
-  const walkValue = (node, key) => {
+  const walkValue = (/** @type {unknown} */ node, /** @type {string | null} */ key) => {
     if (Array.isArray(node)) { for (const v of node) walkValue(v, key); return; }
     if (node && typeof node === 'object') { for (const [k, v] of Object.entries(node)) walkValue(v, k); return; }
-    if (typeof node === 'string' && ASSET_KEYS.has(key)) noteRef(node, 'maps.json');
+    if (typeof node === 'string' && ASSET_KEYS.has(/** @type {string} */ (key))) noteRef(node, 'maps.json'); // a null key is in no set
   };
   for (const m of maps) walkValue(m, null);
 }
 
 // 2. Chunk indexes. Their `file` / `zoomFiles` entries are the only place the
 //    individual parts are named -- exactly what was missing for Catholic Dioceses.
+/**
+ * @param {string} dir
+ * @returns {string[]}
+ */
 function findChunkIndexes(dir) {
+  /** @type {string[]} */
   const out = [];
   if (!existsSync(dir)) return out;
   for (const e of readdirSync(dir, { withFileTypes: true })) {
@@ -118,6 +129,7 @@ function findChunkIndexes(dir) {
 }
 for (const pre of PREFIXES) {
   for (const idx of findChunkIndexes(path.join(ROOT, pre))) {
+    /** @type {{ chunks?: Array<{ file?: unknown, zoomFiles?: Record<string, unknown> }> }} */
     let doc;
     try { doc = JSON.parse(readFileSync(idx, 'utf8')); } catch { continue; }
     const rel = path.relative(ROOT, idx).split(path.sep).join('/');
@@ -149,12 +161,14 @@ if (!R2.ok) {
 
 const s3 = new S3Client(s3ClientOptions(R2));
 
+/** @type {Set<string>} */
 const held = new Set();
 for (const pre of PREFIXES) {
+  /** @type {string | undefined} */
   let token;
   do {
     const r = await s3.send(new ListObjectsV2Command({ Bucket: BUCKET, Prefix: pre, ContinuationToken: token }));
-    for (const o of r.Contents || []) held.add(o.Key);
+    for (const o of r.Contents || []) held.add(/** @type {string} */ (o.Key)); // a listed object always has its Key
     token = r.IsTruncated ? r.NextContinuationToken : undefined;
   } while (token);
 }

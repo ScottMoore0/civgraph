@@ -66,6 +66,7 @@ for (const { label, args: stepArgs, reaches } of steps) {
 }
 
 // What the run should have left: every listed layer served from the CDN.
+/** @type {import('../../packages/types/index.js').LayerEntry[] | { layers?: import('../../packages/types/index.js').LayerEntry[] }} */
 const metadata = JSON.parse(readFileSync('render/metadata/maps-test.json', 'utf8'));
 const layers = Array.isArray(metadata) ? metadata : (metadata.layers || []);
 const local = ids.filter((id) => {

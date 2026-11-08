@@ -35,6 +35,12 @@ import { assertPublishable } from '../lib/r2-publication-gate.mjs';
 import { r2CredentialsOrExit, s3ClientOptions } from './r2-env.mjs';
 
 const args = process.argv.slice(2);
+/**
+ * @template T
+ * @param {string} n   the flag without its dashes
+ * @param {T} d        the default
+ * @returns {string | T}
+ */
 const argVal = (n, d) => { const i = args.indexOf(`--${n}`); return i >= 0 && args[i + 1] ? args[i + 1] : d; };
 const DIR = argVal('dir', null);
 // A SUBSET of a tree, as [{local, rel}], instead of everything under --dir. Needed when the
@@ -66,13 +72,19 @@ const s3 = new S3Client(s3ClientOptions(R2));
 // Files at or below this go up as a rewindable Buffer; larger ones stream.
 const STREAM_THRESHOLD = 128 * 1024 * 1024;
 
+/** @type {Record<string, string>} */
 const CONTENT_TYPES = {
   '.xml': 'application/xml', '.pdf': 'application/pdf', '.json': 'application/json',
   '.txt': 'text/plain; charset=utf-8', '.html': 'text/html; charset=utf-8',
   '.csv': 'text/csv; charset=utf-8'
 };
 
+/**
+ * @param {string} dir
+ * @returns {string[]}
+ */
 function walk(dir) {
+  /** @type {string[]} */
   const out = [];
   for (const e of readdirSync(dir, { withFileTypes: true })) {
     const p = path.join(dir, e.name);
@@ -86,9 +98,12 @@ console.log('R2 tree upload');
 console.log(`  source : ${MANIFEST ? `manifest ${MANIFEST}` : DIR}`);
 console.log(`  prefix : ${PREFIX}`);
 
+// Without --manifest, --dir was given (checked above).
+/** @type {Array<[string, string]>} [absolute path, path under the prefix] */
 const entries = MANIFEST
-  ? JSON.parse(readFileSync(MANIFEST, 'utf8')).map((e) => [e.local, e.rel])
-  : walk(DIR).map((abs) => [abs, path.relative(DIR, abs).split(path.sep).join('/')]);
+  ? JSON.parse(readFileSync(MANIFEST, 'utf8')).map((/** @type {{ local: string, rel: string }} */ e) => [e.local, e.rel])
+  : walk(/** @type {string} */ (DIR)).map((abs) => [abs, path.relative(/** @type {string} */ (DIR), abs).split(path.sep).join('/')]);
+/** @type {Map<string, { abs: string, size: number }>} */
 const local = new Map();   // key -> {abs, size}
 let totalBytes = 0;
 for (const [abs, rel] of entries) {
@@ -106,11 +121,13 @@ assertPublishable(sample);
 
 /** What does the bucket already hold under this prefix? */
 async function remoteIndex() {
+  /** @type {Map<string, number>} key -> size */
   const held = new Map();
+  /** @type {string | undefined} */
   let token;
   do {
     const r = await s3.send(new ListObjectsV2Command({ Bucket: BUCKET, Prefix: PREFIX, ContinuationToken: token }));
-    for (const o of r.Contents || []) held.set(o.Key, Number(o.Size));
+    for (const o of r.Contents || []) held.set(/** @type {string} */ (o.Key), Number(o.Size)); // a listed object always has its Key
     token = r.IsTruncated ? r.NextContinuationToken : undefined;
   } while (token);
   return held;

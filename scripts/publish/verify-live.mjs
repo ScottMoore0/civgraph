@@ -53,6 +53,12 @@ import { execFileSync } from 'node:child_process';
 import { SITE as SITE_CONFIG } from '../../packages/config/src/node.mjs';
 
 const argv = process.argv.slice(2);
+/**
+ * @template T
+ * @param {string} name
+ * @param {T} fallback
+ * @returns {string | T}
+ */
 const arg = (name, fallback) => {
   const i = argv.indexOf(name);
   return i === -1 ? fallback : argv[i + 1];
@@ -61,7 +67,10 @@ const SITE = String(arg('--url', process.env.CIVGRAPH_SITE_URL || SITE_CONFIG.or
 const WAIT_SECONDS = Number(arg('--wait', 0)) || 0;
 const POLL_SECONDS = 15;
 
-/** Shell asset paths referenced by an index.html, tokens discarded. */
+/**
+ * Shell asset paths referenced by an index.html, tokens discarded.
+ * @param {string} html
+ */
 function assetPaths(html) {
   const found = new Set();
   for (const m of html.matchAll(/["'(]([^"'()\s]*?\/build\/[^"'()\s?]+\.(?:js|css))(?:\?v=[a-z0-9]+)?/g)) {
@@ -70,7 +79,10 @@ function assetPaths(html) {
   return [...found];
 }
 
-/** Content hash, with line endings normalised -- see the header. */
+/**
+ * Content hash, with line endings normalised -- see the header.
+ * @param {string} text
+ */
 function normalisedHash(text) {
   const lf = String(text).split(String.fromCharCode(13, 10)).join(String.fromCharCode(10));
   return createHash('sha256').update(lf).digest('hex').slice(0, 16);
@@ -89,6 +101,9 @@ if (!localPaths.length) {
   process.exit(1);
 }
 
+/**
+ * @param {string} url
+ */
 async function fetchText(url) {
   const res = await fetch(url, { cache: 'no-store', headers: { 'cache-control': 'no-cache' } });
   if (!res.ok) throw new Error(`${url} returned HTTP ${res.status}`);

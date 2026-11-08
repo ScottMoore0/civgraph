@@ -1,5 +1,5 @@
 {
-  "//": "Type checking of the pipeline scripts (scripts/publish, build, check, maps, dev, i18n) by JSDoc and checkJs (REFACTOR-PLAN.md item 2, stream rf-pipeline). Run by `npm run check:types:pipeline`. The include list is an allowlist that only grows; harvest-untranslated.mjs is left out until it is typed (its page.evaluate bodies need the DOM types, which would change the Node fetch types for every other file).",
+  "//": "Type checking of the pipeline scripts (scripts/publish, build, check, maps, dev, i18n) by JSDoc and checkJs (REFACTOR-PLAN.md item 2, stream rf-pipeline). Run by `npm run check:types:pipeline`. noImplicitAny is on (8 Nov 2026 review, stream S3; tests/unit/pipeline-typecheck.test.mjs keeps it on). The include list is an allowlist that only grows; harvest-untranslated.mjs is left out until it is typed (its page.evaluate bodies need the DOM types, which would change the Node fetch types for every other file).",
   "compilerOptions": {
     "allowJs": true,
     "checkJs": true,
@@ -18,7 +18,8 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitOverride": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "noImplicitAny": true
   },
   "include": ["scripts/publish/**/*.mjs", "scripts/i18n/**/*.mjs", "scripts/maps/**/*.mjs", "scripts/dev/**/*.mjs"],
   "exclude": ["scripts/i18n/harvest-untranslated.mjs"]
