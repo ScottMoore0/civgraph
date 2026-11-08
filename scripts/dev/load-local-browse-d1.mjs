@@ -21,7 +21,11 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const TYPES = ['persons', 'register-interests', 'sources'];
 
+/**
+ * @param {string[]} argv
+ */
 export function parseArgs(argv) {
+  /** @type {{ sqlDir: string, persistTo: string, only: string | null }} */
   const opts = { sqlDir: path.join(ROOT, 'data', 'database'), persistTo: path.join(ROOT, '.wrangler', 'state'), only: null };
   for (let i = 0; i < argv.length; i += 1) {
     const a = argv[i];
@@ -34,7 +38,11 @@ export function parseArgs(argv) {
   return opts;
 }
 
-/** The wrangler argv for one file. Always local. */
+/**
+ * The wrangler argv for one file. Always local.
+ * @param {string} file
+ * @param {string} persistTo
+ */
 export function wranglerArgs(file, persistTo) {
   return ['wrangler', 'd1', 'execute', 'civgraph-elections', '--local', '--persist-to', persistTo, '--file', file, '--yes'];
 }

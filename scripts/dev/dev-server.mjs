@@ -32,7 +32,7 @@ import { SITE as SITE_CONFIG } from '../../packages/config/src/node.mjs';
 import { sourceOf } from '../build/site.mjs';
 
 const args = process.argv.slice(2);
-const opt = (name, fallback) => {
+const opt = (/** @type {string} */ name, /** @type {string} */ fallback) => {
   const index = args.indexOf(name);
   return index >= 0 && args[index + 1] ? args[index + 1] : fallback;
 };
@@ -43,6 +43,7 @@ const CDN = SITE_CONFIG.dataOrigin;
 const SITE = SITE_CONFIG.origin;
 const USER_AGENT = 'civgraph-dev-preview (+https://civgraph.net)';
 
+/** @type {Record<string, string>} */
 const TYPES = {
   '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8',
   '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8', '.svg': 'image/svg+xml',
@@ -53,15 +54,23 @@ const TYPES = {
 };
 const REWRITE = new Set(['.html', '.js', '.mjs', '.css', '.json']);
 
+/**
+ * @param {http.IncomingMessage} req
+ * @param {http.ServerResponse} res
+ * @param {string} upstream
+ * @returns {Promise<http.ServerResponse | void>}
+ */
 async function proxy(req, res, upstream) {
   if (req.method !== 'GET' && req.method !== 'HEAD') {
     res.writeHead(405).end('read-only preview');
     return;
   }
+  /** @type {Record<string, string>} */
   const headers = { 'user-agent': USER_AGENT };
   if (req.headers.range) headers.range = req.headers.range;
   try {
     const response = await fetch(upstream, { method: req.method, headers });
+    /** @type {Record<string, string>} */
     const out = {};
     for (const name of ['content-type', 'content-length', 'content-range', 'accept-ranges', 'etag', 'last-modified']) {
       const value = response.headers.get(name);
@@ -77,6 +86,11 @@ async function proxy(req, res, upstream) {
   }
 }
 
+/**
+ * @param {http.IncomingMessage} req
+ * @param {http.ServerResponse} res
+ * @param {string} filePath
+ */
 function serveFile(req, res, filePath) {
   const ext = path.extname(filePath).toLowerCase();
   const type = TYPES[ext] || 'application/octet-stream';
