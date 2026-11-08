@@ -13,6 +13,27 @@
  * @template {Event} [E=Event]
  * @typedef {E & { target: { closest(selectors: string): UiElement | null } & UiElement }} ElementEvent
  */
+/**
+ * The PRONI answers this app reads (/_api/proni/*, the handlers /api/v1/proni/* also serves).
+ * @typedef {import('../../packages/types/index.js').ApiV1.ProniSearchResultsAnswer} ProniSearchAnswer
+ * @typedef {import('../../packages/types/index.js').ApiV1.ProniNodeNodeAnswer} ProniNodeAnswer
+ * @typedef {import('../../packages/types/index.js').ApiV1.ProniNodeRootsAnswer} ProniRootsAnswer
+ */
+/** A top-level fond (a node's children have the same shape). @typedef {ProniRootsAnswer['roots'][number]} ProniRoot */
+/** A record a result card shows: a search match, a fond or a sub-record. @typedef {ProniSearchAnswer['results'][number] | ProniRoot} ProniCardRecord */
+/** One level of count.js's per-letter breakdown. @typedef {{ level: string, n: number }} ProniLevelCount */
+/**
+ * count.js's answer; `breakdown=1` adds `levels`.
+ * @typedef {import('../../packages/types/index.js').ApiV1.ProniCountCountAnswer & { levels?: ProniLevelCount[] }} ProniCountAnswer
+ */
+/**
+ * The sibling navigation node.js sends with a record (`nav`; the v1 contract leaves it open).
+ * @typedef {{ parent?: string, first?: string | null, last?: string | null, prev?: string | null, next?: string | null, total?: number, position?: number }} ProniSiblingNav
+ */
+/**
+ * A record's Extracted Dates (node.js `item.extractedDates`, Civgraph's Additional Data).
+ * @typedef {{ display: string, startYear?: number | null, endYear?: number | null, circa: boolean, estimated: boolean, bound: string, undated: boolean }} ProniExtractedDates
+ */
 import { AZ_SCOPE, CARD_CHILDREN, CARD_DESCRIPTION, COPY_FLASH, MODAL, RESULTS, VIEW } from './state-machines.js';
 
 const API = '/_api/proni/search';
@@ -52,11 +73,15 @@ const els = {
 };
 
 const state = {
-  offset: 0, seen: new Set(), letter: '', reqId: 0, queryId: 0,
+  // seen: the references shown for the current query.
+  offset: 0, seen: /** @type {Set<string>} */ (new Set()), letter: '', reqId: 0, queryId: 0,
   /** The current query's exact count once it lands. @type {number | null} */
   total: null,
-  /** Browse mode's per-level breakdown from count.js. @type {Array<{ level: string, n: number }> | null} */
+  /** Browse mode's per-level breakdown from count.js. @type {ProniLevelCount[] | null} */
   levels: null,
+  /** The 'All' view's letter sections (renderAllRoots), and how many of them are shown. @type {Array<[string, ProniRoot[]]> | null} */
+  allSections: null,
+  allIndex: 0,
   // The current query's results (state-machines.js RESULTS) and the A-Z bar's scope (AZ_SCOPE).
   results: RESULTS.start(),
   azScope: AZ_SCOPE.start(),
@@ -71,12 +96,13 @@ const resultsEnded = () => state.results.state() === 'done' || state.results.sta
 // instantly. (It was the static /data/browse/proni-roots.json until data design phase 3; that
 // URL answers 301 here.)
 const ROOTS_URL = '/_api/proni/node';
+/** @type {Promise<ProniRoot[] | null> | null} */
 let rootsPromise = null;
 function loadRoots() {
   if (!rootsPromise) {
     rootsPromise = fetch(ROOTS_URL)
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
-      .then((d) => d.roots || [])
+      .then((/** @type {ProniRootsAnswer} */ d) => d.roots || [])
       .catch(() => { rootsPromise = null; return null; });
   }
   return rootsPromise;
@@ -84,8 +110,9 @@ function loadRoots() {
 
 // Archival hierarchy order for the letter-browse level breakdown.
 const LEVEL_ORDER = ['Fond', 'Sub-fond', 'Series', 'Sub-series', 'Sub-sub-series', 'Sub-sub-sub-series', 'Sub-sub-sub-sub-series', 'Sub-sub-sub-sub-sub-series', 'Sub-sub-sub-sub-sub-sub-series', 'File', 'Item'];
-const levelRank = (l) => { const i = LEVEL_ORDER.indexOf(l); return i === -1 ? 999 : i; };
-const pluralLevel = (level, n) => (n === 1 || /s$/i.test(level) ? level : `${level}s`);
+const levelRank = (/** @type {string} */ l) => { const i = LEVEL_ORDER.indexOf(l); return i === -1 ? 999 : i; };
+const pluralLevel = (/** @type {string} */ level, /** @type {number} */ n) => (n === 1 || /s$/i.test(level) ? level : `${level}s`);
+/** @param {ProniLevelCount[]} levels */
 function formatLevels(levels) {
   return levels.slice()
     .sort((a, b) => levelRank(a.level) - levelRank(b.level) || String(a.level).localeCompare(String(b.level)))
@@ -93,14 +120,15 @@ function formatLevels(levels) {
     .join(', ');
 }
 
-const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const yearOf = (v) => (v && /^\d{4}/.test(v) ? v.slice(0, 4) : '');
+const esc = (/** @type {unknown} */ s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => /** @type {Record<string, string>} */ ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+const yearOf = (/** @type {string} */ v) => (v && /^\d{4}/.test(v) ? v.slice(0, 4) : '');
 // Clean URL for a reference: /proni/AA/3 — slashes stay as path separators,
 // each segment is percent-encoded so spaces/odd chars survive.
-const refToPath = (ref) => '/proni/' + String(ref).split('/').map(encodeURIComponent).join('/');
+const refToPath = (/** @type {string} */ ref) => '/proni/' + String(ref).split('/').map(encodeURIComponent).join('/');
 
 /* =========================== shared UI bits =========================== */
 
+/** @param {ProniCardRecord} r */
 function metaHtml(r) {
   const m = [];
   if (r.level) m.push(`<span><b>Level:</b> ${esc(r.level)}</span>`);
@@ -114,6 +142,7 @@ function metaHtml(r) {
 // The reference widget: heavier ref + copy-to-clipboard on one row, with a
 // "View on PRONI eCatalogue" link below. `withLabel` prefixes "PRONI Ref:" (used
 // on cards; omitted on the record page where the table row already labels it).
+/** @param {string} ref @param {boolean} withLabel */
 function refWidget(ref, withLabel) {
   const rid = esc(ref);
   return `<div class="ps-refwidget">
@@ -126,6 +155,7 @@ function refWidget(ref, withLabel) {
   </div>`;
 }
 
+/** @param {ProniCardRecord} r @param {number} [depth] */
 function card(r, depth = 0) {
   const path = refToPath(r.ref);
   const descHtml = r.description
@@ -163,6 +193,7 @@ function card(r, depth = 0) {
  * impossible". The message is in a live region so it is announced, and it is placed next
  * to the date inputs rather than in the results area, because that is where the mistake
  * is and where the fix has to be made.
+ * @param {string | null} message
  */
 function reportDateRangeError(message) {
   let box = document.getElementById('psDateError');
@@ -217,6 +248,7 @@ function hasTextInput() {
     els.fRef.value.trim() || els.fDates.value.trim() || els.fLevel.value || els.fAccess.value);
 }
 
+/** @param {number} offset */
 function params(offset) {
   const p = queryParams();
   if (!p) return null;   // inverted date range; reportDateRangeError has said so
@@ -272,6 +304,7 @@ function updateStatus() {
   else els.status.textContent = 'Searching…';
 }
 
+/** @param {number} qid the query's id (state.queryId when it began) */
 async function fetchCount(qid) {
   try {
     // letter alone -> per-level breakdown of everything under the letter;
@@ -281,7 +314,7 @@ async function fetchCount(qid) {
       ? `${COUNT_API}?letter=${encodeURIComponent(state.letter)}&breakdown=1`
       : (() => { const qp = queryParams(); return qp ? `${COUNT_API}?${qp}` : null; })();
     if (!url) return;
-    const data = await (await fetch(url)).json();
+    const data = /** @type {ProniCountAnswer} */ (await (await fetch(url)).json());
     if (qid !== state.queryId) return;                 // a newer query superseded this
     if (browseMode && Array.isArray(data.levels)) { state.levels = data.levels; state.total = data.count ?? null; updateStatus(); }
     else if (typeof data.count === 'number') { state.total = data.count; state.levels = null; updateStatus(); }
@@ -303,12 +336,14 @@ async function fetchCount(qid) {
  */
 const ALL_SECTION_BATCH = 3;
 
+/** @param {ProniRoot[]} roots @returns {Array<[string, ProniRoot[]]>} */
 function groupRootsByLetter(roots) {
+  /** @type {Map<string, ProniRoot[]>} */
   const groups = new Map();
   for (const r of roots) {
     const letter = String(r.ref || '').charAt(0).toUpperCase() || '#';
     if (!groups.has(letter)) groups.set(letter, []);
-    groups.get(letter).push(r);
+    /** @type {ProniRoot[]} */ (groups.get(letter)).push(r);
   }
   return [...groups.entries()]
     .sort((a, b) => a[0].localeCompare(b[0]))
@@ -340,6 +375,7 @@ async function renderAllRoots(reset, rid) {
   updateStatus();
 }
 
+/** @param {boolean} reset a new query (else the next page of the current one) */
 async function search(reset) {
   if (state.results.state() === 'loading' && !reset) return; // a new query interrupts an in-flight load; only pagination waits
   if (reset) {
@@ -374,7 +410,7 @@ async function search(reset) {
       return;
     }
     const resp = await fetch(`${API}?${search}`);
-    const data = await resp.json();
+    const data = /** @type {ProniSearchAnswer} */ (await resp.json());
     if (rid !== state.reqId) return; // stale
     if (data.error) { els.status.textContent = 'Search error.'; state.results.to('failed'); return; }
     const batch = data.results || [];
@@ -402,6 +438,7 @@ async function search(reset) {
 
 /* =================== expand / collapse (sticky parent) =================== */
 
+/** @param {Element} btn @param {boolean} expanded @param {boolean} [loading] */
 function setExpandLabel(btn, expanded, loading) {
   const icon = btn.querySelector('.ps-expand__icon');
   const label = btn.querySelector('.ps-expand__label');
@@ -412,10 +449,11 @@ function setExpandLabel(btn, expanded, loading) {
   btn.classList.toggle('is-open', expanded);
 }
 
+/** @param {string} ref @param {UiElement} btn */
 async function toggleExpand(ref, btn) {
-  const li = btn.closest('.ps-card');
+  const li = /** @type {HTMLElement | null} */ (btn.closest('.ps-card'));
   if (!li) return;
-  const kids = li.querySelector(':scope > .ps-children');
+  const kids = /** @type {HTMLElement} */ (li.querySelector(':scope > .ps-children')); // every card's markup has it
   const depth = Number(li.dataset.depth) || 0;
   // The card's sub-records (state-machines.js CARD_CHILDREN); the card's class holds the state
   // between clicks, and the button is disabled while `loading`, so a click never meets it.
@@ -437,7 +475,7 @@ async function toggleExpand(ref, btn) {
   setExpandLabel(btn, false, true);
   btn.disabled = true;
   try {
-    const data = await (await fetch(`${NODE_API}?ref=${encodeURIComponent(ref)}`)).json();
+    const data = /** @type {ProniNodeAnswer} */ (await (await fetch(`${NODE_API}?ref=${encodeURIComponent(ref)}`)).json());
     const records = data.children || [];
     kids.innerHTML = records.length
       ? records.map((c) => card(c, depth + 1)).join('')
@@ -456,8 +494,9 @@ async function toggleExpand(ref, btn) {
 
 /* =========================== record page =========================== */
 
+/** @param {ProniSiblingNav} nav */
 function pager(nav) {
-  const btn = (label, target, disabled) => disabled || !target
+  const btn = (/** @type {string} */ label, /** @type {string | null | undefined} */ target, /** @type {boolean} */ disabled) => disabled || !target
     ? `<span class="ps-pager__btn is-disabled">${label}</span>`
     : `<a class="ps-pager__btn" href="${refToPath(target)}" data-go="${refToPath(target)}">${label}</a>`;
   return `<div class="ps-pager" role="navigation" aria-label="Sibling records">
@@ -471,6 +510,7 @@ function pager(nav) {
 
 // The levels between this record and the top of the archive, shown vertically
 // with each level's title (not just its reference) and linking to that level.
+/** @param {ProniNodeAnswer['ancestors'] | undefined} ancestors @param {ProniNodeAnswer['item']} it */
 function levelsNav(ancestors, it) {
   const rows = (ancestors || []).map((a) =>
     `<a class="ps-levels__item" href="${refToPath(a.ref)}" data-go="${refToPath(a.ref)}"><span class="ps-ref">${esc(a.ref)}</span> <span class="ps-levels__t">${esc(a.title || '')}</span></a>`).join('');
@@ -480,6 +520,7 @@ function levelsNav(ancestors, it) {
   </nav>`;
 }
 
+/** @param {string} ref */
 async function renderRecord(ref) {
   showView('record');
   window.scrollTo(0, 0);
@@ -487,6 +528,7 @@ async function renderRecord(ref) {
   els.viewRecord.innerHTML = '<p class="ps-loading">Loading record…</p>';
   const token = routeToken;
 
+  /** @type {ProniNodeAnswer | undefined} */
   let data;
   try {
     data = await (await fetch(`${NODE_API}?ref=${encodeURIComponent(ref)}`)).json();
@@ -501,7 +543,7 @@ async function renderRecord(ref) {
   }
 
   const it = data.item;
-  const nav = data.nav || {};
+  const nav = /** @type {ProniSiblingNav} */ (data.nav || {});
   const digital = it.digitalRecord ? 'Digitised - held by PRONI' : '';
   const rows = [
     ['Repository', 'Public Record Office of Northern Ireland'],
@@ -519,7 +561,7 @@ async function renderRecord(ref) {
 
   // Civgraph "Additional Data" — a layer on top of the untouched PRONI fields.
   // First field: Extracted Dates (a cleaned/structured reading of the raw Dates).
-  const ed = it.extractedDates;
+  const ed = /** @type {ProniExtractedDates | null} */ (it.extractedDates);
   const additional = ed ? `<section class="ps-rec__additional">
     <h3 class="ps-rec__addhead">Additional Data <span class="ps-rec__addtag">by Civgraph</span></h3>
     <table class="ps-rec__table"><tbody>
@@ -552,6 +594,7 @@ async function renderRecord(ref) {
 
 // Qualifier note for an Extracted Date: circa (approximate), estimated
 // (supplied by the PRONI cataloguer), or one-sided open-ended bounds.
+/** @param {ProniExtractedDates} ed */
 function extractedDateNote(ed) {
   const t = [];
   if (ed.circa) t.push('approximate');
@@ -561,6 +604,7 @@ function extractedDateNote(ed) {
   return t.length ? ` <span class="ps-rec__datetags">(${t.map(esc).join('; ')})</span>` : '';
 }
 
+/** @param {string} inner the article's HTML */
 function recordShell(inner) {
   return `<div class="ps-rec__toolbar"><a class="ps-back" href="/proni" data-go="/proni">← Back to search</a></div>
     <article class="ps-rec">${inner}</article>`;
@@ -568,6 +612,7 @@ function recordShell(inner) {
 
 /* ==================== "View on PRONI eCatalogue" page ==================== */
 
+/** @param {string} ref */
 function renderEcat(ref) {
   showView('ecat');
   window.scrollTo(0, 0);
@@ -641,6 +686,7 @@ function route() {
   showHome();
 }
 
+/** @param {string | null} url @param {boolean} [replace] replace the history entry instead of adding one */
 function go(url, replace) {
   closeModal();
   if (replace) history.replaceState(null, '', url); else history.pushState(null, '', url);
@@ -654,6 +700,7 @@ function goBack() {
 
 /* ============================ clipboard ============================ */
 
+/** @param {string} text */
 function fallbackCopy(text) {
   // Restore focus afterwards. The textarea has to take focus for execCommand('copy') to
   // work, and removing it leaves focus on <body> -- so a keyboard user who copied a
@@ -699,6 +746,7 @@ function flashCopied(el, ms, show) {
   }, ms);
 }
 
+/** @param {UiElement} el the copy button, or the guide's reference field */
 async function copyRef(el) {
   const ref = el.getAttribute('data-copy');
   if (!ref) return;
@@ -712,7 +760,7 @@ async function copyRef(el) {
   } else {
     flashCopied(el, 1600, () => {
       el.classList.add('is-copied');
-      const note = el.parentElement && el.parentElement.querySelector('.ps-guide__copied');
+      const note = /** @type {HTMLElement | null} */ (el.parentElement && el.parentElement.querySelector('.ps-guide__copied'));
       if (note) { note.hidden = false; }
       return () => {
         el.classList.remove('is-copied');
@@ -745,10 +793,11 @@ async function copyRef(el) {
  * Scroll position is pinned across the expansion. Growing a card halfway down a long
  * list otherwise pushes everything below it, and the thing the reader was pointing at
  * moves out from under the cursor.
+ * @param {UiElement} button the card's "Show more" button
  */
 async function expandOrOpen(button) {
-  const ref = button.getAttribute('data-more');
-  const card = button.closest('.ps-card');
+  const ref = /** @type {string} */ (button.getAttribute('data-more')); // matched by [data-more], so always a string
+  const card = /** @type {HTMLElement | null} */ (button.closest('.ps-card'));
   if (!card) { openModal(ref); return; }
 
   // The description (state-machines.js CARD_DESCRIPTION); the card holds the state between clicks.
@@ -764,7 +813,7 @@ async function expandOrOpen(button) {
     const previous = button.textContent;
     button.textContent = 'Loading…';
     try {
-      const data = await (await fetch(`${NODE_API}?ref=${encodeURIComponent(ref)}`)).json();
+      const data = /** @type {ProniNodeAnswer | null} */ (await (await fetch(`${NODE_API}?ref=${encodeURIComponent(ref)}`)).json());
       const full = data?.item?.description;
       if (full) { desc.textContent = full; card.dataset.fullLoaded = '1'; }
     } catch {
@@ -798,11 +847,12 @@ function showModal(open) {
   document.body.style.overflow = open ? 'hidden' : '';
 }
 
+/** @param {string} ref */
 async function openModal(ref) {
   showModal(true);
   els.modalBody.innerHTML = '<p class="ps-loading">Loading record…</p>';
   try {
-    const data = await (await fetch(`${NODE_API}?ref=${encodeURIComponent(ref)}`)).json();
+    const data = /** @type {ProniNodeAnswer} */ (await (await fetch(`${NODE_API}?ref=${encodeURIComponent(ref)}`)).json());
     const it = data.item;
     if (!it) { els.modalBody.innerHTML = '<p class="ps-empty">Record not found.</p>'; return; }
     const rows = [
@@ -836,6 +886,7 @@ els.az.appendChild(azClear);
 
 /* =============================== events =============================== */
 
+/** @type {ReturnType<typeof setTimeout> | undefined} */
 let timer;
 const debounced = () => {
   clearTimeout(timer);
@@ -892,13 +943,13 @@ els.az.addEventListener('click', (/** @type {MouseEvent} */ rawEvent) => { const
 });
 
 // One delegated handler for the whole app (search cards, record page, guide).
-const isModified = (e) => e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0;
+const isModified = (/** @type {MouseEvent} */ e) => e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0;
 document.addEventListener('click', (/** @type {MouseEvent} */ rawEvent) => { const e = /** @type {ElementEvent<MouseEvent>} */ (rawEvent);
   const copyEl = e.target.closest('[data-copy]');
   if (copyEl) { e.preventDefault(); copyRef(copyEl); return; }
 
   const expandEl = e.target.closest('[data-expand]');
-  if (expandEl) { e.preventDefault(); toggleExpand(expandEl.getAttribute('data-expand'), expandEl); return; }
+  if (expandEl) { e.preventDefault(); toggleExpand(/** @type {string} */ (expandEl.getAttribute('data-expand')), expandEl); return; }
 
   const moreEl = e.target.closest('[data-more]');
   if (moreEl) { e.preventDefault(); expandOrOpen(moreEl); return; }
