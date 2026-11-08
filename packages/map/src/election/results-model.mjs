@@ -564,8 +564,7 @@ export function buildLocalPartySummary(results = []) {
           party,
           constituency: result.constituency || result.matchName || '',
           resultKey: normalizeName(result.matchName || result.constituency || ''),
-          // The cast is for main's untyped resolvePartyColour (its sourceColour reads as a string); drop it once packages/core is typed (S0).
-          colour: resolvePartyColour(party, /** @type {string | undefined} */ (candidate.colour), '') || partyColour(party),
+          colour: resolvePartyColour(party, candidate.colour, '') || partyColour(party),
           stood: 0,
           seats: 0,
           firstPrefs: 0,
