@@ -125,7 +125,7 @@ for (const size of SIZES) {
   for (const theme of ['light', 'dark']) {
     test(`design-system ${size.width}px ${theme}: gallery renders and passes axe`, async ({ browser }) => {
       const { pathToFileURL } = require('url');
-      const gallery = await import(pathToFileURL(path.join(__dirname, '..', '..', 'functions', 'design-system', 'index.js')).href);
+      const gallery = await import(pathToFileURL(path.join(__dirname, '..', '..', 'packages', 'ui', 'src', 'gallery', 'route.js')).href);
       const body = await (await gallery.onRequestGet()).text();
       const context = await browser.newContext({ viewport: size, colorScheme: theme, reducedMotion: 'reduce' });
       await context.addInitScript((t) => { try { localStorage.setItem('theme', t); } catch (e) { /* private mode */ } }, theme);

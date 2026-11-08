@@ -18,8 +18,8 @@ import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 import vm from 'node:vm';
-import { THEME_BOOTSTRAP } from '../../functions/_templates/shell.js';
-import { preferenceOf, THEME_KEY, THEME_PREFERENCE, themeFor, toggledFrom } from '../../assets/ui/state/theme.js';
+import { THEME_BOOTSTRAP } from '../../packages/ui/src/templates/shell.js';
+import { preferenceOf, THEME_KEY, THEME_PREFERENCE, themeFor, toggledFrom } from '../../packages/ui/assets/state/theme.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const CHROME = readFileSync(path.join(ROOT, 'assets/site/site-chrome.js'), 'utf8');

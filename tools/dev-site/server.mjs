@@ -29,6 +29,7 @@ import { d1, installCaches } from '../../tests/records/d1-shim.mjs';
 import * as layersApi from '../../packages/api/src/handlers/layers/[[path]].js';
 import * as catalogueApi from '../../packages/api/src/handlers/catalogue/index.js';
 import { answerRecordApi, sendResponse } from '../../packages/loader/src/local-api.mjs';
+import { sourceOf } from '../../scripts/build/site.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '..', '..');
@@ -142,7 +143,7 @@ createServer(async (req, res) => {
     // (tmp/records, scripts/records/paths.mjs), byte for byte what D1 serves, so they are read
     // from there; without a build the site answers 404 for them, as a fresh checkout would.
     const RECORD_URL = /^\/(render\/metadata\/(elections-test2(\.json|-report\.json|\/|-summaries\/)|election-provenance\/)|data\/(browse|graph)\/|data\/database\/election-provenance\.json$)/;
-    let file = path.join(ROOT, p);
+    let file = path.join(ROOT, sourceOf(p)); // /assets/ui/ is served from packages/ui (packages/served.json)
     if (RECORD_URL.test(p) && !existsSync(file)) file = localPathForUrl(p);
     if (!file || !path.resolve(file).startsWith(ROOT)) return send(res, 403, 'forbidden');
     if (existsSync(file) && statSync(file).isDirectory()) file = path.join(file, 'index.html');

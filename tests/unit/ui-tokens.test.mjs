@@ -11,7 +11,7 @@ import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const UI = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', 'assets', 'ui');
+const UI = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', 'packages', 'ui', 'assets'); // served at /assets/ui/
 const read = (rel) => readFileSync(path.join(UI, rel), 'utf8');
 const declarations = (text) => new Map([...text.matchAll(/(--[a-z0-9-]+)\s*:\s*([^;]+);/g)].map((m) => [m[1], m[2].trim()]));
 

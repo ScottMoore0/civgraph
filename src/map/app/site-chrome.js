@@ -9,7 +9,7 @@
  * Methods of the map app (Test2App, app/src/app.js), installed on its prototype by installMethods: `this` is the app.
  */
 
-import { THEME_KEY, THEME_PREFERENCE, preferenceOf, themeFor, toggledFrom } from '../../../assets/ui/state/theme.js';
+import { THEME_KEY, THEME_PREFERENCE, preferenceOf, themeFor, toggledFrom } from '../../../packages/ui/assets/state/theme.js';
 
 export class SiteChromeMethods {
   setupThemeToggle() {

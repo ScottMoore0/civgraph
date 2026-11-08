@@ -29,6 +29,7 @@ import http from 'node:http';
 import { createReadStream, existsSync, readFileSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { SITE as SITE_CONFIG } from '../../packages/config/src/node.mjs';
+import { sourceOf } from '../build/site.mjs';
 
 const args = process.argv.slice(2);
 const opt = (name, fallback) => {
@@ -104,7 +105,7 @@ const server = http.createServer((req, res) => {
     if (API === 'live') return proxy(req, res, `${SITE}${pathname}${url.search}`);
     return res.writeHead(404, { 'content-type': 'application/json' }).end('{"error":"no API in the static preview"}');
   }
-  let filePath = path.normalize(path.join(ROOT, pathname));
+  let filePath = path.normalize(path.join(ROOT, sourceOf(pathname))); // /assets/ui/ from packages/ui (packages/served.json)
   if (!filePath.startsWith(ROOT)) return res.writeHead(403).end();
   if (existsSync(filePath) && statSync(filePath).isDirectory()) filePath = path.join(filePath, 'index.html');
   if (!existsSync(filePath)) return res.writeHead(404).end('not found');

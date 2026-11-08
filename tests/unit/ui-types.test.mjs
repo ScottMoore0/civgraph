@@ -17,7 +17,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const CONFIG = JSON.parse(readFileSync(path.join(ROOT, 'tsconfig.ui.json'), 'utf8'));
-const UI_DIRS = ['browse', 'apps', 'assets/ui'];
+const UI_DIRS = ['browse', 'apps', 'packages/ui/assets'];
 
 // Browser scripts in UI_DIRS that tsconfig.ui.json does not check yet, with the reason.
 export const UI_TYPES_PENDING = new Map([]);
@@ -27,7 +27,7 @@ const CHECKED_SINCE_TS_UI_1 = [
   'browse/browse.js',
   'apps/proni-search/app.js',
   'apps/words/words.js',
-  'assets/ui/gallery/gallery.js',
+  'packages/ui/assets/gallery/gallery.js',
 ];
 const EXPECT_ERROR_BUDGET = 0;
 
@@ -81,8 +81,8 @@ test('no checked file silences the checker', () => {
 const FLAGS_SINCE_R2_UI = ['strictFunctionTypes', 'strictBindCallApply', 'noImplicitThis', 'alwaysStrict',
   'useUnknownInCatchVariables', 'noImplicitReturns', 'noImplicitOverride', 'noUnusedLocals', 'noUnusedParameters',
   'strictNullChecks'];
-const STRICT_SINCE_R2_UI = ['assets/ui/state/machine.js', 'assets/ui/state/theme.js', 'browse/state-machines.js',
-  'apps/proni-search/state-machines.js', 'apps/words/state-machines.js', 'assets/ui/gallery/gallery.js'];
+const STRICT_SINCE_R2_UI = ['packages/ui/assets/state/machine.js', 'packages/ui/assets/state/theme.js', 'browse/state-machines.js',
+  'apps/proni-search/state-machines.js', 'apps/words/state-machines.js', 'packages/ui/assets/gallery/gallery.js'];
 
 test('the strictness the UI has reached stays', () => {
   for (const flag of FLAGS_SINCE_R2_UI) assert.equal(CONFIG.compilerOptions[flag], true, `tsconfig.ui.json ${flag} was turned off`);

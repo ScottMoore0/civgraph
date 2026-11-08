@@ -26,6 +26,7 @@
  */
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import path from 'node:path';
+import { sourceOf } from '../../build/site.mjs';
 import { fileURLToPath } from 'node:url';
 import { electionManagerSourceFiles, mapAppSourceFiles } from '../../lib/map-app-source.mjs';
 
@@ -74,9 +75,11 @@ const skip = (u) =>
 function resolveRef(ref, fromFile) {
   const clean = ref.split('#')[0].split('?')[0];
   if (!clean) return null;
-  return clean.startsWith('/')
+  const abs = clean.startsWith('/')
     ? path.join(ROOT, clean)
     : path.resolve(path.dirname(path.join(ROOT, fromFile)), clean);
+  // A served path a package provides (packages/served.json: /assets/ui/ is packages/ui).
+  return path.join(ROOT, sourceOf(path.relative(ROOT, abs)));
 }
 
 const refs = [];

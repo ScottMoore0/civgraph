@@ -40,6 +40,7 @@
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import path from 'node:path';
+import { sourceOf } from '../../build/site.mjs';
 
 // Both hand-written token sites in the repo. apps/proni-search/ was added on 2026-08-23
 // after its ?v=19 had to be bumped by hand when app.js changed -- exactly the condition
@@ -83,7 +84,7 @@ for (const HTML of HTML_FILES) {
   const updated = html.replace(PATTERN, (match, lead, file, token, tail) => {
     // A site-root reference resolves from the repository root, not from the HTML's
     // directory.
-    const assetPath = file.startsWith('/') ? file.replace(/^\/+/, '') : path.join(dir, file);
+    const assetPath = sourceOf(file.startsWith('/') ? file.replace(/^\/+/, '') : path.join(dir, file)); // packages/served.json
     if (!existsSync(assetPath)) {
       findings.push({ file: `${HTML}: ${file}`, problem: `referenced but missing at ${assetPath}` });
       return match;
@@ -103,7 +104,7 @@ for (const HTML of HTML_FILES) {
   // A deploy that changes the module changes its URL, as for the tokens above.
   const IMPORT_MAP_ENTRY = /"(\/[A-Za-z0-9._\/-]+\.js)":"\1\?v=([A-Za-z0-9._-]+)"/g;
   const stamped = updated.replace(/<script type="importmap">[^<]*<\/script>/g, (block) => block.replace(IMPORT_MAP_ENTRY, (match, file, token) => {
-    const assetPath = file.replace(/^\/+/, '');
+    const assetPath = sourceOf(file.replace(/^\/+/, ''));
     if (!existsSync(assetPath)) {
       findings.push({ file: `${HTML}: import map ${file}`, problem: `referenced but missing at ${assetPath}` });
       return match;

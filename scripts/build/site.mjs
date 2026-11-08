@@ -29,7 +29,7 @@
  * the list to what the site serves.
  */
 import { execFileSync } from 'node:child_process';
-import { copyFileSync, existsSync, mkdirSync, readdirSync, rmSync, statSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -84,6 +84,27 @@ export const INCLUDE_ANYWAY = ['data/census/explorer-bundle.json'];
 
 const toPosix = (p) => p.replace(/\\/g, '/');
 
+/**
+ * Package files served at another path (packages/served.json, refactor PKG-9): served prefix ->
+ * source prefix. A package file wins over any file at its served path.
+ */
+export const SERVED_FROM = Object.fromEntries(Object.entries(
+  JSON.parse(readFileSync(path.join(REPO_ROOT, 'packages', 'served.json'), 'utf8'))).filter(([k]) => k !== '//'));
+
+/** The repository file a served (dist-relative) path is copied from. */
+export function sourceOf(rel) {
+  const p = toPosix(rel).replace(/^\/+/, '');
+  for (const [served, from] of Object.entries(SERVED_FROM)) if (p.startsWith(served)) return from + p.slice(served.length);
+  return p;
+}
+
+/** The served path of a repository file (itself unless a package serves it elsewhere). */
+export function servedOf(rel) {
+  const p = toPosix(rel);
+  for (const [served, from] of Object.entries(SERVED_FROM)) if (p.startsWith(from)) return served + p.slice(from.length);
+  return p;
+}
+
 /** Whether a repository-relative path is published. */
 export function isSiteFile(rel) {
   const p = toPosix(rel);
@@ -127,9 +148,9 @@ export function siteFiles(root = REPO_ROOT) {
   }
   const files = [];
   const oversized = [];
-  for (const rel of [...new Set(candidates.map(toPosix))].sort()) {
+  for (const rel of [...new Set(candidates.map(servedOf))].sort()) {
     if (!isSiteFile(rel)) continue;
-    const abs = path.join(root, rel);
+    const abs = path.join(root, sourceOf(rel));
     if (!existsSync(abs)) continue;
     if (statSync(abs).size > MAX_FILE_BYTES) oversized.push(rel);
     else files.push(rel);
@@ -166,7 +187,7 @@ function main() {
   for (const rel of files) {
     const dest = path.join(out, rel);
     mkdirSync(path.dirname(dest), { recursive: true });
-    copyFileSync(path.join(REPO_ROOT, rel), dest);
+    copyFileSync(path.join(REPO_ROOT, sourceOf(rel)), dest);
   }
   console.log(`Wrote ${OUT_DIR}/`);
 }

@@ -29,6 +29,7 @@ those requests to it; it exits when this server does. Without a records build, o
 node, those URLs answer 404 as before. Any other /_api/ route answers 404.
 """
 import http.client
+import json
 import os
 import re
 import runpy
@@ -40,6 +41,9 @@ from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 _RECORDS = runpy.run_path(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'records', 'paths.py'))
 local_path_for_url = _RECORDS['local_path_for_url']
 REPO = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..'))
+# Package files served at another path (packages/served.json, PKG-9): /assets/ui/ is packages/ui/assets/.
+with open(os.path.join(REPO, 'packages', 'served.json'), encoding='utf-8') as _f:
+    SERVED_FROM = {k: v for k, v in json.load(_f).items() if k != '//'}
 CATALOGUE_VIEWS = {'pane': 'catalogue.json', 'places': 'places.json', 'people': 'people.json'}
 
 
@@ -148,6 +152,9 @@ class Handler(SimpleHTTPRequestHandler):
         api = _api_file(unquote(bare), query) if bare.startswith('/_api/') else None
         if api:
             return api
+        for served, source in SERVED_FROM.items():
+            if unquote(bare).startswith('/' + served):
+                return os.path.join(REPO, *(source + unquote(bare)[len(served) + 1:]).split('/'))
         built = local_path_for_url(unquote(bare))
         if built and os.path.exists(built):
             return built
