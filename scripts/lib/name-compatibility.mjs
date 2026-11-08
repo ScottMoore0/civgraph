@@ -18,6 +18,7 @@ const TITLES = new Set([
 ]);
 const PARTICLES = new Set(['o', 'de', 'di', 'da', 'van', 'von', 'mac', 'mc', 'ni', 'ui', 'la', 'le']);
 
+/** @param {string | null | undefined} value */
 function tokens(value) {
   // Fold accents without a regex escape: drop the combining marks NFKD separates out.
   const folded = [...String(value || '').normalize('NFKD')]
@@ -27,6 +28,10 @@ function tokens(value) {
   return folded.replace(/[^a-z0-9]+/g, ' ').trim().split(' ').filter((t) => t && !TITLES.has(t));
 }
 
+/**
+ * @param {string | null | undefined} a
+ * @param {string | null | undefined} b
+ */
 export function namesCompatible(a, b) {
   const ta = tokens(a);
   const tb = tokens(b);

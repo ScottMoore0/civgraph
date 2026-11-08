@@ -14,10 +14,15 @@ export const MAP_APP_MODULE_DIR = 'packages/map/src/app';
 export const ELECTION_MANAGER_ENTRY = 'packages/map/app/election-manager.js';
 export const ELECTION_MODULE_DIR = 'packages/map/src/election';
 
-/** The .js and .mjs files under `dir`, repository-relative with forward slashes, in name order. */
+/**
+ * The .js and .mjs files under `dir`, repository-relative with forward slashes, in name order.
+ * @param {string} root
+ * @param {string} dir
+ */
 function moduleFiles(root, dir) {
+  /** @type {string[]} */
   const files = [];
-  const walk = (current) => {
+  const walk = (/** @type {string} */ current) => {
     const entries = readdirSync(path.join(root, current)).sort();
     for (const name of entries) {
       const rel = `${current}/${name}`;

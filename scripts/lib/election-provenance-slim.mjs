@@ -19,11 +19,21 @@ export const CONTEST_REQUIRED = Object.freeze(['file', 'body', 'date', 'constitu
 // the budget keeps a mebibyte of headroom so a batch of citations cannot tip it over unnoticed.
 export const PUBLISHED_BUDGET_BYTES = 24 * 1024 * 1024;
 
-const dropNulls = (obj, keep) => Object.fromEntries(Object.entries(obj).filter(([k, v]) => v !== null || keep.has(k)));
+/**
+ * The parts of election-provenance.json this module reads; every other field passes through.
+ * @typedef {{ sources: Record<string, unknown>[], [field: string]: unknown }} ProvenanceContest
+ * @typedef {{ contests: ProvenanceContest[], [field: string]: unknown }} ProvenanceDocument
+ */
+
+const dropNulls = (/** @type {Record<string, unknown>} */ obj, /** @type {Set<string>} */ keep) => Object.fromEntries(Object.entries(obj).filter(([k, v]) => v !== null || keep.has(k)));
 const sourceKeep = new Set(SOURCE_REQUIRED);
 const contestKeep = new Set(CONTEST_REQUIRED);
 
-/** The document as published: the same records with their null optional fields left out. */
+/**
+ * The document as published: the same records with their null optional fields left out.
+ * @param {ProvenanceDocument} doc
+ * @returns {ProvenanceDocument}
+ */
 export function slimProvenance(doc) {
   return {
     ...doc,
@@ -39,6 +49,7 @@ export function slimProvenance(doc) {
  * The second instalment of the Northern Ireland council elections (November 2026, about 5,000
  * contests) took the fully indented file to 26.7 MB; the indentation inside contest records was
  * about a third of it. One line per contest keeps the file readable and its diffs line-per-contest.
+ * @param {ProvenanceDocument} doc
  */
 export function publishedText(doc) {
   const slim = slimProvenance(doc);

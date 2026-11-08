@@ -15,11 +15,25 @@ export const GATE_MANIFEST_REL = 'data/database/approved-publication-sources.jso
 export const GATE_SHARD_DIR_REL = 'data/database/approved-publication-sources-shards';
 const RECORDS_PER_SHARD = 3000;
 
+/**
+ * One source record of the gate: open-ended JSON, its fields set by the emitters.
+ * @typedef {Record<string, unknown>} SourceRecord
+ * @typedef {{ url?: string, count?: number }} ShardRef
+ * @typedef {{ sources?: SourceRecord[], items?: SourceRecord[], indexLayout?: string, shards?: ShardRef[], [field: string]: unknown }} GateManifest
+ *   a sharded manifest, or a legacy monolithic { sources } / { items } file
+ */
+
+/**
+ * @param {GateManifest | null | undefined} index
+ * @param {string} [root]
+ * @returns {SourceRecord[]}
+ */
 export function resolveApprovedPublicationSources(index, root = process.cwd()) {
   if (!index) return [];
   if (Array.isArray(index.sources)) return index.sources;
   if (Array.isArray(index.items)) return index.items;
   if (index.indexLayout === 'sharded' && Array.isArray(index.shards)) {
+    /** @type {SourceRecord[]} */
     const out = [];
     for (const shard of index.shards) {
       const rel = String(shard.url || '').replace(/^\/+/, '');
@@ -36,6 +50,11 @@ export function resolveApprovedPublicationSources(index, root = process.cwd()) {
 }
 
 // Read the gate (manifest or legacy) and return { manifest, sources }.
+/**
+ * @param {string} [root]
+ * @param {string} [manifestRel]
+ * @returns {{ manifest: GateManifest, sources: SourceRecord[] }}
+ */
 export function readApprovedPublicationGate(root = process.cwd(), manifestRel = GATE_MANIFEST_REL) {
   const manifest = JSON.parse(readFileSync(path.join(root, manifestRel), 'utf8'));
   return { manifest, sources: resolveApprovedPublicationSources(manifest, root) };
@@ -43,6 +62,12 @@ export function readApprovedPublicationGate(root = process.cwd(), manifestRel = 
 
 // Write the gate as a sharded manifest + shard files, replacing any prior shards.
 // `meta` carries every manifest field except the records (schemaVersion, counts, …).
+/**
+ * @param {Record<string, unknown>} meta
+ * @param {SourceRecord[]} sources
+ * @param {string} [root]
+ * @param {{ manifestRel?: string, shardDirRel?: string, recordsPerShard?: number }} [opts]
+ */
 export function writeApprovedPublicationSources(meta, sources, root = process.cwd(), opts = {}) {
   const manifestRel = opts.manifestRel || GATE_MANIFEST_REL;
   const shardDirRel = opts.shardDirRel || GATE_SHARD_DIR_REL;
@@ -69,6 +94,7 @@ export function writeApprovedPublicationSources(meta, sources, root = process.cw
     shards.push({ url: `${shardDirRel}/${name}`, count: 0 });
   }
 
+  /** @type {GateManifest} */
   const manifest = { ...meta, indexLayout: 'sharded', shardCount: shards.length, shards };
   // drop any inline records that a legacy caller may have passed in meta
   delete manifest.sources;

@@ -11,9 +11,16 @@ import { localPathForUrl } from '../../packages/loader/src/paths.mjs';
 // `root` defaults to the current working directory — every script that reads the
 // index runs from the repo root, and shard urls are site-absolute
 // (/data/browse/source-index-shards/sources-000.json).
+/**
+ * @param {{ items?: unknown[], indexLayout?: string, shards?: { url: string, count?: number }[] } | null | undefined} index
+ *   the parsed index: { items } or a shard manifest
+ * @param {string} [root]
+ * @returns {unknown[]} the index's items (open-ended JSON records)
+ */
 export function resolveBrowseSourceItems(index, root = process.cwd()) {
   if (Array.isArray(index?.items)) return index.items;
   if (index?.indexLayout === 'sharded' && Array.isArray(index.shards)) {
+    /** @type {unknown[]} */
     const items = [];
     for (const shard of index.shards) {
       // /data/browse/... is wherever the record build wrote it (scripts/records/paths.mjs).

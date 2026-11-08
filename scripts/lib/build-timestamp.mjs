@@ -20,6 +20,7 @@
  */
 import { execFileSync } from 'node:child_process';
 
+/** @type {string | null} */
 let cached = null;
 let warned = false;
 
