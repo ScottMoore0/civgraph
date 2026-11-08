@@ -38,33 +38,33 @@ JSDoc casts kept (41, all `/** @type {X} */ (expr)`, none to any). By kind:
 - `[key, value]` tuples in `new Map(rows.map(...).filter(...))`.
 - open JSON read as a shape: bounds pairs, places bbox, contest notes, recall petition, countInfo/mainLikeTotals, `globalThis.civgraphI18n`, approximate-segment reason, census denominator (finite value implies it was read).
 - the `escapeHtml` lookup tables (`Record<string, string>`), ENTITY_TYPE_LABEL key.
-- results-model.mjs `buildLocalPartySummary`: `candidate.colour` as `string | undefined`, ONLY because main's untyped `resolvePartyColour` reads its `sourceColour` as a string. S0 types it `unknown`: drop this cast (and its comment line) in the flip commit.
+- (The temporary cast on `candidate.colour` in results-model.mjs, needed only while packages/core was untyped, was dropped after the rebase on S0.)
 
-## Proof that behaviour is unchanged
+## Rebased on main 382a5a4f53 (S0, S1a, S2a, S3, UI landed); flag flipped
 
-- Every changed .js/.mjs file minifies (esbuild, comments stripped) to the same code at main and HEAD (all 28 files "same").
-- `node scripts/build/app-bundle.mjs` from HEAD's sources and from main's sources (same worktree) gives identical output files, chunk names included (entry js=aac2b10b65d4 both).
-- `check:types:mapapp` (flag as committed) passes; `test:unit` 448 pass / 0 fail; `tests/catalogue/search.test.mjs` 16 pass.
-- `check:fast`: the same 14 failures as main's sources in the same worktree, all missing gitignored data (tmp/records, data/browse, THIRD-PARTY-NOTICES, a local app/build stamp); every `check:types:*` passes.
-- Browser (port 5050, serial): see the result line at the end.
+Last two commits: the cast removal, then the flip (`"noImplicitAny": true` in
+`src/tsconfig.check.json`, its comment, and `'noImplicitAny'` in the strict-flags test of
+`tests/unit/map-typecheck.test.mjs`).
+
+**Landing order: nia-s2b must land before (or with) this branch.** The map app's program
+imports `packages/config/src/config.js`, which still has 6 implicit-any findings on main
+(lines 83, 104, 117, 123); nia-s2b fixes them. With nia-s2b's config.js in place,
+`tsc -p src/tsconfig.check.json` is clean; on main alone, `check:types:mapapp` fails on those 6
+lines only. If S2b is delayed, land everything but the last commit (846739f900, the flip).
+
+## Proof that behaviour is unchanged (rebased HEAD)
+
+- Every changed .js/.mjs file minifies (esbuild, comments stripped) to the same code at main and HEAD (28 files).
+- `node scripts/build/app-bundle.mjs` from HEAD's and from main's sources (same worktree) gives identical output files, chunk names included (entry js=5a61c127c381 both).
+- `node --test tests/unit/map-typecheck.test.mjs` 4/4; `tests/catalogue/search.test.mjs` 16/16; `test:unit` passes (448 pass before the rebase; passes in check:fast after it).
+- `check:fast`: 15 failures = the 14 that main's own sources show in this worktree (missing gitignored data: tmp/records, data/browse, render/metadata/elections-test2.json, THIRD-PARTY-NOTICES, a local app/build stamp) + `check:types:mapapp` (config.js, above). Every other `check:types:*` passes.
+- Browser, port 5050, serial (test:browser:maps + tests/browser/app.spec.cjs, 75 tests): 37 passed, 38 failed, the same 38 tests before and after the rebase. The failures are environmental and not from this branch: the served bundle is byte-identical to main's and every source file is code-identical; they are the election-pane and load tests (30 in app.spec.cjs, 5 load-races, 2 election-layout, 1 catalogue-load-a11y, 1 map-svg-export), which read data this checkout (and main's) does not have, chiefly render/metadata/elections-test2.json (gitignored, absent; the specs force the static election path). A run on a checkout with the built election data should be compared with main's on the same data.
 
 ## Landing steps (main session)
 
-The flag CANNOT flip yet: `tsc -p` fails on any imported file, and the mapapp program imports
-`packages/core/src/*.mjs` (S0; about 180 findings on main) and `packages/config/src/config.js`
-(S2b's file; 6 findings: lines 83, 104, 117, 123). With S0's branch applied (both its commits,
-f498268881 and d9d3370154) my files show 0 findings and only config.js's 6 remain.
-
-1. Land S0 and S2b (or at least config.js's fix) first.
-2. Rebase nia-s4 on that main; re-run with the flag forced on (a throwaway
-   `src/tsconfig.nia.json` = `{ "extends": "./tsconfig.check.json", "compilerOptions": { "noImplicitAny": true } }`,
-   `node node_modules/typescript/bin/tsc -p src/tsconfig.nia.json`). Fix anything S0's final types moved.
-3. Flip commit:
-   - `src/tsconfig.check.json`: add `"noImplicitAny": true,` after `"strictNullChecks": true,`, and in its `//` comment say noImplicitAny is on (8 Nov 2026 review).
-   - `tests/unit/map-typecheck.test.mjs`, test "the strict flags stay on": add `'noImplicitAny'` to `flags` (and the test name to "(round 3, noImplicitAny 8 Nov 2026)").
-   - `packages/map/src/election/results-model.mjs`: remove the temporary `string | undefined` cast on `candidate.colour` and its comment line.
-   - run `npm run check:types:mapapp`, `node --test tests/unit/map-typecheck.test.mjs`, `npm run test:unit`.
-4. No regeneration needed (app/build is gitignored and byte-identical; no cache token moves).
+1. Land nia-s2b (config.js) first, then merge nia-s4.
+2. Run `npm run check:types:mapapp`, `node --test tests/unit/map-typecheck.test.mjs`, `npm run test:unit`.
+3. No regeneration needed: no runtime line changed, app/build is gitignored and byte-identical, no cache token moves. Nothing to upload or migrate; nothing needs the owner.
 
 ## Files other streams may touch
 
