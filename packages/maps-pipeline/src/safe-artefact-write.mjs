@@ -30,7 +30,7 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 /**
  * @param {string} path        artefact to write
  * @param {object} next        the new document
- * @param {object} [opts]
+ * @param {object} opts
  * @param {string} opts.collection  key holding the array of records (e.g. 'layers')
  * @param {string} [opts.idKey]     record identity field (default 'id')
  * @param {boolean} [opts.allowDeletions]  set from an explicit --allow-deletions flag
