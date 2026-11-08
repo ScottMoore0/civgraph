@@ -2,16 +2,19 @@
  * Pure helpers of the map app (packages/map/app/app.js and packages/map/src/app/*): HTML escaping, election entity keys
  * and the page= address parameter, byte and search-text formatting. No DOM, no app state.
  */
+
+/** @param {unknown} value */
 export function escapeHtml(value) {
-  return String(value ?? '').replace(/[&<>"']/g, (ch) => ({
+  return String(value ?? '').replace(/[&<>"']/g, (ch) => (/** @type {Record<string, string>} */ ({
     '&': '&amp;',
     '<': '&lt;',
     '>': '&gt;',
     '"': '&quot;',
     "'": '&#39;'
-  }[ch]));
+  })[ch]));
 }
 
+/** @param {unknown} value */
 export function slugifyEntityKey(value) {
   return String(value || '')
     .split('|')[0]
@@ -24,6 +27,7 @@ export function slugifyEntityKey(value) {
     .replace(/^-+|-+$/g, '');
 }
 
+/** @param {unknown} value */
 export function normalizeEntityName(value) {
   return String(value || '')
     .split('|')[0]
@@ -38,6 +42,7 @@ export function normalizeEntityName(value) {
     .toLowerCase();
 }
 
+/** @param {unknown} key */
 export function electionBodyFromEntityKey(key) {
   const bodyKey = String(key || '').split('__')[0];
   if (!bodyKey) return '';
@@ -59,6 +64,10 @@ export function electionBodyFromEntityKey(key) {
   return bodies.get(bodyKey) || bodyKey.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
+/**
+ * @param {unknown} key
+ * @param {string} [title]
+ */
 export function electionTypeFromEntityKey(key, title = '') {
   const bodyKey = String(key || '').split('__')[0];
   const label = `${bodyKey} ${title || ''}`;
@@ -78,6 +87,7 @@ export function electionTypeFromEntityKey(key, title = '') {
   return bodyKey ? bodyKey.replace(/-/g, ' ') : 'Election';
 }
 
+/** @param {unknown} value */
 export function formatBytes(value) {
   const bytes = Number(value || 0);
   if (!Number.isFinite(bytes) || bytes <= 0) return '0 B';
@@ -91,12 +101,14 @@ export function formatBytes(value) {
   return `${amount.toFixed(unitIndex === 0 ? 0 : 1)} ${units[unitIndex]}`;
 }
 
+/** @param {unknown} name */
 export function shortCacheName(name) {
   return String(name || '')
     .replace(/^civgraph-test2-sw-v\d+-/, '')
     .replace(/^civgraph-/, '');
 }
 
+/** @param {unknown} value */
 export function normalizeSearchText(value) {
   return String(value || '')
     .toLowerCase()
@@ -116,18 +128,26 @@ export const ENTITY_TYPE_LABEL = Object.freeze({
   feature: 'Feature'
 });
 
+/** @param {unknown} kind */
 export function canonicalEntityKind(kind) {
   const value = String(kind || '').toLowerCase();
   if (value === 'person' || value === 'candidate') return 'candidate';
-  return ENTITY_TYPE_LABEL[value] && value !== 'feature' ? value : '';
+  return ENTITY_TYPE_LABEL[/** @type {keyof typeof ENTITY_TYPE_LABEL} */ (value)] && value !== 'feature' ? value : '';
 }
 
-/** How the address names a page: page=person:ian-paisley-48601, page=party:dup. */
+/**
+ * How the address names a page: page=person:ian-paisley-48601, page=party:dup.
+ * @param {{ kind?: string, key?: string } | null | undefined} page
+ */
 export function pageParamOf(page) {
   if (!page?.kind || !page.key) return '';
   return `${page.kind === 'candidate' ? 'person' : page.kind}:${page.key}`;
 }
 
+/**
+ * @param {unknown} value
+ * @returns {{ kind: string, key: string } | null}
+ */
 export function parsePageParam(value) {
   const text = String(value || '');
   const at = text.indexOf(':');
@@ -141,7 +161,10 @@ export function parsePageParam(value) {
 }
 
 /** A readable name for a page whose data has not arrived: the name part of a "Name|Party" key,
- * else the key, else for a bare person id, "Person 48601". */
+ * else the key, else for a bare person id, "Person 48601".
+ * @param {string} kind
+ * @param {unknown} key
+ */
 export function entityKeyLabel(kind, key) {
   const text = String(key || '').split('|')[0].trim();
   if (kind === 'candidate' && /^\d+$/.test(text)) return `Person ${text}`;
@@ -151,14 +174,26 @@ export function entityKeyLabel(kind, key) {
   return text;
 }
 
-/** Where to look for a page in Browse when it cannot be opened here: a search of its section. */
+/**
+ * Where to look for a page in Browse when it cannot be opened here: a search of its section.
+ * @param {string} kind
+ * @param {unknown} label
+ */
 export function entityBrowseSearchUrl(kind, label) {
   const section = kind === 'party' ? 'parties' : kind === 'candidate' ? 'persons' : 'features';
   return `/browse/#/${section}?q=${encodeURIComponent(String(label || '').split('|')[0].trim())}`;
 }
 
-/** fn over items, at most `limit` at a time, results in the items' order. */
+/**
+ * fn over items, at most `limit` at a time, results in the items' order.
+ * @template T, R
+ * @param {readonly T[]} items
+ * @param {number} limit
+ * @param {(item: T, index: number) => R | Promise<R>} fn
+ * @returns {Promise<R[]>}
+ */
 export async function mapWithConcurrency(items, limit, fn) {
+  /** @type {R[]} */
   const results = new Array(items.length);
   let next = 0;
   const worker = async () => {

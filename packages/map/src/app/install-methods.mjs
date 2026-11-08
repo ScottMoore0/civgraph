@@ -7,6 +7,10 @@
  * writable and configurable, like methods declared in the class body, and `this` is the target's
  * instance when they are called. A name defined twice (in the target or in two sources) throws:
  * a silent override is how a split changes behaviour.
+ * @template {{ prototype: object, name: string }} T
+ * @param {T} target
+ * @param {Iterable<{ prototype: object, name: string }>} sources
+ * @returns {T}
  */
 export function installMethods(target, sources) {
   for (const source of sources) {

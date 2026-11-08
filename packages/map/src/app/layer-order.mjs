@@ -17,9 +17,12 @@ export const LAYER_ORDER_STORAGE_KEY = 'civgraph:maplibre:layer-order';
 /**
  * Layer ids from an array, a JSON array string or a comma-separated string: trimmed, empty
  * ids dropped, duplicates dropped (first wins).
+ * @param {unknown} value
+ * @returns {string[]}
  */
 export function parseLayerOrder(value) {
   if (!value) return [];
+  /** @type {unknown[]} */
   let items = [];
   if (Array.isArray(value)) {
     items = value;
@@ -50,6 +53,7 @@ export function parseLayerOrder(value) {
 /**
  * The value to save for a layer order: a JSON array when it orders two or more layers, else
  * null (meaning: remove the saved order).
+ * @param {unknown} order
  */
 export function serializeSavedLayerOrder(order) {
   const ids = parseLayerOrder(order);
@@ -59,9 +63,12 @@ export function serializeSavedLayerOrder(order) {
 /**
  * An order restricted to the loaded layers: the order's loaded ids first, in its order, then
  * every other loaded id in load order.
+ * @param {unknown} order
+ * @param {readonly string[]} [loadedIds]
  */
 export function normalizeLoadedLayerOrder(order, loadedIds = []) {
   const loadedSet = new Set(loadedIds);
+  /** @type {string[]} */
   const result = [];
   const seen = new Set();
   for (const id of parseLayerOrder(order)) {
@@ -81,6 +88,9 @@ export function normalizeLoadedLayerOrder(order, loadedIds = []) {
  * The order to restore on load: the URL's `layerOrder`, else the saved order, normalised
  * against the loaded layers. An empty array when there is nothing to restore (no order, or
  * fewer than two loaded layers). `readSaved` and `getLoadedIds` are called only when needed.
+ * @param {{ get?: (name: string) => string | null } | null | undefined} params URLSearchParams
+ * @param {() => string[]} [readSaved]
+ * @param {() => string[]} [getLoadedIds]
  */
 export function layerOrderToRestore(params, readSaved = () => [], getLoadedIds = () => []) {
   const explicitOrder = parseLayerOrder(params?.get?.('layerOrder'));

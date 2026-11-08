@@ -31,6 +31,7 @@ export const RENAMED_ELECTION_BODIES = [
   ['lisburn-urban-district-council', 'lisburn-borough-council', 'Lisburn Borough Council', '1920-01-15']
 ];
 
+/** @param {URLSearchParams} params */
 export function renameElectionDatesInParams(params) {
   for (const [name, value] of [...params.entries()]) {
     let next = value;
@@ -48,18 +49,17 @@ export function renameElectionDatesInParams(params) {
   return params;
 }
 
-/** An election body name as its key slug ("Bangor Urban District Council" -> "bangor-urban-district-council"). */
+/**
+ * An election body name as its key slug ("Bangor Urban District Council" -> "bangor-urban-district-council").
+ * @param {unknown} value
+ */
 export function slugifyBody(value) {
   return String(value || '').toLowerCase().trim().replace(/[^\w\s-]/g, '').replace(/[\s]+/g, '-').replace(/-+/g, '-');
 }
 
 /**
- * The current id for a layer id from a link. Renamed prefixes are rewritten first. Then, when
- * `isKnown` is given (a test against the loaded layer index) and the id is not a layer, the
- * other spelling of its suffix is tried (site-restructure renames.csv: `-vector-test` and
- * `-vector`, `-raster-test` and `-raster`, `-alias-test` and `-alias`), so a link written with
- * either spelling opens the layer before and after the ids are renamed. Without `isKnown` only
- * the prefixes apply, as before.
+ * A layer id with a renamed prefix rewritten to the current one.
+ * @param {string} value
  */
 function rewritePrefix(value) {
   for (const [from, to] of LEGACY_LAYER_ID_PREFIXES) {
@@ -69,6 +69,13 @@ function rewritePrefix(value) {
 }
 
 /**
+ * The current id for a layer id from a link. Renamed prefixes are rewritten first. Then, when
+ * `isKnown` is given (a test against the loaded layer index) and the id is not a layer, the
+ * other spelling of its suffix is tried (site-restructure renames.csv: `-vector-test` and
+ * `-vector`, `-raster-test` and `-raster`, `-alias-test` and `-alias`), so a link written with
+ * either spelling opens the layer before and after the ids are renamed. Without `isKnown` only
+ * the prefixes apply, as before.
+ *
  * @param {unknown} id
  * @param {((id: string) => boolean) | null} [isKnown]
  */

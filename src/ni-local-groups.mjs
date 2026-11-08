@@ -19,6 +19,9 @@
  */
 import councils from '../packages/registries/src/browser/councils.mjs';
 
+/** @typedef {import('../packages/core/src/election-view-model.mjs').ElectionRecord} ElectionRecord */
+/** @typedef {ReturnType<typeof buildNiLocalGroupEntry>} NiLocalGroupEntry */
+
 export const NI_LOCAL_GROUP_PREFIX = 'ni-local__';
 export const NI_LOCAL_GROUP_BODY = 'Northern Ireland local elections';
 export const NI_LOCAL_GROUP_BODY_SLUG = 'ni-local-elections';
@@ -40,16 +43,23 @@ export const NI_LOCAL_GROUP_BEFORE = '1973-01-01';
  */
 export const NI_COUNCIL_SLUGS = new Set(councils.niLocalGroupSlugs);
 
-/** Whether a year is grouped as the whole island's (before 1921) rather than Northern Ireland's. */
+/**
+ * Whether a year is grouped as the whole island's (before 1921) rather than Northern Ireland's.
+ * @param {string | number} year
+ */
 export function isIrelandLocalYear(year) {
   return Number(String(year).slice(0, 4)) < NI_LOCAL_FIRST_YEAR;
 }
 
-/** The year entry's body: "Irish local elections" before 1921, "Northern Ireland local elections" after. */
+/**
+ * The year entry's body: "Irish local elections" before 1921, "Northern Ireland local elections" after.
+ * @param {string | number} year
+ */
 export function localGroupBody(year) {
   return isIrelandLocalYear(year) ? IRELAND_LOCAL_GROUP_BODY : NI_LOCAL_GROUP_BODY;
 }
 
+/** @param {string | number} year */
 export function localGroupBodySlug(year) {
   return isIrelandLocalYear(year) ? IRELAND_LOCAL_GROUP_BODY_SLUG : NI_LOCAL_GROUP_BODY_SLUG;
 }
@@ -70,7 +80,10 @@ export const NI_LOCAL_LEVEL_IDS = NI_LOCAL_LEVELS.map((level) => level.id);
 /** The kinds of council, and the levels each one's results are drawn at (the councils registry's types). */
 export const NI_LOCAL_TIERS = Object.freeze(councils.tiers);
 
-/** The kind of council a body slug names, or null when it is not a council. */
+/**
+ * The kind of council a body slug names, or null when it is not a council.
+ * @param {unknown} bodySlug
+ */
 export function councilTier(bodySlug) {
   const slug = String(bodySlug || '').toLowerCase().replace(/-aldermen$/, '');
   if (/-county-borough-council$/.test(slug)) return 'county-borough';
@@ -82,12 +95,19 @@ export function councilTier(bodySlug) {
   return null;
 }
 
-/** A county borough's separate aldermanic poll (Belfast, Londonderry). */
+/**
+ * A county borough's separate aldermanic poll (Belfast, Londonderry).
+ * @param {unknown} bodySlug
+ */
 export function isAldermanicBody(bodySlug) {
   return /-aldermen$/.test(String(bodySlug || ''));
 }
 
-/** A contest for aldermen: its own body, or a borough contest whose seats are aldermen's. */
+/**
+ * A contest for aldermen: its own body, or a borough contest whose seats are aldermen's.
+ * @param {unknown} bodySlug
+ * @param {unknown} [seatType]
+ */
 export function isAldermanicContest(bodySlug, seatType = '') {
   return isAldermanicBody(bodySlug) || /^alderm[ae]n$/i.test(String(seatType || '').trim());
 }
@@ -98,7 +118,7 @@ export function isAldermanicContest(bodySlug, seatType = '') {
  * Local Government (Ireland) Act 1898's councils; the Republic's local elections, bodySlug
  * ireland-local, are not grouped.)
  *
- * @param {any} [entry]
+ * @param {ElectionRecord | null} [entry]
  */
 export function isNiLocalCouncilRound(entry = {}) {
   if (!entry || typeof entry !== 'object') return false;
@@ -113,17 +133,24 @@ export function isNiLocalCouncilRound(entry = {}) {
   return isIrelandLocalYear(date) || NI_COUNCIL_SLUGS.has(slug.replace(/-aldermen$/, ''));
 }
 
-/** `ireland-local__1911` before 1921, `ni-local__1946` from 1921. */
+/**
+ * `ireland-local__1911` before 1921, `ni-local__1946` from 1921.
+ * @param {string | number} year
+ */
 export function niLocalGroupKey(year) {
   const y = String(year).slice(0, 4);
   return `${isIrelandLocalYear(y) ? IRELAND_LOCAL_GROUP_PREFIX : NI_LOCAL_GROUP_PREFIX}${y}`;
 }
 
-/** A year entry's key (either form). The Republic's ireland-local__YYYY-MM-DD keys are not. */
+/**
+ * A year entry's key (either form). The Republic's ireland-local__YYYY-MM-DD keys are not.
+ * @param {unknown} key
+ */
 export function isNiLocalGroupKey(key) {
   return /^(ni-local|ireland-local)__\d{4}$/.test(String(key || ''));
 }
 
+/** @param {unknown} key */
 export function niLocalGroupYear(key) {
   const match = String(key || '').match(/^(?:ni-local|ireland-local)__(\d{4})$/);
   return match ? Number(match[1]) : null;
@@ -132,25 +159,33 @@ export function niLocalGroupYear(key) {
 /**
  * The key a year entry has now, given any it has had: a pre-1921 year briefly keyed
  * ni-local__YYYY (on the ni-local-grouped branch, never published) is ireland-local__YYYY.
+ * @param {unknown} key
  */
 export function currentNiLocalGroupKey(key) {
   const year = niLocalGroupYear(key);
   return year === null ? null : niLocalGroupKey(year);
 }
 
+/** @param {string | number} year */
 export function niLocalGroupTitle(year) {
   const y = String(year).slice(0, 4);
   return `${y} ${isIrelandLocalYear(y) ? 'Irish' : 'Northern Ireland'} local elections`;
 }
 
-/** Rounds by year: Map(year -> rounds sorted by date then body). */
+/**
+ * Rounds by year: Map(year -> rounds sorted by date then body).
+ * @template {ElectionRecord} E
+ * @param {E[] | null} [entries]
+ * @returns {Map<number, E[]>}
+ */
 export function groupNiLocalRounds(entries = []) {
+  /** @type {Map<number, E[]>} */
   const byYear = new Map();
   for (const entry of entries || []) {
     if (!isNiLocalCouncilRound(entry)) continue;
     const year = Number(String(entry.date).slice(0, 4));
     if (!byYear.has(year)) byYear.set(year, []);
-    byYear.get(year).push(entry);
+    /** @type {E[]} */ (byYear.get(year)).push(entry);
   }
   for (const rounds of byYear.values()) {
     rounds.sort((a, b) => String(a.date).localeCompare(String(b.date)) || String(a.body).localeCompare(String(b.body)));
@@ -161,6 +196,8 @@ export function groupNiLocalRounds(entries = []) {
 /**
  * The year entry that stands for a year's rounds in an election list: the fields every list reads
  * (key, body, bodySlug, date, displayTitle) and the rounds it holds.
+ * @param {string | number} year
+ * @param {ElectionRecord[]} [rounds]
  */
 export function buildNiLocalGroupEntry(year, rounds = []) {
   const dates = [...new Set(rounds.map((round) => round.date).filter(Boolean))].sort();
@@ -194,12 +231,15 @@ export function buildNiLocalGroupEntry(year, rounds = []) {
  * An election list with each year's pre-1973 council rounds replaced by the year's entry, placed
  * where the year's first round was. Everything else keeps its place.
  *
- * @param {any[]} [entries]
- * @param {{ decorate?: (group: any, rounds: any[]) => any }} [options]
+ * @template {ElectionRecord} E
+ * @param {E[] | null} [entries]
+ * @param {{ decorate?: (group: NiLocalGroupEntry, rounds: E[]) => ElectionRecord }} [options]
+ * @returns {ElectionRecord[]}
  */
 export function replaceNiLocalRoundsWithGroups(entries = [], { decorate = (group) => group } = {}) {
   const groups = groupNiLocalRounds(entries);
   const placed = new Set();
+  /** @type {ElectionRecord[]} */
   const out = [];
   for (const entry of entries || []) {
     if (!isNiLocalCouncilRound(entry)) {
@@ -214,7 +254,10 @@ export function replaceNiLocalRoundsWithGroups(entries = [], { decorate = (group
   return out;
 }
 
-/** Normalise a place name for matching a result to a boundary: lower case, no punctuation. */
+/**
+ * Normalise a place name for matching a result to a boundary: lower case, no punctuation.
+ * @param {unknown} value
+ */
 export function niLocalNameKey(value) {
   return String(value || '')
     .normalize('NFD').replace(/[̀-ͯ]/g, '')
