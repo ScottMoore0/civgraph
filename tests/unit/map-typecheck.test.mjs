@@ -71,8 +71,8 @@ test('the check script runs this config', () => {
   assert.match(pkg.scripts.check, /npm run check:types:mapapp/);
 });
 
-test('the strict flags stay on, strictNullChecks among them (round 3)', () => {
-  const flags = ['strictNullChecks', 'strictBindCallApply', 'strictFunctionTypes', 'noImplicitThis', 'alwaysStrict',
+test('the strict flags stay on, strictNullChecks (round 3) and noImplicitAny (8 Nov 2026) among them', () => {
+  const flags = ['strictNullChecks', 'noImplicitAny', 'strictBindCallApply', 'strictFunctionTypes', 'noImplicitThis', 'alwaysStrict',
     'useUnknownInCatchVariables', 'noImplicitReturns', 'noImplicitOverride', 'noUnusedLocals', 'noUnusedParameters'];
   for (const flag of flags) assert.equal(config.compilerOptions[flag], true, `src/tsconfig.check.json turned ${flag} off`);
   // `strict: false` or a stray override would not show above; the flag must be set here, not inherited.

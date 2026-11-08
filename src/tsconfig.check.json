@@ -1,5 +1,5 @@
 {
-  "//": "Type checking of the map app by JSDoc and checkJs (REFACTOR-PLAN.md item 2, slice TS-3). Run by `npm run check:types:mapapp`. Named tsconfig.check.json, not tsconfig.json, so esbuild (the app bundler) never reads it. The include list is an allowlist that only grows (tests/unit/map-typecheck.test.mjs): the pure modules first; the method modules of packages/map/src/app/ need a typed `this` (the app) before they can join. strictNullChecks is on (round 3): the election models' loose records are typed in packages/core/src/election-view-model.mjs (ElectionRecord, ElectionResult, ElectionContext), and tests/unit/map-typecheck.test.mjs fails if it is turned off.",
+  "//": "Type checking of the map app by JSDoc and checkJs (REFACTOR-PLAN.md item 2, slice TS-3). Run by `npm run check:types:mapapp`. Named tsconfig.check.json, not tsconfig.json, so esbuild (the app bundler) never reads it. The include list is an allowlist that only grows (tests/unit/map-typecheck.test.mjs): the pure modules first; the method modules of packages/map/src/app/ need a typed `this` (the app) before they can join. strictNullChecks is on (round 3): the election models' loose records are typed in packages/core/src/election-view-model.mjs (ElectionRecord, ElectionResult, ElectionContext), and tests/unit/map-typecheck.test.mjs fails if it is turned off. noImplicitAny is on (noImplicitAny review, 8 Nov 2026): every parameter has a JSDoc type, and the same test fails if it is turned off.",
   "compilerOptions": {
     "allowJs": true,
     "checkJs": true,
@@ -14,6 +14,7 @@
     ],
     "types": [],
     "strictNullChecks": true,
+    "noImplicitAny": true,
     "strictBindCallApply": true,
     "strictFunctionTypes": true,
     "noFallthroughCasesInSwitch": true,
