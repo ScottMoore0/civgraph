@@ -5,9 +5,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { loadRegistry, registryErrors } from '../../registries/index.mjs';
-import { BEHAVIOUR_FLAGS, behaviourLine, seedLayerTypes } from '../../registries/seed/layer-types.mjs';
-import { hasBehaviour, layerRecordErrors, typesWithBehaviour } from '../../registries/layers.mjs';
+import { loadRegistry, registryErrors } from '../../packages/registries/src/index.mjs';
+import { BEHAVIOUR_FLAGS, behaviourLine, seedLayerTypes } from '../../packages/registries/src/seed/layer-types.mjs';
+import { hasBehaviour, layerRecordErrors, typesWithBehaviour } from '../../packages/registries/src/layers.mjs';
 
 const registry = loadRegistry('layers');
 const read = (rel) => readFileSync(new URL(`../../${rel}`, import.meta.url), 'utf8');
@@ -27,7 +27,7 @@ test('layers: every published layer record conforms to its type', () => {
 
 test('layers: the map app builds each behaviour flag set of types from the registry', () => {
   const controller = read('src/map/renderer/map-controller.js');
-  assert.ok(controller.includes("import layerTypes from '../../../registries/browser/layer-types.mjs';"));
+  assert.ok(controller.includes("import layerTypes from '../../../packages/registries/src/browser/layer-types.mjs';"));
   for (const flag of Object.keys(BEHAVIOUR_FLAGS)) {
     assert.ok(controller.includes(behaviourLine(flag)), `map-controller.js no longer builds ${flag}: ${behaviourLine(flag)}`);
     assert.ok(registry.behaviourFlags[flag], flag);

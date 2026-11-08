@@ -17,7 +17,7 @@
  * Shared by the map app (app/src), the catalogue and Browse builders and the tests, so the three
  * cannot disagree about which elections a year holds. No DOM, no Node APIs.
  */
-import councils from '../registries/browser/councils.mjs';
+import councils from '../packages/registries/src/browser/councils.mjs';
 
 export const NI_LOCAL_GROUP_PREFIX = 'ni-local__';
 export const NI_LOCAL_GROUP_BODY = 'Northern Ireland local elections';

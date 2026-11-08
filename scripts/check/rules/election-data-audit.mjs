@@ -2,8 +2,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { writeStableGeneratedJson } from '../../lib/stable-generated-json.mjs';
 import { recordPath } from '../../../packages/loader/src/paths.mjs';
-import { loadRegistry } from '../../../registries/index.mjs';
-import { enumValues } from '../../../registries/statuses.mjs';
+import { loadRegistry } from '../../../packages/registries/src/index.mjs';
+import { enumValues } from '../../../packages/registries/src/statuses.mjs';
 
 /**
  * The party-colour comparison's outcome (state-machine catalogue PL-L, light). The audit rows spell

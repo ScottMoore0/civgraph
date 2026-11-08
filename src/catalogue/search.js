@@ -12,7 +12,7 @@
  *   - constituencies: "Dungannon" finds the elections Dungannon was contested in;
  *   - places: a named ward, district or parish returns the maps that draw it.
  */
-import councilSearch from '../../registries/browser/council-search.mjs';
+import councilSearch from '../../packages/registries/src/browser/council-search.mjs';
 
 const DIACRITICS = /[̀-ͯ]/g;
 export function normalise(text) {

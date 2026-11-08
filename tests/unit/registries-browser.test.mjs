@@ -7,8 +7,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
-import { REPO_ROOT, loadRegistry } from '../../registries/index.mjs';
-import { browserSlices, sliceText, staleSlices } from '../../registries/browser/build.mjs';
+import { REPO_ROOT, loadRegistry } from '../../packages/registries/src/index.mjs';
+import { browserSlices, sliceText, staleSlices } from '../../packages/registries/src/browser/build.mjs';
 import { EXCLUDE, SITE_DIRS } from '../../scripts/build/site.mjs';
 import { statusKind } from '../../packages/core/src/election-domain.mjs';
 import { isNonParty, partyAbbreviation, partyFullName } from '../../packages/core/src/party-names.mjs';
@@ -19,17 +19,17 @@ test('registries/browser: every slice matches a fresh build from data/registries
   assert.deepEqual(staleSlices(), [], 'run node registries/browser/build.mjs');
   const slices = browserSlices();
   assert.deepEqual(Object.keys(slices), ['councils.json', 'council-search.json', 'parties.json', 'statuses.json', 'layer-types.json']);
-  for (const [file, slice] of Object.entries(slices)) assert.equal(read(`registries/browser/${file}`), sliceText(slice), file);
+  for (const [file, slice] of Object.entries(slices)) assert.equal(read(`packages/registries/src/browser/${file}`), sliceText(slice), file);
 });
 
 test('registries/browser: each reader imports its slice statically, through its module', () => {
   const readers = {
-    'src/ni-local-groups.mjs': '../registries/browser/councils.mjs',
-    'src/catalogue/search.js': '../../registries/browser/council-search.mjs',
-    'packages/core/src/party-names.mjs': '../../../registries/browser/parties.mjs',
-    'packages/core/src/election-domain.mjs': '../../../registries/browser/statuses.mjs',
-    'app/src/ni-local-view.js': '../../registries/browser/statuses.mjs',
-    'src/map/renderer/map-controller.js': '../../../registries/browser/layer-types.mjs'
+    'src/ni-local-groups.mjs': '../packages/registries/src/browser/councils.mjs',
+    'src/catalogue/search.js': '../../packages/registries/src/browser/council-search.mjs',
+    'packages/core/src/party-names.mjs': '../../registries/src/browser/parties.mjs',
+    'packages/core/src/election-domain.mjs': '../../registries/src/browser/statuses.mjs',
+    'app/src/ni-local-view.js': '../../packages/registries/src/browser/statuses.mjs',
+    'src/map/renderer/map-controller.js': '../../../packages/registries/src/browser/layer-types.mjs'
   };
   for (const [file, spec] of Object.entries(readers)) {
     assert.ok(read(file).split('\n').some((line) => /^import \w+ from '/.test(line) && line.endsWith(` from '${spec}';`)), file);
@@ -37,7 +37,7 @@ test('registries/browser: each reader imports its slice statically, through its 
   // Each module re-exports its slice: a static JSON import esbuild inlines.
   for (const file of Object.keys(browserSlices())) {
     const name = file.replace('.json', '');
-    assert.match(read(`registries/browser/${name}.mjs`), new RegExp(`^import (\\w+) from '\\./${name}\\.json' with \\{ type: 'json' \\};\\n\\nexport default \\1;$`, 'm'), name);
+    assert.match(read(`packages/registries/src/browser/${name}.mjs`), new RegExp(`^import (\\w+) from '\\./${name}\\.json' with \\{ type: 'json' \\};\\n\\nexport default \\1;$`, 'm'), name);
   }
 });
 

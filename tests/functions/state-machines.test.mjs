@@ -129,7 +129,7 @@ test("FN-04: the table is the registry's contribution machine", () => {
 
 test("FN-04: the registry's runnable machine answers every move as the mirror does", async () => {
   const registry = JSON.parse(readFileSync(REGISTRY, 'utf8'));
-  const { statusMachines, canMarkContributionApplied } = await import('../../registries/status-machines.mjs');
+  const { statusMachines, canMarkContributionApplied } = await import('../../packages/registries/src/status-machines.mjs');
   const machine = statusMachines(registry).contribution;
   const states = Object.keys(CONTRIBUTION_TRANSITIONS);
   assert.deepEqual([...machine.states].sort(), [...states].sort());

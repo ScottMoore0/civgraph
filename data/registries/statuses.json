@@ -1,6 +1,6 @@
 {
  "schemaVersion": 1,
- "description": "The data statuses the code branches on, one entry each: their values, how a value moves to another (full weight: a transition table the shared helper scripts/lib/state-machine.mjs runs), the spellings found in the data and what they mean, and the labels the site shows. Ids are those of the state-machine catalogue (D:/civgraph-intake/refactor-2026-11-07/state-machines, RG-01 to RG-06). Every value and rule is copied from the code or data named in its `sources`; tests/unit/registries-statuses.test.mjs holds each to them. Schema: registries/schemas/statuses.schema.json; views: registries/statuses.mjs.",
+ "description": "The data statuses the code branches on, one entry each: their values, how a value moves to another (full weight: a transition table the shared helper scripts/lib/state-machine.mjs runs), the spellings found in the data and what they mean, and the labels the site shows. Ids are those of the state-machine catalogue (D:/civgraph-intake/refactor-2026-11-07/state-machines, RG-01 to RG-06). Every value and rule is copied from the code or data named in its `sources`; tests/unit/registries-statuses.test.mjs holds each to them. Schema: packages/registries/schemas/statuses.schema.json; views: packages/registries/src/statuses.mjs.",
  "machines": {
   "contribution": {
    "catalogueId": "RG-04",

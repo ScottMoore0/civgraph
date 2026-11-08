@@ -1,7 +1,7 @@
-import { loadRegistry } from '../../registries/index.mjs';
+import { loadRegistry } from '../../packages/registries/src/index.mjs';
 import {
   councilNameOn, councilsById, eraTitles, plainTitleBodies, pre1973CouncilBodyNames
-} from '../../registries/councils.mjs';
+} from '../../packages/registries/src/councils.mjs';
 
 const NATIONAL_CONSTITUENCY_NAMES = new Set([
   'ireland',

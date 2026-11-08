@@ -14,10 +14,10 @@ import { createPartyLabelInterpreter } from '../lib/party-label-interpretations.
 import { bracketedResultFile, seatTypeResultFile } from '../lib/election-result-files.mjs';
 import { writeStableGeneratedJson } from '../lib/stable-generated-json.mjs';
 import { ELECTION_BUNDLE_DIR, ELECTION_MANIFEST, ELECTION_REPORT } from '../../packages/loader/src/paths.mjs';
-import { loadRegistry } from '../../registries/index.mjs';
-import { manifestCouncilSets } from '../../registries/councils.mjs';
-import { labelInterpretationRules } from '../../registries/parties.mjs';
-import { statesOf } from '../../registries/statuses.mjs';
+import { loadRegistry } from '../../packages/registries/src/index.mjs';
+import { manifestCouncilSets } from '../../packages/registries/src/councils.mjs';
+import { labelInterpretationRules } from '../../packages/registries/src/parties.mjs';
+import { statesOf } from '../../packages/registries/src/statuses.mjs';
 
 const ROOT = process.cwd();
 const ELECTION_ROOT = path.join(ROOT, 'data/elections-source', 'data', 'elections');

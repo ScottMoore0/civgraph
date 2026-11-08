@@ -1,6 +1,2 @@
-// The browser's slice of data/registries/layer-types.json (generated: node registries/browser/build.mjs).
-// Readers import this module, not the JSON, so a file Node or TypeScript takes for CommonJS needs no
-// import attributes; esbuild inlines the slice into the app bundle.
-import layerTypes from './layer-types.json' with { type: 'json' };
-
-export default layerTypes;
+// Moved to packages/registries/src/browser/layer-types.mjs (refactor: registries became a package); this re-export is kept until 8 Dec 2026.
+export { default } from '../../packages/registries/src/browser/layer-types.mjs';
