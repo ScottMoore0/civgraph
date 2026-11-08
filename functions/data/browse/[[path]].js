@@ -82,7 +82,7 @@ export function movedPath(parts) {
   return null;
 }
 
-/** @param {import('../../../packages/config/src/config.js').CatchAllContext} context */
+/** @param {CatchAllContext} context */
 export async function onRequest(context) {
   const method = context.request.method;
   if (method !== 'GET' && method !== 'HEAD') {
@@ -92,7 +92,7 @@ export async function onRequest(context) {
   return method === 'HEAD' ? new Response(null, { status: resp.status, headers: resp.headers }) : resp;
 }
 
-/** @param {import('../../../packages/config/src/config.js').CatchAllContext} context */
+/** @param {CatchAllContext} context */
 export async function onRequestGet(context) {
   const parts = (context.params.path || []).map(decodeURIComponent);
   if (parts.includes('..')) return notFound();

@@ -5,7 +5,7 @@
  * own address is a file, so /404 (and /404.html, which Pages redirects to /404) answered
  * 200 -- a "soft 404" that a crawler would index as a real page. This serves the same
  * static page and only changes the status.
- * @param {import('../packages/config/src/config.js').FunctionContext} context
+ * @param {FunctionContext} context
  */
 export async function onRequestGet(context) {
   const page = await context.next();

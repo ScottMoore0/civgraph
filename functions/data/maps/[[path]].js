@@ -13,7 +13,7 @@
  * wire to the client.
  */
 import { binding } from '../../../packages/config/src/config.js';
-/** @param {import('../../../packages/config/src/config.js').CatchAllContext} context */
+/** @param {CatchAllContext} context */
 export async function onRequestGet(context) {
     // decodeURIComponent, matching functions/data/browse/[[path]].js.
     //

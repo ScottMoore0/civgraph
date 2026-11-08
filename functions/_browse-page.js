@@ -64,8 +64,7 @@ const SITE_NAME = 'Civgraph';
 const DESCRIPTION_LIMIT = 300;
 
 /**
- * @typedef {import('../packages/config/src/config.js').Env} Env
- * @typedef {import('../packages/config/src/config.js').FunctionContext} FunctionContext
+ * @typedef {CivgraphEnv} Env
  * @typedef {import('../packages/storage/src/store.js').RecordStore} RecordStore
  * @typedef {import('../packages/ui/src/templates/records/person.js').PersonRecord} PersonRecord
  * @typedef {import('../packages/ui/src/templates/records/grouped-year.js').YearCard} YearCard
