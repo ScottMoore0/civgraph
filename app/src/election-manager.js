@@ -18,11 +18,11 @@ import {
   normalizeParty,
   partyColour as electionPartyColour,
   seatPositions
-} from '../../src/election-domain.mjs';
-import { partyAbbreviation, partyFullName, partyLabelHtml } from '../../src/party-names.mjs';
+} from '../../packages/core/src/election-domain.mjs';
+import { partyAbbreviation, partyFullName, partyLabelHtml } from '../../packages/core/src/party-names.mjs';
 import { initPrintedLabels, printedLabelsToggleHtml, printedLabelText } from '../../src/printed-labels.mjs';
 import { buildTrendChartModel, mountTrendChart } from '../../src/election-trend-chart.mjs';
-import { formatDisplayDate } from '../../src/date-format.mjs';
+import { formatDisplayDate } from '../../packages/core/src/date-format.mjs';
 import {
   colourForMode as paletteColourForMode,
   knownPartyColour as paletteKnownPartyColour,

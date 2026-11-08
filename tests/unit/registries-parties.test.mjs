@@ -1,6 +1,6 @@
 /**
  * The parties registry (data/registries/parties.json joined with the party files it names) is
- * valid, its abbreviations are exactly src/party-names.mjs's, and the views read the files as
+ * valid, its abbreviations are exactly packages/core/src/party-names.mjs's, and the views read the files as
  * their current readers do.
  */
 import test from 'node:test';
@@ -12,7 +12,7 @@ import {
   abbreviationIndex, entityAliasStrings, labelFoldIndex, labelInterpretationRules, partiesById, partyInfoFrom,
   partyLabelKey, retiredPartySlugs
 } from '../../registries/parties.mjs';
-import { isNonParty, partyInfo } from '../../src/party-names.mjs';
+import { isNonParty, partyInfo } from '@civgraph/core/party-names.mjs';
 import { createPartyLabelInterpreter } from '../../scripts/lib/party-label-interpretations.mjs';
 
 const registry = loadRegistry('parties');
@@ -24,7 +24,7 @@ test('parties: the registry passes its schema and cross-file checks', () => {
   assert.equal(registry.entities.entities.length, 257);
 });
 
-test('parties: data/registries/parties.json is what src/party-names.mjs and the part list give', () => {
+test('parties: data/registries/parties.json is what packages/core/src/party-names.mjs and the part list give', () => {
   const file = JSON.parse(readFileSync(new URL('../../data/registries/parties.json', import.meta.url), 'utf8'));
   assert.deepEqual(seedParties(), file);
   for (const rel of Object.values(file.parts)) assert.ok(readFileSync(new URL(`../../${rel}`, import.meta.url)), rel);

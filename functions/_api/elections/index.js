@@ -27,7 +27,7 @@
  * reorders rowids, and SQLite promises no order without ORDER BY.
  */
 import { reportError } from '../_error.js';
-import { resolveElectionSlugAlias } from '../../_lib/election-slug-aliases.js';
+import { resolveElectionSlugAlias } from '../../../packages/core/src/election-slug-aliases.js';
 import {
   bundleObject, cachedJson, documentBody, electionAggregates, isMarker, parseJson, withoutMarkers,
 } from '../_records.js';

@@ -17,7 +17,7 @@ import {
   slugifyEntityKey
 } from './helpers.mjs';
 import uiController from '../../ui-controller.js';
-import { partyFullName } from '../../party-names.mjs';
+import { partyFullName } from '../../../packages/core/src/party-names.mjs';
 import { ENTITY_PAGE_LOAD } from '../../ui-state-machines.mjs';
 import { createState } from '../state-helpers.mjs';
 import {

@@ -1,7 +1,7 @@
 import {
   buildCandidateSummary,
   buildPartySummary
-} from './election-domain.mjs';
+} from '../packages/core/src/election-domain.mjs';
 
 /**
  * Engine-neutral election results pane contract.

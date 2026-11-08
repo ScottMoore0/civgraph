@@ -45,12 +45,12 @@
  */
 import { reportError } from './_api/_error.js';
 import { browseMapRecord } from './_api/_maps.js';
-import { dateText, listText, numberText, slugify } from './_lib/format.js';
+import { dateText, listText, numberText, slugify } from '../packages/core/src/format.js';
 import { datasetVersion, htmlResponse } from './_lib/respond.js';
 import { renderRecordPage, ssrMode } from './_templates/records/index.js';
 import { loadElectionPage } from './_templates/records/election.js';
 import { groupedYearHero, groupedYearKey } from './_templates/records/grouped-year.js';
-import { resolveElectionSlugAlias } from './_lib/election-slug-aliases.js';
+import { resolveElectionSlugAlias } from '../packages/core/src/election-slug-aliases.js';
 import { binding } from '../packages/config/src/config.js';
 import { asStore } from '../packages/storage/src/d1.js';
 import { CARDS } from '../packages/api/src/queries/cards.js';

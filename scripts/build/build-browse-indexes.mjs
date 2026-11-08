@@ -2,7 +2,7 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { resolveApprovedPublicationSources } from '../lib/approved-publication-index.mjs';
-import { partyColour, NO_LABEL, NO_PARTY_RECORDED } from '../../src/election-domain.mjs';
+import { partyColour, NO_LABEL, NO_PARTY_RECORDED } from '@civgraph/core/election-domain.mjs';
 import { isPublicMap, isPublicStatistic, statisticGeographyIds } from '../../src/public-map.mjs';
 import { canonicalElectionTitle, compareElectionsNewestFirst, electionResultEntryLabel } from '../lib/election-names.mjs';
 import { buildPartyVocabulary, classifyPersonName, stripWikipediaQualifier, NOT_A_PERSON } from '../lib/person-name-artefacts.mjs';

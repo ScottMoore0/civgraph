@@ -2,7 +2,7 @@
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync } from 'node:fs';
 import path from 'node:path';
 import { deserialize } from 'flatgeobuf/lib/mjs/geojson.js';
-import * as ElectionDomain from '../../src/election-domain.mjs';
+import * as ElectionDomain from '@civgraph/core/election-domain.mjs';
 import { namesCompatible } from '../lib/name-compatibility.mjs';
 
 // Decorations on the Republic's local electoral area names; see buildFeatureLookup.

@@ -22,8 +22,8 @@ const electionPaneContractSource = readFileSync('app/src/election-pane-main-cont
 const test2ServiceWorkerSource = readFileSync('test2/sw.js', 'utf8');
 const rootServiceWorkerSource = readFileSync('sw.js', 'utf8');
 const mainElectionPaneContractSource = readFileSync('src/election-main-pane-contract.mjs', 'utf8');
-const electionDomainSource = readFileSync('src/election-domain.mjs', 'utf8');
-const electionViewModelSource = readFileSync('src/election-view-model.mjs', 'utf8');
+const electionDomainSource = readFileSync('packages/core/src/election-domain.mjs', 'utf8');
+const electionViewModelSource = readFileSync('packages/core/src/election-view-model.mjs', 'utf8');
 const electionRendererSource = readFileSync('src/election-renderer.mjs', 'utf8');
 const electionManifestBuilderSource = readFileSync('scripts/build/build-test2-election-manifest.mjs', 'utf8');
 // Boundary changes between consecutive timeline editions (scripts/build/timeline-changes.py,
@@ -690,8 +690,8 @@ for (const path of [
   'app/src/election-manager.js',
   'app/src/election-pane-main-contract.js',
   'src/election-main-pane-contract.mjs',
-  'src/election-domain.mjs',
-  'src/election-view-model.mjs',
+  'packages/core/src/election-domain.mjs',
+  'packages/core/src/election-view-model.mjs',
   'src/election-renderer.mjs',
   'src/map/renderer/feature-property-repairs.js',
   ELECTION_MANIFEST,

@@ -3,8 +3,8 @@
  * party chip. Each returns html`` (escaped by default) and matches a stylesheet in
  * assets/ui/components/.
  */
-import { attrs, html } from '../../_lib/html.js';
-import { safeUrl } from '../../_lib/format.js';
+import { attrs, html } from '../../../packages/core/src/html.js';
+import { safeUrl } from '../../../packages/core/src/format.js';
 
 const present = (value) => value !== null && value !== undefined && value !== '' && value !== false
   && !(Array.isArray(value) && !value.length);

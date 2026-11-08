@@ -6,8 +6,8 @@
  * declared interest is still in the static detail shard the Browse app reads
  * (record.detailUrl), so the page says so and links there until D2 loads it into a table.
  */
-import { html } from '../../_lib/html.js';
-import { dateText, numberText } from '../../_lib/format.js';
+import { html } from '../../../packages/core/src/html.js';
+import { dateText, numberText } from '../../../packages/core/src/format.js';
 import { badges, facts, link, notice } from '../components/index.js';
 
 const SOURCE_KIND_LABELS = {

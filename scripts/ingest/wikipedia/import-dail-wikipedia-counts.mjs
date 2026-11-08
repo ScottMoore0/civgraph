@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { fixText, normalizeName, parseNumber } from '../../../src/election-domain.mjs';
+import { fixText, normalizeName, parseNumber } from '@civgraph/core/election-domain.mjs';
 import { RESULT } from '@civgraph/intake/item-status.mjs';
 
 const ROOT = process.cwd();

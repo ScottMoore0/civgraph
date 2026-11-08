@@ -7,7 +7,7 @@ import path from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
 import { recordPaths, REPO_ROOT } from '@civgraph/loader/paths.mjs';
 import { MAX_VALUE_BYTES, TABLES } from '@civgraph/schema';
-import { partyAsPrintedLabel } from '../../src/party-names.mjs';
+import { partyAsPrintedLabel } from '@civgraph/core/party-names.mjs';
 import { bundleChunks, bundleObject } from '../../functions/_api/_records.js';
 import { d1 } from './d1-shim.mjs';
 

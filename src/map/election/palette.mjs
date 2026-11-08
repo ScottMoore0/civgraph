@@ -16,7 +16,7 @@ import {
   isRegistryColourParty,
   normalizeName,
   partyColour as electionPartyColour
-} from '../../election-domain.mjs';
+} from '../../../packages/core/src/election-domain.mjs';
 
 /** Labels for the map style selector, keyed by mode. */
 export const MODE_LABELS = {

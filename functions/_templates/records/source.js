@@ -1,8 +1,8 @@
 /**
  * The server-rendered source page: /browse/sources/<slug>, from the browse_sources record.
  */
-import { html } from '../../_lib/html.js';
-import { dateText, numberText, safeUrl } from '../../_lib/format.js';
+import { html } from '../../../packages/core/src/html.js';
+import { dateText, numberText, safeUrl } from '../../../packages/core/src/format.js';
 import { badges, citations, facts, link } from '../components/index.js';
 
 const asList = (value) => (Array.isArray(value) ? value : value ? [value] : []).filter(Boolean);

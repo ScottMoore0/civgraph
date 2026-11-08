@@ -7,7 +7,7 @@
 
 import dataService from '../../../data-service.js';
 import { compositeChildIds } from '../../../map-relations.mjs';
-import { formatDisplayDate } from '../../../date-format.mjs';
+import { formatDisplayDate } from '../../../../packages/core/src/date-format.mjs';
 import { parseTimelineDate, yearOnlyMapDate } from './dates.mjs';
 
 export class TimelineControlMethods {

@@ -25,8 +25,8 @@ import {
   NO_LABEL,
   normalizeName,
   resolvePartyColour
-} from '../../election-domain.mjs';
-import { averageNumbers, sumNumbers } from '../../election-view-model.mjs';
+} from '../../../packages/core/src/election-domain.mjs';
+import { averageNumbers, sumNumbers } from '../../../packages/core/src/election-view-model.mjs';
 import { mainPanePartyColour, partyColour } from './palette.mjs';
 
 export { averageNumbers, sumNumbers };

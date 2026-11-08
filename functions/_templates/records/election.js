@@ -3,8 +3,8 @@
  * tables: an election (its contests), its overall results (seats and votes by party), and one
  * contest (candidates and votes). The loader reads D1 once per page; templates never query.
  */
-import { html } from '../../_lib/html.js';
-import { dateText, numberText, percentText } from '../../_lib/format.js';
+import { html } from '../../../packages/core/src/html.js';
+import { dateText, numberText, percentText } from '../../../packages/core/src/format.js';
 import { badges, dataTable, facts, link, partyChip } from '../components/index.js';
 import { parseJson, withoutMarkers } from '../../_api/_records.js';
 import { asStore } from '../../../packages/storage/src/d1.js';

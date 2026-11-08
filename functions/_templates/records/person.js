@@ -4,8 +4,8 @@
  * Reads only the browse_persons record (the JSON the Browse app renders from), so this page
  * and the client show the same facts. Everything is in the HTML; nothing needs JavaScript.
  */
-import { html } from '../../_lib/html.js';
-import { dateText, numberText, percentText, slugify, yearSpan } from '../../_lib/format.js';
+import { html } from '../../../packages/core/src/html.js';
+import { dateText, numberText, percentText, slugify, yearSpan } from '../../../packages/core/src/format.js';
 import { badges, citations, dataTable, facts, link, notice } from '../components/index.js';
 
 const counted = (rows) => (rows || [])
@@ -58,7 +58,7 @@ function sourceItems(record) {
 
 /**
  * @param {object} record  a browse_persons record
- * @returns {{ body: import('../../_lib/html.js').SafeHtml, jsonLd: object }}
+ * @returns {{ body: import('../../../packages/core/src/html.js').SafeHtml, jsonLd: object }}
  */
 /**
  * @param {any} record

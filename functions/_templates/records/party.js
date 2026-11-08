@@ -3,8 +3,8 @@
  * details/parties/<slug>.json item, now a D1 row): summary, names it was printed as, and the
  * elections it contested.
  */
-import { html } from '../../_lib/html.js';
-import { dateText, numberText, yearSpan } from '../../_lib/format.js';
+import { html } from '../../../packages/core/src/html.js';
+import { dateText, numberText, yearSpan } from '../../../packages/core/src/format.js';
 import { dataTable, facts, link, partyChip } from '../components/index.js';
 
 const names = (record) => [...new Set([...(record.observedNames || []), ...(record.knownAliases || [])].map(String))]

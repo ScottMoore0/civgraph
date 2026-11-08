@@ -11,7 +11,7 @@
 //   - honours and professions (J.P., M.B.E., V.S.) are not labels: the reading stays blank,
 //     which the site shows as "No label".
 // The printed label itself is never changed.
-import { candidateDisplayName, normalizeName, normalizeParty } from '../../src/election-domain.mjs';
+import { candidateDisplayName, normalizeName, normalizeParty } from '@civgraph/core/election-domain.mjs';
 
 function candidateNameKey(row) {
   return normalizeName(row?.candidateName || row?.name || `${row?.Firstname || ''} ${row?.Surname || ''}`);

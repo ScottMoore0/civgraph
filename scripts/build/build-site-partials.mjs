@@ -48,7 +48,7 @@
 import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
-import { toHtmlString } from '../../functions/_lib/html.js';
+import { toHtmlString } from '../../packages/core/src/html.js';
 import { footer, head, header, supportModal } from '../../functions/_templates/shell.js';
 
 const CHECK = process.argv.includes('--check');

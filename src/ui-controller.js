@@ -1,7 +1,7 @@
 import { compositeChildIds } from './map-relations.mjs';
 import { catalogueV2Requested } from './data-service.js';
 import { readStored, writeStored } from './storage-keys.mjs';
-import { formatDisplayDate } from './date-format.mjs';
+import { formatDisplayDate } from '../packages/core/src/date-format.mjs';
 /**
  * NI Boundaries - UI Controller
  * Handles split-pane layout, search, filtering, map catalogue, and UI interactions
@@ -15,7 +15,7 @@ import { catalogueNextRequested, initialCatalogueRoute } from './catalogue/flag.
 import { installSplit } from './catalogue/split.js';
 import { CATALOGUE_HISTORY_ENTRY, CATALOGUE_VIEW, ENTITY_PLACEHOLDER, MOBILE_CATALOGUE, SPLIT_ALLOWED, SPLIT_LAYOUT } from './ui-state-machines.mjs';
 import { createFlag, createState } from './map/state-helpers.mjs';
-import { partyFullName, partyLabelHtml } from './party-names.mjs';
+import { partyFullName, partyLabelHtml } from '../packages/core/src/party-names.mjs';
 import { BODY_GROUP_ORDER, hasNumber, yearRange } from './entity-detail-data.mjs';
 
 /**

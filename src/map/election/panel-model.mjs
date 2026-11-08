@@ -7,7 +7,7 @@
  * Moved out of app/src/election-manager.js (frontend plan section 5.1, part of seam E6) without
  * changing behaviour. Pure: no DOM, no network; each function takes the facts it needs.
  */
-import { normalizeName } from '../../election-domain.mjs';
+import { normalizeName } from '../../../packages/core/src/election-domain.mjs';
 import { defineMachine } from '../../../scripts/lib/state-machine.mjs';
 import { defineChoice } from '../state-helpers.mjs';
 

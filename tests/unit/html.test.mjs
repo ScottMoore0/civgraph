@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { attrs, escapeHtml, html, join, raw, SafeHtml, toHtmlString } from '../../functions/_lib/html.js';
+import { attrs, escapeHtml, html, join, raw, SafeHtml, toHtmlString } from '@civgraph/core/html.js';
 
 test('interpolations are escaped', () => {
   const name = `<script>alert("x")</script> & 'q'`;
