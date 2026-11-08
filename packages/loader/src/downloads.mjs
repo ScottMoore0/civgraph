@@ -23,10 +23,17 @@ const DB = RECORDS_DB;
 const OUT = path.join(BUILD, 'downloads');
 const P = recordPaths({ CIVGRAPH_BUILD_DIR: 'tmp/records' });
 
+/**
+ * @param {string} src
+ * @param {string} dest
+ */
 async function gzipTo(src, dest) {
   await pipeline(createReadStream(src), createGzip({ level: 6 }), createWriteStream(dest));
 }
 
+/**
+ * @param {string} file
+ */
 async function sha256(file) {
   const h = createHash('sha256');
   await pipeline(createReadStream(file), h);

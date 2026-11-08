@@ -163,7 +163,9 @@ export function deployRun(mode) {
  * @returns {{ errors: string[], warnings: string[] }}
  */
 export function resumeCheck({ startPart, previous, current }) {
+  /** @type {string[]} */
   const errors = [];
+  /** @type {string[]} */
   const warnings = [];
   if (!startPart) return { errors, warnings };
   if (!Number.isInteger(startPart) || startPart < 0 || startPart >= current.parts) {

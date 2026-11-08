@@ -11,10 +11,33 @@ import { TableWriter, bool, readJson, transaction, txt, withPlaceholders } from 
 
 const SOURCE_PREFIX = 'data/elections-source/data/elections/';
 
+/**
+ * One source cited for a contest (election-provenance.json contests[].sources[]).
+ * @typedef {{ title?: string | null, publisher?: string | null, url?: string | null, archiveUrl?: string | null,
+ *   host?: string | null, kind?: string | null, origin?: string | null, basis?: string | null, scope?: string | null,
+ *   checked?: boolean | null, match?: string | null, document?: string | null, [key: string]: unknown }} ProvenanceSource
+ */
+/**
+ * One contest's provenance (election-provenance.json contests[]), keyed by its source file.
+ * @typedef {{ file: string, body?: string | null, date?: string | null, constituency?: string | null,
+ *   status?: string | null, sources?: ProvenanceSource[], legislation?: unknown, [key: string]: unknown }} ProvenanceContest
+ */
+/**
+ * election-provenance.json: the contests and the legislation they cite, plus head fields.
+ * @typedef {{ contests?: ProvenanceContest[], legislation?: Record<string, { label?: string, title?: string, url?: string } | null>,
+ *   [key: string]: unknown }} ProvenanceDocument
+ */
+
+/**
+ * @param {import('../../storage/src/sqlite.mjs').SqliteHandle} db
+ * @param {{ provenanceFile: string, shardDir: string }} options
+ */
 export function ingestProvenance(db, { provenanceFile, shardDir }) {
+  /** @type {ProvenanceDocument} */
   const doc = readJson(provenanceFile);
   // contests.source_file is the path from the repository root; provenance files are relative to
   // data/elections-source/data/elections/.
+  /** @type {Map<string, Record<string, import('node:sqlite').SQLOutputValue>>} */
   const contestByFile = new Map();
   for (const row of db.prepare('SELECT election_key, seq, source_file FROM contests WHERE source_file IS NOT NULL ORDER BY election_key, seq').all()) {
     const rel = String(row.source_file).startsWith(SOURCE_PREFIX) ? String(row.source_file).slice(SOURCE_PREFIX.length) : String(row.source_file);
@@ -42,7 +65,7 @@ export function ingestProvenance(db, { provenanceFile, shardDir }) {
         host: txt(s.host), kind: txt(s.kind), origin: txt(s.origin), basis: txt(s.basis), scope: txt(s.scope),
         checked: bool(s.checked), match: txt(s.match), document: txt(s.document), citation: JSON.stringify(s),
       }));
-      (Array.isArray(contest.legislation) ? contest.legislation : []).forEach((id, i) => el.add({ source_file: contest.file, ord: i, legislation_id: String(id) }));
+      (Array.isArray(contest.legislation) ? contest.legislation : []).forEach((/** @type {unknown} */ id, /** @type {number} */ i) => el.add({ source_file: contest.file, ord: i, legislation_id: String(id) }));
     });
     const leg = new TableWriter(db, 'legislation');
     Object.entries(doc.legislation || {}).forEach(([id, value], ord) => leg.add({

@@ -23,19 +23,44 @@ export const SOURCE_VALIDATORS = [
   'scripts/check/rules/candidate-name-party.mjs',
 ];
 
-export function validateDatabase(db, { sourceValidators = false } = {}) {
-  const errors = [];
-  const warnings = [];
-  const facts = {};
-  const all = (sql, ...a) => db.prepare(sql).all(...a);
-  const one = (sql, ...a) => db.prepare(sql).get(...a);
+/** @typedef {import('node:sqlite').SQLInputValue} SQLInputValue */
+/**
+ * What validateDatabase measured (build-records-db.mjs prints and keeps some of them).
+ * @typedef {{ largestValue: { bytes: number, table?: string, column?: string },
+ *   contestsWithoutCandidacies: number, candidaciesWithUnknownPerson: number, unstampedCandidacies: number,
+ *   candidaciesWithUnknownParty: number, duplicateContestSlugs: number, provenanceUnmatched: number }} ValidateFacts
+ */
 
+/**
+ * @param {import('../../storage/src/sqlite.mjs').SqliteHandle} db
+ * @param {{ sourceValidators?: boolean }} [options]
+ * @returns {{ errors: string[], warnings: string[], facts: ValidateFacts }}
+ */
+export function validateDatabase(db, { sourceValidators = false } = {}) {
+  /** @type {string[]} */
+  const errors = [];
+  /** @type {string[]} */
+  const warnings = [];
+  const facts = /** @type {ValidateFacts} */ ({});
+  const all = (/** @type {string} */ sql, /** @type {SQLInputValue[]} */ ...a) => db.prepare(sql).all(...a);
+  /**
+   * The one row of an aggregate or PRAGMA query (always present): numbers (COUNT(*) AS n,
+   * max(length(...))) unless the variable it is assigned to names another shape.
+   * @template [R=Record<string, number>]
+   * @param {string} sql
+   * @param {SQLInputValue[]} a
+   * @returns {R}
+   */
+  const one = (sql, ...a) => /** @type {R} */ (db.prepare(sql).get(...a));
+
+  /** @type {Record<string, string>} */
   const integrity = one('PRAGMA integrity_check');
   if (Object.values(integrity)[0] !== 'ok') errors.push(`integrity_check: ${JSON.stringify(integrity)}`);
   const fk = all('PRAGMA foreign_key_check');
   if (fk.length) errors.push(`foreign_key_check: ${fk.length} violation(s)`);
 
   // D1 refuses a row over 2,000,000 bytes: every TEXT value stays under 1.9 MB.
+  /** @type {ValidateFacts['largestValue']} */
   let largest = { bytes: 0 };
   for (const t of TABLES) {
     const cols = t.columns.filter((c) => c.type === 'TEXT').map((c) => c.name);

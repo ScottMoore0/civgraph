@@ -22,6 +22,14 @@ import { TableWriter, bool, readJson, transaction, txt } from './db.mjs';
 import { REPO_ROOT } from './paths.mjs';
 import { PART_CHARS } from '../../schema/src/schema.mjs';
 
+/** @typedef {import('../../types/index.js').MapEntry} MapEntry */
+/** @typedef {import('../../types/index.js').LayerEntry} LayerEntry */
+/** @typedef {import('./db.mjs').DocumentRow} DocumentRow */
+/**
+ * A card of a Browse list (data/browse/maps.json, features.json items[]): open JSON.
+ * @typedef {{ slug?: string, id?: string, title?: string, [key: string]: unknown }} BrowseCard
+ */
+
 export const MAP_SOURCES = {
   maps: 'data/database/maps.json',
   layers: 'render/metadata/maps-test.json',
@@ -33,13 +41,20 @@ export const MAP_SOURCES = {
   },
 };
 
-/** The kind a layer id names: vector, raster, alias, or other (3D, groups, data overlays). */
+/**
+ * The kind a layer id names: vector, raster, alias, or other (3D, groups, data overlays).
+ * @param {unknown} id
+ */
 export function layerKind(id) {
   const m = /-(vector|raster|alias)(?:-test)?$/.exec(String(id || ''));
   return m ? m[1] : 'other';
 }
 
-/** A feature index URL (/render/metadata/feature-indexes/x.json) as a file in `root`, or null. */
+/**
+ * A feature index URL (/render/metadata/feature-indexes/x.json) as a file in `root`, or null.
+ * @param {string} root
+ * @param {string | undefined} url
+ */
 function featureIndexFile(root, url) {
   if (!url || /^https?:\/\//i.test(url)) return null;
   const file = path.join(root, ...String(url).split('?')[0].replace(/^\/+/, '').split('/'));
@@ -50,11 +65,14 @@ function featureIndexFile(root, url) {
  * The other spellings of every live layer id, each pointing at it: the renames.csv suffix rule
  * in both directions (so -vector links work before and after the source ids flip), and the
  * renamed prefixes of url-compat.mjs. An alias never shadows a live id; the first claim wins.
+ * @param {string[]} ids
+ * @returns {{ alias: string, layer_id: string }[]}
  */
 export function layerAliasRows(ids) {
   const live = new Set(ids);
+  /** @type {Map<string, string>} */
   const out = new Map();
-  const claim = (alias, id) => {
+  const claim = (/** @type {string | null | undefined} */ alias, /** @type {string} */ id) => {
     if (alias && alias !== id && !live.has(alias) && !out.has(alias)) out.set(alias, id);
   };
   for (const id of ids) {
@@ -72,8 +90,13 @@ export function layerAliasRows(ids) {
   return [...out].sort((a, b) => (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0)).map(([alias, layer_id]) => ({ alias, layer_id }));
 }
 
-/** A document's text in parts of at most PART_CHARS characters (never splitting a surrogate pair). */
+/**
+ * A document's text in parts of at most PART_CHARS characters (never splitting a surrogate pair).
+ * @param {string} text
+ * @param {number} [size]
+ */
 export function splitParts(text, size = PART_CHARS) {
+  /** @type {string[]} */
   const parts = [];
   let at = 0;
   while (at < text.length) {
@@ -93,12 +116,15 @@ export function splitParts(text, size = PART_CHARS) {
  *   stay empty and the Function answers 404 for those files).
  */
 export function ingestMaps(db, { root = REPO_ROOT, browseDir = null } = {}) {
-  const at = (rel) => path.join(root, ...rel.split('/'));
+  const at = (/** @type {string} */ rel) => path.join(root, ...rel.split('/'));
+  /** @type {Record<string, number>} */
   const counts = {};
+  /** @type {DocumentRow[]} */
   const docs = [];
 
   transaction(db, () => {
     // ---- maps.json
+    /** @type {{ maps?: MapEntry[], [key: string]: unknown }} */
     const catalogue = readJson(at(MAP_SOURCES.maps));
     const maps = new TableWriter(db, 'maps');
     (catalogue.maps || []).forEach((m, ord) => {
@@ -116,8 +142,10 @@ export function ingestMaps(db, { root = REPO_ROOT, browseDir = null } = {}) {
     counts.catalogue_parts = parts.finish();
 
     // ---- maps-test.json
+    /** @type {{ layers?: LayerEntry[], [key: string]: unknown }} */
     const render = readJson(at(MAP_SOURCES.layers));
     const layers = new TableWriter(db, 'layers');
+    /** @type {string[]} */
     const ids = [];
     (render.layers || []).forEach((layer, ord) => {
       const file = featureIndexFile(root, layer.featureIndexUrl);
@@ -150,6 +178,7 @@ export function ingestMaps(db, { root = REPO_ROOT, browseDir = null } = {}) {
 
     // ---- the Browse build's map list, map pages and feature groups
     if (browseDir && existsSync(path.join(browseDir, 'maps.json'))) {
+      /** @type {{ items?: BrowseCard[], [key: string]: unknown }} */
       const list = readJson(path.join(browseDir, 'maps.json'));
       const detailDir = path.join(browseDir, 'details', 'maps');
       const cards = new TableWriter(db, 'map_cards');
@@ -169,6 +198,7 @@ export function ingestMaps(db, { root = REPO_ROOT, browseDir = null } = {}) {
       }
     }
     if (browseDir && existsSync(path.join(browseDir, 'features.json'))) {
+      /** @type {{ items?: BrowseCard[], [key: string]: unknown }} */
       const features = readJson(path.join(browseDir, 'features.json'));
       const fg = new TableWriter(db, 'feature_groups');
       (features.items || []).forEach((item, ord) => fg.add({ ord, id: txt(item.id), card: JSON.stringify(item) }));

@@ -8,6 +8,25 @@
  * `index` and `out` name the legacy files; the records loader ignores them.
  */
 /**
+ * A source's licence: a string, or `{status, note}` while it is still to be confirmed
+ * (licenseLabel).
+ * @typedef {string | { status?: string, note?: string } | null} Licence
+ */
+/**
+ * One Browse index card (an items[] entry of data/browse/persons.json, register-interests.json,
+ * sources.json, ...), as scripts/build/build-browse-indexes.mjs writes it: open JSON. The fields
+ * the column specs and the loader read are named; any other field is carried verbatim.
+ * @typedef {{ id?: string | number, slug?: string, name?: string, title?: string, memberName?: string,
+ *   previousSlugs?: string[], detailUrl?: string, elections?: { year?: unknown }[],
+ *   totals?: { elected?: unknown, stood?: unknown }, license?: Licence, [field: string]: unknown }} BrowseItem
+ */
+/**
+ * The column spec of one Browse entity (ENTITIES).
+ * @typedef {{ index: string, table: string, out: string, title: (item: BrowseItem) => unknown,
+ *   key: (item: BrowseItem) => string, extra: Record<string, (item: BrowseItem) => unknown>,
+ *   facets?: Record<string, (item: BrowseItem) => unknown[]> }} EntitySpec
+ */
+/**
  * Flattened searchable text, mirroring searchableText() in browse/browse.js.
  *
  * browse.js filters a list with a substring match over ~32 fields, several of them
@@ -23,17 +42,21 @@ export const SEARCH_FIELDS = [
   'interestSummary', 'interestText', 'keywords',
 ];
 
-/** An array of {name} objects flattens to its names; a string stays a string. */
+/**
+ * An array of {name} objects flattens to its names; a string stays a string.
+ * @param {unknown} value
+ * @returns {unknown[]}
+ */
 export const flattenValue = (value) => {
   if (value === null || value === undefined) return [];
   if (Array.isArray(value)) return value.flatMap(flattenValue);
-  if (typeof value === 'object') return [value.name, value.title, value.label].filter(Boolean);
+  if (typeof value === 'object') return [/** @type {{ name?: unknown }} */ (value).name, /** @type {{ title?: unknown }} */ (value).title, /** @type {{ label?: unknown }} */ (value).label].filter(Boolean);
   return [String(value)];
 };
 
 // Accents are folded, as functions/_api/_browse-index.js folds the query: "Micheal Martin" and
 // "fianna fail" must find the records spelt with fadas.
-export const searchText = (item) => SEARCH_FIELDS
+export const searchText = (/** @type {BrowseItem} */ item) => SEARCH_FIELDS
   .flatMap((field) => flattenValue(item[field]))
   .filter(Boolean)
   .join(' ')
@@ -45,6 +68,7 @@ export const searchText = (item) => SEARCH_FIELDS
 /**
  * Per-entity spec. `search` is the field a human would type; `key` is what the CLIENT
  * looks the record up by, which is not always the stored slug -- see entityKey().
+ * @type {{ persons: EntitySpec, 'register-interests': EntitySpec, sources: EntitySpec }}
  */
 export const ENTITIES = {
   persons: {
@@ -128,16 +152,17 @@ export const ENTITIES = {
   },
 };
 
-export const q = (value) => (value === undefined || value === null
+export const q = (/** @type {unknown} */ value) => (value === undefined || value === null
   ? 'NULL'
   : `'${String(value).replace(/'/g, "''")}'`);
-export const num = (value) => (Number.isFinite(Number(value)) ? Number(value) : null);
-export const text = (value) => (value === undefined || value === null ? null : String(value));
+export const num = (/** @type {unknown} */ value) => (Number.isFinite(Number(value)) ? Number(value) : null);
+export const text = (/** @type {unknown} */ value) => (value === undefined || value === null ? null : String(value));
 /**
  * A source's licence is a string for 29,279 records and `{status, note}` for 2,928, where
  * the status is always something like "provider-specific" -- a real answer, not a missing
  * one. String(value) on the object form yields "[object Object]", which would have shipped
  * as a facet option.
+ * @param {Licence | undefined} value
  */
 export const licenseLabel = (value) => {
   if (!value) return null;
@@ -146,31 +171,32 @@ export const licenseLabel = (value) => {
   return null;
 };
 // The {status, note} form says the licence is still to be confirmed; these read as that.
+/** @type {Record<string, string>} */
 const LICENCE_STATUS_LABELS = {
   'provider-specific': 'Set by the provider (see the source)',
   'likely-open-but-confirm': 'Probably open, not confirmed',
   'licence-review-required': 'Not yet confirmed'
 };
-export const lit = (value) => (value === null || value === undefined ? 'NULL'
+export const lit = (/** @type {unknown} */ value) => (value === null || value === undefined ? 'NULL'
   : typeof value === 'number' ? value : q(value));
 
 /** Distinct values as '|a|b|', for a LIKE '%|a|%' match; null when there are none. */
-export const delimited = (values) => {
+export const delimited = (/** @type {unknown} */ values) => {
   const list = [...new Set(arr(values))].sort();
   return list.length ? `|${list.join('|')}|` : null;
 };
-const decadeOf = (year) => (Number(year) > 0 ? `${Math.floor(Number(year) / 10) * 10}s` : null);
+const decadeOf = (/** @type {unknown} */ year) => (Number(year) > 0 ? `${Math.floor(Number(year) / 10) * 10}s` : null);
 
 /** A field that may be a string, an array, or an array of {name} objects -> string[]. */
-export const arr = (value) => flattenValue(value).filter(Boolean);
+export const arr = (/** @type {unknown} */ value) => flattenValue(value).filter(Boolean);
 /** The first value of such a field, for a sortable column. */
-const normaliseOne = (value) => arr(value)[0] || null;
+const normaliseOne = (/** @type {unknown} */ value) => arr(value)[0] || null;
 
 /**
  * Kept character-for-character identical to slugifyEntityKey in packages/map/app/app.js. Stored
  * rather than reconstructed in SQL, so the two cannot drift into disagreeing.
  */
-export const entityKey = (value) => String(value || '')
+export const entityKey = (/** @type {unknown} */ value) => String(value || '')
   .split('|')[0]
   .normalize('NFKD')
   .replace(/[̀-ͯ]/g, '')

@@ -47,6 +47,8 @@ export const RECORDS_DB = P.RECORDS_DB;
  * `/render/metadata/elections-test2/<key>.json` is a URL in the manifest (resultUrl); the
  * file is under ELECTION_BUNDLE_DIR. Anything not produced by the record build resolves
  * under the repository root, as before. Returns null for absolute http(s) URLs.
+ * @param {string | null | undefined} url
+ * @param {ReturnType<typeof recordPaths>} [paths]
  */
 export function localPathForUrl(url, paths = P) {
   if (!url || /^https?:\/\//i.test(url)) return null;
@@ -73,12 +75,17 @@ export function localPathForUrl(url, paths = P) {
 /**
  * A repository-relative path as the record build places it: 'data/browse/elections.json'
  * is BROWSE_DIR/elections.json when CIVGRAPH_BUILD_DIR is set, and itself otherwise.
+ * @param {string} relative
+ * @param {ReturnType<typeof recordPaths>} [paths]
  */
 export function recordPath(relative, paths = P) {
   return localPathForUrl(`/${String(relative).replace(/^\/+/, '')}`, paths);
 }
 
-/** A path relative to the repository root, with forward slashes, for messages. */
+/**
+ * A path relative to the repository root, with forward slashes, for messages.
+ * @param {string} p
+ */
 export function rel(p) {
   return path.relative(REPO_ROOT, p).split(path.sep).join('/');
 }

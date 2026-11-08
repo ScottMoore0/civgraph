@@ -22,8 +22,16 @@ import { TableWriter, readJson, transaction } from './db.mjs';
 import { carryGraphFiles } from './graph-files-freeze.mjs';
 import { GRAPH_FILE_PART_KEYS } from '../../schema/src/schema.mjs';
 
-const fold = (value) => String(value || '').normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase();
+/** @typedef {import('./graph-files-freeze.mjs').GraphFileRow} GraphFileRow */
+/** @typedef {import('./db.mjs').DocumentRow} DocumentRow */
+/** An entity-search item: the entity's id and its search fields. @typedef {{ entityId?: string, [key: string]: unknown }} SearchItem */
 
+const fold = (/** @type {unknown} */ value) => String(value || '').normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase();
+
+/**
+ * Each JSON file of `dir`, by name, parsed (the graph build's shards: open JSON).
+ * @param {string} dir
+ */
 function* jsonFiles(dir) {
   if (!existsSync(dir)) return;
   for (const file of readdirSync(dir).filter((f) => f.endsWith('.json')).sort()) {
@@ -31,37 +39,47 @@ function* jsonFiles(dir) {
   }
 }
 
-const graphRel = (url) => String(url).replace(/^\/data\/graph\//, '');
+const graphRel = (/** @type {unknown} */ url) => String(url).replace(/^\/data\/graph\//, '');
 
-/** The items of a head file's parts, each part also passed to onPart(relativeFile, partDoc). */
 /**
+ * The items of a head file's parts, each part also passed to onPart(relativeFile, partDoc).
+ * @template [T=unknown]
  * @param {string} headFile
  * @param {string} graphDir
- * @param {(rel: string, doc: any) => void} [onPart]
+ * @param {(rel: string, doc: { items?: T[], bySlug?: Record<string, unknown> }) => void} [onPart]
+ * @returns {T[]}
  */
 function readParts(headFile, graphDir, onPart = () => {}) {
   const head = readJson(headFile, null);
   if (!head) return [];
   const parts = Array.isArray(head.parts) ? head.parts : [];
   if (!parts.length) return head.items || [];
-  return parts.flatMap((url) => {
+  return parts.flatMap((/** @type {unknown} */ url) => {
     const doc = readJson(path.join(graphDir, ...graphRel(url).split('/')), { items: [] });
     onPart(graphRel(url), doc);
     return doc.items || [];
   });
 }
 
-const withoutGeneratedAt = ({ generatedAt: _g, ...rest }) => rest;
+const withoutGeneratedAt = (/** @type {Record<string, unknown>} */ { generatedAt: _g, ...rest }) => rest;
 
+/**
+ * @param {import('../../storage/src/sqlite.mjs').SqliteHandle} db
+ * @param {{ graphDir: string, frozenFrom?: string | null }} options
+ */
 export function ingestGraph(db, { graphDir, frozenFrom = null }) {
   const idx = path.join(graphDir, 'indexes');
   // What each old file (path under data/graph/) held, in order: graph_files.
+  /** @type {{ file: string, keys: (string | null)[], extra: unknown[][] | null }[]} */
   const files = [];
-  /** @type {(file: string, keys: string[], extra?: unknown[][] | null) => number} */
+  /** @type {(file: string, keys: (string | null)[], extra?: unknown[][] | null) => number} */
   const fileKeys = (file, keys, extra = null) => files.push({ file, keys, extra });
+  /** @type {Map<string, { slug?: string, label?: string, [key: string]: unknown }>} */
   const lookupEntry = new Map();
   for (const [file, bucket] of jsonFiles(path.join(idx, 'lookup', 'entity'))) {
+    /** @type {string[]} */
     const keys = [];
+    /** @type {unknown[][]} */
     const extra = [];
     for (const [id, entry] of Object.entries(bucket.items || {})) {
       const { st, rv, ss, ...summary } = entry;
@@ -71,19 +89,21 @@ export function ingestGraph(db, { graphDir, frozenFrom = null }) {
     }
     fileKeys(`indexes/lookup/entity/${file}`, keys, extra);
   }
+  /** @type {Map<string, SearchItem>} */
   const searchEntry = new Map();
-  const searchPart = (rel, doc) => fileKeys(rel, (doc.items || []).map((item) => item?.entityId ?? null));
+  const searchPart = (/** @type {string} */ rel, /** @type {{ items?: (SearchItem | null)[] }} */ doc) => fileKeys(rel, (doc.items || []).map((item) => item?.entityId ?? null));
   for (const item of readParts(path.join(idx, 'entity-search.json'), graphDir, searchPart)) {
     if (item?.entityId && !searchEntry.has(item.entityId)) searchEntry.set(item.entityId, item);
   }
 
+  /** @type {GraphFileRow[]} */
   const freshFiles = [];
   const out = transaction(db, () => {
     const ent = new TableWriter(db, 'graph_entities');
     for (const [file, shard] of jsonFiles(path.join(graphDir, 'entity-shards'))) {
-      fileKeys(`entity-shards/${file}`, (shard.items || []).map((entity) => entity.id));
+      fileKeys(`entity-shards/${file}`, (shard.items || []).map((/** @type {{ id: string }} */ entity) => entity.id));
       const shardNo = Number(shard.shard ?? file.match(/(\d+)/)?.[1] ?? 0);
-      (shard.items || []).forEach((entity, ord) => {
+      (shard.items || []).forEach((/** @type {{ id: string, label?: string }} */ entity, /** @type {number} */ ord) => {
         const summary = lookupEntry.get(entity.id);
         const search = searchEntry.get(entity.id);
         ent.add({
@@ -118,7 +138,7 @@ export function ingestGraph(db, { graphDir, frozenFrom = null }) {
     for (const [file, shard] of jsonFiles(path.join(idx, 'statements-by-subject-shards'))) {
       fileKeys(`indexes/statements-by-subject-shards/${file}`, Object.keys(shard.items || {}));
       for (const [subject, list] of Object.entries(shard.items || {})) {
-        (list || []).forEach((s, ord) => st.add({
+        (list || []).forEach((/** @type {{ id?: string, propertyId?: string }} */ s, /** @type {number} */ ord) => st.add({
           subject_id: subject, ord, statement_id: s.id ?? null, property_id: s.propertyId ?? null, statement: JSON.stringify(s),
         }));
       }
@@ -127,14 +147,14 @@ export function ingestGraph(db, { graphDir, frozenFrom = null }) {
     for (const [file, shard] of jsonFiles(path.join(idx, 'reverse-entity-value-shards'))) {
       fileKeys(`indexes/reverse-entity-value-shards/${file}`, Object.keys(shard.items || {}));
       for (const [entity, list] of Object.entries(shard.items || {})) {
-        (list || []).forEach((item, ord) => rv.add({ entity_id: entity, ord, item: JSON.stringify(item) }));
+        (list || []).forEach((/** @type {unknown} */ item, /** @type {number} */ ord) => rv.add({ entity_id: entity, ord, item: JSON.stringify(item) }));
       }
     }
     const ss = new TableWriter(db, 'graph_source_statements');
     for (const [file, shard] of jsonFiles(path.join(idx, 'source-statements-shards'))) {
       fileKeys(`indexes/source-statements-shards/${file}`, Object.keys(shard.items || {}));
       for (const [source, list] of Object.entries(shard.items || {})) {
-        (list || []).forEach((item, ord) => ss.add({ source_id: source, ord, item: JSON.stringify(item) }));
+        (list || []).forEach((/** @type {unknown} */ item, /** @type {number} */ ord) => ss.add({ source_id: source, ord, item: JSON.stringify(item) }));
       }
     }
     // The files the loops above did not read: the entity summaries, the slug index's parts (their
@@ -170,6 +190,7 @@ export function ingestGraph(db, { graphDir, frozenFrom = null }) {
     graphFiles = { frozenFrom, drifted: carried.drifted, retired: carried.retired };
   }
 
+  /** @type {DocumentRow[]} */
   const docs = [];
   for (const [name, file] of [
     ['graph/manifest.json', path.join(graphDir, 'manifest.json')],

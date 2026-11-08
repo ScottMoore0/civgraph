@@ -28,6 +28,9 @@ export const PIN_FILE = path.join(REPO_ROOT, 'data', 'database', 'votes-source.j
 export const VOTES_INPUTS = ['tidy/divisions.csv', 'tidy/votes.csv', 'tidy/stormont/divisions.csv', 'tidy/stormont/votes.csv'];
 const REQUIRED = new Set(['tidy/divisions.csv', 'tidy/votes.csv']);
 
+/**
+ * @param {string} votesDir
+ */
 export function checksumVotesDir(votesDir) {
   const tidy = path.join(votesDir, 'tidy');
   if (!existsSync(tidy)) throw new Error(`no tidy/ folder in ${votesDir}`);
@@ -55,14 +58,17 @@ export function votesPinState(votesDir, pinFile = PIN_FILE) {
   if (!existsSync(pinFile)) return { state: 'unpinned', diffs: [], pin: null };
   const pin = JSON.parse(readFileSync(pinFile, 'utf8'));
   const actual = checksumVotesDir(votesDir);
-  const want = new Map(pin.files.map((f) => [f.file, f.sha256]));
+  const want = new Map(pin.files.map((/** @type {{ file: string, sha256: string }} */ f) => [f.file, f.sha256]));
   const diffs = [];
   for (const f of actual) if (want.get(f.file) !== f.sha256) diffs.push(f.file);
   for (const f of pin.files) if (!actual.some((a) => a.file === f.file)) diffs.push(`${f.file} (missing)`);
   return { state: diffs.length ? 'mismatch' : 'pinned', diffs, pin };
 }
 
-/** Throws unless the copy at votesDir matches the committed pin; returns the pin's digest. */
+/**
+ * Throws unless the copy at votesDir matches the committed pin; returns the pin's digest.
+ * @param {string} votesDir
+ */
 export function verifyVotesPin(votesDir) {
   const { state, diffs, pin } = votesPinState(votesDir);
   if (state === 'unpinned' || !pin) throw new Error('data/database/votes-source.json is missing: run node scripts/records/votes-pin.mjs --write');

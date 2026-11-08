@@ -20,6 +20,16 @@ import { slugify } from '../../core/src/format.js';
 
 export { slugify };
 
+/** @typedef {import('../../types/index.js').Election} Election */
+/** @typedef {import('../../types/index.js').Contest} Contest */
+/** @typedef {import('../../types/index.js').Candidacy} Candidacy */
+/** @typedef {import('../../types/index.js').Count} Count */
+/** @typedef {import('../../types/index.js').ElectionManifestEntry} ElectionManifestEntry */
+
+/**
+ * @param {string} electionKey
+ * @param {unknown} name   the contest's constituency (slugify takes any value)
+ */
 export function contestSlug(electionKey, name) {
   const slug = slugify(name);
   // The NI Forum's province-wide list is "regional-list" in Browse (_browse-page.js lookupElection).
@@ -30,13 +40,19 @@ export function contestSlug(electionKey, name) {
 export const ELECTION_MARKERS = { results: '$contests', mainLikeCandidateSummary: '$aggregate', entityIndex: '$aggregate' };
 export const AGGREGATES = ['mainLikeCandidateSummary', 'entityIndex'];
 
-const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+const same = (/** @type {unknown} */ a, /** @type {unknown} */ b) => JSON.stringify(a) === JSON.stringify(b);
 
+/**
+ * @param {import('../../storage/src/sqlite.mjs').SqliteHandle} db
+ * @param {{ bundleDir: string, manifestFile: string, summaryDir: string }} options
+ */
 export function ingestElections(db, { bundleDir, manifestFile, summaryDir }) {
   const files = readdirSync(bundleDir).filter((f) => f.endsWith('.json')).sort();
+  /** @type {{ elections?: ElectionManifestEntry[], [key: string]: unknown }} */
   const manifest = JSON.parse(readFileSync(manifestFile, 'utf8'));
   const manifestEntries = manifest.elections || [];
   const ordByKey = new Map(manifestEntries.map((e, i) => [e.key, i]));
+  /** @type {{ unstampedCandidacies: number, countGroupVerbatim: number, nonUniqueCandidateIds: number, manifestHead?: Record<string, unknown> }} */
   const stats = { unstampedCandidacies: 0, countGroupVerbatim: 0, nonUniqueCandidateIds: 0 };
 
   const n = transaction(db, () => {
@@ -54,6 +70,7 @@ export function ingestElections(db, { bundleDir, manifestFile, summaryDir }) {
     let extraOrd = manifestEntries.length;
     for (const file of files) {
       const text = readFileSync(path.join(bundleDir, file), 'utf8');
+      /** @type {Election} */
       const d = JSON.parse(text);
       const key = d.key;
       W.elections.add({
@@ -91,9 +108,10 @@ export function ingestElections(db, { bundleDir, manifestFile, summaryDir }) {
 
       (d.results || []).forEach((r, seq) => {
         const anim = r.animationPayload;
+        /** @type {Record<string, string>} */
         const markers = { candidates: '$candidacies' };
         if ('animationPayload' in r && anim) markers.animationPayload = '$animation';
-        if ('countGroup' in r && anim && same(r.countGroup, anim?.Constituency?.countGroup)) markers.countGroup = '$animation.countGroup';
+        if ('countGroup' in r && anim && same(r.countGroup, /** @type {{ Constituency?: { countGroup?: unknown } }} */ (anim)?.Constituency?.countGroup)) markers.countGroup = '$animation.countGroup';
         else if ('countGroup' in r) stats.countGroupVerbatim += 1;
         W.contests.add({
           election_key: key,
@@ -125,12 +143,14 @@ export function ingestElections(db, { bundleDir, manifestFile, summaryDir }) {
         }
 
         const candidates = r.candidates || [];
+        /** @type {Map<string, number | null>} */
         const ordById = new Map();
         const seen = new Set();
         candidates.forEach((cand, ord) => {
           const id = cand.id == null ? '' : String(cand.id);
           if (seen.has(id)) ordById.set(id, null); else { seen.add(id); ordById.set(id, ord); }
         });
+        /** @type {Map<string, Count>} */
         const printedById = new Map();
         for (const row of r.countGroup || []) {
           const id = String(row.Candidate_Id ?? '');
