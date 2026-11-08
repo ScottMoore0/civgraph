@@ -156,7 +156,7 @@ export function buildUrlList(db) {
   for (const s of sample(register, 40)) add('api-register', `/_api/register-interests?slug=${enc(s)}`);
 
   for (const f of ['index.json', 'persons.json', 'persons-facets.json', 'sources.json', 'register-interests.json', 'parties.json',
-    'party-names.json', 'party-label-folds.json', 'offices.json', 'source-merges.json', 'elections-list.json', 'votes/index.json']) {
+    'party-names.json', 'party-label-folds.json', 'offices.json', 'votes/index.json']) {
     add('browse-file', `/data/browse/${f}`);
   }
   const parties = col('SELECT slug FROM party_cards ORDER BY slug');
@@ -175,7 +175,7 @@ export function buildUrlList(db) {
   // these hold the order of every row (the last shard of each included).
   for (let i = 0; i < Math.ceil(sources.length / 5000); i += 1) add('source-shard', `/data/browse/source-index-shards/sources-${String(i).padStart(3, '0')}.json`);
   for (let i = 0; i < Math.ceil(register.length / 5000); i += 1) add('register-shard', `/data/browse/register-interest-shards/register-interests-${String(i).padStart(3, '0')}.json`);
-  for (const f of ['elections.json', 'election-contest-parents.json']) add('browse-file', `/data/browse/${f}`);
+  for (const f of ['elections.json']) add('browse-file', `/data/browse/${f}`);
   // The list APIs in their default (source) order, first and later pages.
   for (const q of ['limit=50', 'limit=50&offset=10000', 'limit=50&offset=36300']) add('api-person-list', `/_api/persons?${q}`);
   for (const q of ['limit=60', 'limit=60&offset=20000', 'limit=60&offset=39300']) add('api-source-list', `/_api/sources?${q}`);

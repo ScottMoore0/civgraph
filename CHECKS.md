@@ -128,18 +128,32 @@ Retired on 7 November 2026 with data phase 4 (the leftovers: data-architecture D
   answer with an ETag of the dataset version.
 - **The R2 reads of `/data/browse/` and `/data/graph/`.** Every old file kind is rebuilt from
   D1 (functions/data/browse, functions/data/graph; migration 0004 adds `graph_files`, the keys
-  each old graph file held). **New:** `tests/records/legacy-files.test.mjs` (in `records:check`:
+  each old graph file held). **New:** tests/records/legacy-files.test.mjs (in `records:check`:
   a sample of every file kind deep-equal to the build's files; the 301s, 404s and HEAD) and
-  `scripts/records/legacy-files-crawl.mjs` (the same comparison over HTTP, against
+  scripts/records/legacy-files-crawl.mjs (the same comparison over HTTP, against
   `wrangler pages dev` or, after a publish, production).
 - **The rebuild of `graph_files` on every build** (7 Nov 2026, owner). It is frozen as loaded at
   go-live: records:build carries it forward from the last-loaded snapshot, else the previous
-  build (`scripts/records/graph-files-freeze.mjs`), and records the files whose keys have changed
+  build (scripts/records/graph-files-freeze.mjs), and records the files whose keys have changed
   since in `tmp/records/graph-files-drift.json`, which the legacy-files test and crawl skip.
-  **New:** `tests/records/graph-files-freeze.test.mjs` (a carried table gives a delta with no
+  **New:** tests/records/graph-files-freeze.test.mjs (a carried table gives a delta with no
   `graph_files` row) and `tests/records/legacy-burst.test.mjs` (the old file URLs under a burst:
   the long edge cache, the R2 copy before D1 for the heavy legacy kinds, the gate on concurrent
   rebuilds; cachedJson's `stable`, `edgeTtl`, `gate` and `r2Key` options).
+
+Retired on 8 November 2026 with the old Browse and graph file URLs (owner: the 90-day window
+ended early). /data/graph/* answers 410 Gone except the bulk dumps (statement-shards/, exports/);
+the Browse kinds no page reads (elections-list, election-contest-parents, source-merges,
+details/source-shards, votes/persons|parties|divisions) and unknown /data/browse paths answer 410;
+migration 0005 drops `graph_files`.
+
+- **tests/records/legacy-files.test.mjs, scripts/records/legacy-files-crawl.mjs,
+  tests/records/graph-files-freeze.test.mjs and scripts/records/graph-files-freeze.mjs**:
+  the files they compared or froze are gone. `tests/records/legacy-burst.test.mjs` keeps the
+  gate and edge-cache cases and holds the 410s.
+- **`npm run deploy:browse-indexes` and `npm run dev:records:load`** (with
+  scripts/build/build-browse-index-d1-import.mjs): they loaded the browse_* tables of
+  `civgraph-elections`, which nothing binds any more.
 
 Retired on 7 November 2026 with data phase 3 (the maps, layers and catalogue load into the
 records database; PHASE3.md):

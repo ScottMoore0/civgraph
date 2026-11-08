@@ -2,8 +2,8 @@
  * The Browse card columns of the D1 indexes: which fields of a person, source or
  * register-of-interests card are lifted into columns, how the search text and the client's
  * lookup key are made, and the facet options. Moved here unchanged from
- * scripts/build/build-browse-index-d1-import.mjs, which imports it until stage H deletes it, so the
- * records loader (scripts/records/ingest-browse.mjs) and the old import cannot drift apart.
+ * scripts/build/build-browse-index-d1-import.mjs (deleted 8 Nov 2026 with civgraph-elections); the
+ * records loader (scripts/records/ingest-browse.mjs) reads it.
  *
  * `index` and `out` name the legacy files; the records loader ignores them.
  */

@@ -1,6 +1,7 @@
-// The old /data/browse and /data/graph file URLs under a burst (data phase 4; 15 of 294 answered
-// 503 in a production crawl on 7 Nov 2026): long edge caching, the R2 copy before D1 for the
-// heavy legacy kinds, and the gate on concurrent rebuilds (cachedJson in functions/_api/_records.js).
+// The old /data/browse and /data/graph file URLs: retired on 8 Nov 2026 (owner) to 410 Gone, except
+// the Browse kinds pages still read (D1, under the dataset version) and the graph's bulk dumps (R2,
+// then 301 to the downloads). Then the gate on concurrent rebuilds (cachedJson in
+// packages/api/src/handlers/_records.js), which a burst of 503s on 7 Nov 2026 made necessary.
 // No records build needed: D1 and R2 are stubs.
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -27,56 +28,79 @@ const bucket = (objects) => ({
   async get(key) { this.reads.push(key); return key in objects ? { body: objects[key] } : null; },
 });
 const fresh = () => { installCaches(); resetDatasetMemo(); gateState.reset(); };
-const call = (mod, prefix, rel, env) => {
+const call = (mod, prefix, rel, env, method = 'GET') => {
   const ctx = context(`${prefix}${rel}`, env, { path: rel.split('/') });
+  if (method !== 'GET') ctx.request = new Request(ctx.request.url, { method });
   return mod.onRequest(ctx).then(async (res) => { await Promise.all(ctx._pending); return res; });
 };
 const deferred = () => { let resolve; const promise = new Promise((r) => { resolve = r; }); return { promise, resolve }; };
 const tick = () => new Promise((r) => setTimeout(r, 0));
 
-test('graph: a heavy kind answers from R2 without D1, and the edge keeps it for 30 days across publishes', async () => {
+/** @param {Response} res */
+async function assertGone(res, label) {
+  assert.equal(res.status, 410, label);
+  assert.equal(res.headers.get('Cache-Control'), 'public, max-age=300', label);
+  assert.equal(JSON.parse(await res.text()).error, 'gone', label);
+}
+
+test('graph: every index and shard file answers 410 Gone, with neither D1 nor R2 read', async () => {
   fresh();
-  const rel = 'indexes/entity-slugs-part-0.json';
-  const r2 = bucket({ [`data/graph/${rel}`]: '{"part":0}' });
-  const res = await call(dataGraph, '/data/graph/', rel, { ELECTIONS_DB: fakeDb(), MAPS_BUCKET: r2 });
-  assert.equal(res.status, 200);
-  assert.equal(await res.text(), '{"part":0}');
-  assert.match(res.headers.get('Cache-Control'), /s-maxage=2592000/);
-  assert.equal(res.headers.get('ETag'), '"data-graph-2"');
-  // A publish (a new dataset version) and R2 gone: the edge copy still answers, D1 untouched.
-  resetDatasetMemo();
-  const again = await call(dataGraph, '/data/graph/', rel, { ELECTIONS_DB: fakeDb({ version: 'v2' }), MAPS_BUCKET: bucket({}) });
-  assert.equal(again.status, 200);
-  assert.equal(await again.text(), '{"part":0}');
+  const r2 = bucket({ 'data/graph/manifest.json': '{}', 'data/graph/indexes/entity-slugs-part-0.json': '{"part":0}' });
+  for (const rel of ['manifest.json', 'entity-types.json', 'indexes/entity-slugs-part-0.json', 'indexes/lookup/browse/0001.json',
+    'entity-shards/entities-000.json', 'indexes/statements-by-subject-shards/statements-by-subject-000.json',
+    'indexes/statements-by-subject-map.json', 'indexes/browse-record-to-entity-persons.json', 'no/such/file.json', '../x', 'exports']) {
+    await assertGone(await call(dataGraph, '/data/graph/', rel, { ELECTIONS_DB: fakeDb(), MAPS_BUCKET: r2 }), rel);
+  }
+  assert.deepEqual(r2.reads, []);
+  const head = await call(dataGraph, '/data/graph/', 'manifest.json', { ELECTIONS_DB: fakeDb() }, 'HEAD');
+  assert.equal(head.status, 410);
+  assert.equal((await call(dataGraph, '/data/graph/', 'manifest.json', {}, 'POST')).status, 405);
 });
 
-test('graph: a light kind rebuilds from D1; if D1 fails, the R2 copy; with neither, 503 with Retry-After', async () => {
+test('graph: the bulk dumps answer from R2 while there, else 301 to the downloads', async () => {
   fresh();
-  const rel = 'indexes/lookup/browse/0001.json';
-  const r2 = bucket({ [`data/graph/${rel}`]: '{"items":{}}' });
-  const res = await call(dataGraph, '/data/graph/', rel, { ELECTIONS_DB: fakeDb({ onQuery: () => { throw new Error('D1 overloaded'); } }), MAPS_BUCKET: r2 });
-  assert.equal(res.status, 200);
-  assert.equal(res.headers.get('X-Civgraph-Copy'), 'r2');
-  assert.deepEqual(r2.reads, [`data/graph/${rel}`], 'R2 read only after D1 failed');
-  fresh();
-  const none = await call(dataGraph, '/data/graph/', rel, { ELECTIONS_DB: fakeDb({ onQuery: () => { throw new Error('D1 overloaded'); } }) });
-  assert.equal(none.status, 503);
-  assert.equal(none.headers.get('Retry-After'), '5');
-  assert.equal(none.headers.get('Cache-Control'), 'no-store');
+  const r2 = bucket({ 'data/graph/exports/civgraph.jsonld': '{"@graph":[]}', 'data/graph/statement-shards/statements-000.json': '{"items":[]}' });
+  const exp = await call(dataGraph, '/data/graph/', 'exports/civgraph.jsonld', { MAPS_BUCKET: r2 });
+  assert.equal(exp.status, 200);
+  assert.equal(await exp.text(), '{"@graph":[]}');
+  assert.equal((await call(dataGraph, '/data/graph/', 'statement-shards/statements-000.json', { MAPS_BUCKET: r2 })).status, 200);
+  const moved = await call(dataGraph, '/data/graph/', 'exports/civgraph-rdf.ndjson', { MAPS_BUCKET: r2 });
+  assert.equal(moved.status, 301);
+  assert.equal(moved.headers.get('Location'), 'https://data.civgraph.net/downloads/civgraph-rdf.ndjson.gz');
+  const shard = await call(dataGraph, '/data/graph/', 'statement-shards/statements-999.json', {});
+  assert.equal(shard.headers.get('Location'), 'https://data.civgraph.net/downloads/manifest.json');
 });
 
-test('browse: legacy-only heavy kinds read R2 first; files Browse still reads stay on D1 under the dataset version', async () => {
+test('browse: the kinds no page reads, and unknown paths, answer 410 Gone without D1 or R2', async () => {
   fresh();
-  const r2 = bucket({ 'data/browse/election-contest-parents.json': '{"items":{}}', 'data/browse/person-shards/persons-000.json': '{"stale":true}' });
-  const legacy = await call(dataBrowse, '/data/browse/', 'election-contest-parents.json', { ELECTIONS_DB: fakeDb(), MAPS_BUCKET: r2 });
-  assert.equal(legacy.status, 200);
-  assert.equal(await legacy.text(), '{"items":{}}');
-  assert.ok(dataBrowse.LEGACY_HEAVY.has('source-shard') && !dataBrowse.LEGACY_HEAVY.has('shard'));
+  const r2 = bucket({ 'data/browse/election-contest-parents.json': '{"items":{}}' });
+  for (const rel of ['elections-list.json', 'election-contest-parents.json', 'election-contest-parents/0007.json', 'source-merges.json',
+    'details/source-shards/sources-183.json', 'votes/persons/123.json', 'votes/parties/sdlp.json', 'votes/divisions/12.json',
+    'corpus-index.json', 'no/such/file.json', '../x']) {
+    await assertGone(await call(dataBrowse, '/data/browse/', rel, { ELECTIONS_DB: fakeDb(), MAPS_BUCKET: r2 }), rel);
+  }
+  assert.deepEqual(r2.reads, []);
+  for (const k of dataBrowse.RETIRED) assert.ok(!dataBrowse.HEAVY.has(k), k);
+});
+
+test('browse: files Browse still reads answer from D1 under the dataset version; moved layouts still 301', async () => {
+  fresh();
+  const r2 = bucket({ 'data/browse/person-shards/persons-000.json': '{"stale":true}' });
   const live = await call(dataBrowse, '/data/browse/', 'person-shards/persons-000.json', {
     ELECTIONS_DB: fakeDb({ onQuery: () => ({ results: [] }) }), MAPS_BUCKET: r2,
   });
-  assert.notEqual(await live.text(), '{"stale":true}', 'a file Browse reads never comes from the go-live R2 copy');
-  assert.ok(!r2.reads.includes('data/browse/person-shards/persons-000.json'));
+  assert.notEqual(live.status, 410);
+  assert.notEqual(await live.text(), '{"stale":true}', 'a file Browse reads never comes from the R2 copy');
+  assert.deepEqual(r2.reads, []);
+  const doc = await call(dataBrowse, '/data/browse/', 'index.json', {
+    ELECTIONS_DB: fakeDb({ onQuery: (sql) => (/FROM documents/.test(sql) ? { results: [{ body: '{"counts":{}}' }] } : { results: [] }) }),
+  });
+  assert.equal(doc.status, 200);
+  assert.equal(doc.headers.get('ETag'), '"data-browse-4-v1"');
+  const mf = await call(dataBrowse, '/data/browse/', 'map-features/lgd-2012/0.json', {});
+  assert.equal(mf.status, 301);
+  assert.equal(mf.headers.get('Location'), 'https://data.civgraph.net/data/browse/map-features/lgd-2012/0.json');
+  assert.equal((await call(dataBrowse, '/data/browse/', 'proni-roots.json', {})).status, 301);
 });
 
 test('gate: a burst of distinct rebuilds runs at most GATE_ACTIVE at once; past the queue, 503', async () => {

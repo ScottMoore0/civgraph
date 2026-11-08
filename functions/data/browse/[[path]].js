@@ -6,23 +6,23 @@
  * one field that is gone). Data design phase 3 moved the map files into tables (maps.json,
  * features.json, details/maps/<slug>.json: map_cards and feature_groups) and retired
  * proni-roots.json; phase 4 answers the source detail shards from `sources` and ends the read of
- * the R2 copies, except that the heavy kinds no page reads any more answer from theirs first
- * (LEGACY_HEAVY, below). Old file URLs keep answering for 90 days from 6 Nov 2026 (owner decision);
- * after that the R2 objects can go (a separate, approved step; not map-features/, which
- * browse.js reads from data.civgraph.net). Anything not listed answers 404.
+ * the R2 copies. The 90-day window for the old file URLs (from 6 Nov 2026) was ended early on
+ * 8 Nov 2026 (owner): the files no page, app or script reads (RETIRED, below) and any path not
+ * listed answer 410 Gone, and the R2 copies were deleted (not map-features/, which browse.js
+ * reads from data.civgraph.net). The kinds Browse still reads answer from D1 as before.
  *
  *   index.json, persons.json, sources.json, register-interests.json, persons-facets.json
  *   person-shards/*, source-index-shards/*, register-interest-shards/*   (slices of the rows in source order)
  *   parties.json, party-names.json, party-label-folds.json, details/parties/<slug>.json,
  *   party-profiles/<slug>.json
- *   elections.json (streamed), elections-list.json, details/elections/<slug>.json,
- *   details/election-contests/<slug>.json, election-contest-parents(.json|/<nnnn>.json)
+ *   elections.json (streamed), details/elections/<slug>.json, details/election-contests/<slug>.json
  *   offices.json, details/offices/<slug>.json   (the facts model's office pages)
- *   source-merges.json
- *   votes/index.json, votes/persons/<id>.json, votes/parties/<slug>.json, votes/divisions/<nnn>.json
+ *   votes/index.json
  *   maps.json, features.json, details/maps/<slug>.json   (phase 3)
  *   proni-roots.json                                       301 /_api/proni/node (phase 3)
- *   details/source-shards/<name>.json                      sources.detail (phase 4)
+ *   elections-list.json, election-contest-parents(.json|/<nnnn>.json), source-merges.json,
+ *   details/source-shards/<name>.json, votes/persons|parties|divisions/*  410 Gone (8 Nov 2026)
+ *   anything else                                          410 Gone (8 Nov 2026)
  *   details/sources|register-interests/<slug>.json, details/proni/<slug>.json, proni.json
  *                                                          301 to their /_api routes (older layouts)
  *   map-features/**                                        301 to the same object on data.civgraph.net
@@ -31,16 +31,14 @@
  * deployed (scripts/build/site.mjs builds dist/ from an allow-list that does not include it).
  */
 import { cachedJson, documentBody, jsonResponse, parseJson, streamFrom } from '../../../packages/api/src/handlers/_records.js';
-import { divisionShard } from '../../../packages/api/src/handlers/votes/index.js';
 import { resolvePartySlug } from '../../../packages/api/src/handlers/parties/index.js';
 import { browseFeaturesText, browseMapsText } from '../../../packages/api/src/handlers/_maps.js';
 import { binding } from '../../../packages/config/src/config.js';
 import { fromD1 } from '../../../packages/storage/src/d1.js';
-import { OFFICES, SHARDS, SOURCES } from '../../../packages/api/src/queries/cards.js';
+import { OFFICES, SHARDS } from '../../../packages/api/src/queries/cards.js';
 import { ELECTION_CARDS } from '../../../packages/api/src/queries/elections.js';
 import { MAP_CARDS } from '../../../packages/api/src/queries/maps.js';
 import { PARTIES } from '../../../packages/api/src/queries/parties.js';
-import { VOTES } from '../../../packages/api/src/queries/votes.js';
 
 /**
  * What a /data/browse/ path asks for (matchBrowsePath).
@@ -56,7 +54,6 @@ import { VOTES } from '../../../packages/api/src/queries/votes.js';
  */
 
 const VERSION = 'data-browse-4';
-const CONTEST_PARENT_BUCKETS = 64;
 export const MAP_FEATURES_ORIGIN = 'https://data.civgraph.net/data/browse/map-features';
 
 const moved = (/** @type {string} */ location) => new Response(null, {
@@ -95,18 +92,17 @@ export async function onRequest(context) {
 /** @param {CatchAllContext} context */
 export async function onRequestGet(context) {
   const parts = (context.params.path || []).map(decodeURIComponent);
-  if (parts.includes('..')) return notFound();
+  if (parts.includes('..')) return gone();
   const location = movedPath(parts);
   if (location) return moved(location);
   const route = matchBrowsePath(parts);
-  if (!route) return notFound();
+  if (!route || RETIRED.has(route.kind)) return gone();
   const bound = binding(context.env, 'ELECTIONS_DB');
   if (!bound) return jsonResponse({ error: 'records database not bound' }, 503);
   // through the storage adapter (packages/storage/); the SQL is named in packages/api/src/queries/
   const db = fromD1(bound);
   return cachedJson(context, VERSION, () => answer(db, route), {
     edgeTtl: EDGE_TTL, gate: HEAVY.has(route.kind),
-    ...LEGACY_HEAVY.has(route.kind) && { r2Key: `data/browse/${parts.join('/')}`, r2First: true },
   });
 }
 
@@ -115,12 +111,16 @@ export async function onRequestGet(context) {
  * their shards, maps, features, offices, elections.json), so the edge key keeps the dataset
  * version (a publish is seen at once); under it an answer never changes, so it is stored for
  * EDGE_TTL. The kinds that run to megabytes rebuild through the isolate's gate (cachedJson
- * `gate`). Those no page reads any more, only old links, answer from their R2 copy while it is
- * there (as it was at go-live), then from D1.
+ * `gate`).
  */
 const EDGE_TTL = 30 * 86400;
-export const HEAVY = new Set(['shard', 'source-shard', 'contest-parents', 'elections', 'elections-list', 'source-merges', 'election-contests', 'maps', 'features', 'parties']);
-export const LEGACY_HEAVY = new Set(['source-shard', 'contest-parents', 'elections-list', 'source-merges']);
+export const HEAVY = new Set(['shard', 'elections', 'election-contests', 'maps', 'features', 'parties']);
+/**
+ * The kinds no page, app or script reads any more (browse.js reads elections, sources and votes
+ * through /_api/*): 410 Gone since 8 Nov 2026 (owner), their R2 copies deleted. matchBrowsePath
+ * still names them so the answer is the same 410 as for any other retired path.
+ */
+export const RETIRED = new Set(['source-shard', 'contest-parents', 'elections-list', 'source-merges', 'votes-person', 'votes-party', 'votes-shard']);
 
 /** @type {Record<string, { table: keyof Tables, manifest: string, kind: string }>} */
 const SHARDED = {
@@ -163,23 +163,16 @@ export function matchBrowsePath(parts) {
   return null;
 }
 
-/**
- * FNV-1a over UTF-16 code units, as build-browse-indexes.mjs lookupBucket buckets contest parents.
- * @param {unknown} key
- * @param {number} count
- * @returns {number}
- */
-export function lookupBucket(key, count) {
-  let hash = 0x811c9dc5;
-  const text = String(key);
-  for (let i = 0; i < text.length; i += 1) {
-    hash ^= text.charCodeAt(i);
-    hash = Math.imul(hash, 0x01000193);
-  }
-  return (hash >>> 0) % count;
-}
-
 const notFound = () => jsonResponse({ error: 'not found' }, 404);
+
+/**
+ * A retired file URL: 410 Gone, cached briefly (the answer never changes, but a short TTL keeps
+ * a mistaken retirement cheap to undo). The body names where the records are now.
+ */
+export const gone = () => new Response(JSON.stringify({
+  error: 'gone',
+  detail: 'The old Browse file URLs retired on 8 Nov 2026. The records are served by the API: see https://civgraph.net/api/v1/',
+}), { status: 410, headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'public, max-age=300', 'Access-Control-Allow-Origin': '*' } });
 
 /**
  * @param {import('../../../packages/storage/src/store.js').RecordStore} db
@@ -248,11 +241,6 @@ async function answer(db, route) {
       }
       return new Response(streamFrom(generate()), { status: 200, headers: { 'Content-Type': 'application/json; charset=utf-8', 'Access-Control-Allow-Origin': '*' } });
     }
-    case 'elections-list': {
-      const head = (await documentBody(db, 'browse/elections-list.json')) || {};
-      const results = await db.all(ELECTION_CARDS.listCards);
-      return jsonResponse({ ...head, items: results.map((r) => parseJson(r.list_card)) });
-    }
     case 'election-detail': {
       const row = await db.first(ELECTION_CARDS.detail, [route.slug]);
       return row?.detail ? jsonResponse(`{"schemaVersion":1,"item":${row.detail}}`) : notFound();
@@ -261,33 +249,6 @@ async function answer(db, route) {
       const row = await db.first(ELECTION_CARDS.contests, [route.slug]);
       return row?.contests ? jsonResponse(`{"schemaVersion":1,"items":${row.contests}}`) : notFound();
     }
-    case 'contest-parents': {
-      const results = /** @type {{ slug: string, parent: string | null }[]} */ (await db.all(ELECTION_CARDS.contestParents));
-      /** @type {Record<string, string | null>} */
-      const items = {};
-      for (const r of results) {
-        if (route.bucket !== undefined && lookupBucket(r.slug, CONTEST_PARENT_BUCKETS) !== route.bucket) continue;
-        items[r.slug] = r.parent;
-      }
-      return jsonResponse({ schemaVersion: 1, items });
-    }
-    case 'source-merges': {
-      const head = (await documentBody(db, 'browse/source-merges.json')) || {};
-      const results = await db.all(SOURCES.merges);
-      return jsonResponse({ ...head, items: results.map((r) => parseJson(r.item)) });
-    }
-    case 'votes-person': {
-      const row = await db.first(VOTES.person, [route.id]);
-      return row ? jsonResponse(row.record) : notFound();
-    }
-    case 'votes-party': {
-      const row = await db.first(VOTES.party, [route.slug]);
-      return row ? jsonResponse(row.record) : notFound();
-    }
-    case 'votes-shard': {
-      const shard = await divisionShard(db, route.shard);
-      return shard ? jsonResponse(shard) : notFound();
-    }
     case 'maps': {
       const text = await browseMapsText(db);
       return text === null ? notFound() : jsonResponse(text);
@@ -295,16 +256,6 @@ async function answer(db, route) {
     case 'features': {
       const text = await browseFeaturesText(db);
       return text === null ? notFound() : jsonResponse(text);
-    }
-    case 'source-shard': {
-      // The sources whose card names this shard, sorted by slug as the build wrote them
-      // (build-browse-indexes.mjs writeSourceDetailShards: localeCompare in the default locale).
-      const url = `/data/browse/details/source-shards/${route.name}`;
-      const results = await db.all(SOURCES.detailsInShard, [url]);
-      if (!results.length) return notFound();
-      const items = results.map((r) => parseJson(r.detail)).filter(Boolean);
-      items.sort((x, y) => String(x.slug || '').localeCompare(String(y.slug || '')));
-      return jsonResponse({ schemaVersion: 1, kind: 'sources', shard: route.name, total: items.length, items });
     }
     case 'map-detail': {
       // The file was named by slug: only an exact slug answers (no id fallback, as before).

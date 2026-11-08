@@ -623,16 +623,6 @@ export interface GraphSourceStatementsRow {
   row_hash_n: number;
 }
 
-/** Table `graph_files` (group graph; primary key file, part; ordered by file, part). */
-export interface GraphFilesRow {
-  file: string;
-  part: number;
-  keys: string;
-  extra: string | null;
-  row_hash: string;
-  row_hash_n: number;
-}
-
 /** Table `maps` (group maps; primary key map_id; ordered by ord). */
 export interface MapsRow {
   map_id: string;
@@ -768,7 +758,6 @@ export interface Tables {
   graph_statements: GraphStatementsRow;
   graph_reverse: GraphReverseRow;
   graph_source_statements: GraphSourceStatementsRow;
-  graph_files: GraphFilesRow;
   maps: MapsRow;
   catalogue_parts: CataloguePartsRow;
   layers: LayersRow;

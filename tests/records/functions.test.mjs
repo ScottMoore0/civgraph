@@ -154,11 +154,16 @@ test('elections API: index, constituency by seq, name and slug; views', { skip }
   assert.ok(page.total > 5);
 });
 
-// ------------------------------------------------------------------ /data/browse (90-day file URLs)
+// ------------------------------------------------------------------ /data/browse (the files Browse reads)
 
 test('data/browse: documents and lists deep-equal the files', { skip: (skip || !existsSync(P.BROWSE_DIR)) && 'no build or no Browse tree' }, async () => {
-  for (const rel of ['index.json', 'persons.json', 'sources.json', 'register-interests.json', 'persons-facets.json', 'parties.json', 'party-names.json', 'party-label-folds.json', 'elections-list.json', 'election-contest-parents.json', 'source-merges.json', 'offices.json', 'election-contest-parents/0007.json', 'election-contest-parents/0063.json']) {
+  for (const rel of ['index.json', 'persons.json', 'sources.json', 'register-interests.json', 'persons-facets.json', 'parties.json', 'party-names.json', 'party-label-folds.json', 'offices.json']) {
     assert.deepEqual(await browseUrl(rel), dropGeneratedAt(readJsonFile(path.join(P.BROWSE_DIR, rel))), rel);
+  }
+  // Retired on 8 Nov 2026 (owner): no page reads them.
+  for (const rel of ['elections-list.json', 'election-contest-parents.json', 'source-merges.json', 'election-contest-parents/0007.json', 'votes/persons/1.json', 'details/source-shards/sources-000.json']) {
+    const res = await dataBrowse.onRequestGet(context(`/data/browse/${rel}`, setup(), pathParams(`/data/browse/${rel}`, '/data/browse/')));
+    assert.equal(res.status, 410, rel);
   }
   const big = await browseUrl('elections.json');
   const file = dropGeneratedAt(readJsonFile(path.join(P.BROWSE_DIR, 'elections.json')));
@@ -174,7 +179,7 @@ test('data/browse: index shards rebuild from rows (persons, sources, register)',
   }
 });
 
-test('data/browse: details, profiles and votes for a sample of each', { skip: (skip || !existsSync(P.BROWSE_DIR)) && 'no Browse tree' }, async () => {
+test('data/browse: details, profiles and the votes index for a sample of each', { skip: (skip || !existsSync(P.BROWSE_DIR)) && 'no Browse tree' }, async () => {
   for (const kind of ['details/parties', 'details/elections', 'details/election-contests', 'details/offices', 'party-profiles']) {
     const names = readdirSync(path.join(P.BROWSE_DIR, kind));
     for (const file of [...sample(names, 20), ...(kind === 'details/parties' ? ['uup.json', 'administrator-alliance.json'] : [])].filter((f) => names.includes(f))) {
@@ -184,11 +189,6 @@ test('data/browse: details, profiles and votes for a sample of each', { skip: (s
   const votesDir = existsSync(path.join(P.BROWSE_DIR, 'votes')) ? path.join(P.BROWSE_DIR, 'votes') : path.join(REPO_ROOT, '..', 'boundaries-website', 'data', 'browse', 'votes');
   if (existsSync(votesDir)) {
     assert.deepEqual(await browseUrl('votes/index.json'), readJsonFile(path.join(votesDir, 'index.json')));
-    for (const sub of ['persons', 'parties', 'divisions']) {
-      for (const file of sample(readdirSync(path.join(votesDir, sub)), 8)) {
-        assert.deepEqual(await browseUrl(`votes/${sub}/${file}`), readJsonFile(path.join(votesDir, sub, file)), `votes/${sub}/${file}`);
-      }
-    }
   }
 });
 
@@ -256,15 +256,16 @@ test('votes, graph and stats APIs', { skip }, async () => {
   assert.ok(related.reverse.length > 0);
   const search = await getJson(graph, '/_api/graph?q=paisley');
   assert.ok(search.items.length > 0);
-  const manifest = await getJson(dataGraph, '/data/graph/manifest.json', { path: ['manifest.json'] });
-  if (existsSync(path.join(P.GRAPH_DIR, 'manifest.json'))) assert.deepEqual(manifest, readJsonFile(path.join(P.GRAPH_DIR, 'manifest.json')));
+  // The old graph file URLs retired on 8 Nov 2026 (owner): 410, except the bulk dumps.
+  const manifest = await dataGraph.onRequestGet(context('/data/graph/manifest.json', setup(), { path: ['manifest.json'] }));
+  assert.equal(manifest.status, 410);
   const exp = await dataGraph.onRequestGet(context('/data/graph/exports/civgraph.jsonld', setup(), { path: ['exports', 'civgraph.jsonld'] }));
   // No R2 copy in the test setup: the export has moved to the bulk downloads.
   assert.equal(exp.status, 301);
   assert.equal(exp.headers.get('Location'), 'https://data.civgraph.net/downloads/civgraph.jsonld.gz');
   const expManifest = await dataGraph.onRequestGet(context('/data/graph/exports/manifest.json', setup(), { path: ['exports', 'manifest.json'] }));
   assert.equal(expManifest.headers.get('Location'), 'https://data.civgraph.net/downloads/manifest.json');
-  // While the R2 copy is there (the dual run), it is served as before.
+  // While the R2 copy is there (until the downloads are published), it is served as before.
   const withCopy = { ...setup(), MAPS_BUCKET: { get: async (key) => (key === 'data/graph/exports/civgraph.jsonld' ? { body: '{"@graph":[]}' } : null) } };
   const fromR2 = await dataGraph.onRequestGet(context('/data/graph/exports/civgraph.jsonld', withCopy, { path: ['exports', 'civgraph.jsonld'] }));
   assert.equal(fromR2.status, 200);

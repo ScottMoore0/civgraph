@@ -46,7 +46,6 @@ const BUILDER_SAMPLES = {
   'proni.PRONI.searchMatched': [[160, [], 'bm25(proni_fts), p.ref', true], [160, ['p.level = ?'], 'p.title ASC, p.ref', false]],
   'proni.PRONI.searchFiltered': [[160, ["p.parent = ''"], 'p.ref ASC']],
   'proni.PRONI.ancestors': [[1], [3]],
-  'graph.GRAPH_FILES.valuesByKey': ['entity', 'summary', 'search', 'browse', 'slug', 'statements-by-subject', 'reverse-entity-value', 'source-statements'].map((name) => [name]),
   'cards.SHARDS.page': [['person_cards'], ['sources'], ['register_entries']],
   'maps.MAPS.headParts': [['catalogue_parts'], ['layer_parts']],
   'maps.MAPS.headOrds': [['catalogue_parts'], ['layer_parts']],
