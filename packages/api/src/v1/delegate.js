@@ -33,8 +33,29 @@ export function versionStatus(api) {
   return api.successor ? 'superseded' : 'stable';
 }
 
+/** @typedef {import('../types.js').ApiContext} ApiContext */
+/** @typedef {Readonly<import('./v1.js').V1Route>} Route */
+/** @typedef {Readonly<Record<string, Route>>} Routes a version's routes, by their path under the version */
+/**
+ * A version of the API, as delegate() serves it (v1.js V1).
+ * @typedef {object} VersionApi
+ * @property {string} version
+ * @property {string} prefix
+ * @property {string} [legacyPrefix]
+ * @property {Routes} routes
+ * @property {(context: ApiContext) => Response} index the version's index document
+ * @property {Readonly<Record<string, (context: ApiContext) => Response>>} [documents] served at <prefix>/<name> before any route
+ * @property {{ prefix: string, routes: Record<string, unknown> } | null} [successor]
+ * @property {string | null} [sunset]
+ */
+
 const JSON_HEADERS = { 'Content-Type': 'application/json; charset=utf-8', 'Access-Control-Allow-Origin': '*' };
 
+/**
+ * @param {unknown} payload
+ * @param {number} [status]
+ * @param {Record<string, string>} [extra] more headers
+ */
 export function jsonAnswer(payload, status = 200, extra = {}) {
   return new Response(JSON.stringify(payload, null, status === 200 ? 2 : 0), {
     status,
@@ -42,13 +63,18 @@ export function jsonAnswer(payload, status = 200, extra = {}) {
   });
 }
 
-export const notFound = (detail) => jsonAnswer({ ok: false, error: 'Not found', ...detail }, 404);
+export const notFound = (/** @type {Record<string, unknown>} */ detail) => jsonAnswer({ ok: false, error: 'Not found', ...detail }, 404);
 
+/** @param {string} method */
 export function methodNotAllowed(method) {
   return jsonAnswer({ ok: false, error: `Method ${method} is not allowed; this API is read-only.` }, 405, { Allow: ALLOW });
 }
 
-/** The path segments of a catch-all route's params, whatever shape the runtime gives them. */
+/**
+ * The path segments of a catch-all route's params, whatever shape the runtime gives them.
+ * @param {string | string[] | null | undefined} path
+ * @returns {string[]}
+ */
 export function segments(path) {
   const list = Array.isArray(path) ? path : String(path ?? '').split('/');
   return list.map((s) => String(s)).filter((s) => s !== '');
@@ -57,6 +83,9 @@ export function segments(path) {
 /**
  * The route for a list of segments under a version: an exact route ('proni/node'), or a
  * catch-all route ('layers') with the segments after it. null when nothing matches.
+ * @param {Routes} routes
+ * @param {string[]} segs
+ * @returns {{ key: string, route: Route, rest: string[] } | null}
  */
 export function matchRoute(routes, segs) {
   for (let n = segs.length; n > 0; n -= 1) {
@@ -73,6 +102,12 @@ export function matchRoute(routes, segs) {
 /**
  * Rewrite a Location that points at a legacy API path into the versioned one, when the version
  * has a route for it; anything else is left as it is.
+ * @param {string} location
+ * @param {string} requestUrl
+ * @param {Routes} routes
+ * @param {string} prefix the version's prefix (/api/v1)
+ * @param {string} [legacyPrefix]
+ * @returns {string}
  */
 export function rewriteLocation(location, requestUrl, routes, prefix, legacyPrefix = '/_api') {
   if (!location) return location;
@@ -82,6 +117,7 @@ export function rewriteLocation(location, requestUrl, routes, prefix, legacyPref
   if (target.origin !== origin || !target.pathname.startsWith(`${legacyPrefix}/`)) return location;
   const segs = segments(target.pathname.slice(legacyPrefix.length));
   // The route whose legacy path is the longest prefix of the target's.
+  /** @type {{ key: string, route: Route, length: number } | null} */
   let best = null;
   for (const [key, route] of Object.entries(routes)) {
     const legacySegs = segments(route.legacy.slice(legacyPrefix.length));
@@ -97,7 +133,10 @@ export function rewriteLocation(location, requestUrl, routes, prefix, legacyPref
   return /^[a-z][a-z0-9+.-]*:/i.test(location) ? rewritten.toString() : `${rewritten.pathname}${rewritten.search}${rewritten.hash}`;
 }
 
-/** A path segment in URL form, whether the runtime handed it over decoded or not. */
+/**
+ * A path segment in URL form, whether the runtime handed it over decoded or not.
+ * @param {string} segment
+ */
 function pathSegment(segment) {
   try { return encodeURIComponent(decodeURIComponent(segment)); } catch { return encodeURIComponent(segment); }
 }
@@ -125,19 +164,20 @@ export function lifecycleHeaders(api, key, rest, search) {
 
 /**
  * Answer one versioned request.
- * @param {any} context         the Pages Function context
- * @param {any} api             { version, prefix, legacyPrefix, routes, index(context), documents?, successor?, sunset? }
+ * @param {ApiContext} context  the Pages Function context
+ * @param {VersionApi} api
  * @param {string[]} segs       the segments after the version
+ * @returns {Promise<Response>}
  */
 export async function delegate(context, api, segs) {
   const { request } = context;
   const method = request.method.toUpperCase();
   if (method !== 'GET' && method !== 'HEAD') return methodNotAllowed(method);
   const head = method === 'HEAD';
-  const strip = (res) => (head ? new Response(null, res) : res);
+  const strip = (/** @type {Response} */ res) => (head ? new Response(null, res) : res);
 
   if (!segs.length) return strip(api.index(context));
-  const document = segs.length === 1 && api.documents && Object.hasOwn(api.documents, segs[0]) ? api.documents[segs[0]] : null;
+  const document = segs.length === 1 && api.documents && Object.hasOwn(api.documents, /** @type {string} */ (segs[0])) ? api.documents[/** @type {string} */ (segs[0])] : null;
   if (document) return strip(document(context));
 
   const match = matchRoute(api.routes, segs);
@@ -151,6 +191,7 @@ export async function delegate(context, api, segs) {
   const headers = new Headers(request.headers);
   const legacyRequest = new Request(legacy.toString(), { method: 'GET', headers });
   const params = route.catchAll ? { path: rest } : {};
+  /** @type {ApiContext} */
   const ctx = {
     request: legacyRequest,
     env: context.env,
