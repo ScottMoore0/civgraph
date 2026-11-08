@@ -9,7 +9,7 @@ const { test, expect } = require('@playwright/test');
  * it is serving the wrong year again.
  */
 test.use({ serviceWorkers: 'block' });
-const { BASE } = require('./helpers/base-url');
+const { BASE } = require('./helpers/base-url.cjs');
 
 for (const [year, expectLayer] of [['1931', 'eds_leinster_1931'], ['1936', 'eds_leinster_1936']]) {
   test(`eds-roi-${year} is present and renders its own Leinster geometry`, async ({ page }) => {

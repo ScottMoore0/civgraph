@@ -1851,7 +1851,7 @@ repository warning cap: 45 MB
 Add browser tests:
 
 ```text
-tests/browser/browse-graph.spec.js
+tests/browser/browse-graph.spec.cjs
 ```
 
 Smoke pages:
@@ -2337,7 +2337,7 @@ Assertions:
 Smoke:
 
 ```text
-tests/browser/browse-graph.spec.js
+tests/browser/browse-graph.spec.cjs
 ```
 
 Viewports:

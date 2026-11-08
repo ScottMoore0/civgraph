@@ -250,7 +250,7 @@ back/forward already work) or drop the button is a product decision, so it is le
 documented stub rather than quietly hidden.
 
 **`T2-05` census layers load, or are marked.** All 14 layers in the `census` category are
-unflagged, so the catalogue promises they work. `tests/browser/census-layers-load.spec.js`
+unflagged, so the catalogue promises they work. `tests/browser/census-layers-load.spec.cjs`
 loads every one and asserts it reaches the map. All 14 pass. Now pinned, so a layer that
 starts failing is caught rather than left looking available.
 
@@ -263,5 +263,5 @@ with a natural name gained a `<caption class="visually-hidden">`.
 was gone and nobody could say which three controls were meant. Settled by re-measuring
 against a stronger claim: **no** visible interactive control may lack an accessible name.
 Measured zero, on the default view and with the panels open.
-`tests/browser/accessible-names.spec.js` keeps it that way — "we fixed the three" decays
+`tests/browser/accessible-names.spec.cjs` keeps it that way — "we fixed the three" decays
 the moment someone adds a fourth icon-only button.

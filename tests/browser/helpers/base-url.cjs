@@ -2,7 +2,7 @@
  * Which origin a spec measures.
  *
  * Six specs used to hardcode `process.env.PARITY_BASE_URL || 'https://civgraph.net'`,
- * while playwright.config.js pointed `baseURL` at the local server. So a single
+ * while playwright.config.cjs pointed `baseURL` at the local server. So a single
  * `npx playwright test` run silently split in two: most specs tested the working tree,
  * and those six tested the deployed site.
  *
@@ -15,7 +15,7 @@
  * does (CHECKS.md).
  *
  *   npx playwright test                                    # local
- *   PARITY_BASE_URL=https://civgraph.net npx playwright test tests/browser/ux-plan-items.spec.js
+ *   PARITY_BASE_URL=https://civgraph.net npx playwright test tests/browser/ux-plan-items.spec.cjs
  */
 const LOCAL = 'http://127.0.0.1:5050';
 

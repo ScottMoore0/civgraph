@@ -31,7 +31,7 @@ const { test, expect } = require('@playwright/test');
 // it thinks it is.
 test.use({ serviceWorkers: 'block' });
 
-const { BASE } = require('./helpers/base-url');
+const { BASE } = require('./helpers/base-url.cjs');
 
 test('T1-01/T1-02: a keyboard-driven layer load announces itself and keeps focus', async ({ page }) => {
   test.setTimeout(240000);

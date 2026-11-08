@@ -13,7 +13,7 @@
  * build-browse-indexes.mjs, so there is one implementation rather than three.
  *
  * This checks the derived artefact against the rule. It cannot check the rendered
- * homepage -- that needs a browser, and tests/browser/ux-t3-fixes.spec.js asserts the
+ * homepage -- that needs a browser, and tests/browser/ux-t3-fixes.spec.cjs asserts the
  * displayed figure there.
  *
  * Offline, so it belongs to `check:` rather than `verify:`.

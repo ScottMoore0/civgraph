@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * A small, self-consistent copy of the Words in parliament shards for the browser spec
- * (tests/browser/words-explorer.spec.js), cut from the full static tree that goes to R2.
+ * (tests/browser/words-explorer.spec.cjs), cut from the full static tree that goes to R2.
  *
  * The full tree is 425 MB in about 15,000 files, so the spec cannot carry it. This keeps
  * a handful of terms, their bucket files holding only those terms, the speakers those

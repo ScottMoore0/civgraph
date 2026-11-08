@@ -13,7 +13,7 @@
  * The data and the API answers are stubbed with page.route, so no records build is needed. Any
  * uncaught page error (a refused transition throws) fails the test.
  *
- *   npx playwright test tests/browser/ui-state-machines.spec.js
+ *   npx playwright test tests/browser/ui-state-machines.spec.cjs
  */
 const { test, expect } = require('@playwright/test');
 

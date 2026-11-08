@@ -13,6 +13,7 @@
   "author": "Scott Moore (https://scottmoore.xyz)",
   "license": "MIT",
   "private": true,
+  "type": "module",
   "workspaces": [
     "packages/*"
   ],
@@ -89,7 +90,7 @@
     "test:settle-outcome": "node tests/unit/settle-outcome.test.mjs",
     "test:scoped-writes": "node tests/unit/scoped-artefact-writes.test.mjs",
     "test:browser": "playwright test",
-    "test:browser:shell": "playwright test tests/browser/site-shell.spec.js",
+    "test:browser:shell": "playwright test tests/browser/site-shell.spec.cjs",
     "build:timeline-changes": "python scripts/build/timeline-changes.py",
     "build:feature-thumbnails": "node packages/maps-pipeline/src/thumbnails/feature-thumbnails.mjs --all",
     "build:feature-thumbnails:sample": "node packages/maps-pipeline/src/thumbnails/feature-thumbnails.mjs --map counties-ireland --limit 3 --force",
@@ -107,7 +108,7 @@
     "check:types:intake": "node node_modules/typescript/bin/tsc -p scripts/intake/tsconfig.json",
     "check:ci": "node scripts/check/clean.mjs --in-place",
     "check:ci-workflow": "node scripts/check/rules/ci-workflow.mjs",
-    "test:browser:maps": "playwright test tests/browser/smoke.spec.js tests/browser/retired-service-worker.spec.js tests/browser/accessible-names.spec.js tests/browser/header-brand.spec.js tests/browser/timeline-and-url-state.spec.js tests/browser/map-svg-export.spec.js tests/browser/election-layout.spec.js tests/browser/catalogue-load-a11y.spec.js tests/browser/load-races.spec.js",
+    "test:browser:maps": "playwright test tests/browser/smoke.spec.cjs tests/browser/retired-service-worker.spec.cjs tests/browser/accessible-names.spec.cjs tests/browser/header-brand.spec.cjs tests/browser/timeline-and-url-state.spec.cjs tests/browser/map-svg-export.spec.cjs tests/browser/election-layout.spec.cjs tests/browser/catalogue-load-a11y.spec.cjs tests/browser/load-races.spec.cjs",
     "test:unit": "node --test \"tests/unit/*.test.mjs\" \"tests/functions/*.test.mjs\"",
     "dev:records:load": "node scripts/dev/load-local-browse-d1.mjs",
     "dev:records": "npx wrangler pages dev . --port 8788 --ip 127.0.0.1 --compatibility-date 2026-04-04 --persist-to .wrangler/state --binding CIVGRAPH_SSR_RECORDS=persons,sources,register-interests --binding CIVGRAPH_SSR_PREVIEW=1",

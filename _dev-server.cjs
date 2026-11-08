@@ -2,7 +2,7 @@
  * Local dev server with CORS proxy for data.civgraph.net.
  * Serves local files and proxies remote FGB requests through localhost.
  *
- * Usage: node _dev-server.js
+ * Usage: node _dev-server.cjs
  */
 const http = require('http');
 const https = require('https');

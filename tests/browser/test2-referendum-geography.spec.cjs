@@ -8,7 +8,7 @@ test('/test2 2011 AV referendum geography toggle switches results <-> turnout', 
   // attached at the top of init(), long before mapController exists, so waiting on it
   // returns a half-built runtime and the next call dies on a null map -- which is
   // exactly how these two tests were failing ("Cannot read properties of null (reading
-  // 'resolveLayer')"). timeline-and-url-state.spec.js's bootApp already documents this;
+  // 'resolveLayer')"). timeline-and-url-state.spec.cjs's bootApp already documents this;
   // the lesson had simply not reached this file.
   await page.waitForFunction(() => typeof window.__civgraphTest2?.whenIdle === 'function', null, { timeout: 60000 });
   await page.evaluate(() => window.__civgraphTest2.restorePromise);
@@ -75,7 +75,7 @@ test('/test2 1998 GFA referendum offers NI vs Constituency turnout toggle', asyn
   // attached at the top of init(), long before mapController exists, so waiting on it
   // returns a half-built runtime and the next call dies on a null map -- which is
   // exactly how these two tests were failing ("Cannot read properties of null (reading
-  // 'resolveLayer')"). timeline-and-url-state.spec.js's bootApp already documents this;
+  // 'resolveLayer')"). timeline-and-url-state.spec.cjs's bootApp already documents this;
   // the lesson had simply not reached this file.
   await page.waitForFunction(() => typeof window.__civgraphTest2?.whenIdle === 'function', null, { timeout: 60000 });
   await page.evaluate(() => window.__civgraphTest2.restorePromise);

@@ -13,7 +13,7 @@
  * and saves a screenshot to test-results/site-shell/<page>-<width>-<theme>.png for review
  * (before/after sets for a change go next to its notes, not into the repository).
  *
- *   npx playwright test tests/browser/site-shell.spec.js
+ *   npx playwright test tests/browser/site-shell.spec.cjs
  */
 const { test, expect } = require('@playwright/test');
 const path = require('path');

@@ -60,7 +60,7 @@ const electionData = meaningful.some((file) => ELECTION_DATA.some((re) => re.tes
 const mode = forceFull ? 'data' : (meaningful.length === 0 ? 'none' : appOnly ? 'app' : 'data');
 
 const BROWSER_TESTS = [
-  'tests/browser/timeline-and-url-state.spec.js', 'tests/browser/app.spec.js', 'tests/browser/timeline-changes.spec.js',
+  'tests/browser/timeline-and-url-state.spec.cjs', 'tests/browser/app.spec.cjs', 'tests/browser/timeline-changes.spec.cjs',
   '-g', 'boundary changes on the timeline|runtime exposes|round-trips|clamps out-of-range|rapid timeline|FPTP Results|main DOM contract|candidate and count panes|Cork North-Central|Galway East|local-government aggregates|restores and persists|twist does not rotate|seat-circle overlays',
   '--timeout=180000'
 ];
