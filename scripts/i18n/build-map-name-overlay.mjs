@@ -31,7 +31,30 @@ const CHECK = process.argv.includes('--check');
 const OUT = 'data/i18n/map-names.overlay.json';
 const SEP = '¦';
 
-/** @returns {Array<[string, string]>} */
+/**
+ * One overlay entry: a map's (or an extra name's) English name and its draft translation.
+ * @typedef {object} MapNameRecord
+ * @property {string} en
+ * @property {string} [ga]
+ * @property {string} [sco]
+ * @property {string[]} [missing]                 words no glossary entry covers (the name stays English)
+ * @property {boolean} [descriptionUntranslated]  the map has a description, which stays English
+ * @property {string} [source]                    where an official name came from
+ */
+/**
+ * data/i18n/map-names.overlay.json (read by build-i18n.mjs).
+ * @typedef {object} MapNameOverlay
+ * @property {string} _status
+ * @property {string} _note
+ * @property {Record<string, number | string[]>} summary
+ * @property {Record<string, MapNameRecord>} maps        keyed by map id
+ * @property {Record<string, MapNameRecord>} extraNames  keyed by `layer:<id>` or `dail:<English name>`
+ */
+
+/**
+ * @param {string} file
+ * @returns {Array<[string, string]>}
+ */
 function readPairs(file, { skipPatterns = true } = {}) {
   if (!existsSync(file)) return [];
   /** @type {Array<[string, string]>} */
@@ -49,7 +72,7 @@ function readPairs(file, { skipPatterns = true } = {}) {
 }
 
 const glossary = new Map();
-const add = (en, ga, overwrite = false) => { if (overwrite || !glossary.has(en)) glossary.set(en, ga); };
+const add = (/** @type {string} */ en, /** @type {string} */ ga, overwrite = false) => { if (overwrite || !glossary.has(en)) glossary.set(en, ga); };
 for (const [en, ga] of readPairs('data/i18n/map-name-glossary.txt')) add(en, ga, true);
 for (const [en, ga] of readPairs('data/i18n/strings/catalogue-names.txt')) add(en, ga);
 for (const [en, ga] of readPairs('data/i18n/strings/general.txt')) add(en, ga);
@@ -62,13 +85,20 @@ const placeNames = [...PLACES.keys()].sort((a, b) => b.length - a.length);
 const SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const gaShort = SHORT.map((_, i) => new Intl.DateTimeFormat('ga', { month: 'short', timeZone: 'UTC' }).format(new Date(Date.UTC(2000, i, 15))).replace(/\.$/, ''));
 
+/**
+ * @param {string} s
+ * @param {string} phrase
+ */
 function startsWithWord(s, phrase) {
   if (!s.startsWith(phrase)) return false;
   const next = s.charAt(phrase.length);
   return !next || /[\s(),:;/–—~-]/.test(next) || !/[A-Za-z]/.test(phrase.slice(-1));
 }
 
-/** Translate the whole string or return {missing}. */
+/**
+ * Translate the whole string or return {missing}.
+ * @param {string} text
+ */
 function compose(text) {
   let s = text;
   let out = '';
@@ -97,6 +127,9 @@ function compose(text) {
   return missing.length ? { missing } : { text: out.replace(/\s+/g, ' ').trim() };
 }
 
+/**
+ * @param {string} name
+ */
 function translateName(name) {
   const text = String(name || '').trim();
   if (!text) return { missing: ['(empty)'] };
@@ -119,19 +152,25 @@ function translateName(name) {
   return compose(text);
 }
 
+/** @returns {MapNameOverlay} */
 function build() {
+  /** @type {import('../../packages/types/index.js').MapEntry[]} */
   const maps = JSON.parse(readFileSync('data/database/maps.json', 'utf8')).maps || [];
+  /** @type {Array<{ id: string, name?: string }>} */
   const index = JSON.parse(readFileSync('render/metadata/maps-test-index.json', 'utf8')).layers || [];
+  /** @type {Record<string, MapNameRecord>} */
   const result = {};
   let translated = 0;
   let withDescription = 0;
   for (const map of maps) {
     const r = translateName(map.name);
+    /** @type {MapNameRecord} */
     const rec = { en: map.name };
     if (r.text && r.text !== map.name) { rec.ga = r.text; translated += 1; } else if (r.missing) rec.missing = [...new Set(r.missing)].slice(0, 6);
     if (map.description && String(map.description).trim()) { rec.descriptionUntranslated = true; withDescription += 1; }
     result[map.id] = rec;
   }
+  /** @type {Record<string, MapNameRecord>} */
   const extraNames = {};
   let layerTranslated = 0;
   for (const layer of index) {
@@ -140,6 +179,7 @@ function build() {
     if (r.text && r.text !== layer.name) { extraNames[`layer:${layer.id}`] = { en: layer.name, ga: r.text }; layerTranslated += 1; }
   }
   // Official bilingual Dáil constituency names.
+  /** @type {{ byYear?: Record<string, { constituencies?: Array<{ english?: string, gaeilge?: string }> }> }} */
   const dail = JSON.parse(readFileSync('data/database/dail-constituency-names-bilingual.json', 'utf8'));
   let dailNames = 0;
   for (const [year, regime] of Object.entries(dail.byYear || {})) {
@@ -152,6 +192,7 @@ function build() {
       }
     }
   }
+  /** @type {Record<string, number>} */
   const missingWords = {};
   for (const rec of Object.values(result)) for (const w of rec.missing || []) missingWords[w] = (missingWords[w] || 0) + 1;
   const summary = {

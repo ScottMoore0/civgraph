@@ -48,6 +48,9 @@ const NOISE = [
   /^\[[A-Za-z0-9]+\]/ // [Tag] developer log prefixes
 ];
 
+/**
+ * @param {string} s
+ */
 function looksLikeUi(s) {
   const t = s.replace(/\s+/g, ' ').trim();
   if (t.length < 2 || t.length > 400) return false;
@@ -59,6 +62,9 @@ function looksLikeUi(s) {
   return true;
 }
 
+/**
+ * @param {string} s
+ */
 function decodeEntities(s) {
   return s.replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
     .replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'").replace(/&middot;/g, '·').replace(/&ndash;/g, '–')
@@ -66,7 +72,10 @@ function decodeEntities(s) {
     .replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(Number(n)));
 }
 
-/** Text between tags and the readable attributes of an HTML fragment. */
+/**
+ * Text between tags and the readable attributes of an HTML fragment.
+ * @param {string} html
+ */
 export function htmlStrings(html) {
   const out = [];
   const stripped = html
@@ -79,7 +88,10 @@ export function htmlStrings(html) {
   return out;
 }
 
-/** String literals and template-literal text from a script, skipping console/developer lines. */
+/**
+ * String literals and template-literal text from a script, skipping console/developer lines.
+ * @param {string} src
+ */
 export function scriptStrings(src) {
   const out = [];
   const lines = src.split('\n').filter((line) => !/console\.(?:log|warn|error|info|debug)|throw new Error|^\s*(?:\/\/|\*|\/\*)/.test(line));
@@ -102,6 +114,7 @@ export function scriptStrings(src) {
 }
 
 export function collect(root = process.cwd()) {
+  /** @type {Map<string, { text: string, surfaces: Set<string>, files: Set<string>, count: number }>} */
   const found = new Map();
   for (const [surface, files] of Object.entries(SURFACES)) {
     for (const file of files) {
@@ -128,6 +141,7 @@ if (import.meta.url === `file://${process.argv[1].replace(/\\/g, '/')}` || proce
   const list = collect();
   mkdirSync('tmp/i18n', { recursive: true });
   writeFileSync('tmp/i18n/ui-string-candidates.json', JSON.stringify(list, null, 1));
+  /** @type {Record<string, number>} */
   const bySurface = {};
   for (const e of list) for (const s of e.surfaces) bySurface[s] = (bySurface[s] || 0) + 1;
   console.log(`${list.length} candidate strings`, bySurface);
@@ -135,7 +149,9 @@ if (import.meta.url === `file://${process.argv[1].replace(/\\/g, '/')}` || proce
     const en = JSON.parse(readFileSync('assets/i18n/en.json', 'utf8'));
     const known = new Set(Object.values(en.strings || {}));
     // Map, series and election-body names are translated through the names overlay, not en.json.
+    /** @type {import('../../packages/types/index.js').MapEntry[]} */
     const maps = JSON.parse(readFileSync('data/database/maps.json', 'utf8')).maps || [];
+    /** @type {{ series: Array<{ name: string }>, electionBodies: Array<{ name: string }> }} the parts of data/catalogue/catalogue.json read here */
     const cat = JSON.parse(readFileSync('data/catalogue/catalogue.json', 'utf8'));
     const names = new Set([...maps.map((m) => m.name), ...cat.series.map((s) => s.name), ...cat.electionBodies.map((b) => b.name)]);
     const missing = list.filter((e) => !known.has(e.text) && !names.has(e.text));

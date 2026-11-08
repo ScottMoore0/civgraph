@@ -22,17 +22,24 @@ import { createWriteStream, existsSync, mkdirSync, readFileSync, writeFileSync }
 import path from 'node:path';
 import { deserialize } from 'flatgeobuf/lib/mjs/geojson.js';
 
-const arg = (name, fallback) => { const i = process.argv.indexOf(name); return i > 0 ? process.argv[i + 1] : fallback; };
+const arg = (/** @type {string} */ name, /** @type {string} */ fallback) => { const i = process.argv.indexOf(name); return i > 0 ? process.argv[i + 1] : fallback; };
 // Large cache: outside the repository. Set CIVGRAPH_I18N_CACHE (the owner's machine keeps it on a
 // data drive) or pass --cache; the default is the gitignored tmp/ folder.
 const CACHE = arg('--cache', process.env.CIVGRAPH_I18N_CACHE || path.join('tmp', 'i18n-cache'));
 const SAMPLE_PER_KIND = 25;
 
+/** @typedef {import('../../packages/types/index.js').LayerEntry & { sourceFile?: string }} IndexLayer  a maps-test-index.json layer */
+
+/** @type {Record<string, string>} layer id -> the property holding its Irish names */
 const fields = JSON.parse(readFileSync('assets/i18n/place-name-fields.json', 'utf8')).layers;
+/** @type {IndexLayer[]} */
 const index = JSON.parse(readFileSync('render/metadata/maps-test-index.json', 'utf8')).layers;
 const review = readFileSync('data/i18n/review/place-name-fields.tsv', 'utf8').split('\n').filter((l) => l && !l.startsWith('#')).slice(1).map((l) => l.split('\t'));
 const kindById = Object.fromEntries(review.map((r) => [r[0], r[2]]));
 
+/**
+ * @param {string | undefined} sourceFile
+ */
 function locate(sourceFile) {
   if (!sourceFile) return null;
   const candidates = [sourceFile, path.join('..', '..', '..', sourceFile)];
@@ -45,6 +52,7 @@ out.write('layer_id\tfeature_id\tenglish\tirish\tlogainm_id\tirish_field\n');
 
 /** @type {{ generatedFrom: string, byKind: Record<string, any>, layers: Record<string, any>, missingSource: string[] }} */
 const summary = { generatedFrom: 'local source cache (render/source-cache/vector-intake)', byKind: {}, layers: {}, missingSource: [] };
+/** @type {Record<string, string[][]>} up to SAMPLE_PER_KIND crosswalk rows per kind */
 const sample = {};
 const seenSources = new Set();
 for (const layer of index) {
@@ -62,7 +70,8 @@ for (const layer of index) {
   const buf = readFileSync(file);
   for await (const feature of deserialize(new Uint8Array(buf.buffer, buf.byteOffset, buf.byteLength))) {
     const p = feature.properties || {};
-    const english = String(p[layer.labelProperty] ?? '').trim();
+    // A layer is in place-name-fields.json only through its label property, so it has one.
+    const english = String(p[/** @type {string} */ (layer.labelProperty)] ?? '').trim();
     const irish = String(p[field] ?? '').trim();
     features += 1;
     if (!irish || !english) continue;

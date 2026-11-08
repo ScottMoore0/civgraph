@@ -35,6 +35,12 @@ import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } fr
 import path from 'node:path';
 import { SITE } from '../../packages/config/src/node.mjs';
 
+/**
+ * @template T
+ * @param {string} name
+ * @param {T} fallback
+ * @returns {string | T}
+ */
 const arg = (name, fallback) => { const i = process.argv.indexOf(name); return i > 0 ? process.argv[i + 1] : fallback; };
 // Same cache as build-place-name-crosswalk.mjs: CIVGRAPH_I18N_CACHE, --cache, or tmp/i18n-cache.
 const CACHE = arg('--cache', process.env.CIVGRAPH_I18N_CACHE || path.join('tmp', 'i18n-cache'));
@@ -51,6 +57,7 @@ if (!existsSync(crosswalk)) {
   console.error(`No crosswalk at ${crosswalk}: run node scripts/i18n/build-place-name-crosswalk.mjs first.`);
   process.exit(1);
 }
+/** @type {Map<string, { layer: string, english: string, irish: string }>} Logainm id -> its first crosswalk row */
 const ids = new Map();
 for (const line of readFileSync(crosswalk, 'utf8').split('\n').slice(1)) {
   const [layer, , english, irish, logainm] = line.split('\t');
@@ -69,19 +76,29 @@ const cacheDir = path.join(CACHE, 'logainm-cache');
 mkdirSync(cacheDir, { recursive: true });
 const outFile = path.join(CACHE, 'logainm-names.tsv');
 if (!existsSync(outFile)) writeFileSync(outFile, 'logainm_id\tenglish\tirish\tcategory\tmodified\n');
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const sleep = (/** @type {number} */ ms) => new Promise((r) => setTimeout(r, ms));
+
+/**
+ * The parts of a Logainm API place answer read here (names only).
+ * @typedef {object} LogainmPlace
+ * @property {Array<{ language: string, wording?: string }>} [placenames]
+ * @property {{ nameEN?: string }} [category]
+ * @property {Array<{ nameEN?: string }>} [categories]
+ * @property {string} [modifiedDate]
+ */
 
 let done = 0;
 for (const [id] of ids) {
   if (done >= LIMIT) break;
   const cached = path.join(cacheDir, `${id}.json`);
+  /** @type {LogainmPlace | undefined} */
   let data;
   if (existsSync(cached) && !REFRESH) data = JSON.parse(readFileSync(cached, 'utf8'));
   else {
     const res = await fetch(`${API}${id}`, { headers: { 'X-Api-Key': KEY, 'User-Agent': UA, Accept: 'application/json' } });
     if (res.status === 429) { console.error('Rate limited (429): stopping. Re-run later; cached ids are kept.'); break; }
     if (!res.ok) { console.error(`${id}: HTTP ${res.status}`); await sleep(DELAY_MS); continue; }
-    data = await res.json();
+    data = /** @type {LogainmPlace} */ (await res.json());
     writeFileSync(cached, JSON.stringify(data));
     await sleep(DELAY_MS);
   }
