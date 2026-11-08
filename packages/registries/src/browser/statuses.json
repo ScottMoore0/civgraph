@@ -31,5 +31,19 @@
  "contestLabels": {
   "contested": "Polled",
   "uncontested": "Returned unopposed"
+ },
+ "contribution": {
+  "initial": "pending-review",
+  "transitions": {
+   "pending-review": [
+    "approved",
+    "rejected"
+   ],
+   "approved": [
+    "applied"
+   ],
+   "rejected": [],
+   "applied": []
+  }
  }
 }

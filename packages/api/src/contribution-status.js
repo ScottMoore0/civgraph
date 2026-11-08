@@ -1,11 +1,8 @@
 /**
  * The contribution queue's statuses and the moves between them (refactor state machine FN-04).
  * The table is the registry's (data/registries/statuses.json, machine `contribution`, RG-04),
- * mirrored here rather than imported: importing data/registries/statuses.json and
- * registries/status-machines.mjs would put a JSON import and scripts/lib/ into the Pages
- * Functions bundle, which no Function does yet and only a Pages preview deploy can prove (the
- * registry itself stays out of dist/ either way). tests/functions/state-machines.test.mjs holds
- * the mirror equal to the registry's table and to its runnable machine.
+ * read from its generated browser slice (pure data; the registry files stay out of dist/).
+ * tests/functions/state-machines.test.mjs holds it equal to the registry's runnable machine.
  *
  *   pending-review  set by POST /_api/contributions/submit, never by anything else
  *   approved        POST /_api/contributions/decide (admin), from pending-review only
@@ -22,19 +19,27 @@
  * helper (scripts/lib/state-machine.mjs) and walks every forbidden move.
  */
 
+import statuses from '../../registries/src/browser/statuses.mjs';
+
 /** @typedef {'pending-review' | 'approved' | 'rejected' | 'applied'} ContributionStatus */
 /** @typedef {'approved' | 'rejected'} ContributionDecision */
 
+// The table comes from the registry's browser slice (packages/registries/src/browser/statuses.json,
+// generated from data/registries/statuses.json machine `contribution`), not a copy kept here. The
+// slice is pure data; the statuses and decisions this module types are checked against it on load,
+// so a registry edit that renames a status fails loudly instead of silently changing decide.js.
+const { initial, transitions } = statuses.contribution;
+const KNOWN = ['pending-review', 'approved', 'rejected', 'applied'];
+if (initial !== 'pending-review' || Object.keys(transitions).sort().join() !== [...KNOWN].sort().join()) {
+  throw new Error('contribution-status: the registry slice no longer has the statuses this module types');
+}
+
 /** @type {ContributionStatus} */
-export const INITIAL_STATUS = 'pending-review';
+export const INITIAL_STATUS = /** @type {ContributionStatus} */ (initial);
 
 /** @type {Readonly<Record<ContributionStatus, readonly ContributionStatus[]>>} */
-export const CONTRIBUTION_TRANSITIONS = Object.freeze({
-  'pending-review': Object.freeze(/** @type {ContributionStatus[]} */ (['approved', 'rejected'])),
-  approved: Object.freeze(/** @type {ContributionStatus[]} */ (['applied'])),
-  rejected: Object.freeze(/** @type {ContributionStatus[]} */ ([])),
-  applied: Object.freeze(/** @type {ContributionStatus[]} */ ([])),
-});
+export const CONTRIBUTION_TRANSITIONS = Object.freeze(/** @type {Record<ContributionStatus, readonly ContributionStatus[]>} */ (
+  Object.fromEntries(Object.entries(transitions).map(([from, to]) => [from, Object.freeze([...to])]))));
 
 /** What an administrator may decide (POST /_api/contributions/decide). */
 export const DECISIONS = Object.freeze(/** @type {ContributionDecision[]} */ (['approved', 'rejected']));

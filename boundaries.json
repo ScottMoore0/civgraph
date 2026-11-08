@@ -1,5 +1,5 @@
 {
-  "//": "The import rules between the parts of the repository (REFACTOR-PLAN.md section 2.2, PKG-0). scripts/check/boundaries.mjs (npm run check:boundaries) reads every static import, re-export and literal dynamic import() in the tracked .js/.mjs/.cjs files and fails on an edge the importing unit does not allow. A file belongs to the first unit whose paths hold it, so the narrower units come first. `allow` lists the units a unit may import (itself always; '*' any, '!name' not that one); `node` says whether node:* built-ins are allowed; npm packages (bare names) and imports of files no unit holds (data, root files) are not checked. Departures from the plan's table, by decision: core may import the generated registry slices (registries-browser, pure data); map may import frontend (src/ and the other browser directories) until F2/F4 move the rest of the map app out of src/. `baseline` lists known violating edges ('from -> to' file paths); it may only shrink, and is empty since PKG-1.",
+  "//": "The import rules between the parts of the repository (REFACTOR-PLAN.md section 2.2, PKG-0). scripts/check/boundaries.mjs (npm run check:boundaries) reads every static import, re-export and literal dynamic import() in the tracked .js/.mjs/.cjs files and fails on an edge the importing unit does not allow. A file belongs to the first unit whose paths hold it, so the narrower units come first. `allow` lists the units a unit may import (itself always; '*' any, '!name' not that one); `node` says whether node:* built-ins are allowed; npm packages (bare names) and imports of files no unit holds (data, root files) are not checked. Departures from the plan's table, by decision: core and api may import the generated registry slices (registries-browser, pure data; api for the contribution machine decide.js reads); map may import frontend (src/ and the other browser directories) until F2/F4 move the rest of the map app out of src/. `baseline` lists known violating edges ('from -> to' file paths); it may only shrink, and is empty since PKG-1.",
   "units": {
     "storage-node": {
       "paths": [
@@ -88,7 +88,8 @@
         "core",
         "config",
         "schema",
-        "storage"
+        "storage",
+        "registries-browser"
       ],
       "node": false
     },
