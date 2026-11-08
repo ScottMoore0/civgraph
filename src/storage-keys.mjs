@@ -18,17 +18,27 @@
 const NEW_PREFIX = 'civgraph.';
 const OLD_PREFIX = 'ni-boundaries.';
 
+/** @param {string} key */
 const safeGet = (key) => {
   try { return window.localStorage?.getItem(key) ?? null; } catch { return null; }
 };
+/**
+ * @param {string} key
+ * @param {string} value
+ */
 const safeSet = (key, value) => {
   try { window.localStorage?.setItem(key, value); } catch { /* private mode, quota */ }
 };
+/** @param {string} key */
 const safeRemove = (key) => {
   try { window.localStorage?.removeItem(key); } catch { /* ignore */ }
 };
 
-/** `readStored('textScale')` looks at civgraph.textScale, then ni-boundaries.textScale. */
+/**
+ * `readStored('textScale')` looks at civgraph.textScale, then ni-boundaries.textScale.
+ * @param {string} name
+ * @param {string | null} [fallback]
+ */
 export function readStored(name, fallback = null) {
   const current = safeGet(NEW_PREFIX + name);
   if (current !== null) return current;
@@ -40,10 +50,15 @@ export function readStored(name, fallback = null) {
   return legacy;
 }
 
+/**
+ * @param {string} name
+ * @param {unknown} value
+ */
 export function writeStored(name, value) {
   safeSet(NEW_PREFIX + name, String(value));
 }
 
+/** @param {string} name */
 export function removeStored(name) {
   safeRemove(NEW_PREFIX + name);
   safeRemove(OLD_PREFIX + name);

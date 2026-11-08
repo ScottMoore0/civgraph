@@ -31,6 +31,23 @@
  * implementations of one rule is how the three numbers happened.
  */
 
+/**
+ * A catalogue entry (data/database/maps.json `maps[]`, a MapEntry in packages/types) as the rule
+ * reads it.
+ * @typedef {{
+ *   id?: string,
+ *   files?: object | null,
+ *   compositeSources?: string[],
+ *   variants?: Array<{ id?: string, hidden?: boolean } | null>,
+ *   isGroup?: boolean,
+ *   members?: string[],
+ *   cloneOf?: string,
+ *   hidden?: boolean,
+ *   placeholder?: boolean
+ * }} CatalogueMap
+ */
+
+/** @param {CatalogueMap} map */
 const hasOwnData = (map) => Boolean(
   (map.files && Object.keys(map.files).length)
   || (map.compositeSources || []).length
@@ -39,9 +56,11 @@ const hasOwnData = (map) => Boolean(
 );
 
 /**
- * @param {object} map                     catalogue entry
- * @param {(id: string) => object|undefined} getMapById
- * @param {(id: string) => boolean} hasRenderLayer   true when something can draw this id
+ * @param {CatalogueMap | null | undefined} map  catalogue entry
+ * @param {(id: string) => CatalogueMap | undefined} getMapById
+ * @param {((id: string) => boolean) | null | undefined} hasRenderLayer   true when something can draw this id
+ * @param {Set<string>} [seen]
+ * @returns {boolean}
  */
 export function isLoadableMap(map, getMapById, hasRenderLayer, seen = new Set()) {
   if (!map || !map.id || seen.has(map.id)) return false;
@@ -55,31 +74,36 @@ export function isLoadableMap(map, getMapById, hasRenderLayer, seen = new Set())
   return false;
 }
 
+/**
+ * @param {CatalogueMap | null | undefined} map
+ * @param {(id: string) => CatalogueMap | undefined} getMapById
+ * @param {((id: string) => boolean) | null | undefined} hasRenderLayer
+ */
 export function isPublicMap(map, getMapById, hasRenderLayer) {
   if (!map || map.hidden || map.placeholder) return false;
   return isLoadableMap(map, getMapById, hasRenderLayer);
 }
 
-/** The public set, in catalogue order. */
+/**
+ * The public set, in catalogue order.
+ * @template {CatalogueMap} M
+ * @param {M[] | null | undefined} maps
+ * @param {((id: string) => boolean) | null | undefined} hasRenderLayer
+ * @returns {M[]}
+ */
 export function publicMaps(maps, hasRenderLayer) {
   const byId = new Map((maps || []).map((map) => [map.id, map]));
+  /** @param {string} id */
   const getMapById = (id) => byId.get(id);
   return (maps || []).filter((map) => isPublicMap(map, getMapById, hasRenderLayer));
 }
 
 /**
- * A census statistic (data/database/data-entries.json) is drawn on its geography's layer
- * (src/census-overlay.mjs), so it is public exactly when it is not hidden, has its figures,
- * and the boundary map it is drawn on is public. Statistics are listed in Browse beside the
- * maps but are not maps: the public MAP total (the homepage figure) does not include them.
- *
- * @param {object} entry                       data entry
- * @param {(id: string) => boolean} isPublicMapId
- */
-/**
  * The ids a census statistic may be drawn on: every public map, and the editions (variants) a
  * public map holds, such as eds-census-2011 inside Electoral Divisions 2008 (eds-2006), which
  * the Pobal 2011 and 2016 deprivation statistics are drawn on.
+ * @param {CatalogueMap[] | null | undefined} publicMapList
+ * @returns {Set<string>}
  */
 export function statisticGeographyIds(publicMapList) {
   const ids = new Set();
@@ -91,6 +115,15 @@ export function statisticGeographyIds(publicMapList) {
   return ids;
 }
 
+/**
+ * A census statistic (data/database/data-entries.json) is drawn on its geography's layer
+ * (src/census-overlay.mjs), so it is public exactly when it is not hidden, has its figures,
+ * and the boundary map it is drawn on is public. Statistics are listed in Browse beside the
+ * maps but are not maps: the public MAP total (the homepage figure) does not include them.
+ *
+ * @param {{ id?: string, hidden?: boolean, csv?: string, geography?: string } | null | undefined} entry  data entry
+ * @param {(id: string) => boolean} isPublicMapId
+ */
 export function isPublicStatistic(entry, isPublicMapId) {
   if (!entry || !entry.id || entry.hidden || !entry.csv || !entry.geography) return false;
   return Boolean(isPublicMapId(entry.geography));
