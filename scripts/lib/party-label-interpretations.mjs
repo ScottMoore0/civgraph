@@ -13,11 +13,23 @@
 // The printed label itself is never changed.
 import { candidateDisplayName, normalizeName, normalizeParty } from '../../packages/core/src/election-domain.mjs';
 
+/**
+ * @typedef {import('../../packages/types/index.js').PartiesRegistry['labelInterpretations']} LabelInterpretations
+ * @typedef {LabelInterpretations['rules'][number]} LabelRule
+ * @typedef {{ body: string, date?: string }} ContestScope  the result file's body and date folders
+ * @typedef {Record<string, unknown>} ResultRow  one candidate (or count) row of a source result file
+ * @typedef {{ Constituency?: { countGroup?: unknown }, candidates?: unknown }} RawResult
+ */
+
+/** @param {ResultRow | null | undefined} row */
 function candidateNameKey(row) {
   return normalizeName(row?.candidateName || row?.name || `${row?.Firstname || ''} ${row?.Surname || ''}`);
 }
 
-/** An interpreter for one rules document: (scope, rawResult) -> rawResult, rows changed in place. */
+/**
+ * An interpreter for one rules document: (scope, rawResult) -> rawResult, rows changed in place.
+ * @param {Partial<LabelInterpretations>} [config]
+ */
 export function createPartyLabelInterpreter(config = {}) {
   const dittoMarks = new Set(config.dittoMarks || []);
   const noLabel = new Set(config.noLabel?.printed || []);
@@ -34,6 +46,12 @@ export function createPartyLabelInterpreter(config = {}) {
     };
   });
 
+  /**
+   * @param {string} printed
+   * @param {string} party
+   * @param {ContestScope} scope
+   * @param {string} nameKey
+   */
   function ruleFor(printed, party, scope, nameKey) {
     return rules.find((rule) => {
       if (!rule.printed && !rule.whenParty) return false;
@@ -49,7 +67,15 @@ export function createPartyLabelInterpreter(config = {}) {
     }) || null;
   }
 
-  /** The reading for one printed label and current reading; `previous` is the row above's. */
+  /**
+   * The reading for one printed label and current reading; `previous` is the row above's.
+   * @param {string} printed
+   * @param {string} current
+   * @param {ContestScope} scope
+   * @param {string} nameKey
+   * @param {string | null} previous
+   * @returns {string}
+   */
   function read(printed, current, scope, nameKey, previous) {
     if (printed && noLabel.has(printed)) return current;
     if (printed && !current && dittoMarks.has(printed)) return previous ?? '';
@@ -57,14 +83,22 @@ export function createPartyLabelInterpreter(config = {}) {
     return rule ? rule.party : current;
   }
 
+  /**
+   * @template {RawResult | null | undefined} R
+   * @param {ContestScope} scope
+   * @param {R} rawResult
+   * @returns {R}
+   */
   function apply(scope, rawResult) {
     if (!rawResult || !rules.length) return rawResult;
     for (const rows of [rawResult.Constituency?.countGroup, rawResult.candidates]) {
       if (!Array.isArray(rows)) continue;
       // A candidate has a row per count: read each candidate once, in the order printed.
+      /** @type {Map<string, { from: string, to: string }>} */
       const readings = new Map();
+      /** @type {string | null} */
       let previous = null;
-      for (const row of rows) {
+      for (const row of /** @type {(ResultRow | null)[]} */ (rows)) {
         if (!row || typeof row !== 'object') continue;
         const field = 'Party_Name' in row || !('party' in row) ? 'Party_Name' : 'party';
         const nameKey = candidateNameKey(row);
@@ -78,7 +112,7 @@ export function createPartyLabelInterpreter(config = {}) {
         }
         // Only a row that reads as the candidate's first row did is changed: a contest whose rows
         // disagree (a count sidecar's row beside the flat file's) is left exactly as it was.
-        const { from, to } = readings.get(key);
+        const { from, to } = /** @type {{ from: string, to: string }} */ (readings.get(key));
         const before = String(row[field] || '').trim();
         const reading = to;
         if (from === to || before !== from) continue;
