@@ -50,7 +50,9 @@ mkdirSync(CACHE, { recursive: true });
 const out = createWriteStream(path.join(CACHE, 'place-name-crosswalk.tsv'));
 out.write('layer_id\tfeature_id\tenglish\tirish\tlogainm_id\tirish_field\n');
 
-/** @type {{ generatedFrom: string, byKind: Record<string, any>, layers: Record<string, any>, missingSource: string[] }} */
+/** @typedef {{ layers: number, features: number, withIrish: number }} KindCount */
+/** @typedef {{ kind: string, field: string, features: number, withIrish: number }} LayerCount */
+/** @type {{ generatedFrom: string, byKind: Record<string, KindCount>, layers: Record<string, LayerCount>, missingSource: string[] }} */
 const summary = { generatedFrom: 'local source cache (render/source-cache/vector-intake)', byKind: {}, layers: {}, missingSource: [] };
 /** @type {Record<string, string[][]>} up to SAMPLE_PER_KIND crosswalk rows per kind */
 const sample = {};
