@@ -25,6 +25,28 @@ const MAX_LIMIT = 60;
 const DEFAULT_LIMIT = 25;
 const DESC_PREVIEW = 160; // trimmed list preview — full text is fetched on the record page
 
+/** @typedef {import('../../../../types/index.js').ApiV1.ProniSearchResultsAnswer} ProniSearchResultsAnswer */
+/**
+ * A row of the search list (queries/proni.js searchCols).
+ * @typedef {object} ProniSearchRow
+ * @property {string} ref
+ * @property {string} slug
+ * @property {string | null} title
+ * @property {string | null} level
+ * @property {string | null} dates
+ * @property {string | null} access
+ * @property {string | null} digitalRecord
+ * @property {string | null} parent
+ * @property {string | null} parentSlug
+ * @property {number | null} hasChildren
+ * @property {string | null} fond
+ * @property {number | null} startYear
+ * @property {number | null} endYear
+ * @property {string | null} descPreview
+ * @property {number | null} descLen
+ */
+
+/** @type {Readonly<Record<string, string>>} */
 const ORDER = {
   relevance: 'bm25(proni_fts)',
   ref: 'p.ref',
@@ -34,6 +56,11 @@ const ORDER = {
 };
 
 
+/**
+ * @param {ProniSearchRow} r
+ * @param {boolean} exact
+ * @returns {ProniSearchResultsAnswer['results'][number]}
+ */
 function mapRow(r, exact) {
   const desc = r.descPreview || '';
   const truncated = (r.descLen || 0) > DESC_PREVIEW;
@@ -51,6 +78,7 @@ function mapRow(r, exact) {
 
 const JSON_HEADERS = { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=3600, s-maxage=86400', 'Access-Control-Allow-Origin': '*' };
 
+/** @param {import('../../types.js').ApiContext} context */
 export async function onRequestGet(context) {
   const cache = caches.default;
   const keyUrl = new URL(context.request.url);
@@ -81,9 +109,10 @@ export async function onRequestGet(context) {
   return resp;
 }
 
+/** @param {import('../../types.js').ApiContext} context */
 async function handle(context) {
   const url = new URL(context.request.url);
-  const g = (k) => (url.searchParams.get(k) || '').trim();
+  const g = (/** @type {string} */ k) => (url.searchParams.get(k) || '').trim();
   const q = g('q');
   const fields = { title: g('title'), description: g('description'), ref: g('ref'), text: g('text'), dates: g('dates') };
   const from = parseInt(g('from'), 10); const to = parseInt(g('to'), 10);
@@ -93,7 +122,7 @@ async function handle(context) {
   const limit = Math.min(parseInt(g('limit'), 10) || DEFAULT_LIMIT, MAX_LIMIT);
   const offset = Math.max(parseInt(g('offset'), 10) || 0, 0);
 
-  const json = (b, s = 200) => new Response(JSON.stringify(b), {
+  const json = (/** @type {unknown} */ b, s = 200) => new Response(JSON.stringify(b), {
     status: s,
     headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=3600, s-maxage=86400', 'Access-Control-Allow-Origin': '*' },
   });
@@ -113,15 +142,18 @@ async function handle(context) {
   // Serve reads from a nearby D1 replica when replication is enabled (falls back
   // to the primary otherwise; harmless where withSession is unavailable).
   // Through the storage adapter (packages/storage/); the SQL is named in queries/proni.js.
+  /** @type {import('../../../../storage/src/store.js').RecordStore} */
   const rdb = fromD1(bound, { session: 'first-unconstrained' });
 
   try {
+    /** @type {ReturnType<typeof mapRow>[]} */
     const out = [];
+    /** @type {Set<string>} */
     const seen = new Set();
 
     // exact-ref fast path (page 1 only, no explicit sort)
     if (!offset && q && !/\s/.test(q) && !q.includes(':') && sort === 'relevance') {
-      const ex = await rdb.all(PRONI.exactRef(DESC_PREVIEW), [q.toUpperCase()]);
+      const ex = /** @type {ProniSearchRow[]} */ (await rdb.all(PRONI.exactRef(DESC_PREVIEW), [q.toUpperCase()]));
       for (const r of ex) { out.push(mapRow(r, true)); seen.add(r.ref); }
     }
 
@@ -136,7 +168,7 @@ async function handle(context) {
       sql = PRONI.searchFiltered(DESC_PREVIEW, where, order);
       bindArr = [...binds, limit, offset];
     }
-    const results = await rdb.all(sql, bindArr);
+    const results = /** @type {ProniSearchRow[]} */ (await rdb.all(sql, bindArr));
     for (const r of results) { if (!seen.has(r.ref)) out.push(mapRow(r, false)); }
 
     return json({ query: q, match, sort, dir, letter, from: from || null, to: to || null, offset, limit, count: out.length, results: out.slice(0, limit + 1) });
