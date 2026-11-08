@@ -44,6 +44,7 @@ const MARKER = /^>\s*\*\*Status:/;
 const EXEMPT_DIRS = new Set([
   'performance-improvement-handoff',   // 33 files, status unknown, see above
   'advanced-styling',                  // 2 files, status unknown, see above
+  'tasks',                             // the old root tasks/ (moved 8 Nov 2026), never held to this rule there
 ]);
 
 // Reference material and instructions rather than plans: they describe how to
@@ -59,6 +60,7 @@ const EXEMPT = new Set([
   'token-discipline-guide.md',
   'session-ses_20bb.md',
   'recovered-election-controller-from-browser.md',
+  'ARCHIVE.md',                        // where archived material went (moved from the root 8 Nov 2026)
 ]);
 
 function walkDocs(dir, out) {

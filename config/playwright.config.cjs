@@ -1,7 +1,12 @@
+const path = require('node:path');
 const { defineConfig } = require('@playwright/test');
 
+// In config/ since 8 Nov 2026: paths are from the repository root, one level up.
+const ROOT = path.join(__dirname, '..');
+
 module.exports = defineConfig({
-  testDir: './tests/browser',
+  testDir: path.join(ROOT, 'tests', 'browser'),
+  outputDir: path.join(ROOT, 'test-results'),
   timeout: 30000,
   fullyParallel: false,
   retries: 0,
@@ -29,6 +34,7 @@ module.exports = defineConfig({
   },
   webServer: {
     command: 'python scripts/dev/test-server.py 5050',
+    cwd: ROOT,
     url: 'http://127.0.0.1:5050',
     // Never silently reuse a server already on the port: one left by another checkout or
     // worktree serves that checkout's files, and the specs pass or fail against them (seen

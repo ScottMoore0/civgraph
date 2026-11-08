@@ -9,7 +9,7 @@ const { test, expect } = require('@playwright/test');
  * `npm run dev:records` (wrangler pages dev on port 8788 with the records loaded by
  * `npm run records:deploy -- --local`):
  *
- *   PARITY_BASE_URL=http://127.0.0.1:8788 npx playwright test tests/browser/browse-records.spec.cjs
+ *   PARITY_BASE_URL=http://127.0.0.1:8788 npx playwright test --config config/playwright.config.cjs tests/browser/browse-records.spec.cjs
  */
 const { BASE } = require('./helpers/base-url.cjs');
 

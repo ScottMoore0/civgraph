@@ -16,7 +16,7 @@ import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
-const CONFIG = JSON.parse(readFileSync(path.join(ROOT, 'tsconfig.ui.json'), 'utf8'));
+const CONFIG = JSON.parse(readFileSync(path.join(ROOT, 'config', 'tsconfig.ui.json'), 'utf8').replaceAll('"../', '"'));
 const UI_DIRS = ['browse', 'apps', 'packages/ui/assets'];
 
 // Browser scripts in UI_DIRS that tsconfig.ui.json does not check yet, with the reason.
@@ -88,7 +88,7 @@ const STRICT_SINCE_NIA_S5C = ['apps/proni-search/app.js', 'apps/words/words.js']
 
 test('the strictness the UI has reached stays', () => {
   for (const flag of FLAGS_SINCE_R2_UI) assert.equal(CONFIG.compilerOptions[flag], true, `tsconfig.ui.json ${flag} was turned off`);
-  const strict = JSON.parse(readFileSync(path.join(ROOT, 'tsconfig.ui-strict.json'), 'utf8'));
+  const strict = JSON.parse(readFileSync(path.join(ROOT, 'config', 'tsconfig.ui-strict.json'), 'utf8').replaceAll('"../', '"'));
   assert.equal(strict.extends, './tsconfig.ui.json');
   assert.equal(strict.compilerOptions.strict, true);
   for (const rel of [...STRICT_SINCE_R2_UI, ...STRICT_SINCE_NIA_S5C]) assert.ok(strict.include.includes(rel), `${rel} left tsconfig.ui-strict.json include`);

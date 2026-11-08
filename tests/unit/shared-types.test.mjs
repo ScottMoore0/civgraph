@@ -11,7 +11,7 @@ import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
-const config = JSON.parse(readFileSync(path.join(ROOT, 'tsconfig.shared.json'), 'utf8'));
+const config = JSON.parse(readFileSync(path.join(ROOT, 'config', 'tsconfig.shared.json'), 'utf8').replaceAll('"../', '"'));
 
 // The include list as of 8 Nov 2026. Add to it; never take an entry out.
 const BASELINE = [
@@ -58,6 +58,6 @@ test('each entry names files, and none of them silences the checker', () => {
 
 test('the check script runs this config with tsc -p, in the check chain', () => {
   const pkg = JSON.parse(readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
-  assert.match(pkg.scripts['check:types:shared'], /tsc -p tsconfig\.shared\.json/);
+  assert.match(pkg.scripts['check:types:shared'], /tsc -p config\/tsconfig\.shared\.json/);
   assert.match(pkg.scripts.check, /npm run check:types:shared/);
 });

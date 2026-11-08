@@ -9,8 +9,8 @@ project are end-to-end behaviours.
 ## Running them
 
 ```bash
-npx playwright test                       # everything
-npx playwright test tests/browser/app.spec.cjs
+npx playwright test --config config/playwright.config.cjs   # everything
+npx playwright test --config config/playwright.config.cjs tests/browser/app.spec.cjs
 ```
 
 The suite serves the site with `scripts/dev/test-server.py`, **not**

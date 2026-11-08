@@ -14,8 +14,8 @@
  * production is a deliberate act: set PARITY_BASE_URL, as npm run verify:browser does. CI never
  * does (CHECKS.md).
  *
- *   npx playwright test                                    # local
- *   PARITY_BASE_URL=https://civgraph.net npx playwright test tests/browser/ux-plan-items.spec.cjs
+ *   npx playwright test --config config/playwright.config.cjs                                    # local
+ *   PARITY_BASE_URL=https://civgraph.net npx playwright test --config config/playwright.config.cjs tests/browser/ux-plan-items.spec.cjs
  */
 const LOCAL = 'http://127.0.0.1:5050';
 

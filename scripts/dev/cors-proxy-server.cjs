@@ -2,7 +2,7 @@
  * Local dev server with CORS proxy for data.civgraph.net.
  * Serves local files and proxies remote FGB requests through localhost.
  *
- * Usage: node _dev-server.cjs
+ * Usage: node scripts/dev/cors-proxy-server.cjs
  */
 const http = require('http');
 const https = require('https');
@@ -11,7 +11,7 @@ const path = require('path');
 const url = require('url');
 
 const PORT = 3000;
-const ROOT = __dirname;
+const ROOT = path.join(__dirname, '..', '..');
 const REMOTE_HOST = 'data.civgraph.net';
 
 const MIME = {
