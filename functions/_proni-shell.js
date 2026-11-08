@@ -6,7 +6,7 @@
  */
 const SHELL_VERSION = 'v16';
 
-/** @param {import('../packages/config/src/config.js').FunctionContext} context */
+/** @param {FunctionContext} context */
 export async function serveShell(context) {
   const cache = caches.default;
   const keyUrl = new URL(context.request.url);

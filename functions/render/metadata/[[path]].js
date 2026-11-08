@@ -71,7 +71,7 @@ const HEADERS = { 'Content-Type': 'application/json; charset=utf-8', 'Access-Con
 const text = (/** @type {string} */ body) => new Response(body, { status: 200, headers: HEADERS });
 const notHere = () => new Response(null, { status: 404 });
 
-/** @param {import('../../../packages/config/src/config.js').CatchAllContext} context */
+/** @param {CatchAllContext} context */
 export async function onRequestGet(context) {
   const parts = (context.params.path || []).map((p) => decodeURIComponent(p));
   const renamed = renamedLayerUrl(parts);
