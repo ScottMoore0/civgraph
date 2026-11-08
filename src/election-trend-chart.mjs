@@ -24,6 +24,50 @@ const MIN_COLUMN_GAP = 7;      // Minimum horizontal distance between two electi
 const MIN_TICK_SPACING = 58;   // Minimum horizontal distance between two year labels.
 const YEAR_STEPS = [1, 2, 5, 10, 20, 25, 50, 100];
 
+/**
+ * The election a point belongs to, as the manager passes it (a manifest entry or bundle).
+ * @typedef {{ [field: string]: unknown, key?: string, body?: string, date?: string }} TrendEntry
+ */
+/**
+ * One party's figures at one election: the manager's flat list is made of these.
+ * @typedef {{ party: string, share: number, votes?: number, seats?: number, colour: string, entry?: TrendEntry | null }} TrendPoint
+ */
+/** @typedef {{ key: string, entry: TrendEntry, date: string, time: number, year: string, body: string }} TrendElection */
+/** @typedef {{ share: number, votes: number, seats: number }} TrendValue */
+/**
+ * A party's line: its value at each election (null where it has none), ranked by the model.
+ * @typedef {{
+ *   key: string,
+ *   party: string,
+ *   abbreviation: string,
+ *   colour: string,
+ *   values: Array<TrendValue | null>,
+ *   maxShare: number,
+ *   latestShare: number,
+ *   latestIndex: number
+ * }} TrendSeries
+ */
+/** @typedef {ReturnType<typeof buildTrendChartModel>} TrendModel */
+/** @typedef {ReturnType<typeof layoutTrendChart>} TrendLayout */
+/** @typedef {{ x: number, y: number }} TrendXY */
+/**
+ * A direct label at the end of a line: where its point is, and where the label went.
+ * @typedef {{
+ *   key: string,
+ *   colour: string,
+ *   name: string,
+ *   value: string,
+ *   width: number,
+ *   pointX: number,
+ *   pointY: number,
+ *   x: number,
+ *   y: number,
+ *   leader: boolean
+ * }} TrendLabel
+ */
+/** @typedef {{ render: () => void, focus: (party: string | null) => void, destroy: () => void }} TrendChartController */
+/** @typedef {(text: string, bold?: boolean, size?: number) => number} MeasureText */
+
 /* ------------------------------------------------------------------------------------------ */
 /* Model                                                                                      */
 /* ------------------------------------------------------------------------------------------ */
@@ -31,14 +75,15 @@ const YEAR_STEPS = [1, 2, 5, 10, 20, 25, 50, 100];
 /**
  * Turn the manager's flat point list into ordered elections and ranked series.
  *
- * @param {Array<{party:string, share:number, votes?:number, seats?:number, colour:string, entry:any}>} points
- * @param {{ seriesLimit?: number, abbreviate?: (party:string)=>string, bodyLabel?: (entry:object)=>string }} [options]
+ * @param {TrendPoint[]} [points]
+ * @param {{ seriesLimit?: number, abbreviate?: (party:string)=>string, bodyLabel?: (entry: TrendEntry)=>string }} [options]
  */
 export function buildTrendChartModel(points = [], options = {}) {
   const seriesLimit = Math.max(1, Number(options.seriesLimit) || SERIES_LIMIT);
-  const abbreviate = typeof options.abbreviate === 'function' ? options.abbreviate : (party) => party;
-  const bodyLabel = typeof options.bodyLabel === 'function' ? options.bodyLabel : (entry) => String(entry?.body || '');
+  const abbreviate = typeof options.abbreviate === 'function' ? options.abbreviate : (/** @type {string} */ party) => party;
+  const bodyLabel = typeof options.bodyLabel === 'function' ? options.bodyLabel : (/** @type {TrendEntry} */ entry) => String(entry?.body || '');
 
+  /** @type {Map<string, TrendElection>} */
   const electionByKey = new Map();
   for (const point of points) {
     const entry = point?.entry || {};
@@ -58,6 +103,7 @@ export function buildTrendChartModel(points = [], options = {}) {
     .sort((a, b) => a.date.localeCompare(b.date) || a.body.localeCompare(b.body));
   const indexByKey = new Map(elections.map((election, index) => [election.key, index]));
 
+  /** @type {Map<string, TrendSeries>} */
   const byParty = new Map();
   for (const point of points) {
     const entry = point?.entry || {};
@@ -78,7 +124,7 @@ export function buildTrendChartModel(points = [], options = {}) {
         latestIndex: -1
       });
     }
-    const series = byParty.get(partyKey);
+    const series = /** @type {TrendSeries} */ (byParty.get(partyKey));
     const share = finiteOrZero(point.share);
     series.values[index] = { share, votes: finiteOrZero(point.votes), seats: finiteOrZero(point.seats) };
     series.maxShare = Math.max(series.maxShare, share);
@@ -92,6 +138,7 @@ export function buildTrendChartModel(points = [], options = {}) {
   // the chart reads as a tracker of the parties a reader knows; then everything else by its
   // peak, so a party that mattered once still earns a line when there is room.
   const lastIndex = elections.length - 1;
+  /** @param {TrendSeries} item */
   const currentShare = (item) => (lastIndex >= 0 && item.values[lastIndex] ? item.values[lastIndex].share : -1);
   const series = [...byParty.values()]
     .sort((a, b) => currentShare(b) - currentShare(a) || b.maxShare - a.maxShare || a.party.localeCompare(b.party))
@@ -135,12 +182,20 @@ export function layoutTrendChart(model, options = {}) {
 
   // Direct labels: the fullest form that fits in a modest share of the width, else shorter.
   const seriesByKey = new Map(series.map((item) => [item.key, item]));
+  /**
+   * @param {TrendSeries} item
+   * @param {string} mode  'full', 'abbr' or 'value'
+   */
   const labelTextFor = (item, mode) => {
     const value = formatShare(item.latestShare);
     if (mode === 'full') return { name: item.party, value };
     if (mode === 'abbr') return { name: item.abbreviation, value };
     return { name: '', value };
   };
+  /**
+   * @param {TrendSeries} item
+   * @param {string} mode
+   */
   const labelWidthFor = (item, mode) => {
     const text = labelTextFor(item, mode);
     return (text.name ? measure(`${text.name} `, false, LABEL_FONT_SIZE) : 0) + measure(text.value, true, LABEL_FONT_SIZE);
@@ -162,15 +217,17 @@ export function layoutTrendChart(model, options = {}) {
     bottom: 26,
     left: Math.ceil(yLabelWidth) + 10
   };
-  const plot = {
+  // width and height are set just below.
+  const plot = /** @type {{ left: number, right: number, top: number, bottom: number, width: number, height: number }} */ ({
     left: pad.left,
     right: width - pad.right,
     top: pad.top,
     bottom: height - pad.bottom
-  };
+  });
   plot.width = Math.max(40, plot.right - plot.left);
   plot.height = Math.max(40, plot.bottom - plot.top);
 
+  /** @param {unknown} share */
   const yFor = (share) => plot.bottom - (finiteOrZero(share) / yMax) * plot.height;
 
   // X scale: real time, then nudged so no two elections share a pixel column.
@@ -199,6 +256,7 @@ export function layoutTrendChart(model, options = {}) {
   }
 
   // Piecewise-linear map from a moment in time to a pixel column, through the election anchors.
+  /** @param {number} time */
   const xForTime = (time) => {
     if (!timed || !columns.length) return plot.left;
     if (columns.length === 1) return columns[0];
@@ -235,9 +293,13 @@ export function layoutTrendChart(model, options = {}) {
 
   // Series geometry: segments broken at every missing election, isolated points, label anchors.
   const seriesLayout = series.map((item) => {
+    /** @type {TrendXY[][]} */
     const segments = [];
+    /** @type {TrendXY[] | null} */
     let current = null;
+    /** @type {Array<TrendXY & { index: number }>} */
     const isolated = [];
+    /** @type {Array<TrendXY & { index: number, share: number }>} */
     const markers = [];
     item.values.forEach((value, index) => {
       if (!value) {
@@ -282,17 +344,20 @@ export function layoutTrendChart(model, options = {}) {
 
   // Direct labels sit at the end of each line, pushed apart so they never overlap, with a
   // short leader whenever one had to move away from its point.
+  /** @type {TrendLabel[]} */
   const labels = [];
   if (labelMode !== 'none') {
+    /** @type {Map<number, TrendLabel[]>} */
     const groups = new Map();
     for (const item of seriesLayout) {
       if (!item.last) continue;
       const anchorX = Math.round(item.last.x);
       if (!groups.has(anchorX)) groups.set(anchorX, []);
-      const source = seriesByKey.get(item.key);
+      const source = /** @type {TrendSeries} */ (seriesByKey.get(item.key));
       const text = labelTextFor(source, labelMode);
       const textWidth = labelWidthFor(source, labelMode);
-      groups.get(anchorX).push({
+      // x and leader are set once the group is spread out, below.
+      /** @type {TrendLabel[]} */ (groups.get(anchorX)).push(/** @type {TrendLabel} */ ({
         key: item.key,
         colour: item.colour,
         name: text.name,
@@ -301,7 +366,7 @@ export function layoutTrendChart(model, options = {}) {
         pointX: item.last.x,
         pointY: item.last.y,
         y: item.last.y
-      });
+      }));
     }
     for (const group of groups.values()) {
       group.sort((a, b) => a.pointY - b.pointY);
@@ -349,6 +414,9 @@ export function layoutTrendChart(model, options = {}) {
 
 /**
  * SVG markup for a laid-out chart. Static: interaction state is applied by the mount code.
+ * @param {TrendModel} model
+ * @param {TrendLayout} layout
+ * @param {{ ariaLabel?: string }} [options]
  */
 export function renderTrendChartSvg(model, layout, options = {}) {
   const { elections } = model;
@@ -425,7 +493,7 @@ export function renderTrendChartSvg(model, layout, options = {}) {
  * Render the chart into `container` and wire up the interactions. Returns a controller with
  * `destroy()`; mounting again into the same container destroys the previous instance.
  *
- * @param {HTMLElement & { __trendChart?: any }} container
+ * @param {HTMLElement & { __trendChart?: TrendChartController }} container
  * @param {ReturnType<typeof buildTrendChartModel>} model
  * @param {{ ariaLabel?:string, footnotes?:string, formatDate?:(date:string)=>string, height?:number | ((width:number)=>number), fitTo?:Element }} [options]
  */
@@ -449,7 +517,7 @@ export function mountTrendChart(container, model, options = {}) {
   const tooltip = /** @type {HTMLElement} */ (root.querySelector('.trend-tooltip'));
   const legend = /** @type {HTMLElement} */ (root.querySelector('.test2-election-trends__legend'));
   const measureText = createTextMeasurer(root);
-  const formatDate = typeof options.formatDate === 'function' ? options.formatDate : (value) => value;
+  const formatDate = typeof options.formatDate === 'function' ? options.formatDate : (/** @type {string} */ value) => value;
   const seriesByKey = new Map(model.series.map((item) => [item.key, item]));
 
   /**
@@ -491,6 +559,7 @@ export function mountTrendChart(container, model, options = {}) {
     });
   };
 
+  /** @param {number} index */
   const setColumn = (index) => {
     const layout = state.layout;
     if (!layout || !state.svg) return;
@@ -513,6 +582,7 @@ export function mountTrendChart(container, model, options = {}) {
     renderTooltip(next);
   };
 
+  /** @param {number} index */
   const renderTooltip = (index) => {
     const election = model.elections[index];
     if (!election) {
@@ -522,7 +592,7 @@ export function mountTrendChart(container, model, options = {}) {
     const rows = model.series
       .map((item) => ({ item, value: item.values[index] }))
       .filter((row) => row.value)
-      .sort((a, b) => b.value.share - a.value.share);
+      .sort((a, b) => /** @type {TrendValue} */ (b.value).share - /** @type {TrendValue} */ (a.value).share);
     const focus = effectiveFocus();
     tooltip.innerHTML = `
       <div class="trend-tooltip__title">${escapeHtml(formatDate(election.date))}</div>
@@ -531,7 +601,7 @@ export function mountTrendChart(container, model, options = {}) {
         ${rows.map((row) => `
           <tr class="${focus === row.item.key ? 'is-focused' : ''}">
             <td><span class="trend-tooltip__swatch" style="background:${escapeHtml(row.item.colour)}"></span>${escapeHtml(row.item.party)}</td>
-            <td class="trend-tooltip__value">${formatShare(row.value.share)}</td>
+            <td class="trend-tooltip__value">${formatShare(/** @type {TrendValue} */ (row.value).share)}</td>
           </tr>`).join('')}
       </tbody></table>
     `;
@@ -539,6 +609,7 @@ export function mountTrendChart(container, model, options = {}) {
     positionTooltip(index);
   };
 
+  /** @param {number} index */
   const positionTooltip = (index) => {
     const layout = state.layout;
     if (!layout) return;
@@ -557,6 +628,7 @@ export function mountTrendChart(container, model, options = {}) {
     tooltip.style.top = `${Math.round(top)}px`;
   };
 
+  /** @param {number} clientX */
   const nearestColumn = (clientX) => {
     const layout = state.layout;
     if (!layout || !layout.columns.length) return -1;
@@ -575,11 +647,13 @@ export function mountTrendChart(container, model, options = {}) {
     return best;
   };
 
+  /** @param {Event} event */
   const partyFromEvent = (event) => {
     const target = event.target instanceof Element ? event.target.closest('[data-party]') : null;
     return target ? target.getAttribute('data-party') : null;
   };
 
+  /** @param {string | null} party */
   const togglePartyLock = (party) => {
     if (!party || !seriesByKey.has(party)) return;
     state.lockedParty = state.lockedParty === party ? null : party;
@@ -588,6 +662,7 @@ export function mountTrendChart(container, model, options = {}) {
     if (state.column >= 0) renderTooltip(state.column);
   };
 
+  /** @param {PointerEvent} event */
   const onPointerMove = (event) => {
     if (event.pointerType === 'touch') return;
     state.hoverParty = partyFromEvent(event);
@@ -601,12 +676,14 @@ export function mountTrendChart(container, model, options = {}) {
     if (!state.pinned) setColumn(-1);
   };
 
+  /** @param {PointerEvent} event */
   const onPointerDown = (event) => {
     if (event.pointerType !== 'touch') return;
     state.pinned = true;
     setColumn(nearestColumn(event.clientX));
   };
 
+  /** @param {MouseEvent} event */
   const onClick = (event) => {
     const party = partyFromEvent(event);
     if (party) {
@@ -618,6 +695,7 @@ export function mountTrendChart(container, model, options = {}) {
   };
 
   // A touch outside the chart releases a pinned crosshair.
+  /** @param {PointerEvent} event */
   const onDocumentPointerDown = (event) => {
     if (!state.pinned || event.pointerType !== 'touch') return;
     if (event.target instanceof Node && root.contains(event.target)) return;
@@ -625,6 +703,7 @@ export function mountTrendChart(container, model, options = {}) {
     setColumn(-1);
   };
 
+  /** @param {KeyboardEvent} event */
   const onKeyDown = (event) => {
     const count = state.layout?.columns.length || 0;
     if (!count) return;
@@ -642,10 +721,12 @@ export function mountTrendChart(container, model, options = {}) {
     }
   };
 
+  /** @param {MouseEvent} event */
   const onLegendClick = (event) => {
     const button = event.target instanceof Element ? event.target.closest('button[data-party]') : null;
     if (button) togglePartyLock(button.getAttribute('data-party'));
   };
+  /** @param {PointerEvent} event */
   const onLegendPointerOver = (event) => {
     if (event.pointerType === 'touch') return;
     const button = event.target instanceof Element ? event.target.closest('button[data-party]') : null;
@@ -685,6 +766,7 @@ export function mountTrendChart(container, model, options = {}) {
   legend.addEventListener('pointerout', onLegendPointerOut);
   doc.addEventListener('pointerdown', onDocumentPointerDown, true);
 
+  /** @type {ResizeObserver | null} */
   let observer = null;
   let frame = 0;
   if (typeof ResizeObserver === 'function') {
@@ -700,6 +782,7 @@ export function mountTrendChart(container, model, options = {}) {
   }
   render();
 
+  /** @type {TrendChartController} */
   const controller = {
     render,
     focus(party) {
@@ -722,6 +805,7 @@ export function mountTrendChart(container, model, options = {}) {
   return controller;
 }
 
+/** @param {TrendModel} model */
 function legendMarkup(model) {
   return model.series.map((item) => (
     `<button type="button" class="test2-election-trends__legend-item" data-party="${escapeHtml(item.key)}" aria-pressed="false" title="${escapeHtml(`Focus ${item.party}`)}">`
@@ -731,13 +815,17 @@ function legendMarkup(model) {
   )).join('');
 }
 
+/**
+ * @param {Element} root
+ * @returns {MeasureText}
+ */
 function createTextMeasurer(root) {
   try {
     const canvas = root.ownerDocument.createElement('canvas');
     const context = canvas.getContext('2d');
     if (!context) return estimateTextWidth;
     const family = getComputedStyle(root).fontFamily || 'sans-serif';
-    return (text, bold = false, size = LABEL_FONT_SIZE) => {
+    return (/** @type {string} */ text, bold = false, size = LABEL_FONT_SIZE) => {
       context.font = `${bold ? '600' : '400'} ${size}px ${family}`;
       return context.measureText(String(text)).width;
     };
@@ -750,26 +838,35 @@ function createTextMeasurer(root) {
 /* Helpers                                                                                    */
 /* ------------------------------------------------------------------------------------------ */
 
+/** @param {unknown} value */
 export function formatShare(value) {
   const number = Number(value);
   return Number.isFinite(number) ? `${number.toFixed(1)}%` : '';
 }
 
+/**
+ * @param {unknown} text
+ * @param {boolean} [bold]
+ * @param {number} [size]
+ */
 function estimateTextWidth(text, bold = false, size = LABEL_FONT_SIZE) {
   return String(text).length * size * (bold ? 0.6 : 0.55);
 }
 
+/** @param {unknown} value */
 function parseDateUtc(value) {
   const match = String(value || '').match(/^(\d{4})-(\d{2})-(\d{2})/);
   if (!match) return NaN;
   return Date.UTC(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
 }
 
+/** @param {unknown} value */
 function finiteOrZero(value) {
   const number = Number(value);
   return Number.isFinite(number) ? number : 0;
 }
 
+/** @param {unknown} value */
 function normalizeName(value) {
   return String(value ?? '')
     .normalize('NFKD')
@@ -783,12 +880,13 @@ function normalizeName(value) {
     .toLowerCase();
 }
 
+/** @param {unknown} value */
 function escapeHtml(value) {
-  return String(value ?? '').replace(/[&<>"']/g, (char) => ({
+  return String(value ?? '').replace(/[&<>"']/g, (char) => (/** @type {Record<string, string>} */ ({
     '&': '&amp;',
     '<': '&lt;',
     '>': '&gt;',
     '"': '&quot;',
     "'": '&#39;'
-  }[char]));
+  })[char]));
 }
