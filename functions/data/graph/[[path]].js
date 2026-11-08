@@ -33,6 +33,18 @@ import { binding } from '../../../packages/config/src/config.js';
 import { fromD1 } from '../../../packages/storage/src/d1.js';
 import { GRAPH_FILES } from '../../../packages/api/src/queries/graph.js';
 
+/**
+ * What a /data/graph/ path asks for (matchGraphPath).
+ * @typedef {{ kind: 'doc', name: string }
+ *   | { kind: 'bulk' | 'lookup-browse' | 'lookup-slug' | 'lookup-entity' | 'browse-type' }
+ *   | { kind: 'entities' | 'statements-by-subject' | 'reverse-entity-value' | 'source-statements' | 'summaries' | 'search-part' | 'slugs-part', n: number }
+ *   | { kind: 'map', prefix: string }} GraphRoute
+ * @typedef {import('../../../packages/storage/src/store.js').RecordStore} RecordStore
+ * @typedef {import('../../../packages/api/src/queries/graph.js').GraphFileJoin} GraphFileJoin
+ * @typedef {[key: string, value: unknown, extra: unknown]} KeyedEntry
+ *   a file's key, its value (or values), and the lookup files' shard numbers for it
+ */
+
 const VERSION = 'data-graph-2';
 /**
  * The answers are cached at the edge for EDGE_TTL under a key without the dataset version: the
@@ -47,7 +59,11 @@ export const HEAVY = new Set(['entities', 'statements-by-subject', 'reverse-enti
 export const DOWNLOADS_ORIGIN = 'https://data.civgraph.net/downloads';
 const DOWNLOAD_FILES = new Set(['civgraph.jsonld', 'civgraph-rdf.ndjson', 'civgraph-provenance.json']);
 
-/** Where a bulk file moved to in the downloads (a shard: the downloads manifest, which lists them). */
+/**
+ * Where a bulk file moved to in the downloads (a shard: the downloads manifest, which lists them).
+ * @param {string} file  the file's name
+ * @returns {string}
+ */
 export function downloadsUrl(file) {
   return DOWNLOAD_FILES.has(file) ? `${DOWNLOADS_ORIGIN}/${encodeURIComponent(file)}.gz` : `${DOWNLOADS_ORIGIN}/manifest.json`;
 }
@@ -58,14 +74,18 @@ const DOCUMENTS = new Set([
   'indexes/entity-slugs.json', 'indexes/entity-search.json',
 ]);
 
-/** The route for a path under data/graph/, or null. */
+/**
+ * The route for a path under data/graph/, or null.
+ * @param {string} p  the decoded path under data/graph/
+ * @returns {GraphRoute | null}
+ */
 export function matchGraphPath(p) {
   if (DOCUMENTS.has(p)) return { kind: 'doc', name: `graph/${p}` };
   if (/^(statement-shards|exports)\//.test(p)) return { kind: 'bulk' };
   let m;
   if ((m = /^entity-shards\/entities-(\d{3,})\.json$/.exec(p))) return { kind: 'entities', n: Number(m[1]) };
-  if ((m = /^indexes\/lookup\/(browse|slug|entity)\/(\d{4})\.json$/.exec(p))) return { kind: `lookup-${m[1]}` };
-  if ((m = /^indexes\/(statements-by-subject|reverse-entity-value|source-statements)-shards\/\1-(\d{3,})\.json$/.exec(p))) return { kind: m[1], n: Number(m[2]) };
+  if ((m = /^indexes\/lookup\/(browse|slug|entity)\/(\d{4})\.json$/.exec(p))) return /** @type {GraphRoute} */ ({ kind: `lookup-${m[1]}` });
+  if ((m = /^indexes\/(statements-by-subject|reverse-entity-value|source-statements)-shards\/\1-(\d{3,})\.json$/.exec(p))) return /** @type {GraphRoute} */ ({ kind: m[1], n: Number(m[2]) });
   if ((m = /^indexes\/entity-summary-shards\/entity-summaries-(\d{3,})\.json$/.exec(p))) return { kind: 'summaries', n: Number(m[1]) };
   if ((m = /^indexes\/entity-search-part-(\d+)\.json$/.exec(p))) return { kind: 'search-part', n: Number(m[1]) };
   if ((m = /^indexes\/entity-slugs-part-(\d+)\.json$/.exec(p))) return { kind: 'slugs-part', n: Number(m[1]) };
@@ -74,6 +94,7 @@ export function matchGraphPath(p) {
   return null;
 }
 
+/** @param {CatchAllContext} context */
 export async function onRequest(context) {
   const method = context.request.method;
   if (method !== 'GET' && method !== 'HEAD') {
@@ -83,12 +104,13 @@ export async function onRequest(context) {
   return method === 'HEAD' ? new Response(null, { status: resp.status, headers: resp.headers }) : resp;
 }
 
+/** @param {CatchAllContext} context */
 export async function onRequestGet(context) {
   const parts = (context.params.path || []).map(decodeURIComponent);
   const p = parts.join('/');
   const route = parts.includes('..') ? null : matchGraphPath(p);
   if (route?.kind === 'bulk') {
-    const copy = binding(context.env, 'MAPS_BUCKET') ? await binding(context.env, 'MAPS_BUCKET').get(`data/graph/${p}`) : null;
+    const copy = binding(context.env, 'MAPS_BUCKET') ? await /** @type {R2Bucket} */ (binding(context.env, 'MAPS_BUCKET')).get(`data/graph/${p}`) : null;
     if (copy) return r2Response(copy);
     return new Response(null, { status: 301, headers: { Location: downloadsUrl(parts[parts.length - 1]), 'Cache-Control': 'public, max-age=86400' } });
   }
@@ -103,6 +125,7 @@ export async function onRequestGet(context) {
   });
 }
 
+/** @param {R2ObjectBody} obj */
 function r2Response(obj) {
   return new Response(obj.body, {
     headers: {
@@ -115,11 +138,18 @@ function r2Response(obj) {
 
 const notFound = () => jsonResponse({ error: 'not found' }, 404);
 
-/** The keys (and the lookup files' shard numbers) a file held, in order; null if no such file. */
+/**
+ * The keys (and the lookup files' shard numbers) a file held, in order; null if no such file.
+ * @param {RecordStore} db
+ * @param {string} file
+ * @returns {Promise<{ keys: string[], extra: unknown[] } | null>}
+ */
 async function fileKeys(db, file) {
-  const results = await db.all(GRAPH_FILES.keys, [file]);
+  const results = /** @type {Pick<import('../../../packages/types/index.js').RecordsDb.GraphFilesRow, 'keys' | 'extra'>[]} */ (await db.all(GRAPH_FILES.keys, [file]));
   if (!results.length) return null;
+  /** @type {string[]} */
   const keys = [];
+  /** @type {unknown[]} */
   const extra = [];
   for (const r of results) {
     keys.push(...(parseJson(r.keys) || []));
@@ -132,23 +162,36 @@ async function fileKeys(db, file) {
  * Each key of a file joined to its rows (GRAPH_FILES.valuesByKey: the value column, the join on
  * the key, and the order of several rows per key): key -> [values], the statement lists in their
  * ord order.
+ * @param {RecordStore} db
+ * @param {string} file
+ * @param {GraphFileJoin} joinName
+ * @returns {Promise<Map<string, string[]>>}
  */
 async function valuesByKey(db, file, joinName) {
-  const results = await db.all(GRAPH_FILES.valuesByKey(joinName), [file]);
+  const results = /** @type {{ k: string, v: string }[]} */ (await db.all(GRAPH_FILES.valuesByKey(joinName), [file]));
+  /** @type {Map<string, string[]>} */
   const out = new Map();
   for (const r of results) {
     if (!out.has(r.k)) out.set(r.k, []);
-    out.get(r.k).push(r.v);
+    /** @type {string[]} */ (out.get(r.k)).push(r.v);
   }
   return out;
 }
 
-/** The file's keys with one value each (or the list of values), in the file's order. */
+/**
+ * The file's keys with one value each (or the list of values), in the file's order.
+ * @param {RecordStore} db
+ * @param {string} file
+ * @param {GraphFileJoin} joinName
+ * @param {{ many?: boolean, parse?: boolean }} [options]  many: every value of a key; parse: JSON.parse each
+ * @returns {Promise<KeyedEntry[] | null>}
+ */
 async function keyed(db, file, joinName, { many = false, parse = true } = {}) {
   const listed = await fileKeys(db, file);
   if (!listed) return null;
   const values = await valuesByKey(db, file, joinName);
-  const read = (v) => (parse ? parseJson(v) : v);
+  const read = (/** @type {string} */ v) => (parse ? parseJson(v) : v);
+  /** @type {KeyedEntry[]} */
   const entries = [];
   listed.keys.forEach((key, i) => {
     const vals = values.get(key) || [];
@@ -158,15 +201,29 @@ async function keyed(db, file, joinName, { many = false, parse = true } = {}) {
   return entries;
 }
 
-/** Every key of the files under `dir`, in file order, with the file's URL. */
+/**
+ * Every key of the files under `dir`, in file order, with the file's URL.
+ * @param {RecordStore} db
+ * @param {string} dir
+ * @returns {Promise<[key: string, url: string][]>}
+ */
 async function keysUnder(db, dir) {
-  const results = await db.all(GRAPH_FILES.keysUnder, [`${dir}/`, `${dir}0`]);
+  const results = /** @type {Pick<import('../../../packages/types/index.js').RecordsDb.GraphFilesRow, 'file' | 'keys'>[]} */ (await db.all(GRAPH_FILES.keysUnder, [`${dir}/`, `${dir}0`]));
+  /** @type {[key: string, url: string][]} */
   const out = [];
   for (const r of results) for (const key of parseJson(r.keys) || []) out.push([key, `/data/graph/${r.file}`]);
   return out;
 }
 
-/** The head's part count (the build splits each collection into that many positional slices). */
+/**
+ * The head's part count (the build splits each collection into that many positional slices).
+ * @template T
+ * @param {RecordStore} db
+ * @param {string} head  the head document's name
+ * @param {T[]} list
+ * @param {number} n     the part
+ * @returns {Promise<T[]>}
+ */
 async function partSlice(db, head, list, n) {
   const doc = await documentBody(db, head);
   const count = Array.isArray(doc?.parts) && doc.parts.length ? doc.parts.length : 4;
@@ -174,6 +231,12 @@ async function partSlice(db, head, list, n) {
   return list.slice(n * size, (n + 1) * size);
 }
 
+/**
+ * @param {RecordStore} db
+ * @param {GraphRoute} route
+ * @param {string} p  the path under data/graph/
+ * @returns {Promise<Response>}
+ */
 async function answer(db, route, p) {
   switch (route.kind) {
     case 'doc': {
@@ -194,10 +257,11 @@ async function answer(db, route, p) {
     case 'lookup-entity': {
       const entries = await keyed(db, p, 'summary');
       if (!entries) return notFound();
+      /** @type {Record<string, unknown>} */
       const items = {};
       for (const [id, summary, extra] of entries) {
-        const [st, rv, ss] = extra || [];
-        items[id] = { ...summary, ...(st ?? null) !== null && { st }, ...(rv ?? null) !== null && { rv }, ...(ss ?? null) !== null && { ss } };
+        const [st, rv, ss] = /** @type {unknown[] | null | undefined} */ (extra) || [];
+        items[id] = { .../** @type {object} */ (summary), ...(st ?? null) !== null && { st }, ...(rv ?? null) !== null && { rv }, ...(ss ?? null) !== null && { ss } };
       }
       return jsonResponse({ schemaVersion: 1, items });
     }

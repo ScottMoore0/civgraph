@@ -13,6 +13,7 @@
  * wire to the client.
  */
 import { binding } from '../../../packages/config/src/config.js';
+/** @param {CatchAllContext} context */
 export async function onRequestGet(context) {
     // decodeURIComponent, matching functions/data/browse/[[path]].js.
     //
@@ -28,7 +29,7 @@ export async function onRequestGet(context) {
     // rejects a bad percent sequence at the edge with 400 before the Function
     // runs, so decodeURIComponent cannot throw here. Verified with
     // /data/browse/foo%zz.json, which returns 400 rather than a 1101.
-    const key = `data/maps/${context.params.path.map(decodeURIComponent).join('/')}`;
+    const key = `data/maps/${/** @type {string[]} */ (context.params.path).map(decodeURIComponent).join('/')}`;
     const accept = (context.request.headers.get('Accept-Encoding') || '').toLowerCase();
     const lowerKey = key.toLowerCase();
     const isJson = lowerKey.endsWith('.json');

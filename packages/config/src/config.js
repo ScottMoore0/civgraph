@@ -80,7 +80,7 @@ export const RUNTIME_VARS = /* @__PURE__ */ Object.freeze({
 });
 
 /** Names only. A tool that prints the configuration says whether these are set, never what to. */
-export const SECRETS = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.keys(RUNTIME_VARS).filter((k) => RUNTIME_VARS[k].secret));
+export const SECRETS = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.keys(RUNTIME_VARS).filter((k) => /** @type {Record<string, { secret?: boolean }>} */ (RUNTIME_VARS)[k].secret));
 
 /** Cache-Control policies, by what is being served. */
 export const CACHE = /* @__PURE__ */ Object.freeze({
@@ -100,6 +100,8 @@ export const CACHE = /* @__PURE__ */ Object.freeze({
  * Which deployment a request is on, from its host: production (civgraph.net), preview (a Pages
  * preview, *.pages.dev) or local (localhost, 127.0.0.1, wrangler pages dev). Pages exposes no
  * branch name to a Function at request time, so the host is the reliable signal.
+ * @param {string | URL | null | undefined} url
+ * @returns {'production' | 'preview' | 'local' | 'unknown'}
  */
 export function environmentFor(url) {
   let host = '';
@@ -113,14 +115,24 @@ export function environmentFor(url) {
 /**
  * A binding from a Function's env, by a name this file knows. A misspelt name throws instead of
  * reading undefined and answering 503 forever; an absent binding is null.
+ * @template {object} E
+ * @template {keyof typeof BINDINGS} K
+ * @param {E | null | undefined} env  the Function's env
+ * @param {K} name
+ * @returns {(K extends keyof E ? NonNullable<E[K]> : never) | null}
  */
 export function binding(env, name) {
   if (!Object.hasOwn(BINDINGS, name)) throw new Error(`config.binding(): unknown binding ${name}`);
-  return env?.[name] ?? null;
+  return /** @type {(K extends keyof E ? NonNullable<E[K]> : never) | null} */ (/** @type {Partial<Record<string, unknown>> | null | undefined} */ (env)?.[name] ?? null);
 }
 
-/** A runtime variable's value as a trimmed string ('' when unset), by a name this file knows. */
+/**
+ * A runtime variable's value as a trimmed string ('' when unset), by a name this file knows.
+ * @param {object | null | undefined} env  the Function's env
+ * @param {keyof typeof RUNTIME_VARS} name
+ * @returns {string}
+ */
 export function runtimeVar(env, name) {
   if (!Object.hasOwn(RUNTIME_VARS, name)) throw new Error(`config.runtimeVar(): unknown variable ${name}`);
-  return String(env?.[name] ?? '').trim();
+  return String(/** @type {Partial<Record<string, unknown>> | null | undefined} */ (env)?.[name] ?? '').trim();
 }

@@ -21,7 +21,7 @@ import { badges, citations, dataTable, facts, link, notice, partyChip } from '..
 export const GALLERY_PATH = '/design-system/';
 export const ROBOTS = 'noindex, nofollow';
 
-const code = (markup) => html`<details class="cg-gallery__markup"><summary>Markup</summary><pre><code>${markup}</code></pre></details>`;
+const code = (/** @type {string} */ markup) => html`<details class="cg-gallery__markup"><summary>Markup</summary><pre><code>${markup}</code></pre></details>`;
 
 /**
  * One specimen per component. `stylesheet` is its file under assets/ui/components/ (null for
@@ -147,6 +147,7 @@ function typographySection() {
 </section>`;
 }
 
+/** @param {(typeof SPECIMENS)[number]} s */
 function specimenSection(s) {
   const body = s.render();
   return html`<section class="cg-gallery__specimen" id="${s.id}" aria-labelledby="${s.id}-h">

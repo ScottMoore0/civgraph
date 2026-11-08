@@ -11,16 +11,27 @@
  */
 import { assertRecordStore, bindParams } from './store.js';
 
-const plain = (row) => (row ? { ...row } : null);
+/**
+ * A D1 row as a plain object. D1 hands back only SQL values (null, number, string, ArrayBuffer
+ * views), so the copy is a Row.
+ * @param {Record<string, unknown> | null | undefined} row
+ * @returns {import('./store.js').Row | null}
+ */
+const plain = (row) => (row ? /** @type {import('./store.js').Row} */ ({ ...row }) : null);
 
 /**
  * @param {D1Database} binding
  * @param {{ session?: string }} [options]
+ * @returns {import('./store.js').RecordStore}
  */
 export function fromD1(binding, { session } = {}) {
   if (!binding || typeof binding.prepare !== 'function') throw new TypeError('fromD1(): not a D1 binding');
   // Read replication (D1 Sessions API): a session reads from a nearby replica when allowed.
   const db = session && typeof binding.withSession === 'function' ? binding.withSession(session) : binding;
+  /**
+   * @param {string} sql
+   * @param {unknown[]} [params]
+   */
   const prepared = (sql, params) => {
     const values = bindParams(params);
     const stmt = db.prepare(sql);
@@ -33,11 +44,11 @@ export function fromD1(binding, { session } = {}) {
     },
     async all(sql, params) {
       const { results } = await prepared(sql, params).all();
-      return (results || []).map(plain);
+      return /** @type {import('./store.js').Row[]} */ ((results || []).map(plain));
     },
     async value(sql, params) {
       const row = await prepared(sql, params).first();
-      return row ? (Object.values(row)[0] ?? null) : null;
+      return row ? /** @type {import('./store.js').SqlValue} */ (Object.values(row)[0] ?? null) : null;
     },
     async run(sql, params) {
       const result = await prepared(sql, params).run();
@@ -47,7 +58,7 @@ export function fromD1(binding, { session } = {}) {
     async batch(statements) {
       if (!statements.length) return [];
       const results = await db.batch(statements.map((s) => prepared(s.sql, s.params)));
-      return results.map((r) => (r?.results || []).map(plain));
+      return results.map((r) => /** @type {import('./store.js').Row[]} */ ((r?.results || []).map(plain)));
     },
     async exec(sqlText) {
       await db.exec(sqlText);
@@ -67,8 +78,8 @@ const wrapped = new WeakMap();
  * @returns {import('./store.js').RecordStore}
  */
 export function asStore(db) {
-  const maybe = /** @type {any} */ (db);
-  if (maybe && typeof maybe.kind === 'string' && typeof maybe.all === 'function' && typeof maybe.prepare !== 'function') return maybe;
+  const maybe = /** @type {{ kind?: unknown, all?: unknown, prepare?: unknown } | null} */ (db);
+  if (maybe && typeof maybe.kind === 'string' && typeof maybe.all === 'function' && typeof maybe.prepare !== 'function') return /** @type {import('./store.js').RecordStore} */ (/** @type {unknown} */ (maybe));
   const known = wrapped.get(/** @type {object} */ (db));
   if (known) return known;
   /** @type {import('./store.js').RecordStore} */

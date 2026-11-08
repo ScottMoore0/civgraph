@@ -5,8 +5,42 @@ import { html } from '../../../../core/src/html.js';
 import { dateText, numberText, safeUrl } from '../../../../core/src/format.js';
 import { badges, citations, facts, link } from '../components/index.js';
 
+/**
+ * The browse_sources record fields this page reads (every one may be absent).
+ * @typedef {string | { name?: string, status?: string, note?: string } | null} SourceLicence
+ * @typedef {{ kind?: string, slug?: string, id?: string, title?: string }} RelatedRecord
+ * @typedef {object} SourceRecord
+ * @property {string} [title]
+ * @property {string} [slug]
+ * @property {string} [subtitle]
+ * @property {string | string[]} [provider]
+ * @property {{ canonicalDatasetUrl?: string, waybackUrl?: string }} [viewport]
+ * @property {string} [url]
+ * @property {string | string[]} [statusChips]
+ * @property {string} [description]
+ * @property {string} [shortCitation]
+ * @property {string} [category]
+ * @property {string} [date]
+ * @property {SourceLicence} [license]
+ * @property {string} [status]
+ * @property {string} [parentTitle]
+ * @property {string | string[]} [sourceHierarchy]
+ * @property {number} [referenceCount]
+ * @property {string | string[]} [keywords]
+ * @property {string} [interactiveUrl]
+ * @property {RelatedRecord[]} [relatedRecords]
+ * @property {{ title?: string, slug?: string, id?: string }[]} [mergedFrom]
+ */
+
+/**
+ * A value that is a list, one item or nothing, as a list without empty items.
+ * @template T
+ * @param {T | T[] | null | undefined} value
+ * @returns {T[]}
+ */
 const asList = (value) => (Array.isArray(value) ? value : value ? [value] : []).filter(Boolean);
 
+/** @param {SourceLicence | undefined} licence */
 function licenceText(licence) {
   if (!licence) return '';
   if (typeof licence === 'string') return licence;
@@ -14,6 +48,7 @@ function licenceText(licence) {
 }
 
 /** Where a related record lives on the site, when that is known. */
+/** @param {RelatedRecord} item */
 function relatedHref(item) {
   const id = encodeURIComponent(item.slug || item.id || '');
   if (!id) return '';
@@ -23,7 +58,7 @@ function relatedHref(item) {
 }
 
 /**
- * @param {any} record
+ * @param {SourceRecord} record  a browse_sources record
  * @param {{ canonical?: string }} [options]
  */
 export function sourceBody(record, { canonical } = {}) {

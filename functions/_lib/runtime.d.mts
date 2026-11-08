@@ -89,4 +89,31 @@ declare global {
     passThroughOnException(): void;
     next(input?: Request | string, init?: RequestInit): Promise<Response>;
   }
+
+  /** What each kind of binding (packages/config/src/config.js BINDINGS `kind`) is at run time. */
+  interface CivgraphBindingKinds {
+    d1: D1Database;
+    kv: KVNamespace;
+    r2: R2Bucket;
+    assets: { fetch(input: Request | URL | string, init?: RequestInit): Promise<Response> };
+  }
+
+  /**
+   * A Pages Function's env, from config.js BINDINGS and RUNTIME_VARS: every binding and variable
+   * is optional, because a Function reads it through binding()/runtimeVar() and answers 503 (or
+   * a fallback) when it is absent.
+   */
+  type CivgraphEnv = {
+    [K in keyof typeof import('../../packages/config/src/config.js').BINDINGS]?:
+      CivgraphBindingKinds[(typeof import('../../packages/config/src/config.js').BINDINGS)[K]['kind']];
+  } & { [K in keyof typeof import('../../packages/config/src/config.js').RUNTIME_VARS]?: string };
+
+  /** The context a Function handler receives, with civgraph's env; P names the route's parameters. */
+  type FunctionContext<P extends string = string> = PagesContext<CivgraphEnv, P>;
+
+  /**
+   * A [[path]] route's context: Pages hands the path's segments over as an array, still
+   * percent-encoded, and leaves it out at the route's own root.
+   */
+  type CatchAllContext = Omit<FunctionContext<'path'>, 'params'> & { params: { path?: string[] } };
 }

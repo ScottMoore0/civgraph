@@ -159,7 +159,11 @@ export const RETIRED_CONTEST_SLUGS = [
   ['local-government-local-government-districts-2011-05-05-lg11-nod-holywood', 'local-government-local-government-districts-2011-05-05-holywood'],
 ];
 
-/** The current slug for a retired one (lower-cased); any other slug comes back lower-cased. */
+/**
+ * The current slug for a retired one (lower-cased); any other slug comes back lower-cased.
+ * @param {string | null | undefined} slug
+ * @returns {string}
+ */
 export function resolveElectionSlugAlias(slug) {
   const lower = String(slug || '').toLowerCase();
   for (const [from, to] of RETIRED_CONTEST_SLUGS) {
