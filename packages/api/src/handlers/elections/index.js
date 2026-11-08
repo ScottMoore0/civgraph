@@ -246,7 +246,7 @@ async function handle(context) {
     const rows = cons.map((/** @type {Record<string, unknown>} */ row) => {
       const { featureId, featureName, matched, ...rest } = row;
       const mapped = contestRow(rest);
-      return { ...mapped, featureId, featureName, matched: matched === 1 || /** @type {unknown} */ (matched) === true };
+      return { ...mapped, featureId, featureName, matched: matched === 1 || matched === true };
     });
     return json({
       election: head,

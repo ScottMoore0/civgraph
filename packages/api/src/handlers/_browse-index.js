@@ -161,7 +161,7 @@ export function browseIndexHandler({
       if (facets && url.searchParams.get('facets') === '1') {
         const row = /** @type {{ facets: string | null } | null} */ (await db.first(CARDS.facets(facetsTable)));
         let parsed = {};
-        try { parsed = JSON.parse(/** @type {string} */ (row?.facets || '{}')); } catch { parsed = {}; }
+        try { parsed = JSON.parse(row?.facets || '{}'); } catch { parsed = {}; }
         return json({ facets: parsed }, 200, true, version);
       }
 
