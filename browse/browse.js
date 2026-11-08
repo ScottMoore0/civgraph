@@ -1,5 +1,5 @@
 import {
-  BALLOT_LABELS, CONTRIBUTOR_FORM, CONTRIBUTOR_SUBMISSION, PRINTED_LABELS, ROUTER, SUBMISSION_STATUS_CLASS, settle,
+  BALLOT_LABELS, CONTRIBUTOR_EDITOR, CONTRIBUTOR_FORM, CONTRIBUTOR_SUBMISSION, PRINTED_LABELS, ROUTER, SUBMISSION_STATUS_CLASS, settle,
 } from './state-machines.js';
 
 /**
@@ -367,6 +367,8 @@ const state = {
   currentDetail: null,
   // Where the shared contributor form is (browse/state-machines.js CONTRIBUTOR_FORM).
   contributorForm: CONTRIBUTOR_FORM.start(),
+  // Whether the inline editor (#contributorEditor) is shown (CONTRIBUTOR_EDITOR); its `hidden` follows.
+  contributorEditor: CONTRIBUTOR_EDITOR.start(),
   // The router (ROUTER): scroll positions are not saved while a navigation is `routing`.
   router: ROUTER.start(),
   registerInterestControls: {
@@ -604,7 +606,7 @@ function bindEvents() {
     }
 
     if (event.target.closest('[data-contributor-close]')) {
-      if (els.contributorEditor && !els.contributorEditor.hidden) {
+      if (els.contributorEditor && state.contributorEditor.state() === 'shown') {
         closeInlineEditor();
         return;
       }
@@ -4836,7 +4838,7 @@ function showInlineEditor(title) {
   closeContributorModal();
   els.contributorEditorTitle.textContent = title;
   els.contributorEditorSlot.appendChild(els.contributorForm);
-  els.contributorEditor.hidden = false;
+  els.contributorEditor.hidden = settle(state.contributorEditor, 'shown') !== 'shown';
   state.contributorForm.to('metadata-edit');
   els.contributorEditor.scrollIntoView({ block: 'start', behavior: 'smooth' });
   /** @type {HTMLElement | null} */ (els.contributorForm.querySelector('input:not([type="hidden"]), textarea'))?.focus();
@@ -4844,7 +4846,7 @@ function showInlineEditor(title) {
 
 function closeInlineEditor() {
   if (!els.contributorEditor) return;
-  els.contributorEditor.hidden = true;
+  els.contributorEditor.hidden = settle(state.contributorEditor, 'hidden') !== 'shown';
   els.contributorForm.innerHTML = '';
   state.contributorForm.to('closed');
   state.editEntityId = null;
@@ -4859,7 +4861,7 @@ function closeInlineEditor() {
  * the question being asked -- so the throw is the answer, not an error.
  */
 function isEditorDirty() {
-  if (!els.contributorEditor || els.contributorEditor.hidden) return false;
+  if (!els.contributorEditor || state.contributorEditor.state() !== 'shown') return false;
   const summary = /** @type {HTMLInputElement | null} */ (els.contributorForm.querySelector('[name="summary"]'))?.value?.trim();
   if (summary) return true;
   try {
