@@ -3,7 +3,8 @@
  * in the allowlisted files, and the records allowlist only grows.
  *
  * - tsconfig.records.json keeps scripts/lib and scripts/records, with checkJs on;
- * - tsconfig.records-strict.json keeps noImplicitAny on for scripts/lib and the packages' files it lists;
+ * - tsconfig.records.json keeps noImplicitAny on (the noImplicitAny review, 8 Nov 2026), over the
+ *   loader and the storage, config, schema and maps-pipeline files as well, and check:types:records runs it;
  * - no @ts-nocheck, @ts-ignore or @ts-expect-error in those folders (a cast in JSDoc says what
  *   is meant; a suppression hides it);
  * - typecheck() splits errors into the allowlisted files (failures) and the files they import
@@ -24,15 +25,11 @@ test('tsconfig.records.json checks scripts/lib, scripts/records and the loader, 
   for (const entry of ['scripts/lib/**/*.mjs', 'scripts/records/**/*.mjs', 'packages/loader/src/**/*.mjs', 'packages/schema/src/*.mjs', 'packages/storage/src/sqlite.mjs']) assert.ok(config.include.includes(entry), entry);
 });
 
-test('tsconfig.records-strict.json keeps noImplicitAny on for scripts/lib and the storage, config, schema and maps-pipeline files, and check:types:records runs it', () => {
-  const strict = JSON.parse(readFileSync(path.join(REPO_ROOT, 'tsconfig.records-strict.json'), 'utf8'));
-  assert.equal(strict.extends, './tsconfig.records.json');
-  assert.equal(strict.compilerOptions.noImplicitAny, true);
-  for (const entry of ['scripts/lib/**/*.mjs', 'packages/storage/src/sqlite.mjs', 'packages/config/src/node.mjs', 'packages/schema/src/schema.mjs', 'packages/maps-pipeline/src/layer-bounds.mjs', 'packages/maps-pipeline/src/safe-artefact-write.mjs']) assert.ok(strict.include.includes(entry), entry);
-  // The base config must not switch it off for everything that extends it.
-  assert.notEqual(config.compilerOptions.noImplicitAny, false);
+test('tsconfig.records.json keeps noImplicitAny on for scripts/lib, scripts/records, the loader and the storage, config, schema and maps-pipeline files, and check:types:records runs it', () => {
+  assert.equal(config.compilerOptions.noImplicitAny, true);
+  for (const entry of ['scripts/lib/**/*.mjs', 'scripts/records/**/*.mjs', 'packages/loader/src/**/*.mjs', 'packages/storage/src/sqlite.mjs', 'packages/config/src/node.mjs', 'packages/schema/src/*.mjs', 'packages/maps-pipeline/src/layer-bounds.mjs', 'packages/maps-pipeline/src/safe-artefact-write.mjs']) assert.ok(config.include.includes(entry), entry);
   const scripts = JSON.parse(readFileSync(path.join(REPO_ROOT, 'package.json'), 'utf8')).scripts;
-  assert.match(scripts['check:types:records'], /typecheck\.mjs tsconfig\.records-strict\.json/);
+  assert.match(scripts['check:types:records'], /typecheck\.mjs tsconfig\.records\.json/);
 });
 
 test('no type-check suppressions in the allowlisted folders', () => {
