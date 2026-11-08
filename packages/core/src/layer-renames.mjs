@@ -13,6 +13,7 @@
  * (resolveLegacyLayerId in packages/map/app/app.js, which D3 extends; not edited here).
  */
 
+/** @type {ReadonlyArray<readonly [string, string]>} [old suffix, new suffix] */
 export const LAYER_ID_SUFFIXES = [
   ['-vector-test', '-vector'],
   ['-raster-test', '-raster'],
@@ -37,7 +38,11 @@ export function layerIdForm(id) {
   return 'other';
 }
 
-/** The new id for an old one; an id without an old suffix is returned unchanged. */
+/**
+ * The new id for an old one; an id without an old suffix is returned unchanged.
+ * @param {unknown} id
+ * @returns {string}
+ */
 export function renameLayerId(id) {
   const value = String(id ?? '');
   for (const [from, to] of LAYER_ID_SUFFIXES) {
@@ -46,7 +51,11 @@ export function renameLayerId(id) {
   return value;
 }
 
-/** The old id a new one came from, for the reverse lookup; unchanged when not renamed. */
+/**
+ * The old id a new one came from, for the reverse lookup; unchanged when not renamed.
+ * @param {unknown} id
+ * @returns {string}
+ */
 export function legacyLayerId(id) {
   const value = String(id ?? '');
   for (const [from, to] of LAYER_ID_SUFFIXES) {
@@ -58,6 +67,8 @@ export function legacyLayerId(id) {
 /**
  * The new R2 key for an old PMTiles key or CDN URL, or null when it is not one the rename
  * covers (another prefix, not .pmtiles, or a name without an old suffix).
+ * @param {unknown} keyOrUrl
+ * @returns {{ from: string, to: string } | null}
  */
 export function renamePmtilesKey(keyOrUrl) {
   let key = String(keyOrUrl ?? '');
@@ -91,6 +102,7 @@ export function renamePmtilesKey(keyOrUrl) {
  * Kept as a prefix rewrite rather than 26 entries so the table cannot fall out of step
  * with the rename.
  */
+/** @type {ReadonlyArray<readonly [string, string]>} [old prefix, new prefix] */
 export const LEGACY_LAYER_ID_PREFIXES = [
   ['roi-local-authorities-', 'local-authorities-'],
   // NI editions re-dated to the census date on 2026-11-01 (the id carries the date): Newtownards RD

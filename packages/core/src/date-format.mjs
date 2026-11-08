@@ -10,6 +10,11 @@
 export const SHORT_MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const LONG_MONTHS = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
 
+/**
+ * The month's index (0-11) of a long or short English month name ("April", "Apr.", "Sept"); -1 for anything else.
+ * @param {string} name
+ * @returns {number}
+ */
 function monthIndex(name) {
   const n = String(name || '').toLowerCase().replace(/\.$/, '');
   const full = LONG_MONTHS.indexOf(n);
@@ -18,8 +23,13 @@ function monthIndex(name) {
   return short;
 }
 
+/** @type {(day: string | number, month: number, year: string | number) => string} */
 const dayMonthYear = (day, month, year) => `${String(Number(day)).padStart(2, '0')} ${SHORT_MONTHS[month]} ${year}`;
 
+/**
+ * @param {string | number | Date | null | undefined} value
+ * @returns {string}
+ */
 export function formatDisplayDate(value) {
   if (value instanceof Date) {
     return Number.isFinite(value.getTime())
@@ -39,10 +49,14 @@ export function formatDisplayDate(value) {
   return s;
 }
 
-/** The same rule for dates written inside a longer label ("Cavan — 01 April 1969"). */
+/**
+ * The same rule for dates written inside a longer label ("Cavan — 01 April 1969").
+ * @param {unknown} value
+ * @returns {string}
+ */
 export function formatDatesInText(value) {
   return String(value ?? '')
-    .replace(/\b(\d{1,2})\/(\d{1,2})\/(\d{4})\b/g, (_all, d, mo, y) => formatDisplayDate(`${d}/${mo}/${y}`))
-    .replace(/\b(\d{1,2})(?:st|nd|rd|th)?\s+([A-Z][a-z]+\.?),?\s+(\d{4})\b/g, (all, d, mo, y) => (
+    .replace(/\b(\d{1,2})\/(\d{1,2})\/(\d{4})\b/g, (/** @type {string} */ _all, /** @type {string} */ d, /** @type {string} */ mo, /** @type {string} */ y) => formatDisplayDate(`${d}/${mo}/${y}`))
+    .replace(/\b(\d{1,2})(?:st|nd|rd|th)?\s+([A-Z][a-z]+\.?),?\s+(\d{4})\b/g, (/** @type {string} */ all, /** @type {string} */ d, /** @type {string} */ mo, /** @type {string} */ y) => (
       monthIndex(mo) >= 0 ? dayMonthYear(d, monthIndex(mo), y) : all));
 }
