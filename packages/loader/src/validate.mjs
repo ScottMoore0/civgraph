@@ -8,9 +8,9 @@
 import { spawnSync } from 'node:child_process';
 import path from 'node:path';
 import { openDatabase } from './db.mjs';
-import { buildVar } from '@civgraph/config/node';
+import { buildVar } from '../../config/src/node.mjs';
 import { REPO_ROOT } from './paths.mjs';
-import { MAX_VALUE_BYTES, TABLES } from '@civgraph/schema';
+import { MAX_VALUE_BYTES, TABLES } from '../../schema/src/schema.mjs';
 
 // Source-file validators run as they are (stage C.3); each reads committed sources only.
 export const SOURCE_VALIDATORS = [

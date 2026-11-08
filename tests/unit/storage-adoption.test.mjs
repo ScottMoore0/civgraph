@@ -13,10 +13,10 @@ import os from 'node:os';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import test from 'node:test';
-import { openSqliteHandle } from '@civgraph/storage/node';
-import { createDatabase } from '@civgraph/loader/db.mjs';
-import { answerRecordApi, RECORD_API_ROUTES } from '@civgraph/loader/local-api.mjs';
-import { REPO_ROOT } from '@civgraph/loader/paths.mjs';
+import { openSqliteHandle } from '../../packages/storage/src/sqlite.mjs';
+import { createDatabase } from '../../packages/loader/src/db.mjs';
+import { answerRecordApi, RECORD_API_ROUTES } from '../../packages/loader/src/local-api.mjs';
+import { REPO_ROOT } from '../../packages/loader/src/paths.mjs';
 import { d1 } from '../records/d1-shim.mjs';
 
 test('node:sqlite is imported only by the storage adapter', () => {

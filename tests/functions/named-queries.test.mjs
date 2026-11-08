@@ -16,7 +16,7 @@ import assert from 'node:assert/strict';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { REPO_ROOT } from '@civgraph/config/node';
+import { REPO_ROOT } from '../../packages/config/src/node.mjs';
 
 const FUNCTIONS = path.join(REPO_ROOT, 'functions');
 const QUERIES = path.join(REPO_ROOT, 'packages', 'api', 'src', 'queries');

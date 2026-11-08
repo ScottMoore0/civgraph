@@ -1,2 +1,2 @@
 // Moved to packages/intake/src/statuses.mjs (refactor PKG); this re-export is kept until 8 Dec 2026.
-export * from '@civgraph/intake/statuses.mjs';
+export * from '../../../packages/intake/src/statuses.mjs';

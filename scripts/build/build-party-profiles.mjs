@@ -32,7 +32,7 @@
  */
 import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync, rmSync } from 'node:fs';
 import path from 'node:path';
-import { BROWSE_DIR, ELECTION_BUNDLE_DIR } from '@civgraph/loader/paths.mjs';
+import { BROWSE_DIR, ELECTION_BUNDLE_DIR } from '../../packages/loader/src/paths.mjs';
 import { browsePartySlugResolver, formatSpan, indexFactsModel, loadFactsModel } from '../lib/facts-model.mjs';
 import { isPartyInternalBody } from '../lib/election-names.mjs';
 

@@ -1,7 +1,7 @@
 // Person ids: the registry, the stamp on every candidacy, the merge loop, the name layer and the
 // audit. `rebuild` is the whole loop in its documented order (rebuild-person-ids.mjs, an explicit
 // state machine); the other steps are its parts, for a single re-run.
-import { definePlugin } from '@civgraph/intake/plugins.mjs';
+import { definePlugin } from '../../../packages/intake/src/plugins.mjs';
 
 export default definePlugin({
   id: 'persons',

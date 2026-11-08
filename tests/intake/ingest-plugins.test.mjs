@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
-import { discoverPlugins, unaccountedFiles } from '@civgraph/intake/plugins.mjs';
+import { discoverPlugins, unaccountedFiles } from '../../packages/intake/src/plugins.mjs';
 
 const REPO = path.resolve('.');
 // A script that makes network calls (the same test the catalogue used to list them).

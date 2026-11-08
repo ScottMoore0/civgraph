@@ -49,14 +49,14 @@
 import { spawnSync } from 'node:child_process';
 import { closeSync, existsSync, mkdirSync, openSync, readFileSync, rmSync } from 'node:fs';
 import path from 'node:path';
-import { openSqliteHandle } from '@civgraph/storage/node';
+import { openSqliteHandle } from '../../storage/src/sqlite.mjs';
 import { datasetLoadState, LOADING_KEY } from './dataset-state.mjs';
 import { snapshotTable } from './db.mjs';
 import { verifyModeFor } from './deploy-plan.mjs';
 import { q } from './diff-load.mjs';
-import { buildVar } from '@civgraph/config/node';
+import { buildVar } from '../../config/src/node.mjs';
 import { RECORDS_DB, REPO_ROOT } from './paths.mjs';
-import { HASHED_TABLES } from '@civgraph/schema';
+import { HASHED_TABLES } from '../../schema/src/schema.mjs';
 
 /**
  * The D1 database behind the ELECTIONS_DB binding, read from wrangler.toml's production

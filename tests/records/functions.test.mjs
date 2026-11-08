@@ -8,7 +8,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
-import { recordPaths, REPO_ROOT } from '@civgraph/loader/paths.mjs';
+import { recordPaths, REPO_ROOT } from '../../packages/loader/src/paths.mjs';
 import { buildHasVotes, context, d1, installCaches } from './d1-shim.mjs';
 import { resetDatasetMemo } from '../../functions/_api/_records.js';
 import * as elections from '../../functions/_api/elections/index.js';

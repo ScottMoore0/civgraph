@@ -19,7 +19,7 @@
 import { spawnSync } from 'node:child_process';
 import { readFileSync, existsSync } from 'node:fs';
 import { alreadyDeployed, markDeployed, DRY_RUN } from '../lib/d1-deploy-cache.mjs';
-import { SITE } from '@civgraph/config/node';
+import { SITE } from '../../packages/config/src/node.mjs';
 
 /**
  * `shell` is set ONLY for npx, never for node.

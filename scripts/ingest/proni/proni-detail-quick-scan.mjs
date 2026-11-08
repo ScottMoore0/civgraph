@@ -17,7 +17,7 @@ import path from "node:path";
 import { performance } from "node:perf_hooks";
 import { pathToFileURL } from "node:url";
 import readline from "node:readline";
-import { SNAPSHOT } from '@civgraph/intake/item-status.mjs';
+import { SNAPSHOT } from '../../../packages/intake/src/item-status.mjs';
 
 const BASE = "https://apps.proni.gov.uk/eCatNI_IE/";
 const USER_AGENT = "Mozilla/5.0 CivgraphPRONIDetailQuickScan/1.0";

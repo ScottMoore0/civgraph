@@ -2,7 +2,7 @@
 import { existsSync, readFileSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { resolveBrowseSourceItems } from '../../lib/browse-source-index.mjs';
-import { BROWSE_DIR, localPathForUrl } from '@civgraph/loader/paths.mjs';
+import { BROWSE_DIR, localPathForUrl } from '../../../packages/loader/src/paths.mjs';
 
 const ROOT = process.cwd();
 const SOURCE_SIDECAR = path.join(ROOT, 'data', 'database', 'ni-register-sources.json');

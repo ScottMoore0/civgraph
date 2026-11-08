@@ -21,7 +21,7 @@
  */
 import { existsSync } from 'node:fs';
 import path from 'node:path';
-import { REPO_PATHS, REPO_ROOT } from '@civgraph/config/node';
+import { REPO_PATHS, REPO_ROOT } from '../../packages/config/src/node.mjs';
 
 export const R2_REQUIRED_VARS = Object.freeze(['R2_S3_ENDPOINT', 'R2_ACCESS_KEY_ID', 'R2_SECRET_ACCESS_KEY']);
 export const DEFAULT_R2_BUCKET = 'boundaries-data';

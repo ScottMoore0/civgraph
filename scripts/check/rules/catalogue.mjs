@@ -26,7 +26,7 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import path from 'node:path';
 import { loadRecords, placeable } from '../../build/catalogue/records.mjs';
-import { ELECTION_MANIFEST } from '@civgraph/loader/paths.mjs';
+import { ELECTION_MANIFEST } from '../../../packages/loader/src/paths.mjs';
 
 const ROOT = process.cwd();
 const read = (p) => JSON.parse(readFileSync(path.join(ROOT, p), 'utf8'));

@@ -40,7 +40,7 @@
  */
 import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { SITE } from '@civgraph/config/node';
+import { SITE } from '../../packages/config/src/node.mjs';
 
 const ROOT = process.cwd();
 const OUT = path.join(ROOT, 'data/status/source-snapshots.json');

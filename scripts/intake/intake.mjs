@@ -26,13 +26,13 @@
 import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { DEFAULT_REPO, loadBatch, validateBatch } from '@civgraph/intake/batch.mjs';
-import { buildPostUploadSteps, buildUploadSteps, formatStep, runSteps } from '@civgraph/intake/commands.mjs';
-import { formatPlan, planBatch, renderReport } from '@civgraph/intake/plan.mjs';
-import { checkLock, drift, git, readStates, scaffoldManifest, writeLock, writeState } from '@civgraph/intake/review.mjs';
-import { stageBatch } from '@civgraph/intake/stage.mjs';
-import { commandAllowed } from '@civgraph/intake/statuses.mjs';
-import { PLUGIN_COMMANDS, pluginMain } from '@civgraph/intake/plugin-cli.mjs';
+import { DEFAULT_REPO, loadBatch, validateBatch } from '../../packages/intake/src/batch.mjs';
+import { buildPostUploadSteps, buildUploadSteps, formatStep, runSteps } from '../../packages/intake/src/commands.mjs';
+import { formatPlan, planBatch, renderReport } from '../../packages/intake/src/plan.mjs';
+import { checkLock, drift, git, readStates, scaffoldManifest, writeLock, writeState } from '../../packages/intake/src/review.mjs';
+import { stageBatch } from '../../packages/intake/src/stage.mjs';
+import { commandAllowed } from '../../packages/intake/src/statuses.mjs';
+import { PLUGIN_COMMANDS, pluginMain } from '../../packages/intake/src/plugin-cli.mjs';
 
 const COMMANDS = new Set(['init', 'validate', 'plan', 'stage', 'upload', 'post-upload', 'report', 'status']);
 const FLAGS = new Set(['--write', '--dry-run', '--yes', '--json', '--verbose', '--lock', '--manifest', '--repo', '--out', '--repo-label', '--title']);

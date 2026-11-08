@@ -1,7 +1,7 @@
 // The censuses (NISRA and its predecessors, the CSO) and the statistics catalogues beside them:
 // the parsed historic tables, the cleaned 2001 and 2011 builds, the Census Explorer bundle, the
 // approved-publication gate records, and the Internet Archive mirrors.
-import { definePlugin } from '@civgraph/intake/plugins.mjs';
+import { definePlugin } from '../../../packages/intake/src/plugins.mjs';
 
 const DERIVED = 'data/census/derived/';
 const INVENTORY = 'data/census/source-inventory/';

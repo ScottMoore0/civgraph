@@ -7,10 +7,10 @@ import { existsSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 import { pathToFileURL } from 'node:url';
-import { loadBatch, validateBatch } from '@civgraph/intake/batch.mjs';
-import { pluginMain } from '@civgraph/intake/plugin-cli.mjs';
-import { definePlugin, discoverPlugins, loadPlugin, pluginProblems, resolveArgv, unaccountedFiles } from '@civgraph/intake/plugins.mjs';
-import { stageBatch } from '@civgraph/intake/stage.mjs';
+import { loadBatch, validateBatch } from '../../packages/intake/src/batch.mjs';
+import { pluginMain } from '../../packages/intake/src/plugin-cli.mjs';
+import { definePlugin, discoverPlugins, loadPlugin, pluginProblems, resolveArgv, unaccountedFiles } from '../../packages/intake/src/plugins.mjs';
+import { stageBatch } from '../../packages/intake/src/stage.mjs';
 import { tempDir, writeFile } from './helpers.mjs';
 
 const PLUGINS_URL = pathToFileURL(path.resolve('packages/intake/src/plugins.mjs')).href;

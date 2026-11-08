@@ -40,7 +40,7 @@ import {
   withLocalPartyDeltas,
   withPartyDeltas
 } from '../../src/map/election/results-model.mjs';
-import * as viewModel from '@civgraph/core/election-view-model.mjs';
+import * as viewModel from '../../packages/core/src/election-view-model.mjs';
 
 // --- fixtures ---------------------------------------------------------------------------------
 

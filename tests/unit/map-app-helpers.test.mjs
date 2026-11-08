@@ -20,7 +20,7 @@ import {
   shortCacheName,
   slugifyEntityKey
 } from '../../src/map/app/helpers.mjs';
-import { entityKey as browseSlug } from '@civgraph/loader/browse-columns.mjs';
+import { entityKey as browseSlug } from '../../packages/loader/src/browse-columns.mjs';
 
 test('escapeHtml escapes the five HTML characters and stringifies null', () => {
   assert.equal(escapeHtml(`<a href="x">Tom & Jerry's</a>`), '&lt;a href=&quot;x&quot;&gt;Tom &amp; Jerry&#39;s&lt;/a&gt;');

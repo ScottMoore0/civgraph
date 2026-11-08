@@ -14,7 +14,7 @@
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { buildVar } from '@civgraph/config/node';
+import { buildVar } from '../../config/src/node.mjs';
 import { REPO_ROOT } from './paths.mjs';
 
 export const PIN_FILE = path.join(REPO_ROOT, 'data', 'database', 'votes-source.json');

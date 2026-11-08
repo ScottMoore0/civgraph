@@ -1,5 +1,5 @@
 // The Peatlands Geoportal (Queen's University Belfast): source records for its layers.
-import { definePlugin } from '@civgraph/intake/plugins.mjs';
+import { definePlugin } from '../../../packages/intake/src/plugins.mjs';
 
 export default definePlugin({
   id: 'geoportal',

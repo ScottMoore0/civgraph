@@ -14,7 +14,7 @@
  */
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
-import { openSqliteHandle } from '@civgraph/storage/node';
+import { openSqliteHandle } from '../../storage/src/sqlite.mjs';
 import { REPO_ROOT } from './paths.mjs';
 import { transaction } from './db.mjs';
 

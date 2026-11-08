@@ -12,7 +12,7 @@ import {
   abbreviationIndex, entityAliasStrings, labelFoldIndex, labelInterpretationRules, partiesById, partyInfoFrom,
   partyLabelKey, retiredPartySlugs
 } from '../../registries/parties.mjs';
-import { isNonParty, partyInfo } from '@civgraph/core/party-names.mjs';
+import { isNonParty, partyInfo } from '../../packages/core/src/party-names.mjs';
 import { createPartyLabelInterpreter } from '../../scripts/lib/party-label-interpretations.mjs';
 
 const registry = loadRegistry('parties');

@@ -11,9 +11,9 @@
 import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync } from 'node:fs';
 import path from 'node:path';
-import { openSqliteHandle } from '@civgraph/storage/node';
+import { openSqliteHandle } from '../../storage/src/sqlite.mjs';
 import { REPO_ROOT } from './paths.mjs';
-import { TABLE } from '@civgraph/schema';
+import { TABLE } from '../../schema/src/schema.mjs';
 
 export const MIGRATIONS_DIR = path.join(REPO_ROOT, 'packages', 'schema', 'migrations');
 

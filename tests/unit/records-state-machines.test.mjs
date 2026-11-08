@@ -18,13 +18,13 @@ import os from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
 import { defineMachine, defineToggle } from '../../scripts/lib/state-machine.mjs';
-import { DATASET_LOAD, datasetLoadState, loadingValue } from '@civgraph/loader/dataset-state.mjs';
-import { createDatabase } from '@civgraph/loader/db.mjs';
+import { DATASET_LOAD, datasetLoadState, loadingValue } from '../../packages/loader/src/dataset-state.mjs';
+import { createDatabase } from '../../packages/loader/src/db.mjs';
 import { layerIdForm } from '../../scripts/lib/layer-renames.mjs';
-import { DEPLOY, deployModeErrors, deployPath, deployRun, parseDeployArgs, resumeCheck, verifyModeFor } from '@civgraph/loader/deploy-plan.mjs';
-import { graphFilesOrigin } from '@civgraph/loader/graph-files-freeze.mjs';
-import { votesPinState } from '@civgraph/loader/votes-pin.mjs';
-import { buildDelta } from '@civgraph/loader/diff-load.mjs';
+import { DEPLOY, deployModeErrors, deployPath, deployRun, parseDeployArgs, resumeCheck, verifyModeFor } from '../../packages/loader/src/deploy-plan.mjs';
+import { graphFilesOrigin } from '../../packages/loader/src/graph-files-freeze.mjs';
+import { votesPinState } from '../../packages/loader/src/votes-pin.mjs';
+import { buildDelta } from '../../packages/loader/src/diff-load.mjs';
 
 test('defineMachine: moves only along the table', () => {
   const m = defineMachine({ name: 'm', initial: 'a', transitions: { a: ['b'], b: ['c', 'a'], c: [] } });

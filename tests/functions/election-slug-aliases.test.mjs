@@ -14,12 +14,12 @@ import { DatabaseSync } from 'node:sqlite';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { browsePageHandler, resolveElectionSlugAlias } from '../../functions/_browse-page.js';
-import { ELECTION_SLUG_ALIASES, RETIRED_CONTEST_SLUGS } from '@civgraph/core/election-slug-aliases.js';
-import { slugify } from '@civgraph/core/format.js';
+import { ELECTION_SLUG_ALIASES, RETIRED_CONTEST_SLUGS } from '../../packages/core/src/election-slug-aliases.js';
+import { slugify } from '../../packages/core/src/format.js';
 import { canonicalElectionTitle } from '../../scripts/lib/election-names.mjs';
 import { onRequestGet as electionsApi, retiredSlugRedirect } from '../../functions/_api/elections/index.js';
 import { resetDatasetVersionCache } from '../../functions/_lib/respond.js';
-import { migrationFiles, TableWriter, transaction } from '@civgraph/loader/db.mjs';
+import { migrationFiles, TableWriter, transaction } from '../../packages/loader/src/db.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const read = (rel) => JSON.parse(readFileSync(path.join(ROOT, rel), 'utf8'));

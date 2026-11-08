@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
-import { BATCH_STATUS, checkBatchTransition, COMMAND_GATES, commandAllowed, CONTRIBUTION_STATUS, ROUND_STATUS, roundGate, roundStatusOf } from '@civgraph/intake/statuses.mjs';
+import { BATCH_STATUS, checkBatchTransition, COMMAND_GATES, commandAllowed, CONTRIBUTION_STATUS, ROUND_STATUS, roundGate, roundStatusOf } from '../../packages/intake/src/statuses.mjs';
 import { canMarkApplied } from '../../scripts/intake/contributions.mjs';
 
 const schema = JSON.parse(readFileSync(new URL('../../scripts/intake/batch.schema.json', import.meta.url), 'utf8'));

@@ -2,7 +2,7 @@
 import path from 'node:path';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { mapAppSourceFiles, readElectionManagerSource, readMapAppSource } from '../../lib/map-app-source.mjs';
-import { BROWSE_DIR, ELECTION_BUNDLE_DIR, ELECTION_MANIFEST, ELECTION_REPORT } from '@civgraph/loader/paths.mjs';
+import { BROWSE_DIR, ELECTION_BUNDLE_DIR, ELECTION_MANIFEST, ELECTION_REPORT } from '../../../packages/loader/src/paths.mjs';
 
 const failures = [];
 // The MapLibre app. It was index.html until the landing page took the root; this kept

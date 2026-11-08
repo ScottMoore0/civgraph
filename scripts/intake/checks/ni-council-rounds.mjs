@@ -19,7 +19,7 @@
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { roundGate, roundStatusOf } from '@civgraph/intake/statuses.mjs';
+import { roundGate, roundStatusOf } from '../../../packages/intake/src/statuses.mjs';
 
 /**
  * @param {string} phaseB

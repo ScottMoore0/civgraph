@@ -7,7 +7,7 @@ import { readFileSync, statSync } from 'node:fs';
 import {
   CONTEST_REQUIRED, PUBLISHED_BUDGET_BYTES, SOURCE_REQUIRED, publishedText, slimProvenance,
 } from '../../scripts/lib/election-provenance-slim.mjs';
-import { PROVENANCE_FILE } from '@civgraph/loader/paths.mjs';
+import { PROVENANCE_FILE } from '../../packages/loader/src/paths.mjs';
 
 // Written by the records build (npm run records:build; tmp/records), no longer committed.
 const FILE = PROVENANCE_FILE;

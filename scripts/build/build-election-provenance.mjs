@@ -37,7 +37,7 @@
  */
 import { existsSync, mkdirSync, readFileSync, readdirSync, unlinkSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { PROVENANCE_FILE, PROVENANCE_SHARD_DIR } from '@civgraph/loader/paths.mjs';
+import { PROVENANCE_FILE, PROVENANCE_SHARD_DIR } from '../../packages/loader/src/paths.mjs';
 import { PUBLISHED_BUDGET_BYTES, publishedText, slimProvenance } from '../lib/election-provenance-slim.mjs';
 
 const ELECTIONS = path.join('data', 'elections-source', 'data', 'elections');

@@ -22,7 +22,7 @@ import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { createPartyLabelInterpreter } from '../../scripts/lib/party-label-interpretations.mjs';
 import { browsePageHandler } from '../../functions/_browse-page.js';
-import { BROWSE_DIR, ELECTION_BUNDLE_DIR, RECORDS_DB } from '@civgraph/loader/paths.mjs';
+import { BROWSE_DIR, ELECTION_BUNDLE_DIR, RECORDS_DB } from '../../packages/loader/src/paths.mjs';
 import { d1 } from '../records/d1-shim.mjs';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));

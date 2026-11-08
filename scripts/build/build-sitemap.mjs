@@ -35,8 +35,8 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, unlinkSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { BROWSE_DIR, localPathForUrl } from '@civgraph/loader/paths.mjs';
-import { SITE as SITE_CONFIG } from '@civgraph/config/node';
+import { BROWSE_DIR, localPathForUrl } from '../../packages/loader/src/paths.mjs';
+import { SITE as SITE_CONFIG } from '../../packages/config/src/node.mjs';
 
 const SITE = SITE_CONFIG.origin;
 const OUT_DIR = 'sitemaps';

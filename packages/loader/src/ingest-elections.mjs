@@ -15,8 +15,8 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { TableWriter, bool, int, num, transaction, txt, withPlaceholders } from './db.mjs';
-import { PART_CHARS } from '@civgraph/schema';
-import { slugify } from '@civgraph/core/format.js';
+import { PART_CHARS } from '../../schema/src/schema.mjs';
+import { slugify } from '../../core/src/format.js';
 
 export { slugify };
 
