@@ -74,7 +74,7 @@ const LIST_ROUTES = [
   [graph, '/_api/graph?q=belfast'],
 ];
 
-const BROWSE_FILES = ['parties.json', 'party-names.json', 'elections-list.json', 'election-contest-parents.json', 'person-shards/persons-001.json', 'source-merges.json', 'votes/divisions/011.json'];
+const BROWSE_FILES = ['parties.json', 'party-names.json', 'offices.json', 'person-shards/persons-001.json', 'source-index-shards/sources-001.json', 'votes/index.json'];
 
 async function body(mod, url, env, params = {}) {
   const res = await mod.onRequestGet(context(url, env, params));

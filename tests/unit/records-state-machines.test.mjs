@@ -9,7 +9,7 @@
  * - --start-part resumes only the load that stopped (the persisted cursor, resumeCheck);
  * - the dataset loading flag (scripts/records/dataset-state.mjs, light weight): the values the
  *   delta writes are the ones it wrote before, byte for byte;
- * - the light enumerations: graph_files origin, the votes pin, the layer-id rename side.
+ * - the light enumerations: the votes pin, the layer-id rename side.
  */
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
@@ -22,7 +22,6 @@ import { DATASET_LOAD, datasetLoadState, loadingValue } from '../../packages/loa
 import { createDatabase } from '../../packages/loader/src/db.mjs';
 import { layerIdForm } from '../../packages/core/src/layer-renames.mjs';
 import { DEPLOY, deployModeErrors, deployPath, deployRun, parseDeployArgs, resumeCheck, verifyModeFor } from '../../packages/loader/src/deploy-plan.mjs';
-import { graphFilesOrigin } from '../../packages/loader/src/graph-files-freeze.mjs';
 import { votesPinState } from '../../packages/loader/src/votes-pin.mjs';
 import { buildDelta } from '../../packages/loader/src/diff-load.mjs';
 
@@ -170,9 +169,7 @@ test('deploy: --start-part resumes only the load that stopped', () => {
   assert.equal(blind.warnings.length, 1);
 });
 
-test('light: graph_files origin, the votes pin, the layer-id rename side', () => {
-  assert.equal(graphFilesOrigin('x.sqlite'), 'frozen');
-  assert.equal(graphFilesOrigin(null), 'built');
+test('light: the votes pin, the layer-id rename side', () => {
   assert.equal(layerIdForm('eds-ulster-1911-vector-test'), 'legacy');
   assert.equal(layerIdForm('eds-ulster-1911-vector'), 'current');
   assert.equal(layerIdForm('eds-ulster-1911'), 'other');

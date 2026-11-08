@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
-import { TABLES, schemaSql } from '../../packages/schema/src/schema.mjs';
+import { RETIRED_TABLES, TABLES, schemaSql } from '../../packages/schema/src/schema.mjs';
 import { REPO_ROOT } from '../../packages/loader/src/paths.mjs';
 
 const MIGRATIONS = path.join(REPO_ROOT, 'packages', 'schema', 'migrations');
@@ -46,4 +46,12 @@ test('the migrations create none of the live table names', () => {
   const live = ['elections', 'constituencies', 'candidates', 'counts', 'constituency_animation', 'constituency_features', 'browse_persons', 'browse_sources', 'browse_register_interests'];
   const names = new Set(TABLES.map((t) => t.name));
   for (const name of live) assert.ok(!names.has(name), name);
+});
+
+test('the tables a later migration dropped are gone after the migrations', () => {
+  const db = migrated();
+  for (const t of RETIRED_TABLES) {
+    assert.ok(!TABLES.some((x) => x.name === t.name), `${t.name} is not also live`);
+    assert.equal(db.prepare("SELECT count(*) AS n FROM sqlite_master WHERE type = 'table' AND name = ?").get(t.name).n, 0, t.name);
+  }
 });

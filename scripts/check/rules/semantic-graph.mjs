@@ -40,7 +40,8 @@ async function main() {
 
   // data/graph is build output and is no longer tracked (2026-08-12): it is 1.96 GB
   // across 4,604 files, regenerated from data/browse, the catalogue and the election
-  // data, and served in production from R2 via functions/data/graph/[[path]].js.
+  // data, and loaded into the records database (records:build); the old /data/graph file
+  // URLs answer 410 since 8 Nov 2026 (functions/data/graph/[[path]].js).
   //
   // So a clean checkout legitimately has no graph at all. Without this guard the
   // very next line throws a bare ENOENT on manifest.json, which tells a new
