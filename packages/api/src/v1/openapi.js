@@ -24,11 +24,11 @@ function selector(when) {
  * @param {string} api.version
  * @param {string} api.prefix
  * @param {Record<string, { legacy: string, summary: string, parameters: string[], catchAll?: boolean }>} api.routes
- * @param {Record<string, { errors: any, variants: Array<{ name: string, when: Record<string, string>, summary: string, schema?: any, contentType?: string }> }>} api.contracts
+ * @param {Record<string, import('./contracts/v1.js').Contract>} api.contracts
  * @param {{ name: string, origin: string }} site
  */
 export function openApiDocument({ version, prefix, routes, contracts }, site) {
-  /** @type {Record<string, any>} */
+  /** @type {Record<string, unknown>} */
   const paths = {};
   for (const [key, route] of Object.entries(routes)) {
     const contract = contracts[key];
@@ -37,7 +37,7 @@ export function openApiDocument({ version, prefix, routes, contracts }, site) {
     if (route.catchAll) parameters.unshift({ name: 'path', in: 'path', required: true, schema: { type: 'string' }, description: 'segments after the route (may be empty)' });
     const json = contract.variants.filter((v) => v.schema);
     const other = contract.variants.filter((v) => v.contentType);
-    /** @type {Record<string, any>} */
+    /** @type {Record<string, unknown>} */
     const content = {};
     if (json.length) {
       content['application/json'] = {

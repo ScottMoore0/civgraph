@@ -44,14 +44,18 @@ export const LEGACY_PREFIX = API.legacyPrefix;
 
 /**
  * @typedef {object} V1Route
- * @property {any} module            the /_api handler module
+ * @property {HandlerModule} module  the /_api handler module
  * @property {string} legacy         its /_api path
  * @property {string} summary
  * @property {string[]} parameters   the query parameters it reads
  * @property {boolean} [catchAll]    a catch-all route: the segments after it reach the handler
  */
 /**
- * @param {any} module
+ * A /_api handler module, as far as delegate() calls it.
+ * @typedef {{ onRequestGet?: import('../types.js').ApiHandler, onRequest?: import('../types.js').ApiHandler }} HandlerModule
+ */
+/**
+ * @param {HandlerModule} module
  * @param {string} legacy
  * @param {string} summary
  * @param {string[]} [parameters]
