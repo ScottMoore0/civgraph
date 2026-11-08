@@ -10,8 +10,19 @@
  * which is handed a reader.
  */
 
-/** The registry with each part read through `readJson(relPath)`. */
+/** @typedef {import('../../types/index.js').PartiesRegistry} PartiesRegistry */
+/** @typedef {import('../../types/index.js').PartiesRegistryTypes.Entity} PartyEntity */
+/** @typedef {{ abbreviation: string, fullName: string }} PartyAbbreviation */
+
+/**
+ * The registry with each part read through `readJson(relPath)`; loadRegistry checks the result
+ * against the schema.
+ * @param {(rel: string) => unknown} readJson
+ * @param {{ [field: string]: unknown, parts?: { [role: string]: string } }} manifest data/registries/parties.json
+ * @returns {{ [field: string]: unknown }}
+ */
 export function assembleParties(readJson, manifest) {
+  /** @type {{ [field: string]: unknown }} */
   const out = { ...manifest };
   for (const [role, rel] of Object.entries(manifest.parts || {})) out[role] = readJson(rel);
   return out;
@@ -20,6 +31,8 @@ export function assembleParties(readJson, manifest) {
 /**
  * A label folded for matching, exactly as src/party-names.mjs keys its spellings: accents,
  * a trailing ballot-paper "Lozenge", "&", full stops and apostrophes, dashes, slashes and commas.
+ * @param {unknown} value
+ * @returns {string}
  */
 export function partyLabelKey(value) {
   return String(value ?? '')
@@ -34,8 +47,13 @@ export function partyLabelKey(value) {
     .toLowerCase();
 }
 
-/** key -> { abbreviation, fullName }: the first row naming a spelling wins (src/party-names.mjs BY_KEY). */
+/**
+ * key -> { abbreviation, fullName }: the first row naming a spelling wins (src/party-names.mjs BY_KEY).
+ * @param {Pick<PartiesRegistry, 'abbreviations'>} registry
+ * @returns {Map<string, PartyAbbreviation>}
+ */
 export function abbreviationIndex(registry) {
+  /** @type {Map<string, PartyAbbreviation>} */
   const byKey = new Map();
   for (const { abbreviation, fullName, spellings = [] } of registry.abbreviations) {
     for (const spelling of [abbreviation, fullName, ...spellings]) {
@@ -46,49 +64,79 @@ export function abbreviationIndex(registry) {
   return byKey;
 }
 
-/** { abbreviation, fullName } for a label as spelled in the data, or null (src/party-names.mjs partyInfo). */
+/**
+ * { abbreviation, fullName } for a label as spelled in the data, or null (src/party-names.mjs partyInfo).
+ * @param {Map<string, PartyAbbreviation>} index from abbreviationIndex
+ * @param {unknown} value
+ * @returns {PartyAbbreviation | null}
+ */
 export function partyInfoFrom(index, value) {
   const text = String(value ?? '').trim();
   if (!text) return null;
   return index.get(partyLabelKey(text)) || index.get(partyLabelKey(text.replace(/\s*\([^)]*\)\s*$/, ''))) || null;
 }
 
-/** id -> entity of party_registry.json. */
+/**
+ * id -> entity of party_registry.json.
+ * @param {Pick<PartiesRegistry, 'entities'>} registry
+ * @returns {Map<string, PartyEntity>}
+ */
 export function partiesById(registry) {
   return new Map(registry.entities.entities.map((e) => [e.id, e]));
 }
 
-/** Every alias string of an entity (corrupted spellings included). */
+/**
+ * Every alias string of an entity (corrupted spellings included).
+ * @param {Pick<PartyEntity, 'aliases'>} entity
+ * @returns {string[]}
+ */
 export function entityAliasStrings(entity) {
   return (entity.aliases || []).map((a) => (typeof a === 'string' ? a : a.string));
 }
 
-/** Ballot label -> the Browse party slug it is listed under (data/registries/parties/label-folds.json). */
+/**
+ * Ballot label -> the Browse party slug it is listed under (data/registries/parties/label-folds.json).
+ * @param {Pick<PartiesRegistry, 'labelFolds'>} registry
+ * @returns {Map<string, string>}
+ */
 export function labelFoldIndex(registry) {
+  /** @type {Map<string, string>} */
   const out = new Map();
   for (const [slug, fold] of Object.entries(registry.labelFolds.folds)) for (const label of fold.labels) out.set(label, slug);
   return out;
 }
 
-/** Retired Browse party slug -> the slug it now redirects to. */
+/**
+ * Retired Browse party slug -> the slug it now redirects to.
+ * @param {Pick<PartiesRegistry, 'labelFolds'>} registry
+ * @returns {Map<string, string>}
+ */
 export function retiredPartySlugs(registry) {
+  /** @type {Map<string, string>} */
   const out = new Map();
   for (const [slug, entry] of Object.entries(registry.labelFolds.retiredSlugs || {})) for (const old of entry.slugs) out.set(old, slug);
   return out;
 }
 
-/** The rules document createPartyLabelInterpreter (scripts/lib/party-label-interpretations.mjs) takes. */
+/**
+ * The rules document createPartyLabelInterpreter (scripts/lib/party-label-interpretations.mjs) takes.
+ * @param {Pick<PartiesRegistry, 'labelInterpretations'>} registry
+ * @returns {PartiesRegistry['labelInterpretations']}
+ */
 export function labelInterpretationRules(registry) {
   return registry.labelInterpretations;
 }
 
 /**
  * Checks across the party files that no one file's schema can state.
+ * @param {PartiesRegistry} registry
  * @returns {string[]} errors
  */
 export function checkParties(registry) {
+  /** @type {string[]} */
   const errors = [];
   const entities = registry.entities.entities;
+  /** @type {Set<string>} */
   const ids = new Set();
   for (const e of entities) {
     if (ids.has(e.id)) errors.push(`entities: duplicate id ${e.id}`);
@@ -96,7 +144,7 @@ export function checkParties(registry) {
     if (!(e.type in registry.entities.types)) errors.push(`entities: ${e.id} has undeclared type ${e.type}`);
   }
   for (const e of entities) {
-    for (const f of ['splitFrom', 'successor', 'predecessor']) {
+    for (const f of /** @type {const} */ (['splitFrom', 'successor', 'predecessor'])) {
       if (e[f] && !ids.has(e[f])) errors.push(`entities: ${e.id}.${f} names unknown entity ${e[f]}`);
     }
     for (const old of e.formerIds || []) if (ids.has(old)) errors.push(`entities: ${e.id}.formerIds ${old} is still a live id`);
@@ -105,7 +153,7 @@ export function checkParties(registry) {
   for (const p of registry.lifespans.parties) {
     const e = byId.get(p.id);
     if (!e) { errors.push(`lifespans: ${p.id} is not an entity`); continue; }
-    for (const f of ['name', 'founded', 'foundedPrecision', 'dissolved', 'status']) {
+    for (const f of /** @type {const} */ (['name', 'founded', 'foundedPrecision', 'dissolved', 'status'])) {
       if ((e[f] ?? null) !== (p[f] ?? null)) errors.push(`lifespans: ${p.id}.${f} is ${JSON.stringify(p[f])}, the entity says ${JSON.stringify(e[f])}`);
     }
   }
@@ -114,6 +162,7 @@ export function checkParties(registry) {
   if (labelIds.size !== registry.labelIds.party_ids.length) errors.push('labelIds: duplicate party_id');
   for (const [alias, id] of Object.entries(registry.labelIds.aliases)) if (!labelIds.has(id)) errors.push(`labelIds: alias ${JSON.stringify(alias)} -> unknown ${id}`);
   const neverFold = new Set(registry.labelFolds.neverFold);
+  /** @type {Map<string, string>} */
   const folded = new Map();
   for (const [slug, fold] of Object.entries(registry.labelFolds.folds)) {
     for (const label of fold.labels) {
@@ -126,11 +175,13 @@ export function checkParties(registry) {
   for (const label of neverFold) if (!canonical.has(label)) errors.push(`labelFolds: neverFold ${JSON.stringify(label)} is not a canonical_name`);
   const retired = retiredPartySlugs(registry);
   for (const old of retired.keys()) if (old in registry.labelFolds.folds) errors.push(`labelFolds: retired slug ${old} still folds labels`);
+  /** @type {PartiesRegistry['labelInterpretations']['regions']} */
   const regions = registry.labelInterpretations.regions || {};
   registry.labelInterpretations.rules.forEach((rule, i) => {
     if (rule.region && !regions[rule.region]) errors.push(`labelInterpretations: rules[${i}] names unknown region ${rule.region}`);
     if (!rule.printed && !rule.whenParty) errors.push(`labelInterpretations: rules[${i}] matches nothing (no printed, no whenParty)`);
   });
+  /** @type {Map<string, string>} */
   const regionOf = new Map();
   for (const [name, region] of Object.entries(regions)) {
     for (const body of region.bodies) {
@@ -138,6 +189,7 @@ export function checkParties(registry) {
       regionOf.set(body, name);
     }
   }
+  /** @type {Set<string>} */
   const abbreviations = new Set();
   for (const row of registry.abbreviations) {
     if (abbreviations.has(row.abbreviation)) errors.push(`abbreviations: ${row.abbreviation} is listed twice`);
@@ -146,7 +198,7 @@ export function checkParties(registry) {
   const index = abbreviationIndex(registry);
   for (const label of registry.notParties) if (index.has(partyLabelKey(label))) errors.push(`notParties: ${label} also has an abbreviation`);
   for (const id of Object.keys(registry.wikidataOverrides).filter((k) => !k.startsWith('_'))) {
-    if (registry.wikidataOverrides[id] !== null && !/^Q\d+$/.test(registry.wikidataOverrides[id])) errors.push(`wikidataOverrides: ${id} is not a Q id or null`);
+    if (registry.wikidataOverrides[id] !== null && !/^Q\d+$/.test(/** @type {string} */ (registry.wikidataOverrides[id]))) errors.push(`wikidataOverrides: ${id} is not a Q id or null`);
   }
   return errors;
 }

@@ -14,7 +14,7 @@ for (const name of names) {
     console.log(`ok  ${name}`);
   } catch (error) {
     failed = true;
-    console.error(`bad ${error.message}`);
+    console.error(`bad ${/** @type {Error} */ (error).message}`);
   }
 }
 process.exit(failed ? 1 : 0);

@@ -5,19 +5,76 @@
  * (scripts/lib/state-machine.mjs), which every stream uses.
  */
 
-/** The states of a machine entry: the keys of its table (full) or its values (light). */
+/** @typedef {import('../../types/index.js').StatusesRegistry} StatusesRegistry */
+
+/**
+ * The fields a machine entry may carry beyond the schema's common ones (the schema's own
+ * per-machine rules; data/registries/statuses.json).
+ * @typedef {StatusesRegistry['machines'][string] & {
+ *   labels?: { [value: string]: string },
+ *   missingMeans?: string,
+ *   decisions?: string[],
+ *   spellings?: { [spelling: string]: string },
+ *   kindPatterns?: Array<{ kind: string, pattern: string }>,
+ *   siteLabels?: { [state: string]: string },
+ *   appliedValue?: string,
+ *   missingReasons?: { excluded: MissingReason, otherwise: MissingReason }
+ * }} StatusMachineFields
+ */
+
+/**
+ * A machine entry: a full machine has its initial state and transition table, a light one its
+ * values (the schema requires each by weight).
+ * @typedef {(StatusMachineFields & { weight: 'full', initial: string, transitions: { [state: string]: string[] } })
+ *   | (StatusMachineFields & { weight: 'light', values: string[] })} StatusMachineEntry
+ */
+/** @typedef {{ reason: string, label: string }} MissingReason */
+
+/**
+ * The entry `name` of the registry's machines, with its kind's fields.
+ * @param {StatusesRegistry} registry
+ * @param {string} name
+ * @returns {StatusMachineEntry | undefined}
+ */
+const machineEntry = (registry, name) => /** @type {StatusMachineEntry | undefined} */ (registry.machines[name]);
+
+/**
+ * The registry's machines, each with its kind's fields.
+ * @param {StatusesRegistry} registry
+ * @returns {{ [name: string]: StatusMachineEntry }}
+ */
+const machineEntries = (registry) => /** @type {{ [name: string]: StatusMachineEntry }} */ (registry.machines);
+
+/**
+ * The states of a machine entry: the keys of its table (full) or its values (light).
+ * @param {StatusesRegistry} registry
+ * @param {string} name
+ * @returns {string[]}
+ */
 export function statesOf(registry, name) {
-  const m = registry.machines[name];
+  const m = machineEntry(registry, name);
   if (!m) throw new Error(`Unknown status machine ${name}`);
   return m.weight === 'full' ? Object.keys(m.transitions) : [...m.values];
 }
 
-/** Whether `from -> to` is in a full machine's table. */
+/**
+ * Whether `from -> to` is in a full machine's table.
+ * @param {StatusesRegistry} registry
+ * @param {string} name
+ * @param {string} from
+ * @param {string} to
+ * @returns {boolean}
+ */
 export function canTransition(registry, name, from, to) {
   return Boolean(registry.machines[name]?.transitions?.[from]?.includes(to));
 }
 
-/** The values of an enum entry (RG-06), or of a light machine. */
+/**
+ * The values of an enum entry (RG-06), or of a light machine.
+ * @param {StatusesRegistry} registry
+ * @param {string} name
+ * @returns {string[]}
+ */
 export function enumValues(registry, name) {
   const e = registry.enums[name] || registry.machines[name];
   if (!e?.values) throw new Error(`Unknown status enum ${name}`);
@@ -28,6 +85,9 @@ export function enumValues(registry, name) {
  * The kind a candidate's Status means (RG-01): '' while continuing, else elected, not-elected,
  * excluded, or the folded text itself when no pattern matches; exactly src/election-domain.mjs
  * statusKind, which normalises the text the same way first.
+ * @param {StatusesRegistry} registry
+ * @param {unknown} status
+ * @returns {string}
  */
 export function candidateStatusKind(registry, status) {
   const normalized = String(status || '')
@@ -37,13 +97,18 @@ export function candidateStatusKind(registry, status) {
     .replace(/[^a-z0-9]+/g, ' ')
     .trim();
   if (!normalized) return '';
-  for (const { kind, pattern } of registry.machines['candidate-count'].kindPatterns) {
+  for (const { kind, pattern } of /** @type {NonNullable<StatusMachineEntry['kindPatterns']>} */ (registry.machines['candidate-count'].kindPatterns)) {
     if (new RegExp(pattern).test(normalized)) return kind;
   }
   return normalized;
 }
 
-/** The machine state a candidate Status spelling stands for ('' is continuing). */
+/**
+ * The machine state a candidate Status spelling stands for ('' is continuing).
+ * @param {StatusesRegistry} registry
+ * @param {unknown} status
+ * @returns {string}
+ */
 export function candidateCountState(registry, status) {
   const kind = candidateStatusKind(registry, status);
   return kind === '' ? 'continuing' : kind;
@@ -56,12 +121,15 @@ export function candidateCountState(registry, status) {
  * (the states entered after `complete`) and the status.
  * @param {{ work?: string, excluded?: unknown }|null} row the round-status.json row, if any
  * @param {{ text?: string, complete?: boolean }|undefined} completeness the round-completeness entry
+ * @param {StatusesRegistry} registry
+ * @returns {{ status: string, walk: string[] }}
  */
 export function siteRoundStatus(registry, row, completeness) {
-  const m = registry.machines['election-round'];
+  const m = /** @type {StatusMachineEntry & { weight: 'full' }} */ (machineEntry(registry, 'election-round'));
   let status = m.initial;
+  /** @type {string[]} */
   const walk = [];
-  const to = (next) => { if (next !== status) { walk.push(next); status = next; } };
+  const to = (/** @type {string} */ next) => { if (next !== status) { walk.push(next); status = next; } };
   const work = row?.work;
   if (work === 'partial' || work === 'held') to(work);
   if (row?.excluded && status === 'complete') to('partial');
@@ -69,26 +137,38 @@ export function siteRoundStatus(registry, row, completeness) {
   return { status, walk };
 }
 
-/** Why a calendar-held round is missing from the map, and the label the map shows. */
+/**
+ * Why a calendar-held round is missing from the map, and the label the map shows.
+ * @param {StatusesRegistry} registry
+ * @param {{ excluded?: unknown } | null | undefined} row the round-status.json row, if any
+ * @returns {MissingReason}
+ */
 export function missingRoundReason(registry, row) {
-  const r = registry.machines['election-round'].missingReasons;
+  const r = /** @type {NonNullable<StatusMachineEntry['missingReasons']>} */ (registry.machines['election-round'].missingReasons);
   return row?.excluded ? r.excluded : r.otherwise;
 }
 
-/** Whether a contest status (RG-02) means a poll was held; a missing value reads as contested. */
+/**
+ * Whether a contest status (RG-02) means a poll was held; a missing value reads as contested.
+ * @param {StatusesRegistry} registry
+ * @param {string | null | undefined} contestStatus
+ * @returns {boolean}
+ */
 export function isContested(registry, contestStatus) {
-  const m = registry.machines.contest;
+  const m = /** @type {StatusMachineEntry} */ (machineEntry(registry, 'contest'));
   return (contestStatus || m.missingMeans) === 'contested';
 }
 
 /**
  * Checks the schema cannot state: tables are closed (every target is a state), the initial
  * state exists and every state is reachable from it; labels and spellings name real states.
+ * @param {StatusesRegistry} registry
  * @returns {string[]} errors
  */
 export function checkStatuses(registry) {
+  /** @type {string[]} */
   const errors = [];
-  for (const [name, m] of Object.entries(registry.machines)) {
+  for (const [name, m] of Object.entries(machineEntries(registry))) {
     if (m.weight !== 'full') {
       for (const key of Object.keys(m.labels || {})) if (!m.values.includes(key)) errors.push(`${name}: label for unknown value ${key}`);
       if (m.missingMeans && !m.values.includes(m.missingMeans)) errors.push(`${name}: missingMeans ${m.missingMeans} is not a value`);
