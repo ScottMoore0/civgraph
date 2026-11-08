@@ -109,7 +109,7 @@ test('every council round of 1921-72 in the catalogue is a listed Northern Irela
     && entry.bodyGroup !== 'local-government' && councilTier(entry.bodySlug)
     && !String(entry.bodySlug).startsWith('ireland-')
     && !NI_COUNCIL_SLUGS.has(String(entry.bodySlug).replace(/-aldermen$/, '')));
-  assert.deepEqual(unlisted.map((entry) => entry.key), [], 'add the slug to NI_COUNCIL_SLUGS in src/ni-local-groups.mjs');
+  assert.deepEqual(unlisted.map((entry) => entry.key), [], 'flag the council niLocalGroup in data/registries/councils.json, then run node registries/browser/build.mjs');
 });
 
 test('every pre-1973 NI council round is in exactly one year, and only those are grouped', () => {

@@ -12,6 +12,7 @@
  *   - constituencies: "Dungannon" finds the elections Dungannon was contested in;
  *   - places: a named ward, district or parish returns the maps that draw it.
  */
+import councilSearch from '../../registries/browser/council-search.mjs';
 
 const DIACRITICS = /[̀-ͯ]/g;
 export function normalise(text) {
@@ -101,7 +102,8 @@ const overlaps = (span, period) => !period || (span && span[0] <= period.to && s
  * What people call each body, beside its formal name. The catalogue titles say "2019 UK general
  * election in Northern Ireland" and the body "House of Commons of the United Kingdom", so a search
  * for "Westminster 2019" (the name on the shelf) found nothing, and nor did "NI local 2023" or
- * "Belfast City Council 2023" (UX review 2026-10-30, #14).
+ * "Belfast City Council 2023" (UX review 2026-10-30, #14). The councils' aliases come from the
+ * councils registry (searchAliases; registries/browser/council-search.json).
  */
 const BODY_ALIASES = {
   'house-of-commons-of-the-united-kingdom': 'Westminster House of Commons UK parliament MP',
@@ -112,103 +114,20 @@ const BODY_ALIASES = {
   'northern-ireland-constitutional-convention': 'NI Convention Constitutional Convention',
   'northern-ireland-forum-for-political-dialogue': 'NI Forum Forum',
   'local-government': 'NI local council councils district council LGD local elections',
-  'belfast-county-borough-council': 'NI local council Belfast City Council Belfast Corporation',
-  'belfast-county-borough-council-aldermen': 'NI local council Belfast City Council aldermen',
-  'strabane-urban-district-council': 'NI local council Strabane',
-  'londonderry-county-borough-council': 'NI local council Londonderry Derry Corporation',
-  'armagh-county-council': 'NI local council County Armagh county council',
-  'armagh-urban-district-council': 'NI local council Armagh city urban district',
-  'keady-urban-district-council': 'NI local council Keady urban district',
-  'lurgan-borough-council': 'NI local council Lurgan borough urban district',
-  'lurgan-rural-district-council': 'NI local council Lurgan rural district',
-  'portadown-borough-council': 'NI local council Portadown borough urban district',
-  'armagh-rural-district-council': 'NI local council Armagh rural district',
-  'newry-no-2-rural-district-council': 'NI local council Newry No. 2 rural district County Armagh',
-  'tandragee-rural-district-council': 'NI local council Tandragee Tanderagee rural district',
-  'moira-rural-district-council': 'NI local council Moira rural district County Down',
-  'aghalee-rural-district-council': 'NI local council Aghalee rural district County Antrim',
-  'tandragee-urban-district-council': 'NI local council Tandragee Tanderagee urban district',
-  'castleblayney-no-2-rural-district-council': 'NI local council Castleblayney No. 2 Crossmaglen rural district County Armagh',
-  'londonderry-county-borough-council-aldermen': 'NI local council Londonderry Derry Corporation aldermen',
-  'antrim-town-commissioners': 'NI local council Antrim town commissioners County Antrim',
-  'aughnacloy-town-commissioners': 'NI local council Aughnacloy town commissioners County Tyrone',
-  'ballycastle-urban-district-council': 'NI local council Ballycastle urban district County Antrim',
-  'ballyclare-urban-district-council': 'NI local council Ballyclare urban district County Antrim',
-  'ballymena-borough-council': 'NI local council Ballymena borough urban district County Antrim',
-  'ballymoney-urban-district-council': 'NI local council Ballymoney urban district County Antrim',
-  'banbridge-urban-district-council': 'NI local council Banbridge urban district County Down',
-  'bangor-borough-council': 'NI local council Bangor borough urban district County Down',
-  'carrickfergus-borough-council': 'NI local council Carrickfergus borough urban district County Antrim',
-  'coleraine-borough-council': 'NI local council Coleraine borough urban district County Londonderry',
-  'cookstown-urban-district-council': 'NI local council Cookstown urban district County Tyrone',
-  'donaghadee-urban-district-council': 'NI local council Donaghadee urban district County Down',
-  'downpatrick-urban-district-council': 'NI local council Downpatrick urban district town commissioners County Down',
-  'dromore-urban-district-council': 'NI local council Dromore urban district County Down',
-  'dungannon-urban-district-council': 'NI local council Dungannon urban district County Tyrone',
-  'enniskillen-borough-council-aldermen': 'NI local council Enniskillen borough aldermen County Fermanagh',
-  'enniskillen-borough-council': 'NI local council Enniskillen borough urban district County Fermanagh',
-  'gilford-town-commissioners': 'NI local council Gilford town commissioners County Down',
-  'holywood-urban-district-council': 'NI local council Holywood urban district County Down',
-  'kilkeel-urban-district-council': 'NI local council Kilkeel urban district town commissioners County Down',
-  'larne-borough-council': 'NI local council Larne borough urban district County Antrim',
-  'limavady-urban-district-council': 'NI local council Limavady urban district County Londonderry',
-  'lisburn-borough-council': 'NI local council Lisburn borough urban district County Antrim',
-  'newcastle-urban-district-council': 'NI local council Newcastle urban district County Down',
-  'newry-urban-district-council': 'NI local council Newry urban district County Down',
-  'newtownabbey-urban-district-council': 'NI local council Newtownabbey urban district County Antrim',
-  'newtownards-borough-council': 'NI local council Newtownards borough urban district County Down',
-  'omagh-urban-district-council': 'NI local council Omagh urban district County Tyrone',
-  'portrush-urban-district-council': 'NI local council Portrush urban district County Antrim',
-  'portstewart-urban-district-council': 'NI local council Portstewart urban district County Londonderry',
-  'warrenpoint-urban-district-council': 'NI local council Warrenpoint urban district County Down',
-  'whitehead-urban-district-council': 'NI local council Whitehead urban district town commissioners County Antrim',
-  'antrim-county-council': 'NI local council Antrim county council County Antrim',
-  'down-county-council': 'NI local council Down county council County Down',
-  'fermanagh-county-council': 'NI local council Fermanagh county council County Fermanagh',
-  'londonderry-county-council': 'NI local council Londonderry Derry county council County Londonderry',
-  'tyrone-county-council': 'NI local council Tyrone county council County Tyrone',
-  'antrim-rural-district-council': 'NI local council Antrim rural district County Antrim',
-  'ballycastle-rural-district-council': 'NI local council Ballycastle rural district County Antrim',
-  'ballymena-rural-district-council': 'NI local council Ballymena rural district County Antrim',
-  'ballymoney-rural-district-council': 'NI local council Ballymoney rural district County Antrim',
-  'banbridge-rural-district-council': 'NI local council Banbridge rural district County Down',
-  'belfast-rural-district-council': 'NI local council Belfast rural district County Antrim',
-  'castlederg-rural-district-council': 'NI local council Castlederg rural district County Tyrone',
-  'castlereagh-rural-district-council': 'NI local council Castlereagh rural district County Down',
-  'clogher-rural-district-council': 'NI local council Clogher rural district County Tyrone',
-  'coleraine-rural-district-council': 'NI local council Coleraine rural district County Londonderry',
-  'cookstown-rural-district-council': 'NI local council Cookstown rural district County Tyrone',
-  'dungannon-rural-district-council': 'NI local council Dungannon rural district County Tyrone',
-  'east-down-rural-district-council': 'NI local council East Down Downpatrick rural district County Down',
-  'enniskillen-rural-district-council': 'NI local council Enniskillen rural district County Fermanagh',
-  'hillsborough-rural-district-council': 'NI local council Hillsborough rural district County Down',
-  'irvinestown-rural-district-council': 'NI local council Irvinestown rural district County Fermanagh',
-  'larne-rural-district-council': 'NI local council Larne rural district County Antrim',
-  'limavady-rural-district-council': 'NI local council Limavady Newtownlimavady rural district County Londonderry',
-  'lisburn-rural-district-council': 'NI local council Lisburn rural district County Antrim',
-  'lisnaskea-rural-district-council': 'NI local council Lisnaskea rural district County Fermanagh',
-  'londonderry-rural-district-council': 'NI local council Londonderry Derry rural district County Londonderry',
-  'magherafelt-rural-district-council': 'NI local council Magherafelt rural district County Londonderry',
-  'newry-no-1-rural-district-council': 'NI local council Newry No. 1 rural district County Down',
-  'north-down-rural-district-council': 'NI local council North Down Newtownards rural district County Down',
-  'omagh-rural-district-council': 'NI local council Omagh rural district County Tyrone',
-  'south-down-rural-district-council': 'NI local council South Down Kilkeel rural district County Down',
-  'strabane-rural-district-council': 'NI local council Strabane rural district County Tyrone',
   'ireland-local': 'Irish local council county council city council local elections',
   'european-parliament': 'European Euro EU MEP European Parliament NI',
   'ireland-european': 'European Euro EU MEP European Parliament Irish',
   'ireland-president': 'presidential president Uachtaran Irish',
   'ireland-referendum': 'referendum referenda Irish',
   'northern-ireland-referendum': 'referendum referenda NI',
+  ...councilSearch.catalogueBodyAliases
 };
 
 // The councils a Northern Ireland local election chose: the eleven since 2014 (the 2014 vote
-// elected them in shadow), the twenty-six from 1973 to 2011.
-const NI_COUNCILS_2014 = ['Antrim and Newtownabbey', 'Ards and North Down', 'Armagh City Banbridge and Craigavon', 'Belfast City', 'Causeway Coast and Glens', 'Derry City and Strabane', 'Fermanagh and Omagh', 'Lisburn and Castlereagh City', 'Mid and East Antrim', 'Mid Ulster', 'Newry Mourne and Down'];
-const NI_COUNCILS_1973 = ['Antrim', 'Ards', 'Armagh', 'Ballymena', 'Ballymoney', 'Banbridge', 'Belfast City', 'Carrickfergus', 'Castlereagh', 'Coleraine', 'Cookstown', 'Craigavon', 'Derry City', 'Down', 'Dungannon', 'Fermanagh', 'Larne', 'Limavady', 'Lisburn City', 'Magherafelt', 'Moyle', 'Newry and Mourne', 'Newtownabbey', 'North Down', 'Omagh', 'Strabane'];
-// The Republic's city and county councils (since 2014; before then more town and borough councils,
-// which the LEA names already carry).
-const IRISH_COUNCILS = ['Carlow', 'Cavan', 'Clare', 'Cork City', 'Cork County', 'Donegal', 'Dublin City', 'Dun Laoghaire Rathdown', 'Fingal', 'Galway City', 'Galway County', 'Kerry', 'Kildare', 'Kilkenny', 'Laois', 'Leitrim', 'Limerick', 'Longford', 'Louth', 'Mayo', 'Meath', 'Monaghan', 'Offaly', 'Roscommon', 'Sligo', 'South Dublin', 'Tipperary', 'Waterford', 'Westmeath', 'Wexford', 'Wicklow'];
+// elected them in shadow), the twenty-six from 1973 to 2011; and the Republic's city and county
+// councils (since 2014; before then more town and borough councils, which the LEA names already
+// carry). The councils registry holds them (searchName), as it does the council aliases above.
+const { ni2014: NI_COUNCILS_2014, ni1973: NI_COUNCILS_1973, ireland: IRISH_COUNCILS } = councilSearch.catalogueCouncilNames;
 
 /** The other names an election goes by: its body's, and for a local election its councils'. */
 export function electionAliases(e) {

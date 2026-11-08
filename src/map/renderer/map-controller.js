@@ -26,6 +26,7 @@ import { approximateSegmentIds, approximateSegmentLabel, resolveApproximateSegme
 import { LAYER_LOAD } from './layer-load.mjs';
 import { DIRECT_GESTURE } from './gesture-state.mjs';
 import { createState, defineFlagFields } from '../state-helpers.mjs';
+import layerTypes from '../../../registries/browser/layer-types.mjs';
 
 // The casing that breaks a boundary's solid line under its dotted approximate stretches. The app keeps a
 // light basemap in dark mode too (app.js, basemap notes), so the gap is the basemap's own paper colour.
@@ -43,6 +44,15 @@ const TERRAIN_AUTOTILT_THRESHOLD = 10;
 // queried feature only carries the fragment inside one tile. Used to decide
 // when a selected polygon must be reassembled from all of its fragments.
 const TILED_VECTOR_SOURCE_TYPES = new Set(['pmtiles', 'vector', 'mvt']);
+// How each layer type is treated: the behaviour flags of the layer-types registry
+// (data/registries/layer-types.json; registries/browser/layer-types.json), as source-type sets.
+// threeD: terrain or a point cloud (3D gesture handlers, terrain); rasterSource: drawn from raster
+// tiles or an image, so no features to pick; noFeatureState: feature-state is never set on it;
+// noLabels: never gets a label layer.
+const THREE_D_TYPES = new Set(layerTypes.behaviour.threeD);
+const RASTER_SOURCE_TYPES = new Set(layerTypes.behaviour.rasterSource);
+const NO_FEATURE_STATE_TYPES = new Set(layerTypes.behaviour.noFeatureState);
+const NO_LABEL_TYPES = new Set(layerTypes.behaviour.noLabels);
 
 function parseHexRgb(hex) {
   const m = /^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(String(hex || '').trim());
@@ -157,7 +167,7 @@ function resolveFillOpacity(layer) {
 }
 
 function resolveLayerOpacity(layer) {
-  if (layer?.sourceType === 'raster' || layer?.sourceType === 'image') {
+  if (RASTER_SOURCE_TYPES.has(layer?.sourceType)) {
     return clamp(layer.rasterOpacity ?? layer.style?.opacity ?? 0.85, 0, 1);
   }
   return resolveFillOpacity(layer);
@@ -1062,7 +1072,7 @@ export class TestMapLibreController {
     });
     this.applySavedLayerPreferences(layer.id);
     // A 3D layer lets a deliberate two-finger twist rotate the map (touchRotationAllowed).
-    if (layer.sourceType === 'raster-dem' || layer.sourceType === 'point-cloud') this.enableGestureHandlers();
+    if (THREE_D_TYPES.has(layer.sourceType)) this.enableGestureHandlers();
 
     if (layer.sourceType !== 'raster' && layer.sourceType !== 'image' && layer.sourceType !== 'raster-dem' && layer.sourceType !== 'point-cloud') {
       const cleanup = this.bindLayerInteractions(layer, fillId, labelId, sourceId);
@@ -1745,7 +1755,7 @@ export class TestMapLibreController {
 
   selectFeatureById(layerId, featureId, properties = {}) {
     const record = this.layers.get(layerId);
-    if (!record || featureId === undefined || featureId === null || record.config.sourceType === 'raster') return false;
+    if (!record || featureId === undefined || featureId === null || NO_FEATURE_STATE_TYPES.has(record.config.sourceType)) return false;
     this.setDomLabelSelected(this.selected?.layerId, this.selected?.id, false);
     this.clearFeatureState(this.selected, 'selected');
     this.selected = {
@@ -1770,7 +1780,7 @@ export class TestMapLibreController {
     const record = this.layers.get(layerId);
     if (!record) return;
     this.fitToBounds(record.config.bounds, {
-      terrain: record.config.sourceType === 'raster-dem' || record.config.sourceType === 'point-cloud'
+      terrain: THREE_D_TYPES.has(record.config.sourceType)
     });
   }
 
@@ -1817,7 +1827,7 @@ export class TestMapLibreController {
    * MapLibre's own [lng, lat] order with `mapLibre`).
    */
   flattenAfter3d(boundsValue, { mapLibre = false } = {}) {
-    const is3d = (r) => r.config?.sourceType === 'raster-dem' || r.config?.sourceType === 'point-cloud';
+    const is3d = (r) => THREE_D_TYPES.has(r.config?.sourceType);
     if (!this.autoTilted || [...this.layers.values()].some(is3d)) return false;
     this.autoTilted = false;
     const bounds = mapLibre ? boundsValue : boundsToMapLibre(boundsValue);
@@ -2310,7 +2320,7 @@ export class TestMapLibreController {
 
   scheduleDomLabelRefresh(layerId) {
     const record = this.layers.get(layerId);
-    if (!record || !record.config?.labelProperty || record.config.sourceType === 'raster' || record.config.sourceType === 'image') return;
+    if (!record || !record.config?.labelProperty || NO_LABEL_TYPES.has(record.config.sourceType)) return;
     if (record.domLabelsScheduled) return;
     record.domLabelsScheduled = requestAnimationFrame(() => {
       record.domLabelsScheduled = 0;

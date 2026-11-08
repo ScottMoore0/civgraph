@@ -6,7 +6,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { loadRegistry, registryErrors } from '../../registries/index.mjs';
-import { BEHAVIOUR_FLAGS, seedLayerTypes, typesOnAnchorLine } from '../../registries/seed/layer-types.mjs';
+import { BEHAVIOUR_FLAGS, behaviourLine, seedLayerTypes } from '../../registries/seed/layer-types.mjs';
 import { hasBehaviour, layerRecordErrors, typesWithBehaviour } from '../../registries/layers.mjs';
 
 const registry = loadRegistry('layers');
@@ -25,13 +25,18 @@ test('layers: every published layer record conforms to its type', () => {
   assert.ok(index.layers.length > 1000);
 });
 
-test('layers: each behaviour flag is the set of types the map-controller branch tests', () => {
+test('layers: the map app builds each behaviour flag set of types from the registry', () => {
   const controller = read('src/map/renderer/map-controller.js');
-  for (const [flag, [anchor]] of Object.entries(BEHAVIOUR_FLAGS)) {
-    const inCode = typesOnAnchorLine(controller, anchor);
-    assert.ok(inCode, `map-controller.js no longer has "${anchor}": re-check ${flag} in data/registries/layer-types.json`);
-    assert.deepEqual(typesWithBehaviour(registry, flag), inCode, flag);
+  assert.ok(controller.includes("import layerTypes from '../../../registries/browser/layer-types.mjs';"));
+  for (const flag of Object.keys(BEHAVIOUR_FLAGS)) {
+    assert.ok(controller.includes(behaviourLine(flag)), `map-controller.js no longer builds ${flag}: ${behaviourLine(flag)}`);
+    assert.ok(registry.behaviourFlags[flag], flag);
   }
+  // The types each flag held when it was read off the branches (7 Nov 2026), so a change shows here.
+  assert.deepEqual(typesWithBehaviour(registry, 'threeD'), ['point-cloud', 'raster-dem']);
+  assert.deepEqual(typesWithBehaviour(registry, 'rasterSource'), ['image', 'raster']);
+  assert.deepEqual(typesWithBehaviour(registry, 'noFeatureState'), ['raster']);
+  assert.deepEqual(typesWithBehaviour(registry, 'noLabels'), ['image', 'raster']);
   assert.ok(hasBehaviour(registry, 'raster-dem', 'threeD'));
   assert.ok(!hasBehaviour(registry, 'pmtiles', 'noLabels'));
 });

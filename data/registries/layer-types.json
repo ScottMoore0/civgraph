@@ -4,19 +4,19 @@
  "behaviourFlags": {
   "threeD": {
    "meaning": "a 3D layer: terrain or a point cloud; turns on the 3D gesture handlers and terrain",
-   "source": "src/map/renderer/map-controller.js: const is3d = (r) =>"
+   "source": "src/map/renderer/map-controller.js: THREE_D_TYPES"
   },
   "rasterSource": {
    "meaning": "drawn from raster tiles or an image, so it has no features to pick",
-   "source": "src/map/renderer/map-controller.js: if (layer?.sourceType === 'raster' ||"
+   "source": "src/map/renderer/map-controller.js: RASTER_SOURCE_TYPES"
   },
   "noFeatureState": {
    "meaning": "feature-state (hover, selection) is never set on it",
-   "source": "src/map/renderer/map-controller.js: featureId === undefined || featureId === null ||"
+   "source": "src/map/renderer/map-controller.js: NO_FEATURE_STATE_TYPES"
   },
   "noLabels": {
    "meaning": "never gets a label layer",
-   "source": "src/map/renderer/map-controller.js: !record.config?.labelProperty ||"
+   "source": "src/map/renderer/map-controller.js: NO_LABEL_TYPES"
   }
  },
  "types": {
