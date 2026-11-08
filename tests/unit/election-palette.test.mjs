@@ -1,5 +1,5 @@
-// Election map palette (src/map/election/palette.mjs, seam E2 of the frontend plan): the party
-// colour tables and colour helpers moved out of app/src/election-manager.js.
+// Election map palette (packages/map/src/election/palette.mjs, seam E2 of the frontend plan): the party
+// colour tables and colour helpers moved out of packages/map/app/election-manager.js.
 //
 //   node --test tests/unit/election-palette.test.mjs
 import assert from 'node:assert/strict';
@@ -16,7 +16,7 @@ import {
   ROI_MAIN_PARTY_COLOURS,
   safeCssColour,
   usesMainRoiPartyPalette
-} from '../../src/map/election/palette.mjs';
+} from '../../packages/map/src/election/palette.mjs';
 import { partyColour as registryPartyColour } from '../../packages/core/src/election-domain.mjs';
 import { numericColour as rendererNumericColour } from '../../src/election-renderer.mjs';
 

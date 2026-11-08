@@ -37,7 +37,7 @@ import * as ElectionsView from './view-elections.js';
 import { BODY_GROUPS, groupOfBody, shelvesOf } from './view-elections.js';
 import * as BooksView from './view-books.js';
 import { CATALOGUE_TAB } from './route-state.mjs';
-import { defineFlagFields, setHidden } from '../map/state-helpers.mjs';
+import { defineFlagFields, setHidden } from '../../packages/map/src/state-helpers.mjs';
 import { forgetTypedPhrase, isLanguagePhrase, languageOptionsShown, revealLanguageOptions, typedLanguagePhrase } from './lang-reveal.js';
 
 // From D1 since data design phase 3 (the /data/catalogue/*.json URLs still answer, from the same rows).
@@ -1586,7 +1586,7 @@ export class CatalogueNext {
     for (const d of this.ui.getSourceDownloads?.(full) || []) if (d?.file) out.push({ label: d.label || 'Source file', icon: 'download', href: d.file, download: true });
     // The statistics CSVs are on the data bucket (data/census/ is not in the Pages build).
     if (full.isDataEntry && full.csv) out.push({ label: 'Statistics (CSV)', icon: 'download', href: cdnUrl(full.csv), download: true });
-    // The map drawn as a Wikipedia-style locator map of the current view (app/src/map-image-export.js):
+    // The map drawn as a Wikipedia-style locator map of the current view (packages/map/app/map-image-export.js):
     // any map with a vector data file of its own or in its members.
     const vector = resolveMapDownloadUrl(full) || compositeChildIds(full).some((cid) => resolveMapDownloadUrl(this.full(cid)));
     if (vector && this.ui.onExportMapImage) {

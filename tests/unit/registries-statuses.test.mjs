@@ -82,7 +82,7 @@ test('RG-03 election round: every published round\'s site status is the registry
   }
   assert.ok(rounds > 500 && missing > 0, `${rounds} rounds, ${missing} missing`);
   // The map's year view words a round's status and a missing round from the registry (RG-03).
-  const view = read('app/src/ni-local-view.js');
+  const view = read('packages/map/app/ni-local-view.js');
   const m = registry.machines['election-round'];
   assert.ok(view.includes("round.status === 'held' ? ROUND_LABELS.held : ROUND_LABELS.partial"));
   assert.ok(view.includes('item.reason === MISSING_REASONS.excluded.reason ? MISSING_REASONS.excluded.label : MISSING_REASONS.otherwise.label'));
@@ -134,7 +134,7 @@ test('RG-02 contest: the audit\'s values and default, the map\'s labels', () => 
   assert.equal(registry.machines.contest.missingMeans, 'contested');
   assert.ok(isContested(registry, undefined) && isContested(registry, 'contested') && !isContested(registry, 'uncontested'));
   const { labels } = registry.machines.contest;
-  assert.ok(read('app/src/ni-local-view.js').includes('contest.contested ? CONTEST_LABELS.contested : CONTEST_LABELS.uncontested'));
+  assert.ok(read('packages/map/app/ni-local-view.js').includes('contest.contested ? CONTEST_LABELS.contested : CONTEST_LABELS.uncontested'));
   assert.deepEqual(browser.contestLabels, labels);
 });
 

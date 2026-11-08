@@ -11,14 +11,14 @@ const index = readFileSync('maps/index.html', 'utf8');
 // /test2/ is a 301 to /maps/ (_redirects) since the legacy apps retired; test2/sw.js is the
 // retired-app kill switch, the same bytes as render/sw.js.
 const redirectsSource = readFileSync('_redirects', 'utf8');
-const bootSource = readFileSync('app/src/boot.js', 'utf8');
-// app.js and the modules split out of it under src/map/app/ (frontend-plan.md 5.2).
+const bootSource = readFileSync('packages/map/app/boot.js', 'utf8');
+// app.js and the modules split out of it under packages/map/src/app/ (frontend-plan.md 5.2).
 const appSource = readMapAppSource();
-const adapterSource = readFileSync('app/src/maplibre-main-adapter.js', 'utf8');
-// The election manager and the modules split out of it under src/map/election/ (frontend-plan.md
+const adapterSource = readFileSync('packages/map/app/maplibre-main-adapter.js', 'utf8');
+// The election manager and the modules split out of it under packages/map/src/election/ (frontend-plan.md
 // 5.1): a rule checked against its source holds wherever the code now lives.
 const electionManagerSource = readElectionManagerSource();
-const electionPaneContractSource = readFileSync('app/src/election-pane-main-contract.js', 'utf8');
+const electionPaneContractSource = readFileSync('packages/map/app/election-pane-main-contract.js', 'utf8');
 const test2ServiceWorkerSource = readFileSync('test2/sw.js', 'utf8');
 const rootServiceWorkerSource = readFileSync('sw.js', 'utf8');
 const mainElectionPaneContractSource = readFileSync('src/election-main-pane-contract.mjs', 'utf8');
@@ -40,10 +40,10 @@ const readTimelineChangePair = (id) => {
 const browseIndexBuilderSource = readFileSync('scripts/build/build-browse-indexes.mjs', 'utf8');
 const electionDataAuditSource = readFileSync('scripts/check/rules/election-data-audit.mjs', 'utf8');
 const uiControllerSource = readFileSync('src/ui-controller.js', 'utf8');
-const mapControllerSource = readFileSync('src/map/renderer/map-controller.js', 'utf8');
-const labelsSource = readFileSync('src/map/renderer/labels.js', 'utf8');
-const featureRepairsSource = readFileSync('src/map/renderer/feature-property-repairs.js', 'utf8');
-const test2Css = readFileSync('app/src/test2.css', 'utf8');
+const mapControllerSource = readFileSync('packages/map/src/renderer/map-controller.js', 'utf8');
+const labelsSource = readFileSync('packages/map/src/renderer/labels.js', 'utf8');
+const featureRepairsSource = readFileSync('packages/map/src/renderer/feature-property-repairs.js', 'utf8');
+const test2Css = readFileSync('packages/map/app/test2.css', 'utf8');
 const mainCss = readFileSync('assets/css/main.css', 'utf8');
 const packageJsonSource = readFileSync('package.json', 'utf8');
 const portPlan = JSON.parse(readFileSync('render/metadata/main-site-port-plan.json', 'utf8'));
@@ -471,7 +471,7 @@ const statusKindOrder = JSON.parse(readFileSync('packages/registries/src/browser
 assert(electionDomainSource.includes('statuses.candidateKindPatterns') && statusKindOrder.includes('not-elected') && statusKindOrder.indexOf('not-elected') < statusKindOrder.indexOf('elected'), '/test2 election domain must not classify "Not Elected" as elected');
 assert(electionManagerSource.includes('electionResultsPane') && electionManagerSource.includes('election-results-pane--open'), '/test2 election results must render in the production below-map election pane');
 assert(electionDomainSource.includes('summarizeResult') && electionDomainSource.includes('extractElected') && electionDomainSource.includes('buildEntityIndex'), '/test2 must use shared election-domain logic for result summaries, elected extraction, and entity indexes');
-assert(/from '(?:\.\.\/)+packages\/core\/src\/election-domain\.mjs'/.test(electionManagerSource) &&electionManagerSource.includes('renderCountTable') && electionManagerSource.includes('renderEntityPanel'), '/test2 election rendering must consume shared domain logic and expose count/entity views');
+assert(/from '(?:\.\.\/)+(?:packages\/)?core\/src\/election-domain\.mjs'/.test(electionManagerSource) &&electionManagerSource.includes('renderCountTable') && electionManagerSource.includes('renderEntityPanel'), '/test2 election rendering must consume shared domain logic and expose count/entity views');
 assert(electionViewModelSource.includes('buildElectionViewModel') && electionViewModelSource.includes('buildElectionViewModelFromMainController') && electionViewModelSource.includes('buildElectionViewModelFromTest2Manager'), 'main and /test2 must share an engine-neutral election view-model contract');
 assert(electionRendererSource.includes('class SharedElectionRenderer') && electionRendererSource.includes('data-election-renderer="shared"') && electionRendererSource.includes('renderElectionSummaryFromViewModel'), 'main and /test2 must share an engine-neutral election renderer/mirror');
 assert(electionRendererSource.includes('renderMainCompatibleOverallResults') && electionRendererSource.includes('renderMainCompatibleConstituencyResults'), 'shared election renderer must support main-compatible host adapters for visible pane parity');
@@ -689,14 +689,14 @@ for (const path of [
   'app/election-viewer-package/css/stages.css',
   'app/election-viewer-package/css/election-viewer.css',
   ...mapAppSourceFiles(),
-  'app/src/maplibre-main-adapter.js',
-  'app/src/election-manager.js',
-  'app/src/election-pane-main-contract.js',
+  'packages/map/app/maplibre-main-adapter.js',
+  'packages/map/app/election-manager.js',
+  'packages/map/app/election-pane-main-contract.js',
   'src/election-main-pane-contract.mjs',
   'packages/core/src/election-domain.mjs',
   'packages/core/src/election-view-model.mjs',
   'src/election-renderer.mjs',
-  'src/map/renderer/feature-property-repairs.js',
+  'packages/map/src/renderer/feature-property-repairs.js',
   ELECTION_MANIFEST,
   ELECTION_REPORT,
   'render/metadata/election-anchors-test2'

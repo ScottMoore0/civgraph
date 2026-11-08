@@ -167,7 +167,7 @@ export const arr = (value) => flattenValue(value).filter(Boolean);
 const normaliseOne = (value) => arr(value)[0] || null;
 
 /**
- * Kept character-for-character identical to slugifyEntityKey in app/src/app.js. Stored
+ * Kept character-for-character identical to slugifyEntityKey in packages/map/app/app.js. Stored
  * rather than reconstructed in SQL, so the two cannot drift into disagreeing.
  */
 export const entityKey = (value) => String(value || '')

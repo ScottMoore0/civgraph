@@ -14,7 +14,7 @@
  * (owner's ruling, 7 Nov 2026). The Republic's own local elections (bodySlug ireland-local, keyed
  * ireland-local__YYYY-MM-DD, from 1974) are a different body and keep their entries.
  *
- * Shared by the map app (app/src), the catalogue and Browse builders and the tests, so the three
+ * Shared by the map app (packages/map/app), the catalogue and Browse builders and the tests, so the three
  * cannot disagree about which elections a year holds. No DOM, no Node APIs.
  */
 import councils from '../packages/registries/src/browser/councils.mjs';

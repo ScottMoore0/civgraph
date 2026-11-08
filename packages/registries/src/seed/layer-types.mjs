@@ -9,7 +9,7 @@
  * Fields, geometry types and renderers are read from render/metadata/maps-test.json (the
  * published layer index): `requiredFields` are the fields every layer of the type has there.
  * The behaviour flags say how the map app treats each type. They were first read from its
- * branches on sourceType (src/map/renderer/map-controller.js); since 8 Nov 2026 the app reads them
+ * branches on sourceType (packages/map/src/renderer/map-controller.js); since 8 Nov 2026 the app reads them
  * (registries/browser/layer-types.json, one Set per flag), so the file itself is their source and a
  * fresh seed keeps each flag's types as the file has them. tests/unit/registries-layers.test.mjs
  * checks that the app builds each flag's Set from the registry. Two types never appear in the index: `mvt`, the z/x/y fallback the app builds for a
@@ -20,7 +20,7 @@ import path from 'node:path';
 import { REPO_ROOT } from '../index.mjs';
 
 const OUT = 'data/registries/layer-types.json';
-const CONTROLLER = 'src/map/renderer/map-controller.js';
+const CONTROLLER = 'packages/map/src/renderer/map-controller.js';
 
 /** The map app's flags: flag -> [the Set map-controller.js builds from it, what the flag means]. */
 export const BEHAVIOUR_FLAGS = {
@@ -34,8 +34,8 @@ export const BEHAVIOUR_FLAGS = {
 export const behaviourLine = (flag) => `const ${BEHAVIOUR_FLAGS[flag][0]} = new Set(layerTypes.behaviour.${flag});`;
 
 const RUNTIME_ONLY = {
-  mvt: { note: 'Built by the app as the z/x/y.pbf fallback of a PMTiles layer (tilesFallback) or when promote-layers finds no PMTiles archive; never in the published index.', sources: ['src/map/renderer/map-controller.js', 'scripts/build/tiles/promote-layers.mjs', 'app/src/maplibre-main-adapter.js'] },
-  unconverted: { note: 'A catalogue entry with no tiles yet (metadata-service.js); the map refuses to load it, as it does any layer with loadable false.', sources: ['src/map/renderer/metadata-service.js', 'src/map/renderer/map-controller.js'] }
+  mvt: { note: 'Built by the app as the z/x/y.pbf fallback of a PMTiles layer (tilesFallback) or when promote-layers finds no PMTiles archive; never in the published index.', sources: ['packages/map/src/renderer/map-controller.js', 'scripts/build/tiles/promote-layers.mjs', 'packages/map/app/maplibre-main-adapter.js'] },
+  unconverted: { note: 'A catalogue entry with no tiles yet (metadata-service.js); the map refuses to load it, as it does any layer with loadable false.', sources: ['packages/map/src/renderer/metadata-service.js', 'packages/map/src/renderer/map-controller.js'] }
 };
 
 const TILE_FORMAT = {
@@ -85,7 +85,7 @@ export function seedLayerTypes(root = REPO_ROOT) {
     .filter((k) => aliases.every((l) => k in l));
   return {
     schemaVersion: 1,
-    description: 'Map layer types: the sourceType of a layer record, the fields every published layer of the type carries (render/metadata/maps-test.json), its tile format, and how the map app treats it (behaviour: src/map/renderer/map-controller.js). Schema: packages/registries/schemas/layer-types.schema.json; views: packages/registries/src/layers.mjs.',
+    description: 'Map layer types: the sourceType of a layer record, the fields every published layer of the type carries (render/metadata/maps-test.json), its tile format, and how the map app treats it (behaviour: packages/map/src/renderer/map-controller.js). Schema: packages/registries/schemas/layer-types.schema.json; views: packages/registries/src/layers.mjs.',
     behaviourFlags: Object.fromEntries(Object.entries(BEHAVIOUR_FLAGS).map(([flag, [name, meaning]]) => [flag, { meaning, source: `${CONTROLLER}: ${name}` }])),
     types,
     variants: {

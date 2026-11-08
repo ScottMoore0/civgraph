@@ -662,7 +662,7 @@ function buildElections(manifest, thumbnailIds) {
 /**
  * A year of pre-1973 Northern Ireland council elections as one Browse record: the councils that
  * polled (each linking to its own round's page), the parties' seats and votes over all of them,
- * and the map link that opens the year grouped (app/src/ni-local-view.js).
+ * and the map link that opens the year grouped (packages/map/app/ni-local-view.js).
  */
 function buildNiLocalGroupRecords(parentElections) {
   const groups = groupNiLocalRounds(parentElections);

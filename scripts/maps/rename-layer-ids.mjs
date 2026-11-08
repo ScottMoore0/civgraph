@@ -42,7 +42,7 @@ export const SKIP_FILES = new Set([
   'scripts/lib/layer-renames.mjs',
   'scripts/publish/r2-copy-keys.mjs',
   'tests/unit/r2-copy-keys.test.mjs',
-  'src/map/app/url-compat.mjs',
+  'packages/map/src/app/url-compat.mjs',
   'tests/unit/url-compat.test.mjs',
   'tests/functions/maps.test.mjs',
   'scripts/records/ingest-maps.mjs',

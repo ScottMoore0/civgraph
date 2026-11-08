@@ -76,7 +76,7 @@ function thumbOf(m) {
   for (const id of [m.id, m.cloneOf, m.parentId, m.variants?.[0]?.id, partsOf.get(m.id)?.[0]?.id, m.geography]) if (id && thumbs.has(id)) return id;
   return null;
 }
-// The map engine (app/src/maplibre-main-adapter.js) draws a map only through a converted layer in
+// The map engine (packages/map/app/maplibre-main-adapter.js) draws a map only through a converted layer in
 // render/metadata/maps-test.json. A census statistic (a data entry) is drawn on its geography's
 // layer, its CSV joined to the tiles (src/census-overlay.mjs), so it is on the map exactly when
 // that geography is; one whose geography is not converted stays "to be added".

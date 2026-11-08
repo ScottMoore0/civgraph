@@ -2,7 +2,7 @@
  * NI Boundaries - Feature Loader
  * Handles viewport-aware loading of pre-processed per-feature JSON files with LOD support.
  */
-import { defineFlagFields } from './map/state-helpers.mjs';
+import { defineFlagFields } from '../packages/map/src/state-helpers.mjs';
 
 const FEATURE_THRESHOLD = 50;  // Only use LOD loading for maps with >50 features
 const CONCURRENT_LOADS = 50;   // Max parallel fetch requests

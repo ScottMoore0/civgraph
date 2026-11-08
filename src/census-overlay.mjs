@@ -17,8 +17,8 @@
  * with one MapLibre `match` expression from the joined key to its class colour, so the
  * colouring holds at every zoom and on every tile as it arrives, with no per-feature state.
  *
- * Shared by the map (app/src/maplibre-main-adapter.js), its legend and feature details
- * (app/src/app.js, src/ui-controller.js) and the Browse and catalogue builders. Pure: no DOM.
+ * Shared by the map (packages/map/app/maplibre-main-adapter.js), its legend and feature details
+ * (packages/map/app/app.js, src/ui-controller.js) and the Browse and catalogue builders. Pure: no DOM.
  */
 
 // Matplotlib samples, as the Leaflet loader had them (archive/leaflet/js/colour-palettes.js, see ARCHIVE.md), less

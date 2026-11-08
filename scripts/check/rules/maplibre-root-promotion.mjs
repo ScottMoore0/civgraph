@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * check:root -- the production map app's shell, service worker and build stay as the
- * MapLibre promotion left them (maps/index.html, sw.js, app/src/app.js, the build script).
+ * MapLibre promotion left them (maps/index.html, sw.js, packages/map/app/app.js, the build script).
  *
  * It reads nothing under archive/ (that went with 49e65a9e43) and nothing of the legacy
  * /render/ app, so it survives the restructure as the data design's checks.csv says: its
@@ -27,9 +27,9 @@ function read(path) {
 // so it follows the application rather than the URL. `appHtml` is named for what it is.
 const appHtml = read('maps/index.html');
 const rootServiceWorker = read('sw.js');
-const appSource = readMapAppSource(); // app.js and the modules split out of it under src/map/app/
+const appSource = readMapAppSource(); // app.js and the modules split out of it under packages/map/src/app/
 const mainCss = read('assets/css/main.css');
-const test2Css = read('app/src/test2.css');
+const test2Css = read('packages/map/app/test2.css');
 const sharedAssetBuilder = read('scripts/build/shell-assets.mjs');
 const packageJson = JSON.parse(read('package.json'));
 // The retired Leaflet manifest and bundle.mjs used to be asserted present under

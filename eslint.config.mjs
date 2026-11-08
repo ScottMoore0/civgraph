@@ -10,7 +10,7 @@ import globals from 'globals';
 // hand-written trees with no rules at all — 43,947 lines including src/ui-controller.js,
 // at 11,620 lines the largest hand-written file in the repository. src/ was
 // excluded on the belief that it was the dead Leaflet stack. It is neither dead
-// nor Leaflet: zero Leaflet references, and called throughout app/src/app.js.
+// nor Leaflet: zero Leaflet references, and called throughout packages/map/app/app.js.
 // See docs/review/CODE-REVIEW.md, findings 2 and 3.
 //
 // Widening surfaced 41 warnings and ZERO errors, which is the number that
@@ -46,7 +46,7 @@ export default [
   },
   {
     files: [
-      'app/src/**/*.js',
+      'packages/map/app/**/*.js',
       'src/**/*.js',
       'browse/**/*.js',
       'functions/**/*.js',

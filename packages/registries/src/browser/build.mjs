@@ -2,7 +2,7 @@
 /**
  * The registry slices the browser code imports (REG-0's browser half).
  *
- * src/, app/src/ and packages/core/src/ read registry facts from the small JSON files beside this
+ * src/, packages/map/app/ and packages/core/src/ read registry facts from the small JSON files beside this
  * script, each through its module (councils.mjs imports councils.json `with { type: 'json' }` and
  * re-exports it), a static import that esbuild bundles into the app and Node runs as it is. Each file holds only the views the code reads, computed here by the registry
  * views (registries/*.mjs) from the full registries in data/registries/, so the app bundle carries
@@ -21,8 +21,8 @@
  *   council-search.json  src/catalogue/search.js (council names by generation, council aliases)
  *   parties.json         packages/core/src/party-names.mjs (PARTIES, NOT_PARTIES)
  *   statuses.json        packages/core/src/election-domain.mjs (statusKind, RG-01),
- *                        app/src/ni-local-view.js (round badges, missing rounds, contests: RG-02, RG-03)
- *   layer-types.json     src/map/renderer/map-controller.js (the behaviour flags' source types)
+ *                        packages/map/app/ni-local-view.js (round badges, missing rounds, contests: RG-02, RG-03)
+ *   layer-types.json     packages/map/src/renderer/map-controller.js (the behaviour flags' source types)
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';

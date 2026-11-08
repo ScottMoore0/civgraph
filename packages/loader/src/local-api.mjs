@@ -7,7 +7,7 @@
  * runs the real handlers. Production is untouched: there the same Functions read D1.
  *
  * The local servers are static, so without this the map app's party and person pages
- * (src/map/app/entity-bridge.js fetches /_api/parties and /_api/persons) found no record.
+ * (packages/map/src/app/entity-bridge.js fetches /_api/parties and /_api/persons) found no record.
  *
  *   answerRecordApi(url, { method, headers })  a Response, or null when the URL is not a
  *                                              records route or there is no records build

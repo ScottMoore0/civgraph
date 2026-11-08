@@ -1,5 +1,5 @@
-// Map layer draw order (src/map/app/layer-order.mjs, seam A1 of the frontend plan): the pure
-// parsing and normalising moved out of app/src/app.js.
+// Map layer draw order (packages/map/src/app/layer-order.mjs, seam A1 of the frontend plan): the pure
+// parsing and normalising moved out of packages/map/app/app.js.
 //
 //   node --test tests/unit/layer-order.test.mjs
 import assert from 'node:assert/strict';
@@ -10,7 +10,7 @@ import {
   normalizeLoadedLayerOrder,
   parseLayerOrder,
   serializeSavedLayerOrder
-} from '../../src/map/app/layer-order.mjs';
+} from '../../packages/map/src/app/layer-order.mjs';
 
 test('the storage key is unchanged', () => {
   assert.equal(LAYER_ORDER_STORAGE_KEY, 'civgraph:maplibre:layer-order');

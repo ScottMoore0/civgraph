@@ -12,7 +12,7 @@ module.exports = defineConfig({
     // (/_api/parties, /_api/persons, /_api/elections ...) with the real Functions run against the
     // records build (scripts/records/local-api.mjs), but the map app's elections still load by
     // their bundle URLs here, as before: the app's own opt-out (localStorage
-    // civgraph.electionsApi = '0', src/map/election/transport.mjs useElectionsApi) sends it to the
+    // civgraph.electionsApi = '0', packages/map/src/election/transport.mjs useElectionsApi) sends it to the
     // bundle URLs, which production serves from D1 through the compatibility Functions and the
     // test server from the records build: the same documents. The API itself is tested against
     // the records database by records:check (tests/records/).

@@ -30,7 +30,7 @@ const LEGACY_WORKERS = {
   test: 'test-sw.js', // test/sw.js before the rename to render/ (dd30268b7b^)
   test2: 'test2-sw.js' // the June 2026 /test2/ compatibility worker, which never unregistered
 };
-const SWEEP = 'src/map/app/retire-legacy-workers.mjs';
+const SWEEP = 'packages/map/src/app/retire-legacy-workers.mjs';
 const ROOT_CACHE = 'civgraph-root-maplibre-root-maplibre-sw-kept-static';
 
 async function startSite() {

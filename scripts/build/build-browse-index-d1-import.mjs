@@ -19,7 +19,7 @@
  * The cost lands on the commonest operation. browse.js resolves a deep link with
  * findItem(data.items, id) -- so opening ONE source at #/sources/<slug> requires the whole
  * 51 MB index first. For persons that failure was worse than slow: on 2026-08-23 the
- * reader in app/src/app.js still expected `payload.items` after the index became a
+ * reader in packages/map/app/app.js still expected `payload.items` after the index became a
  * manifest, silently resolved to [], and every person link on the site stopped working
  * with no error. A point lookup against a scanned blob cannot tell a miss from an empty
  * index. A query can.

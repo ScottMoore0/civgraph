@@ -1,6 +1,6 @@
 // The map app's explicit state machines (refactor plan section 11), on the shared helper
 // (scripts/lib/state-machine.mjs, which the app bundle inlines) and the
-// map app's light helpers (src/map/state-helpers.mjs). Each machine's whole table is pinned here,
+// map app's light helpers (packages/map/src/state-helpers.mjs). Each machine's whole table is pinned here,
 // every move it does not list is shown to throw, and the map-app sources are held to moving the
 // machines only through them.
 //
@@ -10,9 +10,9 @@ import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
-import { createFlag, defineChoice } from '../../src/map/state-helpers.mjs';
-import { TIMELINE_PLAYBACK, createTimelineAnimationState } from '../../src/map/app/timeline/playback.mjs';
-import { URL_RESTORE, createUrlRestore, createUrlSuspend } from '../../src/map/app/url-sync.mjs';
+import { createFlag, defineChoice } from '../../packages/map/src/state-helpers.mjs';
+import { TIMELINE_PLAYBACK, createTimelineAnimationState } from '../../packages/map/src/app/timeline/playback.mjs';
+import { URL_RESTORE, createUrlRestore, createUrlSuspend } from '../../packages/map/src/app/url-sync.mjs';
 import { mapAppSourceFiles } from '../../scripts/lib/map-app-source.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
@@ -34,8 +34,8 @@ function assertTableEnforced(machine) {
 }
 
 test('the map app uses the shared helper itself, with no copy of its own', () => {
-  assert.equal(existsSync(path.join(ROOT, 'src/map/state-machine.mjs')), false);
-  for (const file of ['src/map/state-helpers.mjs', 'src/map/app/url-sync.mjs', 'src/map/app/timeline/playback.mjs']) {
+  assert.equal(existsSync(path.join(ROOT, 'packages/map/src/state-machine.mjs')), false);
+  for (const file of ['packages/map/src/state-helpers.mjs', 'packages/map/src/app/url-sync.mjs', 'packages/map/src/app/timeline/playback.mjs']) {
     assert.match(read(file), /from '(\.\.\/)+scripts\/lib\/state-machine\.mjs'/, file);
   }
 });
@@ -108,7 +108,7 @@ test('the map-app sources move timeline playback only through to()', () => {
   for (const file of files) {
     assert.doesNotMatch(read(file), /timelineAnimation\??\.(playing|paused|atEnd)\s*=[^=]/, `${file} assigns a playback flag`);
   }
-  assert.match(read('app/src/app.js'), /this\.timelineAnimation = createTimelineAnimationState\(/);
+  assert.match(read('packages/map/app/app.js'), /this\.timelineAnimation = createTimelineAnimationState\(/);
 });
 
 test('URL restore: the whole table', () => {
@@ -144,36 +144,36 @@ test('URL restore: a hashchange during a restore is replayed once, after it', ()
 
 test('the map-app sources use the URL machines, not the old flags', () => {
   // url-sync.mjs names the old flags in its history note.
-  const files = [...mapAppSourceFiles(), 'app/src/election-manager.js'].filter((file) => !file.endsWith('/url-sync.mjs'));
+  const files = [...mapAppSourceFiles(), 'packages/map/app/election-manager.js'].filter((file) => !file.endsWith('/url-sync.mjs'));
   for (const file of files) {
     assert.doesNotMatch(read(file), /_restoringURLState|_hashRestorePending|_suspendURLState/, file);
   }
-  const urlState = read('src/map/app/url-state.js');
+  const urlState = read('packages/map/src/app/url-state.js');
   assert.match(urlState, /this\.urlRestore\.begin\(\)/);
   assert.match(urlState, /this\.urlRestore\.end\(\)/);
   assert.match(urlState, /this\.urlRestore\.queue\(\)/);
 });
 
 test('election pane toggles: overlay and local level assignments go through their choice', async () => {
-  const { LOCAL_MODE, OVERLAY_MODE, freshPanelState } = await import('../../src/map/election/panel-model.mjs');
+  const { LOCAL_MODE, OVERLAY_MODE, freshPanelState } = await import('../../packages/map/src/election/panel-model.mjs');
   assert.deepEqual(OVERLAY_MODE.values, ['circles', 'bars']);
   assert.deepEqual(LOCAL_MODE.values, ['dea', 'district', 'constituency']);
   assert.equal(freshPanelState({ bodyGroup: 'local-government' }).activeLocalMode, 'dea');
   assert.equal(freshPanelState({ bodyGroup: 'westminster' }).activeLocalMode, 'constituency');
-  const manager = read('app/src/election-manager.js');
+  const manager = read('packages/map/app/election-manager.js');
   const assignments = manager.match(/this\.(overlayMode|activeLocalMode) = [^;]+;/g) || [];
   assert.ok(assignments.length >= 8, `found ${assignments.length}`);
   for (const line of assignments) assert.match(line, /= (OVERLAY_MODE|LOCAL_MODE)\.check\(/, line);
 });
 
 test('the search worker readiness is a flag, set only through set()', () => {
-  assert.match(read('app/src/app.js'), /this\.searchWorkerReady = createFlag\('search worker ready'\);/);
-  assert.doesNotMatch(read('src/map/app/search.js'), /searchWorkerReady\s*=[^=]/);
+  assert.match(read('packages/map/app/app.js'), /this\.searchWorkerReady = createFlag\('search worker ready'\);/);
+  assert.doesNotMatch(read('packages/map/src/app/search.js'), /searchWorkerReady\s*=[^=]/);
 });
 
 test('election load (MA-03) and layer load (MA-06): the whole tables', async () => {
-  const { ELECTION_LOAD } = await import('../../src/map/election/load-state.mjs');
-  const { LAYER_LOAD } = await import('../../src/map/renderer/layer-load.mjs');
+  const { ELECTION_LOAD } = await import('../../packages/map/src/election/load-state.mjs');
+  const { LAYER_LOAD } = await import('../../packages/map/src/renderer/layer-load.mjs');
   assert.deepEqual(ELECTION_LOAD.transitions, {
     closed: ['loading', 'closed'],
     loading: ['loading', 'open', 'closed'],
@@ -188,10 +188,10 @@ test('election load (MA-03) and layer load (MA-06): the whole tables', async () 
 });
 
 test('the election and layer loads move only through their machines', () => {
-  const manager = read('app/src/election-manager.js');
+  const manager = read('packages/map/app/election-manager.js');
   assert.match(manager, /if \(!options\?\.keepLoad\) this\.cancelPendingLoad\(/);
   assert.match(manager, /this\.loadRun\.to\('open'\)/);
-  const renderer = read('src/map/renderer/map-controller.js');
+  const renderer = read('packages/map/src/renderer/map-controller.js');
   assert.match(renderer, /if \(load\.run\.state\(\) !== 'loading'\) return;/);
   assert.match(renderer, /load\.run\.to\('absent'\)/);
 });

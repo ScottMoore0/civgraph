@@ -1,5 +1,5 @@
-// Election results model (src/map/election/results-model.mjs, seam E1 of the frontend plan):
-// the pure result helpers moved out of app/src/election-manager.js, exercised on small
+// Election results model (packages/map/src/election/results-model.mjs, seam E1 of the frontend plan):
+// the pure result helpers moved out of packages/map/app/election-manager.js, exercised on small
 // fixtures of five election types (Westminster FPTP, Assembly STV, a referendum, a local
 // election by DEA, the 1996 Forum).
 //
@@ -39,7 +39,7 @@ import {
   withCouncilDeltas,
   withLocalPartyDeltas,
   withPartyDeltas
-} from '../../src/map/election/results-model.mjs';
+} from '../../packages/map/src/election/results-model.mjs';
 import * as viewModel from '../../packages/core/src/election-view-model.mjs';
 
 // --- fixtures ---------------------------------------------------------------------------------

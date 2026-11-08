@@ -1,7 +1,7 @@
 // @ts-check
 /**
  * The catalogue pane's explicit state machines (refactor plan section 11; state-machine catalogue
- * MA-07 to MA-10). src/ui-controller.js and src/map/app/entity-bridge.js keep their fields and
+ * MA-07 to MA-10). src/ui-controller.js and packages/map/src/app/entity-bridge.js keep their fields and
  * read them as before; every write now goes through a machine or choice here, so a value outside
  * the set, or a move the table does not list, throws instead of leaving the pane in a state no
  * code expects.
@@ -9,7 +9,7 @@
  * Pure: no DOM, no storage. The shared helper is scripts/lib/state-machine.mjs (bundled).
  */
 import { defineMachine } from '../scripts/lib/state-machine.mjs';
-import { defineChoice } from './map/state-helpers.mjs';
+import { defineChoice } from '../packages/map/src/state-helpers.mjs';
 
 /**
  * MA-07 the split between the catalogue and the map (uiController.currentStateId, mirrored to

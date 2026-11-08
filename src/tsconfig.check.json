@@ -1,5 +1,5 @@
 {
-  "//": "Type checking of the map app by JSDoc and checkJs (REFACTOR-PLAN.md item 2, slice TS-3). Run by `npm run check:types:mapapp`. Named tsconfig.check.json, not tsconfig.json, so esbuild (the app bundler) never reads it. The include list is an allowlist that only grows (tests/unit/map-typecheck.test.mjs): the pure modules first; the method modules of src/map/app/ need a typed `this` (the app) before they can join. strictNullChecks is on (round 3): the election models' loose records are typed in packages/core/src/election-view-model.mjs (ElectionRecord, ElectionResult, ElectionContext), and tests/unit/map-typecheck.test.mjs fails if it is turned off.",
+  "//": "Type checking of the map app by JSDoc and checkJs (REFACTOR-PLAN.md item 2, slice TS-3). Run by `npm run check:types:mapapp`. Named tsconfig.check.json, not tsconfig.json, so esbuild (the app bundler) never reads it. The include list is an allowlist that only grows (tests/unit/map-typecheck.test.mjs): the pure modules first; the method modules of packages/map/src/app/ need a typed `this` (the app) before they can join. strictNullChecks is on (round 3): the election models' loose records are typed in packages/core/src/election-view-model.mjs (ElectionRecord, ElectionResult, ElectionContext), and tests/unit/map-typecheck.test.mjs fails if it is turned off.",
   "compilerOptions": {
     "allowJs": true,
     "checkJs": true,
@@ -28,20 +28,20 @@
   },
   "include": [
     "../scripts/lib/state-machine.mjs",
-    "map/state-helpers.mjs",
-    "map/app/**/*.mjs",
-    "map/election/*.mjs",
+    "../packages/map/src/state-helpers.mjs",
+    "../packages/map/src/app/**/*.mjs",
+    "../packages/map/src/election/*.mjs",
     "*.mjs",
-    "map/renderer/config.js",
-    "map/renderer/utils.js",
-    "map/renderer/labels.js",
-    "map/renderer/feature-property-repairs.js",
-    "map/renderer/approximate-segments.js",
-    "map/renderer/layer-load.mjs",
+    "../packages/map/src/renderer/config.js",
+    "../packages/map/src/renderer/utils.js",
+    "../packages/map/src/renderer/labels.js",
+    "../packages/map/src/renderer/feature-property-repairs.js",
+    "../packages/map/src/renderer/approximate-segments.js",
+    "../packages/map/src/renderer/layer-load.mjs",
     "cdn-url.js",
     "election-utils.js",
-    "map/renderer/gesture-state.mjs",
-    "map/renderer/point-cloud-node-state.mjs",
+    "../packages/map/src/renderer/gesture-state.mjs",
+    "../packages/map/src/renderer/point-cloud-node-state.mjs",
     "catalogue/route-state.mjs"
   ]
 }

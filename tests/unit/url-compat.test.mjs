@@ -1,5 +1,5 @@
-// URL compatibility (src/map/app/url-compat.mjs, seam A2 of the frontend plan): renamed layer
-// ids and election keys in old share links, moved out of app/src/app.js.
+// URL compatibility (packages/map/src/app/url-compat.mjs, seam A2 of the frontend plan): renamed layer
+// ids and election keys in old share links, moved out of packages/map/app/app.js.
 //
 //   node --test tests/unit/url-compat.test.mjs
 import assert from 'node:assert/strict';
@@ -11,7 +11,7 @@ import {
   renameElectionDatesInParams,
   resolveLegacyLayerId,
   slugifyBody
-} from '../../src/map/app/url-compat.mjs';
+} from '../../packages/map/src/app/url-compat.mjs';
 
 test('resolveLegacyLayerId rewrites renamed prefixes and leaves the rest', () => {
   assert.equal(resolveLegacyLayerId('roi-local-authorities-1920-vector-test'), 'local-authorities-1920-vector-test');

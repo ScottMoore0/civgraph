@@ -136,7 +136,7 @@ if (existsSync(SW)) {
 // build-test2-app.mjs rewrites sw.js's VERSION line with the freshly built bundle's
 // hash. While that line was part of the salt, the stamp was always computed over the
 // PREVIOUS sw.js: one build left a stale token, and only a second consecutive build
-// agreed with itself. Every commit touching app/src shipped returning visitors the old
+// agreed with itself. Every commit touching packages/map/app shipped returning visitors the old
 // stylesheet, and nothing said so -- the stale token above was found by accident on
 // 2026-08-20 while running the gate for an unrelated change.
 //

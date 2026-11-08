@@ -9,7 +9,7 @@ import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { SITE } from '../../packages/config/src/config.js';
 import { CDN_BASE, cdnUrl } from '../../src/cdn-url.js';
-import { resolveApproximateSegmentsUrl } from '../../src/map/renderer/approximate-segments.js';
+import { resolveApproximateSegmentsUrl } from '../../packages/map/src/renderer/approximate-segments.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 
@@ -25,7 +25,7 @@ test('the CDN helpers give the same URLs as before, from the config', () => {
 
 test('the bundled map-app modules name no origin of their own', () => {
   // src/fgb-worker.js is a worker script loaded on its own, outside the bundle, so it keeps its copy.
-  for (const file of ['src/cdn-url.js', 'src/map/renderer/approximate-segments.js', 'app/src/map-image-export.js']) {
+  for (const file of ['src/cdn-url.js', 'packages/map/src/renderer/approximate-segments.js', 'packages/map/app/map-image-export.js']) {
     const code = readFileSync(path.join(ROOT, file), 'utf8').replace(/\/\*[\s\S]*?\*\/|\/\/.*$/gm, '');
     assert.doesNotMatch(code, /'https:\/\/(data\.)?civgraph\.net/, `${file} writes out an origin`);
     assert.doesNotMatch(code, /`https:\/\/(data\.)?civgraph\.net/, `${file} writes out an origin`);

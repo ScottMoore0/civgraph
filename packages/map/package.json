@@ -1,0 +1,11 @@
+{
+  "name": "@civgraph/map",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "The map app (REFACTOR-PLAN.md item 1, PKG-10): its modules (src/: app/, election/, renderer/, the state helpers; was src/map/) and its entry, election manager, adapter and workers (app/: was app/src/). esbuild bundles app/boot.js into app/build/; the two module workers and the files src/ always served are served at their old paths through packages/served.json.",
+  "exports": {
+    "./*": "./src/*",
+    "./app/*": "./app/*"
+  }
+}

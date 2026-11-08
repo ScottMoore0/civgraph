@@ -49,7 +49,7 @@ export function hashFile(filePath, length = 12, salt = '') {
  *   pass 1   salt over the OLD sw.js -> stamp index.html -> rewrite sw.js
  *   pass 2   salt over the NEW sw.js -> different token   -> restamp index.html
  *
- * So `npm run build` was not a fixed point. Any commit touching app/src shipped an
+ * So `npm run build` was not a fixed point. Any commit touching packages/map/app shipped an
  * index.html whose /build/main.css token was one build behind, and returning visitors
  * kept the old stylesheet. It converged only on a second consecutive build, which is
  * not something anyone knows to do. Caught 2026-08-20 by check:app-shell-cache, which

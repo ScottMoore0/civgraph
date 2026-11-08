@@ -1,10 +1,10 @@
-// The map app's sweep of the retired apps' service workers (src/map/app/retire-legacy-workers.mjs).
+// The map app's sweep of the retired apps' service workers (packages/map/src/app/retire-legacy-workers.mjs).
 //
 //   node --test tests/unit/retire-legacy-workers.test.mjs
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
-import { RETIRED_WORKER_SCOPES, retireLegacyServiceWorkers } from '../../src/map/app/retire-legacy-workers.mjs';
+import { RETIRED_WORKER_SCOPES, retireLegacyServiceWorkers } from '../../packages/map/src/app/retire-legacy-workers.mjs';
 
 function registration(scope, { updateFails = false } = {}) {
   const calls = [];

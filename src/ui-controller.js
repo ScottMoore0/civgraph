@@ -14,7 +14,7 @@ import { cdnUrl } from './cdn-url.js';
 import { catalogueNextRequested, initialCatalogueRoute } from './catalogue/flag.js';
 import { installSplit } from './catalogue/split.js';
 import { CATALOGUE_HISTORY_ENTRY, CATALOGUE_VIEW, ENTITY_PLACEHOLDER, MOBILE_CATALOGUE, SPLIT_ALLOWED, SPLIT_LAYOUT } from './ui-state-machines.mjs';
-import { createFlag, createState, setHidden } from './map/state-helpers.mjs';
+import { createFlag, createState, setHidden } from '../packages/map/src/state-helpers.mjs';
 import { partyFullName, partyLabelHtml } from '../packages/core/src/party-names.mjs';
 import { BODY_GROUP_ORDER, hasNumber, yearRange } from './entity-detail-data.mjs';
 
@@ -7979,7 +7979,7 @@ class UIController {
             html += this._featureMetricsHtml(feature, props, geometry);
 
             // A Wikipedia-style locator map of the current view with this feature in red
-            // (app/src/map-image-export.js); offered where the app can draw one.
+            // (packages/map/app/map-image-export.js); offered where the app can draw one.
             if (mapConfig?.id && typeof this.onExportMapImage === 'function') {
                 html += `<div class="feature-info__export"><button type="button" class="btn btn--sm btn--outline feature-info__export-btn" data-map-id="${this.escapeHtml(mapConfig.id)}" data-feature-index="${featureIndex}" data-feature-name="${this.escapeHtml(primaryName === 'Unnamed Feature' ? '' : primaryName)}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span data-export-label>Download locator map (SVG)</span></button></div>`;
             }

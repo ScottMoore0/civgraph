@@ -1,6 +1,6 @@
 // The records API on this machine (scripts/records/local-api.mjs): the routes it answers, that
 // scripts/dev/test-server.py passes it exactly those, and, with a records build, that it answers the
-// party and person requests the map app makes (src/map/app/entity-bridge.js) from the build.
+// party and person requests the map app makes (packages/map/src/app/entity-bridge.js) from the build.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';

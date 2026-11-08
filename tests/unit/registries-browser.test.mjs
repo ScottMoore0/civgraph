@@ -28,8 +28,8 @@ test('registries/browser: each reader imports its slice statically, through its 
     'src/catalogue/search.js': '../../packages/registries/src/browser/council-search.mjs',
     'packages/core/src/party-names.mjs': '../../registries/src/browser/parties.mjs',
     'packages/core/src/election-domain.mjs': '../../registries/src/browser/statuses.mjs',
-    'app/src/ni-local-view.js': '../../packages/registries/src/browser/statuses.mjs',
-    'src/map/renderer/map-controller.js': '../../../packages/registries/src/browser/layer-types.mjs'
+    'packages/map/app/ni-local-view.js': '../../registries/src/browser/statuses.mjs',
+    'packages/map/src/renderer/map-controller.js': '../../../registries/src/browser/layer-types.mjs'
   };
   for (const [file, spec] of Object.entries(readers)) {
     assert.ok(read(file).split('\n').some((line) => /^import \w+ from '/.test(line) && line.endsWith(` from '${spec}';`)), file);

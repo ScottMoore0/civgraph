@@ -1,5 +1,5 @@
-// The election pane's model (src/map/election/panel-model.mjs): the view, the selection, the
-// colouring mode and the address state, moved out of app/src/election-manager.js.
+// The election pane's model (packages/map/src/election/panel-model.mjs): the view, the selection, the
+// colouring mode and the address state, moved out of packages/map/app/election-manager.js.
 //
 //   node --test tests/unit/election-panel-model.test.mjs
 import assert from 'node:assert/strict';
@@ -15,7 +15,7 @@ import {
   restoredPanelView,
   selectedResultKey,
   stylingModeFor
-} from '../../src/map/election/panel-model.mjs';
+} from '../../packages/map/src/election/panel-model.mjs';
 
 test('the colouring mode an election opens in', () => {
   assert.equal(DEFAULT_MODE_ORDER[0], 'winner');

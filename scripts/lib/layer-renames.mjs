@@ -10,7 +10,7 @@
  *
  * Pure and dependency-free, so the same rule can serve the R2 copy (scripts/publish/
  * r2-copy-keys.mjs), the layer_aliases rows D3 loads, and the client resolver's suffix rule
- * (resolveLegacyLayerId in app/src/app.js, which D3 extends; not edited here).
+ * (resolveLegacyLayerId in packages/map/app/app.js, which D3 extends; not edited here).
  */
 
 export const LAYER_ID_SUFFIXES = [

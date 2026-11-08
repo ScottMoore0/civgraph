@@ -125,7 +125,7 @@ All three edges are guarded by validators in `npm run check`.
 
 | URL | Source |
 |---|---|
-| `/` | `index.html` + `app/build/` (from `app/src/` and `src/map/`) + `src/` + `build/` |
+| `/` | `index.html` + `app/build/` (from `packages/map/app/` and `packages/map/src/`, PKG-10) + `src/` + `build/` |
 | `/browse/` | `browse/` |
 | `/apps/`, `/apps/proni-search/` | `apps/` |
 | `/pages/about`, `/pages/census-explorer` | `pages/` |

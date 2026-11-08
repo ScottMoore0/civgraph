@@ -1,13 +1,13 @@
 // The jQuery shim's animation-queue flag (state-machine catalogue MA-L). src/jquery-shim.js is a
 // classic script (copied to app/js/ by the app build and loaded beside stages2.js), so it cannot
-// import src/map/state-helpers.mjs: its table, QUEUE_RUNNING_TRANSITIONS, is inline. This test
+// import packages/map/src/state-helpers.mjs: its table, QUEUE_RUNNING_TRANSITIONS, is inline. This test
 // checks the table against the helper's createFlag for every pair, that both copies agree, and
 // drives the queue in a fake page: delay starts it, the last entry ends it, stop(true) clears it.
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import vm from 'node:vm';
-import { createFlag } from '../../src/map/state-helpers.mjs';
+import { createFlag } from '../../packages/map/src/state-helpers.mjs';
 
 const SOURCE = readFileSync('src/jquery-shim.js', 'utf8');
 const COPY = readFileSync('app/js/jquery-shim.js', 'utf8');

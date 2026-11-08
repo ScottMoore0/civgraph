@@ -244,7 +244,7 @@ function main() {
   // ---- 5. a warning, not a rule: code main changed that names a legacy record path. On this
   // branch those trees are built into tmp/records (scripts/records/paths.mjs); a literal path
   // works here only while a stale local copy exists, and fails on a clean checkout and in CI.
-  const changed = lines(git(['diff', '--name-only', 'HEAD', 'MERGE_HEAD', '--', 'scripts', 'tests', 'functions', 'src', 'app/src']).stdout)
+  const changed = lines(git(['diff', '--name-only', 'HEAD', 'MERGE_HEAD', '--', 'scripts', 'tests', 'functions', 'src', 'packages/map/app']).stdout)
     .filter((p) => /\.(m?js|py)$/.test(p) && existsSync(path.join(ROOT, p)));
   const LEGACY = /render\/metadata\/elections-test2|data\/database\/election-provenance\.json|['"]data['"],\s*['"]browse['"]|['"]data\/browse\//;
   const suspects = changed.filter((p) => LEGACY.test(readFileSync(path.join(ROOT, p), 'utf8')));
