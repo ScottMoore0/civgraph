@@ -33,6 +33,54 @@ import { mainPanePartyColour, partyColour } from './palette.mjs';
 /** @typedef {import('../../../core/src/election-view-model.mjs').ElectionResult} ElectionResult */
 /** @typedef {import('../../../core/src/election-view-model.mjs').ElectionContext} ElectionContext */
 
+/**
+ * A row the pane reads by name and coerces: a candidate, a referendum option, a count. The
+ * sources differ in what they call a field (votes, firstPrefs, Total_Votes), so each is unknown
+ * until read.
+ * @typedef {{ [field: string]: unknown }} ResultRow
+ */
+/**
+ * A candidate row with the previous election's row it was matched to.
+ * @typedef {ResultRow & { previous?: ResultRow | null }} CandidateRow
+ */
+/**
+ * A party's seats-and-votes row (buildPartySummary, the main-like summary): `share` is the
+ * percentage of the vote, null when nothing was counted.
+ * @typedef {ResultRow & { share: number | null }} PartyRow
+ */
+/**
+ * A party within one area (buildLocalPartySummary).
+ * @typedef {{
+ *   party: unknown,
+ *   constituency: unknown,
+ *   resultKey: string,
+ *   colour: string,
+ *   stood: number,
+ *   seats: number,
+ *   firstPrefs: number,
+ *   seatShare: number | null,
+ *   share: number | null
+ * }} LocalPartyRow
+ */
+/**
+ * A council's running totals (buildCouncilSummary), by party name.
+ * @typedef {{
+ *   council: unknown,
+ *   deas: number,
+ *   seats: number,
+ *   validPoll: number,
+ *   electorate: number,
+ *   partySeats: Map<unknown, number>,
+ *   partyVotes: Map<unknown, number>,
+ *   partyColours: Map<unknown, unknown>
+ * }} CouncilTotals
+ */
+/**
+ * A candidate in an STV count: when they were elected or excluded, and their row at each count.
+ * @typedef {ResultRow & { excludedAt?: unknown, electedAt?: unknown, quota?: unknown, counts?: ResultRow[] }} StvCandidate
+ */
+/** @typedef {ElectionResult & { nonTransferable?: ResultRow[] }} StvResult */
+
 export { averageNumbers, sumNumbers };
 
 const PLURALITY_SYSTEMS = ['fptp', 'first past the post', 'first past post', 'block vote', 'block-vote'];
@@ -40,20 +88,29 @@ const PLURALITY_SYSTEMS = ['fptp', 'first past the post', 'first past post', 'bl
 // ---------------------------------------------------------------------------------------------
 // Numbers and statuses
 
-/** A finite number, or 0. */
+/**
+ * A finite number, or 0.
+ * @param {unknown} value
+ */
 export function numberOrZero(value) {
   const number = Number(value);
   return Number.isFinite(number) ? number : 0;
 }
 
-/** A number read from a figure ("1,234", "45.6%"), or null when there is none. */
+/**
+ * A number read from a figure ("1,234", "45.6%"), or null when there is none.
+ * @param {unknown} value
+ */
 export function finiteNumber(value) {
   if (value === null || value === undefined || value === '') return null;
   const number = Number(String(value).replace(/,/g, '').replace(/%$/, ''));
   return Number.isFinite(number) ? number : null;
 }
 
-/** A candidate status read as 'elected', 'not_elected', 'excluded' or 'unknown'. */
+/**
+ * A candidate status read as 'elected', 'not_elected', 'excluded' or 'unknown'.
+ * @param {unknown} status
+ */
 export function selectedPaneStatusKind(status) {
   const text = String(status || '').toLowerCase();
   if (!text) return 'unknown';
@@ -82,7 +139,10 @@ export function isLocalGovernmentElection({ bundle = null, entry = null } = {}) 
   return (bundle?.bodyGroup || entry?.bodyGroup) === 'local-government';
 }
 
-/** Whether a result was counted by STV (said so, or a quota and more than one count). */
+/**
+ * Whether a result was counted by STV (said so, or a quota and more than one count).
+ * @param {ElectionResult} [result]
+ */
 export function isStvResult(result = {}) {
   const votingSystem = normalizeName(result.votingSystem || result.electionVotingSystem || result.system || '');
   if (votingSystem.includes('stv')) return true;
@@ -104,7 +164,11 @@ export function isPluralityResult(result = {}, { bundle = null, entry = null } =
   return PLURALITY_SYSTEMS.includes(votingSystem);
 }
 
-/** Every result is plurality (and there is at least one). */
+/**
+ * Every result is plurality (and there is at least one).
+ * @param {ElectionResult[]} [results]
+ * @param {ElectionContext} [context]
+ */
 export function isPluralityElection(results = [], context = {}) {
   return results.length > 0 && results.every((result) => isPluralityResult(result, context));
 }
@@ -186,10 +250,14 @@ export function isReferendumElection(result = null, { bundle = null, entry = nul
 // ---------------------------------------------------------------------------------------------
 // Referendums
 
-/** Valid poll, total poll, electorate, spoiled and turnout for a referendum result. */
+/**
+ * Valid poll, total poll, electorate, spoiled and turnout for a referendum result.
+ * @param {ElectionResult} [result]
+ * @param {ResultRow[]} [rows]
+ */
 export function referendumStats(result = {}, rows = []) {
-  const countInfo = result?.countInfo || {};
-  const totals = result?.mainLikeTotals || {};
+  const countInfo = /** @type {ResultRow} */ (result?.countInfo || {});
+  const totals = /** @type {ResultRow} */ (result?.mainLikeTotals || {});
   const votesFromRows = rows.reduce((sum, row) => sum + numberOrZero(row.votes ?? row.firstPrefs ?? row.finalVotes ?? row.total), 0);
   const validPoll = finiteNumber(totals.validPoll ?? result.validPoll ?? countInfo.Valid_Poll) ?? (votesFromRows || null);
   const electorate = finiteNumber(totals.totalElectorate ?? result.electorate ?? countInfo.Total_Electorate);
@@ -213,6 +281,9 @@ export function referendumStats(result = {}, rows = []) {
 /**
  * Referendum outcome rows (Yes/No, or the options), elected first then by votes. `roi` is the
  * manager's usesMainRoiPartyPalette() and picks the outcome colours.
+ * @param {ResultRow[]} [sourceRows]
+ * @param {number | null} [validPoll]
+ * @param {boolean} [roi]
  */
 export function referendumOutcomeRows(sourceRows = [], validPoll = null, roi = false) {
   return sourceRows
@@ -244,6 +315,10 @@ export function referendumOutcomeRows(sourceRows = [], validPoll = null, roi = f
  * Party rows with `previous` and `deltas` (stood, seats, votes, share). The previous rows are
  * options.previousRows, else the summary of options.previousResults, else the previous
  * bundle's (its main-like summary when options.mainLike).
+ * @template {PartyRow} R
+ * @param {R[]} [rows]
+ * @param {{ previousRows?: PartyRow[], previousResults?: ElectionResult[], mainLike?: boolean }} [options]
+ * @param {{ previousBundle?: ElectionRecord | null }} [context]
  */
 export function withPartyDeltas(rows = [], options = {}, { previousBundle = /** @type {ElectionRecord | null} */ (null) } = {}) {
   const previousRows = Array.isArray(options.previousRows)
@@ -257,7 +332,7 @@ export function withPartyDeltas(rows = [], options = {}, { previousBundle = /** 
   // election -- has no previous result: its changes are null ("no previous result", shown as
   // an en dash), not a change equal to its whole figure. A party that DID stand and won
   // nothing keeps its real zero, so a gain from it still reads +N.
-  const previousByParty = new Map(previousRows.map((row) => [normalizeName(row.party), row]));
+  const previousByParty = new Map(previousRows.map((row) => /** @type {[string, PartyRow]} */ ([normalizeName(row.party), row])));
   return rows.map((row) => {
     const previous = previousByParty.get(normalizeName(row.party)) || null;
     return {
@@ -300,24 +375,39 @@ export function candidateDeltasEligible(result = {}, { bundle = null, entry = nu
   return true;
 }
 
-/** The area a candidate row stood in, normalised. */
+/**
+ * The area a candidate row stood in, normalised.
+ * @param {ResultRow} [row]
+ * @param {ElectionResult} [result]
+ */
 export function candidateDeltaAreaKey(row = {}, result = {}) {
   return normalizeName(row.constituency || row.area || row.dea || row.district || row.localBody || result?.constituency || result?.matchName || result?.name || '');
 }
 
-/** "name|area": how a candidate is matched with their previous result. */
+/**
+ * "name|area": how a candidate is matched with their previous result.
+ * @param {ResultRow} [row]
+ * @param {ElectionResult} [result]
+ */
 export function candidateDeltaLookupKey(row = {}, result = {}) {
   const name = normalizeName(row.name || row.candidateName || row.candidate || row.Candidate_Name || row.Candidate || '');
   const area = candidateDeltaAreaKey(row, result);
   return [name, area].filter(Boolean).join('|');
 }
 
-/** A candidate's first-preference (or only) vote. */
+/**
+ * A candidate's first-preference (or only) vote.
+ * @param {ResultRow} [row]
+ */
 export function candidateFirstPrefValue(row = {}) {
   return numberOrZero(row.firstPrefs ?? row.votes ?? row.finalVotes ?? row.total ?? row.Total_Votes);
 }
 
-/** A candidate's first-preference share: given, else computed from the result's valid poll. */
+/**
+ * A candidate's first-preference share: given, else computed from the result's valid poll.
+ * @param {ResultRow} [row]
+ * @param {ElectionResult} [result]
+ */
 export function candidateFirstPrefPct(row = {}, result = {}) {
   const explicit = row.firstPrefPct ?? row.votePct ?? row.constPct ?? row.share;
   if (Number.isFinite(Number(explicit))) return Number(explicit);
@@ -326,7 +416,13 @@ export function candidateFirstPrefPct(row = {}, result = {}) {
   return candidateFirstPrefValue(row) / validPoll * 100;
 }
 
-/** `{ previous, deltas }` for one candidate against their previous row. */
+/**
+ * `{ previous, deltas }` for one candidate against their previous row.
+ * @param {ResultRow} [row]
+ * @param {ResultRow | null} [previous]
+ * @param {ElectionResult} [result]
+ * @param {ElectionResult} [previousResult]
+ */
 export function buildCandidateDelta(row = {}, previous = null, result = {}, previousResult = {}) {
   if (!previous) return { previous: null, deltas: null };
   const currentPct = candidateFirstPrefPct(row, result);
@@ -342,6 +438,9 @@ export function buildCandidateDelta(row = {}, previous = null, result = {}, prev
 
 /**
  * Candidate rows with `previous` and `deltas`, matched by name and area.
+ * @template {CandidateRow} R
+ * @param {R[]} [rows]
+ * @param {{ result?: ElectionResult, previousResults?: ElectionResult[], previousRows?: CandidateRow[], mainLike?: boolean }} [options]
  * @param {ElectionContext} [context]
  */
 export function withCandidateDeltas(rows = [], options = {}, context = {}) {
@@ -351,7 +450,7 @@ export function withCandidateDeltas(rows = [], options = {}, context = {}) {
   }
   const previousResultByArea = new Map(
     (Array.isArray(options.previousResults) ? options.previousResults : [])
-      .map((result) => [candidateDeltaAreaKey({}, result), result])
+      .map((result) => /** @type {[string, ElectionResult]} */ ([candidateDeltaAreaKey({}, result), result]))
       .filter(([key]) => key)
   );
   const previousRows = Array.isArray(options.previousRows)
@@ -362,7 +461,7 @@ export function withCandidateDeltas(rows = [], options = {}, context = {}) {
     ? previousBundle.mainLikeCandidateSummary
     : (previousBundle?.results?.length ? buildCandidateSummary(previousBundle.results) : []);
   const previousByCandidate = new Map(previousRows
-    .map((row) => [candidateDeltaLookupKey(row), row])
+    .map((row) => /** @type {[string, CandidateRow]} */ ([candidateDeltaLookupKey(row), row]))
     .filter(([key]) => key));
   return rows.map((row) => {
     const key = candidateDeltaLookupKey(row);
@@ -380,6 +479,8 @@ export function withCandidateDeltas(rows = [], options = {}, context = {}) {
 
 /**
  * Council summary rows with `previous` and `deltas` against the previous bundle's councils.
+ * @param {ReturnType<typeof buildCouncilSummary>} [rows]
+ * @param {{ previousBundle?: ElectionRecord | null }} [context]
  */
 export function withCouncilDeltas(rows = [], { previousBundle = /** @type {ElectionRecord | null} */ (null) } = {}) {
   const previousRows = previousBundle?.results?.length ? buildCouncilSummary(previousBundle.results) : [];
@@ -400,6 +501,9 @@ export function withCouncilDeltas(rows = [], { previousBundle = /** @type {Elect
 
 /**
  * Local party rows (party within area) with `previous` and `deltas`.
+ * @param {LocalPartyRow[]} [rows]
+ * @param {{ previousResults?: ElectionResult[] }} [options]
+ * @param {{ previousBundle?: ElectionRecord | null }} [context]
  */
 export function withLocalPartyDeltas(rows = [], options = {}, { previousBundle = /** @type {ElectionRecord | null} */ (null) } = {}) {
   const previousRows = Array.isArray(options.previousResults)
@@ -428,6 +532,8 @@ export function withLocalPartyDeltas(rows = [], options = {}, { previousBundle =
 
 /**
  * The previous bundle's results for one council.
+ * @param {unknown} councilName
+ * @param {{ previousBundle?: ElectionRecord | null }} [context]
  */
 export function previousResultsForCouncil(councilName, { previousBundle = /** @type {ElectionRecord | null} */ (null) } = {}) {
   const normalized = normalizeName(councilName);
@@ -438,10 +544,16 @@ export function previousResultsForCouncil(councilName, { previousBundle = /** @t
 // ---------------------------------------------------------------------------------------------
 // Summaries
 
-/** One row per party per area: stood, seats, seat share, first preferences and share. */
+/**
+ * One row per party per area: stood, seats, seat share, first preferences and share.
+ * @param {ElectionResult[]} [results]
+ * @returns {LocalPartyRow[]}
+ */
 export function buildLocalPartySummary(results = []) {
+  /** @type {LocalPartyRow[]} */
   const rows = [];
   for (const result of results) {
+    /** @type {Map<unknown, LocalPartyRow>} */
     const byParty = new Map();
     const validPoll = Number(result.validPoll || result.totalVotes || 0);
     for (const candidate of result.candidates || []) {
@@ -452,7 +564,8 @@ export function buildLocalPartySummary(results = []) {
           party,
           constituency: result.constituency || result.matchName || '',
           resultKey: normalizeName(result.matchName || result.constituency || ''),
-          colour: resolvePartyColour(party, candidate.colour, '') || partyColour(party),
+          // The cast is for main's untyped resolvePartyColour (its sourceColour reads as a string); drop it once packages/core is typed (S0).
+          colour: resolvePartyColour(party, /** @type {string | undefined} */ (candidate.colour), '') || partyColour(party),
           stood: 0,
           seats: 0,
           firstPrefs: 0,
@@ -460,7 +573,7 @@ export function buildLocalPartySummary(results = []) {
           share: null
         });
       }
-      const row = byParty.get(key);
+      const row = /** @type {LocalPartyRow} */ (byParty.get(key));
       row.stood += 1;
       row.firstPrefs += Number(candidate.firstPrefs ?? candidate.votes ?? 0) || 0;
       if (candidate.elected) row.seats += 1;
@@ -479,8 +592,12 @@ export function buildLocalPartySummary(results = []) {
   );
 }
 
-/** One row per council: DEAs, seats, valid poll, electorate, the leading party and turnout. */
+/**
+ * One row per council: DEAs, seats, valid poll, electorate, the leading party and turnout.
+ * @param {ElectionResult[]} [results]
+ */
 export function buildCouncilSummary(results = []) {
+  /** @type {Map<unknown, CouncilTotals>} */
   const councils = new Map();
   for (const result of results) {
     const council = result.localBody || 'Unknown council';
@@ -496,7 +613,7 @@ export function buildCouncilSummary(results = []) {
         partyColours: new Map()
       });
     }
-    const row = councils.get(council);
+    const row = /** @type {CouncilTotals} */ (councils.get(council));
     row.deas += 1;
     row.seats += Number(result.seatsWon ?? result.seatsTotal ?? 0) || 0;
     row.validPoll += Number(result.validPoll || result.totalVotes || 0) || 0;
@@ -525,12 +642,19 @@ export function buildCouncilSummary(results = []) {
 // ---------------------------------------------------------------------------------------------
 // STV transfers
 
-/** Counts as sorted unique numbers. */
+/**
+ * Counts as sorted unique numbers.
+ * @param {unknown[]} [countNumbers]
+ */
 export function normalizedCountSequence(countNumbers = []) {
   return [...new Set(countNumbers.map(Number).filter(Number.isFinite))].sort((a, b) => a - b);
 }
 
-/** The count before `count` in a sorted sequence, or null. */
+/**
+ * The count before `count` in a sorted sequence, or null.
+ * @param {unknown[]} countNumbers
+ * @param {unknown} count
+ */
 export function previousSourceCount(countNumbers = [], count) {
   let previous = null;
   for (const candidate of countNumbers) {
@@ -541,7 +665,11 @@ export function previousSourceCount(countNumbers = [], count) {
   return previous;
 }
 
-/** A count after a candidate's terminal transfer shows a dash. */
+/**
+ * A count after a candidate's terminal transfer shows a dash.
+ * @param {unknown} count
+ * @param {unknown} terminalCount
+ */
 export function shouldDashAfterTerminalTransfer(count, terminalCount) {
   return terminalCount !== null && terminalCount !== undefined && Number(count) > Number(terminalCount);
 }
@@ -549,6 +677,12 @@ export function shouldDashAfterTerminalTransfer(count, terminalCount) {
 /**
  * The row to show for a candidate at a count, inferring the transfer out (an exclusion or a
  * surplus) when the source left it out on the count after the event.
+ * @param {StvCandidate} candidate
+ * @param {unknown} count
+ * @param {Map<number, ResultRow>} counts  the candidate's rows by count number
+ * @param {ElectionResult} result
+ * @param {unknown[]} countNumbers
+ * @param {ResultRow | null | undefined} [baseRow]  the candidate's own row at `count`
  */
 export function terminalTransferOutDisplayRow(candidate = {}, count, counts = new Map(), result = {}, countNumbers = [], baseRow = /** @type {{ [field: string]: unknown } | null} */ (null)) {
   const numericCount = Number(count);
@@ -591,10 +725,18 @@ export function terminalTransferOutDisplayRow(candidate = {}, count, counts = ne
   return baseRow || null;
 }
 
-/** The count at which a candidate's votes were all transferred out (excluded, or cut to quota), or null. */
+/**
+ * The count at which a candidate's votes were all transferred out (excluded, or cut to quota), or null.
+ * @param {StvCandidate} [candidate]
+ * @param {Map<number, ResultRow>} [counts]
+ * @param {ElectionResult} [result]
+ * @param {unknown[]} [countNumbers]
+ * @returns {number | null}
+ */
 export function terminalTransferOutCount(candidate = {}, counts = new Map(), result = {}, countNumbers = []) {
   const quota = finiteNumber(result.quota ?? result.Quota ?? result.countInfo?.Quota ?? candidate.quota);
   const rows = normalizedCountSequence(countNumbers.length ? countNumbers : [...counts.keys()]);
+  /** @type {number | null} */
   let terminalCount = null;
 
   rows.forEach((count) => {
@@ -621,10 +763,15 @@ export function terminalTransferOutCount(candidate = {}, counts = new Map(), res
 /**
  * Per count: the non-transferable row (explicit, or inferred from the candidates' transfers)
  * and the denominators transfer shares are taken over (votes received, votes transferred out).
+ * @param {StvResult} [result]
+ * @param {StvCandidate[]} [candidates]
+ * @param {unknown[]} [countNumbers]
  */
 export function buildStvTransferContext(result = {}, candidates = [], countNumbers = []) {
   const explicitNonTransferable = new Map((result.nonTransferable || []).map((row) => [Number(row.count), row]));
+  /** @type {Map<number, { count: number, total: number, transfers: number, inferred: boolean }>} */
   const nonTransferable = new Map();
+  /** @type {Map<number, { positive: number, negativeAbs: number }>} */
   const transferDenominators = new Map();
   let runningNonTransferableTotal = 0;
   const normalizedCountNumbers = normalizedCountSequence(countNumbers);
