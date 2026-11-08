@@ -19,7 +19,9 @@ if (!patchPath) {
   process.exit(2);
 }
 const FILE = 'data/database/maps.json';
+/** @type {import('../../packages/types/index.js').MapCatalogue} */
 const doc = JSON.parse(readFileSync(FILE, 'utf8'));
+/** @type {Record<string, { approximateSegments?: unknown }>} map id -> its approximateSegments */
 const patch = JSON.parse(readFileSync(patchPath, 'utf8'));
 const byId = new Map(doc.maps.map((m) => [m.id, m]));
 const unknown = Object.keys(patch).filter((id) => !byId.has(id));

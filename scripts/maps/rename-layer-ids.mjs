@@ -61,10 +61,13 @@ const OLD = /-(vector|raster|alias)-test(?=(?:-(?:fill|line|label|source|hover|s
 const DELIM = /["'`\s(),=<>[\]{}|]/;
 const TILE_TOKEN = /\/generated\/|\/tiles\/|pmtiles|\{z\}/i;
 
-/** The text with every old suffix renamed, except inside tile keys and URLs; and the count. */
+/**
+ * The text with every old suffix renamed, except inside tile keys and URLs; and the count.
+ * @param {string} text
+ */
 export function renameInText(text) {
   let count = 0;
-  const out = text.replace(OLD, (match, kind, at) => {
+  const out = text.replace(OLD, (match, /** @type {string} */ kind, /** @type {number} */ at) => {
     let a = at;
     while (a > 0 && !DELIM.test(text[a - 1])) a -= 1;
     let b = at + match.length;
@@ -76,14 +79,17 @@ export function renameInText(text) {
   return { text: out, count };
 }
 
-/** A tracked path's new name, or null (only the file name is renamed, never a tile path). */
+/**
+ * A tracked path's new name, or null (only the file name is renamed, never a tile path).
+ * @param {string} rel
+ */
 export function renamedPath(rel) {
   const base = path.posix.basename(rel);
   const { text, count } = renameInText(base);
   return count ? path.posix.join(path.posix.dirname(rel), text) : null;
 }
 
-export const inScope = (rel) => !SKIP_FILES.has(rel) && SCOPE.some((re) => re.test(rel));
+export const inScope = (/** @type {string} */ rel) => !SKIP_FILES.has(rel) && SCOPE.some((re) => re.test(rel));
 
 export function plan(root = ROOT) {
   const files = execFileSync('git', ['ls-files', '-z'], { cwd: root, encoding: 'utf8', maxBuffer: 1 << 28 }).split('\0').filter(Boolean);
