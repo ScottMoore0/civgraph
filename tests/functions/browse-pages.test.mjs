@@ -23,7 +23,7 @@ import {
 import { onRequestGet as notFoundPage } from '../../functions/404.js';
 import { BROWSE_SITEMAP_TYPES, proniRecordUrl, sitemapIndexXml, urlsetXml } from '../../scripts/build/build-sitemap.mjs';
 
-const SHELL = readFileSync('browse/index.html', 'utf8');
+const SHELL = readFileSync('site/browse/index.html', 'utf8');
 
 let passed = 0;
 const failures = [];

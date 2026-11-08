@@ -176,14 +176,14 @@ test('the default view hides printed labels: the column is rendered but hidden b
   assert.match(toggle, /data-printed-labels-toggle/);
   assert.doesNotMatch(toggle, /checked/);
   assert.match(toggle, /Show labels as printed/);
-  for (const [file, cls] of [['assets/css/main.css', 'election-col-printed'], ['browse/browse.css', 'browse-col-printed']]) {
+  for (const [file, cls] of [['site/assets/css/main.css', 'election-col-printed'], ['site/browse/browse.css', 'browse-col-printed']]) {
     const css = read(file).replace(/\r\n/g, '\n');
     assert.match(css, new RegExp(`\\.${cls} \\{\\n  display: none;`), `${file} hides the column by default`);
     assert.match(css, new RegExp(`:root\\[data-show-printed-labels\\] \\.${cls} \\{\\n  display: table-cell;`), `${file} shows it on request`);
   }
   const manager = read('packages/map/app/election-manager.js');
   assert.doesNotMatch(manager, />printed \$\{/, 'no inline "printed X" under the party in the map app');
-  const browse = read('browse/browse.js');
+  const browse = read('site/browse/browse.js');
   assert.doesNotMatch(browse, /partyAsPrintedHtml\(/, 'no inline "printed X" in Browse');
   assert.match(browse, /browse-col-printed/);
 });

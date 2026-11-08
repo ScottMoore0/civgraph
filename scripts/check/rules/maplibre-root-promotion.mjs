@@ -25,10 +25,10 @@ function read(path) {
 // The MapLibre application is at maps/index.html. It was the root until the landing
 // page took that slot; every assertion below is about the page that carries the runtime,
 // so it follows the application rather than the URL. `appHtml` is named for what it is.
-const appHtml = read('maps/index.html');
-const rootServiceWorker = read('sw.js');
+const appHtml = read('site/maps/index.html');
+const rootServiceWorker = read('site/sw.js');
 const appSource = readMapAppSource(); // app.js and the modules split out of it under packages/map/src/app/
-const mainCss = read('assets/css/main.css');
+const mainCss = read('site/assets/css/main.css');
 const test2Css = read('packages/map/app/test2.css');
 const sharedAssetBuilder = read('scripts/build/shell-assets.mjs');
 const packageJson = JSON.parse(read('package.json'));
@@ -37,22 +37,22 @@ const packageJson = JSON.parse(read('package.json'));
 // tag leaflet-main-before-maplibre-root-20260612 still pins the Leaflet main.
 const buildScript = String(packageJson.scripts?.build || '');
 
-assert(appHtml.includes('Root MapLibre shell'), 'maps/index.html must carry the MapLibre marker.');
-assert(appHtml.includes('/app/build/app.bundle.js'), 'maps/index.html must load the MapLibre JS runtime from /app.');
-assert(appHtml.includes('/app/build/app.bundle.css'), 'maps/index.html must load the MapLibre CSS runtime from /app.');
-assert(appHtml.includes('/app/election-viewer-package/css/election-viewer.css'), 'maps/index.html must preserve the election pane CSS under /app.');
-assert(appHtml.includes('id="map"'), 'maps/index.html must contain the MapLibre map container.');
-assert(appHtml.includes('class="app-shell"'), 'maps/index.html must use the production shell structure.');
-assert(appHtml.includes('class="pane pane--info"'), 'maps/index.html must preserve the catalogue pane.');
-assert(appHtml.includes('class="pane pane--map"'), 'maps/index.html must preserve the map pane.');
-assert(appHtml.includes('href="/browse/"'), 'maps/index.html must preserve the Browse navbar route.');
-assert(appHtml.includes('href="/"'), 'maps/index.html must preserve root Home/brand routes.');
-assert(!/(?:src|href)=["']\/build\/app\.bundle\.js/i.test(appHtml), 'maps/index.html must not load the archived Leaflet app bundle.');
-assert(!/leaflet-1\.9\.4/i.test(appHtml), 'maps/index.html must not load the archived Leaflet assets.');
-assert(appHtml.includes('Root service-worker owns production cache'), 'maps/index.html must document root service-worker cache ownership.');
+assert(appHtml.includes('Root MapLibre shell'), 'site/maps/index.html must carry the MapLibre marker.');
+assert(appHtml.includes('/app/build/app.bundle.js'), 'site/maps/index.html must load the MapLibre JS runtime from /app.');
+assert(appHtml.includes('/app/build/app.bundle.css'), 'site/maps/index.html must load the MapLibre CSS runtime from /app.');
+assert(appHtml.includes('/app/election-viewer-package/css/election-viewer.css'), 'site/maps/index.html must preserve the election pane CSS under /app.');
+assert(appHtml.includes('id="map"'), 'site/maps/index.html must contain the MapLibre map container.');
+assert(appHtml.includes('class="app-shell"'), 'site/maps/index.html must use the production shell structure.');
+assert(appHtml.includes('class="pane pane--info"'), 'site/maps/index.html must preserve the catalogue pane.');
+assert(appHtml.includes('class="pane pane--map"'), 'site/maps/index.html must preserve the map pane.');
+assert(appHtml.includes('href="/browse/"'), 'site/maps/index.html must preserve the Browse navbar route.');
+assert(appHtml.includes('href="/"'), 'site/maps/index.html must preserve root Home/brand routes.');
+assert(!/(?:src|href)=["']\/build\/app\.bundle\.js/i.test(appHtml), 'site/maps/index.html must not load the archived Leaflet app bundle.');
+assert(!/leaflet-1\.9\.4/i.test(appHtml), 'site/maps/index.html must not load the archived Leaflet assets.');
+assert(appHtml.includes('Root service-worker owns production cache'), 'site/maps/index.html must document root service-worker cache ownership.');
 
-assert(!existsSync('test2/index.html'), '/test2/ must not serve a page: _redirects sends it to /maps/.');
-assert(!read('test2/sw.js').includes('/app/build/app.bundle.js'), '/test2/sw.js must not cache the live app: it only retires the legacy worker.');
+assert(!existsSync('site/test2/index.html'), '/test2/ must not serve a page: _redirects sends it to /maps/.');
+assert(!read('site/test2/sw.js').includes('/app/build/app.bundle.js'), '/test2/sw.js must not cache the live app: it only retires the legacy worker.');
 
 assert(rootServiceWorker.includes('root-maplibre-sw-'), 'Root service worker must use the MapLibre root cache version.');
 assert(rootServiceWorker.includes('/app/build/app.bundle.js'), 'Root service worker must handle the MapLibre runtime entry.');
@@ -85,8 +85,8 @@ assert(
 );
 assert(!existsSync('scripts/bundle.mjs'), 'Retired mixed Leaflet/CSS bundle script must stay archived outside scripts/.');
 assert(
-  sharedAssetBuilder.includes('assets/css/main.css') &&
-    sharedAssetBuilder.includes('assets/thumbnails'),
+  sharedAssetBuilder.includes('site/assets/css/main.css') &&
+    sharedAssetBuilder.includes('site/assets/thumbnails'),
   'Shared asset builder must own the root CSS and thumbnail manifest pipeline.'
 );
 assert(

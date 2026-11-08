@@ -27,11 +27,11 @@ import path from 'node:path';
 import { electionManagerSourceFiles, mapAppSourceFiles } from '../lib/map-app-source.mjs';
 
 export const SURFACES = {
-  chrome: ['functions/_templates/shell.js', 'partials/browse-shell.html', 'assets/site/site-chrome.js'],
-  pages: ['index.html', 'pages/about.html', 'pages/census-explorer.html', 'pages/status.html', 'apps/index.html', 'maps/index.html', '404.html', 'offline.html', 'assets/pages/js/06-fallback-shell.js', 'assets/pages/js/07-fallback-stats.js'],
+  chrome: ['functions/_templates/shell.js', 'site/partials/browse-shell.html', 'site/assets/site/site-chrome.js'],
+  pages: ['site/index.html', 'site/pages/about.html', 'site/pages/census-explorer.html', 'site/pages/status.html', 'site/apps/index.html', 'site/maps/index.html', 'site/404.html', 'site/offline.html', 'site/assets/pages/js/06-fallback-shell.js', 'site/assets/pages/js/07-fallback-stats.js'],
   catalogue: ['src/catalogue/index.js', 'src/catalogue/view-maps.js', 'src/catalogue/view-elections.js', 'src/catalogue/view-books.js', 'src/catalogue/search.js', 'src/catalogue/menu.js', 'src/catalogue/split.js', 'src/catalogue/slider.js', 'src/catalogue/edit.js', 'src/catalogue/geocoder.js', 'src/catalogue/util.js'],
   app: [...mapAppSourceFiles(), 'packages/map/app/boot.js', ...electionManagerSourceFiles(), 'packages/map/app/maplibre-main-adapter.js', 'src/ui-controller.js', 'src/entity-detail-data.mjs', 'src/election-renderer.mjs', 'packages/core/src/election-view-model.mjs', 'src/election-trend-chart.mjs', 'src/feature-loader.js'],
-  browse: ['browse/browse.js']
+  browse: ['site/browse/browse.js']
 };
 
 const WORD = /[A-Za-z]{2,}/;
@@ -146,7 +146,7 @@ if (import.meta.url === `file://${process.argv[1].replace(/\\/g, '/')}` || proce
   for (const e of list) for (const s of e.surfaces) bySurface[s] = (bySurface[s] || 0) + 1;
   console.log(`${list.length} candidate strings`, bySurface);
   if (process.argv.includes('--missing')) {
-    const en = JSON.parse(readFileSync('assets/i18n/en.json', 'utf8'));
+    const en = JSON.parse(readFileSync('site/assets/i18n/en.json', 'utf8'));
     const known = new Set(Object.values(en.strings || {}));
     // Map, series and election-body names are translated through the names overlay, not en.json.
     /** @type {import('../../packages/types/index.js').MapEntry[]} */

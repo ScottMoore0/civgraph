@@ -27,7 +27,7 @@ const args = process.argv.slice(2);
 const opt = (name) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : null; };
 const META = opt('--meta') || process.env.WORDS_META;
 const CHECK = args.includes('--check');
-const OUT = 'apps/words/parties.json';
+const OUT = 'site/apps/words/parties.json';
 
 if (!META || !existsSync(META)) {
   console.error('Usage: node scripts/build/words-parties.mjs --meta <counts/static/meta.json> [--check]');

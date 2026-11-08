@@ -17,7 +17,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '.
 const CDN = /^https:\/\/(?:unpkg\.com|cdn\.jsdelivr\.net\/npm)\//;
 
 function vendorRules() {
-  return readFileSync(path.join(ROOT, '_redirects'), 'utf8')
+  return readFileSync(path.join(ROOT, 'site/_redirects'), 'utf8')
     .split('\n')
     .map((line) => line.trim())
     .filter((line) => line && !line.startsWith('#'))

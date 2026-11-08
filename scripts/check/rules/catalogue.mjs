@@ -33,7 +33,7 @@ const read = (p) => JSON.parse(readFileSync(path.join(ROOT, p), 'utf8'));
 const source = read('data/catalogue/catalogue.source.json');
 const built = read('data/catalogue/catalogue.json');
 const { records: mapById } = loadRecords(ROOT);
-const thumbs = new Set(read('assets/thumbnails/manifest.json'));
+const thumbs = new Set(read('site/assets/thumbnails/manifest.json'));
 const layerIds = new Set((read('render/metadata/maps-test-index.json').layers || []).flatMap((l) => [l.id, l.sourceMapId].filter(Boolean)));
 
 const errors = [];

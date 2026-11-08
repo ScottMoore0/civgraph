@@ -6,7 +6,7 @@ const SPATIAL_INDEX = path.join(ROOT, 'data/database/spatial-index.json');
 const MAPS_PATH = path.join(ROOT, 'data/database/maps.json');
 const OUT_DIR = path.join(ROOT, 'data/database/feature-thumbnails');
 const MANIFEST_PATH = path.join(OUT_DIR, '_manifest.json');
-const DEFAULT_RENDERED_ROOT = path.join(ROOT, 'assets/thumbnails/features');
+const DEFAULT_RENDERED_ROOT = path.join(ROOT, 'site/assets/thumbnails/features');
 const RENDERED_ROOT = path.resolve(ROOT, process.env.FEATURE_THUMBNAIL_RENDERED_ROOT || DEFAULT_RENDERED_ROOT);
 const PUBLIC_BASE = normalisePublicBase(process.env.FEATURE_THUMBNAIL_PUBLIC_BASE || 'assets/thumbnails/features');
 const RENDERED_REGISTRY_PATH = process.env.FEATURE_THUMBNAIL_RENDERED_REGISTRY
@@ -183,7 +183,8 @@ const manifest = {
   strategy: 'manifest-backed-feature-thumbnails',
   thumbnailIdAlgorithm: 'fnv1a32(mapId|featureName|bbox8)',
   fallback: 'bbox-locator',
-  renderedAssetRoot: path.relative(ROOT, RENDERED_ROOT).replace(/\\/g, '/') || '.',
+  // As served: the site's files are in site/, which is the served root (8 Nov 2026).
+  renderedAssetRoot: path.relative(ROOT, RENDERED_ROOT).replace(/\\/g, '/').replace(/^site\//, '') || '.',
   renderedAssetPublicBase: PUBLIC_BASE,
   renderedAssetRegistry: fs.existsSync(RENDERED_REGISTRY_PATH) ? path.relative(ROOT, RENDERED_REGISTRY_PATH).replace(/\\/g, '/') : null,
   note: 'Search uses rendered feature thumbnail URLs only when listed in this manifest. Otherwise it falls back to deterministic bbox locator SVGs, avoiding missing-thumbnail request churn and map-layer loads during typing.',

@@ -37,7 +37,7 @@ export const MAP_SOURCES = {
     'catalogue/catalogue.json': 'data/catalogue/catalogue.json',
     'catalogue/places.json': 'data/catalogue/places.json',
     'catalogue/people.json': 'data/catalogue/people.json',
-    'agent/maps-index.json': 'agent/maps-index.json',
+    'agent/maps-index.json': 'site/agent/maps-index.json',
   },
 };
 

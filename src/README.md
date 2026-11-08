@@ -18,7 +18,7 @@ wrong in a way that cost real money in attention:
 The confusion has a specific cause. `js/` **was** the Leaflet stack, and it was
 *renamed* to `src/` in `fb5d246cad` ("Archive the Leaflet stack and rename js/ to
 src/"). Only the genuinely dead parts moved to archive/leaflet/ (out of the repository
-since November 2026: see `docs/ARCHIVE.md`). Everything that
+since November 2026: see `ARCHIVE.md`). Everything that
 stayed is in use. Counted across this directory, Leaflet references: **two**, both
 in `feature-loader.js`.
 

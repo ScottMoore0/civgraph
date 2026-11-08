@@ -52,14 +52,14 @@ test('footer() and supportModal() are the shared landmarks', () => {
 });
 
 test('the static pages carry the shell exactly as shell.js renders it', () => {
-  const browse = read('browse/index.html');
+  const browse = read('site/browse/index.html');
   assert.ok(browse.includes(THEME_BOOTSTRAP));
   assert.ok(browse.includes(String(header({ active: 'browse', skipAlso: [{ href: '#browseResults', label: 'Skip to results' }] }))));
   assert.ok(browse.includes(String(footer())));
-  const maps = read('maps/index.html');
+  const maps = read('site/maps/index.html');
   assert.ok(maps.includes(String(header({ active: 'maps', layout: 'app', skipLink: false }))));
   // The theme bootstrap exists once per page: in the stamped head, nowhere else.
-  for (const rel of ['index.html', 'browse/index.html', 'maps/index.html', 'apps/proni-search/index.html', '404.html']) {
+  for (const rel of ['site/index.html', 'site/browse/index.html', 'site/maps/index.html', 'site/apps/proni-search/index.html', 'site/404.html']) {
     assert.equal(read(rel).split("localStorage.getItem('theme')").length - 1, 1, rel);
   }
 });

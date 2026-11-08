@@ -63,7 +63,7 @@ const CANDIDATE = /`([a-zA-Z0-9_][a-zA-Z0-9_.\-]*\/[a-zA-Z0-9_./\-[\]]*)`/g;
 const ROOTS = new Set([
   'app', 'apps', 'assets', 'browse', 'build', 'data', 'docs',
   'functions', 'pages', 'partials', 'scripts', 'src', 'test', 'tests', 'tasks',
-  'agent', 'analysis', '.github',
+  'agent', 'analysis', '.github', 'site', 'config',
 ]);
 
 /**

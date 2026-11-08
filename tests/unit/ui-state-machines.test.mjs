@@ -15,9 +15,9 @@ import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
-import * as browse from '../../browse/state-machines.js';
-import * as proni from '../../apps/proni-search/state-machines.js';
-import * as words from '../../apps/words/state-machines.js';
+import * as browse from '../../site/browse/state-machines.js';
+import * as proni from '../../site/apps/proni-search/state-machines.js';
+import * as words from '../../site/apps/words/state-machines.js';
 import { THEME_PREFERENCE } from '../../packages/ui/assets/state/theme.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');

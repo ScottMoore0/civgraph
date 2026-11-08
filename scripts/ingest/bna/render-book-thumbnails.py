@@ -19,7 +19,7 @@ import requests
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..'))
-THUMBS = os.path.join(ROOT, 'assets', 'thumbnails')
+THUMBS = os.path.join(ROOT, 'site', 'assets', 'thumbnails')
 CACHE = os.path.join(ROOT, '.cache', 'book-pdfs')
 W, H = 150, 215
 # Serif faces from the system: Windows' Fonts folder, else the usual Linux and macOS ones.

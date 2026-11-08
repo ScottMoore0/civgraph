@@ -9,7 +9,7 @@ import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync,
 import path from 'node:path';
 
 const APP_BASE = '/app';
-const BUILD_DIR = 'app/build';
+const BUILD_DIR = 'site/app/build';
 const ENTRY_JS = `${BUILD_DIR}/app.bundle.js`;
 const ENTRY_CSS = `${BUILD_DIR}/app.bundle.css`;
 
@@ -49,7 +49,7 @@ const metadataIndexVersion = createHash('sha256')
 // deploy changed it, and a stages.css 43 days old. The files are copied first so their
 // hashes exist when the bundle that requests them is built.
 const viewerAssetVersions = Object.fromEntries(
-  copyAnimationRuntimeAssets().map((target) => [`/${target}`, contentHash(target)])
+  copyAnimationRuntimeAssets().map((target) => [`/${target.replace(/^site\//, '')}`, contentHash(target)])
 );
 
 const result = await esbuild.build({
@@ -86,7 +86,8 @@ if (result.errors.length) process.exit(1);
 
 // Persist the metafile: build-third-party-notices.mjs reads it to determine what
 // actually landed in the bundle, which is not the same as the dependency list.
-writeFileSync(`${BUILD_DIR}/metafile.json`, JSON.stringify(result.metafile, null, 2));
+// Output paths are written as served (app/build/...): site/ is the served root (8 Nov 2026).
+writeFileSync(`${BUILD_DIR}/metafile.json`, JSON.stringify(result.metafile, null, 2).replaceAll('"site/app/build/', '"app/build/'));
 
 if (!emitSourceMaps) {
   for (const outputPath of outputFiles(BUILD_DIR)) {
@@ -135,7 +136,7 @@ function contentHash(file) {
 function updateHtmlVersions(jsVersion, cssVersion, viewerAssetVersions) {
   // maps/index.html is the MapLibre app since the landing page took the root. Only
   // index.html was stamped, and it loads none of these, so the app's tokens had frozen.
-  for (const htmlPath of ['index.html', 'maps/index.html']) {
+  for (const htmlPath of ['site/index.html', 'site/maps/index.html']) {
     if (!existsSync(htmlPath)) continue;
     let html = readFileSync(htmlPath, 'utf8')
       .replace(/\/(?:test2\/)?build\/test2\.bundle\.js\?v=[^"']+/g, `${APP_BASE}/build/app.bundle.js?v=${jsVersion}`)
@@ -158,7 +159,7 @@ function updateHtmlVersions(jsVersion, cssVersion, viewerAssetVersions) {
 //                    switch is reverted (git tag maps-classic-2026-10-12 is the last commit that
 //                    served it at /maps).
 function writeCatalogueTestPage() {
-  const source = 'maps/index.html';
+  const source = 'site/maps/index.html';
   if (!existsSync(source)) return;
   const base = readFileSync(source, 'utf8');
   const page = (dir, flag) => {
@@ -166,15 +167,15 @@ function writeCatalogueTestPage() {
       .replace(/<head>/i, `<head>\n  <meta name="robots" content="noindex, nofollow">\n  <script>window.CIVGRAPH_CATALOGUE = '${flag}';</script>`)
       .replace('<meta property="og:url" content="https://civgraph.net/maps/">', `<meta property="og:url" content="https://civgraph.net/maps/${dir}/">`)
       .replace('<link rel="canonical" href="https://civgraph.net/maps/">', `<link rel="canonical" href="https://civgraph.net/maps/${dir}/">`);
-    if (!html.includes(`window.CIVGRAPH_CATALOGUE = '${flag}'`)) throw new Error(`maps/${dir}: could not set the catalogue switch`);
-    mkdirSync(`maps/${dir}`, { recursive: true });
-    writeFileSync(`maps/${dir}/index.html`, html);
+    if (!html.includes(`window.CIVGRAPH_CATALOGUE = '${flag}'`)) throw new Error(`site/maps/${dir}: could not set the catalogue switch`);
+    mkdirSync(`site/maps/${dir}`, { recursive: true });
+    writeFileSync(`site/maps/${dir}/index.html`, html);
   };
   page('classic', 'classic');
 }
 
 function updateServiceWorkerVersion(jsVersion) {
-  const swPath = 'sw.js';
+  const swPath = 'site/sw.js';
   if (!existsSync(swPath)) return;
   const nextVersion = `root-maplibre-sw-${jsVersion}`;
   const source = readFileSync(swPath, 'utf8');
@@ -187,7 +188,7 @@ function updateServiceWorkerVersion(jsVersion) {
 
 function copyAnimationRuntimeAssets() {
   const assets = [
-    ['src/jquery-shim.js', 'app/js/jquery-shim.js'],
+    ['src/jquery-shim.js', 'site/app/js/jquery-shim.js'],
     // packages/map/app/app.js loads this at runtime via
     // loadClassicScript('/app/js/libs/flatgeobuf-geojson.min.js', 'flatgeobuf'),
     // but it was never copied here, so that path did not exist in the deploy.
@@ -195,13 +196,13 @@ function copyAnimationRuntimeAssets() {
     // and `x-content-type-options: nosniff` made the browser refuse to execute
     // the HTML as a script -- so every FlatGeobuf layer load failed while the
     // URL still looked healthy to anything checking status codes.
-    ['src/libs/flatgeobuf-geojson.min.js', 'app/js/libs/flatgeobuf-geojson.min.js'],
-    ['data/elections-source/js/stages2.js', 'app/election-viewer-package/js/stages2.js'],
-    ['data/elections-source/js/animation_preview.js', 'app/election-viewer-package/js/animation_preview.js'],
-    ['data/elections-source/js/animation_preview_manager.js', 'app/election-viewer-package/js/animation_preview_manager.js'],
-    ['data/elections-source/js/election_viewer.js', 'app/election-viewer-package/js/election_viewer.js'],
-    ['data/elections-source/css/stages.css', 'app/election-viewer-package/css/stages.css'],
-    ['data/elections-source/css/election-viewer.css', 'app/election-viewer-package/css/election-viewer.css']
+    ['src/libs/flatgeobuf-geojson.min.js', 'site/app/js/libs/flatgeobuf-geojson.min.js'],
+    ['data/elections-source/js/stages2.js', 'site/app/election-viewer-package/js/stages2.js'],
+    ['data/elections-source/js/animation_preview.js', 'site/app/election-viewer-package/js/animation_preview.js'],
+    ['data/elections-source/js/animation_preview_manager.js', 'site/app/election-viewer-package/js/animation_preview_manager.js'],
+    ['data/elections-source/js/election_viewer.js', 'site/app/election-viewer-package/js/election_viewer.js'],
+    ['data/elections-source/css/stages.css', 'site/app/election-viewer-package/css/stages.css'],
+    ['data/elections-source/css/election-viewer.css', 'site/app/election-viewer-package/css/election-viewer.css']
   ];
   for (const [source, target] of assets) {
     if (!existsSync(source)) {

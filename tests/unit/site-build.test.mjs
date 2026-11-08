@@ -6,10 +6,11 @@ import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { MAX_FILES, isSiteFile, siteFiles } from '../../scripts/build/site.mjs';
+import { MAX_FILES, isSiteFile, siteFiles, sourceOf } from '../../scripts/build/site.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
-const read = (rel) => readFileSync(path.join(ROOT, rel), 'utf8');
+// Served paths; sourceOf() gives the repository file (site/ since 8 Nov 2026).
+const read = (rel) => readFileSync(path.join(ROOT, sourceOf(rel)), 'utf8');
 const routes = JSON.parse(read('_routes.json')).include;
 const byFunction = (p) => routes.some((r) => (r.endsWith('/*') ? p.startsWith(r.slice(0, -1)) : p === r));
 
@@ -43,7 +44,7 @@ test('the tracked site fits the 18,500-file guardrail and has no file over 25 Mi
 
 test('every local file the pages, the service worker and llms.txt name is published or a Function route', () => {
   const pages = ['index.html', '404.html', 'offline.html', 'maps/index.html', 'browse/index.html', 'catalogue/index.html',
-    'records/index.html', 'apps/proni-search/index.html'].filter((f) => existsSync(path.join(ROOT, f)));
+    'records/index.html', 'apps/proni-search/index.html'].filter((f) => existsSync(path.join(ROOT, sourceOf(f))));
   const refs = new Set();
   for (const page of pages) {
     for (const m of read(page).matchAll(/(?:src|href)="(\/[^"?#]+\.[a-z0-9]+)(?:[?#][^"]*)?"/gi)) refs.add(m[1]);

@@ -30,11 +30,11 @@ export default [
     ignores: [
       '**/node_modules/**',
       '.claude/**',
-      'app/build/**',
+      'site/app/build/**',
       'archive/**',                        // left the repository (docs/ARCHIVE.md); ignored so a
                                            // temporarily restored copy is never linted.
       'data/elections-source/**',
-      'app/election-viewer-package/**',
+      'site/app/election-viewer-package/**',
       'synth-osm/**',
       'tmp/**',
       'test-results/**',
@@ -48,7 +48,7 @@ export default [
     files: [
       'packages/map/app/**/*.js',
       'src/**/*.js',
-      'browse/**/*.js',
+      'site/browse/**/*.js',
       'functions/**/*.js',
       'packages/**/*.js',
     ],

@@ -29,16 +29,16 @@ const noBrowser = args.includes('--no-browser');
 
 // Outputs the builds themselves write: a change here says nothing about what to rebuild.
 const GENERATED = [
-  /^app\/build\//, /^(maps\/(classic\/)?)?index\.html$/,
-  /^agent\//, /^data\/catalogue\//, /^data\/browse\//, /^data\/graph\//,
+  /^site\/app\/build\//, /^site\/(maps\/(classic\/)?)?index\.html$/,
+  /^site\/agent\//, /^data\/catalogue\//, /^data\/browse\//, /^data\/graph\//,
   /^data\/database\/(corpus-index|election-provenance|site-stats|status)\.json$/,
   /^data\/database\/[a-z-]+-d1-import\.sql$/, /^data\/database\/elections-schema\.sql$/,
-  /^functions\/_api\/_public-prefixes\.js$/, /^render\/metadata\//, /^pages\/(about|status)\.html$/,
-  /^app\/election-viewer-package\/(css|js)\//, /^app\/js\//, /^sitemap\.xml$/, /^sitemaps\//
+  /^functions\/_api\/_public-prefixes\.js$/, /^render\/metadata\//, /^site\/pages\/(about|status)\.html$/,
+  /^site\/app\/election-viewer-package\/(css|js)\//, /^site\/app\/js\//, /^site\/sitemap\.xml$/, /^site\/sitemaps\//
 ];
 const APP = [
-  /^app\/src\//, /^src\/[^/]+\.(js|css)$/, /^src\/map\//, /^render\/src\//, /^sw\.js$/,
-  /^assets\/(css|site|js)\//, /^tests\//, /^scripts\/check\/run\.mjs$/, /^scripts\/build\/rebuild-changed\.mjs$/,
+  /^packages\/map\/app\//, /^src\/[^/]+\.(js|css)$/, /^src\/map\//, /^render\/src\//, /^site\/sw\.js$/,
+  /^site\/assets\/(css|site|js)\//, /^tests\//, /^scripts\/check\/run\.mjs$/, /^scripts\/build\/rebuild-changed\.mjs$/,
   // The check machinery itself (CHECKS.md): CI, the clean-export harness, the test server.
   /^\.github\/workflows\//, /^CHECKS\.md$/, /^scripts\/check\/(rules\/ci-workflow|clean)\.mjs$/, /^scripts\/dev\/test-server\.py$/
 ];
@@ -92,14 +92,14 @@ if (mode === 'app') {
   // status page and site figures.
   plan.push(['npm', ['run', '-s', 'build:local-artefacts']]);
   // --apply takes one page; passing both stamped only the homepage and left About stale.
-  plan.push(['node', ['scripts/build/build-site-stats.mjs', '--apply', 'index.html']]);
-  plan.push(['node', ['scripts/build/build-site-stats.mjs', '--apply', 'pages/about.html']]);
+  plan.push(['node', ['scripts/build/build-site-stats.mjs', '--apply', 'site/index.html']]);
+  plan.push(['node', ['scripts/build/build-site-stats.mjs', '--apply', 'site/pages/about.html']]);
   plan.push(['node', ['scripts/check/run.mjs']]);
   plan.push(['npm', ['run', '-s', 'test:catalogue']]);
 }
 // Through node, not npx: on Windows npx needs a shell, and the shell reads the | in the -g
 // pattern as a pipe.
-if (mode !== 'none' && !noBrowser) plan.push(['node', ['node_modules/@playwright/test/cli.js', 'test', ...BROWSER_TESTS]]);
+if (mode !== 'none' && !noBrowser) plan.push(['node', ['node_modules/@playwright/test/cli.js', 'test', '--config', 'config/playwright.config.cjs', ...BROWSER_TESTS]]);
 
 console.log(`changed: ${changed.length} file(s), ${meaningful.length} not build output -> ${mode}${electionData ? ' (election data: person ids re-stamped)' : ''}`);
 for (const file of meaningful.slice(0, 12)) console.log(`  ${file}`);

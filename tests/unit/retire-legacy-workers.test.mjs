@@ -4,6 +4,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
+import { sourceOf } from '../../scripts/build/site.mjs';
 import { RETIRED_WORKER_SCOPES, retireLegacyServiceWorkers } from '../../packages/map/src/app/retire-legacy-workers.mjs';
 
 function registration(scope, { updateFails = false } = {}) {
@@ -39,9 +40,9 @@ test('it never throws: no service worker API, or one that rejects', async () => 
 });
 
 test('the scopes are the ones the kill switch is served for', () => {
-  const redirects = readFileSync('_redirects', 'utf8');
+  const redirects = readFileSync('site/_redirects', 'utf8');
   assert.match(redirects, /^\/test\/sw\.js\s+\/render\/sw\.js\s+200$/m);
   for (const scope of RETIRED_WORKER_SCOPES.filter((s) => s !== '/test/')) {
-    assert.equal(readFileSync(`${scope.slice(1)}sw.js`, 'utf8'), readFileSync('render/sw.js', 'utf8'), scope);
+    assert.equal(readFileSync(sourceOf(`${scope.slice(1)}sw.js`), 'utf8'), readFileSync('render/sw.js', 'utf8'), scope);
   }
 });

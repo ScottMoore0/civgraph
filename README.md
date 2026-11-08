@@ -71,18 +71,22 @@ mislead you.** This section is the canonical layout;
 
 | Path | What it actually is |
 |---|---|
-| `app/` | **the live site** — MapLibre GL. Built bundle in `app/build/`, committed. |
+| `site/` | **everything the site serves from this repository** (since 8 Nov 2026): `site/X` is served at `/X`. The root pages (`index.html`, `404.html`, `sw.js`, `_headers`, `_redirects`, `_routes.json`, …) and the folders below. `scripts/build/site.mjs` copies it into `dist/`. |
+| `site/app/` | **the live site** — MapLibre GL. Built bundle in `site/app/build/` (gitignored; `npm run build` makes it). |
 | `src/` | shared browser modules, served **unbundled**. Live, not legacy. |
 | `src/map/` | the map app's modules: `app/` (the app's methods), `election/` (the election pane's model, data and palette) and `renderer/` (the MapLibre renderer, moved from `render/src/` in November 2026) |
 | `render/sw.js` | the kill switch that retires the old `/render/`, `/test2/` and `/test/` service workers (the legacy `/render/` harness and its `render/src/` were deleted in November 2026) |
 | `render/metadata/` | the render catalogue — see "three stores" below |
 | `tests/` | the Playwright suite |
-| `test2/` | the retired-app kill switch (`test2/sw.js`, the same bytes as `render/sw.js`); `/test2/` itself answers 301 to `/maps/`. Not a directory of tests. |
-| `apps/` | standalone apps (PRONI search). Unrelated to `app/`. |
-| `browse/` | the Browse page — hand-written, no build step |
-| `pages/` | standalone pages (About, Census Explorer) |
+| `site/test2/` | the retired-app kill switch (`site/test2/sw.js`, the same bytes as `render/sw.js`); `/test2/` itself answers 301 to `/maps/`. Not a directory of tests. |
+| `site/apps/` | standalone apps (PRONI search, Words). Unrelated to `site/app/`. |
+| `site/browse/` | the Browse page — hand-written, no build step |
+| `site/pages/` | standalone pages (About, Census Explorer, Status) |
 | `functions/` | Cloudflare Pages Functions |
 | `scripts/` | build, validation and data pipelines — **not deployed** |
+| `packages/` | the workspace packages; `packages/served.json` names the package files served at site paths |
+| `config/` | tool configuration: the `tsconfig.*.json` type checks, `boundaries.json`, `playwright.config.cjs` (run with `--config config/playwright.config.cjs`), `r2-cors.json` |
+| `docs/` | notes, plans and reviews (`docs/tasks/` holds the tracked files of the former root tasks folder) |
 | `data/database/` | the tracked catalogue: `maps.json` and friends |
 | `data/maps/` | geometry, served from **R2**, not from this repository |
 

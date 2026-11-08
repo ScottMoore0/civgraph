@@ -23,7 +23,7 @@ import { migrationFiles, TableWriter, transaction } from '../../packages/loader/
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const read = (rel) => JSON.parse(readFileSync(path.join(ROOT, rel), 'utf8'));
-const SHELL = readFileSync(path.join(ROOT, 'browse', 'index.html'), 'utf8');
+const SHELL = readFileSync(path.join(ROOT, 'site', 'browse', 'index.html'), 'utf8');
 
 // The two by-elections: their election keys, the index name ARK's import code gave them, the
 // area's own name, and the contest file both names point at.
@@ -81,7 +81,7 @@ test('the old contest slugs resolve to the new ones, and nothing else moves', ()
 });
 
 test('browse.js maps the same retired slugs for #/ addresses', () => {
-  const source = readFileSync(path.join(ROOT, 'browse', 'browse.js'), 'utf8');
+  const source = readFileSync(path.join(ROOT, 'site', 'browse', 'browse.js'), 'utf8');
   const block = source.match(/const RENAMED_RECORD_PREFIXES = \[([\s\S]*?)\n\];/);
   assert.ok(block, 'browse.js has RENAMED_RECORD_PREFIXES');
   const pairs = [...block[1].matchAll(/\[\s*'([^']+)',\s*'([^']+)'\s*\]/g)].map((m) => [m[1], m[2]]);
@@ -104,7 +104,7 @@ const RETIRED = new Map([
   ['lisnaskea-rural-district-council-1927-05-25-springfield', 'lisnaskea-rural-district-council-1927-05-25-springtown'],
   ['dungannon-rural-district-council-1936-06-03-bernagh', 'dungannon-rural-district-council-1936-06-03'],
 ]);
-const sitemapSlugs = () => new Set([...readFileSync(path.join(ROOT, 'sitemaps', 'browse-elections.xml'), 'utf8')
+const sitemapSlugs = () => new Set([...readFileSync(path.join(ROOT, 'site', 'sitemaps', 'browse-elections.xml'), 'utf8')
   .matchAll(/<loc>https:\/\/civgraph\.net\/browse\/elections\/([^<]+)<\/loc>/g)].map((m) => m[1]));
 
 // The district electoral areas of the general local elections of 1973-2011 that the index

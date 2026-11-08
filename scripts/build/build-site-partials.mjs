@@ -63,32 +63,32 @@ const SITE_PAGE = ['site:head', 'site:header', 'site:support-modal', 'site:foote
 // three copies of the shell to keep in step -- the failure this mechanism exists to prevent.
 const BROWSE_PAGE = [...SITE_PAGE, 'site:browse-shell'];
 const PAGES = new Map([
-  ['index.html', SITE_PAGE],
-  ['pages/about.html', SITE_PAGE],
-  ['maps/index.html', ['site:head', 'site:header', 'site:support-modal']],
-  ['browse/index.html', BROWSE_PAGE],
-  ['catalogue/index.html', BROWSE_PAGE],
-  ['records/index.html', BROWSE_PAGE],
-  ['apps/index.html', SITE_PAGE],
-  ['apps/words/index.html', SITE_PAGE],
-  ['pages/census-explorer.html', SITE_PAGE],
-  ['pages/status.html', SITE_PAGE],
+  ['site/index.html', SITE_PAGE],
+  ['site/pages/about.html', SITE_PAGE],
+  ['site/maps/index.html', ['site:head', 'site:header', 'site:support-modal']],
+  ['site/browse/index.html', BROWSE_PAGE],
+  ['site/catalogue/index.html', BROWSE_PAGE],
+  ['site/records/index.html', BROWSE_PAGE],
+  ['site/apps/index.html', SITE_PAGE],
+  ['site/apps/words/index.html', SITE_PAGE],
+  ['site/pages/census-explorer.html', SITE_PAGE],
+  ['site/pages/status.html', SITE_PAGE],
   // The 404 is served at any missing path, so it needs the real header (nav and theme toggle)
   // and the saved theme; its bespoke banner had neither and stayed light in dark mode.
-  ['404.html', SITE_PAGE],
+  ['site/404.html', SITE_PAGE],
   // PRONI Search keeps its own title block and notice (proni-header, proni-footer: its look
   // follows the PRONI eCatalogue by design) inside the site shell, like every other app.
-  ['apps/proni-search/index.html', [...SITE_PAGE, 'proni:header', 'proni:footer']],
+  ['site/apps/proni-search/index.html', [...SITE_PAGE, 'proni:header', 'proni:footer']],
 ]);
 
 /** HTML files in the repository that are deliberately not shell pages, and why. Any other
  *  page must be in PAGES: a new page cannot ship without the shared header, footer and tokens. */
 const SHELL_EXEMPT = new Map([
-  ['maps/classic/index.html', 'written from maps/index.html by scripts/build/app-bundle.mjs, shell included'],
-  ['offline.html', 'served by the service worker with no network: self-contained by design, no stylesheet links'],
-  ['partials/browse-shell.html', 'a fragment stamped into the Browse pages'],
-  ['partials/proni-header.html', 'a fragment stamped into PRONI Search'],
-  ['partials/proni-footer.html', 'a fragment stamped into PRONI Search'],
+  ['site/maps/classic/index.html', 'written from maps/index.html by scripts/build/app-bundle.mjs, shell included'],
+  ['site/offline.html', 'served by the service worker with no network: self-contained by design, no stylesheet links'],
+  ['site/partials/browse-shell.html', 'a fragment stamped into the Browse pages'],
+  ['site/partials/proni-header.html', 'a fragment stamped into PRONI Search'],
+  ['site/partials/proni-footer.html', 'a fragment stamped into PRONI Search'],
 ]);
 const NOT_PUBLIC = /^(archive|analysis|docs|tests|tools|scripts|data|node_modules)\//;
 
@@ -109,9 +109,9 @@ const SHELL_REGIONS = {
 };
 
 const PARTIAL_FILES = {
-  'site:browse-shell': 'partials/browse-shell.html',
-  'proni:header': 'partials/proni-header.html',
-  'proni:footer': 'partials/proni-footer.html',
+  'site:browse-shell': 'site/partials/browse-shell.html',
+  'proni:header': 'site/partials/proni-header.html',
+  'proni:footer': 'site/partials/proni-footer.html',
 };
 
 const NAV_KEYS = new Set(['home', 'maps', 'browse', 'apps', 'about', 'none']);

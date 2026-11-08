@@ -81,7 +81,7 @@ test('the v1 index lists every route with its legacy path; _routes.json routes /
   assert.equal(doc.version, 'v1');
   assert.deepEqual(doc.endpoints.map((e) => e.path), Object.keys(ROUTES).map((k) => `${PREFIX}/${k}`));
   for (const e of doc.endpoints) assert.ok(e.legacy.startsWith('/_api/') && e.summary);
-  const routes = JSON.parse(readFileSync(path.join(REPO_ROOT, '_routes.json'), 'utf8'));
+  const routes = JSON.parse(readFileSync(path.join(REPO_ROOT, 'site/_routes.json'), 'utf8'));
   assert.ok(routes.include.includes('/api/*'));
   for (const url of ['/api/v1', '/api/v1/']) {
     const res = await apiRoute.onRequest(ctx(url));

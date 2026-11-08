@@ -32,8 +32,8 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
-const METAFILE = path.join(ROOT, 'app/build/metafile.json');
-const OUT = path.join(ROOT, 'app/build/THIRD-PARTY-NOTICES.txt');
+const METAFILE = path.join(ROOT, 'site/app/build/metafile.json');
+const OUT = path.join(ROOT, 'site/app/build/THIRD-PARTY-NOTICES.txt');
 const CHECK = process.argv.includes('--check');
 
 if (!existsSync(METAFILE)) {

@@ -2,9 +2,11 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { writeStableGeneratedJson } from '../lib/stable-generated-json.mjs';
+// Paths here are served paths; sourceOf() gives the repository file (site/, packages, data dirs).
+import { sourceOf } from './site.mjs';
 
 const ROOT = resolve(process.cwd());
-const OUT_PATH = resolve(ROOT, 'app/build/performance-dashboard.json');
+const OUT_PATH = resolve(ROOT, sourceOf('app/build/performance-dashboard.json'));
 const VALIDATE = process.argv.includes('--validate');
 const BUDGETS = {
   entryJsBytes: Number(process.env.TEST2_BUDGET_ENTRY_JS || 80 * 1024),
@@ -61,7 +63,7 @@ const report = {
   checks
 };
 
-mkdirSync(resolve(ROOT, 'app/build'), { recursive: true });
+mkdirSync(resolve(ROOT, sourceOf('app/build')), { recursive: true });
 writeStableGeneratedJson(OUT_PATH, report);
 console.log('Civgraph /test2 Performance Dashboard');
 console.log(`- output: app/build/performance-dashboard.json`);
@@ -74,7 +76,7 @@ for (const check of checks) {
 if (VALIDATE && failed) process.exit(1);
 
 function fileBudget(name, relativePath, maxBytes, options = {}) {
-  const fullPath = resolve(ROOT, relativePath);
+  const fullPath = resolve(ROOT, sourceOf(relativePath));
   if (!existsSync(fullPath)) {
     return { name, status: 'fail', value: 0, maxBytes, valueLabel: 'missing', path: relativePath };
   }
@@ -92,7 +94,7 @@ function fileBudget(name, relativePath, maxBytes, options = {}) {
 }
 
 function sumBudget(name, relativeDir, predicate, maxBytes) {
-  const fullDir = resolve(ROOT, relativeDir);
+  const fullDir = resolve(ROOT, sourceOf(relativeDir));
   if (!existsSync(fullDir)) return { name, status: 'pass', value: 0, maxBytes, valueLabel: `0 B / ${formatBytes(maxBytes)}`, path: relativeDir };
   const files = readdirSync(fullDir, { withFileTypes: true })
     .filter((entry) => entry.isFile() && predicate(entry.name))
@@ -123,7 +125,7 @@ function largestChunkBudget(name, relativeDir, maxBytes) {
 }
 
 function splitRuntimeCheck() {
-  const entryPath = resolve(ROOT, 'app/build/app.bundle.js');
+  const entryPath = resolve(ROOT, sourceOf('app/build/app.bundle.js'));
   const chunks = listFiles('app/build/chunks', (entryName) => entryName.endsWith('.js'));
   const entry = existsSync(entryPath) ? readFileSync(entryPath, 'utf8') : '';
   const hasDynamicImport = /import\(["'][./]*chunks\//.test(entry) || /import\(`\.\/chunks\//.test(entry);
@@ -160,7 +162,7 @@ function buildAssetInventory() {
 }
 
 function fileInfo(relativePath) {
-  const fullPath = resolve(ROOT, relativePath);
+  const fullPath = resolve(ROOT, sourceOf(relativePath));
   if (!existsSync(fullPath)) return null;
   const bytes = statSync(fullPath).size;
   return {
@@ -172,13 +174,13 @@ function fileInfo(relativePath) {
 }
 
 function listFiles(relativeDir, predicate) {
-  const fullDir = resolve(ROOT, relativeDir);
+  const fullDir = resolve(ROOT, sourceOf(relativeDir));
   if (!existsSync(fullDir)) return [];
   return readdirSync(fullDir, { withFileTypes: true })
     .filter((entry) => entry.isFile() && predicate(entry.name))
     .map((entry) => {
       const relativePath = `${relativeDir}/${entry.name}`;
-      const bytes = statSync(resolve(ROOT, relativePath)).size;
+      const bytes = statSync(resolve(ROOT, sourceOf(relativePath))).size;
       return {
         name: entry.name,
         path: relativePath,
@@ -190,7 +192,7 @@ function listFiles(relativeDir, predicate) {
 }
 
 function existsCheck(name, relativePath) {
-  const ok = existsSync(resolve(ROOT, relativePath));
+  const ok = existsSync(resolve(ROOT, sourceOf(relativePath)));
   return {
     name,
     status: ok ? 'pass' : 'fail',
@@ -213,7 +215,7 @@ function sourceMapCheck() {
 }
 
 function pmtilesCoverageCheck() {
-  const metadataPath = resolve(ROOT, 'render/metadata/maps-test-index.json');
+  const metadataPath = resolve(ROOT, sourceOf('render/metadata/maps-test-index.json'));
   if (!existsSync(metadataPath)) return { name: 'PMTiles metadata coverage', status: 'fail', value: 0, valueLabel: 'metadata missing' };
   const metadata = JSON.parse(readFileSync(metadataPath, 'utf8'));
   const layers = Array.isArray(metadata.layers) ? metadata.layers : [];
@@ -229,7 +231,7 @@ function pmtilesCoverageCheck() {
 }
 
 function countFiles(relativeDir, predicate) {
-  const fullDir = resolve(ROOT, relativeDir);
+  const fullDir = resolve(ROOT, sourceOf(relativeDir));
   if (!existsSync(fullDir)) return 0;
   let count = 0;
   for (const entry of readdirSync(fullDir, { withFileTypes: true })) {

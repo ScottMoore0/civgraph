@@ -26,5 +26,5 @@ export const SPECS = [
 
 const env = { ...process.env, PARITY_BASE_URL: process.env.PARITY_BASE_URL || SITE.origin };
 console.log(`verify:browser against ${env.PARITY_BASE_URL}`);
-const res = spawnSync(process.execPath, [path.join(ROOT, 'node_modules/@playwright/test/cli.js'), 'test', '--retries', '2', ...SPECS, ...process.argv.slice(2)], { cwd: ROOT, env, stdio: 'inherit' });
+const res = spawnSync(process.execPath, [path.join(ROOT, 'node_modules/@playwright/test/cli.js'), 'test', '--config', path.join(ROOT, 'config', 'playwright.config.cjs'), '--retries', '2', ...SPECS, ...process.argv.slice(2)], { cwd: ROOT, env, stdio: 'inherit' });
 process.exitCode = res.status ?? 1;

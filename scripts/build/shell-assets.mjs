@@ -27,7 +27,7 @@ import {
 // maps/index.html is the map app since the landing page took the root. It was left off
 // this list, so its inlined critical CSS froze -- and kept header rules that have since
 // moved to assets/site/site-chrome.css. index.html has no markers and is skipped.
-const HTML_TARGETS = ['index.html', 'maps/index.html'];
+const HTML_TARGETS = ['site/index.html', 'site/maps/index.html'];
 const CSS_BUDGET_BYTES = 230_000;
 
 export function hashFile(filePath, length = 12, salt = '') {
@@ -76,7 +76,7 @@ function serviceWorkerPolicyHash(filePath) {
  * The token written for /build/main.css.
  *
  * SALTED, which is why it cannot be reproduced by hashing the referenced file.
- * The salt folds in `_headers` and the service worker's cache policy, so a change to
+ * The salt folds in `site/_headers` and the service worker's cache policy, so a change to
  * how the stylesheet is delivered busts it too -- either can change that without
  * changing a byte of the stylesheet.
  *
@@ -124,8 +124,8 @@ function writeDeployStamp() {
 
 export function sharedCssVersion() {
   const entryPolicyVersion = [
-    existsSync('_headers') ? hashFile('_headers') : null,
-    existsSync('sw.js') ? serviceWorkerPolicyHash('sw.js') : null
+    existsSync('site/_headers') ? hashFile('site/_headers') : null,
+    existsSync('site/sw.js') ? serviceWorkerPolicyHash('site/sw.js') : null
   ].filter(Boolean).join(':');
   return hashFile('build/main.css', 12, entryPolicyVersion);
 }
@@ -157,7 +157,7 @@ function removeLegacyLeafletBuildOutputs() {
 }
 
 function buildThumbnailManifest() {
-  const thumbnailDir = 'assets/thumbnails';
+  const thumbnailDir = 'site/assets/thumbnails';
   if (!existsSync(thumbnailDir)) return;
 
   let excludedTransparent = new Set();
@@ -182,7 +182,7 @@ function buildThumbnailManifest() {
 }
 
 async function buildMainCss() {
-  const sourcePath = 'assets/css/main.css';
+  const sourcePath = 'site/assets/css/main.css';
   const source = readFileSync(sourcePath, 'utf8');
   const marker = '/* ===CRITICAL-END===';
   const markerIndex = source.indexOf(marker);

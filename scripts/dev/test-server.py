@@ -158,6 +158,10 @@ class Handler(SimpleHTTPRequestHandler):
         built = local_path_for_url(unquote(bare))
         if built and os.path.exists(built):
             return built
+        # The site's own files are in site/ (root tidy, 8 Nov 2026): /X is site/X when site/ has X.
+        top = unquote(bare).lstrip('/').split('/', 1)[0]
+        if top == '' or os.path.exists(os.path.join(REPO, 'site', top)):
+            return super().translate_path('/site/' + path.lstrip('/'))
         return super().translate_path(path)
 
 

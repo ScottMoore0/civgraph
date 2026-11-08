@@ -38,7 +38,7 @@
  * NOT EVERY TOKEN IS A PLAIN CONTENT HASH, WHICH THIS CHECK GOT WRONG FIRST TIME
  *
  * /app/build/* is sha256(file). /build/main.css is NOT: it is salted with
- * `_headers` and `sw.js`, because either can change how the stylesheet is
+ * `site/_headers` and `site/sw.js`, because either can change how the stylesheet is
  * delivered without changing a byte of it. The first version of this validator
  * hashed the file directly, reported main.css as stale, and was right by
  * accident -- it was stale, but not for the reason given, and the same code
@@ -55,8 +55,8 @@ import { createHash } from 'node:crypto';
 import { sharedCssVersion, stripDerivedServiceWorkerVersion } from '../../build/shell-assets.mjs';
 import { sourceOf } from '../../build/site.mjs';
 
-const HTML = 'index.html';
-const SW = 'sw.js';
+const HTML = 'site/index.html';
+const SW = 'site/sw.js';
 
 /** Plain content hash, as build-test2-app.mjs uses for the /app/build entries. */
 function contentHash(file) {
@@ -115,7 +115,7 @@ for (const [, assetPath, token] of html.matchAll(REFERENCE)) {
 // service worker keeps serving the previous shell no matter what index.html says
 // -- so it is checked against the bundle, not against index.html.
 if (existsSync(SW)) {
-  const bundle = 'app/build/app.bundle.js';
+  const bundle = 'site/app/build/app.bundle.js';
   const match = readFileSync(SW, 'utf8').match(/const VERSION\s*=\s*['"]([^'"]+)['"]/);
   if (!match) {
     problems.push(`${SW}: no VERSION constant found; the build cannot be writing one`);

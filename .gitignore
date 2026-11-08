@@ -18,7 +18,7 @@ _bundle_v2.json
 
 # The MapLibre app bundle (app/build/) is built by npm run build, which Cloudflare Pages runs on
 # every deploy and CI runs before its checks; it is no longer committed (site restructure R1).
-app/build/
+site/app/build/
 
 # IDE
 .idea/
@@ -126,7 +126,7 @@ scripts/extract_spn_llm.py
 BL_*.pdf
 bna_download_links.html
 recovered-election-controller-from-browser.md
-pages/*-mock.html
+site/pages/*-mock.html
 tasks/
 # EXCEPTION, tracked with `git add -f` despite the rule above:
 #   docs/tasks/absence-integration-ready-2026-06-15/publication-approval-pack/
@@ -284,7 +284,7 @@ scripts/_compare_cache/
 /session-ses_*.md
 /.codex-temp-commit/
 /privaterep_refactored/
-app/build/test2-general-parity-report.json
+site/app/build/test2-general-parity-report.json
 
 # Local one-off research/integration scripts. Remove a specific line before
 # promoting that script into the public build or audit toolchain.
@@ -314,7 +314,7 @@ scripts/update-maps-1957-1965.mjs
 data/external/
 
 # Local-only docs
-assets/images/Civgraph proposal.docx
+site/assets/images/Civgraph proposal.docx
 token-discipline-guide.md
 holdings-register.md
 
@@ -330,11 +330,11 @@ drive-download-*.zip
 
 # Rendered feature thumbnails are CDN/R2 artifacts, not Pages repo assets.
 /tmp/feature-thumbnails-rendered/
-assets/thumbnails/features/
+site/assets/thumbnails/features/
 data/database/feature-thumbnails/rendered-assets.local.json
 
 # Local audit/render scratch outputs. Curated files can still be force-added deliberately.
-assets/poster/
+site/assets/poster/
 data/provider-mirror-audit/
 scripts/audit-provider-mirrors.mjs
 scripts/audit-shapefile-site-coverage.mjs

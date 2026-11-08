@@ -3630,9 +3630,9 @@ function compactApprovalSummary(approval) {
   });
 }
 function readThumbnailManifest() {
-  const relPath = path.join('assets', 'thumbnails', 'manifest.json');
+  const relPath = path.join('site', 'assets', 'thumbnails', 'manifest.json');
   const fullPath = path.join(ROOT, relPath);
-  const excluded = readJson('assets/thumbnails/excluded-transparent.json', []);
+  const excluded = readJson('site/assets/thumbnails/excluded-transparent.json', []);
   const excludedIds = new Set(Array.isArray(excluded) ? excluded.map(String) : []);
   if (!existsSync(fullPath)) return new Set();
   try {

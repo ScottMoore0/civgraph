@@ -54,7 +54,7 @@ for (const rel of MIRRORED) {
   // The SERVED copy keeps its original name: app/election-viewer-package/ is what
   // index.html and election-manager.js load, and renaming it would 404 the election
   // viewer in production. Only the SOURCE directory was renamed (2026-08-27).
-  const served = path.join(ROOT, 'app', 'election-viewer-package', rel);
+  const served = path.join(ROOT, 'site', 'app', 'election-viewer-package', rel);
 
   if (!existsSync(source)) {
     problems.push(`missing source copy: data/elections-source/${rel}`);

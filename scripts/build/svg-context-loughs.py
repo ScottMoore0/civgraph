@@ -34,7 +34,7 @@ from shapely.geometry import shape, Polygon, MultiPolygon, LineString, MultiLine
 from shapely.ops import unary_union, linemerge
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-OUT = os.path.join(ROOT, 'assets', 'map', 'context-loughs.json')
+OUT = os.path.join(ROOT, 'site', 'assets', 'map', 'context-loughs.json')
 Q = 10000
 TOL = 0.0006
 MIN_ISLAND = 4e-6   # holes (islands) smaller than this, in square degrees, are dropped

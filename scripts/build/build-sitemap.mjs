@@ -41,6 +41,8 @@ import { SITE as SITE_CONFIG } from '../../packages/config/src/node.mjs';
 const SITE = SITE_CONFIG.origin;
 const OUT_DIR = 'sitemaps';
 const INDEX_FILE = 'sitemap.xml';
+// OUT_DIR and INDEX_FILE are served paths; the files are in site/ (root tidy, 8 Nov 2026).
+const onDisk = (/** @type {string} */ f) => path.join('site', f);
 // --data-root reads the Browse indexes from another checkout (a git worktree has none).
 const dataRootIndex = process.argv.indexOf('--data-root');
 const DATA_ROOT = dataRootIndex >= 0 && process.argv[dataRootIndex + 1] ? process.argv[dataRootIndex + 1] : null;
@@ -154,9 +156,9 @@ function typeFiles(prefix, count) {
 }
 
 function existingFiles(prefix) {
-  if (!existsSync(OUT_DIR)) return [];
+  if (!existsSync(onDisk(OUT_DIR))) return [];
   const pattern = new RegExp(`^${prefix}(?:-\\d+)?\\.xml$`);
-  return readdirSync(OUT_DIR).filter((name) => pattern.test(name)).map((name) => `${OUT_DIR}/${name}`);
+  return readdirSync(onDisk(OUT_DIR)).filter((name) => pattern.test(name)).map((name) => `${OUT_DIR}/${name}`);
 }
 
 /**
@@ -169,7 +171,7 @@ function planGroup(prefix, urls) {
   if (!urls) return null;
   const unique = [...new Set(urls)];
   const committed = existingFiles(prefix)
-    .reduce((sum, file) => sum + (readFileSync(file, 'utf8').match(/<loc>/g) || []).length, 0);
+    .reduce((sum, file) => sum + (readFileSync(onDisk(file), 'utf8').match(/<loc>/g) || []).length, 0);
   if (!ALLOW_SHRINK && committed && unique.length < committed * 0.9) {
     console.warn(`sitemap: ${prefix} would drop from ${committed} to ${unique.length} URLs; keeping the committed file (--allow-shrink to accept).`);
     return null;
@@ -218,14 +220,14 @@ function main() {
   let kept = 0;
   let urlCount = 0;
 
-  if (!CHECK) mkdirSync(OUT_DIR, { recursive: true });
+  if (!CHECK) mkdirSync(onDisk(OUT_DIR), { recursive: true });
   for (const { prefix, files } of groups) {
     if (!files) {
       // Source absent (the Pages build): keep and list what is committed.
       const existing = existingFiles(prefix);
       if (!existing.length) console.warn(`sitemap: no source for ${prefix} and no committed file; left out.`);
       for (const file of existing) {
-        const xml = readFileSync(file, 'utf8');
+        const xml = readFileSync(onDisk(file), 'utf8');
         problems.push(...validateUrlset(file, xml));
         urlCount += (xml.match(/<loc>/g) || []).length;
         listed.push(file);
@@ -238,9 +240,9 @@ function main() {
       urlCount += (xml.match(/<loc>/g) || []).length;
       listed.push(file);
       if (CHECK) {
-        if (!existsSync(file) || readFileSync(file, 'utf8') !== xml) problems.push(`${file}: stale; run node scripts/build/build-sitemap.mjs`);
-      } else if (!existsSync(file) || readFileSync(file, 'utf8') !== xml) {
-        writeFileSync(file, xml);
+        if (!existsSync(onDisk(file)) || readFileSync(onDisk(file), 'utf8') !== xml) problems.push(`${file}: stale; run node scripts/build/build-sitemap.mjs`);
+      } else if (!existsSync(onDisk(file)) || readFileSync(onDisk(file), 'utf8') !== xml) {
+        writeFileSync(onDisk(file), xml);
         written += 1;
       }
     }
@@ -254,9 +256,9 @@ function main() {
 
   const indexXml = sitemapIndexXml(listed.sort());
   if (CHECK) {
-    if (!existsSync(INDEX_FILE) || readFileSync(INDEX_FILE, 'utf8') !== indexXml) problems.push(`${INDEX_FILE}: stale; run node scripts/build/build-sitemap.mjs`);
-  } else if (!existsSync(INDEX_FILE) || readFileSync(INDEX_FILE, 'utf8') !== indexXml) {
-    writeFileSync(INDEX_FILE, indexXml);
+    if (!existsSync(onDisk(INDEX_FILE)) || readFileSync(onDisk(INDEX_FILE), 'utf8') !== indexXml) problems.push(`${INDEX_FILE}: stale; run node scripts/build/build-sitemap.mjs`);
+  } else if (!existsSync(onDisk(INDEX_FILE)) || readFileSync(onDisk(INDEX_FILE), 'utf8') !== indexXml) {
+    writeFileSync(onDisk(INDEX_FILE), indexXml);
     written += 1;
   }
 
