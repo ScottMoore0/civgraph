@@ -39,7 +39,7 @@ export const SCOPE = [
 export const SKIP_FILES = new Set([
   'scripts/maps/rename-layer-ids.mjs',
   'tests/unit/rename-layer-ids.test.mjs',
-  'scripts/lib/layer-renames.mjs',
+  'packages/core/src/layer-renames.mjs',
   'scripts/publish/r2-copy-keys.mjs',
   'tests/unit/r2-copy-keys.test.mjs',
   'packages/map/src/app/url-compat.mjs',

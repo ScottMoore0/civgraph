@@ -27,7 +27,7 @@
  *   where it is.
  */
 
-import { defineMachine } from '../../../scripts/lib/state-machine.mjs';
+import { defineMachine } from '../../core/src/state-machine.mjs';
 
 /**
  * @template {string} V
@@ -61,7 +61,7 @@ export function defineChoice(name, values) {
 
 /**
  * @template {string} S
- * @param {import('../../../scripts/lib/state-machine.mjs').Machine<S>} machine
+ * @param {import('../../core/src/state-machine.mjs').Machine<S>} machine
  * @param {S} [from]  the state to start in (the machine's initial one by default)
  */
 export function createState(machine, from = machine.initial) {

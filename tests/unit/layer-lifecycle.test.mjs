@@ -1,7 +1,7 @@
 // The tile-layer lifecycle (scripts/publish/layer-lifecycle.mjs) and the guarded transitions under it.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { defineMachine } from '../../scripts/lib/state-machine.mjs';
+import { defineMachine } from '../../packages/core/src/state-machine.mjs';
 import { checkTransition, defineGuards } from '../../scripts/publish/transition-check.mjs';
 import { assertLayerTransition, checkLayerTransition, mvtDirectoryState, pmtilesLayerState } from '../../scripts/publish/layer-lifecycle.mjs';
 

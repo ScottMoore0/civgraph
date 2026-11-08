@@ -8,7 +8,7 @@
  * changing behaviour. Pure: no DOM, no network; each function takes the facts it needs.
  */
 import { normalizeName } from '../../../core/src/election-domain.mjs';
-import { defineMachine } from '../../../../scripts/lib/state-machine.mjs';
+import { defineMachine } from '../../../core/src/state-machine.mjs';
 import { defineChoice } from '../state-helpers.mjs';
 
 /** The map's colouring modes, in the order an election offers them. */

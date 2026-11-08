@@ -17,7 +17,7 @@
  * `to(state)` and the table below (the shared helper, scripts/lib/state-machine.mjs, bundled).
  */
 
-import { defineMachine } from '../../../../../scripts/lib/state-machine.mjs';
+import { defineMachine } from '../../../../core/src/state-machine.mjs';
 import { createState } from '../../state-helpers.mjs';
 
 /** @typedef {'idle' | 'playing' | 'paused' | 'ended'} TimelinePlaybackState */

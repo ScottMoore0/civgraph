@@ -14,7 +14,7 @@
  *
  * `published` is guarded: every listed layer must serve from the CDN.
  */
-import { defineMachine } from '../lib/state-machine.mjs';
+import { defineMachine } from '../../packages/core/src/state-machine.mjs';
 import { assertTransition, checkTransition, defineGuards } from './transition-check.mjs';
 
 /**
@@ -39,7 +39,7 @@ const transitions = {
   failed: [],
 };
 
-export const layerPublishRun = defineMachine(/** @type {import('../lib/state-machine.mjs').MachineSpec<RunStage>} */ ({
+export const layerPublishRun = defineMachine(/** @type {import('../../packages/core/src/state-machine.mjs').MachineSpec<RunStage>} */ ({
   name: 'layers.mjs run',
   initial: 'pending',
   transitions,

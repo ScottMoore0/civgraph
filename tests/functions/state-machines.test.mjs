@@ -16,7 +16,7 @@ import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { REPO_ROOT } from '../../packages/config/src/node.mjs';
-import { defineMachine } from '../../scripts/lib/state-machine.mjs';
+import { defineMachine } from '../../packages/core/src/state-machine.mjs';
 import { canMarkApplied } from '../../scripts/intake/contributions.mjs';
 import {
   CONTRIBUTION_TRANSITIONS, DECISIONS, INITIAL_STATUS, canDecide, isContributionStatus,

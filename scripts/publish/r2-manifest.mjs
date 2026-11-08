@@ -16,7 +16,7 @@
 
 import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
-import { assertKnownFlags, mergeArtefactRecords } from '../lib/safe-artefact-write.mjs';
+import { assertKnownFlags, mergeArtefactRecords } from '../../packages/maps-pipeline/src/safe-artefact-write.mjs';
 import { pmtilesTargetSuffix } from './pmtiles-keys.mjs';
 import { contentRangeTotal } from './layer-lifecycle.mjs';
 import { SITE } from '../../packages/config/src/node.mjs';

@@ -16,7 +16,7 @@
  * clearing a pan; kept, so change notifications fire as before). Each gesture's own progress
  * (state.fallbackActive, state.moved) stays with that gesture.
  */
-import { defineMachine } from '../../../../scripts/lib/state-machine.mjs';
+import { defineMachine } from '../../../core/src/state-machine.mjs';
 
 /** @typedef {'idle' | 'pan' | 'pinch' | 'wheel'} DirectGestureState */
 

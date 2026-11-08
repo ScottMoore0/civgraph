@@ -15,7 +15,7 @@
  * The catalogue's low risk is kept: there is no failed state, so a tile that keeps failing is
  * fetched again each time it is wanted.
  */
-import { defineMachine } from '../../../../scripts/lib/state-machine.mjs';
+import { defineMachine } from '../../../core/src/state-machine.mjs';
 
 /** @typedef {'unloaded' | 'queued' | 'loading' | 'loaded'} PointCloudNodeState */
 

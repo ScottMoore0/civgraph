@@ -16,7 +16,7 @@
 
 import { readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { assertKnownFlags } from '../lib/safe-artefact-write.mjs';
+import { assertKnownFlags } from '../../packages/maps-pipeline/src/safe-artefact-write.mjs';
 import { checkLayerTransition, contentRangeTotal, mvtDirectoryState, pmtilesLayerState } from './layer-lifecycle.mjs';
 
 assertKnownFlags(['--ids']);

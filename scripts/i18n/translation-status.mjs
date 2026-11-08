@@ -14,12 +14,12 @@
  * never be recorded and a rebuild would have reset it. It now asks `languageFileStatus`. With no
  * reviewer named (today, for Irish and Ulster-Scots) the output is unchanged.
  */
-import { defineMachine } from '../lib/state-machine.mjs';
+import { defineMachine } from '../../packages/core/src/state-machine.mjs';
 import { checkTransition, defineGuards } from '../publish/transition-check.mjs';
 
 /** @typedef {'source' | 'generated' | 'draft' | 'reviewed'} TranslationStatus */
 
-export const translationStatus = defineMachine(/** @type {import('../lib/state-machine.mjs').MachineSpec<TranslationStatus>} */ ({
+export const translationStatus = defineMachine(/** @type {import('../../packages/core/src/state-machine.mjs').MachineSpec<TranslationStatus>} */ ({
   name: 'translation file status',
   initial: 'draft',
   transitions: { source: [], generated: [], draft: ['reviewed'], reviewed: ['draft'] },

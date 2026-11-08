@@ -16,8 +16,8 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { duplicateSidecar } from '../../core/src/layer-index.js';
-import { legacyLayerId, renameLayerId } from '../../../scripts/lib/layer-renames.mjs';
-import { LEGACY_LAYER_ID_PREFIXES } from '../../map/src/app/url-compat.mjs';
+import { legacyLayerId, renameLayerId } from '../../core/src/layer-renames.mjs';
+import { LEGACY_LAYER_ID_PREFIXES } from '../../core/src/layer-renames.mjs';
 import { TableWriter, bool, readJson, transaction, txt } from './db.mjs';
 import { REPO_ROOT } from './paths.mjs';
 import { PART_CHARS } from '../../schema/src/schema.mjs';

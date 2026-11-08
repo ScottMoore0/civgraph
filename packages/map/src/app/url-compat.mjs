@@ -10,41 +10,10 @@
  * Pure: no DOM, no module state. renameElectionDatesInParams edits the URLSearchParams it is
  * given, as before.
  */
-import { legacyLayerId, renameLayerId } from '../../../../scripts/lib/layer-renames.mjs';
+import { LEGACY_LAYER_ID_PREFIXES, legacyLayerId, renameLayerId } from '../../../core/src/layer-renames.mjs';
 
-/**
- * Layer ids that have been renamed, mapped old -> new.
- *
- * A layer id is not private. It appears in `#layers=` share links, so renaming one
- * breaks every link anyone has posted, bookmarked or cited -- silently, as an empty map
- * rather than an error. This is the cost that makes id renames worth avoiding, and the
- * reason to accept a slightly wrong id is usually stronger than it looks.
- *
- * `roi-local-authorities-*` was renamed to `local-authorities-*` on 2026-08-22. The
- * prefix was wrong for four of the 26 layers outright -- 1915 and the three 1920 dates
- * cover the whole island, before partition -- and anachronistic for a dozen more, since
- * there was no republic before 1949. The fix was not a better jurisdiction prefix but
- * none at all: the display name carries the scope, and encoding a jurisdiction that
- * changes over the life of a series is what went wrong in the first place.
- *
- * Kept as a prefix rewrite rather than 26 entries so the table cannot fall out of step
- * with the rename.
- */
-export const LEGACY_LAYER_ID_PREFIXES = [
-  ['roi-local-authorities-', 'local-authorities-'],
-  // NI editions re-dated to the census date on 2026-11-01 (the id carries the date): Newtownards RD
-  // was renamed North Down RD on 1 Aug 1954, not 1 Apr (Census 1961); Londonderry's wards were
-  // reduced on 15 May 1938, not 16 May (Census 1951). The 1939 edition became a layer of its own
-  // (Ballymena made a borough), and the 1957 "CED" edition was the county map counties-ireland-1957.
-  ['admin-areas-1954-04-01', 'admin-areas-1954-08-01'],
-  ['ded-1954-04-01', 'ded-1954-08-01'],
-  ['county-ed-1954-04-01', 'county-ed-1954-08-01'],
-  ['admin-areas-1938-05-16', 'admin-areas-1938-05-15'],
-  ['ded-1938-05-16', 'ded-1938-05-15'],
-  ['county-ed-1938-05-16', 'county-ed-1938-05-15'],
-  ['admin-areas-1939-05-23-alias-test', 'admin-areas-1939-05-23-vector-test'],
-  ['county-ed-1957-04-01-vector-test', 'counties-ireland-1957-vector-test']
-];
+// LEGACY_LAYER_ID_PREFIXES lives in packages/core/src/layer-renames.mjs (PKG-1: the records loader reads it too).
+export { LEGACY_LAYER_ID_PREFIXES };
 
 // Elections whose polling date was corrected, which changed their keys: old links keep working.
 // [body slug, old date, new date]

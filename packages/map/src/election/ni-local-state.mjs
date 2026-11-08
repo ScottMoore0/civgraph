@@ -14,7 +14,7 @@
  * open() from activating the view when it arrives (inactive -> active), and a second open
  * resolving after the first has activated the view activates it again (active -> active).
  */
-import { defineMachine } from '../../../../scripts/lib/state-machine.mjs';
+import { defineMachine } from '../../../core/src/state-machine.mjs';
 
 /** @typedef {'inactive' | 'opening' | 'active' | 'switching'} NiLocalViewState */
 

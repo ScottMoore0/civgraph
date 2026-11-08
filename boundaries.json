@@ -1,0 +1,241 @@
+{
+  "//": "The import rules between the parts of the repository (REFACTOR-PLAN.md section 2.2, PKG-0). scripts/check/boundaries.mjs (npm run check:boundaries) reads every static import, re-export and literal dynamic import() in the tracked .js/.mjs/.cjs files and fails on an edge the importing unit does not allow. A file belongs to the first unit whose paths hold it, so the narrower units come first. `allow` lists the units a unit may import (itself always; '*' any, '!name' not that one); `node` says whether node:* built-ins are allowed; npm packages (bare names) and imports of files no unit holds (data, root files) are not checked. Departures from the plan's table, by decision: core may import the generated registry slices (registries-browser, pure data); map may import frontend (src/ and the other browser directories) until F2/F4 move the rest of the map app out of src/. `baseline` lists known violating edges ('from -> to' file paths); it may only shrink, and is empty since PKG-1.",
+  "units": {
+    "storage-node": {
+      "paths": [
+        "packages/storage/src/sqlite.mjs"
+      ],
+      "allow": [
+        "storage",
+        "core",
+        "config"
+      ],
+      "node": true
+    },
+    "storage": {
+      "paths": [
+        "packages/storage/"
+      ],
+      "allow": [
+        "core",
+        "config"
+      ],
+      "node": false
+    },
+    "config-node": {
+      "paths": [
+        "packages/config/src/node.mjs"
+      ],
+      "allow": [
+        "config",
+        "core"
+      ],
+      "node": true
+    },
+    "config": {
+      "paths": [
+        "packages/config/"
+      ],
+      "allow": [
+        "core"
+      ],
+      "node": false
+    },
+    "core": {
+      "paths": [
+        "packages/core/"
+      ],
+      "allow": [
+        "registries-browser"
+      ],
+      "node": false
+    },
+    "registries-browser": {
+      "paths": [
+        "packages/registries/src/browser/"
+      ],
+      "allow": [
+        "registries"
+      ],
+      "node": true
+    },
+    "registries": {
+      "paths": [
+        "packages/registries/"
+      ],
+      "allow": [
+        "core",
+        "registries-browser"
+      ],
+      "node": true
+    },
+    "schema": {
+      "paths": [
+        "packages/schema/"
+      ],
+      "allow": [
+        "core",
+        "config-node",
+        "config"
+      ],
+      "node": true
+    },
+    "api": {
+      "paths": [
+        "packages/api/"
+      ],
+      "allow": [
+        "core",
+        "config",
+        "schema",
+        "storage"
+      ],
+      "node": false
+    },
+    "ui": {
+      "paths": [
+        "packages/ui/"
+      ],
+      "allow": [
+        "core",
+        "config",
+        "registries-browser"
+      ],
+      "node": false
+    },
+    "map": {
+      "paths": [
+        "packages/map/"
+      ],
+      "allow": [
+        "core",
+        "ui",
+        "config",
+        "registries-browser",
+        "frontend"
+      ],
+      "node": false
+    },
+    "loader": {
+      "paths": [
+        "packages/loader/"
+      ],
+      "allow": [
+        "core",
+        "config",
+        "config-node",
+        "schema",
+        "storage",
+        "storage-node",
+        "registries",
+        "registries-browser"
+      ],
+      "node": true
+    },
+    "intake": {
+      "paths": [
+        "packages/intake/"
+      ],
+      "allow": [
+        "core",
+        "config",
+        "config-node",
+        "schema",
+        "storage",
+        "storage-node",
+        "loader",
+        "registries"
+      ],
+      "node": true
+    },
+    "maps-pipeline": {
+      "paths": [
+        "packages/maps-pipeline/"
+      ],
+      "allow": [
+        "core",
+        "config",
+        "config-node",
+        "storage",
+        "storage-node",
+        "registries"
+      ],
+      "node": true
+    },
+    "types": {
+      "paths": [
+        "packages/types/"
+      ],
+      "allow": [
+        "*"
+      ],
+      "node": true
+    },
+    "lib": {
+      "paths": [
+        "scripts/lib/"
+      ],
+      "allow": [
+        "*",
+        "!functions"
+      ],
+      "node": true
+    },
+    "functions": {
+      "paths": [
+        "functions/"
+      ],
+      "allow": [
+        "api",
+        "ui",
+        "core",
+        "config",
+        "storage",
+        "schema"
+      ],
+      "node": false
+    },
+    "frontend": {
+      "paths": [
+        "src/",
+        "app/",
+        "browse/",
+        "apps/",
+        "assets/",
+        "catalogue/",
+        "records/"
+      ],
+      "allow": [
+        "map",
+        "ui",
+        "core",
+        "config",
+        "registries-browser",
+        "frontend"
+      ],
+      "node": false
+    },
+    "scripts": {
+      "paths": [
+        "scripts/",
+        "tools/",
+        "registries/"
+      ],
+      "allow": [
+        "*",
+        "!functions"
+      ],
+      "node": true
+    },
+    "tests": {
+      "paths": [
+        "tests/"
+      ],
+      "allow": [
+        "*"
+      ],
+      "node": true
+    }
+  },
+  "baseline": []
+}

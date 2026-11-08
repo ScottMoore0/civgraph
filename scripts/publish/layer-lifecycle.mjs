@@ -20,7 +20,7 @@
  * MVT directories have no byte-range check: an `uploaded-directory` report switches them
  * (`uploaded -> serving`, guarded to that kind).
  */
-import { defineMachine } from '../lib/state-machine.mjs';
+import { defineMachine } from '../../packages/core/src/state-machine.mjs';
 import { assertTransition, checkTransition, defineGuards } from './transition-check.mjs';
 
 /** @typedef {'local' | 'uploaded' | 'verified' | 'serving' | 'failed'} LayerState */
@@ -35,7 +35,7 @@ import { assertTransition, checkTransition, defineGuards } from './transition-ch
  * @property {string} [uploadStatus]
  */
 
-export const layerLifecycle = defineMachine(/** @type {import('../lib/state-machine.mjs').MachineSpec<LayerState>} */ ({
+export const layerLifecycle = defineMachine(/** @type {import('../../packages/core/src/state-machine.mjs').MachineSpec<LayerState>} */ ({
   name: 'layer lifecycle',
   initial: 'local',
   transitions: {

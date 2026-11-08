@@ -1,24 +1,2 @@
-/**
- * Is this attribute one a reader is shown first: the feature's name or label?
- *
- * scripts/build/tiles/pmtiles.mjs prunes attributes out of low-zoom tiles and keeps exactly the
- * ones this predicate calls primary (plus the promoteId and anything a style reads), so a click
- * below the cutoff still shows the feature's name. It was exported for that build by the legacy
- * /render/ app's feature panel (render/src/feature-details.js), which retired on 7 Nov 2026;
- * the predicate moved here unchanged.
- */
-export function isPrimaryKey(layer, key) {
-  const labelKeys = [
-    layer.labelProperty,
-    ...(layer.labelProperties || []),
-    'name',
-    'Name',
-    'NAME',
-    'label',
-    'Label',
-    'label_name',
-    'name_en',
-    'official_name'
-  ].filter(Boolean);
-  return labelKeys.includes(key) || /^(name|label|title)(_|$)/i.test(key);
-}
+// Moved to packages/core/src/primary-feature-keys.mjs (refactor PKG-1); this re-export is kept until 8 Dec 2026.
+export * from '../../packages/core/src/primary-feature-keys.mjs';

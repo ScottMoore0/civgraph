@@ -8,7 +8,7 @@
  *
  * Pure apart from the helper (no I/O): pass the loaded registry, or the generated browser copy.
  */
-import { defineMachine, defineToggle } from '../../../scripts/lib/state-machine.mjs';
+import { defineMachine, defineToggle } from '../../core/src/state-machine.mjs';
 
 /** name -> Machine, one per entry of `machines` in data/registries/statuses.json. */
 export function statusMachines(registry) {

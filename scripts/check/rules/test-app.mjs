@@ -11,7 +11,7 @@
 
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { isValidBounds } from '../../lib/layer-bounds.mjs';
+import { isValidBounds } from '../../../packages/maps-pipeline/src/layer-bounds.mjs';
 
 const ROOT = resolve(process.cwd());
 const METADATA_PATH = resolve(ROOT, 'render/metadata/maps-test.json');

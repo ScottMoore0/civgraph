@@ -2,7 +2,7 @@
 import { chromium, devices } from '@playwright/test';
 import { spawn } from 'node:child_process';
 import { mkdirSync, writeFileSync } from 'node:fs';
-import { defineToggle } from '../../lib/state-machine.mjs';
+import { defineToggle } from '../../../packages/core/src/state-machine.mjs';
 
 const PORT = Number(process.env.TEST2_PERF_PORT || 5053);
 const BASE = `http://127.0.0.1:${PORT}`;

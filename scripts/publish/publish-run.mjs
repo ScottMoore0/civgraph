@@ -24,7 +24,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
-import { defineMachine } from '../lib/state-machine.mjs';
+import { defineMachine } from '../../packages/core/src/state-machine.mjs';
 import { assertTransition, checkTransition, defineGuards } from './transition-check.mjs';
 
 /**
@@ -32,7 +32,7 @@ import { assertTransition, checkTransition, defineGuards } from './transition-ch
  *   | 'aborted-before-load' | 'load-failed' | 'aborted-after-load'} PublishStage
  */
 
-export const publishRun = defineMachine(/** @type {import('../lib/state-machine.mjs').MachineSpec<PublishStage>} */ ({
+export const publishRun = defineMachine(/** @type {import('../../packages/core/src/state-machine.mjs').MachineSpec<PublishStage>} */ ({
   name: 'publish',
   initial: 'start',
   transitions: {

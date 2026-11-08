@@ -12,7 +12,7 @@
  * during the awaits found nothing to remove, and the layer appeared after the reader had taken it
  * off. Now a second load waits for the first, and an unload while loading cancels the load.
  */
-import { defineMachine } from '../../../../scripts/lib/state-machine.mjs';
+import { defineMachine } from '../../../core/src/state-machine.mjs';
 
 /** @typedef {'absent' | 'loading' | 'loaded'} LayerLoadState */
 
