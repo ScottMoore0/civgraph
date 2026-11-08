@@ -49,10 +49,12 @@ async function handle(context) {
 
   const breakdown = g('breakdown') === '1'; // letter-browse: counts grouped by level
   const match = buildMatch(q, fields);
-  // buildFilters no longer returns joinExt (_query.js says why), so jx is always '' here; the
-  // cast keeps this line as it runs. LANDING.md (nia-s2a) notes what that means for from/to.
-  const { where, binds, joinExt } = /** @type {ReturnType<typeof buildFilters> & { joinExt?: boolean }} */ (buildFilters({ letter: g('letter'), from, to, top: g('top') === '1', level: g('level'), access: g('access') }));
-  const jx = joinExt ? ' LEFT JOIN ext ON ext.ref = p.ref' : ''; // only when a year range is filtered
+  const { where, binds } = buildFilters({ letter: g('letter'), from, to, top: g('top') === '1', level: g('level'), access: g('access') });
+  // buildFilters matches a year range against the Extracted Dates table (ext), so a count with
+  // from/to must join it. It used to read a joinExt flag buildFilters no longer returns, so the
+  // join was never added and every from/to count failed in SQL ("no such column: ext...").
+  const yearRange = Number.isFinite(from) || Number.isFinite(to);
+  const jx = yearRange ? ' LEFT JOIN ext ON ext.ref = p.ref' : '';
   if (!match && !where.length) return json({ count: 0, exact: true, levels: [] });
 
   try {

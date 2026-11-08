@@ -276,6 +276,20 @@ test('the PRONI routes over a catalogue fixture fit their contracts', async () =
   await conforms(`${PREFIX}/proni/export?q=rentals`, env, 'csv');
 });
 
+test('a PRONI count with a year range joins the Extracted Dates and counts', async () => {
+  const { installCaches } = await import('../records/d1-shim.mjs');
+  installCaches();
+  const env = await proniFixture();
+  // Before the fix the year range named ext without joining it: count null and an SQL error.
+  const inRange = await (await call(`${PREFIX}/proni/count?q=rentals&from=1690&to=1760`, env)).json();
+  assert.deepEqual([inRange.count, inRange.exact, inRange.error], [1, true, undefined]);
+  const outOfRange = await (await call(`${PREFIX}/proni/count?q=rentals&from=1800`, env)).json();
+  assert.deepEqual([outOfRange.count, outOfRange.error], [0, undefined]);
+  const levels = await (await call(`${PREFIX}/proni/count?letter=D&to=1760&breakdown=1`, env)).json();
+  assert.equal(levels.error, undefined);
+  assert.deepEqual(levels.levels, [{ level: 'Series', n: 1 }]);
+});
+
 // ------------------------------------------------------------------ the OpenAPI document
 
 test('/api/v1/openapi.json describes every route with its variants and errors', async () => {
