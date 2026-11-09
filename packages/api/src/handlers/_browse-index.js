@@ -201,7 +201,7 @@ export function browseIndexHandler({
         // search_norm, not title_norm: browse.js's filter looks at ~32 fields including
         // aliases, categories and party names. Matching the title alone would return
         // fewer results than the client did and report nothing about the difference.
-        // Folded like the column (build-browse-index-d1-import.mjs) and matched word by word, so
+        // Folded like the column (as packages/loader/src/browse-columns.mjs folds it) and matched word by word, so
         // "Micheal Martin" finds "Micheál Martin" and word order does not matter.
         const words = query.normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase().split(/\s+/).filter(Boolean).slice(0, 8);
         for (const word of words) where.push(`search_norm LIKE ${bind(`%${word}%`)}`);

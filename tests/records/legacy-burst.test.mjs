@@ -122,7 +122,7 @@ test('gate: a burst of distinct rebuilds runs at most GATE_ACTIVE at once; past 
   };
   const burst = Array.from({ length: GATE_ACTIVE + GATE_QUEUE + 1 }, (_, i) => {
     const ctx = context(`/data/graph/x-${i}.json`, env);
-    return cachedJson(ctx, 't', handler, { stable: true, gate: true });
+    return cachedJson(ctx, 't', handler, { gate: true });
   });
   await tick();
   assert.equal(gateState.active, GATE_ACTIVE);
@@ -147,7 +147,7 @@ test('gate: a burst on one URL rebuilds it once; the rest take the stored copy',
     await hold.promise;
     return new Response('{"n":1}', { status: 200 });
   };
-  const burst = Array.from({ length: 8 }, () => cachedJson(context('/data/graph/same.json', env), 't', handler, { stable: true, gate: true }));
+  const burst = Array.from({ length: 8 }, () => cachedJson(context('/data/graph/same.json', env), 't', handler, { gate: true }));
   await tick();
   hold.resolve();
   const answers = await Promise.all(burst);

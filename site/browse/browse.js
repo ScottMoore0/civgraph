@@ -113,7 +113,7 @@ function inSection(type) {
 
 // The Catalogue's facet bar. Each key is already a filter the /_api/sources endpoint
 // accepts and a key in its precomputed facets blob, so adding one here is a server change
-// (a column and a facet in build-browse-index-d1-import.mjs) plus a line below -- never a
+// (a column and a facet in packages/loader/src/browse-columns.mjs) plus a line below -- never a
 // scan of the 40,553 records in the browser, which is what this listing used to do.
 const SOURCE_FILTERS = [
   { key: 'provider', label: 'Publisher' },

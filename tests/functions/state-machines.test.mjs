@@ -148,7 +148,7 @@ test('FN-02: the answer ladder is a machine; every step is reachable and every f
   const m = defineMachine({ name: 'records answer', initial: 'start', transitions: ANSWER_LADDER });
   assert.deepEqual([...reachable(ANSWER_LADDER, 'start')].sort(), [...m.states].sort());
   const terminal = m.states.filter((s) => !ANSWER_LADDER[s].length);
-  assert.deepEqual(terminal.sort(), ['client-error', 'edge-hit', 'from-r2', 'last-good', 'not-modified', 'passed-through', 'stored', 'unavailable', 'unstored']);
+  assert.deepEqual(terminal.sort(), ['client-error', 'edge-hit', 'last-good', 'not-modified', 'passed-through', 'stored', 'unavailable', 'unstored']);
   for (const [from, to] of forbidden(ANSWER_LADDER)) {
     const walk = answerLadder();
     const path = m.states.includes(from) && from !== 'start' ? findPath(from) : [];
@@ -222,9 +222,6 @@ test('FN-02: cachedJson takes the ladder\'s paths, and stores nothing while load
   assert.deepEqual(lastGood.path, ['start', 'rebuild', 'failed', 'last-good']);
   assert.match(lastGood.res.headers.get('Warning'), /stale/);
 
-  const bucket = { MAPS_BUCKET: { get: async () => ({ body: '{"copy":1}' }) } };
-  assert.deepEqual((await walk('/_api/r', { options: { r2Key: 'k', r2First: true }, env: bucket })).path, ['start', 'r2-first', 'from-r2']);
-  assert.deepEqual((await walk('/_api/s', { throws: true, options: { r2Key: 'k' }, env: bucket })).path, ['start', 'rebuild', 'failed', 'from-r2']);
 
   gateState.reset();
   assert.deepEqual((await walk('/_api/g', { options: { gate: true } })).path, ['start', 'gate', 'rebuild', 'stored']);
