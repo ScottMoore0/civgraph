@@ -27,15 +27,9 @@
       "evidence": "scripts/harvest-oireachtas-fulltext.mjs; completeness proven from disk (advertised 13,919 bill documents, 13,918 held -- the one exception, Maternity Protection (Amendment) Bill 2003 ver_b, is zero bytes at source with Content-Length: 0)."
     },
     {
-      "prefix": "data/graph/exports/",
-      "rationale": "The semantic graph bulk dumps, served by functions/data/graph/[[path]].js from R2 until the bulk downloads (records:downloads) are published at data.civgraph.net/downloads/. The rest of data/graph/ retired on 8 Nov 2026 (owner): 410 Gone, R2 copies deleted. Semantic graph shards (entities, statements, Browse mappings). Pure build output of scripts/graph/build-semantic-graph.mjs, regenerated from the catalogue, data/browse and the election data. Moving it to R2 does not change its exposure: it is not listed in .cfignore, so Cloudflare Pages already serves this whole tree publicly today.",
-      "evidence": ".cfignore does not exclude data/graph (census and timeline-transitions are excluded, this is not); functions/data/graph/[[path]].js serves this prefix and falls through to the static copy on a miss; 4,604 files / 1.91 GB currently tracked in git and deployed.",
-      "rights": "Derived work. Carries no source data of its own -- it is an index over records whose terms are recorded per source in data/database/maps.json and sources.json, and it inherits those terms."
-    },
-    {
-      "prefix": "data/graph/statement-shards/",
-      "rationale": "The semantic graph bulk dumps, served by functions/data/graph/[[path]].js from R2 until the bulk downloads (records:downloads) are published at data.civgraph.net/downloads/. The rest of data/graph/ retired on 8 Nov 2026 (owner): 410 Gone, R2 copies deleted. Semantic graph shards (entities, statements, Browse mappings). Pure build output of scripts/graph/build-semantic-graph.mjs, regenerated from the catalogue, data/browse and the election data. Moving it to R2 does not change its exposure: it is not listed in .cfignore, so Cloudflare Pages already serves this whole tree publicly today.",
-      "evidence": ".cfignore does not exclude data/graph (census and timeline-transitions are excluded, this is not); functions/data/graph/[[path]].js serves this prefix and falls through to the static copy on a miss; 4,604 files / 1.91 GB currently tracked in git and deployed.",
+      "prefix": "data/downloads/",
+      "rationale": "The bulk downloads written by npm run records:downloads: the records database (civgraph-records-<version>.sqlite.gz and -latest), the graph exports (civgraph.jsonld, civgraph-rdf.ndjson, civgraph-provenance.json, gzipped) and civgraph-graph-shards.tar.gz (the graph shard files byte for byte), with manifest.json. They replaced the R2 data/graph/exports and statement-shards copies on 9 Nov 2026 (owner-approved).",
+      "evidence": "packages/loader/src/downloads.mjs writes them; functions/data/graph/[[path]].js 301s the old bulk URLs here; every record in them is already served publicly by /_api and /api/v1.",
       "rights": "Derived work. Carries no source data of its own -- it is an index over records whose terms are recorded per source in data/database/maps.json and sources.json, and it inherits those terms."
     },
     {

@@ -7,8 +7,9 @@
  *   manifest.json: version, sizes, SHA-256, licence note
  *
  * It uploads nothing. Publishing them is a separate, approved step through the S3 path:
- *   node scripts/publish/r2-upload-tree.mjs --i-have-reviewed-this-publication ... downloads/
+ *   node scripts/publish/r2-upload-tree.mjs --i-have-reviewed-this-publication ... data/downloads/
  */
+import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { createReadStream, createWriteStream, existsSync, mkdirSync, statSync, writeFileSync, copyFileSync } from 'node:fs';
 import path from 'node:path';
@@ -57,6 +58,19 @@ for (const name of ['civgraph.jsonld', 'civgraph-rdf.ndjson', 'civgraph-provenan
   const dest = path.join(OUT, `${name}.gz`);
   await gzipTo(src, dest);
   files.push(path.basename(dest));
+}
+// The graph's shard files (exports/jsonld, exports/rdf-ndjson-shards, exports/provenance-shards and
+// statement-shards), byte for byte, in one archive: the three files above are only their indexes.
+// These replaced the data/graph/{exports,statement-shards}/ files on R2 (retired 9 Nov 2026).
+const shardDirs = ['exports', 'statement-shards'].filter((d) => existsSync(path.join(P.GRAPH_DIR, d)));
+if (shardDirs.length) {
+  const archive = path.join(OUT, 'civgraph-graph-shards.tar.gz');
+  // On Windows use the system's bsdtar: Git Bash's GNU tar reads "C:\..." as a remote host.
+  const winTar = process.platform === 'win32' ? path.join(process.env.SystemRoot || 'C:\\Windows', 'System32', 'tar.exe') : '';
+  const tarBin = winTar && existsSync(winTar) ? winTar : 'tar';
+  const tar = spawnSync(tarBin, ['-czf', archive, '-C', P.GRAPH_DIR, ...shardDirs], { stdio: 'inherit' });
+  if (tar.status !== 0) { console.error('tar failed: the graph shard archive was not written'); process.exit(1); }
+  files.push(path.basename(archive));
 }
 const manifest = {
   schemaVersion: 1,

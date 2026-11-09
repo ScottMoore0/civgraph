@@ -48,15 +48,9 @@ const PROXIES = [
     key: 'data/maps/agriculture/ni-livestock-bovine.fgb',
     cacheControl: 'public, max-age=86400, stale-while-revalidate=604800',
   },
-  // data/graph retired on 8 Nov 2026 (410) except the bulk dumps, which its Function serves from
-  // R2 until the downloads are published. data/browse is answered from D1 since data phase 4: the
+  // data/graph retired on 8 Nov 2026 (410) and its bulk dumps 301 to data.civgraph.net/data/downloads/
+  // since 9 Nov, so it proxies nothing and has no entry here. data/browse is answered from D1 since data phase 4: the
   // signature is cachedJson's (packages/api/src/handlers/_records.js), and its ETag answers 304.
-  {
-    name: 'data/graph',
-    fn: 'functions/data/graph/[[path]].js',
-    key: 'data/graph/exports/manifest.json',
-    cacheControl: 'public, max-age=86400, stale-while-revalidate=604800',
-  },
   {
     name: 'data/browse',
     fn: 'functions/data/browse/[[path]].js',
