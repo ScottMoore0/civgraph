@@ -4,7 +4,7 @@
 
 Published with the site, so it lists only sources whose content Civgraph may make public: open licences (OGL, OPL, Creative Commons, CC0, ODbL, Irish PSI open terms), Crown or state copyright that has expired, the public domain, and Civgraph's own or contributed work. Sources held or consulted under any other terms are tracked privately and are not listed here.
 
-45 sources. Mirrored: complete 23, partial 12, none 10. Extracted: partial 23, not-started 8, reference-only 7, complete 7.
+46 sources. Mirrored: complete 24, partial 12, none 10. Extracted: partial 23, complete 8, not-started 8, reference-only 7.
 
 ## elections
 
@@ -26,6 +26,7 @@ Published with the site, so it lists only sources whose content Civgraph may mak
 | [Oireachtas open data API (members, constituencies, parties, votes, legislation)](https://api.oireachtas.ie) | PSI-open | complete (local, about 5 GB) | partial (provenanceCitations 4) | Structured data beyond member ids (votes, questions, legislation) is not integrated; not on R2 or IA. |
 | [Northern Ireland Assembly open data (members, Hansard, questions, register of interests)](https://data.niassembly.gov.uk) | OGL-3.0 | complete (local, about 4.5 GB XML) | partial (provenanceCitations 0) | Hansard, plenary and questions are not integrated; harvest is local only. |
 | [Parliament of Northern Ireland Hansard, 1921-1945](https://archive.org/details/civgraph-ni-hansard-1921-1945) | crown-copyright-expired | complete (r2, internet-archive, 0.38 GB, 79 objects on R2 (data/books/)) | complete | Volumes after 1945 are not held; per-item provenance for the scans is still to be recorded. |
+| [Words in parliament: word and phrase counts (Civgraph-derived)](https://civgraph.net/apps/words/) | own-work | complete (r2, 0.42 GB (15,051 objects under data/parliament/words/)) | complete (objects 15,051, provenanceCitations 0) | Rebuild when new debates are added; the counts cover the debates held at the 3 Nov 2026 build. |
 
 ## gazettes
 
