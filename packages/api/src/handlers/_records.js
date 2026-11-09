@@ -73,7 +73,6 @@ function freezeTable(table) {
  *   edge-hit        the answer stored at this data centre (caches.default)
  *   waiting         gated: another request is rebuilding this URL; wait for it, then look again
  *   gate            gated: ask the isolate's gate for a rebuild slot (GATE_SLOT below)
- *   r2-first        `r2First`: try the R2 copy before D1
  *   rebuild         ask D1 (the handler)
  *   stored          200, stored at the edge and as last-good
  *   unstored        200 built while the dataset is loading: no-store, nothing stored
@@ -81,19 +80,17 @@ function freezeTable(table) {
  *   passed-through  any other non-error answer (a 301 to another spelling of an id) as the handler gave it
  *   failed          no answer, a 5xx, or no gate slot: fall back
  *   last-good       the last 200 for this URL, with a Warning
- *   from-r2         the file's R2 copy (stored like a rebuild)
  *   unavailable     the handler's 5xx, or 503 with Retry-After
  *
- * @typedef {'start' | 'not-modified' | 'edge-hit' | 'waiting' | 'gate' | 'r2-first' | 'rebuild' | 'stored' | 'unstored'
- *   | 'client-error' | 'passed-through' | 'failed' | 'last-good' | 'from-r2' | 'unavailable'} AnswerStep
+ * @typedef {'start' | 'not-modified' | 'edge-hit' | 'waiting' | 'gate' | 'rebuild' | 'stored' | 'unstored'
+ *   | 'client-error' | 'passed-through' | 'failed' | 'last-good' | 'unavailable'} AnswerStep
  */
 export const ANSWER_LADDER = freezeTable(/** @type {Record<AnswerStep, AnswerStep[]>} */ ({
-  start: ['not-modified', 'edge-hit', 'waiting', 'gate', 'r2-first', 'rebuild'],
+  start: ['not-modified', 'edge-hit', 'waiting', 'gate', 'rebuild'],
   waiting: ['edge-hit', 'gate'],
-  gate: ['r2-first', 'rebuild', 'failed'],
-  'r2-first': ['from-r2', 'rebuild'],
+  gate: ['rebuild', 'failed'],
   rebuild: ['stored', 'unstored', 'client-error', 'passed-through', 'failed'],
-  failed: ['last-good', 'from-r2', 'unavailable'],
+  failed: ['last-good', 'unavailable'],
   'not-modified': [],
   'edge-hit': [],
   stored: [],
@@ -101,7 +98,6 @@ export const ANSWER_LADDER = freezeTable(/** @type {Record<AnswerStep, AnswerSte
   'client-error': [],
   'passed-through': [],
   'last-good': [],
-  'from-r2': [],
   unavailable: [],
 }));
 
@@ -142,22 +138,16 @@ export function answerLadder(onDone) {
  *   `edgeTtl`  seconds a stored 200 lives at the edge (s-maxage: caches.default keeps a response
  *              for its Cache-Control, so with max-age=300 alone it was gone in five minutes).
  *              Under a dataset-versioned key the content never changes, so it can be long.
- *   `stable`   the key and ETag leave out the dataset version, and the cache is read before D1
- *              is asked anything: for content frozen until it retires (/data/graph, whose
- *              graph_files is frozen as loaded at go-live). A publish does not empty it.
  *   `gate`     the rebuild goes through the isolate's gate: one rebuild per URL at a time (a
  *              second request waits for it and takes its stored copy), at most GATE_ACTIVE
  *              rebuilds at once and GATE_QUEUE more waiting up to GATE_WAIT_MS each; past that,
- *              the last-good copy, the R2 copy or 503 with Retry-After.
- *   `r2Key`    the file's copy on R2 (MAPS_BUCKET), left by the old publish: read before D1 with
- *              `r2First`, else only when D1 fails and no last-good copy is held.
+ *              the last-good copy or 503 with Retry-After.
+ * (The `stable`, `r2Key` and `r2First` options and the ladder's R2 steps went on 9 Nov 2026: the
+ * old /data/graph and R2 browse copies they served were retired.)
  *
  * @typedef {object} CachedJsonOptions
- * @property {boolean} [stable]
  * @property {number} [edgeTtl]
  * @property {boolean} [gate]
- * @property {string | null} [r2Key]
- * @property {boolean} [r2First]
  * @property {string} [cacheControl]
  * @property {(path: AnswerStep[]) => void} [onPath] for tests: the ladder's path once the answer is chosen
  *
@@ -168,7 +158,7 @@ export function answerLadder(onDone) {
  * @returns {Promise<Response>}
  */
 export async function cachedJson(context, codeVersion, handler, options = {}) {
-  const { stable = false, edgeTtl = 0, gate = false, r2Key = null, r2First = false } = options;
+  const { edgeTtl = 0, gate = false } = options;
   // options.onPath: for tests, the ladder's path (ANSWER_LADDER) once the answer is chosen.
   const ladder = answerLadder(options.onPath);
   const db = binding(context.env, 'ELECTIONS_DB');
@@ -178,24 +168,24 @@ export async function cachedJson(context, codeVersion, handler, options = {}) {
     if (!state) state = db ? await datasetState(db) : { version: '', loading: '' };
     return state;
   };
-  const version = stable ? '' : (await getState()).version;
-  const etag = stable ? `"${codeVersion}"` : `"${codeVersion}-${version}"`;
-  if ((stable || version) && context.request.headers.get('If-None-Match') === etag) {
+  const version = (await getState()).version;
+  const etag = `"${codeVersion}-${version}"`;
+  if (version && context.request.headers.get('If-None-Match') === etag) {
     ladder.to('not-modified');
     return new Response(null, { status: 304, headers: { ETag: etag } });
   }
   const requestUrl = new URL(context.request.url);
   const key = new URL(requestUrl);
   key.searchParams.set('_cv', codeVersion);
-  if (!stable) key.searchParams.set('_dv', version);
+  key.searchParams.set('_dv', version);
   const cacheKey = new Request(key.toString(), { method: 'GET' });
   const lastGoodUrl = new URL(requestUrl);
   lastGoodUrl.searchParams.set('_lastgood', codeVersion);
-  const lastGood = stable ? cacheKey : new Request(lastGoodUrl.toString(), { method: 'GET' });
+  const lastGood = new Request(lastGoodUrl.toString(), { method: 'GET' });
   const cache = typeof caches !== 'undefined' ? caches.default : null;
   const cacheControl = `${options.cacheControl || CACHE.records}${edgeTtl ? `, s-maxage=${edgeTtl}` : ''}`;
   const lookup = async () => (cache ? (await cache.match(cacheKey)) || null : null);
-  if (cache && (stable || !(/** @type {{ loading: string } | null} */ (state))?.loading)) {
+  if (cache && !(/** @type {{ loading: string } | null} */ (state))?.loading) {
     const hit = await lookup();
     if (hit) { ladder.to('edge-hit'); return hit; }
   }
@@ -203,11 +193,11 @@ export async function cachedJson(context, codeVersion, handler, options = {}) {
   /** A 200's headers; stored unless a load is under way. Returns it and the put's promise. */
   const finish = (/** @type {Response} */ resp, /** @type {boolean} */ loading) => {
     resp = new Response(resp.body, resp);
-    if (version || stable) resp.headers.set('ETag', etag);
+    if (version) resp.headers.set('ETag', etag);
     resp.headers.set('Cache-Control', loading ? CACHE.loading : cacheControl);
     let put = null;
     if (cache && !loading) {
-      put = Promise.all([cache.put(cacheKey, resp.clone()), stable ? null : cache.put(lastGood, resp.clone())]).catch(() => {});
+      put = Promise.all([cache.put(cacheKey, resp.clone()), cache.put(lastGood, resp.clone())]).catch(() => {});
       context.waitUntil?.(put);
     }
     return { resp, put };
@@ -221,17 +211,10 @@ export async function cachedJson(context, codeVersion, handler, options = {}) {
       headers.set('Cache-Control', CACHE.lastGood);
       return new Response(lg.body, { status: 200, headers });
     }
-    const copy = await r2Copy(context.env, r2Key);
-    if (copy) { ladder.to('from-r2'); return finish(copy, false).resp; }
     ladder.to('unavailable');
     return resp || jsonResponse({ error: 'unavailable' }, 503, { 'Retry-After': '5' });
   };
   const rebuild = async () => {
-    if (r2First) {
-      ladder.to('r2-first');
-      const copy = await r2Copy(context.env, r2Key);
-      if (copy) { ladder.to('from-r2'); return finish(copy, false); }
-    }
     ladder.to('rebuild');
     const loading = !STORE[phaseOf(await getState())];
     let resp = null;
@@ -359,21 +342,6 @@ function releaseGate(/** @type {GateSlot} */ slot) {
   };
 }
 
-/**
- * The file's copy on R2 (MAPS_BUCKET), as a JSON answer; null when there is none.
- * @param {ApiEnv | undefined} env
- * @param {string | null} key
- * @returns {Promise<Response | null>}
- */
-async function r2Copy(env, key) {
-  if (!key || !binding(env, 'MAPS_BUCKET')) return null;
-  try {
-    const obj = await /** @type {R2Bucket} */ (binding(env, 'MAPS_BUCKET')).get(key); // bound: checked above
-    return obj ? new Response(obj.body, { headers: { ...JSON_HEADERS, 'X-Civgraph-Copy': 'r2' } }) : null;
-  } catch {
-    return null;
-  }
-}
 
 /**
  * @param {unknown} text

@@ -6,7 +6,7 @@
  * unchanged record hashes the same from one build to the next.
  *
  * The card columns, search text and lookup key are exactly those of
- * scripts/build/build-browse-index-d1-import.mjs (packages/loader/src/browse-columns.mjs).
+ * packages/loader/src/browse-columns.mjs.
  */
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
@@ -20,7 +20,7 @@ import { localPathForUrl, recordPaths } from './paths.mjs';
 /** @typedef {ReturnType<typeof recordPaths>} RecordPaths */
 
 /**
- * Read a sharded index the way browse.js does (build-browse-index-d1-import.mjs readIndex).
+ * Read a sharded index the way browse.js does (its readIndex).
  * @param {string} file
  * @param {RecordPaths} paths
  * @returns {{ manifest: Record<string, unknown>, items: BrowseItem[] }}
