@@ -16,10 +16,10 @@
     }
   },
   "counts": {
-    "r2": 8,
+    "r2": 7,
     "both": 3,
     "internet-archive": 4,
-    "local-only": 6
+    "local-only": 5
   },
   "perFileIndexes": [
     {
@@ -362,26 +362,6 @@
       }
     },
     {
-      "id": "polling",
-      "title": "LucidTalk polling tables and reports",
-      "provider": "LucidTalk",
-      "jurisdiction": "NI",
-      "store": "r2",
-      "access": "contributors",
-      "r2": {
-        "prefix": "data/polling/",
-        "baseUrl": "https://data.civgraph.net/data/polling/",
-        "allowlisted": false,
-        "listVia": "https://civgraph.net/_api/contributions/r2-index?prefix=data%2Fpolling%2F"
-      },
-      "measured": {
-        "measuredAt": "2026-08-31",
-        "files": 116,
-        "gigabytes": 0.036
-      },
-      "note": "Deliberately NOT in the publication allowlist, so it is absent from the public index. Commercial polling material; no open-government licence reaches it. Objects remain fetchable by exact key -- omission from the index is discoverability, not access control."
-    },
-    {
       "id": "opendatani",
       "title": "Open Data NI mirror",
       "provider": "OpenDataNI",
@@ -617,19 +597,6 @@
         "measuredAt": "2026-08-31",
         "localFiles": 2,
         "localGigabytes": 4.47
-      }
-    },
-    {
-      "id": "osni-fusion",
-      "title": "OSNI Fusion extracts",
-      "provider": "OSNI",
-      "jurisdiction": "NI",
-      "store": "local-only",
-      "access": "none",
-      "measured": {
-        "measuredAt": "2026-08-31",
-        "localFiles": 11,
-        "localGigabytes": 3.68
       }
     }
   ]

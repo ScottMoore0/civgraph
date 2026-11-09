@@ -36,6 +36,10 @@ import { SITE } from '../../packages/config/src/node.mjs';
 const ALLOWLIST = 'data/database/r2-publication-allowlist.json';
 const IA_MIRRORS = 'data/database/raw-source-ia-mirrors.json';
 const OUT = 'data/database/corpus-index.json';
+// Corpora whose rights do not allow them to be named publicly (owner, 9 Nov 2026) are defined in a
+// gitignored file and indexed only in the gitignored private index, never in OUT (which dist/ ships).
+const PRIVATE_CORPORA = 'data/database/corpus-index.private-corpora.json';
+const PRIVATE_OUT = 'data/database/corpus-index.private.json';
 const CHECK = process.argv.includes('--check');
 
 const MEASURED_AT = '2026-08-31';
@@ -102,13 +106,6 @@ const CORPORA = [
   { id: 'oireachtas-fulltext', title: 'Oireachtas debates, full text', provider: 'Oireachtas', jurisdiction: 'IE',
     store: 'r2', access: 'public', r2Prefix: 'data/sources/oireachtas-fulltext/' },
 
-  // ---- on R2, contributors only ----
-  { id: 'polling', title: 'LucidTalk polling tables and reports', provider: 'LucidTalk', jurisdiction: 'NI',
-    store: 'r2', access: 'contributors', r2Prefix: 'data/polling/',
-    measured: { files: 116, gigabytes: 0.036 },
-    note: 'Deliberately NOT in the publication allowlist, so it is absent from the public index. '
-      + 'Commercial polling material; no open-government licence reaches it. Objects remain '
-      + 'fetchable by exact key -- omission from the index is discoverability, not access control.' },
 
   // ---- Internet Archive ----
   { id: 'opendatani', title: 'Open Data NI mirror', provider: 'OpenDataNI', jurisdiction: 'NI',
@@ -162,9 +159,6 @@ const CORPORA = [
   { id: 'niassembly-xml', title: 'NI Assembly XML dumps', provider: 'NI Assembly', jurisdiction: 'NI',
     store: 'local-only', access: 'none',
     measured: { localFiles: 2, localGigabytes: 4.47 } },
-  { id: 'osni-fusion', title: 'OSNI Fusion extracts', provider: 'OSNI', jurisdiction: 'NI',
-    store: 'local-only', access: 'none',
-    measured: { localFiles: 11, localGigabytes: 3.68 } },
 ];
 
 if (!existsSync(ALLOWLIST)) {
@@ -175,7 +169,9 @@ const allowlist = JSON.parse(readFileSync(ALLOWLIST, 'utf8'));
 const rightsByPrefix = new Map((allowlist.prefixes || []).map((p) => [p.prefix, p.rights]));
 const iaMirrors = existsSync(IA_MIRRORS) ? JSON.parse(readFileSync(IA_MIRRORS, 'utf8')) : null;
 
-const entries = CORPORA.map((corpus) => {
+const privateCorpora = existsSync(PRIVATE_CORPORA) ? JSON.parse(readFileSync(PRIVATE_CORPORA, 'utf8')) : [];
+const privateIds = new Set(privateCorpora.map((c) => c.id));
+const allEntries = [...CORPORA, ...privateCorpora].map((corpus) => {
   const entry = {
     id: corpus.id,
     title: corpus.title,
@@ -216,6 +212,7 @@ const entries = CORPORA.map((corpus) => {
   if (corpus.note) entry.note = corpus.note;
   return entry;
 });
+const entries = allEntries.filter((e) => !privateIds.has(e.id));
 
 const counts = entries.reduce((acc, entry) => {
   acc[entry.store] = (acc[entry.store] || 0) + 1;
@@ -293,6 +290,11 @@ if (CHECK) {
 }
 
 writeFileSync(OUT, body);
+if (privateCorpora.length) {
+  writeFileSync(PRIVATE_OUT, `${JSON.stringify({ ...index, corpora: allEntries, note: 'PRIVATE: gitignored; includes corpora that must not be named publicly.' }, null, 2)}
+`);
+  console.log(`Wrote ${PRIVATE_OUT}: ${allEntries.length} corpora (private, gitignored).`);
+}
 console.log(`Wrote ${OUT}: ${entries.length} corpora.`);
 for (const [store, n] of Object.entries(counts)) console.log(`  ${String(n).padStart(2)}  ${store}`);
 const gap = entries.filter((e) => e.store === 'local-only');

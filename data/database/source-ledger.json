@@ -1433,6 +1433,41 @@
    "remaining": "Relevance to Civgraph not yet assessed.",
    "nextStep": "Assess relevance.",
    "lastChecked": "2026-11-09"
+  },
+  {
+   "id": "civgraph-words-in-parliament",
+   "name": "Words in parliament: word and phrase counts (Civgraph-derived)",
+   "category": "parliaments",
+   "publisher": "Civgraph (from the Oireachtas, NI Assembly and Parliament of Northern Ireland debates)",
+   "url": "https://civgraph.net/apps/words/",
+   "rights": "own-work",
+   "access": "open",
+   "mirrored": {
+    "status": "complete",
+    "where": [
+     "r2"
+    ],
+    "approxSize": "0.42 GB (15,051 objects under data/parliament/words/)",
+    "asOf": "2026-11-09"
+   },
+   "extracted": {
+    "status": "complete",
+    "what": "Aggregate word and two-word phrase counts per chamber, year, party and language; top speakers per term; distinctive terms; autocomplete lists. No debate text.",
+    "counts": {
+     "objects": 15051,
+     "provenanceCitations": 0
+    },
+    "targets": [
+     "R2 data/parliament/words/",
+     "apps/words/"
+    ]
+   },
+   "remaining": "Rebuild when new debates are added; the counts cover the debates held at the 3 Nov 2026 build.",
+   "nextStep": "Refresh after the next Oireachtas and NI Assembly debate harvests.",
+   "lastChecked": "2026-11-09",
+   "match": {
+    "hosts": []
+   }
   }
  ]
 }
