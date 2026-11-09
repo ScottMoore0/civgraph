@@ -1,0 +1,1438 @@
+{
+ "schemaVersion": 1,
+ "asOf": "2026-11-09",
+ "description": "Civgraph source ledger: each source Civgraph holds or plans to hold, whether it is mirrored and where, what has been extracted from it, and what remains. Validated by npm run check:source-ledger; docs/source-ledger.md is generated from it.",
+ "policy": "Published with the site, so it lists only sources whose content Civgraph may make public: open licences (OGL, OPL, Creative Commons, CC0, ODbL, Irish PSI open terms), Crown or state copyright that has expired, the public domain, and Civgraph's own or contributed work. Sources held or consulted under any other terms are tracked privately and are not listed here.",
+ "liveStores": {
+  "measuredAt": "2026-11-09",
+  "r2": {
+   "data/books/": "0.38 GB / 79 objects",
+   "data/browse/": "2.17 GB / 5406 objects",
+   "data/census/": "59.67 GB / 165219 objects",
+   "data/cso-pxstat/": "2.21 GB / 25060 objects",
+   "data/datagovie/": "102.45 GB / 23566 objects",
+   "data/deprivation/": "0.01 GB / 6 objects",
+   "data/documents/": "0.18 GB / 21 objects",
+   "data/downloads/": "1.44 GB / 7 objects",
+   "data/maps/": "66.1 GB / 1222381 objects",
+   "data/nisra-files/": "7.52 GB / 33593 objects",
+   "data/nisra-portal/": "0.05 GB / 1115 objects",
+   "data/parliament/": "0.42 GB / 15051 objects",
+   "data/pointclouds/": "32.95 GB / 393355 objects",
+   "data/sources/datagovie-pending-ia/": "1.23 GB / 19790 objects",
+   "data/sources/oireachtas-fulltext/": "52.31 GB / 50824 objects",
+   "data/sources/tailte-national-land-cover-2018/": "48.48 GB / 1 objects",
+   "data/thumbnails/": "0.2 GB / 47521 objects",
+   "data/timeline-transitions/": "0.16 GB / 6 objects"
+  },
+  "D1 civgraph-records": {
+   "contests": 21010,
+   "candidacies": 76994,
+   "citations": 44690,
+   "graph_entities": 307826,
+   "layers": 1339,
+   "documents": 26
+  },
+  "D1 proni-catalogue": {
+   "records": 1538177
+  }
+ },
+ "sources": [
+  {
+   "id": "roi-housing-election-results",
+   "name": "Irish election result books and open data (Department of Housing)",
+   "category": "elections",
+   "publisher": "Department of Housing, Local Government and Heritage",
+   "url": "https://opendata.housing.gov.ie",
+   "rights": "PSI-open",
+   "access": "open",
+   "mirrored": {
+    "status": "partial",
+    "where": [
+     "local"
+    ],
+    "approxSize": "official Dáil results archive and local, European, presidential and referendum result books (held locally, not mirrored whole)",
+    "asOf": "2026-11-09"
+   },
+   "extracted": {
+    "status": "partial",
+    "what": "ROI local (1974-2024), European, presidential, referendum and Dáil official results imported as contests",
+    "counts": {
+     "provenanceCitations": 2300
+    },
+    "targets": [
+     "data/elections-source/data/elections/",
+     "data/elections/dail-official-results.json",
+     "D1 civgraph-records"
+    ]
+   },
+   "remaining": "Verification of the remaining ROI local rounds against the result books; the 1974, 1979 and 1985 local rounds are held back.",
+   "nextStep": "Mirror the result-book PDFs to R2 and verify the ROI local rounds book by book.",
+   "lastChecked": "2026-11-09",
+   "match": {
+    "hosts": [
+     "opendata.housing.gov.ie",
+     "housing.gov.ie",
+     "gov.ie",
+     "environ.ie"
+    ]
+   }
+  },
+  {
+   "id": "oireachtas-library-result-books",
+   "name": "Oireachtas Library catalogue: printed election result books",
+   "category": "elections",
+   "publisher": "Houses of the Oireachtas Library",
+   "url": "https://opac.oireachtas.ie",
+   "rights": "PSI-open",
+   "access": "open",
+   "mirrored": {
+    "status": "none",
+    "where": [],
+    "approxSize": null,
+    "asOf": null
+   },
+   "extracted": {
+    "status": "reference-only",
+    "what": "Cited per contest as the printed source of ROI results",
+    "counts": {
+     "provenanceCitations": 207
+    },
+    "targets": [
+     "D1 civgraph-records"
+    ]
+   },
+   "remaining": "Result books are cited, not mirrored.",
+   "nextStep": "Fetch the digitised result books the catalogue links to and add them to the Housing mirror.",
+   "lastChecked": "2026-11-09",
+   "match": {
+    "hosts": [
+     "opac.oireachtas.ie"
+    ]
+   }
+  },
+  {
+   "id": "eoni-result-sheets",
+   "name": "Electoral Office for Northern Ireland result sheets (incl. archived 1973-2005 sheets)",
+   "category": "elections",
+   "publisher": "Electoral Office for Northern Ireland",
+   "url": "https://www.eoni.org.uk",
+   "rights": "OGL-3.0",
+   "access": "open",
+   "mirrored": {
+    "status": "partial",
+    "where": [
+     "local"
+    ],
+    "approxSize": "349 archived result-sheet PDFs (1973-2005) plus OCR",
+    "asOf": "2026-10-26"
+   },
+   "extracted": {
+    "status": "partial",
+    "what": "NI council results checked against the sheets and recorded as source-checked fixes",
+    "counts": {
+     "provenanceCitations": 1715
+    },
+    "targets": [
+     "data/elections/corrections/source-checked-fixes.json",
+     "D1 civgraph-records"
+    ]
+   },
+   "remaining": "Per-year coverage of the 1973-2005 sheets is not yet audited; current-era sheets are cited live, not mirrored.",
+   "nextStep": "Audit per-year coverage, then mirror the current eoni.org.uk result sheets.",
+   "lastChecked": "2026-11-09",
+   "match": {
+    "hosts": [
+     "eoni.org.uk"
+    ]
+   }
+  },
+  {
+   "id": "uk-electoral-commission",
+   "name": "Electoral Commission (UK) results and reports",
+   "category": "elections",
+   "publisher": "The Electoral Commission",
+   "url": "https://www.electoralcommission.org.uk",
+   "rights": "OGL-3.0",
+   "access": "open",
+   "mirrored": {
+    "status": "none",
+    "where": [],
+    "approxSize": null,
+    "asOf": null
+   },
+   "extracted": {
+    "status": "reference-only",
+    "what": "Cited for NI and UK-wide results",
+    "counts": {
+     "provenanceCitations": 87
+    },
+    "targets": [
+     "D1 civgraph-records"
+    ]
+   },
+   "remaining": "Not mirrored.",
+   "nextStep": "Mirror the NI result spreadsheets cited by contests.",
+   "lastChecked": "2026-11-09",
+   "match": {
+    "hosts": [
+     "electoralcommission.org.uk"
+    ]
+   }
+  },
+  {
+   "id": "commons-library-election-statistics",
+   "name": "House of Commons Library election statistics and constituency results",
+   "category": "elections",
+   "publisher": "House of Commons Library",
+   "url": "https://commonslibrary.parliament.uk",
+   "rights": "OPL-1.0",
+   "access": "open",
+   "mirrored": {
+    "status": "partial",
+    "where": [
+     "local"
+    ],
+    "approxSize": "general-election results by constituency 2015-2024 (spreadsheets); the 1918-2023 statistics PDF is cited live",
+    "asOf": "2026-11-09"
+   },
+   "extracted": {
+    "status": "reference-only",
+    "what": "Cited for Westminster results in NI",
+    "counts": {
+     "provenanceCitations": 381
+    },
+    "targets": [
+     "D1 civgraph-records"
+    ]
+   },
+   "remaining": "The UK Election Statistics 1918-2023 briefing is not held locally.",
+   "nextStep": "Download the briefing and its data tables; cross-check NI Westminster figures.",
+   "lastChecked": "2026-11-09",
+   "match": {
+    "hosts": [
+     "researchbriefings.files.parliament.uk",
+     "commonslibrary.parliament.uk"
+    ]
+   }
+  },
+  {
+   "id": "ie-boundary-committee-reports",
+   "name": "Constituency Commission and Local Electoral Area boundary committee reports",
+   "category": "elections",
+   "publisher": "Electoral Commission (Ireland) / Department of Housing",
+   "url": "https://www.electoralcommission.ie",
+   "rights": "PSI-open",
+   "access": "open",
+   "mirrored": {
+    "status": "none",
+    "where": [],
+    "approxSize": null,
+    "asOf": null
+   },
+   "extracted": {
+    "status": "partial",
+    "what": "Cited for constituency and LEA definitions",
+    "counts": {
+     "provenanceCitations": 102
+    },
+    "targets": [
+     "D1 civgraph-records",
+     "data/maps/"
+    ]
+   },
+   "remaining": "Reports are cited, not mirrored.",
+   "nextStep": "Mirror the report PDFs and link each LEA layer to its report.",
+   "lastChecked": "2026-11-09",
+   "match": {
+    "hosts": [
+     "boundarycommittee.ie",
+     "electoralcommission.ie",
+     "constituency-commission.ie"
+    ]
+   }
+  },
+  {
+   "id": "civgraph-ni-election-compilation",
+   "name": "Civgraph NI election results compilation (own work)",
+   "category": "elections",
+   "publisher": "Civgraph",
+   "url": "https://civgraph.net",
+   "rights": "own-work",
+   "access": "open",
+   "mirrored": {
+    "status": "complete",
+    "where": [
+     "local",
+     "d1"
+    ],
+    "approxSize": null,
+    "asOf": "2026-11-09"
+   },
+   "extracted": {
+    "status": "complete",
+    "what": "Basis of the NI election records",
+    "counts": {},
+    "targets": [
+     "data/elections-source/",
+     "D1 civgraph-records"
+    ]
+   },
+   "remaining": "Continuing source checks against official sheets and gazette notices.",
+   "nextStep": "Keep replacing compiled figures with checked official sources.",
+   "lastChecked": "2026-11-09"
+  },
+  {
+   "id": "oireachtas-debates-fulltext",
+   "name": "Oireachtas debates, full text",
+   "category": "parliaments",
+   "publisher": "Houses of the Oireachtas",
+   "url": "https://www.oireachtas.ie",
+   "rights": "PSI-open",
+   "rightsNote": "Oireachtas (Open Data) PSI Licence",
+   "access": "open",
+   "mirrored": {
+    "status": "complete",
+    "where": [
+     "r2"
+    ],
+    "approxSize": "52.31 GB, 50,824 objects on R2 (data/sources/oireachtas-fulltext/)",
+    "asOf": "2026-11-09"
+   },
+   "extracted": {
+    "status": "partial",
+    "what": "Harvested; linked to members by Oireachtas ids only",
+    "counts": {},
+    "targets": [
+     "data/sources/oireachtas-fulltext/"
+    ]
+   },
+   "remaining": "Debates are not yet linked to contests, offices or places.",
+   "nextStep": "Index speakers and constituencies against person records.",
+   "lastChecked": "2026-11-09"
+  },
+  {
+   "id": "oireachtas-open-data",
+   "name": "Oireachtas open data API (members, constituencies, parties, votes, legislation)",
+   "category": "parliaments",
+   "publisher": "Houses of the Oireachtas",
+   "url": "https://api.oireachtas.ie",
+   "rights": "PSI-open",
+   "rightsNote": "Oireachtas (Open Data) PSI Licence",
+   "access": "open",
+   "mirrored": {
+    "status": "complete",
+    "where": [
+     "local"
+    ],
+    "approxSize": "about 5 GB",
+    "asOf": "2026-11-09"
+   },
+   "extracted": {
+    "status": "partial",
+    "what": "Member ids used in person records",
+    "counts": {
+     "provenanceCitations": 4
+    },
+    "targets": [
+     "D1 civgraph-records"
+    ]
+   },
+   "remaining": "Structured data beyond member ids (votes, questions, legislation) is not integrated; not on R2 or IA.",
+   "nextStep": "Upload the structured harvest to R2 and load divisions and memberships.",
+   "lastChecked": "2026-11-09",
+   "match": {
+    "hosts": [
+     "oireachtas.ie",
+     "api.oireachtas.ie",
+     "data.oireachtas.ie"
+    ]
+   }
+  },
+  {
+   "id": "ni-assembly-open-data",
+   "name": "Northern Ireland Assembly open data (members, Hansard, questions, register of interests)",
+   "category": "parliaments",
+   "publisher": "Northern Ireland Assembly",
+   "url": "https://data.niassembly.gov.uk",
+   "rights": "OGL-3.0",
+   "access": "open",
+   "mirrored": {
+    "status": "complete",
+    "where": [
+     "local"
+    ],
+    "approxSize": "about 4.5 GB XML",
+    "asOf": "2026-11-09"
+   },
+   "extracted": {
+    "status": "partial",
+    "what": "Members and register of interests",
+    "counts": {
+     "provenanceCitations": 0
+    },
+    "targets": [
+     "data/database/ni-register-interests/",
+     "D1 civgraph-records"
+    ]
+   },
+   "remaining": "Hansard, plenary and questions are not integrated; harvest is local only.",
+   "nextStep": "Upload the packed harvest to R2/IA and load Assembly memberships.",
+   "lastChecked": "2026-11-09",
+   "match": {
+    "hosts": [
+     "niassembly.gov.uk",
+     "data.niassembly.gov.uk",
+     "aims.niassembly.gov.uk"
+    ]
+   }
+  },
+  {
+   "id": "stormont-hansard-1921-1945",
+   "name": "Parliament of Northern Ireland Hansard, 1921-1945",
+   "category": "parliaments",
+   "publisher": "Parliament of Northern Ireland",
+   "url": "https://archive.org/details/civgraph-ni-hansard-1921-1945",
+   "rights": "crown-copyright-expired",
+   "rightsNote": "Published Crown copyright lasts 50 years; these volumes passed out of copyright by 1995.",
+   "access": "open",
+   "mirrored": {
+    "status": "complete",
+    "where": [
+     "r2",
+     "internet-archive"
+    ],
+    "approxSize": "0.38 GB, 79 objects on R2 (data/books/)",
+    "asOf": "2026-11-09"
+   },
+   "extracted": {
+    "status": "complete",
+    "what": "Commons and Senate volumes transcribed to markdown (66 files)",
+    "counts": {},
+    "targets": [
+     "data/books/markdown/"
+    ]
+   },
+   "remaining": "Volumes after 1945 are not held; per-item provenance for the scans is still to be recorded.",
+   "nextStep": "Locate digitised Hansard volumes 1946-1972 and record per-item scan provenance.",
+   "lastChecked": "2026-11-09"
+  },
+  {
+   "id": "the-gazette-notices",
+   "name": "The Gazette (Belfast and London editions): election and boundary notices",
+   "category": "gazettes",
+   "publisher": "The Stationery Office (The Gazette)",
+   "url": "https://www.thegazette.co.uk",
+   "rights": "OGL-3.0",
+   "access": "open",
+   "mirrored": {
+    "status": "partial",
+    "where": [
+     "local"
+    ],
+    "approxSize": "notices fetched for NI council elections",
+    "asOf": "2026-11-09"
+   },
+   "extracted": {
+    "status": "partial",
+    "what": "Notices of poll and election agents parsed for review; cited on contests",
+    "counts": {
+     "provenanceCitations": 860
+    },
+    "targets": [
+     "data/database/spn-ocr-election-map.json",
+     "D1 civgraph-records"
+    ]
+   },
+   "remaining": "Parsed notices are review-only, not yet applied.",
+   "nextStep": "Apply the reviewed notices to NI council contests.",
+   "lastChecked": "2026-11-09",
+   "match": {
+    "hosts": [
+     "thegazette.co.uk"
+    ]
+   }
+  },
+  {
+   "id": "belfast-gazette-1921-1969",
+   "name": "Belfast Gazette volumes, 1921-c.1969 (HathiTrust scans)",
+   "category": "gazettes",
+   "publisher": "HM Stationery Office, Belfast",
+   "url": "https://catalog.hathitrust.org",
+   "rights": "crown-copyright-expired",
+   "access": "open",
+   "mirrored": {
+    "status": "partial",
+    "where": [
+     "local"
+    ],
+    "approxSize": "65 issue PDFs, about 73 MB, with text",
+    "asOf": "2026-11-09"
+   },
+   "extracted": {
+    "status": "partial",
+    "what": "76 NI boundary-change orders listed",
+    "counts": {},
+    "targets": []
+   },
+   "remaining": "The boundary-order timeline is not integrated into the map layers or the repo.",
+   "nextStep": "Commit the order list as data and link each order to the layers it changed.",
+   "lastChecked": "2026-11-09"
+  },
+  {
+   "id": "london-gazette-irish-notices",
+   "name": "London Gazette: Irish notices before 1922",
+   "category": "gazettes",
+   "publisher": "The Stationery Office (The Gazette)",
+   "url": "https://www.thegazette.co.uk/London",
+   "rights": "OGL-3.0",
+   "access": "open",
+   "mirrored": {
+    "status": "none",
+    "where": [],
+    "approxSize": null,
+    "asOf": null
+   },
+   "extracted": {
+    "status": "not-started",
+    "what": "",
+    "counts": {},
+    "targets": []
+   },
+   "remaining": "Not held: pre-1922 Irish election writs, returns, boundary and Poor Law union orders.",
+   "nextStep": "Search The Gazette for Irish election and boundary notices 1801-1922 and list them.",
+   "lastChecked": "2026-11-09"
+  },
+  {
+   "id": "iris-oifigiuil",
+   "name": "Iris Oifigiúil (Irish state gazette, 1922-)",
+   "category": "gazettes",
+   "publisher": "Government of Ireland",
+   "url": "https://www.irisoifigiuil.ie",
+   "rights": "copyright-expired",
+   "rightsNote": "Government copyright in Ireland runs 50 years from publication, so issues to 1975 are out of copyright; later issues are reused under the Irish PSI terms. Only those parts would be mirrored.",
+   "access": "open",
+   "mirrored": {
+    "status": "none",
+    "where": [],
+    "approxSize": null,
+    "asOf": null
+   },
+   "extracted": {
+    "status": "not-started",
+    "what": "",
+    "counts": {},
+    "targets": []
+   },
+   "remaining": "Not held: Dáil and local election notices, boundary and county orders since 1922.",
+   "nextStep": "Find where the older issues are digitised, then list election and boundary notices.",
+   "lastChecked": "2026-11-09"
+  },
+  {
+   "id": "cso-pxstat",
+   "name": "CSO PxStat statistical cubes",
+   "category": "census-statistics",
+   "publisher": "Central Statistics Office",
+   "url": "https://data.cso.ie",
+   "rights": "CC-BY-4.0",
+   "access": "open",
+   "mirrored": {
+    "status": "complete",
+    "where": [
+     "r2",
+     "local"
+    ],
+    "approxSize": "2.21 GB, 25,060 objects on R2 (data/cso-pxstat/)",
+    "asOf": "2026-11-09"
+   },
+   "extracted": {
+    "status": "partial",
+    "what": "All 12,528 cubes mirrored as JSON-stat; gated cubes published as source records",
+    "counts": {
+     "provenanceCitations": 0
+    },
+    "targets": [
+     "data/cso-pxstat/"
+    ]
+   },
+   "remaining": "Census cubes are not all joined to boundary layers.",
+   "nextStep": "Join the remaining small-area cubes to the ED and SA layers.",
+   "lastChecked": "2026-11-09",
+   "match": {
+    "hosts": [
+     "data.cso.ie",
+     "cso.ie"
+    ]
+   }
+  },
+  {
+   "id": "cso-historical-reports",
+   "name": "CSO historical census and statistical reports, 1841-1991",
+   "category": "census-statistics",
+   "publisher": "Central Statistics Office",
+   "url": "https://archive.org/details/civgraph-cso-historical-reports",
+   "rights": "CC-BY-4.0",
+   "access": "open",
+   "mirrored": {
+    "status": "complete",
+    "where": [
+     "internet-archive",
+     "local"
+    ],
+    "approxSize": "2,172 reports on IA",
+    "asOf": "2026-11-09"
+   },
+   "extracted": {
+    "status": "partial",
+    "what": "Selected tables in the census explorer",
+    "counts": {},
+    "targets": [
+     "data/census/"
+    ]
+   },
+   "remaining": "Most report tables are not extracted.",
+   "nextStep": "Extract county and barony population tables 1841-1911.",
+   "lastChecked": "2026-11-09"
+  },
+  {
+   "id": "nisra-files",
+   "name": "NISRA statistics mirror",
+   "category": "census-statistics",
+   "publisher": "Northern Ireland Statistics and Research Agency",
+   "url": "https://www.nisra.gov.uk",
+   "rights": "OGL-3.0",
+   "access": "open",
+   "mirrored": {
+    "status": "complete",
+    "where": [
+     "r2",
+     "local"
+    ],
+    "approxSize": "7.52 GB, 33,593 objects on R2 (data/nisra-files/)",
+    "asOf": "2026-11-09"
+   },
+   "extracted": {
+    "status": "partial",
+    "what": "Tables credited on approved-publication records",
+    "counts": {
+     "provenanceCitations": 0
+    },
+    "targets": [
+     "data/nisra-files/",
+     "data/database/approved-publication-sources.json"
+    ]
+   },
+   "remaining": "Many tables are mirrored but not modelled.",
+   "nextStep": "Prioritise NI small-area tables for the census explorer.",
+   "lastChecked": "2026-11-09",
+   "match": {
+    "hosts": [
+     "nisra.gov.uk"
+    ]
+   }
+  },
+  {
+   "id": "nisra-portal-tables",
+   "name": "NISRA data portal tables (cleaned)",
+   "category": "census-statistics",
+   "publisher": "Northern Ireland Statistics and Research Agency",
+   "url": "https://data.nisra.gov.uk",
+   "rights": "OGL-3.0",
+   "access": "open",
+   "mirrored": {
+    "status": "complete",
+    "where": [
+     "r2"
+    ],
+    "approxSize": "0.05 GB, 1,115 objects on R2 (data/nisra-portal/)",
+    "asOf": "2026-11-09"
+   },
+   "extracted": {
+    "status": "complete",
+    "what": "Cleaned and gzipped portal tables",
+    "counts": {},
+    "targets": [
+     "data/nisra-portal/"
+    ]
+   },
+   "remaining": "None known.",
+   "nextStep": "Refresh when NISRA releases new tables.",
+   "lastChecked": "2026-11-09"
+  },
+  {
+   "id": "nisra-wayback",
+   "name": "NISRA pages recovered from the Wayback Machine",
+   "category": "census-statistics",
+   "publisher": "Northern Ireland Statistics and Research Agency (archived)",
+   "url": "https://web.archive.org",
+   "rights": "OGL-3.0",
+   "access": "open",
+   "mirrored": {
+    "status": "partial",
+    "where": [
+     "local"
+    ],
+    "approxSize": "about 14 GB, 24,889 files",
+    "asOf": "2026-08-31"
+   },
+   "extracted": {
+    "status": "not-started",
+    "what": "",
+    "counts": {},
+    "targets": []
+   },
+   "remaining": "Local only; not on R2 or IA.",
+   "nextStep": "Upload to the Internet Archive.",
+   "lastChecked": "2026-11-09"
+  },
+  {
+   "id": "nimdm-deprivation",
+   "name": "NI Multiple Deprivation Measure",
+   "category": "census-statistics",
+   "publisher": "Northern Ireland Statistics and Research Agency",
+   "url": "https://www.nisra.gov.uk",
+   "rights": "OGL-3.0",
+   "access": "open",
+   "mirrored": {
+    "status": "complete",
+    "where": [
+     "r2"
+    ],
+    "approxSize": "0.01 GB, 6 objects on R2 (data/deprivation/)",
+    "asOf": "2026-11-09"
+   },
+   "extracted": {
+    "status": "complete",
+    "what": "NIMDM originals published",
+    "counts": {},
+    "targets": [
+     "data/deprivation/"
+    ]
+   },
+   "remaining": "None known.",
+   "nextStep": "None.",
+   "lastChecked": "2026-11-09"
+  },
+  {
+   "id": "ni-census-reports-1926-1981",
+   "name": "Northern Ireland census reports, 1926-1981",
+   "category": "census-statistics",
+   "publisher": "General Register Office (NI)",
+   "url": null,
+   "rights": "crown-copyright-expired",
+   "rightsNote": "Crown copyright of 50 years for 1926-1966 reports has expired; NISRA releases the rest under OGL.",
+   "access": "open",
+   "mirrored": {
+    "status": "partial",
+    "where": [
+     "local"
+    ],
+    "approxSize": "county and general reports 1926-1981",
+    "asOf": "2026-11-09"
+   },
+   "extracted": {
+    "status": "partial",
+    "what": "Reports converted to markdown (1926, 1937, 1951, 1961, 1966, 1971, 1981)",
+    "counts": {},
+    "targets": [
+     "data/census/"
+    ]
+   },
+   "remaining": "Scans not on IA; tables not extracted to data. 1971 and 1981 reports are newer than the 50-year term and are held under OGL instead.",
+   "nextStep": "Upload the scans to IA and extract the district population tables.",
+   "lastChecked": "2026-11-09"
+  },
+  {
+   "id": "ni-census-2001-2021",
+   "name": "Northern Ireland census 2001, 2011 and 2021 outputs (incl. flexible table builder)",
+   "category": "census-statistics",
+   "publisher": "Northern Ireland Statistics and Research Agency",
+   "url": "https://www.nisra.gov.uk/statistics/census",
+   "rights": "OGL-3.0",
+   "access": "open",
+   "mirrored": {
+    "status": "complete",
+    "where": [
+     "r2",
+     "local"
+    ],
+    "approxSize": "59.67 GB, 165,219 objects on R2 (data/census/)",
+    "asOf": "2026-11-09"
+   },
+   "extracted": {
+    "status": "partial",
+    "what": "Bulk tables cleaned; commissioned tables held",
+    "counts": {},
+    "targets": [
+     "data/census/"
+    ]
+   },
+   "remaining": "Not all tables are joined to the DZ/SA/OA layers.",
+   "nextStep": "Join the 2021 flexible-table outputs to the DZ and SDZ layers.",
+   "lastChecked": "2026-11-09"
+  },
+  {
+   "id": "irish-digitised-boundaries",
+   "name": "Irish Digitised Boundaries (contributed digitisations: EDs, DEDs, wards, constituencies, townlands)",
+   "category": "boundaries-maps",
+   "publisher": "Civgraph contributors",
+   "url": "https://civgraph.net",
+   "rights": "own-work",
+   "access": "open",
+   "mirrored": {
+    "status": "complete",
+    "where": [
+     "local",
+     "r2"
+    ],
+    "approxSize": "three deliveries 2026 (about 5 GB)",
+    "asOf": "2026-11-09"
+   },
+   "extracted": {
+    "status": "partial",
+    "what": "Delivered series published as map layers",
+    "counts": {},
+    "targets": [
+     "data/intake/",
+     "data/maps/"
+    ]
+   },
+   "remaining": "Later deliveries (1911/1926 EDs, Leinster ward/DED series 1941-85, NI DEDs 1921) are only partly integrated; the 4 Aug 2026 delivery manifest covers EDs only.",
+   "nextStep": "Finish integrating the 24 Oct 2026 series and record full manifests.",
+   "lastChecked": "2026-11-09"
+  },
+  {
+   "id": "tailte-cso-boundaries",
+   "name": "Tailte Éireann and CSO official boundaries (constituencies, LEAs, EDs, counties, small areas)",
+   "category": "boundaries-maps",
+   "publisher": "Tailte Éireann / Central Statistics Office",
+   "url": "https://data-osi.opendata.arcgis.com",
+   "rights": "CC-BY-4.0",
+   "access": "open",
+   "mirrored": {
+    "status": "complete",
+    "where": [
+     "local",
+     "r2"
+    ],
+    "approxSize": null,
+    "asOf": "2026-11-09"
+   },
+   "extracted": {
+    "status": "partial",
+    "what": "Current and recent series published as map layers",
+    "counts": {
+     "provenanceCitations": 0
+    },
+    "targets": [
+     "data/maps/"
+    ]
+   },
+   "remaining": "Older ungeneralised series not all published.",
+   "nextStep": "Publish the remaining 1986-2019 ED vintages.",
+   "lastChecked": "2026-11-09",
+   "match": {
+    "hosts": [
+     "data-osi.opendata.arcgis.com",
+     "tailte.ie",
+     "osi.ie"
+    ]
+   }
+  },
+  {
+   "id": "osni-nisra-boundaries",
+   "name": "OSNI and NISRA boundaries (wards, DEAs, LGDs, constituencies, OA/SA/SOA, DZ/SDZ, townlands)",
+   "category": "boundaries-maps",
+   "publisher": "Ordnance Survey of Northern Ireland / NISRA",
+   "url": "https://www.opendatani.gov.uk",
+   "rights": "OGL-3.0",
+   "access": "open",
+   "mirrored": {
+    "status": "complete",
+    "where": [
+     "local",
+     "r2"
+    ],
+    "approxSize": null,
+    "asOf": "2026-11-09"
+   },
+   "extracted": {
+    "status": "partial",
+    "what": "Published as map layers",
+    "counts": {},
+    "targets": [
+     "data/maps/"
+    ]
+   },
+   "remaining": "Duplicated local copies not reconciled; some historical vintages (1966-1993 LGDs, 1930 DEDs) still being traced.",
+   "nextStep": "Finish the 1930-69 LGD/DED series.",
+   "lastChecked": "2026-11-09"
+  },
+  {
+   "id": "osni-historical-six-inch-eds-1-2",
+   "name": "OSNI historical six-inch maps, Editions 1-2",
+   "category": "boundaries-maps",
+   "publisher": "Ordnance Survey of Northern Ireland (via OpenDataNI)",
+   "url": "https://www.opendatani.gov.uk",
+   "rights": "OGL-3.0",
+   "access": "open",
+   "mirrored": {
+    "status": "none",
+    "where": [],
+    "approxSize": null,
+    "asOf": null
+   },
+   "extracted": {
+    "status": "reference-only",
+    "what": "Consulted for boundary tracing",
+    "counts": {},
+    "targets": []
+   },
+   "remaining": "Not confirmed as part of the OpenDataNI mirror.",
+   "nextStep": "Check the OpenDataNI mirror for these sheets; mirror them if missing.",
+   "lastChecked": "2026-11-09"
+  },
+  {
+   "id": "proni-ecatalogue",
+   "name": "PRONI eCatalogue records",
+   "category": "archives",
+   "publisher": "Public Record Office of Northern Ireland",
+   "url": "https://apps.proni.gov.uk/eCatalogueNav",
+   "rights": "OGL-3.0",
+   "access": "open",
+   "mirrored": {
+    "status": "complete",
+    "where": [
+     "local",
+     "d1"
+    ],
+    "approxSize": "about 11 GB scrape; D1 proni-catalogue about 1.3 GB",
+    "asOf": "2026-11-09"
+   },
+   "extracted": {
+    "status": "complete",
+    "what": "Full records searchable at /proni; extracted dates pipeline",
+    "counts": {
+     "records": 1538177,
+     "provenanceCitations": 0
+    },
+    "targets": [
+     "D1 proni-catalogue",
+     "data/proni/date-overrides.csv"
+    ]
+   },
+   "remaining": "Document images cannot be captured (the image endpoint blocks automated access); extracted dates still need overrides review.",
+   "nextStep": "Continue the extracted-dates overrides; capture images only by hand where needed.",
+   "lastChecked": "2026-11-09",
+   "match": {
+    "hosts": [
+     "proni.gov.uk",
+     "apps.proni.gov.uk"
+    ]
+   }
+  },
+  {
+   "id": "data-gov-ie",
+   "name": "data.gov.ie mirror (Open Data Portal Ireland)",
+   "category": "open-data",
+   "publisher": "data.gov.ie (115 publishers)",
+   "url": "https://data.gov.ie",
+   "rights": "PSI-open",
+   "rightsNote": "Licence per package, mostly CC BY 4.0; summary in data/database/datagovie-licence-summary.json",
+   "access": "open",
+   "mirrored": {
+    "status": "complete",
+    "where": [
+     "r2",
+     "internet-archive",
+     "local"
+    ],
+    "approxSize": "102.45 GB, 23,566 objects on R2 (data/datagovie/)",
+    "asOf": "2026-11-09"
+   },
+   "extracted": {
+    "status": "partial",
+    "what": "Raw files resolved per file; selected datasets published as records",
+    "counts": {
+     "provenanceCitations": 0
+    },
+    "targets": [
+     "data/datagovie/",
+     "data/database/raw-source-ia-mirrors.json",
+     "data/external/datagovie-provenance.json"
+    ]
+   },
+   "remaining": "Pending-IA batch still staged on R2; most datasets not modelled.",
+   "nextStep": "Finish the IA upload of the pending batch and retire its R2 staging copy.",
+   "lastChecked": "2026-11-09",
+   "match": {
+    "hosts": [
+     "data.gov.ie"
+    ]
+   }
+  },
+  {
+   "id": "opendatani",
+   "name": "OpenDataNI mirror",
+   "category": "open-data",
+   "publisher": "OpenDataNI (90 publishers)",
+   "url": "https://www.opendatani.gov.uk",
+   "rights": "OGL-3.0",
+   "access": "open",
+   "mirrored": {
+    "status": "partial",
+    "where": [
+     "local",
+     "internet-archive"
+    ],
+    "approxSize": "about 221 GB locally; IA partial",
+    "asOf": "2026-08-31"
+   },
+   "extracted": {
+    "status": "partial",
+    "what": "Selected datasets published (point clouds, boundaries)",
+    "counts": {
+     "provenanceCitations": 0
+    },
+    "targets": [
+     "data/maps/",
+     "data/pointclouds/"
+    ]
+   },
+   "remaining": "IA upload is partial; gap report open.",
+   "nextStep": "Resume the IA upload from the gap report.",
+   "lastChecked": "2026-11-09",
+   "match": {
+    "hosts": [
+     "opendatani.gov.uk",
+     "admin.opendatani.gov.uk"
+    ]
+   }
+  },
+  {
+   "id": "tellus-geophysics",
+   "name": "Tellus airborne geophysics",
+   "category": "geodata",
+   "publisher": "Geological Survey of Northern Ireland",
+   "url": "https://www.bgs.ac.uk/gsni/tellus",
+   "rights": "OGL-3.0",
+   "access": "open",
+   "mirrored": {
+    "status": "complete",
+    "where": [
+     "local"
+    ],
+    "approxSize": "about 4.9 GB grids",
+    "asOf": "2026-11-09"
+   },
+   "extracted": {
+    "status": "complete",
+    "what": "Derived rasters published as map layers",
+    "counts": {},
+    "targets": [
+     "data/maps/"
+    ]
+   },
+   "remaining": "Source grids local only.",
+   "nextStep": "Upload the source grids to IA.",
+   "lastChecked": "2026-11-09"
+  },
+  {
+   "id": "opendatani-lidar-pointclouds",
+   "name": "OpenDataNI lidar point clouds (3D Tiles)",
+   "category": "geodata",
+   "publisher": "Department for Infrastructure / OpenDataNI",
+   "url": "https://www.opendatani.gov.uk",
+   "rights": "OGL-3.0",
+   "access": "open",
+   "mirrored": {
+    "status": "complete",
+    "where": [
+     "r2"
+    ],
+    "approxSize": "32.95 GB, 393,355 objects on R2 (data/pointclouds/)",
+    "asOf": "2026-11-09"
+   },
+   "extracted": {
+    "status": "partial",
+    "what": "Six point clouds converted to 3D Tiles",
+    "counts": {},
+    "targets": [
+     "data/pointclouds/"
+    ]
+   },
+   "remaining": "North Coast 2022 clouds lack source colour; the A6 survey is raw drone photography needing an orthomosaic.",
+   "nextStep": "Recolour the North Coast clouds from orthophotography.",
+   "lastChecked": "2026-11-09"
+  },
+  {
+   "id": "tailte-national-land-cover-2018",
+   "name": "Tailte Éireann National Land Cover 2018",
+   "category": "geodata",
+   "publisher": "Tailte Éireann / EPA",
+   "url": "https://www.tailte.ie",
+   "rights": "CC-BY-4.0",
+   "access": "open",
+   "mirrored": {
+    "status": "complete",
+    "where": [
+     "r2"
+    ],
+    "approxSize": "48.48 GB, 1 objects on R2 (data/sources/tailte-national-land-cover-2018/)",
+    "asOf": "2026-11-09"
+   },
+   "extracted": {
+    "status": "not-started",
+    "what": "",
+    "counts": {},
+    "targets": []
+   },
+   "remaining": "Held as one archive; not tiled.",
+   "nextStep": "Tile it as a raster layer.",
+   "lastChecked": "2026-11-09"
+  },
+  {
+   "id": "copernicus-glo30-dem",
+   "name": "Copernicus GLO-30 digital elevation model",
+   "category": "geodata",
+   "publisher": "European Space Agency / Copernicus",
+   "url": "https://dataspace.copernicus.eu",
+   "rights": "open-other",
+   "rightsNote": "Copernicus DEM licence: free use with attribution.",
+   "access": "open",
+   "mirrored": {
+    "status": "partial",
+    "where": [
+     "local"
+    ],
+    "approxSize": "Ireland tiles",
+    "asOf": "2026-11-09"
+   },
+   "extracted": {
+    "status": "complete",
+    "what": "Terrain and hillshade layers",
+    "counts": {},
+    "targets": [
+     "data/maps/"
+    ]
+   },
+   "remaining": "None known.",
+   "nextStep": "None.",
+   "lastChecked": "2026-11-09"
+  },
+  {
+   "id": "os-code-point-open",
+   "name": "OS Code-Point Open (GB postcodes)",
+   "category": "geodata",
+   "publisher": "Ordnance Survey (GB)",
+   "url": "https://osdatahub.os.uk",
+   "rights": "OGL-3.0",
+   "access": "open",
+   "mirrored": {
+    "status": "complete",
+    "where": [
+     "local"
+    ],
+    "approxSize": null,
+    "asOf": "2026-11-09"
+   },
+   "extracted": {
+    "status": "not-started",
+    "what": "",
+    "counts": {},
+    "targets": []
+   },
+   "remaining": "Unused so far.",
+   "nextStep": "Decide whether it is needed.",
+   "lastChecked": "2026-11-09"
+  },
+  {
+   "id": "osni-place-names-gazetteer",
+   "name": "OSNI place names gazetteer",
+   "category": "place-names",
+   "publisher": "Ordnance Survey of Northern Ireland",
+   "url": "https://www.opendatani.gov.uk",
+   "rights": "OGL-3.0",
+   "access": "open",
+   "mirrored": {
+    "status": "complete",
+    "where": [
+     "local"
+    ],
+    "approxSize": null,
+    "asOf": "2026-11-09"
+   },
+   "extracted": {
+    "status": "reference-only",
+    "what": "Used to check place-name spellings",
+    "counts": {},
+    "targets": []
+   },
+   "remaining": "Not loaded as data.",
+   "nextStep": "Load as a place-name layer.",
+   "lastChecked": "2026-11-09"
+  },
+  {
+   "id": "open-library-works-dump",
+   "name": "Open Library works dump (31 Oct 2026)",
+   "category": "books-catalogues",
+   "publisher": "Internet Archive / Open Library",
+   "url": "https://openlibrary.org/developers/dumps",
+   "rights": "CC0",
+   "access": "open",
+   "mirrored": {
+    "status": "complete",
+    "where": [
+     "local"
+    ],
+    "approxSize": "about 3.8 GiB compressed",
+    "asOf": "2026-11-08"
+   },
+   "extracted": {
+    "status": "partial",
+    "what": "About 3.0 million work records loaded locally for subject classification",
+    "counts": {},
+    "targets": []
+   },
+   "remaining": "Not published; used only as a classification aid.",
+   "nextStep": "None planned.",
+   "lastChecked": "2026-11-09"
+  },
+  {
+   "id": "ia-public-domain-irish-books",
+   "name": "Internet Archive public-domain Irish books (free to download)",
+   "category": "books-catalogues",
+   "publisher": "Internet Archive",
+   "url": "https://archive.org",
+   "rights": "public-domain",
+   "access": "open",
+   "mirrored": {
+    "status": "none",
+    "where": [],
+    "approxSize": null,
+    "asOf": null
+   },
+   "extracted": {
+    "status": "not-started",
+    "what": "",
+    "counts": {},
+    "targets": []
+   },
+   "remaining": "No list yet of freely downloadable Irish-subject books (directories, almanacs, gazetteers, election histories).",
+   "nextStep": "Build the list from IA advanced search (downloadable items only) and rank by relevance.",
+   "lastChecked": "2026-11-09"
+  },
+  {
+   "id": "thoms-directories-pre-1926",
+   "name": "Thom's Irish Almanac and Official Directory (pre-1926 editions)",
+   "category": "reference",
+   "publisher": "Alexander Thom & Co.",
+   "url": null,
+   "rights": "public-domain",
+   "rightsNote": "Editions published before 1926 only; later editions are tracked privately.",
+   "access": "open",
+   "mirrored": {
+    "status": "none",
+    "where": [],
+    "approxSize": null,
+    "asOf": null
+   },
+   "extracted": {
+    "status": "not-started",
+    "what": "",
+    "counts": {},
+    "targets": []
+   },
+   "remaining": "Not held: lists of MPs, poor law unions, town commissioners and officials by year.",
+   "nextStep": "Find digitised pre-1926 editions and list the election and local-government sections.",
+   "lastChecked": "2026-11-09"
+  },
+  {
+   "id": "wikipedia",
+   "name": "Wikipedia (constituency, election and person articles)",
+   "category": "reference",
+   "publisher": "Wikimedia Foundation contributors",
+   "url": "https://en.wikipedia.org",
+   "rights": "CC-BY-SA",
+   "access": "open",
+   "mirrored": {
+    "status": "partial",
+    "where": [
+     "local"
+    ],
+    "approxSize": "about 6,800 cached pages",
+    "asOf": "2026-11-09"
+   },
+   "extracted": {
+    "status": "partial",
+    "what": "Constituency boxes 1832-1922, cited sources harvested and compared",
+    "counts": {
+     "provenanceCitations": 3057
+    },
+    "targets": [
+     "data/elections/",
+     "data/review-inputs/wikipedia-cited-sources/"
+    ]
+   },
+   "remaining": "Cited sources are being replaced by primary sources where possible.",
+   "nextStep": "Keep replacing Wikipedia-only citations with primary sources.",
+   "lastChecked": "2026-11-09",
+   "match": {
+    "hosts": [
+     "wikipedia.org"
+    ]
+   }
+  },
+  {
+   "id": "wikidata",
+   "name": "Wikidata",
+   "category": "reference",
+   "publisher": "Wikimedia Foundation contributors",
+   "url": "https://www.wikidata.org",
+   "rights": "CC0",
+   "access": "open",
+   "mirrored": {
+    "status": "none",
+    "where": [],
+    "approxSize": null,
+    "asOf": null
+   },
+   "extracted": {
+    "status": "partial",
+    "what": "Person id crosswalk",
+    "counts": {
+     "provenanceCitations": 0
+    },
+    "targets": [
+     "data/elections/persons/official-person-ids.json"
+    ]
+   },
+   "remaining": "None known.",
+   "nextStep": "Extend the crosswalk to councillors.",
+   "lastChecked": "2026-11-09",
+   "match": {
+    "hosts": [
+     "wikidata.org"
+    ]
+   }
+  },
+  {
+   "id": "uk-ni-legislation",
+   "name": "UK and Northern Ireland legislation (legislation.gov.uk; NI public general statutes)",
+   "category": "reference",
+   "publisher": "The National Archives / Parliament of Northern Ireland",
+   "url": "https://www.legislation.gov.uk",
+   "rights": "OGL-3.0",
+   "access": "open",
+   "mirrored": {
+    "status": "partial",
+    "where": [
+     "r2"
+    ],
+    "approxSize": "13 statute PDFs (data/books/legislation/)",
+    "asOf": "2026-11-09"
+   },
+   "extracted": {
+    "status": "partial",
+    "what": "Election and boundary legislation cited per contest",
+    "counts": {
+     "provenanceCitations": 222
+    },
+    "targets": [
+     "data/elections/legislation-citations.json"
+    ]
+   },
+   "remaining": "Statutory rules and orders for local boundaries are not all listed.",
+   "nextStep": "List the NI local-government boundary orders 1921-1972.",
+   "lastChecked": "2026-11-09",
+   "match": {
+    "hosts": [
+     "legislation.gov.uk"
+    ]
+   }
+  },
+  {
+   "id": "irish-statute-book",
+   "name": "Irish Statute Book",
+   "category": "reference",
+   "publisher": "Office of the Attorney General (Ireland)",
+   "url": "https://www.irishstatutebook.ie",
+   "rights": "PSI-open",
+   "access": "open",
+   "mirrored": {
+    "status": "none",
+    "where": [],
+    "approxSize": null,
+    "asOf": null
+   },
+   "extracted": {
+    "status": "reference-only",
+    "what": "Electoral Acts and orders cited",
+    "counts": {
+     "provenanceCitations": 0
+    },
+    "targets": []
+   },
+   "remaining": "Not mirrored.",
+   "nextStep": "List the electoral and county-boundary orders cited by layers.",
+   "lastChecked": "2026-11-09",
+   "match": {
+    "hosts": [
+     "irishstatutebook.ie"
+    ]
+   }
+  },
+  {
+   "id": "macrory-report-1970",
+   "name": "Review Body on Local Government in Northern Ireland (Macrory Report, 1970)",
+   "category": "reference",
+   "publisher": "HMSO Belfast",
+   "url": null,
+   "rights": "crown-copyright-expired",
+   "access": "open",
+   "mirrored": {
+    "status": "complete",
+    "where": [
+     "local"
+    ],
+    "approxSize": "two parts, about 97 MB",
+    "asOf": "2026-11-09"
+   },
+   "extracted": {
+    "status": "reference-only",
+    "what": "Cited on register-of-interests records",
+    "counts": {},
+    "targets": []
+   },
+   "remaining": "Not on IA.",
+   "nextStep": "Upload to IA.",
+   "lastChecked": "2026-11-09"
+  },
+  {
+   "id": "lockwood-report-1965",
+   "name": "Lockwood Report (Higher Education in Northern Ireland, 1965), part",
+   "category": "reference",
+   "publisher": "HMSO Belfast",
+   "url": null,
+   "rights": "crown-copyright-expired",
+   "access": "open",
+   "mirrored": {
+    "status": "partial",
+    "where": [
+     "local"
+    ],
+    "approxSize": "part only, about 116 MB",
+    "asOf": "2026-11-09"
+   },
+   "extracted": {
+    "status": "not-started",
+    "what": "",
+    "counts": {},
+    "targets": []
+   },
+   "remaining": "Relevance to Civgraph not yet assessed.",
+   "nextStep": "Assess relevance.",
+   "lastChecked": "2026-11-09"
+  }
+ ]
+}
