@@ -262,14 +262,13 @@ test('votes, graph and stats APIs', { skip }, async () => {
   const exp = await dataGraph.onRequestGet(context('/data/graph/exports/civgraph.jsonld', setup(), { path: ['exports', 'civgraph.jsonld'] }));
   // No R2 copy in the test setup: the export has moved to the bulk downloads.
   assert.equal(exp.status, 301);
-  assert.equal(exp.headers.get('Location'), 'https://data.civgraph.net/downloads/civgraph.jsonld.gz');
+  assert.equal(exp.headers.get('Location'), 'https://data.civgraph.net/data/downloads/civgraph.jsonld.gz');
   const expManifest = await dataGraph.onRequestGet(context('/data/graph/exports/manifest.json', setup(), { path: ['exports', 'manifest.json'] }));
-  assert.equal(expManifest.headers.get('Location'), 'https://data.civgraph.net/downloads/manifest.json');
-  // While the R2 copy is there (until the downloads are published), it is served as before.
-  const withCopy = { ...setup(), MAPS_BUCKET: { get: async (key) => (key === 'data/graph/exports/civgraph.jsonld' ? { body: '{"@graph":[]}' } : null) } };
-  const fromR2 = await dataGraph.onRequestGet(context('/data/graph/exports/civgraph.jsonld', withCopy, { path: ['exports', 'civgraph.jsonld'] }));
-  assert.equal(fromR2.status, 200);
-  assert.equal(await fromR2.text(), '{"@graph":[]}');
+  assert.equal(expManifest.headers.get('Location'), 'https://data.civgraph.net/data/downloads/manifest.json');
+  // Since the downloads were published (9 Nov 2026) an R2 copy is never read: still the redirect.
+  const withCopy = { ...setup(), MAPS_BUCKET: { get: async () => ({ body: '{"@graph":[]}' }) } };
+  const notFromR2 = await dataGraph.onRequestGet(context('/data/graph/exports/civgraph.jsonld', withCopy, { path: ['exports', 'civgraph.jsonld'] }));
+  assert.equal(notFromR2.status, 301);
   const s = await getJson(stats, '/_api/stats');
   assert.ok(s.candidacies >= 67000 && s.people >= 31000);
 });

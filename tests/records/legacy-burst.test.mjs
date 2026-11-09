@@ -57,18 +57,22 @@ test('graph: every index and shard file answers 410 Gone, with neither D1 nor R2
   assert.equal((await call(dataGraph, '/data/graph/', 'manifest.json', {}, 'POST')).status, 405);
 });
 
-test('graph: the bulk dumps answer from R2 while there, else 301 to the downloads', async () => {
+test('graph: the bulk dumps 301 to the downloads and never read R2 (since 9 Nov 2026)', async () => {
   fresh();
-  const r2 = bucket({ 'data/graph/exports/civgraph.jsonld': '{"@graph":[]}', 'data/graph/statement-shards/statements-000.json': '{"items":[]}' });
-  const exp = await call(dataGraph, '/data/graph/', 'exports/civgraph.jsonld', { MAPS_BUCKET: r2 });
-  assert.equal(exp.status, 200);
-  assert.equal(await exp.text(), '{"@graph":[]}');
-  assert.equal((await call(dataGraph, '/data/graph/', 'statement-shards/statements-000.json', { MAPS_BUCKET: r2 })).status, 200);
-  const moved = await call(dataGraph, '/data/graph/', 'exports/civgraph-rdf.ndjson', { MAPS_BUCKET: r2 });
-  assert.equal(moved.status, 301);
-  assert.equal(moved.headers.get('Location'), 'https://data.civgraph.net/downloads/civgraph-rdf.ndjson.gz');
-  const shard = await call(dataGraph, '/data/graph/', 'statement-shards/statements-999.json', {});
-  assert.equal(shard.headers.get('Location'), 'https://data.civgraph.net/downloads/manifest.json');
+  // An R2 copy, if one were left, must not be served: the bucket would throw if read.
+  const r2 = { get() { throw new Error('the graph Function must not read R2'); } };
+  const D = 'https://data.civgraph.net/data/downloads';
+  const loc = async (p) => {
+    const r = await call(dataGraph, '/data/graph/', p, { MAPS_BUCKET: r2 });
+    assert.equal(r.status, 301, p);
+    return r.headers.get('Location');
+  };
+  assert.equal(await loc('exports/civgraph.jsonld'), `${D}/civgraph.jsonld.gz`);
+  assert.equal(await loc('exports/civgraph-rdf.ndjson'), `${D}/civgraph-rdf.ndjson.gz`);
+  assert.equal(await loc('statement-shards/statements-000.json'), `${D}/civgraph-graph-shards.tar.gz`);
+  assert.equal(await loc('exports/jsonld/part-001.json'), `${D}/civgraph-graph-shards.tar.gz`);
+  assert.equal(await loc('exports/rdf-ndjson-shards/x.ndjson'), `${D}/civgraph-graph-shards.tar.gz`);
+  assert.equal(await loc('exports/manifest.json'), `${D}/manifest.json`);
 });
 
 test('browse: the kinds no page reads, and unknown paths, answer 410 Gone without D1 or R2', async () => {

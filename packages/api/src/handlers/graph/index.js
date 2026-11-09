@@ -78,7 +78,7 @@ async function handle(context) {
     if (p('view') === 'manifest') {
       const doc = await documentBody(db, 'graph/manifest.json');
       if (!doc) return jsonResponse({ error: 'no graph loaded' }, 404);
-      return jsonResponse({ ...doc, api: '/_api/graph', downloads: 'https://data.civgraph.net/downloads/manifest.json' });
+      return jsonResponse({ ...doc, api: '/_api/graph', downloads: 'https://data.civgraph.net/data/downloads/manifest.json' });
     }
     if (p('q') || url.searchParams.has('q')) {
       const words = fold(p('q')).split(/\s+/).filter(Boolean).slice(0, 8);
