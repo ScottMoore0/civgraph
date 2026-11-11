@@ -8,6 +8,7 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { basename, dirname, extname, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
+import { centreInIreland, featureCentreColumns } from '../label-data.mjs';
 
 const ROOT = resolve(process.cwd());
 const METADATA_PATH = resolve(ROOT, 'render/metadata/maps-test.json');
@@ -66,24 +67,25 @@ for (const layer of layers) {
       .map((key) => `${quoteSqlIdentifier(key)} AS ${quoteSqlIdentifier(key)}`)
   ];
   const where = featureIndexWhere(layer);
-  const runQuery = (epsg) => spawnSync('ogr2ogr', [
+  const runQuery = (epsg, withMetrics = true) => spawnSync('ogr2ogr', [
     '-f', 'CSV',
     '/vsistdout/',
     sourcePath,
     '-dialect',
     'SQLite',
     '-sql',
-    `SELECT ${featureIndexColumns(layer, propertyColumns, epsg)} FROM ${quoteSqlIdentifier(sourceLayerName)}${where}`
+    `SELECT ${featureIndexColumns(layer, propertyColumns, epsg, withMetrics)} FROM ${quoteSqlIdentifier(sourceLayerName)}${where}`
   ], {
     cwd: ROOT,
     encoding: 'utf8',
     maxBuffer: 96 * 1024 * 1024
   });
   let result = runQuery(sourceInfo.epsg);
-  // The whole-feature measurement is extra; a source it cannot handle still gets its index.
+  // The whole-feature measurement is extra; a source it cannot handle still gets its index
+  // (with its centres still transformed to lon/lat).
   if (result.status !== 0 && wholeFeatureMetricColumns(layer, sourceInfo.epsg).length) {
     console.warn(`${layer.id}: whole-feature area not measurable; building the index without it`);
-    result = runQuery(null);
+    result = runQuery(sourceInfo.epsg, false);
   }
   if (result.status !== 0) {
     console.error(`${layer.id}: ${result.error?.message || result.stderr || result.stdout || 'ogr2ogr failed'}`);
@@ -111,6 +113,19 @@ for (const layer of layers) {
       };
     })
     .filter((item) => item.id !== undefined && item.name);
+  // Centres are lon/lat on the island of Ireland. Most centres outside it means the source's
+  // coordinates are not lon/lat (an SRID-0 projected file): refuse to write the index. A few
+  // outside are degenerate features (a zero-area ring's centroid comes back as 0,0 or worse):
+  // those items keep their name but lose the centre, as a feature with no geometry would.
+  const outside = items.filter((item) => item.center && !centreInIreland(item.center));
+  if (outside.length && outside.length * 2 > items.length) {
+    console.error(`${layer.id}: ${outside.length} of ${items.length} centres are not lon/lat on the island of Ireland (source EPSG ${sourceInfo.epsg ?? 'unknown'}), e.g. ${JSON.stringify(outside[0].center)}. Give the source a CRS.`);
+    process.exit(1);
+  }
+  for (const item of outside) {
+    console.warn(`${layer.id}: dropped the centre of ${item.id} (${item.name}), ${JSON.stringify(item.center)}: not on the island of Ireland`);
+    item.center = null;
+  }
   const cappedItems = items.slice(0, MAX_INDEX_ITEMS);
   writeFileSync(indexPath, `${JSON.stringify({
     layerId: layer.id,
@@ -129,7 +144,7 @@ function guessNameProperties(properties) {
   return properties.filter((key) => /name|label|title|english|gaeilge|irish|county|sett|lea|district|division|region/i.test(key));
 }
 
-function featureIndexColumns(layer, propertyColumns, epsg) {
+function featureIndexColumns(layer, propertyColumns, epsg, withMetrics = true) {
   if (layer.sourceMapId === 'dcc-dcc-public-cycle-parking-stands') {
     return [
       ...propertyColumns,
@@ -139,9 +154,8 @@ function featureIndexColumns(layer, propertyColumns, epsg) {
   }
   return [
     ...propertyColumns,
-    'ST_X(ST_Centroid(geometry)) AS lon',
-    'ST_Y(ST_Centroid(geometry)) AS lat',
-    ...wholeFeatureMetricColumns(layer, epsg)
+    ...featureCentreColumns(epsg),
+    ...(withMetrics ? wholeFeatureMetricColumns(layer, epsg) : [])
   ].join(',');
 }
 
