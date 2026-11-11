@@ -8,18 +8,42 @@ test('T3-01 · the map count is formatted and internal codes are gone', async ({
   await page.waitForFunction(() => window.__civgraphTest2?.app, null, { timeout: 60000 });
   await page.waitForTimeout(2500);
 
-  // The displayed count must equal the ONE stamped number, not a figure hard-coded here
+  // The app's map total must equal the ONE stamped number, not a figure hard-coded here
   // -- a literal would just become a fourth answer to the same question. The rule
   // (visible, loadable, not a placeholder) lives in src/public-map.mjs and is stamped
-  // into the render metadata by build-render-time-series-chains.mjs.
-  const shown = await page.evaluate(() => {
-    const match = document.querySelector('#catalogueFlatView')?.textContent?.match(/([\d,]+)(?: of ([\d,]+))? maps/);
-    return match ? { first: match[1], second: match[2] || null } : null;
-  });
+  // into the render metadata by build-render-time-series-chains.mjs. The app writes it
+  // to #filterStats (catalogue-list.js publicMapCount, ui-controller updateFilterStats).
+  //
+  // The rebuilt catalogue (src/catalogue/, at /maps since 2026-10-12) shows no grand total:
+  // it counts the maps of the open section ("76 series, 324 maps in Boundaries."), the same
+  // figure as that section's tab (QA 2026-11-11, M3). This spec used to read the first
+  // "N maps" in the catalogue pane, which is now that section count, so it compared a
+  // section with the whole (QA 11 Nov 2026). Both are checked, each against its own source.
+  await page.waitForFunction(() => document.getElementById('catalogueFlatView')?.dataset.rendered === 'next', null, { timeout: 30000 });
   const stamped = await page.evaluate(() => window.__civgraphTest2.metadataService.metadata.publicMapCount);
   expect(stamped, 'publicMapCount should be stamped into the metadata').toBeGreaterThan(0);
-  expect(shown, 'a map count should be rendered').toBeTruthy();
-  expect(shown.second || shown.first).toBe(stamped.toLocaleString('en-GB'));
+  await expect(page.locator('#filterStats')).toHaveText(`${stamped.toLocaleString('en-GB')} maps`);
+
+  const section = await page.evaluate(() => {
+    const summary = document.querySelector('#catalogueFlatView .cn-summary--count')?.textContent || '';
+    const match = summary.match(/([\d,]+) maps? in (.+)\.$/);
+    const tab = document.querySelector('#catalogueFlatView [data-cn-tab][aria-current="true"]');
+    return {
+      summary,
+      shown: match?.[1] || null,
+      label: match?.[2] || null,
+      tabLabel: tab?.querySelector('.cn-tab__long')?.textContent?.trim() || null,
+      tabCount: tab?.querySelector('.cn-tab__count')?.textContent?.trim() || null,
+      expected: (() => {
+        const c = window.uiController._catalogueNext;
+        return tab ? c.tabCounts()[tab.dataset.cnTab].toLocaleString('en-GB') : null;
+      })()
+    };
+  });
+  expect(section.shown, `a section count should be rendered: ${section.summary}`).toBeTruthy();
+  expect(section.label).toBe(section.tabLabel);
+  expect(section.shown).toBe(section.tabCount);
+  expect(section.shown).toBe(section.expected);
 
   // Four figures unseparated read as a typo, which is what "1011 maps" did.
   const text = await page.locator('#catalogueFlatView').textContent();
