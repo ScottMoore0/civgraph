@@ -12,14 +12,16 @@
 # statement per wrangler call; it never scans a table of the live database). Since data design
 # phase 3 the map catalogue (maps.json), the layer metadata (maps-test.json), the catalogue pane's
 # documents and the Browse map files are tables of the same load (packages/loader/src/ingest-maps.mjs),
-# so there is no separate catalogue load and no R2 sync: nothing is uploaded to R2 at all.
+# so there is no separate catalogue load and no R2 sync of records. The one R2 upload is the
+# Elections app's extracts, and only when they changed (scripts/publish/elections-app-refresh.mjs).
 #
 #   --dry-run    build, then say what would be loaded and pushed; push, load and upload nothing
 #   --downloads  also write the bulk downloads (tmp/records/downloads/); uploading them is the
 #                S3 path with --i-have-reviewed-this-publication, a step of its own
 #
 # Order: refuse uncommitted changes; build the records database for HEAD (skipped when the
-# inputs are unchanged); load the delta into D1 and verify it; push, so the Pages build that
+# inputs are unchanged); load the delta into D1 and verify it; rebuild and check the Elections
+# app's extracts and upload them to R2 if their manifest changed; push, so the Pages build that
 # switches the Functions finds its tables already loaded.
 #
 # Each stage is a move of scripts/publish/publish-run.mjs (start, built, loaded or would-load,
@@ -74,6 +76,18 @@ else
   stage to loaded
 fi
 
+# The Elections app's R2 extracts (data/elections-app/v1/), rebuilt from the records build just
+# loaded and checked; uploaded only when their manifest differs from R2's
+# (scripts/publish/elections-app-refresh.mjs). A failure aborts before the push.
+stamp "== Elections app extracts"
+if [ -n "$DRY" ]; then
+  node scripts/publish/elections-app-refresh.mjs --dry-run > "$WORK/elections-app.log" 2>&1 || { echo "(dry run) FAIL: the Elections app refresh would abort the publish:"; tail -12 "$WORK/elections-app.log"; }
+  grep -E '^elections-app|^\(dry run\)|^FAIL|^PASS' "$WORK/elections-app.log"
+else
+  node scripts/publish/elections-app-refresh.mjs > "$WORK/elections-app.log" 2>&1 || { echo "ABORT: the Elections app refresh failed (D1 is loaded; nothing pushed):"; tail -15 "$WORK/elections-app.log"; aborted aborted-after-load; exit 1; }
+  grep -E '^elections-app|^Uploaded|^PASS' "$WORK/elections-app.log"
+fi
+
 if [ -n "$DOWNLOADS" ]; then
   stamp "== downloads"
   npm run -s records:downloads 2>&1 | tail -1
@@ -89,6 +103,6 @@ else
   git log --oneline -1 origin/main
   stage to pushed
 fi
-stamp "== done: nothing uploaded to R2"
+stamp "== done"
 echo "$(date -u +%FT%TZ) $(git rev-parse --short HEAD) $(( $(date +%s) - started ))s${DRY:+ dry-run}" >> "$WORK/publish.log"
 stage to logged
