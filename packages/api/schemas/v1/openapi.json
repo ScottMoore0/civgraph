@@ -1071,8 +1071,8 @@
     "/api/v1/parties": {
       "get": {
         "operationId": "parties",
-        "summary": "Parties: the list, one party, its profile, ballot-label folds",
-        "description": "The answer of /_api/parties, which stays as an alias. Variants: names (view=names); folds (view=folds); profile (slug=…, view=profile); record (slug=…); list (the default).",
+        "summary": "Parties: the list, one party, its profile, its members, ballot-label folds",
+        "description": "The answer of /_api/parties, which stays as an alias. Variants: names (view=names); folds (view=folds); profile (slug=…, view=profile); members (slug=…, view=members); record (slug=…); list (the default).",
         "parameters": [
           {
             "name": "slug",
@@ -1084,6 +1084,22 @@
           },
           {
             "name": "view",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
             "in": "query",
             "required": false,
             "schema": {
@@ -1158,6 +1174,96 @@
                         "schemaVersion",
                         "slug",
                         "title"
+                      ]
+                    },
+                    {
+                      "title": "members (slug=…, view=members)",
+                      "description": "The people who stood for one party, a page at a time (limit, offset), each with the fields of their election rows the party page reads",
+                      "type": "object",
+                      "properties": {
+                        "schemaVersion": {
+                          "type": "number"
+                        },
+                        "slug": {
+                          "type": "string"
+                        },
+                        "names": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "total": {
+                          "type": "number"
+                        },
+                        "count": {
+                          "type": "number"
+                        },
+                        "limit": {
+                          "type": "number"
+                        },
+                        "offset": {
+                          "type": "number"
+                        },
+                        "columns": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "dictionaries": {
+                          "type": "object",
+                          "properties": {
+                            "key": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "constituency": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "party": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "status": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "required": [
+                            "key",
+                            "constituency",
+                            "party",
+                            "status"
+                          ]
+                        },
+                        "members": {
+                          "type": "array",
+                          "items": {
+                            "type": "array"
+                          }
+                        }
+                      },
+                      "required": [
+                        "schemaVersion",
+                        "slug",
+                        "names",
+                        "total",
+                        "count",
+                        "limit",
+                        "offset",
+                        "columns",
+                        "dictionaries",
+                        "members"
                       ]
                     },
                     {
