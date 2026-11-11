@@ -37,7 +37,8 @@
     "belfast-gazette-1970-winners-2026-11-03": "Members returned at the 18 June 1970 Westminster election in Northern Ireland, from the Belfast Gazette (issue 2635, 8 July 1970): the 12 results had no winner marked.",
     "elliott-flackes-1999-2026-11-06": "Northern Ireland contests 1968-99 checked against Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Blackstaff Press, 1999), read from the owner's scans, with every changed figure or label confirmed by a second source (ARK Northern Ireland Elections, Wikipedia): Chichester-Clark's 1970 Londonderry vote and Sands's April 1981 vote, Faulkner's seven pro-Assembly Unionists of February 1974, Kilfedder's 1979 Independent Unionist label, Dunlop's 1982 and the 1977 council UUUP candidates, the Ballymena and Larne 1977 unopposed returns, Larne's 1973 Loyalists, Ballymoney Town 1989, and candidacies filed under a namesake (Jack Allen, William Brown, John Carson, Gerry Kelly, John Kelly, Frank Millar junior, David Allen, P. J. Bradley and five 1996 Forum list rows). Facts and citations only.",
     "ledger-eoni-ec-2026-11-11": "Northern Ireland council (2014, 2023) and European Parliament (2004) contests checked against the Electoral Office for Northern Ireland's result sheets and the Electoral Commission's results spreadsheets: only clear transcription errors (an electorate, poll or quota that the sheet's own figures confirm, a count total, the elected flags).",
-    "galway-city-2026-11-11": "Galway City West 2024, imported with no candidates, filled from Galway City Council's official State of the Poll sheets (counts 1-14), with IrelandElection.com person ids."
+    "galway-city-2026-11-11": "Galway City West 2024, imported with no candidates, filled from Galway City Council's official State of the Poll sheets (counts 1-14), with IrelandElection.com person ids.",
+    "two-member-unopposed-2026-11-11": "Two-member county seats imported as single-member: both members were returned unopposed, but the second was shown as defeated. Checked against Walker (1978) as Wikipedia's election boxes cite it, and corroborated by the second member's own votes in the next session (Historic Hansard)."
   },
   "records": [
     {
@@ -248178,6 +248179,66 @@
           "op": "set",
           "path": "meta.total_poll",
           "value": 8864
+        }
+      ]
+    },
+    {
+      "batch": "two-member-unopposed-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1852-07-07/wicklow.json",
+      "source": {
+        "publisher": "Wikipedia",
+        "title": "County Wicklow (UK Parliament constituency): General election 1852 (citing Walker, Parliamentary Election Results in Ireland, 1801-1922)",
+        "url": "https://en.wikipedia.org/wiki/County_Wicklow_(UK_Parliament_constituency)",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "publisher": "Wikipedia",
+          "title": "William Wentworth FitzWilliam Dick (MP for Wicklow 1852-1880)",
+          "url": "https://en.wikipedia.org/wiki/William_Wentworth_FitzWilliam_Dick",
+          "accessed": "2026-11-11"
+        }
+      ],
+      "reason": "County Wicklow returned two members. Both were returned unopposed in 1852, William Wentworth-FitzWilliam (Whig) and William Wentworth FitzWilliam Hume (later Dick, Conservative); the import recorded one seat and showed Hume as not elected. Hume sat for the county from 1852 to 1880, and his Commons votes begin on 26 November 1852.",
+      "category": "winners",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Number_Of_Seats",
+          "value": "2"
+        },
+        {
+          "op": "candidate",
+          "name": "William Wentworth FitzWilliam Hume",
+          "set": {
+            "Status": "Elected"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "two-member-unopposed-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1835-01-06/down.json",
+      "source": {
+        "publisher": "Wikipedia",
+        "title": "Down (UK Parliament constituency): General election 1835 (citing Walker, Parliamentary Election Results in Ireland, 1801-1922, and Stooks Smith)",
+        "url": "https://en.wikipedia.org/wiki/Down_(UK_Parliament_constituency)",
+        "accessed": "2026-11-11"
+      },
+      "reason": "County Down returned two members. Both were returned unopposed in 1835, Arthur Hill (Whig) and Frederick Stewart, Viscount Castlereagh (Conservative); the import recorded one seat and showed Stewart as not elected.",
+      "category": "winners",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Number_Of_Seats",
+          "value": "2"
+        },
+        {
+          "op": "candidate",
+          "name": "Frederick Stewart",
+          "set": {
+            "Status": "Elected"
+          }
         }
       ]
     }
