@@ -222,7 +222,12 @@ export class UiWiringMethods {
     uiController.onLoadSingleFeature = async (mapId, featureId, featureName, bbox, options = {}) => {
       const mapConfig = dataService.getMapById(mapId);
       if (!mapConfig) return null;
-      const result = await this.mapController.loadSingleFeature(mapConfig, featureId, featureName, bbox, { isolate: options.isolate !== false });
+      // A result with no box (the names index omits them) is still framed: the app looks the
+      // feature up in the spatial and feature indexes (QA 2026-11-11, H2).
+      const result = await this.mapController.loadSingleFeature(mapConfig, featureId, featureName, bbox, {
+        isolate: options.isolate !== false,
+        resolveBounds: (layerConfig) => this.resolveFeatureBounds(mapConfig, featureId, featureName, layerConfig)
+      });
       this.syncCatalogueMapState();
       this.updateActiveLayers();
       this.updateURLState();

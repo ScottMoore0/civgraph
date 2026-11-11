@@ -687,6 +687,9 @@ class UIController {
         params.set('featureMap', entry.mapConfig.id);
         params.set('featureId', String(entry.feature?.id ?? ''));
         params.set('featureName', entry.primaryName || 'Feature');
+        // No viewport: the link frames the feature on whatever screen opens it, rather than
+        // showing the view the sender had panned to (QA 2026-11-11, H2).
+        for (const key of ['lng', 'lat', 'zoom', 'z']) params.delete(key);
         url.hash = params.toString();
         return url.toString();
     }
@@ -2456,7 +2459,9 @@ class UIController {
             sources: 'sources'
         };
         const path = pathByKind[kind] || kind;
-        return '/browse/#/' + path + '/' + encodeURIComponent(slug);
+        // A record type with a page of its own links to that page (the address that previews as
+        // the record when shared); the others stay in Browse's hash.
+        return (pathByKind[kind] ? '/browse/' : '/browse/#/') + path + '/' + encodeURIComponent(slug);
     }
 
     makeCatalogueSearchRecord(input) {
@@ -2506,7 +2511,7 @@ class UIController {
                         description: map.description,
                         status: map.status,
                         thumbId: map.cloneOf || map.id,
-                        url: '/browse/#/maps/' + encodeURIComponent(map.id),
+                        url: '/browse/maps/' + encodeURIComponent(map.id),
                         actionLabel: map.status === 'not yet converted' ? 'Open details' : 'Load map'
                     }));
                 });
@@ -2647,6 +2652,7 @@ class UIController {
         params.set('featureMap', mapId);
         params.set('featureId', String(featureId));
         if (featureName) params.set('featureName', String(featureName));
+        for (const key of ['lng', 'lat', 'zoom', 'z']) params.delete(key);
         url.hash = params.toString();
         return url.toString();
     }

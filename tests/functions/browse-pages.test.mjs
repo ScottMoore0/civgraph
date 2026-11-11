@@ -21,6 +21,7 @@ import {
   renderBrowseShell,
 } from '../../functions/_browse-page.js';
 import { onRequestGet as notFoundPage } from '../../functions/404.js';
+import { readShareTags, SHARE_IMAGE } from '../../packages/ui/src/templates/share.js';
 import { BROWSE_SITEMAP_TYPES, proniRecordUrl, sitemapIndexXml, urlsetXml } from '../../scripts/build/build-sitemap.mjs';
 
 const SHELL = readFileSync('site/browse/index.html', 'utf8');
@@ -276,6 +277,40 @@ check('types: the sitemap and the pages route the same types',
   check('page: an office answers 200 with its title, from D1', office.status === 200 && titleOf(await office.text()) === 'Chair of the Alliance Party – Office – Civgraph', String(office.status));
   const noOffice = await get('offices', '/browse/offices/no-such-office');
   check('page: an absent office answers 404', noOffice.status === 404, String(noOffice.status));
+
+  // Link previews (QA 2026-11-11, H1): every record type's page carries the whole share set,
+  // for the record, not /browse/'s, and the shell's own tags are not left behind.
+  const records = [
+    ['persons', '/browse/persons/gerry-adams-27771', 'profile'],
+    ['elections', '/browse/elections/dail-eireann-2024-11-29', 'website'],
+    ['elections', '/browse/elections/dail-eireann-2024-11-29-cork-north-central', 'website'],
+    ['parties', '/browse/parties/uup', 'website'],
+    ['offices', '/browse/offices/alliance-chair', 'website'],
+    ['maps', '/browse/maps/wards-1984', 'website'],
+  ];
+  for (const [type, path, ogType] of records) {
+    const res = await get(type, path);
+    const body = await res.text();
+    const tags = readShareTags(body);
+    const url = `https://civgraph.net${path}`;
+    const problems = [
+      res.status === 200 || `status ${res.status}`,
+      tags.canonical === url || `canonical ${tags.canonical}`,
+      tags['og:url'] === url || `og:url ${tags['og:url']}`,
+      tags['og:type'] === ogType || `og:type ${tags['og:type']}`,
+      (tags['og:title'] === tags.title && tags['twitter:title'] === tags.title) || `og/twitter title ${tags['og:title']} / ${tags.title}`,
+      (tags['og:description'] && tags['og:description'] === tags.description && tags['twitter:description'] === tags.description) || 'description',
+      tags['og:image'] === SHARE_IMAGE.url || `og:image ${tags['og:image']}`,
+      (tags['og:image:width'] === '1200' && tags['og:image:height'] === '630') || 'og:image size',
+      tags['twitter:card'] === 'summary_large_image' || `twitter:card ${tags['twitter:card']}`,
+      tags['twitter:image'] === SHARE_IMAGE.url || 'twitter:image',
+      (body.match(/property="og:url"/g) || []).length === 1 || 'one og:url',
+      (body.match(/name="twitter:card"/g) || []).length === 1 || 'one twitter:card',
+    ].filter((v) => v !== true);
+    check(`share: ${path} has the record's preview tags`, problems.length === 0, problems.join('; '));
+  }
+  const generic = readShareTags(await (await get('persons', '/browse/persons/gerry-adams-27771', { ...env, ELECTIONS_DB: fakeDb({ fail: true }) })).text());
+  check('share: an outage serves /browse/\'s own preview tags', generic['og:url'] === 'https://civgraph.net/browse/' && generic['twitter:card'] === 'summary_large_image', JSON.stringify(generic));
 }
 
 // --- /404 ------------------------------------------------------------------------------
