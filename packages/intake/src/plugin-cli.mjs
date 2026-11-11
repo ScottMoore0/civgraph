@@ -7,9 +7,11 @@
  *   intake run <plugin> <batch-dir> [--step s]... [--all] [--allow-network] [--input k=v]...
  *              [--replace] [-- <extra script arguments>]
  *                                                     run the plugin; write staged/ and batch.json
- *   intake parity <plugin> [--step s]... [--input k=v]... [--scratch dir] [--live-clock] [-- <args>]
+ *   intake parity <plugin> [--step s]... [--input k=v]... [--scratch dir] [--live-clock] [--offline] [-- <args>]
  *                                                     old command lines against plugin + stage, both
- *                                                     with the same frozen wall clock unless --live-clock
+ *                                                     with the same frozen wall clock unless --live-clock;
+ *                                                     --offline closes the network to both runs, so a
+ *                                                     network step replays from its cache or fails
  *   intake mark <batch-dir> <status>                  move the batch's status one guarded step
  *
  * `--repo <root>` works with each. Nothing here pushes, uploads or publishes.
@@ -18,13 +20,13 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync
 import os from 'node:os';
 import path from 'node:path';
 import { DEFAULT_REPO, loadBatch, validateBatch } from './batch.mjs';
-import { discoverPlugins, loadPlugin, missingNeeds, parity, pluginManifest, producePlugin, selectSteps, unaccountedFiles } from './plugins.mjs';
+import { discoverPlugins, loadPlugin, missingNeeds, parity, parityLedgerProblems, pluginManifest, producePlugin, readParityLedger, selectSteps, unaccountedFiles } from './plugins.mjs';
 import { checkLock, git, writeLock, writeState } from './review.mjs';
 import { stageBatch } from './stage.mjs';
 import { checkBatchTransition } from './statuses.mjs';
 
 export const PLUGIN_COMMANDS = new Set(['plugins', 'run', 'parity', 'mark']);
-const BOOL = new Set(['--check', '--all', '--allow-network', '--replace', '--quiet', '--live-clock']);
+const BOOL = new Set(['--check', '--all', '--allow-network', '--replace', '--quiet', '--live-clock', '--offline']);
 const VALUE = new Set(['--step', '--input', '--repo', '--scratch']);
 
 /** @param {string[]} argv */
@@ -78,18 +80,26 @@ export async function pluginMain(argv, { log = console.log, err = console.error,
 /** @param {string} repo @param {boolean} check @param {(s: string) => void} log */
 async function listPlugins(repo, check, log) {
   const { plugins, without, errors } = await discoverPlugins(repo);
+  const ledger = readParityLedger(repo);
   let bad = errors.length;
   for (const p of plugins) {
     const steps = Object.entries(p.steps || {});
     log(`${p.id}: ${p.title} [${p.kinds.join(', ')}]${p.command ? ` (bridge: ${p.command.join(' ')})` : p.produce ? ' (produce)' : ''}`);
-    for (const [id, st] of steps) log(`  ${id}${st.network ? ' (network)' : ''}: ${st.title}`);
+    for (const [id, st] of steps) {
+      const entry = ledger[`${p.id}/${id}`];
+      const parityNote = entry ? ('proved' in entry ? ' [parity proved]' : ' [parity blocked]') : '';
+      log(`  ${id}${st.network ? ' (network)' : ''}${parityNote}: ${st.title}`);
+    }
     const loose = unaccountedFiles(p);
     if (loose.length) { bad += 1; log(`  NOT ACCOUNTED FOR: ${loose.join(', ')}`); }
     if (check) for (const [id, miss] of Object.entries(missingNeeds(p, repo))) log(`  ${id} cannot run in this checkout; missing ${miss.join(', ')}`);
   }
   for (const w of without) log(`${w}: no plugin.mjs yet`);
   for (const e of errors) log(`ERROR ${e}`);
-  log(`${plugins.length} plugin(s), ${without.length} folder(s) without one${bad ? `, ${bad} problem(s)` : ''}`);
+  const ledgerProblems = parityLedgerProblems(plugins, ledger);
+  if (check) for (const e of ledgerProblems) { bad += 1; log(`PARITY LEDGER ${e}`); }
+  const entries = Object.values(ledger);
+  log(`${plugins.length} plugin(s), ${without.length} folder(s) without one${bad ? `, ${bad} problem(s)` : ''}; parity (scripts/ingest/parity.json): ${entries.filter((e) => 'proved' in e).length} step(s) proved, ${entries.filter((e) => 'blocked' in e).length} blocked`);
   return check && bad ? 1 : 0;
 }
 
@@ -140,11 +150,13 @@ async function parityCommand(repo, o, { log, err, stdio }) {
   if (o.positional.length !== 1) { err('intake: parity <plugin>'); return 2; }
   const plugin = await loadPlugin(repo, o.positional[0]);
   if (!plugin.steps) { err('intake: parity compares step plugins with their old command lines'); return 2; }
-  const steps = selectSteps(plugin, o.steps, { all: o.flags.has('--all') });
+  const offline = o.flags.has('--offline');
+  const steps = selectSteps(plugin, o.steps, { all: o.flags.has('--all'), allowNetwork: offline });
   const scratch = path.resolve(o.values.scratch || path.join(os.tmpdir(), 'intake-parity'));
   mkdirSync(scratch, { recursive: true });
+  if (offline) log(`offline: the network is closed to ${steps.join(', ')} (both runs)`);
   const res = await parity(plugin, {
-    repo, steps, args: o.extra, inputs: o.inputs, scratch, stdio, frozenClock: !o.flags.has('--live-clock'),
+    repo, steps, args: o.extra, inputs: o.inputs, scratch, stdio, frozenClock: !o.flags.has('--live-clock'), offline,
     stageWrite: (batchDir) => {
       const b = loadBatch(batchDir, { repo });
       const v = validateBatch(b, { checkPublicationGate: false });
