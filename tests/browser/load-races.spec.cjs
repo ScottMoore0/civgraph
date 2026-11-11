@@ -6,7 +6,7 @@ const { test, expect } = require('@playwright/test');
 
 async function openApp(page) {
   await page.goto('/maps/');
-  await page.waitForFunction(() => window.__civgraphTest2?.elections?.catalogue?.elections?.length, null, { timeout: 60000 });
+  await page.waitForFunction(() => (window.__civgraphTest2?.app?.scheduleElectionCatalogueWarm?.(), window.__civgraphTest2?.elections?.catalogue?.elections?.length), null, { timeout: 60000 });
   return page.evaluate(() => {
     const app = window.__civgraphTest2.app;
     for (const mapId of Array.from(app.mapController.layerStates.keys())) {

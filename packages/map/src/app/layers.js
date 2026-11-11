@@ -104,6 +104,9 @@ export class LayerMethods {
   }
 
   async loadMap(mapId, options = {}) {
+    // A map drawn: its features may carry election results, so the election catalogue is
+    // fetched now if it has not been (warmElectionCatalogueWhenWanted).
+    this.scheduleElectionCatalogueWarm();
     const mapConfig = dataService.getMapById(mapId);
     if (mapConfig?.isGroup && compositeChildIds(mapConfig).length) {
       const childIds = compositeChildIds(mapConfig);

@@ -267,6 +267,36 @@ export class ElectionPaneMethods {
     return this.elections;
   }
 
+  /**
+   * The election catalogue (4.7 MB of JSON) used to be fetched and parsed on every visit, six
+   * seconds after start, whether or not the visitor went near an election (QA 2026-11-11, M8).
+   * It is now fetched when it can be wanted: at once when the address names an election, else
+   * on the first map drawn (a feature click may show its election results), the search box
+   * focused, or the Elections tab chosen. Opening an election, and every other path that needs
+   * the catalogue, already loads it on demand (ensureElections).
+   */
+  warmElectionCatalogueWhenWanted() {
+    const params = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+    if (this.hasElectionURLState(params, parseLayerOrder(params.get('layers')))) {
+      this.scheduleElectionCatalogueWarm();
+      return;
+    }
+    if (typeof document === 'undefined') return;
+    const onFocus = (event) => {
+      if (event.target?.closest?.('.search-input, #searchInput')) warm();
+    };
+    const onClick = (event) => {
+      if (event.target?.closest?.('[data-cn-tab="elections"]')) warm();
+    };
+    const warm = () => {
+      document.removeEventListener('focusin', onFocus, true);
+      document.removeEventListener('click', onClick, true);
+      this.scheduleElectionCatalogueWarm();
+    };
+    document.addEventListener('focusin', onFocus, true);
+    document.addEventListener('click', onClick, true);
+  }
+
   scheduleElectionCatalogueWarm() {
     if (this.electionCatalogueWarmScheduled || this.elections?.catalogue) return;
     this.electionCatalogueWarmScheduled = true;
