@@ -30,6 +30,7 @@ import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { SITE } from '../../packages/config/src/node.mjs';
 import { R2_PREFIX, SOURCES } from '../../site/apps/elections/config.js';
 import { MANIFEST as VENDOR_MANIFEST, checkVendor, sha256 } from '../build/elections-app/vendor.mjs';
 import { assertPublishable } from '../lib/r2-publication-gate.mjs';
@@ -117,5 +118,5 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     sent += 1;
     console.log(`  sent ${o.key} ${(body.length / 1048576).toFixed(2)} MiB`);
   }
-  console.log(`Uploaded ${sent}, unchanged ${skipped}. Check: curl -sI -H "Origin: https://civgraph.net" ${SOURCES.r2.extracts}index.json`);
+  console.log(`Uploaded ${sent}, unchanged ${skipped}. Check: curl -sI -H "Origin: ${SITE.origin}" ${SOURCES.r2.extracts}index.json`);
 }
