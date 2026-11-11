@@ -788,6 +788,14 @@ export interface SpatialFeaturesAnswer {
   [key: string]: unknown;
 }
 
+/** GET /api/v1/spatial (mapIds=<given>): Several maps' features at once (mapIds=a,b,c, up to 40), keyed by map id, each as the features variant answers */
+export interface SpatialBatchAnswer {
+  maps: {
+    [key: string]: unknown;
+  };
+  [key: string]: unknown;
+}
+
 /** /api/v1/spatial: its JSON error answers (4xx and 5xx). */
 export interface SpatialErrorAnswer {
   error: string;
@@ -1038,6 +1046,7 @@ export interface V1Routes {
   spatial: {
     variants: {
       features: SpatialFeaturesAnswer;
+      batch: SpatialBatchAnswer;
     };
     error: SpatialErrorAnswer;
   };
