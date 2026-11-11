@@ -526,8 +526,9 @@ test('N28 live planning maps are dated as at their snapshot (owner, 11 Nov 2026)
   await pane(page).locator('[data-cn-tab="boundaries"]').click();
   const r = row(page, 'planning-applications-and-registers-planning-application-boundaries');
   await r.scrollIntoViewIfNeeded();
-  const chip = r.locator('[data-cn-toggle="roi-national-planning-applications"]').first();
-  expect(await chip.getAttribute('title')).toMatch(/^as at 20 Apr 2026 · /);
+  // A one-map row carries its map's hover line on the row title (its Add button has none).
+  const title = r.locator('[data-cn-expand="planning-applications-and-registers-planning-application-boundaries"]');
+  expect(await title.getAttribute('title')).toMatch(/^as at 20 Apr 2026 · /);
 });
 
 test('N02 every view has an address; Back and Forward move between them', async ({ page }) => {
