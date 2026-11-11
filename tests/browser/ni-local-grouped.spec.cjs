@@ -170,7 +170,7 @@ test('a pre-1921 year is the island\'s "Irish local elections", and its earlier 
   await page.waitForFunction(() => window.__civgraphTest2.elections?.niLocal?.active === true, null, { timeout: 60000 });
   const state = await viewState(page);
   expect(state.key).toBe('ireland-local__1911');
-  await expect(page.locator('#electionPaneTitle')).toHaveText('1911 Irish local elections');
+  await expect(page.locator('#electionPaneTitle')).toHaveText('1911 Irish local elections (urban and rural districts)');
   expect(state.hash.replace(/\+/g, ' ')).toContain('electionBody=Irish local elections');
   // The timeline runs on from the island's years into Northern Ireland's.
   const stops = await page.evaluate(() => {

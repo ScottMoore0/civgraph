@@ -169,7 +169,9 @@ export function currentNiLocalGroupKey(key) {
 /** @param {string | number} year */
 export function niLocalGroupTitle(year) {
   const y = String(year).slice(0, 4);
-  return `${y} ${isIrelandLocalYear(y) ? 'Irish' : 'Northern Ireland'} local elections`;
+  // Before partition the year's rounds are the urban and rural district councils' and the county
+  // councils' (Phelim Birch's review, 11 Nov 2026: the title says so).
+  return isIrelandLocalYear(y) ? `${y} Irish local elections (urban and rural districts)` : `${y} Northern Ireland local elections`;
 }
 
 /**

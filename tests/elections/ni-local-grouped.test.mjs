@@ -78,7 +78,7 @@ test('group keys and titles: the island before 1921, Northern Ireland from 1921'
   assert.equal(isNiLocalGroupKey('belfast-county-borough-council__1946-05-15'), false);
   assert.equal(currentNiLocalGroupKey('ni-local__1911'), 'ireland-local__1911');
   assert.equal(currentNiLocalGroupKey('ni-local__1946'), 'ni-local__1946');
-  assert.equal(niLocalGroupTitle(1911), '1911 Irish local elections');
+  assert.equal(niLocalGroupTitle(1911), '1911 Irish local elections (urban and rural districts)');
   assert.equal(niLocalGroupTitle(1924), '1924 Northern Ireland local elections');
   const early = buildNiLocalGroupEntry(1911, [{ key: 'x__1911-01-15', bodySlug: 'strabane-urban-district-council', date: '1911-01-15' }]);
   assert.equal(early.body, 'Irish local elections');
