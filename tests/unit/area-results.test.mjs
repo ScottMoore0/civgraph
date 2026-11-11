@@ -82,3 +82,47 @@ test('every staged presidential area names only national candidates, and its cou
     }
   }
 });
+
+// A bundle's geography modes as the manifest writes them: the national mode and one area mode.
+const MODES = [
+  { id: 'results', dataKind: 'results', label: 'Ireland' },
+  {
+    id: 'areas', dataKind: 'area-results', label: 'Constituency', countingBasis: 'dail-constituencies', sourceMapId: 'dail-2009', numCounts: 2,
+    note: 'n', references: [{ label: 'Booklet', url: 'https://example.org/b.pdf' }],
+    results: [{
+      constituency: 'Clare', matched: true, featureName: 'Clare', validPoll: 600, turnoutPct: 61, leadingName: 'Michael D Higgins', leadingPct: 50,
+      candidates: [
+        { id: '1', nationalCandidateId: '1', firstPrefs: 300, colour: '#cc0000', counts: [{ count: 1, total: 300 }, { count: 2, total: 330 }] },
+        { id: '3', nationalCandidateId: '3', firstPrefs: 50, colour: '#d62728', excluded: true, decidedAt: 2, counts: [{ count: 1, total: 50 }] }
+      ],
+      nonTransferable: [{ count: 2, total: 10 }],
+      contestNotes: [{ label: 'Note', text: 'A note' }]
+    }]
+  }
+];
+
+test('the API answer of an election\'s results by area', async () => {
+  const { areaResultsAnswer } = await import('../../packages/core/src/area-results.mjs');
+  const answer = areaResultsAnswer({ key: 'ireland-president__2011-10-27', displayTitle: '2011 Irish presidential election' }, MODES,
+    [{ id: '1', name: 'Michael D Higgins', party: 'Irish Labour', personId: 100313 }, { id: '3', name: 'David Norris', party: 'Independent', personId: null }]);
+  assert.equal(answer.areaLabel, 'Constituency');
+  assert.equal(answer.numCounts, 2);
+  assert.deepEqual(answer.candidates.map((c) => [c.id, c.personId, c.colour]), [['1', '100313', '#cc0000'], ['3', null, '#d62728']]);
+  const [clare] = answer.areas;
+  assert.equal(clare.slug, 'clare');
+  assert.deepEqual(clare.candidates.map((c) => [c.id, c.counts, c.share, c.excludedAt]), [['1', [300, 330], 50, null], ['3', [50, null], 8.33, 2]]);
+  assert.deepEqual(clare.nonTransferable, [null, 10]);
+  assert.deepEqual(clare.notes, ['A note']);
+  const none = areaResultsAnswer({ key: 'dail-eireann__2024-11-29' }, null, []);
+  assert.deepEqual(none.areas, []);
+});
+
+test('the server-rendered election page lists an election\'s areas', async () => {
+  const { electionBody } = await import('../../packages/ui/src/templates/records/election.js');
+  const page = { kind: 'election', election: { key: 'k', slug: 'k', title: 'T', body: 'President of Ireland', date: '2011-10-27', kind: 'general', votingSystem: 'stv-hare', meta: { geographyModes: MODES } }, contests: [], sources: [] };
+  const html = String(electionBody(page).body);
+  assert.match(html, /<h2 id="by-area">Results by constituency<\/h2>/);
+  assert.match(html, /<th scope="row">Clare<\/th><td>Michael D Higgins<\/td>/);
+  const plain = String(electionBody({ ...page, election: { ...page.election, meta: {} } }).body);
+  assert.doesNotMatch(plain, /by-area/);
+});
