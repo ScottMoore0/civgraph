@@ -57,12 +57,11 @@
   <!-- Root MapLibre shell. Leaflet root archived at git tag leaflet-main-before-maplibre-root-20260612. -->
   <base href="/">
 
-  <!-- Preconnect: one OSM subdomain is enough — HTTP/2 multiplexes subsequent
-       tile fetches onto the same connection, so a/b/c preconnects after that
-       are pure overhead. The other two stay as dns-prefetch as a cheap hedge. -->
-  <link rel="preconnect" href="https://a.tile.openstreetmap.org" crossorigin>
-  <link rel="dns-prefetch" href="https://b.tile.openstreetmap.org">
-  <link rel="dns-prefetch" href="https://c.tile.openstreetmap.org">
+  <!-- Preconnect to the default base map's host (OpenFreeMap: style, tiles, fonts and sprites
+       all come from it; packages/map/src/renderer/basemap.mjs). OpenStreetMap's own tile server
+       is only the last-resort fallback, so it gets a DNS hint and no more. -->
+  <link rel="preconnect" href="https://tiles.openfreemap.org" crossorigin>
+  <link rel="dns-prefetch" href="https://tile.openstreetmap.org">
   <link rel="preconnect" href="https://data.civgraph.net" crossorigin>
   <!-- archive.org is the target of many sourceDownload links; warming the
        resolver here means clicks on those links don't pay DNS latency. -->
@@ -524,7 +523,7 @@
                        "API KEY REQUIRED" printed across them at HTTP 200, so nothing could
                        detect the failure; Stamen returns 503. Offering a basemap that
                        renders a watermark is the same defect as offering a dead one. -->
-                  <option value="osm-standard" selected>OpenStreetMap</option>
+                  <option value="osm-standard" selected>Street map (OpenStreetMap data)</option>
                 <optgroup label="Dark & Modern">
                 </optgroup>
                 <optgroup label="Other Street Maps">
