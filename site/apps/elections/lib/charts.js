@@ -127,7 +127,7 @@ export function transferFlow(st) {
   if (st.nonTransferable > 0) targets.push({ name: 'Non-transferable', colour: '#9aa0a6', amount: st.nonTransferable });
   const total = Math.max(st.distributed, targets.reduce((s, t) => s + t.amount, 0), 1);
   const gap = 6;
-  const H = Math.max(120, targets.length * 26 + 20);
+  const H = Math.max(120, targets.length * 16 + 30);
   const usable = H - 20 - gap * Math.max(0, targets.length - 1);
   const scale = usable / total;
   const fromH = Math.max(4, st.distributed * scale);
@@ -136,6 +136,7 @@ export function transferFlow(st) {
   const fromName = st.from.length === 1 ? st.from[0].name : `${st.from.length} candidates`;
   let y = 10;
   let fy = fromY;
+  let labelY = 0; // labels keep 14 units apart even where the bands are thin
   const xL = 150;
   const xR = 390;
   const bands = targets.map((t) => {
@@ -144,7 +145,7 @@ export function transferFlow(st) {
     const path = `M${xL},${fy.toFixed(1)} C${(xL + xR) / 2},${fy.toFixed(1)} ${(xL + xR) / 2},${y.toFixed(1)} ${xR},${y.toFixed(1)} L${xR},${(y + h).toFixed(1)} C${(xL + xR) / 2},${(y + h).toFixed(1)} ${(xL + xR) / 2},${(fy + fh).toFixed(1)} ${xL},${(fy + fh).toFixed(1)} Z`;
     const out = `<path d="${path}" fill="${esc(partyColour(t.colour))}" fill-opacity="0.45"><title>${esc(t.name)}: +${esc(fmtInt(t.amount))}</title></path>`
       + `<rect x="${xR}" y="${y.toFixed(1)}" width="10" height="${h.toFixed(1)}" fill="${esc(partyColour(t.colour))}"/>`
-      + `<text x="${xR + 16}" y="${(y + h / 2 + 4).toFixed(1)}" font-size="12" fill="currentColor">${esc(t.name)} +${esc(fmtInt(t.amount))}</text>`;
+      + `<text x="${xR + 16}" y="${(labelY = Math.max(labelY + 14, y + h / 2 + 4)).toFixed(1)}" font-size="12" fill="currentColor">${esc(t.name)} +${esc(fmtInt(t.amount))}</text>`;
     y += h + gap;
     fy += fh;
     return out;
@@ -153,7 +154,7 @@ export function transferFlow(st) {
   const left = `<rect x="${xL - 10}" y="${fromY.toFixed(1)}" width="10" height="${fromH.toFixed(1)}" fill="${esc(fromColour)}"/>`
     + `<text x="${xL - 16}" y="${(fromY + fromH / 2 - 2).toFixed(1)}" text-anchor="end" font-size="12" fill="currentColor">${esc(fromName)}</text>`
     + `<text x="${xL - 16}" y="${(fromY + fromH / 2 + 12).toFixed(1)}" text-anchor="end" font-size="11" fill="currentColor">${st.kind === 'surplus' ? 'surplus' : 'excluded'} ${esc(fmtInt(st.distributed))}</text>`;
-  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(title)}" class="el-flow"><title>${esc(title)}</title>${left}${bands}</svg>`;
+  return `<svg viewBox="0 0 ${W} ${Math.ceil(Math.max(H, labelY + 8))}" role="img" aria-label="${esc(title)}" class="el-flow"><title>${esc(title)}</title>${left}${bands}</svg>`;
 }
 
 /**

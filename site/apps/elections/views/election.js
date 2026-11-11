@@ -74,6 +74,7 @@ export async function render(root, route) {
   // A contest's own URL: the detail's result entries, paired with the summary's rows by name
   // (both list the contests in the same order; same-named contests are taken in turn).
   const slugsByName = contestSlugs(detail.resultEntries || []);
+  const colourOf = new Map(parties.map((p) => [p.party, p.colour]));
   const contestRows = results.map((r) => {
     const cslug = slugsByName.get(r.constituency)?.shift() || null;
     const name = cslug ? `<a href="${appUrl.contest(key, cslug)}">${esc(r.constituency)}</a>` : esc(r.constituency);
@@ -81,7 +82,7 @@ export async function render(root, route) {
     const polled = summaryHasVotes(r);
     const result = un ? `<span class="cg-badge">Returned unopposed</span> <span class="el-muted">${esc(r.winnerName || '')}</span>`
       : !polled ? `${esc(r.winnerName || '—')} <span class="el-muted">votes not recorded</span>`
-      : (r.seatsTotal || 1) > 1 ? `${partyChip(r.winnerParty, null)} <span class="el-muted">most seats; top: ${esc(r.leadingName || '—')}</span>`
+      : (r.seatsTotal || 1) > 1 ? `${partyChip(r.winnerParty, colourOf.get(String(r.winnerParty)))} <span class="el-muted">most seats; top: ${esc(r.leadingName || '—')}</span>`
         : `${esc(r.leadingName || r.winnerName || '—')} <span class="el-muted">${esc(r.leadingParty || r.winnerParty || '')}</span>`;
     return `<tr><th scope="row">${name}</th><td class="num">${fmtInt(r.seatsTotal)}</td><td>${result}</td>`
       + `<td class="num">${polled ? fmtInt(r.validPoll) : '—'}</td><td class="num">${fmtPct(positive(r.turnoutPct))}</td>`
