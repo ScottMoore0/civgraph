@@ -2,6 +2,7 @@
  * Pure helpers of the map app (packages/map/app/app.js and packages/map/src/app/*): HTML escaping, election entity keys
  * and the page= address parameter, byte and search-text formatting. No DOM, no app state.
  */
+import electionBodies from '../../../registries/src/browser/election-bodies.mjs';
 
 /** @param {unknown} value */
 export function escapeHtml(value) {
@@ -42,6 +43,17 @@ export function normalizeEntityName(value) {
     .toLowerCase();
 }
 
+/**
+ * A body the election-bodies registry describes (data/registries/election-bodies.json), or undefined.
+ * @param {string} id
+ * @returns {{ name?: string, typeLabel?: string } | undefined}
+ */
+function registryBody(id) {
+  return Object.prototype.hasOwnProperty.call(electionBodies, id)
+    ? /** @type {Record<string, { name?: string, typeLabel?: string }>} */ (electionBodies)[id]
+    : undefined;
+}
+
 /** @param {unknown} key */
 export function electionBodyFromEntityKey(key) {
   const bodyKey = String(key || '').split('__')[0];
@@ -61,7 +73,7 @@ export function electionBodyFromEntityKey(key) {
     ['ireland-referendum', 'Referendum (Ireland)'],
     ['ireland-local', 'Local Government (Ireland)']
   ]);
-  return bodies.get(bodyKey) || bodyKey.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase());
+  return bodies.get(bodyKey) || registryBody(bodyKey)?.name || bodyKey.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
 /**
@@ -71,6 +83,8 @@ export function electionBodyFromEntityKey(key) {
 export function electionTypeFromEntityKey(key, title = '') {
   const bodyKey = String(key || '').split('__')[0];
   const label = `${bodyKey} ${title || ''}`;
+  const registered = registryBody(bodyKey)?.typeLabel;
+  if (registered) return registered;
   if (bodyKey.startsWith('local-government') || bodyKey === 'ireland-local') return 'Local';
   if (bodyKey === 'house-of-commons-of-the-united-kingdom') return 'Westminster';
   if (bodyKey === 'dail-eireann') return 'Dáil';

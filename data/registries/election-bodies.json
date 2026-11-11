@@ -1,0 +1,46 @@
+{
+ "schemaVersion": 1,
+ "description": "Election bodies: what the site needs to know about a body it files elections under (its elections are in data/elections-source/data/elections/<id>/), kept as data so a new body is added here rather than in each builder and view. A body listed here is read from here first; the bodies not yet listed are still described by the lists in the code that predate this registry (scripts/build/build-test2-election-manifest.mjs resolveElectionGeography and votingSystemForElection, scripts/lib/election-names.mjs, packages/map/src/app/helpers.mjs, src/catalogue/view-elections.js and search.js, scripts/build/build-browse-indexes.mjs, scripts/build/build-party-profiles.mjs, scripts/build/catalogue/build-catalogue.mjs). Fields: name (the body as elections_index.json names it); jurisdiction; typeLabel (the kind of election, as the map app labels a candidacy); shortLabel and shelf (the catalogue's Elections rows and shelves, src/catalogue/view-elections.js BODY_GROUPS ids); searchTerms (catalogue search); title and wikipediaTitle ({year} is the election's year); wholeArea (every election of the body covers its whole area, so none is a by-election); votingSystem; partyGroup (the party profiles' chart, scripts/build/build-party-profiles.mjs); geography (the map its elections are drawn on, by date, with the feature a result names where the names differ); areaResults (a national contest's figures broken down by the areas it was counted in, filed in `dir`/<date>/: shown as a second geography of the one election, never as candidacies). Schema: packages/registries/schemas/election-bodies.schema.json; views: packages/registries/src/election-bodies.mjs.",
+ "bodies": [
+  {
+   "id": "limerick-mayor",
+   "name": "Mayor of Limerick",
+   "officialName": "Directly Elected Mayor of Limerick",
+   "jurisdiction": "ireland",
+   "typeLabel": "Mayoral",
+   "shortLabel": "Limerick mayor",
+   "shelf": "irish-local",
+   "searchTerms": "mayor mayoral directly elected mayor Limerick Méara Luimnigh",
+   "title": "{year} Limerick mayoral election",
+   "wikipediaTitle": "{year} Limerick mayoral election",
+   "wholeArea": true,
+   "votingSystem": "stv-hare",
+   "partyGroup": { "id": "mayor-limerick", "label": "Mayor of Limerick" },
+   "geography": [
+    {
+     "from": "2024-01-01",
+     "sourceMapId": "local-authorities-2024",
+     "featureOverrides": { "Limerick City and County": "LIMERICK CITY AND COUNTY COUNCIL" }
+    }
+   ],
+   "sources": [
+    "Local Government (Mayor of Limerick) and Miscellaneous Provisions Act 2024 (No. 2 of 2024), which created the office and its election",
+    "Limerick City and County Council (returning officer), Mayor of Limerick Election Results, https://www.limerick.ie/count/mayor-of-limerick-election-results"
+   ]
+  },
+  {
+   "id": "ireland-president",
+   "name": "President of Ireland",
+   "jurisdiction": "ireland",
+   "areaResults": {
+    "dir": "data/elections/president-constituency-results",
+    "modeId": "areas",
+    "labels": { "dail-constituencies": "Constituency", "county-and-county-borough": "County and county borough" },
+    "note": "The Presidential Returning Officer's figures for each area the votes were counted in: Dáil constituencies, and in 1945 counties and county boroughs. They break down the one national result; no candidacy is counted per area."
+   },
+   "sources": [
+    "Presidential Returning Officer, Toghcháin Uachtaráin / Presidential Elections 1938–2025 (January 2026), https://www.presidentialelection.ie/wp-content/uploads/2026/01/Presidential-Elections-1938-2025.pdf"
+   ]
+  }
+ ]
+}
