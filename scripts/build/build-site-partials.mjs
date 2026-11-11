@@ -76,6 +76,12 @@ const PAGES = new Map([
   ['site/pages/census-explorer.html', SITE_PAGE],
   ['site/pages/status.html', SITE_PAGE],
   ['site/pages/api.html', SITE_PAGE],
+  // Information pages drafted 11 Nov 2026 (launch stream `pages`): Privacy, Licence, How to cite
+  // and Downloads. Unlinked and noindex until the owner approves them.
+  ['site/pages/privacy.html', SITE_PAGE],
+  ['site/pages/licence.html', SITE_PAGE],
+  ['site/pages/cite.html', SITE_PAGE],
+  ['site/pages/downloads.html', SITE_PAGE],
   // The 404 is served at any missing path, so it needs the real header (nav and theme toggle)
   // and the saved theme; its bespoke banner had neither and stayed light in dark mode.
   ['site/404.html', SITE_PAGE],

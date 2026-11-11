@@ -52,6 +52,10 @@ const PAGES = [
   'site/pages/census-explorer.html',
   'site/pages/status.html',
   'site/pages/api.html',
+  'site/pages/privacy.html',
+  'site/pages/licence.html',
+  'site/pages/cite.html',
+  'site/pages/downloads.html',
   // PRONI Search and the 404 joined the shared shell on 7 Nov 2026 (site-shell stream).
   'site/apps/proni-search/index.html',
   'site/404.html',

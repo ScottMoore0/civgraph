@@ -1,0 +1,59 @@
+/* Information pages: Privacy, Licence, How to cite, Downloads (site/pages/{privacy,licence,cite,downloads}.html).
+   They sit on the About page's layout (shared.css + about.css); this adds only what they need
+   beyond it: the draft banner, owner notes, citation blocks and the file table. */
+
+/* DRAFT banner and owner notes. Both are removed when the owner approves a page: the banner
+   says the text is not final, and each .owner-note marks a point the drafter could not verify
+   or a decision only the owner can make. */
+.draft-banner {
+  border: 1px solid var(--warning);
+  border-left: 4px solid var(--warning);
+  border-radius: 0 var(--radius-xl) var(--radius-xl) 0;
+  background: var(--surface-raised);
+  padding: .9rem 1.2rem;
+  margin: 1.2rem 0 .4rem;
+  font-size: .95rem;
+}
+.draft-banner strong { color: var(--color-primary-dark); }
+.owner-note {
+  display: inline;
+  background: var(--surface-sunken);
+  border-left: 3px solid var(--warning);
+  padding: .05rem .4rem;
+  font-size: .9em;
+}
+.owner-decision {
+  border: 1px solid var(--color-border);
+  border-left: 4px solid var(--warning);
+  border-radius: 0 var(--radius-xl) var(--radius-xl) 0;
+  background: var(--surface-raised);
+  padding: 1rem 1.3rem;
+  margin: 1.5rem 0;
+}
+.owner-decision h2, .owner-decision h3 { margin-top: 0; }
+.owner-decision ol, .owner-decision ul { margin-bottom: 0; }
+
+/* On-this-page links, as on the Status page. */
+.info-toc { display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; margin: 1rem 0 0; font-size: .93rem; }
+
+/* Citation and code examples: wrap rather than scroll on a phone, so nothing is cut off. */
+.cite-block {
+  font-family: var(--font-mono);
+  font-size: .85rem;
+  line-height: 1.5;
+  background: var(--surface-sunken);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: .8rem 1rem;
+  margin: .6rem 0 1.2rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+main code { font-family: var(--font-mono); font-size: .88em; overflow-wrap: anywhere; }
+
+/* Tables of licences and files: scroll inside their own box on a narrow screen. */
+.table-scroll { overflow-x: auto; margin: 1.2rem 0; }
+.table-scroll table { margin: 0; min-width: 34rem; }
+.info-table td small { display: block; color: var(--color-gray-600); }
+.info-table .sha { font-family: var(--font-mono); font-size: .78rem; overflow-wrap: anywhere; }
+.manifest-status { font-size: .9rem; color: var(--color-gray-600); }
