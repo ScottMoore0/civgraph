@@ -7,6 +7,7 @@
 import { html } from '../../../../core/src/html.js';
 import { dateText, numberText, percentText } from '../../../../core/src/format.js';
 import { badges, dataTable, facts, link, partyChip } from '../components/index.js';
+import { candidateReturnWithoutPoll, isUncontestedResult } from '../../../../core/src/unopposed.mjs';
 
 /**
  * @typedef {import('../../../../api/src/pages/election.js').ElectionPage} ElectionPage
@@ -16,9 +17,30 @@ import { badges, dataTable, facts, link, partyChip } from '../components/index.j
 /** A candidacy's `elected` flag: 1 from D1; true kept for a record built elsewhere. */
 const elected = (/** @type {number | boolean | null} */ v) => v === 1 || v === true;
 
+/** What the votes column says for a seat returned without a poll (never "0"). */
+const NO_POLL_LABELS = { unopposed: 'Unopposed', 'auto-returned': 'Returned automatically' };
+
+/** @param {ElectionPageCandidate} c */
+function votesCell(c) {
+  const noPoll = candidateReturnWithoutPoll(c);
+  if (noPoll) return NO_POLL_LABELS[noPoll];
+  return c.firstPrefs === null ? '' : numberText(c.firstPrefs);
+}
+
 /** @param {Pick<ElectionPageCandidate, 'personId' | 'name'>} row */
 function personLink(row) {
   return row.personId ? link(`/browse/persons/${encodeURIComponent(row.personId)}`, row.name) : row.name;
+}
+
+/**
+ * A contest's `contestStatus` ('uncontested' for a ward with no poll), from its stored meta.
+ * @param {ElectionPageContest} contest
+ */
+function contestStatusOf(contest) {
+  const meta = /** @type {unknown} */ (contest?.meta);
+  if (meta && typeof meta === 'object') return /** @type {{ contestStatus?: unknown }} */ (meta).contestStatus;
+  if (typeof meta !== 'string') return undefined;
+  try { return JSON.parse(meta)?.contestStatus; } catch { return undefined; }
 }
 
 /**
@@ -37,13 +59,15 @@ ${badges([election.kind, election.votingSystem].filter(Boolean))}
   let body;
   if (page.kind === 'contest') {
     const { contest, candidates } = page;
+    // No poll held: every candidate returned unopposed. No turnout, and a line saying so.
+    const uncontested = isUncontestedResult({ contestStatus: contestStatusOf(contest), candidates });
     const rows = candidates.map((c) => ({
       className: elected(c.elected) ? 'cg-elected' : null,
       cells: [
         personLink(c),
         partyChip(c.party || '', c.colour),
         c.partyAsPrinted && c.partyAsPrinted !== c.party ? c.partyAsPrinted : '',
-        c.firstPrefs === null ? '' : numberText(c.firstPrefs),
+        votesCell(c),
         elected(c.elected) ? html`<span class="cg-elected-mark" aria-hidden="true">&#10003;</span> ${c.status || 'Elected'}` : c.status || '',
       ],
     }));
@@ -51,8 +75,9 @@ ${badges([election.kind, election.votingSystem].filter(Boolean))}
       { label: 'Date', value: election.date ? dateText(election.date) : '' },
       { label: 'Seats', value: contest.seatsTotal ? numberText(contest.seatsTotal) : '' },
       { label: 'Electorate', value: contest.electorate ? numberText(contest.electorate) : '' },
+      { label: 'Poll', value: uncontested ? 'No poll: returned unopposed' : '' },
       { label: 'Quota', value: contest.quota ? numberText(contest.quota) : '' },
-      { label: 'Turnout', value: contest.turnoutPct ? percentText(contest.turnoutPct) : '' },
+      { label: 'Turnout', value: !uncontested && contest.turnoutPct ? percentText(contest.turnoutPct) : '' },
     ])}
 ${dataTable({ caption: 'Candidates', label: 'Candidates', columns: [{ label: 'Candidate', rowHeader: true }, { label: 'Party' }, { label: 'As printed' }, { label: 'Votes', num: true }, { label: 'Result' }], rows })}
 ${page.citations.length ? html`<h2 id="sources">Sources</h2><ol class="cg-citations">${page.citations.map((s) => html`<li>${link(s.url, s.title || s.url)}${s.publisher ? html` – ${s.publisher}` : ''}</li>`)}</ol>` : ''}

@@ -7,6 +7,7 @@
 import { html } from '../../../../core/src/html.js';
 import { dateText, numberText, percentText, slugify, yearSpan } from '../../../../core/src/format.js';
 import { badges, citations, dataTable, facts, link, notice } from '../components/index.js';
+import { candidateReturnWithoutPoll } from '../../../../core/src/unopposed.mjs';
 
 /**
  * The browse_persons record fields this page reads (scripts/build/build-browse-indexes.mjs
@@ -79,6 +80,7 @@ function candidacyRows(record) {
     const party = row.partyAsPrinted && row.partyAsPrinted !== row.party
       ? html`${row.party || ''} <span class="cg-muted">(printed: ${row.partyAsPrinted})</span>`
       : row.party || '';
+    const noPoll = candidateReturnWithoutPoll(row);
     const result = row.elected
       ? html`<span class="cg-elected-mark" aria-hidden="true">&#10003;</span> ${row.status || 'Elected'}`
       : row.status || '';
@@ -89,8 +91,9 @@ function candidacyRows(record) {
         links.election ? link(links.election, row.title || row.key) : row.title || '',
         links.contest && row.constituency ? link(links.contest, row.constituency) : row.constituency || '',
         party,
-        numberText(row.firstPrefs),
-        percentText(row.share),
+        // Returned without a poll: "Unopposed", never 0 votes and 0% (QA H4).
+        noPoll ? (noPoll === 'unopposed' ? 'Unopposed' : 'Returned automatically') : numberText(row.firstPrefs),
+        noPoll ? '' : percentText(row.share),
         result,
       ],
     };

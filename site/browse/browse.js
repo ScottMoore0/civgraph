@@ -3606,7 +3606,7 @@ function renderRelatedPanel(type, item) {
         ? `<a href="#/elections/${encodeURIComponent(contestSlug(row.key, row.constituency))}" data-browse-link>${escapeHtml(row.constituency)}</a>`
         : escapeHtml(row.constituency || ''),
       escapeHtml(contestOutcome(row)),
-      ...(withVotes ? [Number(row.firstPrefs) > 0 ? formatNumber(row.firstPrefs) : '&ndash;'] : []),
+      ...(withVotes ? [Number(row.firstPrefs) > 0 ? formatNumber(row.firstPrefs) : candidateReturnWithoutPoll(row) === 'unopposed' ? 'Unopposed' : '&ndash;'] : []),
       ...(withShare ? [row.share !== null && row.share !== undefined && row.share !== '' ? `${Number(row.share).toFixed(1)}%` : '&ndash;'] : []),
       row.interactiveUrl ? `<a href="${escapeAttr(row.interactiveUrl)}" aria-label="${escapeAttr(`Open ${row.title || 'election'} on the map`)}">Open map</a>` : ''
     ], { before: printedLabelsToggleHtml() })
@@ -3869,6 +3869,7 @@ function contestOutcome(row) {
   if (elected) {
     if (lower === 'made quota') return 'Elected (reached the quota)';
     if (/auto returned/.test(lower)) return 'Elected (returned unopposed)';
+    if (/unopposed/.test(lower)) return 'Elected unopposed';
     if (/regional list/.test(lower)) return 'Elected (regional list)';
     return 'Elected';
   }
@@ -4691,6 +4692,38 @@ function renderGazettePollingPanel(table) {
 }
 
 /**
+ * How a candidate was returned without a poll: 'unopposed', 'auto-returned' (the Dail's Ceann
+ * Comhairle) or null. The same rule as packages/core/src/election-domain.mjs
+ * candidateReturnWithoutPoll, which this page cannot import: a contest file says
+ * `unopposed: true`, a built candidacy says "Elected unopposed" and carries no votes.
+ * @param {BrowseItem | null | undefined} candidate
+ * @returns {'unopposed' | 'auto-returned' | null}
+ */
+function candidateReturnWithoutPoll(candidate) {
+  if (!candidate) return null;
+  const status = String(candidate.status ?? candidate.Status ?? '');
+  if (candidate.autoReturnedCeannComhairle === true || /auto[- ]?returned/i.test(status)) return 'auto-returned';
+  if (candidate.unopposed === true || candidate.unopposed === 1 || /unopposed/i.test(status)) return 'unopposed';
+  return null;
+}
+
+/**
+ * True when no poll was held in a contest: every candidate returned unopposed, or the contest
+ * marked uncontested with no votes recorded. Its valid poll and turnout do not exist (not 0).
+ * @param {BrowseItem} constituency
+ * @param {BrowseItem[]} candidates
+ */
+function contestWasUncontested(constituency, candidates) {
+  const list = normalizeArray(candidates);
+  if (list.length && list.every((candidate) => candidateReturnWithoutPoll(candidate) === 'unopposed')) return true;
+  return String(constituency?.contestStatus || '') === 'uncontested'
+    && !list.some((candidate) => Number(candidate.firstPrefs ?? candidate.votes ?? 0) > 0);
+}
+
+/** What the votes column says for a seat returned without a poll. */
+const NO_POLL_LABELS = { unopposed: 'Unopposed', 'auto-returned': 'Returned automatically' };
+
+/**
  * @param {BrowseItem} item
  */
 async function renderContestResultPanel(item) {
@@ -4710,14 +4743,20 @@ async function renderContestResultPanel(item) {
   const votesLabel = stv ? '1st pref' : 'Votes';
   const firstPrefs = (/** @type {BrowseItem} */ candidate) => Number(candidate.firstPrefs ?? candidate.votes ?? 0) || 0;
   const sorted = [...candidates].sort((a, b) => firstPrefs(b) - firstPrefs(a));
-  const valid = Number(constituency.validPoll || constituency.totalVotes) || sorted.reduce((sum, candidate) => sum + firstPrefs(candidate), 0);
+  // No poll: the candidates were returned unopposed, and 0 votes, 0.0% and a valid poll of 0
+  // would read as nobody voting for them (QA H4, Falls 1946).
+  const uncontested = contestWasUncontested(constituency, sorted);
+  const valid = uncontested ? 0 : Number(constituency.validPoll || constituency.totalVotes) || sorted.reduce((sum, candidate) => sum + firstPrefs(candidate), 0);
   const outcome = (/** @type {BrowseItem} */ candidate) => {
+    if (candidate.elected && candidateReturnWithoutPoll(candidate) === 'unopposed') return 'Elected unopposed';
     if (candidate.elected) return stv && candidate.electedAt ? `Elected (count ${candidate.electedAt})` : 'Elected';
     if (stv && candidate.excluded && candidate.excludedAt) return `Excluded (count ${candidate.excludedAt})`;
     return 'Not elected';
   };
   const rows = sorted.map((candidate) => {
-    const share = valid ? `${(firstPrefs(candidate) / valid * 100).toFixed(1)}%` : '';
+    const noPoll = candidateReturnWithoutPoll(candidate);
+    const share = noPoll ? '&ndash;' : valid ? `${(firstPrefs(candidate) / valid * 100).toFixed(1)}%` : '';
+    const votes = noPoll ? escapeHtml(NO_POLL_LABELS[noPoll]) : formatNumber(firstPrefs(candidate));
     // Nothing printed and nothing inferred reads "No label", in grey, with no party page:
     // never "Independent", which is a label someone stood under.
     const party = !candidate.party || candidate.party === NO_LABEL
@@ -4730,7 +4769,7 @@ async function renderContestResultPanel(item) {
         <td>${contestPersonLink(candidate)}</td>
         <td>${party}${partyInferredHtml(candidate)}</td>
         <td class="browse-col-printed">${escapeHtml(printedLabelText(candidate))}</td>
-        <td class="browse-num">${formatNumber(firstPrefs(candidate))}</td>
+        <td class="browse-num">${votes}</td>
         <td class="browse-num">${share}</td>
         <td>${escapeHtml(outcome(candidate))}</td>
       </tr>
@@ -4740,10 +4779,11 @@ async function renderContestResultPanel(item) {
   const summaryRows = [
     ['Seats', constituency.seatsTotal ?? constituency.countInfo?.Number_Of_Seats],
     ['Electorate', constituency.electorate ? formatNumber(constituency.electorate) : ''],
-    ['Total poll', constituency.totalPoll ? formatNumber(constituency.totalPoll) : ''],
+    ['Poll', uncontested ? 'No poll: returned unopposed' : ''],
+    ['Total poll', !uncontested && constituency.totalPoll ? formatNumber(constituency.totalPoll) : ''],
     ['Invalid', constituency.spoiled ? formatNumber(constituency.spoiled) : ''],
     ['Valid', valid ? formatNumber(valid) : ''],
-    ['Turnout', Number.isFinite(turnout) && turnout > 0 ? `${turnout.toFixed(2)}%` : ''],
+    ['Turnout', !uncontested && Number.isFinite(turnout) && turnout > 0 ? `${turnout.toFixed(2)}%` : ''],
     ['Quota', stv && constituency.quota ? formatNumber(constituency.quota) : ''],
     ['Counts', stv && normalizeArray(constituency.countNumbers).length > 1 ? normalizeArray(constituency.countNumbers).length : '']
   ];
@@ -4791,13 +4831,7 @@ function renderElectionRelated(item) {
       : escapeHtml(council.title || council.body || council.key),
     escapeHtml(council.subtitle || '')
   ]);
-  const partyRows = (item.partySummary || []).map((/** @type {BrowseItem} */ party) => [
-    partyLinkHtml(party.party || '', party.colour ? `<span class="browse-badge" style="border-color:${escapeAttr(party.colour)}">${escapeHtml(party.party || '')}</span>` : escapeHtml(party.party || '')),
-    formatNumber(party.stood),
-    formatNumber(party.seats),
-    formatNumber(party.votes),
-    party.share === undefined ? '' : `${Number(party.share).toFixed(2)}%`
-  ]);
+  const partyTable = renderPartySummaryTable(normalizeArray(item.partySummary));
   // The overall result first, then the constituencies in order: "Overall results" used to sit
   // alphabetically between Offaly and Roscommon. A type column said "Constituency Result" on
   // every row but that one, so it is gone.
@@ -4810,14 +4844,62 @@ function renderElectionRelated(item) {
     : (item.constituencies || []).map((/** @type {string} */ name) => [escapeHtml(name)]);
   if (councilRows.length) {
     return `
-      ${renderTablePanel('Party Summary', ['Party', 'Stood', 'Seats', 'Votes', 'Share'], partyRows)}
+      ${partyTable}
       ${renderTablePanel('Councils', ['Date', 'Council', 'Areas'], councilRows)}
     `;
   }
   return `
-    ${renderTablePanel('Party Summary', ['Party', 'Stood', 'Seats', 'Votes', 'Share'], partyRows)}
+    ${partyTable}
     ${renderTablePanel('Results by constituency', ['Result'], constituencyRows)}
   `;
+}
+
+/**
+ * The seats a party summary row says were returned unopposed (election-domain buildPartySummary
+ * writes `unopposedSeats` when there are any).
+ * @param {BrowseItem} party
+ */
+function partyUnopposedSeats(party) {
+  const explicit = Number(party?.unopposedSeats);
+  return Number.isFinite(explicit) && explicit > 0 ? explicit : 0;
+}
+
+/**
+ * True when no vote is recorded for any of a party's candidates: all returned unopposed, or a
+ * summary with seats and no votes at all (built before it carried `unopposedSeats`, or from a
+ * file with no vote counts). Its votes and share are not 0, there are none.
+ * @param {BrowseItem} party
+ */
+function partyHadNoPoll(party) {
+  if (Number(party?.votes) > 0) return false;
+  const unopposed = partyUnopposedSeats(party);
+  return unopposed > 0 ? Number(party?.stood || unopposed) <= unopposed : Number(party?.seats) > 0;
+}
+
+/**
+ * An election's seats and votes by party. Seats returned unopposed count as seats and never
+ * as votes (QA H4): a party with only unopposed seats shows no votes and no share rather than
+ * "0 votes, 0.00%", and an Unopposed column and a note appear when any seat was unopposed.
+ * @param {BrowseItem[]} partySummary
+ */
+function renderPartySummaryTable(partySummary) {
+  const anyUnopposed = partySummary.some((party) => partyUnopposedSeats(party) > 0);
+  const headers = ['Party', 'Stood', 'Seats', ...(anyUnopposed ? ['Unopposed'] : []), 'Votes', 'Share'];
+  const rows = partySummary.map((party) => {
+    const noPoll = partyHadNoPoll(party);
+    const unopposed = partyUnopposedSeats(party);
+    return [
+      partyLinkHtml(party.party || '', party.colour ? `<span class="browse-badge" style="border-color:${escapeAttr(party.colour)}">${escapeHtml(party.party || '')}</span>` : escapeHtml(party.party || '')),
+      formatNumber(party.stood),
+      formatNumber(party.seats),
+      ...(anyUnopposed ? [unopposed ? formatNumber(unopposed) : ''] : []),
+      noPoll ? '&ndash;' : formatNumber(party.votes),
+      noPoll || party.share === undefined || party.share === null ? (noPoll ? '&ndash;' : '') : `${Number(party.share).toFixed(2)}%`
+    ];
+  });
+  return renderTablePanel('Party Summary', headers, rows, anyUnopposed
+    ? { before: '<p class="browse-note">Seats returned unopposed are counted under Seats and Unopposed but add no votes: Votes and Share are of the contests that went to a poll.</p>' }
+    : {});
 }
 
 /**

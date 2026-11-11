@@ -559,6 +559,7 @@ export class NiLocalGroupedView {
   summaryTableHtml() {
     const summary = this.partySummary();
     if (!summary.rows.length) return '<p class="election-no-data">No results at this level for this year.</p>';
+    const unopposedSeats = summary.rows.reduce((sum, row) => sum + (row.unopposed || 0), 0);
     const rows = summary.rows.map((row) => {
       const share = summary.totalVotes && row.votes ? `${((row.votes / summary.totalVotes) * 100).toFixed(1)}%` : '-';
       const colour = escapeHtml(this.partyColour(row.party));
@@ -568,7 +569,7 @@ export class NiLocalGroupedView {
         + `<td class="election-num">${share}</td></tr>`;
     }).join('');
     return `<table class="ni-local-table">
-      <caption class="ni-local-caption">${formatNumber(summary.contests)} contests, ${formatNumber(summary.contested)} polled. Votes are from the polled contests only.</caption>
+      <caption class="ni-local-caption">${formatNumber(summary.contests)} contests, ${formatNumber(summary.contested)} polled${unopposedSeats ? `; ${formatNumber(unopposedSeats)} ${unopposedSeats === 1 ? 'seat' : 'seats'} returned unopposed, counted as seats but not votes` : ''}. Votes are from the polled contests only.</caption>
       <thead><tr><th scope="col">Party</th><th scope="col" class="election-num">Seats</th><th scope="col" class="election-num">Votes</th><th scope="col" class="election-num">Share</th></tr></thead>
       <tbody>${rows}</tbody>
       <tfoot><tr><th scope="row">Total</th><td class="election-num">${formatNumber(summary.totalSeats)}</td><td class="election-num">${summary.totalVotes ? formatNumber(summary.totalVotes) : '-'}</td><td></td></tr></tfoot>
