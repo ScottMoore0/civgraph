@@ -35,7 +35,8 @@
     "person-identity-splits-2026-11-02": "Candidacies filed under the wrong person, found while verifying official person ids and duplicate people for the parliamentary votes work. Each operation gives the candidacy the person id of the man it belongs to (a Wikipedia article, a History of Parliament page, an ElectionsIreland or IrelandElection.com candidate id), or a fresh candidate id where he has none, so the registry rebuild stops joining him to a namesake. Nothing in the results changes.",
     "result-corrections-2026-11-02": "Result rows corrected against the History of Parliament and Wikipedia's election boxes (which cite Walker and Stooks Smith): a winner's name, a candidate wrongly marked elected, a by-election candidate's name.",
     "belfast-gazette-1970-winners-2026-11-03": "Members returned at the 18 June 1970 Westminster election in Northern Ireland, from the Belfast Gazette (issue 2635, 8 July 1970): the 12 results had no winner marked.",
-    "elliott-flackes-1999-2026-11-06": "Northern Ireland contests 1968-99 checked against Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Blackstaff Press, 1999), read from the owner's scans, with every changed figure or label confirmed by a second source (ARK Northern Ireland Elections, Wikipedia): Chichester-Clark's 1970 Londonderry vote and Sands's April 1981 vote, Faulkner's seven pro-Assembly Unionists of February 1974, Kilfedder's 1979 Independent Unionist label, Dunlop's 1982 and the 1977 council UUUP candidates, the Ballymena and Larne 1977 unopposed returns, Larne's 1973 Loyalists, Ballymoney Town 1989, and candidacies filed under a namesake (Jack Allen, William Brown, John Carson, Gerry Kelly, John Kelly, Frank Millar junior, David Allen, P. J. Bradley and five 1996 Forum list rows). Facts and citations only."
+    "elliott-flackes-1999-2026-11-06": "Northern Ireland contests 1968-99 checked against Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Blackstaff Press, 1999), read from the owner's scans, with every changed figure or label confirmed by a second source (ARK Northern Ireland Elections, Wikipedia): Chichester-Clark's 1970 Londonderry vote and Sands's April 1981 vote, Faulkner's seven pro-Assembly Unionists of February 1974, Kilfedder's 1979 Independent Unionist label, Dunlop's 1982 and the 1977 council UUUP candidates, the Ballymena and Larne 1977 unopposed returns, Larne's 1973 Loyalists, Ballymoney Town 1989, and candidacies filed under a namesake (Jack Allen, William Brown, John Carson, Gerry Kelly, John Kelly, Frank Millar junior, David Allen, P. J. Bradley and five 1996 Forum list rows). Facts and citations only.",
+    "ledger-eoni-ec-2026-11-11": "Northern Ireland council (2014, 2023) and European Parliament (2004) contests checked against the Electoral Office for Northern Ireland's result sheets and the Electoral Commission's results spreadsheets: only clear transcription errors (an electorate, poll or quota that the sheet's own figures confirm, a count total, the elected flags)."
   },
   "records": [
     {
@@ -90771,9 +90772,14 @@
           "op": "set",
           "path": "Constituency.countInfo.Valid_Poll",
           "value": "6852"
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Poll",
+          "value": "6914"
         }
       ],
-      "reason": "The valid poll was 6,852, as the Electoral Office's result sheet gives, not 6,914; the candidates' first preferences already add up to 6,852."
+      "reason": "The valid poll was 6,852, as the Electoral Office's result sheet gives, not 6,914; the candidates' first preferences already add up to 6,852. The votes polled were 6,914, as the Electoral Office's result sheet gives, not 6,976: the valid poll of 6,852 and the 62 invalid votes make 6,914. (Local Council Elections 2023 result sheet: Downshire East DEA, Electoral Office for Northern Ireland, https://www.eoni.org.uk/media/hdaogoye/local-council-elections-2023-result-sheet-downshire-east.xlsx, checked 2026-11-11.)"
     },
     {
       "batch": "eoni-wayback-2026-10-26",
@@ -90790,9 +90796,14 @@
           "op": "set",
           "path": "Constituency.countInfo.Valid_Poll",
           "value": "8444"
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Poll",
+          "value": "8533"
         }
       ],
-      "reason": "The valid poll was 8,444, as the Electoral Office's result sheet gives, not 8,464; the candidates' first preferences already add up to 8,444."
+      "reason": "The valid poll was 8,444, as the Electoral Office's result sheet gives, not 8,464; the candidates' first preferences already add up to 8,444. The votes polled were 8,533, as the Electoral Office's result sheet gives, not 8,553: the valid poll of 8,444 and the 89 invalid votes make 8,533. (Local Council Elections 2023 result sheet: Lisburn North DEA, Electoral Office for Northern Ireland, https://www.eoni.org.uk/media/nuepusez/local-council-elections-2023-result-sheet-lisburn-north.xlsx, checked 2026-11-11.)"
     },
     {
       "batch": "eoni-wayback-2026-10-26",
@@ -91039,9 +91050,14 @@
             "Surname": "Pulis",
             "candidateName": "Davina Pulis"
           }
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Electorate",
+          "value": "21241"
         }
       ],
-      "reason": "Davina Pulis's name is Pulis, not Pulvis, as the Electoral Office's result sheet gives."
+      "reason": "Davina Pulis's name is Pulis, not Pulvis, as the Electoral Office's result sheet gives. The electorate was 21,241, as the Electoral Office's result sheet gives, not 21,240; the sheet's poll of 52.328% is its 11,115 votes polled over 21,241. (Local Council Elections 2023 result sheet: Waterside DEA, Electoral Office for Northern Ireland, https://www.eoni.org.uk/media/e5tnmyyl/local-council-elections-2023-result-sheet-waterside.xlsx, checked 2026-11-11.)"
     },
     {
       "batch": "eoni-wayback-2026-10-26",
@@ -163744,9 +163760,96 @@
           "set": {
             "Candidate_Id": "984448544-belfast"
           }
+        },
+        {
+          "op": "candidate",
+          "name": "James Lawlor",
+          "set": {
+            "Candidate_First_Pref_Votes": "2397.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "James Lawlor",
+          "count": "1",
+          "set": {
+            "Total_Votes": "2397.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "James Lawlor",
+          "count": "2",
+          "set": {
+            "Total_Votes": "2397.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "James Lawlor",
+          "count": "3",
+          "set": {
+            "Transfers": "-610.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "3",
+          "set": {
+            "Total_Votes": "36.65",
+            "Transfers": "12.25"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "4",
+          "set": {
+            "Total_Votes": "38.07"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "5",
+          "set": {
+            "Total_Votes": "61.03"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "6",
+          "set": {
+            "Total_Votes": "211.36"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "7",
+          "set": {
+            "Total_Votes": "294.52"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "8",
+          "set": {
+            "Total_Votes": "420.11"
+          }
         }
       ],
-      "internalNote": "Anthony Flynn: candidate id 984448544 was shared with candidates of the same name in other councils (kept by Newry and Mourne); given 984448544-belfast."
+      "internalNote": "Anthony Flynn: candidate id 984448544 was shared with candidates of the same name in other councils (kept by Newry and Mourne); given 984448544-belfast.",
+      "reason": "James Lawlor (DUP) had 2,397 first preferences, not 2,394, as the Electoral Office's result sheet gives; the first preferences now add up to the valid poll of 14,295, his surplus at the third stage was 610, and the three extra papers went to the non-transferable count (12.25 at that stage, not 9.25, and three more at every later stage).",
+      "source": {
+        "title": "Local Council Elections 2023 result sheets: Belfast, Ormiston DEA",
+        "publisher": "Electoral Office for Northern Ireland",
+        "url": "https://www.eoni.org.uk/media/yd0d3yo1/local-council-elections-2023-result-sheets-belfast.xlsx",
+        "accessed": "2026-11-11"
+      }
     },
     {
       "batch": "candidate-id-splits-2026-10-28",
@@ -247691,6 +247794,114 @@
           }
         }
       ]
+    },
+    {
+      "batch": "ledger-eoni-ec-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/collin.json",
+      "source": {
+        "title": "Local Council Election 2014 result sheet: Collin DEA",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401091619id_/http://www.eoni.org.uk/getmedia/b9ba55c3-7206-4f8e-bdf8-dde4e6ef3edc/Local-Council-Election-2014-Result-Sheet-Collin",
+        "original": "http://www.eoni.org.uk/getmedia/b9ba55c3-7206-4f8e-bdf8-dde4e6ef3edc/Local-Council-Election-2014-Result-Sheet-Collin",
+        "accessed": "2026-11-11"
+      },
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Electorate",
+          "value": "22017"
+        }
+      ],
+      "reason": "The electorate was 22,017, as the Electoral Office's result sheet gives, not 20,017; the sheet's 51.6% poll is its 11,360 votes polled over 22,017."
+    },
+    {
+      "batch": "ledger-eoni-ec-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/ormiston.json",
+      "source": {
+        "title": "Local Council Election 2014 result sheet: Ormiston DEA",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401091739id_/http://www.eoni.org.uk/getmedia/c23eaded-2c71-4edb-82d5-1348295e235d/Local-Council-Election-2014-Result-Sheet-Ormiston",
+        "original": "http://www.eoni.org.uk/getmedia/c23eaded-2c71-4edb-82d5-1348295e235d/Local-Council-Election-2014-Result-Sheet-Ormiston",
+        "accessed": "2026-11-11"
+      },
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Electorate",
+          "value": "24831"
+        }
+      ],
+      "reason": "The electorate was 24,831, as the Electoral Office's result sheet gives, not 20,881; the sheet's 53.13% poll is its 13,192 votes polled over 24,831."
+    },
+    {
+      "batch": "ledger-eoni-ec-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/local-government/2023-05-18/ballyarnett.json",
+      "source": {
+        "title": "Local Council Elections 2023 result sheet: Ballyarnett DEA",
+        "publisher": "Electoral Office for Northern Ireland",
+        "url": "https://www.eoni.org.uk/media/3gmnkhik/local-council-elections-2023-result-sheet-ballyarnett.xlsx",
+        "accessed": "2026-11-11"
+      },
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Valid_Poll",
+          "value": "9740"
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Poll",
+          "value": "9929"
+        }
+      ],
+      "reason": "The valid poll was 9,740 and the votes polled 9,929, as the Electoral Office's result sheet gives, not -179 and 10; with the 189 invalid votes they add up, and the quota of 1,392 follows from 9,740 votes for six seats."
+    },
+    {
+      "batch": "ledger-eoni-ec-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/local-government/2023-05-18/collin.json",
+      "source": {
+        "title": "Local Council Elections 2023 result sheets: Belfast, Collin DEA",
+        "publisher": "Electoral Office for Northern Ireland",
+        "url": "https://www.eoni.org.uk/media/yd0d3yo1/local-council-elections-2023-result-sheets-belfast.xlsx",
+        "accessed": "2026-11-11"
+      },
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Quota",
+          "value": "1995"
+        }
+      ],
+      "reason": "The quota was 1,995, as the Electoral Office's result sheet gives, not 1,996: 13,962 valid votes for six seats give 1,994 and a fraction, plus one."
+    },
+    {
+      "batch": "ledger-eoni-ec-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/european-parliament/2004-06-10/northern-ireland.json",
+      "source": {
+        "title": "Index of candidates at the European Parliamentary election 2004",
+        "publisher": "The Electoral Commission",
+        "url": "https://web.archive.org/web/20091008013606id_/http://www.electoralcommission.org.uk/__data/assets/excel_doc/0011/13115/7IndexofcandidatesattheEuropeanParliamentaryelection2004_15481-11503__E__N__S__W__.xls",
+        "accessed": "2026-11-11"
+      },
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "Bairbre de Br\u00fan",
+          "set": {
+            "Status": "Elected",
+            "Occurred_On_Count": "3"
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "Jim Nicholson",
+          "set": {
+            "Status": "Elected",
+            "Occurred_On_Count": "3"
+          }
+        }
+      ],
+      "reason": "Bairbre de Br\u00fan (Sinn F\u00e9in) and Jim Nicholson (Ulster Unionist) were elected at the third and last count, filling the two seats left after Jim Allister was elected on the first; the Electoral Commission's index of candidates marks both as elected, and the record carried no elected status for either."
     }
   ]
 }
