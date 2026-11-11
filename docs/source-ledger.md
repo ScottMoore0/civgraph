@@ -1,10 +1,10 @@
 # Civgraph source ledger
 
-> **Status:** generated from `data/database/source-ledger.json` by `node scripts/check/rules/source-ledger.mjs --write` (ledger as of 2026-11-09). Do not edit by hand.
+> **Status:** generated from `data/database/source-ledger.json` by `node scripts/check/rules/source-ledger.mjs --write` (ledger as of 2026-11-11). Do not edit by hand.
 
 Published with the site, so it lists only sources whose content Civgraph may make public: open licences (OGL, OPL, Creative Commons, CC0, ODbL, Irish PSI open terms), Crown or state copyright that has expired, the public domain, and Civgraph's own or contributed work. Sources held or consulted under any other terms are tracked privately and are not listed here.
 
-46 sources. Mirrored: complete 24, partial 12, none 10. Extracted: partial 23, complete 8, not-started 8, reference-only 7.
+48 sources. Mirrored: complete 25, partial 15, none 8. Extracted: partial 24, complete 9, not-started 8, reference-only 7.
 
 ## elections
 
@@ -12,11 +12,12 @@ Published with the site, so it lists only sources whose content Civgraph may mak
 |---|---|---|---|---|
 | [Irish election result books and open data (Department of Housing)](https://opendata.housing.gov.ie) | PSI-open | partial (local, official Dáil results archive and local, European, presidential and referendum result books (held locally, not mirrored whole)) | partial (provenanceCitations 2,300) | Verification of the remaining ROI local rounds against the result books; the 1974, 1979 and 1985 local rounds are held back. |
 | [Oireachtas Library catalogue: printed election result books](https://opac.oireachtas.ie) | PSI-open | none | reference-only (provenanceCitations 207) | Result books are cited, not mirrored. |
-| [Electoral Office for Northern Ireland result sheets (incl. archived 1973-2005 sheets)](https://www.eoni.org.uk) | OGL-3.0 | partial (local, 349 archived result-sheet PDFs (1973-2005) plus OCR) | partial (provenanceCitations 1,715) | Per-year coverage of the 1973-2005 sheets is not yet audited; current-era sheets are cited live, not mirrored. |
-| [Electoral Commission (UK) results and reports](https://www.electoralcommission.org.uk) | OGL-3.0 | none | reference-only (provenanceCitations 87) | Not mirrored. |
-| [House of Commons Library election statistics and constituency results](https://commonslibrary.parliament.uk) | OPL-1.0 | partial (local, general-election results by constituency 2015-2024 (spreadsheets); the 1918-2023 statistics PDF is cited live) | reference-only (provenanceCitations 381) | The UK Election Statistics 1918-2023 briefing is not held locally. |
-| [Constituency Commission and Local Electoral Area boundary committee reports](https://www.electoralcommission.ie) | PSI-open | none | partial (provenanceCitations 102) | Reports are cited, not mirrored. |
+| [Electoral Office for Northern Ireland result sheets (incl. archived 1973-2005 sheets)](https://www.eoni.org.uk) | OGL-3.0 | partial (r2, local, 414 objects, 0.18 GB on R2 (data/sources/eoni-result-sheets/): the 2022 Assembly, 2023 council and 2024 Westminster sheets on eoni.org.uk and 330 earlier sheets and booklets (1973-2021) from Internet Archive captures, with a manifest) | partial (provenanceCitations 1,715) | No sheet survives for the 2011 council elections, the 2019 council sheets of five districts (Belfast, Derry City and Strabane, Ards and North Down, Lisburn and Castlereagh, Newry Mourne and Down), Assembly 2007 candidates, Assembly 2011 (15 of 18 constituencies), Westminster 2010-2019 and most by-elections; 61 figures where the sheets and Civgraph disagree await a decision; Assembly 1998 and 2003, Forum 1996 and European 1979-1999 are rotated scans not yet compared. |
+| [Electoral Commission (UK) results and reports](https://www.electoralcommission.org.uk) | OGL-3.0 | partial (r2, 31 objects, 0.02 GB on R2 (data/sources/uk-electoral-commission/): NI results spreadsheets for Westminster, Assembly, European, local and the 2011 and 2016 referendums, with a manifest) | partial (provenanceCitations 87) | The Commission's web pages answer automated requests with a browser challenge, so files were taken from direct links or archive captures; 27 figures where its spreadsheets and Civgraph disagree await a decision. |
+| [House of Commons Library election statistics and constituency results](https://commonslibrary.parliament.uk) | OPL-3.0 | partial (local, general-election results by constituency 2015-2024 (spreadsheets); the 1918-2023 statistics PDF is cited live) | reference-only (provenanceCitations 381) | The UK Election Statistics 1918-2023 briefing is not held locally. |
+| [Constituency Commission and Local Electoral Area boundary committee reports](https://www.electoralcommission.ie) | PSI-open | partial (r2, 106 objects, 0.75 GB on R2 (data/sources/ie-boundary-committee-reports/): the LEA boundary committee reports of 2008, 2013 and 2018, the Constituency Commission reports of 2004, 2007, 2012 and 2017, the 2023 constituency review and the European constituency reports of 2003-2023, with their maps and a manifest) | partial (provenanceCitations 102) | The Constituency Commission reports of 1980-1998 and the 1998 LEA committee reports are not online; the earlier Dail and LEA layers have no report linked. |
 | [Civgraph NI election results compilation (own work)](https://civgraph.net) | own-work | complete (local, d1) | complete | Continuing source checks against official sheets and gazette notices. |
+| [ElectionsNI open election data (ODI Belfast at NICVA)](https://github.com/NICVA/electionsni) | ODbL | partial (local, the project repository pinned at commit 2dba8e5 (2019-06-04), held offline as reference) | reference-only (provenanceCitations 0) | Its 2016 Assembly datasets are not compared with Civgraph's records. |
 
 ## parliaments
 
@@ -32,8 +33,8 @@ Published with the site, so it lists only sources whose content Civgraph may mak
 
 | Source | Rights | Mirrored | Extracted | Remaining |
 |---|---|---|---|---|
-| [The Gazette (Belfast and London editions): election and boundary notices](https://www.thegazette.co.uk) | OGL-3.0 | partial (local, notices fetched for NI council elections) | partial (provenanceCitations 860) | Parsed notices are review-only, not yet applied. |
-| [Belfast Gazette volumes, 1921-c.1969 (HathiTrust scans)](https://catalog.hathitrust.org) | crown-copyright-expired | partial (local, 65 issue PDFs, about 73 MB, with text) | partial | The boundary-order timeline is not integrated into the map layers or the repo. |
+| [The Gazette (Belfast and London editions): election and boundary notices](https://www.thegazette.co.uk) | OGL-3.0 | partial (local, every Belfast Gazette issue 1921-2026 read through its text layer (held locally, cited by issue and page)) | partial (provenanceCitations 860) | The Gazette prints no council election returns, nominations or results, so it cannot fill council gaps: council members appear only when a later notice styles them Councillor or Alderman, which corroborates a membership but names no election. |
+| [Belfast Gazette volumes, 1921-c.1969 (HathiTrust scans)](https://catalog.hathitrust.org) | crown-copyright-expired | partial (local, 65 issue PDFs, about 73 MB, with text) | partial (boundaryOrders 190, citedOnMaps 152) | 8 changes not yet drawn have no printed description (Larne 1930, 1948 and 1956, Newtownards 1938, 1950 and 1968, Coleraine 1962, Belfast-Ballydownfine 1962) and need the deposited maps or the Acts; 3 are described only in part. |
 | [London Gazette: Irish notices before 1922](https://www.thegazette.co.uk/London) | OGL-3.0 | none | not-started | Not held: pre-1922 Irish election writs, returns, boundary and Poor Law union orders. |
 | [Iris Oifigiúil (Irish state gazette, 1922-)](https://www.irisoifigiuil.ie) | copyright-expired | none | not-started | Not held: Dáil and local election notices, boundary and county orders since 1922. |
 
@@ -81,6 +82,7 @@ Published with the site, so it lists only sources whose content Civgraph may mak
 | [Tailte Éireann National Land Cover 2018](https://www.tailte.ie) | CC-BY-4.0 | complete (r2, 48.48 GB, 1 objects on R2 (data/sources/tailte-national-land-cover-2018/)) | not-started | Held as one archive; not tiled. |
 | [Copernicus GLO-30 digital elevation model](https://dataspace.copernicus.eu) | open-other | partial (local, Ireland tiles) | complete | None known. |
 | [OS Code-Point Open (GB postcodes)](https://osdatahub.os.uk) | OGL-3.0 | complete (local) | not-started | Unused so far. |
+| [Database of British and Irish Hills (v18.4)](https://www.hills-database.co.uk) | CC-BY-4.0 | complete (internet-archive, the v18.4 download files and survey reports) | complete (provenanceCitations 0) | None known. |
 
 ## books-catalogues
 
@@ -101,17 +103,17 @@ Published with the site, so it lists only sources whose content Civgraph may mak
 |---|---|---|---|---|
 | Thom's Irish Almanac and Official Directory (pre-1926 editions) | public-domain | none | not-started | Not held: lists of MPs, poor law unions, town commissioners and officials by year. |
 | [Wikipedia (constituency, election and person articles)](https://en.wikipedia.org) | CC-BY-SA | partial (local, about 6,800 cached pages) | partial (provenanceCitations 3,057) | Cited sources are being replaced by primary sources where possible. |
-| [Wikidata](https://www.wikidata.org) | CC0 | none | partial (provenanceCitations 0) | None known. |
-| [UK and Northern Ireland legislation (legislation.gov.uk; NI public general statutes)](https://www.legislation.gov.uk) | OGL-3.0 | partial (r2, 13 statute PDFs (data/books/legislation/)) | partial (provenanceCitations 222) | Statutory rules and orders for local boundaries are not all listed. |
+| [Wikidata](https://www.wikidata.org) | CC0 | none | partial (provenanceCitations 0) | Wikidata records few Irish councillors, so most council members have no item to link. |
+| [UK and Northern Ireland legislation (legislation.gov.uk; NI public general statutes)](https://www.legislation.gov.uk) | OGL-3.0 | partial (r2, 13 statute PDFs (data/books/legislation/)) | partial (provenanceCitations 222) | Most local boundary orders of 1921-1972 were never printed in the annual volumes and are not on legislation.gov.uk; they are known from the Belfast Gazette. |
 | [Irish Statute Book](https://www.irishstatutebook.ie) | PSI-open | none | reference-only (provenanceCitations 0) | Not mirrored. |
 | Review Body on Local Government in Northern Ireland (Macrory Report, 1970) | crown-copyright-expired | complete (local, two parts, about 97 MB) | reference-only | Not on IA. |
 | Lockwood Report (Higher Education in Northern Ireland, 1965), part | crown-copyright-expired | partial (local, part only, about 116 MB) | not-started | Relevance to Civgraph not yet assessed. |
 
 ## Live stores
 
-Measured 2026-11-09.
+Measured 2026-11-09 (the three data/sources/ prefixes for EONI, the Electoral Commission and the Irish boundary reports added 2026-11-11).
 
-- **r2**: data/books/ 0.38 GB / 79 objects; data/browse/ 2.17 GB / 5406 objects; data/census/ 59.67 GB / 165219 objects; data/cso-pxstat/ 2.21 GB / 25060 objects; data/datagovie/ 102.45 GB / 23566 objects; data/deprivation/ 0.01 GB / 6 objects; data/documents/ 0.18 GB / 21 objects; data/downloads/ 1.44 GB / 7 objects; data/maps/ 66.1 GB / 1222381 objects; data/nisra-files/ 7.52 GB / 33593 objects; data/nisra-portal/ 0.05 GB / 1115 objects; data/parliament/ 0.42 GB / 15051 objects; data/pointclouds/ 32.95 GB / 393355 objects; data/sources/datagovie-pending-ia/ 1.23 GB / 19790 objects; data/sources/oireachtas-fulltext/ 52.31 GB / 50824 objects; data/sources/tailte-national-land-cover-2018/ 48.48 GB / 1 objects; data/thumbnails/ 0.2 GB / 47521 objects; data/timeline-transitions/ 0.16 GB / 6 objects
+- **r2**: data/books/ 0.38 GB / 79 objects; data/browse/ 2.17 GB / 5406 objects; data/census/ 59.67 GB / 165219 objects; data/cso-pxstat/ 2.21 GB / 25060 objects; data/datagovie/ 102.45 GB / 23566 objects; data/deprivation/ 0.01 GB / 6 objects; data/documents/ 0.18 GB / 21 objects; data/downloads/ 1.44 GB / 7 objects; data/maps/ 66.1 GB / 1222381 objects; data/nisra-files/ 7.52 GB / 33593 objects; data/nisra-portal/ 0.05 GB / 1115 objects; data/parliament/ 0.42 GB / 15051 objects; data/pointclouds/ 32.95 GB / 393355 objects; data/sources/datagovie-pending-ia/ 1.23 GB / 19790 objects; data/sources/eoni-result-sheets/ 0.18 GB / 414 objects; data/sources/ie-boundary-committee-reports/ 0.75 GB / 106 objects; data/sources/oireachtas-fulltext/ 52.31 GB / 50824 objects; data/sources/tailte-national-land-cover-2018/ 48.48 GB / 1 objects; data/sources/uk-electoral-commission/ 0.02 GB / 31 objects; data/thumbnails/ 0.2 GB / 47521 objects; data/timeline-transitions/ 0.16 GB / 6 objects
 - **D1 civgraph-records**: contests 21,010; candidacies 76,994; citations 44,690; graph_entities 307,826; layers 1,339; documents 26
 - **D1 proni-catalogue**: records 1,538,177
 
