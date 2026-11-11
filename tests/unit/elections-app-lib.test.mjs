@@ -11,7 +11,7 @@ import {
 } from '../../site/apps/elections/lib/format.js';
 import { isAppHref, parseRoute } from '../../site/apps/elections/lib/route.js';
 import { countSheet, fptpMajority, quotaProgress, transferStages } from '../../site/apps/elections/lib/count.js';
-import { arcLayout, hbars, parliamentArc, seatBar, transferFlow } from '../../site/apps/elections/lib/charts.js';
+import { hbars, parliamentArc, seatBar, transferFlow } from '../../site/apps/elections/lib/charts.js';
 import { contestSlugs, partyRows } from '../../site/apps/elections/views/election.js';
 
 const counts = (...totals) => totals.map((total, i) => ({ count: i + 1, total, transfers: i ? total - totals[i - 1] : 0, status: '' }));
@@ -99,11 +99,10 @@ test('count sheet: padded stages are count order only; unopposed and missing vot
   assert.equal(fptp.validPoll, 100);
 });
 
-test('charts: arc layout places every seat; charts are labelled SVG', () => {
+test('charts: the arc draws every seat on the core layout; charts are labelled SVG', () => {
   for (const n of [1, 3, 18, 90, 160, 650]) {
-    const { points } = arcLayout(n);
-    assert.equal(points.length, n, `arc of ${n}`);
-    for (let i = 1; i < points.length; i += 1) assert.ok(points[i - 1].a >= points[i].a - 1e-9, 'left to right');
+    const svg = parliamentArc([{ party: 'A', seats: n, colour: '#ff0000' }]);
+    assert.equal((svg.match(/<circle /g) || []).length, n, `arc of ${n}`);
   }
   const arc = parliamentArc([{ party: 'A', seats: 50, colour: '#ff0000' }, { party: 'B', seats: 40, colour: '#0000ff' }], { title: '90 seats' });
   assert.equal((arc.match(/<circle /g) || []).length, 90);

@@ -5,7 +5,8 @@
  */
 import { electionDetail, electionIndex, must } from '../lib/api.js';
 import { parliamentArc, seatBar } from '../lib/charts.js';
-import { appUrl, electionSlug, esc, fmtDelta, fmtPct, isStv, partyChip, partyColour } from '../lib/format.js';
+import { appUrl, electionSlug, esc, fmtDelta, fmtPct, isStv } from '../lib/format.js';
+import { partyChip, partyColour } from '../lib/party.js';
 import { baseContests, nationalShares, project } from '../lib/project.js';
 import { SWING_EDITS, SWING_LIMIT, clampSwing } from '../state-machines.js';
 

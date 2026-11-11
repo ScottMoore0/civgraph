@@ -7,8 +7,9 @@ import { contestCitations, contestResult, electionDetail } from '../lib/api.js';
 import { quotaBars, transferFlow } from '../lib/charts.js';
 import { cellAt, countSheet, fptpMajority, quotaProgress, transferStages } from '../lib/count.js';
 import {
-  appUrl, electionSlug, esc, fmtDate, fmtDelta, fmtInt, fmtPct, isStv, num, partyChip, personUrl, systemName,
+  appUrl, electionSlug, esc, fmtDate, fmtDelta, fmtInt, fmtPct, isStv, num, personUrl, systemName,
 } from '../lib/format.js';
+import { partyChip } from '../lib/party.js';
 
 /** @type {Record<string, string>} */
 const KIND_NOTE = {

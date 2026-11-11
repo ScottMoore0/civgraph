@@ -5,7 +5,8 @@
  */
 import { bodyElections, electionDetail, electionIndex, electionSummary, must } from '../lib/api.js';
 import { parliamentArc, seatBar } from '../lib/charts.js';
-import { appUrl, electionSlug, esc, fmtDelta, fmtInt, fmtPct, partyChip, summaryHasVotes } from '../lib/format.js';
+import { appUrl, electionSlug, esc, fmtDelta, fmtInt, fmtPct, summaryHasVotes } from '../lib/format.js';
+import { partyChip } from '../lib/party.js';
 import { partyRows } from './election.js';
 
 /** @param {any} d */

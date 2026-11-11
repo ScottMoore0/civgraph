@@ -6,7 +6,8 @@
  */
 import { electionDetail } from '../lib/api.js';
 import { parliamentArc, seatBar } from '../lib/charts.js';
-import { appUrl, esc, fmtDate, fmtPct, partyColour } from '../lib/format.js';
+import { appUrl, esc, fmtDate, fmtPct } from '../lib/format.js';
+import { partyColour } from '../lib/party.js';
 import { EMBED } from '../state-machines.js';
 
 const box = /** @type {HTMLElement} */ (document.getElementById('w'));
