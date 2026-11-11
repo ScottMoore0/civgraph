@@ -17,7 +17,10 @@ import { REPO_ROOT } from '../../packages/loader/src/paths.mjs';
 import { TABLE } from '../../packages/schema/src/schema.mjs';
 import { openSqliteHandle } from '../../packages/storage/src/sqlite.mjs';
 import {
-  assertBounded, boundsSql, computePlan, formatReport, loadPlan, parseDeltaSql, publishInProgress, rangeChecksumSql, rangeKeysSql,
+  BOUNDS, isOverloaded, isTransientAuth, isWranglerCrash, parseWranglerOutput, WINDOWS_ABORT_STATUS, WranglerError,
+} from '../../packages/loader/src/verify-load.mjs';
+import {
+  assertBounded, boundsSql, compoundTerms, computePlan, formatReport, loadPlan, parseDeltaSql, publishInProgress, rangeChecksumSql, rangeKeysSql,
   reportFileFor, resolveDelta, safeVerify, scannedTables, selectRanges, TouchedKeys, touchedFromDeltaDir, touchedFromSnapshot,
 } from '../../packages/loader/src/safe-verify.mjs';
 
@@ -69,7 +72,17 @@ function edit(file, fn) {
   try { fn(db); } finally { db.close(); }
 }
 
-/** A query function over a SQLite file standing in for D1, recording every statement. */
+/** D1's answer to a compound SELECT of more than 5 terms, as wrangler prints it on stdout. */
+const D1_TOO_MANY_TERMS = JSON.stringify({ error: {
+  text: 'A request to the Cloudflare API (/accounts/0123abcd/d1/database/aaaa-bbbb/query) failed.',
+  notes: [{ text: 'too many terms in compound SELECT: SQLITE_ERROR [code: 7500]' }], kind: 'error', name: 'APIError', code: 7500, accountTag: '0123abcd',
+} }, null, 2);
+const ABORT = 'Assertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\\win\\async.c, line 76\r\n';
+
+/**
+ * A query function over a SQLite file standing in for D1, recording every statement. Like D1 it
+ * refuses a compound SELECT of more than 5 terms (with wrangler's abort after it, as on Windows).
+ */
 function fakeD1(file, { rowsRead, durationMs, fail } = {}) {
   const db = openSqliteHandle(file, { readOnly: true });
   const seen = [];
@@ -77,6 +90,7 @@ function fakeD1(file, { rowsRead, durationMs, fail } = {}) {
     seen.push(sql);
     const err = fail?.(sql, seen.length);
     if (err) throw err;
+    if (compoundTerms(sql) > 5) parseWranglerOutput(WINDOWS_ABORT_STATUS, D1_TOO_MANY_TERMS, ABORT);
     const rows = db.prepare(sql).all().map((r) => ({ ...r }));
     if (rowsRead) Object.defineProperty(rows, 'rowsRead', { value: rowsRead(sql, rows) });
     if (durationMs) Object.defineProperty(rows, 'durationMs', { value: durationMs(sql) });
@@ -176,7 +190,7 @@ test('identical copies: --full passes, every range read once, one statement at a
   assert.equal(report.verified, report.totalRanges);
   assert.equal(report.rowsCovered, report.totalRows);
   assert.equal(report.pending, 0);
-  assert.equal(report.statements, 3 + report.totalRanges, 'the dataset, the schema, the bounds, then one statement per range');
+  assert.equal(report.statements, 4 + report.totalRanges, 'the dataset, the schema, the bounds (6 tables: 2 statements), then one statement per range');
   assert.equal(d1.seen.length, report.statements);
   assert.equal(new Set(d1.seen).size, d1.seen.length, 'no statement sent twice');
   assert.deepEqual(sleeps, Array(report.statements - 1).fill(7));
@@ -218,15 +232,24 @@ test('bounds: rows past either end of a table fail the cheap checks, before any 
   const plan = computePlan(BUILD, LIMITS);
   const db = openSqliteHandle(BUILD, { readOnly: true });
   try {
+    // At most 5 tables a statement: D1 refuses a compound SELECT of more terms (code 7500).
     const stmts = boundsSql(plan.tables);
-    assert.equal(stmts.length, 1);
-    assert.deepEqual(stmts[0].tables.sort(), ['candidacies', 'contests', 'documents', 'party_events', 'person_aliases', 'r_elections']);
-    assert.deepEqual(scannedTables(db, stmts[0].sql), [], 'index seeks only');
-    assert.doesNotThrow(() => assertBounded(db, stmts[0].sql));
+    assert.deepEqual(stmts.map((x) => x.tables.length), [5, 1]);
+    const all = stmts.flatMap((x) => x.tables).sort();
+    assert.deepEqual(all, ['candidacies', 'contests', 'documents', 'party_events', 'person_aliases', 'r_elections']);
+    for (const x of stmts) {
+      assert.equal(compoundTerms(x.sql), x.tables.length);
+      assert.deepEqual(scannedTables(db, x.sql), [], 'index seeks only');
+      assert.doesNotThrow(() => assertBounded(db, x.sql));
+    }
+    // The single statement the first live run sent (54 terms) is refused before it is sent.
+    const [one] = boundsSql(plan.tables, BOUNDS.statementBytes, 100);
+    assert.equal(compoundTerms(one.sql), 6);
+    assert.throws(() => assertBounded(db, one.sql), /refused: a compound SELECT of 6 terms \(D1 allows 5\)/);
     // Split to fit wrangler's command line.
     const small = boundsSql(plan.tables, 600);
-    assert.ok(small.length > 1);
-    assert.deepEqual(small.flatMap((x) => x.tables).sort(), stmts[0].tables);
+    assert.ok(small.length > 2);
+    assert.deepEqual(small.flatMap((x) => x.tables).sort(), all);
   } finally {
     db.close();
   }
@@ -238,7 +261,7 @@ test('bounds: rows past either end of a table fail the cheap checks, before any 
   const report = run(dir, BUILD, d1, { full: true });
   d1.close();
   assert.equal(report.outcome, 'FAIL');
-  assert.equal(report.statements, 3, 'the dataset, the schema, the bounds: nothing more');
+  assert.equal(report.statements, 4, 'the dataset, the schema, the bounds (2 statements): nothing more');
   assert.deepEqual(report.mismatches.sort(), ["party_events: D1 has rows above the build's last key", "person_aliases: D1 has rows below the build's first key"]);
   assert.match(report.cheap.join('\n'), /bounds: DIFFER/);
 });
@@ -446,18 +469,18 @@ test('the rows_read budget stops a run, and --resume finishes it without reading
 test('a 7429 stops the run at once and --resume carries on; --overload-retries waits and goes slower; a 7403 is retried', (t) => {
   const { dir, BUILD, D1 } = fixture(t);
   const overloaded = new Error('wrangler d1 execute failed (1): D1 DB is overloaded. Too many requests queued. [code: 7429]');
-  let d1 = fakeD1(D1, { fail: (sql, n) => (n === 5 ? overloaded : null) });
+  let d1 = fakeD1(D1, { fail: (sql, n) => (n === 6 ? overloaded : null) });
   let report = run(dir, BUILD, d1, { full: true });
   assert.equal(report.outcome, 'INCOMPLETE');
   assert.match(report.stop, /^overloaded: D1 answered 7429/);
-  assert.equal(d1.seen.length, 5, 'nothing sent after the 7429');
+  assert.equal(d1.seen.length, 6, 'nothing sent after the 7429');
   assert.equal(report.verified, 1);
   report = run(dir, BUILD, d1, { full: true, resume: true });
   assert.equal(report.outcome, 'PASS', formatReport(report));
   d1.close();
 
   const sleeps = [];
-  d1 = fakeD1(D1, { fail: (sql, n) => (n === 4 ? overloaded : null) });
+  d1 = fakeD1(D1, { fail: (sql, n) => (n === 5 ? overloaded : null) });
   report = run(dir, BUILD, d1, { full: true, overloadRetries: 1, overloadWaitMs: 60_000, pauseMs: 500, sleep: (ms) => sleeps.push(ms) });
   d1.close();
   assert.equal(report.outcome, 'PASS');
@@ -477,6 +500,132 @@ test('a 7429 stops the run at once and --resume carries on; --overload-retries w
   d1.close();
   assert.equal(report.outcome, 'INCOMPLETE');
   assert.match(report.stop, /^error: the statement failed: SQLITE_ERROR/);
+});
+
+// 11 Nov 2026: the first live runs stopped on the bounds statement with only wrangler's abort,
+// "Assertion failed: !(handle->flags & UV_HANDLE_CLOSING) ... async.c, line 76", exit 0xC0000409.
+// wrangler (4.85, Node 24, Windows) aborts on the way out of every error; D1's own answer, on
+// stdout, was "too many terms in compound SELECT [code: 7500]" (D1 allows 5 terms).
+const answer = (rows, meta = {}) => JSON.stringify([{ results: rows, success: true, meta: { rows_read: 7, duration: 0.5, ...meta } }], null, 2);
+const d1Error = (note, code) => JSON.stringify({ error: { text: 'A request to the Cloudflare API (/accounts/abc7429def/d1/database/1234-7403/query) failed.', notes: [{ text: note }], kind: 'error', name: 'APIError', code, accountTag: 'abc7429def' } }, null, 2);
+const caught = (fn) => { try { fn(); } catch (error) { return error; } assert.fail('expected a throw'); };
+
+test('parseWranglerOutput: rows, D1\'s error and code from stdout behind wrangler\'s abort, and a bare abort', () => {
+  const rows = parseWranglerOutput(0, answer([{ a: 1 }]), '');
+  assert.deepEqual([...rows], [{ a: 1 }]);
+  assert.equal(rows.rowsRead, 7);
+  assert.equal(rows.durationMs, 0.5);
+  // A whole successful answer printed before the abort is D1's answer.
+  assert.equal(parseWranglerOutput(WINDOWS_ABORT_STATUS, answer([{ a: 2 }]), ABORT).rowsRead, 7);
+
+  const e7500 = caught(() => parseWranglerOutput(WINDOWS_ABORT_STATUS, D1_TOO_MANY_TERMS, ABORT));
+  assert.ok(e7500 instanceof WranglerError);
+  assert.equal(e7500.d1Code, 7500);
+  assert.equal(e7500.crashed, true);
+  assert.match(e7500.message, /^wrangler d1 execute failed \(3221226505\): too many terms in compound SELECT: SQLITE_ERROR \[code: 7500\]; wrangler then aborted \(Assertion failed/);
+  assert.doesNotMatch(e7500.message, /0123abcd|aaaa-bbbb/, 'no account or database id');
+  assert.equal(isWranglerCrash(e7500), false, 'D1 answered: not retried as a crash');
+
+  // The overload and the transient 7403 are recognised from stdout, as before from stderr.
+  const e7429 = caught(() => parseWranglerOutput(WINDOWS_ABORT_STATUS, d1Error('D1 DB is overloaded. Too many requests queued. [code: 7429]', 7429), ABORT));
+  assert.ok(isOverloaded(e7429));
+  const e7403 = caught(() => parseWranglerOutput(WINDOWS_ABORT_STATUS, d1Error('The given account is not valid or is not authorized to access this service', 7403), ABORT));
+  assert.ok(isTransientAuth(e7403));
+  assert.match(e7403.message, /\[code: 7403\]/);
+  // Digits in the account or database id never read as a code.
+  const eOther = caught(() => parseWranglerOutput(1, d1Error('no such table: x: SQLITE_ERROR [code: 7500]', 7500), ''));
+  assert.ok(!isOverloaded(eOther) && !isTransientAuth(eOther) && !isWranglerCrash(eOther), eOther.message);
+  assert.ok(!isOverloaded(caught(() => parseWranglerOutput(1, '', 'request to /accounts/abc7429def/d1/database/x7403y/query failed'))));
+
+  // No answer at all (nothing, or half an answer) behind the abort: a crash, retryable.
+  for (const out of ['', answer([{ a: 1 }]).slice(0, 30)]) {
+    const e = caught(() => parseWranglerOutput(WINDOWS_ABORT_STATUS, out, ABORT));
+    assert.ok(isWranglerCrash(e), e.message);
+    assert.match(e.message, /UV_HANDLE_CLOSING/);
+  }
+  assert.ok(isWranglerCrash(caught(() => parseWranglerOutput(3, '', ABORT))), 'the abort line alone marks it (other platforms\' exit codes)');
+  // A plain failure is not a crash, and a non-crash exit with an answer still fails as before.
+  assert.equal(isWranglerCrash(caught(() => parseWranglerOutput(1, '', 'some other failure'))), false);
+  assert.throws(() => parseWranglerOutput(1, answer([]), 'x'), /wrangler d1 execute failed \(1\)/);
+});
+
+test('wranglerQuery reads D1\'s error from a wrangler that aborts after it (a fake wrangler process)', (t) => {
+  const dir = tmp(t);
+  const fake = path.join(dir, 'wrangler.js');
+  writeFileSync(fake, `const mode = process.env.FAKE_WRANGLER_MODE;
+const err = (note, code) => JSON.stringify({ error: { text: 'A request to the Cloudflare API (/accounts/abc/d1/database/def/query) failed.', notes: [{ text: note }], code } });
+if (mode === 'ok') { process.stdout.write(${JSON.stringify(answer([{ x: 1 }], { rows_read: 3 }))}); process.exit(0); }
+if (mode === 'ok-abort') process.stdout.write(${JSON.stringify(answer([{ x: 1 }], { rows_read: 3 }))});
+if (mode === '7500') process.stdout.write(err('too many terms in compound SELECT: SQLITE_ERROR [code: 7500]', 7500));
+if (mode === '7429') process.stdout.write(err('D1 DB is overloaded. Too many requests queued. [code: 7429]', 7429));
+process.stderr.write(${JSON.stringify(ABORT)});
+process.exit(process.platform === 'win32' ? 0xC0000409 : 134);
+`);
+  const runner = `import { wranglerQuery, isOverloaded, isWranglerCrash } from ${JSON.stringify(new URL('../../packages/loader/src/verify-load.mjs', import.meta.url).href)};
+try { const r = wranglerQuery('SELECT 1 AS x LIMIT 1', { remote: true }); console.log(JSON.stringify({ rows: [...r], rowsRead: r.rowsRead })); }
+catch (e) { console.log(JSON.stringify({ message: e.message, d1Code: e.d1Code, crashed: e.crashed, overloaded: isOverloaded(e), crash: isWranglerCrash(e) })); }`;
+  const call = (mode) => {
+    const res = spawnSync(process.execPath, ['--no-warnings', '--input-type=module', '-e', runner], {
+      cwd: REPO_ROOT, encoding: 'utf8', env: { ...process.env, CIVGRAPH_WRANGLER_JS: fake, FAKE_WRANGLER_MODE: mode },
+    });
+    assert.equal(res.status, 0, res.stderr);
+    return JSON.parse(res.stdout.trim().split('\n').pop());
+  };
+  assert.deepEqual(call('ok'), { rows: [{ x: 1 }], rowsRead: 3 });
+  assert.deepEqual(call('ok-abort'), { rows: [{ x: 1 }], rowsRead: 3 });
+  const e7500 = call('7500');
+  assert.equal(e7500.d1Code, 7500);
+  assert.match(e7500.message, /too many terms in compound SELECT/);
+  assert.equal(e7500.crash, false);
+  assert.equal(call('7429').overloaded, true);
+  const bare = call('bare');
+  assert.equal(bare.crash, true);
+  assert.equal(bare.d1Code, undefined);
+});
+
+test('wrangler aborting with no answer is retried twice, each lost try counted against the budget; D1\'s own error is not retried', (t) => {
+  const { dir, BUILD, D1 } = fixture(t);
+  const abort = () => caught(() => parseWranglerOutput(WINDOWS_ABORT_STATUS, '', ABORT));
+  // One abort on the first range: retried after 5 s, and the run passes.
+  const sleeps = [];
+  let d1 = fakeD1(D1, { fail: (sql, n) => (n === 5 ? abort() : null) });
+  let report = run(dir, BUILD, d1, { full: true, sleep: (ms) => sleeps.push(ms) });
+  d1.close();
+  assert.equal(report.outcome, 'PASS', formatReport(report));
+  assert.ok(sleeps.includes(5_000));
+  assert.equal(d1.seen[4], d1.seen[5], 'the same statement sent again');
+  const clean = run(dir, BUILD, (d1 = fakeD1(D1)), { full: true, stateFile: path.join(dir, 'clean.json') });
+  d1.close();
+  const cleanState = JSON.parse(readFileSync(path.join(dir, 'clean.json'), 'utf8'));
+  const first = cleanState.results[cleanState.selection[0].id].rowsRead; // the first range's estimate
+  const cheapRead = clean.rowsRead - Object.values(cleanState.results).reduce((n, r) => n + r.rowsRead, 0);
+  assert.equal(report.rowsRead - clean.rowsRead, first, 'the lost try is counted as its estimate');
+
+  // It keeps aborting: after the two retries the run stops, resumable, and --resume finishes it.
+  d1 = fakeD1(D1, { fail: (sql, n) => (n >= 5 && n <= 7 ? abort() : null) });
+  report = run(dir, BUILD, d1, { full: true, stateFile: path.join(dir, 'abort.json') });
+  assert.equal(report.outcome, 'INCOMPLETE');
+  assert.match(report.stop, /^error: the statement failed: .*UV_HANDLE_CLOSING/);
+  assert.equal(d1.seen.length, 7, 'one try and two retries, then nothing');
+  report = run(dir, BUILD, d1, { full: true, resume: true, stateFile: path.join(dir, 'abort.json') });
+  d1.close();
+  assert.equal(report.outcome, 'PASS', formatReport(report));
+
+  // A retry that could pass the budget is not sent.
+  d1 = fakeD1(D1, { fail: (sql, n) => (n === 5 ? abort() : null) });
+  report = run(dir, BUILD, d1, { full: true, budget: cheapRead + 2 * first - 1, stateFile: path.join(dir, 'budget.json') });
+  d1.close();
+  assert.equal(report.outcome, 'INCOMPLETE');
+  assert.match(report.stop, /^budget: rows_read budget: wrangler aborted with no answer/);
+  assert.equal(d1.seen.length, 5);
+
+  // D1 answered with an error (here the 54-term bounds statement of the live run): no retry.
+  d1 = fakeD1(D1, { fail: (sql, n) => (n === 3 ? caught(() => parseWranglerOutput(WINDOWS_ABORT_STATUS, D1_TOO_MANY_TERMS, ABORT)) : null) });
+  report = run(dir, BUILD, d1, { full: true, stateFile: path.join(dir, 'd1err.json') });
+  d1.close();
+  assert.equal(report.outcome, 'INCOMPLETE');
+  assert.match(report.stop, /^error: the statement failed: wrangler d1 execute failed \(3221226505\): too many terms in compound SELECT: SQLITE_ERROR \[code: 7500\]/);
+  assert.equal(d1.seen.length, 3);
 });
 
 test('D1\'s own rows_read is the budget\'s measure; a statement that reads far more than its range stops the run', (t) => {
