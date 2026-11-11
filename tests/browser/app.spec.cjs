@@ -2790,6 +2790,14 @@ test('hash-only shell links and legacy hash writers preserve the test2 path', as
   // The #flat-section-maps link is the classic pane's (replaced at /maps/ on 2026-10-12).
   await page.goto('/maps/?catalogue=classic');
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
+  // The map's own state owns the address: the start-up restore's last write, and any map
+  // change after it (tiles arriving fire the controller's onChange, which calls updateURLState),
+  // replace the hash. Clicked while the map was still settling, such a write landed 10ms after
+  // the link's pushState and the hash read "#lng=...&zoom=5.90" (traced 11 Nov 2026, about one
+  // run in three under load). Let the restore finish and the map settle first.
+  await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
+  await page.evaluate(() => window.__civgraphTest2.restorePromise);
+  await page.evaluate(() => window.__civgraphTest2.app.mapController.waitUntilSettled({ timeoutMs: 30000 }));
 
   await page.locator('a[href="#flat-section-maps"]').first().click();
   expect(new URL(page.url()).pathname).toBe('/maps/');
