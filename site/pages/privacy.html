@@ -6,12 +6,15 @@
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>Privacy - Civgraph</title>
 <link rel="canonical" href="https://civgraph.net/pages/privacy.html">
-<meta name="description" content="What Civgraph collects about readers, contributors and the people named in its records, why, for how long, and how to ask for a correction or removal.">
-<!-- DRAFT: noindex until the owner approves this page; remove this line then. -->
+<meta name="description" content="What Civgraph collects about readers, contributors and the people named in its records, which other services your browser contacts, and how to ask for a correction or removal.">
+<!-- site:draft-head -->
 <meta name="robots" content="noindex">
+<!-- /site:draft-head -->
 <link href="/assets/pages/img/19df3a5428cb.png" rel="icon"/>
 <!-- site:head -->
 <script>(function(){var t=null;try{t=localStorage.getItem('theme');}catch(e){}if(t!=='dark'&&t!=='light'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
 <script>(function(){var K='civgraph.langPreview',S='/assets/i18n/i18n.js?v=e12c28fbed1b',on=false;function load(){var i=window.civgraphI18n;if(i){if(i.show)i.show();return;}if(document.querySelector('script[data-i18n-runtime]'))return;var s=document.createElement('script');s.src=S;s.setAttribute('data-i18n-runtime','');document.head.appendChild(s);}window.civgraphLangReveal=function(){try{localStorage.setItem(K,'1');}catch(e){}load();};try{if(/[?&]lang-preview=0(?:&|$)/.test(location.search)){localStorage.removeItem(K);localStorage.removeItem('civgraph.lang');}on=localStorage.getItem(K)==='1';}catch(e){}if(on)load();})();</script>
 <link rel="stylesheet" href="/assets/ui/tokens.css?v=9a3dca6e608e">
 <link rel="stylesheet" href="/assets/ui/tokens-legacy.css?v=17646fa133f3">
@@ -76,123 +79,138 @@
 </header>
 <!-- /site:header -->
 <section class="hero hero--interior">
-<div class="wrap wrap--wide hero__grid hero__grid--single"><div class="hero__copy"><h1>Privacy</h1><p class="lede">What Civgraph collects about the people who read it, the people who contribute to it and the people named in its records, and how to ask us to correct or remove something.</p></div></div>
+<div class="wrap wrap--wide hero__grid hero__grid--single"><div class="hero__copy"><h1>Privacy</h1><p class="lede">What Civgraph collects about the people who read it, the people who contribute to it and the people named in its records, which other services your browser contacts, and how to ask us to correct or remove something.</p></div></div>
 </section>
 <main id="main-content">
 <div class="wrap wrap--wide">
-<p class="draft-banner"><strong>Draft for approval, 11 Nov 2026.</strong> Nothing on this page is final. Notes marked <span class="owner-note">OWNER</span> are points the drafter could not verify from the code, or decisions only the owner can make. They are removed, with this banner, when the page is approved.</p>
-<nav class="info-toc" aria-label="On this page"><a href="#summary">Summary</a><a href="#who">Who is responsible</a><a href="#readers">Reading the site</a><a href="#third-parties">Other services</a><a href="#email">Emailing us</a><a href="#contributors">Contributors</a><a href="#named-people">People in the records</a><a href="#rights">Your rights</a></nav>
+<!-- site:draft-banner -->
+<p class="draft-banner"><strong>Draft, not yet published.</strong> This page is not linked from the site and is hidden from search engines until the owner approves it. Notes marked <span class="owner-note owner-note--label">OWNER TODO</span> are points that could not be verified from the code, or decisions only the owner can make; each is settled and removed before the page goes live.</p>
+<!-- /site:draft-banner -->
+<nav class="info-toc" aria-label="On this page"><a href="#summary">Summary</a><a href="#who">Who is responsible</a><a href="#hosting">Hosting</a><a href="#measurements">Speed measurements</a><a href="#storage">What your browser stores</a><a href="#third-parties">Other services</a><a href="#email">Emailing us</a><a href="#contributors">Contributors</a><a href="#named-people">People in the records</a><a href="#rights">Corrections and removal</a></nav>
 
 <section id="summary">
 <h2>Summary</h2>
 <ul>
-<li>Civgraph has no advertising, no tracking cookies and no third-party analytics.</li>
-<li>The map page sends anonymous speed measurements to our own server. They carry the page address and whether you are on a phone or a computer, not your IP address or any identifier.</li>
-<li>Your browser remembers a few settings, such as light or dark mode, on your own device. They are never sent to us.</li>
-<li>Some features fetch from other services: the background map comes from OpenStreetMap, and the place search in the map catalogue asks a geocoding service. Those services see your IP address.</li>
-<li>Civgraph publishes the names, parties, results and public records of election candidates and office-holders, because they are part of the public record. If something about you is wrong, or you think it should not be here, email us.</li>
+<li>Civgraph shows no advertising and sets no tracking or advertising cookies. The site's own code contains no analytics script.</li>
+<li>Your browser keeps a few settings, such as light or dark mode and how you arranged the map, on your own device. They are not sent to us.</li>
+<li>The map page sends anonymous speed measurements to our own server. They carry the page path and whether you are on a phone or a computer, not your IP address or any identifier.</li>
+<li>Some features load material from other services. The background map comes from OpenFreeMap, and the place search in the map catalogue asks a geocoding service. Those services see your IP address.</li>
+<li>Civgraph publishes the names, parties, results and public records of election candidates and office-holders, taken from public records. It does not publish home addresses.</li>
+<li>To ask for a correction or removal, email <a href="mailto:Scott@civgraph.net?subject=Civgraph%20privacy%20request">Scott@civgraph.net</a>.</li>
 </ul>
 </section>
 
 <section id="who">
 <h2>Who is responsible</h2>
-<p>Civgraph is run by Scott Moore, who decides what the site collects and publishes. Under UK and EU data protection law he is the data controller. You can reach him at <a href="mailto:scott@civgraph.net">scott@civgraph.net</a>.</p>
-<p><span class="owner-note">OWNER: confirm the controller is you personally rather than an organisation, whether to give a postal address, and whether Civgraph is registered with (or exempt from) the ICO data protection fee. A controller outside the EU that publishes data about people in Ireland may also need an EU representative under Article 27 GDPR; take advice.</span></p>
+<p>Civgraph is run by Scott Moore, who decides what the site collects and publishes. You can reach him at <a href="mailto:Scott@civgraph.net">Scott@civgraph.net</a>.</p>
+<p><span class="owner-note">OWNER TODO: confirm that the data controller is you personally rather than an organisation; whether to give a postal address; whether Civgraph is registered with, or exempt from, the ICO data protection fee; and whether you need an EU representative under Article 27 GDPR, since the site publishes data about people in Ireland. Take advice.</span></p>
 </section>
 
-<section id="readers">
-<h2>When you read the site</h2>
-<h3>Speed measurements on the map</h3>
-<p>The map page at <a href="/maps/">/maps/</a> measures how quickly it loads and responds, using the open-source <code>web-vitals</code> library served from civgraph.net. It reports five standard measures (largest contentful paint, interaction to next paint, cumulative layout shift, first contentful paint and time to first byte). Each report holds:</p>
+<section id="hosting">
+<h2>Hosting</h2>
+<p>Civgraph runs on Cloudflare. Cloudflare serves the pages, runs the code that answers record pages and the API, holds the records database, and serves the map files and downloads at <code>data.civgraph.net</code>. As with any website, Cloudflare receives your IP address, your browser's description of itself, the address you asked for and the time, so that it can deliver the page and protect the site from abuse. It handles this under its own <a href="https://www.cloudflare.com/privacypolicy/" rel="noopener noreferrer" target="_blank">privacy policy</a>.</p>
+<p>The site's own code does not record IP addresses and includes no analytics script, such as Cloudflare Web Analytics.</p>
+<p><span class="owner-note">OWNER TODO: Cloudflare can add its Web Analytics script, bot protection (which may set a <code>__cf_bm</code> cookie) and request logging from the dashboard, without any change to the code. Confirm in the dashboard for the civgraph project and the civgraph.net zone that Web Analytics is off (or say here that it is on), whether Bot Fight Mode or other bot management is on, whether Workers Logs or Logpush keeps Functions logs, and how long logs are kept.</span></p>
+</section>
+
+<section id="measurements">
+<h2>Speed measurements on the map</h2>
+<p>The map pages measure how quickly they load and respond, using the open-source <code>web-vitals</code> library served from civgraph.net. They report five standard measures: largest contentful paint, interaction to next paint, cumulative layout shift, first contentful paint and time to first byte. Each report holds:</p>
 <ul>
 <li>the measure, its value and its rating (good, needs improvement or poor);</li>
-<li>the page path, with any query string and <code>#</code> part removed before it is sent and again when it arrives;</li>
+<li>the page path, without any query string or <code>#</code> part (the server removes them again when the report arrives);</li>
 <li>"mobile" or "desktop", worked out in your browser. Your full browser string is not sent;</li>
-<li>a random number that the library makes for each page view, so one view's repeat reports can be counted once. It is not stored on your device and does not link one visit to another.</li>
+<li>a random number the library makes for each page view, so that repeat reports from one view can be counted once. It is not stored on your device and does not link one visit to another.</li>
 </ul>
-<p>When the map's election data fails to load, the page also reports the page path, the error message and which election layer failed, so we can fix it.</p>
-<p>These reports go to <code>/_api/rum</code> on civgraph.net. Our code writes each one as a single log line and does not record your IP address with it. They are not saved to a database. No report is sent when the site runs on a developer's own computer.</p>
-<p><span class="owner-note">OWNER: the code only writes to the Cloudflare Functions log. Confirm whether Workers Logs, Logpush or any other log storage is switched on for the civgraph project in the Cloudflare dashboard, and for how long it keeps logs, so this page can state a retention period.</span></p>
+<p>When the map's election data fails to load, the page also reports the page path, the error and which election layer failed, so that we can fix it.</p>
+<p>The reports go to <code>/_api/rum</code> on civgraph.net. Our code writes each one as a single log line, with no IP address, and does not save it to a database. No report is sent when the site runs on a developer's own computer.</p>
+</section>
 
-<h3>Hosting and server logs</h3>
-<p>Civgraph is hosted by Cloudflare: the pages, the record database and the map files at data.civgraph.net all run on Cloudflare's network. As with any website, Cloudflare receives your IP address, browser string, the address you asked for and the time, so that it can deliver the page and protect the site from abuse. Cloudflare processes this for us under its own terms and <a href="https://www.cloudflare.com/privacypolicy/" rel="noopener noreferrer" target="_blank">privacy policy</a>.</p>
-<p>The site's own code does not log IP addresses and adds no analytics script.</p>
-<p><span class="owner-note">OWNER: features switched on in the Cloudflare dashboard are not visible in the code. Confirm whether Cloudflare Web Analytics, Bot Fight Mode or other bot management (which can set a <code>__cf_bm</code> cookie) are on, and how long Cloudflare keeps request logs on your plan.</span></p>
-
-<h3>What your browser stores</h3>
-<p>Civgraph sets no cookies for readers. It keeps a few settings in your browser's local storage, which stays on your device and is never sent to us:</p>
-<ul>
-<li>light or dark theme (<code>theme</code>);</li>
-<li>the language preview, if you turn it on (<code>civgraph.langPreview</code>, <code>civgraph.lang</code>);</li>
-<li>map and catalogue preferences, such as the background map you chose, layer order, panel layout, text size, catalogue view and whether you have closed a hint (keys beginning <code>civgraph.</code> or <code>civgraph:</code>, and <code>basemapUserChoice</code>).</li>
-</ul>
-<p>Browse remembers how far down a page you had scrolled, in session storage, which your browser clears when you close the tab. A service worker keeps copies of the site's pages and files on your device so that it loads faster and works offline.</p>
+<section id="storage">
+<h2>What your browser stores</h2>
+<p>Civgraph's code sets no cookies for readers. It keeps a few settings in your browser's storage, on your own device. They are never sent to us. By purpose:</p>
+<div class="table-scroll">
+<table class="info-table">
+<tr><th>Purpose</th><th>What is stored</th><th>Kept</th></tr>
+<tr><td>Appearance</td><td>Light or dark theme (<code>theme</code>)</td><td>Until you clear it</td></tr>
+<tr><td>Language preview</td><td>Whether you turned the language preview on, and the language (<code>civgraph.langPreview</code>, <code>civgraph.lang</code>)</td><td>Until you clear it</td></tr>
+<tr><td>Map preferences</td><td>That you chose a background map yourself, layer order, panel sizes and open or closed panels, timeline options and the view of the Northern Ireland local elections (keys beginning <code>civgraph:</code> or <code>civgraph.</code>, and <code>basemapUserChoice</code>)</td><td>Until you clear it</td></tr>
+<tr><td>Map catalogue and Browse preferences</td><td>Whether you closed the catalogue's introduction, how you split the screen, text size, and whether Browse shows printed labels (keys beginning <code>civgraph.</code>, and <code>split-preference.v2</code>)</td><td>Until you clear it</td></tr>
+<tr><td>Elections app</td><td>Pivot table views you saved (<code>civgraph.elections.pivotViews</code>)</td><td>Until you clear it</td></tr>
+<tr><td>Contributor sign-in link</td><td>Set only if you open a page with <code>?contribute</code> in its address. Browse then shows the contributor sign-in link in that browser from then on (<code>civgraph.contributor</code>). Readers who never use that address never see the link and never get this setting.</td><td>Until you clear it</td></tr>
+<tr><td>This tab only</td><td>How far down a Browse page you had scrolled, the map catalogue's filters, and which background map provider failed to load, so the map does not keep retrying it (session storage)</td><td>Until you close the tab</td></tr>
+</table>
+</div>
+<p>The map page also installs a service worker, which keeps copies of the site's files on your device so that the map loads faster and works offline.</p>
 <p>You can clear all of these at any time in your browser's settings for civgraph.net.</p>
 </section>
 
 <section id="third-parties">
 <h2>Other services your browser contacts</h2>
-<p>Some features load material directly from other organisations. When they do, your browser sends that organisation your IP address and browser string, as it would for any website. Civgraph sends them nothing else. Our pages tell browsers to send only "civgraph.net" as the referring site, not the full page address.</p>
+<p>Some features load material directly from other organisations. When they do, your browser sends that organisation your IP address and its own description of itself, as it would for any website. Civgraph sends them nothing else. Our pages tell browsers to send only <code>https://civgraph.net</code> as the referring site, not the full page address.</p>
 <div class="table-scroll">
 <table class="info-table">
 <tr><th>Service</th><th>When</th><th>What it sees</th></tr>
-<tr><td>OpenStreetMap Foundation (<code>tile.openstreetmap.org</code>)</td><td>The background map on /maps/, by default</td><td>Which map tiles you load, so roughly which area you are looking at</td></tr>
-<tr><td>CARTO, Esri, OpenTopoMap, OpenStreetMap France, the US Geological Survey or Stamen</td><td>Only if you choose that background map (CARTO also serves the optional place-label overlay)</td><td>As above</td></tr>
+<tr><td>OpenFreeMap (<code>tiles.openfreemap.org</code>)</td><td>The background map on /maps/, by default</td><td>Which map tiles you load, so roughly which area you are looking at</td></tr>
+<tr><td>OpenStreetMap Foundation (<code>tile.openstreetmap.org</code>)</td><td>Only if OpenFreeMap fails to load, as a last resort</td><td>As above</td></tr>
+<tr><td>CARTO, Esri, OpenTopoMap, OpenStreetMap France, the US Geological Survey or Stamen</td><td>Only if you choose that background map in the map settings (CARTO also serves the optional place-label overlay)</td><td>As above</td></tr>
 <tr><td>Esri (<code>tiles.arcgis.com</code>)</td><td>Only if you turn on the MERIT river or river basin overlay</td><td>As above</td></tr>
-<tr><td>Photon (<code>photon.komoot.io</code>), Nominatim (<code>nominatim.openstreetmap.org</code>) and postcodes.io</td><td>The place search in the map catalogue at /maps</td><td>The place name or postcode you type</td></tr>
-<tr><td>jsDelivr (<code>cdn.jsdelivr.net</code>)</td><td>A decompression library loaded by a map-data worker</td><td>That the library was requested <span class="owner-note">OWNER: confirm the worker in src/fgb-worker.js still runs on the live site; if not, drop this row</span></td></tr>
+<tr><td>Photon (<code>photon.komoot.io</code>), Nominatim (<code>nominatim.openstreetmap.org</code>) and postcodes.io (<code>api.postcodes.io</code>)</td><td>When you search for a place in the map catalogue</td><td>The place name or postcode you type</td></tr>
+<tr><td>jsDelivr (<code>cdn.jsdelivr.net</code>)</td><td>Only in the Elections app at /apps/elections/, which is in preview and not linked from the site: it loads its map and table libraries (MapLibre, PMTiles and DuckDB) from jsDelivr when you open a map or pivot view</td><td>That the library was requested</td></tr>
 </table>
 </div>
-<p>The site's fonts are served from civgraph.net, not from Google Fonts or another font service. Links to Ko-fi, Substack, Wikidata, the Internet Archive and the original sources contact those sites only when you follow them.</p>
+<p>The site's fonts are served from civgraph.net, not from Google Fonts or any other font service. Links to Ko-fi, Substack, Wikidata, Wikipedia, the Internet Archive and the original sources contact those sites only when you follow them.</p>
+<p><span class="owner-note">OWNER TODO: confirm whether DuckDB in the Elections app also fetches extensions from <code>extensions.duckdb.org</code> when it reads Parquet; if it does, add it to the jsDelivr row before the app is linked.</span></p>
 </section>
 
 <section id="email">
 <h2>When you email us</h2>
-<p>Corrections, map submissions and requests to become a contributor come to <a href="mailto:scott@civgraph.net">scott@civgraph.net</a>. We receive your email address, any name you give and what you write. We use them to reply, to check what you tell us, and, if you ask us to, to credit you by name for a correction or a map. We do not use them for anything else, and we do not add you to a mailing list.</p>
-<p><span class="owner-note">OWNER: say which provider hosts the civgraph.net mailbox, and how long you keep correspondence (for example, "as long as it is needed to check and credit the correction, then deleted within N years").</span></p>
+<p>Corrections, map submissions and requests to become a contributor come to <a href="mailto:Scott@civgraph.net">Scott@civgraph.net</a>. We receive your email address, any name you give and what you write. We use them to reply, to check what you tell us and, if you ask us to, to credit you by name for a correction or a map. We do not use them for anything else, and we do not add you to a mailing list.</p>
+<p><span class="owner-note">OWNER TODO: say which provider hosts the civgraph.net mailbox, and how long you keep correspondence.</span></p>
 </section>
 
 <section id="contributors">
 <h2>If you are a contributor</h2>
-<p>A small number of approved contributors can propose changes on the site. Signing in uses Cloudflare Access with GitHub as the login provider. GitHub tells Cloudflare your primary verified email address. Cloudflare then sets a sign-in cookie (<code>CF_Authorization</code>) for the contributor tools, and the site checks your address against the list of approved contributors.</p>
-<p>When you submit a proposed change, the site stores it in a review queue on Cloudflare together with your email address and your browser string, so that we know who proposed what and can follow up. Nothing you submit appears on the site until an administrator approves it. If you ask, approved contributions are credited to you by name.</p>
-<p><span class="owner-note">OWNER: queue entries have no expiry in the code, so they are kept indefinitely. Decide a retention period (for example, delete the email address and browser string N months after a submission is decided) and state it here.</span></p>
+<p>A small number of approved contributors can propose changes on the site. The contributor sign-in link appears in Browse only when you open a page with <code>?contribute</code> in its address, and is then remembered in that browser (see <a href="#storage">What your browser stores</a>). In the map catalogue, the "Suggest an edit" item in a map's menu also leads to the sign-in.</p>
+<p>Signing in uses Cloudflare Access, with GitHub as the login provider. GitHub tells Cloudflare your primary verified email address. Cloudflare then sets its own sign-in cookie (<code>CF_Authorization</code>) for the contributor tools, and the site checks your address against the list of approved contributors.</p>
+<p>When you submit a proposed change, the site stores it in a review queue on Cloudflare together with your email address and your browser's description of itself, so that we know who proposed what and can follow up. Nothing you submit appears on the site until an administrator approves it. If you ask, approved contributions are credited to you by name.</p>
+<p><span class="owner-note">OWNER TODO: queue entries have no expiry in the code, so they are kept indefinitely. Decide a retention period (for example, remove the email address and browser string a set time after a submission is decided) and state it here.</span></p>
 </section>
 
 <section id="named-people">
 <h2>People named in the records</h2>
-<p>Civgraph is a reference work on Irish civic life. It publishes, for people who have stood for election or held public office:</p>
+<p>Civgraph is a reference work on Irish civic life. For people who have stood for election or held public office, it publishes:</p>
 <ul>
 <li>names, and the dates and places of the elections they stood in;</li>
 <li>their party or description on the ballot, their votes and whether they were elected;</li>
 <li>offices they held, and how members voted in parliamentary divisions;</li>
-<li>entries in the registers of members' interests that the parliaments themselves publish;</li>
+<li>entries in the registers of members' interests, as the parliaments themselves publish them;</li>
 <li>links to Wikidata, Wikipedia and other public records about them.</li>
 </ul>
 <p>All of it comes from records already made public by the people concerned or by public bodies: official election results, gazettes, parliamentary records and registers, and historical archives. Each record shows where it came from.</p>
-<p>We do not publish home addresses. Where a source such as a nomination paper gives an address, we record at most the small statistical area it lies in, never the address itself.</p>
-<p><span class="owner-note">OWNER: confirm the address rule as stated (your rule: smallest census unit, raw addresses private) and that nominators, proposers and agents are not published today.</span></p>
+<p>Civgraph does not publish home addresses. The records have no address field. Where a source, such as a nomination paper, gives an address, Civgraph records at most the small statistical area it lies in (a census small area or output area), never the address itself.</p>
+<p><span class="owner-note">OWNER TODO: confirm that register-of-interests entries naming the location of a member's property, as the parliaments publish them, are acceptable under this rule.</span></p>
 <h3>Why we may publish it</h3>
-<p>Publishing these records is in the public interest. Elections and public office are public acts, and the record of who stood, who won and how they voted is how citizens, researchers and journalists hold power to account and understand history. Our legal basis is our legitimate interest, and the public's, in keeping and publishing that record. A person's party is a political opinion, which data protection law treats with extra care; we publish it only where the person made it public themselves by standing under that label, or where it is in an archival or historical record. Much of the material is historical and is kept as an archive in the public interest.</p>
-<p>We do not contact everyone named in the records to tell them, because there are tens of thousands of them, many from long ago. This page is how we tell them instead.</p>
-<p><span class="owner-note">OWNER: this follows UK GDPR and GDPR Article 6(1)(f) (legitimate interests), Article 9(2)(e) (made manifestly public by the person) and the archiving and historical research provisions (Article 89, and in the UK the Data Protection Act 2018, Schedule 1 and Schedule 2 Part 6), and relies on Article 14(5)(b) for not notifying each person. Take advice before approval. Decide also whether to write a short legitimate interests assessment.</span></p>
+<p>Elections and public office are public acts. The record of who stood, who won and how they voted is how citizens, researchers and journalists hold power to account and understand history, and much of Civgraph's material is historical, kept as an archive in the public interest. A person's party is a political opinion, which data protection law treats with extra care. Civgraph publishes it only where the person made it public by standing under that label, or where it is in an archival or historical record.</p>
+<p>We do not write to everyone named in the records, because there are tens of thousands of them, many from long ago. This page is how we tell them instead.</p>
+<p><span class="owner-note">OWNER TODO: confirm the legal bases before approval: UK GDPR and GDPR Article 6(1)(f) (legitimate interests), Article 9(2)(e) (made manifestly public by the person), the archiving and historical research provisions (Article 89; in the UK, the Data Protection Act 2018, Schedules 1 and 2), and Article 14(5)(b) for not notifying each person. Take advice, and decide whether to write a short legitimate interests assessment.</span></p>
 </section>
 
 <section id="rights">
-<h2>Your rights, and how to ask for a correction or removal</h2>
-<p>You can ask us to show you what we hold about you, to correct it, or to stop publishing it. Email <a href="mailto:scott@civgraph.net?subject=Civgraph%20privacy%20request">scott@civgraph.net</a> with a link to the page, or the name of the record, and say what you want us to do.</p>
+<h2>How to ask for a correction or removal</h2>
+<p>Email <a href="mailto:Scott@civgraph.net?subject=Civgraph%20privacy%20request">Scott@civgraph.net</a> with a link to the page, or the name of the record, and say what you would like us to do. You can ask us what we hold about you, to correct it, or to stop publishing it.</p>
 <ul>
 <li><strong>Corrections.</strong> If a record is wrong, we will check it against the source and fix it. A link or reference to the right figure helps.</li>
-<li><strong>Removal or objection.</strong> We will consider every request. We weigh it against the public interest in a complete record of elections and public office, and we may keep the core result (that a person stood, where, when and how many votes they received) while removing anything else that is not needed.</li>
-<li><strong>Contributors and correspondents</strong> can ask us to delete their email address and submissions at any time, unless we still need them to deal with something they reported.</li>
+<li><strong>Removal or objection.</strong> We will consider every request, and weigh it against the public interest in a complete record of elections and public office.</li>
+<li><strong>Contributors and correspondents</strong> can ask us to delete their email address and submissions.</li>
 </ul>
-<p>We will reply within one month. If you are unhappy with our answer you can complain to the <a href="https://ico.org.uk/make-a-complaint/" rel="noopener noreferrer" target="_blank">Information Commissioner's Office</a> in the UK or the <a href="https://www.dataprotection.ie/" rel="noopener noreferrer" target="_blank">Data Protection Commission</a> in Ireland.</p>
-<p><span class="owner-note">OWNER: confirm the one-month promise and the "keep the core result" rule before approval.</span></p>
+<p>If you are unhappy with our answer, you can complain to the <a href="https://ico.org.uk/make-a-complaint/" rel="noopener noreferrer" target="_blank">Information Commissioner's Office</a> in the UK or the <a href="https://www.dataprotection.ie/" rel="noopener noreferrer" target="_blank">Data Protection Commission</a> in Ireland.</p>
+<p><span class="owner-note">OWNER TODO: decide whether to promise a reply time (the law allows one month), and whether a removal may keep the core result (that a person stood, where, when and with how many votes) while removing anything else.</span></p>
 </section>
 
 <section id="changes">
 <h2>Changes to this notice</h2>
-<p>We will update this page when what Civgraph collects changes, and give the date of the change here. <span class="owner-note">OWNER: set the "last updated" date when you approve.</span></p>
+<p>We will update this page when what Civgraph collects changes, and give the date of the change here. <span class="owner-note">OWNER TODO: set the "last updated" date when you approve.</span></p>
 </section>
 </div>
 </main>

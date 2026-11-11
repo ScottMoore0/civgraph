@@ -38,6 +38,7 @@ import { pathToFileURL } from 'node:url';
 import { BROWSE_DIR, localPathForUrl } from '../../packages/loader/src/paths.mjs';
 import { SITE as SITE_CONFIG } from '../../packages/config/src/node.mjs';
 import { PAGE_TYPE_IDS } from '../../packages/ui/src/page-types.mjs';
+import { INFO_PAGES, INFO_PAGES_LIVE } from '../../packages/ui/src/templates/info-pages.js';
 
 const SITE = SITE_CONFIG.origin;
 const OUT_DIR = 'sitemaps';
@@ -70,6 +71,8 @@ export const TOP_LEVEL_PAGES = [
   '/pages/census-explorer',
   '/pages/status',
   '/pages/api',
+  // Privacy, Licence, How to cite and Downloads, once the owner sets INFO_PAGES_LIVE.
+  ...(INFO_PAGES_LIVE ? INFO_PAGES.map((p) => p.path) : []),
 ];
 
 // Browse types with a path-style page (the page-types registry, packages/ui/src/page-types.mjs),

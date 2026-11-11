@@ -41,11 +41,11 @@ export const RIGHTS = {
     may: 'Copy, publish, adapt and use commercially, as long as you credit the source.',
     credit: 'Contains public sector information licensed under the Open Government Licence v3.0. Source: {publisher}.',
   },
-  'OPL-1.0': {
-    title: 'Open Parliament Licence',
+  'OPL-3.0': {
+    title: 'Open Parliament Licence v3.0',
     url: 'https://www.parliament.uk/site-information/copyright-parliament/open-parliament-licence/',
     may: 'Copy, publish, adapt and use commercially, as long as you credit the source.',
-    credit: 'Contains Parliamentary information licensed under the Open Parliament Licence. Source: {publisher}.',
+    credit: 'Contains Parliamentary information licensed under the Open Parliament Licence v3.0. Source: {publisher}.',
   },
   'PSI-open': {
     title: 'Irish public sector information, open re-use terms',
@@ -98,7 +98,7 @@ export const RIGHTS = {
   },
   'own-work': {
     title: 'Civgraph\'s own work and contributed work',
-    may: 'See "Civgraph\'s own data" above.',
+    may: 'CC BY 4.0, unless the map or record names another licence: see "Civgraph\'s own work" and "Where a record says otherwise" above.',
     credit: 'Civgraph (civgraph.net) and its named contributors.',
   },
 };

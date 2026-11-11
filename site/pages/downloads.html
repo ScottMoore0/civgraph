@@ -6,12 +6,15 @@
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>Downloads - Civgraph</title>
 <link rel="canonical" href="https://civgraph.net/pages/downloads.html">
-<meta name="description" content="Civgraph's bulk downloads: the records database as SQLite, the graph exports and their checksums, with formats, versions and licences.">
-<!-- DRAFT: noindex until the owner approves this page; remove this line then. -->
+<meta name="description" content="Civgraph's bulk downloads (the records database as SQLite and the linked-data graph, with versions and checksums), its other published files, and its public read-only API.">
+<!-- site:draft-head -->
 <meta name="robots" content="noindex">
+<!-- /site:draft-head -->
 <link href="/assets/pages/img/19df3a5428cb.png" rel="icon"/>
 <!-- site:head -->
 <script>(function(){var t=null;try{t=localStorage.getItem('theme');}catch(e){}if(t!=='dark'&&t!=='light'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
 <script>(function(){var K='civgraph.langPreview',S='/assets/i18n/i18n.js?v=e12c28fbed1b',on=false;function load(){var i=window.civgraphI18n;if(i){if(i.show)i.show();return;}if(document.querySelector('script[data-i18n-runtime]'))return;var s=document.createElement('script');s.src=S;s.setAttribute('data-i18n-runtime','');document.head.appendChild(s);}window.civgraphLangReveal=function(){try{localStorage.setItem(K,'1');}catch(e){}load();};try{if(/[?&]lang-preview=0(?:&|$)/.test(location.search)){localStorage.removeItem(K);localStorage.removeItem('civgraph.lang');}on=localStorage.getItem(K)==='1';}catch(e){}if(on)load();})();</script>
 <link rel="stylesheet" href="/assets/ui/tokens.css?v=9a3dca6e608e">
 <link rel="stylesheet" href="/assets/ui/tokens-legacy.css?v=17646fa133f3">
@@ -76,23 +79,25 @@
 </header>
 <!-- /site:header -->
 <section class="hero hero--interior">
-<div class="wrap wrap--wide hero__grid hero__grid--single"><div class="hero__copy"><h1>Downloads</h1><p class="lede">Everything behind Civgraph's records, in files you can download whole: the records database and the linked-data graph.</p></div></div>
+<div class="wrap wrap--wide hero__grid hero__grid--single"><div class="hero__copy"><h1>Downloads and API</h1><p class="lede">Everything behind Civgraph's records, in files you can download whole, and a read-only API for looking records up one at a time.</p></div></div>
 </section>
 <main id="main-content">
 <div class="wrap wrap--wide">
-<p class="draft-banner"><strong>Draft for approval, 11 Nov 2026.</strong> Nothing on this page is final. Notes marked <span class="owner-note">OWNER</span> are points the drafter could not verify, or decisions only the owner can make. They are removed, with this banner, when the page is approved.</p>
-<nav class="info-toc" aria-label="On this page"><a href="#files">The files</a><a href="#database">The records database</a><a href="#graph">The graph</a><a href="#versions">Versions and checksums</a><a href="#licence">Licence</a><a href="#api">API</a></nav>
+<!-- site:draft-banner -->
+<p class="draft-banner"><strong>Draft, not yet published.</strong> This page is not linked from the site and is hidden from search engines until the owner approves it. Notes marked <span class="owner-note owner-note--label">OWNER TODO</span> are points that could not be verified from the code, or decisions only the owner can make; each is settled and removed before the page goes live.</p>
+<!-- /site:draft-banner -->
+<nav class="info-toc" aria-label="On this page"><a href="#files">The files</a><a href="#database">The records database</a><a href="#graph">The graph</a><a href="#versions">Snapshots and checksums</a><a href="#published">Other published files</a><a href="#api">API</a><a href="#licence">Licence</a></nav>
 
 <section id="files">
 <h2>The files</h2>
-<p>All files are compressed with gzip and served from <code>data.civgraph.net</code>. The list below is read from the <a href="https://data.civgraph.net/data/downloads/manifest.json">downloads manifest</a> when the page loads, so it shows the current release.</p>
-<p class="manifest-status" id="manifest-status">Release <code id="manifest-version">e97ec87cc8acb0f0</code>, as published on 9 November 2026.</p>
+<p>All files are compressed with gzip and served from <code>data.civgraph.net</code>. The list below is read from the <a href="https://data.civgraph.net/data/downloads/manifest.json">downloads manifest</a> when the page loads, so it shows the current snapshot.</p>
+<p class="manifest-status" id="manifest-status">Snapshot <code id="manifest-version">e97ec87cc8acb0f0</code>, as published on 9 November 2026.</p>
 <div class="table-scroll">
 <table class="info-table" id="download-files">
 <thead><tr><th>File</th><th>Size</th><th>What it is</th></tr></thead>
 <tbody>
-<tr><td><a href="https://data.civgraph.net/data/downloads/civgraph-records-e97ec87cc8acb0f0.sqlite.gz">civgraph-records-e97ec87cc8acb0f0.sqlite.gz</a><small class="sha">SHA-256 19bb27034016f1b43eb5bb13846d2a038580887d8fca02777978094be5a59214</small></td><td class="num">587 MB</td><td>The records database, this release. SQLite 3.</td></tr>
-<tr><td><a href="https://data.civgraph.net/data/downloads/civgraph-records-latest.sqlite.gz">civgraph-records-latest.sqlite.gz</a><small class="sha">SHA-256 19bb27034016f1b43eb5bb13846d2a038580887d8fca02777978094be5a59214</small></td><td class="num">587 MB</td><td>The same database, always the newest release. Use the versioned name in citations.</td></tr>
+<tr><td><a href="https://data.civgraph.net/data/downloads/civgraph-records-e97ec87cc8acb0f0.sqlite.gz">civgraph-records-e97ec87cc8acb0f0.sqlite.gz</a><small class="sha">SHA-256 19bb27034016f1b43eb5bb13846d2a038580887d8fca02777978094be5a59214</small></td><td class="num">587 MB</td><td>The records database, this snapshot. SQLite 3.</td></tr>
+<tr><td><a href="https://data.civgraph.net/data/downloads/civgraph-records-latest.sqlite.gz">civgraph-records-latest.sqlite.gz</a><small class="sha">SHA-256 19bb27034016f1b43eb5bb13846d2a038580887d8fca02777978094be5a59214</small></td><td class="num">587 MB</td><td>The same database, always the newest snapshot. Use the versioned name in citations.</td></tr>
 <tr><td><a href="https://data.civgraph.net/data/downloads/civgraph-graph-shards.tar.gz">civgraph-graph-shards.tar.gz</a><small class="sha">SHA-256 bc1495ff391b25830f09789cc69f9fca26f62a213d7a84d51e87ef44c0b6bc22</small></td><td class="num">269 MB</td><td>The full linked-data graph: JSON-LD, RDF and provenance exports and the statement files, as a tar archive.</td></tr>
 <tr><td><a href="https://data.civgraph.net/data/downloads/civgraph.jsonld.gz">civgraph.jsonld.gz</a><small class="sha">SHA-256 6830b057f61e7e1633515f021cec68208ce4260a421ee2007f6d3692c6fbd940</small></td><td class="num">15 kB</td><td>Index of the JSON-LD export. The data itself is in the graph archive.</td></tr>
 <tr><td><a href="https://data.civgraph.net/data/downloads/civgraph-rdf.ndjson.gz">civgraph-rdf.ndjson.gz</a><small class="sha">SHA-256 0c74ade832fea0e7e56014e7a7c667632ab596428f5bdc0771adf76961abe8e7</small></td><td class="num">7 kB</td><td>Index of the RDF export (newline-delimited JSON). The data itself is in the graph archive.</td></tr>
@@ -100,43 +105,47 @@
 </tbody>
 </table>
 </div>
-<p>Single maps and sources can be downloaded from their own pages in <a href="/browse/">Browse</a>, under "Downloads &amp; files", where a download is offered.</p>
+<p>Single maps and sources can be downloaded from their own pages in <a href="/browse/">Browse</a>, under "Downloads &amp; files", and from each map's menu in the <a href="/maps/">map catalogue</a>, where a download is offered.</p>
 </section>
 
 <section id="database">
 <h2>The records database</h2>
-<p>The database is the one the site itself answers from: one SQLite file holding every election, contest, candidacy and count, the people and parties linked to them, offices, parliamentary divisions and votes, registers of members' interests, the map catalogue, the source catalogue with its citations, and the linked-data graph. When it was measured on 9 November 2026 it held 21,010 contests, 76,994 candidacies, 44,690 citations, 1,339 map layers and 307,826 graph entities.</p>
+<p>The database is the one the site itself answers from: one SQLite file holding every election, contest, candidacy and count, the people and parties linked to them, offices, parliamentary divisions and votes, registers of members' interests, the map catalogue, the source catalogue with its citations, and the linked-data graph. The 9 November 2026 snapshot holds 21,010 contests, 76,994 candidacies, 44,690 citations, 1,339 map layers and 307,826 graph entities.</p>
 <p>Unzip it and open it with any SQLite tool, for example <code>sqlite3 civgraph-records-latest.sqlite</code> or DB Browser for SQLite. The <code>dataset</code> table holds its version. Each record cites its source in the <code>citations</code> and provenance tables.</p>
-<p><span class="owner-note">OWNER: decide whether to publish a short schema guide (table by table) with the downloads. The schema is in packages/schema/migrations/ in the repository.</span></p>
+<p><span class="owner-note">OWNER TODO: decide whether to publish a short schema guide (table by table) with the downloads. The schema is in packages/schema/migrations/ in the repository.</span></p>
 </section>
 
 <section id="graph">
 <h2>The graph</h2>
 <p>Civgraph links people, places, elections, offices and sources into a graph of entities and statements. The graph archive holds it in JSON-LD and RDF, with provenance for each statement. The three small <code>.gz</code> files list what the archive holds.</p>
-<p><span class="owner-note">OWNER: the JSON-LD uses identifiers under <code>https://civgraph.org/id/</code>, which do not resolve (the launch QA, item M11). Either redirect them to civgraph.net or move the identifiers to civgraph.net before this page invites linked-data use.</span></p>
+<p><span class="owner-note">OWNER TODO: the JSON-LD uses identifiers under <code>https://civgraph.org/id/</code>, which do not resolve (launch QA, item M11). Either redirect them to civgraph.net or move the identifiers to civgraph.net before this page invites linked-data use.</span></p>
 </section>
 
 <section id="versions">
-<h2>Versions and checksums</h2>
-<p>Each release of the records database has a version, a short code that also appears in its file name. A versioned file never changes once published; <code>-latest</code> always points to the newest. Check a download against the SHA-256 in the manifest, for example with <code>sha256sum</code> on Linux, <code>shasum -a 256</code> on macOS or <code>certutil -hashfile &lt;file&gt; SHA256</code> on Windows.</p>
-<p>To cite a release, see <a href="/pages/cite.html#dataset">How to cite</a>.</p>
-<p><span class="owner-note">OWNER: confirm a versioned file is never overwritten (the version comes from the database's <code>dataset</code> table; nothing in the upload stops a rebuild reusing it). Decide how long older versioned files stay downloadable (only the newest is on R2 today), and whether to deposit releases with Zenodo for a DOI.</span></p>
+<h2>Snapshots and checksums</h2>
+<p>The downloads are published as versioned snapshots. Each snapshot of the records database has a version, a short code that is also in its file name, and the <a href="https://data.civgraph.net/data/downloads/manifest.json">manifest</a> gives the size and SHA-256 checksum of every file. <code>-latest</code> always names the newest snapshot. To check a download, compare its SHA-256 with the manifest's, for example with <code>sha256sum</code> on Linux, <code>shasum -a 256</code> on macOS or <code>certutil -hashfile &lt;file&gt; SHA256</code> on Windows.</p>
+<p>To cite a snapshot, see <a href="/pages/cite.html#dataset">How to cite</a>.</p>
+<p><span class="owner-note">OWNER TODO: only the newest snapshot is online today. Decide how long older versioned snapshots stay downloadable, and make the upload refuse to overwrite a versioned file that already exists (the version comes from the database's <code>dataset</code> table, and nothing in the upload stops a rebuild reusing it).</span></p>
+</section>
+
+<section id="published">
+<h2>Other published files</h2>
+<p>Besides the bulk downloads, <code>data.civgraph.net</code> serves the files behind the maps and records: the map layers (FlatGeobuf and PMTiles), census tables, scans of books and official documents whose copyright has expired or which are openly licensed, mirrors of open-licence sources (such as Electoral Office result sheets, Oireachtas debates and boundary committee reports), and the Words in parliament counts. The <a href="/api/v1/data-index"><code>/api/v1/data-index</code></a> endpoint lists every published folder and the files in each, for example <a href="/api/v1/data-index?prefix=data/maps/"><code>/api/v1/data-index?prefix=data/maps/</code></a>.</p>
+</section>
+
+<section id="api">
+<h2>API</h2>
+<p>Civgraph's records can also be looked up one at a time through a public, read-only JSON API at <a href="/api/v1"><code>https://civgraph.net/api/v1</code></a>. The index lists every endpoint and its parameters, and <a href="/api/v1/openapi.json"><code>/api/v1/openapi.json</code></a> describes them in OpenAPI 3.1. No key is needed. It answers <code>GET</code> and <code>HEAD</code>, and any website may call it from a browser.</p>
+<p>Endpoints cover elections, contests and counts; people; parties; sources and their citations; registers of members' interests; parliamentary votes; the graph; headline counts; the map catalogue and layers; map features by name or within a bounding box; the published-file index; and the PRONI eCatalogue (records, full-text search, counts and CSV export).</p>
+<p>Version 1 changes only by adding things: routes, parameters and fields may be added, but none is removed or changes meaning. An incompatible change would be a new version, and v1 would keep answering.</p>
+<p>The API answers from the newest records. For bulk use, or for work others should be able to repeat, please use a dataset snapshot above instead.</p>
+<p><span class="owner-note">OWNER TODO: the code sets no rate limit. Say whether a Cloudflare rate-limiting rule applies, and state it here if so.</span></p>
 </section>
 
 <section id="licence">
 <h2>Licence</h2>
-<p>The downloads contain Civgraph's own work and material from many sources, each under its own licence. Every record names its source. See <a href="/pages/licence.html">Licence</a> for what you may do and how to credit it. The records include names and public records of candidates and office-holders; see <a href="/pages/privacy.html">Privacy</a>.</p>
-<p><span class="owner-note">OWNER: the manifest's licence field points to About; change it to this page's Licence link once the licence decision is made.</span></p>
-</section>
-
-<section id="api" class="owner-decision">
-<h2>OWNER DECISION: advertise the API?</h2>
-<p>The site has a versioned, read-only API that is live but not advertised. If you approve, this section is published as it stands; if not, delete it.</p>
-<h3>API</h3>
-<p>Civgraph's records can also be queried one at a time through a read-only JSON API at <a href="/api/v1"><code>https://civgraph.net/api/v1</code></a>. The index lists every endpoint and its parameters, and <a href="/api/v1/openapi.json"><code>/api/v1/openapi.json</code></a> describes them in OpenAPI 3.1. It answers <code>GET</code> and <code>HEAD</code>. Endpoints cover elections, people, parties, sources and citations, registers of interests, parliamentary votes, the graph, headline counts, the map catalogue and layers, map feature search, and the PRONI eCatalogue.</p>
-<p>Version 1 changes only by adding things: parameters, fields and endpoints may be added, but none is removed or changed in meaning. An incompatible change would be a new version, and v1 would keep answering.</p>
-<p>For anything more than a few thousand requests, please use the downloads instead.</p>
-<p><span class="owner-note">OWNER: confirm whether there are rate limits to state, and whether the PRONI endpoints (including CSV export) should be advertised.</span></p>
+<p>Civgraph's own compiled data is released under <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer" target="_blank">CC BY 4.0</a>. The downloads and the API also carry material from many sources, each under its own licence, and every record names its source. See <a href="/pages/licence.html">Licence</a> for what you may do and how to credit it. The records include the names and public records of candidates and office-holders; see <a href="/pages/privacy.html">Privacy</a>.</p>
+<p><span class="owner-note">OWNER TODO: the manifest's licence note points to the About page. <code>packages/loader/src/downloads.mjs</code> should point it at this site's Licence page; that takes effect at the next approved upload of the downloads.</span></p>
 </section>
 </div>
 </main>
@@ -209,13 +218,13 @@
 <!-- /site:support-modal -->
 <script>
 // The file list comes from the live manifest when it can, so the page does not go stale with
-// each release; the table above is the snapshot shown if the manifest cannot be read.
+// each snapshot; the table above is the snapshot shown if the manifest cannot be read.
 (function () {
   var MANIFEST = 'https://data.civgraph.net/data/downloads/manifest.json';
   var BASE = 'https://data.civgraph.net/data/downloads/';
   var WHAT = [
-    [/^civgraph-records-latest\.sqlite\.gz$/, 'The same database, always the newest release. Use the versioned name in citations.'],
-    [/^civgraph-records-.+\.sqlite\.gz$/, 'The records database, this release. SQLite 3.'],
+    [/^civgraph-records-latest\.sqlite\.gz$/, 'The same database, always the newest snapshot. Use the versioned name in citations.'],
+    [/^civgraph-records-.+\.sqlite\.gz$/, 'The records database, this snapshot. SQLite 3.'],
     [/^civgraph-graph-shards\.tar\.gz$/, 'The full linked-data graph: JSON-LD, RDF and provenance exports and the statement files, as a tar archive.'],
     [/^civgraph\.jsonld\.gz$/, 'Index of the JSON-LD export. The data itself is in the graph archive.'],
     [/^civgraph-rdf\.ndjson\.gz$/, 'Index of the RDF export (newline-delimited JSON). The data itself is in the graph archive.'],

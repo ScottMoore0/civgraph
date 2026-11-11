@@ -6,12 +6,15 @@
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>Licence - Civgraph</title>
 <link rel="canonical" href="https://civgraph.net/pages/licence.html">
-<meta name="description" content="What you may do with Civgraph's maps, records and downloads, the licence of each source it draws on, and how to credit them.">
-<!-- DRAFT: noindex until the owner approves this page; remove this line then. -->
+<meta name="description" content="Civgraph's own data and text are under CC BY 4.0; every source it draws on keeps its own licence. What you may do, and how to credit them.">
+<!-- site:draft-head -->
 <meta name="robots" content="noindex">
+<!-- /site:draft-head -->
 <link href="/assets/pages/img/19df3a5428cb.png" rel="icon"/>
 <!-- site:head -->
 <script>(function(){var t=null;try{t=localStorage.getItem('theme');}catch(e){}if(t!=='dark'&&t!=='light'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
 <script>(function(){var K='civgraph.langPreview',S='/assets/i18n/i18n.js?v=e12c28fbed1b',on=false;function load(){var i=window.civgraphI18n;if(i){if(i.show)i.show();return;}if(document.querySelector('script[data-i18n-runtime]'))return;var s=document.createElement('script');s.src=S;s.setAttribute('data-i18n-runtime','');document.head.appendChild(s);}window.civgraphLangReveal=function(){try{localStorage.setItem(K,'1');}catch(e){}load();};try{if(/[?&]lang-preview=0(?:&|$)/.test(location.search)){localStorage.removeItem(K);localStorage.removeItem('civgraph.lang');}on=localStorage.getItem(K)==='1';}catch(e){}if(on)load();})();</script>
 <link rel="stylesheet" href="/assets/ui/tokens.css?v=9a3dca6e608e">
 <link rel="stylesheet" href="/assets/ui/tokens-legacy.css?v=17646fa133f3">
@@ -76,67 +79,50 @@
 </header>
 <!-- /site:header -->
 <section class="hero hero--interior">
-<div class="wrap wrap--wide hero__grid hero__grid--single"><div class="hero__copy"><h1>Licence</h1><p class="lede">What you may do with Civgraph's maps, records and downloads, and how to credit them and the sources they come from.</p></div></div>
+<div class="wrap wrap--wide hero__grid hero__grid--single"><div class="hero__copy"><h1>Licence</h1><p class="lede">What you may do with Civgraph's records, maps and downloads, the licence of each source they come from, and how to credit both.</p></div></div>
 </section>
 <main id="main-content">
 <div class="wrap wrap--wide">
-<p class="draft-banner"><strong>Draft for approval, 11 Nov 2026.</strong> Nothing on this page is final. Notes marked <span class="owner-note">OWNER</span> are points the drafter could not verify, or decisions only the owner can make. They are removed, with this banner and the decision box below, when the page is approved.</p>
-
-<section class="owner-decision" id="owner-decision">
-<h2>OWNER DECISION: which licence covers Civgraph's own data?</h2>
-<p>The site says different things today:</p>
-<ul>
-<li>Every page footer says "© Civgraph", with no licence.</li>
-<li>The support box on every page says "I release all my maps under an open source license (Creative Commons BY-SA 4.0)".</li>
-<li>About lists each source's licence and says the site is "released under open licences", but names none for Civgraph's own work.</li>
-<li>The repository's <code>LICENSE</code> is MIT (© 2026 Scott Moore), and <code>NOTICE</code> says it covers the software only, not the data.</li>
-<li>In the map catalogue, 36 contributed digitisations record CC BY-SA 4.0; 874 of the 1,118 catalogue entries record no licence at all.</li>
-<li>The downloads manifest says "See https://civgraph.net/pages/about.html for the licence of each source", and the three own-work entries in the source ledger name no licence.</li>
-</ul>
-<p>Choose one:</p>
-<ol>
-<li><strong>CC BY-SA 4.0 for everything Civgraph makes</strong> (digitised boundaries, compiled records, derived counts, the downloads). This matches the support box and the 36 layers, and fits the ElectionsNI material (CC BY-SA 4.0 and ODbL) the STV animation derives from. Share-alike can put off reusers who want to combine it with material under other terms.</li>
-<li><strong>CC BY 4.0 for everything Civgraph makes.</strong> The easiest to reuse, and it fits the OGL and CC BY sources. The contributed maps already released as CC BY-SA would stay CC BY-SA unless their contributors agree to the change.</li>
-<li><strong>A split:</strong> ODbL for the records database and downloads (a licence written for databases), and CC BY-SA 4.0 for digitised maps.</li>
-</ol>
-<p>Then confirm the contributors (Phelim Birch, Paddy Matthews and others) agree to it for their digitisations. Change the footer to "© Civgraph contributors · Licence · Privacy", reword the support box to match, and put the licence in the downloads manifest and the own-work ledger entries.</p>
-<p><strong>This draft is written as option 1</strong>, because it is what the site already says most often. Text that depends on the choice is marked.</p>
-</section>
-
-<nav class="info-toc" aria-label="On this page"><a href="#short">In short</a><a href="#own">Civgraph's own data</a><a href="#software">The software</a><a href="#sources">Other sources</a><a href="#credit">How to credit</a><a href="#personal">Personal data</a><a href="#concerns">Rights concerns</a></nav>
+<!-- site:draft-banner -->
+<p class="draft-banner"><strong>Draft, not yet published.</strong> This page is not linked from the site and is hidden from search engines until the owner approves it. Notes marked <span class="owner-note owner-note--label">OWNER TODO</span> are points that could not be verified from the code, or decisions only the owner can make; each is settled and removed before the page goes live.</p>
+<!-- /site:draft-banner -->
+<nav class="info-toc" aria-label="On this page"><a href="#short">In short</a><a href="#own">Civgraph's own work</a><a href="#exceptions">Where a record says otherwise</a><a href="#sources">Other sources</a><a href="#basemaps">Background maps</a><a href="#software">The software</a><a href="#credit">How to credit</a><a href="#personal">Personal data</a><a href="#concerns">Rights concerns</a></nav>
 
 <section id="short">
 <h2>In short</h2>
 <ul>
-<li>You may reuse Civgraph's maps, records and downloads, including commercially, as long as you credit Civgraph and the original source, and share what you make from them under the same terms. <span class="owner-note">OWNER: depends on the decision above.</span></li>
-<li>Much of what Civgraph shows comes from other bodies, under their own licences. Those licences still apply, and each asks for its own credit. Crediting Civgraph alone is not enough.</li>
-<li>Every record on the site says where it came from. Credit that source.</li>
+<li>Civgraph's own compiled data and original text are released under the <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer" target="_blank">Creative Commons Attribution 4.0 licence (CC BY 4.0)</a>. You may reuse them for any purpose, including commercially, as long as you credit Civgraph.</li>
+<li>Much of what Civgraph shows comes from other bodies. That material keeps its own licence, listed below, and each asks for its own credit. Crediting Civgraph alone is not enough.</li>
+<li>Every record says where it came from, and a map or record that names a licence of its own is under that licence.</li>
 </ul>
 </section>
 
 <section id="own">
-<h2>Civgraph's own data</h2>
-<p>Civgraph's own work is the boundaries its volunteers have digitised, the election results it has compiled and checked, the links it has made between people, places and events, the counts it derives (such as Words in parliament), and the downloads that package them. Unless a record says otherwise, this work is released under the <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener noreferrer" target="_blank">Creative Commons Attribution-ShareAlike 4.0 licence (CC BY-SA 4.0)</a>. <span class="owner-note">OWNER: depends on the decision above.</span></p>
-<p>That means you may copy it, publish it, change it and use it commercially, as long as you:</p>
+<h2>Civgraph's own work: CC BY 4.0</h2>
+<p>Civgraph's own work is what it compiles and writes: the election results it has compiled and checked, the links it has made between people, places, offices and events, the counts it derives (such as Words in parliament), the catalogue descriptions and other original text on the site, and the downloads that package them. Unless a record says otherwise, this work is released under <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer" target="_blank">CC BY 4.0</a>.</p>
+<p>You may copy it, publish it, adapt it and use it commercially, as long as you:</p>
 <ul>
-<li>credit Civgraph and its contributors, and link to the record or to civgraph.net;</li>
+<li>credit Civgraph, and link to the record or to civgraph.net;</li>
 <li>say if you changed it;</li>
-<li>release what you make from it under the same licence;</li>
-<li>also follow the licence of the original source (below).</li>
+<li>also follow the licence of the original source, below.</li>
 </ul>
-<p>Contributed maps are credited to the people who digitised them, by name, on each map. The rights of the original map are recorded separately from the rights in the digitisation.</p>
 </section>
 
-<section id="software">
-<h2>The software</h2>
-<p>The code that runs Civgraph is released under the <a href="https://opensource.org/license/mit" rel="noopener noreferrer" target="_blank">MIT licence</a>. The MIT licence covers the software only. It does not relicense any of the data. The browser bundle includes third-party open-source packages under the MIT, BSD-3-Clause and Apache-2.0 licences, whose notices ship with it. <span class="owner-note">OWNER: decide whether to link the public repository here.</span></p>
+<section id="exceptions">
+<h2>Where a record says otherwise</h2>
+<p>A map or record that names its own licence is under that licence, whatever this page says in general.</p>
+<ul>
+<li><strong>Contributed digitisations.</strong> Maps digitised by volunteers are credited to them by name on each map. Some, such as Poor Law Unions, 1911, record that they are released under <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener noreferrer" target="_blank">CC BY-SA 4.0</a>, and that licence applies to them.</li>
+<li><strong>Maps and records from another body.</strong> A boundary drawn by Ordnance Survey of Northern Ireland, Tailte Éireann or a statistics office, or a record taken from a parliament or an archive, stays under that body's licence. The record names the body.</li>
+</ul>
+<p><span class="owner-note">OWNER TODO: decide whether the contributed digitisations now recorded as CC BY-SA 4.0 move to CC BY 4.0 (each contributor must agree) or stay CC BY-SA 4.0. Then reword the support box on every page, which says "I release all my maps under an open source license (Creative Commons BY-SA 4.0)" (<code>supportModal()</code> in <code>packages/ui/src/templates/shell.js</code>), and give the three own-work entries in the source ledger their licence.</span></p>
 </section>
 
 <section id="sources">
 <h2>Material from other sources</h2>
-<p>Civgraph draws on many public bodies and open projects. Their material stays under their licence, and each record names its source. The sources Civgraph holds and may publish are listed below by licence. Where a single map or record says something more specific, the record wins.</p>
+<p>Civgraph draws on many public bodies and open projects. Their material stays under their licence, and each record names its source. The sources Civgraph holds and may publish are listed below by licence, from Civgraph's public source ledger. Where a single map or record says something more specific, the record applies.</p>
 <!-- licence:sources -->
-<p class="manifest-status">Generated from the public source ledger (<code>data/database/source-ledger.json</code>), as of 2026-11-09: 46 sources.</p>
+<p class="manifest-status">Generated from the public source ledger (<code>data/database/source-ledger.json</code>), as of 2026-11-11: 48 sources.</p>
 <h3 id="rights-ogl-3.0"><a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" rel="noopener noreferrer" target="_blank">Open Government Licence v3.0</a></h3>
 <p>Copy, publish, adapt and use commercially, as long as you credit the source. Credit: <em>Contains public sector information licensed under the Open Government Licence v3.0. Source: the publisher named below.</em></p>
 <ul class="sources-list">
@@ -160,8 +146,8 @@
 <li><strong><a href="https://www.thegazette.co.uk" rel="noopener noreferrer" target="_blank">The Gazette (Belfast and London editions): election and boundary notices</a></strong><span>The Stationery Office (The Gazette)</span></li>
 <li><strong><a href="https://www.legislation.gov.uk" rel="noopener noreferrer" target="_blank">UK and Northern Ireland legislation (legislation.gov.uk; NI public general statutes)</a></strong><span>The National Archives / Parliament of Northern Ireland</span></li>
 </ul>
-<h3 id="rights-opl-1.0"><a href="https://www.parliament.uk/site-information/copyright-parliament/open-parliament-licence/" rel="noopener noreferrer" target="_blank">Open Parliament Licence</a></h3>
-<p>Copy, publish, adapt and use commercially, as long as you credit the source. Credit: <em>Contains Parliamentary information licensed under the Open Parliament Licence. Source: the publisher named below.</em></p>
+<h3 id="rights-opl-3.0"><a href="https://www.parliament.uk/site-information/copyright-parliament/open-parliament-licence/" rel="noopener noreferrer" target="_blank">Open Parliament Licence v3.0</a></h3>
+<p>Copy, publish, adapt and use commercially, as long as you credit the source. Credit: <em>Contains Parliamentary information licensed under the Open Parliament Licence v3.0. Source: the publisher named below.</em></p>
 <ul class="sources-list">
 <li><strong><a href="https://commonslibrary.parliament.uk" rel="noopener noreferrer" target="_blank">House of Commons Library election statistics and constituency results</a></strong><span>House of Commons Library</span></li>
 </ul>
@@ -181,6 +167,7 @@
 <ul class="sources-list">
 <li><strong><a href="https://archive.org/details/civgraph-cso-historical-reports" rel="noopener noreferrer" target="_blank">CSO historical census and statistical reports, 1841-1991</a></strong><span>Central Statistics Office</span></li>
 <li><strong><a href="https://data.cso.ie" rel="noopener noreferrer" target="_blank">CSO PxStat statistical cubes</a></strong><span>Central Statistics Office</span></li>
+<li><strong><a href="https://www.hills-database.co.uk" rel="noopener noreferrer" target="_blank">Database of British and Irish Hills (v18.4)</a></strong><span>Database of British and Irish Hills / Hill Bagging</span></li>
 <li><strong><a href="https://data-osi.opendata.arcgis.com" rel="noopener noreferrer" target="_blank">Tailte Éireann and CSO official boundaries (constituencies, LEAs, EDs, counties, small areas)</a></strong><span>Tailte Éireann / Central Statistics Office</span></li>
 <li><strong><a href="https://www.tailte.ie" rel="noopener noreferrer" target="_blank">Tailte Éireann National Land Cover 2018</a></strong><span>Tailte Éireann / EPA</span></li>
 </ul>
@@ -188,6 +175,11 @@
 <p>Copy, publish, adapt and use commercially, as long as you credit the source and release what you make from it under the same licence. Credit: <em>Source: the publisher named below, licensed under CC BY-SA.</em></p>
 <ul class="sources-list">
 <li><strong><a href="https://en.wikipedia.org" rel="noopener noreferrer" target="_blank">Wikipedia (constituency, election and person articles)</a></strong><span>Wikimedia Foundation contributors</span></li>
+</ul>
+<h3 id="rights-odbl"><a href="https://opendatacommons.org/licenses/odbl/1-0/" rel="noopener noreferrer" target="_blank">Open Database Licence (ODbL)</a></h3>
+<p>Copy, publish, adapt and use commercially, as long as you credit the source and release any adapted database under the ODbL. Credit: <em>Source: the publisher named below, licensed under the ODbL.</em></p>
+<ul class="sources-list">
+<li><strong><a href="https://github.com/NICVA/electionsni" rel="noopener noreferrer" target="_blank">ElectionsNI open election data (ODI Belfast at NICVA)</a></strong><span>ODI Belfast at NICVA and the NI Open Government Network</span></li>
 </ul>
 <h3 id="rights-cc0"><a href="https://creativecommons.org/publicdomain/zero/1.0/" rel="noopener noreferrer" target="_blank">CC0 (no rights reserved)</a></h3>
 <p>Anything, with no conditions. A credit is still appreciated. Credit: <em>Source: the publisher named below (CC0).</em></p>
@@ -221,31 +213,35 @@
 <li><strong><a href="https://dataspace.copernicus.eu" rel="noopener noreferrer" target="_blank">Copernicus GLO-30 digital elevation model</a></strong><span>European Space Agency / Copernicus</span></li>
 </ul>
 <h3 id="rights-own-work">Civgraph's own work and contributed work</h3>
-<p>See &quot;Civgraph's own data&quot; above. Credit: <em>Civgraph (civgraph.net) and its named contributors.</em></p>
+<p>CC BY 4.0, unless the map or record names another licence: see &quot;Civgraph's own work&quot; and &quot;Where a record says otherwise&quot; above. Credit: <em>Civgraph (civgraph.net) and its named contributors.</em></p>
 <ul class="sources-list">
 <li><strong><a href="https://civgraph.net" rel="noopener noreferrer" target="_blank">Civgraph NI election results compilation (own work)</a></strong><span>Civgraph</span></li>
 <li><strong><a href="https://civgraph.net" rel="noopener noreferrer" target="_blank">Irish Digitised Boundaries (contributed digitisations: EDs, DEDs, wards, constituencies, townlands)</a></strong><span>Civgraph contributors</span></li>
 <li><strong><a href="https://civgraph.net/apps/words/" rel="noopener noreferrer" target="_blank">Words in parliament: word and phrase counts (Civgraph-derived)</a></strong><span>Civgraph (from the Oireachtas, NI Assembly and Parliament of Northern Ireland debates)</span></li>
 </ul>
 <!-- /licence:sources -->
-<h3>Also credited on the site</h3>
-<ul class="sources-list">
-<li><strong>ElectionsNI (ODI Belfast / NICVA open data project)</strong><span>CC BY-SA 4.0 and ODbL. Civgraph's STV count animation derives from their work; they and the Electoral Office for Northern Ireland are credited.</span></li>
-<li><strong>Database of British and Irish Hills</strong><span>CC BY 4.0.</span></li>
-<li><strong>OpenStreetMap</strong><span>The background map on /maps/ is © OpenStreetMap contributors, under the ODbL. Credit it on any screenshot of the map. Other background maps you can choose credit their own providers on the map.</span></li>
-</ul>
-<p><span class="owner-note">OWNER: ElectionsNI and the Database of British and Irish Hills are named on About but are not in the source ledger. Add them there, so this list is generated in full.</span></p>
 <h3>Scans of old works</h3>
 <p>Civgraph's scans of books, debates and Acts whose copyright has expired are offered without any new copyright claim. Use them as you would the originals.</p>
+</section>
+
+<section id="basemaps">
+<h2>Background maps</h2>
+<p>The background map on <a href="/maps/">/maps/</a> is not Civgraph's. By default it is drawn by <a href="https://openfreemap.org/" rel="noopener noreferrer" target="_blank">OpenFreeMap</a> from <a href="https://openmaptiles.org/" rel="noopener noreferrer" target="_blank">OpenMapTiles</a> and <a href="https://www.openstreetmap.org/copyright" rel="noopener noreferrer" target="_blank">OpenStreetMap</a> data (© OpenStreetMap contributors, under the Open Database Licence). If OpenFreeMap cannot be reached, OpenStreetMap's own map is shown instead. Other background maps you can choose credit their own providers. The map always shows the credit for the background in use: keep it on any screenshot.</p>
+</section>
+
+<section id="software">
+<h2>The software</h2>
+<p>The code that runs Civgraph is released under the <a href="https://opensource.org/license/mit" rel="noopener noreferrer" target="_blank">MIT licence</a>. The MIT licence covers the software only. It does not relicense any of the data. The browser code includes third-party open-source packages under their own licences, whose notices ship with it.</p>
+<p><span class="owner-note">OWNER TODO: decide whether to link the public repository here.</span></p>
 </section>
 
 <section id="credit">
 <h2>How to credit</h2>
 <p>Give both Civgraph and the original source. For example:</p>
-<p class="cite-block">Source: Civgraph (https://civgraph.net), CC BY-SA 4.0, compiled from the Electoral Office for Northern Ireland result sheets (Open Government Licence v3.0).</p>
+<p class="cite-block">Source: Civgraph (https://civgraph.net), CC BY 4.0, compiled from the Electoral Office for Northern Ireland's result sheets (Open Government Licence v3.0).</p>
 <p>For a map:</p>
-<p class="cite-block">Boundaries: Poor Law Unions, 1911, digitised by Scott Moore, Phelim Birch and Paddy Matthews for Civgraph (CC BY-SA 4.0). Background map © OpenStreetMap contributors.</p>
-<p>For academic citations, see <a href="/pages/cite.html">How to cite</a>. <span class="owner-note">OWNER: CC BY-SA in these examples depends on the decision above.</span></p>
+<p class="cite-block">Boundaries: Poor Law Unions, 1911, digitised by Scott Moore, Phelim Birch and Paddy Matthews for Civgraph (CC BY-SA 4.0). Background map: OpenFreeMap, © OpenMapTiles, data © OpenStreetMap contributors.</p>
+<p>For academic citations, see <a href="/pages/cite.html">How to cite</a>.</p>
 </section>
 
 <section id="personal">
@@ -255,7 +251,7 @@
 
 <section id="concerns">
 <h2>If you hold rights in something here</h2>
-<p>If you think something on Civgraph is published against its licence, or wrongly credited, email <a href="mailto:scott@civgraph.net?subject=Civgraph%20rights%20question">scott@civgraph.net</a> with a link to it. We will look into it promptly and take it down while we check, if that is needed.</p>
+<p>If you think something on Civgraph is published against its licence, or wrongly credited, email <a href="mailto:Scott@civgraph.net?subject=Civgraph%20rights%20question">Scott@civgraph.net</a> with a link to it. We will look into it promptly, and take it down while we check if that is needed.</p>
 </section>
 </div>
 </main>
