@@ -15,7 +15,7 @@ import {
 import { PAGES_MAX_BYTES, checkVendor, r2KeyOf } from '../../scripts/build/elections-app/vendor.mjs';
 import { PRIVATE_VALUE_PATTERNS, PUBLISHABLE_COLUMNS, publicationProblems } from '../../scripts/build/elections-app/data.mjs';
 import { EXTRACT_COLUMNS } from '../../scripts/build/elections-app/model.mjs';
-import { isPublishable, loadAllowlist } from '../../scripts/lib/r2-publication-gate.mjs';
+import { isPublishable, listedPrefixes, loadAllowlist } from '../../scripts/lib/r2-publication-gate.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const read = (/** @type {string} */ rel) => readFileSync(path.join(ROOT, rel), 'utf8');
@@ -137,9 +137,13 @@ test('embedding is off by default: the widget may be framed by this site only, e
   assert.equal(headersFor('/src/libs/duckdb-wasm-1.29.0/duckdb-browser.mjs').get('cache-control'), 'public, max-age=31536000, immutable');
 });
 
-test('the R2 prefix is not in the publication allowlist yet: an upload is refused until the go-public change set adds it', () => {
+test('the R2 prefix is in the publication allowlist but unlisted: the upload may run, the public data index does not name it until the go-public change set', () => {
   const allowlist = loadAllowlist(path.join(ROOT, 'data/database/r2-publication-allowlist.json'));
-  assert.equal(isPublishable(`${R2_PREFIX}extracts/index.json`, allowlist), false);
+  assert.equal(isPublishable(`${R2_PREFIX}extracts/index.json`, allowlist), true);
+  assert.equal(isPublishable(`${R2_PREFIX}duckdb-wasm-1.29.0/duckdb-eh.wasm`, allowlist), true);
+  const entry = allowlist.prefixes.find((e) => e.prefix === 'data/elections-app/');
+  assert.equal(entry?.unlisted, true, 'unlisted while the app is not public');
+  assert.ok(!listedPrefixes(allowlist).includes('data/elections-app/'));
 });
 
 test('upload plan: every key under the prefix, the WebAssembly typed, immutable files first, manifest then index.json last', async (t) => {
