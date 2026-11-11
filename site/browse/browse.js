@@ -1058,6 +1058,7 @@ const RETIRED_CONTEST_SLUGS = [
   ['larne-borough-council-1964-05-20-gardenmore-ward-aldermanship', 'larne-borough-council-1964-05-20-gardenmore-ward-alderman'],
   ['lisnaskea-rural-district-council-1927-05-25-springfield', 'lisnaskea-rural-district-council-1927-05-25-springtown'],
   ['dungannon-rural-district-council-1936-06-03-bernagh', 'dungannon-rural-district-council-1936-06-03'],
+  ['bangor-borough-council-1938-05-16-bangor-7-seats', 'bangor-borough-council-1938-05-16'],
   // The 1973-2011 district electoral areas named by ARK's import code ("lg85-NoD-Holywood").
   ['local-government-local-government-districts-1973-05-30-lg73-nam-area-a', 'local-government-local-government-districts-1973-05-30-newry-and-mourne-area-a'],
   ['local-government-local-government-districts-1973-05-30-lg73-nam-area-b', 'local-government-local-government-districts-1973-05-30-newry-and-mourne-area-b'],
