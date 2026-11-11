@@ -227,3 +227,52 @@ test.describe('browser history and the timeline', () => {
     expect(check.shown).toBeGreaterThanOrEqual(6);
   });
 });
+
+test.describe('row menus', () => {
+  // A row's menu closed on any scroll. The pane also scrolls by itself, when what a search found
+  // besides maps arrives above the rows and the browser keeps the rows where they were; that
+  // closed the Download menu a reader had just opened (map-svg-export, flaky under load). The
+  // menu now follows its button while the button is on screen, and closes once it is not.
+  test('a row menu stays with its button when the pane scrolls, and closes when the button goes', async ({ page }) => {
+    await boot(page);
+    const shelf = page.locator('#catalogueFlatView .cn-shelf__toggle').first();
+    if (await shelf.getAttribute('aria-expanded') !== 'true') await shelf.click();
+    const button = page.locator('#catalogueFlatView .cn-shelf__body:not([hidden]) [data-cn-menu]').nth(2);
+    await button.click();
+    const menu = page.locator('.cn-menu');
+    await expect(menu).toBeVisible();
+    const gap = () => page.evaluate(() => {
+      const anchor = document.querySelector('[data-cn-menu][aria-expanded="true"]');
+      const m = document.querySelector('.cn-menu');
+      if (!anchor || !m) return null;
+      const a = anchor.getBoundingClientRect();
+      const r = m.getBoundingClientRect();
+      return Math.min(Math.abs(r.top - a.bottom), Math.abs(a.top - r.bottom));
+    });
+    expect(await gap()).toBeLessThanOrEqual(6);
+    // The menu listens for scrolls from the next task on (menu.js openMenu).
+    await page.evaluate(() => new Promise((resolve) => setTimeout(resolve, 50)));
+    // Content arrives above the rows and the pane scrolls 40px, as scroll anchoring does.
+    const scrolled = await page.evaluate(() => {
+      const catalogue = window.uiController._catalogueNext;
+      const scroller = catalogue.scroller || catalogue.findScroller();
+      const before = scroller.scrollTop;
+      scroller.scrollTop += 40;
+      return scroller.scrollTop - before;
+    });
+    expect(scrolled).toBeGreaterThan(0);
+    await expect(menu).toBeVisible();
+    await expect.poll(gap).toBeLessThanOrEqual(6);
+    // Scrolled until the button is off screen: the menu goes.
+    await page.evaluate(() => {
+      const catalogue = window.uiController._catalogueNext;
+      const scroller = catalogue.scroller || catalogue.findScroller();
+      // Room to scroll the button away whatever is open (only the first shelf is).
+      const room = document.createElement('div');
+      room.style.height = '3000px';
+      scroller.appendChild(room);
+      scroller.scrollTop += 2000;
+    });
+    await expect(menu).toHaveCount(0);
+  });
+});

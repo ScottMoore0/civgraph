@@ -12,6 +12,7 @@ import { renameElectionDatesInParams, resolveLegacyLayerId } from './url-compat.
 import { pageParamOf, parsePageParam } from './helpers.mjs';
 import featureLoader from '../../../../src/feature-loader.js';
 import { featureBoundsFromIndex, featureBoundsFromSpatial } from './feature-bounds.mjs';
+import { resolveBaseMapId } from '../renderer/basemap.mjs';
 
 /** A promise, or null after `ms`: an index that is slow to come must not hold the map. */
 const within = (promise, ms) => Promise.race([promise, new Promise((resolve) => setTimeout(() => resolve(null), ms))]);
@@ -52,6 +53,7 @@ export class UrlStateMethods {
       const id = event.state?.civgraphNav;
       const index = this.navEntries.findIndex((entry) => entry.id === id);
       if (index >= 0) this.navIndex = index;
+      this.traversal?.arrived(location.href);
     }, true);
 
     document.addEventListener('click', (event) => {
@@ -380,6 +382,12 @@ export class UrlStateMethods {
   async restoreURLState(options = {}) {
     this.urlRestore.begin();
     const shouldUpdateAfterRestore = options.updateAfterRestore !== false;
+    // Back or Forward (and the replay of one): if anything has rewritten the entry since the step
+    // (url-sync.mjs createTraversal), restore from the address the step went to, and put it back.
+    if (options.sync) {
+      const stepped = this.traversal?.take(location.href);
+      if (stepped) history.replaceState(history.state, '', stepped);
+    }
     const params = renameElectionDatesInParams(this.getCurrentURLParams());
     const query = params.get('q');
     try {
@@ -399,7 +407,9 @@ export class UrlStateMethods {
       const baseMap = params.get('base');
       if (baseMap) {
         const select = document.getElementById('baseMapSelect');
-        if (select) select.value = baseMap;
+        // A base map since removed (an Esri one, in an address saved before 11 Nov 2026) shows,
+        // and draws, the default.
+        if (select) select.value = resolveBaseMapId(baseMap);
         // T1-06: a ?base= in the URL is a deliberate choice too, so the theme
         // must not override it on load.
         await this.applyBaseMap(baseMap, { userChoice: true });

@@ -69,7 +69,23 @@ export function openMenu(anchor, items, { label = 'Actions' } = {}) {
     e.preventDefault();
   });
   const onDoc = (e) => { if (!el.contains(e.target) && !anchor.contains(e.target)) closeMenu({ restoreFocus: false }); };
-  const onWin = (e) => { if (e.type === 'scroll' && el.contains(e.target)) return; closeMenu({ restoreFocus: false }); };
+  const onWin = (e) => {
+    if (e.type === 'scroll' && el.contains(e.target)) return;
+    // A scroll that leaves the button in sight moves the menu with it rather than closing it:
+    // the pane also scrolls by itself, when what a search found besides maps arrives above the
+    // rows and the browser keeps the rows in place, and that closed a menu the reader had just
+    // opened (map-svg-export "Download menu", flaky under load, 11 Nov 2026).
+    if (e.type === 'scroll' && anchor.isConnected) {
+      // In sight: inside the box of what scrolled (the pane) when the button is in it, and inside
+      // the window.
+      const r = anchor.getBoundingClientRect();
+      const box = e.target instanceof Element && e.target.contains(anchor) ? e.target.getBoundingClientRect() : null;
+      const top = Math.max(0, box ? box.top : 0);
+      const bottom = Math.min(window.innerHeight, box ? box.bottom : window.innerHeight);
+      if (r.height && r.top >= top && r.bottom <= bottom) { place(el, anchor); return; }
+    }
+    closeMenu({ restoreFocus: false });
+  };
   setTimeout(() => {
     document.addEventListener('pointerdown', onDoc, true);
     window.addEventListener('resize', onWin, true);
