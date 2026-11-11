@@ -209,7 +209,10 @@ function detectStructure(contest) {
     add(contest, 'elected-vs-seats', 'high', `${elected.length} elected for ${seats} seat(s)`);
   }
   if (voted.length && voted.length < cands.length && cands.length > seats) {
-    add(contest, 'partial-votes', 'medium', `${voted.length} of ${cands.length} candidates have votes`);
+    // Defeated candidates a paper names without their votes are entered without them: a lead
+    // only when an ELECTED row lacks its vote.
+    const electedBlank = cands.some((c) => c.elected && !(c.votes > 0));
+    add(contest, 'partial-votes', electedBlank ? 'medium' : 'low', `${voted.length} of ${cands.length} candidates have votes${electedBlank ? '' : ' (the rest are defeated candidates printed without votes)'}`);
   }
   if (voted.length && cands.length <= seats) {
     add(contest, 'omitted-loser', 'high', `votes printed for ${voted.length} but only ${cands.length} candidate(s) for ${seats} seat(s): the defeated are probably missing`);
