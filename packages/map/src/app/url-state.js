@@ -53,6 +53,7 @@ export class UrlStateMethods {
       const id = event.state?.civgraphNav;
       const index = this.navEntries.findIndex((entry) => entry.id === id);
       if (index >= 0) this.navIndex = index;
+      this.traversal?.arrived(location.href);
     }, true);
 
     document.addEventListener('click', (event) => {
@@ -381,6 +382,12 @@ export class UrlStateMethods {
   async restoreURLState(options = {}) {
     this.urlRestore.begin();
     const shouldUpdateAfterRestore = options.updateAfterRestore !== false;
+    // Back or Forward (and the replay of one): if anything has rewritten the entry since the step
+    // (url-sync.mjs createTraversal), restore from the address the step went to, and put it back.
+    if (options.sync) {
+      const stepped = this.traversal?.take(location.href);
+      if (stepped) history.replaceState(history.state, '', stepped);
+    }
     const params = renameElectionDatesInParams(this.getCurrentURLParams());
     const query = params.get('q');
     try {
