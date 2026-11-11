@@ -31,6 +31,9 @@ const OUT_MANIFEST = ELECTION_MANIFEST;
 const OUT_REPORT = ELECTION_REPORT;
 const DAIL_WIKIPEDIA_COUNTS_ROOT = path.join(ROOT, 'data', 'elections', 'dail-wikipedia-counts');
 const PRESIDENT_COUNTS_ROOT = path.join(ROOT, 'data', 'elections', 'president-counts');
+// Irish local elections' count-by-count results, from the Department's results books
+// (data/elections/roi-local-counts/<date>/<area file>.json), in the Dail count sidecars' shape.
+const ROI_LOCAL_COUNTS_ROOT = path.join(ROOT, 'data', 'elections', 'roi-local-counts');
 const DAIL_OFFICIAL_RESULTS = path.join(ROOT, 'data', 'elections', 'dail-official-results.json');
 const DAIL_APPROVED_CANDIDATE_ALIASES = path.join(ROOT, 'data', 'elections', 'dail-approved-candidate-aliases.json');
 // Birth and death dates ElectionsIreland publishes for source person ids whose careers
@@ -1657,6 +1660,7 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
       electorateSource: rawResult.electorateSource || enrichedRawResult?.electorateSource,
       correctionNote: enrichedRawResult?.correctionNote,
       sourceNote: enrichedRawResult?.sourceNote,
+      countSourceNote: enrichedRawResult?.countSourceNote,
       dateNote: enrichedRawResult?.dateNote,
       pollDateKind: rawResult.pollDateKind || enrichedRawResult?.pollDateKind,
       Constituency: rawResult.Constituency?.countInfo?.Total_Electorate ? rawResult.Constituency : (enrichedRawResult?.Constituency || rawResult.Constituency),
@@ -2679,6 +2683,8 @@ function contestNotes(raw) {
     ['Boundaries', raw.boundaryNote],
     ['Corrected', raw.correctionNote],
     ['Source note', raw.sourceNote],
+    // Where a contest's count-by-count figures come from (the Irish local elections' results books).
+    ['Counts', raw.countSourceNote],
   ].filter(([, text]) => typeof text === 'string' && text.trim())
     .map(([label, text]) => ({ label, text: text.trim() }));
 }
@@ -2888,14 +2894,22 @@ function enrichDailResultWithWikipediaCounts(entry, resultPath, rawResult, fallb
   if (!rawResult || !resultPath) return rawResult;
   // The presidential elections' later counts come from newspaper reports (data/elections/president-counts),
   // in the same shape as the Dail's Wikipedia count sidecars.
+  // The Irish local elections' counts come from the Department's results books
+  // (data/elections/roi-local-counts), in the same shape.
   const root = entry?.bodySlug === 'dail-eireann' ? DAIL_WIKIPEDIA_COUNTS_ROOT
-    : entry?.bodySlug === 'ireland-president' ? PRESIDENT_COUNTS_ROOT : null;
+    : entry?.bodySlug === 'ireland-president' ? PRESIDENT_COUNTS_ROOT
+      : entry?.bodySlug === 'ireland-local' ? ROI_LOCAL_COUNTS_ROOT : null;
   if (!root) return rawResult;
   const sidecarPath = path.join(root, entry.date, path.basename(resultPath));
   if (!existsSync(sidecarPath)) return rawResult;
   const sidecar = readJson(sidecarPath);
   if (!Array.isArray(sidecar?.candidates) || !sidecar.candidates.length || Number(sidecar.numCounts || 0) < 2) return rawResult;
-  return buildDailWikipediaCountPayload(rawResult, sidecar, fallbackConstituency);
+  // A local contest's candidates may carry their person id as sourcePersonId (the IrelandElection.com
+  // ids of the gap-fills): the count rows replace them, so carry it. The Dail and presidential rows
+  // keep the fields they always had.
+  const payload = buildDailWikipediaCountPayload(rawResult, sidecar, fallbackConstituency, { carrySourcePersonId: entry.bodySlug === 'ireland-local' });
+  // A local sidecar names the book and pages its counts come from; the contest shows it as a note.
+  return entry.bodySlug === 'ireland-local' && sidecar.note ? { ...payload, countSourceNote: sidecar.note } : payload;
 }
 
 // Official person ids (data/elections/persons/official-person-ids.json): the Oireachtas member
@@ -2975,7 +2989,7 @@ function applyLifespanEvidence(entry, result) {
   return result;
 }
 
-function buildDailWikipediaCountPayload(rawResult, sidecar, fallbackConstituency = '') {
+function buildDailWikipediaCountPayload(rawResult, sidecar, fallbackConstituency = '', { carrySourcePersonId = false } = {}) {
   // Every candidate the ElectionsIreland page listed, by name. The sidecar supplies
   // candidacies our own scrape of that page missed -- 1,380 of them between 1922 and
   // 1969 -- and those people are on the page, just not in our file. Without this they
@@ -3065,6 +3079,7 @@ function buildDailWikipediaCountPayload(rawResult, sidecar, fallbackConstituency
         // Dail election from 1923 on unable to tell two same-named candidates apart.
         ei_candidate_id: localCandidate?.ei_candidate_id ?? localCandidate?.eiCandidateId
           ?? eiRoster.get(normalizeName(name)) ?? compatibleRosterIds.get(index) ?? '',
+        ...(carrySourcePersonId && localCandidate?.sourcePersonId ? { source_person_id: localCandidate.sourcePersonId } : {}),
         Official_Candidate_Id: localCandidate?.officialCandidateId || '',
         Official_Status: localCandidate?.officialStatus || '',
         Party_Abbreviation: localCandidate?.partyAbbreviation || localCandidate?.dailAbbreviation || '',
