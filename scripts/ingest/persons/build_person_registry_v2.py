@@ -35,6 +35,7 @@ wrong split is visible and fixable. Nothing is merged on name alone.
 import os, re, sys, json, glob, argparse, collections, unicodedata
 
 import ei_relatives
+import person_id_issued
 import person_lifespans
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -330,6 +331,7 @@ def main():
     # split career joined -- see new numbers, and a retired id is never handed out again.
     prev = {}
     prev_max = 0
+    old_reg = None
     if os.path.exists(REG):
         old_reg = json.load(open(REG, encoding='utf-8'))
         for e in old_reg.get('entities') or []:
@@ -880,7 +882,12 @@ def main():
                 w.writerow([action, pid or '', why, r['key'], r['cons'], r['name'], r['date'], r['src'], ' '.join(r['off']),
                             life.get('born') or '', life.get('died') or '', life.get('source') or ''])
 
-    next_id = max(next_id, prev_max + 1)
+    # A new id starts above every id ever issued (person_id_issued.py): the drop ids of past
+    # merges are served as redirects to the person they were merged into, so reusing one would
+    # put a different person at an address that used to mean someone else.
+    issued = person_id_issued.issued_high_water(old_reg, [
+        os.path.join(OUT, 'person_id_merges.csv'), os.path.join(OUT, 'person_id_confirmed_merges.csv')])
+    next_id = max(next_id, prev_max + 1, issued + 1)
 
     def reclaim(person_ids, source_ids, match_keys, claimed):
         """The id this group already had, if it still clearly belongs to it.
@@ -1050,7 +1057,10 @@ def main():
                        'current election data. The id is independent of name spelling, so '
                        'a correction changes displayName and adds an alias, never the id.',
         'idPolicy': 'Ids are permanent. PersonIDs 1-100011 are the curated block carried '
-                    'forward from scripts/ingest/persons/person_registry.json; 100012+ are derived.',
+                    'forward from scripts/ingest/persons/person_registry.json; 100012+ are derived. '
+                    'A new id is never one issued before, even one merged away at once: idHighWater '
+                    'is the highest issued (person_id_issued.py).',
+        'idHighWater': next_id - 1,
         'supersedes': 'scripts/ingest/persons/person_registry.json (2,388 curated persons; its source '
                       'workbook is no longer present and apply_person_ids.py targets an '
                       '_aggregates.json layout that no longer exists)',
