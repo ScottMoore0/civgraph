@@ -687,6 +687,9 @@ class UIController {
         params.set('featureMap', entry.mapConfig.id);
         params.set('featureId', String(entry.feature?.id ?? ''));
         params.set('featureName', entry.primaryName || 'Feature');
+        // No viewport: the link frames the feature on whatever screen opens it, rather than
+        // showing the view the sender had panned to (QA 2026-11-11, H2).
+        for (const key of ['lng', 'lat', 'zoom', 'z']) params.delete(key);
         url.hash = params.toString();
         return url.toString();
     }
@@ -2649,6 +2652,7 @@ class UIController {
         params.set('featureMap', mapId);
         params.set('featureId', String(featureId));
         if (featureName) params.set('featureName', String(featureName));
+        for (const key of ['lng', 'lat', 'zoom', 'z']) params.delete(key);
         url.hash = params.toString();
         return url.toString();
     }

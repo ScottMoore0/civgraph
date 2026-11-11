@@ -1124,8 +1124,23 @@ export class Test2MapLibreMainAdapter {
       if (existing?.geometry) state.featureGeometry.set(id, existing.geometry);
       this.applyPartialFeatureFilter(mainId);
     }
-    if (bbox) {
-      this.fitToBounds(bbox);
+    // No box given (a shared link, a search result from the names index): ask the caller where
+    // the feature is (options.resolveBounds, from the spatial and feature indexes), and failing
+    // that show the whole layer, so the feature is at least on screen (QA 2026-11-11, H2).
+    let frame = bbox;
+    let smooth = true;
+    if (!frame && typeof options.resolveBounds === 'function') {
+      const layerConfig = this.renderer?.layers.get(state.testLayerId)?.config || state.config || null;
+      try {
+        frame = await options.resolveBounds(layerConfig);
+      } catch {
+        frame = null;
+      }
+      frame ||= state.config?.bounds || layerConfig?.bounds || null;
+      smooth = options.smooth !== false;
+    }
+    if (frame) {
+      this.fitToBounds(frame, { smooth });
       await this.waitForMapRender();
     }
     if (!existing) {
