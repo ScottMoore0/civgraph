@@ -10,7 +10,7 @@
  *       defineChoice, createState, createFlag, createLatch, defineFlagFields, createHoldCount:
  *       packages/core/src/state-machine.mjs, packages/map/src/state-helpers.mjs, served as
  *       /assets/ui/state/machine.js) nor in a JSDoc string union in the same file, and the
- *       variable is not declared with a JSDoc @type narrower than string (an
+ *       variable is not declared with a JSDoc type narrower than string (an
  *       `@type {SheetKind}` comment: a union defined elsewhere); only token-like values count
  *       (prose such as a display label 'Votes not recorded' is text, not a state);
  *   (b) two or more booleans that one function sets both true and false (co-changing flags),
@@ -28,7 +28,7 @@ import { isFunction, isString, lineOf, nameOf, walk } from './lib.mjs';
 const STATE_NAME = /(state|status|mode|phase|stage|step|view|kind|tab)$/i;
 /** A state value is a token (`ready`, `not-held`, `no_poll`); prose with spaces is display text. */
 const TOKEN = /^[A-Za-z][\w-]*$/;
-/** A JSDoc @type narrower than string (a named union or literal type), not string or any. */
+/** A JSDoc type tag narrower than string (a named union or literal type), not string or any. */
 const TYPED = /@type\s*\{\s*(?!(?:\?|!)?(?:string|any|\*)\s*(?:\|\s*null\s*)?\})[^}]+\}/;
 export const HELPERS = new Set(['defineMachine', 'defineToggle', 'defineChoice', 'createState', 'createFlag', 'createLatch', 'defineFlagFields', 'createHoldCount']);
 
