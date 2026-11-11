@@ -54,6 +54,7 @@ Usage:  python scripts/ingest/persons/merge_person_ids.py [--check]
 import os, re, sys, json, glob, csv, argparse, collections, unicodedata
 
 import ei_relatives
+import person_lifespans
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..', '..', '..'))
@@ -161,6 +162,7 @@ def observations():
                     continue
                 obs[pid].append({'key': key, 'body': body, 'con': con, 'council': str(r.get('localBody') or '').strip(),
                                  'y': int(yr) if yr.isdigit() else 0,
+                                 'date': str(d.get('date') or ''),
                                  'party': party_of(c),
                                  'src': str(c.get('sourcePersonId') or '').strip(),
                                  'off': list(c.get('officialPersonIds') or [])})
@@ -401,8 +403,11 @@ def main():
     _cw = json.load(open(crosswalk_path, encoding='utf-8')) if os.path.exists(crosswalk_path) else {}
     crosswalk, lifespans = _cw.get('ids', {}), _cw.get('people', {})
     years = collections.defaultdict(set)
+    dates = collections.defaultdict(set)
     for pid, xs in obs.items():
         years[pid] |= {x['y'] for x in xs if x['y']}
+        dates[pid] |= {x['date'] for x in xs if x.get('date')}
+    life_book = person_lifespans.load()
 
     def life_conflict(ka, kb):
         # Nor is a man who was under 18, or dead, when the other side stood: the Larne council
@@ -415,6 +420,12 @@ def main():
                 bad = [y for y in years[other] if (born.isdigit() and y < int(born) + 18) or (died.isdigit() and y > int(died))]
                 if bad:
                     return f'{life.get("name", q)} ({q}) could not have stood in {min(bad)}'
+            # The life the person page shows (History of Parliament, Wikidata, a reference work;
+            # person_lifespans.py), at its own precision: the same rule as check:person-lifespans.
+            life = life_book.life(held[side], held[side], side)
+            bad = sorted(d for d in dates[other] if life_book.outside(d, life, side))
+            if bad:
+                return f'person {side} (born {life.get("born") or "?"}, died {life.get("died") or "?"}, {life.get("source")}) could not have stood on {bad[0]}'
         return None
 
     def official_conflict(a, b):
@@ -455,6 +466,7 @@ def main():
             parent[hi] = lo
             held[lo] |= held.pop(hi, set())
             years[lo] |= years.pop(hi, set())
+            dates[lo] |= dates.pop(hi, set())
         applied.append(mg)
     merges = applied
     final = {d: find(d) for d in parent}

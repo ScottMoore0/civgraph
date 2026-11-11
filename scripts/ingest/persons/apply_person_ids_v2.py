@@ -21,6 +21,16 @@ RESOLUTION ORDER, strongest evidence first:
      1920s TD's id on the source's own dates) reached browse keyed by bare name and took
      the bare-name URL, so an old /austin-stack link opened the wrong man.
 
+A LIFE IS A LIMIT ON EVERY RUNG. Each rung's choice is checked against the life the person's
+page shows (person_lifespans.py: History of Parliament, Wikidata, a reference work, at their
+own precision, the rule check:person-lifespans applies). Where a rung offers several entities
+(an id split into eras, a source id shared by two people), those alive and 18 or over at the
+contest are preferred. A choice resting on weak evidence -- a name, or a name-and-party
+candidacy id ("William Stewart|") -- that falls outside the life is not made: the row is left
+unstamped (`outside-life`), as an unmatched name is. A choice resting on the row's own evidence
+(an official id, a source person id, a source system's candidacy id) is kept and listed in
+tmp/person-lifespan-apply.csv for review, never dropped silently.
+
 A name shared by two entities is left unresolved rather than guessed. That is the same
 conservatism the registry is built on: an unresolved candidacy is visible, a wrongly
 attributed one is not.
@@ -28,6 +38,7 @@ attributed one is not.
 import os, re, sys, json, glob, argparse, collections, unicodedata
 
 from generated_json import dump_generated_json
+import person_lifespans
 from build_person_registry_v2 import council_area, label_blanked_identity_keys, check_label_blanked_used
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -42,6 +53,17 @@ _RP = __import__('runpy').run_path(os.path.join(REPO, 'scripts', 'records', 'pat
 # silent no-op. build-elections-sqlite.mjs reads the same directory.
 DEFAULT_META = _RP['ELECTION_BUNDLE_DIR']
 REG = os.path.join(REPO, 'data', 'elections', 'persons', 'person_registry.json')
+LIFE_REPORT = os.path.join(REPO, 'tmp', 'person-lifespan-apply.csv')
+# Rungs whose choice rests on a name, not on the row's own evidence: a choice of theirs outside
+# the person's life is not made. by-name-id is the by-id rung on a name-and-party candidacy id.
+WEAK_RUNGS = {'by-name-id', 'by-name-local', 'by-name', 'by-name-group', 'by-name-modern'}
+
+
+def name_keyed_id(cid):
+    """A candidacy id that is a name and party ("William Stewart|", "Henry Wilson|UUP"), which
+    the pre-1918 Westminster and pre-1973 NI council imports use for want of a source id: as
+    weak as the name itself."""
+    return '|' in str(cid or '')
 
 
 def matchkey(v):
@@ -164,6 +186,27 @@ def main():
             return blanked[k]
         return str(c.get('id') or '').strip()
 
+    life_book = person_lifespans.load()
+    by_pid = {e['personId']: e for e in entities}
+    lives = {}
+
+    def life_of(pid):
+        if pid not in lives:
+            e = by_pid.get(pid) or {}
+            lives[pid] = life_book.life(e.get('sourcePersonIds') or [], e.get('officialPersonIds') or [], pid)
+        return lives[pid]
+
+    def outside_life(pid, when):
+        return life_book.outside(when, life_of(pid), pid) if pid is not None else None
+
+    life_rows = []
+
+    def note_life(action, pid, why, c, constituency, how, when):
+        life = life_of(pid) or {}
+        life_rows.append([action, pid, why, how, doc2.get('key'), constituency or '', c.get('name') or '', when,
+                          c.get('sourcePersonId') or '', ' '.join(c.get('officialPersonIds') or []),
+                          life.get('born') or '', life.get('died') or '', life.get('source') or ''])
+
     stats = collections.Counter()
     changed = 0
     for path in files:
@@ -175,6 +218,12 @@ def main():
         local_contest = doc2.get('bodySlug') == 'ireland-local'
         here = {'area': ''}
 
+        def alive(options):
+            """The (lo, hi, pid) options whose person was alive and 18 at the contest, or all of
+            them where none was (the caller decides what a choice outside the life means)."""
+            ok = [o for o in options if not outside_life(o[2], date)]
+            return ok or options
+
         def stamp(c, constituency):
             nonlocal dirty
             spid = str(c.get('sourcePersonId') or '').strip()
@@ -182,12 +231,12 @@ def main():
             pid = next(iter(owners)) if len(owners) == 1 else None
             how = 'by-official-id' if pid else None
             if not pid:
-                pid = pick(by_person.get(spid, []), year) if spid else None
+                pid = pick(alive(by_person.get(spid, [])), year) if spid else None
                 how = 'by-source-person' if pid else None
             if not pid:
                 cid = identity_id(c, constituency)
-                pid = pick(by_srcid.get(cid, []), year)
-                how = 'by-id' if pid else None
+                pid = pick(alive(by_srcid.get(cid, [])), year)
+                how = ('by-name-id' if name_keyed_id(cid) else 'by-id') if pid else None
             if not pid and local_contest:
                 mk = matchkey(c.get('name') or '')
                 mine = [p for p in local_names.get(mk, ()) if p in local_area
@@ -217,6 +266,14 @@ def main():
                     how = 'ambiguous-name'
                 else:
                     how = 'unresolved'
+            why = outside_life(pid, date)
+            if why and how in WEAK_RUNGS:
+                note_life('vetoed', pid, why, c, constituency, how, date)
+                pid, how = None, 'outside-life'
+            elif why:
+                note_life('kept', pid, why, c, constituency, how, date)
+            if how == 'by-name-id':
+                how = 'by-id'
             stats[how] += 1
             if c.get('personId') != pid:
                 c['personId'] = pid
@@ -250,8 +307,13 @@ def main():
                 mk = matchkey(c.get('name') or '')
                 own = stamped.get((str(c.get('constituency') or '').strip(), (c.get('name') or '').strip()), set())
                 pid = (next(iter(own)) if len(own) == 1 and None not in own else None) or (
-                       (pick(by_person.get(spid, []), year) if spid else None) or pick(by_srcid.get(cid, []), year) or by_name.get(mk)
-                       or (by_name_group.get(mk) if not spid else None))
+                       (pick(alive(by_person.get(spid, [])), year) if spid else None) or pick(alive(by_srcid.get(cid, [])), year)
+                       or by_name.get(mk) or (by_name_group.get(mk) if not spid else None))
+                # The candidacy above's veto, for a summary row stamped on its own fields: never a
+                # person who was dead or under 18, on a name or a name-and-party id.
+                if pid is not None and not own and not spid and outside_life(pid, date) \
+                        and (not cid or name_keyed_id(cid) or not by_srcid.get(cid)):
+                    pid = None
                 if c.get('personId') != pid:
                     c['personId'] = pid
                     dirty = True
@@ -261,10 +323,20 @@ def main():
                 dump_generated_json(path, doc2)
 
     check_label_blanked_used(blanked, blanked_used)
+    os.makedirs(os.path.dirname(LIFE_REPORT), exist_ok=True)
+    import csv
+    with open(LIFE_REPORT, 'w', encoding='utf-8', newline='') as fh:
+        w = csv.writer(fh, lineterminator='\n')
+        w.writerow(['action', 'personId', 'kind', 'rung', 'election', 'constituency', 'name', 'date', 'sourcePersonId',
+                    'officialIds', 'born', 'died', 'lifeSource'])
+        w.writerows(life_rows)
     tot = sum(stats.values())
     print(f'{tot:,} named candidacies')
-    for k in ('by-official-id', 'by-source-person', 'by-id', 'by-name-local', 'by-name', 'by-name-group', 'ambiguous-name', 'unresolved'):
+    for k in ('by-official-id', 'by-source-person', 'by-id', 'by-name-local', 'by-name', 'by-name-group', 'ambiguous-name', 'unresolved', 'outside-life'):
         print(f'   {stats[k]:7,}  {k}')
+    kept = sum(1 for r in life_rows if r[0] == 'kept')
+    print(f'   lifespan veto: {len(life_rows) - kept:,} weak match(es) left unstamped, {kept:,} kept on their own '
+          f'evidence for review ({os.path.relpath(LIFE_REPORT, REPO)})')
     res = stats['by-official-id'] + stats['by-source-person'] + stats['by-id'] + stats['by-name-local'] + stats['by-name'] + stats['by-name-group']
     print(f'   resolved {res:,}/{tot:,} ({100*res/tot:.1f}%)')
     print(f'   ambiguous names (shared by >1 entity): {len(ambiguous):,}')

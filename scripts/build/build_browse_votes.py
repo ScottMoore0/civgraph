@@ -34,6 +34,8 @@ from collections import Counter, defaultdict
 csv.field_size_limit(10 ** 8)
 REPO = os.environ.get("CIVGRAPH_REPO") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 _RP = __import__('runpy').run_path(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'records', 'paths.py'))
+# The lifespan rule shared with the person-id steps and check:person-lifespans.
+_LIFE = __import__('runpy').run_path(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'ingest', 'persons', 'person_lifespans.py'))
 SHARDS = 256
 
 BODIES = {
@@ -202,25 +204,30 @@ def merged_person_ids():
     return out
 
 
-def death_dates():
-    """{personId: died} from the Browse person records this build reads (tmp/records/browse
-    person-shards, written by build-browse-indexes.mjs before this runs): the date of death each
-    person page shows, at the precision its source gives ("1940", "1940-11", "1940-11-24")."""
+def life_dates():
+    """{personId: {born, died}} from the Browse person records this build reads (tmp/records/browse
+    person-shards, written by build-browse-indexes.mjs before this runs): the dates each person
+    page shows, at the precision their source gives ("1940", "1940-11", "1940-11-24")."""
     out = {}
     for f in sorted(glob.glob(os.path.join(_RP["BROWSE_DIR"], "person-shards", "*.json"))):
         for it in json.load(open(f, encoding="utf-8")).get("items") or []:
-            died = str(it.get("died") or "").strip()
-            if died and str(it.get("id") or "").isdigit():
-                out[int(it["id"])] = died
+            born, died = str(it.get("born") or "").strip(), str(it.get("died") or "").strip()
+            if (born or died) and str(it.get("id") or "").isdigit():
+                out[int(it["id"])] = {"born": born, "died": died}
     return out
 
 
 def after_death(date, died):
     """True when an ISO date falls after a date of death given at year, month or day precision:
-    a death recorded only as "1940" rules out 1941, not December 1940."""
-    if not date or not died or not re.match(r"^\d{4}(-\d{2}){0,2}$", died):
-        return False
-    return date[:len(died)] > died
+    a death recorded only as "1940" rules out 1941, not December 1940. The rule of
+    check:person-lifespans and of the person-id veto (person_lifespans.is_after)."""
+    return _LIFE["is_after"](date, died)
+
+
+def before_18(date, born):
+    """True when an ISO date falls before the 18th birthday of someone born on `born`, at its
+    precision (person_lifespans.is_before_18, the check's isBefore18)."""
+    return _LIFE["is_before_18"](date, born)
 
 
 def main():
@@ -236,8 +243,10 @@ def main():
     merged = merged_person_ids()
     # A vote dated after the linked person's death is a mislink or a misdated division (QA H3,
     # 11 Nov 2026: "Craigavon, Rt. Hon. The Viscount" in a division dated 28 January 1941; he
-    # died on 24 November 1940). It stays in the division under its printed name, unlinked.
-    died = death_dates()
+    # died on 24 November 1940). So is one dated before the person was 18, by the same rule as
+    # check:person-lifespans and the person-id veto. It stays in the division under its printed
+    # name, unlinked.
+    lives = life_dates()
     detached = []
     pslug = party_slugs()
 
@@ -278,8 +287,12 @@ def main():
         for r in rows:
             pid = int(r["civgraph_person_id"]) if r["civgraph_person_id"] else None
             pid = merged.get(pid, pid)
-            if pid and after_death(date, died.get(pid)):
-                detached.append((did, date, r["member_name"], pid, died[pid]))
+            life = lives.get(pid) if pid else None
+            if life and after_death(date, life["died"]):
+                detached.append((did, date, r["member_name"], pid, "died " + life["died"]))
+                pid = None
+            elif life and before_18(date, life["born"]):
+                detached.append((did, date, r["member_name"], pid, "born " + life["born"]))
                 pid = None
             party = party_at(body, pid, date) if pid else ""
             if party:
@@ -398,8 +411,8 @@ def main():
               open(os.path.join(a.out, "index.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print("persons", n_persons, "division shards", len(div_shards), "parties", n_parties, "stormont divisions", n_stormont)
     for did, date, name, pid, d in detached:
-        print(f"  detached: {did} {date} {name!r} from person {pid} (died {d})")
-    print("votes detached as after the linked person's death:", len(detached))
+        print(f"  detached: {did} {date} {name!r} from person {pid} ({d})")
+    print("votes detached as after the linked person's death or before they were 18:", len(detached))
 
 
 if __name__ == "__main__":
