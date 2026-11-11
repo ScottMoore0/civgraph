@@ -120,6 +120,7 @@
     "publish:layers": "node scripts/publish/layers.mjs",
     "check:fast": "node scripts/check/run.mjs",
     "check:boundaries": "node scripts/check/boundaries.mjs",
+    "api:v1-documents": "node scripts/build/api-v1-documents.mjs",
     "check:types:pipeline": "node scripts/lib/typecheck.mjs config/tsconfig.pipeline.json",
     "check:types:mapapp": "node node_modules/typescript/bin/tsc -p src/tsconfig.check.json",
     "check:types:shared": "node node_modules/typescript/bin/tsc -p config/tsconfig.shared.json",
