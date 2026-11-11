@@ -14,11 +14,12 @@ import { isFunction, isString, lineOf, nameOf, walk } from './lib.mjs';
 const GLOBAL_TARGETS = new Set(['document', 'window', 'globalThis', 'self']);
 const ROOT_PARAM = /^(root|container)$|(Root|Container)$/;
 
-/** @param {AstNode} node */
+/** @param {AstNode} node @returns {string | null} */
 const sourceText = (node) => {
   if (node.type === 'Identifier') return /** @type {string} */ (node.name);
   if (node.type === 'ThisExpression') return 'this';
   if (node.type === 'MemberExpression' && !node.computed) {
+    /** @type {string | null} */
     const obj = sourceText(/** @type {AstNode} */ (node.object));
     return obj === null ? null : `${obj}.${nameOf(node)}`;
   }

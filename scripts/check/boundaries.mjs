@@ -34,16 +34,18 @@ const SKIP = /(^|\/)(node_modules|dist|build|vendor)\/|\.min\.js$|^src\/sql\.js-
 const SERVED = Object.entries(JSON.parse(readFileSync(path.join(ROOT, 'packages', 'served.json'), 'utf8')))
   .filter(([prefix]) => prefix !== '//');
 
-/** The unit that holds a repository path, or null. */
+/** The unit that holds a repository path, or null. @param {string} rel @returns {string | null} */
 export function unitOf(rel) {
-  for (const [name, unit] of UNITS) if (unit.paths.some((p) => (p.endsWith('/') ? rel.startsWith(p) : rel === p))) return name;
+  /** @param {string} p */
+  const holds = (p) => (p.endsWith('/') ? rel.startsWith(p) : rel === p);
+  for (const [name, unit] of UNITS) if (unit.paths.some(holds)) return name;
   return null;
 }
 
 /** The units whose files the site serves through packages/served.json ('@served' in an allow list). */
 export const SERVED_UNITS = new Set(SERVED.map(([, source]) => unitOf(source)).filter((u) => u !== null));
 
-/** Whether unit `from` may import unit `to`. */
+/** Whether unit `from` may import unit `to`. @param {string} from @param {string | null} to */
 export function allowed(from, to) {
   if (to === null || from === to) return true;
   const allow = config.units[from].allow;
@@ -51,7 +53,7 @@ export function allowed(from, to) {
   return allow.includes('*') || allow.includes(to) || (allow.includes('@served') && SERVED_UNITS.has(to));
 }
 
-/** A site/ path under a served prefix is the package file the browser is given there. */
+/** A site/ path under a served prefix is the package file the browser is given there. @param {string} rel */
 export function servedSource(rel) {
   if (!rel.startsWith('site/')) return rel;
   const served = rel.slice('site/'.length);
@@ -66,7 +68,7 @@ export function trackedScripts() {
 }
 
 const UNOWNED = Object.entries(config.unowned || {}).filter(([key]) => key !== '//');
-const listed = (rel, key) => (key.endsWith('/') ? rel.startsWith(key) : rel === key);
+const listed = (/** @type {string} */ rel, /** @type {string} */ key) => (key.endsWith('/') ? rel.startsWith(key) : rel === key);
 
 /**
  * C2: the scripts in no unit and not in boundaries.json `unowned` (each entry with its reason),
@@ -89,10 +91,10 @@ export function emptyUnitPaths(tracked) {
   return out;
 }
 
-const strip = (src) => src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:'"`\\])\/\/.*$/gm, '$1');
+const strip = (/** @type {string} */ src) => src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:'"`\\])\/\/.*$/gm, '$1');
 const SPEC = /(?:^|[\s;}])(?:import|export)\s[^'"`;]*?\sfrom\s*(['"])([^'"]+)\1|(?:^|[\s;}(=])import\s*(['"])([^'"]+)\3|\bimport\(\s*(['"])([^'"]+)\5\s*\)/gm;
 
-/** The literal import specifiers of a module's source. */
+/** The literal import specifiers of a module's source. @param {string} source @returns {string[]} */
 export function specifiers(source) {
   const out = [];
   for (const m of strip(source).matchAll(SPEC)) out.push(m[2] || m[4] || m[6]);
