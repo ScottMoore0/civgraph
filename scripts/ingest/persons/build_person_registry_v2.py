@@ -35,6 +35,7 @@ wrong split is visible and fixable. Nothing is merged on name alone.
 import os, re, sys, json, glob, argparse, collections, unicodedata
 
 import ei_relatives
+import person_lifespans
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..', '..', '..'))
@@ -47,6 +48,8 @@ OLD = os.path.join(HERE, 'person_registry.json')
 OUT = os.path.join(REPO, 'data', 'elections', 'persons')
 REG = os.path.join(OUT, 'person_registry.json')
 CROSSWALK = os.path.join(OUT, 'official-person-crosswalk.json')
+# Rows the lifespan veto moved off, or kept on, a person they fall outside the life of.
+LIFE_REPORT = os.path.join(REPO, 'tmp', 'person-lifespan-veto.csv')
 
 
 
@@ -246,7 +249,8 @@ def scan():
         # 1,207 candidacies each across 87 years and headed every over-merge report.
         if str(d.get('contestType') or '') == 'referendum':
             continue
-        yr = str(d.get('date') or '')[:4]
+        date = str(d.get('date') or '')
+        yr = date[:4]
         for r in d.get('results') or []:
             area = council_area(council_of(r.get('sourceFile'))) if d.get('bodySlug') == 'ireland-local' else ''
             for c in (r.get('candidates') or []):
@@ -263,6 +267,7 @@ def scan():
                              'src': str(c.get('sourcePersonId') or '').strip(),
                              'key': d.get('key'), 'body': d.get('bodySlug'),
                              'year': int(yr) if yr.isdigit() else 0,
+                             'date': date,
                              'party': party_of(c),
                              'off': official_ids(c)})
     check_label_blanked_used(blanked, blanked_used)
@@ -816,6 +821,65 @@ def main():
             rejoined += 1
     print(f'prior joins kept            : {rejoined:,}')
 
+    # A LIFE IS A LIMIT, AFTER THE JOINS TOO. The pass above runs before groups are joined, on
+    # Wikidata's dates alone. Joins made since -- a prior join kept, a cross-system join -- can
+    # still put a row into the life of a man who was dead or a child at the time: the pre-1832
+    # Westminster rows carry no party, so their candidacy id is "William Stewart|", the same key
+    # as every NI council row of that name with no label, and the prior join on that key stamped
+    # a 1972 Belfast by-election on the William Stewart who died in 1850 (History of Parliament).
+    # So each group is checked again against the life its person page will show (History of
+    # Parliament, Wikidata, a reference work: person_lifespans.py, the dates
+    # check:person-lifespans uses, at their own precision). A row outside that life that the
+    # group holds on weak evidence -- a name or a name-and-party candidacy id, no source person id
+    # and no official id of its own -- is someone else and goes to a group of its own, as an
+    # unmatched name would. Where the life comes from an official id (Wikidata), a row's source
+    # person id gives way too, as above (official ids outrank source ids). A row whose own source
+    # or official id is the evidence stays, and is reported for review instead.
+    life_book = person_lifespans.load()
+    life_moved, life_kept = [], []
+    for k in list(merged):
+        if len(k) > 2 and str(k[2]).startswith('outside-life'):
+            continue
+        v = merged[k]
+        prior_pid = strongest_prior(v)
+        life = life_book.life({r['src'] for r in v if r['src']}, {o for r in v for o in r['off']}, prior_pid)
+        if not life:
+            continue
+        official_life = life.get('source') == 'Wikidata'
+        out, held = [], []
+        for r in v:
+            why = life_book.outside(r['date'], life, prior_pid)
+            if not why:
+                continue
+            if not r['off'] and (not r['src'] or official_life):
+                out.append((r, why))
+            else:
+                held.append((r, why))
+        for r, why in held:
+            life_kept.append((prior_pid, r, why, life))
+        if not out or len(out) == len(v):
+            for r, why in out:
+                life_kept.append((prior_pid, r, why, life))
+            continue
+        moved = [r for r, _ in out]
+        merged[k] = [r for r in v if not any(r is m for m in moved)]
+        apart = k[:2] + (('outside-life:%s' % k[2]) if len(k) > 2 else 'outside-life',)
+        merged[apart] = merged.get(apart, []) + moved
+        for r, why in out:
+            life_moved.append((prior_pid, r, why, life))
+    print(f'rows outside a life         : {len(life_moved):,} moved to a person of their own, '
+          f'{len(life_kept):,} kept on their own evidence (listed in {os.path.relpath(LIFE_REPORT, REPO)})')
+    os.makedirs(os.path.dirname(LIFE_REPORT), exist_ok=True)
+    import csv
+    with open(LIFE_REPORT, 'w', encoding='utf-8', newline='') as fh:
+        w = csv.writer(fh, lineterminator='\n')
+        w.writerow(['action', 'priorPersonId', 'kind', 'election', 'constituency', 'name', 'date', 'sourcePersonId',
+                    'officialIds', 'born', 'died', 'lifeSource'])
+        for action, rows in (('moved', life_moved), ('kept', life_kept)):
+            for pid, r, why, life in rows:
+                w.writerow([action, pid or '', why, r['key'], r['cons'], r['name'], r['date'], r['src'], ' '.join(r['off']),
+                            life.get('born') or '', life.get('died') or '', life.get('source') or ''])
+
     next_id = max(next_id, prev_max + 1)
 
     def reclaim(person_ids, source_ids, match_keys, claimed):
@@ -945,10 +1009,10 @@ def main():
              'bodies': sorted({r['body'] for r in v if r['body']}),
              'parties': sorted({r['party'] for r in v if r['party']})[:6],
              'keyedBy': k[0], 'provenance': src, 'provisional': prov}
-        if len(k) > 2 and k[2] == 'outside-life':
+        if len(k) > 2 and str(k[2]).startswith('outside-life'):
             e['era'] = [min(yrs), max(yrs)] if yrs else [0, 9999]
-            e['eraReason'] = ('rows of a name or id whose official person, by the dates Wikidata '
-                              'gives, was under 18 or dead at the time')
+            e['eraReason'] = ('rows of a name or id whose person, by the dates Wikidata, History of '
+                              'Parliament or a reference work gives, was under 18 or dead at the time')
         elif len(k) > 2 and str(k[2]).startswith('official:'):
             e['era'] = [min(yrs), max(yrs)] if yrs else [0, 9999]
             e['eraReason'] = (f'split by its official person id ({k[2][9:]}): the source id it '
