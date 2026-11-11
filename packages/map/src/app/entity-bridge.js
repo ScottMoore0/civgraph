@@ -421,7 +421,7 @@ export class EntityBridgeMethods {
       firstYear: item.firstYear,
       lastYear: item.lastYear,
       relatedElectionCount: related.length,
-      browseUrl: `/browse/#/parties/${encodeURIComponent(slug)}`
+      browseUrl: `/browse/parties/${encodeURIComponent(slug)}`
     };
   }
 
@@ -458,7 +458,7 @@ export class EntityBridgeMethods {
       died: item.died || null,
       lifeSource: [...new Set([item.bornSource, item.diedSource].filter(Boolean))].join(', '),
       officialProfiles: Array.isArray(item.officialProfiles) ? item.officialProfiles : [],
-      browseUrl: `/browse/#/persons/${encodeURIComponent(slug)}`
+      browseUrl: `/browse/persons/${encodeURIComponent(slug)}`
     };
   }
 

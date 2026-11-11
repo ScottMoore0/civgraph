@@ -2456,7 +2456,9 @@ class UIController {
             sources: 'sources'
         };
         const path = pathByKind[kind] || kind;
-        return '/browse/#/' + path + '/' + encodeURIComponent(slug);
+        // A record type with a page of its own links to that page (the address that previews as
+        // the record when shared); the others stay in Browse's hash.
+        return (pathByKind[kind] ? '/browse/' : '/browse/#/') + path + '/' + encodeURIComponent(slug);
     }
 
     makeCatalogueSearchRecord(input) {
@@ -2506,7 +2508,7 @@ class UIController {
                         description: map.description,
                         status: map.status,
                         thumbId: map.cloneOf || map.id,
-                        url: '/browse/#/maps/' + encodeURIComponent(map.id),
+                        url: '/browse/maps/' + encodeURIComponent(map.id),
                         actionLabel: map.status === 'not yet converted' ? 'Open details' : 'Load map'
                     }));
                 });

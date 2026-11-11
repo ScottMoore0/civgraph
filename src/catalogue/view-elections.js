@@ -155,7 +155,7 @@ export function rowHtml(c, e) {
     <span class="cn-erow__date">${esc(shortDate(e.date))}</span>
     <span class="cn-erow__main"><span class="cn-erow__title">${esc(e.title)}</span><span class="cn-erow__meta">${meta.join('')}</span></span>
     <span class="cn-erow__end">
-      <a class="cn-iconbtn" href="/browse/#/elections/${encodeURIComponent(browseSlug(e.key))}" aria-label="${esc(e.title)}: results page" title="Results page: candidates, votes and sources">${icon('file-text')}</a>
+      <a class="cn-iconbtn" href="/browse/elections/${encodeURIComponent(browseSlug(e.key))}" aria-label="${esc(e.title)}: results page" title="Results page: candidates, votes and sources">${icon('file-text')}</a>
       <button type="button" class="cn-add" data-cn-election-toggle="${esc(e.key)}" aria-pressed="false" aria-label="${esc(e.title)}: open on the map">${icon('plus', 'cn-icon cn-when-off')}${icon('check', 'cn-icon cn-when-on')}<span class="cn-when-off">Open</span><span class="cn-when-on">On map</span></button>
     </span>
     ${e.about ? `<details class="cn-erow__about"><summary>${esc(aboutLabel(e))}</summary>${aboutHtml(e.about)}</details>` : ''}
