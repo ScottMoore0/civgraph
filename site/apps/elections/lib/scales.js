@@ -5,6 +5,8 @@
  * has the figures as a table.
  */
 
+import { summaryPollStatus } from '../../../pkg/core/src/unopposed.mjs';
+
 const SEQ = ['#eef4fb', '#c9dcf0', '#9cc0e3', '#6a9fd2', '#3e7cbd', '#1f5a9c', '#0d3b6e'];
 const DIV_NEG = ['#7a1f1f', '#b3412f', '#de7a5b', '#f3bfa8'];
 const DIV_POS = ['#b6d7ee', '#6fa8d6', '#2f73b3', '#163f73'];
@@ -45,7 +47,9 @@ export function divergingLegend(/** @type {number} */ limit, /** @type {(v: numb
 /**
  * Per-area rows of an election: the summary's results joined to the contests' map features by
  * contest name. Each row: { name, feature (upper-case label), seats, winnerParty, leadingParty,
- * turnout, validPoll, unopposed }.
+ * turnout, validPoll, poll }, where poll is core's one rule (packages/core/src/unopposed.mjs
+ * summaryPollStatus): 'polled', 'unopposed', or 'not-recorded' (no votes in the sources: not
+ * unopposed).
  * @param {{ results?: any[] }} summary
  * @param {{ items?: any[] }} contests  /_api/elections?view=contests
  */
@@ -72,7 +76,7 @@ export function areaRows(summary, contests) {
       leadingName: r.leadingName || null,
       turnout: turnout > 0 ? turnout : null,
       validPoll: valid > 0 ? valid : null,
-      unopposed: !(valid > 0) && !(Number(r.leadingVotes) > 0),
+      poll: summaryPollStatus(r),
     };
   });
 }

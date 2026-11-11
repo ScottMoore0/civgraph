@@ -7,7 +7,7 @@
 import { bodyElections, electionDetail, electionSummary } from '../lib/api.js';
 import { hbars, parliamentArc, seatBar } from '../lib/charts.js';
 import {
-  appUrl, electionSlug, esc, fmtDate, fmtDelta, fmtInt, fmtPct, isStv, median, num, positive, summaryHasVotes, summaryUnopposed, systemName,
+  appUrl, electionSlug, esc, fmtDate, fmtDelta, fmtInt, fmtPct, isStv, median, num, positive, summaryPollStatus, systemName,
 } from '../lib/format.js';
 import { partyChip } from '../lib/party.js';
 
@@ -53,8 +53,10 @@ export async function render(root, route) {
   const after = pos >= 0 && pos < sameBody.length - 1 ? sameBody[pos + 1] : null;
 
   const parties = (detail.partySummary || []).filter((p) => p.party);
-  const withVotes = results.filter(summaryHasVotes).length;
-  const unopposed = results.filter(summaryUnopposed).length;
+  // Core's one rule (packages/core/src/unopposed.mjs): polled, returned unopposed, or votes not recorded.
+  const pollOf = new Map(results.map((r) => [r, summaryPollStatus(r)]));
+  const withVotes = results.filter((r) => pollOf.get(r) === 'polled').length;
+  const unopposed = results.filter((r) => pollOf.get(r) === 'unopposed').length;
   const votes = withVotes > 0;
   const prevVotes = !!prevDetail && (num(prevDetail.totals?.validPoll) || 0) > 0;
   const rows = partyRows(parties, prevDetail ? prevDetail.partySummary || [] : null, { votes, prevVotes });
@@ -79,8 +81,8 @@ export async function render(root, route) {
   const contestRows = results.map((r) => {
     const cslug = slugsByName.get(r.constituency)?.shift() || null;
     const name = cslug ? `<a href="${appUrl.contest(key, cslug)}">${esc(r.constituency)}</a>` : esc(r.constituency);
-    const un = summaryUnopposed(r);
-    const polled = summaryHasVotes(r);
+    const un = pollOf.get(r) === 'unopposed';
+    const polled = pollOf.get(r) === 'polled';
     const result = un ? `<span class="cg-badge">Returned unopposed</span> <span class="el-muted">${esc(r.winnerName || '')}</span>`
       : !polled ? `${esc(r.winnerName || '—')} <span class="el-muted">votes not recorded</span>`
       : (r.seatsTotal || 1) > 1 ? `${partyChip(r.winnerParty, colourOf.get(String(r.winnerParty)))} <span class="el-muted">most seats; top: ${esc(r.leadingName || '—')}</span>`
