@@ -227,6 +227,13 @@ export const TABLES = [
     name: 'person_cards_facets', group: 'browse', hashed: true, pk: ['id'], order: 'id',
     columns: [c('id', I, true), c('facets', T, true), ...HASH],
   },
+  {
+    // The party names each person card lists (card.parties[].name), one row per pair, so a
+    // party's people are found through this key rather than by reading every card: the party
+    // page's member list (/_api/parties?slug=&view=members, 11 Nov 2026).
+    name: 'person_card_parties', group: 'browse', hashed: true, pk: ['party', 'slug'], order: 'party, slug', since: 6,
+    columns: [c('party', T, true), c('slug', T, true), ...HASH],
+  },
 
   // ---------------------------------------------------------------- parties
   {
