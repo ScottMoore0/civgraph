@@ -23,7 +23,7 @@ const loaded = (page) => page.evaluate(() => window.__civgraphTest2.app.getLoade
 
 // Shelves start closed; most tests work inside them, so they start with every shelf open
 // (as a reader who had opened them this session) unless a test asks for the default.
-const ELECTION_SHELVES = ['dail', 'westminster', 'ni-devolved', 'ni-local', 'irish-local', 'european', 'referendum', 'presidential'];
+const ELECTION_SHELVES = ['dail', 'westminster', 'ni-devolved', 'ni-local', 'irish-local', 'pre-partition-local', 'european', 'referendum', 'presidential'];
 const SHELF_IDS = [...catalogue.shelves.map((s) => s.id), 'environment', ...ELECTION_SHELVES.map((g) => `e-${g}`)];
 const generals = catalogue.elections.filter((e) => e.kind !== 'by-election');
 async function open(page, hash = '', { shelves = 'open' } = {}) {
@@ -479,11 +479,12 @@ test('N20 placeholders, transport order, constituency hovers and dates', async (
   await pane(page).locator('[data-cn-tab="statistics"]').click();
   const stats = ofKind('Statistics').filter((s) => s.members.every((m) => catalogue.maps[m.id].status === 'placeholder'));
   for (const s of stats.slice(0, 5)) await expect(row(page, s.id).locator('.cn-badge--todo')).toHaveCount(1);
-  // Transport: routes and networks first, collisions and road defects last.
+  // Transport: routes and networks first, then collisions and road defects, and Way Points and
+  // GDF2s last (Phelim Birch's review, 11 Nov 2026).
   await pane(page).locator('[data-cn-tab="places"]').click();
   const names = await pane(page).locator('#cn-shelf-transport .cn-row__name').allTextContents();
-  expect(names[0]).toBe('Road Network');
-  expect(names.slice(-4)).toEqual(['PSNI Road Traffic Collisions', 'TII Collision Rates', 'Pothole Enquiries', 'NI Road Surface Defects']);
+  expect(names[0]).toBe('Roads');
+  expect(names.slice(-6)).toEqual(['PSNI Road Traffic Collisions', 'TII Collision Rates', 'Pothole Enquiries', 'NI Road Surface Defects', 'Way Points', 'GDF2s']);
   // A constituency map's hover gives no election-day date; its label keeps the year.
   await pane(page).locator('[data-cn-tab="boundaries"]').click();
   const wm = row(page, 'constituencies-parliamentary-constituencies').locator('.cn-chips [data-cn-toggle="pc-2023"]');
@@ -573,7 +574,7 @@ test('N08 elections: grouped bodies, and where they were held', async ({ page })
   await open(page, 'cat=elections');
   const devolved = ['northern-ireland-assembly', 'parliament-of-northern-ireland', 'northern-ireland-constitutional-convention', 'northern-ireland-forum-for-political-dialogue'];
   // One shelf per body group, in order; no body filter any more.
-  await expect(pane(page).locator('.cn-shelf__name')).toHaveText(['Dáil', 'Westminster', 'NI Devolved', 'NI local', 'Irish local', 'European', 'Referendum', 'Presidential']);
+  await expect(pane(page).locator('.cn-shelf__name')).toHaveText(['Dáil', 'Westminster', 'NI Devolved', 'NI local', 'Irish local', 'Pre-partition local', 'European', 'Referendum', 'Presidential']);
   await expect(pane(page).locator('[data-cn-filter="body"]')).toHaveCount(0);
   await expect(pane(page).locator('#cn-shelf-e-ni-devolved .cn-erow')).toHaveCount(generals.filter((e) => devolved.includes(e.bodySlug)).length);
   const ni = pane(page).locator('[data-cn-filter="escope"][data-value="Northern Ireland"]');
