@@ -624,7 +624,7 @@ test('N11 search finds people; their elections show where they stood and whether
   await search(page, 'sammy wilson');
   const person = pane(page).locator('.cn-person--row').first();
   await expect(person.locator('.cn-person__name')).toHaveText('Sammy Wilson', { timeout: 20000 });
-  await expect(person.locator('.cn-person__name')).toHaveAttribute('href', '/browse/#/persons/sammy-wilson-96356');
+  await expect(person.locator('.cn-person__name')).toHaveAttribute('href', '/browse/persons/sammy-wilson-96356');
   await expect(person).toContainText('DUP');
   await person.locator('[data-cn-person]').click();
   await expect.poll(() => route(page)).toBe('elections/person/96356');

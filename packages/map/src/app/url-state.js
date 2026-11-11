@@ -10,6 +10,11 @@ import uiController from '../../../../src/ui-controller.js';
 import dataService from '../../../../src/data-service.js';
 import { renameElectionDatesInParams, resolveLegacyLayerId } from './url-compat.mjs';
 import { pageParamOf, parsePageParam } from './helpers.mjs';
+import featureLoader from '../../../../src/feature-loader.js';
+import { featureBoundsFromIndex, featureBoundsFromSpatial } from './feature-bounds.mjs';
+
+/** A promise, or null after `ms`: an index that is slow to come must not hold the map. */
+const within = (promise, ms) => Promise.race([promise, new Promise((resolve) => setTimeout(() => resolve(null), ms))]);
 
 export class UrlStateMethods {
   installRouteGuard() {
@@ -95,6 +100,32 @@ export class UrlStateMethods {
     if (uiController._featureDetailCache?.has(page.key)) {
       uiController.showFeatureDetailInCatalogue(page.key, false, { restoreState: true, focus: !initial });
     }
+  }
+
+  /**
+   * Where a feature is, for a link or a search result that carries no box: its bbox in the map's
+   * spatial index (/_api/spatial), else a box from its centre and area in the layer's feature
+   * index (featureIndexUrl). Null when neither knows it; the map then shows the layer.
+   * packages/map/src/app/feature-bounds.mjs holds the matching rules.
+   */
+  async resolveFeatureBounds(mapConfig, featureId, featureName, layerConfig = null) {
+    const mapId = mapConfig?.id;
+    if (!mapId) return null;
+    try {
+      const entries = await within(featureLoader.loadMapIndex(mapId), 4000);
+      const box = featureBoundsFromSpatial(entries, mapId, featureId, featureName);
+      if (box) return box;
+    } catch { /* fall through to the feature index */ }
+    const url = layerConfig?.featureIndexUrl || mapConfig.featureIndexUrl;
+    if (!url) return null;
+    this.featureIndexRequests ||= new Map();
+    if (!this.featureIndexRequests.has(url)) {
+      this.featureIndexRequests.set(url, fetch(url, { cache: 'default' })
+        .then((response) => (response.ok ? response.json() : null))
+        .catch(() => null));
+    }
+    const index = await within(this.featureIndexRequests.get(url), 4000);
+    return featureBoundsFromIndex(index, featureId, featureName);
   }
 
   setupURLStateListener() {
@@ -317,6 +348,12 @@ export class UrlStateMethods {
       } else if (this.currentDetailMapId) {
         subject = this.metadataService?.getLayer?.(this.currentDetailMapId)?.name
           || this.currentDetailMapId;
+      } else if (this.getPrimaryPartialFeatureURLState()?.featureName) {
+        // A feature opened on its own (a feature link, a search result): "BELFAST WEST –
+        // Parliamentary Constituencies 2023", not only the layer's name (QA 2026-11-11, H2).
+        const feature = /** @type {{ mapId: string, featureName: string }} */ (this.getPrimaryPartialFeatureURLState());
+        const layerName = this.metadataService?.getLayer?.(feature.mapId)?.name || dataService.getMapById?.(feature.mapId)?.name || '';
+        subject = layerName ? `${feature.featureName} – ${layerName}` : feature.featureName;
       } else {
         const loaded = this.getLoadedLayerIds?.() || [];
         if (loaded.length === 1) {
@@ -417,10 +454,17 @@ export class UrlStateMethods {
         this.showMapError(`This link asks for ${missing.length === 1 ? 'something' : 'things'} not found here, so ${missing.length === 1 ? 'it was' : 'they were'} left out: ${missing.join(', ')}.`, { kind: 'info' });
       }
 
+      // A feature link frames its feature, unless the address names a view of its own
+      // (QA 2026-11-11, H2: a shared constituency opened on the whole island, nothing drawn).
+      const hasViewport = params.has('lng') && params.has('lat');
       if (featureMapId && featureIdParam) {
         const mapConfig = dataService.getMapById(featureMapId);
         if (mapConfig) {
-          await this.mapController.loadSingleFeature(mapConfig, featureIdParam, featureNameParam || featureIdParam, null, { isolate: true });
+          await this.mapController.loadSingleFeature(mapConfig, featureIdParam, featureNameParam || featureIdParam, null, {
+            isolate: true,
+            smooth: false,
+            resolveBounds: hasViewport ? null : (layerConfig) => this.resolveFeatureBounds(mapConfig, featureIdParam, featureNameParam, layerConfig)
+          });
         }
       }
 
@@ -453,7 +497,6 @@ export class UrlStateMethods {
         document.getElementById('test2SourcePanel')?.classList.add('hidden');
       }
 
-      const hasViewport = params.has('lng') && params.has('lat');
       const lng = hasViewport ? Number(params.get('lng')) : NaN;
       const lat = hasViewport ? Number(params.get('lat')) : NaN;
       const zoomParam = params.get('zoom') ?? params.get('z');

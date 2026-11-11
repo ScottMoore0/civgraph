@@ -12,6 +12,7 @@
  */
 import { attrs, html, raw } from '../../../core/src/html.js';
 import { SITE } from '../../../config/src/config.js';
+import { shareTagList } from './share.js';
 
 /** The site's origin and name, from the configuration (packages/config/src/config.js). */
 export const SITE_ORIGIN = SITE.origin;
@@ -253,7 +254,7 @@ export const UI_STYLES = ['assets/ui/components.css'];
  * @param {string} p.title              <title>, already including " – Civgraph" if wanted
  * @param {string} [p.description]
  * @param {string} [p.canonical]        absolute URL
- * @param {Record<string, string>} [p.og]  extra Open Graph properties ({ type: 'profile' })
+ * @param {Record<string, string>} [p.og]  Open Graph properties to override or add ({ 'og:type': 'profile' })
  * @param {string} [p.section]          NAV key for the header
  * @param {string} [p.layout]           header layout
  * @param {import('../../../core/src/html.js').Interpolation} p.body  html`` for <main>
@@ -271,10 +272,16 @@ export function page({
     const v = version ? version(path) : null;
     return v ? `/${path}?v=${v}` : `/${path}`;
   };
-  const ogTags = canonical ? {
-    'og:type': 'website', 'og:site_name': SITE_NAME, 'og:url': canonical, 'og:title': title,
-    ...(description ? { 'og:description': description } : {}), ...og,
-  } : og;
+  // A canonical page gets the whole share set (share.js: Open Graph with the share image, and the
+  // Twitter card); `og` overrides or adds Open Graph properties ({ 'og:type': 'profile' }).
+  /** @type {Array<[string, string, string]>} */
+  const shareTags = canonical
+    ? shareTagList({ title, description, url: canonical })
+      .map(([attr, key, content]) => /** @type {[string, string, string]} */ ([attr, key, key in og ? og[key] : content]))
+    : [];
+  for (const [key, content] of Object.entries(og)) {
+    if (!shareTags.some(([, k]) => k === key)) shareTags.push(['property', key, content]);
+  }
   // JSON in a <script> must not be able to close it: escape every "<".
   const ld = jsonLd ? raw(`<script type="application/ld+json">${JSON.stringify(jsonLd).replace(/</g, '\\u003c')}</script>`) : null;
   return html`<!DOCTYPE html>
@@ -283,7 +290,7 @@ export function page({
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${title}</title>
-${description ? html`<meta name="description"${attrs({ content: description })}>\n` : ''}${robots ? html`<meta name="robots"${attrs({ content: robots })}>\n` : ''}${canonical ? html`<link rel="canonical"${attrs({ href: canonical })}>\n` : ''}${Object.entries(ogTags).map(([property, content]) => html`<meta${attrs({ property, content })}>\n`)}<link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+${description ? html`<meta name="description"${attrs({ content: description })}>\n` : ''}${robots ? html`<meta name="robots"${attrs({ content: robots })}>\n` : ''}${canonical ? html`<link rel="canonical"${attrs({ href: canonical })}>\n` : ''}${shareTags.map(([attr, key, content]) => html`<meta${attrs({ [attr]: key, content })}>\n`)}<link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg">
 ${head({ version })}
 ${[...UI_STYLES, ...styles].map((path) => html`<link rel="stylesheet"${attrs({ href: url(path) })}>\n`)}${scripts.map((path) => html`<script type="module"${attrs({ src: url(path) })}></script>\n`)}${ld}
