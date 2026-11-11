@@ -12,7 +12,7 @@ import { CDN_BASE } from '../../src/cdn-url.js';
 import { RENAMED_ELECTION_DATES } from '../../packages/map/src/app/url-compat.mjs';
 import { BROWSE_DIR, ELECTION_MANIFEST, PROVENANCE_FILE, localPathForUrl } from '../../packages/loader/src/paths.mjs';
 import { loadRegistry } from '../../packages/registries/src/index.mjs';
-import { electionBody, fillYear, jurisdictionLabel } from '../../packages/registries/src/election-bodies.mjs';
+import { electionBody, fillYear } from '../../packages/registries/src/election-bodies.mjs';
 import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLocalCouncilRound, niLocalGroupKey } from '../../src/ni-local-groups.mjs';
 
 const ROOT = process.cwd();
@@ -607,8 +607,8 @@ function electionAboutFor(key) {
   return electionAboutFor.all[key];
 }
 
-// What data/registries/election-bodies.json says of a body: where its elections were held, its
-// Wikipedia article. (A function, read on first use, as electionAboutFor.)
+// What data/registries/election-bodies.json says of a body: its Wikipedia article. (A function,
+// read on first use, as electionAboutFor.)
 function registeredElectionBody(bodySlug) {
   if (!registeredElectionBody.registry) registeredElectionBody.registry = loadRegistry('election-bodies');
   return electionBody(registeredElectionBody.registry, bodySlug);
@@ -3907,8 +3907,6 @@ function geographyLabel(value) {
 }
 
 function electionGeographyLabel(entry) {
-  const registered = jurisdictionLabel(registeredElectionBody(entry.bodySlug));
-  if (registered) return registered;
   const body = cleanText(entry.body || '');
   if (/dail|referendum|european parliament \(ireland\)/i.test(body)) return 'Republic of Ireland';
   if (/northern ireland|westminster|local government districts|assembly|forum/i.test(body)) return 'Northern Ireland';
