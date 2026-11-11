@@ -87,24 +87,6 @@ export interface ElectionsContestsAnswer {
   [key: string]: unknown;
 }
 
-/** GET /api/v1/elections (view=citations): One contest's citations (key=, contest=): what each source covers and how it was checked */
-export interface ElectionsCitationsAnswer {
-  schemaVersion: number;
-  key: string;
-  contest: {
-    seq: number;
-    name: string;
-    slug: string;
-    [key: string]: unknown;
-  };
-  citations: {
-    ord: number;
-    checked?: boolean;
-    [key: string]: unknown;
-  }[];
-  [key: string]: unknown;
-}
-
 /** GET /api/v1/elections (key=<absent>): Every election, by date then key */
 export interface ElectionsIndexAnswer {
   elections: {
@@ -955,7 +937,6 @@ export interface V1Routes {
       list: ElectionsListAnswer;
       detail: ElectionsDetailAnswer;
       contests: ElectionsContestsAnswer;
-      citations: ElectionsCitationsAnswer;
       index: ElectionsIndexAnswer;
       "contest-by-slug": ElectionsContestBySlugAnswer;
       "contest-by-name": ElectionsContestByNameAnswer;
