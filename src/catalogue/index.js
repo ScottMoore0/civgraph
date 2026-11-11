@@ -30,7 +30,7 @@ import { esc, yearOf, longDate, mapDate, shortProvider } from './util.js';
 import { formatDisplayDate } from '../../packages/core/src/date-format.mjs';
 import { cdnUrl } from '../cdn-url.js';
 import { openMenu, closeMenu } from './menu.js';
-import { loadAuth, loginHref, openEditDialog } from './edit.js';
+import { loadAuth, loginHref, openEditDialog, suggestEditOffered } from './edit.js';
 import { decadeDomain, binCounts, indexOf, updateSlider, stepYear } from './slider.js';
 import * as MapsView from './view-maps.js';
 import * as ElectionsView from './view-elections.js';
@@ -1666,7 +1666,8 @@ export class CatalogueNext {
     const dls = this.downloadsFor(t.id);
     if (dls.length) items.push({ separator: true }, { heading: 'Download' }, ...dls);
     items.push({ separator: true }, { label: 'Copy link', icon: 'link', onSelect: () => this.copyLink(t.id) }, { label: 'Cite', icon: 'quote', onSelect: () => this.cite(t.id, s) });
-    if (this.full(t.id)) items.push({ label: this.auth?.allowed ? 'Suggest an edit' : 'Suggest an edit (contributor sign-in)', icon: 'pencil', onSelect: () => this.suggestEdit(t.id) });
+    // Signed out, offered only to contributors (?contribute, remembered), as on Browse.
+    if (this.full(t.id) && suggestEditOffered(this.auth)) items.push({ label: this.auth?.allowed ? 'Suggest an edit' : 'Suggest an edit (contributor sign-in)', icon: 'pencil', onSelect: () => this.suggestEdit(t.id) });
     const others = s.members.filter((m) => m.id !== t.id && this.rec(m.id).status !== 'placeholder');
     if (others.length) {
       items.push({ separator: true }, { heading: `Compare ${t.label} with` }, ...others.slice(0, 8).map((m) => ({ label: m.label, icon: 'columns', onSelect: () => this.startCompare(t.id, m.id) })));

@@ -36,6 +36,38 @@ export function loginHref() {
   return `/_api/contributions/login?return=${encodeURIComponent(`${location.pathname}${location.search}${location.hash}`)}`;
 }
 
+/** Remembers, in this browser, that a contributor opened the site with ?contribute. */
+export const CONTRIBUTOR_FLAG = 'civgraph.contributor';
+
+/**
+ * Whether to offer the signed-out contributor sign-in: on an address carrying ?contribute, and
+ * from then on in that browser. The same rule, and the same remembered flag, as Browse's
+ * (site/browse/browse.js contributorLinkWanted; QA 2026-11-11, M14): offered to every visitor,
+ * it sent the public to a Cloudflare Access sign-in they cannot use, which reads as phishing.
+ * @param {{ search?: string, storage?: Pick<Storage, 'getItem' | 'setItem'> | null }} [where]
+ */
+export function contributorLinkWanted({ search = typeof location !== 'undefined' ? location.search : '', storage } = {}) {
+  let wanted = false;
+  try { wanted = new URLSearchParams(search).has('contribute'); } catch { /* old browser */ }
+  try {
+    const store = storage === undefined ? localStorage : storage;
+    if (wanted) store?.setItem(CONTRIBUTOR_FLAG, '1');
+    else wanted = store?.getItem(CONTRIBUTOR_FLAG) === '1';
+  } catch { /* private mode: the address alone decides */ }
+  return wanted;
+}
+
+/**
+ * Whether the catalogue offers "Suggest an edit" for a map: to a contributor signed in, to anyone
+ * signed in (who is told their account is not on the list), and signed out only where
+ * contributorLinkWanted() says so.
+ * @param {{ authenticated?: boolean, allowed?: boolean } | null | undefined} auth
+ * @param {{ search?: string, storage?: Pick<Storage, 'getItem' | 'setItem'> | null }} [where]
+ */
+export function suggestEditOffered(auth, where) {
+  return Boolean(auth?.allowed || auth?.authenticated) || contributorLinkWanted(where);
+}
+
 const asText = (v) => (v === undefined || v === null ? '' : String(v));
 
 /** Open the edit dialog for map `id` (its current record is `record`). */

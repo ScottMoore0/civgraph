@@ -20,7 +20,7 @@ import { escapeHtml } from '../src/app/helpers.mjs';
 import { installMethods } from '../src/app/install-methods.mjs';
 import { LayerMethods } from '../src/app/layers.js';
 import { UrlStateMethods } from '../src/app/url-state.js';
-import { createHashListen, createNavigationPush, createUrlRestore, createUrlSuspend } from '../src/app/url-sync.mjs';
+import { createHashListen, createNavigationPush, createTraversal, createUrlRestore, createUrlSuspend } from '../src/app/url-sync.mjs';
 import { createFlag, createHoldCount, defineFlagFields } from '../src/state-helpers.mjs';
 import { UiWiringMethods } from '../src/app/ui-wiring.js';
 import { LazyRuntimeMethods } from '../src/app/lazy-runtime.js';
@@ -62,6 +62,8 @@ class Test2App {
     // while a failed step is stepped back over (undoNavigationSince).
     this.navigationPush = createNavigationPush();
     this.hashListen = createHashListen();
+    // The address a Back or Forward step arrived at, until the map is restored from it.
+    this.traversal = createTraversal();
     this.currentDetailMapId = null;
     // The party, person, constituency or feature page open in the catalogue pane, if any:
     // { kind, key, title, typeLabel }. In the address as page=kind:key (updateURLState).

@@ -3,10 +3,13 @@
 //
 //   node --test tests/unit/basemap.test.mjs
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import {
   BASEMAP_SESSION_KEY,
   BasemapManager,
+  CHOOSABLE_BASE_MAPS,
+  DEFAULT_BASE_MAP_ID,
   DEFAULT_BASEMAP_CHAIN,
   ERRORS_AFTER_TILES,
   ERRORS_BEFORE_ANY_TILE,
@@ -17,7 +20,8 @@ import {
   glyphUrlForAvailableFont,
   isBasemapId,
   namespaceStyle,
-  preferredChain
+  preferredChain,
+  resolveBaseMapId
 } from '../../packages/map/src/renderer/basemap.mjs';
 
 function memoryStorage(initial = {}) {
@@ -274,10 +278,10 @@ test('a base map the reader chose is drawn as it is, with no failover, and the d
   const map = fakeMap(['app-layer']);
   const { basemap } = manager(map);
   await basemap.useDefault();
-  await basemap.useRaster({ id: 'esri-satellite', tiles: ['https://example.org/{z}/{y}/{x}'], attribution: 'Esri' });
+  await basemap.useRaster({ id: 'usgs-topo', tiles: ['https://example.org/{z}/{y}/{x}'], attribution: 'USGS' });
   assert.deepEqual(map.style.layers.map((layer) => layer.id), ['basemap-raster', 'app-layer']);
   for (let i = 0; i < 50; i += 1) map.fire('error', { sourceId: 'basemap-raster', tile: {} });
-  assert.equal(basemap.active.id, 'esri-satellite');
+  assert.equal(basemap.active.id, 'usgs-topo');
   await basemap.useDefault();
   assert.equal(basemap.active.id, 'openfreemap-liberty');
   assert.equal(map.style.layers.at(-1).id, 'app-layer');
@@ -313,4 +317,37 @@ test('a named provider starts the chain (?basemap= first, then localStorage civg
   assert.deepEqual(ids(preferredChain(DEFAULT_BASEMAP_CHAIN, { search: '?basemap=openfreemap-liberty', storage: memoryStorage({ 'civgraph.basemap': 'osm-tiles' }) })), ['openfreemap-liberty', 'osm-tiles']);
   assert.deepEqual(ids(preferredChain(DEFAULT_BASEMAP_CHAIN, { search: '?basemap=nonsense' })), ['openfreemap-liberty', 'osm-tiles']);
   assert.deepEqual(ids(preferredChain(DEFAULT_BASEMAP_CHAIN, {})), ['openfreemap-liberty', 'osm-tiles']);
+});
+
+// The Esri base maps were removed on 11 Nov 2026 (Esri's raw tile services need an ArcGIS licence).
+const ESRI_IDS = ['esri-satellite', 'esri-world-topo', 'esri-natgeo', 'esri-ocean'];
+
+test('no Esri base map is choosable, and none is credited or fetched from an Esri host', () => {
+  for (const id of ESRI_IDS) assert.equal(Object.hasOwn(CHOOSABLE_BASE_MAPS, id), false, id);
+  const everything = JSON.stringify({ CHOOSABLE_BASE_MAPS, DEFAULT_BASEMAP_CHAIN });
+  assert.doesNotMatch(everything, /arcgisonline|esri/i);
+});
+
+test('a saved Esri base map falls back to the default chain', async () => {
+  for (const id of ESRI_IDS) assert.equal(resolveBaseMapId(id), DEFAULT_BASE_MAP_ID, id);
+  for (const id of [undefined, null, '', 'nonsense', 'constructor', '__proto__', 'toString']) assert.equal(resolveBaseMapId(id), DEFAULT_BASE_MAP_ID, String(id));
+  // The base maps still offered keep their id.
+  for (const id of ['osm-standard', 'osm-humanitarian', 'opentopomap', 'usgs-topo']) assert.equal(resolveBaseMapId(id), id);
+  // And the default it resolves to is the chain, from its first provider.
+  const map = fakeMap(['app-layer']);
+  const { basemap } = manager(map);
+  await basemap.useDefault();
+  assert.equal(basemap.mode, 'chain');
+  assert.equal(basemap.active.id, DEFAULT_BASEMAP_CHAIN[0].id);
+});
+
+test('every base map Map Settings offers is the default or a choosable one, and none is Esri', () => {
+  for (const page of ['site/maps/index.html', 'site/maps/classic/index.html']) {
+    const html = readFileSync(new URL(`../../${page}`, import.meta.url), 'utf8');
+    const select = /<select id="baseMapSelect"[\s\S]*?<\/select>/.exec(html)?.[0] || '';
+    const values = [...select.matchAll(/<option value="([^"]+)"/g)].map((match) => match[1]);
+    assert.ok(values.includes(DEFAULT_BASE_MAP_ID), page);
+    for (const value of values) assert.equal(resolveBaseMapId(value), value, `${page}: ${value}`);
+    assert.doesNotMatch(select.replace(/<!--[\s\S]*?-->/g, ''), /esri/i, page);
+  }
 });

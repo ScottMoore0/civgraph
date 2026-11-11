@@ -150,3 +150,32 @@ export function createHashListen() {
     }
   };
 }
+
+/**
+ * The address a Back or Forward step arrived at (`this.traversal`), kept from its popstate until
+ * the map is restored from it.
+ *
+ * A step fires popstate at once and hashchange as a later task. Code that runs in between (a
+ * catalogue redraw, an election focus still polling from an earlier step) writes the address
+ * from the map as it still is, and that write lands in the entry just arrived at: Forward to an
+ * election then restored a map without it (map-ux-review "Back closes the election ...", flaky
+ * under load, 11 Nov 2026). The restore puts the step's own address back first.
+ */
+export function createTraversal() {
+  /** @type {string | null} */
+  let url = null;
+  return {
+    /** popstate: the address of the entry stepped to. @param {string} href */
+    arrived(href) { url = href; },
+    /**
+     * The restore starts: the address to put back, when the entry has been rewritten since the
+     * step; null when it is as the step left it, or no step is pending. Consumes the step.
+     * @param {string} currentHref
+     */
+    take(currentHref) {
+      const wanted = url;
+      url = null;
+      return wanted && wanted !== currentHref ? wanted : null;
+    }
+  };
+}
