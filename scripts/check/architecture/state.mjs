@@ -4,7 +4,8 @@
  * C6, the state-machine lint, on new or changed lines only (the diff since the branch left main;
  * `--all` reads every line, for the report's repository-wide count). Three shapes:
  *   (a) a variable or property named *state|status|mode|phase|stage|step|view|kind|tab that is
- *       assigned or compared with three or more distinct string literals, where those values are
+ *       assigned a string literal and assigned or compared with three or more distinct ones (a
+ *       value only compared, such as a handler's dispatch on its view parameter, is not state), where those values are
  *       not declared: neither in a call of the typed-state helpers (defineMachine, defineToggle,
  *       defineChoice, createState, createFlag, createLatch, defineFlagFields, createHoldCount:
  *       packages/core/src/state-machine.mjs, packages/map/src/state-helpers.mjs, served as
@@ -53,6 +54,20 @@ function declaredValues(ast, comments) {
 }
 
 /**
+ * The string literals an expression can evaluate to: a literal, either branch of a conditional,
+ * either side of || and ?? (`params.get('mode') || 'winner'`).
+ * @param {AstNode | null | undefined} node
+ * @returns {string[]}
+ */
+function assignedStrings(node) {
+  if (!node) return [];
+  if (isString(node)) return [node.value];
+  if (node.type === 'ConditionalExpression') return [...assignedStrings(/** @type {AstNode} */ (node.consequent)), ...assignedStrings(/** @type {AstNode} */ (node.alternate))];
+  if (node.type === 'LogicalExpression' && node.operator !== '&&') return [...assignedStrings(/** @type {AstNode} */ (node.left)), ...assignedStrings(/** @type {AstNode} */ (node.right))];
+  return [];
+}
+
+/**
  * The C6 candidates of one file, every line (the caller keeps those on changed lines).
  * @param {AstNode | null} ast
  * @param {Array<{ value: string, line: number }>} comments
@@ -65,18 +80,20 @@ export function stateCandidates(ast, comments) {
   const out = [];
 
   // (a) string-state variables
-  /** @type {Map<string, { values: Set<string>, lines: number[] }>} */
+  // A value only compared (a dispatch on a parameter) is not state; one the code also assigns is.
+  /** @type {Map<string, { values: Set<string>, lines: number[], assigned: boolean }>} */
   const vars = new Map();
-  const note = (/** @type {string | null} */ name, /** @type {string} */ value, /** @type {number} */ line) => {
+  const note = (/** @type {string | null} */ name, /** @type {string} */ value, /** @type {number} */ line, assigned = false) => {
     if (!name || !STATE_NAME.test(name)) return;
-    if (!vars.has(name)) vars.set(name, { values: new Set(), lines: [] });
-    const v = /** @type {{ values: Set<string>, lines: number[] }} */ (vars.get(name));
+    if (!vars.has(name)) vars.set(name, { values: new Set(), lines: [], assigned: false });
+    const v = /** @type {{ values: Set<string>, lines: number[], assigned: boolean }} */ (vars.get(name));
     v.values.add(value);
     v.lines.push(line);
+    if (assigned) v.assigned = true;
   };
   walk(ast, (n) => {
-    if (n.type === 'AssignmentExpression' && isString(/** @type {AstNode} */ (n.right))) note(nameOf(/** @type {AstNode} */ (n.left)), /** @type {string} */ (/** @type {AstNode} */ (n.right).value), lineOf(n));
-    if (n.type === 'VariableDeclarator' && isString(/** @type {AstNode} */ (n.init)) && /** @type {AstNode} */ (n.id).type === 'Identifier') note(nameOf(/** @type {AstNode} */ (n.id)), /** @type {string} */ (/** @type {AstNode} */ (n.init).value), lineOf(n));
+    if (n.type === 'AssignmentExpression') for (const v of assignedStrings(/** @type {AstNode} */ (n.right))) note(nameOf(/** @type {AstNode} */ (n.left)), v, lineOf(n), true);
+    if (n.type === 'VariableDeclarator' && /** @type {AstNode} */ (n.id).type === 'Identifier') for (const v of assignedStrings(/** @type {AstNode | null} */ (n.init))) note(nameOf(/** @type {AstNode} */ (n.id)), v, lineOf(n), true);
     if (n.type === 'BinaryExpression' && /^[!=]==?$/.test(/** @type {string} */ (n.operator))) {
       const left = /** @type {AstNode} */ (n.left);
       const right = /** @type {AstNode} */ (n.right);
@@ -88,9 +105,9 @@ export function stateCandidates(ast, comments) {
       for (const c of /** @type {AstNode[]} */ (n.cases)) if (isString(/** @type {AstNode} */ (c.test))) note(name, /** @type {string} */ (/** @type {AstNode} */ (c.test).value), lineOf(c));
     }
   });
-  for (const [name, { values, lines }] of vars) {
+  for (const [name, { values, lines, assigned }] of vars) {
     const undeclared = [...values].filter((v) => !declared.has(v));
-    if (values.size >= 3 && undeclared.length) out.push({ lines, message: `${name} takes ${values.size} string states (${[...values].slice(0, 5).join('|')}) with no machine: a defineMachine table (or a JSDoc union for a derived kind)` });
+    if (assigned && values.size >= 3 && undeclared.length) out.push({ lines, message: `${name} takes ${values.size} string states (${[...values].slice(0, 5).join('|')}) with no machine: a defineMachine table (or a JSDoc union for a derived kind)` });
   }
 
   // (b) co-changing boolean flags, per function body (nested functions are their own)
