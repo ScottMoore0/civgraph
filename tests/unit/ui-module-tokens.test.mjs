@@ -26,7 +26,7 @@ import { fileURLToPath } from 'node:url';
 import { sourceOf } from '../../scripts/build/site.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
-const PAGES = ['browse/index.html', 'catalogue/index.html', 'records/index.html', 'apps/proni-search/index.html', 'apps/words/index.html'];
+const PAGES = ['browse/index.html', 'catalogue/index.html', 'records/index.html', 'apps/proni-search/index.html', 'apps/words/index.html', 'apps/elections/index.html'];
 
 // A served path a package provides is read from the package (packages/served.json).
 const read = (rel) => readFileSync(path.join(ROOT, sourceOf(rel)));
