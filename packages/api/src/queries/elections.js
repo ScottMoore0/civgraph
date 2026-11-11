@@ -46,6 +46,12 @@ const CAND_COLS =
   + 'first_prefs AS firstPrefs, final_votes AS finalVotes, elected, elected_at AS electedAt, '
   + 'excluded, excluded_at AS excludedAt, status, colour, gender, meta';
 
+/** A citation's columns, for the citations views. */
+const CITE_COLS = 'ci.title, ci.publisher, ci.url, ci.archive_url AS archiveUrl, ci.host, ci.kind, ci.basis, ci.checked';
+/** The join from a contest (alias k) to its citations (alias ci): by the contest file's path. */
+const CITES_CONTEST = "ci.subject_type = 'contest' AND ci.subject_key = "
+  + "(CASE WHEN k.source_file LIKE 'data/elections-source/data/elections/%' THEN substr(k.source_file, 38) ELSE k.source_file END)";
+
 export const ELECTIONS_API = Object.freeze({
   /** [keyOrSlug] -> { key }: the key first, then the slug */
   keyFor: `SELECT key FROM ${T.elections} WHERE key = ?1 OR slug = ?1 ORDER BY (key = ?1) DESC, key LIMIT 1`,
@@ -82,6 +88,20 @@ export const ELECTIONS_API = Object.freeze({
   provenance: 'SELECT shard FROM provenance_shards WHERE election_key = ?1',
   /** [file] -> { summary }: render/metadata's summaries by file name */
   summaryOfFile: 'SELECT summary FROM election_summaries WHERE file = ?1',
+  // The original sources of the results (QA H5): the contest citations of
+  // data/database/election-provenance.json, in the citations table under the contest file's
+  // path relative to data/elections-source/data/elections/.
+  /** [key, seq] -> one contest's citations, in their order */
+  contestCitations: `SELECT ${CITE_COLS} FROM contests k JOIN citations ci ON ${CITES_CONTEST} WHERE k.election_key = ?1 AND k.seq = ?2 ORDER BY ci.ord`,
+  /** [key] -> an election's distinct sources, with how many of its contests cite each */
+  electionCitations: `SELECT ci.title, ci.publisher, ci.url, ci.host, ci.kind, COUNT(DISTINCT k.seq) AS contests FROM contests k JOIN citations ci ON ${CITES_CONTEST} `
+    + 'WHERE k.election_key = ?1 GROUP BY ci.title, ci.publisher, ci.url, ci.host, ci.kind ORDER BY contests DESC, ci.title, ci.url LIMIT 40',
+  /** [key] -> { n } how many contests the election has */
+  electionContestCount: 'SELECT COUNT(*) AS n FROM contests WHERE election_key = ?1',
+  /** [personId] -> each of a person's candidacies with its contest's citations */
+  personCitations: `SELECT c.election_key AS electionKey, k.seq, k.name AS constituency, ${CITE_COLS} FROM candidacies c `
+    + 'JOIN contests k ON k.election_key = c.election_key AND k.seq = c.contest_seq '
+    + `JOIN citations ci ON ${CITES_CONTEST} WHERE c.person_id = ?1 ORDER BY c.election_key, k.seq, c.ord, ci.ord`,
 });
 
 export const ELECTION_CARDS = Object.freeze({

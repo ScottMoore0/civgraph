@@ -8,6 +8,7 @@ import { html } from '../../../../core/src/html.js';
 import { dateText, numberText, percentText, slugify, yearSpan } from '../../../../core/src/format.js';
 import { badges, citations, dataTable, facts, link, notice } from '../components/index.js';
 import { candidateReturnWithoutPoll } from '../../../../core/src/unopposed.mjs';
+import { citationItem } from './election.js';
 
 /**
  * The browse_persons record fields this page reads (scripts/build/build-browse-indexes.mjs
@@ -29,6 +30,7 @@ import { candidateReturnWithoutPoll } from '../../../../core/src/unopposed.mjs';
  * @property {string} [name]
  * @property {string} [title]
  * @property {string} [slug]
+ * @property {string} [id]            the person id (the card's id)
  * @property {string} [subtitle]
  * @property {{ stood?: number, elected?: number, firstPrefs?: number }} [totals]
  * @property {PersonCandidacy[]} [elections]
@@ -53,6 +55,8 @@ import { candidateReturnWithoutPoll } from '../../../../core/src/unopposed.mjs';
  * @property {{ relation?: string, slug?: string, name?: string, source?: string }[]} [relatives]
  * @property {{ label?: string, source?: string, url?: string, licence?: string }[]} [officialProfiles]
  * @property {{ title?: string, heading?: string, url?: string, edition?: string }[]} [historyOfParliament]
+ * @property {Array<{ electionKey: string, constituency?: string, citations: Array<{ title?: string | null, publisher?: string | null, url?: string | null, host?: string | null }> }>} [contestSources]
+ *   the citations of each contest the person stood in (QA H5; the page loader adds them)
  */
 
 const counted = (/** @type {NamedCount[] | undefined} */ rows) => (rows || [])
@@ -110,6 +114,25 @@ function sourceItems(record) {
   if (record.bornSource) items.push({ label: record.bornSource, note: 'date of birth' });
   if (record.diedSource && record.diedSource !== record.bornSource) items.push({ label: record.diedSource, note: 'date of death' });
   return items;
+}
+
+/**
+ * The original sources of the person's results, contest by contest (QA H5): never Civgraph's
+ * own index.
+ * @param {PersonRecord} record
+ */
+function contestSourcesHtml(record) {
+  const rows = record.contestSources || [];
+  if (!rows.length) return '';
+  const title = new Map((record.elections || []).map((e) => [e.key, e]));
+  return html`<h3>The results</h3>
+<ul class="cg-citation-groups">${rows.map((row) => {
+    const election = title.get(row.electionKey);
+    const links = candidacyLinks(row.constituency ? { key: row.electionKey, constituency: row.constituency } : { key: row.electionKey });
+    const label = `${election?.title || row.electionKey}${row.constituency ? `: ${row.constituency}` : ''}`;
+    return html`<li>${links.contest ? link(links.contest, label) : label}${citations(row.citations.map((c) => citationItem(c)))}</li>`;
+  })}</ul>
+<p class="cg-muted">Compiled in Civgraph\u2019s election records from the sources above.</p>`;
 }
 
 /**
@@ -173,8 +196,8 @@ ${dataTable({
   })}` : ''}
 ${record.relatives?.length ? html`<h2 id="relatives">Relatives</h2>
 <ul>${record.relatives.map((r) => html`<li>${r.relation ? html`${r.relation}: ` : ''}${r.slug ? link(`/browse/persons/${encodeURIComponent(r.slug)}`, r.name || r.slug) : r.name}${r.source ? html` <span class="cg-muted">(${r.source})</span>` : ''}</li>`)}</ul>` : ''}
-${sourceItems(record).length ? html`<h2 id="sources">Sources</h2>
-${citations(sourceItems(record))}` : ''}
+${sourceItems(record).length || record.contestSources?.length ? html`<h2 id="sources">Sources</h2>
+${citations(sourceItems(record))}${contestSourcesHtml(record)}` : ''}
 `;
 
   const jsonLd = {
