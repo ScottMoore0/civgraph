@@ -1314,18 +1314,18 @@
    },
    "extracted": {
     "status": "partial",
-    "what": "Person id crosswalk; 100 councillors matched by name, council and dates (41 ambiguous pairs left unlinked)",
+    "what": "Person crosswalk: 3,932 Civgraph persons linked to their Wikidata item (MPs, TDs, senators, Stormont MPs, MLAs, MEPs, councillors), by official ids, Wikipedia titles and dated office statements; 90 items matching two or more persons listed as merge leads",
     "counts": {
      "provenanceCitations": 0
     },
     "targets": [
      "data/elections/persons/official-person-ids.json",
      "data/elections/persons/official-person-crosswalk.json",
-     "data/elections/persons/wikidata-councillors.json"
+     "data/elections/persons/wikidata-persons.json"
     ]
    },
-   "remaining": "Wikidata records few Irish councillors, so most council members have no item to link.",
-   "nextStep": "Show the councillor links on person pages and review the 16 pairs where one item matches two Civgraph persons.",
+   "remaining": "Wikidata records few Irish councillors and has dated offices for only part of the Stormont parliament, so most council members and some Stormont MPs have no item to link.",
+   "nextStep": "Review the 90 merge leads (one item, two or more Civgraph persons) and the held-back links.",
    "lastChecked": "2026-11-11",
    "match": {
     "hosts": [

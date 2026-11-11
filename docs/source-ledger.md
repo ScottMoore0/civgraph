@@ -103,7 +103,7 @@ Published with the site, so it lists only sources whose content Civgraph may mak
 |---|---|---|---|---|
 | Thom's Irish Almanac and Official Directory (pre-1926 editions) | public-domain | none | not-started | Not held: lists of MPs, poor law unions, town commissioners and officials by year. |
 | [Wikipedia (constituency, election and person articles)](https://en.wikipedia.org) | CC-BY-SA | partial (local, about 6,800 cached pages) | partial (provenanceCitations 3,057) | Cited sources are being replaced by primary sources where possible. |
-| [Wikidata](https://www.wikidata.org) | CC0 | none | partial (provenanceCitations 0) | Wikidata records few Irish councillors, so most council members have no item to link. |
+| [Wikidata](https://www.wikidata.org) | CC0 | none | partial (provenanceCitations 0) | Wikidata records few Irish councillors and has dated offices for only part of the Stormont parliament, so most council members and some Stormont MPs have no item to link. |
 | [UK and Northern Ireland legislation (legislation.gov.uk; NI public general statutes)](https://www.legislation.gov.uk) | OGL-3.0 | partial (r2, 13 statute PDFs (data/books/legislation/)) | partial (provenanceCitations 222) | Most local boundary orders of 1921-1972 were never printed in the annual volumes and are not on legislation.gov.uk; they are known from the Belfast Gazette. |
 | [Irish Statute Book](https://www.irishstatutebook.ie) | PSI-open | none | reference-only (provenanceCitations 0) | Not mirrored. |
 | Review Body on Local Government in Northern Ireland (Macrory Report, 1970) | crown-copyright-expired | complete (local, two parts, about 97 MB) | reference-only | Not on IA. |
