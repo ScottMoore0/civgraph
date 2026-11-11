@@ -71,6 +71,8 @@ const PAGES = new Map([
   ['site/records/index.html', BROWSE_PAGE],
   ['site/apps/index.html', SITE_PAGE],
   ['site/apps/words/index.html', SITE_PAGE],
+  // The Elections app (11 Nov 2026): not public yet (noindex, unlinked, not in a sitemap).
+  ['site/apps/elections/index.html', SITE_PAGE],
   ['site/pages/census-explorer.html', SITE_PAGE],
   ['site/pages/status.html', SITE_PAGE],
   // The 404 is served at any missing path, so it needs the real header (nav and theme toggle)
@@ -89,6 +91,7 @@ const SHELL_EXEMPT = new Map([
   ['site/partials/browse-shell.html', 'a fragment stamped into the Browse pages'],
   ['site/partials/proni-header.html', 'a fragment stamped into PRONI Search'],
   ['site/partials/proni-footer.html', 'a fragment stamped into PRONI Search'],
+  ['site/apps/elections/embed/index.html', 'the Elections result widget, framed inside other pages: no site header or footer by design'],
 ]);
 const NOT_PUBLIC = /^(archive|analysis|docs|tests|tools|scripts|data|node_modules)\//;
 

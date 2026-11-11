@@ -376,3 +376,9 @@
 /render/metadata/elections-test2/lisburn-urban-district-council__1920-01-15.json  /render/metadata/elections-test2/lisburn-borough-council__1920-01-15.json  301
 /render/metadata/elections-test2-summaries/lisburn-urban-district-council__1920-01-15.json  /render/metadata/elections-test2-summaries/lisburn-borough-council__1920-01-15.json  301
 /render/metadata/election-provenance/lisburn-urban-district-council__1920-01-15.json  /render/metadata/election-provenance/lisburn-borough-council__1920-01-15.json  301
+
+# Civgraph Elections (11 Nov 2026): the app shell answers every /elections/ URL and its client
+# routes the rest (site/apps/elections/lib/route.js). Not public yet: noindex (_headers and the
+# page), not linked from the site, not in a sitemap.
+/elections    /apps/elections/  200
+/elections/*  /apps/elections/  200
