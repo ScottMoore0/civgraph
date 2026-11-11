@@ -38,7 +38,8 @@
     "elliott-flackes-1999-2026-11-06": "Northern Ireland contests 1968-99 checked against Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Blackstaff Press, 1999), read from the owner's scans, with every changed figure or label confirmed by a second source (ARK Northern Ireland Elections, Wikipedia): Chichester-Clark's 1970 Londonderry vote and Sands's April 1981 vote, Faulkner's seven pro-Assembly Unionists of February 1974, Kilfedder's 1979 Independent Unionist label, Dunlop's 1982 and the 1977 council UUUP candidates, the Ballymena and Larne 1977 unopposed returns, Larne's 1973 Loyalists, Ballymoney Town 1989, and candidacies filed under a namesake (Jack Allen, William Brown, John Carson, Gerry Kelly, John Kelly, Frank Millar junior, David Allen, P. J. Bradley and five 1996 Forum list rows). Facts and citations only.",
     "ledger-eoni-ec-2026-11-11": "Northern Ireland council (2014, 2023) and European Parliament (2004) contests checked against the Electoral Office for Northern Ireland's result sheets and the Electoral Commission's results spreadsheets: only clear transcription errors (an electorate, poll or quota that the sheet's own figures confirm, a count total, the elected flags).",
     "galway-city-2026-11-11": "Galway City West 2024, imported with no candidates, filled from Galway City Council's official State of the Poll sheets (counts 1-14), with IrelandElection.com person ids.",
-    "two-member-unopposed-2026-11-11": "Two-member county seats imported as single-member: both members were returned unopposed, but the second was shown as defeated. Checked against Walker (1978) as Wikipedia's election boxes cite it, and corroborated by the second member's own votes in the next session (Historic Hansard)."
+    "two-member-unopposed-2026-11-11": "Two-member county seats imported as single-member: both members were returned unopposed, but the second was shown as defeated. Checked against Walker (1978) as Wikipedia's election boxes cite it, and corroborated by the second member's own votes in the next session (Historic Hansard).",
+    "eoni-ia-2026-11-11": "Northern Ireland Assembly 2011 and council 2011 contests checked against the Electoral Office for Northern Ireland's result sheets recovered from the Internet Archive (the old eoni.org.uk site's /getattachment/ and root-level files): only figures the sheet's own arithmetic confirms (first preferences that add up to the valid poll, stage totals that reconcile with the transfers and non-transferable votes)."
   },
   "records": [
     {
@@ -248241,6 +248242,200 @@
           }
         }
       ]
+    },
+    {
+      "batch": "eoni-ia-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-assembly/2011-05-05/belfast-south.json",
+      "source": {
+        "title": "NI Assembly Election 2011 result sheet: Belfast South (stages 1-5)",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20120312224744id_/http://www.eoni.org.uk/belfast_south_result_sheet.pdf",
+        "original": "http://www.eoni.org.uk/belfast_south_result_sheet.pdf",
+        "accessed": "2026-11-11"
+      },
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Valid_Poll",
+          "value": "32308"
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Poll",
+          "value": "32752"
+        },
+        {
+          "op": "candidate",
+          "name": "Brian Faloon",
+          "set": {
+            "Candidate_First_Pref_Votes": "414"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Brian Faloon",
+          "count": "1",
+          "set": {
+            "Total_Votes": "414.00"
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "Conall McDevitt",
+          "set": {
+            "Candidate_First_Pref_Votes": "3191"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Conall McDevitt",
+          "count": "1",
+          "set": {
+            "Total_Votes": "3191.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Jimmy Spratt",
+          "count": "5",
+          "set": {
+            "Total_Votes": "4281.45"
+          }
+        }
+      ],
+      "reason": "Brian Faloon had 414 first preferences, not 141, and Conall McDevitt 3,191, not 3,119, as the Electoral Office's result sheet gives; their second-count totals (475.80 and 3,510.50) are those figures plus the transfers Civgraph already has. The valid poll is then 32,308 and the votes polled 32,752 (444 invalid), as the sheet gives, and the sheet's party first-preference table for 2011 gives the same 32,308. Jimmy Spratt's fifth-count total is 4,281.45 (4,163.85 plus 117.60), not 4,281.42."
+    },
+    {
+      "batch": "eoni-ia-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-assembly/2011-05-05/north-antrim.json",
+      "source": {
+        "title": "NI Assembly Election 2011 result sheet: North Antrim (stages 1-9)",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20230405204309id_/https://www.eoni.org.uk/EONI/files/bf/bfbe5669-92eb-4845-af6e-e0610ec34ad9.pdf",
+        "original": "http://www.eoni.org.uk/getattachment/Elections/Election-results-and-statistics/Election-results-and-statistics-2003-onwards/Elections-2011/NI-Assembly-election-results-by-stage/ni_assembly_election_2011_-_NA.pdf",
+        "accessed": "2026-11-11"
+      },
+      "operations": [
+        {
+          "op": "candidateCount",
+          "name": "Jim Allister",
+          "count": "7",
+          "set": {
+            "Total_Votes": "4963.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Bill Kennedy",
+          "count": "7",
+          "set": {
+            "Total_Votes": "0.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "David McIlveen",
+          "count": "7",
+          "set": {
+            "Total_Votes": "4062.54"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Declan O'Loan",
+          "count": "7",
+          "set": {
+            "Total_Votes": "4745.27"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Evelyne Robinson",
+          "count": "7",
+          "set": {
+            "Total_Votes": "3989.68"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Robin Swann",
+          "count": "7",
+          "set": {
+            "Total_Votes": "4577.99"
+          }
+        }
+      ],
+      "reason": "The seventh-count totals repeated the sixth count's although the transfers of Bill Kennedy's votes were recorded: after them Jim Allister had 4,963.00, David McIlveen 4,062.54, Declan O'Loan 4,745.27, Evelyne Robinson 3,989.68 and Robin Swann 4,577.99, and Kennedy, excluded, none, as the Electoral Office's result sheet gives and each sixth-count total plus its transfer confirms."
+    },
+    {
+      "batch": "eoni-ia-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/local-government/2011-05-05/downshire.json",
+      "source": {
+        "title": "Local Council Election 2011 result sheet: Downshire DEA (Lisburn)",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20221204032035id_/https://www.eoni.org.uk/EONI/files/30/309c9c97-e19f-49b2-a798-5b8d6956ac69.pdf",
+        "original": "http://www.eoni.org.uk/getattachment/Elections/Election-results-and-statistics/Election-results-and-statistics-2003-onwards/Elections-2011/Local-Council-Election-Results-by-Stage/local_council_election_2011_-_result_sheet_-_downshire.pdf",
+        "accessed": "2026-11-11"
+      },
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Electorate",
+          "value": "13764"
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Poll",
+          "value": "8033"
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Valid_Poll",
+          "value": "7919"
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Spoiled",
+          "value": "114"
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Quota",
+          "value": "1320"
+        }
+      ],
+      "reason": "The electorate, poll and quota were North Down's Abbey DEA figures (13,358; 5,495 polled, 128 invalid, 5,367 valid; quota 767). Downshire's, as the Electoral Office's result sheet gives, are an electorate of 13,764, 8,033 votes polled, 114 invalid, 7,919 valid and a quota of 1,320: the candidates' first preferences add up to 7,919, the quota is 7,919 / 6 + 1, and the sheet's 58.36% poll is 8,033 over 13,764."
+    },
+    {
+      "batch": "eoni-ia-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/local-government/2011-05-05/lisburn-town-north.json",
+      "source": {
+        "title": "Local Council Election 2011 result sheet: Lisburn Town North DEA",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20221204190955id_/https://www.eoni.org.uk/EONI/files/4d/4dbf9baa-4bb3-46b1-9f29-551f5875334f.pdf",
+        "original": "http://www.eoni.org.uk/getattachment/Elections/Election-results-and-statistics/Election-results-and-statistics-2003-onwards/Elections-2011/Local-Council-Election-Results-by-Stage/local_council_election_2011_-_result_sheet_-_lisburn_town_north.pdf",
+        "accessed": "2026-11-11"
+      },
+      "operations": [
+        {
+          "op": "candidateCount",
+          "name": "Ronnie Crawford",
+          "count": "5",
+          "set": {
+            "Transfers": "85.40",
+            "Total_Votes": "1119.17"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Ronnie Crawford",
+          "count": "6",
+          "set": {
+            "Total_Votes": "1148.17"
+          }
+        }
+      ],
+      "reason": "Ronnie Crawford received 85.40 votes at the fifth count, not 86.00, so he held 1,119.17 after it and 1,148.17 after the sixth, as the Electoral Office's result sheet gives; with those figures the sheet's non-transferable votes make up the valid poll of 9,158 at every count."
     }
   ]
 }
