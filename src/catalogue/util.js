@@ -12,10 +12,13 @@ export const shortDate = (d) => formatDisplayDate(d);
 /**
  * A map's date. One stored as 1 January when only the year is known ("1977-01-01" for the
  * 1977 DEDs) reads as the year; a map named "1 Jan 1919", or in force from that day, keeps
- * its day (UX review 2026-10-31, L4).
+ * its day (UX review 2026-10-31, L4). A snapshot of a live dataset reads "as at <date>".
  */
 export const mapDate = (r) => {
   const raw = String(r?.date ?? '').trim();
+  // A live dataset (planning applications) is dated by the snapshot Civgraph holds: "as at 20 Apr
+  // 2026" (owner, 11 Nov 2026; maps.json dateKind "as-at").
+  if (r?.dateAsAt && raw) return `as at ${formatDisplayDate(raw)}`;
   if (/^\d{4}-01-01$/.test(raw) && r.dateEffective !== raw
     && !/\b1 Jan(uary)?\b|-01-01\b/i.test(`${r.id || ''} ${r.name || ''} ${r.title || ''}`)) return raw.slice(0, 4);
   return formatDisplayDate(r?.date);

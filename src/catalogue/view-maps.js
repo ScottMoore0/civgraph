@@ -274,7 +274,7 @@ function memberListHtml(c, s, sel) {
 
 function factsHtml(c, sel, r) {
   const rows = [
-    r.date && ['Date', mapDate(r)],
+    r.date && ['Date', r.dateNote ? `${mapDate(r)} (${r.dateNote})` : mapDate(r)],
     r.licence && ['Licence', r.licence],
     r.status && r.status !== 'ready' && ['Status', r.status === 'placeholder' ? 'To be added: listed, not yet drawn' : 'Incomplete'],
     r.note && ['Note', r.note],

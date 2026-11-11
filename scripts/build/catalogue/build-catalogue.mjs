@@ -144,6 +144,10 @@ function addMap(id) {
     date: dateOf(m),
     status: statusOf(m),
   };
+  // A live dataset is dated by its snapshot (maps.json dateKind "as-at"), which the catalogue
+  // shows as "as at <date>", with what the snapshot is (dateNote) beside it.
+  if (m.dateKind === 'as-at' && rec.date) rec.dateAsAt = true;
+  if (m.dateKind === 'as-at' && m.dateNote) rec.dateNote = String(m.dateNote).slice(0, 300);
   const p = providers(m);
   if (p.length) rec.provider = p;
   const t = thumbOf(m);
