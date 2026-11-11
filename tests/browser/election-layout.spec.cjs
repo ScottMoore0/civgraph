@@ -23,7 +23,7 @@ test('T3-08 · loading an election refits the map to its constituencies', async 
   test.setTimeout(120000);
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto('/maps/');
-  await page.waitForFunction(() => window.__civgraphTest2?.elections?.catalogue?.elections?.length, null, { timeout: 60000 });
+  await page.waitForFunction(() => (window.__civgraphTest2?.app?.scheduleElectionCatalogueWarm?.(), window.__civgraphTest2?.elections?.catalogue?.elections?.length), null, { timeout: 60000 });
 
   const result = await page.evaluate(async () => {
     const app = window.__civgraphTest2.app;
