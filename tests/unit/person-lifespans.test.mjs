@@ -105,3 +105,99 @@ test('build_browse_votes.py detaches a vote dated after the linked person\'s dea
     assert.equal(isAfter(date, died), JSON.parse(res.stdout.trim().split('\n').pop())[[['1941-01-28', '1940'], ['1940-12-01', '1940'], ['1940-11-25', '1940-11-24'], ['1940-11-24', '1940-11-24'], ['1940-12-01', '1940-11']].findIndex(([a, b]) => a === date && b === died)], `${date} after ${died}: the check and the build agree`);
   }
 });
+
+// The veto in the person-id steps (scripts/ingest/persons/person_lifespans.py), lifespans stream
+// 11 Nov 2026: the same precision rule as the check, and the same dates the person page shows.
+function runPython(t, code) {
+  const python = process.env.CIVGRAPH_PYTHON || 'python';
+  const res = spawnSync(python, ['-c', code], { encoding: 'utf8', cwd: new URL('../..', import.meta.url) });
+  if (res.error) {
+    t.skip(`no python (${res.error.message})`);
+    return null;
+  }
+  assert.equal(res.status, 0, res.stderr);
+  return JSON.parse(res.stdout.trim().split('\n').pop());
+}
+
+const PRECISION_CASES = [
+  ['1941-01-28', '1940'], ['1940-12-01', '1940'], ['1940-12-01', '1940-11'], ['1940-11-30', '1940-11'],
+  ['1940-11-25', '1940-11-24'], ['1940-11-24', '1940-11-24'], ['1941-01-01', ''], ['1961', '1961-05'], ['1962', '1961-05'],
+  ['1912', '1862-05-21'], ['1948-02-04', '1948-02-03'],
+];
+const BIRTH_CASES = [
+  ['1927-06-09', '1927-06'], ['1968-06-01', '1950'], ['1967-12-31', '1950'], ['1968-03-01', '1950-04-02'],
+  ['1974-06-18', '1960'], ['1978-01-01', '1960'], ['1945', '1927-06'], ['1945-06', '1927-06'], ['1944', ''],
+];
+
+test('person_lifespans.py and the check agree on every precision case', (t) => {
+  const code = [
+    'import json, runpy',
+    "m = runpy.run_path('scripts/ingest/persons/person_lifespans.py')",
+    `a = ${JSON.stringify(PRECISION_CASES)}`,
+    `b = ${JSON.stringify(BIRTH_CASES)}`,
+    "print(json.dumps([[m['is_after'](d, l) for d, l in a], [m['is_before_18'](d, x) for d, x in b]]))",
+  ].join('\n');
+  const out = runPython(t, code);
+  if (!out) return;
+  assert.deepEqual(out[0], PRECISION_CASES.map(([d, l]) => isAfter(d, l)));
+  assert.deepEqual(out[1], BIRTH_CASES.map(([d, b]) => isBefore18(d, b)));
+});
+
+test('person_lifespans.py reads the dates the person page shows, and the allowlist', (t) => {
+  const code = [
+    'import json, sys',
+    "sys.path.insert(0, 'scripts/ingest/persons')",
+    'import person_lifespans as pl',
+    'b = pl.load()',
+    'out = {}',
+    // History of Parliament through the row's own source id (William Stewart, died 1850).
+    "out['hop'] = b.life(['hop:1820-1832/member/stewart-william-1781-1850'], [])",
+    // Wikidata through an official id; Mark Henry's birth date (his election month) is set aside.
+    "out['henry'] = b.life([], ['oireachtas:Mark-C-Henry.D.1927-06-23'])",
+    // A reference work by person id where neither gives a date (Sir Henry Wilson, Boylan).
+    "out['wilson'] = b.life([], [], 124621)",
+    "out['none'] = b.life([], [], 1)",
+    "out['stewart1972'] = pl.outside('1972-02-02', out['hop'])",
+    "out['stewart1826'] = pl.outside('1826-06-07', out['hop'])",
+    "keane = {'born': '1889', 'died': '1948-02-03'}",
+    "out['keane'] = [pl.outside('1948-02-04', keane), b.outside('1948-02-04', keane, 113219), b.outside('1948-02-04', keane, 1)]",
+    'print(json.dumps(out))',
+  ].join('\n');
+  const out = runPython(t, code);
+  if (!out) return;
+  assert.equal(out.hop.died, '1850-10-02');
+  assert.equal(out.hop.source, 'History of Parliament');
+  assert.equal(out.henry.born, undefined, 'the rejected Wikidata birth date is not read');
+  assert.equal(out.henry.died, '1952');
+  assert.equal(out.wilson.died, '1922');
+  assert.equal(out.none, null);
+  assert.equal(out.stewart1972, 'after-death');
+  assert.equal(out.stewart1826, null);
+  assert.deepEqual(out.keane, ['after-death', null, 'after-death'], 'the allowlist accepts the finding for its own person only');
+});
+
+test('build_browse_votes.py detaches a vote dated before the linked person was 18, by the same rule', (t) => {
+  const code = [
+    'import runpy, json',
+    "m = runpy.run_path('scripts/build/build_browse_votes.py', run_name='lifespan_test')",
+    `b = ${JSON.stringify(BIRTH_CASES)}`,
+    "print(json.dumps([m['before_18'](d, x) for d, x in b]))",
+  ].join('\n');
+  const out = runPython(t, code);
+  if (!out) return;
+  assert.deepEqual(out, BIRTH_CASES.map(([d, b]) => isBefore18(d, b)));
+});
+
+test('apply_person_ids_v2.py treats a name-and-party candidacy id as a name', (t) => {
+  const code = [
+    'import json, sys',
+    "sys.path.insert(0, 'scripts/ingest/persons')",
+    'import apply_person_ids_v2 as a',
+    "print(json.dumps([a.name_keyed_id('William Stewart|'), a.name_keyed_id('Henry Wilson|UUP'), a.name_keyed_id('2997493022'), a.name_keyed_id('T3551993284'),",
+    "  sorted(a.WEAK_RUNGS)]))",
+  ].join('\n');
+  const out = runPython(t, code);
+  if (!out) return;
+  assert.deepEqual(out.slice(0, 4), [true, true, false, false]);
+  assert.deepEqual(out[4], ['by-name', 'by-name-group', 'by-name-id', 'by-name-local', 'by-name-modern'], 'official, source-person and source-system ids are not weak');
+});

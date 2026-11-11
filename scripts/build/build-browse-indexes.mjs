@@ -9,6 +9,7 @@ import { buildPartyVocabulary, classifyPersonName, stripWikipediaQualifier, NOT_
 import { referenceOffices, referenceRelatives } from '../lib/reference-person-facts.mjs';
 import { browsePartySlugResolver, formatSpan, indexFactsModel, loadFactsModel } from '../lib/facts-model.mjs';
 import { CDN_BASE } from '../../src/cdn-url.js';
+import { RENAMED_ELECTION_DATES } from '../../packages/map/src/app/url-compat.mjs';
 import { BROWSE_DIR, ELECTION_MANIFEST, PROVENANCE_FILE, localPathForUrl } from '../../packages/loader/src/paths.mjs';
 import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLocalCouncilRound, niLocalGroupKey } from '../../src/ni-local-groups.mjs';
 
@@ -2567,9 +2568,16 @@ function buildSources(booksData, dataEntriesData, maps, elections, thumbnailIds,
   for (const election of elections) {
     if (!election.resultUrl && !election.anchorUrl) continue;
     const id = `election-source:${election.key}`;
+    // An election whose date was corrected keeps its old source address (/_api/sources and
+    // /browse/sources/<old slug> answer it through source_aliases): Belfast's 1961 round was
+    // "...__1961" until its poll date was found (url-compat.mjs RENAMED_ELECTION_DATES).
+    const [bodySlug, date] = String(election.key).split('__');
+    const renamedFrom = RENAMED_ELECTION_DATES.filter(([body, , to]) => body === bodySlug && to === date)
+      .map(([body, from]) => slugify(`election-source:${body}__${from}`));
     sources.push(compactObject({
       id,
       slug: slugify(id),
+      ...(renamedFrom.length ? { previousSlugs: renamedFrom } : {}),
       type: 'election-source',
       title: `${election.title} ${election.date || ''}`.trim(),
       subtitle: compactJoin([election.body, election.subtitle]),

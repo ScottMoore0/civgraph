@@ -57,6 +57,36 @@ export const RETIRED_CONTEST_SLUGS = [
   // Bangor 1938 was one seven-member contest until the borough's register of elections (PRONI
   // LA/20/1/DA/1, 11 Nov 2026) showed it ward by ward: the round's own page holds the ten wards' contests.
   ['bangor-borough-council-1938-05-16-bangor-7-seats', 'bangor-borough-council-1938-05-16'],
+  // Belfast's 1961 triennial round (councillors and aldermen) was filed under the year alone
+  // until the Corporation's register of members (PRONI LA/7/1/CA/1/3) gave its poll date,
+  // 17 May 1961 (11 Nov 2026): its election, overall results and ward contests, each exactly
+  // (a prefix rule would also catch the round's own new slugs and the 1961-06-29 by-election).
+  ['belfast-county-borough-council-1961', 'belfast-county-borough-council-1961-05-17'],
+  ['belfast-county-borough-council-1961-overall-results', 'belfast-county-borough-council-1961-05-17-overall-results'],
+  ['belfast-county-borough-council-1961-clifton', 'belfast-county-borough-council-1961-05-17-clifton'],
+  ['belfast-county-borough-council-1961-court', 'belfast-county-borough-council-1961-05-17-court'],
+  ['belfast-county-borough-council-1961-cromac', 'belfast-county-borough-council-1961-05-17-cromac'],
+  ['belfast-county-borough-council-1961-dock', 'belfast-county-borough-council-1961-05-17-dock'],
+  ['belfast-county-borough-council-1961-duncairn', 'belfast-county-borough-council-1961-05-17-duncairn'],
+  ['belfast-county-borough-council-1961-falls', 'belfast-county-borough-council-1961-05-17-falls'],
+  ['belfast-county-borough-council-1961-ormeau', 'belfast-county-borough-council-1961-05-17-ormeau'],
+  ['belfast-county-borough-council-1961-pottinger', 'belfast-county-borough-council-1961-05-17-pottinger'],
+  ['belfast-county-borough-council-1961-shankill', 'belfast-county-borough-council-1961-05-17-shankill'],
+  ['belfast-county-borough-council-1961-smithfield', 'belfast-county-borough-council-1961-05-17-smithfield'],
+  ['belfast-county-borough-council-1961-st-anne-s', 'belfast-county-borough-council-1961-05-17-st-anne-s'],
+  ['belfast-county-borough-council-1961-st-george-s', 'belfast-county-borough-council-1961-05-17-st-george-s'],
+  ['belfast-county-borough-council-1961-victoria', 'belfast-county-borough-council-1961-05-17-victoria'],
+  ['belfast-county-borough-council-1961-windsor', 'belfast-county-borough-council-1961-05-17-windsor'],
+  ['belfast-county-borough-council-1961-woodvale', 'belfast-county-borough-council-1961-05-17-woodvale'],
+  ['belfast-county-borough-council-aldermen-1961', 'belfast-county-borough-council-aldermen-1961-05-17'],
+  ['belfast-county-borough-council-aldermen-1961-overall-results', 'belfast-county-borough-council-aldermen-1961-05-17-overall-results'],
+  ['belfast-county-borough-council-aldermen-1961-clifton', 'belfast-county-borough-council-aldermen-1961-05-17-clifton'],
+  ['belfast-county-borough-council-aldermen-1961-dock', 'belfast-county-borough-council-aldermen-1961-05-17-dock'],
+  ['belfast-county-borough-council-aldermen-1961-duncairn', 'belfast-county-borough-council-aldermen-1961-05-17-duncairn'],
+  ['belfast-county-borough-council-aldermen-1961-falls', 'belfast-county-borough-council-aldermen-1961-05-17-falls'],
+  ['belfast-county-borough-council-aldermen-1961-shankill', 'belfast-county-borough-council-aldermen-1961-05-17-shankill'],
+  ['belfast-county-borough-council-aldermen-1961-st-anne-s', 'belfast-county-borough-council-aldermen-1961-05-17-st-anne-s'],
+  ['belfast-county-borough-council-aldermen-1961-woodvale', 'belfast-county-borough-council-aldermen-1961-05-17-woodvale'],
   // The district electoral areas of the general local elections of 1973-2011 that ARK's
   // import code named ("lg85-NoD-Holywood", "lg73-NaM-Area-A"): Browse published them under
   // those names (data/browse/details/elections, June 2026) and they took the area's own name

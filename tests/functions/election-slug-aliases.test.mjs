@@ -104,6 +104,13 @@ const RETIRED = new Map([
   ['lisnaskea-rural-district-council-1927-05-25-springfield', 'lisnaskea-rural-district-council-1927-05-25-springtown'],
   ['dungannon-rural-district-council-1936-06-03-bernagh', 'dungannon-rural-district-council-1936-06-03'],
   ['bangor-borough-council-1938-05-16-bangor-7-seats', 'bangor-borough-council-1938-05-16'],
+  // Belfast 1961, filed under the year until its poll date (17 May 1961) was found: the election,
+  // its overall results and each ward's contest, councillors and aldermen.
+  ...[['belfast-county-borough-council', ['clifton', 'court', 'cromac', 'dock', 'duncairn', 'falls', 'ormeau', 'pottinger', 'shankill',
+    'smithfield', 'st-anne-s', 'st-george-s', 'victoria', 'windsor', 'woodvale']],
+  ['belfast-county-borough-council-aldermen', ['clifton', 'dock', 'duncairn', 'falls', 'shankill', 'st-anne-s', 'woodvale']]]
+    .flatMap(([body, wards]) => ['', '-overall-results', ...wards.map((w) => `-${w}`)]
+      .map((rest) => /** @type {[string, string]} */ ([`${body}-1961${rest}`, `${body}-1961-05-17${rest}`]))),
 ]);
 const sitemapSlugs = () => new Set([...readFileSync(path.join(ROOT, 'site', 'sitemaps', 'browse-elections.xml'), 'utf8')
   .matchAll(/<loc>https:\/\/civgraph\.net\/browse\/elections\/([^<]+)<\/loc>/g)].map((m) => m[1]));
@@ -174,6 +181,13 @@ test('retired contest slugs resolve to where the contest is now, and only those 
     'larne-borough-council-1964-05-20-gardenmore-ward',
     'belfast-rural-district-council-1936-06-04',
     'belfast-rural-district-council-1936-06-04-ballyduff',
+    // Belfast 1961: the round's new slugs and the 29 June 1961 Shankill by-election continue the
+    // old election slug and keep their own.
+    'belfast-county-borough-council-1961-05-17',
+    'belfast-county-borough-council-1961-05-17-clifton',
+    'belfast-county-borough-council-aldermen-1961-05-17-falls',
+    'belfast-county-borough-council-1961-06-29',
+    'belfast-county-borough-council-1961-06-29-shankill',
   ]) assert.equal(resolveElectionSlugAlias(slug), slug, slug);
 });
 

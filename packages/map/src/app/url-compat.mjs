@@ -16,12 +16,31 @@ import { LEGACY_LAYER_ID_PREFIXES, legacyLayerId, renameLayerId } from '../../..
 export { LEGACY_LAYER_ID_PREFIXES };
 
 // Elections whose polling date was corrected, which changed their keys: old links keep working.
-// [body slug, old date, new date]
+// [body slug, old date, new date]. An old date may be a year alone that the new date continues
+// ("1961" -> "1961-05-17"): a key is rewritten only where the old date ends there, so the new key
+// (and another round of that year, "1961-06-29") is never rewritten again.
 export const RENAMED_ELECTION_DATES = [
   ['house-of-commons-of-the-united-kingdom', '1968-04-17', '1969-04-17'], // Mid Ulster by-election (Devlin)
   ['house-of-commons-of-the-united-kingdom', '2011-06-06', '2011-06-09'], // Belfast West by-election
-  ['northern-ireland-assembly', '1983-04-27', '1983-04-20'] // Armagh by-election
+  ['northern-ireland-assembly', '1983-04-27', '1983-04-20'], // Armagh by-election
+  // Belfast's 1961 triennial round, filed under the year until the Corporation's register of
+  // members (PRONI LA/7/1/CA/1/3) gave its poll date, Wednesday 17 May 1961 (11 Nov 2026).
+  ['belfast-county-borough-council', '1961', '1961-05-17'],
+  ['belfast-county-borough-council-aldermen', '1961', '1961-05-17']
 ];
+
+/**
+ * `text` with every `${prefix}${from}` that ends there (no digit, and no "-" and digit, after
+ * it) rewritten to `${prefix}${to}`.
+ * @param {string} text
+ * @param {string} prefix
+ * @param {string} from
+ * @param {string} to
+ */
+function renameKeyDate(text, prefix, from, to) {
+  const escaped = `${prefix}${from}`.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return text.replace(new RegExp(`${escaped}(?!\\d|-\\d)`, 'g'), `${prefix}${to}`);
+}
 
 // Elections filed under another body, which changed their keys: old links keep working.
 // [old body slug, new body slug, new body name, date]. Bangor's and Lisburn's 1920 rounds moved
@@ -36,7 +55,9 @@ export function renameElectionDatesInParams(params) {
   for (const [name, value] of [...params.entries()]) {
     let next = value;
     for (const [body, from, to] of RENAMED_ELECTION_DATES) {
-      next = next.split(`${body}__${from}`).join(`${body}__${to}`).split(`${body}:${from}`).join(`${body}:${to}`);
+      next = renameKeyDate(renameKeyDate(next, `${body}__`, from, to), `${body}:`, from, to);
+      // The election's map layer id ("election-<body>-<date>"), as for renamed bodies below.
+      next = renameKeyDate(next, `election-${body}-`, from, to);
       if (name === 'electionDate' && next === from && slugifyBody(params.get('electionBody')) === body) next = to;
     }
     for (const [from, to, toName, date] of RENAMED_ELECTION_BODIES) {
