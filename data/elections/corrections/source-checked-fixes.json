@@ -38,7 +38,8 @@
     "elliott-flackes-1999-2026-11-06": "Northern Ireland contests 1968-99 checked against Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Blackstaff Press, 1999), read from the owner's scans, with every changed figure or label confirmed by a second source (ARK Northern Ireland Elections, Wikipedia): Chichester-Clark's 1970 Londonderry vote and Sands's April 1981 vote, Faulkner's seven pro-Assembly Unionists of February 1974, Kilfedder's 1979 Independent Unionist label, Dunlop's 1982 and the 1977 council UUUP candidates, the Ballymena and Larne 1977 unopposed returns, Larne's 1973 Loyalists, Ballymoney Town 1989, and candidacies filed under a namesake (Jack Allen, William Brown, John Carson, Gerry Kelly, John Kelly, Frank Millar junior, David Allen, P. J. Bradley and five 1996 Forum list rows). Facts and citations only.",
     "ledger-eoni-ec-2026-11-11": "Northern Ireland council (2014, 2023) and European Parliament (2004) contests checked against the Electoral Office for Northern Ireland's result sheets and the Electoral Commission's results spreadsheets: only clear transcription errors (an electorate, poll or quota that the sheet's own figures confirm, a count total, the elected flags).",
     "galway-city-2026-11-11": "Galway City West 2024, imported with no candidates, filled from Galway City Council's official State of the Poll sheets (counts 1-14), with IrelandElection.com person ids.",
-    "two-member-unopposed-2026-11-11": "Two-member county seats imported as single-member: both members were returned unopposed, but the second was shown as defeated. Checked against Walker (1978) as Wikipedia's election boxes cite it, and corroborated by the second member's own votes in the next session (Historic Hansard)."
+    "two-member-unopposed-2026-11-11": "Two-member county seats imported as single-member: both members were returned unopposed, but the second was shown as defeated. Checked against Walker (1978) as Wikipedia's election boxes cite it, and corroborated by the second member's own votes in the next session (Historic Hansard).",
+    "roi-local-index-2026-11-11": "Irish local election gap-fills that were on file but never reached the site, because their areas were missing from the election index (2014, 2019 and 2024): each fill was re-checked against the Department's results book for that year (candidates, first preferences, parties, members elected, seats, valid poll and quota) and the total poll added from the same book."
   },
   "records": [
     {
@@ -212219,9 +212220,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2014L&cons=284"
+        },
+        {
+          "publisher": "Department of the Environment, Community and Local Government",
+          "title": "Local Elections 2014: Results, Transfer of Votes and Statistics, pp. 222-223 (Ballina LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/a346551c-eb44-4aee-9370-61b09880ee47/resource/908d7108-fe5f-4e0c-8b7a-c1e9c960ba26/download/local-election-results-2014.pdf#page=234",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of the Environment, Community and Local Government: all 18 candidates, first preferences adding up to the valid poll of 16,315, and 8 elected for 8 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of the Environment, Community and Local Government: all 18 candidates, first preferences adding up to the valid poll of 16,315, and 8 elected for 8 seats. Re-checked on 11 November 2026 against the 2014 results book (pp. 222-223): every candidate, first preference, party and member elected agrees; total poll 16,482 (16,315 valid, 167 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -212410,6 +212417,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 26103
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 16482
         }
       ]
     },
@@ -212427,9 +212439,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2014L&cons=304"
+        },
+        {
+          "publisher": "Department of the Environment, Community and Local Government",
+          "title": "Local Elections 2014: Results, Transfer of Votes and Statistics, pp. 318-321 (Bray LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/a346551c-eb44-4aee-9370-61b09880ee47/resource/908d7108-fe5f-4e0c-8b7a-c1e9c960ba26/download/local-election-results-2014.pdf#page=330",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Wicklow County Council: all 19 candidates, first preferences adding up to the valid poll of 12,522, and 8 elected for 8 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Wicklow County Council: all 19 candidates, first preferences adding up to the valid poll of 12,522, and 8 elected for 8 seats. Re-checked on 11 November 2026 against the 2014 results book (pp. 318-321): every candidate, first preference and member elected agrees; Sharon Briggs stood for the People Before Profit Alliance (P.B.P.A.), which the council's sheet left blank; total poll 12,670 (12,522 valid, 148 invalid) and electorate 23,347 from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -212455,7 +212473,7 @@
             },
             {
               "name": "Sharon Briggs",
-              "party": "",
+              "party": "PBP",
               "first_pref": 560,
               "counts": [
                 560
@@ -212622,6 +212640,16 @@
           "op": "set",
           "path": "meta.quota",
           "value": 1392
+        },
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 23347
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 12670
         }
       ]
     },
@@ -212639,9 +212667,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2014L&cons=321"
+        },
+        {
+          "publisher": "Department of the Environment, Community and Local Government",
+          "title": "Local Elections 2014: Results, Transfer of Votes and Statistics, pp. 226-227 (Claremorris LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/a346551c-eb44-4aee-9370-61b09880ee47/resource/908d7108-fe5f-4e0c-8b7a-c1e9c960ba26/download/local-election-results-2014.pdf#page=238",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of the Environment, Community and Local Government: all 12 candidates, first preferences adding up to the valid poll of 15,542, and 7 elected for 7 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of the Environment, Community and Local Government: all 12 candidates, first preferences adding up to the valid poll of 15,542, and 7 elected for 7 seats. Re-checked on 11 November 2026 against the 2014 results book (pp. 226-227): every candidate, first preference, party and member elected agrees; total poll 15,719 (15,542 valid, 177 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -212776,6 +212810,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 25099
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 15719
         }
       ]
     },
@@ -212793,9 +212832,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2014L&cons=359"
+        },
+        {
+          "publisher": "Department of the Environment, Community and Local Government",
+          "title": "Local Elections 2014: Results, Transfer of Votes and Statistics, pp. 322-323 (Greystones LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/a346551c-eb44-4aee-9370-61b09880ee47/resource/908d7108-fe5f-4e0c-8b7a-c1e9c960ba26/download/local-election-results-2014.pdf#page=334",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Wicklow County Council: all 14 candidates, first preferences adding up to the valid poll of 8,485, and 6 elected for 6 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Wicklow County Council: all 14 candidates, first preferences adding up to the valid poll of 8,485, and 6 elected for 6 seats. Re-checked on 11 November 2026 against the 2014 results book (pp. 322-323): every candidate, first preference and member elected agrees; Jacqui Johnston stood for the People Before Profit Alliance (P.B.P.A.), which the council's sheet left blank; total poll 8,566 (8,485 valid, 81 invalid) and electorate 16,531 from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -212848,7 +212893,7 @@
             },
             {
               "name": "Jacqui Johnston",
-              "party": "",
+              "party": "PBP",
               "first_pref": 329,
               "counts": [
                 329
@@ -212943,6 +212988,16 @@
           "op": "set",
           "path": "meta.quota",
           "value": 1213
+        },
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 16531
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 8566
         }
       ]
     },
@@ -212960,9 +213015,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2014L&cons=378"
+        },
+        {
+          "publisher": "Department of the Environment, Community and Local Government",
+          "title": "Local Elections 2014: Results, Transfer of Votes and Statistics, pp. 160-161 (Listowel LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/a346551c-eb44-4aee-9370-61b09880ee47/resource/908d7108-fe5f-4e0c-8b7a-c1e9c960ba26/download/local-election-results-2014.pdf#page=172",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of the Environment, Community and Local Government: all 15 candidates, first preferences adding up to the valid poll of 14,736, and 7 elected for 7 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of the Environment, Community and Local Government: all 15 candidates, first preferences adding up to the valid poll of 14,736, and 7 elected for 7 seats. Re-checked on 11 November 2026 against the 2014 results book (pp. 160-161): every candidate, first preference, party and member elected agrees; total poll 14,930 (14,736 valid, 194 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -213124,6 +213185,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 24685
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 14930
         }
       ]
     },
@@ -213141,9 +213207,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2014L&cons=5045"
+        },
+        {
+          "publisher": "Department of the Environment, Community and Local Government",
+          "title": "Local Elections 2014: Results, Transfer of Votes and Statistics, pp. 228-229 (West Mayo LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/a346551c-eb44-4aee-9370-61b09880ee47/resource/908d7108-fe5f-4e0c-8b7a-c1e9c960ba26/download/local-election-results-2014.pdf#page=240",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of the Environment, Community and Local Government: all 17 candidates, first preferences adding up to the valid poll of 15,199, and 7 elected for 7 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of the Environment, Community and Local Government: all 17 candidates, first preferences adding up to the valid poll of 15,199, and 7 elected for 7 seats. Re-checked on 11 November 2026 against the 2014 results book (pp. 228-229): every candidate, first preference, party and member elected agrees; total poll 15,351 (15,199 valid, 152 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -213323,6 +213395,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 24947
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 15351
         }
       ]
     },
@@ -213340,9 +213417,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2014L&cons=465"
+        },
+        {
+          "publisher": "Department of the Environment, Community and Local Government",
+          "title": "Local Elections 2014: Results, Transfer of Votes and Statistics, pp. 310-313 (Wexford LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/a346551c-eb44-4aee-9370-61b09880ee47/resource/908d7108-fe5f-4e0c-8b7a-c1e9c960ba26/download/local-election-results-2014.pdf#page=322",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of the Environment, Community and Local Government: all 22 candidates, first preferences adding up to the valid poll of 15,950, and 10 elected for 10 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of the Environment, Community and Local Government: all 22 candidates, first preferences adding up to the valid poll of 15,950, and 10 elected for 10 seats. Re-checked on 11 November 2026 against the 2014 results book (pp. 310-313): every candidate, first preference, party and member elected agrees; total poll 16,187 (15,950 valid, 237 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -213567,6 +213650,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 33028
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 16187
         }
       ]
     },
@@ -213584,9 +213672,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=277"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 152 (Ardee LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=152",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 13 candidates, first preferences adding up to the valid poll of 9,186, and 6 elected for 6 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 13 candidates, first preferences adding up to the valid poll of 9,186, and 6 elected for 6 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 152): every candidate, first preference, party and member elected agrees; total poll 9,467 (9,186 valid, 281 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -213730,6 +213824,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 20007
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 9467
         }
       ]
     },
@@ -213747,9 +213846,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=448"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 219 (Arklow LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=219",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 11 candidates, first preferences adding up to the valid poll of 10,172, and 6 elected for 6 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 11 candidates, first preferences adding up to the valid poll of 10,172, and 6 elected for 6 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 219): every candidate, first preference, party and member elected agrees; total poll 10,356 (10,172 valid, 184 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -213875,6 +213980,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 17703
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 10356
         }
       ]
     },
@@ -213892,9 +214002,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=5059"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, pp. 165-166 (Ashbourne LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=165",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 12 candidates, first preferences adding up to the valid poll of 10,019, and 6 elected for 6 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 12 candidates, first preferences adding up to the valid poll of 10,019, and 6 elected for 6 seats. Re-checked on 11 November 2026 against the 2019 results book (pp. 165-166): every candidate, first preference, party and member elected agrees; total poll 10,215 (10,019 valid, 196 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -214029,6 +214145,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 21081
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 10215
         }
       ]
     },
@@ -214046,9 +214167,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=450"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, pp. 208-209 (Athlone LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=208",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 15 candidates, first preferences adding up to the valid poll of 8,537, and 5 elected for 5 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 15 candidates, first preferences adding up to the valid poll of 8,537, and 5 elected for 5 seats. Re-checked on 11 November 2026 against the 2019 results book (pp. 208-209): every candidate, first preference, party and member elected agrees; total poll 8,656 (8,537 valid, 119 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -214210,6 +214337,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 19157
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 8656
         }
       ]
     },
@@ -214227,9 +214359,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=5050"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 184 (Ballymote-Tubbercurry LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=184",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 13 candidates, first preferences adding up to the valid poll of 15,987, and 7 elected for 7 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 13 candidates, first preferences adding up to the valid poll of 15,987, and 7 elected for 7 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 184): every candidate, first preference, party and member elected agrees; total poll 16,188 (15,987 valid, 201 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -214373,6 +214511,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 24389
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 16188
         }
       ]
     },
@@ -214390,9 +214533,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=449"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 220 (Baltinglass LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=220",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 9 candidates, first preferences adding up to the valid poll of 10,644, and 6 elected for 6 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 9 candidates, first preferences adding up to the valid poll of 10,644, and 6 elected for 6 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 220): every candidate, first preference, party and member elected agrees; total poll 10,862 (10,644 valid, 218 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -214500,6 +214649,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 19530
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 10862
         }
       ]
     },
@@ -214517,9 +214671,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=297"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 159 (Belmullet  LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=159",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 6 candidates, first preferences adding up to the valid poll of 7,077, and 3 elected for 3 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 6 candidates, first preferences adding up to the valid poll of 7,077, and 3 elected for 3 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 159): every candidate, first preference, party and member elected agrees; total poll 7,200 (7,077 valid, 123 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -214600,6 +214760,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 11279
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 7200
         }
       ]
     },
@@ -214617,9 +214782,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=299"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 178 (Birr LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=178",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 14 candidates, first preferences adding up to the valid poll of 11,845, and 6 elected for 6 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 14 candidates, first preferences adding up to the valid poll of 11,845, and 6 elected for 6 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 178): every candidate, first preference, party and member elected agrees; total poll 12,005 (11,845 valid, 160 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -214772,6 +214943,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 21198
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 12005
         }
       ]
     },
@@ -214789,9 +214965,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=303"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 182 (Boyle  LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=182",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 11 candidates, first preferences adding up to the valid poll of 10,359, and 6 elected for 6 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 11 candidates, first preferences adding up to the valid poll of 10,359, and 6 elected for 6 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 182): every candidate, first preference, party and member elected agrees; total poll 10,560 (10,359 valid, 201 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -214917,6 +215099,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 18037
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 10560
         }
       ]
     },
@@ -214934,9 +215121,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=5105"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 221 (Bray East LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=221",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 11 candidates, first preferences adding up to the valid poll of 6,322, and 4 elected for 4 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 11 candidates, first preferences adding up to the valid poll of 6,322, and 4 elected for 4 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 221): every candidate, first preference, party and member elected agrees; total poll 6,459 (6,322 valid, 137 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -215062,6 +215255,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 11636
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 6459
         }
       ]
     },
@@ -215079,9 +215277,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=5096"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 199 (Cahir LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=199",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 8 candidates, first preferences adding up to the valid poll of 6,817, and 4 elected for 4 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 8 candidates, first preferences adding up to the valid poll of 6,817, and 4 elected for 4 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 199): every candidate, first preference, party and member elected agrees; total poll 6,905 (6,817 valid, 88 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -215180,6 +215384,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 11826
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 6905
         }
       ]
     },
@@ -215197,9 +215406,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=5051"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 200 (Carrick-On-Suir LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=200",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 11 candidates, first preferences adding up to the valid poll of 9,458, and 5 elected for 5 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 11 candidates, first preferences adding up to the valid poll of 9,458, and 5 elected for 5 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 200): every candidate, first preference, party and member elected agrees; total poll 9,604 (9,458 valid, 146 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -215325,6 +215540,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 16382
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 9604
         }
       ]
     },
@@ -215342,9 +215562,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=5049"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 175 (Carrickmacross-Castleblayney LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=175",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 11 candidates, first preferences adding up to the valid poll of 9,593, and 6 elected for 6 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 11 candidates, first preferences adding up to the valid poll of 9,593, and 6 elected for 6 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 175): every candidate, first preference, party and member elected agrees; total poll 9,785 (9,593 valid, 192 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -215470,6 +215696,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 17286
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 9785
         }
       ]
     },
@@ -215487,9 +215718,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=5052"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 201 (Cashel-Tipperary LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=201",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 12 candidates, first preferences adding up to the valid poll of 11,817, and 7 elected for 7 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 12 candidates, first preferences adding up to the valid poll of 11,817, and 7 elected for 7 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 201): every candidate, first preference, party and member elected agrees; total poll 11,968 (11,817 valid, 151 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -215624,6 +215861,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 22816
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 11968
         }
       ]
     },
@@ -215641,9 +215883,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=313"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, pp. 160-161 (Castlebar LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=160",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 17 candidates, first preferences adding up to the valid poll of 13,846, and 7 elected for 7 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 17 candidates, first preferences adding up to the valid poll of 13,846, and 7 elected for 7 seats. Re-checked on 11 November 2026 against the 2019 results book (pp. 160-161): every candidate, first preference, party and member elected agrees; total poll 14,018 (13,846 valid, 172 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -215823,6 +216071,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 23682
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 14018
         }
       ]
     },
@@ -215840,9 +216093,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=35"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 106 (Castleknock LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=106",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 11 candidates, first preferences adding up to the valid poll of 13,693, and 6 elected for 6 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 11 candidates, first preferences adding up to the valid poll of 13,693, and 6 elected for 6 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 106): every candidate, first preference, party and member elected agrees; total poll 13,967 (13,693 valid, 274 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -215968,6 +216227,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 32220
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 13967
         }
       ]
     },
@@ -215985,9 +216249,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=321"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 162 (Claremorris LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=162",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 10 candidates, first preferences adding up to the valid poll of 13,053, and 6 elected for 6 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 10 candidates, first preferences adding up to the valid poll of 13,053, and 6 elected for 6 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 162): every candidate, first preference, party and member elected agrees; total poll 13,218 (13,053 valid, 165 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -216104,6 +216374,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 21103
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 13218
         }
       ]
     },
@@ -216121,9 +216396,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=5065"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 202 (Clonmel LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=202",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 11 candidates, first preferences adding up to the valid poll of 9,314, and 6 elected for 6 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 11 candidates, first preferences adding up to the valid poll of 9,314, and 6 elected for 6 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 202): every candidate, first preference, party and member elected agrees; total poll 9,496 (9,314 valid, 182 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -216249,6 +216530,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 18681
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 9496
         }
       ]
     },
@@ -216266,9 +216552,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=5091"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 153 (Drogheda Rural LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=153",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 11 candidates, first preferences adding up to the valid poll of 5,808, and 4 elected for 4 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 11 candidates, first preferences adding up to the valid poll of 5,808, and 4 elected for 4 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 153): every candidate, first preference, party and member elected agrees; total poll 5,931 (5,808 valid, 123 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -216394,6 +216686,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 13070
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 5931
         }
       ]
     },
@@ -216411,9 +216708,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=5090"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, pp. 154-155 (Drogheda Urban LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=154",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 16 candidates, first preferences adding up to the valid poll of 8,755, and 6 elected for 6 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 16 candidates, first preferences adding up to the valid poll of 8,755, and 6 elected for 6 seats. Re-checked on 11 November 2026 against the 2019 results book (pp. 154-155): every candidate, first preference, party and member elected agrees; total poll 8,996 (8,755 valid, 241 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -216584,6 +216887,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 20424
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 8996
         }
       ]
     },
@@ -216601,9 +216909,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=341"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 157 (Dundalk South LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=157",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 11 candidates, first preferences adding up to the valid poll of 10,957, and 7 elected for 7 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 11 candidates, first preferences adding up to the valid poll of 10,957, and 7 elected for 7 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 157): every candidate, first preference, party and member elected agrees; total poll 11,224 (10,957 valid, 267 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -216729,6 +217043,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 24124
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 11224
         }
       ]
     },
@@ -216746,9 +217065,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=440"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 59 (Dungarvan LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=59",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 13 candidates, first preferences adding up to the valid poll of 8,568, and 6 elected for 6 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 13 candidates, first preferences adding up to the valid poll of 8,568, and 6 elected for 6 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 59): every candidate, first preference, party and member elected agrees; total poll 8,703 (8,568 valid, 135 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -216892,6 +217217,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 16197
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 8703
         }
       ]
     },
@@ -216909,9 +217239,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=348"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 213 (Enniscorthy LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=213",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 12 candidates, first preferences adding up to the valid poll of 10,786, and 6 elected for 6 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 12 candidates, first preferences adding up to the valid poll of 10,786, and 6 elected for 6 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 213): every candidate, first preference, party and member elected agrees; total poll 11,007 (10,786 valid, 221 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -217046,6 +217382,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 21822
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 11007
         }
       ]
     },
@@ -217063,9 +217404,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=5092"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 189 (Firhouse-Bohernabreena LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=189",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 10 candidates, first preferences adding up to the valid poll of 11,160, and 5 elected for 5 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 10 candidates, first preferences adding up to the valid poll of 11,160, and 5 elected for 5 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 189): every candidate, first preference, party and member elected agrees; total poll 11,516 (11,160 valid, 356 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -217182,6 +217529,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 25877
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 11516
         }
       ]
     },
@@ -217623,9 +217975,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=446"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 214 (Gorey LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=214",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 10 candidates, first preferences adding up to the valid poll of 10,370, and 6 elected for 6 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 10 candidates, first preferences adding up to the valid poll of 10,370, and 6 elected for 6 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 214): every candidate, first preference, party and member elected agrees; total poll 10,578 (10,370 valid, 208 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -217742,6 +218100,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 19989
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 10578
         }
       ]
     },
@@ -217759,9 +218122,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=359"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 223 (Greystones LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=223",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 12 candidates, first preferences adding up to the valid poll of 9,807, and 6 elected for 6 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 12 candidates, first preferences adding up to the valid poll of 9,807, and 6 elected for 6 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 223): every candidate, first preference, party and member elected agrees; total poll 9,965 (9,807 valid, 158 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -217896,6 +218265,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 18414
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 9965
         }
       ]
     },
@@ -217913,9 +218287,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=1979"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 107 (Howth-Malahide LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=107",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 9 candidates, first preferences adding up to the valid poll of 19,723, and 7 elected for 7 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 9 candidates, first preferences adding up to the valid poll of 19,723, and 7 elected for 7 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 107): every candidate, first preference, party and member elected agrees; total poll 20,379 (19,723 valid, 656 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -218023,6 +218403,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 43919
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 20379
         }
       ]
     },
@@ -218040,9 +218425,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=134"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 167 (Kells LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=167",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 13 candidates, first preferences adding up to the valid poll of 14,197, and 7 elected for 7 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 13 candidates, first preferences adding up to the valid poll of 14,197, and 7 elected for 7 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 167): every candidate, first preference, party and member elected agrees; total poll 14,447 (14,197 valid, 250 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -218186,6 +218577,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 26262
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 14447
         }
       ]
     },
@@ -218203,9 +218599,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=5100"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 210 (Kinnegad LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=210",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 11 candidates, first preferences adding up to the valid poll of 8,220, and 5 elected for 5 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 11 candidates, first preferences adding up to the valid poll of 8,220, and 5 elected for 5 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 210): every candidate, first preference, party and member elected agrees; total poll 8,389 (8,220 valid, 169 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -218331,6 +218733,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 16746
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 8389
         }
       ]
     },
@@ -218348,9 +218755,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=5046"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, pp. 168-169 (Laytown-Bettystown LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=168",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 15 candidates, first preferences adding up to the valid poll of 11,452, and 7 elected for 7 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 15 candidates, first preferences adding up to the valid poll of 11,452, and 7 elected for 7 seats. Re-checked on 11 November 2026 against the 2019 results book (pp. 168-169): every candidate, first preference, party and member elected agrees; total poll 11,653 (11,452 valid, 201 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -218512,6 +218925,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 25236
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 11653
         }
       ]
     },
@@ -218529,9 +218947,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=168"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, pp. 190-191 (Lucan LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=190",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 14 candidates, first preferences adding up to the valid poll of 9,538, and 5 elected for 5 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 14 candidates, first preferences adding up to the valid poll of 9,538, and 5 elected for 5 seats. Re-checked on 11 November 2026 against the 2019 results book (pp. 190-191): every candidate, first preference, party and member elected agrees; the capitals of Ed O'Brien, Liona O'Toole are restored from the book; total poll 9,730 (9,538 valid, 192 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -218628,7 +219052,7 @@
               "status": ""
             },
             {
-              "name": "Ed O'brien",
+              "name": "Ed O'Brien",
               "party": "Fianna F\u00e1il",
               "first_pref": 807,
               "counts": [
@@ -218637,7 +219061,7 @@
               "status": "Elected"
             },
             {
-              "name": "Liona O'toole",
+              "name": "Liona O'Toole",
               "party": "Independent",
               "first_pref": 1100,
               "counts": [
@@ -218684,6 +219108,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 21723
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 9730
         }
       ]
     },
@@ -218701,9 +219130,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=5101"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 211 (Moate LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=211",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 9 candidates, first preferences adding up to the valid poll of 8,478, and 4 elected for 4 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 9 candidates, first preferences adding up to the valid poll of 8,478, and 4 elected for 4 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 211): every candidate, first preference, party and member elected agrees; total poll 8,643 (8,478 valid, 165 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -218811,6 +219246,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 15319
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 8643
         }
       ]
     },
@@ -218828,9 +219268,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=459"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, pp. 176-177 (Monaghan LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=176",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 16 candidates, first preferences adding up to the valid poll of 9,066, and 7 elected for 7 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 16 candidates, first preferences adding up to the valid poll of 9,066, and 7 elected for 7 seats. Re-checked on 11 November 2026 against the 2019 results book (pp. 176-177): every candidate, first preference, party and member elected agrees; total poll 9,272 (9,066 valid, 206 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -219001,6 +219447,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 18421
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 9272
         }
       ]
     },
@@ -219018,9 +219469,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=5102"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 212 (Mullingar LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=212",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 14 candidates, first preferences adding up to the valid poll of 8,502, and 6 elected for 6 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 14 candidates, first preferences adding up to the valid poll of 8,502, and 6 elected for 6 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 212): every candidate, first preference, party and member elected agrees; total poll 8,702 (8,502 valid, 200 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -219173,6 +219630,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 19946
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 8702
         }
       ]
     },
@@ -219190,9 +219652,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=190"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, pp. 170-171 (Navan LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=170",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 16 candidates, first preferences adding up to the valid poll of 10,397, and 7 elected for 7 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 16 candidates, first preferences adding up to the valid poll of 10,397, and 7 elected for 7 seats. Re-checked on 11 November 2026 against the 2019 results book (pp. 170-171): every candidate, first preference, party and member elected agrees; total poll 10,592 (10,397 valid, 195 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -219363,6 +219831,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 23167
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 10592
         }
       ]
     },
@@ -219380,9 +219853,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=5066"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 203 (Nenagh LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=203",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 11 candidates, first preferences adding up to the valid poll of 10,445, and 5 elected for 5 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 11 candidates, first preferences adding up to the valid poll of 10,445, and 5 elected for 5 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 203): every candidate, first preference, party and member elected agrees; total poll 10,564 (10,445 valid, 119 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -219508,6 +219987,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 17823
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 10564
         }
       ]
     },
@@ -219525,9 +220009,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=447"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 216 (New Ross LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=216",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 12 candidates, first preferences adding up to the valid poll of 11,705, and 6 elected for 6 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 12 candidates, first preferences adding up to the valid poll of 11,705, and 6 elected for 6 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 216): every candidate, first preference, party and member elected agrees; total poll 11,956 (11,705 valid, 251 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -219662,6 +220152,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 22001
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 11956
         }
       ]
     },
@@ -219679,9 +220174,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=5080"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 108 (Ongar LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=108",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 13 candidates, first preferences adding up to the valid poll of 7,511, and 5 elected for 5 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 13 candidates, first preferences adding up to the valid poll of 7,511, and 5 elected for 5 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 108): every candidate, first preference, party and member elected agrees; total poll 7,706 (7,511 valid, 195 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -219825,6 +220326,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 20665
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 7706
         }
       ]
     },
@@ -219842,9 +220348,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=5093"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, pp. 192-194 (Palmerstown-Fonthill LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=192",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 15 candidates, first preferences adding up to the valid poll of 8,520, and 5 elected for 5 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 15 candidates, first preferences adding up to the valid poll of 8,520, and 5 elected for 5 seats. Re-checked on 11 November 2026 against the 2019 results book (pp. 192-194): every candidate, first preference, party and member elected agrees; the capitals of Guss O'Connell PC are restored from the book; total poll 8,915 (8,520 valid, 395 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -219968,7 +220480,7 @@
               "status": ""
             },
             {
-              "name": "Guss O'connell Pc",
+              "name": "Guss O'Connell PC",
               "party": "Independent",
               "first_pref": 864,
               "counts": [
@@ -220006,6 +220518,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 25112
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 8915
         }
       ]
     },
@@ -220023,9 +220540,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=5099"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 61 (Portlaw-Kilmacthomas LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=61",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 9 candidates, first preferences adding up to the valid poll of 7,517, and 5 elected for 5 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 9 candidates, first preferences adding up to the valid poll of 7,517, and 5 elected for 5 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 61): every candidate, first preference, party and member elected agrees; total poll 7,669 (7,517 valid, 152 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -220133,6 +220656,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 14318
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 7669
         }
       ]
     },
@@ -220150,9 +220678,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=5094"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 195 (Rathfarnham-Templeogue LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=195",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 15 candidates, first preferences adding up to the valid poll of 20,342, and 7 elected for 7 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 15 candidates, first preferences adding up to the valid poll of 20,342, and 7 elected for 7 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 195): every candidate, first preference, party and member elected agrees; total poll 20,848 (20,342 valid, 506 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -220314,6 +220848,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 40836
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 20848
         }
       ]
     },
@@ -220331,9 +220870,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=5047"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 172 (Ratoath LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=172",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 11 candidates, first preferences adding up to the valid poll of 12,544, and 7 elected for 7 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 11 candidates, first preferences adding up to the valid poll of 12,544, and 7 elected for 7 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 172): every candidate, first preference, party and member elected agrees; total poll 12,765 (12,544 valid, 221 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -220459,6 +221004,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 25803
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 12765
         }
       ]
     },
@@ -220476,9 +221026,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=460"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 183 (Roscommon LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=183",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 11 candidates, first preferences adding up to the valid poll of 10,330, and 6 elected for 6 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 11 candidates, first preferences adding up to the valid poll of 10,330, and 6 elected for 6 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 183): every candidate, first preference, party and member elected agrees; total poll 10,495 (10,330 valid, 165 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -220604,6 +221160,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 17450
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 10495
         }
       ]
     },
@@ -220621,9 +221182,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=5095"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, pp. 205-206 (Roscrea-Templemore LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=205",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 8 candidates, first preferences adding up to the valid poll of 8,927, and 4 elected for 4 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 8 candidates, first preferences adding up to the valid poll of 8,927, and 4 elected for 4 seats. Re-checked on 11 November 2026 against the 2019 results book (pp. 205-206): every candidate, first preference, party and member elected agrees; total poll 9,057 (8,927 valid, 130 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -220722,6 +221289,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 14584
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 9057
         }
       ]
     },
@@ -220739,9 +221311,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=5081"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 109 (Rush-Lusk LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=109",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 15 candidates, first preferences adding up to the valid poll of 10,630, and 5 elected for 5 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 15 candidates, first preferences adding up to the valid poll of 10,630, and 5 elected for 5 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 109): every candidate, first preference, party and member elected agrees; total poll 10,926 (10,630 valid, 296 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -220903,6 +221481,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 23611
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 10926
         }
       ]
     },
@@ -220920,9 +221503,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=412"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 186 (Sligo-Strandhill LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=186",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 11 candidates, first preferences adding up to the valid poll of 8,517, and 6 elected for 6 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 11 candidates, first preferences adding up to the valid poll of 8,517, and 6 elected for 6 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 186): every candidate, first preference, party and member elected agrees; total poll 8,650 (8,517 valid, 133 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -221048,6 +221637,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 16754
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 8650
         }
       ]
     },
@@ -221065,9 +221659,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=210"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, pp. 110-111 (Swords LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=110",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 16 candidates, first preferences adding up to the valid poll of 12,133, and 7 elected for 7 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 16 candidates, first preferences adding up to the valid poll of 12,133, and 7 elected for 7 seats. Re-checked on 11 November 2026 against the 2019 results book (pp. 110-111): every candidate, first preference, party and member elected agrees; total poll 12,564 (12,133 valid, 431 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -221238,6 +221838,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 31854
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 12564
         }
       ]
     },
@@ -221255,9 +221860,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=211"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, pp. 196-197 (Tallaght-Central LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=196",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 14 candidates, first preferences adding up to the valid poll of 11,794, and 6 elected for 6 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 14 candidates, first preferences adding up to the valid poll of 11,794, and 6 elected for 6 seats. Re-checked on 11 November 2026 against the 2019 results book (pp. 196-197): every candidate, first preference, party and member elected agrees; total poll 12,243 (11,794 valid, 449 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -221410,6 +222021,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 29367
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 12243
         }
       ]
     },
@@ -221427,9 +222043,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=212"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 198 (Tallaght-South LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=198",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 11 candidates, first preferences adding up to the valid poll of 5,832, and 5 elected for 5 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 11 candidates, first preferences adding up to the valid poll of 5,832, and 5 elected for 5 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 198): every candidate, first preference, party and member elected agrees; total poll 6,052 (5,832 valid, 220 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -221555,6 +222177,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 22494
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 6052
         }
       ]
     },
@@ -221572,9 +222199,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=5098"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 207 (Thurles  LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=207",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 11 candidates, first preferences adding up to the valid poll of 9,816, and 5 elected for 5 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 11 candidates, first preferences adding up to the valid poll of 9,816, and 5 elected for 5 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 207): every candidate, first preference, party and member elected agrees; total poll 9,923 (9,816 valid, 107 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -221700,6 +222333,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 16447
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 9923
         }
       ]
     },
@@ -221717,9 +222355,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=5056"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 62 (Tramore-Waterford City West LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=62",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 14 candidates, first preferences adding up to the valid poll of 7,857, and 6 elected for 6 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 14 candidates, first preferences adding up to the valid poll of 7,857, and 6 elected for 6 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 62): every candidate, first preference, party and member elected agrees; total poll 8,030 (7,857 valid, 173 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -221872,6 +222516,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 16215
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 8030
         }
       ]
     },
@@ -221889,9 +222538,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=220"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 173 (Trim LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=173",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 11 candidates, first preferences adding up to the valid poll of 10,850, and 6 elected for 6 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 11 candidates, first preferences adding up to the valid poll of 10,850, and 6 elected for 6 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 173): every candidate, first preference, party and member elected agrees; total poll 11,072 (10,850 valid, 222 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -222017,6 +222672,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 25574
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 11072
         }
       ]
     },
@@ -222034,9 +222694,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=427"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 180 (Tullamore LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=180",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 12 candidates, first preferences adding up to the valid poll of 11,047, and 7 elected for 7 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 12 candidates, first preferences adding up to the valid poll of 11,047, and 7 elected for 7 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 180): every candidate, first preference, party and member elected agrees; the capitals of Sean O'Brien are restored from the book; total poll 11,208 (11,047 valid, 161 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -222115,7 +222781,7 @@
               "status": "Elected"
             },
             {
-              "name": "Sean O'brien",
+              "name": "Sean O'Brien",
               "party": "Independent",
               "first_pref": 892,
               "counts": [
@@ -222171,6 +222837,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 21946
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 11208
         }
       ]
     },
@@ -222188,9 +222859,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=5060"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 63 (Waterford City East LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=63",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 11 candidates, first preferences adding up to the valid poll of 8,543, and 6 elected for 6 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 11 candidates, first preferences adding up to the valid poll of 8,543, and 6 elected for 6 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 63): every candidate, first preference, party and member elected agrees; total poll 8,665 (8,543 valid, 122 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -222316,6 +222993,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 15672
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 8665
         }
       ]
     },
@@ -222333,9 +223015,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=5061"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, pp. 64-65 (Waterford City South LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=64",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 14 candidates, first preferences adding up to the valid poll of 7,285, and 6 elected for 6 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 14 candidates, first preferences adding up to the valid poll of 7,285, and 6 elected for 6 seats. Re-checked on 11 November 2026 against the 2019 results book (pp. 64-65): every candidate, first preference, party and member elected agrees; total poll 7,441 (7,285 valid, 156 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -222488,6 +223176,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 14323
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 7441
         }
       ]
     },
@@ -222505,9 +223198,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=465"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 218 (Wexford LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=218",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 14 candidates, first preferences adding up to the valid poll of 10,776, and 7 elected for 7 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 14 candidates, first preferences adding up to the valid poll of 10,776, and 7 elected for 7 seats. Re-checked on 11 November 2026 against the 2019 results book (p. 218): every candidate, first preference, party and member elected agrees; total poll 10,945 (10,776 valid, 169 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -222660,6 +223359,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 22044
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 10945
         }
       ]
     },
@@ -222677,9 +223381,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2019L&cons=466"
+        },
+        {
+          "publisher": "Department of Housing, Planning and Local Government",
+          "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, pp. 224-227 (Wicklow LEA)",
+          "url": "https://opendata.housing.gov.ie/dataset/d8092fff-40f7-4bae-b9a6-297a86e7e9ea/resource/18d573f9-9e1f-4359-9185-16ca02c70419/download/local-election-results-2019.pdf#page=224",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 10 candidates, first preferences adding up to the valid poll of 10,597, and 6 elected for 6 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Department of Housing, Planning and Local Government: all 10 candidates, first preferences adding up to the valid poll of 10,597, and 6 elected for 6 seats. Re-checked on 11 November 2026 against the 2019 results book (pp. 224-227): every candidate, first preference, party and member elected agrees; total poll 10,945 (10,597 valid, 348 invalid) from the same page.",
       "category": "gap-fill",
       "operations": [
         {
@@ -222796,6 +223506,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 20545
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 10945
         }
       ]
     },
