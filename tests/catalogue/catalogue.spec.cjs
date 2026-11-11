@@ -249,7 +249,7 @@ test('C14 elections on a shelf per body, with thumbnails, open in one click and 
   const first = pane(page).locator('.cn-erow').first();
   await expect(first.locator('.catalogue-flat__toc-thumbwrap')).toHaveCount(1);
   await expect.poll(() => first.locator('img.catalogue-flat__toc-thumb').evaluate((img) => img.naturalWidth > 1)).toBe(true);
-  await expect(first.locator('a.cn-iconbtn')).toHaveAttribute('href', /^\/browse\/#\/elections\/[a-z0-9-]+$/);
+  await expect(first.locator('a.cn-iconbtn')).toHaveAttribute('href', /^\/browse\/elections\/[a-z0-9-]+$/);
   await expect(pane(page).locator('.cn-shelf__name').first()).toHaveText('Dáil');
   await first.locator('[data-cn-election-toggle]').click();
   await expect.poll(() => page.evaluate(() => Boolean(window.__civgraphTest2.app.elections?.activeEntry)), { timeout: 30000 }).toBe(true);
