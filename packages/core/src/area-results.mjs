@@ -28,6 +28,53 @@
  * @typedef {{ id: string, name: string, party: string, colour: string }} NationalCandidate
  */
 
+/**
+ * An area's candidate as the area-results geography mode stores it (the manifest's contest summary).
+ * @typedef {object} AreaModeCandidate
+ * @property {unknown} [id]
+ * @property {unknown} [nationalCandidateId]
+ * @property {string} [colour]
+ * @property {number | null} [firstPrefs]
+ * @property {Array<{ count: number, total?: number | null } | null>} [counts]
+ * @property {boolean} [excluded]
+ * @property {number | null} [decidedAt]
+ * @property {number | null} [excludedAt]
+ */
+
+/**
+ * One area of the area-results geography mode.
+ * @typedef {object} AreaModeResult
+ * @property {string} [constituency]
+ * @property {string | null} [featureName]
+ * @property {boolean} [matched]
+ * @property {string[]} [reportedFor]
+ * @property {number | null} [electorate]
+ * @property {number | null} [totalPoll]
+ * @property {number | null} [spoiled]
+ * @property {number | null} [validPoll]
+ * @property {number | null} [turnoutPct]
+ * @property {string | null} [leadingName]
+ * @property {number | null} [leadingPct]
+ * @property {Array<{ text?: string }>} [contestNotes]
+ * @property {unknown[]} [references]
+ * @property {AreaModeCandidate[]} [candidates]
+ * @property {Array<{ count: number, total?: number | null }>} [nonTransferable]
+ * @property {number[]} [countNumbers]
+ */
+
+/**
+ * A bundle's geography mode, as far as the area-results answer reads it.
+ * @typedef {object} AreaResultsMode
+ * @property {string} [dataKind]
+ * @property {string} [label]
+ * @property {string} [countingBasis]
+ * @property {string} [sourceMapId]
+ * @property {string} [note]
+ * @property {number} [numCounts]
+ * @property {unknown[]} [references]
+ * @property {AreaModeResult[]} [results]
+ */
+
 /** Colours for candidates whose party gives none of their own, in the order they are handed out. */
 export const CANDIDATE_PALETTE = Object.freeze([
   '#1f77b4', '#d62728', '#2ca02c', '#9467bd', '#ff7f0e', '#17becf', '#8c564b', '#e377c2', '#bcbd22', '#393b79', '#637939', '#843c39'
@@ -167,7 +214,7 @@ export function areaFeatureNames(area) {
  * a person has in the election, with its person id) and, per area, every candidate's figure at each
  * count. An area's candidate is named by the national candidate's id.
  * @param {{ key: string, displayTitle?: string | null, body?: string | null, date?: string | null }} election
- * @param {Array<Record<string, any>> | null | undefined} modes  the bundle's geographyModes
+ * @param {Array<AreaResultsMode | null | undefined> | null | undefined} modes  the bundle's geographyModes
  * @param {Array<{ id: unknown, name: unknown, party: unknown, personId: unknown, colour?: unknown }>} nationalCandidates  the national contest's candidacies
  */
 export function areaResultsAnswer(election, modes, nationalCandidates) {
@@ -176,7 +223,7 @@ export function areaResultsAnswer(election, modes, nationalCandidates) {
   if (!mode) return { ...base, areaLabel: null, areas: [] };
   const colourById = new Map();
   for (const result of mode.results || []) for (const c of result.candidates || []) if (!colourById.has(String(c.id))) colourById.set(String(c.id), c.colour);
-  const numCounts = Number(mode.numCounts) || Math.max(1, ...(mode.results || []).flatMap((/** @type {Record<string, any>} */ r) => r.countNumbers || [1]));
+  const numCounts = Number(mode.numCounts) || Math.max(1, ...(mode.results || []).flatMap((r) => r.countNumbers || [1]));
   const slug = (/** @type {unknown} */ v) => String(v || '').normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
   return {
     ...base,
@@ -193,7 +240,7 @@ export function areaResultsAnswer(election, modes, nationalCandidates) {
       personId: c.personId == null || c.personId === '' ? null : String(c.personId),
       colour: colourById.get(String(c.id)) || (c.colour == null ? null : String(c.colour)),
     })),
-    areas: (mode.results || []).map((/** @type {Record<string, any>} */ r) => ({
+    areas: (mode.results || []).map((r) => ({
       name: String(r.constituency || ''),
       slug: slug(r.constituency),
       featureName: r.featureName || null,
@@ -208,10 +255,10 @@ export function areaResultsAnswer(election, modes, nationalCandidates) {
       leadingPct: r.leadingPct ?? null,
       notes: (r.contestNotes || []).map((/** @type {{ text?: string }} */ n) => n.text).filter(Boolean),
       references: r.references || [],
-      candidates: (r.candidates || []).map((/** @type {Record<string, any>} */ c) => {
+      candidates: (r.candidates || []).map((c) => {
         /** @type {Array<number | null>} */
         const counts = Array.from({ length: numCounts }, () => null);
-        for (const count of c.counts || []) if (count?.count >= 1 && count.count <= numCounts) counts[count.count - 1] = count.total ?? null;
+        for (const count of c.counts || []) if (count && count.count >= 1 && count.count <= numCounts) counts[count.count - 1] = count.total ?? null;
         return {
           id: String(c.nationalCandidateId ?? c.id ?? ''),
           firstPrefs: c.firstPrefs ?? null,
