@@ -48,6 +48,14 @@ for (const [i, entry] of allowlist.prefixes.entries()) {
       failures.push(`${where}: '${field}' is required and must be a meaningful sentence.`);
     }
   }
+
+  // "unlisted": true keeps a prefix out of the public data index (listedPrefixes); it must say why.
+  if ('unlisted' in entry) {
+    if (typeof entry.unlisted !== 'boolean') failures.push(`${where}: 'unlisted' must be true or false.`);
+    else if (entry.unlisted && (typeof entry.unlistedReason !== 'string' || entry.unlistedReason.trim().length < 10)) {
+      failures.push(`${where}: an unlisted prefix needs an 'unlistedReason' sentence.`);
+    }
+  }
 }
 
 // A prefix that is a prefix of another is redundant and hides intent.

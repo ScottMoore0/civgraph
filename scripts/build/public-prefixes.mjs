@@ -28,6 +28,7 @@
  *   node scripts/build/public-prefixes.mjs --check
  */
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { listedPrefixes } from '../lib/r2-publication-gate.mjs';
 
 const ALLOWLIST = 'data/database/r2-publication-allowlist.json';
 const OUT = 'packages/api/src/handlers/_public-prefixes.js';
@@ -40,10 +41,9 @@ if (!existsSync(ALLOWLIST)) {
 }
 
 const allowlist = JSON.parse(readFileSync(ALLOWLIST, 'utf8'));
-const prefixes = (allowlist.prefixes || [])
-  .map((entry) => entry.prefix)
-  .filter(Boolean)
-  .sort();
+// An entry marked "unlisted": true may be uploaded to but is left out of the public index
+// (scripts/lib/r2-publication-gate.mjs listedPrefixes).
+const prefixes = listedPrefixes(allowlist);
 
 if (!prefixes.length) {
   console.error('FAIL: the allowlist contains no prefixes. Refusing to emit an empty list,');

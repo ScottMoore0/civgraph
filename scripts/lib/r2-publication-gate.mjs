@@ -52,6 +52,24 @@ export function isPublishable(key, allowlist) {
 }
 
 /**
+ * The prefixes the public data index (/_api/data-index, from packages/api/src/handlers/_public-prefixes.js)
+ * may list and name: every allowlist entry except one marked `"unlisted": true`. An unlisted
+ * prefix is approved for upload like any other (isPublishable), and its objects answer at their
+ * URLs like anything in the bucket, but the index neither lists its files nor names the prefix,
+ * so readers reach them only from a page that links them. Used for files staged ahead of a page
+ * going public (data/elections-app/, 11 Nov 2026); clearing the flag lists them.
+ * @param {Pick<Allowlist, 'prefixes'>} allowlist
+ * @returns {string[]}
+ */
+export function listedPrefixes(allowlist) {
+  return (allowlist.prefixes || [])
+    .filter((entry) => entry && entry.unlisted !== true)
+    .map((entry) => entry.prefix)
+    .filter((prefix) => typeof prefix === 'string' && prefix.length > 0)
+    .sort();
+}
+
+/**
  * Throws unless every key is covered. Returns the matched prefixes for logging.
  * @param {string[]} keys
  * @param {{ file?: string, override?: boolean }} [options]

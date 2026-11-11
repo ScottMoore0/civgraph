@@ -133,6 +133,14 @@
       "rationale": "Mirror of the Irish Local Electoral Area Boundary Committee reports (2008, 2013, 2018), the Constituency Commission reports (2004, 2007, 2012, 2017), the Electoral Commission's 2023 constituency review and the European constituency reports (2003-2023), with their maps. Irish public sector information re-usable under its open terms. Held so each LEA and Dail constituency map can link its defining report. Owner-approved upload of open-licence source mirrors, 11 Nov 2026 (stream ledger).",
       "evidence": "105 files, 751.2 MB, one folder per review (<year>-<lea|constituency|european>/), each in manifest.json with its title, body, publication date, source address (and capture where the host is gone), bytes and SHA-256. Every PDF checked complete (%%EOF). Published reports and maps only; written submissions, which name individuals, were not mirrored.",
       "rights": "Irish public sector information, open re-use terms (Electoral Commission (Ireland); Department of Housing, Local Government and Heritage)."
+    },
+    {
+      "prefix": "data/elections-app/",
+      "rationale": "The Civgraph Elections app's static files (site/apps/elections/config.js): v1/extracts/, one Parquet file per body with one row per candidacy (the reviewed columns of scripts/build/elections-app/data.mjs PUBLISHABLE_COLUMNS: election, area, candidate name, person id, party label, outcome, votes, shares and counts), with index.json and manifest.json; and v1/duckdb-wasm-1.29.0/, DuckDB-WASM's WebAssembly and its parquet extension, too big for Pages. Owner-approved upload, 11 Nov 2026, ahead of the app going public (scripts/publish/elections-app-r2-upload.mjs).",
+      "evidence": "Extracts built by npm run build:elections-app from the records build, which D1 civgraph-records already serves at request time: every value is one the records API returns for the same candidacy. npm run check:elections-app-extracts holds them current and publishable (no address, agent, contact or source column; no value that looks like a postcode, Eircode, email, phone number or street address). About 2.3 MB of Parquet for 96 bodies. The WebAssembly files are the npm package @duckdb/duckdb-wasm@1.29.0 and DuckDB's signed v1.1.1 parquet extension, unmodified, each listed with its SHA-256 in src/libs/elections-app-vendor.json.",
+      "rights": "Election results: public records, compiled with their cited sources on the site. DuckDB-WASM and DuckDB: MIT licence (src/libs/elections-app-THIRD-PARTY-NOTICES.txt).",
+      "unlisted": true,
+      "unlistedReason": "The Elections app is not public yet (noindex, unlinked, out of the sitemaps): its files are on R2 for the app to read, but the public data index does not list or name them. The go-public change set (docs/tasks/elections-go-public.patch) clears this flag."
     }
   ]
 }
