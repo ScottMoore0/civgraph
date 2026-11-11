@@ -2,6 +2,7 @@
  * NI Boundaries - Feature Loader
  * Handles viewport-aware loading of pre-processed per-feature JSON files with LOD support.
  */
+import { debugLog } from './debug-log.js';
 import { defineFlagFields } from '../packages/map/src/state-helpers.mjs';
 
 const FEATURE_THRESHOLD = 50;  // Only use LOD loading for maps with >50 features
@@ -108,7 +109,7 @@ class FeatureLoader {
             }
 
             this.initialized = true;
-            console.log(`[FeatureLoader] Loaded spatial index: ${this.spatialIndex.length} features across ${this.spatialIndexByMap.size} maps`);
+            debugLog(`[FeatureLoader] Loaded spatial index: ${this.spatialIndex.length} features across ${this.spatialIndexByMap.size} maps`);
         } catch (err) {
             console.warn('[FeatureLoader] Failed to load spatial index:', err);
         }
@@ -127,7 +128,7 @@ class FeatureLoader {
         }
 
         this.initialized = true;
-        console.log(`[FeatureLoader] Chunked mode: manifest loaded (${manifest.maps.length} maps)`);
+        debugLog(`[FeatureLoader] Chunked mode: manifest loaded (${manifest.maps.length} maps)`);
     }
 
     /**
@@ -142,7 +143,7 @@ class FeatureLoader {
             let resp = await fetch('data/database/spatial-index/_names.json');
             if (resp.ok) {
                 this.spatialIndex = await resp.json();
-                console.log(`[FeatureLoader] Loaded names index for search: ${this.spatialIndex.length} features`);
+                debugLog(`[FeatureLoader] Loaded names index for search: ${this.spatialIndex.length} features`);
                 return;
             }
             // Fall back to monolithic
@@ -150,7 +151,7 @@ class FeatureLoader {
             if (!resp.ok) return;
             const data = await resp.json();
             this.spatialIndex = data.features || [];
-            console.log(`[FeatureLoader] Loaded full index for search: ${this.spatialIndex.length} features`);
+            debugLog(`[FeatureLoader] Loaded full index for search: ${this.spatialIndex.length} features`);
         } catch (err) {
             console.warn('[FeatureLoader] Failed to load search index:', err);
             if (!this.spatialIndex) this.spatialIndex = [];
