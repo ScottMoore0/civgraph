@@ -47,6 +47,32 @@ with open(os.path.join(REPO, 'packages', 'served.json'), encoding='utf-8') as _f
 CATALOGUE_VIEWS = {'pane': 'catalogue.json', 'places': 'places.json', 'people': 'people.json'}
 
 
+def _rewrites():
+    """The 200 rewrites of site/_redirects (from -> to), as Pages applies them: an exact path, or
+    a prefix ending in /* whose target names no :splat (the Elections app shell, 11 Nov 2026)."""
+    out = []
+    try:
+        with open(os.path.join(REPO, 'site', '_redirects'), encoding='utf-8') as f:
+            for line in f:
+                parts = line.split('#', 1)[0].split()
+                if len(parts) == 3 and parts[2] == '200' and ':splat' not in parts[1] and parts[0] != '/test/sw.js':
+                    out.append((parts[0], parts[1]))
+    except OSError:
+        pass
+    return out
+
+
+REWRITES = _rewrites()
+
+
+def rewrite(bare):
+    """The path a 200 rewrite serves for a request path, or the path itself."""
+    for frm, to in REWRITES:
+        if bare == frm or (frm.endswith('/*') and bare.startswith(frm[:-1])):
+            return to + 'index.html' if to.endswith('/') else to  # the file, not a directory redirect
+    return bare
+
+
 def _api_file(path, query):
     """The file a phase-3 maps API URL answers with, or None (functions/_api/layers,
     functions/_api/catalogue): the tracked sources, and the per-layer sidecars that
@@ -149,6 +175,9 @@ class Handler(SimpleHTTPRequestHandler):
 
     def translate_path(self, path):
         bare, _, query = path.split('#', 1)[0].partition('?')
+        bare = rewrite(bare)
+        if bare != path.split('#', 1)[0].partition('?')[0]:
+            path = bare
         api = _api_file(unquote(bare), query) if bare.startswith('/_api/') else None
         if api:
             return api
