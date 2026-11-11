@@ -15,6 +15,7 @@
  * | layers   | data/registries/layer-types.json                | packages/registries/src/layers.mjs     |
  * | statuses | data/registries/statuses.json                   | packages/registries/src/statuses.mjs,  |
  * |          |                                                 | packages/registries/src/status-machines.mjs |
+ * | election-bodies | data/registries/election-bodies.json     | packages/registries/src/election-bodies.mjs |
  *
  * Node only (reads files). The views modules are pure and take the loaded value, so a Worker or
  * the browser can use them over a generated copy. `node packages/registries/src/check.mjs` validates them all.
@@ -28,6 +29,7 @@ import { assembleParties, checkParties } from './parties.mjs';
 import { assembleOffices, checkOffices } from './offices.mjs';
 import { checkLayerTypes } from './layers.mjs';
 import { checkStatuses } from './statuses.mjs';
+import { checkElectionBodies } from './election-bodies.mjs';
 
 /** The repository root (this file is packages/registries/src/index.mjs). */
 export const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
@@ -37,6 +39,7 @@ export const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url
 /** @typedef {import('../../types/index.js').OfficesRegistryRegistry} OfficesRegistry */
 /** @typedef {import('../../types/index.js').LayerTypesRegistry} LayerTypesRegistry */
 /** @typedef {import('../../types/index.js').StatusesRegistry} StatusesRegistry */
+/** @typedef {import('../../types/index.js').ElectionBodiesRegistry} ElectionBodiesRegistry */
 /** @typedef {import('./validate.mjs').Schema} Schema */
 
 /**
@@ -46,7 +49,8 @@ export const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url
  *   parties: PartiesRegistry,
  *   offices: OfficesRegistry,
  *   layers: LayerTypesRegistry,
- *   statuses: StatusesRegistry
+ *   statuses: StatusesRegistry,
+ *   'election-bodies': ElectionBodiesRegistry
  * }} Registries
  */
 /** @typedef {keyof Registries} RegistryName */
@@ -89,6 +93,11 @@ export const REGISTRIES = {
     schema: 'packages/registries/schemas/statuses.schema.json',
     load: (root) => readJson(root, 'data/registries/statuses.json'),
     check: (data) => checkStatuses(/** @type {StatusesRegistry} */ (data))
+  },
+  'election-bodies': {
+    schema: 'packages/registries/schemas/election-bodies.schema.json',
+    load: (root) => readJson(root, 'data/registries/election-bodies.json'),
+    check: (data) => checkElectionBodies(/** @type {ElectionBodiesRegistry} */ (data))
   }
 };
 
