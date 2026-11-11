@@ -62,10 +62,12 @@ test('C3: a function named like a package export is a marked copy with a parity 
     'site/y.js': '// copy-of: packages/core/src/html.js\nfunction escapeHtml(t) { return t; }',
     'site/z.js': '// copy-of: packages/core/src/html.js\nconst escapeHtml = (t) => t;',
     'tests/unit/z.test.mjs': "import '../../site/z.js'; // escapeHtml parity",
+    'site/w.js': "import { esc } from '../pkg/core/html.js';\nexport function escapeHtml(s) { return String(esc(s)); }", // a thin adapter: none
+    'site/v.js': "import { esc } from '../pkg/core/html.js';\nfunction escapeHtml(s) { const t = String(s); return esc(t).trim(); }", // more than an adapter: hit
   };
   const ctx = ctxOf(sources, { C3: { include: ['site/'], packages: ['packages/core/src/'], tests: ['tests/'] } });
   const found = await C3.run(ctx);
-  assert.deepEqual(found.map((f) => `${f.file}:${f.line}`), ['site/x.js:1', 'site/y.js:2'], 'slug has another arity; z is marked and tested');
+  assert.deepEqual(found.map((f) => `${f.file}:${f.line}`), ['site/x.js:1', 'site/y.js:2', 'site/v.js:2'], 'slug has another arity; z is marked and tested; w only adapts an import');
   assert.match(found[1].message, /no parity test/);
 });
 
@@ -125,6 +127,19 @@ test('C6: string states, co-changing flags and promise-as-state, only on changed
   assert.deepEqual(await lines(C6, untouched), []);
   const [skipped] = await runChecks(ctxOf({ 'site/s.js': source }, { C6: ALL }), [C6]);
   assert.match(String(skipped.skipped), /no base branch/, 'no diff base and no --all: skipped, not read whole');
+  const refined = [
+    '/** @type {SheetKind} */',                                                // 1
+    "let kind = 'single';",                                                     // 2 typed by a union defined elsewhere: none
+    "function k() { if (x) kind = 'stages'; else kind = 'order'; }",            // 3
+    "const status = p === 'polled' ? LABELS.contested : 'Votes not recorded';", // 4 a label, not a state: none
+    "function s() { if (status === 'complete' || status === 'held') {} }",      // 5 two tokens only
+    '/** @type {string} */',                                                    // 6
+    "let stage = 'a';",                                                         // 7 typed only as string: hit
+    "function t() { stage = 'b'; stage = 'c'; }",                               // 8
+    'let ready = null;',                                                        // 9
+    "function load() { ready = start().catch((e) => { engine.to('failed'); ready = null; throw e; }); }", // 10 the cache of a machine: none
+  ].join('\n');
+  assert.deepEqual(await lines(C6, ctxOf({ 'site/r.js': refined }, { C6: ALL }, { all: true })), ['site/r.js:7']);
 });
 
 test('C7: listeners on long-lived targets inside functions need { signal } or a removal', async () => {

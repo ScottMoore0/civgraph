@@ -9,11 +9,15 @@
  *       not declared: neither in a call of the typed-state helpers (defineMachine, defineToggle,
  *       defineChoice, createState, createFlag, createLatch, defineFlagFields, createHoldCount:
  *       packages/core/src/state-machine.mjs, packages/map/src/state-helpers.mjs, served as
- *       /assets/ui/state/machine.js) nor in a JSDoc string union in the same file;
+ *       /assets/ui/state/machine.js) nor in a JSDoc string union in the same file, and the
+ *       variable is not declared with a JSDoc @type narrower than string (an
+ *       `@type {SheetKind}` comment: a union defined elsewhere); only token-like values count
+ *       (prose such as a display label 'Votes not recorded' is text, not a state);
  *   (b) two or more booleans that one function sets both true and false (co-changing flags),
  *       unless they are flag fields of the helpers (defineFlagFields / createFlag);
  *   (c) a module-level `let` that holds a promise and is reset to null in a .catch() (a memoised
- *       promise used as state).
+ *       promise used as state), unless that .catch() also moves a machine (`engine.to('failed')`):
+ *       the promise is then only the cache of a declared machine.
  * C12, machine coverage: every state-machines module is imported by a test, and every machine it
  *     defines (defineMachine / defineToggle / defineChoice) is named in a test.
  */
@@ -22,6 +26,10 @@ import { isFunction, isString, lineOf, nameOf, walk } from './lib.mjs';
 /** @typedef {import('./lib.mjs').Context} Context @typedef {import('./lib.mjs').Finding} Finding @typedef {import('./lib.mjs').AstNode} AstNode */
 
 const STATE_NAME = /(state|status|mode|phase|stage|step|view|kind|tab)$/i;
+/** A state value is a token (`ready`, `not-held`, `no_poll`); prose with spaces is display text. */
+const TOKEN = /^[A-Za-z][\w-]*$/;
+/** A JSDoc @type narrower than string (a named union or literal type), not string or any. */
+const TYPED = /@type\s*\{\s*(?!(?:\?|!)?(?:string|any|\*)\s*(?:\|\s*null\s*)?\})[^}]+\}/;
 export const HELPERS = new Set(['defineMachine', 'defineToggle', 'defineChoice', 'createState', 'createFlag', 'createLatch', 'defineFlagFields', 'createHoldCount']);
 
 /**
@@ -83,8 +91,17 @@ export function stateCandidates(ast, comments) {
   // A value only compared (a dispatch on a parameter) is not state; one the code also assigns is.
   /** @type {Map<string, { values: Set<string>, lines: number[], assigned: boolean }>} */
   const vars = new Map();
+  // The lines that follow a JSDoc @type narrower than string (a declaration's leading comment; an
+  // inline cast inside an initialiser does not type the variable).
+  /** @type {Set<number>} */
+  const typedLines = new Set();
+  for (const c of comments) {
+    if (TYPED.test(c.value)) typedLines.add(c.line + c.value.split(/\r?\n/).length);
+  }
+  /** @type {Set<string>} */
+  const typed = new Set();
   const note = (/** @type {string | null} */ name, /** @type {string} */ value, /** @type {number} */ line, assigned = false) => {
-    if (!name || !STATE_NAME.test(name)) return;
+    if (!name || !STATE_NAME.test(name) || !TOKEN.test(value)) return;
     if (!vars.has(name)) vars.set(name, { values: new Set(), lines: [], assigned: false });
     const v = /** @type {{ values: Set<string>, lines: number[], assigned: boolean }} */ (vars.get(name));
     v.values.add(value);
@@ -93,7 +110,11 @@ export function stateCandidates(ast, comments) {
   };
   walk(ast, (n) => {
     if (n.type === 'AssignmentExpression') for (const v of assignedStrings(/** @type {AstNode} */ (n.right))) note(nameOf(/** @type {AstNode} */ (n.left)), v, lineOf(n), true);
-    if (n.type === 'VariableDeclarator' && /** @type {AstNode} */ (n.id).type === 'Identifier') for (const v of assignedStrings(/** @type {AstNode | null} */ (n.init))) note(nameOf(/** @type {AstNode} */ (n.id)), v, lineOf(n), true);
+    if (n.type === 'VariableDeclarator' && /** @type {AstNode} */ (n.id).type === 'Identifier') {
+      const name = nameOf(/** @type {AstNode} */ (n.id));
+      if (name && typedLines.has(lineOf(n))) typed.add(name);
+      for (const v of assignedStrings(/** @type {AstNode | null} */ (n.init))) note(name, v, lineOf(n), true);
+    }
     if (n.type === 'BinaryExpression' && /^[!=]==?$/.test(/** @type {string} */ (n.operator))) {
       const left = /** @type {AstNode} */ (n.left);
       const right = /** @type {AstNode} */ (n.right);
@@ -106,6 +127,7 @@ export function stateCandidates(ast, comments) {
     }
   });
   for (const [name, { values, lines, assigned }] of vars) {
+    if (typed.has(name)) continue;
     const undeclared = [...values].filter((v) => !declared.has(v));
     if (assigned && values.size >= 3 && undeclared.length) out.push({ lines, message: `${name} takes ${values.size} string states (${[...values].slice(0, 5).join('|')}) with no machine: a defineMachine table (or a JSDoc union for a derived kind)` });
   }
@@ -154,8 +176,14 @@ export function stateCandidates(ast, comments) {
       const right = /** @type {AstNode} */ (n.right);
       if (right.type === 'CallExpression' || right.type === 'NewExpression') promised.add(name);
       if (right.type === 'Literal' && right.value === null) {
-        const inCatch = ancestors.some((a) => a.type === 'CallExpression' && nameOf(/** @type {AstNode} */ (a.callee)) === 'catch');
-        if (inCatch) resetInCatch.set(name, lineOf(n));
+        const catchCall = ancestors.find((a) => a.type === 'CallExpression' && nameOf(/** @type {AstNode} */ (a.callee)) === 'catch');
+        let movesMachine = false;
+        if (catchCall) {
+          walk(catchCall, (m) => {
+            if (m.type === 'CallExpression' && /** @type {AstNode} */ (m.callee).type === 'MemberExpression' && nameOf(/** @type {AstNode} */ (m.callee)) === 'to') movesMachine = true;
+          });
+        }
+        if (catchCall && !movesMachine) resetInCatch.set(name, lineOf(n));
       }
     });
     for (const [name, line] of resetInCatch) {
