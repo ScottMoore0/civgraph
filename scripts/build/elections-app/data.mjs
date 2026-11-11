@@ -8,17 +8,26 @@
  *       electorate, turnout, unopposed returns, party labels, person links, provenance), written
  *       to docs/tasks/elections-app-data-audit.md (--out to change).
  *   node scripts/build/elections-app/data.mjs --extracts [--out-dir DIR] [--no-parquet]
- *       Phase 2: one pivot extract per body (one row per candidacy, model.mjs EXTRACT_COLUMNS),
- *       as CSV and, through the local Python DuckDB, Parquet, plus index.json naming them.
- *       Default DIR is site/apps/elections/extracts (gitignored, so never in dist/ or a commit; the local servers serve it). The extracts are PRIVATE until
- *       the owner approves the app: they are never uploaded to R2 and are not under site/.
- *       `--out-dir dist/apps/elections/extracts` after `npm run build:site` puts them beside a
- *       local build for testing.
+ *       (npm run build:elections-app) Phase 2: one pivot extract per body (one row per candidacy,
+ *       model.mjs EXTRACT_COLUMNS), as Parquet through the local Python DuckDB (one thread, so the
+ *       same records build gives the same bytes), named by content (<body>-<sha256:12>.parquet),
+ *       with index.json (bodies, rows, file names: what the app reads) and manifest.json (every
+ *       file's name, bytes and SHA-256, and a fingerprint of the rows each body was built from).
+ *       Default DIR is site/apps/elections/extracts (gitignored, so never in dist/ or a commit;
+ *       the local servers serve it). Production reads the R2 copy (site/apps/elections/config.js),
+ *       uploaded only with the owner's approval by scripts/publish/elections-app-r2-upload.mjs.
+ *   node scripts/build/elections-app/data.mjs --check [--out-dir DIR] [--strict]
+ *       (npm run check:elections-app-extracts) The extracts are current: rebuilt in memory from
+ *       the records build, every body's rows hash as the manifest says, every file on disk is the
+ *       manifest's bytes and SHA-256, the columns are the reviewed publishable set, and no value
+ *       looks like an address, email or phone number. Without a records build or extracts it
+ *       skips (exit 0), unless --strict (the upload script runs it so).
  *
  * Options: --db FILE (default the records build), --body SLUG (repeatable; extracts only).
  */
 import { execFileSync } from 'node:child_process';
-import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { existsSync, mkdirSync, readFileSync, readdirSync, renameSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { openSqliteHandle } from '../../../packages/storage/src/sqlite.mjs';
@@ -149,8 +158,42 @@ function auditMarkdown(a, dbFile) {
 
 // ------------------------------------------------------------------ extracts
 
-/** @param {import('node:sqlite').DatabaseSync} db @param {string} outDir @param {{ parquet: boolean, bodies: string[] }} o */
-function extracts(db, outDir, o) {
+/**
+ * The columns an extract may carry, reviewed for publication on 11 Nov 2026: every one is a field
+ * the records API already serves for the same candidacy (packages/api/src/queries/elections.js).
+ * No address, agent, proposer, occupation, note, source file or citation: none of those is read.
+ * A new column is a review: add it here with a reason, never only in model.mjs.
+ */
+export const PUBLISHABLE_COLUMNS = Object.freeze([
+  'election_key', 'election_slug', 'election', 'body', 'body_slug', 'kind', 'voting_system', 'date', 'year', 'decade',
+  'contest_seq', 'area', 'area_slug', 'candidate', 'person_id', 'party', 'party_slug', 'gender', 'incumbent',
+  'outcome', 'unopposed',
+  'votes', 'share', 'final_votes', 'transfers_received', 'seats', 'stages', 'electorate', 'turnout_pct', 'quota', 'valid_poll',
+]);
+
+/** Values that must never be in an extract: a postcode (UK or Eircode), an email address, a phone number, a street address. */
+export const PRIVATE_VALUE_PATTERNS = Object.freeze(/** @type {Array<[string, RegExp]>} */ ([
+  ['UK postcode', /\b(?:BT|[A-PR-UWYZ][A-HK-Y]?)[0-9][0-9A-Z]? ?[0-9][ABD-HJLNP-UW-Z]{2}\b/],
+  ['Eircode', /\b(?:[AC-FHKNPRTV-Y][0-9]{2}|D6W) ?[0-9AC-FHKNPRTV-Y]{4}\b/],
+  ['email address', /[^\s@]+@[^\s@]+\.[a-z]{2,}/i],
+  ['phone number', /(?:\+44|\+353|\b0)[0-9 ()-]{9,}[0-9]\b/],
+  ['street address', /\b\d+[A-Z]?,? [A-Z][a-z]+ (?:Street|Road|Avenue|Lane|Terrace|Park|Drive|Gardens|Crescent|Place)\b/],
+]));
+
+/** The string columns scanned for private values (names, labels, titles; not slugs or numbers). */
+const SCANNED = ['election', 'body', 'area', 'candidate', 'party', 'kind', 'voting_system', 'outcome'];
+
+const sha256 = (/** @type {string | Buffer} */ b) => createHash('sha256').update(b).digest('hex');
+
+/** @param {string} p */
+const posix = (p) => p.replace(/\\/g, '/');
+
+/**
+ * Every body's extract rows, in memory, from the records build (bodies in slug order).
+ * @param {import('node:sqlite').DatabaseSync} db @param {string[]} [bodies]
+ * @returns {Map<string, { name: string, rows: any[], elections: number }>}
+ */
+function extractRows(db, bodies = []) {
   const lm = labelMap(db);
   /** @type {Map<string, { name: string, rows: any[], elections: number }>} */
   const byBody = new Map();
@@ -178,39 +221,138 @@ function extracts(db, outDir, o) {
     } else {
       sitting.set(el.body_slug, won);
     }
-  }, { bodies: o.bodies });
+  }, { bodies });
+  return new Map([...byBody.entries()].filter(([, b]) => b.rows.length).sort((x, y) => (x[0] < y[0] ? -1 : 1)));
+}
+
+/** The CSV a body's rows make, and its SHA-256: the fingerprint of what the extract was built from. @param {any[]} rows */
+function csvOf(rows) {
+  const csv = toCsv([...EXTRACT_COLUMNS], rows);
+  return { csv, sha: sha256(csv) };
+}
+
+/**
+ * Problems with what an extract would publish: columns outside the reviewed set, private-looking values.
+ * @param {Map<string, { rows: any[] }>} byBody
+ * @param {readonly string[]} [columns]
+ * @returns {string[]}
+ */
+export function publicationProblems(byBody, columns = EXTRACT_COLUMNS) {
+  const problems = [];
+  for (const c of columns) if (!PUBLISHABLE_COLUMNS.includes(c)) problems.push(`column ${c} is not in PUBLISHABLE_COLUMNS (review it before publishing)`);
+  for (const [slug, b] of byBody) {
+    for (const r of b.rows) {
+      for (const col of SCANNED) {
+        const v = r[col];
+        if (typeof v !== 'string' || !v) continue;
+        for (const [what, re] of PRIVATE_VALUE_PATTERNS) if (re.test(v)) problems.push(`${slug}: ${col} "${v}" looks like a ${what}`);
+      }
+    }
+  }
+  return problems;
+}
+
+/** @param {import('node:sqlite').DatabaseSync} db @param {string} outDir @param {{ parquet: boolean, bodies: string[] }} o */
+function extracts(db, outDir, o) {
+  const byBody = extractRows(db, o.bodies);
+  const problems = publicationProblems(byBody);
+  if (problems.length) throw new Error(`the extracts would publish what they must not:\n- ${problems.slice(0, 20).join('\n- ')}`);
 
   rmSync(outDir, { recursive: true, force: true });
   mkdirSync(outDir, { recursive: true });
+  /** @type {Array<{ body: string, slug: string, elections: number, rows: number, file: string, sourceSha256: string }>} */
   const index = [];
-  for (const [slug, b] of [...byBody.entries()].sort()) {
-    if (!b.rows.length) continue;
-    const csv = path.join(outDir, `${slug}.csv`);
-    writeFileSync(csv, toCsv([...EXTRACT_COLUMNS], b.rows));
-    index.push({ body: b.name, slug, elections: b.elections, rows: b.rows.length, file: `${slug}.parquet`, csv: `${slug}.csv` });
+  for (const [slug, b] of byBody) {
+    const { csv, sha } = csvOf(b.rows);
+    writeFileSync(path.join(outDir, `${slug}.csv`), csv);
+    index.push({ body: b.name, slug, elections: b.elections, rows: b.rows.length, file: `${slug}.csv`, sourceSha256: sha });
   }
+  const ext = o.parquet ? 'parquet' : 'csv';
+  let writer = 'csv';
   if (o.parquet) {
-    toParquet(outDir, index.map((x) => x.slug));
+    writer = toParquet(outDir, index.map((x) => x.slug));
     // The CSVs were the hand-over to DuckDB; the browser reads the Parquet (2.3 MB, against 24 MB of CSV).
-    for (const x of index) {
-      rmSync(path.join(outDir, x.csv), { force: true });
-      /** @type {any} */ (x).csv = null;
-    }
+    for (const x of index) rmSync(path.join(outDir, `${x.slug}.csv`), { force: true });
   }
-  writeFileSync(path.join(outDir, 'index.json'), `${JSON.stringify({
+  // Named by content: a cache (the browser's, the CDN's) can never mix two builds of one file.
+  for (const x of index) {
+    const plain = path.join(outDir, `${x.slug}.${ext}`);
+    x.file = `${x.slug}-${sha256(readFileSync(plain)).slice(0, 12)}.${ext}`;
+    renameSync(plain, path.join(outDir, x.file));
+  }
+  const indexJson = `${JSON.stringify({
     schemaVersion: 1,
-    note: 'Private until the owner approves the Elections app (11 Nov 2026). Built from the local records build; never uploaded.',
+    note: 'Civgraph Elections pivot extracts: one file per body, one row per candidacy, built from the records build by scripts/build/elections-app/data.mjs --extracts.',
     columns: EXTRACT_COLUMNS,
-    format: o.parquet ? 'parquet' : 'csv',
-    bodies: index,
-  }, null, 1)}\n`);
+    format: ext,
+    bodies: index.map(({ body, slug, elections, rows, file }) => ({ body, slug, elections, rows, file })),
+  }, null, 1)}\n`;
+  writeFileSync(path.join(outDir, 'index.json'), indexJson);
+  // No dates or paths: the same records build makes the same manifest, byte for byte.
+  const files = [
+    { name: 'index.json', bytes: Buffer.byteLength(indexJson), sha256: sha256(indexJson) },
+    ...index.map((x) => {
+      const buf = readFileSync(path.join(outDir, x.file));
+      return { name: x.file, body: x.slug, rows: x.rows, bytes: buf.length, sha256: sha256(buf), sourceSha256: x.sourceSha256 };
+    }),
+  ];
+  const manifest = {
+    schemaVersion: 1,
+    generatedBy: 'npm run build:elections-app (scripts/build/elections-app/data.mjs --extracts)',
+    format: ext,
+    writer,
+    columns: EXTRACT_COLUMNS,
+    // sourceSha256: the SHA-256 of the CSV of a body's rows (model.mjs toCsv). --check rebuilds the
+    // rows from the records build and compares, so it knows whether the extracts are current.
+    recordsFingerprint: sha256(index.map((x) => `${x.slug} ${x.sourceSha256}`).join('\n')),
+    totals: { bodies: index.length, rows: index.reduce((n, x) => n + x.rows, 0), bytes: files.reduce((n, f) => n + f.bytes, 0) },
+    files,
+  };
+  writeFileSync(path.join(outDir, 'manifest.json'), `${JSON.stringify(manifest, null, 1)}\n`);
   return index;
+}
+
+/**
+ * Whether the extracts in `outDir` are current against the records build and fit to publish.
+ * @param {import('node:sqlite').DatabaseSync} db @param {string} outDir
+ * @returns {{ problems: string[], checked: number }}
+ */
+function checkExtracts(db, outDir) {
+  const problems = [];
+  const manifest = JSON.parse(readFileSync(path.join(outDir, 'manifest.json'), 'utf8'));
+  /** @type {Map<string, any>} */
+  const byFile = new Map(manifest.files.map((/** @type {any} */ f) => [f.name, f]));
+  // The files on disk are the manifest's, and nothing else is there.
+  for (const f of manifest.files) {
+    const abs = path.join(outDir, f.name);
+    if (!existsSync(abs)) { problems.push(`${f.name}: in the manifest, not on disk`); continue; }
+    if (statSync(abs).size !== f.bytes || sha256(readFileSync(abs)) !== f.sha256) problems.push(`${f.name}: bytes or SHA-256 differ from the manifest`);
+  }
+  for (const name of readdirSync(outDir)) if (name !== 'manifest.json' && !byFile.has(name)) problems.push(`${name}: on disk, not in the manifest`);
+  if (existsSync(path.join(outDir, 'index.json'))) {
+    const index = JSON.parse(readFileSync(path.join(outDir, 'index.json'), 'utf8'));
+    for (const b of index.bodies) if (!byFile.has(b.file)) problems.push(`index.json names ${b.file}, which the manifest does not list`);
+  }
+  // The columns, then the rows, against what the records build gives now.
+  if (JSON.stringify(manifest.columns) !== JSON.stringify(EXTRACT_COLUMNS)) problems.push('the extracts have other columns than model.mjs EXTRACT_COLUMNS: rebuild them');
+  const byBody = extractRows(db);
+  problems.push(...publicationProblems(byBody, manifest.columns));
+  /** @type {Map<string, any>} */
+  const built = new Map(manifest.files.filter((/** @type {any} */ f) => f.body).map((/** @type {any} */ f) => [f.body, f]));
+  for (const [slug, b] of byBody) {
+    const f = built.get(slug);
+    if (!f) { problems.push(`${slug}: in the records build, no extract (rebuild: npm run build:elections-app)`); continue; }
+    if (f.rows !== b.rows.length || f.sourceSha256 !== csvOf(b.rows).sha) problems.push(`${slug}: the records build has changed since the extract was built (${f.rows} rows then, ${b.rows.length} now): rebuild with npm run build:elections-app`);
+  }
+  for (const slug of built.keys()) if (!byBody.has(slug)) problems.push(`${slug}: extract for a body the records build no longer has`);
+  return { problems, checked: byBody.size };
 }
 
 /**
  * CSV -> Parquet with the local Python DuckDB (the Node side has no Parquet writer; the browser
  * reads both). Column types are pinned so every body's file has the same schema.
  * @param {string} dir @param {string[]} slugs
+ * @returns {string} the writer, for the manifest
  */
 function toParquet(dir, slugs) {
   const types = {
@@ -223,18 +365,38 @@ function toParquet(dir, slugs) {
     'import duckdb, json, sys, os',
     'd, cols, slugs = sys.argv[1], json.loads(sys.argv[2]), json.loads(sys.argv[3])',
     'con = duckdb.connect()',
+    'con.execute("SET threads = 1")',
+    'print(duckdb.__version__)',
     'spec = "{" + ", ".join("\'%s\': \'%s\'" % (k, v) for k, v in cols.items()) + "}"',
     'for s in slugs:',
     '    src = os.path.join(d, s + ".csv").replace("\\\\", "/")',
     '    dst = os.path.join(d, s + ".parquet").replace("\\\\", "/")',
     '    con.execute("COPY (SELECT * FROM read_csv(\'%s\', header=true, quote=\'\\"\', escape=\'\\"\', columns=%s)) TO \'%s\' (FORMAT parquet, COMPRESSION zstd)" % (src, spec, dst))',
   ].join('\n');
-  execFileSync('python', ['-P', '-c', py, dir, JSON.stringify(columns), JSON.stringify(slugs)], { stdio: 'inherit' });
+  const version = execFileSync('python', ['-P', '-c', py, dir, JSON.stringify(columns), JSON.stringify(slugs)], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'inherit'] }).trim();
+  return `duckdb ${version} (Python), zstd, one thread`;
 }
 
 // ------------------------------------------------------------------ main
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  const outDir = path.resolve(REPO, opt('--out-dir', 'site/apps/elections/extracts') || '');
+  if (args.includes('--check')) {
+    const strict = args.includes('--strict');
+    const skip = (/** @type {string} */ why) => {
+      console[strict ? 'error' : 'log'](`${strict ? 'FAIL' : 'SKIP'}: ${why}`);
+      process.exit(strict ? 1 : 0);
+    };
+    if (!existsSync(DB_FILE)) skip(`no records build at ${posix(path.relative(REPO, DB_FILE))} to check the extracts against`);
+    if (!existsSync(path.join(outDir, 'manifest.json'))) skip(`no extracts in ${posix(path.relative(REPO, outDir))} (npm run build:elections-app)`);
+    const { problems, checked } = checkExtracts(openSqliteHandle(DB_FILE, { readOnly: true }), outDir);
+    if (problems.length) {
+      console.error(`FAIL: Elections app extracts (${problems.length} problem(s)):\n- ${problems.slice(0, 40).join('\n- ')}`);
+      process.exit(1);
+    }
+    console.log(`PASS: Elections app extracts current against the records build (${checked} bodies), publishable columns only, no private values`);
+    process.exit(0);
+  }
   if (!existsSync(DB_FILE)) {
     console.error(`No records build at ${DB_FILE}: run npm run records:build, or pass --db.`);
     process.exit(1);
@@ -248,13 +410,12 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     writeFileSync(out, `${auditMarkdown(audit(db), DB_FILE)}\n${kept}`);
     console.log(`audit written: ${path.relative(REPO, out)}`);
   } else if (args.includes('--extracts')) {
-    const outDir = path.resolve(REPO, opt('--out-dir', 'site/apps/elections/extracts') || '');
     const index = extracts(db, outDir, { parquet: !args.includes('--no-parquet'), bodies: many('--body') });
-    console.log(`extracts: ${index.length} bodies, ${index.reduce((s, x) => s + x.rows, 0)} rows -> ${path.relative(REPO, outDir)}`);
+    console.log(`extracts: ${index.length} bodies, ${index.reduce((s, x) => s + x.rows, 0)} rows -> ${posix(path.relative(REPO, outDir))} (manifest.json: every file's bytes and SHA-256)`);
   } else {
-    console.error('usage: data.mjs --audit | --extracts [--out-dir DIR] [--no-parquet] [--body SLUG]');
+    console.error('usage: data.mjs --audit | --extracts [--out-dir DIR] [--no-parquet] [--body SLUG] | --check [--out-dir DIR] [--strict]');
     process.exit(2);
   }
 }
 
-export { audit, auditMarkdown, extracts };
+export { audit, auditMarkdown, checkExtracts, extractRows, extracts };
