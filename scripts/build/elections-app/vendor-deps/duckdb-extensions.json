@@ -1,0 +1,20 @@
+{
+ "note": "DuckDB extensions the Elections app's DuckDB-WASM 1.29.0 (DuckDB v1.1.1) loads at run time: parquet, autoloaded by read_parquet(). Until 11 Nov 2026 the browser fetched them from extensions.duckdb.org; now scripts/build/elections-app/vendor.mjs downloads each from that address, refuses it unless its SHA-256 is the one pinned here (taken from the files served on 11 Nov 2026), and the app reads them from its own copy (custom_extension_repository, site/apps/elections/lib/duck.js). Signed by DuckDB; not modified.",
+ "engine": "v1.1.1",
+ "extensions": [
+  {
+   "platform": "wasm_eh",
+   "name": "parquet",
+   "url": "https://extensions.duckdb.org/v1.1.1/wasm_eh/parquet.duckdb_extension.wasm",
+   "bytes": 2803379,
+   "sha256": "e24fb2953c6a80e32d17fa3921f90f1f05ccbfa40f382e77702c1e6af9b79479"
+  },
+  {
+   "platform": "wasm_mvp",
+   "name": "parquet",
+   "url": "https://extensions.duckdb.org/v1.1.1/wasm_mvp/parquet.duckdb_extension.wasm",
+   "bytes": 2713313,
+   "sha256": "e73e280539207f51ca56f3d302ca6051182ef6213999fae9f809bfe2113b9311"
+  }
+ ]
+}

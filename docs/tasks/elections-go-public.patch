@@ -1,0 +1,324 @@
+Civgraph Elections: the go-public change set (prepared 11 Nov 2026; NOT APPLIED).
+
+Apply only with the owner's approval in chat. From the repository root:
+
+    git apply --check docs/tasks/elections-go-public.patch    # dry run: says whether it applies
+    git apply docs/tasks/elections-go-public.patch            # make the change
+    (if main has moved and it no longer applies cleanly: git apply -3 docs/tasks/elections-go-public.patch)
+
+What it changes (the whole switch; nothing else is needed for the page itself):
+
+  site/apps/elections/index.html   noindex meta removed; canonical https://civgraph.net/elections/ and the
+                                   site's share card (Open Graph and Twitter tags, the standard 1200x630 image)
+  site/apps/elections/app.js       each view's canonical and og:url are its own path (the query is tool state)
+  site/_headers                    X-Robots-Tag noindex dropped for /elections and /elections/*; kept for
+                                   /apps/elections/* (the same page at its file address, the widget, the files)
+  site/_redirects                  comment only
+  site/apps/index.html             the Apps page card
+  site/index.html                  the home page's Apps panel links it ("Four focused tools")
+  scripts/build/build-sitemap.mjs  /elections/ in TOP_LEVEL_PAGES
+  site/sitemaps/pages.xml          the same, as the builder writes it
+  data/database/r2-publication-allowlist.json      the data/elections-app/ prefix, reviewed (rationale,
+                                   evidence, rights), in the same change as the upload as the allowlist requires
+  packages/api/src/handlers/_public-prefixes.js    regenerated from it (node scripts/build/public-prefixes.mjs)
+  scripts/build/build-site-partials.mjs            comment only
+  tests                            the "not public" assertions become "public" ones: share-meta lists the page,
+                                   elections-app-lib, elections-app-prep (prefix allowlisted) and the browser spec
+                                   (indexable, canonical, linked from /apps/ and the home page)
+
+The main header's nav is unchanged: the app sits under Apps, like Words in parliament. Embedding stays off
+(frame-ancestors 'self' on /apps/elections/embed/*); allowing it is a separate one-line decision in site/_headers.
+
+After applying: the R2 upload (scripts/publish/elections-app-r2-upload.mjs --upload), the rebuild that
+re-stamps cache tokens (npm run build), the checks, then the usual publish. The exact steps are in the
+stream's LANDING.md (D:\civgraph-intake\launch-2026-11-11\landing\elections-prep.md).
+
+diff --git a/data/database/r2-publication-allowlist.json b/data/database/r2-publication-allowlist.json
+index 1cee32ae70..ae9cd19b81 100644
+--- a/data/database/r2-publication-allowlist.json
++++ b/data/database/r2-publication-allowlist.json
+@@ -133,6 +133,12 @@
+       "rationale": "Mirror of the Irish Local Electoral Area Boundary Committee reports (2008, 2013, 2018), the Constituency Commission reports (2004, 2007, 2012, 2017), the Electoral Commission's 2023 constituency review and the European constituency reports (2003-2023), with their maps. Irish public sector information re-usable under its open terms. Held so each LEA and Dail constituency map can link its defining report. Owner-approved upload of open-licence source mirrors, 11 Nov 2026 (stream ledger).",
+       "evidence": "105 files, 751.2 MB, one folder per review (<year>-<lea|constituency|european>/), each in manifest.json with its title, body, publication date, source address (and capture where the host is gone), bytes and SHA-256. Every PDF checked complete (%%EOF). Published reports and maps only; written submissions, which name individuals, were not mirrored.",
+       "rights": "Irish public sector information, open re-use terms (Electoral Commission (Ireland); Department of Housing, Local Government and Heritage)."
++    },
++    {
++      "prefix": "data/elections-app/",
++      "rationale": "The Civgraph Elections app's static files (site/apps/elections/config.js): v1/extracts/, one Parquet file per body with one row per candidacy (the reviewed columns of scripts/build/elections-app/data.mjs PUBLISHABLE_COLUMNS: election, area, candidate name, person id, party label, outcome, votes, shares and counts), with index.json and manifest.json; and v1/duckdb-wasm-1.29.0/, DuckDB-WASM's WebAssembly and its parquet extension, too big for Pages. Owner-approved with the app going public; added in the same change as the upload (scripts/publish/elections-app-r2-upload.mjs).",
++      "evidence": "Extracts built by npm run build:elections-app from the records build, which D1 civgraph-records already serves at request time: every value is one the records API returns for the same candidacy. npm run check:elections-app-extracts holds them current and publishable (no address, agent, contact or source column; no value that looks like a postcode, Eircode, email, phone number or street address). About 2.3 MB of Parquet for 96 bodies. The WebAssembly files are the npm package @duckdb/duckdb-wasm@1.29.0 and DuckDB's signed v1.1.1 parquet extension, unmodified, each listed with its SHA-256 in src/libs/elections-app-vendor.json.",
++      "rights": "Election results: public records, compiled with their cited sources on the site. DuckDB-WASM and DuckDB: MIT licence (src/libs/elections-app-THIRD-PARTY-NOTICES.txt)."
+     }
+   ]
+ }
+diff --git a/packages/api/src/handlers/_public-prefixes.js b/packages/api/src/handlers/_public-prefixes.js
+index 3276e56f3f..f0f8672727 100644
+--- a/packages/api/src/handlers/_public-prefixes.js
++++ b/packages/api/src/handlers/_public-prefixes.js
+@@ -17,6 +17,7 @@ export const PUBLIC_PREFIXES = [
+   "data/deprivation/",
+   "data/documents/",
+   "data/downloads/",
++  "data/elections-app/",
+   "data/maps/",
+   "data/nisra-files/",
+   "data/nisra-portal/",
+diff --git a/scripts/build/build-site-partials.mjs b/scripts/build/build-site-partials.mjs
+index 45899b874f..fae94041e1 100644
+--- a/scripts/build/build-site-partials.mjs
++++ b/scripts/build/build-site-partials.mjs
+@@ -71,7 +71,7 @@ const PAGES = new Map([
+   ['site/records/index.html', BROWSE_PAGE],
+   ['site/apps/index.html', SITE_PAGE],
+   ['site/apps/words/index.html', SITE_PAGE],
+-  // The Elections app (11 Nov 2026): not public yet (noindex, unlinked, not in a sitemap).
++  // The Elections app (11 Nov 2026): public at /elections/.
+   ['site/apps/elections/index.html', SITE_PAGE],
+   ['site/pages/census-explorer.html', SITE_PAGE],
+   ['site/pages/status.html', SITE_PAGE],
+diff --git a/scripts/build/build-sitemap.mjs b/scripts/build/build-sitemap.mjs
+index b830d5c540..2a80caaecb 100644
+--- a/scripts/build/build-sitemap.mjs
++++ b/scripts/build/build-sitemap.mjs
+@@ -64,6 +64,7 @@ export const TOP_LEVEL_PAGES = [
+   '/catalogue/',
+   '/apps/',
+   '/apps/words/',
++  '/elections/',
+   '/proni',
+   '/pages/about.html',
+   '/pages/census-explorer.html',
+diff --git a/site/_headers b/site/_headers
+index 415565f07b..745cafa3d7 100644
+--- a/site/_headers
++++ b/site/_headers
+@@ -27,14 +27,9 @@
+   Cache-Control: public, max-age=31536000, immutable
+   X-Robots-Tag: noindex, nofollow
+ 
+-# Civgraph Elections (11 Nov 2026): not public until the owner says so. Never indexed, at either
+-# address (the /elections/ rewrite in _redirects, and the app's own files).
+-/elections
+-  X-Robots-Tag: noindex, nofollow
+-
+-/elections/*
+-  X-Robots-Tag: noindex, nofollow
+-
++# Civgraph Elections: public at /elections/ (the _redirects rewrite) since the owner approved it.
++# The same page at its file address /apps/elections/, the widget and the app's files are not
++# indexed: /elections/ is the address (the page's canonical).
+ /apps/elections/*
+   X-Robots-Tag: noindex, nofollow
+ 
+diff --git a/site/_redirects b/site/_redirects
+index 5e854061eb..13f74e3b0d 100644
+--- a/site/_redirects
++++ b/site/_redirects
+@@ -381,7 +381,7 @@
+ /render/metadata/election-provenance/lisburn-urban-district-council__1920-01-15.json  /render/metadata/election-provenance/lisburn-borough-council__1920-01-15.json  301
+ 
+ # Civgraph Elections (11 Nov 2026): the app shell answers every /elections/ URL and its client
+-# routes the rest (site/apps/elections/lib/route.js). Not public yet: noindex (_headers and the
+-# page), not linked from the site, not in a sitemap.
++# routes the rest (site/apps/elections/lib/route.js). Public; /apps/elections/ itself is noindex
++# (_headers), /elections/ is the address.
+ /elections    /apps/elections/  200
+ /elections/*  /apps/elections/  200
+diff --git a/site/apps/elections/app.js b/site/apps/elections/app.js
+index 519c5106dc..4dc7e61014 100644
+--- a/site/apps/elections/app.js
++++ b/site/apps/elections/app.js
+@@ -42,6 +42,7 @@ async function render() {
+     const title = await mod.render(root, route, { stale: () => mine !== generation, navigate });
+     if (mine !== generation) return;
+     document.title = title ? `${title} - Civgraph Elections` : 'Civgraph Elections';
++    setCanonical();
+   } catch (err) {
+     if (mine !== generation) return;
+     const status = /** @type {any} */ (err)?.status;
+@@ -55,6 +56,13 @@ async function render() {
+   }
+ }
+ 
++/** The canonical address and og:url of the view: https://civgraph.net and its path, without the query (tool state). */
++function setCanonical() {
++  const href = `https://civgraph.net${location.pathname}`;
++  document.querySelector('link[rel="canonical"]')?.setAttribute('href', href);
++  document.querySelector('meta[property="og:url"]')?.setAttribute('content', href);
++}
++
+ /** Go to an app URL without a page load (replace: keep history clean for state changes). */
+ /** @param {string} href @param {{ replace?: boolean, keepScroll?: boolean }} [opts] */
+ export function navigate(href, { replace = false, keepScroll = false } = {}) {
+diff --git a/site/apps/elections/index.html b/site/apps/elections/index.html
+index d1d5f5085f..909d5ee752 100644
+--- a/site/apps/elections/index.html
++++ b/site/apps/elections/index.html
+@@ -3,10 +3,26 @@
+ <head>
+   <meta charset="utf-8" />
+   <meta name="viewport" content="width=device-width, initial-scale=1" />
+-  <!-- Not public yet (owner, 11 Nov 2026): never indexed, not linked from the site, not in any sitemap. -->
+-  <meta name="robots" content="noindex, nofollow" />
+   <title>Civgraph Elections</title>
+   <meta name="description" content="Election results for Ireland and Northern Ireland: seats, votes, full STV count sheets and transfers, pivot tables, maps and comparisons, each figure with its source.">
++  <!-- Public since the owner approved it. The canonical and og:url name the view's own path (app.js setCanonical). -->
++  <link rel="canonical" href="https://civgraph.net/elections/">
++  <meta property="og:type" content="website">
++  <meta property="og:site_name" content="Civgraph">
++  <meta property="og:url" content="https://civgraph.net/elections/">
++  <meta property="og:title" content="Civgraph Elections">
++  <meta property="og:description" content="Election results for Ireland and Northern Ireland: seats, votes, full STV count sheets and transfers, pivot tables, maps and comparisons, each figure with its source.">
++  <meta property="og:image" content="https://civgraph.net/assets/images/og-preview.png?v=96771fe39997">
++  <meta property="og:image:width" content="1200">
++  <meta property="og:image:height" content="630">
++  <meta property="og:image:type" content="image/png">
++  <meta property="og:image:alt" content="Civgraph, the civic record of Ireland: the name and logo beside a map of Ireland with its county boundaries.">
++  <meta property="og:locale" content="en_GB">
++  <meta name="twitter:card" content="summary_large_image">
++  <meta name="twitter:title" content="Civgraph Elections">
++  <meta name="twitter:description" content="Election results for Ireland and Northern Ireland: seats, votes, full STV count sheets and transfers, pivot tables, maps and comparisons, each figure with its source.">
++  <meta name="twitter:image" content="https://civgraph.net/assets/images/og-preview.png?v=96771fe39997">
++  <meta name="twitter:image:alt" content="Civgraph, the civic record of Ireland: the name and logo beside a map of Ireland with its county boundaries.">
+ <!-- site:head -->
+ <script>(function(){var t=null;try{t=localStorage.getItem('theme');}catch(e){}if(t!=='dark'&&t!=='light'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;})();</script>
+ <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+diff --git a/site/apps/index.html b/site/apps/index.html
+index 22848587de..ba2af673a6 100644
+--- a/site/apps/index.html
++++ b/site/apps/index.html
+@@ -272,6 +272,20 @@
+                 </p>
+                 <span class="app-card__cta">Open app →</span>
+             </a>
++
++            <!-- Civgraph Elections: the records' election results as count sheets, pivot tables,
++                 maps and comparisons (site/apps/elections/). Pivot extracts and DuckDB's
++                 WebAssembly on R2 (data/elections-app/v1/). Keep this card's claims to what the
++                 app does. -->
++            <a class="app-card" href="/elections/">
++                <h2 class="app-card__title">Civgraph Elections</h2>
++                <p class="app-card__desc">
++                    Election results for Ireland and Northern Ireland: seats and votes, full STV
++                    count sheets with transfers, pivot tables, results maps, comparisons and a
++                    swingometer, each figure with its source.
++                </p>
++                <span class="app-card__cta">Open app →</span>
++            </a>
+         </div>
+     </main>
+ <!-- site:footer -->
+diff --git a/site/index.html b/site/index.html
+index 48e99aa250..478100fa45 100644
+--- a/site/index.html
++++ b/site/index.html
+@@ -349,7 +349,7 @@
+ <rect height="7" rx="1" width="7" x="14" y="3"></rect>
+ <rect height="7" rx="1" width="7" x="14" y="14"></rect>
+ <rect height="7" rx="1" width="7" x="3" y="14"></rect></svg>Apps</h3>
+-<p>Three focused tools built on the same data: <a href="/proni">Independent PRONI Search</a>, a faster way into all <span data-stat="proniRecords">1,538,177</span> records in the eCatalogue, with exportable spreadsheets and shareable record links; the <a href="/pages/census-explorer.html">Census Explorer</a>, for census tables from both jurisdictions, charted across censuses and linked to the boundaries they were counted on; and <a href="/apps/words/">Words in parliament</a>, how often words and phrases were used in the Dáil, the Seanad, the Northern Ireland Assembly and at Westminster.</p>
++<p>Four focused tools built on the same data: <a href="/elections/">Civgraph Elections</a>, election results with full count sheets, pivot tables, maps and comparisons; <a href="/proni">Independent PRONI Search</a>, a faster way into all <span data-stat="proniRecords">1,538,177</span> records in the eCatalogue, with exportable spreadsheets and shareable record links; the <a href="/pages/census-explorer.html">Census Explorer</a>, for census tables from both jurisdictions, charted across censuses and linked to the boundaries they were counted on; and <a href="/apps/words/">Words in parliament</a>, how often words and phrases were used in the Dáil, the Seanad, the Northern Ireland Assembly and at Westminster.</p>
+ <a href="/apps/">See the apps →</a>
+ </div>
+ </div>
+diff --git a/site/sitemaps/pages.xml b/site/sitemaps/pages.xml
+index 1f2a94569f..b0271c1f54 100644
+--- a/site/sitemaps/pages.xml
++++ b/site/sitemaps/pages.xml
+@@ -7,6 +7,7 @@
+   <url><loc>https://civgraph.net/catalogue/</loc></url>
+   <url><loc>https://civgraph.net/apps/</loc></url>
+   <url><loc>https://civgraph.net/apps/words/</loc></url>
++  <url><loc>https://civgraph.net/elections/</loc></url>
+   <url><loc>https://civgraph.net/proni</loc></url>
+   <url><loc>https://civgraph.net/pages/about.html</loc></url>
+   <url><loc>https://civgraph.net/pages/census-explorer.html</loc></url>
+diff --git a/tests/browser/elections-app.spec.cjs b/tests/browser/elections-app.spec.cjs
+index c17b87913e..b5f442f180 100644
+--- a/tests/browser/elections-app.spec.cjs
++++ b/tests/browser/elections-app.spec.cjs
+@@ -56,10 +56,11 @@ async function shot(page, name) {
+ test.describe('Civgraph Elections', () => {
+   test.skip(!RECORDS, 'needs the records build (npm run records:build)');
+ 
+-  test('home: not indexed, lists elections and bodies, search finds an election, under the budget', async ({ page }) => {
++  test('home: indexable with its canonical, lists elections and bodies, search finds an election, under the budget', async ({ page }) => {
+     const bytes = trackBytes(page);
+     await page.goto('/elections/');
+-    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, nofollow');
++    await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
++    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://civgraph.net/elections/');
+     await expect(page.locator('h1')).toHaveText('Civgraph Elections');
+     await expect(page.locator('.el-cards li').first()).toBeVisible();
+     await page.fill('#el-q', '2022 assembly');
+@@ -69,10 +70,11 @@ test.describe('Civgraph Elections', () => {
+     await shot(page, '01-home');
+   });
+ 
+-  test('the app is not linked from the site: /apps/ and the home page do not mention it', async ({ page }) => {
++  test('the app is linked from /apps/ and the home page, at /elections/ (never its file address)', async ({ page }) => {
+     for (const url of ['/apps/', '/']) {
+       await page.goto(url);
+-      await expect(page.locator('a[href^="/elections"], a[href^="/apps/elections"]')).toHaveCount(0);
++      await expect(page.locator('a[href="/elections/"]')).not.toHaveCount(0); // on / it is in the Apps panel, not on screen
++      await expect(page.locator('a[href^="/apps/elections"]')).toHaveCount(0);
+     }
+   });
+ 
+diff --git a/tests/unit/elections-app-lib.test.mjs b/tests/unit/elections-app-lib.test.mjs
+index c0dbaabf76..138b754a49 100644
+--- a/tests/unit/elections-app-lib.test.mjs
++++ b/tests/unit/elections-app-lib.test.mjs
+@@ -219,14 +219,17 @@ test('the committed notional weights sum to one for every old area', async () =>
+   }
+ });
+ 
+-test('not public yet: no sitemap lists the app, and the sitemap builder names no app path for it', async () => {
+-  const { readFileSync, readdirSync, existsSync: exists } = await import('node:fs');
+-  const files = ['site/sitemap.xml', ...(exists('site/sitemaps') ? readdirSync('site/sitemaps').map((f) => `site/sitemaps/${f}`) : [])].filter((f) => exists(f));
+-  for (const f of files) assert.doesNotMatch(readFileSync(f, 'utf8'), /civgraph\.net\/(apps\/)?elections\//, f);
+-  assert.doesNotMatch(readFileSync('scripts/build/build-sitemap.mjs', 'utf8'), /['"]\/(apps\/)?elections\//);
++test('public: the sitemap lists /elections/ (never /apps/elections/), the page is indexable, its file address is not', async () => {
++  const { readFileSync } = await import('node:fs');
++  const pages = readFileSync('site/sitemaps/pages.xml', 'utf8');
++  assert.match(pages, /<loc>https:\/\/civgraph\.net\/elections\/<\/loc>/);
++  assert.doesNotMatch(pages, /civgraph\.net\/apps\/elections\//);
+   const page = readFileSync('site/apps/elections/index.html', 'utf8');
+-  assert.match(page, /<meta name="robots" content="noindex, nofollow"/);
+-  assert.match(readFileSync('site/_headers', 'utf8'), /\/elections\/\*\n {2}X-Robots-Tag: noindex, nofollow/);
++  assert.doesNotMatch(page, /<meta name="robots"/);
++  assert.match(page, /<link rel="canonical" href="https:\/\/civgraph\.net\/elections\/">/);
++  const headers = readFileSync('site/_headers', 'utf8');
++  assert.doesNotMatch(headers, /^\/elections(\/\*)?$/m);
++  assert.match(headers, /\/apps\/elections\/\*\n {2}X-Robots-Tag: noindex, nofollow/);
+ });
+ 
+ test('no poll, as packages/core/src/unopposed.mjs reads it: 0 votes on an unopposed row, the auto-returned Ceann Comhairle', () => {
+diff --git a/tests/unit/elections-app-prep.test.mjs b/tests/unit/elections-app-prep.test.mjs
+index e02a23a701..425654c21e 100644
+--- a/tests/unit/elections-app-prep.test.mjs
++++ b/tests/unit/elections-app-prep.test.mjs
+@@ -137,9 +137,10 @@ test('embedding is off by default: the widget may be framed by this site only, e
+   assert.equal(headersFor('/src/libs/duckdb-wasm-1.29.0/duckdb-browser.mjs').get('cache-control'), 'public, max-age=31536000, immutable');
+ });
+ 
+-test('the R2 prefix is not in the publication allowlist yet: an upload is refused until the go-public change set adds it', () => {
++test('the R2 prefix is in the publication allowlist (the go-public change set), so the upload may run', () => {
+   const allowlist = loadAllowlist(path.join(ROOT, 'data/database/r2-publication-allowlist.json'));
+-  assert.equal(isPublishable(`${R2_PREFIX}extracts/index.json`, allowlist), false);
++  assert.equal(isPublishable(`${R2_PREFIX}extracts/index.json`, allowlist), true);
++  assert.equal(isPublishable(`${R2_PREFIX}duckdb-wasm-1.29.0/duckdb-eh.wasm`, allowlist), true);
+ });
+ 
+ test('upload plan: every key under the prefix, the WebAssembly typed, immutable files first, manifest then index.json last', async (t) => {
+diff --git a/tests/unit/share-meta.test.mjs b/tests/unit/share-meta.test.mjs
+index a3d95dccda..4f30fd0f6c 100644
+--- a/tests/unit/share-meta.test.mjs
++++ b/tests/unit/share-meta.test.mjs
+@@ -61,6 +61,7 @@ const STATIC_PAGES = [
+   ['site/pages/census-explorer.html', 'https://civgraph.net/pages/census-explorer'],
+   ['site/apps/index.html', 'https://civgraph.net/apps/'],
+   ['site/apps/words/index.html', 'https://civgraph.net/apps/words/'],
++  ['site/apps/elections/index.html', 'https://civgraph.net/elections/'],
+   ['site/apps/proni-search/index.html', 'https://civgraph.net/proni'],
+   ['site/browse/index.html', 'https://civgraph.net/browse/'],
+   ['site/catalogue/index.html', 'https://civgraph.net/catalogue/'],

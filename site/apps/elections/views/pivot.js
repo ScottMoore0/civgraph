@@ -3,7 +3,7 @@
  * extracts (one per body). The whole state is in the URL; views can be saved in this browser
  * and the table or the filtered rows downloaded as CSV. Never queries live D1.
  */
-import { extractsIndex, query, useBodies, DUCKDB_VERSION } from '../lib/duck.js';
+import { EXTRACTS, extractsIndex, query, useBodies, DUCKDB_VERSION } from '../lib/duck.js';
 import { esc, fmtInt } from '../lib/format.js';
 import {
   DIMENSIONS, FILTERS, MEASURES, pivotCsv, pivotSql, pivotTable, queryFromState, stateFromQuery, whereSql,
@@ -43,7 +43,7 @@ const options = (/** @type {Record<string, { label: string }>} */ table, /** @ty
 export async function render(root, route, ctx) {
   const index = await extractsIndex().catch(() => null);
   if (!index) {
-    root.innerHTML = `<h1>Pivot tables</h1><p class="cg-notice cg-notice--warning">The pivot extracts are not built here. They are made at build time from the records build (<code>node scripts/build/elections-app/data.mjs --extracts</code>) and stay private until the app is approved.</p>`;
+    root.innerHTML = `<h1>Pivot tables</h1><p class="cg-notice cg-notice--warning">The pivot extracts are not available here. They are made at build time from the records build (<code>npm run build:elections-app</code>) and are not published yet.</p>`;
     return 'Pivot tables';
   }
   /** @type {Array<{ body: string, slug: string, rows: number, elections: number }>} */
@@ -138,7 +138,7 @@ export async function render(root, route, ctx) {
 
   const guard = (/** @type {() => Promise<void>} */ fn) => () => fn().catch((err) => {
     status.textContent = '';
-    out.innerHTML = `<p class="cg-notice cg-notice--danger">The pivot could not run: ${esc(err?.message || err)}. DuckDB loads from cdn.jsdelivr.net; a blocked network stops it.</p>`;
+    out.innerHTML = `<p class="cg-notice cg-notice--danger">The pivot could not run: ${esc(err?.message || err)}. DuckDB's WebAssembly and the extracts load from ${esc(new URL(EXTRACTS, location.href).host)}; a blocked network stops it.</p>`;
     console.error(err);
   });
 
