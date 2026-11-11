@@ -102,9 +102,13 @@ test.describe('census statistic overlays', () => {
     const status = await page.evaluate(async () => {
       const doc = await fetch('/data/catalogue/catalogue.json').then((r) => r.json());
       const entries = await fetch('/data/database/data-entries.json').then((r) => r.json());
-      return entries.dataEntries.map((e) => doc.maps[e.id]?.status || 'missing');
+      return entries.dataEntries.map((e) => ({ id: e.id, hidden: e.hidden === true, status: doc.maps[e.id]?.status || 'missing' }));
     });
     expect(status).toHaveLength(87);
-    expect(status.filter((s) => s !== 'ready')).toEqual([]);
+    // Entries marked hidden (data-entries.json `hidden: true`: the Pobal 2011 and 2016 indexes,
+    // hidden in Phelim's catalogue review, 11 Nov 2026) are left out of the catalogue; every
+    // other one is offered, ready to add.
+    expect(status.filter((s) => s.hidden).map((s) => [s.id, s.status])).toEqual([['pobal-hp-2016-ed', 'missing'], ['pobal-hp-2011-ed', 'missing']]);
+    expect(status.filter((s) => !s.hidden && s.status !== 'ready')).toEqual([]);
   });
 });
