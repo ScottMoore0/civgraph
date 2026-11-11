@@ -139,8 +139,10 @@ export function transferStages(sheet) {
 export function quotaProgress(sheet) {
   if (!sheet.quota) return [];
   return sheet.rows.map((r) => {
-    const last = [...r.cells].reverse().find((k) => k.total !== null && (sheet.kind === 'stages' || k.count === 1));
-    const total = last?.total ?? r.firstPrefs;
+    // The highest total a candidate reached: an excluded candidate's total drops to 0 after
+    // their votes are distributed, and an elected one's falls back to the quota after a surplus.
+    const totals = r.cells.filter((k) => k.total !== null && (sheet.kind === 'stages' || k.count === 1)).map((k) => /** @type {number} */ (k.total));
+    const total = totals.length ? Math.max(...totals) : r.firstPrefs;
     const first = r.firstPrefs;
     return { id: r.id, name: r.name, party: r.party, colour: r.colour, first, total, ratio: total !== null ? total / /** @type {number} */ (sheet.quota) : null, elected: r.elected };
   });

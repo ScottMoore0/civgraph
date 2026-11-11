@@ -7,7 +7,7 @@
 import { electionDetail, electionIndex, must } from '../lib/api.js';
 import { parliamentArc, seatBar } from '../lib/charts.js';
 import { appUrl, electionSlug, esc, fmtDelta, fmtInt, fmtPct, isStv, partyChip, partyColour } from '../lib/format.js';
-import { areaMap, layerRecord } from '../lib/maplibre.js';
+import { areaMap, idle, layerRecord } from '../lib/maplibre.js';
 import { allocate, deltasFromTargets, nationalShares, project } from '../lib/project.js';
 
 export const PAIRS = ['pc-2008__pc-2023'];
@@ -147,7 +147,9 @@ export async function render(root, route, ctx) {
       if (top) fills.set(a.area.toUpperCase(), colours.get(top) || partyColour(null));
       labels.set(a.area.toUpperCase(), `${titleCase(a.area)}: ${[...a.seats].map(([p, n]) => `${p}${n > 1 ? ` ×${n}` : ''}`).join(', ')} (estimate)`);
     }
-    await areaMap(/** @type {HTMLElement} */ (root.querySelector('#nt-map')), rec, { colours: fills, labels });
+    const holder = /** @type {HTMLElement} */ (root.querySelector('#nt-map'));
+    const map = await areaMap(holder, rec, { colours: fills, labels });
+    idle(map).then(() => holder.setAttribute('data-ready', 'true'));
   } catch (err) {
     /** @type {HTMLElement} */ (root.querySelector('#nt-map')).innerHTML = `<p class="cg-notice cg-notice--danger">The map could not load: ${esc(/** @type {Error} */ (err)?.message || err)}</p>`;
   }
