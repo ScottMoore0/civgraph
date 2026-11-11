@@ -9,11 +9,14 @@
  *     string in served JS outside the registry and palette modules config/architecture.json names.
  * C10 (R10): no hard-coded locale ('en-GB') and no month-name array outside the shared formatter.
  */
+import { SITE } from '../../../packages/config/src/node.mjs';
 import { codeOf, isString, lineOf, walk } from './lib.mjs';
 
 /** @typedef {import('./lib.mjs').Context} Context @typedef {import('./lib.mjs').Finding} Finding @typedef {import('./lib.mjs').AstNode} AstNode */
 
-const CONFIG_LITERAL = /https:\/\/(data\.)?civgraph\.net|civgraph-research \(|civgraph-records\.sqlite|tmp\/records\//;
+// The values come from the config itself, so this file spells none of them out.
+const escape = (/** @type {string} */ v) => v.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const CONFIG_LITERAL = new RegExp(`${[SITE.dataOrigin, SITE.origin, `${SITE.userAgent.split(' ')[0]} (`].map(escape).join('|')}|civgraph-records\\.sqlite|tmp/records/`);
 
 export const C5 = {
   id: 'C5',
