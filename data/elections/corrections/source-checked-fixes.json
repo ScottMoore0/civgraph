@@ -84631,9 +84631,15 @@
           "title": "Irish Elections 1922-44: Results and Analysis",
           "publisher": "Michael Gallagher (PSAI Press, 1993), p. 36",
           "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf"
+        },
+        {
+          "title": "Irish Elections 1922-44: Results and Analysis",
+          "publisher": "Michael Gallagher (PSAI Press, 1993), p. 36",
+          "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "John Nolan (Cumann na nGaedheal) won the seventh Limerick seat on the 16th count but his row was left unelected, so the site marked Matthew Murphy (Labour) 'Deemed elected'; the Oireachtas lists Nolan as TD for Limerick in the 4th D\u00e1il, ElectionsIreland gives him seat 5 and Wikipedia shows him elected on count 16 with 7,361 votes, while Murphy was not elected. First preferences for Colbert (4,842), Walsh (1,254), Keyes (1,549) and Murphy (3,332) corrected to Gallagher's figures, which add up to the valid poll of 50,816; the imported ones did not.",
+      "reason": "John Nolan (Cumann na nGaedheal) won the seventh Limerick seat on the 16th count but his row was left unelected, so the site marked Matthew Murphy (Labour) 'Deemed elected'; the Oireachtas lists Nolan as TD for Limerick in the 4th D\u00e1il, ElectionsIreland gives him seat 5 and Wikipedia shows him elected on count 16 with 7,361 votes, while Murphy was not elected. First preferences for Colbert (4,842), Walsh (1,254), Keyes (1,549) and Murphy (3,332) corrected to Gallagher's figures, which add up to the valid poll of 50,816; the imported ones did not. The quota was 6,353 (50,816 valid votes for 7 seats), as Gallagher prints it; the 6,351 shown came from the import.",
       "category": "winners",
       "operations": [
         {
@@ -84696,7 +84702,20 @@
             ]
           },
           "totalsOnly": true
+        },
+        {
+          "op": "set",
+          "path": "meta.quota",
+          "value": 6353
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Quota",
+          "value": "6353"
         }
+      ],
+      "alsoBatches": [
+        "arith-audit-2026-11-11"
       ]
     },
     {
@@ -210709,7 +210728,7 @@
         "url": "https://electionsireland.org/result.cfm?election=1927sep&cons=32",
         "accessed": "2026-10-30"
       },
-      "reason": "Imported with the by-election held later in the constituency in place of this general election (the file pointed at ElectionsIreland's by-election page); candidates and votes from ElectionsIreland's general election result page. All 8 candidates, first preferences adding up to the valid poll of 43,029, and 5 elected for 5 seats. Denis Gorey (Cumann na nGaedheal) had 2,541 first preferences in September 1927, not 23,007, and was eliminated on the sixth count, as Gallagher's Irish Elections 1922-44 gives; the corrected figure is the one behind the national totals (the count table shown already has it).",
+      "reason": "Imported with the by-election held later in the constituency in place of this general election (the file pointed at ElectionsIreland's by-election page); candidates and votes from ElectionsIreland's general election result page. All 8 candidates, first preferences adding up to the valid poll of 43,029, and 5 elected for 5 seats. Denis Gorey (Cumann na nGaedheal) had 2,541 first preferences in September 1927, not 23,007, and was eliminated on the sixth count, as Gallagher's Irish Elections 1922-44 gives; the corrected figure is the one behind the national totals (the count table shown already has it). The quota was 7,172 (43,029 valid votes for 5 seats), as Gallagher prints it; the 22,871 shown came from the import.",
       "category": "missing-candidates",
       "operations": [
         {
@@ -210842,6 +210861,11 @@
           "value": 7172
         },
         {
+          "op": "set",
+          "path": "Constituency.countInfo.Quota",
+          "value": "7172"
+        },
+        {
           "op": "candidate",
           "name": "Denis Gorey",
           "set": {
@@ -210855,6 +210879,11 @@
             "final_count": 0.35
           },
           "totalsOnly": true
+        },
+        {
+          "op": "set",
+          "path": "meta.quota",
+          "value": 7172
         }
       ],
       "internalNote": "Found by the irelandelection.com cross-check of 2026-10-29; the ElectionsIreland figures the file was imported from are wrong here.",
@@ -210863,7 +210892,16 @@
           "title": "Irish Elections 1922-44: Results and Analysis",
           "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
           "publisher": "Michael Gallagher (PSAI Press, 1993), p. 96"
+        },
+        {
+          "title": "Irish Elections 1922-44: Results and Analysis",
+          "publisher": "Michael Gallagher (PSAI Press, 1993), p. 96",
+          "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+          "accessed": "2026-11-11"
         }
+      ],
+      "alsoBatches": [
+        "arith-audit-2026-11-11"
       ]
     },
     {
@@ -210875,7 +210913,7 @@
         "url": "https://electionsireland.org/result.cfm?election=1927sep&cons=166",
         "accessed": "2026-10-30"
       },
-      "reason": "Imported with the by-election held later in the constituency in place of this general election (the file pointed at ElectionsIreland's by-election page); candidates and votes from ElectionsIreland's general election result page. All 11 candidates, first preferences adding up to the valid poll of 37,711, and 5 elected for 5 seats. First preferences as Gallagher's Irish Elections 1922-44 prints them: Patrick Shaw 6,812 (ElectionsIreland 6,814); Michael Kennedy 4,247 (ElectionsIreland 4,244); Henry Broderick 4,051 (ElectionsIreland 4,047); Owen Dolan 1,658 (ElectionsIreland 1,655); Sean Lyons 1,259 (ElectionsIreland 1,253); Hugh Garahan 3,841 (ElectionsIreland 3,838); James Higgins 3,121 (ElectionsIreland 3,092); Patrick McKenna 1,860 (ElectionsIreland 1,826); Michael J Connolly 4,052 (ElectionsIreland 4,044). With these the first preferences add up to Gallagher's valid poll of 37,711.",
+      "reason": "Imported with the by-election held later in the constituency in place of this general election (the file pointed at ElectionsIreland's by-election page); candidates and votes from ElectionsIreland's general election result page. All 11 candidates, first preferences adding up to the valid poll of 37,711, and 5 elected for 5 seats. First preferences as Gallagher's Irish Elections 1922-44 prints them: Patrick Shaw 6,812 (ElectionsIreland 6,814); Michael Kennedy 4,247 (ElectionsIreland 4,244); Henry Broderick 4,051 (ElectionsIreland 4,047); Owen Dolan 1,658 (ElectionsIreland 1,655); Sean Lyons 1,259 (ElectionsIreland 1,253); Hugh Garahan 3,841 (ElectionsIreland 3,838); James Higgins 3,121 (ElectionsIreland 3,092); Patrick McKenna 1,860 (ElectionsIreland 1,826); Michael J Connolly 4,052 (ElectionsIreland 4,044). With these the first preferences add up to Gallagher's valid poll of 37,711. The quota was 6,286 (37,711 valid votes for 5 seats), as Gallagher prints it; the 20,423 shown came from the import.",
       "category": "missing-candidates",
       "operations": [
         {
@@ -211045,6 +211083,16 @@
           "op": "set",
           "path": "meta.quota",
           "value": 6271
+        },
+        {
+          "op": "set",
+          "path": "meta.quota",
+          "value": 6286
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Quota",
+          "value": "6286"
         }
       ],
       "additionalSources": [
@@ -211052,7 +211100,16 @@
           "publisher": "Michael Gallagher, Irish Elections 1922-44: Results and Analysis (PSAI Press, 1993), p. 106",
           "title": "Irish Elections 1922-44: Results and Analysis",
           "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf"
+        },
+        {
+          "title": "Irish Elections 1922-44: Results and Analysis",
+          "publisher": "Michael Gallagher (PSAI Press, 1993), p. 106",
+          "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+          "accessed": "2026-11-11"
         }
+      ],
+      "alsoBatches": [
+        "arith-audit-2026-11-11"
       ]
     },
     {
@@ -211064,7 +211121,7 @@
         "url": "https://electionsireland.org/result.cfm?election=1927sep&cons=88",
         "accessed": "2026-10-30"
       },
-      "reason": "Imported with the by-election held later in the constituency in place of this general election (the file pointed at ElectionsIreland's by-election page); candidates and votes from ElectionsIreland's general election result page. All 13 candidates, first preferences adding up to the valid poll of 72,204, and 8 elected for 8 seats.",
+      "reason": "Imported with the by-election held later in the constituency in place of this general election (the file pointed at ElectionsIreland's by-election page); candidates and votes from ElectionsIreland's general election result page. All 13 candidates, first preferences adding up to the valid poll of 72,204, and 8 elected for 8 seats. The quota was 8,023 (72,204 valid votes for 8 seats), as Gallagher prints it; the 25,194 shown came from the import.",
       "category": "missing-candidates",
       "operations": [
         {
@@ -211266,9 +211323,30 @@
         },
         {
           "op": "set",
+          "path": "Constituency.countInfo.Quota",
+          "value": "8023"
+        },
+        {
+          "op": "set",
           "path": "meta.electorate",
           "value": 100840
+        },
+        {
+          "op": "set",
+          "path": "meta.quota",
+          "value": 8023
         }
+      ],
+      "additionalSources": [
+        {
+          "title": "Irish Elections 1922-44: Results and Analysis",
+          "publisher": "Michael Gallagher (PSAI Press, 1993), p. 101",
+          "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+          "accessed": "2026-11-11"
+        }
+      ],
+      "alsoBatches": [
+        "arith-audit-2026-11-11"
       ]
     },
     {
@@ -211280,7 +211358,7 @@
         "url": "https://electionsireland.org/result.cfm?election=1927sep&cons=141",
         "accessed": "2026-10-30"
       },
-      "reason": "Imported with the by-election held later in the constituency in place of this general election (the file pointed at ElectionsIreland's by-election page); candidates and votes from ElectionsIreland's general election result page. All 6 candidates, first preferences adding up to the valid poll of 21,969, and 3 elected for 3 seats. First preferences as Gallagher's Irish Elections 1922-44 prints them: George Wolfe 6,494 (ElectionsIreland 6,497); Michael Smyth 985 (ElectionsIreland 983); Thomas Murphy 1,694 (ElectionsIreland 1,693); Donal Buckley 6,261 (ElectionsIreland 6,250). With these the first preferences add up to Gallagher's valid poll of 21,969.",
+      "reason": "Imported with the by-election held later in the constituency in place of this general election (the file pointed at ElectionsIreland's by-election page); candidates and votes from ElectionsIreland's general election result page. All 6 candidates, first preferences adding up to the valid poll of 21,969, and 3 elected for 3 seats. First preferences as Gallagher's Irish Elections 1922-44 prints them: George Wolfe 6,494 (ElectionsIreland 6,497); Michael Smyth 985 (ElectionsIreland 983); Thomas Murphy 1,694 (ElectionsIreland 1,693); Donal Buckley 6,261 (ElectionsIreland 6,250). With these the first preferences add up to Gallagher's valid poll of 21,969. The quota was 5,493 (21,969 valid votes for 3 seats), as Gallagher prints it; the 12,543 shown came from the import.",
       "category": "missing-candidates",
       "operations": [
         {
@@ -211383,6 +211461,16 @@
           "op": "set",
           "path": "meta.quota",
           "value": 5490
+        },
+        {
+          "op": "set",
+          "path": "meta.quota",
+          "value": 5493
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Quota",
+          "value": "5493"
         }
       ],
       "additionalSources": [
@@ -211390,7 +211478,16 @@
           "publisher": "Michael Gallagher, Irish Elections 1922-44: Results and Analysis (PSAI Press, 1993), p. 103",
           "title": "Irish Elections 1922-44: Results and Analysis",
           "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf"
+        },
+        {
+          "title": "Irish Elections 1922-44: Results and Analysis",
+          "publisher": "Michael Gallagher (PSAI Press, 1993), p. 103",
+          "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+          "accessed": "2026-11-11"
         }
+      ],
+      "alsoBatches": [
+        "arith-audit-2026-11-11"
       ]
     },
     {
@@ -211402,7 +211499,7 @@
         "url": "https://electionsireland.org/result.cfm?election=1927sep&cons=154",
         "accessed": "2026-10-30"
       },
-      "reason": "Imported with the by-election held later in the constituency in place of this general election (the file pointed at ElectionsIreland's by-election page); candidates and votes from ElectionsIreland's general election result page. All 14 candidates, first preferences adding up to the valid poll of 51,848, and 7 elected for 7 seats.",
+      "reason": "Imported with the by-election held later in the constituency in place of this general election (the file pointed at ElectionsIreland's by-election page); candidates and votes from ElectionsIreland's general election result page. All 14 candidates, first preferences adding up to the valid poll of 51,848, and 7 elected for 7 seats. The quota was 6,482 (51,848 valid votes for 7 seats), as Gallagher prints it; the 26,610 shown came from the import.",
       "category": "missing-candidates",
       "operations": [
         {
@@ -211613,7 +211710,28 @@
           "op": "set",
           "path": "meta.quota",
           "value": 6482
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Quota",
+          "value": "6482"
+        },
+        {
+          "op": "set",
+          "path": "meta.quota",
+          "value": 6482
         }
+      ],
+      "additionalSources": [
+        {
+          "title": "Irish Elections 1922-44: Results and Analysis",
+          "publisher": "Michael Gallagher (PSAI Press, 1993), p. 105",
+          "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+          "accessed": "2026-11-11"
+        }
+      ],
+      "alsoBatches": [
+        "arith-audit-2026-11-11"
       ]
     },
     {
@@ -211625,7 +211743,7 @@
         "url": "https://electionsireland.org/result.cfm?election=1927jun&cons=102",
         "accessed": "2026-10-30"
       },
-      "reason": "Imported with the by-election held later in the constituency in place of this general election (the file pointed at ElectionsIreland's by-election page); candidates and votes from ElectionsIreland's general election result page. All 15 candidates, first preferences adding up to the valid poll of 52,952, and 7 elected for 7 seats. First preferences as Gallagher's Irish Elections 1922-44 prints them: Se\u00e1n Lemass 8,547 (ElectionsIreland 8,522). With these the first preferences add up to Gallagher's valid poll of 52,952. Robert Briscoe (Fianna F\u00e1il) had 1,705 first preferences in June 1927, not 18,647, as Gallagher's Irish Elections 1922-44 gives; the corrected figure is the one behind the national totals (the count table shown already has it).",
+      "reason": "Imported with the by-election held later in the constituency in place of this general election (the file pointed at ElectionsIreland's by-election page); candidates and votes from ElectionsIreland's general election result page. All 15 candidates, first preferences adding up to the valid poll of 52,952, and 7 elected for 7 seats. First preferences as Gallagher's Irish Elections 1922-44 prints them: Se\u00e1n Lemass 8,547 (ElectionsIreland 8,522). With these the first preferences add up to Gallagher's valid poll of 52,952. Robert Briscoe (Fianna F\u00e1il) had 1,705 first preferences in June 1927, not 18,647, as Gallagher's Irish Elections 1922-44 gives; the corrected figure is the one behind the national totals (the count table shown already has it). The quota was 6,620 (52,952 valid votes for 7 seats), as Gallagher prints it; the 21,951 shown came from the import.",
       "category": "missing-candidates",
       "operations": [
         {
@@ -211861,6 +211979,16 @@
             ]
           },
           "totalsOnly": true
+        },
+        {
+          "op": "set",
+          "path": "meta.quota",
+          "value": 6620
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Quota",
+          "value": "6620"
         }
       ],
       "additionalSources": [
@@ -211868,9 +211996,18 @@
           "publisher": "Michael Gallagher, Irish Elections 1922-44: Results and Analysis (PSAI Press, 1993), p. 62",
           "title": "Irish Elections 1922-44: Results and Analysis",
           "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf"
+        },
+        {
+          "title": "Irish Elections 1922-44: Results and Analysis",
+          "publisher": "Michael Gallagher (PSAI Press, 1993), p. 62",
+          "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+          "accessed": "2026-11-11"
         }
       ],
-      "internalNote": "Found by the irelandelection.com cross-check of 2026-10-29; the ElectionsIreland figures the file was imported from are wrong here."
+      "internalNote": "Found by the irelandelection.com cross-check of 2026-10-29; the ElectionsIreland figures the file was imported from are wrong here.",
+      "alsoBatches": [
+        "arith-audit-2026-11-11"
+      ]
     },
     {
       "batch": "ie-crosscheck-fills-2026-10-30",
@@ -211881,7 +212018,7 @@
         "url": "https://electionsireland.org/result.cfm?election=1927jun&cons=88",
         "accessed": "2026-10-30"
       },
-      "reason": "Imported with the by-election held later in the constituency in place of this general election (the file pointed at ElectionsIreland's by-election page); candidates and votes from ElectionsIreland's general election result page. All 20 candidates, first preferences adding up to the valid poll of 70,090, and 8 elected for 8 seats. First preferences as Gallagher's Irish Elections 1922-44 prints them: James Morris 378 (ElectionsIreland 379). With these the first preferences add up to Gallagher's valid poll of 70,090. Robert Brennan (Fianna F\u00e1il) had 1,009 first preferences in June 1927, not 16,126, and Dr Kathleen Lynn (Sinn F\u00e9in) 1,937, not 1,332, as Gallagher's Irish Elections 1922-44 gives; the corrected figures are the ones behind the national totals (the count table shown already has them).",
+      "reason": "Imported with the by-election held later in the constituency in place of this general election (the file pointed at ElectionsIreland's by-election page); candidates and votes from ElectionsIreland's general election result page. All 20 candidates, first preferences adding up to the valid poll of 70,090, and 8 elected for 8 seats. First preferences as Gallagher's Irish Elections 1922-44 prints them: James Morris 378 (ElectionsIreland 379). With these the first preferences add up to Gallagher's valid poll of 70,090. Robert Brennan (Fianna F\u00e1il) had 1,009 first preferences in June 1927, not 16,126, and Dr Kathleen Lynn (Sinn F\u00e9in) 1,937, not 1,332, as Gallagher's Irish Elections 1922-44 gives; the corrected figures are the ones behind the national totals (the count table shown already has them). The quota was 7,788 (70,090 valid votes for 8 seats), as Gallagher prints it; the 28,713 shown came from the import.",
       "category": "missing-candidates",
       "operations": [
         {
@@ -212195,6 +212332,16 @@
             ]
           },
           "totalsOnly": true
+        },
+        {
+          "op": "set",
+          "path": "meta.quota",
+          "value": 7788
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Quota",
+          "value": "7788"
         }
       ],
       "additionalSources": [
@@ -212202,9 +212349,18 @@
           "publisher": "Michael Gallagher, Irish Elections 1922-44: Results and Analysis (PSAI Press, 1993), p. 63",
           "title": "Irish Elections 1922-44: Results and Analysis",
           "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf"
+        },
+        {
+          "title": "Irish Elections 1922-44: Results and Analysis",
+          "publisher": "Michael Gallagher (PSAI Press, 1993), p. 63",
+          "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+          "accessed": "2026-11-11"
         }
       ],
-      "internalNote": "Found by the irelandelection.com cross-check of 2026-10-29; the ElectionsIreland figures the file was imported from are wrong here."
+      "internalNote": "Found by the irelandelection.com cross-check of 2026-10-29; the ElectionsIreland figures the file was imported from are wrong here.",
+      "alsoBatches": [
+        "arith-audit-2026-11-11"
+      ]
     },
     {
       "batch": "ie-crosscheck-fills-2026-10-30",
@@ -249226,6 +249382,286 @@
           "set": {
             "Total_Votes": "6137.99"
           }
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/dail-eireann/1923-08-27/dublin-north.json",
+      "source": {
+        "title": "Irish Elections 1922-44: Results and Analysis",
+        "publisher": "Michael Gallagher (PSAI Press, 1993), p. 30",
+        "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+        "accessed": "2026-11-11"
+      },
+      "reason": "The quota was 6,147 (55,320 valid votes for 8 seats), as Gallagher prints it; the 6,169 shown came from the import.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "set",
+          "path": "meta.quota",
+          "value": 6147
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Quota",
+          "value": "6147"
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/dail-eireann/1923-08-27/galway.json",
+      "source": {
+        "title": "Irish Elections 1922-44: Results and Analysis",
+        "publisher": "Michael Gallagher (PSAI Press, 1993), p. 33",
+        "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+        "accessed": "2026-11-11"
+      },
+      "reason": "The quota was 4,838 (48,375 valid votes for 9 seats), as Gallagher prints it; the 4,845 shown came from the import.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "set",
+          "path": "meta.quota",
+          "value": 4838
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Quota",
+          "value": "4838"
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/dail-eireann/1927-09-15/dublin-north.json",
+      "source": {
+        "title": "Irish Elections 1922-44: Results and Analysis",
+        "publisher": "Michael Gallagher (PSAI Press, 1993), p. 100",
+        "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+        "accessed": "2026-11-11"
+      },
+      "reason": "The quota was 7,245 (65,202 valid votes for 8 seats), as Gallagher prints it; the 50,013 shown came from the import.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "set",
+          "path": "meta.quota",
+          "value": 7245
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Quota",
+          "value": "7245"
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/dail-eireann/2002-05-17/donegal-north-east.json",
+      "source": {
+        "title": "2002 General Election: Donegal North East",
+        "publisher": "ElectionsIreland.org",
+        "url": "https://electionsireland.org/result.cfm?election=2002&cons=72",
+        "accessed": "2026-11-11"
+      },
+      "reason": "Se\u00e1n Maloney had 3,723 first preferences, not 3,694 (Wikipedia's count table, from which the counts were taken, has 3,694); with it the first preferences add up to the official valid poll. Corrected in the count table (data/elections/dail-wikipedia-counts).",
+      "category": "arithmetic",
+      "operations": []
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/dail-eireann/2002-05-17/donegal-south-west.json",
+      "source": {
+        "title": "2002 General Election: Donegal South West",
+        "publisher": "ElectionsIreland.org",
+        "url": "https://electionsireland.org/result.cfm?election=2002&cons=74",
+        "accessed": "2026-11-11"
+      },
+      "reason": "Pearse Doherty had 2,696 first preferences, not 2,697 (Wikipedia's count table, from which the counts were taken, has 2,697); with it the first preferences add up to the official valid poll. Corrected in the count table (data/elections/dail-wikipedia-counts).",
+      "category": "arithmetic",
+      "operations": []
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/dail-eireann/2002-05-17/galway-west.json",
+      "source": {
+        "title": "2002 General Election: Galway West",
+        "publisher": "ElectionsIreland.org",
+        "url": "https://electionsireland.org/result.cfm?election=2002&cons=129",
+        "accessed": "2026-11-11"
+      },
+      "reason": "Donal Lyons had 1,995 first preferences, not 1,935 (Wikipedia's count table, from which the counts were taken, has 1,935); with it the first preferences add up to the official valid poll. Corrected in the count table (data/elections/dail-wikipedia-counts).",
+      "category": "arithmetic",
+      "operations": []
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/dail-eireann/2007-05-24/carlow-kilkenny.json",
+      "source": {
+        "title": "2007 General Election: Carlow Kilkenny",
+        "publisher": "ElectionsIreland.org",
+        "url": "https://electionsireland.org/result.cfm?election=2007&cons=32",
+        "accessed": "2026-11-11"
+      },
+      "reason": "Phil Hogan had 8,589 first preferences, not 8,569 (Wikipedia's count table, from which the counts were taken, has 8,569); with it the first preferences add up to the official valid poll. Corrected in the count table (data/elections/dail-wikipedia-counts).",
+      "category": "arithmetic",
+      "operations": []
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/dail-eireann/2007-05-24/donegal-north-east.json",
+      "source": {
+        "title": "2007 General Election: Donegal North East",
+        "publisher": "ElectionsIreland.org",
+        "url": "https://electionsireland.org/result.cfm?election=2007&cons=72",
+        "accessed": "2026-11-11"
+      },
+      "reason": "Ian McGarvey had 766 first preferences, not 733 (Wikipedia's count table, from which the counts were taken, has 733); with it the first preferences add up to the official valid poll. Corrected in the count table (data/elections/dail-wikipedia-counts).",
+      "category": "arithmetic",
+      "operations": []
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/dail-eireann/2007-05-24/dublin-north.json",
+      "source": {
+        "title": "2007 General Election: Dublin North",
+        "publisher": "ElectionsIreland.org",
+        "url": "https://electionsireland.org/result.cfm?election=2007&cons=96",
+        "accessed": "2026-11-11"
+      },
+      "reason": "James Reilly had 7,667 first preferences, not 7,677 (Wikipedia's count table, from which the counts were taken, has 7,677); with it the first preferences add up to the official valid poll. Darragh O'Brien had 7,055 first preferences, not 7,058 (Wikipedia's count table, from which the counts were taken, has 7,058); with it the first preferences add up to the official valid poll. Corrected in the count table (data/elections/dail-wikipedia-counts).",
+      "category": "arithmetic",
+      "operations": []
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/dail-eireann/2007-05-24/wexford.json",
+      "source": {
+        "title": "2007 General Election: Wexford",
+        "publisher": "ElectionsIreland.org",
+        "url": "https://electionsireland.org/result.cfm?election=2007&cons=232",
+        "accessed": "2026-11-11"
+      },
+      "reason": "John Dwyer had 5,068 first preferences, not 5,065 (Wikipedia's count table, from which the counts were taken, has 5,065); with it the first preferences add up to the official valid poll. Corrected in the count table (data/elections/dail-wikipedia-counts).",
+      "category": "arithmetic",
+      "operations": []
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/dail-eireann/2011-02-25/dublin-central.json",
+      "source": {
+        "title": "2011 General Election: Dublin Central",
+        "publisher": "ElectionsIreland.org",
+        "url": "https://electionsireland.org/result.cfm?election=2011&cons=85",
+        "accessed": "2026-11-11"
+      },
+      "reason": "Phil Kearney had 683 first preferences, not 638 (Wikipedia's count table, from which the counts were taken, has 638); with it the first preferences add up to the official valid poll. Corrected in the count table (data/elections/dail-wikipedia-counts).",
+      "category": "arithmetic",
+      "operations": []
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/dail-eireann/2011-02-25/laoighis-offaly.json",
+      "source": {
+        "title": "2011 General Election: Laoighis Offaly",
+        "publisher": "ElectionsIreland.org",
+        "url": "https://electionsireland.org/result.cfm?election=2011&cons=150",
+        "accessed": "2026-11-11"
+      },
+      "reason": "Charles Flanagan had 10,427 first preferences, not 10,443 (Wikipedia's count table, from which the counts were taken, has 10,443); with it the first preferences add up to the official valid poll. Corrected in the count table (data/elections/dail-wikipedia-counts).",
+      "category": "arithmetic",
+      "operations": []
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/dail-eireann/2011-02-25/galway-west.json",
+      "source": {
+        "title": "2011 General Election: Galway West",
+        "publisher": "ElectionsIreland.org",
+        "url": "https://electionsireland.org/result.cfm?election=2011&cons=129",
+        "accessed": "2026-11-11"
+      },
+      "reason": "\u00c9amon \u00d3 Cu\u00edv had 9,035 at count 7, not 9.035 (a thousands separator read as a decimal point). Corrected in the count table (data/elections/dail-wikipedia-counts).",
+      "category": "arithmetic",
+      "operations": []
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/dail-eireann/2020-02-08/dublin-fingal.json",
+      "source": {
+        "title": "Dublin Fingal: 2020 general election",
+        "publisher": "Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Dublin_Fingal",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "D\u00e1il general election 2020: candidate details",
+          "publisher": "Houses of the Oireachtas / Department of Housing (official results CSV, as held in data/elections/dail-official-results.json)",
+          "url": null,
+          "accessed": "2026-11-11"
+        }
+      ],
+      "reason": "Glenn Brady (Independent; 536 first preferences, 668 after the second count and 703 after the third, then excluded) was missing: a broken row in Wikipedia's count table dropped him when it was imported. With him the first preferences add up to the official valid poll of 63,440 and the fourth count hands out his votes. Added to the count table (data/elections/dail-wikipedia-counts).",
+      "category": "arithmetic",
+      "operations": []
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/dail-eireann/1981-06-11/wexford.json",
+      "source": {
+        "title": "1981 General Election: Wexford",
+        "publisher": "ElectionsIreland.org",
+        "url": "https://electionsireland.org/result.cfm?election=1981&cons=232",
+        "accessed": "2026-11-11"
+      },
+      "reason": "The quota was 8,304: 49,820 valid votes for 5 seats, divided by 6 and rounded down, plus one, as the Electoral Act fixes it. The 9,965 shown was ElectionsIreland.org's, which lists Wexford 1981 with 4 seats; the 5 members returned are not in doubt.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "set",
+          "path": "meta.quota",
+          "value": 8304
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/dail-eireann/1992-11-25/laoighis-offaly.json",
+      "source": {
+        "title": "1992 General Election: Laois-Offaly",
+        "publisher": "ElectionsIreland.org",
+        "url": "https://electionsireland.org/result.cfm?election=1992&cons=150",
+        "accessed": "2026-11-11"
+      },
+      "reason": "The quota was 8,946: 53,670 valid votes for 5 seats, divided by 6 and rounded down, plus one, as the Electoral Act fixes it. The 53,671 shown was ElectionsIreland.org's, which lists Laois-Offaly 1992 with 0 seats; the 5 members returned are not in doubt.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "set",
+          "path": "meta.quota",
+          "value": 8946
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/dail-eireann/1997-06-06/donegal-north-east.json",
+      "source": {
+        "title": "1997 General Election: Donegal North East",
+        "publisher": "ElectionsIreland.org",
+        "url": "https://electionsireland.org/result.cfm?election=1997&cons=72",
+        "accessed": "2026-11-11"
+      },
+      "reason": "The quota was 8,883: 35,529 valid votes for 3 seats, divided by 4 and rounded down, plus one, as the Electoral Act fixes it. The 7,106 shown was ElectionsIreland.org's, which lists Donegal North East 1997 with 4 seats; the 3 members returned are not in doubt.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "set",
+          "path": "meta.quota",
+          "value": 8883
         }
       ]
     }

@@ -3,6 +3,12 @@
   "description": "Contests whose figures fail a rule of scripts/check/rules/contest-arithmetic.mjs because the source itself does not add up (or follows a rule of its own), checked against the source named. Each entry: sourceFile (or \"*\" with electionKey for a whole election), rule, reason, source. Transcription errors are not listed here: they are fixed in source-checked-fixes.json.",
   "entries": [
     {
+      "sourceFile": "data/elections-source/data/elections/dail-eireann/1918-12-14/cork.json",
+      "rule": "electorate-poll",
+      "reason": "The 1918 election was a block vote: Cork City returned two members and each voter had two votes, so the 60,722 votes cast exceed the 45,017 electors; the turnout is of voters, not votes.",
+      "source": "ElectionsIreland.org, 1918 Cork City; Walker, Parliamentary Election Results in Ireland 1801-1922"
+    },
+    {
       "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1831-04-28/coleraine.json",
       "rule": "electorate-poll",
       "reason": "The 52 are the corporation's voters (History of Parliament, 1831); the 70 tendered freemen's votes counted here were not on that roll.",
