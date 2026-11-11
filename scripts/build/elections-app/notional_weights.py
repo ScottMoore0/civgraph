@@ -9,7 +9,7 @@ area, two ways:
 Notional votes in a new area = sum over old areas of weight(old -> new) x votes(old).
 
 Written to site/apps/elections/notional/<old>__<new>.json (small, committed: open boundary data
-and census counts only). Inputs are read from the main checkout's data by default (--repo).
+and census counts only). Inputs are the gitignored boundary and census files of a full checkout (--repo, or CIVGRAPH_DATA_ROOT; default this checkout).
 
   python scripts/build/elections-app/notional_weights.py [--repo PATH] [--pair pc-2008:pc-2023]
 """
@@ -90,7 +90,8 @@ def weights(old, new, old_name, new_name, dz):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--repo', default=r'C:\Users\scomo\boundaries-website', help='where the boundary and census inputs are (read only)')
+    ap.add_argument('--repo', default=os.environ.get('CIVGRAPH_DATA_ROOT', WORKTREE),
+                    help='the checkout holding the gitignored boundary and census inputs (read only); a worktree passes the main checkout')
     ap.add_argument('--pair', action='append', help='old:new (default: every pair)')
     ap.add_argument('--out', default=os.path.join(WORKTREE, 'site', 'apps', 'elections', 'notional'))
     a = ap.parse_args()
