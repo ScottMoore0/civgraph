@@ -196,6 +196,17 @@
       ],
       "node": false
     },
+    "elections-app": {
+      "//": "The Elections app (site/apps/elections/, served unbundled at /apps/elections/): its own modules, the served package modules under /pkg/ (site-pkg), and the site's served helpers (frontend: /assets/ui/state/machine.js). Never packages/ by a relative path: a served page cannot reach it.",
+      "paths": [
+        "site/apps/elections/"
+      ],
+      "allow": [
+        "site-pkg",
+        "frontend"
+      ],
+      "node": false
+    },
     "frontend": {
       "paths": [
         "src/",
