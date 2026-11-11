@@ -2,7 +2,7 @@
  "schemaVersion": 2,
  "description": "Stable identifiers for people appearing as candidates in the current election data. The id is independent of name spelling, so a correction changes displayName and adds an alias, never the id.",
  "idPolicy": "Ids are permanent. PersonIDs 1-100011 are the curated block carried forward from scripts/ingest/persons/person_registry.json; 100012+ are derived. A new id is never one issued before, even one merged away at once: idHighWater is the highest issued (person_id_issued.py).",
- "idHighWater": 150212,
+ "idHighWater": 150331,
  "supersedes": "scripts/ingest/persons/person_registry.json (2,388 curated persons; its source workbook is no longer present and apply_person_ids.py targets an _aggregates.json layout that no longer exists)",
  "evidence": {
   "rowIndexIdsDiscarded": [
@@ -9904,7 +9904,7 @@
    "eraReason": "split by its official person id (democracyclub:2137): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150129
+    150266
    ]
   },
   {
@@ -12303,7 +12303,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150178
+    150316
    ]
   },
   {
@@ -12883,14 +12883,15 @@
    ],
    "sourceIds": [
     "20313",
+    "4167042036",
     "T2346236396"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [
     "democracyclub:4013"
    ],
-   "candidacies": 7,
-   "contests": 7,
+   "candidacies": 8,
+   "contests": 8,
    "firstYear": 2005,
    "lastYear": 2019,
    "bodies": [
@@ -12906,7 +12907,10 @@
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    150287
+   ]
   },
   {
    "id": "p20345",
@@ -13586,7 +13590,7 @@
    "eraReason": "split by its official person id (democracyclub:7132): the source id it shares is held by another person with another official id",
    "nameVariants": true,
    "mergedFrom": [
-    150130
+    150267
    ]
   },
   {
@@ -25203,7 +25207,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150180
+    150318
    ]
   },
   {
@@ -27499,8 +27503,8 @@
     "niassembly:140",
     "wikidata:Q7148268"
    ],
-   "candidacies": 12,
-   "contests": 12,
+   "candidacies": 13,
+   "contests": 13,
    "firstYear": 1993,
    "lastYear": 2022,
    "bodies": [
@@ -28935,14 +28939,15 @@
     "carl mcclean"
    ],
    "sourceIds": [
+    "2097177719",
     "46273"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [
     "democracyclub:8156"
    ],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 2014,
    "lastYear": 2023,
    "bodies": [
@@ -28957,7 +28962,10 @@
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    104746
+   ]
   },
   {
    "id": "p46274",
@@ -42116,7 +42124,7 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "nameVariants": true,
    "mergedFrom": [
-    150076
+    150213
    ]
   },
   {
@@ -43170,7 +43178,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150181
+    150319
    ]
   },
   {
@@ -51591,6 +51599,7 @@
     "maurice devenney"
    ],
    "sourceIds": [
+    "248745875",
     "84453",
     "T91727788"
    ],
@@ -51600,8 +51609,8 @@
     "niassembly:4510",
     "wikidata:Q18358115"
    ],
-   "candidacies": 7,
-   "contests": 7,
+   "candidacies": 8,
+   "contests": 8,
    "firstYear": 1997,
    "lastYear": 2023,
    "bodies": [
@@ -51616,7 +51625,10 @@
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    104872
+   ]
   },
   {
    "id": "p84525",
@@ -56266,16 +56278,22 @@
    ],
    "sourceIds": [
     "2163554540",
+    "92371",
     "T2163554540"
    ],
    "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "officialPersonIds": [
+    "democracyclub:11855",
+    "niassembly:5594",
+    "wikidata:Q22004073"
+   ],
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 2001,
-   "lastYear": 2014,
+   "lastYear": 2016,
    "bodies": [
-    "local-government"
+    "local-government",
+    "northern-ireland-assembly"
    ],
    "parties": [
     "SDLP"
@@ -56283,7 +56301,10 @@
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    102394
+   ]
   },
   {
    "id": "p92384",
@@ -60504,7 +60525,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150148
+    150283
    ]
   },
   {
@@ -61725,25 +61746,30 @@
    "personId": 100052,
    "displayName": "W T Cosgrave",
    "aliases": [
+    "W. T. Cosgrave",
     "W T Cosgrave"
    ],
    "matchKeys": [
     "w t cosgrave"
    ],
-   "sourceIds": [],
+   "sourceIds": [
+    "W. T. Cosgrave|Sinn Féin"
+   ],
    "sourcePersonIds": [
-    "ei:1106"
+    "ei:1106",
+    "wikipedia:W. T. Cosgrave"
    ],
    "officialPersonIds": [
     "oireachtas:William-T-Cosgrave.D.1919-01-21",
     "wikidata:Q465770"
    ],
-   "candidacies": 12,
-   "contests": 11,
-   "firstYear": 1918,
+   "candidacies": 13,
+   "contests": 12,
+   "firstYear": 1917,
    "lastYear": 1943,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "house-of-commons-of-the-united-kingdom"
    ],
    "parties": [
     "Cumann na nGaedheal",
@@ -61753,7 +61779,10 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:1106)",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    125095
+   ]
   },
   {
    "id": "p100053",
@@ -62219,20 +62248,24 @@
     "patrick j mcgilligan",
     "patrick mcgilligan"
    ],
-   "sourceIds": [],
+   "sourceIds": [
+    "Patrick McGilligan|Sinn Féin"
+   ],
    "sourcePersonIds": [
-    "ei:1470"
+    "ei:1470",
+    "wikipedia:Patrick McGilligan (Fine Gael politician)"
    ],
    "officialPersonIds": [
     "oireachtas:Patrick-McGilligan.D.1923-11-03",
     "wikidata:Q2057801"
    ],
-   "candidacies": 16,
-   "contests": 16,
+   "candidacies": 17,
+   "contests": 17,
    "firstYear": 1918,
    "lastYear": 1965,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "house-of-commons-of-the-united-kingdom"
    ],
    "parties": [
     "Cumann na nGaedheal",
@@ -62242,7 +62275,10 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:1470)",
    "provisional": true,
-   "nameVariants": true
+   "nameVariants": true,
+   "mergedFrom": [
+    124909
+   ]
   },
   {
    "id": "p100070",
@@ -62410,10 +62446,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150087,
-    150103,
-    150151,
-    150152
+    150224,
+    150240,
+    150289,
+    150290
    ]
   },
   {
@@ -62725,10 +62761,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150114,
-    150115,
-    150132,
-    150186
+    150251,
+    150252,
+    150269,
+    150324
    ]
   },
   {
@@ -63419,10 +63455,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150092,
-    150093,
-    150160,
-    150161
+    150229,
+    150230,
+    150298,
+    150299
    ]
   },
   {
@@ -63459,10 +63495,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150094,
-    150108,
-    150120,
-    150162
+    150231,
+    150245,
+    150257,
+    150300
    ]
   },
   {
@@ -63966,8 +64002,8 @@
    "eraReason": "split by its official person id (democracyclub:68911): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150112,
-    150179
+    150249,
+    150317
    ]
   },
   {
@@ -64127,11 +64163,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150099,
-    150116,
-    150188,
-    150189,
-    150190
+    150236,
+    150253,
+    150326,
+    150327,
+    150328
    ]
   },
   {
@@ -64906,10 +64942,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150079,
-    150085,
-    150143,
-    150144
+    150216,
+    150222,
+    150278,
+    150279
    ]
   },
   {
@@ -65021,8 +65057,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
+   "candidacies": 7,
+   "contests": 7,
    "firstYear": 1985,
    "lastYear": 2011,
    "bodies": [
@@ -65829,12 +65865,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150113,
-    150131,
-    150182,
-    150183,
-    150184,
-    150185
+    150250,
+    150268,
+    150320,
+    150321,
+    150322,
+    150323
    ]
   },
   {
@@ -68569,25 +68605,31 @@
    "personId": 100288,
    "displayName": "Dr Patrick McCartan",
    "aliases": [
-    "Dr Patrick McCartan"
+    "Dr Patrick McCartan",
+    "Patrick McCartan"
    ],
    "matchKeys": [
-    "dr patrick mccartan"
+    "dr patrick mccartan",
+    "patrick mccartan"
    ],
-   "sourceIds": [],
+   "sourceIds": [
+    "Patrick McCartan|Sinn Féin"
+   ],
    "sourcePersonIds": [
-    "ei:1029"
+    "ei:1029",
+    "wikipedia:Patrick McCartan"
    ],
    "officialPersonIds": [
     "oireachtas:Patrick-McCartan.D.1919-01-21",
     "wikidata:Q7147125"
    ],
-   "candidacies": 7,
-   "contests": 7,
+   "candidacies": 9,
+   "contests": 9,
    "firstYear": 1918,
    "lastYear": 1957,
    "bodies": [
     "dail-eireann",
+    "house-of-commons-of-the-united-kingdom",
     "ireland-president"
    ],
    "parties": [
@@ -68598,7 +68640,10 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:1029)",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    124908
+   ]
   },
   {
    "id": "p100289",
@@ -70231,9 +70276,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150080,
-    150081,
-    150105
+    150217,
+    150218,
+    150242
    ]
   },
   {
@@ -70271,11 +70316,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150090,
-    150106,
-    150107,
-    150119,
-    150157
+    150227,
+    150243,
+    150244,
+    150256,
+    150295
    ]
   },
   {
@@ -70312,10 +70357,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150077,
-    150082,
-    150169,
-    150170
+    150214,
+    150219,
+    150307,
+    150308
    ]
   },
   {
@@ -72466,11 +72511,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150078,
-    150133,
-    150134,
-    150135,
-    150191
+    150215,
+    150270,
+    150271,
+    150272,
+    150329
    ]
   },
   {
@@ -74841,7 +74886,9 @@
     "eoin macneill",
     "professor eoin macneill"
    ],
-   "sourceIds": [],
+   "sourceIds": [
+    "14774072"
+   ],
    "sourcePersonIds": [
     "ei:1160"
    ],
@@ -74849,12 +74896,13 @@
     "oireachtas:Eoin-MacNeill.D.1919-01-21",
     "wikidata:Q1346298"
    ],
-   "candidacies": 7,
-   "contests": 5,
+   "candidacies": 8,
+   "contests": 6,
    "firstYear": 1918,
    "lastYear": 1927,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "parliament-of-northern-ireland"
    ],
    "parties": [
     "Cumann na nGaedheal",
@@ -74864,7 +74912,10 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:1160)",
    "provisional": true,
-   "nameVariants": true
+   "nameVariants": true,
+   "mergedFrom": [
+    104361
+   ]
   },
   {
    "id": "p100505",
@@ -75603,12 +75654,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150083,
-    150109,
-    150125,
-    150126,
-    150171,
-    150172
+    150220,
+    150246,
+    150262,
+    150263,
+    150309,
+    150310
    ]
   },
   {
@@ -75646,11 +75697,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150084,
-    150097,
-    150110,
-    150173,
-    150174
+    150221,
+    150234,
+    150247,
+    150311,
+    150312
    ]
   },
   {
@@ -75690,13 +75741,13 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150098,
-    150111,
-    150127,
-    150128,
-    150175,
-    150176,
-    150177
+    150235,
+    150248,
+    150264,
+    150265,
+    150313,
+    150314,
+    150315
    ]
   },
   {
@@ -78274,27 +78325,33 @@
     "Patrick Donnelly|Irish Parliamentary"
    ],
    "sourcePersonIds": [
+    "ei:912",
     "wikipedia:Patrick Donnelly (politician)"
    ],
    "officialPersonIds": [
     "wikidata:Q7146390"
    ],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1918,
    "lastYear": 1929,
    "bodies": [
+    "dail-eireann",
     "house-of-commons-of-the-united-kingdom",
     "parliament-of-northern-ireland"
    ],
    "parties": [
     "Independent Nationalist",
-    "Irish Parliamentary"
+    "Irish Parliamentary",
+    "Nationalist Party"
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (wikipedia:Patrick Donnelly (politician))",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    113370
+   ]
   },
   {
    "id": "p100624",
@@ -79143,19 +79200,21 @@
    ],
    "sourceIds": [],
    "sourcePersonIds": [
-    "ei:4630"
+    "ei:4630",
+    "ie:1787"
    ],
    "officialPersonIds": [
     "oireachtas:Catherine-Connolly.D.2016-10-03",
     "wikidata:Q5052598"
    ],
-   "candidacies": 8,
-   "contests": 8,
+   "candidacies": 10,
+   "contests": 10,
    "firstYear": 1999,
-   "lastYear": 2024,
+   "lastYear": 2025,
    "bodies": [
     "dail-eireann",
-    "ireland-local"
+    "ireland-local",
+    "ireland-president"
    ],
    "parties": [
     "Independent",
@@ -79163,7 +79222,14 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:4630)",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    128598,
+    130345
+   ],
+   "nameKeyedRows": [
+    "catherine connolly"
+   ]
   },
   {
    "id": "p100653",
@@ -79238,37 +79304,52 @@
    "displayName": "George Noble Count Plunkett",
    "aliases": [
     "George Noble Count Plunkett",
-    "Count George Plunkett"
+    "Count George Plunkett",
+    "George Noble Plunkett",
+    "George Plunkett"
    ],
    "matchKeys": [
     "count george plunkett",
-    "george noble count plunkett"
+    "george noble count plunkett",
+    "george noble plunkett",
+    "george plunkett"
    ],
-   "sourceIds": [],
+   "sourceIds": [
+    "George Noble Plunkett|Irish National Federation",
+    "George Noble Plunkett|Sinn Féin",
+    "George Plunkett|Irish National League"
+   ],
    "sourcePersonIds": [
-    "ei:1066"
+    "ei:1066",
+    "wikipedia:George Noble Plunkett"
    ],
    "officialPersonIds": [
     "oireachtas:George-Noble-Plunkett.D.1919-01-21",
     "wikidata:Q454142"
    ],
-   "candidacies": 6,
-   "contests": 6,
-   "firstYear": 1918,
+   "candidacies": 10,
+   "contests": 10,
+   "firstYear": 1892,
    "lastYear": 1936,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "house-of-commons-of-the-united-kingdom"
    ],
    "parties": [
     "Anti-Treaty Sinn Féin",
     "Cumann na Poblachta",
+    "Irish National Federation",
+    "Irish National League",
     "Republican",
     "Sinn Féin"
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:1066)",
    "provisional": true,
-   "nameVariants": true
+   "nameVariants": true,
+   "mergedFrom": [
+    123237
+   ]
   },
   {
    "id": "p100657",
@@ -83138,35 +83219,45 @@
    "personId": 100788,
    "displayName": "Sir John Esmonde",
    "aliases": [
+    "John Lymbrick Esmonde",
     "Sir John Esmonde",
     "John Esmonde"
    ],
    "matchKeys": [
     "john esmonde",
+    "john lymbrick esmonde",
     "sir john esmonde"
    ],
-   "sourceIds": [],
+   "sourceIds": [
+    "John Lymbrick Esmonde|Irish Parliamentary"
+   ],
    "sourcePersonIds": [
-    "ei:1875"
+    "ei:1875",
+    "wikipedia:Sir John Esmonde, 14th Baronet"
    ],
    "officialPersonIds": [
     "oireachtas:John-Lymbrick-Esmonde.D.1937-07-21",
     "wikidata:Q7527764"
    ],
-   "candidacies": 6,
-   "contests": 6,
-   "firstYear": 1936,
+   "candidacies": 7,
+   "contests": 7,
+   "firstYear": 1915,
    "lastYear": 1948,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "house-of-commons-of-the-united-kingdom"
    ],
    "parties": [
-    "Fine Gael"
+    "Fine Gael",
+    "Irish Parliamentary"
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:1875)",
    "provisional": true,
-   "nameVariants": true
+   "nameVariants": true,
+   "mergedFrom": [
+    124774
+   ]
   },
   {
    "id": "p100789",
@@ -83403,31 +83494,44 @@
    "personId": 100797,
    "displayName": "Vincent White",
    "aliases": [
+    "Dr Vincent White",
     "Vincent White"
    ],
    "matchKeys": [
+    "dr vincent white",
     "vincent white"
    ],
    "sourceIds": [
     "Vincent White|Sinn Féin"
    ],
    "sourcePersonIds": [
+    "ei:1444",
     "wikipedia:Vincent White (politician)"
    ],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "officialPersonIds": [
+    "oireachtas:Dr-Vincent-Joseph-White.D.1921-08-16",
+    "wikidata:Q7932107"
+   ],
+   "candidacies": 9,
+   "contests": 9,
    "firstYear": 1918,
-   "lastYear": 1918,
+   "lastYear": 1933,
    "bodies": [
+    "dail-eireann",
     "house-of-commons-of-the-united-kingdom"
    ],
    "parties": [
+    "Cumann na nGaedheal",
+    "Pro-Treaty Sinn Féin",
     "Sinn Féin"
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (wikipedia:Vincent White (politician))",
-   "provisional": true
+   "provisional": true,
+   "nameVariants": true,
+   "mergedFrom": [
+    101863
+   ]
   },
   {
    "id": "p100799",
@@ -83465,12 +83569,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150086,
-    150100,
-    150101,
-    150102,
-    150146,
-    150147
+    150223,
+    150237,
+    150238,
+    150239,
+    150281,
+    150282
    ]
   },
   {
@@ -83636,11 +83740,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150088,
-    150089,
-    150104,
-    150155,
-    150156
+    150225,
+    150226,
+    150241,
+    150293,
+    150294
    ]
   },
   {
@@ -83676,9 +83780,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150091,
-    150158,
-    150159
+    150228,
+    150296,
+    150297
    ]
   },
   {
@@ -83717,12 +83821,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150095,
-    150096,
-    150122,
-    150123,
-    150124,
-    150168
+    150232,
+    150233,
+    150259,
+    150260,
+    150261,
+    150306
    ]
   },
   {
@@ -88257,8 +88361,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1985,
    "lastYear": 2011,
    "bodies": [
@@ -89317,8 +89421,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1977,
    "lastYear": 2011,
    "bodies": [
@@ -91531,11 +91635,12 @@
    ],
    "sourceIds": [],
    "sourcePersonIds": [
-    "ei:3439"
+    "ei:3439",
+    "ie:714"
    ],
    "officialPersonIds": [],
-   "candidacies": 15,
-   "contests": 15,
+   "candidacies": 17,
+   "contests": 17,
    "firstYear": 1982,
    "lastYear": 2020,
    "bodies": [
@@ -91548,7 +91653,10 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3439)",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    129646
+   ]
   },
   {
    "id": "p101085",
@@ -93802,29 +93910,37 @@
     "john f o hanlon",
     "john o hanlon"
    ],
-   "sourceIds": [],
+   "sourceIds": [
+    "John O'Hanlon|Irish Parliamentary"
+   ],
    "sourcePersonIds": [
-    "ei:1484"
+    "ei:1484",
+    "wikipedia:John O'Hanlon (politician)"
    ],
    "officialPersonIds": [
     "oireachtas:John-F-O'Hanlon.D.1927-06-23",
     "wikidata:Q15998859"
    ],
-   "candidacies": 5,
-   "contests": 5,
-   "firstYear": 1925,
+   "candidacies": 6,
+   "contests": 6,
+   "firstYear": 1918,
    "lastYear": 1933,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "house-of-commons-of-the-united-kingdom"
    ],
    "parties": [
     "Independent",
+    "Irish Parliamentary",
     "National Centre Party"
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:1484)",
    "provisional": true,
-   "nameVariants": true
+   "nameVariants": true,
+   "mergedFrom": [
+    124299
+   ]
   },
   {
    "id": "p101169",
@@ -95959,20 +96075,24 @@
    "personId": 101245,
    "displayName": "Patrick Palmer",
    "aliases": [
+    "Patrick W Palmer",
     "Patrick Palmer"
    ],
    "matchKeys": [
-    "patrick palmer"
+    "patrick palmer",
+    "patrick w palmer"
    ],
    "sourceIds": [],
-   "sourcePersonIds": [],
+   "sourcePersonIds": [
+    "ei:2297"
+   ],
    "officialPersonIds": [
     "oireachtas:Patrick-W-Palmer.D.1948-02-18",
     "wikidata:Q7147447"
    ],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1957,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1948,
    "lastYear": 1957,
    "bodies": [
     "dail-eireann"
@@ -95982,7 +96102,13 @@
    ],
    "keyedBy": "name",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "nameKeyedRows": [
+    "patrick palmer"
+   ],
+   "mergedFrom": [
+    134538
+   ]
   },
   {
    "id": "p101246",
@@ -101088,10 +101214,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1993,
-   "lastYear": 2001,
+   "lastYear": 2005,
    "bodies": [
     "local-government"
    ],
@@ -102645,14 +102771,15 @@
    ],
    "sourceIds": [
     "1903914006",
+    "3074483928",
     "T1903914006"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [
     "democracyclub:50318"
    ],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 2011,
    "lastYear": 2023,
    "bodies": [
@@ -102665,7 +102792,10 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    105083
+   ]
   },
   {
    "id": "p101515",
@@ -111158,18 +111288,20 @@
    ],
    "sourceIds": [],
    "sourcePersonIds": [
-    "ei:11052"
+    "ei:11052",
+    "ie:5641"
    ],
    "officialPersonIds": [
     "oireachtas:Carol-Nolan.D.2016-10-03",
     "wikidata:Q23006332"
    ],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 2016,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 2014,
    "lastYear": 2024,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "ireland-local"
    ],
    "parties": [
     "Independent",
@@ -111177,7 +111309,10 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:11052)",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    129531
+   ]
   },
   {
    "id": "p101816",
@@ -112667,43 +112802,6 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:4856)",
    "provisional": true
-  },
-  {
-   "id": "p101863",
-   "personId": 101863,
-   "displayName": "Dr Vincent White",
-   "aliases": [
-    "Dr Vincent White",
-    "Vincent White"
-   ],
-   "matchKeys": [
-    "dr vincent white",
-    "vincent white"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [
-    "ei:1444"
-   ],
-   "officialPersonIds": [
-    "oireachtas:Dr-Vincent-Joseph-White.D.1921-08-16",
-    "wikidata:Q7932107"
-   ],
-   "candidacies": 8,
-   "contests": 8,
-   "firstYear": 1918,
-   "lastYear": 1933,
-   "bodies": [
-    "dail-eireann"
-   ],
-   "parties": [
-    "Cumann na nGaedheal",
-    "Pro-Treaty Sinn Féin",
-    "Sinn Féin"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:1444)",
-   "provisional": true,
-   "nameVariants": true
   },
   {
    "id": "p101865",
@@ -115085,11 +115183,12 @@
    ],
    "sourceIds": [],
    "sourcePersonIds": [
-    "ei:9965"
+    "ei:9965",
+    "ie:12135"
    ],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 2009,
    "lastYear": 2024,
    "bodies": [
@@ -115102,7 +115201,10 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:9965)",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    128271
+   ]
   },
   {
    "id": "p101946",
@@ -118584,8 +118686,8 @@
     "oireachtas:Paul-McAuliffe.D.2020-02-08",
     "wikidata:Q28363948"
    ],
-   "candidacies": 6,
-   "contests": 6,
+   "candidacies": 7,
+   "contests": 7,
    "firstYear": 2004,
    "lastYear": 2024,
    "bodies": [
@@ -118598,7 +118700,13 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:238)",
-   "provisional": true
+   "provisional": true,
+   "nameKeyedRows": [
+    "paul mcauliffe"
+   ],
+   "mergedFrom": [
+    119413
+   ]
   },
   {
    "id": "p102071",
@@ -118612,26 +118720,31 @@
    ],
    "sourceIds": [],
    "sourcePersonIds": [
-    "ei:11935"
+    "ei:11935",
+    "ie:18122"
    ],
    "officialPersonIds": [
     "oireachtas:Pauline-O'Reilly.S.2020-03-30",
     "wikidata:Q94691527"
    ],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 2020,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 2019,
    "lastYear": 2024,
    "bodies": [
     "dail-eireann",
-    "ireland-european"
+    "ireland-european",
+    "ireland-local"
    ],
    "parties": [
     "Green"
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:11935)",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    150198
+   ]
   },
   {
    "id": "p102072",
@@ -121013,10 +121126,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150139,
-    150140,
-    150141,
-    150142
+    150274,
+    150275,
+    150276,
+    150277
    ]
   },
   {
@@ -121051,8 +121164,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150117,
-    150145
+    150254,
+    150280
    ]
   },
   {
@@ -126163,40 +126276,6 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
-   "id": "p102394",
-   "personId": 102394,
-   "displayName": "Gerard Diver",
-   "aliases": [
-    "Gerard Diver"
-   ],
-   "matchKeys": [
-    "gerard diver"
-   ],
-   "sourceIds": [
-    "92371"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [
-    "democracyclub:11855",
-    "niassembly:5594",
-    "wikidata:Q22004073"
-   ],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 2003,
-   "lastYear": 2016,
-   "bodies": [
-    "northern-ireland-assembly"
-   ],
-   "parties": [
-    "SDLP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p102396",
    "personId": 102396,
    "displayName": "Pete Byrne",
@@ -126362,10 +126441,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150164,
-    150165,
-    150166,
-    150167
+    150302,
+    150303,
+    150304,
+    150305
    ]
   },
   {
@@ -128311,10 +128390,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1997,
-   "lastYear": 2001,
+   "lastYear": 2005,
    "bodies": [
     "local-government"
    ],
@@ -146792,35 +146871,45 @@
    "personId": 103138,
    "displayName": "Captain William Redmond",
    "aliases": [
-    "Captain William Redmond"
+    "Captain William Redmond",
+    "William Redmond"
    ],
    "matchKeys": [
-    "captain william redmond"
+    "captain william redmond",
+    "william redmond"
    ],
-   "sourceIds": [],
+   "sourceIds": [
+    "William Redmond|Irish Parliamentary"
+   ],
    "sourcePersonIds": [
-    "ei:1087"
+    "ei:1087",
+    "wikipedia:William Redmond (Irish politician, born 1886)"
    ],
    "officialPersonIds": [
     "oireachtas:William-Archer-Redmond.D.1923-09-19",
     "wikidata:Q8017428"
    ],
-   "candidacies": 5,
-   "contests": 5,
-   "firstYear": 1918,
+   "candidacies": 7,
+   "contests": 7,
+   "firstYear": 1910,
    "lastYear": 1932,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "house-of-commons-of-the-united-kingdom"
    ],
    "parties": [
     "Cumann na nGaedheal",
     "Independent",
+    "Irish Parliamentary",
     "Nationalist Party",
     "Non party/Independent"
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:1087)",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    123552
+   ]
   },
   {
    "id": "p103139",
@@ -153439,14 +153528,15 @@
    ],
    "sourceIds": [],
    "sourcePersonIds": [
-    "ei:383"
+    "ei:383",
+    "ie:13866"
    ],
    "officialPersonIds": [
     "oireachtas:John-Connolly.D.2024-11-29",
     "wikidata:Q131450358"
    ],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 2004,
    "lastYear": 2024,
    "bodies": [
@@ -153458,7 +153548,10 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:383)",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    150137
+   ]
   },
   {
    "id": "p103377",
@@ -154783,32 +154876,41 @@
    "personId": 103423,
    "displayName": "Joseph P McGuinness",
    "aliases": [
-    "Joseph P McGuinness"
+    "Joseph P McGuinness",
+    "Joseph McGuinness"
    ],
    "matchKeys": [
+    "joseph mcguinness",
     "joseph p mcguinness"
    ],
-   "sourceIds": [],
+   "sourceIds": [
+    "Joseph McGuinness|Sinn Féin"
+   ],
    "sourcePersonIds": [
-    "ei:6800"
+    "ei:6800",
+    "wikipedia:Joseph McGuinness"
    ],
    "officialPersonIds": [
     "oireachtas:Joseph-McGuinness.D.1919-01-21",
     "wikidata:Q6285467"
    ],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1918,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1917,
    "lastYear": 1921,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "house-of-commons-of-the-united-kingdom"
    ],
    "parties": [
     "Sinn Féin"
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:6800)",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    127167
+   ]
   },
   {
    "id": "p103424",
@@ -164446,22 +164548,27 @@
    "matchKeys": [
     "william duffy"
    ],
-   "sourceIds": [],
+   "sourceIds": [
+    "William Duffy|Irish Parliamentary"
+   ],
    "sourcePersonIds": [
-    "ei:1017"
+    "ei:1017",
+    "wikipedia:William Duffy (politician)"
    ],
    "officialPersonIds": [
     "oireachtas:William-Duffy.D.1927-06-23",
     "wikidata:Q8008069"
    ],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1918,
+   "candidacies": 6,
+   "contests": 6,
+   "firstYear": 1900,
    "lastYear": 1927,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "house-of-commons-of-the-united-kingdom"
    ],
    "parties": [
+    "Irish Parliamentary",
     "National League",
     "Nationalist Party"
    ],
@@ -164470,6 +164577,9 @@
    "provisional": true,
    "nameKeyedRows": [
     "william duffy"
+   ],
+   "mergedFrom": [
+    122806
    ]
   },
   {
@@ -166321,7 +166431,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150150
+    150288
    ]
   },
   {
@@ -167940,9 +168050,13 @@
    "personId": 103915,
    "displayName": "William J. Allen",
    "aliases": [
-    "William J. Allen"
+    "Lt Col Sir William Allen",
+    "William J. Allen",
+    "William Allen"
    ],
    "matchKeys": [
+    "lt col sir william allen",
+    "william allen",
     "william j allen"
    ],
    "sourceIds": [
@@ -167952,24 +168066,35 @@
     "14438621",
     "15732930",
     "4055133",
-    "8430460"
+    "8430460",
+    "William Allen|Irish Unionist"
    ],
-   "sourcePersonIds": [],
+   "sourcePersonIds": [
+    "ei:910",
+    "wikipedia:William Allen (Armagh MP)"
+   ],
    "officialPersonIds": [],
-   "candidacies": 7,
-   "contests": 7,
-   "firstYear": 1922,
+   "candidacies": 9,
+   "contests": 9,
+   "firstYear": 1917,
    "lastYear": 1945,
    "bodies": [
+    "dail-eireann",
     "house-of-commons-of-the-united-kingdom"
    ],
    "parties": [
-    "UUP"
+    "Irish Unionist",
+    "UUP",
+    "Unionist"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    109916,
+    125104
+   ]
   },
   {
    "id": "p103916",
@@ -168528,15 +168653,29 @@
    ],
    "sourceIds": [
     "11197779",
-    "1670813"
+    "14896147",
+    "14905607",
+    "15197139",
+    "16356851",
+    "16417198",
+    "1670813",
+    "2020231",
+    "2611575",
+    "4437620",
+    "4657083",
+    "5851724",
+    "9683217"
    ],
    "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "officialPersonIds": [
+    "wikidata:Q5733912"
+   ],
+   "candidacies": 13,
+   "contests": 13,
    "firstYear": 1921,
-   "lastYear": 1925,
+   "lastYear": 1949,
    "bodies": [
+    "house-of-commons-of-the-united-kingdom",
     "parliament-of-northern-ireland"
    ],
    "parties": [
@@ -168545,7 +168684,10 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    104375
+   ]
   },
   {
    "id": "p103940",
@@ -169892,7 +170034,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150149
+    150284
    ]
   },
   {
@@ -172404,29 +172546,35 @@
     "James Craig|Irish Unionist Alliance"
    ],
    "sourcePersonIds": [
+    "ei:968",
     "wikipedia:James Craig, 1st Viscount Craigavon"
    ],
    "officialPersonIds": [
     "wikidata:Q336809"
    ],
-   "candidacies": 9,
-   "contests": 9,
+   "candidacies": 10,
+   "contests": 10,
    "firstYear": 1903,
    "lastYear": 1938,
    "bodies": [
+    "dail-eireann",
     "house-of-commons-of-the-united-kingdom",
     "parliament-of-northern-ireland"
    ],
    "parties": [
     "Irish Unionist",
     "Irish Unionist Alliance",
-    "UUP"
+    "UUP",
+    "Unionist"
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (wikipedia:James Craig, 1st Viscount Craigavon)",
    "provisional": true,
    "nameVariants": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    117728
+   ]
   },
   {
    "id": "p104107",
@@ -173572,28 +173720,37 @@
    ],
    "sourceIds": [
     "13212723",
-    "261201"
+    "261201",
+    "Hugh O'Neill|Irish Unionist"
    ],
    "sourcePersonIds": [
-    "ei:8345"
+    "ei:8345",
+    "wikipedia:Hugh O'Neill, 1st Baron Rathcavan"
    ],
-   "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1918,
+   "officialPersonIds": [
+    "wikidata:Q16010090"
+   ],
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1915,
    "lastYear": 1925,
    "bodies": [
     "dail-eireann",
+    "house-of-commons-of-the-united-kingdom",
     "parliament-of-northern-ireland"
    ],
    "parties": [
+    "Irish Unionist",
     "UUP",
     "Unionist"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    124284
+   ]
   },
   {
    "id": "p104166",
@@ -175820,30 +175977,36 @@
     "1448775",
     "2686913",
     "8072962",
-    "9621378"
+    "9621378",
+    "David Reid|Irish Unionist Alliance"
    ],
    "sourcePersonIds": [
-    "ei:8387"
+    "ei:8387",
+    "wikipedia:Sir David Reid, 1st Baronet"
    ],
    "officialPersonIds": [
     "wikidata:Q7526411"
    ],
-   "candidacies": 7,
-   "contests": 7,
-   "firstYear": 1918,
+   "candidacies": 8,
+   "contests": 8,
+   "firstYear": 1910,
    "lastYear": 1935,
    "bodies": [
     "dail-eireann",
     "house-of-commons-of-the-united-kingdom"
    ],
    "parties": [
+    "Irish Unionist Alliance",
     "UUP",
     "Unionist"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    123197
+   ]
   },
   {
    "id": "p104276",
@@ -177284,36 +177447,6 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
-   "id": "p104361",
-   "personId": 104361,
-   "displayName": "Eoin MacNeill",
-   "aliases": [
-    "Eoin MacNeill"
-   ],
-   "matchKeys": [
-    "eoin macneill"
-   ],
-   "sourceIds": [
-    "14774072"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1921,
-   "lastYear": 1921,
-   "bodies": [
-    "parliament-of-northern-ireland"
-   ],
-   "parties": [
-    "Sinn Féin"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p104363",
    "personId": 104363,
    "displayName": "David Wylie",
@@ -177487,49 +177620,6 @@
    "firstYear": 1929,
    "lastYear": 1929,
    "bodies": [
-    "parliament-of-northern-ireland"
-   ],
-   "parties": [
-    "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p104375",
-   "personId": 104375,
-   "displayName": "Herbert Dixon",
-   "aliases": [
-    "Herbert Dixon"
-   ],
-   "matchKeys": [
-    "herbert dixon"
-   ],
-   "sourceIds": [
-    "14896147",
-    "14905607",
-    "15197139",
-    "16356851",
-    "16417198",
-    "2020231",
-    "2611575",
-    "4437620",
-    "4657083",
-    "5851724",
-    "9683217"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [
-    "wikidata:Q5733912"
-   ],
-   "candidacies": 11,
-   "contests": 11,
-   "firstYear": 1922,
-   "lastYear": 1949,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom",
     "parliament-of-northern-ireland"
    ],
    "parties": [
@@ -180196,20 +180286,26 @@
    "matchKeys": [
     "sean milroy"
    ],
-   "sourceIds": [],
+   "sourceIds": [
+    "16299116",
+    "Seán Milroy|Sinn Féin"
+   ],
    "sourcePersonIds": [
-    "ei:1111"
+    "ei:1111",
+    "wikipedia:Seán Milroy"
    ],
    "officialPersonIds": [
     "oireachtas:Seán-Milroy.D.1922-09-09",
     "wikidata:Q7459570"
    ],
-   "candidacies": 6,
-   "contests": 6,
+   "candidacies": 8,
+   "contests": 8,
    "firstYear": 1918,
    "lastYear": 1927,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "house-of-commons-of-the-united-kingdom",
+    "parliament-of-northern-ireland"
    ],
    "parties": [
     "Cumann na nGaedheal",
@@ -180219,7 +180315,10 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:1111)",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    112824
+   ]
   },
   {
    "id": "p104547",
@@ -184081,40 +184180,6 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
-   "id": "p104746",
-   "personId": 104746,
-   "displayName": "Carl McClean",
-   "aliases": [
-    "Carl McClean",
-    "Daniel Allen"
-   ],
-   "matchKeys": [
-    "carl mcclean",
-    "daniel allen"
-   ],
-   "sourceIds": [
-    "2097177719",
-    "3726074818"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 2014,
-   "lastYear": 2019,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "nameVariants": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p104747",
    "personId": 104747,
    "displayName": "Michele Strong",
@@ -186520,13 +186585,14 @@
    ],
    "sourceIds": [],
    "sourcePersonIds": [
-    "ei:388"
+    "ei:388",
+    "ie:1803"
    ],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
+   "candidacies": 9,
+   "contests": 9,
    "firstYear": 1991,
-   "lastYear": 2009,
+   "lastYear": 2024,
    "bodies": [
     "dail-eireann",
     "ireland-local"
@@ -186537,41 +186603,10 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:388)",
-   "provisional": true
-  },
-  {
-   "id": "p104872",
-   "personId": 104872,
-   "displayName": "Maurice Devenney",
-   "aliases": [
-    "Maurice Devenney",
-    "Graham Warke"
-   ],
-   "matchKeys": [
-    "graham warke",
-    "maurice devenney"
-   ],
-   "sourceIds": [
-    "248745875",
-    "2670978434"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 2014,
-   "lastYear": 2019,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "DUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "nameVariants": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "mergedFrom": [
+    128612
+   ]
   },
   {
    "id": "p104873",
@@ -189876,20 +189911,26 @@
    "matchKeys": [
     "arthur griffith"
    ],
-   "sourceIds": [],
+   "sourceIds": [
+    "2973824",
+    "Arthur Griffith|Sinn Féin"
+   ],
    "sourcePersonIds": [
-    "ei:1082"
+    "ei:1082",
+    "wikipedia:Arthur Griffith"
    ],
    "officialPersonIds": [
     "oireachtas:Arthur-Griffith.D.1919-01-21",
     "wikidata:Q342765"
    ],
-   "candidacies": 4,
-   "contests": 3,
+   "candidacies": 6,
+   "contests": 5,
    "firstYear": 1918,
    "lastYear": 1922,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "house-of-commons-of-the-united-kingdom",
+    "parliament-of-northern-ireland"
    ],
    "parties": [
     "Pro-Treaty Sinn Féin",
@@ -189897,7 +189938,10 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:1082)",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    112845
+   ]
   },
   {
    "id": "p105039",
@@ -190872,36 +190916,6 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
-  },
-  {
-   "id": "p105083",
-   "personId": 105083,
-   "displayName": "Carole Howard",
-   "aliases": [
-    "Carole Howard"
-   ],
-   "matchKeys": [
-    "carole howard"
-   ],
-   "sourceIds": [
-    "3074483928"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 2019,
-   "lastYear": 2019,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "Alliance"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p105084",
@@ -202156,31 +202170,40 @@
    "personId": 105822,
    "displayName": "William Whitla",
    "aliases": [
+    "Sir William Whitla",
     "William Whitla"
    ],
    "matchKeys": [
+    "sir william whitla",
     "william whitla"
    ],
    "sourceIds": [
     "6175158"
    ],
-   "sourcePersonIds": [],
+   "sourcePersonIds": [
+    "ei:1064"
+   ],
    "officialPersonIds": [
     "wikidata:Q8020308"
    ],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1922,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1918,
    "lastYear": 1922,
    "bodies": [
+    "dail-eireann",
     "house-of-commons-of-the-united-kingdom"
    ],
    "parties": [
-    "UUP"
+    "UUP",
+    "Unionist"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    110712
+   ]
   },
   {
    "id": "p105824",
@@ -204247,27 +204270,33 @@
     "William Coote|Irish Unionist"
    ],
    "sourcePersonIds": [
+    "ei:1084",
     "wikipedia:William Coote"
    ],
    "officialPersonIds": [
     "wikidata:Q21096808"
    ],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1916,
    "lastYear": 1921,
    "bodies": [
+    "dail-eireann",
     "house-of-commons-of-the-united-kingdom",
     "parliament-of-northern-ireland"
    ],
    "parties": [
     "Irish Unionist",
-    "UUP"
+    "UUP",
+    "Unionist"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    113126
+   ]
   },
   {
    "id": "p106021",
@@ -207550,8 +207579,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150153,
-    150154
+    150291,
+    150292
    ]
   },
   {
@@ -207585,7 +207614,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150163
+    150301
    ]
   },
   {
@@ -270281,7 +270310,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150187
+    150325
    ]
   },
   {
@@ -272140,8 +272169,8 @@
     "ei:199"
    ],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 2004,
    "lastYear": 2020,
    "bodies": [
@@ -272154,7 +272183,13 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:199)",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "nameKeyedRows": [
+    "andrew montague"
+   ],
+   "mergedFrom": [
+    119340
+   ]
   },
   {
    "id": "p108649",
@@ -278858,22 +278893,27 @@
    ],
    "sourceIds": [],
    "sourcePersonIds": [
-    "ei:12624"
+    "ei:12624",
+    "ie:18124"
    ],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 2024,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 2019,
    "lastYear": 2024,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "ireland-local"
    ],
    "parties": [
     "Fine Gael"
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:12624)",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    150138
+   ]
   },
   {
    "id": "p108890",
@@ -282730,24 +282770,36 @@
    "matchKeys": [
     "denis henry"
    ],
-   "sourceIds": [],
-   "sourcePersonIds": [
-    "ei:1040"
+   "sourceIds": [
+    "Denis Henry|Irish Unionist",
+    "Denis Henry|Irish Unionist Alliance"
    ],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1918,
+   "sourcePersonIds": [
+    "ei:1040",
+    "wikipedia:Denis Henry"
+   ],
+   "officialPersonIds": [
+    "wikidata:Q7526416"
+   ],
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1906,
    "lastYear": 1918,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "house-of-commons-of-the-united-kingdom"
    ],
    "parties": [
+    "Irish Unionist",
+    "Irish Unionist Alliance",
     "Unionist"
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:1040)",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    124049
+   ]
   },
   {
    "id": "p109029",
@@ -296099,28 +296151,36 @@
    "matchKeys": [
     "james o mara"
    ],
-   "sourceIds": [],
+   "sourceIds": [
+    "James O'Mara|Irish Parliamentary"
+   ],
    "sourcePersonIds": [
-    "ei:1471"
+    "ei:1471",
+    "wikipedia:James O'Mara"
    ],
    "officialPersonIds": [
     "oireachtas:James-O'Mara.D.1919-01-21",
     "wikidata:Q6140508"
    ],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1918,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1900,
    "lastYear": 1924,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "house-of-commons-of-the-united-kingdom"
    ],
    "parties": [
     "Cumann na nGaedheal",
+    "Irish Parliamentary",
     "Sinn Féin"
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:1471)",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    122893
+   ]
   },
   {
    "id": "p109517",
@@ -298772,22 +298832,27 @@
    ],
    "sourceIds": [],
    "sourcePersonIds": [
-    "ei:11934"
+    "ei:11934",
+    "ie:18108"
    ],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 2020,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 2019,
    "lastYear": 2020,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "ireland-local"
    ],
    "parties": [
     "Solidarity-PBP"
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:11934)",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    150196
+   ]
   },
   {
    "id": "p109613",
@@ -307016,35 +307081,6 @@
    "provisional": true
   },
   {
-   "id": "p109916",
-   "personId": 109916,
-   "displayName": "Lt Col Sir William Allen",
-   "aliases": [
-    "Lt Col Sir William Allen"
-   ],
-   "matchKeys": [
-    "lt col sir william allen"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [
-    "ei:910"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1918,
-   "lastYear": 1918,
-   "bodies": [
-    "dail-eireann"
-   ],
-   "parties": [
-    "Unionist"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:910)",
-   "provisional": true
-  },
-  {
    "id": "p109917",
    "personId": 109917,
    "displayName": "Lucillita Bhreathnach",
@@ -307642,34 +307678,44 @@
    "personId": 109937,
    "displayName": "Major Bryan Cooper",
    "aliases": [
-    "Major Bryan Cooper"
+    "Major Bryan Cooper",
+    "Bryan Cooper"
    ],
    "matchKeys": [
+    "bryan cooper",
     "major bryan cooper"
    ],
-   "sourceIds": [],
+   "sourceIds": [
+    "Bryan Cooper|Irish Unionist Alliance"
+   ],
    "sourcePersonIds": [
-    "ei:1543"
+    "ei:1543",
+    "wikipedia:Bryan Cooper (politician)"
    ],
    "officialPersonIds": [
     "oireachtas:Major-Bryan-Ricco-Cooper.D.1923-09-19",
     "wikidata:Q4980033"
    ],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1923,
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1910,
    "lastYear": 1927,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "house-of-commons-of-the-united-kingdom"
    ],
    "parties": [
     "Cumann na nGaedheal",
     "Independent",
+    "Irish Unionist Alliance",
     "Non party/Independent"
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:1543)",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    122917
+   ]
   },
   {
    "id": "p109938",
@@ -315199,20 +315245,22 @@
    "personId": 110208,
    "displayName": "Niall McNelis",
    "aliases": [
-    "Niall McNelis"
+    "Niall McNelis",
+    "Níall McNelis"
    ],
    "matchKeys": [
     "niall mcnelis"
    ],
    "sourceIds": [],
    "sourcePersonIds": [
-    "ei:378"
+    "ei:378",
+    "ie:4942"
    ],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 7,
+   "contests": 7,
    "firstYear": 1999,
-   "lastYear": 2020,
+   "lastYear": 2024,
    "bodies": [
     "dail-eireann",
     "ireland-local"
@@ -315223,7 +315271,11 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:378)",
-   "provisional": true
+   "provisional": true,
+   "nameVariants": true,
+   "mergedFrom": [
+    129412
+   ]
   },
   {
    "id": "p110209",
@@ -328965,35 +329017,6 @@
    "nameVariants": true
   },
   {
-   "id": "p110712",
-   "personId": 110712,
-   "displayName": "Sir William Whitla",
-   "aliases": [
-    "Sir William Whitla"
-   ],
-   "matchKeys": [
-    "sir william whitla"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [
-    "ei:1064"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1918,
-   "lastYear": 1918,
-   "bodies": [
-    "dail-eireann"
-   ],
-   "parties": [
-    "Unionist"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:1064)",
-   "provisional": true
-  },
-  {
    "id": "p110713",
    "personId": 110713,
    "displayName": "Sivakumar Murugadoss",
@@ -330695,29 +330718,41 @@
    "personId": 110770,
    "displayName": "Thomas Brown",
    "aliases": [
+    "Thomas Watters Brown",
     "Thomas Brown"
    ],
    "matchKeys": [
-    "thomas brown"
+    "thomas brown",
+    "thomas watters brown"
    ],
-   "sourceIds": [],
+   "sourceIds": [
+    "Thomas Watters Brown|UUP"
+   ],
    "sourcePersonIds": [
-    "ei:970"
+    "ei:970",
+    "wikipedia:Thomas Watters Brown"
    ],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "officialPersonIds": [
+    "wikidata:Q7794931"
+   ],
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1918,
-   "lastYear": 1918,
+   "lastYear": 1921,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "house-of-commons-of-the-united-kingdom"
    ],
    "parties": [
+    "UUP",
     "Unionist"
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:970)",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    125067
+   ]
   },
   {
    "id": "p110771",
@@ -354783,6 +354818,7 @@
    "personId": 112630,
    "displayName": "Alexis Fitzgerald",
    "aliases": [
+    "Alexis FitzGerald",
     "Alexis Fitzgerald"
    ],
    "matchKeys": [
@@ -354790,25 +354826,30 @@
    ],
    "sourceIds": [],
    "sourcePersonIds": [
-    "ei:8839"
+    "ei:8839",
+    "ie:778"
    ],
    "officialPersonIds": [
     "oireachtas:Alexis-JG-Fitzgerald.S.1981-08-10",
     "wikidata:Q2644133"
    ],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1973,
-   "lastYear": 1982,
+   "lastYear": 1985,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "ireland-local"
    ],
    "parties": [
     "Fine Gael"
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:8839)",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    132877
+   ]
   },
   {
    "id": "p112631",
@@ -356637,12 +356678,16 @@
    "sourcePersonIds": [
     "ei:3924"
    ],
-   "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "officialPersonIds": [
+    "oireachtas:Pat-Cox.D.1992-12-14",
+    "wikidata:Q310225"
+   ],
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1989,
    "lastYear": 1999,
    "bodies": [
+    "dail-eireann",
     "ireland-european"
    ],
    "parties": [
@@ -356652,7 +356697,13 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3924)",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "nameKeyedRows": [
+    "pat cox"
+   ],
+   "mergedFrom": [
+    117691
+   ]
   },
   {
    "id": "p112726",
@@ -357228,10 +357279,10 @@
     "oireachtas:Edmond-Carey.D.1927-10-11",
     "wikidata:Q5338846"
    ],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1927,
-   "lastYear": 1938,
+   "lastYear": 1943,
    "bodies": [
     "dail-eireann"
    ],
@@ -358003,39 +358054,6 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
-   "id": "p112824",
-   "personId": 112824,
-   "displayName": "Seán Milroy",
-   "aliases": [
-    "Seán Milroy"
-   ],
-   "matchKeys": [
-    "sean milroy"
-   ],
-   "sourceIds": [
-    "16299116",
-    "Seán Milroy|Sinn Féin"
-   ],
-   "sourcePersonIds": [
-    "wikipedia:Seán Milroy"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1918,
-   "lastYear": 1921,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom",
-    "parliament-of-northern-ireland"
-   ],
-   "parties": [
-    "Sinn Féin"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
    "id": "p112825",
    "personId": 112825,
    "displayName": "Paul Kelly",
@@ -358219,39 +358237,6 @@
    ],
    "parties": [
     "PUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p112845",
-   "personId": 112845,
-   "displayName": "Arthur Griffith",
-   "aliases": [
-    "Arthur Griffith"
-   ],
-   "matchKeys": [
-    "arthur griffith"
-   ],
-   "sourceIds": [
-    "2973824",
-    "Arthur Griffith|Sinn Féin"
-   ],
-   "sourcePersonIds": [
-    "wikipedia:Arthur Griffith"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1918,
-   "lastYear": 1921,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom",
-    "parliament-of-northern-ireland"
-   ],
-   "parties": [
-    "Sinn Féin"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -360251,36 +360236,6 @@
    "provisional": true
   },
   {
-   "id": "p113126",
-   "personId": 113126,
-   "displayName": "William Coote",
-   "aliases": [
-    "William Coote"
-   ],
-   "matchKeys": [
-    "william coote"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [
-    "ei:1084"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1918,
-   "lastYear": 1918,
-   "bodies": [
-    "dail-eireann"
-   ],
-   "parties": [
-    "Unionist"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:1084)",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p113127",
    "personId": 113127,
    "displayName": "Gerry O'Boyle",
@@ -361011,28 +360966,36 @@
    "matchKeys": [
     "hugh law"
    ],
-   "sourceIds": [],
+   "sourceIds": [
+    "Hugh Law|Irish Parliamentary"
+   ],
    "sourcePersonIds": [
-    "ei:1217"
+    "ei:1217",
+    "wikipedia:Hugh Law (Cumann na nGaedheal politician)"
    ],
    "officialPersonIds": [
     "oireachtas:Hugh-A-Law.D.1927-06-23",
     "wikidata:Q15996123"
    ],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1923,
+   "candidacies": 8,
+   "contests": 8,
+   "firstYear": 1902,
    "lastYear": 1932,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "house-of-commons-of-the-united-kingdom"
    ],
    "parties": [
     "Cumann na nGaedheal",
-    "Farmers"
+    "Farmers",
+    "Irish Parliamentary"
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:1217)",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    122840
+   ]
   },
   {
    "id": "p113157",
@@ -362275,7 +362238,7 @@
    ],
    "eraReason": "split from a career spanning more than 60 years at a gap of 25 or more; the same id continues in the other era",
    "mergedFrom": [
-    150136
+    150273
    ]
   },
   {
@@ -366225,36 +366188,6 @@
    "provisional": true
   },
   {
-   "id": "p113370",
-   "personId": 113370,
-   "displayName": "Patrick Donnelly",
-   "aliases": [
-    "Patrick Donnelly"
-   ],
-   "matchKeys": [
-    "patrick donnelly"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [
-    "ei:912"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1918,
-   "lastYear": 1918,
-   "bodies": [
-    "dail-eireann"
-   ],
-   "parties": [
-    "Nationalist Party"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:912)",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p113371",
    "personId": 113371,
    "displayName": "William Lindsay",
@@ -367195,22 +367128,19 @@
    "personId": 115524,
    "displayName": "William McCandless",
    "aliases": [
-    "William McCandless",
-    "David Harding"
+    "William McCandless"
    ],
    "matchKeys": [
-    "david harding",
     "william mccandless"
    ],
    "sourceIds": [
-    "4167042036",
     "647289425"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 2014,
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 2019,
    "lastYear": 2019,
    "bodies": [
     "local-government"
@@ -367221,7 +367151,6 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
@@ -368979,37 +368908,6 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
-   "id": "p117691",
-   "personId": 117691,
-   "displayName": "Pat Cox",
-   "aliases": [
-    "Pat Cox"
-   ],
-   "matchKeys": [
-    "pat cox"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [],
-   "officialPersonIds": [
-    "oireachtas:Pat-Cox.D.1992-12-14",
-    "wikidata:Q310225"
-   ],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1992,
-   "lastYear": 1992,
-   "bodies": [
-    "dail-eireann"
-   ],
-   "parties": [
-    "Progressive Democrats"
-   ],
-   "keyedBy": "name",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p117693",
    "personId": 117693,
    "displayName": "James Cooper",
@@ -369521,36 +369419,6 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:957)",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p117728",
-   "personId": 117728,
-   "displayName": "James Craig",
-   "aliases": [
-    "James Craig"
-   ],
-   "matchKeys": [
-    "james craig"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [
-    "ei:968"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1918,
-   "lastYear": 1918,
-   "bodies": [
-    "dail-eireann"
-   ],
-   "parties": [
-    "Unionist"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:968)",
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
@@ -399029,13 +398897,14 @@
    ],
    "sourceIds": [],
    "sourcePersonIds": [
-    "ei:382"
+    "ei:382",
+    "ie:4916"
    ],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 2004,
-   "lastYear": 2009,
+   "lastYear": 2014,
    "bodies": [
     "ireland-local"
    ],
@@ -399044,7 +398913,10 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:382)",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    129398
+   ]
   },
   {
    "id": "p118801",
@@ -402127,22 +401999,27 @@
    ],
    "sourceIds": [],
    "sourcePersonIds": [
-    "ei:5169"
+    "ei:5169",
+    "ie:4921"
    ],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 2004,
-   "lastYear": 2009,
+   "lastYear": 2019,
    "bodies": [
     "ireland-local"
    ],
    "parties": [
+    "Independent",
     "Irish Labour"
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:5169)",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    129402
+   ]
   },
   {
    "id": "p118907",
@@ -413439,34 +413316,6 @@
    "provisional": true
   },
   {
-   "id": "p119340",
-   "personId": 119340,
-   "displayName": "Andrew Montague",
-   "aliases": [
-    "Andrew Montague"
-   ],
-   "matchKeys": [
-    "andrew montague"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 2014,
-   "lastYear": 2014,
-   "bodies": [
-    "ireland-local"
-   ],
-   "parties": [
-    "Irish Labour"
-   ],
-   "keyedBy": "name",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p119341",
    "personId": 119341,
    "displayName": "Anne Maree Quinn",
@@ -415002,7 +414851,7 @@
     "paddy burke"
    ],
    "mergedFrom": [
-    150193
+    150331
    ]
   },
   {
@@ -415022,33 +414871,6 @@
    "contests": 1,
    "firstYear": 1991,
    "lastYear": 1991,
-   "bodies": [
-    "ireland-local"
-   ],
-   "parties": [
-    "Fianna Fáil"
-   ],
-   "keyedBy": "name",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p119413",
-   "personId": 119413,
-   "displayName": "Paul McAuliffe",
-   "aliases": [
-    "Paul McAuliffe"
-   ],
-   "matchKeys": [
-    "paul mcauliffe"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 2014,
-   "lastYear": 2014,
    "bodies": [
     "ireland-local"
    ],
@@ -491916,19 +491738,26 @@
     "ei:8903"
    ],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1991,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1985,
    "lastYear": 1991,
    "bodies": [
     "ireland-local"
    ],
    "parties": [
+    "Fianna Fáil",
     "Progressive Democrats"
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:8903)",
-   "provisional": true
+   "provisional": true,
+   "nameKeyedRows": [
+    "martin connolly"
+   ],
+   "mergedFrom": [
+    138493
+   ]
   },
   {
    "id": "p122100",
@@ -510424,23 +510253,32 @@
     "edmund haviland burke"
    ],
    "sourceIds": [
-    "Edmund Haviland-Burke|Irish Parliamentary"
+    "Edmund Haviland-Burke|Irish National League",
+    "Edmund Haviland-Burke|Irish Parliamentary",
+    "Edmund Haviland-Burke|Parnellite Nationalist"
    ],
-   "sourcePersonIds": [],
+   "sourcePersonIds": [
+    "wikipedia:Edmund Haviland-Burke"
+   ],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1900,
+   "candidacies": 7,
+   "contests": 7,
+   "firstYear": 1892,
    "lastYear": 1910,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
    ],
    "parties": [
-    "Irish Parliamentary"
+    "Irish National League",
+    "Irish Parliamentary",
+    "Parnellite Nationalist"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    123206
+   ]
   },
   {
    "id": "p122747",
@@ -511760,37 +511598,6 @@
    "provisional": true
   },
   {
-   "id": "p122806",
-   "personId": 122806,
-   "displayName": "William Duffy",
-   "aliases": [
-    "William Duffy"
-   ],
-   "matchKeys": [
-    "william duffy"
-   ],
-   "sourceIds": [
-    "William Duffy|Irish Parliamentary"
-   ],
-   "sourcePersonIds": [
-    "wikipedia:William Duffy (politician)"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1900,
-   "lastYear": 1910,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom"
-   ],
-   "parties": [
-    "Irish Parliamentary"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (wikipedia:William Duffy (politician))",
-   "provisional": true
-  },
-  {
    "id": "p122807",
    "personId": 122807,
    "displayName": "William Field",
@@ -512249,14 +512056,16 @@
    "sourceIds": [
     "David Plunket|Conservative",
     "David Plunket|Irish Conservative",
+    "David Plunket|Irish Unionist",
+    "David Robert Plunket|Conservative",
     "David Robert Plunket|Irish Unionist Alliance"
    ],
    "sourcePersonIds": [
     "wikipedia:David Plunket, 1st Baron Rathmore"
    ],
    "officialPersonIds": [],
-   "candidacies": 9,
-   "contests": 9,
+   "candidacies": 11,
+   "contests": 11,
    "firstYear": 1868,
    "lastYear": 1895,
    "bodies": [
@@ -512265,12 +512074,17 @@
    "parties": [
     "Conservative",
     "Irish Conservative",
+    "Irish Unionist",
     "Irish Unionist Alliance"
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (wikipedia:David Plunket, 1st Baron Rathmore)",
    "provisional": true,
-   "nameVariants": true
+   "nameVariants": true,
+   "mergedFrom": [
+    123198,
+    124449
+   ]
   },
   {
    "id": "p122833",
@@ -512515,37 +512329,6 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (wikipedia:Horace Plunkett)",
-   "provisional": true
-  },
-  {
-   "id": "p122840",
-   "personId": 122840,
-   "displayName": "Hugh Law",
-   "aliases": [
-    "Hugh Law"
-   ],
-   "matchKeys": [
-    "hugh law"
-   ],
-   "sourceIds": [
-    "Hugh Law|Irish Parliamentary"
-   ],
-   "sourcePersonIds": [
-    "wikipedia:Hugh Law (Cumann na nGaedheal politician)"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1902,
-   "lastYear": 1910,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom"
-   ],
-   "parties": [
-    "Irish Parliamentary"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (wikipedia:Hugh Law (Cumann na nGaedheal politician))",
    "provisional": true
   },
   {
@@ -513430,37 +513213,6 @@
    "provisional": true
   },
   {
-   "id": "p122893",
-   "personId": 122893,
-   "displayName": "James O'Mara",
-   "aliases": [
-    "James O'Mara"
-   ],
-   "matchKeys": [
-    "james o mara"
-   ],
-   "sourceIds": [
-    "James O'Mara|Irish Parliamentary"
-   ],
-   "sourcePersonIds": [
-    "wikipedia:James O'Mara"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1900,
-   "lastYear": 1906,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom"
-   ],
-   "parties": [
-    "Irish Parliamentary"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (wikipedia:James O'Mara)",
-   "provisional": true
-  },
-  {
    "id": "p122894",
    "personId": 122894,
    "displayName": "John O'Connor",
@@ -513937,37 +513689,6 @@
    "provisional": true
   },
   {
-   "id": "p122917",
-   "personId": 122917,
-   "displayName": "Bryan Cooper",
-   "aliases": [
-    "Bryan Cooper"
-   ],
-   "matchKeys": [
-    "bryan cooper"
-   ],
-   "sourceIds": [
-    "Bryan Cooper|Irish Unionist Alliance"
-   ],
-   "sourcePersonIds": [
-    "wikipedia:Bryan Cooper (politician)"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1910,
-   "lastYear": 1910,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom"
-   ],
-   "parties": [
-    "Irish Unionist Alliance"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (wikipedia:Bryan Cooper (politician))",
-   "provisional": true
-  },
-  {
    "id": "p122919",
    "personId": 122919,
    "displayName": "Charles Hemphill",
@@ -514143,7 +513864,7 @@
    "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150118
+    150255
    ]
   },
   {
@@ -514552,55 +514273,31 @@
    ],
    "sourceIds": [
     "Eugene Crean|All-for-Ireland",
+    "Eugene Crean|Irish National Federation",
     "Eugene Crean|Irish Parliamentary"
    ],
    "sourcePersonIds": [
     "wikipedia:Eugene Crean"
    ],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1900,
+   "candidacies": 6,
+   "contests": 6,
+   "firstYear": 1892,
    "lastYear": 1910,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
    ],
    "parties": [
     "All-for-Ireland",
+    "Irish National Federation",
     "Irish Parliamentary"
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (wikipedia:Eugene Crean)",
-   "provisional": true
-  },
-  {
-   "id": "p122946",
-   "personId": 122946,
-   "displayName": "Eugene Crean",
-   "aliases": [
-    "Eugene Crean"
-   ],
-   "matchKeys": [
-    "eugene crean"
-   ],
-   "sourceIds": [
-    "Eugene Crean|Irish National Federation"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1892,
-   "lastYear": 1895,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom"
-   ],
-   "parties": [
-    "Irish National Federation"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    122946
+   ]
   },
   {
    "id": "p122948",
@@ -518059,25 +517756,32 @@
     "edward peter o kelly"
    ],
    "sourceIds": [
+    "Edward Peter O'Kelly|Irish National Federation",
     "Edward Peter O'Kelly|Irish Parliamentary"
    ],
-   "sourcePersonIds": [],
+   "sourcePersonIds": [
+    "wikipedia:Edward Peter O'Kelly"
+   ],
    "officialPersonIds": [
     "wikidata:Q16929738"
    ],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1910,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1895,
    "lastYear": 1910,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
    ],
    "parties": [
+    "Irish National Federation",
     "Irish Parliamentary"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    124279
+   ]
   },
   {
    "id": "p123114",
@@ -519690,67 +519394,6 @@
    "provisional": true
   },
   {
-   "id": "p123197",
-   "personId": 123197,
-   "displayName": "David Reid",
-   "aliases": [
-    "David Reid"
-   ],
-   "matchKeys": [
-    "david reid"
-   ],
-   "sourceIds": [
-    "David Reid|Irish Unionist Alliance"
-   ],
-   "sourcePersonIds": [
-    "wikipedia:Sir David Reid, 1st Baronet"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1910,
-   "lastYear": 1910,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom"
-   ],
-   "parties": [
-    "Irish Unionist Alliance"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (wikipedia:Sir David Reid, 1st Baronet)",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p123198",
-   "personId": 123198,
-   "displayName": "David Robert Plunket",
-   "aliases": [
-    "David Robert Plunket"
-   ],
-   "matchKeys": [
-    "david robert plunket"
-   ],
-   "sourceIds": [
-    "David Robert Plunket|Conservative"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1885,
-   "lastYear": 1885,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom"
-   ],
-   "parties": [
-    "Conservative"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
    "id": "p123199",
    "personId": 123199,
    "displayName": "David Sherlock",
@@ -519841,41 +519484,6 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p123206",
-   "personId": 123206,
-   "displayName": "Edmund Haviland-Burke",
-   "aliases": [
-    "Edmund Haviland-Burke"
-   ],
-   "matchKeys": [
-    "edmund haviland burke"
-   ],
-   "sourceIds": [
-    "Edmund Haviland-Burke|Irish National League",
-    "Edmund Haviland-Burke|Irish Parliamentary",
-    "Edmund Haviland-Burke|Parnellite Nationalist"
-   ],
-   "sourcePersonIds": [
-    "wikipedia:Edmund Haviland-Burke"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1892,
-   "lastYear": 1900,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom"
-   ],
-   "parties": [
-    "Irish National League",
-    "Irish Parliamentary",
-    "Parnellite Nationalist"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (wikipedia:Edmund Haviland-Burke)",
    "provisional": true
   },
   {
@@ -520584,44 +520192,6 @@
    "provisional": true
   },
   {
-   "id": "p123237",
-   "personId": 123237,
-   "displayName": "George Noble Plunkett",
-   "aliases": [
-    "George Noble Plunkett",
-    "George Plunkett"
-   ],
-   "matchKeys": [
-    "george noble plunkett",
-    "george plunkett"
-   ],
-   "sourceIds": [
-    "George Noble Plunkett|Irish National Federation",
-    "George Noble Plunkett|Sinn Féin",
-    "George Plunkett|Irish National League"
-   ],
-   "sourcePersonIds": [
-    "wikipedia:George Noble Plunkett"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1892,
-   "lastYear": 1917,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom"
-   ],
-   "parties": [
-    "Irish National Federation",
-    "Irish National League",
-    "Sinn Féin"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (wikipedia:George Noble Plunkett)",
-   "provisional": true,
-   "nameVariants": true
-  },
-  {
    "id": "p123238",
    "personId": 123238,
    "displayName": "George Orme Malley",
@@ -521116,36 +520686,8 @@
     "hugh holmes"
    ],
    "sourceIds": [
-    "Hugh Holmes|Conservative"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1885,
-   "lastYear": 1885,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom"
-   ],
-   "parties": [
-    "Conservative"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p123261",
-   "personId": 123261,
-   "displayName": "Hugh Holmes",
-   "aliases": [
-    "Hugh Holmes"
-   ],
-   "matchKeys": [
-    "hugh holmes"
-   ],
-   "sourceIds": [
+    "Hugh Holmes|Conservative",
+    "Hugh Holmes|Irish Conservative",
     "Hugh Holmes|Irish Unionist",
     "Hugh Holmes|Irish Unionist Alliance"
    ],
@@ -521153,21 +520695,27 @@
     "wikipedia:Hugh Holmes"
    ],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1886,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1885,
    "lastYear": 1886,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
    ],
    "parties": [
+    "Conservative",
+    "Irish Conservative",
     "Irish Unionist",
     "Irish Unionist Alliance"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    123261,
+    124633
+   ]
   },
   {
    "id": "p123262",
@@ -527230,37 +526778,6 @@
    "provisional": true
   },
   {
-   "id": "p123552",
-   "personId": 123552,
-   "displayName": "William Redmond",
-   "aliases": [
-    "William Redmond"
-   ],
-   "matchKeys": [
-    "william redmond"
-   ],
-   "sourceIds": [
-    "William Redmond|Irish Parliamentary"
-   ],
-   "sourcePersonIds": [
-    "wikipedia:William Redmond (Irish politician, born 1886)"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1910,
-   "lastYear": 1918,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom"
-   ],
-   "parties": [
-    "Irish Parliamentary"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (wikipedia:William Redmond (Irish politician, born 1886))",
-   "provisional": true
-  },
-  {
    "id": "p123553",
    "personId": 123553,
    "displayName": "William Rowan",
@@ -532063,21 +531580,26 @@
    "personId": 123929,
    "displayName": "John Denis Browne",
    "aliases": [
-    "John Denis Browne"
+    "John Denis Browne",
+    "John Browne"
    ],
    "matchKeys": [
+    "john browne",
     "john denis browne"
    ],
    "sourceIds": [
+    "John Browne|",
     "John Denis Browne|Whig"
    ],
-   "sourcePersonIds": [],
+   "sourcePersonIds": [
+    "wikipedia:John Denis Browne"
+   ],
    "officialPersonIds": [
     "wikidata:Q24254652"
    ],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1832,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1831,
    "lastYear": 1836,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -532088,7 +531610,10 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    125790
+   ]
   },
   {
    "id": "p123930",
@@ -533106,21 +532631,26 @@
    "personId": 123962,
    "displayName": "Richard FitzGibbon",
    "aliases": [
+    "Col. Hon. Richard Hobart Fitzgibbon",
     "Richard FitzGibbon"
    ],
    "matchKeys": [
+    "col hon richard hobart fitzgibbon",
     "richard fitzgibbon"
    ],
    "sourceIds": [
+    "Col. Hon. Richard Hobart Fitzgibbon|",
     "Richard FitzGibbon|Whig"
    ],
-   "sourcePersonIds": [],
+   "sourcePersonIds": [
+    "wikipedia:Richard FitzGibbon, 3rd Earl of Clare"
+   ],
    "officialPersonIds": [
     "wikidata:Q24568588"
    ],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1832,
+   "candidacies": 8,
+   "contests": 8,
+   "firstYear": 1818,
    "lastYear": 1837,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -533130,7 +532660,10 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    125427
+   ]
   },
   {
    "id": "p123963",
@@ -533976,34 +533509,43 @@
    "personId": 124000,
    "displayName": "Andrew Carew O'Dwyer",
    "aliases": [
-    "Andrew Carew O'Dwyer"
+    "Andrew Carew O'Dwyer",
+    "Andrew O'Dwyer"
    ],
    "matchKeys": [
-    "andrew carew o dwyer"
+    "andrew carew o dwyer",
+    "andrew o dwyer"
    ],
    "sourceIds": [
     "Andrew Carew O'Dwyer|Repeal",
-    "Andrew Carew O'Dwyer|Repeal ( Whig )"
+    "Andrew Carew O'Dwyer|Repeal ( Whig )",
+    "Andrew O'Dwyer|Radical"
    ],
-   "sourcePersonIds": [],
+   "sourcePersonIds": [
+    "wikipedia:Andrew O'Dwyer"
+   ],
    "officialPersonIds": [
     "wikidata:Q26758903"
    ],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1832,
-   "lastYear": 1835,
+   "lastYear": 1857,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
    ],
    "parties": [
+    "Radical",
     "Repeal",
     "Repeal ( Whig )"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    124263
+   ]
   },
   {
    "id": "p124001",
@@ -535093,21 +534635,26 @@
    "personId": 124042,
    "displayName": "David Guardi Ker",
    "aliases": [
-    "David Guardi Ker"
+    "David Guardi Ker",
+    "David Ker"
    ],
    "matchKeys": [
-    "david guardi ker"
+    "david guardi ker",
+    "david ker"
    ],
    "sourceIds": [
-    "David Guardi Ker|Conservative"
+    "David Guardi Ker|Conservative",
+    "David Ker|"
    ],
-   "sourcePersonIds": [],
+   "sourcePersonIds": [
+    "wikipedia:David Guardi Ker"
+   ],
    "officialPersonIds": [
     "wikidata:Q26218307"
    ],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1835,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1820,
    "lastYear": 1837,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -535117,7 +534664,10 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    125727
+   ]
   },
   {
    "id": "p124043",
@@ -535251,41 +534801,6 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (wikipedia:Denis Caulfield Heron)",
-   "provisional": true
-  },
-  {
-   "id": "p124049",
-   "personId": 124049,
-   "displayName": "Denis Henry",
-   "aliases": [
-    "Denis Henry"
-   ],
-   "matchKeys": [
-    "denis henry"
-   ],
-   "sourceIds": [
-    "Denis Henry|Irish Unionist",
-    "Denis Henry|Irish Unionist Alliance"
-   ],
-   "sourcePersonIds": [
-    "wikipedia:Denis Henry"
-   ],
-   "officialPersonIds": [
-    "wikidata:Q7526416"
-   ],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1906,
-   "lastYear": 1916,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom"
-   ],
-   "parties": [
-    "Irish Unionist",
-    "Irish Unionist Alliance"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (wikipedia:Denis Henry)",
    "provisional": true
   },
   {
@@ -538305,22 +537820,25 @@
    "displayName": "Montague Lowther Chapman",
    "aliases": [
     "Montague Lowther Chapman",
+    "Sir Montagu Chapman",
     "Montagu Chapman"
    ],
    "matchKeys": [
     "montagu chapman",
-    "montague lowther chapman"
+    "montague lowther chapman",
+    "sir montagu chapman"
    ],
    "sourceIds": [
     "Montagu Chapman|Whig",
-    "Montague Lowther Chapman|"
+    "Montague Lowther Chapman|",
+    "Sir Montagu Chapman|Whig"
    ],
    "sourcePersonIds": [
     "wikipedia:Sir Montagu Chapman, 3rd Baronet"
    ],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1830,
    "lastYear": 1837,
    "bodies": [
@@ -538332,7 +537850,10 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (wikipedia:Sir Montagu Chapman, 3rd Baronet)",
    "provisional": true,
-   "nameVariants": true
+   "nameVariants": true,
+   "mergedFrom": [
+    125018
+   ]
   },
   {
    "id": "p124171",
@@ -538867,21 +538388,26 @@
    "personId": 124195,
    "displayName": "Robert Bermingham Clements",
    "aliases": [
+    "Viscount Clements (Robert Bermingham Clements)",
     "Robert Bermingham Clements"
    ],
    "matchKeys": [
-    "robert bermingham clements"
+    "robert bermingham clements",
+    "viscount clements robert bermingham clements"
    ],
    "sourceIds": [
-    "Robert Bermingham Clements|Whig"
+    "Robert Bermingham Clements|Whig",
+    "Viscount Clements (Robert Bermingham Clements)|"
    ],
-   "sourcePersonIds": [],
+   "sourcePersonIds": [
+    "wikipedia:Robert Bermingham Clements, Viscount Clements"
+   ],
    "officialPersonIds": [
     "wikidata:Q24254896"
    ],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1832,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1826,
    "lastYear": 1837,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -538891,7 +538417,10 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    126054
+   ]
   },
   {
    "id": "p124196",
@@ -540111,6 +539640,7 @@
     "william taylor copeland"
    ],
    "sourceIds": [
+    "William Taylor Copeland|",
     "William Taylor Copeland|Whig"
    ],
    "sourcePersonIds": [
@@ -540119,9 +539649,9 @@
    "officialPersonIds": [
     "wikidata:Q8019215"
    ],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1832,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1831,
    "lastYear": 1835,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -540131,7 +539661,10 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (wikipedia:William Taylor Copeland)",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    125931
+   ]
   },
   {
    "id": "p124247",
@@ -540228,37 +539761,6 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (wikipedia:Wyndham Goold)",
-   "provisional": true
-  },
-  {
-   "id": "p124263",
-   "personId": 124263,
-   "displayName": "Andrew O'Dwyer",
-   "aliases": [
-    "Andrew O'Dwyer"
-   ],
-   "matchKeys": [
-    "andrew o dwyer"
-   ],
-   "sourceIds": [
-    "Andrew O'Dwyer|Radical"
-   ],
-   "sourcePersonIds": [
-    "wikipedia:Andrew O'Dwyer"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1857,
-   "lastYear": 1857,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom"
-   ],
-   "parties": [
-    "Radical"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (wikipedia:Andrew O'Dwyer)",
    "provisional": true
   },
   {
@@ -540492,37 +539994,6 @@
    "provisional": true
   },
   {
-   "id": "p124279",
-   "personId": 124279,
-   "displayName": "Edward Peter O'Kelly",
-   "aliases": [
-    "Edward Peter O'Kelly"
-   ],
-   "matchKeys": [
-    "edward peter o kelly"
-   ],
-   "sourceIds": [
-    "Edward Peter O'Kelly|Irish National Federation"
-   ],
-   "sourcePersonIds": [
-    "wikipedia:Edward Peter O'Kelly"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1895,
-   "lastYear": 1895,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom"
-   ],
-   "parties": [
-    "Irish National Federation"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (wikipedia:Edward Peter O'Kelly)",
-   "provisional": true
-  },
-  {
    "id": "p124280",
    "personId": 124280,
    "displayName": "Feargus O'Connor",
@@ -540587,40 +540058,6 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (wikipedia:Antrim (UK Parliament constituency))",
    "provisional": true
-  },
-  {
-   "id": "p124284",
-   "personId": 124284,
-   "displayName": "Hugh O'Neill",
-   "aliases": [
-    "Hugh O'Neill"
-   ],
-   "matchKeys": [
-    "hugh o neill"
-   ],
-   "sourceIds": [
-    "Hugh O'Neill|Irish Unionist"
-   ],
-   "sourcePersonIds": [
-    "wikipedia:Hugh O'Neill, 1st Baron Rathcavan"
-   ],
-   "officialPersonIds": [
-    "wikidata:Q16010090"
-   ],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1915,
-   "lastYear": 1915,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom"
-   ],
-   "parties": [
-    "Irish Unionist"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (wikipedia:Hugh O'Neill, 1st Baron Rathcavan)",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p124285",
@@ -540869,37 +540306,6 @@
    "provisional": true
   },
   {
-   "id": "p124299",
-   "personId": 124299,
-   "displayName": "John O'Hanlon",
-   "aliases": [
-    "John O'Hanlon"
-   ],
-   "matchKeys": [
-    "john o hanlon"
-   ],
-   "sourceIds": [
-    "John O'Hanlon|Irish Parliamentary"
-   ],
-   "sourcePersonIds": [
-    "wikipedia:John O'Hanlon (politician)"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1918,
-   "lastYear": 1918,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom"
-   ],
-   "parties": [
-    "Irish Parliamentary"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (wikipedia:John O'Hanlon (politician))",
-   "provisional": true
-  },
-  {
    "id": "p124300",
    "personId": 124300,
    "displayName": "John O'Keefe",
@@ -540955,6 +540361,7 @@
     "Col. Hon. John Bruce Richard O'Neill|",
     "Hon. John Bruce Richard O'Neill|",
     "John O'Neill|Conservative",
+    "John O'Neill|Tory",
     "Major Gen. Hon. John Bruce Richard O'Neill|",
     "Major Hon. John Bruce Richard O'Neill|"
    ],
@@ -540964,20 +540371,24 @@
    "officialPersonIds": [
     "wikidata:Q6250972"
    ],
-   "candidacies": 13,
-   "contests": 13,
+   "candidacies": 14,
+   "contests": 14,
    "firstYear": 1802,
    "lastYear": 1837,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
    ],
    "parties": [
-    "Conservative"
+    "Conservative",
+    "Tory"
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (wikipedia:John O'Neill, 3rd Viscount O'Neill)",
    "provisional": true,
-   "nameVariants": true
+   "nameVariants": true,
+   "mergedFrom": [
+    127006
+   ]
   },
   {
    "id": "p124302",
@@ -544099,36 +543510,6 @@
    "provisional": true
   },
   {
-   "id": "p124449",
-   "personId": 124449,
-   "displayName": "David Plunket",
-   "aliases": [
-    "David Plunket"
-   ],
-   "matchKeys": [
-    "david plunket"
-   ],
-   "sourceIds": [
-    "David Plunket|Irish Unionist"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1886,
-   "lastYear": 1886,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom"
-   ],
-   "parties": [
-    "Irish Unionist"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p124450",
    "personId": 124450,
    "displayName": "David Robert Ross",
@@ -546914,58 +546295,33 @@
    ],
    "sourceIds": [
     "Henry Lambert|",
-    "Henry Lambert|Conservative"
+    "Henry Lambert|Conservative",
+    "Henry Lambert|Whig"
    ],
    "sourcePersonIds": [
     "wikipedia:Henry Lambert (MP)"
    ],
-   "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "officialPersonIds": [
+    "wikidata:Q26234471"
+   ],
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1830,
    "lastYear": 1852,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
    ],
    "parties": [
-    "Conservative"
+    "Conservative",
+    "Whig"
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (wikipedia:Henry Lambert (MP))",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p124606",
-   "personId": 124606,
-   "displayName": "Henry Lambert",
-   "aliases": [
-    "Henry Lambert"
-   ],
-   "matchKeys": [
-    "henry lambert"
-   ],
-   "sourceIds": [
-    "Henry Lambert|Whig"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [
-    "wikidata:Q26234471"
-   ],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1832,
-   "lastYear": 1832,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom"
-   ],
-   "parties": [
-    "Whig"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    124606
+   ]
   },
   {
    "id": "p124607",
@@ -547463,36 +546819,6 @@
    ],
    "parties": [
     "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p124633",
-   "personId": 124633,
-   "displayName": "Hugh Holmes",
-   "aliases": [
-    "Hugh Holmes"
-   ],
-   "matchKeys": [
-    "hugh holmes"
-   ],
-   "sourceIds": [
-    "Hugh Holmes|Irish Conservative"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1885,
-   "lastYear": 1885,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom"
-   ],
-   "parties": [
-    "Irish Conservative"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -550100,37 +549426,6 @@
    "provisional": true
   },
   {
-   "id": "p124774",
-   "personId": 124774,
-   "displayName": "John Lymbrick Esmonde",
-   "aliases": [
-    "John Lymbrick Esmonde"
-   ],
-   "matchKeys": [
-    "john lymbrick esmonde"
-   ],
-   "sourceIds": [
-    "John Lymbrick Esmonde|Irish Parliamentary"
-   ],
-   "sourcePersonIds": [
-    "wikipedia:Sir John Esmonde, 14th Baronet"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1915,
-   "lastYear": 1915,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom"
-   ],
-   "parties": [
-    "Irish Parliamentary"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (wikipedia:Sir John Esmonde, 14th Baronet)",
-   "provisional": true
-  },
-  {
    "id": "p124775",
    "personId": 124775,
    "displayName": "John Macdonnell",
@@ -552660,68 +551955,6 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (wikipedia:Patrick Lynch (Irish attorney general))",
-   "provisional": true
-  },
-  {
-   "id": "p124908",
-   "personId": 124908,
-   "displayName": "Patrick McCartan",
-   "aliases": [
-    "Patrick McCartan"
-   ],
-   "matchKeys": [
-    "patrick mccartan"
-   ],
-   "sourceIds": [
-    "Patrick McCartan|Sinn Féin"
-   ],
-   "sourcePersonIds": [
-    "wikipedia:Patrick McCartan"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1918,
-   "lastYear": 1918,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom"
-   ],
-   "parties": [
-    "Sinn Féin"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p124909",
-   "personId": 124909,
-   "displayName": "Patrick McGilligan",
-   "aliases": [
-    "Patrick McGilligan"
-   ],
-   "matchKeys": [
-    "patrick mcgilligan"
-   ],
-   "sourceIds": [
-    "Patrick McGilligan|Sinn Féin"
-   ],
-   "sourcePersonIds": [
-    "wikipedia:Patrick McGilligan (Fine Gael politician)"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1919,
-   "lastYear": 1919,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom"
-   ],
-   "parties": [
-    "Sinn Féin"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (wikipedia:Patrick McGilligan (Fine Gael politician))",
    "provisional": true
   },
   {
@@ -555488,35 +554721,6 @@
    "provisional": true
   },
   {
-   "id": "p125018",
-   "personId": 125018,
-   "displayName": "Sir Montagu Chapman",
-   "aliases": [
-    "Sir Montagu Chapman"
-   ],
-   "matchKeys": [
-    "sir montagu chapman"
-   ],
-   "sourceIds": [
-    "Sir Montagu Chapman|Whig"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1832,
-   "lastYear": 1832,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom"
-   ],
-   "parties": [
-    "Whig"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
    "id": "p125020",
    "personId": 125020,
    "displayName": "Sir Thomas Staples",
@@ -556471,39 +555675,6 @@
    "nameVariants": true
   },
   {
-   "id": "p125067",
-   "personId": 125067,
-   "displayName": "Thomas Watters Brown",
-   "aliases": [
-    "Thomas Watters Brown"
-   ],
-   "matchKeys": [
-    "thomas watters brown"
-   ],
-   "sourceIds": [
-    "Thomas Watters Brown|UUP"
-   ],
-   "sourcePersonIds": [
-    "wikipedia:Thomas Watters Brown"
-   ],
-   "officialPersonIds": [
-    "wikidata:Q7794931"
-   ],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1921,
-   "lastYear": 1921,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom"
-   ],
-   "parties": [
-    "UUP"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (wikipedia:Thomas Watters Brown)",
-   "provisional": true
-  },
-  {
    "id": "p125068",
    "personId": 125068,
    "displayName": "Thomas Whitworth",
@@ -556800,37 +555971,6 @@
    "provisional": true
   },
   {
-   "id": "p125095",
-   "personId": 125095,
-   "displayName": "W. T. Cosgrave",
-   "aliases": [
-    "W. T. Cosgrave"
-   ],
-   "matchKeys": [
-    "w t cosgrave"
-   ],
-   "sourceIds": [
-    "W. T. Cosgrave|Sinn Féin"
-   ],
-   "sourcePersonIds": [
-    "wikipedia:W. T. Cosgrave"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1917,
-   "lastYear": 1917,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom"
-   ],
-   "parties": [
-    "Sinn Féin"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (wikipedia:W. T. Cosgrave)",
-   "provisional": true
-  },
-  {
    "id": "p125096",
    "personId": 125096,
    "displayName": "Walter Blackney",
@@ -557048,38 +556188,6 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
-  },
-  {
-   "id": "p125104",
-   "personId": 125104,
-   "displayName": "William Allen",
-   "aliases": [
-    "William Allen"
-   ],
-   "matchKeys": [
-    "william allen"
-   ],
-   "sourceIds": [
-    "William Allen|Irish Unionist"
-   ],
-   "sourcePersonIds": [
-    "wikipedia:William Allen (Armagh MP)"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1917,
-   "lastYear": 1917,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom"
-   ],
-   "parties": [
-    "Irish Unionist"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (wikipedia:William Allen (Armagh MP))",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p125105",
@@ -560077,35 +559185,6 @@
    "provisional": true
   },
   {
-   "id": "p125427",
-   "personId": 125427,
-   "displayName": "Col. Hon. Richard Hobart Fitzgibbon",
-   "aliases": [
-    "Col. Hon. Richard Hobart Fitzgibbon"
-   ],
-   "matchKeys": [
-    "col hon richard hobart fitzgibbon"
-   ],
-   "sourceIds": [
-    "Col. Hon. Richard Hobart Fitzgibbon|"
-   ],
-   "sourcePersonIds": [
-    "wikipedia:Richard FitzGibbon, 3rd Earl of Clare"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
-   "firstYear": 1818,
-   "lastYear": 1831,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom"
-   ],
-   "parties": [],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (wikipedia:Richard FitzGibbon, 3rd Earl of Clare)",
-   "provisional": true
-  },
-  {
    "id": "p125428",
    "personId": 125428,
    "displayName": "Richard Martin",
@@ -563095,7 +562174,7 @@
    "provenance": "keyed on the source's own candidate id (wikipedia:John Henry North)",
    "provisional": true,
    "mergedFrom": [
-    150121
+    150258
    ]
   },
   {
@@ -565703,35 +564782,6 @@
    "provisional": true
   },
   {
-   "id": "p125727",
-   "personId": 125727,
-   "displayName": "David Ker",
-   "aliases": [
-    "David Ker"
-   ],
-   "matchKeys": [
-    "david ker"
-   ],
-   "sourceIds": [
-    "David Ker|"
-   ],
-   "sourcePersonIds": [
-    "wikipedia:David Guardi Ker"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1820,
-   "lastYear": 1820,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom"
-   ],
-   "parties": [],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (wikipedia:David Guardi Ker)",
-   "provisional": true
-  },
-  {
    "id": "p125732",
    "personId": 125732,
    "displayName": "Denis Maguire",
@@ -566571,35 +565621,6 @@
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p125790",
-   "personId": 125790,
-   "displayName": "John Browne",
-   "aliases": [
-    "John Browne"
-   ],
-   "matchKeys": [
-    "john browne"
-   ],
-   "sourceIds": [
-    "John Browne|"
-   ],
-   "sourcePersonIds": [
-    "wikipedia:John Denis Browne"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1831,
-   "lastYear": 1831,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom"
-   ],
-   "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
   },
   {
    "id": "p125791",
@@ -569208,33 +568229,6 @@
    "provisional": true
   },
   {
-   "id": "p125931",
-   "personId": 125931,
-   "displayName": "William Taylor Copeland",
-   "aliases": [
-    "William Taylor Copeland"
-   ],
-   "matchKeys": [
-    "william taylor copeland"
-   ],
-   "sourceIds": [
-    "William Taylor Copeland|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1831,
-   "lastYear": 1831,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom"
-   ],
-   "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
    "id": "p125932",
    "personId": 125932,
    "displayName": "Wray Palliser",
@@ -570873,35 +569867,6 @@
    "parties": [],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (wikipedia:Richard Wellesley (1787–1831))",
-   "provisional": true
-  },
-  {
-   "id": "p126054",
-   "personId": 126054,
-   "displayName": "Viscount Clements (Robert Bermingham Clements)",
-   "aliases": [
-    "Viscount Clements (Robert Bermingham Clements)"
-   ],
-   "matchKeys": [
-    "viscount clements robert bermingham clements"
-   ],
-   "sourceIds": [
-    "Viscount Clements (Robert Bermingham Clements)|"
-   ],
-   "sourcePersonIds": [
-    "wikipedia:Robert Bermingham Clements, Viscount Clements"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1826,
-   "lastYear": 1826,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom"
-   ],
-   "parties": [],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (wikipedia:Robert Bermingham Clements, Viscount Clements)",
    "provisional": true
   },
   {
@@ -575900,36 +574865,6 @@
    "provisional": true
   },
   {
-   "id": "p127006",
-   "personId": 127006,
-   "displayName": "John O'Neill",
-   "aliases": [
-    "John O'Neill"
-   ],
-   "matchKeys": [
-    "john o neill"
-   ],
-   "sourceIds": [
-    "John O'Neill|Tory"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1832,
-   "lastYear": 1832,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom"
-   ],
-   "parties": [
-    "Tory"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p127009",
    "personId": 127009,
    "displayName": "Richard O'Gorman",
@@ -577424,37 +576359,6 @@
    "provisional": true
   },
   {
-   "id": "p127167",
-   "personId": 127167,
-   "displayName": "Joseph McGuinness",
-   "aliases": [
-    "Joseph McGuinness"
-   ],
-   "matchKeys": [
-    "joseph mcguinness"
-   ],
-   "sourceIds": [
-    "Joseph McGuinness|Sinn Féin"
-   ],
-   "sourcePersonIds": [
-    "wikipedia:Joseph McGuinness"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1917,
-   "lastYear": 1917,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom"
-   ],
-   "parties": [
-    "Sinn Féin"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (wikipedia:Joseph McGuinness)",
-   "provisional": true
-  },
-  {
    "id": "p127168",
    "personId": 127168,
    "displayName": "John Hay",
@@ -577896,7 +576800,7 @@
     "henry kenny"
    ],
    "mergedFrom": [
-    150192
+    150330
    ]
   },
   {
@@ -597181,35 +596085,6 @@
    "provisional": true
   },
   {
-   "id": "p128271",
-   "personId": 128271,
-   "displayName": "John Leahy",
-   "aliases": [
-    "John Leahy"
-   ],
-   "matchKeys": [
-    "john leahy"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [
-    "ie:12135"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 2014,
-   "lastYear": 2014,
-   "bodies": [
-    "ireland-local"
-   ],
-   "parties": [
-    "Independent"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ie:12135)",
-   "provisional": true
-  },
-  {
    "id": "p128272",
    "personId": 128272,
    "displayName": "Michael Sheahan",
@@ -604306,35 +603181,6 @@
    "provisional": true
   },
   {
-   "id": "p128598",
-   "personId": 128598,
-   "displayName": "Catherine Connolly",
-   "aliases": [
-    "Catherine Connolly"
-   ],
-   "matchKeys": [
-    "catherine connolly"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [
-    "ie:1787"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 2014,
-   "lastYear": 2014,
-   "bodies": [
-    "ireland-local"
-   ],
-   "parties": [
-    "Independent"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ie:1787)",
-   "provisional": true
-  },
-  {
    "id": "p128599",
    "personId": 128599,
    "displayName": "Barry Sweeny",
@@ -604564,35 +603410,6 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ie:17949)",
-   "provisional": true
-  },
-  {
-   "id": "p128612",
-   "personId": 128612,
-   "displayName": "Donal Lyons",
-   "aliases": [
-    "Donal Lyons"
-   ],
-   "matchKeys": [
-    "donal lyons"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [
-    "ie:1803"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 2014,
-   "lastYear": 2024,
-   "bodies": [
-    "ireland-local"
-   ],
-   "parties": [
-    "Independent"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ie:1803)",
    "provisional": true
   },
   {
@@ -624112,35 +622929,6 @@
    "provisional": true
   },
   {
-   "id": "p129398",
-   "personId": 129398,
-   "displayName": "Padraig Conneely",
-   "aliases": [
-    "Padraig Conneely"
-   ],
-   "matchKeys": [
-    "padraig conneely"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [
-    "ie:4916"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 2014,
-   "lastYear": 2014,
-   "bodies": [
-    "ireland-local"
-   ],
-   "parties": [
-    "Fine Gael"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ie:4916)",
-   "provisional": true
-  },
-  {
    "id": "p129399",
    "personId": 129399,
    "displayName": "Anna Marley",
@@ -624225,36 +623013,6 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ie:4919)",
-   "provisional": true
-  },
-  {
-   "id": "p129402",
-   "personId": 129402,
-   "displayName": "Colette Connolly",
-   "aliases": [
-    "Colette Connolly"
-   ],
-   "matchKeys": [
-    "colette connolly"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [
-    "ie:4921"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 2014,
-   "lastYear": 2019,
-   "bodies": [
-    "ireland-local"
-   ],
-   "parties": [
-    "Independent",
-    "Irish Labour"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ie:4921)",
    "provisional": true
   },
   {
@@ -624459,37 +623217,6 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ie:4941)",
    "provisional": true
-  },
-  {
-   "id": "p129412",
-   "personId": 129412,
-   "displayName": "Niall McNelis",
-   "aliases": [
-    "Niall McNelis",
-    "Níall McNelis"
-   ],
-   "matchKeys": [
-    "niall mcnelis"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [
-    "ie:4942"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 2014,
-   "lastYear": 2024,
-   "bodies": [
-    "ireland-local"
-   ],
-   "parties": [
-    "Irish Labour"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ie:4942)",
-   "provisional": true,
-   "nameVariants": true
   },
   {
    "id": "p129413",
@@ -626727,35 +625454,6 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ie:5639)",
-   "provisional": true
-  },
-  {
-   "id": "p129531",
-   "personId": 129531,
-   "displayName": "Carol Nolan",
-   "aliases": [
-    "Carol Nolan"
-   ],
-   "matchKeys": [
-    "carol nolan"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [
-    "ie:5641"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 2014,
-   "lastYear": 2014,
-   "bodies": [
-    "ireland-local"
-   ],
-   "parties": [
-    "Sinn Féin"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ie:5641)",
    "provisional": true
   },
   {
@@ -629135,35 +627833,6 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ie:6934)",
-   "provisional": true
-  },
-  {
-   "id": "p129646",
-   "personId": 129646,
-   "displayName": "Christy Burke",
-   "aliases": [
-    "Christy Burke"
-   ],
-   "matchKeys": [
-    "christy burke"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [
-    "ie:714"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1985,
-   "lastYear": 1991,
-   "bodies": [
-    "ireland-local"
-   ],
-   "parties": [
-    "Sinn Féin"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ie:714)",
    "provisional": true
   },
   {
@@ -633509,33 +632178,6 @@
    ],
    "parties": [
     "Non party/Independent"
-   ],
-   "keyedBy": "name",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p130345",
-   "personId": 130345,
-   "displayName": "Catherine Connolly",
-   "aliases": [
-    "Catherine Connolly"
-   ],
-   "matchKeys": [
-    "catherine connolly"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 2025,
-   "lastYear": 2025,
-   "bodies": [
-    "ireland-president"
-   ],
-   "parties": [
-    "Independent"
    ],
    "keyedBy": "name",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -691952,35 +690594,6 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
-   "id": "p132877",
-   "personId": 132877,
-   "displayName": "Alexis FitzGerald",
-   "aliases": [
-    "Alexis FitzGerald"
-   ],
-   "matchKeys": [
-    "alexis fitzgerald"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [
-    "ie:778"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1985,
-   "lastYear": 1985,
-   "bodies": [
-    "ireland-local"
-   ],
-   "parties": [
-    "Fine Gael"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ie:778)",
-   "provisional": true
-  },
-  {
    "id": "p132879",
    "personId": 132879,
    "displayName": "Jim Tunney",
@@ -719959,35 +718572,6 @@
    "provisional": true
   },
   {
-   "id": "p134538",
-   "personId": 134538,
-   "displayName": "Patrick W Palmer",
-   "aliases": [
-    "Patrick W Palmer"
-   ],
-   "matchKeys": [
-    "patrick w palmer"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [
-    "ei:2297"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1948,
-   "lastYear": 1954,
-   "bodies": [
-    "dail-eireann"
-   ],
-   "parties": [
-    "Fine Gael"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:2297)",
-   "provisional": true
-  },
-  {
    "id": "p134557",
    "personId": 134557,
    "displayName": "Rory Brady",
@@ -720639,22 +719223,28 @@
    ],
    "sourceIds": [],
    "sourcePersonIds": [
-    "ei:12772"
+    "ei:12772",
+    "ie:19382"
    ],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 2026,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 2024,
    "lastYear": 2026,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "ireland-local"
    ],
    "parties": [
+    "Green",
     "Green/Comhaontas Glas"
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:12772)",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    150208
+   ]
   },
   {
    "id": "p134635",
@@ -801554,33 +800144,6 @@
    "provisional": true
   },
   {
-   "id": "p138493",
-   "personId": 138493,
-   "displayName": "Martin Connolly",
-   "aliases": [
-    "Martin Connolly"
-   ],
-   "matchKeys": [
-    "martin connolly"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1985,
-   "lastYear": 1985,
-   "bodies": [
-    "ireland-local"
-   ],
-   "parties": [
-    "Fianna Fáil"
-   ],
-   "keyedBy": "name",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
    "id": "p138494",
    "personId": 138494,
    "displayName": "Martin Kennedy",
@@ -824186,13 +822749,14 @@
     "john t mcfarland"
    ],
    "sourceIds": [
+    "John T. McFarland|",
     "John T. McFarland|UUP"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1958,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1955,
    "lastYear": 1967,
    "bodies": [
     "londonderry-county-borough-council"
@@ -824203,7 +822767,10 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    141636
+   ]
   },
   {
    "id": "p139482",
@@ -882915,34 +881482,6 @@
    "parties": [
     "UUP"
    ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p141636",
-   "personId": 141636,
-   "displayName": "John T. McFarland",
-   "aliases": [
-    "John T. McFarland"
-   ],
-   "matchKeys": [
-    "john t mcfarland"
-   ],
-   "sourceIds": [
-    "John T. McFarland|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1955,
-   "lastYear": 1955,
-   "bodies": [
-    "londonderry-county-borough-council"
-   ],
-   "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
@@ -1077612,40 +1076151,6 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
-   "id": "p149840",
-   "personId": 149840,
-   "displayName": "Edmond Carey",
-   "aliases": [
-    "Edmond Carey"
-   ],
-   "matchKeys": [
-    "edmond carey"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [
-    "ei:1501"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1943,
-   "lastYear": 1943,
-   "bodies": [
-    "dail-eireann"
-   ],
-   "parties": [
-    "Fine Gael"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:1501)",
-   "provisional": true,
-   "era": [
-    1943,
-    1943
-   ],
-   "eraReason": "rows of a name or id joined to a person who, by the dates History of Parliament, Wikidata or a reference work gives, was under 18 or dead at the time"
-  },
-  {
    "id": "p149841",
    "personId": 149841,
    "displayName": "Willie Aird",
@@ -1077745,64 +1076250,6 @@
    "eraReason": "rows of a name or id joined to a person who, by the dates History of Parliament, Wikidata or a reference work gives, was under 18 or dead at the time"
   },
   {
-   "id": "p150137",
-   "personId": 150137,
-   "displayName": "John Connolly",
-   "aliases": [
-    "John Connolly"
-   ],
-   "matchKeys": [
-    "john connolly"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [
-    "ie:13866"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 2019,
-   "lastYear": 2024,
-   "bodies": [
-    "ireland-local"
-   ],
-   "parties": [
-    "Fianna Fáil"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ie:13866)",
-   "provisional": true
-  },
-  {
-   "id": "p150138",
-   "personId": 150138,
-   "displayName": "Clodagh Higgins",
-   "aliases": [
-    "Clodagh Higgins"
-   ],
-   "matchKeys": [
-    "clodagh higgins"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [
-    "ie:18124"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 2019,
-   "lastYear": 2024,
-   "bodies": [
-    "ireland-local"
-   ],
-   "parties": [
-    "Fine Gael"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ie:18124)",
-   "provisional": true
-  },
-  {
    "id": "p150194",
    "personId": 150194,
    "displayName": "Sharon Nolan",
@@ -1077861,35 +1076308,6 @@
    "provisional": true
   },
   {
-   "id": "p150196",
-   "personId": 150196,
-   "displayName": "Joe Loughnane",
-   "aliases": [
-    "Joe Loughnane"
-   ],
-   "matchKeys": [
-    "joe loughnane"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [
-    "ie:18108"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 2019,
-   "lastYear": 2019,
-   "bodies": [
-    "ireland-local"
-   ],
-   "parties": [
-    "Solidarity-PBP"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ie:18108)",
-   "provisional": true
-  },
-  {
    "id": "p150197",
    "personId": 150197,
    "displayName": "James O'Toole",
@@ -1077916,35 +1076334,6 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ie:18110)",
-   "provisional": true
-  },
-  {
-   "id": "p150198",
-   "personId": 150198,
-   "displayName": "Pauline O'Reilly",
-   "aliases": [
-    "Pauline O'Reilly"
-   ],
-   "matchKeys": [
-    "pauline o reilly"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [
-    "ie:18122"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 2019,
-   "lastYear": 2019,
-   "bodies": [
-    "ireland-local"
-   ],
-   "parties": [
-    "Green"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ie:18122)",
    "provisional": true
   },
   {
@@ -1078209,35 +1076598,6 @@
    "provisional": true
   },
   {
-   "id": "p150208",
-   "personId": 150208,
-   "displayName": "Niall Murphy",
-   "aliases": [
-    "Niall Murphy"
-   ],
-   "matchKeys": [
-    "niall murphy"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [
-    "ie:19382"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 2024,
-   "lastYear": 2024,
-   "bodies": [
-    "ireland-local"
-   ],
-   "parties": [
-    "Green"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ie:19382)",
-   "provisional": true
-  },
-  {
    "id": "p150209",
    "personId": 150209,
    "displayName": "Denis Nealis",
@@ -1078351,6 +1076711,65 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ie:9643)",
+   "provisional": true
+  },
+  {
+   "id": "p150285",
+   "personId": 150285,
+   "displayName": "Graham Warke",
+   "aliases": [
+    "Graham Warke"
+   ],
+   "matchKeys": [
+    "graham warke"
+   ],
+   "sourceIds": [
+    "2670978434"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 2019,
+   "lastYear": 2019,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "DUP"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150286",
+   "personId": 150286,
+   "displayName": "Daniel Allen",
+   "aliases": [
+    "Daniel Allen"
+   ],
+   "matchKeys": [
+    "daniel allen"
+   ],
+   "sourceIds": [
+    "3726074818"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 2014,
+   "lastYear": 2014,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "UUP"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
   },
   {
@@ -1080282,13 +1078701,13 @@
   }
  ],
  "corrections": {
-  "mergedIds": 116,
+  "mergedIds": 185,
   "classes": {
-   "WIKIPEDIA-BIOGRAPHY": 6,
+   "WIKIPEDIA-BIOGRAPHY": 72,
    "FORUM-DUPLICATE": 100,
    "LGR-2014": 3,
    "SAME-SEAT-SEQUENCE": 3,
-   "STRAY-INTO-CURATED": 4
+   "STRAY-INTO-CURATED": 7
   },
   "note": "Only the two mechanically-caused classes were merged; see scripts/ingest/persons/merge_person_ids.py for the tests applied."
  }
