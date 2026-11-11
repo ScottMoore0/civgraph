@@ -270,35 +270,21 @@ export class ElectionPaneMethods {
   /**
    * The election catalogue (4.7 MB of JSON) used to be fetched and parsed on every visit, six
    * seconds after start, whether or not the visitor went near an election (QA 2026-11-11, M8).
-   * It is now fetched when it can be wanted: at once when the address names an election, else
-   * on the first map drawn (a feature click may show its election results), the search box
-   * focused, or the Elections tab chosen. Opening an election, and every other path that needs
-   * the catalogue, already loads it on demand (ensureElections).
+   * It is now fetched when it can be wanted: at once when the address names an election, else on
+   * the first map drawn (a feature click may show its election results: LayerMethods.loadMap).
+   * The catalogue pane's Elections tab and the search read the pane's own data, and opening an
+   * election, like every other path that needs the catalogue, loads it on demand (ensureElections).
    */
   warmElectionCatalogueWhenWanted() {
     const params = new URLSearchParams(window.location.hash.replace(/^#/, ''));
-    if (this.hasElectionURLState(params, parseLayerOrder(params.get('layers')))) {
-      this.scheduleElectionCatalogueWarm();
-      return;
-    }
-    if (typeof document === 'undefined') return;
-    const onFocus = (event) => {
-      if (event.target?.closest?.('.search-input, #searchInput')) warm();
-    };
-    const onClick = (event) => {
-      if (event.target?.closest?.('[data-cn-tab="elections"]')) warm();
-    };
-    const warm = () => {
-      document.removeEventListener('focusin', onFocus, true);
-      document.removeEventListener('click', onClick, true);
-      this.scheduleElectionCatalogueWarm();
-    };
-    document.addEventListener('focusin', onFocus, true);
-    document.addEventListener('click', onClick, true);
+    if (this.hasElectionURLState(params, parseLayerOrder(params.get('layers')))) this.scheduleElectionCatalogueWarm();
   }
 
   scheduleElectionCatalogueWarm() {
     if (this.electionCatalogueWarmScheduled || this.elections?.catalogue) return;
+    // Not before init has made the map controller: the election manager is built with it.
+    // Asked that early (a test), the next ask does it.
+    if (!this.mapController) return;
     this.electionCatalogueWarmScheduled = true;
     const warm = () => {
       this.ensureElections({ refreshCatalogue: true }).catch((error) => {
