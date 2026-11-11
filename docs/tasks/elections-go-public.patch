@@ -18,34 +18,34 @@ What it changes (the whole switch; nothing else is needed for the page itself):
   site/index.html                  the home page's Apps panel links it ("Four focused tools")
   scripts/build/build-sitemap.mjs  /elections/ in TOP_LEVEL_PAGES
   site/sitemaps/pages.xml          the same, as the builder writes it
-  data/database/r2-publication-allowlist.json      the data/elections-app/ prefix, reviewed (rationale,
-                                   evidence, rights), in the same change as the upload as the allowlist requires
-  packages/api/src/handlers/_public-prefixes.js    regenerated from it (node scripts/build/public-prefixes.mjs)
+  data/database/r2-publication-allowlist.json      the data/elections-app/ prefix (reviewed, and on main since
+                                   11 Nov 2026 as "unlisted" for the owner-approved upload) loses its unlisted flag
+  packages/api/src/handlers/_public-prefixes.js    regenerated from it (node scripts/build/public-prefixes.mjs),
+                                   so /_api/data-index lists the app's files
   scripts/build/build-site-partials.mjs            comment only
   tests                            the "not public" assertions become "public" ones: share-meta lists the page,
-                                   elections-app-lib, elections-app-prep (prefix allowlisted) and the browser spec
+                                   elections-app-lib, elections-app-prep (prefix listed) and the browser spec
                                    (indexable, canonical, linked from /apps/ and the home page)
 
 The main header's nav is unchanged: the app sits under Apps, like Words in parliament. Embedding stays off
 (frame-ancestors 'self' on /apps/elections/embed/*); allowing it is a separate one-line decision in site/_headers.
 
-After applying: the R2 upload (scripts/publish/elections-app-r2-upload.mjs --upload), the rebuild that
+After applying: the R2 upload if the files have changed (scripts/publish/elections-app-r2-upload.mjs --upload;
+the first upload was made on 11 Nov 2026), the rebuild that
 re-stamps cache tokens (npm run build), the checks, then the usual publish. The exact steps are in the
 stream's LANDING.md (D:\civgraph-intake\launch-2026-11-11\landing\elections-prep.md).
 
 diff --git a/data/database/r2-publication-allowlist.json b/data/database/r2-publication-allowlist.json
-index 1cee32ae70..ae9cd19b81 100644
+index 08b5ef86fb..08ef0f3b74 100644
 --- a/data/database/r2-publication-allowlist.json
 +++ b/data/database/r2-publication-allowlist.json
-@@ -133,6 +133,12 @@
-       "rationale": "Mirror of the Irish Local Electoral Area Boundary Committee reports (2008, 2013, 2018), the Constituency Commission reports (2004, 2007, 2012, 2017), the Electoral Commission's 2023 constituency review and the European constituency reports (2003-2023), with their maps. Irish public sector information re-usable under its open terms. Held so each LEA and Dail constituency map can link its defining report. Owner-approved upload of open-licence source mirrors, 11 Nov 2026 (stream ledger).",
-       "evidence": "105 files, 751.2 MB, one folder per review (<year>-<lea|constituency|european>/), each in manifest.json with its title, body, publication date, source address (and capture where the host is gone), bytes and SHA-256. Every PDF checked complete (%%EOF). Published reports and maps only; written submissions, which name individuals, were not mirrored.",
-       "rights": "Irish public sector information, open re-use terms (Electoral Commission (Ireland); Department of Housing, Local Government and Heritage)."
-+    },
-+    {
-+      "prefix": "data/elections-app/",
-+      "rationale": "The Civgraph Elections app's static files (site/apps/elections/config.js): v1/extracts/, one Parquet file per body with one row per candidacy (the reviewed columns of scripts/build/elections-app/data.mjs PUBLISHABLE_COLUMNS: election, area, candidate name, person id, party label, outcome, votes, shares and counts), with index.json and manifest.json; and v1/duckdb-wasm-1.29.0/, DuckDB-WASM's WebAssembly and its parquet extension, too big for Pages. Owner-approved with the app going public; added in the same change as the upload (scripts/publish/elections-app-r2-upload.mjs).",
-+      "evidence": "Extracts built by npm run build:elections-app from the records build, which D1 civgraph-records already serves at request time: every value is one the records API returns for the same candidacy. npm run check:elections-app-extracts holds them current and publishable (no address, agent, contact or source column; no value that looks like a postcode, Eircode, email, phone number or street address). About 2.3 MB of Parquet for 96 bodies. The WebAssembly files are the npm package @duckdb/duckdb-wasm@1.29.0 and DuckDB's signed v1.1.1 parquet extension, unmodified, each listed with its SHA-256 in src/libs/elections-app-vendor.json.",
+@@ -138,9 +138,7 @@
+       "prefix": "data/elections-app/",
+       "rationale": "The Civgraph Elections app's static files (site/apps/elections/config.js): v1/extracts/, one Parquet file per body with one row per candidacy (the reviewed columns of scripts/build/elections-app/data.mjs PUBLISHABLE_COLUMNS: election, area, candidate name, person id, party label, outcome, votes, shares and counts), with index.json and manifest.json; and v1/duckdb-wasm-1.29.0/, DuckDB-WASM's WebAssembly and its parquet extension, too big for Pages. Owner-approved upload, 11 Nov 2026, ahead of the app going public (scripts/publish/elections-app-r2-upload.mjs).",
+       "evidence": "Extracts built by npm run build:elections-app from the records build, which D1 civgraph-records already serves at request time: every value is one the records API returns for the same candidacy. npm run check:elections-app-extracts holds them current and publishable (no address, agent, contact or source column; no value that looks like a postcode, Eircode, email, phone number or street address). About 2.3 MB of Parquet for 96 bodies. The WebAssembly files are the npm package @duckdb/duckdb-wasm@1.29.0 and DuckDB's signed v1.1.1 parquet extension, unmodified, each listed with its SHA-256 in src/libs/elections-app-vendor.json.",
+-      "rights": "Election results: public records, compiled with their cited sources on the site. DuckDB-WASM and DuckDB: MIT licence (src/libs/elections-app-THIRD-PARTY-NOTICES.txt).",
+-      "unlisted": true,
+-      "unlistedReason": "The Elections app is not public yet (noindex, unlinked, out of the sitemaps): its files are on R2 for the app to read, but the public data index does not list or name them. The go-public change set (docs/tasks/elections-go-public.patch) clears this flag."
 +      "rights": "Election results: public records, compiled with their cited sources on the site. DuckDB-WASM and DuckDB: MIT licence (src/libs/elections-app-THIRD-PARTY-NOTICES.txt)."
      }
    ]
@@ -88,7 +88,7 @@ index b830d5c540..2a80caaecb 100644
    '/pages/about.html',
    '/pages/census-explorer.html',
 diff --git a/site/_headers b/site/_headers
-index 415565f07b..745cafa3d7 100644
+index 815d99d7f4..ab6ef73838 100644
 --- a/site/_headers
 +++ b/site/_headers
 @@ -27,14 +27,9 @@
@@ -208,7 +208,7 @@ index 22848587de..ba2af673a6 100644
      </main>
  <!-- site:footer -->
 diff --git a/site/index.html b/site/index.html
-index 48e99aa250..478100fa45 100644
+index 9cb1d7732f..86d3720ebf 100644
 --- a/site/index.html
 +++ b/site/index.html
 @@ -349,7 +349,7 @@
@@ -294,19 +294,23 @@ index c0dbaabf76..138b754a49 100644
  
  test('no poll, as packages/core/src/unopposed.mjs reads it: 0 votes on an unopposed row, the auto-returned Ceann Comhairle', () => {
 diff --git a/tests/unit/elections-app-prep.test.mjs b/tests/unit/elections-app-prep.test.mjs
-index e02a23a701..425654c21e 100644
+index 7db1016e99..a66e6c4e93 100644
 --- a/tests/unit/elections-app-prep.test.mjs
 +++ b/tests/unit/elections-app-prep.test.mjs
-@@ -137,9 +137,10 @@ test('embedding is off by default: the widget may be framed by this site only, e
+@@ -137,13 +137,13 @@ test('embedding is off by default: the widget may be framed by this site only, e
    assert.equal(headersFor('/src/libs/duckdb-wasm-1.29.0/duckdb-browser.mjs').get('cache-control'), 'public, max-age=31536000, immutable');
  });
  
--test('the R2 prefix is not in the publication allowlist yet: an upload is refused until the go-public change set adds it', () => {
-+test('the R2 prefix is in the publication allowlist (the go-public change set), so the upload may run', () => {
+-test('the R2 prefix is in the publication allowlist but unlisted: the upload may run, the public data index does not name it until the go-public change set', () => {
++test('the R2 prefix is in the publication allowlist and listed (the go-public change set), so the upload may run and the data index names it', () => {
    const allowlist = loadAllowlist(path.join(ROOT, 'data/database/r2-publication-allowlist.json'));
--  assert.equal(isPublishable(`${R2_PREFIX}extracts/index.json`, allowlist), false);
-+  assert.equal(isPublishable(`${R2_PREFIX}extracts/index.json`, allowlist), true);
-+  assert.equal(isPublishable(`${R2_PREFIX}duckdb-wasm-1.29.0/duckdb-eh.wasm`, allowlist), true);
+   assert.equal(isPublishable(`${R2_PREFIX}extracts/index.json`, allowlist), true);
+   assert.equal(isPublishable(`${R2_PREFIX}duckdb-wasm-1.29.0/duckdb-eh.wasm`, allowlist), true);
+   const entry = allowlist.prefixes.find((e) => e.prefix === 'data/elections-app/');
+-  assert.equal(entry?.unlisted, true, 'unlisted while the app is not public');
+-  assert.ok(!listedPrefixes(allowlist).includes('data/elections-app/'));
++  assert.notEqual(entry?.unlisted, true, 'listed once the app is public');
++  assert.ok(listedPrefixes(allowlist).includes('data/elections-app/'));
  });
  
  test('upload plan: every key under the prefix, the WebAssembly typed, immutable files first, manifest then index.json last', async (t) => {
