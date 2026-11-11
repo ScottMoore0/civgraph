@@ -77,6 +77,13 @@ whose inputs fell outside a filter never ran (the `docs/**` gap, closed 2026-09-
   (`verify:test:pmtiles-cdn`), `verify:proxies`, `verify:deploy` and `verify:browser`
   (production-parity specs with `--retries 2`, `scripts/publish/verify-browser.mjs`).
 - The publish script (`scripts/publish/publish.sh`) runs its own bounded records verify.
+- `records:verify:safe -- --remote` (`packages/loader/src/safe-verify.mjs`) checks the live D1
+  without hurting live traffic. It runs the cheap checks first: the dataset rows and a schema
+  hash. Then it checksums primary-key ranges of at most 10,000 rows under a LIMIT, one at a time,
+  2 s apart, inside a rows_read budget (default 400,000). It stops on the first 7429 and can be
+  resumed with `--resume`. By default it reads small tables whole, the edge ranges, the ranges
+  the last delta touched and 20 random ranges; `--full` walks every range. `--plan` estimates
+  the cost without reading D1. The publish wrapper's `--check` runs it.
 
 ## What guards what (tier 1, the `npm run check` chain)
 
