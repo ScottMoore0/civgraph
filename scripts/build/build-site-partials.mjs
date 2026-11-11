@@ -71,6 +71,8 @@ const PAGES = new Map([
   ['site/records/index.html', BROWSE_PAGE],
   ['site/apps/index.html', SITE_PAGE],
   ['site/apps/words/index.html', SITE_PAGE],
+  // The Elections app (11 Nov 2026): not public yet (noindex, unlinked, not in a sitemap).
+  ['site/apps/elections/index.html', SITE_PAGE],
   ['site/pages/census-explorer.html', SITE_PAGE],
   ['site/pages/status.html', SITE_PAGE],
   // The 404 is served at any missing path, so it needs the real header (nav and theme toggle)
