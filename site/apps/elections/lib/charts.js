@@ -97,18 +97,19 @@ export function hbars(rows, opts = {}) {
   const W = 560;
   const L = 170;
   const B = 22;
+  const PAD = opts.marker ? 160 : 70; // room for the value text after the longest bar
   const H = rows.length * B + 8 + (opts.marker ? 14 : 0);
   const top = opts.marker ? 14 : 0;
   const bars = rows.map((r, i) => {
     const y = top + i * B + 4;
-    const w = r.value ? ((W - L - 70) * r.value) / max : 0;
+    const w = r.value ? ((W - L - PAD) * r.value) / max : 0;
     const label = r.label.length > 26 ? `${r.label.slice(0, 25)}…` : r.label;
     return `<g><text x="${L - 6}" y="${y + 13}" text-anchor="end" font-size="12" fill="currentColor">${esc(label)}<title>${esc(r.label)}</title></text>`
       + `<rect x="${L}" y="${y + 2}" width="${Math.max(0, w).toFixed(1)}" height="${B - 8}" rx="2" fill="${esc(partyColour(r.colour))}"><title>${esc(r.label)}: ${esc(r.value === null ? '—' : fmt(r.value))}</title></rect>`
       + `<text x="${L + Math.max(0, w) + 5}" y="${y + 13}" font-size="12" fill="currentColor">${esc(r.value === null ? (r.note || '—') : fmt(r.value))}</text></g>`;
   }).join('');
   const marker = opts.marker
-    ? `<g class="el-marker"><line x1="${L + ((W - L - 70) * opts.marker.value) / max}" x2="${L + ((W - L - 70) * opts.marker.value) / max}" y1="10" y2="${H}" stroke="currentColor" stroke-dasharray="3 3"/><text x="${L + ((W - L - 70) * opts.marker.value) / max}" y="9" text-anchor="middle" font-size="11" fill="currentColor">${esc(opts.marker.label)}</text></g>`
+    ? `<g class="el-marker"><line x1="${L + ((W - L - PAD) * opts.marker.value) / max}" x2="${L + ((W - L - PAD) * opts.marker.value) / max}" y1="10" y2="${H}" stroke="currentColor" stroke-dasharray="3 3"/><text x="${L + ((W - L - PAD) * opts.marker.value) / max}" y="9" text-anchor="middle" font-size="11" fill="currentColor">${esc(opts.marker.label)}</text></g>`
     : '';
   const title = opts.title || 'Bar chart';
   return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(title)}" class="el-hbars"><title>${esc(title)}</title>${bars}${marker}</svg>`;
