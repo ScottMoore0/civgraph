@@ -1,5 +1,5 @@
 /**
- * A small JSON Schema checker for the API contracts (functions/_lib/api/contracts/).
+ * A small JSON Schema checker for the API contracts (packages/api/src/v1/contracts/).
  *
  * It covers the part of JSON Schema (2020-12) the contracts use, and no more: `type` (one or a
  * list; 'integer' is a whole number), `properties`, `required`, `additionalProperties`,

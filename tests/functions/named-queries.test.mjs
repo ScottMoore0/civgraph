@@ -3,7 +3,7 @@
 // Every SQL string the Functions run lives in packages/api/src/queries/, one module per table
 // group, and reaches the database only through the RecordStore (packages/storage/). This
 // file holds that in place:
-//   1. the boundary: no Function file outside packages/storage/ (and the re-exports left in functions/_lib/storage/) calls an engine API
+//   1. the boundary: no Function file outside packages/storage/ calls an engine API
 //      (`.prepare(`, `.withSession(`) on a binding, apart from the pinned
 //      list of files not yet moved (ST-5 moves them one route per commit and shrinks the list);
 //   2. every named query, and every query builder over its sample arguments, prepares on its
@@ -150,7 +150,6 @@ test('only packages/storage/ calls the D1 engine API (the files not yet moved ar
   // A RecordStore has batch() too; an engine batch needs prepare() first.
   const engine = /\.(prepare|withSession)\s*\(/;
   const calling = [...walk(FUNCTIONS), ...walk(path.join(REPO_ROOT, 'packages', 'api', 'src'))]
-    .filter((f) => !rel(f).startsWith('_lib/storage/'))
     .filter((f) => engine.test(readFileSync(f, 'utf8').replace(/^\s*(\/\/|\*).*$/gm, '')))
     .map(rel)
     .sort();
