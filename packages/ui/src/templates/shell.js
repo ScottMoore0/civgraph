@@ -13,6 +13,7 @@
 import { attrs, html, raw } from '../../../core/src/html.js';
 import { SITE } from '../../../config/src/config.js';
 import { shareTagList } from './share.js';
+import { footerLinks, footerMeta } from './info-pages.js';
 
 /** The site's origin and name, from the configuration (packages/config/src/config.js). */
 export const SITE_ORIGIN = SITE.origin;
@@ -180,13 +181,15 @@ export function footer() {
     '<a href="/browse/">Browse</a>',
     '<a href="/pages/about">About</a>',
     '<a href="/pages/api">API</a>',
+    // Downloads, How to cite, Licence and Privacy: only once INFO_PAGES_LIVE (info-pages.js).
+    ...footerLinks(),
     `<a href="${SUBMIT_MAP_HREF}">Submit a map</a>`,
     '</nav>',
     '</div>',
     '<div class="ftr__rule"></div>',
     '<div class="ftr__bottom">',
     '<p class="ftr__tagline">All the data on Ireland’s history, geography, politics and demographics.</p>',
-    '<div class="ftr__meta">© Civgraph</div>',
+    `<div class="ftr__meta">${footerMeta()}</div>`,
     '</div>',
     '</div>',
     '</footer>',

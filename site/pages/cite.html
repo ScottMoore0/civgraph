@@ -6,12 +6,15 @@
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>How to cite - Civgraph</title>
 <link rel="canonical" href="https://civgraph.net/pages/cite.html">
-<meta name="description" content="How to cite Civgraph, a record page, a dataset version and the original sources, with plain-text, BibTeX and RIS examples.">
-<!-- DRAFT: noindex until the owner approves this page; remove this line then. -->
+<meta name="description" content="How to cite Civgraph, a record page, a PRONI record, a map or map feature, a dataset snapshot or the API, and the original sources behind them.">
+<!-- site:draft-head -->
 <meta name="robots" content="noindex">
+<!-- /site:draft-head -->
 <link href="/assets/pages/img/19df3a5428cb.png" rel="icon"/>
 <!-- site:head -->
 <script>(function(){var t=null;try{t=localStorage.getItem('theme');}catch(e){}if(t!=='dark'&&t!=='light'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
 <script>(function(){var K='civgraph.langPreview',S='/assets/i18n/i18n.js?v=e12c28fbed1b',on=false;function load(){var i=window.civgraphI18n;if(i){if(i.show)i.show();return;}if(document.querySelector('script[data-i18n-runtime]'))return;var s=document.createElement('script');s.src=S;s.setAttribute('data-i18n-runtime','');document.head.appendChild(s);}window.civgraphLangReveal=function(){try{localStorage.setItem(K,'1');}catch(e){}load();};try{if(/[?&]lang-preview=0(?:&|$)/.test(location.search)){localStorage.removeItem(K);localStorage.removeItem('civgraph.lang');}on=localStorage.getItem(K)==='1';}catch(e){}if(on)load();})();</script>
 <link rel="stylesheet" href="/assets/ui/tokens.css?v=9a3dca6e608e">
 <link rel="stylesheet" href="/assets/ui/tokens-legacy.css?v=17646fa133f3">
@@ -76,76 +79,37 @@
 </header>
 <!-- /site:header -->
 <section class="hero hero--interior">
-<div class="wrap wrap--wide hero__grid hero__grid--single"><div class="hero__copy"><h1>How to cite</h1><p class="lede">How to cite Civgraph, one of its records, a dataset version, and the original sources behind them.</p></div></div>
+<div class="wrap wrap--wide hero__grid hero__grid--single"><div class="hero__copy"><h1>How to cite</h1><p class="lede">How to cite Civgraph, one of its records or maps, a dataset snapshot or the API, and the original sources behind them.</p></div></div>
 </section>
 <main id="main-content">
 <div class="wrap wrap--wide">
-<p class="draft-banner"><strong>Draft for approval, 11 Nov 2026.</strong> Nothing on this page is final. Notes marked <span class="owner-note">OWNER</span> are decisions only the owner can make. They are removed, with this banner, when the page is approved.</p>
-<nav class="info-toc" aria-label="On this page"><a href="#original">The original source</a><a href="#record">A record</a><a href="#dataset">A dataset version</a><a href="#site">The site</a><a href="#map">A map</a></nav>
+<!-- site:draft-banner -->
+<p class="draft-banner"><strong>Draft, not yet published.</strong> This page is not linked from the site and is hidden from search engines until the owner approves it. Notes marked <span class="owner-note owner-note--label">OWNER TODO</span> are points that could not be verified from the code, or decisions only the owner can make; each is settled and removed before the page goes live.</p>
+<!-- /site:draft-banner -->
+<nav class="info-toc" aria-label="On this page"><a href="#original">The original source</a><a href="#addresses">Addresses to cite</a><a href="#site">The site</a><a href="#record">A record page</a><a href="#proni">A PRONI record</a><a href="#map">A map or map feature</a><a href="#dataset">A dataset snapshot</a><a href="#api">The API</a></nav>
 
 <section id="original">
 <h2>Always cite the original source</h2>
 <p>Civgraph brings together records made by others: election results from returning officers and electoral offices, boundaries from Ordnance Survey and statistics offices, debates from parliaments, catalogue entries from archives. Every record on Civgraph shows where it came from. <strong>Cite that original source first</strong>, in the form your discipline uses, and add Civgraph as where you found it.</p>
-<p class="cite-block">Electoral Office for Northern Ireland, <em>[title of the result sheet]</em>, [date]. Accessed via Civgraph, https://civgraph.net/browse/elections/[record], [date accessed].</p>
-<p>Cite Civgraph on its own only for what Civgraph itself made: a digitised boundary, a compiled or checked result, a link between records, a derived count, or the dataset as a whole.</p>
+<p class="cite-block">Electoral Office for Northern Ireland, [title of the result sheet], [date]. Accessed via Civgraph, https://civgraph.net/browse/elections/[election], [date accessed].</p>
+<p>Cite Civgraph on its own only for what Civgraph itself made: a compiled or checked result, a digitised boundary, a link between records, a derived count, or the dataset as a whole. Records are corrected as new sources are checked, so always give the date you looked at a page.</p>
 </section>
 
-<section id="record">
-<h2>A record page</h2>
-<p>Each election, person, party, office, map and source has its own page with a permanent address under <code>https://civgraph.net/browse/</code>. Cite the address and the date you looked at it, since records are corrected as new sources are checked.</p>
-<h3>Plain text</h3>
-<p class="cite-block">Civgraph contributors (2026). 2024 Irish general election. Civgraph. https://civgraph.net/browse/elections/dail-eireann-2024-11-29 (accessed 11 November 2026).</p>
-<h3>BibTeX</h3>
-<pre class="cite-block">@misc{civgraph-dail-2024,
-  author       = {{Civgraph contributors}},
-  title        = {2024 Irish general election},
-  howpublished = {Civgraph},
-  year         = {2026},
-  url          = {https://civgraph.net/browse/elections/dail-eireann-2024-11-29},
-  urldate      = {2026-11-11},
-  note         = {Original sources as listed on the record}
-}</pre>
-<h3>RIS</h3>
-<pre class="cite-block">TY  - ELEC
-AU  - Civgraph contributors
-TI  - 2024 Irish general election
-T2  - Civgraph
-PY  - 2026
-UR  - https://civgraph.net/browse/elections/dail-eireann-2024-11-29
-Y2  - 2026-11-11
-N1  - Original sources as listed on the record
-ER  - </pre>
-<p><span class="owner-note">OWNER: a "Cite this" button on each record page could fill these in automatically. That would be a separate change to the record pages.</span></p>
-</section>
-
-<section id="dataset">
-<h2>A dataset version</h2>
-<p>For work that others should be able to repeat, cite the <a href="/pages/downloads.html">bulk download</a> you used, by its version. Each records database is published under a versioned file name, which does not change once published, with its SHA-256 checksum in the <a href="https://data.civgraph.net/data/downloads/manifest.json">downloads manifest</a>. Cite the versioned name, not <code>civgraph-records-latest</code>, which moves to each new release.</p>
-<h3>Plain text</h3>
-<p class="cite-block">Civgraph contributors (2026). Civgraph records database, version e97ec87cc8acb0f0 [dataset]. https://data.civgraph.net/data/downloads/civgraph-records-e97ec87cc8acb0f0.sqlite.gz. SHA-256 19bb27034016f1b43eb5bb13846d2a038580887d8fca02777978094be5a59214.</p>
-<h3>BibTeX (biblatex)</h3>
-<pre class="cite-block">@dataset{civgraph-records-e97ec87cc8acb0f0,
-  author  = {{Civgraph contributors}},
-  title   = {Civgraph records database},
-  version = {e97ec87cc8acb0f0},
-  year    = {2026},
-  url     = {https://data.civgraph.net/data/downloads/civgraph-records-e97ec87cc8acb0f0.sqlite.gz},
-  urldate = {2026-11-11},
-  note    = {SHA-256 19bb27034016f1b43eb5bb13846d2a038580887d8fca02777978094be5a59214}
-}</pre>
-<p>For classic BibTeX, use <code>@misc</code> with the same fields.</p>
-<h3>RIS</h3>
-<pre class="cite-block">TY  - DATA
-AU  - Civgraph contributors
-TI  - Civgraph records database
-ET  - e97ec87cc8acb0f0
-PY  - 2026
-UR  - https://data.civgraph.net/data/downloads/civgraph-records-e97ec87cc8acb0f0.sqlite.gz
-Y2  - 2026-11-11
-N1  - SHA-256 19bb27034016f1b43eb5bb13846d2a038580887d8fca02777978094be5a59214
-ER  - </pre>
-<p>The version above was current on 9 November 2026. The <a href="/pages/downloads.html">Downloads</a> page shows the current one.</p>
-<p><span class="owner-note">OWNER DECISION: deposit each release with Zenodo (or similar) to give it a DOI, and cite the DOI here. Also decide whether old versioned files stay downloadable once a new one is published; a citation is only repeatable while its file is.</span></p>
+<section id="addresses">
+<h2>Addresses to cite</h2>
+<p>Use these addresses. They are the ones the site gives as each page's permanent (canonical) address.</p>
+<div class="table-scroll">
+<table class="info-table">
+<tr><th>What</th><th>Address</th></tr>
+<tr><td>The site</td><td><code>https://civgraph.net</code></td></tr>
+<tr><td>An election, person, party, office, map, source or register-of-interests record</td><td><code>https://civgraph.net/browse/&lt;type&gt;/&lt;slug&gt;</code>, where the type is <code>elections</code>, <code>persons</code>, <code>parties</code>, <code>offices</code>, <code>maps</code>, <code>sources</code> or <code>register-interests</code><small>For example https://civgraph.net/browse/elections/dail-eireann-2024-11-29</small></td></tr>
+<tr><td>A PRONI eCatalogue record</td><td><code>https://civgraph.net/proni/&lt;PRONI reference&gt;</code>, with the reference written as PRONI writes it<small>For example https://civgraph.net/proni/LA/1</small></td></tr>
+<tr><td>A map layer, on the map</td><td><code>https://civgraph.net/maps/#layers=&lt;map id&gt;</code><small>The map catalogue's "Copy link" and "Cite" give this for you.</small></td></tr>
+<tr><td>One feature of a map layer (a constituency, ward or townland)</td><td><code>https://civgraph.net/maps/#layers=&lt;map id&gt;&amp;featureMap=&lt;map id&gt;&amp;featureId=&lt;feature&gt;</code><small>For example https://civgraph.net/maps/#layers=pc-2023&amp;featureMap=pc-2023&amp;featureId=BELFAST+WEST</small></td></tr>
+<tr><td>A dataset snapshot</td><td><code>https://data.civgraph.net/data/downloads/civgraph-records-&lt;version&gt;.sqlite.gz</code></td></tr>
+<tr><td>An API answer</td><td><code>https://civgraph.net/api/v1/&lt;route&gt;?&lt;parameters&gt;</code></td></tr>
+</table>
+</div>
 </section>
 
 <section id="site">
@@ -170,12 +134,82 @@ Y2  - 2026-11-11
 ER  - </pre>
 </section>
 
+<section id="record">
+<h2>A record page</h2>
+<p>Each election, person, party, office, map, source and register-of-interests entry has its own page with a permanent address under <code>https://civgraph.net/browse/</code>. Cite the address and the date you looked at it.</p>
+<h3>Plain text</h3>
+<p class="cite-block">Civgraph contributors (2026). 2024 Irish general election. Civgraph. https://civgraph.net/browse/elections/dail-eireann-2024-11-29 (accessed 11 November 2026).</p>
+<h3>BibTeX</h3>
+<pre class="cite-block">@misc{civgraph-dail-2024,
+  author       = {{Civgraph contributors}},
+  title        = {2024 Irish general election},
+  howpublished = {Civgraph},
+  year         = {2026},
+  url          = {https://civgraph.net/browse/elections/dail-eireann-2024-11-29},
+  urldate      = {2026-11-11},
+  note         = {Original sources as listed on the record}
+}</pre>
+<h3>RIS</h3>
+<pre class="cite-block">TY  - ELEC
+AU  - Civgraph contributors
+TI  - 2024 Irish general election
+T2  - Civgraph
+PY  - 2026
+UR  - https://civgraph.net/browse/elections/dail-eireann-2024-11-29
+Y2  - 2026-11-11
+N1  - Original sources as listed on the record
+ER  - </pre>
+</section>
+
+<section id="proni">
+<h2>A PRONI record</h2>
+<p>Civgraph's PRONI pages reproduce descriptions from the Public Record Office of Northern Ireland's eCatalogue. The archive and its reference come first. Add Civgraph's page if that is where you read the description.</p>
+<p class="cite-block">Public Record Office of Northern Ireland, LA/1, Antrim County Council, 1796-1987 (eCatalogue description). Accessed via Civgraph, https://civgraph.net/proni/LA/1 (accessed 11 November 2026).</p>
+</section>
+
 <section id="map">
-<h2>A map</h2>
-<p>Name the people who digitised the map, as shown on it, and the original map they worked from.</p>
+<h2>A map or map feature</h2>
+<p>Name the people who digitised the map, as shown on it, and the original map or source they worked from. The map catalogue's "Cite" item, in each map's menu, copies a citation in this form with the map's link.</p>
 <p class="cite-block">Moore, S., Birch, P. and Matthews, P. (2026). Poor Law Unions, 2 April 1911 [digitised boundaries]. Civgraph. https://civgraph.net/browse/maps/poor-law-unions-1911 (accessed 11 November 2026).</p>
-<p>If you reproduce the map with its background, add "Background map © OpenStreetMap contributors". See <a href="/pages/licence.html">Licence</a> for what each source requires.</p>
-<p><span class="owner-note">OWNER: confirm the contributors are happy to be cited by name in this form.</span></p>
+<p>To point at one feature, such as a single constituency, use its feature link, which opens the map on that feature:</p>
+<p class="cite-block">Civgraph contributors (2026). Belfast West, Parliamentary Constituencies 2023 [map feature]. Civgraph. https://civgraph.net/maps/#layers=pc-2023&amp;featureMap=pc-2023&amp;featureId=BELFAST+WEST (accessed 11 November 2026).</p>
+<p>If you reproduce a map with its background, keep the background's credit, as shown on the map. See <a href="/pages/licence.html">Licence</a> for what each source requires.</p>
+<p><span class="owner-note">OWNER TODO: confirm the contributors are happy to be cited by name in this form.</span></p>
+</section>
+
+<section id="dataset">
+<h2>A dataset snapshot</h2>
+<p>For work that others should be able to repeat, cite the <a href="/pages/downloads.html">bulk download</a> you used, by its version. Downloads are published as versioned snapshots: each records database has a version in its file name, and its SHA-256 checksum is in the <a href="https://data.civgraph.net/data/downloads/manifest.json">downloads manifest</a>. Cite the versioned name, not <code>civgraph-records-latest</code>, which moves to each new snapshot.</p>
+<h3>Plain text</h3>
+<p class="cite-block">Civgraph contributors (2026). Civgraph records database, version e97ec87cc8acb0f0 [dataset]. https://data.civgraph.net/data/downloads/civgraph-records-e97ec87cc8acb0f0.sqlite.gz. SHA-256 19bb27034016f1b43eb5bb13846d2a038580887d8fca02777978094be5a59214.</p>
+<h3>BibTeX (biblatex)</h3>
+<pre class="cite-block">@dataset{civgraph-records-e97ec87cc8acb0f0,
+  author  = {{Civgraph contributors}},
+  title   = {Civgraph records database},
+  version = {e97ec87cc8acb0f0},
+  year    = {2026},
+  url     = {https://data.civgraph.net/data/downloads/civgraph-records-e97ec87cc8acb0f0.sqlite.gz},
+  urldate = {2026-11-11},
+  note    = {SHA-256 19bb27034016f1b43eb5bb13846d2a038580887d8fca02777978094be5a59214}
+}</pre>
+<p>For classic BibTeX, use <code>@misc</code> with the same fields.</p>
+<h3>RIS</h3>
+<pre class="cite-block">TY  - DATA
+AU  - Civgraph contributors
+TI  - Civgraph records database
+ET  - e97ec87cc8acb0f0
+PY  - 2026
+UR  - https://data.civgraph.net/data/downloads/civgraph-records-e97ec87cc8acb0f0.sqlite.gz
+Y2  - 2026-11-11
+N1  - SHA-256 19bb27034016f1b43eb5bb13846d2a038580887d8fca02777978094be5a59214
+ER  - </pre>
+<p>The version above was current on 9 November 2026. The <a href="/pages/downloads.html">Downloads</a> page shows the current one.</p>
+</section>
+
+<section id="api">
+<h2>The API</h2>
+<p>If you used the <a href="/pages/downloads.html#api">API</a>, cite the request address and the date you made it. For repeatable work, cite the dataset snapshot as well, since the API always answers from the newest records.</p>
+<p class="cite-block">Civgraph contributors (2026). Civgraph API v1, /api/v1/persons?slug=[person] [data set]. https://civgraph.net/api/v1/persons?slug=[person] (accessed 11 November 2026).</p>
 </section>
 </div>
 </main>

@@ -50,6 +50,7 @@ import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { toHtmlString } from '../../packages/core/src/html.js';
 import { footer, head, header, supportModal } from '../../packages/ui/src/templates/shell.js';
+import { INFO_PAGES, INFO_PAGES_LIVE, draftBanner, draftHead } from '../../packages/ui/src/templates/info-pages.js';
 import { sourceOf } from './site.mjs';
 
 const CHECK = process.argv.includes('--check');
@@ -62,6 +63,10 @@ const SITE_PAGE = ['site:head', 'site:header', 'site:support-modal', 'site:foote
 // so they share a body region too. Without that, splitting the section would have produced
 // three copies of the shell to keep in step -- the failure this mechanism exists to prevent.
 const BROWSE_PAGE = [...SITE_PAGE, 'site:browse-shell'];
+// The information pages (Privacy, Licence, How to cite, Downloads) also carry the draft regions:
+// a noindex line in the head and a banner in the body while INFO_PAGES_LIVE is false
+// (packages/ui/src/templates/info-pages.js), both empty once it is true.
+const INFO_PAGE = [...SITE_PAGE, 'site:draft-head', 'site:draft-banner'];
 const PAGES = new Map([
   ['site/index.html', SITE_PAGE],
   ['site/pages/about.html', SITE_PAGE],
@@ -77,11 +82,8 @@ const PAGES = new Map([
   ['site/pages/status.html', SITE_PAGE],
   ['site/pages/api.html', SITE_PAGE],
   // Information pages drafted 11 Nov 2026 (launch stream `pages`): Privacy, Licence, How to cite
-  // and Downloads. Unlinked and noindex until the owner approves them.
-  ['site/pages/privacy.html', SITE_PAGE],
-  ['site/pages/licence.html', SITE_PAGE],
-  ['site/pages/cite.html', SITE_PAGE],
-  ['site/pages/downloads.html', SITE_PAGE],
+  // and Downloads. Unlinked and noindex until INFO_PAGES_LIVE (info-pages.js) is set.
+  ...INFO_PAGES.map((p) => /** @type {[string, string[]]} */ ([p.file, INFO_PAGE])),
   // The 404 is served at any missing path, so it needs the real header (nav and theme toggle)
   // and the saved theme; its bespoke banner had neither and stayed light in dark mode.
   ['site/404.html', SITE_PAGE],
@@ -117,6 +119,8 @@ const SHELL_REGIONS = {
   })),
   'site:support-modal': () => toHtmlString(supportModal()),
   'site:footer': () => toHtmlString(footer()),
+  'site:draft-head': () => draftHead(),
+  'site:draft-banner': () => draftBanner(),
 };
 
 /** @type {Record<string, string>} */
@@ -199,7 +203,8 @@ for (const [page, expected] of PAGES) {
   try {
     next = source.replace(MARKER, (_, name, attrText) => {
       const body = render(name, parseAttrs(attrText), page);
-      return `<!-- ${name}${attrText} -->\n${body}\n<!-- /${name} -->`.replace(/\n/g, eol);
+      // An empty region (a draft region once the pages are live) is just its two markers.
+      return `<!-- ${name}${attrText} -->\n${body ? `${body}\n` : ''}<!-- /${name} -->`.replace(/\n/g, eol);
     });
   } catch (error) {
     problems.push(/** @type {Error} */ (error).message);
@@ -238,6 +243,15 @@ if (CHECK) {
     }
     for (const m of source.matchAll(/<!-- site:header[^>]*\bskip-also="#([^":]+):/g)) {
       if (!source.includes(`id="${m[1]}"`)) problems.push(`${page}: skip-also points at #${m[1]}, which is not on the page`);
+    }
+  }
+}
+
+// The information pages go live only when every OWNER TODO on them has been settled.
+if (INFO_PAGES_LIVE) {
+  for (const { file } of INFO_PAGES) {
+    if (existsSync(file) && readFileSync(file, 'utf8').includes('class="owner-note"')) {
+      problems.push(`${file}: INFO_PAGES_LIVE is set but the page still has OWNER TODO notes (class="owner-note"); settle and remove them first`);
     }
   }
 }
