@@ -64,7 +64,11 @@ export const electionSummary = (/** @type {string} */ key) => /** @type {Promise
 export const electionContests = (/** @type {string} */ key) => getJson({ view: 'contests', key });
 /** One contest with candidates (counts in each), count rows and the feature match. */
 export const contestResult = (/** @type {string} */ key, /** @type {string} */ contestSlug) => getJson({ key, contest: contestSlug });
-/** One contest's citations. */
-export const contestCitations = (/** @type {string} */ key, /** @type {string} */ contestSlug) => getJson({ view: 'citations', key, contest: contestSlug });
+/**
+ * One contest's citations (view=citations&key=&constituency=<seq>, the original sources of QA H5),
+ * each with title, publisher, url, archiveUrl, kind, basis, checked (0/1), scope, match and
+ * checkNote (which figures the source was checked for).
+ */
+export const contestCitations = (/** @type {string} */ key, /** @type {number} */ seq) => getJson({ view: 'citations', key, constituency: seq });
 /** One election's provenance shard (status and primary source per contest). */
 export const electionProvenance = (/** @type {string} */ key) => getJson({ view: 'provenance', key });

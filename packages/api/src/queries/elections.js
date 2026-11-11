@@ -46,8 +46,13 @@ const CAND_COLS =
   + 'first_prefs AS firstPrefs, final_votes AS finalVotes, elected, elected_at AS electedAt, '
   + 'excluded, excluded_at AS excludedAt, status, colour, gender, meta';
 
-/** A citation's columns, for the citations views. */
-const CITE_COLS = 'ci.title, ci.publisher, ci.url, ci.archive_url AS archiveUrl, ci.host, ci.kind, ci.basis, ci.checked';
+/**
+ * A citation's columns, for the citations views. scope, match and checkNote (the citation's
+ * "check": which figures the source was checked for, e.g. "every figure read from the page
+ * image") were added for the Elections app's per-figure sources (11 Nov 2026).
+ */
+const CITE_COLS = 'ci.title, ci.publisher, ci.url, ci.archive_url AS archiveUrl, ci.host, ci.kind, ci.basis, ci.checked, '
+  + "ci.scope, ci.match, json_extract(ci.citation, '$.check') AS checkNote";
 /** The join from a contest (alias k) to its citations (alias ci): by the contest file's path. */
 const CITES_CONTEST = "ci.subject_type = 'contest' AND ci.subject_key = "
   + "(CASE WHEN k.source_file LIKE 'data/elections-source/data/elections/%' THEN substr(k.source_file, 38) ELSE k.source_file END)";
