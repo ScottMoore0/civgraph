@@ -150,7 +150,7 @@ export function wranglerQuery(sql, { remote = false, cwd = REPO_ROOT } = {}) {
   const text = readFileSync(outFile, 'utf8');
   rmSync(outFile, { force: true });
   if (res.status !== 0) throw new Error(`wrangler d1 execute failed (${res.status}): ${(res.stderr || text).slice(-800)}`);
-  /** @type {{ results?: Record<string, D1Value>[], meta?: { rows_read?: number } }[]} */
+  /** @type {{ results?: Record<string, D1Value>[], meta?: { rows_read?: number, duration?: number } }[]} */
   const parsed = JSON.parse(text.slice(text.indexOf('[')));
   /** @type {QueryRows} */
   const rows = parsed.flatMap((r) => r.results || []);
@@ -158,6 +158,10 @@ export function wranglerQuery(sql, { remote = false, cwd = REPO_ROOT } = {}) {
   // (The local D1 does not report it.)
   if (parsed.some((r) => r.meta && 'rows_read' in r.meta)) {
     Object.defineProperty(rows, 'rowsRead', { value: parsed.reduce((n, r) => n + Number(r.meta?.rows_read || 0), 0), enumerable: false });
+  }
+  // D1's time in SQL (ms): safe-verify.mjs slows down when the database is slow to answer.
+  if (parsed.some((r) => r.meta && 'duration' in r.meta)) {
+    Object.defineProperty(rows, 'durationMs', { value: parsed.reduce((n, r) => n + Number(r.meta?.duration || 0), 0), enumerable: false });
   }
   return rows;
 }
@@ -372,7 +376,7 @@ export const boundedChecksumSql = (/** @type {Pick<TableSpec, 'name'>} */ t, /**
  * table).
  */
 /**
- * @typedef {Record<string, D1Value>[] & { rowsRead?: number }} QueryRows
+ * @typedef {Record<string, D1Value>[] & { rowsRead?: number, durationMs?: number }} QueryRows
  * @typedef {(sql: string, opts: { remote?: boolean }) => QueryRows} Query
  * @typedef {{ label: string, sql: string, check: (rows: QueryRows) => string[] }} PlanStep
  * @typedef {{ steps: PlanStep[], notes: string[], mode: 'bounded'|'full' }} Plan

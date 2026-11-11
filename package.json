@@ -118,6 +118,7 @@
     "records:check": "node --test \"tests/records/*.test.mjs\"",
     "records:deploy": "node packages/loader/src/deploy-records.mjs",
     "records:verify": "node packages/loader/src/verify-load.mjs",
+    "records:verify:safe": "node packages/loader/src/safe-verify.mjs",
     "records:downloads": "node packages/loader/src/downloads.mjs",
     "persons:rebuild": "bash scripts/ingest/persons/rebuild-person-ids.sh",
     "publish:layers": "node scripts/publish/layers.mjs",
