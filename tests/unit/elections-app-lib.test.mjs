@@ -142,3 +142,26 @@ test('count sheet over real contests of the records build', { skip: existsSync(R
   assert.equal(await kindOf('northern-ireland-assembly__2022-05-05', 'belfast-east'), 'stages');
   assert.equal(await kindOf('house-of-commons-of-the-united-kingdom__1803-06-09', 'dungannon'), 'unopposed');
 });
+
+test('pivot: URL state round-trips; dimensions and measures are whitelisted; filters are literals', async () => {
+  const { DEFAULT_STATE, pivotCsv, pivotSql, pivotTable, queryFromState, stateFromQuery, whereSql } = await import('../../site/apps/elections/lib/pivot.js');
+  const s = stateFromQuery(new URLSearchParams('body=dail-eireann,ireland-local&rows=party&cols=decade&measure=share&from=1990&f.party=Fianna%20F%C3%A1il&f.party=O%27Brien'));
+  assert.deepEqual(s.bodies, ['dail-eireann', 'ireland-local']);
+  assert.equal(s.measure, 'share');
+  assert.equal(s.from, 1990);
+  assert.deepEqual(stateFromQuery(new URLSearchParams(queryFromState(s))), s);
+  const bad = stateFromQuery(new URLSearchParams('rows=1;DROP&measure=x&body=../etc'));
+  assert.equal(bad.rows, DEFAULT_STATE.rows);
+  assert.equal(bad.measure, DEFAULT_STATE.measure);
+  assert.deepEqual(bad.bodies, DEFAULT_STATE.bodies);
+  assert.match(whereSql(s), /party IN \('Fianna Fáil', 'O''Brien'\)/);
+  assert.match(pivotSql(s), /GROUP BY r, c/);
+  assert.match(pivotSql({ ...s, measure: 'turnout', rows: 'election' }), /SELECT DISTINCT election_key, contest_seq/);
+  const t = pivotTable([{ r: 'A', c: '2020', v: 30 }, { r: 'B', c: '2020', v: 10 }, { r: 'A', c: '2016', v: 5 }], { ...s, measure: 'share', cols: 'year' });
+  assert.deepEqual(t.cols, ['2016', '2020']);
+  assert.deepEqual(t.rows.map((r) => r.key), ['A', 'B']);
+  assert.equal(t.rows[0].values[1], 75);
+  const seats = pivotTable([{ r: 'A', c: 'x', v: 3 }, { r: 'B', c: 'y', v: 2 }], { ...s, measure: 'seats', cols: 'party' });
+  assert.deepEqual(seats.totals, [3, 2]);
+  assert.equal(pivotCsv(seats, { ...s, measure: 'seats', cols: 'party' }), 'Party (ballot label),x,y,Total\nA,3,,3\nB,,2,2\n');
+});
