@@ -35,6 +35,8 @@ export const bodyElections = (/** @type {string} */ bodySlug) => getJson({ body:
 export const electionDetail = (/** @type {string} */ key) => getJson({ view: 'detail', key }).then((j) => j.item);
 /** One election's summary: a results row per contest (winner, leading candidate, turnout, seats, valid poll). */
 export const electionSummary = (/** @type {string} */ key) => getJson({ view: 'summary', key });
+/** One election's contests as Browse items (each with its map feature: featureName, matched). */
+export const electionContests = (/** @type {string} */ key) => getJson({ view: 'contests', key });
 /** One contest with candidates (counts in each), count rows and the feature match. */
 export const contestResult = (/** @type {string} */ key, /** @type {string} */ contestSlug) => getJson({ key, contest: contestSlug });
 /** One contest's citations. */
