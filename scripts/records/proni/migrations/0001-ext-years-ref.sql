@@ -1,0 +1,11 @@
+-- proni-catalogue (D1 binding PRONI_DB): a covering index for year-range filters (proni-app
+-- stream, 11 Nov 2026). The Extracted Dates filters (from/to on /_api/proni/search, count and
+-- export) read ext's start and end years and its reference; ext_years holds only the years, so
+-- every row in the range was a second lookup into ext for its reference. With this index the
+-- range is read from the index alone: locally a 1900-1901 search went from 421 to about 150 ms
+-- and its count from 376 to 18 ms. An index only: no table, row or answer changes.
+--
+-- Apply once, from the main checkout, after the code lands (it works with or without the code):
+--   npx wrangler d1 execute proni-catalogue --remote --file scripts/records/proni/migrations/0001-ext-years-ref.sql
+-- Undo: DROP INDEX IF EXISTS ext_years_ref;
+CREATE INDEX IF NOT EXISTS ext_years_ref ON ext(ext_start_year, ext_end_year, ref);
