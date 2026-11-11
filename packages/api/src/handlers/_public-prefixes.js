@@ -23,8 +23,11 @@ export const PUBLIC_PREFIXES = [
   "data/parliament/words/",
   "data/pointclouds/",
   "data/sources/datagovie-pending-ia/",
+  "data/sources/eoni-result-sheets/",
+  "data/sources/ie-boundary-committee-reports/",
   "data/sources/oireachtas-fulltext/",
   "data/sources/tailte-national-land-cover-2018/",
+  "data/sources/uk-electoral-commission/",
   "data/thumbnails/",
   "data/timeline-transitions/"
 ];

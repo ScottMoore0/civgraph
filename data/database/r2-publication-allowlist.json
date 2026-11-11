@@ -115,6 +115,24 @@
       "rationale": "Static word and phrase count shards for the Words in parliament explorer (apps/words/): unigram and bigram uses per chamber, year, party and language, top speakers per term, speakers' distinctive terms and autocomplete lists. Aggregate counts only; no debate text. Added in the same commit as its upload (publish batch 2026-11-03), which goes ahead only with the site owner's approval in chat.",
       "evidence": "Built by E:/civgraph-parliament/words/tools/build_shards.py from the final speeches/ records (README.md and LEDGER.md there), rebuilt 2026-11-03 without the Stormont Papers sample (tools/exclude_body.py --body stormont; no Stormont rows in meta.json, any series or the speaker index): 15,051 files, 425 MB. Speaker index from official ids (oireachtas:, niassembly:, ukparliament:) and Civgraph person ids only; no TheyWorkForYou member data; crosswalk.csv not published.",
       "rights": "Oireachtas (Open Data) PSI Licence (Dail, Seanad); Open Parliament Licence v3.0 (Commons 1803-2026, Lords); OGL v3.0 (NI Assembly from 2012-09); NI Assembly 1998-07 to 2012-08 is NI Assembly Commission Parliamentary copyright, counts only, published with the owner's agreement."
+    },
+    {
+      "prefix": "data/sources/eoni-result-sheets/",
+      "rationale": "Mirror of the Electoral Office for Northern Ireland's published result sheets (Open Government Licence v3.0): the 2022 Assembly, 2023 council and 2024 Westminster sheets now on eoni.org.uk, and the 1973-2021 sheets and booklets the office no longer publishes, copied from Internet Archive captures. Held so the contests that cite them keep a working source. Owner-approved upload of open-licence source mirrors, 11 Nov 2026 (stream ledger).",
+      "evidence": "413 files, 181.6 MB, one folder per election (<year>-<type>/), each listed in manifest.json with its original eoni.org.uk address, the capture used where the original is gone, bytes, SHA-256 and the election. Result sheets, turnout statistics and statements of rejected ballots only: no nomination papers, agents' notices or addresses.",
+      "rights": "Open Government Licence v3.0 (Electoral Office for Northern Ireland)."
+    },
+    {
+      "prefix": "data/sources/uk-electoral-commission/",
+      "rationale": "Mirror of the Electoral Commission's results spreadsheets that cover Northern Ireland (Westminster, Assembly, European, local and the 2011 and 2016 referendums), Open Government Licence v3.0. Held because the Commission's pages move and its spreadsheets back NI contests on the site. Owner-approved upload of open-licence source mirrors, 11 Nov 2026 (stream ledger).",
+      "evidence": "30 files, 23.4 MB, one folder per election, each in manifest.json with its source address (direct or Internet Archive capture), bytes and SHA-256. Aggregate results data only.",
+      "rights": "Open Government Licence v3.0 (The Electoral Commission)."
+    },
+    {
+      "prefix": "data/sources/ie-boundary-committee-reports/",
+      "rationale": "Mirror of the Irish Local Electoral Area Boundary Committee reports (2008, 2013, 2018), the Constituency Commission reports (2004, 2007, 2012, 2017), the Electoral Commission's 2023 constituency review and the European constituency reports (2003-2023), with their maps. Irish public sector information re-usable under its open terms. Held so each LEA and Dail constituency map can link its defining report. Owner-approved upload of open-licence source mirrors, 11 Nov 2026 (stream ledger).",
+      "evidence": "105 files, 751.2 MB, one folder per review (<year>-<lea|constituency|european>/), each in manifest.json with its title, body, publication date, source address (and capture where the host is gone), bytes and SHA-256. Every PDF checked complete (%%EOF). Published reports and maps only; written submissions, which name individuals, were not mirrored.",
+      "rights": "Irish public sector information, open re-use terms (Electoral Commission (Ireland); Department of Housing, Local Government and Heritage)."
     }
   ]
 }
