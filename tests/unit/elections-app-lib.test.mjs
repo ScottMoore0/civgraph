@@ -165,3 +165,33 @@ test('pivot: URL state round-trips; dimensions and measures are whitelisted; fil
   assert.deepEqual(seats.totals, [3, 2]);
   assert.equal(pivotCsv(seats, { ...s, measure: 'seats', cols: 'party' }), 'Party (ballot label),x,y,Total\nA,3,,3\nB,,2,2\n');
 });
+
+test('maps: scales, per-area rows and party shares', async () => {
+  const { areaRows, butlerSwing, diverging, partyShares, sequential } = await import('../../site/apps/elections/lib/scales.js');
+  assert.equal(sequential(null, 0, 1), null);
+  assert.notEqual(sequential(0, 0, 10), sequential(10, 0, 10));
+  assert.equal(diverging(0, 10), '#efefef');
+  assert.notEqual(diverging(-8, 10), diverging(8, 10));
+  const rows = areaRows(
+    { results: [{ constituency: 'A', seatsTotal: 1, validPoll: 100, turnoutPct: 60, leadingParty: 'X', leadingVotes: 50 }, { constituency: 'B', seatsTotal: 1, validPoll: 0, turnoutPct: 0, leadingVotes: 0, winnerParty: 'Y' }] },
+    { items: [{ entryKind: 'election-constituency-result', constituency: 'A', featureName: 'Area A', matched: true }, { entryKind: 'election-constituency-result', constituency: 'B', featureName: 'Area B', matched: true }] },
+  );
+  assert.deepEqual(rows.map((r) => [r.feature, r.turnout, r.unopposed]), [['AREA A', 60, false], ['AREA B', null, true]]);
+  const shares = partyShares([{ area: 'A', party: 'X', votes: 30, valid: 100 }, { area: 'A', party: 'Y', votes: 70, valid: 100 }], 'X');
+  assert.equal(shares.get('A'), 30);
+  assert.equal(butlerSwing({ a1: 40, b1: 40 }, { a2: 45, b2: 35 }), 5);
+});
+
+test('projections: uniform swing and seat allocation (the projections hook)', async () => {
+  const { allocate, baseContests, deltasFromTargets, nationalShares, project } = await import('../../site/apps/elections/lib/project.js');
+  assert.deepEqual([...allocate(new Map([['A', 40], ['B', 35], ['C', 25]]), 1)], [['A', 1]]);
+  const five = allocate(new Map([['A', 40], ['B', 35], ['C', 25]]), 5);
+  assert.equal([...five.values()].reduce((s, n) => s + n, 0), 5);
+  assert.deepEqual(Object.fromEntries(five), { A: 2, B: 2, C: 1 });
+  const contests = baseContests([{ area: 'X', party: 'A', votes: 55, seats: 1 }, { area: 'X', party: 'B', votes: 45, seats: 0 }]);
+  assert.equal(contests[0].seats, 1);
+  assert.equal(project(contests, new Map()).seats.get('A'), 1);
+  assert.equal(project(contests, new Map([['B', 12]])).seats.get('B'), 1);
+  const base = nationalShares(contests);
+  assert.deepEqual(Object.fromEntries(deltasFromTargets(base, new Map([['A', 50]]))), { A: -5 });
+});
