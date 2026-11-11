@@ -1,5 +1,17 @@
 {
   "schemaVersion": 1,
   "description": "Findings of check:person-lifespans (scripts/check/rules/person-activity-after-death.mjs) the owner has reviewed and accepted: a candidacy, vote or office dated after a person's recorded death or before their 18th birthday that is nevertheless right (a candidate who died after nomination and stayed on the ballot, a date of death the reference gives only to the year). Each entry: personId, kind (after-death, before-18, vote-before-first-election, office-ends-after-death), date (optional: without it every finding of that kind for the person is accepted) and reason.",
-  "exceptions": []
+  "exceptions": [
+    {
+      "personId": 113219,
+      "kind": "after-death",
+      "date": "1948-02-04",
+      "reason": "Posthumous candidacy: John J. Keane, Fianna Fail TD for Galway West, died on 3 February 1948, the day before polling; his name stayed on the ballot and he is listed among the 1948 candidates with 2,146 first preferences (Wikipedia, \"Galway West (Dail constituency)\", 1948 results; \"John J. Keane (politician)\" for the date of death). The candidacy is his.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/John_J._Keane_(politician)",
+        "https://en.wikipedia.org/wiki/Galway_West_(D%C3%A1il_constituency)"
+      ],
+      "reviewed": "2026-11-11 (stream lifespans)"
+    }
+  ]
 }
