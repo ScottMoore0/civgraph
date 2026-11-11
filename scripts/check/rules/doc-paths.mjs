@@ -40,6 +40,8 @@ const DOCS = [
   'docs/UX-REMEDIATION-PLAN.md',
   // Added 2026-11-07: the tiers of checks name the scripts and workflows they run.
   'CHECKS.md',
+  // Added 2026-11-11: the architecture rules name the files and checks that hold them.
+  'docs/ARCHITECTURE-RULES.md',
 ];
 
 // Directories whose contents are gitignored or generated, so a path under them
