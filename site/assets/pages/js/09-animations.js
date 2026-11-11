@@ -54,11 +54,28 @@
 
   var heroMM = gsap.matchMedia();
 
+  // The heading, the lede and the buttons only move into place: they are never hidden, so a
+  // tab that runs no animation frames (a background or throttled tab, a screenshot) still shows
+  // them. They were faded in from opacity 0 and stayed invisible for 10 s and more in a
+  // throttled tab (QA 2026-11-11, M1).
   heroMM.add('(max-width: 900px)', function () {
     var tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
-    if (heroTitle) tl.from(heroTitle, { y: 22, autoAlpha: 0, duration: .7 });
-    if (heroLede) tl.from(heroLede, { y: 18, autoAlpha: 0, duration: .62 }, '-=.42');
+    if (heroTitle) tl.from(heroTitle, { y: 22, duration: .7 });
+    if (heroLede) tl.from(heroLede, { y: 18, duration: .62 }, '-=.42');
+    // The buttons sit under the lede on a phone (shared.css), so they follow it in.
+    if (heroButtons.length) {
+      tl.fromTo(heroButtons,
+        { y: 16 },
+        {
+          y: 0,
+          duration: .52,
+          stagger: .09,
+          clearProps: 'transform'
+        },
+        '-=.3'
+      );
+    }
 
     if (heroGraphic) {
       tl.from(heroGraphic, {
@@ -89,19 +106,6 @@
       }, '-=.62');
     }
 
-    if (heroButtons.length) {
-      tl.fromTo(heroButtons,
-        { y: 16 },
-        {
-          y: 0,
-          duration: .52,
-          stagger: .09,
-          clearProps: 'transform'
-        },
-        '-=.18'
-      );
-    }
-
     tl.call(function () {
       edges.forEach(function (edge) {
         edge.style.strokeDasharray = '';
@@ -113,8 +117,8 @@
   heroMM.add('(min-width: 901px)', function () {
     var tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
-    if (heroTitle) tl.from(heroTitle, { y: 22, autoAlpha: 0, duration: .7 });
-    if (heroLede) tl.from(heroLede, { y: 18, autoAlpha: 0, duration: .62 }, '-=.42');
+    if (heroTitle) tl.from(heroTitle, { y: 22, duration: .7 });
+    if (heroLede) tl.from(heroLede, { y: 18, duration: .62 }, '-=.42');
     if (heroButtons.length) {
       tl.fromTo(heroButtons,
         { y: 15 },
@@ -197,30 +201,15 @@
   var statsRow = document.querySelector('.stats');
   var statNumbers = Array.prototype.slice.call(document.querySelectorAll('.stat__n[data-count]'));
 
+  // The figures are shown at their final values from the first paint. They used to count up
+  // from 0, so a screenshot or a slow scroll caught "0 people, 0 scanned books" (QA 2026-11-11,
+  // M2); the row still slides in.
   if (statsRow && statNumbers.length) {
-    statNumbers.forEach(function (el) { el.textContent = '0'; });
-
     ScrollTrigger.create({
       trigger: statsRow,
       start: 'top 80%',
       once: true,
       onEnter: function () {
-        statNumbers.forEach(function (el, index) {
-          var counter = { value: 0 };
-          gsap.to(counter, {
-            value: Number(el.dataset.count),
-            duration: 1.65,
-            delay: index * .09,
-            ease: 'power3.out',
-            onUpdate: function () {
-              el.textContent = formatter.format(Math.round(counter.value));
-            },
-            onComplete: function () {
-              el.textContent = formatter.format(Number(el.dataset.count));
-            }
-          });
-        });
-
         gsap.fromTo(
           statsRow.querySelectorAll('.stat'),
           { y: 18, autoAlpha: .55 },
