@@ -176,7 +176,7 @@ export function areaResultsAnswer(election, modes, nationalCandidates) {
   if (!mode) return { ...base, areaLabel: null, areas: [] };
   const colourById = new Map();
   for (const result of mode.results || []) for (const c of result.candidates || []) if (!colourById.has(String(c.id))) colourById.set(String(c.id), c.colour);
-  const numCounts = Number(mode.numCounts) || Math.max(1, ...(mode.results || []).flatMap((r) => r.countNumbers || [1]));
+  const numCounts = Number(mode.numCounts) || Math.max(1, ...(mode.results || []).flatMap((/** @type {Record<string, any>} */ r) => r.countNumbers || [1]));
   const slug = (/** @type {unknown} */ v) => String(v || '').normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
   return {
     ...base,

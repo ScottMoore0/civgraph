@@ -34,7 +34,7 @@ export const BODY_SHORT = {
   'northern-ireland-forum-for-political-dialogue': 'NI Forum',
   'northern-ireland-referendum': 'Referendum (NI)',
   // The bodies the election-bodies registry describes (data/registries/election-bodies.json).
-  ...Object.fromEntries(Object.entries(electionBodies).filter(([, b]) => b.shortLabel).map(([id, b]) => [id, b.shortLabel])),
+  ...Object.fromEntries(Object.entries(/** @type {Record<string, { shortLabel?: string }>} */ (electionBodies)).filter(([, b]) => b.shortLabel).map(([id, b]) => [id, b.shortLabel])),
 };
 export const bodyShort = (e) => BODY_SHORT[e.bodySlug] || e.body;
 
@@ -56,7 +56,7 @@ export const BODY_GROUPS = [
   ...g,
   // A body the election-bodies registry puts on this shelf (the Mayor of Limerick, beside the
   // Irish local elections of the same day).
-  bodies: [...g.bodies, ...Object.entries(electionBodies).filter(([id, b]) => b.shelf === g.id && !g.bodies.includes(id)).map(([id]) => id)],
+  bodies: [...g.bodies, ...Object.entries(/** @type {Record<string, { shelf?: string }>} */ (electionBodies)).filter(([id, b]) => b.shelf === g.id && !g.bodies.includes(id)).map(([id]) => id)],
 }));
 export const groupOfBody = (slug) => BODY_GROUPS.find((g) => g.bodies.includes(slug))?.id || '';
 

@@ -208,7 +208,7 @@ const BODY_ALIASES = {
   'northern-ireland-referendum': 'referendum referenda NI',
   ...councilSearch.catalogueBodyAliases,
   // The bodies the election-bodies registry describes (data/registries/election-bodies.json).
-  ...Object.fromEntries(Object.entries(electionBodies).filter(([, b]) => b.searchTerms).map(([id, b]) => [id, b.searchTerms]))
+  ...Object.fromEntries(Object.entries(/** @type {Record<string, { searchTerms?: string }>} */ (electionBodies)).filter(([, b]) => b.searchTerms).map(([id, b]) => [id, b.searchTerms]))
 };
 
 // The councils a Northern Ireland local election chose: the eleven since 2014 (the 2014 vote
