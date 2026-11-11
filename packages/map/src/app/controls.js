@@ -7,6 +7,7 @@
 
 import uiController from '../../../../src/ui-controller.js';
 import { readStored, writeStored } from '../../../../src/storage-keys.mjs';
+import { resolveBaseMapId } from '../renderer/basemap.mjs';
 
 export class MapControlMethods {
   /**
@@ -196,10 +197,13 @@ export class MapControlMethods {
    * and a `?base=` URL parameter count as deliberate — a shared link carrying a
    * basemap is someone's choice, even if the person opening it is not the one who
    * made it.
+   *
+   * An id that is not a base map any more (the Esri ones, removed 11 Nov 2026, in an address
+   * saved before) is the default instead (resolveBaseMapId), and is not counted as a choice.
    */
   async applyBaseMap(baseMapId, { userChoice = false } = {}) {
-    this.baseMapId = baseMapId || 'osm-standard';
-    if (userChoice) {
+    this.baseMapId = resolveBaseMapId(baseMapId);
+    if (userChoice && this.baseMapId === baseMapId) {
       this.userPickedBasemap = true;
       try { localStorage.setItem('basemapUserChoice', '1'); } catch { /* private mode */ }
     }

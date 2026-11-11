@@ -5,6 +5,7 @@ import { boundsToMapLibre } from '../src/renderer/utils.js';
 import { waitForMapSettle } from './settle.js';
 import { compositeChildIds } from '../../../src/map-relations.mjs';
 import { cdnUrl } from '../../../src/cdn-url.js';
+import { CHOOSABLE_BASE_MAPS, resolveBaseMapId } from '../src/renderer/basemap.mjs';
 import {
   classCounts,
   fillColorExpression,
@@ -17,43 +18,10 @@ import {
   statisticFor
 } from '../../../src/census-overlay.mjs';
 
-// 'osm-standard' is the default street map: not one tile server but the provider chain in
-// packages/map/src/renderer/basemap.mjs (OpenFreeMap, then OpenStreetMap's own tiles as the last
-// resort). The id is kept because addresses, settings and tests name it.
-const DEFAULT_BASE_MAP = 'osm-standard';
-const BASE_MAPS = {
-  'osm-humanitarian': ['https://tile-{a-c}.openstreetmap.fr/hot/{z}/{x}/{y}.png'],
-  'cartodb-positron': ['https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'],
-  'cartodb-dark': ['https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png'],
-  'cartodb-dark-nolabels': ['https://a.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}.png'],
-  'cartodb-voyager': ['https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png'],
-  'esri-satellite': ['https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'],
-  'esri-world-topo': ['https://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}'],
-  'esri-natgeo': ['https://services.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}'],
-  'esri-ocean': ['https://services.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}'],
-  'opentopomap': ['https://a.tile.opentopomap.org/{z}/{x}/{y}.png'],
-  'stamen-terrain': ['https://stamen-tiles.a.ssl.fastly.net/terrain/{z}/{x}/{y}.jpg'],
-  'usgs-topo': ['https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/{z}/{y}/{x}']
-};
-
-const OSM_CREDIT = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
-const ESRI_CREDIT = 'Tiles &copy; Esri';
-// Each basemap credits its own provider. Every one used to be credited only to OpenStreetMap,
-// which misattributed the Esri imagery and maps, USGS and the rest.
-const BASE_MAP_ATTRIBUTION = {
-  'osm-humanitarian': `${OSM_CREDIT}, style by Humanitarian OpenStreetMap Team, hosted by OpenStreetMap France`,
-  'cartodb-positron': `${OSM_CREDIT} &copy; <a href="https://carto.com/attributions">CARTO</a>`,
-  'cartodb-dark': `${OSM_CREDIT} &copy; <a href="https://carto.com/attributions">CARTO</a>`,
-  'cartodb-dark-nolabels': `${OSM_CREDIT} &copy; <a href="https://carto.com/attributions">CARTO</a>`,
-  'cartodb-voyager': `${OSM_CREDIT} &copy; <a href="https://carto.com/attributions">CARTO</a>`,
-  'esri-satellite': `${ESRI_CREDIT} &mdash; Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community`,
-  'esri-world-topo': `${ESRI_CREDIT} &mdash; Esri, HERE, Garmin, FAO, NOAA, USGS, OpenStreetMap contributors, and the GIS User Community`,
-  'esri-natgeo': `${ESRI_CREDIT} &mdash; National Geographic, Esri, Garmin, HERE, UNEP-WCMC, USGS, NASA, ESA, METI, NRCAN, GEBCO, NOAA, iPC`,
-  'esri-ocean': `${ESRI_CREDIT} &mdash; Esri, Garmin, GEBCO, NOAA NGDC, and other contributors`,
-  'opentopomap': `Map data: ${OSM_CREDIT}, SRTM | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (CC-BY-SA)`,
-  'stamen-terrain': `&copy; Stamen Design, ${OSM_CREDIT}`,
-  'usgs-topo': 'Tiles courtesy of the <a href="https://www.usgs.gov/">U.S. Geological Survey</a>'
-};
+// The base maps (packages/map/src/renderer/basemap.mjs): 'osm-standard' is the default street map,
+// not one tile server but the provider chain there (OpenFreeMap, then OpenStreetMap's own tiles as
+// the last resort); CHOOSABLE_BASE_MAPS are the raster ones a reader can pick instead, each
+// credited to its own provider. The Esri base maps were removed on 11 Nov 2026.
 
 // The timeline's change highlight (setTimelineChanges). Magenta reads against the blues,
 // greens and browns the boundary layers use and against the OSM base map.
@@ -737,11 +705,13 @@ export class Test2MapLibreMainAdapter {
   setBaseMap(id) {
     const basemap = this.renderer?.basemap;
     if (!this.map || !basemap) return;
-    if (!BASE_MAPS[id] || id === DEFAULT_BASE_MAP) {
+    const chosen = resolveBaseMapId(id);
+    const provider = CHOOSABLE_BASE_MAPS[chosen];
+    if (!provider) {
       basemap.useDefault();
       return;
     }
-    basemap.useRaster({ id, label: id, tiles: BASE_MAPS[id], attribution: BASE_MAP_ATTRIBUTION[id] });
+    basemap.useRaster({ id: chosen, label: chosen, tiles: provider.tiles, attribution: provider.attribution });
   }
 
   toggleOverlay() {

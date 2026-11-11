@@ -380,11 +380,12 @@ export class NiLocalGroupedView {
   /**
    * The hatching is drawn over the base map, so its tone follows the base map, not the page:
    * dark lines over the light maps (the default, in the light and the dark theme alike), light
-   * lines over the dark and satellite ones. Both tones carry an edge of the other.
+   * lines over the dark ones (the satellite ones went with the Esri base maps, 11 Nov 2026).
+   * Both tones carry an edge of the other.
    */
   hatchTone() {
     const base = String(this.app.baseMapId || 'osm-standard');
-    return /dark|satellite/.test(base) ? 'dark' : 'light';
+    return /dark/.test(base) ? 'dark' : 'light';
   }
 
   applyStyle() {

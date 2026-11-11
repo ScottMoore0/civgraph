@@ -524,18 +524,14 @@
                        2026-08-26. CARTO now requires an API key and serves tiles with
                        "API KEY REQUIRED" printed across them at HTTP 200, so nothing could
                        detect the failure; Stamen returns 503. Offering a basemap that
-                       renders a watermark is the same defect as offering a dead one. -->
+                       renders a watermark is the same defect as offering a dead one. The four Esri base maps
+                       (Satellite, World Topo, Nat. Geo., Ocean) were removed 11 Nov 2026: Esri's raw
+                       tile services need an ArcGIS licence. -->
                   <option value="osm-standard" selected>Street map (OpenStreetMap data)</option>
                 <optgroup label="Dark & Modern">
                 </optgroup>
                 <optgroup label="Other Street Maps">
                   <option value="osm-humanitarian">OpenStreetMap Humanitarian</option>
-                </optgroup>
-                <optgroup label="Satellite & Imagery">
-                  <option value="esri-satellite">ESRI Satellite</option>
-                  <option value="esri-world-topo">ESRI World Topo</option>
-                  <option value="esri-natgeo">ESRI Nat. Geo.</option>
-                  <option value="esri-ocean">ESRI Ocean</option>
                 </optgroup>
                 <optgroup label="Terrain & Topographic">
                   <option value="opentopomap">OpenTopoMap</option>

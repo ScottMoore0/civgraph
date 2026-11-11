@@ -12,6 +12,7 @@ import { renameElectionDatesInParams, resolveLegacyLayerId } from './url-compat.
 import { pageParamOf, parsePageParam } from './helpers.mjs';
 import featureLoader from '../../../../src/feature-loader.js';
 import { featureBoundsFromIndex, featureBoundsFromSpatial } from './feature-bounds.mjs';
+import { resolveBaseMapId } from '../renderer/basemap.mjs';
 
 /** A promise, or null after `ms`: an index that is slow to come must not hold the map. */
 const within = (promise, ms) => Promise.race([promise, new Promise((resolve) => setTimeout(() => resolve(null), ms))]);
@@ -399,7 +400,9 @@ export class UrlStateMethods {
       const baseMap = params.get('base');
       if (baseMap) {
         const select = document.getElementById('baseMapSelect');
-        if (select) select.value = baseMap;
+        // A base map since removed (an Esri one, in an address saved before 11 Nov 2026) shows,
+        // and draws, the default.
+        if (select) select.value = resolveBaseMapId(baseMap);
         // T1-06: a ?base= in the URL is a deliberate choice too, so the theme
         // must not override it on load.
         await this.applyBaseMap(baseMap, { userChoice: true });

@@ -98,3 +98,37 @@ test('?basemap=osm-tiles starts from OpenStreetMap tiles, without asking OpenFre
   expect(ofm).toBe(0);
   expect(await page.evaluate(() => sessionStorage.getItem('civgraph.basemapFailedProviders'))).toBeNull();
 });
+
+test('an address saved with an Esri base map opens on the default chain', async ({ page }) => {
+  // The four Esri base maps were removed on 11 Nov 2026 (their raw tile services need an ArcGIS
+  // licence). A bookmark or shared link from before still names one in #base=.
+  let esri = 0;
+  await page.route((url) => /(^|\.)arcgisonline\.com$/.test(url.hostname), (route) => { esri += 1; return route.abort(); });
+  await page.route((url) => url.hostname === OFM, (route) => route.abort());
+  await page.route((url) => url.hostname === OSM, (route) => route.fulfill({ contentType: 'image/png', body: PNG_1X1 }));
+  await page.goto('/maps/#base=esri-satellite');
+  await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
+  await page.evaluate(() => window.__civgraphTest2.restorePromise);
+  await page.waitForFunction(() => window.__civgraphTest2?.mapController?.renderer?.basemap?.active, null, { timeout: 60000 });
+  // The chain, failing over from OpenFreeMap (aborted here) to OpenStreetMap's tiles.
+  await expect.poll(async () => (await basemapState(page)).active).toBe('osm-tiles');
+  const state = await page.evaluate(() => {
+    const app = window.__civgraphTest2.app;
+    app.updateURLState();
+    return {
+      baseMapId: app.baseMapId,
+      mode: app.mapController.renderer.basemap.mode,
+      hash: location.hash,
+      userChoice: localStorage.getItem('basemapUserChoice'),
+      options: [...document.querySelectorAll('#baseMapSelect option')].map((option) => option.value)
+    };
+  });
+  expect(state.baseMapId).toBe('osm-standard');
+  expect(state.mode).toBe('chain');
+  await expect(page.locator('#baseMapSelect')).toHaveValue('osm-standard');
+  expect(state.hash).not.toContain('base=');
+  expect(state.userChoice, 'a removed base map is not recorded as the reader\'s choice').toBeNull();
+  expect(state.options.filter((value) => /esri/i.test(value))).toEqual([]);
+  expect((await basemapState(page)).credit).not.toMatch(/Esri/);
+  expect(esri).toBe(0);
+});
