@@ -35,6 +35,7 @@ import path from 'node:path';
 import { BROWSE_DIR, ELECTION_BUNDLE_DIR } from '../../packages/loader/src/paths.mjs';
 import { browsePartySlugResolver, formatSpan, indexFactsModel, loadFactsModel } from '../lib/facts-model.mjs';
 import { isPartyInternalBody } from '../lib/election-names.mjs';
+import { loadRegistry } from '../../packages/registries/src/index.mjs';
 
 const ROOT = process.cwd();
 const BROWSE = BROWSE_DIR;
@@ -67,7 +68,10 @@ const BODY_GROUPS = [
   { id: 'councils-ni', label: 'Councils in Northern Ireland', test: (p) => p.startsWith('local-government') || /council/.test(p),
     note: 'Before 1973 Civgraph holds the results of only some councils, so these rounds are not comparable with the district council elections from 1973.' },
   { id: 'councils-ie', label: 'Local elections in Ireland', test: (p) => p === 'ireland-local' },
-  { id: 'president', label: 'President of Ireland', test: (p) => p === 'ireland-president' }
+  { id: 'president', label: 'President of Ireland', test: (p) => p === 'ireland-president' },
+  // The bodies data/registries/election-bodies.json gives a chart of their own (the Mayor of Limerick).
+  ...loadRegistry('election-bodies').bodies.filter((body) => body.partyGroup)
+    .map((body) => ({ id: body.partyGroup.id, label: body.partyGroup.label, test: (/** @type {string} */ p) => p === body.id }))
 ];
 const bodyGroupOf = (key) => {
   const prefix = String(key).split('__')[0];

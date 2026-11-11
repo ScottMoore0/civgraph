@@ -24,6 +24,8 @@
  */
 import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { compareElectionsNewestFirst } from '../../lib/election-names.mjs';
+import { loadRegistry } from '../../../packages/registries/src/index.mjs';
+import { electionBody, jurisdictionLabel } from '../../../packages/registries/src/election-bodies.mjs';
 import path from 'node:path';
 import { loadRecords } from './records.mjs';
 import { formatDatesInText, formatDisplayDate } from '../../../packages/core/src/date-format.mjs';
@@ -32,6 +34,7 @@ import { BROWSE_DIR, ELECTION_MANIFEST, RECORDS_DB } from '../../../packages/loa
 import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLocalCouncilRound, niLocalGroupKey } from '../../../src/ni-local-groups.mjs';
 
 const ROOT = process.cwd();
+const ELECTION_BODIES = loadRegistry('election-bodies');
 const rel = (p) => path.resolve(ROOT, p);
 const read = (p) => JSON.parse(readFileSync(rel(p), 'utf8'));
 const CHECK = process.argv.includes('--check');
@@ -388,12 +391,13 @@ const electionsOut = [...elections.filter((e) => !isNiLocalCouncilRound(e)).map(
   if (descriptions.elections?.[e.key]) rec.about = descriptions.elections[e.key];
   // Where it was held: Westminster elections before 1922 were all-Ireland ones.
   // The 1918 general election, filed as the first Dail's, was an all-island Westminster election.
-  rec.scope = e.bodySlug === 'dail-eireann' && String(e.date) < '1921-05-03' ? 'Ireland'
+  // A body data/registries/election-bodies.json describes says where its elections were held.
+  rec.scope = jurisdictionLabel(electionBody(ELECTION_BODIES, e.bodySlug)) || (e.bodySlug === 'dail-eireann' && String(e.date) < '1921-05-03' ? 'Ireland'
     : ['dail-eireann', 'ireland-referendum', 'ireland-local', 'ireland-european', 'ireland-president'].includes(e.bodySlug) ? 'Republic of Ireland'
     // Partition took effect on 3 May 1921: the Westminster by-elections after it (Mid Down, West
     // Down, South Londonderry, and Belfast Duncairn, Mid Armagh and North Down on 23 June) were
     // all for Northern Ireland seats.
-    : e.bodySlug === 'house-of-commons-of-the-united-kingdom' && String(e.date) < '1921-05-03' ? 'Ireland' : 'Northern Ireland';
+    : e.bodySlug === 'house-of-commons-of-the-united-kingdom' && String(e.date) < '1921-05-03' ? 'Ireland' : 'Northern Ireland');
   // The map the election is drawn on, for its thumbnail.
   const own = [e.sourceMapId, e.layerId, mapById.get(e.sourceMapId)?.cloneOf].find((id) => id && thumbs.has(id));
   if (own) rec.thumb = own;
