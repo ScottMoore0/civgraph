@@ -219,6 +219,25 @@ def check_label_blanked_used(keys, used):
                  f'(first: {stale[0]}); update the file to the row as it now stands')
 
 
+UNNAMED = os.path.join(OUT, 'unnamed-candidacies.csv')
+
+
+def named_after_import():
+    """A ROW NAMED AFTER IMPORT BRINGS NO PRIOR JOIN. Some 2014 and 2019 Northern Ireland council
+    rows were imported with a placeholder for a name ("Party", "Voice"); they are listed, by
+    candidate id, in data/elections/persons/unnamed-candidacies.csv and were named later by
+    candidateById fixes (official-records-2026-10-23). While they shared a placeholder name, the
+    merge pass joined rows of one seat and party at consecutive elections, and the registry kept
+    those joins once the rows had their real names: Maurice Devenney (Faughan 2014) and Graham
+    Warke (Faughan 2019) were one person, 104872. Returns the set of those candidate ids; a prior
+    join involving one of them is kept only where the joined rows still share a name."""
+    if not os.path.exists(UNNAMED):
+        return set()
+    import csv
+    with open(UNNAMED, encoding='utf-8', newline='') as fh:
+        return {str(row['candidate_id']).strip() for row in csv.DictReader(fh) if str(row.get('candidate_id') or '').strip()}
+
+
 def council_area(council):
     """The county a Republic council belongs to: "Cork City Council" and "Cork County Council"
     are one area, as are Dublin's city and county councils, so a councillor who moves between
@@ -783,6 +802,8 @@ def main():
         if pid is not None:
             by_prior[pid].append(k)
     rejoined = 0
+    renamed_dropped = 0
+    renamed = named_after_import()
     name_joined = collections.defaultdict(set)
     ei_people = ei_relatives.load()
     for pid, keys in by_prior.items():
@@ -813,6 +834,12 @@ def main():
             # recorded them as one.
             if ei_relatives.distinct(ei_people, ours_src, their_src):
                 continue
+            # Nor one made while a row still had a placeholder for a name (named_after_import):
+            # the rows' real names now differ, so the join rested on the placeholder alone.
+            if renamed and ({r['id'] for r in merged[lead]} | {r['id'] for r in merged[k]}) & renamed \
+                    and {matchkey(r['name']) for r in merged[lead]}.isdisjoint({matchkey(r['name']) for r in merged[k]}):
+                renamed_dropped += 1
+                continue
             if conflicts({o for r in merged[lead] for o in r['off']}, {o for r in merged[k] for o in r['off']}):
                 continue
             contests |= theirs
@@ -822,6 +849,7 @@ def main():
                     name_joined[lead].add(g[1])
             rejoined += 1
     print(f'prior joins kept            : {rejoined:,}')
+    print(f'prior joins of rows named after import, names now differ, not kept: {renamed_dropped:,}')
 
     # A LIFE IS A LIMIT, AFTER THE JOINS TOO. The pass above runs before groups are joined, on
     # Wikidata's dates alone. Joins made since -- a prior join kept, a cross-system join -- can
@@ -934,6 +962,14 @@ def main():
             return 0.0
         return sum(1 for y in yrs if lo <= y <= hi) / len(yrs)
 
+    # Where two groups hold equal evidence for one prior id -- the halves of a person wrongly
+    # joined, one candidacy each -- the id stays with the half that goes by the name the person
+    # page has shown under it (its displayName), not with whichever key sorts last: the
+    # placeholder-name joins undone above (named_after_import) leave 104872 with Maurice
+    # Devenney, 104746 with Carl McClean and 115524 with William McCandless.
+    def name_fit(pid, v):
+        return 1 if prev[pid].get('displayName') in {r['name'] for r in v} else 0
+
     evidence = []
     for k, v in merged.items():
         persons = {r['src'] for r in v if r['src']}
@@ -953,16 +989,16 @@ def main():
             e = prev[pid]
             score = (len(set(e.get('sourcePersonIds') or []) & persons) + len(set(e.get('officialPersonIds') or []) & offs),
                      len(set(e.get('sourceIds') or []) & sources), 0)
-            evidence.append((score, span_fit(pid, v), len(v), -pid, str(k), k, pid))
+            evidence.append((score, span_fit(pid, v), len(v), -pid, name_fit(pid, v), str(k), k, pid))
         # A name-keyed group has no source evidence, but the prior name-keyed entity under
         # its name is still its own. Without this, a larger RoI local group of the same name
         # visited first took the id by name: Thomas Kelly of the 1922 Dail lost 113101.
         if k[0] == 'name':
             for pid in prev_by_key.get(k[1], set()):
                 if prev[pid].get('keyedBy') == 'name':
-                    evidence.append(((0, 0, 1), span_fit(pid, v), len(v), -pid, str(k), k, pid))
+                    evidence.append(((0, 0, 1), span_fit(pid, v), len(v), -pid, name_fit(pid, v), str(k), k, pid))
     by_evidence = {}
-    for score, _fit, _size, _neg, _sk, k, pid in sorted(evidence, key=lambda t: t[:5], reverse=True):
+    for score, _fit, _size, _neg, _named, _sk, k, pid in sorted(evidence, key=lambda t: t[:6], reverse=True):
         if k in by_evidence or pid in by_evidence.values():
             continue
         by_evidence[k] = pid
