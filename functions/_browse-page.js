@@ -48,6 +48,7 @@ import { browseMapRecord } from '../packages/api/src/handlers/_maps.js';
 import { dateText, listText, numberText, slugify } from '../packages/core/src/format.js';
 import { datasetVersion, htmlResponse } from '../packages/api/src/respond.js';
 import { renderRecordPage, ssrMode } from '../packages/ui/src/templates/records/index.js';
+import { withShareTags } from '../packages/ui/src/templates/share.js';
 import { loadElectionPage } from '../packages/api/src/pages/election.js';
 import { groupedYearHero, groupedYearKey } from '../packages/ui/src/templates/records/grouped-year.js';
 import { resolveElectionSlugAlias } from '../packages/core/src/election-slug-aliases.js';
@@ -466,17 +467,14 @@ export function renderBrowseShell(html, { title, description, canonical, kicker,
       `<meta name="description" content="${htmlEscape(description)}">`);
   }
   if (canonical) {
-    const tags = [
-      `<link rel="canonical" href="${htmlEscape(canonical)}">`,
-      `<meta property="og:type" content="website">`,
-      `<meta property="og:site_name" content="${SITE_NAME}">`,
-      `<meta property="og:url" content="${htmlEscape(canonical)}">`,
-      title ? `<meta property="og:title" content="${htmlEscape(title)}">` : '',
-      description ? `<meta property="og:description" content="${htmlEscape(description)}">` : '',
-    ].filter(Boolean).join('\n  ');
-    out = /<link\s+rel="canonical"[^>]*>/i.test(out)
-      ? out.replace(/<link\s+rel="canonical"[^>]*>/i, tags)
-      : out.replace(/<\/head>/i, `  ${tags}\n</head>`);
+    // The record's canonical, Open Graph and Twitter card in place of the shell's own (/browse/'s),
+    // so a pasted record link previews as the record, with the share image (QA 2026-11-11, H1).
+    out = withShareTags(out, {
+      title: title || SITE_NAME,
+      description,
+      url: canonical,
+      type: kicker === 'Person' ? 'profile' : 'website',
+    });
   }
   if (heroHtml) {
     out = out.replace(/(<div id="browseHero" class="browse-hero">)(<\/div>)/, (_m, open, close) => `${open}${heroHtml}${close}`);
