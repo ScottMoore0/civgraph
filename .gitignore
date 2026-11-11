@@ -463,3 +463,6 @@ data/database/corpus-index.private.json
 
 # Civgraph Elections pivot extracts (scripts/build/elections-app/data.mjs --extracts): private until the owner approves the app.
 /site/apps/elections/extracts/
+# DuckDB's WebAssembly and its parquet extension (scripts/build/elections-app/vendor.mjs): over the Pages limit or binary, served from R2; local copies only.
+/src/libs/duckdb-wasm-*/*.wasm
+/src/libs/duckdb-wasm-*/extensions/
