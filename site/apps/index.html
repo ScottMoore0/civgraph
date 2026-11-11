@@ -132,7 +132,9 @@
         .app-card__cta {
             display: inline-block;
             font-weight: var(--font-bold);
-            color: var(--color-accent);
+            /* The text shade of the accent: --color-accent (#38a169) was 3.24:1 on white at 12 px
+               (axe color-contrast, QA 2026-11-11, L8); this is #276749 light, #6cd39a dark. */
+            color: var(--color-accent-dark);
         }
 
         /* Each app's card mirrors that app's own styling, formatting and colours,

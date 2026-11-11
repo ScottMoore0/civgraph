@@ -1,3 +1,6 @@
+# /favicon.ico was a 404; some link-preview bots and feed readers ask for it by name (QA
+# 2026-11-11, L6). The pages declare /assets/images/favicon.svg; this answers the old name.
+/favicon.ico  /assets/images/favicon-32.png  301
 # Layer ids lost their -test suffix on 7 Nov 2026 (site-restructure renames.csv; data design
 # PHASE3.md section 5): <map>-vector-test became <map>-vector, -raster-test -raster, -alias-test
 # -alias. The feature indexes and election anchors are static files named by layer id, so each old
