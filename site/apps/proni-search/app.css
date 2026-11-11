@@ -75,9 +75,9 @@ a.ps-btn--export { text-decoration: none; display: inline-flex; align-items: cen
 .ps-btn--export:not([disabled]):hover { background: #f2f8ff; }
 .ps-export__note { flex: 1 1 14rem; min-width: 12rem; font-size: 0.75rem; color: var(--muted); line-height: 1.4; }
 
-.ps-dates { display: flex; align-items: center; gap: 0.6rem; }
-.ps-date { display: flex; align-items: center; gap: 0.35rem; font-size: 0.82rem; color: var(--muted); }
-.ps-date__input { font: inherit; font-size: 0.85rem; padding: 0.35rem 0.5rem; border: 1px solid var(--line); border-radius: 6px; color: var(--ink); }
+.ps-dates { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; max-width: 100%; }
+.ps-date { display: flex; align-items: center; gap: 0.35rem; font-size: 0.82rem; color: var(--muted); min-width: 0; }
+.ps-date__input { font: inherit; font-size: 0.85rem; padding: 0.35rem 0.5rem; border: 1px solid var(--line); border-radius: 6px; color: var(--ink); min-width: 0; max-width: 100%; }
 .ps-date__input:focus { outline: none; border-color: var(--accent); }
 
 .ps-sort { display: flex; align-items: center; gap: 0.45rem; margin-left: auto; }
@@ -257,6 +257,20 @@ a.ps-btn--export { text-decoration: none; display: inline-flex; align-items: cen
   .ps-sort { margin-left: 0; }
   .ps-guide__reffield { font-size: 1.25rem; }
 }
+/* Phone width: nothing may be wider than the screen (QA 2026-11-11, M15: the From/To pair was
+   380px wide and the page scrolled sideways at 375px). The dates stack, each on its own row
+   with its input filling it; long unbroken text (references, URLs in descriptions) wraps. */
+@media (max-width: 480px) {
+  .ps-dates { flex: 1 1 100%; flex-direction: column; align-items: stretch; gap: 0.45rem; }
+  .ps-date { justify-content: space-between; }
+  .ps-date__input { flex: 1 1 auto; }
+  .ps-rec { padding: 1rem 0.85rem 1.2rem; }
+  .ps-rec__table th, .ps-rec__table td { padding: 0.5rem 0.55rem; }
+  .ps-rec__table th { width: 6.5rem; }
+}
+.ps-main { min-width: 0; }
+.ps-rec__table { table-layout: fixed; }
+.ps-rec__table td, .ps-rec__title, .ps-levels, .ps-rec__children a, .ps-card__desc, .ps-modal__desc { overflow-wrap: anywhere; }
 /* keep the lockup at the top-right on small screens (no longer stacked below the
    title); shrink it so the wrapping title keeps enough room */
 @media (max-width: 560px) {
