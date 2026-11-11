@@ -228,3 +228,17 @@ test('not public yet: no sitemap lists the app, and the sitemap builder names no
   assert.match(page, /<meta name="robots" content="noindex, nofollow"/);
   assert.match(readFileSync('site/_headers', 'utf8'), /\/elections\/\*\n {2}X-Robots-Tag: noindex, nofollow/);
 });
+
+test('no poll, as packages/core/src/unopposed.mjs reads it: 0 votes on an unopposed row, the auto-returned Ceann Comhairle', () => {
+  const un = countSheet([{ id: 'a', name: 'A', status: 'Elected unopposed', firstPrefs: 0, elected: 1 }], { seatsTotal: 1 });
+  assert.equal(un.kind, 'unopposed');
+  assert.equal(un.rows[0].firstPrefs, null);
+  const cc = countSheet([
+    { id: 'cc', name: 'CC', status: 'Elected (auto returned)', autoReturnedCeannComhairle: true, firstPrefs: 0, elected: 1 },
+    { id: 'b', name: 'B', firstPrefs: 500, elected: 1, electedAt: 1 }, { id: 'c', name: 'C', firstPrefs: 100 },
+  ], { seatsTotal: 2 });
+  const row = cc.rows.find((r) => r.id === 'cc');
+  assert.equal(row?.autoReturned, true);
+  assert.equal(row?.firstPrefs, null);
+  assert.equal(cc.validPoll, 600);
+});

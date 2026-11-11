@@ -16,7 +16,7 @@ import { isUnopposed, num } from './format.js';
 /**
  * @typedef {{ count: number, total: number | null, transfers: number | null, status: string }} Cell
  * @typedef {{ id: string, name: string, party: string, colour: string, personId: string | null,
- *   firstPrefs: number | null, finalVotes: number | null, elected: boolean, unopposed: boolean,
+ *   firstPrefs: number | null, finalVotes: number | null, elected: boolean, unopposed: boolean, autoReturned: boolean,
  *   electedAt: number | null, excludedAt: number | null, status: string, cells: Cell[] }} SheetRow
  * @typedef {{ id: string, name: string, party: string, colour: string, amount: number }} Flow
  */
@@ -34,17 +34,22 @@ export function countSheet(candidates, contest = {}) {
       count: Number(k.count), total: num(k.total), transfers: num(k.transfers), status: String(k.status || ''),
     })).filter((/** @type {Cell} */ k) => Number.isFinite(k.count)).sort((/** @type {Cell} */ a, /** @type {Cell} */ b) => a.count - b.count);
     for (const k of cells) if (k.total !== null) stageSet.add(k.count);
-    const unopposed = /unopposed/i.test(String(c.status || ''));
+    // The same reading as packages/core/src/unopposed.mjs (QA H4): an "Elected unopposed" or
+    // auto-returned (Ceann Comhairle) seat had no poll; 252 older rows carry 0 votes for it.
+    const unopposed = /unopposed/i.test(String(c.status || '')) || c.unopposed === true || c.unopposed === 1;
+    const autoReturned = c.autoReturnedCeannComhairle === true || /auto[- ]?returned/i.test(String(c.status || ''));
+    const noPoll = unopposed || autoReturned;
     return {
       id: String(c.id ?? c.name),
       name: String(c.name || ''),
       party: String(c.party || 'No party recorded'),
       colour: c.colour || '',
       personId: c.personId ? String(c.personId) : null,
-      firstPrefs: num(c.firstPrefs),
+      firstPrefs: noPoll && !num(c.firstPrefs) ? null : num(c.firstPrefs),
       finalVotes: num(c.finalVotes),
-      elected: c.elected === 1 || c.elected === true || unopposed,
+      elected: c.elected === 1 || c.elected === true || noPoll,
       unopposed,
+      autoReturned,
       electedAt: num(c.electedAt),
       excludedAt: num(c.excludedAt),
       status: String(c.status || ''),

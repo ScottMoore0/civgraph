@@ -24,10 +24,8 @@ export async function render(root, route) {
   const eslug = /** @type {string} */ (route.election);
   const cslug = /** @type {string} */ (route.contest);
   const detail = await electionDetail(eslug);
-  const [result, cites] = await Promise.all([
-    contestResult(detail.key, cslug),
-    contestCitations(detail.key, cslug).catch(() => ({ citations: [] })),
-  ]);
+  const result = await contestResult(detail.key, cslug);
+  const cites = await contestCitations(detail.key, Number(result.constituency?.seq)).catch(() => ({ citations: [] }));
   const c = result.constituency || {};
   const stv = isStv(detail.votingSystem);
   const sheet = countSheet(result.candidates || [], {
@@ -83,7 +81,7 @@ export async function render(root, route) {
 
   const flows = transferStages(sheet);
   const quota = stv && sheet.quota && (sheet.kind === 'stages' || sheet.kind === 'single' || sheet.kind === 'order') ? quotaProgress(sheet) : [];
-  const citations = cites.citations || [];
+  const citations = (cites.citations || []).map((/** @type {any} */ c) => ({ ...c, checked: c.checked === 1 || c.checked === true, check: c.checkNote ?? c.check ?? null }));
 
   root.innerHTML = `
     <nav class="el-crumbs" aria-label="Breadcrumb"><a href="/elections/">Elections</a> › <a href="${appUrl.body(detail.bodySlug)}">${esc(detail.body)}</a> › <a href="${appUrl.election(detail.key)}">${esc(detail.title)}</a> › ${esc(c.name || c.constituency)}</nav>
@@ -117,6 +115,7 @@ function personLink(r) {
 /** @param {import('../lib/count.js').SheetRow} r @param {boolean} [order] */
 function outcome(r, order = true) {
   if (r.unopposed) return '<span class="cg-badge cg-badge--success">Returned unopposed</span>';
+  if (r.autoReturned) return '<span class="cg-badge cg-badge--success">Returned automatically</span> <span class="el-muted">outgoing Ceann Comhairle, no poll for this seat</span>';
   if (r.elected) return `<span class="cg-badge cg-badge--success">Elected</span>${order && r.electedAt ? ` <span class="el-muted">count ${r.electedAt}</span>` : ''}`;
   if (r.excludedAt) return `Excluded${order ? ` <span class="el-muted">count ${r.excludedAt}</span>` : ''}`;
   return esc(r.status && !/^not elected$/i.test(r.status) ? r.status : 'Not elected');
