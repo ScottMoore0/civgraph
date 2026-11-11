@@ -223,19 +223,23 @@ test('published rounds are never reported missing, and excluded rounds are held 
 test('levels are offered only with results or hatching, on the edition the rules choose', () => {
   for (const { year, levels } of coverage.years) {
     const file = yearFile(year);
+    // The editions follow the date the councils polled, as the builder chooses them: a year's
+    // rounds before Northern Ireland's first editions (3 May 1921) are drawn on the 1911-16 ones,
+    // so 1921, whose Belfast by-elections start in January, draws them too.
+    const preNI = String(file.dates?.[0] || year) < '1921-05-03';
     for (const [id, level] of Object.entries(file.levels)) {
       const any = level.features.councillors.some((f) => f.n || f.hatch) || level.features.aldermen.some((f) => f.n);
       assert.equal(level.available, any, `${year} ${id}`);
       if (!level.available) assert.ok(level.reason, `${year} ${id} says why`);
       assert.equal(levels[id].available, level.available);
       if (id === 'ced' && level.sourceMapId) {
-        assert.equal(level.sourceMapId, year < 1921 ? 'county-ed-1911' : 'county-ed-1924-06-20', `${year} CED edition`);
+        assert.equal(level.sourceMapId, preNI ? 'county-ed-1911' : 'county-ed-1924-06-20', `${year} CED edition`);
       }
       if (id === 'ded' && level.sourceMapId) {
-        assert.ok(year < 1921 ? level.sourceMapId.startsWith('eds-ulster-') : level.sourceMapId.startsWith('ded-'), `${year} DED edition ${level.sourceMapId}`);
+        assert.ok(preNI ? level.sourceMapId.startsWith('eds-ulster-') : level.sourceMapId.startsWith('ded-'), `${year} DED edition ${level.sourceMapId}`);
       }
       if (id === 'counties' && level.sourceMapId) {
-        assert.equal(level.sourceMapId, year < 1921 ? 'administrative-counties-1899' : 'counties-county-boroughs-1915', `${year} counties edition`);
+        assert.equal(level.sourceMapId, preNI ? 'administrative-counties-1899' : 'counties-county-boroughs-1915', `${year} counties edition`);
       }
       assert.equal(file.title, `${year} ${year < 1921 ? 'Irish' : 'Northern Ireland'} local elections`);
       assert.equal(file.key, year < 1921 ? `ireland-local__${year}` : `ni-local__${year}`);

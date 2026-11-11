@@ -53,7 +53,11 @@ export const RETIRED_CONTEST_SLUGS = [
   ['bangor-borough-council-1952-05-21-castle-ward', 'bangor-borough-council-1952-05-21-castle-ward-councillors'],
   ['larne-borough-council-1964-05-20-gardenmore-ward-aldermanship', 'larne-borough-council-1964-05-20-gardenmore-ward-alderman'],
   ['lisnaskea-rural-district-council-1927-05-25-springfield', 'lisnaskea-rural-district-council-1927-05-25-springtown'],
-  ['dungannon-rural-district-council-1936-06-03-bernagh', 'dungannon-rural-district-council-1936-06-03'],  // The district electoral areas of the general local elections of 1973-2011 that ARK's
+  ['dungannon-rural-district-council-1936-06-03-bernagh', 'dungannon-rural-district-council-1936-06-03'],
+  // Bangor 1938 was one seven-member contest until the borough's register of elections (PRONI
+  // LA/20/1/DA/1, 11 Nov 2026) showed it ward by ward: the round's own page holds the ten wards' contests.
+  ['bangor-borough-council-1938-05-16-bangor-7-seats', 'bangor-borough-council-1938-05-16'],
+  // The district electoral areas of the general local elections of 1973-2011 that ARK's
   // import code named ("lg85-NoD-Holywood", "lg73-NaM-Area-A"): Browse published them under
   // those names (data/browse/details/elections, June 2026) and they took the area's own name
   // before the first sitemap (31 Oct 2026). Holywood and the rest of North Down (Abbey, Bangor
