@@ -49,6 +49,8 @@ export const ROOT_FILES = [
 ];
 
 export const SITE_DIRS = [
+  // .well-known/security.txt (RFC 9116), the one file there.
+  '.well-known',
   'agent', 'app', 'apps', 'assets', 'browse', 'catalogue', 'data', 'maps', 'pages', 'records',
   'render', 'sitemaps', 'src', 'test2',
 ];
