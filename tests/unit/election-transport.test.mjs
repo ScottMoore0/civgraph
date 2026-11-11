@@ -7,7 +7,9 @@ import test from 'node:test';
 import {
   constituencyDetailUrl,
   ELECTION_MANIFEST_URL,
+  ELECTIONS_API_MANIFEST_URL,
   electionBundleUrl,
+  electionManifestUrl,
   fetchConstituencyDetail,
   fetchElectionManifest,
   fetchFeatureIndex,
@@ -73,9 +75,16 @@ test('URLs', () => {
 });
 
 test('the manifest is fetched revalidating, and a failure says so', async () => {
+  // The opt-out reads the old address; the default (the API) reads /_api/elections?view=manifest,
+  // the same document at an address without "test" in it (QA 2026-11-11, M10).
   const fetchImpl = stubFetch({ [ELECTION_MANIFEST_URL]: { status: 200, body: { elections: [] } } });
-  assert.deepEqual(await fetchElectionManifest({ fetchImpl }), { elections: [] });
+  assert.deepEqual(await fetchElectionManifest({ fetchImpl, env: page({ stored: '0' }) }), { elections: [] });
   assert.deepEqual(fetchImpl.calls[0].init, { cache: 'default' });
+  const apiFetch = stubFetch({ [ELECTIONS_API_MANIFEST_URL]: { status: 200, body: { elections: [{ key: 'a' }] } } });
+  assert.deepEqual(await fetchElectionManifest({ fetchImpl: apiFetch, env: page() }), { elections: [{ key: 'a' }] });
+  assert.equal(apiFetch.calls[0].url, '/_api/elections?view=manifest');
+  assert.equal(electionManifestUrl(true), ELECTIONS_API_MANIFEST_URL);
+  assert.equal(electionManifestUrl(false), ELECTION_MANIFEST_URL);
   await assert.rejects(fetchElectionManifest({ fetchImpl: stubFetch({}) }), /Failed to load the MapLibre election catalogue: 404/);
 });
 
