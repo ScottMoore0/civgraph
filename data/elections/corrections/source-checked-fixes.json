@@ -69966,7 +69966,7 @@
         "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=234&electype=5",
         "accessed": "2026-10-12"
       },
-      "reason": "Civgraph held no candidates for this contest; the IrelandElection.com page lists all 11 candidates with first preferences summing to the valid poll of 9541, and 5 elected for 5 seats.",
+      "reason": "Civgraph held no candidates for this contest; the IrelandElection.com page lists all 11 candidates with first preferences summing to the valid poll of 9541, and 5 elected for 5 seats. Checked on 11 November 2026 against the Department's results book (pp. 268-269), which gives electorate 20,464 (not 22,464).",
       "category": "gap-fill",
       "operations": [
         {
@@ -70102,12 +70102,20 @@
         {
           "op": "set",
           "path": "meta.electorate",
-          "value": 22464
+          "value": 20464
         },
         {
           "op": "set",
           "path": "meta.total_poll",
           "value": 9611
+        }
+      ],
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 268-269 (Athlone LEA, Westmeath County Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=268",
+          "accessed": "2026-11-11"
         }
       ]
     },
@@ -70294,7 +70302,7 @@
         "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=137&electype=5",
         "accessed": "2026-10-12"
       },
-      "reason": "Civgraph held no candidates for this contest; the IrelandElection.com page lists all 15 candidates with first preferences summing to the valid poll of 12287, and 5 elected for 5 seats.",
+      "reason": "Civgraph held no candidates for this contest; the IrelandElection.com page lists all 15 candidates with first preferences summing to the valid poll of 12287, and 5 elected for 5 seats. Checked on 11 November 2026 against the Department's results book (pp. 26-27), which gives Daith\u00ed De R\u00f3iste's first preferences 939 (not 1,849); Daith\u00ed De R\u00f3iste not elected; Daithi Doolan's first preferences 1,849 (not 939); Daithi Doolan elected. The book prints 6 seats; its quota (2,048 = 12,287 / 6 + 1), its list of members elected and the council (5 seats) give 5.",
       "category": "gap-fill",
       "operations": [
         {
@@ -70303,11 +70311,11 @@
             {
               "name": "Daith\u00ed De R\u00f3iste",
               "party": "Fianna F\u00e1il",
-              "first_pref": 1849,
+              "first_pref": 939,
               "counts": [
-                1849
+                939
               ],
-              "status": "Elected",
+              "status": "",
               "sourcePersonId": "ie:4602"
             },
             {
@@ -70343,11 +70351,11 @@
             {
               "name": "Daithi Doolan",
               "party": "Sinn F\u00e9in",
-              "first_pref": 939,
+              "first_pref": 1849,
               "counts": [
-                939
+                1849
               ],
-              "status": "",
+              "status": "Elected",
               "sourcePersonId": "ie:1441"
             },
             {
@@ -70476,6 +70484,14 @@
           "op": "set",
           "path": "meta.total_poll",
           "value": 12543
+        }
+      ],
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 26-27 (Ballyfermot-Drimnagh LEA, Dublin City Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=26",
+          "accessed": "2026-11-11"
         }
       ]
     },
@@ -74249,7 +74265,7 @@
         "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=517&electype=5",
         "accessed": "2026-10-12"
       },
-      "reason": "Civgraph held no candidates for this contest; the IrelandElection.com page lists all 16 candidates with first preferences summing to the valid poll of 14934, and 6 elected for 6 seats.",
+      "reason": "Civgraph held no candidates for this contest; the IrelandElection.com page lists all 16 candidates with first preferences summing to the valid poll of 14934, and 6 elected for 6 seats. Checked on 11 November 2026 against the Department's results book (pp. 152-153), which gives Michael Cahill's first preferences 2,163 (not 2,162); Tim Clifford's first preferences 433 (not 434); Tony Donnelly's first preferences 769 (not 770); Podge Foley's first preferences 1,150 (not 1,154); Johnny Healy Rae's first preferences 3,445 (not 3,441); Dan McCarthy's first preferences 830 (not 829); Cleo Murphy's first preferences 461 (not 462); Ken O'Sullivan's first preferences 822 (not 820); Teddy O\u2019Sullivan Casey's first preferences 1,151 (not 1,154); Damian Quigg's first preferences 600 (not 599); valid poll 14,933 (not 14,934).",
       "category": "gap-fill",
       "operations": [
         {
@@ -74258,9 +74274,9 @@
             {
               "name": "Johnny Healy Rae",
               "party": "Independent",
-              "first_pref": 3441,
+              "first_pref": 3445,
               "counts": [
-                3441
+                3445
               ],
               "status": "Elected",
               "sourcePersonId": "ie:5021"
@@ -74268,9 +74284,9 @@
             {
               "name": "Michael Cahill",
               "party": "Fianna F\u00e1il",
-              "first_pref": 2162,
+              "first_pref": 2163,
               "counts": [
-                2162
+                2163
               ],
               "status": "Elected",
               "sourcePersonId": "ie:6402"
@@ -74288,9 +74304,9 @@
             {
               "name": "Teddy O\u2019Sullivan Casey",
               "party": "Fine Gael",
-              "first_pref": 1154,
+              "first_pref": 1151,
               "counts": [
-                1154
+                1151
               ],
               "status": "Elected",
               "sourcePersonId": "ie:19442"
@@ -74298,9 +74314,9 @@
             {
               "name": "Podge Foley",
               "party": "Independent",
-              "first_pref": 1154,
+              "first_pref": 1150,
               "counts": [
-                1154
+                1150
               ],
               "status": "Elected",
               "sourcePersonId": "ie:19437"
@@ -74308,9 +74324,9 @@
             {
               "name": "Dan McCarthy",
               "party": "Independent",
-              "first_pref": 829,
+              "first_pref": 830,
               "counts": [
-                829
+                830
               ],
               "status": "Elected",
               "sourcePersonId": "ie:21588"
@@ -74318,9 +74334,9 @@
             {
               "name": "Ken O'Sullivan",
               "party": "Fianna F\u00e1il",
-              "first_pref": 820,
+              "first_pref": 822,
               "counts": [
-                820
+                822
               ],
               "status": "",
               "sourcePersonId": "ie:19441"
@@ -74328,9 +74344,9 @@
             {
               "name": "Tony Donnelly",
               "party": "Fine Gael",
-              "first_pref": 770,
+              "first_pref": 769,
               "counts": [
-                770
+                769
               ],
               "status": "",
               "sourcePersonId": "ie:19436"
@@ -74338,9 +74354,9 @@
             {
               "name": "Damian Quigg",
               "party": "Sinn F\u00e9in",
-              "first_pref": 599,
+              "first_pref": 600,
               "counts": [
-                599
+                600
               ],
               "status": "",
               "sourcePersonId": "ie:5030"
@@ -74348,9 +74364,9 @@
             {
               "name": "Cleo Murphy",
               "party": "Green",
-              "first_pref": 462,
+              "first_pref": 461,
               "counts": [
-                462
+                461
               ],
               "status": "",
               "sourcePersonId": "ie:18188"
@@ -74358,9 +74374,9 @@
             {
               "name": "Tim Clifford",
               "party": "Social Democrats",
-              "first_pref": 434,
+              "first_pref": 433,
               "counts": [
-                434
+                433
               ],
               "status": "",
               "sourcePersonId": "ie:19435"
@@ -74425,7 +74441,7 @@
         {
           "op": "set",
           "path": "meta.valid_poll",
-          "value": 14934
+          "value": 14933
         },
         {
           "op": "set",
@@ -74441,6 +74457,14 @@
           "op": "set",
           "path": "meta.total_poll",
           "value": 15043
+        }
+      ],
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 152-153 (Kenmare LEA, Kerry County Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=152",
+          "accessed": "2026-11-11"
         }
       ]
     },
@@ -74771,7 +74795,7 @@
         "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=543&electype=5",
         "accessed": "2026-10-12"
       },
-      "reason": "Civgraph held no candidates for this contest; the IrelandElection.com page lists all 16 candidates with first preferences summing to the valid poll of 9775, and 5 elected for 5 seats.",
+      "reason": "Civgraph held no candidates for this contest; the IrelandElection.com page lists all 16 candidates with first preferences summing to the valid poll of 9775, and 5 elected for 5 seats. Checked on 11 November 2026 against the Department's results book (pp. 270-271), which gives electorate 18,090 (not 18,091).",
       "category": "gap-fill",
       "operations": [
         {
@@ -74956,12 +74980,20 @@
         {
           "op": "set",
           "path": "meta.electorate",
-          "value": 18091
+          "value": 18090
         },
         {
           "op": "set",
           "path": "meta.total_poll",
           "value": 9898
+        }
+      ],
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 270-271 (Kinnegad LEA, Westmeath County Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=270",
+          "accessed": "2026-11-11"
         }
       ]
     },
@@ -75341,7 +75373,7 @@
         "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=187&electype=5",
         "accessed": "2026-10-12"
       },
-      "reason": "Civgraph held no candidates for this contest; the IrelandElection.com page lists all 19 candidates with first preferences summing to the valid poll of 12744, and 7 elected for 7 seats.",
+      "reason": "Civgraph held no candidates for this contest; the IrelandElection.com page lists all 19 candidates with first preferences summing to the valid poll of 12744, and 7 elected for 7 seats. Checked on 11 November 2026 against the Department's results book (pp. 58-59): the list taken from IrelandElection.com had its first preferences and members elected out of line with the names and named John Collopy where the book has Tom Collopy; it is replaced with the book's 19 candidates.",
       "category": "gap-fill",
       "operations": [
         {
@@ -75368,54 +75400,54 @@
               "sourcePersonId": "ie:18356"
             },
             {
-              "name": "John Collopy",
-              "party": "Sinn F\u00e9in",
+              "name": "Kieran O'Hanlon",
+              "party": "Fianna F\u00e1il",
               "first_pref": 1316,
               "counts": [
                 1316
               ],
               "status": "Elected",
-              "sourcePersonId": "ie:19603"
+              "sourcePersonId": "ie:11811"
             },
             {
-              "name": "Mark Spain",
+              "name": "Olivia O'Sullivan",
               "party": "Fine Gael",
               "first_pref": 1160,
               "counts": [
                 1160
               ],
               "status": "Elected",
-              "sourcePersonId": "ie:19611"
+              "sourcePersonId": "ie:18353"
             },
             {
-              "name": "Ruth Clarke",
-              "party": "Independent Ireland",
+              "name": "Sarah Beasley",
+              "party": "Aont\u00fa",
               "first_pref": 854,
               "counts": [
                 854
               ],
               "status": "Elected",
-              "sourcePersonId": "ie:18367"
+              "sourcePersonId": "ie:19602"
             },
             {
-              "name": "Shane Hickey-O'Mara",
-              "party": "Social Democrats",
+              "name": "Sharon Benson",
+              "party": "Sinn F\u00e9in",
               "first_pref": 727,
               "counts": [
                 727
               ],
               "status": "Elected",
-              "sourcePersonId": "ie:19607"
+              "sourcePersonId": "ie:18357"
             },
             {
-              "name": "Olivia O'Sullivan",
-              "party": "Fine Gael",
+              "name": "Pat O'Neill",
+              "party": "Independent",
               "first_pref": 675,
               "counts": [
                 675
               ],
               "status": "",
-              "sourcePersonId": "ie:18353"
+              "sourcePersonId": "ie:11080"
             },
             {
               "name": "Dean Quinn",
@@ -75438,104 +75470,103 @@
               "sourcePersonId": "ie:19608"
             },
             {
-              "name": "Sa\u0161a Novak U\u00ed Chonch\u00fair",
-              "party": "Green",
+              "name": "Shane Hickey-O'Mara",
+              "party": "Social Democrats",
               "first_pref": 552,
               "counts": [
                 552
               ],
               "status": "Elected",
-              "sourcePersonId": "ie:19612"
+              "sourcePersonId": "ie:19607"
             },
             {
-              "name": "Pat O'Neill",
-              "party": "Independent",
+              "name": "Richard Delaney",
+              "party": "Fine Gael",
               "first_pref": 545,
               "counts": [
                 545
               ],
               "status": "",
-              "sourcePersonId": "ie:11080"
+              "sourcePersonId": "ie:19604"
             },
             {
-              "name": "Tanya Dunworth",
+              "name": "Tom Collopy",
               "party": "Sinn F\u00e9in",
               "first_pref": 538,
               "counts": [
                 538
               ],
-              "status": "",
-              "sourcePersonId": "ie:19605"
+              "status": ""
             },
             {
-              "name": "Sharon Benson",
-              "party": "Sinn F\u00e9in",
+              "name": "Suzzie O'Deniyi",
+              "party": "Fianna F\u00e1il",
               "first_pref": 405,
               "counts": [
                 405
               ],
               "status": "",
-              "sourcePersonId": "ie:18357"
+              "sourcePersonId": "ie:19610"
             },
             {
-              "name": "Richard Delaney",
-              "party": "Fine Gael",
+              "name": "Ruairi Fahy",
+              "party": "Solidarity-PBP",
               "first_pref": 392,
               "counts": [
                 392
               ],
               "status": "",
-              "sourcePersonId": "ie:19604"
+              "sourcePersonId": "ie:19606"
             },
             {
-              "name": "Sarah Beasley",
-              "party": "Aont\u00fa",
+              "name": "Sa\u0161a Novak U\u00ed Chonch\u00fair",
+              "party": "Green",
               "first_pref": 380,
               "counts": [
                 380
               ],
               "status": "",
-              "sourcePersonId": "ie:19602"
+              "sourcePersonId": "ie:19612"
             },
             {
-              "name": "Ruairi Fahy",
-              "party": "Solidarity-PBP",
+              "name": "Ruth Clarke",
+              "party": "Independent Ireland",
               "first_pref": 294,
               "counts": [
                 294
               ],
               "status": "",
-              "sourcePersonId": "ie:19606"
+              "sourcePersonId": "ie:18367"
             },
             {
-              "name": "Kieran O'Hanlon",
-              "party": "Fianna F\u00e1il",
+              "name": "Laura Keyes",
+              "party": "An Rabharta Glas \u2013 Green Left",
               "first_pref": 269,
               "counts": [
                 269
               ],
               "status": "",
-              "sourcePersonId": "ie:11811"
+              "sourcePersonId": "ie:19609"
             },
             {
-              "name": "Laura Keyes",
-              "party": "An Rabharta Glas \u2013 Green Left",
+              "name": "Mark Spain",
+              "party": "Fine Gael",
               "first_pref": 178,
               "counts": [
                 178
               ],
               "status": "",
-              "sourcePersonId": "ie:19609"
+              "sourcePersonId": "ie:19611"
             },
             {
-              "name": "Suzzie O'Deniyi",
-              "party": "Fianna F\u00e1il",
+              "name": "Tanya Dunworth",
+              "party": "Sinn F\u00e9in",
               "first_pref": 168,
               "counts": [
                 168
               ],
               "status": "",
-              "sourcePersonId": "ie:19610"
+              "sourcePersonId": "ie:19605"
             }
           ]
         },
@@ -75563,6 +75594,14 @@
           "op": "set",
           "path": "meta.total_poll",
           "value": 12922
+        }
+      ],
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 58-59 (Limerick City North LEA, Limerick City and County Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=58",
+          "accessed": "2026-11-11"
         }
       ]
     },
@@ -75799,7 +75838,7 @@
         "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=167&electype=5",
         "accessed": "2026-10-12"
       },
-      "reason": "Civgraph held no candidates for this contest; the IrelandElection.com page lists all 12 candidates with first preferences summing to the valid poll of 14660, and 6 elected for 6 seats.",
+      "reason": "Civgraph held no candidates for this contest; the IrelandElection.com page lists all 12 candidates with first preferences summing to the valid poll of 14660, and 6 elected for 6 seats. Checked on 11 November 2026 against the Department's results book (pp. 156-157), which gives Mike Kennelly's first preferences 2,301 (not 1,766); Mike Leane's first preferences 1,766 (not 2,301).",
       "category": "gap-fill",
       "operations": [
         {
@@ -75808,9 +75847,9 @@
             {
               "name": "Mike Leane",
               "party": "Fianna F\u00e1il",
-              "first_pref": 2301,
+              "first_pref": 1766,
               "counts": [
-                2301
+                1766
               ],
               "status": "Elected",
               "sourcePersonId": "ie:19454"
@@ -75838,9 +75877,9 @@
             {
               "name": "Mike Kennelly",
               "party": "Fine Gael",
-              "first_pref": 1766,
+              "first_pref": 2301,
               "counts": [
-                1766
+                2301
               ],
               "status": "Elected",
               "sourcePersonId": "ie:5058"
@@ -75951,6 +75990,14 @@
           "path": "meta.total_poll",
           "value": 14797
         }
+      ],
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 156-157 (Listowel LEA, Kerry County Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=156",
+          "accessed": "2026-11-11"
+        }
       ]
     },
     {
@@ -75962,7 +76009,7 @@
         "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=219&electype=5",
         "accessed": "2026-10-12"
       },
-      "reason": "Civgraph held no candidates for this contest; the IrelandElection.com page lists all 15 candidates with first preferences summing to the valid poll of 11553, and 5 elected for 5 seats.",
+      "reason": "Civgraph held no candidates for this contest; the IrelandElection.com page lists all 15 candidates with first preferences summing to the valid poll of 11553, and 5 elected for 5 seats. Checked on 11 November 2026 against the Department's results book (pp. 248-249), which gives electorate 25,920 (not 25,638).",
       "category": "gap-fill",
       "operations": [
         {
@@ -76138,12 +76185,20 @@
         {
           "op": "set",
           "path": "meta.electorate",
-          "value": 25638
+          "value": 25920
         },
         {
           "op": "set",
           "path": "meta.total_poll",
           "value": 11673
+        }
+      ],
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 248-249 (Lucan LEA, South Dublin County Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=248",
+          "accessed": "2026-11-11"
         }
       ]
     },
@@ -76443,7 +76498,7 @@
         "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=270&electype=5",
         "accessed": "2026-10-12"
       },
-      "reason": "Civgraph held no candidates for this contest; the IrelandElection.com page lists all 16 candidates with first preferences summing to the valid poll of 16200, and 7 elected for 7 seats.",
+      "reason": "Civgraph held no candidates for this contest; the IrelandElection.com page lists all 16 candidates with first preferences summing to the valid poll of 16200, and 7 elected for 7 seats. Checked on 11 November 2026 against the Department's results book (pp. 102-103), which gives electorate 36,438 (not 36,345).",
       "category": "gap-fill",
       "operations": [
         {
@@ -76629,12 +76684,20 @@
         {
           "op": "set",
           "path": "meta.electorate",
-          "value": 36345
+          "value": 36438
         },
         {
           "op": "set",
           "path": "meta.total_poll",
           "value": 16357
+        }
+      ],
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 102-103 (Midleton LEA, Cork County Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=102",
+          "accessed": "2026-11-11"
         }
       ]
     },
@@ -78390,7 +78453,7 @@
         "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=546&electype=5",
         "accessed": "2026-10-12"
       },
-      "reason": "Civgraph held no candidates for this contest; the IrelandElection.com page lists all 12 candidates with first preferences summing to the valid poll of 10276, and 5 elected for 5 seats.",
+      "reason": "Civgraph held no candidates for this contest; the IrelandElection.com page lists all 12 candidates with first preferences summing to the valid poll of 10276, and 5 elected for 5 seats. Checked on 11 November 2026 against the Department's results book (pp. 282-283), which gives Simon Boyse's first preferences 488 (not 489); Ger Carthy's first preferences 1,948 (not 1,949); Joe Druhan's first preferences 702 (not 703); Lisa McDonald's first preferences 1,105 (not 1,106); Michael Roche's first preferences 484 (not 483); Frank Staples's first preferences 1,409 (not 1,408); valid poll 10,274 (not 10,276).",
       "category": "gap-fill",
       "operations": [
         {
@@ -78409,18 +78472,18 @@
             {
               "name": "Ger Carthy",
               "party": "Independent",
-              "first_pref": 1949,
+              "first_pref": 1948,
               "counts": [
-                1949
+                1948
               ],
               "status": "Elected"
             },
             {
               "name": "Frank Staples",
               "party": "Fine Gael",
-              "first_pref": 1408,
+              "first_pref": 1409,
               "counts": [
-                1408
+                1409
               ],
               "status": "Elected",
               "sourcePersonId": "ie:6060"
@@ -78428,9 +78491,9 @@
             {
               "name": "Lisa McDonald",
               "party": "Fianna F\u00e1il",
-              "first_pref": 1106,
+              "first_pref": 1105,
               "counts": [
-                1106
+                1105
               ],
               "status": "Elected",
               "sourcePersonId": "ie:16405"
@@ -78438,9 +78501,9 @@
             {
               "name": "Joe Druhan",
               "party": "Wexford Ind. Alliance",
-              "first_pref": 703,
+              "first_pref": 702,
               "counts": [
-                703
+                702
               ],
               "status": "",
               "sourcePersonId": "ie:20000"
@@ -78458,9 +78521,9 @@
             {
               "name": "Simon Boyse",
               "party": "Fianna F\u00e1il",
-              "first_pref": 489,
+              "first_pref": 488,
               "counts": [
-                489
+                488
               ],
               "status": "",
               "sourcePersonId": "ie:19998"
@@ -78468,9 +78531,9 @@
             {
               "name": "Michael Roche",
               "party": "Sinn F\u00e9in",
-              "first_pref": 483,
+              "first_pref": 484,
               "counts": [
-                483
+                484
               ],
               "status": "",
               "sourcePersonId": "ie:20002"
@@ -78525,7 +78588,7 @@
         {
           "op": "set",
           "path": "meta.valid_poll",
-          "value": 10276
+          "value": 10274
         },
         {
           "op": "set",
@@ -78541,6 +78604,14 @@
           "op": "set",
           "path": "meta.total_poll",
           "value": 10357
+        }
+      ],
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 282-283 (Rosslare LEA, Wexford County Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=282",
+          "accessed": "2026-11-11"
         }
       ]
     },
@@ -78901,7 +78972,7 @@
         "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=530&electype=5",
         "accessed": "2026-10-12"
       },
-      "reason": "Civgraph held no candidates for this contest; the IrelandElection.com page lists all 14 candidates with first preferences summing to the valid poll of 8315, and 6 elected for 6 seats.",
+      "reason": "Civgraph held no candidates for this contest; the IrelandElection.com page lists all 14 candidates with first preferences summing to the valid poll of 8315, and 6 elected for 6 seats. Checked on 11 November 2026 against the Department's results book (pp. 242-243), which gives electorate 17,646 (not 17,647).",
       "category": "gap-fill",
       "operations": [
         {
@@ -79066,12 +79137,20 @@
         {
           "op": "set",
           "path": "meta.electorate",
-          "value": 17647
+          "value": 17646
         },
         {
           "op": "set",
           "path": "meta.total_poll",
           "value": 8415
+        }
+      ],
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 242-243 (Sligo-Strandhill LEA, Sligo County Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=242",
+          "accessed": "2026-11-11"
         }
       ]
     },
@@ -79258,7 +79337,7 @@
         "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=221&electype=5",
         "accessed": "2026-10-12"
       },
-      "reason": "Civgraph held no candidates for this contest; the IrelandElection.com page lists all 18 candidates with first preferences summing to the valid poll of 12640, and 6 elected for 6 seats.",
+      "reason": "Civgraph held no candidates for this contest; the IrelandElection.com page lists all 18 candidates with first preferences summing to the valid poll of 12640, and 6 elected for 6 seats. Checked on 11 November 2026 against the Department's results book (pp. 254-255), which gives Dave Daly as Ireland First (not Independent).",
       "category": "gap-fill",
       "operations": [
         {
@@ -79396,7 +79475,7 @@
             },
             {
               "name": "Dave Daly",
-              "party": "Independent",
+              "party": "Ireland First",
               "first_pref": 297,
               "counts": [
                 297
@@ -79470,6 +79549,14 @@
           "op": "set",
           "path": "meta.total_poll",
           "value": 12886
+        }
+      ],
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 254-255 (Tallaght Central LEA, South Dublin County Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=254",
+          "accessed": "2026-11-11"
         }
       ]
     },
@@ -79665,7 +79752,7 @@
         "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=168&electype=5",
         "accessed": "2026-10-12"
       },
-      "reason": "Civgraph held no candidates for this contest; the IrelandElection.com page lists all 17 candidates with first preferences summing to the valid poll of 13502, and 7 elected for 7 seats.",
+      "reason": "Civgraph held no candidates for this contest; the IrelandElection.com page lists all 17 candidates with first preferences summing to the valid poll of 13502, and 7 elected for 7 seats. Checked on 11 November 2026 against the Department's results book (pp. 158-159), which gives Angie Baily's first preferences 804 (not 806); Paul Daly's first preferences 1,048 (not 1,046); Sin\u00e9ad Donnelly's first preferences 687 (not 688); Tom McEllistrim's first preferences 773 (not 774); Terry O'Brien's first preferences 1,538 (not 1,537); Eddie O'Grady's first preferences 320 (not 321); Anne O'Sullivan's first preferences 818 (not 819); Mikey Sheehy's first preferences 2,115 (not 2,114); Jacob Sweeney's first preferences 394 (not 393); valid poll 13,501 (not 13,502).",
       "category": "gap-fill",
       "operations": [
         {
@@ -79674,9 +79761,9 @@
             {
               "name": "Mikey Sheehy",
               "party": "Fianna F\u00e1il",
-              "first_pref": 2114,
+              "first_pref": 2115,
               "counts": [
-                2114
+                2115
               ],
               "status": "Elected",
               "sourcePersonId": "ie:18203"
@@ -79694,9 +79781,9 @@
             {
               "name": "Terry O'Brien",
               "party": "Irish Labour",
-              "first_pref": 1537,
+              "first_pref": 1538,
               "counts": [
-                1537
+                1538
               ],
               "status": "Elected",
               "sourcePersonId": "ie:4148"
@@ -79714,9 +79801,9 @@
             {
               "name": "Paul Daly",
               "party": "Sinn F\u00e9in",
-              "first_pref": 1046,
+              "first_pref": 1048,
               "counts": [
-                1046
+                1048
               ],
               "status": "Elected",
               "sourcePersonId": "ie:5997"
@@ -79724,9 +79811,9 @@
             {
               "name": "Anne O'Sullivan",
               "party": "Fianna F\u00e1il",
-              "first_pref": 819,
+              "first_pref": 818,
               "counts": [
-                819
+                818
               ],
               "status": "Elected",
               "sourcePersonId": "ie:19464"
@@ -79734,9 +79821,9 @@
             {
               "name": "Angie Baily",
               "party": "Fine Gael",
-              "first_pref": 806,
+              "first_pref": 804,
               "counts": [
-                806
+                804
               ],
               "status": "Elected",
               "sourcePersonId": "ie:19458"
@@ -79744,9 +79831,9 @@
             {
               "name": "Tom McEllistrim",
               "party": "Independent",
-              "first_pref": 774,
+              "first_pref": 773,
               "counts": [
-                774
+                773
               ],
               "status": "",
               "sourcePersonId": "ie:1884"
@@ -79764,9 +79851,9 @@
             {
               "name": "Sin\u00e9ad Donnelly",
               "party": "Fine Gael",
-              "first_pref": 688,
+              "first_pref": 687,
               "counts": [
-                688
+                687
               ],
               "status": "",
               "sourcePersonId": "ie:19459"
@@ -79794,9 +79881,9 @@
             {
               "name": "Jacob Sweeney",
               "party": "National Party",
-              "first_pref": 393,
+              "first_pref": 394,
               "counts": [
-                393
+                394
               ],
               "status": "",
               "sourcePersonId": "ie:19466"
@@ -79814,9 +79901,9 @@
             {
               "name": "Eddie O'Grady",
               "party": "The Irish People",
-              "first_pref": 321,
+              "first_pref": 320,
               "counts": [
-                321
+                320
               ],
               "status": "",
               "sourcePersonId": "ie:19463"
@@ -79851,7 +79938,7 @@
         {
           "op": "set",
           "path": "meta.valid_poll",
-          "value": 13502
+          "value": 13501
         },
         {
           "op": "set",
@@ -79867,6 +79954,14 @@
           "op": "set",
           "path": "meta.total_poll",
           "value": 13662
+        }
+      ],
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 158-159 (Tralee LEA, Kerry County Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=158",
+          "accessed": "2026-11-11"
         }
       ]
     },
@@ -83331,7 +83426,7 @@
         "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=511&electype=5",
         "accessed": "2026-10-12"
       },
-      "reason": "IrelandElection.com shows Louis O'Hara and Cillian Keane were elected but Civgraph did not mark them as elected.",
+      "reason": "IrelandElection.com shows Louis O'Hara and Cillian Keane were elected but Civgraph did not mark them as elected. Checked on 11 November 2026 against the Department's results book (pp. 140-141), which gives electorate 26,074 (not 26,073).",
       "category": "winners",
       "operations": [
         {
@@ -83347,6 +83442,29 @@
           "set": {
             "status": "Elected"
           }
+        },
+        {
+          "op": "set",
+          "path": "meta.valid_poll",
+          "value": 13742
+        },
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 26074
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 13877
+        }
+      ],
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 140-141 (Athenry-Oranmore LEA, Galway County Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=140",
+          "accessed": "2026-11-11"
         }
       ]
     },
@@ -83359,7 +83477,7 @@
         "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=495&electype=5",
         "accessed": "2026-10-12"
       },
-      "reason": "IrelandElection.com shows Carmel Brady, Stiof\u00e1n Conaty, Clifford Kelly, Val Smith and Niall Smith were elected but Civgraph did not mark them as elected.",
+      "reason": "IrelandElection.com shows Carmel Brady, Stiof\u00e1n Conaty, Clifford Kelly, Val Smith and Niall Smith were elected but Civgraph did not mark them as elected. Checked on 11 November 2026 against the Department's results book (p. 82), which gives Garry Cosgrove's first preferences 605 (not 608); Aiden Fitzpatrick's first preferences 1,177 (not 1,175); Sarah O'Reilly's first preferences 1,772 (not 1,770); Kristofer Shekleton's first preferences 644 (not 647); Niall Smith's first preferences 1,089 (not 1,088).",
       "category": "winners",
       "operations": [
         {
@@ -83396,6 +83514,85 @@
           "set": {
             "status": "Elected"
           }
+        },
+        {
+          "op": "set",
+          "path": "meta.valid_poll",
+          "value": 12006
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 12147
+        },
+        {
+          "op": "candidate",
+          "name": "Garry Cosgrove",
+          "set": {
+            "first_pref": 605,
+            "counts": [
+              605,
+              0.35,
+              0
+            ]
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "Aiden Fitzpatrick",
+          "set": {
+            "first_pref": 1177,
+            "counts": [
+              1177,
+              0.69,
+              0
+            ]
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "Sarah O'Reilly",
+          "set": {
+            "first_pref": 1772,
+            "counts": [
+              1772,
+              1.03,
+              1,
+              1
+            ]
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "Kristofer Shekleton",
+          "set": {
+            "first_pref": 644,
+            "counts": [
+              644,
+              0.38,
+              0
+            ]
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "Niall Smith",
+          "set": {
+            "first_pref": 1089,
+            "counts": [
+              1089,
+              0.63,
+              0
+            ]
+          }
+        }
+      ],
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, p. 82 (Bailieborough-Cootehill LEA, Cavan County Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=82",
+          "accessed": "2026-11-11"
         }
       ]
     },
@@ -83408,7 +83605,7 @@
         "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=112&electype=5",
         "accessed": "2026-10-12"
       },
-      "reason": "IrelandElection.com shows Winston Bennett, Noel Connell, T P O'Reilly and Philip Brady were elected but Civgraph did not mark them as elected.",
+      "reason": "IrelandElection.com shows Winston Bennett, Noel Connell, T P O'Reilly and Philip Brady were elected but Civgraph did not mark them as elected. Checked on 11 November 2026 against the Department's results book (p. 83): the figures agree; its valid poll (11,898) and its total poll (12,010) are added from it. The book prints the electorate as 12,010, which is the total poll; Cavan's county total in its Table A (61,786) gives 21,217 with the other two areas' figures, as ElectionsIreland has it.",
       "category": "winners",
       "operations": [
         {
@@ -83438,6 +83635,24 @@
           "set": {
             "status": "Elected"
           }
+        },
+        {
+          "op": "set",
+          "path": "meta.valid_poll",
+          "value": 11898
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 12010
+        }
+      ],
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, p. 83 (Ballyjamesduff LEA, Cavan County Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=83",
+          "accessed": "2026-11-11"
         }
       ]
     },
@@ -83450,7 +83665,7 @@
         "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=190&electype=5",
         "accessed": "2026-10-18"
       },
-      "reason": "IrelandElection.com shows Mark Casey, Pat O'Toole, Martin Skelly, Se\u00e1n Mimnagh and Michael Cahill were elected but Civgraph did not mark them as elected.",
+      "reason": "IrelandElection.com shows Mark Casey, Pat O'Toole, Martin Skelly, Se\u00e1n Mimnagh and Michael Cahill were elected but Civgraph did not mark them as elected. Checked on 11 November 2026 against the Department's results book (p. 189): the figures agree; its valid poll (7,019) and its total poll (7,092) are added from it.",
       "category": "winners",
       "operations": [
         {
@@ -83487,6 +83702,24 @@
           "set": {
             "status": "Elected"
           }
+        },
+        {
+          "op": "set",
+          "path": "meta.valid_poll",
+          "value": 7019
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 7092
+        }
+      ],
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, p. 189 (Ballymahon LEA, Longford County Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=189",
+          "accessed": "2026-11-11"
         }
       ]
     },
@@ -83499,7 +83732,7 @@
         "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=497&electype=5",
         "accessed": "2026-10-12"
       },
-      "reason": "IrelandElection.com shows Ann Bambury, Gillian Coughlan, Marie O'Sullivan and John Foley were elected but Civgraph did not mark them as elected.",
+      "reason": "IrelandElection.com shows Ann Bambury, Gillian Coughlan, Marie O'Sullivan and John Foley were elected but Civgraph did not mark them as elected. Checked on 11 November 2026 against the Department's results book (p. 92): the figures agree; its valid poll (16,646) and its total poll (16,748) are added from it.",
       "category": "winners",
       "operations": [
         {
@@ -83529,6 +83762,24 @@
           "set": {
             "status": "Elected"
           }
+        },
+        {
+          "op": "set",
+          "path": "meta.valid_poll",
+          "value": 16646
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 16748
+        }
+      ],
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, p. 92 (Bandon-Kinsale LEA, Cork County Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=92",
+          "accessed": "2026-11-11"
         }
       ]
     },
@@ -83541,7 +83792,7 @@
         "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=210&electype=5",
         "accessed": "2026-10-12"
       },
-      "reason": "IrelandElection.com shows John Clendennen, Hugh Egan, Audrey Hennessy Kennedy and Se\u00e1n Maher were elected but Civgraph did not mark them as elected.",
+      "reason": "IrelandElection.com shows John Clendennen, Hugh Egan, Audrey Hennessy Kennedy and Se\u00e1n Maher were elected but Civgraph did not mark them as elected. Checked on 11 November 2026 against the Department's results book (pp. 228-229), which gives John Leahy's first preferences 1,816 (not 1,815); Se\u00e1n Maher's first preferences 926 (not 927).",
       "category": "winners",
       "operations": [
         {
@@ -83571,6 +83822,49 @@
           "set": {
             "status": "Elected"
           }
+        },
+        {
+          "op": "set",
+          "path": "meta.valid_poll",
+          "value": 11980
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 12139
+        },
+        {
+          "op": "candidate",
+          "name": "John Leahy",
+          "set": {
+            "first_pref": 1816,
+            "counts": [
+              1816,
+              1.06,
+              1,
+              2
+            ]
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "Se\u00e1n Maher",
+          "set": {
+            "first_pref": 926,
+            "counts": [
+              926,
+              0.54,
+              0
+            ]
+          }
+        }
+      ],
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 228-229 (Birr LEA, Offaly County Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=228",
+          "accessed": "2026-11-11"
         }
       ]
     },
@@ -83583,7 +83877,7 @@
         "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=109&electype=5",
         "accessed": "2026-10-12"
       },
-      "reason": "IrelandElection.com shows Fergal Browne, Ken Murnane, John Cassin, Paul Doogue and Adrienne Wallace were elected but Civgraph did not mark them as elected.",
+      "reason": "IrelandElection.com shows Fergal Browne, Ken Murnane, John Cassin, Paul Doogue and Adrienne Wallace were elected but Civgraph did not mark them as elected. Checked on 11 November 2026 against the Department's results book (pp. 76-77): the figures agree; its valid poll (7,985) and its total poll (8,105) are added from it.",
       "category": "winners",
       "operations": [
         {
@@ -83620,6 +83914,24 @@
           "set": {
             "status": "Elected"
           }
+        },
+        {
+          "op": "set",
+          "path": "meta.valid_poll",
+          "value": 7985
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 8105
+        }
+      ],
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 76-77 (Carlow LEA, Carlow County Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=76",
+          "accessed": "2026-11-11"
         }
       ]
     },
@@ -83632,7 +83944,7 @@
         "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=496&electype=5",
         "accessed": "2026-10-12"
       },
-      "reason": "IrelandElection.com shows Damien Brady, Patricia Walsh, John Paul Feeley and Niamh Brady were elected but Civgraph did not mark them as elected.",
+      "reason": "IrelandElection.com shows Damien Brady, Patricia Walsh, John Paul Feeley and Niamh Brady were elected but Civgraph did not mark them as elected. Checked on 11 November 2026 against the Department's results book (p. 84): the figures agree; its valid poll (10,010) and its total poll (10,130) are added from it. The book prints the electorate as 19,195; Cavan's county total in its Table A (61,786) gives 19,159, as ElectionsIreland has it.",
       "category": "winners",
       "operations": [
         {
@@ -83662,6 +83974,24 @@
           "set": {
             "status": "Elected"
           }
+        },
+        {
+          "op": "set",
+          "path": "meta.valid_poll",
+          "value": 10010
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 10130
+        }
+      ],
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, p. 84 (Cavan-Belturbet LEA, Cavan County Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=84",
+          "accessed": "2026-11-11"
         }
       ]
     },
@@ -83674,7 +84004,7 @@
         "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=515&electype=5",
         "accessed": "2026-10-12"
       },
-      "reason": "IrelandElection.com shows Breand\u00e1n Fitzgerald was elected but Civgraph did not mark the winner as elected. Three first-preference figures were rotated between candidates and Breand\u00e1n Fitzgerald's election was not marked. RT\u00c9's count results give Griffin 1,807, Breand\u00e1n Fitzgerald 1,014 and S\u00e9amus Cosa\u00ed Fitzgerald 740 (all seven add up to the valid poll of 7,860), and Fitzgerald elected at the fifth count.",
+      "reason": "IrelandElection.com shows Breand\u00e1n Fitzgerald was elected but Civgraph did not mark the winner as elected. Three first-preference figures were rotated between candidates and Breand\u00e1n Fitzgerald's election was not marked. RT\u00c9's count results give Griffin 1,807, Breand\u00e1n Fitzgerald 1,014 and S\u00e9amus Cosa\u00ed Fitzgerald 740 (all seven add up to the valid poll of 7,860), and Fitzgerald elected at the fifth count. Checked on 11 November 2026 against the Department's results book (p. 151): the figures agree; its valid poll (7,860) and its total poll (7,966) are added from it.",
       "category": "winners",
       "operations": [
         {
@@ -83723,6 +84053,16 @@
               0
             ]
           }
+        },
+        {
+          "op": "set",
+          "path": "meta.valid_poll",
+          "value": 7860
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 7966
         }
       ],
       "internalNote": "Verification: official broadcaster count feed (rte.ie election-data fulllea1202.json). Edenderry 2024 checked the same way: two Claire Murrays (SF, FF), both elected; Civgraph already right.",
@@ -83732,6 +84072,12 @@
           "title": "Local Elections 2024 results: Corca Dhuibhne LEA",
           "url": "https://www.rte.ie/news/local-european-elections-2024/results/#/local/kerry-county/corca-dhuibhne",
           "accessed": "2026-10-30"
+        },
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, p. 151 (Corca Dhuibhne LEA, Kerry County Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=151",
+          "accessed": "2026-11-11"
         }
       ]
     },
@@ -83744,7 +84090,7 @@
         "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=494&electype=5",
         "accessed": "2026-10-12"
       },
-      "reason": "IrelandElection.com shows Willie Quinn, Andy Gladney, Daniel Pender and Michael Doran were elected but Civgraph did not mark them as elected.",
+      "reason": "IrelandElection.com shows Willie Quinn, Andy Gladney, Daniel Pender and Michael Doran were elected but Civgraph did not mark them as elected. Checked on 11 November 2026 against the Department's results book (p. 78), which gives electorate 14,100 (not 14,099).",
       "category": "winners",
       "operations": [
         {
@@ -83774,6 +84120,29 @@
           "set": {
             "status": "Elected"
           }
+        },
+        {
+          "op": "set",
+          "path": "meta.valid_poll",
+          "value": 7093
+        },
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 14100
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 7231
+        }
+      ],
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, p. 78 (Muinebheag LEA, Carlow County Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=78",
+          "accessed": "2026-11-11"
         }
       ]
     },
@@ -83786,7 +84155,7 @@
         "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=409&electype=5",
         "accessed": "2026-10-12"
       },
-      "reason": "IrelandElection.com shows Gerry Murray, Adrian Forkan, John Caulfield and Neil Cruise were elected but Civgraph did not mark them as elected.",
+      "reason": "IrelandElection.com shows Gerry Murray, Adrian Forkan, John Caulfield and Neil Cruise were elected but Civgraph did not mark them as elected. Checked on 11 November 2026 against the Department's results book (p. 211), which gives the first preferences of every candidate (the import had none).",
       "category": "winners",
       "operations": [
         {
@@ -83816,6 +84185,124 @@
           "set": {
             "status": "Elected"
           }
+        },
+        {
+          "op": "set",
+          "path": "meta.valid_poll",
+          "value": 8716
+        },
+        {
+          "op": "set",
+          "path": "meta.quota",
+          "value": 1744
+        },
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 15477
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 8827
+        },
+        {
+          "op": "candidate",
+          "name": "John Caulfield",
+          "set": {
+            "first_pref": 1326,
+            "counts": [
+              1326
+            ]
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "Neil Cruise",
+          "set": {
+            "first_pref": 1251,
+            "counts": [
+              1251
+            ]
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "Adrian Forkan",
+          "set": {
+            "first_pref": 1459,
+            "counts": [
+              1459
+            ]
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "Se\u00e1n Forkin",
+          "set": {
+            "first_pref": 100,
+            "counts": [
+              100
+            ]
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "Marion Gordon",
+          "set": {
+            "first_pref": 191,
+            "counts": [
+              191
+            ]
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "Tommy Horan",
+          "set": {
+            "first_pref": 620,
+            "counts": [
+              620
+            ]
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "Gerry Murray",
+          "set": {
+            "first_pref": 1587,
+            "counts": [
+              1587
+            ]
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "Antoinette Peyton",
+          "set": {
+            "first_pref": 878,
+            "counts": [
+              878
+            ]
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "John Sheahan",
+          "set": {
+            "first_pref": 1304,
+            "counts": [
+              1304
+            ]
+          }
+        }
+      ],
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, p. 211 (Swinford LEA, Mayo County Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=211",
+          "accessed": "2026-11-11"
         }
       ]
     },
@@ -83828,7 +84315,7 @@
         "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=164&electype=5",
         "accessed": "2026-10-12"
       },
-      "reason": "IrelandElection.com shows Shaun Cunniffe, Ollie Turner, Donagh Killilea and Karey McHugh were elected but Civgraph did not mark them as elected.",
+      "reason": "IrelandElection.com shows Shaun Cunniffe, Ollie Turner, Donagh Killilea and Karey McHugh were elected but Civgraph did not mark them as elected. Checked on 11 November 2026 against the Department's results book (pp. 148-149): the figures agree; its valid poll (15,356) and its total poll (15,509) are added from it.",
       "category": "winners",
       "operations": [
         {
@@ -83858,6 +84345,24 @@
           "set": {
             "status": "Elected"
           }
+        },
+        {
+          "op": "set",
+          "path": "meta.valid_poll",
+          "value": 15356
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 15509
+        }
+      ],
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 148-149 (Tuam LEA, Galway County Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=148",
+          "accessed": "2026-11-11"
         }
       ]
     },
@@ -223529,9 +224034,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2024L&cons=1975"
+        },
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 24-25 (Artane-Whitehall LEA, Dublin City Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=24",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Dublin City Council: all 17 candidates, first preferences adding up to the valid poll of 14,530, and 6 elected for 6 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Dublin City Council: all 17 candidates, first preferences adding up to the valid poll of 14,530, and 6 elected for 6 seats. Checked on 11 November 2026 against the Department's results book (pp. 24-25): the figures agree; its total poll (14,961) is added from it.",
       "category": "gap-fill",
       "operations": [
         {
@@ -223711,6 +224222,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 35178
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 14961
         }
       ]
     },
@@ -223728,9 +224244,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2024L&cons=5059"
+        },
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 214-215 (Ashbourne LEA, Meath County Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=214",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Meath County Council: all 16 candidates, first preferences adding up to the valid poll of 10,721, and 6 elected for 6 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Meath County Council: all 16 candidates, first preferences adding up to the valid poll of 10,721, and 6 elected for 6 seats. Checked on 11 November 2026 against the Department's results book (pp. 214-215): the figures agree; its electorate (23,012) and its total poll (10,887) are added from it.",
       "category": "gap-fill",
       "operations": [
         {
@@ -223896,6 +224418,16 @@
           "op": "set",
           "path": "meta.quota",
           "value": 1532
+        },
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 23012
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 10887
         }
       ]
     },
@@ -223913,9 +224445,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2024L&cons=284"
+        },
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 204-205 (Ballina LEA, Mayo County Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=204",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Mayo County Council: all 15 candidates, first preferences adding up to the valid poll of 12,429, and 6 elected for 6 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Mayo County Council: all 15 candidates, first preferences adding up to the valid poll of 12,429, and 6 elected for 6 seats. Checked on 11 November 2026 against the Department's results book (pp. 204-205): the figures agree; its total poll (12,548) is added from it.",
       "category": "gap-fill",
       "operations": [
         {
@@ -224077,6 +224615,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 21509
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 12548
         }
       ]
     },
@@ -224094,9 +224637,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2024L&cons=1977"
+        },
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 28-29 (Ballymun-Finglas LEA, Dublin City Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=28",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Dublin City Council: all 16 candidates, first preferences adding up to the valid poll of 15,241, and 6 elected for 6 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Dublin City Council: all 16 candidates, first preferences adding up to the valid poll of 15,241, and 6 elected for 6 seats. Checked on 11 November 2026 against the Department's results book (pp. 28-29): the figures agree; its total poll (15,582) is added from it.",
       "category": "gap-fill",
       "operations": [
         {
@@ -224267,6 +224816,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 37296
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 15582
         }
       ]
     },
@@ -224284,9 +224838,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2024L&cons=26"
+        },
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 116-117 (Blackrock LEA, D\u00fan Laoghaire-Rathdown County Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=116",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by D\u00fan Laoghaire-Rathdown County Council: all 14 candidates, first preferences adding up to the valid poll of 12,168, and 6 elected for 6 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by D\u00fan Laoghaire-Rathdown County Council: all 14 candidates, first preferences adding up to the valid poll of 12,168, and 6 elected for 6 seats. Checked on 11 November 2026 against the Department's results book (pp. 116-117): the figures agree; its total poll (12,280) is added from it.",
       "category": "gap-fill",
       "operations": [
         {
@@ -224439,6 +224999,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 27471
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 12280
         }
       ]
     },
@@ -224456,9 +225021,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2024L&cons=29"
+        },
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 30-31 (Cabra-Glasnevin LEA, Dublin City Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=30",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Dublin City Council: all 21 candidates, first preferences adding up to the valid poll of 17,044, and 7 elected for 7 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Dublin City Council: all 21 candidates, first preferences adding up to the valid poll of 17,044, and 7 elected for 7 seats. Checked on 11 November 2026 against the Department's results book (pp. 30-31): the figures agree; its total poll (17,295) is added from it.",
       "category": "gap-fill",
       "operations": [
         {
@@ -224674,6 +225245,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 39560
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 17295
         }
       ]
     },
@@ -224691,9 +225267,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2024L&cons=47"
+        },
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 32-33 (Clontarf LEA, Dublin City Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=32",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Dublin City Council: all 12 candidates, first preferences adding up to the valid poll of 20,001, and 6 elected for 6 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Dublin City Council: all 12 candidates, first preferences adding up to the valid poll of 20,001, and 6 elected for 6 seats. Checked on 11 November 2026 against the Department's results book (pp. 32-33): the figures agree; its total poll (20,222) is added from it.",
       "category": "gap-fill",
       "operations": [
         {
@@ -224828,6 +225410,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 42253
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 20222
         }
       ]
     },
@@ -224845,9 +225432,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2024L&cons=67"
+        },
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 34-35 (Donaghmede LEA, Dublin City Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=34",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Dublin City Council: all 14 candidates, first preferences adding up to the valid poll of 13,658, and 5 elected for 5 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Dublin City Council: all 14 candidates, first preferences adding up to the valid poll of 13,658, and 5 elected for 5 seats. Checked on 11 November 2026 against the Department's results book (pp. 34-35): the figures agree; its total poll (13,925) is added from it.",
       "category": "gap-fill",
       "operations": [
         {
@@ -225000,6 +225593,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 30912
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 13925
         }
       ]
     },
@@ -225017,9 +225615,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2024L&cons=461"
+        },
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, p. 118 (D\u00fan Laoghaire LEA, D\u00fan Laoghaire-Rathdown County Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=118",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by D\u00fan Laoghaire-Rathdown County Council: all 14 candidates, first preferences adding up to the valid poll of 15,543, and 7 elected for 7 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by D\u00fan Laoghaire-Rathdown County Council: all 14 candidates, first preferences adding up to the valid poll of 15,543, and 7 elected for 7 seats. Checked on 11 November 2026 against the Department's results book (p. 118): the figures agree; its total poll (15,744) is added from it.",
       "category": "gap-fill",
       "operations": [
         {
@@ -225172,6 +225776,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 36391
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 15744
         }
       ]
     },
@@ -225189,9 +225798,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2024L&cons=115"
+        },
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 120-121 (Dundrum LEA, D\u00fan Laoghaire-Rathdown County Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=120",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by D\u00fan Laoghaire-Rathdown County Council: all 14 candidates, first preferences adding up to the valid poll of 14,311, and 7 elected for 7 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by D\u00fan Laoghaire-Rathdown County Council: all 14 candidates, first preferences adding up to the valid poll of 14,311, and 7 elected for 7 seats. Checked on 11 November 2026 against the Department's results book (pp. 120-121): the figures agree; its total poll (14,456) is added from it.",
       "category": "gap-fill",
       "operations": [
         {
@@ -225344,6 +225959,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 31022
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 14456
         }
       ]
     },
@@ -225361,9 +225981,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2024L&cons=1974"
+        },
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, p. 122 (Glencullen-Sandyford LEA, D\u00fan Laoghaire-Rathdown County Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=122",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by D\u00fan Laoghaire-Rathdown County Council: all 12 candidates, first preferences adding up to the valid poll of 11,202, and 7 elected for 7 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by D\u00fan Laoghaire-Rathdown County Council: all 12 candidates, first preferences adding up to the valid poll of 11,202, and 7 elected for 7 seats. Checked on 11 November 2026 against the Department's results book (p. 122): the figures agree; its total poll (11,328) is added from it.",
       "category": "gap-fill",
       "operations": [
         {
@@ -225498,6 +226124,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 25351
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 11328
         }
       ]
     },
@@ -225515,9 +226146,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2024L&cons=191"
+        },
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 38-39 (North Inner City LEA, Dublin City Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=38",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Dublin City Council: all 19 candidates, first preferences adding up to the valid poll of 10,236, and 7 elected for 7 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Dublin City Council: all 19 candidates, first preferences adding up to the valid poll of 10,236, and 7 elected for 7 seats. Checked on 11 November 2026 against the Department's results book (pp. 38-39): the figures agree; its total poll (10,440) is added from it.",
       "category": "gap-fill",
       "operations": [
         {
@@ -225715,6 +226352,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 30609
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 10440
         }
       ]
     },
@@ -225732,9 +226374,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2024L&cons=207"
+        },
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 42-43 (South East Inner City LEA, Dublin City Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=42",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Dublin City Council: all 17 candidates, first preferences adding up to the valid poll of 7,270, and 5 elected for 5 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Dublin City Council: all 17 candidates, first preferences adding up to the valid poll of 7,270, and 5 elected for 5 seats. Checked on 11 November 2026 against the Department's results book (pp. 42-43): the figures agree; its total poll (7,437) is added from it.",
       "category": "gap-fill",
       "operations": [
         {
@@ -225914,6 +226562,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 22538
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 7437
         }
       ]
     },
@@ -225931,9 +226584,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2024L&cons=208"
+        },
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 44-45 (South West Inner City LEA, Dublin City Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=44",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Dublin City Council: all 16 candidates, first preferences adding up to the valid poll of 8,307, and 5 elected for 5 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Dublin City Council: all 16 candidates, first preferences adding up to the valid poll of 8,307, and 5 elected for 5 seats. Checked on 11 November 2026 against the Department's results book (pp. 44-45): the figures agree; its total poll (8,499) is added from it.",
       "category": "gap-fill",
       "operations": [
         {
@@ -226104,6 +226763,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 24193
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 8499
         }
       ]
     },
@@ -226121,9 +226785,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2024L&cons=5031"
+        },
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 124-125 (Killiney-Shankill LEA, D\u00fan Laoghaire-Rathdown County Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=124",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by D\u00fan Laoghaire-Rathdown County Council: all 15 candidates, first preferences adding up to the valid poll of 13,265, and 7 elected for 7 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by D\u00fan Laoghaire-Rathdown County Council: all 15 candidates, first preferences adding up to the valid poll of 13,265, and 7 elected for 7 seats. Checked on 11 November 2026 against the Department's results book (pp. 124-125): the figures agree; its total poll (13,449) is added from it.",
       "category": "gap-fill",
       "operations": [
         {
@@ -226285,6 +226955,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 32023
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 13449
         }
       ]
     },
@@ -226302,9 +226977,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2024L&cons=5078"
+        },
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 36-37 (Kimmage-Rathmines LEA, Dublin City Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=36",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Dublin City Council: all 15 candidates, first preferences adding up to the valid poll of 16,597, and 6 elected for 6 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Dublin City Council: all 15 candidates, first preferences adding up to the valid poll of 16,597, and 6 elected for 6 seats. Checked on 11 November 2026 against the Department's results book (pp. 36-37): the figures agree; its total poll (16,898) is added from it.",
       "category": "gap-fill",
       "operations": [
         {
@@ -226466,6 +227147,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 42747
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 16898
         }
       ]
     },
@@ -226483,9 +227169,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2024L&cons=5046"
+        },
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 218-219 (Laytown-Bettystown LEA, Meath County Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=218",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Meath County Council: all 16 candidates, first preferences adding up to the valid poll of 13,445, and 7 elected for 7 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Meath County Council: all 16 candidates, first preferences adding up to the valid poll of 13,445, and 7 elected for 7 seats. Checked on 11 November 2026 against the Department's results book (pp. 218-219): the figures agree; its electorate (28,991) and its total poll (13,605) are added from it.",
       "category": "gap-fill",
       "operations": [
         {
@@ -226651,6 +227343,16 @@
           "op": "set",
           "path": "meta.quota",
           "value": 1681
+        },
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 28991
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 13605
         }
       ]
     },
@@ -226668,9 +227370,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2024L&cons=193"
+        },
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 40-41 (Pembroke LEA, Dublin City Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=40",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Dublin City Council: all 10 candidates, first preferences adding up to the valid poll of 11,681, and 5 elected for 5 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Dublin City Council: all 10 candidates, first preferences adding up to the valid poll of 11,681, and 5 elected for 5 seats. Checked on 11 November 2026 against the Department's results book (pp. 40-41): the figures agree; its total poll (11,793) is added from it.",
       "category": "gap-fill",
       "operations": [
         {
@@ -226787,6 +227495,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 31927
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 11793
         }
       ]
     },
@@ -226804,9 +227517,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2024L&cons=209"
+        },
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 126-127 (Stillorgan LEA, D\u00fan Laoghaire-Rathdown County Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=126",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by D\u00fan Laoghaire-Rathdown County Council: all 11 candidates, first preferences adding up to the valid poll of 10,524, and 6 elected for 6 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by D\u00fan Laoghaire-Rathdown County Council: all 11 candidates, first preferences adding up to the valid poll of 10,524, and 6 elected for 6 seats. Checked on 11 November 2026 against the Department's results book (pp. 126-127): the figures agree; its total poll (10,635) is added from it.",
       "category": "gap-fill",
       "operations": [
         {
@@ -226932,6 +227651,11 @@
           "op": "set",
           "path": "meta.electorate",
           "value": 24063
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 10635
         }
       ]
     },
@@ -226949,9 +227673,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2024L&cons=220"
+        },
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, p. 224 (Trim LEA, Meath County Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=224",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Meath County Council: all 12 candidates, first preferences adding up to the valid poll of 11,824, and 6 elected for 6 seats.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from the official results published by Meath County Council: all 12 candidates, first preferences adding up to the valid poll of 11,824, and 6 elected for 6 seats. Checked on 11 November 2026 against the Department's results book (p. 224): the figures agree; its electorate (27,282) and its total poll (11,986) are added from it.",
       "category": "gap-fill",
       "operations": [
         {
@@ -227081,6 +227811,16 @@
           "op": "set",
           "path": "meta.quota",
           "value": 1690
+        },
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 27282
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 11986
         }
       ]
     },
@@ -227575,7 +228315,7 @@
         "url": "https://waterfordcouncil.ie/app/uploads/2024/06/State-of-the-Poll-COUNT-1-3.pdf",
         "accessed": "2026-10-30"
       },
-      "reason": "The Fianna F\u00e1il candidate elected with 1,104 first preferences is John O'Leary, as the council's count sheet names him; the imported row called him William Clune and is joined to John O'Leary's earlier Comeragh contests.",
+      "reason": "The Fianna F\u00e1il candidate elected with 1,104 first preferences is John O'Leary, as the council's count sheet names him; the imported row called him William Clune and is joined to John O'Leary's earlier Comeragh contests. Checked on 11 November 2026 against the Department's results book (p. 67): the figures agree; its valid poll (7,788) and its total poll (7,861) are added from it.",
       "category": "names",
       "operations": [
         {
@@ -227585,9 +228325,27 @@
             "name": "John O'Leary",
             "ei_candidate_id": 1101
           }
+        },
+        {
+          "op": "set",
+          "path": "meta.valid_poll",
+          "value": 7788
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 7861
         }
       ],
-      "internalNote": "ElectionsIreland's 2024 page links this row to its id 1991 (William Clune); its 2009 and 2014 Comeragh pages give John O'Leary id 1101."
+      "internalNote": "ElectionsIreland's 2024 page links this row to its id 1991 (William Clune); its 2009 and 2014 Comeragh pages give John O'Leary id 1101.",
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, p. 67 (Portlaw-Kilmacthomas LEA, Waterford City and County Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=67",
+          "accessed": "2026-11-11"
+        }
+      ]
     },
     {
       "batch": "ie-crosscheck-corrections-2026-10-30",
@@ -227598,7 +228356,7 @@
         "url": "https://web.archive.org/web/20250428192053id_/https://galway.ie/en/media/Conamara%20South%20LEA%20Result%20Sheet.pdf",
         "accessed": "2026-10-30"
       },
-      "reason": "The non-party candidate with 423 first preferences is PJ \u00d3 Flatharta, as the council's result sheet names him; the imported list gave Sin\u00e9ad O'Brien a second row with his votes. The sheet confirms M\u00e1irt\u00edn Lee (Fianna F\u00e1il) took the fifth seat, 1,372 to Daragh \u00d3 Tuairisg's 1,346.",
+      "reason": "The non-party candidate with 423 first preferences is PJ \u00d3 Flatharta, as the council's result sheet names him; the imported list gave Sin\u00e9ad O'Brien a second row with his votes. The sheet confirms M\u00e1irt\u00edn Lee (Fianna F\u00e1il) took the fifth seat, 1,372 to Daragh \u00d3 Tuairisg's 1,346. Checked on 11 November 2026 against the Department's results book (pp. 144-145), which gives electorate 14,650 (not 19,718).",
       "category": "names",
       "operations": [
         {
@@ -227817,9 +228575,32 @@
               "ei_candidate_id": 11206
             }
           ]
+        },
+        {
+          "op": "set",
+          "path": "meta.valid_poll",
+          "value": 9830
+        },
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 14650
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 9971
         }
       ],
-      "internalNote": "replaceCandidates used because both rows carry the same name, so a name-matched candidate op would change both; the list is the imported list with only that row renamed (and its ElectionsIreland id, which belongs to Sin\u00e9ad O'Brien, dropped)."
+      "internalNote": "replaceCandidates used because both rows carry the same name, so a name-matched candidate op would change both; the list is the imported list with only that row renamed (and its ElectionsIreland id, which belongs to Sin\u00e9ad O'Brien, dropped).",
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 144-145 (Conamara South LEA, Galway County Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=144",
+          "accessed": "2026-11-11"
+        }
+      ]
     },
     {
       "batch": "party-labels-followup-2026-10-30",
@@ -246369,6 +247150,12 @@
           "publisher": "IrelandElection.com",
           "url": "https://irelandelection.com/candidate/x/19951",
           "accessed": "2026-11-02"
+        },
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 70-71 (Waterford City East LEA, Waterford City and County Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=70",
+          "accessed": "2026-11-11"
         }
       ],
       "operations": [
@@ -246378,9 +247165,20 @@
           "set": {
             "ei_candidate_id": 5132
           }
+        },
+        {
+          "op": "set",
+          "path": "meta.valid_poll",
+          "value": 8661
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 8750
         }
       ],
-      "internalNote": "ElectionsIreland files this 2024 Waterford City East FG councillor under 653, the Louth senator (address Blackrock, Co. Louth), who in 2024 was FG director of elections in Louth (Wikipedia 'Jim D'Arcy'). The Waterford Jim D'Arcy is ElectionsIreland 5132 (FG, Waterford 2004-14, Waterford City East in 2014), the same party and LEA. IrelandElection.com files the 2024 councillor separately from the senator (19951)."
+      "internalNote": "ElectionsIreland files this 2024 Waterford City East FG councillor under 653, the Louth senator (address Blackrock, Co. Louth), who in 2024 was FG director of elections in Louth (Wikipedia 'Jim D'Arcy'). The Waterford Jim D'Arcy is ElectionsIreland 5132 (FG, Waterford 2004-14, Waterford City East in 2014), the same party and LEA. IrelandElection.com files the 2024 councillor separately from the senator (19951).",
+      "reason": " Checked on 11 November 2026 against the Department's results book (pp. 70-71): the figures agree; its valid poll (8,661) and its total poll (8,750) are added from it."
     },
     {
       "batch": "person-identity-splits-2026-11-02",
@@ -248706,9 +249504,15 @@
           "publisher": "ElectionsIreland.org",
           "title": "ElectionsIreland.org result page for this area (no result rows)",
           "url": "https://electionsireland.org/result.cfm?election=2024L&cons=1983"
+        },
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 50-51 (Galway City West LEA, Galway City Council)",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=50",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from Galway City Council's official State of the Poll sheets: all 16 candidates, first preferences adding up to the valid poll of 8,747 (total poll 8,864, 117 invalid papers), quota 1,250, and 6 elected for 6 seats (Lyons count 1, Higgins count 9, Curran count 10, Connolly count 13, Keane and McNelis count 14, the last two without reaching the quota). Every count sheet reconciles: the candidates' totals plus the non-transferable papers make 8,747 at each of the 14 counts. The electorate is not on the sheets and is left blank (Wikipedia gives 18,533, IrelandElection.com 18,770). Each row carries its IrelandElection.com person id.",
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; candidates, parties and first preferences from Galway City Council's official State of the Poll sheets: all 16 candidates, first preferences adding up to the valid poll of 8,747 (total poll 8,864, 117 invalid papers), quota 1,250, and 6 elected for 6 seats (Lyons count 1, Higgins count 9, Curran count 10, Connolly count 13, Keane and McNelis count 14, the last two without reaching the quota). Every count sheet reconciles: the candidates' totals plus the non-transferable papers make 8,747 at each of the 14 counts. The electorate is not on the sheets and is left blank (Wikipedia gives 18,533, IrelandElection.com 18,770). Each row carries its IrelandElection.com person id. Checked on 11 November 2026 against the Department's results book (pp. 50-51): the figures agree; its electorate (18,770) is added from it.",
       "category": "gap-fill",
       "operations": [
         {
@@ -248895,6 +249699,11 @@
           "op": "set",
           "path": "meta.total_poll",
           "value": 8864
+        },
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 18770
         }
       ]
     },
@@ -252736,6 +253545,221 @@
           "op": "set",
           "path": "meta.total_poll",
           "value": 11487
+        }
+      ]
+    },
+    {
+      "batch": "roi-local-2024-book-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/ireland-local/2024-06-07/lismore.json",
+      "source": {
+        "publisher": "Department of Housing, Local Government and Heritage",
+        "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, p. 66 (Lismore LEA, Waterford City and County Council)",
+        "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=66",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024 results (spreadsheet), sheet \"Waterford\"",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/203a12a1-e573-4d4d-a978-6f919d489b70/download/local-election-results-2024.xlsx",
+          "accessed": "2026-11-11"
+        }
+      ],
+      "reason": "ElectionsIreland's page for this area, from which the contest was imported, disagrees with the Department's results book (p. 66), which gives Declan Doocey's first preferences 560 (not 559).",
+      "category": "source-check",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "Declan Doocey",
+          "set": {
+            "first_pref": 560,
+            "counts": [
+              560,
+              0.43,
+              0
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "batch": "roi-local-2024-book-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/ireland-local/2024-06-07/tramore-waterford-city-west.json",
+      "source": {
+        "publisher": "Department of Housing, Local Government and Heritage",
+        "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 68-69 (Tramore-Waterford City West LEA, Waterford City and County Council)",
+        "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=68",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024 results (spreadsheet), sheet \"Waterford\"",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/203a12a1-e573-4d4d-a978-6f919d489b70/download/local-election-results-2024.xlsx",
+          "accessed": "2026-11-11"
+        }
+      ],
+      "reason": "ElectionsIreland's page for this area, from which the contest was imported, disagrees with the Department's results book (pp. 68-69), which gives John Hayes's first preferences 245 (not 240); Richie Hayes's first preferences 240 (not 245).",
+      "category": "source-check",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "John Hayes",
+          "set": {
+            "first_pref": 245,
+            "counts": [
+              245,
+              0.21,
+              0
+            ]
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "Richie Hayes",
+          "set": {
+            "first_pref": 240,
+            "counts": [
+              240,
+              0.2,
+              0
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "batch": "roi-local-2024-book-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/ireland-local/2024-06-07/ballinasloe.json",
+      "source": {
+        "publisher": "Department of Housing, Local Government and Heritage",
+        "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, p. 142 (Ballinasloe LEA, Galway County Council)",
+        "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=142",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024 results (spreadsheet), sheet \"Galway County\"",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/203a12a1-e573-4d4d-a978-6f919d489b70/download/local-election-results-2024.xlsx",
+          "accessed": "2026-11-11"
+        }
+      ],
+      "reason": "ElectionsIreland's page for this area, from which the contest was imported, disagrees with the Department's results book (p. 142), which gives electorate 24,678 (not 26,074).",
+      "category": "source-check",
+      "operations": [
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 24678
+        }
+      ]
+    },
+    {
+      "batch": "roi-local-2024-book-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/ireland-local/2024-06-07/conamara-north.json",
+      "source": {
+        "publisher": "Department of Housing, Local Government and Heritage",
+        "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, p. 143 (Conamara North LEA, Galway County Council)",
+        "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=143",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024 results (spreadsheet), sheet \"Galway County\"",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/203a12a1-e573-4d4d-a978-6f919d489b70/download/local-election-results-2024.xlsx",
+          "accessed": "2026-11-11"
+        }
+      ],
+      "reason": "ElectionsIreland's page for this area, from which the contest was imported, disagrees with the Department's results book (p. 143), which gives electorate 19,718 (not 14,650).",
+      "category": "source-check",
+      "operations": [
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 19718
+        }
+      ]
+    },
+    {
+      "batch": "roi-local-2024-book-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/ireland-local/2024-06-07/naas.json",
+      "source": {
+        "publisher": "Department of Housing, Local Government and Heritage",
+        "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 170-171 (Naas LEA, Kildare County Council)",
+        "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=170",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024 results (spreadsheet), sheet \"Kildare\"",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/203a12a1-e573-4d4d-a978-6f919d489b70/download/local-election-results-2024.xlsx",
+          "accessed": "2026-11-11"
+        }
+      ],
+      "reason": "ElectionsIreland's page for this area, from which the contest was imported, disagrees with the Department's results book (pp. 170-171), which gives electorate 30,153 (not 30,143).",
+      "category": "source-check",
+      "operations": [
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 30153
+        }
+      ]
+    },
+    {
+      "batch": "roi-local-2024-book-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/ireland-local/2024-06-07/manorhamilton.json",
+      "source": {
+        "publisher": "Department of Housing, Local Government and Heritage",
+        "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, p. 188 (Manorhamilton LEA, Leitrim County Council)",
+        "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=188",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024 results (spreadsheet), sheet \"Leitrim\"",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/203a12a1-e573-4d4d-a978-6f919d489b70/download/local-election-results-2024.xlsx",
+          "accessed": "2026-11-11"
+        }
+      ],
+      "reason": "ElectionsIreland's page for this area, from which the contest was imported, disagrees with the Department's results book (p. 188), which gives electorate 9,615 (not 9,614).",
+      "category": "source-check",
+      "operations": [
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 9615
+        }
+      ]
+    },
+    {
+      "batch": "roi-local-2024-book-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/ireland-local/2024-06-07/carrickmacross-castleblayney.json",
+      "source": {
+        "publisher": "Department of Housing, Local Government and Heritage",
+        "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, p. 226 (Carrickmacross-Castleblayney LEA, Monaghan County Council)",
+        "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=226",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024 results (spreadsheet), sheet \"Monaghan\"",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/203a12a1-e573-4d4d-a978-6f919d489b70/download/local-election-results-2024.xlsx",
+          "accessed": "2026-11-11"
+        }
+      ],
+      "reason": "ElectionsIreland's page for this area, from which the contest was imported, disagrees with the Department's results book (p. 226), which gives electorate 18,436 (not 18,438).",
+      "category": "source-check",
+      "operations": [
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 18436
         }
       ]
     }
