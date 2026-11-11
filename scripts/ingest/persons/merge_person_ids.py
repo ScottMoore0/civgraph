@@ -470,6 +470,19 @@ def main():
         applied.append(mg)
     merges = applied
     final = {d: find(d) for d in parent}
+    # Two people joined through a third: one group merged into both (Tracy McElhinney's 2024 row
+    # into her 2009-16 id 110892 and her 2014-19 id 129522) makes one of the two a drop too, but no
+    # pair names it as one. The log is what makes a merged-away id answer with its survivor, so
+    # each such id gets its own row, with the class of the pair that joined it.
+    named_drops = {m['drop'] for m in merges}
+    for m in list(merges):
+        for side in (m['keep'], m['drop']):
+            if side not in named_drops and final.get(side, side) != side:
+                named_drops.add(side)
+                merges.append({**m, 'keep': final[side], 'drop': side, 'keep_years': '',
+                               'drop_years': m['keep_years'] if side == m['keep'] else m['drop_years'],
+                               'evidence': f"joined to {final[side]} through {m['drop'] if side == m['keep'] else m['keep']}"
+                               + (f"; {m['evidence']}" if m.get('evidence') else '')})
 
     print(f"merge pairs found: {len(merges):,}")
     for c, n in collections.Counter(m['class'] for m in merges).most_common():
