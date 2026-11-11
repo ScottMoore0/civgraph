@@ -18,6 +18,8 @@ import { loadRegistry } from '../../packages/registries/src/index.mjs';
 import { manifestCouncilSets } from '../../packages/registries/src/councils.mjs';
 import { labelInterpretationRules } from '../../packages/registries/src/parties.mjs';
 import { statesOf } from '../../packages/registries/src/statuses.mjs';
+import { electionBody, geographyRuleFor } from '../../packages/registries/src/election-bodies.mjs';
+import { areaCandidateColours, areaCountSheet, areaFeatureNames } from '../../packages/core/src/area-results.mjs';
 
 const ROOT = process.cwd();
 const ELECTION_ROOT = path.join(ROOT, 'data/elections-source', 'data', 'elections');
@@ -31,6 +33,10 @@ const OUT_MANIFEST = ELECTION_MANIFEST;
 const OUT_REPORT = ELECTION_REPORT;
 const DAIL_WIKIPEDIA_COUNTS_ROOT = path.join(ROOT, 'data', 'elections', 'dail-wikipedia-counts');
 const PRESIDENT_COUNTS_ROOT = path.join(ROOT, 'data', 'elections', 'president-counts');
+// What the site knows of a body as data (data/registries/election-bodies.json): the map its
+// elections are drawn on, its voting system, and the area results that break a national contest
+// down. A body not listed there keeps the rules written below.
+const ELECTION_BODIES = loadRegistry('election-bodies');
 const DAIL_OFFICIAL_RESULTS = path.join(ROOT, 'data', 'elections', 'dail-official-results.json');
 const DAIL_APPROVED_CANDIDATE_ALIASES = path.join(ROOT, 'data', 'elections', 'dail-approved-candidate-aliases.json');
 // Birth and death dates ElectionsIreland publishes for source person ids whose careers
@@ -837,7 +843,8 @@ async function main() {
       councilGeography,
       councilLayer
     });
-    const geographyModes = await buildReferendumGeographyModes(entry, bundle, layerBySource, featureIndexes);
+    const geographyModes = await buildReferendumGeographyModes(entry, bundle, layerBySource, featureIndexes)
+      || await buildAreaResultsGeographyModes(entry, bundle, layerBySource, featureIndexes);
     if (geographyModes) bundle.geographyModes = geographyModes;
     const bundlePath = path.join(OUT_DIR, `${bundle.key}.json`);
     writeJson(bundlePath, bundle);
@@ -1188,6 +1195,14 @@ function compareElectionEntriesAsc(a, b) {
 function resolveElectionGeography(entry) {
   const year = Number(String(entry.date).slice(0, 4));
   const body = entry.body;
+  // A body the election-bodies registry gives a map for (the Mayor of Limerick: the 2024 council
+  // areas, its one contest drawn on Limerick City and County).
+  const registered = geographyRuleFor(electionBody(ELECTION_BODIES, entry.bodySlug), entry.date);
+  if (registered) {
+    return registered.featureOverrides
+      ? { sourceMapId: registered.sourceMapId, featureOverrides: registered.featureOverrides }
+      : { sourceMapId: registered.sourceMapId };
+  }
   if (entry.bodySlug === 'ireland-local') {
     // The Republic's local electoral areas. There is no layer before 2008, so 1991-2004
     // publish as results without a map. 2024 was contested on areas revised in 2023; until
@@ -1444,6 +1459,109 @@ async function buildReferendumGeographyModes(entry, bundle, layerBySource, featu
   return [resultsMode, turnoutMode];
 }
 
+// The style modes an area-results geography can colour by: who led in each area, by how much, and
+// the turnout. No seats are won in an area, so none of the seat modes.
+const AREA_RESULT_STYLE_MODES = ['winner', 'voteShare', 'majority', 'turnout'];
+
+/**
+ * A national contest broken down by area (the registry's areaResults: the presidential elections
+ * by Dail constituency) as a second geography of the one election, on the map its areas were
+ * counted on that year (the date's _constituencies.json names it). Each area is summarised as a
+ * contest is, but stays inside the geography mode: the bundle's results, the candidacies the
+ * records tables and the person scripts read, are the national contest alone. An area's
+ * candidates carry the national candidate's id (nationalCandidateId) and no person id.
+ */
+async function buildAreaResultsGeographyModes(entry, bundle, layerBySource, featureIndexes) {
+  const config = electionBody(ELECTION_BODIES, entry.bodySlug)?.areaResults;
+  if (!config) return null;
+  const dateDir = path.join(ROOT, config.dir, entry.date);
+  const indexPath = path.join(dateDir, '_constituencies.json');
+  if (!existsSync(indexPath)) return null;
+  const index = readJson(indexPath);
+  const layer = layerBySource.get(index.sourceMapId);
+  const featureIndex = featureIndexForLayer(featureIndexes, layer);
+  if (!layer || !featureIndex) {
+    console.warn(`[area results] ${electionKey(entry)}: no layer or feature index for ${index.sourceMapId}; its area results are left out.`);
+    return null;
+  }
+  const national = (bundle.results || [])[0];
+  if (!national || bundle.results.length !== 1) return null;
+  const nationalByName = new Map((national.candidates || []).map((candidate) => [normalizeName(candidate.name), candidate]));
+  const colours = areaCandidateColours(national.candidates || []);
+  const featureByName = new Map((featureIndex.items || []).map((item) => [normalizeName(item.name), item]));
+  const anchorIndex = await loadOrBuildAnchorIndex(layer, featureIndex);
+  const electionMetadata = classifyElection(entry);
+  const label = config.labels[index.counting_basis] || Object.values(config.labels)[0];
+  const results = [];
+  for (const file of readdirSync(dateDir).filter((name) => name.endsWith('.json') && !name.startsWith('_')).sort()) {
+    const area = readJson(path.join(dateDir, file));
+    const sheet = areaCountSheet(area, (name) => nationalByName.get(normalizeName(name)), colours);
+    if (sheet.unmatchedCandidates.length) {
+      throw new Error(`[area results] ${config.dir}/${entry.date}/${file}: ${sheet.unmatchedCandidates.join(', ')} not among the national candidates`);
+    }
+    // countGroup is the animation payload's own rows again and nobody is elected in an area: both
+    // left out (the map app takes the rows from the payload), as the lite bundle does.
+    const { countGroup: _rows, elected: _elected, ...result } = ElectionDomain.summarizeResult(sheet, area.constituency);
+    const leader = result.candidates.find((candidate) => candidate.name === result.leadingName);
+    result.candidates = result.candidates.map((candidate) => ({ ...candidate, nationalCandidateId: candidate.id }));
+    const names = areaFeatureNames(area);
+    // An area reported for two features together (1945: the second count of County Limerick and
+    // Limerick County Borough) is listed, not drawn: each feature has its own first count.
+    const features = names.length === 1 ? [featureByName.get(normalizeName(names[0]))].filter(Boolean) : [];
+    const match = features[0] ? normalizeFeatureMatch(features[0]) : null;
+    if (names.length === 1 && !match) console.warn(`[area results] ${electionKey(entry)}: ${area.constituency} names ${names[0]}, which ${index.sourceMapId} does not have`);
+    results.push({
+      ...result,
+      ...classifyElectionResult(entry, result, electionMetadata),
+      colour: leader?.colour || result.colour,
+      leadingColour: leader?.colour || result.leadingColour,
+      sourceFile: slash(path.relative(ROOT, path.join(dateDir, file))),
+      ...(names.length > 1 ? { reportedFor: names } : {}),
+      ...(area.note ? { contestNotes: [{ label: 'Note', text: area.note }] } : {}),
+      ...(area.erratum ? { erratum: area.erratum } : {}),
+      references: area.references || [],
+      featureId: match?.id ?? null,
+      featureName: match?.name ?? null,
+      featureAliases: match?.aliases || [],
+      matchName: match?.name ?? null,
+      anchor: match && anchorIndex ? findAnchorForMatch(anchorIndex, match, result) : null,
+      matched: Boolean(match)
+    });
+  }
+  if (!results.length) return null;
+  const stylingModes = AREA_RESULT_STYLE_MODES.filter((mode) => modeAvailable(mode, results));
+  const nationalMode = {
+    id: 'results',
+    label: 'Ireland',
+    dataKind: 'results',
+    sourceMapId: bundle.sourceMapId,
+    layerId: bundle.layerId,
+    labelProperty: bundle.labelProperty,
+    geometryType: bundle.geometryType || 'polygon',
+    stylingModes: bundle.availableStyleModes || ['winner'],
+    defaultMode: (bundle.availableStyleModes || ['winner'])[0] || 'winner'
+  };
+  const areaMode = {
+    id: config.modeId,
+    label,
+    dataKind: 'area-results',
+    countingBasis: index.counting_basis || null,
+    sourceMapId: index.sourceMapId,
+    layerId: layer.id,
+    labelProperty: layer.labelProperty || 'name',
+    geometryType: layer.geometryType || 'polygon',
+    stylingModes,
+    defaultMode: stylingModes[0] || 'winner',
+    note: config.note,
+    references: index.references || [],
+    numCounts: index.numCounts || null,
+    matchedCount: results.filter((result) => result.matched).length,
+    totalConstituencies: results.length,
+    results
+  };
+  return [nationalMode, areaMode];
+}
+
 function resolveLocalGovernmentCouncilGeography(entry) {
   if (entry?.bodyGroup !== 'local-government') return null;
   const year = Number(String(entry.date).slice(0, 4));
@@ -1548,6 +1666,8 @@ function votingSystemForElection(entry, result = null) {
   const bodySlug = String(entry?.bodySlug || '');
   const year = Number(String(entry?.date || '').slice(0, 4));
   const resultName = normalizeName(result?.constituency || result?.featureName || result?.matchName || '');
+  const registeredSystem = electionBody(ELECTION_BODIES, bodySlug)?.votingSystem;
+  if (registeredSystem) return registeredSystem;
   if (bodySlug === 'dail-eireann') return 'stv-hare';
   if (bodySlug === 'president-of-ireland' || bodySlug === 'ireland-president') return 'stv-hare';
   if (bodySlug === 'ireland-local') return 'stv-hare';
@@ -1887,7 +2007,9 @@ const RESULT_FEATURE_OVERRIDES = {
 };
 
 function overriddenFeature(featureLookup, geography, resultName) {
-  const target = RESULT_FEATURE_OVERRIDES[geography?.sourceMapId || '']?.[normalizeName(resultName)];
+  const registered = Object.entries(geography?.featureOverrides || {})
+    .find(([name]) => normalizeName(name) === normalizeName(resultName))?.[1];
+  const target = registered || RESULT_FEATURE_OVERRIDES[geography?.sourceMapId || '']?.[normalizeName(resultName)];
   if (!target) return null;
   const want = normalizeName(target);
   return (featureLookup.items || []).find((item) => normalizeName(item.name) === want) || null;
