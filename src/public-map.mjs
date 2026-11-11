@@ -128,3 +128,47 @@ export function isPublicStatistic(entry, isPublicMapId) {
   if (!entry || !entry.id || entry.hidden || !entry.csv || !entry.geography) return false;
   return Boolean(isPublicMapId(entry.geography));
 }
+
+/**
+ * The catalogue pane's document (data/catalogue/catalogue.json, scripts/build/catalogue/build-catalogue.mjs)
+ * as far as the map figures read it.
+ * @typedef {{ series?: Array<{ members?: Array<{ id?: string }>, local?: Array<{ id?: string }>, todo?: Array<{ id?: string }> }> }} CatalogueDocument
+ */
+
+/**
+ * The maps the catalogue shows a reader (data/catalogue/catalogue.json, the pane at /maps): every
+ * series' maps -- its editions, versions and parts placed as maps (`members`) and its council maps
+ * (`local`) -- each once. This is the site's map figure (owner, 11 Nov 2026): the homepage and
+ * About said 909 by the rule above while the catalogue's sections added up to 820, because 139
+ * of those maps are listed there as still to be added and 42 are kept out by the catalogue's
+ * review, while the sections also hold maps the rule does not count (the census statistics, the
+ * 3D terrain and the point clouds). The sections' own counts (src/catalogue/index.js tabCounts)
+ * add up to this same number.
+ *
+ * scripts/build/build-site-stats.mjs computes the figure with this, and check:site-figures holds
+ * every page that states it to that.
+ * @param {CatalogueDocument | null | undefined} catalogue
+ * @returns {Set<string>}
+ */
+export function catalogueMapIds(catalogue) {
+  const ids = new Set();
+  for (const series of catalogue?.series || []) {
+    for (const map of [...(series.members || []), ...(series.local || [])]) if (map?.id) ids.add(map.id);
+  }
+  return ids;
+}
+
+/**
+ * The maps the catalogue lists as still to be added (a series' `todo`, shown on request as "Show
+ * N to be added") and does not show anywhere as a map: the About page's second map figure.
+ * @param {CatalogueDocument | null | undefined} catalogue
+ * @returns {Set<string>}
+ */
+export function catalogueToBeAddedIds(catalogue) {
+  const shown = catalogueMapIds(catalogue);
+  const ids = new Set();
+  for (const series of catalogue?.series || []) {
+    for (const map of series.todo || []) if (map?.id && !shown.has(map.id)) ids.add(map.id);
+  }
+  return ids;
+}

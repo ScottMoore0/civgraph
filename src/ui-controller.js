@@ -9236,6 +9236,88 @@ class UIController {
         return columns;
     }
 
+    /** One table section of an entity page: its heading, any notes, and the host its table mounts in. */
+    _entityTableSection(title, tableId, html = '', attrs = '') {
+        return `<section class="catalogue-detail__section" aria-labelledby="${tableId}-h"${attrs}>
+                <h3 class="catalogue-detail__section-title" id="${tableId}-h">${title}</h3>
+                ${html || ''}<div data-entity-table-host="${tableId}"></div>
+            </section>`;
+    }
+
+    /**
+     * A party page's candidate list: { html, table }. While it loads (entry.candidatesLoading, 11 Nov
+     * 2026: the page no longer waits for it) the section says so and is busy, and
+     * refreshElectionEntityPartyCandidates() puts the list in its place.
+     */
+    _partyCandidatesSection(entry) {
+        const { dash, fmt } = this._entityFormatters();
+        const r = this._entityRenderers();
+        const esc = r.esc;
+        const tableSection = (title, tableId, html, attrs) => this._entityTableSection(title, tableId, html, attrs);
+        if (entry.candidatesLoading) {
+            return {
+                html: tableSection('Candidates', 'catalogue-party-candidates-table', '<p class="catalogue-detail__note" role="status">Loading the candidates…</p>', ' data-party-candidates-loading="1" aria-busy="true"'),
+                table: null
+            };
+        }
+        const candidates = (entry.candidateSummaries || []).map((row, idx) => ({ ...row, candidateRank: idx + 1 }));
+        const candidateColumns = [
+            { key: 'candidateRank', label: '#', kind: 'ordinal', align: 'num', getValue: (row) => row.candidateRank, render: (row) => fmt(row.candidateRank) },
+            { key: 'name', label: 'Candidate', kind: 'text', getValue: (row) => row.name, render: (row) => r.renderEntityLink('candidate', row.personId, row.name) },
+            { key: 'timesStood', label: 'Contests', kind: 'numeric', align: 'num', getValue: (row) => row.timesStood, render: (row) => fmt(row.timesStood) },
+            { key: 'timesElected', label: 'Won', kind: 'numeric', align: 'num', getValue: (row) => row.timesElected, render: (row) => fmt(row.timesElected) },
+            { key: 'totalFirstPrefs', label: 'Votes (1st pref.)', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row.totalFirstPrefs, render: (row) => fmt(row.totalFirstPrefs) },
+            { key: 'years', label: 'Years', kind: 'text', getValue: (row) => yearRange(row.firstYear, row.lastYear) || null, render: (row) => esc(yearRange(row.firstYear, row.lastYear) || dash) },
+            { key: 'byGroup', label: 'Won / stood by body', kind: 'text', getValue: (row) => (row.byGroup || []).map((g) => `${g.group} ${g.won}/${g.stood}`).join(' · ') || null, render: (row) => esc((row.byGroup || []).map((g) => `${g.group} ${g.won}/${g.stood}`).join(' · ') || dash) },
+            {
+                key: 'constituencies',
+                label: 'Stood in',
+                kind: 'text',
+                optional: true,
+                getValue: (row) => (row.constituencyGroups || []).map((g) => g.label).join(', ') || null,
+                render: (row) => esc((row.constituencyGroups || []).map((g) => `${g.label} ${g.years}`).join(' · ') || dash)
+            }
+        ];
+        const capNote = entry.candidatesCapped
+            ? `<p class="catalogue-detail__note">The first ${fmt(candidates.length)} people found; the party has more. ${entry.browseUrl ? `<a href="${esc(entry.browseUrl)}">The full record is in Browse</a>.` : ''}</p>`
+            : '';
+        const listNote = entry.listEntriesLeftOut
+            ? `<p class="catalogue-detail__note">${fmt(entry.listEntriesLeftOut)} party-list ${entry.listEntriesLeftOut === 1 ? 'entry' : 'entries'} (such as the 1996 Forum's regional lists) ${entry.listEntriesLeftOut === 1 ? 'is' : 'are'} not a person and ${entry.listEntriesLeftOut === 1 ? 'is' : 'are'} left out.</p>`
+            : '';
+        const html = tableSection(entry.candidatesCapped ? `Candidates (first ${fmt(candidates.length)})` : `Candidates (${fmt(candidates.length)})`, 'catalogue-party-candidates-table', capNote + listNote);
+        return { html, table: { tableId: 'catalogue-party-candidates-table', columns: candidateColumns, rows: candidates, caption: `${entry.name}: candidates`, pageSize: 50 } };
+    }
+
+    /**
+     * Put a party page's candidate list in place of its loading note once the list has arrived,
+     * if that page is still the one shown. The rest of the page, its scroll and its other tables'
+     * state are left as they are. Returns whether it did.
+     */
+    refreshElectionEntityPartyCandidates(entry) {
+        const detailView = document.getElementById('catalogueDetailView');
+        if (!entry || entry.candidatesLoading || !detailView || this.catalogueView !== 'detail') return false;
+        if (!this._currentDetailViewKey || this._electionEntityDetailCache?.get(this._currentDetailViewKey) !== entry) return false;
+        const section = detailView.querySelector('[data-party-candidates-loading]');
+        if (!section) return false;
+        const part = this._partyCandidatesSection(entry);
+        const holder = document.createElement('div');
+        holder.innerHTML = part.html.trim();
+        const fresh = holder.firstElementChild;
+        if (!fresh) return false;
+        section.replaceWith(fresh);
+        if (part.table) {
+            const host = fresh.querySelector(`[data-entity-table-host="${part.table.tableId}"]`);
+            const viewState = this._detailViewStates?.get(this._currentDetailViewKey);
+            let persist = {};
+            if (viewState) {
+                if (!viewState.tables[part.table.tableId]) viewState.tables[part.table.tableId] = {};
+                persist = viewState.tables[part.table.tableId];
+            }
+            if (host) this._mountEntityTable(host, { ...part.table, persist });
+        }
+        return true;
+    }
+
     showElectionEntityDetailInCatalogue(detailOrId, addToHistory = true, options = {}) {
         const detailId = typeof detailOrId === 'string'
             ? detailOrId
@@ -9359,10 +9441,7 @@ class UIController {
         // ---------------------------------------------------------------- tables
         const byElectionRow = (row) => (row.isByElection ? 'catalogue-detail__entity-row--by-election' : '');
         const tables = [];
-        const tableSection = (title, tableId, html) => `<section class="catalogue-detail__section" aria-labelledby="${tableId}-h">
-                <h3 class="catalogue-detail__section-title" id="${tableId}-h">${title}</h3>
-                ${html || ''}<div data-entity-table-host="${tableId}"></div>
-            </section>`;
+        const tableSection = (title, tableId, html) => this._entityTableSection(title, tableId, html);
         let sectionsHtml = '';
         if (isParty) {
             const history = entry.historyRows || [];
@@ -9392,32 +9471,9 @@ class UIController {
             sectionsHtml += tableSection(`Election history (${history.length})`, 'catalogue-party-history-table');
             tables.push({ tableId: 'catalogue-party-history-table', columns: partyHistoryColumns, rows: history, caption: `${entry.name}: elections contested`, rowClassNameFn: byElectionRow, groupBy: (row) => row.bodyGroup, pageSize: 60 });
 
-            const candidates = (entry.candidateSummaries || []).map((row, idx) => ({ ...row, candidateRank: idx + 1 }));
-            const candidateColumns = [
-                { key: 'candidateRank', label: '#', kind: 'ordinal', align: 'num', getValue: (row) => row.candidateRank, render: (row) => fmt(row.candidateRank) },
-                { key: 'name', label: 'Candidate', kind: 'text', getValue: (row) => row.name, render: (row) => r.renderEntityLink('candidate', row.personId, row.name) },
-                { key: 'timesStood', label: 'Contests', kind: 'numeric', align: 'num', getValue: (row) => row.timesStood, render: (row) => fmt(row.timesStood) },
-                { key: 'timesElected', label: 'Won', kind: 'numeric', align: 'num', getValue: (row) => row.timesElected, render: (row) => fmt(row.timesElected) },
-                { key: 'totalFirstPrefs', label: 'Votes (1st pref.)', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row.totalFirstPrefs, render: (row) => fmt(row.totalFirstPrefs) },
-                { key: 'years', label: 'Years', kind: 'text', getValue: (row) => yearRange(row.firstYear, row.lastYear) || null, render: (row) => esc(yearRange(row.firstYear, row.lastYear) || dash) },
-                { key: 'byGroup', label: 'Won / stood by body', kind: 'text', getValue: (row) => (row.byGroup || []).map((g) => `${g.group} ${g.won}/${g.stood}`).join(' · ') || null, render: (row) => esc((row.byGroup || []).map((g) => `${g.group} ${g.won}/${g.stood}`).join(' · ') || dash) },
-                {
-                    key: 'constituencies',
-                    label: 'Stood in',
-                    kind: 'text',
-                    optional: true,
-                    getValue: (row) => (row.constituencyGroups || []).map((g) => g.label).join(', ') || null,
-                    render: (row) => esc((row.constituencyGroups || []).map((g) => `${g.label} ${g.years}`).join(' · ') || dash)
-                }
-            ];
-            const capNote = entry.candidatesCapped
-                ? `<p class="catalogue-detail__note">The first ${fmt(candidates.length)} people found; the party has more. ${entry.browseUrl ? `<a href="${esc(entry.browseUrl)}">The full record is in Browse</a>.` : ''}</p>`
-                : '';
-            const listNote = entry.listEntriesLeftOut
-                ? `<p class="catalogue-detail__note">${fmt(entry.listEntriesLeftOut)} party-list ${entry.listEntriesLeftOut === 1 ? 'entry' : 'entries'} (such as the 1996 Forum's regional lists) ${entry.listEntriesLeftOut === 1 ? 'is' : 'are'} not a person and ${entry.listEntriesLeftOut === 1 ? 'is' : 'are'} left out.</p>`
-                : '';
-            sectionsHtml += tableSection(entry.candidatesCapped ? `Candidates (first ${fmt(candidates.length)})` : `Candidates (${fmt(candidates.length)})`, 'catalogue-party-candidates-table', capNote + listNote);
-            tables.push({ tableId: 'catalogue-party-candidates-table', columns: candidateColumns, rows: candidates, caption: `${entry.name}: candidates`, pageSize: 50 });
+            const candidatesPart = this._partyCandidatesSection(entry);
+            sectionsHtml += candidatesPart.html;
+            if (candidatesPart.table) tables.push(candidatesPart.table);
         } else if (isCandidate) {
             const appearances = entry.appearances || [];
             const contestText = (row) => (row.overallStandingNumber ? `${ord(row.overallStandingNumber)} · ${ord(row.bodyStandingNumber)} ${row.electionType || ''}`.trim() : dash);

@@ -96,6 +96,7 @@ const where = {
   persons: [`person_id IN (${marks(personIds)})`, personIds], person_names: [`person_id IN (${marks(personIds)})`, personIds],
   person_facts: [`person_id IN (${marks(personIds)})`, personIds], person_merges: [`keep_id IN (${marks(personIds)})`, personIds],
   person_cards: [`id IN (${marks(personIds)})`, personIds], person_aliases: [`slug IN (${marks(personSlugs)})`, personSlugs],
+  person_card_parties: [`slug IN (${marks(personSlugs)})`, personSlugs],
   party_cards: [`slug IN (${marks(partySlugs)})`, partySlugs],
   office_cards: ['slug IN (SELECT slug FROM office_cards ORDER BY ord LIMIT 3)'],
   sources: [`slug IN (${marks(sourceSlugs)})`, sourceSlugs], source_aliases: [`slug IN (${marks(sourceSlugs)})`, sourceSlugs],

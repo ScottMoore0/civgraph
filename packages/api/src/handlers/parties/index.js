@@ -6,6 +6,8 @@
  *   GET /_api/parties?slug=<slug>           -> data/browse/details/parties/<slug>.json ({ item });
  *                                              a retired slug answers its party with `redirect`
  *   GET /_api/parties?slug=<slug>&view=profile -> data/browse/party-profiles/<slug>.json
+ *   GET /_api/parties?slug=<slug>&view=members[&limit=&offset=] -> the people who stood for it,
+ *                                              compact, a page at a time (./members.js)
  *   GET /_api/parties?view=names            -> data/browse/party-names.json (ballot label -> party)
  *   GET /_api/parties?view=folds            -> data/browse/party-label-folds.json
  */
@@ -14,6 +16,7 @@ import { reportError } from '../_error.js';
 import { binding } from '../../../../config/src/config.js';
 import { asStore } from '../../../../storage/src/d1.js';
 import { PARTIES } from '../../queries/parties.js';
+import { partyMembers } from './members.js';
 
 const VERSION = 'parties-1';
 
@@ -58,6 +61,19 @@ async function handle(context) {
     if (slugParam) {
       const resolved = await resolvePartySlug(db, slugParam);
       if (!resolved) return jsonResponse({ error: 'not found', slug: slugParam }, 404);
+      if (view === 'members') {
+        try {
+          const { status, body } = await partyMembers(db, url, resolved.slug);
+          return jsonResponse(body, status);
+        } catch (error) {
+          // Code deployed before the load that adds person_card_parties (migration 0006): the
+          // page falls back to /_api/persons?party=, so say so rather than report a failure.
+          if (/no such table/i.test(String(/** @type {Error} */ (error)?.message || error))) {
+            return jsonResponse({ error: 'members not loaded yet', slug: resolved.slug }, 503);
+          }
+          throw error;
+        }
+      }
       const row = /** @type {{ profile: string | null, detail: string | null, card: string } | null} */ (await db.first(PARTIES.detail, [resolved.slug]));
       if (view === 'profile') {
         return row?.profile ? jsonResponse(row.profile) : jsonResponse({ error: 'no profile', slug: resolved.slug }, 404);
