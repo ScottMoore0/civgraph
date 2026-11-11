@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+
+<html lang="en-GB">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Downloads - Civgraph</title>
+<link rel="canonical" href="https://civgraph.net/pages/downloads.html">
+<meta name="description" content="Civgraph's bulk downloads: the records database as SQLite, the graph exports and their checksums, with formats, versions and licences.">
+<!-- DRAFT: noindex until the owner approves this page; remove this line then. -->
+<meta name="robots" content="noindex">
+<link href="/assets/pages/img/19df3a5428cb.png" rel="icon"/>
+<!-- site:head -->
+<script>(function(){var t=null;try{t=localStorage.getItem('theme');}catch(e){}if(t!=='dark'&&t!=='light'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;})();</script>
+<script>(function(){var K='civgraph.langPreview',S='/assets/i18n/i18n.js?v=e12c28fbed1b',on=false;function load(){var i=window.civgraphI18n;if(i){if(i.show)i.show();return;}if(document.querySelector('script[data-i18n-runtime]'))return;var s=document.createElement('script');s.src=S;s.setAttribute('data-i18n-runtime','');document.head.appendChild(s);}window.civgraphLangReveal=function(){try{localStorage.setItem(K,'1');}catch(e){}load();};try{if(/[?&]lang-preview=0(?:&|$)/.test(location.search)){localStorage.removeItem(K);localStorage.removeItem('civgraph.lang');}on=localStorage.getItem(K)==='1';}catch(e){}if(on)load();})();</script>
+<link rel="stylesheet" href="/assets/ui/tokens.css?v=9a3dca6e608e">
+<link rel="stylesheet" href="/assets/ui/tokens-legacy.css?v=17646fa133f3">
+<link rel="stylesheet" href="/assets/ui/base.css?v=3afe8b0c1381">
+<link rel="stylesheet" href="/assets/site/site-chrome.css?v=ac7ea448e3cb">
+<script defer src="/assets/site/site-chrome.js?v=e7ca07ca6dee"></script>
+<!-- /site:head -->
+<link rel="stylesheet" href="/assets/pages/css/shared.css">
+<link rel="stylesheet" href="/assets/pages/css/about.css?v=47fd44933677">
+<link rel="stylesheet" href="/assets/pages/css/info.css">
+</head>
+<body>
+<!-- site:header active="about" -->
+<a class="cg-skip-link" href="#main-content">Skip to main content</a>
+<header class="app-header" data-site-chrome data-header-layout="page">
+<a class="app-header__brand" href="/">
+<img alt="" class="app-header__logo-icon" src="/assets/pages/img/bd2feea987bf.svg"/>
+<span class="app-header__wordmark">Civgraph</span>
+</a>
+<button aria-controls="mainNav" aria-expanded="false" aria-label="Open navigation" class="mobile-menu-toggle" type="button">
+<svg aria-hidden="true" class="mobile-menu-toggle__menu" data-icon="lucide" data-icon-name="menu" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+<path d="M4 12h16"></path><path d="M4 6h16"></path><path d="M4 18h16"></path>
+</svg>
+<svg aria-hidden="true" class="mobile-menu-toggle__close" data-icon="lucide" data-icon-name="x" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+<path d="M18 6 6 18"></path><path d="m6 6 12 12"></path>
+</svg>
+</button>
+<nav aria-label="Main navigation" class="app-header__nav" id="mainNav">
+<a class="app-header__link" href="/"><svg aria-hidden="true" class="icon" data-icon="lucide" data-icon-name="house" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+<path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
+<path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span>Home</span></a>
+<a class="app-header__link" href="/maps/"><svg aria-hidden="true" class="icon" data-icon="lucide" data-icon-name="map" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+<path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"></path>
+<path d="M15 5.764v15"></path><path d="M9 3.236v15"></path></svg><span>Maps</span></a>
+<a class="app-header__link" href="/browse/"><svg aria-hidden="true" class="icon" data-icon="lucide" data-icon-name="search" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+<circle cx="11" cy="11" r="8"></circle>
+<path d="m21 21-4.3-4.3"></path></svg><span>Browse</span></a>
+<a class="app-header__link" href="/apps/"><svg aria-hidden="true" class="icon" data-icon="lucide" data-icon-name="layout-grid" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+<rect height="7" rx="1" width="7" x="3" y="3"></rect>
+<rect height="7" rx="1" width="7" x="14" y="3"></rect>
+<rect height="7" rx="1" width="7" x="14" y="14"></rect>
+<rect height="7" rx="1" width="7" x="3" y="14"></rect></svg><span>Apps</span></a>
+<a class="app-header__link app-header__link--active" href="/pages/about.html" aria-current="page"><svg aria-hidden="true" class="icon" data-icon="lucide" data-icon-name="info" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+<circle cx="12" cy="12" r="10"></circle>
+<path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg><span>About</span></a>
+<button aria-controls="supportModal" aria-haspopup="dialog" class="support-btn" data-support-open id="supportBtn" title="Support Civgraph" type="button">
+<svg aria-hidden="true" class="support-btn__icon" data-icon="lucide" data-icon-name="heart" fill="currentColor" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="16">
+<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+<span class="support-btn__text">Support Us</span>
+</button>
+<button aria-label="Toggle dark mode" class="theme-toggle" data-theme-toggle id="themeToggle" title="Toggle dark mode" type="button">
+<svg aria-hidden="true" class="theme-toggle__icon--sun" data-icon="lucide" data-icon-name="sun" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+<circle cx="12" cy="12" r="4"></circle>
+<path d="M12 2v2"></path><path d="M12 20v2"></path>
+<path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path>
+<path d="M2 12h2"></path><path d="M20 12h2"></path>
+<path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
+<svg aria-hidden="true" class="theme-toggle__icon--moon" data-icon="lucide" data-icon-name="moon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9"></path></svg>
+</button>
+</nav>
+</header>
+<!-- /site:header -->
+<section class="hero hero--interior">
+<div class="wrap wrap--wide hero__grid hero__grid--single"><div class="hero__copy"><h1>Downloads</h1><p class="lede">Everything behind Civgraph's records, in files you can download whole: the records database and the linked-data graph.</p></div></div>
+</section>
+<main id="main-content">
+<div class="wrap wrap--wide">
+<p class="draft-banner"><strong>Draft for approval, 11 Nov 2026.</strong> Nothing on this page is final. Notes marked <span class="owner-note">OWNER</span> are points the drafter could not verify, or decisions only the owner can make. They are removed, with this banner, when the page is approved.</p>
+<nav class="info-toc" aria-label="On this page"><a href="#files">The files</a><a href="#database">The records database</a><a href="#graph">The graph</a><a href="#versions">Versions and checksums</a><a href="#licence">Licence</a><a href="#api">API</a></nav>
+
+<section id="files">
+<h2>The files</h2>
+<p>All files are compressed with gzip and served from <code>data.civgraph.net</code>. The list below is read from the <a href="https://data.civgraph.net/data/downloads/manifest.json">downloads manifest</a> when the page loads, so it shows the current release.</p>
+<p class="manifest-status" id="manifest-status">Release <code id="manifest-version">e97ec87cc8acb0f0</code>, as published on 9 November 2026.</p>
+<div class="table-scroll">
+<table class="info-table" id="download-files">
+<thead><tr><th>File</th><th>Size</th><th>What it is</th></tr></thead>
+<tbody>
+<tr><td><a href="https://data.civgraph.net/data/downloads/civgraph-records-e97ec87cc8acb0f0.sqlite.gz">civgraph-records-e97ec87cc8acb0f0.sqlite.gz</a><small class="sha">SHA-256 19bb27034016f1b43eb5bb13846d2a038580887d8fca02777978094be5a59214</small></td><td class="num">587 MB</td><td>The records database, this release. SQLite 3.</td></tr>
+<tr><td><a href="https://data.civgraph.net/data/downloads/civgraph-records-latest.sqlite.gz">civgraph-records-latest.sqlite.gz</a><small class="sha">SHA-256 19bb27034016f1b43eb5bb13846d2a038580887d8fca02777978094be5a59214</small></td><td class="num">587 MB</td><td>The same database, always the newest release. Use the versioned name in citations.</td></tr>
+<tr><td><a href="https://data.civgraph.net/data/downloads/civgraph-graph-shards.tar.gz">civgraph-graph-shards.tar.gz</a><small class="sha">SHA-256 bc1495ff391b25830f09789cc69f9fca26f62a213d7a84d51e87ef44c0b6bc22</small></td><td class="num">269 MB</td><td>The full linked-data graph: JSON-LD, RDF and provenance exports and the statement files, as a tar archive.</td></tr>
+<tr><td><a href="https://data.civgraph.net/data/downloads/civgraph.jsonld.gz">civgraph.jsonld.gz</a><small class="sha">SHA-256 6830b057f61e7e1633515f021cec68208ce4260a421ee2007f6d3692c6fbd940</small></td><td class="num">15 kB</td><td>Index of the JSON-LD export. The data itself is in the graph archive.</td></tr>
+<tr><td><a href="https://data.civgraph.net/data/downloads/civgraph-rdf.ndjson.gz">civgraph-rdf.ndjson.gz</a><small class="sha">SHA-256 0c74ade832fea0e7e56014e7a7c667632ab596428f5bdc0771adf76961abe8e7</small></td><td class="num">7 kB</td><td>Index of the RDF export (newline-delimited JSON). The data itself is in the graph archive.</td></tr>
+<tr><td><a href="https://data.civgraph.net/data/downloads/civgraph-provenance.json.gz">civgraph-provenance.json.gz</a><small class="sha">SHA-256 b2f3f58e3b69ccd743b708e947093a86c0028d67225e61ddb873a58653cfd3b7</small></td><td class="num">2 kB</td><td>Index of the provenance export. The data itself is in the graph archive.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Single maps and sources can be downloaded from their own pages in <a href="/browse/">Browse</a>, under "Downloads &amp; files", where a download is offered.</p>
+</section>
+
+<section id="database">
+<h2>The records database</h2>
+<p>The database is the one the site itself answers from: one SQLite file holding every election, contest, candidacy and count, the people and parties linked to them, offices, parliamentary divisions and votes, registers of members' interests, the map catalogue, the source catalogue with its citations, and the linked-data graph. When it was measured on 9 November 2026 it held 21,010 contests, 76,994 candidacies, 44,690 citations, 1,339 map layers and 307,826 graph entities.</p>
+<p>Unzip it and open it with any SQLite tool, for example <code>sqlite3 civgraph-records-latest.sqlite</code> or DB Browser for SQLite. The <code>dataset</code> table holds its version. Each record cites its source in the <code>citations</code> and provenance tables.</p>
+<p><span class="owner-note">OWNER: decide whether to publish a short schema guide (table by table) with the downloads. The schema is in packages/schema/migrations/ in the repository.</span></p>
+</section>
+
+<section id="graph">
+<h2>The graph</h2>
+<p>Civgraph links people, places, elections, offices and sources into a graph of entities and statements. The graph archive holds it in JSON-LD and RDF, with provenance for each statement. The three small <code>.gz</code> files list what the archive holds.</p>
+<p><span class="owner-note">OWNER: the JSON-LD uses identifiers under <code>https://civgraph.org/id/</code>, which do not resolve (the launch QA, item M11). Either redirect them to civgraph.net or move the identifiers to civgraph.net before this page invites linked-data use.</span></p>
+</section>
+
+<section id="versions">
+<h2>Versions and checksums</h2>
+<p>Each release of the records database has a version, a short code that also appears in its file name. A versioned file never changes once published; <code>-latest</code> always points to the newest. Check a download against the SHA-256 in the manifest, for example with <code>sha256sum</code> on Linux, <code>shasum -a 256</code> on macOS or <code>certutil -hashfile &lt;file&gt; SHA256</code> on Windows.</p>
+<p>To cite a release, see <a href="/pages/cite.html#dataset">How to cite</a>.</p>
+<p><span class="owner-note">OWNER: confirm a versioned file is never overwritten (the version comes from the database's <code>dataset</code> table; nothing in the upload stops a rebuild reusing it). Decide how long older versioned files stay downloadable (only the newest is on R2 today), and whether to deposit releases with Zenodo for a DOI.</span></p>
+</section>
+
+<section id="licence">
+<h2>Licence</h2>
+<p>The downloads contain Civgraph's own work and material from many sources, each under its own licence. Every record names its source. See <a href="/pages/licence.html">Licence</a> for what you may do and how to credit it. The records include names and public records of candidates and office-holders; see <a href="/pages/privacy.html">Privacy</a>.</p>
+<p><span class="owner-note">OWNER: the manifest's licence field points to About; change it to this page's Licence link once the licence decision is made.</span></p>
+</section>
+
+<section id="api" class="owner-decision">
+<h2>OWNER DECISION: advertise the API?</h2>
+<p>The site has a versioned, read-only API that is live but not advertised. If you approve, this section is published as it stands; if not, delete it.</p>
+<h3>API</h3>
+<p>Civgraph's records can also be queried one at a time through a read-only JSON API at <a href="/api/v1"><code>https://civgraph.net/api/v1</code></a>. The index lists every endpoint and its parameters, and <a href="/api/v1/openapi.json"><code>/api/v1/openapi.json</code></a> describes them in OpenAPI 3.1. It answers <code>GET</code> and <code>HEAD</code>. Endpoints cover elections, people, parties, sources and citations, registers of interests, parliamentary votes, the graph, headline counts, the map catalogue and layers, map feature search, and the PRONI eCatalogue.</p>
+<p>Version 1 changes only by adding things: parameters, fields and endpoints may be added, but none is removed or changed in meaning. An incompatible change would be a new version, and v1 would keep answering.</p>
+<p>For anything more than a few thousand requests, please use the downloads instead.</p>
+<p><span class="owner-note">OWNER: confirm whether there are rate limits to state, and whether the PRONI endpoints (including CSV export) should be advertised.</span></p>
+</section>
+</div>
+</main>
+<!-- site:footer -->
+<footer class="ftr">
+<div class="ftr__inner">
+<div class="ftr__top">
+<a aria-label="Civgraph home" class="ftr__brand" href="/">
+<img alt="" class="ftr__logo" src="/assets/pages/img/bd2feea987bf.svg"/>
+<span class="ftr__wordmark">Civgraph</span>
+</a>
+<nav aria-label="Footer navigation" class="ftr__nav">
+<a href="/maps/">Maps</a>
+<a href="/browse/">Browse</a>
+<a href="/pages/about.html">About</a>
+<a href="mailto:scott@civgraph.net?subject=Civgraph%20map%20submission&body=What%20the%20map%20shows%20%28the%20area%2C%20the%20subject%2C%20and%20the%20year%20or%20period%20it%20covers%29%3A%0A%0A%0AWhere%20it%20came%20from%20%28who%20made%20it%2C%20and%20where%20you%20got%20it%29%3A%0A%0A%0AWhat%20form%20it%20is%20in%20%28a%20scan%2C%20a%20PDF%2C%20a%20shapefile%2C%20GeoJSON%2C%20or%20something%20else%29%3A%0A%0A%0AWhether%20it%20can%20be%20republished%2C%20and%20under%20what%20licence%2C%20if%20you%20know%3A%0A%0A%0AYour%20name%2C%20if%20you%20would%20like%20the%20contribution%20credited%3A%0A%0A">Submit a map</a>
+</nav>
+</div>
+<div class="ftr__rule"></div>
+<div class="ftr__bottom">
+<p class="ftr__tagline">All the data on Ireland’s history, geography, politics and demographics.</p>
+<div class="ftr__meta">© Civgraph</div>
+</div>
+</div>
+</footer>
+<!-- /site:footer -->
+<!-- site:support-modal -->
+<div aria-label="Support Civgraph" aria-modal="true" class="support-modal hidden" id="supportModal" role="dialog">
+<div class="support-modal__backdrop"></div>
+<div class="support-modal__content">
+<div class="support-modal__header">
+<h2 class="support-modal__title">Support Civgraph</h2>
+<button aria-label="Close" class="support-modal__close" type="button">&times;</button>
+</div>
+<div class="support-modal__options">
+<a class="support-modal__option support-modal__option--kofi" href="https://ko-fi.com/scottmoore0" rel="noopener noreferrer" target="_blank">
+<svg aria-hidden="true" class="support-modal__logo" fill="none" height="28" viewBox="0 0 24 24" width="28" xmlns="http://www.w3.org/2000/svg">
+<path d="M23 2H3.5C2.67 2 2 2.67 2 3.5V17.5C2 18.33 2.67 19 3.5 19H16.5C17.33 19 18 18.33 18 17.5V15H19.5C21.43 15 23 13.43 23 11.5V5.5C23 3.57 21.43 2 19.5 2H23ZM19.5 13H18V4H19.5C20.33 4 21 4.67 21 5.5V11.5C21 12.33 20.33 13 19.5 13Z" fill="currentColor"/>
+<path d="M12.5 7C12 6.5 11.3 6.2 10.5 6.2C9.7 6.2 9 6.5 8.5 7C8 6.5 7.3 6.2 6.5 6.2C4.8 6.2 3.5 7.5 3.5 9.2C3.5 12.3 8.5 15 8.5 15C8.5 15 13.5 12.3 13.5 9.2C13.5 7.5 12.2 6.2 10.5 6.2" fill="currentColor"/>
+</svg>
+<div>
+<strong>Tip me via Ko-fi</strong>
+<span>One-off tip, from as little as £3</span>
+</div>
+</a>
+<a class="support-modal__option support-modal__option--sub" href="https://scottmoore.xyz/p/support-the-boundaries-website" rel="noopener noreferrer" target="_blank">
+<svg aria-hidden="true" class="support-modal__logo" fill="none" height="28" viewBox="0 0 24 24" width="28" xmlns="http://www.w3.org/2000/svg">
+<path d="M22 4.01H2V6.01H22V4.01Z" fill="currentColor"/>
+<path d="M22 8.01H2V10.01H22V8.01Z" fill="currentColor"/>
+<path d="M2 12.01V22.01L12 16.01L22 22.01V12.01H2Z" fill="currentColor"/>
+</svg>
+<div>
+<strong>Become a subscriber via Substack</strong>
+<span>£5/month or £45/year</span>
+</div>
+</a>
+</div>
+<div class="support-modal__author">
+<img alt="Scott Moore" class="support-modal__avatar" decoding="async" height="64" loading="lazy" src="/assets/images/scott-moore.jpg" width="64">
+<p class="support-modal__author-label">A message from Scott Moore:</p>
+</div>
+<div class="support-modal__message">
+<p>Support the work of myself and other contributors with a one-off tip, or a subscription of £5 a month, or £45 a year.</p>
+<p>I've gone out of pocket to put together Civgraph, through subscriptions to newspaper archives, buying a better computer to enable me to produce maps like the 1984 and 1972 council wards maps in digitised formats, and spending on tools to help me develop the website.</p>
+<p>With your support, I can cover the costs I incur month to month, work with volunteers to make a greater range of maps available, expand the features on the website, and extend the website beyond maps and boundaries, to include data like election results, Hansard and biographies, all in one place.</p>
+<p>All support is appreciated, but if you can't help, don't worry - I release all my maps under an open source license (Creative Commons BY-SA 4.0), and the content of the site will be free forever.</p>
+</div>
+</div>
+</div>
+<!-- /site:support-modal -->
+<script>
+// The file list comes from the live manifest when it can, so the page does not go stale with
+// each release; the table above is the snapshot shown if the manifest cannot be read.
+(function () {
+  var MANIFEST = 'https://data.civgraph.net/data/downloads/manifest.json';
+  var BASE = 'https://data.civgraph.net/data/downloads/';
+  var WHAT = [
+    [/^civgraph-records-latest\.sqlite\.gz$/, 'The same database, always the newest release. Use the versioned name in citations.'],
+    [/^civgraph-records-.+\.sqlite\.gz$/, 'The records database, this release. SQLite 3.'],
+    [/^civgraph-graph-shards\.tar\.gz$/, 'The full linked-data graph: JSON-LD, RDF and provenance exports and the statement files, as a tar archive.'],
+    [/^civgraph\.jsonld\.gz$/, 'Index of the JSON-LD export. The data itself is in the graph archive.'],
+    [/^civgraph-rdf\.ndjson\.gz$/, 'Index of the RDF export (newline-delimited JSON). The data itself is in the graph archive.'],
+    [/^civgraph-provenance\.json\.gz$/, 'Index of the provenance export. The data itself is in the graph archive.']
+  ];
+  function size(bytes) {
+    if (bytes >= 1e6) return Math.round(bytes / 1e6).toLocaleString('en-GB') + ' MB';
+    return Math.max(1, Math.round(bytes / 1e3)) + ' kB';
+  }
+  function cell(tag, text, cls) {
+    var el = document.createElement(tag);
+    if (cls) el.className = cls;
+    if (text) el.textContent = text;
+    return el;
+  }
+  if (!window.fetch) return;
+  fetch(MANIFEST, { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (m) {
+    if (!m || !Array.isArray(m.files) || !m.files.length) return;
+    var body = document.querySelector('#download-files tbody');
+    if (!body) return;
+    var rows = document.createDocumentFragment();
+    m.files.forEach(function (f) {
+      if (!f || typeof f.name !== 'string' || !/^[A-Za-z0-9._-]+$/.test(f.name)) return;
+      var what = '';
+      for (var i = 0; i < WHAT.length; i++) if (WHAT[i][0].test(f.name)) { what = WHAT[i][1]; break; }
+      var tr = document.createElement('tr');
+      var name = cell('td');
+      var a = cell('a', f.name);
+      a.href = BASE + f.name;
+      name.appendChild(a);
+      if (f.sha256) name.appendChild(cell('small', 'SHA-256 ' + f.sha256, 'sha'));
+      tr.appendChild(name);
+      tr.appendChild(cell('td', size(Number(f.bytes) || 0), 'num'));
+      tr.appendChild(cell('td', what));
+      rows.appendChild(tr);
+    });
+    if (!rows.childNodes.length) return;
+    body.textContent = '';
+    body.appendChild(rows);
+    var v = document.getElementById('manifest-version');
+    var s = document.getElementById('manifest-status');
+    if (v && m.version) v.textContent = m.version;
+    if (s && m.version) s.lastChild.textContent = ', read from the manifest just now.';
+  }).catch(function () { /* keep the snapshot */ });
+})();
+</script>
+</body>
+</html>
