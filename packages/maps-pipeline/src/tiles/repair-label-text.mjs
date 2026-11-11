@@ -22,6 +22,8 @@
  *   node packages/maps-pipeline/src/tiles/repair-label-text.mjs --write --in-place   replace the sources (keeps <file>.before-label-repair)
  *   --root <dir>   where the source paths resolve (default: the current directory)
  *   --layers a,b   only these layers
+ *   --repairs <file>   another repairs file (tests)
+ *   --out <dir>    where --write puts the repaired copies (default tmp/label-text-repairs)
  *
  * After --in-place, rebuild the layers' PMTiles and upload them (owner approval): see LANDING.md.
  */
@@ -37,8 +39,8 @@ const ROOT = resolve(argValue('--root') || process.cwd());
 const WRITE = args.includes('--write');
 const IN_PLACE = args.includes('--in-place');
 const ONLY = new Set(String(argValue('--layers') || '').split(',').map((s) => s.trim()).filter(Boolean));
-const REPAIRS = JSON.parse(readFileSync(resolve(process.cwd(), 'data/database/label-text-repairs.json'), 'utf8'));
-const OUT_DIR = resolve(process.cwd(), 'tmp/label-text-repairs');
+const REPAIRS = JSON.parse(readFileSync(resolve(process.cwd(), argValue('--repairs') || 'data/database/label-text-repairs.json'), 'utf8'));
+const OUT_DIR = resolve(process.cwd(), argValue('--out') || 'tmp/label-text-repairs');
 
 /** @typedef {{ field: string, key?: string, byKey?: Map<string, { damaged: string, value: string }>, byValue?: Record<string, string>, nfc?: boolean }} Plan */
 
