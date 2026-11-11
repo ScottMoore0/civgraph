@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-07T02:59:00.618Z",
-  "description": "Progress of Civgraph's sources, elections and maps, as shown on /pages/status.html. Each total states its basis. Built by scripts/build-status.mjs; generatedAt is when a figure last changed.",
+  "generatedAt": "2026-11-11T14:23:09.383Z",
+  "description": "Progress of Civgraph's sources, elections and maps, as shown on /pages/status.html. Each total states its basis. Built by scripts/build/build-status.mjs; generatedAt is when a figure last changed.",
   "figures": {
     "sources": [
       {
@@ -2083,8 +2083,8 @@
         "id": "government-and-administration",
         "name": "Government & Administration",
         "totals": {
-          "known": 134,
-          "complete": 79,
+          "known": 120,
+          "complete": 65,
           "partial": 55,
           "notDrawn": 0,
           "versions": 10
@@ -2121,21 +2121,6 @@
             "versions": 1
           },
           {
-            "id": "local-government-poor-law-unions--ireland",
-            "name": "Poor Law Unions",
-            "scope": "Ireland",
-            "shelf": "government-and-administration",
-            "years": [
-              1850,
-              1921
-            ],
-            "known": 8,
-            "complete": 8,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 3
-          },
-          {
             "id": "local-government-towns-improvement-act-towns",
             "name": "Towns under the Towns Improvement Act",
             "scope": "Northern Ireland",
@@ -2158,21 +2143,6 @@
             "years": [
               1899,
               1920
-            ],
-            "known": 5,
-            "complete": 5,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
-            "id": "public-service-areas-dispensary-districts",
-            "name": "Dispensary Districts",
-            "scope": "Republic of Ireland",
-            "shelf": "government-and-administration",
-            "years": [
-              1926,
-              1956
             ],
             "known": 5,
             "complete": 5,
@@ -2226,19 +2196,19 @@
             "versions": 0
           },
           {
-            "id": "public-service-areas-dispensary-districts--northern-ireland",
-            "name": "Dispensary Districts",
-            "scope": "Northern Ireland",
+            "id": "local-government-poor-law-unions--ireland",
+            "name": "Poor Law Unions",
+            "scope": "Ireland",
             "shelf": "government-and-administration",
             "years": [
-              1921,
-              1929
+              1901,
+              1921
             ],
             "known": 3,
             "complete": 3,
             "partial": 0,
             "notDrawn": 0,
-            "versions": 0
+            "versions": 3
           },
           {
             "id": "public-service-areas-education-and-library-boards",
@@ -2290,21 +2260,6 @@
             "years": [
               1921,
               1924
-            ],
-            "known": 2,
-            "complete": 2,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
-            "id": "local-government-rural-and-urban-districts--ireland",
-            "name": "Rural and Urban Districts",
-            "scope": "Ireland",
-            "shelf": "government-and-administration",
-            "years": [
-              1901,
-              1911
             ],
             "known": 2,
             "complete": 2,
@@ -2368,6 +2323,18 @@
             "partial": 0,
             "notDrawn": 0,
             "versions": 2
+          },
+          {
+            "id": "settlements-rural-areas",
+            "name": "Rural Districts",
+            "scope": "Republic of Ireland",
+            "shelf": "government-and-administration",
+            "years": null,
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
           }
         ]
       },
@@ -2643,11 +2610,11 @@
         "id": "people-and-places",
         "name": "People & Places",
         "totals": {
-          "known": 121,
-          "complete": 121,
+          "known": 114,
+          "complete": 114,
           "partial": 0,
           "notDrawn": 0,
-          "versions": 1
+          "versions": 2
         },
         "series": [
           {
@@ -2661,6 +2628,21 @@
             ],
             "known": 8,
             "complete": 8,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "census-statistics-ni-multiple-deprivation-measure",
+            "name": "Multiple Deprivation Measure",
+            "scope": "Northern Ireland",
+            "shelf": "people-and-places",
+            "years": [
+              2005,
+              2017
+            ],
+            "known": 7,
+            "complete": 7,
             "partial": 0,
             "notDrawn": 0,
             "versions": 0
@@ -2733,21 +2715,6 @@
             "years": [
               2003,
               2011
-            ],
-            "known": 4,
-            "complete": 4,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
-            "id": "census-statistics-pobal-hp-deprivation-index--eds",
-            "name": "Pobal HP Deprivation Index (Electoral Divisions)",
-            "scope": "Republic of Ireland",
-            "shelf": "people-and-places",
-            "years": [
-              2006,
-              2022
             ],
             "known": 4,
             "complete": 4,
@@ -2846,36 +2813,6 @@
             "versions": 0
           },
           {
-            "id": "census-statistics-ni-multiple-deprivation-measure--small-areas",
-            "name": "Multiple Deprivation Measure (Small Areas and Output Areas)",
-            "scope": "Northern Ireland",
-            "shelf": "people-and-places",
-            "years": [
-              2005,
-              2017
-            ],
-            "known": 3,
-            "complete": 3,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
-            "id": "census-statistics-ni-multiple-deprivation-measure--soa",
-            "name": "Multiple Deprivation Measure (Super Output Areas)",
-            "scope": "Northern Ireland",
-            "shelf": "people-and-places",
-            "years": [
-              2005,
-              2017
-            ],
-            "known": 3,
-            "complete": 3,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
             "id": "census-statistics-no-qualifications",
             "name": "No qualifications",
             "scope": "Northern Ireland",
@@ -2949,21 +2886,6 @@
             "partial": 0,
             "notDrawn": 0,
             "versions": 0
-          },
-          {
-            "id": "settlements-settlements",
-            "name": "Settlements",
-            "scope": "Republic of Ireland",
-            "shelf": "people-and-places",
-            "years": [
-              2011,
-              2015
-            ],
-            "known": 3,
-            "complete": 3,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 1
           },
           {
             "id": "census-small-areas--ni",
@@ -3057,7 +2979,7 @@
           },
           {
             "id": "census-census-electoral-divisions",
-            "name": "Census Electoral Divisions",
+            "name": "CSO Electoral Divisions",
             "scope": "Republic of Ireland",
             "shelf": "people-and-places",
             "years": [
@@ -3069,6 +2991,21 @@
             "partial": 0,
             "notDrawn": 0,
             "versions": 0
+          },
+          {
+            "id": "settlements-settlements",
+            "name": "Settlements",
+            "scope": "Republic of Ireland",
+            "shelf": "people-and-places",
+            "years": [
+              2011,
+              2015
+            ],
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 2
           },
           {
             "id": "settlements-settlements--ni",
@@ -3118,7 +3055,7 @@
           {
             "id": "settlements-built-up-areas",
             "name": "Built-Up Areas",
-            "scope": "Ireland",
+            "scope": "Republic of Ireland",
             "shelf": "people-and-places",
             "years": null,
             "known": 1,
@@ -3130,7 +3067,7 @@
           {
             "id": "settlements-built-up-areas--points",
             "name": "Built-Up Areas (points)",
-            "scope": "Ireland",
+            "scope": "Republic of Ireland",
             "shelf": "people-and-places",
             "years": null,
             "known": 1,
@@ -3183,7 +3120,7 @@
           },
           {
             "id": "settlements-geographical-names",
-            "name": "Geographical Names",
+            "name": "Geographical Regions",
             "scope": "Republic of Ireland",
             "shelf": "people-and-places",
             "years": null,
@@ -3209,18 +3146,6 @@
             "versions": 0
           },
           {
-            "id": "place-and-street-names-locales",
-            "name": "Locales",
-            "scope": "Republic of Ireland",
-            "shelf": "people-and-places",
-            "years": null,
-            "known": 1,
-            "complete": 1,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
             "id": "census-statistics-median-age",
             "name": "Median age",
             "scope": "Northern Ireland",
@@ -3228,21 +3153,6 @@
             "years": [
               2011,
               2011
-            ],
-            "known": 1,
-            "complete": 1,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
-            "id": "census-statistics-multiple-deprivation-measure-rank",
-            "name": "Multiple Deprivation Measure rank",
-            "scope": "Northern Ireland",
-            "shelf": "people-and-places",
-            "years": [
-              2017,
-              2017
             ],
             "known": 1,
             "complete": 1,
@@ -3308,20 +3218,8 @@
             "versions": 0
           },
           {
-            "id": "settlements-rural-areas",
-            "name": "Rural Areas",
-            "scope": "Republic of Ireland",
-            "shelf": "people-and-places",
-            "years": null,
-            "known": 1,
-            "complete": 1,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
             "id": "place-and-street-names-street-names-gazetteer",
-            "name": "Street Names Gazetteer",
+            "name": "Street Names",
             "scope": "Northern Ireland",
             "shelf": "people-and-places",
             "years": null,
@@ -3337,11 +3235,11 @@
         "id": "planning-and-property",
         "name": "Planning & Property",
         "totals": {
-          "known": 59,
-          "complete": 59,
+          "known": 70,
+          "complete": 70,
           "partial": 0,
           "notDrawn": 0,
-          "versions": 0
+          "versions": 1
         },
         "series": [
           {
@@ -3368,8 +3266,23 @@
               2016,
               2016
             ],
-            "known": 10,
-            "complete": 10,
+            "known": 12,
+            "complete": 12,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "development-plans-and-zoning-roscommon-county-development-plan",
+            "name": "County Development Plan 2022–2028 (Roscommon)",
+            "scope": "Republic of Ireland",
+            "shelf": "planning-and-property",
+            "years": [
+              2022,
+              2022
+            ],
+            "known": 6,
+            "complete": 6,
             "partial": 0,
             "notDrawn": 0,
             "versions": 0
@@ -3390,7 +3303,22 @@
             "versions": 0
           },
           {
-            "id": "development-plans-and-zoning-roscommon-county-development-plan",
+            "id": "development-plans-and-zoning-roscommon-county-development-plan-2014--points",
+            "name": "County Development Plan 2014–2020 (Roscommon)",
+            "scope": "Republic of Ireland",
+            "shelf": "planning-and-property",
+            "years": [
+              2014,
+              2014
+            ],
+            "known": 5,
+            "complete": 5,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "development-plans-and-zoning-roscommon-county-development-plan--points",
             "name": "County Development Plan 2022–2028 (Roscommon)",
             "scope": "Republic of Ireland",
             "shelf": "planning-and-property",
@@ -3400,6 +3328,30 @@
             ],
             "known": 5,
             "complete": 5,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "housing-and-regeneration-housing-and-land",
+            "name": "Other",
+            "scope": "Ireland",
+            "shelf": "planning-and-property",
+            "years": null,
+            "known": 5,
+            "complete": 5,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "development-plans-and-zoning-dun-laoghaire-rathdown--points",
+            "name": "Development Plan (Dún Laoghaire-Rathdown)",
+            "scope": "Republic of Ireland",
+            "shelf": "planning-and-property",
+            "years": null,
+            "known": 4,
+            "complete": 4,
             "partial": 0,
             "notDrawn": 0,
             "versions": 0
@@ -3420,56 +3372,8 @@
             "versions": 0
           },
           {
-            "id": "planning-applications-and-registers-planning-registers",
-            "name": "Planning Registers",
-            "scope": "Republic of Ireland",
-            "shelf": "planning-and-property",
-            "years": null,
-            "known": 4,
-            "complete": 4,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
-            "id": "housing-and-regeneration-housing-and-land",
-            "name": "Housing, Land & Regeneration",
-            "scope": "Ireland",
-            "shelf": "planning-and-property",
-            "years": null,
-            "known": 3,
-            "complete": 3,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
-            "id": "property-land-and-buildings-parcels-buildings-and-sites",
-            "name": "Parcels, Buildings & Sites",
-            "scope": "Republic of Ireland",
-            "shelf": "planning-and-property",
-            "years": null,
-            "known": 3,
-            "complete": 3,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
-            "id": "housing-and-regeneration-housing-and-land--points",
-            "name": "Housing & Education Sites",
-            "scope": "Ireland",
-            "shelf": "planning-and-property",
-            "years": null,
-            "known": 2,
-            "complete": 2,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
             "id": "planning-applications-and-registers-planning-application-boundaries--points",
-            "name": "Planning Application Points",
+            "name": "Planning Applications",
             "scope": "Republic of Ireland",
             "shelf": "planning-and-property",
             "years": null,
@@ -3480,13 +3384,28 @@
             "versions": 0
           },
           {
-            "id": "planning-applications-and-registers-planning-exemptions",
-            "name": "Planning Exemptions",
+            "id": "development-plans-and-zoning-roscommon-county-development-plan-2014",
+            "name": "County Development Plan 2014–2020 (Roscommon)",
+            "scope": "Republic of Ireland",
+            "shelf": "planning-and-property",
+            "years": [
+              2014,
+              2014
+            ],
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "planning-applications-and-registers-derelict-sites",
+            "name": "Derelict Sites",
             "scope": "Republic of Ireland",
             "shelf": "planning-and-property",
             "years": null,
-            "known": 2,
-            "complete": 2,
+            "known": 1,
+            "complete": 1,
             "partial": 0,
             "notDrawn": 0,
             "versions": 0
@@ -3501,11 +3420,23 @@
             "complete": 1,
             "partial": 0,
             "notDrawn": 0,
-            "versions": 0
+            "versions": 1
           },
           {
             "id": "planning-applications-and-registers-planning-registers--points",
-            "name": "Planning Register Points",
+            "name": "Planning Register",
+            "scope": "Republic of Ireland",
+            "shelf": "planning-and-property",
+            "years": null,
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "planning-applications-and-registers-planning-registers",
+            "name": "Planning Registers (South Dublin)",
             "scope": "Republic of Ireland",
             "shelf": "planning-and-property",
             "years": null,
@@ -3521,11 +3452,11 @@
         "id": "transport",
         "name": "Transport",
         "totals": {
-          "known": 115,
-          "complete": 115,
+          "known": 107,
+          "complete": 107,
           "partial": 0,
           "notDrawn": 0,
-          "versions": 0
+          "versions": 1
         },
         "series": [
           {
@@ -3545,12 +3476,36 @@
           },
           {
             "id": "cycling-and-walking-bicycle-parking-stands",
-            "name": "Cycle Parking & Bike Share",
+            "name": "Cycling Infrastructure",
             "scope": "Republic of Ireland",
             "shelf": "transport",
             "years": null,
-            "known": 9,
-            "complete": 9,
+            "known": 11,
+            "complete": 11,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "roads-and-traffic-traffic-management-and-signs",
+            "name": "Road Signs & Infrastructure",
+            "scope": "Ireland",
+            "shelf": "transport",
+            "years": null,
+            "known": 10,
+            "complete": 10,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 1
+          },
+          {
+            "id": "roads-and-traffic-road-network",
+            "name": "Roads",
+            "scope": "Ireland",
+            "shelf": "transport",
+            "years": null,
+            "known": 10,
+            "complete": 10,
             "partial": 0,
             "notDrawn": 0,
             "versions": 0
@@ -3572,7 +3527,7 @@
           },
           {
             "id": "cycling-and-walking-cycle-network",
-            "name": "Cycle Network & Infrastructure",
+            "name": "Cycling Routes",
             "scope": "Ireland",
             "shelf": "transport",
             "years": [
@@ -3613,21 +3568,9 @@
             "versions": 0
           },
           {
-            "id": "roads-and-traffic-road-network",
-            "name": "Road Network",
-            "scope": "Republic of Ireland",
-            "shelf": "transport",
-            "years": null,
-            "known": 6,
-            "complete": 6,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
-            "id": "roads-and-traffic-traffic-management-and-signs",
-            "name": "Traffic Management & Road Signs",
-            "scope": "Republic of Ireland",
+            "id": "rail-and-public-transport-stations-and-stops",
+            "name": "Railway Stations & Infrastructure",
+            "scope": "Ireland",
             "shelf": "transport",
             "years": null,
             "known": 6,
@@ -3652,32 +3595,8 @@
             "versions": 0
           },
           {
-            "id": "rail-and-public-transport-ni-railways-infrastructure",
-            "name": "NI Railways Infrastructure",
-            "scope": "Northern Ireland",
-            "shelf": "transport",
-            "years": null,
-            "known": 4,
-            "complete": 4,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
-            "id": "roads-and-traffic-osni-50k-transport",
-            "name": "OSNI 50K Transport",
-            "scope": "Northern Ireland",
-            "shelf": "transport",
-            "years": null,
-            "known": 4,
-            "complete": 4,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
-            "id": "rail-and-public-transport-railway-lines",
-            "name": "Railway Lines & Signalling",
+            "id": "rail-and-public-transport-rail-network",
+            "name": "Railway Lines",
             "scope": "Ireland",
             "shelf": "transport",
             "years": null,
@@ -3714,60 +3633,12 @@
           {
             "id": "cycling-and-walking-border-crossings",
             "name": "Border Crossings",
-            "scope": "Northern Ireland",
+            "scope": "Ireland",
             "shelf": "transport",
             "years": [
               2018,
               2018
             ],
-            "known": 3,
-            "complete": 3,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
-            "id": "rail-and-public-transport-stations-and-stops",
-            "name": "Rail & Tram Stations",
-            "scope": "Ireland",
-            "shelf": "transport",
-            "years": null,
-            "known": 3,
-            "complete": 3,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
-            "id": "rail-and-public-transport-rail-network",
-            "name": "Rail Network",
-            "scope": "Republic of Ireland",
-            "shelf": "transport",
-            "years": null,
-            "known": 3,
-            "complete": 3,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
-            "id": "roads-and-traffic-road-junctions-and-interchanges",
-            "name": "Road Junctions & Interchanges",
-            "scope": "Republic of Ireland",
-            "shelf": "transport",
-            "years": null,
-            "known": 3,
-            "complete": 3,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
-            "id": "cycling-and-walking-walking-routes",
-            "name": "Walking Routes & Rights of Way",
-            "scope": "Republic of Ireland",
-            "shelf": "transport",
-            "years": null,
             "known": 3,
             "complete": 3,
             "partial": 0,
@@ -3787,33 +3658,9 @@
             "versions": 0
           },
           {
-            "id": "cycling-and-walking-counters",
-            "name": "Cycle & Pedestrian Counters",
-            "scope": "Republic of Ireland",
-            "shelf": "transport",
-            "years": null,
-            "known": 2,
-            "complete": 2,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
             "id": "parking-parking-meters",
             "name": "Parking Meters",
             "scope": "Republic of Ireland",
-            "shelf": "transport",
-            "years": null,
-            "known": 2,
-            "complete": 2,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
-            "id": "cycling-and-walking-pedestrian-crossings",
-            "name": "Pedestrian Crossings",
-            "scope": "Northern Ireland",
             "shelf": "transport",
             "years": null,
             "known": 2,
@@ -3838,8 +3685,8 @@
             "versions": 0
           },
           {
-            "id": "roads-and-traffic-tii-roadside-sensors",
-            "name": "TII Roadside Sensors",
+            "id": "cycling-and-walking-walking-routes",
+            "name": "Walking Routes",
             "scope": "Republic of Ireland",
             "shelf": "transport",
             "years": null,
@@ -3850,25 +3697,49 @@
             "versions": 0
           },
           {
-            "id": "roads-and-traffic-traffic-signals",
-            "name": "Traffic Signals",
+            "id": "roads-and-traffic-gdf2s",
+            "name": "GDF2s",
             "scope": "Republic of Ireland",
             "shelf": "transport",
             "years": null,
-            "known": 2,
-            "complete": 2,
+            "known": 1,
+            "complete": 1,
             "partial": 0,
             "notDrawn": 0,
             "versions": 0
           },
           {
-            "id": "roads-and-traffic-way-network",
-            "name": "Way Network",
+            "id": "rail-and-public-transport-luas",
+            "name": "Luas",
             "scope": "Republic of Ireland",
             "shelf": "transport",
             "years": null,
-            "known": 2,
-            "complete": 2,
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "cycling-and-walking-pedestrian-crossings",
+            "name": "Pedestrian Crossings",
+            "scope": "Northern Ireland",
+            "shelf": "transport",
+            "years": null,
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "roads-and-traffic-way-points",
+            "name": "Way Points",
+            "scope": "Republic of Ireland",
+            "shelf": "transport",
+            "years": null,
+            "known": 1,
+            "complete": 1,
             "partial": 0,
             "notDrawn": 0,
             "versions": 0
@@ -3879,8 +3750,8 @@
         "id": "heritage-and-culture",
         "name": "Heritage & Culture",
         "totals": {
-          "known": 65,
-          "complete": 65,
+          "known": 60,
+          "complete": 60,
           "partial": 0,
           "notDrawn": 0,
           "versions": 0
@@ -3942,21 +3813,6 @@
             "years": null,
             "known": 5,
             "complete": 5,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
-            "id": "built-heritage-and-protected-structures-architectural-conservation-areas",
-            "name": "Architectural Conservation Areas",
-            "scope": "Republic of Ireland",
-            "shelf": "heritage-and-culture",
-            "years": [
-              2014,
-              2022
-            ],
-            "known": 4,
-            "complete": 4,
             "partial": 0,
             "notDrawn": 0,
             "versions": 0
@@ -4037,21 +3893,6 @@
             "versions": 0
           },
           {
-            "id": "built-heritage-and-protected-structures-record-of-protected-structures-roscomm",
-            "name": "Record of Protected Structures - Roscommon CDP",
-            "scope": "Republic of Ireland",
-            "shelf": "heritage-and-culture",
-            "years": [
-              2014,
-              2022
-            ],
-            "known": 2,
-            "complete": 2,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
             "id": "regional-divides-the-bann-divide",
             "name": "Regional Divides",
             "scope": "Ireland",
@@ -4064,16 +3905,13 @@
             "versions": 0
           },
           {
-            "id": "archaeology-and-monuments-scheduled-historic-monument-areas",
-            "name": "Scheduled Historic Monument Areas",
-            "scope": "Northern Ireland",
+            "id": "built-heritage-and-protected-structures-architectural-conservation-areas",
+            "name": "Architectural Conservation Areas",
+            "scope": "Republic of Ireland",
             "shelf": "heritage-and-culture",
-            "years": [
-              2026,
-              2026
-            ],
-            "known": 2,
-            "complete": 2,
+            "years": null,
+            "known": 1,
+            "complete": 1,
             "partial": 0,
             "notDrawn": 0,
             "versions": 0
@@ -4148,6 +3986,18 @@
             "versions": 0
           },
           {
+            "id": "place-and-street-names-locales",
+            "name": "Locales",
+            "scope": "Republic of Ireland",
+            "shelf": "heritage-and-culture",
+            "years": null,
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
             "id": "conflict-and-segregation-peacelines",
             "name": "Peacelines",
             "scope": "Northern Ireland",
@@ -4160,11 +4010,14 @@
             "versions": 0
           },
           {
-            "id": "built-heritage-and-protected-structures-protected-structures",
-            "name": "Protected Structures",
-            "scope": "Republic of Ireland",
+            "id": "archaeology-and-monuments-scheduled-historic-monument-areas",
+            "name": "Scheduled Historic Monument Areas",
+            "scope": "Northern Ireland",
             "shelf": "heritage-and-culture",
-            "years": null,
+            "years": [
+              2026,
+              2026
+            ],
             "known": 1,
             "complete": 1,
             "partial": 0,
@@ -4187,6 +4040,18 @@
             "id": "archaeology-and-monuments-sites-and-monuments-records",
             "name": "Sites & Monuments Records",
             "scope": "Ireland",
+            "shelf": "heritage-and-culture",
+            "years": null,
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "built-heritage-and-protected-structures-topographic-sites",
+            "name": "Topographic Sites",
+            "scope": "Republic of Ireland",
             "shelf": "heritage-and-culture",
             "years": null,
             "known": 1,
@@ -4395,8 +4260,8 @@
             "versions": 0
           },
           {
-            "id": "municipal-services-and-utilities-water-supply--points",
-            "name": "Water Pipelines",
+            "id": "municipal-services-and-utilities-water-supply",
+            "name": "Water Districts (Roscommon)",
             "scope": "Republic of Ireland",
             "shelf": "local-services-and-amenities",
             "years": null,
@@ -4407,8 +4272,8 @@
             "versions": 0
           },
           {
-            "id": "municipal-services-and-utilities-water-supply",
-            "name": "Water Supply Areas & Pipelines",
+            "id": "municipal-services-and-utilities-water-supply--points",
+            "name": "Water Pipelines",
             "scope": "Republic of Ireland",
             "shelf": "local-services-and-amenities",
             "years": null,
@@ -4568,7 +4433,7 @@
           },
           {
             "id": "water-quality-drinking-water-protected-areas",
-            "name": "Drinking-Water Protected Areas",
+            "name": "Drinking Water Protected Areas",
             "scope": "Northern Ireland",
             "shelf": "water",
             "years": null,
@@ -4671,8 +4536,8 @@
         "id": "environment-and-land-use",
         "name": "Environment & Land Use",
         "totals": {
-          "known": 74,
-          "complete": 74,
+          "known": 65,
+          "complete": 65,
           "partial": 0,
           "notDrawn": 0,
           "versions": 0
@@ -4692,7 +4557,7 @@
           },
           {
             "id": "nature-habitats-and-designated-sites-designated-and-protected-sites",
-            "name": "Designated & Protected Sites",
+            "name": "Protected Areas",
             "scope": "Ireland",
             "shelf": "environment-and-land-use",
             "years": null,
@@ -4735,21 +4600,6 @@
             "scope": "Ireland",
             "shelf": "environment-and-land-use",
             "years": null,
-            "known": 4,
-            "complete": 4,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
-            "id": "landscape-and-scenic-amenity-scenic-views-roscommon-cdp",
-            "name": "Scenic Views & Prospects",
-            "scope": "Republic of Ireland",
-            "shelf": "environment-and-land-use",
-            "years": [
-              2014,
-              2022
-            ],
             "known": 4,
             "complete": 4,
             "partial": 0,
@@ -4823,21 +4673,6 @@
             "versions": 0
           },
           {
-            "id": "energy-and-climate-wind-energy-roscommon",
-            "name": "Wind Energy (Roscommon CDP)",
-            "scope": "Republic of Ireland",
-            "shelf": "environment-and-land-use",
-            "years": [
-              2014,
-              2022
-            ],
-            "known": 3,
-            "complete": 3,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
             "id": "landscape-and-scenic-amenity-landscape-character-types",
             "name": "Landscape Character Types",
             "scope": "Republic of Ireland",
@@ -4845,21 +4680,6 @@
             "years": [
               2014,
               2014
-            ],
-            "known": 2,
-            "complete": 2,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
-            "id": "landscape-and-scenic-amenity-scenic-routes-roscommon-cdp",
-            "name": "Scenic Routes - Roscommon CDP",
-            "scope": "Republic of Ireland",
-            "shelf": "environment-and-land-use",
-            "years": [
-              2014,
-              2022
             ],
             "known": 2,
             "complete": 2,

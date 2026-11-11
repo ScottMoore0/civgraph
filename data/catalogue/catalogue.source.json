@@ -53,7 +53,21 @@
     "housing-and-regeneration",
     "property-land-and-buildings"
    ],
-   "flat": true
+   "flat": true,
+   "last": [
+    "planning-applications-and-registers-planning-application-boundaries--points",
+    "planning-applications-and-registers-planning-registers--points",
+    "planning-applications-and-registers-planning-registers",
+    "planning-applications-and-registers-derelict-sites",
+    "development-plans-and-zoning-roscommon-county-development-plan",
+    "development-plans-and-zoning-roscommon-county-development-plan-2014",
+    "development-plans-and-zoning-roscommon-county-development-plan--points",
+    "development-plans-and-zoning-roscommon-county-development-plan-2014--points",
+    "development-plans-and-zoning-roscommon-local-area-plans",
+    "development-plans-and-zoning-dun-laoghaire-rathdown",
+    "development-plans-and-zoning-dun-laoghaire-rathdown--points",
+    "development-plans-and-zoning-other-councils"
+   ]
   },
   {
    "id": "transport",
@@ -71,7 +85,9 @@
     "roads-and-traffic-psni-road-traffic-collisions",
     "roads-and-traffic-tii-collision-rates",
     "roads-and-traffic-pothole-enquiries",
-    "roads-and-traffic-ni-road-surface-defects"
+    "roads-and-traffic-ni-road-surface-defects",
+    "roads-and-traffic-way-points",
+    "roads-and-traffic-gdf2s"
    ]
   },
   {
@@ -100,7 +116,10 @@
     "emergency-services",
     "enterprise-and-economy"
    ],
-   "flat": true
+   "flat": true,
+   "last": [
+    "municipal-services-and-utilities-water-supply"
+   ]
   },
   {
    "id": "water",
@@ -188,9 +207,9 @@
    "kind": "Boundary",
    "series": [
     "census-small-areas",
-    "census-census-electoral-divisions",
     "census-small-areas--ni",
     "census-super-output-area",
+    "census-census-electoral-divisions",
     "census-nuts-2-regions",
     "census-travel-to-work-areas",
     "census-census-grid"
@@ -202,12 +221,11 @@
    "name": "Settlements & Urban Areas",
    "kind": "Boundary",
    "series": [
+    "settlements-cso-urban-areas",
     "settlements-settlements",
     "settlements-settlements--ni",
-    "settlements-cso-urban-areas",
     "settlements-built-up-areas",
     "settlements-built-up-areas--points",
-    "settlements-rural-areas",
     "settlements-centres-of-population",
     "settlements-geographical-names",
     "settlements-highlands-without-settlements"
@@ -220,8 +238,7 @@
    "kind": "Dataset",
    "series": [
     "place-and-street-names-place-names-gazetteer",
-    "place-and-street-names-street-names-gazetteer",
-    "place-and-street-names-locales"
+    "place-and-street-names-street-names-gazetteer"
    ],
    "toBeAdded": []
   },
@@ -231,8 +248,12 @@
    "kind": "Dataset",
    "series": [
     "development-plans-and-zoning-roscommon-county-development-plan",
+    "development-plans-and-zoning-roscommon-county-development-plan-2014",
+    "development-plans-and-zoning-roscommon-county-development-plan--points",
+    "development-plans-and-zoning-roscommon-county-development-plan-2014--points",
     "development-plans-and-zoning-roscommon-local-area-plans",
     "development-plans-and-zoning-dun-laoghaire-rathdown",
+    "development-plans-and-zoning-dun-laoghaire-rathdown--points",
     "development-plans-and-zoning-other-councils"
    ],
    "toBeAdded": [],
@@ -245,9 +266,9 @@
    "series": [
     "planning-applications-and-registers-planning-application-boundaries",
     "planning-applications-and-registers-planning-application-boundaries--points",
-    "planning-applications-and-registers-planning-exemptions",
     "planning-applications-and-registers-planning-registers",
-    "planning-applications-and-registers-planning-registers--points"
+    "planning-applications-and-registers-planning-registers--points",
+    "planning-applications-and-registers-derelict-sites"
    ],
    "toBeAdded": []
   },
@@ -256,8 +277,7 @@
    "name": "Housing & Regeneration",
    "kind": "Dataset",
    "series": [
-    "housing-and-regeneration-housing-and-land",
-    "housing-and-regeneration-housing-and-land--points"
+    "housing-and-regeneration-housing-and-land"
    ],
    "toBeAdded": []
   },
@@ -266,8 +286,7 @@
    "name": "Property, Land & Buildings",
    "kind": "Dataset",
    "series": [
-    "property-land-and-buildings-ni-government-land-and-property-register",
-    "property-land-and-buildings-parcels-buildings-and-sites"
+    "property-land-and-buildings-ni-government-land-and-property-register"
    ],
    "toBeAdded": []
   },
@@ -277,12 +296,9 @@
    "kind": "Dataset",
    "series": [
     "roads-and-traffic-road-network",
-    "roads-and-traffic-way-network",
-    "roads-and-traffic-road-junctions-and-interchanges",
-    "roads-and-traffic-osni-50k-transport",
-    "roads-and-traffic-traffic-signals",
+    "roads-and-traffic-way-points",
+    "roads-and-traffic-gdf2s",
     "roads-and-traffic-traffic-management-and-signs",
-    "roads-and-traffic-tii-roadside-sensors",
     "roads-and-traffic-psni-road-traffic-collisions",
     "roads-and-traffic-tii-collision-rates",
     "roads-and-traffic-pothole-enquiries",
@@ -296,11 +312,10 @@
    "kind": "Dataset",
    "series": [
     "cycling-and-walking-cycle-network",
+    "cycling-and-walking-bicycle-parking-stands",
     "cycling-and-walking-walking-routes",
     "cycling-and-walking-pedestrian-crossings",
-    "cycling-and-walking-border-crossings",
-    "cycling-and-walking-bicycle-parking-stands",
-    "cycling-and-walking-counters"
+    "cycling-and-walking-border-crossings"
    ],
    "toBeAdded": []
   },
@@ -310,10 +325,9 @@
    "kind": "Dataset",
    "series": [
     "rail-and-public-transport-rail-network",
-    "rail-and-public-transport-railway-lines",
     "rail-and-public-transport-stations-and-stops",
-    "rail-and-public-transport-bus",
-    "rail-and-public-transport-ni-railways-infrastructure"
+    "rail-and-public-transport-luas",
+    "rail-and-public-transport-bus"
    ],
    "toBeAdded": []
   },
@@ -344,14 +358,13 @@
    "kind": "Dataset",
    "series": [
     "built-heritage-and-protected-structures-architectural-conservation-areas",
-    "built-heritage-and-protected-structures-protected-structures",
     "built-heritage-and-protected-structures-protected-structures--points",
-    "built-heritage-and-protected-structures-record-of-protected-structures-roscomm",
     "built-heritage-and-protected-structures-listed-buildings",
     "built-heritage-and-protected-structures-defence-heritage-sites",
     "built-heritage-and-protected-structures-industrial-heritage-record",
     "built-heritage-and-protected-structures-heritage-surveys-and-sites",
-    "archaeology-and-monuments-monument-types"
+    "archaeology-and-monuments-monument-types",
+    "built-heritage-and-protected-structures-topographic-sites"
    ],
    "toBeAdded": []
   },
@@ -534,8 +547,6 @@
    "kind": "Dataset",
    "series": [
     "landscape-and-scenic-amenity-landscape-character-areas",
-    "landscape-and-scenic-amenity-scenic-routes-roscommon-cdp",
-    "landscape-and-scenic-amenity-scenic-views-roscommon-cdp",
     "landscape-and-scenic-amenity-landscape-character-types"
    ],
    "toBeAdded": []
@@ -563,7 +574,6 @@
    "name": "Energy & Climate",
    "kind": "Dataset",
    "series": [
-    "energy-and-climate-wind-energy-roscommon",
     "energy-and-climate-energy-infrastructure"
    ],
    "toBeAdded": []
@@ -631,7 +641,8 @@
    "kind": "Boundary",
    "series": [
     "regional-divides-the-bann-divide",
-    "conflict-and-segregation-peacelines"
+    "conflict-and-segregation-peacelines",
+    "place-and-street-names-locales"
    ],
    "toBeAdded": []
   },
@@ -660,10 +671,7 @@
     "census-statistics-level-4-qualifications",
     "census-statistics-unemployed",
     "census-statistics-work-mainly-at-or-from-home",
-    "census-statistics-ni-multiple-deprivation-measure--soa",
-    "census-statistics-ni-multiple-deprivation-measure--small-areas",
-    "census-statistics-pobal-hp-deprivation-index--eds",
-    "census-statistics-multiple-deprivation-measure-rank",
+    "census-statistics-ni-multiple-deprivation-measure",
     "census-statistics-population-aged-10-19",
     "census-statistics-median-age",
     "census-statistics-ns-sec-1-3-abc1-proxy",
@@ -682,7 +690,8 @@
     "polities-polities",
     "public-service-areas-garda-areas",
     "public-service-areas-health-and-social-care-trusts",
-    "language-and-gaeltacht-gaeltacht-areas"
+    "language-and-gaeltacht-gaeltacht-areas",
+    "public-service-areas-superintendent-registrars-districts"
    ],
    "toBeAdded": []
   },
@@ -695,13 +704,10 @@
     "local-government-administrative-areas",
     "counties-counties--ni",
     "local-government-local-authorities--ireland",
-    "local-government-rural-and-urban-districts--ireland",
+    "settlements-rural-areas",
     "local-government-poor-law-unions--ireland",
     "local-government-poor-law-unions",
     "local-government-towns-improvement-act-towns",
-    "public-service-areas-dispensary-districts",
-    "public-service-areas-dispensary-districts--northern-ireland",
-    "public-service-areas-superintendent-registrars-districts",
     "public-service-areas-education-and-library-boards"
    ],
    "toBeAdded": []
@@ -840,7 +846,6 @@
     "local-authorities-1927",
     "local-authorities-1921"
    ],
-   "variantOf": {},
    "local": [
     "dlr-administrative-area"
    ],
@@ -873,26 +878,6 @@
     "administrative-counties-1899": "18 Apr 1899"
    },
    "kind": "Boundary"
-  },
-  {
-   "id": "local-government-rural-and-urban-districts--ireland",
-   "name": "Rural and Urban Districts",
-   "subject": "government-former",
-   "scope": "Ireland",
-   "arrangement": "editions",
-   "members": [
-    "rural-urban-districts-1911",
-    "rural-urban-districts-1901"
-   ],
-   "kind": "Boundary",
-   "unit": "County districts",
-   "aliases": [
-    "rural district",
-    "urban district",
-    "county borough",
-    "county district"
-   ],
-   "description": "The county districts of the Local Government (Ireland) Act 1898 (rural districts, urban districts and county boroughs) at the censuses of 1901 and 1911, built from the District Electoral Divisions printed under each district in the census county volumes."
   },
   {
    "id": "local-government-poor-law-unions",
@@ -948,11 +933,6 @@
     "plu-1921",
     "plu-1911",
     "plu-1901",
-    "plu-1891-09-30",
-    "plu-1891",
-    "plu-1886-09-30",
-    "plu-1885-09-30",
-    "plu-1851",
     "plu-parts-1921",
     "plu-parts-1911",
     "plu-parts-1901"
@@ -965,7 +945,9 @@
    "labels": {
     "plu-parts-1921": "By county",
     "plu-parts-1911": "By county",
-    "plu-parts-1901": "By county"
+    "plu-parts-1901": "By county",
+    "plu-1911": "Census 1911",
+    "plu-1901": "Census 1901"
    },
    "kind": "Boundary",
    "unit": "Poor Law Unions",
@@ -989,60 +971,9 @@
    }
   },
   {
-   "id": "public-service-areas-dispensary-districts",
-   "name": "Dispensary Districts",
-   "subject": "government-former",
-   "scope": "Republic of Ireland",
-   "arrangement": "editions",
-   "members": [
-    "dispensary-districts-roi-1956",
-    "dispensary-districts-roi-1951",
-    "dispensary-districts-roi-1946",
-    "dispensary-districts-roi-1936",
-    "dispensary-districts-roi-1926"
-   ],
-   "labels": {
-    "dispensary-districts-roi-1926": "1926 (estimate)"
-   },
-   "kind": "Boundary",
-   "unit": "Dispensary districts",
-   "aliases": [
-    "dispensary district",
-    "dispensary",
-    "D.D.",
-    "medical officer district",
-    "poor law medical relief",
-    "registrar's district"
-   ],
-   "description": "The districts of the dispensary doctors (medical officers), which were also the registrars' districts for births, deaths and marriages, at the censuses of 1936 to 1956, with an estimate for 1926. Each is mapped from the District Electoral Divisions the census lists for it and graded by whether its printed area checks: A where it equals the sum of its DEDs' areas, B or C, with the reason, where it does not. The city dispensary districts of Dublin, Cork, Limerick and Waterford are not mapped; each county borough is one unit."
-  },
-  {
-   "id": "public-service-areas-dispensary-districts--northern-ireland",
-   "name": "Dispensary Districts",
-   "subject": "government-former",
-   "scope": "Northern Ireland",
-   "arrangement": "editions",
-   "members": [
-    "dispensary-districts-ni-1929-01-01",
-    "dispensary-districts-ni-1924-04-01",
-    "dispensary-districts-ni-1921-04-01"
-   ],
-   "kind": "Boundary",
-   "unit": "Dispensary districts",
-   "aliases": [
-    "dispensary district",
-    "dispensary",
-    "D.D.",
-    "medical officer district",
-    "poor law medical relief",
-    "registrar's district"
-   ],
-   "description": "The dispensary districts of Northern Ireland from 1 Apr 1921 until the dispensary service passed to the General Health Services Board on 5 Jul 1948. They were also the registrars' districts for births, deaths and marriages. Each is a group of the old (pre-1923) electoral divisions, which the Ministry of Home Affairs kept for dispensary purposes in 1925, assigned from the 1926 Census Topographical Index and graded by how its area compares with the 1926 printed areas. Belfast's and Londonderry's urban districts follow streets and are shown as one area for each county borough."
-  },
-  {
    "id": "public-service-areas-superintendent-registrars-districts",
    "name": "Superintendent Registrars' Districts",
-   "subject": "government-former",
+   "subject": "government-current",
    "scope": "Republic of Ireland",
    "arrangement": "editions",
    "members": [
@@ -1053,7 +984,11 @@
     "superintendent-registrars-districts-roi-1926"
    ],
    "labels": {
-    "superintendent-registrars-districts-roi-1926": "1926 (estimate)"
+    "superintendent-registrars-districts-roi-1926": "Census 1926 (estimate)",
+    "superintendent-registrars-districts-roi-1956": "Census 1956",
+    "superintendent-registrars-districts-roi-1951": "Census 1951",
+    "superintendent-registrars-districts-roi-1946": "Census 1946",
+    "superintendent-registrars-districts-roi-1936": "Census 1936"
    },
    "kind": "Boundary",
    "unit": "Superintendent registrars' districts",
@@ -1126,7 +1061,6 @@
     "dail-1935",
     "dail-1923"
    ],
-   "variantOf": {},
    "labels": {
     "oda-map-00101-dail-constituencies-2013-sdcc": "South Dublin (2013)"
    },
@@ -1283,7 +1217,6 @@
     "eds-1986",
     "eds-1994"
    ],
-   "variantOf": {},
    "local": [
     "dcc-electoral-divisions",
     "ed-boundaries-dlr",
@@ -1448,7 +1381,7 @@
   },
   {
    "id": "nature-habitats-and-designated-sites-designated-and-protected-sites",
-   "name": "Designated & Protected Sites",
+   "name": "Protected Areas",
    "subject": "nature-habitats-and-designated-sites",
    "scope": "Ireland",
    "arrangement": "set",
@@ -1474,7 +1407,6 @@
     "roi-lea-2014",
     "roi-lea-2019"
    ],
-   "variantOf": {},
    "local": [
     "dlr-local-electoral-areas",
     "oda-map-00140-electoral-areas-roscommon",
@@ -1581,19 +1513,26 @@
    "arrangement": "editions",
    "members": [
     "roi-settlements-ungeneralised",
-    "roi-settlements-2011",
-    "tailte-settlements-generalised-20m"
+    "tailte-settlements-generalised-20m",
+    "roi-settlements-2011"
    ],
-   "variantOf": {},
+   "variantOf": {
+    "tailte-settlements-generalised-20m": "roi-settlements-ungeneralised"
+   },
    "local": [
     "oda-map-00330-cityboundary"
    ],
    "labels": {
     "oda-map-00330-cityboundary": "Galway City boundary",
-    "tailte-settlements-generalised-20m": "Generalised 20m"
+    "tailte-settlements-generalised-20m": "Generalised 20m",
+    "roi-settlements-ungeneralised": "Census 2016",
+    "roi-settlements-2011": "Census 2011"
    },
    "localOf": {
     "oda-map-00330-cityboundary": "roi-settlements-ungeneralised"
+   },
+   "versionLabels": {
+    "roi-settlements-ungeneralised": "Ungeneralised"
    }
   },
   {
@@ -1777,32 +1716,6 @@
    ]
   },
   {
-   "id": "rail-and-public-transport-ni-railways-infrastructure",
-   "name": "NI Railways Infrastructure",
-   "subject": "rail-and-public-transport",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
-    "translink-rail-bridges",
-    "translink-rail-culverts",
-    "translink-rail-platforms",
-    "translink-rail-halts"
-   ]
-  },
-  {
-   "id": "roads-and-traffic-osni-50k-transport",
-   "name": "OSNI 50K Transport",
-   "subject": "roads-and-traffic",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
-    "osni-open-data-50k-transport-text-labelling",
-    "osni-transport-text-labels",
-    "osni-transport-points",
-    "osni-open-data-50k-transport-transport-points"
-   ]
-  },
-  {
    "id": "elections-and-voting-polling-districts",
    "name": "Polling Districts",
    "subject": "elections-current",
@@ -1930,7 +1843,11 @@
    "members": [
     "roi-small-areas-2022",
     "roi-small-areas-2011"
-   ]
+   ],
+   "labels": {
+    "roi-small-areas-2022": "Census 2022",
+    "roi-small-areas-2011": "Census 2011"
+   }
   },
   {
    "id": "census-small-areas--ni",
@@ -1944,9 +1861,9 @@
     "oa-2001"
    ],
    "labels": {
-    "dz-2021": "2021",
-    "sa-2011": "2011",
-    "oa-2001": "2001"
+    "dz-2021": "Census 2021",
+    "sa-2011": "Census 2011",
+    "oa-2001": "Census 2001"
    },
    "units": {
     "dz-2021": "Data Zones",
@@ -2004,27 +1921,10 @@
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
-    "oda-map-00376-architectural-conservation-areas-roscommon-cdp-2014-2020-expired",
-    "oda-map-00377-architectural-conservation-areas-roscommon-cdp-2022-2028",
-    "oda-map-01042-architectural-conservation-areas",
-    "dlr-existing-conservation-areas"
+    "oda-map-01042-architectural-conservation-areas"
    ],
-   "labels": {
-    "dlr-existing-conservation-areas": "Existing Conservation Areas (DLR)"
-   },
    "kind": "Boundary",
    "unitFromLabel": true
-  },
-  {
-   "id": "built-heritage-and-protected-structures-protected-structures",
-   "name": "Protected Structures",
-   "subject": "built-heritage-and-protected-structures",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dlr-protected-structures"
-   ],
-   "kind": "Boundary"
   },
   {
    "id": "built-heritage-and-protected-structures-protected-structures--points",
@@ -2036,8 +1936,7 @@
     "co-wicklow-protected-structures",
     "dcc-record-protected-structures"
    ],
-   "kind": "Places",
-   "labels": {}
+   "kind": "Places"
   },
   {
    "id": "landscape-and-scenic-amenity-landscape-character-areas",
@@ -2053,7 +1952,7 @@
   },
   {
    "id": "cycling-and-walking-bicycle-parking-stands",
-   "name": "Cycle Parking & Bike Share",
+   "name": "Cycling Infrastructure",
    "subject": "cycling-and-walking",
    "scope": "Republic of Ireland",
    "arrangement": "set",
@@ -2066,7 +1965,9 @@
     "dlr-bicycle-maintenance-stands",
     "dcc-bleeperbike",
     "dcc-dublinbikes-api",
-    "dcc-moby-bikes"
+    "dcc-moby-bikes",
+    "dcc-pedestrian-and-cycle-counter-api-for-dublin-region",
+    "dlr-bicycle-counter-locations"
    ],
    "labels": {
     "dcc-dublin-public-cycle-parking-facilities": "Dublin Public Cycle Parking Facilities",
@@ -2074,7 +1975,9 @@
     "dlr-bicycle-maintenance-stands": "Bicycle Maintenance Stands (DLR)",
     "dcc-bleeperbike": "Bleeperbike (Dublin City)",
     "dcc-dublinbikes-api": "Dublinbikes",
-    "dcc-moby-bikes": "Moby Bikes (Dublin City)"
+    "dcc-moby-bikes": "Moby Bikes (Dublin City)",
+    "dcc-pedestrian-and-cycle-counter-api-for-dublin-region": "Pedestrian And Cycle Counter Api For Dublin Region",
+    "dlr-bicycle-counter-locations": "Bicycle Counter Locations (DLR)"
    },
    "kind": "Places",
    "unitFromLabel": true
@@ -2083,13 +1986,18 @@
    "id": "cycling-and-walking-border-crossings",
    "name": "Border Crossings",
    "subject": "cycling-and-walking",
-   "scope": "Northern Ireland",
+   "scope": "Ireland",
    "arrangement": "set",
    "members": [
     "dfi-border-crossings-2018-points",
-    "roads-border-crossings-2018",
-    "dfi-border-crossings-2018-lines"
-   ]
+    "dfi-border-crossings-2018-lines",
+    "tailte-border-exits-entrances"
+   ],
+   "labels": {
+    "tailte-border-exits-entrances": "Border Exits & Entrances (Republic of Ireland)",
+    "dfi-border-crossings-2018-points": "Points (Northern Ireland, 2018)",
+    "dfi-border-crossings-2018-lines": "Lines (Northern Ireland, 2018)"
+   }
   },
   {
    "id": "planning-applications-and-registers-planning-application-boundaries",
@@ -2098,13 +2006,22 @@
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
+    "roi-national-planning-applications"
+   ],
+   "kind": "Boundary",
+   "labels": {
+    "oda-map-00115-planning-application-boundaries-roscommon": "Roscommon"
+   },
+   "local": [
     "oda-map-00115-planning-application-boundaries-roscommon"
    ],
-   "kind": "Boundary"
+   "localOf": {
+    "oda-map-00115-planning-application-boundaries-roscommon": "roi-national-planning-applications"
+   }
   },
   {
    "id": "planning-applications-and-registers-planning-application-boundaries--points",
-   "name": "Planning Application Points",
+   "name": "Planning Applications",
    "subject": "planning-applications-and-registers",
    "scope": "Republic of Ireland",
    "arrangement": "set",
@@ -2112,8 +2029,7 @@
     "oda-map-00300-planning-application-points-roscommon",
     "oda-map-00303-westmeath-planning-applications"
    ],
-   "kind": "Places",
-   "labels": {}
+   "kind": "Places"
   },
   {
    "id": "culture-and-the-arts-libraries",
@@ -2135,15 +2051,19 @@
   },
   {
    "id": "rail-and-public-transport-rail-network",
-   "name": "Rail Network",
+   "name": "Railway Lines",
    "subject": "rail-and-public-transport",
-   "scope": "Republic of Ireland",
+   "scope": "Ireland",
    "arrangement": "set",
    "members": [
     "tailte-hvd-rail-network-segment",
     "tailte-hvd-rail-points",
-    "tailte-rail-network"
-   ]
+    "tailte-rail-network",
+    "railways-network"
+   ],
+   "labels": {
+    "railways-network": "Railways (Translink)"
+   }
   },
   {
    "id": "archaeology-and-monuments-ringfort",
@@ -2229,18 +2149,6 @@
    "arrangement": "set",
    "members": [
     "dlr-dlr-river-and-bathing-water-sample-points"
-   ]
-  },
-  {
-   "id": "roads-and-traffic-road-junctions-and-interchanges",
-   "name": "Road Junctions & Interchanges",
-   "subject": "roads-and-traffic",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "tailte-road-intersections",
-    "tailte-road-interchanges",
-    "tailte-motorway-access-exit-points"
    ]
   },
   {
@@ -2407,7 +2315,7 @@
    "id": "settlements-built-up-areas",
    "name": "Built-Up Areas",
    "subject": "settlements",
-   "scope": "Ireland",
+   "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
     "tailte-built-up-1m"
@@ -2418,13 +2326,12 @@
    "id": "settlements-built-up-areas--points",
    "name": "Built-Up Areas (points)",
    "subject": "settlements",
-   "scope": "Ireland",
+   "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
     "tailte-built-up-points-250k"
    ],
-   "kind": "Places",
-   "labels": {}
+   "kind": "Places"
   },
   {
    "id": "census-travel-to-work-areas",
@@ -2435,17 +2342,6 @@
    "members": [
     "ttwa-2011",
     "ttwa-2007"
-   ]
-  },
-  {
-   "id": "built-heritage-and-protected-structures-record-of-protected-structures-roscomm",
-   "name": "Record of Protected Structures - Roscommon CDP",
-   "subject": "built-heritage-and-protected-structures",
-   "scope": "Republic of Ireland",
-   "arrangement": "editions",
-   "members": [
-    "oda-map-00694-record-of-protected-structures-roscommon-cdp-2014-2020-expired",
-    "oda-map-00695-record-of-protected-structures-roscommon-cdp-2022-2028"
    ]
   },
   {
@@ -2488,36 +2384,6 @@
    }
   },
   {
-   "id": "landscape-and-scenic-amenity-scenic-routes-roscommon-cdp",
-   "name": "Scenic Routes - Roscommon CDP",
-   "subject": "landscape-and-scenic-amenity",
-   "scope": "Republic of Ireland",
-   "arrangement": "editions",
-   "members": [
-    "oda-map-00732-scenic-routes-roscommon-cdp-2014-2020",
-    "oda-map-00733-scenic-routes-roscommon-cdp-2022-2028"
-   ]
-  },
-  {
-   "id": "landscape-and-scenic-amenity-scenic-views-roscommon-cdp",
-   "name": "Scenic Views & Prospects",
-   "subject": "landscape-and-scenic-amenity",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "oda-map-00734-scenic-views-roscommon-cdp-2014-2020",
-    "oda-map-00735-scenic-views-roscommon-cdp-2022-2028",
-    "oda-map-00736-scenic-views-extents-roscommon-cdp-2022-2028",
-    "dlr-views-prospects"
-   ],
-   "labels": {
-    "oda-map-00736-scenic-views-extents-roscommon-cdp-2022-2028": "Scenic Views Extents (Roscommon)",
-    "dlr-views-prospects": "Views Prospects (DLR)"
-   },
-   "kind": "Places",
-   "unitFromLabel": true
-  },
-  {
    "id": "landscape-and-scenic-amenity-landscape-character-types",
    "name": "Landscape Character Types",
    "subject": "landscape-and-scenic-amenity",
@@ -2546,8 +2412,7 @@
    "scope": "Northern Ireland",
    "arrangement": "set",
    "members": [
-    "dfi-pedestrian-crossings",
-    "roads-pedestrian-crossings"
+    "dfi-pedestrian-crossings"
    ]
   },
   {
@@ -2586,18 +2451,6 @@
     "gsni-bedrock-geology-polygons-250k",
     "gsni-bedrock-geology-lines-250k"
    ]
-  },
-  {
-   "id": "planning-applications-and-registers-planning-exemptions",
-   "name": "Planning Exemptions",
-   "subject": "planning-applications-and-registers",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "oda-map-00118-planning-exemptions-local-authorities",
-    "oda-map-00119-planning-exemptions-settlements"
-   ],
-   "kind": "Boundary"
   },
   {
    "id": "flooding-and-coastal-risk-community-scale-coastal-flood-extents",
@@ -2687,19 +2540,25 @@
   },
   {
    "id": "rail-and-public-transport-stations-and-stops",
-   "name": "Rail & Tram Stations",
+   "name": "Railway Stations & Infrastructure",
    "subject": "rail-and-public-transport",
    "scope": "Ireland",
    "arrangement": "set",
    "members": [
     "tailte-railway-stations",
     "translink-rail-stations",
-    "tii-luas-stops"
+    "translink-rail-platforms",
+    "translink-rail-halts",
+    "translink-rail-bridges",
+    "translink-rail-culverts"
    ],
    "labels": {
     "tailte-railway-stations": "Railway Stations (Republic of Ireland)",
     "translink-rail-stations": "Railway Stations (Northern Ireland)",
-    "tii-luas-stops": "Luas Tram Stops (TII)"
+    "translink-rail-platforms": "NI Railways Platforms",
+    "translink-rail-halts": "NI Railways Halts",
+    "translink-rail-bridges": "NI Railways Bridges",
+    "translink-rail-culverts": "NI Railways Culverts"
    },
    "kind": "Places",
    "unitFromLabel": true
@@ -2711,7 +2570,6 @@
    "scope": "Northern Ireland",
    "arrangement": "set",
    "members": [
-    "hed-scheduled-monument-areas",
     "ni-scheduled-monument-areas"
    ],
    "kind": "Boundary"
@@ -2729,7 +2587,7 @@
   },
   {
    "id": "water-quality-drinking-water-protected-areas",
-   "name": "Drinking-Water Protected Areas",
+   "name": "Drinking Water Protected Areas",
    "subject": "water-quality",
    "scope": "Northern Ireland",
    "arrangement": "set",
@@ -2738,39 +2596,6 @@
     "wq-surface-dwpa"
    ],
    "kind": "Boundary"
-  },
-  {
-   "id": "roads-and-traffic-way-network",
-   "name": "Way Network",
-   "subject": "roads-and-traffic",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "tailte-hvd-way-points",
-    "tailte-hvd-way-gdf2"
-   ]
-  },
-  {
-   "id": "roads-and-traffic-traffic-signals",
-   "name": "Traffic Signals",
-   "subject": "roads-and-traffic",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dcc-traffic-signal-sites-juctions",
-    "dcc-traffic-signals-and-scats-sites-locations"
-   ]
-  },
-  {
-   "id": "roads-and-traffic-tii-roadside-sensors",
-   "name": "TII Roadside Sensors",
-   "subject": "roads-and-traffic",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "tii-traffic-counter-locations",
-    "tii-wim-sensor-locations"
-   ]
   },
   {
    "id": "municipal-services-and-utilities-street-lighting",
@@ -2951,50 +2776,73 @@
   },
   {
    "id": "roads-and-traffic-traffic-management-and-signs",
-   "name": "Traffic Management & Road Signs",
+   "name": "Road Signs & Infrastructure",
    "subject": "roads-and-traffic",
-   "scope": "Republic of Ireland",
+   "scope": "Ireland",
    "arrangement": "set",
    "members": [
+    "dcc-traffic-signals-and-scats-sites-locations",
     "dcc-dublin-city-council-traffic-poles-with-cctv",
     "dcc-dublin-city-council-variable-message-signs",
-    "dcc-journey-times-across-dublin-city-from-dublin-city-council-traffic-departments-trips-system",
     "dlr-speed-signs",
     "tii-marker-plates",
-    "oda-map-00862-winter-service-plan-routes-roscommon"
+    "oda-map-00862-winter-service-plan-routes-roscommon",
+    "tii-traffic-counter-locations",
+    "tii-wim-sensor-locations",
+    "tailte-road-rail-intersections",
+    "translink-rail-signal-posts"
    ],
    "labels": {
     "dcc-dublin-city-council-traffic-poles-with-cctv": "Traffic Poles With Cctv (Dublin City)",
     "dcc-dublin-city-council-variable-message-signs": "Variable Message Signs (Dublin City)",
-    "dcc-journey-times-across-dublin-city-from-dublin-city-council-traffic-departments-trips-system": "Journey Times (Dublin City)",
     "dlr-speed-signs": "Speed Signs (DLR)",
     "tii-marker-plates": "Roadside Marker Plates (TII)",
-    "oda-map-00862-winter-service-plan-routes-roscommon": "Winter Service Plan Routes (Roscommon)"
+    "oda-map-00862-winter-service-plan-routes-roscommon": "Winter Service Plan Routes (Roscommon)",
+    "dcc-traffic-signals-and-scats-sites-locations": "Traffic Signals & SCATS Sites (Dublin City)",
+    "dcc-traffic-signal-sites-juctions": "Dublin City (signalled junctions)",
+    "tii-traffic-counter-locations": "TII Traffic Counters",
+    "tii-wim-sensor-locations": "TII Weigh-in-Motion Sensors",
+    "tailte-road-rail-intersections": "Road & Rail Intersections",
+    "translink-rail-signal-posts": "NI Railways Signal Posts"
    },
    "kind": "Places",
-   "unitFromLabel": true
+   "unitFromLabel": true,
+   "local": [
+    "dcc-traffic-signal-sites-juctions"
+   ],
+   "localOf": {
+    "dcc-traffic-signal-sites-juctions": "dcc-traffic-signals-and-scats-sites-locations"
+   }
   },
   {
    "id": "roads-and-traffic-road-network",
-   "name": "Road Network",
+   "name": "Roads",
    "subject": "roads-and-traffic",
-   "scope": "Republic of Ireland",
+   "scope": "Ireland",
    "arrangement": "set",
    "members": [
     "tailte-roads",
     "tii-national-road-network",
-    "tailte-border-exits-entrances",
     "dlr-transport",
     "dlr-dlr-roads-schedule",
-    "dlr-bridges"
+    "dlr-bridges",
+    "tailte-road-intersections",
+    "tailte-road-interchanges",
+    "tailte-motorway-access-exit-points",
+    "osni-open-data-50k-transport-text-labelling",
+    "transport-lines-road-rail"
    ],
    "labels": {
     "tailte-roads": "Roads",
     "tii-national-road-network": "National Road Network (TII)",
-    "tailte-border-exits-entrances": "Border Exits & Entrances",
     "dlr-transport": "Transport Network (DLR)",
     "dlr-dlr-roads-schedule": "Roads Schedule (DLR)",
-    "dlr-bridges": "Bridges (DLR)"
+    "dlr-bridges": "Bridges (DLR)",
+    "tailte-road-intersections": "Road Intersections",
+    "tailte-road-interchanges": "Road Interchanges",
+    "tailte-motorway-access-exit-points": "Motorway Access & Exit Points",
+    "osni-open-data-50k-transport-text-labelling": "Road Names (OSNI 1:50,000)",
+    "transport-lines-road-rail": "Roads and Railways (OSNI)"
    },
    "kind": "Places",
    "unitFromLabel": true
@@ -3053,27 +2901,8 @@
    "unitFromLabel": true
   },
   {
-   "id": "property-land-and-buildings-parcels-buildings-and-sites",
-   "name": "Parcels, Buildings & Sites",
-   "subject": "property-land-and-buildings",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "tailte-hvd-cadastral-parcels-leasehold",
-    "tailte-hvd-building-groups",
-    "tailte-hvd-sites"
-   ],
-   "labels": {
-    "tailte-hvd-cadastral-parcels-leasehold": "Cadastral Parcels Leasehold",
-    "tailte-hvd-building-groups": "Building Groups",
-    "tailte-hvd-sites": "Topographic Sites"
-   },
-   "kind": "Boundary",
-   "unitFromLabel": true
-  },
-  {
    "id": "municipal-services-and-utilities-water-supply",
-   "name": "Water Supply Areas & Pipelines",
+   "name": "Water Districts (Roscommon)",
    "subject": "municipal-services-and-utilities",
    "scope": "Republic of Ireland",
    "arrangement": "set",
@@ -3081,7 +2910,7 @@
     "oda-map-00822-water-district-areas-roscommon"
    ],
    "labels": {
-    "oda-map-00822-water-district-areas-roscommon": "Water District Areas (Roscommon)"
+    "oda-map-00822-water-district-areas-roscommon": "Roscommon"
    },
    "kind": "Boundary"
   },
@@ -3153,13 +2982,14 @@
   },
   {
    "id": "settlements-rural-areas",
-   "name": "Rural Areas",
-   "subject": "settlements",
+   "name": "Rural Districts",
+   "subject": "government-former",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
     "tailte-rural-areas"
-   ]
+   ],
+   "kind": "Boundary"
   },
   {
    "id": "settlements-centres-of-population",
@@ -3174,7 +3004,7 @@
   },
   {
    "id": "settlements-geographical-names",
-   "name": "Geographical Names",
+   "name": "Geographical Regions",
    "subject": "settlements",
    "scope": "Republic of Ireland",
    "arrangement": "set",
@@ -3202,7 +3032,10 @@
    "arrangement": "set",
    "members": [
     "cso-urban-areas-2022"
-   ]
+   ],
+   "labels": {
+    "cso-urban-areas-2022": "Census 2022"
+   }
   },
   {
    "id": "settlements-highlands-without-settlements",
@@ -3226,9 +3059,9 @@
     "wards-2001"
    ],
    "labels": {
-    "sdz-2021": "2021",
-    "soa-2011": "2011",
-    "wards-2001": "2001"
+    "sdz-2021": "Census 2021",
+    "soa-2011": "Census 2011",
+    "wards-2001": "Census 2001"
    },
    "units": {
     "sdz-2021": "Super Data Zones",
@@ -3342,7 +3175,7 @@
   },
   {
    "id": "cycling-and-walking-cycle-network",
-   "name": "Cycle Network & Infrastructure",
+   "name": "Cycling Routes",
    "subject": "cycling-and-walking",
    "scope": "Ireland",
    "arrangement": "set",
@@ -3366,35 +3199,16 @@
    "unitFromLabel": true
   },
   {
-   "id": "cycling-and-walking-counters",
-   "name": "Cycle & Pedestrian Counters",
-   "subject": "cycling-and-walking",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dcc-pedestrian-and-cycle-counter-api-for-dublin-region",
-    "dlr-bicycle-counter-locations"
-   ],
-   "labels": {
-    "dcc-pedestrian-and-cycle-counter-api-for-dublin-region": "Pedestrian And Cycle Counter Api For Dublin Region",
-    "dlr-bicycle-counter-locations": "Bicycle Counter Locations (DLR)"
-   },
-   "kind": "Places",
-   "unitFromLabel": true
-  },
-  {
    "id": "cycling-and-walking-walking-routes",
-   "name": "Walking Routes & Rights of Way",
+   "name": "Walking Routes",
    "subject": "cycling-and-walking",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
-    "dlr-right-of-way",
     "dlr-the-metals",
     "dlr-trim-trails"
    ],
    "labels": {
-    "dlr-right-of-way": "Right Of Way (DLR)",
     "dlr-the-metals": "The Metals (DLR)",
     "dlr-trim-trails": "Trim Trails (DLR)"
    },
@@ -3466,28 +3280,22 @@
   },
   {
    "id": "planning-applications-and-registers-planning-registers",
-   "name": "Planning Registers",
+   "name": "Planning Registers (South Dublin)",
    "subject": "planning-applications-and-registers",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
-    "roi-national-planning-applications",
-    "oda-map-00302-planning-register",
-    "oda-map-00451-certificate-of-registration-locations-sdcc",
-    "dlr-derelict-sites-register"
+    "oda-map-00302-planning-register"
    ],
    "labels": {
-    "roi-national-planning-applications": "ROI National Planning Applications",
-    "oda-map-00302-planning-register": "Planning Register",
-    "oda-map-00451-certificate-of-registration-locations-sdcc": "Certificate of Registration Locations (South Dublin)",
-    "dlr-derelict-sites-register": "Derelict Sites Register (DLR)"
+    "oda-map-00302-planning-register": "Planning Register"
    },
    "kind": "Boundary",
    "unitFromLabel": true
   },
   {
    "id": "planning-applications-and-registers-planning-registers--points",
-   "name": "Planning Register Points",
+   "name": "Planning Register",
    "subject": "planning-applications-and-registers",
    "scope": "Republic of Ireland",
    "arrangement": "set",
@@ -3556,25 +3364,6 @@
     "dlr-trees-and-woodlands": "Trees And Woodlands (DLR)",
     "fingal-trees": "Trees (Fingal)",
     "dlr-tree-preservation-orders": "Tree Preservation Orders (DLR)"
-   },
-   "kind": "Places",
-   "unitFromLabel": true
-  },
-  {
-   "id": "energy-and-climate-wind-energy-roscommon",
-   "name": "Wind Energy (Roscommon CDP)",
-   "subject": "energy-and-climate",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "oda-map-00383-areas-suitable-for-windfarm-development-roscommon-cdp-2022-2028",
-    "oda-map-00394-average-wind-speeds-roscommon-cdp-2014-2020-expired",
-    "oda-map-00860-wind-energy-development-potential-roscommon-cdp-2014-2020-expire"
-   ],
-   "labels": {
-    "oda-map-00383-areas-suitable-for-windfarm-development-roscommon-cdp-2022-2028": "Areas Suitable for Windfarm Development (Roscommon)",
-    "oda-map-00394-average-wind-speeds-roscommon-cdp-2014-2020-expired": "Average Wind Speeds (Roscommon)",
-    "oda-map-00860-wind-energy-development-potential-roscommon-cdp-2014-2020-expire": "Wind Energy Development Potential (Roscommon)"
    },
    "kind": "Places",
    "unitFromLabel": true
@@ -3874,27 +3663,6 @@
    "unitFromLabel": true
   },
   {
-   "id": "rail-and-public-transport-railway-lines",
-   "name": "Railway Lines & Signalling",
-   "subject": "rail-and-public-transport",
-   "scope": "Ireland",
-   "arrangement": "set",
-   "members": [
-    "railways-network",
-    "transport-lines-road-rail",
-    "tailte-road-rail-intersections",
-    "translink-rail-signal-posts"
-   ],
-   "labels": {
-    "railways-network": "Railways (Translink)",
-    "transport-lines-road-rail": "Transport Lines",
-    "tailte-road-rail-intersections": "Road & Rail Intersections",
-    "translink-rail-signal-posts": "Railways Signal Posts (Translink)"
-   },
-   "kind": "Places",
-   "unitFromLabel": true
-  },
-  {
    "id": "rail-and-public-transport-bus",
    "name": "Bus Routes & Stops",
    "subject": "rail-and-public-transport",
@@ -3917,38 +3685,26 @@
   },
   {
    "id": "housing-and-regeneration-housing-and-land",
-   "name": "Housing, Land & Regeneration",
+   "name": "Other",
    "subject": "housing-and-regeneration",
    "scope": "Ireland",
    "arrangement": "set",
    "members": [
     "dlr-dlr-residential-land-availability",
     "dlr-dlr-unfinished-housing",
-    "nra"
+    "nra",
+    "tailte-hvd-cadastral-parcels-leasehold",
+    "tailte-hvd-building-groups"
    ],
    "labels": {
     "dlr-dlr-residential-land-availability": "Residential Land Availability (DLR)",
     "dlr-dlr-unfinished-housing": "Unfinished Housing (DLR)",
-    "nra": "Neighbourhood Renewal Areas"
+    "nra": "Neighbourhood Renewal Areas",
+    "tailte-hvd-cadastral-parcels-leasehold": "Cadastral Parcels Leasehold",
+    "tailte-hvd-building-groups": "Building Groups"
    },
    "kind": "Boundary",
    "unitFromLabel": true
-  },
-  {
-   "id": "housing-and-regeneration-housing-and-land--points",
-   "name": "Housing & Education Sites",
-   "subject": "housing-and-regeneration",
-   "scope": "Ireland",
-   "arrangement": "set",
-   "members": [
-    "dlr-traveller-accommodation",
-    "dlr-proposed-education-sites"
-   ],
-   "kind": "Places",
-   "labels": {
-    "dlr-traveller-accommodation": "Traveller Accommodation (DLR)",
-    "dlr-proposed-education-sites": "Proposed Education Sites (DLR)"
-   }
   },
   {
    "id": "archaeology-and-monuments-sites-and-monuments-records",
@@ -4010,7 +3766,7 @@
   },
   {
    "id": "place-and-street-names-street-names-gazetteer",
-   "name": "Street Names Gazetteer",
+   "name": "Street Names",
    "subject": "place-and-street-names",
    "scope": "Northern Ireland",
    "arrangement": "set",
@@ -4021,7 +3777,7 @@
   {
    "id": "place-and-street-names-locales",
    "name": "Locales",
-   "subject": "place-and-street-names",
+   "subject": "regional-divides",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
@@ -4431,16 +4187,6 @@
    ]
   },
   {
-   "id": "census-statistics-multiple-deprivation-measure-rank",
-   "name": "Multiple Deprivation Measure rank",
-   "subject": "census-statistics",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
-    "nimdm-2017-mdm-rank-sa"
-   ]
-  },
-  {
    "id": "census-statistics-population-aged-10-19",
    "name": "Population aged 10–19",
    "subject": "census-statistics",
@@ -4534,14 +4280,16 @@
     "oda-map-00125-settlement-boundaries-roscommon-cdp-2022-2028",
     "oda-map-00384-areas-under-urban-influence-roscommon-cdp-2022-2028",
     "oda-map-00471-core-retail-areas-roscommon-cdp-2022-2028",
-    "oda-map-00792-town-core-residential-opportunity-sites-roscommon-cdp-2022-2028"
+    "oda-map-00792-town-core-residential-opportunity-sites-roscommon-cdp-2022-2028",
+    "oda-map-00377-architectural-conservation-areas-roscommon-cdp-2022-2028"
    ],
    "labels": {
     "oda-map-00610-land-use-zoning-roscommon-cdp-2022-2028": "Land-use Zoning",
     "oda-map-00125-settlement-boundaries-roscommon-cdp-2022-2028": "Settlement Boundaries",
     "oda-map-00384-areas-under-urban-influence-roscommon-cdp-2022-2028": "Areas Under Urban Influence",
     "oda-map-00471-core-retail-areas-roscommon-cdp-2022-2028": "Core Retail Areas",
-    "oda-map-00792-town-core-residential-opportunity-sites-roscommon-cdp-2022-2028": "Town Core Residential Opportunity Sites"
+    "oda-map-00792-town-core-residential-opportunity-sites-roscommon-cdp-2022-2028": "Town Core Residential Opportunity Sites",
+    "oda-map-00377-architectural-conservation-areas-roscommon-cdp-2022-2028": "Architectural Conservation Areas"
    }
   },
   {
@@ -4560,7 +4308,9 @@
     "dlr-cherrywood-adapted-planning-scheme",
     "dlr-institutional-lands",
     "dlr-mews-development",
-    "dlr-strategic-land-reserve"
+    "dlr-strategic-land-reserve",
+    "dlr-existing-conservation-areas",
+    "dlr-protected-structures"
    ],
    "labels": {
     "dlr-development-plans": "Development Plans",
@@ -4572,7 +4322,9 @@
     "dlr-cherrywood-adapted-planning-scheme": "Cherrywood Planning Scheme",
     "dlr-institutional-lands": "Institutional Lands",
     "dlr-mews-development": "Mews Development",
-    "dlr-strategic-land-reserve": "Strategic Land Reserve"
+    "dlr-strategic-land-reserve": "Strategic Land Reserve",
+    "dlr-existing-conservation-areas": "Architectural Conservation Areas",
+    "dlr-protected-structures": "Protected Structures"
    }
   },
   {
@@ -4598,83 +4350,188 @@
   },
   {
    "id": "census-census-electoral-divisions",
-   "name": "Census Electoral Divisions",
+   "name": "CSO Electoral Divisions",
    "subject": "census",
    "scope": "Republic of Ireland",
    "arrangement": "editions",
    "members": [
     "eds-2022",
     "eds-2006"
-   ]
+   ],
+   "labels": {
+    "eds-2022": "Census 2022",
+    "eds-2006": "Census 2006"
+   }
   },
   {
-   "id": "census-statistics-ni-multiple-deprivation-measure--soa",
-   "name": "Multiple Deprivation Measure (Super Output Areas)",
-   "subject": "census-statistics",
+   "id": "census-statistics-ni-multiple-deprivation-measure",
+   "name": "Multiple Deprivation Measure",
    "scope": "Northern Ireland",
    "arrangement": "editions",
    "members": [
     "nimdm-2017-soa",
     "nimdm-2010-soa",
-    "nimdm-2005-soa"
+    "nimdm-2005-soa",
+    "nimdm-2017-mdm-decile-sa",
+    "nimdm-2010-oa",
+    "nimdm-2005-oa",
+    "nimdm-2017-mdm-rank-sa"
    ],
    "labels": {
-    "nimdm-2017-soa": "2017",
-    "nimdm-2010-soa": "2010",
-    "nimdm-2005-soa": "2005"
+    "nimdm-2017-soa": "2017 · Super Output Areas",
+    "nimdm-2010-soa": "2010 · Super Output Areas",
+    "nimdm-2005-soa": "2005 · Super Output Areas",
+    "nimdm-2017-mdm-decile-sa": "2017 · Small Areas (decile)",
+    "nimdm-2010-oa": "2010 · Output Areas",
+    "nimdm-2005-oa": "2005 · Output Areas",
+    "nimdm-2017-mdm-rank-sa": "2017 · Small Areas (rank)"
    },
+   "subject": "census-statistics",
    "units": {
     "nimdm-2017-soa": "Super Output Areas",
     "nimdm-2010-soa": "Super Output Areas",
-    "nimdm-2005-soa": "Super Output Areas"
-   }
-  },
-  {
-   "id": "census-statistics-ni-multiple-deprivation-measure--small-areas",
-   "name": "Multiple Deprivation Measure (Small Areas and Output Areas)",
-   "subject": "census-statistics",
-   "scope": "Northern Ireland",
-   "arrangement": "editions",
-   "members": [
-    "nimdm-2017-mdm-decile-sa",
-    "nimdm-2010-oa",
-    "nimdm-2005-oa"
-   ],
-   "labels": {
-    "nimdm-2010-oa": "2010",
-    "nimdm-2005-oa": "2005",
-    "nimdm-2017-mdm-decile-sa": "2017"
-   },
-   "units": {
+    "nimdm-2005-soa": "Super Output Areas",
+    "nimdm-2017-mdm-decile-sa": "Small Areas",
     "nimdm-2010-oa": "Output Areas",
-    "nimdm-2005-oa": "Output Areas",
-    "nimdm-2017-mdm-decile-sa": "Small Areas"
+    "nimdm-2005-oa": "Output Areas"
    }
   },
   {
-   "id": "census-statistics-pobal-hp-deprivation-index--eds",
-   "name": "Pobal HP Deprivation Index (Electoral Divisions)",
-   "subject": "census-statistics",
+   "id": "planning-applications-and-registers-derelict-sites",
+   "name": "Derelict Sites",
    "scope": "Republic of Ireland",
-   "arrangement": "editions",
+   "arrangement": "set",
    "members": [
-    "pobal-hp-2022-ed",
-    "pobal-hp-2016-ed",
-    "pobal-hp-2011-ed",
-    "pobal-hp-2006-ed"
+    "dlr-derelict-sites-register"
    ],
+   "kind": "Boundary",
+   "subject": "planning-applications-and-registers",
    "labels": {
-    "pobal-hp-2022-ed": "2022",
-    "pobal-hp-2016-ed": "2016",
-    "pobal-hp-2011-ed": "2011",
-    "pobal-hp-2006-ed": "2006"
-   },
-   "units": {
-    "pobal-hp-2022-ed": "Electoral Divisions",
-    "pobal-hp-2016-ed": "Electoral Divisions",
-    "pobal-hp-2011-ed": "Electoral Divisions",
-    "pobal-hp-2006-ed": "Electoral Divisions"
+    "dlr-derelict-sites-register": "Dún Laoghaire-Rathdown"
    }
+  },
+  {
+   "id": "built-heritage-and-protected-structures-topographic-sites",
+   "name": "Topographic Sites",
+   "scope": "Republic of Ireland",
+   "arrangement": "set",
+   "members": [
+    "tailte-hvd-sites"
+   ],
+   "kind": "Boundary",
+   "subject": "built-heritage-and-protected-structures"
+  },
+  {
+   "id": "development-plans-and-zoning-roscommon-county-development-plan-2014",
+   "name": "County Development Plan 2014–2020 (Roscommon)",
+   "scope": "Republic of Ireland",
+   "arrangement": "set",
+   "members": [
+    "oda-map-00376-architectural-conservation-areas-roscommon-cdp-2014-2020-expired"
+   ],
+   "kind": "Boundary",
+   "labels": {
+    "oda-map-00376-architectural-conservation-areas-roscommon-cdp-2014-2020-expired": "Architectural Conservation Areas"
+   },
+   "subject": "development-plans-and-zoning"
+  },
+  {
+   "id": "development-plans-and-zoning-roscommon-county-development-plan--points",
+   "name": "County Development Plan 2022–2028 (Roscommon)",
+   "scope": "Republic of Ireland",
+   "arrangement": "set",
+   "members": [
+    "oda-map-00695-record-of-protected-structures-roscommon-cdp-2022-2028",
+    "oda-map-00733-scenic-routes-roscommon-cdp-2022-2028",
+    "oda-map-00735-scenic-views-roscommon-cdp-2022-2028",
+    "oda-map-00736-scenic-views-extents-roscommon-cdp-2022-2028",
+    "oda-map-00383-areas-suitable-for-windfarm-development-roscommon-cdp-2022-2028"
+   ],
+   "kind": "Places",
+   "labels": {
+    "oda-map-00695-record-of-protected-structures-roscommon-cdp-2022-2028": "Record of Protected Structures",
+    "oda-map-00733-scenic-routes-roscommon-cdp-2022-2028": "Scenic Routes",
+    "oda-map-00735-scenic-views-roscommon-cdp-2022-2028": "Scenic Views",
+    "oda-map-00736-scenic-views-extents-roscommon-cdp-2022-2028": "Scenic Views Extents",
+    "oda-map-00383-areas-suitable-for-windfarm-development-roscommon-cdp-2022-2028": "Areas Suitable for Windfarm Development"
+   },
+   "subject": "development-plans-and-zoning"
+  },
+  {
+   "id": "development-plans-and-zoning-roscommon-county-development-plan-2014--points",
+   "name": "County Development Plan 2014–2020 (Roscommon)",
+   "scope": "Republic of Ireland",
+   "arrangement": "set",
+   "members": [
+    "oda-map-00694-record-of-protected-structures-roscommon-cdp-2014-2020-expired",
+    "oda-map-00732-scenic-routes-roscommon-cdp-2014-2020",
+    "oda-map-00734-scenic-views-roscommon-cdp-2014-2020",
+    "oda-map-00394-average-wind-speeds-roscommon-cdp-2014-2020-expired",
+    "oda-map-00860-wind-energy-development-potential-roscommon-cdp-2014-2020-expire"
+   ],
+   "kind": "Places",
+   "labels": {
+    "oda-map-00694-record-of-protected-structures-roscommon-cdp-2014-2020-expired": "Record of Protected Structures",
+    "oda-map-00732-scenic-routes-roscommon-cdp-2014-2020": "Scenic Routes",
+    "oda-map-00734-scenic-views-roscommon-cdp-2014-2020": "Scenic Views",
+    "oda-map-00394-average-wind-speeds-roscommon-cdp-2014-2020-expired": "Average Wind Speeds",
+    "oda-map-00860-wind-energy-development-potential-roscommon-cdp-2014-2020-expire": "Wind Energy Development Potential"
+   },
+   "subject": "development-plans-and-zoning"
+  },
+  {
+   "id": "development-plans-and-zoning-dun-laoghaire-rathdown--points",
+   "name": "Development Plan (Dún Laoghaire-Rathdown)",
+   "scope": "Republic of Ireland",
+   "arrangement": "set",
+   "members": [
+    "dlr-traveller-accommodation",
+    "dlr-proposed-education-sites",
+    "dlr-right-of-way",
+    "dlr-views-prospects"
+   ],
+   "kind": "Places",
+   "labels": {
+    "dlr-traveller-accommodation": "Traveller Accommodation",
+    "dlr-proposed-education-sites": "Proposed Education Sites",
+    "dlr-right-of-way": "Rights of Way",
+    "dlr-views-prospects": "Views and Prospects"
+   },
+   "subject": "development-plans-and-zoning"
+  },
+  {
+   "id": "rail-and-public-transport-luas",
+   "name": "Luas",
+   "scope": "Republic of Ireland",
+   "arrangement": "set",
+   "members": [
+    "tii-luas-stops"
+   ],
+   "kind": "Places",
+   "subject": "rail-and-public-transport",
+   "labels": {
+    "tii-luas-stops": "Tram Stops"
+   }
+  },
+  {
+   "id": "roads-and-traffic-way-points",
+   "name": "Way Points",
+   "scope": "Republic of Ireland",
+   "arrangement": "set",
+   "members": [
+    "tailte-hvd-way-points"
+   ],
+   "subject": "roads-and-traffic"
+  },
+  {
+   "id": "roads-and-traffic-gdf2s",
+   "name": "GDF2s",
+   "scope": "Republic of Ireland",
+   "arrangement": "set",
+   "members": [
+    "tailte-hvd-way-gdf2"
+   ],
+   "subject": "roads-and-traffic"
   }
  ],
  "hidden": [
@@ -5220,5 +5077,13 @@
    "by": "Scott Moore (approved for the batch of 2026-11-05)",
    "date": "2026-11-05"
   }
+ ],
+ "electionsHidden": [
+  "ireland-president__2004-10-01",
+  "ireland-president__1983-10-21",
+  "ireland-president__1976-11-09",
+  "ireland-president__1974-12-03",
+  "ireland-president__1952-05-16",
+  "ireland-president__1938-05-04"
  ]
 }

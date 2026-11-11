@@ -634,7 +634,8 @@ export class CatalogueNext {
       const parts = shelves.filter((x) => m.shelves.includes(x.sh.id));
       if (!parts.length) continue;
       const merged = {
-        sh: { id, name: m.name, subjects: parts.flatMap((x) => x.sh.subjects), flat: true },
+        // Each part's `last` rows still go to the end (Water Districts (Roscommon), a council's map).
+        sh: { id, name: m.name, subjects: parts.flatMap((x) => x.sh.subjects), flat: true, last: parts.flatMap((x) => x.sh.last || []) },
         subjects: parts.flatMap((x) => x.subjects),
         count: parts.reduce((n, x) => n + x.count, 0),
         best: Math.max(...parts.map((x) => x.best)),

@@ -48,7 +48,11 @@ const thumbs = new Set(read('site/assets/thumbnails/manifest.json'));
 const spatial = read('data/database/spatial-index.json');
 // A party's own ballots (bodyType "party-internal": leadership and nomination contests) have no
 // map and no shelf here; Browse shows them on the election and party pages (docs/facts-model.md).
-const elections = (read(ELECTION_MANIFEST).elections || []).filter((e) => e.bodyType !== 'party-internal');
+// Elections the curator keeps off the Elections section (catalogue.source.json `electionsHidden`:
+// presidential years with no popular vote, Phelim Birch's review of 11 Nov 2026). Their maps stay
+// listed as boundaries, and Browse still has their pages.
+const electionsHidden = new Set(source.electionsHidden || []);
+const elections = (read(ELECTION_MANIFEST).elections || []).filter((e) => e.bodyType !== 'party-internal' && !electionsHidden.has(e.key));
 
 // ------------------------------------------------------------------ per map
 const layerBySource = new Map();
