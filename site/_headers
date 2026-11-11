@@ -164,6 +164,13 @@
 /data/elections-source/data/*
   Cache-Control: public, max-age=604800
 
+# security.txt (RFC 9116, owner 11 Nov 2026): served as plain text in UTF-8 (section 3), and
+# revalidated within the day so a renewed Expires is seen. No redirect or Function covers
+# /.well-known/ (tests/unit/security-txt.test.mjs).
+/.well-known/security.txt
+  Content-Type: text/plain; charset=utf-8
+  Cache-Control: public, max-age=86400
+
 # ------------------------------------------------------------------------------
 # Security headers (UX plan T3-02, finding #20)
 #
