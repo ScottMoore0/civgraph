@@ -2,6 +2,9 @@
   if (!window.gsap || !window.ScrollTrigger) return;
 
   gsap.registerPlugin(ScrollTrigger);
+  // This script serves the homepage and About alike, and asks for targets one of them lacks;
+  // GSAP's "target not found" warnings for those went to every visitor's console (QA 2026-11-11, M10).
+  gsap.config({ nullTargetWarn: false });
 
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var formatter = new Intl.NumberFormat('en-GB');

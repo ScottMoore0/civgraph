@@ -1,3 +1,4 @@
+import { debugLog } from './debug-log.js';
 import { compositeChildIds } from './map-relations.mjs';
 import { licenceFor } from './census-overlay.mjs';
 
@@ -116,7 +117,7 @@ class DataService {
     // Initialize Fuse.js for fuzzy search
     this.initFuseSearch();
 
-    console.log(`[DataService] Loaded ${this.maps.maps.length} maps, ${this.books.books.length} books`);
+    debugLog(`[DataService] Loaded ${this.maps.maps.length} maps, ${this.books.books.length} books`);
     return this;
   }
 
@@ -150,7 +151,7 @@ class DataService {
         includeScore: true,
         ignoreLocation: true
       });
-      console.log('[DataService] Fuse.js search initialized');
+      debugLog('[DataService] Fuse.js search initialized');
     }
   }
 
@@ -761,11 +762,11 @@ class DataService {
   getEquivalentMapsForDate(activeMapIds, targetTimestamp) {
     const result = {};
 
-    console.log('[DataService] getEquivalentMapsForDate - activeMapIds:', activeMapIds, 'targetTimestamp:', targetTimestamp);
+    debugLog('[DataService] getEquivalentMapsForDate - activeMapIds:', activeMapIds, 'targetTimestamp:', targetTimestamp);
 
     for (const mapId of activeMapIds) {
       const chain = this.getChainForMap(mapId);
-      console.log('[DataService] Map:', mapId, 'chain:', chain?.id || 'none');
+      debugLog('[DataService] Map:', mapId, 'chain:', chain?.id || 'none');
       if (!chain) {
         // Not part of a time-series, keep as-is
         result[mapId] = mapId;
@@ -777,7 +778,7 @@ class DataService {
       // the 1929 NI Parliament map step to dail-1969 or pc-1948, whichever body had the
       // nearest date, and left two maps loaded at once.
       const mapsInChain = this.getMapsInChain(chain, this.getColumnClassIds(chain, mapId));
-      console.log('[DataService] mapsInChain:', mapsInChain.map(m => ({ id: m.map.id, timestamp: m.timestamp })));
+      debugLog('[DataService] mapsInChain:', mapsInChain.map(m => ({ id: m.map.id, timestamp: m.timestamp })));
 
       // Find the map whose date is closest to but not after the target date
       let bestMatch = null;
@@ -789,7 +790,7 @@ class DataService {
         }
       }
 
-      console.log('[DataService] bestMatch for', mapId, ':', bestMatch ? bestMatch.map.id : 'null');
+      debugLog('[DataService] bestMatch for', mapId, ':', bestMatch ? bestMatch.map.id : 'null');
       result[mapId] = bestMatch ? bestMatch.map.id : null;
     }
 
