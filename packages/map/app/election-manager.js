@@ -19,6 +19,18 @@ import {
   partyColour as electionPartyColour,
   seatPositions
 } from '../../core/src/election-domain.mjs';
+import { candidateReturnWithoutPoll, isUncontestedResult, partyHadNoPoll, UNOPPOSED_SEATS_NOTE } from '../../core/src/unopposed.mjs';
+
+/** What a votes cell says for a seat returned without a poll (QA H4: never "0"). */
+const NO_POLL_LABELS = { unopposed: 'Unopposed', 'auto-returned': 'Returned automatically' };
+const NO_VOTES_CELL = '<span class="election-delta--none" title="No poll: returned unopposed">\u2013</span>';
+
+/** The note under a seats-and-votes table, when some seat in it was returned unopposed. */
+function unopposedSeatsNoteHtml(rows = []) {
+  const seats = rows.reduce((sum, row) => sum + (Number(row?.unopposedSeats) || 0), 0);
+  if (!seats) return '';
+  return `<p class="election-table-note">${seats.toLocaleString('en-GB')} ${seats === 1 ? 'seat was' : 'seats were'} returned unopposed. ${UNOPPOSED_SEATS_NOTE}</p>`;
+}
 import { partyAbbreviation, partyFullName, partyLabelHtml } from '../../core/src/party-names.mjs';
 import { initPrintedLabels, printedLabelsToggleHtml, printedLabelText } from '../../../src/printed-labels.mjs';
 import { buildTrendChartModel, mountTrendChart } from '../../../src/election-trend-chart.mjs';
@@ -1182,6 +1194,8 @@ export class Test2ElectionManager {
                 const prevSeatPct = row.previous ? pct(numberOrZero(row.previous.seats), prevTotalSeats) : null;
                 const votePct = Number.isFinite(Number(row.share)) ? Number(row.share) : pct(numberOrZero(row.votes), totalValid);
                 const prevVotePct = row.previous ? pct(numberOrZero(row.previous.votes), prevTotalValid) : null;
+                // Every candidate returned unopposed: no votes and no share, not 0 and 0%.
+                const noPoll = partyHadNoPoll(row);
                 return `
                   <tr>
                     <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
@@ -1189,8 +1203,8 @@ export class Test2ElectionManager {
                     <td class="election-num">${valueWithChange(formatNumber(row.stood), row.deltas?.stood)}</td>
                     <td class="election-num">${valueWithChange(formatNumber(row.seats), row.deltas?.seats)}</td>
                     <td class="election-num">${valueWithChange(formatFixedPercent(seatPct), prevSeatPct === null ? null : seatPct - prevSeatPct, 'percent')}</td>
-                    <td class="election-num">${valueWithChange(formatNumber(row.votes), row.deltas?.votes)}</td>
-                    <td class="election-num">${valueWithChange(formatFixedPercent(votePct), prevVotePct === null ? (row.deltas?.share ?? null) : votePct - prevVotePct, 'percent')}</td>
+                    <td class="election-num">${noPoll ? NO_VOTES_CELL : valueWithChange(formatNumber(row.votes), row.deltas?.votes)}</td>
+                    <td class="election-num">${noPoll ? NO_VOTES_CELL : valueWithChange(formatFixedPercent(votePct), prevVotePct === null ? (row.deltas?.share ?? null) : votePct - prevVotePct, 'percent')}</td>
                   </tr>
                 `;
               }).join('')}
@@ -1202,6 +1216,7 @@ export class Test2ElectionManager {
             </tbody>
           </table>
         </div>
+        ${unopposedSeatsNoteHtml(orderedRows)}
         ${this.partyKeyHtml(orderedRows.map((row) => row.party))}
       </div>
     `;
@@ -1436,16 +1451,18 @@ export class Test2ElectionManager {
               const firstPrefPct = Number.isFinite(Number(candidate.firstPrefPct)) ? Number(candidate.firstPrefPct) : (validPoll ? firstPrefs / validPoll * 100 : null);
               const finalVotes = candidate.finalVotes ?? candidate.total ?? candidate.firstPrefs ?? candidate.votes;
               const candidateDelta = this.candidateDeltaForResultCandidate(candidate, result);
+              // Returned unopposed (or the Ceann Comhairle, returned automatically): no votes.
+              const noPoll = candidateReturnWithoutPoll(candidate);
               return `
                 <tr class="${candidate.elected ? 'election-row--elected test2-election-table__elected' : ''}">
                   <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
                   <td>${this.renderElectionEntityButton('candidate', this.candidateEntityKey(candidate), candidate.name || candidate.candidate || '', 'election-cell-wrap')}</td>
                   <td${this.partyCellAttrs(this.mainPanePartyColour(candidate.party, candidate.colour))}>${this.renderElectionEntityButton('party', candidate.party, this.partyLabel(candidate.party), 'election-cell-wrap')}${this.ballotDescriptionHtml(candidate)}</td>
                   ${this.printedLabelCell(candidate)}
-                  <td class="election-num">${valueWithChange(formatNumber(firstPrefs), candidateDelta.deltas?.firstPrefs ?? null)}</td>
-                  <td class="election-num">${firstPrefPct === null ? '' : valueWithChange(formatFixedPercent(firstPrefPct), candidateDelta.deltas?.firstPrefPct ?? null, 'percent')}</td>
-                  <td class="election-num">${formatNumber(finalVotes)}</td>
-                  <td>${candidate.elected ? 'Elected' : escapeHtml(candidate.status || '')}</td>
+                  <td class="election-num">${noPoll ? escapeHtml(NO_POLL_LABELS[noPoll]) : valueWithChange(formatNumber(firstPrefs), candidateDelta.deltas?.firstPrefs ?? null)}</td>
+                  <td class="election-num">${noPoll || firstPrefPct === null ? '' : valueWithChange(formatFixedPercent(firstPrefPct), candidateDelta.deltas?.firstPrefPct ?? null, 'percent')}</td>
+                  <td class="election-num">${noPoll ? '' : formatNumber(finalVotes)}</td>
+                  <td>${candidate.elected ? (noPoll === 'unopposed' ? 'Elected unopposed' : 'Elected') : escapeHtml(candidate.status || '')}</td>
                 </tr>
               `;
             }).join('')}
@@ -1467,14 +1484,14 @@ export class Test2ElectionManager {
     const isWestminster = this.isWestminsterElection();
     // No vote was polled: every candidate was returned unopposed. Showing 0 votes, and a
     // fall of thousands against the last contested election, misreads that as a collapse.
-    const unopposed = validPoll === 0;
+    const unopposed = validPoll === 0 || isUncontestedResult({ ...result, candidates });
     const rows = candidates.map((candidate, index) => {
       const candidateDelta = this.candidateDeltaForResultCandidate(candidate, result);
       const votes = numberOrZero(candidate.firstPrefs ?? candidate.votes ?? candidate.finalVotes ?? candidate.total);
       const votePct = Number.isFinite(Number(candidate.firstPrefPct)) ? Number(candidate.firstPrefPct) : (validPoll ? votes / validPoll * 100 : null);
       const statusKind = candidate.elected ? 'elected' : selectedPaneStatusKind(candidate.status || candidate.Status);
       const statusText = candidate.elected
-        ? 'Elected'
+        ? (unopposed && candidateReturnWithoutPoll(candidate) === 'unopposed' ? 'Elected unopposed' : 'Elected')
         : (candidate.status || candidate.Status || (statusKind === 'elected' ? 'Elected' : 'Not elected'));
       const candidateVoteDelta = candidateDelta.deltas?.firstPrefs ?? null;
       const candidatePctDelta = candidateDelta.deltas?.firstPrefPct ?? null;
@@ -1539,7 +1556,7 @@ export class Test2ElectionManager {
             </tbody>
           </table>
         </div>
-        ${this.renderSingleSeatFptpVoteGraphic(rows, validPoll)}
+        ${unopposed ? '' : this.renderSingleSeatFptpVoteGraphic(rows, validPoll)}
       </div>
     `;
   }
@@ -3107,6 +3124,7 @@ export class Test2ElectionManager {
                   ? `${candidate.electedAt || candidate.excludedAt || candidate.finalCount}/${candidate.countNumbers?.length || candidate.counts?.length || ''}`.replace(/\/$/, '')
                   : '');
               const localBody = candidate.localBody || candidate.council || candidate.district || '';
+              const noPoll = candidateReturnWithoutPoll(candidate);
               return `
                 <tr class="${candidate.elected ? 'election-row--elected' : ''}">
                   <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
@@ -3117,9 +3135,9 @@ export class Test2ElectionManager {
                   <td><button type="button" class="election-entity-link election-cell-wrap" data-election-result-key="${escapeHtml(normalizeName(candidate.constituency || ''))}">${escapeHtml(candidate.constituency || '')}</button></td>
                   ${isWestminster ? `<td class="election-col-elected">${this.electedMark(candidate.elected)}</td>` : `<td><span class="election-cell-wrap">${status === 'Elected' ? '<strong>Elected</strong>' : escapeHtml(status)}</span></td>
                   <td class="election-num election-col-status-count"><span class="election-cell-wrap">${escapeHtml(countValue)}</span></td>`}
-                  <td class="election-num election-cell-strong election-col-votes">${valueWithChange(formatNumber(firstPrefs), candidate.deltas?.firstPrefs ?? null)}</td>
-                  <td class="election-num election-col-pct-main">${valueWithChange(formatFixedPercent(candidate.firstPrefPct), candidate.deltas?.firstPrefPct ?? null, 'percent')}</td>
-                  <td class="election-num election-col-pct-small">${valueWithChange(formatFixedPercent(niPct), niPctDelta, 'percent')}</td>
+                  <td class="election-num election-cell-strong election-col-votes">${noPoll ? escapeHtml(NO_POLL_LABELS[noPoll]) : valueWithChange(formatNumber(firstPrefs), candidate.deltas?.firstPrefs ?? null)}</td>
+                  <td class="election-num election-col-pct-main">${noPoll ? NO_VOTES_CELL : valueWithChange(formatFixedPercent(candidate.firstPrefPct), candidate.deltas?.firstPrefPct ?? null, 'percent')}</td>
+                  <td class="election-num election-col-pct-small">${noPoll ? NO_VOTES_CELL : valueWithChange(formatFixedPercent(niPct), niPctDelta, 'percent')}</td>
                 </tr>
               `;
             }).join('')}
@@ -3192,8 +3210,8 @@ export class Test2ElectionManager {
                 <td class="election-num">${valueWithChange(formatNumber(row.stood), row.deltas?.stood ?? null)}</td>
                 <td class="election-num">${valueWithChange(formatNumber(row.seats), row.deltas?.seats ?? null)}</td>
                 ${singleSeat ? '' : `<td class="election-num">${valueWithChange(formatPercent(row.seatShare), row.deltas?.seatShare ?? null, 'percent')}</td>`}
-                <td class="election-num">${valueWithChange(formatNumber(row.firstPrefs), row.deltas?.firstPrefs ?? null)}</td>
-                <td class="election-num">${valueWithChange(formatPercent(row.share), row.deltas?.share ?? null, 'percent')}</td>
+                <td class="election-num">${partyHadNoPoll(row) ? NO_VOTES_CELL : valueWithChange(formatNumber(row.firstPrefs), row.deltas?.firstPrefs ?? null)}</td>
+                <td class="election-num">${partyHadNoPoll(row) ? NO_VOTES_CELL : valueWithChange(formatPercent(row.share), row.deltas?.share ?? null, 'percent')}</td>
               </tr>
             `).join('')}
           </tbody>

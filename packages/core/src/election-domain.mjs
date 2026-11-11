@@ -1,4 +1,7 @@
 import statuses from '../../registries/src/browser/statuses.mjs';
+import { isUnopposedCandidate } from './unopposed.mjs';
+
+export { candidateReturnWithoutPoll, isUncontestedResult, isUnopposedCandidate, partyHadNoPoll, UNOPPOSED_SEATS_NOTE } from './unopposed.mjs';
 
 /** @typedef {import('../../types/index.js').Candidacy} Candidacy */
 /** @typedef {import('../../types/index.js').Contest} Contest */
@@ -147,7 +150,10 @@ import statuses from '../../registries/src/browser/statuses.mjs';
 
 /**
  * A party's row of a seats-and-votes summary (buildPartySummary, the main-like summary).
- * @typedef {{ party: string, seats: number, stood: number, votes: number, colour: string, share: number | null }} PartySummaryRow
+ * `unopposedSeats` (present only when above 0) counts the seats returned without a poll: they
+ * are in `seats` and `stood` but add nothing to `votes`, and a party whose every candidate was
+ * returned unopposed has a `share` of null, not 0 (no vote was cast for or against it).
+ * @typedef {{ party: string, seats: number, stood: number, votes: number, colour: string, share: number | null, unopposedSeats?: number }} PartySummaryRow
  */
 
 const DEFAULT_PARTY_COLOURS = new Map([
@@ -1076,10 +1082,11 @@ export function buildMainLikePartySummaryFromRawResults(rawEntries = []) {
       }
       if (countNum === 1 && !seenCandidates.has(candidateId)) {
         seenCandidates.add(candidateId);
-        const total = numberOrZero(row.Total_Votes);
         const totals = /** @type {Omit<PartySummaryRow, 'share'>} */ (partyTotals.get(party)); // set above
-        totals.votes += total;
         totals.stood += 1;
+        // An unopposed return: a seat (counted below) and a candidate, but no votes.
+        if (isUnopposedCandidate(row)) totals.unopposedSeats = (totals.unopposedSeats || 0) + 1;
+        else totals.votes += numberOrZero(row.Total_Votes);
       }
     }
 
@@ -1102,7 +1109,7 @@ export function buildMainLikePartySummaryFromRawResults(rawEntries = []) {
   const rows = [...partyTotals.values()]
     .map((row) => ({
       ...row,
-      share: totalValid > 0 ? (row.votes / totalValid * 100) : null
+      share: partyShare(row, totalValid)
     }))
     .sort((a, b) => numberOrZero(b.seats) - numberOrZero(a.seats)
       || numberOrZero(b.votes) - numberOrZero(a.votes)
@@ -1691,19 +1698,37 @@ export function buildPartySummary(results = []) {
     }
     for (const candidate of result.candidates || []) {
       if (candidate.autoReturnedCeannComhairle) continue;
-      const votes = numberOrZero(candidate.firstPrefs ?? candidate.votes);
       const party = candidate.party || NO_LABEL;
       const key = normalizeName(party) || party;
       if (!rows.has(key)) rows.set(key, { party, seats: 0, stood: 0, votes: 0, colour: partyColour(party) });
       const row = /** @type {Omit<PartySummaryRow, 'share'>} */ (rows.get(key)); // set above
       row.stood += 1;
+      // An unopposed return counts as a seat (above) and a candidate, never as votes.
+      if (isUnopposedCandidate(candidate)) {
+        if (candidate.elected !== false) row.unopposedSeats = (row.unopposedSeats || 0) + 1;
+        continue;
+      }
+      const votes = numberOrZero(candidate.firstPrefs ?? candidate.votes);
       row.votes += votes;
       totalVotes += votes;
     }
   }
   return [...rows.values()]
-    .map((row) => ({ ...row, share: totalVotes ? row.votes / totalVotes * 100 : null }))
+    .map((row) => ({ ...row, share: partyShare(row, totalVotes) }))
     .sort((a, b) => b.seats - a.seats || b.votes - a.votes || a.party.localeCompare(b.party));
+}
+
+/**
+ * A party's share of the votes polled, or null when none of its candidates went to a poll
+ * (every one returned unopposed): 0% there would read as nobody voting for it.
+ * @param {Omit<PartySummaryRow, 'share'>} row
+ * @param {number} totalVotes
+ * @returns {number | null}
+ */
+function partyShare(row, totalVotes) {
+  if (!totalVotes) return null;
+  if (row.unopposedSeats && row.stood <= row.unopposedSeats && !row.votes) return null;
+  return row.votes / totalVotes * 100;
 }
 
 /**
