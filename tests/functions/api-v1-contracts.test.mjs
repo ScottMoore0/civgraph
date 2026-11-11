@@ -414,6 +414,7 @@ async function recordsCases(env) {
       ['elections', `?view=provenance&key=${k}`, 'provenance'], ['elections', '?view=list&limit=5', 'list'],
       ['elections', `?view=detail&key=${k}`, 'detail'], ['elections', `?view=contests&key=${k}`, 'contests'],
       ['elections', `?view=record&slug=${election.slug}`, 'record'],
+      ['elections', `?view=areas&key=${k}`, 'areas'],
       ['persons', '?limit=5', 'list'], ['persons', '?q=moore&limit=3', 'list'], ['persons', '?facets=1', 'facets'],
       ['persons', `?slug=${person.slug}`, 'record'], ['persons', `?slug=${person.slug}&view=candidacies`, 'candidacies'],
       ['parties', '', 'list'], ['parties', `?slug=${party.slug}`, 'record'], ['parties', '?view=names', 'names'], ['parties', '?view=folds', 'folds'],
@@ -429,6 +430,9 @@ async function recordsCases(env) {
       ['layers', '', 'document'], ['layers', '?view=index', 'index'], ['layers', `/${layer.id}`, 'layer'],
     ];
     if (profiled) cases.push(['parties', `?slug=${profiled.slug}&view=profile`, 'profile']);
+    // An election with results by area (the full build has them; the fixture's answers areas []).
+    const byArea = await one("SELECT key FROM r_elections WHERE key = 'ireland-president__2011-10-27'");
+    if (byArea) cases.push(['elections', `?view=areas&key=${encodeURIComponent(byArea.key)}`, 'areas']);
     if (division) {
       cases.push(['votes', '?view=index', 'index'], ['votes', `?division=${encodeURIComponent(division.id)}`, 'division'],
         ['votes', `?shard=${String(division.shard).padStart(3, '0')}`, 'shard'], ['votes', `?person=${voter.id}`, 'person'],
@@ -446,7 +450,7 @@ async function recordsCases(env) {
       if (variant) answered.add(`${key}.${variant}`);
     }
     // error answers of each envelope
-    for (const url of ['/elections?key=no-such-election', '/elections?view=nonsense', '/persons?slug=no-such-person', '/catalogue?id=no-such-map',
+    for (const url of ['/elections?key=no-such-election', '/elections?view=nonsense', '/elections?view=areas&key=no-such-election', '/persons?slug=no-such-person', '/catalogue?id=no-such-map',
       '/catalogue?view=nonsense', '/layers/no-such-layer-vector', '/graph', '/votes', '/sources?slug=no-such-source']) {
       installCaches();
       resetDatasetMemo();

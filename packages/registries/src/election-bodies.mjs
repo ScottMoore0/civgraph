@@ -78,3 +78,15 @@ export function browserElectionBodies(registry) {
     searchTerms: body.searchTerms,
   }).filter(([, value]) => value !== undefined))]));
 }
+
+/** How the site names each jurisdiction where it says where an election was held. */
+export const JURISDICTION_LABELS = Object.freeze({ ireland: 'Republic of Ireland', 'northern-ireland': 'Northern Ireland', island: 'Ireland' });
+
+/**
+ * Where a body's elections were held, as the catalogue and Browse say it, or null.
+ * @param {ElectionBody | null | undefined} body
+ * @returns {string | null}
+ */
+export function jurisdictionLabel(body) {
+  return body ? JURISDICTION_LABELS[body.jurisdiction] || null : null;
+}

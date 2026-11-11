@@ -23,6 +23,10 @@
  *                                 the original sources of the results: one contest's citations, or an
  *                                 election's distinct sources with how many contests cite each
  *   view=citations&person=<id>    the citations of every contest a person stood in
+ *   view=areas&key=<key|slug>     a national contest's results by area (the presidential elections by
+ *                                 Dail constituency): per area, each candidate's figure at every count,
+ *                                 the candidates named by their one national candidacy; areas [] when
+ *                                 the election has none
  *
  * A retired contest slug (packages/core/src/election-slug-aliases.js) in contest= or in a record
  * view's slug= answers 301 to the same request with the slug that replaced it.
@@ -37,6 +41,7 @@ import {
 } from '../_records.js';
 import { binding } from '../../../../config/src/config.js';
 import { fromD1 } from '../../../../storage/src/d1.js';
+import { areaResultsAnswer } from '../../../../core/src/area-results.mjs';
 import { ELECTIONS, ELECTIONS_API, ELECTION_CARDS } from '../../queries/elections.js';
 
 // Bump whenever the RESPONSE SHAPE changes, not just when the data does: it is part of the
@@ -301,6 +306,16 @@ async function handleView(db, view, url) {
     }
     case 'record': return electionRecord(db, (url.searchParams.get('slug') || key).trim());
     case 'citations': return json(await citationsView(db, url));
+    case 'areas': {
+      const k = await electionKeyFor(db, key);
+      const row = /** @type {{ key: string, displayTitle: string | null, body: string | null, date: string | null, modes: string | null } | null} */ (k ? await db.first(ELECTIONS_API.areaModes, [k]) : null);
+      if (!row) return json({ error: 'election not found' }, 404);
+      const modes = parseJson(row.modes, []);
+      const national = Array.isArray(modes) && modes.some((/** @type {{ dataKind?: string }} */ m) => m?.dataKind === 'area-results')
+        ? /** @type {Array<{ id: unknown, name: unknown, party: unknown, personId: unknown, colour?: unknown }>} */ (await db.all(ELECTIONS_API.contestCandidates, [row.key, 0]))
+        : [];
+      return json(areaResultsAnswer(row, modes, national));
+    }
     default: return json({ error: `unknown view ${view}` }, 400);
   }
 }

@@ -95,6 +95,8 @@ export const CONTRACTS = Object.freeze({
         obj({ schemaVersion: num, generatedAt: str, totals: obj({ elections: num, loadable: num }), elections: arr(obj({ key: str, body: str, date: str, displayTitle: str, loadable: bool })) })),
       v('summary', { view: 'summary' }, 'One election\'s summary', obj({ key: str, body: str, date: str, displayTitle: str, results: arr() })),
       v('provenance', { view: 'provenance' }, 'Where each contest\'s figures came from', obj({ schemaVersion: num, key: str, contests: object })),
+      v('areas', { view: 'areas' }, 'A national contest\'s results by area (the presidential elections by Dáil constituency): per area, each candidate\'s figure at every count, the candidates named by their one national candidacy; areas is empty when the election has none',
+        obj({ key: str, title: either('string', 'null'), areaLabel: either('string', 'null'), areas: arr(obj({ name: str, slug: str, matched: bool, validPoll: either('number', 'null'), candidates: arr(obj({ id: str, firstPrefs: either('number', 'null'), counts: arr() })) })) })),
       v('list', { view: 'list' }, 'The Browse list of elections, or a page of it',
         obj({ schemaVersion: num, total: num, items: arr(obj({ slug: str, title: str, date: str, body: str, kind: str, interactiveUrl: str }, ['slug', 'title'])) })),
       v('detail', { view: 'detail' }, 'One election\'s Browse detail', obj({ schemaVersion: num, item: object })),

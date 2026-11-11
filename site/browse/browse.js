@@ -2351,6 +2351,8 @@ async function renderDetail(type, indexItem) {
   const featuresPanel = isMap ? await renderMapFeaturesTable(item, graph?.entityId) : '';
   // A contest (one constituency's result) shows its candidates and count summary.
   const contestPanel = isContestItem(type, item) ? await renderContestResultPanel(item) : '';
+  // A national contest broken down by area (a presidential election by Dáil constituency).
+  const areaResultsPanel = type === 'elections' && item.areaResults ? await renderAreaResultsPanel(item) : '';
   // A party's profile: history, leaders, seats and votes by body, its members.
   const partyProfile = type === 'parties' ? await loadPartyProfile(item) : null;
   // Votes in divisions: a person's record of votes, a party's cohesion (data/browse/votes/).
@@ -2371,6 +2373,7 @@ async function renderDetail(type, indexItem) {
       ${isMap ? '' : renderHeaderPanel(type, item, pinnedRows)}
       ${partyProfile ? renderPartyProfilePanels(item, partyProfile) : ''}
       ${contestPanel}
+      ${areaResultsPanel}
       ${votesPanel}
       ${sourcesPanel}
       ${type === 'elections' ? renderGazetteElectionPanels(item) : ''}
@@ -5053,6 +5056,84 @@ async function renderContestResultPanel(item) {
           <tbody>${rows}</tbody>
         </table>
       </div>
+    </section>
+  `;
+}
+
+/**
+ * An election's results by area (item.areaResults, from the manifest's area-results geography; the
+ * figures from /_api/elections?view=areas): one row an area with each candidate's first
+ * preferences and share, and, folded under it, every count of each area. The areas break the one
+ * national result down; nobody stands in an area.
+ * @param {BrowseItem} item
+ */
+async function renderAreaResultsPanel(item) {
+  const meta = item.areaResults || {};
+  const data = await fetchJsonOrNull(`/_api/elections?view=areas&key=${encodeURIComponent(item.key || item.id || '')}`);
+  const areas = normalizeArray(data?.areas);
+  const label = String(data?.areaLabel || meta.label || 'Area');
+  const title = `Results by ${label.toLowerCase()}`;
+  if (!areas.length) {
+    return `
+      <section class="browse-detail__panel">
+        <h2>${escapeHtml(title)}</h2>
+        <p class="browse-note">The results by ${escapeHtml(label.toLowerCase())} could not be loaded.${meta.interactiveUrl ? ` They are on the <a href="${escapeAttr(meta.interactiveUrl)}">interactive map</a>.` : ''}</p>
+      </section>
+    `;
+  }
+  const candidates = normalizeArray(data.candidates);
+  const byId = new Map(candidates.map((/** @type {BrowseItem} */ c) => [String(c.id), c]));
+  const swatch = (/** @type {BrowseItem} */ c) => (c?.colour ? `<span class="browse-badge" style="border-color:${escapeAttr(c.colour)}">${escapeHtml(c.name || '')}</span>` : escapeHtml(c?.name || ''));
+  const personCell = (/** @type {BrowseItem} */ c) => (c?.personId ? `<a href="#/persons/${encodeURIComponent(String(c.personId))}" data-browse-link>${swatch(c)}</a>` : swatch(c));
+  const numCounts = Math.max(1, Number(data.numCounts) || 1);
+  const pct = (/** @type {unknown} */ value) => (Number.isFinite(Number(value)) && value !== null ? `${Number(value).toFixed(2)}%` : '');
+  const head = candidates.map((/** @type {BrowseItem} */ c) => `<th scope="col" class="browse-num">${personCell(c)}</th>`).join('');
+  const rows = areas.map((/** @type {BrowseItem} */ area) => {
+    const own = new Map(normalizeArray(area.candidates).map((/** @type {BrowseItem} */ c) => [String(c.id), c]));
+    const cells = candidates.map((/** @type {BrowseItem} */ c) => {
+      const figure = own.get(String(c.id));
+      return `<td class="browse-num">${figure && figure.firstPrefs !== null ? `${formatNumber(figure.firstPrefs)}<br><span class="browse-muted">${pct(figure.share)}</span>` : ''}</td>`;
+    }).join('');
+    const where = area.matched ? '' : ' <span class="browse-muted">(not drawn on the map)</span>';
+    return `<tr${area.leadingName ? ` data-leading="${escapeAttr(area.leadingName)}"` : ''}><th scope="row">${escapeHtml(area.name || '')}${where}</th>${cells}<td class="browse-num">${area.validPoll !== null && area.validPoll !== undefined ? formatNumber(area.validPoll) : ''}</td><td class="browse-num">${pct(area.turnoutPct)}</td></tr>`;
+  }).join('');
+  const countTables = numCounts > 1 ? areas.map((/** @type {BrowseItem} */ area) => {
+    const own = normalizeArray(area.candidates);
+    const countHead = Array.from({ length: numCounts }, (_, i) => `<th scope="col" class="browse-num">Count ${i + 1}</th>`).join('');
+    const candidateRows = own.map((/** @type {BrowseItem} */ c) => `<tr><th scope="row">${personCell(byId.get(String(c.id)) || { name: c.id })}</th>${normalizeArray(c.counts).map((/** @type {unknown} */ v) => `<td class="browse-num">${v === null || v === undefined ? '' : formatNumber(v)}</td>`).join('')}</tr>`).join('');
+    const nt = normalizeArray(area.nonTransferable);
+    const ntRow = nt.some((/** @type {unknown} */ v) => v !== null && v !== undefined)
+      ? `<tr><th scope="row">Non-transferable</th>${nt.map((/** @type {unknown} */ v) => `<td class="browse-num">${v === null || v === undefined ? '' : formatNumber(v)}</td>`).join('')}</tr>`
+      : '';
+    const notes = normalizeArray(area.notes).map((/** @type {string} */ n) => `<p class="browse-note">${escapeHtml(n)}</p>`).join('');
+    return `
+      <details class="browse-area-counts">
+        <summary>${escapeHtml(area.name || '')}: every count</summary>
+        ${notes}
+        <div class="browse-table-wrap" tabindex="0" role="region" aria-label="${escapeAttr(`${area.name}: every count`)}">
+          <table class="browse-table">
+            <thead><tr><th scope="col">Candidate</th>${countHead}</tr></thead>
+            <tbody>${candidateRows}${ntRow}</tbody>
+          </table>
+        </div>
+      </details>`;
+  }).join('') : '';
+  const sources = normalizeArray(data.references).filter((/** @type {BrowseItem} */ r) => r?.url)
+    .map((/** @type {BrowseItem} */ r) => `<a href="${escapeAttr(r.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(r.label || r.url)}</a>${r.note ? ` (${escapeHtml(r.note)})` : ''}`).join('; ');
+  return `
+    <section class="browse-detail__panel browse-area-results">
+      <h2>${escapeHtml(title)}</h2>
+      ${data.note ? `<p class="browse-note">${escapeHtml(data.note)}</p>` : ''}
+      ${meta.interactiveUrl ? `<p><a href="${escapeAttr(meta.interactiveUrl)}">Open the results by ${escapeHtml(label.toLowerCase())} on the map</a></p>` : ''}
+      <div class="browse-table-wrap" tabindex="0" role="region" aria-label="${escapeAttr(title)}">
+        <table class="browse-table">
+          <caption class="visually-hidden">${escapeHtml(item.title || '')}: first preferences in each of ${formatNumber(areas.length)} areas</caption>
+          <thead><tr><th scope="col">${escapeHtml(label)}</th>${head}<th scope="col" class="browse-num">Valid poll</th><th scope="col" class="browse-num">Turnout</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+      ${countTables ? `<h3>Every count, by ${escapeHtml(label.toLowerCase())}</h3>${countTables}` : ''}
+      ${sources ? `<p class="browse-gazette-source browse-gazette-source--panel">Source: ${sources}.</p>` : ''}
     </section>
   `;
 }
