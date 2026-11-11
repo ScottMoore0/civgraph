@@ -34,7 +34,7 @@ export function partyRows(parties, previous, has) {
   return [...rows, ...gone].sort((a, b) => (b.seats || 0) - (a.seats || 0) || (b.votes || 0) - (a.votes || 0));
 }
 
-/** @param {HTMLElement} root @param {{ election?: string }} route */
+/** @param {HTMLElement} root @param {import('../lib/route.js').Route} route */
 export async function render(root, route) {
   const slug = /** @type {string} */ (route.election);
   const [detail, summary] = await Promise.all([electionDetail(slug), electionSummary(slug)]);

@@ -19,7 +19,7 @@ const KIND_NOTE = {
   none: 'No votes are recorded for this contest in the sources Civgraph holds; only the candidates are known.',
 };
 
-/** @param {HTMLElement} root @param {{ election?: string, contest?: string }} route */
+/** @param {HTMLElement} root @param {import('../lib/route.js').Route} route */
 export async function render(root, route) {
   const eslug = /** @type {string} */ (route.election);
   const cslug = /** @type {string} */ (route.contest);

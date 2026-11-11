@@ -7,8 +7,17 @@
  */
 import { isAppHref, parseRoute } from './lib/route.js';
 import { esc } from './lib/format.js';
+import { createViewScope } from './lib/lifecycle.js';
+import { ROUTE } from './state-machines.js';
 
-/** @type {Record<string, () => Promise<{ render: (root: HTMLElement, route: any, ctx: any) => Promise<string> }>>} */
+/**
+ * A view module: `render` draws into the root and returns the page title.
+ * @typedef {import('./lib/route.js').Route} Route
+ * @typedef {{ signal: AbortSignal, stale: () => boolean, onDispose: (cleanup: () => void) => void, navigate: typeof navigate }} ViewContext
+ * @typedef {{ render: (root: HTMLElement, route: Route, ctx: ViewContext) => Promise<string> }} ViewModule
+ */
+
+/** @type {Record<string, () => Promise<ViewModule>>} */
 const VIEWS = {
   home: () => import('./views/home.js'),
   body: () => import('./views/home.js'),
@@ -24,11 +33,18 @@ const VIEWS = {
 const TAB_OF = { home: 'home', body: 'home', election: 'home', contest: 'home', pivot: 'pivot', map: 'map', compare: 'compare', swing: 'swing', notional: 'notional' };
 
 const root = /** @type {HTMLElement} */ (document.getElementById('el-view'));
-let generation = 0;
+/** EL-01: the route's state (state-machines.js ROUTE). */
+const routeRun = ROUTE.start();
+/** The view on screen (or loading): leaving it disposes its listeners, maps and holders. */
+let scope = createViewScope();
 
 /** Render the current URL's view. */
 async function render() {
-  const mine = ++generation;
+  scope.dispose();
+  const mine = createViewScope();
+  scope = mine;
+  routeRun.to('loading');
+  root.dataset.route = 'loading';
   const route = parseRoute(location.pathname, location.search);
   for (const a of document.querySelectorAll('.el-tabs a')) {
     if (a.getAttribute('data-tab') === TAB_OF[route.view]) a.setAttribute('aria-current', 'page');
@@ -37,21 +53,22 @@ async function render() {
   root.setAttribute('aria-busy', 'true');
   try {
     const mod = await VIEWS[route.view]();
-    if (mine !== generation) return;
-    /** A view renders into root and returns the page title; `stale()` says a newer route started. */
-    const title = await mod.render(root, route, { stale: () => mine !== generation, navigate });
-    if (mine !== generation) return;
+    if (mine.stale()) return;
+    const title = await mod.render(root, route, { signal: mine.signal, stale: mine.stale, onDispose: mine.onDispose, navigate });
+    if (mine.stale()) return;
     document.title = title ? `${title} - Civgraph Elections` : 'Civgraph Elections';
+    root.dataset.route = routeRun.to('rendered');
   } catch (err) {
-    if (mine !== generation) return;
-    const status = /** @type {any} */ (err)?.status;
+    if (mine.stale()) return;
+    const status = /** @type {{ status?: number } | null} */ (err)?.status;
     root.innerHTML = status === 404
       ? '<h1>Not found</h1><p>There is no election or contest at this address. <a href="/elections/">All elections</a>.</p>'
       : `<h1>Something went wrong</h1><p class="cg-notice cg-notice--danger">${esc(/** @type {Error} */ (err)?.message || err)}</p>`;
     document.title = 'Civgraph Elections';
+    root.dataset.route = routeRun.to(status === 404 ? 'not-found' : 'failed');
     console.error(err);
   } finally {
-    if (mine === generation) root.removeAttribute('aria-busy');
+    if (!mine.stale()) root.removeAttribute('aria-busy');
   }
 }
 

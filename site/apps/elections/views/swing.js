@@ -7,11 +7,12 @@ import { electionDetail, electionIndex, must } from '../lib/api.js';
 import { parliamentArc, seatBar } from '../lib/charts.js';
 import { appUrl, electionSlug, esc, fmtDelta, fmtPct, isStv, partyChip, partyColour } from '../lib/format.js';
 import { baseContests, nationalShares, project } from '../lib/project.js';
+import { SWING_EDITS, SWING_LIMIT, clampSwing } from '../state-machines.js';
 
 /**
  * @param {HTMLElement} root
- * @param {{ query: URLSearchParams }} route
- * @param {{ stale: () => boolean }} ctx
+ * @param {import('../lib/route.js').Route} route
+ * @param {import('../app.js').ViewContext} ctx
  */
 export async function render(root, route, ctx) {
   const q = route.query;
@@ -19,10 +20,9 @@ export async function render(root, route, ctx) {
   const want = q.get('e') || 'northern-ireland-assembly-2022-05-05';
   const el = must(index.find((e) => electionSlug(e.key) === want || e.key === want) || index.at(-1), 'election');
   const detail = await electionDetail(el.key);
-  const { useBodies, query } = await import('../lib/duck.js');
-  await useBodies([el.bodySlug]);
+  const { queryBodies } = await import('../lib/duck.js');
   const k = el.key.replace(/'/g, "''");
-  const rows = /** @type {Array<{ area: string, party: string, votes: number, seats: number }>} */ (await query(
+  const rows = /** @type {Array<{ area: string, party: string, votes: number, seats: number }>} */ (await queryBodies([el.bodySlug],
     `SELECT area, party, SUM(COALESCE(votes, 0)) AS votes, SUM(seats) AS seats FROM rows WHERE election_key = '${k}' GROUP BY area, party`,
   ));
   if (ctx.stale()) return 'Swingometer';
@@ -32,7 +32,10 @@ export async function render(root, route, ctx) {
   const parties = [...base].sort((a, b) => b[1] - a[1]).filter(([, s]) => s >= 0.5).map(([p]) => p);
   /** @type {Map<string, number>} */
   const deltas = new Map();
-  for (const p of parties) { const v = Number(q.get(`d.${p}`)); if (q.get(`d.${p}`) && Number.isFinite(v)) deltas.set(p, Math.max(-30, Math.min(30, v))); }
+  // The URL and the sliders share one limit (SWING_LIMIT): a URL cannot ask for a value the slider cannot show.
+  for (const p of parties) { const v = clampSwing(q.get(`d.${p}`)); if (v !== null) deltas.set(p, v); }
+  /** EL-10: the base election, or edited. */
+  const edits = SWING_EDITS.start(deltas.size ? 'edited' : 'base');
   const baseSeats = project(contests, new Map()).seats;
   const stv = isStv(el.votingSystem);
   const bodies = [...new Map(index.map((/** @type {any} */ e) => [e.bodySlug, e.body])).entries()].sort((x, y) => String(x[1]).localeCompare(String(y[1])));
@@ -50,7 +53,7 @@ export async function render(root, route, ctx) {
     <div class="el-grid">
       <div><table class="cg-table cg-table--compact"><thead><tr><th scope="col">Party</th><th scope="col" class="num">Base share</th><th scope="col">Change (points)</th><th scope="col" class="num">New share</th></tr></thead>
         <tbody>${parties.map((p) => `<tr><th scope="row">${partyChip(p, colours.get(p))}</th><td class="num">${fmtPct(base.get(p))}</td>
-          <td><input type="range" min="-15" max="15" step="0.5" value="${deltas.get(p) || 0}" data-party="${esc(p)}" aria-label="Change in ${esc(p)} share, points"> <output data-out="${esc(p)}">${fmtDelta(deltas.get(p) || 0, 1)}</output></td>
+          <td><input type="range" min="${-SWING_LIMIT}" max="${SWING_LIMIT}" step="0.5" value="${deltas.get(p) || 0}" data-party="${esc(p)}" aria-label="Change in ${esc(p)} share, points"> <output data-out="${esc(p)}">${fmtDelta(deltas.get(p) || 0, 1)}</output></td>
           <td class="num" data-new="${esc(p)}"></td></tr>`).join('')}</tbody></table></div>
       <div><figure class="cg-chart" id="sw-chart"></figure><div id="sw-seats"></div></div>
     </div>
@@ -76,28 +79,33 @@ export async function render(root, route, ctx) {
     for (const [p, v] of deltas) if (v) u.set(`d.${p}`, String(v));
     history.replaceState(null, '', `/elections/swing/?${u}`);
   };
+  const listen = { signal: ctx.signal };
   root.querySelector('#sw-form')?.addEventListener('change', (e) => {
     const t = /** @type {HTMLSelectElement} */ (e.target);
-    if (t.id === 'sw-e') location.assign(`/elections/swing/?e=${encodeURIComponent(t.value)}`);
-    if (t.id === 'sw-body') { const last = index.filter((/** @type {any} */ x) => x.bodySlug === t.value).at(-1); if (last) location.assign(`/elections/swing/?e=${encodeURIComponent(electionSlug(last.key))}`); }
-  });
+    if (t.id === 'sw-e') ctx.navigate(`/elections/swing/?e=${encodeURIComponent(t.value)}`, { keepScroll: true });
+    if (t.id === 'sw-body') { const last = index.filter((x) => x.bodySlug === t.value).at(-1); if (last) ctx.navigate(`/elections/swing/?e=${encodeURIComponent(electionSlug(last.key))}`, { keepScroll: true }); }
+  }, listen);
   root.querySelector('#sw-reset')?.addEventListener('click', () => {
+    if (edits.state() === 'edited') edits.to('base');
     deltas.clear();
     for (const input of root.querySelectorAll('input[type=range]')) /** @type {HTMLInputElement} */ (input).value = '0';
     for (const o of root.querySelectorAll('output')) o.textContent = '0.0';
     sync();
     draw();
-  });
+  }, listen);
+  // On the shared root, so it must go with the view (listen.signal): left behind, a later visit
+  // would run two of these.
   root.addEventListener('input', (e) => {
     const t = /** @type {HTMLInputElement} */ (e.target);
     const p = t.getAttribute('data-party');
     if (!p) return;
-    deltas.set(p, Number(t.value));
+    edits.to('edited');
+    deltas.set(p, /** @type {number} */ (clampSwing(t.value) ?? 0));
     const out = root.querySelector(`[data-out="${CSS.escape(p)}"]`);
     if (out) out.textContent = fmtDelta(Number(t.value), 1);
     sync();
     draw();
-  });
+  }, listen);
   draw();
   return 'Swingometer';
 }

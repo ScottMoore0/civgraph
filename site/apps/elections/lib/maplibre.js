@@ -78,13 +78,19 @@ const ink = () => getComputedStyle(document.documentElement).getPropertyValue('-
 
 /**
  * A map of one layer with its areas filled by a colour per feature label.
+ *
+ * Its lifetime is the caller's: with `signal` (a view's ctx.signal) the map is remove()d when the
+ * signal aborts, which frees its WebGL context and observers; a signal already aborted when
+ * MapLibre has loaded makes no map at all (null). Without a signal the caller removes it.
  * @param {HTMLElement} container
  * @param {any} rec the layer record
- * @param {{ colours: Map<string, string>, labels?: Map<string, string>, interactive?: boolean, preserve?: boolean }} opts
+ * @param {{ colours: Map<string, string>, labels?: Map<string, string>, interactive?: boolean, preserve?: boolean, signal?: AbortSignal }} opts
  *   colours: feature label (upper case) -> colour; labels: feature label -> hover text
+ * @returns {Promise<any>} the map, or null when the signal aborted first
  */
 export async function areaMap(container, rec, opts) {
   const { maplibregl } = await loadMapLibre();
+  if (opts.signal?.aborted) return null;
   const prop = rec.labelProperty || rec.label_property || 'name';
   const fill = ['match', ['upcase', ['to-string', ['get', prop]]]];
   for (const [k, v] of opts.colours) fill.push(k, v);
@@ -117,13 +123,25 @@ export async function areaMap(container, rec, opts) {
     });
     map.on('mouseleave', 'fill', () => popup.remove());
   }
+  opts.signal?.addEventListener('abort', () => map.remove(), { once: true });
   return map;
 }
 
-/** Resolve when a map has drawn everything it is going to (or after `ms`). */
-export function idle(/** @type {any} */ map, ms = 15000) {
+/**
+ * Resolve when a map has drawn everything it is going to (true), or false after `ms`, when the
+ * signal aborts or when there is no map.
+ * @param {any} map
+ * @param {number} [ms]
+ * @param {AbortSignal} [signal]
+ * @returns {Promise<boolean>}
+ */
+export function idle(map, ms = 15000, signal) {
+  if (!map || signal?.aborted) return Promise.resolve(false);
   return new Promise((resolve) => {
-    const t = setTimeout(() => resolve(false), ms);
-    map.once('idle', () => { clearTimeout(t); resolve(true); });
+    const done = (/** @type {boolean} */ value) => { clearTimeout(t); signal?.removeEventListener('abort', aborted); resolve(value); };
+    const aborted = () => done(false);
+    const t = setTimeout(() => done(false), ms);
+    signal?.addEventListener('abort', aborted, { once: true });
+    map.once('idle', () => done(true));
   });
 }
