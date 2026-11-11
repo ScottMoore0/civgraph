@@ -297791,6 +297791,928 @@
         "localUrl": "/render/pmtiles/generated/county-ed-1921-05-03-vector-test.pmtiles",
         "byteRangeVerifiedAt": "2026-11-07T03:18:52.714Z"
       }
+    },
+    {
+      "id": "nuts-2-2016-2021-vector",
+      "sourceMapId": "nuts-2-2016-2021",
+      "name": "NUTS 2 Regions 2016–2021",
+      "category": "Census Statistical Areas",
+      "group": "Public Services",
+      "date": "2016",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Tailte Éireann",
+        "OSNI"
+      ],
+      "description": "The NUTS 2 statistical regions of Ireland and Northern Ireland in NUTS 2016 and NUTS 2021 (applied from 1 Jan 2018; Ireland's are unchanged in NUTS 2024): Northern and Western (IE04), Southern (IE05) and Eastern and Midland (IE06), and Northern Ireland (UKN0). Each is the union of its NUTS 3 regions, built for Civgraph from its own council maps (Ireland's 31 councils of 2014, from Tailte Éireann; Northern Ireland's 11 districts of 2015, from OSNI) by the membership the NUTS regulations give; the codes and names are Eurostat's. Its lines are those maps' lines, so a few regions take in estuary or sea-lough water and run larger than Eurostat's own (Mid-West, with the Shannon estuary, about 10,510 km² against 10,240; Ards and North Down 564 against 461).",
+      "renderer": "maplibre",
+      "sourceType": "pmtiles",
+      "geometryType": "polygon",
+      "tiles": "/render/tiles/generated/nuts-2-2016-2021/{z}/{x}/{y}.pbf",
+      "metadataUrl": "/render/tiles/generated/nuts-2-2016-2021/metadata.json",
+      "sourceLayer": "nuts_2_2016_2021",
+      "promoteId": "id",
+      "minzoom": 0,
+      "maxzoom": 12,
+      "bounds": [
+        [
+          51.4198973,
+          -10.6909319
+        ],
+        [
+          55.4469232,
+          -5.4327894
+        ]
+      ],
+      "style": {
+        "color": "#8E6C00",
+        "fillColor": "#8E6C00",
+        "fillOpacity": 0.18,
+        "weight": 2
+      },
+      "references": [
+        {
+          "label": "Commission Regulation (EU) 2016/2066 amending the annexes to Regulation (EC) No 1059/2003 (NUTS 2016)",
+          "url": "https://eur-lex.europa.eu/eli/reg/2016/2066/oj",
+          "note": "NUTS 2016, applied from 1 Jan 2018: the codes and the councils and districts in each region; Northern Ireland's eleven are UKN06-UKN16."
+        },
+        {
+          "label": "Commission Delegated Regulation (EU) 2019/1755 amending the annexes to Regulation (EC) No 1059/2003 (NUTS 2021)",
+          "url": "https://eur-lex.europa.eu/eli/reg_del/2019/1755/oj",
+          "note": "NUTS 2021, applied from 1 Jan 2021: Northern Ireland's UKN10-UKN16 recoded UKN0A-UKN0G, the areas unchanged; Ireland's regions unchanged (and again in NUTS 2024)."
+        },
+        {
+          "label": "Eurostat — NUTS: history",
+          "url": "https://ec.europa.eu/eurostat/web/nuts/history",
+          "note": "The NUTS versions, when each applied, and what changed."
+        },
+        {
+          "label": "Eurostat GISCO — NUTS unit lists for each version",
+          "url": "https://gisco-services.ec.europa.eu/distribution/v2/nuts/",
+          "note": "Codes and names checked against Eurostat's unit lists for NUTS 2003, 2006, 2010, 2013, 2016 and 2021. GISCO's own boundaries are not used (non-commercial use only)."
+        },
+        {
+          "label": "Civgraph — Local Authorities 2014 (Tailte Éireann)",
+          "url": "https://civgraph.net/maps/#layers=local-authorities-2014",
+          "note": "Ireland's 31 councils, joined into the eight regions. CC BY 4.0."
+        },
+        {
+          "label": "Civgraph — Local Government Districts 2012 (OSNI)",
+          "url": "https://civgraph.net/maps/#layers=lgd-2012",
+          "note": "Northern Ireland's 11 districts of 2015, one region each. Open Government Licence v3.0."
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "Source file used for /test conversion",
+          "file": "render/source-cache/vector-intake/nuts-2-2016-2021.fgb"
+        }
+      ],
+      "sourceCredits": [
+        "Tailte Éireann",
+        "OSNI"
+      ],
+      "keywords": [
+        "NUTS",
+        "european",
+        "region",
+        "eurostat",
+        "statistical region",
+        "northern ireland",
+        "republic of ireland",
+        "all ireland",
+        "NUTS 2",
+        "NUTS 2016",
+        "NUTS 2021",
+        "2016",
+        "2021",
+        "northern and western",
+        "southern",
+        "eastern and midland",
+        "NUTS 2 Regions 2016–2021",
+        "Census Statistical Areas",
+        "Public Services",
+        "maplibre",
+        "vector tiles"
+      ],
+      "labelProperty": "NAME",
+      "labelPropertyFallbacks": [],
+      "labelMinZoom": 0,
+      "labelMaxZoom": null,
+      "labelStyle": {
+        "color": "#8E6C00",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.2,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
+      "sourceFile": "render/source-cache/vector-intake/nuts-2-2016-2021.fgb",
+      "sourceDatasetLayer": "NUTS2_Ireland_2016-2021",
+      "idProperty": "id",
+      "popupProperties": [
+        "NAME",
+        "id",
+        "NUTS_ID",
+        "NUTS_NAME",
+        "LEVL_CODE",
+        "CNTR_CODE",
+        "NUTS3"
+      ],
+      "numericProperties": [
+        "id",
+        "LEVL_CODE"
+      ],
+      "categoricalProperties": [
+        "NUTS_ID",
+        "NAME",
+        "NUTS_NAME",
+        "CNTR_CODE",
+        "NUTS3"
+      ],
+      "categoricalValues": {
+        "NUTS_ID": [
+          "IE04",
+          "IE05",
+          "IE06",
+          "UKN0"
+        ],
+        "NAME": [
+          "Southern",
+          "Eastern and Midland",
+          "Northern Ireland",
+          "Northern and Western"
+        ],
+        "NUTS_NAME": [
+          "Southern",
+          "Eastern and Midland",
+          "Northern Ireland",
+          "Northern and Western"
+        ],
+        "CNTR_CODE": [
+          "IE",
+          "UK"
+        ],
+        "NUTS3": [
+          "IE041; IE042",
+          "IE051; IE052; IE053",
+          "IE061; IE062; IE063",
+          "UKN06; UKN07; UKN08; UKN09; UKN0A; UKN0B; UKN0C; UKN0D; UKN0E; UKN0F; UKN0G"
+        ]
+      },
+      "status": "converted",
+      "notes": "Generated from render/source-cache/vector-intake/nuts-2-2016-2021.fgb with GDAL MVT output.",
+      "generatedFrom": {
+        "pipeline": "build-test-vector-batch",
+        "sourceFile": "render/source-cache/vector-intake/nuts-2-2016-2021.fgb",
+        "bytes": 6702500,
+        "files": 3925,
+        "pbfFiles": 3924,
+        "maxTileBytes": 38894
+      },
+      "featureIndexUrl": "/render/metadata/feature-indexes/nuts-2-2016-2021-vector.json",
+      "tileUrl": "/render/pmtiles/generated/nuts-2-2016-2021-vector.pmtiles",
+      "tilesFallback": "/render/tiles/generated/nuts-2-2016-2021/{z}/{x}/{y}.pbf",
+      "tilePackage": {
+        "preferred": true,
+        "localPath": "render/pmtiles/generated/nuts-2-2016-2021-vector.pmtiles",
+        "url": "/render/pmtiles/generated/nuts-2-2016-2021-vector.pmtiles",
+        "bytes": 3840984,
+        "maxGithubBytes": 99614720,
+        "generatedAt": "2026-11-11T21:16:08.695Z",
+        "fallback": "/render/tiles/generated/nuts-2-2016-2021/{z}/{x}/{y}.pbf",
+        "sourceSha256": "1cd042ee4f7ebe292e059e438b439259d4056326071afcaf25d5d76f27f410d6"
+      }
+    },
+    {
+      "id": "nuts-2-2003-2013-vector",
+      "sourceMapId": "nuts-2-2003-2013",
+      "name": "NUTS 2 Regions 2003–2013",
+      "category": "Census Statistical Areas",
+      "group": "Public Services",
+      "date": "2003",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "CSO",
+        "OSNI"
+      ],
+      "description": "The NUTS 2 statistical regions of Ireland and Northern Ireland in NUTS 2003, 2006, 2010 and 2013, which did not change them (in use until 31 Dec 2017): Border, Midland and Western (IE01) and Southern and Eastern (IE02), and Northern Ireland (UKN0). Each is the union of its NUTS 3 regions, built for Civgraph from its own council maps (Ireland's 34 councils of 2008, from the CSO; Northern Ireland's 26 districts of 1993, from OSNI) by the membership the NUTS regulations give; the codes and names are Eurostat's. Its lines are those maps' lines, so Northern Ireland's regions take in Strangford and Belfast Loughs and run larger than Eurostat's own (East of Northern Ireland about 3,560 km² against 3,400).",
+      "renderer": "maplibre",
+      "sourceType": "pmtiles",
+      "geometryType": "polygon",
+      "tiles": "/render/tiles/generated/nuts-2-2003-2013/{z}/{x}/{y}.pbf",
+      "metadataUrl": "/render/tiles/generated/nuts-2-2003-2013/metadata.json",
+      "sourceLayer": "nuts_2_2003_2013",
+      "promoteId": "id",
+      "minzoom": 0,
+      "maxzoom": 12,
+      "bounds": [
+        [
+          51.4198971,
+          -10.6628504
+        ],
+        [
+          55.4465759,
+          -5.4327894
+        ]
+      ],
+      "style": {
+        "color": "#8E6C00",
+        "fillColor": "#8E6C00",
+        "fillOpacity": 0.18,
+        "weight": 2
+      },
+      "references": [
+        {
+          "label": "Regulation (EC) No 1059/2003 on the establishment of a common classification of territorial units for statistics (NUTS), Annex I",
+          "url": "https://eur-lex.europa.eu/eli/reg/2003/1059/oj",
+          "note": "NUTS 2003: the codes and the councils and districts in each region. Amended for NUTS 2006 by Commission Regulation (EC) No 105/2007, for NUTS 2010 by Commission Regulation (EU) No 31/2011 and for NUTS 2013 by Commission Regulation (EU) No 1319/2013; none changed Ireland's or Northern Ireland's regions."
+        },
+        {
+          "label": "Eurostat — NUTS: history",
+          "url": "https://ec.europa.eu/eurostat/web/nuts/history",
+          "note": "The NUTS versions, when each applied, and what changed."
+        },
+        {
+          "label": "Eurostat GISCO — NUTS unit lists for each version",
+          "url": "https://gisco-services.ec.europa.eu/distribution/v2/nuts/",
+          "note": "Codes and names checked against Eurostat's unit lists for NUTS 2003, 2006, 2010, 2013, 2016 and 2021. GISCO's own boundaries are not used (non-commercial use only)."
+        },
+        {
+          "label": "Civgraph — Local Authorities 2008 (CSO)",
+          "url": "https://civgraph.net/maps/#layers=local-authorities-2008",
+          "note": "Ireland's 34 councils, joined into the eight regions. CC BY 4.0."
+        },
+        {
+          "label": "Civgraph — Local Government Districts 1993 (OSNI)",
+          "url": "https://civgraph.net/maps/#layers=lgd-1993",
+          "note": "Northern Ireland's 26 districts, joined into the five regions. Open Government Licence v3.0."
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "Source file used for /test conversion",
+          "file": "render/source-cache/vector-intake/nuts-2-2003-2013.fgb"
+        }
+      ],
+      "sourceCredits": [
+        "CSO",
+        "OSNI"
+      ],
+      "keywords": [
+        "NUTS",
+        "european",
+        "region",
+        "eurostat",
+        "statistical region",
+        "northern ireland",
+        "republic of ireland",
+        "all ireland",
+        "NUTS 2",
+        "NUTS 2003",
+        "NUTS 2006",
+        "NUTS 2010",
+        "NUTS 2013",
+        "2003",
+        "BMW",
+        "border midland and western",
+        "southern and eastern",
+        "NUTS 2 Regions 2003–2013",
+        "Census Statistical Areas",
+        "Public Services",
+        "maplibre",
+        "vector tiles"
+      ],
+      "labelProperty": "NAME",
+      "labelPropertyFallbacks": [],
+      "labelMinZoom": 0,
+      "labelMaxZoom": null,
+      "labelStyle": {
+        "color": "#8E6C00",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.2,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
+      "sourceFile": "render/source-cache/vector-intake/nuts-2-2003-2013.fgb",
+      "sourceDatasetLayer": "NUTS2_Ireland_2003-2013",
+      "idProperty": "id",
+      "popupProperties": [
+        "NAME",
+        "id",
+        "NUTS_ID",
+        "NUTS_NAME",
+        "LEVL_CODE",
+        "CNTR_CODE",
+        "NUTS3"
+      ],
+      "numericProperties": [
+        "id",
+        "LEVL_CODE"
+      ],
+      "categoricalProperties": [
+        "NUTS_ID",
+        "NAME",
+        "NUTS_NAME",
+        "CNTR_CODE",
+        "NUTS3"
+      ],
+      "categoricalValues": {
+        "NUTS_ID": [
+          "IE01",
+          "IE02",
+          "UKN0"
+        ],
+        "NAME": [
+          "Border, Midland and Western",
+          "Northern Ireland",
+          "Southern and Eastern"
+        ],
+        "NUTS_NAME": [
+          "Border, Midland and Western",
+          "Northern Ireland",
+          "Southern and Eastern"
+        ],
+        "CNTR_CODE": [
+          "IE",
+          "UK"
+        ],
+        "NUTS3": [
+          "IE011; IE012; IE013",
+          "IE021; IE022; IE023; IE024; IE025",
+          "UKN01; UKN02; UKN03; UKN04; UKN05"
+        ]
+      },
+      "status": "converted",
+      "notes": "Generated from render/source-cache/vector-intake/nuts-2-2003-2013.fgb with GDAL MVT output.",
+      "generatedFrom": {
+        "pipeline": "build-test-vector-batch",
+        "sourceFile": "render/source-cache/vector-intake/nuts-2-2003-2013.fgb",
+        "bytes": 2609443,
+        "files": 3913,
+        "pbfFiles": 3912,
+        "maxTileBytes": 35823
+      },
+      "featureIndexUrl": "/render/metadata/feature-indexes/nuts-2-2003-2013-vector.json",
+      "tileUrl": "/render/pmtiles/generated/nuts-2-2003-2013-vector.pmtiles",
+      "tilesFallback": "/render/tiles/generated/nuts-2-2003-2013/{z}/{x}/{y}.pbf",
+      "tilePackage": {
+        "preferred": true,
+        "localPath": "render/pmtiles/generated/nuts-2-2003-2013-vector.pmtiles",
+        "url": "/render/pmtiles/generated/nuts-2-2003-2013-vector.pmtiles",
+        "bytes": 1613693,
+        "maxGithubBytes": 99614720,
+        "generatedAt": "2026-11-11T21:16:08.695Z",
+        "fallback": "/render/tiles/generated/nuts-2-2003-2013/{z}/{x}/{y}.pbf",
+        "sourceSha256": "969f29a58da4da0cb8195fb8b77234a08df9fb9fab87c08a534b27713e1baca6"
+      }
+    },
+    {
+      "id": "nuts-3-2016-2021-vector",
+      "sourceMapId": "nuts-3-2016-2021",
+      "name": "NUTS 3 Regions 2016–2021",
+      "category": "Census Statistical Areas",
+      "group": "Public Services",
+      "date": "2016",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Tailte Éireann",
+        "OSNI"
+      ],
+      "description": "The NUTS 3 statistical regions of Ireland and Northern Ireland in NUTS 2016 and NUTS 2021 (applied from 1 Jan 2018; Ireland's are unchanged in NUTS 2024): Ireland's eight regions (IE041 Border to IE063 Midland, with Louth in the Mid-East and Tipperary whole in the Mid-West) and Northern Ireland's eleven, one for each district council of 2015. Northern Ireland's codes changed in NUTS 2021 though its areas did not (UKN10-UKN16 became UKN0A-UKN0G), so each region carries both: NUTS_ID is the 2021 code and NUTS_ID_2016 the 2016 one. Built for Civgraph from its own council maps (Ireland's 31 councils of 2014, from Tailte Éireann; Northern Ireland's 11 districts, from OSNI) by the membership the NUTS regulations give; each region lists its councils (MEMBERS), and the codes and names are Eurostat's. Its lines are those maps' lines, so a few regions take in estuary or sea-lough water and run larger than Eurostat's own (Mid-West, with the Shannon estuary, about 10,510 km² against 10,240; Ards and North Down 564 against 461).",
+      "renderer": "maplibre",
+      "sourceType": "pmtiles",
+      "geometryType": "polygon",
+      "tiles": "/render/tiles/generated/nuts-3-2016-2021/{z}/{x}/{y}.pbf",
+      "metadataUrl": "/render/tiles/generated/nuts-3-2016-2021/metadata.json",
+      "sourceLayer": "nuts_3_2016_2021",
+      "promoteId": "id",
+      "minzoom": 0,
+      "maxzoom": 12,
+      "bounds": [
+        [
+          51.4198973,
+          -10.6909319
+        ],
+        [
+          55.4469232,
+          -5.4327894
+        ]
+      ],
+      "style": {
+        "color": "#A38841",
+        "fillColor": "#A38841",
+        "fillOpacity": 0.18,
+        "weight": 2
+      },
+      "references": [
+        {
+          "label": "Commission Regulation (EU) 2016/2066 amending the annexes to Regulation (EC) No 1059/2003 (NUTS 2016)",
+          "url": "https://eur-lex.europa.eu/eli/reg/2016/2066/oj",
+          "note": "NUTS 2016, applied from 1 Jan 2018: the codes and the councils and districts in each region; Northern Ireland's eleven are UKN06-UKN16."
+        },
+        {
+          "label": "Commission Delegated Regulation (EU) 2019/1755 amending the annexes to Regulation (EC) No 1059/2003 (NUTS 2021)",
+          "url": "https://eur-lex.europa.eu/eli/reg_del/2019/1755/oj",
+          "note": "NUTS 2021, applied from 1 Jan 2021: Northern Ireland's UKN10-UKN16 recoded UKN0A-UKN0G, the areas unchanged; Ireland's regions unchanged (and again in NUTS 2024)."
+        },
+        {
+          "label": "Eurostat — NUTS: history",
+          "url": "https://ec.europa.eu/eurostat/web/nuts/history",
+          "note": "The NUTS versions, when each applied, and what changed."
+        },
+        {
+          "label": "Eurostat GISCO — NUTS unit lists for each version",
+          "url": "https://gisco-services.ec.europa.eu/distribution/v2/nuts/",
+          "note": "Codes and names checked against Eurostat's unit lists for NUTS 2003, 2006, 2010, 2013, 2016 and 2021. GISCO's own boundaries are not used (non-commercial use only)."
+        },
+        {
+          "label": "Civgraph — Local Authorities 2014 (Tailte Éireann)",
+          "url": "https://civgraph.net/maps/#layers=local-authorities-2014",
+          "note": "Ireland's 31 councils, joined into the eight regions. CC BY 4.0."
+        },
+        {
+          "label": "Civgraph — Local Government Districts 2012 (OSNI)",
+          "url": "https://civgraph.net/maps/#layers=lgd-2012",
+          "note": "Northern Ireland's 11 districts of 2015, one region each. Open Government Licence v3.0."
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "Source file used for /test conversion",
+          "file": "render/source-cache/vector-intake/nuts-3-2016-2021.fgb"
+        }
+      ],
+      "sourceCredits": [
+        "Tailte Éireann",
+        "OSNI"
+      ],
+      "keywords": [
+        "NUTS",
+        "european",
+        "region",
+        "eurostat",
+        "statistical region",
+        "northern ireland",
+        "republic of ireland",
+        "all ireland",
+        "NUTS 3",
+        "NUTS 2016",
+        "NUTS 2021",
+        "2016",
+        "2021",
+        "regional assembly",
+        "district council",
+        "NUTS 3 Regions 2016–2021",
+        "Census Statistical Areas",
+        "Public Services",
+        "maplibre",
+        "vector tiles"
+      ],
+      "labelProperty": "NAME",
+      "labelPropertyFallbacks": [],
+      "labelMinZoom": 0,
+      "labelMaxZoom": null,
+      "labelStyle": {
+        "color": "#A38841",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.2,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
+      "sourceFile": "render/source-cache/vector-intake/nuts-3-2016-2021.fgb",
+      "sourceDatasetLayer": "NUTS3_Ireland_2016-2021",
+      "idProperty": "id",
+      "popupProperties": [
+        "NAME",
+        "id",
+        "NUTS_ID",
+        "NUTS_ID_2016",
+        "NUTS_NAME",
+        "LEVL_CODE",
+        "CNTR_CODE",
+        "NUTS2_ID",
+        "NUTS2_NAME",
+        "MEMBERS"
+      ],
+      "numericProperties": [
+        "id",
+        "LEVL_CODE"
+      ],
+      "categoricalProperties": [
+        "NUTS_ID",
+        "NUTS_ID_2016",
+        "NAME",
+        "NUTS_NAME",
+        "CNTR_CODE",
+        "NUTS2_ID",
+        "NUTS2_NAME",
+        "MEMBERS"
+      ],
+      "categoricalValues": {
+        "NUTS_ID": [
+          "IE041",
+          "IE042",
+          "IE051",
+          "IE052",
+          "IE053",
+          "IE061",
+          "IE062",
+          "IE063",
+          "UKN06",
+          "UKN07",
+          "UKN08",
+          "UKN09",
+          "UKN0A",
+          "UKN0B",
+          "UKN0C",
+          "UKN0D",
+          "UKN0E",
+          "UKN0F",
+          "UKN0G"
+        ],
+        "NUTS_ID_2016": [
+          "IE041",
+          "IE042",
+          "IE051",
+          "IE052",
+          "IE053",
+          "IE061",
+          "IE062",
+          "IE063",
+          "UKN06",
+          "UKN07",
+          "UKN08",
+          "UKN09",
+          "UKN10",
+          "UKN11",
+          "UKN12",
+          "UKN13",
+          "UKN14",
+          "UKN15",
+          "UKN16"
+        ],
+        "NAME": [
+          "Belfast",
+          "Border",
+          "Dublin",
+          "Mid-East",
+          "Mid-West",
+          "Midland",
+          "West",
+          "Antrim and Newtownabbey",
+          "Ards and North Down",
+          "Armagh City, Banbridge and Craigavon",
+          "Causeway Coast and Glens",
+          "Derry City and Strabane",
+          "Fermanagh and Omagh",
+          "Lisburn and Castlereagh",
+          "Mid Ulster",
+          "Mid and East Antrim",
+          "Newry, Mourne and Down",
+          "South-East",
+          "South-West"
+        ],
+        "NUTS_NAME": [
+          "Belfast",
+          "Border",
+          "Dublin",
+          "Mid-East",
+          "Mid-West",
+          "Midland",
+          "West",
+          "Antrim and Newtownabbey",
+          "Ards and North Down",
+          "Armagh City, Banbridge and Craigavon",
+          "Causeway Coast and Glens",
+          "Derry City and Strabane",
+          "Fermanagh and Omagh",
+          "Lisburn and Castlereagh",
+          "Mid Ulster",
+          "Mid and East Antrim",
+          "Newry, Mourne and Down",
+          "South-East",
+          "South-West"
+        ],
+        "CNTR_CODE": [
+          "IE",
+          "UK"
+        ],
+        "NUTS2_ID": [
+          "IE04",
+          "IE05",
+          "IE06",
+          "UKN0"
+        ],
+        "NUTS2_NAME": [
+          "Southern",
+          "Eastern and Midland",
+          "Northern Ireland",
+          "Northern and Western"
+        ],
+        "MEMBERS": [
+          "Belfast",
+          "Antrim and Newtownabbey",
+          "Ards and North Down",
+          "Armagh City, Banbridge and Craigavon",
+          "Carlow County Council; Kilkenny County Council; Waterford City and County Council; Wexford County Council",
+          "Causeway Coast and Glens",
+          "Cavan County Council; Donegal County Council; Leitrim County Council; Monaghan County Council; Sligo County Council",
+          "Clare County Council; Limerick City and County Council; Tipperary County Council",
+          "Cork City Council; Cork County Council; Kerry County Council",
+          "Derry City and Strabane",
+          "Dublin City Council; Dún Laoghaire-Rathdown County Council; Fingal County Council; South Dublin County Council",
+          "Fermanagh and Omagh",
+          "Galway City Council; Galway County Council; Mayo County Council; Roscommon County Council",
+          "Kildare County Council; Louth County Council; Meath County Council; Wicklow County Council",
+          "Laois County Council; Longford County Council; Offaly County Council; Westmeath County Council",
+          "Lisburn and Castlereagh",
+          "Mid Ulster",
+          "Mid and East Antrim",
+          "Newry, Mourne and Down"
+        ]
+      },
+      "status": "converted",
+      "notes": "Generated from render/source-cache/vector-intake/nuts-3-2016-2021.fgb with GDAL MVT output.",
+      "generatedFrom": {
+        "pipeline": "build-test-vector-batch",
+        "sourceFile": "render/source-cache/vector-intake/nuts-3-2016-2021.fgb",
+        "bytes": 8341362,
+        "files": 3925,
+        "pbfFiles": 3924,
+        "maxTileBytes": 50328
+      },
+      "featureIndexUrl": "/render/metadata/feature-indexes/nuts-3-2016-2021-vector.json",
+      "tileUrl": "/render/pmtiles/generated/nuts-3-2016-2021-vector.pmtiles",
+      "tilesFallback": "/render/tiles/generated/nuts-3-2016-2021/{z}/{x}/{y}.pbf",
+      "tilePackage": {
+        "preferred": true,
+        "localPath": "render/pmtiles/generated/nuts-3-2016-2021-vector.pmtiles",
+        "url": "/render/pmtiles/generated/nuts-3-2016-2021-vector.pmtiles",
+        "bytes": 4835049,
+        "maxGithubBytes": 99614720,
+        "generatedAt": "2026-11-11T21:16:08.695Z",
+        "fallback": "/render/tiles/generated/nuts-3-2016-2021/{z}/{x}/{y}.pbf",
+        "sourceSha256": "8c94f517cfdfe91a1618a425071cb199c27c48a0ded00526c789a64f4c80dd07"
+      }
+    },
+    {
+      "id": "nuts-3-2003-2013-vector",
+      "sourceMapId": "nuts-3-2003-2013",
+      "name": "NUTS 3 Regions 2003–2013",
+      "category": "Census Statistical Areas",
+      "group": "Public Services",
+      "date": "2003",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "CSO",
+        "OSNI"
+      ],
+      "description": "The NUTS 3 statistical regions of Ireland and Northern Ireland in NUTS 2003, 2006, 2010 and 2013, which did not change them (in use until 31 Dec 2017): Ireland's eight Regional Authority areas (IE011 Border to IE025 South-West, with Louth in the Border region, North Tipperary in the Mid-West and South Tipperary in the South-East) and Northern Ireland's five groups of its 26 districts (UKN01 Belfast, UKN02 Outer Belfast, UKN03 East, UKN04 North, and UKN05 West and South of Northern Ireland). Built for Civgraph from its own council maps (Ireland's 34 councils of 2008, from the CSO; Northern Ireland's 26 districts of 1993, from OSNI) by the membership the NUTS regulations give; each region lists its councils or districts (MEMBERS), and the codes and names are Eurostat's. Its lines are those maps' lines, so Northern Ireland's regions take in Strangford and Belfast Loughs and run larger than Eurostat's own (East of Northern Ireland about 3,560 km² against 3,400).",
+      "renderer": "maplibre",
+      "sourceType": "pmtiles",
+      "geometryType": "polygon",
+      "tiles": "/render/tiles/generated/nuts-3-2003-2013/{z}/{x}/{y}.pbf",
+      "metadataUrl": "/render/tiles/generated/nuts-3-2003-2013/metadata.json",
+      "sourceLayer": "nuts_3_2003_2013",
+      "promoteId": "id",
+      "minzoom": 0,
+      "maxzoom": 12,
+      "bounds": [
+        [
+          51.4198971,
+          -10.6628504
+        ],
+        [
+          55.4465759,
+          -5.4327894
+        ]
+      ],
+      "style": {
+        "color": "#A38841",
+        "fillColor": "#A38841",
+        "fillOpacity": 0.18,
+        "weight": 2
+      },
+      "references": [
+        {
+          "label": "Regulation (EC) No 1059/2003 on the establishment of a common classification of territorial units for statistics (NUTS), Annex I",
+          "url": "https://eur-lex.europa.eu/eli/reg/2003/1059/oj",
+          "note": "NUTS 2003: the codes and the councils and districts in each region. Amended for NUTS 2006 by Commission Regulation (EC) No 105/2007, for NUTS 2010 by Commission Regulation (EU) No 31/2011 and for NUTS 2013 by Commission Regulation (EU) No 1319/2013; none changed Ireland's or Northern Ireland's regions."
+        },
+        {
+          "label": "Eurostat — NUTS: history",
+          "url": "https://ec.europa.eu/eurostat/web/nuts/history",
+          "note": "The NUTS versions, when each applied, and what changed."
+        },
+        {
+          "label": "Eurostat GISCO — NUTS unit lists for each version",
+          "url": "https://gisco-services.ec.europa.eu/distribution/v2/nuts/",
+          "note": "Codes and names checked against Eurostat's unit lists for NUTS 2003, 2006, 2010, 2013, 2016 and 2021. GISCO's own boundaries are not used (non-commercial use only)."
+        },
+        {
+          "label": "Civgraph — Local Authorities 2008 (CSO)",
+          "url": "https://civgraph.net/maps/#layers=local-authorities-2008",
+          "note": "Ireland's 34 councils, joined into the eight regions. CC BY 4.0."
+        },
+        {
+          "label": "Civgraph — Local Government Districts 1993 (OSNI)",
+          "url": "https://civgraph.net/maps/#layers=lgd-1993",
+          "note": "Northern Ireland's 26 districts, joined into the five regions. Open Government Licence v3.0."
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "Source file used for /test conversion",
+          "file": "render/source-cache/vector-intake/nuts-3-2003-2013.fgb"
+        }
+      ],
+      "sourceCredits": [
+        "CSO",
+        "OSNI"
+      ],
+      "keywords": [
+        "NUTS",
+        "european",
+        "region",
+        "eurostat",
+        "statistical region",
+        "northern ireland",
+        "republic of ireland",
+        "all ireland",
+        "NUTS 3",
+        "NUTS 2003",
+        "NUTS 2006",
+        "NUTS 2010",
+        "NUTS 2013",
+        "2003",
+        "regional authority",
+        "NUTS 3 Regions 2003–2013",
+        "Census Statistical Areas",
+        "Public Services",
+        "maplibre",
+        "vector tiles"
+      ],
+      "labelProperty": "NAME",
+      "labelPropertyFallbacks": [],
+      "labelMinZoom": 0,
+      "labelMaxZoom": null,
+      "labelStyle": {
+        "color": "#A38841",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.2,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
+      "sourceFile": "render/source-cache/vector-intake/nuts-3-2003-2013.fgb",
+      "sourceDatasetLayer": "NUTS3_Ireland_2003-2013",
+      "idProperty": "id",
+      "popupProperties": [
+        "NAME",
+        "id",
+        "NUTS_ID",
+        "NUTS_NAME",
+        "LEVL_CODE",
+        "CNTR_CODE",
+        "NUTS2_ID",
+        "NUTS2_NAME",
+        "MEMBERS"
+      ],
+      "numericProperties": [
+        "id",
+        "LEVL_CODE"
+      ],
+      "categoricalProperties": [
+        "NUTS_ID",
+        "NAME",
+        "NUTS_NAME",
+        "CNTR_CODE",
+        "NUTS2_ID",
+        "NUTS2_NAME",
+        "MEMBERS"
+      ],
+      "categoricalValues": {
+        "NUTS_ID": [
+          "IE011",
+          "IE012",
+          "IE013",
+          "IE021",
+          "IE022",
+          "IE023",
+          "IE024",
+          "IE025",
+          "UKN01",
+          "UKN02",
+          "UKN03",
+          "UKN04",
+          "UKN05"
+        ],
+        "NAME": [
+          "Belfast",
+          "Border",
+          "Dublin",
+          "Mid-East",
+          "Mid-West",
+          "Midland",
+          "West",
+          "East of Northern Ireland",
+          "North of Northern Ireland",
+          "Outer Belfast",
+          "South-East",
+          "South-West",
+          "West and South of Northern Ireland"
+        ],
+        "NUTS_NAME": [
+          "Belfast",
+          "Border",
+          "Dublin",
+          "Mid-East",
+          "Mid-West",
+          "Midland",
+          "West",
+          "East of Northern Ireland",
+          "North of Northern Ireland",
+          "Outer Belfast",
+          "South-East (IE)",
+          "South-West (IE)",
+          "West and South of Northern Ireland"
+        ],
+        "CNTR_CODE": [
+          "IE",
+          "UK"
+        ],
+        "NUTS2_ID": [
+          "IE01",
+          "IE02",
+          "UKN0"
+        ],
+        "NUTS2_NAME": [
+          "Border, Midland and Western",
+          "Northern Ireland",
+          "Southern and Eastern"
+        ],
+        "MEMBERS": [
+          "Belfast",
+          "Antrim; Ards; Ballymena; Banbridge; Craigavon; Down; Larne",
+          "Armagh; Cookstown; Dungannon; Fermanagh; Magherafelt; Newry and Mourne; Omagh",
+          "Ballymoney; Coleraine; Derry; Limavady; Moyle; Strabane",
+          "Carlow County Council; Kilkenny County Council; South Tipperary County Council; Waterford City Council; Waterford County Council; Wexford County Council",
+          "Carrickfergus; Castlereagh; Lisburn; Newtownabbey; North Down",
+          "Cavan County Council; Donegal County Council; Leitrim County Council; Louth County Council; Monaghan County Council; Sligo County Council",
+          "Clare County Council; Limerick City Council; Limerick County Council; North Tipperary County Council",
+          "Cork City Council; Cork County Council; Kerry County Council",
+          "Dublin City Council; Dún Laoghaire-Rathdown County Council; Fingal County Council; South Dublin County Council",
+          "Galway City Council; Galway County Council; Mayo County Council; Roscommon County Council",
+          "Kildare County Council; Meath County Council; Wicklow County Council",
+          "Laois County Council; Longford County Council; Offaly County Council; Westmeath County Council"
+        ]
+      },
+      "status": "converted",
+      "notes": "Generated from render/source-cache/vector-intake/nuts-3-2003-2013.fgb with GDAL MVT output.",
+      "generatedFrom": {
+        "pipeline": "build-test-vector-batch",
+        "sourceFile": "render/source-cache/vector-intake/nuts-3-2003-2013.fgb",
+        "bytes": 3808809,
+        "files": 3913,
+        "pbfFiles": 3912,
+        "maxTileBytes": 45956
+      },
+      "featureIndexUrl": "/render/metadata/feature-indexes/nuts-3-2003-2013-vector.json",
+      "tileUrl": "/render/pmtiles/generated/nuts-3-2003-2013-vector.pmtiles",
+      "tilesFallback": "/render/tiles/generated/nuts-3-2003-2013/{z}/{x}/{y}.pbf",
+      "tilePackage": {
+        "preferred": true,
+        "localPath": "render/pmtiles/generated/nuts-3-2003-2013-vector.pmtiles",
+        "url": "/render/pmtiles/generated/nuts-3-2003-2013-vector.pmtiles",
+        "bytes": 2298432,
+        "maxGithubBytes": 99614720,
+        "generatedAt": "2026-11-11T21:16:08.695Z",
+        "fallback": "/render/tiles/generated/nuts-3-2003-2013/{z}/{x}/{y}.pbf",
+        "sourceSha256": "ce09fe1247c260072786b1173545ea40a02a6eb8584493756b0fa67ac280d784"
+      }
     }
   ],
   "publicMapCount": 909
