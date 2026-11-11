@@ -1,0 +1,7221 @@
+{
+ "schemaVersion": 1,
+ "description": "Civgraph persons elected to a council in Northern Ireland or the Republic of Ireland, linked to the Wikidata item of the same person where Wikidata itself records the council (a councillor/member position, a mayoralty or chair of that council, a qualifier naming it, or a description naming it) and the names and dates agree. Pairs that fail the date tests or are not one-to-one are listed under `ambiguous` with the reason and are not links.",
+ "source": {
+  "title": "Wikidata",
+  "url": "https://query.wikidata.org/sparql",
+  "licence": "CC0",
+  "queriedAt": "2026-11-11"
+ },
+ "method": {
+  "population": "Civgraph persons (person_id on candidacies) elected at least once to a council body: pre-1973 Northern Ireland county, county borough, borough, urban and rural district councils and town commissioners; Northern Ireland local government districts 1973-2023; Republic of Ireland county and city councils 1974-2024.",
+  "candidates": "Wikidata humans with (A) P39/P463 statements whose value is a council-specific position, office or council item for an Irish or Northern Irish council (councillor in X Council, member of Belfast City Council, Lord Mayor of Belfast/Dublin/Cork, Mayor of Derry/Galway/Waterford, Cathaoirleach of X County Council, the council items); (B) generic council member/alderman/mayor/deputy mayor P39 statements (citizens of Ireland, the Irish Free State, the UK or the UK of Great Britain and Ireland) whose qualifiers name the council or its city/county; (C) every P39/P463 statement of items already in official-person-crosswalk.json; (D) humans whose English description names a council or mayoralty (Irish citizens, members of Irish and Northern Irish parties, UK citizens whose description names a Northern Ireland place).",
+  "rules": [
+   "NAME: the Civgraph display name or a recorded name form equals the Wikidata English label or an en/ga alias after normalisation (case, accents, punctuation, honorifics, post-nominals and bracketed disambiguators removed; 'Mc X'/'Mac X'/'O X' joined). Variants only when the rest is exact: extra single-letter middle initials (consistent with any full middle name), or a listed short form or Irish/English equivalent of the first name. A bare initial as first name never matches. Never matched on name alone.",
+   "BODY: the Wikidata evidence names a council the Civgraph person was ELECTED to. Renamed bodies count as one (Belfast Corporation / County Borough Council / City Council; Londonderry Corporation / County Borough Council / Derry City Council; Dublin Corporation / Dublin City Council; Cork, Galway, Limerick and Waterford Corporation / City Council; Dublin County Council = Fingal, South Dublin and Dun Laoghaire-Rathdown for elections before 1994; a Northern Ireland borough mayoralty = that borough council before 1973 and the district council of the same name after). Merged successor councils match only themselves. The directly elected Mayor of Limerick (2024-) is not council evidence.",
+   "DATES: every Civgraph candidacy of the person is in or after the Wikidata birth year + 18 and on or before the death date (year precision when Wikidata gives only a year); dated body evidence (P580/P582/P585) overlaps, +-1 year, the span from the first election to that council to 6 years after the last; at least one Wikidata date (birth, death or dated body evidence) exists.",
+   "UNIQUE: exactly one Wikidata item satisfies the rules for the person and exactly one Civgraph person for the item; an item tied by official ids (official-person-crosswalk.json via person_registry officialPersonIds) to another Civgraph person is not re-linked.",
+   "OFFICIAL IDS: when person_registry already ties the person to the item (wikidata:Q in officialPersonIds), identity is given; BODY and DATES must still hold."
+  ]
+ },
+ "councils": {
+  "ni-lgd:antrim": "Antrim (district council)",
+  "ni-lgd:antrim-and-newtownabbey": "Antrim and Newtownabbey (district council)",
+  "ni-lgd:ards": "Ards (district council)",
+  "ni-lgd:ards-and-north-down": "Ards and North Down (district council)",
+  "ni-lgd:armagh": "Armagh (district council)",
+  "ni-lgd:armagh-banbridge-and-craigavon": "Armagh, Banbridge and Craigavon (district council)",
+  "ni-lgd:ballymena": "Ballymena (district council)",
+  "ni-lgd:ballymoney": "Ballymoney (district council)",
+  "ni-lgd:banbridge": "Banbridge (district council)",
+  "ni-lgd:belfast": "Belfast (district council)",
+  "ni-lgd:carrickfergus": "Carrickfergus (district council)",
+  "ni-lgd:castlereagh": "Castlereagh (district council)",
+  "ni-lgd:causeway-coast-and-glens": "Causeway Coast and Glens (district council)",
+  "ni-lgd:coleraine": "Coleraine (district council)",
+  "ni-lgd:cookstown": "Cookstown (district council)",
+  "ni-lgd:craigavon": "Craigavon (district council)",
+  "ni-lgd:derry": "Derry (district council)",
+  "ni-lgd:derry-city-and-strabane": "Derry City and Strabane (district council)",
+  "ni-lgd:down": "Down (district council)",
+  "ni-lgd:dungannon": "Dungannon (district council)",
+  "ni-lgd:fermanagh": "Fermanagh (district council)",
+  "ni-lgd:fermanagh-and-omagh": "Fermanagh and Omagh (district council)",
+  "ni-lgd:larne": "Larne (district council)",
+  "ni-lgd:limavady": "Limavady (district council)",
+  "ni-lgd:lisburn": "Lisburn (district council)",
+  "ni-lgd:lisburn-and-castlereagh": "Lisburn and Castlereagh (district council)",
+  "ni-lgd:magherafelt": "Magherafelt (district council)",
+  "ni-lgd:mid-and-east-antrim": "Mid and East Antrim (district council)",
+  "ni-lgd:mid-ulster": "Mid Ulster (district council)",
+  "ni-lgd:moyle": "Moyle (district council)",
+  "ni-lgd:newry-and-mourne": "Newry and Mourne (district council)",
+  "ni-lgd:newry-mourne-and-down": "Newry, Mourne and Down (district council)",
+  "ni-lgd:newtownabbey": "Newtownabbey (district council)",
+  "ni-lgd:north-down": "North Down (district council)",
+  "ni-lgd:omagh": "Omagh (district council)",
+  "ni-lgd:strabane": "Strabane (district council)",
+  "ni:aghalee-rural-district-council": "Aghalee Rural District Council",
+  "ni:antrim-county-council": "Antrim County Council",
+  "ni:antrim-rural-district-council": "Antrim Rural District Council",
+  "ni:antrim-town-commissioners": "Antrim Town Commissioners",
+  "ni:armagh-county-council": "Armagh County Council",
+  "ni:armagh-rural-district-council": "Armagh Rural District Council",
+  "ni:armagh-urban-district-council": "Armagh Urban District Council",
+  "ni:aughnacloy-town-commissioners": "Aughnacloy Town Commissioners",
+  "ni:ballycastle-rural-district-council": "Ballycastle Rural District Council",
+  "ni:ballycastle-urban-district-council": "Ballycastle Urban District Council",
+  "ni:ballyclare-urban-district-council": "Ballyclare Urban District Council",
+  "ni:ballymena-borough-council": "Ballymena Borough Council",
+  "ni:ballymena-rural-district-council": "Ballymena Rural District Council",
+  "ni:ballymoney-rural-district-council": "Ballymoney Rural District Council",
+  "ni:ballymoney-urban-district-council": "Ballymoney Urban District Council",
+  "ni:banbridge-rural-district-council": "Banbridge Rural District Council",
+  "ni:banbridge-urban-district-council": "Banbridge Urban District Council",
+  "ni:bangor-borough-council": "Bangor Borough Council",
+  "ni:belfast-county-borough-council": "Belfast County Borough Council",
+  "ni:belfast-rural-district-council": "Belfast Rural District Council",
+  "ni:carrickfergus-borough-council": "Carrickfergus Borough Council",
+  "ni:castleblayney-no-2-rural-district-council": "Castleblayney No. 2 Rural District Council",
+  "ni:castlederg-rural-district-council": "Castlederg Rural District Council",
+  "ni:castlereagh-rural-district-council": "Castlereagh Rural District Council",
+  "ni:clogher-rural-district-council": "Clogher Rural District Council",
+  "ni:coleraine-borough-council": "Coleraine Borough Council",
+  "ni:coleraine-rural-district-council": "Coleraine Rural District Council",
+  "ni:cookstown-rural-district-council": "Cookstown Rural District Council",
+  "ni:cookstown-urban-district-council": "Cookstown Urban District Council",
+  "ni:donaghadee-urban-district-council": "Donaghadee Urban District Council",
+  "ni:down-county-council": "Down County Council",
+  "ni:downpatrick-urban-district-council": "Downpatrick Urban District Council",
+  "ni:dromore-urban-district-council": "Dromore Urban District Council",
+  "ni:dungannon-rural-district-council": "Dungannon Rural District Council",
+  "ni:dungannon-urban-district-council": "Dungannon Urban District Council",
+  "ni:east-down-rural-district-council": "East Down Rural District Council",
+  "ni:enniskillen-borough-council": "Enniskillen Borough Council",
+  "ni:enniskillen-rural-district-council": "Enniskillen Rural District Council",
+  "ni:fermanagh-county-council": "Fermanagh County Council",
+  "ni:gilford-town-commissioners": "Gilford Town Commissioners",
+  "ni:hillsborough-rural-district-council": "Hillsborough Rural District Council",
+  "ni:holywood-urban-district-council": "Holywood Urban District Council",
+  "ni:irvinestown-rural-district-council": "Irvinestown Rural District Council",
+  "ni:keady-urban-district-council": "Keady Urban District Council",
+  "ni:kilkeel-urban-district-council": "Kilkeel Urban District Council",
+  "ni:larne-borough-council": "Larne Borough Council",
+  "ni:larne-rural-district-council": "Larne Rural District Council",
+  "ni:limavady-rural-district-council": "Limavady Rural District Council",
+  "ni:limavady-urban-district-council": "Limavady Urban District Council",
+  "ni:lisburn-borough-council": "Lisburn Borough Council",
+  "ni:lisburn-rural-district-council": "Lisburn Rural District Council",
+  "ni:lisnaskea-rural-district-council": "Lisnaskea Rural District Council",
+  "ni:londonderry-county-borough-council": "Londonderry County Borough Council",
+  "ni:londonderry-county-council": "Londonderry County Council",
+  "ni:londonderry-rural-district-council": "Londonderry Rural District Council",
+  "ni:lurgan-borough-council": "Lurgan Borough Council",
+  "ni:lurgan-rural-district-council": "Lurgan Rural District Council",
+  "ni:magherafelt-rural-district-council": "Magherafelt Rural District Council",
+  "ni:moira-rural-district-council": "Moira Rural District Council",
+  "ni:newcastle-urban-district-council": "Newcastle Urban District Council",
+  "ni:newry-no-1-rural-district-council": "Newry No. 1 Rural District Council",
+  "ni:newry-no-2-rural-district-council": "Newry No. 2 Rural District Council",
+  "ni:newry-urban-district-council": "Newry Urban District Council",
+  "ni:newtownabbey-urban-district-council": "Newtownabbey Urban District Council",
+  "ni:newtownards-borough-council": "Newtownards Borough Council",
+  "ni:north-down-rural-district-council": "North Down Rural District Council",
+  "ni:omagh-rural-district-council": "Omagh Rural District Council",
+  "ni:omagh-urban-district-council": "Omagh Urban District Council",
+  "ni:portadown-borough-council": "Portadown Borough Council",
+  "ni:portrush-urban-district-council": "Portrush Urban District Council",
+  "ni:portstewart-urban-district-council": "Portstewart Urban District Council",
+  "ni:south-down-rural-district-council": "South Down Rural District Council",
+  "ni:strabane-rural-district-council": "Strabane Rural District Council",
+  "ni:strabane-urban-district-council": "Strabane Urban District Council",
+  "ni:tandragee-rural-district-council": "Tandragee Rural District Council",
+  "ni:tandragee-urban-district-council": "Tandragee Urban District Council",
+  "ni:tyrone-county-council": "Tyrone County Council",
+  "ni:warrenpoint-urban-district-council": "Warrenpoint Urban District Council",
+  "ni:whitehead-urban-district-council": "Whitehead Urban District Council",
+  "roi:carlow": "Carlow County Council",
+  "roi:cavan": "Cavan County Council",
+  "roi:clare": "Clare County Council",
+  "roi:cork-city": "Cork City Council",
+  "roi:cork-county": "Cork County Council",
+  "roi:donegal": "Donegal County Council",
+  "roi:dublin-city": "Dublin City Council",
+  "roi:dun-laoghaire-rathdown": "Dun Laoghaire-Rathdown County Council",
+  "roi:fingal": "Fingal County Council",
+  "roi:galway-city": "Galway City Council",
+  "roi:galway-county": "Galway County Council",
+  "roi:kerry": "Kerry County Council",
+  "roi:kildare": "Kildare County Council",
+  "roi:kilkenny": "Kilkenny County Council",
+  "roi:laois": "Laois County Council",
+  "roi:leitrim": "Leitrim County Council",
+  "roi:limerick": "Limerick City and County Council",
+  "roi:limerick-city": "Limerick City Council",
+  "roi:limerick-county": "Limerick County Council",
+  "roi:longford": "Longford County Council",
+  "roi:louth": "Louth County Council",
+  "roi:mayo": "Mayo County Council",
+  "roi:meath": "Meath County Council",
+  "roi:monaghan": "Monaghan County Council",
+  "roi:offaly": "Offaly County Council",
+  "roi:roscommon": "Roscommon County Council",
+  "roi:sligo": "Sligo County Council",
+  "roi:south-dublin": "South Dublin County Council",
+  "roi:tipperary": "Tipperary County Council",
+  "roi:tipperary-north": "Tipperary North Riding County Council",
+  "roi:tipperary-south": "Tipperary South Riding County Council",
+  "roi:waterford": "Waterford City and County Council",
+  "roi:waterford-city": "Waterford City Council",
+  "roi:waterford-county": "Waterford County Council",
+  "roi:westmeath": "Westmeath County Council",
+  "roi:wexford": "Wexford County Council",
+  "roi:wicklow": "Wicklow County Council"
+ },
+ "links": [
+  {
+   "personId": "7209",
+   "name": "Sian Mulholland",
+   "wikidata": "Q117485710",
+   "wikidataLabel": "Sian Mulholland",
+   "bodies": [
+    {
+     "key": "ni-lgd:belfast",
+     "name": "Belfast (district council)",
+     "elected": [
+      "2019-05-02"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "sian mulholland",
+     "wikidata": "Sian Mulholland"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 council member [P463 Belfast City Council]",
+      "statement": "Q117485710-19fa9321-4264-70e7-770b-58b50f33def1",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2015-2022 vs Civgraph council span 2019-2025"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2015-2022 vs Civgraph council span 2019-2025"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "14275",
+   "name": "Tracy Kelly",
+   "wikidata": "Q126847862",
+   "wikidataLabel": "Tracy Kelly",
+   "bodies": [
+    {
+     "key": "ni-lgd:belfast",
+     "name": "Belfast (district council)",
+     "elected": [
+      "2019-05-02",
+      "2023-05-18"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "tracy kelly",
+     "wikidata": "Tracy Kelly"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Belfast",
+      "statement": "Q126847862-8c7e0cd7-4cfe-7f33-caa4-ab03f8200b44",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2025-2026 vs Civgraph council span 2019-2029"
+     },
+     {
+      "via": "P39 member of Belfast City Council",
+      "statement": "Q126847862-fbcae6d7-4555-2740-edf0-e246a533d8ee",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2019-2019 vs Civgraph council span 2019-2029"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2025-2026 vs Civgraph council span 2019-2029",
+      "Wikidata 2019-2019 vs Civgraph council span 2019-2029"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "14693",
+   "name": "Helen Quigley",
+   "wikidata": "Q5703013",
+   "wikidataLabel": "Helen Quigley",
+   "bodies": [
+    {
+     "key": "ni-lgd:derry",
+     "name": "Derry (district council)",
+     "elected": [
+      "2001-06-07",
+      "2005-05-05"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "helen quigley",
+     "wikidata": "Helen Quigley"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Derry",
+      "statement": "Q5703013-ba16ba1a-4dc6-cd4f-ce1d-d1dbe159cedf",
+      "councils": [
+       "ni-lgd:derry"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2006-2007 vs Civgraph council span 2001-2011"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "2000-01-01"
+     ],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2006-2007 vs Civgraph council span 2001-2011"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "15924",
+   "name": "Maolíosa McHugh",
+   "wikidata": "Q67519231",
+   "wikidataLabel": "Maolíosa McHugh",
+   "bodies": [
+    {
+     "key": "ni-lgd:derry-city-and-strabane",
+     "name": "Derry City and Strabane (district council)",
+     "elected": [
+      "2014-05-22"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "maoliosa mchugh",
+     "wikidata": "Maolíosa McHugh"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Derry",
+      "statement": "Q67519231-ec17724c-494e-02a5-ac4e-aed2d19ab0bb",
+      "councils": [
+       "ni-lgd:derry-city-and-strabane"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2017-2018 vs Civgraph council span 2014-2020"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2017-2018 vs Civgraph council span 2014-2020"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "18289",
+   "name": "Máirtín Ó Muilleoir",
+   "wikidata": "Q13586248",
+   "wikidataLabel": "Máirtín Ó Muilleoir",
+   "bodies": [
+    {
+     "key": "ni-lgd:belfast",
+     "name": "Belfast (district council)",
+     "elected": [
+      "1987-10-22",
+      "1989-05-17",
+      "1993-05-19",
+      "2011-05-05",
+      "2014-05-22"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "mairtin omuilleoir",
+     "wikidata": "Máirtín Ó Muilleoir"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Belfast",
+      "statement": "Q13586248-A1F1215D-C36D-40E1-8761-7D9588DD251E",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2013-2014 vs Civgraph council span 1987-2020"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1959-01-01"
+     ],
+     "wikidataDied": [],
+     "life": "born 1959; first candidacy 1985-05-15 (age >= 25)",
+     "positions": [
+      "Wikidata 2013-2014 vs Civgraph council span 1987-2020"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "18846",
+   "name": "Deirdre Hargey",
+   "wikidata": "Q55069282",
+   "wikidataLabel": "Deirdre Hargey",
+   "bodies": [
+    {
+     "key": "ni-lgd:belfast",
+     "name": "Belfast (district council)",
+     "elected": [
+      "2011-05-05",
+      "2014-05-22",
+      "2019-05-02"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "deirdre hargey",
+     "wikidata": "Deirdre Hargey"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Belfast",
+      "statement": "Q55069282-28967ba7-4e76-e705-8a95-6746f1c00018",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2018-2019 vs Civgraph council span 2011-2025"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1980-01-01"
+     ],
+     "wikidataDied": [],
+     "life": "born 1980; first candidacy 2011-05-05 (age >= 30)",
+     "positions": [
+      "Wikidata 2018-2019 vs Civgraph council span 2011-2025"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "20260",
+   "name": "Alban Maginness",
+   "wikidata": "Q4709010",
+   "wikidataLabel": "Alban Maginness",
+   "bodies": [
+    {
+     "key": "ni-lgd:belfast",
+     "name": "Belfast (district council)",
+     "elected": [
+      "1985-05-15",
+      "1989-05-17",
+      "1993-05-19",
+      "1997-05-21",
+      "2001-06-07",
+      "2005-05-05"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "alban maginness",
+     "wikidata": "Alban Maginness"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Belfast",
+      "statement": "Q4709010-59b5bd48-47d9-4ad5-9840-a9ad6f277c67",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 1997-1998 vs Civgraph council span 1985-2011"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1950-07-09"
+     ],
+     "wikidataDied": [],
+     "life": "born 1950; first candidacy 1975-05-01 (age >= 24)",
+     "positions": [
+      "Wikidata 1997-1998 vs Civgraph council span 1985-2011"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "22454",
+   "name": "Elisha McCallion",
+   "wikidata": "Q28867747",
+   "wikidataLabel": "Elisha McCallion",
+   "bodies": [
+    {
+     "key": "ni-lgd:derry-city-and-strabane",
+     "name": "Derry City and Strabane (district council)",
+     "elected": [
+      "2014-05-22"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "elisha mccallion",
+     "wikidata": "Elisha McCallion"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Derry",
+      "statement": "Q28867747-da7b0ef8-4af9-7b22-912d-316d58887607",
+      "councils": [
+       "ni-lgd:derry-city-and-strabane"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2015-2016 vs Civgraph council span 2014-2020"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1982-01-01",
+      "1982-10-21"
+     ],
+     "wikidataDied": [],
+     "life": "born 1982; first candidacy 2014-05-22 (age >= 31)",
+     "positions": [
+      "Wikidata 2015-2016 vs Civgraph council span 2014-2020"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "24256",
+   "name": "Colum Eastwood",
+   "wikidata": "Q5149523",
+   "wikidataLabel": "Colum Eastwood",
+   "bodies": [
+    {
+     "key": "ni-lgd:derry",
+     "name": "Derry (district council)",
+     "elected": [
+      "2005-05-05",
+      "2011-05-05"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "colum eastwood",
+     "wikidata": "Colum Eastwood"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Derry",
+      "statement": "Q5149523-23715ced-4c93-8186-8f72-84bc9fdb054f",
+      "councils": [
+       "ni-lgd:derry"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2010-2011 vs Civgraph council span 2005-2017"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1983-04-30"
+     ],
+     "wikidataDied": [],
+     "life": "born 1983; first candidacy 2005-05-05 (age >= 21)",
+     "positions": [
+      "Wikidata 2010-2011 vs Civgraph council span 2005-2017"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "24486",
+   "name": "Alex Maskey",
+   "wikidata": "Q1116655",
+   "wikidataLabel": "Alex Maskey",
+   "bodies": [
+    {
+     "key": "ni-lgd:belfast",
+     "name": "Belfast (district council)",
+     "elected": [
+      "1983-06-29",
+      "1985-05-15",
+      "1989-05-17",
+      "1993-05-19",
+      "1997-05-21",
+      "2001-06-07",
+      "2005-05-05"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "alex maskey",
+     "wikidata": "Alex Maskey"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Belfast",
+      "statement": "Q1116655-a59649d8-4d74-9063-45d9-7cd3e1ea77c0",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2002-2003 vs Civgraph council span 1983-2011"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1952-01-08"
+     ],
+     "wikidataDied": [],
+     "life": "born 1952; first candidacy 1982-10-20 (age >= 29)",
+     "positions": [
+      "Wikidata 2002-2003 vs Civgraph council span 1983-2011"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "24489",
+   "name": "Reg Empey",
+   "wikidata": "Q336064",
+   "wikidataLabel": "Reg Empey",
+   "bodies": [
+    {
+     "key": "ni-lgd:belfast",
+     "name": "Belfast (district council)",
+     "elected": [
+      "1985-05-15",
+      "1989-05-17",
+      "1993-05-19",
+      "1997-05-21",
+      "2001-06-07",
+      "2005-05-05"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "reg empey",
+     "wikidata": "Reg Empey"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Belfast",
+      "statement": "Q336064-3114edc7-4c9f-5c41-53e8-1f602a1cd0c2",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 1993-1994 vs Civgraph council span 1985-2011"
+     },
+     {
+      "via": "P39 Lord Mayor of Belfast",
+      "statement": "Q336064-8b380f4f-4ed6-2ed6-9690-2fb9683740cc",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 1989-1990 vs Civgraph council span 1985-2011"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1947-10-26"
+     ],
+     "wikidataDied": [],
+     "life": "born 1947; first candidacy 1975-05-01 (age >= 27)",
+     "positions": [
+      "Wikidata 1993-1994 vs Civgraph council span 1985-2011",
+      "Wikidata 1989-1990 vs Civgraph council span 1985-2011"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "31309",
+   "name": "Tom Hartley",
+   "wikidata": "Q7816115",
+   "wikidataLabel": "Tom Hartley",
+   "bodies": [
+    {
+     "key": "ni-lgd:belfast",
+     "name": "Belfast (district council)",
+     "elected": [
+      "1993-05-19",
+      "1997-05-21",
+      "2001-06-07",
+      "2005-05-05",
+      "2011-05-05"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "tom hartley",
+     "wikidata": "Tom Hartley"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Belfast",
+      "statement": "Q7816115-349708a8-44b4-c9fd-c228-5fd1eac0895d",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2008-2009 vs Civgraph council span 1993-2017"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1940-01-01"
+     ],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2008-2009 vs Civgraph council span 1993-2017"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "39902",
+   "name": "Fred Cobain",
+   "wikidata": "Q5494852",
+   "wikidataLabel": "Fred Cobain",
+   "bodies": [
+    {
+     "key": "ni-lgd:belfast",
+     "name": "Belfast (district council)",
+     "elected": [
+      "1985-05-15",
+      "1989-05-17",
+      "1993-05-19",
+      "1997-05-21",
+      "2005-05-05",
+      "2019-05-02",
+      "2023-05-18"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "fred cobain",
+     "wikidata": "Fred Cobain"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Belfast",
+      "statement": "Q5494852-d20c15aa-4881-1efb-150d-ae937c4c1c68",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 1990-1991 vs Civgraph council span 1985-2029"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1946-04-30"
+     ],
+     "wikidataDied": [],
+     "life": "born 1946; first candidacy 1985-05-15 (age >= 38)",
+     "positions": [
+      "Wikidata 1990-1991 vs Civgraph council span 1985-2029"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "48923",
+   "name": "Michaela Boyle",
+   "wikidata": "Q6835582",
+   "wikidataLabel": "Michaela Boyle",
+   "bodies": [
+    {
+     "key": "ni-lgd:derry-city-and-strabane",
+     "name": "Derry City and Strabane (district council)",
+     "elected": [
+      "2019-05-02"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "michaela boyle",
+     "wikidata": "Michaela Boyle"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Derry",
+      "statement": "Q6835582-56f78591-4f90-ba3d-01fc-1b813e7cd448",
+      "councils": [
+       "ni-lgd:derry-city-and-strabane"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2019-2020 vs Civgraph council span 2019-2025"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1966-09-29"
+     ],
+     "wikidataDied": [],
+     "life": "born 1966; first candidacy 2011-05-05 (age >= 44)",
+     "positions": [
+      "Wikidata 2019-2020 vs Civgraph council span 2019-2025"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "51102",
+   "name": "Naomi Long",
+   "wikidata": "Q695272",
+   "wikidataLabel": "Naomi Long",
+   "bodies": [
+    {
+     "key": "ni-lgd:belfast",
+     "name": "Belfast (district council)",
+     "elected": [
+      "2001-06-07",
+      "2005-05-05"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "naomi long",
+     "wikidata": "Naomi Long"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Belfast",
+      "statement": "Q695272-61dcb865-4d83-92e1-cc2a-cdd86e4c5786",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2009-2010 vs Civgraph council span 2001-2011"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1971-12-13"
+     ],
+     "wikidataDied": [],
+     "life": "born 1971; first candidacy 2001-06-07 (age >= 29)",
+     "positions": [
+      "Wikidata 2009-2010 vs Civgraph council span 2001-2011"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "52666",
+   "name": "Nigel Dodds",
+   "wikidata": "Q300243",
+   "wikidataLabel": "Nigel Dodds",
+   "bodies": [
+    {
+     "key": "ni-lgd:belfast",
+     "name": "Belfast (district council)",
+     "elected": [
+      "1985-05-15",
+      "1989-05-17",
+      "1993-05-19",
+      "1997-05-21",
+      "2001-06-07",
+      "2005-05-05"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "nigel dodds",
+     "wikidata": "Nigel Dodds"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Belfast",
+      "statement": "Q300243-84876418-4fd9-8632-217e-94ae1950adbb",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 1988-1989 vs Civgraph council span 1985-2011"
+     },
+     {
+      "via": "P39 Lord Mayor of Belfast",
+      "statement": "Q300243-9386c095-44c2-5ec6-821f-66b0c76f2a98",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 1991-1992 vs Civgraph council span 1985-2011"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1958-08-20"
+     ],
+     "wikidataDied": [],
+     "life": "born 1958; first candidacy 1981-05-20 (age >= 22)",
+     "positions": [
+      "Wikidata 1988-1989 vs Civgraph council span 1985-2011",
+      "Wikidata 1991-1992 vs Civgraph council span 1985-2011"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "60248",
+   "name": "Gavin Robinson",
+   "wikidata": "Q5528262",
+   "wikidataLabel": "Gavin Robinson",
+   "bodies": [
+    {
+     "key": "ni-lgd:belfast",
+     "name": "Belfast (district council)",
+     "elected": [
+      "2011-05-05",
+      "2014-05-22"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "gavin robinson",
+     "wikidata": "Gavin Robinson"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Belfast",
+      "statement": "Q5528262-998a62b3-4e12-d56c-9057-6b7b150c0b08",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2012-2013 vs Civgraph council span 2011-2020"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1984-11-22"
+     ],
+     "wikidataDied": [],
+     "life": "born 1984; first candidacy 2011-05-05 (age >= 26)",
+     "positions": [
+      "Wikidata 2012-2013 vs Civgraph council span 2011-2020"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "64846",
+   "name": "Andrew McMurray",
+   "wikidata": "Q98273261",
+   "wikidataLabel": "Andrew McMurray",
+   "bodies": [
+    {
+     "key": "ni-lgd:newry-mourne-and-down",
+     "name": "Newry, Mourne and Down (district council)",
+     "elected": [
+      "2023-05-18"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "andrew mcmurray",
+     "wikidata": "Andrew McMurray"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Newry, Mourne and Down District Council",
+      "statement": "Q98273261-7E72C4C1-A5E0-4978-AACE-6DB44B16C87E",
+      "councils": [
+       "ni-lgd:newry-mourne-and-down"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2019-2024 vs Civgraph council span 2023-2029"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2019-2024 vs Civgraph council span 2023-2029"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "68780",
+   "name": "Jim Rodgers",
+   "wikidata": "Q9011758",
+   "wikidataLabel": "Jim Rodgers",
+   "bodies": [
+    {
+     "key": "ni-lgd:belfast",
+     "name": "Belfast (district council)",
+     "elected": [
+      "1993-05-19",
+      "1997-05-21",
+      "2001-06-07",
+      "2005-05-05",
+      "2011-05-05",
+      "2014-05-22",
+      "2019-05-02",
+      "2023-05-18"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "jim rodgers",
+     "wikidata": "Jim Rodgers"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Belfast",
+      "statement": "Q9011758-17BD9179-61E2-4D59-B1E2-3DC7A883B12B",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2007-2008 vs Civgraph council span 1993-2029"
+     },
+     {
+      "via": "P39 Lord Mayor of Belfast",
+      "statement": "Q9011758-4fa063d1-41d7-84c5-4829-49d53812bbfe",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2001-2002 vs Civgraph council span 1993-2029"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1950-01-01"
+     ],
+     "wikidataDied": [],
+     "life": "born 1950; first candidacy 1973-06-28 (age >= 22)",
+     "positions": [
+      "Wikidata 2007-2008 vs Civgraph council span 1993-2029",
+      "Wikidata 2001-2002 vs Civgraph council span 1993-2029"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "72281",
+   "name": "Kate Nicholl",
+   "wikidata": "Q98273204",
+   "wikidataLabel": "Kate Nicholl",
+   "bodies": [
+    {
+     "key": "ni-lgd:belfast",
+     "name": "Belfast (district council)",
+     "elected": [
+      "2019-05-02"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "kate nicholl",
+     "wikidata": "Kate Nicholl"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Belfast",
+      "statement": "Q98273204-01d11a22-40a6-90b0-7605-35277ccb7887",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2021-2022 vs Civgraph council span 2019-2025"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1988-05-04"
+     ],
+     "wikidataDied": [],
+     "life": "born 1988; first candidacy 2014-05-22 (age >= 25)",
+     "positions": [
+      "Wikidata 2021-2022 vs Civgraph council span 2019-2025"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "73470",
+   "name": "Ian Adamson",
+   "wikidata": "Q5980734",
+   "wikidataLabel": "Ian Adamson",
+   "bodies": [
+    {
+     "key": "ni-lgd:belfast",
+     "name": "Belfast (district council)",
+     "elected": [
+      "1989-05-17",
+      "1993-05-19",
+      "1997-05-21",
+      "2001-06-07",
+      "2005-05-05"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "ian adamson",
+     "wikidata": "Ian Adamson"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Belfast",
+      "statement": "Q5980734-04328c1e-468d-ba34-32ae-3cf0610666f2",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 1996-1997 vs Civgraph council span 1989-2011"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1944-06-28"
+     ],
+     "wikidataDied": [
+      "2019-01-09"
+     ],
+     "life": "born 1944; first candidacy 1989-05-17 (age >= 44); died 2019-01-09; last candidacy 2011-05-05",
+     "positions": [
+      "Wikidata 1996-1997 vs Civgraph council span 1989-2011"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "73878",
+   "name": "James Stewart",
+   "wikidata": "Q17984587",
+   "wikidataLabel": "James Stewart",
+   "bodies": [
+    {
+     "key": "ni-lgd:belfast",
+     "name": "Belfast (district council)",
+     "elected": [
+      "1973-05-30",
+      "1977-05-18",
+      "1981-05-20"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "james stewart",
+     "wikidata": "James Stewart"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Belfast",
+      "statement": "Q17984587-c00be164-488f-ea9e-2ee0-229ad04ab30d",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 1977-1978 vs Civgraph council span 1973-1987"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 1977-1978 vs Civgraph council span 1973-1987"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "76335",
+   "name": "Frank McCoubrey",
+   "wikidata": "Q5488270",
+   "wikidataLabel": "Frank McCoubrey",
+   "bodies": [
+    {
+     "key": "ni-lgd:belfast",
+     "name": "Belfast (district council)",
+     "elected": [
+      "1997-05-21",
+      "2001-06-07",
+      "2005-05-05",
+      "2011-05-05",
+      "2014-05-22",
+      "2019-05-02",
+      "2023-05-18"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "frank mccoubrey",
+     "wikidata": "Frank McCoubrey"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Belfast",
+      "statement": "Q5488270-81e8edc5-4c55-7bb3-4723-4132cd4e463d",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2020-2021 vs Civgraph council span 1997-2029"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1967-02-05"
+     ],
+     "wikidataDied": [],
+     "life": "born 1967; first candidacy 1997-05-21 (age >= 29)",
+     "positions": [
+      "Wikidata 2020-2021 vs Civgraph council span 1997-2029"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "76748",
+   "name": "Nuala McAllister",
+   "wikidata": "Q31437195",
+   "wikidataLabel": "Nuala McAllister",
+   "bodies": [
+    {
+     "key": "ni-lgd:belfast",
+     "name": "Belfast (district council)",
+     "elected": [
+      "2014-05-22",
+      "2019-05-02"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "nuala mcallister",
+     "wikidata": "Nuala McAllister"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Belfast",
+      "statement": "Q31437195-aba72b29-420c-253a-0320-c7a3e689f01f",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2017-2018 vs Civgraph council span 2014-2025"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1989-01-01"
+     ],
+     "wikidataDied": [],
+     "life": "born 1989; first candidacy 2014-05-22 (age >= 24)",
+     "positions": [
+      "Wikidata 2017-2018 vs Civgraph council span 2014-2025"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "77039",
+   "name": "Hugh Smyth",
+   "wikidata": "Q5932726",
+   "wikidataLabel": "Hugh Smyth",
+   "bodies": [
+    {
+     "key": "ni-lgd:belfast",
+     "name": "Belfast (district council)",
+     "elected": [
+      "1973-05-30",
+      "1977-05-18",
+      "1981-05-20",
+      "1985-05-15",
+      "1989-05-17",
+      "1993-05-19",
+      "1997-05-21",
+      "2001-06-07",
+      "2005-05-05",
+      "2011-05-05"
+     ]
+    },
+    {
+     "key": "ni:belfast-county-borough-council",
+     "name": "Belfast County Borough Council",
+     "elected": [
+      "1972-05-10"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "hugh smyth",
+     "wikidata": "Hugh Smyth"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Belfast",
+      "statement": "Q5932726-1a29113c-48a6-7e32-a6b5-3d8e8f02b98d",
+      "councils": [
+       "ni-lgd:belfast",
+       "ni:belfast-county-borough-council"
+      ],
+      "consistent": true,
+      "check": "Wikidata 1994-1995 vs Civgraph council span 1972-2017"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1941-01-01"
+     ],
+     "wikidataDied": [
+      "2014-05-12"
+     ],
+     "life": "born 1941; first candidacy 1972-05-10 (age >= 30); died 2014-05-12; last candidacy 2011-05-05",
+     "positions": [
+      "Wikidata 1994-1995 vs Civgraph council span 1972-2017"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "78378",
+   "name": "Eric Smyth",
+   "wikidata": "Q5387546",
+   "wikidataLabel": "Eric Smyth",
+   "bodies": [
+    {
+     "key": "ni-lgd:belfast",
+     "name": "Belfast (district council)",
+     "elected": [
+      "1981-05-20",
+      "1989-05-17",
+      "1993-05-19",
+      "1997-05-21",
+      "2001-06-07"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "eric smyth",
+     "wikidata": "Eric Smyth"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Belfast",
+      "statement": "Q5387546-c14a39a1-439c-79d1-6b16-87be9cbc75d6",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 1995-1996 vs Civgraph council span 1981-2007"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 1995-1996 vs Civgraph council span 1981-2007"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "84453",
+   "name": "Maurice Devenney",
+   "wikidata": "Q18358115",
+   "wikidataLabel": "Maurice Devenney",
+   "bodies": [
+    {
+     "key": "ni-lgd:derry",
+     "name": "Derry (district council)",
+     "elected": [
+      "2005-05-05",
+      "2011-05-05"
+     ]
+    },
+    {
+     "key": "ni-lgd:derry-city-and-strabane",
+     "name": "Derry City and Strabane (district council)",
+     "elected": [
+      "2019-05-02"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "maurice devenney",
+     "wikidata": "Maurice Devenney"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Derry",
+      "statement": "Q18358115-dd99f453-4b6b-68f5-47a4-3ea84269f6ae",
+      "councils": [
+       "ni-lgd:derry",
+       "ni-lgd:derry-city-and-strabane"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2011-2012 vs Civgraph council span 2005-2025"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1959-01-01"
+     ],
+     "wikidataDied": [],
+     "life": "born 1959; first candidacy 1997-05-21 (age >= 37)",
+     "positions": [
+      "Wikidata 2011-2012 vs Civgraph council span 2005-2025"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "85339",
+   "name": "Patricia O'Lynn",
+   "wikidata": "Q76130678",
+   "wikidataLabel": "Patricia O'Lynn",
+   "bodies": [
+    {
+     "key": "ni-lgd:mid-and-east-antrim",
+     "name": "Mid and East Antrim (district council)",
+     "elected": [
+      "2019-05-02"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "patricia olynn",
+     "wikidata": "Patricia O'Lynn"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 council member [P1001 Mid and East Antrim]",
+      "statement": "Q76130678-d3e356d1-4e33-a830-330e-3ed063832b07",
+      "councils": [
+       "ni-lgd:mid-and-east-antrim"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2019-2022 vs Civgraph council span 2019-2025"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2019-2022 vs Civgraph council span 2019-2025"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "85410",
+   "name": "John Finucane",
+   "wikidata": "Q55615175",
+   "wikidataLabel": "John Finucane",
+   "bodies": [
+    {
+     "key": "ni-lgd:belfast",
+     "name": "Belfast (district council)",
+     "elected": [
+      "2019-05-02"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "john finucane",
+     "wikidata": "John Finucane"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Belfast",
+      "statement": "Q55615175-1ecc5e84-43a8-e5bc-4140-69842b3ef467",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2019-2019 vs Civgraph council span 2019-2025"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1980-03-10"
+     ],
+     "wikidataDied": [],
+     "life": "born 1980; first candidacy 2017-06-08 (age >= 36)",
+     "positions": [
+      "Wikidata 2019-2019 vs Civgraph council span 2019-2025"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "87808",
+   "name": "Bob Stoker",
+   "wikidata": "Q4934101",
+   "wikidataLabel": "Bob Stoker",
+   "bodies": [
+    {
+     "key": "ni-lgd:belfast",
+     "name": "Belfast (district council)",
+     "elected": [
+      "1997-05-21",
+      "2001-06-07",
+      "2005-05-05",
+      "2011-05-05"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "bob stoker",
+     "wikidata": "Bob Stoker"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Belfast",
+      "statement": "Q4934101-0ca03653-4f98-c946-d218-df2dead195fb",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 1999-2000 vs Civgraph council span 1997-2017"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 1999-2000 vs Civgraph council span 1997-2017"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "93341",
+   "name": "Niall Ó Donnghaile",
+   "wikidata": "Q3778315",
+   "wikidataLabel": "Niall Ó Donnghaile",
+   "bodies": [
+    {
+     "key": "ni-lgd:belfast",
+     "name": "Belfast (district council)",
+     "elected": [
+      "2011-05-05",
+      "2014-05-22"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "niall odonnghaile",
+     "wikidata": "Niall Ó Donnghaile"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Belfast",
+      "statement": "Q3778315-a902a5bd-45cf-f552-031f-9d0a58ce6492",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2011-2012 vs Civgraph council span 2011-2020"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1985-05-28"
+     ],
+     "wikidataDied": [],
+     "life": "born 1985; first candidacy 2007-03-07 (age >= 21)",
+     "positions": [
+      "Wikidata 2011-2012 vs Civgraph council span 2011-2020"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "94418",
+   "name": "Brian Kingston",
+   "wikidata": "Q98270804",
+   "wikidataLabel": "Brian Kingston",
+   "bodies": [
+    {
+     "key": "ni-lgd:belfast",
+     "name": "Belfast (district council)",
+     "elected": [
+      "2011-05-05",
+      "2014-05-22",
+      "2019-05-02"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "brian kingston",
+     "wikidata": "Brian Kingston"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Belfast",
+      "statement": "Q98270804-03f86caf-4d97-ab61-e8c2-1b0fdf5ff208",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2016-2017 vs Civgraph council span 2011-2025"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1966-02-22"
+     ],
+     "wikidataDied": [],
+     "life": "born 1966; first candidacy 2011-05-05 (age >= 44)",
+     "positions": [
+      "Wikidata 2016-2017 vs Civgraph council span 2011-2025"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "95524",
+   "name": "Nichola Mallon",
+   "wikidata": "Q17306227",
+   "wikidataLabel": "Nichola Mallon",
+   "bodies": [
+    {
+     "key": "ni-lgd:belfast",
+     "name": "Belfast (district council)",
+     "elected": [
+      "2011-05-05",
+      "2014-05-22"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "nichola mallon",
+     "wikidata": "Nichola Mallon"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Belfast",
+      "statement": "Q17306227-c28c47ae-468a-4cf8-370a-8aa036fc93a4",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2014-2015 vs Civgraph council span 2011-2020"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1979-08-23"
+     ],
+     "wikidataDied": [],
+     "life": "born 1979; first candidacy 2011-05-05 (age >= 31)",
+     "positions": [
+      "Wikidata 2014-2015 vs Civgraph council span 2011-2020"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "96356",
+   "name": "Sammy Wilson",
+   "wikidata": "Q262040",
+   "wikidataLabel": "Sammy Wilson",
+   "bodies": [
+    {
+     "key": "ni-lgd:belfast",
+     "name": "Belfast (district council)",
+     "elected": [
+      "1981-05-20",
+      "1985-05-15",
+      "1989-05-17",
+      "1993-05-19",
+      "1997-05-21",
+      "2001-06-07",
+      "2005-05-05"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "sammy wilson",
+     "wikidata": "Sammy Wilson"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Belfast",
+      "statement": "Q262040-274ef3b6-4994-c9d9-f7f2-2e2940e496d2",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2000-2001 vs Civgraph council span 1981-2011"
+     },
+     {
+      "via": "P39 Lord Mayor of Belfast",
+      "statement": "Q262040-f4a223ce-4ba8-c2a6-5792-d60cdc403ba1",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 1986-1987 vs Civgraph council span 1981-2011"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1953-04-01",
+      "1953-04-04"
+     ],
+     "wikidataDied": [],
+     "life": "born 1953; first candidacy 1977-05-18 (age >= 23)",
+     "positions": [
+      "Wikidata 2000-2001 vs Civgraph council span 1981-2011",
+      "Wikidata 1986-1987 vs Civgraph council span 1981-2011"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "97753",
+   "name": "Danny Baker",
+   "wikidata": "Q111869880",
+   "wikidataLabel": "Danny Baker",
+   "bodies": [
+    {
+     "key": "ni-lgd:belfast",
+     "name": "Belfast (district council)",
+     "elected": [
+      "2019-05-02"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "danny baker",
+     "wikidata": "Danny Baker"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Belfast",
+      "statement": "Q111869880-4a3695c5-49f6-fb67-767d-80a184b2cf11",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2019-2020 vs Civgraph council span 2019-2025"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2019-2020 vs Civgraph council span 2019-2025"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "100124",
+   "name": "Michael Long",
+   "wikidata": "Q112221323",
+   "wikidataLabel": "Michael Long",
+   "bodies": [
+    {
+     "key": "ni-lgd:belfast",
+     "name": "Belfast (district council)",
+     "elected": [
+      "2014-05-22",
+      "2019-05-02",
+      "2023-05-18"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "michael long",
+     "wikidata": "Michael Long"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Belfast",
+      "statement": "Q112221323-e9cf64c1-4b34-2b4b-aa5e-6cfe22995ccd",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2022-2022 vs Civgraph council span 2014-2029"
+     },
+     {
+      "via": "description: \"lord Mayor of Belfast\"",
+      "statement": null,
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "undated"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2022-2022 vs Civgraph council span 2014-2029"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "100365",
+   "name": "Herbert Ditty",
+   "wikidata": "Q131626211",
+   "wikidataLabel": "Herbert Ditty",
+   "bodies": [
+    {
+     "key": "ni-lgd:belfast",
+     "name": "Belfast (district council)",
+     "elected": [
+      "1973-05-30",
+      "1977-05-18",
+      "1985-05-15",
+      "1989-05-17"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "herbert ditty",
+     "wikidata": "Herbert Ditty"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Belfast",
+      "statement": "Q131626211-779accb9-400a-b0d1-0dbc-c635258beae2",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 1992-1993 vs Civgraph council span 1973-1995"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [
+      "1998-01-01"
+     ],
+     "life": "died 1998; last candidacy 1993-05-19",
+     "positions": [
+      "Wikidata 1992-1993 vs Civgraph council span 1973-1995"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "100651",
+   "name": "Catherine Byrne",
+   "wikidata": "Q540826",
+   "wikidataLabel": "Catherine Byrne",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "1999-06-10",
+      "2004-06-11"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "catherine byrne",
+     "wikidata": "Catherine Byrne"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Dublin",
+      "statement": "Q540826-E8B7F9E3-A22E-402B-9D68-9C1930622419",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2005-2006 vs Civgraph council span 1999-2010"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1956-02-26"
+     ],
+     "wikidataDied": [],
+     "life": "born 1956; first candidacy 1999-06-10 (age >= 42)",
+     "positions": [
+      "Wikidata 2005-2006 vs Civgraph council span 1999-2010"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "100652",
+   "name": "Catherine Connolly",
+   "wikidata": "Q5052598",
+   "wikidataLabel": "Catherine Connolly",
+   "bodies": [
+    {
+     "key": "roi:galway-city",
+     "name": "Galway City Council",
+     "elected": [
+      "1999-06-10",
+      "2004-06-11",
+      "2009-06-05"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "catherine connolly",
+     "wikidata": "Catherine Connolly"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q5052598-F72E9A1E-AC95-4A3E-900A-7E969554804C",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2004-2005 vs Civgraph council span 1999-2015"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1955-11-05"
+     ],
+     "wikidataDied": [],
+     "life": "born 1955; first candidacy 1999-06-10 (age >= 43)",
+     "positions": [
+      "Wikidata 2004-2005 vs Civgraph council span 1999-2015"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "100667",
+   "name": "Deirdre Clune",
+   "wikidata": "Q1183377",
+   "wikidataLabel": "Deirdre Clune",
+   "bodies": [
+    {
+     "key": "roi:cork-city",
+     "name": "Cork City Council",
+     "elected": [
+      "1999-06-10",
+      "2004-06-11"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "deirdre clune",
+     "wikidata": "Deirdre Clune"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Cork",
+      "statement": "Q1183377-1E25D6CF-AE71-46C8-BCB3-9804E97AB6FE",
+      "councils": [
+       "roi:cork-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1959-06-01"
+     ],
+     "wikidataDied": [],
+     "life": "born 1959; first candidacy 1997-06-06 (age >= 37)",
+     "positions": []
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "101025",
+   "name": "Arder Carson",
+   "wikidata": "Q19892165",
+   "wikidataLabel": "Arder Carson",
+   "bodies": [
+    {
+     "key": "ni-lgd:belfast",
+     "name": "Belfast (district council)",
+     "elected": [
+      "2014-05-22",
+      "2019-05-02",
+      "2023-05-18"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "arder carson",
+     "wikidata": "Arder Carson"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Belfast",
+      "statement": "Q19892165-32406ffe-4001-b756-d330-e4807367de80",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2015-2016 vs Civgraph council span 2014-2029"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1960-01-01"
+     ],
+     "wikidataDied": [],
+     "life": "born 1960; first candidacy 2011-05-05 (age >= 50)",
+     "positions": [
+      "Wikidata 2015-2016 vs Civgraph council span 2014-2029"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "101125",
+   "name": "Garry Gannon",
+   "wikidata": "Q52004188",
+   "wikidataLabel": "Gary Gannon",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "2014-05-23",
+      "2019-05-24"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "none (identity from official ids)"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 councillor in Dublin City Council",
+      "statement": "Q52004188-8D59276D-AA86-40D5-AAE8-4A03CDCB64EE",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1987-02-18"
+     ],
+     "wikidataDied": [],
+     "life": "born 1987; first candidacy 2014-05-23 (age >= 26)",
+     "positions": []
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "101132",
+   "name": "Hildegarde Naughton",
+   "wikidata": "Q5761616",
+   "wikidataLabel": "Hildegarde Naughton",
+   "bodies": [
+    {
+     "key": "roi:galway-city",
+     "name": "Galway City Council",
+     "elected": [
+      "2009-06-05"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "hildegarde naughton",
+     "wikidata": "Hildegarde Naughton"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q5761616-BE91CFB3-8614-4037-8461-7872359B9AB8",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2011-2012 vs Civgraph council span 2009-2015"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1977-05-01"
+     ],
+     "wikidataDied": [],
+     "life": "born 1977; first candidacy 2009-06-05 (age >= 31)",
+     "positions": [
+      "Wikidata 2011-2012 vs Civgraph council span 2009-2015"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "101196",
+   "name": "Matt Carthy",
+   "wikidata": "Q16979858",
+   "wikidataLabel": "Matt Carthy",
+   "bodies": [
+    {
+     "key": "roi:monaghan",
+     "name": "Monaghan County Council",
+     "elected": [
+      "2004-06-11",
+      "2009-06-05",
+      "2014-05-23"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "matt carthy",
+     "wikidata": "Matt Carthy"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 council member [P463 Monaghan County Council]",
+      "statement": "Q16979858-b380517f-4922-e637-d98e-3be9d5e04e81",
+      "councils": [
+       "roi:monaghan"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2004-2014 vs Civgraph council span 2004-2020"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1977-07-19"
+     ],
+     "wikidataDied": [],
+     "life": "born 1977; first candidacy 2004-06-11 (age >= 26)",
+     "positions": [
+      "Wikidata 2004-2014 vs Civgraph council span 2004-2020"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "101808",
+   "name": "Barry Ward",
+   "wikidata": "Q89327681",
+   "wikidataLabel": "Barry M. Ward",
+   "bodies": [
+    {
+     "key": "roi:dun-laoghaire-rathdown",
+     "name": "Dun Laoghaire-Rathdown County Council",
+     "elected": [
+      "2009-06-05",
+      "2014-05-23",
+      "2019-05-24"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "middle-initial",
+     "civgraph": "barry ward",
+     "wikidata": "Barry M. Ward"
+    },
+    "bodyMatch": [
+     {
+      "via": "P463 Dún Laoghaire-Rathdown County Council",
+      "statement": "Q89327681-60e16a88-4ba8-45a0-5dcd-2ced6afd7442",
+      "councils": [
+       "roi:dun-laoghaire-rathdown"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2020-2020 vs Civgraph council span 2009-2025"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1976-01-01"
+     ],
+     "wikidataDied": [],
+     "life": "born 1976; first candidacy 2009-06-05 (age >= 32)",
+     "positions": [
+      "Wikidata 2020-2020 vs Civgraph council span 2009-2025"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "101816",
+   "name": "Caroline Conroy",
+   "wikidata": "Q112763037",
+   "wikidataLabel": "Caroline Conroy",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "2019-05-24"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "caroline conroy",
+     "wikidata": "Caroline Conroy"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Dublin",
+      "statement": "Q112763037-65FCB1D5-DF5B-4DBF-879E-5292ECE6F3DC",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2022-2023 vs Civgraph council span 2019-2025"
+     },
+     {
+      "via": "P39 councillor in Dublin City Council",
+      "statement": "Q112763037-9CC40A09-6C0F-4423-A96E-BD63C50D63AC",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2019-2024 vs Civgraph council span 2019-2025"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1977-02-08"
+     ],
+     "wikidataDied": [],
+     "life": "born 1977; first candidacy 2016-02-26 (age >= 38)",
+     "positions": [
+      "Wikidata 2022-2023 vs Civgraph council span 2019-2025",
+      "Wikidata 2019-2024 vs Civgraph council span 2019-2025"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "102019",
+   "name": "Michael Mulcahy",
+   "wikidata": "Q1928683",
+   "wikidataLabel": "Michael Mulcahy",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "1985-06-20",
+      "1991-06-27",
+      "1999-06-10"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "michael mulcahy",
+     "wikidata": "Michael Mulcahy"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Dublin",
+      "statement": "Q1928683-D220BC79-F9FD-42BA-BA26-F6AC24E43454",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2001-2002 vs Civgraph council span 1985-2005"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1960-06-23"
+     ],
+     "wikidataDied": [],
+     "life": "born 1960; first candidacy 1985-06-20 (age >= 24)",
+     "positions": [
+      "Wikidata 2001-2002 vs Civgraph council span 1985-2005"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "102028",
+   "name": "Naoise O Muiri",
+   "wikidata": "Q254202",
+   "wikidataLabel": "Naoise Ó Muirí",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "2004-06-11",
+      "2009-06-05",
+      "2014-05-23",
+      "2019-05-24"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "naoise omuiri",
+     "wikidata": "Naoise Ó Muirí"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Dublin",
+      "statement": "Q254202-BD793626-E985-4E35-A086-F7D9649A73F7",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2012-2013 vs Civgraph council span 2004-2025"
+     },
+     {
+      "via": "P39 councillor in Dublin City Council",
+      "statement": "Q254202-DF8505DB-29F7-4A31-A9D4-C4E940C97E7D",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2004-2004 vs Civgraph council span 2004-2025"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1972-09-15"
+     ],
+     "wikidataDied": [],
+     "life": "born 1972; first candidacy 2004-06-11 (age >= 31)",
+     "positions": [
+      "Wikidata 2012-2013 vs Civgraph council span 2004-2025",
+      "Wikidata 2004-2004 vs Civgraph council span 2004-2025"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "102031",
+   "name": "Niall O Brolchain",
+   "wikidata": "Q1984551",
+   "wikidataLabel": "Niall Ó Brolcháin",
+   "bodies": [
+    {
+     "key": "roi:galway-city",
+     "name": "Galway City Council",
+     "elected": [
+      "2004-06-11"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "niall obrolchain",
+     "wikidata": "Niall Ó Brolcháin"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q1984551-456A5368-1FA3-4AA9-83A9-6D7AC5A644EA",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     },
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q1984551-FB615F8E-71F6-4BD1-BB7A-A91D7F20C1EE",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2006-2007 vs Civgraph council span 2004-2010"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1965-04-14"
+     ],
+     "wikidataDied": [],
+     "life": "born 1965; first candidacy 2002-05-17 (age >= 36)",
+     "positions": [
+      "Wikidata 2006-2007 vs Civgraph council span 2004-2010"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "102033",
+   "name": "Nicky Kelly",
+   "wikidata": "Q7028633",
+   "wikidataLabel": "Nicky Kelly",
+   "bodies": [
+    {
+     "key": "roi:wicklow",
+     "name": "Wicklow County Council",
+     "elected": [
+      "1999-06-10",
+      "2004-06-11",
+      "2009-06-05"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "nicky kelly",
+     "wikidata": "Nicky Kelly"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Wicklow County Council",
+      "statement": "Q7028633-02D134A5-6FD4-4327-A32D-4BBCEFFA43BB",
+      "councils": [
+       "roi:wicklow"
+      ],
+      "consistent": true,
+      "check": "undated"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1951-01-09"
+     ],
+     "wikidataDied": [],
+     "life": "born 1951; first candidacy 1995-06-29 (age >= 43)",
+     "positions": []
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "102070",
+   "name": "Paul McAuliffe",
+   "wikidata": "Q28363948",
+   "wikidataLabel": "Paul McAuliffe",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "2009-06-05",
+      "2019-05-24"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "paul mcauliffe",
+     "wikidata": "Paul McAuliffe"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Dublin",
+      "statement": "Q28363948-0DD61473-715B-4D0F-B09D-8654F625EB72",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2019-2020 vs Civgraph council span 2009-2025"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1977-02-08"
+     ],
+     "wikidataDied": [],
+     "life": "born 1977; first candidacy 2004-06-11 (age >= 26)",
+     "positions": [
+      "Wikidata 2019-2020 vs Civgraph council span 2009-2025"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "102190",
+   "name": "Ryan Murphy",
+   "wikidata": "Q131178884",
+   "wikidataLabel": "Ryan Murphy",
+   "bodies": [
+    {
+     "key": "ni-lgd:belfast",
+     "name": "Belfast (district council)",
+     "elected": [
+      "2019-05-02",
+      "2023-05-18"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "ryan murphy",
+     "wikidata": "Ryan Murphy"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Belfast",
+      "statement": "Q131178884-5a711bda-4141-581b-8f55-dfcb8fbe812d",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2023-2024 vs Civgraph council span 2019-2029"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1994-01-01"
+     ],
+     "wikidataDied": [],
+     "life": "born 1994; first candidacy 2019-05-02 (age >= 24)",
+     "positions": [
+      "Wikidata 2023-2024 vs Civgraph council span 2019-2029"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "102196",
+   "name": "Lilian Seenoi-Barr",
+   "wikidata": "Q125735319",
+   "wikidataLabel": "Lilian Seenoi-Barr",
+   "bodies": [
+    {
+     "key": "ni-lgd:derry-city-and-strabane",
+     "name": "Derry City and Strabane (district council)",
+     "elected": [
+      "2023-05-18"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "lilian seenoi barr",
+     "wikidata": "Lilian Seenoi-Barr"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Derry",
+      "statement": "Q125735319-a1139abf-4ece-a090-288e-b6a7ecc097f8",
+      "councils": [
+       "ni-lgd:derry-city-and-strabane"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2024-2025 vs Civgraph council span 2023-2029"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1981-10-01"
+     ],
+     "wikidataDied": [],
+     "life": "born 1981; first candidacy 2019-05-02 (age >= 37)",
+     "positions": [
+      "Wikidata 2024-2025 vs Civgraph council span 2023-2029"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "102258",
+   "name": "Tina Black",
+   "wikidata": "Q113199321",
+   "wikidataLabel": "Tina Black",
+   "bodies": [
+    {
+     "key": "ni-lgd:belfast",
+     "name": "Belfast (district council)",
+     "elected": [
+      "2019-05-02",
+      "2023-05-18"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "tina black",
+     "wikidata": "Tina Black"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Belfast",
+      "statement": "Q113199321-d942157b-433b-7660-5d0f-812341042af4",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2022-2023 vs Civgraph council span 2019-2029"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2022-2023 vs Civgraph council span 2019-2029"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "102265",
+   "name": "Micky Murray",
+   "wikidata": "Q130793674",
+   "wikidataLabel": "Micky Murray",
+   "bodies": [
+    {
+     "key": "ni-lgd:belfast",
+     "name": "Belfast (district council)",
+     "elected": [
+      "2023-05-18"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "micky murray",
+     "wikidata": "Micky Murray"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Belfast",
+      "statement": "Q130793674-7c2eda9f-4129-620b-1495-9762d128ba06",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2024-2025 vs Civgraph council span 2023-2029"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2024-2025 vs Civgraph council span 2023-2029"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "102535",
+   "name": "Paula Bradley",
+   "wikidata": "Q7154645",
+   "wikidataLabel": "Paula Bradley",
+   "bodies": [
+    {
+     "key": "ni-lgd:newtownabbey",
+     "name": "Newtownabbey (district council)",
+     "elected": [
+      "2005-05-05",
+      "2011-05-05"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "paula bradley",
+     "wikidata": "Paula Bradley"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 deputy mayor [P1001 Newtownabbey Borough Council]",
+      "statement": "Q7154645-b68c2055-44d5-4d04-a775-cc84837920e6",
+      "councils": [
+       "ni-lgd:newtownabbey"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2009-2010 vs Civgraph council span 2005-2017"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1969-06-23"
+     ],
+     "wikidataDied": [],
+     "life": "born 1969; first candidacy 2005-05-05 (age >= 35)",
+     "positions": [
+      "Wikidata 2009-2010 vs Civgraph council span 2005-2017"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "103301",
+   "name": "Gerry Breen",
+   "wikidata": "Q179332",
+   "wikidataLabel": "Gerry Breen",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "1999-06-10",
+      "2004-06-11",
+      "2009-06-05"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "gerry breen",
+     "wikidata": "Gerry Breen"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Dublin",
+      "statement": "Q179332-005E00D8-D884-403A-BEE6-C752021EED48",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2010-2011 vs Civgraph council span 1999-2015"
+     },
+     {
+      "via": "P39 councillor in Dublin City Council",
+      "statement": "Q179332-FB1DBC6C-524A-4935-897B-70FB57E39601",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 1999-2014 vs Civgraph council span 1999-2015"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1957-10-20"
+     ],
+     "wikidataDied": [],
+     "life": "born 1957; first candidacy 1999-06-10 (age >= 41)",
+     "positions": [
+      "Wikidata 2010-2011 vs Civgraph council span 1999-2015",
+      "Wikidata 1999-2014 vs Civgraph council span 1999-2015"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "103464",
+   "name": "Mairéad Farrell",
+   "wikidata": "Q84731161",
+   "wikidataLabel": "Mairéad Farrell",
+   "bodies": [
+    {
+     "key": "roi:galway-city",
+     "name": "Galway City Council",
+     "elected": [
+      "2014-05-23"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "mairead farrell",
+     "wikidata": "Mairéad Farrell"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 council member [P131 Galway]",
+      "statement": "Q84731161-ab1f3c45-45ba-2c6f-7a66-cfe44fbc8088",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2014-2019 vs Civgraph council span 2014-2020"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1990-01-06"
+     ],
+     "wikidataDied": [],
+     "life": "born 1990; first candidacy 2014-05-23 (age >= 23)",
+     "positions": [
+      "Wikidata 2014-2019 vs Civgraph council span 2014-2020"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "103517",
+   "name": "Michael J Crowe",
+   "wikidata": "Q6829565",
+   "wikidataLabel": "Michael Crowe",
+   "bodies": [
+    {
+     "key": "roi:galway-city",
+     "name": "Galway City Council",
+     "elected": [
+      "2004-06-11",
+      "2009-06-05",
+      "2014-05-23",
+      "2019-05-24"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "middle-initial",
+     "civgraph": "michael j crowe",
+     "wikidata": "Michael Crowe"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q6829565-7807c928-b585-438f-bc5c-df9dd68dec35",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     },
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q6829565-BEB7F053-C182-467E-A69B-86BC3C022D58",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2010-2011 vs Civgraph council span 2004-2025"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2010-2011 vs Civgraph council span 2004-2025"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "103531",
+   "name": "Micheál Mac Donncha",
+   "wikidata": "Q41536567",
+   "wikidataLabel": "Mícheál Mac Donncha",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "2014-05-23",
+      "2019-05-24"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "micheal macdonncha",
+     "wikidata": "Mícheál Mac Donncha"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 councillor in Dublin City Council",
+      "statement": "Q41536567-7CED5FF3-CD60-4981-A31E-CBB38758E18A",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": false,
+      "check": "Wikidata 2011-2011 vs Civgraph council span 2014-2025"
+     },
+     {
+      "via": "P39 Lord Mayor of Dublin",
+      "statement": "Q41536567-DCAB04FB-9545-43B3-AB43-5EE6BEF1FFAB",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2017-2018 vs Civgraph council span 2014-2025"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1965-03-11"
+     ],
+     "wikidataDied": [],
+     "life": "born 1965; first candidacy 2014-05-23 (age >= 48)",
+     "positions": [
+      "Wikidata 2011-2011 vs Civgraph council span 2014-2025",
+      "Wikidata 2017-2018 vs Civgraph council span 2014-2025"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "104712",
+   "name": "Róis-Máire Donnelly",
+   "wikidata": "Q140033185",
+   "wikidataLabel": "Róis-Máire Donnelly",
+   "bodies": [
+    {
+     "key": "ni-lgd:belfast",
+     "name": "Belfast (district council)",
+     "elected": [
+      "2023-05-18"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "rois maire donnelly",
+     "wikidata": "Róis-Máire Donnelly"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Belfast",
+      "statement": "Q140033185-7d99237a-412f-4a5d-12f9-733ab5c08099",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2026-2026 vs Civgraph council span 2023-2029"
+     },
+     {
+      "via": "P39 member of Belfast City Council",
+      "statement": "Q140033185-d9333fde-4f5b-8a3b-a2a9-bf001e94544f",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2022-2022 vs Civgraph council span 2023-2029"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2026-2026 vs Civgraph council span 2023-2029",
+      "Wikidata 2022-2022 vs Civgraph council span 2023-2029"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "104993",
+   "name": "John Gormley",
+   "wikidata": "Q1700253",
+   "wikidataLabel": "John Gormley",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "1991-06-27"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "john gormley",
+     "wikidata": "John Gormley"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Dublin",
+      "statement": "Q1700253-5f189fe1-402d-dfeb-0ce1-cfbea8d3ab86",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 1994-1995 vs Civgraph council span 1991-1997"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1959-08-04"
+     ],
+     "wikidataDied": [],
+     "life": "born 1959; first candidacy 1989-06-15 (age >= 29)",
+     "positions": [
+      "Wikidata 1994-1995 vs Civgraph council span 1991-1997"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "108792",
+   "name": "Brian Walsh",
+   "wikidata": "Q13156970",
+   "wikidataLabel": "Brian Walsh",
+   "bodies": [
+    {
+     "key": "roi:galway-city",
+     "name": "Galway City Council",
+     "elected": [
+      "2004-06-11",
+      "2009-06-05"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "brian walsh",
+     "wikidata": "Brian Walsh"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q13156970-2A949AE6-8921-4F57-8A55-787FAD60B5D6",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2005-2006 vs Civgraph council span 2004-2015"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1972-09-28"
+     ],
+     "wikidataDied": [],
+     "life": "born 1972; first candidacy 2004-06-11 (age >= 31)",
+     "positions": [
+      "Wikidata 2005-2006 vs Civgraph council span 2004-2015"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "109014",
+   "name": "Declan McDonnell",
+   "wikidata": "Q5249362",
+   "wikidataLabel": "Declan McDonnell",
+   "bodies": [
+    {
+     "key": "roi:galway-city",
+     "name": "Galway City Council",
+     "elected": [
+      "1991-06-27",
+      "1999-06-10",
+      "2004-06-11",
+      "2009-06-05",
+      "2014-05-23",
+      "2019-05-24",
+      "2024-06-07"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "declan mcdonnell",
+     "wikidata": "Declan McDonnell"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q5249362-78eb4af2-19a1-4a67-a79a-0034b45f9203",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     },
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q5249362-9EB1FE89-7D55-4A9E-8631-12C9CD1D1A38",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2009-2010 vs Civgraph council span 1991-2030"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1948-01-01"
+     ],
+     "wikidataDied": [],
+     "life": "born 1948; first candidacy 1991-06-27 (age >= 42)",
+     "positions": [
+      "Wikidata 2009-2010 vs Civgraph council span 1991-2030"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "109172",
+   "name": "Eibhlin Byrne",
+   "wikidata": "Q1301175",
+   "wikidataLabel": "Eibhlin Byrne",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "2004-06-11"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "eibhlin byrne",
+     "wikidata": "Eibhlin Byrne"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Dublin",
+      "statement": "Q1301175-62D6DB29-EDB1-44BD-AC23-B2E78B1DF1FC",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2008-2009 vs Civgraph council span 2004-2010"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "2000-01-01"
+     ],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2008-2009 vs Civgraph council span 2004-2010"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "109191",
+   "name": "Emer Costello",
+   "wikidata": "Q525437",
+   "wikidataLabel": "Emer Costello",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "2004-06-11",
+      "2009-06-05"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "emer costello",
+     "wikidata": "Emer Costello"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 councillor in Dublin City Council",
+      "statement": "Q525437-C35D1B4E-E080-4380-92BD-7E6EA8A8F40B",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2003-2012 vs Civgraph council span 2004-2015"
+     },
+     {
+      "via": "P39 Lord Mayor of Dublin",
+      "statement": "Q525437-EA3C890A-206D-4828-AB86-D46D13C61E61",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2009-2010 vs Civgraph council span 2004-2015"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1962-09-03"
+     ],
+     "wikidataDied": [],
+     "life": "born 1962; first candidacy 2004-06-11 (age >= 41)",
+     "positions": [
+      "Wikidata 2003-2012 vs Civgraph council span 2004-2015",
+      "Wikidata 2009-2010 vs Civgraph council span 2004-2015"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "109385",
+   "name": "Hazel Chu",
+   "wikidata": "Q81771877",
+   "wikidataLabel": "Hazel Chu",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "2019-05-24"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "hazel chu",
+     "wikidata": "Hazel Chu"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Dublin",
+      "statement": "Q81771877-C8F5F8EB-678A-45B9-B1CC-69416A249F7F",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2020-2021 vs Civgraph council span 2019-2025"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1980-01-01",
+      "1980-11-03"
+     ],
+     "wikidataDied": [],
+     "life": "born 1980; first candidacy 2019-05-24 (age >= 38)",
+     "positions": [
+      "Wikidata 2020-2021 vs Civgraph council span 2019-2025"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "109604",
+   "name": "Joe Conway",
+   "wikidata": "Q132353986",
+   "wikidataLabel": "Joe Conway",
+   "bodies": [
+    {
+     "key": "roi:waterford",
+     "name": "Waterford City and County Council",
+     "elected": [
+      "2024-06-07"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "joe conway",
+     "wikidata": "Joe Conway"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 councillor in Waterford City and County Council",
+      "statement": "Q132353986-7BB2225F-EF4E-4C72-8293-A5E7DB59AAFE",
+      "councils": [
+       "roi:waterford"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2014-2025 vs Civgraph council span 2024-2030"
+     },
+     {
+      "via": "P39 Mayor of Waterford",
+      "statement": "Q132353986-E8BB14B5-9F80-47A6-8B94-F556D423CCAC",
+      "councils": [
+       "roi:waterford"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2023-2024 vs Civgraph council span 2024-2030"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2014-2025 vs Civgraph council span 2024-2030",
+      "Wikidata 2023-2024 vs Civgraph council span 2024-2030"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "110037",
+   "name": "Maurice Ahern",
+   "wikidata": "Q1911246",
+   "wikidataLabel": "Maurice Ahern",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "1999-06-10",
+      "2004-06-11"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "maurice ahern",
+     "wikidata": "Maurice Ahern"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Dublin",
+      "statement": "Q1911246-819C57F0-7FBC-4F90-BA5E-C09ACE39A3F7",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2000-2001 vs Civgraph council span 1999-2010"
+     },
+     {
+      "via": "P39 Lord Mayor of Dublin",
+      "statement": "Q1911246-99e671e2-2517-4b10-87c3-e14a5c031ece",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1938-01-01"
+     ],
+     "wikidataDied": [],
+     "life": "born 1938; first candidacy 1999-06-10 (age >= 60)",
+     "positions": [
+      "Wikidata 2000-2001 vs Civgraph council span 1999-2010"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "110062",
+   "name": "Michael Conaghan",
+   "wikidata": "Q335783",
+   "wikidataLabel": "Michael Conaghan",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "1991-06-27",
+      "1999-06-10",
+      "2004-06-11",
+      "2009-06-05"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "michael conaghan",
+     "wikidata": "Michael Conaghan"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Dublin",
+      "statement": "Q335783-52DFE504-8C7D-4F39-BCBF-4890A4AD5B23",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2004-2005 vs Civgraph council span 1991-2015"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1944-09-04"
+     ],
+     "wikidataDied": [
+      "2026-08-04"
+     ],
+     "life": "born 1944; first candidacy 1982-05-25 (age >= 37); died 2026-08-04; last candidacy 2011-02-25",
+     "positions": [
+      "Wikidata 2004-2005 vs Civgraph council span 1991-2015"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "110259",
+   "name": "Oisin Quinn",
+   "wikidata": "Q14899977",
+   "wikidataLabel": "Oisín Quinn",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "2004-06-11",
+      "2009-06-05"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "oisin quinn",
+     "wikidata": "Oisín Quinn"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Dublin",
+      "statement": "Q14899977-465469A6-0B31-4F4A-868B-B4FA2AEE5463",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2013-2014 vs Civgraph council span 2004-2015"
+     },
+     {
+      "via": "P39 councillor in Dublin City Council",
+      "statement": "Q14899977-7B638181-5827-4806-9859-9CA885221CEF",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2004-2014 vs Civgraph council span 2004-2015"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1969-05-16"
+     ],
+     "wikidataDied": [],
+     "life": "born 1969; first candidacy 2004-06-11 (age >= 34)",
+     "positions": [
+      "Wikidata 2013-2014 vs Civgraph council span 2004-2015",
+      "Wikidata 2004-2014 vs Civgraph council span 2004-2015"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "110561",
+   "name": "Royston Brady",
+   "wikidata": "Q1745824",
+   "wikidataLabel": "Royston Brady",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "1999-06-10"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "royston brady",
+     "wikidata": "Royston Brady"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Dublin",
+      "statement": "Q1745824-CE480B0F-5949-4BB9-8DDA-B83854A0BA00",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2003-2004 vs Civgraph council span 1999-2005"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1972-08-24"
+     ],
+     "wikidataDied": [],
+     "life": "born 1972; first candidacy 1999-06-10 (age >= 26)",
+     "positions": [
+      "Wikidata 2003-2004 vs Civgraph council span 1999-2005"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "110849",
+   "name": "Tom Brabazon",
+   "wikidata": "Q55083474",
+   "wikidataLabel": "Tom Brabazon",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "2004-06-11",
+      "2009-06-05",
+      "2014-05-23",
+      "2019-05-24"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "tom brabazon",
+     "wikidata": "Tom Brabazon"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Dublin",
+      "statement": "Q55083474-35C60F8A-5D8A-450A-8069-710B63F58C73",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2020-2020 vs Civgraph council span 2004-2025"
+     },
+     {
+      "via": "P39 councillor in Dublin City Council",
+      "statement": "Q55083474-F3D4A3A9-F22E-443E-B6AE-8F2B0475DB0C",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     },
+     {
+      "via": "description: \"Irish politician (Fianna Fáil) and from February 2020 to June 2020 the 351st Lord Mayor of Dublin\"",
+      "statement": null,
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "2000-01-01"
+     ],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2020-2020 vs Civgraph council span 2004-2025"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "110915",
+   "name": "Vincent Jackson",
+   "wikidata": "Q204172",
+   "wikidataLabel": "Vincent Jackson",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "1991-06-27",
+      "1999-06-10",
+      "2004-06-11",
+      "2009-06-05",
+      "2014-05-23",
+      "2019-05-24",
+      "2024-06-07"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "vincent jackson",
+     "wikidata": "Vincent Jackson"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 councillor in Dublin City Council",
+      "statement": "Q204172-0DEB28C7-306A-4095-8BB4-29D53749DA6A",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 1991-1991 vs Civgraph council span 1991-2030"
+     },
+     {
+      "via": "P39 Lord Mayor of Dublin",
+      "statement": "Q204172-2E73B526-513B-447D-AD3F-98C16001949E",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2006-2007 vs Civgraph council span 1991-2030"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1966-03-01"
+     ],
+     "wikidataDied": [],
+     "life": "born 1966; first candidacy 1991-06-27 (age >= 24)",
+     "positions": [
+      "Wikidata 1991-1991 vs Civgraph council span 1991-2030",
+      "Wikidata 2006-2007 vs Civgraph council span 1991-2030"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "112471",
+   "name": "Anthony Creevey",
+   "wikidata": "Q573050",
+   "wikidataLabel": "Anthony Creevey",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "1999-06-10"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "anthony creevey",
+     "wikidata": "Anthony Creevey"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Dublin City Council",
+      "statement": "Q573050-6066afae-41db-493e-2e37-8f7eeb36e4d4",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 1999-2004 vs Civgraph council span 1999-2005"
+     },
+     {
+      "via": "P39 Lord Mayor of Dublin",
+      "statement": "Q573050-92b71a6d-21a5-4d03-93d8-7d25b743c164",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "2000-01-01"
+     ],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 1999-2004 vs Civgraph council span 1999-2005"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "117747",
+   "name": "Mary Freehill",
+   "wikidata": "Q1906258",
+   "wikidataLabel": "Mary Freehill",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "1991-06-27",
+      "1999-06-10",
+      "2004-06-11",
+      "2009-06-05",
+      "2014-05-23",
+      "2019-05-24"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "mary freehill",
+     "wikidata": "Mary Freehill"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Dublin",
+      "statement": "Q1906258-f3965029-acf6-4ca8-918e-929e7adb28c9",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1946-07-22"
+     ],
+     "wikidataDied": [],
+     "life": "born 1946; first candidacy 1977-06-16 (age >= 30)",
+     "positions": []
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "117754",
+   "name": "Dermot Lacey",
+   "wikidata": "Q1200274",
+   "wikidataLabel": "Dermot Lacey",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "1999-06-10",
+      "2004-06-11",
+      "2009-06-05",
+      "2014-05-23",
+      "2019-05-24"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "dermot lacey",
+     "wikidata": "Dermot Lacey"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 councillor in Dublin City Council",
+      "statement": "Q1200274-4D12CC19-BE6E-4527-BDA3-2D6425C2ABDD",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": false,
+      "check": "Wikidata 1993-1993 vs Civgraph council span 1999-2025"
+     },
+     {
+      "via": "P39 Dublin City Council",
+      "statement": "Q1200274-C0B86EBB-7A60-4616-BE5E-D16C837C3722",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     },
+     {
+      "via": "P39 Lord Mayor of Dublin",
+      "statement": "Q1200274-FCC247BF-5E86-425E-9EED-74013AB6C445",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2002-2003 vs Civgraph council span 1999-2025"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1960-02-11"
+     ],
+     "wikidataDied": [],
+     "life": "born 1960; first candidacy 1985-06-20 (age >= 24)",
+     "positions": [
+      "Wikidata 1993-1993 vs Civgraph council span 1999-2025",
+      "Wikidata 2002-2003 vs Civgraph council span 1999-2025"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "117800",
+   "name": "Terry O'Flaherty",
+   "wikidata": "Q1720409",
+   "wikidataLabel": "Terry O'Flaherty",
+   "bodies": [
+    {
+     "key": "roi:galway-city",
+     "name": "Galway City Council",
+     "elected": [
+      "1999-06-10",
+      "2004-06-11",
+      "2009-06-05",
+      "2014-05-23",
+      "2019-05-24",
+      "2024-06-07"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "terry oflaherty",
+     "wikidata": "Terry O'Flaherty"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q1720409-0FB06CD5-55CD-45D2-BE9B-36F5DB6DE4FA",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2012-2013 vs Civgraph council span 1999-2030"
+     },
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q1720409-18922510-5F17-4A6D-B37E-E94269391341",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2003-2004 vs Civgraph council span 1999-2030"
+     },
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q1720409-98e8deec-7818-488a-a10f-3dddd5930ee7",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "2000-01-01"
+     ],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2012-2013 vs Civgraph council span 1999-2030",
+      "Wikidata 2003-2004 vs Civgraph council span 1999-2030"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "117924",
+   "name": "John Mulholland",
+   "wikidata": "Q6249746",
+   "wikidataLabel": "John Mulholland",
+   "bodies": [
+    {
+     "key": "roi:galway-city",
+     "name": "Galway City Council",
+     "elected": [
+      "1985-06-20",
+      "1991-06-27",
+      "1999-06-10",
+      "2004-06-11"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "john mulholland",
+     "wikidata": "John Mulholland"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q6249746-fe023321-284b-45d5-ac07-f67c91985efd",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1946-01-01"
+     ],
+     "wikidataDied": [
+      "2022-01-01"
+     ],
+     "life": "born 1946; first candidacy 1985-06-20 (age >= 38); died 2022; last candidacy 2009-06-05",
+     "positions": []
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "117944",
+   "name": "Tom Costello",
+   "wikidata": "Q7815415",
+   "wikidataLabel": "Tom Costello",
+   "bodies": [
+    {
+     "key": "roi:galway-city",
+     "name": "Galway City Council",
+     "elected": [
+      "1991-06-27",
+      "1999-06-10",
+      "2004-06-11",
+      "2009-06-05"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "tom costello",
+     "wikidata": "Tom Costello"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q7815415-0F0B396B-7D8B-47EC-AE21-3280BCDA8F4F",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2007-2008 vs Civgraph council span 1991-2015"
+     },
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q7815415-74ee4ce7-ca69-4ae1-ba9c-33ddd9ba46a7",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2007-2008 vs Civgraph council span 1991-2015"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "117970",
+   "name": "Nial Ring",
+   "wikidata": "Q55973494",
+   "wikidataLabel": "Nial Ring",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "2009-06-05",
+      "2014-05-23",
+      "2019-05-24"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "nial ring",
+     "wikidata": "Nial Ring"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Dublin",
+      "statement": "Q55973494-2CF48FD4-B84C-40CB-BAFD-53F04904BB4D",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2018-2019 vs Civgraph council span 2009-2025"
+     },
+     {
+      "via": "P39 councillor in Dublin City Council",
+      "statement": "Q55973494-74A6DD15-3A3D-406B-888F-73F3C2297981",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2009-2009 vs Civgraph council span 2009-2025"
+     },
+     {
+      "via": "description: \"Dublin city councilor, who has served as Lord Mayor of Dublin\"",
+      "statement": null,
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     },
+     {
+      "via": "description: \"Dublin city councilor, who has served as Lord Mayor of Dublin\"",
+      "statement": null,
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     },
+     {
+      "via": "description: \"Dublin city councilor, who has served as Lord Mayor of Dublin\"",
+      "statement": null,
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1950-01-01"
+     ],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2018-2019 vs Civgraph council span 2009-2025",
+      "Wikidata 2009-2009 vs Civgraph council span 2009-2025"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "118183",
+   "name": "Brendan Carr",
+   "wikidata": "Q25993038",
+   "wikidataLabel": "Brendan Carr",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "1999-06-10",
+      "2004-06-11",
+      "2014-05-23"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "brendan carr",
+     "wikidata": "Brendan Carr"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 councillor in Dublin City Council",
+      "statement": "Q25993038-5AECD6F7-7C1C-455F-B668-7400A123ED5C",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 1999-2009 vs Civgraph council span 1999-2020"
+     },
+     {
+      "via": "P39 Lord Mayor of Dublin",
+      "statement": "Q25993038-7CD4F9CF-D136-4EC1-A1A5-4E9FEF6282C6",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2016-2017 vs Civgraph council span 1999-2020"
+     },
+     {
+      "via": "P39 councillor in Dublin City Council",
+      "statement": "Q25993038-CCDC7021-D6EB-430B-ACA6-753E56B72D36",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2014-2019 vs Civgraph council span 1999-2020"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1950-01-01"
+     ],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 1999-2009 vs Civgraph council span 1999-2020",
+      "Wikidata 2016-2017 vs Civgraph council span 1999-2020",
+      "Wikidata 2014-2019 vs Civgraph council span 1999-2020"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "118211",
+   "name": "Michael Leahy",
+   "wikidata": "Q6832142",
+   "wikidataLabel": "Michael Leahy",
+   "bodies": [
+    {
+     "key": "roi:galway-city",
+     "name": "Galway City Council",
+     "elected": [
+      "1991-06-27",
+      "1999-06-10",
+      "2004-06-11"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "michael leahy",
+     "wikidata": "Michael Leahy"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q6832142-f097aaec-236e-4f3f-b223-55b4d03b4a21",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1932-01-01",
+      "1934-01-01"
+     ],
+     "wikidataDied": [
+      "2007-01-01"
+     ],
+     "life": "born 1932; first candidacy 1991-06-27 (age >= 58); died 2007; last candidacy 2004-06-11",
+     "positions": []
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "118212",
+   "name": "Val Hanley",
+   "wikidata": "Q7909099",
+   "wikidataLabel": "Val Hanley",
+   "bodies": [
+    {
+     "key": "roi:galway-city",
+     "name": "Galway City Council",
+     "elected": [
+      "1999-06-10"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "val hanley",
+     "wikidata": "Val Hanley"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q7909099-2217ae16-950c-43dd-924b-972e73eb4e9b",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     },
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q7909099-FCCD6A8F-F99C-427E-B6B0-8DEDADC7013B",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2002-2003 vs Civgraph council span 1999-2005"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2002-2003 vs Civgraph council span 1999-2005"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "118463",
+   "name": "Críona Ní Dhálaigh",
+   "wikidata": "Q20713424",
+   "wikidataLabel": "Críona Ní Dhálaigh",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "2009-06-05",
+      "2014-05-23",
+      "2019-05-24"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "criona nidhalaigh",
+     "wikidata": "Críona Ní Dhálaigh"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 councillor in Dublin City Council",
+      "statement": "Q20713424-35878377-B1B0-40D3-BA4D-EB2724ABA2F0",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2006-2020 vs Civgraph council span 2009-2025"
+     },
+     {
+      "via": "P39 Lord Mayor of Dublin",
+      "statement": "Q20713424-6731EC00-22C4-4E87-92A3-3F8699FAF050",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2015-2016 vs Civgraph council span 2009-2025"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "2000-01-01"
+     ],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2006-2020 vs Civgraph council span 2009-2025",
+      "Wikidata 2015-2016 vs Civgraph council span 2009-2025"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "118580",
+   "name": "Alison Gilliland",
+   "wikidata": "Q107379317",
+   "wikidataLabel": "Alison Gilliland",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "2014-05-23",
+      "2019-05-24"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "alison gilliland",
+     "wikidata": "Alison Gilliland"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Dublin",
+      "statement": "Q107379317-3462B2A4-5654-4A41-B97E-09342076C36D",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2021-2022 vs Civgraph council span 2014-2025"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1968-01-01"
+     ],
+     "wikidataDied": [],
+     "life": "born 1968; first candidacy 2014-05-23 (age >= 45)",
+     "positions": [
+      "Wikidata 2021-2022 vs Civgraph council span 2014-2025"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "118602",
+   "name": "Noel Larkin",
+   "wikidata": "Q112763053",
+   "wikidataLabel": "Noel Larkin",
+   "bodies": [
+    {
+     "key": "roi:galway-city",
+     "name": "Galway City Council",
+     "elected": [
+      "2014-05-23",
+      "2019-05-24"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "noel larkin",
+     "wikidata": "Noel Larkin"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q112763053-4F4098C5-532B-44A8-8FBE-2334C2B6C131",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2016-2017 vs Civgraph council span 2014-2025"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2016-2017 vs Civgraph council span 2014-2025"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "118802",
+   "name": "Martin Quinn",
+   "wikidata": "Q6776425",
+   "wikidataLabel": "Martin Quinn",
+   "bodies": [
+    {
+     "key": "roi:galway-city",
+     "name": "Galway City Council",
+     "elected": [
+      "1999-06-10"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "martin quinn",
+     "wikidata": "Martin Quinn"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q6776425-460C1A0E-BF18-4213-B67A-1AE50CED35DC",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2000-2001 vs Civgraph council span 1999-2005"
+     },
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q6776425-b4b0da6b-65a6-44eb-b096-7dccfc432930",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     },
+     {
+      "via": "description: \"mayor of Galway City\"",
+      "statement": null,
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1949-12-24"
+     ],
+     "wikidataDied": [],
+     "life": "born 1949; first candidacy 1999-06-10 (age >= 49)",
+     "positions": [
+      "Wikidata 2000-2001 vs Civgraph council span 1999-2005"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "118813",
+   "name": "Joe O'Flynn",
+   "wikidata": "Q29048241",
+   "wikidataLabel": "Joe O'Flynn",
+   "bodies": [
+    {
+     "key": "roi:cork-city",
+     "name": "Cork City Council",
+     "elected": [
+      "1991-06-27",
+      "1999-06-10"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "joe oflynn",
+     "wikidata": "Joe O'Flynn"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Cork",
+      "statement": "Q29048241-855cf3b4-4ced-a0af-5118-5ad026b5eb0b",
+      "councils": [
+       "roi:cork-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 1998-1999 vs Civgraph council span 1991-2005"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 1998-1999 vs Civgraph council span 1991-2005"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "118848",
+   "name": "Micheál O hUiginn",
+   "wikidata": "Q1596234",
+   "wikidataLabel": "Michéal Ó hUiginn",
+   "bodies": [
+    {
+     "key": "roi:galway-city",
+     "name": "Galway City Council",
+     "elected": [
+      "1991-06-27",
+      "1999-06-10"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "micheal ohuiginn",
+     "wikidata": "Michéal Ó hUiginn"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q1596234-871e8167-a188-4073-be95-77bbf8273000",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     },
+     {
+      "via": "description: \"Mayor of Galway\"",
+      "statement": null,
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1942-01-01"
+     ],
+     "wikidataDied": [],
+     "life": "born 1942; first candidacy 1991-06-27 (age >= 48)",
+     "positions": []
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "119951",
+   "name": "Daryl Barron",
+   "wikidata": "Q140385939",
+   "wikidataLabel": "Daryl Barron",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "2019-05-24"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "daryl barron",
+     "wikidata": "Daryl Barron"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Dublin",
+      "statement": "Q140385939-ef6b37e5-4c93-1188-1ebc-afd54a373ad3",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2026-2026 vs Civgraph council span 2019-2025"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2026-2026 vs Civgraph council span 2019-2025"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "122034",
+   "name": "Bridie O'Flaherty",
+   "wikidata": "Q914007",
+   "wikidataLabel": "Bridie O'Flaherty",
+   "bodies": [
+    {
+     "key": "roi:galway-city",
+     "name": "Galway City Council",
+     "elected": [
+      "1991-06-27"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "bridie oflaherty",
+     "wikidata": "Bridie O'Flaherty"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q914007-3d558152-2a47-40e9-9ab8-bdf3946f2223",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1917-10-27"
+     ],
+     "wikidataDied": [
+      "2006-01-12"
+     ],
+     "life": "born 1917; first candidacy 1991-06-27 (age >= 73); died 2006-01-12; last candidacy 1991-06-27",
+     "positions": []
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "127641",
+   "name": "Mike Cubbard",
+   "wikidata": "Q111938541",
+   "wikidataLabel": "Mike Cubbard",
+   "bodies": [
+    {
+     "key": "roi:galway-city",
+     "name": "Galway City Council",
+     "elected": [
+      "2014-05-23",
+      "2024-06-07"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "mike cubbard",
+     "wikidata": "Mike Cubbard"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q111938541-D3061FDD-9667-4C25-B04D-7BF1FB291AF2",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2019-2021 vs Civgraph council span 2014-2030"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2019-2021 vs Civgraph council span 2014-2030"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "127642",
+   "name": "Frank Fahy",
+   "wikidata": "Q112763055",
+   "wikidataLabel": "Frank Fahy",
+   "bodies": [
+    {
+     "key": "roi:galway-city",
+     "name": "Galway City Council",
+     "elected": [
+      "2014-05-23",
+      "2024-06-07"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "frank fahy",
+     "wikidata": "Frank Fahy"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q112763055-1982B080-A135-44E3-B71F-1859708A81D2",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2015-2016 vs Civgraph council span 2014-2030"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2015-2016 vs Civgraph council span 2014-2030"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "128628",
+   "name": "Eddie Hoare",
+   "wikidata": "Q141973850",
+   "wikidataLabel": "Eddie Hoare",
+   "bodies": [
+    {
+     "key": "roi:galway-city",
+     "name": "Galway City Council",
+     "elected": [
+      "2024-06-07"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "eddie hoare",
+     "wikidata": "Eddie Hoare"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 mayor [P276 Galway]",
+      "statement": "Q141973850-efdce9fb-4f9c-838f-0240-c400f3f3e0d8",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2023-2024 vs Civgraph council span 2024-2030"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2023-2024 vs Civgraph council span 2024-2030"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "129411",
+   "name": "Pearce Flannery",
+   "wikidata": "Q112763381",
+   "wikidataLabel": "Pearce Flannery",
+   "bodies": [
+    {
+     "key": "roi:galway-city",
+     "name": "Galway City Council",
+     "elected": [
+      "2014-05-23"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "pearce flannery",
+     "wikidata": "Pearce Flannery"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q112763381-6660FBD6-01BA-495C-9C7C-EBBF361B4974",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2017-2018 vs Civgraph council span 2014-2020"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2017-2018 vs Civgraph council span 2014-2020"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "131129",
+   "name": "Gerald Goldberg",
+   "wikidata": "Q3103878",
+   "wikidataLabel": "Gerald Goldberg",
+   "bodies": [
+    {
+     "key": "roi:cork-city",
+     "name": "Cork City Council",
+     "elected": [
+      "1974-06-18",
+      "1979-06-07"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "gerald goldberg",
+     "wikidata": "Gerald Goldberg"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Cork",
+      "statement": "Q3103878-F5344D9C-2088-4D16-AB10-752308DCF36C",
+      "councils": [
+       "roi:cork-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 1977-1978 vs Civgraph council span 1974-1985"
+     },
+     {
+      "via": "description: \"Irish Jewish politician and activist; Lord Mayor of Cork\"",
+      "statement": null,
+      "councils": [
+       "roi:cork-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1912-04-12"
+     ],
+     "wikidataDied": [
+      "2003-12-31"
+     ],
+     "life": "born 1912; first candidacy 1974-06-18 (age >= 61); died 2003-12-31; last candidacy 1979-06-07",
+     "positions": [
+      "Wikidata 1977-1978 vs Civgraph council span 1974-1985"
+     ]
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "132650",
+   "name": "Michael O'Halloran",
+   "wikidata": "Q113757458",
+   "wikidataLabel": "Michael O'Halloran",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "1985-06-20"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "michael ohalloran",
+     "wikidata": "Michael O'Halloran"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Dublin",
+      "statement": "Q113757458-C15BEFD5-0A29-43C6-9C75-69793271A45A",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1936-10-07"
+     ],
+     "wikidataDied": [
+      "2023-01-01",
+      "2023-05-03"
+     ],
+     "life": "born 1936; first candidacy 1985-06-20 (age >= 48); died 2023-05-03; last candidacy 1985-06-20",
+     "positions": []
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "138552",
+   "name": "Paddy McNamara",
+   "wikidata": "Q7143773",
+   "wikidataLabel": "Pat McNamara",
+   "bodies": [
+    {
+     "key": "roi:galway-city",
+     "name": "Galway City Council",
+     "elected": [
+      "1985-06-20"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "nickname",
+     "civgraph": "paddy mcnamara",
+     "wikidata": "Pat McNamara"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q7143773-c0517293-a407-4894-842a-812641eaf136",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1938-01-01"
+     ],
+     "wikidataDied": [
+      "2016-10-19"
+     ],
+     "life": "born 1938; first candidacy 1985-06-20 (age >= 46); died 2016-10-19; last candidacy 1985-06-20",
+     "positions": []
+    }
+   },
+   "confidence": "high"
+  },
+  {
+   "personId": "142355",
+   "name": "Sir James Wilton",
+   "wikidata": "Q124199104",
+   "wikidataLabel": "James Wilton",
+   "bodies": [
+    {
+     "key": "ni:londonderry-county-borough-council",
+     "name": "Londonderry County Borough Council",
+     "elected": [
+      "1938-05-16"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "james wilton",
+     "wikidata": "James Wilton"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Derry",
+      "statement": "Q124199104-83f8509e-4ec3-2475-13d4-905c6a008680",
+      "councils": [
+       "ni:londonderry-county-borough-council"
+      ],
+      "consistent": true,
+      "check": "Wikidata 1935-1939 vs Civgraph council span 1938-1944"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1868-11-21"
+     ],
+     "wikidataDied": [
+      "1946-02-08"
+     ],
+     "life": "born 1868; first candidacy 1938-05-16 (age >= 69); died 1946-02-08; last candidacy 1938-05-16",
+     "positions": [
+      "Wikidata 1935-1939 vs Civgraph council span 1938-1944"
+     ]
+    }
+   },
+   "confidence": "high"
+  }
+ ],
+ "ambiguous": [
+  {
+   "personId": "108648",
+   "name": "Andrew Montague",
+   "wikidata": "Q177830",
+   "wikidataLabel": "Andrew Montague",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "2004-06-11",
+      "2009-06-05"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "andrew montague",
+     "wikidata": "Andrew Montague"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 councillor in Dublin City Council",
+      "statement": "Q177830-21625BBD-AF49-4AEB-8950-212060A5ED21",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2004-2019 vs Civgraph council span 2004-2015"
+     },
+     {
+      "via": "P39 Lord Mayor of Dublin",
+      "statement": "Q177830-A758C086-C3FC-48A3-932B-9F5251C55C8E",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2011-2012 vs Civgraph council span 2004-2015"
+     },
+     {
+      "via": "description: \"Irish politician; Lord Mayor of Dublin\"",
+      "statement": null,
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1968-02-29"
+     ],
+     "wikidataDied": [],
+     "life": "born 1968; first candidacy 2004-06-11 (age >= 35)",
+     "positions": [
+      "Wikidata 2004-2019 vs Civgraph council span 2004-2015",
+      "Wikidata 2011-2012 vs Civgraph council span 2004-2015"
+     ]
+    }
+   },
+   "reason": "several Civgraph persons match this item: 108648, 119340"
+  },
+  {
+   "personId": "119340",
+   "name": "Andrew Montague",
+   "wikidata": "Q177830",
+   "wikidataLabel": "Andrew Montague",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "2014-05-23"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "andrew montague",
+     "wikidata": "Andrew Montague"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 councillor in Dublin City Council",
+      "statement": "Q177830-21625BBD-AF49-4AEB-8950-212060A5ED21",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2004-2019 vs Civgraph council span 2014-2020"
+     },
+     {
+      "via": "P39 Lord Mayor of Dublin",
+      "statement": "Q177830-A758C086-C3FC-48A3-932B-9F5251C55C8E",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": false,
+      "check": "Wikidata 2011-2012 vs Civgraph council span 2014-2020"
+     },
+     {
+      "via": "description: \"Irish politician; Lord Mayor of Dublin\"",
+      "statement": null,
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1968-02-29"
+     ],
+     "wikidataDied": [],
+     "life": "born 1968; first candidacy 2014-05-23 (age >= 45)",
+     "positions": [
+      "Wikidata 2004-2019 vs Civgraph council span 2014-2020",
+      "Wikidata 2011-2012 vs Civgraph council span 2014-2020"
+     ]
+    }
+   },
+   "reason": "several Civgraph persons match this item: 108648, 119340"
+  },
+  {
+   "personId": "102001",
+   "name": "Mary Harney",
+   "wikidata": "Q467625",
+   "wikidataLabel": "Mary Harney",
+   "bodies": [],
+   "evidence": {
+    "route": "official-id",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "mary harney",
+     "wikidata": "Mary Harney"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Dublin County councilmember",
+      "statement": "Q467625-c44c953f-43c9-d5f7-a47c-f2a49a009da7",
+      "councils": [
+       "roi:south-dublin"
+      ],
+      "consistent": false,
+      "check": "Wikidata 1979-1981 vs Civgraph council span 1985-1991"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1953-03-11"
+     ],
+     "wikidataDied": [],
+     "life": "born 1953; first candidacy 1977-06-16 (age >= 23)",
+     "positions": [
+      "Wikidata 1979-1981 vs Civgraph council span 1985-1991"
+     ]
+    }
+   },
+   "reason": "dates: dated body evidence does not overlap the Civgraph council terms: Wikidata 1979-1981 vs Civgraph council span 1985-1991"
+  },
+  {
+   "personId": "118923",
+   "name": "Brendan Lynch",
+   "wikidata": "Q908721",
+   "wikidataLabel": "Brendan Lynch",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "1985-06-20",
+      "1991-06-27"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "brendan lynch",
+     "wikidata": "Brendan Lynch"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Dublin",
+      "statement": "Q908721-9501fd93-71cd-42a9-bfe7-e76667ece425",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "2000-01-01"
+     ],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": []
+    }
+   },
+   "reason": "dates: no Wikidata date (birth, death or dated position) to check against"
+  },
+  {
+   "personId": "100651",
+   "name": "Catherine Byrne",
+   "wikidata": "Q1050936",
+   "wikidataLabel": "Catherine Byrne",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "1999-06-10",
+      "2004-06-11"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "catherine byrne",
+     "wikidata": "Catherine Byrne"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Dublin",
+      "statement": "Q1050936-9ca415d4-6ca8-4f49-91c8-8d56b1946462",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1900-01-01"
+     ],
+     "wikidataDied": [
+      "1994-01-24"
+     ],
+     "life": "Civgraph candidacy 2020-02-08 after Wikidata death 1994-01-24",
+     "positions": []
+    }
+   },
+   "reason": "dates: Civgraph candidacy 2020-02-08 after Wikidata death 1994-01-24"
+  },
+  {
+   "personId": "104871",
+   "name": "Donal Lyons",
+   "wikidata": "Q1239649",
+   "wikidataLabel": "Donal Lyons",
+   "bodies": [
+    {
+     "key": "roi:galway-city",
+     "name": "Galway City Council",
+     "elected": [
+      "1999-06-10",
+      "2004-06-11",
+      "2009-06-05"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "donal lyons",
+     "wikidata": "Donal Lyons"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q1239649-9a100251-6f43-4ba7-a9ea-887c65356e32",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     },
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q1239649-D7E0A0B9-BD92-4CC5-ABCD-14F3B79E36D4",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2001-2002 vs Civgraph council span 1999-2015"
+     },
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q1239649-EAB08704-4BF7-48FD-8C7F-D688516C0A90",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2014-2015 vs Civgraph council span 1999-2015"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "2000-01-01"
+     ],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2001-2002 vs Civgraph council span 1999-2015",
+      "Wikidata 2014-2015 vs Civgraph council span 1999-2015"
+     ]
+    }
+   },
+   "reason": "several Civgraph persons match this item: 104871, 128612"
+  },
+  {
+   "personId": "128612",
+   "name": "Donal Lyons",
+   "wikidata": "Q1239649",
+   "wikidataLabel": "Donal Lyons",
+   "bodies": [
+    {
+     "key": "roi:galway-city",
+     "name": "Galway City Council",
+     "elected": [
+      "2014-05-23"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "donal lyons",
+     "wikidata": "Donal Lyons"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q1239649-9a100251-6f43-4ba7-a9ea-887c65356e32",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     },
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q1239649-D7E0A0B9-BD92-4CC5-ABCD-14F3B79E36D4",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": false,
+      "check": "Wikidata 2001-2002 vs Civgraph council span 2014-2020"
+     },
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q1239649-EAB08704-4BF7-48FD-8C7F-D688516C0A90",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2014-2015 vs Civgraph council span 2014-2020"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "2000-01-01"
+     ],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2001-2002 vs Civgraph council span 2014-2020",
+      "Wikidata 2014-2015 vs Civgraph council span 2014-2020"
+     ]
+    }
+   },
+   "reason": "several Civgraph persons match this item: 104871, 128612"
+  },
+  {
+   "personId": "117749",
+   "name": "Paddy Bourke",
+   "wikidata": "Q2045833",
+   "wikidataLabel": "Paddy Bourke",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "1991-06-27",
+      "2004-06-11",
+      "2009-06-05",
+      "2014-05-23"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "paddy bourke",
+     "wikidata": "Paddy Bourke"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Dublin",
+      "statement": "Q2045833-0c6f0e33-2294-48d0-b133-376b439c1367",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "2000-01-01"
+     ],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": []
+    }
+   },
+   "reason": "dates: no Wikidata date (birth, death or dated position) to check against"
+  },
+  {
+   "personId": "118186",
+   "name": "Tom Stafford",
+   "wikidata": "Q2427407",
+   "wikidataLabel": "Thomas Stafford",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "1991-06-27",
+      "2004-06-11"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "nickname",
+     "civgraph": "tom stafford",
+     "wikidata": "Thomas Stafford"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Dublin",
+      "statement": "Q2427407-52cc8968-82d1-4292-9b2e-a39ad6493424",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "2000-01-01"
+     ],
+     "wikidataDied": [
+      "1995-01-28"
+     ],
+     "life": "Civgraph candidacy 2009-06-05 after Wikidata death 1995-01-28",
+     "positions": []
+    }
+   },
+   "reason": "dates: Civgraph candidacy 2009-06-05 after Wikidata death 1995-01-28"
+  },
+  {
+   "personId": "132877",
+   "name": "Alexis FitzGerald",
+   "wikidata": "Q2644133",
+   "wikidataLabel": "Alexis FitzGerald, Jnr",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "1985-06-20"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "alexis fitzgerald",
+     "wikidata": "Alexis FitzGerald, Jnr"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Dublin",
+      "statement": "Q2644133-EAE550E0-D0AD-4DCD-A8A7-6453EFF95698",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1945-05-07"
+     ],
+     "wikidataDied": [
+      "2015-07-16"
+     ],
+     "life": "born 1945; first candidacy 1985-06-20 (age >= 39); died 2015-07-16; last candidacy 1985-06-20",
+     "positions": []
+    }
+   },
+   "reason": "Wikidata item is tied by official ids to Civgraph person(s) 112630"
+  },
+  {
+   "personId": "128598",
+   "name": "Catherine Connolly",
+   "wikidata": "Q5052598",
+   "wikidataLabel": "Catherine Connolly",
+   "bodies": [],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "catherine connolly",
+     "wikidata": "Catherine Connolly"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q5052598-F72E9A1E-AC95-4A3E-900A-7E969554804C",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": false,
+      "check": "Wikidata 2004-2005 vs Civgraph council span 2014-2020"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1955-11-05"
+     ],
+     "wikidataDied": [],
+     "life": "born 1955; first candidacy 2014-05-23 (age >= 58)",
+     "positions": [
+      "Wikidata 2004-2005 vs Civgraph council span 2014-2020"
+     ]
+    }
+   },
+   "reason": "dates: dated body evidence does not overlap the Civgraph council terms: Wikidata 2004-2005 vs Civgraph council span 2014-2020"
+  },
+  {
+   "personId": "101084",
+   "name": "Christy Burke",
+   "wikidata": "Q5113623",
+   "wikidataLabel": "Christy Burke",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "1999-06-10",
+      "2004-06-11",
+      "2009-06-05",
+      "2014-05-23",
+      "2019-05-24"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "christy burke",
+     "wikidata": "Christy Burke"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Dublin",
+      "statement": "Q5113623-2B2EADF6-4FB1-4E63-A254-D426F01D9B63",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2014-2015 vs Civgraph council span 1999-2025"
+     },
+     {
+      "via": "P39 councillor in Dublin City Council",
+      "statement": "Q5113623-715422FA-AC5F-4836-926E-6BFE7E8763EF",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": false,
+      "check": "Wikidata 1985-1985 vs Civgraph council span 1999-2025"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "2000-01-01"
+     ],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2014-2015 vs Civgraph council span 1999-2025",
+      "Wikidata 1985-1985 vs Civgraph council span 1999-2025"
+     ]
+    }
+   },
+   "reason": "several Civgraph persons match this item: 101084, 129646"
+  },
+  {
+   "personId": "129646",
+   "name": "Christy Burke",
+   "wikidata": "Q5113623",
+   "wikidataLabel": "Christy Burke",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "1985-06-20",
+      "1991-06-27"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "christy burke",
+     "wikidata": "Christy Burke"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Dublin",
+      "statement": "Q5113623-2B2EADF6-4FB1-4E63-A254-D426F01D9B63",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": false,
+      "check": "Wikidata 2014-2015 vs Civgraph council span 1985-1997"
+     },
+     {
+      "via": "P39 councillor in Dublin City Council",
+      "statement": "Q5113623-715422FA-AC5F-4836-926E-6BFE7E8763EF",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 1985-1985 vs Civgraph council span 1985-1997"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "2000-01-01"
+     ],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2014-2015 vs Civgraph council span 1985-1997",
+      "Wikidata 1985-1985 vs Civgraph council span 1985-1997"
+     ]
+    }
+   },
+   "reason": "several Civgraph persons match this item: 101084, 129646"
+  },
+  {
+   "personId": "122099",
+   "name": "Martin Connolly",
+   "wikidata": "Q6775179",
+   "wikidataLabel": "Martin Connolly",
+   "bodies": [
+    {
+     "key": "roi:galway-city",
+     "name": "Galway City Council",
+     "elected": [
+      "1991-06-27"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "martin connolly",
+     "wikidata": "Martin Connolly"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q6775179-1be5529e-fd85-471b-b0e1-a45c56d1442b",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1924-10-01"
+     ],
+     "wikidataDied": [
+      "2006-11-01"
+     ],
+     "life": "born 1924; first candidacy 1991-06-27 (age >= 66); died 2006; last candidacy 1991-06-27",
+     "positions": []
+    }
+   },
+   "reason": "several Civgraph persons match this item: 122099, 138493"
+  },
+  {
+   "personId": "138493",
+   "name": "Martin Connolly",
+   "wikidata": "Q6775179",
+   "wikidataLabel": "Martin Connolly",
+   "bodies": [
+    {
+     "key": "roi:galway-city",
+     "name": "Galway City Council",
+     "elected": [
+      "1985-06-20"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "martin connolly",
+     "wikidata": "Martin Connolly"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q6775179-1be5529e-fd85-471b-b0e1-a45c56d1442b",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1924-10-01"
+     ],
+     "wikidataDied": [
+      "2006-11-01"
+     ],
+     "life": "born 1924; first candidacy 1985-06-20 (age >= 60); died 2006; last candidacy 1985-06-20",
+     "positions": []
+    }
+   },
+   "reason": "several Civgraph persons match this item: 122099, 138493"
+  },
+  {
+   "personId": "118800",
+   "name": "Padraig Conneely",
+   "wikidata": "Q7263993",
+   "wikidataLabel": "Pádraig Conneely",
+   "bodies": [
+    {
+     "key": "roi:galway-city",
+     "name": "Galway City Council",
+     "elected": [
+      "2004-06-11",
+      "2009-06-05"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "padraig conneely",
+     "wikidata": "Pádraig Conneely"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q7263993-96d57ff2-50ea-44f4-81a9-b095e213d1fd",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     },
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q7263993-9A498AD1-EFC8-4795-ADBA-FE9A4F7ED6EB",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2008-2009 vs Civgraph council span 2004-2015"
+     },
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q7263993-FB6330E7-F17C-4986-B1E2-99E948FCC10C",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2013-2014 vs Civgraph council span 2004-2015"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2008-2009 vs Civgraph council span 2004-2015",
+      "Wikidata 2013-2014 vs Civgraph council span 2004-2015"
+     ]
+    }
+   },
+   "reason": "several Civgraph persons match this item: 118800, 129398"
+  },
+  {
+   "personId": "129398",
+   "name": "Padraig Conneely",
+   "wikidata": "Q7263993",
+   "wikidataLabel": "Pádraig Conneely",
+   "bodies": [
+    {
+     "key": "roi:galway-city",
+     "name": "Galway City Council",
+     "elected": [
+      "2014-05-23"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "padraig conneely",
+     "wikidata": "Pádraig Conneely"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q7263993-96d57ff2-50ea-44f4-81a9-b095e213d1fd",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     },
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q7263993-9A498AD1-EFC8-4795-ADBA-FE9A4F7ED6EB",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": false,
+      "check": "Wikidata 2008-2009 vs Civgraph council span 2014-2020"
+     },
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q7263993-FB6330E7-F17C-4986-B1E2-99E948FCC10C",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2013-2014 vs Civgraph council span 2014-2020"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2008-2009 vs Civgraph council span 2014-2020",
+      "Wikidata 2013-2014 vs Civgraph council span 2014-2020"
+     ]
+    }
+   },
+   "reason": "several Civgraph persons match this item: 118800, 129398"
+  },
+  {
+   "personId": "118378",
+   "name": "Seosamh O Cuaig",
+   "wikidata": "Q13157783",
+   "wikidataLabel": "Seosamh Ó Cuaig",
+   "bodies": [
+    {
+     "key": "roi:galway-county",
+     "name": "Galway County Council",
+     "elected": [
+      "2004-06-11",
+      "2009-06-05"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "seosamh ocuaig",
+     "wikidata": "Seosamh Ó Cuaig"
+    },
+    "bodyMatch": [
+     {
+      "via": "description: \"Member of the Galway County Council\"",
+      "statement": null,
+      "councils": [
+       "roi:galway-county"
+      ],
+      "consistent": true,
+      "check": "undated"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": []
+    }
+   },
+   "reason": "dates: no Wikidata date (birth, death or dated position) to check against"
+  },
+  {
+   "personId": "118847",
+   "name": "Henry O'Connor",
+   "wikidata": "Q16733595",
+   "wikidataLabel": "Henry O'Connor",
+   "bodies": [
+    {
+     "key": "roi:galway-city",
+     "name": "Galway City Council",
+     "elected": [
+      "1991-06-27"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "henry oconnor",
+     "wikidata": "Henry O'Connor"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q16733595-21af55ab-706f-4923-aeaf-f94dc56d69f1",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1940-01-01"
+     ],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": []
+    }
+   },
+   "reason": "dates: no Wikidata date (birth, death or dated position) to check against"
+  },
+  {
+   "personId": "104872",
+   "name": "Maurice Devenney",
+   "wikidata": "Q18358115",
+   "wikidataLabel": "Maurice Devenney",
+   "bodies": [],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "maurice devenney",
+     "wikidata": "Maurice Devenney"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Derry",
+      "statement": "Q18358115-dd99f453-4b6b-68f5-47a4-3ea84269f6ae",
+      "councils": [
+       "ni-lgd:derry-city-and-strabane"
+      ],
+      "consistent": false,
+      "check": "Wikidata 2011-2012 vs Civgraph council span 2014-2025"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1959-01-01"
+     ],
+     "wikidataDied": [],
+     "life": "born 1959; first candidacy 2014-05-22 (age >= 54)",
+     "positions": [
+      "Wikidata 2011-2012 vs Civgraph council span 2014-2025"
+     ]
+    }
+   },
+   "reason": "dates: dated body evidence does not overlap the Civgraph council terms: Wikidata 2011-2012 vs Civgraph council span 2014-2025"
+  },
+  {
+   "personId": "92371",
+   "name": "Gerard Diver",
+   "wikidata": "Q22004073",
+   "wikidataLabel": "Gerard Diver",
+   "bodies": [
+    {
+     "key": "ni-lgd:derry",
+     "name": "Derry (district council)",
+     "elected": [
+      "2001-06-07",
+      "2005-05-05",
+      "2011-05-05"
+     ]
+    },
+    {
+     "key": "ni-lgd:derry-city-and-strabane",
+     "name": "Derry City and Strabane (district council)",
+     "elected": [
+      "2014-05-22"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "gerard diver",
+     "wikidata": "Gerard Diver"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Derry",
+      "statement": "Q22004073-0ab57658-4aff-352c-ad3e-3192437a50b7",
+      "councils": [
+       "ni-lgd:derry",
+       "ni-lgd:derry-city-and-strabane"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2008-2009 vs Civgraph council span 2001-2020"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1965-01-01"
+     ],
+     "wikidataDied": [],
+     "life": "born 1965; first candidacy 2001-06-07 (age >= 35)",
+     "positions": [
+      "Wikidata 2008-2009 vs Civgraph council span 2001-2020"
+     ]
+    }
+   },
+   "reason": "Wikidata item is tied by official ids to Civgraph person(s) 102394"
+  },
+  {
+   "personId": "129531",
+   "name": "Carol Nolan",
+   "wikidata": "Q23006332",
+   "wikidataLabel": "Carol Nolan",
+   "bodies": [
+    {
+     "key": "roi:offaly",
+     "name": "Offaly County Council",
+     "elected": [
+      "2014-05-23"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "carol nolan",
+     "wikidata": "Carol Nolan"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 councillor in Offaly County Council",
+      "statement": "Q23006332-76df42b3-4a40-0db3-788e-9193c0179bc2",
+      "councils": [
+       "roi:offaly"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2014-2016 vs Civgraph council span 2014-2020"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1978-05-23"
+     ],
+     "wikidataDied": [],
+     "life": "born 1978; first candidacy 2014-05-23 (age >= 35)",
+     "positions": [
+      "Wikidata 2014-2016 vs Civgraph council span 2014-2020"
+     ]
+    }
+   },
+   "reason": "Wikidata item is tied by official ids to Civgraph person(s) 101815"
+  },
+  {
+   "personId": "119413",
+   "name": "Paul McAuliffe",
+   "wikidata": "Q28363948",
+   "wikidataLabel": "Paul McAuliffe",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "2014-05-23"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "paul mcauliffe",
+     "wikidata": "Paul McAuliffe"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Lord Mayor of Dublin",
+      "statement": "Q28363948-0DD61473-715B-4D0F-B09D-8654F625EB72",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2019-2020 vs Civgraph council span 2014-2020"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1977-02-08"
+     ],
+     "wikidataDied": [],
+     "life": "born 1977; first candidacy 2014-05-23 (age >= 36)",
+     "positions": [
+      "Wikidata 2019-2020 vs Civgraph council span 2014-2020"
+     ]
+    }
+   },
+   "reason": "same name and council as 102070, which official ids tie to this item"
+  },
+  {
+   "personId": "101945",
+   "name": "John Leahy",
+   "wikidata": "Q48817243",
+   "wikidataLabel": "John Leahy",
+   "bodies": [
+    {
+     "key": "roi:offaly",
+     "name": "Offaly County Council",
+     "elected": [
+      "2009-06-05",
+      "2024-06-07"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "john leahy",
+     "wikidata": "John Leahy"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 councillor in Offaly County Council",
+      "statement": "Q48817243-d68a0f1c-4921-4837-1ddd-476e184e87aa",
+      "councils": [
+       "roi:offaly"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2014-2014 vs Civgraph council span 2009-2030"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2014-2014 vs Civgraph council span 2009-2030"
+     ]
+    }
+   },
+   "reason": "several Civgraph persons match this item: 101945, 128271"
+  },
+  {
+   "personId": "128271",
+   "name": "John Leahy",
+   "wikidata": "Q48817243",
+   "wikidataLabel": "John Leahy",
+   "bodies": [
+    {
+     "key": "roi:offaly",
+     "name": "Offaly County Council",
+     "elected": [
+      "2014-05-23"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "john leahy",
+     "wikidata": "John Leahy"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 councillor in Offaly County Council",
+      "statement": "Q48817243-d68a0f1c-4921-4837-1ddd-476e184e87aa",
+      "councils": [
+       "roi:offaly"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2014-2014 vs Civgraph council span 2014-2020"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2014-2014 vs Civgraph council span 2014-2020"
+     ]
+    }
+   },
+   "reason": "several Civgraph persons match this item: 101945, 128271"
+  },
+  {
+   "personId": "117761",
+   "name": "Catherine Fitzgerald",
+   "wikidata": "Q55083468",
+   "wikidataLabel": "Catherine Fitzgerald",
+   "bodies": [
+    {
+     "key": "roi:laois",
+     "name": "Laois County Council",
+     "elected": [
+      "1999-06-10",
+      "2004-06-11",
+      "2009-06-05",
+      "2014-05-23",
+      "2019-05-24",
+      "2024-06-07"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "catherine fitzgerald",
+     "wikidata": "Catherine Fitzgerald"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 councillor in Laois County Council",
+      "statement": "Q55083468-9DD2F16D-34B6-424A-8E3F-EA572C7A2884",
+      "councils": [
+       "roi:laois"
+      ],
+      "consistent": true,
+      "check": "undated"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": []
+    }
+   },
+   "reason": "dates: no Wikidata date (birth, death or dated position) to check against"
+  },
+  {
+   "personId": "119604",
+   "name": "Brian McDonagh",
+   "wikidata": "Q55083469",
+   "wikidataLabel": "Brian McDonagh",
+   "bodies": [
+    {
+     "key": "roi:fingal",
+     "name": "Fingal County Council",
+     "elected": [
+      "2014-05-23",
+      "2024-06-07"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "brian mcdonagh",
+     "wikidata": "Brian McDonagh"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 councillor in Fingal County Council",
+      "statement": "Q55083469-F716A11B-6D08-4311-8B6D-5E11A76529F0",
+      "councils": [
+       "roi:fingal"
+      ],
+      "consistent": true,
+      "check": "undated"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": []
+    }
+   },
+   "reason": "dates: no Wikidata date (birth, death or dated position) to check against"
+  },
+  {
+   "personId": "109396",
+   "name": "Henry Cremin",
+   "wikidata": "Q55083470",
+   "wikidataLabel": "Henry Cremin",
+   "bodies": [
+    {
+     "key": "roi:cork-city",
+     "name": "Cork City Council",
+     "elected": [
+      "2009-06-05",
+      "2014-05-23",
+      "2019-05-24"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "henry cremin",
+     "wikidata": "Henry Cremin"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 councillor in Cork City Council",
+      "statement": "Q55083470-D24785BA-BE14-4A15-B854-95A547CAC1CF",
+      "councils": [
+       "roi:cork-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": []
+    }
+   },
+   "reason": "dates: no Wikidata date (birth, death or dated position) to check against"
+  },
+  {
+   "personId": "118251",
+   "name": "Michael Lowry",
+   "wikidata": "Q55083471",
+   "wikidataLabel": "Micheál Lowry",
+   "bodies": [
+    {
+     "key": "roi:tipperary",
+     "name": "Tipperary County Council",
+     "elected": [
+      "2014-05-23"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "nickname",
+     "civgraph": "michael lowry",
+     "wikidata": "Micheál Lowry"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 councillor in Tipperary County Council",
+      "statement": "Q55083471-6ECA5EE6-502C-4341-B550-93DEA3DD4C23",
+      "councils": [
+       "roi:tipperary"
+      ],
+      "consistent": true,
+      "check": "undated"
+     },
+     {
+      "via": "P39 councillor in Tipperary County Council",
+      "statement": "Q55083471-d47aee00-4ca4-6c54-4512-d3bfc2ebf97f",
+      "councils": [
+       "roi:tipperary"
+      ],
+      "consistent": true,
+      "check": "undated"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": []
+    }
+   },
+   "reason": "dates: no Wikidata date (birth, death or dated position) to check against"
+  },
+  {
+   "personId": "118155",
+   "name": "Martina Kinane",
+   "wikidata": "Q55083472",
+   "wikidataLabel": "Martina Kinane",
+   "bodies": [
+    {
+     "key": "roi:galway-county",
+     "name": "Galway County Council",
+     "elected": [
+      "2014-05-23",
+      "2019-05-24",
+      "2024-06-07"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "martina kinane",
+     "wikidata": "Martina Kinane"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 councillor in Galway County Council",
+      "statement": "Q55083472-C8894E96-F6CA-48ED-BAE1-78D50EE8E450",
+      "councils": [
+       "roi:galway-county"
+      ],
+      "consistent": true,
+      "check": "undated"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": []
+    }
+   },
+   "reason": "dates: no Wikidata date (birth, death or dated position) to check against"
+  },
+  {
+   "personId": "109545",
+   "name": "Janice Boylan",
+   "wikidata": "Q55083473",
+   "wikidataLabel": "Janice Boylan",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "2014-05-23",
+      "2019-05-24"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "janice boylan",
+     "wikidata": "Janice Boylan"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 councillor in Dublin City Council",
+      "statement": "Q55083473-24F4A750-F1DE-4453-9BE8-9E08FC6A763F",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": []
+    }
+   },
+   "reason": "dates: no Wikidata date (birth, death or dated position) to check against"
+  },
+  {
+   "personId": "108877",
+   "name": "Claire Byrne",
+   "wikidata": "Q55083475",
+   "wikidataLabel": "Claire Byrne",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "2014-05-23",
+      "2019-05-24"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "claire byrne",
+     "wikidata": "Claire Byrne"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 councillor in Dublin City Council",
+      "statement": "Q55083475-DE5BA850-A235-4598-A237-F14689DC85C5",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": []
+    }
+   },
+   "reason": "dates: no Wikidata date (birth, death or dated position) to check against"
+  },
+  {
+   "personId": "118042",
+   "name": "Pat Dunne",
+   "wikidata": "Q55083476",
+   "wikidataLabel": "Pat Dunne",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "2014-05-23",
+      "2019-05-24"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "pat dunne",
+     "wikidata": "Pat Dunne"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 councillor in Dublin City Council",
+      "statement": "Q55083476-C1F6C2D5-0CDA-402D-82D3-6BAC00CB62B4",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": []
+    }
+   },
+   "reason": "dates: no Wikidata date (birth, death or dated position) to check against"
+  },
+  {
+   "personId": "117749",
+   "name": "Paddy Bourke",
+   "wikidata": "Q55628347",
+   "wikidataLabel": "Paddy Bourke",
+   "bodies": [
+    {
+     "key": "roi:dublin-city",
+     "name": "Dublin City Council",
+     "elected": [
+      "1991-06-27",
+      "2004-06-11",
+      "2009-06-05",
+      "2014-05-23"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "paddy bourke",
+     "wikidata": "Paddy Bourke"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 councillor in Dublin City Council",
+      "statement": "Q55628347-50AF96EF-30A8-435E-BBBA-ECAC02CE3BBE",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2004-2009 vs Civgraph council span 1991-2020"
+     },
+     {
+      "via": "P39 councillor in Dublin City Council",
+      "statement": "Q55628347-6DC23142-B9AF-4732-8C86-6978628F6F13",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2014-2019 vs Civgraph council span 1991-2020"
+     },
+     {
+      "via": "P39 councillor in Dublin City Council",
+      "statement": "Q55628347-C0B24C6C-EF05-437B-8D3A-AF0217AB4A68",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 1991-1999 vs Civgraph council span 1991-2020"
+     },
+     {
+      "via": "P39 Lord Mayor of Dublin",
+      "statement": "Q55628347-F801002B-66DC-4076-BA39-BD9128A5E356",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2007-2008 vs Civgraph council span 1991-2020"
+     },
+     {
+      "via": "P39 councillor in Dublin City Council",
+      "statement": "Q55628347-FB1086B1-9884-4B93-915E-A2C17D8E08E7",
+      "councils": [
+       "roi:dublin-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2009-2014 vs Civgraph council span 1991-2020"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2004-2009 vs Civgraph council span 1991-2020",
+      "Wikidata 2014-2019 vs Civgraph council span 1991-2020",
+      "Wikidata 1991-1999 vs Civgraph council span 1991-2020",
+      "Wikidata 2007-2008 vs Civgraph council span 1991-2020",
+      "Wikidata 2009-2014 vs Civgraph council span 1991-2020"
+     ]
+    }
+   },
+   "reason": "a rival pair matches on name and council without date proof: 117749~Q2045833"
+  },
+  {
+   "personId": "139481",
+   "name": "John T. McFarland",
+   "wikidata": "Q76061940",
+   "wikidataLabel": "Sir John McFarland, 1st Bt.",
+   "bodies": [],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "middle-initial",
+     "civgraph": "john t mcfarland",
+     "wikidata": "Sir John McFarland, 1st Bt."
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Derry",
+      "statement": "Q76061940-4d3b9e08-42f4-26fa-8964-7643e6190ee9",
+      "councils": [
+       "ni:londonderry-county-borough-council"
+      ],
+      "consistent": false,
+      "check": "Wikidata 1912-1912 vs Civgraph council span 1958-1973"
+     },
+     {
+      "via": "P39 Mayor of Derry",
+      "statement": "Q76061940-C03F50D1-C4CC-45D9-AB6D-0EA0F822D16A",
+      "councils": [
+       "ni:londonderry-county-borough-council"
+      ],
+      "consistent": false,
+      "check": "Wikidata 1908-1910 vs Civgraph council span 1958-1973"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1848-09-15"
+     ],
+     "wikidataDied": [
+      "1926-05-28"
+     ],
+     "life": "Civgraph candidacy 1967-05-17 after Wikidata death 1926-05-28",
+     "positions": [
+      "Wikidata 1912-1912 vs Civgraph council span 1958-1973",
+      "Wikidata 1908-1910 vs Civgraph council span 1958-1973"
+     ]
+    }
+   },
+   "reason": "dates: Civgraph candidacy 1967-05-17 after Wikidata death 1926-05-28 | dated body evidence does not overlap the Civgraph council terms: Wikidata 1912-1912 vs Civgraph council span 1958-1973; Wikidata 1908-1910 vs Civgraph council span 1958-1973"
+  },
+  {
+   "personId": "141636",
+   "name": "John T. McFarland",
+   "wikidata": "Q76061940",
+   "wikidataLabel": "Sir John McFarland, 1st Bt.",
+   "bodies": [],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "middle-initial",
+     "civgraph": "john t mcfarland",
+     "wikidata": "Sir John McFarland, 1st Bt."
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Derry",
+      "statement": "Q76061940-4d3b9e08-42f4-26fa-8964-7643e6190ee9",
+      "councils": [
+       "ni:londonderry-county-borough-council"
+      ],
+      "consistent": false,
+      "check": "Wikidata 1912-1912 vs Civgraph council span 1955-1961"
+     },
+     {
+      "via": "P39 Mayor of Derry",
+      "statement": "Q76061940-C03F50D1-C4CC-45D9-AB6D-0EA0F822D16A",
+      "councils": [
+       "ni:londonderry-county-borough-council"
+      ],
+      "consistent": false,
+      "check": "Wikidata 1908-1910 vs Civgraph council span 1955-1961"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [
+      "1848-09-15"
+     ],
+     "wikidataDied": [
+      "1926-05-28"
+     ],
+     "life": "Civgraph candidacy 1955-05-18 after Wikidata death 1926-05-28",
+     "positions": [
+      "Wikidata 1912-1912 vs Civgraph council span 1955-1961",
+      "Wikidata 1908-1910 vs Civgraph council span 1955-1961"
+     ]
+    }
+   },
+   "reason": "dates: Civgraph candidacy 1955-05-18 after Wikidata death 1926-05-28 | dated body evidence does not overlap the Civgraph council terms: Wikidata 1912-1912 vs Civgraph council span 1955-1961; Wikidata 1908-1910 vs Civgraph council span 1955-1961"
+  },
+  {
+   "personId": "110208",
+   "name": "Niall McNelis",
+   "wikidata": "Q89366413",
+   "wikidataLabel": "Níall McNelis",
+   "bodies": [
+    {
+     "key": "roi:galway-city",
+     "name": "Galway City Council",
+     "elected": [
+      "2009-06-05"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "niall mcnelis",
+     "wikidata": "Níall McNelis"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q89366413-93AB350A-FD49-4C6F-A45C-D9538F38867A",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": false,
+      "check": "Wikidata 2018-2019 vs Civgraph council span 2009-2015"
+     },
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q89366413-e0e9a673-d513-4977-a3f5-c626995cd621",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2018-2019 vs Civgraph council span 2009-2015"
+     ]
+    }
+   },
+   "reason": "several Civgraph persons match this item: 110208, 129412"
+  },
+  {
+   "personId": "129412",
+   "name": "Niall McNelis",
+   "wikidata": "Q89366413",
+   "wikidataLabel": "Níall McNelis",
+   "bodies": [
+    {
+     "key": "roi:galway-city",
+     "name": "Galway City Council",
+     "elected": [
+      "2014-05-23"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "niall mcnelis",
+     "wikidata": "Níall McNelis"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q89366413-93AB350A-FD49-4C6F-A45C-D9538F38867A",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2018-2019 vs Civgraph council span 2014-2020"
+     },
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q89366413-e0e9a673-d513-4977-a3f5-c626995cd621",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": true,
+      "check": "undated"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2018-2019 vs Civgraph council span 2014-2020"
+     ]
+    }
+   },
+   "reason": "several Civgraph persons match this item: 110208, 129412"
+  },
+  {
+   "personId": "118906",
+   "name": "Colette Connolly",
+   "wikidata": "Q111938522",
+   "wikidataLabel": "Colette Connolly",
+   "bodies": [],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "colette connolly",
+     "wikidata": "Colette Connolly"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 Mayor of Galway",
+      "statement": "Q111938522-E0A13228-A47D-4003-8541-43669C70284D",
+      "councils": [
+       "roi:galway-city"
+      ],
+      "consistent": false,
+      "check": "Wikidata 2021-2022 vs Civgraph council span 2004-2015"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2021-2022 vs Civgraph council span 2004-2015"
+     ]
+    }
+   },
+   "reason": "dates: dated body evidence does not overlap the Civgraph council terms: Wikidata 2021-2022 vs Civgraph council span 2004-2015"
+  },
+  {
+   "personId": "101514",
+   "name": "Carole Howard",
+   "wikidata": "Q131445937",
+   "wikidataLabel": "Carole Howard",
+   "bodies": [
+    {
+     "key": "ni-lgd:belfast",
+     "name": "Belfast (district council)",
+     "elected": [
+      "2014-05-22"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "carole howard",
+     "wikidata": "Carole Howard"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 member of Belfast City Council",
+      "statement": "Q131445937-E0773DE3-7458-4711-AF77-596F75B2489F",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2014-2023 vs Civgraph council span 2014-2020"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2014-2023 vs Civgraph council span 2014-2020"
+     ]
+    }
+   },
+   "reason": "several Civgraph persons match this item: 101514, 105083"
+  },
+  {
+   "personId": "105083",
+   "name": "Carole Howard",
+   "wikidata": "Q131445937",
+   "wikidataLabel": "Carole Howard",
+   "bodies": [
+    {
+     "key": "ni-lgd:belfast",
+     "name": "Belfast (district council)",
+     "elected": [
+      "2019-05-02"
+     ]
+    }
+   ],
+   "evidence": {
+    "route": "name",
+    "nameMatch": {
+     "kind": "exact",
+     "civgraph": "carole howard",
+     "wikidata": "Carole Howard"
+    },
+    "bodyMatch": [
+     {
+      "via": "P39 member of Belfast City Council",
+      "statement": "Q131445937-E0773DE3-7458-4711-AF77-596F75B2489F",
+      "councils": [
+       "ni-lgd:belfast"
+      ],
+      "consistent": true,
+      "check": "Wikidata 2014-2023 vs Civgraph council span 2019-2025"
+     }
+    ],
+    "dates": {
+     "wikidataBorn": [],
+     "wikidataDied": [],
+     "life": "no birth or death date on Wikidata",
+     "positions": [
+      "Wikidata 2014-2023 vs Civgraph council span 2019-2025"
+     ]
+    }
+   },
+   "reason": "several Civgraph persons match this item: 101514, 105083"
+  }
+ ],
+ "counts": {
+  "population": 17262,
+  "wikidataCandidates": 310,
+  "wikidataItemsHarvested": 2693,
+  "links": 100,
+  "linksByRoute": {
+   "name": 52,
+   "official-id": 48
+  },
+  "linksByNameMatch": {
+   "exact": 96,
+   "middle-initial": 2,
+   "nickname": 1,
+   "none (identity from official ids)": 1
+  },
+  "ambiguous": 41,
+  "persons": 100
+ }
+}
