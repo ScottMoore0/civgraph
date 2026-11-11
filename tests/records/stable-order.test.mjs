@@ -9,7 +9,7 @@ import { DatabaseSync } from 'node:sqlite';
 import { createDatabase, TableWriter, transaction } from '../../packages/loader/src/db.mjs';
 import { buildDelta } from '../../packages/loader/src/diff-load.mjs';
 import { REPO_ROOT } from '../../packages/loader/src/paths.mjs';
-import { GRID, longestIncreasing, placeGroup, stabiliseOrder } from '../../packages/loader/src/stable-order.mjs';
+import { GRID, longestIncreasing, placeGroup, STABLE_ORDER_TABLES, stabiliseOrder } from '../../packages/loader/src/stable-order.mjs';
 
 const TMP = path.join(REPO_ROOT, 'tmp', 'records', 'test-stable-order');
 
@@ -112,6 +112,29 @@ test('inserting rows into a seeded build changes about as many rows as were adde
   stabiliseOrder(d, C);
   d.close();
   assert.deepEqual(delta(D, C), { graph_entities: { deleted: 0, upserted: 1 } });
+  rmSync(TMP, { recursive: true, force: true });
+});
+
+test('a table whose ord is its rowid keeps the positions the ingest wrote when its rows move', () => {
+  mkdirSync(TMP, { recursive: true });
+  /** @param {string} file @param {string[]} order */
+  const groups = (file, order) => {
+    const db = createDatabase(file);
+    transaction(db, () => {
+      const fg = new TableWriter(db, 'feature_groups');
+      order.forEach((id, ord) => fg.add({ ord, id, card: `{"id":"${id}"}` }));
+    });
+    return db;
+  };
+  const A = path.join(TMP, 'fg-a.sqlite');
+  groups(A, ['a', 'b', 'c', 'd']).close();
+  const B = path.join(TMP, 'fg-b.sqlite');
+  // 'd' moves to the front: a fraction or a parked rowid threw before (11 Nov stage-proni landing).
+  const b = groups(B, ['d', 'a', 'b', 'c']);
+  const r = stabiliseOrder(b, A, { tables: STABLE_ORDER_TABLES.filter((t) => t.name === 'feature_groups') });
+  assert.deepEqual(r, { feature_groups: { changed: 0, seeded: false } });
+  assert.deepEqual(b.prepare('SELECT id FROM feature_groups ORDER BY ord').all().map((x) => x.id), ['d', 'a', 'b', 'c']);
+  b.close();
   rmSync(TMP, { recursive: true, force: true });
 });
 
