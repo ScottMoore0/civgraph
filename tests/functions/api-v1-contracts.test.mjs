@@ -136,6 +136,11 @@ test('variantFor() picks the first matching variant in table order', () => {
   assert.equal(pick('/api/v1/elections?key=k&format=bundle'), 'bundle');
   assert.equal(pick('/api/v1/elections?key=k&constituency=2&format=bundle'), 'contest', 'the handler answers a contest before a bundle');
   assert.equal(pick('/api/v1/elections?key=k&contest=s&constituency=2'), 'contest-by-slug');
+  assert.equal(pick('/api/v1/elections?body=x'), 'index-of-body');
+  assert.equal(pick('/api/v1/elections?view=citations&key=k&constituency=2'), 'citations-contest', 'a citations view, not the contest');
+  assert.equal(pick('/api/v1/elections?view=citations&key=k&constituencyName=X'), 'citations-contest-by-name');
+  assert.equal(pick('/api/v1/elections?view=citations&key=k'), 'citations');
+  assert.equal(pick('/api/v1/elections?view=citations&person=1'), 'citations-person');
   assert.equal(pick('/api/v1/persons?slug=a&view=candidacies'), 'candidacies');
   assert.equal(pick('/api/v1/persons?slug=%20'), 'list', 'a blank parameter is an absent one');
   assert.equal(pick('/api/v1/layers'), 'document');
@@ -404,9 +409,13 @@ async function recordsCases(env) {
     const voter = await one('SELECT person_id AS id FROM vote_persons ORDER BY person_id LIMIT 1');
     const voteParty = await one('SELECT slug FROM vote_parties ORDER BY slug LIMIT 1');
     const layer = await one('SELECT layer_id AS id FROM layers ORDER BY layer_id LIMIT 1');
+    const candidate = await one("SELECT person_id AS id FROM candidacies WHERE person_id IS NOT NULL AND person_id <> '' ORDER BY election_key, contest_seq LIMIT 1");
     const k = encodeURIComponent(contest.k);
     const cases = [
-      ['elections', '', 'index'], ['elections', '?body=northern-ireland-assembly', 'index'],
+      ['elections', '', 'index'], ['elections', '?body=northern-ireland-assembly', 'index-of-body'],
+      ['elections', `?view=citations&key=${k}`, 'citations'], ['elections', `?view=citations&key=${k}&constituency=${contest.seq}`, 'citations-contest'],
+      ['elections', `?view=citations&key=${k}&constituencyName=${encodeURIComponent(contest.name)}`, 'citations-contest-by-name'],
+      ['elections', '?view=citations&key=no-such-election', 'citations'],
       ['elections', `?key=${k}`, 'election'], ['elections', `?key=${k}&format=bundle`, 'bundle'], ['elections', `?key=${k}&format=bundle&lite=1`, 'bundle'],
       ['elections', `?key=${k}&constituency=${contest.seq}`, 'contest'], ['elections', `?key=${k}&contest=${encodeURIComponent(contest.slug)}`, 'contest-by-slug'],
       ['elections', `?key=${k}&constituencyName=${encodeURIComponent(contest.name)}`, 'contest-by-name'],
@@ -429,6 +438,7 @@ async function recordsCases(env) {
       ['layers', '', 'document'], ['layers', '?view=index', 'index'], ['layers', `/${layer.id}`, 'layer'],
     ];
     if (profiled) cases.push(['parties', `?slug=${profiled.slug}&view=profile`, 'profile']);
+    if (candidate) cases.push(['elections', `?view=citations&person=${encodeURIComponent(candidate.id)}`, 'citations-person']);
     if (division) {
       cases.push(['votes', '?view=index', 'index'], ['votes', `?division=${encodeURIComponent(division.id)}`, 'division'],
         ['votes', `?shard=${String(division.shard).padStart(3, '0')}`, 'shard'], ['votes', `?person=${voter.id}`, 'person'],

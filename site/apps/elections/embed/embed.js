@@ -16,17 +16,17 @@ const slug = new URLSearchParams(location.search).get('e') || 'northern-ireland-
 const state = EMBED.start();
 box.dataset.state = state.state();
 
-electionDetail(slug).then((/** @type {any} */ d) => {
-  const parties = (d.partySummary || []).filter((/** @type {any} */ p) => p.seats > 0 || p.share >= 2).slice(0, 8);
-  const seated = (d.partySummary || []).filter((/** @type {any} */ p) => p.seats > 0).map((/** @type {any} */ p) => ({ party: p.party, seats: p.seats, colour: p.colour }));
-  const seats = seated.reduce((/** @type {number} */ s, /** @type {any} */ p) => s + p.seats, 0);
+electionDetail(slug).then((d) => {
+  const parties = (d.partySummary || []).filter((p) => p.seats > 0 || (p.share ?? 0) >= 2).slice(0, 8);
+  const seated = (d.partySummary || []).filter((p) => p.seats > 0).map((p) => ({ party: p.party, seats: p.seats, colour: p.colour }));
+  const seats = seated.reduce((/** @type {number} */ s, p) => s + p.seats, 0);
   const votes = (d.totals?.validPoll || 0) > 0;
   const link = new URL(appUrl.election(d.key), location.origin).toString();
   box.innerHTML = `<h1><a href="${esc(link)}" target="_top">${esc(d.title)}</a></h1>
     <p class="meta">${esc(fmtDate(d.date))} · ${seats} seats${parties.length < seated.length ? ` · the ${parties.length} largest parties shown` : ''}</p>
     ${seats >= 30 ? parliamentArc(seated, { title: `${seats} seats` }) : seatBar(seated, { title: `${seats} seats` })}
     <table><thead><tr><th>Party</th><th class="n">Seats</th>${votes ? '<th class="n">Share</th>' : ''}</tr></thead>
-    <tbody>${parties.map((/** @type {any} */ p) => `<tr><td><span class="sw" style="background:${esc(partyColour(p.colour))}"></span>${esc(p.party)}</td><td class="n">${p.seats}</td>${votes ? `<td class="n">${fmtPct(p.share)}</td>` : ''}</tr>`).join('')}</tbody></table>
+    <tbody>${parties.map((p) => `<tr><td><span class="sw" style="background:${esc(partyColour(p.colour))}"></span>${esc(p.party)}</td><td class="n">${p.seats}</td>${votes ? `<td class="n">${fmtPct(p.share)}</td>` : ''}</tr>`).join('')}</tbody></table>
     <footer>Source: <a href="${esc(link)}" target="_top">Civgraph Elections</a>, with the source of every figure.</footer>`;
   box.dataset.state = state.to('shown');
 }).catch((err) => {

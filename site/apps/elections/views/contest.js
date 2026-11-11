@@ -29,7 +29,7 @@ export async function render(root, route) {
   const cites = await contestCitations(detail.key, Number(result.constituency?.seq)).catch(() => ({ citations: [] }));
   const c = result.constituency || {};
   const stv = isStv(detail.votingSystem);
-  const sheet = countSheet(result.candidates || [], {
+  const sheet = countSheet(/** @type {Array<Record<string, unknown>>} */ (result.candidates || []), {
     quota: c.quota, validPoll: c.validPoll ?? c.totalVotes, seatsTotal: c.seatsTotal, nonTransferable: c.nonTransferable,
     contestStatus: c.contestStatus || detail.contestStatus,
   });
@@ -82,7 +82,7 @@ export async function render(root, route) {
 
   const flows = transferStages(sheet);
   const quota = stv && sheet.quota && (sheet.kind === 'stages' || sheet.kind === 'single' || sheet.kind === 'order') ? quotaProgress(sheet) : [];
-  const citations = (cites.citations || []).map((/** @type {any} */ c) => ({ ...c, checked: c.checked === 1 || c.checked === true, check: c.checkNote ?? c.check ?? null }));
+  const citations = (cites.citations || []).map((c) => ({ ...c, checked: c.checked === 1, check: c.checkNote ?? null }));
 
   root.innerHTML = `
     <nav class="el-crumbs" aria-label="Breadcrumb"><a href="/elections/">Elections</a> › <a href="${appUrl.body(detail.bodySlug)}">${esc(detail.body)}</a> › <a href="${appUrl.election(detail.key)}">${esc(detail.title)}</a> › ${esc(c.name || c.constituency)}</nav>

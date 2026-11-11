@@ -67,14 +67,14 @@ export async function render(root, route, ctx) {
 /** @param {HTMLElement} root @param {import('../lib/api.js').ElectionRow[]} all @param {string} slug */
 function renderBody(root, all, slug) {
   const list = all.filter((e) => e.bodySlug === slug).sort((a, b) => (a.date < b.date ? 1 : -1));
-  if (!list.length) { const err = new Error('body not found'); /** @type {any} */ (err).status = 404; throw err; }
+  if (!list.length) { throw Object.assign(new Error('body not found'), { status: 404 }); }
   const name = list[0].body || slug;
-  /** @type {Map<string, any[]>} */
+  /** @type {Map<string, import('../lib/api.js').ElectionRow[]>} */
   const decades = new Map();
   for (const e of list) {
     const d = `${Math.floor(Number(e.year || e.date.slice(0, 4)) / 10) * 10}s`;
     if (!decades.has(d)) decades.set(d, []);
-    /** @type {any[]} */ (decades.get(d)).push(e);
+    /** @type {import('../lib/api.js').ElectionRow[]} */ (decades.get(d)).push(e);
   }
   root.innerHTML = `
     <nav class="el-crumbs" aria-label="Breadcrumb"><a href="/elections/">Elections</a> › ${esc(name)}</nav>

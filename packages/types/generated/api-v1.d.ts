@@ -39,7 +39,23 @@ export interface ElectionsSummaryAnswer {
   body: string;
   date: string;
   displayTitle: string;
-  results: unknown[];
+  results: Array<{
+    constituency: string;
+    seatsTotal?: number | null;
+    seatsWon?: number | null;
+    validPoll?: number | null;
+    quota?: number | null;
+    winnerParty?: string | null;
+    winnerName?: string | null;
+    leadingParty?: string | null;
+    leadingName?: string | null;
+    leadingVotes?: number | null;
+    turnoutPct?: number | null;
+    majority?: number | null;
+    candidateCount: number;
+    featureName?: string | null;
+    [key: string]: unknown;
+  }>;
   [key: string]: unknown;
 }
 
@@ -73,6 +89,49 @@ export interface ElectionsListAnswer {
 export interface ElectionsDetailAnswer {
   schemaVersion: number;
   item: {
+    key: string;
+    slug: string;
+    title: string;
+    body: string;
+    bodySlug: string;
+    date: string;
+    year: number;
+    contestType: string;
+    kind?: string;
+    votingSystem?: string;
+    contestStatus?: string;
+    previousKey?: string;
+    layerId?: string;
+    interactiveUrl?: string;
+    partySummary?: Array<{
+      party: string;
+      seats: number;
+      stood: number;
+      votes: number;
+      colour: string;
+      share?: number | null;
+      unopposedSeats?: number;
+      [key: string]: unknown;
+    }>;
+    totals?: {
+      seats: number;
+      validPoll: number;
+      constituencies: number;
+      [key: string]: unknown;
+    };
+    resultEntries?: {
+      key: string;
+      title: string;
+      resultName: string;
+      resultKind: string;
+      [key: string]: unknown;
+    }[];
+    references?: {
+      label: string;
+      url?: string;
+      note?: string;
+      [key: string]: unknown;
+    }[];
     [key: string]: unknown;
   };
   [key: string]: unknown;
@@ -82,22 +141,151 @@ export interface ElectionsDetailAnswer {
 export interface ElectionsContestsAnswer {
   schemaVersion: number;
   items: {
+    key?: string;
+    slug?: string;
+    title?: string;
+    entryKind?: string;
+    resultKind?: string;
+    resultName?: string;
+    body: string;
+    bodySlug: string;
+    date?: string;
+    contestType?: string;
+    votingSystem?: string;
+    contestStatus?: string;
+    resultMetadata?: {
+      [key: string]: unknown;
+    };
+    constituency?: string;
+    matched?: boolean;
+    featureName?: string;
+    layerId?: string;
     [key: string]: unknown;
   }[];
   [key: string]: unknown;
 }
 
-/** GET /api/v1/elections (key=<absent>): Every election, by date then key */
-export interface ElectionsIndexAnswer {
-  elections: {
+/** GET /api/v1/elections (view=citations person=<given>): The original sources of every contest a person stood in */
+export interface ElectionsCitationsPersonAnswer {
+  person: string;
+  candidacies: Array<{
+    electionKey: string;
+    seq: number;
+    constituency: string;
+    citations: Array<{
+      title: string | null;
+      publisher: string | null;
+      url: string | null;
+      archiveUrl: string | null;
+      host: string | null;
+      kind: string | null;
+      basis: string | null;
+      checked: number | null;
+      scope: string | null;
+      match: string | null;
+      checkNote: string | null;
+      [key: string]: unknown;
+    }>;
+    [key: string]: unknown;
+  }>;
+  [key: string]: unknown;
+}
+
+/** GET /api/v1/elections (view=citations constituency=<given>): One contest's original sources (key null: no such election) */
+export interface ElectionsCitationsContestAnswer {
+  key: string | null;
+  seq?: number;
+  citations: Array<{
+    title: string | null;
+    publisher: string | null;
+    url: string | null;
+    archiveUrl: string | null;
+    host: string | null;
+    kind: string | null;
+    basis: string | null;
+    checked: number | null;
+    scope: string | null;
+    match: string | null;
+    checkNote: string | null;
+    [key: string]: unknown;
+  }>;
+  [key: string]: unknown;
+}
+
+/** GET /api/v1/elections (view=citations constituencyName=<given>): One contest's original sources, the contest found by its name */
+export interface ElectionsCitationsContestByNameAnswer {
+  key: string | null;
+  seq?: number;
+  constituency?: string;
+  citations: Array<{
+    title: string | null;
+    publisher: string | null;
+    url: string | null;
+    archiveUrl: string | null;
+    host: string | null;
+    kind: string | null;
+    basis: string | null;
+    checked: number | null;
+    scope: string | null;
+    match: string | null;
+    checkNote: string | null;
+    [key: string]: unknown;
+  }>;
+  [key: string]: unknown;
+}
+
+/** GET /api/v1/elections (view=citations): An election's distinct original sources, with how many of its contests cite each (key null: no such election) */
+export interface ElectionsCitationsAnswer {
+  key: string | null;
+  contests?: number;
+  sources?: Array<{
+    title: string | null;
+    publisher: string | null;
+    url: string | null;
+    host: string | null;
+    kind: string | null;
+    contests: number;
+    [key: string]: unknown;
+  }>;
+  [key: string]: unknown;
+}
+
+/** GET /api/v1/elections (key=<absent> body=<given>): One body's elections, by date then key */
+export interface ElectionsIndexOfBodyAnswer {
+  elections: Array<{
     key: string;
     body: string;
     bodySlug: string;
     displayTitle: string;
     date: string;
     year: number;
+    kind?: string | null;
+    contestType?: string | null;
+    votingSystem?: string | null;
+    contestStatus?: string | null;
+    layerId?: string | null;
     [key: string]: unknown;
-  }[];
+  }>;
+  count: number;
+  [key: string]: unknown;
+}
+
+/** GET /api/v1/elections (key=<absent>): Every election, by date then key */
+export interface ElectionsIndexAnswer {
+  elections: Array<{
+    key: string;
+    body: string;
+    bodySlug: string;
+    displayTitle: string;
+    date: string;
+    year: number;
+    kind?: string | null;
+    contestType?: string | null;
+    votingSystem?: string | null;
+    contestStatus?: string | null;
+    layerId?: string | null;
+    [key: string]: unknown;
+  }>;
   count: number;
   [key: string]: unknown;
 }
@@ -945,6 +1133,11 @@ export interface V1Routes {
       list: ElectionsListAnswer;
       detail: ElectionsDetailAnswer;
       contests: ElectionsContestsAnswer;
+      "citations-person": ElectionsCitationsPersonAnswer;
+      "citations-contest": ElectionsCitationsContestAnswer;
+      "citations-contest-by-name": ElectionsCitationsContestByNameAnswer;
+      citations: ElectionsCitationsAnswer;
+      "index-of-body": ElectionsIndexOfBodyAnswer;
       index: ElectionsIndexAnswer;
       "contest-by-slug": ElectionsContestBySlugAnswer;
       "contest-by-name": ElectionsContestByNameAnswer;
