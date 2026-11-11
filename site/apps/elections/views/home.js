@@ -5,6 +5,7 @@ import { bodyElections, electionIndex } from '../lib/api.js';
 import { appUrl, esc, fmtDate } from '../lib/format.js';
 
 /** The group a body belongs to on the home page. */
+/** @param {string} slug */
 export function bodyGroup(slug) {
   if (/referendum|recall/.test(slug)) return 'Referendums';
   if (/(council|commissioners)/.test(slug)) return 'Northern Ireland councils before 1973';
@@ -14,8 +15,9 @@ export function bodyGroup(slug) {
 }
 const GROUP_ORDER = ['Parliaments, assemblies and offices', 'Local government', 'Referendums', 'Northern Ireland councils before 1973', 'Party contests'];
 
+/** @param {HTMLElement} root @param {{ view: string, body?: string }} route */
 export async function render(root, route) {
-  if (route.view === 'body') return renderBody(root, await bodyElections(route.body), /** @type {string} */ (route.body));
+  if (route.view === 'body') return renderBody(root, await bodyElections(String(route.body)), /** @type {string} */ (route.body));
   const all = await electionIndex();
   /** @type {Map<string, { slug: string, name: string, n: number, by: number, from: string, to: string }>} */
   const bodies = new Map();
@@ -27,6 +29,7 @@ export async function render(root, route) {
     if (e.date > b.to) b.to = e.date;
     bodies.set(e.bodySlug, b);
   }
+  /** @type {Map<string, Array<{ slug: string, name: string, n: number, by: number, from: string, to: string }>>} */
   const groups = new Map(GROUP_ORDER.map((g) => [g, []]));
   for (const b of bodies.values()) groups.get(bodyGroup(b.slug))?.push(b);
   const recent = all.filter((e) => e.kind !== 'by-election' && e.contestType === 'election').sort((a, b) => (a.date < b.date ? 1 : -1)).slice(0, 12);
@@ -51,7 +54,7 @@ export async function render(root, route) {
       </section>`).join('')}`;
   const input = /** @type {HTMLInputElement} */ (root.querySelector('#el-q'));
   const out = /** @type {HTMLElement} */ (root.querySelector('#el-results'));
-  const fold = (s) => String(s || '').normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  const fold = (/** @type {unknown} */ s) => String(s || '').normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase();
   input.addEventListener('input', () => {
     const words = fold(input.value).split(/\s+/).filter(Boolean);
     if (!words.length) { out.innerHTML = ''; return; }
@@ -61,6 +64,7 @@ export async function render(root, route) {
   return '';
 }
 
+/** @param {HTMLElement} root @param {import('../lib/api.js').ElectionRow[]} all @param {string} slug */
 function renderBody(root, all, slug) {
   const list = all.filter((e) => e.bodySlug === slug).sort((a, b) => (a.date < b.date ? 1 : -1));
   if (!list.length) { const err = new Error('body not found'); /** @type {any} */ (err).status = 404; throw err; }
@@ -75,7 +79,7 @@ function renderBody(root, all, slug) {
   root.innerHTML = `
     <nav class="el-crumbs" aria-label="Breadcrumb"><a href="/elections/">Elections</a> › ${esc(name)}</nav>
     <h1>${esc(name)}</h1>
-    <p class="el-lead">${list.length.toLocaleString('en-GB')} elections, ${list.at(-1).date.slice(0, 4)}–${list[0].date.slice(0, 4)}.</p>
+    <p class="el-lead">${list.length.toLocaleString('en-GB')} elections, ${String(list.at(-1)?.date).slice(0, 4)}–${list[0].date.slice(0, 4)}.</p>
     ${[...decades].map(([d, es]) => `<section><h2>${esc(d)}</h2><ul class="el-list">${es.map((e) => `<li><a href="${appUrl.election(e.key)}">${esc(e.displayTitle)}</a> <span class="el-muted">${esc(fmtDate(e.date))}${e.contestStatus === 'uncontested' ? ' · unopposed' : ''}</span></li>`).join('')}</ul></section>`).join('')}`;
   return name;
 }

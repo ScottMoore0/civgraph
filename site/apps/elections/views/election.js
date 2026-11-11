@@ -13,8 +13,9 @@ import {
 /**
  * The party table rows with change against the previous election.
  * @param {Array<{ party: string, seats: number, stood: number, votes: number, share: number, colour: string }>} parties
- * @param {Array<{ party: string, seats: number, share: number }> | null} previous
+ * @param {Array<{ party: string, seats: number, share: number, colour?: string }> | null} previous
  * @param {{ votes: boolean, prevVotes: boolean }} has
+ * @returns {Array<{ party: string, seats: number, stood: number, votes: number, share: number, colour: string, seatChange: number | null, shareChange: number | null, isNew: boolean, gone?: boolean }>}
  */
 export function partyRows(parties, previous, has) {
   const prev = new Map((previous || []).map((p) => [p.party, p]));
@@ -29,10 +30,11 @@ export function partyRows(parties, previous, has) {
   });
   // Parties that stood last time and not now: shown with their losses.
   const gone = previous ? previous.filter((q) => !parties.some((p) => p.party === q.party) && (num(q.seats) || 0) > 0)
-    .map((q) => ({ party: q.party, seats: 0, stood: 0, votes: 0, share: 0, colour: /** @type {any} */ (q).colour, seatChange: -(num(q.seats) || 0), shareChange: has.votes && has.prevVotes ? -(num(q.share) || 0) : null, isNew: false, gone: true })) : [];
+    .map((q) => ({ party: q.party, seats: 0, stood: 0, votes: 0, share: 0, colour: q.colour || '', seatChange: -(num(q.seats) || 0), shareChange: has.votes && has.prevVotes ? -(num(q.share) || 0) : null, isNew: false, gone: true })) : [];
   return [...rows, ...gone].sort((a, b) => (b.seats || 0) - (a.seats || 0) || (b.votes || 0) - (a.votes || 0));
 }
 
+/** @param {HTMLElement} root @param {{ election?: string }} route */
 export async function render(root, route) {
   const slug = /** @type {string} */ (route.election);
   const [detail, summary] = await Promise.all([electionDetail(slug), electionSummary(slug)]);
@@ -100,7 +102,7 @@ export async function render(root, route) {
       <dt>Contests</dt><dd>${fmtInt(results.length)}${unopposed ? ` (${unopposed} returned unopposed)` : ''}</dd>
       ${votes ? `<dt>Valid votes</dt><dd>${fmtInt(detail.totals?.validPoll)}</dd>` : ''}
       <dt>Turnout</dt><dd>${turnouts.length ? `median ${fmtPct(turnoutMedian)} across ${turnouts.length} contest${turnouts.length === 1 ? '' : 's'} (range ${fmtPct(Math.min(...turnouts))}–${fmtPct(Math.max(...turnouts))})` : 'not recorded'}</dd>
-      ${prevAny ? `<dt>Previous</dt><dd><a href="${appUrl.election(prevKey)}">${esc(prevAny.title)}</a></dd>` : ''}
+      ${prevAny ? `<dt>Previous</dt><dd><a href="${appUrl.election(String(prevKey))}">${esc(prevAny.title)}</a></dd>` : ''}
       <dt>Elsewhere</dt><dd><a href="/browse/elections/${esc(electionSlug(key))}">Browse record</a>${detail.interactiveUrl && detail.layerId ? ` · <a href="${esc(detail.interactiveUrl)}">on the map</a>` : ''} · <a href="/elections/map/?e=${encodeURIComponent(electionSlug(key))}">results map</a> · <a href="/elections/pivot/?body=${encodeURIComponent(detail.bodySlug)}&amp;election=${encodeURIComponent(key)}">pivot</a></dd>
     </dl>
     ${voteNote}
@@ -148,4 +150,4 @@ export function contestSlugs(entries) {
   return out;
 }
 
-const deltaClass = (v) => (v > 0 ? 'cg-delta--positive' : v < 0 ? 'cg-delta--negative' : '');
+const deltaClass = (/** @type {number | null} */ v) => (v === null ? '' : (v > 0 ? 'cg-delta--positive' : v < 0 ? 'cg-delta--negative' : ''));

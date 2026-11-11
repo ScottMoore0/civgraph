@@ -4,7 +4,7 @@
  * (site/apps/elections/notional/<old>__<new>.json), with a projection from shares the reader
  * types (lib/project.js, the projections hook). Every figure here is an ESTIMATE and says so.
  */
-import { electionDetail, electionIndex } from '../lib/api.js';
+import { electionDetail, electionIndex, must } from '../lib/api.js';
 import { parliamentArc, seatBar } from '../lib/charts.js';
 import { appUrl, electionSlug, esc, fmtDelta, fmtInt, fmtPct, isStv, partyChip, partyColour } from '../lib/format.js';
 import { areaMap, layerRecord } from '../lib/maplibre.js';
@@ -55,7 +55,7 @@ export async function render(root, route, ctx) {
   const W = await res.json();
   const index = (await electionIndex()).filter((/** @type {any} */ e) => W.old.layers.includes(e.layerId) && e.kind === 'general');
   const q = route.query;
-  const el = index.find((/** @type {any} */ e) => electionSlug(e.key) === q.get('e')) || index.at(-1);
+  const el = must(index.find((e) => electionSlug(e.key) === q.get('e')) || index.at(-1), 'election');
   const method = q.get('method') === 'areal' ? 'areal' : 'population';
   const detail = await electionDetail(el.key);
   const colours = new Map((detail.partySummary || []).map((/** @type {any} */ p) => [p.party, partyColour(p.colour)]));

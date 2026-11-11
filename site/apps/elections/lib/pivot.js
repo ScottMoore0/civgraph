@@ -193,11 +193,11 @@ export function pivotCsv(/** @type {ReturnType<typeof pivotTable>} */ t, /** @ty
     const x = v === null || v === undefined ? '' : String(v);
     return /[",\n]/.test(x) ? `"${x.replace(/"/g, '""')}"` : x;
   };
-  const head = [DIMENSIONS[/** @type {keyof typeof DIMENSIONS} */ (s.rows)].label, ...t.cols, ...(t.additive && !MEASURES[/** @type {keyof typeof MEASURES} */ (s.measure)].share ? ['Total'] : [])];
+  const head = [DIMENSIONS[/** @type {keyof typeof DIMENSIONS} */ (s.rows)].label, ...t.cols, ...(t.additive && !(/** @type {any} */ (MEASURES[/** @type {keyof typeof MEASURES} */ (s.measure)]).share) ? ['Total'] : [])];
   const lines = [head.map(cell).join(',')];
   for (const r of t.rows) {
     const vals = r.values.map((v) => (v === null ? '' : Number(v.toFixed(t.digits))));
-    if (t.additive && !MEASURES[/** @type {keyof typeof MEASURES} */ (s.measure)].share) vals.push(r.total === null ? '' : Number(r.total.toFixed(t.digits)));
+    if (t.additive && !(/** @type {any} */ (MEASURES[/** @type {keyof typeof MEASURES} */ (s.measure)]).share)) vals.push(r.total === null ? '' : Number(r.total.toFixed(t.digits)));
     lines.push([r.key, ...vals].map(cell).join(','));
   }
   return `${lines.join('\n')}\n`;

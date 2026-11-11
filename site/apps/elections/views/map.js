@@ -4,7 +4,7 @@
  * the same boundaries. Winner and turnout come from the election summary (the records API);
  * party shares and swing from the pivot extracts (DuckDB), so those two modes need the extracts.
  */
-import { electionContests, electionDetail, electionIndex, electionSummary } from '../lib/api.js';
+import { electionContests, electionDetail, electionIndex, electionSummary, must } from '../lib/api.js';
 import { appUrl, electionSlug, esc, fmtPct, partyColour } from '../lib/format.js';
 import { areaMap, idle, layerRecord } from '../lib/maplibre.js';
 import { areaRows, diverging, divergingLegend, partyShares, sequential, sequentialLegend } from '../lib/scales.js';
@@ -104,7 +104,7 @@ export async function render(root, route, ctx) {
   const index = (await electionIndex()).filter((/** @type {any} */ e) => e.layerId && e.contestType === 'election');
   const q = route.query;
   const want = q.get('e') || 'northern-ireland-assembly-2022-05-05';
-  const el = index.find((/** @type {any} */ e) => electionSlug(e.key) === want || e.key === want) || index.at(-1);
+  const el = must(index.find((e) => electionSlug(e.key) === want || e.key === want) || index.at(-1), 'election');
   const mode = ['winner', 'turnout', 'share', 'swing'].includes(q.get('mode') || '') ? /** @type {string} */ (q.get('mode')) : 'winner';
   const sameLayer = index.filter((/** @type {any} */ e) => e.layerId === el.layerId && e.key !== el.key && e.bodySlug === el.bodySlug);
   const detail = await electionDetail(el.key);
@@ -151,7 +151,7 @@ export async function render(root, route, ctx) {
 
   const status = /** @type {HTMLElement} */ (root.querySelector('#mp-status'));
   try {
-    const rec = await layerRecord(el.layerId);
+    const rec = await layerRecord(String(el.layerId));
     const data = await mapData(el, mode === 'swing' && !vs ? 'share' : mode, { party, vs });
     if (ctx.stale()) return el.displayTitle;
     const map = await areaMap(/** @type {HTMLElement} */ (root.querySelector('#mp-map')), rec, { colours: data.colours, labels: data.labels });
@@ -167,11 +167,11 @@ export async function render(root, route, ctx) {
   /** @type {HTMLElement} */ (root.querySelector('#mp-sm-go')).addEventListener('click', async () => {
     const out = /** @type {HTMLElement} */ (root.querySelector('#mp-sm-out'));
     out.innerHTML = '';
-    const rec = await layerRecord(el.layerId);
+    const rec = await layerRecord(String(el.layerId));
     const holder = document.createElement('div');
     holder.style.cssText = 'position:absolute;left:-9999px;width:320px;height:360px';
     document.body.append(holder);
-    const series = [...sameLayer, el].sort((a, b) => (a.date < b.date ? -1 : 1));
+    const series = [...sameLayer, el].sort((x, y) => (x.date < y.date ? -1 : 1));
     for (const e of series) {
       if (ctx.stale()) break;
       const data = await mapData(e, 'winner');
