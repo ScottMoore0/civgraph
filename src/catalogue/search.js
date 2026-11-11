@@ -511,7 +511,7 @@ export class PeopleSearch {
    * @param {PersonRow} row
    */
   static url(row) {
-    // Browse routes in the hash: /browse/persons/<slug> is not served (404).
-    return `/browse/#/persons/${encodeURIComponent(PeopleSearch.slug(row))}`;
+    // The person's own page, which the server renders with their title and link-preview tags.
+    return `/browse/persons/${encodeURIComponent(PeopleSearch.slug(row))}`;
   }
 }

@@ -507,12 +507,11 @@ async function init() {
     if (state.auth?.allowed && state.currentDetail) renderCurrent();
   });
   window.addEventListener('hashchange', applyRoute);
-  // Back from /browse/#/... to a path-style record page changes the path, not only the hash,
-  // and browsers do not reliably fire hashchange for that; popstate always fires. applyRoute
-  // ignores a repeat of the address it last rendered, so the two events never render twice.
-  window.addEventListener('popstate', () => {
-    if (pathRouteParts()) applyRoute();
-  });
+  // Back and Forward between the entries navigateTo pushes change the path, not only the hash,
+  // and browsers fire no hashchange for that; popstate always fires. applyRoute ignores a
+  // repeat of the address it last rendered, so the two events never render twice.
+  window.addEventListener('popstate', applyRoute);
+  watchRecordLinks();
 }
 
 /** @type {string | null} */
@@ -621,8 +620,13 @@ function bindEvents() {
 
     const link = event.target.closest('[data-browse-link]');
     if (link) {
+      const href = present(link.getAttribute('href'), 'href');
+      // A record link's href is its page (shareableRecordLinks): a modified or middle click opens
+      // it in a new tab or window as the browser would, rather than in this one.
+      if (!href.startsWith('#') && (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)) return;
       event.preventDefault();
-      location.hash = present(link.getAttribute('href'), 'href').replace(/^.*#/, '#');
+      const path = /^\/browse\/([^/?#]+)\/([^?#]+)(?:\?([^#]*))?$/.exec(href);
+      navigateTo(path ? `#/${path[1]}/${path[2]}${path[3] ? `?${path[3]}` : ''}` : href.replace(/^.*#/, '#'));
       return;
     }
 
@@ -745,11 +749,17 @@ function bindEvents() {
 }
 
 function applyRoute() {
+  // An old or hand-written #/<type>/<slug> address of a record with a page of its own becomes
+  // that page's path, in place (no reload, no extra history entry): a shared /browse/#/... link
+  // keeps working, and what the reader then copies is the address that previews as the record.
+  if (RECORD_LINK.test(location.hash)) {
+    history.replaceState(history.state, '', addressForRoute(location.hash));
+  }
   // Leaving a path-style record page through an in-app #/ link: show the address as the
   // ordinary /browse/#/... one, so it does not read as the record it left. Same document, no
   // reload; Back still returns to the record, whose path then routes again.
   if (pathRouteParts() && /^#\//.test(location.hash)) {
-    history.replaceState(history.state, '', `/browse/${location.hash}`);
+    history.replaceState(history.state, '', `${SHELL_PATH}${location.hash}`);
   }
   const address = currentAddress();
   if (address === lastRoutedAddress) return;
@@ -899,9 +909,82 @@ function focusCard(index) {
 }
 
 // Path-style record URLs: /browse/<type>/<slug>, served by functions/browse/<type>/ with the
-// record's own title and canonical link so search engines can index each record (a hash is
-// never sent to the server). Inside the app, links stay in the hash.
-const PATH_ROUTE_TYPES = new Set(['elections', 'maps', 'parties', 'persons', 'register-interests', 'sources']);
+// record's own title, canonical link and link-preview tags (a hash is never sent to the server).
+// Since 11 Nov 2026 (QA H1) the app navigates to them too: a record opened in the app shows its
+// path in the address bar, so a copied or shared address previews as the record rather than as
+// "Browse – Civgraph". Lists, the landing view and the types with no page of their own stay in
+// the hash; an old #/<type>/<slug> address is rewritten to the path on arrival.
+const PATH_ROUTE_TYPES = new Set(['elections', 'maps', 'offices', 'parties', 'persons', 'register-interests', 'sources']);
+// The shell this document was loaded as (/browse/, /records/, /catalogue/): where a list or the
+// landing view opened from a record's path goes. A record's path is always served the /browse/ shell.
+const SHELL_PATH = pathRouteParts() ? '/browse/' : location.pathname;
+
+/**
+ * The address the app shows for a #/... route: a record of a type with its own page is that
+ * page's path (with the route's query, e.g. ?graph=1); anything else stays a hash on this shell
+ * (/browse/, /records/, /catalogue/), or on /browse/ when the page is a record's path.
+ * @param {string} route  '#/persons/gerry-adams-27771', '#/elections?q=1946', '#/'
+ * @returns {string}
+ */
+function addressForRoute(route) {
+  const raw = String(route || '').replace(/^.*?#\/?/, '');
+  const [routePath, query = ''] = raw.split('?');
+  const parts = routePath.split('/').filter(Boolean);
+  const type = parts[0] === 'people' ? 'persons' : parts[0];
+  if (type && parts.length > 1 && PATH_ROUTE_TYPES.has(type)) {
+    let id = parts.slice(1).join('/');
+    try { id = decodeURIComponent(id); } catch { /* keep it as written */ }
+    return recordAddress(type, id, query);
+  }
+  return `${pathRouteParts() ? SHELL_PATH : `${location.pathname}${location.search}`}#/${raw}`;
+}
+
+/** A record's own page: /browse/<type>/<slug>[?query]. @param {string} type @param {string} slug @param {string} [query] */
+function recordAddress(type, slug, query = '') {
+  return `/browse/${type}/${encodeURIComponent(slug)}${query ? `?${query}` : ''}`;
+}
+
+/**
+ * Go to an in-app route as a new history entry (or in place of this one), showing it at the
+ * address addressForRoute gives, and render it. pushState fires neither hashchange nor popstate,
+ * so the route is applied here; applyRoute ignores an address it has already rendered.
+ * @param {string} route
+ * @param {{ replace?: boolean }} [options]
+ */
+function navigateTo(route, { replace = false } = {}) {
+  const next = addressForRoute(route);
+  if (next !== currentAddress()) {
+    if (replace) history.replaceState(history.state, '', next);
+    else history.pushState(null, '', next);
+  }
+  applyRoute();
+}
+
+// In-app record links are written as #/<type>/<slug> all over this file; the ones whose type has
+// a page get that page's path as their href, so "Copy link address", a middle-click and a new tab
+// give the shareable address too. A click is still handled in the app (the click handler).
+const RECORD_LINK = /^#\/(?:elections|maps|offices|parties|people|persons|register-interests|sources)\/./;
+/** @param {ParentNode} root */
+function shareableRecordLinks(root) {
+  for (const link of /** @type {NodeListOf<HTMLAnchorElement>} */ (root.querySelectorAll('a[data-browse-link][href^="#/"]'))) {
+    const href = link.getAttribute('href') || '';
+    if (RECORD_LINK.test(href)) link.setAttribute('href', addressForRoute(href));
+  }
+}
+
+function watchRecordLinks() {
+  shareableRecordLinks(document);
+  new MutationObserver((records) => {
+    for (const record of records) {
+      for (const node of record.addedNodes) {
+        if (node.nodeType !== 1) continue;
+        const element = /** @type {Element} */ (node);
+        if (element.matches('a[data-browse-link]')) shareableRecordLinks(/** @type {ParentNode} */ (element.parentNode || document));
+        else shareableRecordLinks(element);
+      }
+    }
+  }).observe(document.body, { childList: true, subtree: true });
+}
 
 function pathRouteParts() {
   const match = /^\/browse\/([^/]+)\/(.+?)\/?$/.exec(location.pathname);
@@ -1166,7 +1249,7 @@ async function renderCurrent() {
       // record's own, so a copied link is the current one.
       if (item.slug && item.slug !== state.activeId && normalizeArray(item.previousSlugs).includes(state.activeId)) {
         state.activeId = item.slug;
-        history.replaceState(history.state, '', `${location.pathname}${location.search}#/${state.activeType}/${encodeURIComponent(item.slug)}`);
+        history.replaceState(history.state, '', addressForRoute(`#/${state.activeType}/${encodeURIComponent(item.slug)}`));
         lastRoutedAddress = currentAddress();
       }
       await renderDetail(state.activeType, item);
@@ -1211,7 +1294,7 @@ async function renderCurrent() {
     if (item.slug && String(item.slug).toLowerCase() !== decodeURIComponent(state.activeId).toLowerCase()
       && normalizeArray(item.previousSlugs).some((slug) => String(slug).toLowerCase() === decodeURIComponent(String(state.activeId)).toLowerCase())) {
       state.activeId = item.slug;
-      history.replaceState(history.state, '', `${location.pathname}${location.search}#/${state.activeType}/${encodeURIComponent(item.slug)}`);
+      history.replaceState(history.state, '', addressForRoute(`#/${state.activeType}/${encodeURIComponent(item.slug)}`));
       lastRoutedAddress = currentAddress();
     }
     await renderDetail(state.activeType, item);
