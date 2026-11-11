@@ -1,6 +1,6 @@
 {
  "schemaVersion": 1,
- "description": "Official person ids to the Wikidata item of the person who holds them (CC0), so ids in different systems can be told to be one person or two. Ids Wikidata gives to more than one item are left out. `people` gives each item's name and Wikidata birth and death dates (with the Dictionary of Ulster Biography's where it is more exact), used to keep a candidacy from a person who was under 21 or dead at the time.",
+ "description": "Official person ids to the Wikidata item of the person who holds them (CC0), so ids in different systems can be told to be one person or two. Ids Wikidata gives to more than one item are left out. `people` gives each item's name and Wikidata birth and death dates (with the Dictionary of Ulster Biography's where it is more exact), used to keep a candidacy from a person who was under 21 or dead at the time. A Wikidata date that cannot be right is kept as <field>Rejected ({value, reason, checked}) in place of the field, so nothing reads it.",
  "source": {
   "title": "Wikidata",
   "url": "https://www.wikidata.org/",
@@ -4198,9 +4198,14 @@
   },
   "Q15998362": {
    "name": "Michael Colgan",
-   "born": "1943",
    "died": "1953-06-22",
-   "enwiki": "Michael Colgan (politician)"
+   "enwiki": "Michael Colgan (politician)",
+   "bornRejected": {
+    "value": "1943",
+    "reason": "Wikidata gives 1943 (imported from English Wikipedia), the year he was first elected to the Seanad (oireachtas:Michael-Colgan.S.1943-08-09); the Wikipedia article gives no year of birth (\"Year of birth missing\").",
+    "checked": "https://en.wikipedia.org/wiki/Michael_Colgan_(politician)",
+    "checkedOn": "2026-11-11"
+   }
   },
   "Q15998517": {
    "name": "Michael Hearne",
@@ -11605,9 +11610,14 @@
   },
   "Q6768001": {
    "name": "Mark Henry",
-   "born": "1927-06",
    "died": "1952",
-   "enwiki": "Mark Henry (politician)"
+   "enwiki": "Mark Henry (politician)",
+   "bornRejected": {
+    "value": "1927-06",
+    "reason": "Wikidata gives June 1927 (imported from English Wikipedia), the month he was first elected to the Dail (oireachtas:Mark-C-Henry.D.1927-06-23); the Wikipedia article gives no date of birth.",
+    "checked": "https://en.wikipedia.org/wiki/Mark_Henry_(politician)",
+    "checkedOn": "2026-11-11"
+   }
   },
   "Q6768383": {
    "name": "Mark Killilea, Snr",
@@ -12067,9 +12077,14 @@
   },
   "Q6831497": {
    "name": "Michael J. Ryan",
-   "born": "1944",
    "died": "1952-10-24",
-   "enwiki": "Michael J. Ryan (Irish politician)"
+   "enwiki": "Michael J. Ryan (Irish politician)",
+   "bornRejected": {
+    "value": "1944",
+    "reason": "Wikidata gives 1944 (imported from English Wikipedia), two years before he was first elected to the Seanad (oireachtas:Michael-J-Ryan.S.1946-07-24); the Wikipedia article gives no date of birth.",
+    "checked": "https://en.wikipedia.org/wiki/Michael_J._Ryan_(Irish_politician)",
+    "checkedOn": "2026-11-11"
+   }
   },
   "Q6831715": {
    "name": "Michael Jordan",
@@ -14446,9 +14461,14 @@
   },
   "Q7793667": {
    "name": "Thomas Ruane",
-   "born": "1918-03-13",
    "died": "1969-06-07",
-   "enwiki": "Thomas Ruane"
+   "enwiki": "Thomas Ruane",
+   "bornRejected": {
+    "value": "1918-03-13",
+    "reason": "Wikidata gives 1918-03-13 (imported from English Wikipedia), which would make him 16 when first elected to the Seanad in 1934 (oireachtas:Thomas-Ruane.S.1934-06-12); the Wikipedia article gives no year of birth (\"Year of birth missing\").",
+    "checked": "https://en.wikipedia.org/wiki/Thomas_Ruane",
+    "checkedOn": "2026-11-11"
+   }
   },
   "Q7794622": {
    "name": "Thomas Tynan",
