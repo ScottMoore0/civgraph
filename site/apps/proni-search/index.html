@@ -8,6 +8,8 @@
   <link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg">
 <!-- site:head -->
 <script>(function(){var t=null;try{t=localStorage.getItem('theme');}catch(e){}if(t!=='dark'&&t!=='light'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
 <script>(function(){var K='civgraph.langPreview',S='/assets/i18n/i18n.js?v=e12c28fbed1b',on=false;function load(){var i=window.civgraphI18n;if(i){if(i.show)i.show();return;}if(document.querySelector('script[data-i18n-runtime]'))return;var s=document.createElement('script');s.src=S;s.setAttribute('data-i18n-runtime','');document.head.appendChild(s);}window.civgraphLangReveal=function(){try{localStorage.setItem(K,'1');}catch(e){}load();};try{if(/[?&]lang-preview=0(?:&|$)/.test(location.search)){localStorage.removeItem(K);localStorage.removeItem('civgraph.lang');}on=localStorage.getItem(K)==='1';}catch(e){}if(on)load();})();</script>
 <link rel="stylesheet" href="/assets/ui/tokens.css?v=9a3dca6e608e">
 <link rel="stylesheet" href="/assets/ui/tokens-legacy.css?v=17646fa133f3">
@@ -104,6 +106,9 @@
   <div class="ps-divider" role="separator"></div>
 
   <main id="main-content" class="ps-main">
+    <!-- Layout shift: a record or eCatalogue address does not draw the search view first and the
+         footer under it; app.css .ps-deep holds the space until the app's first view is drawn. -->
+    <script>(function(){var p=location.pathname.replace(/\/+$/,'');if((p.indexOf('/proni/')===0&&p.length>7)||/[?&]ecat=/.test(location.search)){var r=document.documentElement;r.classList.add('ps-deep');document.addEventListener('DOMContentLoaded',function(){r.classList.remove('ps-deep');});}})();</script>
     <!-- ===================== SEARCH (home) ===================== -->
     <div id="viewSearch">
       <section class="ps-search" aria-label="Search">

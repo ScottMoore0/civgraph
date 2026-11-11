@@ -118,6 +118,13 @@ a.ps-btn--export { text-decoration: none; display: inline-flex; align-items: cen
 .ps-empty { text-align: center; color: var(--muted); padding: 2.5rem 1rem; }
 .ps-sentinel { height: 1px; }
 .ps-loading { text-align: center; color: var(--muted); padding: 1.2rem; font-size: 0.85rem; }
+/* Layout shift (QA 2026-11-11, M16: CLS 0.35 on a record). On a record or eCatalogue address the
+   page holds a screen's height from the first paint (.ps-deep, set by the inline script at the top
+   of <main> until the app has drawn its first view), and a view still loading holds it too, so
+   the footer is never drawn in view and then pushed out of it. */
+.ps-deep .ps-main { min-height: 100vh; }
+.ps-deep #viewSearch { display: none; }
+.ps-main > [id^="view"] > .ps-loading:only-child { min-height: 100vh; box-sizing: border-box; }
 
 /* modal */
 .ps-modal { position: fixed; inset: 0; z-index: 50; display: flex; align-items: center; justify-content: center; padding: 1rem; }
