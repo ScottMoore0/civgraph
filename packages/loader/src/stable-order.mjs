@@ -21,6 +21,9 @@
  *     last+2, ...; between two anchors at evenly spaced multiples of 1/GRID. When two anchors
  *     leave too little room the next anchor is placed again with them, until the room suffices.
  *   - A group with no matched row keeps the positions the ingest wrote.
+ *   - A table whose primary key is `ord` alone (an INTEGER column, so SQLite's rowid) keeps the
+ *     positions the ingest wrote: a rowid cannot hold a fraction, and parking it would move the
+ *     row the rewrite reads back (party_events, source_merges, feature_groups; all small).
  *
  * So the order of the rows is exactly the source order (by construction), and `ord` is a sort
  * key, not a position: it may be negative or a fraction (a multiple of 1/512, at most 15
@@ -173,6 +176,9 @@ export function stabiliseOrder(db, seedFile, { tables = STABLE_ORDER_TABLES, log
     for (const t of tables) {
       if (!t.stableOrder) throw new Error(`table ${t.name} has no stableOrder`);
       const { sort, group = [] } = t.stableOrder;
+      if (t.pk.length === 1 && sort.includes(t.pk[0]) && t.columns.find((c) => c.name === t.pk[0])?.type === 'INTEGER') {
+        log(`  ${t.name}: ord is the rowid, positions kept`); result[t.name] = { changed: 0, seeded: false }; continue;
+      }
       const idCols = identityColumns(/** @type {StableTable} */ (t));
       const need = [...new Set([...group, ...sort, ...idCols])];
       const have = columnsOf(seed, 'main', t.name);
