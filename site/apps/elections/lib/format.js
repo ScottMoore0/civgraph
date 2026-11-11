@@ -7,6 +7,7 @@
 import { escapeHtml } from '../../../pkg/core/src/html.js';
 import { formatDisplayDate } from '../../../pkg/core/src/date-format.mjs';
 import { slugify } from '../../../pkg/core/src/format.js';
+import { POLL_STATUS_TEXT, contestPollStatus, summaryPollStatus } from '../../../pkg/core/src/unopposed.mjs';
 
 /** HTML-escape a value for text or an attribute (packages/core/src/html.js). */
 export const esc = escapeHtml;
@@ -102,33 +103,13 @@ export function median(values) {
 }
 
 /**
- * Whether a contest was returned unopposed: no votes recorded and either an "unopposed"
- * status, no more candidates than seats, or an uncontested election.
- * @param {{ candidates: Array<{ status?: string, firstPrefs?: number | null }>, seats?: number | null, contestStatus?: string | null }} c
+ * Whether a contest went to a poll: one rule, packages/core/src/unopposed.mjs (served at /pkg/),
+ * for the whole app. A contest without votes is "unopposed" only when the records say so; a
+ * contest whose votes are missing is "votes not recorded" (POLL_STATUS_TEXT), never unopposed.
+ *   contestPollStatus(result)   from a contest's candidates (the count sheet)
+ *   summaryPollStatus(row)      from a row of an election summary (the overview, the maps)
  */
-export function isUnopposed({ candidates, seats, contestStatus }) {
-  if (!candidates?.length) return false;
-  if (candidates.some((c) => num(c.firstPrefs) !== null)) return false;
-  if (candidates.some((c) => /unopposed/i.test(String(c.status || '')))) return true;
-  if (num(seats) !== null && candidates.length <= Number(seats)) return true;
-  return contestStatus === 'uncontested';
-}
-
-/**
- * A contest in a summary's results list returned unopposed (no votes; candidates <= seats).
- * @param {{ validPoll?: number | null, leadingVotes?: number | null, candidateCount?: number, seatsTotal?: number }} r
- */
-export function summaryUnopposed(r) {
-  return !summaryHasVotes(r)
-    && num(r.candidateCount) !== null && num(r.seatsTotal) !== null && Number(r.candidateCount) <= Number(r.seatsTotal);
-}
-
-/**
- * Whether a summary row records votes. The summaries write 0 (not null) for a contest without a
- * poll, so zero counts as none: no contest with a poll has 0 valid votes.
- * @param {{ validPoll?: number | null, leadingVotes?: number | null }} r
- */
-export const summaryHasVotes = (r) => (num(r.validPoll) || 0) > 0 || (num(r.leadingVotes) || 0) > 0;
+export { POLL_STATUS_TEXT, contestPollStatus, summaryPollStatus };
 
 /** A positive figure or null (the summaries' 0 for "not recorded": turnout, quota, majority). */
 export const positive = (/** @type {unknown} */ v) => ((num(v) || 0) > 0 ? Number(v) : null);

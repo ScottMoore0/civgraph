@@ -5,7 +5,7 @@
  */
 import { bodyElections, electionDetail, electionIndex, electionSummary, must } from '../lib/api.js';
 import { parliamentArc, seatBar } from '../lib/charts.js';
-import { appUrl, electionSlug, esc, fmtDelta, fmtInt, fmtPct, summaryHasVotes } from '../lib/format.js';
+import { appUrl, electionSlug, esc, fmtDelta, fmtInt, fmtPct, summaryPollStatus } from '../lib/format.js';
 import { partyChip } from '../lib/party.js';
 import { partyRows } from './election.js';
 
@@ -30,8 +30,9 @@ export async function render(root, route, ctx) {
   if (!a) throw new Error('no election to compare');
   const [aDetail, aSum, bSum, aBody] = await Promise.all([electionDetail(a.key), electionSummary(a.key), electionSummary(b.key), bodyElections(a.bodySlug)]);
   const bBody = a.bodySlug === b.bodySlug ? aBody : await bodyElections(b.bodySlug);
-  const votesA = (aSum.results || []).some(summaryHasVotes);
-  const votesB = (bSum.results || []).some(summaryHasVotes);
+  const polled = (/** @type {Parameters<typeof summaryPollStatus>[0]} */ r) => summaryPollStatus(r) === 'polled';
+  const votesA = (aSum.results || []).some(polled);
+  const votesB = (bSum.results || []).some(polled);
   const rows = partyRows(bDetail.partySummary || [], aDetail.partySummary || [], { votes: votesB, prevVotes: votesA });
   const prev = new Map((aDetail.partySummary || []).map((/** @type {any} */ p) => [p.party, p]));
   /** @type {Map<string, any>} */

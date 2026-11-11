@@ -8,10 +8,12 @@
  *   'order'     the count at which each candidate was elected or excluded, but totals padded
  *               unchanged across stages (some Irish sources): first preferences plus the order;
  *   'single'    one round of votes (first past the post, or a one-count STV result);
- *   'unopposed' no votes and the members returned unopposed;
- *   'none'      no votes recorded and not known to be unopposed.
+ *   'unopposed' no poll: the members returned unopposed (packages/core/src/unopposed.mjs);
+ *   'none'      no votes recorded and not known to be unopposed ("votes not recorded").
+ * (state-machines.js SHEET_KINDS, EL-12; whether a contest was unopposed is core's one rule.)
  */
-import { isUnopposed, num } from './format.js';
+import { candidateReturnWithoutPoll, contestPollStatus } from '../../../pkg/core/src/unopposed.mjs';
+import { num } from './format.js';
 
 /**
  * @typedef {{ count: number, total: number | null, transfers: number | null, status: string }} Cell
@@ -19,6 +21,8 @@ import { isUnopposed, num } from './format.js';
  *   firstPrefs: number | null, finalVotes: number | null, elected: boolean, unopposed: boolean, autoReturned: boolean,
  *   electedAt: number | null, excludedAt: number | null, status: string, cells: Cell[] }} SheetRow
  * @typedef {{ id: string, name: string, party: string, colour: string, amount: number }} Flow
+ * @typedef {import('../state-machines.js').SheetKind} SheetKind
+ * @typedef {import('../state-machines.js').StageKind} StageKind
  */
 
 /**
@@ -34,11 +38,12 @@ export function countSheet(candidates, contest = {}) {
       count: Number(k.count), total: num(k.total), transfers: num(k.transfers), status: String(k.status || ''),
     })).filter((/** @type {Cell} */ k) => Number.isFinite(k.count)).sort((/** @type {Cell} */ a, /** @type {Cell} */ b) => a.count - b.count);
     for (const k of cells) if (k.total !== null) stageSet.add(k.count);
-    // The same reading as packages/core/src/unopposed.mjs (QA H4): an "Elected unopposed" or
-    // auto-returned (Ceann Comhairle) seat had no poll; 252 older rows carry 0 votes for it.
-    const unopposed = /unopposed/i.test(String(c.status || '')) || c.unopposed === true || c.unopposed === 1;
-    const autoReturned = c.autoReturnedCeannComhairle === true || /auto[- ]?returned/i.test(String(c.status || ''));
-    const noPoll = unopposed || autoReturned;
+    // packages/core/src/unopposed.mjs (QA H4): an "Elected unopposed" or auto-returned (Ceann
+    // Comhairle) seat had no poll; 252 older rows carry 0 votes for it.
+    const returned = candidateReturnWithoutPoll(c);
+    const unopposed = returned === 'unopposed';
+    const autoReturned = returned === 'auto-returned';
+    const noPoll = returned !== null;
     return {
       id: String(c.id ?? c.name),
       name: String(c.name || ''),
@@ -69,9 +74,10 @@ export function countSheet(candidates, contest = {}) {
   }
   const votes = rows.some((r) => r.firstPrefs !== null);
   const ordered = rows.some((r) => (r.electedAt || 0) > 1 || (r.excludedAt || 0) > 1);
+  /** @type {SheetKind} */
   let kind = 'single';
   if (!votes) {
-    kind = isUnopposed({ candidates: rows.map((r) => ({ status: r.status, firstPrefs: r.firstPrefs })), seats: contest.seatsTotal, contestStatus: contest.contestStatus }) ? 'unopposed' : 'none';
+    kind = contestPollStatus({ candidates: candidates || [], contestStatus: contest.contestStatus }) === 'unopposed' ? 'unopposed' : 'none';
   } else if (stages.length > 1 && moving) kind = 'stages';
   else if (ordered) kind = 'order';
 
@@ -131,6 +137,7 @@ export function transferStages(sheet) {
     const received = to.reduce((s, x) => s + x.amount, 0);
     const nt = sheet.nonTransferable.get(stage);
     const nonTransferable = nt?.transfers ?? (distributed > received ? Math.round((distributed - received) * 100) / 100 : 0);
+    /** @type {StageKind} */
     const kind = from.some((f) => sheet.rows.find((r) => r.id === f.id)?.elected) ? 'surplus' : 'exclusion';
     out.push({ stage, kind, from, to, distributed, received, nonTransferable });
   }

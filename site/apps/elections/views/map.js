@@ -5,7 +5,7 @@
  * party shares and swing from the pivot extracts (DuckDB), so those two modes need the extracts.
  */
 import { electionContests, electionDetail, electionIndex, electionSummary, must } from '../lib/api.js';
-import { appUrl, electionSlug, esc, fmtPct } from '../lib/format.js';
+import { POLL_STATUS_TEXT, appUrl, electionSlug, esc, fmtPct } from '../lib/format.js';
 import { partyColour } from '../lib/party.js';
 import { areaMap, idle, layerRecord } from '../lib/maplibre.js';
 import { areaRows, diverging, divergingLegend, partyShares, sequential, sequentialLegend } from '../lib/scales.js';
@@ -51,9 +51,12 @@ export async function mapData(el, mode, opt = {}) {
       const c = pc.get(party) || partyColour(null);
       colours.set(/** @type {string} */ (a.feature), c);
       used.set(party, c);
-      const text = `${a.name}: ${a.seats > 1 ? `${party} (most seats)` : `${a.leadingName || ''} (${party})`}${a.unopposed ? ', unopposed' : ''}`;
+      // Without votes: returned unopposed only when the records say so; otherwise the votes are
+      // missing ("votes not recorded"), which is not the same thing (core's one rule).
+      const note = a.poll === 'polled' ? '' : POLL_STATUS_TEXT[a.poll];
+      const text = `${a.name}: ${a.seats > 1 ? `${party} (most seats)` : `${a.leadingName || ''} (${party})`}${note ? `, ${note}` : ''}`;
       labels.set(/** @type {string} */ (a.feature), text);
-      table.push([a.name, a.seats > 1 ? `${party} (most seats)` : `${party}${a.unopposed ? ' (unopposed)' : ''}`]);
+      table.push([a.name, `${a.seats > 1 ? `${party} (most seats)` : party}${note ? ` (${note})` : ''}`]);
     }
     legend = [...used].map(([label, colour]) => ({ colour, label }));
   } else if (mode === 'turnout') {
