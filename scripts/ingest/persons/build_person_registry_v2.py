@@ -863,7 +863,7 @@ def main():
             continue
         moved = [r for r, _ in out]
         merged[k] = [r for r in v if not any(r is m for m in moved)]
-        apart = k[:2] + (('outside-life:%s' % k[2]) if len(k) > 2 else 'outside-life',)
+        apart = k[:2] + (('outside-life:joined:%s' % k[2]) if len(k) > 2 else 'outside-life:joined',)
         merged[apart] = merged.get(apart, []) + moved
         for r, why in out:
             life_moved.append((prior_pid, r, why, life))
@@ -1009,10 +1009,14 @@ def main():
              'bodies': sorted({r['body'] for r in v if r['body']}),
              'parties': sorted({r['party'] for r in v if r['party']})[:6],
              'keyedBy': k[0], 'provenance': src, 'provisional': prov}
-        if len(k) > 2 and str(k[2]).startswith('outside-life'):
+        if len(k) > 2 and k[2] == 'outside-life':
             e['era'] = [min(yrs), max(yrs)] if yrs else [0, 9999]
-            e['eraReason'] = ('rows of a name or id whose person, by the dates Wikidata, History of '
-                              'Parliament or a reference work gives, was under 18 or dead at the time')
+            e['eraReason'] = ('rows of a name or id whose official person, by the dates Wikidata '
+                              'gives, was under 18 or dead at the time')
+        elif len(k) > 2 and str(k[2]).startswith('outside-life'):
+            e['era'] = [min(yrs), max(yrs)] if yrs else [0, 9999]
+            e['eraReason'] = ('rows of a name or id joined to a person who, by the dates History of '
+                              'Parliament, Wikidata or a reference work gives, was under 18 or dead at the time')
         elif len(k) > 2 and str(k[2]).startswith('official:'):
             e['era'] = [min(yrs), max(yrs)] if yrs else [0, 9999]
             e['eraReason'] = (f'split by its official person id ({k[2][9:]}): the source id it '
