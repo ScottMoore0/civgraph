@@ -3173,8 +3173,41 @@ class UIController {
             this.scrollCatalogueTargetIntoView(targetEl, { focus: attempt === 0 });
             await this.waitForCatalogueFrame(attempt === 0 ? 2 : 1);
             targetEl = document.getElementById(targetId);
-            if (this.isCatalogueTargetVisible(targetEl)) return;
+            if (this.isCatalogueTargetVisible(targetEl)) break;
         }
+        this._keepCatalogueTargetInView(targetId);
+    }
+
+    /**
+     * On a phone the section is drawn in steps (requestFlatViewRender with defer), and a later
+     * step redraws the list with the cards ABOVE the target in it: the scroll the click made was
+     * left thousands of pixels short, with the decade asked for nowhere on screen (measured
+     * 11 Nov 2026: the 1990s card 4,224px below the pane after the 1990s button, every time a
+     * phone-sized pane was busy; app.spec "mobile catalogue renders TOC first"). The browser's
+     * scroll anchoring cannot hold it, because the redraw replaces the nodes it anchors to. So
+     * for a short while after the click, a redraw that moves the target out of view scrolls
+     * back to it, until the reader scrolls, taps or types themselves.
+     */
+    _keepCatalogueTargetInView(targetId, { forMs = 3000 } = {}) {
+        this._catalogueTargetKeeper?.();
+        const pane = this.getCataloguePaneScroller();
+        const view = document.getElementById('catalogueFlatView');
+        if (!pane || !view || typeof ResizeObserver !== 'function') return;
+        const observer = new ResizeObserver(() => {
+            const targetEl = document.getElementById(targetId);
+            if (targetEl && !this.isCatalogueTargetVisible(targetEl)) this.scrollCatalogueTargetIntoView(targetEl, { focus: false });
+        });
+        const READER = ['wheel', 'touchstart', 'pointerdown', 'keydown'];
+        const stop = () => {
+            observer.disconnect();
+            clearTimeout(timer);
+            READER.forEach((type) => pane.removeEventListener(type, stop, true));
+            if (this._catalogueTargetKeeper === stop) this._catalogueTargetKeeper = null;
+        };
+        const timer = setTimeout(stop, forMs);
+        READER.forEach((type) => pane.addEventListener(type, stop, { capture: true, passive: true }));
+        observer.observe(view);
+        this._catalogueTargetKeeper = stop;
     }
 
     async handleFlatElectionClick(event, source) {
