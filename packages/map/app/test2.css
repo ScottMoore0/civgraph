@@ -145,6 +145,16 @@ body.app-shell .app-main {
   background: var(--color-danger, #b91c1c);
   border-color: var(--color-danger, #b91c1c);
 }
+/* The base map's credits are always shown in full (packages/map/src/renderer/basemap.mjs: the
+   OpenStreetMap and OpenFreeMap terms both require it). On a narrow map they wrap beside the
+   Map Settings button at the bottom left rather than running underneath it. */
+#map .maplibregl-ctrl-attrib {
+  max-width: calc(100vw - 104px);
+  font-size: 11px;
+  line-height: 1.4;
+  text-align: right;
+}
+
 .maplibregl-ctrl-attrib a {
   color: #064f63;
   text-decoration: underline;
