@@ -23,6 +23,7 @@ SCHEMA = """CREATE TABLE IF NOT EXISTS ext (
   ext_display TEXT
 );
 CREATE INDEX IF NOT EXISTS ext_years ON ext(ext_start_year, ext_end_year);
+CREATE INDEX IF NOT EXISTS ext_years_ref ON ext(ext_start_year, ext_end_year, ref);
 """
 
 
