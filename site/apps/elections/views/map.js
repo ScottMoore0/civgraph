@@ -5,7 +5,8 @@
  * party shares and swing from the pivot extracts (DuckDB), so those two modes need the extracts.
  */
 import { electionContests, electionDetail, electionIndex, electionSummary, must } from '../lib/api.js';
-import { appUrl, electionSlug, esc, fmtPct, partyColour } from '../lib/format.js';
+import { appUrl, electionSlug, esc, fmtPct } from '../lib/format.js';
+import { partyColour } from '../lib/party.js';
 import { areaMap, idle, layerRecord } from '../lib/maplibre.js';
 import { areaRows, diverging, divergingLegend, partyShares, sequential, sequentialLegend } from '../lib/scales.js';
 import { MAP_MODES, MAP_STATUS, MULTIPLES, mapModeOf, mapModeShown } from '../state-machines.js';

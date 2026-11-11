@@ -7,8 +7,9 @@
 import { bodyElections, electionDetail, electionSummary } from '../lib/api.js';
 import { hbars, parliamentArc, seatBar } from '../lib/charts.js';
 import {
-  appUrl, electionSlug, esc, fmtDate, fmtDelta, fmtInt, fmtPct, isStv, median, num, partyChip, positive, summaryHasVotes, summaryUnopposed, systemName,
+  appUrl, electionSlug, esc, fmtDate, fmtDelta, fmtInt, fmtPct, isStv, median, num, positive, summaryHasVotes, summaryUnopposed, systemName,
 } from '../lib/format.js';
+import { partyChip } from '../lib/party.js';
 
 /**
  * The party table rows with change against the previous election.

@@ -58,7 +58,6 @@ const SITE_LITERAL = /https:\/\/(data\.)?civgraph\.net|civgraph-research|civgrap
 const SITE_ALLOWED = {
   'site/apps/words/words.js': 1, // the canonical link it writes for a shared chart
   'site/browse/browse.js': 2, // its canonical and share links
-  'site/apps/elections/config.js': 1, // DATA_ORIGIN, until the app reads SITE.dataOrigin through /pkg/
 };
 
 function* siteScripts(dir) {

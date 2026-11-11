@@ -6,7 +6,8 @@
  */
 import { electionDetail, electionIndex, must } from '../lib/api.js';
 import { parliamentArc, seatBar } from '../lib/charts.js';
-import { appUrl, electionSlug, esc, fmtDelta, fmtInt, fmtPct, isStv, partyChip, partyColour } from '../lib/format.js';
+import { appUrl, electionSlug, esc, fmtDelta, fmtInt, fmtPct, isStv } from '../lib/format.js';
+import { partyChip, partyColour } from '../lib/party.js';
 import { areaMap, idle, layerRecord } from '../lib/maplibre.js';
 import { allocate, deltasFromTargets, nationalShares, project } from '../lib/project.js';
 import { NOTIONAL_METHOD } from '../state-machines.js';
