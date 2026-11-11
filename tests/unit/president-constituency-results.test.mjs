@@ -1,6 +1,6 @@
 // Presidential results by constituency (data/elections/president-constituency-results), from the
-// Presidential Returning Officer's "Presidential Elections 1938-2025" booklet. Staged data: no build
-// reads it yet. These checks hold the transcription to the booklet's own arithmetic.
+// Presidential Returning Officer's "Presidential Elections 1938-2025" booklet, shown as each election's
+// results by area (packages/core/src/area-results.mjs). These checks hold the transcription to the booklet's own arithmetic.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
