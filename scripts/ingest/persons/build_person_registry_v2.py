@@ -34,6 +34,7 @@ wrong split is visible and fixable. Nothing is merged on name alone.
 """
 import os, re, sys, json, glob, argparse, collections, unicodedata
 
+import display_names
 import ei_relatives
 import person_id_issued
 import person_lifespans
@@ -388,6 +389,7 @@ def main():
         next_id = 100012
 
     rows = scan()
+    chosen_names = display_names.load()
     names_by_id = collections.defaultdict(set)
     for r in rows:
         if r['id']:
@@ -1082,6 +1084,8 @@ def main():
         if matchkey(disp) in review:
             e['needsReview'] = ('another entity shares this name; same-source-system '
                                 'duplicates are never merged automatically')
+        # The name the page shows, where the person's sources disagree (display-names.csv).
+        display_names.apply(e, chosen_names)
         entities.append(e)
 
     registered = registered_persons(entities)

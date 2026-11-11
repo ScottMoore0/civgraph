@@ -2,7 +2,7 @@
 // data/elections/persons/ie-ei-crosswalk.csv (scripts/ingest/persons/build_ie_ei_crosswalk.py),
 // joined by merge_person_ids.py (class IE-EI-CROSSWALK). Adam Wyse was 151252 for Waterford City
 // East in 2019 and 118554 for the same seat in 2014 and 2024 until the crosswalk joined ie:5948 to
-// ei:10134.
+// ei:10134. Also the display-name overrides (data/elections/persons/display-names.csv).
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
@@ -77,6 +77,19 @@ test('IEX-03 every crosswalk pair is one person in the registry, and every id it
   assert.deepEqual(lost.map((r) => `${r.drop} (${r.name})`), []);
 });
 
+test('IEX-04 display-names.csv: every person exists and shows the recorded name', () => {
+  const rows = parseCsv(readFileSync(at('display-names.csv'), 'utf8'));
+  const { entities } = JSON.parse(readFileSync(at('person_registry.json'), 'utf8'));
+  const byId = new Map(entities.map((e) => [String(e.personId), e]));
+  for (const r of rows) {
+    assert.ok(r.source, `${r.personId}: no source`);
+    const e = byId.get(r.personId);
+    assert.ok(e, `${r.personId} is not a live person`);
+    assert.equal(e.displayName, r.displayName);
+    assert.ok(e.aliases.includes(r.displayName));
+  }
+});
+
 function runPython(t, code) {
   const python = process.env.CIVGRAPH_PYTHON || 'python';
   const res = spawnSync(python, ['-c', code], { encoding: 'utf8', cwd: REPO });
@@ -124,5 +137,19 @@ test('IEX-06 a retired id keeps its log row after a rebuild that joins the pair 
     if (out) assert.deepEqual(out, [[118554, 151252, 'IE-EI-CROSSWALK']]);
   } finally {
     rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test('IEX-07 display_names.apply sets the name and keeps it as an alias', (t) => {
+  const out = runPython(t, [
+    'import sys, json; sys.path.insert(0, "scripts/ingest/persons")',
+    'import display_names as d',
+    "e = {'personId': 103438, 'displayName': \"Kenneth O'Flynn\", 'aliases': [\"Kenneth O'Flynn\"]}",
+    "d.apply(e, {103438: \"Ken O'Flynn\"}); d.apply({'personId': 1, 'displayName': 'A', 'aliases': []}, {})",
+    'print(json.dumps(e))',
+  ].join('\n'));
+  if (out) {
+    assert.equal(out.displayName, "Ken O'Flynn");
+    assert.deepEqual(out.aliases, ["Kenneth O'Flynn", "Ken O'Flynn"]);
   }
 });
