@@ -53,6 +53,33 @@ test('renamed election dates: keys and the electionDate parameter', () => {
   assert.equal(otherBody.get('electionDate'), '2011-06-06');
 });
 
+test('a year-only election date renamed to the full date is rewritten once, at a key boundary (Belfast 1961)', () => {
+  const params = renameElectionDatesInParams(new URLSearchParams({
+    election: 'belfast-county-borough-council__1961',
+    entity: 'belfast-county-borough-council-aldermen:1961',
+    layers: 'election-belfast-county-borough-council-1961,wards-2014',
+    electionBody: 'Belfast County Borough Council',
+    electionDate: '1961'
+  }));
+  assert.equal(params.get('election'), 'belfast-county-borough-council__1961-05-17');
+  assert.equal(params.get('entity'), 'belfast-county-borough-council-aldermen:1961-05-17');
+  assert.equal(params.get('layers'), 'election-belfast-county-borough-council-1961-05-17,wards-2014');
+  assert.equal(params.get('electionDate'), '1961-05-17');
+  // The new key, and the 1961 Shankill by-election of 29 June, are not rewritten again: the old
+  // date is a prefix of both.
+  for (const key of ['belfast-county-borough-council__1961-05-17', 'belfast-county-borough-council__1961-06-29',
+    'belfast-county-borough-council-aldermen__1961-05-17']) {
+    assert.equal(renameElectionDatesInParams(new URLSearchParams({ election: key })).get('election'), key);
+  }
+  const twice = renameElectionDatesInParams(renameElectionDatesInParams(new URLSearchParams({ election: 'belfast-county-borough-council__1961' })));
+  assert.equal(twice.get('election'), 'belfast-county-borough-council__1961-05-17');
+  // The aldermen's body is its own entry: the councillors' rule does not reach into its key.
+  assert.equal(renameElectionDatesInParams(new URLSearchParams({ election: 'belfast-county-borough-council-aldermen__1961' })).get('election'),
+    'belfast-county-borough-council-aldermen__1961-05-17');
+  // Another body's 1961 round is left alone.
+  assert.equal(renameElectionDatesInParams(new URLSearchParams({ election: 'lurgan-borough-council__1961' })).get('election'), 'lurgan-borough-council__1961');
+});
+
 test('renamed election bodies: keys, layer ids and the electionBody parameter', () => {
   assert.equal(RENAMED_ELECTION_BODIES.length >= 2, true);
   const params = renameElectionDatesInParams(new URLSearchParams({
