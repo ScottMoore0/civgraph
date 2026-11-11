@@ -21,7 +21,8 @@ only translation files.
 
 **R1. Every tracked script belongs to a unit, and imports follow `config/boundaries.json`.**
 Only `packages/storage` touches D1, R2 or `node:sqlite`; runtime code never imports `node:*`.
-Served pages (`site/`) import only `site/` files and the packages `packages/served.json` serves.
+Served pages (`site/`) are not bundled: they import only `site/` files, and package code reaches
+them through `packages/served.json` and its re-exporting shims.
 A new folder gets a unit in the same commit.
 - Checked by: `check:boundaries` (the import rules); C1 (no unit path left empty by a move), C2 (no script in no unit).
 

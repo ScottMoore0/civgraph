@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
-import { allowed, edges, servedSource, SERVED_UNITS, specifiers, unitOf } from '../../scripts/check/boundaries.mjs';
+import { allowed, edges, specifiers, unitOf } from '../../scripts/check/boundaries.mjs';
 
 const config = JSON.parse(readFileSync(new URL('../../config/boundaries.json', import.meta.url), 'utf8'));
 
@@ -30,19 +30,19 @@ test('boundaries: units and rules follow the plan table', () => {
   assert.equal(allowed('tests', 'functions'), true);
 });
 
-test('boundaries: the served pages are in units and reach packages only through the served mapping', () => {
+test('boundaries: the served pages are in units and reach packages only through the served shims', () => {
   assert.equal(unitOf('site/browse/browse.js'), 'site');
   assert.equal(unitOf('site/apps/words/words.js'), 'site-apps');
+  assert.equal(unitOf('site/assets/ui/state/machine.js'), 'site-served');
   assert.equal(unitOf('src/ui-controller.js'), 'frontend');
-  assert.equal(servedSource('site/assets/ui/state/machine.js'), 'packages/ui/assets/state/machine.js');
-  assert.equal(servedSource('site/browse/browse.js'), 'site/browse/browse.js');
-  assert.equal(servedSource('src/map/x.js'), 'src/map/x.js', 'only site/ paths are served paths');
-  assert.ok(SERVED_UNITS.has('ui') && SERVED_UNITS.has('map'));
-  assert.equal(allowed('site', 'ui'), true, 'ui is served at /assets/ui/');
-  assert.equal(allowed('site', 'core'), SERVED_UNITS.has('core'), 'core only once a served prefix maps it');
+  assert.equal(allowed('site', 'site-served'), true, 'pages import the shim at the served path');
+  assert.equal(allowed('site-served', 'ui'), true, 'the shim re-exports packages/ui/assets/');
+  for (const unit of ['ui', 'core', 'map', 'api', 'config']) {
+    assert.equal(allowed('site', unit), false, `site -> ${unit}: a served page cannot reach packages/`);
+    assert.equal(allowed('site-apps', unit), false, `site-apps -> ${unit}`);
+  }
   assert.equal(allowed('site', 'site-apps'), false, 'shared pages never import an app');
   assert.equal(allowed('site-apps', 'site'), true);
-  assert.equal(allowed('site', 'api'), false);
 });
 
 // Whether every tracked script is in a unit (C2) is reported by check:architecture (report-only until its enforceFrom date).
