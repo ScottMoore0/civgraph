@@ -29,7 +29,8 @@
  * Argument placeholders: {repo} the repository root, {out:<repo path>} that path (in the batch's
  * staged/ under `intake run`, in the repository under `parity`'s old run), {input:<name>} a
  * declared input (from --input name=value, else its environment variable, else its default).
- * Network steps run only with --allow-network; nothing here fetches on its own.
+ * Network steps run only with --allow-network, or under --offline with the network closed to
+ * them (offlineEnv: a replay from the step's own cache); nothing here fetches on its own.
  */
 import { spawnSync } from 'node:child_process';
 import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
@@ -452,12 +453,19 @@ export function pluginManifest(plugin, { id, baseCommit, produced, stagedDir, to
  * Parity: run the old command lines directly, then the plugin and the intake stage, from the
  * same starting tree, and compare every path either touched. The tree is put back after each.
  * @param {Plugin} plugin
- * @param {{ repo: string, steps: string[], args?: string[], inputs?: Record<string, string>, scratch: string, stdio?: any, stageWrite: (batchDir: string) => void, frozenClock?: boolean }} options
+ * With `offline`, network steps may be named too: both runs have the network closed to them
+ * (offlineEnv), so they replay from what the step has cached or fail.
+ * @param {{ repo: string, steps: string[], args?: string[], inputs?: Record<string, string>, scratch: string, stdio?: any, stageWrite: (batchDir: string) => void, frozenClock?: boolean, offline?: boolean }} options
  * @returns {Promise<{ same: string[], differ: { path: string, old: string, new: string }[], oldDeleted: string[], newDeleted: string[], sameIgnoringVolatile: string[] }>}
  */
-export async function parity(plugin, { repo, steps, args = [], inputs = {}, scratch, stdio = 'inherit', stageWrite, frozenClock = true }) {
+export async function parity(plugin, { repo, steps, args = [], inputs = {}, scratch, stdio = 'inherit', stageWrite, frozenClock = true, offline = false }) {
   const resolved = resolveInputs(plugin, inputs);
-  const env = frozenClock ? frozenClockEnv() : {};
+  if (offline) {
+    const unguarded = offlineUnguarded(plugin, steps);
+    if (unguarded.length) throw new Error(`${plugin.id}: ${unguarded.join(', ')} run bash or PowerShell, which an offline replay cannot keep off the network`);
+  }
+  const clockEnv = frozenClock ? frozenClockEnv() : {};
+  const env = offline ? offlineEnv(clockEnv) : clockEnv;
   const declared = steps.flatMap((s) => [...(/** @type {Record<string, Step>} */ (plugin.steps)[s].outputs || []), ...redirectedOutputs(/** @type {Record<string, Step>} */ (plugin.steps)[s])]);
 
   const volatile = steps.flatMap((s) => /** @type {Record<string, Step>} */ (plugin.steps)[s].volatile || []);
@@ -485,7 +493,8 @@ export async function parity(plugin, { repo, steps, args = [], inputs = {}, scra
   const batchDir = path.join(scratch, `parity-${plugin.id}`);
   rmSync(batchDir, { recursive: true, force: true });
   mkdirSync(batchDir, { recursive: true });
-  const produced = await producePlugin(plugin, { repo, batchDir, steps, args, inputs, stdio, allowNetwork: false, env });
+  // Offline, a network step may run: the network is closed to it (offlineEnv).
+  const produced = await producePlugin(plugin, { repo, batchDir, steps, args, inputs, stdio, allowNetwork: offline, env });
   const manifest = pluginManifest(plugin, { id: `parity-${plugin.id}`, baseCommit: null, produced, stagedDir: path.join(batchDir, 'staged') });
   writeFileSync(path.join(batchDir, 'batch.json'), `${JSON.stringify(manifest, null, 2)}\n`);
 
@@ -561,6 +570,29 @@ export function frozenClockEnv() {
 }
 
 /**
+ * The environment of an offline replay (`--offline`): every Node step (and each Node process it
+ * starts) loads frozen-clock/no-network.mjs, and every Python step finds INTAKE_OFFLINE=1 in
+ * frozen-clock/sitecustomize.py, so fetches, connections and name lookups throw. Merged onto
+ * `base` (the frozen clock's environment, or nothing): NODE_OPTIONS and PYTHONPATH keep both.
+ * @param {Record<string, string>} [base]
+ * @returns {Record<string, string>}
+ */
+export function offlineEnv(base = {}) {
+  const nodeOptions = [base.NODE_OPTIONS ?? process.env.NODE_OPTIONS, `--import=${pathToFileURL(path.join(CLOCK_DIR, 'no-network.mjs')).href}`].filter(Boolean).join(' ');
+  const pythonPath = base.PYTHONPATH ?? [CLOCK_DIR, process.env.PYTHONPATH].filter(Boolean).join(path.delimiter);
+  return { ...base, NODE_OPTIONS: nodeOptions, PYTHONPATH: pythonPath, INTAKE_OFFLINE: '1' };
+}
+
+/**
+ * Steps an offline replay cannot cover: bash and PowerShell steps (curl, Invoke-WebRequest and
+ * the like are outside the Node and Python guards). Returns their ids.
+ * @param {Plugin} plugin @param {string[]} stepIds
+ */
+export function offlineUnguarded(plugin, stepIds) {
+  return stepIds.filter((id) => ['bash', 'powershell'].includes(/** @type {Record<string, Step>} */ (plugin.steps)[id].argv[0]));
+}
+
+/**
  * Steps whose `needs` are missing from this checkout (they cannot run here).
  * @param {Plugin} plugin
  * @param {string} repo
@@ -577,3 +609,39 @@ export function missingNeeds(plugin, repo) {
 
 /** @param {string} file */
 export const readJsonFile = (file) => JSON.parse(readFileSync(file, 'utf8'));
+
+/**
+ * @typedef {{ proved: string } | { blocked: string }} ParityEntry
+ * The parity ledger (scripts/ingest/parity.json): for each `<plugin>/<step>`, where its replay
+ * through the plugin is recorded, or why it cannot be replayed here.
+ */
+
+/** @param {string} repo @returns {Record<string, ParityEntry>} */
+export function readParityLedger(repo) {
+  const file = path.join(ingestRoot(repo), 'parity.json');
+  return existsSync(file) ? /** @type {{ steps: Record<string, ParityEntry> }} */ (readJsonFile(file)).steps : {};
+}
+
+/**
+ * What is wrong with the ledger: a step that does not fetch and has no entry, an entry for a
+ * step that does not exist, an entry that is not exactly one of proved/blocked with a reason,
+ * and a network step listed as blocked (network steps are listed only once proved offline).
+ * @param {Plugin[]} plugins @param {Record<string, ParityEntry>} ledger
+ */
+export function parityLedgerProblems(plugins, ledger) {
+  const problems = [];
+  /** @type {Map<string, Step>} */
+  const steps = new Map();
+  for (const p of plugins) for (const [id, st] of Object.entries(p.steps || {})) steps.set(`${p.id}/${id}`, st);
+  for (const [key, st] of steps) if (!st.network && !ledger[key]) problems.push(`${key}: no parity entry (proved or blocked)`);
+  for (const [key, entry] of Object.entries(ledger)) {
+    const st = steps.get(key);
+    if (!st) { problems.push(`${key}: no such plugin step`); continue; }
+    const kinds = ['proved', 'blocked'].filter((k) => k in entry);
+    if (kinds.length !== 1) { problems.push(`${key}: give exactly one of proved, blocked`); continue; }
+    const why = /** @type {Record<string, unknown>} */ (entry)[/** @type {string} */ (kinds[0])];
+    if (typeof why !== 'string' || why.trim().length < 8) problems.push(`${key}: ${kinds[0]} needs a reason or a record`);
+    if (st.network && kinds[0] === 'blocked') problems.push(`${key}: a network step is listed only once proved offline`);
+  }
+  return problems;
+}

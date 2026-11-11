@@ -167,7 +167,7 @@ that, and that every step whose script fetches from outside is flagged `network`
 npm run intake -- plugins [--check]
 npm run intake -- run <plugin> <batch-dir> [--step <s>]... [--all] [--input name=value]...
                       [--allow-network] [--replace] [-- <arguments for the script>]
-npm run intake -- parity <plugin> [--step <s>]... [--input name=value]... [--live-clock] [-- <arguments>]
+npm run intake -- parity <plugin> [--step <s>]... [--input name=value]... [--live-clock] [--offline] [-- <arguments>]
 npm run intake -- mark <batch-dir> <status>
 ```
 
@@ -189,6 +189,20 @@ the context arrives as JSON on stdin (`repo`, `batchDir`, `stagedDir`, `steps`, 
 plus `stage --write`, from the same tree, compares every path either changed byte for byte, and
 puts the tree back after each. Both runs see the same frozen wall clock (Node's `Date`, Python's
 `time.time()`); a Python step that stamps a `datetime` names the stamp's JSON keys as `volatile`.
+
+`parity --offline` lets a `network` step be named: both runs have the network closed to them
+(Node: `fetch`, `http(s)`, `net`, `tls` and DNS throw, through
+`packages/intake/src/frozen-clock/no-network.mjs`, which every Node process the step starts
+inherits; Python: sockets and name lookups raise, through that folder's `sitecustomize.py`), so a
+step that caches what it fetches replays from its cache, and one that would have to fetch fails.
+Bash and PowerShell steps are refused offline (curl and the like are outside both guards).
+`tests/intake/offline-replay.test.mjs` proves the guards and replays the `logainm` plugin from a
+made-up cache.
+
+`scripts/ingest/parity.json` is the ledger: every step that does not fetch is listed as `proved`
+(where the run is recorded) or `blocked` (why it cannot be replayed on this machine); a network
+step appears once proved offline. `plugins --check` and `tests/intake/ingest-plugins.test.mjs`
+fail on a step missing from it, and `plugins` marks each step.
 
 `mark` moves a batch's `status` one step along the table in `packages/intake/src/statuses.mjs`
 (draft, staged, committed, uploaded, published; abandoned from any but published), refusing a
