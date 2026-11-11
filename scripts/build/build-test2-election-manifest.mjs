@@ -13,6 +13,7 @@ import { canonicalElectionTitle, compareElectionsNewestFirst, isElectionByElecti
 import { createPartyLabelInterpreter } from '../lib/party-label-interpretations.mjs';
 import { bracketedResultFile, seatTypeResultFile } from '../lib/election-result-files.mjs';
 import { writeStableGeneratedJson } from '../lib/stable-generated-json.mjs';
+import { restoreStageFractions } from '../lib/stage-fractions.mjs';
 import { ELECTION_BUNDLE_DIR, ELECTION_MANIFEST, ELECTION_REPORT } from '../../packages/loader/src/paths.mjs';
 import { loadRegistry } from '../../packages/registries/src/index.mjs';
 import { manifestCouncilSets } from '../../packages/registries/src/councils.mjs';
@@ -250,6 +251,8 @@ function applyWalkerCorrections(resultPath, rawResult) {
 //   replaceCandidates{ candidates } -- the whole list (scraper format), for contests imported empty
 //   replaceCountRows { rows } -- every count row of the contest, in the file's own format, for a
 //                    contest whose counts were rebuilt from a complete source
+//   restoreStageFractions {} -- stage totals the import cut to whole votes, rebuilt from the
+//                    transfers (scripts/lib/stage-fractions.mjs); after the other operations
 const SOURCE_CHECKED_FIXES = path.join(ROOT, 'data', 'elections', 'corrections', 'source-checked-fixes.json');
 const sourceCheckedFixIndex = new Map(
   (existsSync(SOURCE_CHECKED_FIXES) ? readJson(SOURCE_CHECKED_FIXES).records || [] : [])
@@ -353,6 +356,9 @@ function applySourceCheckedFixes(resultPath, rawResult, { lenient = false } = {}
       if (!rawResult.Constituency?.countGroup) throw new Error(`source-checked-fixes: ${record.sourceFile} has no count rows to replace`);
       if (!op.rows?.length) throw new Error(`source-checked-fixes: ${record.sourceFile} replaceCountRows has no rows`);
       rawResult.Constituency.countGroup = op.rows.map((row) => ({ ...row }));
+    } else if (op.op === 'restoreStageFractions') {
+      if (!rawResult.Constituency?.countGroup) throw new Error(`source-checked-fixes: ${record.sourceFile} has no count rows to restore`);
+      restoreStageFractions(rawResult.Constituency.countGroup);
     } else {
       throw new Error(`source-checked-fixes: unknown operation ${op.op} for ${record.sourceFile}`);
     }
