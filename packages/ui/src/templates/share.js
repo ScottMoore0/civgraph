@@ -19,9 +19,15 @@ import { SITE } from '../../../config/src/config.js';
 /**
  * The default share image: 1200x630, the Open Graph size X also takes for summary_large_image.
  * Rebuilt by scripts/build/og-preview.mjs; it carries no counts, so it cannot go stale.
+ *
+ * ?v= is the first 12 hex digits of the file's SHA-256. Facebook, X, LinkedIn and Slack keep a
+ * shared image by its URL for days, so a new picture needs a new URL; after rebuilding the image,
+ * set SHARE_IMAGE_VERSION to the hash og-preview.mjs prints (tests/unit/share-meta.test.mjs fails
+ * until it matches) and re-stamp the static pages' heads.
  */
+export const SHARE_IMAGE_VERSION = '96771fe39997';
 export const SHARE_IMAGE = Object.freeze({
-  url: `${SITE.origin}/assets/images/og-preview.png`,
+  url: `${SITE.origin}/assets/images/og-preview.png?v=${SHARE_IMAGE_VERSION}`,
   width: 1200,
   height: 630,
   type: 'image/png',

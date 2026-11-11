@@ -23,6 +23,7 @@
  *   node scripts/build/og-preview.mjs [--url https://civgraph.net/maps/] [--layer counties-ireland]
  *   node scripts/build/og-preview.mjs --check             # verify the committed file only
  */
+import { createHash } from 'node:crypto';
 import { createRequire } from 'node:module';
 import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
@@ -174,6 +175,9 @@ try {
   writeFileSync(OUT, png);
   const bytes = statSync(OUT).size;
   console.log(`Wrote ${path.relative(process.cwd(), OUT)} (${WIDTH}x${HEIGHT}, ${(bytes / 1024).toFixed(0)} KB)`);
+  // The pages name the image with this as ?v=, so link-preview caches fetch the new one.
+  const version = createHash('sha256').update(png).digest('hex').slice(0, 12);
+  console.log(`  set SHARE_IMAGE_VERSION = '${version}' in packages/ui/src/templates/share.js and re-stamp the page heads`);
   if (bytes > MAX_BYTES) console.warn(`  warning: ${bytes} bytes exceeds the ${MAX_BYTES}-byte budget`);
 } finally {
   await browser.close();
