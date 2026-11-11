@@ -20,6 +20,7 @@ import uiController from '../../../../src/ui-controller.js';
 import { partyFullName } from '../../../core/src/party-names.mjs';
 import { ENTITY_PAGE_LOAD } from '../../../../src/ui-state-machines.mjs';
 import { createState } from '../state-helpers.mjs';
+import { loadAllPages } from './paged-fetch.mjs';
 import {
   addPartyChanges,
   addStandings,
@@ -290,37 +291,21 @@ export class EntityBridgeMethods {
     ].filter(Boolean))];
     if (!aliases.length) return { persons: [], capped: false };
     const PAGE = 200;
-    const MAX_PAGES = 20;
-    const persons = [];
-    const seen = new Set();
-    let capped = false;
-    for (let page = 0; page < MAX_PAGES; page += 1) {
+    // The pages after the first are asked a few at a time (paged-fetch.mjs): one after another,
+    // Fianna Fáil's 3,372 candidates took seventeen requests in a row.
+    const { rows: persons, capped } = await loadAllPages(async (page) => {
       const params = new URLSearchParams();
       for (const alias of aliases) params.append('party', alias);
       params.set('limit', String(PAGE));
       if (page) params.set('offset', String(page * PAGE));
-      let payload = null;
       try {
         const response = await fetch(`/_api/persons?${params}`, { cache: 'default' });
-        if (response.ok) payload = await response.json();
-      } catch { /* handled below */ }
-      if (!Array.isArray(payload?.persons)) {
-        if (page === 0) return { persons: [], capped: true };
-        capped = true;
-        break;
+        const payload = response.ok ? await response.json() : null;
+        return Array.isArray(payload?.persons) ? { rows: payload.persons, total: payload.total } : null;
+      } catch {
+        return null;
       }
-      const fresh = payload.persons.filter((person) => {
-        const id = String(person.id || person.slug || '');
-        if (!id || seen.has(id)) return false;
-        seen.add(id);
-        return true;
-      });
-      if (page > 0 && !fresh.length && payload.persons.length) { capped = true; break; }
-      persons.push(...fresh);
-      if (payload.persons.length < PAGE) break;
-      if (Number.isFinite(Number(payload.total)) && persons.length >= Number(payload.total)) break;
-      if (page === MAX_PAGES - 1) capped = true;
-    }
+    }, { pageSize: PAGE, maxPages: 20, idOf: (person) => String(person.id || person.slug || '') });
     return { persons, capped };
   }
 
