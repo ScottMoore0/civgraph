@@ -909,6 +909,100 @@
           ]
         }
       },
+      "members": {
+        "when": {
+          "slug": "*",
+          "view": "members"
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "schemaVersion": {
+              "type": "number"
+            },
+            "slug": {
+              "type": "string"
+            },
+            "names": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "total": {
+              "type": "number"
+            },
+            "count": {
+              "type": "number"
+            },
+            "limit": {
+              "type": "number"
+            },
+            "offset": {
+              "type": "number"
+            },
+            "columns": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "dictionaries": {
+              "type": "object",
+              "properties": {
+                "key": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "constituency": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "party": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "status": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required": [
+                "key",
+                "constituency",
+                "party",
+                "status"
+              ]
+            },
+            "members": {
+              "type": "array",
+              "items": {
+                "type": "array"
+              }
+            }
+          },
+          "required": [
+            "schemaVersion",
+            "slug",
+            "names",
+            "total",
+            "count",
+            "limit",
+            "offset",
+            "columns",
+            "dictionaries",
+            "members"
+          ]
+        }
+      },
       "record": {
         "when": {
           "slug": "*"
@@ -2365,6 +2459,22 @@
           },
           "required": [
             "features"
+          ]
+        }
+      },
+      "batch": {
+        "when": {
+          "mapIds": "*"
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "maps": {
+              "type": "object"
+            }
+          },
+          "required": [
+            "maps"
           ]
         }
       }
