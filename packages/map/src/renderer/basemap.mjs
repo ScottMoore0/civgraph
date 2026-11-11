@@ -18,10 +18,12 @@
  *   - CARTO basemaps: an API key in every tile URL since 2026 (keyless requests are served with
  *     "API KEY REQUIRED" printed across the tile at HTTP 200, so they cannot even be detected).
  *   - Esri World Imagery / Topo: Esri staff say the raw tile services need an ArcGIS licence.
+ *     For the same reason the four Esri base maps were taken out of Map Settings too (owner,
+ *     11 Nov 2026); a saved address naming one opens on the default (resolveBaseMapId).
  *   - Stadia Maps: production use needs an account (domain authentication), so the owner's.
  *   - VersaTiles: no published terms for its public server.
- * The other base maps in the Map Settings list stay as they were: a reader's deliberate choice,
- * without a fallback.
+ * The other base maps in the Map Settings list (CHOOSABLE_BASE_MAPS) stay as they were: a
+ * reader's deliberate choice, without a fallback.
  *
  * Failover is per session: a provider that fails (its style does not load, or its tiles keep
  * failing, or none arrives in time) is skipped for the rest of the tab's session, recorded in
@@ -65,6 +67,69 @@ export const OSM_STANDARD_TILES = Object.freeze({
 
 /** The default base map, in the order tried. */
 export const DEFAULT_BASEMAP_CHAIN = Object.freeze([OPENFREEMAP_LIBERTY, OSM_STANDARD_TILES]);
+
+/**
+ * The id of the default base map (the chain above) in Map Settings, addresses (#base=) and
+ * settings. Kept from when it named OpenStreetMap's own tiles, because saved addresses name it.
+ */
+export const DEFAULT_BASE_MAP_ID = 'osm-standard';
+
+const OSM_CREDIT = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+
+/**
+ * The raster base maps a reader can choose instead of the default, by id: tiles and credit (each
+ * credits its own provider). The Map Settings list (site/maps/index.html #baseMapSelect) offers
+ * some of them; CARTO and Stamen are no longer offered there (2026-08-26) but an address naming
+ * them still draws them. The Esri base maps were removed altogether on 11 Nov 2026.
+ * @type {Readonly<Record<string, { tiles: string[], attribution: string }>>}
+ */
+export const CHOOSABLE_BASE_MAPS = Object.freeze({
+  'osm-humanitarian': {
+    tiles: ['https://tile-{a-c}.openstreetmap.fr/hot/{z}/{x}/{y}.png'],
+    attribution: `${OSM_CREDIT}, style by Humanitarian OpenStreetMap Team, hosted by OpenStreetMap France`
+  },
+  'cartodb-positron': {
+    tiles: ['https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'],
+    attribution: `${OSM_CREDIT} &copy; <a href="https://carto.com/attributions">CARTO</a>`
+  },
+  'cartodb-dark': {
+    tiles: ['https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png'],
+    attribution: `${OSM_CREDIT} &copy; <a href="https://carto.com/attributions">CARTO</a>`
+  },
+  'cartodb-dark-nolabels': {
+    tiles: ['https://a.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}.png'],
+    attribution: `${OSM_CREDIT} &copy; <a href="https://carto.com/attributions">CARTO</a>`
+  },
+  'cartodb-voyager': {
+    tiles: ['https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png'],
+    attribution: `${OSM_CREDIT} &copy; <a href="https://carto.com/attributions">CARTO</a>`
+  },
+  'opentopomap': {
+    tiles: ['https://a.tile.opentopomap.org/{z}/{x}/{y}.png'],
+    attribution: `Map data: ${OSM_CREDIT}, SRTM | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (CC-BY-SA)`
+  },
+  'stamen-terrain': {
+    tiles: ['https://stamen-tiles.a.ssl.fastly.net/terrain/{z}/{x}/{y}.jpg'],
+    attribution: `&copy; Stamen Design, ${OSM_CREDIT}`
+  },
+  'usgs-topo': {
+    tiles: ['https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/{z}/{y}/{x}'],
+    attribution: 'Tiles courtesy of the <a href="https://www.usgs.gov/">U.S. Geological Survey</a>'
+  }
+});
+
+/**
+ * The base map to use for an id from Map Settings, an address or a saved setting: the id itself
+ * when it is the default or a choosable base map, else the default. So an address saved with a
+ * base map since removed (esri-satellite and the other Esri ids, 11 Nov 2026) opens on the
+ * default chain, shows the default in Map Settings and drops the id from the address.
+ * @param {unknown} id
+ * @returns {string}
+ */
+export function resolveBaseMapId(id) {
+  const value = typeof id === 'string' ? id.trim() : '';
+  return value && Object.prototype.hasOwnProperty.call(CHOOSABLE_BASE_MAPS, value) ? value : DEFAULT_BASE_MAP_ID;
+}
 
 /** Errors on a provider's tiles, with none loaded, before it is given up. */
 export const ERRORS_BEFORE_ANY_TILE = 4;
