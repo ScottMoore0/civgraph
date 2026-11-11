@@ -11,6 +11,18 @@
  */
 
 export const ELECTION_MANIFEST_URL = '/render/metadata/elections-test2.json?v=test-023';
+/**
+ * The same manifest from the elections API (packages/api/src/handlers/elections, view=manifest,
+ * the document the compatibility route serves at ELECTION_MANIFEST_URL), at an address with no
+ * "test" in it (QA 2026-11-11, M10). Used whenever the API is (useElectionsApi); the old URL stays
+ * for the opt-out and keeps answering.
+ */
+export const ELECTIONS_API_MANIFEST_URL = '/_api/elections?view=manifest';
+
+/** @param {boolean} [useApi] */
+export function electionManifestUrl(useApi = useElectionsApi()) {
+  return useApi ? ELECTIONS_API_MANIFEST_URL : ELECTION_MANIFEST_URL;
+}
 
 /** @typedef {import('../../../types/index.js').ElectionManifestEntry} ElectionManifestEntry */
 /** @typedef {import('../../../types/index.js').ApiV1.ElectionsManifestAnswer} ElectionsManifestAnswer */
@@ -150,11 +162,11 @@ export function reportElectionsApiIssue(metric, reason, key, env = globalThis) {
 
 /**
  * The election catalogue the pane lists and opens.
- * @param {{ fetchImpl?: FetchImpl }} [options]
+ * @param {{ fetchImpl?: FetchImpl, env?: TransportEnv }} [options]
  * @returns {Promise<ElectionsManifestAnswer>}
  */
-export async function fetchElectionManifest({ fetchImpl = defaultFetch } = {}) {
-  const response = await fetchImpl(ELECTION_MANIFEST_URL, { cache: 'default' });
+export async function fetchElectionManifest({ fetchImpl = defaultFetch, env = globalThis } = {}) {
+  const response = await fetchImpl(electionManifestUrl(useElectionsApi(env)), { cache: 'default' });
   if (!response.ok) throw new Error(`Failed to load the MapLibre election catalogue: ${response.status}`);
   return response.json();
 }
