@@ -1,0 +1,234 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:civgraph:api:v1:parties",
+  "title": "/api/v1/parties",
+  "description": "Parties: the list, one party, its profile, ballot-label folds. The answer of /_api/parties, which stays as an alias.",
+  "x-civgraph-route": {
+    "legacy": "/_api/parties",
+    "parameters": [
+      "slug",
+      "view"
+    ]
+  },
+  "x-civgraph-variants": [
+    {
+      "name": "names",
+      "when": {
+        "view": "names"
+      },
+      "summary": "Ballot label -> party slug"
+    },
+    {
+      "name": "folds",
+      "when": {
+        "view": "folds"
+      },
+      "summary": "The curated ballot-label folds"
+    },
+    {
+      "name": "profile",
+      "when": {
+        "slug": "*",
+        "view": "profile"
+      },
+      "summary": "One party's profile"
+    },
+    {
+      "name": "record",
+      "when": {
+        "slug": "*"
+      },
+      "summary": "One party"
+    },
+    {
+      "name": "list",
+      "when": {},
+      "summary": "Every party, in source order"
+    }
+  ],
+  "anyOf": [
+    {
+      "$ref": "#/$defs/names"
+    },
+    {
+      "$ref": "#/$defs/folds"
+    },
+    {
+      "$ref": "#/$defs/profile"
+    },
+    {
+      "$ref": "#/$defs/record"
+    },
+    {
+      "$ref": "#/$defs/list"
+    }
+  ],
+  "$defs": {
+    "names": {
+      "description": "Ballot label -> party slug",
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "number"
+        },
+        "items": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "items"
+      ]
+    },
+    "folds": {
+      "description": "The curated ballot-label folds",
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "number"
+        },
+        "total": {
+          "type": "number"
+        },
+        "folds": {
+          "type": "array"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "total",
+        "folds"
+      ]
+    },
+    "profile": {
+      "description": "One party's profile",
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "number"
+        },
+        "slug": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "slug",
+        "title"
+      ]
+    },
+    "record": {
+      "description": "One party",
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "number"
+        },
+        "item": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "slug": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "colour": {
+              "type": "string"
+            },
+            "browseUrl": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "slug",
+            "type",
+            "title",
+            "colour",
+            "browseUrl"
+          ]
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "item"
+      ]
+    },
+    "list": {
+      "description": "Every party, in source order",
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "number"
+        },
+        "total": {
+          "type": "number"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "slug": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "colour": {
+                "type": "string"
+              },
+              "browseUrl": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "slug",
+              "type",
+              "title",
+              "colour",
+              "browseUrl"
+            ]
+          }
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "total",
+        "items"
+      ]
+    },
+    "error": {
+      "description": "The JSON error answer (4xx, 5xx)",
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "error"
+      ]
+    }
+  }
+}

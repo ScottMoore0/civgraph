@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:civgraph:api:v1:proni:search",
+  "title": "/api/v1/proni/search",
+  "description": "PRONI eCatalogue full-text search. The answer of /_api/proni/search, which stays as an alias.",
+  "x-civgraph-route": {
+    "legacy": "/_api/proni/search",
+    "parameters": [
+      "q",
+      "fields",
+      "letter",
+      "from",
+      "to",
+      "top",
+      "level",
+      "access",
+      "sort",
+      "dir",
+      "limit",
+      "offset"
+    ]
+  },
+  "x-civgraph-variants": [
+    {
+      "name": "results",
+      "when": {},
+      "summary": "A page of matches (one more than limit, to show there is a next page)"
+    }
+  ],
+  "anyOf": [
+    {
+      "$ref": "#/$defs/results"
+    }
+  ],
+  "$defs": {
+    "results": {
+      "description": "A page of matches (one more than limit, to show there is a next page)",
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string"
+        },
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ref": {
+                "type": "string"
+              },
+              "slug": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "level": {
+                "type": "string"
+              },
+              "dates": {
+                "type": "string"
+              },
+              "parent": {
+                "type": "string"
+              },
+              "hasChildren": {
+                "type": "boolean"
+              },
+              "fond": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "descTruncated": {
+                "type": "boolean"
+              },
+              "exact": {
+                "type": "boolean"
+              },
+              "url": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "ref",
+              "slug",
+              "title",
+              "level",
+              "dates",
+              "parent",
+              "hasChildren",
+              "fond",
+              "description",
+              "descTruncated",
+              "exact",
+              "url"
+            ]
+          }
+        },
+        "count": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "query",
+        "results",
+        "count"
+      ]
+    },
+    "error": {
+      "description": "The JSON error answer (4xx, 5xx)",
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "error"
+      ]
+    }
+  }
+}

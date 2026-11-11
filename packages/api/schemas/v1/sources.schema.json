@@ -1,0 +1,216 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:civgraph:api:v1:sources",
+  "title": "/api/v1/sources",
+  "description": "Catalogued sources and their citations. The answer of /_api/sources, which stays as an alias.",
+  "x-civgraph-route": {
+    "legacy": "/_api/sources",
+    "parameters": [
+      "slug",
+      "q",
+      "limit",
+      "offset",
+      "provider",
+      "category",
+      "publicationStatus",
+      "view",
+      "sort"
+    ]
+  },
+  "x-civgraph-variants": [
+    {
+      "name": "detail",
+      "when": {
+        "slug": "*",
+        "view": "detail"
+      },
+      "summary": "One source's full record"
+    },
+    {
+      "name": "record",
+      "when": {
+        "slug": "*"
+      },
+      "summary": "One source"
+    },
+    {
+      "name": "list",
+      "when": {},
+      "summary": "A page of sources, searched, filtered and sorted"
+    }
+  ],
+  "anyOf": [
+    {
+      "$ref": "#/$defs/detail"
+    },
+    {
+      "$ref": "#/$defs/record"
+    },
+    {
+      "$ref": "#/$defs/list"
+    }
+  ],
+  "$defs": {
+    "detail": {
+      "description": "One source's full record",
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "number"
+        },
+        "item": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "item"
+      ]
+    },
+    "record": {
+      "description": "One source",
+      "type": "object",
+      "properties": {
+        "source": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "slug": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "browseUrl": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "slug",
+            "type",
+            "title",
+            "browseUrl"
+          ]
+        },
+        "record": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "slug": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "browseUrl": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "slug",
+            "type",
+            "title",
+            "browseUrl"
+          ]
+        }
+      },
+      "required": [
+        "source",
+        "record"
+      ]
+    },
+    "list": {
+      "description": "A page of sources, searched, filtered and sorted",
+      "type": "object",
+      "properties": {
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "slug": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "browseUrl": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "slug",
+              "type",
+              "title",
+              "browseUrl"
+            ]
+          }
+        },
+        "total": {
+          "type": "number"
+        },
+        "count": {
+          "type": "number"
+        },
+        "limit": {
+          "type": "number"
+        },
+        "offset": {
+          "type": "number"
+        },
+        "applied": {
+          "type": "object",
+          "properties": {
+            "filters": {
+              "type": "array"
+            },
+            "sort": {}
+          },
+          "required": [
+            "filters",
+            "sort"
+          ]
+        }
+      },
+      "required": [
+        "sources",
+        "total",
+        "count",
+        "limit",
+        "offset",
+        "applied"
+      ]
+    },
+    "error": {
+      "description": "The JSON error answer (4xx, 5xx)",
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "error"
+      ]
+    }
+  }
+}

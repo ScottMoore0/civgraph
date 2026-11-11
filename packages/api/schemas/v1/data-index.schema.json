@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:civgraph:api:v1:data-index",
+  "title": "/api/v1/data-index",
+  "description": "The published files on data.civgraph.net, by prefix. The answer of /_api/data-index, which stays as an alias.",
+  "x-civgraph-route": {
+    "legacy": "/_api/data-index",
+    "parameters": [
+      "prefix",
+      "cursor",
+      "limit"
+    ]
+  },
+  "x-civgraph-variants": [
+    {
+      "name": "listing",
+      "when": {},
+      "summary": "One level of the published files under a prefix (the approved prefixes at the root)"
+    }
+  ],
+  "anyOf": [
+    {
+      "$ref": "#/$defs/listing"
+    }
+  ],
+  "$defs": {
+    "listing": {
+      "description": "One level of the published files under a prefix (the approved prefixes at the root)",
+      "type": "object",
+      "properties": {
+        "ok": {
+          "const": true
+        },
+        "scope": {
+          "type": "string"
+        },
+        "prefix": {
+          "type": "string"
+        },
+        "folders": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "prefix": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "prefix",
+              "name"
+            ]
+          }
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "key": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "size": {
+                "type": "number"
+              },
+              "url": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "key",
+              "name",
+              "size",
+              "url"
+            ]
+          }
+        },
+        "truncated": {
+          "type": "boolean"
+        },
+        "cursor": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "ok",
+        "scope",
+        "prefix",
+        "folders",
+        "files",
+        "truncated",
+        "cursor"
+      ]
+    },
+    "error": {
+      "description": "The JSON error answer (4xx, 5xx)",
+      "type": "object",
+      "properties": {
+        "ok": {
+          "const": false
+        },
+        "error": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "ok",
+        "error"
+      ]
+    }
+  }
+}

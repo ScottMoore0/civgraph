@@ -8,10 +8,14 @@
  *   dropped required field, a widened type or a removed variant fails; additions pass. To take
  *   additions into the baseline: API_CONTRACT_BASELINE=write node --test <this file>.
  * - Real answers: every route's error answers with no bindings; search and spatial over a KV
- *   stub, data-index over an R2 stub, the PRONI routes over an in-memory FTS5 fixture; and,
- *   when a records build exists (CIVGRAPH_RECORDS_DB), every records variant over it.
+ *   stub, data-index over an R2 stub, the PRONI routes over an in-memory FTS5 fixture; every
+ *   records variant over the records fixture (tests/records/fixtures/records-mini.jsonl, a
+ *   slice of a real build, always) and, when a records build exists (CIVGRAPH_RECORDS_DB),
+ *   over the build too. Each answer is validated against its contract and against the
+ *   committed JSON Schema file of its route (packages/api/schemas/v1/<route>.schema.json).
  *
- * And /api/v1/openapi.json is built from the same table and contracts.
+ * And /api/v1/openapi.json is built from the same table and contracts; the committed copy
+ * packages/api/schemas/v1/openapi.json must equal it (scripts/build/api-v1-documents.mjs).
  */
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -23,9 +27,19 @@ import { PREFIX, ROUTES, indexDocument, openApi } from '../../packages/api/src/v
 import { CONTRACTS, variantFor } from '../../packages/api/src/v1/contracts/v1.js';
 import { incompatibilities, validate } from '../../packages/api/src/v1/json-schema.js';
 import { REPO_ROOT, loadConfig } from '../../packages/config/src/node.mjs';
+import { recordsMini, recordsMiniHeader } from '../records/fixtures/records-mini.mjs';
+import { fileText, schemaFileName, schemaFiles } from '../../packages/api/src/v1/schema-files.js';
 
 const ORIGIN = 'https://civgraph.net';
 const BASELINE = path.join(REPO_ROOT, 'tests', 'functions', 'api-v1-contracts.baseline.json');
+const SCHEMA_DIR = path.join(REPO_ROOT, 'packages', 'api', 'schemas', 'v1');
+
+/** A route's committed JSON Schema file (scripts/build/api-v1-documents.mjs writes them). */
+const schemaCache = new Map();
+function committedSchema(route) {
+  if (!schemaCache.has(route)) schemaCache.set(route, JSON.parse(readFileSync(path.join(SCHEMA_DIR, schemaFileName(route)), 'utf8')));
+  return schemaCache.get(route);
+}
 
 /** Call /api/v1 as the Pages router would. */
 async function call(url, env = {}, method = 'GET') {
@@ -66,11 +80,16 @@ async function conforms(url, env, expect) {
     }
     const errors = validate(variant.schema, JSON.parse(text));
     assert.deepEqual(errors, [], `${url} (${variant.name})`);
+    // ...and against the committed JSON Schema file (packages/api/schemas/v1/).
+    assert.deepEqual(validate(committedSchema(key).$defs[variant.name], JSON.parse(text)), [], `${url} (${variant.name}, ${schemaFileName(key)})`);
     return { status: 200, variant: variant.name };
   }
   if (res.status >= 400) {
     const errorsSchema = CONTRACTS[key].errors;
-    if (errorsSchema) assert.deepEqual(validate(errorsSchema, JSON.parse(text)), [], `${url} -> ${res.status}`);
+    if (errorsSchema) {
+      assert.deepEqual(validate(errorsSchema, JSON.parse(text)), [], `${url} -> ${res.status}`);
+      assert.deepEqual(validate(committedSchema(key).$defs.error, JSON.parse(text)), [], `${url} -> ${res.status} (${schemaFileName(key)})`);
+    }
   }
   return { status: res.status, variant: null };
 }
@@ -316,16 +335,61 @@ test('/api/v1/openapi.json describes every route with its variants and errors', 
   assert.equal((await call(`${PREFIX}/openapi.json`, {}, 'POST')).status, 405);
 });
 
+// ------------------------------------------------------------------ the committed schema files
+
+test('packages/api/schemas/v1 holds what the contracts build (node scripts/build/api-v1-documents.mjs)', () => {
+  const want = schemaFiles({ prefix: PREFIX, routes: ROUTES, contracts: CONTRACTS, openApi });
+  const stale = Object.entries(want).filter(([rel, doc]) => {
+    const file = path.join(SCHEMA_DIR, rel);
+    return !existsSync(file) || readFileSync(file, 'utf8') !== fileText(doc);
+  }).map(([rel]) => rel);
+  assert.deepEqual(stale, [], 'run node scripts/build/api-v1-documents.mjs and commit packages/api/schemas/v1');
+});
+
+test('each schema file is a JSON Schema 2020-12 document whose variants are the contract variants', () => {
+  for (const [key, contract] of Object.entries(CONTRACTS)) {
+    const doc = committedSchema(key);
+    assert.equal(doc.$schema, 'https://json-schema.org/draft/2020-12/schema', key);
+    assert.deepEqual(doc['x-civgraph-variants'].map((v) => v.name), contract.variants.map((v) => v.name), key);
+    const json = contract.variants.filter((v) => v.schema).map((v) => v.name);
+    assert.deepEqual((doc.anyOf || []).map((r) => r.$ref), json.map((n) => `#/$defs/${n}`), key);
+    for (const name of json) keywordsKnown(doc.$defs[name], `${key}.${name} (file)`);
+    assert.equal(Boolean(doc.$defs.error), Boolean(contract.errors), `${key}: error schema`);
+  }
+});
+
+test('the committed openapi.json is the document /api/v1/openapi.json serves, and agrees with the schema files', async () => {
+  const committed = JSON.parse(readFileSync(path.join(SCHEMA_DIR, 'openapi.json'), 'utf8'));
+  const served = await (await call(`${PREFIX}/openapi.json`)).json();
+  assert.deepEqual(committed, served);
+  for (const [key, route] of Object.entries(ROUTES)) {
+    const doc = committedSchema(key);
+    const op = committed.paths[`${PREFIX}/${key}${route.catchAll ? '/{path}' : ''}`].get;
+    const variants = op.responses['200'].content['application/json']?.schema.anyOf || [];
+    const fromFile = (doc.anyOf || []).map((r) => doc.$defs[r.$ref.split('/').pop()]);
+    assert.equal(variants.length, fromFile.length, key);
+    // The same schema, give or take the title and description each side adds.
+    const bare = ({ title: _t, description: _d, ...rest }) => rest;
+    variants.forEach((v, i) => assert.deepEqual(bare(v), bare(fromFile[i]), `${key} variant ${i}`));
+    const errors = op.responses['4XX'].content['application/json']?.schema;
+    if (doc.$defs.error) assert.deepEqual(bare(errors), bare(doc.$defs.error), `${key} errors`);
+  }
+});
+
 // ------------------------------------------------------------------ over the records build
 
-const RECORDS_DB = loadConfig().recordsDb;
-test('over the records build, every records variant and its errors fit the contracts', { skip: !existsSync(RECORDS_DB) && `no records build at ${RECORDS_DB}` }, async () => {
-  const { d1, installCaches } = await import('../records/d1-shim.mjs');
+/**
+ * Every records variant over one records database, with the variant each URL must pick, then
+ * the error answers of each envelope. The ids come from the database itself, so the same cases
+ * run over the full build and over the fixture slice. Returns the variants that answered 200.
+ */
+async function recordsCases(env) {
+  const { installCaches } = await import('../records/d1-shim.mjs');
   const { resetDatasetMemo } = await import('../../packages/api/src/handlers/_records.js');
-  const env = { ELECTIONS_DB: d1(RECORDS_DB) };
   const db = env.ELECTIONS_DB;
   const one = (sql) => db.prepare(sql).first();
-  try {
+  const answered = new Set();
+  {
     const contest = await one('SELECT election_key AS k, seq, slug, name FROM contests ORDER BY election_key, seq LIMIT 1');
     const summary = await one('SELECT election_key AS k FROM election_summaries ORDER BY election_key LIMIT 1');
     const election = await one("SELECT slug FROM election_cards ORDER BY slug LIMIT 1");
@@ -369,14 +433,17 @@ test('over the records build, every records variant and its errors fit the contr
       cases.push(['votes', '?view=index', 'index'], ['votes', `?division=${encodeURIComponent(division.id)}`, 'division'],
         ['votes', `?shard=${String(division.shard).padStart(3, '0')}`, 'shard'], ['votes', `?person=${voter.id}`, 'person'],
         ['votes', `?party=${voteParty.slug}`, 'party'], ['persons', `?slug=${person.slug}&view=votes`, null]);
+      const votingPerson = await one('SELECT slug FROM person_cards WHERE id IN (SELECT person_id FROM vote_persons) ORDER BY ord LIMIT 1');
+      if (votingPerson) cases.push(['persons', `?slug=${votingPerson.slug}&view=votes`, 'votes']);
     }
     const dup = await one("SELECT layer_id AS id FROM layers WHERE duplicates IS NOT NULL AND duplicates <> '' ORDER BY layer_id LIMIT 1");
     if (dup) cases.push(['layers', `/${dup.id}/duplicates`, 'duplicates']);
     for (const [key, query, expect] of cases) {
       installCaches();
       resetDatasetMemo();
-      const { status } = await conforms(`${PREFIX}/${key}${query}`, env, expect);
+      const { status, variant } = await conforms(`${PREFIX}/${key}${query}`, env, expect);
       if (expect) assert.equal(status, 200, `${key}${query} -> ${status}`);
+      if (variant) answered.add(`${key}.${variant}`);
     }
     // error answers of each envelope
     for (const url of ['/elections?key=no-such-election', '/elections?view=nonsense', '/persons?slug=no-such-person', '/catalogue?id=no-such-map',
@@ -386,7 +453,32 @@ test('over the records build, every records variant and its errors fit the contr
       const { status } = await conforms(`${PREFIX}${url}`, env);
       assert.ok(status >= 400, `${url}: ${status}`);
     }
+  }
+  return answered;
+}
+
+/** The records routes: every route whose answers come from ELECTIONS_DB. */
+const RECORDS_ROUTES = ['elections', 'persons', 'parties', 'sources', 'register-interests', 'votes', 'graph', 'stats', 'catalogue', 'layers'];
+
+test('over the records fixture, every records variant and its errors fit the contracts', async () => {
+  const env = { ELECTIONS_DB: recordsMini() };
+  try {
+    const answered = await recordsCases(env);
+    // The fixture is cut so that every variant of every records route answers.
+    const want = RECORDS_ROUTES.flatMap((key) => CONTRACTS[key].variants.map((v) => `${key}.${v.name}`));
+    assert.deepEqual(want.filter((v) => !answered.has(v)), [], `the fixture (${recordsMiniHeader().election}) leaves variants unanswered: re-cut it`);
   } finally {
-    db._db.close();
+    env.ELECTIONS_DB._db.close();
+  }
+});
+
+const RECORDS_DB = loadConfig().recordsDb;
+test('over the records build, every records variant and its errors fit the contracts', { skip: !existsSync(RECORDS_DB) && `no records build at ${RECORDS_DB}` }, async () => {
+  const { d1 } = await import('../records/d1-shim.mjs');
+  const env = { ELECTIONS_DB: d1(RECORDS_DB) };
+  try {
+    await recordsCases(env);
+  } finally {
+    env.ELECTIONS_DB._db.close();
   }
 });

@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:civgraph:api:v1:stats",
+  "title": "/api/v1/stats",
+  "description": "Headline counts of the records. The answer of /_api/stats, which stays as an alias.",
+  "x-civgraph-route": {
+    "legacy": "/_api/stats",
+    "parameters": []
+  },
+  "x-civgraph-variants": [
+    {
+      "name": "counts",
+      "when": {},
+      "summary": "Headline counts"
+    }
+  ],
+  "anyOf": [
+    {
+      "$ref": "#/$defs/counts"
+    }
+  ],
+  "$defs": {
+    "counts": {
+      "description": "Headline counts",
+      "type": "object",
+      "properties": {
+        "elections": {
+          "type": "number"
+        },
+        "electionContests": {
+          "type": "number"
+        },
+        "candidacies": {
+          "type": "number"
+        },
+        "people": {
+          "type": "number"
+        },
+        "cataloguedSources": {
+          "type": "number"
+        },
+        "parties": {
+          "type": "number"
+        },
+        "registerEntries": {
+          "type": "number"
+        },
+        "divisions": {
+          "type": "number"
+        },
+        "graphEntities": {
+          "type": "number"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "elections",
+        "electionContests",
+        "candidacies",
+        "people",
+        "cataloguedSources",
+        "parties",
+        "registerEntries",
+        "divisions",
+        "graphEntities",
+        "version"
+      ]
+    },
+    "error": {
+      "description": "The JSON error answer (4xx, 5xx)",
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "error"
+      ]
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:civgraph:api:v1:proni:export",
+  "title": "/api/v1/proni/export",
+  "description": "PRONI eCatalogue: matches as CSV. The answer of /_api/proni/export, which stays as an alias.",
+  "x-civgraph-route": {
+    "legacy": "/_api/proni/export",
+    "parameters": [
+      "q",
+      "fields",
+      "letter",
+      "from",
+      "to",
+      "top",
+      "level",
+      "access"
+    ]
+  },
+  "x-civgraph-variants": [
+    {
+      "name": "csv",
+      "when": {},
+      "summary": "Every match as CSV, streamed",
+      "contentType": "text/csv"
+    }
+  ],
+  "type": "string",
+  "$defs": {}
+}

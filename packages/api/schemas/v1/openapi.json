@@ -1,0 +1,4292 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Civgraph API",
+    "version": "v1",
+    "description": "Read-only. Routes, parameters and answer shapes change only compatibly (additions) within a version; an incompatible change is a new version, and this one keeps answering. Fields not named in a schema may appear; ignore the ones you do not know."
+  },
+  "servers": [
+    {
+      "url": "https://civgraph.net"
+    }
+  ],
+  "paths": {
+    "/api/v1/elections": {
+      "get": {
+        "operationId": "elections",
+        "summary": "Elections, contests, candidates and counts",
+        "description": "The answer of /_api/elections, which stays as an alias. Variants: record (view=record); manifest (view=manifest); summary (view=summary); provenance (view=provenance); list (view=list); detail (view=detail); contests (view=contests); index (no key); contest-by-slug (key=…, contest=…); contest-by-name (key=…, constituencyName=…); contest (key=…, constituency=…); bundle (key=…, format=bundle); election (key=…).",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "key",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "slug",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "constituency",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "constituencyName",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "contest",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "lite",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "view",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "decade",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "title": "record (view=record)",
+                      "description": "One Browse election record: an election's detail item or a contest's",
+                      "type": "object",
+                      "properties": {
+                        "item": {
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "item"
+                      ]
+                    },
+                    {
+                      "title": "manifest (view=manifest)",
+                      "description": "Every election the map app can show",
+                      "type": "object",
+                      "properties": {
+                        "schemaVersion": {
+                          "type": "number"
+                        },
+                        "generatedAt": {
+                          "type": "string"
+                        },
+                        "totals": {
+                          "type": "object",
+                          "properties": {
+                            "elections": {
+                              "type": "number"
+                            },
+                            "loadable": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "elections",
+                            "loadable"
+                          ]
+                        },
+                        "elections": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "key": {
+                                "type": "string"
+                              },
+                              "body": {
+                                "type": "string"
+                              },
+                              "date": {
+                                "type": "string"
+                              },
+                              "displayTitle": {
+                                "type": "string"
+                              },
+                              "loadable": {
+                                "type": "boolean"
+                              }
+                            },
+                            "required": [
+                              "key",
+                              "body",
+                              "date",
+                              "displayTitle",
+                              "loadable"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "schemaVersion",
+                        "generatedAt",
+                        "totals",
+                        "elections"
+                      ]
+                    },
+                    {
+                      "title": "summary (view=summary)",
+                      "description": "One election's summary",
+                      "type": "object",
+                      "properties": {
+                        "key": {
+                          "type": "string"
+                        },
+                        "body": {
+                          "type": "string"
+                        },
+                        "date": {
+                          "type": "string"
+                        },
+                        "displayTitle": {
+                          "type": "string"
+                        },
+                        "results": {
+                          "type": "array"
+                        }
+                      },
+                      "required": [
+                        "key",
+                        "body",
+                        "date",
+                        "displayTitle",
+                        "results"
+                      ]
+                    },
+                    {
+                      "title": "provenance (view=provenance)",
+                      "description": "Where each contest's figures came from",
+                      "type": "object",
+                      "properties": {
+                        "schemaVersion": {
+                          "type": "number"
+                        },
+                        "key": {
+                          "type": "string"
+                        },
+                        "contests": {
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "schemaVersion",
+                        "key",
+                        "contests"
+                      ]
+                    },
+                    {
+                      "title": "list (view=list)",
+                      "description": "The Browse list of elections, or a page of it",
+                      "type": "object",
+                      "properties": {
+                        "schemaVersion": {
+                          "type": "number"
+                        },
+                        "total": {
+                          "type": "number"
+                        },
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "slug": {
+                                "type": "string"
+                              },
+                              "title": {
+                                "type": "string"
+                              },
+                              "date": {
+                                "type": "string"
+                              },
+                              "body": {
+                                "type": "string"
+                              },
+                              "kind": {
+                                "type": "string"
+                              },
+                              "interactiveUrl": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "slug",
+                              "title"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "schemaVersion",
+                        "total",
+                        "items"
+                      ]
+                    },
+                    {
+                      "title": "detail (view=detail)",
+                      "description": "One election's Browse detail",
+                      "type": "object",
+                      "properties": {
+                        "schemaVersion": {
+                          "type": "number"
+                        },
+                        "item": {
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "schemaVersion",
+                        "item"
+                      ]
+                    },
+                    {
+                      "title": "contests (view=contests)",
+                      "description": "One election's contests as Browse items",
+                      "type": "object",
+                      "properties": {
+                        "schemaVersion": {
+                          "type": "number"
+                        },
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "type": "object"
+                          }
+                        }
+                      },
+                      "required": [
+                        "schemaVersion",
+                        "items"
+                      ]
+                    },
+                    {
+                      "title": "index (no key)",
+                      "description": "Every election, by date then key",
+                      "type": "object",
+                      "properties": {
+                        "elections": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "key": {
+                                "type": "string"
+                              },
+                              "body": {
+                                "type": "string"
+                              },
+                              "bodySlug": {
+                                "type": "string"
+                              },
+                              "displayTitle": {
+                                "type": "string"
+                              },
+                              "date": {
+                                "type": "string"
+                              },
+                              "year": {
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "key",
+                              "body",
+                              "bodySlug",
+                              "displayTitle",
+                              "date",
+                              "year"
+                            ]
+                          }
+                        },
+                        "count": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "elections",
+                        "count"
+                      ]
+                    },
+                    {
+                      "title": "contest-by-slug (key=…, contest=…)",
+                      "description": "One contest found by its Browse slug: candidates and counts",
+                      "type": "object",
+                      "properties": {
+                        "constituency": {
+                          "type": "object"
+                        },
+                        "feature": {
+                          "type": [
+                            "object",
+                            "null"
+                          ]
+                        },
+                        "candidates": {
+                          "type": "array"
+                        },
+                        "counts": {
+                          "type": "array"
+                        },
+                        "animationPayload": {
+                          "type": [
+                            "object",
+                            "null"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "constituency",
+                        "feature",
+                        "candidates",
+                        "counts",
+                        "animationPayload"
+                      ]
+                    },
+                    {
+                      "title": "contest-by-name (key=…, constituencyName=…)",
+                      "description": "One contest found by its name",
+                      "type": "object",
+                      "properties": {
+                        "constituency": {
+                          "type": "object"
+                        },
+                        "feature": {
+                          "type": [
+                            "object",
+                            "null"
+                          ]
+                        },
+                        "candidates": {
+                          "type": "array"
+                        },
+                        "counts": {
+                          "type": "array"
+                        },
+                        "animationPayload": {
+                          "type": [
+                            "object",
+                            "null"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "constituency",
+                        "feature",
+                        "candidates",
+                        "counts",
+                        "animationPayload"
+                      ]
+                    },
+                    {
+                      "title": "contest (key=…, constituency=…)",
+                      "description": "One contest by its sequence number",
+                      "type": "object",
+                      "properties": {
+                        "constituency": {
+                          "type": "object"
+                        },
+                        "feature": {
+                          "type": [
+                            "object",
+                            "null"
+                          ]
+                        },
+                        "candidates": {
+                          "type": "array"
+                        },
+                        "counts": {
+                          "type": "array"
+                        },
+                        "animationPayload": {
+                          "type": [
+                            "object",
+                            "null"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "constituency",
+                        "feature",
+                        "candidates",
+                        "counts",
+                        "animationPayload"
+                      ]
+                    },
+                    {
+                      "title": "bundle (key=…, format=bundle)",
+                      "description": "The election bundle (the static file's shape); lite=1 leaves out the counts",
+                      "type": "object",
+                      "properties": {
+                        "schemaVersion": {
+                          "type": "number"
+                        },
+                        "key": {
+                          "type": "string"
+                        },
+                        "body": {
+                          "type": "string"
+                        },
+                        "date": {
+                          "type": "string"
+                        },
+                        "displayTitle": {
+                          "type": "string"
+                        },
+                        "loadable": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "schemaVersion",
+                        "key",
+                        "body",
+                        "date",
+                        "displayTitle",
+                        "loadable"
+                      ]
+                    },
+                    {
+                      "title": "election (key=…)",
+                      "description": "One election with its constituencies",
+                      "type": "object",
+                      "properties": {
+                        "election": {
+                          "type": "object",
+                          "properties": {
+                            "key": {
+                              "type": "string"
+                            },
+                            "body": {
+                              "type": "string"
+                            },
+                            "date": {
+                              "type": "string"
+                            },
+                            "displayTitle": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "key",
+                            "body",
+                            "date",
+                            "displayTitle"
+                          ]
+                        },
+                        "constituencies": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "seq": {
+                                "type": "number"
+                              },
+                              "name": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "seq",
+                              "name"
+                            ]
+                          }
+                        },
+                        "matchedCount": {
+                          "type": "number"
+                        },
+                        "unmatchedCount": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "election",
+                        "constituencies",
+                        "matchedCount",
+                        "unmatchedCount"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "301": {
+            "description": "A renamed record: Location gives its current address under this version"
+          },
+          "304": {
+            "description": "Not modified (If-None-Match matched the ETag)"
+          },
+          "4XX": {
+            "description": "A bad or unknown request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "5XX": {
+            "description": "The data store is unavailable or failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/persons": {
+      "get": {
+        "operationId": "persons",
+        "summary": "People: search, list and one record with candidacies and votes",
+        "description": "The answer of /_api/persons, which stays as an alias. Variants: facets (facets=1); candidacies (slug=…, view=candidacies); votes (slug=…, view=votes); record (slug=…); list (the default).",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "facets",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "view",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "body",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "decade",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "elected",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "party",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "title": "facets (facets=1)",
+                      "description": "The People filter options",
+                      "type": "object",
+                      "properties": {
+                        "facets": {
+                          "type": "object",
+                          "properties": {
+                            "body": {
+                              "type": "array"
+                            },
+                            "decade": {
+                              "type": "array"
+                            },
+                            "elected": {
+                              "type": "array"
+                            },
+                            "party": {
+                              "type": "array"
+                            }
+                          },
+                          "required": [
+                            "body",
+                            "decade",
+                            "elected",
+                            "party"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "facets"
+                      ]
+                    },
+                    {
+                      "title": "candidacies (slug=…, view=candidacies)",
+                      "description": "Every candidacy of one person, in date order",
+                      "type": "object",
+                      "properties": {
+                        "slug": {
+                          "type": "string"
+                        },
+                        "personId": {
+                          "type": "string"
+                        },
+                        "total": {
+                          "type": "number"
+                        },
+                        "candidacies": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "electionKey": {
+                                "type": "string"
+                              },
+                              "electionSlug": {
+                                "type": "string"
+                              },
+                              "date": {
+                                "type": "string"
+                              },
+                              "contest": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "elected": {
+                                "type": "boolean"
+                              }
+                            },
+                            "required": [
+                              "electionKey",
+                              "electionSlug",
+                              "date",
+                              "contest",
+                              "name",
+                              "elected"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "slug",
+                        "personId",
+                        "total",
+                        "candidacies"
+                      ]
+                    },
+                    {
+                      "title": "votes (slug=…, view=votes)",
+                      "description": "One person's parliamentary votes",
+                      "type": "object",
+                      "properties": {
+                        "schemaVersion": {
+                          "type": "number"
+                        },
+                        "personId": {
+                          "type": "number"
+                        },
+                        "terms": {
+                          "type": "array"
+                        },
+                        "divisions": {
+                          "type": "array"
+                        }
+                      },
+                      "required": [
+                        "schemaVersion",
+                        "personId",
+                        "terms",
+                        "divisions"
+                      ]
+                    },
+                    {
+                      "title": "record (slug=…)",
+                      "description": "One person",
+                      "type": "object",
+                      "properties": {
+                        "person": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "slug": {
+                              "type": "string"
+                            },
+                            "type": {
+                              "type": "string"
+                            },
+                            "title": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "browseUrl": {
+                              "type": "string"
+                            },
+                            "parties": {
+                              "type": "array"
+                            },
+                            "elections": {
+                              "type": "array"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "slug",
+                            "type",
+                            "title",
+                            "name",
+                            "browseUrl"
+                          ]
+                        },
+                        "record": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "slug": {
+                              "type": "string"
+                            },
+                            "type": {
+                              "type": "string"
+                            },
+                            "title": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "browseUrl": {
+                              "type": "string"
+                            },
+                            "parties": {
+                              "type": "array"
+                            },
+                            "elections": {
+                              "type": "array"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "slug",
+                            "type",
+                            "title",
+                            "name",
+                            "browseUrl"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "person",
+                        "record"
+                      ]
+                    },
+                    {
+                      "title": "list (the default)",
+                      "description": "A page of people, searched (q), filtered and sorted",
+                      "type": "object",
+                      "properties": {
+                        "persons": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "slug": {
+                                "type": "string"
+                              },
+                              "type": {
+                                "type": "string"
+                              },
+                              "title": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "browseUrl": {
+                                "type": "string"
+                              },
+                              "parties": {
+                                "type": "array"
+                              },
+                              "elections": {
+                                "type": "array"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "slug",
+                              "type",
+                              "title",
+                              "name",
+                              "browseUrl"
+                            ]
+                          }
+                        },
+                        "total": {
+                          "type": "number"
+                        },
+                        "count": {
+                          "type": "number"
+                        },
+                        "limit": {
+                          "type": "number"
+                        },
+                        "offset": {
+                          "type": "number"
+                        },
+                        "applied": {
+                          "type": "object",
+                          "properties": {
+                            "filters": {
+                              "type": "array"
+                            },
+                            "sort": {}
+                          },
+                          "required": [
+                            "filters",
+                            "sort"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "persons",
+                        "total",
+                        "count",
+                        "limit",
+                        "offset",
+                        "applied"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "301": {
+            "description": "A renamed record: Location gives its current address under this version"
+          },
+          "304": {
+            "description": "Not modified (If-None-Match matched the ETag)"
+          },
+          "4XX": {
+            "description": "A bad or unknown request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "5XX": {
+            "description": "The data store is unavailable or failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/parties": {
+      "get": {
+        "operationId": "parties",
+        "summary": "Parties: the list, one party, its profile, ballot-label folds",
+        "description": "The answer of /_api/parties, which stays as an alias. Variants: names (view=names); folds (view=folds); profile (slug=…, view=profile); record (slug=…); list (the default).",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "view",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "title": "names (view=names)",
+                      "description": "Ballot label -> party slug",
+                      "type": "object",
+                      "properties": {
+                        "schemaVersion": {
+                          "type": "number"
+                        },
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "required": [
+                        "schemaVersion",
+                        "items"
+                      ]
+                    },
+                    {
+                      "title": "folds (view=folds)",
+                      "description": "The curated ballot-label folds",
+                      "type": "object",
+                      "properties": {
+                        "schemaVersion": {
+                          "type": "number"
+                        },
+                        "total": {
+                          "type": "number"
+                        },
+                        "folds": {
+                          "type": "array"
+                        }
+                      },
+                      "required": [
+                        "schemaVersion",
+                        "total",
+                        "folds"
+                      ]
+                    },
+                    {
+                      "title": "profile (slug=…, view=profile)",
+                      "description": "One party's profile",
+                      "type": "object",
+                      "properties": {
+                        "schemaVersion": {
+                          "type": "number"
+                        },
+                        "slug": {
+                          "type": "string"
+                        },
+                        "title": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "schemaVersion",
+                        "slug",
+                        "title"
+                      ]
+                    },
+                    {
+                      "title": "record (slug=…)",
+                      "description": "One party",
+                      "type": "object",
+                      "properties": {
+                        "schemaVersion": {
+                          "type": "number"
+                        },
+                        "item": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "slug": {
+                              "type": "string"
+                            },
+                            "type": {
+                              "type": "string"
+                            },
+                            "title": {
+                              "type": "string"
+                            },
+                            "colour": {
+                              "type": "string"
+                            },
+                            "browseUrl": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "slug",
+                            "type",
+                            "title",
+                            "colour",
+                            "browseUrl"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "schemaVersion",
+                        "item"
+                      ]
+                    },
+                    {
+                      "title": "list (the default)",
+                      "description": "Every party, in source order",
+                      "type": "object",
+                      "properties": {
+                        "schemaVersion": {
+                          "type": "number"
+                        },
+                        "total": {
+                          "type": "number"
+                        },
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "slug": {
+                                "type": "string"
+                              },
+                              "type": {
+                                "type": "string"
+                              },
+                              "title": {
+                                "type": "string"
+                              },
+                              "colour": {
+                                "type": "string"
+                              },
+                              "browseUrl": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "slug",
+                              "type",
+                              "title",
+                              "colour",
+                              "browseUrl"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "schemaVersion",
+                        "total",
+                        "items"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "301": {
+            "description": "A renamed record: Location gives its current address under this version"
+          },
+          "304": {
+            "description": "Not modified (If-None-Match matched the ETag)"
+          },
+          "4XX": {
+            "description": "A bad or unknown request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "5XX": {
+            "description": "The data store is unavailable or failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sources": {
+      "get": {
+        "operationId": "sources",
+        "summary": "Catalogued sources and their citations",
+        "description": "The answer of /_api/sources, which stays as an alias. Variants: detail (slug=…, view=detail); record (slug=…); list (the default).",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "provider",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "publicationStatus",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "view",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "title": "detail (slug=…, view=detail)",
+                      "description": "One source's full record",
+                      "type": "object",
+                      "properties": {
+                        "schemaVersion": {
+                          "type": "number"
+                        },
+                        "item": {
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "schemaVersion",
+                        "item"
+                      ]
+                    },
+                    {
+                      "title": "record (slug=…)",
+                      "description": "One source",
+                      "type": "object",
+                      "properties": {
+                        "source": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "slug": {
+                              "type": "string"
+                            },
+                            "type": {
+                              "type": "string"
+                            },
+                            "title": {
+                              "type": "string"
+                            },
+                            "browseUrl": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "slug",
+                            "type",
+                            "title",
+                            "browseUrl"
+                          ]
+                        },
+                        "record": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "slug": {
+                              "type": "string"
+                            },
+                            "type": {
+                              "type": "string"
+                            },
+                            "title": {
+                              "type": "string"
+                            },
+                            "browseUrl": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "slug",
+                            "type",
+                            "title",
+                            "browseUrl"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "source",
+                        "record"
+                      ]
+                    },
+                    {
+                      "title": "list (the default)",
+                      "description": "A page of sources, searched, filtered and sorted",
+                      "type": "object",
+                      "properties": {
+                        "sources": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "slug": {
+                                "type": "string"
+                              },
+                              "type": {
+                                "type": "string"
+                              },
+                              "title": {
+                                "type": "string"
+                              },
+                              "browseUrl": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "slug",
+                              "type",
+                              "title",
+                              "browseUrl"
+                            ]
+                          }
+                        },
+                        "total": {
+                          "type": "number"
+                        },
+                        "count": {
+                          "type": "number"
+                        },
+                        "limit": {
+                          "type": "number"
+                        },
+                        "offset": {
+                          "type": "number"
+                        },
+                        "applied": {
+                          "type": "object",
+                          "properties": {
+                            "filters": {
+                              "type": "array"
+                            },
+                            "sort": {}
+                          },
+                          "required": [
+                            "filters",
+                            "sort"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "sources",
+                        "total",
+                        "count",
+                        "limit",
+                        "offset",
+                        "applied"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "301": {
+            "description": "A renamed record: Location gives its current address under this version"
+          },
+          "304": {
+            "description": "Not modified (If-None-Match matched the ETag)"
+          },
+          "4XX": {
+            "description": "A bad or unknown request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "5XX": {
+            "description": "The data store is unavailable or failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/register-interests": {
+      "get": {
+        "operationId": "registerInterests",
+        "summary": "Registers of members' interests",
+        "description": "The answer of /_api/register-interests, which stays as an alias. Variants: record (slug=…); list (the default).",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "memberName",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "electedBody",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "view",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "title": "record (slug=…)",
+                      "description": "One register entry",
+                      "type": "object",
+                      "properties": {
+                        "register-interest": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "slug": {
+                              "type": "string"
+                            },
+                            "type": {
+                              "type": "string"
+                            },
+                            "title": {
+                              "type": "string"
+                            },
+                            "memberName": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "slug",
+                            "type",
+                            "title",
+                            "memberName"
+                          ]
+                        },
+                        "record": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "slug": {
+                              "type": "string"
+                            },
+                            "type": {
+                              "type": "string"
+                            },
+                            "title": {
+                              "type": "string"
+                            },
+                            "memberName": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "slug",
+                            "type",
+                            "title",
+                            "memberName"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "register-interest",
+                        "record"
+                      ]
+                    },
+                    {
+                      "title": "list (the default)",
+                      "description": "A page of register entries, searched, filtered and sorted",
+                      "type": "object",
+                      "properties": {
+                        "register-interests": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "slug": {
+                                "type": "string"
+                              },
+                              "type": {
+                                "type": "string"
+                              },
+                              "title": {
+                                "type": "string"
+                              },
+                              "memberName": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "slug",
+                              "type",
+                              "title",
+                              "memberName"
+                            ]
+                          }
+                        },
+                        "total": {
+                          "type": "number"
+                        },
+                        "count": {
+                          "type": "number"
+                        },
+                        "limit": {
+                          "type": "number"
+                        },
+                        "offset": {
+                          "type": "number"
+                        },
+                        "applied": {
+                          "type": "object",
+                          "properties": {
+                            "filters": {
+                              "type": "array"
+                            },
+                            "sort": {}
+                          },
+                          "required": [
+                            "filters",
+                            "sort"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "register-interests",
+                        "total",
+                        "count",
+                        "limit",
+                        "offset",
+                        "applied"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "301": {
+            "description": "A renamed record: Location gives its current address under this version"
+          },
+          "304": {
+            "description": "Not modified (If-None-Match matched the ETag)"
+          },
+          "4XX": {
+            "description": "A bad or unknown request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "5XX": {
+            "description": "The data store is unavailable or failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/votes": {
+      "get": {
+        "operationId": "votes",
+        "summary": "Parliamentary divisions and how members voted",
+        "description": "The answer of /_api/votes, which stays as an alias. Variants: index (view=index); division (division=…); shard (shard=…); person (person=…); party (party=…).",
+        "parameters": [
+          {
+            "name": "view",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "division",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "shard",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "person",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "party",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "body",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "term",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "title": "index (view=index)",
+                      "description": "What the votes data holds",
+                      "type": "object",
+                      "properties": {
+                        "schemaVersion": {
+                          "type": "number"
+                        },
+                        "shards": {
+                          "type": "number"
+                        },
+                        "bodies": {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "object"
+                          }
+                        },
+                        "persons": {
+                          "type": "number"
+                        },
+                        "parties": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "schemaVersion",
+                        "shards",
+                        "bodies",
+                        "persons",
+                        "parties"
+                      ]
+                    },
+                    {
+                      "title": "division (division=…)",
+                      "description": "One division with its votes",
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "body": {
+                          "type": "string"
+                        },
+                        "date": {
+                          "type": "string"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "votes": {
+                          "type": "array"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "body",
+                        "date",
+                        "title",
+                        "votes"
+                      ]
+                    },
+                    {
+                      "title": "shard (shard=…)",
+                      "description": "One shard of divisions",
+                      "type": "object",
+                      "properties": {
+                        "schemaVersion": {
+                          "type": "number"
+                        },
+                        "shard": {
+                          "type": "number"
+                        },
+                        "divisions": {
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "schemaVersion",
+                        "shard",
+                        "divisions"
+                      ]
+                    },
+                    {
+                      "title": "person (person=…)",
+                      "description": "One member's votes",
+                      "type": "object",
+                      "properties": {
+                        "schemaVersion": {
+                          "type": "number"
+                        },
+                        "personId": {
+                          "type": "number"
+                        },
+                        "terms": {
+                          "type": "array"
+                        },
+                        "divisions": {
+                          "type": "array"
+                        }
+                      },
+                      "required": [
+                        "schemaVersion",
+                        "personId",
+                        "terms",
+                        "divisions"
+                      ]
+                    },
+                    {
+                      "title": "party (party=…)",
+                      "description": "One party's cohesion",
+                      "type": "object",
+                      "properties": {
+                        "schemaVersion": {
+                          "type": "number"
+                        },
+                        "slug": {
+                          "type": "string"
+                        },
+                        "labels": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "terms": {
+                          "type": "array"
+                        }
+                      },
+                      "required": [
+                        "schemaVersion",
+                        "slug",
+                        "labels",
+                        "terms"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "301": {
+            "description": "A renamed record: Location gives its current address under this version"
+          },
+          "304": {
+            "description": "Not modified (If-None-Match matched the ETag)"
+          },
+          "4XX": {
+            "description": "A bad or unknown request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "5XX": {
+            "description": "The data store is unavailable or failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/graph": {
+      "get": {
+        "operationId": "graph",
+        "summary": "The semantic graph: entities and statements",
+        "description": "The answer of /_api/graph, which stays as an alias. Variants: manifest (view=manifest); search (q=…); entity (entity=…); slug (slug=…); browse (browse=…).",
+        "parameters": [
+          {
+            "name": "entity",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "browse",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "slug",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "related",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "view",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "title": "manifest (view=manifest)",
+                      "description": "The graph manifest, its exports pointing at downloads",
+                      "type": "object",
+                      "properties": {
+                        "schemaVersion": {
+                          "type": "number"
+                        },
+                        "entities": {
+                          "type": "object",
+                          "properties": {
+                            "total": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "total"
+                          ]
+                        },
+                        "statements": {
+                          "type": "object",
+                          "properties": {
+                            "total": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "total"
+                          ]
+                        },
+                        "exports": {
+                          "type": "object"
+                        },
+                        "api": {
+                          "type": "string"
+                        },
+                        "downloads": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "schemaVersion",
+                        "entities",
+                        "statements",
+                        "exports",
+                        "api",
+                        "downloads"
+                      ]
+                    },
+                    {
+                      "title": "search (q=…)",
+                      "description": "Entities by name",
+                      "type": "object",
+                      "properties": {
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "entityId": {
+                                "type": "string"
+                              },
+                              "slug": {
+                                "type": "string"
+                              },
+                              "label": {
+                                "type": "string"
+                              },
+                              "types": {
+                                "type": "array"
+                              }
+                            },
+                            "required": [
+                              "entityId",
+                              "label",
+                              "types"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "items"
+                      ]
+                    },
+                    {
+                      "title": "entity (entity=…)",
+                      "description": "One entity's statements (related=1 adds reverse and source statements)",
+                      "type": "object",
+                      "properties": {
+                        "entityId": {
+                          "type": "string"
+                        },
+                        "summary": {
+                          "type": [
+                            "object",
+                            "null"
+                          ]
+                        },
+                        "statements": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "propertyId": {
+                                "type": "string"
+                              },
+                              "propertyLabel": {
+                                "type": "string"
+                              },
+                              "valueType": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "propertyId",
+                              "propertyLabel",
+                              "valueType"
+                            ]
+                          }
+                        },
+                        "total": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "entityId",
+                        "summary",
+                        "statements",
+                        "total"
+                      ]
+                    },
+                    {
+                      "title": "slug (slug=…)",
+                      "description": "The same, by the entity's readable slug",
+                      "type": "object",
+                      "properties": {
+                        "entityId": {
+                          "type": "string"
+                        },
+                        "summary": {
+                          "type": [
+                            "object",
+                            "null"
+                          ]
+                        },
+                        "statements": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "propertyId": {
+                                "type": "string"
+                              },
+                              "propertyLabel": {
+                                "type": "string"
+                              },
+                              "valueType": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "propertyId",
+                              "propertyLabel",
+                              "valueType"
+                            ]
+                          }
+                        },
+                        "total": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "entityId",
+                        "summary",
+                        "statements",
+                        "total"
+                      ]
+                    },
+                    {
+                      "title": "browse (browse=…)",
+                      "description": "The same, by a Browse record key (type:key)",
+                      "type": "object",
+                      "properties": {
+                        "entityId": {
+                          "type": "string"
+                        },
+                        "summary": {
+                          "type": [
+                            "object",
+                            "null"
+                          ]
+                        },
+                        "statements": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "propertyId": {
+                                "type": "string"
+                              },
+                              "propertyLabel": {
+                                "type": "string"
+                              },
+                              "valueType": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "propertyId",
+                              "propertyLabel",
+                              "valueType"
+                            ]
+                          }
+                        },
+                        "total": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "entityId",
+                        "summary",
+                        "statements",
+                        "total"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "301": {
+            "description": "A renamed record: Location gives its current address under this version"
+          },
+          "304": {
+            "description": "Not modified (If-None-Match matched the ETag)"
+          },
+          "4XX": {
+            "description": "A bad or unknown request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "5XX": {
+            "description": "The data store is unavailable or failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/stats": {
+      "get": {
+        "operationId": "stats",
+        "summary": "Headline counts of the records",
+        "description": "The answer of /_api/stats, which stays as an alias. Variants: counts (the default).",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "title": "counts (the default)",
+                      "description": "Headline counts",
+                      "type": "object",
+                      "properties": {
+                        "elections": {
+                          "type": "number"
+                        },
+                        "electionContests": {
+                          "type": "number"
+                        },
+                        "candidacies": {
+                          "type": "number"
+                        },
+                        "people": {
+                          "type": "number"
+                        },
+                        "cataloguedSources": {
+                          "type": "number"
+                        },
+                        "parties": {
+                          "type": "number"
+                        },
+                        "registerEntries": {
+                          "type": "number"
+                        },
+                        "divisions": {
+                          "type": "number"
+                        },
+                        "graphEntities": {
+                          "type": "number"
+                        },
+                        "version": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "elections",
+                        "electionContests",
+                        "candidacies",
+                        "people",
+                        "cataloguedSources",
+                        "parties",
+                        "registerEntries",
+                        "divisions",
+                        "graphEntities",
+                        "version"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "301": {
+            "description": "A renamed record: Location gives its current address under this version"
+          },
+          "304": {
+            "description": "Not modified (If-None-Match matched the ETag)"
+          },
+          "4XX": {
+            "description": "A bad or unknown request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "5XX": {
+            "description": "The data store is unavailable or failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/catalogue": {
+      "get": {
+        "operationId": "catalogue",
+        "summary": "The map catalogue",
+        "description": "The answer of /_api/catalogue, which stays as an alias. Variants: pane (view=pane); places (view=places); people (view=people); agent (view=agent); record-by-id (id=…); record-by-slug (slug=…); category (category=…); document (the default).",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "slug",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "visible",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "view",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "title": "pane (view=pane)",
+                      "description": "The catalogue pane",
+                      "type": "object",
+                      "properties": {
+                        "schemaVersion": {
+                          "type": "number"
+                        },
+                        "shelves": {
+                          "type": "array"
+                        },
+                        "maps": {
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "schemaVersion",
+                        "shelves",
+                        "maps"
+                      ]
+                    },
+                    {
+                      "title": "places (view=places)",
+                      "description": "The catalogue's places",
+                      "type": "object",
+                      "properties": {
+                        "schemaVersion": {
+                          "type": "number"
+                        },
+                        "maps": {
+                          "type": "array"
+                        },
+                        "places": {
+                          "type": "array"
+                        }
+                      },
+                      "required": [
+                        "schemaVersion",
+                        "maps",
+                        "places"
+                      ]
+                    },
+                    {
+                      "title": "people (view=people)",
+                      "description": "The catalogue's people",
+                      "type": "object",
+                      "properties": {
+                        "schemaVersion": {
+                          "type": "number"
+                        },
+                        "parties": {
+                          "type": "array"
+                        },
+                        "constituencies": {
+                          "type": "array"
+                        },
+                        "people": {
+                          "type": "array"
+                        }
+                      },
+                      "required": [
+                        "schemaVersion",
+                        "parties",
+                        "constituencies",
+                        "people"
+                      ]
+                    },
+                    {
+                      "title": "agent (view=agent)",
+                      "description": "The slim agent index of maps",
+                      "type": "object",
+                      "properties": {
+                        "count": {
+                          "type": "number"
+                        },
+                        "maps": {
+                          "type": "array"
+                        },
+                        "dataOverlays": {
+                          "type": "array"
+                        }
+                      },
+                      "required": [
+                        "count",
+                        "maps",
+                        "dataOverlays"
+                      ]
+                    },
+                    {
+                      "title": "record-by-id (id=…)",
+                      "description": "One map record",
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "slug": {
+                          "type": "string"
+                        },
+                        "category": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "slug",
+                        "category"
+                      ]
+                    },
+                    {
+                      "title": "record-by-slug (slug=…)",
+                      "description": "One map record, by slug",
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "slug": {
+                          "type": "string"
+                        },
+                        "category": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "slug",
+                        "category"
+                      ]
+                    },
+                    {
+                      "title": "category (category=…)",
+                      "description": "The maps of one category",
+                      "type": "object",
+                      "properties": {
+                        "maps": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "slug": {
+                                "type": "string"
+                              },
+                              "category": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name",
+                              "slug",
+                              "category"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "maps"
+                      ]
+                    },
+                    {
+                      "title": "document (the default)",
+                      "description": "The whole catalogue (visible=1: without hidden maps)",
+                      "type": "object",
+                      "properties": {
+                        "categories": {
+                          "type": "array"
+                        },
+                        "timeSeriesChains": {
+                          "type": "array"
+                        },
+                        "maps": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "slug": {
+                                "type": "string"
+                              },
+                              "category": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name",
+                              "slug",
+                              "category"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "categories",
+                        "timeSeriesChains",
+                        "maps"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "301": {
+            "description": "A renamed record: Location gives its current address under this version"
+          },
+          "304": {
+            "description": "Not modified (If-None-Match matched the ETag)"
+          },
+          "4XX": {
+            "description": "A bad or unknown request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "const": false
+                    },
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "ok",
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "5XX": {
+            "description": "The data store is unavailable or failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "const": false
+                    },
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "ok",
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/layers/{path}": {
+      "get": {
+        "operationId": "layers",
+        "summary": "Map layers: the full metadata, the startup index, each layer record and its duplicate-id sidecar",
+        "description": "The answer of /_api/layers, which stays as an alias. Variants: index ((no subpath), view=index); document ((no subpath)); duplicates (/<id>/duplicates); layer (/<id>).",
+        "parameters": [
+          {
+            "name": "path",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "segments after the route (may be empty)"
+          },
+          {
+            "name": "view",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "title": "index ((no subpath), view=index)",
+                      "description": "The map app's startup index",
+                      "type": "object",
+                      "properties": {
+                        "schemaVersion": {
+                          "type": "number"
+                        },
+                        "capabilities": {
+                          "type": "object"
+                        },
+                        "categories": {
+                          "type": "array"
+                        },
+                        "layers": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "sourceMapId": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "category": {
+                                "type": "string"
+                              },
+                              "renderer": {
+                                "type": "string"
+                              },
+                              "geometryType": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "sourceMapId",
+                              "name",
+                              "category",
+                              "renderer",
+                              "geometryType"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "schemaVersion",
+                        "capabilities",
+                        "categories",
+                        "layers"
+                      ]
+                    },
+                    {
+                      "title": "document ((no subpath))",
+                      "description": "The full render metadata",
+                      "type": "object",
+                      "properties": {
+                        "schemaVersion": {
+                          "type": "number"
+                        },
+                        "categories": {
+                          "type": "array"
+                        },
+                        "layers": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "sourceMapId": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "category": {
+                                "type": "string"
+                              },
+                              "renderer": {
+                                "type": "string"
+                              },
+                              "geometryType": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "sourceMapId",
+                              "name",
+                              "category",
+                              "renderer",
+                              "geometryType"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "schemaVersion",
+                        "categories",
+                        "layers"
+                      ]
+                    },
+                    {
+                      "title": "duplicates (/<id>/duplicates)",
+                      "description": "One layer's duplicate-feature-id sidecar",
+                      "type": "object",
+                      "properties": {
+                        "layerId": {
+                          "type": "string"
+                        },
+                        "sourceMapId": {
+                          "type": "string"
+                        },
+                        "featureCount": {
+                          "type": "number"
+                        },
+                        "duplicateFeatureIds": {
+                          "type": "array"
+                        }
+                      },
+                      "required": [
+                        "layerId",
+                        "sourceMapId",
+                        "featureCount",
+                        "duplicateFeatureIds"
+                      ]
+                    },
+                    {
+                      "title": "layer (/<id>)",
+                      "description": "One layer's full record",
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "sourceMapId": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "category": {
+                          "type": "string"
+                        },
+                        "renderer": {
+                          "type": "string"
+                        },
+                        "geometryType": {
+                          "type": "string"
+                        },
+                        "minzoom": {
+                          "type": "number"
+                        },
+                        "maxzoom": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "sourceMapId",
+                        "name",
+                        "category",
+                        "renderer",
+                        "geometryType",
+                        "minzoom",
+                        "maxzoom"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "301": {
+            "description": "A renamed record: Location gives its current address under this version"
+          },
+          "304": {
+            "description": "Not modified (If-None-Match matched the ETag)"
+          },
+          "4XX": {
+            "description": "A bad or unknown request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "5XX": {
+            "description": "The data store is unavailable or failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/search": {
+      "get": {
+        "operationId": "search",
+        "summary": "Map features by name",
+        "description": "The answer of /_api/search, which stays as an alias. Variants: results (the default).",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "title": "results (the default)",
+                      "description": "Map features whose name contains q, best first",
+                      "type": "object",
+                      "properties": {
+                        "results": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "score": {
+                                "type": "integer"
+                              }
+                            },
+                            "required": [
+                              "score"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "results"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "301": {
+            "description": "A renamed record: Location gives its current address under this version"
+          },
+          "304": {
+            "description": "Not modified (If-None-Match matched the ETag)"
+          },
+          "4XX": {
+            "description": "A bad or unknown request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "5XX": {
+            "description": "The data store is unavailable or failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/spatial": {
+      "get": {
+        "operationId": "spatial",
+        "summary": "Map features of one map in a bounding box",
+        "description": "The answer of /_api/spatial, which stays as an alias. Variants: features (mapId=…).",
+        "parameters": [
+          {
+            "name": "mapId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "bbox",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "title": "features (mapId=…)",
+                      "description": "One map's features in the bounding box",
+                      "type": "object",
+                      "properties": {
+                        "features": {
+                          "type": "array"
+                        }
+                      },
+                      "required": [
+                        "features"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "301": {
+            "description": "A renamed record: Location gives its current address under this version"
+          },
+          "304": {
+            "description": "Not modified (If-None-Match matched the ETag)"
+          },
+          "4XX": {
+            "description": "A bad or unknown request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "5XX": {
+            "description": "The data store is unavailable or failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/data-index": {
+      "get": {
+        "operationId": "dataIndex",
+        "summary": "The published files on data.civgraph.net, by prefix",
+        "description": "The answer of /_api/data-index, which stays as an alias. Variants: listing (the default).",
+        "parameters": [
+          {
+            "name": "prefix",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "title": "listing (the default)",
+                      "description": "One level of the published files under a prefix (the approved prefixes at the root)",
+                      "type": "object",
+                      "properties": {
+                        "ok": {
+                          "const": true
+                        },
+                        "scope": {
+                          "type": "string"
+                        },
+                        "prefix": {
+                          "type": "string"
+                        },
+                        "folders": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "prefix": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "prefix",
+                              "name"
+                            ]
+                          }
+                        },
+                        "files": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "key": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "size": {
+                                "type": "number"
+                              },
+                              "url": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "key",
+                              "name",
+                              "size",
+                              "url"
+                            ]
+                          }
+                        },
+                        "truncated": {
+                          "type": "boolean"
+                        },
+                        "cursor": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "ok",
+                        "scope",
+                        "prefix",
+                        "folders",
+                        "files",
+                        "truncated",
+                        "cursor"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "301": {
+            "description": "A renamed record: Location gives its current address under this version"
+          },
+          "304": {
+            "description": "Not modified (If-None-Match matched the ETag)"
+          },
+          "4XX": {
+            "description": "A bad or unknown request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "const": false
+                    },
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "ok",
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "5XX": {
+            "description": "The data store is unavailable or failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "const": false
+                    },
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "ok",
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/proni/node": {
+      "get": {
+        "operationId": "proniNode",
+        "summary": "PRONI eCatalogue: the fonds, or one node with its ancestors and children",
+        "description": "The answer of /_api/proni/node, which stays as an alias. Variants: node (ref=…); roots (the default).",
+        "parameters": [
+          {
+            "name": "ref",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "title": "node (ref=…)",
+                      "description": "One catalogue node with its ancestors and children",
+                      "type": "object",
+                      "properties": {
+                        "item": {
+                          "type": "object",
+                          "properties": {
+                            "ref": {
+                              "type": "string"
+                            },
+                            "slug": {
+                              "type": "string"
+                            },
+                            "title": {
+                              "type": "string"
+                            },
+                            "level": {
+                              "type": "string"
+                            },
+                            "dates": {
+                              "type": "string"
+                            },
+                            "description": {
+                              "type": "string"
+                            },
+                            "access": {
+                              "type": "string"
+                            },
+                            "hasChildren": {
+                              "type": "boolean"
+                            },
+                            "fond": {
+                              "type": "string"
+                            },
+                            "extractedDates": {
+                              "type": [
+                                "object",
+                                "null"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "ref",
+                            "slug",
+                            "title",
+                            "level",
+                            "dates",
+                            "description",
+                            "access",
+                            "hasChildren",
+                            "fond",
+                            "extractedDates"
+                          ]
+                        },
+                        "ancestors": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "ref": {
+                                "type": "string"
+                              },
+                              "slug": {
+                                "type": "string"
+                              },
+                              "title": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "ref",
+                              "slug",
+                              "title"
+                            ]
+                          }
+                        },
+                        "children": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "ref": {
+                                "type": "string"
+                              },
+                              "slug": {
+                                "type": "string"
+                              },
+                              "title": {
+                                "type": "string"
+                              },
+                              "level": {
+                                "type": "string"
+                              },
+                              "dates": {
+                                "type": "string"
+                              },
+                              "hasChildren": {
+                                "type": "boolean"
+                              }
+                            },
+                            "required": [
+                              "ref",
+                              "slug",
+                              "title",
+                              "level",
+                              "dates",
+                              "hasChildren"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "item",
+                        "ancestors",
+                        "children"
+                      ]
+                    },
+                    {
+                      "title": "roots (the default)",
+                      "description": "The top-level fonds",
+                      "type": "object",
+                      "properties": {
+                        "roots": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "ref": {
+                                "type": "string"
+                              },
+                              "slug": {
+                                "type": "string"
+                              },
+                              "title": {
+                                "type": "string"
+                              },
+                              "level": {
+                                "type": "string"
+                              },
+                              "dates": {
+                                "type": "string"
+                              },
+                              "hasChildren": {
+                                "type": "boolean"
+                              }
+                            },
+                            "required": [
+                              "ref",
+                              "slug",
+                              "title",
+                              "level",
+                              "dates",
+                              "hasChildren"
+                            ]
+                          }
+                        },
+                        "count": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "roots",
+                        "count"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "301": {
+            "description": "A renamed record: Location gives its current address under this version"
+          },
+          "304": {
+            "description": "Not modified (If-None-Match matched the ETag)"
+          },
+          "4XX": {
+            "description": "A bad or unknown request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "5XX": {
+            "description": "The data store is unavailable or failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/proni/search": {
+      "get": {
+        "operationId": "proniSearch",
+        "summary": "PRONI eCatalogue full-text search",
+        "description": "The answer of /_api/proni/search, which stays as an alias. Variants: results (the default).",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "letter",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "top",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "level",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "access",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dir",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "title": "results (the default)",
+                      "description": "A page of matches (one more than limit, to show there is a next page)",
+                      "type": "object",
+                      "properties": {
+                        "query": {
+                          "type": "string"
+                        },
+                        "results": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "ref": {
+                                "type": "string"
+                              },
+                              "slug": {
+                                "type": "string"
+                              },
+                              "title": {
+                                "type": "string"
+                              },
+                              "level": {
+                                "type": "string"
+                              },
+                              "dates": {
+                                "type": "string"
+                              },
+                              "parent": {
+                                "type": "string"
+                              },
+                              "hasChildren": {
+                                "type": "boolean"
+                              },
+                              "fond": {
+                                "type": "string"
+                              },
+                              "description": {
+                                "type": "string"
+                              },
+                              "descTruncated": {
+                                "type": "boolean"
+                              },
+                              "exact": {
+                                "type": "boolean"
+                              },
+                              "url": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "ref",
+                              "slug",
+                              "title",
+                              "level",
+                              "dates",
+                              "parent",
+                              "hasChildren",
+                              "fond",
+                              "description",
+                              "descTruncated",
+                              "exact",
+                              "url"
+                            ]
+                          }
+                        },
+                        "count": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "query",
+                        "results",
+                        "count"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "301": {
+            "description": "A renamed record: Location gives its current address under this version"
+          },
+          "304": {
+            "description": "Not modified (If-None-Match matched the ETag)"
+          },
+          "4XX": {
+            "description": "A bad or unknown request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "5XX": {
+            "description": "The data store is unavailable or failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/proni/count": {
+      "get": {
+        "operationId": "proniCount",
+        "summary": "PRONI eCatalogue: the number of matches, by level",
+        "description": "The answer of /_api/proni/count, which stays as an alias. Variants: count (the default).",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "letter",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "top",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "level",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "access",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "title": "count (the default)",
+                      "description": "How many records match (exact when known)",
+                      "type": "object",
+                      "properties": {
+                        "count": {
+                          "type": [
+                            "integer",
+                            "null"
+                          ]
+                        },
+                        "exact": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "count",
+                        "exact"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "301": {
+            "description": "A renamed record: Location gives its current address under this version"
+          },
+          "304": {
+            "description": "Not modified (If-None-Match matched the ETag)"
+          },
+          "4XX": {
+            "description": "A bad or unknown request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "5XX": {
+            "description": "The data store is unavailable or failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/proni/export": {
+      "get": {
+        "operationId": "proniExport",
+        "summary": "PRONI eCatalogue: matches as CSV",
+        "description": "The answer of /_api/proni/export, which stays as an alias. Variants: csv (the default).",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "letter",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "top",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "level",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "access",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/csv": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Every match as CSV, streamed"
+              }
+            }
+          },
+          "301": {
+            "description": "A renamed record: Location gives its current address under this version"
+          },
+          "304": {
+            "description": "Not modified (If-None-Match matched the ETag)"
+          },
+          "4XX": {
+            "description": "A bad or unknown request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "5XX": {
+            "description": "The data store is unavailable or failed",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

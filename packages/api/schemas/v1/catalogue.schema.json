@@ -1,0 +1,326 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:civgraph:api:v1:catalogue",
+  "title": "/api/v1/catalogue",
+  "description": "The map catalogue. The answer of /_api/catalogue, which stays as an alias.",
+  "x-civgraph-route": {
+    "legacy": "/_api/catalogue",
+    "parameters": [
+      "id",
+      "slug",
+      "category",
+      "visible",
+      "view"
+    ]
+  },
+  "x-civgraph-variants": [
+    {
+      "name": "pane",
+      "when": {
+        "view": "pane"
+      },
+      "summary": "The catalogue pane"
+    },
+    {
+      "name": "places",
+      "when": {
+        "view": "places"
+      },
+      "summary": "The catalogue's places"
+    },
+    {
+      "name": "people",
+      "when": {
+        "view": "people"
+      },
+      "summary": "The catalogue's people"
+    },
+    {
+      "name": "agent",
+      "when": {
+        "view": "agent"
+      },
+      "summary": "The slim agent index of maps"
+    },
+    {
+      "name": "record-by-id",
+      "when": {
+        "id": "*"
+      },
+      "summary": "One map record"
+    },
+    {
+      "name": "record-by-slug",
+      "when": {
+        "slug": "*"
+      },
+      "summary": "One map record, by slug"
+    },
+    {
+      "name": "category",
+      "when": {
+        "category": "*"
+      },
+      "summary": "The maps of one category"
+    },
+    {
+      "name": "document",
+      "when": {},
+      "summary": "The whole catalogue (visible=1: without hidden maps)"
+    }
+  ],
+  "anyOf": [
+    {
+      "$ref": "#/$defs/pane"
+    },
+    {
+      "$ref": "#/$defs/places"
+    },
+    {
+      "$ref": "#/$defs/people"
+    },
+    {
+      "$ref": "#/$defs/agent"
+    },
+    {
+      "$ref": "#/$defs/record-by-id"
+    },
+    {
+      "$ref": "#/$defs/record-by-slug"
+    },
+    {
+      "$ref": "#/$defs/category"
+    },
+    {
+      "$ref": "#/$defs/document"
+    }
+  ],
+  "$defs": {
+    "pane": {
+      "description": "The catalogue pane",
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "number"
+        },
+        "shelves": {
+          "type": "array"
+        },
+        "maps": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "shelves",
+        "maps"
+      ]
+    },
+    "places": {
+      "description": "The catalogue's places",
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "number"
+        },
+        "maps": {
+          "type": "array"
+        },
+        "places": {
+          "type": "array"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "maps",
+        "places"
+      ]
+    },
+    "people": {
+      "description": "The catalogue's people",
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "number"
+        },
+        "parties": {
+          "type": "array"
+        },
+        "constituencies": {
+          "type": "array"
+        },
+        "people": {
+          "type": "array"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "parties",
+        "constituencies",
+        "people"
+      ]
+    },
+    "agent": {
+      "description": "The slim agent index of maps",
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "number"
+        },
+        "maps": {
+          "type": "array"
+        },
+        "dataOverlays": {
+          "type": "array"
+        }
+      },
+      "required": [
+        "count",
+        "maps",
+        "dataOverlays"
+      ]
+    },
+    "record-by-id": {
+      "description": "One map record",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "slug": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "slug",
+        "category"
+      ]
+    },
+    "record-by-slug": {
+      "description": "One map record, by slug",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "slug": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "slug",
+        "category"
+      ]
+    },
+    "category": {
+      "description": "The maps of one category",
+      "type": "object",
+      "properties": {
+        "maps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "slug": {
+                "type": "string"
+              },
+              "category": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "slug",
+              "category"
+            ]
+          }
+        }
+      },
+      "required": [
+        "maps"
+      ]
+    },
+    "document": {
+      "description": "The whole catalogue (visible=1: without hidden maps)",
+      "type": "object",
+      "properties": {
+        "categories": {
+          "type": "array"
+        },
+        "timeSeriesChains": {
+          "type": "array"
+        },
+        "maps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "slug": {
+                "type": "string"
+              },
+              "category": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "slug",
+              "category"
+            ]
+          }
+        }
+      },
+      "required": [
+        "categories",
+        "timeSeriesChains",
+        "maps"
+      ]
+    },
+    "error": {
+      "description": "The JSON error answer (4xx, 5xx)",
+      "type": "object",
+      "properties": {
+        "ok": {
+          "const": false
+        },
+        "error": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "ok",
+        "error"
+      ]
+    }
+  }
+}
