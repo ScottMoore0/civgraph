@@ -10,6 +10,7 @@ import {
   appUrl, electionSlug, esc, fmtDate, fmtDelta, fmtInt, fmtPct, isStv, num, partyChip, personUrl, systemName,
 } from '../lib/format.js';
 
+/** @type {Record<string, string>} */
 const KIND_NOTE = {
   stages: 'The full count, stage by stage, as the sources give it.',
   order: 'The sources give the first preferences and the count at which each candidate was elected or excluded, but not the totals at each count, so no transfers are shown.',
@@ -18,6 +19,7 @@ const KIND_NOTE = {
   none: 'No votes are recorded for this contest in the sources Civgraph holds; only the candidates are known.',
 };
 
+/** @param {HTMLElement} root @param {{ election?: string, contest?: string }} route */
 export async function render(root, route) {
   const eslug = /** @type {string} */ (route.election);
   const cslug = /** @type {string} */ (route.contest);
@@ -33,7 +35,7 @@ export async function render(root, route) {
     contestStatus: c.contestStatus || detail.contestStatus,
   });
   const valid = sheet.validPoll;
-  const share = (v) => (v !== null && valid ? (100 * v) / valid : null);
+  const share = (/** @type {number | null} */ v) => (v !== null && valid ? (100 * v) / valid : null);
   const majority = !stv ? (num(c.majority) ?? fptpMajority(sheet)) : null;
   const turnout = num(c.turnoutPct) ?? (num(c.totalPoll) !== null && num(c.electorate) ? (100 * Number(c.totalPoll)) / Number(c.electorate) : null);
   const title = `${c.name || c.constituency} – ${detail.title}`;
@@ -89,7 +91,7 @@ export async function render(root, route) {
       <h1>${esc(c.name || c.constituency)}</h1>
       <p class="el-lead"><a href="${appUrl.election(detail.key)}">${esc(detail.title)}</a> · ${esc(fmtDate(detail.date))}</p>
     </header>
-    <dl class="cg-facts">${facts.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${v}</dd>`).join('')}</dl>
+    <dl class="cg-facts">${/** @type {string[][]} */ (facts).map(([k, v]) => `<dt>${esc(k)}</dt><dd>${v}</dd>`).join('')}</dl>
     ${KIND_NOTE[sheet.kind] ? `<p class="cg-notice${sheet.kind === 'none' ? ' cg-notice--warning' : ''}">${esc(KIND_NOTE[sheet.kind])}</p>` : ''}
     <section aria-labelledby="el-result"><h2 id="el-result">${sheet.kind === 'stages' ? 'Count sheet' : 'Result'}</h2>${table}</section>
     ${quota.length ? `<section aria-labelledby="el-quota"><h2 id="el-quota">Progress to the quota</h2><figure class="cg-chart">${quotaBars(quota, /** @type {number} */ (sheet.quota))}<figcaption>Each candidate's votes at ${sheet.kind === 'stages' ? 'their last count' : 'the first count'}, against the quota of ${fmtInt(sheet.quota)}.</figcaption></figure></section>` : ''}
@@ -106,11 +108,13 @@ export async function render(root, route) {
   return title;
 }
 
+/** @param {import('../lib/count.js').SheetRow} r */
 function personLink(r) {
   const url = personUrl(r.name, r.personId);
   return url ? `<a href="${esc(url)}">${esc(r.name)}</a>` : esc(r.name);
 }
 
+/** @param {import('../lib/count.js').SheetRow} r @param {boolean} [order] */
 function outcome(r, order = true) {
   if (r.unopposed) return '<span class="cg-badge cg-badge--success">Returned unopposed</span>';
   if (r.elected) return `<span class="cg-badge cg-badge--success">Elected</span>${order && r.electedAt ? ` <span class="el-muted">count ${r.electedAt}</span>` : ''}`;
@@ -119,6 +123,7 @@ function outcome(r, order = true) {
 }
 
 /** One citation: title (linked), publisher, what it covers and how it was checked. */
+/** @param {{ url?: string | null, title?: string | null, archiveUrl?: string | null, publisher?: string | null, scope?: string | null, basis?: string | null, check?: string | null, checked?: boolean }} ci */
 export function citation(ci) {
   const link = ci.url ? `<a href="${esc(ci.url)}" rel="noopener">${esc(ci.title || ci.url)}</a>` : esc(ci.title || 'Untitled source');
   const archive = ci.archiveUrl ? ` (<a href="${esc(ci.archiveUrl)}" rel="noopener">archived copy</a>)` : '';

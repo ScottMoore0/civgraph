@@ -3,7 +3,7 @@
  * party side by side with the change, and contest by contest where the two share contest names.
  * Defaults to an election and the one before it.
  */
-import { bodyElections, electionDetail, electionIndex, electionSummary } from '../lib/api.js';
+import { bodyElections, electionDetail, electionIndex, electionSummary, must } from '../lib/api.js';
 import { parliamentArc, seatBar } from '../lib/charts.js';
 import { appUrl, electionSlug, esc, fmtDelta, fmtInt, fmtPct, partyChip, summaryHasVotes } from '../lib/format.js';
 import { partyRows } from './election.js';
@@ -23,9 +23,10 @@ const seatChart = (d) => {
 export async function render(root, route, ctx) {
   const index = (await electionIndex()).filter((/** @type {any} */ e) => e.contestType === 'election');
   const find = (/** @type {string | null} */ s) => (s ? index.find((/** @type {any} */ e) => electionSlug(e.key) === s || e.key === s) : null);
-  const b = find(route.query.get('b')) || index.filter((/** @type {any} */ e) => e.bodySlug === 'northern-ireland-assembly').at(-1) || index.at(-1);
+  const b = must(find(route.query.get('b')) || index.filter((e) => e.bodySlug === 'northern-ireland-assembly').at(-1) || index.at(-1), 'election');
   const bDetail = await electionDetail(b.key);
   const a = find(route.query.get('a')) || (bDetail.previousKey ? find(bDetail.previousKey) : null) || b;
+  if (!a) throw new Error('no election to compare');
   const [aDetail, aSum, bSum, aBody] = await Promise.all([electionDetail(a.key), electionSummary(a.key), electionSummary(b.key), bodyElections(a.bodySlug)]);
   const bBody = a.bodySlug === b.bodySlug ? aBody : await bodyElections(b.bodySlug);
   const votesA = (aSum.results || []).some(summaryHasVotes);

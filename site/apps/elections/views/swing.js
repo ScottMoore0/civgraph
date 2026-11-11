@@ -3,7 +3,7 @@
  * election's first preferences, with the seats it would give (lib/project.js). Reads the pivot
  * extracts. Every projected figure is an estimate and says so; no polling data is used.
  */
-import { electionDetail, electionIndex } from '../lib/api.js';
+import { electionDetail, electionIndex, must } from '../lib/api.js';
 import { parliamentArc, seatBar } from '../lib/charts.js';
 import { appUrl, electionSlug, esc, fmtDelta, fmtPct, isStv, partyChip, partyColour } from '../lib/format.js';
 import { baseContests, nationalShares, project } from '../lib/project.js';
@@ -17,7 +17,7 @@ export async function render(root, route, ctx) {
   const q = route.query;
   const index = (await electionIndex()).filter((/** @type {any} */ e) => e.contestType === 'election' && e.kind !== 'by-election');
   const want = q.get('e') || 'northern-ireland-assembly-2022-05-05';
-  const el = index.find((/** @type {any} */ e) => electionSlug(e.key) === want || e.key === want) || index.at(-1);
+  const el = must(index.find((e) => electionSlug(e.key) === want || e.key === want) || index.at(-1), 'election');
   const detail = await electionDetail(el.key);
   const { useBodies, query } = await import('../lib/duck.js');
   await useBodies([el.bodySlug]);

@@ -114,7 +114,7 @@ export async function render(root, route, ctx) {
       <caption class="el-sr">${esc(m.label)} by ${esc(DIMENSIONS[/** @type {keyof typeof DIMENSIONS} */ (state.rows)].label)}${state.cols === 'none' ? '' : ` and ${esc(DIMENSIONS[/** @type {keyof typeof DIMENSIONS} */ (state.cols)].label)}`}</caption>
       <thead><tr><th scope="col">${esc(DIMENSIONS[/** @type {keyof typeof DIMENSIONS} */ (state.rows)].label)}</th>${table.cols.map((c) => `<th scope="col" class="num">${esc(state.cols === 'none' ? m.label : c || '(blank)')}</th>`).join('')}${showTotal && table.cols.length > 1 ? '<th scope="col" class="num">Total</th>' : ''}</tr></thead>
       <tbody>${table.rows.map((r) => `<tr><th scope="row">${esc(r.key || '(blank)')}</th>${r.values.map((v) => `<td class="num">${fmt(v)}</td>`).join('')}${showTotal && table && table.cols.length > 1 ? `<td class="num">${fmt(r.total)}</td>` : ''}</tr>`).join('')}</tbody>
-      ${showTotal ? `<tfoot><tr><th scope="row">Total</th>${table.totals.map((v) => `<td class="num">${fmt(v)}</td>`).join('')}${table.cols.length > 1 ? `<td class="num">${fmt(table.totals.reduce((s, v) => s + (v || 0), 0))}</td>` : ''}</tr></tfoot>` : ''}
+      ${showTotal ? `<tfoot><tr><th scope="row">Total</th>${table.totals.map((v) => `<td class="num">${fmt(v)}</td>`).join('')}${table.cols.length > 1 ? `<td class="num">${fmt(table.totals.reduce((/** @type {number} */ s, v) => s + (v || 0), 0))}</td>` : ''}</tr></tfoot>` : ''}
     </table>`;
     status.textContent = `${fmtInt(table.rowCount)} rows × ${table.cols.length} columns${table.rowsCut ? ' (first 500 rows shown; the CSV has them all)' : ''} · ${Math.round(performance.now() - started)} ms`;
   };
