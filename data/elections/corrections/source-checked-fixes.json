@@ -39,7 +39,8 @@
     "ledger-eoni-ec-2026-11-11": "Northern Ireland council (2014, 2023) and European Parliament (2004) contests checked against the Electoral Office for Northern Ireland's result sheets and the Electoral Commission's results spreadsheets: only clear transcription errors (an electorate, poll or quota that the sheet's own figures confirm, a count total, the elected flags).",
     "galway-city-2026-11-11": "Galway City West 2024, imported with no candidates, filled from Galway City Council's official State of the Poll sheets (counts 1-14), with IrelandElection.com person ids.",
     "two-member-unopposed-2026-11-11": "Two-member county seats imported as single-member: both members were returned unopposed, but the second was shown as defeated. Checked against Walker (1978) as Wikipedia's election boxes cite it, and corroborated by the second member's own votes in the next session (Historic Hansard).",
-    "roi-local-index-2026-11-11": "Irish local election gap-fills that were on file but never reached the site, because their areas were missing from the election index (2014, 2019 and 2024): each fill was re-checked against the Department's results book for that year (candidates, first preferences, parties, members elected, seats, valid poll and quota) and the total poll added from the same book."
+    "roi-local-index-2026-11-11": "Irish local election gap-fills that were on file but never reached the site, because their areas were missing from the election index (2014, 2019 and 2024): each fill was re-checked against the Department's results book for that year (candidates, first preferences, parties, members elected, seats, valid poll and quota) and the total poll added from the same book.",
+    "roi-local-2024-book-2026-11-11": "Irish local elections of 7 June 2024 checked against the Department of Housing, Local Government and Heritage's Local Elections 2024: Results, Transfer of Votes and Statistics (the book and its spreadsheet, on opendata.housing.gov.ie): the 21 areas imported with no candidates and no fill are filled from it, and where a contest on file disagrees with the book (a first preference, a member elected, a party label, the electorate or other poll figures) the book's figure is taken and the old one named. Every area's count-by-count result is in data/elections/roi-local-counts/2024-06-07/. Where the book contradicts itself the figure its own arithmetic or its county totals give is used, and the note says so."
   },
   "records": [
     {
@@ -248954,6 +248955,3787 @@
           "set": {
             "Status": "Elected"
           }
+        }
+      ]
+    },
+    {
+      "batch": "roi-local-2024-book-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/ireland-local/2024-06-07/bantry-west-cork.json",
+      "source": {
+        "publisher": "Department of Housing, Local Government and Heritage",
+        "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, p. 93 (Bantry-West Cork LEA, Cork County Council)",
+        "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=93",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024 results (spreadsheet), sheet \"Cork County\"",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/203a12a1-e573-4d4d-a978-6f919d489b70/download/local-election-results-2024.xlsx",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "IrelandElection.com",
+          "title": "2024 Local Election, Bantry West Cork (candidate ids)",
+          "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=498&electype=5",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "ElectionsIreland.org",
+          "title": "ElectionsIreland.org result page for this area (no result rows)",
+          "url": "https://electionsireland.org/result.cfm?election=2024L&cons=5074"
+        }
+      ],
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; filled from the Department's results book: all 11 candidates with their parties and first preferences (adding up to the valid poll of 12,295), 4 elected for 4 seats, quota 2,460, electorate 21,485 and total poll 12,396 (101 invalid papers); every count is in the area's count file. Each row carries an IrelandElection.com person id, matched by name.",
+      "category": "gap-fill",
+      "operations": [
+        {
+          "op": "replaceCandidates",
+          "candidates": [
+            {
+              "name": "Danny Collins",
+              "party": "Independent Ireland",
+              "first_pref": 2386,
+              "counts": [
+                2386
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:17800"
+            },
+            {
+              "name": "Finbarr Harrington",
+              "party": "Independent",
+              "first_pref": 1870,
+              "counts": [
+                1870
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:4512"
+            },
+            {
+              "name": "Caroline Cronin",
+              "party": "Fine Gael",
+              "first_pref": 1696,
+              "counts": [
+                1696
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:19073"
+            },
+            {
+              "name": "Patrick Gerard Murphy",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 1361,
+              "counts": [
+                1361
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:17801"
+            },
+            {
+              "name": "Helen O'Sullivan",
+              "party": "Independent",
+              "first_pref": 1340,
+              "counts": [
+                1340
+              ],
+              "status": "",
+              "sourcePersonId": "ie:7727"
+            },
+            {
+              "name": "Danny Crowley",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 1245,
+              "counts": [
+                1245
+              ],
+              "status": "",
+              "sourcePersonId": "ie:7557"
+            },
+            {
+              "name": "Chris Heinhold",
+              "party": "Social Democrats",
+              "first_pref": 994,
+              "counts": [
+                994
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19074"
+            },
+            {
+              "name": "Mary Lou Maguire Leahy",
+              "party": "Fine Gael",
+              "first_pref": 562,
+              "counts": [
+                562
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19075"
+            },
+            {
+              "name": "Liz Coakley Wakefield",
+              "party": "Green",
+              "first_pref": 294,
+              "counts": [
+                294
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19072"
+            },
+            {
+              "name": "Patrick Murphy",
+              "party": "Aont\u00fa",
+              "first_pref": 289,
+              "counts": [
+                289
+              ],
+              "status": "",
+              "sourcePersonId": "ie:20086"
+            },
+            {
+              "name": "Colum O'Callaghan",
+              "party": "Sinn F\u00e9in",
+              "first_pref": 258,
+              "counts": [
+                258
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19076"
+            }
+          ]
+        },
+        {
+          "op": "set",
+          "path": "seats",
+          "value": 4
+        },
+        {
+          "op": "set",
+          "path": "meta.valid_poll",
+          "value": 12295
+        },
+        {
+          "op": "set",
+          "path": "meta.quota",
+          "value": 2460
+        },
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 21485
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 12396
+        }
+      ]
+    },
+    {
+      "batch": "roi-local-2024-book-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/ireland-local/2024-06-07/cobh.json",
+      "source": {
+        "publisher": "Department of Housing, Local Government and Heritage",
+        "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 96-97 (Cobh LEA, Cork County Council)",
+        "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=96",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024 results (spreadsheet), sheet \"Cork County\"",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/203a12a1-e573-4d4d-a978-6f919d489b70/download/local-election-results-2024.xlsx",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "IrelandElection.com",
+          "title": "2024 Local Election, Cobh (candidate ids)",
+          "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=127&electype=5",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "ElectionsIreland.org",
+          "title": "ElectionsIreland.org result page for this area (no result rows)",
+          "url": "https://electionsireland.org/result.cfm?election=2024L&cons=5021"
+        }
+      ],
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; filled from the Department's results book: all 12 candidates with their parties and first preferences (adding up to the valid poll of 12,915), 6 elected for 6 seats, quota 1,846, electorate 28,695 and total poll 13,021 (106 invalid papers); every count is in the area's count file. Each row carries an IrelandElection.com person id, matched by name.",
+      "category": "gap-fill",
+      "operations": [
+        {
+          "op": "replaceCandidates",
+          "candidates": [
+            {
+              "name": "Sheila O'Callaghan",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 2202,
+              "counts": [
+                2202
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:19089"
+            },
+            {
+              "name": "Anthony Barry",
+              "party": "Fine Gael",
+              "first_pref": 1935,
+              "counts": [
+                1935
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:4455"
+            },
+            {
+              "name": "Cathal Rasmussen",
+              "party": "Irish Labour",
+              "first_pref": 1541,
+              "counts": [
+                1541
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:4458"
+            },
+            {
+              "name": "Sin\u00e9ad Sheppard",
+              "party": "Fine Gael",
+              "first_pref": 1497,
+              "counts": [
+                1497
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:4457"
+            },
+            {
+              "name": "Ger Curley",
+              "party": "Independent Ireland",
+              "first_pref": 1293,
+              "counts": [
+                1293
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:19086"
+            },
+            {
+              "name": "Dominic Finn",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 940,
+              "counts": [
+                940
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:19087"
+            },
+            {
+              "name": "Cl\u00edona O'Halloran",
+              "party": "Green",
+              "first_pref": 834,
+              "counts": [
+                834
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19090"
+            },
+            {
+              "name": "Keith Kelly",
+              "party": "Fine Gael",
+              "first_pref": 645,
+              "counts": [
+                645
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19088"
+            },
+            {
+              "name": "Medhi \u00d6z\u00e7inar",
+              "party": "Sinn F\u00e9in",
+              "first_pref": 620,
+              "counts": [
+                620
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19091"
+            },
+            {
+              "name": "Diarmaid \u00d3 Cadhla",
+              "party": "Gl\u00f3r",
+              "first_pref": 559,
+              "counts": [
+                559
+              ],
+              "status": "",
+              "sourcePersonId": "ie:4396"
+            },
+            {
+              "name": "Rola Abu Zeid-O'Neill",
+              "party": "Solidarity-PBP",
+              "first_pref": 492,
+              "counts": [
+                492
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19085"
+            },
+            {
+              "name": "Peter Kidney",
+              "party": "Independent",
+              "first_pref": 357,
+              "counts": [
+                357
+              ],
+              "status": "",
+              "sourcePersonId": "ie:17821"
+            }
+          ]
+        },
+        {
+          "op": "set",
+          "path": "seats",
+          "value": 6
+        },
+        {
+          "op": "set",
+          "path": "meta.valid_poll",
+          "value": 12915
+        },
+        {
+          "op": "set",
+          "path": "meta.quota",
+          "value": 1846
+        },
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 28695
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 13021
+        }
+      ]
+    },
+    {
+      "batch": "roi-local-2024-book-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/ireland-local/2024-06-07/letterkenny.json",
+      "source": {
+        "publisher": "Department of Housing, Local Government and Heritage",
+        "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 112-113 (Letterkenny LEA, Donegal County Council)",
+        "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=112",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024 results (spreadsheet), sheet \"Donegal\"",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/203a12a1-e573-4d4d-a978-6f919d489b70/download/local-election-results-2024.xlsx",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "IrelandElection.com",
+          "title": "2024 Local Election, Letterkenny (candidate ids)",
+          "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=135&electype=5",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "ElectionsIreland.org",
+          "title": "ElectionsIreland.org result page for this area (no result rows)",
+          "url": "https://electionsireland.org/result.cfm?election=2024L&cons=372"
+        }
+      ],
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; filled from the Department's results book: all 18 candidates with their parties and first preferences (adding up to the valid poll of 13,026), 7 elected for 7 seats, quota 1,629, electorate 25,643 and total poll 13,175 (149 invalid papers); every count is in the area's count file. Each row carries an IrelandElection.com person id, matched by name.",
+      "category": "gap-fill",
+      "operations": [
+        {
+          "op": "replaceCandidates",
+          "candidates": [
+            {
+              "name": "Donal (Mandy) Kelly",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 1843,
+              "counts": [
+                1843
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:19160"
+            },
+            {
+              "name": "Ciaran Brogan",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 1407,
+              "counts": [
+                1407
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:4568"
+            },
+            {
+              "name": "Tom\u00e1s Se\u00e1n Devine",
+              "party": "100% Redress",
+              "first_pref": 1288,
+              "counts": [
+                1288
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:19156"
+            },
+            {
+              "name": "Jimmy Kavanagh",
+              "party": "Fine Gael",
+              "first_pref": 1249,
+              "counts": [
+                1249
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:4575"
+            },
+            {
+              "name": "Michael McBride",
+              "party": "Independent",
+              "first_pref": 1101,
+              "counts": [
+                1101
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:13138"
+            },
+            {
+              "name": "Gerry McMonagle",
+              "party": "Sinn F\u00e9in",
+              "first_pref": 970,
+              "counts": [
+                970
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:4571"
+            },
+            {
+              "name": "Donal Coyle",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 950,
+              "counts": [
+                950
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:17895"
+            },
+            {
+              "name": "Mary T Sweeney",
+              "party": "Aont\u00fa",
+              "first_pref": 785,
+              "counts": [
+                785
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19164"
+            },
+            {
+              "name": "Kevin Bradley",
+              "party": "Independent",
+              "first_pref": 731,
+              "counts": [
+                731
+              ],
+              "status": "",
+              "sourcePersonId": "ie:17896"
+            },
+            {
+              "name": "Sandra Haughey",
+              "party": "Sinn F\u00e9in",
+              "first_pref": 620,
+              "counts": [
+                620
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19157"
+            },
+            {
+              "name": "Declan Jordan",
+              "party": "Independent",
+              "first_pref": 619,
+              "counts": [
+                619
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19159"
+            },
+            {
+              "name": "Thoiba Ahmed",
+              "party": "Independent",
+              "first_pref": 439,
+              "counts": [
+                439
+              ],
+              "status": "",
+              "sourcePersonId": "ie:17901"
+            },
+            {
+              "name": "Ulick Hughes",
+              "party": "Sinn F\u00e9in",
+              "first_pref": 344,
+              "counts": [
+                344
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19158"
+            },
+            {
+              "name": "Michael McLaughlin",
+              "party": "Irish Labour",
+              "first_pref": 226,
+              "counts": [
+                226
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19162"
+            },
+            {
+              "name": "Nuala Carr",
+              "party": "Green",
+              "first_pref": 176,
+              "counts": [
+                176
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19155"
+            },
+            {
+              "name": "Anne McCloskey",
+              "party": "The Irish People",
+              "first_pref": 150,
+              "counts": [
+                150
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19161"
+            },
+            {
+              "name": "Vincent J Bradley",
+              "party": "Independent",
+              "first_pref": 98,
+              "counts": [
+                98
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19154"
+            },
+            {
+              "name": "Selina O'Donnell",
+              "party": "Independent",
+              "first_pref": 30,
+              "counts": [
+                30
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19163"
+            }
+          ]
+        },
+        {
+          "op": "set",
+          "path": "seats",
+          "value": 7
+        },
+        {
+          "op": "set",
+          "path": "meta.valid_poll",
+          "value": 13026
+        },
+        {
+          "op": "set",
+          "path": "meta.quota",
+          "value": 1629
+        },
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 25643
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 13175
+        }
+      ]
+    },
+    {
+      "batch": "roi-local-2024-book-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/ireland-local/2024-06-07/castleknock.json",
+      "source": {
+        "publisher": "Department of Housing, Local Government and Heritage",
+        "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, p. 132 (Castleknock LEA, Fingal County Council)",
+        "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=132",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024 results (spreadsheet), sheet \"Fingal\"",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/203a12a1-e573-4d4d-a978-6f919d489b70/download/local-election-results-2024.xlsx",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "IrelandElection.com",
+          "title": "2024 Local Election, Castleknock (candidate ids)",
+          "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=153&electype=5",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "ElectionsIreland.org",
+          "title": "ElectionsIreland.org result page for this area (no result rows)",
+          "url": "https://electionsireland.org/result.cfm?election=2024L&cons=35"
+        }
+      ],
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; filled from the Department's results book: all 10 candidates with their parties and first preferences (adding up to the valid poll of 14,107), 6 elected for 6 seats, quota 2,016, electorate 34,239 and total poll 14,263 (156 invalid papers); every count is in the area's count file. Each row carries an IrelandElection.com person id, matched by name.",
+      "category": "gap-fill",
+      "operations": [
+        {
+          "op": "replaceCandidates",
+          "candidates": [
+            {
+              "name": "Ted Leddy",
+              "party": "Fine Gael",
+              "first_pref": 2153,
+              "counts": [
+                2153
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:4848"
+            },
+            {
+              "name": "John Walsh",
+              "party": "Irish Labour",
+              "first_pref": 1937,
+              "counts": [
+                1937
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:17653"
+            },
+            {
+              "name": "Siobhan Shovlin",
+              "party": "Fine Gael",
+              "first_pref": 1891,
+              "counts": [
+                1891
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:17939"
+            },
+            {
+              "name": "Ellen Troy",
+              "party": "Aont\u00fa",
+              "first_pref": 1674,
+              "counts": [
+                1674
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:19331"
+            },
+            {
+              "name": "Ruth Coppinger",
+              "party": "Solidarity-PBP",
+              "first_pref": 1553,
+              "counts": [
+                1553
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:1599"
+            },
+            {
+              "name": "Eimear Carbone-Mangan",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 1132,
+              "counts": [
+                1132
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:19328"
+            },
+            {
+              "name": "Howard Mahony",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 1118,
+              "counts": [
+                1118
+              ],
+              "status": "",
+              "sourcePersonId": "ie:9045"
+            },
+            {
+              "name": "Phil Lynam",
+              "party": "Sinn F\u00e9in",
+              "first_pref": 1115,
+              "counts": [
+                1115
+              ],
+              "status": "",
+              "sourcePersonId": "ie:4888"
+            },
+            {
+              "name": "Pamela Conroy",
+              "party": "Green",
+              "first_pref": 1015,
+              "counts": [
+                1015
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19329"
+            },
+            {
+              "name": "Luke Daly",
+              "party": "Social Democrats",
+              "first_pref": 519,
+              "counts": [
+                519
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19330"
+            }
+          ]
+        },
+        {
+          "op": "set",
+          "path": "seats",
+          "value": 6
+        },
+        {
+          "op": "set",
+          "path": "meta.valid_poll",
+          "value": 14107
+        },
+        {
+          "op": "set",
+          "path": "meta.quota",
+          "value": 2016
+        },
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 34239
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 14263
+        }
+      ]
+    },
+    {
+      "batch": "roi-local-2024-book-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/ireland-local/2024-06-07/granard.json",
+      "source": {
+        "publisher": "Department of Housing, Local Government and Heritage",
+        "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, p. 190 (Granard LEA, Longford County Council)",
+        "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=190",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024 results (spreadsheet), sheet \"Longford\"",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/203a12a1-e573-4d4d-a978-6f919d489b70/download/local-election-results-2024.xlsx",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "IrelandElection.com",
+          "title": "2024 Local Election, Granard (candidate ids)",
+          "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=191&electype=5",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "ElectionsIreland.org",
+          "title": "ElectionsIreland.org result page for this area (no result rows)",
+          "url": "https://electionsireland.org/result.cfm?election=2024L&cons=358"
+        }
+      ],
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; filled from the Department's results book: all 9 candidates with their parties and first preferences (adding up to the valid poll of 7,105), 5 elected for 5 seats, quota 1,185, electorate 10,955 and total poll 7,162 (57 invalid papers); every count is in the area's count file. Each row carries an IrelandElection.com person id, matched by name.",
+      "category": "gap-fill",
+      "operations": [
+        {
+          "op": "replaceCandidates",
+          "candidates": [
+            {
+              "name": "Garry Murtagh",
+              "party": "Fine Gael",
+              "first_pref": 1450,
+              "counts": [
+                1450
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:18392"
+            },
+            {
+              "name": "Turlough McGovern",
+              "party": "Independent",
+              "first_pref": 1413,
+              "counts": [
+                1413
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:19636"
+            },
+            {
+              "name": "Paraic Brady",
+              "party": "Fine Gael",
+              "first_pref": 1211,
+              "counts": [
+                1211
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:5384"
+            },
+            {
+              "name": "Colin Dalton",
+              "party": "Fine Gael",
+              "first_pref": 820,
+              "counts": [
+                820
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19634"
+            },
+            {
+              "name": "P\u00e1draig McNamara",
+              "party": "Fine Gael",
+              "first_pref": 699,
+              "counts": [
+                699
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:19635"
+            },
+            {
+              "name": "David Cassidy",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 543,
+              "counts": [
+                543
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:19633"
+            },
+            {
+              "name": "Susan Murphy",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 434,
+              "counts": [
+                434
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19637"
+            },
+            {
+              "name": "Marett Smith",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 282,
+              "counts": [
+                282
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19638"
+            },
+            {
+              "name": "Barry Campion",
+              "party": "Sinn F\u00e9in",
+              "first_pref": 253,
+              "counts": [
+                253
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19632"
+            }
+          ]
+        },
+        {
+          "op": "set",
+          "path": "seats",
+          "value": 5
+        },
+        {
+          "op": "set",
+          "path": "meta.valid_poll",
+          "value": 7105
+        },
+        {
+          "op": "set",
+          "path": "meta.quota",
+          "value": 1185
+        },
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 10955
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 7162
+        }
+      ]
+    },
+    {
+      "batch": "roi-local-2024-book-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/ireland-local/2024-06-07/longford.json",
+      "source": {
+        "publisher": "Department of Housing, Local Government and Heritage",
+        "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 192-193 (Longford LEA, Longford County Council)",
+        "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=192",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024 results (spreadsheet), sheet \"Longford\"",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/203a12a1-e573-4d4d-a978-6f919d489b70/download/local-election-results-2024.xlsx",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "IrelandElection.com",
+          "title": "2024 Local Election, Longford (candidate ids)",
+          "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=192&electype=5",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "ElectionsIreland.org",
+          "title": "ElectionsIreland.org result page for this area (no result rows)",
+          "url": "https://electionsireland.org/result.cfm?election=2024L&cons=463"
+        }
+      ],
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; filled from the Department's results book: all 18 candidates with their parties and first preferences (adding up to the valid poll of 6,825), 7 elected for 7 seats, quota 854, electorate 13,843 and total poll 6,918 (93 invalid papers); every count is in the area's count file. Each row carries an IrelandElection.com person id, matched by name.",
+      "category": "gap-fill",
+      "operations": [
+        {
+          "op": "replaceCandidates",
+          "candidates": [
+            {
+              "name": "Gerry Hagan",
+              "party": "Fine Gael",
+              "first_pref": 1071,
+              "counts": [
+                1071
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:19644"
+            },
+            {
+              "name": "Martin Monaghan",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 1051,
+              "counts": [
+                1051
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:18401"
+            },
+            {
+              "name": "Seamus Butler",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 1041,
+              "counts": [
+                1041
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:5394"
+            },
+            {
+              "name": "Peggy Nolan",
+              "party": "Fine Gael",
+              "first_pref": 890,
+              "counts": [
+                890
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:5395"
+            },
+            {
+              "name": "Niall Gannon",
+              "party": "Fine Gael",
+              "first_pref": 508,
+              "counts": [
+                508
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:19642"
+            },
+            {
+              "name": "Kevin Hussey",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 443,
+              "counts": [
+                443
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:19645"
+            },
+            {
+              "name": "Uruemu Adejinmi",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 431,
+              "counts": [
+                431
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:18403"
+            },
+            {
+              "name": "James Donnelly",
+              "party": "Sinn F\u00e9in",
+              "first_pref": 401,
+              "counts": [
+                401
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19641"
+            },
+            {
+              "name": "Mujahid Manzoor",
+              "party": "Independent",
+              "first_pref": 222,
+              "counts": [
+                222
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19647"
+            },
+            {
+              "name": "Sadia Athar",
+              "party": "Independent",
+              "first_pref": 203,
+              "counts": [
+                203
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19639"
+            },
+            {
+              "name": "Gareth McKendry",
+              "party": "The Irish People",
+              "first_pref": 123,
+              "counts": [
+                123
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19648"
+            },
+            {
+              "name": "James Quinn",
+              "party": "Independent",
+              "first_pref": 114,
+              "counts": [
+                114
+              ],
+              "status": "",
+              "sourcePersonId": "ie:7975"
+            },
+            {
+              "name": "Catherine Joseph",
+              "party": "Green",
+              "first_pref": 92,
+              "counts": [
+                92
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19646"
+            },
+            {
+              "name": "Dave Smyth",
+              "party": "Solidarity-PBP",
+              "first_pref": 71,
+              "counts": [
+                71
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19650"
+            },
+            {
+              "name": "Alicia Carberry",
+              "party": "Independent",
+              "first_pref": 68,
+              "counts": [
+                68
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19640"
+            },
+            {
+              "name": "Maura Greene-Casey",
+              "party": "Independent",
+              "first_pref": 53,
+              "counts": [
+                53
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19643"
+            },
+            {
+              "name": "Tony Reilly",
+              "party": "Independent",
+              "first_pref": 30,
+              "counts": [
+                30
+              ],
+              "status": "",
+              "sourcePersonId": "ie:18406"
+            },
+            {
+              "name": "Dwain Schouten",
+              "party": "Independent",
+              "first_pref": 13,
+              "counts": [
+                13
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19649"
+            }
+          ]
+        },
+        {
+          "op": "set",
+          "path": "seats",
+          "value": 7
+        },
+        {
+          "op": "set",
+          "path": "meta.valid_poll",
+          "value": 6825
+        },
+        {
+          "op": "set",
+          "path": "meta.quota",
+          "value": 854
+        },
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 13843
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 6918
+        }
+      ]
+    },
+    {
+      "batch": "roi-local-2024-book-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/ireland-local/2024-06-07/kells.json",
+      "source": {
+        "publisher": "Department of Housing, Local Government and Heritage",
+        "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 216-217 (Kells LEA, Meath County Council)",
+        "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=216",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024 results (spreadsheet), sheet \"Meath\"",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/203a12a1-e573-4d4d-a978-6f919d489b70/download/local-election-results-2024.xlsx",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "IrelandElection.com",
+          "title": "2024 Local Election, Kells (candidate ids)",
+          "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=202&electype=5",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "ElectionsIreland.org",
+          "title": "ElectionsIreland.org result page for this area (no result rows)",
+          "url": "https://electionsireland.org/result.cfm?election=2024L&cons=134"
+        }
+      ],
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; filled from the Department's results book: all 14 candidates with their parties and first preferences (adding up to the valid poll of 14,963), 7 elected for 7 seats, quota 1,871, electorate 27,565 and total poll 15,171 (208 invalid papers); every count is in the area's count file. Each row carries an IrelandElection.com person id, matched by name.",
+      "category": "gap-fill",
+      "operations": [
+        {
+          "op": "replaceCandidates",
+          "candidates": [
+            {
+              "name": "Sarah Reilly",
+              "party": "Fine Gael",
+              "first_pref": 2077,
+              "counts": [
+                2077
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:5547"
+            },
+            {
+              "name": "Eugene Cassidy",
+              "party": "Fine Gael",
+              "first_pref": 1833,
+              "counts": [
+                1833
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:5548"
+            },
+            {
+              "name": "Sean Drew",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 1476,
+              "counts": [
+                1476
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:5542"
+            },
+            {
+              "name": "Mike Bray",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 1328,
+              "counts": [
+                1328
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:18491"
+            },
+            {
+              "name": "Michael Gallagher",
+              "party": "Sinn F\u00e9in",
+              "first_pref": 1258,
+              "counts": [
+                1258
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:20960"
+            },
+            {
+              "name": "David Gilroy",
+              "party": "Independent",
+              "first_pref": 1231,
+              "counts": [
+                1231
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:5545"
+            },
+            {
+              "name": "Peter Caffrey",
+              "party": "Sinn F\u00e9in",
+              "first_pref": 987,
+              "counts": [
+                987
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:19730"
+            },
+            {
+              "name": "Oliver (Figgy) Curran",
+              "party": "Sinn F\u00e9in",
+              "first_pref": 955,
+              "counts": [
+                955
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19732"
+            },
+            {
+              "name": "Paul McCabe",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 798,
+              "counts": [
+                798
+              ],
+              "status": "",
+              "sourcePersonId": "ie:18490"
+            },
+            {
+              "name": "Seamus McGee",
+              "party": "Fine Gael",
+              "first_pref": 798,
+              "counts": [
+                798
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19735"
+            },
+            {
+              "name": "Paddy Rennick",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 712,
+              "counts": [
+                712
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19736"
+            },
+            {
+              "name": "Peter Devin",
+              "party": "Aont\u00fa",
+              "first_pref": 706,
+              "counts": [
+                706
+              ],
+              "status": "",
+              "sourcePersonId": "ie:18493"
+            },
+            {
+              "name": "Cormac Corr",
+              "party": "Independent",
+              "first_pref": 547,
+              "counts": [
+                547
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19731"
+            },
+            {
+              "name": "Colm Mac an tSionnaigh",
+              "party": "Independent Ireland",
+              "first_pref": 257,
+              "counts": [
+                257
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19734"
+            }
+          ]
+        },
+        {
+          "op": "set",
+          "path": "seats",
+          "value": 7
+        },
+        {
+          "op": "set",
+          "path": "meta.valid_poll",
+          "value": 14963
+        },
+        {
+          "op": "set",
+          "path": "meta.quota",
+          "value": 1871
+        },
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 27565
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 15171
+        }
+      ]
+    },
+    {
+      "batch": "roi-local-2024-book-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/ireland-local/2024-06-07/boyle.json",
+      "source": {
+        "publisher": "Department of Housing, Local Government and Heritage",
+        "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 234-235 (Boyle LEA, Roscommon County Council)",
+        "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=234",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024 results (spreadsheet), sheet \"Roscommon\"",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/203a12a1-e573-4d4d-a978-6f919d489b70/download/local-election-results-2024.xlsx",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "IrelandElection.com",
+          "title": "2024 Local Election, Boyle (candidate ids)",
+          "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=214&electype=5",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "ElectionsIreland.org",
+          "title": "ElectionsIreland.org result page for this area (no result rows)",
+          "url": "https://electionsireland.org/result.cfm?election=2024L&cons=303"
+        }
+      ],
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; filled from the Department's results book: all 16 candidates with their parties and first preferences (adding up to the valid poll of 11,389), 6 elected for 6 seats, quota 1,628, electorate 19,159 and total poll 11,524 (135 invalid papers); every count is in the area's count file. Each row carries an IrelandElection.com person id, matched by name.",
+      "category": "gap-fill",
+      "operations": [
+        {
+          "op": "replaceCandidates",
+          "candidates": [
+            {
+              "name": "Valerie Byrne",
+              "party": "Independent",
+              "first_pref": 1565,
+              "counts": [
+                1565
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:5688"
+            },
+            {
+              "name": "Leah Cull",
+              "party": "Sinn F\u00e9in",
+              "first_pref": 1416,
+              "counts": [
+                1416
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:19814"
+            },
+            {
+              "name": "Miche\u00e1l Frain",
+              "party": "Independent",
+              "first_pref": 1355,
+              "counts": [
+                1355
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:14486"
+            },
+            {
+              "name": "Sean Moylan",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 1278,
+              "counts": [
+                1278
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:20670"
+            },
+            {
+              "name": "Tom Crosby",
+              "party": "Independent",
+              "first_pref": 1065,
+              "counts": [
+                1065
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:5692"
+            },
+            {
+              "name": "Dympna Daly-Finn",
+              "party": "Fine Gael",
+              "first_pref": 875,
+              "counts": [
+                875
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19815"
+            },
+            {
+              "name": "Paul Forde",
+              "party": "Independent Ireland",
+              "first_pref": 830,
+              "counts": [
+                830
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19816"
+            },
+            {
+              "name": "Liam Callaghan",
+              "party": "Fine Gael",
+              "first_pref": 746,
+              "counts": [
+                746
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:5696"
+            },
+            {
+              "name": "Angela Beirne",
+              "party": "Sinn F\u00e9in",
+              "first_pref": 589,
+              "counts": [
+                589
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19813"
+            },
+            {
+              "name": "Aidan Sampey",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 429,
+              "counts": [
+                429
+              ],
+              "status": "",
+              "sourcePersonId": "ie:5698"
+            },
+            {
+              "name": "Rory Williams Doyle",
+              "party": "Sinn F\u00e9in",
+              "first_pref": 426,
+              "counts": [
+                426
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19820"
+            },
+            {
+              "name": "Sajjad (Saj) Hussain",
+              "party": "Independent",
+              "first_pref": 411,
+              "counts": [
+                411
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19817"
+            },
+            {
+              "name": "Fayiz Alsani",
+              "party": "Aont\u00fa",
+              "first_pref": 140,
+              "counts": [
+                140
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19812"
+            },
+            {
+              "name": "Edmund Shanahan",
+              "party": "The Irish People",
+              "first_pref": 123,
+              "counts": [
+                123
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19819"
+            },
+            {
+              "name": "Majid Ali",
+              "party": "Independent",
+              "first_pref": 95,
+              "counts": [
+                95
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19811"
+            },
+            {
+              "name": "Caoimh\u00edn \u00d3 Miadh",
+              "party": "Independent",
+              "first_pref": 46,
+              "counts": [
+                46
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19818"
+            }
+          ]
+        },
+        {
+          "op": "set",
+          "path": "seats",
+          "value": 6
+        },
+        {
+          "op": "set",
+          "path": "meta.valid_poll",
+          "value": 11389
+        },
+        {
+          "op": "set",
+          "path": "meta.quota",
+          "value": 1628
+        },
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 19159
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 11524
+        }
+      ]
+    },
+    {
+      "batch": "roi-local-2024-book-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/ireland-local/2024-06-07/ballymote-tobercurry.json",
+      "source": {
+        "publisher": "Department of Housing, Local Government and Heritage",
+        "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 238-239 (Ballymote-Tobercurry LEA, Sligo County Council)",
+        "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=238",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024 results (spreadsheet), sheet \"Sligo\"",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/203a12a1-e573-4d4d-a978-6f919d489b70/download/local-election-results-2024.xlsx",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "ElectionsIreland.org",
+          "title": "ElectionsIreland.org result page for this area (no result rows)",
+          "url": "https://electionsireland.org/result.cfm?election=2024L&cons=5050"
+        }
+      ],
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; filled from the Department's results book: all 15 candidates with their parties and first preferences (adding up to the valid poll of 16,166), 7 elected for 7 seats, quota 2,021, electorate 26,024 and total poll 16,277 (111 invalid papers); every count is in the area's count file.",
+      "category": "gap-fill",
+      "operations": [
+        {
+          "op": "replaceCandidates",
+          "candidates": [
+            {
+              "name": "Paul Taylor",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 1924,
+              "counts": [
+                1924
+              ],
+              "status": "Elected"
+            },
+            {
+              "name": "Michael Clarke",
+              "party": "Independent",
+              "first_pref": 1773,
+              "counts": [
+                1773
+              ],
+              "status": "Elected"
+            },
+            {
+              "name": "Gerard Mullaney",
+              "party": "Fine Gael",
+              "first_pref": 1724,
+              "counts": [
+                1724
+              ],
+              "status": "Elected"
+            },
+            {
+              "name": "Dara Mulvey",
+              "party": "Fine Gael",
+              "first_pref": 1666,
+              "counts": [
+                1666
+              ],
+              "status": "Elected"
+            },
+            {
+              "name": "Joseph Queenan",
+              "party": "Independent",
+              "first_pref": 1523,
+              "counts": [
+                1523
+              ],
+              "status": "Elected"
+            },
+            {
+              "name": "Liam Brennan",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 1307,
+              "counts": [
+                1307
+              ],
+              "status": "Elected"
+            },
+            {
+              "name": "Barry Gallagher",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 1246,
+              "counts": [
+                1246
+              ],
+              "status": "Elected"
+            },
+            {
+              "name": "Martin Connolly",
+              "party": "Fine Gael",
+              "first_pref": 1110,
+              "counts": [
+                1110
+              ],
+              "status": ""
+            },
+            {
+              "name": "Keith Henry",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 1060,
+              "counts": [
+                1060
+              ],
+              "status": ""
+            },
+            {
+              "name": "Patrick Cleary",
+              "party": "Fine Gael",
+              "first_pref": 1004,
+              "counts": [
+                1004
+              ],
+              "status": ""
+            },
+            {
+              "name": "James Conway",
+              "party": "Irish Freedom Party",
+              "first_pref": 596,
+              "counts": [
+                596
+              ],
+              "status": ""
+            },
+            {
+              "name": "Jennifer Van Aswegen",
+              "party": "Sinn F\u00e9in",
+              "first_pref": 383,
+              "counts": [
+                383
+              ],
+              "status": ""
+            },
+            {
+              "name": "Jason Gorman",
+              "party": "Sinn F\u00e9in",
+              "first_pref": 345,
+              "counts": [
+                345
+              ],
+              "status": ""
+            },
+            {
+              "name": "Donal O'Connor",
+              "party": "Sinn F\u00e9in",
+              "first_pref": 302,
+              "counts": [
+                302
+              ],
+              "status": ""
+            },
+            {
+              "name": "Emma Hendrick",
+              "party": "Solidarity-PBP",
+              "first_pref": 203,
+              "counts": [
+                203
+              ],
+              "status": ""
+            }
+          ]
+        },
+        {
+          "op": "set",
+          "path": "seats",
+          "value": 7
+        },
+        {
+          "op": "set",
+          "path": "meta.valid_poll",
+          "value": 16166
+        },
+        {
+          "op": "set",
+          "path": "meta.quota",
+          "value": 2021
+        },
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 26024
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 16277
+        }
+      ]
+    },
+    {
+      "batch": "roi-local-2024-book-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/ireland-local/2024-06-07/sligo-drumcliff.json",
+      "source": {
+        "publisher": "Department of Housing, Local Government and Heritage",
+        "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, p. 240 (Sligo-Drumcliff LEA, Sligo County Council)",
+        "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=240",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024 results (spreadsheet), sheet \"Sligo\"",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/203a12a1-e573-4d4d-a978-6f919d489b70/download/local-election-results-2024.xlsx",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "IrelandElection.com",
+          "title": "2024 Local Election, Sligo-Drumcliff (candidate ids)",
+          "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=529&electype=5",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "ElectionsIreland.org",
+          "title": "ElectionsIreland.org result page for this area (no result rows)",
+          "url": "https://electionsireland.org/result.cfm?election=2024L&cons=411"
+        }
+      ],
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; filled from the Department's results book: all 10 candidates with their parties and first preferences (adding up to the valid poll of 9,302), 5 elected for 5 seats, quota 1,551, electorate 16,973 and total poll 9,372 (70 invalid papers); every count is in the area's count file. Each row carries an IrelandElection.com person id, matched by name.",
+      "category": "gap-fill",
+      "operations": [
+        {
+          "op": "replaceCandidates",
+          "candidates": [
+            {
+              "name": "Thomas Walsh",
+              "party": "Fine Gael",
+              "first_pref": 1891,
+              "counts": [
+                1891
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:18591"
+            },
+            {
+              "name": "Thomas Healy",
+              "party": "Sinn F\u00e9in",
+              "first_pref": 1449,
+              "counts": [
+                1449
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:1085"
+            },
+            {
+              "name": "Marie Casserly",
+              "party": "Independent",
+              "first_pref": 1405,
+              "counts": [
+                1405
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:5726"
+            },
+            {
+              "name": "Edel McSharry",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 1327,
+              "counts": [
+                1327
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:19832"
+            },
+            {
+              "name": "D\u00f3nal Gilroy",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 1163,
+              "counts": [
+                1163
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:5733"
+            },
+            {
+              "name": "Tom Fox",
+              "party": "Fine Gael",
+              "first_pref": 1008,
+              "counts": [
+                1008
+              ],
+              "status": "",
+              "sourcePersonId": "ie:18592"
+            },
+            {
+              "name": "Colm McGurran",
+              "party": "Independent",
+              "first_pref": 421,
+              "counts": [
+                421
+              ],
+              "status": "",
+              "sourcePersonId": "ie:18594"
+            },
+            {
+              "name": "Amanda Gallagher",
+              "party": "Irish Freedom Party",
+              "first_pref": 298,
+              "counts": [
+                298
+              ],
+              "status": "",
+              "sourcePersonId": "ie:18595"
+            },
+            {
+              "name": "Agnieszka Piwowarczyk",
+              "party": "Green",
+              "first_pref": 226,
+              "counts": [
+                226
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19833"
+            },
+            {
+              "name": "Rob De Salle",
+              "party": "The Irish People",
+              "first_pref": 114,
+              "counts": [
+                114
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19831"
+            }
+          ]
+        },
+        {
+          "op": "set",
+          "path": "seats",
+          "value": 5
+        },
+        {
+          "op": "set",
+          "path": "meta.valid_poll",
+          "value": 9302
+        },
+        {
+          "op": "set",
+          "path": "meta.quota",
+          "value": 1551
+        },
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 16973
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 9372
+        }
+      ]
+    },
+    {
+      "batch": "roi-local-2024-book-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/ireland-local/2024-06-07/palmerstown-fonthill.json",
+      "source": {
+        "publisher": "Department of Housing, Local Government and Heritage",
+        "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 250-251 (Palmerstown-Fonthil LEA, South Dublin County Council)",
+        "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=250",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024 results (spreadsheet), sheet \"South Dublin\"",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/203a12a1-e573-4d4d-a978-6f919d489b70/download/local-election-results-2024.xlsx",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "IrelandElection.com",
+          "title": "2024 Local Election, Palmerstown Fonthill (candidate ids)",
+          "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=532&electype=5",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "ElectionsIreland.org",
+          "title": "ElectionsIreland.org result page for this area (no result rows)",
+          "url": "https://electionsireland.org/result.cfm?election=2024L&cons=5093"
+        }
+      ],
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; filled from the Department's results book: all 17 candidates with their parties and first preferences (adding up to the valid poll of 9,693), 5 elected for 5 seats, quota 1,616, electorate 26,182 and total poll 9,906 (213 invalid papers); every count is in the area's count file. Each row carries an IrelandElection.com person id, matched by name.",
+      "category": "gap-fill",
+      "operations": [
+        {
+          "op": "replaceCandidates",
+          "candidates": [
+            {
+              "name": "Shane Moynihan",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 1348,
+              "counts": [
+                1348
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:9257"
+            },
+            {
+              "name": "Alan Hayes",
+              "party": "Independent",
+              "first_pref": 1335,
+              "counts": [
+                1335
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:5766"
+            },
+            {
+              "name": "Glen Moore",
+              "party": "Irish Freedom Party",
+              "first_pref": 964,
+              "counts": [
+                964
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:19875"
+            },
+            {
+              "name": "Niamh Fennel",
+              "party": "Sinn F\u00e9in",
+              "first_pref": 848,
+              "counts": [
+                848
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:19872"
+            },
+            {
+              "name": "Madeleine Johansson",
+              "party": "Solidarity-PBP",
+              "first_pref": 762,
+              "counts": [
+                762
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:18621"
+            },
+            {
+              "name": "Paul Nicholas Gogarty",
+              "party": "Independent",
+              "first_pref": 700,
+              "counts": [
+                700
+              ],
+              "status": "",
+              "sourcePersonId": "ie:796"
+            },
+            {
+              "name": "Daniel Loftus",
+              "party": "Sinn F\u00e9in",
+              "first_pref": 684,
+              "counts": [
+                684
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19874"
+            },
+            {
+              "name": "Colm Quinn",
+              "party": "Aont\u00fa",
+              "first_pref": 669,
+              "counts": [
+                669
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19877"
+            },
+            {
+              "name": "Emma Griffin",
+              "party": "Fine Gael",
+              "first_pref": 387,
+              "counts": [
+                387
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19873"
+            },
+            {
+              "name": "David Gardiner",
+              "party": "Workers' Party",
+              "first_pref": 364,
+              "counts": [
+                364
+              ],
+              "status": "",
+              "sourcePersonId": "ie:18626"
+            },
+            {
+              "name": "Ruth Nolan",
+              "party": "Sinn F\u00e9in",
+              "first_pref": 314,
+              "counts": [
+                314
+              ],
+              "status": "",
+              "sourcePersonId": "ie:5764"
+            },
+            {
+              "name": "Cathal \u00d3 Murch\u00fa",
+              "party": "Sinn F\u00e9in",
+              "first_pref": 306,
+              "counts": [
+                306
+              ],
+              "status": "",
+              "sourcePersonId": "ie:18918"
+            },
+            {
+              "name": "Sikandar Jahanzab",
+              "party": "Fine Gael",
+              "first_pref": 248,
+              "counts": [
+                248
+              ],
+              "status": "",
+              "sourcePersonId": "ie:18628"
+            },
+            {
+              "name": "Karla Doran",
+              "party": "Green",
+              "first_pref": 219,
+              "counts": [
+                219
+              ],
+              "status": "",
+              "sourcePersonId": "ie:20173"
+            },
+            {
+              "name": "Gavin Callaghan",
+              "party": "Independent",
+              "first_pref": 205,
+              "counts": [
+                205
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19870"
+            },
+            {
+              "name": "Shane Fitzgerald",
+              "party": "Independent",
+              "first_pref": 201,
+              "counts": [
+                201
+              ],
+              "status": "",
+              "sourcePersonId": "ie:1969"
+            },
+            {
+              "name": "Funmi Soyemi Olatunji",
+              "party": "Irish Labour",
+              "first_pref": 139,
+              "counts": [
+                139
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19876"
+            }
+          ]
+        },
+        {
+          "op": "set",
+          "path": "seats",
+          "value": 5
+        },
+        {
+          "op": "set",
+          "path": "meta.valid_poll",
+          "value": 9693
+        },
+        {
+          "op": "set",
+          "path": "meta.quota",
+          "value": 1616
+        },
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 26182
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 9906
+        }
+      ]
+    },
+    {
+      "batch": "roi-local-2024-book-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/ireland-local/2024-06-07/cahir.json",
+      "source": {
+        "publisher": "Department of Housing, Local Government and Heritage",
+        "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, p. 258 (Cahir LEA, Tipperary County Council)",
+        "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=258",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024 results (spreadsheet), sheet \"Tipperary\"",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/203a12a1-e573-4d4d-a978-6f919d489b70/download/local-election-results-2024.xlsx",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "IrelandElection.com",
+          "title": "2024 Local Election, Cahir (candidate ids)",
+          "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=534&electype=5",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "ElectionsIreland.org",
+          "title": "ElectionsIreland.org result page for this area (no result rows)",
+          "url": "https://electionsireland.org/result.cfm?election=2024L&cons=5096"
+        }
+      ],
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; filled from the Department's results book: all 10 candidates with their parties and first preferences (adding up to the valid poll of 7,183), 4 elected for 4 seats, quota 1,437, electorate 12,428 and total poll 7,232 (49 invalid papers); every count is in the area's count file. Each row carries an IrelandElection.com person id, matched by name.",
+      "category": "gap-fill",
+      "operations": [
+        {
+          "op": "replaceCandidates",
+          "candidates": [
+            {
+              "name": "M\u00e1ir\u00edn McGrath",
+              "party": "Independent",
+              "first_pref": 2079,
+              "counts": [
+                2079
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:18654"
+            },
+            {
+              "name": "Andy Moloney",
+              "party": "Independent",
+              "first_pref": 1762,
+              "counts": [
+                1762
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:15559"
+            },
+            {
+              "name": "Marie Murphy",
+              "party": "Fine Gael",
+              "first_pref": 1153,
+              "counts": [
+                1153
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:7491"
+            },
+            {
+              "name": "Miche\u00e1l Anglim",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 906,
+              "counts": [
+                906
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:15530"
+            },
+            {
+              "name": "Tom Hennessy",
+              "party": "Independent",
+              "first_pref": 414,
+              "counts": [
+                414
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19897"
+            },
+            {
+              "name": "PJ English",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 346,
+              "counts": [
+                346
+              ],
+              "status": "",
+              "sourcePersonId": "ie:5859"
+            },
+            {
+              "name": "Cathal \u00d3 h\u00c9anna",
+              "party": "Sinn F\u00e9in",
+              "first_pref": 222,
+              "counts": [
+                222
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19899"
+            },
+            {
+              "name": "Bill Fitzgerald",
+              "party": "Independent",
+              "first_pref": 133,
+              "counts": [
+                133
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19896"
+            },
+            {
+              "name": "Alan Moynihan",
+              "party": "Social Democrats",
+              "first_pref": 99,
+              "counts": [
+                99
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19898"
+            },
+            {
+              "name": "Shane Smith",
+              "party": "Independent",
+              "first_pref": 69,
+              "counts": [
+                69
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19900"
+            }
+          ]
+        },
+        {
+          "op": "set",
+          "path": "seats",
+          "value": 4
+        },
+        {
+          "op": "set",
+          "path": "meta.valid_poll",
+          "value": 7183
+        },
+        {
+          "op": "set",
+          "path": "meta.quota",
+          "value": 1437
+        },
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 12428
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 7232
+        }
+      ]
+    },
+    {
+      "batch": "roi-local-2024-book-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/ireland-local/2024-06-07/carrick-on-suir.json",
+      "source": {
+        "publisher": "Department of Housing, Local Government and Heritage",
+        "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, p. 259 (Carrick-on-Suir LEA, Tipperary County Council)",
+        "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=259",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024 results (spreadsheet), sheet \"Tipperary\"",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/203a12a1-e573-4d4d-a978-6f919d489b70/download/local-election-results-2024.xlsx",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "IrelandElection.com",
+          "title": "2024 Local Election, Carrick-on-Suir (candidate ids)",
+          "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=224&electype=5",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "ElectionsIreland.org",
+          "title": "ElectionsIreland.org result page for this area (no result rows)",
+          "url": "https://electionsireland.org/result.cfm?election=2024L&cons=5051"
+        }
+      ],
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; filled from the Department's results book: all 7 candidates with their parties and first preferences (adding up to the valid poll of 9,047), 5 elected for 5 seats, quota 1,508, electorate 16,763 and total poll 9,104 (57 invalid papers); every count is in the area's count file. Each row carries an IrelandElection.com person id, matched by name.",
+      "category": "gap-fill",
+      "operations": [
+        {
+          "op": "replaceCandidates",
+          "candidates": [
+            {
+              "name": "Imelda Goldsboro",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 1898,
+              "counts": [
+                1898
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:5823"
+            },
+            {
+              "name": "David Dunne",
+              "party": "Sinn F\u00e9in",
+              "first_pref": 1659,
+              "counts": [
+                1659
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:5822"
+            },
+            {
+              "name": "Michael (Chicken) Brennan",
+              "party": "Irish Labour",
+              "first_pref": 1486,
+              "counts": [
+                1486
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:3666"
+            },
+            {
+              "name": "Mark Fitzgerald",
+              "party": "Fine Gael",
+              "first_pref": 1339,
+              "counts": [
+                1339
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:18658"
+            },
+            {
+              "name": "Kieran Bourke",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 1334,
+              "counts": [
+                1334
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:15618"
+            },
+            {
+              "name": "Kevin O'Meara",
+              "party": "Independent",
+              "first_pref": 1032,
+              "counts": [
+                1032
+              ],
+              "status": "",
+              "sourcePersonId": "ie:18659"
+            },
+            {
+              "name": "Martin Murphy",
+              "party": "Irish Freedom Party",
+              "first_pref": 299,
+              "counts": [
+                299
+              ],
+              "status": "",
+              "sourcePersonId": "ie:22071"
+            }
+          ]
+        },
+        {
+          "op": "set",
+          "path": "seats",
+          "value": 5
+        },
+        {
+          "op": "set",
+          "path": "meta.valid_poll",
+          "value": 9047
+        },
+        {
+          "op": "set",
+          "path": "meta.quota",
+          "value": 1508
+        },
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 16763
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 9104
+        }
+      ]
+    },
+    {
+      "batch": "roi-local-2024-book-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/ireland-local/2024-06-07/cashel-tipperary.json",
+      "source": {
+        "publisher": "Department of Housing, Local Government and Heritage",
+        "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 260-261 (Cashel-Tipperary LEA, Tipperary County Council)",
+        "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=260",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024 results (spreadsheet), sheet \"Tipperary\"",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/203a12a1-e573-4d4d-a978-6f919d489b70/download/local-election-results-2024.xlsx",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "IrelandElection.com",
+          "title": "2024 Local Election, Cashel Tipperary (candidate ids)",
+          "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=535&electype=5",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "ElectionsIreland.org",
+          "title": "ElectionsIreland.org result page for this area (no result rows)",
+          "url": "https://electionsireland.org/result.cfm?election=2024L&cons=5052"
+        }
+      ],
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; filled from the Department's results book: all 13 candidates with their parties and first preferences (adding up to the valid poll of 12,478), 7 elected for 7 seats, quota 1,560, electorate 23,832 and total poll 12,575 (97 invalid papers); every count is in the area's count file. 12 of the 13 rows carry an IrelandElection.com person id, matched by name.",
+      "category": "gap-fill",
+      "operations": [
+        {
+          "op": "replaceCandidates",
+          "candidates": [
+            {
+              "name": "John O'Heney",
+              "party": "Independent",
+              "first_pref": 2534,
+              "counts": [
+                2534
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:20253"
+            },
+            {
+              "name": "Declan Burgess",
+              "party": "Fine Gael",
+              "first_pref": 1852,
+              "counts": [
+                1852
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:18663"
+            },
+            {
+              "name": "Liam Browne",
+              "party": "Independent",
+              "first_pref": 1665,
+              "counts": [
+                1665
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:2592"
+            },
+            {
+              "name": "Roger Kennedy",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 1218,
+              "counts": [
+                1218
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:15537"
+            },
+            {
+              "name": "Mary Hanna Hourigan",
+              "party": "Fine Gael",
+              "first_pref": 1151,
+              "counts": [
+                1151
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:15613"
+            },
+            {
+              "name": "John Crosse",
+              "party": "Fine Gael",
+              "first_pref": 1023,
+              "counts": [
+                1023
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:5838"
+            },
+            {
+              "name": "Annemarie Ryan Shiner",
+              "party": "Sinn F\u00e9in",
+              "first_pref": 766,
+              "counts": [
+                766
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:19905"
+            },
+            {
+              "name": "Tony Black",
+              "party": "Sinn F\u00e9in",
+              "first_pref": 708,
+              "counts": [
+                708
+              ],
+              "status": "",
+              "sourcePersonId": "ie:18664"
+            },
+            {
+              "name": "Jacqui Finnan",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 407,
+              "counts": [
+                407
+              ],
+              "status": "",
+              "sourcePersonId": "ie:5844"
+            },
+            {
+              "name": "John McGrath",
+              "party": "National Party",
+              "first_pref": 381,
+              "counts": [
+                381
+              ],
+              "status": "",
+              "sourcePersonId": "ie:11822"
+            },
+            {
+              "name": "Matthew Fogarty",
+              "party": "Fine Gael",
+              "first_pref": 340,
+              "counts": [
+                340
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19903"
+            },
+            {
+              "name": "Peadar O'Donnell",
+              "party": "Independent",
+              "first_pref": 259,
+              "counts": [
+                259
+              ],
+              "status": "",
+              "sourcePersonId": "ie:2596"
+            },
+            {
+              "name": "Molly Browne",
+              "party": "Sinn F\u00e9in",
+              "first_pref": 174,
+              "counts": [
+                174
+              ],
+              "status": ""
+            }
+          ]
+        },
+        {
+          "op": "set",
+          "path": "seats",
+          "value": 7
+        },
+        {
+          "op": "set",
+          "path": "meta.valid_poll",
+          "value": 12478
+        },
+        {
+          "op": "set",
+          "path": "meta.quota",
+          "value": 1560
+        },
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 23832
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 12575
+        }
+      ]
+    },
+    {
+      "batch": "roi-local-2024-book-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/ireland-local/2024-06-07/clonmel.json",
+      "source": {
+        "publisher": "Department of Housing, Local Government and Heritage",
+        "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 262-263 (Clonmel LEA, Tipperary County Council)",
+        "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=262",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024 results (spreadsheet), sheet \"Tipperary\"",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/203a12a1-e573-4d4d-a978-6f919d489b70/download/local-election-results-2024.xlsx",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "IrelandElection.com",
+          "title": "2024 Local Election, Clonmel (candidate ids)",
+          "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=226&electype=5",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "ElectionsIreland.org",
+          "title": "ElectionsIreland.org result page for this area (no result rows)",
+          "url": "https://electionsireland.org/result.cfm?election=2024L&cons=5065"
+        }
+      ],
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; filled from the Department's results book: all 11 candidates with their parties and first preferences (adding up to the valid poll of 9,727), 6 elected for 6 seats, quota 1,390, electorate 19,734 and total poll 9,837 (110 invalid papers); every count is in the area's count file. Each row carries an IrelandElection.com person id, matched by name.",
+      "category": "gap-fill",
+      "operations": [
+        {
+          "op": "replaceCandidates",
+          "candidates": [
+            {
+              "name": "Michael Murphy",
+              "party": "Fine Gael",
+              "first_pref": 2746,
+              "counts": [
+                2746
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:15628"
+            },
+            {
+              "name": "Pat English",
+              "party": "Wexford Ind. Alliance",
+              "first_pref": 1574,
+              "counts": [
+                1574
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:5850"
+            },
+            {
+              "name": "Siobh\u00e1n Ambrose",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 1512,
+              "counts": [
+                1512
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:15625"
+            },
+            {
+              "name": "John Fitzgerald",
+              "party": "Fine Gael",
+              "first_pref": 1134,
+              "counts": [
+                1134
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:21792"
+            },
+            {
+              "name": "Richie Molloy",
+              "party": "Independent",
+              "first_pref": 746,
+              "counts": [
+                746
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:15629"
+            },
+            {
+              "name": "Niall P Dennehy",
+              "party": "Independent",
+              "first_pref": 621,
+              "counts": [
+                621
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:18672"
+            },
+            {
+              "name": "Deirdre Dempsey",
+              "party": "Independent",
+              "first_pref": 321,
+              "counts": [
+                321
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19902"
+            },
+            {
+              "name": "Dean McGrath",
+              "party": "Sinn F\u00e9in",
+              "first_pref": 320,
+              "counts": [
+                320
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19908"
+            },
+            {
+              "name": "Teresa Johnson",
+              "party": "Wexford Ind. Alliance",
+              "first_pref": 313,
+              "counts": [
+                313
+              ],
+              "status": "",
+              "sourcePersonId": "ie:18673"
+            },
+            {
+              "name": "Natasha Dingivan",
+              "party": "Sinn F\u00e9in",
+              "first_pref": 282,
+              "counts": [
+                282
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19906"
+            },
+            {
+              "name": "Myriam Madigan",
+              "party": "Green",
+              "first_pref": 158,
+              "counts": [
+                158
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19907"
+            }
+          ]
+        },
+        {
+          "op": "set",
+          "path": "seats",
+          "value": 6
+        },
+        {
+          "op": "set",
+          "path": "meta.valid_poll",
+          "value": 9727
+        },
+        {
+          "op": "set",
+          "path": "meta.quota",
+          "value": 1390
+        },
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 19734
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 9837
+        }
+      ]
+    },
+    {
+      "batch": "roi-local-2024-book-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/ireland-local/2024-06-07/nenagh.json",
+      "source": {
+        "publisher": "Department of Housing, Local Government and Heritage",
+        "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, p. 264 (Nenagh LEA, Tipperary County Council)",
+        "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=264",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024 results (spreadsheet), sheet \"Tipperary\"",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/203a12a1-e573-4d4d-a978-6f919d489b70/download/local-election-results-2024.xlsx",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "IrelandElection.com",
+          "title": "2024 Local Election, Nenagh (candidate ids)",
+          "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=227&electype=5",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "ElectionsIreland.org",
+          "title": "ElectionsIreland.org result page for this area (no result rows)",
+          "url": "https://electionsireland.org/result.cfm?election=2024L&cons=5066"
+        }
+      ],
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; filled from the Department's results book: all 8 candidates with their parties and first preferences (adding up to the valid poll of 10,449), 5 elected for 5 seats, quota 1,742, electorate 18,622 and total poll 10,527 (78 invalid papers); every count is in the area's count file. Each row carries an IrelandElection.com person id, matched by name.",
+      "category": "gap-fill",
+      "operations": [
+        {
+          "op": "replaceCandidates",
+          "candidates": [
+            {
+              "name": "Joe Hannigan",
+              "party": "Independent",
+              "first_pref": 2233,
+              "counts": [
+                2233
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:5868"
+            },
+            {
+              "name": "Michael O'Meara",
+              "party": "Independent",
+              "first_pref": 1822,
+              "counts": [
+                1822
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:15188"
+            },
+            {
+              "name": "Ryan O'Meara",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 1527,
+              "counts": [
+                1527
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:19911"
+            },
+            {
+              "name": "S\u00e9amus Morris",
+              "party": "Independent",
+              "first_pref": 1434,
+              "counts": [
+                1434
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:15419"
+            },
+            {
+              "name": "Louise Morgan Walsh",
+              "party": "Irish Labour",
+              "first_pref": 1210,
+              "counts": [
+                1210
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:18678"
+            },
+            {
+              "name": "Damian O'Donoghue",
+              "party": "Sinn F\u00e9in",
+              "first_pref": 1096,
+              "counts": [
+                1096
+              ],
+              "status": "",
+              "sourcePersonId": "ie:18681"
+            },
+            {
+              "name": "Eleanor Maher",
+              "party": "Fine Gael",
+              "first_pref": 738,
+              "counts": [
+                738
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19910"
+            },
+            {
+              "name": "Iva Pocock",
+              "party": "Green",
+              "first_pref": 389,
+              "counts": [
+                389
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19912"
+            }
+          ]
+        },
+        {
+          "op": "set",
+          "path": "seats",
+          "value": 5
+        },
+        {
+          "op": "set",
+          "path": "meta.valid_poll",
+          "value": 10449
+        },
+        {
+          "op": "set",
+          "path": "meta.quota",
+          "value": 1742
+        },
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 18622
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 10527
+        }
+      ]
+    },
+    {
+      "batch": "roi-local-2024-book-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/ireland-local/2024-06-07/newport.json",
+      "source": {
+        "publisher": "Department of Housing, Local Government and Heritage",
+        "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, p. 265 (Newport LEA, Tipperary County Council)",
+        "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=265",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024 results (spreadsheet), sheet \"Tipperary\"",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/203a12a1-e573-4d4d-a978-6f919d489b70/download/local-election-results-2024.xlsx",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "IrelandElection.com",
+          "title": "2024 Local Election, Newport (candidate ids)",
+          "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=536&electype=5",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "ElectionsIreland.org",
+          "title": "ElectionsIreland.org result page for this area (no result rows)",
+          "url": "https://electionsireland.org/result.cfm?election=2024L&cons=5097"
+        }
+      ],
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; filled from the Department's results book: all 7 candidates with their parties and first preferences (adding up to the valid poll of 8,110), 4 elected for 4 seats, quota 1,623, electorate 14,247 and total poll 8,164 (54 invalid papers); every count is in the area's count file. Each row carries an IrelandElection.com person id, matched by name.",
+      "category": "gap-fill",
+      "operations": [
+        {
+          "op": "replaceCandidates",
+          "candidates": [
+            {
+              "name": "Fiona Bonfield",
+              "party": "Irish Labour",
+              "first_pref": 2346,
+              "counts": [
+                2346
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:5876"
+            },
+            {
+              "name": "Pamela Quirke O'Meara",
+              "party": "Independent",
+              "first_pref": 1665,
+              "counts": [
+                1665
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:19916"
+            },
+            {
+              "name": "Phyll Bugler",
+              "party": "Fine Gael",
+              "first_pref": 1636,
+              "counts": [
+                1636
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:19914"
+            },
+            {
+              "name": "John Carroll",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 1249,
+              "counts": [
+                1249
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:18685"
+            },
+            {
+              "name": "Eddie O'Gorman",
+              "party": "Independent Ireland",
+              "first_pref": 594,
+              "counts": [
+                594
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19915"
+            },
+            {
+              "name": "Gavin Ryan",
+              "party": "Sinn F\u00e9in",
+              "first_pref": 495,
+              "counts": [
+                495
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19917"
+            },
+            {
+              "name": "David Ahern",
+              "party": "Independent",
+              "first_pref": 125,
+              "counts": [
+                125
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19913"
+            }
+          ]
+        },
+        {
+          "op": "set",
+          "path": "seats",
+          "value": 4
+        },
+        {
+          "op": "set",
+          "path": "meta.valid_poll",
+          "value": 8110
+        },
+        {
+          "op": "set",
+          "path": "meta.quota",
+          "value": 1623
+        },
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 14247
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 8164
+        }
+      ]
+    },
+    {
+      "batch": "roi-local-2024-book-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/ireland-local/2024-06-07/roscrea-templemore.json",
+      "source": {
+        "publisher": "Department of Housing, Local Government and Heritage",
+        "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, p. 266 (Roscrea-Templemore LEA, Tipperary County Council)",
+        "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=266",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024 results (spreadsheet), sheet \"Tipperary\"",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/203a12a1-e573-4d4d-a978-6f919d489b70/download/local-election-results-2024.xlsx",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "IrelandElection.com",
+          "title": "2024 Local Election, Roscrea Templemore (candidate ids)",
+          "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=537&electype=5",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "ElectionsIreland.org",
+          "title": "ElectionsIreland.org result page for this area (no result rows)",
+          "url": "https://electionsireland.org/result.cfm?election=2024L&cons=5095"
+        }
+      ],
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; filled from the Department's results book: all 8 candidates with their parties and first preferences (adding up to the valid poll of 8,337), 4 elected for 4 seats, quota 1,668, electorate 15,059 and total poll 8,438 (101 invalid papers); every count is in the area's count file. Each row carries an IrelandElection.com person id, matched by name.",
+      "category": "gap-fill",
+      "operations": [
+        {
+          "op": "replaceCandidates",
+          "candidates": [
+            {
+              "name": "Michael Smith",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 2460,
+              "counts": [
+                2460
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:2969"
+            },
+            {
+              "name": "Shane Lee",
+              "party": "Independent",
+              "first_pref": 2231,
+              "counts": [
+                2231
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:5896"
+            },
+            {
+              "name": "Eddie Moran",
+              "party": "Independent",
+              "first_pref": 1423,
+              "counts": [
+                1423
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:5895"
+            },
+            {
+              "name": "William Kennedy",
+              "party": "Fine Gael",
+              "first_pref": 1143,
+              "counts": [
+                1143
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:5890"
+            },
+            {
+              "name": "Deirdre Maria Ryan",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 525,
+              "counts": [
+                525
+              ],
+              "status": "",
+              "sourcePersonId": "ie:9152"
+            },
+            {
+              "name": "Brend\u00e1n \u00d3 Conch\u00fair",
+              "party": "Sinn F\u00e9in",
+              "first_pref": 313,
+              "counts": [
+                313
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19920"
+            },
+            {
+              "name": "Jordan Lewis",
+              "party": "Irish Labour",
+              "first_pref": 125,
+              "counts": [
+                125
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19918"
+            },
+            {
+              "name": "Aisling Maloney",
+              "party": "Green",
+              "first_pref": 117,
+              "counts": [
+                117
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19919"
+            }
+          ]
+        },
+        {
+          "op": "set",
+          "path": "seats",
+          "value": 4
+        },
+        {
+          "op": "set",
+          "path": "meta.valid_poll",
+          "value": 8337
+        },
+        {
+          "op": "set",
+          "path": "meta.quota",
+          "value": 1668
+        },
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 15059
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 8438
+        }
+      ]
+    },
+    {
+      "batch": "roi-local-2024-book-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/ireland-local/2024-06-07/thurles.json",
+      "source": {
+        "publisher": "Department of Housing, Local Government and Heritage",
+        "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, p. 267 (Thurles LEA, Tipperary County Council)",
+        "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=267",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024 results (spreadsheet), sheet \"Tipperary\"",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/203a12a1-e573-4d4d-a978-6f919d489b70/download/local-election-results-2024.xlsx",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "IrelandElection.com",
+          "title": "2024 Local Election, Thurles (candidate ids)",
+          "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=538&electype=5",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "ElectionsIreland.org",
+          "title": "ElectionsIreland.org result page for this area (no result rows)",
+          "url": "https://electionsireland.org/result.cfm?election=2024L&cons=5098"
+        }
+      ],
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; filled from the Department's results book: all 6 candidates with their parties and first preferences (adding up to the valid poll of 9,313), 5 elected for 5 seats, quota 1,553, electorate 16,791 and total poll 9,402 (89 invalid papers); every count is in the area's count file. Each row carries an IrelandElection.com person id, matched by name.",
+      "category": "gap-fill",
+      "operations": [
+        {
+          "op": "replaceCandidates",
+          "candidates": [
+            {
+              "name": "Jim Ryan",
+              "party": "Independent",
+              "first_pref": 2435,
+              "counts": [
+                2435
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:15414"
+            },
+            {
+              "name": "Miche\u00e1l Lowry",
+              "party": "Independent",
+              "first_pref": 2184,
+              "counts": [
+                2184
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:15413"
+            },
+            {
+              "name": "Sean Ryan",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 1638,
+              "counts": [
+                1638
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:18697"
+            },
+            {
+              "name": "Kay Cahill Skehan",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 1386,
+              "counts": [
+                1386
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:19921"
+            },
+            {
+              "name": "Peggy Ryan",
+              "party": "Fine Gael",
+              "first_pref": 928,
+              "counts": [
+                928
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:19923"
+            },
+            {
+              "name": "Dan Harty",
+              "party": "Sinn F\u00e9in",
+              "first_pref": 742,
+              "counts": [
+                742
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19922"
+            }
+          ]
+        },
+        {
+          "op": "set",
+          "path": "seats",
+          "value": 5
+        },
+        {
+          "op": "set",
+          "path": "meta.valid_poll",
+          "value": 9313
+        },
+        {
+          "op": "set",
+          "path": "meta.quota",
+          "value": 1553
+        },
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 16791
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 9402
+        }
+      ]
+    },
+    {
+      "batch": "roi-local-2024-book-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/ireland-local/2024-06-07/gorey.json",
+      "source": {
+        "publisher": "Department of Housing, Local Government and Heritage",
+        "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 278-279 (Gorey LEA, Wexford County Council)",
+        "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=278",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024 results (spreadsheet), sheet \"Wexford\"",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/203a12a1-e573-4d4d-a978-6f919d489b70/download/local-election-results-2024.xlsx",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "IrelandElection.com",
+          "title": "2024 Local Election, Gorey (candidate ids)",
+          "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=238&electype=5",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "ElectionsIreland.org",
+          "title": "ElectionsIreland.org result page for this area (no result rows)",
+          "url": "https://electionsireland.org/result.cfm?election=2024L&cons=446"
+        }
+      ],
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; filled from the Department's results book: all 14 candidates with their parties and first preferences (adding up to the valid poll of 11,481), 6 elected for 6 seats, quota 1,641, electorate 22,114 and total poll 11,581 (100 invalid papers); every count is in the area's count file. Each row carries an IrelandElection.com person id, matched by name.",
+      "category": "gap-fill",
+      "operations": [
+        {
+          "op": "replaceCandidates",
+          "candidates": [
+            {
+              "name": "Donal Kenny",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 1702,
+              "counts": [
+                1702
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:18775"
+            },
+            {
+              "name": "Nicky Boland",
+              "party": "Independent",
+              "first_pref": 1341,
+              "counts": [
+                1341
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:19980"
+            },
+            {
+              "name": "Joe Sullivan",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 1269,
+              "counts": [
+                1269
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:6024"
+            },
+            {
+              "name": "Anthony Donohoe",
+              "party": "Fine Gael",
+              "first_pref": 1175,
+              "counts": [
+                1175
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:6029"
+            },
+            {
+              "name": "Darragh McDonald",
+              "party": "Fine Gael",
+              "first_pref": 1065,
+              "counts": [
+                1065
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:19985"
+            },
+            {
+              "name": "Jimmy Fleming",
+              "party": "Independent",
+              "first_pref": 977,
+              "counts": [
+                977
+              ],
+              "status": "",
+              "sourcePersonId": "ie:16387"
+            },
+            {
+              "name": "Fionnt\u00e1n \u00d3 S\u00failleabh\u00e1in",
+              "party": "Sinn F\u00e9in",
+              "first_pref": 854,
+              "counts": [
+                854
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:20271"
+            },
+            {
+              "name": "Andrew Bolger",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 851,
+              "counts": [
+                851
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19981"
+            },
+            {
+              "name": "Kevin Molloy",
+              "party": "Sinn F\u00e9in",
+              "first_pref": 521,
+              "counts": [
+                521
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19987"
+            },
+            {
+              "name": "Cillian Byrne",
+              "party": "Independent",
+              "first_pref": 449,
+              "counts": [
+                449
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19982"
+            },
+            {
+              "name": "Lorna Fitzpatrick",
+              "party": "Irish Labour",
+              "first_pref": 425,
+              "counts": [
+                425
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19983"
+            },
+            {
+              "name": "Darren McGovern",
+              "party": "Ireland First",
+              "first_pref": 389,
+              "counts": [
+                389
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19986"
+            },
+            {
+              "name": "Ann Walsh",
+              "party": "Green",
+              "first_pref": 330,
+              "counts": [
+                330
+              ],
+              "status": "",
+              "sourcePersonId": "ie:17545"
+            },
+            {
+              "name": "Aisling Hudson",
+              "party": "Solidarity-PBP",
+              "first_pref": 133,
+              "counts": [
+                133
+              ],
+              "status": "",
+              "sourcePersonId": "ie:19984"
+            }
+          ]
+        },
+        {
+          "op": "set",
+          "path": "seats",
+          "value": 6
+        },
+        {
+          "op": "set",
+          "path": "meta.valid_poll",
+          "value": 11481
+        },
+        {
+          "op": "set",
+          "path": "meta.quota",
+          "value": 1641
+        },
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 22114
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 11581
+        }
+      ]
+    },
+    {
+      "batch": "roi-local-2024-book-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/ireland-local/2024-06-07/greystones.json",
+      "source": {
+        "publisher": "Department of Housing, Local Government and Heritage",
+        "title": "Local Elections 2024: Results, Transfer of Votes and Statistics, pp. 292-293 (Greystones LEA, Wicklow County Council)",
+        "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=292",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "publisher": "Department of Housing, Local Government and Heritage",
+          "title": "Local Elections 2024 results (spreadsheet), sheet \"Wicklow\"",
+          "url": "https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/203a12a1-e573-4d4d-a978-6f919d489b70/download/local-election-results-2024.xlsx",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "IrelandElection.com",
+          "title": "2024 Local Election, Greystones (candidate ids)",
+          "url": "https://irelandelection.com/electiondetail.php?elecid=244&constitid=244&electype=5",
+          "accessed": "2026-11-11"
+        },
+        {
+          "publisher": "ElectionsIreland.org",
+          "title": "ElectionsIreland.org result page for this area (no result rows)",
+          "url": "https://electionsireland.org/result.cfm?election=2024L&cons=359"
+        }
+      ],
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; filled from the Department's results book: all 14 candidates with their parties and first preferences (adding up to the valid poll of 11,380), 6 elected for 6 seats, quota 1,626, electorate 21,035 and total poll 11,487 (107 invalid papers); every count is in the area's count file. Each row carries an IrelandElection.com person id, matched by name.",
+      "category": "gap-fill",
+      "operations": [
+        {
+          "op": "replaceCandidates",
+          "candidates": [
+            {
+              "name": "Stephen Stokes",
+              "party": "Independent",
+              "first_pref": 2059,
+              "counts": [
+                2059
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:20046"
+            },
+            {
+              "name": "Tom Fortune",
+              "party": "Independent",
+              "first_pref": 1421,
+              "counts": [
+                1421
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:2858"
+            },
+            {
+              "name": "Louise Fenelon Gaskin",
+              "party": "Fine Gael",
+              "first_pref": 1284,
+              "counts": [
+                1284
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:20040"
+            },
+            {
+              "name": "Orla Finn",
+              "party": "Independent",
+              "first_pref": 1269,
+              "counts": [
+                1269
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:20041"
+            },
+            {
+              "name": "Mark Barry",
+              "party": "Social Democrats",
+              "first_pref": 1077,
+              "counts": [
+                1077
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:20037"
+            },
+            {
+              "name": "Lourda Scott",
+              "party": "Green",
+              "first_pref": 1054,
+              "counts": [
+                1054
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:18835"
+            },
+            {
+              "name": "Jack Commons",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 1041,
+              "counts": [
+                1041
+              ],
+              "status": "",
+              "sourcePersonId": "ie:20039"
+            },
+            {
+              "name": "Aileen Lennon",
+              "party": "Fine Gael",
+              "first_pref": 583,
+              "counts": [
+                583
+              ],
+              "status": "",
+              "sourcePersonId": "ie:20044"
+            },
+            {
+              "name": "Anne Waithira Burke",
+              "party": "Irish Labour",
+              "first_pref": 386,
+              "counts": [
+                386
+              ],
+              "status": "",
+              "sourcePersonId": "ie:18838"
+            },
+            {
+              "name": "Kellie McConnell",
+              "party": "Solidarity-PBP",
+              "first_pref": 326,
+              "counts": [
+                326
+              ],
+              "status": "",
+              "sourcePersonId": "ie:20045"
+            },
+            {
+              "name": "Antony Goldsmith",
+              "party": "Irish Freedom Party",
+              "first_pref": 288,
+              "counts": [
+                288
+              ],
+              "status": "",
+              "sourcePersonId": "ie:20043"
+            },
+            {
+              "name": "Esther Kelly",
+              "party": "Sinn F\u00e9in",
+              "first_pref": 248,
+              "counts": [
+                248
+              ],
+              "status": "",
+              "sourcePersonId": "ie:1532"
+            },
+            {
+              "name": "Brian Fogarty",
+              "party": "Sinn F\u00e9in",
+              "first_pref": 236,
+              "counts": [
+                236
+              ],
+              "status": "",
+              "sourcePersonId": "ie:20042"
+            },
+            {
+              "name": "Charlie Keddy",
+              "party": "Independent",
+              "first_pref": 108,
+              "counts": [
+                108
+              ],
+              "status": "",
+              "sourcePersonId": "ie:2461"
+            }
+          ]
+        },
+        {
+          "op": "set",
+          "path": "seats",
+          "value": 6
+        },
+        {
+          "op": "set",
+          "path": "meta.valid_poll",
+          "value": 11380
+        },
+        {
+          "op": "set",
+          "path": "meta.quota",
+          "value": 1626
+        },
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 21035
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 11487
         }
       ]
     }
