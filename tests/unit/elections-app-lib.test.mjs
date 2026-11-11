@@ -195,3 +195,26 @@ test('projections: uniform swing and seat allocation (the projections hook)', as
   const base = nationalShares(contests);
   assert.deepEqual(Object.fromEntries(deltasFromTargets(base, new Map([['A', 50]]))), { A: -5 });
 });
+
+test('notional results: votes carried by weights onto new areas', async () => {
+  const { notionalVotes, titleCase } = await import('../../site/apps/elections/views/notional.js');
+  const { areas, unmatched } = notionalVotes(
+    [{ area: 'Belfast East', party: 'A', votes: 100 }, { area: 'Belfast East', party: 'B', votes: 50 }, { area: 'Nowhere', party: 'A', votes: 9 }],
+    [['BELFAST EAST', 'BELFAST EAST', 0.9], ['BELFAST EAST', 'NORTH DOWN', 0.1]],
+  );
+  assert.equal(areas.get('BELFAST EAST')?.get('A'), 90);
+  assert.equal(areas.get('NORTH DOWN')?.get('B'), 5);
+  assert.deepEqual(unmatched, ['Nowhere']);
+  assert.equal(titleCase('BELFAST SOUTH AND MID DOWN'), 'Belfast South and Mid Down');
+});
+
+test('the committed notional weights sum to one for every old area', async () => {
+  const { readFileSync } = await import('node:fs');
+  const w = JSON.parse(readFileSync('site/apps/elections/notional/pc-2008__pc-2023.json', 'utf8'));
+  for (const method of ['areal', 'population']) {
+    const sums = new Map();
+    for (const [o, , x] of w.weights[method]) sums.set(o, (sums.get(o) || 0) + x);
+    assert.equal(sums.size, w.old.areas.length, method);
+    for (const [o, s] of sums) assert.ok(Math.abs(s - 1) < 0.01, `${method} ${o}: ${s}`);
+  }
+});
