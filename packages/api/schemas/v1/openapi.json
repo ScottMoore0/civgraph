@@ -15,7 +15,7 @@
       "get": {
         "operationId": "elections",
         "summary": "Elections, contests, candidates and counts",
-        "description": "The answer of /_api/elections, which stays as an alias. Variants: record (view=record); manifest (view=manifest); summary (view=summary); provenance (view=provenance); list (view=list); detail (view=detail); contests (view=contests); index (no key); contest-by-slug (key=…, contest=…); contest-by-name (key=…, constituencyName=…); contest (key=…, constituency=…); bundle (key=…, format=bundle); election (key=…).",
+        "description": "The answer of /_api/elections, which stays as an alias. Variants: record (view=record); manifest (view=manifest); summary (view=summary); provenance (view=provenance); areas (view=areas); list (view=list); detail (view=detail); contests (view=contests); index (no key); contest-by-slug (key=…, contest=…); contest-by-name (key=…, constituencyName=…); contest (key=…, constituency=…); bundle (key=…, format=bundle); election (key=…).",
         "parameters": [
           {
             "name": "body",
@@ -254,6 +254,89 @@
                         "schemaVersion",
                         "key",
                         "contests"
+                      ]
+                    },
+                    {
+                      "title": "areas (view=areas)",
+                      "description": "A national contest's results by area (the presidential elections by Dáil constituency): per area, each candidate's figure at every count, the candidates named by their one national candidacy; areas is empty when the election has none",
+                      "type": "object",
+                      "properties": {
+                        "key": {
+                          "type": "string"
+                        },
+                        "title": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "areaLabel": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "areas": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string"
+                              },
+                              "slug": {
+                                "type": "string"
+                              },
+                              "matched": {
+                                "type": "boolean"
+                              },
+                              "validPoll": {
+                                "type": [
+                                  "number",
+                                  "null"
+                                ]
+                              },
+                              "candidates": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string"
+                                    },
+                                    "firstPrefs": {
+                                      "type": [
+                                        "number",
+                                        "null"
+                                      ]
+                                    },
+                                    "counts": {
+                                      "type": "array"
+                                    }
+                                  },
+                                  "required": [
+                                    "id",
+                                    "firstPrefs",
+                                    "counts"
+                                  ]
+                                }
+                              }
+                            },
+                            "required": [
+                              "name",
+                              "slug",
+                              "matched",
+                              "validPoll",
+                              "candidates"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "key",
+                        "title",
+                        "areaLabel",
+                        "areas"
                       ]
                     },
                     {

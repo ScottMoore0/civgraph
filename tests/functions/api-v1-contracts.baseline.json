@@ -151,6 +151,92 @@
           ]
         }
       },
+      "areas": {
+        "when": {
+          "view": "areas"
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "key": {
+              "type": "string"
+            },
+            "title": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "areaLabel": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "areas": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "slug": {
+                    "type": "string"
+                  },
+                  "matched": {
+                    "type": "boolean"
+                  },
+                  "validPoll": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "candidates": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "firstPrefs": {
+                          "type": [
+                            "number",
+                            "null"
+                          ]
+                        },
+                        "counts": {
+                          "type": "array"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "firstPrefs",
+                        "counts"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "name",
+                  "slug",
+                  "matched",
+                  "validPoll",
+                  "candidates"
+                ]
+              }
+            }
+          },
+          "required": [
+            "key",
+            "title",
+            "areaLabel",
+            "areas"
+          ]
+        }
+      },
       "list": {
         "when": {
           "view": "list"
@@ -2365,6 +2451,22 @@
           },
           "required": [
             "features"
+          ]
+        }
+      },
+      "batch": {
+        "when": {
+          "mapIds": "*"
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "maps": {
+              "type": "object"
+            }
+          },
+          "required": [
+            "maps"
           ]
         }
       }

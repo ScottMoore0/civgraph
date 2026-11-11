@@ -53,6 +53,27 @@ export interface ElectionsProvenanceAnswer {
   [key: string]: unknown;
 }
 
+/** GET /api/v1/elections (view=areas): A national contest's results by area (the presidential elections by Dáil constituency): per area, each candidate's figure at every count, the candidates named by their one national candidacy; areas is empty when the election has none */
+export interface ElectionsAreasAnswer {
+  key: string;
+  title: string | null;
+  areaLabel: string | null;
+  areas: Array<{
+    name: string;
+    slug: string;
+    matched: boolean;
+    validPoll: number | null;
+    candidates: Array<{
+      id: string;
+      firstPrefs: number | null;
+      counts: unknown[];
+      [key: string]: unknown;
+    }>;
+    [key: string]: unknown;
+  }>;
+  [key: string]: unknown;
+}
+
 /** GET /api/v1/elections (view=list): The Browse list of elections, or a page of it */
 export interface ElectionsListAnswer {
   schemaVersion: number;
@@ -942,6 +963,7 @@ export interface V1Routes {
       manifest: ElectionsManifestAnswer;
       summary: ElectionsSummaryAnswer;
       provenance: ElectionsProvenanceAnswer;
+      areas: ElectionsAreasAnswer;
       list: ElectionsListAnswer;
       detail: ElectionsDetailAnswer;
       contests: ElectionsContestsAnswer;
