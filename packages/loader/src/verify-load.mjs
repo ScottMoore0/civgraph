@@ -116,6 +116,9 @@ export const BOUNDS = {
   batchBytes: 4 * 1024 * 1024,
   // wrangler takes the SQL on its command line, and Windows caps a command line at 32,767 characters.
   statementBytes: 24 * 1024,
+  // D1 refuses a compound SELECT of more than 5 terms: "too many terms in compound SELECT:
+  // SQLITE_ERROR [code: 7500]" (found 11 Nov 2026; a plain SQLite allows 500).
+  compoundTerms: 5,
   maxKeysPerTable: 1000,
   sampleKeys: 50,
   smallTableRows: 1000,
@@ -149,9 +152,77 @@ export function wranglerQuery(sql, { remote = false, cwd = REPO_ROOT } = {}) {
   closeSync(fd);
   const text = readFileSync(outFile, 'utf8');
   rmSync(outFile, { force: true });
-  if (res.status !== 0) throw new Error(`wrangler d1 execute failed (${res.status}): ${(res.stderr || text).slice(-800)}`);
-  /** @type {{ results?: Record<string, D1Value>[], meta?: { rows_read?: number, duration?: number } }[]} */
-  const parsed = JSON.parse(text.slice(text.indexOf('[')));
+  return parseWranglerOutput(res.status, text, res.stderr || '');
+}
+
+/** The exit status of a process that aborted on Windows (0xC0000409, STATUS_STACK_BUFFER_OVERRUN). */
+export const WINDOWS_ABORT_STATUS = 0xC0000409;
+
+/**
+ * A failed `wrangler d1 execute`. `d1Code` is D1's error code when wrangler printed D1's answer
+ * (7429 overloaded, 7403, 7500 an SQL error...); `crashed` says the wrangler process itself
+ * aborted. On Windows (Node 24, wrangler 4.85) wrangler aborts on the way out of every error,
+ * "Assertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\win\async.c, line 76", exit
+ * 0xC0000409, and stderr then holds only that line: D1's own error is the JSON on stdout.
+ */
+export class WranglerError extends Error {
+  /** @param {string} message @param {{ status: number | null, d1Code?: number, crashed?: boolean }} info */
+  constructor(message, { status, d1Code, crashed = false }) {
+    super(message);
+    this.status = status;
+    this.d1Code = d1Code;
+    this.crashed = crashed;
+  }
+}
+
+/** True for wrangler's own abort with no answer from D1 on stdout (the statement may or may not have run). */
+export const isWranglerCrash = (/** @type {unknown} */ error) => error instanceof WranglerError && error.crashed && error.d1Code === undefined;
+
+/** Cloudflare API paths name the account and database: kept out of messages and state files. */
+const redactApiPath = (/** @type {string} */ s) => s.replace(/\/accounts\/[^/\s)]+/g, '/accounts/<account>').replace(/\/database\/[^/\s)]+/g, '/database/<id>');
+
+/**
+ * wrangler d1 execute --json's exit status, stdout and stderr, as result rows or a WranglerError.
+ * Rows when it exited 0, or when it aborted on the way out after printing a whole successful answer.
+ * An error carries D1's message and code from stdout's {"error": ...} (stderr may hold only the abort).
+ * @param {number | null} status
+ * @param {string} text stdout
+ * @param {string} stderr
+ * @returns {QueryRows}
+ */
+export function parseWranglerOutput(status, text, stderr) {
+  const crashed = status === WINDOWS_ABORT_STATUS || /Assertion failed: .*UV_HANDLE_CLOSING/.test(stderr);
+  const starts = [text.indexOf('['), text.indexOf('{')].filter((i) => i >= 0);
+  /** @type {unknown} */
+  let parsed;
+  if (starts.length) {
+    try { parsed = JSON.parse(text.slice(Math.min(...starts))); } catch { /* not whole JSON */ }
+  }
+  if (parsed === undefined && status === 0 && text.includes('[')) {
+    try { parsed = JSON.parse(text.slice(text.indexOf('['))); } catch { /* reported below */ }
+  }
+  const answer = /** @type {{ success?: boolean }[]} */ (Array.isArray(parsed) ? parsed : []);
+  if (Array.isArray(parsed) && (status === 0 || (crashed && answer.every((r) => r && typeof r === 'object' && r.success !== false)))) {
+    return resultRows(/** @type {{ results?: Record<string, D1Value>[], meta?: { rows_read?: number, duration?: number } }[]} */ (parsed));
+  }
+  const abort = crashed ? `; wrangler then aborted (${String(stderr).trim().split(/\r?\n/).pop()?.slice(0, 160) || `exit ${status}`})` : '';
+  const err = /** @type {{ error?: { text?: string, code?: number, notes?: { text?: string }[] } } | undefined} */ (parsed && !Array.isArray(parsed) && typeof parsed === 'object' ? parsed : undefined)?.error;
+  if (err && typeof err === 'object') {
+    const notes = (err.notes || []).map((n) => n?.text).filter(Boolean);
+    const said = redactApiPath(notes.length ? notes.join('; ') : String(err.text || 'an error'));
+    const code = Number.isInteger(err.code) ? Number(err.code) : Number((said.match(/\[code: (\d+)\]/) || [])[1]) || undefined;
+    throw new WranglerError(`wrangler d1 execute failed (${status}): ${said}${code && !said.includes(`[code: ${code}]`) ? ` [code: ${code}]` : ''}${abort}`, { status, d1Code: code, crashed });
+  }
+  if (status === 0) throw new WranglerError(`wrangler d1 execute printed no JSON answer: ${redactApiPath(text.slice(0, 300))}`, { status });
+  throw new WranglerError(`wrangler d1 execute failed (${status}): ${redactApiPath((stderr || text).slice(-800))}`, { status, crashed });
+}
+
+/**
+ * D1's answers as one list of rows, with D1's rows_read and SQL time attached.
+ * @param {{ results?: Record<string, D1Value>[], meta?: { rows_read?: number, duration?: number } }[]} parsed
+ * @returns {QueryRows}
+ */
+function resultRows(parsed) {
   /** @type {QueryRows} */
   const rows = parsed.flatMap((r) => r.results || []);
   // D1's own count of the rows the statement read, for the cost line runPlan prints.
