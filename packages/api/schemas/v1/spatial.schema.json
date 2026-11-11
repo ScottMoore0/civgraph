@@ -2,11 +2,12 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:civgraph:api:v1:spatial",
   "title": "/api/v1/spatial",
-  "description": "Map features of one map in a bounding box. The answer of /_api/spatial, which stays as an alias.",
+  "description": "Map features of one map (or several, mapIds) in a bounding box. The answer of /_api/spatial, which stays as an alias.",
   "x-civgraph-route": {
     "legacy": "/_api/spatial",
     "parameters": [
       "mapId",
+      "mapIds",
       "bbox"
     ]
   },
@@ -17,11 +18,21 @@
         "mapId": "*"
       },
       "summary": "One map's features in the bounding box"
+    },
+    {
+      "name": "batch",
+      "when": {
+        "mapIds": "*"
+      },
+      "summary": "Several maps' features at once (mapIds=a,b,c, up to 40), keyed by map id, each as the features variant answers"
     }
   ],
   "anyOf": [
     {
       "$ref": "#/$defs/features"
+    },
+    {
+      "$ref": "#/$defs/batch"
     }
   ],
   "$defs": {
@@ -35,6 +46,18 @@
       },
       "required": [
         "features"
+      ]
+    },
+    "batch": {
+      "description": "Several maps' features at once (mapIds=a,b,c, up to 40), keyed by map id, each as the features variant answers",
+      "type": "object",
+      "properties": {
+        "maps": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "maps"
       ]
     },
     "error": {
