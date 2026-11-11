@@ -6,12 +6,16 @@ const zlib = require('zlib');
 // Civgraph Elections (site/apps/elections/, 11 Nov 2026; not public yet). The test server
 // answers /_api/elections from the records build and serves /elections/* through the
 // _redirects rewrite, as Pages does. Without a records build the record views are skipped. The
-// pivot, swing and notional views need the pivot extracts (scripts/build/elections-app/data.mjs
-// --extracts) and DuckDB from jsDelivr; the map views need MapLibre from jsDelivr and the
-// tiles on data.civgraph.net: those tests skip when the network or the extracts are missing.
+// pivot, swing and notional views need the pivot extracts (npm run build:elections-app) and
+// DuckDB's WebAssembly, which is over the Pages file limit and so only built locally (npm run
+// build:elections-app:vendor); they skip without them. The libraries are self-hosted (11 Nov 2026,
+// src/libs/): no page may load anything from a CDN. The map views need the tiles on
+// data.civgraph.net and skip when it is unreachable.
 const ROOT = path.join(__dirname, '..', '..');
 const RECORDS = fs.existsSync(path.join(ROOT, 'tmp', 'records', 'civgraph-records.sqlite'));
 const EXTRACTS = fs.existsSync(path.join(ROOT, 'site', 'apps', 'elections', 'extracts', 'index.json'));
+const WASM = fs.existsSync(path.join(ROOT, 'src', 'libs', 'duckdb-wasm-1.29.0', 'duckdb-eh.wasm'));
+const TILES = 'https://data.civgraph.net/data/parliament/words/meta.json';
 const SHOTS = process.env.ELECTIONS_SHOTS || '';
 const BUDGET = 1.5 * 1024 * 1024;
 
@@ -30,6 +34,19 @@ function trackBytes(page) {
     } catch { /* redirects and aborted requests have no body */ }
   });
   return () => sizes.reduce((s, n) => s + n, 0);
+}
+
+/**
+ * Every host other than this server and data.civgraph.net (the tiles) the page asks for anything:
+ * none, since the libraries, DuckDB's WebAssembly and its parquet extension are self-hosted.
+ */
+function thirdParty(page) {
+  const hosts = new Set();
+  page.on('request', (req) => {
+    const { protocol, host } = new URL(req.url());
+    if (/^https?:$/.test(protocol) && host !== '127.0.0.1:5050' && host !== 'data.civgraph.net') hosts.add(host);
+  });
+  return () => [...hosts];
 }
 
 async function shot(page, name) {
@@ -113,13 +130,12 @@ test.describe('Civgraph Elections', () => {
   });
 
   test.describe('with the extracts and DuckDB', () => {
-    test.skip(!EXTRACTS, 'needs the pivot extracts (scripts/build/elections-app/data.mjs --extracts)');
-    test.beforeEach(async ({ request }) => {
-      test.skip(!(await online(request, 'https://cdn.jsdelivr.net/npm/@duckdb/duckdb-wasm@1.29.0/package.json')), 'jsDelivr is unreachable');
-    });
+    test.skip(!EXTRACTS, 'needs the pivot extracts (npm run build:elections-app)');
+    test.skip(!WASM, "needs DuckDB's WebAssembly built locally (npm run build:elections-app:vendor)");
 
     test('pivot: party by year of seats, URL state, CSV download', async ({ page }) => {
       test.setTimeout(90000);
+      const others = thirdParty(page);
       await page.goto('/elections/pivot/?body=northern-ireland-assembly&rows=party&cols=year&measure=seats');
       await expect(page.locator('#pv-status')).toContainText('rows ×', { timeout: 60000 });
       const dup = page.locator('table.el-pivot tbody tr', { hasText: 'DUP' }).first();
@@ -130,40 +146,48 @@ test.describe('Civgraph Elections', () => {
       const download = page.waitForEvent('download');
       await page.click('#pv-csv');
       expect((await download).suggestedFilename()).toMatch(/\.csv$/);
+      expect(others()).toEqual([]);
       await shot(page, '05-pivot');
     });
 
     test('swingometer: moving a party changes the projected seats', async ({ page }) => {
       test.setTimeout(90000);
+      const others = thirdParty(page);
       await page.goto('/elections/swing/?e=northern-ireland-assembly-2022-05-05&d.Alliance=8');
       await expect(page.locator('#sw-seats table')).toBeVisible({ timeout: 60000 });
       await expect(page.locator('.el-estimate')).toContainText('estimates');
       const alliance = page.locator('#sw-seats tbody tr', { hasText: 'Alliance' });
       await expect(alliance.locator('td').nth(2)).toHaveText(/^\+\d+$/);
+      expect(others()).toEqual([]);
       await shot(page, '08-swing');
     });
 
     test('notional results: every figure labelled an estimate, projection hook works', async ({ page }) => {
       test.setTimeout(90000);
+      const others = thirdParty(page);
       await page.goto('/elections/notional/?e=northern-ireland-assembly-2022-05-05');
       await expect(page.locator('.el-estimate')).toContainText('Estimates', { timeout: 60000 });
       await expect(page.locator('#el-view')).toContainText('Belfast South and Mid Down');
       await page.fill('input[data-target="Alliance"]', '25');
       await expect(page.locator('[data-proj="Alliance"]')).toHaveText(/\d+ \(/);
-      if (await online(page.request, 'https://cdn.jsdelivr.net/npm/maplibre-gl@5.24.0/package.json')) {
+      if (await online(page.request, TILES)) {
         await expect(page.locator('#nt-map')).toHaveAttribute('data-ready', 'true', { timeout: 30000 });
       }
+      expect(others()).toEqual([]);
       await shot(page, '09-notional');
     });
   });
 
   test('maps: winner choropleth on the map package layer', async ({ page, request }) => {
-    test.skip(!(await online(request, 'https://cdn.jsdelivr.net/npm/maplibre-gl@5.24.0/package.json')), 'jsDelivr is unreachable');
+    test.skip(!(await online(request, TILES)), 'data.civgraph.net (the tiles) is unreachable');
     test.setTimeout(90000);
+    const others = thirdParty(page);
     await page.goto('/elections/map/?e=northern-ireland-assembly-2022-05-05&mode=winner');
     await expect(page.locator('#mp-map canvas')).toBeVisible({ timeout: 60000 });
     await expect(page.locator('#mp-legend .cg-party')).not.toHaveCount(0);
     await expect(page.locator('#mp-status')).toContainText('18 of 18 contests drawn', { timeout: 60000 });
+    expect(others()).toEqual([]);
+    await expect(page.locator('script[src*="cdn.jsdelivr.net"], link[href*="cdn.jsdelivr.net"]')).toHaveCount(0);
     await shot(page, '06-map');
   });
 
