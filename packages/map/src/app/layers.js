@@ -10,6 +10,7 @@ import {
   layerOrderToRestore,
   normalizeLoadedLayerOrder as normalizeLayerOrderToLoaded,
   parseLayerOrder,
+  rowOrderToLoadedIds,
   serializeSavedLayerOrder
 } from './layer-order.mjs';
 import uiController from '../../../../src/ui-controller.js';
@@ -59,9 +60,19 @@ export class LayerMethods {
     return this.normalizeLoadedLayerOrder(drawOrder, loadedIds);
   }
 
+  /** The catalogue id a loaded layer's Active layers row carries (see rowOrderToLoadedIds). */
+  activeLayerRowId(loadedId) {
+    return dataService.getMapById(loadedId)?.id || loadedId;
+  }
+
   setActiveLayerOrder(order, options = {}) {
     const { persist = true, notify = false } = options || {};
-    const normalized = this.normalizeLoadedLayerOrder(order);
+    // The panel's rows carry catalogue ids; the order is kept in loaded ids.
+    const loadedIds = this.getLoadedLayerIds();
+    const normalized = this.normalizeLoadedLayerOrder(
+      rowOrderToLoadedIds(order, loadedIds, (id) => this.activeLayerRowId(id)),
+      loadedIds
+    );
     if (normalized.length < 2) return normalized;
     this.mapController?.setLayerDrawOrder?.(normalized, { notify });
     if (persist) this.writeSavedLayerOrder(normalized);
@@ -247,20 +258,23 @@ export class LayerMethods {
 
   updateActiveLayers() {
     const loadedMaps = [];
+    // Each row's loaded id: its config's id is the catalogue's, which for a layer loaded under
+    // another id (lgd-2012-vector, shown as lgd-2012) is not in the draw order.
+    const loadedIdOf = new Map();
     const visibilityMap = new Map();
     const partialLayerInfo = new Map();
     const groupedChildIds = new Set();
     for (const [id, state] of this.mapController.groupStates) {
       if (!state.loaded) continue;
       const config = dataService.getMapById(id) || state.config;
-      if (config) loadedMaps.push(config);
+      if (config) { loadedMaps.push(config); loadedIdOf.set(config, id); }
       visibilityMap.set(id, state.visible);
       for (const childId of state.childIds || []) groupedChildIds.add(childId);
     }
     for (const [id, state] of this.mapController.layerStates) {
       if (groupedChildIds.has(id)) continue;
       const config = dataService.getMapById(id) || state.config;
-      if (config) loadedMaps.push(config);
+      if (config) { loadedMaps.push(config); loadedIdOf.set(config, id); }
       visibilityMap.set(id, state.visible);
       const featureItems = this.mapController.getPartialFeatureItems?.(id) || [];
       if (featureItems.length > 0) {
@@ -271,11 +285,12 @@ export class LayerMethods {
         });
       }
     }
-    const activeOrder = this.getActiveLayerOrder(loadedMaps.map((map) => map.id));
+    const rowKey = (map) => loadedIdOf.get(map) || map.id;
+    const activeOrder = this.getActiveLayerOrder(loadedMaps.map(rowKey));
     const orderIndex = new Map(activeOrder.map((id, index) => [id, index]));
     loadedMaps.sort((a, b) => {
-      const ai = orderIndex.has(a.id) ? orderIndex.get(a.id) : Number.MAX_SAFE_INTEGER;
-      const bi = orderIndex.has(b.id) ? orderIndex.get(b.id) : Number.MAX_SAFE_INTEGER;
+      const ai = orderIndex.has(rowKey(a)) ? orderIndex.get(rowKey(a)) : Number.MAX_SAFE_INTEGER;
+      const bi = orderIndex.has(rowKey(b)) ? orderIndex.get(rowKey(b)) : Number.MAX_SAFE_INTEGER;
       if (ai !== bi) return ai - bi;
       return String(a.name || a.id).localeCompare(String(b.name || b.id));
     });
