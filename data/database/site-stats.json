@@ -1,15 +1,16 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-11T18:42:53.307Z",
+  "generatedAt": "2026-11-11T19:43:28.702Z",
   "description": "Headline site figures, computed once from their sources so no page hard-codes them. See scripts/build/build-site-stats.mjs for what each one counts.",
   "stats": {
-    "publicMaps": 909,
+    "publicMaps": 820,
     "electionContests": 21279,
     "candidacies": 77510,
     "people": 37053,
     "scannedBooks": 67,
     "cataloguedSources": 39531,
     "elections": 2507,
+    "mapsToBeAdded": 167,
     "catalogueEntries": 1118,
     "renderedLayers": 1339,
     "proniRecords": 1538177,
@@ -24,6 +25,7 @@
     "scannedBooks": "scanned books",
     "cataloguedSources": "catalogued sources",
     "elections": "elections",
+    "mapsToBeAdded": "maps to be added",
     "catalogueEntries": "catalogue entries",
     "renderedLayers": "rendered layers",
     "proniRecords": "PRONI records",
@@ -31,7 +33,8 @@
     "graphStatements": "graph statements"
   },
   "provenance": {
-    "publicMaps": "render/metadata/maps-test.json :: publicMapCount (stamped by build-render-time-series-chains.mjs)",
+    "publicMaps": "data/catalogue/catalogue.json :: series[].members[] + series[].local[], distinct ids (src/public-map.mjs catalogueMapIds)",
+    "mapsToBeAdded": "data/catalogue/catalogue.json :: series[].todo[] not shown as a map (src/public-map.mjs catalogueToBeAddedIds)",
     "electionContests": "tmp/records/elections/*.json :: count of results[] across 2507 elections",
     "candidacies": "tmp/records/elections/*.json :: total results[].candidates[] entries",
     "people": "data/browse/persons.json :: total",
