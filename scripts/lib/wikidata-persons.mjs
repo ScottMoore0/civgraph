@@ -53,7 +53,11 @@ export function personWikidata(idQids, doc, personId) {
   return { qid, fromCrosswalk: Boolean(qid) };
 }
 
-/** The item's Wikidata page, the URL a sameAs statement points to. */
+/**
+ * The item's Wikidata page, the URL a sameAs statement points to.
+ * @param {unknown} qid
+ * @returns {string|null}
+ */
 export function wikidataUrl(qid) {
   return QID.test(String(qid || '')) ? `https://www.wikidata.org/wiki/${qid}` : null;
 }
@@ -69,11 +73,16 @@ export function wikidataUrl(qid) {
  */
 export function rekeyWikidataPersons(doc, entities) {
   const live = new Set(entities.map((e) => String(e.personId)));
+  /** @type {Map<string, string>} */
   const into = new Map();
   for (const e of entities) for (const m of e.mergedFrom || []) into.set(String(m), String(e.personId));
+  /** @param {string|number} id @returns {string|null} */
   const target = (id) => (live.has(String(id)) ? String(id) : into.get(String(id)) || null);
+  /** @type {{ moved: { from: string, to: string, qid: string }[], droppedLinks: { from: string, to: string, qid: string, kept: string }[], resolvedLeads: string[], missing: string[] }} */
   const changes = { moved: [], droppedLinks: [], resolvedLeads: [], missing: [] };
+  /** @type {Record<string, any>} */
   const persons = {};
+  /** @type {[string, any][]} */
   const entries = Object.entries(doc.persons || {});
   // live ids first, so a kept person's own link wins over one moved onto it
   entries.sort(([a], [b]) => Number(!live.has(a)) - Number(!live.has(b)));
@@ -89,15 +98,19 @@ export function rekeyWikidataPersons(doc, entities) {
       persons[to] = { ...entry, evidence: [...entry.evidence, `re-keyed from ${id}, merged into ${to}`] };
     } else persons[to] = entry;
   }
+  /** @type {any[]} */
   const mergeLeads = [];
   for (const lead of doc.mergeLeads || []) {
-    const ids = [...new Set(lead.persons.map((p) => target(p.personId)).filter(Boolean))];
+    /** @type {{ personId: string }[]} */
+    const leadPersons = lead.persons;
+    const ids = [...new Set(leadPersons.map((p) => target(p.personId)).filter(Boolean))];
     if (ids.length < 2) { changes.resolvedLeads.push(lead.wikidata); continue; }
-    mergeLeads.push({ ...lead, persons: lead.persons.filter((p, i, all) => {
+    mergeLeads.push({ ...lead, persons: leadPersons.filter((p, i, all) => {
       const t = target(p.personId);
       return t && all.findIndex((q) => target(q.personId) === t) === i;
     }).map((p) => ({ ...p, personId: target(p.personId) })) });
   }
+  /** @type {Set<string>} */
   const byQid = new Set();
   for (const [id, entry] of Object.entries(persons)) {
     if (byQid.has(entry.qid)) { changes.droppedLinks.push({ from: id, to: id, qid: entry.qid, kept: entry.qid }); delete persons[id]; }
@@ -116,7 +129,9 @@ export function rekeyWikidataPersons(doc, entities) {
  * @returns {{ errors: string[], warnings: string[] }}
  */
 export function validateWikidataPersons(doc, { personIds, registryQids = new Map() }) {
+  /** @type {string[]} */
   const errors = [];
+  /** @type {string[]} */
   const warnings = [];
   if (!doc || typeof doc !== 'object') return { errors: ['not a JSON object'], warnings };
   if (doc.schemaVersion !== 1) errors.push('schemaVersion must be 1');
@@ -134,7 +149,7 @@ export function validateWikidataPersons(doc, { personIds, registryQids = new Map
     if (!QID.test(entry.qid || '')) errors.push(`${at}: qid ${JSON.stringify(entry.qid)} is not a Wikidata item id`);
     if (!CONFIDENCE.includes(entry.confidence)) errors.push(`${at}: confidence must be one of ${CONFIDENCE.join(', ')}`);
     if (typeof entry.name !== 'string' || !entry.name) errors.push(`${at}: name is required`);
-    if (!Array.isArray(entry.evidence) || !entry.evidence.length || entry.evidence.some((e) => typeof e !== 'string' || !e)) {
+    if (!Array.isArray(entry.evidence) || !entry.evidence.length || entry.evidence.some((/** @type {unknown} */ e) => typeof e !== 'string' || !e)) {
       errors.push(`${at}: evidence must be a non-empty list of strings`);
     }
     const held = registryQids.get(id);
