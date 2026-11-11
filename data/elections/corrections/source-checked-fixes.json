@@ -38,7 +38,8 @@
     "elliott-flackes-1999-2026-11-06": "Northern Ireland contests 1968-99 checked against Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Blackstaff Press, 1999), read from the owner's scans, with every changed figure or label confirmed by a second source (ARK Northern Ireland Elections, Wikipedia): Chichester-Clark's 1970 Londonderry vote and Sands's April 1981 vote, Faulkner's seven pro-Assembly Unionists of February 1974, Kilfedder's 1979 Independent Unionist label, Dunlop's 1982 and the 1977 council UUUP candidates, the Ballymena and Larne 1977 unopposed returns, Larne's 1973 Loyalists, Ballymoney Town 1989, and candidacies filed under a namesake (Jack Allen, William Brown, John Carson, Gerry Kelly, John Kelly, Frank Millar junior, David Allen, P. J. Bradley and five 1996 Forum list rows). Facts and citations only.",
     "ledger-eoni-ec-2026-11-11": "Northern Ireland council (2014, 2023) and European Parliament (2004) contests checked against the Electoral Office for Northern Ireland's result sheets and the Electoral Commission's results spreadsheets: only clear transcription errors (an electorate, poll or quota that the sheet's own figures confirm, a count total, the elected flags).",
     "galway-city-2026-11-11": "Galway City West 2024, imported with no candidates, filled from Galway City Council's official State of the Poll sheets (counts 1-14), with IrelandElection.com person ids.",
-    "two-member-unopposed-2026-11-11": "Two-member county seats imported as single-member: both members were returned unopposed, but the second was shown as defeated. Checked against Walker (1978) as Wikipedia's election boxes cite it, and corroborated by the second member's own votes in the next session (Historic Hansard)."
+    "two-member-unopposed-2026-11-11": "Two-member county seats imported as single-member: both members were returned unopposed, but the second was shown as defeated. Checked against Walker (1978) as Wikipedia's election boxes cite it, and corroborated by the second member's own votes in the next session (Historic Hansard).",
+    "arith-audit-2026-11-11": "Every contest's arithmetic audited (scripts/check/rules/contest-arithmetic.mjs): FPTP votes against the valid poll, STV quotas, first preferences, stage-by-stage transfers and exclusions, turnout and poll figures. Figures that did not add up were checked against the source each record names and corrected where Civgraph had mis-transcribed them; where the source itself does not add up, the contest is listed in contest-arithmetic-allowlist.json instead."
   },
   "records": [
     {
@@ -227403,11 +227404,46 @@
             "Status": "Elected",
             "Occurred_On_Count": "9"
           }
+        },
+        {
+          "op": "candidateCount",
+          "name": "John Maginnis",
+          "count": "3",
+          "set": {
+            "Transfers": "61.95"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Alister Black",
+          "count": "5",
+          "set": {
+            "Total_Votes": "6188.22"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Paddy O'Hanlon",
+          "count": "6",
+          "set": {
+            "Total_Votes": "5206.16"
+          }
         }
       ],
-      "reason": "Armagh's 1975 totals had been shifted one row: 90,640 electors, 61,399 votes polled, 2,011 invalid and 59,388 valid, with a quota of 7,424 for 7 seats, as the Chief Electoral Officer's result sheet gives. Alister Black, Thomas Carson, Herbert Whitten and Hugh News were elected with Seamus Mallon, Michael Armstrong and Douglas Hutchinson; Patrick O'Hanlon was not.",
+      "reason": "Armagh's 1975 totals had been shifted one row: 90,640 electors, 61,399 votes polled, 2,011 invalid and 59,388 valid, with a quota of 7,424 for 7 seats, as the Chief Electoral Officer's result sheet gives. Alister Black, Thomas Carson, Herbert Whitten and Hugh News were elected with Seamus Mallon, Michael Armstrong and Douglas Hutchinson; Patrick O'Hanlon was not. Read from the booklet's page image: John Maginnis received 61.95 at the third stage (not 61.65), Alister Black had 6,188.22 after the fifth (not 6,188.29) and Paddy O'Hanlon 5,206.16 after the sixth (not 5,206.10).",
       "category": "figures",
-      "internalNote": "Verification: official (Chief Electoral Officer result sheet, Internet Archive copy of eoni.org.uk, read from the page image; local copy D:/civgraph-intake/eoni-wayback-2026-10-26/). Found by the ARK cross-check of 2026-10-29; supersedes the arithmetic/ARK proposal left out of that batch."
+      "internalNote": "Verification: official (Chief Electoral Officer result sheet, Internet Archive copy of eoni.org.uk, read from the page image; local copy D:/civgraph-intake/eoni-wayback-2026-10-26/). Found by the ARK cross-check of 2026-10-29; supersedes the arithmetic/ARK proposal left out of that batch.",
+      "additionalSources": [
+        {
+          "title": "Convention Elections 1975: result sheets, p. 15",
+          "publisher": "Chief Electoral Officer for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401112712/http://www.eoni.org.uk/getmedia/b760cf3f-1f17-4de7-9596-229fde33f4bb/ni_convention_election_results_1975",
+          "accessed": "2026-11-11"
+        }
+      ],
+      "alsoBatches": [
+        "arith-audit-2026-11-11"
+      ]
     },
     {
       "batch": "ark-six-contests-2026-10-30",
@@ -227500,11 +227536,54 @@
             "Status": "Excluded",
             "Occurred_On_Count": "10"
           }
+        },
+        {
+          "op": "candidateCount",
+          "name": "William Jeffrey",
+          "count": "2",
+          "set": {
+            "Total_Votes": "1942.20"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Tom French",
+          "count": "6",
+          "set": {
+            "Transfers": "197.53"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Patrick O'Hanlon",
+          "count": "6",
+          "set": {
+            "Transfers": "107.54"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "William Jeffrey",
+          "count": "2",
+          "set": {
+            "Transfers": "136.20"
+          }
         }
       ],
-      "reason": "Armagh elected 7 members in 1982, not 8: 95,610 electors, 63,982 votes polled, 2,078 invalid and 61,904 valid, quota 7,739, as the Chief Electoral Officer's result sheet and summary sheet give. Hugh News was elected at the last count; Jim Speers was excluded at the eleventh stage and was not elected.",
+      "reason": "Armagh elected 7 members in 1982, not 8: 95,610 electors, 63,982 votes polled, 2,078 invalid and 61,904 valid, quota 7,739, as the Chief Electoral Officer's result sheet and summary sheet give. Hugh News was elected at the last count; Jim Speers was excluded at the eleventh stage and was not elected. Read from the booklet's page image: William Jeffrey had 1,942.20 after the second stage (not 1,942.00), and at the sixth stage (O'Hagan's exclusion) Tom French received 197.53 and Patrick O'Hanlon 107.54; the two transfers had been swapped. William Jeffrey received 136.20 at the second stage (McCusker's surplus), not 136.",
       "category": "figures",
-      "internalNote": "Verification: official (Chief Electoral Officer result sheet, Internet Archive copy of eoni.org.uk, read from the page image; local copy D:/civgraph-intake/eoni-wayback-2026-10-26/). Found by the ARK cross-check of 2026-10-29; supersedes the arithmetic/ARK proposal left out of that batch."
+      "internalNote": "Verification: official (Chief Electoral Officer result sheet, Internet Archive copy of eoni.org.uk, read from the page image; local copy D:/civgraph-intake/eoni-wayback-2026-10-26/). Found by the ARK cross-check of 2026-10-29; supersedes the arithmetic/ARK proposal left out of that batch.",
+      "additionalSources": [
+        {
+          "title": "Northern Ireland Assembly Election 1982: Results Records, p. 9",
+          "publisher": "Chief Electoral Officer for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401112507/http://www.eoni.org.uk/getmedia/5e4fb91e-efd0-4f27-b6a5-92e88c2206b2/ni_assembly_election_results_1982",
+          "accessed": "2026-11-11"
+        }
+      ],
+      "alsoBatches": [
+        "arith-audit-2026-11-11"
+      ]
     },
     {
       "batch": "ark-six-contests-2026-10-30",
@@ -229301,11 +229380,48 @@
             "Status": "Elected",
             "Occurred_On_Count": "9"
           }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Peter Brush",
+          "count": "4",
+          "set": {
+            "Total_Votes": "6520.56"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Peter Brush",
+          "count": "5",
+          "set": {
+            "Total_Votes": "6520.56"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Anthony Williamson",
+          "count": "7",
+          "set": {
+            "Transfers": "6.38",
+            "Total_Votes": "1937.40"
+          }
         }
       ],
-      "reason": "Brian Faulkner and Herbert Heslip were also elected for South Down at the 1975 Convention election, as the Chief Electoral Officer's result sheet gives; the contest had marked only 5 of its 7 members elected.",
+      "reason": "Brian Faulkner and Herbert Heslip were also elected for South Down at the 1975 Convention election, as the Chief Electoral Officer's result sheet gives; the contest had marked only 5 of its 7 members elected. Read from the booklet's page images: Peter (Edward H.) Brush held 6,520.56 at the fourth and fifth stages (not 6,520.46), and Anthony Williamson received 6.38 at the seventh stage, for 1,937.40 (not 6.83 and 1,937.46).",
       "category": "figures",
-      "internalNote": "Verification: official (Chief Electoral Officer result booklet, Internet Archive copy of eoni.org.uk, read from the page image; local copy D:/civgraph-intake/eoni-wayback-2026-10-26/). Header figures and first preferences agree with the sheet unless stated; the change is the members the sheet lists as elected (1973: \"Names of Candidates Elected\"; 1975/1982: the \"E\" column). Found by the booklet sweep of 2026-10-30."
+      "internalNote": "Verification: official (Chief Electoral Officer result booklet, Internet Archive copy of eoni.org.uk, read from the page image; local copy D:/civgraph-intake/eoni-wayback-2026-10-26/). Header figures and first preferences agree with the sheet unless stated; the change is the members the sheet lists as elected (1973: \"Names of Candidates Elected\"; 1975/1982: the \"E\" column). Found by the booklet sweep of 2026-10-30.",
+      "additionalSources": [
+        {
+          "title": "Convention Elections 1975: result sheets, p. 19 and 20",
+          "publisher": "Chief Electoral Officer for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401112712/http://www.eoni.org.uk/getmedia/b760cf3f-1f17-4de7-9596-229fde33f4bb/ni_convention_election_results_1975",
+          "accessed": "2026-11-11"
+        }
+      ],
+      "sourceNote": "The Chief Electoral Officer's sheet gives Anthony Williamson 206 at the fifth stage and a total of 1,882.80, where 1,676.08 + 206 is 1,882.08; the later stages follow from 1,882.80.",
+      "alsoBatches": [
+        "arith-audit-2026-11-11"
+      ]
     },
     {
       "batch": "ni-booklets-sweep-2026-10-30",
@@ -229404,11 +229520,31 @@
             "Status": "Elected",
             "Occurred_On_Count": "11"
           }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Duncan Pollock",
+          "count": "2",
+          "set": {
+            "Total_Votes": "2284.02"
+          }
         }
       ],
-      "reason": "Paddy Duffy, Robert Overend and Esmond Thompson were also elected for Mid-Ulster at the 1975 Convention election, as the Chief Electoral Officer's result sheet gives; the contest had marked only 3 of its 6 members elected. Mid-Ulster had 58,549 votes polled and 2,080 invalid (80,806 electors, 56,469 valid, quota 8,068); the contest had carried 61,549 and 5,080.",
+      "reason": "Paddy Duffy, Robert Overend and Esmond Thompson were also elected for Mid-Ulster at the 1975 Convention election, as the Chief Electoral Officer's result sheet gives; the contest had marked only 3 of its 6 members elected. Mid-Ulster had 58,549 votes polled and 2,080 invalid (80,806 electors, 56,469 valid, quota 8,068); the contest had carried 61,549 and 5,080. Read from the booklet's page image: Duncan Pollock had 2,284.02 after the second stage (2,264 + 20.02), not 2,284.04.",
       "category": "figures",
-      "internalNote": "Verification: official (Chief Electoral Officer result booklet, Internet Archive copy of eoni.org.uk, read from the page image; local copy D:/civgraph-intake/eoni-wayback-2026-10-26/). Header figures and first preferences agree with the sheet unless stated; the change is the members the sheet lists as elected (1973: \"Names of Candidates Elected\"; 1975/1982: the \"E\" column). Found by the booklet sweep of 2026-10-30."
+      "internalNote": "Verification: official (Chief Electoral Officer result booklet, Internet Archive copy of eoni.org.uk, read from the page image; local copy D:/civgraph-intake/eoni-wayback-2026-10-26/). Header figures and first preferences agree with the sheet unless stated; the change is the members the sheet lists as elected (1973: \"Names of Candidates Elected\"; 1975/1982: the \"E\" column). Found by the booklet sweep of 2026-10-30.",
+      "additionalSources": [
+        {
+          "title": "Convention Elections 1975: result sheets, p. 25",
+          "publisher": "Chief Electoral Officer for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401112712/http://www.eoni.org.uk/getmedia/b760cf3f-1f17-4de7-9596-229fde33f4bb/ni_convention_election_results_1975",
+          "accessed": "2026-11-11"
+        }
+      ],
+      "sourceNote": "The Chief Electoral Officer's sheet prints Aidan Larkin's fifth-stage total as 3,987.75, where 3,967.51 + 20.44 is 3,987.95; his sixth-stage total, 4,031.28, follows from 3,987.95.",
+      "alsoBatches": [
+        "arith-audit-2026-11-11"
+      ]
     },
     {
       "batch": "ni-booklets-sweep-2026-10-30",
@@ -229576,11 +229712,46 @@
             "Status": "Elected",
             "Occurred_On_Count": "14"
           }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Joe Austin",
+          "count": "5",
+          "set": {
+            "Total_Votes": "4104.69"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Joe Austin",
+          "count": "6",
+          "set": {
+            "Total_Votes": "4104.69"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "George Seawright",
+          "count": "14",
+          "set": {
+            "Total_Votes": "6119.08"
+          }
         }
       ],
-      "reason": "Paul Maguire, Paschal O'Hare and George Seawright were also elected for Belfast North at the 1982 Assembly election, as the Chief Electoral Officer's result sheet gives; the contest had marked only 2 of its 5 members elected.",
+      "reason": "Paul Maguire, Paschal O'Hare and George Seawright were also elected for Belfast North at the 1982 Assembly election, as the Chief Electoral Officer's result sheet gives; the contest had marked only 2 of its 5 members elected. Read from the booklet's page images: Joe Austin had 4,104.69 after the fifth and sixth stages (4,088.46 + 16.23), not 4,101.69, and George Seawright 6,119.08 at the fourteenth, not 61,119.",
       "category": "figures",
-      "internalNote": "Verification: official (Chief Electoral Officer result booklet, Internet Archive copy of eoni.org.uk, read from the page image; local copy D:/civgraph-intake/eoni-wayback-2026-10-26/). Header figures and first preferences agree with the sheet unless stated; the change is the members the sheet lists as elected (1973: \"Names of Candidates Elected\"; 1975/1982: the \"E\" column). Found by the booklet sweep of 2026-10-30."
+      "internalNote": "Verification: official (Chief Electoral Officer result booklet, Internet Archive copy of eoni.org.uk, read from the page image; local copy D:/civgraph-intake/eoni-wayback-2026-10-26/). Header figures and first preferences agree with the sheet unless stated; the change is the members the sheet lists as elected (1973: \"Names of Candidates Elected\"; 1975/1982: the \"E\" column). Found by the booklet sweep of 2026-10-30.",
+      "additionalSources": [
+        {
+          "title": "Northern Ireland Assembly Election 1982: Results Records, p. 14 and 16",
+          "publisher": "Chief Electoral Officer for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401112507/http://www.eoni.org.uk/getmedia/5e4fb91e-efd0-4f27-b6a5-92e88c2206b2/ni_assembly_election_results_1982",
+          "accessed": "2026-11-11"
+        }
+      ],
+      "alsoBatches": [
+        "arith-audit-2026-11-11"
+      ]
     },
     {
       "batch": "ni-booklets-sweep-2026-10-30",
@@ -229607,11 +229778,30 @@
             "Status": "Elected",
             "Occurred_On_Count": "13"
           }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Patrick Doherty",
+          "count": "6",
+          "set": {
+            "Total_Votes": "2567.73"
+          }
         }
       ],
-      "reason": "William Bleakes and John Cushnahan were also elected for North Down at the 1982 Assembly election, as the Chief Electoral Officer's result sheet gives; the contest had marked only 6 of its 8 members elected.",
+      "reason": "William Bleakes and John Cushnahan were also elected for North Down at the 1982 Assembly election, as the Chief Electoral Officer's result sheet gives; the contest had marked only 6 of its 8 members elected. Read from the booklet's page image: Patrick Doherty had 2,567.73 after the sixth stage (2,566.73 + 1), the figure transferred at his exclusion, not 2,587.73.",
       "category": "figures",
-      "internalNote": "Verification: official (Chief Electoral Officer result booklet, Internet Archive copy of eoni.org.uk, read from the page image; local copy D:/civgraph-intake/eoni-wayback-2026-10-26/). Header figures and first preferences agree with the sheet unless stated; the change is the members the sheet lists as elected (1973: \"Names of Candidates Elected\"; 1975/1982: the \"E\" column). Found by the booklet sweep of 2026-10-30."
+      "internalNote": "Verification: official (Chief Electoral Officer result booklet, Internet Archive copy of eoni.org.uk, read from the page image; local copy D:/civgraph-intake/eoni-wayback-2026-10-26/). Header figures and first preferences agree with the sheet unless stated; the change is the members the sheet lists as elected (1973: \"Names of Candidates Elected\"; 1975/1982: the \"E\" column). Found by the booklet sweep of 2026-10-30.",
+      "additionalSources": [
+        {
+          "title": "Northern Ireland Assembly Election 1982: Results Records, p. 20",
+          "publisher": "Chief Electoral Officer for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401112507/http://www.eoni.org.uk/getmedia/5e4fb91e-efd0-4f27-b6a5-92e88c2206b2/ni_assembly_election_results_1982",
+          "accessed": "2026-11-11"
+        }
+      ],
+      "alsoBatches": [
+        "arith-audit-2026-11-11"
+      ]
     },
     {
       "batch": "ni-booklets-sweep-2026-10-30",
@@ -229746,13 +229936,22 @@
           "set": {
             "Party_Name": "UUUP"
           }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Francis McElwee",
+          "count": "9",
+          "set": {
+            "Total_Votes": "6334.80"
+          }
         }
       ],
-      "reason": "Mary McSorley and Danny Morrison were also elected for Mid-Ulster at the 1982 Assembly election, as the Chief Electoral Officer's result sheet gives; the contest had marked only 4 of its 6 members elected. John Dunlop stood for the United Ulster Unionist Party, not Vanguard: the book names him among the UUUP's twelve 1982 candidates (the other eleven are already UUUP here), and Wikipedia gives his party as the UUUP from 1975 to 1984.",
+      "reason": "Mary McSorley and Danny Morrison were also elected for Mid-Ulster at the 1982 Assembly election, as the Chief Electoral Officer's result sheet gives; the contest had marked only 4 of its 6 members elected. John Dunlop stood for the United Ulster Unionist Party, not Vanguard: the book names him among the UUUP's twelve 1982 candidates (the other eleven are already UUUP here), and Wikipedia gives his party as the UUUP from 1975 to 1984. Francis McElwee's ninth-stage total was 6,334.80 (6,333.65 + 1.15), not minus 6,334.80.",
       "category": "figures",
       "internalNote": "Verification: official (Chief Electoral Officer result booklet, Internet Archive copy of eoni.org.uk, read from the page image; local copy D:/civgraph-intake/eoni-wayback-2026-10-26/). Header figures and first preferences agree with the sheet unless stated; the change is the members the sheet lists as elected (1973: \"Names of Candidates Elected\"; 1975/1982: the \"E\" column). Found by the booklet sweep of 2026-10-30.",
       "alsoBatches": [
-        "elliott-flackes-1999-2026-11-06"
+        "elliott-flackes-1999-2026-11-06",
+        "arith-audit-2026-11-11"
       ],
       "additionalSources": [
         {
@@ -229766,6 +229965,12 @@
           "publisher": "Wikipedia",
           "url": "https://en.wikipedia.org/wiki/John_Dunlop_(Northern_Ireland_politician)",
           "accessed": "2026-11-06"
+        },
+        {
+          "title": "Northern Ireland Assembly Election 1982: Results Records, p. 29",
+          "publisher": "Chief Electoral Officer for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401112507/http://www.eoni.org.uk/getmedia/5e4fb91e-efd0-4f27-b6a5-92e88c2206b2/ni_assembly_election_results_1982",
+          "accessed": "2026-11-11"
         }
       ]
     },
@@ -233513,7 +233718,7 @@
         "url": "https://irishnewsarchive.com/?a=d&d=IND19850622.1.8",
         "accessed": "2026-11-01"
       },
-      "reason": "The electorate was 3,150; the Irish Independent prints 3,439, with a total poll of 2,673, 63 spoilt and a quota of 653, and first preferences of 853 for L. McEntire and 796 for G. Brady.",
+      "reason": "The electorate was 3,150; the Irish Independent prints 3,439, with a total poll of 2,673, 63 spoilt and a quota of 653, and first preferences of 853 for L. McEntire and 796 for G. Brady. The valid poll was 2,610 (the printed total poll of 2,673 less 63 spoilt), which fits the printed quota of 653 for three seats; the 1,649 shown was only the two first preferences on file. Sean Mulleady's first preferences are not on file.",
       "category": "electorate",
       "operations": [
         {
@@ -233560,7 +233765,15 @@
               796
             ]
           }
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Valid_Poll",
+          "value": "2610"
         }
+      ],
+      "alsoBatches": [
+        "arith-audit-2026-11-11"
       ]
     },
     {
@@ -246342,9 +246555,15 @@
           "publisher": "Wikipedia",
           "url": "https://en.wikipedia.org/wiki/Fraser_Agnew",
           "accessed": "2026-11-06"
+        },
+        {
+          "title": "Election to the New Northern Ireland Assembly, 25 June 1998: result sheets, p. 7",
+          "publisher": "Chief Electoral Officer for Northern Ireland (via the Internet Archive; copy in D:/civgraph-intake/eoni-wayback-2026-10-26/ni_assembly_election_results_1998.pdf)",
+          "url": "http://www.eoni.org.uk/ni_assembly_election_results_1998",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "Fraser Agnew was not the UUP candidate: he was elected as an independent anti-Agreement unionist and later formed the United Unionist Assembly Party with Boyd Douglas and Denis Watson, who are already Independent Unionists here (book pp. 152, 501 and the chronology, p. 131; Wikipedia's Belfast North and Fraser Agnew articles give 'Ind. Unionist').",
+      "reason": "Fraser Agnew was not the UUP candidate: he was elected as an independent anti-Agreement unionist and later formed the United Unionist Assembly Party with Boyd Douglas and Denis Watson, who are already Independent Unionists here (book pp. 152, 501 and the chronology, p. 131; Wikipedia's Belfast North and Fraser Agnew articles give 'Ind. Unionist'). Read from the booklet's page image: nothing was transferred to or from Alban Maginness at the fourth stage (he held the quota of 5,876 from the third); the record gave him another candidate's -261.64.",
       "category": "party-labels",
       "operations": [
         {
@@ -246353,7 +246572,18 @@
           "set": {
             "Party_Name": "Independent Unionist"
           }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Alban Maginness",
+          "count": "4",
+          "set": {
+            "Transfers": "0.00"
+          }
         }
+      ],
+      "alsoBatches": [
+        "arith-audit-2026-11-11"
       ]
     },
     {
@@ -247765,9 +247995,15 @@
           "publisher": "Wikipedia",
           "url": "https://en.wikipedia.org/wiki/Northern_Ireland_Forum",
           "accessed": "2026-11-06"
+        },
+        {
+          "title": "Northern Ireland Forum election, 30 May 1996: the eighteen constituency results as recorded in Civgraph (each cited to its source)",
+          "publisher": "Civgraph",
+          "url": "https://civgraph.net/",
+          "accessed": "2026-11-11"
         }
       ],
-      "reason": "William McClure on the DUP regional list is (William) James McClure, DUP chairman and Convention member, already on file; Billy Hutchinson on the PUP list is the PUP's Billy Hutchinson already on file. The list rows carried ids no other candidacy uses. The list row now carries his person id. Nothing in the results changes.",
+      "reason": "William McClure on the DUP regional list is (William) James McClure, DUP chairman and Convention member, already on file; Billy Hutchinson on the PUP list is the PUP's Billy Hutchinson already on file. The list rows carried ids no other candidacy uses. The list row now carries his person id. Nothing in the results changes. The province-wide figures are the sum of the eighteen constituency counts: 754,296 votes polled, 1,908 invalid and 752,388 valid, which is also the sum of the lists' votes. The record had 754,376 polled and 752,468 valid, 80 more than the constituencies.",
       "category": "person-identity",
       "operations": [
         {
@@ -247779,7 +248015,20 @@
           "op": "set",
           "path": "Constituency.forum.rows.6.list_candidates.2.person_id",
           "value": 101355
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Poll",
+          "value": "754296"
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Valid_Poll",
+          "value": "752388"
         }
+      ],
+      "alsoBatches": [
+        "arith-audit-2026-11-11"
       ]
     },
     {
@@ -248238,6 +248487,744 @@
           "name": "Frederick Stewart",
           "set": {
             "Status": "Elected"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1950-02-23/south-down.json",
+      "source": {
+        "title": "South Down 1950-1970",
+        "publisher": "ARK Northern Ireland Elections (Conal Kelly)",
+        "url": "https://www.ark.ac.uk/elections/dsd.htm",
+        "accessed": "2026-11-11"
+      },
+      "reason": "The valid poll was 60,684, not 60,864 (two digits transposed): Orr's 38,508 and Macgougan's 22,176 add up to 60,684, which ARK gives as 76.7% of the 79,125 electorate.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Valid_Poll",
+          "value": "60684"
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1831-08-18/dublin.json",
+      "source": {
+        "title": "The History of Parliament: the House of Commons 1820-1832, Dublin",
+        "publisher": "History of Parliament Trust",
+        "url": "https://www.historyofparliamentonline.org/volume/1820-1832/constituencies/dublin",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "Dublin City (UK Parliament constituency)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Dublin_City_(UK_Parliament_constituency)",
+          "accessed": "2026-11-11"
+        }
+      ],
+      "reason": "Both of Dublin's seats were filled at this election, held after the May 1831 return was declared void on 8 August 1831: Frederick Shaw (1,292) and Viscount Ingestre (1,250) were returned. The record gave one seat.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Number_Of_Seats",
+          "value": "2"
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1820-06-30/dublin-city.json",
+      "source": {
+        "title": "The History of Parliament: the House of Commons 1820-1832, Dublin",
+        "publisher": "History of Parliament Trust",
+        "url": "https://www.historyofparliamentonline.org/volume/1820-1832/constituencies/dublin",
+        "accessed": "2026-11-11"
+      },
+      "reason": "The electorate shown, 1,800, was the earlier volume's count of voters in 1820 (History of Parliament 1790-1820), fewer than the 1,926 votes cast at this by-election; the 1820-1832 volume estimates about 3,400 qualified to vote in 1820.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Electorate",
+          "value": "3400"
+        },
+        {
+          "op": "set",
+          "path": "electorateSource",
+          "value": "Estimated number qualified to vote: about 3,400 in 1820 (History of Parliament, 1820-1832)"
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1832-12-08/belfast.json",
+      "source": {
+        "title": "Belfast (UK Parliament constituency)",
+        "publisher": "Wikipedia (election box citing Walker, Parliamentary Election Results in Ireland 1801-1922)",
+        "url": "https://en.wikipedia.org/wiki/Belfast_(UK_Parliament_constituency)",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "Wikipedia lists of MPs elected at each UK general election (as harvested in data/elections/wikipedia-mp-lists-ireland.json)",
+          "publisher": "Wikipedia",
+          "url": null,
+          "accessed": "2026-11-11"
+        }
+      ],
+      "reason": "Robert James Tennent (625) was not elected in 1832: Belfast's two seats went to Arthur Chichester (834) and James Emerson Tennent (723). He was first returned for Belfast in 1847. The record marked more candidates elected than there were seats.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "Robert James Tennent",
+          "set": {
+            "Status": "Not elected"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1832-12-08/sligo.json",
+      "source": {
+        "title": "Sligo (UK Parliament constituency)",
+        "publisher": "Wikipedia (election box citing Walker, Parliamentary Election Results in Ireland 1801-1922)",
+        "url": "https://en.wikipedia.org/wiki/Sligo_(UK_Parliament_constituency)",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "Wikipedia lists of MPs elected at each UK general election (as harvested in data/elections/wikipedia-mp-lists-ireland.json)",
+          "publisher": "Wikipedia",
+          "url": null,
+          "accessed": "2026-11-11"
+        }
+      ],
+      "reason": "Gregory Cuffe Martin (20 votes) was not elected; Sligo's one seat went to John Martin (213). The record marked more candidates elected than there were seats.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "Gregory Cuffe Martin",
+          "set": {
+            "Status": "Not elected"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1835-01-06/clare.json",
+      "source": {
+        "title": "County Clare (UK Parliament constituency)",
+        "publisher": "Wikipedia (election box citing Walker, Parliamentary Election Results in Ireland 1801-1922)",
+        "url": "https://en.wikipedia.org/wiki/County_Clare_(UK_Parliament_constituency)",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "Wikipedia lists of MPs elected at each UK general election (as harvested in data/elections/wikipedia-mp-lists-ireland.json)",
+          "publisher": "Wikipedia",
+          "url": null,
+          "accessed": "2026-11-11"
+        }
+      ],
+      "reason": "Lucius O'Brien (no votes) was not elected in 1835; Clare's two seats went to William Nugent Macnamara and Cornelius O'Brien (686 each). He was returned in 1847. The record marked more candidates elected than there were seats.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "Lucius O'Brien",
+          "set": {
+            "Status": "Not elected"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1835-01-06/mayo.json",
+      "source": {
+        "title": "County Mayo (UK Parliament constituency)",
+        "publisher": "Wikipedia (election box citing Walker, Parliamentary Election Results in Ireland 1801-1922)",
+        "url": "https://en.wikipedia.org/wiki/County_Mayo_(UK_Parliament_constituency)",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "Wikipedia lists of MPs elected at each UK general election (as harvested in data/elections/wikipedia-mp-lists-ireland.json)",
+          "publisher": "Wikipedia",
+          "url": null,
+          "accessed": "2026-11-11"
+        }
+      ],
+      "reason": "John Denis Browne (430) was not elected in 1835; Mayo's two seats went to Sir William Brabazon (828) and Dominick Browne (623). The record marked more candidates elected than there were seats.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "John Denis Browne",
+          "set": {
+            "Status": "Not elected"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1836-05-06/mayo.json",
+      "source": {
+        "title": "County Mayo (UK Parliament constituency)",
+        "publisher": "Wikipedia (election box citing Walker, Parliamentary Election Results in Ireland 1801-1922)",
+        "url": "https://en.wikipedia.org/wiki/County_Mayo_(UK_Parliament_constituency)",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "Wikipedia lists of MPs elected at each UK general election (as harvested in data/elections/wikipedia-mp-lists-ireland.json)",
+          "publisher": "Wikipedia",
+          "url": null,
+          "accessed": "2026-11-11"
+        }
+      ],
+      "reason": "John Denis Browne (305) lost the 1836 by-election to Robert Dillon Browne; one seat was filled. The record marked more candidates elected than there were seats.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "John Denis Browne",
+          "set": {
+            "Status": "Not elected"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1837-07-24/county-limerick.json",
+      "source": {
+        "title": "County Limerick (UK Parliament constituency)",
+        "publisher": "Wikipedia (election box citing Walker, Parliamentary Election Results in Ireland 1801-1922)",
+        "url": "https://en.wikipedia.org/wiki/County_Limerick_(UK_Parliament_constituency)",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "Wikipedia lists of MPs elected at each UK general election (as harvested in data/elections/wikipedia-mp-lists-ireland.json)",
+          "publisher": "Wikipedia",
+          "url": null,
+          "accessed": "2026-11-11"
+        }
+      ],
+      "reason": "Augustus Stafford O'Brien (14) was not elected; County Limerick's two seats went to Richard FitzGibbon (859) and William Smith O'Brien (855). The record marked more candidates elected than there were seats.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "Augustus Stafford O'Brien",
+          "set": {
+            "Status": "Not elected"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1847-07-29/clare.json",
+      "source": {
+        "title": "County Clare (UK Parliament constituency)",
+        "publisher": "Wikipedia (election box citing Walker, Parliamentary Election Results in Ireland 1801-1922)",
+        "url": "https://en.wikipedia.org/wiki/County_Clare_(UK_Parliament_constituency)",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "Wikipedia lists of MPs elected at each UK general election (as harvested in data/elections/wikipedia-mp-lists-ireland.json)",
+          "publisher": "Wikipedia",
+          "url": null,
+          "accessed": "2026-11-11"
+        }
+      ],
+      "reason": "Cornelius O'Brien (584) lost his seat in 1847; Clare's two seats went to Lucius O'Brien (809) and William Nugent Macnamara (723). The record marked more candidates elected than there were seats.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "Cornelius O'Brien",
+          "set": {
+            "Status": "Not elected"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1872-04-26/wexford.json",
+      "source": {
+        "title": "Wexford (UK Parliament constituency)",
+        "publisher": "Wikipedia (election box citing Walker, Parliamentary Election Results in Ireland 1801-1922)",
+        "url": "https://en.wikipedia.org/wiki/Wexford_(UK_Parliament_constituency)",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "Wikipedia lists of MPs elected at each UK general election (as harvested in data/elections/wikipedia-mp-lists-ireland.json)",
+          "publisher": "Wikipedia",
+          "url": null,
+          "accessed": "2026-11-11"
+        }
+      ],
+      "reason": "Walter Redmond (51) lost the 1872 by-election to William Archer Redmond (321); one seat was filled. The record marked more candidates elected than there were seats.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "Walter Redmond",
+          "set": {
+            "Status": "Not elected"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1880-03-31/clonmel.json",
+      "source": {
+        "title": "Clonmel (UK Parliament constituency)",
+        "publisher": "Wikipedia (election box citing Walker, Parliamentary Election Results in Ireland 1801-1922)",
+        "url": "https://en.wikipedia.org/wiki/Clonmel_(UK_Parliament_constituency)",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "Wikipedia lists of MPs elected at each UK general election (as harvested in data/elections/wikipedia-mp-lists-ireland.json)",
+          "publisher": "Wikipedia",
+          "url": null,
+          "accessed": "2026-11-11"
+        }
+      ],
+      "reason": "Stephen Moore (89) was not elected; Clonmel's one seat went to Arthur John Moore (244). The record marked more candidates elected than there were seats.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "Stephen Moore",
+          "set": {
+            "Status": "Not elected"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-assembly/2011-05-05/belfast-east.json",
+      "source": {
+        "title": "NI Assembly Election 2011 result sheet: Belfast East",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20210820141738/https://www.eoni.org.uk/getmedia/1a44c401-6422-4e18-a0c8-e2aea541078c/ni_assembly_election_2011_-_BE",
+        "original": "https://www.eoni.org.uk/getmedia/1a44c401-6422-4e18-a0c8-e2aea541078c/ni_assembly_election_2011_-_BE",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "Belfast East (Assembly constituency), 2011 Assembly election box (citing the EONI result sheet)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Belfast_East_(Assembly_constituency)",
+          "accessed": "2026-11-11"
+        }
+      ],
+      "reason": "Philip Robinson had 1,188.50 at the seventh stage (1,160.50 + 28), not 118.50: a digit was dropped, which made him look lower than Harry Toan when Toan was excluded.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "candidateCount",
+          "name": "Philip Robinson",
+          "count": "7",
+          "set": {
+            "Total_Votes": "1188.50"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-assembly/2011-05-05/belfast-south.json",
+      "source": {
+        "title": "NI Assembly Election 2011 result sheet: Belfast South",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20210819184527/https://www.eoni.org.uk/EONI/files/4a/4afc459f-0583-440d-bf6e-178ef708e41a.pdf",
+        "original": "https://www.eoni.org.uk/EONI/files/4a/4afc459f-0583-440d-bf6e-178ef708e41a.pdf",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "Belfast South (Assembly constituency), 2011 Assembly election box (citing the EONI result sheet)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Belfast_South_(Assembly_constituency)",
+          "accessed": "2026-11-11"
+        }
+      ],
+      "reason": "Two first preferences were transposed: Conall McDevitt had 3,191 (not 3,119) and Brian Faloon 414 (not 141), which their second-stage totals (3,510.50 and 475.80) confirm. With them the first preferences add up to the valid poll of 32,308 (32,752 polled, 444 invalid, as the Electoral Office's turnout table also gives), which fits the quota of 4,616. Jimmy Spratt's last-stage total was 4,281.45 (4,163.85 + 117.60), not 4,281.42.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Valid_Poll",
+          "value": "32308"
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Poll",
+          "value": "32752"
+        },
+        {
+          "op": "candidate",
+          "name": "Conall McDevitt",
+          "set": {
+            "Candidate_First_Pref_Votes": "3191"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Conall McDevitt",
+          "count": "1",
+          "set": {
+            "Total_Votes": "3191.00"
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "Brian Faloon",
+          "set": {
+            "Candidate_First_Pref_Votes": "414"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Brian Faloon",
+          "count": "1",
+          "set": {
+            "Total_Votes": "414.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Jimmy Spratt",
+          "count": "5",
+          "set": {
+            "Total_Votes": "4281.45"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-assembly/2011-05-05/belfast-west.json",
+      "source": {
+        "title": "NI Assembly Election 2011 result sheet: Belfast West",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20190806053422/http://www.eoni.org.uk/EONI/files/d8/d839ef73-dca6-44a2-9bef-785d8e64bdef.pdf",
+        "original": "https://www.eoni.org.uk/EONI/files/d8/d839ef73-dca6-44a2-9bef-785d8e64bdef.pdf",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "Belfast West (Assembly constituency), 2011 Assembly election box (citing the EONI result sheet)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Belfast_West_(Assembly_constituency)",
+          "accessed": "2026-11-11"
+        }
+      ],
+      "reason": "Alex Attwood had 3,776.69 at the second stage (3,765 + 11.69), not 3,779.69, and Fra McCann 4,604.96 at the third (4,587.96 + 17), not 4,606.96; the next stages' totals follow from the corrected figures.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "candidateCount",
+          "name": "Alex Attwood",
+          "count": "2",
+          "set": {
+            "Total_Votes": "3776.69"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Fra McCann",
+          "count": "3",
+          "set": {
+            "Total_Votes": "4604.96"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-assembly/2011-05-05/east-antrim.json",
+      "source": {
+        "title": "NI Assembly Election 2011 result sheet: East Antrim",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401094617id_/http://www.eoni.org.uk/getmedia/bc19076a-97eb-4fb6-b570-9d676607d7df/NI-Assembly-Election-2011-East-Antrim-Result-Sheet",
+        "original": "https://www.eoni.org.uk/getmedia/bc19076a-97eb-4fb6-b570-9d676607d7df/NI-Assembly-Election-2011-East-Antrim-Result-Sheet",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "East Antrim (Assembly constituency), 2011 Assembly election box (citing the EONI result sheet)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/East_Antrim_(Assembly_constituency)",
+          "accessed": "2026-11-11"
+        }
+      ],
+      "reason": "David Hilditch held 4,218.52 at the fifth stage, as at the fourth and sixth (no transfer to him), not 1,218.52.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "candidateCount",
+          "name": "David Hilditch",
+          "count": "5",
+          "set": {
+            "Total_Votes": "4218.52"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-assembly/2011-05-05/lagan-valley.json",
+      "source": {
+        "title": "NI Assembly Election 2011 result sheet: Lagan Valley",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20210821214040/https://www.eoni.org.uk/EONI/files/35/355f1f22-52cb-423b-9c38-add07ec9e908.pdf",
+        "original": "https://www.eoni.org.uk/EONI/files/35/355f1f22-52cb-423b-9c38-add07ec9e908.pdf",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "Lagan Valley (Assembly constituency), 2011 Assembly election box (citing the EONI result sheet)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Lagan_Valley_(Assembly_constituency)",
+          "accessed": "2026-11-11"
+        }
+      ],
+      "reason": "Mary-Kate Quinn had 1,241.21 at the fifth stage (1,237.21 + 4), the figure whose exclusion follows, not 121.21.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "candidateCount",
+          "name": "Mary-Kate Quinn",
+          "count": "5",
+          "set": {
+            "Total_Votes": "1241.21"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-assembly/2011-05-05/north-antrim.json",
+      "source": {
+        "title": "NI Assembly Election 2011 result sheet: North Antrim",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20190806053449/http://www.eoni.org.uk/EONI/files/bf/bfbe5669-92eb-4845-af6e-e0610ec34ad9.pdf",
+        "original": "https://www.eoni.org.uk/EONI/files/bf/bfbe5669-92eb-4845-af6e-e0610ec34ad9.pdf",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "North Antrim (Assembly constituency), 2011 Assembly election box (citing the EONI result sheet)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/North_Antrim_(Assembly_constituency)",
+          "accessed": "2026-11-11"
+        }
+      ],
+      "reason": "The seventh-stage totals (the transfer of Bill Kennedy's votes) repeated the sixth stage's: after the transfers they were Allister 4,963, O'Loan 4,745.27, McIlveen 4,062.54, Robinson 3,989.68 and Swann 4,577.99, with Kennedy's 2,583.16 transferred away. Robinson, not Swann, was then the lowest and excluded.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "candidateCount",
+          "name": "Jim Allister",
+          "count": "7",
+          "set": {
+            "Total_Votes": "4963.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Declan O'Loan",
+          "count": "7",
+          "set": {
+            "Total_Votes": "4745.27"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "David McIlveen",
+          "count": "7",
+          "set": {
+            "Total_Votes": "4062.54"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Evelyne Robinson",
+          "count": "7",
+          "set": {
+            "Total_Votes": "3989.68"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Robin Swann",
+          "count": "7",
+          "set": {
+            "Total_Votes": "4577.99"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Bill Kennedy",
+          "count": "7",
+          "set": {
+            "Total_Votes": "0.00"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-assembly/1984-03-01/belfast-south.json",
+      "source": {
+        "title": "South Belfast 1973-1984",
+        "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+        "url": "https://www.ark.ac.uk/elections/csb.htm",
+        "accessed": "2026-11-11"
+      },
+      "reason": "Frank Millar was returned unopposed at the by-election of 1 March 1984; the record carried a poll, valid vote and quota of 0 as if votes had been counted.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Poll",
+          "value": ""
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Valid_Poll",
+          "value": ""
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Spoiled",
+          "value": ""
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Quota",
+          "value": ""
+        },
+        {
+          "op": "candidate",
+          "name": "Frank Millar Jr",
+          "set": {
+            "Candidate_First_Pref_Votes": "",
+            "Total_Votes": "",
+            "Transfers": "",
+            "unopposed": true
+          }
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-assembly/1998-06-25/belfast-west.json",
+      "source": {
+        "title": "Belfast West (Assembly constituency), 1998 Assembly election box (citing the Chief Electoral Officer)",
+        "publisher": "Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Belfast_West_(Assembly_constituency)",
+        "accessed": "2026-11-11"
+      },
+      "reason": "Alex Maskey had 4,901.27 after the sixth stage (4,889.20 + 12.07), not 4,901.20; the seventh stage (4,909.82) follows from it.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "candidateCount",
+          "name": "Alex Maskey",
+          "count": "6",
+          "set": {
+            "Total_Votes": "4901.27"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-assembly/1998-06-25/east-antrim.json",
+      "source": {
+        "title": "East Antrim (Assembly constituency), 1998 Assembly election box (citing the Chief Electoral Officer)",
+        "publisher": "Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/East_Antrim_(Assembly_constituency)",
+        "accessed": "2026-11-11"
+      },
+      "reason": "Jack McKee had 3,042.70 after the second stage (3,013 + 29.70), not 3,043.70; the third stage (3,043.70 after 1 more) follows from it.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "candidateCount",
+          "name": "Jack McKee",
+          "count": "2",
+          "set": {
+            "Total_Votes": "3042.70"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-assembly/1998-06-25/newry-and-armagh.json",
+      "source": {
+        "title": "Election to the New Northern Ireland Assembly, 25 June 1998: result sheets, p. 29",
+        "publisher": "Chief Electoral Officer for Northern Ireland (via the Internet Archive; copy in D:/civgraph-intake/eoni-wayback-2026-10-26/ni_assembly_election_results_1998.pdf)",
+        "url": "http://www.eoni.org.uk/ni_assembly_election_results_1998",
+        "accessed": "2026-11-11"
+      },
+      "reason": "The booklet prints Pat McNamee's seventh-stage total as 5,534.53; the record had 5,334.53. The printed figure is kept.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "candidateCount",
+          "name": "Pat McNamee",
+          "count": "7",
+          "set": {
+            "Total_Votes": "5534.53"
+          }
+        }
+      ],
+      "sourceNote": "The Chief Electoral Officer's sheet prints Pat McNamee's seventh-stage total as 5,534.53, which does not follow from 5,332.53 + 12 (5,344.53); his eighth-stage total, 7,176.79, follows from 5,344.53."
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-assembly/1998-06-25/south-down.json",
+      "source": {
+        "title": "South Down (Assembly constituency), 1998 Assembly election box (citing the Chief Electoral Officer)",
+        "publisher": "Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/South_Down_(Assembly_constituency)",
+        "accessed": "2026-11-11"
+      },
+      "reason": "Dermot Nesbitt held 6,137.99 after the sixth stage (6,133.54 + 4.45), not 0.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "candidateCount",
+          "name": "Dermot Nesbitt",
+          "count": "6",
+          "set": {
+            "Total_Votes": "6137.99"
           }
         }
       ]

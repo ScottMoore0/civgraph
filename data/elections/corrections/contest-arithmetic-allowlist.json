@@ -1,5 +1,102 @@
 {
   "schemaVersion": 1,
   "description": "Contests whose figures fail a rule of scripts/check/rules/contest-arithmetic.mjs because the source itself does not add up (or follows a rule of its own), checked against the source named. Each entry: sourceFile (or \"*\" with electionKey for a whole election), rule, reason, source. Transcription errors are not listed here: they are fixed in source-checked-fixes.json.",
-  "entries": []
+  "entries": [
+    {
+      "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1831-04-28/coleraine.json",
+      "rule": "electorate-poll",
+      "reason": "The 52 are the corporation's voters (History of Parliament, 1831); the 70 tendered freemen's votes counted here were not on that roll.",
+      "source": "History of Parliament 1820-1832, Coleraine"
+    },
+    {
+      "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1831-04-28/coleraine.json",
+      "rule": "fptp-winner",
+      "reason": "Brydges was returned on the corporation's 16 votes; Copeland's 70 were freemen's votes tendered and rejected at the poll. On petition Brydges was unseated and Copeland declared elected (4 August 1831). The contest's note says so.",
+      "source": "Walker, Parliamentary Election Results in Ireland 1801-1922; History of Parliament 1820-1832, Coleraine"
+    },
+    {
+      "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1875-01-22/dublin-university.json",
+      "rule": "electorate-poll",
+      "reason": "Walker prints 2,507 votes (1,210 + 759 + 538) against 2,438 registered electors, a turnout of 102.8%; Wikipedia notes the discrepancy. Kept as printed.",
+      "source": "Walker, Parliamentary Election Results in Ireland 1801-1922; Wikipedia, Dublin University (constituency)"
+    },
+    {
+      "sourceFile": "data/elections-source/data/elections/ireland-european/1979-06-07/leinster.json",
+      "rule": "stv-quota",
+      "reason": "ElectionsIreland.org gives Leinster 4 seats and a quota of 61,380 (306,896 / 5 + 1), and Wikipedia repeats the quota; Leinster returned 3 MEPs in 1979 (both sources list 3 elected), for which the quota would be 76,725. The source's quota is kept.",
+      "source": "ElectionsIreland.org, result.cfm?election=1979E&cons=526; Wikipedia, 1979 European Parliament election in Ireland"
+    },
+    {
+      "sourceFile": "data/elections-source/data/elections/ireland-local/1979-06-07/buncrana.json",
+      "rule": "stv-first-sum",
+      "reason": "The Donegal Democrat's first preferences add up to 13,208 against its printed valid poll of 13,030; its quota of 1,890 fits 13,208. Figures kept as printed (the record says so).",
+      "source": "Donegal Democrat, 15 June 1979, p. 14 (Irish Newspaper Archives)"
+    },
+    {
+      "sourceFile": "data/elections-source/data/elections/ireland-local/1979-06-07/buncrana.json",
+      "rule": "stv-quota",
+      "reason": "The printed quota 1,890 is floor(13,208 / 7) + 1, from the printed first preferences, not the printed valid poll of 13,030.",
+      "source": "Donegal Democrat, 15 June 1979, p. 14 (Irish Newspaper Archives)"
+    },
+    {
+      "sourceFile": "data/elections-source/data/elections/ireland-local/1979-06-07/clane.json",
+      "rule": "poll-identity",
+      "reason": "The Leinster Leader prints a total poll of 12,671, 232 spoilt and a valid poll of 12,436 (12,668).",
+      "source": "Leinster Leader, 16 June 1979, p. 7 (Irish Newspaper Archives)"
+    },
+    {
+      "sourceFile": "data/elections-source/data/elections/ireland-local/1979-06-07/clane.json",
+      "rule": "stv-first-sum",
+      "reason": "The Leinster Leader's first preferences add up to 12,439 against its printed valid poll of 12,436.",
+      "source": "Leinster Leader, 16 June 1979, p. 7 (Irish Newspaper Archives)"
+    },
+    {
+      "sourceFile": "data/elections-source/data/elections/ireland-local/1979-06-07/kildare.json",
+      "rule": "stv-first-sum",
+      "reason": "The Leinster Leader's first preferences add up to 7,347 against its printed valid poll of 7,387.",
+      "source": "Leinster Leader, 16 June 1979, p. 7 (Irish Newspaper Archives)"
+    },
+    {
+      "sourceFile": "data/elections-source/data/elections/ireland-local/1985-06-20/ballaghaderreen.json",
+      "rule": "stv-first-sum",
+      "reason": "After the recount the printed first preferences add up to 4,324 against the stated valid poll of 4,325 (the record's source note).",
+      "source": "Roscommon Herald, 28 June 1985, p. 9 (Irish Newspaper Archives)"
+    },
+    {
+      "sourceFile": "data/elections-source/data/elections/ireland-local/1985-06-20/buncrana.json",
+      "rule": "stv-first-sum",
+      "reason": "The printed first preferences add up to 12,448 against the stated valid poll of 12,447 (the record's source note).",
+      "source": "Derry Journal, 25 June 1985, p. 5 (Irish Newspaper Archives)"
+    },
+    {
+      "sourceFile": "data/elections-source/data/elections/ireland-local/1985-06-20/castlerea.json",
+      "rule": "stv-first-sum",
+      "reason": "The Roscommon Herald's first preferences add up to 4,073, one short of its valid poll of 4,074; the Irish Independent's McGreal 580 would balance but the Herald's 579 agrees with its own second count (the record's source note).",
+      "source": "Roscommon Herald, 28 June 1985, p. 9; Irish Independent, 22 June 1985, p. 8 (Irish Newspaper Archives)"
+    },
+    {
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-assembly/1998-06-25/belfast-north.json",
+      "rule": "stv-row-transfer",
+      "reason": "The Chief Electoral Officer's sheet prints Fraser Agnew's seventh-stage total as 3,529.21 (3,370.55 + 158.46 = 3,529.01) and his ninth as 4,946.21 (3,847.08 + 1,117.13 = 4,964.21; the tenth, 4,965.31, follows from 4,964.21). Kept as printed.",
+      "source": "Election to the New Northern Ireland Assembly 1998, Belfast North continuation sheet (booklet p. 8)"
+    },
+    {
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-assembly/1998-06-25/newry-and-armagh.json",
+      "rule": "stv-row-transfer",
+      "reason": "The sheet prints Pat McNamee's seventh-stage total as 5,534.53 where 5,332.53 + 12 = 5,344.53. Kept as printed, with a source note.",
+      "source": "Election to the New Northern Ireland Assembly 1998, Newry and Armagh continuation sheet (booklet p. 29)"
+    },
+    {
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-constitutional-convention/1975-05-01/mid-ulster.json",
+      "rule": "stv-row-transfer",
+      "reason": "The sheet prints Aidan Larkin's fifth-stage total as 3,987.75 where 3,967.51 + 20.44 = 3,987.95. Kept as printed, with a source note.",
+      "source": "Convention Elections 1975, Mid-Ulster result sheet (booklet p. 25)"
+    },
+    {
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-constitutional-convention/1975-05-01/south-down.json",
+      "rule": "stv-row-transfer",
+      "reason": "The sheet gives Anthony Williamson a fifth-stage transfer of 206 and a total of 1,882.80 (1,676.08 + 206 = 1,882.08). Kept as printed, with a source note.",
+      "source": "Convention Elections 1975, South Down result sheet (booklet p. 19)"
+    }
+  ]
 }
