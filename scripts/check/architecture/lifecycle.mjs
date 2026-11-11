@@ -2,8 +2,8 @@
  * C7 (rule R8, views clean up after themselves): a listener added to a long-lived target —
  * `document`, `window`, `globalThis`, `self`, or a function parameter named root/container (a
  * router's persistent view root) — inside a function must be removable: it passes an options
- * object with `signal` (or `once: true`), an options variable named for a signal, or the same
- * file removes it (removeEventListener with the same event on the same target). A listener at
+ * object with `signal` (or `once: true`), an options variable named for a signal or declared in the
+ * same file as such an object (`const listen = { signal: ctx.signal }`), or the same file removes it (removeEventListener with the same event on the same target). A listener at
  * module top level is registered once, and is fine. This is the pattern of the Elections app's
  * swing and notional views (ELECTIONS-APP-AUDIT.md), whose input listeners pile up on the view root.
  */
@@ -51,19 +51,21 @@ function longLived(target, ancestors) {
   return null;
 }
 
-/** @param {AstNode | undefined} options */
-function removable(options) {
+/** @param {AstNode} node an options object literal */
+const objectRemovable = (node) =>
+  /** @type {AstNode[]} */ (node.properties).some((p) => {
+    if (p.type === 'SpreadElement') return true;
+    const key = nameOf(/** @type {AstNode} */ (p.key));
+    const value = /** @type {AstNode} */ (p.value);
+    return key === 'signal' || (key === 'once' && value.type === 'Literal' && value.value === true);
+  });
+
+/** @param {AstNode | undefined} options @param {Set<string>} declared variables declared as a removable options object */
+function removable(options, declared) {
   if (!options) return false;
-  if (options.type === 'ObjectExpression') {
-    return /** @type {AstNode[]} */ (options.properties).some((p) => {
-      if (p.type === 'SpreadElement') return true;
-      const key = nameOf(/** @type {AstNode} */ (p.key));
-      const value = /** @type {AstNode} */ (p.value);
-      return key === 'signal' || (key === 'once' && value.type === 'Literal' && value.value === true);
-    });
-  }
+  if (options.type === 'ObjectExpression') return objectRemovable(options);
   const name = sourceText(options);
-  return Boolean(name && /signal|listenerOptions|lifecycle/i.test(name));
+  return Boolean(name && (declared.has(name) || /signal|listenerOptions|lifecycle/i.test(name)));
 }
 
 export const C7 = {
@@ -77,6 +79,13 @@ export const C7 = {
     const out = [];
     for (const file of ctx.select(cfg)) {
       const { ast } = ctx.parse(file);
+      /** @type {Set<string>} */
+      const declared = new Set();
+      walk(ast, (n) => {
+        const init = /** @type {AstNode | null} */ (n.init);
+        const id = /** @type {AstNode} */ (n.id);
+        if (n.type === 'VariableDeclarator' && id.type === 'Identifier' && init?.type === 'ObjectExpression' && objectRemovable(init)) declared.add(/** @type {string} */ (id.name));
+      });
       /** @type {Set<string>} */
       const removed = new Set();
       /** @type {Array<{ target: string, type: string, line: number }>} */
@@ -95,7 +104,7 @@ export const C7 = {
         }
         if (!ancestors.some(isFunction)) return; // module top level: registered once
         const target = longLived(object, ancestors);
-        if (!target || removable(args[2])) return;
+        if (!target || removable(args[2], declared)) return;
         added.push({ target, type, line: lineOf(n) });
       });
       for (const a of added) {
