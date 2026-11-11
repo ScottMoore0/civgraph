@@ -218,3 +218,13 @@ test('the committed notional weights sum to one for every old area', async () =>
     for (const [o, s] of sums) assert.ok(Math.abs(s - 1) < 0.01, `${method} ${o}: ${s}`);
   }
 });
+
+test('not public yet: no sitemap lists the app, and the sitemap builder names no app path for it', async () => {
+  const { readFileSync, readdirSync, existsSync: exists } = await import('node:fs');
+  const files = ['site/sitemap.xml', ...(exists('site/sitemaps') ? readdirSync('site/sitemaps').map((f) => `site/sitemaps/${f}`) : [])].filter((f) => exists(f));
+  for (const f of files) assert.doesNotMatch(readFileSync(f, 'utf8'), /civgraph\.net\/(apps\/)?elections\//, f);
+  assert.doesNotMatch(readFileSync('scripts/build/build-sitemap.mjs', 'utf8'), /['"]\/(apps\/)?elections\//);
+  const page = readFileSync('site/apps/elections/index.html', 'utf8');
+  assert.match(page, /<meta name="robots" content="noindex, nofollow"/);
+  assert.match(readFileSync('site/_headers', 'utf8'), /\/elections\/\*\n {2}X-Robots-Tag: noindex, nofollow/);
+});
