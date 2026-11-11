@@ -58,6 +58,7 @@ Usage:  python scripts/ingest/persons/merge_person_ids.py [--check]
 """
 import os, re, sys, json, glob, csv, argparse, collections, unicodedata
 
+import display_names
 import ei_relatives
 import person_lifespans
 
@@ -657,6 +658,10 @@ def main():
                 ke[f] = fn(vs)
         ke['mergedFrom'] = sorted(set(ke.get('mergedFrom', []) + [drop]))
         ents.pop(drop, None)
+    # A survivor keeps the name its page shows (display-names.csv), whichever side it came from.
+    chosen_names = display_names.load()
+    for e in ents.values():
+        display_names.apply(e, chosen_names)
     reg['entities'] = sorted(ents.values(), key=lambda e: e['personId'])
     reg.setdefault('corrections', {})['mergedIds'] = len(final)
     reg['corrections']['classes'] = dict(collections.Counter(m['class'] for m in merges))
