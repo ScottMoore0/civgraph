@@ -135,6 +135,7 @@
     "check:viewer-parity": "node scripts/check/rules/election-viewer-package-parity.mjs",
     "check:r2-allowlist": "node scripts/check/rules/r2-allowlist.mjs",
     "check:source-ledger": "node scripts/check/rules/source-ledger.mjs",
+    "check:person-lifespans": "node scripts/check/rules/person-activity-after-death.mjs",
     "lint": "eslint .",
     "lint:strict": "eslint . --max-warnings 0",
     "lint:functions-strict": "eslint functions packages/api --max-warnings 0",
