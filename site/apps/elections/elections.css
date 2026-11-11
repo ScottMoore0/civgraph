@@ -1,0 +1,93 @@
+/*
+ * Civgraph Elections. Tokens, base styles and the cg-* components come from /assets/ui/ (the
+ * shell head and components.css); this sheet only lays out the app. Party colours are data
+ * (set inline), never tokens.
+ */
+.el-main {
+  max-width: var(--content-max, 72rem);
+  margin: 0 auto;
+  padding: var(--space-4) var(--space-4) var(--space-12);
+  color: var(--text);
+  font-family: var(--font-sans);
+  line-height: var(--leading-normal, 1.5);
+}
+.el-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin: 0 0 var(--space-6);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--border);
+}
+.el-tabs a {
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  text-decoration: none;
+}
+.el-tabs a:hover { background: var(--surface-sunken); color: var(--text); }
+.el-tabs a[aria-current="page"] { background: var(--surface-sunken); color: var(--text); box-shadow: inset 0 -2px 0 var(--color-primary); }
+#el-view[aria-busy="true"] { opacity: 0.6; transition: opacity var(--transition-fast, 0.1s); }
+.el-loading { color: var(--text-muted); }
+.el-head h1 { margin: 0 0 var(--space-1); font-size: var(--text-3xl); line-height: var(--leading-tight); }
+.el-lead { margin: 0 0 var(--space-4); color: var(--text-muted); }
+.el-preview { max-width: 48rem; }
+.el-muted { color: var(--text-muted); font-size: var(--text-sm); }
+.el-crumbs { margin: 0 0 var(--space-3); font-size: var(--text-sm); color: var(--text-muted); }
+.el-crumbs a { color: var(--link); }
+.el-nav { display: flex; justify-content: space-between; gap: var(--space-4); font-size: var(--text-sm); }
+.el-nav a { color: var(--link); }
+h2 { margin: var(--space-8) 0 var(--space-3); font-size: var(--text-xl); }
+.el-main .num, .el-main .cg-table th.num, .el-main .cg-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+.el-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.el-search { display: flex; flex-direction: column; gap: var(--space-1); max-width: 36rem; margin: 0 0 var(--space-4); }
+.el-search label { font-weight: var(--weight-semibold); font-size: var(--text-sm); }
+.el-search input, .el-controls select, .el-controls input {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+}
+.el-list { margin: 0 0 var(--space-4); padding-left: var(--space-5); }
+.el-list li { margin: var(--space-1) 0; }
+.el-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: var(--space-3); margin: 0; padding: 0; list-style: none; }
+.el-cards .cg-card { display: flex; flex-direction: column; height: 100%; text-decoration: none; }
+
+.el-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); gap: var(--space-4); align-items: start; }
+.el-seatchart svg { max-width: 30rem; margin: 0 auto; }
+.el-arc text, .el-hbars text, .el-flow text { font-family: var(--font-sans); }
+/* The SVGs are drawn at about 560 units wide: cap them so their text stays near body size. */
+.cg-chart svg.el-hbars, .cg-chart svg.el-flow { max-width: 42rem; }
+.el-gone { opacity: 0.75; }
+
+.el-sheet-wrap { overflow-x: auto; }
+.el-sheet td.num { white-space: nowrap; }
+.el-sheet .el-transfer { display: block; font-size: var(--text-xs); line-height: 1.1; }
+.el-sheet .el-done { color: var(--text-muted); }
+.el-sheet .el-at-elected { box-shadow: inset 0 -3px 0 var(--success); font-weight: var(--weight-semibold); }
+.el-sheet .el-at-excluded { box-shadow: inset 0 -3px 0 var(--danger); }
+.el-sheet .el-nt th { font-weight: var(--weight-normal); color: var(--text-muted); }
+.el-flow-stage { margin: 0 0 var(--space-3); }
+.el-flow-stage summary { cursor: pointer; font-weight: var(--weight-medium); padding: var(--space-2) 0; }
+.el-cites li { margin-bottom: var(--space-3); }
+.el-check { margin-top: var(--space-1); font-size: var(--text-sm); }
+
+.el-controls { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: end; margin: 0 0 var(--space-4); }
+.el-controls label { display: flex; flex-direction: column; gap: var(--space-1); font-size: var(--text-sm); font-weight: var(--weight-medium); }
+.el-chips { display: flex; flex-wrap: wrap; gap: var(--space-1); }
+.el-chip { padding: 2px var(--space-2); border: 1px solid var(--border); border-radius: var(--radius-full); background: var(--surface-sunken); font-size: var(--text-xs); }
+.el-pivot-wrap { overflow: auto; max-height: 70vh; }
+.el-map { width: 100%; height: 60vh; min-height: 22rem; border: 1px solid var(--border); border-radius: var(--radius-lg); }
+.el-multiples { display: grid; grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr)); gap: var(--space-3); }
+.el-multiples figure { margin: 0; }
+.el-legend { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); margin: var(--space-2) 0; font-size: var(--text-sm); }
+.el-estimate { border-left-color: var(--warning); }
+@media (max-width: 36rem) {
+  .el-head h1 { font-size: var(--text-2xl); }
+  .el-main { padding: var(--space-3) var(--space-3) var(--space-8); }
+}

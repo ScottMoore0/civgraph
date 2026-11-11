@@ -108,6 +108,10 @@ These run only when someone names them. They are not part of any gate.
   `check:test2`), `catalogue:check`, `records:verify` (local),
   `monitor:test2:cdn` (network), `lint:strict`, `test:browser` (the whole Playwright
   directory) and `check:intake` (an alias of four tier 1 steps).
+- **Civgraph Elections (not public yet, 11 Nov 2026).** `build:elections-app` (the private pivot
+  extracts) and `audit:elections-app` (docs/tasks/elections-app-data-audit.md) read the local
+  records build; `test:browser:elections` (`tests/browser/elections-app.spec.cjs`) drives every
+  view of the app and its 1.5 MB first-view budget. Its unit tests are in `test:unit`.
 
 ## Retired
 
