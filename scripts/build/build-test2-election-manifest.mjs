@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync } from 'node:fs';
 import path from 'node:path';
+import { spawnSync } from 'node:child_process';
 import { deserialize } from 'flatgeobuf/lib/mjs/geojson.js';
+import { centreInIreland } from '../../packages/maps-pipeline/src/label-data.mjs';
 import * as ElectionDomain from '../../packages/core/src/election-domain.mjs';
 import { namesCompatible } from '../lib/name-compatibility.mjs';
 
@@ -2267,10 +2269,9 @@ async function loadOrBuildAnchorIndex(layer, featureIndex) {
   let generatedFromSourceGeometry = false;
   if (sourceFile && existsSync(sourceFile) && /\.fgb$/i.test(sourceFile)) {
     try {
-      const sourceBytes = new Uint8Array(readFileSync(sourceFile));
-      for await (const feature of deserialize(sourceBytes)) {
+      for await (const feature of lonLatFeatures(sourceFile)) {
         const props = feature.properties || {};
-        const name = fixText(props[layer.labelProperty] || props.NAME || props.Name || props.name || props.label_name || '');
+        const name = fixText(props[layer.labelProperty] || props.NAME || props.Name || props.name || props.label_name || '').normalize('NFC');
         const anchor = geometryAnchor(feature.geometry);
         if (!anchor) continue;
         items.push({
@@ -2281,6 +2282,13 @@ async function loadOrBuildAnchorIndex(layer, featureIndex) {
           center: anchor.center,
           area: anchor.area
         });
+      }
+      // Anchors are lon/lat on the island of Ireland. A source whose coordinates are not
+      // (an SRID-0 projected file) falls back to the feature index's centres, which are.
+      const outside = items.filter((item) => !centreInIreland(item.center)).length;
+      if (outside * 2 > items.length) {
+        console.warn(`[test2 elections] ${layer.id}: ${outside} of ${items.length} source anchors are not lon/lat on the island of Ireland; using feature-index anchors`);
+        items.length = 0;
       }
       generatedFromSourceGeometry = items.length > 0;
     } catch (error) {
@@ -2329,6 +2337,34 @@ async function loadOrBuildAnchorIndex(layer, featureIndex) {
   });
   anchorCache.set(layer.id, anchorIndex);
   return anchorIndex;
+}
+
+// The source's features in lon/lat. A FlatGeobuf in another CRS (dail-1998 is TM65 / Irish
+// Grid, EPSG:29902) is read through ogr2ogr reprojected to EPSG:4326; before 11 Nov 2026 its
+// metres went straight into the anchors, so the 1997 and 2002 Dail seat circles sat off the map.
+async function* lonLatFeatures(sourceFile) {
+  /** @type {{ org?: string, code?: number } | null} */
+  let crs = null;
+  const sourceBytes = new Uint8Array(readFileSync(sourceFile));
+  const features = deserialize(sourceBytes, undefined, (header) => { crs = header?.crs || null; });
+  const buffered = [];
+  for await (const feature of features) {
+    if (!buffered.length && crs && crs.code && Number(crs.code) !== 4326) break;
+    buffered.push(feature);
+  }
+  if (!(crs && crs.code && Number(crs.code) !== 4326)) {
+    yield* buffered;
+    return;
+  }
+  const result = spawnSync('ogr2ogr', ['-f', 'GeoJSONSeq', '-t_srs', 'EPSG:4326', '/vsistdout/', sourceFile], {
+    encoding: 'utf8',
+    maxBuffer: 1024 * 1024 * 1024
+  });
+  if (result.status !== 0) throw new Error(`ogr2ogr could not reproject ${sourceFile} from ${crs.org || 'EPSG'}:${crs.code}: ${result.error?.message || result.stderr || 'failed'}`);
+  for (const line of result.stdout.split(/\r?\n/)) {
+    const text = line.replace(/^\x1e/, '').trim();
+    if (text) yield JSON.parse(text);
+  }
 }
 
 function hydrateAnchorIndex(layer, persisted) {
