@@ -1,10 +1,10 @@
 {
  "schemaVersion": 1,
- "asOf": "2026-11-09",
+ "asOf": "2026-11-11",
  "description": "Civgraph source ledger: each source Civgraph holds or plans to hold, whether it is mirrored and where, what has been extracted from it, and what remains. Validated by npm run check:source-ledger; docs/source-ledger.md is generated from it.",
  "policy": "Published with the site, so it lists only sources whose content Civgraph may make public: open licences (OGL, OPL, Creative Commons, CC0, ODbL, Irish PSI open terms), Crown or state copyright that has expired, the public domain, and Civgraph's own or contributed work. Sources held or consulted under any other terms are tracked privately and are not listed here.",
  "liveStores": {
-  "measuredAt": "2026-11-09",
+  "measuredAt": "2026-11-09 (the three data/sources/ prefixes for EONI, the Electoral Commission and the Irish boundary reports added 2026-11-11)",
   "r2": {
    "data/books/": "0.38 GB / 79 objects",
    "data/browse/": "2.17 GB / 5406 objects",
@@ -20,8 +20,11 @@
    "data/parliament/": "0.42 GB / 15051 objects",
    "data/pointclouds/": "32.95 GB / 393355 objects",
    "data/sources/datagovie-pending-ia/": "1.23 GB / 19790 objects",
+   "data/sources/eoni-result-sheets/": "0.18 GB / 414 objects",
+   "data/sources/ie-boundary-committee-reports/": "0.75 GB / 106 objects",
    "data/sources/oireachtas-fulltext/": "52.31 GB / 50824 objects",
    "data/sources/tailte-national-land-cover-2018/": "48.48 GB / 1 objects",
+   "data/sources/uk-electoral-commission/": "0.02 GB / 31 objects",
    "data/thumbnails/": "0.2 GB / 47521 objects",
    "data/timeline-transitions/": "0.16 GB / 6 objects"
   },
@@ -122,14 +125,15 @@
    "mirrored": {
     "status": "partial",
     "where": [
+     "r2",
      "local"
     ],
-    "approxSize": "349 archived result-sheet PDFs (1973-2005) plus OCR",
-    "asOf": "2026-10-26"
+    "approxSize": "414 objects, 0.18 GB on R2 (data/sources/eoni-result-sheets/): the 2022 Assembly, 2023 council and 2024 Westminster sheets on eoni.org.uk and 330 earlier sheets and booklets (1973-2021) from Internet Archive captures, with a manifest",
+    "asOf": "2026-11-11"
    },
    "extracted": {
     "status": "partial",
-    "what": "NI council results checked against the sheets and recorded as source-checked fixes",
+    "what": "NI council, Assembly, Westminster and European results checked against the sheets; 1,735 Civgraph areas audited for a sheet (967 have one, 471 more are in whole-election booklets); clear transcription errors recorded as source-checked fixes",
     "counts": {
      "provenanceCitations": 1715
     },
@@ -138,9 +142,9 @@
      "D1 civgraph-records"
     ]
    },
-   "remaining": "Per-year coverage of the 1973-2005 sheets is not yet audited; current-era sheets are cited live, not mirrored.",
-   "nextStep": "Audit per-year coverage, then mirror the current eoni.org.uk result sheets.",
-   "lastChecked": "2026-11-09",
+   "remaining": "No sheet survives for the 2011 council elections, the 2019 council sheets of five districts (Belfast, Derry City and Strabane, Ards and North Down, Lisburn and Castlereagh, Newry Mourne and Down), Assembly 2007 candidates, Assembly 2011 (15 of 18 constituencies), Westminster 2010-2019 and most by-elections; 61 figures where the sheets and Civgraph disagree await a decision; Assembly 1998 and 2003, Forum 1996 and European 1979-1999 are rotated scans not yet compared.",
+   "nextStep": "Settle the 61 disagreements sheet by sheet, then compare the rotated 1996-2003 scans by eye.",
+   "lastChecked": "2026-11-11",
    "match": {
     "hosts": [
      "eoni.org.uk"
@@ -156,24 +160,27 @@
    "rights": "OGL-3.0",
    "access": "open",
    "mirrored": {
-    "status": "none",
-    "where": [],
-    "approxSize": null,
-    "asOf": null
+    "status": "partial",
+    "where": [
+     "r2"
+    ],
+    "approxSize": "31 objects, 0.02 GB on R2 (data/sources/uk-electoral-commission/): NI results spreadsheets for Westminster, Assembly, European, local and the 2011 and 2016 referendums, with a manifest",
+    "asOf": "2026-11-11"
    },
    "extracted": {
-    "status": "reference-only",
-    "what": "Cited for NI and UK-wide results",
+    "status": "partial",
+    "what": "Results spreadsheets compared with NI contests; clear transcription errors recorded as source-checked fixes",
     "counts": {
      "provenanceCitations": 87
     },
     "targets": [
+     "data/elections/corrections/source-checked-fixes.json",
      "D1 civgraph-records"
     ]
    },
-   "remaining": "Not mirrored.",
-   "nextStep": "Mirror the NI result spreadsheets cited by contests.",
-   "lastChecked": "2026-11-09",
+   "remaining": "The Commission's web pages answer automated requests with a browser challenge, so files were taken from direct links or archive captures; 27 figures where its spreadsheets and Civgraph disagree await a decision.",
+   "nextStep": "Settle the 27 disagreements against the Electoral Office sheets.",
+   "lastChecked": "2026-11-11",
    "match": {
     "hosts": [
      "electoralcommission.org.uk"
@@ -186,7 +193,7 @@
    "category": "elections",
    "publisher": "House of Commons Library",
    "url": "https://commonslibrary.parliament.uk",
-   "rights": "OPL-1.0",
+   "rights": "OPL-3.0",
    "access": "open",
    "mirrored": {
     "status": "partial",
@@ -225,25 +232,27 @@
    "rights": "PSI-open",
    "access": "open",
    "mirrored": {
-    "status": "none",
-    "where": [],
-    "approxSize": null,
-    "asOf": null
+    "status": "partial",
+    "where": [
+     "r2"
+    ],
+    "approxSize": "106 objects, 0.75 GB on R2 (data/sources/ie-boundary-committee-reports/): the LEA boundary committee reports of 2008, 2013 and 2018, the Constituency Commission reports of 2004, 2007, 2012 and 2017, the 2023 constituency review and the European constituency reports of 2003-2023, with their maps and a manifest",
+    "asOf": "2026-11-11"
    },
    "extracted": {
     "status": "partial",
-    "what": "Cited for constituency and LEA definitions",
+    "what": "Each report linked as a reference from the map layers it defined (LEA 2008, 2014 and 2019, municipal districts 2019, Dail constituencies 1995-2023, European constituencies 2004-2024)",
     "counts": {
      "provenanceCitations": 102
     },
     "targets": [
-     "D1 civgraph-records",
-     "data/maps/"
+     "data/database/maps.json",
+     "D1 civgraph-records"
     ]
    },
-   "remaining": "Reports are cited, not mirrored.",
-   "nextStep": "Mirror the report PDFs and link each LEA layer to its report.",
-   "lastChecked": "2026-11-09",
+   "remaining": "The Constituency Commission reports of 1980-1998 and the 1998 LEA committee reports are not online; the earlier Dail and LEA layers have no report linked.",
+   "nextStep": "Find the 1980-1998 printed reports (Oireachtas Library) and link them to the earlier Dail layers.",
+   "lastChecked": "2026-11-11",
    "match": {
     "hosts": [
      "boundarycommittee.ie",
@@ -430,12 +439,12 @@
     "where": [
      "local"
     ],
-    "approxSize": "notices fetched for NI council elections",
-    "asOf": "2026-11-09"
+    "approxSize": "every Belfast Gazette issue 1921-2026 read through its text layer (held locally, cited by issue and page)",
+    "asOf": "2026-11-11"
    },
    "extracted": {
     "status": "partial",
-    "what": "Notices of poll and election agents parsed for review; cited on contests",
+    "what": "Lists of members returned to Stormont and Westminster checked against contests and cited on them; boundary orders listed",
     "counts": {
      "provenanceCitations": 860
     },
@@ -444,9 +453,9 @@
      "D1 civgraph-records"
     ]
    },
-   "remaining": "Parsed notices are review-only, not yet applied.",
-   "nextStep": "Apply the reviewed notices to NI council contests.",
-   "lastChecked": "2026-11-09",
+   "remaining": "The Gazette prints no council election returns, nominations or results, so it cannot fill council gaps: council members appear only when a later notice styles them Councillor or Alderman, which corroborates a membership but names no election.",
+   "nextStep": "Use the Gazette's ward orders and election-postponement orders as dated citations on the council rounds they governed.",
+   "lastChecked": "2026-11-11",
    "match": {
     "hosts": [
      "thegazette.co.uk"
@@ -471,13 +480,19 @@
    },
    "extracted": {
     "status": "partial",
-    "what": "76 NI boundary-change orders listed",
-    "counts": {},
-    "targets": []
+    "what": "Northern Ireland local-government boundary orders 1921-1972 listed as data (190 orders, Acts and notices; 152 cited by map editions), with a check of every change the DED maps list as not yet drawn",
+    "counts": {
+     "boundaryOrders": 190,
+     "citedOnMaps": 152
+    },
+    "targets": [
+     "data/database/ni-boundary-orders-1921-1972.json",
+     "data/database/maps.json"
+    ]
    },
-   "remaining": "The boundary-order timeline is not integrated into the map layers or the repo.",
-   "nextStep": "Commit the order list as data and link each order to the layers it changed.",
-   "lastChecked": "2026-11-09"
+   "remaining": "8 changes not yet drawn have no printed description (Larne 1930, 1948 and 1956, Newtownards 1938, 1950 and 1968, Coleraine 1962, Belfast-Ballydownfine 1962) and need the deposited maps or the Acts; 3 are described only in part.",
+   "nextStep": "Draw the 18 changes whose orders describe the line in words or by whole townlands.",
+   "lastChecked": "2026-11-11"
   },
   {
    "id": "london-gazette-irish-notices",
@@ -1299,17 +1314,19 @@
    },
    "extracted": {
     "status": "partial",
-    "what": "Person id crosswalk",
+    "what": "Person id crosswalk; 100 councillors matched by name, council and dates (41 ambiguous pairs left unlinked)",
     "counts": {
      "provenanceCitations": 0
     },
     "targets": [
-     "data/elections/persons/official-person-ids.json"
+     "data/elections/persons/official-person-ids.json",
+     "data/elections/persons/official-person-crosswalk.json",
+     "data/elections/persons/wikidata-councillors.json"
     ]
    },
-   "remaining": "None known.",
-   "nextStep": "Extend the crosswalk to councillors.",
-   "lastChecked": "2026-11-09",
+   "remaining": "Wikidata records few Irish councillors, so most council members have no item to link.",
+   "nextStep": "Show the councillor links on person pages and review the 16 pairs where one item matches two Civgraph persons.",
+   "lastChecked": "2026-11-11",
    "match": {
     "hosts": [
      "wikidata.org"
@@ -1334,17 +1351,18 @@
    },
    "extracted": {
     "status": "partial",
-    "what": "Election and boundary legislation cited per contest",
+    "what": "Election and boundary legislation cited per contest; the 9 NI boundary instruments of 1921-1972 still on legislation.gov.uk listed with the Gazette orders",
     "counts": {
      "provenanceCitations": 222
     },
     "targets": [
-     "data/elections/legislation-citations.json"
+     "data/elections/legislation-citations.json",
+     "data/database/ni-boundary-orders-1921-1972.json"
     ]
    },
-   "remaining": "Statutory rules and orders for local boundaries are not all listed.",
-   "nextStep": "List the NI local-government boundary orders 1921-1972.",
-   "lastChecked": "2026-11-09",
+   "remaining": "Most local boundary orders of 1921-1972 were never printed in the annual volumes and are not on legislation.gov.uk; they are known from the Belfast Gazette.",
+   "nextStep": "Cite the Statutory Rules and Orders on the map editions they changed as each is drawn.",
+   "lastChecked": "2026-11-11",
    "match": {
     "hosts": [
      "legislation.gov.uk"
@@ -1467,6 +1485,75 @@
    "lastChecked": "2026-11-09",
    "match": {
     "hosts": []
+   }
+  },
+  {
+   "id": "electionsni-open-data",
+   "name": "ElectionsNI open election data (ODI Belfast at NICVA)",
+   "category": "elections",
+   "publisher": "ODI Belfast at NICVA and the NI Open Government Network",
+   "url": "https://github.com/NICVA/electionsni",
+   "rights": "ODbL",
+   "access": "open",
+   "mirrored": {
+    "status": "partial",
+    "where": [
+     "local"
+    ],
+    "approxSize": "the project repository pinned at commit 2dba8e5 (2019-06-04), held offline as reference",
+    "asOf": "2026-11-11"
+   },
+   "extracted": {
+    "status": "reference-only",
+    "what": "Credited for the STV count animation, which derives from the project's stages stylesheet (code under CC BY-SA 4.0; datasets under ODbL 1.0)",
+    "counts": {
+     "provenanceCitations": 0
+    },
+    "targets": []
+   },
+   "remaining": "Its 2016 Assembly datasets are not compared with Civgraph's records.",
+   "nextStep": "Compare the 2016 Assembly count data with Civgraph's stages.",
+   "lastChecked": "2026-11-11",
+   "match": {
+    "hosts": [
+     "electionsni.org"
+    ]
+   }
+  },
+  {
+   "id": "dobih-hills-database",
+   "name": "Database of British and Irish Hills (v18.4)",
+   "category": "geodata",
+   "publisher": "Database of British and Irish Hills / Hill Bagging",
+   "url": "https://www.hills-database.co.uk",
+   "rights": "CC-BY-4.0",
+   "access": "open",
+   "mirrored": {
+    "status": "complete",
+    "where": [
+     "internet-archive"
+    ],
+    "approxSize": "the v18.4 download files and survey reports",
+    "asOf": "2026-11-11"
+   },
+   "extracted": {
+    "status": "complete",
+    "what": "Summit points and hill-list layers (21,572 summits)",
+    "counts": {
+     "provenanceCitations": 0
+    },
+    "targets": [
+     "data/database/maps.json"
+    ]
+   },
+   "remaining": "None known.",
+   "nextStep": "Refresh when a new version is released.",
+   "lastChecked": "2026-11-11",
+   "match": {
+    "hosts": [
+     "hills-database.co.uk",
+     "hill-bagging.co.uk"
+    ]
    }
   }
  ]
