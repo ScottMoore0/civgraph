@@ -40,7 +40,7 @@ const WARN_MIN = 100;
 export const CATEGORIES = ['elections', 'parliaments', 'gazettes', 'newspapers', 'census-statistics',
   'boundaries-maps', 'archives', 'open-data', 'geodata', 'books-catalogues', 'place-names', 'reference'];
 /** The only rights a public entry may carry. */
-export const OPEN_RIGHTS = ['OGL-3.0', 'OPL-1.0', 'CC-BY-4.0', 'CC-BY-SA', 'CC0', 'ODbL', 'PSI-open',
+export const OPEN_RIGHTS = ['OGL-3.0', 'OPL-3.0', 'CC-BY-4.0', 'CC-BY-SA', 'CC0', 'ODbL', 'PSI-open',
   'crown-copyright-expired', 'copyright-expired', 'public-domain', 'own-work', 'open-other'];
 export const ACCESS = ['open', 'subscription-with-permission', 'login', 'physical-visit', 'lending-only'];
 export const MIRRORED = ['none', 'partial', 'complete', 'not-permitted'];
