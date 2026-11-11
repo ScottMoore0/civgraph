@@ -17,7 +17,7 @@
 import { buildMatch, buildFilters } from './_query.js';
 import { reportError } from '../_error.js';
 import { binding } from '../../../../config/src/config.js';
-import { fromD1 } from '../../../../storage/src/d1.js';
+import { CATALOGUE_IS_CLOSED, proniReader } from './_read.js';
 import { PRONI } from '../../queries/proni.js';
 
 const CACHE_VERSION = 'v10';
@@ -139,40 +139,67 @@ async function handle(context) {
   // WHERE fragments shared by both modes
   const { where, binds } = buildFilters({ letter, from, to, top, level, access });
 
-  // Serve reads from a nearby D1 replica when replication is enabled (falls back
-  // to the primary otherwise; harmless where withSession is unavailable).
-  // Through the storage adapter (packages/storage/); the SQL is named in queries/proni.js.
-  /** @type {import('../../../../storage/src/store.js').RecordStore} */
-  const rdb = fromD1(bound, { session: 'first-unconstrained' });
+  const plan = searchPlan({ match, where, binds, sort, dir, top, limit, offset });
+  // exact-ref fast path (page 1 only, no explicit sort)
+  const exactRef = !offset && q && !/\s/.test(q) && !q.includes(':') && sort === 'relevance' ? q.toUpperCase() : null;
 
   try {
+    // Read from a nearby D1 replica, with one retry on the primary (_read.js). Through the
+    // storage adapter (packages/storage/); the SQL is named in queries/proni.js.
+    const { exact, results } = await runSearch(proniReader(bound), plan, exactRef);
     /** @type {ReturnType<typeof mapRow>[]} */
     const out = [];
     /** @type {Set<string>} */
     const seen = new Set();
-
-    // exact-ref fast path (page 1 only, no explicit sort)
-    if (!offset && q && !/\s/.test(q) && !q.includes(':') && sort === 'relevance') {
-      const ex = /** @type {ProniSearchRow[]} */ (await rdb.all(PRONI.exactRef(DESC_PREVIEW), [q.toUpperCase()]));
-      for (const r of ex) { out.push(mapRow(r, true)); seen.add(r.ref); }
-    }
-
-    let sql, bindArr;
-    if (match) {
-      // Ties broken by ref, so a page boundary never repeats or skips a record (data design 4.3, query 9).
-      const order = top ? 'p.ref ASC' : (sort === 'relevance' ? 'bm25(proni_fts), p.ref' : `${ORDER[sort] || 'p.ref'} ${dir}, p.ref`);
-      sql = PRONI.searchMatched(DESC_PREVIEW, where, order, sort === 'relevance');
-      bindArr = [match, ...binds, limit, offset];
-    } else {
-      const order = top ? 'p.ref ASC' : `${ORDER[sort] && sort !== 'relevance' ? ORDER[sort] : 'p.ref'} ${dir}, p.ref`;
-      sql = PRONI.searchFiltered(DESC_PREVIEW, where, order);
-      bindArr = [...binds, limit, offset];
-    }
-    const results = /** @type {ProniSearchRow[]} */ (await rdb.all(sql, bindArr));
+    for (const r of exact) { out.push(mapRow(r, true)); seen.add(r.ref); }
     for (const r of results) { if (!seen.has(r.ref)) out.push(mapRow(r, false)); }
 
     return json({ query: q, match, sort, dir, letter, from: from || null, to: to || null, offset, limit, count: out.length, results: out.slice(0, limit + 1) });
   } catch (error) {
     return json({ query: q, results: [], error: 'Search failed', ...reportError(context.env, 'proni-search', error) }, 500);
   }
+}
+
+/**
+ * The statements one search runs: `ranked` (relevance with no filters, see queries/proni.js
+ * searchRanked) with `full` as its fallback for a short page, or `full` alone.
+ * @typedef {{ sql: string, params: unknown[] }} Statement
+ * @param {{ match: string | null, where: string[], binds: unknown[], sort: string, dir: 'ASC' | 'DESC', top: boolean, limit: number, offset: number }} o
+ * @returns {{ ranked: Statement | null, full: Statement, limit: number }}
+ */
+export function searchPlan({ match, where, binds, sort, dir, top, limit, offset }) {
+  if (match) {
+    // Ties broken by ref, so a page boundary never repeats or skips a record (data design 4.3, query 9).
+    const key = top ? 'p.ref' : (sort === 'relevance' ? ORDER.relevance : (Object.hasOwn(ORDER, sort) ? ORDER[sort] : 'p.ref'));
+    const keyDir = top || sort === 'relevance' ? 'ASC' : dir;
+    const full = { sql: PRONI.searchMatched(DESC_PREVIEW, where, key, keyDir, key === ORDER.relevance), params: [match, ...binds, limit, offset] };
+    // The score cut-off evaluates the match twice, which costs more than it saves for a
+    // reference ("LA/7/1/CA/1/3": a phrase of short, common tokens with few matches).
+    const ranked = key === ORDER.relevance && !where.length && !match.includes('/')
+      ? { sql: PRONI.searchRanked(DESC_PREVIEW), params: [match, limit, offset] } : null;
+    return { ranked, full, limit };
+  }
+  const order = top ? 'p.ref ASC' : `${sort !== 'relevance' && Object.hasOwn(ORDER, sort) ? ORDER[sort] : 'p.ref'} ${dir}, p.ref`;
+  return { ranked: null, full: { sql: PRONI.searchFiltered(DESC_PREVIEW, where, order), params: [...binds, limit, offset] }, limit };
+}
+
+/**
+ * Run a search plan in one round trip (the exact-reference lookup rides in the same batch).
+ * @param {import('../../../../storage/src/store.js').RecordStore} db
+ * @param {ReturnType<typeof searchPlan>} plan
+ * @param {string | null} exactRef
+ * @returns {Promise<{ exact: ProniSearchRow[], results: ProniSearchRow[] }>}
+ */
+export async function runSearch(db, plan, exactRef) {
+  const first = plan.ranked || plan.full;
+  const statements = exactRef ? [{ sql: PRONI.exactRef(DESC_PREVIEW), params: [exactRef] }, first] : [first];
+  const rows = /** @type {ProniSearchRow[][]} */ (/** @type {unknown} */ (await db.batch(statements)));
+  const exact = exactRef ? rows[0] : [];
+  let results = rows[rows.length - 1];
+  // A short ranked page is the end of the matches. Were the catalogue not closed (_read.js), it
+  // could also be a page the score cut-off left short, and the plain query would settle it.
+  if (plan.ranked && !CATALOGUE_IS_CLOSED && results.length < plan.limit) {
+    results = /** @type {ProniSearchRow[]} */ (/** @type {unknown} */ (await db.all(plan.full.sql, plan.full.params)));
+  }
+  return { exact, results };
 }
