@@ -13,6 +13,7 @@
  */
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { DatabaseSync } from 'node:sqlite';
 import path from 'node:path';
@@ -80,7 +81,10 @@ test('the share image is a 1200x630 PNG, as og:image:width and og:image:height s
   assert.equal(buf.readUInt32BE(16), SHARE_IMAGE.width);
   assert.equal(buf.readUInt32BE(20), SHARE_IMAGE.height);
   assert.ok(buf.length < 1_000_000, 'small enough for a crawler to fetch eagerly');
-  assert.equal(SHARE_IMAGE.url, 'https://civgraph.net/assets/images/og-preview.png');
+  // Its URL's ?v= is the file's hash, so a rebuilt image gets a URL link-preview caches have not seen.
+  const hash = createHash('sha256').update(buf).digest('hex').slice(0, 12);
+  assert.equal(SHARE_IMAGE.url, `https://civgraph.net/assets/images/og-preview.png?v=${hash}`,
+    `og-preview.png changed: set SHARE_IMAGE_VERSION = '${hash}' in packages/ui/src/templates/share.js and re-stamp the page heads`);
 });
 
 test('withShareTags replaces every earlier share tag and the canonical, and escapes', () => {
