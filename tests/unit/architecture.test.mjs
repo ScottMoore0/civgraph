@@ -114,9 +114,11 @@ test('C6: string states, co-changing flags and promise-as-state, only on changed
     "function h() { this.loading = true; this.ready = false; this.loading = false; this.ready = true; }", // 7 flags: hit
     'let cached = null;',                                   // 8
     "function load() { cached = fetch('/x').catch(() => { cached = null; }); return cached; }", // 9 promise-as-state: hit
+    "function route(view) { if (view === 'x') return 1; if (view === 'y') return 2; if (view === 'z') return 3; }", // 10 only compared (a dispatch): none
+    "const tab = params.get('t') || 'maps'; if (tab === 'books' || tab === 'elections') {}", // 11 a fallback is an assignment: hit
   ].join('\n');
   const all = ctxOf({ 'site/s.js': source }, { C6: ALL }, { all: true });
-  assert.deepEqual(await lines(C6, all), ['site/s.js:1', 'site/s.js:7', 'site/s.js:8']);
+  assert.deepEqual(await lines(C6, all), ['site/s.js:1', 'site/s.js:11', 'site/s.js:7', 'site/s.js:8']);
   const diffOnly = ctxOf({ 'site/s.js': source }, { C6: ALL }, { changedLines: new Map([['site/s.js', new Set([2, 3])]]) });
   assert.deepEqual(await lines(C6, diffOnly), ['site/s.js:2'], 'only the finding with a changed line, reported there');
   const untouched = ctxOf({ 'site/s.js': source }, { C6: ALL }, { changedLines: new Map() });
