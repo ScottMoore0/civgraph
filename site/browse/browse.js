@@ -5482,6 +5482,7 @@ function renderContributorPanel() {
   // Titles are not headings: the panel came before the page's h1, so every page's outline
   // opened on "Contributor".
   els.contributorPanel.classList.toggle('contributor-panel--signed-out', !auth.allowed && !auth.authenticated);
+  els.contributorPanel.hidden = false;
   if (auth.allowed) {
     els.contributorPanel.innerHTML = `
       <p class="contributor-panel__title">Contributor</p>
@@ -5503,11 +5504,32 @@ function renderContributorPanel() {
     `;
     return;
   }
-  // Signed out, the panel is one quiet line at the foot of the sidebar: it was a boxed "Log
-  // in" above the sections for every visitor, and only a few contributors ever use it.
+  // Signed out, the line is shown only to contributors: on an address carrying ?contribute,
+  // and from then on in that browser. Shown to every visitor it led the public to a sign-in
+  // page on a Cloudflare Access domain they cannot use, which reads as phishing (QA 2026-11-11,
+  // M14). It was a boxed "Log in" above the sections before that.
+  if (!contributorLinkWanted()) {
+    els.contributorPanel.innerHTML = '';
+    els.contributorPanel.hidden = true;
+    return;
+  }
+  els.contributorPanel.hidden = false;
   els.contributorPanel.innerHTML = `
     <p class="contributor-panel__body">Contributors can propose corrections and new maps. <a href="${escapeAttr(contributorLoginUrl())}" data-contributor-login>Contributor log in</a></p>
   `;
+}
+
+const CONTRIBUTOR_FLAG = 'civgraph.contributor';
+
+/** Whether to offer the signed-out contributor sign-in: ?contribute in the address, remembered. */
+function contributorLinkWanted() {
+  let wanted = false;
+  try { wanted = new URLSearchParams(location.search).has('contribute'); } catch { /* old browser */ }
+  try {
+    if (wanted) localStorage.setItem(CONTRIBUTOR_FLAG, '1');
+    else wanted = localStorage.getItem(CONTRIBUTOR_FLAG) === '1';
+  } catch { /* private mode: the address alone decides */ }
+  return wanted;
 }
 
 /** The sign-in link, returning to the page the reader is on rather than always to /browse/. */
