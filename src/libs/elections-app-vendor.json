@@ -1,0 +1,128 @@
+{
+ "schemaVersion": 1,
+ "generatedBy": "node scripts/build/elections-app/vendor.mjs",
+ "note": "Browser libraries the Elections app self-hosts. host \"pages\": committed here and deployed with the site. host \"r2\": over the 25 MiB Pages limit, gitignored locally and served from R2 at r2Key (data.civgraph.net).",
+ "lockfile": "scripts/build/elections-app/vendor-deps/package-lock.json",
+ "packages": {
+  "@duckdb/duckdb-wasm": {
+   "version": "1.29.0",
+   "integrity": "sha512-8Zq7vafQuIz9gklC/9375KE38UlkaS2n8+yvG+/JK7irm3DjwYNJHL4xfplIj0bSHFIg6we5XhWYFqtE/vO3+Q==",
+   "license": "MIT"
+  },
+  "apache-arrow": {
+   "version": "17.0.0",
+   "integrity": "sha512-X0p7auzdnGuhYMVKYINdQssS4EcKec9TCXyez/qtJt32DrIMGbzqiaMiQ0X6fQlQpw8Fl0Qygcv4dfRAr5Gu9Q==",
+   "license": "Apache-2.0"
+  },
+  "flatbuffers": {
+   "version": "24.12.23",
+   "integrity": "sha512-dLVCAISd5mhls514keQzmEG6QHmUUsNuWsb4tFafIUwvvgDjXhtfAYSKOzt5SWOy+qByV5pbsDZ+Vb7HUOBEdA==",
+   "license": "Apache-2.0"
+  },
+  "maplibre-gl": {
+   "version": "5.24.0",
+   "integrity": "sha512-ALyFxgtd5R+65UqZ/++lOqwWcC0SNho9c27fYSyLmG7AfnAul2o46F05aDJGPbFU57wos9dgcIySHs0Xe6ia3A==",
+   "license": "BSD-3-Clause"
+  },
+  "pmtiles": {
+   "version": "4.5.0",
+   "integrity": "sha512-CBeD4SoUluFziGdy/8k7FOjQxQy486n+929W/tWophauvMICpkZ26vGBWhDt/6b1FZQWNaf4jFdT/5+q0Wii5w==",
+   "license": "BSD-3-Clause"
+  },
+  "tslib": {
+   "version": "2.9.1",
+   "integrity": "sha512-a4Ux9VKuIMHsOS7ENbEq6hK2ZGYIT27Rtl0E4eD9KqwxhKiQeMZE/9xb3IdYwWaSOyIBQLExhQgXDTYoiCxnWA==",
+   "license": "0BSD"
+  }
+ },
+ "files": [
+  {
+   "path": "src/libs/duckdb-wasm-1.29.0/duckdb-browser.mjs",
+   "package": "@duckdb/duckdb-wasm@1.29.0",
+   "from": "dist/duckdb-browser.mjs bundled with esbuild 0.27.7 (format esm, minify, target es2020)",
+   "host": "pages",
+   "bytes": 225361,
+   "sha256": "5dc806421608c47afd397fbab8f23af1b2c97f462ecdc6804d787ea64850b687"
+  },
+  {
+   "path": "src/libs/duckdb-wasm-1.29.0/duckdb-browser-eh.worker.js",
+   "package": "@duckdb/duckdb-wasm@1.29.0",
+   "from": "dist/duckdb-browser-eh.worker.js",
+   "host": "pages",
+   "bytes": 760530,
+   "sha256": "260b4773d2d78e5ab1106bc163ffd5b0b6eaeddedacf23190e9cafc9cc010d3d"
+  },
+  {
+   "path": "src/libs/duckdb-wasm-1.29.0/duckdb-browser-mvp.worker.js",
+   "package": "@duckdb/duckdb-wasm@1.29.0",
+   "from": "dist/duckdb-browser-mvp.worker.js",
+   "host": "pages",
+   "bytes": 820866,
+   "sha256": "f798d151c3db03d3f277f884acb882c7a324d5249ef540bdebb82d3cdafbbc37"
+  },
+  {
+   "path": "src/libs/duckdb-wasm-1.29.0/duckdb-eh.wasm",
+   "package": "@duckdb/duckdb-wasm@1.29.0",
+   "from": "dist/duckdb-eh.wasm",
+   "host": "r2",
+   "r2Key": "data/elections-app/v1/duckdb-wasm-1.29.0/duckdb-eh.wasm",
+   "contentType": "application/wasm",
+   "bytes": 35659694,
+   "sha256": "00d45e5e074b7f7e17e45daabacb0fb67248eac8bd638a72cd1b42dad23788e4"
+  },
+  {
+   "path": "src/libs/duckdb-wasm-1.29.0/duckdb-mvp.wasm",
+   "package": "@duckdb/duckdb-wasm@1.29.0",
+   "from": "dist/duckdb-mvp.wasm",
+   "host": "r2",
+   "r2Key": "data/elections-app/v1/duckdb-wasm-1.29.0/duckdb-mvp.wasm",
+   "contentType": "application/wasm",
+   "bytes": 40621595,
+   "sha256": "79c530032e746177e0406f3f1c4fa9f69fd7437e17a18587b1f8ab38dc5132ea"
+  },
+  {
+   "path": "src/libs/maplibre-gl-5.24.0/maplibre-gl.js",
+   "package": "maplibre-gl@5.24.0",
+   "from": "dist/maplibre-gl.js",
+   "host": "pages",
+   "bytes": 1056837,
+   "sha256": "45a9b07a9189ce56054c620a947ccf41e291e58c95e9b61533b740aaa65ee5cb"
+  },
+  {
+   "path": "src/libs/maplibre-gl-5.24.0/maplibre-gl.css",
+   "package": "maplibre-gl@5.24.0",
+   "from": "dist/maplibre-gl.css",
+   "host": "pages",
+   "bytes": 70024,
+   "sha256": "ab1e70d59ec40465bae7e7030da2f3ccf28133fd502e62bd598eefbadfd7a732"
+  },
+  {
+   "path": "src/libs/pmtiles-4.5.0/pmtiles.js",
+   "package": "pmtiles@4.5.0",
+   "from": "dist/pmtiles.js",
+   "host": "pages",
+   "bytes": 20229,
+   "sha256": "caf981bc46f6327ee7e65d5dc964d89d38a69f60edca2bd4c5c890c21b554c6c"
+  },
+  {
+   "path": "src/libs/duckdb-wasm-1.29.0/extensions/v1.1.1/wasm_eh/parquet.duckdb_extension.wasm",
+   "package": "@duckdb/duckdb-wasm@1.29.0",
+   "from": "https://extensions.duckdb.org/v1.1.1/wasm_eh/parquet.duckdb_extension.wasm",
+   "host": "r2",
+   "r2Key": "data/elections-app/v1/duckdb-wasm-1.29.0/extensions/v1.1.1/wasm_eh/parquet.duckdb_extension.wasm",
+   "contentType": "application/wasm",
+   "bytes": 2803379,
+   "sha256": "e24fb2953c6a80e32d17fa3921f90f1f05ccbfa40f382e77702c1e6af9b79479"
+  },
+  {
+   "path": "src/libs/duckdb-wasm-1.29.0/extensions/v1.1.1/wasm_mvp/parquet.duckdb_extension.wasm",
+   "package": "@duckdb/duckdb-wasm@1.29.0",
+   "from": "https://extensions.duckdb.org/v1.1.1/wasm_mvp/parquet.duckdb_extension.wasm",
+   "host": "r2",
+   "r2Key": "data/elections-app/v1/duckdb-wasm-1.29.0/extensions/v1.1.1/wasm_mvp/parquet.duckdb_extension.wasm",
+   "contentType": "application/wasm",
+   "bytes": 2713313,
+   "sha256": "e73e280539207f51ca56f3d302ca6051182ef6213999fae9f809bfe2113b9311"
+  }
+ ]
+}

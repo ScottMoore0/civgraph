@@ -1,12 +1,13 @@
 /**
  * Maps for the Elections app: MapLibre GL and PMTiles at the versions the map package pins
- * (packages/map: maplibre-gl 5.24.0, pmtiles 4.5.0), loaded from jsDelivr only when a map view
- * opens, and the map package's own layers: each layer's record from /_api/layers/<id> (its
- * PMTiles archive on data.civgraph.net, source layer, label property and bounds).
+ * (packages/map: maplibre-gl 5.24.0, pmtiles 4.5.0), self-hosted from /src/libs/ (../config.js,
+ * 11 Nov 2026; jsDelivr before) and loaded only when a map view opens, and the map package's own
+ * layers: each layer's record from /_api/layers/<id> (its PMTiles archive on data.civgraph.net,
+ * source layer, label property and bounds).
  */
-export const MAPLIBRE_VERSION = '5.24.0';
-export const PMTILES_VERSION = '4.5.0';
-const CDN = 'https://cdn.jsdelivr.net/npm';
+import { MAPLIBRE_VERSION, PMTILES_VERSION, VENDOR } from '../config.js';
+
+export { MAPLIBRE_VERSION, PMTILES_VERSION };
 
 /** @type {Promise<{ maplibregl: any, pmtiles: any }> | null} */
 let loading = null;
@@ -16,7 +17,6 @@ function script(src) {
   return new Promise((resolve, reject) => {
     const s = document.createElement('script');
     s.src = src;
-    s.crossOrigin = 'anonymous';
     s.onload = () => resolve(undefined);
     s.onerror = () => reject(new Error(`could not load ${src}`));
     document.head.append(s);
@@ -29,9 +29,9 @@ export function loadMapLibre() {
     loading = (async () => {
       const css = document.createElement('link');
       css.rel = 'stylesheet';
-      css.href = `${CDN}/maplibre-gl@${MAPLIBRE_VERSION}/dist/maplibre-gl.css`;
+      css.href = `${VENDOR.maplibre}maplibre-gl.css`;
       document.head.append(css);
-      await Promise.all([script(`${CDN}/maplibre-gl@${MAPLIBRE_VERSION}/dist/maplibre-gl.js`), script(`${CDN}/pmtiles@${PMTILES_VERSION}/dist/pmtiles.js`)]);
+      await Promise.all([script(`${VENDOR.maplibre}maplibre-gl.js`), script(`${VENDOR.pmtiles}pmtiles.js`)]);
       const w = /** @type {any} */ (window);
       const protocol = new w.pmtiles.Protocol();
       w.maplibregl.addProtocol('pmtiles', protocol.tile);
