@@ -126,6 +126,17 @@
 /assets/fonts/*
   Cache-Control: public, max-age=31536000, immutable
 
+# The Elections app's self-hosted libraries (scripts/build/elections-app/vendor.mjs): each folder
+# names its exact version, so a new release is a new address and the files never change in place.
+/src/libs/duckdb-wasm-1.29.0/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/src/libs/maplibre-gl-5.24.0/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/src/libs/pmtiles-4.5.0/*
+  Cache-Control: public, max-age=31536000, immutable
+
 # Map data (FGB files) — immutable once deployed
 /data/maps/*
   Cache-Control: public, max-age=31536000, immutable
@@ -190,3 +201,18 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Strict-Transport-Security: max-age=31536000; includeSubDomains
   Content-Security-Policy: frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
+
+# The Elections result widget (/apps/elections/embed/), made to be framed. EMBEDDING IS OFF: only
+# this site's own pages may frame it ('self'). Pages applies matching rules in file order, so this
+# block must stay AFTER /* above: its "! " lines drop the site-wide X-Frame-Options and CSP, then it
+# sends the same CSP with frame-ancestors 'self' in place of 'none' (in every current browser
+# frame-ancestors governs framing; X-Frame-Options has no "these sites" form).
+#
+# TO ALLOW EMBEDS on other sites, change only the frame-ancestors directive in the CSP line below:
+#   frame-ancestors *                                    any site, or
+#   frame-ancestors 'self' https://example.org           named sites only.
+# A unit test (elections-app-prep) holds the default.
+/apps/elections/embed/*
+  ! X-Frame-Options
+  ! Content-Security-Policy
+  Content-Security-Policy: frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
