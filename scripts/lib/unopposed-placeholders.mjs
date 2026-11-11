@@ -24,11 +24,14 @@ function isPlaceholderVote(value) {
 }
 
 /**
- * @param {Record<string, any>} result  a built contest result (candidates, elected, validPoll,
- *   countInfo, animationPayload.Constituency); changed in place
+ * @typedef {Record<string, unknown>} Row
+ * @param {Record<string, unknown> & { candidates?: unknown, elected?: unknown, countInfo?: Row,
+ *   animationPayload?: { Constituency?: { countInfo?: Row, countGroup?: unknown } } }} result  a built
+ *   contest result; changed in place
  * @returns {boolean} whether anything was scrubbed (false when a candidate has real votes)
  */
 export function scrubUnopposedPlaceholderVotes(result) {
+  /** @type {Row[]} */
   const candidates = Array.isArray(result.candidates) ? result.candidates : [];
   if (candidates.some((candidate) => (num(candidate?.firstPrefs) ?? 0) > 1 || (num(candidate?.finalVotes) ?? 0) > 1)) return false;
   /** @param {unknown} value */
@@ -36,11 +39,12 @@ export function scrubUnopposedPlaceholderVotes(result) {
     const n = num(value);
     return n !== null && n <= Math.max(candidates.length, 1);
   };
-  /** @param {any} candidate */
+  /** @param {Row} candidate @returns {Row} */
   const clearVotes = (candidate) => {
     if (!candidate || typeof candidate !== 'object') return candidate;
+    /** @type {Row} */
     const next = { ...candidate, firstPrefs: null, finalVotes: null };
-    if (Array.isArray(candidate.counts)) next.counts = candidate.counts.map((/** @type {any} */ count) => ({ ...count, total: null, firstPrefs: null }));
+    if (Array.isArray(candidate.counts)) next.counts = candidate.counts.map((/** @type {Row} */ count) => ({ ...count, total: null, firstPrefs: null }));
     return next;
   };
   result.candidates = candidates.map(clearVotes);
@@ -58,7 +62,7 @@ export function scrubUnopposedPlaceholderVotes(result) {
   if (sheet && typeof sheet === 'object') {
     const countInfo = sheet.countInfo && placeholderPoll(sheet.countInfo.Valid_Poll) ? { ...sheet.countInfo, Valid_Poll: '' } : sheet.countInfo;
     const countGroup = Array.isArray(sheet.countGroup)
-      ? sheet.countGroup.map((/** @type {any} */ row) => (isPlaceholderVote(row?.Total_Votes)
+      ? sheet.countGroup.map((/** @type {Row} */ row) => (isPlaceholderVote(row?.Total_Votes)
         && (isPlaceholderVote(row?.Candidate_First_Pref_Votes) || !String(row?.Candidate_First_Pref_Votes ?? '').trim())
         ? { ...row, Total_Votes: '', Candidate_First_Pref_Votes: '', Transfers: '' }
         : row))
