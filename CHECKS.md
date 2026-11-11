@@ -112,6 +112,13 @@ These run only when someone names them. They are not part of any gate.
   extracts) and `audit:elections-app` (docs/tasks/elections-app-data-audit.md) read the local
   records build; `test:browser:elections` (`tests/browser/elections-app.spec.cjs`) drives every
   view of the app and its 1.5 MB first-view budget. Its unit tests are in `test:unit`.
+  Go-public preparation (11 Nov 2026): `check:elections-app-extracts` (the extracts are current
+  against the local records build and publishable; skips without either, `--strict` fails
+  instead, and the R2 upload script runs it so), `build:elections-app:vendor` and
+  `check:elections-app-vendor` (the self-hosted DuckDB-WASM, MapLibre and PMTiles in `src/libs/`
+  against `src/libs/elections-app-vendor.json`; `test:unit` holds the same), and
+  `check:elections-go-public` (`docs/tasks/elections-go-public.patch` still applies; run it before
+  the owner's go-public review, not in a tier, since other work moves its context).
 
 ## Retired
 
