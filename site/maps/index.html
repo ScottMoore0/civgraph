@@ -540,30 +540,9 @@
               </select>
             </div>
 
-            <!-- Overlay Layers (Collapsible) -->
-            <div class="control-group mb-3">
-              <button type="button" id="overlayToggle" class="control-label control-label--toggle"
-                aria-expanded="false">
-                <span>Overlay Layers</span>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M6 9l6 6 6-6" />
-                </svg>
-              </button>
-              <div id="overlayList" class="overlay-list overlay-list--collapsed">
-                <label class="control-checkbox">
-                  <input type="checkbox" id="overlayVoyagerLabels">
-                  <span>CartoDB Voyager Labels</span>
-                </label>
-                <label class="control-checkbox">
-                  <input type="checkbox" id="overlayMeritCatchments">
-                  <span>MERIT-Basins unit catchments</span>
-                </label>
-                <label class="control-checkbox">
-                  <input type="checkbox" id="overlayMeritRivers">
-                  <span>MERIT-Basins river reaches</span>
-                </label>
-              </div>
-            </div>
+            <!-- The Overlay Layers group (CARTO Voyager Labels, MERIT-Basins catchments and river reaches)
+                 was removed on 11 Nov 2026: CARTO needs an API key and the MERIT services are gone
+                 (packages/map/src/renderer/overlays.mjs). -->
 
             <!-- Outline Transparency -->
             <div class="control-group mb-3">

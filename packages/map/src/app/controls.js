@@ -59,15 +59,6 @@ export class MapControlMethods {
     });
     mapControlsClose?.addEventListener('click', () => this.setMapControlsOpen(false, { focus: true }));
 
-    const overlayToggle = document.getElementById('overlayToggle');
-    const overlayList = document.getElementById('overlayList');
-    overlayToggle?.addEventListener('click', () => {
-      const open = overlayToggle.getAttribute('aria-expanded') !== 'true';
-      overlayToggle.setAttribute('aria-expanded', String(open));
-      overlayList?.classList.toggle('overlay-list--collapsed', !open);
-      overlayList?.classList.toggle('overlay-list--expanded', open);
-    });
-
     document.getElementById('baseMapSelect')?.addEventListener('change', async (event) => {
       await this.applyBaseMap(event.target.value || 'osm-standard', { userChoice: true });
       this.updateURLState();
