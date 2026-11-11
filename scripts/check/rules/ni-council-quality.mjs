@@ -267,7 +267,7 @@ function detectRegisterVote(contest) {
     const who = m[1].trim();
     const now = num(m[2]);
     const before = num(m[3]);
-    const results = (detectArithmetic({ ...contest, cands: contest.cands }) || []);
+    const results = detectArithmeticQuiet(contest);
     if (!results.length) {
       add(contest, 'register-vote', 'medium', `register vote ${now} (was ${before}) has no printed majority or poll to test it; check a second source`, who);
       continue;
