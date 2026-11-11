@@ -132,3 +132,41 @@ test('an address saved with an Esri base map opens on the default chain', async 
   expect((await basemapState(page)).credit).not.toMatch(/Esri/);
   expect(esri).toBe(0);
 });
+
+// CARTO's and Stamen's base maps left Map Settings on 26 Aug 2026, but until 11 Nov 2026 an address
+// naming one still drew it (CARTO's keyless tiles carry "API KEY REQUIRED" at HTTP 200; Stamen's
+// host returns 503). Now they open on the default chain, exactly as the Esri ids do.
+for (const id of ['cartodb-positron', 'cartodb-dark', 'cartodb-dark-nolabels', 'cartodb-voyager', 'stamen-terrain']) {
+  test(`an address saved with ${id} opens on the default chain`, async ({ page }) => {
+    let removedHost = 0;
+    await page.route((url) => /(^|\.)(cartocdn\.com|carto\.com)$/.test(url.hostname) && !/voyager_only_labels/.test(url.pathname)
+      || /stamen/.test(url.hostname), (route) => { removedHost += 1; return route.abort(); });
+    await page.route((url) => url.hostname === OFM, (route) => route.abort());
+    await page.route((url) => url.hostname === OSM, (route) => route.fulfill({ contentType: 'image/png', body: PNG_1X1 }));
+    await page.goto(`/maps/#base=${id}`);
+    await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
+    await page.evaluate(() => window.__civgraphTest2.restorePromise);
+    await page.waitForFunction(() => window.__civgraphTest2?.mapController?.renderer?.basemap?.active, null, { timeout: 60000 });
+    // The chain, failing over from OpenFreeMap (aborted here) to OpenStreetMap's tiles.
+    await expect.poll(async () => (await basemapState(page)).active).toBe('osm-tiles');
+    const state = await page.evaluate(() => {
+      const app = window.__civgraphTest2.app;
+      app.updateURLState();
+      return {
+        baseMapId: app.baseMapId,
+        mode: app.mapController.renderer.basemap.mode,
+        hash: location.hash,
+        userChoice: localStorage.getItem('basemapUserChoice'),
+        options: [...document.querySelectorAll('#baseMapSelect option')].map((option) => option.value)
+      };
+    });
+    expect(state.baseMapId).toBe('osm-standard');
+    expect(state.mode).toBe('chain');
+    await expect(page.locator('#baseMapSelect')).toHaveValue('osm-standard');
+    expect(state.hash).not.toContain('base=');
+    expect(state.userChoice, 'a removed base map is not recorded as the reader\'s choice').toBeNull();
+    expect(state.options.filter((value) => /carto|stamen/i.test(value))).toEqual([]);
+    expect((await basemapState(page)).credit).not.toMatch(/CARTO|Stamen/);
+    expect(removedHost).toBe(0);
+  });
+}

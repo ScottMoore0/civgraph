@@ -351,3 +351,36 @@ test('every base map Map Settings offers is the default or a choosable one, and 
     assert.doesNotMatch(select.replace(/<!--[\s\S]*?-->/g, ''), /esri/i, page);
   }
 });
+
+// CARTO's and Stamen's base maps left Map Settings on 26 Aug 2026 (CARTO prints "API KEY REQUIRED"
+// across every keyless tile at HTTP 200; Stamen's host returns 503) but an address naming one still
+// drew it, until they were removed from the registry on 11 Nov 2026.
+const CARTO_STAMEN_IDS = ['cartodb-positron', 'cartodb-dark', 'cartodb-dark-nolabels', 'cartodb-voyager', 'stamen-terrain'];
+
+test('no CARTO or Stamen base map is choosable, and none is credited or fetched from their hosts', () => {
+  for (const id of CARTO_STAMEN_IDS) assert.equal(Object.hasOwn(CHOOSABLE_BASE_MAPS, id), false, id);
+  const everything = JSON.stringify({ CHOOSABLE_BASE_MAPS, DEFAULT_BASEMAP_CHAIN });
+  assert.doesNotMatch(everything, /cartocdn|carto\.com|CARTO|stamen/i);
+  // What is left: the default plus the three Map Settings offers.
+  assert.deepEqual(Object.keys(CHOOSABLE_BASE_MAPS).sort(), ['opentopomap', 'osm-humanitarian', 'usgs-topo']);
+});
+
+test('a saved CARTO or Stamen base map falls back to the default chain', async () => {
+  for (const id of CARTO_STAMEN_IDS) {
+    assert.equal(resolveBaseMapId(id), DEFAULT_BASE_MAP_ID, id);
+    assert.equal(resolveBaseMapId(` ${id} `), DEFAULT_BASE_MAP_ID, `${id} with spaces`);
+  }
+  const map = fakeMap(['app-layer']);
+  const { basemap } = manager(map);
+  await basemap.useDefault();
+  assert.equal(basemap.mode, 'chain');
+  assert.equal(basemap.active.id, DEFAULT_BASEMAP_CHAIN[0].id);
+});
+
+test('Map Settings offers no CARTO or Stamen base map', () => {
+  for (const page of ['site/maps/index.html', 'site/maps/classic/index.html']) {
+    const html = readFileSync(new URL(`../../${page}`, import.meta.url), 'utf8');
+    const select = /<select id="baseMapSelect"[\s\S]*?<\/select>/.exec(html)?.[0] || '';
+    assert.doesNotMatch(select.replace(/<!--[\s\S]*?-->/g, ''), /carto|stamen/i, page);
+  }
+});

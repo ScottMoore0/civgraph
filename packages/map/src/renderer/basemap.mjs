@@ -22,6 +22,8 @@
  *     11 Nov 2026); a saved address naming one opens on the default (resolveBaseMapId).
  *   - Stadia Maps: production use needs an account (domain authentication), so the owner's.
  *   - VersaTiles: no published terms for its public server.
+ * CARTO's and Stamen's raster base maps, hidden from Map Settings since 26 Aug 2026, were removed
+ * from the registry too (owner, 11 Nov 2026), so an address naming one also opens on the default.
  * The other base maps in the Map Settings list (CHOOSABLE_BASE_MAPS) stay as they were: a
  * reader's deliberate choice, without a fallback.
  *
@@ -78,9 +80,13 @@ const OSM_CREDIT = '&copy; <a href="https://www.openstreetmap.org/copyright">Ope
 
 /**
  * The raster base maps a reader can choose instead of the default, by id: tiles and credit (each
- * credits its own provider). The Map Settings list (site/maps/index.html #baseMapSelect) offers
- * some of them; CARTO and Stamen are no longer offered there (2026-08-26) but an address naming
- * them still draws them. The Esri base maps were removed altogether on 11 Nov 2026.
+ * credits its own provider), as the Map Settings list (site/maps/index.html #baseMapSelect) offers
+ * them. Removed altogether, so that an address naming one opens on the default (resolveBaseMapId):
+ *   - the four Esri base maps (11 Nov 2026): Esri's raw tile services need an ArcGIS licence;
+ *   - the four CARTO base maps (cartodb-positron, -dark, -dark-nolabels, -voyager) and Stamen
+ *     Terrain (11 Nov 2026). Map Settings stopped offering them on 26 Aug 2026 (CARTO prints
+ *     "API KEY REQUIRED" across every keyless tile at HTTP 200; Stamen's host returns 503), but
+ *     until now an address naming one still drew it.
  * @type {Readonly<Record<string, { tiles: string[], attribution: string }>>}
  */
 export const CHOOSABLE_BASE_MAPS = Object.freeze({
@@ -88,29 +94,9 @@ export const CHOOSABLE_BASE_MAPS = Object.freeze({
     tiles: ['https://tile-{a-c}.openstreetmap.fr/hot/{z}/{x}/{y}.png'],
     attribution: `${OSM_CREDIT}, style by Humanitarian OpenStreetMap Team, hosted by OpenStreetMap France`
   },
-  'cartodb-positron': {
-    tiles: ['https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'],
-    attribution: `${OSM_CREDIT} &copy; <a href="https://carto.com/attributions">CARTO</a>`
-  },
-  'cartodb-dark': {
-    tiles: ['https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png'],
-    attribution: `${OSM_CREDIT} &copy; <a href="https://carto.com/attributions">CARTO</a>`
-  },
-  'cartodb-dark-nolabels': {
-    tiles: ['https://a.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}.png'],
-    attribution: `${OSM_CREDIT} &copy; <a href="https://carto.com/attributions">CARTO</a>`
-  },
-  'cartodb-voyager': {
-    tiles: ['https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png'],
-    attribution: `${OSM_CREDIT} &copy; <a href="https://carto.com/attributions">CARTO</a>`
-  },
   'opentopomap': {
     tiles: ['https://a.tile.opentopomap.org/{z}/{x}/{y}.png'],
     attribution: `Map data: ${OSM_CREDIT}, SRTM | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (CC-BY-SA)`
-  },
-  'stamen-terrain': {
-    tiles: ['https://stamen-tiles.a.ssl.fastly.net/terrain/{z}/{x}/{y}.jpg'],
-    attribution: `&copy; Stamen Design, ${OSM_CREDIT}`
   },
   'usgs-topo': {
     tiles: ['https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/{z}/{y}/{x}'],
@@ -121,8 +107,8 @@ export const CHOOSABLE_BASE_MAPS = Object.freeze({
 /**
  * The base map to use for an id from Map Settings, an address or a saved setting: the id itself
  * when it is the default or a choosable base map, else the default. So an address saved with a
- * base map since removed (esri-satellite and the other Esri ids, 11 Nov 2026) opens on the
- * default chain, shows the default in Map Settings and drops the id from the address.
+ * base map since removed (the Esri, CARTO and Stamen ids) opens on the default chain, shows the
+ * default in Map Settings and drops the id from the address.
  * @param {unknown} id
  * @returns {string}
  */
