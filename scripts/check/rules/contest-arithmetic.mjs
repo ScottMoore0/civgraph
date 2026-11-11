@@ -198,7 +198,9 @@ export function checkContest(c) {
   const votes = polled.map((k) => k.firstPrefs);
   const votesKnown = votes.every((v) => v !== null);
   const sum = polled.reduce((s, k) => s + (k.firstPrefs ?? 0), 0);
-  const system = c.votingSystem;
+  // An STV seat inside an FPTP election (Queen's University at Stormont after 1929): a quota and
+  // count stages say how it was counted.
+  const system = c.votingSystem === 'fptp' && c.quota && cands.some((k) => k.stages.size > 1) ? 'stv' : c.votingSystem;
 
   if (system === 'ordinal') {
     if (valid === null) missing('referendum-sum', 'no valid poll');
