@@ -8,6 +8,7 @@ import { electionContests, electionDetail, electionIndex, electionSummary, must 
 import { appUrl, electionSlug, esc, fmtPct, partyColour } from '../lib/format.js';
 import { areaMap, idle, layerRecord } from '../lib/maplibre.js';
 import { areaRows, diverging, divergingLegend, partyShares, sequential, sequentialLegend } from '../lib/scales.js';
+import { MAP_MODES, MAP_STATUS, MULTIPLES, mapModeOf, mapModeShown } from '../state-machines.js';
 
 /** Party colours of an election, from its party summary. */
 async function colourOf(/** @type {string} */ key) {
@@ -17,10 +18,9 @@ async function colourOf(/** @type {string} */ key) {
 
 /** Area -> party -> votes of an election, from the extracts. */
 async function extractVotes(/** @type {string} */ bodySlug, /** @type {string} */ key) {
-  const { useBodies, query } = await import('../lib/duck.js');
-  await useBodies([bodySlug]);
+  const { queryBodies } = await import('../lib/duck.js');
   const k = key.replace(/'/g, "''");
-  return /** @type {Array<{ area: string, party: string, votes: number, valid: number }>} */ (await query(
+  return /** @type {Array<{ area: string, party: string, votes: number, valid: number }>} */ (await queryBodies([bodySlug],
     `SELECT area, party, SUM(COALESCE(votes, 0)) AS votes, MAX(valid_poll) AS valid FROM rows WHERE election_key = '${k}' GROUP BY area, party`,
   ));
 }
@@ -97,47 +97,51 @@ const legendHtml = (/** @type {Array<{ colour: string, label: string }>} */ lege
 
 /**
  * @param {HTMLElement} root
- * @param {{ query: URLSearchParams }} route
- * @param {{ stale: () => boolean, navigate: (href: string, o?: any) => Promise<void> }} ctx
+ * @param {import('../lib/route.js').Route} route
+ * @param {import('../app.js').ViewContext} ctx
  */
 export async function render(root, route, ctx) {
-  const index = (await electionIndex()).filter((/** @type {any} */ e) => e.layerId && e.contestType === 'election');
+  const index = (await electionIndex()).filter((e) => e.layerId && e.contestType === 'election');
   const q = route.query;
   const want = q.get('e') || 'northern-ireland-assembly-2022-05-05';
   const el = must(index.find((e) => electionSlug(e.key) === want || e.key === want) || index.at(-1), 'election');
-  const mode = ['winner', 'turnout', 'share', 'swing'].includes(q.get('mode') || '') ? /** @type {string} */ (q.get('mode')) : 'winner';
-  const sameLayer = index.filter((/** @type {any} */ e) => e.layerId === el.layerId && e.key !== el.key && e.bodySlug === el.bodySlug);
+  /** EL-07: the mode asked for (the URL); mapModeShown() says what can be drawn. */
+  const mode = mapModeOf(q.get('mode'));
+  const sameLayer = index.filter((e) => e.layerId === el.layerId && e.key !== el.key && e.bodySlug === el.bodySlug);
   const detail = await electionDetail(el.key);
-  const parties = (detail.partySummary || []).filter((/** @type {any} */ p) => p.votes > 0).map((/** @type {any} */ p) => p.party);
-  const party = q.get('party') && parties.includes(q.get('party')) ? /** @type {string} */ (q.get('party')) : parties[0] || '';
-  const vs = sameLayer.find((/** @type {any} */ e) => electionSlug(e.key) === q.get('vs')) || sameLayer.filter((/** @type {any} */ e) => e.date < el.date).at(-1) || null;
+  const parties = (detail.partySummary || []).filter((p) => p.votes > 0).map((p) => p.party);
+  const party = q.get('party') && parties.includes(String(q.get('party'))) ? String(q.get('party')) : parties[0] || '';
+  const vs = sameLayer.find((e) => electionSlug(e.key) === q.get('vs')) || sameLayer.filter((e) => e.date < el.date).at(-1) || null;
+  const shown = mapModeShown(mode, { party: !!party, vs: !!vs });
   const url = (/** @type {Record<string, string>} */ o) => `/elections/map/?${new URLSearchParams({ e: electionSlug(el.key), mode, ...(party ? { party } : {}), ...(vs ? { vs: electionSlug(vs.key) } : {}), ...o })}`;
 
-  const bodies = [...new Map(index.map((/** @type {any} */ e) => [e.bodySlug, e.body])).entries()].sort((x, y) => String(x[1]).localeCompare(String(y[1])));
+  const bodies = [...new Map(index.map((e) => [e.bodySlug, e.body])).entries()].sort((x, y) => String(x[1]).localeCompare(String(y[1])));
   root.innerHTML = `
     <header class="el-head"><h1>Results maps</h1><p class="el-lead"><a href="${appUrl.election(el.key)}">${esc(el.displayTitle)}</a> on the ${esc(el.layerId)} boundaries.</p></header>
     <form class="el-controls" id="mp-form" onsubmit="return false">
       <label>Body <select id="mp-body">${bodies.map(([s, n]) => `<option value="${esc(s)}"${s === el.bodySlug ? ' selected' : ''}>${esc(n)}</option>`).join('')}</select></label>
-      <label>Election <select id="mp-e">${index.filter((/** @type {any} */ e) => e.bodySlug === el.bodySlug).map((/** @type {any} */ e) => `<option value="${esc(electionSlug(e.key))}"${e.key === el.key ? ' selected' : ''}>${esc(e.displayTitle)}</option>`).join('')}</select></label>
-      <label>Show <select id="mp-mode">${[['winner', 'Winner'], ['turnout', 'Turnout'], ['share', 'Party share'], ['swing', 'Change in party share']].map(([v, l]) => `<option value="${v}"${v === mode ? ' selected' : ''}>${l}</option>`).join('')}</select></label>
-      ${mode === 'share' || mode === 'swing' ? `<label>Party <select id="mp-party">${parties.map((/** @type {string} */ p) => `<option${p === party ? ' selected' : ''}>${esc(p)}</option>`).join('')}</select></label>` : ''}
-      ${mode === 'swing' ? `<label>Since <select id="mp-vs">${sameLayer.map((/** @type {any} */ e) => `<option value="${esc(electionSlug(e.key))}"${vs && e.key === vs.key ? ' selected' : ''}>${esc(e.displayTitle)}</option>`).join('')}</select></label>` : ''}
+      <label>Election <select id="mp-e">${index.filter((e) => e.bodySlug === el.bodySlug).map((e) => `<option value="${esc(electionSlug(e.key))}"${e.key === el.key ? ' selected' : ''}>${esc(e.displayTitle)}</option>`).join('')}</select></label>
+      <label>Show <select id="mp-mode">${MAP_MODES.map((m) => `<option value="${m.mode}"${m.mode === mode ? ' selected' : ''}>${esc(m.label)}</option>`).join('')}</select></label>
+      ${mode === 'share' || mode === 'swing' ? `<label>Party <select id="mp-party">${parties.map((p) => `<option${p === party ? ' selected' : ''}>${esc(p)}</option>`).join('')}</select></label>` : ''}
+      ${mode === 'swing' ? `<label>Since <select id="mp-vs">${sameLayer.map((e) => `<option value="${esc(electionSlug(e.key))}"${vs && e.key === vs.key ? ' selected' : ''}>${esc(e.displayTitle)}</option>`).join('')}</select></label>` : ''}
     </form>
-    ${mode === 'swing' && !vs ? '<p class="cg-notice cg-notice--warning">No other election of this body used the same boundaries, so there is no like-for-like change to map. The notional results view carries results across boundary changes.</p>' : ''}
+    ${shown.reason === 'no-vs' ? '<p class="cg-notice cg-notice--warning">No other election of this body used the same boundaries, so there is no like-for-like change to map. The notional results view carries results across boundary changes.</p>' : ''}
+    ${shown.reason === 'no-party' ? '<p class="cg-notice cg-notice--warning">No party has recorded votes in this election, so there is no share to map: the winners are shown instead.</p>' : ''}
     <div id="mp-map" class="el-map" role="img" aria-label="Map of ${esc(el.displayTitle)}"></div>
     <div id="mp-legend"></div>
-    <p id="mp-status" class="el-muted" role="status">Loading the map…</p>
+    <p id="mp-status" class="el-muted" role="status" data-state="loading">Loading the map…</p>
     <details><summary>The figures as a table</summary><div id="mp-table"></div></details>
     <section aria-labelledby="mp-sm"><h2 id="mp-sm">Small multiples</h2>
       <p class="el-muted">The winner in every ${esc(el.body)} election on these boundaries.</p>
       <button type="button" class="cg-button" id="mp-sm-go">Draw ${sameLayer.length + 1} maps</button>
       <div id="mp-sm-out" class="el-multiples"></div></section>`;
 
+  const listen = { signal: ctx.signal };
   const form = /** @type {HTMLFormElement} */ (root.querySelector('#mp-form'));
   form.addEventListener('change', (e) => {
     const t = /** @type {HTMLSelectElement} */ (e.target);
     if (t.id === 'mp-body') {
-      const first = index.filter((/** @type {any} */ x) => x.bodySlug === t.value).at(-1);
+      const first = index.filter((x) => x.bodySlug === t.value).at(-1);
       if (first) ctx.navigate(`/elections/map/?e=${encodeURIComponent(electionSlug(first.key))}&mode=winner`, { replace: true, keepScroll: true });
       return;
     }
@@ -147,42 +151,79 @@ export async function render(root, route, ctx) {
     if (t.id === 'mp-party') o.party = t.value;
     if (t.id === 'mp-vs') o.vs = t.value;
     ctx.navigate(url(o), { replace: true, keepScroll: true });
-  });
+  }, listen);
 
-  const status = /** @type {HTMLElement} */ (root.querySelector('#mp-status'));
-  try {
-    const rec = await layerRecord(String(el.layerId));
-    const data = await mapData(el, mode === 'swing' && !vs ? 'share' : mode, { party, vs });
-    if (ctx.stale()) return el.displayTitle;
-    const map = await areaMap(/** @type {HTMLElement} */ (root.querySelector('#mp-map')), rec, { colours: data.colours, labels: data.labels });
-    /** @type {HTMLElement} */ (root.querySelector('#mp-legend')).innerHTML = legendHtml(data.legend);
-    /** @type {HTMLElement} */ (root.querySelector('#mp-table')).innerHTML = `<table class="cg-table cg-table--compact"><thead><tr><th scope="col">Area</th><th scope="col">Value</th></tr></thead><tbody>${data.table.map(([a, v]) => `<tr><th scope="row">${esc(a)}</th><td>${esc(v)}</td></tr>`).join('')}</tbody></table>`;
-    await idle(map);
-    status.textContent = `${data.matched} of ${data.total} contests drawn${data.matched < data.total ? ' (the rest have no matching map area)' : ''}.`;
-  } catch (err) {
-    status.textContent = '';
-    /** @type {HTMLElement} */ (root.querySelector('#mp-map')).innerHTML = `<p class="cg-notice cg-notice--danger">The map could not load: ${esc(/** @type {Error} */ (err)?.message || err)}</p>`;
-  }
-
-  /** @type {HTMLElement} */ (root.querySelector('#mp-sm-go')).addEventListener('click', async () => {
-    const out = /** @type {HTMLElement} */ (root.querySelector('#mp-sm-out'));
+  // EL-08: the small multiples, one drawing at a time. The button works while the main map loads.
+  const button = /** @type {HTMLButtonElement} */ (root.querySelector('#mp-sm-go'));
+  const out = /** @type {HTMLElement} */ (root.querySelector('#mp-sm-out'));
+  const multiples = MULTIPLES.start();
+  ctx.onDispose(() => { if (multiples.state() === 'drawing') multiples.to('aborted'); });
+  button.addEventListener('click', async () => {
+    // A second click while drawing is refused (the table has no drawing -> drawing).
+    if (!MULTIPLES.can(multiples.state(), 'drawing')) return;
+    multiples.to('drawing');
+    button.disabled = true;
+    out.setAttribute('aria-busy', 'true');
+    out.dataset.state = 'drawing';
     out.innerHTML = '';
-    const rec = await layerRecord(String(el.layerId));
     const holder = document.createElement('div');
     holder.style.cssText = 'position:absolute;left:-9999px;width:320px;height:360px';
     document.body.append(holder);
-    const series = [...sameLayer, el].sort((x, y) => (x.date < y.date ? -1 : 1));
-    for (const e of series) {
-      if (ctx.stale()) break;
-      const data = await mapData(e, 'winner');
-      holder.innerHTML = '';
-      const m = await areaMap(holder, rec, { colours: data.colours, interactive: false, preserve: true });
-      await idle(m);
-      const src = m.getCanvas().toDataURL('image/png');
-      m.remove();
-      out.insertAdjacentHTML('beforeend', `<figure class="cg-chart"><a href="${url({ e: electionSlug(e.key), mode: 'winner' })}"><img src="${src}" alt="Winners, ${esc(e.displayTitle)}: ${esc(data.table.map(([a, v]) => `${a} ${v}`).join('; '))}" width="320" height="360" loading="lazy"></a><figcaption>${esc(e.displayTitle)}</figcaption></figure>`);
+    ctx.onDispose(() => holder.remove());
+    try {
+      const rec = await layerRecord(String(el.layerId));
+      const series = [...sameLayer, el].sort((x, y) => (x.date < y.date ? -1 : 1));
+      for (const e of series) {
+        if (ctx.stale()) break;
+        const data = await mapData(e, 'winner');
+        if (ctx.stale()) break;
+        holder.innerHTML = '';
+        // Each off-screen map is removed once drawn, or by the signal when the view is left.
+        const m = await areaMap(holder, rec, { colours: data.colours, interactive: false, preserve: true, signal: ctx.signal });
+        if (!m) break;
+        try {
+          await idle(m, 15000, ctx.signal);
+          if (ctx.stale()) break;
+          const src = m.getCanvas().toDataURL('image/png');
+          out.insertAdjacentHTML('beforeend', `<figure class="cg-chart"><a href="${url({ e: electionSlug(e.key), mode: 'winner' })}"><img src="${src}" alt="Winners, ${esc(e.displayTitle)}: ${esc(data.table.map(([a, v]) => `${a} ${v}`).join('; '))}" width="320" height="360" loading="lazy"></a><figcaption>${esc(e.displayTitle)}</figcaption></figure>`);
+        } finally {
+          m.remove();
+        }
+      }
+      if (multiples.state() === 'drawing') multiples.to(ctx.stale() ? 'aborted' : 'done');
+    } catch (err) {
+      if (multiples.state() === 'drawing') multiples.to(ctx.stale() ? 'aborted' : 'failed');
+      if (!ctx.stale()) out.innerHTML = `<p class="cg-notice cg-notice--danger">The maps could not be drawn: ${esc(/** @type {Error} */ (err)?.message || err)}</p>`;
+    } finally {
+      holder.remove();
+      out.removeAttribute('aria-busy');
+      out.dataset.state = multiples.state();
+      button.disabled = multiples.state() === 'aborted';
     }
-    holder.remove();
-  });
+  }, listen);
+
+  // EL-09: the status line, loading until the map is drawn or fails.
+  const status = /** @type {HTMLElement} */ (root.querySelector('#mp-status'));
+  const statusRun = MAP_STATUS.start();
+  try {
+    const rec = await layerRecord(String(el.layerId));
+    const data = await mapData(el, shown.mode, { party, vs });
+    if (ctx.stale()) return el.displayTitle;
+    // One map per visit, removed when the view is left (ctx.signal): every change of the form
+    // renders the view again, so the previous map and its WebGL context go first.
+    const map = await areaMap(/** @type {HTMLElement} */ (root.querySelector('#mp-map')), rec, { colours: data.colours, labels: data.labels, signal: ctx.signal });
+    if (ctx.stale()) return el.displayTitle;
+    /** @type {HTMLElement} */ (root.querySelector('#mp-legend')).innerHTML = legendHtml(data.legend);
+    /** @type {HTMLElement} */ (root.querySelector('#mp-table')).innerHTML = `<table class="cg-table cg-table--compact"><thead><tr><th scope="col">Area</th><th scope="col">Value</th></tr></thead><tbody>${data.table.map(([a, v]) => `<tr><th scope="row">${esc(a)}</th><td>${esc(v)}</td></tr>`).join('')}</tbody></table>`;
+    await idle(map, 15000, ctx.signal);
+    if (ctx.stale()) return el.displayTitle;
+    status.dataset.state = statusRun.to('drawn');
+    status.textContent = `${data.matched} of ${data.total} contests drawn${data.matched < data.total ? ' (the rest have no matching map area)' : ''}.`;
+  } catch (err) {
+    if (ctx.stale()) return el.displayTitle;
+    status.dataset.state = statusRun.to('failed');
+    status.textContent = '';
+    /** @type {HTMLElement} */ (root.querySelector('#mp-map')).innerHTML = `<p class="cg-notice cg-notice--danger">The map could not load: ${esc(/** @type {Error} */ (err)?.message || err)}</p>`;
+  }
   return `Map: ${el.displayTitle}`;
 }

@@ -191,6 +191,103 @@ test.describe('Civgraph Elections', () => {
     await shot(page, '06-map');
   });
 
+  // The view lifecycle (11 Nov 2026 arch audit P1, site/apps/elections/lib/lifecycle.js): leaving a
+  // view removes its listeners and its maps, however often it is visited.
+  test.describe('view lifecycle', () => {
+    /** The listeners of one type on #el-view, the root every view shares (Chrome DevTools Protocol). */
+    async function rootListeners(page, type) {
+      const client = await page.context().newCDPSession(page);
+      const { result } = await client.send('Runtime.evaluate', { expression: 'document.getElementById("el-view")' });
+      const { listeners } = await client.send('DOMDebugger.getEventListeners', { objectId: result.objectId });
+      await client.detach();
+      return listeners.filter((l) => l.type === type).length;
+    }
+
+    test('three visits to the swingometer and the notional view leave one input listener on the root', async ({ page }) => {
+      test.skip(!EXTRACTS || !WASM, 'needs the pivot extracts and DuckDB');
+      test.setTimeout(180000);
+      await page.goto('/elections/swing/?e=northern-ireland-assembly-2022-05-05');
+      await expect(page.locator('#sw-seats table')).toBeVisible({ timeout: 60000 });
+      for (let i = 0; i < 3; i += 1) {
+        await page.click('.el-tabs a[data-tab="home"]');
+        await expect(page.locator('#el-view')).toHaveAttribute('data-route', 'rendered');
+        expect(await rootListeners(page, 'input')).toBe(0);
+        await page.click('.el-tabs a[data-tab="swing"]');
+        await expect(page.locator('#sw-seats table')).toBeVisible({ timeout: 60000 });
+        expect(await rootListeners(page, 'input')).toBe(1);
+      }
+      // One slider move writes the URL once (a leaked listener would write it again).
+      await page.evaluate(() => {
+        const original = history.replaceState.bind(history);
+        window.__replaced = 0;
+        history.replaceState = (...args) => { window.__replaced += 1; return original(...args); };
+      });
+      await page.locator('input[type=range]').first().evaluate((el) => { el.value = '2'; el.dispatchEvent(new Event('input', { bubbles: true })); });
+      expect(await page.evaluate(() => window.__replaced)).toBe(1);
+      await page.click('.el-tabs a[data-tab="notional"]');
+      await expect(page.locator('h1')).toHaveText('Notional results', { timeout: 60000 });
+      await expect(page.locator('#el-view')).toHaveAttribute('data-route', 'rendered', { timeout: 60000 });
+      expect(await rootListeners(page, 'input')).toBe(1);
+    });
+
+    test('changing the map three times and leaving it removes every map it made', async ({ page, request }) => {
+      test.skip(!(await online(request, TILES)), 'data.civgraph.net (the tiles) is unreachable');
+      test.setTimeout(180000);
+      await page.goto('/elections/map/?e=northern-ireland-assembly-2022-05-05&mode=winner');
+      await expect(page.locator('#mp-status')).toHaveAttribute('data-state', 'drawn', { timeout: 60000 });
+      // Count the maps made and removed from here on (the one on screen was made before).
+      await page.evaluate(() => {
+        const { maplibregl } = window;
+        const Map = maplibregl.Map;
+        const remove = Map.prototype.remove;
+        window.__made = 0;
+        window.__removed = 0;
+        Map.prototype.remove = function counted() { window.__removed += 1; return remove.call(this); };
+        maplibregl.Map = class extends Map { constructor(options) { super(options); window.__made += 1; } };
+      });
+      for (const mode of ['turnout', 'winner', 'turnout']) {
+        await page.selectOption('#mp-mode', mode);
+        await expect(page).toHaveURL(new RegExp(`mode=${mode}`));
+        await expect(page.locator('#mp-status')).toHaveAttribute('data-state', 'drawn', { timeout: 60000 });
+        await expect(page.locator('canvas')).toHaveCount(1);
+      }
+      const counts = await page.evaluate(() => ({ made: window.__made, removed: window.__removed }));
+      expect(counts).toEqual({ made: 3, removed: 3 });
+      await page.click('.el-tabs a[data-tab="home"]');
+      await expect(page.locator('#el-view')).toHaveAttribute('data-route', 'rendered');
+      expect(await page.evaluate(() => window.__removed)).toBe(4);
+      await expect(page.locator('canvas')).toHaveCount(0);
+    });
+
+    test('small multiples: a second click while drawing draws nothing twice', async ({ page, request }) => {
+      test.skip(!(await online(request, TILES)), 'data.civgraph.net (the tiles) is unreachable');
+      test.setTimeout(240000);
+      await page.goto('/elections/map/?e=northern-ireland-assembly-2022-05-05&mode=winner');
+      await expect(page.locator('#mp-status')).toHaveAttribute('data-state', 'drawn', { timeout: 60000 });
+      const n = Number((await page.locator('#mp-sm-go').textContent()).match(/\d+/)[0]);
+      await page.locator('#mp-sm-go').evaluate((button) => { button.click(); button.click(); });
+      await expect(page.locator('#mp-sm-go')).toBeDisabled();
+      await expect(page.locator('#mp-sm-out')).toHaveAttribute('data-state', 'done', { timeout: 200000 });
+      await expect(page.locator('#mp-sm-out figure')).toHaveCount(n);
+      await expect(page.locator('#mp-sm-go')).toBeEnabled();
+      expect(await page.evaluate(() => document.body.querySelectorAll(':scope > div[style*="-9999px"]').length)).toBe(0);
+    });
+
+    test('pivot: two quick changes show the table of the second, never of the first', async ({ page }) => {
+      test.skip(!EXTRACTS || !WASM, 'needs the pivot extracts and DuckDB');
+      test.setTimeout(90000);
+      await page.goto('/elections/pivot/?body=northern-ireland-assembly&rows=party&cols=year&measure=seats');
+      await expect(page.locator('#pv-status')).toHaveAttribute('data-state', 'shown', { timeout: 60000 });
+      await page.locator('#pv-measure').evaluate((select) => {
+        for (const value of ['votes', 'share']) { select.value = value; select.dispatchEvent(new Event('change', { bubbles: true })); }
+      });
+      await expect(page).toHaveURL(/measure=share/);
+      await expect(page.locator('#pv-status')).toHaveAttribute('data-state', 'shown', { timeout: 60000 });
+      await expect(page.locator('table.el-pivot caption')).toContainText('Share of the votes');
+      await expect(page.locator('table.el-pivot tbody td').first()).toHaveText(/^\d+\.\d$|^$/);
+    });
+  });
+
   test('widget prototype renders an election card', async ({ page }) => {
     await page.goto('/apps/elections/embed/?e=northern-ireland-assembly-2022-05-05');
     await expect(page.locator('#w h1')).toHaveText('2022 Northern Ireland Assembly election');

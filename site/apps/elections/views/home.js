@@ -15,8 +15,8 @@ export function bodyGroup(slug) {
 }
 const GROUP_ORDER = ['Parliaments, assemblies and offices', 'Local government', 'Referendums', 'Northern Ireland councils before 1973', 'Party contests'];
 
-/** @param {HTMLElement} root @param {{ view: string, body?: string }} route */
-export async function render(root, route) {
+/** @param {HTMLElement} root @param {import('../lib/route.js').Route} route @param {import('../app.js').ViewContext} ctx */
+export async function render(root, route, ctx) {
   if (route.view === 'body') return renderBody(root, await bodyElections(String(route.body)), /** @type {string} */ (route.body));
   const all = await electionIndex();
   /** @type {Map<string, { slug: string, name: string, n: number, by: number, from: string, to: string }>} */
@@ -60,7 +60,7 @@ export async function render(root, route) {
     if (!words.length) { out.innerHTML = ''; return; }
     const hits = all.filter((e) => { const t = fold(`${e.displayTitle} ${e.body} ${e.date}`); return words.every((w) => t.includes(w)); });
     out.innerHTML = `<p>${hits.length.toLocaleString('en-GB')} found${hits.length > 50 ? ', the first 50 shown' : ''}.</p><ul class="el-list">${hits.slice(0, 50).map((e) => `<li><a href="${appUrl.election(e.key)}">${esc(e.displayTitle)}</a> <span class="el-muted">${esc(fmtDate(e.date))}</span></li>`).join('')}</ul>`;
-  });
+  }, { signal: ctx.signal });
   return '';
 }
 

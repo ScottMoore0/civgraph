@@ -17,8 +17,8 @@ const seatChart = (d) => {
 
 /**
  * @param {HTMLElement} root
- * @param {{ query: URLSearchParams }} route
- * @param {{ navigate: (href: string, o?: any) => Promise<void> }} ctx
+ * @param {import('../lib/route.js').Route} route
+ * @param {import('../app.js').ViewContext} ctx
  */
 export async function render(root, route, ctx) {
   const index = (await electionIndex()).filter((/** @type {any} */ e) => e.contestType === 'election');
@@ -79,7 +79,7 @@ export async function render(root, route, ctx) {
       const last = list.filter((/** @type {any} */ x) => x.kind !== 'by-election').at(-1) || list.at(-1);
       if (last) u.set(t.id === 'cmp-body-a' ? 'a' : 'b', electionSlug(last.key));
     }
-    ctx.navigate(`/elections/compare/?${u}`, { replace: true, keepScroll: true });
-  });
+    if (!ctx.stale()) ctx.navigate(`/elections/compare/?${u}`, { replace: true, keepScroll: true });
+  }, { signal: ctx.signal });
   return `Compare: ${aDetail.title} and ${bDetail.title}`;
 }

@@ -9,6 +9,7 @@ import { parliamentArc, seatBar } from '../lib/charts.js';
 import { appUrl, electionSlug, esc, fmtDelta, fmtInt, fmtPct, isStv, partyChip, partyColour } from '../lib/format.js';
 import { areaMap, idle, layerRecord } from '../lib/maplibre.js';
 import { allocate, deltasFromTargets, nationalShares, project } from '../lib/project.js';
+import { NOTIONAL_METHOD } from '../state-machines.js';
 
 export const PAIRS = ['pc-2008__pc-2023'];
 /** "BELFAST SOUTH AND MID DOWN" -> "Belfast South and Mid Down" (the boundary files' names are upper case). */
@@ -45,24 +46,24 @@ export function notionalVotes(rows, weights) {
 
 /**
  * @param {HTMLElement} root
- * @param {{ query: URLSearchParams }} route
- * @param {{ stale: () => boolean }} ctx
+ * @param {import('../lib/route.js').Route} route
+ * @param {import('../app.js').ViewContext} ctx
  */
 export async function render(root, route, ctx) {
   const pair = PAIRS[0];
-  const res = await fetch(`/apps/elections/notional/${pair}.json`);
+  const res = await fetch(`/apps/elections/notional/${pair}.json`, { signal: ctx.signal });
   if (!res.ok) throw new Error(`notional weights ${pair}: ${res.status}`);
   const W = await res.json();
   const index = (await electionIndex()).filter((/** @type {any} */ e) => W.old.layers.includes(e.layerId) && e.kind === 'general');
   const q = route.query;
   const el = must(index.find((e) => electionSlug(e.key) === q.get('e')) || index.at(-1), 'election');
-  const method = q.get('method') === 'areal' ? 'areal' : 'population';
+  /** EL-11: population- or area-weighted (a toggle; the URL picks the state). */
+  const method = NOTIONAL_METHOD.start(q.get('method') === 'areal' ? 'areal' : 'population').state();
   const detail = await electionDetail(el.key);
   const colours = new Map((detail.partySummary || []).map((/** @type {any} */ p) => [p.party, partyColour(p.colour)]));
-  const { useBodies, query } = await import('../lib/duck.js');
-  await useBodies([el.bodySlug]);
+  const { queryBodies } = await import('../lib/duck.js');
   const k = el.key.replace(/'/g, "''");
-  const rows = /** @type {Array<{ area: string, party: string, votes: number, seats: number }>} */ (await query(
+  const rows = /** @type {Array<{ area: string, party: string, votes: number, seats: number }>} */ (await queryBodies([el.bodySlug],
     `SELECT area, party, SUM(COALESCE(votes, 0)) AS votes, SUM(seats) AS seats FROM rows WHERE election_key = '${k}' GROUP BY area, party`,
   ));
   if (ctx.stale()) return 'Notional results';
@@ -120,6 +121,9 @@ export async function render(root, route, ctx) {
     }
   };
   drawProjection();
+  const listen = { signal: ctx.signal };
+  // On the shared root, so it must go with the view (listen.signal): left behind, a later visit
+  // would run two of these.
   root.addEventListener('input', (e) => {
     const t = /** @type {HTMLInputElement} */ (e.target);
     const p = t.getAttribute('data-target');
@@ -129,12 +133,12 @@ export async function render(root, route, ctx) {
     for (const [party, v] of targets) u.set(`t.${party}`, String(v));
     history.replaceState(null, '', `/elections/notional/?${u}`);
     drawProjection();
-  });
+  }, listen);
   root.querySelector('#nt-form')?.addEventListener('change', (e) => {
     const t = /** @type {HTMLSelectElement} */ (e.target);
     const u = new URLSearchParams({ e: t.id === 'nt-e' ? t.value : electionSlug(el.key), method: t.id === 'nt-method' ? t.value : method });
-    location.assign(`/elections/notional/?${u}`);
-  });
+    ctx.navigate(`/elections/notional/?${u}`, { keepScroll: true });
+  }, listen);
 
   try {
     const rec = await layerRecord(W.new.layer);
@@ -148,8 +152,10 @@ export async function render(root, route, ctx) {
       labels.set(a.area.toUpperCase(), `${titleCase(a.area)}: ${[...a.seats].map(([p, n]) => `${p}${n > 1 ? ` ×${n}` : ''}`).join(', ')} (estimate)`);
     }
     const holder = /** @type {HTMLElement} */ (root.querySelector('#nt-map'));
-    const map = await areaMap(holder, rec, { colours: fills, labels });
-    idle(map).then(() => holder.setAttribute('data-ready', 'true'));
+    // One map per visit: removed when the view is left (ctx.signal), so a change of base
+    // election or method, which renders the view again, never leaves a WebGL context behind.
+    const map = await areaMap(holder, rec, { colours: fills, labels, signal: ctx.signal });
+    idle(map, 15000, ctx.signal).then(() => { if (!ctx.stale()) holder.setAttribute('data-ready', 'true'); });
   } catch (err) {
     /** @type {HTMLElement} */ (root.querySelector('#nt-map')).innerHTML = `<p class="cg-notice cg-notice--danger">The map could not load: ${esc(/** @type {Error} */ (err)?.message || err)}</p>`;
   }
