@@ -114,6 +114,7 @@
     "check:elections-app-extracts": "node scripts/build/elections-app/data.mjs --check",
     "build:elections-app:vendor": "node scripts/build/elections-app/vendor.mjs",
     "check:elections-app-vendor": "node scripts/build/elections-app/vendor.mjs --check",
+    "check:elections-go-public": "git apply --check docs/tasks/elections-go-public.patch",
     "test:browser:elections": "playwright test --config config/playwright.config.cjs tests/browser/elections-app.spec.cjs",
     "test:unit": "node --test \"tests/unit/*.test.mjs\" \"tests/functions/*.test.mjs\"",
     "dev:records": "npx wrangler pages dev . --port 8788 --ip 127.0.0.1 --compatibility-date 2026-04-04 --persist-to .wrangler/state --binding CIVGRAPH_SSR_RECORDS=persons,sources,register-interests --binding CIVGRAPH_SSR_PREVIEW=1",
