@@ -1,0 +1,554 @@
+{
+ "schemaVersion": 1,
+ "old": {
+  "name": "PC_NAME",
+  "layer": "pc-2008-vector",
+  "layers": [
+   "pc-2008-vector",
+   "assembly-areas-2008-alias"
+  ],
+  "label": "Constituencies of 2008 (Westminster from 2010, Assembly from 2011)",
+  "id": "pc-2008",
+  "areas": [
+   "BELFAST EAST",
+   "BELFAST NORTH",
+   "BELFAST SOUTH",
+   "BELFAST WEST",
+   "EAST ANTRIM",
+   "EAST LONDONDERRY",
+   "FERMANAGH AND SOUTH TYRONE",
+   "FOYLE",
+   "LAGAN VALLEY",
+   "MID ULSTER",
+   "NEWRY AND ARMAGH",
+   "NORTH ANTRIM",
+   "NORTH DOWN",
+   "SOUTH ANTRIM",
+   "SOUTH DOWN",
+   "STRANGFORD",
+   "UPPER BANN",
+   "WEST TYRONE"
+  ]
+ },
+ "new": {
+  "name": "PC_NAME",
+  "layer": "pc-2023-vector",
+  "layers": [
+   "pc-2023-vector",
+   "assembly-areas-2023-alias"
+  ],
+  "label": "Constituencies of 2023 (Westminster from 2024; the next Assembly election)",
+  "id": "pc-2023",
+  "areas": [
+   "BELFAST EAST",
+   "BELFAST NORTH",
+   "BELFAST SOUTH AND MID DOWN",
+   "BELFAST WEST",
+   "EAST ANTRIM",
+   "EAST LONDONDERRY",
+   "FERMANAGH AND SOUTH TYRONE",
+   "FOYLE",
+   "LAGAN VALLEY",
+   "MID ULSTER",
+   "NEWRY AND ARMAGH",
+   "NORTH ANTRIM",
+   "NORTH DOWN",
+   "SOUTH ANTRIM",
+   "SOUTH DOWN",
+   "STRANGFORD",
+   "UPPER BANN",
+   "WEST TYRONE"
+  ]
+ },
+ "methods": {
+  "areal": "share of the old area's land area (EPSG:2157) inside each new area",
+  "population": "share of the old area's 2021 usual residents inside each new area, each Data Zone (2021) counted whole where its representative point falls; 1,903,168 of 1,903,168 residents placed"
+ },
+ "sources": [
+  "Parliamentary Constituencies (Northern Ireland) Order 2008 (S.I. 2008/1486)",
+  "Parliamentary Constituencies Order 2023 (S.I. 2023/1230)",
+  "NISRA Census 2021, usual residents by Data Zone (via the Civgraph census explorer series)",
+  "NISRA Data Zones 2021 boundaries"
+ ],
+ "weights": {
+  "areal": [
+   [
+    "SOUTH DOWN",
+    "SOUTH DOWN",
+    0.8517
+   ],
+   [
+    "SOUTH DOWN",
+    "NEWRY AND ARMAGH",
+    0.00068
+   ],
+   [
+    "SOUTH DOWN",
+    "LAGAN VALLEY",
+    0.00068
+   ],
+   [
+    "SOUTH DOWN",
+    "STRANGFORD",
+    0.14694
+   ],
+   [
+    "NEWRY AND ARMAGH",
+    "SOUTH DOWN",
+    0.00838
+   ],
+   [
+    "NEWRY AND ARMAGH",
+    "NEWRY AND ARMAGH",
+    0.85057
+   ],
+   [
+    "NEWRY AND ARMAGH",
+    "UPPER BANN",
+    0.05716
+   ],
+   [
+    "NEWRY AND ARMAGH",
+    "FERMANAGH AND SOUTH TYRONE",
+    0.08389
+   ],
+   [
+    "UPPER BANN",
+    "SOUTH DOWN",
+    0.08769
+   ],
+   [
+    "UPPER BANN",
+    "LAGAN VALLEY",
+    0.24606
+   ],
+   [
+    "UPPER BANN",
+    "UPPER BANN",
+    0.66624
+   ],
+   [
+    "BELFAST NORTH",
+    "SOUTH ANTRIM",
+    0.00376
+   ],
+   [
+    "BELFAST NORTH",
+    "BELFAST NORTH",
+    0.97508
+   ],
+   [
+    "BELFAST NORTH",
+    "BELFAST WEST",
+    0.02116
+   ],
+   [
+    "BELFAST EAST",
+    "BELFAST EAST",
+    0.95082
+   ],
+   [
+    "BELFAST EAST",
+    "NORTH DOWN",
+    0.04907
+   ],
+   [
+    "BELFAST SOUTH",
+    "BELFAST EAST",
+    0.06587
+   ],
+   [
+    "BELFAST SOUTH",
+    "BELFAST SOUTH AND MID DOWN",
+    0.93397
+   ],
+   [
+    "BELFAST WEST",
+    "SOUTH ANTRIM",
+    0.13554
+   ],
+   [
+    "BELFAST WEST",
+    "BELFAST NORTH",
+    0.08948
+   ],
+   [
+    "BELFAST WEST",
+    "BELFAST SOUTH AND MID DOWN",
+    0.0042
+   ],
+   [
+    "BELFAST WEST",
+    "BELFAST WEST",
+    0.77078
+   ],
+   [
+    "LAGAN VALLEY",
+    "SOUTH DOWN",
+    0.01184
+   ],
+   [
+    "LAGAN VALLEY",
+    "LAGAN VALLEY",
+    0.90627
+   ],
+   [
+    "LAGAN VALLEY",
+    "SOUTH ANTRIM",
+    0.02068
+   ],
+   [
+    "LAGAN VALLEY",
+    "BELFAST SOUTH AND MID DOWN",
+    0.05422
+   ],
+   [
+    "LAGAN VALLEY",
+    "BELFAST WEST",
+    0.00699
+   ],
+   [
+    "STRANGFORD",
+    "BELFAST SOUTH AND MID DOWN",
+    0.07839
+   ],
+   [
+    "STRANGFORD",
+    "STRANGFORD",
+    0.9204
+   ],
+   [
+    "STRANGFORD",
+    "NORTH DOWN",
+    0.00112
+   ],
+   [
+    "NORTH DOWN",
+    "NORTH DOWN",
+    0.99979
+   ],
+   [
+    "EAST ANTRIM",
+    "SOUTH ANTRIM",
+    0.00063
+   ],
+   [
+    "EAST ANTRIM",
+    "EAST ANTRIM",
+    0.84966
+   ],
+   [
+    "EAST ANTRIM",
+    "NORTH ANTRIM",
+    0.14955
+   ],
+   [
+    "NORTH ANTRIM",
+    "EAST ANTRIM",
+    0.24432
+   ],
+   [
+    "NORTH ANTRIM",
+    "NORTH ANTRIM",
+    0.75567
+   ],
+   [
+    "SOUTH ANTRIM",
+    "SOUTH ANTRIM",
+    0.99181
+   ],
+   [
+    "SOUTH ANTRIM",
+    "BELFAST NORTH",
+    0.00123
+   ],
+   [
+    "SOUTH ANTRIM",
+    "EAST ANTRIM",
+    0.00695
+   ],
+   [
+    "MID ULSTER",
+    "MID ULSTER",
+    0.9331
+   ],
+   [
+    "MID ULSTER",
+    "WEST TYRONE",
+    0.0556
+   ],
+   [
+    "MID ULSTER",
+    "FERMANAGH AND SOUTH TYRONE",
+    0.01129
+   ],
+   [
+    "WEST TYRONE",
+    "WEST TYRONE",
+    0.99997
+   ],
+   [
+    "EAST LONDONDERRY",
+    "EAST LONDONDERRY",
+    0.99998
+   ],
+   [
+    "FOYLE",
+    "WEST TYRONE",
+    0.26213
+   ],
+   [
+    "FOYLE",
+    "EAST LONDONDERRY",
+    0.07907
+   ],
+   [
+    "FOYLE",
+    "FOYLE",
+    0.6588
+   ],
+   [
+    "FERMANAGH AND SOUTH TYRONE",
+    "MID ULSTER",
+    0.02048
+   ],
+   [
+    "FERMANAGH AND SOUTH TYRONE",
+    "FERMANAGH AND SOUTH TYRONE",
+    0.9795
+   ]
+  ],
+  "population": [
+   [
+    "BELFAST EAST",
+    "BELFAST EAST",
+    0.95085
+   ],
+   [
+    "BELFAST EAST",
+    "NORTH DOWN",
+    0.04915
+   ],
+   [
+    "BELFAST NORTH",
+    "BELFAST NORTH",
+    0.93044
+   ],
+   [
+    "BELFAST NORTH",
+    "BELFAST WEST",
+    0.0667
+   ],
+   [
+    "BELFAST NORTH",
+    "SOUTH ANTRIM",
+    0.00286
+   ],
+   [
+    "BELFAST SOUTH",
+    "BELFAST EAST",
+    0.10102
+   ],
+   [
+    "BELFAST SOUTH",
+    "BELFAST SOUTH AND MID DOWN",
+    0.89898
+   ],
+   [
+    "BELFAST WEST",
+    "BELFAST NORTH",
+    0.03291
+   ],
+   [
+    "BELFAST WEST",
+    "BELFAST WEST",
+    0.96709
+   ],
+   [
+    "EAST ANTRIM",
+    "BELFAST NORTH",
+    0.00515
+   ],
+   [
+    "EAST ANTRIM",
+    "EAST ANTRIM",
+    0.97066
+   ],
+   [
+    "EAST ANTRIM",
+    "NORTH ANTRIM",
+    0.01341
+   ],
+   [
+    "EAST ANTRIM",
+    "SOUTH ANTRIM",
+    0.01077
+   ],
+   [
+    "EAST LONDONDERRY",
+    "EAST LONDONDERRY",
+    1.0
+   ],
+   [
+    "FERMANAGH AND SOUTH TYRONE",
+    "FERMANAGH AND SOUTH TYRONE",
+    0.95675
+   ],
+   [
+    "FERMANAGH AND SOUTH TYRONE",
+    "MID ULSTER",
+    0.04325
+   ],
+   [
+    "FOYLE",
+    "EAST LONDONDERRY",
+    0.0348
+   ],
+   [
+    "FOYLE",
+    "FOYLE",
+    0.9482
+   ],
+   [
+    "FOYLE",
+    "WEST TYRONE",
+    0.017
+   ],
+   [
+    "LAGAN VALLEY",
+    "BELFAST SOUTH AND MID DOWN",
+    0.03365
+   ],
+   [
+    "LAGAN VALLEY",
+    "BELFAST WEST",
+    0.04489
+   ],
+   [
+    "LAGAN VALLEY",
+    "LAGAN VALLEY",
+    0.91049
+   ],
+   [
+    "LAGAN VALLEY",
+    "SOUTH ANTRIM",
+    0.01097
+   ],
+   [
+    "MID ULSTER",
+    "FERMANAGH AND SOUTH TYRONE",
+    0.01538
+   ],
+   [
+    "MID ULSTER",
+    "MID ULSTER",
+    0.93917
+   ],
+   [
+    "MID ULSTER",
+    "WEST TYRONE",
+    0.04545
+   ],
+   [
+    "NEWRY AND ARMAGH",
+    "FERMANAGH AND SOUTH TYRONE",
+    0.05055
+   ],
+   [
+    "NEWRY AND ARMAGH",
+    "NEWRY AND ARMAGH",
+    0.90914
+   ],
+   [
+    "NEWRY AND ARMAGH",
+    "SOUTH DOWN",
+    0.01069
+   ],
+   [
+    "NEWRY AND ARMAGH",
+    "UPPER BANN",
+    0.02962
+   ],
+   [
+    "NORTH ANTRIM",
+    "EAST ANTRIM",
+    0.09119
+   ],
+   [
+    "NORTH ANTRIM",
+    "NORTH ANTRIM",
+    0.90881
+   ],
+   [
+    "NORTH DOWN",
+    "NORTH DOWN",
+    1.0
+   ],
+   [
+    "SOUTH ANTRIM",
+    "BELFAST NORTH",
+    0.02061
+   ],
+   [
+    "SOUTH ANTRIM",
+    "EAST ANTRIM",
+    0.00409
+   ],
+   [
+    "SOUTH ANTRIM",
+    "SOUTH ANTRIM",
+    0.9753
+   ],
+   [
+    "SOUTH DOWN",
+    "LAGAN VALLEY",
+    0.00325
+   ],
+   [
+    "SOUTH DOWN",
+    "NEWRY AND ARMAGH",
+    0.01581
+   ],
+   [
+    "SOUTH DOWN",
+    "SOUTH DOWN",
+    0.87032
+   ],
+   [
+    "SOUTH DOWN",
+    "STRANGFORD",
+    0.11062
+   ],
+   [
+    "STRANGFORD",
+    "BELFAST SOUTH AND MID DOWN",
+    0.08566
+   ],
+   [
+    "STRANGFORD",
+    "STRANGFORD",
+    0.91434
+   ],
+   [
+    "UPPER BANN",
+    "LAGAN VALLEY",
+    0.09142
+   ],
+   [
+    "UPPER BANN",
+    "SOUTH DOWN",
+    0.02474
+   ],
+   [
+    "UPPER BANN",
+    "UPPER BANN",
+    0.88384
+   ],
+   [
+    "WEST TYRONE",
+    "WEST TYRONE",
+    1.0
+   ]
+  ]
+ }
+}

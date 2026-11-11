@@ -91,6 +91,7 @@ const SHELL_EXEMPT = new Map([
   ['site/partials/browse-shell.html', 'a fragment stamped into the Browse pages'],
   ['site/partials/proni-header.html', 'a fragment stamped into PRONI Search'],
   ['site/partials/proni-footer.html', 'a fragment stamped into PRONI Search'],
+  ['site/apps/elections/embed/index.html', 'the Elections result widget, framed inside other pages: no site header or footer by design'],
 ]);
 const NOT_PUBLIC = /^(archive|analysis|docs|tests|tools|scripts|data|node_modules)\//;
 
