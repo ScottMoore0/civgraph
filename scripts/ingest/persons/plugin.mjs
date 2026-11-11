@@ -26,6 +26,6 @@ export default definePlugin({
     audit: { title: 'List person ids that are probably wrong', argv: ['python', 'scripts/ingest/persons/audit_person_ids.py'] },
     'find-split': { title: 'Find people split across two ids, from Wikipedia biographies', argv: ['python', 'scripts/ingest/persons/find_split_persons.py'], network: true },
   },
-  helpers: ['ei_relatives.py', 'generated_json.py', 'rebuild-person-ids.sh'],
+  helpers: ['ei_relatives.py', 'generated_json.py', 'person_lifespans.py', 'rebuild-person-ids.sh'],
   data: ['person_registry.json'],
 });
