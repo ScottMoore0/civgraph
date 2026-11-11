@@ -75,6 +75,27 @@ export const FIRST_TILE_TIMEOUT_MS = 10000;
 /** Milliseconds the style document may take. */
 export const STYLE_FETCH_TIMEOUT_MS = 6000;
 
+/** Where a reader (or a test suite) can name the provider to start from. */
+export const BASEMAP_PREFERENCE_KEY = 'civgraph.basemap';
+
+/**
+ * The chain from the provider named by ?basemap=<id> or localStorage civgraph.basemap, when it
+ * is one of the chain's: the providers before it are skipped (for this page, not the session).
+ * The browser suite names osm-tiles: drawn by software GL in a headless browser, the vector base
+ * map costs seconds a test, and the suite tests the app, not the base map (basemap.spec.cjs does).
+ * @param {BasemapProvider[]} chain
+ * @param {{ search?: string, storage?: { getItem(key: string): string | null } | null }} [where]
+ */
+export function preferredChain(chain, { search = '', storage = null } = {}) {
+  let wanted = null;
+  try { wanted = new URLSearchParams(search).get('basemap'); } catch { /* no address */ }
+  if (!wanted) {
+    try { wanted = storage?.getItem(BASEMAP_PREFERENCE_KEY) || null; } catch { /* blocked */ }
+  }
+  const index = wanted ? chain.findIndex((provider) => provider.id === wanted) : -1;
+  return index > 0 ? chain.slice(index) : chain;
+}
+
 export function isBasemapId(id) {
   return typeof id === 'string' && (id.startsWith(BASEMAP_PREFIX) || id === 'osm');
 }
@@ -202,7 +223,10 @@ export class BasemapManager {
    */
   constructor(map, options = {}) {
     this.map = map;
-    this.chain = options.chain || DEFAULT_BASEMAP_CHAIN;
+    this.chain = options.chain || preferredChain(DEFAULT_BASEMAP_CHAIN, {
+      search: typeof location !== 'undefined' ? location.search : '',
+      storage: safeLocalStorage()
+    });
     this.fetchImpl = options.fetchImpl || ((...args) => fetch(...args));
     this.document = options.document === undefined ? (typeof document !== 'undefined' ? document : null) : options.document;
     this.setTimeoutImpl = options.setTimeoutImpl || ((fn, ms) => setTimeout(fn, ms));
@@ -375,6 +399,14 @@ export class BasemapManager {
     this.clearTimer();
     this.map.off?.('error', this.onError);
     this.map.off?.('sourcedata', this.onData);
+  }
+}
+
+function safeLocalStorage() {
+  try {
+    return typeof localStorage !== 'undefined' ? localStorage : null;
+  } catch {
+    return null;
   }
 }
 
