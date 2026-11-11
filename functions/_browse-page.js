@@ -48,7 +48,7 @@ import { browseMapRecord } from '../packages/api/src/handlers/_maps.js';
 import { dateText, listText, numberText, slugify } from '../packages/core/src/format.js';
 import { datasetVersion, htmlResponse } from '../packages/api/src/respond.js';
 import { renderRecordPage, ssrMode } from '../packages/ui/src/templates/records/index.js';
-import { loadElectionPage } from '../packages/api/src/pages/election.js';
+import { loadElectionPage, loadPersonContestSources } from '../packages/api/src/pages/election.js';
 import { groupedYearHero, groupedYearKey } from '../packages/ui/src/templates/records/grouped-year.js';
 import { resolveElectionSlugAlias } from '../packages/core/src/election-slug-aliases.js';
 import { binding } from '../packages/config/src/config.js';
@@ -569,6 +569,12 @@ export function browsePageHandler(type) {
       } else if (ssr) {
         record = await lookupBrowseTableRecord(context.env, type, slug);
         found = record ? recordMeta(type, record) : record;
+        // A person's results cite their contests' sources (QA H5).
+        const db = binding(context.env, 'ELECTIONS_DB');
+        if (record && type === 'persons' && db) {
+          const person = /** @type {PersonRecord} */ (record);
+          person.contestSources = await loadPersonContestSources(/** @type {D1Database} */ (db), person.id ?? null).catch(() => []);
+        }
       } else {
         found = await lookupBrowseRecord(context.env, type, slug);
       }

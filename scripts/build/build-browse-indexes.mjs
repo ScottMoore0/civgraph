@@ -672,17 +672,19 @@ function buildNiLocalGroupRecords(parentElections) {
     for (const round of rounds) {
       for (const row of round.partySummary || []) {
         if (!row.party) continue;
-        if (!parties.has(row.party)) parties.set(row.party, { party: row.party, stood: 0, seats: 0, votes: 0, colour: row.colour });
+        if (!parties.has(row.party)) parties.set(row.party, { party: row.party, stood: 0, seats: 0, votes: 0, unopposedSeats: 0, colour: row.colour });
         const sum = parties.get(row.party);
         sum.stood += Number(row.stood) || 0;
         sum.seats += Number(row.seats) || 0;
         sum.votes += Number(row.votes) || 0;
+        // Seats returned unopposed: counted as seats, never as votes (election-domain buildPartySummary).
+        sum.unopposedSeats += Number(row.unopposedSeats) || 0;
       }
     }
     const totalVotes = [...parties.values()].reduce((n, row) => n + row.votes, 0);
     const partySummary = [...parties.values()]
       .sort((a, b) => b.seats - a.seats || b.votes - a.votes)
-      .map((row) => compactObject({ ...row, share: totalVotes && row.votes ? Math.round((row.votes / totalVotes) * 10000) / 100 : undefined }));
+      .map((row) => compactObject({ ...row, unopposedSeats: row.unopposedSeats || undefined, share: totalVotes && row.votes ? Math.round((row.votes / totalVotes) * 10000) / 100 : undefined }));
     const councils = rounds.map((round) => compactObject({
       key: round.key,
       title: round.title,
@@ -788,6 +790,7 @@ function readElectionDetails(elections) {
           stood: party.stood,
           votes: party.votes ?? party.firstPrefs,
           share: party.share,
+          unopposedSeats: party.unopposedSeats || undefined,
           colour: party.colour || party.color
         })),
         totals: compactObject({

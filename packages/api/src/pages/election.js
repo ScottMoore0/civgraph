@@ -6,6 +6,7 @@
 import { parseJson, withoutMarkers } from '../handlers/_records.js';
 import { asStore } from '../../../storage/src/d1.js';
 import { ELECTION_PAGES } from '../queries/pages.js';
+import { ELECTIONS_API } from '../queries/elections.js';
 
 /**
  * The rows the ELECTION_PAGES queries return (their SELECT lists, over RecordsDb's tables).
@@ -19,10 +20,11 @@ import { ELECTION_PAGES } from '../queries/pages.js';
  *   the election, its meta parsed (loader markers dropped)
  * @typedef {Pick<ContestsRow, 'seq' | 'name' | 'slug' | 'electorate' | 'quota' | 'meta'> & { seatsTotal: ContestsRow['seats_total'], turnoutPct: ContestsRow['turnout_pct'], sourceFile: ContestsRow['source_file'] }} ElectionPageContest
  * @typedef {Pick<CandidaciesRow, 'ord' | 'name' | 'colour' | 'elected' | 'status'> & { personId: CandidaciesRow['person_id'], party: CandidaciesRow['party_label'], partyAsPrinted: CandidaciesRow['party_as_printed'], firstPrefs: CandidaciesRow['first_prefs'], finalVotes: CandidaciesRow['final_votes'] }} ElectionPageCandidate
- * @typedef {Pick<CitationsRow, 'title' | 'publisher' | 'url'>} ElectionPageCitation
+ * @typedef {Pick<CitationsRow, 'title' | 'publisher' | 'url'> & { host?: CitationsRow['host'], kind?: CitationsRow['kind'] }} ElectionPageCitation
+ * @typedef {ElectionPageCitation & { contests: number }} ElectionPageSource  an election's source, with how many of its contests cite it
  * @typedef {Pick<ContestsRow, 'seq' | 'name' | 'slug'> & { seatsTotal: ContestsRow['seats_total'], winnerParty: ContestsRow['winner_party'], winnerName: ContestsRow['winner_name'] }} ElectionPageContestItem
  * @typedef {{ kind: 'contest', election: ElectionPageElection, contest: ElectionPageContest, candidates: ElectionPageCandidate[], citations: ElectionPageCitation[] }
- *   | { kind: 'overall' | 'election', election: ElectionPageElection, contests: ElectionPageContestItem[] }} ElectionPage
+ *   | { kind: 'overall' | 'election', election: ElectionPageElection, contests: ElectionPageContestItem[], sources?: ElectionPageSource[] }} ElectionPage
  */
 
 /**
@@ -48,6 +50,29 @@ export async function loadElectionPage(source, meta) {
       : []);
     return { kind: 'contest', election, contest, candidates, citations: provenance };
   }
-  const contests = /** @type {ElectionPageContestItem[]} */ (/** @type {unknown} */ (await db.all(ELECTION_PAGES.contests, [e.key])));
-  return { kind: /-overall-results$/.test(meta.slug) ? 'overall' : 'election', election, contests };
+  const [contests, sources] = /** @type {[ElectionPageContestItem[], ElectionPageSource[]]} */ (/** @type {unknown} */ (await Promise.all([
+    db.all(ELECTION_PAGES.contests, [e.key]),
+    // The original sources of the results (QA H5): each contest's citations, most cited first.
+    db.all(ELECTIONS_API.electionCitations, [e.key]),
+  ])));
+  return { kind: /-overall-results$/.test(meta.slug) ? 'overall' : 'election', election, contests, sources };
+}
+
+/**
+ * The citations of every contest a person stood in (QA H5), for the person page's Sources.
+ * @param {import('../../../storage/src/store.js').RecordStore | D1Database} source
+ * @param {string | number | null | undefined} personId
+ * @returns {Promise<Array<{ electionKey: string, seq: number, constituency: string, citations: ElectionPageCitation[] }>>}
+ */
+export async function loadPersonContestSources(source, personId) {
+  if (personId === null || personId === undefined || personId === '') return [];
+  const rows = /** @type {Array<ElectionPageCitation & { electionKey: string, seq: number, constituency: string }>} */ (/** @type {unknown} */ (await asStore(source).all(ELECTIONS_API.personCitations, [String(personId)])));
+  /** @type {Map<string, { electionKey: string, seq: number, constituency: string, citations: ElectionPageCitation[] }>} */
+  const byContest = new Map();
+  for (const { electionKey, seq, constituency, ...citation } of rows) {
+    const id = `${electionKey}|${seq}`;
+    if (!byContest.has(id)) byContest.set(id, { electionKey, seq, constituency, citations: [] });
+    byContest.get(id)?.citations.push(citation);
+  }
+  return [...byContest.values()];
 }
