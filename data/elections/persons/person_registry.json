@@ -2,7 +2,7 @@
  "schemaVersion": 2,
  "description": "Stable identifiers for people appearing as candidates in the current election data. The id is independent of name spelling, so a correction changes displayName and adds an alias, never the id.",
  "idPolicy": "Ids are permanent. PersonIDs 1-100011 are the curated block carried forward from scripts/ingest/persons/person_registry.json; 100012+ are derived. A new id is never one issued before, even one merged away at once: idHighWater is the highest issued (person_id_issued.py).",
- "idHighWater": 150331,
+ "idHighWater": 150448,
  "supersedes": "scripts/ingest/persons/person_registry.json (2,388 curated persons; its source workbook is no longer present and apply_person_ids.py targets an _aggregates.json layout that no longer exists)",
  "evidence": {
   "rowIndexIdsDiscarded": [
@@ -9904,7 +9904,7 @@
    "eraReason": "split by its official person id (democracyclub:2137): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150266
+    150386
    ]
   },
   {
@@ -12303,7 +12303,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150316
+    150433
    ]
   },
   {
@@ -12907,10 +12907,7 @@
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    150287
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p20345",
@@ -13590,7 +13587,7 @@
    "eraReason": "split by its official person id (democracyclub:7132): the source id it shares is held by another person with another official id",
    "nameVariants": true,
    "mergedFrom": [
-    150267
+    150387
    ]
   },
   {
@@ -25207,7 +25204,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150318
+    150435
    ]
   },
   {
@@ -28962,10 +28959,7 @@
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    104746
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p46274",
@@ -40613,6 +40607,7 @@
     "william mccandless"
    ],
    "sourceIds": [
+    "647289425",
     "65776",
     "T2555870086"
    ],
@@ -40620,10 +40615,10 @@
    "officialPersonIds": [
     "democracyclub:6403"
    ],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 2011,
-   "lastYear": 2017,
+   "lastYear": 2019,
    "bodies": [
     "house-of-commons-of-the-united-kingdom",
     "local-government",
@@ -40636,7 +40631,10 @@
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    115524
+   ]
   },
   {
    "id": "p65783",
@@ -42124,7 +42122,7 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "nameVariants": true,
    "mergedFrom": [
-    150213
+    150332
    ]
   },
   {
@@ -43178,7 +43176,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150319
+    150436
    ]
   },
   {
@@ -51625,10 +51623,7 @@
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    104872
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p84525",
@@ -56301,10 +56296,7 @@
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    102394
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p92384",
@@ -60525,7 +60517,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150283
+    150403
    ]
   },
   {
@@ -61780,9 +61772,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:1106)",
    "provisional": true,
-   "mergedFrom": [
-    125095
-   ]
+   "nameVariants": true
   },
   {
    "id": "p100053",
@@ -62275,10 +62265,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:1470)",
    "provisional": true,
-   "nameVariants": true,
-   "mergedFrom": [
-    124909
-   ]
+   "nameVariants": true
   },
   {
    "id": "p100070",
@@ -62446,10 +62433,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150224,
-    150240,
-    150289,
-    150290
+    150343,
+    150360,
+    150406,
+    150407
    ]
   },
   {
@@ -62761,10 +62748,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150251,
-    150252,
-    150269,
-    150324
+    150371,
+    150372,
+    150389,
+    150441
    ]
   },
   {
@@ -63455,10 +63442,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150229,
-    150230,
-    150298,
-    150299
+    150349,
+    150350,
+    150415,
+    150416
    ]
   },
   {
@@ -63495,10 +63482,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150231,
-    150245,
-    150257,
-    150300
+    150351,
+    150365,
+    150377,
+    150417
    ]
   },
   {
@@ -64002,8 +63989,8 @@
    "eraReason": "split by its official person id (democracyclub:68911): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150249,
-    150317
+    150369,
+    150434
    ]
   },
   {
@@ -64163,11 +64150,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150236,
-    150253,
-    150326,
-    150327,
-    150328
+    150356,
+    150373,
+    150443,
+    150444,
+    150445
    ]
   },
   {
@@ -64942,10 +64929,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150216,
-    150222,
-    150278,
-    150279
+    150335,
+    150341,
+    150398,
+    150399
    ]
   },
   {
@@ -65865,12 +65852,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150250,
-    150268,
-    150320,
-    150321,
-    150322,
-    150323
+    150370,
+    150388,
+    150437,
+    150438,
+    150439,
+    150440
    ]
   },
   {
@@ -68641,9 +68628,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:1029)",
    "provisional": true,
-   "mergedFrom": [
-    124908
-   ]
+   "nameVariants": true
   },
   {
    "id": "p100289",
@@ -70276,9 +70261,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150217,
-    150218,
-    150242
+    150336,
+    150337,
+    150362
    ]
   },
   {
@@ -70316,11 +70301,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150227,
-    150243,
-    150244,
-    150256,
-    150295
+    150346,
+    150363,
+    150364,
+    150376,
+    150412
    ]
   },
   {
@@ -70357,10 +70342,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150214,
-    150219,
-    150307,
-    150308
+    150333,
+    150338,
+    150424,
+    150425
    ]
   },
   {
@@ -72511,11 +72496,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150215,
-    150270,
-    150271,
-    150272,
-    150329
+    150334,
+    150390,
+    150391,
+    150392,
+    150446
    ]
   },
   {
@@ -74912,10 +74897,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:1160)",
    "provisional": true,
-   "nameVariants": true,
-   "mergedFrom": [
-    104361
-   ]
+   "nameVariants": true
   },
   {
    "id": "p100505",
@@ -75654,12 +75636,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150220,
-    150246,
-    150262,
-    150263,
-    150309,
-    150310
+    150339,
+    150366,
+    150382,
+    150383,
+    150426,
+    150427
    ]
   },
   {
@@ -75697,11 +75679,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150221,
-    150234,
-    150247,
-    150311,
-    150312
+    150340,
+    150354,
+    150367,
+    150428,
+    150429
    ]
   },
   {
@@ -75741,13 +75723,13 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150235,
-    150248,
-    150264,
-    150265,
-    150313,
-    150314,
-    150315
+    150355,
+    150368,
+    150384,
+    150385,
+    150430,
+    150431,
+    150432
    ]
   },
   {
@@ -78348,10 +78330,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (wikipedia:Patrick Donnelly (politician))",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    113370
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p100624",
@@ -79223,10 +79202,6 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:4630)",
    "provisional": true,
-   "mergedFrom": [
-    128598,
-    130345
-   ],
    "nameKeyedRows": [
     "catherine connolly"
    ]
@@ -79346,10 +79321,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:1066)",
    "provisional": true,
-   "nameVariants": true,
-   "mergedFrom": [
-    123237
-   ]
+   "nameVariants": true
   },
   {
    "id": "p100657",
@@ -83254,10 +83226,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:1875)",
    "provisional": true,
-   "nameVariants": true,
-   "mergedFrom": [
-    124774
-   ]
+   "nameVariants": true
   },
   {
    "id": "p100789",
@@ -83526,12 +83495,9 @@
     "Sinn Féin"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (wikipedia:Vincent White (politician))",
+   "provenance": "keyed on the source's own candidate id (ei:1444)",
    "provisional": true,
-   "nameVariants": true,
-   "mergedFrom": [
-    101863
-   ]
+   "nameVariants": true
   },
   {
    "id": "p100799",
@@ -83569,12 +83535,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150223,
-    150237,
-    150238,
-    150239,
-    150281,
-    150282
+    150342,
+    150357,
+    150358,
+    150359,
+    150401,
+    150402
    ]
   },
   {
@@ -83740,11 +83706,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150225,
-    150226,
-    150241,
-    150293,
-    150294
+    150344,
+    150345,
+    150361,
+    150410,
+    150411
    ]
   },
   {
@@ -83780,9 +83746,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150228,
-    150296,
-    150297
+    150347,
+    150413,
+    150414
    ]
   },
   {
@@ -83821,12 +83787,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150232,
-    150233,
-    150259,
-    150260,
-    150261,
-    150306
+    150352,
+    150353,
+    150379,
+    150380,
+    150381,
+    150423
    ]
   },
   {
@@ -91653,10 +91619,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3439)",
-   "provisional": true,
-   "mergedFrom": [
-    129646
-   ]
+   "provisional": true
   },
   {
    "id": "p101085",
@@ -93937,10 +93900,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:1484)",
    "provisional": true,
-   "nameVariants": true,
-   "mergedFrom": [
-    124299
-   ]
+   "nameVariants": true
   },
   {
    "id": "p101169",
@@ -96100,15 +96060,13 @@
    "parties": [
     "Fine Gael"
    ],
-   "keyedBy": "name",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "keyedBy": "src",
+   "provenance": "keyed on the source's own candidate id (ei:2297)",
    "provisional": true,
    "nameKeyedRows": [
     "patrick palmer"
    ],
-   "mergedFrom": [
-    134538
-   ]
+   "nameVariants": true
   },
   {
    "id": "p101246",
@@ -102792,10 +102750,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    105083
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p101515",
@@ -111309,10 +111264,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:11052)",
-   "provisional": true,
-   "mergedFrom": [
-    129531
-   ]
+   "provisional": true
   },
   {
    "id": "p101816",
@@ -115201,10 +115153,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:9965)",
-   "provisional": true,
-   "mergedFrom": [
-    128271
-   ]
+   "provisional": true
   },
   {
    "id": "p101946",
@@ -118703,9 +118652,6 @@
    "provisional": true,
    "nameKeyedRows": [
     "paul mcauliffe"
-   ],
-   "mergedFrom": [
-    119413
    ]
   },
   {
@@ -118741,10 +118687,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:11935)",
-   "provisional": true,
-   "mergedFrom": [
-    150198
-   ]
+   "provisional": true
   },
   {
    "id": "p102072",
@@ -121126,10 +121069,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150274,
-    150275,
-    150276,
-    150277
+    150394,
+    150395,
+    150396,
+    150397
    ]
   },
   {
@@ -121164,8 +121107,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150254,
-    150280
+    150374,
+    150400
    ]
   },
   {
@@ -126441,10 +126384,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150302,
-    150303,
-    150304,
-    150305
+    150419,
+    150420,
+    150421,
+    150422
    ]
   },
   {
@@ -146907,9 +146850,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:1087)",
    "provisional": true,
-   "mergedFrom": [
-    123552
-   ]
+   "nameVariants": true
   },
   {
    "id": "p103139",
@@ -153548,10 +153489,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:383)",
-   "provisional": true,
-   "mergedFrom": [
-    150137
-   ]
+   "provisional": true
   },
   {
    "id": "p103377",
@@ -154908,9 +154846,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:6800)",
    "provisional": true,
-   "mergedFrom": [
-    127167
-   ]
+   "nameVariants": true
   },
   {
    "id": "p103424",
@@ -164572,14 +164508,11 @@
     "National League",
     "Nationalist Party"
    ],
-   "keyedBy": "name",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "keyedBy": "src",
+   "provenance": "keyed on the source's own candidate id (wikipedia:William Duffy (politician))",
    "provisional": true,
    "nameKeyedRows": [
     "william duffy"
-   ],
-   "mergedFrom": [
-    122806
    ]
   },
   {
@@ -166431,7 +166364,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150288
+    150405
    ]
   },
   {
@@ -168090,11 +168023,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    109916,
-    125104
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p103916",
@@ -168684,10 +168614,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    104375
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p103940",
@@ -170034,7 +169961,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150284
+    150404
    ]
   },
   {
@@ -172571,10 +172498,7 @@
    "provenance": "keyed on the source's own candidate id (wikipedia:James Craig, 1st Viscount Craigavon)",
    "provisional": true,
    "nameVariants": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    117728
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p104107",
@@ -173747,10 +173671,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    124284
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p104166",
@@ -176003,10 +175924,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    123197
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p104276",
@@ -180315,10 +180233,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:1111)",
-   "provisional": true,
-   "mergedFrom": [
-    112824
-   ]
+   "provisional": true
   },
   {
    "id": "p104547",
@@ -186603,10 +186518,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:388)",
-   "provisional": true,
-   "mergedFrom": [
-    128612
-   ]
+   "provisional": true
   },
   {
    "id": "p104873",
@@ -189938,10 +189850,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:1082)",
-   "provisional": true,
-   "mergedFrom": [
-    112845
-   ]
+   "provisional": true
   },
   {
    "id": "p105039",
@@ -192968,26 +192877,31 @@
     "graham warke"
    ],
    "sourceIds": [
+    "2670978434",
     "335063882"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [
     "democracyclub:49700"
    ],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 2023,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 2019,
    "lastYear": 2023,
    "bodies": [
     "local-government"
    ],
    "parties": [
+    "DUP",
     "Independent"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    150285
+   ]
   },
   {
    "id": "p105201",
@@ -202201,9 +202115,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    110712
-   ]
+   "nameVariants": true
   },
   {
    "id": "p105824",
@@ -204293,10 +204205,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    113126
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p106021",
@@ -207579,8 +207488,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150291,
-    150292
+    150408,
+    150409
    ]
   },
   {
@@ -207614,7 +207523,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150301
+    150418
    ]
   },
   {
@@ -270310,7 +270219,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150325
+    150442
    ]
   },
   {
@@ -272183,13 +272092,10 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:199)",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "nameKeyedRows": [
     "andrew montague"
    ],
-   "mergedFrom": [
-    119340
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p108649",
@@ -278909,11 +278815,8 @@
     "Fine Gael"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:12624)",
-   "provisional": true,
-   "mergedFrom": [
-    150138
-   ]
+   "provenance": "keyed on the source's own candidate id (ie:18124)",
+   "provisional": true
   },
   {
    "id": "p108890",
@@ -282795,11 +282698,8 @@
     "Unionist"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:1040)",
-   "provisional": true,
-   "mergedFrom": [
-    124049
-   ]
+   "provenance": "keyed on the source's own candidate id (wikipedia:Denis Henry)",
+   "provisional": true
   },
   {
    "id": "p109029",
@@ -296176,11 +296076,8 @@
     "Sinn Féin"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:1471)",
-   "provisional": true,
-   "mergedFrom": [
-    122893
-   ]
+   "provenance": "keyed on the source's own candidate id (wikipedia:James O'Mara)",
+   "provisional": true
   },
   {
    "id": "p109517",
@@ -298849,10 +298746,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:11934)",
-   "provisional": true,
-   "mergedFrom": [
-    150196
-   ]
+   "provisional": true
   },
   {
    "id": "p109613",
@@ -307713,9 +307607,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:1543)",
    "provisional": true,
-   "mergedFrom": [
-    122917
-   ]
+   "nameVariants": true
   },
   {
    "id": "p109938",
@@ -315272,10 +315164,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:378)",
    "provisional": true,
-   "nameVariants": true,
-   "mergedFrom": [
-    129412
-   ]
+   "nameVariants": true
   },
   {
    "id": "p110209",
@@ -330750,9 +330639,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:970)",
    "provisional": true,
-   "mergedFrom": [
-    125067
-   ]
+   "nameVariants": true
   },
   {
    "id": "p110771",
@@ -354847,9 +354734,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:8839)",
    "provisional": true,
-   "mergedFrom": [
-    132877
-   ]
+   "nameVariants": true
   },
   {
    "id": "p112631",
@@ -356697,13 +356582,10 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3924)",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "nameKeyedRows": [
     "pat cox"
    ],
-   "mergedFrom": [
-    117691
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p112726",
@@ -360992,10 +360874,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:1217)",
-   "provisional": true,
-   "mergedFrom": [
-    122840
-   ]
+   "provisional": true
   },
   {
    "id": "p113157",
@@ -362238,7 +362117,7 @@
    ],
    "eraReason": "split from a career spanning more than 60 years at a gap of 25 or more; the same id continues in the other era",
    "mergedFrom": [
-    150273
+    150393
    ]
   },
   {
@@ -367117,36 +366996,6 @@
    ],
    "parties": [
     "Commonwealth Labour Party"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p115524",
-   "personId": 115524,
-   "displayName": "William McCandless",
-   "aliases": [
-    "William McCandless"
-   ],
-   "matchKeys": [
-    "william mccandless"
-   ],
-   "sourceIds": [
-    "647289425"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 2019,
-   "lastYear": 2019,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "UUP"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -398913,10 +398762,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:382)",
-   "provisional": true,
-   "mergedFrom": [
-    129398
-   ]
+   "provisional": true
   },
   {
    "id": "p118801",
@@ -402016,10 +401862,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:5169)",
-   "provisional": true,
-   "mergedFrom": [
-    129402
-   ]
+   "provisional": true
   },
   {
    "id": "p118907",
@@ -414851,7 +414694,7 @@
     "paddy burke"
    ],
    "mergedFrom": [
-    150331
+    150448
    ]
   },
   {
@@ -491749,14 +491592,11 @@
     "Fianna Fáil",
     "Progressive Democrats"
    ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:8903)",
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
    "nameKeyedRows": [
     "martin connolly"
-   ],
-   "mergedFrom": [
-    138493
    ]
   },
   {
@@ -510273,11 +510113,11 @@
     "Irish Parliamentary",
     "Parnellite Nationalist"
    ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "keyedBy": "src",
+   "provenance": "keyed on the source's own candidate id (wikipedia:Edmund Haviland-Burke)",
    "provisional": true,
    "mergedFrom": [
-    123206
+    150348
    ]
   },
   {
@@ -512080,11 +511920,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (wikipedia:David Plunket, 1st Baron Rathmore)",
    "provisional": true,
-   "nameVariants": true,
-   "mergedFrom": [
-    123198,
-    124449
-   ]
+   "nameVariants": true
   },
   {
    "id": "p122833",
@@ -513864,7 +513700,7 @@
    "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150255
+    150375
    ]
   },
   {
@@ -514294,10 +514130,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (wikipedia:Eugene Crean)",
-   "provisional": true,
-   "mergedFrom": [
-    122946
-   ]
+   "provisional": true
   },
   {
    "id": "p122948",
@@ -517778,10 +517611,7 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "mergedFrom": [
-    124279
-   ]
+   "provisional": true
   },
   {
    "id": "p123114",
@@ -520711,11 +520541,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    123261,
-    124633
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p123262",
@@ -531610,10 +531436,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    125790
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p123930",
@@ -532658,12 +532482,10 @@
    "parties": [
     "Whig"
    ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "keyedBy": "src",
+   "provenance": "keyed on the source's own candidate id (wikipedia:Richard FitzGibbon, 3rd Earl of Clare)",
    "provisional": true,
-   "mergedFrom": [
-    125427
-   ]
+   "nameVariants": true
   },
   {
    "id": "p123963",
@@ -533542,10 +533364,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    124263
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p124001",
@@ -534665,9 +534485,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    125727
-   ]
+   "nameVariants": true
   },
   {
    "id": "p124043",
@@ -537850,10 +537668,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (wikipedia:Sir Montagu Chapman, 3rd Baronet)",
    "provisional": true,
-   "nameVariants": true,
-   "mergedFrom": [
-    125018
-   ]
+   "nameVariants": true
   },
   {
    "id": "p124171",
@@ -538405,8 +538220,8 @@
    "officialPersonIds": [
     "wikidata:Q24254896"
    ],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1826,
    "lastYear": 1837,
    "bodies": [
@@ -538418,9 +538233,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    126054
-   ]
+   "nameVariants": true
   },
   {
    "id": "p124196",
@@ -539661,10 +539474,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (wikipedia:William Taylor Copeland)",
-   "provisional": true,
-   "mergedFrom": [
-    125931
-   ]
+   "provisional": true
   },
   {
    "id": "p124247",
@@ -540385,10 +540195,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (wikipedia:John O'Neill, 3rd Viscount O'Neill)",
    "provisional": true,
-   "nameVariants": true,
-   "mergedFrom": [
-    127006
-   ]
+   "nameVariants": true
   },
   {
    "id": "p124302",
@@ -546318,10 +546125,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (wikipedia:Henry Lambert (MP))",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    124606
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p124607",
@@ -562174,7 +561978,7 @@
    "provenance": "keyed on the source's own candidate id (wikipedia:John Henry North)",
    "provisional": true,
    "mergedFrom": [
-    150258
+    150378
    ]
   },
   {
@@ -567816,33 +567620,6 @@
    "parties": [],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (wikipedia:Richard Butler, 2nd Earl of Glengall)",
-   "provisional": true
-  },
-  {
-   "id": "p125911",
-   "personId": 125911,
-   "displayName": "Viscount Clements (Robert Bermingham Clements)",
-   "aliases": [
-    "Viscount Clements (Robert Bermingham Clements)"
-   ],
-   "matchKeys": [
-    "viscount clements robert bermingham clements"
-   ],
-   "sourceIds": [
-    "Viscount Clements (Robert Bermingham Clements)|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1830,
-   "lastYear": 1830,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom"
-   ],
-   "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
   },
   {
@@ -576800,7 +576577,7 @@
     "henry kenny"
    ],
    "mergedFrom": [
-    150330
+    150447
    ]
   },
   {
@@ -719241,10 +719018,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:12772)",
-   "provisional": true,
-   "mergedFrom": [
-    150208
-   ]
+   "provisional": true
   },
   {
    "id": "p134635",
@@ -822743,19 +822517,22 @@
    "personId": 139481,
    "displayName": "John T. McFarland",
    "aliases": [
+    "John Talbot McFarland",
     "John T. McFarland"
    ],
    "matchKeys": [
-    "john t mcfarland"
+    "john t mcfarland",
+    "john talbot mcfarland"
    ],
    "sourceIds": [
     "John T. McFarland|",
-    "John T. McFarland|UUP"
+    "John T. McFarland|UUP",
+    "John Talbot McFarland|UUP"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1955,
    "lastYear": 1967,
    "bodies": [
@@ -822769,37 +822546,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    141636
+    139482
    ]
-  },
-  {
-   "id": "p139482",
-   "personId": 139482,
-   "displayName": "John Talbot McFarland",
-   "aliases": [
-    "John Talbot McFarland"
-   ],
-   "matchKeys": [
-    "john talbot mcfarland"
-   ],
-   "sourceIds": [
-    "John Talbot McFarland|UUP"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1961,
-   "lastYear": 1964,
-   "bodies": [
-    "londonderry-county-borough-council"
-   ],
-   "parties": [
-    "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
   },
   {
    "id": "p139483",
@@ -1076714,36 +1076462,6 @@
    "provisional": true
   },
   {
-   "id": "p150285",
-   "personId": 150285,
-   "displayName": "Graham Warke",
-   "aliases": [
-    "Graham Warke"
-   ],
-   "matchKeys": [
-    "graham warke"
-   ],
-   "sourceIds": [
-    "2670978434"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 2019,
-   "lastYear": 2019,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "DUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p150286",
    "personId": 150286,
    "displayName": "Daniel Allen",
@@ -1078701,13 +1078419,13 @@
   }
  ],
  "corrections": {
-  "mergedIds": 185,
+  "mergedIds": 120,
   "classes": {
-   "WIKIPEDIA-BIOGRAPHY": 72,
+   "WIKIPEDIA-BIOGRAPHY": 10,
    "FORUM-DUPLICATE": 100,
    "LGR-2014": 3,
    "SAME-SEAT-SEQUENCE": 3,
-   "STRAY-INTO-CURATED": 7
+   "STRAY-INTO-CURATED": 4
   },
   "note": "Only the two mechanically-caused classes were merged; see scripts/ingest/persons/merge_person_ids.py for the tests applied."
  }
