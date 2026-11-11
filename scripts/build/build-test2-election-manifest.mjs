@@ -13,6 +13,7 @@ import { canonicalElectionTitle, compareElectionsNewestFirst, isElectionByElecti
 import { createPartyLabelInterpreter } from '../lib/party-label-interpretations.mjs';
 import { bracketedResultFile, seatTypeResultFile } from '../lib/election-result-files.mjs';
 import { writeStableGeneratedJson } from '../lib/stable-generated-json.mjs';
+import { restoreStageFractions } from '../lib/stage-fractions.mjs';
 import { ELECTION_BUNDLE_DIR, ELECTION_MANIFEST, ELECTION_REPORT } from '../../packages/loader/src/paths.mjs';
 import { loadRegistry } from '../../packages/registries/src/index.mjs';
 import { manifestCouncilSets } from '../../packages/registries/src/councils.mjs';
@@ -250,6 +251,8 @@ function applyWalkerCorrections(resultPath, rawResult) {
 //   replaceCandidates{ candidates } -- the whole list (scraper format), for contests imported empty
 //   replaceCountRows { rows } -- every count row of the contest, in the file's own format, for a
 //                    contest whose counts were rebuilt from a complete source
+//   restoreStageFractions {} -- stage totals the import cut to whole votes, rebuilt from the
+//                    transfers (scripts/lib/stage-fractions.mjs); after the other operations
 const SOURCE_CHECKED_FIXES = path.join(ROOT, 'data', 'elections', 'corrections', 'source-checked-fixes.json');
 const sourceCheckedFixIndex = new Map(
   (existsSync(SOURCE_CHECKED_FIXES) ? readJson(SOURCE_CHECKED_FIXES).records || [] : [])
@@ -353,6 +356,9 @@ function applySourceCheckedFixes(resultPath, rawResult, { lenient = false } = {}
       if (!rawResult.Constituency?.countGroup) throw new Error(`source-checked-fixes: ${record.sourceFile} has no count rows to replace`);
       if (!op.rows?.length) throw new Error(`source-checked-fixes: ${record.sourceFile} replaceCountRows has no rows`);
       rawResult.Constituency.countGroup = op.rows.map((row) => ({ ...row }));
+    } else if (op.op === 'restoreStageFractions') {
+      if (!rawResult.Constituency?.countGroup) throw new Error(`source-checked-fixes: ${record.sourceFile} has no count rows to restore`);
+      restoreStageFractions(rawResult.Constituency.countGroup);
     } else {
       throw new Error(`source-checked-fixes: unknown operation ${op.op} for ${record.sourceFile}`);
     }
@@ -3153,9 +3159,12 @@ function buildDailWikipediaCountPayload(rawResult, sidecar, fallbackConstituency
   const totalPoll = parseMetaNumber(meta.Total_Poll, meta.total_poll, meta.totalPoll, meta.poll, meta.total_votes);
   const spoiled = parseMetaNumber(meta.Spoiled, meta.spoiled, meta.Spoilt, meta.spoilt, meta.invalid_votes);
   const electorate = parseMetaNumber(meta.Total_Electorate, meta.total_electorate, meta.electorate, meta.electorate_total);
+  // A total poll inferred from the turnout must hold the valid poll: Gallagher's by-election
+  // turnouts are of the valid vote, and electorate x a rounded turnout can fall a vote or two short.
+  const turnoutPoll = electorate !== null && sourceTurnoutPct !== null ? Math.round(electorate * sourceTurnoutPct / 100) : null;
   const inferredTotalPoll = totalPoll !== null
     ? totalPoll
-    : (electorate !== null && sourceTurnoutPct !== null ? Math.round(electorate * sourceTurnoutPct / 100) : null);
+    : (turnoutPoll !== null && (!validPoll || turnoutPoll >= validPoll) ? turnoutPoll : null);
   const inferredSpoiled = spoiled !== null
     ? spoiled
     : (inferredTotalPoll !== null && validPoll !== null && inferredTotalPoll >= validPoll ? inferredTotalPoll - validPoll : null);
