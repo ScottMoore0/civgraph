@@ -55,13 +55,13 @@ export async function render(root, route, ctx) {
   const res = await fetch(`/apps/elections/notional/${pair}.json`, { signal: ctx.signal });
   if (!res.ok) throw new Error(`notional weights ${pair}: ${res.status}`);
   const W = await res.json();
-  const index = (await electionIndex()).filter((/** @type {any} */ e) => W.old.layers.includes(e.layerId) && e.kind === 'general');
+  const index = (await electionIndex()).filter((e) => W.old.layers.includes(e.layerId) && e.kind === 'general');
   const q = route.query;
   const el = must(index.find((e) => electionSlug(e.key) === q.get('e')) || index.at(-1), 'election');
   /** EL-11: population- or area-weighted (a toggle; the URL picks the state). */
   const method = NOTIONAL_METHOD.start(q.get('method') === 'areal' ? 'areal' : 'population').state();
   const detail = await electionDetail(el.key);
-  const colours = new Map((detail.partySummary || []).map((/** @type {any} */ p) => [p.party, partyColour(p.colour)]));
+  const colours = new Map((detail.partySummary || []).map((p) => [p.party, partyColour(p.colour)]));
   const { queryBodies } = await import('../lib/duck.js');
   const k = el.key.replace(/'/g, "''");
   const rows = /** @type {Array<{ area: string, party: string, votes: number, seats: number }>} */ (await queryBodies([el.bodySlug],
@@ -92,7 +92,7 @@ export async function render(root, route, ctx) {
       <p class="el-lead">The <a href="${appUrl.election(el.key)}">${esc(el.displayTitle)}</a> as if it had been fought on the ${esc(W.new.label)}.</p></header>
     <p class="cg-notice cg-notice--warning el-estimate"><strong>Estimates.</strong> Each old constituency's votes are shared out to the new ones ${method === 'population' ? 'by where its 2021 residents live' : 'by land area'}, so every figure on this page is an estimate${stv ? ', and multi-member seats are allocated by quotas of first preferences without transfers' : ''}. Not an official notional result.</p>
     <form class="el-controls" id="nt-form" onsubmit="return false">
-      <label>Base election <select id="nt-e">${index.map((/** @type {any} */ e) => `<option value="${esc(electionSlug(e.key))}"${e.key === el.key ? ' selected' : ''}>${esc(e.displayTitle)}</option>`).join('')}</select></label>
+      <label>Base election <select id="nt-e">${index.map((e) => `<option value="${esc(electionSlug(e.key))}"${e.key === el.key ? ' selected' : ''}>${esc(e.displayTitle)}</option>`).join('')}</select></label>
       <label>Method <select id="nt-method"><option value="population"${method === 'population' ? ' selected' : ''}>Population-weighted (2021 residents)</option><option value="areal"${method === 'areal' ? ' selected' : ''}>Area-weighted</option></select></label>
     </form>
     ${unmatched.length ? `<p class="cg-notice cg-notice--warning">Not carried over (no matching old boundary): ${esc(unmatched.join(', '))}.</p>` : ''}

@@ -26,15 +26,15 @@ import { num } from './format.js';
  */
 
 /**
- * @param {Array<any>} candidates
- * @param {{ quota?: number | null, validPoll?: number | null, seatsTotal?: number | null, nonTransferable?: any[], contestStatus?: string | null }} contest
+ * @param {Array<Record<string, unknown>>} candidates  the API's candidates (each with its counts)
+ * @param {{ quota?: unknown, validPoll?: unknown, seatsTotal?: unknown, nonTransferable?: unknown, contestStatus?: unknown }} contest  the contest row as the API gives it
  */
 export function countSheet(candidates, contest = {}) {
   const stageSet = new Set();
   /** @type {SheetRow[]} */
   const rows = (candidates || []).map((c) => {
     /** @type {Cell[]} */
-    const cells = (Array.isArray(c.counts) ? c.counts : []).map((/** @type {any} */ k) => ({
+    const cells = (Array.isArray(c.counts) ? c.counts : []).map((/** @type {Record<string, unknown>} */ k) => ({
       count: Number(k.count), total: num(k.total), transfers: num(k.transfers), status: String(k.status || ''),
     })).filter((/** @type {Cell} */ k) => Number.isFinite(k.count)).sort((/** @type {Cell} */ a, /** @type {Cell} */ b) => a.count - b.count);
     for (const k of cells) if (k.total !== null) stageSet.add(k.count);
@@ -48,7 +48,7 @@ export function countSheet(candidates, contest = {}) {
       id: String(c.id ?? c.name),
       name: String(c.name || ''),
       party: String(c.party || 'No party recorded'),
-      colour: c.colour || '',
+      colour: String(c.colour || ''),
       personId: c.personId ? String(c.personId) : null,
       firstPrefs: noPoll && !num(c.firstPrefs) ? null : num(c.firstPrefs),
       finalVotes: num(c.finalVotes),

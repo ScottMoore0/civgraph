@@ -13,10 +13,10 @@ import { partyChip } from '../lib/party.js';
 
 /**
  * The party table rows with change against the previous election.
- * @param {Array<{ party: string, seats: number, stood: number, votes: number, share: number, colour: string }>} parties
- * @param {Array<{ party: string, seats: number, share: number, colour?: string }> | null} previous
+ * @param {Array<{ party: string, seats: number, stood: number, votes: number, share?: number | null, colour: string }>} parties
+ * @param {Array<{ party: string, seats: number, share?: number | null, colour?: string }> | null} previous
  * @param {{ votes: boolean, prevVotes: boolean }} has
- * @returns {Array<{ party: string, seats: number, stood: number, votes: number, share: number, colour: string, seatChange: number | null, shareChange: number | null, isNew: boolean, gone?: boolean }>}
+ * @returns {Array<{ party: string, seats: number, stood: number, votes: number, share?: number | null, colour: string, seatChange: number | null, shareChange: number | null, isNew: boolean, gone?: boolean }>}
  */
 export function partyRows(parties, previous, has) {
   const prev = new Map((previous || []).map((p) => [p.party, p]));
@@ -68,7 +68,7 @@ export async function render(root, route) {
   const chartParties = parties.filter((p) => p.seats > 0).map((p) => ({ party: p.party, seats: p.seats, colour: p.colour }));
   const seatChart = referendum ? '' : seats >= 30 ? parliamentArc(chartParties, { title: `${seats} seats: ${chartParties.map((p) => `${p.party} ${p.seats}`).join(', ')}` })
     : seatBar(chartParties, { title: `${seats} seats: ${chartParties.map((p) => `${p.party} ${p.seats}`).join(', ')}` });
-  const shareChart = votes && !referendum ? hbars(parties.filter((p) => p.votes > 0).sort((a, b) => b.share - a.share).slice(0, 12).map((p) => ({ label: p.party, value: Math.round(p.share * 10) / 10, colour: p.colour })),
+  const shareChart = votes && !referendum ? hbars(parties.filter((p) => p.votes > 0).sort((a, b) => (b.share ?? 0) - (a.share ?? 0)).slice(0, 12).map((p) => ({ label: p.party, value: Math.round((p.share ?? 0) * 10) / 10, colour: p.colour })),
     { title: 'Share of the vote by party', format: (v) => fmtPct(v) }) : '';
 
   const voteNote = !votes ? '<p class="el-muted">No votes are recorded for this election: every seat was returned unopposed or only the members returned are known.</p>'

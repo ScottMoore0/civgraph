@@ -18,7 +18,8 @@
       "decade",
       "q",
       "limit",
-      "offset"
+      "offset",
+      "person"
     ]
   },
   "x-civgraph-variants": [
@@ -70,6 +71,45 @@
         "view": "contests"
       },
       "summary": "One election's contests as Browse items"
+    },
+    {
+      "name": "citations-person",
+      "when": {
+        "view": "citations",
+        "person": "*"
+      },
+      "summary": "The original sources of every contest a person stood in"
+    },
+    {
+      "name": "citations-contest",
+      "when": {
+        "view": "citations",
+        "constituency": "*"
+      },
+      "summary": "One contest's original sources (key null: no such election)"
+    },
+    {
+      "name": "citations-contest-by-name",
+      "when": {
+        "view": "citations",
+        "constituencyName": "*"
+      },
+      "summary": "One contest's original sources, the contest found by its name"
+    },
+    {
+      "name": "citations",
+      "when": {
+        "view": "citations"
+      },
+      "summary": "An election's distinct original sources, with how many of its contests cite each (key null: no such election)"
+    },
+    {
+      "name": "index-of-body",
+      "when": {
+        "key": "",
+        "body": "*"
+      },
+      "summary": "One body's elections, by date then key"
     },
     {
       "name": "index",
@@ -139,6 +179,21 @@
     },
     {
       "$ref": "#/$defs/contests"
+    },
+    {
+      "$ref": "#/$defs/citations-person"
+    },
+    {
+      "$ref": "#/$defs/citations-contest"
+    },
+    {
+      "$ref": "#/$defs/citations-contest-by-name"
+    },
+    {
+      "$ref": "#/$defs/citations"
+    },
+    {
+      "$ref": "#/$defs/index-of-body"
     },
     {
       "$ref": "#/$defs/index"
@@ -252,7 +307,94 @@
           "type": "string"
         },
         "results": {
-          "type": "array"
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "constituency": {
+                "type": "string"
+              },
+              "seatsTotal": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "seatsWon": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "validPoll": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "quota": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "winnerParty": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "winnerName": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "leadingParty": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "leadingName": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "leadingVotes": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "turnoutPct": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "majority": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "candidateCount": {
+                "type": "number"
+              },
+              "featureName": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "constituency",
+              "candidateCount"
+            ]
+          }
         }
       },
       "required": [
@@ -338,7 +480,165 @@
           "type": "number"
         },
         "item": {
-          "type": "object"
+          "type": "object",
+          "properties": {
+            "key": {
+              "type": "string"
+            },
+            "slug": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "body": {
+              "type": "string"
+            },
+            "bodySlug": {
+              "type": "string"
+            },
+            "date": {
+              "type": "string"
+            },
+            "year": {
+              "type": "number"
+            },
+            "contestType": {
+              "type": "string"
+            },
+            "kind": {
+              "type": "string"
+            },
+            "votingSystem": {
+              "type": "string"
+            },
+            "contestStatus": {
+              "type": "string"
+            },
+            "previousKey": {
+              "type": "string"
+            },
+            "layerId": {
+              "type": "string"
+            },
+            "interactiveUrl": {
+              "type": "string"
+            },
+            "partySummary": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "party": {
+                    "type": "string"
+                  },
+                  "seats": {
+                    "type": "number"
+                  },
+                  "stood": {
+                    "type": "number"
+                  },
+                  "votes": {
+                    "type": "number"
+                  },
+                  "colour": {
+                    "type": "string"
+                  },
+                  "share": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "unopposedSeats": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "party",
+                  "seats",
+                  "stood",
+                  "votes",
+                  "colour"
+                ]
+              }
+            },
+            "totals": {
+              "type": "object",
+              "properties": {
+                "seats": {
+                  "type": "number"
+                },
+                "validPoll": {
+                  "type": "number"
+                },
+                "constituencies": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "seats",
+                "validPoll",
+                "constituencies"
+              ]
+            },
+            "resultEntries": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "key": {
+                    "type": "string"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "resultName": {
+                    "type": "string"
+                  },
+                  "resultKind": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "key",
+                  "title",
+                  "resultName",
+                  "resultKind"
+                ]
+              }
+            },
+            "references": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "label": {
+                    "type": "string"
+                  },
+                  "url": {
+                    "type": "string"
+                  },
+                  "note": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "label"
+                ]
+              }
+            }
+          },
+          "required": [
+            "key",
+            "slug",
+            "title",
+            "body",
+            "bodySlug",
+            "date",
+            "year",
+            "contestType"
+          ]
         }
       },
       "required": [
@@ -356,13 +656,552 @@
         "items": {
           "type": "array",
           "items": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+              "key": {
+                "type": "string"
+              },
+              "slug": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "entryKind": {
+                "type": "string"
+              },
+              "resultKind": {
+                "type": "string"
+              },
+              "resultName": {
+                "type": "string"
+              },
+              "body": {
+                "type": "string"
+              },
+              "bodySlug": {
+                "type": "string"
+              },
+              "date": {
+                "type": "string"
+              },
+              "contestType": {
+                "type": "string"
+              },
+              "votingSystem": {
+                "type": "string"
+              },
+              "contestStatus": {
+                "type": "string"
+              },
+              "resultMetadata": {
+                "type": "object"
+              },
+              "constituency": {
+                "type": "string"
+              },
+              "matched": {
+                "type": "boolean"
+              },
+              "featureName": {
+                "type": "string"
+              },
+              "layerId": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "body",
+              "bodySlug"
+            ]
           }
         }
       },
       "required": [
         "schemaVersion",
         "items"
+      ]
+    },
+    "citations-person": {
+      "description": "The original sources of every contest a person stood in",
+      "type": "object",
+      "properties": {
+        "person": {
+          "type": "string"
+        },
+        "candidacies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "electionKey": {
+                "type": "string"
+              },
+              "seq": {
+                "type": "number"
+              },
+              "constituency": {
+                "type": "string"
+              },
+              "citations": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "title": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "publisher": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "url": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "archiveUrl": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "host": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "kind": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "basis": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "checked": {
+                      "type": [
+                        "number",
+                        "null"
+                      ]
+                    },
+                    "scope": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "match": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "checkNote": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "title",
+                    "publisher",
+                    "url",
+                    "archiveUrl",
+                    "host",
+                    "kind",
+                    "basis",
+                    "checked",
+                    "scope",
+                    "match",
+                    "checkNote"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "electionKey",
+              "seq",
+              "constituency",
+              "citations"
+            ]
+          }
+        }
+      },
+      "required": [
+        "person",
+        "candidacies"
+      ]
+    },
+    "citations-contest": {
+      "description": "One contest's original sources (key null: no such election)",
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "seq": {
+          "type": "number"
+        },
+        "citations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "publisher": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "url": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "archiveUrl": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "host": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "kind": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "basis": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "checked": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "scope": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "match": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "checkNote": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "title",
+              "publisher",
+              "url",
+              "archiveUrl",
+              "host",
+              "kind",
+              "basis",
+              "checked",
+              "scope",
+              "match",
+              "checkNote"
+            ]
+          }
+        }
+      },
+      "required": [
+        "key",
+        "citations"
+      ]
+    },
+    "citations-contest-by-name": {
+      "description": "One contest's original sources, the contest found by its name",
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "seq": {
+          "type": "number"
+        },
+        "constituency": {
+          "type": "string"
+        },
+        "citations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "publisher": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "url": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "archiveUrl": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "host": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "kind": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "basis": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "checked": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "scope": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "match": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "checkNote": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "title",
+              "publisher",
+              "url",
+              "archiveUrl",
+              "host",
+              "kind",
+              "basis",
+              "checked",
+              "scope",
+              "match",
+              "checkNote"
+            ]
+          }
+        }
+      },
+      "required": [
+        "key",
+        "citations"
+      ]
+    },
+    "citations": {
+      "description": "An election's distinct original sources, with how many of its contests cite each (key null: no such election)",
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "contests": {
+          "type": "number"
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "publisher": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "url": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "host": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "kind": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "contests": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "title",
+              "publisher",
+              "url",
+              "host",
+              "kind",
+              "contests"
+            ]
+          }
+        }
+      },
+      "required": [
+        "key"
+      ]
+    },
+    "index-of-body": {
+      "description": "One body's elections, by date then key",
+      "type": "object",
+      "properties": {
+        "elections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "key": {
+                "type": "string"
+              },
+              "body": {
+                "type": "string"
+              },
+              "bodySlug": {
+                "type": "string"
+              },
+              "displayTitle": {
+                "type": "string"
+              },
+              "date": {
+                "type": "string"
+              },
+              "year": {
+                "type": "number"
+              },
+              "kind": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "contestType": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "votingSystem": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "contestStatus": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "layerId": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "key",
+              "body",
+              "bodySlug",
+              "displayTitle",
+              "date",
+              "year"
+            ]
+          }
+        },
+        "count": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "elections",
+        "count"
       ]
     },
     "index": {
@@ -391,6 +1230,36 @@
               },
               "year": {
                 "type": "number"
+              },
+              "kind": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "contestType": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "votingSystem": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "contestStatus": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "layerId": {
+                "type": [
+                  "string",
+                  "null"
+                ]
               }
             },
             "required": [

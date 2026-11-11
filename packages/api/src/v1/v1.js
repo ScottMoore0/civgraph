@@ -67,7 +67,7 @@ const route = (module, legacy, summary, parameters = [], extra = {}) => Object.f
 /** v1 route (path under /api/v1) -> its handler and legacy path. */
 export const ROUTES = Object.freeze({
   elections: route(elections, '/_api/elections', 'Elections, contests, candidates and counts',
-    ['body', 'key', 'slug', 'constituency', 'constituencyName', 'contest', 'format', 'lite', 'view', 'decade', 'q', 'limit', 'offset']),
+    ['body', 'key', 'slug', 'constituency', 'constituencyName', 'contest', 'format', 'lite', 'view', 'decade', 'q', 'limit', 'offset', 'person']),
   persons: route(persons, '/_api/persons', 'People: search, list and one record with candidacies and votes',
     ['slug', 'q', 'limit', 'offset', 'facets', 'view', 'body', 'decade', 'elected', 'party', 'sort']),
   parties: route(parties, '/_api/parties', 'Parties: the list, one party, its profile, ballot-label folds',

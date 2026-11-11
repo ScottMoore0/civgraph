@@ -14,7 +14,7 @@ import { MAP_MODES, MAP_STATUS, MULTIPLES, mapModeOf, mapModeShown } from '../st
 /** Party colours of an election, from its party summary. */
 async function colourOf(/** @type {string} */ key) {
   const d = await electionDetail(key);
-  return new Map((d.partySummary || []).map((/** @type {any} */ p) => [p.party, partyColour(p.colour)]));
+  return new Map((d.partySummary || []).map((p) => [p.party, partyColour(p.colour)]));
 }
 
 /** Area -> party -> votes of an election, from the extracts. */

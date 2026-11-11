@@ -50,8 +50,8 @@ export function divergingLegend(/** @type {number} */ limit, /** @type {(v: numb
  * turnout, validPoll, poll }, where poll is core's one rule (packages/core/src/unopposed.mjs
  * summaryPollStatus): 'polled', 'unopposed', or 'not-recorded' (no votes in the sources: not
  * unopposed).
- * @param {{ results?: any[] }} summary
- * @param {{ items?: any[] }} contests  /_api/elections?view=contests
+ * @param {{ results?: import('./api.js').SummaryRow[] }} summary
+ * @param {{ items?: import('./api.js').ContestsAnswer['items'] }} contests  /_api/elections?view=contests
  */
 export function areaRows(summary, contests) {
   /** @type {Map<string, string[]>} */

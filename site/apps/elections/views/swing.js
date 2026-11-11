@@ -17,7 +17,7 @@ import { SWING_EDITS, SWING_LIMIT, clampSwing } from '../state-machines.js';
  */
 export async function render(root, route, ctx) {
   const q = route.query;
-  const index = (await electionIndex()).filter((/** @type {any} */ e) => e.contestType === 'election' && e.kind !== 'by-election');
+  const index = (await electionIndex()).filter((e) => e.contestType === 'election' && e.kind !== 'by-election');
   const want = q.get('e') || 'northern-ireland-assembly-2022-05-05';
   const el = must(index.find((e) => electionSlug(e.key) === want || e.key === want) || index.at(-1), 'election');
   const detail = await electionDetail(el.key);
@@ -29,7 +29,7 @@ export async function render(root, route, ctx) {
   if (ctx.stale()) return 'Swingometer';
   const contests = baseContests(rows);
   const base = nationalShares(contests);
-  const colours = new Map((detail.partySummary || []).map((/** @type {any} */ p) => [p.party, partyColour(p.colour)]));
+  const colours = new Map((detail.partySummary || []).map((p) => [p.party, partyColour(p.colour)]));
   const parties = [...base].sort((a, b) => b[1] - a[1]).filter(([, s]) => s >= 0.5).map(([p]) => p);
   /** @type {Map<string, number>} */
   const deltas = new Map();
@@ -39,7 +39,7 @@ export async function render(root, route, ctx) {
   const edits = SWING_EDITS.start(deltas.size ? 'edited' : 'base');
   const baseSeats = project(contests, new Map()).seats;
   const stv = isStv(el.votingSystem);
-  const bodies = [...new Map(index.map((/** @type {any} */ e) => [e.bodySlug, e.body])).entries()].sort((x, y) => String(x[1]).localeCompare(String(y[1])));
+  const bodies = [...new Map(index.map((e) => [e.bodySlug, e.body])).entries()].sort((x, y) => String(x[1]).localeCompare(String(y[1])));
 
   root.innerHTML = `
     <header class="el-head"><h1>Swingometer</h1>
@@ -47,7 +47,7 @@ export async function render(root, route, ctx) {
     <p class="cg-notice el-estimate">These are estimates, not forecasts: every contest moves by the same points.${stv ? ' Seats in multi-member contests are allocated by quotas of first preferences, without transfers.' : ''} No polling data is used.</p>
     <form class="el-controls" id="sw-form" onsubmit="return false">
       <label>Body <select id="sw-body">${bodies.map(([s, n]) => `<option value="${esc(s)}"${s === el.bodySlug ? ' selected' : ''}>${esc(n)}</option>`).join('')}</select></label>
-      <label>Base election <select id="sw-e">${index.filter((/** @type {any} */ e) => e.bodySlug === el.bodySlug).map((/** @type {any} */ e) => `<option value="${esc(electionSlug(e.key))}"${e.key === el.key ? ' selected' : ''}>${esc(e.displayTitle)}</option>`).join('')}</select></label>
+      <label>Base election <select id="sw-e">${index.filter((e) => e.bodySlug === el.bodySlug).map((e) => `<option value="${esc(electionSlug(e.key))}"${e.key === el.key ? ' selected' : ''}>${esc(e.displayTitle)}</option>`).join('')}</select></label>
       <button type="button" class="cg-button" id="sw-reset">Reset</button>
     </form>
     ${contests.length ? '' : '<p class="cg-notice cg-notice--warning">This election has no recorded votes to swing.</p>'}
