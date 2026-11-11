@@ -16,6 +16,7 @@ import { createPartyLabelInterpreter } from '../lib/party-label-interpretations.
 import { bracketedResultFile, seatTypeResultFile } from '../lib/election-result-files.mjs';
 import { writeStableGeneratedJson } from '../lib/stable-generated-json.mjs';
 import { restoreStageFractions } from '../lib/stage-fractions.mjs';
+import { scrubUnopposedPlaceholderVotes } from '../lib/unopposed-placeholders.mjs';
 import { ELECTION_BUNDLE_DIR, ELECTION_MANIFEST, ELECTION_REPORT } from '../../packages/loader/src/paths.mjs';
 import { loadRegistry } from '../../packages/registries/src/index.mjs';
 import { manifestCouncilSets } from '../../packages/registries/src/councils.mjs';
@@ -1746,6 +1747,8 @@ function markUnopposedReturns(result, resultMetadata) {
     : candidate);
   if (Array.isArray(result.candidates)) result.candidates = result.candidates.map(relabel);
   if (Array.isArray(result.elected)) result.elected = result.elected.map(relabel);
+  // Placeholder votes of 1 (and the valid poll they sum to) go: no poll was held.
+  scrubUnopposedPlaceholderVotes(result);
 }
 
 function transferDataExpectedForElection(entry, { result = null, votingSystem = null, contestType = null, contestStatus = 'contested' } = {}) {
