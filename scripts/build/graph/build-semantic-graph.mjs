@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { gunzip, gzip } from 'node:zlib';
 import { isGraphExcludedSource } from './graph-source-exclusions.mjs';
 import { buildTimestamp } from '../../lib/build-timestamp.mjs';
-import { BROWSE_DIR as RECORD_BROWSE_DIR, GRAPH_DIR, localPathForUrl } from '../../../packages/loader/src/paths.mjs';
+import { BROWSE_DIR as RECORD_BROWSE_DIR, GRAPH_DIR, PROVENANCE_FILE, localPathForUrl } from '../../../packages/loader/src/paths.mjs';
 
 // Summary labels that are the absence of a party, not one: "No party recorded" (before 1832),
 // "No label" (nothing printed or inferred) and a person record's "Unknown".
@@ -156,6 +156,14 @@ const sourceByRecordKey = new Map();
 const providerByName = new Map();
 const sourceFileByUrl = new Map();
 const mapLayerByKey = new Map();
+// The original sources of each contest's result (data/database/election-provenance.json, by the
+// contest file's path) and of each election (its contests' sources, most cited first); a contest
+// as a person's candidacy names it (electionKey|constituency) -> its file. QA H5, 11 Nov 2026:
+// facts about elections, contests and candidacies cite these first and Civgraph's own Browse
+// index only after them, as the place they were compiled.
+const contestSourcesByFile = new Map();
+const contestFileByElectionContest = new Map();
+const ORIGINAL_SOURCE_LIMIT = 2;
 const mapCategoryByName = new Map();
 const dateYearByYear = new Map();
 const dateMonthByKey = new Map();
@@ -182,6 +190,7 @@ async function main() {
     'generated-browse-index'
   );
 
+  await loadContestProvenance();
   const [maps, features, parties, elections, persons, sources, registerRecords] = await Promise.all([
     loadBrowseItems('maps.json'),
     loadBrowseItems('features.json'),
@@ -624,8 +633,25 @@ function buildPartyEntities(items) {
 }
 
 function buildElectionEntities(items, browseElectionSource) {
+  // Each contest's file, so an election can cite its contests' sources and a person's
+  // candidacy (electionKey + constituency) the sources of the contest.
+  const filesByElection = new Map();
+  for (const item of items) {
+    const file = contestSourceFile(item);
+    if (!file || !item.parentElectionKey) continue;
+    for (const name of [item.constituency, item.resultName, item.sourceResultName]) {
+      if (name) contestFileByElectionContest.set(normalizeKey(`${item.parentElectionKey}|${name}`), file);
+    }
+    if (!filesByElection.has(item.parentElectionKey)) filesByElection.set(item.parentElectionKey, []);
+    filesByElection.get(item.parentElectionKey).push(file);
+  }
   for (const item of items) {
     const key = item.key || item.id || `${item.title || 'election'}:${item.date || ''}`;
+    const file = contestSourceFile(item);
+    const references = [
+      ...(file ? originalSourceReferences([file]) : originalSourceReferences(filesByElection.get(item.key) || [])),
+      browseReference(browseElectionSource)
+    ];
     const id = makeEntityId('election', key);
     const bodyId = item.body ? getBodyEntity(item.body) : null;
     addEntity(id, {
@@ -665,11 +691,11 @@ function buildElectionEntities(items, browseElectionSource) {
         subjectId: id,
         propertyId: PROP.electedBody,
         value: entityValue(bodyId),
-        references: [browseReference(browseElectionSource)]
+        references
       });
     }
     if (item.date) {
-      addDateStatements(id, item.date, [browseReference(browseElectionSource)]);
+      addDateStatements(id, item.date, references);
     }
     const contestInputs = contestInputsForElection(item);
     for (const contest of contestInputs) {
@@ -682,19 +708,19 @@ function buildElectionEntities(items, browseElectionSource) {
           qualifier(PROP.constituency, stringValue(contest.name)),
           qualifier(PROP.date, dateValue(item.date))
         ].filter(Boolean),
-        references: [browseReference(browseElectionSource)]
+        references
       });
       addStatement({
         subjectId: contestId,
         propertyId: PROP.contestInElection,
         value: entityValue(id),
-        references: [browseReference(browseElectionSource)]
+        references
       });
       if (contest.name) addStatement({
         subjectId: contestId,
         propertyId: PROP.constituency,
         value: stringValue(contest.name),
-        references: [browseReference(browseElectionSource)]
+        references
       });
     }
     for (const party of item.partySummary || []) {
@@ -712,7 +738,7 @@ function buildElectionEntities(items, browseElectionSource) {
           qualifier(PROP.votes, numberValue(party.votes)),
           qualifier(PROP.voteShare, numberValue(party.share))
         ].filter(Boolean),
-        references: [browseReference(browseElectionSource)]
+        references
       });
     }
   }
@@ -809,6 +835,9 @@ function buildPersonEntities(items, browsePersonSource) {
         }
       });
       const partyId = election.party && !NOT_A_PARTY.has(election.party) ? getPartyEntity(election.party) : null;
+      // The contest's own sources first; the person index is where the row was compiled.
+      const contestFile = contestFileByElectionContest.get(normalizeKey(`${election.key}|${election.constituency}`));
+      const references = [...(contestFile ? originalSourceReferences([contestFile]) : []), browseReference(browsePersonSource)];
       const candidatureId = makeEntityId('candidature', `${id}|${contestId}|${partyId || election.party || ''}|${election.status || ''}`);
       addEntity(candidatureId, {
         typeIds: [TYPE.candidature],
@@ -841,58 +870,58 @@ function buildPersonEntities(items, browsePersonSource) {
         propertyId: PROP.stoodInElection,
         value: entityValue(electionId),
         qualifiers,
-        references: [browseReference(browsePersonSource)]
+        references
       });
       addStatement({
         subjectId: id,
         propertyId: PROP.hasCandidature,
         value: entityValue(candidatureId),
         qualifiers,
-        references: [browseReference(browsePersonSource)]
+        references
       });
       addStatement({
         subjectId: candidatureId,
         propertyId: PROP.candidate,
         value: entityValue(id),
-        references: [browseReference(browsePersonSource)]
+        references
       });
       addStatement({
         subjectId: candidatureId,
         propertyId: PROP.contest,
         value: entityValue(contestId),
-        references: [browseReference(browsePersonSource)]
+        references
       });
       addStatement({
         subjectId: candidatureId,
         propertyId: PROP.stoodInElection,
         value: entityValue(electionId),
-        references: [browseReference(browsePersonSource)]
+        references
       });
       if (partyId) addStatement({
         subjectId: candidatureId,
         propertyId: PROP.memberOfPoliticalParty,
         value: entityValue(partyId),
-        references: [browseReference(browsePersonSource)]
+        references
       });
       if (election.status) addStatement({
         subjectId: candidatureId,
         propertyId: PROP.candidatureStatus,
         value: stringValue(election.status),
-        references: [browseReference(browsePersonSource)]
+        references
       });
       addStatement({
         subjectId: candidatureId,
         propertyId: PROP.elected,
         value: booleanValue(election.elected),
-        references: [browseReference(browsePersonSource)]
+        references
       });
       if (election.firstPrefs !== undefined) addStatement({
         subjectId: candidatureId,
         propertyId: PROP.firstPreferenceVotes,
         value: numberValue(election.firstPrefs),
-        references: [browseReference(browsePersonSource)]
+        references
       });
-      if (election.date) addDateStatements(candidatureId, election.date, [browseReference(browsePersonSource)]);
+      if (election.date) addDateStatements(candidatureId, election.date, references);
     }
   }
 }
@@ -1294,6 +1323,59 @@ function contestInputsForElection(item) {
     if (key && !byName.has(key)) byName.set(key, row);
   }
   return [...byName.values()];
+}
+
+/**
+ * The contest file a Browse contest item was built from, relative to data/elections-source/data/
+ * elections/ as the provenance file names it; '' for anything else.
+ * @param {Record<string, any>} item
+ */
+function contestSourceFile(item) {
+  const file = String(item?.resultMetadata?.sourceFile || item?.sourceFile || '');
+  return file.replace(/^data\/elections-source\/data\/elections\//, '');
+}
+
+/** election-provenance.json's contests, by file: each contest's citations. */
+async function loadContestProvenance() {
+  let doc = null;
+  try {
+    doc = JSON.parse(await fs.readFile(PROVENANCE_FILE, 'utf8'));
+  } catch {
+    console.warn(`  ${path.relative(ROOT_DIR, PROVENANCE_FILE)} not found: election facts cite only the Browse index.`);
+    return;
+  }
+  for (const contest of normalizeArray(doc?.contests)) {
+    if (contest?.file && normalizeArray(contest.sources).length) contestSourcesByFile.set(contest.file, normalizeArray(contest.sources));
+  }
+}
+
+/**
+ * References to the original sources of some contests' results: each distinct citation once,
+ * the most cited first, at most ORIGINAL_SOURCE_LIMIT. A citation is not made a source entity
+ * (there are tens of thousands of distinct newspaper pages): the reference carries its title,
+ * kind and URL itself.
+ * @param {string[]} files
+ */
+function originalSourceReferences(files) {
+  const counts = new Map();
+  for (const file of files) {
+    for (const citation of contestSourcesByFile.get(file) || []) {
+      const title = cleanText(citation.title || '') || cleanText(citation.host || '') || cleanText(citation.url || '');
+      if (!title) continue;
+      const key = `${title}|${citation.url || ''}`;
+      const row = counts.get(key) || { citation, title, n: 0 };
+      row.n += 1;
+      counts.set(key, row);
+    }
+  }
+  return [...counts.values()]
+    .sort((a, b) => b.n - a.n || a.title.localeCompare(b.title))
+    .slice(0, ORIGINAL_SOURCE_LIMIT)
+    .map(({ citation, title }) => compactObject({
+      sourceTitle: title,
+      sourceKind: citation.kind || 'election-result-source',
+      sourceUrl: citation.url || undefined
+    }));
 }
 
 function addSyntheticSource(key, title, sourceKind) {
@@ -2279,6 +2361,7 @@ function jsonLdReference(reference) {
     'civgraph:sourceKind': reference.sourceKind,
     'civgraph:sourceRecordId': reference.sourceRecordId,
     'civgraph:sourceRowId': reference.sourceRowId,
+    'schema:url': reference.sourceUrl,
     'civgraph:sourcePageStart': reference.sourcePageStart,
     'civgraph:sourcePageEnd': reference.sourcePageEnd,
     'civgraph:date': reference.date,
@@ -2602,6 +2685,8 @@ function compactReference(ref) {
     sourceId: ref.sourceId,
     sourceTitle: ref.sourceTitle || entities.get(ref.sourceId)?.label,
     sourceKind: ref.sourceKind,
+    // The source's own address, so a record page can link it (QA H5).
+    sourceUrl: ref.sourceUrl,
     sourceRecordId: ref.sourceRecordId,
     sourceRowId: ref.sourceRowId,
     date: ref.date,

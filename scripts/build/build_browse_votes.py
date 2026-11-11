@@ -202,6 +202,27 @@ def merged_person_ids():
     return out
 
 
+def death_dates():
+    """{personId: died} from the Browse person records this build reads (tmp/records/browse
+    person-shards, written by build-browse-indexes.mjs before this runs): the date of death each
+    person page shows, at the precision its source gives ("1940", "1940-11", "1940-11-24")."""
+    out = {}
+    for f in sorted(glob.glob(os.path.join(_RP["BROWSE_DIR"], "person-shards", "*.json"))):
+        for it in json.load(open(f, encoding="utf-8")).get("items") or []:
+            died = str(it.get("died") or "").strip()
+            if died and str(it.get("id") or "").isdigit():
+                out[int(it["id"])] = died
+    return out
+
+
+def after_death(date, died):
+    """True when an ISO date falls after a date of death given at year, month or day precision:
+    a death recorded only as "1940" rules out 1941, not December 1940."""
+    if not date or not died or not re.match(r"^\d{4}(-\d{2}){0,2}$", died):
+        return False
+    return date[:len(died)] > died
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--votes-dir", default=os.environ.get("CIVGRAPH_VOTES_DIR"),
@@ -213,6 +234,11 @@ def main():
     tidy = os.path.join(a.votes_dir, "tidy")
     terms, generals = elected_terms()
     merged = merged_person_ids()
+    # A vote dated after the linked person's death is a mislink or a misdated division (QA H3,
+    # 11 Nov 2026: "Craigavon, Rt. Hon. The Viscount" in a division dated 28 January 1941; he
+    # died on 24 November 1940). It stays in the division under its printed name, unlinked.
+    died = death_dates()
+    detached = []
     pslug = party_slugs()
 
     def party_at(body, pid, date):
@@ -252,6 +278,9 @@ def main():
         for r in rows:
             pid = int(r["civgraph_person_id"]) if r["civgraph_person_id"] else None
             pid = merged.get(pid, pid)
+            if pid and after_death(date, died.get(pid)):
+                detached.append((did, date, r["member_name"], pid, died[pid]))
+                pid = None
             party = party_at(body, pid, date) if pid else ""
             if party:
                 by_party[party][r["vote"]] += 1
@@ -368,6 +397,9 @@ def main():
                          f"Parliament of Northern Ireland (House of Commons) 1921-45: {n_stormont} divisions. " + STORMONT_NOTE]},
               open(os.path.join(a.out, "index.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print("persons", n_persons, "division shards", len(div_shards), "parties", n_parties, "stormont divisions", n_stormont)
+    for did, date, name, pid, d in detached:
+        print(f"  detached: {did} {date} {name!r} from person {pid} (died {d})")
+    print("votes detached as after the linked person's death:", len(detached))
 
 
 if __name__ == "__main__":

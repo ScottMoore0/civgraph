@@ -19,6 +19,10 @@
  *   view=contests&key=<slug|key>  data/browse/details/election-contests/<slug>.json
  *   view=record&slug=<slug>       one Browse election record: an election's detail item or a contest's
  *                                 entry (resolving the parent server-side; replaces election-contest-parents)
+ *   view=citations&key=<key>[&constituency=<seq>|&constituencyName=<name>]
+ *                                 the original sources of the results: one contest's citations, or an
+ *                                 election's distinct sources with how many contests cite each
+ *   view=citations&person=<id>    the citations of every contest a person stood in
  *
  * A retired contest slug (packages/core/src/election-slug-aliases.js) in contest= or in a record
  * view's slug= answers 301 to the same request with the slug that replaced it.
@@ -296,8 +300,48 @@ async function handleView(db, view, url) {
       return row?.contests ? json(`{"schemaVersion":1,"items":${row.contests}}`) : json({ error: 'election not found' }, 404);
     }
     case 'record': return electionRecord(db, (url.searchParams.get('slug') || key).trim());
+    case 'citations': return json(await citationsView(db, url));
     default: return json({ error: `unknown view ${view}` }, 400);
   }
+}
+
+/**
+ * The original sources of the results (QA H5, 11 Nov 2026): Browse and the record pages cite
+ * these, never "Civgraph Browse election index", for a contest, an election or a person.
+ * @param {RecordStore} db
+ * @param {URL} url
+ */
+async function citationsView(db, url) {
+  const person = (url.searchParams.get('person') || '').trim();
+  if (person) {
+    const rows = /** @type {Array<Record<string, unknown> & { electionKey: string, seq: number, constituency: string }>} */ (await db.all(ELECTIONS_API.personCitations, [person]));
+    /** @type {Map<string, { electionKey: string, seq: number, constituency: string, citations: Record<string, unknown>[] }>} */
+    const byContest = new Map();
+    for (const { electionKey, seq, constituency, ...citation } of rows) {
+      const id = `${electionKey}|${seq}`;
+      if (!byContest.has(id)) byContest.set(id, { electionKey, seq, constituency, citations: [] });
+      byContest.get(id)?.citations.push(citation);
+    }
+    return { person, candidacies: [...byContest.values()] };
+  }
+  const key = await electionKeyFor(db, (url.searchParams.get('key') || '').trim());
+  if (!key) return { key: null, citations: [] };
+  let seq = url.searchParams.get('constituency');
+  const name = (url.searchParams.get('constituencyName') || '').trim();
+  if ((seq === null || seq === '') && name) {
+    const names = /** @type {Array<{ seq: number, name: string }>} */ (await db.all(ELECTIONS_API.contestNames, [key]));
+    const match = names.find((row) => row.name === name) || names.find((row) => foldName(row.name) === foldName(name));
+    seq = match ? String(match.seq) : null;
+    if (seq === null) return { key, constituency: name, citations: [] };
+  }
+  if (seq !== null && seq !== '' && Number.isInteger(Number(seq))) {
+    return { key, seq: Number(seq), citations: await db.all(ELECTIONS_API.contestCitations, [key, Number(seq)]) };
+  }
+  const [sources, count] = await Promise.all([
+    db.all(ELECTIONS_API.electionCitations, [key]),
+    db.first(ELECTIONS_API.electionContestCount, [key]),
+  ]);
+  return { key, contests: Number(/** @type {{ n?: number } | null} */ (count)?.n) || 0, sources };
 }
 
 /**
