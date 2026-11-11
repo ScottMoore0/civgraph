@@ -44,6 +44,8 @@ import {
  *   isSingleSeatFptpResult?: (result: ElectionResult) => boolean,
  *   isReferendumElection?: (result?: ElectionResult | null) => boolean,
  *   isTurnoutGeographyMode?: () => boolean,
+ *   isAreaResultsGeographyMode?: () => boolean,
+ *   renderAreaResultsGeographyPanel?: () => string,
  *   isForumResult: (result: ElectionResult | null) => boolean,
  *   resultHasAnimation: (result: ElectionResult) => boolean,
  *   withPartyDeltas: (rows: unknown[], options: { mainLike: boolean }) => unknown[],
@@ -213,6 +215,10 @@ export class MainElectionPaneContract {
     const results = this.host.currentResults();
     if (view === 'trends') return this.host.renderTrendsPanel?.(null) || '<p class="election-no-data">No trend data is available.</p>';
     if (this.host.isTurnoutGeographyMode?.()) return this.host.renderTurnoutGeographyPanel();
+    // A national contest by area: the areas' table; an area's own result renders as a contest's.
+    if (this.host.isAreaResultsGeographyMode?.() && this.host.renderAreaResultsGeographyPanel) {
+      return this.host.renderAreaResultsGeographyPanel();
+    }
     if (results.some((result) => result.recallPetition)) return this.host.renderRecallPetitionOverview(results);
     if (this.host.isLocalGovernmentElection() && this.host.activeLocalMode === 'district') {
       return this.host.renderDistrictResults(view);
