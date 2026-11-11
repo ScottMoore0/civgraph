@@ -343,6 +343,9 @@ test('C23 the sections are what a map draws, then Elections; Boundaries first', 
   await expect(tabs.first()).toHaveAttribute('aria-current', 'true');
   // Each section counts its maps, not its rows (Phelim Birch, 2026-10-10).
   for (const [id, kind] of SECTION_TABS) await expect(pane(page).locator(`[data-cn-tab="${id}"] .cn-tab__count`)).toHaveText(mapsOf(kind).toLocaleString('en-GB'));
+  // The line under the tabs gives the same map count as the tab, named for its section
+  // (QA 2026-11-11, M3: it said "324 maps" beside "Boundaries 343").
+  await expect(pane(page).locator('.cn-summary--count')).toContainText(`${mapsOf('Boundary').toLocaleString('en-GB')} maps in Boundaries`);
   // Among the boundaries, People & Places is called Census & Statistical Areas.
   await expect(pane(page).locator('#cn-shelf-people-and-places .cn-shelf__name')).toHaveText('Census & Statistical Areas');
   // Government & Administration and Elections & Representation split into Current and Former;

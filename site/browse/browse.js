@@ -1335,6 +1335,10 @@ function setPortalHero() {
     title: 'Civgraph data directory',
     description: 'A structured portal into maps, elections, boundary features, parties and labels, people, books, tables, downloads, and source records. Use the directory below to browse by subject, or search within a chosen section.'
   };
+  // Maps and Elections count Browse's pages, not the headline figures: a map page for every
+  // catalogue entry (the homepage counts public maps), an election page for every election and
+  // contest (the homepage counts contests). Labelled as pages so the two cannot be read as one
+  // claim (QA 2026-11-11, M3).
   // PRONI is deliberately absent from the unscoped totals: at 1.5m records it is larger
   // than everything else combined, so adding it to one "total" tells the reader nothing.
   // The source section counts it on its own tile instead.
@@ -1342,15 +1346,15 @@ function setPortalHero() {
     ? `${renderPortalStat('Sources', counts.sources)}
        ${renderPortalStat('PRONI records', counts.proni)}`
     : SECTION_LAYER === 'data'
-      ? `${renderPortalStat('Maps', counts.maps)}
-         ${renderPortalStat('Elections', counts.elections)}
+      ? `${renderPortalStat('Map pages', counts.maps)}
+         ${renderPortalStat('Election pages', counts.elections)}
          ${renderPortalStat('Feature groups', counts.featureGroups)}
          ${renderPortalStat('Parties / labels', counts.parties)}
          ${renderPortalStat('Persons', counts.persons)}
          ${renderPortalStat('Register interests', counts['register-interests'])}
          ${renderPortalStat('Total records', total - (counts.sources || 0))}`
-      : `${renderPortalStat('Maps', counts.maps)}
-         ${renderPortalStat('Elections', counts.elections)}
+      : `${renderPortalStat('Map pages', counts.maps)}
+         ${renderPortalStat('Election pages', counts.elections)}
          ${renderPortalStat('Feature groups', counts.featureGroups)}
          ${renderPortalStat('Parties / labels', counts.parties)}
          ${renderPortalStat('Persons', counts.persons)}

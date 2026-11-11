@@ -61,7 +61,7 @@
     "check:status": "node scripts/build/build-status.mjs --check",
     "build:status": "node scripts/build/build-status.mjs",
     "status:refresh": "node scripts/build/status-snapshots.mjs",
-    "check:site-figures": "node scripts/build/build-site-stats.mjs --check site/index.html && node scripts/build/build-site-stats.mjs --check site/pages/about.html",
+    "check:site-figures": "node scripts/build/build-site-stats.mjs --check site/index.html && node scripts/build/build-site-stats.mjs --check site/pages/about.html && node scripts/build/build-site-stats.mjs --check site/apps/index.html --partial",
     "check:election-source-enrichments": "node scripts/check/rules/election-source-enrichments.mjs",
     "check:chunked-bounds": "node scripts/check/rules/chunked-map-bounds.mjs",
     "check:root": "node scripts/check/rules/maplibre-root-promotion.mjs",
