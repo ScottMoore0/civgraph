@@ -8,6 +8,12 @@ const OFM = 'tiles.openfreemap.org';
 const OSM = 'tile.openstreetmap.org';
 const PNG_1X1 = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==', 'base64');
 
+// The suite's storage names the raster base map (config/playwright.config.cjs); these tests
+// exercise the default chain, so they take that preference away first.
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => { try { localStorage.removeItem('civgraph.basemap'); } catch { /* blocked */ } });
+});
+
 async function openMap(page) {
   await page.goto('/maps/');
   await page.waitForFunction(() => window.__civgraphTest2?.mapController?.renderer?.basemap?.active, null, { timeout: 60000 });
@@ -80,4 +86,15 @@ test('the credit does not run under the Map Settings button on a phone', async (
     return a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
   });
   expect(overlap).toBe(false);
+});
+
+test('?basemap=osm-tiles starts from OpenStreetMap tiles, without asking OpenFreeMap', async ({ page }) => {
+  let ofm = 0;
+  await page.route((url) => url.hostname === OFM, (route) => { ofm += 1; return route.abort(); });
+  await page.route((url) => url.hostname === OSM, (route) => route.fulfill({ contentType: 'image/png', body: PNG_1X1 }));
+  await page.goto('/maps/?basemap=osm-tiles');
+  await page.waitForFunction(() => window.__civgraphTest2?.mapController?.renderer?.basemap?.active, null, { timeout: 60000 });
+  expect((await basemapState(page)).active).toBe('osm-tiles');
+  expect(ofm).toBe(0);
+  expect(await page.evaluate(() => sessionStorage.getItem('civgraph.basemapFailedProviders'))).toBeNull();
 });

@@ -16,7 +16,8 @@ import {
   createBasemapFailover,
   glyphUrlForAvailableFont,
   isBasemapId,
-  namespaceStyle
+  namespaceStyle,
+  preferredChain
 } from '../../packages/map/src/renderer/basemap.mjs';
 
 function memoryStorage(initial = {}) {
@@ -303,4 +304,13 @@ test('the old inline osm layer is taken off too, so an old style never shows two
   await basemap.useDefault();
   assert.equal(map.getLayer('osm'), undefined);
   assert.equal(map.getSource('osm'), undefined);
+});
+
+test('a named provider starts the chain (?basemap= first, then localStorage civgraph.basemap)', () => {
+  const ids = (chain) => chain.map((provider) => provider.id);
+  assert.deepEqual(ids(preferredChain(DEFAULT_BASEMAP_CHAIN, { search: '?basemap=osm-tiles' })), ['osm-tiles']);
+  assert.deepEqual(ids(preferredChain(DEFAULT_BASEMAP_CHAIN, { storage: memoryStorage({ 'civgraph.basemap': 'osm-tiles' }) })), ['osm-tiles']);
+  assert.deepEqual(ids(preferredChain(DEFAULT_BASEMAP_CHAIN, { search: '?basemap=openfreemap-liberty', storage: memoryStorage({ 'civgraph.basemap': 'osm-tiles' }) })), ['openfreemap-liberty', 'osm-tiles']);
+  assert.deepEqual(ids(preferredChain(DEFAULT_BASEMAP_CHAIN, { search: '?basemap=nonsense' })), ['openfreemap-liberty', 'osm-tiles']);
+  assert.deepEqual(ids(preferredChain(DEFAULT_BASEMAP_CHAIN, {})), ['openfreemap-liberty', 'osm-tiles']);
 });

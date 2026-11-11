@@ -24,7 +24,10 @@ module.exports = defineConfig({
     // Only for this origin, so specs pointed at production (PARITY_BASE_URL) use the API.
     storageState: {
       cookies: [],
-      origins: [{ origin: 'http://127.0.0.1:5050', localStorage: [{ name: 'civgraph.electionsApi', value: '0' }] }],
+      // civgraph.basemap = osm-tiles: the raster base map, as before 11 Nov 2026. The default vector
+      // base map (packages/map/src/renderer/basemap.mjs) is drawn by software GL here and costs
+      // seconds a test; tests/browser/basemap.spec.cjs tests it on its own.
+      origins: [{ origin: 'http://127.0.0.1:5050', localStorage: [{ name: 'civgraph.electionsApi', value: '0' }, { name: 'civgraph.basemap', value: 'osm-tiles' }] }],
     },
     browserName: 'chromium',
     headless: true,
