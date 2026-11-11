@@ -199,9 +199,11 @@ function fallbackFeatureName(layer, props, index) {
   return id ? `Feature ${id}` : `${layer.name || layer.id} feature ${index + 1}`;
 }
 
+// NFC, so a name stored decomposed (eds-ulster-1912..1921 carried "u" + U+0301) is indexed,
+// searched and shown as the precomposed letter.
 function cleanIndexValue(value) {
   if (value === undefined || value === null) return '';
-  return String(value).trim();
+  return String(value).trim().normalize('NFC');
 }
 
 function repairFeatureIndexProperties(layer, props = {}) {
