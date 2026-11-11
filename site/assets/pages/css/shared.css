@@ -757,7 +757,9 @@ figure,
 }
 
 /* Mobile hero order:
-   heading + copy -> Ireland network -> action buttons. */
+   heading + copy -> action buttons -> Ireland network. The buttons came after the network
+   until 11 Nov 2026, which put "Open the maps" below the fold of a 375x812 phone (QA
+   2026-11-11, M1); the graphic is decoration and can wait for the scroll. */
 @media (max-width: 760px) {
   .hero__copy {
     display: contents;
@@ -775,12 +777,12 @@ figure,
 
   .hero__grid > .hero__graphic {
     grid-column: 1;
-    grid-row: 3;
+    grid-row: 4;
   }
 
   .hero__grid > .hero__copy > .cta-row {
     grid-column: 1;
-    grid-row: 4;
+    grid-row: 3;
     margin-top: .35rem;
   }
 }

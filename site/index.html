@@ -28,6 +28,8 @@
 <link href="/assets/pages/img/19df3a5428cb.png" rel="icon"/>
 <!-- site:head -->
 <script>(function(){var t=null;try{t=localStorage.getItem('theme');}catch(e){}if(t!=='dark'&&t!=='light'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
 <script>(function(){var K='civgraph.langPreview',S='/assets/i18n/i18n.js?v=e12c28fbed1b',on=false;function load(){var i=window.civgraphI18n;if(i){if(i.show)i.show();return;}if(document.querySelector('script[data-i18n-runtime]'))return;var s=document.createElement('script');s.src=S;s.setAttribute('data-i18n-runtime','');document.head.appendChild(s);}window.civgraphLangReveal=function(){try{localStorage.setItem(K,'1');}catch(e){}load();};try{if(/[?&]lang-preview=0(?:&|$)/.test(location.search)){localStorage.removeItem(K);localStorage.removeItem('civgraph.lang');}on=localStorage.getItem(K)==='1';}catch(e){}if(on)load();})();</script>
 <link rel="stylesheet" href="/assets/ui/tokens.css?v=9a3dca6e608e">
 <link rel="stylesheet" href="/assets/ui/tokens-legacy.css?v=17646fa133f3">
@@ -115,7 +117,7 @@
          data, not decoration; see the provenance line beneath. -->
 <div class="hero__graphic">
 <div class="constellation">
-<svg aria-labelledby="constellation-title constellation-desc" class="constellation__svg" role="img" viewbox="0 0 600 760">
+<svg aria-labelledby="constellation-title constellation-desc" class="constellation__svg" role="group" viewbox="0 0 600 760">
 <title id="constellation-title">The island of Ireland as a network of places</title>
 <desc id="constellation-desc">The coastline of Ireland with nineteen towns and cities represented as nodes and joined by lines to nearby places.</desc>
 <defs>
@@ -347,7 +349,7 @@
 <rect height="7" rx="1" width="7" x="14" y="3"></rect>
 <rect height="7" rx="1" width="7" x="14" y="14"></rect>
 <rect height="7" rx="1" width="7" x="3" y="14"></rect></svg>Apps</h3>
-<p>Focused tools built on the same data: an independent PRONI archive search across all <span data-stat="proniRecords">1,538,177</span> records in the eCatalogue, with advanced search, exportable spreadsheets and shareable record links. That is the app the site has today. Two more are intended: a census app covering the whole island, bringing NISRA and CSO data together, and an election-focused app that would take in the STV count animation - the transfer-by-transfer replay that currently appears in the results pane rather than standing on its own.</p>
+<p>Three focused tools built on the same data: <a href="/proni">Independent PRONI Search</a>, a faster way into all <span data-stat="proniRecords">1,538,177</span> records in the eCatalogue, with exportable spreadsheets and shareable record links; the <a href="/pages/census-explorer.html">Census Explorer</a>, for census tables from both jurisdictions, charted across censuses and linked to the boundaries they were counted on; and <a href="/apps/words/">Words in parliament</a>, how often words and phrases were used in the Dáil, the Seanad, the Northern Ireland Assembly and at Westminster.</p>
 <a href="/apps/">See the apps →</a>
 </div>
 </div>

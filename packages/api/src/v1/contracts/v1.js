@@ -205,7 +205,10 @@ export const CONTRACTS = Object.freeze({
   },
   spatial: {
     errors: ERROR,
-    variants: [v('features', { mapId: '*' }, 'One map\'s features in the bounding box', obj({ features: arr() }))],
+    variants: [
+      v('features', { mapId: '*' }, 'One map\'s features in the bounding box', obj({ features: arr() })),
+      v('batch', { mapIds: '*' }, 'Several maps\' features at once (mapIds=a,b,c, up to 40), keyed by map id, each as the features variant answers', obj({ maps: object })),
+    ],
   },
   'data-index': {
     errors: OK_FALSE_ERROR,

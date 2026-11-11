@@ -27,6 +27,8 @@
 
 <!-- site:head -->
 <script>(function(){var t=null;try{t=localStorage.getItem('theme');}catch(e){}if(t!=='dark'&&t!=='light'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
 <script>(function(){var K='civgraph.langPreview',S='/assets/i18n/i18n.js?v=e12c28fbed1b',on=false;function load(){var i=window.civgraphI18n;if(i){if(i.show)i.show();return;}if(document.querySelector('script[data-i18n-runtime]'))return;var s=document.createElement('script');s.src=S;s.setAttribute('data-i18n-runtime','');document.head.appendChild(s);}window.civgraphLangReveal=function(){try{localStorage.setItem(K,'1');}catch(e){}load();};try{if(/[?&]lang-preview=0(?:&|$)/.test(location.search)){localStorage.removeItem(K);localStorage.removeItem('civgraph.lang');}on=localStorage.getItem(K)==='1';}catch(e){}if(on)load();})();</script>
 <link rel="stylesheet" href="/assets/ui/tokens.css?v=9a3dca6e608e">
 <link rel="stylesheet" href="/assets/ui/tokens-legacy.css?v=17646fa133f3">
@@ -130,7 +132,9 @@
         .app-card__cta {
             display: inline-block;
             font-weight: var(--font-bold);
-            color: var(--color-accent);
+            /* The text shade of the accent: --color-accent (#38a169) was 3.24:1 on white at 12 px
+               (axe color-contrast, QA 2026-11-11, L8); this is #276749 light, #6cd39a dark. */
+            color: var(--color-accent-dark);
         }
 
         /* Each app's card mirrors that app's own styling, formatting and colours,
@@ -233,7 +237,7 @@
             <a class="app-card app-card--proni" href="/proni">
                 <h2 class="app-card__title">Independent PRONI Search</h2>
                 <p class="app-card__desc">
-                    A faster, independent interface to search all 1,538,177 records in the Public Record
+                    A faster, independent interface to search all <span data-stat="proniRecords">1,538,177</span> records in the Public Record
                     Office of Northern Ireland (PRONI) eCatalogue - with advanced search, exportable
                     spreadsheets of record data, and easily shareable record links. Built by Civgraph using
                     PRONI data; not an official PRONI service.

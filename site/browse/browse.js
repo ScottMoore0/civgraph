@@ -1335,6 +1335,10 @@ function setPortalHero() {
     title: 'Civgraph data directory',
     description: 'A structured portal into maps, elections, boundary features, parties and labels, people, books, tables, downloads, and source records. Use the directory below to browse by subject, or search within a chosen section.'
   };
+  // Maps and Elections count Browse's pages, not the headline figures: a map page for every
+  // catalogue entry (the homepage counts public maps), an election page for every election and
+  // contest (the homepage counts contests). Labelled as pages so the two cannot be read as one
+  // claim (QA 2026-11-11, M3).
   // PRONI is deliberately absent from the unscoped totals: at 1.5m records it is larger
   // than everything else combined, so adding it to one "total" tells the reader nothing.
   // The source section counts it on its own tile instead.
@@ -1342,15 +1346,15 @@ function setPortalHero() {
     ? `${renderPortalStat('Sources', counts.sources)}
        ${renderPortalStat('PRONI records', counts.proni)}`
     : SECTION_LAYER === 'data'
-      ? `${renderPortalStat('Maps', counts.maps)}
-         ${renderPortalStat('Elections', counts.elections)}
+      ? `${renderPortalStat('Map pages', counts.maps)}
+         ${renderPortalStat('Election pages', counts.elections)}
          ${renderPortalStat('Feature groups', counts.featureGroups)}
          ${renderPortalStat('Parties / labels', counts.parties)}
          ${renderPortalStat('Persons', counts.persons)}
          ${renderPortalStat('Register interests', counts['register-interests'])}
          ${renderPortalStat('Total records', total - (counts.sources || 0))}`
-      : `${renderPortalStat('Maps', counts.maps)}
-         ${renderPortalStat('Elections', counts.elections)}
+      : `${renderPortalStat('Map pages', counts.maps)}
+         ${renderPortalStat('Election pages', counts.elections)}
          ${renderPortalStat('Feature groups', counts.featureGroups)}
          ${renderPortalStat('Parties / labels', counts.parties)}
          ${renderPortalStat('Persons', counts.persons)}
@@ -5478,6 +5482,7 @@ function renderContributorPanel() {
   // Titles are not headings: the panel came before the page's h1, so every page's outline
   // opened on "Contributor".
   els.contributorPanel.classList.toggle('contributor-panel--signed-out', !auth.allowed && !auth.authenticated);
+  els.contributorPanel.hidden = false;
   if (auth.allowed) {
     els.contributorPanel.innerHTML = `
       <p class="contributor-panel__title">Contributor</p>
@@ -5499,11 +5504,32 @@ function renderContributorPanel() {
     `;
     return;
   }
-  // Signed out, the panel is one quiet line at the foot of the sidebar: it was a boxed "Log
-  // in" above the sections for every visitor, and only a few contributors ever use it.
+  // Signed out, the line is shown only to contributors: on an address carrying ?contribute,
+  // and from then on in that browser. Shown to every visitor it led the public to a sign-in
+  // page on a Cloudflare Access domain they cannot use, which reads as phishing (QA 2026-11-11,
+  // M14). It was a boxed "Log in" above the sections before that.
+  if (!contributorLinkWanted()) {
+    els.contributorPanel.innerHTML = '';
+    els.contributorPanel.hidden = true;
+    return;
+  }
+  els.contributorPanel.hidden = false;
   els.contributorPanel.innerHTML = `
     <p class="contributor-panel__body">Contributors can propose corrections and new maps. <a href="${escapeAttr(contributorLoginUrl())}" data-contributor-login>Contributor log in</a></p>
   `;
+}
+
+const CONTRIBUTOR_FLAG = 'civgraph.contributor';
+
+/** Whether to offer the signed-out contributor sign-in: ?contribute in the address, remembered. */
+function contributorLinkWanted() {
+  let wanted = false;
+  try { wanted = new URLSearchParams(location.search).has('contribute'); } catch { /* old browser */ }
+  try {
+    if (wanted) localStorage.setItem(CONTRIBUTOR_FLAG, '1');
+    else wanted = localStorage.getItem(CONTRIBUTOR_FLAG) === '1';
+  } catch { /* private mode: the address alone decides */ }
+  return wanted;
 }
 
 /** The sign-in link, returning to the page the reader is on rather than always to /browse/. */

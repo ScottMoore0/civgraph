@@ -47,6 +47,7 @@
  *   node scripts/build/build-site-stats.mjs                 # compute and write the stamp
  *   node scripts/build/build-site-stats.mjs --apply <html>  # stamp the numbers into a page
  *   node scripts/build/build-site-stats.mjs --check <html>  # fail if a page has drifted
+ *   ... --check <html> --partial                            # a page stating only some figures
  */
 import { readdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs';
 import path from 'node:path';
@@ -148,6 +149,9 @@ const stats = {
   renderedLayers: (mapsMeta.layers || []).length,
   proniRecords: browseIndex.counts?.proni,
   graphEntities: graphManifest?.entities?.total,
+  // About said "1.29 million statements" while the graph's own manifest and the downloads said
+  // 2,154,607 (QA 2026-11-11, M3): the figure is now read from the manifest like the entities.
+  graphStatements: graphManifest?.statements?.total,
 };
 
 // Every page carrying figures states these six; the rest are opt-in and only checked
@@ -178,6 +182,7 @@ const LABELS = {
   renderedLayers: 'rendered layers',
   proniRecords: 'PRONI records',
   graphEntities: 'graph entities',
+  graphStatements: 'graph statements',
 };
 
 const PROVENANCE = {
@@ -192,6 +197,7 @@ const PROVENANCE = {
   renderedLayers: 'render/metadata/maps-test.json :: layers[]',
   proniRecords: 'data/browse/index.json :: counts.proni',
   graphEntities: 'data/graph/manifest.json :: entities.total',
+  graphStatements: 'data/graph/manifest.json :: statements.total',
 };
 
 const fmt = (n) => n.toLocaleString('en-GB');
@@ -237,7 +243,7 @@ function stampInto(html) {
   if (!satisfied.size) {
     changes.push('MISSING: the page carries none of these figures in a form this can check. '
       + 'Add data-stat="<key>" to the element holding each one.');
-  } else {
+  } else if (!PARTIAL) {
     for (const key of Object.keys(stats)) {
       if (!CORE_KEYS.has(key)) continue;
       if (!satisfied.has(key)) changes.push(`MISSING: no "${LABELS[key]}" figure found in the page`);
@@ -246,6 +252,9 @@ function stampInto(html) {
   return { html, changes };
 }
 
+// --partial: the page states only some figures (the Apps page names the PRONI total and nothing
+// else); those it states are still checked and stamped, but the six core figures are not required.
+const PARTIAL = args.includes('--partial');
 const applyTarget = argVal('--apply');
 const checkTarget = argVal('--check');
 
