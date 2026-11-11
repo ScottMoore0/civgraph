@@ -1,7 +1,8 @@
 {
  "schemaVersion": 2,
  "description": "Stable identifiers for people appearing as candidates in the current election data. The id is independent of name spelling, so a correction changes displayName and adds an alias, never the id.",
- "idPolicy": "Ids are permanent. PersonIDs 1-100011 are the curated block carried forward from scripts/ingest/persons/person_registry.json; 100012+ are derived.",
+ "idPolicy": "Ids are permanent. PersonIDs 1-100011 are the curated block carried forward from scripts/ingest/persons/person_registry.json; 100012+ are derived. A new id is never one issued before, even one merged away at once: idHighWater is the highest issued (person_id_issued.py).",
+ "idHighWater": 150075,
  "supersedes": "scripts/ingest/persons/person_registry.json (2,388 curated persons; its source workbook is no longer present and apply_person_ids.py targets an _aggregates.json layout that no longer exists)",
  "evidence": {
   "rowIndexIdsDiscarded": [
@@ -9903,7 +9904,7 @@
    "eraReason": "split by its official person id (democracyclub:2137): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    149780
+    150013
    ]
   },
   {
@@ -12302,7 +12303,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    149827
+    150060
    ]
   },
   {
@@ -13585,7 +13586,7 @@
    "eraReason": "split by its official person id (democracyclub:7132): the source id it shares is held by another person with another official id",
    "nameVariants": true,
    "mergedFrom": [
-    149781
+    150014
    ]
   },
   {
@@ -25202,7 +25203,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    149829
+    150062
    ]
   },
   {
@@ -42115,7 +42116,7 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "nameVariants": true,
    "mergedFrom": [
-    149727
+    149960
    ]
   },
   {
@@ -43169,7 +43170,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    149830
+    150063
    ]
   },
   {
@@ -60503,7 +60504,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    149797
+    150030
    ]
   },
   {
@@ -62409,10 +62410,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    149738,
-    149754,
-    149800,
-    149801
+    149971,
+    149987,
+    150033,
+    150034
    ]
   },
   {
@@ -62724,10 +62725,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    149765,
-    149766,
-    149783,
-    149835
+    149998,
+    149999,
+    150016,
+    150068
    ]
   },
   {
@@ -63418,10 +63419,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    149743,
-    149744,
-    149809,
-    149810
+    149976,
+    149977,
+    150042,
+    150043
    ]
   },
   {
@@ -63458,10 +63459,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    149745,
-    149759,
-    149771,
-    149811
+    149978,
+    149992,
+    150004,
+    150044
    ]
   },
   {
@@ -63965,8 +63966,8 @@
    "eraReason": "split by its official person id (democracyclub:68911): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    149763,
-    149828
+    149996,
+    150061
    ]
   },
   {
@@ -64126,11 +64127,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    149750,
-    149767,
-    149837,
-    149838,
-    149839
+    149983,
+    150000,
+    150070,
+    150071,
+    150072
    ]
   },
   {
@@ -64905,10 +64906,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    149730,
-    149736,
-    149792,
-    149793
+    149963,
+    149969,
+    150025,
+    150026
    ]
   },
   {
@@ -65828,12 +65829,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    149764,
-    149782,
-    149831,
-    149832,
-    149833,
-    149834
+    149997,
+    150015,
+    150064,
+    150065,
+    150066,
+    150067
    ]
   },
   {
@@ -70230,9 +70231,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    149731,
-    149732,
-    149756
+    149964,
+    149965,
+    149989
    ]
   },
   {
@@ -70270,11 +70271,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    149741,
-    149757,
-    149758,
-    149770,
-    149806
+    149974,
+    149990,
+    149991,
+    150003,
+    150039
    ]
   },
   {
@@ -70311,10 +70312,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    149728,
-    149733,
-    149818,
-    149819
+    149961,
+    149966,
+    150051,
+    150052
    ]
   },
   {
@@ -72465,11 +72466,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    149729,
-    149784,
-    149785,
-    149786,
-    149840
+    149962,
+    150017,
+    150018,
+    150019,
+    150073
    ]
   },
   {
@@ -75602,12 +75603,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    149734,
-    149760,
-    149776,
-    149777,
-    149820,
-    149821
+    149967,
+    149993,
+    150009,
+    150010,
+    150053,
+    150054
    ]
   },
   {
@@ -75645,11 +75646,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    149735,
-    149748,
-    149761,
-    149822,
-    149823
+    149968,
+    149981,
+    149994,
+    150055,
+    150056
    ]
   },
   {
@@ -75689,13 +75690,13 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    149749,
-    149762,
-    149778,
-    149779,
-    149824,
-    149825,
-    149826
+    149982,
+    149995,
+    150011,
+    150012,
+    150057,
+    150058,
+    150059
    ]
   },
   {
@@ -83464,12 +83465,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    149737,
-    149751,
-    149752,
-    149753,
-    149795,
-    149796
+    149970,
+    149984,
+    149985,
+    149986,
+    150028,
+    150029
    ]
   },
   {
@@ -83635,11 +83636,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    149739,
-    149740,
-    149755,
-    149804,
-    149805
+    149972,
+    149973,
+    149988,
+    150037,
+    150038
    ]
   },
   {
@@ -83675,9 +83676,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    149742,
-    149807,
-    149808
+    149975,
+    150040,
+    150041
    ]
   },
   {
@@ -83716,12 +83717,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    149746,
-    149747,
-    149773,
-    149774,
-    149775,
-    149817
+    149979,
+    149980,
+    150006,
+    150007,
+    150008,
+    150050
    ]
   },
   {
@@ -121012,10 +121013,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    149788,
-    149789,
-    149790,
-    149791
+    150021,
+    150022,
+    150023,
+    150024
    ]
   },
   {
@@ -121050,8 +121051,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    149768,
-    149794
+    150001,
+    150027
    ]
   },
   {
@@ -126361,10 +126362,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    149813,
-    149814,
-    149815,
-    149816
+    150046,
+    150047,
+    150048,
+    150049
    ]
   },
   {
@@ -166320,7 +166321,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    149799
+    150032
    ]
   },
   {
@@ -169891,7 +169892,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    149798
+    150031
    ]
   },
   {
@@ -207549,8 +207550,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    149802,
-    149803
+    150035,
+    150036
    ]
   },
   {
@@ -207584,7 +207585,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    149812
+    150045
    ]
   },
   {
@@ -270280,7 +270281,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    149836
+    150069
    ]
   },
   {
@@ -362274,7 +362275,7 @@
    ],
    "eraReason": "split from a career spanning more than 60 years at a gap of 25 or more; the same id continues in the other era",
    "mergedFrom": [
-    149787
+    150020
    ]
   },
   {
@@ -415001,7 +415002,7 @@
     "paddy burke"
    ],
    "mergedFrom": [
-    149842
+    150075
    ]
   },
   {
@@ -514142,7 +514143,7 @@
    "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    149769
+    150002
    ]
   },
   {
@@ -563094,7 +563095,7 @@
    "provenance": "keyed on the source's own candidate id (wikipedia:John Henry North)",
    "provisional": true,
    "mergedFrom": [
-    149772
+    150005
    ]
   },
   {
@@ -577895,7 +577896,7 @@
     "henry kenny"
    ],
    "mergedFrom": [
-    149841
+    150074
    ]
   },
   {
@@ -1077327,8 +1077328,8 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
-   "id": "p149598",
-   "personId": 149598,
+   "id": "p149715",
+   "personId": 149715,
    "displayName": "Charles O'Hara",
    "aliases": [
     "Charles O'Hara"
@@ -1077361,8 +1077362,8 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
-   "id": "p149600",
-   "personId": 149600,
+   "id": "p149717",
+   "personId": 149717,
    "displayName": "William Smyth",
    "aliases": [
     "William Smyth"
@@ -1077396,8 +1077397,8 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
-   "id": "p149601",
-   "personId": 149601,
+   "id": "p149718",
+   "personId": 149718,
    "displayName": "William Stewart",
    "aliases": [
     "William Stewart"
@@ -1077432,8 +1077433,8 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
-   "id": "p149610",
-   "personId": 149610,
+   "id": "p149727",
+   "personId": 149727,
    "displayName": "Robert Shaw",
    "aliases": [
     "Robert Shaw"
@@ -1077465,8 +1077466,8 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
-   "id": "p149626",
-   "personId": 149626,
+   "id": "p149743",
+   "personId": 149743,
    "displayName": "William Stuart",
    "aliases": [
     "William Stuart"
@@ -1077498,8 +1077499,8 @@
    "eraReason": "rows of a name or id joined to a person who, by the dates History of Parliament, Wikidata or a reference work gives, was under 18 or dead at the time"
   },
   {
-   "id": "p149636",
-   "personId": 149636,
+   "id": "p149753",
+   "personId": 149753,
    "displayName": "John Doherty",
    "aliases": [
     "John Doherty"
@@ -1077534,8 +1077535,8 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
-   "id": "p149649",
-   "personId": 149649,
+   "id": "p149766",
+   "personId": 149766,
    "displayName": "John Browne",
    "aliases": [
     "John Browne"
@@ -1077566,8 +1077567,8 @@
    "eraReason": "rows of a name or id joined to a person who, by the dates History of Parliament, Wikidata or a reference work gives, was under 18 or dead at the time"
   },
   {
-   "id": "p149689",
-   "personId": 149689,
+   "id": "p149806",
+   "personId": 149806,
    "displayName": "Henry Wilson",
    "aliases": [
     "Henry Wilson"
@@ -1077601,8 +1077602,8 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
-   "id": "p149723",
-   "personId": 149723,
+   "id": "p149840",
+   "personId": 149840,
    "displayName": "Edmond Carey",
    "aliases": [
     "Edmond Carey"
@@ -1077635,8 +1077636,8 @@
    "eraReason": "rows of a name or id joined to a person who, by the dates History of Parliament, Wikidata or a reference work gives, was under 18 or dead at the time"
   },
   {
-   "id": "p149724",
-   "personId": 149724,
+   "id": "p149841",
+   "personId": 149841,
    "displayName": "Willie Aird",
    "aliases": [
     "Willie Aird"
@@ -1077669,8 +1077670,8 @@
    "eraReason": "rows of a name or id joined to a person who, by the dates History of Parliament, Wikidata or a reference work gives, was under 18 or dead at the time"
   },
   {
-   "id": "p149725",
-   "personId": 149725,
+   "id": "p149842",
+   "personId": 149842,
    "displayName": "James Stewart",
    "aliases": [
     "James Stewart"
@@ -1077702,8 +1077703,8 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
-   "id": "p149726",
-   "personId": 149726,
+   "id": "p149843",
+   "personId": 149843,
    "displayName": "William Richardson",
    "aliases": [
     "William Richardson"
