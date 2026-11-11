@@ -2642,30 +2642,61 @@ test('loads converted child layers for main catalogue composite parents', async 
   expect(result.fitted.length).toBeGreaterThanOrEqual(1);
 });
 
+// The CARTO Voyager Labels and MERIT-Basins overlays were removed on 11 Nov 2026 (CARTO needs an API
+// key; the MERIT services on tiles.arcgis.com are gone). Map Settings no longer lists them, and an
+// address that names one (they were never written into addresses, so these are made-up spellings)
+// opens as it would without it: the layer loads, nothing is drawn from or asked of those hosts.
+test('removed raster overlays are not offered, and an address naming one opens cleanly', async ({ page }) => {
+  const removedHosts = [];
+  const errors = [];
+  page.on('request', (request) => {
+    const host = new URL(request.url()).hostname;
+    if (host === 'tiles.arcgis.com' || host.endsWith('.cartocdn.com')) removedHosts.push(request.url());
+  });
+  page.on('pageerror', (error) => errors.push(error.message));
+  await page.goto('/maps/#layers=pc-2023&overlays=voyager-labels,merit-catchments,merit-rivers&overlay=merit-rivers&lng=-6.8&lat=54.6&zoom=7.00');
+  await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
+  await page.evaluate(() => window.__civgraphTest2.restorePromise);
+  await page.waitForFunction(() => window.__civgraphTest2.app.getLoadedLayerIds().includes('pc-2023'), null, { timeout: 60000 });
+
+  const state = await page.evaluate(() => {
+    const map = window.__civgraphTest2.app.mapController.map;
+    return {
+      settingsControls: ['overlayToggle', 'overlayList', 'overlayVoyagerLabels', 'overlayMeritCatchments', 'overlayMeritRivers']
+        .filter((id) => document.getElementById(id)),
+      overlayText: /Voyager Labels|MERIT-Basins/i.test(document.body.textContent || ''),
+      overlayLayers: map.getStyle().layers.map((layer) => layer.id).filter((id) => id.startsWith('test2-overlay-')),
+      credit: document.querySelector('#map .maplibregl-ctrl-attrib-inner')?.textContent || ''
+    };
+  });
+  expect(state.settingsControls).toEqual([]);
+  expect(state.overlayText).toBe(false);
+  expect(state.overlayLayers).toEqual([]);
+  expect(state.credit).not.toMatch(/MERIT|CARTO/);
+  expect(removedHosts).toEqual([]);
+  expect(errors).toEqual([]);
+});
+
 test('adapter supports overlays, partial features, and rich loaded-feature payloads', async ({ page }) => {
   await page.goto('/maps/');
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
 
+  // No raster overlay is offered since 11 Nov 2026 (packages/map/src/renderer/overlays.mjs): the
+  // removed CARTO labels and MERIT-Basins ids draw nothing, like any id not in the registry.
   const overlayState = await page.evaluate(() => {
     const adapter = window.__civgraphTest2.app.mapController;
-    const shown = adapter.toggleOverlay('voyager-labels', true);
-    const visible = adapter.map.getLayoutProperty('test2-overlay-voyager-labels', 'visibility') || 'visible';
-    const hidden = adapter.toggleOverlay('voyager-labels', false);
+    const ids = ['voyager-labels', 'merit-catchments', 'merit-rivers', 'missing-overlay'];
     return {
-      shown,
-      hidden,
-      layerExists: Boolean(adapter.map.getLayer('test2-overlay-voyager-labels')),
-      visible,
-      hiddenVisibility: adapter.map.getLayoutProperty('test2-overlay-voyager-labels', 'visibility'),
-      unsupported: adapter.toggleOverlay('missing-overlay', true)
+      shown: ids.map((id) => adapter.toggleOverlay(id, true)),
+      hidden: ids.map((id) => adapter.toggleOverlay(id, false)),
+      layers: adapter.map.getStyle().layers.map((layer) => layer.id).filter((id) => id.startsWith('test2-overlay-')),
+      sources: Object.keys(adapter.map.getStyle().sources).filter((id) => id.startsWith('test2-overlay-'))
     };
   });
-  expect(overlayState.shown).toBe(true);
-  expect(overlayState.hidden).toBe(true);
-  expect(overlayState.layerExists).toBe(true);
-  expect(overlayState.visible).toBe('visible');
-  expect(overlayState.hiddenVisibility).toBe('none');
-  expect(overlayState.unsupported).toBe(false);
+  expect(overlayState.shown).toEqual([false, false, false, false]);
+  expect(overlayState.hidden).toEqual([false, false, false, false]);
+  expect(overlayState.layers).toEqual([]);
+  expect(overlayState.sources).toEqual([]);
 
   await loadCivilParishes(page);
   const richPayload = await page.evaluate(() => {

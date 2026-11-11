@@ -326,7 +326,7 @@ assert(mapControllerSource.includes("'fill-antialias': false"), '/test2 polygon 
 assert(!mapControllerSource.includes("'line-color': '#111827'") && !mapControllerSource.includes("'circle-color': '#111827'"), '/test2 selections must not use the old thick black selected styling');
 assert(mapControllerSource.includes('loadDuplicateFeatureIds') && mapControllerSource.includes('duplicateIds?.has(String(id))'), '/test2 must avoid MapLibre feature-state cross-highlighting when a source has duplicate promoted feature IDs');
 assert(adapterSource.includes('normalizeRenderedFeature(selection.feature') && adapterSource.includes('this.options.enrichFeature'), '/test2 feature selections must pass normalized nested properties/geometry to main feature-info rendering');
-assert(adapterSource.includes('const OVERLAY_LAYERS') && adapterSource.includes('showOverlay(overlayId)') && adapterSource.includes('hideOverlay(overlayId)'), '/test2 adapter must support existing raster overlay toggles');
+assert(adapterSource.includes('overlayConfig(overlayId)') && adapterSource.includes('showOverlay(overlayId)') && adapterSource.includes('hideOverlay(overlayId)'), '/test2 adapter must support existing raster overlay toggles');
 assert(!adapterSource.includes('toggleOverlay() {\n    return false;\n  }'), '/test2 overlay toggles must not remain stubbed');
 assert(adapterSource.includes('applyPartialFeatureFilter') && adapterSource.includes('buildFeatureFilter'), '/test2 adapter must implement partial feature visibility with MapLibre filters');
 assert(!adapterSource.includes('togglePartialFeature() {}') && !adapterSource.includes('unloadPartialFeature() {}'), '/test2 partial feature load/visibility methods must not remain empty stubs');

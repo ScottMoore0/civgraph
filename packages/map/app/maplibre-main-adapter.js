@@ -6,6 +6,7 @@ import { waitForMapSettle } from './settle.js';
 import { compositeChildIds } from '../../../src/map-relations.mjs';
 import { cdnUrl } from '../../../src/cdn-url.js';
 import { CHOOSABLE_BASE_MAPS, resolveBaseMapId } from '../src/renderer/basemap.mjs';
+import { overlayConfig } from '../src/renderer/overlays.mjs';
 import {
   classCounts,
   fillColorExpression,
@@ -38,28 +39,6 @@ const TIMELINE_CHANGE_LAYERS = Object.freeze({
   goneLineId: 'test2-timeline-changes-gone',
   markerId: 'test2-timeline-change-markers'
 });
-
-const OVERLAY_LAYERS = {
-  'voyager-labels': {
-    tiles: [
-      'https://a.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}.png',
-      'https://b.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}.png',
-      'https://c.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}.png'
-    ],
-    attribution: '&copy; CARTO',
-    maxzoom: 20
-  },
-  'merit-catchments': {
-    tiles: ['https://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/MERIT_River_Basins_v1/MapServer/tile/{z}/{y}/{x}'],
-    attribution: '&copy; MERIT-Basins',
-    maxzoom: 12
-  },
-  'merit-rivers': {
-    tiles: ['https://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/MERIT_Rivers_v1/MapServer/tile/{z}/{y}/{x}'],
-    attribution: '&copy; MERIT-Basins',
-    maxzoom: 12
-  }
-};
 
 const DEFAULT_VECTOR_FILL_OPACITY = 0;
 
@@ -729,7 +708,7 @@ export class Test2MapLibreMainAdapter {
       overlay.visible = true;
       return true;
     }
-    const config = OVERLAY_LAYERS[overlayId];
+    const config = overlayConfig(overlayId);
     if (!config) return false;
     const sourceId = `test2-overlay-${overlayId}-source`;
     const layerId = `test2-overlay-${overlayId}`;
