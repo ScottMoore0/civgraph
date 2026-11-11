@@ -13,7 +13,8 @@ import { binding } from '../../../../config/src/config.js';
 import { PRONI } from '../../queries/proni.js';
 import { CATALOGUE_IS_CLOSED, proniReader } from './_read.js';
 
-const CACHE_VERSION = 'v4';
+// v5: 11 Nov 2026, so failed counts cached as { count: null } before the fix are not served.
+const CACHE_VERSION = 'v5';
 
 /** @param {import('../../types.js').ApiContext} context */
 export async function onRequestGet(context) {

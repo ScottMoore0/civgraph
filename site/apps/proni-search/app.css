@@ -269,6 +269,10 @@ a.ps-btn--export { text-decoration: none; display: inline-flex; align-items: cen
   .ps-rec__table th { width: 6.5rem; }
 }
 .ps-main { min-width: 0; }
+/* a result card's reference block may shrink and wrap (Copy and Source drop below the
+   reference) instead of pushing the card past the screen edge */
+.ps-card__head .ps-refwidget { flex: 0 1 auto; min-width: 0; max-width: 100%; }
+.ps-ref { overflow-wrap: anywhere; }
 .ps-rec__table { table-layout: fixed; }
 .ps-rec__table td, .ps-rec__title, .ps-levels, .ps-rec__children a, .ps-card__desc, .ps-modal__desc { overflow-wrap: anywhere; }
 /* keep the lockup at the top-right on small screens (no longer stacked below the
