@@ -173,7 +173,7 @@ export function checkContest(c) {
   }
   if (electorate !== null && electorate > 0) {
     const poll = total ?? (valid !== null && spoiled !== null ? valid + spoiled : valid);
-    if (poll !== null && poll > electorate * (c.votesPerElector && c.votesPerElector > 1 && total === null ? c.votesPerElector : 1) + 0.5) {
+    if (poll !== null && poll > electorate * (blockVote && total === null ? Math.max(c.votesPerElector ?? 1, c.seats ?? 1) : 1) + 0.5) {
       fail('electorate-poll', `electorate ${electorate} < ${total !== null ? 'total' : 'valid'} poll ${poll}`);
     }
   }
@@ -452,14 +452,25 @@ function checkStv(c, { fail, missing, info, valid, sum, votesKnown, electedN }) 
       let allowance = released;
       for (const v of pending.values()) allowance += v;
       if (received > allowance + 1 && !bad) bad = `stage ${s}: candidates gain ${round2(received)}, only ${round2(allowance)} released (exclusions and surpluses)`;
-      // What this stage handed out leaves the pool: the smallest item that covers it, else the
-      // largest items until it is covered.
+      // What this stage handed out leaves the pool. The candidates excluded together at one stage
+      // are one unit, each surplus another: the smallest unit that covers it, else the largest
+      // units until it is covered.
       let need = received - released;
       if (need > 1) {
-        const items = [...pending.entries()];
-        const cover = items.filter(([, v]) => v >= need - 1).sort((a, b) => a[1] - b[1])[0];
-        const take = cover ? [cover] : items.sort((a, b) => b[1] - a[1]);
-        for (const [k, v] of take) { if (need <= 1) break; need -= v; pending.delete(k); done.add(k); }
+        /** @type {Map<string, Array<[Cand, number]>>} */
+        const units = new Map();
+        for (const [k, v] of pending) {
+          const id = exclusionBase.has(k) && !k.elected ? `x${exclusionBase.get(k)}` : `s${k.ord}:${k.name}`;
+          if (!units.has(id)) units.set(id, []);
+          /** @type {Array<[Cand, number]>} */ (units.get(id)).push([k, v]);
+        }
+        const sized = [...units.values()].map((members) => ({ members, size: members.reduce((a, [, v]) => a + v, 0) }));
+        const cover = sized.filter((u) => u.size >= need - 1).sort((a, b) => a.size - b.size)[0];
+        const chosen = cover ? [cover] : sized.sort((a, b) => b.size - a.size);
+        const take = [];
+        for (const u of chosen) { if (need <= 1) break; need -= u.size; take.push(...u.members); }
+        need = 0;
+        for (const [k] of take) { pending.delete(k); done.add(k); }
       }
     }
     if (bad) fail('stv-conservation', bad);

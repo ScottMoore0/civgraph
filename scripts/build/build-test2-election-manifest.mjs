@@ -3159,9 +3159,12 @@ function buildDailWikipediaCountPayload(rawResult, sidecar, fallbackConstituency
   const totalPoll = parseMetaNumber(meta.Total_Poll, meta.total_poll, meta.totalPoll, meta.poll, meta.total_votes);
   const spoiled = parseMetaNumber(meta.Spoiled, meta.spoiled, meta.Spoilt, meta.spoilt, meta.invalid_votes);
   const electorate = parseMetaNumber(meta.Total_Electorate, meta.total_electorate, meta.electorate, meta.electorate_total);
+  // A total poll inferred from the turnout must hold the valid poll: Gallagher's by-election
+  // turnouts are of the valid vote, and electorate x a rounded turnout can fall a vote or two short.
+  const turnoutPoll = electorate !== null && sourceTurnoutPct !== null ? Math.round(electorate * sourceTurnoutPct / 100) : null;
   const inferredTotalPoll = totalPoll !== null
     ? totalPoll
-    : (electorate !== null && sourceTurnoutPct !== null ? Math.round(electorate * sourceTurnoutPct / 100) : null);
+    : (turnoutPoll !== null && (!validPoll || turnoutPoll >= validPoll) ? turnoutPoll : null);
   const inferredSpoiled = spoiled !== null
     ? spoiled
     : (inferredTotalPoll !== null && validPoll !== null && inferredTotalPoll >= validPoll ? inferredTotalPoll - validPoll : null);
