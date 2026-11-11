@@ -86,7 +86,7 @@ export const ROUTES = Object.freeze({
   layers: route(layers, '/_api/layers', 'Map layers: the full metadata, the startup index, each layer record and its duplicate-id sidecar',
     ['view'], { catchAll: true }),
   search: route(search, '/_api/search', 'Map features by name', ['q', 'limit']),
-  spatial: route(spatial, '/_api/spatial', 'Map features of one map in a bounding box', ['mapId', 'bbox']),
+  spatial: route(spatial, '/_api/spatial', 'Map features of one map (or several, mapIds) in a bounding box', ['mapId', 'mapIds', 'bbox']),
   'data-index': route(dataIndex, '/_api/data-index', 'The published files on data.civgraph.net, by prefix',
     ['prefix', 'cursor', 'limit']),
   'proni/node': route(proniNode, '/_api/proni/node', 'PRONI eCatalogue: the fonds, or one node with its ancestors and children', ['ref']),

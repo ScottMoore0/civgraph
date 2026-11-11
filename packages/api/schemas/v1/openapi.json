@@ -3290,11 +3290,19 @@
     "/api/v1/spatial": {
       "get": {
         "operationId": "spatial",
-        "summary": "Map features of one map in a bounding box",
-        "description": "The answer of /_api/spatial, which stays as an alias. Variants: features (mapId=…).",
+        "summary": "Map features of one map (or several, mapIds) in a bounding box",
+        "description": "The answer of /_api/spatial, which stays as an alias. Variants: features (mapId=…); batch (mapIds=…).",
         "parameters": [
           {
             "name": "mapId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "mapIds",
             "in": "query",
             "required": false,
             "schema": {
@@ -3328,6 +3336,19 @@
                       },
                       "required": [
                         "features"
+                      ]
+                    },
+                    {
+                      "title": "batch (mapIds=…)",
+                      "description": "Several maps' features at once (mapIds=a,b,c, up to 40), keyed by map id, each as the features variant answers",
+                      "type": "object",
+                      "properties": {
+                        "maps": {
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "maps"
                       ]
                     }
                   ]

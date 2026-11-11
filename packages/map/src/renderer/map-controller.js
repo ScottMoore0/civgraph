@@ -24,6 +24,7 @@ import { repairFeatureProperties } from './feature-property-repairs.js';
 import { absoluteTileTemplate, boundsToFlatBbox, boundsToImageCoordinates, boundsToMapLibre, clamp } from './utils.js';
 import { approximateSegmentIds, approximateSegmentLabel, resolveApproximateSegmentsUrl } from './approximate-segments.js';
 import { LAYER_LOAD } from './layer-load.mjs';
+import { BasemapManager } from './basemap.mjs';
 import { DIRECT_GESTURE } from './gesture-state.mjs';
 import { createState, defineFlagFields, setHidden } from '../state-helpers.mjs';
 import layerTypes from '../../../registries/src/browser/layer-types.mjs';
@@ -233,18 +234,10 @@ export class TestMapLibreController {
     }
     this.map = new maplibregl.Map({
       container: this.container,
-      style: {
-        version: 8,
-        sources: {
-          osm: {
-            type: 'raster',
-            tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
-            tileSize: 256,
-            attribution: '&copy; OpenStreetMap contributors'
-          }
-        },
-        layers: [{ id: 'osm', type: 'raster', source: 'osm' }]
-      },
+      // No base map in the style itself: BasemapManager (./basemap.mjs) adds it once the style
+      // has loaded, from the first provider of its chain that answers, below every other layer.
+      style: { version: 8, sources: {}, layers: [] },
+      transformRequest: (url, resourceType) => this.basemap?.transformRequest(url, resourceType),
       center: [-8.05, 53.4],
       zoom: 5.8,
       minZoom: 4,
@@ -264,17 +257,12 @@ export class TestMapLibreController {
       scrollZoom: true,
       cooperativeGestures: false
     });
-    // The map credits (OpenStreetMap contributors, MapLibre) start folded behind their (i) button,
-    // at every width, and open only when the reader clicks it. MapLibre unfolds a compact credit
-    // when it first goes compact; this folds it at that moment and leaves the reader's clicks alone.
-    const attribution = new maplibregl.AttributionControl({ compact: true });
-    const updateCompact = attribution._updateCompact;
-    attribution._updateCompact = () => {
-      const was = attribution._container?.classList.contains('maplibregl-compact');
-      updateCompact();
-      if (!was && attribution._container?.classList.contains('maplibregl-compact')) attribution._container.classList.remove('maplibregl-compact-show');
-    };
-    this.map.addControl(attribution);
+    // The map credits are always shown in full, at every width. They used to start folded behind
+    // an (i) button, which the OpenStreetMap tile policy forbids ("beneath UI, behind toggles")
+    // and OpenFreeMap's terms do not allow either: both require the credit to be visible.
+    this.map.addControl(new maplibregl.AttributionControl({ compact: false }));
+    this.basemap = new BasemapManager(this.map);
+    this.whenStyleReady(() => this.basemap.useDefault());
 
     this.recordMetric({
       event: 'runtime-profile',
@@ -307,6 +295,12 @@ export class TestMapLibreController {
       if (!this.directGestureActive) this.notifyChange();
     });
     this.map.fitBounds(IRELAND_BOUNDS, { padding: 28, duration: 0 });
+  }
+
+  /** Runs `fn` once the map's style has loaded (at once if it has). */
+  whenStyleReady(fn) {
+    if (this.map?.isStyleLoaded?.()) { fn(); return; }
+    this.map?.once('style.load', () => fn());
   }
 
   /** A direct gesture is driving the camera (a view of directGesture, MA-11). */

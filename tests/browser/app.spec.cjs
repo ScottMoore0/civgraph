@@ -1851,7 +1851,7 @@ test('loads generated election entries with MapLibre styling and enriched featur
   // FIXED 2026-08-23 -- the assertion was on the wrong election, and the feature works.
 
   await page.goto('/maps/');
-  await page.waitForFunction(() => window.__civgraphTest2?.elections?.catalogue?.elections?.length);
+  await page.waitForFunction(() => (window.__civgraphTest2?.app?.scheduleElectionCatalogueWarm?.(), window.__civgraphTest2?.elections?.catalogue?.elections?.length));
 
   const loaded = await page.evaluate(async () => {
     const app = window.__civgraphTest2.app;
@@ -2243,7 +2243,7 @@ test('DOM seat circles stay anchored while panning', async ({ page }) => {
 
 test('election bundles cover representative main-site election types', async ({ page }) => {
   await page.goto('/maps/');
-  await page.waitForFunction(() => window.__civgraphTest2?.elections?.catalogue?.elections?.length);
+  await page.waitForFunction(() => (window.__civgraphTest2?.app?.scheduleElectionCatalogueWarm?.(), window.__civgraphTest2?.elections?.catalogue?.elections?.length));
 
   const coverage = await page.evaluate(async () => {
     const app = window.__civgraphTest2.app;
@@ -2306,7 +2306,7 @@ test('election bundles cover representative main-site election types', async ({ 
 
 test('election pane supports local-government aggregates and detailed counts', async ({ page }) => {
   await page.goto('/maps/');
-  await page.waitForFunction(() => window.__civgraphTest2?.elections?.catalogue?.elections?.length);
+  await page.waitForFunction(() => (window.__civgraphTest2?.app?.scheduleElectionCatalogueWarm?.(), window.__civgraphTest2?.elections?.catalogue?.elections?.length));
 
   const state = await page.evaluate(async () => {
     const app = window.__civgraphTest2.app;

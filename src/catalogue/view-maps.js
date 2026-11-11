@@ -6,7 +6,7 @@
  */
 import { icon, SHELF_LOOK, SHELF_ICON_IN, FLAT_SECTIONS } from './icons.js';
 import { esc, plural, span, inkOn, longDate, mapDate, SCOPE_SHORT, shortProvider, yearOf } from './util.js';
-import { unitWord } from './index.js';
+import { SECTIONS, unitWord } from './index.js';
 import { sliderHtml } from './slider.js';
 import { PeopleSearch } from './search.js';
 
@@ -38,10 +38,14 @@ export function resultsHtml(c) {
   if (c.here) return hereHtml(c);
   const shelves = c.visibleShelves();
   const total = shelves.reduce((n, x) => n + x.count, 0);
-  const maps = shelves.reduce((n, x) => n + x.subjects.reduce((m, y) => m + y.series.reduce((k, s) => k + s.members.length, 0), 0), 0);
+  // Maps counted as the section's tab counts them (tabCounts): every map a row can add, its council
+  // maps included, so the line under the tabs and the tab itself give the same figure (QA
+  // 2026-11-11, M3: "324 maps" here beside "Boundaries 343" on the tab), named for its section.
+  const maps = shelves.reduce((n, x) => n + x.subjects.reduce((m, y) => m + y.series.reduce((k, s) => k + s.members.length + (s.local?.length || 0), 0), 0), 0);
+  const sectionLabel = SECTIONS.find(([id]) => id === c.section)?.[2] || '';
   const summary = c.query
     ? (total ? `${plural(total, 'series', 'series')} match “${esc(c.query)}”${c.activeFilterCount('maps') ? ' with these filters' : ''}.` : '')
-    : `${plural(total, 'series', 'series')}, ${plural(maps, 'map')}${c.activeFilterCount('maps') ? ', filtered' : ''}.`;
+    : `${plural(total, 'series', 'series')}, ${plural(maps, 'map')}${sectionLabel ? ` in ${esc(sectionLabel)}` : ''}${c.activeFilterCount('maps') ? ', filtered' : ''}.`;
   const empty = !total ? `<p class="cn-empty" role="status">${c.query ? `No maps match “${esc(c.query)}”${c.activeFilterCount('maps') ? ' with these filters' : ''}.` : 'No maps match these filters.'}
     ${c.activeFilterCount('maps') ? ' <button type="button" class="cn-link" data-cn-act="clear-filters">Clear the filters</button>' : ''}${c.otherTabHint()}</p>` : '';
   // "Westminster 2019" on the Maps tab: the election comes first, as a way across to it.

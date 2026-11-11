@@ -2467,6 +2467,12 @@ a.visually-hidden:focus-visible {
   display: block;
 }
 
+/* Signed out and not a contributor: no panel at all (browse.js contributorLinkWanted). */
+.contributor-panel[hidden] { display: none; }
+/* The sign-in link sits in a sentence: underlined, so it is told apart from the text by more
+   than colour (axe link-in-text-block, QA 2026-11-11, M14). */
+.contributor-panel__body a { text-decoration: underline; text-underline-offset: 2px; }
+
 /* Parties: the line that shows or hides the ballot-paper labels. */
 .browse-labels-note {
   display: flex;

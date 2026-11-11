@@ -260,6 +260,35 @@ function formatCredits(value) {
   return value ? [String(value)] : [];
 }
 
+/**
+ * The part of the port plan (render/metadata/main-site-port-plan.json, 2.8 MB) the map app reads,
+ * for the build to ship inside the app bundle (port-plan-client.generated.js, about 50 KB): the
+ * totals; every row not yet converted, whole; and of the converted rows, only the first of each
+ * category, as category, group and status. normalizeMetadata gives the same answer for either:
+ * converted rows add nothing but their category, in order of first appearance, and the plan was
+ * fetched on every visit before any map could draw (QA 2026-11-11, M8).
+ */
+export function clientPortPlan(plan) {
+  const rows = [];
+  const seen = new Set();
+  for (const row of plan?.rows || []) {
+    const key = portRowToCategoryLayer(row).category;
+    if (!isConvertedPortStatus(row.conversionStatus)) {
+      rows.push(row);
+      seen.add(key);
+      continue;
+    }
+    if (seen.has(key)) continue;
+    seen.add(key);
+    const slim = { conversionStatus: row.conversionStatus };
+    for (const field of ['category', 'categoryId', 'group']) {
+      if (row[field] !== undefined) slim[field] = row[field];
+    }
+    rows.push(slim);
+  }
+  return { schemaVersion: plan?.schemaVersion, totals: plan?.totals || null, rows };
+}
+
 function isConvertedPortStatus(status) {
   return status === 'converted' || status === 'convertedComposite' || status === 'convertedAlias';
 }

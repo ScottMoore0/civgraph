@@ -28,7 +28,17 @@ test('head() bootstraps the theme first, then loads tokens, aliases, base and ch
 test('head() versions every asset it links when given a version function', () => {
   const out = String(head({ version: () => 'abc123def456' }));
   for (const p of SHELL_STYLES) assert.ok(out.includes(`href="/${p}?v=abc123def456"`), p);
-  assert.ok(!/href="\/assets\/[^"?]+"/.test(out), 'no unversioned stylesheet');
+  assert.ok(!/rel="stylesheet" href="\/assets\/[^"?]+"/.test(out), 'no unversioned stylesheet');
+  assert.ok(!/<script[^>]* src="\/assets\/[^"?]+"/.test(out), 'no unversioned script');
+});
+
+test('head() preloads the two web fonts at the URLs base.css declares them (QA 2026-11-11, M16)', () => {
+  const out = String(head({ version: () => 'abc123def456' }));
+  const css = readFileSync(new URL('../../packages/ui/assets/base.css', import.meta.url), 'utf8');
+  const declared = [...css.matchAll(/url\((\/assets\/fonts\/[^)]+\.woff2)\)/g)].map((m) => m[1]);
+  assert.equal(declared.length, 2);
+  // Unversioned on purpose: a preload whose URL differs from the stylesheet's is fetched twice.
+  for (const href of declared) assert.ok(out.includes(`<link rel="preload" href="${href}" as="font" type="font/woff2" crossorigin>`), href);
 });
 
 test('header() starts with the skip link, marks the current section, and can leave the skip link to the page', () => {

@@ -17,8 +17,11 @@ import {
   statisticFor
 } from '../../../src/census-overlay.mjs';
 
+// 'osm-standard' is the default street map: not one tile server but the provider chain in
+// packages/map/src/renderer/basemap.mjs (OpenFreeMap, then OpenStreetMap's own tiles as the last
+// resort). The id is kept because addresses, settings and tests name it.
+const DEFAULT_BASE_MAP = 'osm-standard';
 const BASE_MAPS = {
-  'osm-standard': ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
   'osm-humanitarian': ['https://tile-{a-c}.openstreetmap.fr/hot/{z}/{x}/{y}.png'],
   'cartodb-positron': ['https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'],
   'cartodb-dark': ['https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png'],
@@ -38,7 +41,6 @@ const ESRI_CREDIT = 'Tiles &copy; Esri';
 // Each basemap credits its own provider. Every one used to be credited only to OpenStreetMap,
 // which misattributed the Esri imagery and maps, USGS and the rest.
 const BASE_MAP_ATTRIBUTION = {
-  'osm-standard': OSM_CREDIT,
   'osm-humanitarian': `${OSM_CREDIT}, style by Humanitarian OpenStreetMap Team, hosted by OpenStreetMap France`,
   'cartodb-positron': `${OSM_CREDIT} &copy; <a href="https://carto.com/attributions">CARTO</a>`,
   'cartodb-dark': `${OSM_CREDIT} &copy; <a href="https://carto.com/attributions">CARTO</a>`,
@@ -733,19 +735,13 @@ export class Test2MapLibreMainAdapter {
   }
 
   setBaseMap(id) {
-    const key = BASE_MAPS[id] ? id : 'osm-standard';
-    const tiles = BASE_MAPS[key];
-    if (!this.map) return;
-    if (this.map.getLayer('osm')) this.map.removeLayer('osm');
-    if (this.map.getSource('osm')) this.map.removeSource('osm');
-    this.map.addSource('osm', {
-      type: 'raster',
-      tiles,
-      tileSize: 256,
-      attribution: BASE_MAP_ATTRIBUTION[key]
-    });
-    const firstLayer = this.map.getStyle().layers?.[0]?.id;
-    this.map.addLayer({ id: 'osm', type: 'raster', source: 'osm' }, firstLayer);
+    const basemap = this.renderer?.basemap;
+    if (!this.map || !basemap) return;
+    if (!BASE_MAPS[id] || id === DEFAULT_BASE_MAP) {
+      basemap.useDefault();
+      return;
+    }
+    basemap.useRaster({ id, label: id, tiles: BASE_MAPS[id], attribution: BASE_MAP_ATTRIBUTION[id] });
   }
 
   toggleOverlay() {

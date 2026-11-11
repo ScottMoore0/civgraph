@@ -12153,6 +12153,9 @@ class UIController {
                 .slice(0, 8)
                 .map(x => x.m);
             const seen = new Set(candidates.map(c => `${c.mapId}::${c.id ?? c.name}`));
+            // The maps' indexes in one request, not one each (QA 2026-11-11, M9); the loop below
+            // then reads them from featureLoader's cache.
+            await featureLoader.loadMapIndexes(matchingMaps.map(m => m.id).filter(id => !this._isTownlandMapId(id))).catch(() => null);
             for (const m of matchingMaps) {
                 const isTownland = m.id === 'ni-townlands' || m.id === 'roi-townlands'
                     || m.id === 'all-ireland-townlands';
@@ -12247,6 +12250,10 @@ class UIController {
      * by name lookup. Cached, so subsequent searches over the same map
      * don't re-fetch.
      */
+    _isTownlandMapId(mapId) {
+        return mapId === 'ni-townlands' || mapId === 'roi-townlands' || mapId === 'all-ireland-townlands';
+    }
+
     async _enrichResultsWithBbox(results) {
         const needs = results.filter(r => !Array.isArray(r.bbox) || r.bbox.length !== 4);
         if (needs.length === 0) return;
@@ -12257,6 +12264,9 @@ class UIController {
         const counts = new Map();
         for (const r of needs) counts.set(r.mapId, (counts.get(r.mapId) || 0) + 1);
         const ranked = [...mapIds].sort((a, b) => (counts.get(b) || 0) - (counts.get(a) || 0)).slice(0, 30);
+        // One /_api/spatial request for all of them (it was one per map, about 30 per search:
+        // QA 2026-11-11, M9); the per-map reads below then come from featureLoader's cache.
+        await featureLoader.loadMapIndexes(ranked.filter(mid => !this._isTownlandMapId(mid))).catch(() => null);
         const lookups = await Promise.all(ranked.map(async mid => {
             try {
                 const isTownland = mid === 'ni-townlands' || mid === 'roi-townlands' || mid === 'all-ireland-townlands';

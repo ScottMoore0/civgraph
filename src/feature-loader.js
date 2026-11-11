@@ -2,9 +2,12 @@
  * NI Boundaries - Feature Loader
  * Handles viewport-aware loading of pre-processed per-feature JSON files with LOD support.
  */
+import { debugLog } from './debug-log.js';
 import { defineFlagFields } from '../packages/map/src/state-helpers.mjs';
 
 const FEATURE_THRESHOLD = 50;  // Only use LOD loading for maps with >50 features
+// Most maps one /_api/spatial?mapIds= request names (packages/api/src/handlers/spatial.js MAX_BATCH_MAPS).
+const SPATIAL_BATCH_LIMIT = 40;
 const CONCURRENT_LOADS = 50;   // Max parallel fetch requests
 const VIEWPORT_BUFFER = 0.2;   // 20% buffer around viewport
 
@@ -106,7 +109,7 @@ class FeatureLoader {
             }
 
             this.initialized = true;
-            console.log(`[FeatureLoader] Loaded spatial index: ${this.spatialIndex.length} features across ${this.spatialIndexByMap.size} maps`);
+            debugLog(`[FeatureLoader] Loaded spatial index: ${this.spatialIndex.length} features across ${this.spatialIndexByMap.size} maps`);
         } catch (err) {
             console.warn('[FeatureLoader] Failed to load spatial index:', err);
         }
@@ -125,7 +128,7 @@ class FeatureLoader {
         }
 
         this.initialized = true;
-        console.log(`[FeatureLoader] Chunked mode: manifest loaded (${manifest.maps.length} maps)`);
+        debugLog(`[FeatureLoader] Chunked mode: manifest loaded (${manifest.maps.length} maps)`);
     }
 
     /**
@@ -140,7 +143,7 @@ class FeatureLoader {
             let resp = await fetch('data/database/spatial-index/_names.json');
             if (resp.ok) {
                 this.spatialIndex = await resp.json();
-                console.log(`[FeatureLoader] Loaded names index for search: ${this.spatialIndex.length} features`);
+                debugLog(`[FeatureLoader] Loaded names index for search: ${this.spatialIndex.length} features`);
                 return;
             }
             // Fall back to monolithic
@@ -148,7 +151,7 @@ class FeatureLoader {
             if (!resp.ok) return;
             const data = await resp.json();
             this.spatialIndex = data.features || [];
-            console.log(`[FeatureLoader] Loaded full index for search: ${this.spatialIndex.length} features`);
+            debugLog(`[FeatureLoader] Loaded full index for search: ${this.spatialIndex.length} features`);
         } catch (err) {
             console.warn('[FeatureLoader] Failed to load search index:', err);
             if (!this.spatialIndex) this.spatialIndex = [];
@@ -222,10 +225,7 @@ class FeatureLoader {
                     features = await resp.json();
                 }
 
-                this.spatialIndexByMap.set(mapId, features);
-                if (this.spatialIndex) {
-                    this.spatialIndex.push(...features);
-                }
+                this._storeMapIndex(mapId, features);
                 return features;
             } catch {
                 return [];
@@ -236,6 +236,52 @@ class FeatureLoader {
 
         this._chunkPromises.set(mapId, promise);
         return promise;
+    }
+
+    _storeMapIndex(mapId, features) {
+        this.spatialIndexByMap.set(mapId, features);
+        if (this.spatialIndex) {
+            this.spatialIndex.push(...features);
+        }
+    }
+
+    /**
+     * Several maps' spatial index chunks in one request (/_api/spatial?mapIds=a,b,c) instead of
+     * one request each: the map search asked for up to 30 maps per query, one /_api/spatial call
+     * apiece (QA 2026-11-11, M9). Each map lands in the same cache loadMapIndex fills, so what
+     * follows reads exactly what it read before. A map the batch did not answer (an older
+     * server, local dev, an error) is then loaded on its own, as before.
+     * Resolves to a Map of mapId -> features ([] when a map has none).
+     */
+    async loadMapIndexes(mapIds) {
+        const ids = [...new Set((mapIds || []).filter(Boolean).map(String))];
+        const missing = ids.filter((id) => !this.spatialIndexByMap.has(id) && !this._chunkPromises.has(id)).sort();
+        for (let start = 0; missing.length > 1 && start < missing.length; start += SPATIAL_BATCH_LIMIT) {
+            const chunk = missing.slice(start, start + SPATIAL_BATCH_LIMIT);
+            const batch = (async () => {
+                try {
+                    const resp = await fetch(`/_api/spatial?mapIds=${chunk.map(encodeURIComponent).join(',')}`);
+                    if (!resp.ok) return null;
+                    const data = await resp.json();
+                    return data && data.maps && typeof data.maps === 'object' ? data.maps : null;
+                } catch {
+                    return null;
+                }
+            })();
+            // Concurrent loadMapIndex calls for these maps wait for the batch rather than asking again.
+            for (const id of chunk) {
+                const promise = batch.then((maps) => {
+                    const features = maps?.[id];
+                    if (!Array.isArray(features)) return null;
+                    this._storeMapIndex(id, features);
+                    return features;
+                }).finally(() => this._chunkPromises.delete(id));
+                this._chunkPromises.set(id, promise.then((features) => features ?? this.loadMapIndex(id)));
+            }
+            await batch;
+        }
+        const entries = await Promise.all(ids.map(async (id) => [id, await this.loadMapIndex(id)]));
+        return new Map(entries);
     }
 
     /**
