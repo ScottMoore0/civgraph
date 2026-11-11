@@ -70,6 +70,8 @@
     "walker/import-wikipedia-boxes": { "proved": "rf-ingest" },
     "walker/stamp-wikipedia-person-ids": { "proved": "rf-ingest" },
     "wikipedia/stv-workbook": { "blocked": "needs --root --families --output (the workbook's source folders), which are not on this machine" },
+    "walker/wikipedia-constituency-boxes": { "proved": "refactor-ingest-api, offline from a copy of the 166 cached constituency articles and their redirects (the article list rebuilt from the committed output)" },
+    "electionsireland/candidate-ids": { "proved": "refactor-ingest-api, offline from a copy of the page cache (3,225 of 3,228 result pages cached; the 3 missing failed alike in both runs); 35 files identical" },
     "logainm/names": { "proved": "offline, on a made-up cache (tests/intake/offline-replay.test.mjs); no real cache exists until the owner has an API key" }
   }
 }
