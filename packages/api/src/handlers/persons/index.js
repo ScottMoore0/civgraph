@@ -16,11 +16,12 @@
  * ORed), ?elected=yes|no and ?party=; ?sort=name|contests|elected|firstYear|lastYear.
  * The response's `applied` names the filters and sort it used.
  *
- * NOTE: party filtering is NOT a column here. A person's parties live in a nested array
- * inside the record, and the client matches them against a party's aliases; that query
- * stays a json_each match rather than being flattened into a column, because the alias set
- * is the party's property, not the person's. It now combines with the other filters, the
- * search and the sort, which the separate party branch it replaced ignored.
+ * Party filtering is not a column here: a person stands for several parties, and the client
+ * sends every name a party is known by (?party= repeated, ORed). Since 11 Nov 2026 it reads
+ * person_card_parties, one (party, slug) row per party name a card lists (migration 0006), so
+ * the filter is an index range per name instead of a json_each over every card; it combines
+ * with the other filters, the search and the sort as before. A database without that table
+ * (a deployment ahead of its records load) gets the old json_each filter, with the same people.
  */
 import { browseIndexHandler } from '../_browse-index.js';
 import { parseJson } from '../_records.js';
@@ -72,12 +73,12 @@ export const onRequestGet = browseIndexHandler({
     firstYear: 'first_year',
     lastYear: { column: 'last_year', dir: 'desc' },
   },
-  where: (/** @type {URL} */ url, /** @type {(v: unknown) => string} */ bind) => {
+  where: (/** @type {URL} */ url, /** @type {(v: unknown) => string} */ bind, { fallback } = { fallback: false }) => {
     const parties = url.searchParams.getAll('party').map((v) => v.trim()).filter(Boolean).slice(0, 200);
     if (!parties.length) return [];
     return [{
       param: 'party',
-      sql: PERSONS.partyFilter(parties.map(bind)),
+      sql: (fallback ? PERSONS.partyFilterFromCards : PERSONS.partyFilter)(parties.map(bind)),
     }];
   },
 });

@@ -79,8 +79,10 @@ const clampLimit = (/** @type {string | null} */ raw) => {
  *   '|a|b|' (several values per record), matched as LIKE '%|value|%'
  * @param {Record<string,string|{column:string,dir:string}>} [options.sorts] sort key ->
  *   column for ORDER BY (ascending unless ?dir=desc, or the declared dir when none is given)
- * @param {((url: URL, bind: (v: unknown) => string) => {param: string, sql: string}[]) | null} [options.where]
- *   extra conditions an entity builds itself (persons: a party matched inside the record)
+ * @param {((url: URL, bind: (v: unknown) => string, options: {fallback: boolean}) => {param: string, sql: string}[]) | null} [options.where]
+ *   extra conditions an entity builds itself (persons: a party, through person_card_parties).
+ *   `fallback` is true when the table lacks a column or a side table the list expects (the code
+ *   deployed before the records load): build the condition from the record itself then.
  * @param {boolean} [options.facets]  serve precomputed facet options at ?facets=1
  * @param {string} [options.recordColumn] the column holding the record JSON ('card' in the
  *   records tables, 'record' in the legacy browse_* ones)
@@ -193,7 +195,7 @@ export function browseIndexHandler({
             applied.push(param);
           }
         }
-        for (const clause of extraWhere ? extraWhere(url, bind) : []) {
+        for (const clause of extraWhere ? extraWhere(url, bind, { fallback: !useColumns }) : []) {
           where.push(clause.sql);
           applied.push(clause.param);
         }
@@ -241,10 +243,11 @@ export function browseIndexHandler({
       try {
         return json(await runList(true), 200, true, version);
       } catch (error) {
-        // The code was deployed before the table was re-imported with a new column (the
-        // publish pushes, then imports). Answer without the column filters and sorts, and
-        // say so through `applied`, rather than fail the whole list.
-        if (!/no such column/i.test(String(/** @type {Error} */ (error)?.message || error))) throw error;
+        // The code was deployed before the table was re-imported with a new column, or before
+        // a side table it reads was loaded (the publish pushes, then imports). Answer without the
+        // column filters and sorts, with the entity's fallback conditions, and say so through
+        // `applied`, rather than fail the whole list.
+        if (!/no such (column|table)/i.test(String(/** @type {Error} */ (error)?.message || error))) throw error;
         return json(await runList(false), 200, false, version);
       }
     } catch (error) {
