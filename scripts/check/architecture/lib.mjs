@@ -70,7 +70,8 @@ export function createContext(options) {
         try {
           const tree = espree.parse(source, { ecmaVersion: 'latest', sourceType, loc: true, comment: true, range: true });
           ast = /** @type {AstNode} */ (/** @type {unknown} */ (tree));
-          comments = (tree.comments || []).map((c) => ({ value: c.value, line: c.loc?.start.line ?? 0 }));
+          const found = /** @type {Array<{ value: string, loc?: { start: { line: number } } }>} */ ((/** @type {{ comments?: unknown[] }} */ (tree)).comments || []);
+          comments = found.map((c) => ({ value: c.value, line: c.loc?.start.line ?? 0 }));
           break;
         } catch { /* try the other source type */ }
       }
