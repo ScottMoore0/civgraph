@@ -115,9 +115,13 @@ for (const id of seriesInSubject.keys()) if (!seriesById.has(id)) fail(`a subjec
 // Names are what readers search and scan by: two series must never share one within a scope. The
 // scope (NI, ROI, All-island) is shown beside every name, so the name does not repeat it (owner,
 // 1 Nov 2026): "Administrative Counties" is three series, one per scope.
+// A section shows one kind, so a plan's boundaries (Boundaries) and its points and routes (Places
+// & routes) may share the plan's name (Phelim Birch's review, 11 Nov 2026); the built addresses
+// still differ.
+const kindOfSeries = (s) => s.kind || subjectById.get(s.subject)?.seriesKind || (subjectById.get(s.subject)?.kind === 'Boundary' ? 'Boundary' : 'other');
 const byName = new Map();
 for (const s of source.series) {
-  const key = `${s.name.toLowerCase()}|${s.scope || ''}`;
+  const key = `${s.name.toLowerCase()}|${s.scope || ''}|${kindOfSeries(s)}`;
   byName.set(key, [...(byName.get(key) || []), s.id]);
 }
 for (const [key, ids] of byName) if (ids.length > 1) fail(`${ids.length} series in one scope are called "${key.split('|')[0]}" (${ids.join(', ')}): give each its years or subject`);
@@ -176,6 +180,7 @@ if (existsSync(peoplePath)) {
   };
   for (const [id, d] of Object.entries(desc.rows || {})) { if (!seriesIds.has(id)) fail(`descriptions: row ${id} is not a catalogue series`); checkOne(`row ${id}`, d); }
   for (const [key, d] of Object.entries(desc.elections || {})) { if (!electionKeys.has(key)) fail(`descriptions: election ${key} does not exist`); checkOne(`election ${key}`, d); }
+  for (const key of source.electionsHidden || []) if (!electionKeys.has(key)) fail(`electionsHidden names election ${key}, which does not exist`);
 }
 
 // ---- curator fields: kinds, labels, versions in sets, flat sections

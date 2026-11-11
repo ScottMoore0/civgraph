@@ -73,54 +73,59 @@ function dateParts(dateValue) {
   };
 }
 
-// Every Republic referendum's title, as Phelim Birch worded them (October 2026): the topic
+// The years whose local elections also elected town and borough councils, which Civgraph does not
+// yet hold: their titles say the round is the administrative counties'.
+const IRELAND_LOCAL_COUNTY_ONLY_YEARS = new Set(['1974', '1979', '1985', '1999', '2004', '2009']);
+
+// Every Republic referendum's title, as Phelim Birch worded them (October 2026; without "Irish"
+// since 11 Nov 2026, as only the Good Friday Agreement was voted on in both polities): the topic
 // as people know it, "II" after "referendum" for a second vote on the same treaty, and the
 // month wherever a year held referendums on more than one day.
 const REFERENDUM_TOPIC_OVERRIDES = new Map([
-  ['2024-03-08-the-family', '2024 Irish family referendum'],
-  ['2024-03-08-care', '2024 Irish care referendum'],
-  ['2019-05-24-regulation-of-divorce', '2019 Irish divorce referendum'],
-  ['2018-10-26-repeal-of-blasphemy-offence', 'October 2018 Irish blasphemy referendum'],
-  ['2018-05-25-regulation-of-termination-of-pregnancy-repeal-of-8th-amendment', 'May 2018 Irish abortion referendum'],
-  ['2015-05-22-equal-marriage', '2015 Irish equal marriage referendum'],
-  ['2015-05-22-age-of-president', '2015 Irish age of president referendum'],
-  ['2013-10-04-abolition-of-the-seanad', '2013 Irish Seanad abolition referendum'],
-  ['2013-10-04-court-of-appeal', '2013 Irish Court of Appeal referendum'],
-  ['2012-11-10-children', 'November 2012 Irish children referendum'],
-  ['2012-05-31-fiscal-treaty', 'May 2012 Irish Fiscal Compact referendum'],
-  ['2011-10-27-houses-of-the-oireachtas-inquiries', '2011 Irish Oireachtas inquiries referendum'],
-  ['2011-10-27-judges-remuneration', '2011 Irish judges remuneration referendum'],
-  ['2009-10-02-treaty-of-lisbon-ii', '2009 Irish Lisbon Treaty referendum II'],
-  ['2008-06-12-treaty-of-lisbon-i', '2008 Irish Lisbon Treaty referendum I'],
-  ['2004-06-11-irish-citizenship', '2004 Irish citizenship referendum'],
-  ['2002-10-19-treaty-of-nice-ii', 'October 2002 Irish Nice Treaty referendum II'],
-  ['2002-03-06-protection-of-human-life-in-pregnancy', 'March 2002 Irish abortion referendum'],
-  ['2001-06-07-treaty-of-nice-i', '2001 Irish Nice Treaty referendum I'],
-  ['2001-06-07-international-criminal-court', '2001 Irish International Criminal Court referendum'],
-  ['2001-06-07-prohibition-of-death-penalty', '2001 Irish death penalty referendum'],
-  ['1999-06-10-recognition-for-local-government', '1999 Irish local government referendum'],
-  ['1998-05-22-treaty-of-amsterdam', '1998 Irish Amsterdam Treaty referendum'],
+  ['2024-03-08-the-family', '2024 family referendum'],
+  ['2024-03-08-care', '2024 care referendum'],
+  ['2019-05-24-regulation-of-divorce', '2019 divorce referendum'],
+  ['2018-10-26-repeal-of-blasphemy-offence', 'October 2018 blasphemy referendum'],
+  ['2018-05-25-regulation-of-termination-of-pregnancy-repeal-of-8th-amendment', 'May 2018 abortion referendum'],
+  ['2015-05-22-equal-marriage', '2015 equal marriage referendum'],
+  ['2015-05-22-age-of-president', '2015 age of president referendum'],
+  ['2013-10-04-abolition-of-the-seanad', '2013 Seanad abolition referendum'],
+  ['2013-10-04-court-of-appeal', '2013 Court of Appeal referendum'],
+  ['2012-11-10-children', 'November 2012 children referendum'],
+  ['2012-05-31-fiscal-treaty', 'May 2012 Fiscal Compact referendum'],
+  ['2011-10-27-houses-of-the-oireachtas-inquiries', '2011 Oireachtas inquiries referendum'],
+  ['2011-10-27-judges-remuneration', '2011 judges remuneration referendum'],
+  ['2009-10-02-treaty-of-lisbon-ii', '2009 Lisbon Treaty referendum II'],
+  ['2008-06-12-treaty-of-lisbon-i', '2008 Lisbon Treaty referendum I'],
+  ['2004-06-11-irish-citizenship', '2004 citizenship referendum'],
+  ['2002-10-19-treaty-of-nice-ii', 'October 2002 Nice Treaty referendum II'],
+  ['2002-03-06-protection-of-human-life-in-pregnancy', 'March 2002 abortion referendum'],
+  ['2001-06-07-treaty-of-nice-i', '2001 Nice Treaty referendum I'],
+  ['2001-06-07-international-criminal-court', '2001 International Criminal Court referendum'],
+  ['2001-06-07-prohibition-of-death-penalty', '2001 death penalty referendum'],
+  ['1999-06-10-recognition-for-local-government', '1999 local government referendum'],
+  ['1998-05-22-treaty-of-amsterdam', '1998 Amsterdam Treaty referendum'],
   ['1998-05-22-northern-ireland', '1998 Good Friday Agreement referendum in the Republic of Ireland'],
-  ['1997-10-30-cabinet-confidentiality', '1997 Irish cabinet confidentiality referendum'],
-  ['1996-11-28-bail', '1996 Irish bail referendum'],
-  ['1995-11-24-dissolution-of-marriage', '1995 Irish divorce referendum'],
-  ['1992-11-25-travel', 'November 1992 Irish abortion travel referendum'],
-  ['1992-11-25-information', 'November 1992 Irish abortion information referendum'],
-  ['1992-11-25-right-to-life', 'November 1992 Irish abortion suicide referendum'],
-  ['1992-06-18-european-union', 'June 1992 Irish Maastricht Treaty referendum'],
-  ['1987-05-26-ratification-of-the-single-european-act', '1987 Irish Single European Act referendum'],
-  ['1986-06-26-dissolution-of-marriage', '1986 Irish divorce referendum'],
-  ['1984-06-14-extension-of-voting-right-at-dail-elections', '1984 Irish non-citizen voting referendum'],
-  ['1983-09-07-right-to-life-of-the-unborn', '1983 Irish abortion referendum'],
-  ['1979-07-05-adoption', '1979 Irish adoption referendum'],
-  ['1979-07-05-university-representation-in-seanad', '1979 Irish university constituencies referendum'],
-  ['1972-12-07-voting-age', 'December 1972 Irish voting age referendum'],
-  ['1972-12-07-recognition-of-specified-religions', 'December 1972 Irish recognition of specified religions referendum'],
-  ['1972-05-10-accession-to-the-european-communities', 'May 1972 Irish European Communities referendum'],
-  ['1968-10-16-formation-of-dail-constituencies', '1968 Irish Dáil constituencies referendum'],
-  ['1968-10-16-change-in-voting-system', '1968 Irish first-past-the-post referendum'],
-  ['1959-06-17-change-in-voting-system', '1959 Irish first-past-the-post referendum'],
-  ['1937-07-01-plebiscite-on-the-draft-constitution', '1937 Irish constitution plebiscite']
+  ['1997-10-30-cabinet-confidentiality', '1997 cabinet confidentiality referendum'],
+  ['1996-11-28-bail', '1996 bail referendum'],
+  ['1995-11-24-dissolution-of-marriage', '1995 divorce referendum'],
+  ['1992-11-25-travel', 'November 1992 abortion travel referendum'],
+  ['1992-11-25-information', 'November 1992 abortion information referendum'],
+  ['1992-11-25-right-to-life', 'November 1992 abortion suicide referendum'],
+  ['1992-06-18-european-union', 'June 1992 Maastricht Treaty referendum'],
+  ['1987-05-26-ratification-of-the-single-european-act', '1987 Single European Act referendum'],
+  ['1986-06-26-dissolution-of-marriage', '1986 divorce referendum'],
+  ['1984-06-14-extension-of-voting-right-at-dail-elections', '1984 non-citizen voting referendum'],
+  ['1983-09-07-right-to-life-of-the-unborn', '1983 abortion referendum'],
+  ['1979-07-05-adoption', '1979 adoption referendum'],
+  ['1979-07-05-university-representation-in-seanad', '1979 university constituencies referendum'],
+  ['1972-12-07-voting-age', 'December 1972 voting age referendum'],
+  ['1972-12-07-recognition-of-specified-religions', 'December 1972 recognition of specified religions referendum'],
+  ['1972-05-10-accession-to-the-european-communities', 'May 1972 European Communities referendum'],
+  ['1968-10-16-formation-of-dail-constituencies', '1968 Dáil constituencies referendum'],
+  ['1968-10-16-change-in-voting-system', '1968 first-past-the-post referendum'],
+  ['1959-06-17-change-in-voting-system', '1959 first-past-the-post referendum'],
+  ['1937-07-01-plebiscite-on-the-draft-constitution', '1937 constitution plebiscite']
 ]);
 
 // The amendment (or amendment Bill) each referendum was on, for referendums that shared a
@@ -272,11 +277,11 @@ function referendumTitle(params = {}) {
   const exactKey = topic ? `${datePrefix}-${topic}` : datePrefix;
   if (REFERENDUM_TOPIC_OVERRIDES.has(exactKey)) return /** @type {string} */ (REFERENDUM_TOPIC_OVERRIDES.get(exactKey));
   const normalizedTopic = REFERENDUM_TOPIC_LABELS.get(topic) || titleCaseTopic(topic).toLowerCase();
-  if (!normalizedTopic) return `${year} Irish referendum`.trim();
+  if (!normalizedTopic) return `${year} referendum`.trim();
   const prefix = ['brexit', 'alternative vote', 'good friday agreement'].includes(normalizedTopic.toLowerCase())
     ? titleCaseTopic(normalizedTopic)
     : normalizedTopic;
-  return `${year} Irish ${prefix} referendum`.trim();
+  return `${year} ${prefix} referendum`.trim();
 }
 
 /** @param {string | null | undefined} dateValue */
@@ -422,7 +427,9 @@ export function canonicalElectionTitle({
   // The Republic's local elections are one body contested across every council on the same
   // day, never a by-election and not the Northern Ireland local-government group, so they
   // are named before either of those checks can claim them.
-  if (bodySlug === 'ireland-local') return `${year} Irish local elections`.trim();
+  // In the years town and borough councils were elected on the same day, the round Civgraph
+  // holds is the administrative counties' alone (Phelim Birch's review, 11 Nov 2026).
+  if (bodySlug === 'ireland-local') return `${year} Irish local elections${IRELAND_LOCAL_COUNTY_ONLY_YEARS.has(year) ? ' (administrative counties)' : ''}`.trim();
   // A party's own ballots (docs/facts-model.md): "September 1995 Ulster Unionist Party leadership
   // election", "September 1997 Fianna Fáil presidential nomination". The month is in the title
   // because one party can hold two in a year (the UUP in March and September 1995).

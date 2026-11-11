@@ -1,7 +1,7 @@
 {
  "schemaVersion": 1,
  "about": "Descriptions shown when a catalogue row or an election is opened, on a map's Details page and on an election's Browse page. Keyed by catalogue series id (rows) and election key (elections). Built into data/catalogue/catalogue.json (as about) and Browse's election records by scripts/catalogue/build-catalogue.mjs and scripts/build-browse-indexes.mjs; checked by scripts/catalogue/check-catalogue.mjs.",
- "source": "Phelim Birch, Civgraph descriptions document (Google Doc 13JPxXeZxjXDqv_JIlmxtAWDZeT_8GEOqfHPbl121THo), as of 2026-10-12; 13 further Dáil general elections from his Word document 'Civgraph Catalogue Descriptions' (2026-10-18). 1954 and 1957 as Phelim revised them, 2026-10-19. New local, European, presidential and referendum descriptions, and 1997 and 2016 Dáil revisions, from the same Google Doc as of 2026-10-24 (four factual slips corrected: 1984 vote shares, 2014 Sinn Féin seat share, 1987 and 2011 Wikipedia links; and, on review, the Nice II common-defence clause, Ó Dálaigh’s dispute with the government, O’Kelly’s 1945 final share on the valid-poll basis, Robinson as an independent nominated by Labour, and the Socialist Group in 1979 and 1989). The 2001 referendums and the 2025 presidential election added from the same document, 2026-10-24. European election descriptions recast to lead with the Irish parties, groups in brackets (Phelim's note C3), 2026-10-25.",
+ "source": "Phelim Birch, Civgraph descriptions document (Google Doc 13JPxXeZxjXDqv_JIlmxtAWDZeT_8GEOqfHPbl121THo), as of 2026-10-12; 13 further Dáil general elections from his Word document 'Civgraph Catalogue Descriptions' (2026-10-18). 1954 and 1957 as Phelim revised them, 2026-10-19. New local, European, presidential and referendum descriptions, and 1997 and 2016 Dáil revisions, from the same Google Doc as of 2026-10-24 (four factual slips corrected: 1984 vote shares, 2014 Sinn Féin seat share, 1987 and 2011 Wikipedia links; and, on review, the Nice II common-defence clause, Ó Dálaigh’s dispute with the government, O’Kelly’s 1945 final share on the valid-poll basis, Robinson as an independent nominated by Labour, and the Socialist Group in 1979 and 1989). The 2001 referendums and the 2025 presidential election added from the same document, 2026-10-24. European election descriptions recast to lead with the Irish parties, groups in brackets (Phelim's note C3), 2026-10-25. Further rows (census and statistical areas, planning and property, transport and others) and the 1974, 1979 and 1985 local elections from the same Google Doc as of 11 Nov 2026 (obvious slips fixed: a missing full stop, \"labelled\", \"Tailte\").",
  "rows": {
   "townlands-townlands": {
    "text": [
@@ -387,6 +387,278 @@
     {
      "label": "Wikipedia: 2011 United Kingdom Alternative Vote referendum",
      "url": "https://en.wikipedia.org/wiki/2011_United_Kingdom_Alternative_Vote_referendum"
+    }
+   ]
+  },
+  "local-government-poor-law-unions--ireland": {
+   "text": [
+    "Poor law unions were local government areas set up under the Poor Relief (Ireland) Act 1838 for the administration of poor relief. They were split into electoral divisions for the election of boards of guardians that have largely survived unaltered through the Republic of Ireland’s electoral division system."
+   ],
+   "links": [
+    {
+     "label": "Wikipedia: Poor Law union § Ireland",
+     "url": "https://en.wikipedia.org/wiki/Poor_Law_union#Ireland"
+    }
+   ]
+  },
+  "public-service-areas-superintendent-registrars-districts": {
+   "text": [
+    "Superintendent Registrars’ Districts were established under the Registration of Births and Deaths (Ireland) Act 1863 and were initially based on poor law union boundaries. Their boundaries were redrawn in the 1990s."
+   ]
+  },
+  "census-small-areas": {
+   "text": [
+    "Small areas are the smallest statistical geography units used by the CSO. They are subdivisions of Census Electoral Divisions that usually comprise townlands, parts of townlands or individual neighbourhoods."
+   ],
+   "links": [
+    {
+     "label": "Surveying Open Data Portal: CSO Small Areas 2022",
+     "url": "https://data-osi.opendata.arcgis.com/datasets/osi::cso-small-areas-national-statistical-boundaries-2022-ungeneralised/about"
+    }
+   ]
+  },
+  "census-census-electoral-divisions": {
+   "text": [
+    "For recent censuses, the CSO has used slightly modified electoral division maps. A small number of EDs are combined for the sake of confidentiality and a small number are modified in order to improve alignment with census Local Electoral Areas."
+   ],
+   "links": [
+    {
+     "label": "Surveying Open Data Portal: CSO Electoral Divisions 2022",
+     "url": "https://data-osi.opendata.arcgis.com/datasets/osi::cso-electoral-divisions-national-statistical-boundaries-2022-ungeneralised/about"
+    }
+   ]
+  },
+  "census-nuts-2-regions": {
+   "text": [
+    "Nomenclature of Territorial Units for Statistics (NUTS) is a classification system for European subdivisions initially set up by Eurostat in the 1970s and currently regulated by the European Union. Tiers of subdivisions are referred to as NUTS 1, NUTS 2, NUTS 3 and Local Administrative Units (LAUs), with higher numbers indicating lower tiers of subdivisions.",
+    "Currently the Republic of Ireland’s NUTS 1 subdivision is the polity itself, its NUTS 2 subdivisions are the Regional Assemblies, its NUTS 3 subdivisions are its strategic planning areas (former Regional Authorities) and its LAUs are its Local Electoral Areas. Northern Ireland was a part of NUTS until the 2024 iteration, as the UK post-Brexit opted to develop its own International Territorial Level system instead."
+   ],
+   "links": [
+    {
+     "label": "Wikipedia: Nomenclature of Territorial Units for Statistics",
+     "url": "https://en.wikipedia.org/wiki/Nomenclature_of_Territorial_Units_for_Statistics"
+    }
+   ]
+  },
+  "settlements-settlements": {
+   "text": [
+    "Settlements were census areas created by extending legal town boundaries and giving boundaries to towns without autonomy (known as census towns). Definitions for census towns have changed over the years, with the 2011 census using the definition of “a cluster with a minimum of 50 occupied dwellings, with a maximum distance between any dwelling and the building closest to it of 100 metres, and where there was evidence of an urban centre (shop, school etc)”."
+   ],
+   "links": [
+    {
+     "label": "Surveying Open Data Portal: Settlements 2015",
+     "url": "https://data-osi.opendata.arcgis.com/datasets/osi::settlements-ungeneralised-national-statistical-boundaries-2015/about"
+    }
+   ]
+  },
+  "settlements-cso-urban-areas": {
+   "text": [
+    "Urban Areas are a recently developed statistical geography created by the CSO, Tailte Éireann and the Department of Housing. They are combinations of Small Areas ‘within a group of at least 100 buildings and buildings need to be within 65 meters of another building’."
+   ],
+   "links": [
+    {
+     "label": "Surveying Open Data Portal: CSO Urban Areas 2022",
+     "url": "https://data-osi.opendata.arcgis.com/datasets/osi::cso-urban-areas-national-statistical-boundaries-2022-ungeneralised/about"
+    }
+   ]
+  },
+  "place-and-street-names-locales": {
+   "text": [
+    "Tailte Éireann’s Surveying Open Data Portal defines these locales as “polygon objects with fuzzy boundaries where the geographic entity is undefined or subject to interpretation”."
+   ],
+   "links": [
+    {
+     "label": "Surveying Open Data Portal: Locales",
+     "url": "https://data-osi.opendata.arcgis.com/datasets/osi::high-value-dataset-locales/about"
+    }
+   ]
+  },
+  "development-plans-and-zoning-roscommon-county-development-plan": {
+   "text": [
+    "Various boundaries relating to Roscommon County Council’s 2022-2028 County Development Plan."
+   ],
+   "links": [
+    {
+     "label": "Roscommon County Development Plan 2022–2028",
+     "url": "https://www.rosdevplan.ie/roscommon-county-development-plan-2022-2028/"
+    }
+   ]
+  },
+  "development-plans-and-zoning-roscommon-local-area-plans": {
+   "text": [
+    "Boundaries relating to various Local Area Plans in County Roscommon."
+   ],
+   "links": [
+    {
+     "label": "Roscommon County Council: current Local Area Plans",
+     "url": "https://www.roscommoncoco.ie/en/services/planning/roscommon-county-council-planning-publications/roscommon-county-council-planning-publications/local-area-plans/current-plans/"
+    }
+   ]
+  },
+  "development-plans-and-zoning-dun-laoghaire-rathdown": {
+   "text": [
+    "Various boundaries relating to Dún Laoghaire-Rathdown County Council’s 2016-2022 County Development Plan."
+   ],
+   "links": [
+    {
+     "label": "Dún Laoghaire-Rathdown County Development Plan 2016–2022",
+     "url": "https://www.dlrcoco.ie/county-development-plan/county-development-plan-2016-2022"
+    }
+   ]
+  },
+  "development-plans-and-zoning-other-councils": {
+   "text": [
+    "Boundaries relating to various administrative counties’ Development Plans."
+   ]
+  },
+  "planning-applications-and-registers-planning-application-boundaries": {
+   "text": [
+    "Boundaries of planning applications across Ireland’s administrative counties. See Places -> Planning & Property -> Planning Applications for a map of planning applications without their boundaries."
+   ]
+  },
+  "planning-applications-and-registers-planning-registers": {
+   "text": [
+    "Boundaries in South Dublin County Council’s planning register."
+   ]
+  },
+  "housing-and-regeneration-housing-and-land": {
+   "text": [
+    "Miscellaneous planning & property maps that don’t fit in the other categories."
+   ]
+  },
+  "municipal-services-and-utilities-water-supply": {
+   "text": [
+    "Water districts in Roscommon County Council."
+   ]
+  },
+  "coasts-seas-and-islands-seas-and-island": {
+   "text": [
+    "The seas and channels (including the Atlantic Ocean) surrounding Ireland and Great Britain, and the geographical island of Ireland."
+   ],
+   "links": [
+    {
+     "label": "Wikipedia: Ireland",
+     "url": "https://en.wikipedia.org/wiki/Ireland"
+    }
+   ]
+  },
+  "nature-habitats-and-designated-sites-designated-and-protected-sites": {
+   "text": [
+    "Various designations of protected areas across the island of Ireland."
+   ]
+  },
+  "elections-and-voting-polling-stations": {
+   "text": [
+    "Locations of polling stations used in various local authorities/elections in the Republic of Ireland."
+   ]
+  },
+  "settlements-built-up-areas--points": {
+   "text": [
+    "Points representing built-up areas, specifically defined as “Area < 0.4 km2 or population >100 but < 5000 inhabitants” or “areas, which have less than 100 inhabitants but are main villages or cities of the regional/local administrative units”."
+   ],
+   "links": [
+    {
+     "label": "Surveying Open Data Portal: Built-Up Areas (points)",
+     "url": "https://data-osi.opendata.arcgis.com/datasets/osi::built-up-areas-points-national-250k-map-of-ireland-/about"
+    }
+   ]
+  },
+  "settlements-geographical-names": {
+   "text": [
+    "Major geographical regions in the Republic of Ireland."
+   ],
+   "links": [
+    {
+     "label": "Surveying Open Data Portal: Geographical Names",
+     "url": "https://data-osi.opendata.arcgis.com/datasets/osi::geographical-names-national-250k-map-of-ireland/about"
+    }
+   ]
+  },
+  "planning-applications-and-registers-planning-application-boundaries--points": {
+   "text": [
+    "Points representing planning applications. See Boundaries -> Planning & Property -> Planning Application Boundaries for exact boundaries."
+   ]
+  },
+  "planning-applications-and-registers-planning-registers--points": {
+   "text": [
+    "Points representing plans in administrative counties’ planning registers."
+   ]
+  },
+  "roads-and-traffic-road-network": {
+   "text": [
+    "Various maps of Irish roads."
+   ]
+  },
+  "roads-and-traffic-way-points": {
+   "text": [
+    "Tailte Éireann defines a “Way Point” as “a point that marks either an end point of a Way Network Segment, or a point on the Way Network Segment at which there is a transition, or a point at which there is a junction with another Way Network Segment of the same GDF level”."
+   ],
+   "links": [
+    {
+     "label": "Surveying Open Data Portal: Way Points",
+     "url": "https://data-osi.opendata.arcgis.com/datasets/osi::high-value-dataset-way-points/about"
+    }
+   ]
+  },
+  "roads-and-traffic-gdf2s": {
+   "text": [
+    "Tailte Éireann defines a “GDF2” as “a notional line indicating the centerline of a Way excepting that in the case of a dual carriageway or motorway, it indicates the central median between opposing carriageways and in the case of a roundabout, it deviates from following the centreline around the roundabout and, instead, proceeds to a meeting point at the centre of the roundabout where it intersects with the centerlines of other Ways feeding into the roundabout”."
+   ],
+   "links": [
+    {
+     "label": "Surveying Open Data Portal: Way GDF2",
+     "url": "https://data-osi.opendata.arcgis.com/datasets/osi::high-value-dataset-way-gdf2/about"
+    }
+   ]
+  },
+  "roads-and-traffic-traffic-management-and-signs": {
+   "text": [
+    "Various maps of Irish road signs and infrastructure."
+   ]
+  },
+  "rail-and-public-transport-rail-network": {
+   "text": [
+    "Various maps of Irish railway lines."
+   ]
+  },
+  "rail-and-public-transport-stations-and-stops": {
+   "text": [
+    "Various maps of Irish railway stations and infrastructure."
+   ]
+  },
+  "rail-and-public-transport-bus": {
+   "text": [
+    "Various maps of Irish bus routes and stops."
+   ]
+  },
+  "cycling-and-walking-cycle-network": {
+   "text": [
+    "Various maps of Irish cycling routes."
+   ]
+  },
+  "cycling-and-walking-walking-routes": {
+   "text": [
+    "Various maps of Irish walking routes."
+   ]
+  },
+  "cycling-and-walking-bicycle-parking-stands": {
+   "text": [
+    "Various maps of Irish cycling infrastructure."
+   ]
+  },
+  "air-and-sea-transport-airports-group": {
+   "text": [
+    "Various maps of Irish airports and airfields."
+   ]
+  },
+  "settlements-centres-of-population": {
+   "text": [
+    "Places labelled as “centres of population” by the National Gazetteer."
+   ],
+   "links": [
+    {
+     "label": "Surveying Open Data Portal: Centres of Population",
+     "url": "https://data-osi.opendata.arcgis.com/datasets/osi::centres-of-population-national-placenames-gazetteer/about"
     }
    ]
   }
@@ -1469,6 +1741,39 @@
     {
      "label": "Wikipedia: 2025 Irish presidential election",
      "url": "https://en.wikipedia.org/wiki/2025_Irish_presidential_election"
+    }
+   ]
+  },
+  "ireland-local__1985-06-20": {
+   "text": [
+    "Elections for Ireland’s 31 administrative counties, which had a total of 883 seats. One administrative county, Dublin County, was split into three “electoral counties” to prepare for the administrative county’s planned division. Galway borough, which became a county borough (and therefore Ireland’s 32nd administrative county) the following year, elected its councillors initially as borough councillors. Fianna Fáil won 441 seats (49.9%), Fine Gael won 272 (32.5%) and Labour won 60 (6.8%)."
+   ],
+   "links": [
+    {
+     "label": "Wikipedia: 1985 Irish local elections",
+     "url": "https://en.wikipedia.org/wiki/1985_Irish_local_elections"
+    }
+   ]
+  },
+  "ireland-local__1979-06-07": {
+   "text": [
+    "Elections for Ireland’s 31 administrative counties, which had a total of 806 seats. Fianna Fáil won 347 seats (43.1%), Fine Gael won 310 (38.5%) and Labour won 77 (9.6%)."
+   ],
+   "links": [
+    {
+     "label": "Wikipedia: 1979 Irish local elections",
+     "url": "https://en.wikipedia.org/wiki/1979_Irish_local_elections"
+    }
+   ]
+  },
+  "ireland-local__1974-06-18": {
+   "text": [
+    "Elections for Ireland’s 31 administrative counties, which had a total of 806 seats. Fianna Fáil won 352 seats (43.7%), Fine Gael won 280 (34.7%) and Labour won 79 (9.8%)."
+   ],
+   "links": [
+    {
+     "label": "Wikipedia: 1974 Irish local elections",
+     "url": "https://en.wikipedia.org/wiki/1974_Irish_local_elections"
     }
    ]
   }
