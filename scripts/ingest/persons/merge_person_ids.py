@@ -36,6 +36,11 @@ it is a screen, not a proof. Each class is re-tested here on its own mechanism:
          constituency (or council) of EACH id, in one of that id's years, as somewhere the
          person stood or sat. Written by scripts/ingest/persons/find_split_persons.py, which records the
          article and both pieces of evidence.
+  Crosswalk: pairs listed in ie-ei-crosswalk.csv: an IrelandElection.com person id and an
+         ElectionsIreland one for the same councillor (same name, council and electoral area at
+         consecutive elections for the same party, or the council and a constituency of its
+         county within five years). Written by scripts/ingest/persons/build_ie_ei_crosswalk.py,
+         which records both rows.
 
 Parties are compared ignoring case, accents and punctuation ("Workers' Party" is "Workers
 Party"), so a spelling difference between source systems no longer blocks LGR-2014.
@@ -77,6 +82,41 @@ DISAMBIGUATED = re.compile(r'\([^)]*\bpolitician\b[^)]*\)', re.I)
 SUCCESSOR_SUFFIX = re.compile(r'\b(jn?r|jun|junior|sn?r|sen|senior|[IVX]{2,})\b', re.I)
 # Pairs one Wikipedia biography shows to be the same person; see find_split_persons.py.
 CONFIRMED = os.path.join(PERS, 'person_id_confirmed_merges.csv')
+# IrelandElection.com person ids that are ElectionsIreland ones; see build_ie_ei_crosswalk.py.
+IE_EI_CROSSWALK = os.path.join(PERS, 'ie-ei-crosswalk.csv')
+
+
+def crosswalk_pairs(obs):
+    """{frozenset((pid, pid)): row} for each ie-ei-crosswalk.csv row: every person holding a
+    candidacy with the row's IrelandElection.com id ("ie:") is paired with the person holding
+    its ElectionsIreland id ("ei:") nearest it in time. The ids are found on the stamped
+    candidacies, so a rebuild that renumbers or re-splits either side cannot lose the pair; an
+    ElectionsIreland id split into eras (John Quinn, ei:802, 1923-27 and 1991-99) gives the ie
+    person to the era it belongs to, not both."""
+    if not os.path.exists(IE_EI_CROSSWALK):
+        return {}
+    holders = collections.defaultdict(set)
+    for pid, xs in obs.items():
+        for x in xs:
+            if x['src']:
+                holders[x['src']].add(pid)
+    span = {pid: (min(x['y'] for x in xs), max(x['y'] for x in xs)) for pid, xs in obs.items()}
+
+    def distance(a, b):
+        (alo, ahi), (blo, bhi) = span[a], span[b]
+        return max(0, blo - ahi, alo - bhi)
+    out = {}
+    with open(IE_EI_CROSSWALK, encoding='utf-8', newline='') as fh:
+        for r in csv.DictReader(fh):
+            eis = holders.get(r['ei'].strip()) or set()
+            if not eis:
+                continue
+            for a in holders.get(r['ie'].strip()) or ():
+                if a in eis:
+                    continue
+                b = min(eis, key=lambda p: (distance(a, p), p))
+                out[frozenset((a, b))] = r
+    return out
 
 
 def confirmed_pairs(ents):
@@ -116,6 +156,59 @@ def confirmed_pairs(ents):
             lead = min(pids)
             for p in pids - {lead}:
                 out[frozenset((lead, p))] = r
+    return out
+
+
+def crosswalk_redirects(xwalk, merges, final, ents):
+    """Keep every person id a crosswalk merge retired answering, at every later rebuild.
+
+    The merge log is rewritten by each pass that merges, and the next registry rebuild keeps a
+    crosswalk join itself (both ids are on the prior person), so the pass that retired an id
+    -- often a public person page, a 1985 councillor's -- is not repeated and its row would
+    leave the log, and the old address would stop redirecting. So the first merge of each pair
+    is recorded in ie-ei-crosswalk.csv (keep, drop), and every log written carries a row for
+    each recorded drop that is still merged away. Returns those rows."""
+    if not os.path.exists(IE_EI_CROSSWALK):
+        return []
+    with open(IE_EI_CROSSWALK, encoding='utf-8', newline='') as fh:
+        reader = csv.DictReader(fh)
+        fields = list(reader.fieldnames or [])
+        table = list(reader)
+    for f in ('keep', 'drop'):
+        if f not in fields:
+            fields.append(f)
+    by_ids = {(r['ie'], r['ei']): r for r in table}
+    for m in merges:
+        if m['class'] != 'IE-EI-CROSSWALK':
+            continue
+        xw = xwalk.get(frozenset((m['keep'], m['drop'])))
+        r = xw and by_ids.get((xw['ie'], xw['ei']))
+        if r is not None and not r.get('drop'):
+            r['keep'], r['drop'] = str(final.get(m['keep'], m['keep'])), str(m['drop'])
+    with open(IE_EI_CROSSWALK, 'w', encoding='utf-8', newline='') as fh:
+        w = csv.DictWriter(fh, fieldnames=fields, lineterminator='\n')
+        w.writeheader()
+        w.writerows({f: r.get(f) or '' for f in fields} for r in table)
+    absorbed = {}
+    for pid, e in ents.items():
+        for d in e.get('mergedFrom') or []:
+            absorbed[int(d)] = pid
+    logged = {int(m['drop']) for m in merges}
+    out = []
+    for r in table:
+        if not r.get('drop') or not r['drop'].isdigit():
+            continue
+        drop, keep = int(r['drop']), int(r['keep'])
+        if drop in ents or drop in logged:
+            continue
+        while keep not in ents and keep in absorbed and absorbed[keep] != keep:
+            keep = absorbed[keep]
+        if keep not in ents:
+            continue
+        logged.add(drop)
+        out.append({'class': 'IE-EI-CROSSWALK', 'keep': keep, 'drop': drop, 'name': ents[keep]['displayName'],
+                    'keep_years': f"{ents[keep].get('firstYear')}-{ents[keep].get('lastYear')}", 'drop_years': '',
+                    'evidence': f"{r['ie']} = {r['ei']}: {r['ie_evidence']} / {r['ei_evidence']} (retired {r['found']})"})
     return out
 
 
@@ -199,6 +292,7 @@ def main():
     ents = {e['personId']: e for e in reg['entities']}
     obs = observations()
     confirmed = confirmed_pairs(ents)
+    xwalk = crosswalk_pairs(obs)
 
     bykey = collections.defaultdict(list)
     for e in reg['entities']:
@@ -362,6 +456,15 @@ def main():
                     evidence = f"{hit['article']}: {hit['evidence_keep']} / {hit['evidence_drop']}"
                     if cls is None:
                         cls = 'WIKIPEDIA-BIOGRAPHY'
+                # --- One councillor under an IrelandElection.com id and an ElectionsIreland id
+                #
+                # ie-ei-crosswalk.csv (build_ie_ei_crosswalk.py): the same name, council and
+                # electoral area at consecutive elections for the same party, or the council and
+                # a constituency of its county within five years for the same party.
+                xw = xwalk.get(frozenset((a, b)))
+                if xw and cls is None:
+                    cls = 'IE-EI-CROSSWALK'
+                    evidence = f"{xw['ie']} = {xw['ei']}: {xw['ie_evidence']} / {xw['ei_evidence']}"
                 if cls is None:
                     continue
                 keep, drop = (a, b) if a < b else (b, a)
@@ -381,6 +484,17 @@ def main():
                        'keep_years': f"{ents[a].get('firstYear')}-{ents[a].get('lastYear')}",
                        'drop_years': f"{ents[b].get('firstYear')}-{ents[b].get('lastYear')}",
                        'evidence': f"{hit['article']}: {hit['evidence_keep']} / {hit['evidence_drop']}"})
+        seen.add((a, b))
+    # So is a crosswalk pair, whatever its names (Davy and David Daniels).
+    for pair, xw in xwalk.items():
+        a, b = sorted(pair)
+        if (a, b) in seen or a not in ents or b not in ents:
+            continue
+        merges.append({'class': 'IE-EI-CROSSWALK', 'keep': a, 'drop': b,
+                       'name': ents[a]['displayName'],
+                       'keep_years': f"{ents[a].get('firstYear')}-{ents[a].get('lastYear')}",
+                       'drop_years': f"{ents[b].get('firstYear')}-{ents[b].get('lastYear')}",
+                       'evidence': f"{xw['ie']} = {xw['ei']}: {xw['ie_evidence']} / {xw['ei_evidence']}"})
         seen.add((a, b))
 
     # Resolve chains so a->b->c collapses to one survivor: evidence first, and never into
@@ -443,7 +557,7 @@ def main():
         if qa and qb and qa.isdisjoint(qb):
             return f'Wikidata names two people ({", ".join(sorted(qa | qb))})'
         return None
-    order = {c: i for i, c in enumerate(('WIKIPEDIA-BIOGRAPHY', 'WIKI-DISAMBIGUATED', 'FORUM-DUPLICATE',
+    order = {c: i for i, c in enumerate(('WIKIPEDIA-BIOGRAPHY', 'IE-EI-CROSSWALK', 'WIKI-DISAMBIGUATED', 'FORUM-DUPLICATE',
                                          'LGR-2014', 'SAME-SEAT-SEQUENCE', 'STRAY-INTO-CURATED'))}
     parent = {}
     def find(x):
@@ -549,6 +663,7 @@ def main():
     reg['corrections']['note'] = ('Only the two mechanically-caused classes were merged; '
                                   'see scripts/ingest/persons/merge_person_ids.py for the tests applied.')
     write_json_retrying(REG, reg)
+    merges += crosswalk_redirects(xwalk, merges, final, ents)
     with open(LOG, 'w', encoding='utf-8', newline='') as fh:
         w = csv.DictWriter(fh, fieldnames=list(merges[0].keys()))
         w.writeheader(); w.writerows(merges)
