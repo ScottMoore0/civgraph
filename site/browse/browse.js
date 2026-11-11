@@ -2241,6 +2241,9 @@ async function renderDetail(type, indexItem) {
   // Votes in divisions: a person's record of votes, a party's cohesion (data/browse/votes/).
   const votesPanel = type === 'persons' ? await renderPersonVotesPanel(item)
     : type === 'parties' ? await renderPartyVotesPanel(item) : '';
+  // Where the results came from: the newspapers, returns and books each contest cites (QA H5),
+  // not "Civgraph Browse election index".
+  const sourcesPanel = await renderOriginalSourcesPanel(type, item);
   if (token !== renderSeq) return;
   // Maps render their own header (thumbnail beside the title), so the generic
   // hero would just duplicate the title — blank it for map detail pages.
@@ -2254,6 +2257,7 @@ async function renderDetail(type, indexItem) {
       ${partyProfile ? renderPartyProfilePanels(item, partyProfile) : ''}
       ${contestPanel}
       ${votesPanel}
+      ${sourcesPanel}
       ${type === 'elections' ? renderGazetteElectionPanels(item) : ''}
       ${isMap ? renderLinksPanel(item) : ''}
       ${featuresPanel}
@@ -4259,7 +4263,7 @@ function renderGraphStatement(statement) {
       ` : ''}
       ${(references.length || omittedReferences) ? `
         <div class="browse-graph-statement__references">
-          ${references.map((reference) => `<span>${escapeHtml(graphReferenceLabel(reference))}</span>`).join('')}
+          ${orderGraphReferences(references).map(graphReferenceHtml).join('')}
           ${omittedReferences ? `<span>+ ${formatNumber(omittedReferences)} more</span>` : ''}
         </div>
       ` : ''}
@@ -4315,6 +4319,133 @@ function graphStatementValueHtml(statement) {
  */
 function graphReferenceLabel(reference) {
   return [reference.sourceTitle || reference.sourceRecordId || reference.sourceKind || 'Source', reference.date].filter(Boolean).join(' / ');
+}
+
+/**
+ * True for a reference to one of Civgraph's own generated indexes (the semantic graph's
+ * "Civgraph Browse election index" and "person index", sourceKind generated-browse-index): where
+ * a fact was compiled, never where it came from (QA H5).
+ * @param {BrowseItem} reference
+ */
+function isCompiledInReference(reference) {
+  return reference?.sourceKind === 'generated-browse-index' || /^cg:source:civgraph-browse-/.test(String(reference?.sourceId || ''));
+}
+
+/**
+ * Original sources first, Civgraph's own index last.
+ * @param {BrowseItem[]} references
+ */
+function orderGraphReferences(references) {
+  return [...references].sort((a, b) => Number(isCompiledInReference(a)) - Number(isCompiledInReference(b)));
+}
+
+/**
+ * One reference of a fact: the source, linked where it has a URL; a Civgraph index only as a
+ * muted "compiled in" note, and with a pointer to the Sources panel when it is the only one.
+ * @param {BrowseItem} reference
+ * @param {number} _index
+ * @param {BrowseItem[]} all
+ */
+function graphReferenceHtml(reference, _index, all) {
+  if (isCompiledInReference(reference)) {
+    const alone = all.every((other) => isCompiledInReference(other));
+    return `<span class="browse-muted">Compiled in ${escapeHtml(reference.sourceTitle || 'Civgraph\u2019s index')}${alone ? '; original sources under Sources' : ''}</span>`;
+  }
+  const label = escapeHtml(graphReferenceLabel(reference));
+  const url = safeExternalUrl(reference.sourceUrl);
+  return url ? `<span><a href="${escapeAttr(url)}" target="_blank" rel="noopener noreferrer">${label}</a></span>` : `<span>${label}</span>`;
+}
+
+/**
+ * An http(s) URL, or '' for anything else (a citation URL is data, never a javascript: link).
+ * @param {unknown} value
+ */
+function safeExternalUrl(value) {
+  const text = String(value || '').trim();
+  return /^https?:\/\//i.test(text) ? text : '';
+}
+
+/** What a citation's `kind` is called on the page. */
+const CITATION_KIND_LABELS = {
+  news: 'newspaper', newspaper: 'newspaper', official: 'official return or notice', academic: 'academic compilation',
+  book: 'book', 'book-or-print': 'book', 'results-compilation': 'results compilation', web: 'website', other: '',
+};
+
+/**
+ * One original source of a result: its title (or its site, when the provenance names only a URL),
+ * linked where it has one, then its publisher and the kind of source.
+ * @param {BrowseItem} citation
+ */
+function citationHtml(citation) {
+  const url = safeExternalUrl(citation.url) || safeExternalUrl(citation.archiveUrl);
+  const host = citation.host || (url ? url.replace(/^https?:\/\/(www\.)?/i, '').split('/')[0] : '');
+  const title = String(citation.title || '').trim() || host || 'Source';
+  const label = url ? `<a href="${escapeAttr(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(title)}</a>` : escapeHtml(title);
+  const publisher = citation.publisher && !title.includes(String(citation.publisher)) ? ` &ndash; ${escapeHtml(citation.publisher)}` : '';
+  const kind = CITATION_KIND_LABELS[/** @type {keyof typeof CITATION_KIND_LABELS} */ (citation.kind)] || '';
+  return `${label}${publisher}${kind ? ` <small class="browse-muted">(${escapeHtml(kind)})</small>` : ''}`;
+}
+
+/** The line under every Sources panel: Civgraph compiled the record, the sources above hold it. */
+const COMPILED_IN_NOTE = '<p class="browse-note">Compiled in Civgraph&rsquo;s election records from the sources above. Each contest page lists the sources for that contest.</p>';
+
+/**
+ * The original sources of a record's results (QA H5): a contest's citations, an election's
+ * sources with how many of its contests each covers, or the sources of each contest a person
+ * stood in. From /_api/elections?view=citations (the records database's citations table,
+ * built from data/database/election-provenance.json). Nothing renders when none are found.
+ * @param {string} type
+ * @param {BrowseItem} item
+ */
+async function renderOriginalSourcesPanel(type, item) {
+  if (type === 'elections' && isContestItem(type, item)) {
+    const name = item.constituency || item.sourceResultName || item.resultName;
+    if (!name) return '';
+    const data = await fetchJsonOrNull(`/_api/elections?view=citations&key=${encodeURIComponent(item.parentElectionKey)}&constituencyName=${encodeURIComponent(name)}`);
+    const citations = normalizeArray(data?.citations);
+    if (!citations.length) return '';
+    return `
+      <section class="browse-detail__panel browse-sources-panel">
+        <h2>Sources</h2>
+        <ol class="browse-citation-list">${citations.map((citation) => `<li>${citationHtml(citation)}</li>`).join('')}</ol>
+        ${COMPILED_IN_NOTE.replace(' Each contest page lists the sources for that contest.', '')}
+      </section>
+    `;
+  }
+  // An election (not a grouped year of council rounds, whose councils each have their page).
+  if (type === 'elections' && (item.entryKind || 'election') === 'election' && item.key && !normalizeArray(item.councils).length) {
+    const data = await fetchJsonOrNull(`/_api/elections?view=citations&key=${encodeURIComponent(item.key)}`);
+    const sources = normalizeArray(data?.sources);
+    if (!sources.length) return '';
+    const total = Number(data?.contests) || 0;
+    const many = total > 1;
+    const rows = sources.map((source) => [citationHtml(source), ...(many ? [`${formatNumber(source.contests)} of ${formatNumber(total)}`] : [])]);
+    const intro = many ? '<p class="browse-note">The sources the results of this election are taken from, and how many of its contests each covers.</p>' : '';
+    return renderTablePanel('Sources', ['Source', ...(many ? ['Contests'] : [])], rows, { before: intro })
+      .replace(/<\/section>\s*$/, `${COMPILED_IN_NOTE}</section>`);
+  }
+  if (type === 'persons' && item.id) {
+    const data = await fetchJsonOrNull(`/_api/elections?view=citations&person=${encodeURIComponent(String(item.id))}`);
+    const candidacies = normalizeArray(data?.candidacies);
+    if (!candidacies.length) return '';
+    const titles = new Map(normalizeArray(item.elections).map((row) => [row.key, row]));
+    const rows = [...candidacies]
+      .sort((a, b) => String(titles.get(b.electionKey)?.date || b.electionKey).localeCompare(String(titles.get(a.electionKey)?.date || a.electionKey)))
+      .map((row) => {
+        const election = titles.get(row.electionKey);
+        const label = `${election?.title || row.electionKey}${row.constituency ? `: ${row.constituency}` : ''}`;
+        return [
+          `<a href="#/elections/${encodeURIComponent(contestSlug(row.electionKey, row.constituency))}" data-browse-link>${escapeHtml(label)}</a>`,
+          normalizeArray(row.citations).map(citationHtml).join('; '),
+        ];
+      });
+    return renderCollapsiblePanel('Sources', `
+      <div class="browse-detail__body">
+        ${renderInlineTable('Sources of each contest', ['Contest', 'Source'], rows)}
+        ${COMPILED_IN_NOTE.replace('Each contest page lists the sources for that contest.', 'Each contest links to its page.')}
+      </div>`, countText(rows.length, 'contest'), { open: rows.length <= 12, className: 'browse-sources-panel' });
+  }
+  return '';
 }
 
 /**

@@ -933,6 +933,19 @@ a:hover {
   padding: var(--space-3) var(--space-4);
 }
 
+/* The original sources of a record's results (QA H5): renderOriginalSourcesPanel. */
+.browse-citation-list {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: var(--space-4) var(--space-4) 0 calc(var(--space-4) + 1.1rem);
+  overflow-wrap: anywhere;
+}
+
+.browse-sources-panel .browse-note {
+  margin: var(--space-3) var(--space-4);
+}
+
 .browse-interest-list {
   display: grid;
   gap: var(--space-4);

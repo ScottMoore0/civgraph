@@ -6,16 +6,35 @@
  */
 import { html } from '../../../../core/src/html.js';
 import { dateText, numberText, percentText } from '../../../../core/src/format.js';
-import { badges, dataTable, facts, link, partyChip } from '../components/index.js';
+import { badges, citations, dataTable, facts, link, partyChip } from '../components/index.js';
 import { candidateReturnWithoutPoll, isUncontestedResult } from '../../../../core/src/unopposed.mjs';
 
 /**
  * @typedef {import('../../../../api/src/pages/election.js').ElectionPage} ElectionPage
  * @typedef {import('../../../../api/src/pages/election.js').ElectionPageCandidate} ElectionPageCandidate
+ * @typedef {import('../../../../api/src/pages/election.js').ElectionPageContest} ElectionPageContest
  */
 
 /** A candidacy's `elected` flag: 1 from D1; true kept for a record built elsewhere. */
 const elected = (/** @type {number | boolean | null} */ v) => v === 1 || v === true;
+
+/**
+ * A citation of the results as the citations component lists it: its title (or its site, when
+ * the provenance names only a URL), linked where it has a URL, with its publisher.
+ * @param {{ title?: string | null, publisher?: string | null, url?: string | null, host?: string | null }} c
+ * @param {string} [note]
+ * @returns {import('../components/index.js').Citation}
+ */
+export function citationItem(c, note) {
+  const url = /^https?:\/\//i.test(String(c.url || '')) ? String(c.url) : undefined;
+  const host = c.host || (url ? url.replace(/^https?:\/\/(www\.)?/i, '').split('/')[0] : '');
+  const label = String(c.title || '').trim() || host || 'Source';
+  const publisher = c.publisher && !label.includes(String(c.publisher)) ? String(c.publisher) : '';
+  return { label, url, note: [publisher, note].filter(Boolean).join('; ') || undefined };
+}
+
+/** Civgraph's part: it compiled the record from the sources listed, which hold it. */
+const COMPILED_NOTE = 'Compiled in Civgraph\u2019s election records from the sources above.';
 
 /** What the votes column says for a seat returned without a poll (never "0"). */
 const NO_POLL_LABELS = { unopposed: 'Unopposed', 'auto-returned': 'Returned automatically' };
@@ -80,7 +99,7 @@ ${badges([election.kind, election.votingSystem].filter(Boolean))}
       { label: 'Turnout', value: !uncontested && contest.turnoutPct ? percentText(contest.turnoutPct) : '' },
     ])}
 ${dataTable({ caption: 'Candidates', label: 'Candidates', columns: [{ label: 'Candidate', rowHeader: true }, { label: 'Party' }, { label: 'As printed' }, { label: 'Votes', num: true }, { label: 'Result' }], rows })}
-${page.citations.length ? html`<h2 id="sources">Sources</h2><ol class="cg-citations">${page.citations.map((s) => html`<li>${link(s.url, s.title || s.url)}${s.publisher ? html` – ${s.publisher}` : ''}</li>`)}</ol>` : ''}
+${page.citations.length ? html`<h2 id="sources">Sources</h2>${citations(page.citations.map((c) => citationItem(c)))}<p class="cg-muted">${COMPILED_NOTE}</p>` : ''}
 <p>${link(`/maps/#layers=election-${election.slug}`, 'Open the election on the map')}</p>`;
   } else {
     const rows = page.contests.map((k) => [
@@ -96,6 +115,7 @@ ${page.citations.length ? html`<h2 id="sources">Sources</h2><ol class="cg-citati
     ])}
 ${election.meta.description ? html`<p>${election.meta.description}</p>` : ''}
 ${dataTable({ caption: 'Contests', label: 'Contests', columns: [{ label: 'Contest', rowHeader: true }, { label: 'Seats', num: true }, { label: 'Winner' }, { label: 'Winner\'s party' }], rows })}
+${page.sources?.length ? html`<h2 id="sources">Sources</h2>${citations(page.sources.map((s) => citationItem(s, page.contests.length > 1 ? `${numberText(s.contests)} of ${numberText(page.contests.length)} contests` : '')))}<p class="cg-muted">${COMPILED_NOTE} Each contest's page lists its own.</p>` : ''}
 <p>${link(`/maps/#layers=election-${election.slug}`, 'Open the election on the map')}</p>`;
   }
   const jsonLd = {
