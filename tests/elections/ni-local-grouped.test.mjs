@@ -237,7 +237,7 @@ test('levels are offered only with results or hatching, on the edition the rules
       if (id === 'counties' && level.sourceMapId) {
         assert.equal(level.sourceMapId, year < 1921 ? 'administrative-counties-1899' : 'counties-county-boroughs-1915', `${year} counties edition`);
       }
-      assert.equal(file.title, `${year} ${year < 1921 ? 'Irish' : 'Northern Ireland'} local elections`);
+      assert.equal(file.title, year < 1921 ? `${year} Irish local elections (urban and rural districts)` : `${year} Northern Ireland local elections`);
       assert.equal(file.key, year < 1921 ? `ireland-local__${year}` : `ni-local__${year}`);
     }
   }
