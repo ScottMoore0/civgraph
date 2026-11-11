@@ -38,6 +38,17 @@ export function parseMeta(text) {
 /** @param {{ status?: string | null }} cand */
 export const isUnopposedStatus = (cand) => /unopposed/i.test(String(cand?.status || ''));
 
+/**
+ * A candidacy's first-preference votes, or null when there was no poll for it: an unopposed or
+ * auto-returned row carries 0 in 252 older rows (packages/core/src/unopposed.mjs, QA H4).
+ * @param {{ status?: string | null, first_prefs?: number | null }} cand
+ */
+export function votesOf(cand) {
+  const v = num(cand?.first_prefs);
+  if (!v && /unopposed|auto[- ]?returned/i.test(String(cand?.status || ''))) return null;
+  return v;
+}
+
 /** @param {string | null | undefined} label */
 export const hasPartyLabel = (label) => !!label && String(label).trim() !== '' && label !== NO_PARTY;
 
@@ -88,7 +99,7 @@ export function contestFacts(contest, contestMeta, cands, opts = {}) {
       if (prev !== null && total !== null && total !== prev) transfers = true;
       if (total !== null) prev = total;
     }
-    if (isNum(num(c.first_prefs))) votes = true;
+    if (votesOf(c) !== null) votes = true;
     if ((num(c.meta?.electedAt) || 0) > 1 || (num(c.meta?.excludedAt) || 0) > 1) order = true;
     if (isUnopposedStatus(c)) unopposedCands += 1;
     if (hasPartyLabel(c.party_label)) {
@@ -244,7 +255,7 @@ export function extractRow(el, contest, c, opts = {}) {
   const labelMap = opts.labelMap || new Map();
   const party = hasPartyLabel(c.party_label) ? String(c.party_label) : NO_PARTY;
   const valid = num(contest.meta?.validPoll) ?? num(contest.meta?.totalVotes);
-  const votes = num(c.first_prefs);
+  const votes = votesOf(c);
   const share = votes !== null && valid ? Math.round((10000 * votes) / valid) / 100 : null;
   const elected = c.elected === 1 || isUnopposedStatus(c);
   return {
