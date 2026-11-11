@@ -21,7 +21,7 @@ import {
 // The base maps (packages/map/src/renderer/basemap.mjs): 'osm-standard' is the default street map,
 // not one tile server but the provider chain there (OpenFreeMap, then OpenStreetMap's own tiles as
 // the last resort); CHOOSABLE_BASE_MAPS are the raster ones a reader can pick instead, each
-// credited to its own provider. The Esri base maps were removed on 11 Nov 2026.
+// credited to its own provider. The Esri, CARTO and Stamen base maps were removed on 11 Nov 2026.
 
 // The timeline's change highlight (setTimelineChanges). Magenta reads against the blues,
 // greens and browns the boundary layers use and against the OSM base map.

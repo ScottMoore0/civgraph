@@ -99,3 +99,45 @@ export function layerOrderToRestore(params, readSaved = () => [], getLoadedIds =
   const normalized = normalizeLoadedLayerOrder(savedOrder, getLoadedIds());
   return normalized.length < 2 ? [] : normalized;
 }
+
+/**
+ * The `layerOrder` to write into an address: the draw order (top to bottom) of the layers the
+ * address lists, whenever it lists two or more; else null.
+ *
+ * Written even when it matches the `layers` list. It used to be left out then, but that list is
+ * not a draw order: a link opened elsewhere loads its layers in parallel and stacks each on top
+ * as it arrives, and with no layerOrder the opening browser's own saved order was applied. So a
+ * drag that happened to leave the order matching the list (in the common case, any drag of two
+ * layers back the other way) was lost from the shared link, and from a reload in another browser.
+ * @param {unknown} order the draw order, top to bottom
+ * @param {readonly string[]} [listed] the ids the address lists
+ * @returns {string | null}
+ */
+export function layerOrderForAddress(order, listed = []) {
+  const listedSet = new Set(listed);
+  const ids = parseLayerOrder(order).filter((id) => listedSet.has(id));
+  return ids.length > 1 ? ids.join(',') : null;
+}
+
+/**
+ * An order from the Active layers panel, in loaded layer ids. A row carries its map's catalogue
+ * id (`rowIdOf`, dataService.getMapById(id).id), which is not the loaded id when a layer was
+ * loaded under another id for the same map: an address naming `lgd-2012-vector` loads it under
+ * that id, and its row is `lgd-2012`. Normalised against the loaded ids, that row was dropped, so a
+ * visible drag was neither drawn nor saved, and the next render put the rows back. Ids that are
+ * loaded, or that no loaded layer is shown as, pass through unchanged.
+ * @param {unknown} order
+ * @param {readonly string[]} [loadedIds]
+ * @param {(id: string) => string | null | undefined} [rowIdOf]
+ * @returns {string[]}
+ */
+export function rowOrderToLoadedIds(order, loadedIds = [], rowIdOf = (id) => id) {
+  const loaded = new Set(loadedIds);
+  /** @type {Map<string, string>} */
+  const loadedIdOfRow = new Map();
+  for (const id of loadedIds) {
+    const rowId = rowIdOf(id);
+    if (rowId && rowId !== id && !loaded.has(rowId) && !loadedIdOfRow.has(rowId)) loadedIdOfRow.set(rowId, id);
+  }
+  return parseLayerOrder(order).map((id) => (loaded.has(id) ? id : loadedIdOfRow.get(id) || id));
+}
