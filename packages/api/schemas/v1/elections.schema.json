@@ -1,0 +1,621 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:civgraph:api:v1:elections",
+  "title": "/api/v1/elections",
+  "description": "Elections, contests, candidates and counts. The answer of /_api/elections, which stays as an alias.",
+  "x-civgraph-route": {
+    "legacy": "/_api/elections",
+    "parameters": [
+      "body",
+      "key",
+      "slug",
+      "constituency",
+      "constituencyName",
+      "contest",
+      "format",
+      "lite",
+      "view",
+      "decade",
+      "q",
+      "limit",
+      "offset"
+    ]
+  },
+  "x-civgraph-variants": [
+    {
+      "name": "record",
+      "when": {
+        "view": "record"
+      },
+      "summary": "One Browse election record: an election's detail item or a contest's"
+    },
+    {
+      "name": "manifest",
+      "when": {
+        "view": "manifest"
+      },
+      "summary": "Every election the map app can show"
+    },
+    {
+      "name": "summary",
+      "when": {
+        "view": "summary"
+      },
+      "summary": "One election's summary"
+    },
+    {
+      "name": "provenance",
+      "when": {
+        "view": "provenance"
+      },
+      "summary": "Where each contest's figures came from"
+    },
+    {
+      "name": "list",
+      "when": {
+        "view": "list"
+      },
+      "summary": "The Browse list of elections, or a page of it"
+    },
+    {
+      "name": "detail",
+      "when": {
+        "view": "detail"
+      },
+      "summary": "One election's Browse detail"
+    },
+    {
+      "name": "contests",
+      "when": {
+        "view": "contests"
+      },
+      "summary": "One election's contests as Browse items"
+    },
+    {
+      "name": "index",
+      "when": {
+        "key": ""
+      },
+      "summary": "Every election, by date then key"
+    },
+    {
+      "name": "contest-by-slug",
+      "when": {
+        "key": "*",
+        "contest": "*"
+      },
+      "summary": "One contest found by its Browse slug: candidates and counts"
+    },
+    {
+      "name": "contest-by-name",
+      "when": {
+        "key": "*",
+        "constituencyName": "*"
+      },
+      "summary": "One contest found by its name"
+    },
+    {
+      "name": "contest",
+      "when": {
+        "key": "*",
+        "constituency": "*"
+      },
+      "summary": "One contest by its sequence number"
+    },
+    {
+      "name": "bundle",
+      "when": {
+        "key": "*",
+        "format": "bundle"
+      },
+      "summary": "The election bundle (the static file's shape); lite=1 leaves out the counts"
+    },
+    {
+      "name": "election",
+      "when": {
+        "key": "*"
+      },
+      "summary": "One election with its constituencies"
+    }
+  ],
+  "anyOf": [
+    {
+      "$ref": "#/$defs/record"
+    },
+    {
+      "$ref": "#/$defs/manifest"
+    },
+    {
+      "$ref": "#/$defs/summary"
+    },
+    {
+      "$ref": "#/$defs/provenance"
+    },
+    {
+      "$ref": "#/$defs/list"
+    },
+    {
+      "$ref": "#/$defs/detail"
+    },
+    {
+      "$ref": "#/$defs/contests"
+    },
+    {
+      "$ref": "#/$defs/index"
+    },
+    {
+      "$ref": "#/$defs/contest-by-slug"
+    },
+    {
+      "$ref": "#/$defs/contest-by-name"
+    },
+    {
+      "$ref": "#/$defs/contest"
+    },
+    {
+      "$ref": "#/$defs/bundle"
+    },
+    {
+      "$ref": "#/$defs/election"
+    }
+  ],
+  "$defs": {
+    "record": {
+      "description": "One Browse election record: an election's detail item or a contest's",
+      "type": "object",
+      "properties": {
+        "item": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "item"
+      ]
+    },
+    "manifest": {
+      "description": "Every election the map app can show",
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "number"
+        },
+        "generatedAt": {
+          "type": "string"
+        },
+        "totals": {
+          "type": "object",
+          "properties": {
+            "elections": {
+              "type": "number"
+            },
+            "loadable": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "elections",
+            "loadable"
+          ]
+        },
+        "elections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "key": {
+                "type": "string"
+              },
+              "body": {
+                "type": "string"
+              },
+              "date": {
+                "type": "string"
+              },
+              "displayTitle": {
+                "type": "string"
+              },
+              "loadable": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "key",
+              "body",
+              "date",
+              "displayTitle",
+              "loadable"
+            ]
+          }
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "generatedAt",
+        "totals",
+        "elections"
+      ]
+    },
+    "summary": {
+      "description": "One election's summary",
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "body": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string"
+        },
+        "displayTitle": {
+          "type": "string"
+        },
+        "results": {
+          "type": "array"
+        }
+      },
+      "required": [
+        "key",
+        "body",
+        "date",
+        "displayTitle",
+        "results"
+      ]
+    },
+    "provenance": {
+      "description": "Where each contest's figures came from",
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "number"
+        },
+        "key": {
+          "type": "string"
+        },
+        "contests": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "key",
+        "contests"
+      ]
+    },
+    "list": {
+      "description": "The Browse list of elections, or a page of it",
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "number"
+        },
+        "total": {
+          "type": "number"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "slug": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "date": {
+                "type": "string"
+              },
+              "body": {
+                "type": "string"
+              },
+              "kind": {
+                "type": "string"
+              },
+              "interactiveUrl": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "slug",
+              "title"
+            ]
+          }
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "total",
+        "items"
+      ]
+    },
+    "detail": {
+      "description": "One election's Browse detail",
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "number"
+        },
+        "item": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "item"
+      ]
+    },
+    "contests": {
+      "description": "One election's contests as Browse items",
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "number"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "items"
+      ]
+    },
+    "index": {
+      "description": "Every election, by date then key",
+      "type": "object",
+      "properties": {
+        "elections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "key": {
+                "type": "string"
+              },
+              "body": {
+                "type": "string"
+              },
+              "bodySlug": {
+                "type": "string"
+              },
+              "displayTitle": {
+                "type": "string"
+              },
+              "date": {
+                "type": "string"
+              },
+              "year": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "key",
+              "body",
+              "bodySlug",
+              "displayTitle",
+              "date",
+              "year"
+            ]
+          }
+        },
+        "count": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "elections",
+        "count"
+      ]
+    },
+    "contest-by-slug": {
+      "description": "One contest found by its Browse slug: candidates and counts",
+      "type": "object",
+      "properties": {
+        "constituency": {
+          "type": "object"
+        },
+        "feature": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "candidates": {
+          "type": "array"
+        },
+        "counts": {
+          "type": "array"
+        },
+        "animationPayload": {
+          "type": [
+            "object",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "constituency",
+        "feature",
+        "candidates",
+        "counts",
+        "animationPayload"
+      ]
+    },
+    "contest-by-name": {
+      "description": "One contest found by its name",
+      "type": "object",
+      "properties": {
+        "constituency": {
+          "type": "object"
+        },
+        "feature": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "candidates": {
+          "type": "array"
+        },
+        "counts": {
+          "type": "array"
+        },
+        "animationPayload": {
+          "type": [
+            "object",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "constituency",
+        "feature",
+        "candidates",
+        "counts",
+        "animationPayload"
+      ]
+    },
+    "contest": {
+      "description": "One contest by its sequence number",
+      "type": "object",
+      "properties": {
+        "constituency": {
+          "type": "object"
+        },
+        "feature": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "candidates": {
+          "type": "array"
+        },
+        "counts": {
+          "type": "array"
+        },
+        "animationPayload": {
+          "type": [
+            "object",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "constituency",
+        "feature",
+        "candidates",
+        "counts",
+        "animationPayload"
+      ]
+    },
+    "bundle": {
+      "description": "The election bundle (the static file's shape); lite=1 leaves out the counts",
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "number"
+        },
+        "key": {
+          "type": "string"
+        },
+        "body": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string"
+        },
+        "displayTitle": {
+          "type": "string"
+        },
+        "loadable": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "key",
+        "body",
+        "date",
+        "displayTitle",
+        "loadable"
+      ]
+    },
+    "election": {
+      "description": "One election with its constituencies",
+      "type": "object",
+      "properties": {
+        "election": {
+          "type": "object",
+          "properties": {
+            "key": {
+              "type": "string"
+            },
+            "body": {
+              "type": "string"
+            },
+            "date": {
+              "type": "string"
+            },
+            "displayTitle": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "key",
+            "body",
+            "date",
+            "displayTitle"
+          ]
+        },
+        "constituencies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "seq": {
+                "type": "number"
+              },
+              "name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "seq",
+              "name"
+            ]
+          }
+        },
+        "matchedCount": {
+          "type": "number"
+        },
+        "unmatchedCount": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "election",
+        "constituencies",
+        "matchedCount",
+        "unmatchedCount"
+      ]
+    },
+    "error": {
+      "description": "The JSON error answer (4xx, 5xx)",
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "error"
+      ]
+    }
+  }
+}

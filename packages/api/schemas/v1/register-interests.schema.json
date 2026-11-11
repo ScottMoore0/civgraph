@@ -1,0 +1,189 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:civgraph:api:v1:register-interests",
+  "title": "/api/v1/register-interests",
+  "description": "Registers of members' interests. The answer of /_api/register-interests, which stays as an alias.",
+  "x-civgraph-route": {
+    "legacy": "/_api/register-interests",
+    "parameters": [
+      "slug",
+      "q",
+      "limit",
+      "offset",
+      "memberName",
+      "electedBody",
+      "category",
+      "view",
+      "sort"
+    ]
+  },
+  "x-civgraph-variants": [
+    {
+      "name": "record",
+      "when": {
+        "slug": "*"
+      },
+      "summary": "One register entry"
+    },
+    {
+      "name": "list",
+      "when": {},
+      "summary": "A page of register entries, searched, filtered and sorted"
+    }
+  ],
+  "anyOf": [
+    {
+      "$ref": "#/$defs/record"
+    },
+    {
+      "$ref": "#/$defs/list"
+    }
+  ],
+  "$defs": {
+    "record": {
+      "description": "One register entry",
+      "type": "object",
+      "properties": {
+        "register-interest": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "slug": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "memberName": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "slug",
+            "type",
+            "title",
+            "memberName"
+          ]
+        },
+        "record": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "slug": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "memberName": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "slug",
+            "type",
+            "title",
+            "memberName"
+          ]
+        }
+      },
+      "required": [
+        "register-interest",
+        "record"
+      ]
+    },
+    "list": {
+      "description": "A page of register entries, searched, filtered and sorted",
+      "type": "object",
+      "properties": {
+        "register-interests": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "slug": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "memberName": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "slug",
+              "type",
+              "title",
+              "memberName"
+            ]
+          }
+        },
+        "total": {
+          "type": "number"
+        },
+        "count": {
+          "type": "number"
+        },
+        "limit": {
+          "type": "number"
+        },
+        "offset": {
+          "type": "number"
+        },
+        "applied": {
+          "type": "object",
+          "properties": {
+            "filters": {
+              "type": "array"
+            },
+            "sort": {}
+          },
+          "required": [
+            "filters",
+            "sort"
+          ]
+        }
+      },
+      "required": [
+        "register-interests",
+        "total",
+        "count",
+        "limit",
+        "offset",
+        "applied"
+      ]
+    },
+    "error": {
+      "description": "The JSON error answer (4xx, 5xx)",
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "error"
+      ]
+    }
+  }
+}

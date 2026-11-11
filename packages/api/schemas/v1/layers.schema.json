@@ -1,0 +1,242 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:civgraph:api:v1:layers",
+  "title": "/api/v1/layers/{path}",
+  "description": "Map layers: the full metadata, the startup index, each layer record and its duplicate-id sidecar. The answer of /_api/layers, which stays as an alias.",
+  "x-civgraph-route": {
+    "legacy": "/_api/layers",
+    "parameters": [
+      "view"
+    ],
+    "subpaths": true
+  },
+  "x-civgraph-variants": [
+    {
+      "name": "index",
+      "when": {
+        "path": "",
+        "view": "index"
+      },
+      "summary": "The map app's startup index"
+    },
+    {
+      "name": "document",
+      "when": {
+        "path": ""
+      },
+      "summary": "The full render metadata"
+    },
+    {
+      "name": "duplicates",
+      "when": {
+        "path": "<id>/duplicates"
+      },
+      "summary": "One layer's duplicate-feature-id sidecar"
+    },
+    {
+      "name": "layer",
+      "when": {
+        "path": "<id>"
+      },
+      "summary": "One layer's full record"
+    }
+  ],
+  "anyOf": [
+    {
+      "$ref": "#/$defs/index"
+    },
+    {
+      "$ref": "#/$defs/document"
+    },
+    {
+      "$ref": "#/$defs/duplicates"
+    },
+    {
+      "$ref": "#/$defs/layer"
+    }
+  ],
+  "$defs": {
+    "index": {
+      "description": "The map app's startup index",
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "number"
+        },
+        "capabilities": {
+          "type": "object"
+        },
+        "categories": {
+          "type": "array"
+        },
+        "layers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "sourceMapId": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "category": {
+                "type": "string"
+              },
+              "renderer": {
+                "type": "string"
+              },
+              "geometryType": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "sourceMapId",
+              "name",
+              "category",
+              "renderer",
+              "geometryType"
+            ]
+          }
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "capabilities",
+        "categories",
+        "layers"
+      ]
+    },
+    "document": {
+      "description": "The full render metadata",
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "number"
+        },
+        "categories": {
+          "type": "array"
+        },
+        "layers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "sourceMapId": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "category": {
+                "type": "string"
+              },
+              "renderer": {
+                "type": "string"
+              },
+              "geometryType": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "sourceMapId",
+              "name",
+              "category",
+              "renderer",
+              "geometryType"
+            ]
+          }
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "categories",
+        "layers"
+      ]
+    },
+    "duplicates": {
+      "description": "One layer's duplicate-feature-id sidecar",
+      "type": "object",
+      "properties": {
+        "layerId": {
+          "type": "string"
+        },
+        "sourceMapId": {
+          "type": "string"
+        },
+        "featureCount": {
+          "type": "number"
+        },
+        "duplicateFeatureIds": {
+          "type": "array"
+        }
+      },
+      "required": [
+        "layerId",
+        "sourceMapId",
+        "featureCount",
+        "duplicateFeatureIds"
+      ]
+    },
+    "layer": {
+      "description": "One layer's full record",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "sourceMapId": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "renderer": {
+          "type": "string"
+        },
+        "geometryType": {
+          "type": "string"
+        },
+        "minzoom": {
+          "type": "number"
+        },
+        "maxzoom": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "sourceMapId",
+        "name",
+        "category",
+        "renderer",
+        "geometryType",
+        "minzoom",
+        "maxzoom"
+      ]
+    },
+    "error": {
+      "description": "The JSON error answer (4xx, 5xx)",
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "error"
+      ]
+    }
+  }
+}

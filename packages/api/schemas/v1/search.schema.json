@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:civgraph:api:v1:search",
+  "title": "/api/v1/search",
+  "description": "Map features by name. The answer of /_api/search, which stays as an alias.",
+  "x-civgraph-route": {
+    "legacy": "/_api/search",
+    "parameters": [
+      "q",
+      "limit"
+    ]
+  },
+  "x-civgraph-variants": [
+    {
+      "name": "results",
+      "when": {},
+      "summary": "Map features whose name contains q, best first"
+    }
+  ],
+  "anyOf": [
+    {
+      "$ref": "#/$defs/results"
+    }
+  ],
+  "$defs": {
+    "results": {
+      "description": "Map features whose name contains q, best first",
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "score": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "score"
+            ]
+          }
+        }
+      },
+      "required": [
+        "results"
+      ]
+    },
+    "error": {
+      "description": "The JSON error answer (4xx, 5xx)",
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "error"
+      ]
+    }
+  }
+}

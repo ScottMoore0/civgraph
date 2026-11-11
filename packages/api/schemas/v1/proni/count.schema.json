@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:civgraph:api:v1:proni:count",
+  "title": "/api/v1/proni/count",
+  "description": "PRONI eCatalogue: the number of matches, by level. The answer of /_api/proni/count, which stays as an alias.",
+  "x-civgraph-route": {
+    "legacy": "/_api/proni/count",
+    "parameters": [
+      "q",
+      "fields",
+      "letter",
+      "from",
+      "to",
+      "top",
+      "level",
+      "access"
+    ]
+  },
+  "x-civgraph-variants": [
+    {
+      "name": "count",
+      "when": {},
+      "summary": "How many records match (exact when known)"
+    }
+  ],
+  "anyOf": [
+    {
+      "$ref": "#/$defs/count"
+    }
+  ],
+  "$defs": {
+    "count": {
+      "description": "How many records match (exact when known)",
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "exact": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "count",
+        "exact"
+      ]
+    },
+    "error": {
+      "description": "The JSON error answer (4xx, 5xx)",
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "error"
+      ]
+    }
+  }
+}

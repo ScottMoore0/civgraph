@@ -1,0 +1,212 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:civgraph:api:v1:proni:node",
+  "title": "/api/v1/proni/node",
+  "description": "PRONI eCatalogue: the fonds, or one node with its ancestors and children. The answer of /_api/proni/node, which stays as an alias.",
+  "x-civgraph-route": {
+    "legacy": "/_api/proni/node",
+    "parameters": [
+      "ref"
+    ]
+  },
+  "x-civgraph-variants": [
+    {
+      "name": "node",
+      "when": {
+        "ref": "*"
+      },
+      "summary": "One catalogue node with its ancestors and children"
+    },
+    {
+      "name": "roots",
+      "when": {},
+      "summary": "The top-level fonds"
+    }
+  ],
+  "anyOf": [
+    {
+      "$ref": "#/$defs/node"
+    },
+    {
+      "$ref": "#/$defs/roots"
+    }
+  ],
+  "$defs": {
+    "node": {
+      "description": "One catalogue node with its ancestors and children",
+      "type": "object",
+      "properties": {
+        "item": {
+          "type": "object",
+          "properties": {
+            "ref": {
+              "type": "string"
+            },
+            "slug": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "level": {
+              "type": "string"
+            },
+            "dates": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "access": {
+              "type": "string"
+            },
+            "hasChildren": {
+              "type": "boolean"
+            },
+            "fond": {
+              "type": "string"
+            },
+            "extractedDates": {
+              "type": [
+                "object",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "ref",
+            "slug",
+            "title",
+            "level",
+            "dates",
+            "description",
+            "access",
+            "hasChildren",
+            "fond",
+            "extractedDates"
+          ]
+        },
+        "ancestors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ref": {
+                "type": "string"
+              },
+              "slug": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "ref",
+              "slug",
+              "title"
+            ]
+          }
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ref": {
+                "type": "string"
+              },
+              "slug": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "level": {
+                "type": "string"
+              },
+              "dates": {
+                "type": "string"
+              },
+              "hasChildren": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "ref",
+              "slug",
+              "title",
+              "level",
+              "dates",
+              "hasChildren"
+            ]
+          }
+        }
+      },
+      "required": [
+        "item",
+        "ancestors",
+        "children"
+      ]
+    },
+    "roots": {
+      "description": "The top-level fonds",
+      "type": "object",
+      "properties": {
+        "roots": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ref": {
+                "type": "string"
+              },
+              "slug": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "level": {
+                "type": "string"
+              },
+              "dates": {
+                "type": "string"
+              },
+              "hasChildren": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "ref",
+              "slug",
+              "title",
+              "level",
+              "dates",
+              "hasChildren"
+            ]
+          }
+        },
+        "count": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "roots",
+        "count"
+      ]
+    },
+    "error": {
+      "description": "The JSON error answer (4xx, 5xx)",
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "error"
+      ]
+    }
+  }
+}

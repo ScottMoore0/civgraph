@@ -1,0 +1,319 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:civgraph:api:v1:graph",
+  "title": "/api/v1/graph",
+  "description": "The semantic graph: entities and statements. The answer of /_api/graph, which stays as an alias.",
+  "x-civgraph-route": {
+    "legacy": "/_api/graph",
+    "parameters": [
+      "entity",
+      "browse",
+      "slug",
+      "q",
+      "limit",
+      "offset",
+      "related",
+      "view"
+    ]
+  },
+  "x-civgraph-variants": [
+    {
+      "name": "manifest",
+      "when": {
+        "view": "manifest"
+      },
+      "summary": "The graph manifest, its exports pointing at downloads"
+    },
+    {
+      "name": "search",
+      "when": {
+        "q": "*"
+      },
+      "summary": "Entities by name"
+    },
+    {
+      "name": "entity",
+      "when": {
+        "entity": "*"
+      },
+      "summary": "One entity's statements (related=1 adds reverse and source statements)"
+    },
+    {
+      "name": "slug",
+      "when": {
+        "slug": "*"
+      },
+      "summary": "The same, by the entity's readable slug"
+    },
+    {
+      "name": "browse",
+      "when": {
+        "browse": "*"
+      },
+      "summary": "The same, by a Browse record key (type:key)"
+    }
+  ],
+  "anyOf": [
+    {
+      "$ref": "#/$defs/manifest"
+    },
+    {
+      "$ref": "#/$defs/search"
+    },
+    {
+      "$ref": "#/$defs/entity"
+    },
+    {
+      "$ref": "#/$defs/slug"
+    },
+    {
+      "$ref": "#/$defs/browse"
+    }
+  ],
+  "$defs": {
+    "manifest": {
+      "description": "The graph manifest, its exports pointing at downloads",
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "number"
+        },
+        "entities": {
+          "type": "object",
+          "properties": {
+            "total": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "total"
+          ]
+        },
+        "statements": {
+          "type": "object",
+          "properties": {
+            "total": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "total"
+          ]
+        },
+        "exports": {
+          "type": "object"
+        },
+        "api": {
+          "type": "string"
+        },
+        "downloads": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "entities",
+        "statements",
+        "exports",
+        "api",
+        "downloads"
+      ]
+    },
+    "search": {
+      "description": "Entities by name",
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "entityId": {
+                "type": "string"
+              },
+              "slug": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "types": {
+                "type": "array"
+              }
+            },
+            "required": [
+              "entityId",
+              "label",
+              "types"
+            ]
+          }
+        }
+      },
+      "required": [
+        "items"
+      ]
+    },
+    "entity": {
+      "description": "One entity's statements (related=1 adds reverse and source statements)",
+      "type": "object",
+      "properties": {
+        "entityId": {
+          "type": "string"
+        },
+        "summary": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "statements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "propertyId": {
+                "type": "string"
+              },
+              "propertyLabel": {
+                "type": "string"
+              },
+              "valueType": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "propertyId",
+              "propertyLabel",
+              "valueType"
+            ]
+          }
+        },
+        "total": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "entityId",
+        "summary",
+        "statements",
+        "total"
+      ]
+    },
+    "slug": {
+      "description": "The same, by the entity's readable slug",
+      "type": "object",
+      "properties": {
+        "entityId": {
+          "type": "string"
+        },
+        "summary": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "statements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "propertyId": {
+                "type": "string"
+              },
+              "propertyLabel": {
+                "type": "string"
+              },
+              "valueType": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "propertyId",
+              "propertyLabel",
+              "valueType"
+            ]
+          }
+        },
+        "total": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "entityId",
+        "summary",
+        "statements",
+        "total"
+      ]
+    },
+    "browse": {
+      "description": "The same, by a Browse record key (type:key)",
+      "type": "object",
+      "properties": {
+        "entityId": {
+          "type": "string"
+        },
+        "summary": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "statements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "propertyId": {
+                "type": "string"
+              },
+              "propertyLabel": {
+                "type": "string"
+              },
+              "valueType": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "propertyId",
+              "propertyLabel",
+              "valueType"
+            ]
+          }
+        },
+        "total": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "entityId",
+        "summary",
+        "statements",
+        "total"
+      ]
+    },
+    "error": {
+      "description": "The JSON error answer (4xx, 5xx)",
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "error"
+      ]
+    }
+  }
+}

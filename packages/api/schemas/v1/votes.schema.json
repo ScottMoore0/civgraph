@@ -1,0 +1,216 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:civgraph:api:v1:votes",
+  "title": "/api/v1/votes",
+  "description": "Parliamentary divisions and how members voted. The answer of /_api/votes, which stays as an alias.",
+  "x-civgraph-route": {
+    "legacy": "/_api/votes",
+    "parameters": [
+      "view",
+      "division",
+      "shard",
+      "person",
+      "party",
+      "body",
+      "term"
+    ]
+  },
+  "x-civgraph-variants": [
+    {
+      "name": "index",
+      "when": {
+        "view": "index"
+      },
+      "summary": "What the votes data holds"
+    },
+    {
+      "name": "division",
+      "when": {
+        "division": "*"
+      },
+      "summary": "One division with its votes"
+    },
+    {
+      "name": "shard",
+      "when": {
+        "shard": "*"
+      },
+      "summary": "One shard of divisions"
+    },
+    {
+      "name": "person",
+      "when": {
+        "person": "*"
+      },
+      "summary": "One member's votes"
+    },
+    {
+      "name": "party",
+      "when": {
+        "party": "*"
+      },
+      "summary": "One party's cohesion"
+    }
+  ],
+  "anyOf": [
+    {
+      "$ref": "#/$defs/index"
+    },
+    {
+      "$ref": "#/$defs/division"
+    },
+    {
+      "$ref": "#/$defs/shard"
+    },
+    {
+      "$ref": "#/$defs/person"
+    },
+    {
+      "$ref": "#/$defs/party"
+    }
+  ],
+  "$defs": {
+    "index": {
+      "description": "What the votes data holds",
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "number"
+        },
+        "shards": {
+          "type": "number"
+        },
+        "bodies": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        },
+        "persons": {
+          "type": "number"
+        },
+        "parties": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "shards",
+        "bodies",
+        "persons",
+        "parties"
+      ]
+    },
+    "division": {
+      "description": "One division with its votes",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "body": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "votes": {
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "body",
+        "date",
+        "title",
+        "votes"
+      ]
+    },
+    "shard": {
+      "description": "One shard of divisions",
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "number"
+        },
+        "shard": {
+          "type": "number"
+        },
+        "divisions": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "shard",
+        "divisions"
+      ]
+    },
+    "person": {
+      "description": "One member's votes",
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "number"
+        },
+        "personId": {
+          "type": "number"
+        },
+        "terms": {
+          "type": "array"
+        },
+        "divisions": {
+          "type": "array"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "personId",
+        "terms",
+        "divisions"
+      ]
+    },
+    "party": {
+      "description": "One party's cohesion",
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "number"
+        },
+        "slug": {
+          "type": "string"
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "terms": {
+          "type": "array"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "slug",
+        "labels",
+        "terms"
+      ]
+    },
+    "error": {
+      "description": "The JSON error answer (4xx, 5xx)",
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "error"
+      ]
+    }
+  }
+}

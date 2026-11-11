@@ -1,0 +1,364 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:civgraph:api:v1:persons",
+  "title": "/api/v1/persons",
+  "description": "People: search, list and one record with candidacies and votes. The answer of /_api/persons, which stays as an alias.",
+  "x-civgraph-route": {
+    "legacy": "/_api/persons",
+    "parameters": [
+      "slug",
+      "q",
+      "limit",
+      "offset",
+      "facets",
+      "view",
+      "body",
+      "decade",
+      "elected",
+      "party",
+      "sort"
+    ]
+  },
+  "x-civgraph-variants": [
+    {
+      "name": "facets",
+      "when": {
+        "facets": "1"
+      },
+      "summary": "The People filter options"
+    },
+    {
+      "name": "candidacies",
+      "when": {
+        "slug": "*",
+        "view": "candidacies"
+      },
+      "summary": "Every candidacy of one person, in date order"
+    },
+    {
+      "name": "votes",
+      "when": {
+        "slug": "*",
+        "view": "votes"
+      },
+      "summary": "One person's parliamentary votes"
+    },
+    {
+      "name": "record",
+      "when": {
+        "slug": "*"
+      },
+      "summary": "One person"
+    },
+    {
+      "name": "list",
+      "when": {},
+      "summary": "A page of people, searched (q), filtered and sorted"
+    }
+  ],
+  "anyOf": [
+    {
+      "$ref": "#/$defs/facets"
+    },
+    {
+      "$ref": "#/$defs/candidacies"
+    },
+    {
+      "$ref": "#/$defs/votes"
+    },
+    {
+      "$ref": "#/$defs/record"
+    },
+    {
+      "$ref": "#/$defs/list"
+    }
+  ],
+  "$defs": {
+    "facets": {
+      "description": "The People filter options",
+      "type": "object",
+      "properties": {
+        "facets": {
+          "type": "object",
+          "properties": {
+            "body": {
+              "type": "array"
+            },
+            "decade": {
+              "type": "array"
+            },
+            "elected": {
+              "type": "array"
+            },
+            "party": {
+              "type": "array"
+            }
+          },
+          "required": [
+            "body",
+            "decade",
+            "elected",
+            "party"
+          ]
+        }
+      },
+      "required": [
+        "facets"
+      ]
+    },
+    "candidacies": {
+      "description": "Every candidacy of one person, in date order",
+      "type": "object",
+      "properties": {
+        "slug": {
+          "type": "string"
+        },
+        "personId": {
+          "type": "string"
+        },
+        "total": {
+          "type": "number"
+        },
+        "candidacies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "electionKey": {
+                "type": "string"
+              },
+              "electionSlug": {
+                "type": "string"
+              },
+              "date": {
+                "type": "string"
+              },
+              "contest": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "elected": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "electionKey",
+              "electionSlug",
+              "date",
+              "contest",
+              "name",
+              "elected"
+            ]
+          }
+        }
+      },
+      "required": [
+        "slug",
+        "personId",
+        "total",
+        "candidacies"
+      ]
+    },
+    "votes": {
+      "description": "One person's parliamentary votes",
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "number"
+        },
+        "personId": {
+          "type": "number"
+        },
+        "terms": {
+          "type": "array"
+        },
+        "divisions": {
+          "type": "array"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "personId",
+        "terms",
+        "divisions"
+      ]
+    },
+    "record": {
+      "description": "One person",
+      "type": "object",
+      "properties": {
+        "person": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "slug": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "browseUrl": {
+              "type": "string"
+            },
+            "parties": {
+              "type": "array"
+            },
+            "elections": {
+              "type": "array"
+            }
+          },
+          "required": [
+            "id",
+            "slug",
+            "type",
+            "title",
+            "name",
+            "browseUrl"
+          ]
+        },
+        "record": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "slug": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "browseUrl": {
+              "type": "string"
+            },
+            "parties": {
+              "type": "array"
+            },
+            "elections": {
+              "type": "array"
+            }
+          },
+          "required": [
+            "id",
+            "slug",
+            "type",
+            "title",
+            "name",
+            "browseUrl"
+          ]
+        }
+      },
+      "required": [
+        "person",
+        "record"
+      ]
+    },
+    "list": {
+      "description": "A page of people, searched (q), filtered and sorted",
+      "type": "object",
+      "properties": {
+        "persons": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "slug": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "browseUrl": {
+                "type": "string"
+              },
+              "parties": {
+                "type": "array"
+              },
+              "elections": {
+                "type": "array"
+              }
+            },
+            "required": [
+              "id",
+              "slug",
+              "type",
+              "title",
+              "name",
+              "browseUrl"
+            ]
+          }
+        },
+        "total": {
+          "type": "number"
+        },
+        "count": {
+          "type": "number"
+        },
+        "limit": {
+          "type": "number"
+        },
+        "offset": {
+          "type": "number"
+        },
+        "applied": {
+          "type": "object",
+          "properties": {
+            "filters": {
+              "type": "array"
+            },
+            "sort": {}
+          },
+          "required": [
+            "filters",
+            "sort"
+          ]
+        }
+      },
+      "required": [
+        "persons",
+        "total",
+        "count",
+        "limit",
+        "offset",
+        "applied"
+      ]
+    },
+    "error": {
+      "description": "The JSON error answer (4xx, 5xx)",
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "error"
+      ]
+    }
+  }
+}
