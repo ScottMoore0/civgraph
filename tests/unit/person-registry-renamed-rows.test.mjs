@@ -11,6 +11,30 @@ import test from 'node:test';
 const REPO = new URL('../..', import.meta.url);
 const PERSONS = new URL('data/elections/persons/', REPO);
 
+function mergeRows() {
+  const rows = [];
+  for (const file of ['person_id_confirmed_merges.csv', 'person_id_merges.csv']) {
+    const [head, ...lines] = readFileSync(new URL(file, PERSONS), 'utf8').trim().split(/\r?\n/);
+    const cols = head.split(',');
+    const k = cols.indexOf('keep');
+    const d = cols.indexOf('drop');
+    for (const line of lines) {
+      const cells = line.split(',');
+      rows.push([Number(cells[k]), Number(cells[d])]);
+    }
+  }
+  return rows;
+}
+
+function resolveLive(reg, id) {
+  const live = new Map(reg.entities.map((e) => [e.personId, e]));
+  const keepOf = new Map();
+  for (const [keep, drop] of mergeRows()) if (!keepOf.has(drop)) keepOf.set(drop, keep);
+  let at = id;
+  for (let hops = 0; !live.has(at) && keepOf.has(at) && hops < 10; hops += 1) at = keepOf.get(at);
+  return live.get(at);
+}
+
 function csvIds(text) {
   const [head, ...lines] = text.trim().split(/\r?\n/);
   const col = head.split(',').indexOf('candidate_id');
@@ -51,10 +75,10 @@ test('the three placeholder-name joins stay undone, and each id kept the name it
     const eb = bySource.get(b);
     assert.ok(ea && eb, `${a} and ${b} are both stamped`);
     assert.notEqual(ea.personId, eb.personId, `${a} and ${b} are two people`);
-    // The id either is still live with the person it named, or was merged into that person's
-    // fuller career (a redirect to the same man).
-    const holder = reg.entities.find((e) => e.personId === shared || (e.mergedFrom || []).includes(shared));
-    assert.ok(holder, `${shared} is live or a redirect`);
+    // The id is still live with the person it named, or redirects (person_id_confirmed_merges.csv
+    // or the merge log, the rows the records build turns into person_aliases) to that person.
+    const holder = resolveLive(reg, shared);
+    assert.ok(holder, `${shared} is live or redirects to a live person`);
     assert.ok((holder.matchKeys || []).includes(keeps.toLowerCase()), `${shared} stays with ${keeps}`);
     assert.ok(!(holder.aliases || []).some((n) => n !== keeps && [ea, eb].some((e) => e !== holder && (e.aliases || []).includes(n))),
       `${shared} no longer carries the other person's name`);
