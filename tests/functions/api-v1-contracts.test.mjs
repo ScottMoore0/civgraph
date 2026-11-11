@@ -417,6 +417,7 @@ async function recordsCases(env) {
       ['persons', '?limit=5', 'list'], ['persons', '?q=moore&limit=3', 'list'], ['persons', '?facets=1', 'facets'],
       ['persons', `?slug=${person.slug}`, 'record'], ['persons', `?slug=${person.slug}&view=candidacies`, 'candidacies'],
       ['parties', '', 'list'], ['parties', `?slug=${party.slug}`, 'record'], ['parties', '?view=names', 'names'], ['parties', '?view=folds', 'folds'],
+      ['parties', `?slug=${party.slug}&view=members&limit=5`, 'members'],
       ['sources', '?limit=3', 'list'], ['sources', `?slug=${source.slug}`, 'record'], ['sources', `?slug=${source.slug}&view=detail`, 'detail'],
       ['register-interests', '?limit=3', 'list'], ['register-interests', `?slug=${entry.slug}`, 'record'],
       ['graph', '?view=manifest', 'manifest'], ['graph', '?q=belfast&limit=3', 'search'],

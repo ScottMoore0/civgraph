@@ -28,9 +28,16 @@
  *
  * DEFINITIONS -- these are judgement calls, so they are stated rather than implied:
  *
- *   public maps        catalogue entries passing the shared public-map rule. Not
- *                      recomputed here: read from the publicMapCount already stamped
- *                      by build-render-time-series-chains.mjs, for the reason above.
+ *   public maps        the maps the catalogue shows a reader: every series' maps and
+ *                      council maps in data/catalogue/catalogue.json, each once
+ *                      (catalogueMapIds in src/public-map.mjs). The catalogue's sections
+ *                      add up to the same number. Until 11 Nov 2026 this was the
+ *                      publicMapCount stamped in the render metadata by the public-map
+ *                      rule (909 against the sections' 820: maps the catalogue lists as
+ *                      to be added or keeps out by its review); the owner decided the
+ *                      figure counts what the catalogue shows.
+ *   maps to be added   (opt-in, the About page) the maps the catalogue lists as still to
+ *                      be added and does not show as maps.
  *   election contests  one constituency in one election -- a `results[]` entry. NOT
  *                      the 281 election events, which is a different (smaller) claim.
  *   candidacies        one person standing in one contest -- a `results[].candidates[]`
@@ -52,6 +59,7 @@
 import { readdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs';
 import path from 'node:path';
 import { BROWSE_DIR, ELECTION_BUNDLE_DIR, GRAPH_DIR } from '../../packages/loader/src/paths.mjs';
+import { catalogueMapIds, catalogueToBeAddedIds } from '../../src/public-map.mjs';
 
 const ROOT = process.cwd();
 const OUT = path.join(ROOT, 'data/database/site-stats.json');
@@ -92,13 +100,12 @@ const optionalJson = (rel) => {
 
 // --- the six figures --------------------------------------------------------
 
-// Read, not recomputed: two computations of one number is the bug this avoids.
+// The maps the catalogue shows, by the one definition (src/public-map.mjs catalogueMapIds): the
+// --check below compares every page with this same computation.
 const mapsMeta = readJson('render/metadata/maps-test.json');
-const publicMaps = mapsMeta.publicMapCount;
-if (!Number.isFinite(publicMaps)) {
-  fail('render/metadata/maps-test.json carries no publicMapCount.\n'
-    + '  Run scripts/build/build-render-time-series-chains.mjs first -- it stamps that figure.');
-}
+const paneCatalogue = readJson('data/catalogue/catalogue.json');
+const publicMaps = catalogueMapIds(paneCatalogue).size;
+const mapsToBeAdded = catalogueToBeAddedIds(paneCatalogue).size;
 
 // Relative and with forward slashes: it is written into the committed site-stats.json, which
 // must not carry this machine's absolute path.
@@ -145,6 +152,7 @@ const stats = {
   cataloguedSources: sources.total,
   // Opt-in figures: stated on some pages, not all. See CORE_KEYS.
   elections: electionFiles,
+  mapsToBeAdded,
   catalogueEntries: (catalogue.maps || []).length,
   renderedLayers: (mapsMeta.layers || []).length,
   proniRecords: browseIndex.counts?.proni,
@@ -178,6 +186,7 @@ const LABELS = {
   scannedBooks: 'scanned books',
   cataloguedSources: 'catalogued sources',
   elections: 'elections',
+  mapsToBeAdded: 'maps to be added',
   catalogueEntries: 'catalogue entries',
   renderedLayers: 'rendered layers',
   proniRecords: 'PRONI records',
@@ -186,7 +195,8 @@ const LABELS = {
 };
 
 const PROVENANCE = {
-  publicMaps: 'render/metadata/maps-test.json :: publicMapCount (stamped by build-render-time-series-chains.mjs)',
+  publicMaps: 'data/catalogue/catalogue.json :: series[].members[] + series[].local[], distinct ids (src/public-map.mjs catalogueMapIds)',
+  mapsToBeAdded: 'data/catalogue/catalogue.json :: series[].todo[] not shown as a map (src/public-map.mjs catalogueToBeAddedIds)',
   electionContests: `${ELECTION_DIR}/*.json :: count of results[] across ${electionFiles} elections`,
   candidacies: `${ELECTION_DIR}/*.json :: total results[].candidates[] entries`,
   people: 'data/browse/persons.json :: total',

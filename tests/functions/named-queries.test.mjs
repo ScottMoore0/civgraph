@@ -37,6 +37,8 @@ const BUILDER_SAMPLES = {
   'cards.CARDS.page': [['person_cards', 'card AS record', '', 'ord', 0], ['person_cards', 'card AS record', 'WHERE elected = ?1', 'title_norm', 1]],
   'cards.CARDS.count': [['person_cards', ''], ['register_entries', 'WHERE elected_body = ?1']],
   'cards.PERSONS.partyFilter': [[['?1', '?2']]],
+  'parties.PARTIES.membersCount': [[1], [3]],
+  'parties.PARTIES.membersPage': [[1], [3]],
   'graph.GRAPH.search': [[0, 200], [2, 50]],
   'graph.GRAPH.browseKeys': [[1], [3]],
   'proni.PRONI.levelCounts': [[true, '', []], [false, ' LEFT JOIN ext ON ext.ref = p.ref', ['p.level = ?', 'ext.ext_end_year >= ?']]],
