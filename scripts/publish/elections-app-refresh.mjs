@@ -55,6 +55,7 @@ async function remoteManifest() {
   return res.text();
 }
 
+/** @param {string[]} args */
 function npm(args) {
   execFileSync(process.platform === 'win32' ? 'npm.cmd' : 'npm', args, { cwd: REPO, stdio: 'inherit', shell: process.platform === 'win32' });
 }
