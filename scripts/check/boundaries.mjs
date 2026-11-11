@@ -9,10 +9,10 @@
  * starts the Functions by path, as a dev server). Known violations go in boundaries.json
  * `baseline` ("from -> to"); an entry that no longer occurs fails too, so the list only shrinks.
  *
- * Served pages (site/) are not bundled, so they reach package code only through the served
- * mapping, packages/served.json: an import of site/<served prefix>... resolves to the package
- * file the browser is given, and '@served' in an `allow` list means "the units that mapping
- * serves" (so a new served prefix, such as a pkg/ mapping, is allowed without editing the rule).
+ * Served pages (site/) are not bundled, so a relative import of packages/ would 404 in the
+ * browser: they import only site/ files. Package code reaches them through packages/served.json,
+ * whose shims under site/ (site/assets/ui/, the site-served unit) re-export the package so Node and
+ * tsc resolve the same module; only those shims may import the package.
  *
  * Which files belong to no unit (architecture rule R1, check C2) and which unit paths hold no
  * file (C1) are reported by scripts/check/architecture.mjs (npm run check:architecture), from
@@ -30,9 +30,6 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '.
 const config = JSON.parse(readFileSync(path.join(ROOT, 'config', 'boundaries.json'), 'utf8'));
 const UNITS = Object.entries(config.units);
 const SKIP = /(^|\/)(node_modules|dist|build|vendor)\/|\.min\.js$|^src\/sql\.js-httpvfs\//;
-/** packages/served.json: served path prefix -> package source prefix. */
-const SERVED = Object.entries(JSON.parse(readFileSync(path.join(ROOT, 'packages', 'served.json'), 'utf8')))
-  .filter(([prefix]) => prefix !== '//');
 
 /** The unit that holds a repository path, or null. @param {string} rel @returns {string | null} */
 export function unitOf(rel) {
@@ -42,23 +39,12 @@ export function unitOf(rel) {
   return null;
 }
 
-/** The units whose files the site serves through packages/served.json ('@served' in an allow list). */
-export const SERVED_UNITS = new Set(SERVED.map(([, source]) => unitOf(source)).filter((u) => u !== null));
-
 /** Whether unit `from` may import unit `to`. @param {string} from @param {string | null} to */
 export function allowed(from, to) {
   if (to === null || from === to) return true;
   const allow = config.units[from].allow;
   if (allow.includes(`!${to}`)) return false;
-  return allow.includes('*') || allow.includes(to) || (allow.includes('@served') && SERVED_UNITS.has(to));
-}
-
-/** A site/ path under a served prefix is the package file the browser is given there. @param {string} rel */
-export function servedSource(rel) {
-  if (!rel.startsWith('site/')) return rel;
-  const served = rel.slice('site/'.length);
-  for (const [prefix, source] of SERVED) if (served.startsWith(prefix)) return source + served.slice(prefix.length);
-  return rel;
+  return allow.includes('*') || allow.includes(to);
 }
 
 /** The tracked scripts the import rules read (vendored, minified and build output left out). */
@@ -115,7 +101,7 @@ export function edges() {
         continue;
       }
       if (!spec.startsWith('.')) continue;
-      const target = servedSource(path.posix.normalize(path.posix.join(path.posix.dirname(file), spec.split(/[?#]/)[0])));
+      const target = path.posix.normalize(path.posix.join(path.posix.dirname(file), spec.split(/[?#]/)[0]));
       const to = unitOf(target);
       out.push({ file, target, from, to, ok: allowed(from, to) });
     }
