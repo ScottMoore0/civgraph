@@ -1,6 +1,6 @@
 /**
  * Named queries: the server-rendered record pages (functions/_browse-page.js heads and
- * functions/_templates/records/*; storage slice ST-6). The card lookups by slug or alias are
+ * packages/ui/src/templates/records/*; storage slice ST-6). The card lookups by slug or alias are
  * CARDS.bySlug/byAlias (cards.js), shared with the Browse index.
  */
 import { T } from './tables.js';

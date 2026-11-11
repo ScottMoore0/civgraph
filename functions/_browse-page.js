@@ -39,7 +39,7 @@
  * SERVER-RENDERED BODIES (behind a flag)
  *
  * For persons, sources and register-interests the whole page can instead be rendered on
- * the server from the same D1 row, in the shared shell (functions/_templates/records/).
+ * the server from the same D1 row, in the shared shell (packages/ui/src/templates/records/).
  * That happens only when CIVGRAPH_SSR_RECORDS names the type, or for ?ssr=1 when
  * CIVGRAPH_SSR_PREVIEW is set; with neither, this file behaves exactly as before.
  */

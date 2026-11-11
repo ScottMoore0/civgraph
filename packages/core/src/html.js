@@ -11,7 +11,7 @@
  * can only reach the page through an interpolation, and an interpolation is escaped unless
  * the code, not the data, says otherwise.
  *
- * Shared by the server-rendered pages in Functions (functions/_templates/) and the build
+ * Shared by the server-rendered pages in Functions (packages/ui/src/templates/) and the build
  * step that stamps the same shell into static pages, so it imports nothing.
  * See D:\civgraph-intake\site-restructure-2026-11-06\frontend-plan.md section 4.
  */

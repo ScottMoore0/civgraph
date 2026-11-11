@@ -1,6 +1,6 @@
 /**
  * Text formatting shared by the record pages: numbers, dates, lists, slugs.
- * Pure functions; used by functions/_browse-page.js and functions/_templates/records/.
+ * Pure functions; used by functions/_browse-page.js and packages/ui/src/templates/records/.
  */
 
 /**

@@ -1,5 +1,5 @@
 /**
- * The server-rendered record pages (functions/_templates/records/, step F3a) and the flag
+ * The server-rendered record pages (packages/ui/src/templates/records/, step F3a) and the flag
  * that keeps them off the live routes (functions/_browse-page.js).
  *
  * D1 is node:sqlite with the browse_* columns the page reads, so the page's SQL really runs.
