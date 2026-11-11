@@ -73,6 +73,14 @@ export const SHELL_STYLES = ['assets/ui/tokens.css', 'assets/ui/tokens-legacy.cs
 /** The i18n reveal script of the site head, with the runtime's URL filled in. */
 const LANG_PREVIEW = (/** @type {string} */ src) => "<script>(function(){var K='civgraph.langPreview',S='" + src + "',on=false;function load(){var i=window.civgraphI18n;if(i){if(i.show)i.show();return;}if(document.querySelector('script[data-i18n-runtime]'))return;var s=document.createElement('script');s.src=S;s.setAttribute('data-i18n-runtime','');document.head.appendChild(s);}window.civgraphLangReveal=function(){try{localStorage.setItem(K,'1');}catch(e){}load();};try{if(/[?&]lang-preview=0(?:&|$)/.test(location.search)){localStorage.removeItem(K);localStorage.removeItem('civgraph.lang');}on=localStorage.getItem(K)==='1';}catch(e){}if(on)load();})();</script>";
 
+/**
+ * The two web fonts base.css declares, asked for with the page rather than when the stylesheet
+ * is parsed: arriving after the first paint, they swapped in and reflowed the text, the largest
+ * part of the layout shift on Words in parliament and elsewhere (QA 2026-11-11, M16).
+ */
+export const FONT_PRELOADS = ['/assets/fonts/inter-latin.woff2', '/assets/fonts/plus-jakarta-sans-latin.woff2']
+  .map((href) => `<link rel="preload" href="${href}" as="font" type="font/woff2" crossorigin>`);
+
 /** @param {{ version?: ((path: string) => string | null) | undefined }} [options] */
 export function head({ version } = {}) {
   const url = (/** @type {string} */ path) => {
@@ -81,6 +89,7 @@ export function head({ version } = {}) {
   };
   return raw([
     THEME_BOOTSTRAP,
+    ...FONT_PRELOADS,
     // The language control (fc1efce887): loads nothing unless the reader has revealed it.
     LANG_PREVIEW(url('assets/i18n/i18n.js')),
     ...SHELL_STYLES.map((path) => `<link rel="stylesheet" href="${url(path)}">`),

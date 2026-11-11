@@ -24,6 +24,8 @@
   <meta name="description" content="How often words and phrases were used in the Dáil, the Seanad, the Northern Ireland Assembly and by Irish and Northern Ireland members at Westminster, 1803 to 2026: by year, chamber, party and speaker." />
 <!-- site:head -->
 <script>(function(){var t=null;try{t=localStorage.getItem('theme');}catch(e){}if(t!=='dark'&&t!=='light'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
 <script>(function(){var K='civgraph.langPreview',S='/assets/i18n/i18n.js?v=e12c28fbed1b',on=false;function load(){var i=window.civgraphI18n;if(i){if(i.show)i.show();return;}if(document.querySelector('script[data-i18n-runtime]'))return;var s=document.createElement('script');s.src=S;s.setAttribute('data-i18n-runtime','');document.head.appendChild(s);}window.civgraphLangReveal=function(){try{localStorage.setItem(K,'1');}catch(e){}load();};try{if(/[?&]lang-preview=0(?:&|$)/.test(location.search)){localStorage.removeItem(K);localStorage.removeItem('civgraph.lang');}on=localStorage.getItem(K)==='1';}catch(e){}if(on)load();})();</script>
 <link rel="stylesheet" href="/assets/ui/tokens.css?v=9a3dca6e608e">
 <link rel="stylesheet" href="/assets/ui/tokens-legacy.css?v=17646fa133f3">
@@ -109,6 +111,15 @@
     .controls select, .controls input[type="number"], .inline-controls select { padding: 6px 8px; border: 1px solid var(--muted); border-radius: 7px; background: var(--surface); color: var(--text); font: inherit; font-size: .9rem; }
     .controls input[type="number"] { width: 6.2em; }
     .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    /* Layout shift (QA 2026-11-11, M16: CLS 0.36). The chamber chips and the examples are drawn
+       by the script; their space is held from the first paint, so the controls beside and below
+       them do not jump (five chips: one row of about 477 px on a wide screen, two on a phone). */
+    .chips:empty { min-height: 33px; min-width: min(477px, calc(100vw - 48px)); }
+    .examples:empty { min-height: 1.5em; }
+    @media (max-width: 520px) {
+      .chips:empty { min-height: 71px; }
+      .examples:empty { min-height: 75px; }
+    }
     .chip { position: relative; display: inline-flex; }
     .chip input { position: absolute; opacity: 0; width: 1px; height: 1px; }
     .chip span { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 999px; border: 1px solid var(--muted); font-size: .86rem; cursor: pointer; background: var(--surface); color: var(--text); }

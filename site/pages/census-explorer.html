@@ -24,6 +24,8 @@
   <meta name="description" content="Census tables for Northern Ireland (1926-2021) and the Republic of Ireland (1841-2022): find a table, read its figures, download them, compare census years and open the boundaries on the map." />
 <!-- site:head -->
 <script>(function(){var t=null;try{t=localStorage.getItem('theme');}catch(e){}if(t!=='dark'&&t!=='light'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
 <script>(function(){var K='civgraph.langPreview',S='/assets/i18n/i18n.js?v=e12c28fbed1b',on=false;function load(){var i=window.civgraphI18n;if(i){if(i.show)i.show();return;}if(document.querySelector('script[data-i18n-runtime]'))return;var s=document.createElement('script');s.src=S;s.setAttribute('data-i18n-runtime','');document.head.appendChild(s);}window.civgraphLangReveal=function(){try{localStorage.setItem(K,'1');}catch(e){}load();};try{if(/[?&]lang-preview=0(?:&|$)/.test(location.search)){localStorage.removeItem(K);localStorage.removeItem('civgraph.lang');}on=localStorage.getItem(K)==='1';}catch(e){}if(on)load();})();</script>
 <link rel="stylesheet" href="/assets/ui/tokens.css?v=9a3dca6e608e">
 <link rel="stylesheet" href="/assets/ui/tokens-legacy.css?v=17646fa133f3">
@@ -176,6 +178,12 @@
     .dz-results li button:hover { background: var(--surface-alt); }
     .credit { margin: 36px 0 0; padding-top: 16px; font-size: .82rem; color: var(--muted); border-top: 1px solid var(--line); }
     .credit p { margin: 4px 0; }
+    /* Layout shift (QA 2026-11-11, M16: CLS 0.59). The space the census index fills when it
+       arrives is held from the first paint: the counts line keeps its height while empty, and a
+       panel still loading holds a screen's height, so nothing below it (the sources and licences)
+       is drawn in view and then pushed away. */
+    .stat-line:empty { min-height: 1.45em; }
+    [role="tabpanel"] > .loading { min-height: 100vh; box-sizing: border-box; }
     .controls [hidden], .dz-results[hidden], .field[hidden] { display: none !important; }
     table.data.fit { width: 100%; }
     table.data.fit td.how { white-space: normal; text-align: left; min-width: 160px; }
@@ -185,6 +193,7 @@
     /* Phones: the concept matrix becomes one card per concept, a line per census. */
     @media (max-width: 640px) {
       .intro h1 { font-size: 1.55rem; }
+      .stat-line:empty { min-height: 8.6em; }
       .controls input[type="search"] { min-width: 0; width: 100%; }
       .controls .field { flex: 1 1 100%; }
       .controls select { width: 100%; }
@@ -259,7 +268,7 @@
       <ul class="stat-line" id="statLine" aria-label="What the explorer holds"></ul>
     </div>
 
-    <div id="loadNotice" class="notice" role="status" aria-live="polite">Loading the census index…</div>
+    <div id="loadNotice" class="notice" role="status" aria-live="polite" hidden></div>
 
     <div class="tabs" role="tablist" aria-label="Census Explorer sections">
       <button type="button" role="tab" id="tab-topics" aria-controls="panel-topics" aria-selected="true" tabindex="0">Topics across censuses (NI)</button>
@@ -1404,14 +1413,17 @@
       else if (!$('viewer').hidden) { V = null; $('viewer').hidden = true; clear($('viewer')); }
     }
     function boot() {
+      // The notice appears only if the index fails: while it loads, the open panel says so in its
+      // own place, so the notice's line is not drawn and then taken away (layout shift).
       var notice = $('loadNotice');
-      notice.hidden = false; clear(notice).appendChild(document.createTextNode('Loading the census index…'));
+      notice.hidden = true; clear(notice);
       fetchJson(BUNDLE).then(function (b) {
         if (b.schemaVersion !== 2) throw new Error('unexpected index version');
         B = b; notice.hidden = true;
         renderStats();
         applyState();
       }).catch(function (e) {
+        notice.hidden = false;
         clear(notice).appendChild(retry('Could not load the census index (' + e.message + ').', boot));
       });
     }

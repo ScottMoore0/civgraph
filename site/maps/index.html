@@ -67,9 +67,7 @@
        resolver here means clicks on those links don't pay DNS latency. -->
   <link rel="dns-prefetch" href="https://archive.org">
 
-  <!-- Self-hosted fonts (latin subset, ~74 KB total) -->
-  <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="/assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <!-- Self-hosted fonts (latin subset, ~74 KB total): preloaded by the site head below. -->
 
   <!-- Modulepreload — start fetching the entry bundle before parser reaches
        the <script type=module> tag at the end of <body>. -->
@@ -102,6 +100,8 @@
 
 <!-- site:head -->
 <script>(function(){var t=null;try{t=localStorage.getItem('theme');}catch(e){}if(t!=='dark'&&t!=='light'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
 <script>(function(){var K='civgraph.langPreview',S='/assets/i18n/i18n.js?v=e12c28fbed1b',on=false;function load(){var i=window.civgraphI18n;if(i){if(i.show)i.show();return;}if(document.querySelector('script[data-i18n-runtime]'))return;var s=document.createElement('script');s.src=S;s.setAttribute('data-i18n-runtime','');document.head.appendChild(s);}window.civgraphLangReveal=function(){try{localStorage.setItem(K,'1');}catch(e){}load();};try{if(/[?&]lang-preview=0(?:&|$)/.test(location.search)){localStorage.removeItem(K);localStorage.removeItem('civgraph.lang');}on=localStorage.getItem(K)==='1';}catch(e){}if(on)load();})();</script>
 <link rel="stylesheet" href="/assets/ui/tokens.css?v=9a3dca6e608e">
 <link rel="stylesheet" href="/assets/ui/tokens-legacy.css?v=17646fa133f3">
@@ -121,11 +121,11 @@
 </style>
   <!-- INLINE-CRITICAL-CSS:END -->
 
-  <!-- Deferred CSS: remaining ~186 KB (catalogue cards, modals, charts, …)
-       loaded async via media=print + onload swap so it doesn't block first
-       paint. Browsers without JS fall back via <noscript>. -->
-    <link rel="stylesheet" href="/build/main.css?v=8bcd73e7e549" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="/build/main.css?v=8bcd73e7e549"></noscript>
+  <!-- The rest of the shared CSS (~186 KB) blocks the first paint like app.bundle.css beside it,
+       and is fetched alongside it. It was loaded after the first paint (media=print, then
+       onload), and arriving it moved the catalogue, the map controls and the map itself: most
+       of the page's layout shift, 0.27 on a desktop (QA 2026-11-11, M16). -->
+    <link rel="stylesheet" href="/build/main.css?v=8bcd73e7e549">
   <link rel="stylesheet" href="/app/build/app.bundle.css?v=9860bb1a10a2">
 
   <!-- Election Viewer & Animation CSS (deferred — not needed for first paint) -->
@@ -323,14 +323,14 @@
           <div id="addressResults" class="address-results hidden"></div>
 
           <!-- Category Pills -->
-          <div class="category-pills-container">
+          <div class="category-pills-container hidden">
             <div id="categoryPills" class="category-pills" role="group" aria-label="Filter by category">
               <!-- Populated by JavaScript -->
             </div>
           </div>
 
           <!-- Provider Category Pills -->
-          <div class="provider-pills-container">
+          <div class="provider-pills-container hidden">
             <div class="provider-pills-label">Filter by Jurisdiction</div>
             <div id="providerPills" class="category-pills" role="group" aria-label="Filter by provider category">
               <!-- Populated by JavaScript -->

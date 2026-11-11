@@ -18,7 +18,7 @@ import { withShareTags } from '../packages/ui/src/templates/share.js';
 import { reportError } from '../packages/api/src/handlers/_error.js';
 
 // Bump when apps/proni-search/index.html changes in a way the edge copy must not outlive.
-const SHELL_VERSION = 'v18';
+const SHELL_VERSION = 'v19';
 export const SITE_ORIGIN = SITE.origin;
 const DESCRIPTION_LIMIT = 300;
 
