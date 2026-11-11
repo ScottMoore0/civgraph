@@ -10,7 +10,7 @@ Pages that are not the map application and not `/browse/`.
 | `api.html` | yes | `/pages/api`: the Civgraph API (version 1), linked from About, the footer, `llms.txt` and the agent guide |
 | `census-explorer.html` | yes | The Census Explorer, which fetches `data/census/explorer-bundle.json` at runtime |
 | `status.html` | yes | `/status`: progress figures, body stamped by `scripts/build/build-status.mjs` |
-| `privacy.html`, `licence.html`, `cite.html`, `downloads.html` | yes | DRAFTS (11 Nov 2026), noindex and unlinked until the owner approves them. `licence.html`'s per-source list is stamped from `data/database/source-ledger.json` by `scripts/build/build-licence-page.mjs` (`npm run check:licence-page`). Styles: `assets/pages/css/info.css` |
+| `privacy.html`, `licence.html`, `cite.html`, `downloads.html` | yes | DRAFTS (11 Nov 2026), noindex and unlinked until the owner approves them. One flag, `INFO_PAGES_LIVE` in `packages/ui/src/templates/info-pages.js`, decides their noindex line and draft banner (the `site:draft-head` and `site:draft-banner` regions, stamped by `build-site-partials.mjs`), the footer links and the sitemap entries. `licence.html`'s per-source list is stamped from `data/database/source-ledger.json` by `scripts/build/build-licence-page.mjs` (`npm run check:licence-page`). Styles: `assets/pages/css/info.css` |
 | `*-mock.html` | **no** — `.gitignore` excludes `pages/*-mock.html` | Nothing. Local design mocks. |
 
 ## Why the mocks are ignored
