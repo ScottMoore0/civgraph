@@ -10,7 +10,7 @@
  *   node scripts/build/elections-app/data.mjs --extracts [--out-dir DIR] [--no-parquet]
  *       Phase 2: one pivot extract per body (one row per candidacy, model.mjs EXTRACT_COLUMNS),
  *       as CSV and, through the local Python DuckDB, Parquet, plus index.json naming them.
- *       Default DIR is tmp/elections-app/extracts (gitignored). The extracts are PRIVATE until
+ *       Default DIR is site/apps/elections/extracts (gitignored, so never in dist/ or a commit; the local servers serve it). The extracts are PRIVATE until
  *       the owner approves the app: they are never uploaded to R2 and are not under site/.
  *       `--out-dir dist/apps/elections/extracts` after `npm run build:site` puts them beside a
  *       local build for testing.
@@ -189,7 +189,14 @@ function extracts(db, outDir, o) {
     writeFileSync(csv, toCsv([...EXTRACT_COLUMNS], b.rows));
     index.push({ body: b.name, slug, elections: b.elections, rows: b.rows.length, file: `${slug}.parquet`, csv: `${slug}.csv` });
   }
-  if (o.parquet) toParquet(outDir, index.map((x) => x.slug));
+  if (o.parquet) {
+    toParquet(outDir, index.map((x) => x.slug));
+    // The CSVs were the hand-over to DuckDB; the browser reads the Parquet (2.3 MB, against 24 MB of CSV).
+    for (const x of index) {
+      rmSync(path.join(outDir, x.csv), { force: true });
+      /** @type {any} */ (x).csv = null;
+    }
+  }
   writeFileSync(path.join(outDir, 'index.json'), `${JSON.stringify({
     schemaVersion: 1,
     note: 'Private until the owner approves the Elections app (11 Nov 2026). Built from the local records build; never uploaded.',
@@ -220,9 +227,9 @@ function toParquet(dir, slugs) {
     'for s in slugs:',
     '    src = os.path.join(d, s + ".csv").replace("\\\\", "/")',
     '    dst = os.path.join(d, s + ".parquet").replace("\\\\", "/")',
-    '    con.execute("COPY (SELECT * FROM read_csv(\'%s\', header=true, columns=%s)) TO \'%s\' (FORMAT parquet, COMPRESSION zstd)" % (src, spec, dst))',
+    '    con.execute("COPY (SELECT * FROM read_csv(\'%s\', header=true, quote=\'\\"\', escape=\'\\"\', columns=%s)) TO \'%s\' (FORMAT parquet, COMPRESSION zstd)" % (src, spec, dst))',
   ].join('\n');
-  execFileSync('python', ['-I', '-c', py, dir, JSON.stringify(columns), JSON.stringify(slugs)], { stdio: 'inherit' });
+  execFileSync('python', ['-P', '-c', py, dir, JSON.stringify(columns), JSON.stringify(slugs)], { stdio: 'inherit' });
 }
 
 // ------------------------------------------------------------------ main
@@ -241,7 +248,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     writeFileSync(out, `${auditMarkdown(audit(db), DB_FILE)}\n${kept}`);
     console.log(`audit written: ${path.relative(REPO, out)}`);
   } else if (args.includes('--extracts')) {
-    const outDir = path.resolve(REPO, opt('--out-dir', 'tmp/elections-app/extracts') || '');
+    const outDir = path.resolve(REPO, opt('--out-dir', 'site/apps/elections/extracts') || '');
     const index = extracts(db, outDir, { parquet: !args.includes('--no-parquet'), bodies: many('--body') });
     console.log(`extracts: ${index.length} bodies, ${index.reduce((s, x) => s + x.rows, 0)} rows -> ${path.relative(REPO, outDir)}`);
   } else {
