@@ -45,17 +45,52 @@ export const PRONI = Object.freeze({
   count: (/** @type {boolean} */ matched, /** @type {string} */ joinExt, /** @type {string[]} */ where) => (matched
     ? `SELECT COUNT(*) AS n FROM proni_fts f JOIN proni p ON p.rowid = f.rowid${joinExt} WHERE proni_fts MATCH ?${andWhere(where)}`
     : `SELECT COUNT(*) AS n FROM proni p${joinExt} WHERE ${where.join(' AND ')}`),
+  /**
+   * [match] -> { n }: the count with no filters, straight from the full-text index. Every indexed
+   * document is a record (the index is filled from proni's own rows and nothing is ever deleted;
+   * LANDING/proni-app has the check), so the join to proni that count() makes cannot drop a row.
+   */
+  countMatchOnly: 'SELECT COUNT(*) AS n FROM proni_fts WHERE proni_fts MATCH ?',
+  /**
+   * [...year filters] -> { n }: a year-range count with no other filter, from the Extracted Dates
+   * index alone (ext_years_ref covers it). ext holds one row per record, keyed by its reference.
+   */
+  countYearsOnly: (/** @type {string[]} */ where) => `SELECT COUNT(*) AS n FROM ext WHERE ${where.join(' AND ')}`,
   /** [match?, ...filters, limit, offset] -> the CSV export's columns, by ref */
   exportPage: (/** @type {boolean} */ matched, /** @type {string[]} */ where) => (matched
     ? `SELECT ${EXPORT_COLS} FROM proni_fts f JOIN proni p ON p.rowid = f.rowid LEFT JOIN ext ON ext.ref = p.ref WHERE proni_fts MATCH ?${andWhere(where)} ORDER BY p.ref LIMIT ? OFFSET ?`
     : `SELECT ${EXPORT_COLS} FROM proni p LEFT JOIN ext ON ext.ref = p.ref WHERE ${where.join(' AND ')} ORDER BY p.ref LIMIT ? OFFSET ?`),
   /** [REF] -> the search columns of the record with exactly this reference */
   exactRef: (/** @type {number} */ preview) => `SELECT ${searchCols(preview)} FROM proni p LEFT JOIN ext ON ext.ref = p.ref WHERE p.ref = ?1 LIMIT 1`,
-  /** [match, ...filters, limit, offset] -> search columns (and rank when ranked by relevance) */
-  searchMatched: (/** @type {number} */ preview, /** @type {string[]} */ where, /** @type {string} */ order, /** @type {boolean} */ withRank) => `SELECT ${searchCols(preview)}${withRank ? ', bm25(proni_fts) AS rank' : ''}
+  /**
+   * [match, ...filters, limit, offset] -> search columns (and rank when ranked by relevance), in
+   * order of `key` `dir` then reference. Two passes: the inner query orders the matches on their
+   * sort keys alone and keeps one page of row ids; only that page reads the wide columns (the
+   * description preview above all) and the Extracted Dates. One pass read them for every match.
+   */
+  searchMatched: (/** @type {number} */ preview, /** @type {string[]} */ where, /** @type {string} */ key, /** @type {'ASC' | 'DESC'} */ dir, /** @type {boolean} */ withRank) => {
+    const ext = /\bext\./.test(`${key} ${where.join(' ')}`) ? ' LEFT JOIN ext ON ext.ref = p.ref' : '';
+    return `SELECT ${searchCols(preview)}${withRank ? ', h.k AS rank' : ''}
+             FROM (SELECT p.rowid AS rid, ${key} AS k, p.ref AS r
+                     FROM proni_fts f JOIN proni p ON p.rowid = f.rowid${ext}
+                    WHERE proni_fts MATCH ?${andWhere(where)}
+                    ORDER BY k ${dir}, r LIMIT ? OFFSET ?) h
+             JOIN proni p ON p.rowid = h.rid LEFT JOIN ext ON ext.ref = p.ref
+             ORDER BY h.k ${dir}, h.r`;
+  },
+  /**
+   * [match, limit, offset] -> search columns and rank, by relevance then reference, with no
+   * filters. The page can only hold matches scoring at or below the (offset + limit)th best
+   * score, so that score is found from the full-text index alone first, and only the matches at
+   * or under it are joined to their records and ordered. A short page (the end of the matches)
+   * is not proof on its own, so the handler then asks searchMatched instead.
+   */
+  searchRanked: (/** @type {number} */ preview) => `SELECT ${searchCols(preview)}, bm25(proni_fts) AS rank
              FROM proni_fts f JOIN proni p ON p.rowid = f.rowid LEFT JOIN ext ON ext.ref = p.ref
-             WHERE proni_fts MATCH ?${andWhere(where)}
-             ORDER BY ${order} LIMIT ? OFFSET ?`,
+            WHERE proni_fts MATCH ?1
+              AND bm25(proni_fts) <= coalesce((SELECT bm25(proni_fts) AS s FROM proni_fts WHERE proni_fts MATCH ?1
+                                                ORDER BY s LIMIT 1 OFFSET ?2 + ?3 - 1), 1e300)
+            ORDER BY bm25(proni_fts), p.ref LIMIT ?2 OFFSET ?3`,
   /** [...filters, limit, offset] -> search columns */
   searchFiltered: (/** @type {number} */ preview, /** @type {string[]} */ where, /** @type {string} */ order) => `SELECT ${searchCols(preview)} FROM proni p LEFT JOIN ext ON ext.ref = p.ref
              WHERE ${where.join(' AND ')}
@@ -66,6 +101,10 @@ export const PRONI = Object.freeze({
   item: `SELECT ${ITEM_COLS} FROM proni LEFT JOIN ext ON ext.ref = proni.ref WHERE proni.ref = ?1 LIMIT 1`,
   /** [ref] -> its children in natural reference order */
   children: `SELECT ${CHILD_COLS} FROM proni WHERE parent = ?1 ORDER BY CAST(${KSEG} AS INTEGER), ${KSEG}`,
+  /** [ref, limit] -> its first `limit` children in natural reference order (the server-rendered record page) */
+  childrenFirst: `SELECT ${CHILD_COLS} FROM proni WHERE parent = ?1 ORDER BY CAST(${KSEG} AS INTEGER), ${KSEG} LIMIT ?2`,
+  /** [ref] -> { n } its number of children */
+  childCount: 'SELECT COUNT(*) AS n FROM proni WHERE parent = ?1',
   /** [...refs] -> { ref, slug, title } */
   ancestors: (/** @type {number} */ count) => `SELECT ref, slug, title FROM proni WHERE ref IN (${Array.from({ length: count }, (_, i) => `?${i + 1}`).join(',')})`,
   /** [parent] -> { ref } the first sibling */
