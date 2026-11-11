@@ -141,6 +141,15 @@ test('C7: listeners on long-lived targets inside functions need { signal } or a 
     '}',
   ].join('\n');
   assert.deepEqual(await lines(C7, ctxOf({ 'site/v.js': source }, { C7: ALL })), ['site/v.js:3', 'site/v.js:8']);
+  const named = [
+    'export function view(root, ctx) {',
+    '  const listen = { signal: ctx.signal };',
+    '  const opts = { passive: true };',
+    "  root.addEventListener('input', onInput, listen);",                        // 4 declared with signal: none
+    "  root.addEventListener('change', onChange, opts);",                        // 5 hit: no signal in it
+    '}',
+  ].join('\n');
+  assert.deepEqual(await lines(C7, ctxOf({ 'site/w.js': named }, { C7: ALL })), ['site/w.js:5'], 'an options variable declared as { signal } counts');
 });
 
 test('C8: colour literals in stylesheets and served JS', async () => {
