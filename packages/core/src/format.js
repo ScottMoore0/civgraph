@@ -1,6 +1,8 @@
 /**
- * Text formatting shared by the record pages: numbers, dates, lists, slugs.
- * Pure functions; used by functions/_browse-page.js and packages/ui/src/templates/records/.
+ * Text formatting shared by the record pages and every app: numbers, dates, lists, slugs.
+ * Pure functions; used by functions/_browse-page.js, packages/ui/src/templates/records/, the map
+ * app and the served pages (through /pkg/core/src/format.js). The one place a locale is named
+ * (docs/ARCHITECTURE-RULES.md R10).
  */
 
 /**
@@ -18,13 +20,56 @@ export function slugify(value) {
     .replace(/^-+|-+$/g, '') || 'entry';
 }
 
-/** "1,234" (en-GB grouping), or '' for null, '' and anything not a finite number. */
+/**
+ * The locale every number and date on the site is written in. The interface languages (Irish,
+ * Ulster-Scots: site/assets/i18n/i18n.js) translate the English the page renders, dates
+ * included, so the formatter writes English and nothing else names a locale (R10, check C10).
+ */
+const LOCALE = 'en-GB';
+
+/** @type {Map<string, Intl.NumberFormat>} one formatter per set of options, made once */
+const numberFormats = new Map();
+
+/**
+ * A number as the site writes it: siteNumber(1234) "1,234", siteNumber(0.5, { style:
+ * 'percent' }) "50%". The same as `value.toLocaleString(<the site locale>, options)` for a number.
+ * @param {number | bigint} value
+ * @param {Intl.NumberFormatOptions} [options]
+ * @returns {string}
+ */
+export function siteNumber(value, options) {
+  const key = options ? JSON.stringify(options) : '';
+  let format = numberFormats.get(key);
+  if (!format) {
+    format = new Intl.NumberFormat(LOCALE, options);
+    numberFormats.set(key, format);
+  }
+  return format.format(value);
+}
+
+/**
+ * A date as the site writes it with Intl: the same as `date.toLocaleDateString(<the site
+ * locale>, options)` when options name the parts to show. For "01 Apr 1969" from a date string,
+ * use formatDisplayDate (./date-format.mjs).
+ * @param {Date | number} date
+ * @param {Intl.DateTimeFormatOptions} [options]
+ * @returns {string}
+ */
+export function siteDate(date, options) {
+  // As toLocaleDateString: an invalid date reads "Invalid Date" (Intl would throw).
+  if (Number.isNaN(Number(date))) return 'Invalid Date';
+  return new Intl.DateTimeFormat(LOCALE, options).format(date);
+}
+
+/** "1,234" (the site's grouping), or '' for null, '' and anything not a finite number. */
 export const numberText = (/** @type {string | number | null | undefined} */ value) => {
   const number = Number(value);
-  return value !== null && value !== '' && Number.isFinite(number) ? new Intl.NumberFormat('en-GB').format(number) : '';
+  return value !== null && value !== '' && Number.isFinite(number) ? siteNumber(number) : '';
 };
 
-const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+/** The English month names, January to December: the formatter's own table. */
+export const MONTH_NAMES = Object.freeze(['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']);
+const MONTHS = MONTH_NAMES;
 
 /**
  * "29 November 2024"; a year or year-month is shown as far as it goes.
