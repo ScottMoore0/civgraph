@@ -11,12 +11,13 @@
  *
  * An ES module (its imports are versioned by the import map in apps/words/index.html).
  */
+import { SITE } from '../../pkg/config/src/config.js';
 import { TOOLTIP } from './state-machines.js';
 
 (function () {
   'use strict';
 
-  var CDN = 'https://data.civgraph.net/';
+  var CDN = SITE.dataOrigin + '/';
   var DATA = (function () {
     var m = /[?&]data=([^&#]+)/.exec(location.search);
     return (m ? decodeURIComponent(m[1]).replace(/\/?$/, '/') : CDN) + 'data/parliament/words/';
