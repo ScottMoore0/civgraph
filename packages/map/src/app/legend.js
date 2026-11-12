@@ -6,6 +6,11 @@
  */
 
 import { escapeHtml } from './helpers.mjs';
+import layerTypes from '../../../registries/src/browser/layer-types.mjs';
+
+// Layers with no vector features to colour, so no swatch: rasters, images, terrain and point
+// clouds (the layer-types registry's rasterSource and threeD types).
+const NO_SWATCH_SOURCE_TYPES = new Set([...layerTypes.behaviour.rasterSource, ...layerTypes.behaviour.threeD]);
 
 export class LegendMethods {
   /**
@@ -140,7 +145,7 @@ export class LegendMethods {
   layerColour(mapId) {
     const testId = this.mapController?.mainToTest?.get(mapId) || mapId;
     const record = this.mapController?.renderer?.layers?.get(testId);
-    if (!record || /raster|image|point-cloud/.test(record.config?.sourceType || '')) return '';
+    if (!record || NO_SWATCH_SOURCE_TYPES.has(record.config?.sourceType || '')) return '';
     return record.color || record.fillColor || '';
   }
 }

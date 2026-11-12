@@ -13,6 +13,11 @@ import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { getTileProfile } from './tile-profiles.mjs';
 import { isPrimaryKey } from '../../../core/src/primary-feature-keys.mjs';
+import { loadRegistry } from '../../../registries/src/index.mjs';
+import { typesWithBehaviour } from '../../../registries/src/layers.mjs';
+
+// The layers drawn from vector tiles (the layer-types registry's vectorTiles types: mvt, pmtiles).
+const VECTOR_TILE_TYPES = typesWithBehaviour(loadRegistry('layers'), 'vectorTiles');
 
 // Mean value length above which a field is treated as free text and dropped from
 // low-zoom tiles. Sits above any realistic categorical value or code, well below prose.
@@ -61,7 +66,7 @@ const IDS = readIds();
 
 const metadata = JSON.parse(readFileSync(METADATA_PATH, 'utf8'));
 const layers = (metadata.layers || [])
-  .filter((layer) => ['mvt', 'pmtiles'].includes(layer.sourceType))
+  .filter((layer) => VECTOR_TILE_TYPES.includes(layer.sourceType))
   .filter((layer) => !layer.aliasOf)
   .filter((layer) => layer.sourceFile)
   .filter((layer) => !IDS.size || IDS.has(layer.id) || IDS.has(layer.sourceMapId));
@@ -220,7 +225,7 @@ function syncMetadata(report) {
     .map((item) => item.layerId));
   const failedLayerIds = new Set(report.failed.map((item) => item.layerId));
   const nextLayers = (metadata.layers || []).map((layer) => {
-    if (!['mvt', 'pmtiles'].includes(layer.sourceType)) return layer;
+    if (!VECTOR_TILE_TYPES.includes(layer.sourceType)) return layer;
     if (IDS.size && failedLayerIds.has(layer.id)) {
       return {
         ...layer,

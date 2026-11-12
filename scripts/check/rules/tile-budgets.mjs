@@ -6,9 +6,13 @@
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { isValidBounds } from '../../../packages/maps-pipeline/src/layer-bounds.mjs';
+import { loadRegistry } from '../../../packages/registries/src/index.mjs';
+import { typesWithBehaviour } from '../../../packages/registries/src/layers.mjs';
 import { writeStableGeneratedJson } from '../../lib/stable-generated-json.mjs';
 
 const ROOT = resolve(process.cwd());
+// The layers drawn from vector tiles (the layer-types registry's vectorTiles types: mvt, pmtiles).
+const VECTOR_TILE_TYPES = typesWithBehaviour(loadRegistry('layers'), 'vectorTiles');
 const METADATA_PATH = resolve(ROOT, 'render/metadata/maps-test.json');
 const REPORT_PATH = resolve(ROOT, 'render/metadata/tile-budget-report.json');
 const WARN_TILE_BYTES = 1.5 * 1024 * 1024;
@@ -30,7 +34,7 @@ for (const layer of layers) {
   if (layer.loadable === false) continue;
   if (!isValidBounds(layer.bounds, layer)) errors.push(`${layer.id}: invalid bounds`);
   if (
-    ['mvt', 'pmtiles'].includes(layer.sourceType)
+    VECTOR_TILE_TYPES.includes(layer.sourceType)
     && layer.labelProperty
     && !layer.featureIndexUrl
     && !ACCEPTED_FEATURE_INDEX_OMISSIONS.has(layer.featureIndexStatus)

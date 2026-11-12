@@ -43,8 +43,9 @@ const TERRAIN_LOAD_PITCH = 60;
 const TERRAIN_AUTOTILT_THRESHOLD = 10;
 // Tiled vector sources clip each feature at tile boundaries, so a single
 // queried feature only carries the fragment inside one tile. Used to decide
-// when a selected polygon must be reassembled from all of its fragments.
-const TILED_VECTOR_SOURCE_TYPES = new Set(['pmtiles', 'vector', 'mvt']);
+// when a selected polygon must be reassembled from all of its fragments: the layer-types
+// registry's vectorTiles types, and 'vector' (MapLibre's own name for a vector tile source).
+const TILED_VECTOR_SOURCE_TYPES = new Set([...layerTypes.behaviour.vectorTiles, 'vector']);
 // How each layer type is treated: the behaviour flags of the layer-types registry
 // (data/registries/layer-types.json; registries/browser/layer-types.json), as source-type sets.
 // threeD: terrain or a point cloud (3D gesture handlers, terrain); rasterSource: drawn from raster

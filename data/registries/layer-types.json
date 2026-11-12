@@ -17,6 +17,10 @@
   "noLabels": {
    "meaning": "never gets a label layer",
    "source": "packages/map/src/renderer/map-controller.js: NO_LABEL_TYPES"
+  },
+  "vectorTiles": {
+   "meaning": "drawn from vector tiles (MVT, at z/x/y or in a PMTiles archive), which clip each feature at the tile edges: a picked polygon is put back together from its pieces, and the tile pipeline and its checks treat the layer as tiled vector data",
+   "source": "packages/map/src/renderer/map-controller.js: TILED_VECTOR_SOURCE_TYPES; packages/maps-pipeline/src/tiles/pmtiles.mjs; scripts/check/rules/test-app.mjs and tile-budgets.mjs"
   }
  },
  "types": {
@@ -67,6 +71,9 @@
     "packages/map/src/renderer/map-controller.js",
     "packages/maps-pipeline/src/tiles/promote-layers.mjs",
     "packages/map/app/maplibre-main-adapter.js"
+   ],
+   "behaviour": [
+    "vectorTiles"
    ]
   },
   "pmtiles": {
@@ -108,6 +115,9 @@
    ],
    "renderers": [
     "maplibre"
+   ],
+   "behaviour": [
+    "vectorTiles"
    ]
   },
   "point-cloud": {

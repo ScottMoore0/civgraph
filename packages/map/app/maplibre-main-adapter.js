@@ -18,6 +18,11 @@ import {
   parseCsv,
   statisticFor
 } from '../../../src/census-overlay.mjs';
+import layerTypes from '../../registries/src/browser/layer-types.mjs';
+
+// A census overlay is drawn on a vector geography: never on a raster, an image, terrain or a point
+// cloud (the layer-types registry's rasterSource and threeD types).
+const NON_VECTOR_SOURCE_TYPES = new Set([...layerTypes.behaviour.rasterSource, ...layerTypes.behaviour.threeD]);
 
 // The base maps (packages/map/src/renderer/basemap.mjs): 'osm-standard' is the default street map,
 // not one tile server but the provider chain there (OpenFreeMap, then OpenStreetMap's own tiles as
@@ -1305,7 +1310,7 @@ export class Test2MapLibreMainAdapter {
     this.censusOverlayLayers ||= new Map();
     if (this.censusOverlayLayers.has(mainId)) return this.censusOverlayLayers.get(mainId);
     const geography = this.resolveLayer(entry.geography);
-    const usable = geography?.loadable && !['raster', 'image', 'raster-dem', 'point-cloud'].includes(geography.sourceType);
+    const usable = geography?.loadable && !NON_VECTOR_SOURCE_TYPES.has(geography.sourceType);
     const layer = usable ? overlayRuntimeLayer(entry, geography) : null;
     if (layer) this.censusOverlayLayers.set(mainId, layer);
     return layer;
