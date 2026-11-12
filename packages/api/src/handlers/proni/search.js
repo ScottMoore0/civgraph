@@ -17,6 +17,7 @@
 import { buildMatch, buildFilters } from './_query.js';
 import { reportError } from '../_error.js';
 import { binding } from '../../../../config/src/config.js';
+import { blobStore } from '../../../../storage/src/blob-bindings.js';
 import { CATALOGUE_IS_CLOSED, proniReader } from './_read.js';
 import { PRONI } from '../../queries/proni.js';
 
@@ -89,11 +90,12 @@ export async function onRequestGet(context) {
 
   // Second tier: Workers KV is replicated to every edge, so a query answered
   // anywhere is fast everywhere (the per-PoP cache above only helps locally).
-  // Feature-detected — no-op until a PRONI_KV binding is added.
-  const kv = binding(context.env, 'PRONI_KV');
+  // Feature-detected — no-op until a PRONI_KV binding is added. Read and written through the
+  // blob store (packages/storage/src/blob.js).
+  const kv = blobStore(context.env, 'PRONI_KV');
   const kvKey = `search:${CACHE_VERSION}:${keyUrl.search}`;
   if (kv) {
-    const cached = await kv.get(kvKey);
+    const cached = await kv.text(kvKey);
     if (cached) {
       const resp = new Response(cached, { headers: JSON_HEADERS });
       context.waitUntil(cache.put(cacheKey, resp.clone()));
