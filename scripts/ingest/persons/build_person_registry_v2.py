@@ -732,10 +732,16 @@ def main():
         cs = [counties_of(v) for v in vs]
         return any(a and b and not (a & b) for i, a in enumerate(cs) for b in cs[i + 1:])
 
+    # A declared identity key (see bad_ids) sits under each name its rows bear. Under its first
+    # name only, Larne's John Boyd ("J. Boyd" in 1936-39) left Kircubbin's "J. Boyd|UUP" of 1946
+    # the one name-and-party key of "J. Boyd", and the rule below joined it to the Ards candidate
+    # of 1929 on the name alone. Any other group stays under its first row's name, as before.
     by_name = collections.defaultdict(list)
     for k, v in groups.items():
         if k[0] == 'id':
-            by_name[matchkey(v[0]['name'])].append(k)
+            names = {matchkey(r['name']) for r in v} if k[1] in declared else {matchkey(v[0]['name'])}
+            for nm in sorted(names):
+                by_name[nm].append(k)
     merges, review = {}, []
     for nm, keys in by_name.items():
         if len(keys) < 2:
@@ -744,6 +750,10 @@ def main():
         for k in keys:
             systems[ns(k[1])].append(k)
         if len(systems) > 1 and all(len(v) == 1 for v in systems.values()):
+            # A group already joined under another of its names is not joined twice.
+            if any(k in merges or k in merges.values() for k in keys):
+                review.append(nm)
+                continue
             if not set.intersection(*[{r['key'] for r in groups[k]} for k in keys]) \
                     and not across_a_generation([groups[k] for k in keys]) \
                     and not across_counties([groups[k] for k in keys]):
