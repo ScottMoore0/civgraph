@@ -2,6 +2,7 @@ import {
   buildCandidateSummary,
   buildPartySummary
 } from '../packages/core/src/election-domain.mjs';
+import { escapeHtml } from '../packages/core/src/html.js';
 
 /** @typedef {import('../packages/core/src/election-view-model.mjs').ElectionResult} ElectionResult */
 /** @typedef {import('../packages/core/src/election-view-model.mjs').ElectionRecord} ElectionRecord */
@@ -306,15 +307,4 @@ function renderContestNotes(result = {}) {
       .map((note) => `<div><dt>${escapeHtml(note.label)}</dt><dd>${escapeHtml(note.text)}</dd></div>`)
       .join('')}</dl>
   </details>`;
-}
-
-/** @param {unknown} value */
-function escapeHtml(value) {
-  return String(value ?? '').replace(/[&<>"']/g, (char) => (/** @type {Record<string, string>} */ ({
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#39;'
-  })[char]));
 }

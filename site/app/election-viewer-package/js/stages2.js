@@ -1068,6 +1068,7 @@ function normalisePartyKey(label) {
         .toLowerCase();
 }
 
+// copy-of: packages/core/src/html.js (a classic script cannot import it; tests/unit/viewer-package-copies.test.mjs keeps it identical)
 function escapeHtml(value) {
     if (value === null || typeof value === 'undefined') {
         return '';

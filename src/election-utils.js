@@ -3,6 +3,7 @@
  * Extracted to break the static import dependency from ui-controller → election-controller,
  * enabling future code-splitting of the election controller.
  */
+import { escapeHtml } from '../packages/core/src/html.js';
 
 /**
  * @template {string | null | undefined} D
@@ -40,12 +41,8 @@ export function shortBodyName(name) {
     return map[name] || name;
 }
 
-/** @param {unknown} str */
-export function escapeHtml(str) {
-    const div = document.createElement('div');
-    div.textContent = String(str ?? '');
-    return div.innerHTML;
-}
+// The package's escaping (it also escapes quotes, so a value is safe in an attribute too).
+export { escapeHtml };
 
 /**
  * @param {unknown} body

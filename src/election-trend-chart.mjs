@@ -14,6 +14,8 @@
  * Gaps are real. A party with no comparable result at an election gets a break in its line,
  * not a segment drawn across the hole; the data model is the manager's and is not merged here.
  */
+import { normalizeName } from '../packages/core/src/election-domain.mjs';
+import { escapeHtml } from '../packages/core/src/html.js';
 import { defineFlagFields, present, setHidden } from '../packages/map/src/state-helpers.mjs';
 
 const SERIES_LIMIT = 8;
@@ -864,29 +866,4 @@ function parseDateUtc(value) {
 function finiteOrZero(value) {
   const number = Number(value);
   return Number.isFinite(number) ? number : 0;
-}
-
-/** @param {unknown} value */
-function normalizeName(value) {
-  return String(value ?? '')
-    .normalize('NFKD')
-    .replace(/[̀-ͯ]/g, '')
-    .replace(/\([^)]*\)/g, ' ')
-    .replace(/&/g, ' and ')
-    .replace(/['’`]/g, '')
-    .replace(/[-_/.,()]/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim()
-    .toLowerCase();
-}
-
-/** @param {unknown} value */
-function escapeHtml(value) {
-  return String(value ?? '').replace(/[&<>"']/g, (char) => (/** @type {Record<string, string>} */ ({
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#39;'
-  })[char]));
 }

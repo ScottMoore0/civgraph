@@ -22,7 +22,9 @@
     return [];
   }
 
-  function parseNumber(value) {
+  // The viewer's number reading (stages2.js parseNumeric when it is loaded), not
+  // packages/core/src/election-domain.mjs parseNumber: '' reads as 0 here and a '%' is not dropped.
+  function readNumber(value) {
     if (typeof window.parseNumeric === 'function') {
       const parsed = window.parseNumeric(value);
       return parsed !== null && !Number.isNaN(parsed) ? parsed : null;
@@ -38,7 +40,7 @@
     if (typeof window.formatNumberWithDash === 'function') {
       return window.formatNumberWithDash(value);
     }
-    const numeric = parseNumber(value);
+    const numeric = readNumber(value);
     if (numeric === null) {
       return '-';
     }
@@ -50,7 +52,7 @@
       return null;
     }
     for (let i = entry.votes.length - 1; i >= 0; i -= 1) {
-      const numeric = parseNumber(entry.votes[i]);
+      const numeric = readNumber(entry.votes[i]);
       if (numeric !== null) {
         return numeric;
       }
@@ -81,7 +83,7 @@
   }
 
   function renderQuota(svg, config) {
-    const quotaValue = parseNumber(config.quota);
+    const quotaValue = readNumber(config.quota);
     if (quotaValue === null || !Number.isFinite(config.maxVote) || config.maxVote <= 0) {
       return;
     }

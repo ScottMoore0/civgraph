@@ -1,6 +1,11 @@
 import {
   BALLOT_LABELS, CONTRIBUTOR_EDITOR, CONTRIBUTOR_FORM, CONTRIBUTOR_SUBMISSION, PRINTED_LABELS, ROUTER, SUBMISSION_STATUS_CLASS, settle,
 } from './state-machines.js';
+// The packages' own escaping, slug and no-poll rules (packages/core, served at /pkg/ through
+// packages/served.json; the imports resolve to site/pkg/ in Node and tsc): Browse keeps no copy.
+import { escapeHtml } from '../pkg/core/src/html.js';
+import { slugify } from '../pkg/core/src/format.js';
+import { candidateReturnWithoutPoll, partyHadNoPoll } from '../pkg/core/src/unopposed.mjs';
 
 /**
  * An element of the page reached by a delegated listener or a selector: any HTML element, with
@@ -4954,22 +4959,6 @@ function renderGazettePollingPanel(table) {
 }
 
 /**
- * How a candidate was returned without a poll: 'unopposed', 'auto-returned' (the Dail's Ceann
- * Comhairle) or null. The same rule as packages/core/src/election-domain.mjs
- * candidateReturnWithoutPoll, which this page cannot import: a contest file says
- * `unopposed: true`, a built candidacy says "Elected unopposed" and carries no votes.
- * @param {BrowseItem | null | undefined} candidate
- * @returns {'unopposed' | 'auto-returned' | null}
- */
-function candidateReturnWithoutPoll(candidate) {
-  if (!candidate) return null;
-  const status = String(candidate.status ?? candidate.Status ?? '');
-  if (candidate.autoReturnedCeannComhairle === true || /auto[- ]?returned/i.test(status)) return 'auto-returned';
-  if (candidate.unopposed === true || candidate.unopposed === 1 || /unopposed/i.test(status)) return 'unopposed';
-  return null;
-}
-
-/**
  * True when no poll was held in a contest: every candidate returned unopposed, or the contest
  * marked uncontested with no votes recorded. Its valid poll and turnout do not exist (not 0).
  * @param {BrowseItem} constituency
@@ -5202,18 +5191,6 @@ function renderElectionRelated(item) {
 function partyUnopposedSeats(party) {
   const explicit = Number(party?.unopposedSeats);
   return Number.isFinite(explicit) && explicit > 0 ? explicit : 0;
-}
-
-/**
- * True when no vote is recorded for any of a party's candidates: all returned unopposed, or a
- * summary with seats and no votes at all (built before it carried `unopposedSeats`, or from a
- * file with no vote counts). Its votes and share are not 0, there are none.
- * @param {BrowseItem} party
- */
-function partyHadNoPoll(party) {
-  if (Number(party?.votes) > 0) return false;
-  const unopposed = partyUnopposedSeats(party);
-  return unopposed > 0 ? Number(party?.stood || unopposed) <= unopposed : Number(party?.seats) > 0;
 }
 
 /**
@@ -7389,19 +7366,6 @@ function truncate(value, maxLength = 32) {
 /**
  * @param {unknown} value
  */
-function slugify(value) {
-  return String(value ?? '')
-    .normalize('NFKD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .replace(/&/g, ' and ')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '') || 'entry';
-}
-
-/**
- * @param {unknown} value
- */
 function humanizeKey(value) {
   return String(value || '')
     .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
@@ -7415,18 +7379,6 @@ function humanizeKey(value) {
 function fileName(value) {
   const text = String(value || '');
   return text.split(/[\\/]/).pop()?.split('?')[0] || text;
-}
-
-/**
- * @param {unknown} value
- */
-function escapeHtml(value) {
-  return String(value ?? '')
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
 }
 
 /**
