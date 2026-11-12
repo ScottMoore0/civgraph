@@ -53,5 +53,320 @@
     "Local Government Act 2001 (No. 37 of 2001) and Local Government Reform Act 2014 (No. 1 of 2014): the city and county councils of the Republic of Ireland, whose elections are filed under this one body"
    ]
   }
- ]
+ ],
+ "groups": {
+  "description": "How the site groups the bodies, each list in its display order. A body is placed by the first group whose `match` it meets: `bodies` (its slug is one of these), `prefixes` (its slug starts with one), `contains` (its slug contains one), or `pattern` (a regular expression, case-insensitive). catalogueShelves: the catalogue's Elections shelves (packages/map/src/catalogue/view-elections.js BODY_GROUPS); a body listed above with a `shelf` joins that shelf, and `councilFlag` adds the councils of the councils registry with that flag. partyCharts: the bodies a party profile charts (scripts/build/build-party-profiles.mjs), matched on the election key's body; a body listed above with a `partyGroup` gets a chart of its own after these. catalogueOrder: the order of the catalogue's body list (scripts/build/catalogue/build-catalogue.mjs); a body not listed follows, alphabetically. electionsHome: the Elections app's home page (site/apps/elections/views/home.js), matched on the body slug, shown in `order`. entityHistory: the groups of a person's or party's election history in the map app (packages/map/src/entity-detail-data.mjs), matched on the election's type label.",
+  "catalogueShelves": [
+   {
+    "id": "dail",
+    "label": "Dáil",
+    "bodies": [
+     "dail-eireann"
+    ],
+    "icon": "dail"
+   },
+   {
+    "id": "westminster",
+    "label": "Westminster",
+    "bodies": [
+     "house-of-commons-of-the-united-kingdom"
+    ],
+    "icon": "westminster"
+   },
+   {
+    "id": "ni-devolved",
+    "label": "NI Devolved",
+    "bodies": [
+     "northern-ireland-assembly",
+     "parliament-of-northern-ireland",
+     "northern-ireland-constitutional-convention",
+     "northern-ireland-forum-for-political-dialogue"
+    ],
+    "icon": "ni-devolved"
+   },
+   {
+    "id": "ni-local",
+    "label": "NI local",
+    "bodies": [
+     "local-government",
+     "ni-local-elections"
+    ],
+    "councilFlag": "pre1973Council",
+    "icon": "ni-local",
+    "note": "The NI local elections since 1973, the pre-1973 rounds by year, and every pre-1973 council."
+   },
+   {
+    "id": "irish-local",
+    "label": "Irish local",
+    "bodies": [
+     "ireland-local"
+    ],
+    "icon": "irish-local"
+   },
+   {
+    "id": "pre-partition-local",
+    "label": "Pre-partition local",
+    "bodies": [
+     "irish-local-elections"
+    ],
+    "icon": "irish-local",
+    "note": "Before partition the councils were elected so differently, and so often, that their years have a shelf of their own (Phelim Birch's review, 11 Nov 2026)."
+   },
+   {
+    "id": "european",
+    "label": "European",
+    "bodies": [
+     "european-parliament",
+     "ireland-european"
+    ],
+    "icon": "european"
+   },
+   {
+    "id": "referendum",
+    "label": "Referendum",
+    "bodies": [
+     "ireland-referendum",
+     "northern-ireland-referendum"
+    ],
+    "icon": "referendum"
+   },
+   {
+    "id": "presidential",
+    "label": "Presidential",
+    "bodies": [
+     "ireland-president"
+    ],
+    "icon": "presidential"
+   }
+  ],
+  "partyCharts": [
+   {
+    "id": "westminster",
+    "label": "House of Commons (Westminster)",
+    "match": {
+     "bodies": [
+      "house-of-commons-of-the-united-kingdom"
+     ]
+    }
+   },
+   {
+    "id": "stormont",
+    "label": "Parliament of Northern Ireland (Stormont)",
+    "match": {
+     "bodies": [
+      "parliament-of-northern-ireland"
+     ]
+    }
+   },
+   {
+    "id": "ni-assembly",
+    "label": "Northern Ireland Assembly",
+    "match": {
+     "bodies": [
+      "northern-ireland-assembly"
+     ]
+    }
+   },
+   {
+    "id": "ni-convention",
+    "label": "Northern Ireland Constitutional Convention",
+    "match": {
+     "bodies": [
+      "northern-ireland-constitutional-convention"
+     ]
+    }
+   },
+   {
+    "id": "ni-forum",
+    "label": "Northern Ireland Forum",
+    "match": {
+     "bodies": [
+      "northern-ireland-forum-for-political-dialogue"
+     ]
+    }
+   },
+   {
+    "id": "dail",
+    "label": "Dáil Éireann",
+    "match": {
+     "bodies": [
+      "dail-eireann"
+     ]
+    }
+   },
+   {
+    "id": "seanad",
+    "label": "Seanad Éireann",
+    "match": {
+     "prefixes": [
+      "seanad"
+     ]
+    }
+   },
+   {
+    "id": "european-ni",
+    "label": "European Parliament (Northern Ireland)",
+    "match": {
+     "bodies": [
+      "european-parliament"
+     ]
+    }
+   },
+   {
+    "id": "european-ie",
+    "label": "European Parliament (Ireland)",
+    "match": {
+     "bodies": [
+      "ireland-european"
+     ]
+    }
+   },
+   {
+    "id": "councils-ni",
+    "label": "Councils in Northern Ireland",
+    "match": {
+     "prefixes": [
+      "local-government"
+     ],
+     "contains": [
+      "council"
+     ]
+    },
+    "note": "Before 1973 Civgraph holds the results of only some councils, so these rounds are not comparable with the district council elections from 1973."
+   },
+   {
+    "id": "councils-ie",
+    "label": "Local elections in Ireland",
+    "match": {
+     "bodies": [
+      "ireland-local"
+     ]
+    }
+   },
+   {
+    "id": "president",
+    "label": "President of Ireland",
+    "match": {
+     "bodies": [
+      "ireland-president"
+     ]
+    }
+   }
+  ],
+  "catalogueOrder": [
+   "dail-eireann",
+   "house-of-commons-of-the-united-kingdom",
+   "northern-ireland-assembly",
+   "parliament-of-northern-ireland",
+   "local-government",
+   "european-parliament",
+   "ireland-referendum",
+   "ireland-local"
+  ],
+  "electionsHome": {
+   "groups": [
+    {
+     "label": "Referendums",
+     "match": {
+      "contains": [
+       "referendum",
+       "recall"
+      ]
+     }
+    },
+    {
+     "label": "Northern Ireland councils before 1973",
+     "match": {
+      "contains": [
+       "council",
+       "commissioners"
+      ]
+     }
+    },
+    {
+     "label": "Local government",
+     "match": {
+      "prefixes": [
+       "local-government",
+       "ireland-local"
+      ]
+     }
+    },
+    {
+     "label": "Party contests",
+     "match": {
+      "contains": [
+       "leadership",
+       "nomination"
+      ]
+     }
+    }
+   ],
+   "fallback": "Parliaments, assemblies and offices",
+   "order": [
+    "Parliaments, assemblies and offices",
+    "Local government",
+    "Referendums",
+    "Northern Ireland councils before 1973",
+    "Party contests"
+   ]
+  },
+  "entityHistory": {
+   "groups": [
+    {
+     "label": "Dáil",
+     "match": {
+      "pattern": "D[aá]il"
+     }
+    },
+    {
+     "label": "Westminster",
+     "match": {
+      "pattern": "Westminster"
+     }
+    },
+    {
+     "label": "Devolved",
+     "match": {
+      "pattern": "Assembly|Forum|Convention|Parliament of NI"
+     }
+    },
+    {
+     "label": "Local",
+     "match": {
+      "pattern": "Local"
+     }
+    },
+    {
+     "label": "European",
+     "match": {
+      "pattern": "European"
+     }
+    },
+    {
+     "label": "Presidential",
+     "match": {
+      "pattern": "Presidential"
+     }
+    },
+    {
+     "label": "Referendum",
+     "match": {
+      "pattern": "Referendum"
+     }
+    }
+   ],
+   "fallback": "Other",
+   "order": [
+    "Dáil",
+    "Westminster",
+    "Devolved",
+    "Local",
+    "European",
+    "Presidential",
+    "Referendum",
+    "Other"
+   ]
+  }
+ }
 }

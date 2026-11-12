@@ -1,0 +1,270 @@
+{
+ "shelves": [
+  {
+   "id": "dail",
+   "label": "Dáil",
+   "bodies": [
+    "dail-eireann"
+   ],
+   "icon": "dail"
+  },
+  {
+   "id": "westminster",
+   "label": "Westminster",
+   "bodies": [
+    "house-of-commons-of-the-united-kingdom"
+   ],
+   "icon": "westminster"
+  },
+  {
+   "id": "ni-devolved",
+   "label": "NI Devolved",
+   "bodies": [
+    "northern-ireland-assembly",
+    "parliament-of-northern-ireland",
+    "northern-ireland-constitutional-convention",
+    "northern-ireland-forum-for-political-dialogue"
+   ],
+   "icon": "ni-devolved"
+  },
+  {
+   "id": "ni-local",
+   "label": "NI local",
+   "bodies": [
+    "local-government",
+    "ni-local-elections",
+    "aghalee-rural-district-council",
+    "antrim-county-council",
+    "antrim-rural-district-council",
+    "antrim-town-commissioners",
+    "armagh-county-council",
+    "armagh-rural-district-council",
+    "armagh-urban-district-council",
+    "aughnacloy-town-commissioners",
+    "ballycastle-rural-district-council",
+    "ballycastle-urban-district-council",
+    "ballyclare-urban-district-council",
+    "ballymena-borough-council",
+    "ballymena-rural-district-council",
+    "ballymoney-rural-district-council",
+    "ballymoney-urban-district-council",
+    "banbridge-rural-district-council",
+    "banbridge-urban-district-council",
+    "bangor-borough-council",
+    "belfast-county-borough-council",
+    "belfast-county-borough-council-aldermen",
+    "belfast-rural-district-council",
+    "carrickfergus-borough-council",
+    "castleblayney-no-2-rural-district-council",
+    "castlederg-rural-district-council",
+    "castlereagh-rural-district-council",
+    "clogher-rural-district-council",
+    "coleraine-borough-council",
+    "coleraine-rural-district-council",
+    "cookstown-rural-district-council",
+    "cookstown-urban-district-council",
+    "donaghadee-urban-district-council",
+    "down-county-council",
+    "downpatrick-urban-district-council",
+    "dromore-urban-district-council",
+    "dungannon-rural-district-council",
+    "dungannon-urban-district-council",
+    "east-down-rural-district-council",
+    "enniskillen-borough-council",
+    "enniskillen-borough-council-aldermen",
+    "enniskillen-rural-district-council",
+    "fermanagh-county-council",
+    "gilford-town-commissioners",
+    "hillsborough-rural-district-council",
+    "holywood-urban-district-council",
+    "irvinestown-rural-district-council",
+    "keady-urban-district-council",
+    "kilkeel-urban-district-council",
+    "larne-borough-council",
+    "larne-rural-district-council",
+    "limavady-rural-district-council",
+    "limavady-urban-district-council",
+    "lisburn-borough-council",
+    "lisburn-rural-district-council",
+    "lisnaskea-rural-district-council",
+    "londonderry-county-borough-council",
+    "londonderry-county-borough-council-aldermen",
+    "londonderry-county-council",
+    "londonderry-rural-district-council",
+    "lurgan-borough-council",
+    "lurgan-rural-district-council",
+    "magherafelt-rural-district-council",
+    "moira-rural-district-council",
+    "newcastle-urban-district-council",
+    "newry-no-1-rural-district-council",
+    "newry-no-2-rural-district-council",
+    "newry-urban-district-council",
+    "newtownabbey-urban-district-council",
+    "newtownards-borough-council",
+    "north-down-rural-district-council",
+    "omagh-rural-district-council",
+    "omagh-urban-district-council",
+    "portadown-borough-council",
+    "portrush-urban-district-council",
+    "portstewart-urban-district-council",
+    "south-down-rural-district-council",
+    "strabane-rural-district-council",
+    "strabane-urban-district-council",
+    "tandragee-rural-district-council",
+    "tandragee-urban-district-council",
+    "tyrone-county-council",
+    "warrenpoint-urban-district-council",
+    "whitehead-urban-district-council"
+   ],
+   "icon": "ni-local"
+  },
+  {
+   "id": "irish-local",
+   "label": "Irish local",
+   "bodies": [
+    "ireland-local",
+    "limerick-mayor"
+   ],
+   "icon": "irish-local"
+  },
+  {
+   "id": "pre-partition-local",
+   "label": "Pre-partition local",
+   "bodies": [
+    "irish-local-elections"
+   ],
+   "icon": "irish-local"
+  },
+  {
+   "id": "european",
+   "label": "European",
+   "bodies": [
+    "european-parliament",
+    "ireland-european"
+   ],
+   "icon": "european"
+  },
+  {
+   "id": "referendum",
+   "label": "Referendum",
+   "bodies": [
+    "ireland-referendum",
+    "northern-ireland-referendum"
+   ],
+   "icon": "referendum"
+  },
+  {
+   "id": "presidential",
+   "label": "Presidential",
+   "bodies": [
+    "ireland-president"
+   ],
+   "icon": "presidential"
+  }
+ ],
+ "electionsHome": {
+  "groups": [
+   {
+    "label": "Referendums",
+    "match": {
+     "contains": [
+      "referendum",
+      "recall"
+     ]
+    }
+   },
+   {
+    "label": "Northern Ireland councils before 1973",
+    "match": {
+     "contains": [
+      "council",
+      "commissioners"
+     ]
+    }
+   },
+   {
+    "label": "Local government",
+    "match": {
+     "prefixes": [
+      "local-government",
+      "ireland-local"
+     ]
+    }
+   },
+   {
+    "label": "Party contests",
+    "match": {
+     "contains": [
+      "leadership",
+      "nomination"
+     ]
+    }
+   }
+  ],
+  "fallback": "Parliaments, assemblies and offices",
+  "order": [
+   "Parliaments, assemblies and offices",
+   "Local government",
+   "Referendums",
+   "Northern Ireland councils before 1973",
+   "Party contests"
+  ]
+ },
+ "entityHistory": {
+  "groups": [
+   {
+    "label": "Dáil",
+    "match": {
+     "pattern": "D[aá]il"
+    }
+   },
+   {
+    "label": "Westminster",
+    "match": {
+     "pattern": "Westminster"
+    }
+   },
+   {
+    "label": "Devolved",
+    "match": {
+     "pattern": "Assembly|Forum|Convention|Parliament of NI"
+    }
+   },
+   {
+    "label": "Local",
+    "match": {
+     "pattern": "Local"
+    }
+   },
+   {
+    "label": "European",
+    "match": {
+     "pattern": "European"
+    }
+   },
+   {
+    "label": "Presidential",
+    "match": {
+     "pattern": "Presidential"
+    }
+   },
+   {
+    "label": "Referendum",
+    "match": {
+     "pattern": "Referendum"
+    }
+   }
+  ],
+  "fallback": "Other",
+  "order": [
+   "Dáil",
+   "Westminster",
+   "Devolved",
+   "Local",
+   "European",
+   "Presidential",
+   "Referendum",
+   "Other"
+  ]
+ }
+}

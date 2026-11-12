@@ -18,7 +18,7 @@ const read = (rel) => readFileSync(path.join(REPO_ROOT, rel), 'utf8');
 test('registries/browser: every slice matches a fresh build from data/registries', () => {
   assert.deepEqual(staleSlices(), [], 'run node packages/registries/src/browser/build.mjs');
   const slices = browserSlices();
-  assert.deepEqual(Object.keys(slices), ['councils.json', 'council-search.json', 'parties.json', 'party-palettes.json', 'colours.json', 'statuses.json', 'layer-types.json', 'election-bodies.json', 'election-types.json']);
+  assert.deepEqual(Object.keys(slices), ['councils.json', 'council-search.json', 'parties.json', 'party-palettes.json', 'colours.json', 'statuses.json', 'layer-types.json', 'election-bodies.json', 'election-groups.json', 'election-types.json']);
   for (const [file, slice] of Object.entries(slices)) assert.equal(read(`packages/registries/src/browser/${file}`), sliceText(slice), file);
 });
 

@@ -54,7 +54,7 @@ test('fillYear fills {year}, and only for a dated election', () => {
 test('checkElectionBodies finds a repeated id and a repeated rule date', () => {
   const body = { id: 'x', name: 'X', jurisdiction: 'ireland', sources: ['s'], geography: [
     { from: '2000-01-01', sourceMapId: 'a' }, { from: '2000-01-01', sourceMapId: 'b' }] };
-  const errors = checkElectionBodies({ schemaVersion: 1, description: 'd', bodies: [body, { ...body, geography: undefined }] });
+  const errors = checkElectionBodies({ schemaVersion: 1, description: 'd', bodies: [body, { ...body, geography: undefined }], groups: registry.groups });
   assert.equal(errors.length, 2);
   assert.equal(electionBody(registry, 'limerick-mayor')?.typeLabel, 'Mayoral');
   assert.equal(electionBody(registry, 'no-such-body'), null);
