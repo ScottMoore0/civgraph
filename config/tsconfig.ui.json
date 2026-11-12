@@ -8,6 +8,8 @@
     "Every strict-family flag is on: strictNullChecks since 8 Nov 2026 and noImplicitAny since the",
     "8 Nov 2026 review (browse.js typed by hand; the PRONI app and words.js also moved to the strict list);",
     "tsconfig.ui-strict.json holds the files that check under full `strict`.",
+    "Full `strict` here too since 12 Nov 2026 (stream rf8-types: strictPropertyInitialization and strictBuiltinIteratorReturn,",
+    "the two flags it lacked, found nothing), so every file of this check, browse.js among them, checks under strict.",
     "rootDirs: site/ is the served root, so a served-URL relative import in site/ (../../packages/types/) resolves from the repository root (8 Nov 2026)."
   ],
   "compilerOptions": {
@@ -22,7 +24,9 @@
     "lib": ["es2023", "dom", "dom.iterable"],
     "types": [],
     "skipLibCheck": true,
-    "strict": false,
+    "strict": true,
+    "strictPropertyInitialization": true,
+    "strictBuiltinIteratorReturn": true,
     "strictNullChecks": true,
     "noImplicitAny": true,
     "strictFunctionTypes": true,
