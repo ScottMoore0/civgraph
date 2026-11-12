@@ -28,7 +28,9 @@ import {
 // this list, so its inlined critical CSS froze -- and kept header rules that have since
 // moved to assets/site/site-chrome.css. index.html has no markers and is skipped.
 const HTML_TARGETS = ['site/index.html', 'site/maps/index.html'];
-const CSS_BUDGET_BYTES = 230_000;
+// 230_000 until 12 Nov 2026: moving main.css's colours onto tokens (rf8-styling) spelled each as
+// var(--token), +8.9 KB minified but +250 bytes gzipped (31,394 -> 31,644), so the budget rose with it.
+const CSS_BUDGET_BYTES = 240_000;
 
 export function hashFile(filePath, length = 12, salt = '') {
   const hash = createHash('sha256').update(readFileSync(filePath));
