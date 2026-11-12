@@ -55,7 +55,7 @@ export class UrlStateMethods {
       const index = this.navEntries.findIndex((entry) => entry.id === id);
       if (index >= 0) this.navIndex = index;
       this.traversal?.arrived(location.href);
-    }, true);
+    }, { capture: true, signal: this.lifecycle.signal });
 
     document.addEventListener('click', (event) => {
       const anchor = event.target.closest?.('a[href^="#"]');
@@ -72,7 +72,7 @@ export class UrlStateMethods {
       const id = decodeURIComponent(hash.slice(1));
       const target = document.getElementById(id) || document.querySelector(`[name="${CSS.escape(id)}"]`);
       target?.scrollIntoView({ block: 'start' });
-    }, true);
+    }, { capture: true, signal: this.lifecycle.signal });
   }
 
   /**
@@ -143,7 +143,7 @@ export class UrlStateMethods {
         return;
       }
       this.restoreURLState({ updateAfterRestore: false, sync: true }).catch((error) => this.showMapError(error));
-    });
+    }, { signal: this.lifecycle.signal });
   }
 
   /**
