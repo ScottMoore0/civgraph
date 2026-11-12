@@ -29,6 +29,12 @@ changed files need and then runs the checks.
   and proxies the rest of `/_api/` and `/_r/` to the live site, so they read production's
   public API (GET only) for those. That ends when they move to `wrangler pages dev` with the
   local database (DESIGN.md step C3b).
+- `tests/records/published-person-addresses.test.mjs` (in `records:check`, 12 Nov 2026): every
+  person name key and person id the site has published (the ledger
+  `data/elections/persons/published-person-addresses.json`) still answers, with the person it was
+  published for or the one that person was merged into. The ledger only grows: `npm run
+  persons:addresses` adds what a records build publishes (run it after each records build and
+  commit the file); `-- --check` also fails while the build publishes keys or ids it lacks.
 - `test:browser:shell` (`tests/browser/site-shell.spec.cjs`) holds every page type to the
   shared shell (`packages/ui/src/templates/shell.js`) at 375 px and 1280 px, in light and dark:
   48 cases, each saving a screenshot to `test-results/site-shell/`. Run it after changing

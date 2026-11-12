@@ -8,6 +8,7 @@ import { canonicalElectionTitle, compareElectionsNewestFirst, electionResultEntr
 import { buildPartyVocabulary, classifyPersonName, stripWikipediaQualifier, NOT_A_PERSON } from '../lib/person-name-artefacts.mjs';
 import { referenceOffices, referenceRelatives } from '../lib/reference-person-facts.mjs';
 import { loadWikidataPersons, personWikidata } from '../lib/wikidata-persons.mjs';
+import { applyLedger, personKeepOf, readLedger } from '../lib/person-address-ledger.mjs';
 import { browsePartySlugResolver, formatSpan, indexFactsModel, loadFactsModel } from '../lib/facts-model.mjs';
 import { CDN_BASE } from '../../src/cdn-url.js';
 import { RENAMED_ELECTION_DATES } from '../../packages/map/src/app/url-compat.mjs';
@@ -2074,6 +2075,17 @@ function buildPersons(electionDetails, partyRecords, partyNames = {}) {
     }
   }
   console.log(`- persons: ${aliased} record(s) carry name aliases so their URLs survive an id change; ${ambiguousAliases} left unaliased because the name is shared`);
+  // The name keys earlier builds published stay with the person they were published for, even
+  // after the name changes, is merged or comes to be shared (the address ledger,
+  // scripts/lib/person-address-ledger.mjs): followed through the person-id merges, and ahead of
+  // the key this build would give.
+  const ledger = applyLedger(readLedger(), [...byId.values()], personKeepOf());
+  for (const [id, slugs] of ledger.previousSlugs) {
+    const person = byId.get(id);
+    if (slugs.length) person.previousSlugs = slugs;
+    else delete person.previousSlugs;
+  }
+  console.log(`- persons: ${ledger.restored} published name key(s) restored from the address ledger, ${ledger.moved} taken back from another record; ${ledger.unresolved.length} whose person no longer resolves${ledger.unresolved.length ? ` (first: ${ledger.unresolved[0].join(' -> ')})` : ''}`);
   if (candidateLists.size) {
     console.log(`- persons: ${candidateLists.size} record(s) marked entryKind "candidate-list", not people: ${[...candidateLists].join(', ')}`);
   }

@@ -60,6 +60,31 @@ export function parseCsv(text) {
 }
 
 /**
+ * The person-id merges: person_id_confirmed_merges.csv (confirmed) first, then the merge log
+ * person_id_merges.csv; the first row for a drop id wins. Read by this ingest (person_merges)
+ * and by the published-address ledger (scripts/lib/person-address-ledger.mjs), so both follow
+ * merges the same way.
+ * @param {string} [root]  the repository root
+ * @returns {{ drop: string, keep: string, confirmed: number, rest: Record<string, string> }[]}
+ */
+export function readPersonMerges(root = REPO_ROOT) {
+  /** @type {{ drop: string, keep: string, confirmed: number, rest: Record<string, string> }[]} */
+  const rows = [];
+  const seen = new Set();
+  for (const [file, confirmed] of /** @type {[string, number][]} */ ([['person_id_confirmed_merges.csv', 1], ['person_id_merges.csv', 0]])) {
+    const full = path.join(root, 'data', 'elections', 'persons', file);
+    if (!existsSync(full)) continue;
+    for (const row of parseCsv(readFileSync(full, 'utf8'))) {
+      if (!row.drop || seen.has(row.drop)) continue;
+      seen.add(row.drop);
+      const { keep, drop, ...rest } = row;
+      rows.push({ drop, keep, confirmed, rest });
+    }
+  }
+  return rows;
+}
+
+/**
  * @param {import('../../storage/src/sqlite.mjs').SqliteHandle} db
  * @param {{ root?: string }} [options]
  */
@@ -102,16 +127,8 @@ export function ingestRegistries(db, { root = REPO_ROOT } = {}) {
     out.person_names = pn.finish();
 
     const merges = new TableWriter(db, 'person_merges');
-    const mergeSeen = new Set();
-    for (const [file, confirmed] of /** @type {[string, number][]} */ ([['person_id_confirmed_merges.csv', 1], ['person_id_merges.csv', 0]])) {
-      const full = at('persons', file);
-      if (!existsSync(full)) continue;
-      for (const row of parseCsv(readFileSync(full, 'utf8'))) {
-        if (!row.drop || mergeSeen.has(row.drop)) continue;
-        mergeSeen.add(row.drop);
-        const { keep, drop, ...rest } = row;
-        merges.add({ drop_id: drop, keep_id: keep, confirmed, meta: JSON.stringify(rest) });
-      }
+    for (const { drop, keep, confirmed, rest } of readPersonMerges(root)) {
+      merges.add({ drop_id: drop, keep_id: keep, confirmed, meta: JSON.stringify(rest) });
     }
     out.person_merges = merges.finish();
 
