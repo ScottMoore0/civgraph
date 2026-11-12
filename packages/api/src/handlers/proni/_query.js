@@ -39,7 +39,8 @@ export function parseQuery(q) {
     if (!val) continue;
     if (m[2] && col === undefined) { col = null; val = m[3]; }
     if (m[5] && col === undefined) { col = null; val = m[6]; }
-    (neg ? negatives : positives).push({ col, val, isField: !!(m[2] || m[5]) });
+    // each alternative of the pattern captures its value, so val is a string here
+    (neg ? negatives : positives).push({ col: col ?? null, val: val ?? '', isField: !!(m[2] || m[5]) });
   }
   return { positives, negatives };
 }
@@ -52,7 +53,7 @@ export function parseQuery(q) {
  */
 export function buildMatch(q, fields = {}) {
   const { positives, negatives } = parseQuery(q || '');
-  for (const [key, col] of [['title', 'title'], ['description', 'description'], ['ref', 'ref'], ['text', '{title description}'], ['dates', 'dates']]) {
+  for (const [key, col] of /** @type {Array<[string, string]>} */ ([['title', 'title'], ['description', 'description'], ['ref', 'ref'], ['text', '{title description}'], ['dates', 'dates']])) {
     const v = (fields[key] || '').trim();
     if (v) positives.push({ col, val: v, isField: true });
   }

@@ -32,7 +32,7 @@ const MAX_NAMES = 200;
 export function partyNames(item) {
   if (!item) return [];
   const list = (/** @type {unknown} */ value) => (Array.isArray(value) ? value : []);
-  return [...new Set([item.canonicalName, item.title, item.shortName, ...list(item.observedNames), ...list(item.knownAliases)]
+  return [...new Set([item['canonicalName'], item['title'], item['shortName'], ...list(item['observedNames']), ...list(item['knownAliases'])]
     .filter((name) => typeof name === 'string' && name.trim() !== '')
     .map((name) => /** @type {string} */ (name).trim()))].slice(0, MAX_NAMES);
 }

@@ -15,7 +15,7 @@ export const VERSIONS = Object.freeze({ v1: V1 });
 
 /** @param {import('../types.js').ApiContext} context */
 export async function onRequest(context) {
-  const segs = segments(context.params?.path);
+  const segs = segments(context.params?.['path']);
   if (!segs.length) {
     const method = context.request.method.toUpperCase();
     if (method !== 'GET' && method !== 'HEAD') return methodNotAllowed(method);
@@ -28,7 +28,7 @@ export async function onRequest(context) {
     return method === 'HEAD' ? new Response(null, res) : res;
   }
   const [version, ...rest] = segs;
-  const api = VERSIONS[version];
+  const api = version === undefined ? undefined : VERSIONS[version];
   if (!api) return notFound({ path: new URL(context.request.url).pathname, see: '/api/' });
   return delegate(context, api, rest);
 }

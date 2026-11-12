@@ -47,7 +47,7 @@ const DESC_PREVIEW = 160; // trimmed list preview — full text is fetched on th
  * @property {number | null} descLen
  */
 
-/** @type {Readonly<Record<string, string>>} */
+/** @type {Readonly<Record<string, string> & { relevance: string }>} */
 const ORDER = {
   relevance: 'bm25(proni_fts)',
   ref: 'p.ref',
@@ -172,7 +172,7 @@ async function handle(context) {
 export function searchPlan({ match, where, binds, sort, dir, top, limit, offset }) {
   if (match) {
     // Ties broken by ref, so a page boundary never repeats or skips a record (data design 4.3, query 9).
-    const key = top ? 'p.ref' : (sort === 'relevance' ? ORDER.relevance : (Object.hasOwn(ORDER, sort) ? ORDER[sort] : 'p.ref'));
+    const key = top ? 'p.ref' : (sort === 'relevance' ? ORDER.relevance : (Object.hasOwn(ORDER, sort) ? ORDER[sort] ?? 'p.ref' : 'p.ref'));
     const keyDir = top || sort === 'relevance' ? 'ASC' : dir;
     const full = { sql: PRONI.searchMatched(DESC_PREVIEW, where, key, keyDir, key === ORDER.relevance), params: [match, ...binds, limit, offset] };
     // The score cut-off evaluates the match twice, which costs more than it saves for a
@@ -196,8 +196,8 @@ export async function runSearch(db, plan, exactRef) {
   const first = plan.ranked || plan.full;
   const statements = exactRef ? [{ sql: PRONI.exactRef(DESC_PREVIEW), params: [exactRef] }, first] : [first];
   const rows = /** @type {ProniSearchRow[][]} */ (/** @type {unknown} */ (await db.batch(statements)));
-  const exact = exactRef ? rows[0] : [];
-  let results = rows[rows.length - 1];
+  const exact = exactRef ? rows[0] ?? [] : [];
+  let results = rows[rows.length - 1] ?? [];
   // A short ranked page is the end of the matches. Were the catalogue not closed (_read.js), it
   // could also be a page the score cut-off left short, and the plain query would settle it.
   if (plan.ranked && !CATALOGUE_IS_CLOSED && results.length < plan.limit) {

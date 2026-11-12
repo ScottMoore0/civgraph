@@ -71,7 +71,8 @@ export function movedPath(parts) {
   const enc = encodeURIComponent;
   if (p === 'proni-roots.json' || p === 'proni.json') return '/_api/proni/node';
   if (parts[0] === 'map-features' && parts.length > 1) return `${MAP_FEATURES_ORIGIN}/${parts.slice(1).map(enc).join('/')}`;
-  const [a, b, c] = parts;
+  // parts.length is checked before each segment is read, so a missing one never matters
+  const [a = '', b = '', c = ''] = parts;
   if (parts.length !== 3 || a !== 'details' || !json(c)) return null;
   if (b === 'sources') return `/_api/sources?slug=${enc(/** @type {string} */ (json(c)))}&view=detail`;
   if (b === 'register-interests') return `/_api/register-interests?slug=${enc(/** @type {string} */ (json(c)))}&view=detail`;
@@ -147,7 +148,8 @@ export function matchBrowsePath(parts) {
   if (p === 'maps.json') return { kind: 'maps' };
   if (p === 'features.json') return { kind: 'features' };
   if (p === 'votes/index.json') return { kind: 'doc', name: 'votes/index.json' };
-  const [a, b, c] = parts;
+  // parts.length is checked before each segment is read, so a missing one never matters
+  const [a = '', b = '', c = ''] = parts;
   if (parts.length === 2 && SHARDED[a] && json(b)) return { kind: 'shard', dir: a, name: b };
   if (parts.length === 2 && a === 'election-contest-parents' && /^\d{4}$/.test(json(b) || '')) return { kind: 'contest-parents', bucket: Number(json(b)) };
   if (parts.length === 2 && a === 'party-profiles' && json(b)) return { kind: 'party-profile', slug: /** @type {string} */ (json(b)) };
@@ -188,32 +190,33 @@ async function answer(db, route) {
     case 'parties': {
       const head = (await documentBody(db, 'browse/parties.json')) || {};
       const results = await db.all(PARTIES.cards);
-      return jsonResponse({ ...head, items: results.map((r) => parseJson(r.card)) });
+      return jsonResponse({ ...head, items: results.map((r) => parseJson(r['card'])) });
     }
     case 'party-names': {
       const head = (await documentBody(db, 'browse/party-names.json')) || {};
       const results = await db.all(PARTIES.labelMap);
-      return jsonResponse({ ...head, items: Object.fromEntries(results.map((r) => [r.label, r.party_slug])) });
+      return jsonResponse({ ...head, items: Object.fromEntries(results.map((r) => [r['label'], r['party_slug']])) });
     }
     case 'party-detail':
     case 'party-profile': {
       const resolved = await resolvePartySlug(db, route.slug);
       if (!resolved) return notFound();
       const row = await db.first(PARTIES.detailProfile, [resolved.slug]);
-      if (route.kind === 'party-profile') return row?.profile ? jsonResponse(row.profile) : notFound();
-      return row?.detail ? jsonResponse(`{"schemaVersion":1,"item":${row.detail}}`) : notFound();
+      if (route.kind === 'party-profile') return row?.['profile'] ? jsonResponse(row['profile']) : notFound();
+      return row?.['detail'] ? jsonResponse(`{"schemaVersion":1,"item":${row['detail']}}`) : notFound();
     }
     case 'offices': {
       const head = (await documentBody(db, 'browse/offices.json')) || {};
       const results = await db.all(OFFICES.cards);
-      return jsonResponse({ ...head, items: results.map((r) => parseJson(r.card)) });
+      return jsonResponse({ ...head, items: results.map((r) => parseJson(r['card'])) });
     }
     case 'office-detail': {
       const row = await db.first(OFFICES.detail, [route.slug]);
-      return row?.detail ? jsonResponse(`{"schemaVersion":1,"item":${row.detail}}`) : notFound();
+      return row?.['detail'] ? jsonResponse(`{"schemaVersion":1,"item":${row['detail']}}`) : notFound();
     }
     case 'shard': {
       const spec = SHARDED[route.dir];
+      if (!spec) return notFound(); // route() only names a directory SHARDED holds
       const manifest = /** @type {{ shards?: { name: string }[], indexShardSize?: number | string } | null} */ (await documentBody(db, spec.manifest));
       const index = (manifest?.shards || []).findIndex((s) => s.name === route.name);
       if (index < 0) return notFound();
@@ -222,7 +225,7 @@ async function answer(db, route) {
       // Shard n is rows n*size .. (n+1)*size-1 in source order. ord is a sort key with gaps
       // (packages/loader/src/stable-order.mjs), not a position, so the slice is LIMIT/OFFSET.
       const results = await db.all(SHARDS.page(spec.table), [size, index * size]);
-      const items = results.map((r) => parseJson(r.card));
+      const items = results.map((r) => parseJson(r['card']));
       return jsonResponse({ schemaVersion: 1, kind: spec.kind, shard: route.name, total: items.length, items });
     }
     case 'elections': {
@@ -235,7 +238,7 @@ async function answer(db, route) {
         for (let offset = 0; ; offset += 1000) {
           const results = await db.all(ELECTION_CARDS.cardsPage, [offset]);
           if (!results.length) break;
-          for (const r of results) { yield `${first ? '' : ','}${r.card}`; first = false; }
+          for (const r of results) { yield `${first ? '' : ','}${r['card']}`; first = false; }
         }
         yield ']}';
       }
@@ -243,11 +246,11 @@ async function answer(db, route) {
     }
     case 'election-detail': {
       const row = await db.first(ELECTION_CARDS.detail, [route.slug]);
-      return row?.detail ? jsonResponse(`{"schemaVersion":1,"item":${row.detail}}`) : notFound();
+      return row?.['detail'] ? jsonResponse(`{"schemaVersion":1,"item":${row['detail']}}`) : notFound();
     }
     case 'election-contests': {
       const row = await db.first(ELECTION_CARDS.contests, [route.slug]);
-      return row?.contests ? jsonResponse(`{"schemaVersion":1,"items":${row.contests}}`) : notFound();
+      return row?.['contests'] ? jsonResponse(`{"schemaVersion":1,"items":${row['contests']}}`) : notFound();
     }
     case 'maps': {
       const text = await browseMapsText(db);
@@ -260,7 +263,7 @@ async function answer(db, route) {
     case 'map-detail': {
       // The file was named by slug: only an exact slug answers (no id fallback, as before).
       const row = await db.first(MAP_CARDS.detail, [route.slug]);
-      return row?.detail ? jsonResponse(`{"schemaVersion":1,"item":${row.detail}}`) : notFound();
+      return row?.['detail'] ? jsonResponse(`{"schemaVersion":1,"item":${row['detail']}}`) : notFound();
     }
     default: return notFound();
   }

@@ -80,7 +80,7 @@ export const RUNTIME_VARS = /* @__PURE__ */ Object.freeze({
 });
 
 /** Names only. A tool that prints the configuration says whether these are set, never what to. */
-export const SECRETS = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.keys(RUNTIME_VARS).filter((k) => /** @type {Record<string, { secret?: boolean }>} */ (RUNTIME_VARS)[k].secret));
+export const SECRETS = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.entries(RUNTIME_VARS).filter(([, spec]) => /** @type {{ secret?: boolean }} */ (spec).secret).map(([k]) => k));
 
 /** Cache-Control policies, by what is being served. */
 export const CACHE = /* @__PURE__ */ Object.freeze({

@@ -50,7 +50,8 @@ export function filterByBbox(features, bboxParam) {
     if (!bboxParam || features.length === 0) return features;
     const parts = bboxParam.split(',').map(Number);
     if (parts.length !== 4 || !parts.every(Number.isFinite)) return features;
-    const [minLng, minLat, maxLng, maxLat] = parts;
+    // four finite numbers (checked above), so the defaults never apply
+    const [minLng = 0, minLat = 0, maxLng = 0, maxLat = 0] = parts;
     // 20% buffer
     const latBuf = (maxLat - minLat) * 0.2;
     const lngBuf = (maxLng - minLng) * 0.2;
@@ -60,7 +61,7 @@ export function filterByBbox(features, bboxParam) {
     const bMaxLat = maxLat + latBuf;
     return features.filter(f => {
         if (!f.bbox || f.bbox.length < 4) return false;
-        const [fMinLng, fMinLat, fMaxLng, fMaxLat] = f.bbox;
+        const [fMinLng = 0, fMinLat = 0, fMaxLng = 0, fMaxLat = 0] = f.bbox; // four or more (checked above)
         return !(fMaxLng < bMinLng || fMinLng > bMaxLng || fMaxLat < bMinLat || fMinLat > bMaxLat);
     });
 }

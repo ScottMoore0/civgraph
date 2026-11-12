@@ -34,9 +34,9 @@ import { PERSONS } from '../../queries/cards.js';
  * @param {ViewContext} view
  */
 async function candidacies({ db, slug, record, json }) {
-  const personId = String(record.id || '').replace(/^person:/, '');
+  const personId = String(record['id'] || '').replace(/^person:/, '');
   const results = await db.all(PERSONS.candidacies, [personId]);
-  const items = results.map((r) => ({ ...r, elected: r.elected === 1, unopposed: r.unopposed === 1 }));
+  const items = results.map((r) => ({ ...r, elected: r['elected'] === 1, unopposed: r['unopposed'] === 1 }));
   return json({ slug, personId, total: items.length, candidacies: items });
 }
 
@@ -45,7 +45,7 @@ async function candidacies({ db, slug, record, json }) {
  * @param {ViewContext} view
  */
 async function votes({ db, record, json }) {
-  const personId = String(record.id || '').replace(/^person:/, '');
+  const personId = String(record['id'] || '').replace(/^person:/, '');
   const row = /** @type {{ record: string } | null} */ (await db.first(PERSONS.votes, [personId]));
   if (!row) return json({ error: 'no votes', personId }, 404);
   return json(parseJson(row.record));

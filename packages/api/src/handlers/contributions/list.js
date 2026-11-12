@@ -74,7 +74,7 @@ export async function onRequestGet(context) {
       for (const key of listing.entries) {
         scanned += 1;
         const meta = key.metadata || {}; // queueMetadata() in submit.js
-        if (wantStatus !== 'all' && meta.status !== wantStatus) continue;
+        if (wantStatus !== 'all' && meta['status'] !== wantStatus) continue;
         items.push({ key: key.key, ...meta });
         if (items.length >= limit) break;
       }
