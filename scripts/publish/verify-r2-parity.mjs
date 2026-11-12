@@ -37,7 +37,7 @@
  * Usage:
  *   node scripts/publish/verify-r2-parity.mjs [--json] [--list-orphans]
  */
-import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { S3Client, ListObjectsV2Command } from '@aws-sdk/client-s3';

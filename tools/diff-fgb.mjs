@@ -19,6 +19,8 @@
 import { readFileSync } from 'node:fs';
 import { geojson } from 'flatgeobuf';
 
+/** @typedef {import('geojson').Position} Position */
+/** @typedef {{ vertices: number, area: number, bounds: number[] }} Summary */
 const [fileA, fileB] = process.argv.slice(2).filter((a) => !a.startsWith('--'));
 const keyArg = process.argv[process.argv.indexOf('--key') + 1];
 const KEY = process.argv.includes('--key') ? keyArg : null;
@@ -28,6 +30,11 @@ if (!fileA || !fileB) {
   process.exit(1);
 }
 
+/**
+ * @param {import('geojson').GeoJsonProperties} properties
+ * @param {string | null | undefined} explicit
+ * @returns {string | undefined}
+ */
 function pickKey(properties, explicit) {
   if (explicit) return explicit;
   const keys = Object.keys(properties || {});
@@ -36,7 +43,10 @@ function pickKey(properties, explicit) {
     || keys[0];
 }
 
-/** Ring area by the shoelace formula, in square degrees -- comparative only. */
+/**
+ * Ring area by the shoelace formula, in square degrees -- comparative only.
+ * @param {Position[]} ring
+ */
 function ringArea(ring) {
   let sum = 0;
   for (let i = 0, j = ring.length - 1; i < ring.length; j = i, i += 1) {
@@ -45,12 +55,16 @@ function ringArea(ring) {
   return Math.abs(sum / 2);
 }
 
+/**
+ * @param {import('geojson').Geometry | null | undefined} geometry
+ * @returns {Summary}
+ */
 function summarise(geometry) {
   const bounds = [Infinity, Infinity, -Infinity, -Infinity];
   let vertices = 0;
   let area = 0;
 
-  const walkRing = (ring) => {
+  const walkRing = (/** @type {Position[]} */ ring) => {
     vertices += ring.length;
     area += ringArea(ring);
     for (const [x, y] of ring) {
@@ -61,20 +75,23 @@ function summarise(geometry) {
     }
   };
 
-  const coords = geometry?.coordinates || [];
-  if (geometry?.type === 'Polygon') coords.forEach(walkRing);
-  else if (geometry?.type === 'MultiPolygon') coords.forEach((poly) => poly.forEach(walkRing));
+  if (geometry?.type === 'Polygon') (geometry.coordinates || []).forEach(walkRing);
+  else if (geometry?.type === 'MultiPolygon') (geometry.coordinates || []).forEach((poly) => poly.forEach(walkRing));
 
   return { vertices, area, bounds };
 }
 
+/** @param {string} file */
 async function load(file) {
   const bytes = new Uint8Array(readFileSync(file));
+  /** @type {Map<string, Summary>} */
   const out = new Map();
+  /** @type {string | null | undefined} */
   let keyName = null;
   for await (const feature of geojson.deserialize(bytes)) {
     keyName = keyName || pickKey(feature.properties, KEY);
-    const name = String(feature.properties?.[keyName] ?? `(unnamed ${out.size})`);
+    // String(): with no key name, the lookup was always of 'null' or 'undefined', as before.
+    const name = String(feature.properties?.[String(keyName)] ?? `(unnamed ${out.size})`);
     out.set(name, summarise(feature.geometry));
   }
   return { features: out, keyName };

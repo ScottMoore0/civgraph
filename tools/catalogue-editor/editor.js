@@ -13,23 +13,88 @@
  *   - the order of entries within a card, by dragging;
  *   - an entry's attributes (shown by default, FGB download, badges, a comment) from its gear.
  */
+/**
+ * The saved state (tools/catalogue-editor/state/edits.json and notes.json).
+ * @typedef {{ key: string, kind: string | undefined, original: string | undefined, value: string, page: string, updatedAt: string }} TextEdit
+ * @typedef {{ shown?: boolean, download?: boolean, badges?: string, comment?: string }} AttrFields
+ * @typedef {{ shown: boolean, download: boolean, badges: string }} AttrState
+ * @typedef {object} AttrEdit
+ * @property {string} key
+ * @property {string} kind
+ * @property {string | undefined} id
+ * @property {string} card
+ * @property {string} label
+ * @property {AttrFields} fields
+ * @property {AttrState} original
+ * @property {string} updatedAt
+ * @typedef {{ id: string, text: string }} AddedSubheading
+ * @typedef {object} Edits
+ * @property {number} schemaVersion
+ * @property {Record<string, TextEdit>} text
+ * @property {Record<string, AttrEdit>} attrs
+ * @property {Record<string, string[]>} order   'toc', and 'entries|<card>|<section>': the keys in order
+ * @property {{ added: AddedSubheading[], removed: string[], indent: Record<string, boolean> }} toc
+ * @property {object[]} log
+ * @typedef {{ selector: string | null, dx: number, dy: number, label: string }} NoteAnchor
+ * @typedef {object} Note
+ * @property {string} id
+ * @property {string} page
+ * @property {NoteAnchor} [anchor]
+ * @property {{ x: number, y: number }} abs
+ * @property {string} text
+ * @property {string} createdAt
+ * @property {string} updatedAt
+ * @property {boolean} [draft]
+ * @typedef {'edits' | 'notes'} StateFile
+ * Where a popover is placed: a rectangle's left, top and bottom.
+ * @typedef {{ left: number, top: number, bottom?: number }} PopAt
+ */
 (() => {
   'use strict';
-  if (window.__catalogueEditor) return;
-  window.__catalogueEditor = true;
+  const host = /** @type {Window & { __catalogueEditor?: boolean, clipboardData?: DataTransfer }} */ (window);
+  if (host.__catalogueEditor) return;
+  host.__catalogueEditor = true;
 
   const API = '/__editor/state';
   const PAGE = location.pathname;
+  /** @type {{ edits: Edits | null, notes: Note[], editMode: boolean, showPins: boolean, applying: boolean }} */
   const S = { edits: null, notes: [], editMode: true, showPins: true, applying: false };
+  /** @returns {Edits} */
   const blank = () => ({ schemaVersion: 1, text: {}, attrs: {}, order: {}, toc: { added: [], removed: [], indent: {} }, log: [] });
-  const text = (el) => (el?.textContent || '').replace(/\s+/g, ' ').trim();
+  /** The edits, once start() has loaded them: nothing that reads them runs before. */
+  const edits = () => /** @type {Edits} */ (S.edits);
+  const text = (/** @type {Node | null | undefined} */ el) => (el?.textContent || '').replace(/\s+/g, ' ').trim();
   const now = () => new Date().toISOString();
-  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  const cssq = (s) => (window.CSS && CSS.escape ? CSS.escape(s) : String(s).replace(/"/g, '\\"'));
+  /** @type {Record<string, string>} */
+  const ENTITIES = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+  const esc = (/** @type {unknown} */ s) => String(s ?? '').replace(/[&<>"']/g, (c) => /** @type {string} */ (ENTITIES[c]));
+  const cssq = (/** @type {string} */ s) => (window.CSS && CSS.escape ? CSS.escape(s) : String(s).replace(/"/g, '\\"'));
+
+  // Typed DOM lookups: the catalogue's elements are HTML elements, read by dataset, style and focus.
+  /** @param {ParentNode} root @param {string} sel */
+  const one = (root, sel) => /** @type {HTMLElement | null} */ (root.querySelector(sel));
+  /** @param {ParentNode} root @param {string} sel */
+  const all = (root, sel) => /** @type {NodeListOf<HTMLElement>} */ (root.querySelectorAll(sel));
+  /** @param {Element} el @param {string} sel */
+  const up = (el, sel) => /** @type {HTMLElement | null} */ (el.closest(sel));
+  /** An element this script itself wrote into root, so it is there. @param {ParentNode} root @param {string} sel */
+  const own = (root, sel) => /** @type {HTMLElement} */ (root.querySelector(sel));
+  /**
+   * The nearest element from an event's target up that matches sel. The target can be the
+   * document or a text node, which have no closest(): that gives undefined, as before.
+   * @param {Event} e @param {string} sel @returns {HTMLElement | null | undefined}
+   */
+  const closestTo = (e, sel) => {
+    const t = /** @type {Partial<Element>} */ (e.target);
+    return t.closest && /** @type {HTMLElement | null} */ (t.closest(sel));
+  };
 
   // ------------------------------------------------------------------ persistence
-  let saveTimer = null;
+  /** @type {number | undefined} */
+  let saveTimer;
+  /** @type {Set<StateFile>} */
   const pending = new Set();
+  /** @param {StateFile} which */
   function save(which) {
     pending.add(which);
     status('Saving…');
@@ -41,7 +106,7 @@
         for (const f of files) {
           const body = f === 'edits' ? S.edits : S.notes;
           const r = await fetch(`${API}/${f}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
-          if (!r.ok) throw new Error(r.status);
+          if (!r.ok) throw new Error(String(r.status));
         }
         status('Saved');
       } catch (e) {
@@ -50,18 +115,22 @@
       refreshCounts();
     }, 350);
   }
+  /** @param {string} action @param {object} detail */
   function log(action, detail) {
-    S.edits.log.push({ at: now(), page: PAGE, action, ...detail });
+    edits().log.push({ at: now(), page: PAGE, action, ...detail });
   }
 
   // ------------------------------------------------------------------ fields
-  const tocTarget = (el) => el.closest('tr')?.querySelector('a.catalogue-flat__toc-link')?.dataset.catalogueTarget || '';
-  const cardId = (el) => el.closest('.c1-card')?.dataset.c1Id || '';
-  const memberKey = (el) => {
-    const m = el.closest('.class-member');
+  const tocTarget = (/** @type {HTMLElement} */ el) => /** @type {HTMLElement | null | undefined} */ (el.closest('tr')?.querySelector('a.catalogue-flat__toc-link'))?.dataset.catalogueTarget || '';
+  const cardId = (/** @type {HTMLElement} */ el) => up(el, '.c1-card')?.dataset.c1Id || '';
+  const memberKey = (/** @type {HTMLElement} */ el) => {
+    const m = up(el, '.class-member');
     return m ? `${cardId(m)}|${m.dataset.mapId || ''}` : '';
   };
-  const orig = (el) => (el.dataset.ceOrig !== undefined ? el.dataset.ceOrig : (el.dataset.ceOrig = text(el)));
+  const orig = (/** @type {HTMLElement} */ el) => (el.dataset.ceOrig !== undefined ? el.dataset.ceOrig : (el.dataset.ceOrig = text(el)));
+  // An election or variant field outside its row has no row: its key() throws, and bindFields
+  // skips the field.
+  /** @type {{ kind: string, sel: string, key: (el: HTMLElement) => string }[]} */
   const FIELDS = [
     { kind: 'contents heading', sel: '.catalogue-flat__toc-heading', key: (el) => `toc-heading|${orig(el)}` },
     { kind: 'contents subheading', sel: '.catalogue-flat__toc-subheading', key: (el) => `toc-sub|${el.dataset.catalogueTarget || el.dataset.ceNew}` },
@@ -79,26 +148,27 @@
     { kind: 'entry details', sel: '.class-member[data-map-id] .class-member__change-note', key: (el) => `entry|${memberKey(el)}|details` },
     { kind: 'entry description', sel: '.class-member[data-map-id] .class-member__desc', key: (el) => `entry|${memberKey(el)}|description` },
     { kind: 'election name', sel: '.flat-election-entry .flat-election-body', key: (el) => {
-      const r = el.closest('.flat-election-entry'); return `election|${r.dataset.electionBody}|${r.dataset.electionDate}|name`; } },
+      const r = /** @type {HTMLElement} */ (up(el, '.flat-election-entry')); return `election|${r.dataset.electionBody}|${r.dataset.electionDate}|name`; } },
     { kind: 'election details', sel: '.flat-election-entry .class-member__desc', key: (el) => {
-      const r = el.closest('.flat-election-entry'); return `election|${r.dataset.electionBody}|${r.dataset.electionDate}|details`; } },
-    { kind: 'variant name', sel: '.variant-item .variant-item__name', key: (el) => `variant|${el.closest('.variant-item').dataset.mapId}|name` },
-    { kind: 'variant description', sel: '.variant-item .variant-item__description', key: (el) => `variant|${el.closest('.variant-item').dataset.mapId}|description` },
+      const r = /** @type {HTMLElement} */ (up(el, '.flat-election-entry')); return `election|${r.dataset.electionBody}|${r.dataset.electionDate}|details`; } },
+    { kind: 'variant name', sel: '.variant-item .variant-item__name', key: (el) => `variant|${/** @type {HTMLElement} */ (up(el, '.variant-item')).dataset.mapId}|name` },
+    { kind: 'variant description', sel: '.variant-item .variant-item__description', key: (el) => `variant|${/** @type {HTMLElement} */ (up(el, '.variant-item')).dataset.mapId}|description` },
   ];
 
+  /** @param {ParentNode} root */
   function wrapTocCells(root) {
-    root.querySelectorAll('.catalogue-flat__toc-table tr').forEach((tr) => {
-      if (!tr.querySelector('a.catalogue-flat__toc-link')) return;
+    all(root, '.catalogue-flat__toc-table tr').forEach((tr) => {
+      if (!one(tr, 'a.catalogue-flat__toc-link')) return;
       const tds = tr.children;
-      const when = tr.querySelector('td.catalogue-flat__toc-when') || tds[1];
-      if (when && !when.querySelector('.ce-when')) {
+      const when = one(tr, 'td.catalogue-flat__toc-when') || tds[1];
+      if (when && !one(when, '.ce-when')) {
         const span = document.createElement('span');
         span.className = 'ce-when';
         [...when.childNodes].filter((n) => n.nodeType === 3).forEach((n) => span.appendChild(n));
         when.insertBefore(span, when.firstChild);
       }
       const extent = tds[2];
-      if (extent && !extent.querySelector('.ce-extent')) {
+      if (extent && !one(extent, '.ce-extent')) {
         const span = document.createElement('span');
         span.className = 'ce-extent';
         while (extent.firstChild) span.appendChild(extent.firstChild);
@@ -107,9 +177,10 @@
     });
   }
 
+  /** @param {ParentNode} root */
   function bindFields(root) {
     for (const f of FIELDS) {
-      root.querySelectorAll(f.sel).forEach((el) => {
+      all(root, f.sel).forEach((el) => {
         if (el.dataset.ceKey) return;
         orig(el);
         let key;
@@ -119,11 +190,12 @@
         el.dataset.ceKind = f.kind;
         el.classList.add('ce-field');
         setEditable(el);
-        const e = S.edits.text[key];
+        const e = edits().text[key];
         if (e) { el.textContent = e.value; el.classList.add('ce-changed'); }
       });
     }
   }
+  /** @param {HTMLElement} el */
   function setEditable(el) {
     if (S.editMode) {
       el.setAttribute('contenteditable', 'plaintext-only');
@@ -135,17 +207,18 @@
   }
 
   // ------------------------------------------------------------------ contents rows
-  const tocTable = () => document.querySelector('.catalogue-flat__toc-table');
+  const tocTable = () => /** @type {HTMLTableElement | null} */ (document.querySelector('.catalogue-flat__toc-table'));
+  /** @param {HTMLTableRowElement} tr */
   function rowKey(tr) {
     if (tr.classList.contains('catalogue-flat__toc-heading-row')) {
-      const h = tr.querySelector('.catalogue-flat__toc-heading');
+      const h = one(tr, '.catalogue-flat__toc-heading');
       return h ? `h|${orig(h)}` : null;
     }
     if (tr.classList.contains('catalogue-flat__toc-subheading-row')) {
-      const a = tr.querySelector('.catalogue-flat__toc-subheading');
+      const a = one(tr, '.catalogue-flat__toc-subheading');
       return a ? `s|${a.dataset.catalogueTarget || a.dataset.ceNew}` : null;
     }
-    const link = tr.querySelector('a.catalogue-flat__toc-link');
+    const link = one(tr, 'a.catalogue-flat__toc-link');
     return link ? `i|${link.dataset.catalogueTarget}` : null;
   }
   const INDENT = 'catalogue-flat__toc-row--indented';
@@ -155,8 +228,8 @@
     if (!table) return;
     const body = table.tBodies[0] || table;
     // Subheadings added here.
-    for (const a of S.edits.toc.added) {
-      if (body.querySelector(`[data-ce-new="${cssq(a.id)}"]`)) continue;
+    for (const a of edits().toc.added) {
+      if (one(body, `[data-ce-new="${cssq(a.id)}"]`)) continue;
       const tr = document.createElement('tr');
       tr.className = 'catalogue-flat__toc-subheading-row ce-added-row';
       tr.innerHTML = `<td colspan="3"><span class="catalogue-flat__toc-subheading" data-ce-new="${esc(a.id)}">${esc(a.text)}</span></td>`;
@@ -168,7 +241,7 @@
       tr.dataset.ceRow = key;
       if (tr.dataset.ceOrigIndent === undefined) tr.dataset.ceOrigIndent = tr.classList.contains(INDENT) ? '1' : '0';
       const first = tr.cells[0];
-      if (first && !first.querySelector('.ce-handle') && !key.startsWith('h|')) {
+      if (first && !one(first, '.ce-handle') && !key.startsWith('h|')) {
         const tools = document.createElement('span');
         tools.className = 'ce-ui ce-rowtools';
         tools.innerHTML = '<span class="ce-handle" draggable="true" title="Drag to move this row">⠿</span>'
@@ -176,7 +249,7 @@
           + '<button type="button" class="ce-btn ce-remove" title="Mark this row for removal (click again to keep it)">✕</button>';
         first.insertBefore(tools, first.firstChild);
       }
-      if (key.startsWith('h|') && first && !first.querySelector('.ce-addsub')) {
+      if (key.startsWith('h|') && first && !one(first, '.ce-addsub')) {
         const b = document.createElement('button');
         b.type = 'button';
         b.className = 'ce-ui ce-btn ce-addsub';
@@ -184,19 +257,20 @@
         b.title = 'Add a subheading at the top of this section';
         first.appendChild(b);
       }
-      const ind = S.edits.toc.indent[key];
+      const ind = edits().toc.indent[key];
       if (ind !== undefined) tr.classList.toggle(INDENT, ind);
-      tr.classList.toggle('ce-removed', S.edits.toc.removed.includes(key));
+      tr.classList.toggle('ce-removed', edits().toc.removed.includes(key));
     });
     applyTocOrder(body);
   }
 
+  /** @param {HTMLTableElement | HTMLTableSectionElement} body */
   function applyTocOrder(body) {
-    const want = S.edits.order.toc;
+    const want = edits().order.toc;
     if (!want || !want.length) return;
     const rows = [...body.rows];
     const byKey = new Map(rows.filter((r) => r.dataset.ceRow).map((r) => [r.dataset.ceRow, r]));
-    const result = want.map((k) => byKey.get(k)).filter(Boolean);
+    const result = want.map((k) => byKey.get(k)).filter((r) => r !== undefined);
     const inResult = new Set(result);
     rows.forEach((r, i) => {
       if (inResult.has(r)) return;
@@ -216,20 +290,21 @@
     const table = tocTable();
     if (!table) return;
     const body = table.tBodies[0] || table;
-    S.edits.order.toc = [...body.rows].map((r) => r.dataset.ceRow).filter(Boolean);
+    edits().order.toc = [...body.rows].map((r) => r.dataset.ceRow).filter(/** @param {string | undefined} key @returns {key is string} */ (key) => Boolean(key));
     [...body.rows].forEach((tr) => {
       const key = tr.dataset.ceRow;
       if (!key || !key.startsWith('i|')) return;
       const now = tr.classList.contains(INDENT);
-      if ((tr.dataset.ceOrigIndent === '1') === now) delete S.edits.toc.indent[key];
-      else S.edits.toc.indent[key] = now;
+      if ((tr.dataset.ceOrigIndent === '1') === now) delete edits().toc.indent[key];
+      else edits().toc.indent[key] = now;
     });
   }
 
   // ------------------------------------------------------------------ entries
+  /** @param {ParentNode} root */
   function decorateEntries(root) {
-    root.querySelectorAll('.class-member[data-map-id], .variant-item[data-map-id]').forEach((m) => {
-      if (m.querySelector(':scope > .ce-entrytools')) return;
+    all(root, '.class-member[data-map-id], .variant-item[data-map-id]').forEach((m) => {
+      if (one(m, ':scope > .ce-entrytools')) return;
       const isMember = m.classList.contains('class-member');
       const tools = document.createElement('span');
       tools.className = 'ce-ui ce-entrytools';
@@ -237,41 +312,50 @@
         + '<button type="button" class="ce-btn ce-gear" title="Attributes">⚙</button>';
       m.insertBefore(tools, m.firstChild);
       const k = attrKey(m);
-      m.classList.toggle('ce-attr-changed', Boolean(S.edits.attrs[k]));
-      const a = S.edits.attrs[k]?.fields;
+      m.classList.toggle('ce-attr-changed', Boolean(edits().attrs[k]));
+      const a = edits().attrs[k]?.fields;
       m.dataset.ceProposed = a ? describeAttrs(a) : '';
     });
     // Orders within each list of entries.
-    for (const [k, ids] of Object.entries(S.edits.order)) {
+    for (const [k, ids] of Object.entries(edits().order)) {
       if (!k.startsWith('entries|')) continue;
       const list = findEntryList(k);
       if (list) reorderEntries(list, ids);
     }
   }
-  const attrKey = (m) => (m.classList.contains('variant-item') ? `variant|${m.dataset.mapId}` : `entry|${cardId(m)}|${m.dataset.mapId}`);
+  const attrKey = (/** @type {HTMLElement} */ m) => (m.classList.contains('variant-item') ? `variant|${m.dataset.mapId}` : `entry|${cardId(m)}|${m.dataset.mapId}`);
+  /** @param {HTMLElement} list */
   function listKey(list) {
-    const sec = list.closest('.c1-card__section');
-    const header = sec ? orig(sec.querySelector('.c1-card__section-header') || sec) : 'main';
+    const sec = up(list, '.c1-card__section');
+    const header = sec ? orig(one(sec, '.c1-card__section-header') || sec) : 'main';
     return `entries|${cardId(list)}|${header}`;
   }
+  /** @param {string} k */
   function findEntryList(k) {
     const [, card] = k.split('|');
-    const cardEl = document.querySelector(`.c1-card[data-c1-id="${cssq(card)}"]`);
+    const cardEl = one(document, `.c1-card[data-c1-id="${cssq(card)}"]`);
     if (!cardEl) return null;
-    const lists = new Set([...cardEl.querySelectorAll('.class-member[data-map-id]')].map((m) => m.parentElement));
+    const lists = new Set([...cardEl.querySelectorAll('.class-member[data-map-id]')].map((m) => /** @type {HTMLElement} */ (m.parentElement)));
     return [...lists].find((l) => listKey(l) === k) || null;
   }
+  /**
+   * The entries of a list, each with its variants container when it has one.
+   * @param {HTMLElement} list @returns {{ id: string, nodes: HTMLElement[] }[]}
+   */
   function entryUnits(list) {
-    return [...list.children].filter((c) => c.classList.contains('class-member') && c.dataset.mapId).map((m) => {
-      const next = m.nextElementSibling;
-      return { id: m.dataset.mapId, nodes: next && next.classList.contains('variants-container') ? [m, next] : [m] };
+    return /** @type {HTMLElement[]} */ ([...list.children]).filter((c) => c.classList.contains('class-member') && c.dataset.mapId).map((m) => {
+      const next = /** @type {HTMLElement | null} */ (m.nextElementSibling);
+      // Only entries with a map id were kept.
+      return { id: /** @type {string} */ (m.dataset.mapId), nodes: next && next.classList.contains('variants-container') ? [m, next] : [m] };
     });
   }
+  /** @param {HTMLElement} list @param {string[]} ids */
   function reorderEntries(list, ids) {
     const units = entryUnits(list);
     const cur = units.map((u) => u.id);
     const pos = new Map(ids.map((id, i) => [id, i]));
-    const sorted = [...units].sort((a, b) => (pos.has(a.id) ? pos.get(a.id) : 1e6 + cur.indexOf(a.id)) - (pos.has(b.id) ? pos.get(b.id) : 1e6 + cur.indexOf(b.id)));
+    const rank = (/** @type {string} */ id) => (pos.has(id) ? /** @type {number} */ (pos.get(id)) : 1e6 + cur.indexOf(id));
+    const sorted = [...units].sort((a, b) => rank(a.id) - rank(b.id));
     if (sorted.every((u, i) => u.id === cur[i])) return;
     S.applying = true;
     const anchor = units[0].nodes[0].previousSibling;
@@ -282,6 +366,7 @@
   }
 
   // ------------------------------------------------------------------ attributes popover
+  /** @param {AttrFields} a */
   function describeAttrs(a) {
     const out = [];
     if (a.shown === false) out.push('hidden by default');
@@ -292,19 +377,21 @@
     if (a.comment) out.push(`comment: ${a.comment}`);
     return out.join('; ');
   }
+  /** @param {HTMLElement} m @param {PopAt} at */
   function openAttrs(m, at) {
     closePopovers();
     const k = attrKey(m);
     const isVar = m.classList.contains('variant-item');
-    const nameEl = m.querySelector(isVar ? '.variant-item__name' : '.class-member__name');
-    const field = (sel) => m.querySelector(sel);
+    const nameEl = one(m, isVar ? '.variant-item__name' : '.class-member__name');
+    const field = (/** @type {string} */ sel) => one(m, sel);
     const cur = {
-      shown: !m.closest('[hidden]') && getComputedStyle(m).display !== 'none',
+      shown: !up(m, '[hidden]') && getComputedStyle(m).display !== 'none',
       download: [...m.querySelectorAll('button')].some((b) => /Download FGB/i.test(b.title || '')),
       badges: [...m.querySelectorAll('.class-member__placeholder-badge, .class-member__incomplete-badge')].map(text).join(', '),
     };
-    const saved = S.edits.attrs[k]?.fields || {};
-    const val = (name) => (saved[name] !== undefined ? saved[name] : cur[name]);
+    /** @type {AttrFields} */
+    const saved = edits().attrs[k]?.fields || {};
+    const val = (/** @type {keyof AttrState} */ name) => (saved[name] !== undefined ? saved[name] : cur[name]);
     const texts = isVar
       ? [['name', '.variant-item__name', 'Display name'], ['description', '.variant-item__description', 'Description']]
       : [['name', '.class-member__name', 'Display name'], ['date', '.class-member__date', 'Date shown'],
@@ -319,44 +406,47 @@
       <label>Comment for review<textarea data-f="comment" rows="3">${esc(saved.comment || '')}</textarea></label>
       <div class="ce-pop__btns"><button type="button" class="ce-save">Save</button><button type="button" class="ce-close">Close</button></div>`;
     placePop(pop, at);
-    pop.querySelector('.ce-close').onclick = closePopovers;
-    pop.querySelector('.ce-save').onclick = () => {
+    own(pop, '.ce-close').onclick = closePopovers;
+    own(pop, '.ce-save').onclick = () => {
       // Text fields are the same edits as typing in place.
-      pop.querySelectorAll('input[data-sel]').forEach((inp) => {
-        const el = field(inp.dataset.sel);
+      /** @type {NodeListOf<HTMLInputElement>} */ (pop.querySelectorAll('input[data-sel]')).forEach((inp) => {
+        const el = field(/** @type {string} */ (inp.dataset.sel));
         if (el && inp.value.trim() !== text(el)) { el.textContent = inp.value.trim(); commitText(el); }
       });
+      /** @type {AttrFields} */
       const fields = {};
-      const b = pop.querySelector('[data-f="badges"]').value.trim();
-      const shown = pop.querySelector('[data-f="shown"]').checked;
-      const dl = pop.querySelector('[data-f="download"]').checked;
-      const comment = pop.querySelector('[data-f="comment"]').value.trim();
+      const input = (/** @type {string} */ f) => /** @type {HTMLInputElement} */ (own(pop, `[data-f="${f}"]`));
+      const b = input('badges').value.trim();
+      const shown = input('shown').checked;
+      const dl = input('download').checked;
+      const comment = /** @type {HTMLTextAreaElement} */ (own(pop, '[data-f="comment"]')).value.trim();
       if (b !== cur.badges) fields.badges = b;
       if (shown !== cur.shown) fields.shown = shown;
       if (dl !== cur.download) fields.download = dl;
       if (comment) fields.comment = comment;
       if (Object.keys(fields).length) {
-        S.edits.attrs[k] = { key: k, kind: isVar ? 'variant' : 'entry', id: m.dataset.mapId, card: cardId(m), label: text(nameEl), fields, original: cur, updatedAt: now() };
-      } else delete S.edits.attrs[k];
+        edits().attrs[k] = { key: k, kind: isVar ? 'variant' : 'entry', id: m.dataset.mapId, card: cardId(m), label: text(nameEl), fields, original: cur, updatedAt: now() };
+      } else delete edits().attrs[k];
       log('attributes', { key: k, fields });
-      m.classList.toggle('ce-attr-changed', Boolean(S.edits.attrs[k]));
-      m.dataset.ceProposed = S.edits.attrs[k] ? describeAttrs(fields) : '';
+      m.classList.toggle('ce-attr-changed', Boolean(edits().attrs[k]));
+      m.dataset.ceProposed = edits().attrs[k] ? describeAttrs(fields) : '';
       save('edits');
       closePopovers();
     };
   }
 
   // ------------------------------------------------------------------ text commits
+  /** @param {HTMLElement} el */
   function commitText(el) {
-    const key = el.dataset.ceKey;
+    const key = /** @type {string} */ (el.dataset.ceKey);
     const value = text(el);
     const original = el.dataset.ceOrig;
     if (value === original) {
-      if (S.edits.text[key]) log('revert', { key });
-      delete S.edits.text[key];
+      if (edits().text[key]) log('revert', { key });
+      delete edits().text[key];
       el.classList.remove('ce-changed');
     } else {
-      S.edits.text[key] = { key, kind: el.dataset.ceKind, original, value, page: PAGE, updatedAt: now() };
+      edits().text[key] = { key, kind: el.dataset.ceKind, original, value, page: PAGE, updatedAt: now() };
       el.classList.add('ce-changed');
       log('edit', { key, original, value });
     }
@@ -364,30 +454,31 @@
   }
 
   // ------------------------------------------------------------------ events
+  /** @type {string | null} */
   let editingBefore = null;
   document.addEventListener('focusin', (e) => {
-    const el = e.target.closest && e.target.closest('.ce-field');
+    const el = closestTo(e, '.ce-field');
     if (el && S.editMode) editingBefore = text(el);
   }, true);
   document.addEventListener('focusout', (e) => {
-    const el = e.target.closest && e.target.closest('.ce-field');
+    const el = closestTo(e, '.ce-field');
     if (el && S.editMode && editingBefore !== null) {
       if (text(el) !== editingBefore) commitText(el);
       editingBefore = null;
     }
   }, true);
   document.addEventListener('keydown', (e) => {
-    const el = e.target.closest && e.target.closest('.ce-field');
+    const el = closestTo(e, '.ce-field');
     if (!el || !S.editMode) return;
     if (e.key === 'Enter') { e.preventDefault(); el.blur(); }
     if (e.key === 'Escape') { e.preventDefault(); el.textContent = editingBefore ?? el.textContent; editingBefore = null; el.blur(); }
     e.stopPropagation();
   }, true);
   document.addEventListener('paste', (e) => {
-    const el = e.target.closest && e.target.closest('.ce-field');
+    const el = closestTo(e, '.ce-field');
     if (!el || !S.editMode) return;
     e.preventDefault();
-    document.execCommand('insertText', false, (e.clipboardData || window.clipboardData).getData('text/plain').replace(/\s+/g, ' '));
+    document.execCommand('insertText', false, /** @type {DataTransfer} */ (e.clipboardData || host.clipboardData).getData('text/plain').replace(/\s+/g, ' '));
   }, true);
 
   // The editor's own buttons act and go no further, so a gear inside an entry does not also
@@ -395,22 +486,24 @@
   // its link. Everything else -- pins, popover buttons, inputs -- is left to its own handlers.
   const UI_BUTTONS = '.ce-indent, .ce-remove, .ce-addsub, .ce-gear, #ce-toggle-edit, #ce-toggle-pins, #ce-review';
   ['click', 'mousedown', 'pointerdown', 'mouseup', 'pointerup'].forEach((type) => document.addEventListener(type, (e) => {
-    if (!e.target.closest) return;
-    const btn = e.target.closest(UI_BUTTONS);
+    const target = /** @type {Partial<Element>} */ (e.target);
+    if (!target.closest) return;
+    const btn = closestTo(e, UI_BUTTONS);
     if (btn) {
       e.stopPropagation();
       if (type === 'click') { e.preventDefault(); handleUiClick({ target: btn }); }
       return;
     }
-    if (e.target.closest('.ce-handle')) { if (type !== 'click') e.stopPropagation(); return; }
-    if (e.target.closest('.ce-ui') || !S.editMode) return;
-    const field = e.target.closest('.ce-field');
+    if (target.closest('.ce-handle')) { if (type !== 'click') e.stopPropagation(); return; }
+    if (target.closest('.ce-ui') || !S.editMode) return;
+    const field = closestTo(e, '.ce-field');
     if (field) {
       e.stopPropagation();
       if (type === 'click') { e.preventDefault(); if (document.activeElement !== field) field.focus(); }
     }
   }, true));
 
+  /** @param {{ target: HTMLElement }} e */
   function handleUiClick(e) {
     const t = e.target;
     const tr = t.closest('tr');
@@ -420,24 +513,25 @@
       log('indent', { row: tr.dataset.ceRow, indented: tr.classList.contains(INDENT) });
       save('edits');
     } else if (t.classList.contains('ce-remove') && tr) {
-      const key = tr.dataset.ceRow;
-      const added = S.edits.toc.added.find((a) => `s|${a.id}` === key);
+      // Only keyed rows have the remove button (decorateToc).
+      const key = /** @type {string} */ (tr.dataset.ceRow);
+      const added = edits().toc.added.find((a) => `s|${a.id}` === key);
       if (added) {
-        S.edits.toc.added = S.edits.toc.added.filter((a) => a !== added);
-        delete S.edits.text[`toc-sub|${added.id}`];
+        edits().toc.added = edits().toc.added.filter((a) => a !== added);
+        delete edits().text[`toc-sub|${added.id}`];
         tr.remove();
         snapshotToc();
         log('delete added subheading', { row: key });
       } else {
-        const i = S.edits.toc.removed.indexOf(key);
-        if (i >= 0) S.edits.toc.removed.splice(i, 1); else S.edits.toc.removed.push(key);
+        const i = edits().toc.removed.indexOf(key);
+        if (i >= 0) edits().toc.removed.splice(i, 1); else edits().toc.removed.push(key);
         tr.classList.toggle('ce-removed', i < 0);
         log(i < 0 ? 'mark for removal' : 'keep', { row: key });
       }
       save('edits');
     } else if (t.classList.contains('ce-addsub') && tr) {
       const id = `new-${Date.now().toString(36)}`;
-      S.edits.toc.added.push({ id, text: 'New subheading' });
+      edits().toc.added.push({ id, text: 'New subheading' });
       const nr = document.createElement('tr');
       nr.className = 'catalogue-flat__toc-subheading-row ce-added-row';
       nr.innerHTML = `<td colspan="3"><span class="catalogue-flat__toc-subheading" data-ce-new="${id}">New subheading</span></td>`;
@@ -446,17 +540,17 @@
       bindFields(nr);
       snapshotToc();
       log('add subheading', { id });
-      S.edits.text[`toc-sub|${id}`] = { key: `toc-sub|${id}`, kind: 'contents subheading (added)', original: '', value: 'New subheading', page: PAGE, updatedAt: now() };
+      edits().text[`toc-sub|${id}`] = { key: `toc-sub|${id}`, kind: 'contents subheading (added)', original: '', value: 'New subheading', page: PAGE, updatedAt: now() };
       save('edits');
-      const f = nr.querySelector('.ce-field');
-      if (f) { f.focus(); document.getSelection().selectAllChildren(f); }
+      const f = one(nr, '.ce-field');
+      if (f) { f.focus(); /** @type {Selection} */ (document.getSelection()).selectAllChildren(f); }
     } else if (t.classList.contains('ce-gear')) {
-      const m = t.closest('.class-member, .variant-item');
+      const m = up(t, '.class-member, .variant-item');
       if (m) openAttrs(m, t.getBoundingClientRect());
     } else if (t.id === 'ce-toggle-edit') {
       S.editMode = !S.editMode;
       document.documentElement.classList.toggle('ce-on', S.editMode);
-      document.querySelectorAll('.ce-field').forEach(setEditable);
+      all(document, '.ce-field').forEach(setEditable);
       refreshCounts();
     } else if (t.id === 'ce-toggle-pins') {
       S.showPins = !S.showPins;
@@ -468,21 +562,24 @@
   }
 
   // Drag and drop: contents rows within the contents table; entries within their list.
+  /** @type {{ type: 'row' | 'entry', el: HTMLElement, list?: HTMLElement } | null} */
   let drag = null;
   document.addEventListener('dragstart', (e) => {
-    const h = e.target.closest && e.target.closest('.ce-handle');
+    const h = closestTo(e, '.ce-handle');
     if (!h) return;
-    const tr = h.closest('.catalogue-flat__toc-table tr');
-    const m = h.closest('.class-member');
-    drag = tr ? { type: 'row', el: tr } : m ? { type: 'entry', el: m, list: m.parentElement } : null;
+    const tr = up(h, '.catalogue-flat__toc-table tr');
+    const m = up(h, '.class-member');
+    drag = tr ? { type: 'row', el: tr } : m ? { type: 'entry', el: m, list: /** @type {HTMLElement} */ (m.parentElement) } : null;
     if (!drag) return;
-    e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData('text/plain', 'ce');
+    const dataTransfer = /** @type {DataTransfer} */ (e.dataTransfer);
+    dataTransfer.effectAllowed = 'move';
+    dataTransfer.setData('text/plain', 'ce');
     drag.el.classList.add('ce-dragging');
   }, true);
   document.addEventListener('dragover', (e) => {
     if (!drag) return;
-    const over = drag.type === 'row' ? e.target.closest('.catalogue-flat__toc-table tr') : e.target.closest('.class-member');
+    const target = /** @type {Element} */ (e.target);
+    const over = /** @type {HTMLElement | null} */ (drag.type === 'row' ? target.closest('.catalogue-flat__toc-table tr') : target.closest('.class-member'));
     clearDropMarks();
     if (!over || over === drag.el) return;
     if (drag.type === 'entry' && over.parentElement !== drag.list) return;
@@ -491,24 +588,27 @@
     over.classList.add(e.clientY < r.top + r.height / 2 ? 'ce-drop-before' : 'ce-drop-after');
   }, true);
   document.addEventListener('drop', (e) => {
-    if (!drag) return;
-    const over = document.querySelector('.ce-drop-before, .ce-drop-after');
+    const dragged = drag;
+    if (!dragged) return;
+    const over = one(document, '.ce-drop-before, .ce-drop-after');
     if (over) {
       e.preventDefault();
       const before = over.classList.contains('ce-drop-before');
-      if (drag.type === 'row') {
-        before ? over.before(drag.el) : over.after(drag.el);
+      if (dragged.type === 'row') {
+        before ? over.before(dragged.el) : over.after(dragged.el);
         snapshotToc();
-        log('move row', { row: drag.el.dataset.ceRow, to: before ? `before ${over.dataset.ceRow}` : `after ${over.dataset.ceRow}` });
+        log('move row', { row: dragged.el.dataset.ceRow, to: before ? `before ${over.dataset.ceRow}` : `after ${over.dataset.ceRow}` });
       } else {
-        const units = entryUnits(drag.list);
-        const unit = units.find((u) => u.nodes[0] === drag.el);
+        // An entry drag always has its list (dragstart).
+        const list = /** @type {HTMLElement} */ (dragged.list);
+        const units = entryUnits(list);
+        const unit = units.find((u) => u.nodes[0] === dragged.el);
         const target = units.find((u) => u.nodes[0] === over);
         if (unit && target) {
           const ref = before ? target.nodes[0] : (target.nodes[target.nodes.length - 1].nextSibling);
-          unit.nodes.forEach((n) => drag.list.insertBefore(n, ref));
-          S.edits.order[listKey(drag.list)] = entryUnits(drag.list).map((u) => u.id);
-          log('move entry', { list: listKey(drag.list), entry: unit.id });
+          unit.nodes.forEach((n) => list.insertBefore(n, ref));
+          edits().order[listKey(list)] = entryUnits(list).map((u) => u.id);
+          log('move entry', { list: listKey(list), entry: unit.id });
         }
       }
       save('edits');
@@ -520,13 +620,18 @@
     drag = null;
     clearDropMarks();
   }, true);
-  const clearDropMarks = () => document.querySelectorAll('.ce-drop-before, .ce-drop-after').forEach((n) => n.classList.remove('ce-drop-before', 'ce-drop-after'));
+  const clearDropMarks = () => all(document, '.ce-drop-before, .ce-drop-after').forEach((n) => n.classList.remove('ce-drop-before', 'ce-drop-after'));
 
   // ------------------------------------------------------------------ notes
   const pinsLayer = document.createElement('div');
   pinsLayer.id = 'ce-pins';
   pinsLayer.className = 'ce-ui';
 
+  /**
+   * Where a note is pinned: the nearest element up from the target with a unique selector,
+   * and the point's offset from it.
+   * @param {HTMLElement | null} target @param {number} x @param {number} y @returns {NoteAnchor}
+   */
   function anchorFor(target, x, y) {
     for (let el = target; el && el !== document.body && el !== document.documentElement; el = el.parentElement) {
       const cands = [];
@@ -537,7 +642,7 @@
       if (el.id && !/^ce-/.test(el.id)) cands.push(`#${cssq(el.id)}`);
       for (const sel of cands) {
         try {
-          if (document.querySelectorAll(sel).length === 1) {
+          if (all(document, sel).length === 1) {
             const r = el.getBoundingClientRect();
             return { selector: sel, dx: Math.round(x - r.left), dy: Math.round(y - r.top), label: text(el).slice(0, 80) };
           }
@@ -546,9 +651,10 @@
     }
     return { selector: null, dx: 0, dy: 0, label: '' };
   }
+  /** @param {Note} n @returns {{ x: number, y: number } | null} */
   function notePosition(n) {
     if (n.anchor?.selector) {
-      const el = document.querySelector(n.anchor.selector);
+      const el = one(document, n.anchor.selector);
       if (!el) return null;
       const r = el.getBoundingClientRect();
       if (!r.width && !r.height) return null;
@@ -570,7 +676,7 @@
     const mine = S.notes.filter((n) => n.page === PAGE);
     const seen = new Set();
     mine.forEach((n, i) => {
-      let pin = pinsLayer.querySelector(`[data-note="${cssq(n.id)}"]`);
+      let pin = /** @type {HTMLButtonElement | null} */ (pinsLayer.querySelector(`[data-note="${cssq(n.id)}"]`));
       if (!pin) {
         pin = document.createElement('button');
         pin.type = 'button';
@@ -588,20 +694,22 @@
       pin.style.left = `${pos.x}px`;
       pin.style.top = `${pos.y}px`;
     });
-    pinsLayer.querySelectorAll('.ce-pin').forEach((p) => { if (!seen.has(p.dataset.note)) p.remove(); });
+    all(pinsLayer, '.ce-pin').forEach((p) => { if (!seen.has(p.dataset.note)) p.remove(); });
   }
 
   document.addEventListener('contextmenu', (e) => {
-    if (e.shiftKey || (e.target.closest && e.target.closest('.ce-pop, .ce-bar, .ce-review'))) return;
+    if (e.shiftKey || closestTo(e, '.ce-pop, .ce-bar, .ce-review')) return;
     e.preventDefault();
     e.stopPropagation();
-    const note = { id: `n${Date.now().toString(36)}`, page: PAGE, anchor: anchorFor(e.target, e.clientX, e.clientY),
+    /** @type {Note} */
+    const note = { id: `n${Date.now().toString(36)}`, page: PAGE, anchor: anchorFor(/** @type {HTMLElement} */ (e.target), e.clientX, e.clientY),
       abs: { x: e.clientX + scrollX, y: e.clientY + scrollY }, text: '', createdAt: now(), updatedAt: now(), draft: true };
     S.notes.push(note);
     updatePins();
     openNote(note.id);
   }, true);
 
+  /** @param {string} id */
   function openNote(id) {
     closePopovers();
     const n = S.notes.find((x) => x.id === id);
@@ -615,7 +723,7 @@
       <div class="ce-pop__meta">${n.draft ? 'New note' : `Created ${new Date(n.createdAt).toLocaleString()}${n.updatedAt !== n.createdAt ? ` · edited ${new Date(n.updatedAt).toLocaleString()}` : ''}`}</div>
       <div class="ce-pop__btns"><button type="button" class="ce-save">Save</button><button type="button" class="ce-delete">Delete</button><button type="button" class="ce-close">Close</button></div>`;
     placePop(pop, { left: pos.x + 14, top: pos.y + 14, bottom: pos.y + 14 });
-    const ta = pop.querySelector('textarea');
+    const ta = /** @type {HTMLTextAreaElement} */ (pop.querySelector('textarea'));
     ta.focus();
     const keep = () => {
       const t = ta.value.trim();
@@ -631,17 +739,18 @@
       closePopovers();
       updatePins();
     };
-    pop.querySelector('.ce-save').onclick = keep;
-    pop.querySelector('.ce-delete').onclick = discard;
-    pop.querySelector('.ce-close').onclick = () => {
+    own(pop, '.ce-save').onclick = keep;
+    own(pop, '.ce-delete').onclick = discard;
+    own(pop, '.ce-close').onclick = () => {
       if (n.draft && !ta.value.trim()) { S.notes = S.notes.filter((x) => x !== n); updatePins(); }
       else if (n.draft || ta.value.trim() !== n.text) { keep(); return; }
       closePopovers();
     };
-    ta.addEventListener('keydown', (e) => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) keep(); if (e.key === 'Escape') pop.querySelector('.ce-close').click(); e.stopPropagation(); });
+    ta.addEventListener('keydown', (e) => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) keep(); if (e.key === 'Escape') own(pop, '.ce-close').click(); e.stopPropagation(); });
   }
 
   // ------------------------------------------------------------------ popovers, bar, review
+  /** @param {HTMLElement} pop @param {PopAt} at */
   function placePop(pop, at) {
     document.body.appendChild(pop);
     const w = pop.offsetWidth;
@@ -652,8 +761,8 @@
     pop.style.left = `${left}px`;
     pop.style.top = `${top}px`;
   }
-  function closePopovers() { document.querySelectorAll('.ce-pop, .ce-review').forEach((p) => p.remove()); }
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && document.querySelector('.ce-review')) closePopovers(); });
+  function closePopovers() { all(document, '.ce-pop, .ce-review').forEach((p) => p.remove()); }
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && one(document, '.ce-review')) closePopovers(); });
 
   const bar = document.createElement('div');
   bar.className = 'ce-ui ce-bar';
@@ -663,31 +772,32 @@
     <button type="button" id="ce-review" class="ce-btn"></button>
     <span class="ce-status"></span>
     <span class="ce-help">Click any catalogue label to edit · drag ⠿ to move · ⚙ attributes · right-click to add a note (Shift+right-click: browser menu)</span>`;
+  /** @param {string} msg @param {boolean} [bad] */
   function status(msg, bad) {
-    const s = bar.querySelector('.ce-status');
+    const s = own(bar, '.ce-status');
     s.textContent = msg;
     s.classList.toggle('ce-bad', Boolean(bad));
   }
   function changeCount() {
-    const e = S.edits;
+    const e = edits();
     return Object.keys(e.text).length + Object.keys(e.attrs).length + Object.keys(e.toc.indent).length
       + e.toc.removed.length + e.toc.added.length + (e.order.toc ? 1 : 0) + Object.keys(e.order).filter((k) => k.startsWith('entries|')).length;
   }
   function refreshCounts() {
     if (!S.edits) return;
-    bar.querySelector('#ce-toggle-edit').textContent = S.editMode ? 'Editing: on' : 'Editing: off';
-    bar.querySelector('#ce-toggle-pins').textContent = `${S.showPins ? 'Notes shown' : 'Notes hidden'} (${S.notes.filter((n) => !n.draft).length})`;
-    bar.querySelector('#ce-review').textContent = `Review changes (${changeCount()})`;
+    own(bar, '#ce-toggle-edit').textContent = S.editMode ? 'Editing: on' : 'Editing: off';
+    own(bar, '#ce-toggle-pins').textContent = `${S.showPins ? 'Notes shown' : 'Notes hidden'} (${S.notes.filter((n) => !n.draft).length})`;
+    own(bar, '#ce-review').textContent = `Review changes (${changeCount()})`;
   }
 
   function openReview() {
     closePopovers();
-    const e = S.edits;
+    const e = edits();
     const rows = [];
     for (const t of Object.values(e.text)) rows.push(`<tr><td>${esc(t.kind)}</td><td>${esc(t.original)}</td><td>${esc(t.value)}</td><td><button type="button" class="ce-btn" data-revert-text="${esc(t.key)}">Revert</button></td></tr>`);
     for (const a of Object.values(e.attrs)) rows.push(`<tr><td>${esc(a.kind)} attributes: ${esc(a.label)}</td><td></td><td>${esc(describeAttrs(a.fields))}</td><td><button type="button" class="ce-btn" data-revert-attr="${esc(a.key)}">Revert</button></td></tr>`);
-    const rowLabel = (k) => {
-      const tr = document.querySelector(`[data-ce-row="${cssq(k)}"]`);
+    const rowLabel = (/** @type {string} */ k) => {
+      const tr = one(document, `[data-ce-row="${cssq(k)}"]`);
       return text(tr?.querySelector('.catalogue-flat__toc-name, .catalogue-flat__toc-subheading')) || k.replace(/^[his]\|(flat-card-)?/, '');
     };
     for (const [k, v] of Object.entries(e.toc.indent)) rows.push(`<tr><td>contents row</td><td>${esc(rowLabel(k))}</td><td>${v ? 'indented under the subheading' : 'not indented'}</td><td></td></tr>`);
@@ -703,13 +813,13 @@
       <h4>Notes (${notes.length})</h4>
       <ol>${notes.map((n) => `<li><a href="${esc(n.page)}">${esc(n.page)}</a> · ${esc(n.anchor?.label || n.anchor?.selector || 'page')}: ${esc(n.text)}</li>`).join('')}</ol>`;
     document.body.appendChild(pop);
-    pop.querySelector('.ce-close').onclick = closePopovers;
+    own(pop, '.ce-close').onclick = closePopovers;
     pop.addEventListener('click', (ev) => {
-      const b = ev.target;
+      const b = /** @type {HTMLElement} */ (ev.target);
       if (b.dataset.revertText) {
         const t = e.text[b.dataset.revertText];
         delete e.text[b.dataset.revertText];
-        document.querySelectorAll(`[data-ce-key="${cssq(b.dataset.revertText)}"]`).forEach((el) => { el.textContent = t.original; el.classList.remove('ce-changed'); });
+        all(document, `[data-ce-key="${cssq(b.dataset.revertText)}"]`).forEach((el) => { el.textContent = t.original ?? null; el.classList.remove('ce-changed'); });
         log('revert', { key: b.dataset.revertText });
       } else if (b.dataset.revertAttr) {
         delete e.attrs[b.dataset.revertAttr];
@@ -725,11 +835,12 @@
   }
 
   // ------------------------------------------------------------------ start
+  /** @type {number | null} */
   let scheduled = null;
   function enhance() {
     scheduled = null;
     if (!S.edits) return;
-    const cat = document.querySelector('#catalogueFlatView') || document.body;
+    const cat = one(document, '#catalogueFlatView') || document.body;
     wrapTocCells(cat);
     decorateToc();
     bindFields(cat);
@@ -737,13 +848,15 @@
   }
   const observer = new MutationObserver((muts) => {
     if (S.applying) return;
-    if (muts.every((m) => [...m.addedNodes].every((n) => n.nodeType !== 1 || (n.classList && (n.classList.contains('ce-ui') || n.closest?.('.ce-ui')))))) return;
+    // A node of type 1 is an element.
+    if (muts.every((m) => [...m.addedNodes].every((n) => n.nodeType !== 1 || (/** @type {Element} */ (n).classList && (/** @type {Element} */ (n).classList.contains('ce-ui') || /** @type {Element} */ (n).closest?.('.ce-ui')))))) return;
     if (!scheduled) scheduled = setTimeout(enhance, 200);
   });
 
   async function start() {
     try {
       const r = await fetch(API, { cache: 'no-store' });
+      /** @type {{ edits?: Edits | null, notes?: Note[] }} */
       const d = await r.json();
       S.edits = d.edits || blank();
       S.notes = Array.isArray(d.notes) ? d.notes : [];
@@ -751,12 +864,14 @@
       S.edits = blank();
       status('Editor server not reachable: changes will not be saved', true);
     }
-    for (const k of Object.keys(blank())) if (S.edits[k] === undefined) S.edits[k] = blank()[k];
+    // A state file from before a part existed gets that part, empty.
+    const loaded = /** @type {Record<string, unknown>} */ (edits());
+    for (const k of Object.keys(blank())) if (loaded[k] === undefined) loaded[k] = /** @type {Record<string, unknown>} */ (blank())[k];
     document.documentElement.classList.toggle('ce-on', S.editMode);
     document.body.appendChild(bar);
     document.body.appendChild(pinsLayer);
     refreshCounts();
-    if (!bar.querySelector('.ce-status').textContent) status('Ready');
+    if (!own(bar, '.ce-status').textContent) status('Ready');
     enhance();
     observer.observe(document.body, { childList: true, subtree: true });
     setInterval(updatePins, 150);

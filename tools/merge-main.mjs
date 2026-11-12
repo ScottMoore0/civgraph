@@ -76,44 +76,71 @@ const DRY = args.includes('--dry-run');
 const RESOLVE_ONLY = args.includes('--resolve');
 const REF = args.find((a) => !a.startsWith('--')) || 'main';
 
+/**
+ * @param {string[]} gitArgs
+ * @param {{ allowFail?: boolean, input?: string }} [options]
+ */
 function git(gitArgs, { allowFail = false, input } = {}) {
   const res = spawnSync('git', gitArgs, { cwd: ROOT, encoding: 'utf8', maxBuffer: 1 << 28, input });
   if (res.status !== 0 && !allowFail) throw new Error(`git ${gitArgs.join(' ')} failed: ${res.stderr || res.stdout}`);
   return res;
 }
 
-const lines = (s) => String(s || '').split('\n').map((l) => l.trim()).filter(Boolean);
+const lines = (/** @type {string | null | undefined} */ s) => String(s || '').split('\n').map((l) => l.trim()).filter(Boolean);
 
-/** Paths this branch's .gitignore ignores, of those given (batched through stdin). */
+/**
+ * Paths this branch's .gitignore ignores, of those given (batched through stdin).
+ * @param {string[]} paths
+ * @returns {Set<string>}
+ */
 function ignoredOf(paths) {
   if (!paths.length) return new Set();
   const res = git(['check-ignore', '--no-index', '--stdin'], { allowFail: true, input: `${paths.join('\n')}\n` });
   return new Set(lines(res.stdout));
 }
 
-/** Conflict hunks of a file with markers: [{ ours, theirs }]. */
+/** @typedef {{ ours: string, theirs: string }} Hunk */
+
+/** @typedef {{ notes: string[], conflicts: string[] }} MergeContext */
+
+/**
+ * Conflict hunks of a file with markers: [{ ours, theirs }].
+ * @param {string} text
+ * @returns {Hunk[]}
+ */
 export function conflictHunks(text) {
+  /** @type {Hunk[]} */
   const hunks = [];
   const re = /^<<<<<<< [^\n]*\n([\s\S]*?)^(?:\|\|\|\|\|\|\| [^\n]*\n[\s\S]*?)?^=======\n([\s\S]*?)^>>>>>>> [^\n]*\n/gm;
+  /** @type {RegExpExecArray | null} */
   let m;
   while ((m = re.exec(text))) hunks.push({ ours: m[1], theirs: m[2] });
   return hunks;
 }
 
 const TOKEN = /(\?v=[0-9a-f]{6,}|root-maplibre-sw-[0-9a-f]{6,}|(?:VERSION|version)\s*=\s*'[^']*[0-9a-f]{8,}[^']*')/g;
-export const onlyTokens = (hunk) => hunk.ours.replace(TOKEN, '<T>') === hunk.theirs.replace(TOKEN, '<T>');
+export const onlyTokens = (/** @type {Hunk} */ hunk) => hunk.ours.replace(TOKEN, '<T>') === hunk.theirs.replace(TOKEN, '<T>');
 
-/** Take ours in every hunk (the text between markers). */
+/**
+ * Take ours in every hunk (the text between markers).
+ * @param {string} text
+ */
 export function takeOurs(text) {
   return text.replace(/^<<<<<<< [^\n]*\n([\s\S]*?)^(?:\|\|\|\|\|\|\| [^\n]*\n[\s\S]*?)?^=======\n[\s\S]*?^>>>>>>> [^\n]*\n/gm, '$1');
 }
 
+/** @param {unknown} v @returns {v is string} */
 const isChain = (v) => typeof v === 'string' && v.includes(' && ');
-const steps = (v) => v.split(' && ').map((s) => s.trim());
+const steps = (/** @type {string} */ v) => v.split(' && ').map((s) => s.trim());
 
 /**
  * Three-way merge of a `a && b && c` chain. Ours is the frame; theirs' removals are applied and
  * theirs' additions inserted after the nearest preceding step of theirs that ours also has.
+ * @param {string | null | undefined} base
+ * @param {string} ours
+ * @param {string} theirs
+ * @param {{ key?: string, dropAdded?: (key: string, step: string) => boolean }} [options]
+ * @returns {{ value: string, notes: string[] }}
  */
 export function mergeChain(base, ours, theirs, { key = '', dropAdded = () => false } = {}) {
   const B = steps(base ?? '');
@@ -121,6 +148,7 @@ export function mergeChain(base, ours, theirs, { key = '', dropAdded = () => fal
   const Tt = steps(theirs);
   const removedByTheirs = new Set(B.filter((s) => !Tt.includes(s)));
   const result = O.filter((s) => !removedByTheirs.has(s) || !B.includes(s));
+  /** @type {string[]} */
   const notes = [];
   Tt.forEach((s, i) => {
     if (B.includes(s) || result.includes(s)) return;
@@ -136,16 +164,28 @@ export function mergeChain(base, ours, theirs, { key = '', dropAdded = () => fal
   return { value: result.join(' && '), notes };
 }
 
-const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+const same = (/** @type {unknown} */ a, /** @type {unknown} */ b) => JSON.stringify(a) === JSON.stringify(b);
 
-/** Three-way merge of two JSON values; conflicts are collected, not thrown. */
+/** @param {unknown} v @returns {v is Record<string, unknown>} */
+const isObj = (v) => Boolean(v) && typeof v === 'object' && !Array.isArray(v);
+
+/**
+ * Three-way merge of two JSON values; conflicts are collected, not thrown.
+ * @param {unknown} base
+ * @param {unknown} ours
+ * @param {unknown} theirs
+ * @param {string[]} at       the key path to these values
+ * @param {MergeContext} ctx
+ * @returns {unknown}
+ */
 export function merge3(base, ours, theirs, at, ctx) {
   if (same(ours, theirs)) return ours;
   if (same(base, ours)) return theirs;
   if (same(base, theirs)) return ours;
-  const isObj = (v) => v && typeof v === 'object' && !Array.isArray(v);
   if (isObj(ours) && isObj(theirs)) {
+    /** @type {Record<string, unknown>} */
     const b = isObj(base) ? base : {};
+    /** @type {Record<string, unknown>} */
     const out = {};
     const keys = [...Object.keys(ours)];
     // theirs' new keys after their predecessor in theirs
@@ -163,7 +203,7 @@ export function merge3(base, ours, theirs, at, ctx) {
   }
   if (isChain(ours) && isChain(theirs)) {
     const key = at[at.length - 1];
-    const dropAdded = (k, s) => k === 'build' && RECORDS_STEPS.some((re) => re.test(s));
+    const dropAdded = (/** @type {string} */ k, /** @type {string} */ s) => k === 'build' && RECORDS_STEPS.some((re) => re.test(s));
     const { value, notes } = mergeChain(typeof base === 'string' ? base : '', ours, theirs, { key, dropAdded });
     ctx.notes.push(...notes);
     return value;
@@ -172,6 +212,12 @@ export function merge3(base, ours, theirs, at, ctx) {
   return ours;
 }
 
+/**
+ * The JSON of one merge stage of a file (1 base, 2 ours, 3 theirs), or undefined when absent.
+ * @param {1 | 2 | 3} stage
+ * @param {string} file
+ * @returns {unknown}
+ */
 function stageJson(stage, file) {
   const res = git(['show', `:${stage}:${file}`], { allowFail: true });
   return res.status === 0 ? JSON.parse(res.stdout) : undefined;
@@ -219,6 +265,7 @@ function main() {
   for (const file of remaining) {
     const abs = path.join(ROOT, file);
     if (file === 'package.json') {
+      /** @type {MergeContext} */
       const ctx = { notes: [], conflicts: [] };
       const merged = merge3(stageJson(1, file), stageJson(2, file), stageJson(3, file), [], ctx);
       for (const n of ctx.notes) console.log(`package.json: ${n}`);
@@ -267,7 +314,7 @@ if (invokedDirectly) {
   try {
     process.exitCode = main();
   } catch (error) {
-    console.error(`merge-main: ${error.message}`);
+    console.error(`merge-main: ${/** @type {Error} */ (error).message}`);
     process.exitCode = 1;
   }
 }

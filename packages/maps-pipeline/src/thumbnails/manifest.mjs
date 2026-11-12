@@ -14,19 +14,51 @@ const RENDERED_REGISTRY_PATH = process.env.FEATURE_THUMBNAIL_RENDERED_REGISTRY
   : path.join(OUT_DIR, 'rendered-assets.json');
 const SUPPORTED_EXTENSIONS = new Set(['webp', 'png', 'jpg', 'jpeg', 'avif']);
 
+/**
+ * The stored shapes this reads, as far as it reads them.
+ * @typedef {{ version?: string, generated?: string, features?: { mapId?: string }[] }} SpatialIndex
+ * @typedef {{ fillColor?: string, color?: string }} MapStyle
+ * @typedef {{ id: string | number, name?: string, style?: MapStyle, color?: string, stroke?: string, lineColor?: string }} MapRecord
+ * @typedef {{ maps?: MapRecord[] }} MapsDatabase
+ * @typedef {object} RegistryEntry   one map in rendered-assets.json
+ * @property {unknown[]} [renderedAssetIds]
+ * @property {string} [renderedAssetBasePath]
+ * @property {string} [publicBase]
+ * @property {string} [renderedAssetExtension]
+ * @property {string} [extension]
+ * @property {Record<string, unknown>} [renderedAssetExtensionsById]
+ * @typedef {object} RenderedRegistry   rendered-assets.json
+ * @property {Record<string, RegistryEntry>} maps
+ * @property {string} [publicBase]
+ * @property {string} [renderedAssetExtension]
+ * @property {string} [extension]
+ * @typedef {object} RenderedAssets   the rendered thumbnails one map has
+ * @property {string} renderedAssetBasePath
+ * @property {string[]} renderedAssetIds
+ * @property {string} renderedAssetExtension
+ * @property {Record<string, string>} [renderedAssetExtensionsById]   only when they differ
+ */
+
+/**
+ * @param {string} filePath
+ * @param {unknown} [fallback]   returned when the file cannot be read; without one, that throws
+ * @returns {unknown}
+ */
 function readJson(filePath, fallback = null) {
   try {
     return JSON.parse(fs.readFileSync(filePath, 'utf8'));
   } catch (error) {
     if (fallback !== null) return fallback;
-    throw new Error(`Unable to read ${path.relative(ROOT, filePath)}: ${error.message}`);
+    throw new Error(`Unable to read ${path.relative(ROOT, filePath)}: ${/** @type {Error} */ (error).message}`);
   }
 }
 
+/** @param {unknown} value */
 function stableJson(value) {
   return JSON.stringify(value, null, 2) + '\n';
 }
 
+/** @param {unknown} id */
 function safePathSegment(id) {
   return String(id || 'unknown')
     .normalize('NFKD')
@@ -36,16 +68,19 @@ function safePathSegment(id) {
     .replace(/^-|-$/g, '') || 'unknown';
 }
 
+/** @param {unknown} value */
 function normalisePublicBase(value) {
   const base = String(value || '').trim().replace(/\\/g, '/').replace(/\/+$/g, '');
   return base || 'assets/thumbnails/features';
 }
 
+/** @param {unknown} value @param {string} [fallback] */
 function normaliseExtension(value, fallback = 'webp') {
   const extension = String(value || '').trim().replace(/^\./, '').toLowerCase();
   return SUPPORTED_EXTENSIONS.has(extension) ? extension : fallback;
 }
 
+/** @param {unknown} value @param {string} [fallback] */
 function normaliseColour(value, fallback = '#3388ff') {
   const colour = String(value || '').trim();
   if (/^#[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/.test(colour)) return colour;
@@ -53,6 +88,7 @@ function normaliseColour(value, fallback = '#3388ff') {
   return fallback;
 }
 
+/** @param {MapRecord} map */
 function mapColour(map) {
   return normaliseColour(
     map?.style?.fillColor || map?.style?.color || map?.color || map?.stroke || map?.lineColor,
@@ -60,9 +96,16 @@ function mapColour(map) {
   );
 }
 
+/**
+ * @param {{ id: string, extension: string }[]} entries
+ * @returns {Omit<RenderedAssets, 'renderedAssetBasePath'>}
+ */
 function groupAssetsByExtension(entries) {
+  /** @type {string[]} */
   const ids = [];
+  /** @type {Record<string, string>} */
   const extensionsById = {};
+  /** @type {Map<string, number>} */
   const counts = new Map();
   for (const entry of entries) {
     ids.push(entry.id);
@@ -80,6 +123,10 @@ function groupAssetsByExtension(entries) {
   };
 }
 
+/**
+ * @param {string} mapId
+ * @returns {RenderedAssets | null}
+ */
 function renderedAssetsForMapFromLocal(mapId) {
   const dir = path.join(RENDERED_ROOT, safePathSegment(mapId));
   if (!fs.existsSync(dir) || !fs.statSync(dir).isDirectory()) return null;
@@ -91,7 +138,7 @@ function renderedAssetsForMapFromLocal(mapId) {
       if (!extension) return null;
       return { id: match[1], extension };
     })
-    .filter(Boolean);
+    .filter((entry) => entry !== null);
   if (!entries.length) return null;
   return {
     renderedAssetBasePath: `${PUBLIC_BASE}/${safePathSegment(mapId)}/`,
@@ -99,14 +146,20 @@ function renderedAssetsForMapFromLocal(mapId) {
   };
 }
 
+/** @returns {RenderedRegistry} */
 function readRenderedRegistry() {
   if (!fs.existsSync(RENDERED_REGISTRY_PATH)) return { maps: {} };
-  const registry = readJson(RENDERED_REGISTRY_PATH, { maps: {} });
+  const registry = /** @type {RenderedRegistry | null} */ (readJson(RENDERED_REGISTRY_PATH, { maps: {} }));
   if (!registry || typeof registry !== 'object') return { maps: {} };
   if (!registry.maps || typeof registry.maps !== 'object') registry.maps = {};
   return registry;
 }
 
+/**
+ * @param {RenderedRegistry} registry
+ * @param {string} mapId
+ * @returns {RenderedAssets | null}
+ */
 function renderedAssetsForMapFromRegistry(registry, mapId) {
   const entry = registry.maps?.[mapId];
   if (!entry || typeof entry !== 'object') return null;
@@ -126,6 +179,11 @@ function renderedAssetsForMapFromRegistry(registry, mapId) {
   };
 }
 
+/**
+ * @param {RenderedRegistry} registry
+ * @param {string} mapId
+ * @returns {RenderedAssets}
+ */
 function renderedAssetsForMap(registry, mapId) {
   return renderedAssetsForMapFromRegistry(registry, mapId) || renderedAssetsForMapFromLocal(mapId) || {
     renderedAssetBasePath: `${PUBLIC_BASE}/${safePathSegment(mapId)}/`,
@@ -134,6 +192,7 @@ function renderedAssetsForMap(registry, mapId) {
   };
 }
 
+/** @param {string} filePath @param {string} content */
 function writeIfChanged(filePath, content) {
   if (fs.existsSync(filePath)) {
     const current = fs.readFileSync(filePath, 'utf8');
@@ -143,10 +202,11 @@ function writeIfChanged(filePath, content) {
   return true;
 }
 
-const spatial = readJson(SPATIAL_INDEX);
-const mapsDb = readJson(MAPS_PATH, { maps: [] });
+const spatial = /** @type {SpatialIndex} */ (readJson(SPATIAL_INDEX));
+const mapsDb = /** @type {MapsDatabase} */ (readJson(MAPS_PATH, { maps: [] }));
 const registry = readRenderedRegistry();
 const mapById = new Map((mapsDb.maps || []).map((map) => [String(map.id), map]));
+/** @type {Map<string, number>} */
 const featureCounts = new Map();
 for (const feature of spatial.features || []) {
   const mapId = String(feature.mapId || '');
@@ -156,9 +216,11 @@ for (const feature of spatial.features || []) {
 
 fs.mkdirSync(OUT_DIR, { recursive: true });
 
+/** @type {Record<string, object>} */
 const maps = {};
 let totalRenderedAssetCount = 0;
 for (const mapId of Array.from(featureCounts.keys()).sort((a, b) => a.localeCompare(b))) {
+  /** @type {MapRecord} */
   const map = mapById.get(mapId) || { id: mapId, name: mapId };
   const rendered = renderedAssetsForMap(registry, mapId);
   totalRenderedAssetCount += rendered.renderedAssetIds.length;

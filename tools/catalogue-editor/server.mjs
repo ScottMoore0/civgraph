@@ -28,6 +28,7 @@ const PORT = Number(portArg > 0 ? process.argv[portArg + 1] : process.env.PORT |
 
 mkdirSync(STATE, { recursive: true });
 
+/** @type {Record<string, string>} */
 const TYPES = {
   '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8',
   '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8', '.svg': 'image/svg+xml',
@@ -38,17 +39,29 @@ const TYPES = {
 };
 const INJECT = '<link rel="stylesheet" href="/__editor/editor.css"><script src="/__editor/editor.js" defer></script>';
 
-const stateFile = (name) => path.join(STATE, `${name}.json`);
+const stateFile = (/** @type {string} */ name) => path.join(STATE, `${name}.json`);
+/**
+ * A state file's JSON (it is sent on as it is), or the fallback when there is none yet.
+ * @param {string} name
+ * @param {unknown} fallback
+ * @returns {unknown}
+ */
 function readState(name, fallback) {
   try { return JSON.parse(readFileSync(stateFile(name), 'utf8')); } catch { return fallback; }
 }
+/** @param {string} name @param {unknown} value */
 function writeState(name, value) {
   writeFileSync(stateFile(name), JSON.stringify(value, null, 2) + '\n');
   appendFileSync(path.join(STATE, 'history.jsonl'), JSON.stringify({ at: new Date().toISOString(), file: name, value }) + '\n');
 }
 
+/**
+ * @param {import('node:http').IncomingMessage} req
+ * @returns {Promise<string>}
+ */
 function readBody(req) {
   return new Promise((resolve, reject) => {
+    /** @type {Buffer[]} */
     const chunks = [];
     req.on('data', (c) => chunks.push(c));
     req.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')));
@@ -56,13 +69,21 @@ function readBody(req) {
   });
 }
 
+/**
+ * @param {import('node:http').ServerResponse} res
+ * @param {number} status
+ * @param {string | Buffer} body
+ * @param {string} [type]
+ */
 function send(res, status, body, type = 'text/plain; charset=utf-8') {
   res.writeHead(status, { 'Content-Type': type, 'Cache-Control': 'no-store' });
   res.end(body);
 }
 
 createServer(async (req, res) => {
-  const url = new URL(req.url, `http://localhost:${PORT}`);
+  // A server's request always has a url and a method.
+  const url = new URL(/** @type {string} */ (req.url), `http://localhost:${PORT}`);
+  const method = /** @type {string} */ (req.method);
   const p = decodeURIComponent(url.pathname);
   try {
     // The editor's own files and its state.
@@ -72,7 +93,7 @@ createServer(async (req, res) => {
     if (p === '/__editor/state') {
       return send(res, 200, JSON.stringify({ edits: readState('edits', null), notes: readState('notes', []) }), TYPES['.json']);
     }
-    if ((p === '/__editor/state/edits' || p === '/__editor/state/notes') && req.method === 'PUT') {
+    if ((p === '/__editor/state/edits' || p === '/__editor/state/notes') && method === 'PUT') {
       const value = JSON.parse(await readBody(req));
       writeState(path.basename(p), value);
       return send(res, 200, '{"ok":true}', TYPES['.json']);
@@ -84,10 +105,12 @@ createServer(async (req, res) => {
       const upstream = p.startsWith('/_r/')
         ? `${SITE.dataOrigin}/${p.slice(4)}${url.search}`
         : `${SITE.origin}${p}${url.search}`;
+      /** @type {Record<string, string>} */
       const headers = { 'User-Agent': 'civgraph-catalogue-editor' };
-      for (const h of ['range', 'content-type', 'accept', 'if-none-match']) if (req.headers[h]) headers[h] = req.headers[h];
-      const body = ['GET', 'HEAD'].includes(req.method) ? undefined : await readBody(req);
-      const r = await fetch(upstream, { method: req.method, headers, body, redirect: 'follow' });
+      for (const h of /** @type {const} */ (['range', 'content-type', 'accept', 'if-none-match'])) { const v = req.headers[h]; if (v) headers[h] = v; }
+      const body = ['GET', 'HEAD'].includes(method) ? undefined : await readBody(req);
+      const r = await fetch(upstream, { method, headers, body, redirect: 'follow' });
+      /** @type {Record<string, string | number>} */
       const out = { 'Cache-Control': 'no-store' };
       for (const h of ['content-type', 'content-range', 'content-length', 'accept-ranges', 'etag', 'content-encoding']) {
         const v = r.headers.get(h);
@@ -96,7 +119,7 @@ createServer(async (req, res) => {
       const buf = Buffer.from(await r.arrayBuffer());
       out['content-length'] = buf.length;
       res.writeHead(r.status, out);
-      return res.end(req.method === 'HEAD' ? undefined : buf);
+      return res.end(method === 'HEAD' ? undefined : buf);
     }
 
     // The site, from the working tree (site/, packages and data dirs: sourceOf).
@@ -125,7 +148,7 @@ createServer(async (req, res) => {
     res.writeHead(200, { 'Content-Type': TYPES[ext] || 'application/octet-stream', 'Content-Length': size, 'Cache-Control': 'no-store' });
     createReadStream(file).pipe(res);
   } catch (err) {
-    send(res, 500, String(err && err.stack || err));
+    send(res, 500, String(err && /** @type {Error} */ (err).stack || err));
   }
 }).listen(PORT, '127.0.0.1', () => {
   console.log(`Catalogue editor: http://localhost:${PORT}/maps/  (state in ${path.relative(ROOT, STATE)})`);
