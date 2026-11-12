@@ -60,7 +60,6 @@ const norm = (/** @type {unknown} */ value) => String(value || '')
 
 // Abbreviation -> the full party name whose words are forbidden as a whole candidate name.
 // arch-ok R6: the check's own expansions, not the registry's: APNI, PBPA and the NI names of Alliance and the Greens are longer than its full names
-/** @type {Record<string, string>} */
 const EXPANSIONS = {
   sdlp: 'social democratic and labour party',
   dup: 'democratic unionist party',
@@ -81,7 +80,7 @@ const EXPANSIONS = {
 /** Words of a party's full name that are long enough to be a plausible surname. */
 function forbiddenWords(/** @type {unknown} */ party) {
   const key = norm(party);
-  const expanded = EXPANSIONS[key] || key;
+  const expanded = /** @type {Record<string, string>} */ (EXPANSIONS)[key] || key;
   const words = new Set();
   for (const word of expanded.split(' ')) if (word.length > 3) words.add(word);
   // A spelled-out party contributes its own words too, so "Sinn Féin" catches "Féin"
