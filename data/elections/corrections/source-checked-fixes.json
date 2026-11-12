@@ -185002,9 +185002,25 @@
           "set": {
             "Candidate_Id": "403634229-fermanagh-fermanagh-and-omagh"
           }
+        },
+        {
+          "op": "restoreStageFractions"
         }
       ],
-      "internalNote": "Bernice Swift: candidate id 2822598219 was shared with candidates of the same name in other councils (kept by Fermanagh); given 2822598219-fermanagh-and-omagh. Barry Doherty: candidate id 403634229 was shared with candidates of the same name in other councils (kept by Limavady); given 403634229-fermanagh-fermanagh-and-omagh."
+      "internalNote": "Bernice Swift: candidate id 2822598219 was shared with candidates of the same name in other councils (kept by Fermanagh); given 2822598219-fermanagh-and-omagh. Barry Doherty: candidate id 403634229 was shared with candidates of the same name in other councils (kept by Limavady); given 403634229-fermanagh-fermanagh-and-omagh.",
+      "alsoBatches": [
+        "w8-review-2026-11-12"
+      ],
+      "additionalSources": [
+        {
+          "title": "Local Council Election 2014 result sheet: None",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401092413id_/http://www.eoni.org.uk/getmedia/a7c129be-dbde-462e-a0f4-75fbb2b1deea/Local-Council-Election-2014-Result-Sheet-Erne-West",
+          "original": "http://www.eoni.org.uk/getmedia/a7c129be-dbde-462e-a0f4-75fbb2b1deea/Local-Council-Election-2014-Result-Sheet-Erne-West",
+          "accessed": "2026-11-12"
+        }
+      ],
+      "reason": "The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (21 totals), and each rebuilt total was read on the Electoral Office's scanned result sheet (by OCR, and by eye for the 18 OCR missed). The sheet prints Leanne Maguire's second-stage transfer as 0.93 (791.93) and her third as 6.54, a slip: those columns do not add up to Baird's surplus of 465 or Swift's 41, while the file's 0.43 (791.43) and 7.04 do, and her third-stage total of 798.47 agrees."
     },
     {
       "batch": "candidate-id-splits-2026-10-28",
@@ -324526,6 +324542,24 @@
         "accessed": "2026-11-12"
       },
       "reason": "The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (24 totals), and each rebuilt total was read on the Electoral Office's scanned result sheet (by OCR, and by eye for the 17 OCR missed).",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "restoreStageFractions"
+        }
+      ]
+    },
+    {
+      "batch": "w8-review-2026-11-12",
+      "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/glengormley-urban.json",
+      "source": {
+        "title": "Local Council Election 2014 result sheet: None",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401091112id_/http://www.eoni.org.uk/getmedia/8115bd72-5c6e-4109-865a-ab6d54dcbe37/Local-Council-Election-2014-Result-Sheet-Glengormley-Urban",
+        "original": "http://www.eoni.org.uk/getmedia/8115bd72-5c6e-4109-865a-ab6d54dcbe37/Local-Council-Election-2014-Result-Sheet-Glengormley-Urban",
+        "accessed": "2026-11-12"
+      },
+      "reason": "The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (36 totals), and each rebuilt total was read on the Electoral Office's scanned result sheet (by OCR, and by eye for the 10 OCR missed). The sheet prints Michael Goodman's fourth-stage transfer as 13.00 (882.22) and his fifth as 22.00, a slip: those columns are 6 short of Nelson's 382.20 and 6 over Blair's surplus of 190.02, while the file's 19 (888.22) and 16 add exactly, and his fifth-stage total of 904.22 agrees.",
       "category": "arithmetic",
       "operations": [
         {
