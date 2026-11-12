@@ -41,6 +41,10 @@ const browseIndexBuilderSource = readFileSync('scripts/build/build-browse-indexe
 const electionDataAuditSource = readFileSync('scripts/check/rules/election-data-audit.mjs', 'utf8');
 const uiControllerSource = readFileSync('src/ui-controller.js', 'utf8');
 const mapControllerSource = readFileSync('packages/map/src/renderer/map-controller.js', 'utf8');
+// The map's Republic of Ireland party palette is registry data since 12 Nov 2026 (rf8-registries,
+// data/registries/parties/palettes.json mapRoi), read by packages/map/src/election/palette.mjs.
+const roiPalette = JSON.parse(readFileSync('data/registries/parties/palettes.json', 'utf8')).mapRoi || [];
+const roiPaletteHas = (party, colour) => roiPalette.some((row) => row.party === party && row.colour === colour);
 const labelsSource = readFileSync('packages/map/src/renderer/labels.js', 'utf8');
 const featureRepairsSource = readFileSync('packages/map/src/renderer/feature-property-repairs.js', 'utf8');
 const test2Css = readFileSync('packages/map/app/test2.css', 'utf8');
@@ -338,7 +342,7 @@ assert(appSource.includes('getMainMap: (mapId) => dataService.getMapById(mapId)'
 assert(adapterSource.includes('applyMainStyle(layer, mainConfig') && adapterSource.includes('delete style.fillOpacity'), '/test2 must discard converted-metadata fill opacity when the main catalogue has no explicit fill opacity');
 assert(!mapControllerSource.includes('fillOpacity ?? 0.18') && !adapterSource.includes('fillOpacity ?? 0.18'), '/test2 must not reintroduce the old semi-opaque vector fill fallback');
 assert(mapControllerSource.includes('if (!feature)') && mapControllerSource.includes('this.clearHover();'), '/test2 map interactions must clear transient hover state on empty map taps/clicks');
-assert(mapControllerSource.includes('installDocumentHoverClear()') && mapControllerSource.includes("document.addEventListener('pointerdown', this.documentHoverClearHandler, true)") && mapControllerSource.includes('.test2-election-seat-group'), '/test2 must clear transient hover state when the user clicks outside real map/label interaction targets');
+assert(mapControllerSource.includes('installDocumentHoverClear()') && mapControllerSource.includes("document.addEventListener('pointerdown', this.documentHoverClearHandler, { capture: true, signal: this.lifecycle.signal })") && mapControllerSource.includes('.test2-election-seat-group'), '/test2 must clear transient hover state when the user clicks outside real map/label interaction targets');
 assert(appSource.includes('Test2ElectionManager'), '/test2 must wire the election manager into the main shell route');
 assert(!appSource.includes('Election map workflows are not converted for /test2 yet'), '/test2 election callbacks must not remain disabled stubs');
 assert(appSource.includes('onBuildElectionCatalogueCards') && appSource.includes('this.elections.buildCatalogueCards()'), '/test2 catalogue must expose generated election entries');
@@ -491,7 +495,7 @@ const overallPartySource = overallPartyStart >= 0 && overallPartyEnd > overallPa
 assert(overallPartySource.includes('<table class="election-party-table election-party-table--grouped">') && !overallPartySource.includes('election-results-table--fixed'), '/test2 overall party pane must use the same non-fixed grouped party-table class as main');
 assert(overallPartySource.includes('data-election-entity-kind="${safeKind}"') || electionManagerSource.includes('data-election-entity-kind="${safeKind}"'), '/test2 election entity buttons must expose the main data-election-entity-kind contract');
 assert(electionManagerSource.includes('dataset.tableControlsReady') && !electionManagerSource.includes('test2TableControlsReady'), '/test2 election table controls must use the main data-table-controls-ready marker, not a test2-only marker');
-assert(electionManagerSource.includes('ROI_MAIN_PARTY_COLOURS') && electionManagerSource.includes('mainPanePartyColour') && electionManagerSource.includes("'fine gael', '#6699FF'"), '/test2 Dail/election pane colours must route through the Wikipedia-aligned ROI party palette');
+assert(electionManagerSource.includes('ROI_MAIN_PARTY_COLOURS') && electionManagerSource.includes('mainPanePartyColour') && roiPaletteHas('fine gael', '#6699FF'), '/test2 Dail/election pane colours must route through the Wikipedia-aligned ROI party palette');
 assert(/ELECTION_MANIFEST_URL = '\/render\/metadata\/elections-test2\.json\?v=test-\d{3}'/.test(electionManagerSource), '/test2 election metadata cache key must be bumped when generated election bundle contracts change');
 assert(/`\$\{entry\.resultUrl\}\?v=test-\d{3}`/.test(electionManagerSource), '/test2 election result bundle cache key must be bumped when generated constituency result JSON changes');
 assert(electionManagerSource.includes('election-delta--pos') && electionManagerSource.includes('election-delta--neg') && !electionManagerSource.includes('election-delta--up') && !electionManagerSource.includes('election-delta--down'), '/test2 election pane deltas must use the same pos/neg classes as main');
