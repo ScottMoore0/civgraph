@@ -170,11 +170,12 @@ const DEFAULT_PARTY_COLOURS = new Map(/** @type {Array<[string, string]>} */ (pa
 const REGISTRY_COLOUR_KEYS = new Set(partyPalettes.electionsRegistryWins);
 
 /** The colour of a party with none of its own, or of no party (the build's fallback slate). */
-export const NEUTRAL_PARTY_COLOUR = '#6b7280';
+export const NEUTRAL_PARTY_COLOUR = partyPalettes.neutral;
 
-// Colours that mean "no colour": the build's fallback slate (#6b7280) and the neutral greys
-// importers wrote as placeholders. A party that has a colour of its own is never drawn in one.
-const PLACEHOLDER_PARTY_COLOURS = new Set([NEUTRAL_PARTY_COLOUR, '#888888', '#9ca3af', '#9e9e9e', '#a0a0a0', '#a9a9a9', '#808080']);
+// Colours that mean "no colour": the build's fallback slate (NEUTRAL_PARTY_COLOUR) and the neutral
+// greys importers wrote as placeholders (the palettes part's `placeholders`). A party that has a
+// colour of its own is never drawn in one.
+const PLACEHOLDER_PARTY_COLOURS = new Set([NEUTRAL_PARTY_COLOUR, ...partyPalettes.placeholders]);
 
 /**
  * @param {unknown} colour
