@@ -230,6 +230,12 @@ function main() {
   const merge = (/** @type {object & { counts?: Record<string, number>, docs?: DocumentRow[] }} */ r) => { Object.assign(counts, r.counts || r); if (r.docs) docs.push(...r.docs); };
   const elections = step('ingest elections', () => ingestElections(db, { bundleDir: P.ELECTION_BUNDLE_DIR, manifestFile: P.ELECTION_MANIFEST, summaryDir: P.ELECTION_SUMMARY_DIR }));
   Object.assign(counts, elections.counts);
+  const { countRowsLinkedByName, ambiguousCountNames } = elections.stats;
+  console.log(`  count rows linked to their candidacy by name (no Candidate_Id): ${countRowsLinkedByName}`);
+  if (ambiguousCountNames.length) {
+    console.warn(`  ${ambiguousCountNames.length} count-row names left unlinked: two candidates of the contest share the name`);
+    for (const line of ambiguousCountNames.slice(0, 20)) console.warn(`    ${line}`);
+  }
   docs.push({ name: 'elections-test2.json', body: JSON.stringify(elections.stats.manifestHead) });
   step('ingest registries', () => merge(ingestRegistries(db)));
   const prov = step('ingest provenance', () => ingestProvenance(db, { provenanceFile: P.PROVENANCE_FILE, partDir: P.PROVENANCE_PART_DIR, shardDir: P.PROVENANCE_SHARD_DIR }));
