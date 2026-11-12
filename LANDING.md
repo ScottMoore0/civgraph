@@ -42,7 +42,7 @@ Left, in review: 1952 West (cited Newry Reporter prints no labels; file splits I
 
 ## Ledger (fix-3b\ledger.csv, 182 rows)
 
-fixed 47, confirmed-ok 104, review 1, not-reached 30 (15 of these: the name was searched on every cited page and not found, so the name is probably on another page). Real defects: citation-incomplete 29, other 11 (Seat_Type 5, party labels 6 files), name-misread 4, spelling-variant 4, initials 1, vote 1, areas 2 (renames). Of fix-3's 145 not-reached contests: 116 now resolved (104 confirmed-ok on the image, 11 fixed, 1 review), 29 still not reached.
+fixed 47, confirmed-ok 104, review 1, not-reached 30 (15 of these: the name was searched on every cited page and not found, so the name is probably on another page). Real defects: citation-incomplete 29, other 11 (Seat_Type 5, party labels 6 files), name-misread 4, spelling-variant 4, initials 1, vote 1, areas 2 (renames). Of fix-3's 145 not-reached contests: 115 now resolved (104 confirmed-ok on the image, 10 fixed, 1 review), 30 still not reached.
 
 ## Review list (fix-3b\review.csv, 7 rows)
 
