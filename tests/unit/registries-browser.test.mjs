@@ -18,7 +18,7 @@ const read = (rel) => readFileSync(path.join(REPO_ROOT, rel), 'utf8');
 test('registries/browser: every slice matches a fresh build from data/registries', () => {
   assert.deepEqual(staleSlices(), [], 'run node packages/registries/src/browser/build.mjs');
   const slices = browserSlices();
-  assert.deepEqual(Object.keys(slices), ['councils.json', 'council-search.json', 'parties.json', 'statuses.json', 'layer-types.json', 'election-bodies.json', 'election-types.json']);
+  assert.deepEqual(Object.keys(slices), ['councils.json', 'council-search.json', 'parties.json', 'party-palettes.json', 'statuses.json', 'layer-types.json', 'election-bodies.json', 'election-types.json']);
   for (const [file, slice] of Object.entries(slices)) assert.equal(read(`packages/registries/src/browser/${file}`), sliceText(slice), file);
 });
 
@@ -84,4 +84,20 @@ test('registries/browser: the catalogue shelves and labels the registries give (
   assert.equal(BODY_SHORT['ireland-local'], 'Irish local');
   assert.equal(groupOfBody('ireland-local'), 'irish-local');
   assert.equal(BODY_SHORT['local-government'], 'NI local');
+});
+
+test('registries/browser: the party palettes are the tables the code held (12 Nov 2026, rf8-registries)', async () => {
+  const { PARTY_COLOURS, ROI_MAIN_PARTY_COLOURS } = await import('../../packages/map/src/election/palette.mjs');
+  const { isRegistryColourParty, partyColour, resolvePartyColour } = await import('../../packages/core/src/election-domain.mjs');
+  assert.equal(PARTY_COLOURS.size, 31);
+  assert.equal(ROI_MAIN_PARTY_COLOURS.size, 25);
+  assert.equal(PARTY_COLOURS.get("people's democracy"), '#ff0000');
+  assert.equal(ROI_MAIN_PARTY_COLOURS.get('fianna fail'), '#66BB66');
+  // A name listed twice takes its later colour; the pre-1922 parties' colours win over a file's.
+  assert.equal(partyColour('Conservative'), '#0087dc');
+  assert.equal(resolvePartyColour('Irish Parliamentary Party', '#123456'), '#99ff66');
+  assert.equal(resolvePartyColour('Fianna Fáil', '#123456'), '#123456');
+  assert.equal(resolvePartyColour('Fianna Fáil', '#888888'), '#66bb66');
+  for (const party of ['no label', 'unity', 'ulster popular unionist party', 'parnellite', 'liberal']) assert.ok(isRegistryColourParty(party), party);
+  assert.ok(!isRegistryColourParty('fianna fail'));
 });

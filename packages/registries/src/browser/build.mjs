@@ -21,6 +21,8 @@
  *   council-search.json  src/catalogue/search.js (council names by generation, council aliases),
  *                        src/catalogue/view-elections.js (the pre-1973 councils on the NI local shelf)
  *   parties.json         packages/core/src/party-names.mjs (PARTIES, NOT_PARTIES)
+ *   party-palettes.json  packages/core/src/election-domain.mjs (the election palette and the parties
+ *                        whose colour wins), packages/map/src/election/palette.mjs (the map's two)
  *   statuses.json        packages/core/src/election-domain.mjs (statusKind, RG-01),
  *                        packages/map/app/ni-local-view.js (round badges, missing rounds, contests: RG-02, RG-03)
  *   layer-types.json     packages/map/src/renderer/map-controller.js (the behaviour flags' source types)
@@ -75,6 +77,13 @@ export function browserSlices(root = REPO_ROOT) {
       // [abbreviation, full name, ...other spellings], as the table was written.
       abbreviations: parties.abbreviations.map(({ abbreviation, fullName, spellings = [] }) => [abbreviation, fullName, ...spellings]),
       notParties: [...parties.notParties]
+    },
+    // Apart from parties.json: the colours, [party, colour] in the registry's order (a later row wins).
+    'party-palettes.json': {
+      elections: parties.palettes.elections.map(({ party, colour }) => [party, colour]),
+      electionsRegistryWins: parties.palettes.elections.filter((row) => row.registryWins).map(({ party }) => party),
+      mapLocal: parties.palettes.mapLocal.map(({ party, colour }) => [party, colour]),
+      mapRoi: parties.palettes.mapRoi.map(({ party, colour }) => [party, colour])
     },
     'statuses.json': {
       candidateKindPatterns: /** @type {NonNullable<StatusMachineFields['kindPatterns']>} */ (statuses.machines['candidate-count'].kindPatterns).map(({ kind, pattern }) => [kind, pattern]),

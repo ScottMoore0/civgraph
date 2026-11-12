@@ -21,6 +21,7 @@ export interface PartiesRegistry {
     labelFolds: Path;
     labelInterpretations: Path;
     colourReviewOverrides: Path;
+    palettes: Path;
   };
   abbreviations: {
     abbreviation: string;
@@ -175,6 +176,13 @@ export interface PartiesRegistry {
       candidates?: string[];
     }[];
   };
+  /** The party colour palettes the code draws with (data/registries/parties/palettes.json): each an ordered list keyed by the party name as its reader folds it. */
+  palettes: {
+    description: string;
+    elections: Palette;
+    mapLocal: Palette;
+    mapRoi: Palette;
+  };
   colourReviewOverrides: {
     schemaVersion: 1;
     description: string;
@@ -187,6 +195,15 @@ export interface PartiesRegistry {
     }[];
   };
 }
+
+export type Palette = {
+  /** The party name as the reader folds it. */
+  party: string;
+  colour: string;
+  /** Drawn in this colour even where the result file has one of its own (resolvePartyColour). */
+  registryWins?: true;
+  note?: string;
+}[];
 
 export type Path = string;
 
