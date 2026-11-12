@@ -44,7 +44,8 @@
     "eoni-ia-2026-11-11": "Northern Ireland Assembly 2011 and council 2011 contests checked against the Electoral Office for Northern Ireland's result sheets recovered from the Internet Archive (the old eoni.org.uk site's /getattachment/ and root-level files): only figures the sheet's own arithmetic confirms (first preferences that add up to the valid poll, stage totals that reconcile with the transfers and non-transferable votes).",
     "review-eoni-wikidata-2026-11-11": "Northern Ireland contests checked against the Electoral Office for Northern Ireland's result sheets, turnout tables and declarations and the Electoral Commission's results spreadsheets: the EU referendum 2016 electorates, rejected-paper counts for the Assembly 2007 and 2011 and Westminster 2005, a missing 2010 electorate, elected flags the declarations confirm, and the Westminster 2017 East Londonderry rejected count, where the Electoral Commission's itemised figure is preferred to the Electoral Office's web page.",
     "arith-audit-2026-11-11": "Every contest's arithmetic audited (scripts/check/rules/contest-arithmetic.mjs): FPTP votes against the valid poll, STV quotas, first preferences, stage-by-stage transfers and exclusions, turnout and poll figures. Figures that did not add up were checked against the source each record names and corrected where Civgraph had mis-transcribed them; where the source itself does not add up, the contest is listed in contest-arithmetic-allowlist.json instead.",
-    "eoni-review-2026-11-11": "Northern Ireland council contests of 2011 and 2019 checked by eye, figure by figure, against the Electoral Office for Northern Ireland's scanned result sheets and result workbooks recovered from the Internet Archive (the 2011 council sheets and the 2019 sheets of Belfast, Derry City and Strabane, Lisburn and Castlereagh and Newry, Mourne and Down that the eoni-ia sweep could not machine-read). A figure is corrected only where the sheet's own arithmetic confirms it: each stage's transfers reconcile with the surplus or exclusion and the non-transferable votes, and each stage sums to the valid poll. Where a count is rebuilt (replaceCountRows) its stage totals keep the fractions the sheet prints."
+    "eoni-review-2026-11-11": "Northern Ireland council contests of 2011 and 2019 checked by eye, figure by figure, against the Electoral Office for Northern Ireland's scanned result sheets and result workbooks recovered from the Internet Archive (the 2011 council sheets and the 2019 sheets of Belfast, Derry City and Strabane, Lisburn and Castlereagh and Newry, Mourne and Down that the eoni-ia sweep could not machine-read). A figure is corrected only where the sheet's own arithmetic confirms it: each stage's transfers reconcile with the surplus or exclusion and the non-transferable votes, and each stage sums to the valid poll. Where a count is rebuilt (replaceCountRows) its stage totals keep the fractions the sheet prints.",
+    "w8-review-2026-11-12": "Northern Ireland council contests of 2014, 2019 and 2023 whose stage totals the import had cut to whole votes: the totals rebuilt from the transfers (restoreStageFractions) were each read by eye on the Electoral Office for Northern Ireland's scanned result sheet (w8-review, 12 Nov 2026), where OCR had not found them; contests where any rebuilt total differs from the sheet are not included."
   },
   "records": [
     {
@@ -88998,9 +88999,16 @@
           "publisher": "Wikipedia",
           "url": "https://en.wikipedia.org/wiki/John_Carson_(Northern_Ireland_politician)",
           "accessed": "2026-11-06"
+        },
+        {
+          "title": "Local Council Election 2014 result sheet: None",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401092759id_/http://www.eoni.org.uk/getmedia/bef8a24b-4eb6-4fcd-81fd-84df19cdef02/Local-Council-Election-2014-Result-Sheets-Ballymena",
+          "original": "http://www.eoni.org.uk/getmedia/bef8a24b-4eb6-4fcd-81fd-84df19cdef02/Local-Council-Election-2014-Result-Sheets-Ballymena",
+          "accessed": "2026-11-12"
         }
       ],
-      "reason": "1 candidate in Ballymena 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Donna Anderson (TUV, 738 first preferences). John Carson, DUP councillor in Ballymena (1989-2019 here), is not the Belfast Ulster Unionist John Carson (born 1933, MP for Belfast North 1974, Belfast councillor 1973-97): in 1989, 1993 and 1997 both were elected on the same day, in Ballymena and in Belfast's Castle area. Given the id fix-john-carson-ballymena so the registry stops joining them. Nothing in the results changes.",
+      "reason": "1 candidate in Ballymena 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Donna Anderson (TUV, 738 first preferences). John Carson, DUP councillor in Ballymena (1989-2019 here), is not the Belfast Ulster Unionist John Carson (born 1933, MP for Belfast North 1974, Belfast councillor 1973-97): in 1989, 1993 and 1997 both were elected on the same day, in Ballymena and in Belfast's Castle area. Given the id fix-john-carson-ballymena so the registry stops joining them. Nothing in the results changes. The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (89 totals), and each rebuilt total was read on the Electoral Office's scanned result sheet (by OCR, and by eye for the 58 OCR missed).",
       "category": "names",
       "operations": [
         {
@@ -89032,11 +89040,15 @@
           "set": {
             "Candidate_Id": "fix-john-carson-ballymena"
           }
+        },
+        {
+          "op": "restoreStageFractions"
         }
       ],
       "internalNote": "John Carson: candidate id 2597842877 was shared with candidates of the same name in other councils (kept by Belfast); given 2597842877-ballymena-mid-and-east-antrim. James Henry: candidate id 2706792624 was shared with candidates of the same name in other councils (kept by Ballymena); given 2706792624-mid-and-east-antrim.",
       "alsoBatches": [
-        "elliott-flackes-1999-2026-11-06"
+        "elliott-flackes-1999-2026-11-06",
+        "w8-review-2026-11-12"
       ]
     },
     {
@@ -89371,8 +89383,16 @@
         "url": "https://www.ark.ac.uk/elections/nlgnda.htm",
         "accessed": "2026-10-23"
       },
-      "additionalSources": [],
-      "reason": "1 candidate in Bangor East and Donaghadee 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Alan Chambers (Independent, 1,311 first preferences).",
+      "additionalSources": [
+        {
+          "title": "Local Council Election 2014 result sheet: None",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401093548id_/http://www.eoni.org.uk/getmedia/fa5e4566-8df0-455d-b741-4767b9210f24/Local-Council-Election-2014-Result-Sheet-Bangor-East-and-Donaghadee",
+          "original": "http://www.eoni.org.uk/getmedia/fa5e4566-8df0-455d-b741-4767b9210f24/Local-Council-Election-2014-Result-Sheet-Bangor-East-and-Donaghadee",
+          "accessed": "2026-11-12"
+        }
+      ],
+      "reason": "1 candidate in Bangor East and Donaghadee 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Alan Chambers (Independent, 1,311 first preferences). The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (74 totals), and each rebuilt total was read on the Electoral Office's scanned result sheet (by OCR, and by eye for the 43 OCR missed).",
       "category": "names",
       "operations": [
         {
@@ -89390,9 +89410,15 @@
           "set": {
             "Candidate_Id": "1548174843-ards-and-north-down"
           }
+        },
+        {
+          "op": "restoreStageFractions"
         }
       ],
-      "internalNote": "William McKee: candidate id 1548174843 was shared with candidates of the same name in other councils (kept by Newtownabbey); given 1548174843-ards-and-north-down."
+      "internalNote": "William McKee: candidate id 1548174843 was shared with candidates of the same name in other councils (kept by Newtownabbey); given 1548174843-ards-and-north-down.",
+      "alsoBatches": [
+        "w8-review-2026-11-12"
+      ]
     },
     {
       "batch": "official-records-2026-10-23",
@@ -89403,8 +89429,16 @@
         "url": "https://www.ark.ac.uk/elections/nlgmea.htm",
         "accessed": "2026-10-23"
       },
-      "additionalSources": [],
-      "reason": "1 candidate in Bannside 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Billy Henry (DUP, 601 first preferences).",
+      "additionalSources": [
+        {
+          "title": "Local Council Election 2014 result sheet: None",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401092819id_/http://www.eoni.org.uk/getmedia/e14b9d52-08df-449c-ae03-9db43f6fb0d0/Local-Council-Election-2014-Result-Sheets-Bannside",
+          "original": "http://www.eoni.org.uk/getmedia/e14b9d52-08df-449c-ae03-9db43f6fb0d0/Local-Council-Election-2014-Result-Sheets-Bannside",
+          "accessed": "2026-11-12"
+        }
+      ],
+      "reason": "1 candidate in Bannside 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Billy Henry (DUP, 601 first preferences). The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (31 totals), and each rebuilt total was read on the Electoral Office's scanned result sheet (by OCR, and by eye for the 23 OCR missed).",
       "category": "names",
       "operations": [
         {
@@ -89415,7 +89449,13 @@
             "Firstname": "Billy",
             "Surname": "Henry"
           }
+        },
+        {
+          "op": "restoreStageFractions"
         }
+      ],
+      "alsoBatches": [
+        "w8-review-2026-11-12"
       ]
     },
     {
@@ -89664,8 +89704,16 @@
         "url": "https://www.ark.ac.uk/elections/nlgmu.htm",
         "accessed": "2026-10-23"
       },
-      "additionalSources": [],
-      "reason": "1 candidate in Cookstown 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Tony Quinn (SDLP, 803 first preferences).",
+      "additionalSources": [
+        {
+          "title": "Local Council Election 2014 result sheet: None",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401093102id_/http://www.eoni.org.uk/getmedia/3d3764a3-3a3c-4ce2-876a-092793dba680/Local-Council-Election-2014-Result-Sheet-Cookstown",
+          "original": "http://www.eoni.org.uk/getmedia/3d3764a3-3a3c-4ce2-876a-092793dba680/Local-Council-Election-2014-Result-Sheet-Cookstown",
+          "accessed": "2026-11-12"
+        }
+      ],
+      "reason": "1 candidate in Cookstown 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Tony Quinn (SDLP, 803 first preferences). The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (58 totals), and each rebuilt total was read on the Electoral Office's scanned result sheet (by OCR, and by eye for the 42 OCR missed).",
       "category": "names",
       "operations": [
         {
@@ -89676,7 +89724,13 @@
             "Firstname": "Tony",
             "Surname": "Quinn"
           }
+        },
+        {
+          "op": "restoreStageFractions"
         }
+      ],
+      "alsoBatches": [
+        "w8-review-2026-11-12"
       ]
     },
     {
@@ -93652,8 +93706,16 @@
         "url": "https://www.ark.ac.uk/elections/nlglc.htm",
         "accessed": "2026-10-23"
       },
-      "additionalSources": [],
-      "reason": "1 candidate in Downshire West 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as John Palmer (DUP, 768 first preferences).",
+      "additionalSources": [
+        {
+          "title": "Local Council Election 2014 result sheet: None",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401092637id_/http://www.eoni.org.uk/getmedia/18166bb2-3daf-4355-a792-df78cde62c53/Local-Council-Election-2014-Result-Sheet-Downshire-West",
+          "original": "http://www.eoni.org.uk/getmedia/18166bb2-3daf-4355-a792-df78cde62c53/Local-Council-Election-2014-Result-Sheet-Downshire-West",
+          "accessed": "2026-11-12"
+        }
+      ],
+      "reason": "1 candidate in Downshire West 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as John Palmer (DUP, 768 first preferences). The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (34 totals), and each rebuilt total was read on the Electoral Office's scanned result sheet (by OCR, and by eye for the 23 OCR missed).",
       "category": "names",
       "operations": [
         {
@@ -93678,9 +93740,15 @@
           "set": {
             "Candidate_Id": "4122525209-lisburn-and-castlereagh"
           }
+        },
+        {
+          "op": "restoreStageFractions"
         }
       ],
-      "internalNote": "Neil McNickle: candidate id 1668336433 was shared with candidates of the same name in other councils (kept by Lisburn); given 1668336433-lisburn-and-castlereagh. Colin Preen: candidate id 4122525209 was shared with candidates of the same name in other councils (kept by Lisburn); given 4122525209-lisburn-and-castlereagh."
+      "internalNote": "Neil McNickle: candidate id 1668336433 was shared with candidates of the same name in other councils (kept by Lisburn); given 1668336433-lisburn-and-castlereagh. Colin Preen: candidate id 4122525209 was shared with candidates of the same name in other councils (kept by Lisburn); given 4122525209-lisburn-and-castlereagh.",
+      "alsoBatches": [
+        "w8-review-2026-11-12"
+      ]
     },
     {
       "batch": "official-records-2026-10-23",
@@ -93697,9 +93765,16 @@
           "publisher": "Electoral Office for Northern Ireland, on Open Data NI",
           "url": "https://www.data.gov.uk/dataset/763512dd-d7ce-4d87-85cf-1180f9a9aa55/northern-ireland-local-councils-election-22-may-2014",
           "accessed": "2026-10-26"
+        },
+        {
+          "title": "Local Council Election 2014 result sheet: None",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401091052id_/http://www.eoni.org.uk/getmedia/d6cca396-2f85-4b69-8c9c-0fe8e1f9bec6/Local-Council-Election-2014-Result-Sheet-Dunsilly",
+          "original": "http://www.eoni.org.uk/getmedia/d6cca396-2f85-4b69-8c9c-0fe8e1f9bec6/Local-Council-Election-2014-Result-Sheet-Dunsilly",
+          "accessed": "2026-11-12"
         }
       ],
-      "reason": "1 candidate in Dunsilly 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Brian Duffin (SDLP, 677 first preferences).",
+      "reason": "1 candidate in Dunsilly 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Brian Duffin (SDLP, 677 first preferences). The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (24 totals), and each rebuilt total was read on the Electoral Office's scanned result sheet (by OCR, and by eye for the 17 OCR missed).",
       "category": "names",
       "operations": [
         {
@@ -93710,9 +93785,15 @@
             "Firstname": "Brian",
             "Surname": "Duffin"
           }
+        },
+        {
+          "op": "restoreStageFractions"
         }
       ],
-      "sourceNote": "The Electoral Office's result sheet gives Julian McGrath (Alliance) 460 first preferences, but its own next stage (504.52 after 14.52 transferred) works only from 490, and with 490 the first preferences add up to the valid poll of 5,986. Civgraph shows 490."
+      "sourceNote": "The Electoral Office's result sheet gives Julian McGrath (Alliance) 460 first preferences, but its own next stage (504.52 after 14.52 transferred) works only from 490, and with 490 the first preferences add up to the valid poll of 5,986. Civgraph shows 490.",
+      "alsoBatches": [
+        "w8-review-2026-11-12"
+      ]
     },
     {
       "batch": "official-records-2026-10-23",
@@ -93723,8 +93804,16 @@
         "url": "https://www.ark.ac.uk/elections/nlgfo.htm",
         "accessed": "2026-10-23"
       },
-      "additionalSources": [],
-      "reason": "1 candidate in Erne North 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Raymond Farrell (UUP, 1,108 first preferences).",
+      "additionalSources": [
+        {
+          "title": "Local Council Election 2014 result sheet: None",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401092353id_/http://www.eoni.org.uk/getmedia/49eb2962-5ae0-4682-864e-bc459af8f938/Local-Council-Election-2014-Result-Sheet-Erne-North",
+          "original": "http://www.eoni.org.uk/getmedia/49eb2962-5ae0-4682-864e-bc459af8f938/Local-Council-Election-2014-Result-Sheet-Erne-North",
+          "accessed": "2026-11-12"
+        }
+      ],
+      "reason": "1 candidate in Erne North 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Raymond Farrell (UUP, 1,108 first preferences). The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (23 totals), and each rebuilt total was read on the Electoral Office's scanned result sheet (by OCR, and by eye for the 19 OCR missed).",
       "category": "names",
       "operations": [
         {
@@ -93735,7 +93824,13 @@
             "Firstname": "Raymond",
             "Surname": "Farrell"
           }
+        },
+        {
+          "op": "restoreStageFractions"
         }
+      ],
+      "alsoBatches": [
+        "w8-review-2026-11-12"
       ]
     },
     {
@@ -93793,8 +93888,16 @@
         "url": "https://www.ark.ac.uk/elections/nlgnda.htm",
         "accessed": "2026-10-23"
       },
-      "additionalSources": [],
-      "reason": "1 candidate in Holywood and Clandeboye 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Daniel Allen (UUP, 619 first preferences).",
+      "additionalSources": [
+        {
+          "title": "Local Council Election 2014 result sheet: None",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401093650id_/http://www.eoni.org.uk/getmedia/20aba8e7-8d67-408e-896b-48d94fc1dfe1/Local-Council-Election-2014-Result-Sheet-Holywood-and-Clandeboye",
+          "original": "http://www.eoni.org.uk/getmedia/20aba8e7-8d67-408e-896b-48d94fc1dfe1/Local-Council-Election-2014-Result-Sheet-Holywood-and-Clandeboye",
+          "accessed": "2026-11-12"
+        }
+      ],
+      "reason": "1 candidate in Holywood and Clandeboye 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Daniel Allen (UUP, 619 first preferences). The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (44 totals), and each rebuilt total was read on the Electoral Office's scanned result sheet (by OCR, and by eye for the 25 OCR missed).",
       "category": "names",
       "operations": [
         {
@@ -93812,9 +93915,15 @@
           "set": {
             "Candidate_Id": "3137524868-ards-and-north-down"
           }
+        },
+        {
+          "op": "restoreStageFractions"
         }
       ],
-      "internalNote": "John Barry: candidate id 3137524868 was shared with candidates of the same name in other councils (kept by North Down); given 3137524868-ards-and-north-down."
+      "internalNote": "John Barry: candidate id 3137524868 was shared with candidates of the same name in other councils (kept by North Down); given 3137524868-ards-and-north-down.",
+      "alsoBatches": [
+        "w8-review-2026-11-12"
+      ]
     },
     {
       "batch": "official-records-2026-10-23",
@@ -93909,8 +94018,16 @@
         "url": "https://www.ark.ac.uk/elections/nlglc.htm",
         "accessed": "2026-10-23"
       },
-      "additionalSources": [],
-      "reason": "2 candidates in Lisburn North 2014 carried a scraped placeholder for a name; ARK's first count identifies them by party and first preferences as Johnny McCarthy (NI21, 329 first preferences); Jenny Palmer (DUP, 534 first preferences).",
+      "additionalSources": [
+        {
+          "title": "Local Council Election 2014 result sheet: None",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401092718id_/http://www.eoni.org.uk/getmedia/b929de7d-8a2d-4506-a7bb-bb902f53e505/Local-Council-Election-2014-Result-Sheet-Lisburn-North",
+          "original": "http://www.eoni.org.uk/getmedia/b929de7d-8a2d-4506-a7bb-bb902f53e505/Local-Council-Election-2014-Result-Sheet-Lisburn-North",
+          "accessed": "2026-11-12"
+        }
+      ],
+      "reason": "2 candidates in Lisburn North 2014 carried a scraped placeholder for a name; ARK's first count identifies them by party and first preferences as Johnny McCarthy (NI21, 329 first preferences); Jenny Palmer (DUP, 534 first preferences). The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (66 totals), and each rebuilt total was read on the Electoral Office's scanned result sheet (by OCR, and by eye for the 26 OCR missed).",
       "category": "names",
       "operations": [
         {
@@ -93930,7 +94047,13 @@
             "Firstname": "Jenny",
             "Surname": "Palmer"
           }
+        },
+        {
+          "op": "restoreStageFractions"
         }
+      ],
+      "alsoBatches": [
+        "w8-review-2026-11-12"
       ]
     },
     {
@@ -96114,8 +96237,16 @@
         "url": "https://www.ark.ac.uk/elections/nlgfo.htm",
         "accessed": "2026-10-23"
       },
-      "additionalSources": [],
-      "reason": "1 candidate in Mid Tyrone 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Rosemarie Shields (SDLP, 539 first preferences).",
+      "additionalSources": [
+        {
+          "title": "Local Council Election 2014 result sheet: None",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401092434id_/http://www.eoni.org.uk/getmedia/66da71ed-eda7-43c2-b844-e0e826a50788/Local-Council-Election-2014-Result-Sheet-Mid-Tyrone",
+          "original": "http://www.eoni.org.uk/getmedia/66da71ed-eda7-43c2-b844-e0e826a50788/Local-Council-Election-2014-Result-Sheet-Mid-Tyrone",
+          "accessed": "2026-11-12"
+        }
+      ],
+      "reason": "1 candidate in Mid Tyrone 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Rosemarie Shields (SDLP, 539 first preferences). The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (32 totals), and each rebuilt total was read on the Electoral Office's scanned result sheet (by OCR, and by eye for the 23 OCR missed).",
       "category": "names",
       "operations": [
         {
@@ -96140,9 +96271,15 @@
           "set": {
             "Candidate_Id": "902309630-fermanagh-and-omagh"
           }
+        },
+        {
+          "op": "restoreStageFractions"
         }
       ],
-      "internalNote": "Se\u00e1n Clarke: candidate id 2627861834 was shared with candidates of the same name in other councils (kept by Mid Ulster); given 2627861834-fermanagh-and-omagh. Ciaran McClean: candidate id 902309630 was shared with candidates of the same name in other councils (kept by Omagh); given 902309630-fermanagh-and-omagh."
+      "internalNote": "Se\u00e1n Clarke: candidate id 2627861834 was shared with candidates of the same name in other councils (kept by Mid Ulster); given 2627861834-fermanagh-and-omagh. Ciaran McClean: candidate id 902309630 was shared with candidates of the same name in other councils (kept by Omagh); given 902309630-fermanagh-and-omagh.",
+      "alsoBatches": [
+        "w8-review-2026-11-12"
+      ]
     },
     {
       "batch": "official-records-2026-10-23",
@@ -96206,8 +96343,16 @@
         "url": "https://www.ark.ac.uk/elections/nlgfo.htm",
         "accessed": "2026-10-23"
       },
-      "additionalSources": [],
-      "reason": "3 candidates in Omagh 2014 carried a scraped placeholder for a name; ARK's first count identifies them by party and first preferences as Josephine Deehan (SDLP, 946 first preferences); Sorcha McAnespy (Sinn F\u00e9in, 932 first preferences); Joanne Donnelly (SDLP, 435 first preferences).",
+      "additionalSources": [
+        {
+          "title": "Local Council Election 2014 result sheet: None",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401092454id_/http://www.eoni.org.uk/getmedia/c1f9bde6-950f-4a7c-abf8-8f84c0379ba5/Local-Council-Election-2014-Result-Sheet-Omagh",
+          "original": "http://www.eoni.org.uk/getmedia/c1f9bde6-950f-4a7c-abf8-8f84c0379ba5/Local-Council-Election-2014-Result-Sheet-Omagh",
+          "accessed": "2026-11-12"
+        }
+      ],
+      "reason": "3 candidates in Omagh 2014 carried a scraped placeholder for a name; ARK's first count identifies them by party and first preferences as Josephine Deehan (SDLP, 946 first preferences); Sorcha McAnespy (Sinn F\u00e9in, 932 first preferences); Joanne Donnelly (SDLP, 435 first preferences). The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (30 totals), and each rebuilt total was read on the Electoral Office's scanned result sheet (by OCR, and by eye for the 20 OCR missed).",
       "category": "names",
       "operations": [
         {
@@ -96236,7 +96381,13 @@
             "Firstname": "Joanne",
             "Surname": "Donnelly"
           }
+        },
+        {
+          "op": "restoreStageFractions"
         }
+      ],
+      "alsoBatches": [
+        "w8-review-2026-11-12"
       ]
     },
     {
@@ -99336,9 +99487,16 @@
           "publisher": "Causeway Coast and Glens Borough Council (Internet Archive copy)",
           "url": "https://web.archive.org/web/20220817104359/https://www.causewaycoastandglens.gov.uk/uploads/general/Statement_of_Persons_Nominated_and_Notice_of_Poll_Bann.pdf",
           "accessed": "2026-10-28"
+        },
+        {
+          "title": "Local Council Election 2019 result sheet: None",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20190806051521id_/http://www.eoni.org.uk/getmedia/cfe7928a-c242-4ca7-af54-4b0440756166/BANN-DEA",
+          "original": "http://www.eoni.org.uk/getmedia/cfe7928a-c242-4ca7-af54-4b0440756166/BANN-DEA",
+          "accessed": "2026-11-12"
         }
       ],
-      "reason": "1 candidate in Bann 2019 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Adrian McQuillan (DUP, 1,047 first preferences). The valid poll was 7,275, not 7,194: 7,350 votes were cast and 75 were invalid; 7,275 is what the first preferences add up to, and gives the quota of 1,213 for 5 seats.",
+      "reason": "1 candidate in Bann 2019 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Adrian McQuillan (DUP, 1,047 first preferences). The valid poll was 7,275, not 7,194: 7,350 votes were cast and 75 were invalid; 7,275 is what the first preferences add up to, and gives the quota of 1,213 for 5 seats. The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (25 totals), and each rebuilt total was read on the Electoral Office's scanned result sheet (by OCR, and by eye for the 18 OCR missed).",
       "category": "names",
       "operations": [
         {
@@ -99364,7 +99522,13 @@
           "op": "set",
           "path": "Constituency.countInfo.Spoiled",
           "value": "75"
+        },
+        {
+          "op": "restoreStageFractions"
         }
+      ],
+      "alsoBatches": [
+        "w8-review-2026-11-12"
       ]
     },
     {
@@ -101790,9 +101954,16 @@
           "url": "https://candidates.democracyclub.org.uk/elections/local.causeway-coast-and-glens.causeway.2019-05-02/",
           "accessed": "2026-10-23",
           "note": "Data from Democracy Club (https://democracyclub.org.uk), CC BY 4.0; local-election votes_cast there are final-stage totals, so first preferences come from ARK."
+        },
+        {
+          "title": "Local Council Election 2019 result sheet: None",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20190806051534id_/http://www.eoni.org.uk/getmedia/68c8539b-1f21-4de2-b9d4-fad6d04adf89/CAUSEWAY-DEA",
+          "original": "http://www.eoni.org.uk/getmedia/68c8539b-1f21-4de2-b9d4-fad6d04adf89/CAUSEWAY-DEA",
+          "accessed": "2026-11-12"
         }
       ],
-      "reason": "1 candidate in Causeway 2019 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Angela Mulholland (SDLP, 496 first preferences).",
+      "reason": "1 candidate in Causeway 2019 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Angela Mulholland (SDLP, 496 first preferences). The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (62 totals), and each rebuilt total was read on the Electoral Office's scanned result sheet (by OCR, and by eye for the 18 OCR missed).",
       "category": "names",
       "operations": [
         {
@@ -101803,7 +101974,13 @@
             "Firstname": "Angela",
             "Surname": "Mulholland"
           }
+        },
+        {
+          "op": "restoreStageFractions"
         }
+      ],
+      "alsoBatches": [
+        "w8-review-2026-11-12"
       ]
     },
     {
@@ -105053,9 +105230,16 @@
           "url": "https://candidates.democracyclub.org.uk/elections/local.causeway-coast-and-glens.limavady.2019-05-02/",
           "accessed": "2026-10-23",
           "note": "Data from Democracy Club (https://democracyclub.org.uk), CC BY 4.0; local-election votes_cast there are final-stage totals, so first preferences come from ARK."
+        },
+        {
+          "title": "Local Council Election 2019 result sheet: None",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20190806051546id_/http://www.eoni.org.uk/getmedia/d6b389fc-928e-4621-a83b-e3e3106af7cc/LIMAVADY-DEA",
+          "original": "http://www.eoni.org.uk/getmedia/d6b389fc-928e-4621-a83b-e3e3106af7cc/LIMAVADY-DEA",
+          "accessed": "2026-11-12"
         }
       ],
-      "reason": "1 candidate in Limavady 2019 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as James McCorkell (DUP, 654 first preferences).",
+      "reason": "1 candidate in Limavady 2019 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as James McCorkell (DUP, 654 first preferences). The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (32 totals), and each rebuilt total was read on the Electoral Office's scanned result sheet (by OCR, and by eye for the 14 OCR missed).",
       "category": "names",
       "operations": [
         {
@@ -105066,7 +105250,13 @@
             "Firstname": "James",
             "Surname": "McCorkell"
           }
+        },
+        {
+          "op": "restoreStageFractions"
         }
+      ],
+      "alsoBatches": [
+        "w8-review-2026-11-12"
       ]
     },
     {
@@ -111246,9 +111436,24 @@
             "Transfers": "3.00",
             "Total_Votes": "649.00"
           }
+        },
+        {
+          "op": "restoreStageFractions"
         }
       ],
-      "reason": "Sian O'Neill (Alliance) had 185 first preferences, not 182, and Noel Maguire (Sinn F\u00e9in) received 3 at stage 6, as the Electoral Office's result sheet gives; the first preferences now add up to the valid poll of 5,939."
+      "reason": "Sian O'Neill (Alliance) had 185 first preferences, not 182, and Noel Maguire (Sinn F\u00e9in) received 3 at stage 6, as the Electoral Office's result sheet gives; the first preferences now add up to the valid poll of 5,939. The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (22 totals), and each rebuilt total was read on the Electoral Office's scanned result sheet (by OCR, and by eye for the 11 OCR missed).",
+      "alsoBatches": [
+        "w8-review-2026-11-12"
+      ],
+      "additionalSources": [
+        {
+          "title": "Local Council Election 2014 result sheet: None",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401091011id_/http://www.eoni.org.uk/getmedia/6f8d2dad-9493-4e08-8179-a425731c4d5b/Local-Council-Election-2014-Result-Sheet-Antrim",
+          "original": "http://www.eoni.org.uk/getmedia/6f8d2dad-9493-4e08-8179-a425731c4d5b/Local-Council-Election-2014-Result-Sheet-Antrim",
+          "accessed": "2026-11-12"
+        }
+      ]
     },
     {
       "batch": "eoni-2014-2026-10-26",
@@ -111332,10 +111537,25 @@
           "set": {
             "Candidate_Id": "1578599541-mid-and-east-antrim"
           }
+        },
+        {
+          "op": "restoreStageFractions"
         }
       ],
-      "reason": "Maureen Morrow (UUP) had 947 first preferences, not 946, as the Electoral Office's result sheet gives (a surplus of 49 over the quota of 898); the first preferences now add up to the valid poll of 5,386.",
-      "internalNote": "John Anderson: candidate id 1093526062 was shared with candidates of the same name in other councils (kept by Omagh); given 1093526062-mid-and-east-antrim. Danny O'Connor: candidate id 1578599541 was shared with candidates of the same name in other councils (kept by Larne); given 1578599541-mid-and-east-antrim."
+      "reason": "Maureen Morrow (UUP) had 947 first preferences, not 946, as the Electoral Office's result sheet gives (a surplus of 49 over the quota of 898); the first preferences now add up to the valid poll of 5,386. The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (57 totals), and each rebuilt total was read on the Electoral Office's scanned result sheet (by OCR, and by eye for the 30 OCR missed).",
+      "internalNote": "John Anderson: candidate id 1093526062 was shared with candidates of the same name in other councils (kept by Omagh); given 1093526062-mid-and-east-antrim. Danny O'Connor: candidate id 1578599541 was shared with candidates of the same name in other councils (kept by Larne); given 1578599541-mid-and-east-antrim.",
+      "alsoBatches": [
+        "w8-review-2026-11-12"
+      ],
+      "additionalSources": [
+        {
+          "title": "Local Council Election 2014 result sheet: None",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401092920id_/http://www.eoni.org.uk/getmedia/236ab72b-dc65-45cd-ad85-675c4bc1ac03/Local-Council-Election-2014-Result-Sheets-Coast-Road",
+          "original": "http://www.eoni.org.uk/getmedia/236ab72b-dc65-45cd-ad85-675c4bc1ac03/Local-Council-Election-2014-Result-Sheets-Coast-Road",
+          "accessed": "2026-11-12"
+        }
+      ]
     },
     {
       "batch": "eoni-2014-2026-10-26",
@@ -111577,9 +111797,25 @@
         "url": "https://www.data.gov.uk/dataset/763512dd-d7ce-4d87-85cf-1180f9a9aa55/northern-ireland-local-councils-election-22-may-2014",
         "accessed": "2026-10-26"
       },
-      "operations": [],
-      "reason": "",
-      "sourceNote": "The candidates' first preferences on the Electoral Office's result sheet add up to 5,996, 6 more than the valid poll of 5,990 the same sheet gives. Civgraph shows the sheet's figures as published."
+      "operations": [
+        {
+          "op": "restoreStageFractions"
+        }
+      ],
+      "reason": "The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (47 totals), and each rebuilt total was read on the Electoral Office's scanned result sheet (by OCR, and by eye for the 26 OCR missed).",
+      "sourceNote": "The candidates' first preferences on the Electoral Office's result sheet add up to 5,996, 6 more than the valid poll of 5,990 the same sheet gives. Civgraph shows the sheet's figures as published.",
+      "alsoBatches": [
+        "w8-review-2026-11-12"
+      ],
+      "additionalSources": [
+        {
+          "title": "Local Council Election 2014 result sheet: None",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401092617id_/http://www.eoni.org.uk/getmedia/d8ce66ab-0e62-4772-b9ab-cf049760ad8d/Local-Council-Election-2014-Result-Sheet-Downshire-East",
+          "original": "http://www.eoni.org.uk/getmedia/d8ce66ab-0e62-4772-b9ab-cf049760ad8d/Local-Council-Election-2014-Result-Sheet-Downshire-East",
+          "accessed": "2026-11-12"
+        }
+      ]
     },
     {
       "batch": "eoni-wayback-2026-10-26",
@@ -184050,9 +184286,25 @@
           "set": {
             "Candidate_Id": "3194732145-mid-and-east-antrim"
           }
+        },
+        {
+          "op": "restoreStageFractions"
         }
       ],
-      "internalNote": "William Knox: candidate id 2202218874 was shared with candidates of the same name in other councils (kept by Carrickfergus); given 2202218874-mid-and-east-antrim. Fred Cobain: candidate id 3194732145 was shared with candidates of the same name in other councils (kept by Belfast); given 3194732145-mid-and-east-antrim."
+      "internalNote": "William Knox: candidate id 2202218874 was shared with candidates of the same name in other councils (kept by Carrickfergus); given 2202218874-mid-and-east-antrim. Fred Cobain: candidate id 3194732145 was shared with candidates of the same name in other councils (kept by Belfast); given 3194732145-mid-and-east-antrim.",
+      "alsoBatches": [
+        "w8-review-2026-11-12"
+      ],
+      "additionalSources": [
+        {
+          "title": "Local Council Election 2014 result sheet: None",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401092900id_/http://www.eoni.org.uk/getmedia/055d907f-7b6e-4012-b5ef-472ac57ac6f1/Local-Council-Election-2014-Result-Sheets-Carrick-Castle",
+          "original": "http://www.eoni.org.uk/getmedia/055d907f-7b6e-4012-b5ef-472ac57ac6f1/Local-Council-Election-2014-Result-Sheets-Carrick-Castle",
+          "accessed": "2026-11-12"
+        }
+      ],
+      "reason": "The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (36 totals), and each rebuilt total was read on the Electoral Office's scanned result sheet (by OCR, and by eye for the 25 OCR missed)."
     },
     {
       "batch": "candidate-id-splits-2026-10-28",
@@ -184692,9 +184944,25 @@
           "set": {
             "Candidate_Id": "2280762844-mid-ulster"
           }
+        },
+        {
+          "op": "restoreStageFractions"
         }
       ],
-      "internalNote": "Barry Monteith: candidate id 2280762844 was shared with candidates of the same name in other councils (kept by Dungannon); given 2280762844-mid-ulster."
+      "internalNote": "Barry Monteith: candidate id 2280762844 was shared with candidates of the same name in other councils (kept by Dungannon); given 2280762844-mid-ulster.",
+      "alsoBatches": [
+        "w8-review-2026-11-12"
+      ],
+      "additionalSources": [
+        {
+          "title": "Local Council Election 2014 result sheet: None",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401093123id_/http://www.eoni.org.uk/getmedia/b21845cf-b5ff-4c26-a1fd-5d4da66bc928/Local-Council-Election-2014-Result-Sheet-Dungannon",
+          "original": "http://www.eoni.org.uk/getmedia/b21845cf-b5ff-4c26-a1fd-5d4da66bc928/Local-Council-Election-2014-Result-Sheet-Dungannon",
+          "accessed": "2026-11-12"
+        }
+      ],
+      "reason": "The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (33 totals), and each rebuilt total was read on the Electoral Office's scanned result sheet (by OCR, and by eye for the 26 OCR missed)."
     },
     {
       "batch": "candidate-id-splits-2026-10-28",
@@ -184931,9 +185199,25 @@
           "set": {
             "Candidate_Id": "911150214-antrim-and-newtownabbey-newtownabbey"
           }
+        },
+        {
+          "op": "restoreStageFractions"
         }
       ],
-      "internalNote": "Robert Hill: candidate id 911150214 was shared with candidates of the same name in other councils (kept by Banbridge); given 911150214-antrim-and-newtownabbey-newtownabbey."
+      "internalNote": "Robert Hill: candidate id 911150214 was shared with candidates of the same name in other councils (kept by Banbridge); given 911150214-antrim-and-newtownabbey-newtownabbey.",
+      "alsoBatches": [
+        "w8-review-2026-11-12"
+      ],
+      "additionalSources": [
+        {
+          "title": "Local Council Election 2014 result sheet: None",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401091153id_/http://www.eoni.org.uk/getmedia/30dc7492-d6e4-4c75-b26e-a7c4f87bcb8f/Local-Council-Election-2014-Result-Sheet-Three-Mile-Water",
+          "original": "http://www.eoni.org.uk/getmedia/30dc7492-d6e4-4c75-b26e-a7c4f87bcb8f/Local-Council-Election-2014-Result-Sheet-Three-Mile-Water",
+          "accessed": "2026-11-12"
+        }
+      ],
+      "reason": "The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (63 totals), and each rebuilt total was read on the Electoral Office's scanned result sheet (by OCR, and by eye for the 40 OCR missed)."
     },
     {
       "batch": "candidate-id-splits-2026-10-28",
@@ -184982,6 +185266,9 @@
           "set": {
             "Candidate_Id": "fix-john-carson-ballymena"
           }
+        },
+        {
+          "op": "restoreStageFractions"
         }
       ],
       "internalNote": "William Logan: candidate id 1360750631 was shared with candidates of the same name in other councils (kept by Ballymoney); given 1360750631-mid-and-east-antrim. James Henry: candidate id 2706792624 was shared with candidates of the same name in other councils (kept by Ballymena); given 2706792624-mid-and-east-antrim.",
@@ -185009,11 +185296,19 @@
           "publisher": "Wikipedia",
           "url": "https://en.wikipedia.org/wiki/John_Carson_(Northern_Ireland_politician)",
           "accessed": "2026-11-06"
+        },
+        {
+          "title": "Local Council Election 2019 result sheet: None",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20190806051821id_/http://www.eoni.org.uk/getmedia/3c375450-a407-4352-b820-d416f1dc9567/Ballymena-DEA",
+          "original": "http://www.eoni.org.uk/getmedia/3c375450-a407-4352-b820-d416f1dc9567/Ballymena-DEA",
+          "accessed": "2026-11-12"
         }
       ],
-      "reason": "Audrey Wales polled 491 first preferences, not 471: with 491 the first preferences add up to the valid poll of 6,956, which gives the quota of 870 for 7 seats, and her second-stage total of 496 is unchanged. John Carson, DUP councillor in Ballymena (1989-2019 here), is not the Belfast Ulster Unionist John Carson (born 1933, MP for Belfast North 1974, Belfast councillor 1973-97): in 1989, 1993 and 1997 both were elected on the same day, in Ballymena and in Belfast's Castle area. Given the id fix-john-carson-ballymena so the registry stops joining them. Nothing in the results changes.",
+      "reason": "Audrey Wales polled 491 first preferences, not 471: with 491 the first preferences add up to the valid poll of 6,956, which gives the quota of 870 for 7 seats, and her second-stage total of 496 is unchanged. John Carson, DUP councillor in Ballymena (1989-2019 here), is not the Belfast Ulster Unionist John Carson (born 1933, MP for Belfast North 1974, Belfast councillor 1973-97): in 1989, 1993 and 1997 both were elected on the same day, in Ballymena and in Belfast's Castle area. Given the id fix-john-carson-ballymena so the registry stops joining them. Nothing in the results changes. The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (32 totals), and each rebuilt total was read on the Electoral Office's scanned result sheet (by OCR, and by eye for the 11 OCR missed).",
       "alsoBatches": [
-        "elliott-flackes-1999-2026-11-06"
+        "elliott-flackes-1999-2026-11-06",
+        "w8-review-2026-11-12"
       ]
     },
     {
@@ -185040,9 +185335,25 @@
           "set": {
             "Candidate_Id": "3474704469-causeway-coast-and-glens"
           }
+        },
+        {
+          "op": "restoreStageFractions"
         }
       ],
-      "internalNote": "William Blair: candidate id 1275981735 was shared with candidates of the same name in other councils (kept by Belfast); given 1275981735-ballymoney-causeway-coast-and-glens. David Hanna: candidate id 3337578959 was shared with candidates of the same name in other councils (kept by Ballymoney); given 3337578959-causeway-coast-and-glens. John Wilson: candidate id 3474704469 was shared with candidates of the same name in other councils (kept by Ballymena); given 3474704469-causeway-coast-and-glens."
+      "internalNote": "William Blair: candidate id 1275981735 was shared with candidates of the same name in other councils (kept by Belfast); given 1275981735-ballymoney-causeway-coast-and-glens. David Hanna: candidate id 3337578959 was shared with candidates of the same name in other councils (kept by Ballymoney); given 3337578959-causeway-coast-and-glens. John Wilson: candidate id 3474704469 was shared with candidates of the same name in other councils (kept by Ballymena); given 3474704469-causeway-coast-and-glens.",
+      "alsoBatches": [
+        "w8-review-2026-11-12"
+      ],
+      "additionalSources": [
+        {
+          "title": "Local Council Election 2019 result sheet: None",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20190806051518id_/http://www.eoni.org.uk/getmedia/b218a1f4-b993-4d1d-8bb0-148ce5cd69f7/BALLYMONEY-DEA",
+          "original": "http://www.eoni.org.uk/getmedia/b218a1f4-b993-4d1d-8bb0-148ce5cd69f7/BALLYMONEY-DEA",
+          "accessed": "2026-11-12"
+        }
+      ],
+      "reason": "The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (46 totals), and each rebuilt total was read on the Electoral Office's scanned result sheet (by OCR, and by eye for the 20 OCR missed)."
     },
     {
       "batch": "candidate-id-splits-2026-10-28",
@@ -194712,9 +195023,25 @@
           "set": {
             "Candidate_Id": "1460020051-fermanagh-and-omagh"
           }
+        },
+        {
+          "op": "restoreStageFractions"
         }
       ],
-      "internalNote": "Amy Ferguson: candidate id 1460020051 was shared with candidates of the same name in other councils (kept by Belfast); given 1460020051-fermanagh-and-omagh."
+      "internalNote": "Amy Ferguson: candidate id 1460020051 was shared with candidates of the same name in other councils (kept by Belfast); given 1460020051-fermanagh-and-omagh.",
+      "alsoBatches": [
+        "w8-review-2026-11-12"
+      ],
+      "additionalSources": [
+        {
+          "title": "Local Council Elections 2023 result sheet: None",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20230708193726id_/https://www.eoni.org.uk/getmedia/8df8b8aa-9413-4f0e-be3a-031df8e37d9d/Local-Council-Elections-2023-Result-Sheet-Omagh",
+          "original": "https://www.eoni.org.uk/getmedia/8df8b8aa-9413-4f0e-be3a-031df8e37d9d/Local-Council-Elections-2023-Result-Sheet-Omagh",
+          "accessed": "2026-11-12"
+        }
+      ],
+      "reason": "The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (33 totals), and each rebuilt total was read on the Electoral Office's scanned result sheet (by OCR, and by eye for the 25 OCR missed)."
     },
     {
       "batch": "candidate-id-splits-2026-10-28",
@@ -324023,6 +324350,186 @@
           "op": "set",
           "path": "Constituency.countInfo.Spoiled",
           "value": "141"
+        }
+      ]
+    },
+    {
+      "batch": "w8-review-2026-11-12",
+      "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/airport.json",
+      "source": {
+        "title": "Local Council Election 2014 result sheet: None",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401090951id_/http://www.eoni.org.uk/getmedia/9fbe5a8e-2131-4a95-8441-afbe6b9bb8ae/Local-Council-Election-2014-Result-Sheet-Airport",
+        "original": "http://www.eoni.org.uk/getmedia/9fbe5a8e-2131-4a95-8441-afbe6b9bb8ae/Local-Council-Election-2014-Result-Sheet-Airport",
+        "accessed": "2026-11-12"
+      },
+      "reason": "The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (27 totals), and each rebuilt total was read on the Electoral Office's scanned result sheet (by OCR, and by eye for the 14 OCR missed).",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "restoreStageFractions"
+        }
+      ]
+    },
+    {
+      "batch": "w8-review-2026-11-12",
+      "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/ards-peninsula.json",
+      "source": {
+        "title": "Local Council Election 2014 result sheet: None",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401093505id_/http://www.eoni.org.uk/getmedia/df2653c5-ea7d-4541-aa09-419cb84fa71c/Local-Council-Election-2014-Result-Sheet-Ards-Peninsula",
+        "original": "http://www.eoni.org.uk/getmedia/df2653c5-ea7d-4541-aa09-419cb84fa71c/Local-Council-Election-2014-Result-Sheet-Ards-Peninsula",
+        "accessed": "2026-11-12"
+      },
+      "reason": "The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (42 totals), and each rebuilt total was read on the Electoral Office's scanned result sheet (by OCR, and by eye for the 34 OCR missed).",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "restoreStageFractions"
+        }
+      ]
+    },
+    {
+      "batch": "w8-review-2026-11-12",
+      "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/clogher-valley.json",
+      "source": {
+        "title": "Local Council Election 2014 result sheet: None",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401093042id_/http://www.eoni.org.uk/getmedia/46b1bc93-92bd-4d20-b8af-9301dfa0ec1d/Local-Council-Election-2014-Result-Sheet-Clogher-Valley",
+        "original": "http://www.eoni.org.uk/getmedia/46b1bc93-92bd-4d20-b8af-9301dfa0ec1d/Local-Council-Election-2014-Result-Sheet-Clogher-Valley",
+        "accessed": "2026-11-12"
+      },
+      "reason": "The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (18 totals), and each rebuilt total was read on the Electoral Office's scanned result sheet (by OCR, and by eye for the 10 OCR missed).",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "restoreStageFractions"
+        }
+      ]
+    },
+    {
+      "batch": "w8-review-2026-11-12",
+      "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/comber.json",
+      "source": {
+        "title": "Local Council Election 2014 result sheet: None",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401093629id_/http://www.eoni.org.uk/getmedia/95588c2b-a8dd-4b70-8af5-74eccbd0986c/Local-Council-Election-2014-Result-Sheet-Comber",
+        "original": "http://www.eoni.org.uk/getmedia/95588c2b-a8dd-4b70-8af5-74eccbd0986c/Local-Council-Election-2014-Result-Sheet-Comber",
+        "accessed": "2026-11-12"
+      },
+      "reason": "The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (34 totals), and each rebuilt total was read on the Electoral Office's scanned result sheet (by OCR, and by eye for the 13 OCR missed).",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "restoreStageFractions"
+        }
+      ]
+    },
+    {
+      "batch": "w8-review-2026-11-12",
+      "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/larne-lough.json",
+      "source": {
+        "title": "Local Council Election 2014 result sheet: None",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401093001id_/http://www.eoni.org.uk/getmedia/442ed454-fe80-4f17-9047-701e37621146/Local-Council-Election-2014-Result-Sheets-Larne-Lough",
+        "original": "http://www.eoni.org.uk/getmedia/442ed454-fe80-4f17-9047-701e37621146/Local-Council-Election-2014-Result-Sheets-Larne-Lough",
+        "accessed": "2026-11-12"
+      },
+      "reason": "The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (15 totals), and each rebuilt total was read on the Electoral Office's scanned result sheet (by OCR, and by eye for the 11 OCR missed).",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "restoreStageFractions"
+        }
+      ]
+    },
+    {
+      "batch": "w8-review-2026-11-12",
+      "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/newtownards.json",
+      "source": {
+        "title": "Local Council Election 2014 result sheet: None",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401093711id_/http://www.eoni.org.uk/getmedia/df796d35-3023-4a1f-941e-c2c75d85d67d/Local-Council-Election-2014-Result-Sheet-Newtownards",
+        "original": "http://www.eoni.org.uk/getmedia/df796d35-3023-4a1f-941e-c2c75d85d67d/Local-Council-Election-2014-Result-Sheet-Newtownards",
+        "accessed": "2026-11-12"
+      },
+      "reason": "The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (80 totals), and each rebuilt total was read on the Electoral Office's scanned result sheet (by OCR, and by eye for the 63 OCR missed).",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "restoreStageFractions"
+        }
+      ]
+    },
+    {
+      "batch": "w8-review-2026-11-12",
+      "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/west-tyrone.json",
+      "source": {
+        "title": "Local Council Election 2014 result sheet: None",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401092515id_/http://www.eoni.org.uk/getmedia/1bef0b1a-83cc-488d-864a-86f00b43e1a5/Local-Council-Election-2014-Result-Sheet-West-Tyrone",
+        "original": "http://www.eoni.org.uk/getmedia/1bef0b1a-83cc-488d-864a-86f00b43e1a5/Local-Council-Election-2014-Result-Sheet-West-Tyrone",
+        "accessed": "2026-11-12"
+      },
+      "reason": "The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (31 totals), and each rebuilt total was read on the Electoral Office's scanned result sheet (by OCR, and by eye for the 25 OCR missed).",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "restoreStageFractions"
+        }
+      ]
+    },
+    {
+      "batch": "w8-review-2026-11-12",
+      "sourceFile": "data/elections-source/data/elections/local-government/2019-05-02/braid.json",
+      "source": {
+        "title": "Local Council Election 2019 result sheet: None",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20190806051828id_/http://www.eoni.org.uk/getmedia/e948b1db-e557-430a-ae29-c6faad91064c/Braid-DEA",
+        "original": "http://www.eoni.org.uk/getmedia/e948b1db-e557-430a-ae29-c6faad91064c/Braid-DEA",
+        "accessed": "2026-11-12"
+      },
+      "reason": "The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (28 totals), and each rebuilt total was read on the Electoral Office's scanned result sheet (by OCR, and by eye for the 7 OCR missed).",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "restoreStageFractions"
+        }
+      ]
+    },
+    {
+      "batch": "w8-review-2026-11-12",
+      "sourceFile": "data/elections-source/data/elections/local-government/2023-05-18/enniskillen.json",
+      "source": {
+        "title": "Local Council Elections 2023 result sheet: None",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20230708144704id_/https://www.eoni.org.uk/getmedia/d5932010-db31-411c-ae8e-ddee8e622f65/Local-Council-Elections-2023-Result-Sheet-Enniskillen",
+        "original": "https://www.eoni.org.uk/getmedia/d5932010-db31-411c-ae8e-ddee8e622f65/Local-Council-Elections-2023-Result-Sheet-Enniskillen",
+        "accessed": "2026-11-12"
+      },
+      "reason": "The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (33 totals), and each rebuilt total was read on the Electoral Office's scanned result sheet (by OCR, and by eye for the 26 OCR missed).",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "restoreStageFractions"
+        }
+      ]
+    },
+    {
+      "batch": "w8-review-2026-11-12",
+      "sourceFile": "data/elections-source/data/elections/local-government/2023-05-18/erne-west.json",
+      "source": {
+        "title": "Local Council Elections 2023 result sheet: None",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20230708144706id_/https://www.eoni.org.uk/getmedia/9f97482d-e714-43f7-8ada-80d44947a324/Local-Council-Elections-2023-Result-Sheet-Erne-West",
+        "original": "https://www.eoni.org.uk/getmedia/9f97482d-e714-43f7-8ada-80d44947a324/Local-Council-Elections-2023-Result-Sheet-Erne-West",
+        "accessed": "2026-11-12"
+      },
+      "reason": "The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (24 totals), and each rebuilt total was read on the Electoral Office's scanned result sheet (by OCR, and by eye for the 17 OCR missed).",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "restoreStageFractions"
         }
       ]
     }
