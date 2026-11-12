@@ -1,13 +1,22 @@
 #!/usr/bin/env node
 /**
  * check:boundaries (REFACTOR-PLAN.md PKG-0): the import rules between the parts of the
- * repository, read from boundaries.json at the root. Every tracked .js/.mjs/.cjs file in a unit
+ * repository, read from config/boundaries.json. Every tracked .js/.mjs/.cjs file in a unit
  * is read; each static import, re-export and dynamic import() with a literal relative specifier
  * is resolved to a file, and the edge fails when the importing unit does not allow the unit that
  * holds the target. node:* built-ins fail in a unit with "node": false. Bare names (npm
  * packages) are not checked; a computed import() is not seen (packages/loader/src/local-api.mjs
  * starts the Functions by path, as a dev server). Known violations go in boundaries.json
  * `baseline` ("from -> to"); an entry that no longer occurs fails too, so the list only shrinks.
+ *
+ * Served pages (site/) are not bundled, so a relative import of packages/ would 404 in the
+ * browser: they import only site/ files. Package code reaches them through packages/served.json,
+ * whose shims under site/ (site/assets/ui/, the site-served unit) re-export the package so Node and
+ * tsc resolve the same module; only those shims may import the package.
+ *
+ * Which files belong to no unit (architecture rule R1, check C2) and which unit paths hold no
+ * file (C1) are reported by scripts/check/architecture.mjs (npm run check:architecture), from
+ * trackedScripts(), unownedFiles() and emptyUnitPaths() here.
  *
  *   node scripts/check/boundaries.mjs           check
  *   node scripts/check/boundaries.mjs --list    print every cross-unit edge with its verdict
@@ -20,15 +29,17 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const config = JSON.parse(readFileSync(path.join(ROOT, 'config', 'boundaries.json'), 'utf8'));
 const UNITS = Object.entries(config.units);
-const SKIP = /(^|\/)(node_modules|dist|build|vendor)\/|\.min\.js$|^app\/build\/|^src\/sql\.js-httpvfs\//;
+const SKIP = /(^|\/)(node_modules|dist|build|vendor)\/|\.min\.js$|^src\/sql\.js-httpvfs\//;
 
-/** The unit that holds a repository path, or null. */
+/** The unit that holds a repository path, or null. @param {string} rel @returns {string | null} */
 export function unitOf(rel) {
-  for (const [name, unit] of UNITS) if (unit.paths.some((p) => (p.endsWith('/') ? rel.startsWith(p) : rel === p))) return name;
+  /** @param {string} p */
+  const holds = (p) => (p.endsWith('/') ? rel.startsWith(p) : rel === p);
+  for (const [name, unit] of UNITS) if (unit.paths.some(holds)) return name;
   return null;
 }
 
-/** Whether unit `from` may import unit `to`. */
+/** Whether unit `from` may import unit `to`. @param {string} from @param {string | null} to */
 export function allowed(from, to) {
   if (to === null || from === to) return true;
   const allow = config.units[from].allow;
@@ -36,10 +47,40 @@ export function allowed(from, to) {
   return allow.includes('*') || allow.includes(to);
 }
 
-const strip = (src) => src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:'"`\\])\/\/.*$/gm, '$1');
+/** The tracked scripts the import rules read (vendored, minified and build output left out). */
+export function trackedScripts() {
+  return execFileSync('git', ['ls-files', '-z', '*.js', '*.mjs', '*.cjs'], { cwd: ROOT, encoding: 'utf8', maxBuffer: 1 << 26 })
+    .split('\0').filter((f) => f && !SKIP.test(f));
+}
+
+const UNOWNED = Object.entries(config.unowned || {}).filter(([key]) => key !== '//');
+const listed = (/** @type {string} */ rel, /** @type {string} */ key) => (key.endsWith('/') ? rel.startsWith(key) : rel === key);
+
+/**
+ * C2: the scripts in no unit and not in boundaries.json `unowned` (each entry with its reason),
+ * and the `unowned` entries that match no script any more.
+ * @param {string[]} files
+ */
+export function unownedFiles(files) {
+  const missing = files.filter((f) => unitOf(f) === null && !UNOWNED.some(([key]) => listed(f, key)));
+  const stale = UNOWNED.filter(([key]) => !files.some((f) => listed(f, key))).map(([key]) => key);
+  return { missing, stale };
+}
+
+/**
+ * C1: unit paths that hold no tracked file (a path left behind by a move).
+ * @param {string[]} tracked  every tracked file
+ */
+export function emptyUnitPaths(tracked) {
+  const out = [];
+  for (const [name, unit] of UNITS) for (const p of unit.paths) if (!tracked.some((f) => listed(f, p))) out.push(`${name}: ${p}`);
+  return out;
+}
+
+const strip = (/** @type {string} */ src) => src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:'"`\\])\/\/.*$/gm, '$1');
 const SPEC = /(?:^|[\s;}])(?:import|export)\s[^'"`;]*?\sfrom\s*(['"])([^'"]+)\1|(?:^|[\s;}(=])import\s*(['"])([^'"]+)\3|\bimport\(\s*(['"])([^'"]+)\5\s*\)/gm;
 
-/** The literal import specifiers of a module's source. */
+/** The literal import specifiers of a module's source. @param {string} source @returns {string[]} */
 export function specifiers(source) {
   const out = [];
   for (const m of strip(source).matchAll(SPEC)) out.push(m[2] || m[4] || m[6]);
@@ -47,8 +88,7 @@ export function specifiers(source) {
 }
 
 export function edges() {
-  const files = execFileSync('git', ['ls-files', '-z', '*.js', '*.mjs', '*.cjs'], { cwd: ROOT, encoding: 'utf8', maxBuffer: 1 << 26 })
-    .split('\0').filter((f) => f && !SKIP.test(f));
+  const files = trackedScripts();
   const out = [];
   for (const file of files) {
     const from = unitOf(file);

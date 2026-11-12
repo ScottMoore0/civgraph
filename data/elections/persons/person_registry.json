@@ -2,7 +2,7 @@
  "schemaVersion": 2,
  "description": "Stable identifiers for people appearing as candidates in the current election data. The id is independent of name spelling, so a correction changes displayName and adds an alias, never the id.",
  "idPolicy": "Ids are permanent. PersonIDs 1-100011 are the curated block carried forward from scripts/ingest/persons/person_registry.json; 100012+ are derived. A new id is never one issued before, even one merged away at once: idHighWater is the highest issued (person_id_issued.py).",
- "idHighWater": 150632,
+ "idHighWater": 150688,
  "supersedes": "scripts/ingest/persons/person_registry.json (2,388 curated persons; its source workbook is no longer present and apply_person_ids.py targets an _aggregates.json layout that no longer exists)",
  "evidence": {
   "rowIndexIdsDiscarded": [
@@ -45,8 +45,8 @@
    "fix-john-carson-ballymena"
   ],
   "note": "Ids carrying more than one distinct name are row indices, not people.",
-  "crossSystemMerges": 1064,
-  "sameNameLeftSplit": 2828
+  "crossSystemMerges": 1063,
+  "sameNameLeftSplit": 2833
  },
  "conservatism": "Nothing is merged on name alone. Two ids from the same source system sharing a name stay separate and are flagged needsReview.",
  "entities": [
@@ -831,9 +831,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1995,
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1997,
    "lastYear": 1997,
    "bodies": [
     "local-government"
@@ -1158,8 +1158,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1989,
    "lastYear": 1997,
    "bodies": [
@@ -6476,8 +6476,8 @@
     "niassembly:64",
     "wikidata:Q5296845"
    ],
-   "candidacies": 13,
-   "contests": 13,
+   "candidacies": 12,
+   "contests": 12,
    "firstYear": 1987,
    "lastYear": 2011,
    "bodies": [
@@ -9904,7 +9904,7 @@
    "eraReason": "split by its official person id (democracyclub:2137): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150523
+    150560
    ]
   },
   {
@@ -10243,10 +10243,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 7,
-   "contests": 7,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1958,
-   "lastYear": 1991,
+   "lastYear": 1989,
    "bodies": [
     "bangor-borough-council",
     "local-government",
@@ -12303,7 +12303,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150579
+    150661
    ]
   },
   {
@@ -13586,7 +13586,7 @@
    "eraReason": "split by its official person id (democracyclub:7132): the source id it shares is held by another person with another official id",
    "nameVariants": true,
    "mergedFrom": [
-    150524
+    150561
    ]
   },
   {
@@ -16490,8 +16490,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 7,
-   "contests": 7,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1993,
    "lastYear": 2011,
    "bodies": [
@@ -19318,9 +19318,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
-   "firstYear": 1990,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1993,
    "lastYear": 2005,
    "bodies": [
     "local-government"
@@ -19515,8 +19515,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1993,
    "lastYear": 1998,
    "bodies": [
@@ -21622,9 +21622,9 @@
     "niassembly:43",
     "wikidata:Q5043280"
    ],
-   "candidacies": 7,
-   "contests": 7,
-   "firstYear": 1995,
+   "candidacies": 6,
+   "contests": 6,
+   "firstYear": 1997,
    "lastYear": 2007,
    "bodies": [
     "local-government",
@@ -25091,8 +25091,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1989,
    "lastYear": 2001,
    "bodies": [
@@ -25203,7 +25203,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150609
+    150663
    ]
   },
   {
@@ -25682,15 +25682,14 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1997,
-   "lastYear": 2004,
+   "lastYear": 2001,
    "bodies": [
     "local-government"
    ],
    "parties": [
-    "Independent",
     "UUP"
    ],
    "keyedBy": "id",
@@ -30255,9 +30254,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
-   "firstYear": 1991,
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1997,
    "lastYear": 2014,
    "bodies": [
     "local-government"
@@ -31370,9 +31369,9 @@
     "niassembly:121",
     "wikidata:Q6530733"
    ],
-   "candidacies": 9,
-   "contests": 9,
-   "firstYear": 1988,
+   "candidacies": 8,
+   "contests": 8,
+   "firstYear": 1989,
    "lastYear": 2011,
    "bodies": [
     "local-government",
@@ -31662,9 +31661,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1995,
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1997,
    "lastYear": 1997,
    "bodies": [
     "local-government"
@@ -32723,8 +32722,8 @@
     "ukparliament:4274",
     "wikidata:Q5479812"
    ],
-   "candidacies": 17,
-   "contests": 17,
+   "candidacies": 16,
+   "contests": 16,
    "firstYear": 1982,
    "lastYear": 2019,
    "bodies": [
@@ -35653,8 +35652,8 @@
     "niassembly:199",
     "wikidata:Q6272833"
    ],
-   "candidacies": 11,
-   "contests": 11,
+   "candidacies": 10,
+   "contests": 10,
    "firstYear": 1993,
    "lastYear": 2023,
    "bodies": [
@@ -36079,8 +36078,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 22,
-   "contests": 22,
+   "candidacies": 20,
+   "contests": 20,
    "firstYear": 1973,
    "lastYear": 2005,
    "bodies": [
@@ -36131,8 +36130,7 @@
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
-   "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "provisional": false
   },
   {
    "id": "p58286",
@@ -41730,8 +41728,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1993,
    "lastYear": 2001,
    "bodies": [
@@ -42367,8 +42365,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 7,
-   "contests": 7,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1973,
    "lastYear": 1985,
    "bodies": [
@@ -43172,7 +43170,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150620
+    150664
    ]
   },
   {
@@ -46692,9 +46690,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1989,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1993,
    "lastYear": 2001,
    "bodies": [
     "local-government"
@@ -48214,8 +48212,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 8,
-   "contests": 8,
+   "candidacies": 7,
+   "contests": 7,
    "firstYear": 1997,
    "lastYear": 2007,
    "bodies": [
@@ -50077,9 +50075,9 @@
     "niassembly:5801",
     "wikidata:Q24052783"
    ],
-   "candidacies": 16,
-   "contests": 16,
-   "firstYear": 1991,
+   "candidacies": 15,
+   "contests": 15,
+   "firstYear": 1993,
    "lastYear": 2022,
    "bodies": [
     "house-of-commons-of-the-united-kingdom",
@@ -53333,9 +53331,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
-   "firstYear": 1987,
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1989,
    "lastYear": 2005,
    "bodies": [
     "european-parliament",
@@ -53373,9 +53371,9 @@
     "niassembly:5798",
     "wikidata:Q24083699"
    ],
-   "candidacies": 9,
-   "contests": 9,
-   "firstYear": 1995,
+   "candidacies": 8,
+   "contests": 8,
+   "firstYear": 1997,
    "lastYear": 2022,
    "bodies": [
     "local-government",
@@ -53407,9 +53405,9 @@
    "officialPersonIds": [
     "democracyclub:69191"
    ],
-   "candidacies": 8,
-   "contests": 8,
-   "firstYear": 1995,
+   "candidacies": 7,
+   "contests": 7,
+   "firstYear": 1997,
    "lastYear": 2019,
    "bodies": [
     "local-government",
@@ -53471,8 +53469,8 @@
     "democracyclub:6135",
     "wikidata:Q4934101"
    ],
-   "candidacies": 9,
-   "contests": 9,
+   "candidacies": 8,
+   "contests": 8,
    "firstYear": 1993,
    "lastYear": 2016,
    "bodies": [
@@ -58058,10 +58056,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 9,
-   "contests": 9,
+   "candidacies": 8,
+   "contests": 8,
    "firstYear": 1985,
-   "lastYear": 2007,
+   "lastYear": 2001,
    "bodies": [
     "house-of-commons-of-the-united-kingdom",
     "local-government",
@@ -58125,9 +58123,9 @@
     "niassembly:6166",
     "wikidata:Q56702135"
    ],
-   "candidacies": 11,
-   "contests": 11,
-   "firstYear": 1987,
+   "candidacies": 8,
+   "contests": 8,
+   "firstYear": 1989,
    "lastYear": 2024,
    "bodies": [
     "house-of-commons-of-the-united-kingdom",
@@ -58232,8 +58230,8 @@
     "niassembly:142",
     "wikidata:Q5237446"
    ],
-   "candidacies": 10,
-   "contests": 10,
+   "candidacies": 9,
+   "contests": 9,
    "firstYear": 1973,
    "lastYear": 2011,
    "bodies": [
@@ -58681,8 +58679,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1982,
    "lastYear": 2001,
    "bodies": [
@@ -58747,9 +58745,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
-   "firstYear": 1990,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1993,
    "lastYear": 2005,
    "bodies": [
     "local-government"
@@ -59902,8 +59900,8 @@
     "niassembly:13",
     "wikidata:Q5398557"
    ],
-   "candidacies": 6,
-   "contests": 6,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1993,
    "lastYear": 2007,
    "bodies": [
@@ -60506,7 +60504,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150540
+    150595
    ]
   },
   {
@@ -62412,10 +62410,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150481,
-    150498,
-    150543,
-    150544
+    150492,
+    150514,
+    150600,
+    150601
    ]
   },
   {
@@ -62727,10 +62725,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150508,
-    150509,
-    150526,
-    150625
+    150532,
+    150533,
+    150565,
+    150671
    ]
   },
   {
@@ -63373,8 +63371,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 10,
-   "contests": 10,
+   "candidacies": 9,
+   "contests": 9,
    "firstYear": 1977,
    "lastYear": 2011,
    "bodies": [
@@ -63421,10 +63419,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150486,
-    150487,
-    150552,
-    150553
+    150497,
+    150498,
+    150619,
+    150620
    ]
   },
   {
@@ -63461,10 +63459,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150488,
-    150503,
-    150514,
-    150554
+    150500,
+    150521,
+    150544,
+    150625
    ]
   },
   {
@@ -63882,9 +63880,9 @@
    "officialPersonIds": [
     "democracyclub:50151"
    ],
-   "candidacies": 10,
-   "contests": 10,
-   "firstYear": 1985,
+   "candidacies": 9,
+   "contests": 9,
+   "firstYear": 1989,
    "lastYear": 2023,
    "bodies": [
     "local-government"
@@ -63948,8 +63946,8 @@
    "officialPersonIds": [
     "democracyclub:68911"
    ],
-   "candidacies": 8,
-   "contests": 8,
+   "candidacies": 7,
+   "contests": 7,
    "firstYear": 2001,
    "lastYear": 2023,
    "bodies": [
@@ -63968,8 +63966,8 @@
    "eraReason": "split by its official person id (democracyclub:68911): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150493,
-    150599
+    150529,
+    150662
    ]
   },
   {
@@ -64092,8 +64090,7 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "provisional": true
   },
   {
    "id": "p100130",
@@ -64130,11 +64127,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150494,
-    150510,
-    150627,
-    150628,
-    150629
+    150508,
+    150534,
+    150673,
+    150674,
+    150675
    ]
   },
   {
@@ -64909,10 +64906,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150473,
-    150479,
-    150535,
-    150536
+    150474,
+    150488,
+    150584,
+    150585
    ]
   },
   {
@@ -65572,8 +65569,8 @@
    "officialPersonIds": [
     "democracyclub:68689"
    ],
-   "candidacies": 9,
-   "contests": 9,
+   "candidacies": 8,
+   "contests": 8,
    "firstYear": 1989,
    "lastYear": 2019,
    "bodies": [
@@ -65832,12 +65829,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150507,
-    150525,
-    150621,
-    150622,
-    150623,
-    150624
+    150531,
+    150564,
+    150667,
+    150668,
+    150669,
+    150670
    ]
   },
   {
@@ -67162,8 +67159,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 8,
-   "contests": 8,
+   "candidacies": 7,
+   "contests": 7,
    "firstYear": 1977,
    "lastYear": 2001,
    "bodies": [
@@ -68099,8 +68096,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 8,
-   "contests": 8,
+   "candidacies": 7,
+   "contests": 7,
    "firstYear": 1985,
    "lastYear": 2011,
    "bodies": [
@@ -70234,9 +70231,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150474,
     150475,
-    150500
+    150476,
+    150517
    ]
   },
   {
@@ -70274,11 +70271,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150484,
-    150501,
-    150502,
-    150513,
-    150549
+    150495,
+    150518,
+    150519,
+    150543,
+    150611
    ]
   },
   {
@@ -70316,9 +70313,9 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
     150471,
-    150476,
-    150561,
-    150562
+    150481,
+    150646,
+    150647
    ]
   },
   {
@@ -70394,9 +70391,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 7,
-   "contests": 7,
-   "firstYear": 1986,
+   "candidacies": 6,
+   "contests": 6,
+   "firstYear": 1989,
    "lastYear": 2011,
    "bodies": [
     "local-government"
@@ -70485,8 +70482,8 @@
    "officialPersonIds": [
     "democracyclub:69226"
    ],
-   "candidacies": 7,
-   "contests": 7,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1985,
    "lastYear": 2019,
    "bodies": [
@@ -71004,15 +71001,14 @@
    "officialPersonIds": [
     "democracyclub:69367"
    ],
-   "candidacies": 7,
-   "contests": 7,
-   "firstYear": 1995,
+   "candidacies": 6,
+   "contests": 6,
+   "firstYear": 1997,
    "lastYear": 2019,
    "bodies": [
     "local-government"
    ],
    "parties": [
-    "Conservative",
     "DUP",
     "Independent",
     "UUP"
@@ -71651,7 +71647,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p100393",
@@ -71726,15 +71723,14 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1987,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 2001,
    "lastYear": 2011,
    "bodies": [
     "local-government"
    ],
    "parties": [
-    "Alliance",
     "Sinn Féin"
    ],
    "keyedBy": "id",
@@ -72090,8 +72086,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 7,
-   "contests": 7,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1989,
    "lastYear": 2011,
    "bodies": [
@@ -72243,8 +72239,8 @@
    "officialPersonIds": [
     "democracyclub:49679"
    ],
-   "candidacies": 7,
-   "contests": 7,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 2001,
    "lastYear": 2023,
    "bodies": [
@@ -72472,10 +72468,10 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
     150472,
-    150527,
-    150528,
-    150529,
-    150630
+    150566,
+    150567,
+    150568,
+    150676
    ]
   },
   {
@@ -75608,12 +75604,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150477,
-    150504,
-    150519,
-    150520,
-    150563,
-    150564
+    150482,
+    150524,
+    150554,
+    150555,
+    150649,
+    150650
    ]
   },
   {
@@ -75651,11 +75647,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150478,
-    150491,
+    150483,
     150505,
-    150565,
-    150566
+    150527,
+    150656,
+    150657
    ]
   },
   {
@@ -75695,13 +75691,13 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150492,
     150506,
-    150521,
-    150522,
-    150567,
-    150568,
-    150569
+    150528,
+    150558,
+    150559,
+    150658,
+    150659,
+    150660
    ]
   },
   {
@@ -75753,8 +75749,8 @@
    "officialPersonIds": [
     "democracyclub:69313"
    ],
-   "candidacies": 6,
-   "contests": 6,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 2005,
    "lastYear": 2023,
    "bodies": [
@@ -75842,8 +75838,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1993,
    "lastYear": 2011,
    "bodies": [
@@ -76145,8 +76141,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1973,
    "lastYear": 1989,
    "bodies": [
@@ -77122,8 +77118,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1989,
    "lastYear": 2011,
    "bodies": [
@@ -77394,9 +77390,9 @@
    "officialPersonIds": [
     "democracyclub:49599"
    ],
-   "candidacies": 6,
-   "contests": 6,
-   "firstYear": 2004,
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 2005,
    "lastYear": 2023,
    "bodies": [
     "local-government"
@@ -77747,8 +77743,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1985,
    "lastYear": 2001,
    "bodies": [
@@ -78032,8 +78028,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1993,
    "lastYear": 2011,
    "bodies": [
@@ -83470,12 +83466,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150480,
-    150495,
-    150496,
-    150497,
-    150538,
-    150539
+    150491,
+    150511,
+    150512,
+    150513,
+    150593,
+    150594
    ]
   },
   {
@@ -83641,11 +83637,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150482,
-    150483,
-    150499,
-    150547,
-    150548
+    150493,
+    150494,
+    150515,
+    150608,
+    150609
    ]
   },
   {
@@ -83681,9 +83677,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150485,
-    150550,
-    150551
+    150496,
+    150612,
+    150613
    ]
   },
   {
@@ -83722,12 +83718,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150489,
-    150490,
-    150516,
-    150517,
-    150518,
-    150560
+    150502,
+    150503,
+    150550,
+    150551,
+    150552,
+    150642
    ]
   },
   {
@@ -84347,8 +84343,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1989,
    "lastYear": 2001,
    "bodies": [
@@ -84406,8 +84402,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1981,
    "lastYear": 1997,
    "bodies": [
@@ -85172,9 +85168,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
-   "firstYear": 1990,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1993,
    "lastYear": 2005,
    "bodies": [
     "local-government"
@@ -85558,10 +85554,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1981,
-   "lastYear": 1994,
+   "lastYear": 1993,
    "bodies": [
     "local-government"
    ],
@@ -88262,8 +88258,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1985,
    "lastYear": 2011,
    "bodies": [
@@ -89383,9 +89379,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
-   "firstYear": 1987,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1989,
    "lastYear": 2014,
    "bodies": [
     "local-government"
@@ -91397,9 +91393,11 @@
    "personId": 101080,
    "displayName": "Charlie Flanagan",
    "aliases": [
+    "Charles Flanagan",
     "Charlie Flanagan"
    ],
    "matchKeys": [
+    "charles flanagan",
     "charlie flanagan"
    ],
    "sourceIds": [],
@@ -91423,7 +91421,8 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3699)",
-   "provisional": true
+   "provisional": true,
+   "nameVariants": true
   },
   {
    "id": "p101081",
@@ -103660,8 +103659,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1981,
    "lastYear": 2001,
    "bodies": [
@@ -104195,10 +104194,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1981,
-   "lastYear": 1987,
+   "lastYear": 1985,
    "bodies": [
     "local-government"
    ],
@@ -104320,8 +104319,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1993,
    "lastYear": 2001,
    "bodies": [
@@ -105636,9 +105635,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1992,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1993,
    "lastYear": 2001,
    "bodies": [
     "local-government"
@@ -105934,8 +105933,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1973,
    "lastYear": 1993,
    "bodies": [
@@ -106985,8 +106984,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1973,
    "lastYear": 1997,
    "bodies": [
@@ -107435,9 +107434,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1987,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1989,
    "lastYear": 1997,
    "bodies": [
     "local-government"
@@ -107464,8 +107463,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1981,
    "lastYear": 1997,
    "bodies": [
@@ -108842,9 +108841,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
-   "firstYear": 2000,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 2005,
    "lastYear": 2014,
    "bodies": [
     "local-government"
@@ -112577,10 +112576,12 @@
    "personId": 101860,
    "displayName": "Dr James Reilly",
    "aliases": [
-    "Dr James Reilly"
+    "Dr James Reilly",
+    "James Reilly"
    ],
    "matchKeys": [
-    "dr james reilly"
+    "dr james reilly",
+    "james reilly"
    ],
    "sourceIds": [],
    "sourcePersonIds": [
@@ -112602,7 +112603,8 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:8619)",
-   "provisional": true
+   "provisional": true,
+   "nameVariants": true
   },
   {
    "id": "p101861",
@@ -121014,10 +121016,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150531,
-    150532,
-    150533,
-    150534
+    150575,
+    150576,
+    150577,
+    150578
    ]
   },
   {
@@ -121052,8 +121054,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150511,
-    150537
+    150538,
+    150592
    ]
   },
   {
@@ -126363,10 +126365,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150556,
-    150557,
-    150558,
-    150559
+    150627,
+    150628,
+    150629,
+    150630
    ]
   },
   {
@@ -127841,9 +127843,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1994,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1997,
    "lastYear": 2001,
    "bodies": [
     "local-government"
@@ -130486,8 +130488,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 2001,
    "lastYear": 2005,
    "bodies": [
@@ -134313,8 +134315,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1973,
    "lastYear": 1989,
    "bodies": [
@@ -136125,9 +136127,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1990,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1993,
    "lastYear": 1997,
    "bodies": [
     "local-government"
@@ -138110,8 +138112,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 2005,
    "lastYear": 2014,
    "bodies": [
@@ -138912,8 +138914,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 2001,
    "lastYear": 2005,
    "bodies": [
@@ -141600,8 +141602,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1993,
    "lastYear": 1997,
    "bodies": [
@@ -142108,9 +142110,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1990,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1993,
    "lastYear": 1997,
    "bodies": [
     "local-government"
@@ -142561,8 +142563,7 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "provisional": true
   },
   {
    "id": "p102979",
@@ -144128,9 +144129,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1995,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 2005,
    "lastYear": 2011,
    "bodies": [
     "local-government"
@@ -166323,7 +166324,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150542
+    150597
    ]
   },
   {
@@ -169894,7 +169895,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150541
+    150596
    ]
   },
   {
@@ -205893,7 +205894,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p106176",
@@ -207552,8 +207554,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150545,
-    150546
+    150606,
+    150607
    ]
   },
   {
@@ -207587,7 +207589,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150555
+    150626
    ]
   },
   {
@@ -215603,10 +215605,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 1,
+   "contests": 1,
    "firstYear": 1985,
-   "lastYear": 1988,
+   "lastYear": 1985,
    "bodies": [
     "local-government"
    ],
@@ -218814,9 +218816,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1988,
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1989,
    "lastYear": 1989,
    "bodies": [
     "local-government"
@@ -219049,9 +219051,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1987,
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1989,
    "lastYear": 1989,
    "bodies": [
     "local-government"
@@ -221093,10 +221095,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 1,
+   "contests": 1,
    "firstYear": 1985,
-   "lastYear": 1993,
+   "lastYear": 1985,
    "bodies": [
     "local-government"
    ],
@@ -221970,9 +221972,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 2002,
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 2005,
    "lastYear": 2005,
    "bodies": [
     "local-government"
@@ -223353,10 +223355,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 1,
+   "contests": 1,
    "firstYear": 1985,
-   "lastYear": 1995,
+   "lastYear": 1985,
    "bodies": [
     "local-government"
    ],
@@ -224407,9 +224409,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1988,
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1989,
    "lastYear": 1989,
    "bodies": [
     "local-government"
@@ -224995,10 +224997,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 1,
+   "contests": 1,
    "firstYear": 1985,
-   "lastYear": 1987,
+   "lastYear": 1985,
    "bodies": [
     "local-government"
    ],
@@ -225169,10 +225171,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 1,
+   "contests": 1,
    "firstYear": 1985,
-   "lastYear": 1988,
+   "lastYear": 1985,
    "bodies": [
     "local-government"
    ],
@@ -228062,10 +228064,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 1,
+   "contests": 1,
    "firstYear": 2005,
-   "lastYear": 2006,
+   "lastYear": 2005,
    "bodies": [
     "local-government"
    ],
@@ -234973,7 +234975,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p107317",
@@ -235165,9 +235168,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1994,
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1997,
    "lastYear": 1997,
    "bodies": [
     "local-government"
@@ -240998,10 +241001,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 1,
+   "contests": 1,
    "firstYear": 1985,
-   "lastYear": 1989,
+   "lastYear": 1985,
    "bodies": [
     "local-government"
    ],
@@ -245307,10 +245310,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1981,
-   "lastYear": 1986,
+   "lastYear": 1985,
    "bodies": [
     "local-government"
    ],
@@ -250550,10 +250553,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 1,
+   "contests": 1,
    "firstYear": 1993,
-   "lastYear": 1995,
+   "lastYear": 1993,
    "bodies": [
     "local-government"
    ],
@@ -250608,9 +250611,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1992,
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1993,
    "lastYear": 1993,
    "bodies": [
     "local-government"
@@ -252156,9 +252159,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1990,
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1993,
    "lastYear": 1993,
    "bodies": [
     "local-government"
@@ -253203,9 +253206,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1987,
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1989,
    "lastYear": 1989,
    "bodies": [
     "local-government"
@@ -254122,10 +254125,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 1,
+   "contests": 1,
    "firstYear": 1997,
-   "lastYear": 2002,
+   "lastYear": 1997,
    "bodies": [
     "local-government"
    ],
@@ -255875,9 +255878,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1988,
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1989,
    "lastYear": 1989,
    "bodies": [
     "local-government"
@@ -268054,10 +268057,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 1,
+   "contests": 1,
    "firstYear": 2005,
-   "lastYear": 2006,
+   "lastYear": 2005,
    "bodies": [
     "local-government"
    ],
@@ -269220,9 +269223,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1986,
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1989,
    "lastYear": 1989,
    "bodies": [
     "local-government"
@@ -270283,7 +270286,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150626
+    150672
    ]
   },
   {
@@ -359090,10 +359093,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 1,
+   "contests": 1,
    "firstYear": 1997,
-   "lastYear": 2000,
+   "lastYear": 1997,
    "bodies": [
     "local-government"
    ],
@@ -362277,7 +362280,7 @@
    ],
    "eraReason": "split from a career spanning more than 60 years at a gap of 25 or more; the same id continues in the other era",
    "mergedFrom": [
-    150530
+    150571
    ]
   },
   {
@@ -372741,9 +372744,7 @@
    "matchKeys": [
     "luie mcentire"
    ],
-   "sourceIds": [
-    "Luie McEntire|Fianna Fáil"
-   ],
+   "sourceIds": [],
    "sourcePersonIds": [
     "ei:603"
    ],
@@ -377808,9 +377809,7 @@
    "matchKeys": [
     "gerry brady"
    ],
-   "sourceIds": [
-    "Gerry Brady|Fine Gael"
-   ],
+   "sourceIds": [],
    "sourcePersonIds": [
     "ei:604"
    ],
@@ -415008,7 +415007,7 @@
     "paddy burke"
    ],
    "mergedFrom": [
-    150632
+    150688
    ]
   },
   {
@@ -514149,7 +514148,7 @@
    "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150512
+    150542
    ]
   },
   {
@@ -563101,7 +563100,7 @@
    "provenance": "keyed on the source's own candidate id (wikipedia:John Henry North)",
    "provisional": true,
    "mergedFrom": [
-    150515
+    150549
    ]
   },
   {
@@ -577902,7 +577901,7 @@
     "henry kenny"
    ],
    "mergedFrom": [
-    150631
+    150687
    ]
   },
   {
@@ -648780,9 +648779,7 @@
    "matchKeys": [
     "sean mulleady"
    ],
-   "sourceIds": [
-    "Seán Mulleady|Fianna Fáil"
-   ],
+   "sourceIds": [],
    "sourcePersonIds": [
     "ei:8999"
    ],
@@ -720328,15 +720325,14 @@
     "ei:11813"
    ],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 1,
+   "contests": 1,
    "firstYear": 2019,
-   "lastYear": 2020,
+   "lastYear": 2019,
    "bodies": [
     "dail-eireann"
    ],
    "parties": [
-    "Independent",
     "Non party/Independent"
    ],
    "keyedBy": "src",
@@ -727647,7 +727643,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p135147",
@@ -730070,12 +730067,13 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
-   "firstYear": 1906,
+   "candidacies": 9,
+   "contests": 9,
+   "firstYear": 1899,
    "lastYear": 1920,
    "bodies": [
-    "bangor-borough-council"
+    "bangor-borough-council",
+    "clogher-rural-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
@@ -730482,8 +730480,7 @@
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "provisional": true
   },
   {
    "id": "p135302",
@@ -731019,12 +731016,13 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 14,
-   "contests": 14,
-   "firstYear": 1911,
+   "candidacies": 15,
+   "contests": 15,
+   "firstYear": 1899,
    "lastYear": 1967,
    "bodies": [
     "bangor-borough-council",
+    "clogher-rural-district-council",
     "hillsborough-rural-district-council",
     "lurgan-rural-district-council",
     "newry-no-1-rural-district-council"
@@ -732235,11 +732233,12 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 8,
-   "contests": 8,
+   "candidacies": 9,
+   "contests": 9,
    "firstYear": 1905,
    "lastYear": 1939,
    "bodies": [
+    "antrim-county-council",
     "coleraine-rural-district-council",
     "dungannon-rural-district-council",
     "lurgan-rural-district-council"
@@ -740163,13 +740162,14 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1911,
    "lastYear": 1939,
    "bodies": [
     "armagh-county-council",
     "armagh-rural-district-council",
+    "clogher-rural-district-council",
     "irvinestown-rural-district-council"
    ],
    "parties": [],
@@ -740254,11 +740254,12 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1902,
-   "lastYear": 1911,
+   "lastYear": 1920,
    "bodies": [
+    "antrim-county-council",
     "castleblayney-no-2-rural-district-council"
    ],
    "parties": [],
@@ -747859,12 +747860,13 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 1,
+   "candidacies": 4,
+   "contests": 3,
    "firstYear": 1899,
-   "lastYear": 1899,
+   "lastYear": 1908,
    "bodies": [
-    "armagh-rural-district-council"
+    "armagh-rural-district-council",
+    "clogher-rural-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
@@ -747872,7 +747874,7 @@
    "provisional": true,
    "era": [
     1899,
-    1899
+    1908
    ],
    "eraReason": "split from a career spanning more than 60 years at a gap of 25 or more; the same id continues in the other era",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
@@ -753073,12 +753075,13 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1908,
-   "lastYear": 1908,
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1902,
+   "lastYear": 1911,
    "bodies": [
-    "armagh-county-council"
+    "armagh-county-council",
+    "clogher-rural-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
@@ -775577,11 +775580,12 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1899,
    "lastYear": 1899,
    "bodies": [
+    "clogher-rural-district-council",
     "moira-rural-district-council"
    ],
    "parties": [],
@@ -776719,11 +776723,12 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1914,
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1902,
    "lastYear": 1914,
    "bodies": [
+    "clogher-rural-district-council",
     "lurgan-rural-district-council"
    ],
    "parties": [],
@@ -776864,12 +776869,13 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1904,
    "lastYear": 1929,
    "bodies": [
     "bangor-borough-council",
+    "clogher-rural-district-council",
     "newcastle-urban-district-council",
     "newry-no-2-rural-district-council"
    ],
@@ -786292,8 +786298,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1929,
    "lastYear": 1964,
    "bodies": [
@@ -811091,8 +811097,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1923,
    "lastYear": 1936,
    "bodies": [
@@ -811783,8 +811789,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
+   "candidacies": 7,
+   "contests": 7,
    "firstYear": 1920,
    "lastYear": 1936,
    "bodies": [
@@ -812645,8 +812651,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1923,
    "lastYear": 1936,
    "bodies": [
@@ -824553,8 +824559,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1929,
    "lastYear": 1936,
    "bodies": [
@@ -828709,11 +828715,12 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1926,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1920,
    "lastYear": 1932,
    "bodies": [
+    "antrim-county-council",
     "lisburn-borough-council"
    ],
    "parties": [],
@@ -830945,8 +830952,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1920,
    "lastYear": 1924,
    "bodies": [
@@ -849079,8 +849086,7 @@
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "provisional": true
   },
   {
    "id": "p140403",
@@ -880078,11 +880084,12 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1926,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1920,
    "lastYear": 1926,
    "bodies": [
+    "antrim-county-council",
     "ballycastle-urban-district-council"
    ],
    "parties": [],
@@ -914137,11 +914144,12 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1923,
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1899,
    "lastYear": 1923,
    "bodies": [
+    "clogher-rural-district-council",
     "newcastle-urban-district-council"
    ],
    "parties": [],
@@ -914420,12 +914428,13 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
-   "firstYear": 1923,
+   "candidacies": 6,
+   "contests": 6,
+   "firstYear": 1908,
    "lastYear": 1967,
    "bodies": [
     "antrim-county-council",
+    "clogher-rural-district-council",
     "donaghadee-urban-district-council"
    ],
    "parties": [],
@@ -916770,11 +916779,12 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
-   "firstYear": 1936,
+   "candidacies": 6,
+   "contests": 6,
+   "firstYear": 1908,
    "lastYear": 1964,
    "bodies": [
+    "clogher-rural-district-council",
     "hillsborough-rural-district-council",
     "lisburn-rural-district-council",
     "newcastle-urban-district-council"
@@ -934158,7 +934168,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p143817",
@@ -941049,7 +941060,13 @@
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "era": [
+    1958,
+    1967
+   ],
+   "eraReason": "split from a career spanning more than 60 years at a gap of 25 or more; the same id continues in the other era",
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p144207",
@@ -944543,7 +944560,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p144339",
@@ -945975,9 +945993,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1924,
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1905,
    "lastYear": 1924,
    "bodies": [
     "clogher-rural-district-council",
@@ -953252,11 +953270,12 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1955,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1902,
    "lastYear": 1958,
    "bodies": [
+    "clogher-rural-district-council",
     "dungannon-rural-district-council",
     "lisnaskea-rural-district-council"
    ],
@@ -954905,6 +954924,11 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
+   "era": [
+    1936,
+    1964
+   ],
+   "eraReason": "split from a career spanning more than 60 years at a gap of 25 or more; the same id continues in the other era",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
@@ -959071,7 +959095,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p144874",
@@ -959600,11 +959625,12 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1927,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1920,
    "lastYear": 1952,
    "bodies": [
+    "antrim-county-council",
     "ballymena-rural-district-council",
     "larne-rural-district-council"
    ],
@@ -967057,7 +967083,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p145165",
@@ -976914,6 +976941,11 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
+   "era": [
+    1967,
+    1967
+   ],
+   "eraReason": "split from a career spanning more than 60 years at a gap of 25 or more; the same id continues in the other era",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
@@ -979750,11 +979782,12 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1930,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1920,
    "lastYear": 1930,
    "bodies": [
+    "antrim-county-council",
     "ballycastle-rural-district-council"
    ],
    "parties": [],
@@ -991246,11 +991279,12 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1939,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1911,
    "lastYear": 1939,
    "bodies": [
+    "clogher-rural-district-council",
     "lisnaskea-rural-district-council"
    ],
    "parties": [],
@@ -996283,9 +996317,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1924,
+   "candidacies": 6,
+   "contests": 6,
+   "firstYear": 1899,
    "lastYear": 1924,
    "bodies": [
     "clogher-rural-district-council"
@@ -999633,12 +999667,13 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1952,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1911,
    "lastYear": 1952,
    "bodies": [
-    "banbridge-rural-district-council"
+    "banbridge-rural-district-council",
+    "clogher-rural-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
@@ -1004435,11 +1004470,12 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1930,
+   "candidacies": 6,
+   "contests": 6,
+   "firstYear": 1905,
    "lastYear": 1939,
    "bodies": [
+    "clogher-rural-district-council",
     "cookstown-rural-district-council"
    ],
    "parties": [],
@@ -1027674,11 +1027710,12 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1924,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1899,
    "lastYear": 1924,
    "bodies": [
+    "clogher-rural-district-council",
     "tyrone-county-council"
    ],
    "parties": [],
@@ -1027853,7 +1027890,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p147380",
@@ -1035562,11 +1035600,12 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1930,
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1899,
    "lastYear": 1933,
    "bodies": [
+    "clogher-rural-district-council",
     "limavady-rural-district-council"
    ],
    "parties": [],
@@ -1036985,11 +1037024,12 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1946,
+   "candidacies": 8,
+   "contests": 8,
+   "firstYear": 1899,
    "lastYear": 1952,
    "bodies": [
+    "clogher-rural-district-council",
     "limavady-rural-district-council"
    ],
    "parties": [],
@@ -1037223,6 +1037263,11 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
+   "era": [
+    1961,
+    1961
+   ],
+   "eraReason": "split from a career spanning more than 60 years at a gap of 25 or more; the same id continues in the other era",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
@@ -1059260,9 +1059305,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1930,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1911,
    "lastYear": 1930,
    "bodies": [
     "clogher-rural-district-council"
@@ -1065333,17 +1065378,15 @@
     "patrick joseph sweeney"
    ],
    "sourceIds": [
-    "Patrick Joseph Sweeney|",
-    "T3062539146"
+    "Patrick Joseph Sweeney|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 1,
+   "contests": 1,
    "firstYear": 1967,
-   "lastYear": 1987,
+   "lastYear": 1967,
    "bodies": [
-    "local-government",
     "magherafelt-rural-district-council"
    ],
    "parties": [],
@@ -1073508,19 +1073551,20 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1913,
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1899,
    "lastYear": 1913,
    "bodies": [
-    "belfast-county-borough-council"
+    "belfast-county-borough-council",
+    "clogher-rural-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
    "era": [
-    1913,
+    1899,
     1913
    ],
    "eraReason": "split from a career spanning more than 60 years at a gap of 25 or more; the same id continues in the other era",
@@ -1077513,11 +1077557,12 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1926,
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1920,
    "lastYear": 1936,
    "bodies": [
+    "antrim-county-council",
     "ballymoney-rural-district-council",
     "ballymoney-urban-district-council"
    ],
@@ -1077526,7 +1077571,7 @@
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
    "era": [
-    1926,
+    1920,
     1936
    ],
    "eraReason": "rows of a name or id joined to a person who, by the dates History of Parliament, Wikidata or a reference work gives, was under 18 or dead at the time"
@@ -1079064,85 +1079109,26 @@
    "provisional": true
   },
   {
-   "id": "p150570",
-   "personId": 150570,
-   "displayName": "Sean McCambridge",
+   "id": "p150473",
+   "personId": 150473,
+   "displayName": "George M'Alpine",
    "aliases": [
-    "Sean McCambridge"
+    "George M'Alpine"
    ],
    "matchKeys": [
-    "sean mccambridge"
+    "george m alpine"
    ],
    "sourceIds": [
-    "T1147519276"
+    "George M'Alpine|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 2007,
-   "lastYear": 2007,
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1899,
+   "lastYear": 1911,
    "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "SDLP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p150571",
-   "personId": 150571,
-   "displayName": "Brown",
-   "aliases": [
-    "Brown"
-   ],
-   "matchKeys": [
-    "brown"
-   ],
-   "sourceIds": [
-    "T1217452212"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1987,
-   "lastYear": 1987,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "DUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p150572",
-   "personId": 150572,
-   "displayName": "Robert Lyle",
-   "aliases": [
-    "Robert Lyle"
-   ],
-   "matchKeys": [
-    "robert lyle"
-   ],
-   "sourceIds": [
-    "T1473758829"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1988,
-   "lastYear": 1988,
-   "bodies": [
-    "local-government"
+    "clogher-rural-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
@@ -1079150,30 +1079136,1143 @@
    "provisional": true
   },
   {
-   "id": "p150573",
-   "personId": 150573,
-   "displayName": "Padraig Pearse McShane",
+   "id": "p150477",
+   "personId": 150477,
+   "displayName": "David Wright",
    "aliases": [
-    "Padraig Pearse McShane"
+    "David Wright"
    ],
    "matchKeys": [
-    "padraig pearse mcshane"
+    "david wright"
    ],
    "sourceIds": [
-    "T1547324767"
+    "David Wright|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1899,
+   "lastYear": 1911,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "era": [
+    1899,
+    1911
+   ],
+   "eraReason": "split from a career spanning more than 60 years at a gap of 25 or more; the same id continues in the other era",
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150478",
+   "personId": 150478,
+   "displayName": "Henry Tottenham Armstrong",
+   "aliases": [
+    "Henry Tottenham Armstrong"
+   ],
+   "matchKeys": [
+    "henry tottenham armstrong"
+   ],
+   "sourceIds": [
+    "Henry Tottenham Armstrong|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1899,
+   "lastYear": 1911,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150479",
+   "personId": 150479,
+   "displayName": "Hugh Treanor",
+   "aliases": [
+    "Hugh Treanor"
+   ],
+   "matchKeys": [
+    "hugh treanor"
+   ],
+   "sourceIds": [
+    "Hugh Treanor|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1899,
+   "lastYear": 1911,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150480",
+   "personId": 150480,
+   "displayName": "John Connolly",
+   "aliases": [
+    "John Connolly"
+   ],
+   "matchKeys": [
+    "john connolly"
+   ],
+   "sourceIds": [
+    "John Connolly|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1899,
+   "lastYear": 1911,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150484",
+   "personId": 150484,
+   "displayName": "Thomas Irvine Graham",
+   "aliases": [
+    "Thomas Irvine Graham"
+   ],
+   "matchKeys": [
+    "thomas irvine graham"
+   ],
+   "sourceIds": [
+    "Thomas Irvine Graham|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1899,
+   "lastYear": 1911,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150485",
+   "personId": 150485,
+   "displayName": "George M'Elroy",
+   "aliases": [
+    "George M'Elroy"
+   ],
+   "matchKeys": [
+    "george m elroy"
+   ],
+   "sourceIds": [
+    "George M'Elroy|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1902,
+   "lastYear": 1911,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150486",
+   "personId": 150486,
+   "displayName": "James M'Laren",
+   "aliases": [
+    "James M'Laren"
+   ],
+   "matchKeys": [
+    "james m laren"
+   ],
+   "sourceIds": [
+    "James M'Laren|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1899,
+   "lastYear": 1908,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150487",
+   "personId": 150487,
+   "displayName": "John Jackson M'Crea",
+   "aliases": [
+    "John Jackson M'Crea"
+   ],
+   "matchKeys": [
+    "john jackson m crea"
+   ],
+   "sourceIds": [
+    "John Jackson M'Crea|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 4,
+   "contests": 3,
+   "firstYear": 1899,
+   "lastYear": 1905,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150489",
+   "personId": 150489,
+   "displayName": "Patrick M'Girr",
+   "aliases": [
+    "Patrick M'Girr"
+   ],
+   "matchKeys": [
+    "patrick m girr"
+   ],
+   "sourceIds": [
+    "Patrick M'Girr|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1899,
+   "lastYear": 1908,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150490",
+   "personId": 150490,
+   "displayName": "Thomas M'Nulty",
+   "aliases": [
+    "Thomas M'Nulty"
+   ],
+   "matchKeys": [
+    "thomas m nulty"
+   ],
+   "sourceIds": [
+    "Thomas M'Nulty|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1899,
+   "lastYear": 1908,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150499",
+   "personId": 150499,
+   "displayName": "Hugh de Fellenberg Montgomery",
+   "aliases": [
+    "Hugh de Fellenberg Montgomery"
+   ],
+   "matchKeys": [
+    "hugh de fellenberg montgomery"
+   ],
+   "sourceIds": [
+    "Hugh de Fellenberg Montgomery|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1899,
+   "lastYear": 1911,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150501",
+   "personId": 150501,
+   "displayName": "John Harvey Knox-Browne",
+   "aliases": [
+    "John Harvey Knox-Browne"
+   ],
+   "matchKeys": [
+    "john harvey knox browne"
+   ],
+   "sourceIds": [
+    "John Harvey Knox-Browne|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1899,
+   "lastYear": 1911,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150504",
+   "personId": 150504,
+   "displayName": "Richard Falls",
+   "aliases": [
+    "Richard Falls"
+   ],
+   "matchKeys": [
+    "richard falls"
+   ],
+   "sourceIds": [
+    "Richard Falls|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1899,
+   "lastYear": 1908,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150507",
+   "personId": 150507,
+   "displayName": "Thomas Montague",
+   "aliases": [
+    "Thomas Montague"
+   ],
+   "matchKeys": [
+    "thomas montague"
+   ],
+   "sourceIds": [
+    "Thomas Montague|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1899,
+   "lastYear": 1911,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150509",
+   "personId": 150509,
+   "displayName": "William John Jones",
+   "aliases": [
+    "William John Jones"
+   ],
+   "matchKeys": [
+    "william john jones"
+   ],
+   "sourceIds": [
+    "William John Jones|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1899,
+   "lastYear": 1908,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150510",
+   "personId": 150510,
+   "displayName": "James M'Dermott",
+   "aliases": [
+    "James M'Dermott"
+   ],
+   "matchKeys": [
+    "james m dermott"
+   ],
+   "sourceIds": [
+    "James M'Dermott|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1899,
+   "lastYear": 1908,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150516",
+   "personId": 150516,
+   "displayName": "Crozier Fleming Moffit",
+   "aliases": [
+    "Crozier Fleming Moffit"
+   ],
+   "matchKeys": [
+    "crozier fleming moffit"
+   ],
+   "sourceIds": [
+    "Crozier Fleming Moffit|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1902,
+   "lastYear": 1908,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150520",
+   "personId": 150520,
+   "displayName": "Edward Owens",
+   "aliases": [
+    "Edward Owens"
+   ],
+   "matchKeys": [
+    "edward owens"
+   ],
+   "sourceIds": [
+    "Edward Owens|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1905,
+   "lastYear": 1911,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150522",
+   "personId": 150522,
+   "displayName": "Joseph Lynch",
+   "aliases": [
+    "Joseph Lynch"
+   ],
+   "matchKeys": [
+    "joseph lynch"
+   ],
+   "sourceIds": [
+    "Joseph Lynch|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1899,
+   "lastYear": 1905,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150523",
+   "personId": 150523,
+   "displayName": "Joseph Smith",
+   "aliases": [
+    "Joseph Smith"
+   ],
+   "matchKeys": [
+    "joseph smith"
+   ],
+   "sourceIds": [
+    "Joseph Smith|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1902,
+   "lastYear": 1911,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150525",
+   "personId": 150525,
+   "displayName": "Patrick Hackett",
+   "aliases": [
+    "Patrick Hackett"
+   ],
+   "matchKeys": [
+    "patrick hackett"
+   ],
+   "sourceIds": [
+    "Patrick Hackett|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1905,
+   "lastYear": 1911,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150526",
+   "personId": 150526,
+   "displayName": "Peter Lamb",
+   "aliases": [
+    "Peter Lamb"
+   ],
+   "matchKeys": [
+    "peter lamb"
+   ],
+   "sourceIds": [
+    "Peter Lamb|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1899,
+   "lastYear": 1905,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150530",
+   "personId": 150530,
+   "displayName": "Thomas Barnett",
+   "aliases": [
+    "Thomas Barnett"
+   ],
+   "matchKeys": [
+    "thomas barnett"
+   ],
+   "sourceIds": [
+    "Thomas Barnett|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1899,
+   "lastYear": 1905,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150535",
+   "personId": 150535,
+   "displayName": "William Ritchie",
+   "aliases": [
+    "William Ritchie"
+   ],
+   "matchKeys": [
+    "william ritchie"
+   ],
+   "sourceIds": [
+    "William Ritchie|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1899,
+   "lastYear": 1905,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150536",
+   "personId": 150536,
+   "displayName": "Patrick M'Cann",
+   "aliases": [
+    "Patrick M'Cann"
+   ],
+   "matchKeys": [
+    "patrick m cann"
+   ],
+   "sourceIds": [
+    "Patrick M'Cann|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1908,
+   "lastYear": 1911,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150537",
+   "personId": 150537,
+   "displayName": "Peter M'Girr",
+   "aliases": [
+    "Peter M'Girr"
+   ],
+   "matchKeys": [
+    "peter m girr"
+   ],
+   "sourceIds": [
+    "Peter M'Girr|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1899,
+   "lastYear": 1905,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150539",
+   "personId": 150539,
+   "displayName": "Adam Patterson",
+   "aliases": [
+    "Adam Patterson"
+   ],
+   "matchKeys": [
+    "adam patterson"
+   ],
+   "sourceIds": [
+    "Adam Patterson|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1899,
+   "lastYear": 1902,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150540",
+   "personId": 150540,
+   "displayName": "Allen Owens",
+   "aliases": [
+    "Allen Owens"
+   ],
+   "matchKeys": [
+    "allen owens"
+   ],
+   "sourceIds": [
+    "Allen Owens|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1905,
+   "lastYear": 1908,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150541",
+   "personId": 150541,
+   "displayName": "Andrew James Richardson",
+   "aliases": [
+    "Andrew James Richardson"
+   ],
+   "matchKeys": [
+    "andrew james richardson"
+   ],
+   "sourceIds": [
+    "Andrew James Richardson|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1899,
+   "lastYear": 1905,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150545",
+   "personId": 150545,
+   "displayName": "James Anguish",
+   "aliases": [
+    "James Anguish"
+   ],
+   "matchKeys": [
+    "james anguish"
+   ],
+   "sourceIds": [
+    "James Anguish|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1908,
+   "lastYear": 1911,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150546",
+   "personId": 150546,
+   "displayName": "James Kerr Anketell",
+   "aliases": [
+    "James Kerr Anketell"
+   ],
+   "matchKeys": [
+    "james kerr anketell"
+   ],
+   "sourceIds": [
+    "James Kerr Anketell|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1899,
+   "lastYear": 1902,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150547",
+   "personId": 150547,
+   "displayName": "James Trimble",
+   "aliases": [
+    "James Trimble"
+   ],
+   "matchKeys": [
+    "james trimble"
+   ],
+   "sourceIds": [
+    "James Trimble|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1908,
+   "lastYear": 1911,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150548",
+   "personId": 150548,
+   "displayName": "John Ferrall-Carmichael",
+   "aliases": [
+    "John Ferrall-Carmichael"
+   ],
+   "matchKeys": [
+    "john ferrall carmichael"
+   ],
+   "sourceIds": [
+    "John Ferrall-Carmichael|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 2,
+   "contests": 1,
+   "firstYear": 1902,
+   "lastYear": 1902,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150553",
+   "personId": 150553,
+   "displayName": "Matthew James Fiddes",
+   "aliases": [
+    "Matthew James Fiddes"
+   ],
+   "matchKeys": [
+    "matthew james fiddes"
+   ],
+   "sourceIds": [
+    "Matthew James Fiddes|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1902,
+   "lastYear": 1905,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150556",
+   "personId": 150556,
+   "displayName": "Samuel Irwin Stewart",
+   "aliases": [
+    "Samuel Irwin Stewart"
+   ],
+   "matchKeys": [
+    "samuel irwin stewart"
+   ],
+   "sourceIds": [
+    "Samuel Irwin Stewart|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1908,
+   "lastYear": 1911,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150557",
+   "personId": 150557,
+   "displayName": "Samuel Richey",
+   "aliases": [
+    "Samuel Richey"
+   ],
+   "matchKeys": [
+    "samuel richey"
+   ],
+   "sourceIds": [
+    "Samuel Richey|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1899,
+   "lastYear": 1902,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150562",
+   "personId": 150562,
+   "displayName": "Thomas Armstrong",
+   "aliases": [
+    "Thomas Armstrong"
+   ],
+   "matchKeys": [
+    "thomas armstrong"
+   ],
+   "sourceIds": [
+    "Thomas Armstrong|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1902,
+   "lastYear": 1905,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150563",
+   "personId": 150563,
+   "displayName": "Thomas Droogan",
+   "aliases": [
+    "Thomas Droogan"
+   ],
+   "matchKeys": [
+    "thomas droogan"
+   ],
+   "sourceIds": [
+    "Thomas Droogan|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1908,
+   "lastYear": 1911,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150569",
+   "personId": 150569,
+   "displayName": "William Mallon",
+   "aliases": [
+    "William Mallon"
+   ],
+   "matchKeys": [
+    "william mallon"
+   ],
+   "sourceIds": [
+    "William Mallon|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1905,
+   "lastYear": 1908,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150570",
+   "personId": 150570,
+   "displayName": "William Rea",
+   "aliases": [
+    "William Rea"
+   ],
+   "matchKeys": [
+    "william rea"
+   ],
+   "sourceIds": [
+    "William Rea|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1908,
+   "lastYear": 1911,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150572",
+   "personId": 150572,
+   "displayName": "Andrew M'Auley",
+   "aliases": [
+    "Andrew M'Auley"
+   ],
+   "matchKeys": [
+    "andrew m auley"
+   ],
+   "sourceIds": [
+    "Andrew M'Auley|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
    "candidacies": 1,
    "contests": 1,
-   "firstYear": 2007,
-   "lastYear": 2007,
+   "firstYear": 1920,
+   "lastYear": 1920,
    "bodies": [
-    "local-government"
+    "antrim-county-council"
    ],
-   "parties": [
-    "Sinn Féin"
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150573",
+   "personId": 150573,
+   "displayName": "Daniel M'Alister",
+   "aliases": [
+    "Daniel M'Alister"
    ],
+   "matchKeys": [
+    "daniel m alister"
+   ],
+   "sourceIds": [
+    "Daniel M'Alister|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1920,
+   "lastYear": 1920,
+   "bodies": [
+    "antrim-county-council"
+   ],
+   "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
@@ -1079181,53 +1080280,24 @@
   {
    "id": "p150574",
    "personId": 150574,
-   "displayName": "Damien John Sweeney",
+   "displayName": "Daniel M'Gonnell",
    "aliases": [
-    "Damien John Sweeney"
+    "Daniel M'Gonnell"
    ],
    "matchKeys": [
-    "damien john sweeney"
+    "daniel m gonnell"
    ],
    "sourceIds": [
-    "T1769421682"
+    "Daniel M'Gonnell|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
    "candidacies": 1,
    "contests": 1,
-   "firstYear": 1991,
-   "lastYear": 1991,
+   "firstYear": 1899,
+   "lastYear": 1899,
    "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "SDLP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p150575",
-   "personId": 150575,
-   "displayName": "Timothy William Morrow",
-   "aliases": [
-    "Timothy William Morrow"
-   ],
-   "matchKeys": [
-    "timothy william morrow"
-   ],
-   "sourceIds": [
-    "T1785009136"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1987,
-   "lastYear": 1987,
-   "bodies": [
-    "local-government"
+    "clogher-rural-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
@@ -1079235,82 +1080305,26 @@
    "provisional": true
   },
   {
-   "id": "p150576",
-   "personId": 150576,
-   "displayName": "Margaret S Mathews",
+   "id": "p150579",
+   "personId": 150579,
+   "displayName": "J. Stouppe F. M'Cance",
    "aliases": [
-    "Margaret S Mathews"
+    "J. Stouppe F. M'Cance"
    ],
    "matchKeys": [
-    "margaret s mathews"
+    "j stouppe f m cance"
    ],
    "sourceIds": [
-    "T1836552768"
+    "J. Stouppe F. M'Cance|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
    "candidacies": 1,
    "contests": 1,
-   "firstYear": 2004,
-   "lastYear": 2004,
+   "firstYear": 1920,
+   "lastYear": 1920,
    "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "Alliance"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p150577",
-   "personId": 150577,
-   "displayName": "Jim Lynch",
-   "aliases": [
-    "Jim Lynch"
-   ],
-   "matchKeys": [
-    "jim lynch"
-   ],
-   "sourceIds": [
-    "T1867956213"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1990,
-   "lastYear": 1990,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p150578",
-   "personId": 150578,
-   "displayName": "Cathy Kettyles",
-   "aliases": [
-    "Cathy Kettyles"
-   ],
-   "matchKeys": [
-    "cathy kettyles"
-   ],
-   "sourceIds": [
-    "T1884844985"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1990,
-   "lastYear": 1990,
-   "bodies": [
-    "local-government"
+    "antrim-county-council"
    ],
    "parties": [],
    "keyedBy": "id",
@@ -1079320,56 +1080334,53 @@
   {
    "id": "p150580",
    "personId": 150580,
-   "displayName": "Scott",
+   "displayName": "James M'Caughey",
    "aliases": [
-    "Scott"
+    "James M'Caughey"
    ],
    "matchKeys": [
-    "scott"
+    "james m caughey"
    ],
    "sourceIds": [
-    "T2221129382"
+    "James M'Caughey|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
    "candidacies": 1,
    "contests": 1,
-   "firstYear": 1988,
-   "lastYear": 1988,
+   "firstYear": 1902,
+   "lastYear": 1902,
    "bodies": [
-    "local-government"
+    "clogher-rural-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "provisional": true
   },
   {
    "id": "p150581",
    "personId": 150581,
-   "displayName": "Henry Joseph McFadden",
+   "displayName": "James M'Larin",
    "aliases": [
-    "Henry Joseph McFadden"
+    "James M'Larin"
    ],
    "matchKeys": [
-    "henry joseph mcfadden"
+    "james m larin"
    ],
    "sourceIds": [
-    "T2376203222"
+    "James M'Larin|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
    "candidacies": 1,
    "contests": 1,
-   "firstYear": 1991,
-   "lastYear": 1991,
+   "firstYear": 1911,
+   "lastYear": 1911,
    "bodies": [
-    "local-government"
+    "clogher-rural-district-council"
    ],
-   "parties": [
-    "Independent"
-   ],
+   "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
@@ -1079377,114 +1080388,59 @@
   {
    "id": "p150582",
    "personId": 150582,
-   "displayName": "Edward Ronnie Hales",
+   "displayName": "John M'Kenna",
    "aliases": [
-    "Edward Ronnie Hales"
+    "John M'Kenna"
    ],
    "matchKeys": [
-    "edward ronnie hales"
+    "john m kenna"
    ],
    "sourceIds": [
-    "T2402696506"
+    "John M'Kenna|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
    "candidacies": 1,
    "contests": 1,
-   "firstYear": 1987,
-   "lastYear": 1987,
+   "firstYear": 1899,
+   "lastYear": 1899,
    "bodies": [
-    "local-government"
+    "clogher-rural-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "era": [
+    1899,
+    1899
+   ],
+   "eraReason": "split from a career spanning more than 60 years at a gap of 25 or more; the same id continues in the other era",
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p150583",
    "personId": 150583,
-   "displayName": "William Gardiner Watson",
+   "displayName": "John M'Larin",
    "aliases": [
-    "William Gardiner Watson"
+    "John M'Larin"
    ],
    "matchKeys": [
-    "william gardiner watson"
+    "john m larin"
    ],
    "sourceIds": [
-    "T2444268214"
+    "John M'Larin|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
    "candidacies": 1,
    "contests": 1,
-   "firstYear": 1985,
-   "lastYear": 1985,
+   "firstYear": 1911,
+   "lastYear": 1911,
    "bodies": [
-    "local-government"
+    "clogher-rural-district-council"
    ],
-   "parties": [
-    "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p150584",
-   "personId": 150584,
-   "displayName": "Cliodhna Rae",
-   "aliases": [
-    "Cliodhna Rae"
-   ],
-   "matchKeys": [
-    "cliodhna rae"
-   ],
-   "sourceIds": [
-    "T2459099292"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 2006,
-   "lastYear": 2006,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "SDLP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p150585",
-   "personId": 150585,
-   "displayName": "Anthony Quinn",
-   "aliases": [
-    "Anthony Quinn"
-   ],
-   "matchKeys": [
-    "anthony quinn"
-   ],
-   "sourceIds": [
-    "T2474219561"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1990,
-   "lastYear": 1990,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "Workers Party"
-   ],
+   "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
@@ -1079492,111 +1080448,24 @@
   {
    "id": "p150586",
    "personId": 150586,
-   "displayName": "David Gordon Harte",
+   "displayName": "Owen M'Elmeel",
    "aliases": [
-    "David Gordon Harte"
+    "Owen M'Elmeel"
    ],
    "matchKeys": [
-    "david gordon harte"
+    "owen m elmeel"
    ],
    "sourceIds": [
-    "T2630896920"
+    "Owen M'Elmeel|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
    "candidacies": 1,
    "contests": 1,
-   "firstYear": 1989,
-   "lastYear": 1989,
+   "firstYear": 1905,
+   "lastYear": 1905,
    "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "Conservative"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p150587",
-   "personId": 150587,
-   "displayName": "J. A. McCafferty",
-   "aliases": [
-    "J. A. McCafferty"
-   ],
-   "matchKeys": [
-    "j a mccafferty"
-   ],
-   "sourceIds": [
-    "T2780726757"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1986,
-   "lastYear": 1986,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "Sinn Féin"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p150588",
-   "personId": 150588,
-   "displayName": "B. McMullan",
-   "aliases": [
-    "B. McMullan"
-   ],
-   "matchKeys": [
-    "b mcmullan"
-   ],
-   "sourceIds": [
-    "T2824396069"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1986,
-   "lastYear": 1986,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "Sinn Féin"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p150589",
-   "personId": 150589,
-   "displayName": "P. Muldowney",
-   "aliases": [
-    "P. Muldowney"
-   ],
-   "matchKeys": [
-    "p muldowney"
-   ],
-   "sourceIds": [
-    "T2826453323"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1993,
-   "lastYear": 1993,
-   "bodies": [
-    "local-government"
+    "clogher-rural-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
@@ -1079604,26 +1080473,108 @@
    "provisional": true
   },
   {
-   "id": "p150590",
-   "personId": 150590,
-   "displayName": "Annie Mary Dobbin",
+   "id": "p150587",
+   "personId": 150587,
+   "displayName": "Owen M'Kenna",
    "aliases": [
-    "Annie Mary Dobbin"
+    "Owen M'Kenna"
    ],
    "matchKeys": [
-    "annie mary dobbin"
+    "owen m kenna"
    ],
    "sourceIds": [
-    "T2869317380"
+    "Owen M'Kenna|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
    "candidacies": 1,
    "contests": 1,
-   "firstYear": 1991,
-   "lastYear": 1991,
+   "firstYear": 1902,
+   "lastYear": 1902,
    "bodies": [
-    "local-government"
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150588",
+   "personId": 150588,
+   "displayName": "Patrick Henry M'Carron",
+   "aliases": [
+    "Patrick Henry M'Carron"
+   ],
+   "matchKeys": [
+    "patrick henry m carron"
+   ],
+   "sourceIds": [
+    "Patrick Henry M'Carron|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1899,
+   "lastYear": 1899,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150589",
+   "personId": 150589,
+   "displayName": "Patrick M'Caughey",
+   "aliases": [
+    "Patrick M'Caughey"
+   ],
+   "matchKeys": [
+    "patrick m caughey"
+   ],
+   "sourceIds": [
+    "Patrick M'Caughey|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1899,
+   "lastYear": 1899,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150590",
+   "personId": 150590,
+   "displayName": "Robert M'Mullan",
+   "aliases": [
+    "Robert M'Mullan"
+   ],
+   "matchKeys": [
+    "robert m mullan"
+   ],
+   "sourceIds": [
+    "Robert M'Mullan|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1920,
+   "lastYear": 1920,
+   "bodies": [
+    "antrim-county-council"
    ],
    "parties": [],
    "keyedBy": "id",
@@ -1079633,256 +1080584,52 @@
   {
    "id": "p150591",
    "personId": 150591,
-   "displayName": "Charles George Balmer",
+   "displayName": "Thomas M'Dowell",
    "aliases": [
-    "Charles George Balmer"
+    "Thomas M'Dowell"
    ],
    "matchKeys": [
-    "charles george balmer"
+    "thomas m dowell"
    ],
    "sourceIds": [
-    "T3113273584"
+    "Thomas M'Dowell|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
    "candidacies": 1,
    "contests": 1,
-   "firstYear": 1991,
-   "lastYear": 1991,
+   "firstYear": 1911,
+   "lastYear": 1911,
    "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "Conservative"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p150592",
-   "personId": 150592,
-   "displayName": "Louise Marsden",
-   "aliases": [
-    "Louise Marsden"
-   ],
-   "matchKeys": [
-    "louise marsden"
-   ],
-   "sourceIds": [
-    "T311544083"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 2004,
-   "lastYear": 2004,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "DUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p150593",
-   "personId": 150593,
-   "displayName": "John McDowell",
-   "aliases": [
-    "John McDowell"
-   ],
-   "matchKeys": [
-    "john mcdowell"
-   ],
-   "sourceIds": [
-    "T3307651941"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1991,
-   "lastYear": 1991,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "Green / Ecology"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p150594",
-   "personId": 150594,
-   "displayName": "William James Kelso",
-   "aliases": [
-    "William James Kelso"
-   ],
-   "matchKeys": [
-    "william james kelso"
-   ],
-   "sourceIds": [
-    "T3315076422"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1994,
-   "lastYear": 1994,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p150595",
-   "personId": 150595,
-   "displayName": "McCullough",
-   "aliases": [
-    "McCullough"
-   ],
-   "matchKeys": [
-    "mccullough"
-   ],
-   "sourceIds": [
-    "T3394152129"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1985,
-   "lastYear": 1985,
-   "bodies": [
-    "local-government"
+    "clogher-rural-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p150596",
-   "personId": 150596,
-   "displayName": "Sean Caughey",
-   "aliases": [
-    "Sean Caughey"
-   ],
-   "matchKeys": [
-    "sean caughey"
-   ],
-   "sourceIds": [
-    "T3429159942"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 2002,
-   "lastYear": 2002,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "Sinn Féin"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p150597",
-   "personId": 150597,
-   "displayName": "John Paul Lynn",
-   "aliases": [
-    "John Paul Lynn"
-   ],
-   "matchKeys": [
-    "john paul lynn"
-   ],
-   "sourceIds": [
-    "T3442980938"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1995,
-   "lastYear": 1995,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "Workers Party"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p150598",
    "personId": 150598,
-   "displayName": "Jack McClay",
+   "displayName": "Alexander Hardy",
    "aliases": [
-    "Jack McClay"
+    "Alexander Hardy"
    ],
    "matchKeys": [
-    "jack mcclay"
+    "alexander hardy"
    ],
    "sourceIds": [
-    "T3489868423"
+    "Alexander Hardy|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
    "candidacies": 1,
    "contests": 1,
-   "firstYear": 2002,
-   "lastYear": 2002,
+   "firstYear": 1911,
+   "lastYear": 1911,
    "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "DUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p150600",
-   "personId": 150600,
-   "displayName": "McIlroy",
-   "aliases": [
-    "McIlroy"
-   ],
-   "matchKeys": [
-    "mcilroy"
-   ],
-   "sourceIds": [
-    "T3547680073"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1986,
-   "lastYear": 1986,
-   "bodies": [
-    "local-government"
+    "clogher-rural-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
@@ -1079890,30 +1080637,28 @@
    "provisional": true
   },
   {
-   "id": "p150601",
-   "personId": 150601,
-   "displayName": "McCaffrey",
+   "id": "p150599",
+   "personId": 150599,
+   "displayName": "Alexander Woods",
    "aliases": [
-    "McCaffrey"
+    "Alexander Woods"
    ],
    "matchKeys": [
-    "mccaffrey"
+    "alexander woods"
    ],
    "sourceIds": [
-    "T355291997"
+    "Alexander Woods|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
    "candidacies": 1,
    "contests": 1,
-   "firstYear": 1986,
-   "lastYear": 1986,
+   "firstYear": 1905,
+   "lastYear": 1905,
    "bodies": [
-    "local-government"
+    "clogher-rural-district-council"
    ],
-   "parties": [
-    "Sinn Féin"
-   ],
+   "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
@@ -1079921,28 +1080666,26 @@
   {
    "id": "p150602",
    "personId": 150602,
-   "displayName": "Brady",
+   "displayName": "Andrew Rafferty",
    "aliases": [
-    "Brady"
+    "Andrew Rafferty"
    ],
    "matchKeys": [
-    "brady"
+    "andrew rafferty"
    ],
    "sourceIds": [
-    "T3604987281"
+    "Andrew Rafferty|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
    "candidacies": 1,
    "contests": 1,
-   "firstYear": 2000,
-   "lastYear": 2000,
+   "firstYear": 1899,
+   "lastYear": 1899,
    "bodies": [
-    "local-government"
+    "clogher-rural-district-council"
    ],
-   "parties": [
-    "Independent"
-   ],
+   "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
@@ -1079950,24 +1080693,24 @@
   {
    "id": "p150603",
    "personId": 150603,
-   "displayName": "Patrick Lillis",
+   "displayName": "Archibald Hadden",
    "aliases": [
-    "Patrick Lillis"
+    "Archibald Hadden"
    ],
    "matchKeys": [
-    "patrick lillis"
+    "archibald hadden"
    ],
    "sourceIds": [
-    "T3656073814"
+    "Archibald Hadden|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
    "candidacies": 1,
    "contests": 1,
-   "firstYear": 1987,
-   "lastYear": 1987,
+   "firstYear": 1911,
+   "lastYear": 1911,
    "bodies": [
-    "local-government"
+    "clogher-rural-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
@@ -1079977,28 +1080720,26 @@
   {
    "id": "p150604",
    "personId": 150604,
-   "displayName": "Black",
+   "displayName": "Bernard Donnelly",
    "aliases": [
-    "Black"
+    "Bernard Donnelly"
    ],
    "matchKeys": [
-    "black"
+    "bernard donnelly"
    ],
    "sourceIds": [
-    "T3672210098"
+    "Bernard Donnelly|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
    "candidacies": 1,
    "contests": 1,
-   "firstYear": 2000,
-   "lastYear": 2000,
+   "firstYear": 1911,
+   "lastYear": 1911,
    "bodies": [
-    "local-government"
+    "clogher-rural-district-council"
    ],
-   "parties": [
-    "DUP"
-   ],
+   "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
@@ -1080006,114 +1080747,26 @@
   {
    "id": "p150605",
    "personId": 150605,
-   "displayName": "John Hartin",
+   "displayName": "Charles Frederick Moutray",
    "aliases": [
-    "John Hartin"
+    "Charles Frederick Moutray"
    ],
    "matchKeys": [
-    "john hartin"
+    "charles frederick moutray"
    ],
    "sourceIds": [
-    "T3898976061"
+    "Charles Frederick Moutray|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
    "candidacies": 1,
    "contests": 1,
-   "firstYear": 1995,
-   "lastYear": 1995,
+   "firstYear": 1899,
+   "lastYear": 1899,
    "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "Independent"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p150606",
-   "personId": 150606,
-   "displayName": "James Devlin",
-   "aliases": [
-    "James Devlin"
-   ],
-   "matchKeys": [
-    "james devlin"
-   ],
-   "sourceIds": [
-    "T3913525309"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1986,
-   "lastYear": 1986,
-   "bodies": [
-    "local-government"
+    "clogher-rural-district-council"
    ],
    "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p150607",
-   "personId": 150607,
-   "displayName": "Margaret Finlay",
-   "aliases": [
-    "Margaret Finlay"
-   ],
-   "matchKeys": [
-    "margaret finlay"
-   ],
-   "sourceIds": [
-    "T3980732650"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1995,
-   "lastYear": 1995,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "Alliance"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p150608",
-   "personId": 150608,
-   "displayName": "Joy Wilkes",
-   "aliases": [
-    "Joy Wilkes"
-   ],
-   "matchKeys": [
-    "joy wilkes"
-   ],
-   "sourceIds": [
-    "T4028163462"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1989,
-   "lastYear": 1989,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "Alliance"
-   ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
@@ -1080121,83 +1080774,24 @@
   {
    "id": "p150610",
    "personId": 150610,
-   "displayName": "Johnston",
+   "displayName": "Crozier Fleming Moffitt",
    "aliases": [
-    "Johnston"
+    "Crozier Fleming Moffitt"
    ],
    "matchKeys": [
-    "johnston"
+    "crozier fleming moffitt"
    ],
    "sourceIds": [
-    "T41958630"
+    "Crozier Fleming Moffitt|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
    "candidacies": 1,
    "contests": 1,
-   "firstYear": 1986,
-   "lastYear": 1986,
+   "firstYear": 1899,
+   "lastYear": 1899,
    "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p150611",
-   "personId": 150611,
-   "displayName": "Nigel Peter Hamilton",
-   "aliases": [
-    "Nigel Peter Hamilton"
-   ],
-   "matchKeys": [
-    "nigel peter hamilton"
-   ],
-   "sourceIds": [
-    "T4252518066"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1986,
-   "lastYear": 1986,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "DUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p150612",
-   "personId": 150612,
-   "displayName": "William John McCormick",
-   "aliases": [
-    "William John McCormick"
-   ],
-   "matchKeys": [
-    "william john mccormick"
-   ],
-   "sourceIds": [
-    "T456239248"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1990,
-   "lastYear": 1990,
-   "bodies": [
-    "local-government"
+    "clogher-rural-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
@@ -1080205,60 +1080799,28 @@
    "provisional": true
   },
   {
-   "id": "p150613",
-   "personId": 150613,
-   "displayName": "Pauline Davey-Kennedy",
-   "aliases": [
-    "Pauline Davey-Kennedy"
-   ],
-   "matchKeys": [
-    "pauline davey kennedy"
-   ],
-   "sourceIds": [
-    "T519055093"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 2000,
-   "lastYear": 2000,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "Sinn Féin"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p150614",
    "personId": 150614,
-   "displayName": "Kim Wiles Patrick Boyd",
+   "displayName": "Edward Coey",
    "aliases": [
-    "Kim Wiles Patrick Boyd"
+    "Edward Coey"
    ],
    "matchKeys": [
-    "kim wiles patrick boyd"
+    "edward coey"
    ],
    "sourceIds": [
-    "T534367857"
+    "Edward Coey|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
    "candidacies": 1,
    "contests": 1,
-   "firstYear": 1991,
-   "lastYear": 1991,
+   "firstYear": 1920,
+   "lastYear": 1920,
    "bodies": [
-    "local-government"
+    "antrim-county-council"
    ],
-   "parties": [
-    "Green / Ecology"
-   ],
+   "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
@@ -1080266,28 +1080828,26 @@
   {
    "id": "p150615",
    "personId": 150615,
-   "displayName": "Latimer",
+   "displayName": "Ellen Jane Gribben",
    "aliases": [
-    "Latimer"
+    "Ellen Jane Gribben"
    ],
    "matchKeys": [
-    "latimer"
+    "ellen jane gribben"
    ],
    "sourceIds": [
-    "T64313"
+    "Ellen Jane Gribben|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
    "candidacies": 1,
    "contests": 1,
-   "firstYear": 2000,
-   "lastYear": 2000,
+   "firstYear": 1920,
+   "lastYear": 1920,
    "bodies": [
-    "local-government"
+    "antrim-county-council"
    ],
-   "parties": [
-    "UUP"
-   ],
+   "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
@@ -1080295,24 +1080855,24 @@
   {
    "id": "p150616",
    "personId": 150616,
-   "displayName": "Kirkham",
+   "displayName": "Francis Peter Gervais",
    "aliases": [
-    "Kirkham"
+    "Francis Peter Gervais"
    ],
    "matchKeys": [
-    "kirkham"
+    "francis peter gervais"
    ],
    "sourceIds": [
-    "T673023634"
+    "Francis Peter Gervais|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
    "candidacies": 1,
    "contests": 1,
-   "firstYear": 1988,
-   "lastYear": 1988,
+   "firstYear": 1902,
+   "lastYear": 1902,
    "bodies": [
-    "local-government"
+    "clogher-rural-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
@@ -1080322,24 +1080882,24 @@
   {
    "id": "p150617",
    "personId": 150617,
-   "displayName": "Christie",
+   "displayName": "George Mills",
    "aliases": [
-    "Christie"
+    "George Mills"
    ],
    "matchKeys": [
-    "christie"
+    "george mills"
    ],
    "sourceIds": [
-    "T77763505"
+    "George Mills|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
    "candidacies": 1,
    "contests": 1,
-   "firstYear": 1988,
-   "lastYear": 1988,
+   "firstYear": 1899,
+   "lastYear": 1899,
    "bodies": [
-    "local-government"
+    "clogher-rural-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
@@ -1080349,61 +1080909,1019 @@
   {
    "id": "p150618",
    "personId": 150618,
-   "displayName": "Martin Cullen",
+   "displayName": "George Moore Irwin",
    "aliases": [
-    "Martin Cullen"
+    "George Moore Irwin"
    ],
    "matchKeys": [
-    "martin cullen"
+    "george moore irwin"
    ],
    "sourceIds": [
-    "T881848711"
+    "George Moore Irwin|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
    "candidacies": 1,
    "contests": 1,
-   "firstYear": 1992,
-   "lastYear": 1992,
+   "firstYear": 1899,
+   "lastYear": 1899,
    "bodies": [
-    "local-government"
+    "clogher-rural-district-council"
    ],
-   "parties": [
-    "Independent"
-   ],
+   "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
   },
   {
-   "id": "p150619",
-   "personId": 150619,
-   "displayName": "Samuel Wilson",
+   "id": "p150621",
+   "personId": 150621,
+   "displayName": "H. de F. Montgomery",
    "aliases": [
-    "Samuel Wilson"
+    "H. de F. Montgomery"
    ],
    "matchKeys": [
-    "samuel wilson"
+    "h de f montgomery"
    ],
    "sourceIds": [
-    "T892639574"
+    "H. de F. Montgomery|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
    "candidacies": 1,
    "contests": 1,
-   "firstYear": 1991,
-   "lastYear": 1991,
+   "firstYear": 1902,
+   "lastYear": 1902,
    "bodies": [
-    "local-government"
+    "clogher-rural-district-council"
    ],
-   "parties": [
-    "UUP"
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150622",
+   "personId": 150622,
+   "displayName": "Henry Laverty",
+   "aliases": [
+    "Henry Laverty"
    ],
+   "matchKeys": [
+    "henry laverty"
+   ],
+   "sourceIds": [
+    "Henry Laverty|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1920,
+   "lastYear": 1920,
+   "bodies": [
+    "antrim-county-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150623",
+   "personId": 150623,
+   "displayName": "Hugh Burton",
+   "aliases": [
+    "Hugh Burton"
+   ],
+   "matchKeys": [
+    "hugh burton"
+   ],
+   "sourceIds": [
+    "Hugh Burton|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1902,
+   "lastYear": 1902,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150624",
+   "personId": 150624,
+   "displayName": "Hugh Elkin",
+   "aliases": [
+    "Hugh Elkin"
+   ],
+   "matchKeys": [
+    "hugh elkin"
+   ],
+   "sourceIds": [
+    "Hugh Elkin|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1911,
+   "lastYear": 1911,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150631",
+   "personId": 150631,
+   "displayName": "J. A. Montgomery",
+   "aliases": [
+    "J. A. Montgomery"
+   ],
+   "matchKeys": [
+    "j a montgomery"
+   ],
+   "sourceIds": [
+    "J. A. Montgomery|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1920,
+   "lastYear": 1920,
+   "bodies": [
+    "antrim-county-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150632",
+   "personId": 150632,
+   "displayName": "J. C. Fiddes",
+   "aliases": [
+    "J. C. Fiddes"
+   ],
+   "matchKeys": [
+    "j c fiddes"
+   ],
+   "sourceIds": [
+    "J. C. Fiddes|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1908,
+   "lastYear": 1908,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150633",
+   "personId": 150633,
+   "displayName": "James Bingham",
+   "aliases": [
+    "James Bingham"
+   ],
+   "matchKeys": [
+    "james bingham"
+   ],
+   "sourceIds": [
+    "James Bingham|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1908,
+   "lastYear": 1908,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150634",
+   "personId": 150634,
+   "displayName": "James D. Caruth",
+   "aliases": [
+    "James D. Caruth"
+   ],
+   "matchKeys": [
+    "james d caruth"
+   ],
+   "sourceIds": [
+    "James D. Caruth|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1920,
+   "lastYear": 1920,
+   "bodies": [
+    "antrim-county-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150635",
+   "personId": 150635,
+   "displayName": "John Carmichael Ferral",
+   "aliases": [
+    "John Carmichael Ferral"
+   ],
+   "matchKeys": [
+    "john carmichael ferral"
+   ],
+   "sourceIds": [
+    "John Carmichael Ferral|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1899,
+   "lastYear": 1899,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150636",
+   "personId": 150636,
+   "displayName": "John Caulfield Fiddes",
+   "aliases": [
+    "John Caulfield Fiddes"
+   ],
+   "matchKeys": [
+    "john caulfield fiddes"
+   ],
+   "sourceIds": [
+    "John Caulfield Fiddes|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1911,
+   "lastYear": 1911,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150637",
+   "personId": 150637,
+   "displayName": "John Montague",
+   "aliases": [
+    "John Montague"
+   ],
+   "matchKeys": [
+    "john montague"
+   ],
+   "sourceIds": [
+    "John Montague|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1911,
+   "lastYear": 1911,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150638",
+   "personId": 150638,
+   "displayName": "John Murdock",
+   "aliases": [
+    "John Murdock"
+   ],
+   "matchKeys": [
+    "john murdock"
+   ],
+   "sourceIds": [
+    "John Murdock|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1899,
+   "lastYear": 1899,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150639",
+   "personId": 150639,
+   "displayName": "John Rea",
+   "aliases": [
+    "John Rea"
+   ],
+   "matchKeys": [
+    "john rea"
+   ],
+   "sourceIds": [
+    "John Rea|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1908,
+   "lastYear": 1908,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150640",
+   "personId": 150640,
+   "displayName": "Joseph Smyth",
+   "aliases": [
+    "Joseph Smyth"
+   ],
+   "matchKeys": [
+    "joseph smyth"
+   ],
+   "sourceIds": [
+    "Joseph Smyth|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1899,
+   "lastYear": 1899,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "era": [
+    1899,
+    1899
+   ],
+   "eraReason": "split from a career spanning more than 60 years at a gap of 25 or more; the same id continues in the other era",
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150641",
+   "personId": 150641,
+   "displayName": "Knox-Browne",
+   "aliases": [
+    "Knox-Browne"
+   ],
+   "matchKeys": [
+    "knox browne"
+   ],
+   "sourceIds": [
+    "Knox-Browne|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1902,
+   "lastYear": 1902,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150643",
+   "personId": 150643,
+   "displayName": "Manasses P. Cullinan",
+   "aliases": [
+    "Manasses P. Cullinan"
+   ],
+   "matchKeys": [
+    "manasses p cullinan"
+   ],
+   "sourceIds": [
+    "Manasses P. Cullinan|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1911,
+   "lastYear": 1911,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150644",
+   "personId": 150644,
+   "displayName": "Manesses P. Cullinan",
+   "aliases": [
+    "Manesses P. Cullinan"
+   ],
+   "matchKeys": [
+    "manesses p cullinan"
+   ],
+   "sourceIds": [
+    "Manesses P. Cullinan|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1908,
+   "lastYear": 1908,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150645",
+   "personId": 150645,
+   "displayName": "Mathew James Fiddes",
+   "aliases": [
+    "Mathew James Fiddes"
+   ],
+   "matchKeys": [
+    "mathew james fiddes"
+   ],
+   "sourceIds": [
+    "Mathew James Fiddes|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1899,
+   "lastYear": 1899,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150648",
+   "personId": 150648,
+   "displayName": "Nicholson Best",
+   "aliases": [
+    "Nicholson Best"
+   ],
+   "matchKeys": [
+    "nicholson best"
+   ],
+   "sourceIds": [
+    "Nicholson Best|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1920,
+   "lastYear": 1920,
+   "bodies": [
+    "antrim-county-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150651",
+   "personId": 150651,
+   "displayName": "Patrick Connolly",
+   "aliases": [
+    "Patrick Connolly"
+   ],
+   "matchKeys": [
+    "patrick connolly"
+   ],
+   "sourceIds": [
+    "Patrick Connolly|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1902,
+   "lastYear": 1902,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150652",
+   "personId": 150652,
+   "displayName": "Patrick Kearney",
+   "aliases": [
+    "Patrick Kearney"
+   ],
+   "matchKeys": [
+    "patrick kearney"
+   ],
+   "sourceIds": [
+    "Patrick Kearney|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1902,
+   "lastYear": 1902,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150653",
+   "personId": 150653,
+   "displayName": "Peter James Fanning",
+   "aliases": [
+    "Peter James Fanning"
+   ],
+   "matchKeys": [
+    "peter james fanning"
+   ],
+   "sourceIds": [
+    "Peter James Fanning|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1902,
+   "lastYear": 1902,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150654",
+   "personId": 150654,
+   "displayName": "Robert James Armstrong",
+   "aliases": [
+    "Robert James Armstrong"
+   ],
+   "matchKeys": [
+    "robert james armstrong"
+   ],
+   "sourceIds": [
+    "Robert James Armstrong|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1899,
+   "lastYear": 1899,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150655",
+   "personId": 150655,
+   "displayName": "Robert Wilson",
+   "aliases": [
+    "Robert Wilson"
+   ],
+   "matchKeys": [
+    "robert wilson"
+   ],
+   "sourceIds": [
+    "Robert Wilson|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1902,
+   "lastYear": 1902,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "era": [
+    1902,
+    1902
+   ],
+   "eraReason": "split from a career spanning more than 60 years at a gap of 25 or more; the same id continues in the other era",
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150665",
+   "personId": 150665,
+   "displayName": "Thomas Montague (Junior)",
+   "aliases": [
+    "Thomas Montague (Junior)"
+   ],
+   "matchKeys": [
+    "thomas montague junior"
+   ],
+   "sourceIds": [
+    "Thomas Montague (Junior)|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1908,
+   "lastYear": 1908,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150666",
+   "personId": 150666,
+   "displayName": "Thomas Mullin",
+   "aliases": [
+    "Thomas Mullin"
+   ],
+   "matchKeys": [
+    "thomas mullin"
+   ],
+   "sourceIds": [
+    "Thomas Mullin|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1911,
+   "lastYear": 1911,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150677",
+   "personId": 150677,
+   "displayName": "Walter Scott",
+   "aliases": [
+    "Walter Scott"
+   ],
+   "matchKeys": [
+    "walter scott"
+   ],
+   "sourceIds": [
+    "Walter Scott|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1911,
+   "lastYear": 1911,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150678",
+   "personId": 150678,
+   "displayName": "William Cowan",
+   "aliases": [
+    "William Cowan"
+   ],
+   "matchKeys": [
+    "william cowan"
+   ],
+   "sourceIds": [
+    "William Cowan|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1899,
+   "lastYear": 1899,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150679",
+   "personId": 150679,
+   "displayName": "William Curran",
+   "aliases": [
+    "William Curran"
+   ],
+   "matchKeys": [
+    "william curran"
+   ],
+   "sourceIds": [
+    "William Curran|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1899,
+   "lastYear": 1899,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150680",
+   "personId": 150680,
+   "displayName": "William Dickey",
+   "aliases": [
+    "William Dickey"
+   ],
+   "matchKeys": [
+    "william dickey"
+   ],
+   "sourceIds": [
+    "William Dickey|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1911,
+   "lastYear": 1911,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150681",
+   "personId": 150681,
+   "displayName": "William John Moore",
+   "aliases": [
+    "William John Moore"
+   ],
+   "matchKeys": [
+    "william john moore"
+   ],
+   "sourceIds": [
+    "William John Moore|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1908,
+   "lastYear": 1908,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150682",
+   "personId": 150682,
+   "displayName": "William Kilpatrick",
+   "aliases": [
+    "William Kilpatrick"
+   ],
+   "matchKeys": [
+    "william kilpatrick"
+   ],
+   "sourceIds": [
+    "William Kilpatrick|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1899,
+   "lastYear": 1899,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150683",
+   "personId": 150683,
+   "displayName": "William Kirkpatrick",
+   "aliases": [
+    "William Kirkpatrick"
+   ],
+   "matchKeys": [
+    "william kirkpatrick"
+   ],
+   "sourceIds": [
+    "William Kirkpatrick|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1902,
+   "lastYear": 1902,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150684",
+   "personId": 150684,
+   "displayName": "William Lipton",
+   "aliases": [
+    "William Lipton"
+   ],
+   "matchKeys": [
+    "william lipton"
+   ],
+   "sourceIds": [
+    "William Lipton|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1899,
+   "lastYear": 1899,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150685",
+   "personId": 150685,
+   "displayName": "William Richey",
+   "aliases": [
+    "William Richey"
+   ],
+   "matchKeys": [
+    "william richey"
+   ],
+   "sourceIds": [
+    "William Richey|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1908,
+   "lastYear": 1908,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150686",
+   "personId": 150686,
+   "displayName": "William W. Morrow",
+   "aliases": [
+    "William W. Morrow"
+   ],
+   "matchKeys": [
+    "william w morrow"
+   ],
+   "sourceIds": [
+    "William W. Morrow|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1920,
+   "lastYear": 1920,
+   "bodies": [
+    "antrim-county-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
   },
   {
    "id": "p900001",

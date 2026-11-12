@@ -7,15 +7,16 @@
 import { bodyElections, electionDetail, electionSummary } from '../lib/api.js';
 import { hbars, parliamentArc, seatBar } from '../lib/charts.js';
 import {
-  appUrl, electionSlug, esc, fmtDate, fmtDelta, fmtInt, fmtPct, isStv, median, num, partyChip, positive, summaryHasVotes, summaryUnopposed, systemName,
+  appUrl, electionSlug, esc, fmtDate, fmtDelta, fmtInt, fmtPct, isStv, median, num, positive, summaryPollStatus, systemName,
 } from '../lib/format.js';
+import { partyChip } from '../lib/party.js';
 
 /**
  * The party table rows with change against the previous election.
- * @param {Array<{ party: string, seats: number, stood: number, votes: number, share: number, colour: string }>} parties
- * @param {Array<{ party: string, seats: number, share: number, colour?: string }> | null} previous
+ * @param {Array<{ party: string, seats: number, stood: number, votes: number, share?: number | null, colour: string }>} parties
+ * @param {Array<{ party: string, seats: number, share?: number | null, colour?: string }> | null} previous
  * @param {{ votes: boolean, prevVotes: boolean }} has
- * @returns {Array<{ party: string, seats: number, stood: number, votes: number, share: number, colour: string, seatChange: number | null, shareChange: number | null, isNew: boolean, gone?: boolean }>}
+ * @returns {Array<{ party: string, seats: number, stood: number, votes: number, share?: number | null, colour: string, seatChange: number | null, shareChange: number | null, isNew: boolean, gone?: boolean }>}
  */
 export function partyRows(parties, previous, has) {
   const prev = new Map((previous || []).map((p) => [p.party, p]));
@@ -34,7 +35,7 @@ export function partyRows(parties, previous, has) {
   return [...rows, ...gone].sort((a, b) => (b.seats || 0) - (a.seats || 0) || (b.votes || 0) - (a.votes || 0));
 }
 
-/** @param {HTMLElement} root @param {{ election?: string }} route */
+/** @param {HTMLElement} root @param {import('../lib/route.js').Route} route */
 export async function render(root, route) {
   const slug = /** @type {string} */ (route.election);
   const [detail, summary] = await Promise.all([electionDetail(slug), electionSummary(slug)]);
@@ -52,8 +53,10 @@ export async function render(root, route) {
   const after = pos >= 0 && pos < sameBody.length - 1 ? sameBody[pos + 1] : null;
 
   const parties = (detail.partySummary || []).filter((p) => p.party);
-  const withVotes = results.filter(summaryHasVotes).length;
-  const unopposed = results.filter(summaryUnopposed).length;
+  // Core's one rule (packages/core/src/unopposed.mjs): polled, returned unopposed, or votes not recorded.
+  const pollOf = new Map(results.map((r) => [r, summaryPollStatus(r)]));
+  const withVotes = results.filter((r) => pollOf.get(r) === 'polled').length;
+  const unopposed = results.filter((r) => pollOf.get(r) === 'unopposed').length;
   const votes = withVotes > 0;
   const prevVotes = !!prevDetail && (num(prevDetail.totals?.validPoll) || 0) > 0;
   const rows = partyRows(parties, prevDetail ? prevDetail.partySummary || [] : null, { votes, prevVotes });
@@ -65,7 +68,7 @@ export async function render(root, route) {
   const chartParties = parties.filter((p) => p.seats > 0).map((p) => ({ party: p.party, seats: p.seats, colour: p.colour }));
   const seatChart = referendum ? '' : seats >= 30 ? parliamentArc(chartParties, { title: `${seats} seats: ${chartParties.map((p) => `${p.party} ${p.seats}`).join(', ')}` })
     : seatBar(chartParties, { title: `${seats} seats: ${chartParties.map((p) => `${p.party} ${p.seats}`).join(', ')}` });
-  const shareChart = votes && !referendum ? hbars(parties.filter((p) => p.votes > 0).sort((a, b) => b.share - a.share).slice(0, 12).map((p) => ({ label: p.party, value: Math.round(p.share * 10) / 10, colour: p.colour })),
+  const shareChart = votes && !referendum ? hbars(parties.filter((p) => p.votes > 0).sort((a, b) => (b.share ?? 0) - (a.share ?? 0)).slice(0, 12).map((p) => ({ label: p.party, value: Math.round((p.share ?? 0) * 10) / 10, colour: p.colour })),
     { title: 'Share of the vote by party', format: (v) => fmtPct(v) }) : '';
 
   const voteNote = !votes ? '<p class="el-muted">No votes are recorded for this election: every seat was returned unopposed or only the members returned are known.</p>'
@@ -78,8 +81,8 @@ export async function render(root, route) {
   const contestRows = results.map((r) => {
     const cslug = slugsByName.get(r.constituency)?.shift() || null;
     const name = cslug ? `<a href="${appUrl.contest(key, cslug)}">${esc(r.constituency)}</a>` : esc(r.constituency);
-    const un = summaryUnopposed(r);
-    const polled = summaryHasVotes(r);
+    const un = pollOf.get(r) === 'unopposed';
+    const polled = pollOf.get(r) === 'polled';
     const result = un ? `<span class="cg-badge">Returned unopposed</span> <span class="el-muted">${esc(r.winnerName || '')}</span>`
       : !polled ? `${esc(r.winnerName || '—')} <span class="el-muted">votes not recorded</span>`
       : (r.seatsTotal || 1) > 1 ? `${partyChip(r.winnerParty, colourOf.get(String(r.winnerParty)))} <span class="el-muted">most seats; top: ${esc(r.leadingName || '—')}</span>`

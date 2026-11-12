@@ -15,8 +15,8 @@ export function bodyGroup(slug) {
 }
 const GROUP_ORDER = ['Parliaments, assemblies and offices', 'Local government', 'Referendums', 'Northern Ireland councils before 1973', 'Party contests'];
 
-/** @param {HTMLElement} root @param {{ view: string, body?: string }} route */
-export async function render(root, route) {
+/** @param {HTMLElement} root @param {import('../lib/route.js').Route} route @param {import('../app.js').ViewContext} ctx */
+export async function render(root, route, ctx) {
   if (route.view === 'body') return renderBody(root, await bodyElections(String(route.body)), /** @type {string} */ (route.body));
   const all = await electionIndex();
   /** @type {Map<string, { slug: string, name: string, n: number, by: number, from: string, to: string }>} */
@@ -60,21 +60,21 @@ export async function render(root, route) {
     if (!words.length) { out.innerHTML = ''; return; }
     const hits = all.filter((e) => { const t = fold(`${e.displayTitle} ${e.body} ${e.date}`); return words.every((w) => t.includes(w)); });
     out.innerHTML = `<p>${hits.length.toLocaleString('en-GB')} found${hits.length > 50 ? ', the first 50 shown' : ''}.</p><ul class="el-list">${hits.slice(0, 50).map((e) => `<li><a href="${appUrl.election(e.key)}">${esc(e.displayTitle)}</a> <span class="el-muted">${esc(fmtDate(e.date))}</span></li>`).join('')}</ul>`;
-  });
+  }, { signal: ctx.signal });
   return '';
 }
 
 /** @param {HTMLElement} root @param {import('../lib/api.js').ElectionRow[]} all @param {string} slug */
 function renderBody(root, all, slug) {
   const list = all.filter((e) => e.bodySlug === slug).sort((a, b) => (a.date < b.date ? 1 : -1));
-  if (!list.length) { const err = new Error('body not found'); /** @type {any} */ (err).status = 404; throw err; }
+  if (!list.length) { throw Object.assign(new Error('body not found'), { status: 404 }); }
   const name = list[0].body || slug;
-  /** @type {Map<string, any[]>} */
+  /** @type {Map<string, import('../lib/api.js').ElectionRow[]>} */
   const decades = new Map();
   for (const e of list) {
     const d = `${Math.floor(Number(e.year || e.date.slice(0, 4)) / 10) * 10}s`;
     if (!decades.has(d)) decades.set(d, []);
-    /** @type {any[]} */ (decades.get(d)).push(e);
+    /** @type {import('../lib/api.js').ElectionRow[]} */ (decades.get(d)).push(e);
   }
   root.innerHTML = `
     <nav class="el-crumbs" aria-label="Breadcrumb"><a href="/elections/">Elections</a> › ${esc(name)}</nav>

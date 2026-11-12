@@ -1,13 +1,20 @@
 /**
  * Formatting and small shared helpers of the Elections app. Pure (no DOM): tests/unit/elections-app-lib.test.mjs.
+ *
+ * Escaping, dates and slugs are the packages' own (packages/core, served at /pkg/ through
+ * packages/served.json; the imports resolve to site/pkg/ in Node and tsc): the app keeps no copy.
  */
+import { escapeHtml } from '../../../pkg/core/src/html.js';
+import { formatDisplayDate } from '../../../pkg/core/src/date-format.mjs';
+import { slugify } from '../../../pkg/core/src/format.js';
+import { POLL_STATUS_TEXT, contestPollStatus, summaryPollStatus } from '../../../pkg/core/src/unopposed.mjs';
 
-/** HTML-escape a value for text or an attribute. @param {unknown} value */
-export function esc(value) {
-  /** @type {Record<string, string>} */
-  const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
-  return String(value ?? '').replace(/[&<>"']/g, (c) => map[c]);
-}
+/** HTML-escape a value for text or an attribute (packages/core/src/html.js). */
+export const esc = escapeHtml;
+/** A date the one way Civgraph writes one: "05 May 2022" from "2022-05-05" (packages/core/src/date-format.mjs). */
+export const fmtDate = (/** @type {unknown} */ iso) => formatDisplayDate(/** @type {string | null | undefined} */ (iso ?? ''));
+/** URL slug of a name, the same rule as Browse's (packages/core/src/format.js). */
+export { slugify };
 
 /** A finite number or null. @param {unknown} value @returns {number | null} */
 export function num(value) {
@@ -40,22 +47,6 @@ export function fmtDelta(value, digits = 0) {
   const r = Number(n.toFixed(digits));
   if (r === 0) return digits ? (0).toFixed(digits) : '0';
   return `${r > 0 ? '+' : '−'}${Math.abs(r).toFixed(digits)}`;
-}
-
-/** "5 May 2022" from "2022-05-05". */
-/** @param {unknown} iso */
-export function fmtDate(iso) {
-  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(iso || ''));
-  if (!m) return String(iso || '');
-  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-  return `${Number(m[3])} ${months[Number(m[2]) - 1]} ${m[1]}`;
-}
-
-/** URL slug of a name (accents dropped, lowercase, hyphens). */
-/** @param {unknown} value */
-export function slugify(value) {
-  return String(value || '').normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase()
-    .replace(/&/g, ' and ').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 }
 
 /** The Browse URL of a person record from a candidacy's name and person id. */
@@ -102,15 +93,6 @@ export function inkOn(hex) {
   return 0.2126 * r + 0.7152 * g + 0.0722 * b > 0.179 ? '#000' : '#fff';
 }
 
-/** A party colour from the records, or a neutral grey. */
-export const partyColour = (/** @type {unknown} */ colour) => (/^#[0-9a-f]{3,8}$/i.test(String(colour || '')) ? String(colour) : '#8a8f98');
-
-/** A party chip (the shared .cg-party component) as HTML. */
-/** @param {unknown} name @param {unknown} colour */
-export function partyChip(name, colour) {
-  return `<span class="cg-party"><span class="cg-party__swatch" style="--party-colour:${esc(partyColour(colour))}" aria-hidden="true"></span>${esc(name || 'No party recorded')}</span>`;
-}
-
 /** Median of numbers (null for none). */
 /** @param {unknown[]} values */
 export function median(values) {
@@ -121,33 +103,13 @@ export function median(values) {
 }
 
 /**
- * Whether a contest was returned unopposed: no votes recorded and either an "unopposed"
- * status, no more candidates than seats, or an uncontested election.
- * @param {{ candidates: Array<{ status?: string, firstPrefs?: number | null }>, seats?: number | null, contestStatus?: string | null }} c
+ * Whether a contest went to a poll: one rule, packages/core/src/unopposed.mjs (served at /pkg/),
+ * for the whole app. A contest without votes is "unopposed" only when the records say so; a
+ * contest whose votes are missing is "votes not recorded" (POLL_STATUS_TEXT), never unopposed.
+ *   contestPollStatus(result)   from a contest's candidates (the count sheet)
+ *   summaryPollStatus(row)      from a row of an election summary (the overview, the maps)
  */
-export function isUnopposed({ candidates, seats, contestStatus }) {
-  if (!candidates?.length) return false;
-  if (candidates.some((c) => num(c.firstPrefs) !== null)) return false;
-  if (candidates.some((c) => /unopposed/i.test(String(c.status || '')))) return true;
-  if (num(seats) !== null && candidates.length <= Number(seats)) return true;
-  return contestStatus === 'uncontested';
-}
-
-/**
- * A contest in a summary's results list returned unopposed (no votes; candidates <= seats).
- * @param {{ validPoll?: number | null, leadingVotes?: number | null, candidateCount?: number, seatsTotal?: number }} r
- */
-export function summaryUnopposed(r) {
-  return !summaryHasVotes(r)
-    && num(r.candidateCount) !== null && num(r.seatsTotal) !== null && Number(r.candidateCount) <= Number(r.seatsTotal);
-}
-
-/**
- * Whether a summary row records votes. The summaries write 0 (not null) for a contest without a
- * poll, so zero counts as none: no contest with a poll has 0 valid votes.
- * @param {{ validPoll?: number | null, leadingVotes?: number | null }} r
- */
-export const summaryHasVotes = (r) => (num(r.validPoll) || 0) > 0 || (num(r.leadingVotes) || 0) > 0;
+export { POLL_STATUS_TEXT, contestPollStatus, summaryPollStatus };
 
 /** A positive figure or null (the summaries' 0 for "not recorded": turnout, quota, majority). */
 export const positive = (/** @type {unknown} */ v) => ((num(v) || 0) > 0 ? Number(v) : null);

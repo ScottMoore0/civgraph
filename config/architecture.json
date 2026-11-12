@@ -1,0 +1,196 @@
+{
+  "//": "The settings of check:architecture (scripts/check/architecture.mjs), the mechanical half of docs/ARCHITECTURE-RULES.md. Until enforceFrom the runner only reports and exits 0 (one week to tune the checks against false positives, owner-approved 11 Nov 2026); from that date it fails on findings beyond config/architecture-baseline.json, on stale baseline entries and on malformed arch-ok markers. Each check's scope is a list of path prefixes (a prefix ending in / is a folder); vendored, minified and build files are never read. noBaseline: checks that must be clean (no baseline). markerScanExclude: files that mention arch-ok as text (the checker and its tests), not as markers.",
+  "enforceFrom": "2026-11-19",
+  "noBaseline": [
+    "C1",
+    "C2",
+    "C6",
+    "C13"
+  ],
+  "markerScanExclude": [
+    "scripts/check/architecture",
+    "tests/unit/architecture"
+  ],
+  "checks": {
+    "C3": {
+      "include": [
+        "site/",
+        "src/"
+      ],
+      "packages": [
+        "packages/core/src/",
+        "packages/ui/src/templates/"
+      ],
+      "tests": [
+        "tests/"
+      ]
+    },
+    "C4": {
+      "include": [
+        "site/",
+        "src/",
+        "packages/",
+        "functions/",
+        "scripts/",
+        "tools/"
+      ],
+      "exclude": [
+        "packages/registries/",
+        "scripts/check/architecture/"
+      ],
+      "statusMachines": [
+        "contribution",
+        "candidate-count",
+        "contest"
+      ],
+      "extraVocabulary": {
+        "//": "The election vocabulary, held here until REG-2 makes election types and voting systems a registry; then this list goes and the registry is read instead.",
+        "voting system": [
+          "fptp",
+          "stv-hare",
+          "stv-gregory",
+          "party-list-dhondt"
+        ],
+        "election kind": [
+          "general",
+          "by-election"
+        ],
+        "outcome": [
+          "elected unopposed",
+          "excluded",
+          "not elected"
+        ]
+      }
+    },
+    "C5": {
+      "include": [
+        "site/",
+        "src/",
+        "scripts/",
+        "tools/",
+        "packages/map/",
+        "packages/ui/",
+        "functions/"
+      ],
+      "exclude": [
+        "scripts/check/architecture/"
+      ]
+    },
+    "C6": {
+      "include": [
+        "site/",
+        "src/",
+        "packages/",
+        "functions/",
+        "scripts/",
+        "tools/"
+      ],
+      "exclude": [
+        "scripts/check/architecture/"
+      ]
+    },
+    "C7": {
+      "include": [
+        "site/",
+        "src/",
+        "packages/map/",
+        "packages/ui/"
+      ]
+    },
+    "C8": {
+      "css": {
+        "include": [
+          "site/",
+          "src/",
+          "packages/"
+        ],
+        "exclude": [
+          "packages/ui/assets/tokens.css",
+          "packages/ui/assets/tokens-legacy.css"
+        ]
+      },
+      "js": {
+        "include": [
+          "site/",
+          "src/",
+          "packages/ui/",
+          "packages/map/"
+        ],
+        "exclude": []
+      }
+    },
+    "C9": {
+      "include": [
+        "site/",
+        "src/",
+        "packages/map/",
+        "packages/ui/"
+      ],
+      "clientCalls": [
+        "getJson"
+      ],
+      "ignoreRoutes": {
+        "//": "Endpoints that are not the records API v1 serves, with why.",
+        "auth": "sign-in status for contributors (Cloudflare Access), not a public answer",
+        "contributions": "contributors' submissions and their schema, behind sign-in",
+        "rum": "the real-user-monitoring beacon, POST only"
+      },
+      "modifiers": {
+        "*": [
+          "limit",
+          "offset",
+          "sort",
+          "dir",
+          "q",
+          "lite",
+          "visible",
+          "cursor"
+        ]
+      }
+    },
+    "C10": {
+      "include": [
+        "site/",
+        "src/",
+        "packages/ui/",
+        "packages/map/",
+        "packages/core/",
+        "packages/api/",
+        "functions/"
+      ],
+      "exclude": [
+        "packages/core/src/format.js",
+        "packages/core/src/date-format.mjs",
+        "site/assets/i18n/"
+      ]
+    },
+    "C11": {
+      "include": [
+        "site/",
+        "src/",
+        "packages/",
+        "functions/"
+      ]
+    },
+    "C12": {
+      "include": [
+        "site/",
+        "src/",
+        "packages/",
+        "functions/"
+      ],
+      "tests": [
+        "tests/"
+      ],
+      "modules": "(^|/)(state-machines?|[\\w-]+-state|[\\w-]+-machines?)\\.m?js$"
+    },
+    "C13": {
+      "path": "docs/ARCHITECTURE-RULES.md",
+      "pointers": [
+        "CLAUDE.md",
+        "AGENTS.md"
+      ],
+      "ruleCount": 15
+    }
+  }
+}
