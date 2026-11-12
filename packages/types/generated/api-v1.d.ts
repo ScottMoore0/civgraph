@@ -784,6 +784,7 @@ export interface GraphEntityAnswer {
     [key: string]: unknown;
   }[];
   total: number;
+  retiredId?: string;
   [key: string]: unknown;
 }
 
@@ -801,6 +802,7 @@ export interface GraphSlugAnswer {
     [key: string]: unknown;
   }[];
   total: number;
+  retiredId?: string;
   [key: string]: unknown;
 }
 
@@ -818,6 +820,7 @@ export interface GraphBrowseAnswer {
     [key: string]: unknown;
   }[];
   total: number;
+  retiredId?: string;
   [key: string]: unknown;
 }
 

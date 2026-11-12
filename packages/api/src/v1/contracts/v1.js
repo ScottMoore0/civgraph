@@ -62,7 +62,8 @@ const SOURCE = obj({ id: str, slug: str, type: str, title: str, browseUrl: str }
 const REGISTER_ENTRY = obj({ id: str, slug: str, type: str, title: str, memberName: str });
 const VOTES_PERSON = obj({ schemaVersion: num, personId: num, terms: arr(), divisions: arr() });
 const STATEMENT = obj({ id: str, propertyId: str, propertyLabel: str, valueType: str });
-const ENTITY = obj({ entityId: str, summary: either('object', 'null'), statements: arr(STATEMENT), total: num });
+// retiredId (12 Nov 2026): the id asked for, when it was retired and the answer is the entity it became.
+const ENTITY = obj({ entityId: str, summary: either('object', 'null'), statements: arr(STATEMENT), total: num, retiredId: str }, ['entityId', 'summary', 'statements', 'total']);
 const MAP = obj({ id: str, name: str, slug: str, category: str });
 const LAYER = obj({ id: str, sourceMapId: str, name: str, category: str, renderer: str, geometryType: str });
 const CONTEST = obj({ constituency: object, feature: either('object', 'null'), candidates: arr(), counts: arr(), animationPayload: either('object', 'null') });

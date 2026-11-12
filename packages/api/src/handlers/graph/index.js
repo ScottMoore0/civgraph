@@ -6,6 +6,9 @@
  *   GET /_api/graph?browse=<type>:<key>[&browse=...]  -> { entityId, summary, statements }
  *        the first key that names an entity wins (browse.js tries slug, id, key, title, name)
  *   GET /_api/graph?entity=<id>[&related=1]           -> { entityId, summary, statements[, reverse, sourceStatements] }
+ *        an id the graph published and no longer has (a renamed contest, a merged person)
+ *        answers with the entity it became, and retiredId names the id asked for
+ *        (graph_browse_keys "alias:<id>", from indexes/entity-aliases.json)
  *   GET /_api/graph?slug=<readable slug>              -> the same as ?entity= for that entity
  *   GET /_api/graph?q=<text>[&limit=]                 -> { items } entity-search entries (max 200)
  *   GET /_api/graph?view=manifest                     -> data/graph/manifest.json, its exports pointing at downloads
@@ -22,7 +25,8 @@ import { GRAPH } from '../../queries/graph.js';
 /** @typedef {import('../../../../storage/src/store.js').RecordStore} RecordStore */
 /** @typedef {import('../../../../types/index.js').ApiV1.GraphEntityAnswer} GraphEntityAnswer */
 
-const VERSION = 'graph-1';
+// graph-2 (12 Nov 2026): a retired entity id answers with the entity it became.
+const VERSION = 'graph-2';
 const MAX = 2000;
 
 /** @param {import('../../types.js').ApiContext} context */
@@ -35,12 +39,19 @@ const fold = (/** @type {unknown} */ value) => String(value || '').normalize('NF
 /**
  * One entity's summary and statements, and with `related` the statements about it and from it.
  * @param {RecordStore} db
- * @param {string} entityId
+ * @param {string} requestedId  an entity id, or a retired one
  * @param {{ related: boolean, limit: number, offset: number }} options
  * @returns {Promise<GraphEntityAnswer>}
  */
-async function entityPayload(db, entityId, { related, limit, offset }) {
-  const ent = /** @type {{ summary: string | null } | null} */ (await db.first(GRAPH.entity, [entityId]));
+async function entityPayload(db, requestedId, { related, limit, offset }) {
+  let entityId = requestedId;
+  let ent = /** @type {{ summary: string | null } | null} */ (await db.first(GRAPH.entity, [entityId]));
+  // A retired id answers with the entity it became (one more lookup, only when the id is not there).
+  const alias = ent ? null : /** @type {{ entity_id: string } | null} */ (await db.first(GRAPH.browseKey, [`alias:${requestedId}`]));
+  if (alias?.entity_id) {
+    entityId = alias.entity_id;
+    ent = /** @type {{ summary: string | null } | null} */ (await db.first(GRAPH.entity, [entityId]));
+  }
   const [statements, total] = /** @type {[Array<{ statement: string }>, { n: number } | null]} */ (await Promise.all([
     db.all(GRAPH.statements, [entityId, limit, offset]),
     db.first(GRAPH.statementCount, [entityId]),
@@ -52,6 +63,7 @@ async function entityPayload(db, entityId, { related, limit, offset }) {
     statements: statements.map((r) => parseJson(r.statement)),
     total: total?.n ?? 0,
   };
+  if (entityId !== requestedId) out.retiredId = requestedId;
   if (related) {
     const [reverse, sources] = /** @type {[Array<{ item: string }>, Array<{ item: string }>]} */ (await Promise.all([
       db.all(GRAPH.reverse, [entityId, MAX]),
