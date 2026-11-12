@@ -5,7 +5,7 @@
  * Run after scripts/ingest/hills/build_irish_hill_domain_assets.py.
  */
 
-import { copyFileSync, existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { SITE } from '../../../packages/config/src/node.mjs';
 import { LAYER } from '../../../packages/intake/src/item-status.mjs';
@@ -56,6 +56,15 @@ const LAYERS = [
   }
 ];
 
+/**
+ * @typedef {typeof LAYERS[number]} HillLayer
+ * @typedef {{ id: string, feature_count?: number, bounds?: number[], intake_path?: string, bytes?: number, feature_index_path: string }} DomainOutput
+ *   one layer of the domain build report (build_irish_hill_domain_assets.py)
+ * @typedef {{ outputs?: DomainOutput[], generatedAt?: string }} BuildReport
+ * @typedef {{ id?: string, sourceMapId?: unknown, testLayerId?: unknown, layerId?: string, ok?: boolean, maps?: string[], [field: string]: unknown }} JsonRecord
+ *   a record of maps.json, maps-test.json, its index, the port plan or the spatial index, as far as this script reads it
+ */
+
 main();
 
 function main() {
@@ -63,7 +72,9 @@ function main() {
     throw new Error(`Missing domain build report at ${relative(REPORT_PATH)}. Run python scripts/ingest/hills/build_irish_hill_domain_assets.py first.`);
   }
   mkdirSync(FEATURE_INDEX_DIR, { recursive: true });
+  /** @type {BuildReport} */
   const report = readJson(REPORT_PATH);
+  /** @type {Map<string, DomainOutput>} */
   const outputs = new Map((report.outputs || []).map((output) => [output.id, output]));
   for (const layer of LAYERS) {
     if (!outputs.has(layer.id)) throw new Error(`Build report is missing ${layer.id}`);
@@ -79,12 +90,13 @@ function main() {
     status: LAYER.ok,
     layers: LAYERS.map((layer) => ({
       id: layer.id,
-      featureCount: outputs.get(layer.id).feature_count,
-      bounds: outputs.get(layer.id).bounds
+      featureCount: /** @type {DomainOutput} */ (outputs.get(layer.id)).feature_count,
+      bounds: /** @type {DomainOutput} */ (outputs.get(layer.id)).bounds
     }))
   }, null, 2));
 }
 
+/** @param {Map<string, DomainOutput>} outputs @param {BuildReport} report */
 function updateMapsDatabase(outputs, report) {
   const data = readJson(MAPS_PATH);
   data.maps = data.maps || [];
@@ -98,10 +110,10 @@ function updateMapsDatabase(outputs, report) {
     description: 'Hill and mountain summit datasets, lists, classifications, and modelled domains.'
   });
 
-  const existingById = new Map(data.maps.map((map) => [map.id, map]));
-  data.maps = data.maps.filter((map) => !LAYERS.some((layer) => layer.id === map.id));
+  const existingById = new Map(data.maps.map((/** @type {JsonRecord} */ map) => [map.id, map]));
+  data.maps = data.maps.filter((/** @type {JsonRecord} */ map) => !LAYERS.some((layer) => layer.id === map.id));
   for (const layer of LAYERS) {
-    const output = outputs.get(layer.id);
+    const output = /** @type {DomainOutput} */ (outputs.get(layer.id)); // main() checked every layer is in the report
     const existing = existingById.get(layer.id) || {};
     data.maps.push(compactObject({
       ...existing,
@@ -152,7 +164,7 @@ function updateMapsDatabase(outputs, report) {
       }
     }));
   }
-  const irelandClass = data.classes.find((item) => item.id === IRELAND_CLASS_ID);
+  const irelandClass = data.classes.find((/** @type {JsonRecord} */ item) => item.id === IRELAND_CLASS_ID);
   if (irelandClass) {
     irelandClass.maps = unique([
       ...(irelandClass.maps || []),
@@ -162,6 +174,7 @@ function updateMapsDatabase(outputs, report) {
   writeJson(MAPS_PATH, data);
 }
 
+/** @param {Map<string, DomainOutput>} outputs @param {BuildReport} report */
 function updateMapLibreMetadata(outputs, report) {
   const metadata = readJson(MAPLIBRE_PATH);
   metadata.layers = metadata.layers || [];
@@ -174,12 +187,12 @@ function updateMapLibreMetadata(outputs, report) {
   });
   const rangeReport = existsSync(CDN_RANGE_REPORT_PATH) ? readJson(CDN_RANGE_REPORT_PATH) : null;
   const rangeVerifiedByLayer = new Map((rangeReport?.results || [])
-    .filter((item) => item?.ok && item.layerId)
-    .map((item) => [item.layerId, item]));
+    .filter((/** @type {JsonRecord | null} */ item) => item?.ok && item.layerId)
+    .map((/** @type {JsonRecord} */ item) => [item.layerId, item]));
 
-  metadata.layers = metadata.layers.filter((layer) => !LAYERS.some((item) => layer.sourceMapId === item.id || layer.id === `${item.id}-vector`));
+  metadata.layers = metadata.layers.filter((/** @type {JsonRecord} */ layer) => !LAYERS.some((item) => layer.sourceMapId === item.id || layer.id === `${item.id}-vector`));
   for (const layer of LAYERS) {
-    const output = outputs.get(layer.id);
+    const output = /** @type {DomainOutput} */ (outputs.get(layer.id)); // main() checked every layer is in the report
     const layerId = `${layer.id}-vector`;
     const sourceLayer = sourceLayerName(layer.id);
     const rangeVerified = rangeVerifiedByLayer.get(layerId);
@@ -307,7 +320,8 @@ function updateMapLibreMetadata(outputs, report) {
 function updateMapLibreIndex() {
   const index = readJson(MAPLIBRE_INDEX_PATH);
   const metadata = readJson(MAPLIBRE_PATH);
-  const generatedLayers = metadata.layers.filter((item) => LAYERS.some((layer) => item.id === `${layer.id}-vector`));
+  /** @type {JsonRecord[]} */
+  const generatedLayers = metadata.layers.filter((/** @type {JsonRecord} */ item) => LAYERS.some((layer) => item.id === `${layer.id}-vector`));
   index.categories = index.categories || [];
   index.layers = index.layers || [];
   upsert(index.categories, {
@@ -316,7 +330,7 @@ function updateMapLibreIndex() {
     group: GROUP_NAME,
     description: 'Hill and mountain summit datasets, lists, classifications, and modelled domains.'
   });
-  index.layers = index.layers.filter((item) => !LAYERS.some((layer) => item.id === `${layer.id}-vector` || item.sourceMapId === layer.id));
+  index.layers = index.layers.filter((/** @type {JsonRecord} */ item) => !LAYERS.some((layer) => item.id === `${layer.id}-vector` || item.sourceMapId === layer.id));
   for (const layer of generatedLayers) {
     index.layers.push(compactObject({
       ...layer,
@@ -330,12 +344,13 @@ function updateMapLibreIndex() {
   writeJson(MAPLIBRE_INDEX_PATH, index);
 }
 
+/** @param {Map<string, DomainOutput>} outputs @param {BuildReport} report */
 function updatePortPlan(outputs, report) {
   const plan = readJson(PORT_PLAN_PATH);
   plan.rows = plan.rows || [];
-  plan.rows = plan.rows.filter((row) => !LAYERS.some((layer) => row.sourceMapId === layer.id || row.testLayerId === `${layer.id}-vector`));
+  plan.rows = plan.rows.filter((/** @type {JsonRecord} */ row) => !LAYERS.some((layer) => row.sourceMapId === layer.id || row.testLayerId === `${layer.id}-vector`));
   for (const layer of LAYERS) {
-    const output = outputs.get(layer.id);
+    const output = /** @type {DomainOutput} */ (outputs.get(layer.id)); // main() checked every layer is in the report
     plan.rows.push(compactObject({
       sourceMapId: layer.id,
       cloneOf: null,
@@ -372,12 +387,13 @@ function updatePortPlan(outputs, report) {
   writeJson(PORT_PLAN_PATH, plan);
 }
 
+/** @param {Map<string, DomainOutput>} outputs */
 function updateSpatialIndex(outputs) {
   const spatial = readJson(SPATIAL_INDEX_PATH);
   spatial.maps = spatial.maps || [];
-  spatial.maps = spatial.maps.filter((item) => !LAYERS.some((layer) => layer.id === item.id));
+  spatial.maps = spatial.maps.filter((/** @type {JsonRecord} */ item) => !LAYERS.some((layer) => layer.id === item.id));
   for (const layer of LAYERS) {
-    const output = outputs.get(layer.id);
+    const output = /** @type {DomainOutput} */ (outputs.get(layer.id)); // main() checked every layer is in the report
     spatial.maps.push({
       id: layer.id,
       name: layer.name,
@@ -390,14 +406,16 @@ function updateSpatialIndex(outputs) {
   writeJson(SPATIAL_INDEX_PATH, spatial);
 }
 
+/** @param {Map<string, DomainOutput>} outputs */
 function copyFeatureIndexes(outputs) {
   for (const layer of LAYERS) {
-    const output = outputs.get(layer.id);
+    const output = /** @type {DomainOutput} */ (outputs.get(layer.id)); // main() checked every layer is in the report
     const target = resolve(FEATURE_INDEX_DIR, `${layer.id}-vector.json`);
     copyFileSync(resolve(ROOT, output.feature_index_path), target);
   }
 }
 
+/** @param {HillLayer} layer */
 function references(layer) {
   return [
     { label: 'Hill Bagging - DoBIH downloads', url: DOBIH_DOWNLOADS_URL, note: 'Source download page for DoBIH v18.4 and companion files.' },
@@ -408,6 +426,10 @@ function references(layer) {
   ];
 }
 
+/**
+ * @param {HillLayer} layer @param {DomainOutput} output
+ * @returns {{ label: string, file?: string, url?: string, bytes?: number | undefined }[]}
+ */
 function sourceDownloads(layer, output) {
   return [
     {
@@ -422,6 +444,7 @@ function sourceDownloads(layer, output) {
   ];
 }
 
+/** @param {HillLayer} layer */
 function styleFor(layer) {
   return {
     color: layer.color,
@@ -432,30 +455,36 @@ function styleFor(layer) {
   };
 }
 
+/** @param {string} id */
 function sourceLayerName(id) {
   return String(id).replace(/[^a-zA-Z0-9]+/g, '_').replace(/^_+|_+$/g, '').toLowerCase();
 }
 
+/** @param {string} path */
 function readJson(path) {
   return JSON.parse(readFileSync(path, 'utf8'));
 }
 
+/** @param {string} path @param {unknown} payload */
 function writeJson(path, payload) {
   mkdirSync(dirname(path), { recursive: true });
   const pretty = resolve(path) !== SPATIAL_INDEX_PATH;
   writeFileSync(path, `${JSON.stringify(payload, null, pretty ? 2 : 0)}\n`);
 }
 
+/** @param {JsonRecord[]} items @param {JsonRecord} item */
 function upsert(items, item) {
   const index = items.findIndex((candidate) => candidate.id === item.id);
   if (index >= 0) items[index] = { ...items[index], ...item };
   else items.push(item);
 }
 
+/** @template T @param {T[]} values @returns {T[]} */
 function unique(values) {
   return [...new Set(values.filter(Boolean))];
 }
 
+/** @param {unknown} value @returns {unknown} */
 function compactObject(value) {
   if (Array.isArray(value)) return value.map(compactObject).filter((item) => item !== undefined);
   if (!value || typeof value !== 'object') return value;
@@ -464,6 +493,7 @@ function compactObject(value) {
     .filter(([, item]) => item !== undefined && item !== null && item !== ''));
 }
 
+/** @param {string} path */
 function relative(path) {
   return resolve(path).replace(`${ROOT}\\`, '').replaceAll('\\', '/');
 }

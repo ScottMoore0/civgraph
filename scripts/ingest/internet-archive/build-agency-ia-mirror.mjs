@@ -23,13 +23,19 @@ const IA = process.env.IA_CLI || 'ia.exe';
 const IA_DL = 'https://archive.org/download';
 
 const args = process.argv.slice(2);
-const opt = (k) => args.includes(k) ? args[args.indexOf(k) + 1] : null;
+const opt = (/** @type {string} */ k) => args.includes(k) ? args[args.indexOf(k) + 1] : null;
 const LIMIT = opt('--limit') ? Number(opt('--limit')) : null;
 const ONLY_AGENCY = opt('--agency');
 const ONLY_MAP = opt('--map');
 const DRY = args.includes('--dry-run');
 
 // order = priority for maps attributed to multiple agencies (one IA item per map)
+/**
+ * A catalogue map as this mirror reads it.
+ * @typedef {{ id: string, provider?: unknown, files?: { fgb?: string, pmtiles?: string }, sourceDownloads?: { file?: string, url?: string }[], references?: { url?: string }[] }} MapRecord
+ * @typedef {{ key: string, id: string, title: string }} Agency
+ */
+/** @type {[string, RegExp, string, string][]} */
 const AGENCIES = [
   ['osni',   /OSNI|Ordnance Survey of Northern/i,      'civgraph-osni-maps',           'OSNI map layers mirrored by Civgraph'],
   ['nisra',  /NISRA/i,                                  'civgraph-nisra-maps',          'NISRA map layers mirrored by Civgraph'],
@@ -38,22 +44,27 @@ const AGENCIES = [
   ['osi',    /\bOSI\b|Ordnance Survey Ireland/i,        'civgraph-osi-maps',            'OSI (Ireland) map layers mirrored by Civgraph'],
 ];
 
+/** @param {unknown} provider @returns {Agency | null} */
 function agencyOf(provider) {
   const p = String(provider || '');
   for (const [key, pat, id, title] of AGENCIES) if (pat.test(p)) return { key, id, title };
   return null;
 }
+/** @param {string} cmd @param {string[]} a @param {{ stdio?: import('node:child_process').StdioOptions }} [o] */
 function run(cmd, a, o = {}) { return spawnSync(cmd, a, { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024, ...o }); }
 
+/** @param {string} identifier */
 function existingIaFiles(identifier) {
   const r = run(IA, ['list', identifier]);
   if (r.status !== 0) return new Set(); // item not created yet / transient; --checksum dedups IA-side
   return new Set(r.stdout.split(/\r?\n/).map((s) => s.trim()).filter(Boolean));
 }
 
+/** @param {MapRecord} map */
 function fileUrlsFor(map) {
+  /** @type {{ url: string, kind: string }[]} */
   const out = [];
-  const push = (url, kind) => { if (url && /^https?:\/\//i.test(url)) out.push({ url, kind }); };
+  const push = (/** @type {string | undefined} */ url, /** @type {string} */ kind) => { if (url && /^https?:\/\//i.test(url)) out.push({ url, kind }); };
   if (map.files?.fgb) push(map.files.fgb, 'fgb');
   if (map.files?.pmtiles) push(map.files.pmtiles, 'pmtiles');
   for (const sd of map.sourceDownloads || []) push(sd.file || sd.url, 'source');
@@ -66,6 +77,7 @@ function fileUrlsFor(map) {
   return out.filter((x) => !/\/(MapServer|FeatureServer|rest\/services)\b/i.test(x.url) && !seen.has(x.url) && seen.add(x.url));
 }
 
+/** @param {string} url @param {string} dest */
 function download(url, dest) {
   const enc = encodeURI(url).replace(/%25/g, '%'); // encode spaces etc., don't double-encode
   const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36';
@@ -74,24 +86,26 @@ function download(url, dest) {
 }
 
 function main() {
+  /** @type {{ maps: MapRecord[] }} */
   const db = JSON.parse(readFileSync(MAPS_PATH, 'utf8'));
   const sidecar = existsSync(SIDECAR) ? JSON.parse(readFileSync(SIDECAR, 'utf8')) : { schemaVersion: 1, items: {} };
   sidecar.items ||= {};
   mkdirSync(TMP, { recursive: true });
 
   let pool = db.maps.filter((m) => agencyOf(m.provider));
-  if (ONLY_AGENCY) pool = pool.filter((m) => agencyOf(m.provider).key === ONLY_AGENCY);
+  if (ONLY_AGENCY) pool = pool.filter((m) => /** @type {Agency} */ (agencyOf(m.provider)).key === ONLY_AGENCY); // the pool holds agency maps only
   if (ONLY_MAP) pool = pool.filter((m) => m.id === ONLY_MAP);
   // skip maps already mirrored to IA (ad-hoc items) to avoid a map on IA twice
   pool = pool.filter((m) => !JSON.stringify(m).includes('archive.org'));
   if (LIMIT) pool = pool.slice(0, LIMIT);
 
   console.log(`Mirroring ${pool.length} agency map layer(s) to IA (tmp=${TMP}${DRY ? ', DRY' : ''})`);
+  /** @type {Record<string, Set<string>>} */
   const iaFilesCache = {};
   let uploaded = 0, skipped = 0, mapsDone = 0;
 
   for (const map of pool) {
-    const ag = agencyOf(map.provider);
+    const ag = /** @type {Agency} */ (agencyOf(map.provider)); // the pool holds agency maps only
     const urls = fileUrlsFor(map);
     if (!urls.length) { console.log(`  - ${map.id}: no file urls`); continue; }
     iaFilesCache[ag.id] ??= existingIaFiles(ag.id);

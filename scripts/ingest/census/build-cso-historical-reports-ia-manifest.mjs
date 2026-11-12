@@ -25,6 +25,11 @@ const OUT = 'data/census/source-inventory/cso-historical-reports-ia-manifest.jso
 const KEEP_EXT = new Set(['.pdf', '.csv', '.xlsx', '.zip', '.txt']);
 
 const metaPath = process.argv[2];
+/**
+ * The Internet Archive metadata answer, as far as this manifest reads it.
+ * @typedef {{ name: string, source?: string, size?: string, md5?: string, format?: string }} IaFile
+ */
+/** @type {{ files?: IaFile[] }} */
 let meta;
 if (metaPath && existsSync(metaPath)) {
   meta = JSON.parse(readFileSync(metaPath, 'utf8'));
@@ -35,9 +40,9 @@ if (metaPath && existsSync(metaPath)) {
   meta = JSON.parse(raw);
 }
 
-const ext = (name) => (name.match(/\.[^.\/]+$/) || [''])[0].toLowerCase();
-const isDerivative = (name) => /_jp2\.zip$/i.test(name);
-const isProbe = (name) => /(^|\/)probe\.txt$/i.test(name) || /^[A-Za-z]:\//.test(name);
+const ext = (/** @type {string} */ name) => (name.match(/\.[^.\/]+$/) || [''])[0].toLowerCase();
+const isDerivative = (/** @type {string} */ name) => /_jp2\.zip$/i.test(name);
+const isProbe = (/** @type {string} */ name) => /(^|\/)probe\.txt$/i.test(name) || /^[A-Za-z]:\//.test(name);
 
 const files = (meta.files || [])
   .filter((f) => f.source === 'original')
@@ -55,6 +60,7 @@ const files = (meta.files || [])
   }))
   .sort((a, b) => a.name.localeCompare(b.name));
 
+/** @type {Record<string, number>} */
 const byExt = {};
 for (const f of files) byExt[f.ext] = (byExt[f.ext] || 0) + 1;
 
