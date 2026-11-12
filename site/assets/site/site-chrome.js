@@ -10,6 +10,9 @@
 (function () {
   'use strict';
 
+  // The page's lifetime (R8): the listeners the chrome puts on document and window pass its signal.
+  var pageLifetime = new AbortController();
+
   var root = document.documentElement;
   var THEME_KEY = 'theme';
   // The theme preference (state-machine catalogue UI-05): a copy of THEME_PREFERENCE in
@@ -85,14 +88,14 @@
 
     document.addEventListener('click', function (event) {
       if (isOpen() && !header.contains(event.target)) setOpen(false);
-    });
+    }, { signal: pageLifetime.signal });
 
     // Only when the menu is open: Escape with it closed must not pull focus to the toggle.
     document.addEventListener('keydown', function (event) {
       if (event.key !== 'Escape' || !isOpen()) return;
       setOpen(false);
       toggle.focus();
-    });
+    }, { signal: pageLifetime.signal });
 
     var collapsed = window.matchMedia(COLLAPSED_NAV);
     var onChange = function () {
@@ -112,7 +115,7 @@
     }
 
     sync();
-    window.addEventListener('resize', sync, { passive: true });
+    window.addEventListener('resize', sync, { passive: true, signal: pageLifetime.signal });
     if ('ResizeObserver' in window) new ResizeObserver(sync).observe(header);
   }
 
@@ -208,6 +211,6 @@
     setupSupportModal();
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });
   else init();
 })();

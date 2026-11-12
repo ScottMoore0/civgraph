@@ -388,6 +388,12 @@ const LIST_PAGE_SIZE = 200;
  * @typedef {{ facets: Record<string, Json[]>, partyBySpelling: Map<string, string>, partyNames: Map<string, string[]> }} PersonFacets
  */
 
+/**
+ * The page's lifetime (R8): the listeners Browse puts on document and window are bound once, by
+ * init(), and pass this signal; the views the router renders bind theirs to their own elements.
+ */
+const pageLifetime = new AbortController();
+
 const state = {
   /** @type {BrowseManifest | null} */
   manifest: null,
@@ -515,11 +521,11 @@ async function init() {
   refreshAuth().then(() => {
     if (state.auth?.allowed && state.currentDetail) renderCurrent();
   });
-  window.addEventListener('hashchange', applyRoute);
+  window.addEventListener('hashchange', applyRoute, { signal: pageLifetime.signal });
   // Back and Forward between the entries navigateTo pushes change the path, not only the hash,
   // and browsers fire no hashchange for that; popstate always fires. applyRoute ignores a
   // repeat of the address it last rendered, so the two events never render twice.
-  window.addEventListener('popstate', applyRoute);
+  window.addEventListener('popstate', applyRoute, { signal: pageLifetime.signal });
   watchRecordLinks();
 }
 
@@ -569,7 +575,7 @@ function bindEvents() {
       if (state.router.state() === 'routing') return;
       try { sessionStorage.setItem(`browse-scroll:${currentAddress()}`, String(Math.round(window.scrollY))); } catch { /* storage blocked */ }
     }, 150);
-  }, { passive: true });
+  }, { passive: true, signal: pageLifetime.signal });
 
   document.addEventListener('click', (/** @type {MouseEvent} */ rawEvent) => { const event = /** @type {ElementEvent<MouseEvent>} */ (rawEvent);
     const portalJump = event.target.closest('[data-portal-jump]');
@@ -708,7 +714,7 @@ function bindEvents() {
       }
       closeContributorModal();
     }
-  });
+  }, { signal: pageLifetime.signal });
 
   document.addEventListener('change', (/** @type {Event} */ rawEvent) => { const event = /** @type {ElementEvent} */ (rawEvent);
     const sourceFilter = event.target.closest('[data-source-filter]');
@@ -750,7 +756,7 @@ function bindEvents() {
       delete state.registerInterestControls.filters[key];
     }
     rerenderList();
-  });
+  }, { signal: pageLifetime.signal });
 
   els.contributorForm?.addEventListener('submit', submitContributorForm);
   // Bound once, here, for the lifetime of the page. See bindObjectArrayControls.
@@ -6844,7 +6850,7 @@ function initPrintedLabels() {
       // Storage blocked: the choice holds for this page only.
     }
     applyPrintedLabels(setPrintedLabels(input.checked));
-  });
+  }, { signal: pageLifetime.signal });
 }
 
 /** The control above a table that lists candidates. */
