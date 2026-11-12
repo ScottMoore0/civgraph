@@ -2,7 +2,7 @@
  "schemaVersion": 2,
  "description": "Stable identifiers for people appearing as candidates in the current election data. The id is independent of name spelling, so a correction changes displayName and adds an alias, never the id.",
  "idPolicy": "Ids are permanent. PersonIDs 1-100011 are the curated block carried forward from scripts/ingest/persons/person_registry.json; 100012+ are derived. A new id is never one issued before, even one merged away at once: idHighWater is the highest issued (person_id_issued.py).",
- "idHighWater": 154463,
+ "idHighWater": 154611,
  "supersedes": "scripts/ingest/persons/person_registry.json (2,388 curated persons; its source workbook is no longer present and apply_person_ids.py targets an _aggregates.json layout that no longer exists)",
  "evidence": {
   "rowIndexIdsDiscarded": [
@@ -46,7 +46,7 @@
   ],
   "note": "Ids carrying more than one distinct name are row indices, not people.",
   "crossSystemMerges": 1061,
-  "sameNameLeftSplit": 2887
+  "sameNameLeftSplit": 2897
  },
  "conservatism": "Nothing is merged on name alone. Two ids from the same source system sharing a name stay separate and are flagged needsReview.",
  "entities": [
@@ -9904,7 +9904,7 @@
    "eraReason": "split by its official person id (democracyclub:2137): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154400
+    154519
    ]
   },
   {
@@ -12303,7 +12303,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154447
+    154592
    ]
   },
   {
@@ -13587,7 +13587,7 @@
    "eraReason": "split by its official person id (democracyclub:7132): the source id it shares is held by another person with another official id",
    "nameVariants": true,
    "mergedFrom": [
-    154401
+    154520
    ]
   },
   {
@@ -25204,7 +25204,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154449
+    154594
    ]
   },
   {
@@ -42151,7 +42151,7 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "nameVariants": true,
    "mergedFrom": [
-    154345
+    154464
    ]
   },
   {
@@ -43205,7 +43205,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154450
+    154595
    ]
   },
   {
@@ -60574,7 +60574,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154417
+    154546
    ]
   },
   {
@@ -62490,10 +62490,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154357,
-    154375,
-    154420,
-    154421
+    154476,
+    154494,
+    154550,
+    154551
    ]
   },
   {
@@ -62805,10 +62805,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154385,
-    154386,
-    154403,
-    154455
+    154504,
+    154505,
+    154522,
+    154600
    ]
   },
   {
@@ -63499,10 +63499,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154363,
-    154364,
-    154429,
-    154430
+    154482,
+    154483,
+    154565,
+    154566
    ]
   },
   {
@@ -63539,10 +63539,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154365,
-    154380,
-    154391,
-    154431
+    154484,
+    154499,
+    154510,
+    154569
    ]
   },
   {
@@ -64046,8 +64046,8 @@
    "eraReason": "split by its official person id (democracyclub:68911): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154370,
-    154448
+    154489,
+    154593
    ]
   },
   {
@@ -64208,11 +64208,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154371,
-    154387,
-    154457,
-    154458,
-    154459
+    154490,
+    154506,
+    154602,
+    154603,
+    154604
    ]
   },
   {
@@ -64987,10 +64987,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154348,
-    154355,
-    154412,
-    154413
+    154467,
+    154474,
+    154536,
+    154537
    ]
   },
   {
@@ -65910,12 +65910,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154384,
-    154402,
-    154451,
-    154452,
-    154453,
-    154454
+    154503,
+    154521,
+    154596,
+    154597,
+    154598,
+    154599
    ]
   },
   {
@@ -70321,9 +70321,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154349,
-    154350,
-    154377
+    154468,
+    154469,
+    154496
    ]
   },
   {
@@ -70361,11 +70361,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154360,
-    154378,
-    154379,
-    154390,
-    154426
+    154479,
+    154497,
+    154498,
+    154509,
+    154560
    ]
   },
   {
@@ -70402,10 +70402,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154346,
-    154351,
-    154438,
-    154439
+    154465,
+    154470,
+    154580,
+    154581
    ]
   },
   {
@@ -72559,11 +72559,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154347,
-    154404,
-    154405,
-    154406,
-    154460
+    154466,
+    154523,
+    154524,
+    154525,
+    154605
    ]
   },
   {
@@ -75703,12 +75703,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154352,
-    154381,
-    154396,
-    154397,
-    154440,
-    154441
+    154471,
+    154500,
+    154515,
+    154516,
+    154583,
+    154584
    ]
   },
   {
@@ -75746,11 +75746,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154353,
-    154368,
-    154382,
-    154442,
-    154443
+    154472,
+    154487,
+    154501,
+    154585,
+    154586
    ]
   },
   {
@@ -75790,13 +75790,13 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154369,
-    154383,
-    154398,
-    154399,
-    154444,
-    154445,
-    154446
+    154488,
+    154502,
+    154517,
+    154518,
+    154588,
+    154589,
+    154590
    ]
   },
   {
@@ -83621,12 +83621,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154356,
-    154372,
-    154373,
-    154374,
-    154415,
-    154416
+    154475,
+    154491,
+    154492,
+    154493,
+    154544,
+    154545
    ]
   },
   {
@@ -83792,11 +83792,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154358,
-    154359,
-    154376,
-    154424,
-    154425
+    154477,
+    154478,
+    154495,
+    154557,
+    154558
    ]
   },
   {
@@ -83832,9 +83832,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154361,
-    154427,
-    154428
+    154480,
+    154561,
+    154562
    ]
   },
   {
@@ -83873,12 +83873,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154366,
-    154367,
-    154393,
-    154394,
-    154395,
-    154437
+    154485,
+    154486,
+    154512,
+    154513,
+    154514,
+    154578
    ]
   },
   {
@@ -121247,10 +121247,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154408,
-    154409,
-    154410,
-    154411
+    154530,
+    154531,
+    154532,
+    154533
    ]
   },
   {
@@ -121285,8 +121285,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154388,
-    154414
+    154507,
+    154542
    ]
   },
   {
@@ -126567,10 +126567,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154433,
-    154434,
-    154435,
-    154436
+    154571,
+    154572,
+    154573,
+    154574
    ]
   },
   {
@@ -166699,7 +166699,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154419
+    154548
    ]
   },
   {
@@ -170323,7 +170323,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154418
+    154547
    ]
   },
   {
@@ -206106,7 +206106,7 @@
    ],
    "sourceIds": [
     "9086298",
-    "R. Vaughan|"
+    "R. Vaughan|UUP"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
@@ -207539,8 +207539,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154422,
-    154423
+    154555,
+    154556
    ]
   },
   {
@@ -207574,7 +207574,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154432
+    154570
    ]
   },
   {
@@ -270279,7 +270279,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154456
+    154601
    ]
   },
   {
@@ -362600,7 +362600,7 @@
    "provenance": "keyed on the source's own candidate id (ie:12173)",
    "provisional": true,
    "mergedFrom": [
-    154354
+    154473
    ]
   },
   {
@@ -415294,7 +415294,7 @@
     "paddy burke"
    ],
    "mergedFrom": [
-    154463
+    154611
    ]
   },
   {
@@ -492346,8 +492346,8 @@
     "martin connolly"
    ],
    "mergedFrom": [
-    154407,
-    154462
+    154526,
+    154610
    ]
   },
   {
@@ -510880,7 +510880,7 @@
    "provenance": "keyed on the source's own candidate id (wikipedia:Edmund Haviland-Burke)",
    "provisional": true,
    "mergedFrom": [
-    154362
+    154481
    ]
   },
   {
@@ -514463,7 +514463,7 @@
    "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154389
+    154508
    ]
   },
   {
@@ -562640,7 +562640,7 @@
    "provenance": "keyed on the source's own candidate id (wikipedia:John Henry North)",
    "provisional": true,
    "mergedFrom": [
-    154392
+    154511
    ]
   },
   {
@@ -577241,7 +577241,7 @@
     "henry kenny"
    ],
    "mergedFrom": [
-    154461
+    154609
    ]
   },
   {
@@ -693134,7 +693134,7 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 8,
+   "candidacies": 7,
    "contests": 7,
    "firstYear": 1929,
    "lastYear": 1955,
@@ -782196,12 +782196,13 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1899,
-   "lastYear": 1899,
+   "lastYear": 1946,
    "bodies": [
-    "portadown-borough-council"
+    "portadown-borough-council",
+    "warrenpoint-urban-district-council"
    ],
    "parties": [
     "UUP"
@@ -792377,10 +792378,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1927,
-   "lastYear": 1964,
+   "lastYear": 1961,
    "bodies": [
     "cookstown-urban-district-council",
     "enniskillen-rural-district-council"
@@ -792388,7 +792389,8 @@
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p138847",
@@ -794935,17 +794937,18 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1955,
-   "lastYear": 1964,
+   "lastYear": 1961,
    "bodies": [
     "cookstown-urban-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p138948",
@@ -797549,10 +797552,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1955,
-   "lastYear": 1964,
+   "lastYear": 1961,
    "bodies": [
     "cookstown-urban-district-council"
    ],
@@ -797775,17 +797778,18 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1955,
-   "lastYear": 1964,
+   "lastYear": 1961,
    "bodies": [
     "cookstown-urban-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p139052",
@@ -799098,17 +799102,18 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1955,
-   "lastYear": 1964,
+   "lastYear": 1961,
    "bodies": [
     "cookstown-urban-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p139106",
@@ -802673,13 +802678,12 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1961,
    "lastYear": 1967,
    "bodies": [
     "ballyclare-urban-district-council",
-    "cookstown-urban-district-council",
     "tyrone-county-council"
    ],
    "parties": [],
@@ -804229,17 +804233,18 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 1,
+   "contests": 1,
    "firstYear": 1961,
-   "lastYear": 1964,
+   "lastYear": 1961,
    "bodies": [
     "cookstown-urban-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p139289",
@@ -807049,13 +807054,12 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1946,
-   "lastYear": 1964,
+   "lastYear": 1955,
    "bodies": [
-    "ballymoney-urban-district-council",
-    "cookstown-urban-district-council"
+    "ballymoney-urban-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
@@ -833467,7 +833471,8 @@
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p140380",
@@ -842222,33 +842227,6 @@
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p140709",
-   "personId": 140709,
-   "displayName": "F. Atkinson",
-   "aliases": [
-    "F. Atkinson"
-   ],
-   "matchKeys": [
-    "f atkinson"
-   ],
-   "sourceIds": [
-    "F. Atkinson|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1931,
-   "lastYear": 1931,
-   "bodies": [
-    "carrickfergus-borough-council"
-   ],
-   "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
   },
   {
    "id": "p140710",
@@ -857037,7 +857015,7 @@
     "j mcgucken"
    ],
    "sourceIds": [
-    "J. McGucken|"
+    "J. McGucken|UUP"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
@@ -857048,7 +857026,9 @@
    "bodies": [
     "cookstown-urban-district-council"
    ],
-   "parties": [],
+   "parties": [
+    "UUP"
+   ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
@@ -857606,7 +857586,7 @@
     "j n clements"
    ],
    "sourceIds": [
-    "J. N. Clements|"
+    "J. N. Clements|UUP"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
@@ -857617,7 +857597,9 @@
    "bodies": [
     "cookstown-urban-district-council"
    ],
-   "parties": [],
+   "parties": [
+    "UUP"
+   ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
@@ -872671,10 +872653,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1952,
-   "lastYear": 1952,
+   "lastYear": 1964,
    "bodies": [
     "cookstown-urban-district-council"
    ],
@@ -874419,7 +874401,8 @@
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p141904",
@@ -902212,9 +902195,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1952,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1946,
    "lastYear": 1952,
    "bodies": [
     "warrenpoint-urban-district-council"
@@ -963200,7 +963183,7 @@
     "francis corey"
    ],
    "sourceIds": [
-    "Francis Corey|"
+    "Francis Corey|National Democratic Party"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
@@ -963211,7 +963194,9 @@
    "bodies": [
     "lisburn-rural-district-council"
    ],
-   "parties": [],
+   "parties": [
+    "National Democratic Party"
+   ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
@@ -963890,8 +963875,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1955,
    "lastYear": 1967,
    "bodies": [
@@ -978595,9 +978580,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1933,
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1939,
    "lastYear": 1939,
    "bodies": [
     "dungannon-rural-district-council"
@@ -980875,7 +980860,8 @@
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p146291",
@@ -1015753,9 +1015739,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1930,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1933,
    "lastYear": 1936,
    "bodies": [
     "newry-no-1-rural-district-council"
@@ -1015763,7 +1015749,8 @@
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p147610",
@@ -1018004,7 +1017991,7 @@
     "a j m clean"
    ],
    "sourceIds": [
-    "A. J. M'Clean|"
+    "A. J. M'Clean|Nationalist Party"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
@@ -1018015,7 +1018002,9 @@
    "bodies": [
     "newry-no-1-rural-district-council"
    ],
-   "parties": [],
+   "parties": [
+    "Nationalist Party"
+   ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
@@ -1020111,7 +1020100,7 @@
     "p m ateer"
    ],
    "sourceIds": [
-    "P. M'Ateer|"
+    "P. M'Ateer|Nationalist Party"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
@@ -1020122,7 +1020111,9 @@
    "bodies": [
     "newry-no-1-rural-district-council"
    ],
-   "parties": [],
+   "parties": [
+    "Nationalist Party"
+   ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
@@ -1024903,33 +1024894,6 @@
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p147983",
-   "personId": 147983,
-   "displayName": "Francis Moris",
-   "aliases": [
-    "Francis Moris"
-   ],
-   "matchKeys": [
-    "francis moris"
-   ],
-   "sourceIds": [
-    "Francis Moris|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1958,
-   "lastYear": 1958,
-   "bodies": [
-    "omagh-rural-district-council"
-   ],
-   "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
   },
   {
    "id": "p147984",
@@ -1037708,9 +1037672,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1929,
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1939,
    "lastYear": 1939,
    "bodies": [
     "omagh-urban-district-council"
@@ -1037720,7 +1037684,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p148473",
@@ -1044930,7 +1044895,7 @@
     "hugh friel"
    ],
    "sourceIds": [
-    "Hugh Friel|Nationalist Party"
+    "Hugh Friel|Irish Labour"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
@@ -1044942,7 +1044907,7 @@
     "omagh-urban-district-council"
    ],
    "parties": [
-    "Nationalist Party"
+    "NI Labour"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -1089109,35 +1089074,6 @@
    "provisional": true
   },
   {
-   "id": "p153267",
-   "personId": 153267,
-   "displayName": "Jack Bleakley",
-   "aliases": [
-    "Jack Bleakley"
-   ],
-   "matchKeys": [
-    "jack bleakley"
-   ],
-   "sourceIds": [
-    "Jack Bleakley|UUP"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1967,
-   "lastYear": 1967,
-   "bodies": [
-    "antrim-rural-district-council"
-   ],
-   "parties": [
-    "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
    "id": "p153268",
    "personId": 153268,
    "displayName": "James Linton",
@@ -1091827,6 +1091763,854 @@
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p154527",
+   "personId": 154527,
+   "displayName": "Alan Victor Gould",
+   "aliases": [
+    "Alan Victor Gould"
+   ],
+   "matchKeys": [
+    "alan victor gould"
+   ],
+   "sourceIds": [
+    "Alan Victor Gould|Ratepayers' Association"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1964,
+   "lastYear": 1964,
+   "bodies": [
+    "cookstown-urban-district-council"
+   ],
+   "parties": [
+    "Ratepayers' Association"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p154528",
+   "personId": 154528,
+   "displayName": "Anthony Eastwood",
+   "aliases": [
+    "Anthony Eastwood"
+   ],
+   "matchKeys": [
+    "anthony eastwood"
+   ],
+   "sourceIds": [
+    "Anthony Eastwood|Ratepayers' Association"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1964,
+   "lastYear": 1964,
+   "bodies": [
+    "cookstown-urban-district-council"
+   ],
+   "parties": [
+    "Ratepayers' Association"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p154529",
+   "personId": 154529,
+   "displayName": "Henry Todd McMillen",
+   "aliases": [
+    "Henry Todd McMillen"
+   ],
+   "matchKeys": [
+    "henry todd mcmillen"
+   ],
+   "sourceIds": [
+    "Henry Todd McMillen|Ratepayers' Association"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1964,
+   "lastYear": 1964,
+   "bodies": [
+    "cookstown-urban-district-council"
+   ],
+   "parties": [
+    "Ratepayers' Association"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p154534",
+   "personId": 154534,
+   "displayName": "John Henderson",
+   "aliases": [
+    "John Henderson"
+   ],
+   "matchKeys": [
+    "john henderson"
+   ],
+   "sourceIds": [
+    "John Henderson|Ratepayers' Association"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1964,
+   "lastYear": 1964,
+   "bodies": [
+    "cookstown-urban-district-council"
+   ],
+   "parties": [
+    "Ratepayers' Association"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p154535",
+   "personId": 154535,
+   "displayName": "John Joseph Sally",
+   "aliases": [
+    "John Joseph Sally"
+   ],
+   "matchKeys": [
+    "john joseph sally"
+   ],
+   "sourceIds": [
+    "John Joseph Sally|Ratepayers' Association"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1964,
+   "lastYear": 1964,
+   "bodies": [
+    "cookstown-urban-district-council"
+   ],
+   "parties": [
+    "Ratepayers' Association"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p154538",
+   "personId": 154538,
+   "displayName": "Patrick Joseph Eastwood",
+   "aliases": [
+    "Patrick Joseph Eastwood"
+   ],
+   "matchKeys": [
+    "patrick joseph eastwood"
+   ],
+   "sourceIds": [
+    "Patrick Joseph Eastwood|Ratepayers' Association"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1964,
+   "lastYear": 1964,
+   "bodies": [
+    "cookstown-urban-district-council"
+   ],
+   "parties": [
+    "Ratepayers' Association"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p154539",
+   "personId": 154539,
+   "displayName": "Peter Jack Fisher",
+   "aliases": [
+    "Peter Jack Fisher"
+   ],
+   "matchKeys": [
+    "peter jack fisher"
+   ],
+   "sourceIds": [
+    "Peter Jack Fisher|Ratepayers' Association"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1964,
+   "lastYear": 1964,
+   "bodies": [
+    "cookstown-urban-district-council"
+   ],
+   "parties": [
+    "Ratepayers' Association"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p154540",
+   "personId": 154540,
+   "displayName": "Robert Logan Smyrl",
+   "aliases": [
+    "Robert Logan Smyrl"
+   ],
+   "matchKeys": [
+    "robert logan smyrl"
+   ],
+   "sourceIds": [
+    "Robert Logan Smyrl|Ratepayers' Association"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1964,
+   "lastYear": 1964,
+   "bodies": [
+    "cookstown-urban-district-council"
+   ],
+   "parties": [
+    "Ratepayers' Association"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p154541",
+   "personId": 154541,
+   "displayName": "Thomas Andrew Quinn",
+   "aliases": [
+    "Thomas Andrew Quinn"
+   ],
+   "matchKeys": [
+    "thomas andrew quinn"
+   ],
+   "sourceIds": [
+    "Thomas Andrew Quinn|Ratepayers' Association"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1964,
+   "lastYear": 1964,
+   "bodies": [
+    "cookstown-urban-district-council"
+   ],
+   "parties": [
+    "Ratepayers' Association"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p154543",
+   "personId": 154543,
+   "displayName": "William Blair",
+   "aliases": [
+    "William Blair"
+   ],
+   "matchKeys": [
+    "william blair"
+   ],
+   "sourceIds": [
+    "William Blair|Ratepayers' Association"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1964,
+   "lastYear": 1964,
+   "bodies": [
+    "cookstown-urban-district-council"
+   ],
+   "parties": [
+    "Ratepayers' Association"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p154549",
+   "personId": 154549,
+   "displayName": "A. McConnell",
+   "aliases": [
+    "A. McConnell"
+   ],
+   "matchKeys": [
+    "a mcconnell"
+   ],
+   "sourceIds": [
+    "A. McConnell|UUP"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1964,
+   "lastYear": 1964,
+   "bodies": [
+    "cookstown-urban-district-council"
+   ],
+   "parties": [
+    "UUP"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p154552",
+   "personId": 154552,
+   "displayName": "Andrew John Gallagher",
+   "aliases": [
+    "Andrew John Gallagher"
+   ],
+   "matchKeys": [
+    "andrew john gallagher"
+   ],
+   "sourceIds": [
+    "Andrew John Gallagher|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1949,
+   "lastYear": 1949,
+   "bodies": [
+    "tyrone-county-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p154553",
+   "personId": 154553,
+   "displayName": "Benedict Malocca",
+   "aliases": [
+    "Benedict Malocca"
+   ],
+   "matchKeys": [
+    "benedict malocca"
+   ],
+   "sourceIds": [
+    "Benedict Malocca|Independent"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1946,
+   "lastYear": 1946,
+   "bodies": [
+    "warrenpoint-urban-district-council"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p154554",
+   "personId": 154554,
+   "displayName": "C. Purdy",
+   "aliases": [
+    "C. Purdy"
+   ],
+   "matchKeys": [
+    "c purdy"
+   ],
+   "sourceIds": [
+    "C. Purdy|UUP"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1964,
+   "lastYear": 1964,
+   "bodies": [
+    "cookstown-urban-district-council"
+   ],
+   "parties": [
+    "UUP"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p154559",
+   "personId": 154559,
+   "displayName": "D. Wilkinson",
+   "aliases": [
+    "D. Wilkinson"
+   ],
+   "matchKeys": [
+    "d wilkinson"
+   ],
+   "sourceIds": [
+    "D. Wilkinson|UUP"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1964,
+   "lastYear": 1964,
+   "bodies": [
+    "cookstown-urban-district-council"
+   ],
+   "parties": [
+    "UUP"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p154563",
+   "personId": 154563,
+   "displayName": "E. J. Convery",
+   "aliases": [
+    "E. J. Convery"
+   ],
+   "matchKeys": [
+    "e j convery"
+   ],
+   "sourceIds": [
+    "E. J. Convery|Nationalist Party"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1930,
+   "lastYear": 1930,
+   "bodies": [
+    "newry-no-1-rural-district-council"
+   ],
+   "parties": [
+    "Nationalist Party"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p154564",
+   "personId": 154564,
+   "displayName": "G. Ferguson",
+   "aliases": [
+    "G. Ferguson"
+   ],
+   "matchKeys": [
+    "g ferguson"
+   ],
+   "sourceIds": [
+    "G. Ferguson|UUP"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1964,
+   "lastYear": 1964,
+   "bodies": [
+    "cookstown-urban-district-council"
+   ],
+   "parties": [
+    "UUP"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p154567",
+   "personId": 154567,
+   "displayName": "Harriett Sylvia Ethel Dunphy",
+   "aliases": [
+    "Harriett Sylvia Ethel Dunphy"
+   ],
+   "matchKeys": [
+    "harriett sylvia ethel dunphy"
+   ],
+   "sourceIds": [
+    "Harriett Sylvia Ethel Dunphy|Independent"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1964,
+   "lastYear": 1964,
+   "bodies": [
+    "cookstown-urban-district-council"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p154568",
+   "personId": 154568,
+   "displayName": "Hugh Joseph Rice",
+   "aliases": [
+    "Hugh Joseph Rice"
+   ],
+   "matchKeys": [
+    "hugh joseph rice"
+   ],
+   "sourceIds": [
+    "Hugh Joseph Rice|NI Labour"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1946,
+   "lastYear": 1946,
+   "bodies": [
+    "warrenpoint-urban-district-council"
+   ],
+   "parties": [
+    "NI Labour"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p154575",
+   "personId": 154575,
+   "displayName": "J. Donaghy",
+   "aliases": [
+    "J. Donaghy"
+   ],
+   "matchKeys": [
+    "j donaghy"
+   ],
+   "sourceIds": [
+    "J. Donaghy|UUP"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1964,
+   "lastYear": 1964,
+   "bodies": [
+    "cookstown-urban-district-council"
+   ],
+   "parties": [
+    "UUP"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p154576",
+   "personId": 154576,
+   "displayName": "Jack Blakeley",
+   "aliases": [
+    "Jack Blakeley"
+   ],
+   "matchKeys": [
+    "jack blakeley"
+   ],
+   "sourceIds": [
+    "Jack Blakeley|UUP"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1967,
+   "lastYear": 1967,
+   "bodies": [
+    "antrim-rural-district-council"
+   ],
+   "parties": [
+    "UUP"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p154577",
+   "personId": 154577,
+   "displayName": "James Webb",
+   "aliases": [
+    "James Webb"
+   ],
+   "matchKeys": [
+    "james webb"
+   ],
+   "sourceIds": [
+    "James Webb|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1933,
+   "lastYear": 1933,
+   "bodies": [
+    "dungannon-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p154579",
+   "personId": 154579,
+   "displayName": "N. Watson",
+   "aliases": [
+    "N. Watson"
+   ],
+   "matchKeys": [
+    "n watson"
+   ],
+   "sourceIds": [
+    "N. Watson|UUP"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1964,
+   "lastYear": 1964,
+   "bodies": [
+    "cookstown-urban-district-council"
+   ],
+   "parties": [
+    "UUP"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p154582",
+   "personId": 154582,
+   "displayName": "Norman Armstrong",
+   "aliases": [
+    "Norman Armstrong"
+   ],
+   "matchKeys": [
+    "norman armstrong"
+   ],
+   "sourceIds": [
+    "Norman Armstrong|UUP"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1964,
+   "lastYear": 1964,
+   "bodies": [
+    "cookstown-urban-district-council"
+   ],
+   "parties": [
+    "UUP"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p154587",
+   "personId": 154587,
+   "displayName": "Samuel Colvin",
+   "aliases": [
+    "Samuel Colvin"
+   ],
+   "matchKeys": [
+    "samuel colvin"
+   ],
+   "sourceIds": [
+    "Samuel Colvin|UUP"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1946,
+   "lastYear": 1946,
+   "bodies": [
+    "warrenpoint-urban-district-council"
+   ],
+   "parties": [
+    "UUP"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p154591",
+   "personId": 154591,
+   "displayName": "Stanley Haggan",
+   "aliases": [
+    "Stanley Haggan"
+   ],
+   "matchKeys": [
+    "stanley haggan"
+   ],
+   "sourceIds": [
+    "Stanley Haggan|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1931,
+   "lastYear": 1931,
+   "bodies": [
+    "carrickfergus-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p154606",
+   "personId": 154606,
+   "displayName": "W. Graham",
+   "aliases": [
+    "W. Graham"
+   ],
+   "matchKeys": [
+    "w graham"
+   ],
+   "sourceIds": [
+    "W. Graham|UUP"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1964,
+   "lastYear": 1964,
+   "bodies": [
+    "cookstown-urban-district-council"
+   ],
+   "parties": [
+    "UUP"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p154607",
+   "personId": 154607,
+   "displayName": "William F. Townsend",
+   "aliases": [
+    "William F. Townsend"
+   ],
+   "matchKeys": [
+    "william f townsend"
+   ],
+   "sourceIds": [
+    "William F. Townsend|Irish Labour"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1929,
+   "lastYear": 1929,
+   "bodies": [
+    "omagh-urban-district-council"
+   ],
+   "parties": [
+    "NI Labour"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p154608",
+   "personId": 154608,
+   "displayName": "Wm. James Hourican",
+   "aliases": [
+    "Wm. James Hourican"
+   ],
+   "matchKeys": [
+    "wm james hourican"
+   ],
+   "sourceIds": [
+    "Wm. James Hourican|Independent"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1946,
+   "lastYear": 1946,
+   "bodies": [
+    "warrenpoint-urban-district-council"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
   },
   {
    "id": "p900001",
