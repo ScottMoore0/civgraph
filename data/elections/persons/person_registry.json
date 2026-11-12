@@ -2,7 +2,7 @@
  "schemaVersion": 2,
  "description": "Stable identifiers for people appearing as candidates in the current election data. The id is independent of name spelling, so a correction changes displayName and adds an alias, never the id.",
  "idPolicy": "Ids are permanent. PersonIDs 1-100011 are the curated block carried forward from scripts/ingest/persons/person_registry.json; 100012+ are derived. A new id is never one issued before, even one merged away at once: idHighWater is the highest issued (person_id_issued.py).",
- "idHighWater": 153460,
+ "idHighWater": 153626,
  "supersedes": "scripts/ingest/persons/person_registry.json (2,388 curated persons; its source workbook is no longer present and apply_person_ids.py targets an _aggregates.json layout that no longer exists)",
  "evidence": {
   "rowIndexIdsDiscarded": [
@@ -46,7 +46,7 @@
   ],
   "note": "Ids carrying more than one distinct name are row indices, not people.",
   "crossSystemMerges": 1061,
-  "sameNameLeftSplit": 2882
+  "sameNameLeftSplit": 2887
  },
  "conservatism": "Nothing is merged on name alone. Two ids from the same source system sharing a name stay separate and are flagged needsReview.",
  "entities": [
@@ -831,9 +831,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1997,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1995,
    "lastYear": 1997,
    "bodies": [
     "local-government"
@@ -1158,8 +1158,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1989,
    "lastYear": 1997,
    "bodies": [
@@ -6476,8 +6476,8 @@
     "niassembly:64",
     "wikidata:Q5296845"
    ],
-   "candidacies": 12,
-   "contests": 12,
+   "candidacies": 13,
+   "contests": 13,
    "firstYear": 1987,
    "lastYear": 2011,
    "bodies": [
@@ -9904,7 +9904,7 @@
    "eraReason": "split by its official person id (democracyclub:2137): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    153396
+    153515
    ]
   },
   {
@@ -10243,10 +10243,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
+   "candidacies": 7,
+   "contests": 7,
    "firstYear": 1958,
-   "lastYear": 1989,
+   "lastYear": 1991,
    "bodies": [
     "bangor-borough-council",
     "local-government",
@@ -12303,7 +12303,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    153444
+    153572
    ]
   },
   {
@@ -13587,7 +13587,7 @@
    "eraReason": "split by its official person id (democracyclub:7132): the source id it shares is held by another person with another official id",
    "nameVariants": true,
    "mergedFrom": [
-    153397
+    153516
    ]
   },
   {
@@ -16491,8 +16491,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
+   "candidacies": 7,
+   "contests": 7,
    "firstYear": 1993,
    "lastYear": 2011,
    "bodies": [
@@ -19319,9 +19319,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1993,
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1990,
    "lastYear": 2005,
    "bodies": [
     "local-government"
@@ -19516,8 +19516,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1993,
    "lastYear": 1998,
    "bodies": [
@@ -21623,9 +21623,9 @@
     "niassembly:43",
     "wikidata:Q5043280"
    ],
-   "candidacies": 6,
-   "contests": 6,
-   "firstYear": 1997,
+   "candidacies": 7,
+   "contests": 7,
+   "firstYear": 1995,
    "lastYear": 2007,
    "bodies": [
     "local-government",
@@ -25092,8 +25092,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1989,
    "lastYear": 2001,
    "bodies": [
@@ -25204,7 +25204,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    153446
+    153602
    ]
   },
   {
@@ -25683,14 +25683,15 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1997,
-   "lastYear": 2001,
+   "lastYear": 2004,
    "bodies": [
     "local-government"
    ],
    "parties": [
+    "Independent",
     "UUP"
    ],
    "keyedBy": "id",
@@ -30257,9 +30258,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
-   "firstYear": 1997,
+   "candidacies": 6,
+   "contests": 6,
+   "firstYear": 1991,
    "lastYear": 2014,
    "bodies": [
     "local-government"
@@ -31372,9 +31373,9 @@
     "niassembly:121",
     "wikidata:Q6530733"
    ],
-   "candidacies": 8,
-   "contests": 8,
-   "firstYear": 1989,
+   "candidacies": 9,
+   "contests": 9,
+   "firstYear": 1988,
    "lastYear": 2011,
    "bodies": [
     "local-government",
@@ -31664,9 +31665,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1997,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1995,
    "lastYear": 1997,
    "bodies": [
     "local-government"
@@ -32725,8 +32726,8 @@
     "ukparliament:4274",
     "wikidata:Q5479812"
    ],
-   "candidacies": 16,
-   "contests": 16,
+   "candidacies": 17,
+   "contests": 17,
    "firstYear": 1982,
    "lastYear": 2019,
    "bodies": [
@@ -35655,8 +35656,8 @@
     "niassembly:199",
     "wikidata:Q6272833"
    ],
-   "candidacies": 10,
-   "contests": 10,
+   "candidacies": 11,
+   "contests": 11,
    "firstYear": 1993,
    "lastYear": 2023,
    "bodies": [
@@ -36081,8 +36082,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 20,
-   "contests": 20,
+   "candidacies": 22,
+   "contests": 22,
    "firstYear": 1973,
    "lastYear": 2005,
    "bodies": [
@@ -36133,7 +36134,8 @@
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
-   "provisional": false
+   "provisional": false,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p58286",
@@ -41761,8 +41763,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1993,
    "lastYear": 2001,
    "bodies": [
@@ -42149,7 +42151,7 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "nameVariants": true,
    "mergedFrom": [
-    153342
+    153461
    ]
   },
   {
@@ -42398,8 +42400,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
+   "candidacies": 7,
+   "contests": 7,
    "firstYear": 1973,
    "lastYear": 1985,
    "bodies": [
@@ -43203,7 +43205,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    153447
+    153613
    ]
   },
   {
@@ -46723,9 +46725,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1993,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1989,
    "lastYear": 2001,
    "bodies": [
     "local-government"
@@ -48245,8 +48247,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 7,
-   "contests": 7,
+   "candidacies": 8,
+   "contests": 8,
    "firstYear": 1997,
    "lastYear": 2007,
    "bodies": [
@@ -50108,9 +50110,9 @@
     "niassembly:5801",
     "wikidata:Q24052783"
    ],
-   "candidacies": 15,
-   "contests": 15,
-   "firstYear": 1993,
+   "candidacies": 16,
+   "contests": 16,
+   "firstYear": 1991,
    "lastYear": 2022,
    "bodies": [
     "house-of-commons-of-the-united-kingdom",
@@ -53365,9 +53367,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
-   "firstYear": 1989,
+   "candidacies": 6,
+   "contests": 6,
+   "firstYear": 1987,
    "lastYear": 2005,
    "bodies": [
     "european-parliament",
@@ -53405,9 +53407,9 @@
     "niassembly:5798",
     "wikidata:Q24083699"
    ],
-   "candidacies": 8,
-   "contests": 8,
-   "firstYear": 1997,
+   "candidacies": 9,
+   "contests": 9,
+   "firstYear": 1995,
    "lastYear": 2022,
    "bodies": [
     "local-government",
@@ -53439,9 +53441,9 @@
    "officialPersonIds": [
     "democracyclub:69191"
    ],
-   "candidacies": 7,
-   "contests": 7,
-   "firstYear": 1997,
+   "candidacies": 8,
+   "contests": 8,
+   "firstYear": 1995,
    "lastYear": 2019,
    "bodies": [
     "local-government",
@@ -53503,8 +53505,8 @@
     "democracyclub:6135",
     "wikidata:Q4934101"
    ],
-   "candidacies": 8,
-   "contests": 8,
+   "candidacies": 9,
+   "contests": 9,
    "firstYear": 1993,
    "lastYear": 2016,
    "bodies": [
@@ -58123,10 +58125,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 8,
-   "contests": 8,
+   "candidacies": 9,
+   "contests": 9,
    "firstYear": 1985,
-   "lastYear": 2001,
+   "lastYear": 2007,
    "bodies": [
     "house-of-commons-of-the-united-kingdom",
     "local-government",
@@ -58190,9 +58192,9 @@
     "niassembly:6166",
     "wikidata:Q56702135"
    ],
-   "candidacies": 8,
-   "contests": 8,
-   "firstYear": 1989,
+   "candidacies": 11,
+   "contests": 11,
+   "firstYear": 1987,
    "lastYear": 2024,
    "bodies": [
     "house-of-commons-of-the-united-kingdom",
@@ -58297,8 +58299,8 @@
     "niassembly:142",
     "wikidata:Q5237446"
    ],
-   "candidacies": 9,
-   "contests": 9,
+   "candidacies": 10,
+   "contests": 10,
    "firstYear": 1973,
    "lastYear": 2011,
    "bodies": [
@@ -58746,8 +58748,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1982,
    "lastYear": 2001,
    "bodies": [
@@ -58812,9 +58814,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1993,
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1990,
    "lastYear": 2005,
    "bodies": [
     "local-government"
@@ -59967,8 +59969,8 @@
     "niassembly:13",
     "wikidata:Q5398557"
    ],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1993,
    "lastYear": 2007,
    "bodies": [
@@ -60571,7 +60573,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    153414
+    153533
    ]
   },
   {
@@ -62487,10 +62489,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    153353,
-    153370,
-    153417,
-    153418
+    153472,
+    153490,
+    153536,
+    153537
    ]
   },
   {
@@ -62802,10 +62804,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    153381,
-    153382,
-    153399,
-    153452
+    153500,
+    153501,
+    153518,
+    153618
    ]
   },
   {
@@ -63448,8 +63450,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 9,
-   "contests": 9,
+   "candidacies": 10,
+   "contests": 10,
    "firstYear": 1977,
    "lastYear": 2011,
    "bodies": [
@@ -63496,10 +63498,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    153359,
-    153360,
-    153426,
-    153427
+    153478,
+    153479,
+    153545,
+    153546
    ]
   },
   {
@@ -63536,10 +63538,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    153361,
-    153375,
-    153387,
-    153428
+    153480,
+    153495,
+    153506,
+    153547
    ]
   },
   {
@@ -63957,9 +63959,9 @@
    "officialPersonIds": [
     "democracyclub:50151"
    ],
-   "candidacies": 9,
-   "contests": 9,
-   "firstYear": 1989,
+   "candidacies": 10,
+   "contests": 10,
+   "firstYear": 1985,
    "lastYear": 2023,
    "bodies": [
     "local-government"
@@ -64023,8 +64025,8 @@
    "officialPersonIds": [
     "democracyclub:68911"
    ],
-   "candidacies": 7,
-   "contests": 7,
+   "candidacies": 8,
+   "contests": 8,
    "firstYear": 2001,
    "lastYear": 2023,
    "bodies": [
@@ -64043,8 +64045,8 @@
    "eraReason": "split by its official person id (democracyclub:68911): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    153379,
-    153445
+    153485,
+    153592
    ]
   },
   {
@@ -64167,7 +64169,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p100130",
@@ -64204,11 +64207,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    153366,
-    153383,
-    153454,
-    153455,
-    153456
+    153486,
+    153502,
+    153620,
+    153621,
+    153622
    ]
   },
   {
@@ -64983,10 +64986,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    153345,
-    153351,
-    153409,
-    153410
+    153464,
+    153470,
+    153528,
+    153529
    ]
   },
   {
@@ -65646,8 +65649,8 @@
    "officialPersonIds": [
     "democracyclub:68689"
    ],
-   "candidacies": 8,
-   "contests": 8,
+   "candidacies": 9,
+   "contests": 9,
    "firstYear": 1989,
    "lastYear": 2019,
    "bodies": [
@@ -65906,12 +65909,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    153380,
-    153398,
-    153448,
-    153449,
-    153450,
-    153451
+    153499,
+    153517,
+    153614,
+    153615,
+    153616,
+    153617
    ]
   },
   {
@@ -67236,8 +67239,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 7,
-   "contests": 7,
+   "candidacies": 8,
+   "contests": 8,
    "firstYear": 1977,
    "lastYear": 2001,
    "bodies": [
@@ -68173,8 +68176,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 7,
-   "contests": 7,
+   "candidacies": 8,
+   "contests": 8,
    "firstYear": 1985,
    "lastYear": 2011,
    "bodies": [
@@ -70315,9 +70318,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    153346,
-    153347,
-    153372
+    153465,
+    153466,
+    153492
    ]
   },
   {
@@ -70355,11 +70358,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    153356,
-    153373,
-    153374,
-    153386,
-    153423
+    153475,
+    153493,
+    153494,
+    153505,
+    153542
    ]
   },
   {
@@ -70396,10 +70399,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    153343,
-    153348,
-    153435,
-    153436
+    153462,
+    153467,
+    153554,
+    153555
    ]
   },
   {
@@ -70475,9 +70478,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
-   "firstYear": 1989,
+   "candidacies": 7,
+   "contests": 7,
+   "firstYear": 1986,
    "lastYear": 2011,
    "bodies": [
     "local-government"
@@ -70566,8 +70569,8 @@
    "officialPersonIds": [
     "democracyclub:69226"
    ],
-   "candidacies": 6,
-   "contests": 6,
+   "candidacies": 7,
+   "contests": 7,
    "firstYear": 1985,
    "lastYear": 2019,
    "bodies": [
@@ -71085,14 +71088,15 @@
    "officialPersonIds": [
     "democracyclub:69367"
    ],
-   "candidacies": 6,
-   "contests": 6,
-   "firstYear": 1997,
+   "candidacies": 7,
+   "contests": 7,
+   "firstYear": 1995,
    "lastYear": 2019,
    "bodies": [
     "local-government"
    ],
    "parties": [
+    "Conservative",
     "DUP",
     "Independent",
     "UUP"
@@ -71807,14 +71811,15 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 2001,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1987,
    "lastYear": 2011,
    "bodies": [
     "local-government"
    ],
    "parties": [
+    "Alliance",
     "Sinn Féin"
    ],
    "keyedBy": "id",
@@ -72170,8 +72175,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
+   "candidacies": 7,
+   "contests": 7,
    "firstYear": 1989,
    "lastYear": 2011,
    "bodies": [
@@ -72323,8 +72328,8 @@
    "officialPersonIds": [
     "democracyclub:49679"
    ],
-   "candidacies": 6,
-   "contests": 6,
+   "candidacies": 7,
+   "contests": 7,
    "firstYear": 2001,
    "lastYear": 2023,
    "bodies": [
@@ -72551,11 +72556,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    153344,
-    153400,
-    153401,
-    153402,
-    153457
+    153463,
+    153519,
+    153520,
+    153521,
+    153623
    ]
   },
   {
@@ -75691,12 +75696,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    153349,
-    153376,
-    153392,
-    153393,
-    153437,
-    153438
+    153468,
+    153496,
+    153511,
+    153512,
+    153556,
+    153557
    ]
   },
   {
@@ -75734,11 +75739,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    153350,
-    153364,
-    153377,
-    153439,
-    153440
+    153469,
+    153483,
+    153497,
+    153558,
+    153559
    ]
   },
   {
@@ -75778,13 +75783,13 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    153365,
-    153378,
-    153394,
-    153395,
-    153441,
-    153442,
-    153443
+    153484,
+    153498,
+    153513,
+    153514,
+    153560,
+    153561,
+    153562
    ]
   },
   {
@@ -75836,8 +75841,8 @@
    "officialPersonIds": [
     "democracyclub:69313"
    ],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 2005,
    "lastYear": 2023,
    "bodies": [
@@ -75925,8 +75930,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1993,
    "lastYear": 2011,
    "bodies": [
@@ -76228,8 +76233,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1973,
    "lastYear": 1989,
    "bodies": [
@@ -77205,8 +77210,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1989,
    "lastYear": 2011,
    "bodies": [
@@ -77477,9 +77482,9 @@
    "officialPersonIds": [
     "democracyclub:49599"
    ],
-   "candidacies": 5,
-   "contests": 5,
-   "firstYear": 2005,
+   "candidacies": 6,
+   "contests": 6,
+   "firstYear": 2004,
    "lastYear": 2023,
    "bodies": [
     "local-government"
@@ -77830,8 +77835,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1985,
    "lastYear": 2001,
    "bodies": [
@@ -78115,8 +78120,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1993,
    "lastYear": 2011,
    "bodies": [
@@ -83590,12 +83595,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    153352,
-    153367,
-    153368,
-    153369,
-    153412,
-    153413
+    153471,
+    153487,
+    153488,
+    153489,
+    153531,
+    153532
    ]
   },
   {
@@ -83761,11 +83766,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    153354,
-    153355,
-    153371,
-    153421,
-    153422
+    153473,
+    153474,
+    153491,
+    153540,
+    153541
    ]
   },
   {
@@ -83801,9 +83806,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    153357,
-    153424,
-    153425
+    153476,
+    153543,
+    153544
    ]
   },
   {
@@ -83842,12 +83847,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    153362,
-    153363,
-    153389,
-    153390,
-    153391,
-    153434
+    153481,
+    153482,
+    153508,
+    153509,
+    153510,
+    153553
    ]
   },
   {
@@ -84467,8 +84472,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1989,
    "lastYear": 2001,
    "bodies": [
@@ -84526,8 +84531,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1981,
    "lastYear": 1997,
    "bodies": [
@@ -85292,9 +85297,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1993,
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1990,
    "lastYear": 2005,
    "bodies": [
     "local-government"
@@ -85678,10 +85683,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1981,
-   "lastYear": 1993,
+   "lastYear": 1994,
    "bodies": [
     "local-government"
    ],
@@ -88382,8 +88387,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1985,
    "lastYear": 2011,
    "bodies": [
@@ -89503,9 +89508,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1989,
+   "candidacies": 6,
+   "contests": 6,
+   "firstYear": 1987,
    "lastYear": 2014,
    "bodies": [
     "local-government"
@@ -91517,11 +91522,9 @@
    "personId": 101080,
    "displayName": "Charlie Flanagan",
    "aliases": [
-    "Charles Flanagan",
     "Charlie Flanagan"
    ],
    "matchKeys": [
-    "charles flanagan",
     "charlie flanagan"
    ],
    "sourceIds": [],
@@ -91545,8 +91548,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3699)",
-   "provisional": true,
-   "nameVariants": true
+   "provisional": true
   },
   {
    "id": "p101081",
@@ -103799,8 +103801,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1981,
    "lastYear": 2001,
    "bodies": [
@@ -104334,10 +104336,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1981,
-   "lastYear": 1985,
+   "lastYear": 1987,
    "bodies": [
     "local-government"
    ],
@@ -104459,8 +104461,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1993,
    "lastYear": 2001,
    "bodies": [
@@ -105775,9 +105777,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1993,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1992,
    "lastYear": 2001,
    "bodies": [
     "local-government"
@@ -106073,8 +106075,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1973,
    "lastYear": 1993,
    "bodies": [
@@ -107124,8 +107126,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1973,
    "lastYear": 1997,
    "bodies": [
@@ -107574,9 +107576,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1989,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1987,
    "lastYear": 1997,
    "bodies": [
     "local-government"
@@ -107603,8 +107605,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1981,
    "lastYear": 1997,
    "bodies": [
@@ -108981,9 +108983,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 2005,
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 2000,
    "lastYear": 2014,
    "bodies": [
     "local-government"
@@ -112719,12 +112721,10 @@
    "personId": 101860,
    "displayName": "Dr James Reilly",
    "aliases": [
-    "Dr James Reilly",
-    "James Reilly"
+    "Dr James Reilly"
    ],
    "matchKeys": [
-    "dr james reilly",
-    "james reilly"
+    "dr james reilly"
    ],
    "sourceIds": [],
    "sourcePersonIds": [
@@ -112746,8 +112746,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:8619)",
-   "provisional": true,
-   "nameVariants": true
+   "provisional": true
   },
   {
    "id": "p101861",
@@ -121129,10 +121128,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    153405,
-    153406,
-    153407,
-    153408
+    153524,
+    153525,
+    153526,
+    153527
    ]
   },
   {
@@ -121167,8 +121166,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    153384,
-    153411
+    153503,
+    153530
    ]
   },
   {
@@ -126444,10 +126443,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    153430,
-    153431,
-    153432,
-    153433
+    153549,
+    153550,
+    153551,
+    153552
    ]
   },
   {
@@ -127922,9 +127921,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1997,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1994,
    "lastYear": 2001,
    "bodies": [
     "local-government"
@@ -130567,8 +130566,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 2001,
    "lastYear": 2005,
    "bodies": [
@@ -134394,8 +134393,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1973,
    "lastYear": 1989,
    "bodies": [
@@ -136206,9 +136205,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1993,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1990,
    "lastYear": 1997,
    "bodies": [
     "local-government"
@@ -138191,8 +138190,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 2005,
    "lastYear": 2014,
    "bodies": [
@@ -138993,8 +138992,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 2001,
    "lastYear": 2005,
    "bodies": [
@@ -141682,8 +141681,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1993,
    "lastYear": 1997,
    "bodies": [
@@ -142190,9 +142189,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1993,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1990,
    "lastYear": 1997,
    "bodies": [
     "local-government"
@@ -142643,7 +142642,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p102979",
@@ -144209,9 +144209,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 2005,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1995,
    "lastYear": 2011,
    "bodies": [
     "local-government"
@@ -166432,7 +166432,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    153416
+    153535
    ]
   },
   {
@@ -170029,7 +170029,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    153415
+    153534
    ]
   },
   {
@@ -207556,8 +207556,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    153419,
-    153420
+    153538,
+    153539
    ]
   },
   {
@@ -207591,7 +207591,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    153429
+    153548
    ]
   },
   {
@@ -215609,10 +215609,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1985,
-   "lastYear": 1985,
+   "lastYear": 1988,
    "bodies": [
     "local-government"
    ],
@@ -218820,9 +218820,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1989,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1988,
    "lastYear": 1989,
    "bodies": [
     "local-government"
@@ -219055,9 +219055,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1989,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1987,
    "lastYear": 1989,
    "bodies": [
     "local-government"
@@ -221100,10 +221100,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1985,
-   "lastYear": 1985,
+   "lastYear": 1993,
    "bodies": [
     "local-government"
    ],
@@ -221977,9 +221977,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 2005,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 2002,
    "lastYear": 2005,
    "bodies": [
     "local-government"
@@ -223360,10 +223360,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1985,
-   "lastYear": 1985,
+   "lastYear": 1995,
    "bodies": [
     "local-government"
    ],
@@ -224415,9 +224415,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1989,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1988,
    "lastYear": 1989,
    "bodies": [
     "local-government"
@@ -225003,10 +225003,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1985,
-   "lastYear": 1985,
+   "lastYear": 1987,
    "bodies": [
     "local-government"
    ],
@@ -225177,10 +225177,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1985,
-   "lastYear": 1985,
+   "lastYear": 1988,
    "bodies": [
     "local-government"
    ],
@@ -228070,10 +228070,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 2005,
-   "lastYear": 2005,
+   "lastYear": 2006,
    "bodies": [
     "local-government"
    ],
@@ -235175,9 +235175,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1997,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1994,
    "lastYear": 1997,
    "bodies": [
     "local-government"
@@ -241008,10 +241008,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1985,
-   "lastYear": 1985,
+   "lastYear": 1989,
    "bodies": [
     "local-government"
    ],
@@ -245318,10 +245318,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1981,
-   "lastYear": 1985,
+   "lastYear": 1986,
    "bodies": [
     "local-government"
    ],
@@ -250561,10 +250561,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1993,
-   "lastYear": 1993,
+   "lastYear": 1995,
    "bodies": [
     "local-government"
    ],
@@ -250619,9 +250619,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1993,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1992,
    "lastYear": 1993,
    "bodies": [
     "local-government"
@@ -252168,9 +252168,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1993,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1990,
    "lastYear": 1993,
    "bodies": [
     "local-government"
@@ -253215,9 +253215,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1989,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1987,
    "lastYear": 1989,
    "bodies": [
     "local-government"
@@ -254134,10 +254134,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1997,
-   "lastYear": 1997,
+   "lastYear": 2002,
    "bodies": [
     "local-government"
    ],
@@ -255887,9 +255887,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1989,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1988,
    "lastYear": 1989,
    "bodies": [
     "local-government"
@@ -268066,10 +268066,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 2005,
-   "lastYear": 2005,
+   "lastYear": 2006,
    "bodies": [
     "local-government"
    ],
@@ -269232,9 +269232,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1989,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1986,
    "lastYear": 1989,
    "bodies": [
     "local-government"
@@ -270295,7 +270295,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    153453
+    153619
    ]
   },
   {
@@ -359058,10 +359058,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1997,
-   "lastYear": 1997,
+   "lastYear": 2000,
    "bodies": [
     "local-government"
    ],
@@ -362223,7 +362223,7 @@
    ],
    "eraReason": "split from a career spanning more than 60 years at a gap of 25 or more; the same id continues in the other era",
    "mergedFrom": [
-    153404
+    153523
    ]
   },
   {
@@ -372563,7 +372563,9 @@
    "matchKeys": [
     "luie mcentire"
    ],
-   "sourceIds": [],
+   "sourceIds": [
+    "Luie McEntire|Fianna Fáil"
+   ],
    "sourcePersonIds": [
     "ei:603"
    ],
@@ -377638,7 +377640,9 @@
    "matchKeys": [
     "gerry brady"
    ],
-   "sourceIds": [],
+   "sourceIds": [
+    "Gerry Brady|Fine Gael"
+   ],
    "sourcePersonIds": [
     "ei:604"
    ],
@@ -414886,7 +414890,7 @@
     "paddy burke"
    ],
    "mergedFrom": [
-    153460
+    153626
    ]
   },
   {
@@ -491881,8 +491885,8 @@
     "martin connolly"
    ],
    "mergedFrom": [
-    153403,
-    153459
+    153522,
+    153625
    ]
   },
   {
@@ -510407,7 +510411,7 @@
    "provenance": "keyed on the source's own candidate id (wikipedia:Edmund Haviland-Burke)",
    "provisional": true,
    "mergedFrom": [
-    153358
+    153477
    ]
   },
   {
@@ -513990,7 +513994,7 @@
    "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    153385
+    153504
    ]
   },
   {
@@ -562265,7 +562269,7 @@
    "provenance": "keyed on the source's own candidate id (wikipedia:John Henry North)",
    "provisional": true,
    "mergedFrom": [
-    153388
+    153507
    ]
   },
   {
@@ -576866,7 +576870,7 @@
     "henry kenny"
    ],
    "mergedFrom": [
-    153458
+    153624
    ]
   },
   {
@@ -647379,7 +647383,9 @@
    "matchKeys": [
     "sean mulleady"
    ],
-   "sourceIds": [],
+   "sourceIds": [
+    "Seán Mulleady|Fianna Fáil"
+   ],
    "sourcePersonIds": [
     "ei:8999"
    ],
@@ -718809,14 +718815,15 @@
     "ei:11813"
    ],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 2019,
-   "lastYear": 2019,
+   "lastYear": 2020,
    "bodies": [
     "dail-eireann"
    ],
    "parties": [
+    "Independent",
     "Non party/Independent"
    ],
    "keyedBy": "src",
@@ -728974,7 +728981,8 @@
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p135302",
@@ -810252,10 +810260,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    153165
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p139041",
@@ -846870,7 +846875,8 @@
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p140403",
@@ -1060372,15 +1060378,17 @@
     "patrick joseph sweeney"
    ],
    "sourceIds": [
-    "Patrick Joseph Sweeney|"
+    "Patrick Joseph Sweeney|",
+    "T3062539146"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1967,
-   "lastYear": 1967,
+   "lastYear": 1987,
    "bodies": [
+    "local-government",
     "magherafelt-rural-district-council"
    ],
    "parties": [],
@@ -1107702,6 +1107710,1348 @@
    "provisional": true
   },
   {
+   "id": "p153563",
+   "personId": 153563,
+   "displayName": "Sean McCambridge",
+   "aliases": [
+    "Sean McCambridge"
+   ],
+   "matchKeys": [
+    "sean mccambridge"
+   ],
+   "sourceIds": [
+    "T1147519276"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 2007,
+   "lastYear": 2007,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "SDLP"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p153564",
+   "personId": 153564,
+   "displayName": "Brown",
+   "aliases": [
+    "Brown"
+   ],
+   "matchKeys": [
+    "brown"
+   ],
+   "sourceIds": [
+    "T1217452212"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1987,
+   "lastYear": 1987,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "DUP"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p153565",
+   "personId": 153565,
+   "displayName": "Robert Lyle",
+   "aliases": [
+    "Robert Lyle"
+   ],
+   "matchKeys": [
+    "robert lyle"
+   ],
+   "sourceIds": [
+    "T1473758829"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1988,
+   "lastYear": 1988,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p153566",
+   "personId": 153566,
+   "displayName": "Padraig Pearse McShane",
+   "aliases": [
+    "Padraig Pearse McShane"
+   ],
+   "matchKeys": [
+    "padraig pearse mcshane"
+   ],
+   "sourceIds": [
+    "T1547324767"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 2007,
+   "lastYear": 2007,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Sinn Féin"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p153567",
+   "personId": 153567,
+   "displayName": "Damien John Sweeney",
+   "aliases": [
+    "Damien John Sweeney"
+   ],
+   "matchKeys": [
+    "damien john sweeney"
+   ],
+   "sourceIds": [
+    "T1769421682"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1991,
+   "lastYear": 1991,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "SDLP"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p153568",
+   "personId": 153568,
+   "displayName": "Timothy William Morrow",
+   "aliases": [
+    "Timothy William Morrow"
+   ],
+   "matchKeys": [
+    "timothy william morrow"
+   ],
+   "sourceIds": [
+    "T1785009136"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1987,
+   "lastYear": 1987,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p153569",
+   "personId": 153569,
+   "displayName": "Margaret S Mathews",
+   "aliases": [
+    "Margaret S Mathews"
+   ],
+   "matchKeys": [
+    "margaret s mathews"
+   ],
+   "sourceIds": [
+    "T1836552768"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 2004,
+   "lastYear": 2004,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Alliance"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p153570",
+   "personId": 153570,
+   "displayName": "Jim Lynch",
+   "aliases": [
+    "Jim Lynch"
+   ],
+   "matchKeys": [
+    "jim lynch"
+   ],
+   "sourceIds": [
+    "T1867956213"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1990,
+   "lastYear": 1990,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p153571",
+   "personId": 153571,
+   "displayName": "Cathy Kettyles",
+   "aliases": [
+    "Cathy Kettyles"
+   ],
+   "matchKeys": [
+    "cathy kettyles"
+   ],
+   "sourceIds": [
+    "T1884844985"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1990,
+   "lastYear": 1990,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p153573",
+   "personId": 153573,
+   "displayName": "Scott",
+   "aliases": [
+    "Scott"
+   ],
+   "matchKeys": [
+    "scott"
+   ],
+   "sourceIds": [
+    "T2221129382"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1988,
+   "lastYear": 1988,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p153574",
+   "personId": 153574,
+   "displayName": "Henry Joseph McFadden",
+   "aliases": [
+    "Henry Joseph McFadden"
+   ],
+   "matchKeys": [
+    "henry joseph mcfadden"
+   ],
+   "sourceIds": [
+    "T2376203222"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1991,
+   "lastYear": 1991,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p153575",
+   "personId": 153575,
+   "displayName": "Edward Ronnie Hales",
+   "aliases": [
+    "Edward Ronnie Hales"
+   ],
+   "matchKeys": [
+    "edward ronnie hales"
+   ],
+   "sourceIds": [
+    "T2402696506"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1987,
+   "lastYear": 1987,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p153576",
+   "personId": 153576,
+   "displayName": "William Gardiner Watson",
+   "aliases": [
+    "William Gardiner Watson"
+   ],
+   "matchKeys": [
+    "william gardiner watson"
+   ],
+   "sourceIds": [
+    "T2444268214"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1985,
+   "lastYear": 1985,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "UUP"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p153577",
+   "personId": 153577,
+   "displayName": "Cliodhna Rae",
+   "aliases": [
+    "Cliodhna Rae"
+   ],
+   "matchKeys": [
+    "cliodhna rae"
+   ],
+   "sourceIds": [
+    "T2459099292"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 2006,
+   "lastYear": 2006,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "SDLP"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p153578",
+   "personId": 153578,
+   "displayName": "Anthony Quinn",
+   "aliases": [
+    "Anthony Quinn"
+   ],
+   "matchKeys": [
+    "anthony quinn"
+   ],
+   "sourceIds": [
+    "T2474219561"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1990,
+   "lastYear": 1990,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Workers Party"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p153579",
+   "personId": 153579,
+   "displayName": "David Gordon Harte",
+   "aliases": [
+    "David Gordon Harte"
+   ],
+   "matchKeys": [
+    "david gordon harte"
+   ],
+   "sourceIds": [
+    "T2630896920"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1989,
+   "lastYear": 1989,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Conservative"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p153580",
+   "personId": 153580,
+   "displayName": "J. A. McCafferty",
+   "aliases": [
+    "J. A. McCafferty"
+   ],
+   "matchKeys": [
+    "j a mccafferty"
+   ],
+   "sourceIds": [
+    "T2780726757"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1986,
+   "lastYear": 1986,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Sinn Féin"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p153581",
+   "personId": 153581,
+   "displayName": "B. McMullan",
+   "aliases": [
+    "B. McMullan"
+   ],
+   "matchKeys": [
+    "b mcmullan"
+   ],
+   "sourceIds": [
+    "T2824396069"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1986,
+   "lastYear": 1986,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Sinn Féin"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p153582",
+   "personId": 153582,
+   "displayName": "P. Muldowney",
+   "aliases": [
+    "P. Muldowney"
+   ],
+   "matchKeys": [
+    "p muldowney"
+   ],
+   "sourceIds": [
+    "T2826453323"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1993,
+   "lastYear": 1993,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p153583",
+   "personId": 153583,
+   "displayName": "Annie Mary Dobbin",
+   "aliases": [
+    "Annie Mary Dobbin"
+   ],
+   "matchKeys": [
+    "annie mary dobbin"
+   ],
+   "sourceIds": [
+    "T2869317380"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1991,
+   "lastYear": 1991,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p153584",
+   "personId": 153584,
+   "displayName": "Charles George Balmer",
+   "aliases": [
+    "Charles George Balmer"
+   ],
+   "matchKeys": [
+    "charles george balmer"
+   ],
+   "sourceIds": [
+    "T3113273584"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1991,
+   "lastYear": 1991,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Conservative"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p153585",
+   "personId": 153585,
+   "displayName": "Louise Marsden",
+   "aliases": [
+    "Louise Marsden"
+   ],
+   "matchKeys": [
+    "louise marsden"
+   ],
+   "sourceIds": [
+    "T311544083"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 2004,
+   "lastYear": 2004,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "DUP"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p153586",
+   "personId": 153586,
+   "displayName": "John McDowell",
+   "aliases": [
+    "John McDowell"
+   ],
+   "matchKeys": [
+    "john mcdowell"
+   ],
+   "sourceIds": [
+    "T3307651941"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1991,
+   "lastYear": 1991,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Green / Ecology"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p153587",
+   "personId": 153587,
+   "displayName": "William James Kelso",
+   "aliases": [
+    "William James Kelso"
+   ],
+   "matchKeys": [
+    "william james kelso"
+   ],
+   "sourceIds": [
+    "T3315076422"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1994,
+   "lastYear": 1994,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "UUP"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p153588",
+   "personId": 153588,
+   "displayName": "McCullough",
+   "aliases": [
+    "McCullough"
+   ],
+   "matchKeys": [
+    "mccullough"
+   ],
+   "sourceIds": [
+    "T3394152129"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1985,
+   "lastYear": 1985,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p153589",
+   "personId": 153589,
+   "displayName": "Sean Caughey",
+   "aliases": [
+    "Sean Caughey"
+   ],
+   "matchKeys": [
+    "sean caughey"
+   ],
+   "sourceIds": [
+    "T3429159942"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 2002,
+   "lastYear": 2002,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Sinn Féin"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p153590",
+   "personId": 153590,
+   "displayName": "John Paul Lynn",
+   "aliases": [
+    "John Paul Lynn"
+   ],
+   "matchKeys": [
+    "john paul lynn"
+   ],
+   "sourceIds": [
+    "T3442980938"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1995,
+   "lastYear": 1995,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Workers Party"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p153591",
+   "personId": 153591,
+   "displayName": "Jack McClay",
+   "aliases": [
+    "Jack McClay"
+   ],
+   "matchKeys": [
+    "jack mcclay"
+   ],
+   "sourceIds": [
+    "T3489868423"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 2002,
+   "lastYear": 2002,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "DUP"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p153593",
+   "personId": 153593,
+   "displayName": "McIlroy",
+   "aliases": [
+    "McIlroy"
+   ],
+   "matchKeys": [
+    "mcilroy"
+   ],
+   "sourceIds": [
+    "T3547680073"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1986,
+   "lastYear": 1986,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p153594",
+   "personId": 153594,
+   "displayName": "McCaffrey",
+   "aliases": [
+    "McCaffrey"
+   ],
+   "matchKeys": [
+    "mccaffrey"
+   ],
+   "sourceIds": [
+    "T355291997"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1986,
+   "lastYear": 1986,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Sinn Féin"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p153595",
+   "personId": 153595,
+   "displayName": "Brady",
+   "aliases": [
+    "Brady"
+   ],
+   "matchKeys": [
+    "brady"
+   ],
+   "sourceIds": [
+    "T3604987281"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 2000,
+   "lastYear": 2000,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p153596",
+   "personId": 153596,
+   "displayName": "Patrick Lillis",
+   "aliases": [
+    "Patrick Lillis"
+   ],
+   "matchKeys": [
+    "patrick lillis"
+   ],
+   "sourceIds": [
+    "T3656073814"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1987,
+   "lastYear": 1987,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p153597",
+   "personId": 153597,
+   "displayName": "Black",
+   "aliases": [
+    "Black"
+   ],
+   "matchKeys": [
+    "black"
+   ],
+   "sourceIds": [
+    "T3672210098"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 2000,
+   "lastYear": 2000,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "DUP"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p153598",
+   "personId": 153598,
+   "displayName": "John Hartin",
+   "aliases": [
+    "John Hartin"
+   ],
+   "matchKeys": [
+    "john hartin"
+   ],
+   "sourceIds": [
+    "T3898976061"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1995,
+   "lastYear": 1995,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p153599",
+   "personId": 153599,
+   "displayName": "James Devlin",
+   "aliases": [
+    "James Devlin"
+   ],
+   "matchKeys": [
+    "james devlin"
+   ],
+   "sourceIds": [
+    "T3913525309"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1986,
+   "lastYear": 1986,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p153600",
+   "personId": 153600,
+   "displayName": "Margaret Finlay",
+   "aliases": [
+    "Margaret Finlay"
+   ],
+   "matchKeys": [
+    "margaret finlay"
+   ],
+   "sourceIds": [
+    "T3980732650"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1995,
+   "lastYear": 1995,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Alliance"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p153601",
+   "personId": 153601,
+   "displayName": "Joy Wilkes",
+   "aliases": [
+    "Joy Wilkes"
+   ],
+   "matchKeys": [
+    "joy wilkes"
+   ],
+   "sourceIds": [
+    "T4028163462"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1989,
+   "lastYear": 1989,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Alliance"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p153603",
+   "personId": 153603,
+   "displayName": "Johnston",
+   "aliases": [
+    "Johnston"
+   ],
+   "matchKeys": [
+    "johnston"
+   ],
+   "sourceIds": [
+    "T41958630"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1986,
+   "lastYear": 1986,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "UUP"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p153604",
+   "personId": 153604,
+   "displayName": "Nigel Peter Hamilton",
+   "aliases": [
+    "Nigel Peter Hamilton"
+   ],
+   "matchKeys": [
+    "nigel peter hamilton"
+   ],
+   "sourceIds": [
+    "T4252518066"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1986,
+   "lastYear": 1986,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "DUP"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p153605",
+   "personId": 153605,
+   "displayName": "William John McCormick",
+   "aliases": [
+    "William John McCormick"
+   ],
+   "matchKeys": [
+    "william john mccormick"
+   ],
+   "sourceIds": [
+    "T456239248"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1990,
+   "lastYear": 1990,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p153606",
+   "personId": 153606,
+   "displayName": "Pauline Davey-Kennedy",
+   "aliases": [
+    "Pauline Davey-Kennedy"
+   ],
+   "matchKeys": [
+    "pauline davey kennedy"
+   ],
+   "sourceIds": [
+    "T519055093"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 2000,
+   "lastYear": 2000,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Sinn Féin"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p153607",
+   "personId": 153607,
+   "displayName": "Kim Wiles Patrick Boyd",
+   "aliases": [
+    "Kim Wiles Patrick Boyd"
+   ],
+   "matchKeys": [
+    "kim wiles patrick boyd"
+   ],
+   "sourceIds": [
+    "T534367857"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1991,
+   "lastYear": 1991,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Green / Ecology"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p153608",
+   "personId": 153608,
+   "displayName": "Latimer",
+   "aliases": [
+    "Latimer"
+   ],
+   "matchKeys": [
+    "latimer"
+   ],
+   "sourceIds": [
+    "T64313"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 2000,
+   "lastYear": 2000,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "UUP"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p153609",
+   "personId": 153609,
+   "displayName": "Kirkham",
+   "aliases": [
+    "Kirkham"
+   ],
+   "matchKeys": [
+    "kirkham"
+   ],
+   "sourceIds": [
+    "T673023634"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1988,
+   "lastYear": 1988,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p153610",
+   "personId": 153610,
+   "displayName": "Christie",
+   "aliases": [
+    "Christie"
+   ],
+   "matchKeys": [
+    "christie"
+   ],
+   "sourceIds": [
+    "T77763505"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1988,
+   "lastYear": 1988,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p153611",
+   "personId": 153611,
+   "displayName": "Martin Cullen",
+   "aliases": [
+    "Martin Cullen"
+   ],
+   "matchKeys": [
+    "martin cullen"
+   ],
+   "sourceIds": [
+    "T881848711"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1992,
+   "lastYear": 1992,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p153612",
+   "personId": 153612,
+   "displayName": "Samuel Wilson",
+   "aliases": [
+    "Samuel Wilson"
+   ],
+   "matchKeys": [
+    "samuel wilson"
+   ],
+   "sourceIds": [
+    "T892639574"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1991,
+   "lastYear": 1991,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "UUP"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
    "id": "p900001",
    "personId": 900001,
    "displayName": "Peter Brooke",
@@ -1109630,9 +1110980,9 @@
   }
  ],
  "corrections": {
-  "mergedIds": 120,
+  "mergedIds": 119,
   "classes": {
-   "WIKIPEDIA-BIOGRAPHY": 10,
+   "WIKIPEDIA-BIOGRAPHY": 9,
    "FORUM-DUPLICATE": 113,
    "LGR-2014": 3,
    "SAME-SEAT-SEQUENCE": 3,
