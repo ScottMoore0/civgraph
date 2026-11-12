@@ -28,7 +28,78 @@ const HEIGHT = 128;
 const PADDING = 9;
 const BLANK_GIF = Buffer.from('R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==', 'base64');
 
+/**
+ * @typedef {import('geojson').Geometry} Geometry
+ * @typedef {import('geojson').Position} Position
+ * @typedef {number[]} Bbox   [minX, minY, maxX, maxY]
+ * @typedef {import('canvas').Canvas} Canvas
+ *
+ * The command line.
+ * @typedef {object} Args
+ * @property {string[]} mapIds
+ * @property {boolean} all
+ * @property {boolean} force
+ * @property {number} limit
+ * @property {string} output      absolute
+ * @property {string} format      'png' or 'webp'
+ * @property {string} registry    absolute
+ * @property {boolean} [help]
+ *
+ * One map of maps.json, as far as this reads it.
+ * @typedef {object} MapRecord
+ * @property {string} id
+ * @property {string} [name]
+ * @property {{ fgb?: string }} [files]
+ * @property {string} [cloneOf]
+ * @property {string} [labelProperty]
+ * @property {string[]} [labelPropertyFallbacks]
+ * @property {string} [labelCleanup]
+ * @property {{ fillColor?: string, color?: string }} [style]
+ * @property {string} [color]
+ * @property {string} [stroke]
+ * @property {string} [lineColor]
+ *
+ * One feature of spatial-index.json, as far as this reads it (the rest is kept as it is).
+ * @typedef {{ mapId?: string, name?: string, bbox?: Bbox }} SpatialFeature
+ * @typedef {SpatialFeature & { __thumbnailSpatialKey: string }} SpatialEntry
+ * @typedef {Map<string, Map<string, SpatialEntry[]>>} SpatialLookup   map id -> name key -> features
+ *
+ * A path to draw: a ring or line, or a point.
+ * @typedef {{ points?: Position[], close?: boolean, point?: Position }} DrawPath
+ *
+ * @typedef {'image/png' | 'image/webp'} OutputMime
+ * node-canvas's typings list only the MIME types it documents. webp is asked for anyway: an
+ * encoder without it throws (canvasCanEncodeWebp) or returns nothing (encodeCanvas).
+ * @typedef {{ toBuffer(mimeType: string): Buffer }} Encoder
+ *
+ * @typedef {object} MapResult   one map's line of the render report
+ * @property {string} mapId
+ * @property {string} name
+ * @property {string | null} source
+ * @property {string | null} sourceQuality
+ * @property {number} targetFeatureCount
+ * @property {number} generated
+ * @property {number} existing
+ * @property {number} skipped
+ * @property {number} unmatched
+ * @property {string[]} errors
+ *
+ * @typedef {object} RenderContext
+ * @property {Map<string, MapRecord>} mapById
+ * @property {SpatialLookup} spatialLookup
+ * @property {string} outputRoot
+ * @property {OutputMime} mime
+ * @property {string} extension
+ * @property {boolean} force
+ * @property {{ remaining: number }} limitState
+ */
+
+/**
+ * @param {string[]} argv
+ * @returns {Args}
+ */
 function parseArgs(argv) {
+  /** @type {Omit<Args, 'registry'> & { registry: string | null }} */
   const args = {
     mapIds: [],
     all: false,
@@ -70,24 +141,27 @@ function parseArgs(argv) {
     }
   }
   args.output = path.resolve(ROOT, args.output);
-  args.registry = args.registry ? path.resolve(ROOT, args.registry) : path.join(args.output, '_rendered-assets-registry.json');
+  const registry = args.registry ? path.resolve(ROOT, args.registry) : path.join(args.output, '_rendered-assets-registry.json');
   args.format = normaliseExtension(args.format, 'png');
-  return args;
+  return Object.assign(args, { registry });
 }
 
 function printHelp() {
   console.log(`Usage: node packages/maps-pipeline/src/thumbnails/feature-thumbnails.mjs [--map id[,id]] [--all] [--limit n] [--output dir] [--format png|webp] [--force]\n\nRendered assets are local/CDN artifacts and are not meant to be committed to Pages.`);
 }
 
+/** @param {string} filePath @returns {unknown} */
 function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, 'utf8'));
 }
 
+/** @param {string} filePath @param {unknown} value */
 function writeJson(filePath, value) {
   fs.mkdirSync(path.dirname(filePath), { recursive: true });
   fs.writeFileSync(filePath, JSON.stringify(value, null, 2) + '\n', 'utf8');
 }
 
+/** @param {unknown} id */
 function safePathSegment(id) {
   return String(id || 'unknown')
     .normalize('NFKD')
@@ -97,11 +171,13 @@ function safePathSegment(id) {
     .replace(/^-|-$/g, '') || 'unknown';
 }
 
+/** @param {unknown} bbox */
 function bboxKey(bbox) {
   if (!Array.isArray(bbox) || bbox.length !== 4) return '';
   return bbox.map((value) => Number.isFinite(Number(value)) ? Number(value).toFixed(8) : '').join(',');
 }
 
+/** @param {unknown} value */
 function thumbnailHash(value) {
   let hash = 0x811c9dc5;
   const input = String(value || '');
@@ -112,12 +188,14 @@ function thumbnailHash(value) {
   return (hash >>> 0).toString(16).padStart(8, '0');
 }
 
+/** @param {string} mapId @param {string} featureName @param {Bbox | null | undefined} bbox */
 function thumbnailIdFor(mapId, featureName, bbox) {
   const safeMapId = safePathSegment(mapId || 'feature') || 'feature';
   const hash = thumbnailHash(String(mapId || '') + '|' + String(featureName || '') + '|' + bboxKey(bbox));
   return `feature-${safeMapId}-${hash}`;
 }
 
+/** @param {unknown} value @param {string} [fallback] */
 function normaliseExtension(value, fallback = 'png') {
   const extension = String(value || '').trim().replace(/^\./, '').toLowerCase();
   if (extension === 'webp' || extension === 'png') return extension;
@@ -126,6 +204,7 @@ function normaliseExtension(value, fallback = 'png') {
 
 function canvasCanEncodeWebp() {
   try {
+    /** @type {Encoder} */
     const canvas = createCanvas(2, 2);
     const buffer = canvas.toBuffer('image/webp');
     return Buffer.isBuffer(buffer) && buffer.length > 0;
@@ -134,23 +213,28 @@ function canvasCanEncodeWebp() {
   }
 }
 
+/** @param {string} format @returns {OutputMime} */
 function outputMime(format) {
   if (format === 'webp' && canvasCanEncodeWebp()) return 'image/webp';
   return 'image/png';
 }
 
+/** @param {string} format */
 function outputExtension(format) {
   return outputMime(format) === 'image/webp' ? 'webp' : 'png';
 }
 
+/** @param {unknown} value */
 function normaliseName(value) {
   return String(value || '').trim();
 }
 
+/** @param {unknown} value */
 function matchKey(value) {
   return normaliseName(value).toLocaleLowerCase('en-IE');
 }
 
+/** @param {unknown} value @param {string} [fallback] */
 function normaliseColour(value, fallback = '#3388ff') {
   const colour = String(value || '').trim();
   if (/^#[0-9a-fA-F]{6}$/.test(colour)) return colour;
@@ -160,6 +244,7 @@ function normaliseColour(value, fallback = '#3388ff') {
   return fallback;
 }
 
+/** @param {string} hex @param {number} alpha */
 function hexToRgba(hex, alpha) {
   const colour = normaliseColour(hex, '#3388ff').replace('#', '');
   const r = Number.parseInt(colour.slice(0, 2), 16);
@@ -168,10 +253,12 @@ function hexToRgba(hex, alpha) {
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
 
+/** @param {MapRecord} map */
 function mapColour(map) {
   return normaliseColour(map?.style?.fillColor || map?.style?.color || map?.color || map?.stroke || map?.lineColor, '#3388ff');
 }
 
+/** @param {string | undefined} sourcePath @returns {string | null} */
 function localiseFgbPath(sourcePath) {
   if (!sourcePath) return null;
   const value = String(sourcePath);
@@ -187,6 +274,11 @@ function localiseFgbPath(sourcePath) {
   return path.isAbsolute(value) ? value : path.join(ROOT, value.replace(/^\/+/, ''));
 }
 
+/**
+ * @param {MapRecord} map
+ * @param {Map<string, MapRecord>} mapById
+ * @returns {{ path: string, quality: string } | null}
+ */
 function resolveSourceFile(map, mapById) {
   let sourcePath = map?.files?.fgb;
   if (!sourcePath && map?.cloneOf) {
@@ -206,6 +298,7 @@ function resolveSourceFile(map, mapById) {
   return null;
 }
 
+/** @param {Geometry} geometry @returns {Bbox | null} */
 function computeBbox(geometry) {
   let minX = Infinity;
   let minY = Infinity;
@@ -221,41 +314,49 @@ function computeBbox(geometry) {
   return [minX, minY, maxX, maxY];
 }
 
+/** @param {Geometry | null | undefined} geometry @returns {[number, number][]} */
 function collectCoords(geometry) {
+  /** @type {[number, number][]} */
   const coords = [];
+  /** @param {unknown} value */
   function walk(value) {
     if (!Array.isArray(value)) return;
-    if (typeof value[0] === 'number' && typeof value[1] === 'number') {
-      coords.push([value[0], value[1]]);
+    /** @type {unknown[]} */
+    const items = value;
+    const x = items[0];
+    const y = items[1];
+    if (typeof x === 'number' && typeof y === 'number') {
+      coords.push([x, y]);
       return;
     }
-    for (const child of value) walk(child);
+    for (const child of items) walk(child);
   }
-  if (geometry?.coordinates) walk(geometry.coordinates);
+  if (geometry && 'coordinates' in geometry && geometry.coordinates) walk(geometry.coordinates);
   return coords;
 }
 
+/** @param {Geometry | null | undefined} geometry @returns {DrawPath[]} */
 function collectPaths(geometry) {
+  /** @type {DrawPath[]} */
   const paths = [];
-  const type = geometry?.type;
-  const coordinates = geometry?.coordinates;
-  if (!coordinates) return paths;
-  if (type === 'Polygon') {
-    for (const ring of coordinates) paths.push({ points: ring, close: true });
-  } else if (type === 'MultiPolygon') {
-    for (const polygon of coordinates) for (const ring of polygon) paths.push({ points: ring, close: true });
-  } else if (type === 'LineString') {
-    paths.push({ points: coordinates, close: false });
-  } else if (type === 'MultiLineString') {
-    for (const line of coordinates) paths.push({ points: line, close: false });
-  } else if (type === 'Point') {
-    paths.push({ point: coordinates });
-  } else if (type === 'MultiPoint') {
-    for (const point of coordinates) paths.push({ point });
+  if (!geometry || !('coordinates' in geometry) || !geometry.coordinates) return paths;
+  if (geometry.type === 'Polygon') {
+    for (const ring of geometry.coordinates) paths.push({ points: ring, close: true });
+  } else if (geometry.type === 'MultiPolygon') {
+    for (const polygon of geometry.coordinates) for (const ring of polygon) paths.push({ points: ring, close: true });
+  } else if (geometry.type === 'LineString') {
+    paths.push({ points: geometry.coordinates, close: false });
+  } else if (geometry.type === 'MultiLineString') {
+    for (const line of geometry.coordinates) paths.push({ points: line, close: false });
+  } else if (geometry.type === 'Point') {
+    paths.push({ point: geometry.coordinates });
+  } else if (geometry.type === 'MultiPoint') {
+    for (const point of geometry.coordinates) paths.push({ point });
   }
   return paths;
 }
 
+/** @param {Bbox | null} bbox @returns {Bbox | null} */
 function expandedBbox(bbox) {
   if (!bbox) return null;
   let [minX, minY, maxX, maxY] = bbox;
@@ -277,6 +378,11 @@ function expandedBbox(bbox) {
   return [minX - padX, minY - padY, maxX + padX, maxY + padY];
 }
 
+/**
+ * @param {Geometry} geometry
+ * @param {string} colour
+ * @returns {Canvas | Buffer}   the blank GIF when the geometry has no extent
+ */
 function renderFeatureThumbnail(geometry, colour) {
   const bbox = expandedBbox(computeBbox(geometry));
   if (!bbox) return BLANK_GIF;
@@ -288,7 +394,7 @@ function renderFeatureThumbnail(geometry, colour) {
   const scale = Math.min(drawW / geoW, drawH / geoH);
   const offX = PADDING + (drawW - geoW * scale) / 2;
   const offY = PADDING + (drawH - geoH * scale) / 2;
-  const project = (lon, lat) => [offX + (lon - minX) * scale, offY + (maxY - lat) * scale];
+  const project = (/** @type {number} */ lon, /** @type {number} */ lat) => [offX + (lon - minX) * scale, offY + (maxY - lat) * scale];
 
   const canvas = createCanvas(WIDTH, HEIGHT);
   const ctx = canvas.getContext('2d');
@@ -331,25 +437,31 @@ function renderFeatureThumbnail(geometry, colour) {
   return canvas;
 }
 
+/** @param {Canvas | Buffer} canvas @param {OutputMime} mime @returns {Buffer} */
 function encodeCanvas(canvas, mime) {
   if (Buffer.isBuffer(canvas)) return canvas;
-  const buffer = canvas.toBuffer(mime);
+  /** @type {Encoder} */
+  const encoder = canvas;
+  const buffer = encoder.toBuffer(mime);
   if (Buffer.isBuffer(buffer) && buffer.length > 0) return buffer;
   return canvas.toBuffer('image/png');
 }
 
+/** @param {{ features?: SpatialFeature[] }} spatial @returns {SpatialLookup} */
 function buildSpatialLookup(spatial) {
+  /** @type {SpatialLookup} */
   const byMap = new Map();
   let index = 0;
   for (const feature of spatial.features || []) {
     const mapId = String(feature.mapId || '');
     const name = normaliseName(feature.name || '');
     if (!mapId || !name) continue;
-    if (!byMap.has(mapId)) byMap.set(mapId, new Map());
-    const mapLookup = byMap.get(mapId);
+    let mapLookup = byMap.get(mapId);
+    if (!mapLookup) byMap.set(mapId, mapLookup = new Map());
     const key = matchKey(name);
-    if (!mapLookup.has(key)) mapLookup.set(key, []);
-    mapLookup.get(key).push({
+    let entries = mapLookup.get(key);
+    if (!entries) mapLookup.set(key, entries = []);
+    entries.push({
       ...feature,
       __thumbnailSpatialKey: `${mapId}|${key}|${bboxKey(feature.bbox)}|${index}`
     });
@@ -358,6 +470,7 @@ function buildSpatialLookup(spatial) {
   return byMap;
 }
 
+/** @param {SpatialLookup} spatialLookup @param {string} mapId */
 function spatialFeatureCount(spatialLookup, mapId) {
   let count = 0;
   const lookup = spatialLookup.get(mapId);
@@ -366,11 +479,13 @@ function spatialFeatureCount(spatialLookup, mapId) {
   return count;
 }
 
+/** @param {Bbox | null | undefined} bbox */
 function bboxAreaValue(bbox) {
   if (!Array.isArray(bbox) || bbox.length !== 4) return 0;
   return Math.max(0, Number(bbox[2]) - Number(bbox[0])) * Math.max(0, Number(bbox[3]) - Number(bbox[1]));
 }
 
+/** @param {Bbox | null | undefined} a @param {Bbox | null | undefined} b */
 function bboxIntersectionArea(a, b) {
   if (!Array.isArray(a) || !Array.isArray(b)) return 0;
   const minX = Math.max(Number(a[0]), Number(b[0]));
@@ -380,6 +495,7 @@ function bboxIntersectionArea(a, b) {
   return Math.max(0, maxX - minX) * Math.max(0, maxY - minY);
 }
 
+/** @param {Bbox | null | undefined} a @param {Bbox | null | undefined} b */
 function bboxCenterDistance(a, b) {
   if (!Array.isArray(a) || !Array.isArray(b)) return Number.POSITIVE_INFINITY;
   const ax = (Number(a[0]) + Number(a[2])) / 2;
@@ -389,6 +505,7 @@ function bboxCenterDistance(a, b) {
   return Math.hypot(ax - bx, ay - by);
 }
 
+/** @param {SpatialFeature} spatialFeature @param {Bbox | null} sourceBbox */
 function spatialMatchScore(spatialFeature, sourceBbox) {
   const targetBbox = spatialFeature?.bbox;
   const intersection = bboxIntersectionArea(targetBbox, sourceBbox);
@@ -400,6 +517,16 @@ function spatialMatchScore(spatialFeature, sourceBbox) {
   };
 }
 
+/**
+ * The best unclaimed spatial-index feature of this name for a source feature, by bbox overlap
+ * then centre distance; it is claimed.
+ * @param {SpatialLookup} spatialLookup
+ * @param {Set<string>} claimedSpatialIds
+ * @param {string} mapId
+ * @param {string} name
+ * @param {Bbox | null} sourceBbox
+ * @returns {SpatialEntry | null}
+ */
 function resolveSpatialFeature(spatialLookup, claimedSpatialIds, mapId, name, sourceBbox) {
   const entries = spatialLookup.get(mapId)?.get(matchKey(name)) || [];
   const candidates = entries.filter((entry) => !claimedSpatialIds.has(entry.__thumbnailSpatialKey));
@@ -415,8 +542,10 @@ function resolveSpatialFeature(spatialLookup, claimedSpatialIds, mapId, name, so
   return selected;
 }
 
+/** @param {MapRecord} map @param {import('geojson').GeoJsonProperties} properties */
 function featureNameFromProperties(map, properties) {
-  const keys = [map.labelProperty, ...(Array.isArray(map.labelPropertyFallbacks) ? map.labelPropertyFallbacks : [])].filter(Boolean);
+  const keys = [map.labelProperty, ...(Array.isArray(map.labelPropertyFallbacks) ? map.labelPropertyFallbacks : [])]
+    .filter(/** @param {string | undefined} key @returns {key is string} */ (key) => Boolean(key));
   for (const key of keys) {
     const value = normaliseName(properties?.[key]);
     if (value) return value;
@@ -424,15 +553,22 @@ function featureNameFromProperties(map, properties) {
   return '';
 }
 
+/** @param {MapRecord} map @param {string} name */
 function applyLabelCleanup(map, name) {
   if (map.labelCleanup === 'stripTrailingBracketNumber') return name.replace(/\s*\([^()]*\)\s*$/, '').trim();
   return name;
 }
 
+/**
+ * @param {MapRecord} map
+ * @param {RenderContext} context
+ * @returns {Promise<MapResult>}
+ */
 async function renderMap(map, context) {
   const { mapById, spatialLookup, outputRoot, mime, extension, force, limitState } = context;
   const source = resolveSourceFile(map, mapById);
   const targetFeatureCount = spatialFeatureCount(spatialLookup, map.id);
+  /** @type {MapResult} */
   const result = {
     mapId: map.id,
     name: map.name || map.id,
@@ -462,6 +598,7 @@ async function renderMap(map, context) {
   const mapOutputDir = path.join(outputRoot, safePathSegment(map.id));
   fs.mkdirSync(mapOutputDir, { recursive: true });
   const colour = mapColour(map);
+  /** @type {Set<string>} */
   const claimedSpatialIds = new Set();
   const buffer = new Uint8Array(fs.readFileSync(source.path));
 
@@ -496,10 +633,16 @@ async function renderMap(map, context) {
   return result;
 }
 
+/**
+ * @param {Args} args
+ * @param {MapRecord[]} maps
+ * @param {SpatialLookup} spatialLookup
+ * @returns {MapRecord[]}
+ */
 function selectMaps(args, maps, spatialLookup) {
   const mapById = new Map(maps.map((map) => [String(map.id), map]));
   if (args.mapIds.length) {
-    return args.mapIds.map((id) => mapById.get(id)).filter(Boolean);
+    return args.mapIds.map((id) => mapById.get(id)).filter((map) => map !== undefined);
   }
   if (args.all) {
     return maps.filter((map) => (map.files?.fgb || map.cloneOf) && spatialFeatureCount(spatialLookup, map.id) > 0);
@@ -515,13 +658,14 @@ async function main() {
   }
   const mime = outputMime(args.format);
   const extension = outputExtension(args.format);
-  const mapsDb = readJson(MAPS_PATH);
-  const spatial = readJson(SPATIAL_INDEX_PATH);
+  const mapsDb = /** @type {{ maps?: MapRecord[] }} */ (readJson(MAPS_PATH));
+  const spatial = /** @type {{ features?: SpatialFeature[] }} */ (readJson(SPATIAL_INDEX_PATH));
   const maps = mapsDb.maps || [];
   const mapById = new Map(maps.map((map) => [String(map.id), map]));
   const spatialLookup = buildSpatialLookup(spatial);
   const selectedMaps = selectMaps(args, maps, spatialLookup);
   fs.mkdirSync(args.output, { recursive: true });
+  /** @type {RenderContext} */
   const context = {
     mapById,
     spatialLookup,
@@ -540,6 +684,7 @@ async function main() {
     requestedMaps: args.mapIds,
     all: args.all,
     limit: Number.isFinite(args.limit) ? args.limit : null,
+    /** @type {MapResult[]} */
     maps: [],
     totals: { generated: 0, existing: 0, skipped: 0, unmatched: 0, errors: 0 }
   };
@@ -561,6 +706,7 @@ async function main() {
     generated: report.generated,
     publicBase: process.env.FEATURE_THUMBNAIL_PUBLIC_BASE || `${SITE.dataOrigin}/data/thumbnails/features`,
     extension,
+    /** @type {Record<string, { renderedAssetIds: string[], renderedAssetExtension: string }>} */
     maps: {}
   };
   for (const mapResult of report.maps) {
@@ -588,7 +734,7 @@ async function main() {
   }, null, 2));
 }
 
-main().catch((error) => {
+main().catch((/** @type {Error} */ error) => {
   console.error(error.stack || error.message);
   process.exit(1);
 });
