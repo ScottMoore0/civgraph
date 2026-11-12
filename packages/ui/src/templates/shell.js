@@ -45,7 +45,7 @@ export const NAV = [
     paths: '\n<rect height="7" rx="1" width="7" x="3" y="3"></rect>\n<rect height="7" rx="1" width="7" x="14" y="3"></rect>\n<rect height="7" rx="1" width="7" x="14" y="14"></rect>\n<rect height="7" rx="1" width="7" x="3" y="14"></rect>',
   },
   {
-    key: 'about', label: 'About', href: '/pages/about.html', icon: 'info',
+    key: 'about', label: 'About', href: '/pages/about', icon: 'info',
     paths: '\n<circle cx="12" cy="12" r="10"></circle>\n<path d="M12 16v-4"></path><path d="M12 8h.01"></path>',
   },
 ];
@@ -178,7 +178,7 @@ export function footer() {
     '<nav aria-label="Footer navigation" class="ftr__nav">',
     '<a href="/maps/">Maps</a>',
     '<a href="/browse/">Browse</a>',
-    '<a href="/pages/about.html">About</a>',
+    '<a href="/pages/about">About</a>',
     `<a href="${SUBMIT_MAP_HREF}">Submit a map</a>`,
     '</nav>',
     '</div>',
