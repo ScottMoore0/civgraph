@@ -5,7 +5,38 @@
  */
 export {};
 
+/** One match of a Fuse.js search. */
+export interface FuseResult<T> {
+  item: T;
+  score?: number;
+}
+
+/** The Fuse.js index the catalogue searches, as its callers use it. */
+export interface FuseIndex<T> {
+  search(query: string): FuseResult<T>[];
+}
+
+/** A Leaflet LatLngBounds, as packages/map/src/feature-loader.js reads one. */
+export interface LatLngBoundsView {
+  getNorth(): number;
+  getSouth(): number;
+  getEast(): number;
+  getWest(): number;
+}
+
 declare global {
+  /**
+   * Leaflet, when a page has loaded it (the retired Leaflet map did): feature-loader.js's
+   * getBufferedBounds, which nothing on the MapLibre map calls, makes its bounds with it.
+   */
+  var L: { latLngBounds(southWest: [number, number], northEast: [number, number]): LatLngBoundsView };
+
+  /**
+   * Fuse.js, when a page has loaded it as a classic script (packages/map/src/data-service.js and
+   * ui-controller.js test `typeof Fuse` first; the map page does not load it today).
+   */
+  var Fuse: new <T>(items: T[], options: Record<string, unknown>) => FuseIndex<T>;
+
   interface Window {
     /** 'classic' on the archived classic page (civgraph.net/maps/classic/): packages/map/src/catalogue/flag.js. */
     CIVGRAPH_CATALOGUE?: string;

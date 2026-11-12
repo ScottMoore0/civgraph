@@ -233,7 +233,12 @@ export interface CatalogueSeries {
   category?: string;
   scope?: string;
   parallel?: boolean;
-  predecessor?: { [key: string]: unknown };
+  /** The classes that precede the series (the parallel chain's columns all follow them). */
+  predecessor?: { classIds?: string[]; [key: string]: unknown };
+  /** Classes of the series given directly rather than by segment (read by the map's time slider). */
+  classIds?: string[];
+  /** Columns of a series drawn side by side, each with its classes (read by the map's time slider). */
+  columns?: Array<{ classIds?: string[]; [key: string]: unknown }>;
 }
 
 /** A catalogue class (the maps of one boundary type in date order): maps.json `classes[]`. @handwritten */
