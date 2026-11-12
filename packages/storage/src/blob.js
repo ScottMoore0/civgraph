@@ -23,7 +23,7 @@
  */
 
 /**
- * @typedef {ReadableStream | Uint8Array | ArrayBuffer | string} BlobBody
+ * @typedef {ReadableStream | Uint8Array<ArrayBuffer> | ArrayBuffer | string} BlobBody
  *
  * @typedef {object} BlobObject  one key's value
  * @property {BlobBody} body                 a stream from R2, the stored value elsewhere

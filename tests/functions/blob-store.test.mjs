@@ -16,87 +16,12 @@ import path from 'node:path';
 import { assertBlobStore, listPage, memoryBlobStore } from '../../packages/storage/src/blob.js';
 import { blobStore, fromKV, fromR2 } from '../../packages/storage/src/blob-bindings.js';
 import { fsBlobStore } from '../../packages/storage/src/blob-fs.mjs';
+import { fakeKV, fakeR2 } from './blob-fakes.mjs';
 import * as storage from '../../packages/storage/src/index.js';
 import { BINDINGS } from '../../packages/config/src/config.js';
 import { REPO_ROOT } from '../../packages/config/src/node.mjs';
 
 const text = (body) => (typeof body === 'string' ? body : new TextDecoder().decode(body));
-
-/** An R2 bucket stand-in over a Map, listing as R2 does (sorted, delimited, paged); records every call. */
-export function fakeR2() {
-  const map = new Map();
-  const calls = [];
-  const object = (key, item) => ({
-    key,
-    size: item.bytes.byteLength,
-    etag: `e-${key.length}`,
-    httpEtag: `"e-${key.length}"`,
-    uploaded: new Date(Date.UTC(2026, 10, 12)),
-    httpMetadata: item.httpMetadata || {},
-    customMetadata: item.customMetadata || {},
-  });
-  return {
-    calls,
-    map,
-    async get(key, ...rest) {
-      calls.push(['get', key, ...rest]);
-      const item = map.get(key);
-      if (!item) return null;
-      return {
-        ...object(key, item),
-        body: item.bytes.slice(),
-        async text() { return new TextDecoder().decode(item.bytes); },
-        async json() { return JSON.parse(new TextDecoder().decode(item.bytes)); },
-      };
-    },
-    async put(key, value, options) {
-      calls.push(['put', key, typeof value === 'string' ? value : '(bytes)', options]);
-      const bytes = typeof value === 'string' ? new TextEncoder().encode(value) : new Uint8Array(value instanceof Uint8Array ? value : value.slice(0));
-      map.set(key, { bytes, httpMetadata: options?.httpMetadata, customMetadata: options?.customMetadata });
-      return null;
-    },
-    async list(options) {
-      calls.push(['list', options]);
-      const page = listPage([...map.keys()], options || {}, (key) => ({ key }));
-      return {
-        objects: page.entries.map((e) => object(e.key, map.get(e.key))),
-        delimitedPrefixes: page.prefixes,
-        truncated: page.truncated,
-        ...(page.truncated ? { cursor: page.cursor } : {}),
-      };
-    },
-  };
-}
-
-/** A KV namespace stand-in over a Map, listing as KV does (sorted, paged, no delimiter); records every call. */
-export function fakeKV() {
-  const map = new Map();
-  const calls = [];
-  return {
-    calls,
-    map,
-    async get(key, type) {
-      calls.push(type === undefined ? ['get', key] : ['get', key, type]);
-      if (!map.has(key)) return null;
-      const { value } = map.get(key);
-      return type === 'json' ? JSON.parse(value) : value;
-    },
-    async put(key, value, options) {
-      calls.push(['put', key, options]);
-      map.set(key, { value: typeof value === 'string' ? value : new TextDecoder().decode(value), metadata: options?.metadata });
-    },
-    async list(options) {
-      calls.push(['list', options]);
-      const { prefix = '', limit = 1000, cursor } = options || {};
-      const page = listPage([...map.keys()], { prefix, limit, cursor }, (key) => ({ key }));
-      return {
-        keys: page.entries.map((e) => ({ name: e.key, ...(map.get(e.key).metadata !== undefined ? { metadata: map.get(e.key).metadata } : {}) })),
-        list_complete: !page.truncated,
-        ...(page.truncated ? { cursor: page.cursor } : {}),
-      };
-    },
-  };
-}
 
 const tmp = mkdtempSync(path.join(os.tmpdir(), 'civgraph-blob-'));
 test.after(() => rmSync(tmp, { recursive: true, force: true }));
@@ -224,7 +149,6 @@ const BLOB_BINDINGS = Object.entries(BINDINGS).filter(([, b]) => b.kind === 'r2'
 
 /** Function files that still read an R2 or KV binding themselves (ST-2 empties this list). */
 const NOT_YET_ON_THE_BLOB_STORE = [
-  'functions/data/maps/[[path]].js',
   'packages/api/src/handlers/_r2-listing.js',
   'packages/api/src/handlers/contributions/decide.js',
   'packages/api/src/handlers/contributions/intake.js',
