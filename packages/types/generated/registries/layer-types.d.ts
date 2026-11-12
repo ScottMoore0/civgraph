@@ -15,6 +15,7 @@ export interface LayerTypesRegistry {
   types: {
     [key: string]: {
       tileFormat: string;
+      drawnBy?: string;
       requiredFields?: string[];
       geometryTypes?: Array<"point" | "line" | "polygon" | "raster" | "point-cloud">;
       renderers?: string[];

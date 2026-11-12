@@ -28,6 +28,7 @@ import { BasemapManager } from './basemap.mjs';
 import { DIRECT_GESTURE } from './gesture-state.mjs';
 import { createState, defineFlagFields, setHidden } from '../state-helpers.mjs';
 import layerTypes from '../../../registries/src/browser/layer-types.mjs';
+import { layerRenderer } from './layer-kinds/index.mjs';
 import { MAP_COLOURS } from '../colours.mjs';
 
 // The casing that breaks a boundary's solid line under its dotted approximate stretches. The app keeps a
@@ -1018,8 +1019,10 @@ export class TestMapLibreController {
     // Taken off while it was loading (unloadLayer): add nothing.
     if (load.run.state() !== 'loading') return;
 
+    // The layer's renderer (layer-kinds/: the layer-type code registry) says how it is drawn.
+    const renderer = layerRenderer(layer.sourceType);
     let interactionOverlayIds = { layerIds: [], sourceIds: [] };
-    if (layer.sourceType === 'point-cloud') {
+    if (renderer?.customLayer) {
       // Point clouds render as a MapLibre CustomLayerInterface owning their own
       // WebGL draw (see addPointCloudLayer below). There is no MapLibre
       // source/layer to add, and the point-cloud modules are lazy-loaded on first
@@ -1030,21 +1033,10 @@ export class TestMapLibreController {
         return;
       }
     } else {
+      // A type no renderer draws throws here (buildSource: unsupported sourceType).
       const source = this.buildSource(layer);
       this.map.addSource(sourceId, source);
-      if (layer.sourceType === 'raster-dem') {
-        interactionOverlayIds = this.addTerrainLayer(layer, { sourceId, rasterId });
-      } else if (layer.sourceType === 'raster' || layer.sourceType === 'image') {
-        this.addRasterLayer(layer, { sourceId, rasterId });
-      } else {
-        this.addGeometryLayers(layer, { sourceId, fillId, lineId, hoverId, selectedFillId, selectedId });
-        interactionOverlayIds = this.addInteractionOverlayLayers(layer);
-        const approximate = this.addApproximateSegmentLayers(layer);
-        interactionOverlayIds = {
-          layerIds: [...interactionOverlayIds.layerIds, ...approximate.layerIds],
-          sourceIds: [...interactionOverlayIds.sourceIds, ...approximate.sourceIds]
-        };
-      }
+      interactionOverlayIds = renderer.draw(this, layer, { sourceId, fillId, lineId, rasterId, hoverId, selectedFillId, selectedId });
     }
     const labelLayerIds = this.addLabelLayers(layer, { sourceId, labelId });
 
@@ -1078,13 +1070,13 @@ export class TestMapLibreController {
     // A 3D layer lets a deliberate two-finger twist rotate the map (touchRotationAllowed).
     if (THREE_D_TYPES.has(layer.sourceType)) this.enableGestureHandlers();
 
-    if (layer.sourceType !== 'raster' && layer.sourceType !== 'image' && layer.sourceType !== 'raster-dem' && layer.sourceType !== 'point-cloud') {
+    if (renderer.interactive) {
       const cleanup = this.bindLayerInteractions(layer, fillId, labelId, sourceId);
       const approximateCleanup = this.bindApproximateSegmentInteractions(layer);
       this.interactionCleanups.set(layer.id, approximateCleanup ? () => { cleanup(); approximateCleanup(); } : cleanup);
       this.scheduleDomLabelRefresh(layer.id);
     }
-    if (layer.sourceType === 'pmtiles') {
+    if (renderer.archiveFallback) {
       this.fallbackCleanups.set(layer.id, this.monitorPmtilesFallback(layer, sourceId));
     }
     this.reorderFromSavedLayerOrder();
@@ -1842,53 +1834,18 @@ export class TestMapLibreController {
     return true;
   }
 
+  /** The layer's MapLibre source, from its renderer (layer-kinds/); a type with none throws. */
   buildSource(layer) {
-    if (layer.sourceType === 'pmtiles') {
-      if (!layer.tileUrl) throw new Error('missing PMTiles URL');
-      if (!this.pmtilesArchiveCache.has(layer.tileUrl)) {
-        this.pmtilesArchiveCache.set(layer.tileUrl, new PMTiles(layer.tileUrl));
+    const renderer = layerRenderer(layer.sourceType);
+    if (!renderer?.source) throw new Error(`unsupported sourceType ${layer.sourceType}`);
+    return renderer.source(layer, {
+      openPmtilesArchive: (tileUrl) => {
+        if (!this.pmtilesArchiveCache.has(tileUrl)) {
+          this.pmtilesArchiveCache.set(tileUrl, new PMTiles(tileUrl));
+        }
+        this.protocol.add(this.pmtilesArchiveCache.get(tileUrl));
       }
-      this.protocol.add(this.pmtilesArchiveCache.get(layer.tileUrl));
-      return { type: 'vector', url: `pmtiles://${layer.tileUrl}`, minzoom: layer.minzoom, maxzoom: layer.maxzoom, promoteId: layer.promoteId };
-    }
-    if (layer.sourceType === 'mvt') {
-      if (!layer.tiles) throw new Error('missing vector tile URL template');
-      return { type: 'vector', tiles: [absoluteTileTemplate(layer.tiles)], minzoom: layer.minzoom, maxzoom: layer.maxzoom, bounds: boundsToFlatBbox(layer.bounds), promoteId: layer.promoteId };
-    }
-    if (layer.sourceType === 'raster') {
-      if (!layer.tiles && !layer.tileUrl) throw new Error('missing raster tiles URL template');
-      return {
-        type: 'raster',
-        tiles: [absoluteTileTemplate(layer.tiles || layer.tileUrl)],
-        tileSize: layer.tileSize || 256,
-        minzoom: layer.minzoom,
-        maxzoom: layer.maxzoom,
-        bounds: boundsToFlatBbox(layer.bounds)
-      };
-    }
-    if (layer.sourceType === 'raster-dem') {
-      if (!layer.tiles && !layer.tileUrl) throw new Error('missing raster-dem tiles URL template');
-      return {
-        type: 'raster-dem',
-        tiles: [absoluteTileTemplate(layer.tiles || layer.tileUrl)],
-        tileSize: layer.tileSize || 256,
-        encoding: layer.demEncoding || 'terrarium',
-        minzoom: layer.minzoom,
-        maxzoom: layer.maxzoom,
-        bounds: boundsToFlatBbox(layer.bounds)
-      };
-    }
-    if (layer.sourceType === 'image') {
-      const coordinates = boundsToImageCoordinates(layer.bounds);
-      if (!coordinates) throw new Error('missing image bounds');
-      if (!layer.imageUrl && !layer.url) throw new Error('missing image URL');
-      return {
-        type: 'image',
-        url: layer.imageUrl || layer.url,
-        coordinates
-      };
-    }
-    throw new Error(`unsupported sourceType ${layer.sourceType}`);
+    });
   }
 
   /*

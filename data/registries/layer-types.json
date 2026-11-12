@@ -1,6 +1,6 @@
 {
  "schemaVersion": 1,
- "description": "Map layer types: the sourceType of a layer record, the fields every published layer of the type carries (render/metadata/maps-test.json), its tile format, and how the map app treats it (behaviour: packages/map/src/renderer/map-controller.js). Schema: packages/registries/schemas/layer-types.schema.json; views: packages/registries/src/layers.mjs.",
+ "description": "Map layer types: the sourceType of a layer record, the fields every published layer of the type carries (render/metadata/maps-test.json), its tile format, the renderer module that draws it (drawnBy: the layer-type code registry, packages/map/src/renderer/layer-kinds/), and how the map app treats it (behaviour: packages/map/src/renderer/map-controller.js). Schema: packages/registries/schemas/layer-types.schema.json; views: packages/registries/src/layers.mjs.",
  "behaviourFlags": {
   "threeD": {
    "meaning": "a 3D layer: terrain or a point cloud; turns on the 3D gesture handlers and terrain",
@@ -26,6 +26,7 @@
  "types": {
   "image": {
    "tileFormat": "one georeferenced image (imageUrl, bounds)",
+   "drawnBy": "packages/map/src/renderer/layer-kinds/raster.mjs",
    "requiredFields": [
     "bounds",
     "category",
@@ -65,6 +66,7 @@
   },
   "mvt": {
    "tileFormat": "vector tiles (MVT) at z/x/y.pbf",
+   "drawnBy": "packages/map/src/renderer/layer-kinds/vector-tiles.mjs",
    "runtimeOnly": true,
    "note": "Built by the app as the z/x/y.pbf fallback of a PMTiles layer (tilesFallback) or when promote-layers finds no PMTiles archive; never in the published index.",
    "sources": [
@@ -78,6 +80,7 @@
   },
   "pmtiles": {
    "tileFormat": "vector tiles (MVT) in a PMTiles archive (tileUrl), with a z/x/y.pbf fallback (tilesFallback)",
+   "drawnBy": "packages/map/src/renderer/layer-kinds/vector-tiles.mjs",
    "requiredFields": [
     "bounds",
     "category",
@@ -122,6 +125,7 @@
   },
   "point-cloud": {
    "tileFormat": "3D Tiles point cloud (tilesetUrl)",
+   "drawnBy": "packages/map/src/renderer/layer-kinds/point-cloud.mjs",
    "requiredFields": [
     "bounds",
     "category",
@@ -160,6 +164,7 @@
   },
   "raster": {
    "tileFormat": "raster tiles at z/x/y (tiles)",
+   "drawnBy": "packages/map/src/renderer/layer-kinds/raster.mjs",
    "requiredFields": [
     "bounds",
     "category",
@@ -198,6 +203,7 @@
   },
   "raster-dem": {
    "tileFormat": "terrain-RGB raster tiles (tiles, demEncoding) with hillshade tiles",
+   "drawnBy": "packages/map/src/renderer/layer-kinds/terrain.mjs",
    "requiredFields": [
     "bounds",
     "category",
