@@ -90,13 +90,14 @@ export const EXCLUDE = [
 // data/census/explorer-bundle.json is the one file of data/census the Census Explorer fetches.
 export const INCLUDE_ANYWAY = ['data/census/explorer-bundle.json'];
 
-const toPosix = (p) => p.replace(/\\/g, '/');
+const toPosix = (/** @type {string} */ p) => p.replace(/\\/g, '/');
 
 /**
  * Package files served at another path (packages/served.json, refactor PKG-9): served path ->
  * source path. A key ending in / is a directory (a prefix); any other key is one file, matched
  * exactly (the /pkg/ allowlist). A package file wins over any file at its served path.
  */
+/** @type {Record<string, string>} */
 export const SERVED_FROM = Object.fromEntries(Object.entries(
   JSON.parse(readFileSync(path.join(REPO_ROOT, 'packages', 'served.json'), 'utf8'))).filter(([k]) => k !== '//'));
 
@@ -114,7 +115,10 @@ export const SITE_SOURCE = 'site';
 /** The top-level served names that live in site/ (whatever site/ holds). */
 export const SITE_ENTRIES = new Set(existsSync(path.join(REPO_ROOT, SITE_SOURCE)) ? readdirSync(path.join(REPO_ROOT, SITE_SOURCE)) : []);
 
-/** The repository file a served (dist-relative) path is copied from. */
+/**
+ * The repository file a served (dist-relative) path is copied from.
+ * @param {string} rel
+ */
 export function sourceOf(rel) {
   const p = toPosix(rel).replace(/^\/+/, '');
   if (!p) return SITE_SOURCE; // the served root is site/
@@ -128,7 +132,10 @@ export function sourceOf(rel) {
   return p;
 }
 
-/** The served path of a repository file (itself unless a package or site/ serves it elsewhere). */
+/**
+ * The served path of a repository file (itself unless a package or site/ serves it elsewhere).
+ * @param {string} rel
+ */
 export function servedOf(rel) {
   const p = toPosix(rel);
   for (const [served, from] of Object.entries(SERVED_FROM)) {
@@ -139,7 +146,10 @@ export function servedOf(rel) {
   return p;
 }
 
-/** Whether a repository-relative path is published. */
+/**
+ * Whether a repository-relative path is published.
+ * @param {string} rel
+ */
 export function isSiteFile(rel) {
   const p = toPosix(rel);
   if (INCLUDE_ANYWAY.includes(p)) return true;
@@ -152,6 +162,11 @@ export function isSiteFile(rel) {
   return !EXCLUDE.some((e) => (e.endsWith('/') ? p.startsWith(e) : p === e));
 }
 
+/**
+ * @param {string} root
+ * @param {string} rel
+ * @param {string[]} out
+ */
 function walk(root, rel, out) {
   const abs = path.join(root, rel);
   if (!existsSync(abs)) return;
@@ -164,6 +179,7 @@ function walk(root, rel, out) {
   }
 }
 
+/** @param {string} root */
 function gitFiles(root) {
   try {
     const out = execFileSync('git', ['ls-files', '-z'], { cwd: root, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024, stdio: ['ignore', 'pipe', 'ignore'] });
@@ -182,7 +198,9 @@ export function siteFiles(root = REPO_ROOT) {
     candidates = ROOT_FILES.map(sourceOf);
     for (const d of [...SITE_DIRS, ...BUILD_DIRS.filter((b) => !SITE_DIRS.includes(b.split('/')[0]))]) walk(root, sourceOf(d), candidates);
   }
+  /** @type {string[]} */
   const files = [];
+  /** @type {string[]} */
   const oversized = [];
   for (const rel of [...new Set(candidates.map(servedOf))].sort()) {
     if (!isSiteFile(rel)) continue;

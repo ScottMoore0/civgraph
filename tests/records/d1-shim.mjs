@@ -12,6 +12,10 @@ import { DatabaseSync } from 'node:sqlite';
 import { toD1 } from '../../packages/storage/src/store.js';
 import { openSqlite } from '../../packages/storage/src/sqlite.mjs';
 
+/**
+ * @param {string} file
+ * @param {{ readOnly?: boolean }} [options]
+ */
 export function d1(file, { readOnly = true } = {}) {
   const store = openSqlite(file, { readOnly });
   return Object.assign(toD1(store), { _db: store._db, _store: store });
@@ -23,35 +27,50 @@ export function d1(file, { readOnly = true } = {}) {
  * there and there is no earlier build to carry votes over from) has empty votes tables, so the
  * votes routes answer 404 by design; tests check them only when the build holds votes.
  */
-export function buildHasVotes(file) {
+export function buildHasVotes(/** @type {string} */ file) {
   const db = new DatabaseSync(file, { readOnly: true });
-  try { return db.prepare('SELECT COUNT(*) AS n FROM divisions').get().n > 0; } finally { db.close(); }
+  // COUNT(*) always answers one row
+  try { return /** @type {{ n: number }} */ (db.prepare('SELECT COUNT(*) AS n FROM divisions').get()).n > 0; } finally { db.close(); }
 }
 
 export function installCaches() {
+  /** @type {Map<string, Response>} */
   const store = new Map();
-  globalThis.caches = {
+  // globalThis has no `caches` in Node's types: Object.assign sets it as the assignment did
+  Object.assign(globalThis, { caches: {
     default: {
+      /** @param {string | Request} request */
       async match(request) {
         const hit = store.get(typeof request === 'string' ? request : request.url);
         return hit ? hit.clone() : undefined;
       },
+      /**
+       * @param {string | Request} request
+       * @param {Response} response
+       */
       async put(request, response) {
         store.set(typeof request === 'string' ? request : request.url, response.clone());
       },
     },
-  };
+  } });
   return store;
 }
 
-/** A Pages Function context for a GET of `url`. */
+/**
+ * A Pages Function context for a GET of `url`.
+ * @template E
+ * @param {string} url
+ * @param {E} env
+ * @param {Record<string, string | string[]>} [params]
+ */
 export function context(url, env, params = {}) {
+  /** @type {Promise<unknown>[]} */
   const pending = [];
   return {
     request: new Request(new URL(url, 'https://civgraph.net').toString()),
     env,
     params,
-    waitUntil: (p) => pending.push(p),
+    waitUntil: (/** @type {Promise<unknown>} */ p) => pending.push(p),
     next: async () => new Response('static', { status: 200, headers: { 'X-Static': '1' } }),
     _pending: pending,
   };
