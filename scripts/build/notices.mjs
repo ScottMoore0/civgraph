@@ -56,7 +56,7 @@ function bundledPackages() {
 
 const LICENCE_FILENAMES = /^(licen[cs]e|copying|notice)(\.(txt|md))?$/i;
 
-function licenceTextFor(pkg) {
+function licenceTextFor(/** @type {string} */ pkg) {
   const dir = path.join(ROOT, 'node_modules', pkg);
   if (!existsSync(dir)) return null;
   let file = null;
@@ -65,6 +65,10 @@ function licenceTextFor(pkg) {
   try { return readFileSync(path.join(dir, file), 'utf8').trim(); } catch { return null; }
 }
 
+/**
+ * @param {string} pkg
+ * @returns {{ version?: string, license?: string | { type?: string }, repository?: string | { url?: string } }}
+ */
 function manifestFor(pkg) {
   const p = path.join(ROOT, 'node_modules', pkg, 'package.json');
   if (!existsSync(p)) return {};
@@ -72,7 +76,10 @@ function manifestFor(pkg) {
 }
 
 const packages = bundledPackages();
+/** @typedef {{ pkg: string, version: string, licence: string, repo: string, text: string | null }} Notice */
+/** @type {Notice[]} */
 const withText = [];
+/** @type {Notice[]} */
 const withoutText = [];
 
 for (const pkg of packages) {

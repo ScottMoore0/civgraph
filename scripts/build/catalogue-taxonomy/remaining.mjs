@@ -17,14 +17,17 @@ const objs = [];
     else if (c === '}') { d--; if (d === 0) objs.push(body.slice(s, i + 1)); }
   }
 }
+/** @param {string} t */
 const strs = t => { const o = []; let i = 0; while ((i = t.indexOf(Q, i)) !== -1) { let k = i + 1, b = ''; while (k < t.length && t[k] !== Q) { if (t[k] === BS) { b += t[k + 1]; k += 2; } else { b += t[k]; k++; } } o.push(b); i = k + 1; } return o; };
-const listAfter = (o, key) => { const a = o.indexOf(key + ':'); if (a === -1) return []; const p = o.indexOf('[', a), c = o.indexOf(']', p); return p === -1 || c === -1 ? [] : strs(o.slice(p, c)); };
-const nameOf = o => (o.match(new RegExp('name:\\s*' + Q + '([^' + Q + ']*)' + Q)) || [])[1] || '';
+const listAfter = (/** @type {string} */ o, /** @type {string} */ key) => { const a = o.indexOf(key + ':'); if (a === -1) return []; const p = o.indexOf('[', a), c = o.indexOf(']', p); return p === -1 || c === -1 ? [] : strs(o.slice(p, c)); };
+const nameOf = (/** @type {string} */ o) => (o.match(new RegExp('name:\\s*' + Q + '([^' + Q + ']*)' + Q)) || [])[1] || '';
 
-const classMaps = new Map(j.classes.map(c => [c.id, c.maps || []]));
-const pub = j.maps.filter(m => !m.hidden && (Object.keys(m.files || {}).length || (m.variants || []).length || (m.members || []).length || m.chunked));
-const pubIds = new Set(pub.map(m => m.id));
-const nameById = new Map(j.maps.map(m => [m.id, m.name || m.id]));
+/** @typedef {{ id: string, name?: string, hidden?: boolean, files?: object, variants?: unknown[], members?: unknown[], chunked?: unknown }} CatalogueMap */
+/** @type {Map<string, string[]>} */
+const classMaps = new Map(j.classes.map((/** @type {{ id: string, maps?: string[] }} */ c) => [c.id, c.maps || []]));
+const pub = j.maps.filter((/** @type {CatalogueMap} */ m) => !m.hidden && (Object.keys(m.files || {}).length || (m.variants || []).length || (m.members || []).length || m.chunked));
+const pubIds = new Set(pub.map((/** @type {CatalogueMap} */ m) => m.id));
+const nameById = new Map(j.maps.map((/** @type {CatalogueMap} */ m) => [m.id, m.name || m.id]));
 
 const PUBLISHER = / - Open Data$/;
 const cards = [];

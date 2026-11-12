@@ -13,13 +13,21 @@
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 
-const read = (root, p) => JSON.parse(readFileSync(path.join(root, p), 'utf8'));
+/**
+ * A catalogue record: a maps.json entry, a renderer layer or a data entry, with where it came from.
+ * @typedef {{ id: string, origin: string, partOf?: string, name?: string, label?: string, hidden?: boolean, [field: string]: unknown }} CatalogueRecord
+ * @typedef {{ id: string, label: string | undefined }} PartLink
+ */
 
+const read = (/** @type {string} */ root, /** @type {string} */ p) => JSON.parse(readFileSync(path.join(root, p), 'utf8'));
+
+/** @returns {{ records: Map<string, CatalogueRecord>, parts: Map<string, PartLink[]> }} */
 export function loadRecords(root = process.cwd()) {
   const maps = read(root, 'data/database/maps.json').maps;
   const layers = read(root, 'render/metadata/maps-test.json').layers || [];
   const dataEntries = Object.values(read(root, 'data/database/data-entries.json').dataEntries || {});
 
+  /** @type {Map<string, CatalogueRecord>} */
   const records = new Map();
   for (const m of maps) records.set(m.id, { ...m, origin: 'maps' });
   for (const l of layers) {
@@ -40,20 +48,23 @@ export function loadRecords(root = process.cwd()) {
     }
   }
   // Children of each map, in the order their parent lists them, then the renderer's children.
+  /** @type {Map<string, PartLink[]>} */
   const parts = new Map();
   for (const m of maps) {
-    const list = (m.variants || []).map((v) => (typeof v === 'string' ? { id: v } : v)).filter((v) => v.id && v.id !== m.id);
+    /** @type {{ id: string, label?: string, name?: string }[]} */
+    const list = (m.variants || []).map((/** @type {string | { id: string }} */ v) => (typeof v === 'string' ? { id: v } : v)).filter((/** @type {{ id: string }} */ v) => v.id && v.id !== m.id);
     if (list.length) parts.set(m.id, list.map((v) => ({ id: v.id, label: v.label || v.name || records.get(v.id)?.name || v.id })));
   }
   for (const r of records.values()) {
     if (r.origin !== 'layer' || !r.partOf) continue;
     if (!parts.has(r.partOf)) parts.set(r.partOf, []);
-    if (!parts.get(r.partOf).some((p) => p.id === r.id)) parts.get(r.partOf).push({ id: r.id, label: r.name });
+    // set just above when it was missing
+    if (!/** @type {PartLink[]} */ (parts.get(r.partOf)).some((p) => p.id === r.id)) /** @type {PartLink[]} */ (parts.get(r.partOf)).push({ id: r.id, label: r.name });
   }
   return { records, parts };
 }
 
 /** Maps that must be placed in the arrangement: not parts, not hidden. */
-export function placeable(records) {
+export function placeable(/** @type {Map<string, CatalogueRecord>} */ records) {
   return [...records.values()].filter((r) => !r.partOf && !r.hidden);
 }

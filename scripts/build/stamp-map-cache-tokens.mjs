@@ -52,10 +52,14 @@ const WRITE = argv.includes('--write');
 const ids = argv.filter((a, i) => argv[i - 1] === '--id');
 
 /** R2 quotes its ETags, and a quote is not legal in a query string. */
-function normaliseEtag(raw) {
+function normaliseEtag(/** @type {string | null} */ raw) {
   return String(raw || '').replace(/^W\//, '').replace(/"/g, '').trim();
 }
 
+/**
+ * @param {string} url
+ * @returns {Promise<{ token?: string, error?: string }>}
+ */
 async function liveToken(url) {
   const bare = new URL(url);
   bare.searchParams.delete(TOKEN);
@@ -67,6 +71,10 @@ async function liveToken(url) {
 }
 
 /** Entries whose fgb is served from the CDN. Anything else is not ours to stamp. */
+/**
+ * @typedef {{ id: string, files: { fgb: string } }} CdnMap
+ * @param {{ maps: CdnMap[] }} catalogue
+ */
 function targets(catalogue) {
   return catalogue.maps.filter((m) => {
     const fgb = m?.files?.fgb;
@@ -111,7 +119,8 @@ for (const map of selected) {
     stale.push(`${map.id}: token is "${current || '(none)'}" but the live object is "${token}"`);
     continue;
   }
-  url.searchParams.set(TOKEN, token);
+  // liveToken answers a token whenever it answers no error
+  url.searchParams.set(TOKEN, /** @type {string} */ (token));
   map.files.fgb = url.toString();
   changed += 1;
   console.log(`  ${map.id}\n    -> ${url.toString()}`);

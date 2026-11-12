@@ -7,13 +7,15 @@
 // cannot say what the layer is -- those four were resolved from their data.gov.ie records.
 import fs from 'fs';
 
+/** @type {Row[]} */
 const rows = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
 
 // kind: 'Boundary' = reference geography you drape other things on.
 //       'Dataset'  = something observed, recorded or proposed at a place.
 const BOUNDARY_SUBJECTS = new Set(['Administrative Boundaries', 'Townlands', 'Electoral Boundaries']);
-const kindOf = s => (BOUNDARY_SUBJECTS.has(s) ? 'Boundary' : 'Dataset');
+const kindOf = (/** @type {string} */ s) => (BOUNDARY_SUBJECTS.has(s) ? 'Boundary' : 'Dataset');
 
+/** @type {[string, RegExp][]} */
 const RULES = [
   // named series first, before the generic words inside them can steal the row
   ['Aerial Imagery & Elevation', /orthophoto|lidar|hillshade/i],
@@ -66,6 +68,7 @@ const RULES = [
 ];
 
 // name -> subject. Each entry is a row a rule got wrong, or one the name could not decide.
+/** @type {Record<string, string>} */
 const CORRECTIONS = {
   // resolved from the data.gov.ie record, because the name says nothing
   'Boundaries': 'Nature, Habitats & Designated Sites',            // Roscommon/Longford wetlands survey 2017
@@ -80,14 +83,15 @@ const CORRECTIONS = {
 };
 
 const applied = new Set();
-const assign = (r) => {
+/** @typedef {{ id: string, name: string, keywords?: unknown, why?: string }} Row */
+const assign = (/** @type {Row} */ r) => {
   if (CORRECTIONS[r.name]) { applied.add(r.name); return CORRECTIONS[r.name]; }
   const hay = `${r.name} ${r.keywords}`;
   for (const [subject, re] of RULES) if (re.test(hay)) return subject;
   return 'REVIEW';
 };
 
-const out = rows.map(r => {
+const out = rows.map((/** @type {Row} */ r) => {
   const subject = assign(r);
   return { id: r.id, name: r.name, subject, kind: subject === 'REVIEW' ? '' : kindOf(subject), from: r.why };
 });
