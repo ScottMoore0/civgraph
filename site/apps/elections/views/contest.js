@@ -109,7 +109,7 @@ export async function render(root, route) {
 
 /** @param {import('../lib/count.js').SheetRow} r */
 function personLink(r) {
-  const url = personUrl(r.name, r.personId);
+  const url = personUrl(r.name, r.personId, r.personSlug);
   return url ? `<a href="${esc(url)}">${esc(r.name)}</a>` : esc(r.name);
 }
 

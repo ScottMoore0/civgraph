@@ -4,6 +4,8 @@ import path from 'node:path';
 import { resolveApprovedPublicationSources } from '../lib/approved-publication-index.mjs';
 import { fileLabel, normalizeFiles, normalizeLinks } from '../lib/browse-links.mjs';
 import { partyColour, NO_LABEL, NO_PARTY_RECORDED } from '../../packages/core/src/election-domain.mjs';
+// A person's slug ("naomi-long-51102"): the one rule the pages' person links use too.
+import { personSlug } from '../../packages/core/src/format.js';
 import { isPublicMap, isPublicStatistic, statisticGeographyIds } from '../../src/public-map.mjs';
 import { canonicalElectionTitle, compareElectionsNewestFirst, electionResultEntryLabel } from '../lib/election-names.mjs';
 import { buildPartyVocabulary, classifyPersonName, stripWikipediaQualifier, NOT_A_PERSON } from '../lib/person-name-artefacts.mjs';
@@ -1765,25 +1767,6 @@ function editDistance(a, b) {
 function isReferendumElection(election, key) {
   return [election?.contestType, election?.type, election?.body, key]
     .some((value) => String(value || '').toLowerCase().includes('referendum'));
-}
-
-/**
- * A person URL that a reader can recognise and still resolve uniquely.
- *
- * Person ids became registry ids when the candidacies were stamped, and slugifying an id
- * directly gave URLs like /browse/persons/84105 -- correct, unshareable, and impossible
- * to sanity-check by eye. The name alone is not enough either, because the registry
- * deliberately keeps distinct people who share a name apart, which is the whole reason
- * it exists. So the readable part carries the name and the id keeps it unique.
- *
- * Where a candidacy could not be resolved the id is already `name:<slug>`, one entry per
- * name by construction, so the name alone is unique and no suffix is added.
- */
-function personSlug(personId, name) {
-  const id = String(personId || '');
-  const readable = slugify(name);
-  if (id.startsWith('name:')) return readable || slugify(id);
-  return readable ? `${readable}-${slugify(id)}` : slugify(id);
 }
 
 /**

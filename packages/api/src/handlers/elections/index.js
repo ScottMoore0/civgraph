@@ -312,7 +312,7 @@ async function handleView(db, view, url) {
       if (!row) return json({ error: 'election not found' }, 404);
       const modes = /** @type {Parameters<typeof areaResultsAnswer>[1]} */ (parseJson(row.modes, []));
       const national = Array.isArray(modes) && modes.some((m) => m?.dataKind === 'area-results')
-        ? /** @type {Array<{ id: unknown, name: unknown, party: unknown, personId: unknown, colour?: unknown }>} */ (await db.all(ELECTIONS_API.contestCandidates, [row.key, 0]))
+        ? /** @type {Array<{ id: unknown, name: unknown, party: unknown, personId: unknown, personSlug?: unknown, colour?: unknown }>} */ (await db.all(ELECTIONS_API.contestCandidates, [row.key, 0]))
         : [];
       return json(areaResultsAnswer(row, modes, national));
     }

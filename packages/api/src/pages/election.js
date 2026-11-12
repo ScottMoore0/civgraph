@@ -19,7 +19,7 @@ import { ELECTIONS_API } from '../queries/elections.js';
  * @typedef {Omit<ElectionPageRow, 'meta'> & { meta: ElectionPageMeta }} ElectionPageElection
  *   the election, its meta parsed (loader markers dropped)
  * @typedef {Pick<ContestsRow, 'seq' | 'name' | 'slug' | 'electorate' | 'quota' | 'meta'> & { seatsTotal: ContestsRow['seats_total'], turnoutPct: ContestsRow['turnout_pct'], sourceFile: ContestsRow['source_file'] }} ElectionPageContest
- * @typedef {Pick<CandidaciesRow, 'ord' | 'name' | 'colour' | 'elected' | 'status'> & { personId: CandidaciesRow['person_id'], party: CandidaciesRow['party_label'], partyAsPrinted: CandidaciesRow['party_as_printed'], firstPrefs: CandidaciesRow['first_prefs'], finalVotes: CandidaciesRow['final_votes'] }} ElectionPageCandidate
+ * @typedef {Pick<CandidaciesRow, 'ord' | 'name' | 'colour' | 'elected' | 'status'> & { personId: CandidaciesRow['person_id'], personSlug?: string | null, party: CandidaciesRow['party_label'], partyAsPrinted: CandidaciesRow['party_as_printed'], firstPrefs: CandidaciesRow['first_prefs'], finalVotes: CandidaciesRow['final_votes'] }} ElectionPageCandidate
  * @typedef {Pick<CitationsRow, 'title' | 'publisher' | 'url'> & { host?: CitationsRow['host'], kind?: CitationsRow['kind'] }} ElectionPageCitation
  * @typedef {ElectionPageCitation & { contests: number }} ElectionPageSource  an election's source, with how many of its contests cite it
  * @typedef {Pick<ContestsRow, 'seq' | 'name' | 'slug'> & { seatsTotal: ContestsRow['seats_total'], winnerParty: ContestsRow['winner_party'], winnerName: ContestsRow['winner_name'] }} ElectionPageContestItem

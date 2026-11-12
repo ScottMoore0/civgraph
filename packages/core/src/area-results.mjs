@@ -215,7 +215,7 @@ export function areaFeatureNames(area) {
  * count. An area's candidate is named by the national candidate's id.
  * @param {{ key: string, displayTitle?: string | null, body?: string | null, date?: string | null }} election
  * @param {Array<AreaResultsMode | null | undefined> | null | undefined} modes  the bundle's geographyModes
- * @param {Array<{ id: unknown, name: unknown, party: unknown, personId: unknown, colour?: unknown }>} nationalCandidates  the national contest's candidacies
+ * @param {Array<{ id: unknown, name: unknown, party: unknown, personId: unknown, personSlug?: unknown, colour?: unknown }>} nationalCandidates  the national contest's candidacies (personSlug: the person's own page slug)
  */
 export function areaResultsAnswer(election, modes, nationalCandidates) {
   const mode = (modes || []).find((m) => m?.dataKind === 'area-results') || null;
@@ -238,6 +238,7 @@ export function areaResultsAnswer(election, modes, nationalCandidates) {
       name: String(c.name ?? ''),
       party: c.party == null ? null : String(c.party),
       personId: c.personId == null || c.personId === '' ? null : String(c.personId),
+      personSlug: c.personSlug == null || c.personSlug === '' ? null : String(c.personSlug),
       colour: colourById.get(String(c.id)) || (c.colour == null ? null : String(c.colour)),
     })),
     areas: (mode.results || []).map((r) => ({

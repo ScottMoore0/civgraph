@@ -14,6 +14,7 @@
  */
 import councilSearch from '../../packages/registries/src/browser/council-search.mjs';
 import electionBodies from '../../packages/registries/src/browser/election-bodies.mjs';
+import { personSlug } from '../../packages/core/src/format.js';
 
 /**
  * The rebuilt catalogue (data/catalogue/catalogue.json, scripts/build/catalogue/build-catalogue.mjs),
@@ -501,11 +502,11 @@ export class PeopleSearch {
   }
 
   /**
-   * A person's record slug: Browse's, else their name and id as Browse makes it.
+   * A person's record slug: Browse's, else their name and id as Browse makes it (personSlug).
    * @param {PersonRow} row
    */
   static slug(row) {
-    return row[10] || `${String(row[1]).normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}-${row[0]}`;
+    return row[10] || personSlug(row[0], row[1]);
   }
 
   /**

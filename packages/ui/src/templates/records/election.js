@@ -5,7 +5,7 @@
  * reads D1 once per page; templates never query.
  */
 import { html } from '../../../../core/src/html.js';
-import { dateText, numberText, percentText } from '../../../../core/src/format.js';
+import { dateText, numberText, percentText, personRecordPath } from '../../../../core/src/format.js';
 import { badges, citations, dataTable, facts, link, partyChip } from '../components/index.js';
 import { candidateReturnWithoutPoll, isUncontestedResult } from '../../../../core/src/unopposed.mjs';
 
@@ -46,9 +46,13 @@ function votesCell(c) {
   return c.firstPrefs === null ? '' : numberText(c.firstPrefs);
 }
 
-/** @param {Pick<ElectionPageCandidate, 'personId' | 'name'>} row */
+/**
+ * A candidate's name, linked to their page by its own slug (no redirect on the way).
+ * @param {Pick<ElectionPageCandidate, 'personId' | 'personSlug' | 'name'>} row
+ */
 function personLink(row) {
-  return row.personId ? link(`/browse/persons/${encodeURIComponent(row.personId)}`, row.name) : row.name;
+  const href = personRecordPath(row);
+  return href ? link(href, row.name) : row.name;
 }
 
 /**
