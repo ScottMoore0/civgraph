@@ -130,6 +130,15 @@ export function ingestBrowse(db, { browseDir, paths = recordPaths() }) {
         });
       });
       out.person_cards = cards.finish();
+      // Each party name a card lists, once per card: the party page's members (person_card_parties).
+      const cardParties = new TableWriter(db, 'person_card_parties');
+      for (const item of items) {
+        const names = new Set((Array.isArray(item.parties) ? item.parties : [])
+          .map((party) => (party && typeof party === 'object' ? /** @type {{ name?: unknown }} */ (party).name : null))
+          .filter((name) => typeof name === 'string' && name !== ''));
+        for (const party of names) cardParties.add({ party, slug: item.slug });
+      }
+      out.person_card_parties = cardParties.finish();
       const aliases = new TableWriter(db, 'person_aliases');
       const personAliases = aliasRows(items);
       // A person id merged away (person_id_merges.csv, person_id_confirmed_merges.csv) answers

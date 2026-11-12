@@ -288,6 +288,14 @@ export interface PersonCardsFacetsRow {
   row_hash_n: number;
 }
 
+/** Table `person_card_parties` (group browse; primary key party, slug; ordered by party, slug). */
+export interface PersonCardPartiesRow {
+  party: string;
+  slug: string;
+  row_hash: string;
+  row_hash_n: number;
+}
+
 /** Table `parties` (group parties; primary key party_id; ordered by ord). */
 export interface PartiesRow {
   party_id: string;
@@ -730,6 +738,7 @@ export interface Tables {
   person_facts: PersonFactsRow;
   person_cards: PersonCardsRow;
   person_cards_facets: PersonCardsFacetsRow;
+  person_card_parties: PersonCardPartiesRow;
   parties: PartiesRow;
   party_names: PartyNamesRow;
   party_events: PartyEventsRow;

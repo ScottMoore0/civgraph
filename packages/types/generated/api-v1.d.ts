@@ -307,6 +307,27 @@ export interface PartiesProfileAnswer {
   [key: string]: unknown;
 }
 
+/** GET /api/v1/parties (slug=<given> view=members): The people who stood for one party, a page at a time (limit, offset), each with the fields of their election rows the party page reads */
+export interface PartiesMembersAnswer {
+  schemaVersion: number;
+  slug: string;
+  names: string[];
+  total: number;
+  count: number;
+  limit: number;
+  offset: number;
+  columns: string[];
+  dictionaries: {
+    key: string[];
+    constituency: string[];
+    party: string[];
+    status: string[];
+    [key: string]: unknown;
+  };
+  members: unknown[][];
+  [key: string]: unknown;
+}
+
 /** GET /api/v1/parties (slug=<given>): One party */
 export interface PartiesRecordAnswer {
   schemaVersion: number;
@@ -969,6 +990,7 @@ export interface V1Routes {
       names: PartiesNamesAnswer;
       folds: PartiesFoldsAnswer;
       profile: PartiesProfileAnswer;
+      members: PartiesMembersAnswer;
       record: PartiesRecordAnswer;
       list: PartiesListAnswer;
     };

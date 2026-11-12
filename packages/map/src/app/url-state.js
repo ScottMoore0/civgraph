@@ -13,6 +13,7 @@ import { pageParamOf, parsePageParam } from './helpers.mjs';
 import featureLoader from '../../../../src/feature-loader.js';
 import { featureBoundsFromIndex, featureBoundsFromSpatial } from './feature-bounds.mjs';
 import { resolveBaseMapId } from '../renderer/basemap.mjs';
+import { layerOrderForAddress } from './layer-order.mjs';
 
 /** A promise, or null after `ms`: an index that is slow to come must not hold the map. */
 const within = (promise, ms) => Promise.race([promise, new Promise((resolve) => setTimeout(() => resolve(null), ms))]);
@@ -253,15 +254,13 @@ export class UrlStateMethods {
       ? [electionState.layerId, ...loaded.filter((id) => !electionSourceIds.has(id))]
       : loaded;
     const hidden = urlLoaded.filter((id) => id !== electionState?.layerId && !electionSourceIds.has(id) && !this.isMapVisible(id));
-    const layerOrder = this.getActiveLayerOrder(urlLoaded).filter((id) => urlLoaded.includes(id));
+    const layerOrder = layerOrderForAddress(this.getActiveLayerOrder(urlLoaded), urlLoaded);
     const partialFeatureState = this.getPrimaryPartialFeatureURLState();
     const params = new URLSearchParams();
     const center = this.mapController.map?.getCenter?.();
     const zoom = this.mapController.map?.getZoom?.();
     if (urlLoaded.length) params.set('layers', urlLoaded.join(','));
-    if (layerOrder.length > 1 && layerOrder.some((id, index) => id !== urlLoaded[index])) {
-      params.set('layerOrder', layerOrder.join(','));
-    }
+    if (layerOrder) params.set('layerOrder', layerOrder);
     if (hidden.length) params.set('hidden', hidden.join(','));
     if (partialFeatureState?.mapId && partialFeatureState.featureId !== undefined && partialFeatureState.featureId !== null) {
       params.set('featureMap', partialFeatureState.mapId);
@@ -407,8 +406,8 @@ export class UrlStateMethods {
       const baseMap = params.get('base');
       if (baseMap) {
         const select = document.getElementById('baseMapSelect');
-        // A base map since removed (an Esri one, in an address saved before 11 Nov 2026) shows,
-        // and draws, the default.
+        // A base map since removed (an Esri, CARTO or Stamen one, in an address saved before
+        // 11 Nov 2026) shows, and draws, the default.
         if (select) select.value = resolveBaseMapId(baseMap);
         // T1-06: a ?base= in the URL is a deliberate choice too, so the theme
         // must not override it on load.

@@ -2,12 +2,14 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:civgraph:api:v1:parties",
   "title": "/api/v1/parties",
-  "description": "Parties: the list, one party, its profile, ballot-label folds. The answer of /_api/parties, which stays as an alias.",
+  "description": "Parties: the list, one party, its profile, its members, ballot-label folds. The answer of /_api/parties, which stays as an alias.",
   "x-civgraph-route": {
     "legacy": "/_api/parties",
     "parameters": [
       "slug",
-      "view"
+      "view",
+      "limit",
+      "offset"
     ]
   },
   "x-civgraph-variants": [
@@ -34,6 +36,14 @@
       "summary": "One party's profile"
     },
     {
+      "name": "members",
+      "when": {
+        "slug": "*",
+        "view": "members"
+      },
+      "summary": "The people who stood for one party, a page at a time (limit, offset), each with the fields of their election rows the party page reads"
+    },
+    {
       "name": "record",
       "when": {
         "slug": "*"
@@ -55,6 +65,9 @@
     },
     {
       "$ref": "#/$defs/profile"
+    },
+    {
+      "$ref": "#/$defs/members"
     },
     {
       "$ref": "#/$defs/record"
@@ -121,6 +134,95 @@
         "schemaVersion",
         "slug",
         "title"
+      ]
+    },
+    "members": {
+      "description": "The people who stood for one party, a page at a time (limit, offset), each with the fields of their election rows the party page reads",
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "number"
+        },
+        "slug": {
+          "type": "string"
+        },
+        "names": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "total": {
+          "type": "number"
+        },
+        "count": {
+          "type": "number"
+        },
+        "limit": {
+          "type": "number"
+        },
+        "offset": {
+          "type": "number"
+        },
+        "columns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "dictionaries": {
+          "type": "object",
+          "properties": {
+            "key": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "constituency": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "party": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "status": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "key",
+            "constituency",
+            "party",
+            "status"
+          ]
+        },
+        "members": {
+          "type": "array",
+          "items": {
+            "type": "array"
+          }
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "slug",
+        "names",
+        "total",
+        "count",
+        "limit",
+        "offset",
+        "columns",
+        "dictionaries",
+        "members"
       ]
     },
     "record": {

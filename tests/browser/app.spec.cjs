@@ -153,148 +153,123 @@ test('boots centred on Ireland when URL has no viewport state', async ({ page })
   expect(camera.zoom).toBeGreaterThan(4);
 });
 
-// FIXED 2026-08-23 — and it was the test, not the app. Drag reordering works.
+// Drag order (fixed 2026-08-23 for the drop point; persistence fixed 11 Nov 2026).
 //
-// It had been the last candidate for a genuine regression: a REAL mouse drag (not a
-// synthetic event) left the list reading "a|b" when it should read "b|a". The cause was
-// the drop point. The move ended 12px BELOW the second row's bottom edge, outside the
-// droppable region, so the drop was never accepted.
+// A REAL mouse drag, released at 75% down the second row -- inside it, as a fraction of the
+// row's own height, so a change to row padding cannot move the release point outside the
+// target (it once ended 12px below the row and was never accepted).
 //
-// Releasing at 75% down the second row -- inside it -- reorders correctly. Kept as a
-// fraction of the row's own height rather than a pixel offset, so a change to row
-// padding cannot silently move the release point outside the target again.
-test('active-layer drag order persists and controls MapLibre draw order', async ({ page }) => {
-  test.fail();
-  await page.goto('/maps/');
-  await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
+// This was test.fail() until 11 Nov 2026, for three reasons:
+//   - the spec read the saved order from 'civgraph:test2:layer-order', a key the app stopped
+//     using when the layer-order seam moved out (it is 'civgraph:maplibre:layer-order'), so it
+//     always read [];
+//   - a shared link lost the order whenever it matched the `layers` list: layerOrder was left
+//     out then, but a link opened elsewhere stacks its layers as they arrive and takes that
+//     browser's own saved order (layerOrderForAddress now always writes it);
+//   - a layer loaded under another id than its row's (an address naming lgd-2012-vector, the
+//     catalogue's lgd-2012) was dropped from the dragged order, so the map, the saved order and
+//     the next render ignored the visible reorder (rowOrderToLoadedIds).
+// The spec now uses real layers, and reloads, and opens the shared link in a fresh browser.
+const LAYER_ORDER_KEY = 'civgraph:maplibre:layer-order';
+
+async function bootLayers(page, hash) {
+  await page.goto(`/maps/${hash}`);
+  await page.waitForFunction(() => window.__civgraphTest2?.restorePromise, null, { timeout: 60000 });
   await page.evaluate(() => window.__civgraphTest2.restorePromise);
-  await page.evaluate(() => {
-    localStorage.removeItem('civgraph:test2:layer-order');
-    const { app, mapController } = window.__civgraphTest2;
-    const map = mapController.map;
-    const syntheticLayers = [
-      {
-        mainId: 'synthetic-layer-a',
-        testId: 'synthetic-order-a',
-        name: 'Synthetic Layer A',
-        colour: '#2b8cbe',
-        coordinates: [[[-8.9, 53.0], [-8.2, 53.0], [-8.2, 53.6], [-8.9, 53.6], [-8.9, 53.0]]]
-      },
-      {
-        mainId: 'synthetic-layer-b',
-        testId: 'synthetic-order-b',
-        name: 'Synthetic Layer B',
-        colour: '#e34a33',
-        coordinates: [[[-8.7, 52.8], [-8.0, 52.8], [-8.0, 53.4], [-8.7, 53.4], [-8.7, 52.8]]]
-      }
-    ];
-    for (const layer of syntheticLayers) {
-      const sourceId = `${layer.testId}-source`;
-      const fillId = `${layer.testId}-fill`;
-      if (!map.getSource(sourceId)) {
-        map.addSource(sourceId, {
-          type: 'geojson',
-          data: {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              properties: { name: layer.name },
-              geometry: { type: 'Polygon', coordinates: layer.coordinates }
-            }]
-          }
-        });
-      }
-      if (!map.getLayer(fillId)) {
-        map.addLayer({
-          id: fillId,
-          type: 'fill',
-          source: sourceId,
-          paint: { 'fill-color': layer.colour, 'fill-opacity': 0.25 }
-        });
-      }
-      mapController.mainToTest.set(layer.mainId, layer.testId);
-      mapController.testToMain.set(layer.testId, layer.mainId);
-      mapController.renderer.layers.set(layer.testId, {
-        layerIds: [fillId],
-        config: { id: layer.testId, geometryType: 'polygon' }
-      });
-      mapController.layerStates.set(layer.mainId, {
-        loaded: true,
-        visible: true,
-        testLayerId: layer.testId,
-        config: {
-          id: layer.mainId,
-          name: layer.name,
-          provider: ['Test'],
-          style: { color: layer.colour, fillOpacity: 0.25 }
-        },
-        _strokeOpacity: 1,
-        _fillOpacity: 0.25,
-        geoJsonLayers: [{
-          setStyle: () => {}
-        }]
-      });
+  await page.evaluate(() => window.__civgraphTest2.app.mapController.waitUntilSettled({ timeoutMs: 30000 }));
+}
+
+async function layerOrderState(page) {
+  return page.evaluate((key) => {
+    const { mapController } = window.__civgraphTest2;
+    const styleLayerIds = mapController.map.getStyle().layers.map((layer) => layer.id);
+    // Each loaded layer's lowest style layer; a higher index draws on top.
+    const styleIndex = {};
+    for (const id of mapController.getLayerDrawOrder()) {
+      const record = mapController.renderer.layers.get(mapController.mainToTest.get(id) || id);
+      styleIndex[id] = Math.min(...(record?.layerIds || []).map((layerId) => styleLayerIds.indexOf(layerId)).filter((i) => i >= 0));
     }
-    mapController.setLayerDrawOrder(['synthetic-layer-a', 'synthetic-layer-b']);
-    app.updateActiveLayers();
-    app.setActiveLayersPanelOpen(true);
-  });
+    return {
+      rows: [...document.querySelectorAll('#activeLayersList .active-layer-item[data-map-id]')].map((row) => row.dataset.mapId),
+      draw: mapController.getLayerDrawOrder(),
+      styleIndex,
+      saved: JSON.parse(localStorage.getItem(key) || '[]'),
+      hashOrder: new URLSearchParams(location.hash.replace(/^#/, '')).get('layerOrder'),
+      hash: location.hash
+    };
+  }, LAYER_ORDER_KEY);
+}
 
-  await expect(page.locator('#activeLayersList .active-layer-item')).toHaveCount(2);
-  await expect.poll(() => page.evaluate(() => (
-    [...document.querySelectorAll('#activeLayersList .active-layer-item[data-map-id]')]
-      .map((row) => row.dataset.mapId)
-      .join('|')
-  ))).toBe('synthetic-layer-a|synthetic-layer-b');
-
+async function dragFirstActiveLayerBelowSecond(page) {
+  await page.evaluate(() => window.__civgraphTest2.app.setActiveLayersPanelOpen(true));
+  const rows = page.locator('#activeLayersList .active-layer-item[data-map-id]');
+  await expect(rows).toHaveCount(2);
   // The whole row drags (there is no grip); start from its name.
-  const firstGrip = page.locator('#activeLayersList .active-layer-item[data-map-id="synthetic-layer-a"] .active-layer-item__name');
-  const secondRow = page.locator('#activeLayersList .active-layer-item[data-map-id="synthetic-layer-b"]');
-  const gripBox = await firstGrip.boundingBox();
-  const secondBox = await secondRow.boundingBox();
+  const gripBox = await rows.nth(0).locator('.active-layer-item__name').boundingBox();
+  const secondBox = await rows.nth(1).boundingBox();
   expect(gripBox).toBeTruthy();
   expect(secondBox).toBeTruthy();
   await page.mouse.move(gripBox.x + gripBox.width / 2, gripBox.y + gripBox.height / 2);
   await page.mouse.down();
   await page.mouse.move(secondBox.x + secondBox.width / 2, secondBox.y + secondBox.height * 0.75, { steps: 12 });
   await page.mouse.up();
+}
 
-  await expect.poll(() => page.evaluate(() => (
-    [...document.querySelectorAll('#activeLayersList .active-layer-item[data-map-id]')]
-      .map((row) => row.dataset.mapId)
-      .join('|')
-  ))).toBe('synthetic-layer-b|synthetic-layer-a');
+for (const [label, hash, ids, rowIds] of [
+  ['', '#layers=pc-2023,lgd-2012&lng=-6.75&lat=54.65&zoom=7.4', ['pc-2023', 'lgd-2012'], ['pc-2023', 'lgd-2012']],
+  // An address naming a layer by its older id: the row shows the catalogue's id (lgd-2012).
+  [' (a layer loaded under another id than its row)', '#layers=pc-2023,lgd-2012-vector&lng=-6.75&lat=54.65&zoom=7.4', ['pc-2023', 'lgd-2012-vector'], ['pc-2023', 'lgd-2012']]
+]) {
+  test(`active-layer drag order is drawn, saved, survives a reload and travels in the link${label}`, async ({ page, browser }) => {
+    test.setTimeout(120000);
+    await bootLayers(page, hash);
+    await page.evaluate((key) => localStorage.removeItem(key), LAYER_ORDER_KEY);
+    const rowOf = (id) => rowIds[ids.indexOf(id)];
 
-  const state = await page.evaluate(() => {
-    const styleLayerIds = window.__civgraphTest2.mapController.map.getStyle().layers.map((layer) => layer.id);
-    const params = new URLSearchParams(location.hash.replace(/^#/, ''));
-    return {
-      storage: JSON.parse(localStorage.getItem('civgraph:test2:layer-order') || '[]'),
-      hashOrder: params.get('layerOrder'),
-      indexA: styleLayerIds.indexOf('synthetic-order-a-fill'),
-      indexB: styleLayerIds.indexOf('synthetic-order-b-fill')
-    };
+    const before = await layerOrderState(page);
+    // The rows show the map's draw order, top first, whatever ids the layers were loaded under.
+    expect(before.rows).toEqual(before.draw.map(rowOf));
+    const [top, bottom] = before.draw;
+
+    await dragFirstActiveLayerBelowSecond(page);
+
+    const wanted = [bottom, top];
+    await expect.poll(async () => (await layerOrderState(page)).rows).toEqual(wanted.map(rowOf));
+    const after = await layerOrderState(page);
+    expect(after.draw, 'the map draws the order the rows show').toEqual(wanted);
+    expect(after.styleIndex[bottom], 'the dragged-up layer draws above the other').toBeGreaterThan(after.styleIndex[top]);
+    expect(after.saved, 'the order is saved').toEqual(wanted);
+    expect(after.hashOrder, 'the address carries the order').toBe(wanted.join(','));
+
+    // Reload: the same order.
+    await page.reload();
+    await page.waitForFunction(() => window.__civgraphTest2?.restorePromise, null, { timeout: 60000 });
+    await page.evaluate(() => window.__civgraphTest2.restorePromise);
+    await page.evaluate(() => window.__civgraphTest2.app.mapController.waitUntilSettled({ timeoutMs: 30000 }));
+    await page.evaluate(() => window.__civgraphTest2.app.setActiveLayersPanelOpen(true));
+    await expect.poll(async () => (await layerOrderState(page)).rows).toEqual(wanted.map(rowOf));
+    const reloaded = await layerOrderState(page);
+    expect(reloaded.draw).toEqual(wanted);
+    expect(reloaded.styleIndex[bottom]).toBeGreaterThan(reloaded.styleIndex[top]);
+
+    // The shared link, opened in a browser with nothing saved: the same order, from the link alone.
+    const shared = after.hash;
+    const context = await browser.newContext({
+      baseURL: 'http://127.0.0.1:5050',
+      storageState: { cookies: [], origins: [{ origin: 'http://127.0.0.1:5050', localStorage: [{ name: 'civgraph.electionsApi', value: '0' }, { name: 'civgraph.basemap', value: 'osm-tiles' }] }] }
+    });
+    try {
+      const other = await context.newPage();
+      await bootLayers(other, shared);
+      const opened = await layerOrderState(other);
+      expect(opened.saved).toEqual([]);
+      expect(opened.draw, 'a shared link carries the order').toEqual(wanted);
+      expect(opened.styleIndex[bottom]).toBeGreaterThan(opened.styleIndex[top]);
+    } finally {
+      await context.close();
+    }
   });
-  expect(state.storage).toEqual(['synthetic-layer-b', 'synthetic-layer-a']);
-  expect(state.hashOrder).toBe('synthetic-layer-b,synthetic-layer-a');
-  expect(state.indexB).toBeGreaterThan(state.indexA);
-
-  const restored = await page.evaluate(() => {
-    const { app, mapController } = window.__civgraphTest2;
-    mapController.setLayerDrawOrder(['synthetic-layer-a', 'synthetic-layer-b']);
-    app.restoreLayerOrder(new URLSearchParams());
-    app.updateActiveLayers();
-    const styleLayerIds = mapController.map.getStyle().layers.map((layer) => layer.id);
-    return {
-      rowOrder: [...document.querySelectorAll('#activeLayersList .active-layer-item[data-map-id]')]
-        .map((row) => row.dataset.mapId),
-      indexA: styleLayerIds.indexOf('synthetic-order-a-fill'),
-      indexB: styleLayerIds.indexOf('synthetic-order-b-fill')
-    };
-  });
-  expect(restored.rowOrder).toEqual(['synthetic-layer-b', 'synthetic-layer-a']);
-  expect(restored.indexB).toBeGreaterThan(restored.indexA);
-});
+}
 
 test('desktop map accepts actual mouse drag and wheel zoom gestures', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
