@@ -33,7 +33,7 @@ test('the Apps card names the three live apps', async ({ page }) => {
   await page.goto('/');
   const card = page.locator('.card', { has: page.locator('h3', { hasText: 'Apps' }) });
   await expect(card).not.toContainText('intended');
-  for (const href of ['/proni', '/pages/census-explorer.html', '/apps/words/']) {
+  for (const href of ['/proni', '/pages/census-explorer', '/apps/words/']) {
     await expect(card.locator(`a[href="${href}"]`)).toHaveCount(1);
   }
 });
