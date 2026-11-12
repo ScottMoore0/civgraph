@@ -29,7 +29,8 @@ import {
 // moved to assets/site/site-chrome.css. index.html has no markers and is skipped.
 const HTML_TARGETS = ['site/index.html', 'site/maps/index.html'];
 // 230_000 until 12 Nov 2026: moving main.css's colours onto tokens (rf8-styling) spelled each as
-// var(--token), +8.9 KB minified but +250 bytes gzipped (31,394 -> 31,644), so the budget rose with it.
+// var(--token), +8.9 KB minified but +250 bytes gzipped (31,394 -> 31,644), so the budget rose with it
+// (the owner approved 240,000 in chat on 12 Nov 2026, wave10-colours).
 const CSS_BUDGET_BYTES = 240_000;
 
 export function hashFile(filePath, length = 12, salt = '') {
