@@ -221,9 +221,17 @@ test('Elections light machines (EL-04, 09, 10, 11, 14) and result sets (EL-12, 1
   assert.deepEqual(run.history(), ['population', 'areal']);
 });
 
-test('the served helper is the shared one, byte for byte', () => {
-  const shared = path.join(ROOT, 'packages/core/src/state-machine.mjs');
-  if (!existsSync(shared)) return; // until rf-records lands packages/core/src/state-machine.mjs
-  assert.equal(readFileSync(path.join(ROOT, 'packages/ui/assets/state/machine.js'), 'utf8'), readFileSync(shared, 'utf8'),
-    'packages/ui/assets/state/machine.js (served as /assets/ui/state/machine.js) must be a copy of packages/core/src/state-machine.mjs (then re-stamp the import maps)');
+test('the served helper is the shared one: one source, no copy', async () => {
+  // /assets/ui/state/machine.js is served from packages/core/src/state-machine.mjs itself
+  // (packages/served.json), and the package path is a re-export of it for Node, tsc and bundles.
+  const { sourceOf } = await import('../../scripts/build/site.mjs');
+  assert.equal(sourceOf('assets/ui/state/machine.js'), 'packages/core/src/state-machine.mjs');
+  assert.equal(sourceOf('assets/ui/state/theme.js'), 'packages/ui/assets/state/theme.js', 'the rest of the folder is still the package');
+  const shim = readFileSync(path.join(ROOT, 'packages/ui/assets/state/machine.js'), 'utf8');
+  assert.deepEqual(shim.split(/\r?\n/).filter((l) => l && !l.startsWith('//')), ["export * from '../../../core/src/state-machine.mjs';"],
+    'packages/ui/assets/state/machine.js only re-exports the core helper: edit packages/core/src/state-machine.mjs');
+  const core = await import('../../packages/core/src/state-machine.mjs');
+  const viaShim = await import('../../site/assets/ui/state/machine.js');
+  assert.deepEqual(Object.keys(viaShim).sort(), Object.keys(core).sort());
+  for (const k of Object.keys(core)) assert.equal(viaShim[k], core[k], `${k} is the core export itself`);
 });
