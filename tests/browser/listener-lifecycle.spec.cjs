@@ -81,7 +81,8 @@ test('Browse: going between its views and back adds no listener to document or w
 test('the map: opening maps and going back adds no listener, and dispose() takes the app listeners away', async ({ page }) => {
   test.setTimeout(120000);
   await page.goto('/maps/');
-  await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length, null, { timeout: 60000 });
+  await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length
+    && typeof window.uiController?.showCatalogueDetailView === 'function', null, { timeout: 60000 });
   await page.waitForTimeout(1500);
   const ids = await page.evaluate(() => window.__civgraphTest2.metadataService.layers.slice(0, 3).map((layer) => layer.id));
   const visit = async () => {
