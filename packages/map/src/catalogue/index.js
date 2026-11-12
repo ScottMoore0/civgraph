@@ -26,6 +26,7 @@ import dataService, { resolveMapDownloadUrl } from '../data-service.js';
 import { initialCatalogueRoute, takeCatalogueData } from './flag.js';
 import { compositeChildIds } from '../map-relations.mjs';
 import { icon, SHELF_LOOK, SHELF_ICON_IN, BOOK_CATEGORY_ICONS, MERGED_SHELVES, FLAT_SECTIONS } from './icons.js';
+import catalogueKinds from '../../../registries/src/browser/catalogue-kinds.mjs';
 import { esc, yearOf, longDate, mapDate, shortProvider } from './util.js';
 import { formatDisplayDate } from '../../../core/src/date-format.mjs';
 import { cdnUrl } from '../cdn-url.js';
@@ -52,7 +53,8 @@ const BLANK_EFILTERS = { body: '', ekind: 'general', escope: '', from: null, to:
 const app = () => (typeof window !== 'undefined' ? window.__civgraphTest2?.app : null);
 const readStore = () => { try { return JSON.parse(sessionStorage.getItem(STORE)) || {}; } catch { return {}; } };
 // The map sections, each the maps of one kind.
-export const SECTIONS = [['boundaries', 'Boundary', 'Boundaries', 'land-divisions'], ['places', 'Places', 'Places & routes', 'route'], ['statistics', 'Statistics', 'Statistics', 'chart-column'], ['historic', 'Historic', 'Historic Maps', 'landmark']];
+// [section, kind, label, icon]: the catalogue-kinds registry's kinds (data/registries/catalogue-kinds.json), in order.
+export const SECTIONS = catalogueKinds.sections.map(([id, kind, label, ic]) => [id, kind, label, ic]);
 const TAB_SHORT = { places: 'Places', historic: 'Historic' };
 const KIND_OF_SECTION = Object.fromEntries(SECTIONS.map(([id, kind]) => [id, kind]));
 const SECTION_OF_KIND = Object.fromEntries(SECTIONS.map(([id, kind]) => [kind, id]));

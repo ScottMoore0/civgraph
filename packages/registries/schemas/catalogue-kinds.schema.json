@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://civgraph.net/schemas/registries/catalogue-kinds.schema.json",
+  "title": "Catalogue-kinds registry (data/registries/catalogue-kinds.json)",
+  "type": "object",
+  "required": ["schemaVersion", "description", "kinds"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "description": { "type": "string", "minLength": 1 },
+    "kinds": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "meaning", "section", "sectionLabel", "icon"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^[A-Z][a-z]+$", "description": "The kind, as a series' kind names it." },
+          "meaning": { "type": "string", "minLength": 1 },
+          "section": { "type": "string", "pattern": "^[a-z]+(-[a-z]+)*$", "description": "The catalogue section (tab) that shows the kind's series." },
+          "sectionLabel": { "type": "string", "minLength": 1 },
+          "icon": { "type": "string", "pattern": "^[a-z]+(-[a-z]+)*$" },
+          "filterLabel": { "type": "string", "minLength": 1, "description": "The kind's label in the catalogue's filters; a kind without one is not offered there." }
+        }
+      }
+    }
+  }
+}

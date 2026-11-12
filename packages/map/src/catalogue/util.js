@@ -1,4 +1,5 @@
 /** Small helpers shared by the rebuilt catalogue's views. */
+import catalogueKinds from '../../../registries/src/browser/catalogue-kinds.mjs';
 import { formatDisplayDate } from '../../../core/src/date-format.mjs';
 import { siteNumber } from '../../../core/src/format.js';
 import { MAP_COLOURS } from '../colours.mjs';
@@ -85,5 +86,6 @@ export const SCOPE_SHORT = { 'Northern Ireland': 'NI', 'Republic of Ireland': 'R
 // one jurisdiction: Phelim Birch's "pre-partition" says that, where "all-island" would not.
 export const ESCOPE_SHORT = { 'Northern Ireland': 'NI', 'Republic of Ireland': 'ROI', Ireland: 'Pre-partition' };
 // What a series draws: areas with edges, places and routes (points and lines), or figures
-// mapped onto areas.
-export const KINDS = [['Boundary', 'Boundaries'], ['Places', 'Places & routes'], ['Statistics', 'Statistics']];
+// mapped onto areas: the kinds the filters offer, with their labels (the catalogue-kinds registry,
+// data/registries/catalogue-kinds.json).
+export const KINDS = catalogueKinds.filters.map(([kind, label]) => [kind, label]);

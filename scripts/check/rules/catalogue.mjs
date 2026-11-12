@@ -27,6 +27,8 @@ import { execFileSync } from 'node:child_process';
 import path from 'node:path';
 import { loadRecords, placeable } from '../../build/catalogue/records.mjs';
 import { ELECTION_MANIFEST } from '../../../packages/loader/src/paths.mjs';
+import { loadRegistry } from '../../../packages/registries/src/index.mjs';
+import { catalogueKindIds } from '../../../packages/registries/src/catalogue-kinds.mjs';
 
 const ROOT = process.cwd();
 const read = (p) => JSON.parse(readFileSync(path.join(ROOT, p), 'utf8'));
@@ -184,9 +186,12 @@ if (existsSync(peoplePath)) {
 }
 
 // ---- curator fields: kinds, labels, versions in sets, flat sections
-const KINDS = new Set(['Boundary', 'Places', 'Statistics', 'Historic']);
+// The kinds of series: the catalogue-kinds registry (data/registries/catalogue-kinds.json).
+const KIND_IDS = catalogueKindIds(loadRegistry('catalogue-kinds'));
+const KINDS = new Set(KIND_IDS);
+const KIND_CHOICE = `${KIND_IDS.slice(0, -1).join(', ')} or ${KIND_IDS.at(-1)}`;
 for (const s of source.series) {
-  if (s.kind && !KINDS.has(s.kind)) fail(`series ${s.id} has kind "${s.kind}"; use Boundary, Places, Statistics or Historic`);
+  if (s.kind && !KINDS.has(s.kind)) fail(`series ${s.id} has kind "${s.kind}"; use ${KIND_CHOICE}`);
   for (const id of Object.keys(s.labels || {})) {
     if (!s.members.includes(id) && !(s.toBeAdded || []).includes(id) && !(s.local || []).includes(id)) fail(`series ${s.id} labels ${id}, which is not one of its maps`);
   }
