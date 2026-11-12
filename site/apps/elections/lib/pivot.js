@@ -46,7 +46,7 @@ export const MEASURES = /** @type {Readonly<Record<MeasureId, Measure>>} */ (Obj
 export const FILTERS = Object.freeze({ election: 'election_key', party: 'party', outcome: 'outcome', kind: 'kind', gender: 'gender', area: 'area' });
 
 /** The outcomes the Outcome filter offers (the extracts' `outcome` column, model.mjs outcomeOf). */
-export const OUTCOMES = Object.freeze(['elected', 'elected unopposed', 'excluded', 'not elected']);
+export const OUTCOMES = Object.freeze(['elected', 'elected unopposed', 'excluded', 'not elected']); // arch-ok R6: outcome labels pending the statuses registry
 
 /**
  * A pivot's settings (EL-06, a value): the fields are the allowlisted names, so a state can only
