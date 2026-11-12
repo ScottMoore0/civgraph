@@ -4,7 +4,7 @@
  * REFACTOR-PLAN.md item 4. Implementations:
  *   packages/storage/src/d1.js        fromD1(binding)      Cloudflare D1 (production)
  *   packages/storage/src/sqlite.mjs      openSqlite(file)     node:sqlite (records build, tests, tools)
- * and, in a later slice, a blob store over R2 and the local file system (BlobStore below).
+ * The blob store over R2, KV, memory and the local file system is packages/storage/src/blob.js.
  *
  * The interface is SQL-level on purpose. Both stores speak SQLite's dialect, the queries are the
  * schema's (migrations/), and the handlers already hold their SQL; what differs between D1 and a
@@ -36,13 +36,6 @@
  * @property {(statements: Statement[]) => Promise<Row[][]>} batch  in ONE transaction: all or nothing
  * @property {(sqlText: string) => Promise<void>} exec       several statements, no parameters (migrations)
  * @property {() => Promise<void>} close
- *
- * @typedef {object} BlobStore  (later slice: R2 and the local file system)
- * @property {string} kind
- * @property {(key: string) => Promise<{ body: ReadableStream|Uint8Array, size: number, etag: string, contentType: string|null }|null>} get
- * @property {(key: string) => Promise<{ size: number, etag: string, contentType: string|null }|null>} head
- * @property {(prefix: string, options?: { cursor?: string, limit?: number, delimiter?: string }) => Promise<{ keys: string[], prefixes: string[], cursor: string|null }>} list
- * @property {(key: string, body: Uint8Array|string, options?: { contentType?: string, cacheControl?: string }) => Promise<void>} put
  *
  * @typedef {object} D1ShimStatement  one statement of toD1()'s binding
  * @property {string} sql
