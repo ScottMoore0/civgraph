@@ -39,6 +39,7 @@ import * as BooksView from './view-books.js';
 import { CATALOGUE_TAB } from './route-state.mjs';
 import { defineFlagFields, setHidden } from '../../packages/map/src/state-helpers.mjs';
 import { forgetTypedPhrase, isLanguagePhrase, languageOptionsShown, revealLanguageOptions, typedLanguagePhrase } from './lang-reveal.js';
+import { siteNumber } from '../../packages/core/src/format.js';
 
 // From D1 since data design phase 3 (the /data/catalogue/*.json URLs still answer, from the same rows).
 const PLACES_URL = '/_api/catalogue?view=places';
@@ -415,7 +416,7 @@ export class CatalogueNext {
   tabsHtml() {
     const counts = this.tabCounts();
     // A phone shows a short label under the icon (styles.js): "Places", "Historic".
-    const tab = (id, ic, label, n) => `<button type="button" class="catalogue-flat__section-tab cn-tab" data-cn-tab="${id}" aria-current="${String(this.openSection === id)}">${icon(ic, 'catalogue-flat__section-icon')}<span class="cn-tab__long">${label}</span><span class="cn-tab__short">${TAB_SHORT[id] || label}</span><span class="cn-tab__count">${n.toLocaleString('en-GB')}</span></button>`;
+    const tab = (id, ic, label, n) => `<button type="button" class="catalogue-flat__section-tab cn-tab" data-cn-tab="${id}" aria-current="${String(this.openSection === id)}">${icon(ic, 'catalogue-flat__section-icon')}<span class="cn-tab__long">${label}</span><span class="cn-tab__short">${TAB_SHORT[id] || label}</span><span class="cn-tab__count">${siteNumber(n)}</span></button>`;
     return SECTIONS.map(([id, , label, ic]) => tab(id, ic, label, counts[id])).join('') + tab('elections', 'vote', 'Elections', counts.elections);
   }
 
@@ -435,7 +436,7 @@ export class CatalogueNext {
     const n = this.tabCounts();
     const others = [...SECTIONS.map(([id, , label]) => [id, label.toLowerCase(), n[id]]), ['elections', 'elections', n.elections]].filter(([id, , k]) => id !== this.openSection && k);
     if (!others.length) return '';
-    return ` ${others.map(([id, label, k]) => `<button type="button" class="cn-link" data-cn-tab="${id}">${k.toLocaleString('en-GB')} in ${label}</button>`).join(', ')} match it.`;
+    return ` ${others.map(([id, label, k]) => `<button type="button" class="cn-link" data-cn-tab="${id}">${siteNumber(k)} in ${label}</button>`).join(', ')} match it.`;
   }
 
   /* ================================================================ data helpers (used by the views) */
@@ -484,7 +485,7 @@ export class CatalogueNext {
     if (m && this.ui.renderMapProviderSummary) line = this.ui.renderMapProviderSummary(m) || '';
     if (!line) {
       const r = this.rec(id);
-      line = [(r.provider || []).join(', '), r.features ? `${r.features.toLocaleString('en-GB')} features` : ''].filter(Boolean).join(' - ');
+      line = [(r.provider || []).join(', '), r.features ? `${siteNumber(r.features)} features` : ''].filter(Boolean).join(' - ');
     }
     return fullText || line.length <= 90 ? line : `${line.slice(0, 88)}…`;
   }
@@ -568,7 +569,7 @@ export class CatalogueNext {
     const providers = (r.provider?.length ? r.provider : [m?.provider || []].flat()).filter(Boolean).map((p) => (short ? shortProvider(p) : p)).join(', ');
     let count = '';
     const n = r.features || (m && this.ui.getMapFeatureCount ? this.ui.getMapFeatureCount(m) : null);
-    if (Number.isFinite(n) && n > 0) count = `${n.toLocaleString('en-GB')} ${unitWord(r.unit || (m && this.ui.getMapFeatureUnitLabel ? this.ui.getMapFeatureUnitLabel(m, n) : 'features'), n)}`;
+    if (Number.isFinite(n) && n > 0) count = `${siteNumber(n)} ${unitWord(r.unit || (m && this.ui.getMapFeatureUnitLabel ? this.ui.getMapFeatureUnitLabel(m, n) : 'features'), n)}`;
     const constituencies = /^constituencies-/.test(this.seriesOfMap?.get(id) || '');
     return [date && r.date && !constituencies ? mapDate(r) : '', providers, count].filter(Boolean).join(' · ');
   }
@@ -1436,7 +1437,7 @@ export class CatalogueNext {
           <h2 class="cn-drawer__title" id="cn-drawer-title">${tabName}: contents</h2>
           <button type="button" class="cn-iconbtn" data-cn-drawer-close aria-label="Close contents">${icon('x')}</button>
         </div>
-        ${list.length ? `<ul class="cn-toc">${list.map((it) => `<li class="cn-toc__item cn-toc__item--l${it.level}"><button type="button" class="cn-toc__link" data-cn-goto-section="${esc(it.id)}"${it.id === current ? ' aria-current="true"' : ''}${it.colour ? ` style="--shelf:${it.colour}"` : ''}>${it.icon ? `<span class="cn-toc__icon">${icon(it.icon)}</span>` : ''}<span class="cn-toc__label">${esc(it.label)}</span><span class="cn-count">${it.count.toLocaleString('en-GB')}</span></button></li>`).join('')}</ul>`
+        ${list.length ? `<ul class="cn-toc">${list.map((it) => `<li class="cn-toc__item cn-toc__item--l${it.level}"><button type="button" class="cn-toc__link" data-cn-goto-section="${esc(it.id)}"${it.id === current ? ' aria-current="true"' : ''}${it.colour ? ` style="--shelf:${it.colour}"` : ''}>${it.icon ? `<span class="cn-toc__icon">${icon(it.icon)}</span>` : ''}<span class="cn-toc__label">${esc(it.label)}</span><span class="cn-count">${siteNumber(it.count)}</span></button></li>`).join('')}</ul>`
           : `<p class="cn-empty">${this.here ? 'Close “What’s here” to see the shelves.' : 'Nothing to list with these filters.'}</p>`}
       </div>`;
     document.body.appendChild(el);

@@ -21,6 +21,8 @@
  * (packages/map/app/app.js, src/ui-controller.js) and the Browse and catalogue builders. Pure: no DOM.
  */
 
+import { siteNumber } from '../packages/core/src/format.js';
+
 /** @typedef {{ name: string, short: string, url: string }} Licence */
 
 /**
@@ -190,7 +192,7 @@ export function formatNumber(value, { decimals = /** @type {number | null} */ (n
   const opts = decimals === null
     ? (Number.isInteger(n) ? { maximumFractionDigits: 0 } : { minimumFractionDigits: percent ? 1 : 0, maximumFractionDigits: 2 })
     : { minimumFractionDigits: decimals, maximumFractionDigits: decimals };
-  const text = n.toLocaleString('en-GB', opts);
+  const text = siteNumber(n, opts);
   return percent ? `${text}%` : text;
 }
 

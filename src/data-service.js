@@ -1,6 +1,8 @@
 import { debugLog } from './debug-log.js';
 import { compositeChildIds } from './map-relations.mjs';
 import { licenceFor } from './census-overlay.mjs';
+import { SHORT_MONTHS } from '../packages/core/src/date-format.mjs';
+import { MONTH_NAMES } from '../packages/core/src/format.js';
 
 /**
  * A census statistic as the catalogue and the map read a map: flagged, credited to its
@@ -331,8 +333,9 @@ class DataService {
   formatPlainMapDate(dateStr) {
     if (!dateStr) return '';
     const str = String(dateStr);
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    // The shared formatter's month names (packages/core/src): "Apr 1969", "01 April 1969".
+    const months = SHORT_MONTHS;
+    const monthNames = MONTH_NAMES;
     if (/^\d{4}$/.test(str)) return str;
     if (/^\d{4}-\d{2}$/.test(str)) {
       const [y, m] = str.split('-').map(Number);

@@ -3,6 +3,7 @@
  * and the wording of boundary changes. No DOM, no app state; the methods of the same names on the
  * map app delegate here.
  */
+import { siteNumber } from '../../../../core/src/format.js';
 
 /** A Date (UTC) from a timestamp, a year, an ISO date ("1950", "1950-06", "1950-06-02") or a
  * date string; null when there is none.
@@ -66,7 +67,7 @@ export function timelineChangeName(name) {
  */
 export function formatHectares(value) {
   const ha = Number(value) || 0;
-  if (ha >= 100) return `${Math.round(ha).toLocaleString('en-GB')} ha`;
+  if (ha >= 100) return `${siteNumber(Math.round(ha))} ha`;
   if (ha >= 10) return `${Math.round(ha)} ha`;
   return `${ha.toFixed(1)} ha`;
 }

@@ -1,9 +1,10 @@
 /** Small helpers shared by the rebuilt catalogue's views. */
 import { formatDisplayDate } from '../../packages/core/src/date-format.mjs';
+import { siteNumber } from '../../packages/core/src/format.js';
 
 export const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
-export const plural = (n, one, many = `${one}s`) => `${Number(n).toLocaleString('en-GB')} ${n === 1 ? one : many}`;
+export const plural = (n, one, many = `${one}s`) => `${siteNumber(Number(n))} ${n === 1 ? one : many}`;
 
 /** "1993-04-01" -> "1 Apr 1993"; a year alone stays a year (packages/core/src/date-format.mjs). */
 export const longDate = (d) => formatDisplayDate(d);

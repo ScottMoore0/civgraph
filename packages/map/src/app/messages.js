@@ -8,6 +8,7 @@
 import uiController from '../../../../src/ui-controller.js';
 import dataService from '../../../../src/data-service.js';
 import { setHidden } from '../state-helpers.mjs';
+import { siteNumber } from '../../../core/src/format.js';
 
 export class MessageMethods {
   triggerDownload(url, filename) {
@@ -67,7 +68,7 @@ export class MessageMethods {
         uiController.triggerBlobDownload(new Blob([result.svg], { type: 'image/svg+xml;charset=utf-8' }), result.filename);
       }
       const what = result.selectedName ? ` with ${result.selectedName} highlighted` : '';
-      progress(`Downloaded ${result.filename.replace(/\.svg$/, `.${format}`)}: ${result.featureCount.toLocaleString('en-GB')} features${what}.`);
+      progress(`Downloaded ${result.filename.replace(/\.svg$/, `.${format}`)}: ${siteNumber(result.featureCount)} features${what}.`);
       return result;
     })();
     this._mapImageExport = work;
