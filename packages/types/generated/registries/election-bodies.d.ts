@@ -7,6 +7,47 @@ export interface ElectionBodiesRegistry {
   schemaVersion: 1;
   description: string;
   bodies: Body[];
+  /** How the site groups the bodies (the registry's description says where each list is read). */
+  groups: {
+    description: string;
+    catalogueShelves: {
+      id: Slug;
+      label: string;
+      bodies: Slug[];
+      /** Adds the bodies of the councils registry's councils with this flag. */
+      councilFlag?: string;
+      icon: Slug;
+      note?: string;
+    }[];
+    partyCharts: {
+      id: Slug;
+      label: string;
+      match: Match;
+      note?: string;
+    }[];
+    catalogueOrder: Slug[];
+    electionsHome: LabelledGroups;
+    entityHistory: LabelledGroups;
+  };
+}
+
+/** What a group takes: a value one of `bodies`, starting with one of `prefixes`, containing one of `contains`, or matching `pattern` (case-insensitive). */
+export interface Match {
+  bodies?: Slug[];
+  prefixes?: string[];
+  contains?: string[];
+  pattern?: string;
+}
+
+export interface LabelledGroups {
+  groups: {
+    label: string;
+    match: Match;
+  }[];
+  /** The group of a value no group takes. */
+  fallback: string;
+  /** The groups in display order: every group and the fallback. */
+  order: string[];
 }
 
 export type Slug = string;

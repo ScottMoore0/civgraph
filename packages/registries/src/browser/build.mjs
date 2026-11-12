@@ -36,6 +36,9 @@
  *                        packages/map/src/app/helpers.mjs (an election's kind): by body id
  *   election-types.json  site/apps/elections/lib/format.js (systemName), site/browse/browse.js (the Type
  *                        filter's labels); both served pages reach it at /pkg/ (packages/served.json)
+ *   election-groups.json packages/map/src/catalogue/view-elections.js (the shelves), packages/map/src/
+ *                        entity-detail-data.mjs (election-history groups), site/apps/elections/views/home.js
+ *                        (the home page's groups, at /pkg/); placed by body-groups.mjs
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
@@ -43,7 +46,7 @@ import { fileURLToPath } from 'node:url';
 import { loadRegistry, REPO_ROOT } from '../index.mjs';
 import { bodySlugsWithFlag, catalogueBodyAliases, catalogueCouncilNames, niLocalGroupSlugs } from '../councils.mjs';
 import { typesWithBehaviour } from '../layers.mjs';
-import { browserElectionBodies } from '../election-bodies.mjs';
+import { browserElectionBodies, catalogueShelves } from '../election-bodies.mjs';
 import { browserElectionTypes } from '../election-types.mjs';
 import { browserColours } from '../colours.mjs';
 
@@ -124,6 +127,14 @@ export function browserSlices(root = REPO_ROOT) {
       behaviour: Object.fromEntries(Object.keys(layers.behaviourFlags).map((flag) => [flag, typesWithBehaviour(layers, flag)]))
     },
     'election-bodies.json': browserElectionBodies(electionBodies),
+    // How the bodies are grouped (election-bodies groups), apart from election-bodies.json, which is
+    // keyed by body: the catalogue's shelves with every body on each, the Elections home page's groups
+    // and the map app's election-history groups, each placed by body-groups.mjs.
+    'election-groups.json': {
+      shelves: catalogueShelves(electionBodies, (flag) => bodySlugsWithFlag(councils, /** @type {Parameters<typeof bodySlugsWithFlag>[1]} */ (flag))),
+      electionsHome: structuredClone(electionBodies.groups.electionsHome),
+      entityHistory: structuredClone(electionBodies.groups.entityHistory)
+    },
     'election-types.json': browserElectionTypes(electionTypes)
   };
 }
