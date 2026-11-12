@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://civgraph.net/schemas/registries/colours.schema.json",
+  "title": "Colours registry (data/registries/colours.json)",
+  "description": "The fixed colours code draws with outside the stylesheets (MapLibre paint, canvas and SVG drawing, exported SVG, inline styles of classic scripts, contrast picks), by palette: the only place outside the token files where a colour literal may stand (docs/ARCHITECTURE-RULES.md R9). Party colours are in the parties registry's palettes part.",
+  "type": "object",
+  "required": ["schemaVersion", "description", "palettes"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "description": { "type": "string", "minLength": 1 },
+    "palettes": {
+      "type": "object",
+      "description": "Palette id -> its readers and colours.",
+      "propertyNames": { "pattern": "^[a-z][A-Za-z0-9]*$" },
+      "additionalProperties": {
+        "type": "object",
+        "required": ["about", "colours"],
+        "additionalProperties": false,
+        "properties": {
+          "about": { "type": "string", "minLength": 1, "description": "What reads the palette, and where." },
+          "colours": {
+            "type": "object",
+            "description": "Role -> its colour (value), ramp (values), keyed colours (table) or named ramps (ramps). Code reads the role by name.",
+            "propertyNames": { "pattern": "^[a-z][A-Za-z0-9]*$" },
+            "additionalProperties": { "$ref": "#/$defs/entry" }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "colour": { "type": "string", "minLength": 1, "description": "A CSS colour, or a CSS value that holds colours (a text-shadow), exactly as the code used it." },
+    "ramp": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/colour" } },
+    "entry": {
+      "type": "object",
+      "oneOf": [
+        { "required": ["value"] },
+        { "required": ["values"] },
+        { "required": ["table"] },
+        { "required": ["ramps"] }
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "value": { "$ref": "#/$defs/colour" },
+        "values": { "$ref": "#/$defs/ramp" },
+        "table": { "type": "object", "description": "Key (a shelf, a body, a role) -> colour, in the order the code lists them.", "additionalProperties": { "$ref": "#/$defs/colour" } },
+        "ramps": { "type": "object", "description": "Ramp name -> its colours, low to high.", "additionalProperties": { "$ref": "#/$defs/ramp" } },
+        "note": { "type": "string", "minLength": 1, "description": "Why the colour is what it is, or who reads it." }
+      }
+    }
+  }
+}

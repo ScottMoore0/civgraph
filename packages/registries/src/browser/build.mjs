@@ -21,8 +21,14 @@
  *   council-search.json  src/catalogue/search.js (council names by generation, council aliases),
  *                        src/catalogue/view-elections.js (the pre-1973 councils on the NI local shelf)
  *   parties.json         packages/core/src/party-names.mjs (PARTIES, NOT_PARTIES)
- *   party-palettes.json  packages/core/src/election-domain.mjs (the election palette and the parties
- *                        whose colour wins), packages/map/src/election/palette.mjs (the map's two)
+ *   party-palettes.json  packages/core/src/election-domain.mjs (the election palette, the parties
+ *                        whose colour wins, the neutral and placeholder greys), packages/map/src/election/palette.mjs
+ *                        (the map's two), packages/map/app/election-manager.js (the STV viewer's table, handed
+ *                        to the classic viewer scripts as globalThis.civgraphViewerColours)
+ *   colours.json         the fixed colours code draws with (data/registries/colours.json): the map app
+ *                        (packages/map/src/colours.mjs), the catalogues, the Elections app, Browse, the
+ *                        gallery, the STV viewer and core's area results; served pages reach it at /pkg/
+ *                        through colour-palettes.mjs (packages/served.json)
  *   statuses.json        packages/core/src/election-domain.mjs (statusKind, RG-01),
  *                        packages/map/app/ni-local-view.js (round badges, missing rounds, contests: RG-02, RG-03)
  *   layer-types.json     packages/map/src/renderer/map-controller.js (the behaviour flags' source types)
@@ -39,10 +45,18 @@ import { bodySlugsWithFlag, catalogueBodyAliases, catalogueCouncilNames, niLocal
 import { typesWithBehaviour } from '../layers.mjs';
 import { browserElectionBodies } from '../election-bodies.mjs';
 import { browserElectionTypes } from '../election-types.mjs';
+import { browserColours } from '../colours.mjs';
 
 /** @typedef {import('../statuses.mjs').StatusMachineFields} StatusMachineFields */
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
+
+/**
+ * The slices that carry colour data (registry palette parts): with the token files, the only code
+ * where a colour literal may stand (docs/ARCHITECTURE-RULES.md R9). check:architecture C8 allows
+ * their generated .data.mjs modules and nothing else by this list.
+ */
+export const PALETTE_SLICES = Object.freeze(['party-palettes.json', 'colours.json']);
 
 /** file name -> slice, from the registries under `root`. */
 export function browserSlices(root = REPO_ROOT) {
@@ -52,6 +66,7 @@ export function browserSlices(root = REPO_ROOT) {
   const layers = loadRegistry('layers', { root });
   const electionBodies = loadRegistry('election-bodies', { root });
   const electionTypes = loadRegistry('election-types', { root });
+  const colours = loadRegistry('colours', { root });
   const round = /** @type {StatusMachineFields} */ (statuses.machines['election-round']);
   return {
     'councils.json': {
@@ -83,8 +98,14 @@ export function browserSlices(root = REPO_ROOT) {
       elections: parties.palettes.elections.map(({ party, colour }) => [party, colour]),
       electionsRegistryWins: parties.palettes.elections.filter((row) => row.registryWins).map(({ party }) => party),
       mapLocal: parties.palettes.mapLocal.map(({ party, colour }) => [party, colour]),
-      mapRoi: parties.palettes.mapRoi.map(({ party, colour }) => [party, colour])
+      mapRoi: parties.palettes.mapRoi.map(({ party, colour }) => [party, colour]),
+      viewer: parties.palettes.viewer.map(({ party, colour }) => [party, colour]),
+      neutral: parties.palettes.neutral,
+      placeholders: [...parties.palettes.placeholders]
     },
+    // The fixed colours by palette and role (data/registries/colours.json): one slice, as the map app,
+    // the catalogue and the served pages each read several palettes.
+    'colours.json': browserColours(colours),
     'statuses.json': {
       candidateKindPatterns: /** @type {NonNullable<StatusMachineFields['kindPatterns']>} */ (statuses.machines['candidate-count'].kindPatterns).map(({ kind, pattern }) => [kind, pattern]),
       roundSiteLabels: { ...round.siteLabels },
