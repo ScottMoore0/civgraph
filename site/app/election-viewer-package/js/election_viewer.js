@@ -38,6 +38,13 @@
             .replace(/-+/g, '-');
     }
 
+    // A party without a colour of its own: the colours registry's viewer.partyFallback
+    // (data/registries/colours.json), which the host page hands this classic script as
+    // globalThis.civgraphViewerColours (the map app sets it before it loads this file).
+    function partyFallbackColour() {
+        return (globalThis.civgraphViewerColours || {}).partyFallback;
+    }
+
     // copy-of: packages/core/src/html.js (a classic script cannot import it; tests/unit/viewer-package-copies.test.mjs keeps it identical)
     const ESCAPES = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
     function escapeHtml(value) {
@@ -119,7 +126,7 @@
                 id: id,
                 name: first.candidateName || (first.Firstname + ' ' + first.Surname),
                 party: first.Party_Name || '',
-                partyColour: first.Party_Colour || '#b0bec5',
+                partyColour: first.Party_Colour || partyFallbackColour(),
                 firstPref: parseFloat(first.Candidate_First_Pref_Votes) || 0,
                 finalVotes: parseFloat(last.Total_Votes) || 0,
                 status: statusRow ? statusRow.Status : '',
@@ -212,7 +219,7 @@
                 const id = row.Candidate_Id;
                 firstPrefs[id] = parseFloat(row.Total_Votes) || 0;
                 candidateNames[id] = row.candidateName || (row.Firstname + ' ' + row.Surname);
-                partyColours[id] = row.Party_Colour || '#b0bec5';
+                partyColours[id] = row.Party_Colour || partyFallbackColour();
             }
         });
 
@@ -321,7 +328,7 @@
                         const votes = parseFloat(row.Total_Votes) || 0;
                         if (!partyTotals[party]) partyTotals[party] = { votes: 0, seats: 0 };
                         partyTotals[party].votes += votes;
-                        if (!partyColours[party]) partyColours[party] = row.Party_Colour || '#b0bec5';
+                        if (!partyColours[party]) partyColours[party] = row.Party_Colour || partyFallbackColour();
                         seen[row.Candidate_Id] = party;
                     }
                     // Count seats
@@ -361,7 +368,7 @@
                 const p = partyTotals[party];
                 const pct = totalValid > 0 ? (p.votes / totalValid * 100) : 0;
                 html.push('<tr>');
-                html.push('<td class="ev-party-cell"><span class="ev-party-swatch" style="background:' + escapeHtml(partyColours[party] || '#b0bec5') + '"></span>' + escapeHtml(party) + '</td>');
+                html.push('<td class="ev-party-cell"><span class="ev-party-swatch" style="background:' + escapeHtml(partyColours[party] || partyFallbackColour()) + '"></span>' + escapeHtml(party) + '</td>');
                 html.push('<td class="ev-num">' + formatNumber(Math.round(p.votes)) + '</td>');
                 html.push('<td class="ev-num">' + formatPercent(pct) + '</td>');
                 html.push('<td class="ev-num">' + p.seats + '</td>');

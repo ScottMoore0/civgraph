@@ -5064,6 +5064,9 @@ function ensureElectionAnimationRuntime() {
   // The classic viewer scripts write their numbers with the site's shared formatter
   // (packages/core/src/format.js), which they cannot import.
   globalThis.civgraphFormat ??= Object.freeze({ siteNumber });
+  // Their colours too: the colours registry's `viewer` palette and the parties registry's `viewer`
+  // table (data/registries/), which they cannot import either.
+  globalThis.civgraphViewerColours ??= VIEWER_COLOURS;
   if (typeof window.$?.preloadElectionData === 'function' && typeof window.animateStages === 'function') {
     return Promise.resolve();
   }
