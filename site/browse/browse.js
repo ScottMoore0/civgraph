@@ -3682,6 +3682,13 @@ function renderPartyMembersPanel(profile) {
  * @typedef {{ reverse: Json[], sourceStatements: Json[] }} GraphRelated
  */
 /**
+ * The v1 answers these calls read (packages/api/src/v1/contracts/v1.js, generated as packages/types ApiV1):
+ * /_api/graph?entity=&related=1 (the entity variant; related is its modifier) and
+ * /_api/elections?view=record&slug= (the record variant).
+ * @typedef {import('../../packages/types/index.js').ApiV1.GraphEntityAnswer} ApiV1GraphEntity
+ * @typedef {import('../../packages/types/index.js').ApiV1.ElectionsRecordAnswer} ApiV1ElectionsRecord
+ */
+/**
  * One editable field of a record, from /_api/contributions/schema; an object-array field lists
  * the attributes of each of its entries.
  * @typedef {{ name: string, type: string, attributes?: Array<{ name: string, type?: string, required?: boolean }> }} EditField
@@ -4775,6 +4782,7 @@ async function loadGraphEntitySummary(entityId) {
  * @returns {Promise<GraphRelated>}
  */
 async function loadGraphRelatedForEntity(entityId) {
+  /** @type {(ApiV1GraphEntity & { reverse?: Json[], sourceStatements?: Json[] }) | null} */
   const payload = entityId ? await loadGraphJson(`/_api/graph?entity=${encodeURIComponent(entityId)}&related=1`) : null;
   return { reverse: normalizeArray(payload?.reverse), sourceStatements: normalizeArray(payload?.sourceStatements) };
 }
@@ -6921,6 +6929,7 @@ async function loadElectionRecord(id) {
   try {
     // An election's detail item, or a contest's entry: /_api/elections finds the contest's
     // election itself (it replaces election-contest-parents and its 64 bucket files).
+    /** @type {ApiV1ElectionsRecord & { item?: BrowseItem, parent?: Json }} */
     const record = await loadJson(`/_api/elections?view=record&slug=${encodeURIComponent(slug)}`);
     if (!record?.item) return null;
     if (!record.parent) state.details.set(`elections:${record.item.slug || slug}`, { item: record.item });
