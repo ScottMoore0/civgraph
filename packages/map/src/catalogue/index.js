@@ -67,7 +67,10 @@ export function unitWord(unit, n) {
 const cssId = (s) => (window.CSS?.escape ? CSS.escape(s) : String(s).replace(/["\\]/g, '\\$&'));
 
 export class CatalogueNext {
-  /** The open tab: maps, elections or books (route-state.mjs; any other value throws). */
+  /**
+   * The open tab, a checked choice (route-state.mjs CATALOGUE_TAB; any other value throws).
+   * @returns {'maps' | 'elections' | 'books'}
+   */
   get tab() { return this._tab; }
   set tab(value) { this._tab = CATALOGUE_TAB.check(value); }
 

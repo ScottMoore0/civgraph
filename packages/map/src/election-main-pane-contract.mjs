@@ -7,6 +7,12 @@ import { escapeHtml } from '../../core/src/html.js';
 /** @typedef {import('../../core/src/election-view-model.mjs').ElectionResult} ElectionResult */
 /** @typedef {import('../../core/src/election-view-model.mjs').ElectionRecord} ElectionRecord */
 /** @typedef {NonNullable<ElectionResult['candidates']>[number]} ResultCandidate */
+/**
+ * A constituency result's view: 'counts', 'animation' and 'party' draw their own tables, and any
+ * other view named (the address keeps an odd one as it is, panel-model.mjs PANEL_VIEWS) draws the
+ * candidate table. A derived display kind, not state.
+ * @typedef {'counts' | 'animation' | 'party' | 'candidate' | string} ConstituencyTableView
+ */
 
 /**
  * Where a contest's figures came from: one entry of the provenance shard the manager attaches
@@ -275,6 +281,9 @@ export class MainElectionPaneContract {
       return this.host.renderSingleSeatFptpResultsTable?.(candidates, result)
         || this.host.renderConstituencyCandidateTable(candidates, result);
     }
+    // The table drawn ('counts' | 'animation' | 'party', any other view the candidate table): the
+    // view asked for, with an animation the result does not have drawn as the counts.
+    /** @type {ConstituencyTableView} */
     const effectiveView = view === 'animation' && !this.host.resultHasAnimation(result) ? 'counts' : view;
     return `
       ${effectiveView === 'counts' ? this.host.renderCountTable(result, candidates) : effectiveView === 'animation' ? this.host.renderAnimationNotice(result) : effectiveView === 'party' ? this.host.renderConstituencyPartyTable(candidates, result) : this.host.renderConstituencyCandidateTable(candidates, result)}

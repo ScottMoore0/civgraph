@@ -71,6 +71,7 @@ export class UiWiringMethods {
       }
     };
     uiController.onOpenElectionConstituencyFeature = async ({ constituency, level }) => {
+      /** @type {'lgd' | 'dea' | 'constituency'} the area's entity kind, derived from the feature's level */
       const kind = level === 'council' ? 'lgd' : level === 'dea' ? 'dea' : 'constituency';
       return this.openElectionEntityDetailInCatalogue(kind, constituency);
     };

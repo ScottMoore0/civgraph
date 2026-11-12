@@ -1788,6 +1788,7 @@ export class Test2ElectionManager {
       if (!candidateFinalById.has(candidateId) || totalVotes > numberOrZero(candidateFinalById.get(candidateId)?.votes)) {
         candidateFinalById.set(candidateId, { party, votes: totalVotes });
       }
+      /** @type {import('../src/election/results-model.mjs').SelectedPaneStatusKind} */
       const status = selectedPaneStatusKind(row.Status);
       if (status === 'excluded') candidateMetaById.get(candidateId).excluded = true;
       if (status === 'elected' && !electedCandidates.has(candidateId)) {
@@ -2982,6 +2983,7 @@ export class Test2ElectionManager {
     const previousResults = this.previousResultsForCouncil(result.constituency || result.localBody || result.matchName);
     const partyRows = this.withPartyDeltas(buildPartySummary(memberResults), { previousResults });
     const candidateRows = this.withCandidateDeltas(buildCandidateSummary(memberResults), { previousResults });
+    /** @type {'party' | 'candidate' | 'local-party'} the table drawn: any other view is the party table */
     const effectiveView = ['party', 'candidate', 'local-party'].includes(view) ? view : 'party';
     return `
       ${effectiveView === 'candidate' ? this.renderCandidateSummaryTable(candidateRows, { results: memberResults, previousResults, widePercentLabel: '% of District' })

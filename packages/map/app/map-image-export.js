@@ -33,6 +33,8 @@ import { compositeChildIds } from '../src/map-relations.mjs';
 import { SITE } from '../../config/src/config.js';
 import { siteNumber } from '../../core/src/format.js';
 import { EXPORT_COLOURS } from '../src/colours.mjs';
+import { createState } from '../src/state-helpers.mjs';
+import { CONTEXT_OUTLINE_LOAD } from '../src/app/export-context-state.mjs';
 
 export const WIKI_STYLE = Object.freeze({
   fill: EXPORT_COLOURS.fill,
@@ -57,8 +59,12 @@ const LICENCE_URL = 'https://creativecommons.org/licenses/by-sa/4.0/';
 const NAME_KEYS = ['Name', 'name', 'NAME', 'PC_NAME', 'CONSTITUENCY', 'Constituency', 'CON_NAME', 'ENGLISH', 'English_Name',
   'FinalR_DEA', 'DEA', 'DEANAME', 'WARDNAME', 'LGDNAME', 'COUNTY', 'PARISH', 'BARONY', 'TOWNLAND', 'Const_Nm'];
 
+// Each outline's fetch, kept once it succeeds and forgotten when it fails, and the state of that
+// load (idle, loading, ready, failed: export-context-state.mjs), moved in step with the promise.
 let contextLandPromise = null;
 let contextLoughsPromise = null;
+const contextLandLoad = createState(CONTEXT_OUTLINE_LOAD);
+const contextLoughsLoad = createState(CONTEXT_OUTLINE_LOAD);
 
 /* ------------------------------------------------------------------ projection */
 
@@ -366,12 +372,13 @@ function decoder(q) {
 
 export async function loadContextLoughs(url = CONTEXT_LOUGHS_URL) {
   if (!contextLoughsPromise) {
+    contextLoughsLoad.to('loading');
     contextLoughsPromise = fetch(url).then((response) => {
       if (!response.ok) throw new Error(`Could not load the lough outlines (${response.status}).`);
       return response.json();
     }).then((doc) => {
       const decode = decoder(doc.quantisation || 10000);
-      return {
+      const outlines = {
         credits: doc.credits || [],
         loughs: (doc.features || []).map((f) => ({
           name: f.name,
@@ -380,7 +387,10 @@ export async function loadContextLoughs(url = CONTEXT_LOUGHS_URL) {
           shore: f.shore ? f.shore.map(decode) : null
         }))
       };
+      contextLoughsLoad.to('ready');
+      return outlines;
     }).catch((error) => {
+      contextLoughsLoad.to('failed');
       contextLoughsPromise = null;
       throw error;
     });
@@ -390,17 +400,21 @@ export async function loadContextLoughs(url = CONTEXT_LOUGHS_URL) {
 
 export async function loadContextLand(url = CONTEXT_LAND_URL) {
   if (!contextLandPromise) {
+    contextLandLoad.to('loading');
     contextLandPromise = fetch(url).then((response) => {
       if (!response.ok) throw new Error(`Could not load the neighbouring-land outline (${response.status}).`);
       return response.json();
     }).then((doc) => {
       const decode = decoder(doc.quantisation || 10000);
-      return {
+      const outlines = {
         credits: doc.credits || [],
         land: doc.features.filter((f) => f.kind === 'land').map((f) => ({ name: f.name, polygons: f.rings.map((poly) => poly.map(decode)) })),
         borders: doc.features.filter((f) => f.kind === 'border').map((f) => ({ name: f.name, lines: f.lines.map(decode) }))
       };
+      contextLandLoad.to('ready');
+      return outlines;
     }).catch((error) => {
+      contextLandLoad.to('failed');
       contextLandPromise = null;
       throw error;
     });

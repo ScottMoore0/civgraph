@@ -20,6 +20,11 @@ import { BODY_GROUP_ORDER, hasNumber, yearRange } from './entity-detail-data.mjs
 import { siteNumber } from '../../core/src/format.js';
 import { BODY_COLOURS, MAP_COLOURS } from './colours.mjs';
 
+// Derived kinds, not state (architecture rule R7): each is worked out from data where it is read.
+/** @typedef {'numeric' | 'ordinal' | 'text' | 'date'} ColumnKind how a table column sorts: inferColumnKind's answer, an entity table column's `kind` */
+/** @typedef {'candidate' | 'party' | 'constituency' | 'dea' | 'lgd'} EntityKind the kind of record an entity page shows (an entry's `kind`) */
+/** @typedef {'election-decade' | 'map-card' | 'books'} CatalogueTargetKind what a deferred catalogue anchor stands for (data-catalogue-target-kind) */
+
 /**
  * Lucide icons used by the catalogue: the section bar, the headings inside the contents box,
  * and the Books categories, which previously relied on emoji from data/database/books.json.
@@ -1022,6 +1027,7 @@ class UIController {
                 return null;
             };
             const getFeatureValue = (feature, key) => formatRawValue(feature?.properties?.[key]);
+            /** @returns {ColumnKind} */
             const inferColumnKind = (key) => {
                 const sample = allFeatures.slice(0, 100).map((feature) => getFeatureValue(feature, key)).filter(Boolean);
                 const numHits = sample.filter((v) => parseMaybeNumber(v) !== null).length;
@@ -1032,6 +1038,7 @@ class UIController {
                 if (sample.length > 0 && ordHits / sample.length >= 0.8) return 'ordinal';
                 return 'text';
             };
+            /** @param {ColumnKind} kind */
             const compareFeatures = (a, b, key, dir, kind) => {
                 if (dir === 'default') return 0;
                 const av = getFeatureValue(a, key);
