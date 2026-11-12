@@ -2,6 +2,7 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { resolveApprovedPublicationSources } from '../lib/approved-publication-index.mjs';
+import { fileLabel, normalizeFiles, normalizeLinks } from '../lib/browse-links.mjs';
 import { partyColour, NO_LABEL, NO_PARTY_RECORDED } from '../../packages/core/src/election-domain.mjs';
 import { isPublicMap, isPublicStatistic, statisticGeographyIds } from '../../src/public-map.mjs';
 import { canonicalElectionTitle, compareElectionsNewestFirst, electionResultEntryLabel } from '../lib/election-names.mjs';
@@ -3850,21 +3851,6 @@ function normalizeArray(value) {
   return [value];
 }
 
-function normalizeFiles(value) {
-  if (!value) return [];
-  if (typeof value === 'string') return [{ label: fileLabel(value), url: value }];
-  if (Array.isArray(value)) return value.flatMap(normalizeFiles);
-  if (typeof value === 'object') {
-    return Object.entries(value).flatMap(([label, url]) => {
-      if (!url) return [];
-      if (typeof url === 'string') return [{ label, url }];
-      if (Array.isArray(url)) return url.map((item) => ({ label, url: String(item) }));
-      return normalizeFiles(url).map((item) => ({ ...item, label: item.label || label }));
-    });
-  }
-  return [];
-}
-
 function normalizeReferences(value) {
   return normalizeArray(value).flatMap((ref) => {
     if (!ref) return [];
@@ -3880,19 +3866,6 @@ function normalizeReferences(value) {
       type: ref.type || null
     })];
   });
-}
-
-function normalizeLinks(value) {
-  return normalizeArray(value).flatMap((link) => {
-    if (!link) return [];
-    if (typeof link === 'string') return [{ label: fileLabel(link), url: link }];
-    if (Array.isArray(link)) return link.flatMap(normalizeLinks);
-    if (typeof link === 'object') {
-      if (link.url || link.href) return [compactObject({ label: cleanText(link.label || link.title || link.name || fileLabel(link.url || link.href)), url: link.url || link.href, type: link.type || null })];
-      return normalizeFiles(link);
-    }
-    return [];
-  }).filter((link) => link.url || link.label);
 }
 
 function collectYears(value) {
@@ -3948,13 +3921,6 @@ function compactObject(object) {
     output[key] = value;
   }
   return output;
-}
-
-function fileLabel(value) {
-  const text = cleanText(value);
-  if (!text) return 'Source';
-  const last = text.split(/[\\/]/).pop() || text;
-  return last.split('?')[0] || text;
 }
 
 function isUrl(value) {
