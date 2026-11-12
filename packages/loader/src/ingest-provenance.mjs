@@ -1,13 +1,14 @@
 /**
- * Election provenance as rows: what was data/database/election-provenance.json (25.9 MB, 270 KB
- * under Cloudflare Pages' 25 MiB file limit) becomes one contest_provenance row per contest,
- * one citations row per source, and the legislation map. The per-election shards the map app
+ * Election provenance as rows: the provenance document (read whole through
+ * election-provenance.mjs, from its index and per-decade parts) becomes one contest_provenance row
+ * per contest, one citations row per source, and the legislation map. The per-election shards the map app
  * reads are kept as built (provenance_shards), so /render/metadata/election-provenance/<key>.json
  * and /_api/elections?view=provenance answer them exactly.
  */
 import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
-import { TableWriter, bool, readJson, transaction, txt, withPlaceholders } from './db.mjs';
+import { TableWriter, bool, transaction, txt, withPlaceholders } from './db.mjs';
+import { readProvenance } from './election-provenance.mjs';
 
 const SOURCE_PREFIX = 'data/elections-source/data/elections/';
 
@@ -30,11 +31,12 @@ const SOURCE_PREFIX = 'data/elections-source/data/elections/';
 
 /**
  * @param {import('../../storage/src/sqlite.mjs').SqliteHandle} db
- * @param {{ provenanceFile: string, shardDir: string }} options
+ * @param {{ provenanceFile: string, partDir: string, shardDir: string }} options
  */
-export function ingestProvenance(db, { provenanceFile, shardDir }) {
-  /** @type {ProvenanceDocument} */
-  const doc = readJson(provenanceFile);
+export function ingestProvenance(db, { provenanceFile, partDir, shardDir }) {
+  // The loader types every field as unknown; these are the fields this ingest reads.
+  const doc = /** @type {ProvenanceDocument | null} */ (/** @type {unknown} */ (readProvenance({ file: provenanceFile, partDir })));
+  if (!doc) throw new Error(`${provenanceFile} does not exist: run node scripts/build/build-election-provenance.mjs`);
   // contests.source_file is the path from the repository root; provenance files are relative to
   // data/elections-source/data/elections/.
   /** @type {Map<string, Record<string, import('node:sqlite').SQLOutputValue>>} */

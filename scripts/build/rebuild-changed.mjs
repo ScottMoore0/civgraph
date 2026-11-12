@@ -31,7 +31,7 @@ const noBrowser = args.includes('--no-browser');
 const GENERATED = [
   /^site\/app\/build\//, /^site\/(maps\/(classic\/)?)?index\.html$/,
   /^site\/agent\//, /^data\/catalogue\//, /^data\/browse\//, /^data\/graph\//,
-  /^data\/database\/(corpus-index|election-provenance|site-stats|status)\.json$/,
+  /^data\/database\/(corpus-index|election-provenance|site-stats|status)\.json$/, /^data\/database\/election-provenance-parts\//,
   /^data\/database\/[a-z-]+-d1-import\.sql$/, /^data\/database\/elections-schema\.sql$/,
   /^functions\/_api\/_public-prefixes\.js$/, /^render\/metadata\//, /^site\/pages\/(about|status)\.html$/,
   /^site\/app\/election-viewer-package\/(css|js)\//, /^site\/app\/js\//, /^site\/sitemap\.xml$/, /^site\/sitemaps\//

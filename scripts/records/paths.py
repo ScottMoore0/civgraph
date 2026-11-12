@@ -35,6 +35,7 @@ def record_paths(env=None):
         'ELECTION_REPORT': at('elections-test2-report.json', 'render/metadata/elections-test2-report.json'),
         'ELECTION_SUMMARY_DIR': at('elections-summaries', 'render/metadata/elections-test2-summaries'),
         'PROVENANCE_FILE': at('election-provenance.json', 'data/database/election-provenance.json'),
+        'PROVENANCE_PART_DIR': at('election-provenance-parts', 'data/database/election-provenance-parts'),
         'PROVENANCE_SHARD_DIR': at('election-provenance', 'render/metadata/election-provenance'),
         'BROWSE_DIR': at('browse', 'data/browse'),
         'GRAPH_DIR': at('graph', 'data/graph'),
@@ -49,6 +50,7 @@ ELECTION_MANIFEST = _P['ELECTION_MANIFEST']
 ELECTION_REPORT = _P['ELECTION_REPORT']
 ELECTION_SUMMARY_DIR = _P['ELECTION_SUMMARY_DIR']
 PROVENANCE_FILE = _P['PROVENANCE_FILE']
+PROVENANCE_PART_DIR = _P['PROVENANCE_PART_DIR']
 PROVENANCE_SHARD_DIR = _P['PROVENANCE_SHARD_DIR']
 BROWSE_DIR = _P['BROWSE_DIR']
 GRAPH_DIR = _P['GRAPH_DIR']
@@ -69,6 +71,7 @@ def local_path_for_url(url, paths=None):
         ('render/metadata/elections-test2/', paths['ELECTION_BUNDLE_DIR'], False),
         ('render/metadata/election-provenance/', paths['PROVENANCE_SHARD_DIR'], False),
         ('data/database/election-provenance.json', paths['PROVENANCE_FILE'], True),
+        ('data/database/election-provenance-parts/', paths['PROVENANCE_PART_DIR'], False),
         ('data/browse/', paths['BROWSE_DIR'], False),
         ('data/graph/', paths['GRAPH_DIR'], False),
     ]

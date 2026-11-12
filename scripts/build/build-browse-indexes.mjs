@@ -11,7 +11,8 @@ import { loadWikidataPersons, personWikidata } from '../lib/wikidata-persons.mjs
 import { browsePartySlugResolver, formatSpan, indexFactsModel, loadFactsModel } from '../lib/facts-model.mjs';
 import { CDN_BASE } from '../../src/cdn-url.js';
 import { RENAMED_ELECTION_DATES } from '../../packages/map/src/app/url-compat.mjs';
-import { BROWSE_DIR, ELECTION_MANIFEST, PROVENANCE_FILE, localPathForUrl } from '../../packages/loader/src/paths.mjs';
+import { BROWSE_DIR, ELECTION_MANIFEST, localPathForUrl } from '../../packages/loader/src/paths.mjs';
+import { readProvenance } from '../../packages/loader/src/election-provenance.mjs';
 import { loadRegistry } from '../../packages/registries/src/index.mjs';
 import { electionBody, fillYear } from '../../packages/registries/src/election-bodies.mjs';
 import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLocalCouncilRound, niLocalGroupKey } from '../../src/ni-local-groups.mjs';
@@ -2820,13 +2821,13 @@ function mergeDuplicateSources(sources) {
 /**
  * The reference works the election results are taken from or checked against
  * (data/database/reference-works.json), as source records, each saying how many contests cite
- * it (data/database/election-provenance.json) so a reader following a citation finds the work
+ * it (the election provenance, packages/loader/src/election-provenance.mjs) so a reader following a citation finds the work
  * and what Civgraph takes from it (UX review 2026-10-31, L12).
  */
 function referenceWorkSources() {
   const works = normalizeArray(readJson('data/database/reference-works.json', { sources: [] }).sources);
   if (!works.length) return [];
-  const provenance = normalizeArray(readJson(PROVENANCE_FILE, { contests: [] }).contests);
+  const provenance = normalizeArray(readProvenance()?.contests);
   return works.map((work) => {
     const cites = (source) => normalizeArray(work.citedAs).some((text) => String(source?.title || '').includes(text) || String(source?.url || '').includes(text));
     let contests = 0;

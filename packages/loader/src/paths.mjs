@@ -2,7 +2,8 @@
  * Where the record build writes, in one place.
  *
  * Every generator that used to write into render/metadata/elections-test2*,
- * render/metadata/election-provenance, data/database/election-provenance.json, data/browse
+ * render/metadata/election-provenance, data/database/election-provenance.json (and its parts,
+ * data/database/election-provenance-parts), data/browse
  * or data/graph takes its location from here, so the whole chain can be pointed at a build
  * directory without editing each script again.
  *
@@ -37,6 +38,7 @@ export const ELECTION_MANIFEST = P.ELECTION_MANIFEST;
 export const ELECTION_REPORT = P.ELECTION_REPORT;
 export const ELECTION_SUMMARY_DIR = P.ELECTION_SUMMARY_DIR;
 export const PROVENANCE_FILE = P.PROVENANCE_FILE;
+export const PROVENANCE_PART_DIR = P.PROVENANCE_PART_DIR;
 export const PROVENANCE_SHARD_DIR = P.PROVENANCE_SHARD_DIR;
 export const BROWSE_DIR = P.BROWSE_DIR;
 export const GRAPH_DIR = P.GRAPH_DIR;
@@ -61,6 +63,7 @@ export function localPathForUrl(url, paths = P) {
     ['render/metadata/elections-test2/', paths.ELECTION_BUNDLE_DIR],
     ['render/metadata/election-provenance/', paths.PROVENANCE_SHARD_DIR],
     ['data/database/election-provenance.json', paths.PROVENANCE_FILE, true],
+    ['data/database/election-provenance-parts/', paths.PROVENANCE_PART_DIR],
     ['data/browse/', paths.BROWSE_DIR],
     ['data/graph/', paths.GRAPH_DIR],
   ];

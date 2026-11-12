@@ -70,6 +70,7 @@ export const EXCLUDE = [
   'render/metadata/elections-test2/', 'render/metadata/elections-test2-summaries/',
   'render/metadata/election-provenance/', 'render/metadata/elections-test2.json',
   'render/metadata/elections-test2-report.json', 'data/database/election-provenance.json',
+  'data/database/election-provenance-parts/',
   'data/browse/', 'data/graph/', 'data/elections/', 'data/elections-source/',
   // Map and catalogue documents answered from D1 since data phase 3.
   'data/database/maps.json', 'agent/maps-index.json', 'data/catalogue/catalogue.json',

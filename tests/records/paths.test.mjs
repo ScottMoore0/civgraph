@@ -12,6 +12,7 @@ const LEGACY = {
   ELECTION_REPORT: 'render/metadata/elections-test2-report.json',
   ELECTION_SUMMARY_DIR: 'render/metadata/elections-test2-summaries',
   PROVENANCE_FILE: 'data/database/election-provenance.json',
+  PROVENANCE_PART_DIR: 'data/database/election-provenance-parts',
   PROVENANCE_SHARD_DIR: 'render/metadata/election-provenance',
   BROWSE_DIR: 'data/browse',
   GRAPH_DIR: 'data/graph',
@@ -74,6 +75,7 @@ test('paths.py local_path_for_url maps the record URLs as localPathForUrl does (
     '/render/metadata/elections-test2-summaries/x.json',
     '/render/metadata/election-provenance/k.json',
     '/data/database/election-provenance.json',
+    '/data/database/election-provenance-parts/1930s.json',
     '/data/browse/person-shards/persons-000.json',
     '/data/graph/manifest.json',
   ];
