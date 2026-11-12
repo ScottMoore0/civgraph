@@ -86,8 +86,11 @@ const STRICT_SINCE_R2_UI = ['packages/ui/assets/state/machine.js', 'packages/ui/
 // The apps that met noImplicitAny in the 8 Nov 2026 review (S5c) and so check under full strict.
 const STRICT_SINCE_NIA_S5C = ['site/apps/proni-search/app.js', 'site/apps/words/words.js'];
 
+// Full strict on tsconfig.ui.json itself since 12 Nov 2026 (stream rf8-types).
+const FLAGS_SINCE_RF8 = ['strict', 'strictPropertyInitialization', 'strictBuiltinIteratorReturn'];
+
 test('the strictness the UI has reached stays', () => {
-  for (const flag of FLAGS_SINCE_R2_UI) assert.equal(CONFIG.compilerOptions[flag], true, `tsconfig.ui.json ${flag} was turned off`);
+  for (const flag of [...FLAGS_SINCE_R2_UI, ...FLAGS_SINCE_RF8]) assert.equal(CONFIG.compilerOptions[flag], true, `tsconfig.ui.json ${flag} was turned off`);
   const strict = JSON.parse(readFileSync(path.join(ROOT, 'config', 'tsconfig.ui-strict.json'), 'utf8').replaceAll('"../', '"'));
   assert.equal(strict.extends, './tsconfig.ui.json');
   assert.equal(strict.compilerOptions.strict, true);
