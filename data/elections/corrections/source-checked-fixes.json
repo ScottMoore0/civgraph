@@ -41,7 +41,8 @@
     "two-member-unopposed-2026-11-11": "Two-member county seats imported as single-member: both members were returned unopposed, but the second was shown as defeated. Checked against Walker (1978) as Wikipedia's election boxes cite it, and corroborated by the second member's own votes in the next session (Historic Hansard).",
     "roi-local-index-2026-11-11": "Irish local election gap-fills that were on file but never reached the site, because their areas were missing from the election index (2014, 2019 and 2024): each fill was re-checked against the Department's results book for that year (candidates, first preferences, parties, members elected, seats, valid poll and quota) and the total poll added from the same book.",
     "roi-local-2024-book-2026-11-11": "Irish local elections of 7 June 2024 checked against the Department of Housing, Local Government and Heritage's Local Elections 2024: Results, Transfer of Votes and Statistics (the book and its spreadsheet, on opendata.housing.gov.ie): the 21 areas imported with no candidates and no fill are filled from it, and where a contest on file disagrees with the book (a first preference, a member elected, a party label, the electorate or other poll figures) the book's figure is taken and the old one named. Every area's count-by-count result is in data/elections/roi-local-counts/2024-06-07/. Where the book contradicts itself the figure its own arithmetic or its county totals give is used, and the note says so.",
-    "eoni-ia-2026-11-11": "Northern Ireland Assembly 2011 and council 2011 contests checked against the Electoral Office for Northern Ireland's result sheets recovered from the Internet Archive (the old eoni.org.uk site's /getattachment/ and root-level files): only figures the sheet's own arithmetic confirms (first preferences that add up to the valid poll, stage totals that reconcile with the transfers and non-transferable votes)."
+    "eoni-ia-2026-11-11": "Northern Ireland Assembly 2011 and council 2011 contests checked against the Electoral Office for Northern Ireland's result sheets recovered from the Internet Archive (the old eoni.org.uk site's /getattachment/ and root-level files): only figures the sheet's own arithmetic confirms (first preferences that add up to the valid poll, stage totals that reconcile with the transfers and non-transferable votes).",
+    "review-eoni-wikidata-2026-11-11": "Northern Ireland contests checked against the Electoral Office for Northern Ireland's result sheets, turnout tables and declarations and the Electoral Commission's results spreadsheets: the EU referendum 2016 electorates, rejected-paper counts for the Assembly 2007 and 2011 and Westminster 2005, a missing 2010 electorate, elected flags the declarations confirm, and the Westminster 2017 East Londonderry rejected count, where the Electoral Commission's itemised figure is preferred to the Electoral Office's web page."
   },
   "records": [
     {
@@ -90838,9 +90839,16 @@
           "url": "https://candidates.democracyclub.org.uk/elections/parl.newry-and-armagh.2010-05-06/",
           "accessed": "2026-10-23",
           "note": "Data from Democracy Club (https://democracyclub.org.uk), CC BY 4.0; local-election votes_cast there are final-stage totals, so first preferences come from ARK."
+        },
+        {
+          "title": "Parliamentary Election 2010: turnout by constituency",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401110248id_/http://www.eoni.org.uk/getmedia/84fdf4f3-4dd2-48a6-b458-7ad0ec19c170/Parliamentary-Election-2010-Turnout-by-Constituency-website",
+          "accessed": "2026-11-11",
+          "note": "Newry & Armagh: eligible electorate 74,308, votes polled 45,249, turnout 60.89%; the Electoral Commission's GE2010 turnout file gives the same electorate."
         }
       ],
-      "reason": "Conor Murphy (SF, 18,857) held the seat; the file had no winner flag and no poll totals (ARK: total poll 45,249, invalid 343, valid 44,906).",
+      "reason": "Conor Murphy (SF, 18,857) held the seat; the file had no winner flag and no poll totals (ARK: total poll 45,249, invalid 343, valid 44,906). The electorate, missing from the file, was 74,308 (Electoral Office turnout table; Electoral Commission), and the 45,249 votes polled are 60.89% of it.",
       "category": "winners",
       "operations": [
         {
@@ -90865,9 +90873,17 @@
           "op": "set",
           "path": "Constituency.countInfo.Spoiled",
           "value": "343"
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Electorate",
+          "value": "74308"
         }
       ],
-      "note": "The duplicate result is NOT in this file (6 rows, each candidate once). It comes from data/elections-source/data/elections_index.json listing both \"Newry And Armagh\" and \"Newry and Armagh\" for house-of-commons 2010-05-06; see unresolved.json."
+      "note": "The duplicate result is NOT in this file (6 rows, each candidate once). It comes from data/elections-source/data/elections_index.json listing both \"Newry And Armagh\" and \"Newry and Armagh\" for house-of-commons 2010-05-06; see unresolved.json.",
+      "alsoBatches": [
+        "review-eoni-wikidata-2026-11-11"
+      ]
     },
     {
       "batch": "eoni-2014-2026-10-26",
@@ -255464,6 +255480,794 @@
         }
       ],
       "reason": "Ronnie Crawford received 85.40 votes at the fifth count, not 86.00, so he held 1,119.17 after it and 1,148.17 after the sixth, as the Electoral Office's result sheet gives; with those figures the sheet's non-transferable votes make up the valid poll of 9,158 at every count."
+    },
+    {
+      "batch": "review-eoni-wikidata-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-referendum/2016-06-23-eu-membership/belfast-east.json",
+      "source": {
+        "title": "EU Referendum 23 June 2016: eligible electorate by constituency",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401033902id_/http://www.eoni.org.uk/getmedia/129625a7-71ce-4c76-a51a-d50db6aac0a6/EU-Referendum-2016-Eligible-Electorate-by-Constituency_1",
+        "original": "http://www.eoni.org.uk/getmedia/129625a7-71ce-4c76-a51a-d50db6aac0a6/EU-Referendum-2016-Eligible-Electorate-by-Constituency_1",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "EU referendum results (counting-area data)",
+          "publisher": "The Electoral Commission",
+          "url": "https://www.electoralcommission.org.uk/sites/default/files/2019-07/EU-referendum-result-data.csv",
+          "accessed": "2026-11-11",
+          "note": "Northern Ireland counting area electorate 1,260,955, the sum of the 18 EONI figures."
+        }
+      ],
+      "reason": "The eligible electorate was 64,474, as the Electoral Office's table of eligible electorate by constituency gives (its 18 figures total 1,260,955, the Electoral Commission's Northern Ireland electorate); the record had 64,449, an unofficial figure carried from the import.",
+      "category": "electorate",
+      "operations": [
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 64474
+        }
+      ]
+    },
+    {
+      "batch": "review-eoni-wikidata-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-referendum/2016-06-23-eu-membership/belfast-north.json",
+      "source": {
+        "title": "EU Referendum 23 June 2016: eligible electorate by constituency",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401033902id_/http://www.eoni.org.uk/getmedia/129625a7-71ce-4c76-a51a-d50db6aac0a6/EU-Referendum-2016-Eligible-Electorate-by-Constituency_1",
+        "original": "http://www.eoni.org.uk/getmedia/129625a7-71ce-4c76-a51a-d50db6aac0a6/EU-Referendum-2016-Eligible-Electorate-by-Constituency_1",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "EU referendum results (counting-area data)",
+          "publisher": "The Electoral Commission",
+          "url": "https://www.electoralcommission.org.uk/sites/default/files/2019-07/EU-referendum-result-data.csv",
+          "accessed": "2026-11-11",
+          "note": "Northern Ireland counting area electorate 1,260,955, the sum of the 18 EONI figures."
+        }
+      ],
+      "reason": "The eligible electorate was 69,692, as the Electoral Office's table of eligible electorate by constituency gives (its 18 figures total 1,260,955, the Electoral Commission's Northern Ireland electorate); the record had 69,683, an unofficial figure carried from the import.",
+      "category": "electorate",
+      "operations": [
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 69692
+        }
+      ]
+    },
+    {
+      "batch": "review-eoni-wikidata-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-referendum/2016-06-23-eu-membership/belfast-south.json",
+      "source": {
+        "title": "EU Referendum 23 June 2016: eligible electorate by constituency",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401033902id_/http://www.eoni.org.uk/getmedia/129625a7-71ce-4c76-a51a-d50db6aac0a6/EU-Referendum-2016-Eligible-Electorate-by-Constituency_1",
+        "original": "http://www.eoni.org.uk/getmedia/129625a7-71ce-4c76-a51a-d50db6aac0a6/EU-Referendum-2016-Eligible-Electorate-by-Constituency_1",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "EU referendum results (counting-area data)",
+          "publisher": "The Electoral Commission",
+          "url": "https://www.electoralcommission.org.uk/sites/default/files/2019-07/EU-referendum-result-data.csv",
+          "accessed": "2026-11-11",
+          "note": "Northern Ireland counting area electorate 1,260,955, the sum of the 18 EONI figures."
+        }
+      ],
+      "reason": "The eligible electorate was 66,664, as the Electoral Office's table of eligible electorate by constituency gives (its 18 figures total 1,260,955, the Electoral Commission's Northern Ireland electorate); the record had 66,641, an unofficial figure carried from the import.",
+      "category": "electorate",
+      "operations": [
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 66664
+        }
+      ]
+    },
+    {
+      "batch": "review-eoni-wikidata-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-referendum/2016-06-23-eu-membership/belfast-west.json",
+      "source": {
+        "title": "EU Referendum 23 June 2016: eligible electorate by constituency",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401033902id_/http://www.eoni.org.uk/getmedia/129625a7-71ce-4c76-a51a-d50db6aac0a6/EU-Referendum-2016-Eligible-Electorate-by-Constituency_1",
+        "original": "http://www.eoni.org.uk/getmedia/129625a7-71ce-4c76-a51a-d50db6aac0a6/EU-Referendum-2016-Eligible-Electorate-by-Constituency_1",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "EU referendum results (counting-area data)",
+          "publisher": "The Electoral Commission",
+          "url": "https://www.electoralcommission.org.uk/sites/default/files/2019-07/EU-referendum-result-data.csv",
+          "accessed": "2026-11-11",
+          "note": "Northern Ireland counting area electorate 1,260,955, the sum of the 18 EONI figures."
+        }
+      ],
+      "reason": "The eligible electorate was 63,883, as the Electoral Office's table of eligible electorate by constituency gives (its 18 figures total 1,260,955, the Electoral Commission's Northern Ireland electorate); the record had 63,822, an unofficial figure carried from the import.",
+      "category": "electorate",
+      "operations": [
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 63883
+        }
+      ]
+    },
+    {
+      "batch": "review-eoni-wikidata-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-referendum/2016-06-23-eu-membership/east-antrim.json",
+      "source": {
+        "title": "EU Referendum 23 June 2016: eligible electorate by constituency",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401033902id_/http://www.eoni.org.uk/getmedia/129625a7-71ce-4c76-a51a-d50db6aac0a6/EU-Referendum-2016-Eligible-Electorate-by-Constituency_1",
+        "original": "http://www.eoni.org.uk/getmedia/129625a7-71ce-4c76-a51a-d50db6aac0a6/EU-Referendum-2016-Eligible-Electorate-by-Constituency_1",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "EU referendum results (counting-area data)",
+          "publisher": "The Electoral Commission",
+          "url": "https://www.electoralcommission.org.uk/sites/default/files/2019-07/EU-referendum-result-data.csv",
+          "accessed": "2026-11-11",
+          "note": "Northern Ireland counting area electorate 1,260,955, the sum of the 18 EONI figures."
+        }
+      ],
+      "reason": "The eligible electorate was 63,997, as the Electoral Office's table of eligible electorate by constituency gives (its 18 figures total 1,260,955, the Electoral Commission's Northern Ireland electorate); the record had 63,945, an unofficial figure carried from the import.",
+      "category": "electorate",
+      "operations": [
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 63997
+        },
+        {
+          "op": "set",
+          "path": "meta.turnout_pct",
+          "value": 64.9
+        }
+      ]
+    },
+    {
+      "batch": "review-eoni-wikidata-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-referendum/2016-06-23-eu-membership/east-londonderry.json",
+      "source": {
+        "title": "EU Referendum 23 June 2016: eligible electorate by constituency",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401033902id_/http://www.eoni.org.uk/getmedia/129625a7-71ce-4c76-a51a-d50db6aac0a6/EU-Referendum-2016-Eligible-Electorate-by-Constituency_1",
+        "original": "http://www.eoni.org.uk/getmedia/129625a7-71ce-4c76-a51a-d50db6aac0a6/EU-Referendum-2016-Eligible-Electorate-by-Constituency_1",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "EU referendum results (counting-area data)",
+          "publisher": "The Electoral Commission",
+          "url": "https://www.electoralcommission.org.uk/sites/default/files/2019-07/EU-referendum-result-data.csv",
+          "accessed": "2026-11-11",
+          "note": "Northern Ireland counting area electorate 1,260,955, the sum of the 18 EONI figures."
+        }
+      ],
+      "reason": "The eligible electorate was 67,953, as the Electoral Office's table of eligible electorate by constituency gives (its 18 figures total 1,260,955, the Electoral Commission's Northern Ireland electorate); the record had 67,945, an unofficial figure carried from the import.",
+      "category": "electorate",
+      "operations": [
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 67953
+        }
+      ]
+    },
+    {
+      "batch": "review-eoni-wikidata-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-referendum/2016-06-23-eu-membership/fermanagh-and-south-tyrone.json",
+      "source": {
+        "title": "EU Referendum 23 June 2016: eligible electorate by constituency",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401033902id_/http://www.eoni.org.uk/getmedia/129625a7-71ce-4c76-a51a-d50db6aac0a6/EU-Referendum-2016-Eligible-Electorate-by-Constituency_1",
+        "original": "http://www.eoni.org.uk/getmedia/129625a7-71ce-4c76-a51a-d50db6aac0a6/EU-Referendum-2016-Eligible-Electorate-by-Constituency_1",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "EU referendum results (counting-area data)",
+          "publisher": "The Electoral Commission",
+          "url": "https://www.electoralcommission.org.uk/sites/default/files/2019-07/EU-referendum-result-data.csv",
+          "accessed": "2026-11-11",
+          "note": "Northern Ireland counting area electorate 1,260,955, the sum of the 18 EONI figures."
+        }
+      ],
+      "reason": "The eligible electorate was 71,051, as the Electoral Office's table of eligible electorate by constituency gives (its 18 figures total 1,260,955, the Electoral Commission's Northern Ireland electorate); the record had 71,072, an unofficial figure carried from the import.",
+      "category": "electorate",
+      "operations": [
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 71051
+        }
+      ]
+    },
+    {
+      "batch": "review-eoni-wikidata-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-referendum/2016-06-23-eu-membership/foyle.json",
+      "source": {
+        "title": "EU Referendum 23 June 2016: eligible electorate by constituency",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401033902id_/http://www.eoni.org.uk/getmedia/129625a7-71ce-4c76-a51a-d50db6aac0a6/EU-Referendum-2016-Eligible-Electorate-by-Constituency_1",
+        "original": "http://www.eoni.org.uk/getmedia/129625a7-71ce-4c76-a51a-d50db6aac0a6/EU-Referendum-2016-Eligible-Electorate-by-Constituency_1",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "EU referendum results (counting-area data)",
+          "publisher": "The Electoral Commission",
+          "url": "https://www.electoralcommission.org.uk/sites/default/files/2019-07/EU-referendum-result-data.csv",
+          "accessed": "2026-11-11",
+          "note": "Northern Ireland counting area electorate 1,260,955, the sum of the 18 EONI figures."
+        }
+      ],
+      "reason": "The eligible electorate was 71,677, as the Electoral Office's table of eligible electorate by constituency gives (its 18 figures total 1,260,955, the Electoral Commission's Northern Ireland electorate); the record had 71,656, an unofficial figure carried from the import.",
+      "category": "electorate",
+      "operations": [
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 71677
+        }
+      ]
+    },
+    {
+      "batch": "review-eoni-wikidata-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-referendum/2016-06-23-eu-membership/lagan-valley.json",
+      "source": {
+        "title": "EU Referendum 23 June 2016: eligible electorate by constituency",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401033902id_/http://www.eoni.org.uk/getmedia/129625a7-71ce-4c76-a51a-d50db6aac0a6/EU-Referendum-2016-Eligible-Electorate-by-Constituency_1",
+        "original": "http://www.eoni.org.uk/getmedia/129625a7-71ce-4c76-a51a-d50db6aac0a6/EU-Referendum-2016-Eligible-Electorate-by-Constituency_1",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "EU referendum results (counting-area data)",
+          "publisher": "The Electoral Commission",
+          "url": "https://www.electoralcommission.org.uk/sites/default/files/2019-07/EU-referendum-result-data.csv",
+          "accessed": "2026-11-11",
+          "note": "Northern Ireland counting area electorate 1,260,955, the sum of the 18 EONI figures."
+        }
+      ],
+      "reason": "The eligible electorate was 73,089, as the Electoral Office's table of eligible electorate by constituency gives (its 18 figures total 1,260,955, the Electoral Commission's Northern Ireland electorate); the record had 73,039, an unofficial figure carried from the import.",
+      "category": "electorate",
+      "operations": [
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 73089
+        }
+      ]
+    },
+    {
+      "batch": "review-eoni-wikidata-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-referendum/2016-06-23-eu-membership/mid-ulster.json",
+      "source": {
+        "title": "EU Referendum 23 June 2016: eligible electorate by constituency",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401033902id_/http://www.eoni.org.uk/getmedia/129625a7-71ce-4c76-a51a-d50db6aac0a6/EU-Referendum-2016-Eligible-Electorate-by-Constituency_1",
+        "original": "http://www.eoni.org.uk/getmedia/129625a7-71ce-4c76-a51a-d50db6aac0a6/EU-Referendum-2016-Eligible-Electorate-by-Constituency_1",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "EU referendum results (counting-area data)",
+          "publisher": "The Electoral Commission",
+          "url": "https://www.electoralcommission.org.uk/sites/default/files/2019-07/EU-referendum-result-data.csv",
+          "accessed": "2026-11-11",
+          "note": "Northern Ireland counting area electorate 1,260,955, the sum of the 18 EONI figures."
+        }
+      ],
+      "reason": "The eligible electorate was 68,927, as the Electoral Office's table of eligible electorate by constituency gives (its 18 figures total 1,260,955, the Electoral Commission's Northern Ireland electorate); the record had 68,881, an unofficial figure carried from the import.",
+      "category": "electorate",
+      "operations": [
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 68927
+        }
+      ]
+    },
+    {
+      "batch": "review-eoni-wikidata-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-referendum/2016-06-23-eu-membership/newry-and-armagh.json",
+      "source": {
+        "title": "EU Referendum 23 June 2016: eligible electorate by constituency",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401033902id_/http://www.eoni.org.uk/getmedia/129625a7-71ce-4c76-a51a-d50db6aac0a6/EU-Referendum-2016-Eligible-Electorate-by-Constituency_1",
+        "original": "http://www.eoni.org.uk/getmedia/129625a7-71ce-4c76-a51a-d50db6aac0a6/EU-Referendum-2016-Eligible-Electorate-by-Constituency_1",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "EU referendum results (counting-area data)",
+          "publisher": "The Electoral Commission",
+          "url": "https://www.electoralcommission.org.uk/sites/default/files/2019-07/EU-referendum-result-data.csv",
+          "accessed": "2026-11-11",
+          "note": "Northern Ireland counting area electorate 1,260,955, the sum of the 18 EONI figures."
+        }
+      ],
+      "reason": "The eligible electorate was 79,211, as the Electoral Office's table of eligible electorate by constituency gives (its 18 figures total 1,260,955, the Electoral Commission's Northern Ireland electorate); the record had 79,255, an unofficial figure carried from the import.",
+      "category": "electorate",
+      "operations": [
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 79211
+        }
+      ]
+    },
+    {
+      "batch": "review-eoni-wikidata-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-referendum/2016-06-23-eu-membership/north-antrim.json",
+      "source": {
+        "title": "EU Referendum 23 June 2016: eligible electorate by constituency",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401033902id_/http://www.eoni.org.uk/getmedia/129625a7-71ce-4c76-a51a-d50db6aac0a6/EU-Referendum-2016-Eligible-Electorate-by-Constituency_1",
+        "original": "http://www.eoni.org.uk/getmedia/129625a7-71ce-4c76-a51a-d50db6aac0a6/EU-Referendum-2016-Eligible-Electorate-by-Constituency_1",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "EU referendum results (counting-area data)",
+          "publisher": "The Electoral Commission",
+          "url": "https://www.electoralcommission.org.uk/sites/default/files/2019-07/EU-referendum-result-data.csv",
+          "accessed": "2026-11-11",
+          "note": "Northern Ireland counting area electorate 1,260,955, the sum of the 18 EONI figures."
+        }
+      ],
+      "reason": "The eligible electorate was 76,913, as the Electoral Office's table of eligible electorate by constituency gives (its 18 figures total 1,260,955, the Electoral Commission's Northern Ireland electorate); the record had 76,878, an unofficial figure carried from the import.",
+      "category": "electorate",
+      "operations": [
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 76913
+        }
+      ]
+    },
+    {
+      "batch": "review-eoni-wikidata-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-referendum/2016-06-23-eu-membership/north-down.json",
+      "source": {
+        "title": "EU Referendum 23 June 2016: eligible electorate by constituency",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401033902id_/http://www.eoni.org.uk/getmedia/129625a7-71ce-4c76-a51a-d50db6aac0a6/EU-Referendum-2016-Eligible-Electorate-by-Constituency_1",
+        "original": "http://www.eoni.org.uk/getmedia/129625a7-71ce-4c76-a51a-d50db6aac0a6/EU-Referendum-2016-Eligible-Electorate-by-Constituency_1",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "EU referendum results (counting-area data)",
+          "publisher": "The Electoral Commission",
+          "url": "https://www.electoralcommission.org.uk/sites/default/files/2019-07/EU-referendum-result-data.csv",
+          "accessed": "2026-11-11",
+          "note": "Northern Ireland counting area electorate 1,260,955, the sum of the 18 EONI figures."
+        }
+      ],
+      "reason": "The eligible electorate was 65,660, as the Electoral Office's table of eligible electorate by constituency gives (its 18 figures total 1,260,955, the Electoral Commission's Northern Ireland electorate); the record had 65,692, an unofficial figure carried from the import.",
+      "category": "electorate",
+      "operations": [
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 65660
+        }
+      ]
+    },
+    {
+      "batch": "review-eoni-wikidata-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-referendum/2016-06-23-eu-membership/south-antrim.json",
+      "source": {
+        "title": "EU Referendum 23 June 2016: eligible electorate by constituency",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401033902id_/http://www.eoni.org.uk/getmedia/129625a7-71ce-4c76-a51a-d50db6aac0a6/EU-Referendum-2016-Eligible-Electorate-by-Constituency_1",
+        "original": "http://www.eoni.org.uk/getmedia/129625a7-71ce-4c76-a51a-d50db6aac0a6/EU-Referendum-2016-Eligible-Electorate-by-Constituency_1",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "EU referendum results (counting-area data)",
+          "publisher": "The Electoral Commission",
+          "url": "https://www.electoralcommission.org.uk/sites/default/files/2019-07/EU-referendum-result-data.csv",
+          "accessed": "2026-11-11",
+          "note": "Northern Ireland counting area electorate 1,260,955, the sum of the 18 EONI figures."
+        }
+      ],
+      "reason": "The eligible electorate was 69,015, as the Electoral Office's table of eligible electorate by constituency gives (its 18 figures total 1,260,955, the Electoral Commission's Northern Ireland electorate); the record had 69,038, an unofficial figure carried from the import.",
+      "category": "electorate",
+      "operations": [
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 69015
+        }
+      ]
+    },
+    {
+      "batch": "review-eoni-wikidata-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-referendum/2016-06-23-eu-membership/south-down.json",
+      "source": {
+        "title": "EU Referendum 23 June 2016: eligible electorate by constituency",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401033902id_/http://www.eoni.org.uk/getmedia/129625a7-71ce-4c76-a51a-d50db6aac0a6/EU-Referendum-2016-Eligible-Electorate-by-Constituency_1",
+        "original": "http://www.eoni.org.uk/getmedia/129625a7-71ce-4c76-a51a-d50db6aac0a6/EU-Referendum-2016-Eligible-Electorate-by-Constituency_1",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "EU referendum results (counting-area data)",
+          "publisher": "The Electoral Commission",
+          "url": "https://www.electoralcommission.org.uk/sites/default/files/2019-07/EU-referendum-result-data.csv",
+          "accessed": "2026-11-11",
+          "note": "Northern Ireland counting area electorate 1,260,955, the sum of the 18 EONI figures."
+        }
+      ],
+      "reason": "The eligible electorate was 76,697, as the Electoral Office's table of eligible electorate by constituency gives (its 18 figures total 1,260,955, the Electoral Commission's Northern Ireland electorate); the record had 76,727, an unofficial figure carried from the import.",
+      "category": "electorate",
+      "operations": [
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 76697
+        }
+      ]
+    },
+    {
+      "batch": "review-eoni-wikidata-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-referendum/2016-06-23-eu-membership/strangford.json",
+      "source": {
+        "title": "EU Referendum 23 June 2016: eligible electorate by constituency",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401033902id_/http://www.eoni.org.uk/getmedia/129625a7-71ce-4c76-a51a-d50db6aac0a6/EU-Referendum-2016-Eligible-Electorate-by-Constituency_1",
+        "original": "http://www.eoni.org.uk/getmedia/129625a7-71ce-4c76-a51a-d50db6aac0a6/EU-Referendum-2016-Eligible-Electorate-by-Constituency_1",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "EU referendum results (counting-area data)",
+          "publisher": "The Electoral Commission",
+          "url": "https://www.electoralcommission.org.uk/sites/default/files/2019-07/EU-referendum-result-data.csv",
+          "accessed": "2026-11-11",
+          "note": "Northern Ireland counting area electorate 1,260,955, the sum of the 18 EONI figures."
+        }
+      ],
+      "reason": "The eligible electorate was 65,642, as the Electoral Office's table of eligible electorate by constituency gives (its 18 figures total 1,260,955, the Electoral Commission's Northern Ireland electorate); the record had 65,612, an unofficial figure carried from the import.",
+      "category": "electorate",
+      "operations": [
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 65642
+        }
+      ]
+    },
+    {
+      "batch": "review-eoni-wikidata-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-referendum/2016-06-23-eu-membership/upper-bann.json",
+      "source": {
+        "title": "EU Referendum 23 June 2016: eligible electorate by constituency",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401033902id_/http://www.eoni.org.uk/getmedia/129625a7-71ce-4c76-a51a-d50db6aac0a6/EU-Referendum-2016-Eligible-Electorate-by-Constituency_1",
+        "original": "http://www.eoni.org.uk/getmedia/129625a7-71ce-4c76-a51a-d50db6aac0a6/EU-Referendum-2016-Eligible-Electorate-by-Constituency_1",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "EU referendum results (counting-area data)",
+          "publisher": "The Electoral Commission",
+          "url": "https://www.electoralcommission.org.uk/sites/default/files/2019-07/EU-referendum-result-data.csv",
+          "accessed": "2026-11-11",
+          "note": "Northern Ireland counting area electorate 1,260,955, the sum of the 18 EONI figures."
+        }
+      ],
+      "reason": "The eligible electorate was 81,469, as the Electoral Office's table of eligible electorate by constituency gives (its 18 figures total 1,260,955, the Electoral Commission's Northern Ireland electorate); the record had 81,517, an unofficial figure carried from the import.",
+      "category": "electorate",
+      "operations": [
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 81469
+        }
+      ]
+    },
+    {
+      "batch": "review-eoni-wikidata-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-referendum/2016-06-23-eu-membership/west-tyrone.json",
+      "source": {
+        "title": "EU Referendum 23 June 2016: eligible electorate by constituency",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401033902id_/http://www.eoni.org.uk/getmedia/129625a7-71ce-4c76-a51a-d50db6aac0a6/EU-Referendum-2016-Eligible-Electorate-by-Constituency_1",
+        "original": "http://www.eoni.org.uk/getmedia/129625a7-71ce-4c76-a51a-d50db6aac0a6/EU-Referendum-2016-Eligible-Electorate-by-Constituency_1",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "EU referendum results (counting-area data)",
+          "publisher": "The Electoral Commission",
+          "url": "https://www.electoralcommission.org.uk/sites/default/files/2019-07/EU-referendum-result-data.csv",
+          "accessed": "2026-11-11",
+          "note": "Northern Ireland counting area electorate 1,260,955, the sum of the 18 EONI figures."
+        }
+      ],
+      "reason": "The eligible electorate was 64,941, as the Electoral Office's table of eligible electorate by constituency gives (its 18 figures total 1,260,955, the Electoral Commission's Northern Ireland electorate); the record had 64,929, an unofficial figure carried from the import.",
+      "category": "electorate",
+      "operations": [
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 64941
+        }
+      ]
+    },
+    {
+      "batch": "review-eoni-wikidata-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-assembly/2007-03-07/south-antrim.json",
+      "source": {
+        "title": "NI Assembly Election 7 March 2007: votes polled summary",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401111239id_/http://www.eoni.org.uk/getmedia/abac82d4-0fad-4363-a128-402bc6e8ff4a/votes-polled-summary",
+        "original": "http://www.eoni.org.uk/getmedia/abac82d4-0fad-4363-a128-402bc6e8ff4a/votes-polled-summary",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "NI Assembly Election 2007: turnout",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401110509id_/http://www.eoni.org.uk/getmedia/d7cfdc75-1d10-46b1-a404-605008f42850/NI-Assembly-Election-2007-Turnout",
+          "accessed": "2026-11-11"
+        }
+      ],
+      "reason": "The Electoral Office's votes-polled summary gives 38,481 votes polled and 306 invalid (38,175 valid, quota 5,454, 58.61% poll), and its turnout table gives the same 38,481; the record had 38,479 and 304.",
+      "category": "figures",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Spoiled",
+          "value": "306"
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Poll",
+          "value": "38481"
+        }
+      ]
+    },
+    {
+      "batch": "review-eoni-wikidata-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-assembly/2011-05-05/east-antrim.json",
+      "source": {
+        "title": "NI Assembly Election 2011 result sheet: East Antrim",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401094617id_/http://www.eoni.org.uk/getmedia/bc19076a-97eb-4fb6-b570-9d676607d7df/NI-Assembly-Election-2011-East-Antrim-Result-Sheet",
+        "original": "http://www.eoni.org.uk/getmedia/bc19076a-97eb-4fb6-b570-9d676607d7df/NI-Assembly-Election-2011-East-Antrim-Result-Sheet",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "NI Assembly Election 2011: turnout",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401093731id_/http://www.eoni.org.uk/getmedia/162928c7-ccfc-4d06-9040-bfb4438307a4/NI-Assembly-Election-2011-Turnout",
+          "accessed": "2026-11-11"
+        }
+      ],
+      "reason": "The Electoral Office's result sheet gives 401 invalid and 29,424 votes polled (29,023 valid), and its 2011 turnout table gives the same 29,424; the record had a different rejected count, with the same valid vote, quota and candidates.",
+      "category": "figures",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Spoiled",
+          "value": "401"
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Poll",
+          "value": "29424"
+        }
+      ]
+    },
+    {
+      "batch": "review-eoni-wikidata-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-assembly/2011-05-05/fermanagh-and-south-tyrone.json",
+      "source": {
+        "title": "NI Assembly Election 2011 result sheet: Fermanagh & South Tyrone",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401094717id_/http://www.eoni.org.uk/getmedia/122ad06a-96ea-4b65-89e8-294d45a46422/NI-Assembly-Election-2011-Fermanagh-South-Tyrone-Result-Sheet",
+        "original": "http://www.eoni.org.uk/getmedia/122ad06a-96ea-4b65-89e8-294d45a46422/NI-Assembly-Election-2011-Fermanagh-South-Tyrone-Result-Sheet",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "NI Assembly Election 2011: turnout",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401093731id_/http://www.eoni.org.uk/getmedia/162928c7-ccfc-4d06-9040-bfb4438307a4/NI-Assembly-Election-2011-Turnout",
+          "accessed": "2026-11-11"
+        }
+      ],
+      "reason": "The Electoral Office's result sheet gives 942 invalid and 48,941 votes polled (47,999 valid), and its 2011 turnout table gives the same 48,941; the record had a different rejected count, with the same valid vote, quota and candidates.",
+      "category": "figures",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Spoiled",
+          "value": "942"
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Poll",
+          "value": "48941"
+        }
+      ]
+    },
+    {
+      "batch": "review-eoni-wikidata-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-assembly/2011-05-05/south-antrim.json",
+      "source": {
+        "title": "NI Assembly Election 2011 result sheet: South Antrim",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401095140id_/http://www.eoni.org.uk/getmedia/67cfa8cb-bf96-402b-89bf-390c5860d966/NI-Assembly-Election-2011-South-Antrim-Result-Sheet",
+        "original": "http://www.eoni.org.uk/getmedia/67cfa8cb-bf96-402b-89bf-390c5860d966/NI-Assembly-Election-2011-South-Antrim-Result-Sheet",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "NI Assembly Election 2011: turnout",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401093731id_/http://www.eoni.org.uk/getmedia/162928c7-ccfc-4d06-9040-bfb4438307a4/NI-Assembly-Election-2011-Turnout",
+          "accessed": "2026-11-11"
+        }
+      ],
+      "reason": "The Electoral Office's result sheet gives 497 invalid and 32,661 votes polled (32,164 valid), and its 2011 turnout table gives the same 32,661; the record had a different rejected count, with the same valid vote, quota and candidates.",
+      "category": "figures",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Spoiled",
+          "value": "497"
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Poll",
+          "value": "32661"
+        }
+      ]
+    },
+    {
+      "batch": "review-eoni-wikidata-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/2005-05-05/east-londonderry.json",
+      "source": {
+        "title": "Parliamentary Election 2005 result booklet: East Londonderry",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20221003093254id_/https://www.eoni.org.uk/getmedia/006a3e7a-3b3e-401e-8c5f-092b91004bb2/Parliamentary-Election-2005-Result-Booklet",
+        "original": "https://www.eoni.org.uk/getmedia/006a3e7a-3b3e-401e-8c5f-092b91004bb2/Parliamentary-Election-2005-Result-Booklet",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "General election 2005: postal voting, proxies and spoilt ballots",
+          "publisher": "The Electoral Commission (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20091008185337id_/http://www.electoralcommission.org.uk/__data/assets/excel_doc/0009/47295/Generalelection2005postalvotingproxiesandspoilts_20406-15010__E__N__S__W__.xls",
+          "accessed": "2026-11-11"
+        }
+      ],
+      "reason": "The Electoral Office's 2005 result booklet gives 35,812 votes polled and 308 spoiled (35,504 valid); its turnout table gives 35,812 (61.26%), and the Electoral Commission's spoilt-ballot table gives 308 rejected; the record had 35,810 and 306.",
+      "category": "figures",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Spoiled",
+          "value": "308"
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Poll",
+          "value": "35812"
+        }
+      ]
+    },
+    {
+      "batch": "review-eoni-wikidata-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-assembly/2017-03-02/foyle.json",
+      "source": {
+        "title": "NI Assembly Election 2017: Declaration of Result, Foyle",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401081500id_/http://www.eoni.org.uk/getmedia/227e2f62-5dce-42f5-b3f4-3ac6ef78c163/NI-Assembly-Election-2017-Declaration-of-Result-FY-2",
+        "original": "http://www.eoni.org.uk/getmedia/227e2f62-5dce-42f5-b3f4-3ac6ef78c163/NI-Assembly-Election-2017-Declaration-of-Result-FY-2",
+        "accessed": "2026-11-11"
+      },
+      "reason": "The returning officer declared Colum Eastwood (over the quota at the third count) and Gary Middleton (the last seat, at the sixth count) elected; the record carried no elected status for either.",
+      "category": "winners",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "Colum Eastwood",
+          "set": {
+            "Status": "Elected",
+            "Occurred_On_Count": "3"
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "Gary Middleton",
+          "set": {
+            "Status": "Elected",
+            "Occurred_On_Count": "6"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "review-eoni-wikidata-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/northern-ireland-assembly/2022-05-05/strangford.json",
+      "source": {
+        "title": "NI Assembly Election 2022: Declaration of Result, Strangford",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20220507122625id_/http://www.eoni.org.uk/getmedia/53238816-0344-4309-b7ad-2f8fb0ef3a26/NI-Assembly-Election-2022-Declaration-of-Result-Strangford",
+        "original": "http://www.eoni.org.uk/getmedia/53238816-0344-4309-b7ad-2f8fb0ef3a26/NI-Assembly-Election-2022-Declaration-of-Result-Strangford",
+        "accessed": "2026-11-11"
+      },
+      "reason": "The returning officer declared Mike Nesbitt and Nick Mathison elected to the last two seats at the ninth count; the record carried no elected status for either.",
+      "category": "winners",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "Mike Nesbitt",
+          "set": {
+            "Status": "Elected",
+            "Occurred_On_Count": "9"
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "Nick Mathison",
+          "set": {
+            "Status": "Elected",
+            "Occurred_On_Count": "9"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "review-eoni-wikidata-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/2017-06-08/east-londonderry.json",
+      "source": {
+        "title": "2017 UK Parliamentary general election: electoral data (administrative data)",
+        "publisher": "The Electoral Commission",
+        "url": "https://www.electoralcommission.org.uk/sites/default/files/excel_doc/2017-UKPGE-Electoral-Data.xls",
+        "accessed": "2026-11-11"
+      },
+      "additionalSources": [
+        {
+          "title": "UK Parliamentary Election Result 2017 - East Londonderry",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170612235106id_/http://www.eoni.org.uk/Elections/Election-results-and-statistics/Election-results-and-statistics-2003-onwards/Elections-2017/UK-Parliamentary-Election-2017-Results/UK-Parliamentary-Election-Result-2017-East-Londond",
+          "accessed": "2026-11-11",
+          "note": "Votes polled 41,278; valid 41,030; invalid 124."
+        }
+      ],
+      "reason": "The Electoral Commission's returning-officer data give 248 ballot papers rejected at the count (142 voting for more than one candidate, 2 identifying marks, 104 unmarked or void) and 41,278 ballots at the count; 41,030 valid + 248 = 41,278, the votes polled the Electoral Office also gives. The record had 124 rejected, the Electoral Office's web figure, which leaves 124 papers unaccounted for.",
+      "category": "figures",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Spoiled",
+          "value": "248"
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Poll",
+          "value": "41278"
+        }
+      ],
+      "sourceNote": "The Electoral Office for Northern Ireland's result page gives 124 rejected ballot papers; the Electoral Commission's returning-officer data itemise 248 (142 voting for more than one candidate, 2 bearing an identifying mark, 104 unmarked or void). Civgraph uses 248: 41,030 valid votes and 248 rejected make the 41,278 votes polled that both sources give."
     }
   ]
 }
