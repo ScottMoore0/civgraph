@@ -166,7 +166,7 @@ if (!VERIFY_ONLY && !DRY && todo.length) {
           }));
           ok = true;
         } catch (e) {
-          if (attempt === 5) { failed += 1; console.error(`    FAILED ${key}: ${String(e.name || e.message).slice(0, 70)}`); }
+          if (attempt === 5) { failed += 1; console.error(`    FAILED ${key}: ${String(/** @type {Error} */ (e).name || /** @type {Error} */ (e).message).slice(0, 70)}`); }
           else await new Promise((r) => setTimeout(r, 1500 * attempt));
         }
       }

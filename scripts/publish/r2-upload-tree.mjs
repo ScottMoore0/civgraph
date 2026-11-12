@@ -108,7 +108,7 @@ async function uploadOne(localPath, stats) {
             stats.done++;
             return;
         } catch (e) {
-            if (e.name !== 'NotFound' && e.$metadata?.httpStatusCode !== 404) {
+            if (/** @type {Error} */ (e).name !== 'NotFound' && /** @type {{ $metadata?: { httpStatusCode?: number } }} */ (e).$metadata?.httpStatusCode !== 404) {
                 // proceed to upload anyway
             }
         }
@@ -185,7 +185,7 @@ async function runPool(items, worker, n) {
             try { await worker(items[idx], stats); }
             catch (e) {
                 stats.errors++;
-                if (stats.errors <= 5) console.error(`\n  ✗ ${items[idx]}: ${e.message || e}`);
+                if (stats.errors <= 5) console.error(`\n  ✗ ${items[idx]}: ${/** @type {Error} */ (e).message || e}`);
             }
         }
     });

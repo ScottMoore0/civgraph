@@ -148,7 +148,7 @@ async function validateByteRanges(urls) {
         reason: ok ? '' : `expected HEAD 2xx, 206 range, Accept-Ranges bytes, and Content-Length; got HEAD ${head.status}, range ${range.status}, Accept-Ranges ${acceptRanges || 'missing'}, length ${contentLength || 'missing'}`
       });
     } catch (error) {
-      results.push({ url, ok: false, reason: String(error?.message || error) });
+      results.push({ url, ok: false, reason: String(/** @type {Error | null | undefined} */ (error)?.message || error) });
     }
   }
   return results;

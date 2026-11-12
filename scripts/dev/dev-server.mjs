@@ -82,7 +82,7 @@ async function proxy(req, res, upstream) {
     for await (const chunk of response.body) res.write(chunk);
     res.end();
   } catch (error) {
-    res.writeHead(502).end(`proxy error: ${error.message}`);
+    res.writeHead(502).end(`proxy error: ${/** @type {Error} */ (error).message}`);
   }
 }
 

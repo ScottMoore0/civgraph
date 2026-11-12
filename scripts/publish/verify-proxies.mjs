@@ -74,8 +74,8 @@ for (const proxy of PROXIES) {
   try {
     res = await fetch(url, { redirect: 'follow' });
   } catch (error) {
-    failures.push(`${proxy.name}: request failed — ${error.message}`);
-    note(`FAIL  unreachable: ${error.message}`);
+    failures.push(`${proxy.name}: request failed — ${/** @type {Error} */ (error).message}`);
+    note(`FAIL  unreachable: ${/** @type {Error} */ (error).message}`);
     continue;
   }
 
@@ -122,7 +122,7 @@ for (const proxy of PROXIES) {
       note(`ok    nothing on the origin for this key (${originRes.status})`);
     }
   } catch (error) {
-    note(`warn  origin check skipped: ${error.message}`);
+    note(`warn  origin check skipped: ${/** @type {Error} */ (error).message}`);
   }
 
   if (proxy.miss) {

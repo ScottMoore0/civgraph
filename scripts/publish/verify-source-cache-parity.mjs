@@ -157,7 +157,7 @@ async function check(item) {
     if (!res.ok) { unreachable.push(`${item.id}: HTTP ${res.status}`); return; }
     etag = String(res.headers.get('etag') || '').replace(/^"|"$/g, '');
   } catch (error) {
-    unreachable.push(`${item.id}: ${error.message}`);
+    unreachable.push(`${item.id}: ${/** @type {Error} */ (error).message}`);
     return;
   }
   if (!etag) { unverifiable.push(`${item.id}: no ETag returned`); return; }
