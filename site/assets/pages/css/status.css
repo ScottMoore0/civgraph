@@ -5,15 +5,15 @@
 /* The bar ramp (--status-track, --status-l1 ... --status-l4) is in assets/ui/tokens.css,
    light and dark; only the bar edge is this page's own. */
 :root {
-  --status-edge: rgba(15, 39, 68, .18);
+  --status-edge: var(--raw-0f2744-a180);
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --status-edge: rgba(230, 237, 243, .2);
+    --status-edge: var(--raw-e6edf3-a200);
   }
 }
 :root[data-theme="dark"] {
-  --status-edge: rgba(230, 237, 243, .2);
+  --status-edge: var(--raw-e6edf3-a200);
 }
 
 .status > p,
