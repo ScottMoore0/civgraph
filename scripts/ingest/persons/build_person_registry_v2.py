@@ -196,7 +196,14 @@ def label_blanked_identity_keys():
     data/elections/persons/label-blanked-identity-keys.csv records, for each such row (election
     key, constituency, name), the candidacy id it had before its label was blanked. That id, not
     the row's current one, is its identity key, so it stays with the person it was. It joins
-    nothing on name: each row keeps the exact key it had. Returns {(election, constituency,
+    nothing on name: each row keeps the exact key it had.
+
+    The same file settles name-keyed rows the papers show to be other men, or one man (the
+    owner-approved merge leads of 12 Nov 2026): two William Houstons sat for Broughshane and
+    Glenravel at once in 1958-67, and the Glenravel rows carry a key of their own; Larne Rural
+    District's John Boyd of Ballynure is printed "John Boyd" to 1933 and "J. Boyd" in 1936 and
+    1939, and all six rows carry one key. A key listed here is declared, not a row index, so it
+    may hold rows printed under several forms of the one name (see bad_ids). Returns {(election, constituency,
     name): identity_key}."""
     if not os.path.exists(LABEL_BLANKED):
         return {}
@@ -394,7 +401,10 @@ def main():
     for r in rows:
         if r['id']:
             names_by_id[r['id']].add(r['name'])
-    bad_ids = {i for i, n in names_by_id.items() if len(n) > 1}
+    # An id under several names is a row index, not a person -- unless it is an identity key
+    # label-blanked-identity-keys.csv declares, which names one person printed in several forms.
+    declared = set(label_blanked_identity_keys().values())
+    bad_ids = {i for i, n in names_by_id.items() if len(n) > 1 and i not in declared}
 
     # Three keys, strongest first.
     #
