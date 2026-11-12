@@ -129,17 +129,17 @@ export function withShareTags(html, head) {
 export function readShareTags(html) {
   /** @type {Record<string, string>} */
   const out = {};
-  const head = html.split(/<\/head>/i)[0];
+  const head = html.split(/<\/head>/i)[0] ?? ''; // split always gives at least one part
   for (const match of head.matchAll(/<meta\s+([^>]*)>/gi)) {
-    const attrs = match[1];
+    const attrs = match[1] ?? '';
     const key = /(?:property|name)\s*=\s*["']([^"']+)["']/i.exec(attrs)?.[1];
     const content = /content\s*=\s*"([^"]*)"/i.exec(attrs)?.[1] ?? /content\s*=\s*'([^']*)'/i.exec(attrs)?.[1];
     if (!key || content === undefined || key in out) continue;
     out[key] = content.replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
   }
   const canonical = /<link\s+rel="canonical"\s+href="([^"]*)"/i.exec(head)?.[1];
-  if (canonical) out.canonical = canonical.replace(/&amp;/g, '&');
+  if (canonical) out['canonical'] = canonical.replace(/&amp;/g, '&');
   const title = /<title>([^<]*)<\/title>/i.exec(head)?.[1];
-  if (title !== undefined) out.title = title.replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+  if (title !== undefined) out['title'] = title.replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
   return out;
 }

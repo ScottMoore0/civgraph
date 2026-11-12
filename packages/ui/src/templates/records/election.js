@@ -73,7 +73,7 @@ function contestStatusOf(contest) {
  * @param {ElectionPage['election']} election
  */
 function areaResultsTable(election) {
-  const modes = /** @type {unknown} */ (election.meta?.geographyModes);
+  const modes = /** @type {unknown} */ (election.meta?.['geographyModes']);
   const mode = /** @type {{ dataKind?: string, label?: string, results?: Array<{ constituency?: string, leadingName?: string | null, leadingPct?: number | null, turnoutPct?: number | null }> } | undefined} */ (
     Array.isArray(modes) ? modes.find((m) => m?.dataKind === 'area-results') : undefined);
   if (!mode?.results?.length) return '';
