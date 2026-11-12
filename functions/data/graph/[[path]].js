@@ -18,7 +18,9 @@
  * Pages serves a matching static asset in preference to a Function, so data/graph/ is never
  * deployed (scripts/build/site.mjs builds dist/ from an allow-list that does not include it).
  */
-export const DOWNLOADS_ORIGIN = 'https://data.civgraph.net/data/downloads';
+import { SITE } from '../../../packages/config/src/config.js';
+
+export const DOWNLOADS_ORIGIN = `${SITE.dataOrigin}/data/downloads`;
 const DOWNLOAD_FILES = new Set(['civgraph.jsonld', 'civgraph-rdf.ndjson', 'civgraph-provenance.json']);
 
 /**
@@ -67,5 +69,5 @@ export function onRequestGet(context) {
  */
 export const gone = () => new Response(JSON.stringify({
   error: 'gone',
-  detail: 'The old graph file URLs retired on 8 Nov 2026. The graph is served by /_api/graph; the bulk exports are at https://data.civgraph.net/data/downloads/',
+  detail: `The old graph file URLs retired on 8 Nov 2026. The graph is served by /_api/graph; the bulk exports are at ${DOWNLOADS_ORIGIN}/`,
 }), { status: 410, headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'public, max-age=300', 'Access-Control-Allow-Origin': '*' } });

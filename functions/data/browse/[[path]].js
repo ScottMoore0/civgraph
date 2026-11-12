@@ -33,7 +33,7 @@
 import { cachedJson, documentBody, jsonResponse, parseJson, streamFrom } from '../../../packages/api/src/handlers/_records.js';
 import { resolvePartySlug } from '../../../packages/api/src/handlers/parties/index.js';
 import { browseFeaturesText, browseMapsText } from '../../../packages/api/src/handlers/_maps.js';
-import { binding } from '../../../packages/config/src/config.js';
+import { SITE, binding } from '../../../packages/config/src/config.js';
 import { fromD1 } from '../../../packages/storage/src/d1.js';
 import { OFFICES, SHARDS } from '../../../packages/api/src/queries/cards.js';
 import { ELECTION_CARDS } from '../../../packages/api/src/queries/elections.js';
@@ -54,7 +54,7 @@ import { PARTIES } from '../../../packages/api/src/queries/parties.js';
  */
 
 const VERSION = 'data-browse-4';
-export const MAP_FEATURES_ORIGIN = 'https://data.civgraph.net/data/browse/map-features';
+export const MAP_FEATURES_ORIGIN = `${SITE.dataOrigin}/data/browse/map-features`;
 
 const moved = (/** @type {string} */ location) => new Response(null, {
   status: 301, headers: { Location: location, 'Cache-Control': 'public, max-age=86400', 'Access-Control-Allow-Origin': '*' },
@@ -171,7 +171,7 @@ const notFound = () => jsonResponse({ error: 'not found' }, 404);
  */
 export const gone = () => new Response(JSON.stringify({
   error: 'gone',
-  detail: 'The old Browse file URLs retired on 8 Nov 2026. The records are served by the API: see https://civgraph.net/api/v1/',
+  detail: `The old Browse file URLs retired on 8 Nov 2026. The records are served by the API: see ${SITE.origin}/api/v1/`,
 }), { status: 410, headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'public, max-age=300', 'Access-Control-Allow-Origin': '*' } });
 
 /**
