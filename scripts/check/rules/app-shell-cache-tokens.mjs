@@ -59,18 +59,22 @@ const HTML = 'site/index.html';
 const SW = 'site/sw.js';
 
 /** Plain content hash, as build-test2-app.mjs uses for the /app/build entries. */
-function contentHash(file) {
+function contentHash(/** @type {string} */ file) {
   return createHash('sha256').update(readFileSync(file)).digest('hex').slice(0, 12);
 }
 
 /** What the owning build script would write for this reference, today. */
+/**
+ * @param {string} assetPath
+ * @param {string} file
+ */
 function expectedToken(assetPath, file) {
   if (assetPath === '/build/main.css') return sharedCssVersion();
   return contentHash(file);
 }
 
 /** Which build script owns a given reference, so a failure says what to run. */
-function ownerOf(assetPath) {
+function ownerOf(/** @type {string} */ assetPath) {
   if (assetPath.startsWith('/app/build/')) return 'npm run build:test2  (scripts/build/app-bundle.mjs)';
   return 'npm run build  (scripts/build/shell-assets.mjs)';
 }
