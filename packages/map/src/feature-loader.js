@@ -16,8 +16,18 @@ const IDB_NAME = 'boundaries-feature-cache';
 const IDB_VERSION = 1;
 const IDB_STORE = 'features';
 
+/**
+ * One feature of the spatial index (data/database/spatial-index/<map>.json, /_api/spatial and
+ * /_api/search answers): its map, name and bounding box, and for per-feature loading its id
+ * ("mapId:index").
+ * @typedef {{ id?: string, mapId: string, name?: string, bbox: number[], [key: string]: unknown }} SpatialFeature
+ */
+
+/** The bounds getFeaturesInBounds reads (a Leaflet LatLngBounds). @typedef {import('./globals.d.ts').LatLngBoundsView} LatLngBoundsView */
+
+/** @returns {Promise<IDBDatabase | null>} */
 function openFeatureCache() {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, _reject) => {
         if (typeof indexedDB === 'undefined') { resolve(null); return; }
         const req = indexedDB.open(IDB_NAME, IDB_VERSION);
         req.onupgradeneeded = () => {
@@ -31,6 +41,11 @@ function openFeatureCache() {
     });
 }
 
+/**
+ * @param {IDBDatabase} db
+ * @param {string} key
+ * @returns {Promise<unknown>}
+ */
 function idbGet(db, key) {
     return new Promise((resolve) => {
         try {
@@ -42,6 +57,11 @@ function idbGet(db, key) {
     });
 }
 
+/**
+ * @param {IDBDatabase} db
+ * @param {string} key
+ * @param {unknown} value
+ */
 function idbPut(db, key, value) {
     try {
         const tx = db.transaction(IDB_STORE, 'readwrite');
@@ -51,16 +71,25 @@ function idbPut(db, key, value) {
 
 class FeatureLoader {
     constructor() {
+        /** @type {SpatialFeature[] | null} */
         this.spatialIndex = null;
+        /** @type {Map<string, SpatialFeature[]>} */
         this.spatialIndexByMap = new Map();  // mapId -> [features]
+        /** @type {Map<string, unknown>} */
         this.loadedFeatures = new Map();     // "mapId:index:lod" -> L.geoJSON layer
+        /** @type {Map<string, Promise<unknown>>} */
         this.pendingLoads = new Map();       // URL -> Promise
         // Set once the index is loaded (a latch, MA-L).
         defineFlagFields(this, ['initialized'], { latch: true });
+        /** @type {Promise<void> | null} */
         this._initPromise = null;
+        /** @type {{ maps: unknown[], [key: string]: unknown } | null} */
         this._chunkManifest = null;         // Per-map chunk manifest
+        /** @type {Map<string, Promise<SpatialFeature[]>>} */
         this._chunkPromises = new Map();    // mapId -> Promise (dedup concurrent loads)
+        /** @type {IDBDatabase | null} */
         this._idb = null;                   // IndexedDB handle (lazy-opened)
+        /** @type {Promise<void> | null} */
         this._idbReady = null;              // Promise for DB open
         // Chunked mode: load per-map spatial index chunks on demand instead of
         // the full 15 MB monolithic file. Disable with ?chunkedIndex=0 for debugging.
@@ -98,14 +127,14 @@ class FeatureLoader {
                 return;
             }
 
-            const data = await response.json();
+            const data = /** @type {{ features?: SpatialFeature[] }} */ (await response.json());
             this.spatialIndex = data.features || [];
 
             for (const feature of this.spatialIndex) {
                 if (!this.spatialIndexByMap.has(feature.mapId)) {
                     this.spatialIndexByMap.set(feature.mapId, []);
                 }
-                this.spatialIndexByMap.get(feature.mapId).push(feature);
+                /** @type {SpatialFeature[]} */ (this.spatialIndexByMap.get(feature.mapId)).push(feature);
             }
 
             this.initialized = true;
@@ -142,14 +171,14 @@ class FeatureLoader {
             // Try lightweight names index first
             let resp = await fetch('data/database/spatial-index/_names.json');
             if (resp.ok) {
-                this.spatialIndex = await resp.json();
+                this.spatialIndex = /** @type {SpatialFeature[]} */ (await resp.json());
                 debugLog(`[FeatureLoader] Loaded names index for search: ${this.spatialIndex.length} features`);
                 return;
             }
             // Fall back to monolithic
             resp = await fetch('data/database/spatial-index.json');
             if (!resp.ok) return;
-            const data = await resp.json();
+            const data = /** @type {{ features?: SpatialFeature[] }} */ (await resp.json());
             this.spatialIndex = data.features || [];
             debugLog(`[FeatureLoader] Loaded full index for search: ${this.spatialIndex.length} features`);
         } catch (err) {
@@ -160,12 +189,15 @@ class FeatureLoader {
 
     /**
      * Search via the edge API. Returns results directly, or null if the API is unavailable.
+     * @param {string} query
+     * @param {number} [limit]
+     * @returns {Promise<SpatialFeature[] | null>}
      */
     async searchViaAPI(query, limit = 20) {
         try {
             const resp = await fetch(`/_api/search?q=${encodeURIComponent(query)}&limit=${limit}`);
             if (!resp.ok) return null;
-            const data = await resp.json();
+            const data = /** @type {{ results?: SpatialFeature[] }} */ (await resp.json());
             return data.results || null;
         } catch {
             return null;
@@ -181,8 +213,9 @@ class FeatureLoader {
         try {
             const resp = await fetch('data/database/spatial-index/_manifest.json');
             if (!resp.ok) return null;
-            this._chunkManifest = await resp.json();
+            this._chunkManifest = /** @type {{ maps: unknown[], [key: string]: unknown } | null} */ (await resp.json());
             return this._chunkManifest;
+
         } catch {
             return null;
         }
@@ -192,26 +225,29 @@ class FeatureLoader {
      * Load a single map's spatial index chunk on demand.
      * Returns the features array, or [] if not available.
      * De-duplicates concurrent loads for the same mapId.
+     * @param {string} mapId
+     * @returns {Promise<SpatialFeature[]>}
      */
     async loadMapIndex(mapId) {
         // Already loaded (from chunk or monolithic)
         if (this.spatialIndexByMap.has(mapId)) {
-            return this.spatialIndexByMap.get(mapId);
+            return /** @type {SpatialFeature[]} */ (this.spatialIndexByMap.get(mapId));
         }
 
         // De-duplicate concurrent loads
         if (this._chunkPromises.has(mapId)) {
-            return this._chunkPromises.get(mapId);
+            return /** @type {Promise<SpatialFeature[]>} */ (this._chunkPromises.get(mapId));
         }
 
         const promise = (async () => {
             try {
                 // Try edge API first (Cloudflare Pages Function)
+                /** @type {SpatialFeature[] | undefined} */
                 let features;
                 try {
                     const resp = await fetch(`/_api/spatial?mapId=${encodeURIComponent(mapId)}`);
                     if (resp.ok) {
-                        const data = await resp.json();
+                        const data = /** @type {{ features?: SpatialFeature[] }} */ (await resp.json());
                         features = data.features || [];
                     }
                 } catch {
@@ -222,7 +258,7 @@ class FeatureLoader {
                 if (!features) {
                     const resp = await fetch(`data/database/spatial-index/${mapId}.json`);
                     if (!resp.ok) return [];
-                    features = await resp.json();
+                    features = /** @type {SpatialFeature[]} */ (await resp.json());
                 }
 
                 this._storeMapIndex(mapId, features);
@@ -238,6 +274,10 @@ class FeatureLoader {
         return promise;
     }
 
+    /**
+     * @param {string} mapId
+     * @param {SpatialFeature[]} features
+     */
     _storeMapIndex(mapId, features) {
         this.spatialIndexByMap.set(mapId, features);
         if (this.spatialIndex) {
@@ -252,6 +292,8 @@ class FeatureLoader {
      * follows reads exactly what it read before. A map the batch did not answer (an older
      * server, local dev, an error) is then loaded on its own, as before.
      * Resolves to a Map of mapId -> features ([] when a map has none).
+     * @param {unknown[] | null | undefined} mapIds
+     * @returns {Promise<Map<string, SpatialFeature[]>>}
      */
     async loadMapIndexes(mapIds) {
         const ids = [...new Set((mapIds || []).filter(Boolean).map(String))];
@@ -262,7 +304,7 @@ class FeatureLoader {
                 try {
                     const resp = await fetch(`/_api/spatial?mapIds=${chunk.map(encodeURIComponent).join(',')}`);
                     if (!resp.ok) return null;
-                    const data = await resp.json();
+                    const data = /** @type {{ maps?: Record<string, unknown> } | null} */ (await resp.json());
                     return data && data.maps && typeof data.maps === 'object' ? data.maps : null;
                 } catch {
                     return null;
@@ -280,15 +322,18 @@ class FeatureLoader {
             }
             await batch;
         }
-        const entries = await Promise.all(ids.map(async (id) => [id, await this.loadMapIndex(id)]));
+        const entries = await Promise.all(ids.map(async (id) => /** @type {[string, SpatialFeature[]]} */ ([id, await this.loadMapIndex(id)])));
         return new Map(entries);
     }
 
     /**
      * Check if a map supports per-feature loading
+     * @param {string} mapId
+     * @returns {boolean}
      */
     supportsLOD(mapId) {
-        if (!this._supportsLODCache) this._supportsLODCache = new Map();
+        if (!this._supportsLODCache) this._supportsLODCache = /** @type {Map<string, boolean>} */ (new Map());
+
         const cached = this._supportsLODCache.get(mapId);
         if (cached !== undefined) return cached;
         if (!this.initialized && !this.spatialIndexByMap.has(mapId)) return false;
@@ -303,6 +348,8 @@ class FeatureLoader {
 
     /**
      * Get feature count for a map
+     * @param {string} mapId
+     * @returns {number}
      */
     getFeatureCount(mapId) {
         return this.spatialIndexByMap.get(mapId)?.length || 0;
@@ -313,6 +360,8 @@ class FeatureLoader {
      * - lod-0: tolerance 0.01, simplified for zoom 0-8
      * - lod-1: tolerance 0.001, medium for zoom 8-12
      * - lod-2: tolerance 0, full detail for zoom 12+
+     * @param {number} zoom
+     * @returns {number}
      */
     getLODForZoom(zoom) {
         if (zoom >= 12) return 2;  // Full detail
@@ -322,6 +371,8 @@ class FeatureLoader {
 
     /**
      * Add buffer to bounds for smoother panning
+     * @param {LatLngBoundsView} bounds
+     * @returns {LatLngBoundsView}
      */
     getBufferedBounds(bounds) {
         const latDiff = bounds.getNorth() - bounds.getSouth();
@@ -335,6 +386,9 @@ class FeatureLoader {
 
     /**
      * Get features that intersect with given bounds
+     * @param {string} mapId
+     * @param {LatLngBoundsView} bounds
+     * @returns {SpatialFeature[]}
      */
     getFeaturesInBounds(mapId, bounds) {
         const features = this.spatialIndexByMap.get(mapId);
@@ -355,6 +409,8 @@ class FeatureLoader {
 
     /**
      * Parse feature index from id (format: "mapId:index")
+     * @param {string} id
+     * @returns {number}
      */
     parseFeatureId(id) {
         const parts = id.split(':');
@@ -364,6 +420,10 @@ class FeatureLoader {
     /**
      * Load a single feature at specified LOD.
      * Checks IndexedDB first to avoid re-fetching across sessions.
+     * @param {string} mapId
+     * @param {number} index
+     * @param {number} lod
+     * @returns {Promise<unknown>} the feature's GeoJSON, or null
      */
     async loadFeature(mapId, index, lod) {
         const url = `data/features/${mapId}/${index}-lod-${lod}.json`;
@@ -395,13 +455,13 @@ class FeatureLoader {
             try {
                 const res = await fetch(url);
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
-                const geojson = await res.json();
+                const geojson = /** @type {unknown} */ (await res.json());
                 this.loadedFeatures.set(cacheKey, geojson);
                 // Persist to IndexedDB (non-blocking)
                 if (this._idb) idbPut(this._idb, cacheKey, geojson);
                 return geojson;
             } catch (err) {
-                console.warn(`[FeatureLoader] Failed to load ${url}:`, err.message);
+                console.warn(`[FeatureLoader] Failed to load ${url}:`, /** @type {Error} */ (err).message);
                 return null;
             } finally {
                 this.pendingLoads.delete(url);
@@ -414,8 +474,13 @@ class FeatureLoader {
 
     /**
      * Load multiple features with concurrency control
+     * @param {string} mapId
+     * @param {number[]} indices
+     * @param {number} lod
+     * @returns {Promise<unknown[]>}
      */
     async loadFeatures(mapId, indices, lod) {
+        /** @type {unknown[]} */
         const results = [];
 
         // Process in batches to limit concurrency
@@ -433,8 +498,13 @@ class FeatureLoader {
     /**
      * Get indices of features that need loading (not already loaded at same/better LOD)
      * Note: Higher LOD = more detail (LOD-2 is full res, LOD-0 is simplified)
+     * @param {string} mapId
+     * @param {Iterable<string>} featureIds
+     * @param {number} targetLOD
+     * @returns {number[]}
      */
     getFeaturesToLoad(mapId, featureIds, targetLOD) {
+        /** @type {number[]} */
         const toLoad = [];
 
         for (const id of featureIds) {
@@ -463,6 +533,9 @@ class FeatureLoader {
      *
      * Tries the edge API first (no client-side index needed).
      * Falls back to local index search if the API is unavailable.
+     * @param {string} query
+     * @param {number} [limit]
+     * @returns {Promise<SpatialFeature[]>}
      */
     async searchFeaturesByName(query, limit = 20) {
         if (!this.initialized || !query || query.length < 2) return [];
@@ -478,6 +551,7 @@ class FeatureLoader {
         }
 
         const lowerQuery = query.toLowerCase();
+        /** @type {SpatialFeature[]} */
         const results = [];
 
         for (const feature of (this.spatialIndex || [])) {
@@ -492,6 +566,7 @@ class FeatureLoader {
 
     /**
      * Clear loaded features for a map
+     * @param {string} mapId
      */
     clearMap(mapId) {
         for (const key of this.loadedFeatures.keys()) {

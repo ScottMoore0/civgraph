@@ -4,9 +4,82 @@ import { licenceFor } from './census-overlay.mjs';
 import { SHORT_MONTHS } from '../../core/src/date-format.mjs';
 import { MONTH_NAMES } from '../../core/src/format.js';
 
+/** @typedef {import('../../types/index.js').MapEntry} MapEntry */
+/** @typedef {import('../../types/index.js').MapCatalogue} MapCatalogue */
+/** @typedef {import('../../types/index.js').CatalogueSeries} CatalogueSeries */
+/** @typedef {import('../../types/index.js').CatalogueClass} CatalogueClass */
+/** @typedef {import('../../types/index.js').CatalogueCategory} CatalogueCategory */
+/** @typedef {import('./census-overlay.mjs').CensusEntry} CensusEntry */
+/** @typedef {import('./globals.d.ts').FuseIndex<MapEntry>} MapFuseIndex */
+
+/**
+ * A census statistic of data/database/data-entries.json as the catalogue lists it: a statistic
+ * (CensusEntry) with the catalogue fields every entry carries.
+ * @typedef {CensusEntry & {
+ *   name: string,
+ *   slug: string,
+ *   category: string,
+ *   provider?: string[],
+ *   references?: unknown[],
+ *   hidden?: boolean,
+ *   [key: string]: unknown
+ * }} CatalogueDataEntry
+ */
+
+/**
+ * A census statistic as getMapById answers it (dataEntryAsMap): flagged, with a publisher and references.
+ * @typedef {CatalogueDataEntry & { isDataEntry: true, provider: string[], references: unknown[] }} DataEntryMap
+ */
+
+/** Anything getMapById answers: a map of the catalogue (a variant merged with its parent included) or a statistic. @typedef {MapEntry | DataEntryMap} CatalogueMap */
+
+/**
+ * One variant (part) of a grouped map, the fields read here.
+ * @typedef {{
+ *   id: string,
+ *   label?: string,
+ *   files?: { fgb?: string, [key: string]: unknown },
+ *   sourceFile?: string,
+ *   downloads?: MapEntry['downloads'],
+ *   style?: { [key: string]: unknown },
+ *   labelProperty?: string | null,
+ *   priorityProperty?: unknown,
+ *   [key: string]: unknown
+ * }} MapVariant
+ */
+
+/**
+ * The catalogue document loadCatalogue answers (data/database/maps.json, or the ?catalogue=v2
+ * preview with its `entries`), with the statistics init joins in from data-entries.json.
+ * @typedef {MapCatalogue & { dataEntries?: CatalogueDataEntry[], entries?: unknown[] }} CatalogueDocument
+ */
+
+/**
+ * A book of data/database/books.json, the fields read here.
+ * @typedef {{
+ *   id: string,
+ *   title?: string,
+ *   authors?: string[],
+ *   keywords?: string[],
+ *   category?: string,
+ *   relatedMaps?: string[],
+ *   [key: string]: unknown
+ * }} Book
+ */
+
+/** data/database/books.json. @typedef {{ categories: Array<{ id: string, name?: string, [key: string]: unknown }>, books: Book[], [key: string]: unknown }} BooksDocument */
+
+/** data/database/geographies.json. @typedef {{ geographyTypes: Array<{ id: string, [key: string]: unknown }>, hierarchies: Record<string, unknown>, [key: string]: unknown }} GeographiesDocument */
+
+/** Where a loadable map sits in the catalogue (buildMapClassIndex). @typedef {{ classId: string, className: string, scope: string | null, parentId?: string }} MapClassInfo */
+
+/** A map of a series with its class and date (getMapsInChain). @typedef {{ map: CatalogueMap, classId: string, timestamp: number | null }} ChainMap */
+
 /**
  * A census statistic as the catalogue and the map read a map: flagged, credited to its
  * publisher, and with its source and licence as a reference, so its Details page cites it.
+ * @param {CatalogueDataEntry} entry
+ * @returns {DataEntryMap}
  */
 function dataEntryAsMap(entry) {
   const source = entry.source || {};
@@ -44,11 +117,16 @@ export function catalogueV2Requested() {
 
 class DataService {
   constructor() {
+    /** @type {CatalogueDocument | null} */
     this.maps = null;
+    /** @type {BooksDocument | null} */
     this.books = null;
+    /** @type {GeographiesDocument | null} */
     this.geographies = null;
     this.baseUrl = '';
+    /** @type {MapFuseIndex | null} */
     this.fuse = null;
+    /** @type {Map<string, MapClassInfo>} */
     this.mapClassIndex = new Map();
   }
 
@@ -66,6 +144,7 @@ class DataService {
    * /data/database/maps.json is answered by a Function from the same rows. The
    * fallback is kept: the Function caches a last good copy, so it can still
    * answer while /_api/catalogue cannot.
+   * @returns {Promise<CatalogueDocument>}
    */
   async loadCatalogue() {
     // ?catalogue=v2 loads the restructured document instead: same shape plus `shelves`,
@@ -73,7 +152,7 @@ class DataService {
     // reorganisation and is never the default, so production is unaffected either way.
     if (catalogueV2Requested()) {
       try {
-        const doc = await this.loadJson('data/database/maps-v2.json');
+        const doc = /** @type {CatalogueDocument | null} */ (await this.loadJson('data/database/maps-v2.json'));
         if (Array.isArray(doc?.entries) && doc.entries.length) return doc;
         console.warn('[DataService] maps-v2.json has no entries; using the live catalogue');
       } catch (error) {
@@ -83,15 +162,19 @@ class DataService {
     try {
       const response = await fetch('/_api/catalogue', { headers: { Accept: 'application/json' } });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      const doc = await response.json();
+      const doc = /** @type {CatalogueDocument | null} */ (await response.json());
       if (!Array.isArray(doc?.maps) || !doc.maps.length) throw new Error('empty catalogue');
       return doc;
     } catch (error) {
       console.warn('[DataService] /_api/catalogue unavailable, falling back to the static catalogue', error);
-      return this.loadJson('data/database/maps.json');
+      return /** @type {Promise<CatalogueDocument>} */ (this.loadJson('data/database/maps.json'));
     }
   }
 
+  /**
+   * @param {{ loadBooks?: boolean, loadGeographies?: boolean } | null} [options]
+   * @returns {Promise<this>}
+   */
   async init(options = {}) {
     const {
       loadBooks = true,
@@ -103,9 +186,9 @@ class DataService {
     // parse so it doesn't extend init latency.
     const [mapsData, dataEntriesData, booksData, geographiesData] = await Promise.all([
       this.loadCatalogue(),
-      this.loadJson('data/database/data-entries.json'),
-      loadBooks ? this.loadJson('data/database/books.json') : Promise.resolve(null),
-      loadGeographies ? this.loadJson('data/database/geographies.json') : Promise.resolve(null)
+      /** @type {Promise<{ dataEntries?: CatalogueDataEntry[] } | null>} */ (this.loadJson('data/database/data-entries.json')),
+      /** @type {Promise<BooksDocument | null>} */ (loadBooks ? this.loadJson('data/database/books.json') : Promise.resolve(null)),
+      /** @type {Promise<GeographiesDocument | null>} */ (loadGeographies ? this.loadJson('data/database/geographies.json') : Promise.resolve(null))
     ]);
 
     this.maps = mapsData;
@@ -123,17 +206,20 @@ class DataService {
     return this;
   }
 
+  /** @returns {Promise<BooksDocument>} */
   async ensureBooksLoaded() {
     if (this.books?.books?.length) return this.books;
-    this.books = await this.loadJson('data/database/books.json');
+    this.books = /** @type {BooksDocument} */ (await this.loadJson('data/database/books.json'));
     return this.books;
   }
 
+  /** @returns {Promise<GeographiesDocument>} */
   async ensureGeographiesLoaded() {
     if (this.geographies?.geographyTypes?.length || Object.keys(this.geographies?.hierarchies || {}).length) {
-      return this.geographies;
+      // Either test passing means the document is loaded.
+      return /** @type {GeographiesDocument} */ (this.geographies);
     }
-    this.geographies = await this.loadJson('data/database/geographies.json');
+    this.geographies = /** @type {GeographiesDocument} */ (await this.loadJson('data/database/geographies.json'));
     return this.geographies;
   }
 
@@ -159,6 +245,8 @@ class DataService {
 
   /**
    * Load and parse a JSON file
+   * @param {string} url
+   * @returns {Promise<unknown>}
    */
   async loadJson(url) {
     // cache:'no-cache' forces revalidation (ETag/If-Modified-Since) on every
@@ -178,6 +266,7 @@ class DataService {
 
   /**
    * Get all maps (excluding hidden ones)
+   * @returns {MapEntry[]}
    */
   getAllMaps() {
     const maps = this.maps?.maps || [];
@@ -187,6 +276,8 @@ class DataService {
   /**
    * Get a map by ID
    * Also searches within variants - if a variant is found, returns it merged with parent properties
+   * @param {string | null | undefined} id
+   * @returns {CatalogueMap | undefined}
    */
   getMapById(id) {
     const maps = this.maps?.maps || [];
@@ -205,7 +296,7 @@ class DataService {
     // Search within group variants and merge parent properties.
     for (const map of maps) {
       if (map.variants) {
-        const variant = map.variants.find(v => v.id === id);
+        const variant = /** @type {MapVariant[]} */ (map.variants).find(v => v.id === id);
         if (variant) {
           // Merge variant with parent map properties. Clear group-only fields
           // so the variant loads as a standalone map (otherwise the merged
@@ -229,7 +320,7 @@ class DataService {
         }
       }
 
-      if (compositeChildIds(map).includes(id)) {
+      if (compositeChildIds(map).includes(/** @type {string} */ (id))) {
         const member = maps.find(m => m.id === id);
         if (member) return member;
       }
@@ -260,12 +351,12 @@ class DataService {
     }
 
     for (const map of maps) {
-      for (const variant of map.variants || []) {
+      for (const variant of /** @type {MapVariant[]} */ (map.variants || [])) {
         if (variant?.id && !this.mapClassIndex.has(variant.id)) {
           this.mapClassIndex.set(variant.id, {
             classId: map.id,
-            className: map.name || map.title || map.id,
-            scope: map.scope || null,
+            className: map.name || /** @type {string | undefined} */ (map.title) || map.id,
+            scope: /** @type {string | undefined} */ (map.scope) || null,
             parentId: map.id
           });
         }
@@ -273,24 +364,38 @@ class DataService {
     }
   }
 
+  /**
+   * @param {string | null | undefined} id
+   * @returns {MapClassInfo | null}
+   */
   getMapClassInfo(id) {
     if (!id) return null;
     return this.mapClassIndex?.get(id) || null;
   }
 
+  /**
+   * @param {CatalogueMap | string | null | undefined} mapOrId
+   * @returns {string}
+   */
   getMapDisplayTitle(mapOrId) {
     const map = typeof mapOrId === 'string' ? this.getMapById(mapOrId) : mapOrId;
     if (!map) return typeof mapOrId === 'string' ? mapOrId : '';
     const name = String(map.name || map.title || map.label || map.id || '').trim();
     if (!name) return '';
 
-    const classInfo = this.getMapClassInfo(map.id) || (map.parentId ? this.getMapClassInfo(map.parentId) : null);
+    const classInfo = this.getMapClassInfo(map.id) || (map.parentId ? this.getMapClassInfo(/** @type {string} */ (map.parentId)) : null);
     const parentTitle = String(classInfo?.className || map.parentName || '').trim();
     const derivedName = this.getDerivedMapNamePart(map, name, parentTitle);
     if (!parentTitle || !derivedName) return name;
     return `${parentTitle} - ${derivedName}`;
   }
 
+  /**
+   * @param {CatalogueMap | null | undefined} map
+   * @param {unknown} [name]
+   * @param {unknown} [parentTitle]
+   * @returns {string}
+   */
   getDerivedMapNamePart(map, name = map?.name || map?.title || '', parentTitle = '') {
     const text = String(name || '').trim();
     if (!text) return '';
@@ -307,6 +412,11 @@ class DataService {
     return this.isDerivedMapName(map, text) ? text : '';
   }
 
+  /**
+   * @param {CatalogueMap | null | undefined} map
+   * @param {unknown} [name]
+   * @returns {boolean}
+   */
   isDerivedMapName(map, name = map?.name || map?.title || '') {
     const text = String(name || '').trim();
     if (!text) return false;
@@ -326,10 +436,15 @@ class DataService {
     return false;
   }
 
+  /** @param {unknown} value */
   escapeRegExp(value) {
     return String(value || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
 
+  /**
+   * @param {unknown} dateStr
+   * @returns {string}
+   */
   formatPlainMapDate(dateStr) {
     if (!dateStr) return '';
     const str = String(dateStr);
@@ -348,11 +463,13 @@ class DataService {
     return str;
   }
 
+  /** @param {unknown} dateStr */
   getPlainMapYear(dateStr) {
     const match = String(dateStr || '').match(/^(\d{4})/);
     return match ? match[1] : '';
   }
 
+  /** @param {unknown} value */
   normaliseDisplayText(value) {
     return String(value || '')
       .replace(/<[^>]+>/g, '')
@@ -365,6 +482,8 @@ class DataService {
    * Get maps by category or group
    * If categoryId matches a category.id, filters by that category
    * If categoryId matches a group name (lowercase), filters by all categories in that group
+   * @param {string} categoryId
+   * @returns {MapEntry[]}
    */
   getMapsByCategory(categoryId) {
     if (categoryId === 'all') return this.getAllMaps();
@@ -394,6 +513,8 @@ class DataService {
 
   /**
    * Search maps by query string (uses Fuse.js for fuzzy matching)
+   * @param {string | null | undefined} query
+   * @returns {MapEntry[]}
    */
   searchMaps(query) {
     if (!query || !query.trim()) return this.getAllMaps();
@@ -475,28 +596,33 @@ class DataService {
   /**
    * Get the primary FGB file path for a map
    * Handles cloned maps by resolving to the source map's files
+   * @param {CatalogueMap | null | undefined} map
+   * @returns {unknown} the path, or null; `files` is not always an object of paths
    */
   getMapFilePath(map) {
     if (!map) return null;
 
     // If this is a cloned map, get files from the source map
     if (map.cloneOf) {
-      const sourceMap = this.getMapById(map.cloneOf);
+      const sourceMap = this.getMapById(/** @type {string} */ (map.cloneOf));
       if (sourceMap?.files) {
-        return sourceMap.files.fgb || sourceMap.files.geojson || Object.values(sourceMap.files)[0];
+        // `files` is an object of paths here, or a tile count (then every read is undefined).
+        return /** @type {Record<string, unknown>} */ (sourceMap.files).fgb || /** @type {Record<string, unknown>} */ (sourceMap.files).geojson || Object.values(sourceMap.files)[0];
       }
     }
 
     if (!map.files) return null;
-    return map.files.fgb || map.files.geojson || Object.values(map.files)[0];
+    return /** @type {Record<string, unknown>} */ (map.files).fgb || /** @type {Record<string, unknown>} */ (map.files).geojson || Object.values(map.files)[0];
   }
 
   /**
    * Get all available file formats for a map
+   * @param {CatalogueMap | null | undefined} map
+   * @returns {Array<{ format: string, path: unknown }>}
    */
   getMapFormats(map) {
     if (!map?.files) return [];
-    return Object.entries(map.files)
+    return Object.entries(/** @type {Record<string, unknown>} */ (map.files))
       .filter(([_, path]) => path)
       .map(([format, path]) => ({ format, path }));
   }
@@ -507,6 +633,7 @@ class DataService {
 
   /**
    * Get all books
+   * @returns {Book[]}
    */
   getAllBooks() {
     return this.books?.books || [];
@@ -515,6 +642,7 @@ class DataService {
   /**
    * Get a book by ID
    */
+  /** @param {string} id */
   getBookById(id) {
     return this.getAllBooks().find(b => b.id === id);
   }
@@ -522,6 +650,7 @@ class DataService {
   /**
    * Get books by category
    */
+  /** @param {string} categoryId */
   getBooksByCategory(categoryId) {
     if (categoryId === 'all') return this.getAllBooks();
     return this.getAllBooks().filter(b => b.category === categoryId);
@@ -530,6 +659,7 @@ class DataService {
   /**
    * Search books by query string
    */
+  /** @param {string | null | undefined} query */
   searchBooks(query) {
     if (!query || !query.trim()) return this.getAllBooks();
 
@@ -555,6 +685,7 @@ class DataService {
   /**
    * Get books related to a map
    */
+  /** @param {string} mapId */
   getBooksForMap(mapId) {
     return this.getAllBooks().filter(b =>
       b.relatedMaps && b.relatedMaps.includes(mapId)
@@ -585,6 +716,7 @@ class DataService {
 
   /**
    * Get all time-series chains
+   * @returns {CatalogueSeries[]}
    */
   getTimeSeriesChains() {
     return this.maps?.timeSeriesChains || [];
@@ -592,6 +724,8 @@ class DataService {
 
   /**
    * Find which chain a class belongs to
+   * @param {string} classId
+   * @returns {CatalogueSeries | null}
    */
   getChainForClass(classId) {
     const chains = this.getTimeSeriesChains();
@@ -626,6 +760,8 @@ class DataService {
 
   /**
    * Find which chain a map belongs to (by looking up its class)
+   * @param {string} mapId
+   * @returns {CatalogueSeries | null}
    */
   getChainForMap(mapId) {
     const map = this.getMapById(mapId);
@@ -643,8 +779,11 @@ class DataService {
 
   /**
    * Get all class IDs that belong to a chain (including all segments, columns, predecessors)
+   * @param {CatalogueSeries} chain
+   * @returns {string[]}
    */
   getAllClassIdsInChain(chain) {
+    /** @type {Set<string>} */
     const classIds = new Set();
 
     if (chain.classIds) {
@@ -671,43 +810,54 @@ class DataService {
    * For a parallel chain, the classes of the column a map belongs to, plus the chain's
    * predecessor (which precedes every column). Null for an ordinary chain: all its classes
    * form one sequence.
+   * @param {CatalogueSeries | null | undefined} chain
+   * @param {string} mapId
+   * @returns {string[] | null}
    */
   getColumnClassIds(chain, mapId) {
     if (!chain?.parallel || !Array.isArray(chain.segments)) return null;
     const cls = this.getAllClasses().find((c) => c.maps?.includes(mapId));
     const segment = cls && chain.segments.find((seg) => seg.classIds?.includes(cls.id));
     if (!segment) return null;
-    return [...segment.classIds, ...(chain.predecessor?.classIds || [])];
+    // The segment was found by its classIds, so it has them.
+    return [.../** @type {string[]} */ (segment.classIds), ...(chain.predecessor?.classIds || [])];
   }
 
   /**
    * Parse a map's date field to a timestamp
    * Handles formats: "YYYY", "YYYY-MM-DD", "DD MMM YYYY"
+   * @param {unknown} dateStr
+   * @returns {number | null}
    */
   parseMapDate(dateStr) {
     if (!dateStr) return null;
-
+    // test() and Date.parse() read their argument as a string, and a date that passes a test is one.
     // Year only: "1972"
-    if (/^\d{4}$/.test(dateStr)) {
+    if (/^\d{4}$/.test(/** @type {string} */ (dateStr))) {
       return new Date(`${dateStr}-01-01`).getTime();
     }
 
     // ISO format: "1972-01-01"
-    if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
-      return new Date(dateStr).getTime();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(/** @type {string} */ (dateStr))) {
+      return new Date(/** @type {string} */ (dateStr)).getTime();
     }
 
     // Try generic parse
-    const parsed = Date.parse(dateStr);
+    const parsed = Date.parse(/** @type {string} */ (dateStr));
+
     return isNaN(parsed) ? null : parsed;
   }
 
   /**
    * Get all maps in a chain, sorted by date (newest first)
+   * @param {CatalogueSeries} chain
+   * @param {string[] | null} [onlyClassIds]
+   * @returns {ChainMap[]}
    */
   getMapsInChain(chain, onlyClassIds = null) {
     const classIds = onlyClassIds || this.getAllClassIdsInChain(chain);
     const classes = this.getAllClasses();
+    /** @type {ChainMap[]} */
     const maps = [];
 
     for (const classId of classIds) {
@@ -732,15 +882,21 @@ class DataService {
 
   /**
    * Get all unique dates from maps in the given chains
+   * @param {Iterable<CatalogueSeries>} chains
+   * @param {string[]} [activeMapIds]
+   * @returns {number[]}
    */
   getApplicableDates(chains, activeMapIds = []) {
+    /** @type {Set<number>} */
     const timestamps = new Set();
 
     for (const chain of chains) {
       // A parallel chain's stops are those of the columns actually loaded: with the 1929 NI
       // Parliament map open, the slider stepped through Dáil and Westminster dates as well.
+      /** @type {string[] | null} */
       let onlyClassIds = null;
       if (chain.parallel && activeMapIds.length) {
+        /** @type {Set<string>} */
         const ids = new Set();
         for (const mapId of activeMapIds) {
           if (this.getChainForMap(mapId)?.id !== chain.id) continue;
@@ -761,8 +917,12 @@ class DataService {
   /**
    * Given active map IDs and a target date, find the equivalent maps for that date
    * Returns an object mapping old mapId -> new mapId (or null if no equivalent)
+   * @param {Iterable<string>} activeMapIds
+   * @param {number} targetTimestamp
+   * @returns {Record<string, string | null>}
    */
   getEquivalentMapsForDate(activeMapIds, targetTimestamp) {
+    /** @type {Record<string, string | null>} */
     const result = {};
 
     debugLog('[DataService] getEquivalentMapsForDate - activeMapIds:', activeMapIds, 'targetTimestamp:', targetTimestamp);
@@ -784,6 +944,7 @@ class DataService {
       debugLog('[DataService] mapsInChain:', mapsInChain.map(m => ({ id: m.map.id, timestamp: m.timestamp })));
 
       // Find the map whose date is closest to but not after the target date
+      /** @type {{ map: CatalogueMap, timestamp: number } | null} */
       let bestMatch = null;
       for (const { map, timestamp } of mapsInChain) {
         if (timestamp && timestamp <= targetTimestamp) {
@@ -816,16 +977,22 @@ class DataService {
  * Only absolute http(s) URLs are treated as downloadable. Shared by the
  * download handler and by the catalogue renderer, which hides the download
  * control when this returns null.
+ * @param {{ downloads?: unknown, files?: unknown, sourceFile?: unknown } | null | undefined} mapConfig
+ * @returns {string | null}
  */
 export function resolveMapDownloadUrl(mapConfig) {
   if (!mapConfig) return null;
   const candidates = [
-    mapConfig.downloads?.fgb,
-    typeof mapConfig.files === 'object' && mapConfig.files ? mapConfig.files.fgb : null,
+    /** @type {Record<string, unknown> | null | undefined} */ (mapConfig.downloads)?.fgb,
+    typeof mapConfig.files === 'object' && mapConfig.files ? /** @type {Record<string, unknown>} */ (mapConfig.files).fgb : null,
+
     mapConfig.sourceFile
   ];
-  return candidates.find(value => typeof value === 'string' && /^https?:\/\//i.test(value)) || null;
+  // find() answers a candidate that passed the test, a string.
+  return /** @type {string | undefined} */ (candidates.find(value => typeof value === 'string' && /^https?:\/\//i.test(value))) || null;
 }
+
+
 
 // Export singleton instance
 const dataService = new DataService();
