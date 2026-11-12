@@ -19,9 +19,10 @@ import path from 'node:path';
 import { checkFactsModel, loadFactsModel, schemaErrors } from '../../lib/facts-model.mjs';
 
 const ROOT = process.cwd();
-const readJson = (rel) => JSON.parse(readFileSync(path.join(ROOT, rel), 'utf8'));
+const readJson = (/** @type {string} */ rel) => JSON.parse(readFileSync(path.join(ROOT, rel), 'utf8'));
 
 const model = loadFactsModel(ROOT);
+/** @type {{ entities: { personId: string | number, keyedBy?: string, officialPersonIds?: string[] }[] }} */
 const registry = readJson('data/elections/persons/person_registry.json');
 const personIds = new Set(registry.entities.map((e) => String(e.personId)));
 const candidateOfficialIds = new Map();
@@ -29,7 +30,7 @@ for (const e of registry.entities) {
   if (e.keyedBy === 'registered') continue;
   for (const o of e.officialPersonIds || []) candidateOfficialIds.set(o, String(e.personId));
 }
-const partyIds = new Set(readJson('data/elections/parties/party_registry.json').entities.map((e) => e.id));
+const partyIds = new Set(readJson('data/elections/parties/party_registry.json').entities.map((/** @type {{ id: string }} */ e) => e.id));
 const electionKeys = new Set();
 const ELECTIONS = path.join(ROOT, 'data/elections-source/data/elections');
 for (const body of readdirSync(ELECTIONS)) {

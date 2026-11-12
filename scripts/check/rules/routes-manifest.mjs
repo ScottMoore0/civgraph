@@ -41,8 +41,13 @@ if (!existsSync(ROUTES)) {
   process.exit(1);
 }
 
-/** Every route path the functions/ tree publishes. */
+/**
+ * Every route path the functions/ tree publishes.
+ * @param {string} dir
+ * @returns {string[]}
+ */
 function collect(dir, prefix = '') {
+  /** @type {string[]} */
   const routes = [];
   for (const entry of readdirSync(dir)) {
     const full = join(dir, entry);
@@ -81,9 +86,10 @@ function collect(dir, prefix = '') {
 
 const routes = collect(FUNCTIONS);
 const manifest = JSON.parse(readFileSync(ROUTES, 'utf8'));
+/** @type {string[]} */
 const include = manifest.include || [];
 
-const covers = (pattern, route) => {
+const covers = (/** @type {string} */ pattern, /** @type {string} */ route) => {
   if (pattern.endsWith('/*')) return route.startsWith(pattern.slice(0, -1));
   return pattern === route || `${pattern}/` === route;
 };

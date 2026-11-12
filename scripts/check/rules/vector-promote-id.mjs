@@ -80,7 +80,9 @@ const KNOWN_UNPOPULATED = new Set([
   'tii-national-road-network-vector',
   'county-ed-1911-vector',
 ]);
+/** @type {string[]} */
 const unpopulated = [];
+/** @type {string[]} */
 const knownUnpopulated = [];
 let sampled = 0;
 let noLocalSource = 0;
@@ -101,7 +103,7 @@ for (const layer of render.layers || []) {
       if (seen >= SAMPLE) break;
     }
   } catch (error) {
-    unpopulated.push(`${layer.id}: could not read ${layer.sourceFile} (${error.message})`);
+    unpopulated.push(`${layer.id}: could not read ${layer.sourceFile} (${/** @type {Error} */ (error).message})`);
     continue;
   }
   if (seen && empty) (KNOWN_UNPOPULATED.has(layer.id) ? knownUnpopulated : unpopulated).push(`${layer.id}: promoteId ${layer.promoteId} is empty on ${empty} of the first ${seen} source features`);
