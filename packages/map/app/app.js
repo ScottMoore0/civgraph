@@ -47,6 +47,9 @@ import { MessageMethods } from '../src/app/messages.js';
  */
 class Test2App {
   constructor() {
+    // The page's lifetime (R8): every listener the app's methods put on document or window
+    // passes this signal, so dispose() takes them all away.
+    this.lifecycle = new AbortController();
     this.currentCategory = 'all';
     this.currentAuthor = 'all';
     this.currentProviderCategory = 'all-providers';
@@ -111,6 +114,12 @@ class Test2App {
     this.performanceBudget = null;
     this.browseEntityDetailCache = new Map();
     this.classicScriptPromises = new Map();
+  }
+
+  /** Removes every listener the app and its map controller put on document and window (R8). */
+  dispose() {
+    this.lifecycle.abort();
+    this.mapController?.renderer?.dispose?.();
   }
 
   async init() {

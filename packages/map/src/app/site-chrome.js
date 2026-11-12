@@ -18,7 +18,7 @@ export class SiteChromeMethods {
     // handler here would flip it twice.
     if (document.querySelector('.app-header[data-site-chrome]')) {
       void this.syncBasemapToTheme();
-      document.addEventListener('civgraph:themechange', () => void this.syncBasemapToTheme());
+      document.addEventListener('civgraph:themechange', () => void this.syncBasemapToTheme(), { signal: this.lifecycle.signal });
       return;
     }
     const toggles = [document.getElementById('themeToggle'), document.getElementById('themeToggleMobile')].filter(Boolean);

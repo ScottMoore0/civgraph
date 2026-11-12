@@ -65,7 +65,7 @@ export class SearchMethods {
       if (!event.target.closest('.overflow-menu')) {
         document.querySelectorAll('.overflow-menu--open').forEach((menu) => menu.classList.remove('overflow-menu--open'));
       }
-    });
+    }, { signal: this.lifecycle.signal });
   }
 
   prepareSearchWorker() {

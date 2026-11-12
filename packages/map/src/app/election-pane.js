@@ -139,7 +139,7 @@ export class ElectionPaneMethods {
       const current = this._electionPaneHeight || savedHeight;
       if (Number.isFinite(current)) setPaneHeight(current, { invalidate: true, persist: false });
     };
-    window.addEventListener('resize', () => requestAnimationFrame(resizeSavedHeight), { passive: true });
+    window.addEventListener('resize', () => requestAnimationFrame(resizeSavedHeight), { passive: true, signal: this.lifecycle.signal });
     const getResizeTarget = (target) => {
       const explicit = target.closest?.('[data-election-pane-resize]');
       if (explicit) return explicit;
@@ -216,7 +216,7 @@ export class ElectionPaneMethods {
       window.addEventListener('pointerup', onEnd);
       window.addEventListener('pointercancel', onEnd);
     };
-    document.addEventListener('pointerdown', startDrag);
+    document.addEventListener('pointerdown', startDrag, { signal: this.lifecycle.signal });
     document.addEventListener('keydown', (event) => {
       const handle = getResizeTarget(event.target);
       if (!handle) return;
@@ -237,12 +237,12 @@ export class ElectionPaneMethods {
         event.preventDefault();
         handle.setAttribute('aria-valuenow', String(setPaneHeight(minPaneHeight)));
       }
-    });
+    }, { signal: this.lifecycle.signal });
     document.addEventListener('dblclick', (event) => {
       if (!getResizeTarget(event.target)) return;
       event.preventDefault();
       setPaneHeight(defaultPaneHeight());
-    });
+    }, { signal: this.lifecycle.signal });
   }
 
   async ensureElections(options = {}) {

@@ -44,7 +44,7 @@ export class MapControlMethods {
         this.setMapControlsOpen(false);
         document.getElementById('mapControlsToggle')?.focus({ preventScroll: true });
       }
-    });
+    }, { signal: this.lifecycle.signal });
   }
 
   setupMapControls() {
@@ -132,7 +132,7 @@ export class MapControlMethods {
       const selected = this.mapController?.renderer?.selected;
       if (selected) this._lastClearedSelection = selected;
       this.mapController?.clearTransientHighlight?.();
-    }, true);
+    }, { capture: true, signal: this.lifecycle.signal });
   }
 
   /**

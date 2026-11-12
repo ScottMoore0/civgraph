@@ -177,6 +177,9 @@ function resolveLayerOpacity(layer) {
 
 export class TestMapLibreController {
   constructor(container, options = {}) {
+    // The controller's lifetime (R8): what it puts on document passes this signal, and
+    // dispose() takes it away.
+    this.lifecycle = new AbortController();
     this.container = container;
     this.options = options;
     this.map = null;
@@ -201,7 +204,7 @@ export class TestMapLibreController {
     this.directGesture = createState(DIRECT_GESTURE);
     // Interface language (preview only: assets/i18n/i18n.js): relabel when it changes or loads.
     if (typeof document !== 'undefined') {
-      document.addEventListener('civgraph:langchange', () => this.applyLabelLanguage());
+      document.addEventListener('civgraph:langchange', () => this.applyLabelLanguage(), { signal: this.lifecycle.signal });
     }
     this.mobileGestureGuardTargetCount = 0;
     this.mobileGestureResizeObserver = null;
@@ -224,6 +227,11 @@ export class TestMapLibreController {
     this.cursorMutationCount = 0;
     this.documentHoverClearHandler = null;
     maplibregl.addProtocol('pmtiles', this.protocol.tile);
+  }
+
+  /** Removes what the controller put on document and the map's container (R8). */
+  dispose() {
+    this.lifecycle.abort();
   }
 
   init() {
@@ -327,7 +335,7 @@ export class TestMapLibreController {
       if (isInsideMap && !isMobileGestureChromeTarget(target) && !isInteractiveMapTarget) return;
       this.clearHover();
     };
-    document.addEventListener('pointerdown', this.documentHoverClearHandler, true);
+    document.addEventListener('pointerdown', this.documentHoverClearHandler, { capture: true, signal: this.lifecycle.signal });
   }
 
   readCameraState() {
@@ -474,7 +482,7 @@ export class TestMapLibreController {
       pen: { distance: 18, elapsedMs: 80, samples: 2 },
       default: { distance: 18, elapsedMs: 80, samples: 2 }
     };
-    const observerOptions = { passive: false };
+    const observerOptions = { passive: false, signal: this.lifecycle.signal };
     const applyPendingPan = () => {
       this.directPanFrame = 0;
       const delta = this.directPanPendingDelta;
