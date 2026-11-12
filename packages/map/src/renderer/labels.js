@@ -5,6 +5,7 @@ import {
   repairFeatureProperties
 } from './feature-property-repairs.js';
 import { clamp, unique } from './utils.js';
+import { MAP_COLOURS } from '../colours.mjs';
 
 /**
  * How a label's text is cleaned: strip a trailing bracket, or map whole values to others.
@@ -71,9 +72,9 @@ export function getLabelStyle(layer) {
   const baseColor = resolveLabelColor(layer, style.color || layer.labelTextColor || 'layer');
   return {
     color: baseColor,
-    hoverColor: resolveLabelColor(layer, style.hoverColor || '#ff7a1a'),
-    selectedColor: resolveLabelColor(layer, style.selectedColor || '#ff7a1a'),
-    haloColor: resolveLabelColor(layer, style.haloColor || '#ffffff'),
+    hoverColor: resolveLabelColor(layer, style.hoverColor || MAP_COLOURS.labelHover),
+    selectedColor: resolveLabelColor(layer, style.selectedColor || MAP_COLOURS.labelSelected),
+    haloColor: resolveLabelColor(layer, style.haloColor || MAP_COLOURS.labelHaloDefault),
     haloWidth: clamp(style.haloWidth ?? 1.4, 0, 4),
     haloBlur: clamp(style.haloBlur ?? 0, 0, 2),
     fontSize: clamp(style.fontSize ?? 12, 6, 32),
@@ -88,9 +89,9 @@ export function getLabelStyle(layer) {
  * @param {unknown} value
  */
 export function resolveLabelColor(layer, value) {
-  if (value === 'layer') return layer.style?.color || '#3388ff';
+  if (value === 'layer') return layer.style?.color || MAP_COLOURS.layer;
   if (typeof value === 'string' && value.trim()) return value.trim();
-  return '#3388ff';
+  return MAP_COLOURS.layer;
 }
 
 /** @param {RendererLayer} layer */

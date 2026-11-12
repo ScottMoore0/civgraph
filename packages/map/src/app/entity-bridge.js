@@ -34,6 +34,7 @@ import {
   normaliseStatus,
   partyHeadlineCards
 } from '../../../../src/entity-detail-data.mjs';
+import { MAP_COLOURS } from '../colours.mjs';
 
 /**
  * The names a party is known by, as its people are looked up: canonical name, title, short name,
@@ -179,7 +180,7 @@ export class EntityBridgeMethods {
   partyColourFrom(index, name) {
     const hit = this.partyFromIndex(index, name);
     const colour = hit?.colour;
-    return colour && colour !== '#6b7280' ? colour : '#888';
+    return colour && colour !== MAP_COLOURS.partyGrey ? colour : MAP_COLOURS.swatch;
   }
 
   async loadPartyBrowseDetail(key) {
@@ -426,7 +427,7 @@ export class EntityBridgeMethods {
       kind,
       key: name,
       name,
-      colour: latest?.winnerColour || '#64748b',
+      colour: latest?.winnerColour || MAP_COLOURS.latestResult,
       subtitle: kind === 'lgd' ? 'Local Government District / Council' : kind === 'dea' ? 'District Electoral Area' : 'Constituency',
       metrics,
       historyRows: rows,
@@ -453,7 +454,7 @@ export class EntityBridgeMethods {
       // L7: "AO" or "Ind O" in a results table meant nothing on a phone, where <abbr> cannot be read).
       name: item.title || item.canonicalName || slug,
       shortName,
-      colour: item.colour || item.color || item.partyColour || '#6b7280',
+      colour: item.colour || item.color || item.partyColour || MAP_COLOURS.partyGrey,
       headlineCards: partyHeadlineCards(historyRows),
       historyRows,
       partySummaries: historyRows,
@@ -662,7 +663,7 @@ export class EntityBridgeMethods {
       localGovernmentDistrict: result.localBody || result.localGovernmentDistrict || '',
       // The party with the most votes, summed over its candidates (H3), not the poll-topper's.
       winnerParty: lead.party,
-      winnerColour: lead.colour || '#b0bec5',
+      winnerColour: lead.colour || MAP_COLOURS.noResult,
       winnerVotes: lead.votes,
       winnerPct: lead.pct,
       electedNames: lead.elected,
@@ -685,7 +686,7 @@ export class EntityBridgeMethods {
         // A candidate with no label counts as "No label" (NO_LABEL), not as the leading party.
         const party = candidate.party || 'No label';
         const key = normalizeEntityName(party);
-        const current = partyTotals.get(key) || { party, votes: 0, colour: candidate.colour || result.leadingColour || '#b0bec5' };
+        const current = partyTotals.get(key) || { party, votes: 0, colour: candidate.colour || result.leadingColour || MAP_COLOURS.noResult };
         current.votes += Number(candidate.firstPrefs ?? candidate.votes ?? 0) || 0;
         partyTotals.set(key, current);
       }
@@ -700,7 +701,7 @@ export class EntityBridgeMethods {
       deaCount: results.length,
       districtElectoralAreas: results.map((result) => result.constituency).filter(Boolean),
       winnerParty: leading.party || '',
-      winnerColour: leading.colour || '#b0bec5',
+      winnerColour: leading.colour || MAP_COLOURS.noResult,
       winnerVotes: leading.votes || null,
       winnerPct: validKnown && leading.votes ? leading.votes / validVotes * 100 : null,
       validVotes: validKnown ? validVotes : null,

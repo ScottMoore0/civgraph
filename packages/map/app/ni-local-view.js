@@ -20,6 +20,7 @@ import { createState } from '../src/state-helpers.mjs';
 import statuses from '../../registries/src/browser/statuses.mjs';
 import { summaryPollStatus } from '../../core/src/unopposed.mjs';
 import { siteNumber } from '../../core/src/format.js';
+import { MAP_COLOURS } from '../src/colours.mjs';
 
 // The words for a round's site status, a missing round and a contest: the statuses registry's
 // election-round siteLabels and missingReasons (RG-03) and contest labels (RG-02).
@@ -33,14 +34,14 @@ const DEFAULT_LEVEL_ORDER = ['districts', 'ded', 'ced', 'counties', 'towns'];
 const SHOW_OPTIONS = [['votes', 'Votes'], ['seats', 'Seats']];
 const MEMBER_OPTIONS = [['councillors', 'Councillors'], ['aldermen', 'Aldermen']];
 const STYLE = Object.freeze({
-  unmatchedFill: '#dfe4ec',
+  unmatchedFill: MAP_COLOURS.unmatchedFill,
   unmatchedFillOpacity: 0.12,
-  neutralFill: '#cfd5dd',
+  neutralFill: MAP_COLOURS.neutralFill,
   neutralFillOpacity: 0.45,
-  splitFill: '#8b95a3',
+  splitFill: MAP_COLOURS.splitFill,
   seatsFillOpacity: 0.72,
-  matchedStroke: '#333',
-  unmatchedStroke: '#a1aab8',
+  matchedStroke: MAP_COLOURS.matchedStroke,
+  unmatchedStroke: MAP_COLOURS.unmatchedStroke,
   strokeOpacity: 0.8,
   strokeWidth: 1.2
 });
@@ -362,7 +363,7 @@ export class NiLocalGroupedView {
   // ------------------------------------------------------------------ map style
 
   partyColour(party) {
-    if (!party || party === NO_LABEL) return this.manager.mainPanePartyColour(NO_LABEL) || '#9ca3af';
+    if (!party || party === NO_LABEL) return this.manager.mainPanePartyColour(NO_LABEL) || MAP_COLOURS.noFigure;
     return this.manager.mainPanePartyColour(party);
   }
 

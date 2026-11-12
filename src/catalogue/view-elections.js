@@ -4,6 +4,7 @@
  * sections are laid out (Phelim Birch's review, 2026-10-11). Rendering only; `c` is the controller.
  */
 import { icon } from './icons.js';
+import { ELECTION_SHELF_COLOURS } from '../../packages/map/src/colours.mjs';
 import { esc, plural, shortDate, ESCOPE_SHORT } from './util.js';
 import { sliderHtml } from './slider.js';
 import { extrasHtml, aboutHtml } from './view-maps.js';
@@ -44,19 +45,19 @@ export const bodyShort = (e) => BODY_SHORT[e.bodySlug] || e.body;
 /** The shelves: the four Northern Ireland devolved bodies share one, as do the two European
  * Parliament constituencies and the two referendum series. */
 export const BODY_GROUPS = [
-  { id: 'dail', label: 'Dáil', bodies: ['dail-eireann'], icon: 'dail', colour: '#169b62' },
-  { id: 'westminster', label: 'Westminster', bodies: ['house-of-commons-of-the-united-kingdom'], icon: 'westminster', colour: '#2f5da8' },
-  { id: 'ni-devolved', label: 'NI Devolved', bodies: ['northern-ireland-assembly', 'parliament-of-northern-ireland', 'northern-ireland-constitutional-convention', 'northern-ireland-forum-for-political-dialogue'], icon: 'ni-devolved', colour: '#c84b8f' },
+  { id: 'dail', label: 'Dáil', bodies: ['dail-eireann'], icon: 'dail', colour: ELECTION_SHELF_COLOURS.dail },
+  { id: 'westminster', label: 'Westminster', bodies: ['house-of-commons-of-the-united-kingdom'], icon: 'westminster', colour: ELECTION_SHELF_COLOURS.westminster },
+  { id: 'ni-devolved', label: 'NI Devolved', bodies: ['northern-ireland-assembly', 'parliament-of-northern-ireland', 'northern-ireland-constitutional-convention', 'northern-ireland-forum-for-political-dialogue'], icon: 'ni-devolved', colour: ELECTION_SHELF_COLOURS['ni-devolved'] },
   // The NI local elections since 1973, the pre-1973 rounds by year, and every pre-1973 council
   // (the councils registry's pre1973Council flag; registries/browser/council-search.json).
-  { id: 'ni-local', label: 'NI local', bodies: ['local-government', 'ni-local-elections', ...councilSearch.pre1973CouncilBodies], icon: 'ni-local', colour: '#e07b2a' },
-  { id: 'irish-local', label: 'Irish local', bodies: ['ireland-local'], icon: 'irish-local', colour: '#0b8a6a' },
+  { id: 'ni-local', label: 'NI local', bodies: ['local-government', 'ni-local-elections', ...councilSearch.pre1973CouncilBodies], icon: 'ni-local', colour: ELECTION_SHELF_COLOURS['ni-local'] },
+  { id: 'irish-local', label: 'Irish local', bodies: ['ireland-local'], icon: 'irish-local', colour: ELECTION_SHELF_COLOURS['irish-local'] },
   // Before partition the councils were elected so differently, and so often, that their years
   // have a shelf of their own (Phelim Birch's review, 11 Nov 2026).
-  { id: 'pre-partition-local', label: 'Pre-partition local', bodies: ['irish-local-elections'], icon: 'irish-local', colour: '#7a8597' },
-  { id: 'european', label: 'European', bodies: ['european-parliament', 'ireland-european'], icon: 'european', colour: '#2f8fce' },
-  { id: 'referendum', label: 'Referendum', bodies: ['ireland-referendum', 'northern-ireland-referendum'], icon: 'referendum', colour: '#8a63d2' },
-  { id: 'presidential', label: 'Presidential', bodies: ['ireland-president'], icon: 'presidential', colour: '#c08a3e' },
+  { id: 'pre-partition-local', label: 'Pre-partition local', bodies: ['irish-local-elections'], icon: 'irish-local', colour: ELECTION_SHELF_COLOURS['pre-partition-local'] },
+  { id: 'european', label: 'European', bodies: ['european-parliament', 'ireland-european'], icon: 'european', colour: ELECTION_SHELF_COLOURS.european },
+  { id: 'referendum', label: 'Referendum', bodies: ['ireland-referendum', 'northern-ireland-referendum'], icon: 'referendum', colour: ELECTION_SHELF_COLOURS.referendum },
+  { id: 'presidential', label: 'Presidential', bodies: ['ireland-president'], icon: 'presidential', colour: ELECTION_SHELF_COLOURS.presidential },
 ].map((g) => ({
   ...g,
   // A body the election-bodies registry puts on this shelf (the Mayor of Limerick, beside the

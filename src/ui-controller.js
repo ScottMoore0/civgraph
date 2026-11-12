@@ -18,6 +18,7 @@ import { createFlag, createState, setHidden } from '../packages/map/src/state-he
 import { partyFullName, partyLabelHtml } from '../packages/core/src/party-names.mjs';
 import { BODY_GROUP_ORDER, hasNumber, yearRange } from './entity-detail-data.mjs';
 import { siteNumber } from '../packages/core/src/format.js';
+import { BODY_COLOURS, MAP_COLOURS } from '../packages/map/src/colours.mjs';
 
 /**
  * Lucide icons used by the catalogue: the section bar, the headings inside the contents box,
@@ -340,7 +341,7 @@ class UIController {
 
         // Render detail content
         const isLoaded = this.getMapIdsFromURL().includes(map.id);
-        const color = map.style?.color || '#888';
+        const color = map.style?.color || MAP_COLOURS.swatch;
         const formattedDate = this.formatMapDate(map.date, map) || '';
 
         // Get category name
@@ -487,7 +488,7 @@ class UIController {
                 ${styleStr ? `
                 <div class="catalogue-detail__meta-row">
                     <span class="catalogue-detail__meta-label">Style</span>
-                    <span class="catalogue-detail__meta-value">${map.style?.color ? `<span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:${this.escapeHtml(map.style.color)};vertical-align:middle;margin-right:4px;border:1px solid rgba(128,128,128,0.3)"></span>` : ''}${this.escapeHtml(styleStr)}</span>
+                    <span class="catalogue-detail__meta-value">${map.style?.color ? `<span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:${this.escapeHtml(map.style.color)};vertical-align:middle;margin-right:4px;border:1px solid ${MAP_COLOURS.swatchEdge}"></span>` : ''}${this.escapeHtml(styleStr)}</span>
                 </div>` : ''}
                 ${filePath ? `
                 <div class="catalogue-detail__meta-row">
@@ -2139,7 +2140,7 @@ class UIController {
         const mapId = String(result?.mapId || map?.id || '');
         const bbox = Array.isArray(result?.bbox) && result.bbox.length === 4 ? result.bbox : null;
         const manifestMap = this._featureThumbnailManifest?.maps?.[mapId] || null;
-        const colour = manifestMap?.colour || map?.style?.fillColor || map?.style?.color || map?.color || '#3388ff';
+        const colour = manifestMap?.colour || map?.style?.fillColor || map?.style?.color || map?.color || MAP_COLOURS.layer;
         const thumbnailId = this.featureThumbnailIdFor(mapId, featureName || result?.name || result?.id || '', bbox);
         const renderedIds = this._featureThumbnailRenderedIdsByMap?.get(mapId);
         if (renderedIds?.has(thumbnailId) && manifestMap?.renderedAssetBasePath) {
@@ -4770,18 +4771,11 @@ class UIController {
                 else thumb = 'dail-1980';
             }
 
-            const colorMap = {
-                'House of Commons of the United Kingdom': '#1e3a8a',
-                'Northern Ireland Assembly': '#2563eb',
-                'Northern Ireland Constitutional Convention': '#7c3aed',
-                'Northern Ireland Forum for Political Dialogue': '#0f766e',
-                'European Parliament': '#0ea5e9',
-                'local-government': '#b45309'
-            };
+            const colorMap = BODY_COLOURS;
 
             return {
                 thumb,
-                color: colorMap[bodyGroup || body] || '#4b5563'
+                color: colorMap[bodyGroup || body] || MAP_COLOURS.body
             };
         };
 
@@ -5261,7 +5255,7 @@ class UIController {
             const override = card.thumbMapId ? (mapById.get(card.thumbMapId) || dataService.getMapById(card.thumbMapId)) : null;
             const preview = pickPreview(override, maps);
             const previewThumb = preview ? this.getThumbnailId(preview) : '';
-            const previewColor = preview?.style?.color || '#888';
+            const previewColor = preview?.style?.color || MAP_COLOURS.swatch;
             const strippedName = stripBracketParts(card.name);
             const tocName = card.id === 'flat-historic-sites' ? 'Historic Sites' : strippedName;
             tocHtml += `
@@ -5291,7 +5285,7 @@ class UIController {
             const override = overrideId ? (mapById.get(overrideId) || dataService.getMapById(overrideId)) : null;
             const preview = pickPreview(override, maps);
             const previewThumb = preview ? this.getThumbnailId(preview) : '';
-            const previewColor = preview?.style?.color || '#888';
+            const previewColor = preview?.style?.color || MAP_COLOURS.swatch;
             tocHtml += `
                 <tr class="${indented ? 'catalogue-flat__toc-row--indented' : ''}">
                     <td>
@@ -5772,7 +5766,7 @@ class UIController {
             const isPlaceholder = map.placeholder;
             const isIncomplete = map.incomplete;
             const displayName = useYearDisplay ? (this.getYear(map.date) || map.name) : map.name;
-            const color = map.style?.color || '#3388ff';
+            const color = map.style?.color || MAP_COLOURS.layer;
 
             return `
                 <div class="class-member ${isLoaded ? 'class-member--loaded' : ''} ${isPlaceholder ? 'class-member--placeholder' : ''} ${isIncomplete ? 'class-member--incomplete' : ''}" data-map-id="${map.id}" style="--map-color: ${color}">
@@ -6001,7 +5995,7 @@ class UIController {
                 const isIncomplete = map.incomplete;
                 const displayName = this.getYear(map.date) || map.name;
                 membersHtml += `
-                    <div class="class-member ${isLoaded ? 'class-member--loaded' : ''} ${isPlaceholder ? 'class-member--placeholder' : ''} ${isIncomplete ? 'class-member--incomplete' : ''}" data-map-id="${map.id}" style="--map-color: ${map.style?.color || '#888'}">
+                    <div class="class-member ${isLoaded ? 'class-member--loaded' : ''} ${isPlaceholder ? 'class-member--placeholder' : ''} ${isIncomplete ? 'class-member--incomplete' : ''}" data-map-id="${map.id}" style="--map-color: ${map.style?.color || MAP_COLOURS.swatch}">
                         ${this.renderThumbnailZone(this.getThumbnailId(map), 'class-member__thumbnail', '28px')}
                         <div class="class-member__info"><span class="class-member__name">${this.escapeHtml(displayName)}</span>
                             ${map.changeNote ? `<span class="class-member__change-note">${this.escapeHtml(map.changeNote)}</span>` : ''}
@@ -6287,7 +6281,7 @@ class UIController {
 
             const heightStyle = (!options.ignoreMemberHeight && map.style?.height) ? `height: ${map.style.height};` : '';
             return `
-                <div class="class-member ${isLoaded ? 'class-member--loaded' : ''} ${isPlaceholder ? 'class-member--placeholder' : ''} ${isIncomplete ? 'class-member--incomplete' : ''} ${hasVariants ? 'class-member--has-variants' : ''}" data-map-id="${map.id}" data-date="${map.date || ''}" style="--map-color: ${map.style?.color || '#888'};${heightStyle}">
+                <div class="class-member ${isLoaded ? 'class-member--loaded' : ''} ${isPlaceholder ? 'class-member--placeholder' : ''} ${isIncomplete ? 'class-member--incomplete' : ''} ${hasVariants ? 'class-member--has-variants' : ''}" data-map-id="${map.id}" data-date="${map.date || ''}" style="--map-color: ${map.style?.color || MAP_COLOURS.swatch};${heightStyle}">
                 ${this.renderThumbnailZone(this.getThumbnailId(map), 'class-member__thumbnail', '28px')}
                 <div class="class-member__info">${!isPlaceholder ? `<a href="#" class="class-member__name class-member__name-link" data-detail-map-id="${map.id}">${displayName}</a>` : `<span class="class-member__name">${displayName}</span>`}${dateSubtitle}
                 ${map.changeNote ? `<span class="class-member__change-note">${this.escapeHtml(map.changeNote)}</span>` : ''}
@@ -6450,7 +6444,7 @@ class UIController {
                     const placeholderClass = item.isPlaceholder ? ' c1-grid-entry--placeholder' : '';
                     const incompleteClass = item.isIncomplete ? ' c1-grid-entry--incomplete' : '';
                     const displayYear = this.getYear(item.map.date) || item.map.name;
-                    const color = item.map.style?.color || '#888';
+                    const color = item.map.style?.color || MAP_COLOURS.swatch;
 
                     html += `<div class="c1-grid-cell${placeholderClass}${incompleteClass}" style="grid-column: ${gridCol}; grid-row: ${item.gridRowStart} / ${item.gridRowEnd}; --map-color: ${color};">`;
                     html += `<div class="c1-grid-entry${loadedClass}${placeholderClass}${incompleteClass}" data-map-id="${item.map.id}" data-date="${item.map.date || ''}">`;
@@ -6580,7 +6574,7 @@ class UIController {
                     const placeholderClass = isPlaceholder ? ' c1-grid-entry--placeholder' : '';
                     const incompleteClass = isIncomplete ? ' c1-grid-entry--incomplete' : '';
                     const displayYear = this.getYear(map.date) || map.name;
-                    const color = map.style?.color || '#888';
+                    const color = map.style?.color || MAP_COLOURS.swatch;
 
                     html += `<div class="c1-grid-cell${placeholderClass}${incompleteClass}" style="grid-column: ${gridCol}; grid-row: ${gridRowStart} / ${gridRowEnd}; --map-color: ${color};">`;
                     html += `<div class="c1-grid-entry${loadedClass}${placeholderClass}${incompleteClass}" data-map-id="${map.id}" data-date="${map.date || ''}">`;
@@ -7459,7 +7453,7 @@ class UIController {
         card.className = `map-card${isLoaded ? ' map-card--active' : ''}`;
         card.dataset.mapId = map.id;
 
-        const color = map.style?.color || '#3388ff';
+        const color = map.style?.color || MAP_COLOURS.layer;
         const providers = (map.provider || []).join(', ');
         const dateStr = this.formatMapDate(map.date, map);
         const hasVariants = map.variants && map.variants.length > 0;
@@ -7919,7 +7913,7 @@ class UIController {
         ];
         return `
             <div class="feature-info__header-row">
-                <span class="feature-info__color" style="background: ${this.escapeHtml(feature.color || '#64748b')}"></span>
+                <span class="feature-info__color" style="background: ${this.escapeHtml(feature.color || MAP_COLOURS.featureSwatch)}"></span>
                 <h4 class="feature-info__layer-name">${this.escapeHtml(layerName)}</h4>
             </div>
             <div class="feature-info__primary-name">${this.escapeHtml(feature.featureName || feature.name || `${fromName} to ${toName}`)}</div>
@@ -7966,7 +7960,7 @@ class UIController {
 
             let html = `
             <div class="feature-info__header-row">
-                    <span class="feature-info__color" style="background: ${mapConfig?.style?.color || '#888'}"></span>
+                    <span class="feature-info__color" style="background: ${mapConfig?.style?.color || MAP_COLOURS.swatch}"></span>
                     <h4 class="feature-info__layer-name">${this.escapeHtml(mapConfig?.name || 'Unknown Layer')}</h4>
                 </div>
             `;
@@ -8406,7 +8400,7 @@ class UIController {
         detailView.setAttribute('aria-busy', 'false');
         detailView.innerHTML = `
             <div class="catalogue-detail__card">
-                <div class="catalogue-detail__color" style="background-color: ${esc(mapConfig?.style?.color || '#888')}"></div>
+                <div class="catalogue-detail__color" style="background-color: ${esc(mapConfig?.style?.color || MAP_COLOURS.swatch)}"></div>
                 <h2 class="catalogue-detail__name" id="catalogueDetailHeading" tabindex="-1">${esc(displayName)}</h2>
                 <div class="catalogue-detail__date">${esc(mapConfig?.name || '')}</div>
             </div>
@@ -9192,7 +9186,7 @@ class UIController {
             : dash);
         const renderLeadingParty = (row) => {
             if (!row?.winnerParty) return dash;
-            const colour = esc(row.winnerColour || '#b0bec5');
+            const colour = esc(row.winnerColour || MAP_COLOURS.noResult);
             return `<span class="catalogue-detail__leading-party"><span class="catalogue-detail__leading-party-tab" style="background:${colour}"></span>${renderPartyLink(row.winnerParty)}</span>`;
         };
         const renderDeaList = (row) => {
@@ -9526,7 +9520,7 @@ class UIController {
         detailView.setAttribute('aria-busy', 'false');
         detailView.innerHTML = `
             <div class="catalogue-detail__card">
-                <div class="catalogue-detail__color" style="background-color: ${esc(entry.colour || '#888')}"></div>
+                <div class="catalogue-detail__color" style="background-color: ${esc(entry.colour || MAP_COLOURS.swatch)}"></div>
                 <h2 class="catalogue-detail__name" id="catalogueDetailHeading" tabindex="-1">${esc(isCandidate ? (entry.name || entry.personId) : entry.name)}</h2>
                 <div class="catalogue-detail__date">${esc(subtitleParts.filter(Boolean).join(' · '))}</div>
                 ${lifeDates}
@@ -9935,7 +9929,7 @@ class UIController {
         const html = loadedMaps.map(map => {
             const isVisible = visibilityMap?.get(map.id) ?? true;
             const partial = partialLayerInfo?.get(map.id);
-            const color = map.style?.color || '#3388ff';
+            const color = map.style?.color || MAP_COLOURS.layer;
             const authors = map.authors?.join(', ') || '';
             const layerTitle = dataService.getMapDisplayTitle?.(map) || map.name;
             // "1929 NI Parliament / 1929": the year under a title that already starts with it
@@ -11000,7 +10994,7 @@ class UIController {
                 // variant-only maps still get a human-readable layer label.
                 const mapConfig = dataService.getMapById(result.mapId);
                 const mapName = mapConfig?.name || result.mapId;
-                const colour = mapConfig?.style?.color || '#3388ff';
+                const colour = mapConfig?.style?.color || MAP_COLOURS.layer;
                 const thumb = this._buildFeatureLocatorSvg(result.bbox, colour);
                 return `<div class="search-autocomplete__item search-autocomplete__item--feature"
                          data-type="feature"
@@ -11300,7 +11294,7 @@ class UIController {
             <ul class="address-results__list">
                 ${intersections.map(item => `
                     <li class="address-results__item">
-                        <span class="address-results__color" style="background: ${item.color || '#888'}"></span>
+                        <span class="address-results__color" style="background: ${item.color || MAP_COLOURS.swatch}"></span>
                         <span class="address-results__name">${this.escapeHtml(item.featureName)}</span>
                         <span class="address-results__layer">${this.escapeHtml(item.mapName)}</span>
                     </li>
@@ -11493,7 +11487,7 @@ class UIController {
         html += '<div class="explore-section"><h3 class="explore-section__title">Featured Maps</h3>';
         (maps || []).filter(m => m.featured).slice(0, 8).forEach(map => {
             html += `<div class="explore-item explore-item--map" data-type="map" data-id="${map.id}">
-                <span class="explore-item__color" style="background: ${map.style?.color || '#888'}"></span>
+                <span class="explore-item__color" style="background: ${map.style?.color || MAP_COLOURS.swatch}"></span>
                 <span class="explore-item__name">${this.escapeHtml(map.name)}</span>
             </div>`;
         });
@@ -11568,7 +11562,7 @@ class UIController {
                     <div class="explore-detail__grid">`;
                 maps.forEach(map => {
                     html += `<div class="explore-detail__item" data-type="map" data-id="${map.id}">
-                        <span class="explore-detail__color" style="background: ${map.style?.color || '#888'}"></span>
+                        <span class="explore-detail__color" style="background: ${map.style?.color || MAP_COLOURS.swatch}"></span>
                         <span class="explore-detail__item-name">${this.escapeHtml(map.name)}</span>
                         ${map.date ? `<span class="explore-detail__item-date">${this.formatMapDate(map.date, map)}</span>` : ''}
                     </div>`;
@@ -11600,7 +11594,7 @@ class UIController {
                     <div class="explore-detail__grid">`;
                 clsMaps.forEach(map => {
                     html += `<div class="explore-detail__item" data-type="map" data-id="${map.id}">
-                        <span class="explore-detail__color" style="background: ${map.style?.color || '#888'}"></span>
+                        <span class="explore-detail__color" style="background: ${map.style?.color || MAP_COLOURS.swatch}"></span>
                         <span class="explore-detail__item-name">${this.escapeHtml(map.name)}</span>
                         ${map.date ? `<span class="explore-detail__item-date">${this.formatMapDate(map.date, map)}</span>` : ''}
                     </div>`;
@@ -11611,7 +11605,7 @@ class UIController {
             const map = dataService.getMapById(id);
             if (map) {
                 html += `<div class="explore-detail__hero explore-detail__hero--map">
-                    <span class="explore-detail__color-large" style="background: ${map.style?.color || '#888'}"></span>
+                    <span class="explore-detail__color-large" style="background: ${map.style?.color || MAP_COLOURS.swatch}"></span>
                     <h2 class="explore-detail__title">${this.escapeHtml(map.name)}</h2>
                     ${map.date ? `<p class="explore-detail__subtitle">${this.formatMapDate(map.date, map)}</p>` : ''}
                 </div>`;
@@ -12107,7 +12101,7 @@ class UIController {
         // 1m-coastline FGB, lat-lon → SVG-px). Enough to be recognisable at
         // 36×44.
         const silhouette = '7.5,9 9,5 12,3 16,2 20,2 24,4 27,7 30,11 32,15 32,19 31,22 32,26 31,30 29,33 27,36 24,38 20,39 16,39 13,37 11,35 9,32 7,28 6,24 5,20 5,16 6,13';
-        const safeColour = String(colour || '#3388ff').replace(/[^#0-9a-zA-Z(),. ]/g, '');
+        const safeColour = String(colour || MAP_COLOURS.layer).replace(/[^#0-9a-zA-Z(),. ]/g, '');
         if (!Array.isArray(bbox) || bbox.length !== 4) {
             return `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}"><polygon points="${silhouette}" fill="#e5edf3" stroke="#a8b5be" stroke-width="0.8"/></svg>`;
         }

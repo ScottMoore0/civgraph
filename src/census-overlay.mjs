@@ -20,6 +20,7 @@
  * Shared by the map (packages/map/app/maplibre-main-adapter.js), its legend and feature details
  * (packages/map/app/app.js, src/ui-controller.js) and the Browse and catalogue builders. Pure: no DOM.
  */
+import { CENSUS_NO_DATA_FILL, CENSUS_RAMPS, MAP_COLOURS } from '../packages/map/src/colours.mjs';
 
 import { siteNumber } from '../packages/core/src/format.js';
 
@@ -62,20 +63,13 @@ import { siteNumber } from '../packages/core/src/format.js';
  */
 /** @typedef {ReturnType<typeof joinRows>} JoinedRows */
 
-// Matplotlib samples, as the Leaflet loader had them (archive/leaflet/js/colour-palettes.js, see ARCHIVE.md), less
-// the repeated last stop three of them carried, which made the top two classes one colour.
-// 'protestant-catholic' diverges: blue at 0 %, grey at 50 %, green at 100 %.
+// The ramps (Matplotlib samples) and the no-figure fill live in the map palette module
+// (packages/map/src/colours.mjs), with the colours' history.
 /** @type {Record<string, string[]>} */
-export const RAMPS = {
-  viridis: ['#440154', '#482878', '#3E4989', '#31688E', '#26828E', '#1F9E89', '#35B779', '#6CCE59', '#B4DD2C', '#FDE725'],
-  inferno: ['#000004', '#1B0C41', '#4A0C6B', '#781C6D', '#A52C60', '#CF4446', '#ED6925', '#FB9A06', '#F7D03C', '#FCFFA4'],
-  magma: ['#000004', '#180F3D', '#440F76', '#721F81', '#9E2F7F', '#CD4071', '#F1605D', '#FE9F6D', '#FEC589', '#FCFDBF'],
-  plasma: ['#0D0887', '#41049D', '#6A00A8', '#8F0DA4', '#B12A90', '#CC4778', '#E16462', '#F2844B', '#FCA636', '#FCCE25', '#F0F921'],
-  'protestant-catholic': ['#08306B', '#2171B5', '#4292C6', '#6BAED6', '#C6DBEF', '#F7F7F7', '#C7E9C0', '#74C476', '#41AB5D', '#238B45', '#00441B']
-};
+export const RAMPS = CENSUS_RAMPS;
 
 /** What an area with no figure is filled with: nothing, so the outline alone shows it. */
-export const NO_DATA_FILL = 'rgba(0,0,0,0)';
+export const NO_DATA_FILL = CENSUS_NO_DATA_FILL;
 
 export const LICENCES = {
   ogl: { name: 'Open Government Licence v3.0', short: 'OGL v3.0', url: 'https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/' },
@@ -489,7 +483,7 @@ export function overlayRuntimeLayer(entry, geographyLayer) {
     loadable: true,
     censusOverlay: entry,
     geographyId: entry.geography,
-    style: { ...(geographyLayer.style || {}), color: '#374151', weight: 0.6, fillColor: '#9CA3AF', fillOpacity: 0.8 },
+    style: { ...(geographyLayer.style || {}), color: MAP_COLOURS.censusOutline, weight: 0.6, fillColor: MAP_COLOURS.censusFill, fillOpacity: 0.8 },
     // Districts, wards and towns keep their names. Thousands of Small Areas, Data Zones and
     // Super Data Zones are labelled by code ("N00001508") or by a zone name, which buries the
     // colours a reader came for; their names are in the details on a click.

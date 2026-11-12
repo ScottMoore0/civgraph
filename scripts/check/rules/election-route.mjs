@@ -3,6 +3,8 @@ import path from 'node:path';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { mapAppSourceFiles, readElectionManagerSource, readMapAppSource } from '../../lib/map-app-source.mjs';
 import { BROWSE_DIR, ELECTION_BUNDLE_DIR, ELECTION_MANIFEST, ELECTION_REPORT } from '../../../packages/loader/src/paths.mjs';
+// The map's fixed colours are the colours registry's (data/registries/colours.json), read through this view.
+import { MAP_COLOURS } from '../../../packages/map/src/colours.mjs';
 
 const failures = [];
 // The MapLibre app. It was index.html until the landing page took the root; this kept
@@ -322,8 +324,8 @@ assertCatalogueMetadata();
 assert(test2Css.includes('.maplibre-dom-label.map-label--hover'), '/test2 DOM labels must expose hover styling');
 assert(test2Css.includes('.maplibre-dom-label.map-label--selected'), '/test2 selected DOM labels must keep the same orange styling as hover labels');
 assert(test2Css.includes('color: var(--raw-ff7a1a) !important'), '/test2 hovered labels must change text colour directly like the main site');
-assert(mapControllerSource.includes("const INTERACTION_FILL_COLOR = '#FDBA74'"), '/test2 selected and hover fills must share the main-style light orange colour');
-assert(mapControllerSource.includes("const INTERACTION_STROKE_COLOR = '#FF7A1A'"), '/test2 selected and hover strokes must share the main-style deep orange colour');
+assert(mapControllerSource.includes('const INTERACTION_FILL_COLOR = MAP_COLOURS.interactionFill') && MAP_COLOURS.interactionFill === '#FDBA74', '/test2 selected and hover fills must share the main-style light orange colour');
+assert(mapControllerSource.includes('const INTERACTION_STROKE_COLOR = MAP_COLOURS.interactionStroke') && MAP_COLOURS.interactionStroke === '#FF7A1A', '/test2 selected and hover strokes must share the main-style deep orange colour');
 assert(mapControllerSource.includes('selectedFillId') && mapControllerSource.includes("['feature-state', 'selected']"), '/test2 polygon selections must include a selected fill, not only an outline');
 assert(mapControllerSource.includes('Polygon vector-tile features are clipped at tile boundaries'), '/test2 polygon interaction strokes must stay disabled to avoid tile-seam highlight artifacts');
 assert(mapControllerSource.includes("'fill-antialias': false"), '/test2 polygon interaction fills must disable antialiasing to avoid tile-fragment seam lines');
@@ -577,7 +579,7 @@ assert(
     && electionManagerSource.includes("window.addEventListener('scroll', activeMenuPositioner, true)"),
   '/test2 election tables must preserve main-style party ordering, full menu-based sort/filter controls, and viewport-contained filter menus'
 );
-assert(electionManagerSource.includes('MAIN_ELECTION_GEOGRAPHY_STYLE') && electionManagerSource.includes("unmatchedFillColor: '#dfe4ec'") && electionManagerSource.includes('matchedFillOpacity: 0.6') && electionManagerSource.includes("matchedStrokeColor: '#333'"), '/test2 election geography styling must mirror main fill/stroke constants');
+assert(electionManagerSource.includes('MAIN_ELECTION_GEOGRAPHY_STYLE') && electionManagerSource.includes('unmatchedFillColor: MAP_COLOURS.unmatchedFill') && MAP_COLOURS.unmatchedFill === '#dfe4ec' && electionManagerSource.includes('matchedFillOpacity: 0.6') && electionManagerSource.includes('matchedStrokeColor: MAP_COLOURS.matchedStroke') && MAP_COLOURS.matchedStroke === '#333', '/test2 election geography styling must mirror main fill/stroke constants');
 assert(electionManagerSource.includes('buildElectionMatchExpression') && electionManagerSource.includes('fillOpacityExpression'), '/test2 election geography styling must distinguish matched and unmatched features with MapLibre expressions');
 assert(electionDomainSource.includes('buildMainLikePartySummaryFromRawResults') && electionManifestBuilderSource.includes('mainLikePartySummary'), '/test2 election bundles must carry main-controller-compatible party summaries, not only independent test2 summaries');
 assert(mainElectionPaneContractSource.includes('this.host.activeBundle.mainLikePartySummary') && electionManagerSource.includes('this.previousBundle?.mainLikePartySummary'), '/test2 election pane must consume main-compatible current and previous party summaries');
