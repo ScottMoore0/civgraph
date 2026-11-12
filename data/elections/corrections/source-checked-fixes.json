@@ -236500,7 +236500,7 @@
         "url": "https://electionsireland.org/result.cfm?election=1948&cons=204",
         "accessed": "2026-09-12"
       },
-      "reason": "Imported with no candidates; candidates and votes from ElectionsIreland's result page. All 17 candidates, first preferences adding up to the valid poll of 50,120, and 5 elected for 5 seats. William Hargadon (Ailtiri na hAiseirghe) had 323 first preferences; the Irish Press and Irish Independent print 322, which makes the first preferences add up to the printed valid poll of 50,119.",
+      "reason": "Imported with no candidates; candidates and votes from ElectionsIreland's result page. All 17 candidates, first preferences adding up to the valid poll of 50,120, and 5 elected for 5 seats. William Hargadon (Ailtiri na hAiseirghe) had 323 first preferences; the Irish Press and Irish Independent print 322, which makes the first preferences add up to the printed valid poll of 50,119. The count table (data/elections/dail-wikipedia-counts) now also gives William Hargadon 322 first preferences, as the contest's rows already did from the newspapers, so the first count adds up to the valid poll of 50,119 (it had Wikipedia's 323).",
       "category": "gap-fill",
       "operations": [
         {
@@ -236770,10 +236770,17 @@
           "publisher": "Irish Newspaper Archives",
           "url": "https://irishnewsarchive.com/?a=d&d=IND19480207.1.8",
           "accessed": "2026-11-01"
+        },
+        {
+          "title": "Irish Press, 7 February 1948, p. 7",
+          "publisher": "Irish Newspaper Archives",
+          "url": "https://irishnewsarchive.com/?a=d&d=IPR19480207.1.7",
+          "accessed": "2026-11-01"
         }
       ],
       "alsoBatches": [
-        "ina-newspapers-2026-11-01"
+        "ina-newspapers-2026-11-01",
+        "w8-arith2-2026-11-12"
       ]
     },
     {
@@ -331031,6 +331038,63 @@
           "count": 3,
           "set": {
             "Transfers": "0.96"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "w8-arith2-2026-11-12",
+      "sourceFile": "data/elections-source/data/elections/local-government/1977-05-18/belfast-area-f.json",
+      "source": {
+        "title": "Local Government Election Results 1977, Belfast: Area F (PDF p. 153)",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401112642id_/http://www.eoni.org.uk/getmedia/4f2c8097-9a51-463d-8373-947a5954aa40/local_government_election_results_1977",
+        "accessed": "2026-11-12"
+      },
+      "reason": "Belfast Area F (18 May 1977): Thomas Murphy had 480.88 votes at stage 5 (nothing transferred to him), not 48,088, and was excluded with 480.88 at stage 6; Harry Fletcher received 1.30 at stage 5 (1,194.97) and 310 at stage 6; Jim Sullivan 302 at stage 5 (1,433.55); as the Electoral Office's declaration sheet gives them.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "candidateCount",
+          "name": "Thomas Murphy",
+          "count": 5,
+          "set": {
+            "Transfers": "0.00",
+            "Total_Votes": "480.88"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Thomas Murphy",
+          "count": 6,
+          "set": {
+            "Transfers": "-480.88"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Harry Fletcher",
+          "count": 5,
+          "set": {
+            "Transfers": "1.30",
+            "Total_Votes": "1194.97"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Harry Fletcher",
+          "count": 6,
+          "set": {
+            "Transfers": "310.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Jim Sullivan",
+          "count": 5,
+          "set": {
+            "Transfers": "302.00",
+            "Total_Votes": "1433.55"
           }
         }
       ]
