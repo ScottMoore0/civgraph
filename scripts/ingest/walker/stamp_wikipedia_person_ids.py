@@ -36,6 +36,11 @@ COMPASS = {'n': 'north', 's': 'south', 'e': 'east', 'w': 'west', 'mid': 'mid',
            'ne': 'east north', 'nw': 'north west', 'se': 'east south', 'sw': 'south west'}
 DROP = {'county', 'borough', 'city', 'town', 'division', 'of', 'the', 'and', 'constituency', 'uk', 'parliament'}
 SUFFIX = {'jnr.': 'Jnr', 'jnr': 'Jnr', 'snr.': 'Snr', 'snr': 'Snr'}
+# Articles a box links that are about someone else: the candidate is not stamped with them. The
+# North Westmeath (January 1910) and South Longford (1917) boxes link their Irish Parliamentary
+# candidate Patrick McKenna to the article on the Farmers' Party TD of 1923-27, which says nothing
+# of an earlier career; no source ties the two (c10-merge-leads, 12 Nov 2026).
+NOT_THE_ARTICLE = {'Patrick McKenna (Irish politician)'}
 
 
 def seat(name):
@@ -139,6 +144,9 @@ def stamp_file(path, date, by_seat, stats, write):
             dirty = True
         if not c.get('person'):
             stats['rows whose box name has no article'] += 1
+            continue
+        if c['person'] in NOT_THE_ARTICLE:
+            stats['rows whose box links an article about someone else'] += 1
             continue
         spid = 'wikipedia:' + c['person']
         if r.get('sourcePersonId') != spid:
