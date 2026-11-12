@@ -112,7 +112,9 @@ import { MAP_COLOURS } from '../colours.mjs';
  */
 
 /**
- * The controller's record of a layer on the map (this.layers).
+ * The controller's record of a layer on the map (this.layers). The last four fields are the map
+ * adapter's (packages/map/app/maplibre-main-adapter.js): the paint an election or an older
+ * edition replaced, kept to put back.
  * @typedef {{
  *   config: ControllerLayer,
  *   sourceId: string,
@@ -128,7 +130,11 @@ import { MAP_COLOURS } from '../colours.mjs';
  *   color: string,
  *   fillColor: string,
  *   strokeWidth?: number,
- *   attributeFilter?: { attribute: string, value: string } | null
+ *   attributeFilter?: { attribute: string, value: string } | null,
+ *   _electionOriginalPaint?: { fillColor?: unknown, fillOpacity?: unknown, lineColor?: unknown, lineOpacity?: unknown, lineWidth?: unknown, labelsEnabled?: boolean },
+ *   electionStyle?: { mode: string },
+ *   _editionOriginalPaint?: { lineColor: unknown, lineDash: unknown, lineWidth: unknown, fillOpacity: unknown },
+ *   editionRole?: string
  * }} LayerRecord
  */
 

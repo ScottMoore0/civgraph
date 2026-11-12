@@ -49,7 +49,8 @@ import { siteNumber } from '../../core/src/format.js';
  *   classCount?: number,
  *   classLabels?: string[],
  *   licence?: string | Licence,
- *   source?: { licence?: string | Licence, title?: string, url?: string }
+ *   source?: { licence?: string | Licence, title?: string, url?: string },
+ *   joinCrosswalk?: string
  * }} CensusEntry
  */
 
