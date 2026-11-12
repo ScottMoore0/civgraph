@@ -46,8 +46,18 @@ export const PERSONS = Object.freeze({
      JOIN contests k ON k.election_key = c.election_key AND k.seq = c.contest_seq
      WHERE c.person_id = ?1
      ORDER BY e.date, e.key, c.contest_seq, c.ord`,
-  /** A filter clause for the People list: the person stood for any of these parties (placeholders such as ?3) */
-  partyFilter: (/** @type {string[]} */ placeholders) => `EXISTS (
+  /**
+   * A filter clause for the People list: the person's card lists any of these party names (placeholders
+   * such as ?3). Read through person_card_parties' (party, slug) key: one index range per name, then the
+   * matching cards by slug, never a read of every card.
+   */
+  partyFilter: (/** @type {string[]} */ placeholders) =>
+    `slug IN (SELECT slug FROM person_card_parties WHERE party IN (${placeholders.join(', ')}))`,
+  /**
+   * The same filter read from the cards themselves (every card's parties), for a database without
+   * person_card_parties: only the fallback of a deployment that runs ahead of its records load.
+   */
+  partyFilterFromCards: (/** @type {string[]} */ placeholders) => `EXISTS (
         SELECT 1 FROM json_each(person_cards.card, '$.parties')
         WHERE json_extract(value, '$.name') IN (${placeholders.join(', ')})
       )`,
