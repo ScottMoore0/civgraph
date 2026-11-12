@@ -3,7 +3,8 @@
     "The UI files that type-check under `strict`: tsconfig.ui.json's options with strict on.",
     "`npm run check:types:ui` runs it after tsconfig.ui.json. A file joins `include` once it checks",
     "clean here. The PRONI app and words.js joined on 8 Nov 2026 (the noImplicitAny review, S5c);",
-    "browse.js is not yet (noImplicitAny findings; see tsconfig.ui.json for the flags it already meets).",
+    "browse.js joined on 12 Nov 2026 (stream rf8-types), when tsconfig.ui.json itself turned strict on: this list now names",
+    "every file of tsconfig.ui.json, and a file stays in it even if that config is ever loosened.",
     "The Elections app (site/apps/elections/, its /pkg/ re-exports under site/pkg/) joined on 11 Nov 2026 (arch audit P0/P5)."
   ],
   "extends": "./tsconfig.ui.json",
@@ -11,6 +12,7 @@
     "strict": true
   },
   "include": [
+    "../site/browse/browse.js",
     "../packages/ui/assets/state/machine.js",
     "../packages/ui/assets/state/theme.js",
     "../site/browse/state-machines.js",
