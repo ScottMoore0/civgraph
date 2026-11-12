@@ -35,3 +35,62 @@ test('no type-check suppressions in the pipeline folders', () => {
   for (const folder of FOLDERS) walk(path.join(REPO_ROOT, folder));
   assert.deepEqual(found, []);
 });
+
+// Stream rf9-pipeline-types (12 Nov 2026): the pipeline and tools scripts under full strict plus
+// noUnusedLocals and noUnusedParameters, the Node ones in tsconfig.pipeline-strict.json and the
+// catalogue editor's browser script in tsconfig.tools-browser.json. Every script in these places
+// is checked by one of them, and neither config loosens.
+const STRICT_CONFIGS = ['tsconfig.pipeline-strict.json', 'tsconfig.tools-browser.json'];
+const STRICT_FLAGS = ['strict', 'noImplicitAny', 'strictNullChecks', 'useUnknownInCatchVariables', 'strictPropertyInitialization', 'strictBuiltinIteratorReturn', 'noUnusedLocals', 'noUnusedParameters', 'noImplicitReturns'];
+// Folders, and single-level folders (a trailing /*), whose every script must be checked.
+const STRICT_PLACES = ['scripts/publish', 'scripts/maps', 'scripts/dev', 'tools', 'packages/maps-pipeline/src/thumbnails', 'scripts/*'];
+const SCRIPT = /\.(m?js|cjs)$/;
+
+/** The files a config checks (repository-relative), as tsc resolves its include list. */
+async function checkedFiles(/** @type {string} */ name) {
+  const ts = (await import('typescript')).default;
+  const abs = path.join(REPO_ROOT, 'config', name);
+  const read = ts.readConfigFile(abs, ts.sys.readFile);
+  const parsed = ts.parseJsonConfigFileContent(read.config, ts.sys, path.dirname(abs), undefined, abs);
+  return parsed.fileNames.map((f) => path.relative(REPO_ROOT, f).split(path.sep).join('/'));
+}
+
+/** The scripts of a place: a folder, walked, or `dir/*`, that folder's own files only. */
+function scriptsOf(/** @type {string} */ place) {
+  const shallow = place.endsWith('/*');
+  const dir = shallow ? place.slice(0, -2) : place;
+  /** @type {string[]} */
+  const out = [];
+  const walk = (/** @type {string} */ rel) => {
+    for (const e of readdirSync(path.join(REPO_ROOT, rel), { withFileTypes: true })) {
+      const child = `${rel}/${e.name}`;
+      if (e.isDirectory()) { if (!shallow && e.name !== 'state' && e.name !== 'node_modules') walk(child); }
+      else if (SCRIPT.test(e.name)) out.push(child);
+    }
+  };
+  walk(dir);
+  return out;
+}
+
+test('the strict pipeline and tools configs keep full strict and noUnused* on', () => {
+  for (const name of STRICT_CONFIGS) {
+    const c = JSON.parse(readFileSync(path.join(REPO_ROOT, 'config', name), 'utf8'));
+    for (const flag of STRICT_FLAGS) assert.equal(c.compilerOptions[flag], true, `${name} turned ${flag} off`);
+    assert.equal(c.extends, undefined, `${name} must not inherit its flags`);
+  }
+  const pkg = JSON.parse(readFileSync(path.join(REPO_ROOT, 'package.json'), 'utf8'));
+  for (const name of STRICT_CONFIGS) assert.match(pkg.scripts['check:types:pipeline'], new RegExp(`config/${name.replaceAll('.', '\.')}`));
+  assert.match(pkg.scripts.check, /npm run check:types:pipeline/);
+});
+
+test('every pipeline and tools script is checked under strict with noUnused*', async () => {
+  const checked = new Set((await Promise.all(STRICT_CONFIGS.map(checkedFiles))).flat());
+  const missing = STRICT_PLACES.flatMap(scriptsOf).filter((f) => !checked.has(f));
+  assert.deepEqual(missing, [], 'a script here joins tsconfig.pipeline-strict.json (Node) or tsconfig.tools-browser.json (browser)');
+});
+
+test('no type-check suppressions in the tools and thumbnail scripts', () => {
+  const found = ['tools', 'packages/maps-pipeline/src/thumbnails', 'scripts/*'].flatMap(scriptsOf)
+    .filter((f) => /@ts-(nocheck|ignore|expect-error)/.test(readFileSync(path.join(REPO_ROOT, f), 'utf8')));
+  assert.deepEqual(found, []);
+});

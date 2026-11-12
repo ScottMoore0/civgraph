@@ -23,6 +23,10 @@ const args = process.argv.slice(2);
 const sampleCount = Number(args[args.indexOf('--samples') + 1]) || 2;
 const targets = args.filter((a) => !a.startsWith('--') && a !== String(sampleCount));
 
+/** @typedef {import('geojson').Position} Position */
+/** A geometry's coordinates, at any depth. @typedef {Position | Position[] | Position[][] | Position[][][]} Coords */
+
+/** @param {string} target @returns {string[]} */
 function collect(target) {
   const stat = statSync(target);
   if (stat.isDirectory()) {
@@ -34,17 +38,26 @@ function collect(target) {
   return [target];
 }
 
-/** The attribute most likely to be the human-readable name of a boundary. */
+/**
+ * The attribute most likely to be the human-readable name of a boundary.
+ * @param {import('geojson').GeoJsonProperties} properties
+ * @returns {{ key: string, value: unknown } | null}
+ */
 function pickLabel(properties) {
   const keys = Object.keys(properties || {});
   const preferred = keys.find((k) => /^(name|label|title)$/i.test(k))
     || keys.find((k) => /name/i.test(k))
     || keys[0];
-  return preferred ? { key: preferred, value: properties[preferred] } : null;
+  // A key was found, so the properties are there.
+  return preferred ? { key: preferred, value: /** @type {Record<string, unknown>} */ (properties)[preferred] } : null;
 }
 
+/** @param {Coords} coords @returns {coords is number[]} */
+const isPosition = (coords) => typeof coords[0] === 'number';
+
+/** @param {number[]} bounds @param {Coords} coords */
 function extendBounds(bounds, coords) {
-  if (typeof coords[0] === 'number') {
+  if (isPosition(coords)) {
     const [x, y] = coords;
     if (x < bounds[0]) bounds[0] = x;
     if (y < bounds[1]) bounds[1] = y;
@@ -78,7 +91,8 @@ for (const file of files) {
       for (const key of Object.keys(feature.properties || {})) propertyKeys.add(key);
       const type = feature.geometry?.type || 'none';
       geometryTypes.set(type, (geometryTypes.get(type) || 0) + 1);
-      if (feature.geometry?.coordinates) extendBounds(bounds, feature.geometry.coordinates);
+      const geometry = feature.geometry;
+      if (geometry && 'coordinates' in geometry && geometry.coordinates) extendBounds(bounds, geometry.coordinates);
       if (samples.length < sampleCount) {
         const label = pickLabel(feature.properties);
         if (label) samples.push(`${label.key}=${JSON.stringify(label.value)}`);
@@ -94,7 +108,7 @@ for (const file of files) {
     if (samples.length) console.log(`  sample   : ${samples.join(' | ')}`);
   } catch (error) {
     failures += 1;
-    console.log(`  UNREADABLE: ${String(error.message).slice(0, 160)}`);
+    console.log(`  UNREADABLE: ${String(/** @type {Error} */ (error).message).slice(0, 160)}`);
   }
 }
 
