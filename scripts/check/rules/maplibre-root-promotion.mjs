@@ -139,8 +139,8 @@ assert(
 );
 assert(
   test2Css.includes(':root:not([data-theme="light"]) .flat-election-entry--active') &&
-    test2Css.includes('background: #1d2b3d') &&
-    test2Css.includes('color: #eef6ff') &&
+    test2Css.includes('background: var(--raw-1d2b3d)') &&
+    test2Css.includes('color: var(--raw-eef6ff)') &&
     test2Css.includes(':root:not([data-theme="light"]) .test2-source-panel') &&
     test2Css.includes(':root:not([data-theme="light"]) .test2-election-table th'),
   '/test2 system dark mode must cover active catalogue rows and test2-specific panels.'
