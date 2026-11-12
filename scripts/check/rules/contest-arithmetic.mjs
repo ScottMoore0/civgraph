@@ -524,6 +524,7 @@ export function loadContests(db) {
     if (!c) continue;
     const status = String(row.status || '');
     /** @type {Cand} */
+    // arch-ok R6: elected and excluded are the candidate record's own field names, not status values
     const cand = {
       ord: Number(row.ord),
       name: String(row.name || ''),
@@ -602,7 +603,7 @@ async function main() {
     const { recordPaths } = await import('../../../packages/config/src/node.mjs');
     const { createDatabase } = await import('../../../packages/loader/src/db.mjs');
     const { ingestElections } = await import('../../../packages/loader/src/ingest-elections.mjs');
-    const P = recordPaths({ ...process.env, CIVGRAPH_BUILD_DIR: process.env.CIVGRAPH_BUILD_DIR || 'tmp/records' });
+    const P = recordPaths(process.env);
     if (!existsSync(P.ELECTION_MANIFEST)) {
       console.log(`SKIP contest-arithmetic: no election manifest at ${path.relative(ROOT, P.ELECTION_MANIFEST)}`);
       return 0;
@@ -610,7 +611,8 @@ async function main() {
     db = createDatabase(':memory:');
     ingestElections(db, { bundleDir: P.ELECTION_BUNDLE_DIR, manifestFile: P.ELECTION_MANIFEST, summaryDir: P.ELECTION_SUMMARY_DIR });
   } else {
-    const dbPath = path.resolve(ROOT, opt('--db') || process.env.CIVGRAPH_RECORDS_DB || 'tmp/records/civgraph-records.sqlite');
+    const { loadConfig } = await import('../../../packages/config/src/node.mjs');
+    const dbPath = path.resolve(ROOT, opt('--db') || loadConfig(process.env).recordsDb || '');
     if (!existsSync(dbPath)) {
       console.log(`SKIP contest-arithmetic: no records database at ${path.relative(ROOT, dbPath)} (run npm run records:build, or pass --db)`);
       return 0;
