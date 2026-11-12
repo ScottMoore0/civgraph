@@ -321,7 +321,7 @@ assert(appSource.includes('const variantIds = mapConfig.variants') && appSource.
 assertCatalogueMetadata();
 assert(test2Css.includes('.maplibre-dom-label.map-label--hover'), '/test2 DOM labels must expose hover styling');
 assert(test2Css.includes('.maplibre-dom-label.map-label--selected'), '/test2 selected DOM labels must keep the same orange styling as hover labels');
-assert(test2Css.includes('color: #ff7a1a !important'), '/test2 hovered labels must change text colour directly like the main site');
+assert(test2Css.includes('color: var(--raw-ff7a1a) !important'), '/test2 hovered labels must change text colour directly like the main site');
 assert(mapControllerSource.includes("const INTERACTION_FILL_COLOR = '#FDBA74'"), '/test2 selected and hover fills must share the main-style light orange colour');
 assert(mapControllerSource.includes("const INTERACTION_STROKE_COLOR = '#FF7A1A'"), '/test2 selected and hover strokes must share the main-style deep orange colour');
 assert(mapControllerSource.includes('selectedFillId') && mapControllerSource.includes("['feature-state', 'selected']"), '/test2 polygon selections must include a selected fill, not only an outline');
@@ -439,7 +439,7 @@ assert(electionDataAuditSource.includes('rowsMissingExpectedTransferData') && el
 assert(electionManagerSource.includes('renderSeatCircles') && electionManagerSource.includes('new maplibregl.Marker') && electionManagerSource.includes('seatCircleMarkers'), '/test2 election manager must render map-anchored DOM seat-circle markers for ordinary elections');
 assert(electionManagerSource.includes('ensureSeatCircleOverlay') && electionManagerSource.includes('election-seat-circle') && electionManagerSource.includes('seat-dot'), '/test2 seat circles must use main-style DOM marker structure instead of MapLibre circle paint');
 assert(appSource.includes('unloadActiveElectionForLayer(mapId)') && appSource.includes('isActiveElectionLayerId(mapId)') && (appSource.includes('this.elections.unloadElection()') || appSource.includes('this.elections.unloadElection({ unloadBackingLayer: false })')), '/test2 active-layer removal must route active election source/canonical IDs through the election manager so DOM seat-circle markers are removed');
-assert(test2Css.includes('.test2-election-seat-dot') && test2Css.includes('rgba(0, 0, 0, .6)') && test2Css.includes('box-shadow: 0 0 0 1px #fff'), '/test2 election seat-circle DOM dots must use the main-style black stroke plus white outer halo');
+assert(test2Css.includes('.test2-election-seat-dot') && test2Css.includes('var(--raw-000000-a600)') && test2Css.includes('box-shadow: 0 0 0 1px var(--raw-ffffff)'), '/test2 election seat-circle DOM dots must use the main-style black stroke plus white outer halo');
 assert(electionManagerSource.includes('SEAT_CIRCLE_COLLISION_MARGIN = 4') && electionManagerSource.includes('SEAT_CIRCLE_MIN_TOTAL_EXTENT = 120'), '/test2 seat-circle zoom collision constants must match the main Leaflet overlay rules');
 assert(electionManagerSource.includes('scheduleElectionOverlayRefresh') && electionManagerSource.includes('overlayRefreshPending'), '/test2 seat-circle overlays must coalesce zoomend/moveend refreshes instead of running overlapping rebuilds');
 assert(electionManagerSource.includes('Math.abs(group.point.x - existing.point.x)') && electionManagerSource.includes('Math.abs(group.point.y - existing.point.y)'), '/test2 seat-circle collision must use main-style centre distance and half-extent checks');
