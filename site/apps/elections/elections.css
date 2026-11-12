@@ -11,24 +11,6 @@
   font-family: var(--font-sans);
   line-height: var(--leading-normal, 1.5);
 }
-.el-tabs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-1);
-  margin: 0 0 var(--space-6);
-  padding-bottom: var(--space-2);
-  border-bottom: 1px solid var(--border);
-}
-.el-tabs a {
-  padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-md);
-  color: var(--text-muted);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
-  text-decoration: none;
-}
-.el-tabs a:hover { background: var(--surface-sunken); color: var(--text); }
-.el-tabs a[aria-current="page"] { background: var(--surface-sunken); color: var(--text); box-shadow: inset 0 -2px 0 var(--color-primary); }
 #el-view[aria-busy="true"] { opacity: 0.6; transition: opacity var(--transition-fast, 0.1s); }
 .el-loading { color: var(--text-muted); }
 .el-head h1 { margin: 0 0 var(--space-1); font-size: var(--text-3xl); line-height: var(--leading-tight); }
@@ -85,7 +67,6 @@ h2 { margin: var(--space-8) 0 var(--space-3); font-size: var(--text-xl); }
 .el-map { width: 100%; height: 60vh; min-height: 22rem; border: 1px solid var(--border); border-radius: var(--radius-lg); }
 .el-multiples { display: grid; grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr)); gap: var(--space-3); }
 .el-multiples figure { margin: 0; }
-.el-legend { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); margin: var(--space-2) 0; font-size: var(--text-sm); }
 .el-estimate { border-left-color: var(--warning); }
 @media (max-width: 36rem) {
   .el-head h1 { font-size: var(--text-2xl); }

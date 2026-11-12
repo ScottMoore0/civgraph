@@ -21,3 +21,11 @@
   border-radius: 2px;
   background: var(--legend-colour, var(--gray-400));
 }
+
+/*
+ * A key of party chips (.cg-party, party-chip.css) rather than swatch items: the Elections app's
+ * map key. Markup: <div class="cg-legend cg-legend--chips"><span class="cg-party">...</span></div>.
+ */
+.cg-legend--chips {
+  margin: var(--space-2) 0;
+}

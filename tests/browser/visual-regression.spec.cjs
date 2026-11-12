@@ -121,7 +121,7 @@ for (const size of SIZES) {
       await page.route('**/design-system/', (route) => route.fulfill({ status: 200, contentType: 'text/html; charset=utf-8', body }));
       await page.goto('/design-system/', { waitUntil: 'load' });
       await expect(page.locator('#cg-gallery-tokens table').first()).toBeVisible();
-      // The apps' components draw themselves into shadow roots (gallery.js drawIslands).
+      // The apps' components draw themselves into frames (gallery.js drawIslands).
       await expect(page.locator('[data-gallery-island]:not([data-ready="true"])')).toHaveCount(0);
       await settle(page);
       // [snapshot, the element shown alone, the element shot]

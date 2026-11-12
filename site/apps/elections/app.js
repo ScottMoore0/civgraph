@@ -46,7 +46,7 @@ async function render() {
   routeRun.to('loading');
   root.dataset.route = 'loading';
   const route = parseRoute(location.pathname, location.search);
-  for (const a of document.querySelectorAll('.el-tabs a')) {
+  for (const a of document.querySelectorAll('.cg-tabs__bar a')) {
     if (a.getAttribute('data-tab') === TAB_OF[route.view]) a.setAttribute('aria-current', 'page');
     else a.removeAttribute('aria-current');
   }

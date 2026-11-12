@@ -209,10 +209,10 @@ test.describe('Civgraph Elections', () => {
       await page.goto('/elections/swing/?e=northern-ireland-assembly-2022-05-05');
       await expect(page.locator('#sw-seats table')).toBeVisible({ timeout: 60000 });
       for (let i = 0; i < 3; i += 1) {
-        await page.click('.el-tabs a[data-tab="home"]');
+        await page.click('.cg-tabs__bar a[data-tab="home"]');
         await expect(page.locator('#el-view')).toHaveAttribute('data-route', 'rendered');
         expect(await rootListeners(page, 'input')).toBe(0);
-        await page.click('.el-tabs a[data-tab="swing"]');
+        await page.click('.cg-tabs__bar a[data-tab="swing"]');
         await expect(page.locator('#sw-seats table')).toBeVisible({ timeout: 60000 });
         expect(await rootListeners(page, 'input')).toBe(1);
       }
@@ -224,7 +224,7 @@ test.describe('Civgraph Elections', () => {
       });
       await page.locator('input[type=range]').first().evaluate((el) => { el.value = '2'; el.dispatchEvent(new Event('input', { bubbles: true })); });
       expect(await page.evaluate(() => window.__replaced)).toBe(1);
-      await page.click('.el-tabs a[data-tab="notional"]');
+      await page.click('.cg-tabs__bar a[data-tab="notional"]');
       await expect(page.locator('h1')).toHaveText('Notional results', { timeout: 60000 });
       await expect(page.locator('#el-view')).toHaveAttribute('data-route', 'rendered', { timeout: 60000 });
       expect(await rootListeners(page, 'input')).toBe(1);
@@ -253,7 +253,7 @@ test.describe('Civgraph Elections', () => {
       }
       const counts = await page.evaluate(() => ({ made: window.__made, removed: window.__removed }));
       expect(counts).toEqual({ made: 3, removed: 3 });
-      await page.click('.el-tabs a[data-tab="home"]');
+      await page.click('.cg-tabs__bar a[data-tab="home"]');
       await expect(page.locator('#el-view')).toHaveAttribute('data-route', 'rendered');
       expect(await page.evaluate(() => window.__removed)).toBe(4);
       await expect(page.locator('canvas')).toHaveCount(0);

@@ -36,3 +36,29 @@
   color: var(--text);
   border-bottom-color: var(--color-accent);
 }
+
+/*
+ * The bar (`cg-tabs__bar`): an app's own navigation between its views (the Elections app), a nav of
+ * links that wraps, with a filled hover and an underline on the current page
+ * (aria-current="page"). Markup: <nav class="cg-tabs__bar"><a href ...>...</a></nav>.
+ */
+.cg-tabs__bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin: 0 0 var(--space-6);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--border);
+}
+
+.cg-tabs__bar a {
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  text-decoration: none;
+}
+
+.cg-tabs__bar a:hover { background: var(--surface-sunken); color: var(--text); }
+.cg-tabs__bar a[aria-current="page"] { background: var(--surface-sunken); color: var(--text); box-shadow: inset 0 -2px 0 var(--color-primary); }
