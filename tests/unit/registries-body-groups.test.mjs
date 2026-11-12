@@ -14,6 +14,7 @@ import { bodySlugsWithFlag } from '../../packages/registries/src/councils.mjs';
 import { groupLabel } from '../../packages/registries/src/browser/body-groups.mjs';
 import electionGroups from '../../packages/registries/src/browser/election-groups.mjs';
 import { electionTypeFromEntityKey } from '../../packages/map/src/app/helpers.mjs';
+import { bodyGroup as homeBodyGroup } from '../../site/apps/elections/views/home.js';
 
 const registry = loadRegistry('election-bodies');
 const councils = loadRegistry('councils');
@@ -106,7 +107,10 @@ test('body groups: the Elections home page groups every body as before', () => {
     if (/(leadership|nomination)/.test(slug)) return 'Party contests';
     return 'Parliaments, assemblies and offices';
   };
-  for (const slug of SLUGS) assert.equal(groupLabel(electionGroups.electionsHome, slug), before(slug), slug);
+  for (const slug of SLUGS) {
+    assert.equal(groupLabel(electionGroups.electionsHome, slug), before(slug), slug);
+    assert.equal(homeBodyGroup(slug), before(slug), `home.js ${slug}`);
+  }
   assert.deepEqual(electionGroups.electionsHome.order, ['Parliaments, assemblies and offices', 'Local government', 'Referendums', 'Northern Ireland councils before 1973', 'Party contests']);
 });
 
