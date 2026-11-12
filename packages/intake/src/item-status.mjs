@@ -10,6 +10,7 @@
  * Each item status is the outcome of one item (a file, a page, a layer): from pending to one
  * terminal value, never back. Modes are chosen once per run.
  */
+import { loadRegistry } from '../../registries/src/index.mjs';
 
 /** Files mirrored to the Internet Archive. */
 export const MIRROR_ITEM = Object.freeze(/** @type {const} */ (['already', 'uploaded', 'failed', 'skipped-dynamic', 'mirrored']));
@@ -32,8 +33,17 @@ export const PRONI_SCAN_LEVEL = Object.freeze(/** @type {const} */ (['index', 'd
 export const PRONI_BENCHMARK_MODE = Object.freeze(/** @type {const} */ (['baseline', 'dfs']));
 /** NI Assembly harvest phase. */
 export const NIA_HARVEST_PHASE = Object.freeze(/** @type {const} */ (['seed', 'detail', 'supplement', 'all']));
-/** A candidate's result on a Dail count sheet (the candidate-count vocabulary, RG-01). */
-export const COUNT_RESULT = Object.freeze(/** @type {const} */ (['Elected', 'Excluded', 'Not Elected']));
+/**
+ * A candidate's result on a Dail count sheet (the candidate-count vocabulary, RG-01): the statuses
+ * registry's printed spelling of each outcome of that machine (each state after the initial one,
+ * by its first spelling): Elected, Excluded, Not Elected.
+ */
+const CANDIDATE_COUNT = /** @type {{ initial: string, transitions: Record<string, string[]>, spellings: Record<string, string> }} */ (
+  /** @type {unknown} */ (loadRegistry('statuses').machines['candidate-count']));
+const COUNT_SPELLINGS = CANDIDATE_COUNT.spellings;
+export const COUNT_RESULT = Object.freeze(Object.keys(CANDIDATE_COUNT.transitions)
+  .filter((state) => state !== CANDIDATE_COUNT.initial)
+  .map((state) => /** @type {string} */ (Object.keys(COUNT_SPELLINGS).find((spelling) => COUNT_SPELLINGS[spelling] === state))));
 
 /**
  * A vocabulary as a frozen name map: each value under its own name (NAME.value, or

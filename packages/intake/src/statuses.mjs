@@ -43,6 +43,7 @@
  *   day. checks/ni-council-rounds.mjs reports a staging folder against this gate.
  */
 import { defineMachine } from '../../core/src/state-machine.mjs';
+import { loadRegistry } from '../../registries/src/index.mjs';
 
 /** @typedef {'draft' | 'staged' | 'committed' | 'uploaded' | 'published' | 'abandoned'} BatchStatus */
 
@@ -116,16 +117,13 @@ export function commandAllowed(command, status) {
 
 /** @typedef {'pending-review' | 'approved' | 'rejected' | 'applied'} ContributionStatus */
 
-export const CONTRIBUTION_STATUS = defineMachine(/** @type {import('../../core/src/state-machine.mjs').MachineSpec<ContributionStatus>} */ ({
+// The table is the statuses registry's machine `contribution` (RG-04), not a copy kept here.
+const CONTRIBUTION_MACHINE = loadRegistry('statuses').machines.contribution;
+export const CONTRIBUTION_STATUS = defineMachine(/** @type {import('../../core/src/state-machine.mjs').MachineSpec<ContributionStatus>} */ (/** @type {unknown} */ ({
   name: 'contribution status',
-  initial: 'pending-review',
-  transitions: {
-    'pending-review': ['approved', 'rejected'],
-    approved: ['applied'],
-    rejected: [],
-    applied: [],
-  },
-}));
+  initial: CONTRIBUTION_MACHINE.initial,
+  transitions: structuredClone(CONTRIBUTION_MACHINE.transitions),
+})));
 
 /** @typedef {'queued' | 'held' | 'done' | 'partial' | 'no-election' | 'applied'} RoundStatus */
 
