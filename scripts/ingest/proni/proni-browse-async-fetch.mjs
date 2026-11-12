@@ -15,6 +15,14 @@ import { performance } from 'node:perf_hooks';
 const BASE = 'https://apps.proni.gov.uk/eCatNI_IE/';
 const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/148 Safari/537.36';
 
+/**
+ * One row of the records index (proni-fast-indexer.mjs), as far as this fetch reads it.
+ * @typedef {{ branchKey?: string, page?: number | string, ctl?: string, letter?: string, path?: string[], expectedRef?: string, resultsViewName?: string, resultsViewValue?: string, pageSnapshotPath: string, pageSnapshotMetadataPath?: string }} IndexRow
+ * @typedef {{ cookieHeader?: string }} SnapshotMetadata
+ * @typedef {{ Repository: string, 'PRONI Reference': string, Level: string, Access: string, Title: string, Dates: string, Description: string, 'Digital Record': string, rawAttributes: Record<string, string | string[]>, attributeKeys: string[], rawAttributeCount: number }} DetailFields
+ */
+
+/** @param {string} name */
 function getArg(name, fallback = '') {
   const prefix = `--${name}=`;
   const found = process.argv.find((item) => item.startsWith(prefix));
@@ -24,11 +32,13 @@ function getArg(name, fallback = '') {
   return fallback;
 }
 
+/** @param {string} name @param {number} fallback */
 function getNumberArg(name, fallback) {
-  const value = Number(getArg(name, fallback));
+  const value = Number(getArg(name, String(fallback)));
   return Number.isFinite(value) ? value : fallback;
 }
 
+/** @param {string} name */
 function hasFlag(name) {
   return process.argv.includes(`--${name}`);
 }
@@ -55,6 +65,7 @@ function stripHtml(html = '') {
     .trim();
 }
 
+/** @param {string} tag @param {string} name */
 function getTagAttribute(tag, name) {
   const doubleQuoted = tag.match(new RegExp(`\\b${name}\\s*=\\s*"([^"]*)"`, 'i'));
   if (doubleQuoted) return decodeHtml(doubleQuoted[1]);
@@ -63,7 +74,9 @@ function getTagAttribute(tag, name) {
   return '';
 }
 
+/** @param {string} html */
 function parseInputs(html) {
+  /** @type {Map<string, string>} */
   const body = new Map();
   for (const match of html.matchAll(/<input\b[^>]*>/gi)) {
     const tag = match[0];
@@ -81,6 +94,7 @@ function parseInputs(html) {
   return body;
 }
 
+/** @param {Record<string, string | string[]>} attributes @param {string} key @param {string} value */
 function addRawAttribute(attributes, key, value) {
   if (!key) return;
   if (!(key in attributes)) {
@@ -92,10 +106,12 @@ function addRawAttribute(attributes, key, value) {
   }
 }
 
+/** @param {string} html @returns {DetailFields} */
 function extractDetailFields(html) {
   const wanted = ['Repository', 'PRONI Reference', 'Level', 'Access', 'Title', 'Dates', 'Description', 'Digital Record'];
   const result = Object.fromEntries(wanted.map((key) => [key, '']));
   const canonicalByLower = new Map(wanted.map((key) => [key.toLowerCase(), key]));
+  /** @type {Record<string, string | string[]>} */
   const rawAttributes = {};
 
   for (const rowMatch of html.matchAll(/<tr\b[\s\S]*?<\/tr>/gi)) {
@@ -118,14 +134,15 @@ function extractDetailFields(html) {
     if ('Digital Record' in rawAttributes) rawAttributes['Digital Record'] = '';
   }
 
-  return {
+  return /** @type {DetailFields} */ ({
     ...result,
     rawAttributes,
     attributeKeys: Object.keys(rawAttributes),
     rawAttributeCount: Object.keys(rawAttributes).length
-  };
+  });
 }
 
+/** @param {string} file */
 async function readJsonl(file) {
   const raw = await readFile(file, 'utf8');
   return raw.split(/\r?\n/)
@@ -134,6 +151,7 @@ async function readJsonl(file) {
     .map((line) => JSON.parse(line));
 }
 
+/** @param {string} file @returns {Promise<SnapshotMetadata | null>} */
 async function readJsonIfExists(file) {
   if (!file) return null;
   try {
@@ -144,11 +162,13 @@ async function readJsonIfExists(file) {
   }
 }
 
+/** @param {number} status @param {string} content */
 function isBlocked(status, content) {
   if (status !== 200) return true;
   return /Request Rejected|support ID|Access Denied|Too Many Requests|rate limit|throttl/i.test(content);
 }
 
+/** @param {number} status @param {string} content */
 function failureReason(status, content, error = '') {
   if (error) return error;
   if (status !== 200) return `http ${status}`;
@@ -166,6 +186,7 @@ function classifyHtml(content = '') {
   return 'unknown';
 }
 
+/** @param {number} rps */
 function makeLimiter(rps) {
   let nextAt = 0;
   const gap = rps > 0 ? 1000 / rps : 0;
@@ -178,12 +199,17 @@ function makeLimiter(rps) {
   };
 }
 
+/**
+ * @param {IndexRow} row @param {string} html @param {() => Promise<void>} limiter
+ * @param {SnapshotMetadata | null} [metadata]
+ */
 async function postDetailFromSnapshot(row, html, limiter, metadata = null) {
   if (!row.resultsViewName) throw new Error(`index row ${row.branchKey} page ${row.page} ${row.ctl} has no resultsViewName`);
   const form = parseInputs(html);
   form.set(row.resultsViewName, row.resultsViewValue || '');
   const params = new URLSearchParams();
   for (const [key, value] of form.entries()) params.append(key, value);
+  /** @type {Record<string, string>} */
   const headers = {
     'user-agent': USER_AGENT,
     accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -209,6 +235,10 @@ async function postDetailFromSnapshot(row, html, limiter, metadata = null) {
   };
 }
 
+/**
+ * @template T
+ * @param {T[]} items @param {number} concurrency @param {(item: T, workerId: number) => Promise<void>} worker
+ */
 async function runConcurrent(items, concurrency, worker) {
   let cursor = 0;
   const workers = Array.from({ length: Math.max(1, concurrency) }, async (_, workerId) => {
@@ -220,12 +250,14 @@ async function runConcurrent(items, concurrency, worker) {
   await Promise.all(workers);
 }
 
+/** @param {IndexRow[]} rows */
 function groupRowsBySnapshot(rows) {
+  /** @type {Map<string, IndexRow[]>} */
   const groups = new Map();
   for (const row of rows) {
     const key = row.pageSnapshotMetadataPath || row.pageSnapshotPath || `${row.branchKey}|${row.page}`;
     if (!groups.has(key)) groups.set(key, []);
-    groups.get(key).push(row);
+    /** @type {IndexRow[]} */ (groups.get(key)).push(row);
   }
   return [...groups.values()];
 }
@@ -253,13 +285,17 @@ const summaryPath = path.join(outDir, 'summary-async.json');
 await rm(detailsPath, { force: true });
 await rm(failuresPath, { force: true });
 
+/** @type {IndexRow[]} */
 const rows = (await readJsonl(indexPath))
-  .filter((row) => row.pageSnapshotPath && row.resultsViewName)
+  .filter((/** @type {IndexRow} */ row) => row.pageSnapshotPath && row.resultsViewName)
   .slice(0, maxRecords > 0 ? maxRecords : undefined);
 
+/** @type {Map<string, string>} */
 const snapshotCache = new Map();
+/** @type {Map<string, SnapshotMetadata | null>} */
 const metadataCache = new Map();
 const limiter = makeLimiter(globalRps);
+/** @type {{ startedAt: string, indexPath: string, outDir: string, maxRecords: number, concurrency: number, globalRps: number, indexedRows: number, detailsFetched: number, failures: number, mismatches: number, blockedResponses: number, snapshotReads: number, snapshotCacheHits: number, snapshotMetadataReads: number, snapshotMetadataCacheHits: number, snapshotGroups: number, finishedAt?: string, elapsedSeconds?: number, recordsPerSecond?: number }} */
 const summary = {
   startedAt: new Date().toISOString(),
   indexPath: path.resolve(indexPath),
@@ -279,11 +315,12 @@ const summary = {
   snapshotGroups: 0
 };
 
+/** @param {string} snapshotPath @returns {Promise<string>} */
 async function getSnapshot(snapshotPath) {
   const resolved = path.resolve(snapshotPath);
   if (snapshotCache.has(resolved)) {
     summary.snapshotCacheHits += 1;
-    return snapshotCache.get(resolved);
+    return /** @type {string} */ (snapshotCache.get(resolved));
   }
   const html = await readFile(resolved, 'utf8');
   snapshotCache.set(resolved, html);
@@ -291,12 +328,13 @@ async function getSnapshot(snapshotPath) {
   return html;
 }
 
+/** @param {string | undefined} metadataPath */
 async function getSnapshotMetadata(metadataPath) {
   if (!metadataPath) return null;
   const resolved = path.resolve(metadataPath);
   if (metadataCache.has(resolved)) {
     summary.snapshotMetadataCacheHits += 1;
-    return metadataCache.get(resolved);
+    return /** @type {SnapshotMetadata | null} */ (metadataCache.get(resolved));
   }
   const metadata = await readJsonIfExists(resolved);
   metadataCache.set(resolved, metadata);
@@ -304,6 +342,7 @@ async function getSnapshotMetadata(metadataPath) {
   return metadata;
 }
 
+/** @param {IndexRow} row @param {number} workerId */
 async function fetchRow(row, workerId) {
   try {
     const html = await getSnapshot(row.pageSnapshotPath);
@@ -377,7 +416,7 @@ async function fetchRow(row, workerId) {
       page: row.page,
       ctl: row.ctl,
       expectedRef: row.expectedRef || '',
-      error: error.message
+      error: /** @type {Error} */ (error).message
     })}\n`);
     if (stopOnBlocked) throw error;
   }
