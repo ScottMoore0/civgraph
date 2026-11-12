@@ -20,6 +20,14 @@ const SOURCE_RECORD_ACTIONS = new Set([
   'metadata-review'
 ]);
 
+/**
+ * One audit row, cleaned (normalizeRow). modifiedDate is read by toSourceRecord but never set.
+ * @typedef {ReturnType<typeof normalizeRow> & { modifiedDate?: string }} PeatRow
+ * @typedef {{ type: string, itemId: string, itemPage: string }} ArcgisSibling
+ * @typedef {{ idPrefix: string, type: string, category: string, subtitle: string, hierarchyLabel: string, statusChips: string[], publicationStatus: string, proposedBrowsePath: string, approvalAction: string, conversionRecommendation: string, dedupeRecommendation: string, confidence: string, parentId?: string | null, parentTitle?: string | null, relationship?: string }} SourceClass
+ * @typedef {ReturnType<typeof targetForMatch> & { sourceRecordBrowseUrl: string, evidence: object[], sourceItems: ReturnType<typeof toArcgisSourceItem>[], safetyClasses: string[], enrichmentTypes: string[], formats: string[], providers: string[], categories: string[], rowNumbers: string[] }} EnrichmentGroup
+ */
+
 main();
 
 function main() {
@@ -127,6 +135,7 @@ function main() {
   console.log(`Wrote ${path.relative(ROOT, OUTPUT)} with ${sources.length} source records, ${targets.length} enrichment targets, and ${candidateConversionReview.length} conversion-review rows.`);
 }
 
+/** @param {Record<string, string>} row @param {number} rowNumber */
 function normalizeRow(row, rowNumber) {
   const title = cleanText(row.title);
   return {
@@ -156,6 +165,7 @@ function normalizeRow(row, rowNumber) {
   };
 }
 
+/** @param {PeatRow} row */
 function toSourceRecord(row) {
   const sourceClass = classifySourceRecord(row);
   const id = `peatland-geoportal:${sourceClass.idPrefix}:${slugify(row.title)}:${row.itemId}`;
@@ -206,6 +216,7 @@ function toSourceRecord(row) {
   });
 }
 
+/** @param {PeatRow} row @returns {SourceClass} */
 function classifySourceRecord(row) {
   if (row.recommendedAction === 'source-document-record') {
     const isPdf = row.type === 'PDF';
@@ -244,7 +255,7 @@ function classifySourceRecord(row) {
       approvalAction: 'retain as conversion candidate; do not publish runtime layer until approved',
       conversionRecommendation: bestConversionRecommendation(row),
       dedupeRecommendation: dedupeRecommendation(row),
-      confidence: row.civgraphMatchScore >= 0.75 ? 'needs variant/dedupe review' : 'candidate'
+      confidence: (row.civgraphMatchScore ?? 0) >= 0.75 ? 'needs variant/dedupe review' : 'candidate'
     };
   }
 
@@ -298,8 +309,10 @@ function classifySourceRecord(row) {
   };
 }
 
+/** @param {PeatRow[]} rows */
 function buildExistingRecordEnrichments(rows) {
   const enrichmentRows = rows.filter((row) => row.recommendedAction === 'likely-duplicate-enrich-existing' && row.civgraphMatchId);
+  /** @type {Map<string, EnrichmentGroup>} */
   const groups = new Map();
   for (const row of enrichmentRows) {
     const target = targetForMatch(row);
@@ -322,7 +335,7 @@ function buildExistingRecordEnrichments(rows) {
         rowNumbers: []
       });
     }
-    const group = groups.get(key);
+    const group = /** @type {EnrichmentGroup} */ (groups.get(key));
     group.evidence.push(compactObject({
       kind: row.civgraphMatchKind || 'matched-record',
       id: row.civgraphMatchId,
@@ -346,6 +359,7 @@ function buildExistingRecordEnrichments(rows) {
     .sort(sortByTitle);
 }
 
+/** @param {PeatRow} row */
 function targetForMatch(row) {
   if (row.civgraphMatchKind === 'map') {
     return {
@@ -374,6 +388,7 @@ function targetForMatch(row) {
   };
 }
 
+/** @param {PeatRow} row */
 function toArcgisSourceItem(row) {
   return compactObject({
     auditRowNumber: row.rowNumber,
@@ -402,6 +417,7 @@ function toArcgisSourceItem(row) {
   });
 }
 
+/** @param {PeatRow} row */
 function toServiceDefinitionReview(row) {
   const siblingFeatureServices = row.arcgisSiblings.filter((item) => item.type === 'Feature Service');
   const siblingWfs = row.arcgisSiblings.filter((item) => item.type === 'WFS');
@@ -425,6 +441,7 @@ function toServiceDefinitionReview(row) {
   });
 }
 
+/** @param {PeatRow} row */
 function toCandidateReview(row) {
   return compactObject({
     arcgisItemId: row.itemId,
@@ -452,6 +469,7 @@ function toCandidateReview(row) {
   });
 }
 
+/** @param {PeatRow[]} rows */
 function buildSacHabitatGroup(rows) {
   const children = rows
     .filter((row) => row.recommendedAction === 'candidate-interactive-map-after-license-dedupe' && isSacHabitatMap(row))
@@ -477,13 +495,15 @@ function buildSacHabitatGroup(rows) {
   };
 }
 
+/** @param {PeatRow[]} rows */
 function buildBestSourceReview(rows) {
+  /** @type {Map<string, PeatRow[]>} */
   const groups = new Map();
   for (const row of rows) {
     const key = row.normalizedTitle;
     if (!key) continue;
     if (!groups.has(key)) groups.set(key, []);
-    groups.get(key).push(row);
+    /** @type {PeatRow[]} */ (groups.get(key)).push(row);
   }
   return [...groups.values()]
     .filter((group) => group.length > 1 || group.some((row) => ['Feature Service', 'WFS', 'Shapefile', 'Service Definition'].includes(row.type)))
@@ -508,6 +528,7 @@ function buildBestSourceReview(rows) {
     .sort((a, b) => a.titleKey.localeCompare(b.titleKey));
 }
 
+/** @param {PeatRow} row */
 function sourcePreferenceScore(row) {
   if (row.type === 'Feature Service' && row.geometryTypes.length && !row.geometryTypes.includes('unknown')) return 100;
   if (row.type === 'WFS') return 90;
@@ -518,6 +539,7 @@ function sourcePreferenceScore(row) {
   return 10;
 }
 
+/** @param {PeatRow} row */
 function alternativeRole(row) {
   if (row.type === 'Service Definition') return 'package/provenance evidence';
   if (row.type === 'WFS') return 'standards-based alternative/corroboration';
@@ -526,6 +548,7 @@ function alternativeRole(row) {
   return 'alternative source/context';
 }
 
+/** @param {PeatRow} row */
 function toVariantReview(row) {
   return compactObject({
     arcgisItemId: row.itemId,
@@ -544,6 +567,7 @@ function toVariantReview(row) {
   });
 }
 
+/** @param {PeatRow} row */
 function toUnmatchedLikelyDuplicateReview(row) {
   return compactObject({
     arcgisItemId: row.itemId,
@@ -559,6 +583,11 @@ function toUnmatchedLikelyDuplicateReview(row) {
   });
 }
 
+/**
+ * @param {PeatRow[]} rows
+ * @param {ReturnType<typeof toCandidateReview>[]} candidateConversionReview
+ * @param {ReturnType<typeof toVariantReview>[]} variantReview
+ */
 function buildUnresolvedAmbiguities(rows, candidateConversionReview, variantReview) {
   const unresolved = [];
   for (const row of rows.filter((entry) => entry.recommendedAction === 'metadata-review')) {
@@ -591,14 +620,17 @@ function buildUnresolvedAmbiguities(rows, candidateConversionReview, variantRevi
   return dedupeByJson(unresolved).sort(sortByTitle);
 }
 
+/** @param {PeatRow} row */
 function isNamedVariant(row) {
   return /grassland habitat network|purple moor grass|rush pasture/i.test(row.title);
 }
 
+/** @param {PeatRow} row */
 function isUnmatchedLikelyDuplicate(row) {
   return row.recommendedAction === 'likely-duplicate-enrich-existing' && !row.civgraphMatchId;
 }
 
+/** @param {PeatRow} row */
 function variantRecommendation(row) {
   if (/purple moor grass|rush pasture/i.test(row.title)) {
     return 'Treat as probable same-family variant of the existing Purple Moor Grass and Rush Pasture Habitat Network record. Inspect fields, provider lineage, and geometry before deciding whether it enriches the current record or becomes a dated/source variant.';
@@ -612,6 +644,7 @@ function variantRecommendation(row) {
   return 'Variant status unresolved; inspect provider lineage, schema, and geometry coverage before publishing.';
 }
 
+/** @param {PeatRow} row @param {SourceClass} sourceClass */
 function buildSourceDescription(row, sourceClass) {
   const serviceBits = [];
   if (row.serviceLayerCount !== null) serviceBits.push(`${row.serviceLayerCount} layer${row.serviceLayerCount === 1 ? '' : 's'}`);
@@ -628,6 +661,7 @@ function buildSourceDescription(row, sourceClass) {
   ].filter(Boolean).join(' ');
 }
 
+/** @param {PeatRow} row */
 function buildReferences(row) {
   const refs = [
     {
@@ -668,6 +702,7 @@ function buildReferences(row) {
   return dedupeReferences(refs);
 }
 
+/** @param {PeatRow} row */
 function buildDownloads(row) {
   const downloads = [];
   if (row.url && /FeatureServer|MapServer|ImageServer|WFSServer|WMSServer/i.test(row.url)) {
@@ -689,6 +724,7 @@ function buildDownloads(row) {
   return dedupeReferences(downloads);
 }
 
+/** @param {PeatRow} row */
 function buildViewport(row) {
   const url = row.url || row.itemPage;
   if (row.type === 'PDF') {
@@ -715,6 +751,7 @@ function buildViewport(row) {
   return null;
 }
 
+/** @param {PeatRow} row */
 function buildRelatedRecords(row) {
   const records = [];
   if (row.civgraphMatchId) {
@@ -737,6 +774,7 @@ function buildRelatedRecords(row) {
   return records;
 }
 
+/** @param {PeatRow} row */
 function inferProviders(row) {
   const providers = [];
   if (row.owner) providers.push(row.owner);
@@ -748,6 +786,7 @@ function inferProviders(row) {
   return dedupeStrings(providers.length ? providers : ['Peatland Geoportal']);
 }
 
+/** @param {PeatRow} row */
 function inferLicense(row) {
   const haystack = `${row.owner} ${row.tags.join(' ')} ${row.title}`;
   if (/OpenDataNI|Open Data NI|OpenData|Open data/i.test(haystack)) {
@@ -762,6 +801,7 @@ function inferLicense(row) {
   };
 }
 
+/** @param {PeatRow} row */
 function bestConversionRecommendation(row) {
   if (row.type === 'Feature Service') {
     const geometry = row.geometryTypes.length ? ` (${row.geometryTypes.join(', ')})` : '';
@@ -782,20 +822,23 @@ function bestConversionRecommendation(row) {
   return 'Context/citation source; not a direct conversion source unless it links to an approved vector service.';
 }
 
+/** @param {PeatRow} row */
 function dedupeRecommendation(row) {
-  if (row.civgraphMatchScore >= 0.95) {
+  if ((row.civgraphMatchScore ?? 0) >= 0.95) {
     return `Likely duplicate of existing Civgraph record ${row.civgraphMatchTitle || row.civgraphMatchId}; enrich existing record rather than creating a duplicate.`;
   }
-  if (row.civgraphMatchScore >= 0.7) {
+  if ((row.civgraphMatchScore ?? 0) >= 0.7) {
     return `Possible variant of ${row.civgraphMatchTitle || row.civgraphMatchId}; inspect lineage/schema/geometry before deciding.`;
   }
   return 'No high-confidence Civgraph duplicate from metadata-only title matching; still inspect provider lineage before conversion.';
 }
 
+/** @param {PeatRow} row */
 function isSacHabitatMap(row) {
   return /SAC Habitat Map/i.test(row.title) && /DAERANI|DAERA|Megan\.Ryan/i.test(`${row.owner} ${row.tags.join(' ')}`);
 }
 
+/** @param {string} type */
 function serviceRole(type) {
   if (type === 'Feature Service') return 'feature-service';
   if (type === 'Map Service') return 'map-service';
@@ -805,8 +848,9 @@ function serviceRole(type) {
   return 'source-url';
 }
 
+/** @param {unknown} value */
 function parseArcgisSiblings(value) {
-  return splitList(value, ';').map((part) => {
+  return /** @type {ArcgisSibling[]} */ (splitList(value, ';').map((part) => {
     const match = part.match(/^([^:]+):([a-z0-9]+)$/i);
     if (!match) return null;
     return {
@@ -814,9 +858,10 @@ function parseArcgisSiblings(value) {
       itemId: cleanText(match[2]),
       itemPage: `https://www.arcgis.com/home/item.html?id=${cleanText(match[2])}`
     };
-  }).filter(Boolean);
+  }).filter(Boolean));
 }
 
+/** @param {Record<string, unknown>[]} rows @param {string} key */
 function countBy(rows, key) {
   return Object.fromEntries([...rows.reduce((map, row) => {
     const value = row[key] || 'unknown';
@@ -825,6 +870,7 @@ function countBy(rows, key) {
   }, new Map()).entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])));
 }
 
+/** @param {string} text @returns {Record<string, string>[]} */
 function parseCsv(text) {
   const rows = [];
   let field = '';
@@ -868,6 +914,7 @@ function parseCsv(text) {
     .map((values) => Object.fromEntries(headers.map((header, index) => [header, values[index] || ''])));
 }
 
+/** @param {object} object */
 function compactObject(object) {
   return Object.fromEntries(Object.entries(object).filter(([, value]) => {
     if (value === null || value === undefined || value === '') return false;
@@ -877,10 +924,12 @@ function compactObject(object) {
   }));
 }
 
+/** @param {unknown} value */
 function cleanText(value) {
   return String(value ?? '').replace(/\uFFFD/g, '').replace(/\s+/g, ' ').trim();
 }
 
+/** @param {unknown} value */
 function splitList(value, separator = ';') {
   return String(value || '')
     .split(separator)
@@ -888,6 +937,7 @@ function splitList(value, separator = ';') {
     .filter(Boolean);
 }
 
+/** @param {unknown} value */
 function parseOptionalNumber(value) {
   const cleaned = cleanText(value);
   if (!cleaned) return null;
@@ -895,6 +945,7 @@ function parseOptionalNumber(value) {
   return Number.isFinite(number) ? number : null;
 }
 
+/** @param {unknown} value */
 function slugify(value) {
   return cleanText(value)
     .toLowerCase()
@@ -904,38 +955,49 @@ function slugify(value) {
     .slice(0, 140) || 'item';
 }
 
+/** @param {unknown} value */
 function normalizeTitle(value) {
   return slugify(value)
     .replace(/-npws$|-wfs$|-feature-service$|-service-definition$/g, '')
     .replace(/-+/g, '-');
 }
 
+/** @param {unknown[]} values */
 function compactJoin(values) {
   return values.flatMap((value) => Array.isArray(value) ? value : [value]).map(cleanText).filter(Boolean).join(' / ');
 }
 
+/** @param {unknown} value */
 function datePart(value) {
   const text = cleanText(value);
   return text.includes('T') ? text.slice(0, 10) : text;
 }
 
+/**
+ * @param {{ title?: unknown, targetTitle?: unknown, titleKey?: unknown }} a
+ * @param {{ title?: unknown, targetTitle?: unknown, titleKey?: unknown }} b
+ */
 function sortByTitle(a, b) {
   return cleanText(a.title || a.targetTitle || a.titleKey).localeCompare(cleanText(b.title || b.targetTitle || b.titleKey));
 }
 
+/** @param {string[]} array @param {unknown} value */
 function addUnique(array, value) {
   const cleaned = cleanText(value);
   if (cleaned && !array.includes(cleaned)) array.push(cleaned);
 }
 
+/** @param {...unknown} lists */
 function mergeKeywordLists(...lists) {
   return dedupeStrings(lists.flatMap((list) => Array.isArray(list) ? list : [list]).map(cleanText).filter(Boolean));
 }
 
+/** @param {unknown[]} values */
 function dedupeStrings(values) {
   return [...new Set(values.map(cleanText).filter(Boolean))];
 }
 
+/** @param {{ url?: string | null, role?: string }[]} refs */
 function dedupeReferences(refs) {
   const out = [];
   const seen = new Set();
@@ -948,6 +1010,7 @@ function dedupeReferences(refs) {
   return out;
 }
 
+/** @template T @param {T[]} values @returns {T[]} */
 function dedupeByJson(values) {
   const seen = new Set();
   const out = [];
@@ -960,6 +1023,7 @@ function dedupeByJson(values) {
   return out;
 }
 
+/** @param {unknown} value */
 function assertNoLocalPaths(value) {
   const text = JSON.stringify(value);
   if (/[A-Z]:\\|\\\\|\/Users\/scomo/i.test(text)) {
@@ -967,6 +1031,7 @@ function assertNoLocalPaths(value) {
   }
 }
 
+/** @param {unknown} value */
 function assertNoGeometryPayloads(value) {
   const text = JSON.stringify(value);
   if (/"features"\s*:\s*\[|"geometry"\s*:\s*\{|"coordinates"\s*:\s*\[/i.test(text)) {
