@@ -6,7 +6,7 @@
  *
  * Falls back to reading static chunk files from the origin when KV is not configured.
  */
-import { binding } from '../../../config/src/config.js';
+import { blobStore } from '../../../storage/src/blob-bindings.js';
 
 /** Most maps one batch request may name (the map search asks for up to 30). */
 export const MAX_BATCH_MAPS = 40;
@@ -23,10 +23,10 @@ const JSON_HEADERS = { 'Content-Type': 'application/json' };
  * @returns {Promise<Array<{ bbox?: number[], [key: string]: unknown }> | null>}
  */
 async function readMapFeatures(context, url, mapId) {
-    const kv = /** @type {KVNamespace | undefined} */ (binding(context.env, 'SPATIAL_INDEX'));
-    // Try KV first (faster, no origin fetch)
+    const kv = blobStore(context.env, 'SPATIAL_INDEX');
+    // Try KV first (faster, no origin fetch), through the blob store (packages/storage/src/blob.js)
     if (kv) {
-        const data = await kv.get(`map:${mapId}`, 'json');
+        const data = await kv.json(`map:${mapId}`);
         return /** @type {Array<{ bbox?: number[], [key: string]: unknown }> | null} */ (data) || [];
     }
     // Fallback: fetch the static chunk file from the origin
