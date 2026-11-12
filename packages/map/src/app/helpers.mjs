@@ -96,6 +96,7 @@ export function electionTypeFromEntityKey(key, title = '') {
   if (bodyKey === 'ireland-president' || bodyKey === 'president-of-ireland') return 'Presidential';
   if (/referendum/i.test(label)) return 'Referendum';
   // Belfast County Borough, Strabane Urban District and the like: councils, so local elections.
+  // arch-ok R6: words matched inside a body key, old ones too (strabane-urban-district), not a list of the registry's council types
   if (/council|borough|urban-district|rural-district|corporation/i.test(bodyKey)) return 'Local';
   if (bodyKey === 'seanad-eireann') return 'Seanad';
   return bodyKey ? bodyKey.replace(/-/g, ' ') : 'Election';

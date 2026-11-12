@@ -332,12 +332,15 @@ export function electionConstituencyNames(constituencies = []) {
 //   NI_COUNCILS_1923_67_PLAIN_TITLES  the 1923-67 councils titled by their one name.
 //   PRE1973_COUNCIL_BODIES  every pre-1973 council body (one per council): their elections can
 //                           have one or two wards and are still whole-council elections.
+//   ARMAGH_PILOT_BODIES     the County Armagh pilot's councils (flag armaghPilot), titled
+//                           "<year> <body> election" (Lurgan and Portadown are dated by year first).
 // Names are normalised as normalizeName does (it drops the full stop of "Newry No. 1").
 const COUNCILS = loadRegistry('councils');
 const NI_COUNCIL_ERA_TITLES = eraTitles(COUNCILS);
 const NI_COUNCILS_1923_67_PLAIN_TITLES = plainTitleBodies(COUNCILS);
 const PRE1973_COUNCIL_BODIES = pre1973CouncilBodyNames(COUNCILS);
 const COUNCILS_BY_ID = councilsById(COUNCILS);
+const ARMAGH_PILOT_BODIES = new Set(COUNCILS.councils.filter((c) => c.flags?.armaghPilot).map((c) => normalizeName(c.indexName || c.name)));
 
 /**
  * A council's registry name in a year (the councils the code dates by year: Lurgan, Portadown, Strabane).
@@ -498,7 +501,7 @@ export function canonicalElectionTitle({
   }
   if (normalizedBody === 'lurgan borough council') return `${year} ${councilNameInYear('lurgan-borough-council', year)} election`;
   if (normalizedBody === 'portadown borough council') return `${year} ${councilNameInYear('portadown-borough-council', year)} election`;
-  if (['armagh county council', 'armagh urban district council', 'keady urban district council', 'lurgan rural district council', 'armagh rural district council', 'newry no 2 rural district council', 'tandragee rural district council', 'moira rural district council', 'aghalee rural district council', 'tandragee urban district council', 'castleblayney no 2 rural district council'].includes(normalizedBody)) {
+  if (ARMAGH_PILOT_BODIES.has(normalizedBody)) {
     // normalizeName drops the full stop: keyed "newry no 2", not "newry no. 2", or the two
     // No. 2 districts lost the word "election" from every title.
     return `${year} ${body} election`.trim();

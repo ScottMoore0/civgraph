@@ -50,6 +50,7 @@ const POLITICAL_PARTY = 'Q7278';
 // the island of Ireland, Great Britain.
 const COUNTRIES = new Set(['Q27', 'Q26', 'Q145', 'Q174193', 'Q31747', 'Q22890', 'Q23666', 'Q215530']);
 const PLACE_WORDS = /\b(irish|ireland|northern ireland|ulster|british|united kingdom|uk|great britain|england|scotland|wales|belfast|dublin)\b/i;
+// arch-ok R6: Browse slugs this lookup skips, not a registry list: referendum answers and the Ceann Comhairle are not in the party registry, and it files non-party as a party
 const NOT_PARTIES = new Set(['independent', 'independent-other', 'yes', 'no', 'ceann-comhairle-speaker', 'non-party']);
 const OFFICE_TITLES = ['Leader of', 'Leader of the', 'President of', 'President of the', 'Chairman of', 'Chairman of the', 'Chairperson of', 'Party Leader of'];
 

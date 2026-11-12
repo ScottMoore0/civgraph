@@ -59,6 +59,7 @@ const norm = (value) => String(value || '')
   .toLowerCase().replace(/[^a-z ]+/g, ' ').replace(/\s+/g, ' ').trim();
 
 // Abbreviation -> the full party name whose words are forbidden as a whole candidate name.
+// arch-ok R6: the check's own expansions, not the registry's: APNI, PBPA and the NI names of Alliance and the Greens are longer than its full names
 const EXPANSIONS = {
   sdlp: 'social democratic and labour party',
   dup: 'democratic unionist party',
