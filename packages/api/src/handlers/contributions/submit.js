@@ -2,7 +2,7 @@ import { jsonResponse, jsonNotAllowed, requireContributor, sanitizeAuth } from '
 import { methodGuard } from '../_method.js';
 import { VALID_KINDS, VALID_ENTITY_TYPES, dryRunPatch } from './_schema.js';
 import { INITIAL_STATUS } from '../../contribution-status.js';
-import { binding } from '../../../../config/src/config.js';
+import { blobStore } from '../../../../storage/src/blob-bindings.js';
 
 /**
  * Accept a contribution as a TYPED PATCH, dry-run it, and queue it for review.
@@ -256,12 +256,15 @@ async function persistSubmission(env, submission) {
   const key = `submissions/${submission.submittedAt.slice(0, 10)}/${submission.id}.json`;
   const body = JSON.stringify(submission, null, 2);
 
-  if (binding(env, 'CIVGRAPH_CONTRIBUTION_QUEUE')?.put) {
-    await /** @type {KVNamespace} */ (binding(env, 'CIVGRAPH_CONTRIBUTION_QUEUE')).put(key, body, { metadata: queueMetadata(submission) });
+  // Through the blob store (packages/storage/src/blob.js): the KV queue, else the R2 bucket.
+  const queue = blobStore(env, 'CIVGRAPH_CONTRIBUTION_QUEUE');
+  if (queue?.supports('put')) {
+    await queue.put(key, body, { metadata: queueMetadata(submission) });
     return { ok: true, storage: 'KV:CIVGRAPH_CONTRIBUTION_QUEUE', key };
   }
-  if (binding(env, 'CIVGRAPH_SUBMISSIONS')?.put) {
-    await /** @type {R2Bucket} */ (binding(env, 'CIVGRAPH_SUBMISSIONS')).put(key, body, { httpMetadata: { contentType: 'application/json' } });
+  const bucket = blobStore(env, 'CIVGRAPH_SUBMISSIONS');
+  if (bucket?.supports('put')) {
+    await bucket.put(key, body, { contentType: 'application/json' });
     return { ok: true, storage: 'R2:CIVGRAPH_SUBMISSIONS', key };
   }
 
