@@ -137409,6 +137409,12 @@
           "publisher": "Wikipedia",
           "url": "https://en.wikipedia.org/w/index.php?oldid=1203360945",
           "accessed": "2026-10-27"
+        },
+        {
+          "title": "Local Government Election Results 1981, Carrickfergus: Area A (PDF p. 118)",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401112530id_/http://www.eoni.org.uk/getmedia/064e8d36-856a-4f60-b950-716cf2c3c7bb/local_government_election_results_1981",
+          "accessed": "2026-11-12"
         }
       ],
       "operations": [
@@ -138341,10 +138347,21 @@
           "set": {
             "Candidate_Id": "T2508329251-carrickfergus"
           }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Mary Ardill",
+          "count": 2,
+          "set": {
+            "Total_Votes": "475.48"
+          }
         }
       ],
-      "reason": "1 candidate the import had left out restored (Charles Johnston, United Loyalist, 819, elected); Anne Dickson was not elected; every count rebuilt from ARK's result spreadsheet (7 stages, quota 647). The first preferences now add up to the valid poll of 3,879, and Wikipedia shows the same candidates, first preferences and winners.",
-      "internalNote": "Robert Gordon here is not the Robert Gordon of North Down, 1989-2014: the imported data gave every Robert Gordon one candidate id, joining candidates from different councils into one person. Given the id T2508329251-carrickfergus, shared only with the same council's Robert Gordon."
+      "reason": "1 candidate the import had left out restored (Charles Johnston, United Loyalist, 819, elected); Anne Dickson was not elected; every count rebuilt from ARK's result spreadsheet (7 stages, quota 647). The first preferences now add up to the valid poll of 3,879, and Wikipedia shows the same candidates, first preferences and winners. Carrickfergus Area A (20 May 1981): Mary Ardill had 475.48 after Charles Johnston's surplus at stage 2 (458 + 17.48), not 475.40, as the Electoral Office's declaration sheet gives it.",
+      "internalNote": "Robert Gordon here is not the Robert Gordon of North Down, 1989-2014: the imported data gave every Robert Gordon one candidate id, joining candidates from different councils into one person. Given the id T2508329251-carrickfergus, shared only with the same council's Robert Gordon.",
+      "alsoBatches": [
+        "w8-arith2-2026-11-12"
+      ]
     },
     {
       "batch": "ni-council-xref-2026-10-27",
@@ -141769,6 +141786,12 @@
           "publisher": "Wikipedia",
           "url": "https://en.wikipedia.org/w/index.php?oldid=1171333644",
           "accessed": "2026-10-27"
+        },
+        {
+          "title": "Local Government Election Results 1981, Newtownabbey: Area D (PDF p. 116)",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401112530id_/http://www.eoni.org.uk/getmedia/064e8d36-856a-4f60-b950-716cf2c3c7bb/local_government_election_results_1981",
+          "accessed": "2026-11-12"
         }
       ],
       "operations": [
@@ -142640,9 +142663,25 @@
               "id": 47
             }
           ]
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Poll",
+          "value": "8109"
+        },
+        {
+          "op": "candidateCount",
+          "name": "William McKee",
+          "count": 6,
+          "set": {
+            "Total_Votes": "991.52"
+          }
         }
       ],
-      "reason": "2 candidates the import had left out restored (Thomas Davidson, Newtownabbey Labour, 147; Lindsay Prior, Newtownabbey Labour, 94); every count rebuilt from ARK's result spreadsheet (7 stages, quota 1308). The first preferences now add up to the valid poll of 7,846, and Wikipedia shows the same candidates, first preferences and winners."
+      "reason": "2 candidates the import had left out restored (Thomas Davidson, Newtownabbey Labour, 147; Lindsay Prior, Newtownabbey Labour, 94); every count rebuilt from ARK's result spreadsheet (7 stages, quota 1308). The first preferences now add up to the valid poll of 7,846, and Wikipedia shows the same candidates, first preferences and winners. Newtownabbey Area D (20 May 1981): 8,109 votes were polled (7,846 valid and 263 invalid; the sheet's 54.8% of 14,796 electors), not 5,109, and William McKee had 991.52 after stage 6 (962.68 + 28.84), not 991.58, as the Electoral Office's declaration sheet gives them.",
+      "alsoBatches": [
+        "w8-arith2-2026-11-12"
+      ]
     },
     {
       "batch": "ni-council-xref-2026-10-27",
@@ -167395,6 +167434,18 @@
           "url": "https://web.archive.org/web/20170401112530id_/http://www.eoni.org.uk/getmedia/064e8d36-856a-4f60-b950-716cf2c3c7bb/local_government_election_results_1981",
           "original": "http://www.eoni.org.uk/getmedia/064e8d36-856a-4f60-b950-716cf2c3c7bb/local_government_election_results_1981",
           "accessed": "2026-10-28"
+        },
+        {
+          "title": "Local Government Election Results 1981, Banbridge: Area B (PDF p. 93)",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401112530id_/http://www.eoni.org.uk/getmedia/064e8d36-856a-4f60-b950-716cf2c3c7bb/local_government_election_results_1981",
+          "accessed": "2026-11-12"
+        },
+        {
+          "title": "Local Government Election Results 1981, Banbridge: Area B, stages 7-11 (PDF p. 94)",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401112530id_/http://www.eoni.org.uk/getmedia/064e8d36-856a-4f60-b950-716cf2c3c7bb/local_government_election_results_1981",
+          "accessed": "2026-11-12"
         }
       ],
       "operations": [
@@ -169090,10 +169141,38 @@
           "set": {
             "Candidate_Id": "T2760080979-banbridge"
           }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Robert Barr",
+          "count": 4,
+          "set": {
+            "Transfers": "37.88",
+            "Total_Votes": "429.08"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "David Herron",
+          "count": 6,
+          "set": {
+            "Total_Votes": "574.86"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Robert McIlroy",
+          "count": 9,
+          "set": {
+            "Total_Votes": "617.34"
+          }
         }
       ],
-      "reason": "1 candidate the import had left out restored (Robert J. McGregor, DUP, 273); every count rebuilt from ARK's result spreadsheet (11 stages, quota 773). The first preferences now add up to the valid poll of 6,956, and Wikipedia shows the same candidates, first preferences and winners. The Electoral Office's result sheet lists two Democratic Unionist candidates, 'McGregor, Robert J' (273) and 'McIlroy, Robert J' (445); Wikipedia gives McGregor's votes under McIlroy's name.",
-      "internalNote": "Patrick McAvoy: candidate id T2417380738 was shared with candidates of the same name in other councils (kept by Ballymena); given T2417380738-banbridge. Robert McIlroy: candidate id T2760080979 was shared with candidates of the same name in other councils (kept by Moyle); given T2760080979-banbridge."
+      "reason": "1 candidate the import had left out restored (Robert J. McGregor, DUP, 273); every count rebuilt from ARK's result spreadsheet (11 stages, quota 773). The first preferences now add up to the valid poll of 6,956, and Wikipedia shows the same candidates, first preferences and winners. The Electoral Office's result sheet lists two Democratic Unionist candidates, 'McGregor, Robert J' (273) and 'McIlroy, Robert J' (445); Wikipedia gives McGregor's votes under McIlroy's name. Banbridge Area B (20 May 1981): Robert Barr received 37.88 from Thompson Howe's exclusion at stage 4 (429.08), not 37.53 (429.06); David Herron had 574.86 after stage 6 (574.40 + 0.46), not 574.76; and Robert McIlroy 617.34 after stage 9 (608.98 + 8.36), not 617.82; as the Electoral Office's declaration sheets give them.",
+      "internalNote": "Patrick McAvoy: candidate id T2417380738 was shared with candidates of the same name in other councils (kept by Ballymena); given T2417380738-banbridge. Robert McIlroy: candidate id T2760080979 was shared with candidates of the same name in other councils (kept by Moyle); given T2760080979-banbridge.",
+      "alsoBatches": [
+        "w8-arith2-2026-11-12"
+      ]
     },
     {
       "batch": "ni-council-xref-2026-10-27",
@@ -179146,6 +179225,14 @@
               "id": 64
             }
           ]
+        },
+        {
+          "op": "candidateCount",
+          "name": "William Knox",
+          "count": 8,
+          "set": {
+            "Transfers": "5.18"
+          }
         }
       ],
       "internalNote": "Robert Wilson: candidate id T1788254480 was shared with candidates of the same name in other councils (kept by Ballymoney); given T1788254480-carrickfergus.",
@@ -179155,6 +179242,12 @@
           "publisher": "ARK (Nicholas Whyte)",
           "url": "https://www.ark.ac.uk/elections/xls/lgov/1981/lg81-CAR-Area-B-corrected.xls",
           "accessed": "2026-10-28"
+        },
+        {
+          "title": "Local Government Election Results 1981, Carrickfergus: Area B, stages 7-9 (PDF p. 121)",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401112530id_/http://www.eoni.org.uk/getmedia/064e8d36-856a-4f60-b950-716cf2c3c7bb/local_government_election_results_1981",
+          "accessed": "2026-11-12"
         }
       ],
       "source": {
@@ -179163,7 +179256,10 @@
         "url": "https://web.archive.org/web/2017/http://www.eoni.org.uk/getmedia/local_government_election_results_1981.pdf",
         "accessed": "2026-10-28"
       },
-      "reason": "1 candidate the import had left out restored (Richard Hopkins, Newtownabbey Labour, 85); every count rebuilt from ARK's result spreadsheet, checked against the official result sheet (9 stages, quota 657); ARK's sheet puts the seventh stage's non-transferable total (37.62) in Robert Wilson's row, after his exclusion. Every stage now adds up to the valid poll of 3,941."
+      "reason": "1 candidate the import had left out restored (Richard Hopkins, Newtownabbey Labour, 85); every count rebuilt from ARK's result spreadsheet, checked against the official result sheet (9 stages, quota 657); ARK's sheet puts the seventh stage's non-transferable total (37.62) in Robert Wilson's row, after his exclusion. Every stage now adds up to the valid poll of 3,941. Carrickfergus Area B (20 May 1981): William Knox received 5.18 from Alice Bateman's exclusion at stage 8 (495.76 to 500.94), not 5.15, as the Electoral Office's declaration sheet gives it.",
+      "alsoBatches": [
+        "w8-arith2-2026-11-12"
+      ]
     },
     {
       "batch": "candidate-id-splits-2026-10-28",
@@ -179475,10 +179571,15 @@
             "Party_As_Printed": "WPRC",
             "Party_Name": "Workers Party Republican Clubs"
           }
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Poll",
+          "value": "6483"
         }
       ],
       "internalNote": "Patrick McBride: candidate id T3578863957 was shared with candidates of the same name in other councils (kept by Moyle); given T3578863957-magherafelt.",
-      "reason": "ARK labels every candidate of the party in the 1981 council elections WPRC (Workers Party-Republican Clubs), and says its affiliations agree with Elliott and Flackes; one of the 25 was imported as 'Workers Party' and the rest as 'Republican Clubs'. Shown under the one name. Optional: the ballot-paper wording has not been seen.",
+      "reason": "ARK labels every candidate of the party in the 1981 council elections WPRC (Workers Party-Republican Clubs), and says its affiliations agree with Elliott and Flackes; one of the 25 was imported as 'Workers Party' and the rest as 'Republican Clubs'. Shown under the one name. Optional: the ballot-paper wording has not been seen. Magherafelt Area A (20 May 1981): 6,483 votes were polled (6,354 valid and 129 invalid), as the Electoral Office's declaration sheet gives them, not 6,283.",
       "additionalSources": [
         {
           "title": "The 1981 Local Government Elections in Northern Ireland (summary; 'no differences with Flackes and Elliott on party affiliation')",
@@ -179486,7 +179587,16 @@
           "url": "https://www.ark.ac.uk/elections/flg81.htm",
           "accessed": "2026-11-02"
         }
-      ]
+      ],
+      "alsoBatches": [
+        "w8-arith2-2026-11-12"
+      ],
+      "source": {
+        "title": "Local Government Election Results 1981, Magherafelt: Area A (PDF p. 40)",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401112530id_/http://www.eoni.org.uk/getmedia/064e8d36-856a-4f60-b950-716cf2c3c7bb/local_government_election_results_1981",
+        "accessed": "2026-11-12"
+      }
     },
     {
       "batch": "candidate-id-splits-2026-10-28",
@@ -179606,10 +179716,15 @@
             "Party_As_Printed": "Ind",
             "Party_Name": "Independent"
           }
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Quota",
+          "value": "884"
         }
       ],
       "internalNote": "John O'Kane: candidate id T3252141528 was shared with candidates of the same name in other councils (kept by Fermanagh); given T3252141528-strabane.",
-      "reason": "ARK, which agrees with Elliott and Flackes on every 1981 affiliation, lists this candidate as Independent, and Elliott and Flackes call Laurence Kennedy an Independent councillor. 'Anti H-Block' came from Wikipedia's party column: the candidate stood as an independent on an anti-H-Block platform.",
+      "reason": "ARK, which agrees with Elliott and Flackes on every 1981 affiliation, lists this candidate as Independent, and Elliott and Flackes call Laurence Kennedy an Independent councillor. 'Anti H-Block' came from Wikipedia's party column: the candidate stood as an independent on an anti-H-Block platform. Strabane Area C (20 May 1981): the quota was 884 (5,301 valid votes, 5 seats), as the Electoral Office's declaration sheet gives it, not 834.",
       "sourceNote": "Elected or stood on an anti-H-Block platform in May 1981 (the hunger strike); not a party.",
       "additionalSources": [
         {
@@ -179624,7 +179739,16 @@
           "url": "https://www.ark.ac.uk/elections/flg81.htm",
           "accessed": "2026-11-02"
         }
-      ]
+      ],
+      "alsoBatches": [
+        "w8-arith2-2026-11-12"
+      ],
+      "source": {
+        "title": "Local Government Election Results 1981, Strabane: Area C (PDF p. 50)",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401112530id_/http://www.eoni.org.uk/getmedia/064e8d36-856a-4f60-b950-716cf2c3c7bb/local_government_election_results_1981",
+        "accessed": "2026-11-12"
+      }
     },
     {
       "batch": "candidate-id-splits-2026-10-28",
@@ -214372,6 +214496,12 @@
           "publisher": "ARK (Nicholas Whyte)",
           "url": "https://www.ark.ac.uk/elections/xls/lgov/1981/lg81-FER-Area-A.xls",
           "accessed": "2026-10-28"
+        },
+        {
+          "title": "Local Government Election Results 1981, Fermanagh: Area A (PDF p. 59)",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401112530id_/http://www.eoni.org.uk/getmedia/064e8d36-856a-4f60-b950-716cf2c3c7bb/local_government_election_results_1981",
+          "accessed": "2026-11-12"
         }
       ],
       "operations": [
@@ -215135,9 +215265,17 @@
               "id": 41
             }
           ]
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Poll",
+          "value": "6734"
         }
       ],
-      "reason": "1 candidate the import had left out restored (John Reihill, SDLP, 280); every count rebuilt from ARK's result spreadsheet, checked against the official result sheet (6 stages, quota 1,320). Every stage now adds up to the valid poll of 6,598."
+      "reason": "1 candidate the import had left out restored (John Reihill, SDLP, 280); every count rebuilt from ARK's result spreadsheet, checked against the official result sheet (6 stages, quota 1,320). Every stage now adds up to the valid poll of 6,598. Fermanagh Area A (20 May 1981): 6,734 votes were polled (6,598 valid and 136 invalid), as the Electoral Office's declaration sheet gives them, not 6,774.",
+      "alsoBatches": [
+        "w8-arith2-2026-11-12"
+      ]
     },
     {
       "batch": "bna-eoni-2026-10-28",
@@ -215160,6 +215298,12 @@
           "publisher": "ARK (Nicholas Whyte)",
           "url": "https://www.ark.ac.uk/elections/xls/lgov/1981/lg81-NEW-Area-C.xls",
           "accessed": "2026-10-28"
+        },
+        {
+          "title": "Local Government Election Results 1981, Newtownabbey: Area C (PDF p. 115)",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401112530id_/http://www.eoni.org.uk/getmedia/064e8d36-856a-4f60-b950-716cf2c3c7bb/local_government_election_results_1981",
+          "accessed": "2026-11-12"
         }
       ],
       "operations": [
@@ -215694,9 +215838,17 @@
               "id": 28
             }
           ]
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Poll",
+          "value": "8332"
         }
       ],
-      "reason": "1 candidate the import had left out restored (Brian Caul, Newtownabbey Labour, 252); every count rebuilt from ARK's result spreadsheet, checked against the official result sheet (6 stages, quota 1,355); the quota was 1,355, not 13.55. Every stage now adds up to the valid poll of 8,126, and the winners are those the published result names."
+      "reason": "1 candidate the import had left out restored (Brian Caul, Newtownabbey Labour, 252); every count rebuilt from ARK's result spreadsheet, checked against the official result sheet (6 stages, quota 1,355); the quota was 1,355, not 13.55. Every stage now adds up to the valid poll of 8,126, and the winners are those the published result names. Newtownabbey Area C (20 May 1981): 8,332 votes were polled (8,126 valid and 206 invalid), as the Electoral Office's declaration sheet gives them, not 8,331.",
+      "alsoBatches": [
+        "w8-arith2-2026-11-12"
+      ]
     },
     {
       "batch": "bna-eoni-2026-10-28",
@@ -215719,6 +215871,12 @@
           "publisher": "ARK (Nicholas Whyte)",
           "url": "https://www.ark.ac.uk/elections/xls/lgov/1981/lg81-LAR-Area-C-corrected.xls",
           "accessed": "2026-10-28"
+        },
+        {
+          "title": "Local Government Election Results 1981, Larne: Area C (PDF p. 32)",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401112530id_/http://www.eoni.org.uk/getmedia/064e8d36-856a-4f60-b950-716cf2c3c7bb/local_government_election_results_1981",
+          "accessed": "2026-11-12"
         }
       ],
       "operations": [
@@ -217400,9 +217558,17 @@
               "id": 92
             }
           ]
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Poll",
+          "value": "5894"
         }
       ],
-      "reason": "1 candidate the import had left out restored (Samuel Martin, United Loyalist, 262); every count rebuilt from ARK's result spreadsheet, checked against the official result sheet (11 stages, quota 713); ARK's sheet leaves out the non-transferable votes, taken from the official result sheet. Every stage now adds up to the valid poll of 5,703."
+      "reason": "1 candidate the import had left out restored (Samuel Martin, United Loyalist, 262); every count rebuilt from ARK's result spreadsheet, checked against the official result sheet (11 stages, quota 713); ARK's sheet leaves out the non-transferable votes, taken from the official result sheet. Every stage now adds up to the valid poll of 5,703. Larne Area C (20 May 1981): 5,894 votes were polled (5,703 valid and 191 invalid; the sheet's 55.53% of 10,614 electors), not 5,594; the handwritten poll on the Electoral Office's declaration sheet was misread.",
+      "alsoBatches": [
+        "w8-arith2-2026-11-12"
+      ]
     },
     {
       "batch": "bna-eoni-2026-10-28",
@@ -277841,7 +278007,7 @@
         "url": "https://www.ark.ac.uk/elections/flg81.htm",
         "accessed": "2026-11-02"
       },
-      "reason": "ARK labels every candidate of the party in the 1981 council elections WPRC (Workers Party-Republican Clubs), and says its affiliations agree with Elliott and Flackes; one of the 25 was imported as 'Workers Party' and the rest as 'Republican Clubs'. Shown under the one name. Optional: the ballot-paper wording has not been seen.",
+      "reason": "ARK labels every candidate of the party in the 1981 council elections WPRC (Workers Party-Republican Clubs), and says its affiliations agree with Elliott and Flackes; one of the 25 was imported as 'Workers Party' and the rest as 'Republican Clubs'. Shown under the one name. Optional: the ballot-paper wording has not been seen. Lisburn Area E (20 May 1981): 6,831 votes were polled (6,368 valid and 463 invalid; the sheet's 55.8% of 12,242 electors), as the Electoral Office's declaration sheet gives them, not 6,531.",
       "category": "party-labels",
       "operations": [
         {
@@ -277851,6 +278017,22 @@
             "Party_As_Printed": "WPRC",
             "Party_Name": "Workers Party Republican Clubs"
           }
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Poll",
+          "value": "6831"
+        }
+      ],
+      "alsoBatches": [
+        "w8-arith2-2026-11-12"
+      ],
+      "additionalSources": [
+        {
+          "title": "Local Government Election Results 1981, Lisburn: Area E (PDF p. 107)",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401112530id_/http://www.eoni.org.uk/getmedia/064e8d36-856a-4f60-b950-716cf2c3c7bb/local_government_election_results_1981",
+          "accessed": "2026-11-12"
         }
       ]
     },
@@ -283273,9 +283455,15 @@
           "publisher": "Wikipedia",
           "url": "https://en.wikipedia.org/wiki/Jack_Allen_(Northern_Ireland_politician)",
           "accessed": "2026-11-06"
+        },
+        {
+          "title": "Local Government Election Results 1981, Antrim: Area C (PDF p. 111)",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401112530id_/http://www.eoni.org.uk/getmedia/064e8d36-856a-4f60-b950-716cf2c3c7bb/local_government_election_results_1981",
+          "accessed": "2026-11-12"
         }
       ],
-      "reason": "Jack Allen, UUP councillor in Antrim 1973-93, is not the Londonderry Jack Allen (John Alexander Allen) of the 1982 and 1998 Assembly elections: in 1973 and 1977 both were elected on the same day to different councils. Given the id T2426291746-antrim so the registry stops joining them. Nothing in the results changes.",
+      "reason": "Jack Allen, UUP councillor in Antrim 1973-93, is not the Londonderry Jack Allen (John Alexander Allen) of the 1982 and 1998 Assembly elections: in 1973 and 1977 both were elected on the same day to different councils. Given the id T2426291746-antrim so the registry stops joining them. Nothing in the results changes. Antrim Area C (20 May 1981): 6,984 votes were polled (6,748 valid and 236 invalid; the sheet's 48.3% of 14,454 electors), not 6,954; the handwritten poll on the Electoral Office's declaration sheet was misread.",
       "category": "person-identity",
       "operations": [
         {
@@ -283284,7 +283472,15 @@
           "set": {
             "Candidate_Id": "T2426291746-antrim"
           }
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Poll",
+          "value": "6984"
         }
+      ],
+      "alsoBatches": [
+        "w8-arith2-2026-11-12"
       ]
     },
     {
@@ -326328,6 +326524,120 @@
           "op": "set",
           "path": "Constituency.countInfo.Quota",
           "value": "936"
+        }
+      ]
+    },
+    {
+      "batch": "w8-arith2-2026-11-12",
+      "sourceFile": "data/elections-source/data/elections/local-government/1981-05-20/lisburn-area-d.json",
+      "source": {
+        "title": "Local Government Election Results 1981, Lisburn: Area D (PDF p. 105)",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401112530id_/http://www.eoni.org.uk/getmedia/064e8d36-856a-4f60-b950-716cf2c3c7bb/local_government_election_results_1981",
+        "accessed": "2026-11-12"
+      },
+      "reason": "Lisburn Area D (20 May 1981): there were 188 invalid votes, as the Electoral Office's declaration sheet gives them (8,639 polled, 8,451 valid), not 158.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Spoiled",
+          "value": "188"
+        }
+      ]
+    },
+    {
+      "batch": "w8-arith2-2026-11-12",
+      "sourceFile": "data/elections-source/data/elections/local-government/1981-05-20/dungannon-area-b.json",
+      "source": {
+        "title": "Local Government Election Results 1981, Dungannon: Area B (PDF p. 67)",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401112530id_/http://www.eoni.org.uk/getmedia/064e8d36-856a-4f60-b950-716cf2c3c7bb/local_government_election_results_1981",
+        "accessed": "2026-11-12"
+      },
+      "reason": "Dungannon Area B (20 May 1981): 6,186 votes were polled (5,976 valid and 210 invalid; the sheet's 79.8% of 7,753 electors), as the Electoral Office's declaration sheet gives them, not 6,165.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Poll",
+          "value": "6186"
+        }
+      ]
+    },
+    {
+      "batch": "w8-arith2-2026-11-12",
+      "sourceFile": "data/elections-source/data/elections/local-government/1981-05-20/armagh-area-a.json",
+      "source": {
+        "title": "Local Government Election Results 1981, Armagh: Area A (PDF p. 76)",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401112530id_/http://www.eoni.org.uk/getmedia/064e8d36-856a-4f60-b950-716cf2c3c7bb/local_government_election_results_1981",
+        "accessed": "2026-11-12"
+      },
+      "reason": "Armagh Area A (20 May 1981): 4,293 votes were polled (4,118 valid and 175 invalid; the sheet's 73.6% of 5,833 electors), not 4,196; the handwritten poll on the Electoral Office's declaration sheet was misread.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Poll",
+          "value": "4293"
+        }
+      ]
+    },
+    {
+      "batch": "w8-arith2-2026-11-12",
+      "sourceFile": "data/elections-source/data/elections/local-government/1981-05-20/magherafelt-area-c.json",
+      "source": {
+        "title": "Local Government Election Results 1981, Magherafelt: Area C (PDF p. 43)",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401112530id_/http://www.eoni.org.uk/getmedia/064e8d36-856a-4f60-b950-716cf2c3c7bb/local_government_election_results_1981",
+        "accessed": "2026-11-12"
+      },
+      "reason": "Magherafelt Area C (20 May 1981): the quota was 1,119 (6,708 valid votes, 5 seats), as the Electoral Office's declaration sheet gives it, not 119.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Quota",
+          "value": "1119"
+        }
+      ]
+    },
+    {
+      "batch": "w8-arith2-2026-11-12",
+      "sourceFile": "data/elections-source/data/elections/local-government/1981-05-20/ballymena-area-c.json",
+      "source": {
+        "title": "Local Government Election Results 1981, Ballymena: Area C (PDF p. 37)",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401112530id_/http://www.eoni.org.uk/getmedia/064e8d36-856a-4f60-b950-716cf2c3c7bb/local_government_election_results_1981",
+        "accessed": "2026-11-12"
+      },
+      "reason": "Ballymena Area C (20 May 1981): the quota was 929 (5,570 valid votes, 5 seats), not 829: the handwritten figure on the Electoral Office's declaration sheet was misread, and the sheet's own election stages fit only 929 (Edwin Maternaghan, at 839 after stage 2, was not elected until stage 3 with 953.80; John McAuley, at 846 after stage 2, at stage 4).",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Quota",
+          "value": "929"
+        }
+      ]
+    },
+    {
+      "batch": "w8-arith2-2026-11-12",
+      "sourceFile": "data/elections-source/data/elections/local-government/1981-05-20/antrim-area-b.json",
+      "source": {
+        "title": "Local Government Election Results 1981, Antrim: Area B (PDF p. 110)",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401112530id_/http://www.eoni.org.uk/getmedia/064e8d36-856a-4f60-b950-716cf2c3c7bb/local_government_election_results_1981",
+        "accessed": "2026-11-12"
+      },
+      "reason": "Antrim Area B (20 May 1981): the quota was 689 (4,130 valid votes, 5 seats), not 659: the handwritten figure on the Electoral Office's declaration sheet was misread, and the sheet's own election stages fit only 689 (Edgar Wallace, at 688 on first preferences, was elected at stage 2 with 691; James Cunningham, at 688 after stage 2, at stage 3).",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Quota",
+          "value": "689"
         }
       ]
     },
