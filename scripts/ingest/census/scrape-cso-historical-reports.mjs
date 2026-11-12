@@ -18,6 +18,7 @@ const START_URLS = [
 const ASSET_RE = /\.(pdf|zip|csv|xls|xlsx|doc|docx)(?:[?#].*)?$/i;
 const PAGE_HINT_RE = /census|historicalreports|historical\s+reports|volume/i;
 
+/** @param {string} name @param {string | number | null} [fallback] */
 function readArg(name, fallback = null) {
   const eq = process.argv.find((arg) => arg.startsWith(`${name}=`));
   if (eq) return eq.slice(name.length + 1);
@@ -28,10 +29,11 @@ function readArg(name, fallback = null) {
 const args = new Set(process.argv.slice(2));
 const SHOULD_DOWNLOAD = args.has("--download");
 const MAX_PAGES = Number(readArg("--max-pages", 120));
-const CACHE_DIR = path.resolve(readArg("--cache-dir", DEFAULT_CACHE_DIR));
-const MANIFEST_PATH = path.resolve(readArg("--manifest-path", DEFAULT_MANIFEST_PATH));
+const CACHE_DIR = path.resolve(/** @type {string} */ (readArg("--cache-dir", DEFAULT_CACHE_DIR)));
+const MANIFEST_PATH = path.resolve(/** @type {string} */ (readArg("--manifest-path", DEFAULT_MANIFEST_PATH)));
 const OUT_DIR = path.dirname(MANIFEST_PATH);
 
+/** @param {unknown} value */
 function decodeEntities(value) {
   return String(value || "")
     .replace(/&amp;/g, "&")
@@ -42,10 +44,12 @@ function decodeEntities(value) {
     .replace(/&mdash;/g, "-");
 }
 
+/** @param {unknown} value */
 function stripTags(value) {
   return decodeEntities(String(value || "").replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ").trim();
 }
 
+/** @param {string} url */
 function safeFileName(url, fallback = "download") {
   const parsed = new URL(url);
   const base = decodeURIComponent(path.basename(parsed.pathname) || fallback)
@@ -58,6 +62,7 @@ function safeFileName(url, fallback = "download") {
   return `${stem}-${suffix}${ext || ""}`;
 }
 
+/** @param {string} url */
 async function fetchText(url) {
   const res = await fetch(url, {
     headers: {
@@ -69,6 +74,7 @@ async function fetchText(url) {
   return await res.text();
 }
 
+/** @param {string} html @param {string} baseUrl */
 function extractLinks(html, baseUrl) {
   const links = [];
   const re = /<a\b([^>]*)>([\s\S]*?)<\/a>/gi;
@@ -91,6 +97,7 @@ function extractLinks(html, baseUrl) {
   return links;
 }
 
+/** @param {string} url @param {string} text */
 function isSameSiteCsoPage(url, text) {
   const parsed = new URL(url);
   if (parsed.hostname !== "www.cso.ie") return false;
@@ -101,6 +108,7 @@ function isSameSiteCsoPage(url, text) {
   return true;
 }
 
+/** @param {{ url: string }} asset */
 async function maybeDownload(asset) {
   if (!SHOULD_DOWNLOAD) return { status: CSO_REPORT.not_requested };
   await fs.mkdir(CACHE_DIR, { recursive: true });
@@ -109,7 +117,7 @@ async function maybeDownload(asset) {
   const checksumPath = `${outputPath}.sha256`;
   try {
     const existing = await fs.stat(outputPath).catch(() => null);
-    if (existing?.size > 0) {
+    if (existing && existing.size > 0) {
       return { status: CSO_REPORT.cached, path: outputPath, bytes: existing.size };
     }
     const res = await fetch(asset.url, {
@@ -122,7 +130,7 @@ async function maybeDownload(asset) {
     await fs.writeFile(checksumPath, `${digest}  ${path.basename(outputPath)}\n`);
     return { status: CSO_REPORT.downloaded, path: outputPath, bytes: bytes.length, sha256: digest };
   } catch (error) {
-    return { status: CSO_REPORT.failed, error: error.message };
+    return { status: CSO_REPORT.failed, error: /** @type {Error} */ (error).message };
   }
 }
 
@@ -137,6 +145,7 @@ async function main() {
     const pageUrl = queue.shift();
     if (!pageUrl || seenPages.has(pageUrl)) continue;
     seenPages.add(pageUrl);
+    /** @type {{ url: string, status: (typeof CSO_REPORT)[keyof typeof CSO_REPORT], links: number, error: string | null }} */
     const page = { url: pageUrl, status: CSO_REPORT.pending, links: 0, error: null };
     pages.push(page);
     try {
@@ -163,7 +172,7 @@ async function main() {
       }
     } catch (error) {
       page.status = CSO_REPORT.failed;
-      page.error = error.message;
+      page.error = /** @type {Error} */ (error).message;
     }
   }
 

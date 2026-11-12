@@ -14,6 +14,7 @@ import path from 'node:path';
 const BASE = 'https://apps.proni.gov.uk/eCatNI_IE/';
 const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/148 Safari/537.36';
 
+/** @param {string} name */
 function getArg(name, fallback = '') {
   const prefix = `--${name}=`;
   const found = process.argv.find((item) => item.startsWith(prefix));
@@ -23,8 +24,9 @@ function getArg(name, fallback = '') {
   return fallback;
 }
 
+/** @param {string} name @param {number} fallback */
 function getNumberArg(name, fallback) {
-  const value = Number(getArg(name, fallback));
+  const value = Number(getArg(name, String(fallback)));
   return Number.isFinite(value) ? value : fallback;
 }
 
@@ -50,6 +52,7 @@ function stripHtml(html = '') {
     .trim();
 }
 
+/** @param {string} tag @param {string} name */
 function getTagAttribute(tag, name) {
   const doubleQuoted = tag.match(new RegExp(`\\b${name}\\s*=\\s*"([^"]*)"`, 'i'));
   if (doubleQuoted) return decodeHtml(doubleQuoted[1]);
@@ -58,7 +61,9 @@ function getTagAttribute(tag, name) {
   return '';
 }
 
+/** @param {string} html */
 function parseInputs(html) {
+  /** @type {Map<string, string>} */
   const body = new Map();
   for (const match of html.matchAll(/<input\b[^>]*>/gi)) {
     const tag = match[0];
@@ -76,16 +81,19 @@ function parseInputs(html) {
   return body;
 }
 
+/** @param {number} status @param {string} content */
 function isBlocked(status, content) {
   if (status !== 200) return true;
   return /Request Rejected|support ID|Access Denied|Too Many Requests|rate limit|throttl/i.test(content);
 }
 
+/** @param {string} html */
 function extractTitle(html) {
   const match = html.match(/<title\b[^>]*>([\s\S]*?)<\/title>/i);
   return match ? stripHtml(match[1]) : '';
 }
 
+/** @param {string} html */
 function extractDetailReference(html) {
   const row = [...html.matchAll(/<tr\b[\s\S]*?<\/tr>/gi)]
     .map((match) => match[0])
@@ -95,6 +103,7 @@ function extractDetailReference(html) {
   return cells.length >= 2 ? cells.slice(1).join(' ').trim() : '';
 }
 
+/** @param {string} file */
 async function readJsonl(file) {
   const raw = await readFile(file, 'utf8');
   return raw.split(/\r?\n/)
@@ -103,6 +112,7 @@ async function readJsonl(file) {
     .map((line) => JSON.parse(line));
 }
 
+/** @param {string | undefined} file @returns {Promise<{ cookieHeader?: string } | null>} */
 async function readJsonIfExists(file) {
   if (!file) return null;
   try {
@@ -113,6 +123,7 @@ async function readJsonIfExists(file) {
   }
 }
 
+/** @param {string} url @param {Record<string, string>} [headers] */
 async function fetchText(url, headers = {}) {
   const response = await fetch(url, {
     headers: {
@@ -126,11 +137,17 @@ async function fetchText(url, headers = {}) {
   return { status: response.status, ok: response.ok && !isBlocked(response.status, content), content };
 }
 
+/**
+ * @param {{ resultsViewName: string, resultsViewValue?: string }} row
+ * @param {string} snapshotHtml
+ * @param {{ cookieHeader?: string } | null} metadata
+ */
 async function postBrowseDetail(row, snapshotHtml, metadata) {
   const form = parseInputs(snapshotHtml);
   form.set(row.resultsViewName, row.resultsViewValue || '');
   const params = new URLSearchParams();
   for (const [key, value] of form.entries()) params.append(key, value);
+  /** @type {Record<string, string>} */
   const headers = {
     'user-agent': USER_AGENT,
     accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -144,6 +161,7 @@ async function postBrowseDetail(row, snapshotHtml, metadata) {
   return { status: response.status, ok: response.ok && !isBlocked(response.status, content), content };
 }
 
+/** @param {string} reference @param {string} detailHtml */
 function buildCandidateUrls(reference, detailHtml) {
   const encoded = encodeURIComponent(reference);
   const compact = encodeURIComponent(reference.replace(/\//g, '_'));

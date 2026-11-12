@@ -39,10 +39,11 @@ const PAGE = 1000;   // measured maximum; limit=2000 returns zero results
 const CAP = 10000;   // measured hard skip ceiling
 
 const args = process.argv.slice(2);
-const argVal = (n, d) => { const i = args.indexOf(`--${n}`); return i >= 0 && args[i + 1] ? args[i + 1] : d; };
-const OUT = argVal('out', null);
+const argVal = (/** @type {string} */ n, /** @type {string | number | null} */ d) => { const i = args.indexOf(`--${n}`); return i >= 0 && args[i + 1] ? args[i + 1] : d; };
+// The usage check below exits when --out is missing, so every later use has a folder.
+const OUT = /** @type {string} */ (argVal('out', null));
 const CONCURRENCY = Math.max(1, Number(argVal('concurrency', 5)));
-const FROM = argVal('from', '1919-01-01');
+const FROM = String(argVal('from', '1919-01-01'));
 const DRY = args.includes('--dry');
 
 if (!OUT) {
@@ -51,8 +52,9 @@ if (!OUT) {
 }
 
 const stats = { requests: 0, cached: 0, records: 0, splits: 0, failed: 0, bytes: 0 };
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const sleep = (/** @type {number} */ ms) => new Promise((r) => setTimeout(r, ms));
 
+/** @param {string} url */
 async function getJson(url, tries = 4) {
   for (let i = 0; i < tries; i += 1) {
     try {
@@ -69,6 +71,7 @@ async function getJson(url, tries = 4) {
   return null;
 }
 
+/** @param {string} endpoint @param {unknown} key */
 function file(endpoint, key) {
   const dir = path.join(OUT, endpoint);
   mkdirSync(dir, { recursive: true });
@@ -76,6 +79,7 @@ function file(endpoint, key) {
 }
 
 /** Page through one query until exhausted or the cap is hit. */
+/** @param {string} endpoint @param {Record<string, string>} params */
 async function pageAll(endpoint, params) {
   const rows = [];
   for (let skip = 0; skip < CAP; skip += PAGE) {
@@ -88,12 +92,16 @@ async function pageAll(endpoint, params) {
   return rows;
 }
 
-const addDays = (iso, n) => { const d = new Date(iso); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); };
-const dayDiff = (a, b) => Math.round((new Date(b) - new Date(a)) / 86400000);
+const addDays = (/** @type {string} */ iso, /** @type {number} */ n) => { const d = new Date(iso); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); };
+const dayDiff = (/** @type {string} */ a, /** @type {string} */ b) => Math.round((new Date(b).getTime() - new Date(a).getTime()) / 86400000);
 
 /**
  * Fetch [start, end] and guarantee completeness. A full window is treated as
  * evidence of truncation, never as a complete answer.
+ */
+/**
+ * @param {string} endpoint @param {string} start @param {string} end @param {Record<string, string>} extra
+ * @returns {Promise<unknown[]>}
  */
 async function windowed(endpoint, start, end, extra, depth = 0) {
   const key = `${start}_${end}`;
@@ -126,6 +134,11 @@ async function windowed(endpoint, start, end, extra, depth = 0) {
   return rows;
 }
 
+/**
+ * @template T
+ * @param {T[]} items
+ * @param {(item: T) => Promise<void>} worker
+ */
 async function pool(items, worker) {
   let i = 0;
   await Promise.all(Array.from({ length: Math.min(CONCURRENCY, items.length || 1) }, async () => {
@@ -153,7 +166,7 @@ for (const ep of ['houses', 'parties', 'constituencies', 'members']) {
 const houses = (() => {
   try { return JSON.parse(readFileSync(file('houses', 'all'), 'utf8')).results || []; } catch { return []; }
 })();
-const houseNos = [...new Set(houses.map((h) => (h.house && (h.house.houseNo ?? h.house.houseCode)) ?? h.houseNo).filter(Boolean))];
+const houseNos = [...new Set(houses.map((/** @type {{ house?: { houseNo?: string | number, houseCode?: string }, houseNo?: string | number }} */ h) => (h.house && (h.house.houseNo ?? h.house.houseCode)) ?? h.houseNo).filter(Boolean))];
 console.log(`\n  houses discovered: ${houseNos.length}`);
 
 for (const ep of ['constituencies', 'parties', 'members']) {
@@ -174,6 +187,7 @@ const endYear = Number(today.slice(0, 4));
 
 // Month windows by default: a year saturates the cap from ~2000 onward, and the
 // bisection above will narrow further wherever a month still comes back full.
+/** @type {[string, string][]} */
 const months = [];
 for (let y = startYear; y <= endYear; y += 1) {
   for (let m = 1; m <= 12; m += 1) {

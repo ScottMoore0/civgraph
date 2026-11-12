@@ -5,7 +5,13 @@ import { SITE } from "../../../packages/config/src/node.mjs";
 
 const UA = `Civgraph NISRA throttle probe/1.0 (+${SITE.origin}; bounded archival-rate test)`;
 
-function readArg(name, fallback = null) {
+/**
+ * @template {string | number | null} F
+ * @param {string} name
+ * @param {F} [fallback]
+ * @returns {string | F}
+ */
+function readArg(name, fallback = /** @type {F} */ (null)) {
   const eq = process.argv.find((arg) => arg.startsWith(`${name}=`));
   if (eq) return eq.slice(name.length + 1);
   const idx = process.argv.indexOf(name);
@@ -28,6 +34,7 @@ const args = {
 
 const BLOCKED_OR_STALE_STATUSES = new Set([401, 403, 404, 410]);
 
+/** @param {number} ms */
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -36,16 +43,19 @@ function nowStamp() {
   return new Date().toISOString().replace(/[-:]/g, "").replace(/\..+/, "Z");
 }
 
+/** @param {unknown} value */
 function csvEscape(value) {
   const s = value == null ? "" : String(value);
   return /[",\r\n]/.test(s) ? `"${s.replaceAll('"', '""')}"` : s;
 }
 
+/** @param {string} file @param {Record<string, unknown>[]} rows @param {string[]} columns */
 function writeCsv(file, rows, columns) {
   fs.mkdirSync(path.dirname(file), { recursive: true });
   fs.writeFileSync(file, `${[columns.join(","), ...rows.map((row) => columns.map((col) => csvEscape(row[col])).join(","))].join("\n")}\n`, "utf8");
 }
 
+/** @param {string} line */
 function parseCsvLine(line) {
   const out = [];
   let value = "";
@@ -68,6 +78,7 @@ function parseCsvLine(line) {
   return out;
 }
 
+/** @param {string} file @returns {Record<string, string>[]} */
 function readCsv(file) {
   if (!fs.existsSync(file)) return [];
   const lines = fs.readFileSync(file, "utf8").split(/\r?\n/).filter(Boolean);
@@ -79,6 +90,7 @@ function readCsv(file) {
   });
 }
 
+/** @param {unknown} raw */
 function normalizeUrl(raw) {
   try {
     const url = new URL(String(raw || "").trim());
@@ -89,6 +101,7 @@ function normalizeUrl(raw) {
   }
 }
 
+/** @param {string} url */
 function localPathForAsset(url) {
   const parsed = new URL(url);
   const rel = decodeURIComponent(parsed.pathname).replace(/^\/+/, "") || "download";
@@ -99,6 +112,7 @@ function localPathForAsset(url) {
   return target;
 }
 
+/** @param {string} url */
 function isPresent(url) {
   try {
     const output = localPathForAsset(url);
@@ -133,6 +147,12 @@ function collectCandidates() {
     .slice(Math.max(0, args.candidateOffset), Math.max(0, args.candidateOffset) + args.maxCandidates);
 }
 
+/**
+ * One probe of the run (classification and the candidate's source are added after it).
+ * @typedef {{ delayMs: number, url: string, ok: boolean, status: number, statusText: string, elapsedMs: number, contentLength: string, retryAfter: string, error: string, source?: string, previousError?: string, classification?: string }} ProbeRow
+ */
+
+/** @param {string} url @param {number} delayMs @returns {Promise<ProbeRow>} */
 async function probeUrl(url, delayMs) {
   const controller = new AbortController();
   const started = Date.now();
@@ -169,13 +189,14 @@ async function probeUrl(url, delayMs) {
       elapsedMs: Date.now() - started,
       contentLength: "",
       retryAfter: "",
-      error: error.message || String(error),
+      error: /** @type {Error} */ (error).message || String(error),
     };
   } finally {
     clearTimeout(timer);
   }
 }
 
+/** @param {ProbeRow} row */
 function shouldStop(row) {
   if (row.status === 429) return true;
   if (row.status >= 500) return true;
@@ -188,6 +209,7 @@ function shouldStop(row) {
 async function main() {
   fs.mkdirSync(args.reportDir, { recursive: true });
   const candidates = collectCandidates();
+  /** @type {ProbeRow[]} */
   const rows = [];
   let cursor = 0;
   let stopped = false;

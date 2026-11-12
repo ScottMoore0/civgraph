@@ -11,6 +11,14 @@ const DOWNLOADS_DIR = process.env.USERPROFILE
   ? path.join(process.env.USERPROFILE, "Downloads")
   : path.join(process.env.HOME || "", "Downloads");
 
+/**
+ * @typedef {{ path: string, directory: boolean, extension: string, flags: number, method: number, compressedSize: number, uncompressedSize: number, localHeaderOffset: number }} ZipEntry
+ * @typedef {{ zip64: boolean, advertisedEntries: number, entries: ZipEntry[], nestedArchives?: NestedArchive[] }} ZipListing
+ * @typedef {{ path: string, error?: string, advertisedEntries?: number, nestedArchives?: NestedArchive[], [summary: string]: unknown }} NestedArchive
+ * @typedef {{ year: number, scope: string, kind: string, file: string, path: string }} ArchiveSpec
+ */
+
+/** @param {string} file */
 function downloadsPath(file) {
   return path.join(DOWNLOADS_DIR, file);
 }
@@ -29,17 +37,22 @@ const LOCAL_ARCHIVES = [
   { year: 1911, scope: "Ireland", kind: "all_ireland_historical", file: "1911 Census Complete.zip", path: downloadsPath("1911 Census Complete.zip") },
 ];
 
+/** @param {string} file */
 function extOf(file) {
   const ext = path.extname(file || "").toLowerCase().replace(".", "");
   return ext || "[none]";
 }
 
+/** @param {Record<string, number>} counts @param {string} key */
 function addCount(counts, key, delta = 1) {
   counts[key] = (counts[key] || 0) + delta;
 }
 
+/** @param {string} root */
 async function listFiles(root) {
+  /** @type {{ path: string, bytes: number }[]} */
   const files = [];
+  /** @param {string} dir */
   async function walk(dir) {
     const entries = await fs.readdir(dir, { withFileTypes: true }).catch(() => []);
     for (const entry of entries) {
@@ -60,6 +73,7 @@ async function listFiles(root) {
   return files;
 }
 
+/** @param {Buffer} buffer @returns {ZipListing} */
 function readZipEntriesFromBuffer(buffer) {
   const tailSize = Math.min(buffer.length, 1024 * 128);
   const tailStart = buffer.length - tailSize;
@@ -110,6 +124,7 @@ function readZipEntriesFromBuffer(buffer) {
   return { zip64: false, advertisedEntries: totalEntries, entries };
 }
 
+/** @param {Buffer} buffer @param {ZipEntry} entry */
 function readZipEntryData(buffer, entry) {
   if (entry.directory || entry.compressedSize <= 0 || entry.uncompressedSize <= 0) return null;
   if (entry.flags & 0x0001) return null;
@@ -126,8 +141,10 @@ function readZipEntryData(buffer, entry) {
   return null;
 }
 
+/** @param {Buffer} buffer @param {ZipEntry[]} entries @returns {NestedArchive[]} */
 function inspectNestedZipEntries(buffer, entries, depth = 1) {
   if (depth > 3) return [];
+  /** @type {NestedArchive[]} */
   const nestedArchives = [];
   for (const entry of entries.filter((item) => !item.directory && item.extension === "zip")) {
     try {
@@ -145,12 +162,13 @@ function inspectNestedZipEntries(buffer, entries, depth = 1) {
         nestedArchives: childNestedArchives,
       });
     } catch (error) {
-      nestedArchives.push({ path: entry.path, error: error.message });
+      nestedArchives.push({ path: entry.path, error: /** @type {Error} */ (error).message });
     }
   }
   return nestedArchives;
 }
 
+/** @param {string} zipPath */
 async function readZipCentralDirectory(zipPath) {
   const buffer = await fs.readFile(zipPath);
   const zip = readZipEntriesFromBuffer(buffer);
@@ -158,9 +176,12 @@ async function readZipCentralDirectory(zipPath) {
   return zip;
 }
 
+/** @param {ZipEntry[]} entries */
 function summariseEntries(entries) {
   const files = entries.filter((entry) => !entry.directory);
+  /** @type {Record<string, number>} */
   const byExtension = {};
+  /** @type {Record<string, number>} */
   const topDirectories = {};
   let uncompressedBytes = 0;
   let compressedBytes = 0;
@@ -188,7 +209,9 @@ function summariseEntries(entries) {
   };
 }
 
+/** @param {ArchiveSpec} spec */
 async function inventoryArchive(spec) {
+  /** @type {{ year: number, scope: string, kind: string, file: string, sourceHint: string, exists: boolean, bytes: number | null, lastModified: string | null, zip: Record<string, unknown> | null, error: string | null }} */
   const archive = {
     year: spec.year,
     scope: spec.scope,
@@ -213,7 +236,7 @@ async function inventoryArchive(spec) {
       nestedArchives: zip.nestedArchives,
     };
   } catch (error) {
-    archive.error = error.message;
+    archive.error = /** @type {Error} */ (error).message;
   }
   return archive;
 }
@@ -221,7 +244,9 @@ async function inventoryArchive(spec) {
 async function inventoryRepoCensus() {
   const root = path.join(REPO, "data", "census");
   const files = await listFiles(root);
+  /** @type {Record<string, number>} */
   const byExtension = {};
+  /** @type {Record<string, number>} */
   const byTopDirectory = {};
   let bytes = 0;
   for (const file of files) {
