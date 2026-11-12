@@ -274,6 +274,7 @@ export function addMapUrls(db, { col, add, enc }) {
   for (const q of PEOPLE_QUERIES) add('catalogue-search', `people:${q}`, 'search');
 }
 
+// arch-ok R6: search phrases the parity crawl types into the catalogue, not body ids
 export const CATALOGUE_QUERIES = ['wards', 'townlands 1911', 'dail constituencies', 'belfast', 'census', 'counties', 'parishes',
   'baronies', 'local government districts 2012', 'stormont 1929', 'poor law unions', 'electoral divisions', 'westminster 1885',
   'assembly areas', 'dispensary districts', 'derry', 'cork', 'flood', 'railways', 'lidar', 'geology', 'roads', 'schools', 'garda',

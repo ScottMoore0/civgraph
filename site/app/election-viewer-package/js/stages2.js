@@ -1085,6 +1085,7 @@ function escapeHtml(value) {
     });
 }
 
+// arch-ok R6: the vendored STV animation (CC BY; source data/elections-source/js/stages2.js) is a classic script and cannot import the parties registry
 var PARTY_COLOUR_BASE = {
     'Alliance': '#F6CB2F',
     'Alliance Party': '#F6CB2F',
@@ -1143,6 +1144,7 @@ var PARTY_COLOUR_BASE = {
     'Workers Party / Republican Clubs': '#930C1A',
 };
 
+// arch-ok R6: the vendored STV animation (CC BY; source data/elections-source/js/stages2.js) is a classic script and cannot import the parties registry
 var PARTY_COLOUR_OVERRIDES = {
     'Aontú': '#44532A',
     'Anti-Austerity Alliance': '#E3170D',

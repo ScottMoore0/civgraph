@@ -761,6 +761,7 @@ if (existsSync(ELECTION_MANIFEST)) {
     for (const result of referendumBundle.results || []) {
       const constituency = String(result.constituency || '').toLowerCase();
       const matchedName = String(result.matchName || result.featureName || '').toLowerCase();
+      // arch-ok R6: a regression assertion naming the Wexford and Wicklow constituencies, not council bodies
       assert(!(['wexford', 'wicklow', 'county wexford', 'county wicklow'].includes(constituency) && matchedName.includes('waterford')), `/test2 ${filename} must not match ${result.constituency} referendum results to ${result.matchName || result.featureName}`);
     }
   }

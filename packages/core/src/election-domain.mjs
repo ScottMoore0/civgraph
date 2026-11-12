@@ -644,6 +644,7 @@ export function summarizeCandidateRows(rows = []) {
     const key = row.Candidate_Id || row.person_id || `${name}|${party}`;
     if (!String(key || '').trim() || isNonTransferableRow(row, key, name, party)) continue;
     /** @type {ResultCandidate & { counts: CandidateCount[] }} */
+    // arch-ok R6: elected and excluded are a candidate row's own fields, not status values
     const existing = byCandidate.get(key) || {
       id: String(key),
       name,
@@ -1214,6 +1215,7 @@ function completeElectedCandidateSet(candidates = [], seatsTotal = null) {
         ? { ...count, status: count.status || 'Elected' }
         : count)
       : candidate.counts;
+    // arch-ok R6: elected and excluded are a candidate row's own fields, not status values
     return {
       ...candidate,
       elected: true,
@@ -1438,6 +1440,7 @@ export function buildMainLikeCandidateSummaryFromRawResults(rawEntries = []) {
         const finalCount = parseNumber(candidate.final_count);
         const resolvedCount = typeof finalCount === 'number' && Number.isInteger(finalCount) && finalCount > 0 ? finalCount : null;
         const status = autoReturned ? 'Elected (auto returned)' : (elected ? 'Elected' : (excluded ? 'Excluded' : fixText(candidate.status || '') || 'Not Elected'));
+        // arch-ok R6: elected and excluded are a candidate row's own fields, not status values
         rows.push({
           id: String(index + 1),
           // `id` is a per-constituency row index, not a person. The real personId is
@@ -1502,6 +1505,7 @@ export function buildMainLikeCandidateSummaryFromRawResults(rawEntries = []) {
       if (!byCandidate.has(cid)) {
         const name = candidateDisplayName(row);
         const party = normalizeParty(row.Party_Name);
+        // arch-ok R6: elected and excluded are a candidate row's own fields, not status values
         byCandidate.set(cid, {
           id: cid,
           // Candidate_Id is a row index here too; see the scraper branch above.

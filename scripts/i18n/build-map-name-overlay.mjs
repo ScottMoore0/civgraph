@@ -78,6 +78,7 @@ for (const [en, ga] of readPairs('data/i18n/strings/catalogue-names.txt')) add(e
 for (const [en, ga] of readPairs('data/i18n/strings/general.txt')) add(en, ga);
 // Provinces inside a name read as the province ("Leinster District Electoral Divisions").
 const PLACES = new Map(readPairs('data/i18n/strings/general.txt').filter(([en]) => !/^(January|February|March|April|May|June|July|August|September|October|November|December)$/.test(en)));
+// arch-ok R6: place names with their Irish forms (the overlay's translation glossary), not council bodies
 for (const extra of [['Belfast', 'Béal Feirste'], ['Derry', 'Doire'], ['Newry & Mourne', 'An tIúr agus Múrna'], ['Leinster', 'Cúige Laighean'], ['Munster', 'Cúige Mumhan'], ['Connacht', 'Cúige Chonnacht'], ['Ulster', 'Cúige Uladh']]) PLACES.set(extra[0], extra[1]);
 const phrases = [...glossary.keys()].sort((a, b) => b.length - a.length);
 const placeNames = [...PLACES.keys()].sort((a, b) => b.length - a.length);

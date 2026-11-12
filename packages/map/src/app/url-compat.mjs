@@ -19,6 +19,7 @@ export { LEGACY_LAYER_ID_PREFIXES };
 // [body slug, old date, new date]. An old date may be a year alone that the new date continues
 // ("1961" -> "1961-05-17"): a key is rewritten only where the old date ends there, so the new key
 // (and another round of that year, "1961-06-29") is never rewritten again.
+// arch-ok R6: a redirect table of retired election keys (R13: old links keep working), not the list of bodies
 export const RENAMED_ELECTION_DATES = [
   ['house-of-commons-of-the-united-kingdom', '1968-04-17', '1969-04-17'], // Mid Ulster by-election (Devlin)
   ['house-of-commons-of-the-united-kingdom', '2011-06-06', '2011-06-09'], // Belfast West by-election
@@ -46,7 +47,9 @@ function renameKeyDate(text, prefix, from, to) {
 // [old body slug, new body slug, new body name, date]. Bangor's and Lisburn's 1920 rounds moved
 // from their urban district slugs to the one body each that holds their later rounds (2026-11).
 export const RENAMED_ELECTION_BODIES = [
+  // arch-ok R6: a redirect row: a retired body key, the body it became, and its name
   ['bangor-urban-district-council', 'bangor-borough-council', 'Bangor Borough Council', '1920-01-15'],
+  // arch-ok R6: a redirect row: a retired body key, the body it became, and its name
   ['lisburn-urban-district-council', 'lisburn-borough-council', 'Lisburn Borough Council', '1920-01-15']
 ];
 
