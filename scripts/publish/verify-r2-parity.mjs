@@ -75,6 +75,7 @@ if (!PREFIXES.length) {
 
 // maps.json keys whose values name a single stored object. Excluded on purpose:
 // sourceNotes (prose), xyz (tile template containing {z}/{x}/{y}).
+// arch-ok R6: maps.json field names (image, pmtiles), not layer types
 const ASSET_KEYS = new Set(['fgb', 'geojson', 'url', 'image', 'file', 'kml', 'zip', 'shapefile', 'pmtiles', 'csv']);
 
 /** @type {Map<string, Set<string>>} */

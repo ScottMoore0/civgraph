@@ -160,6 +160,7 @@ export function ingestElections(db, { bundleDir, manifestFile, summaryDir }) {
           const id = cand.id == null ? '' : String(cand.id);
           const printed = ordById.get(id) === ord ? printedById.get(id) : null;
           if (cand.personId == null && cand.name) stats.unstampedCandidacies += 1;
+          // arch-ok R6: elected and excluded are a candidate row's own fields, not status values
           W.candidacies.add({
             election_key: key,
             contest_seq: seq,

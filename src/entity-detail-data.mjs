@@ -103,6 +103,7 @@ export function normaliseStatus(row = {}) {
     const unopposed = /unopposed/i.test(raw) || (/deemed/i.test(raw) && !hasNumber(votes));
     return { label: unopposed ? 'Elected unopposed' : 'Elected', raw, elected: true };
   }
+  // arch-ok R6: free-text outcomes the record page reads, wider than the candidate-count spellings (defeated, lost, withdrawn), not a list of statuses
   if (row.elected === false || /^(excluded|eliminated|not elected|defeated|lost|withdrawn|-)?$/i.test(raw)) {
     return { label: 'Not elected', raw: raw === '-' ? '' : raw, elected: false };
   }

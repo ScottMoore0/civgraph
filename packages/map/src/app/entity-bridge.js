@@ -532,6 +532,7 @@ export class EntityBridgeMethods {
     const votes = knownCount(row.votes ?? row.firstPrefs, Number(elected) > 0 || Number(stood) > 0);
     const share = votes === null ? null : knownCount(row.share ?? row.validVotePct);
     const totalSeats = knownCount(row.totalSeats, true);
+    // arch-ok R6: contested and elected are the election row's own fields, not status values
     return {
       electionDisplayName: row.title || row.key || '',
       electionBodyForOpen: body,

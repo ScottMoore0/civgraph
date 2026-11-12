@@ -5479,6 +5479,7 @@ function isTechnicalField(type, key, value) {
   if (key === 'url') return false;
   if (TECHNICAL_FIELD_KEYS.has(key)) return true;
   if (/^(.*Url|.*Id|.*Key)$/i.test(key)) return true;
+  // arch-ok R6: fragments of technical field names (pmtiles, mvt), not layer types
   if (/(bbox|bounds|tile|pmtiles|spatial|index|geometry|geojson|mvt|chunk|lod)/i.test(key)) return true;
   if (type === 'maps' && ['featured', 'loadable', 'placeholder', 'slug', 'group', 'keywords', 'status'].includes(key)) return true;
   return false;
