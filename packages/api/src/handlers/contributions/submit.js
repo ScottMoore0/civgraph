@@ -164,17 +164,24 @@ export async function onRequestPost(context) {
 export const onRequest = methodGuard('POST', onRequestPost, jsonNotAllowed);
 
 /**
- * @param {any} payload the posted JSON before any check: this function is what checks its shape
+ * The fields of a submission this function reads, each unchecked until it is read here.
+ * @typedef {{ kind?: unknown, entityType?: unknown, entityId?: unknown, patch?: unknown, reason?: unknown, title?: unknown,
+ *   summary?: unknown, mapRequest?: { title?: unknown, description?: unknown } | null }} SubmissionFields
+ */
+
+/**
+ * @param {unknown} input the posted JSON before any check: this function is what checks its shape
  * @returns {{ error?: string }}
  */
-function validateSubmission(payload) {
-  if (!payload || typeof payload !== 'object') return { error: 'Submission must be an object' };
-  if (!VALID_KINDS.has(payload.kind)) {
+function validateSubmission(input) {
+  if (!input || typeof input !== 'object') return { error: 'Submission must be an object' };
+  const payload = /** @type {SubmissionFields} */ (input);
+  if (typeof payload.kind !== 'string' || !VALID_KINDS.has(payload.kind)) {
     return { error: `Unsupported submission kind. Expected one of: ${[...VALID_KINDS].join(', ')}` };
   }
 
   if (payload.kind === 'metadata-edit' || payload.kind === 'retire') {
-    if (!VALID_ENTITY_TYPES.has(payload.entityType)) return { error: 'Unsupported entity type' };
+    if (typeof payload.entityType !== 'string' || !VALID_ENTITY_TYPES.has(payload.entityType)) return { error: 'Unsupported entity type' };
     if (!safeString(payload.entityId, 300)) return { error: 'Entity ID is required' };
   }
   if (payload.kind === 'metadata-edit') {

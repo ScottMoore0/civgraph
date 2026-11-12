@@ -30,7 +30,7 @@ export async function onRequestGet(context) {
  * @param {unknown[]} votes
  */
 function fillVotes(recordText, votes) {
-  const record = parseJson(recordText, {});
+  const record = /** @type {Record<string, unknown>} */ (parseJson(recordText, {}));
   /** @type {Record<string, unknown>} */
   const out = {};
   for (const [k, v] of Object.entries(record)) out[k] = isMarker(v) && v === '$votes' ? votes : v;
@@ -93,7 +93,7 @@ async function handle(context) {
       const row = /** @type {{ record: string } | null} */ (await db.first(VOTES.party, [p('party')]));
       if (!row) return jsonResponse({ error: 'no votes', party: p('party') }, 404);
       if (!p('body') && !p('term')) return jsonResponse(row.record);
-      const record = parseJson(row.record, {});
+      const record = /** @type {{ terms?: Array<{ body?: unknown, term?: unknown }> }} */ (parseJson(row.record, {}));
       record.terms = (record.terms || []).filter((/** @type {{ body?: unknown, term?: unknown }} */ t) => (!p('body') || t.body === p('body')) && (!p('term') || t.term === p('term')));
       return jsonResponse(record);
     }

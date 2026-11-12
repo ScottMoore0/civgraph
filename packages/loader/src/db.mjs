@@ -210,8 +210,8 @@ export function tableChecksums(db, tables) {
  * A generated JSON document (or `fallback` when the file is absent and a fallback is given).
  * @param {string | null} file
  * @param {unknown} [fallback]
- * @returns {any} kept open: the documents are the transforms' outputs, each read by the
- *   ingest that knows its shape (as JSON.parse returns them)
+ * @returns {unknown} the parsed JSON: each document is a transform's output, read by the ingest
+ *   that knows its shape, which says so with a JSDoc type
  */
 export function readJson(file, fallback) {
   if (!existsSync(/** @type {string} */ (file))) { // existsSync(null) is false: a URL that resolves to no file

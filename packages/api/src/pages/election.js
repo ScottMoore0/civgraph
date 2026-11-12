@@ -38,7 +38,7 @@ export async function loadElectionPage(source, meta) {
   const db = asStore(source);
   const e = /** @type {ElectionPageRow | null} */ (/** @type {unknown} */ (await db.first(ELECTION_PAGES.election, [meta.electionKey])));
   if (!e) return null;
-  const election = { ...e, meta: /** @type {ElectionPageMeta} */ (withoutMarkers(parseJson(e.meta, {}))) };
+  const election = { ...e, meta: /** @type {ElectionPageMeta} */ (withoutMarkers(/** @type {Record<string, unknown>} */ (parseJson(e.meta, {})))) };
   if (Number.isInteger(meta.contestSeq)) {
     // meta.contestSeq is the seq of a contest lookupElection found, so its row is there.
     const [contest, candidates] = /** @type {[ElectionPageContest, ElectionPageCandidate[]]} */ (/** @type {unknown} */ (await Promise.all([

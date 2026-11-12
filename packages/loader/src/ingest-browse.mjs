@@ -18,6 +18,21 @@ import { localPathForUrl, recordPaths } from './paths.mjs';
 /** @typedef {import('./browse-columns.mjs').EntitySpec} EntitySpec */
 /** @typedef {import('./db.mjs').DocumentRow} DocumentRow */
 /** @typedef {ReturnType<typeof recordPaths>} RecordPaths */
+/**
+ * A document the Browse build wrote, read by field: a card list (`items`, or `interests` for the
+ * register of interests), one record (`item`), or a sharded index's manifest. The Browse build
+ * made it, so its fields are not checked here.
+ * @typedef {{ items?: BrowseItem[], item?: BrowseItem, interests?: BrowseItem[], [key: string]: unknown }} BrowseDocument
+ */
+
+/**
+ * A Browse document from disk, or the fallback when the file is absent (db.mjs readJson).
+ * @template {BrowseDocument | null} [F=BrowseDocument]
+ * @param {string | null} file
+ * @param {F} [fallback]
+ * @returns {BrowseDocument | F}
+ */
+const readDocument = (file, fallback) => /** @type {BrowseDocument | F} */ (readJson(file, fallback));
 
 /**
  * Read a sharded index the way browse.js does (its readIndex).
@@ -26,7 +41,7 @@ import { localPathForUrl, recordPaths } from './paths.mjs';
  * @returns {{ manifest: Record<string, unknown>, items: BrowseItem[] }}
  */
 function readIndex(file, paths) {
-  const manifest = readJson(file);
+  const manifest = readDocument(file);
   if (manifest.indexLayout !== 'sharded' || !Array.isArray(manifest.shards)) {
     return { manifest, items: Array.isArray(manifest.items) ? manifest.items : [] };
   }
@@ -35,7 +50,7 @@ function readIndex(file, paths) {
   for (const shard of /** @type {{ url: string }[]} */ (manifest.shards)) {
     const shardFile = localPathForUrl(shard.url, paths);
     if (!shardFile || !existsSync(shardFile)) throw new Error(`shard missing on disk: ${shard.url}`);
-    items.push(...(readJson(shardFile).items || []));
+    items.push(...(readDocument(shardFile).items || []));
   }
   return { manifest, items };
 }
@@ -160,7 +175,7 @@ export function ingestBrowse(db, { browseDir, paths = recordPaths() }) {
       }
       for (const row of personAliases) aliases.add(row);
       out.person_aliases = aliases.finish();
-      const facets = readJson(at('persons-facets.json'), null);
+      const facets = readDocument(at('persons-facets.json'), null);
       if (facets) new TableWriter(db, 'person_cards_facets').add({ id: 1, facets: JSON.stringify(facets.facets || {}) });
       doc('browse/persons.json', strip(manifest));
       if (facets) doc('browse/persons-facets.json', strip(facets));
@@ -171,7 +186,7 @@ export function ingestBrowse(db, { browseDir, paths = recordPaths() }) {
       const { manifest, items } = readIndex(at('register-interests.json'), paths);
       const details = new Map();
       for (const url of new Set(items.map((item) => item.detailUrl).filter(Boolean))) {
-        const shard = readJson(localPathForUrl(url, paths), null);
+        const shard = readDocument(localPathForUrl(url, paths), null);
         for (const record of shard?.interests || shard?.items || []) details.set(String(record.id), record);
       }
       const w = new TableWriter(db, 'register_entries');
@@ -194,7 +209,7 @@ export function ingestBrowse(db, { browseDir, paths = recordPaths() }) {
       const shards = new Map();
       const detailFor = (/** @type {BrowseItem} */ item) => {
         if (!item.detailUrl) return null;
-        if (!shards.has(item.detailUrl)) shards.set(item.detailUrl, readJson(localPathForUrl(item.detailUrl, paths), { items: [] }).items || []);
+        if (!shards.has(item.detailUrl)) shards.set(item.detailUrl, readDocument(localPathForUrl(item.detailUrl, paths), { items: [] }).items || []);
         const slug = String(item.slug || '').toLowerCase();
         const id = String(item.id || '').toLowerCase();
         return /** @type {BrowseItem[]} */ (shards.get(item.detailUrl)).find((c) => String(c.slug || '').toLowerCase() === slug || String(c.id || '').toLowerCase() === id) || null;
@@ -210,7 +225,7 @@ export function ingestBrowse(db, { browseDir, paths = recordPaths() }) {
       for (const row of aliasRows(items)) aliases.add(row);
       out.source_aliases = aliases.finish();
       doc('browse/sources.json', strip(manifest));
-      const merges = readJson(at('source-merges.json'), null);
+      const merges = readDocument(at('source-merges.json'), null);
       if (merges) {
         const m = new TableWriter(db, 'source_merges');
         (merges.items || []).forEach((/** @type {unknown} */ item, /** @type {number} */ ord) => m.add({ ord, item: JSON.stringify(item) }));
@@ -223,12 +238,12 @@ export function ingestBrowse(db, { browseDir, paths = recordPaths() }) {
     // ---- parties: card, detail, profile; retired slugs; the label map and the folds
     {
       /** @type {{ items?: BrowseItem[], [key: string]: unknown }} */
-      const parties = readJson(at('parties.json'));
+      const parties = readDocument(at('parties.json'));
       const live = new Set((parties.items || []).map((p) => p.slug));
       const w = new TableWriter(db, 'party_cards');
       const readItem = (/** @type {string} */ dir, /** @type {string | undefined} */ slug) => {
         const file = at(dir, `${slug}.json`);
-        return existsSync(file) ? readJson(file) : null;
+        return existsSync(file) ? readDocument(file) : null;
       };
       (parties.items || []).forEach((item, ord) => {
         const detail = readItem(path.join('details', 'parties'), item.slug);
@@ -246,7 +261,7 @@ export function ingestBrowse(db, { browseDir, paths = recordPaths() }) {
       for (const f of readdirSync(at('details', 'parties')).filter((x) => x.endsWith('.json')).sort()) {
         const slug = f.slice(0, -5);
         if (live.has(slug)) continue;
-        const target = readJson(at('details', 'parties', f)).item?.slug;
+        const target = readDocument(at('details', 'parties', f)).item?.slug;
         if (target && target !== slug && live.has(target)) aliases.set(slug, target);
       }
       for (const item of parties.items || []) {
@@ -258,25 +273,25 @@ export function ingestBrowse(db, { browseDir, paths = recordPaths() }) {
       const { items: _p, ...partiesHead } = strip(parties);
       doc('browse/parties.json', partiesHead);
 
-      const names = readJson(at('party-names.json'), { items: {} });
+      const names = /** @type {{ items?: Record<string, string>, [key: string]: unknown }} */ (readJson(at('party-names.json'), { items: {} }));
       const lm = new TableWriter(db, 'party_label_map');
       Object.entries(names.items || {}).forEach(([label, slug], ord) => lm.add({ label, party_slug: String(slug), ord }));
       out.party_label_map = lm.finish();
       const { items: _n, ...namesHead } = strip(names);
       doc('browse/party-names.json', namesHead);
-      const folds = readJson(at('party-label-folds.json'), null);
+      const folds = readDocument(at('party-label-folds.json'), null);
       if (folds) doc('browse/party-label-folds.json', strip(folds));
     }
 
     // ---- offices (the facts model, scripts/build/build-office-pages.mjs): card and page
     {
       /** @type {{ items?: BrowseItem[], [key: string]: unknown } | null} */
-      const offices = readJson(at('offices.json'), null);
+      const offices = readDocument(at('offices.json'), null);
       if (offices) {
         const w = new TableWriter(db, 'office_cards');
         (offices.items || []).forEach((item, ord) => {
           const file = at('details', 'offices', `${item.slug}.json`);
-          const detail = existsSync(file) ? readJson(file) : null;
+          const detail = existsSync(file) ? readDocument(file) : null;
           const title = item.title || '';
           w.add({
             slug: item.slug, id: txt(item.id), title: txt(title), title_norm: String(title).toLowerCase(),
@@ -293,9 +308,9 @@ export function ingestBrowse(db, { browseDir, paths = recordPaths() }) {
     // ---- elections: cards (elections.json + elections-list.json), details, contest shards
     {
       /** @type {{ items?: BrowseItem[], [key: string]: unknown }} */
-      const full = readJson(at('elections.json'));
+      const full = readDocument(at('elections.json'));
       /** @type {{ items?: BrowseItem[], [key: string]: unknown }} */
-      const list = readJson(at('elections-list.json'), { items: [] });
+      const list = readDocument(at('elections-list.json'), { items: [] });
       const listBySlug = new Map((list.items || []).map((item) => [item.slug, item]));
       const w = new TableWriter(db, 'election_cards');
       (full.items || []).forEach((item, ord) => {
@@ -324,8 +339,8 @@ export function ingestBrowse(db, { browseDir, paths = recordPaths() }) {
         ...(existsSync(contestDir) ? readdirSync(contestDir).filter((f) => f.endsWith('.json')).map((f) => f.slice(0, -5)) : []),
       ]);
       for (const slug of [...slugs].sort()) {
-        const detail = existsSync(path.join(detailDir, `${slug}.json`)) ? readJson(path.join(detailDir, `${slug}.json`)) : null;
-        const contests = existsSync(path.join(contestDir, `${slug}.json`)) ? readJson(path.join(contestDir, `${slug}.json`)) : null;
+        const detail = existsSync(path.join(detailDir, `${slug}.json`)) ? readDocument(path.join(detailDir, `${slug}.json`)) : null;
+        const contests = existsSync(path.join(contestDir, `${slug}.json`)) ? readDocument(path.join(contestDir, `${slug}.json`)) : null;
         d.add({
           slug,
           election_key: txt(detail?.item?.key ?? contests?.items?.[0]?.parentElectionKey ?? null),
@@ -337,7 +352,7 @@ export function ingestBrowse(db, { browseDir, paths = recordPaths() }) {
     }
 
     // ---- small whole documents
-    doc('browse/index.json', strip(readJson(at('index.json'))));
+    doc('browse/index.json', strip(readDocument(at('index.json'))));
 
   });
   // documents is written once, by the orchestrator, from every ingest's documents.

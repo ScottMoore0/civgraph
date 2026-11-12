@@ -103,8 +103,8 @@ export async function render(root, route, ctx) {
   let listsFor = '';
   /** The election and party lists of the bodies a run reads. */
   const fillFilterLists = async (/** @type {import('../lib/pivot.js').PivotState} */ settings, /** @type {number} */ token) => {
-    const elections = await queryBodies(settings.bodies, 'SELECT DISTINCT election_key AS k, election AS t, date FROM rows ORDER BY date DESC');
-    const parties = await queryBodies(settings.bodies, 'SELECT party AS p, COUNT(*) AS n FROM rows GROUP BY party ORDER BY n DESC LIMIT 200');
+    const elections = /** @type {Array<{ k: string, t: string, date: string }>} */ (await queryBodies(settings.bodies, 'SELECT DISTINCT election_key AS k, election AS t, date FROM rows ORDER BY date DESC'));
+    const parties = /** @type {Array<{ p: string, n: number }>} */ (await queryBodies(settings.bodies, 'SELECT party AS p, COUNT(*) AS n FROM rows GROUP BY party ORDER BY n DESC LIMIT 200'));
     if (ctx.stale() || !runs.isLatest(token)) return;
     listsFor = settings.bodies.join(',');
     const sel = settings.filters.election || [];

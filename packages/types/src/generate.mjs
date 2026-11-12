@@ -73,6 +73,28 @@ function doc(text, pad) {
  * @property {boolean} [strictObjects]  true: an object without additionalProperties gets no index signature
  */
 
+/**
+ * A JSON Schema node as the schema files write it: a boolean schema, or an object of keywords
+ * (the ones this generator reads are listed; the others are kept and ignored).
+ * @typedef {boolean | JsonSchemaObject} JsonSchema
+ */
+/**
+ * @typedef {object} JsonSchemaObject
+ * @property {string} [$ref]
+ * @property {unknown} [const]
+ * @property {unknown[]} [enum]
+ * @property {string | string[]} [type]
+ * @property {Record<string, JsonSchema>} [properties]
+ * @property {JsonSchema | JsonSchema[]} [items]
+ * @property {JsonSchema} [additionalProperties]
+ * @property {string[]} [required]
+ * @property {JsonSchema[]} [oneOf]
+ * @property {JsonSchema[]} [anyOf]
+ * @property {JsonSchema[]} [allOf]
+ * @property {string} [description]
+ * @property {string} [title]
+ */
+
 const SHAPE_KEYS = ['type', 'properties', '$ref', 'enum', 'const', 'items', 'additionalProperties', 'oneOf', 'anyOf', 'allOf'];
 /** Does a sub-schema say anything about shape, or only add constraints (required, if/then, pattern)? */
 function shapeBearing(s) {
@@ -106,7 +128,7 @@ const paren = (t) => (/[|&]/.test(t) && !/^\(.*\)$/.test(t) ? `(${t})` : t);
 
 /**
  * A JSON Schema as a TypeScript type expression.
- * @param {any} s @param {Ctx} ctx @param {string} pad
+ * @param {JsonSchema | null | undefined} s @param {Ctx} ctx @param {string} pad
  * @returns {string}
  */
 export function toTs(s, ctx, pad = '') {
@@ -132,7 +154,7 @@ export function toTs(s, ctx, pad = '') {
   return parts.length === 1 ? parts[0] : parts.join(' & ');
 }
 
-/** One `type` (a string), with that type's keywords. @param {any} s @param {Ctx} ctx @param {string} pad */
+/** One `type` (a string), with that type's keywords. @param {JsonSchemaObject} s @param {Ctx} ctx @param {string} pad */
 function single(s, ctx, pad) {
   const type = s.type || (s.properties || s.additionalProperties !== undefined ? 'object' : s.items ? 'array' : undefined);
   switch (type) {
@@ -151,7 +173,7 @@ function single(s, ctx, pad) {
   }
 }
 
-/** @param {any} s @param {Ctx} ctx @param {string} pad */
+/** @param {JsonSchemaObject} s @param {Ctx} ctx @param {string} pad */
 function objectType(s, ctx, pad) {
   const inner = `${pad}  `;
   const required = new Set(s.required || []);

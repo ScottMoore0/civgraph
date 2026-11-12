@@ -62,7 +62,7 @@ function step(op, label, argv, { credentials = false, realOnly = false } = {}) {
  * Write the [{local, rel}] manifest upload-tree-r2 takes, for an op that lists its files inline.
  * `tmpDir` is injectable so tests (and a plan) need not touch the batch folder.
  * @param {Batch} batch
- * @param {Operation} op
+ * @param {import('./batch.mjs').OperationOf<'r2-tree'>} op
  * @param {() => string} tmpDir
  * @param {boolean} writeManifests
  */

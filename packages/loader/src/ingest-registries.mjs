@@ -93,8 +93,7 @@ export function ingestRegistries(db, { root = REPO_ROOT } = {}) {
   return transaction(db, () => {
     /** @type {Record<string, number>} */
     const out = {};
-    /** @type {{ entities?: RegistryPerson[] }} */
-    const registry = readJson(at('persons', 'person_registry.json'));
+    const registry = /** @type {{ entities?: RegistryPerson[] }} */ (readJson(at('persons', 'person_registry.json')));
     const persons = new TableWriter(db, 'persons');
     const seen = new Set();
     (registry.entities || []).forEach((p, ord) => {
@@ -109,8 +108,7 @@ export function ingestRegistries(db, { root = REPO_ROOT } = {}) {
     });
     out.persons = persons.finish();
 
-    /** @type {NameRegistry} */
-    const names = readJson(at('persons', 'name_registry.json'), { names: [], attestations: [] });
+    const names = /** @type {NameRegistry} */ (readJson(at('persons', 'name_registry.json'), { names: [], attestations: [] }));
     const nameString = new Map((names.names || []).map((n) => [n.id, n.string]));
     const pn = new TableWriter(db, 'person_names');
     const seenNames = new Set();
@@ -134,8 +132,7 @@ export function ingestRegistries(db, { root = REPO_ROOT } = {}) {
 
     const facts = new TableWriter(db, 'person_facts');
     for (const [kind, file] of [['office', 'reference-offices.json'], ['relation', 'reference-relations.json'], ['dates', 'reference-dates.json']]) {
-      /** @type {{ people?: Record<string, unknown> }} */
-      const docData = readJson(at('persons', file), { people: {} });
+      const docData = /** @type {{ people?: Record<string, unknown> }} */ (readJson(at('persons', file), { people: {} }));
       const people = docData.people || {};
       for (const pid of Object.keys(people).sort()) {
         const entries = Array.isArray(people[pid]) ? people[pid] : [people[pid]];
@@ -144,8 +141,7 @@ export function ingestRegistries(db, { root = REPO_ROOT } = {}) {
     }
     out.person_facts = facts.finish();
 
-    /** @type {{ entities?: RegistryParty[] }} */
-    const parties = readJson(at('parties', 'party_registry.json'));
+    const parties = /** @type {{ entities?: RegistryParty[] }} */ (readJson(at('parties', 'party_registry.json')));
     const pw = new TableWriter(db, 'parties');
     const names2 = new TableWriter(db, 'party_names');
     (parties.entities || []).forEach((p, ord) => {
@@ -170,8 +166,7 @@ export function ingestRegistries(db, { root = REPO_ROOT } = {}) {
     out.parties = pw.finish();
     out.party_names = names2.finish();
 
-    /** @type {{ events?: LineageEvent[] }} */
-    const lineage = readJson(at('parties', 'party-lineage.json'), { events: [] });
+    const lineage = /** @type {{ events?: LineageEvent[] }} */ (readJson(at('parties', 'party-lineage.json'), { events: [] }));
     const ev = new TableWriter(db, 'party_events');
     (lineage.events || []).forEach((e, ord) => ev.add({
       ord, party_id: String(e.party || ''), date: txt(e.date), kind: txt(e.kind),

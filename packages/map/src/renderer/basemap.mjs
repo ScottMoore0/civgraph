@@ -154,7 +154,7 @@ export function isBasemapId(id) {
 /**
  * A provider's style, with every source and layer id prefixed so it can sit under the app's
  * layers in one style. Returns null for a document that is not a style.
- * @param {any} style a MapLibre style document
+ * @param {import('maplibre-gl').StyleSpecification | null | undefined} style a MapLibre style document, as fetched
  * @param {string} prefix
  * @param {string} [attribution] credit set on every vector source (the provider's TileJSON may replace it)
  */
@@ -267,7 +267,7 @@ function readFailed(storage) {
  */
 export class BasemapManager {
   /**
-   * @param {any} map a MapLibre map
+   * @param {import('maplibre-gl').Map} map a MapLibre map
    * @param {{ chain?: BasemapProvider[], storage?: Storage | null, fetchImpl?: typeof fetch,
    *   document?: Document | null, setTimeoutImpl?: typeof setTimeout, clearTimeoutImpl?: typeof clearTimeout,
    *   onChange?: (provider: BasemapProvider, reason: string) => void }} [options]

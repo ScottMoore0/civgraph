@@ -43,12 +43,12 @@ const graphRel = (/** @type {unknown} */ url) => String(url).replace(/^\/data\/g
  * @returns {T[]}
  */
 function readParts(headFile, graphDir, onPart = () => {}) {
-  const head = readJson(headFile, null);
+  const head = /** @type {{ parts?: unknown, items?: T[] } | null} */ (readJson(headFile, null));
   if (!head) return [];
   const parts = Array.isArray(head.parts) ? head.parts : [];
   if (!parts.length) return head.items || [];
   return parts.flatMap((/** @type {unknown} */ url) => {
-    const doc = readJson(path.join(graphDir, ...graphRel(url).split('/')), { items: [] });
+    const doc = /** @type {{ items?: T[], bySlug?: Record<string, unknown> }} */ (readJson(path.join(graphDir, ...graphRel(url).split('/')), { items: [] }));
     onPart(graphRel(url), doc);
     return doc.items || [];
   });
@@ -161,7 +161,7 @@ export function ingestGraph(db, { graphDir }) {
   }
   // The index heads (data phase 4), without generatedAt so an unchanged graph loads no row.
   for (const file of ['lookup.json', 'browse-record-to-entity.json', 'entity-slugs.json', 'entity-search.json']) {
-    const value = readJson(path.join(idx, file), null);
+    const value = /** @type {Record<string, unknown> | null} */ (readJson(path.join(idx, file), null));
     if (value) docs.push({ name: `graph/indexes/${file}`, body: JSON.stringify(withoutGeneratedAt(value)) });
   }
   return { counts: out, docs };
