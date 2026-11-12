@@ -4,6 +4,8 @@
 (function () {
   var root = document.querySelector('.constellation');
   if (!root) return;
+  // The page's lifetime (R8): aborting it stops the signal loop and removes its listener.
+  var pageLifetime = new AbortController();
 
   var svg = root.querySelector('.constellation__svg');
   var plate = root.querySelector('.constellation__plate');
@@ -154,7 +156,8 @@
     document.addEventListener('visibilitychange', function () {
       if (document.hidden) { clearTimeout(timer); timer = null; }
       else if (!timer) schedule();
-    });
+    }, { signal: pageLifetime.signal });
+    pageLifetime.signal.addEventListener('abort', function () { clearTimeout(timer); timer = null; });
     schedule();
   }
 })();

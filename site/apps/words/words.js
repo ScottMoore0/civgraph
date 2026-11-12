@@ -18,6 +18,9 @@ import { siteNumber } from '../../pkg/core/src/format.js';
 (function () {
   'use strict';
 
+  // The page's lifetime (R8): the listeners boot() puts on window pass its signal.
+  var pageLifetime = new AbortController();
+
   var CDN = SITE.dataOrigin + '/';
   var DATA = (function () {
     var m = /[?&]data=([^&#]+)/.exec(location.search);
@@ -990,8 +993,8 @@ import { siteNumber } from '../../pkg/core/src/format.js';
           el('button', { type: 'button', class: 'btn', text: 'Try again', on: { click: function () { location.reload(); } } })
         ]));
       });
-    window.addEventListener('popstate', function () { S = readUrl(); run(false); });
+    window.addEventListener('popstate', function () { S = readUrl(); run(false); }, { signal: pageLifetime.signal });
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot, { once: true }); else boot();
 })();
