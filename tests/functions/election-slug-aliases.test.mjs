@@ -150,6 +150,9 @@ const RETIRED = new Map([
       .map((rest) => /** @type {[string, string]} */ ([`${body}-1961${rest}`, `${body}-1961-05-17${rest}`]))),
   // The council divisions renamed on 12 Nov 2026 (RENAMED_DIVISIONS below).
   ...renamedDivisionSlugs(),
+  // North Down Rural 1964's Ards Peninsula, recorded as Quintin by dc67fd1eb3 (its file keeps the
+  // old name; the contest's slug follows Constituency_Name).
+  ['north-down-rural-district-council-1964-06-04-ards-peninsula', 'north-down-rural-district-council-1964-06-04-quintin'],
 ]);
 const sitemapSlugs = () => new Set([...readFileSync(path.join(ROOT, 'site', 'sitemaps', 'browse-elections.xml'), 'utf8')
   .matchAll(/<loc>https:\/\/civgraph\.net\/browse\/elections\/([^<]+)<\/loc>/g)].map((m) => m[1]));

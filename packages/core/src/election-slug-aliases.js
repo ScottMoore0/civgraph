@@ -104,6 +104,10 @@ export const RETIRED_CONTEST_SLUGS = [
   ['castlederg-rural-district-council-1967-06-01-lisnagloch', 'castlederg-rural-district-council-1967-06-01-lisnacloon'],
   ['omagh-rural-district-council-1933-05-31-groenan', 'omagh-rural-district-council-1933-05-31-greenan'],
   ['omagh-rural-district-council-1933-05-31-moyroe', 'omagh-rural-district-council-1933-05-31-moyle'],
+  // North Down Rural 1964's division was filed as Ards Peninsula until dc67fd1eb3 (12 Nov 2026)
+  // recorded it as Quintin, the name the Belfast Telegraph prints ('the Ards Peninsula division of
+  // Quintin'); the Browse sitemap listed the old address until 6b1783deb6.
+  ['north-down-rural-district-council-1964-06-04-ards-peninsula', 'north-down-rural-district-council-1964-06-04-quintin'],
   // The district electoral areas of the general local elections of 1973-2011 that ARK's
   // import code named ("lg85-NoD-Holywood", "lg73-NaM-Area-A"): Browse published them under
   // those names (data/browse/details/elections, June 2026) and they took the area's own name
