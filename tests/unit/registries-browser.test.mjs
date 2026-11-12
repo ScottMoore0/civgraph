@@ -71,3 +71,17 @@ test('registries/browser: the readers answer as the registries say', () => {
   }
   for (const label of parties.notParties) assert.ok(isNonParty(label), label);
 });
+
+test('registries/browser: the catalogue shelves and labels the registries give (12 Nov 2026, rf8-registries)', async () => {
+  const { BODY_GROUPS, BODY_SHORT, groupOfBody } = await import('../../src/catalogue/view-elections.js');
+  const councils = loadRegistry('councils');
+  const pre1973 = councils.councils.filter((c) => c.flags?.pre1973Council).map((c) => c.bodySlug);
+  // The 82 pre-1973 council bodies the NI local shelf listed by hand until it read the flag.
+  assert.equal(pre1973.length, 82);
+  for (const slug of pre1973) assert.equal(groupOfBody(slug), 'ni-local', slug);
+  assert.deepEqual(BODY_GROUPS.find((g) => g.id === 'ni-local').bodies.slice(0, 2), ['local-government', 'ni-local-elections']);
+  // ireland-local's row label and shelf come from the election-bodies registry.
+  assert.equal(BODY_SHORT['ireland-local'], 'Irish local');
+  assert.equal(groupOfBody('ireland-local'), 'irish-local');
+  assert.equal(BODY_SHORT['local-government'], 'NI local');
+});

@@ -9,6 +9,7 @@ import { appUrl, esc, fmtDate } from '../lib/format.js';
 export function bodyGroup(slug) {
   if (/referendum|recall/.test(slug)) return 'Referendums';
   if (/(council|commissioners)/.test(slug)) return 'Northern Ireland councils before 1973';
+  // arch-ok R6: slug prefixes the home page groups by, as the patterns around it do, not a list of bodies
   if (/^(local-government|ireland-local)/.test(slug)) return 'Local government';
   if (/(leadership|nomination)/.test(slug)) return 'Party contests';
   return 'Parliaments, assemblies and offices';

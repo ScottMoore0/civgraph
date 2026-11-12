@@ -18,7 +18,8 @@
  * tests/unit/registries-browser.test.mjs fails when a slice is stale.
  *
  *   councils.json        src/ni-local-groups.mjs (NI_COUNCIL_SLUGS, NI_LOCAL_TIERS)
- *   council-search.json  src/catalogue/search.js (council names by generation, council aliases)
+ *   council-search.json  src/catalogue/search.js (council names by generation, council aliases),
+ *                        src/catalogue/view-elections.js (the pre-1973 councils on the NI local shelf)
  *   parties.json         packages/core/src/party-names.mjs (PARTIES, NOT_PARTIES)
  *   statuses.json        packages/core/src/election-domain.mjs (statusKind, RG-01),
  *                        packages/map/app/ni-local-view.js (round badges, missing rounds, contests: RG-02, RG-03)
@@ -32,7 +33,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadRegistry, REPO_ROOT } from '../index.mjs';
-import { catalogueBodyAliases, catalogueCouncilNames, niLocalGroupSlugs } from '../councils.mjs';
+import { bodySlugsWithFlag, catalogueBodyAliases, catalogueCouncilNames, niLocalGroupSlugs } from '../councils.mjs';
 import { typesWithBehaviour } from '../layers.mjs';
 import { browserElectionBodies } from '../election-bodies.mjs';
 import { browserElectionTypes } from '../election-types.mjs';
@@ -66,7 +67,9 @@ export function browserSlices(root = REPO_ROOT) {
         ni2014: catalogueCouncilNames(councils, { generation: '2014' }),
         ireland: catalogueCouncilNames(councils, { generation: '2014', jurisdiction: 'ireland' })
       },
-      catalogueBodyAliases: catalogueBodyAliases(councils)
+      catalogueBodyAliases: catalogueBodyAliases(councils),
+      // The pre-1973 councils' bodies, on the catalogue's NI local shelf (src/catalogue/view-elections.js).
+      pre1973CouncilBodies: bodySlugsWithFlag(councils, 'pre1973Council')
     },
     'parties.json': {
       // [abbreviation, full name, ...other spellings], as the table was written.

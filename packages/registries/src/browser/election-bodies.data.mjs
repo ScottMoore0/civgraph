@@ -11,5 +11,12 @@ export default {
  "ireland-president": {
   "name": "President of Ireland",
   "jurisdiction": "ireland"
+ },
+ "ireland-local": {
+  "name": "Local Authorities of Ireland",
+  "jurisdiction": "ireland",
+  "shortLabel": "Irish local",
+  "shelf": "irish-local",
+  "searchTerms": "Irish local council county council city council local elections"
  }
 };

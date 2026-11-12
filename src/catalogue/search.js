@@ -200,7 +200,6 @@ const BODY_ALIASES = {
   'northern-ireland-constitutional-convention': 'NI Convention Constitutional Convention',
   'northern-ireland-forum-for-political-dialogue': 'NI Forum Forum',
   'local-government': 'NI local council councils district council LGD local elections',
-  'ireland-local': 'Irish local council county council city council local elections',
   'european-parliament': 'European Euro EU MEP European Parliament NI',
   'ireland-european': 'European Euro EU MEP European Parliament Irish',
   'ireland-president': 'presidential president Uachtaran Irish',
