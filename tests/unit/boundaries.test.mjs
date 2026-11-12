@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
-import { allowed, edges, specifiers, unitOf } from '../../scripts/check/boundaries.mjs';
+import { allowed, edges, engineEdges, engineOf, engineUses, mayUseEngine, specifiers, unitOf } from '../../scripts/check/boundaries.mjs';
 
 const config = JSON.parse(readFileSync(new URL('../../config/boundaries.json', import.meta.url), 'utf8'));
 
@@ -62,4 +62,37 @@ test('boundaries: the Elections app is in a unit, and may import only its own fi
   for (const unit of ['core', 'ui', 'config', 'map', 'api', 'storage', 'registries-browser', 'scripts']) {
     assert.equal(allowed('elections-app', unit), false, `elections-app -> ${unit}: a served page cannot reach packages/ (use /pkg/)`);
   }
+});
+
+// The engine rule (config/boundaries.json `engines`; stream rf9-loader-storage, ST-7, acceptance test A3).
+test('boundaries: engineUses finds an engine by import, import() and JSDoc type import, and nothing else', () => {
+  const src = [
+    "import { DatabaseSync } from 'node:sqlite';",
+    "const { S3Client } = await import('@aws-sdk/client-s3');",
+    "/** @param {import('pg').Client} c */",
+    "/** @typedef {import('@libsql/client').Client} L */",
+    "import x from './sql.js-httpvfs/index.js';", "import y from 'sql.js-httpvfs';", "import z from 'node:fs';",
+    "// the engine is named in prose only: node:sqlite",
+  ].join('\n');
+  assert.deepEqual(engineUses(src), ['@aws-sdk/client-s3', '@libsql/', 'node:sqlite', 'pg']);
+  assert.equal(engineOf('better-sqlite3'), 'better-sqlite3');
+  assert.equal(engineOf('pg/lib/client'), 'pg');
+  assert.equal(engineOf('pgx'), null);
+});
+
+test('boundaries: only the storage adapter (and the tests) may use an engine API', () => {
+  assert.equal(mayUseEngine(unitOf('packages/storage/src/sqlite.mjs')), true);
+  for (const file of ['packages/loader/src/db.mjs', 'packages/maps-pipeline/src/tiles/repair-label-text.mjs', 'scripts/build/build-elections-sqlite.mjs',
+    'scripts/check/rules/contest-arithmetic.mjs', 'packages/storage/src/d1.js', 'functions/_api/elections/index.js', 'tools/dev-site/server.mjs']) {
+    assert.equal(mayUseEngine(unitOf(file)), false, file);
+  }
+  assert.equal(mayUseEngine(unitOf('tests/records/delta.test.mjs')), true);
+  assert.equal(mayUseEngine(null), false, 'a file in no unit may not');
+});
+
+test('boundaries: the repository passes the engine rule with its baseline, and no SQLite use is in it', () => {
+  const bad = engineEdges().filter((e) => !e.ok);
+  assert.deepEqual(bad.map((e) => `${e.file} -> ${e.engine}`).sort(), [...config.engines.baseline].sort());
+  assert.ok(config.engines.baseline.every((b) => !b.endsWith('node:sqlite')), 'every node:sqlite use outside the tests is behind packages/storage');
+  assert.ok(String(config.engines['//']).length > 100);
 });
