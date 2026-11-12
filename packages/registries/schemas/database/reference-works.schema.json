@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://civgraph.net/schemas/database/reference-works.schema.json",
+  "title": "Reference works (data/database/reference-works.json): the printed and online results compilations Civgraph cites for facts only",
+  "type": "object",
+  "required": ["schemaVersion", "about", "sources"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "about": { "type": "string", "minLength": 1 },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "type", "category", "title", "authors", "publisher", "date", "description", "uses", "citedAs", "copyright", "keywords"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^reference-work:[a-z0-9]+(-[a-z0-9]+)*$" },
+          "type": { "const": "reference-work" },
+          "category": { "type": "string", "minLength": 1 },
+          "title": { "type": "string", "minLength": 1 },
+          "authors": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+          "editorNote": { "type": "string", "minLength": 1 },
+          "series": { "type": "string", "minLength": 1 },
+          "publisher": { "type": "string", "minLength": 1 },
+          "place": { "type": "string", "minLength": 1 },
+          "date": { "type": ["string", "null"], "pattern": "^[0-9]{4}" },
+          "isbn": { "type": "string", "minLength": 1 },
+          "url": { "type": "string", "pattern": "^https?://" },
+          "archiveUrl": { "type": "string", "pattern": "^https?://" },
+          "pages": { "type": "array", "items": { "type": "array", "minItems": 2, "items": { "type": "string", "minLength": 1 } } },
+          "reprint": { "type": "string", "minLength": 1 },
+          "description": { "type": "string", "minLength": 1 },
+          "uses": { "type": "string", "minLength": 1 },
+          "citedAs": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+          "electorateFile": { "type": "string", "pattern": "^data/" },
+          "copyright": { "type": "string", "minLength": 1 },
+          "keywords": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+        }
+      }
+    }
+  }
+}
