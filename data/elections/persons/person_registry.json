@@ -2,7 +2,7 @@
  "schemaVersion": 2,
  "description": "Stable identifiers for people appearing as candidates in the current election data. The id is independent of name spelling, so a correction changes displayName and adds an alias, never the id.",
  "idPolicy": "Ids are permanent. PersonIDs 1-100011 are the curated block carried forward from scripts/ingest/persons/person_registry.json; 100012+ are derived. A new id is never one issued before, even one merged away at once: idHighWater is the highest issued (person_id_issued.py).",
- "idHighWater": 154735,
+ "idHighWater": 154870,
  "supersedes": "scripts/ingest/persons/person_registry.json (2,388 curated persons; its source workbook is no longer present and apply_person_ids.py targets an _aggregates.json layout that no longer exists)",
  "evidence": {
   "rowIndexIdsDiscarded": [
@@ -45,8 +45,8 @@
    "fix-john-carson-ballymena"
   ],
   "note": "Ids carrying more than one distinct name are row indices, not people.",
-  "crossSystemMerges": 1061,
-  "sameNameLeftSplit": 2895
+  "crossSystemMerges": 1062,
+  "sameNameLeftSplit": 2900
  },
  "conservatism": "Nothing is merged on name alone. Two ids from the same source system sharing a name stay separate and are flagged needsReview.",
  "entities": [
@@ -9904,7 +9904,7 @@
    "eraReason": "split by its official person id (democracyclub:2137): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154669
+    154794
    ]
   },
   {
@@ -12303,7 +12303,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154718
+    154853
    ]
   },
   {
@@ -13587,7 +13587,7 @@
    "eraReason": "split by its official person id (democracyclub:7132): the source id it shares is held by another person with another official id",
    "nameVariants": true,
    "mergedFrom": [
-    154670
+    154795
    ]
   },
   {
@@ -25204,7 +25204,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154720
+    154855
    ]
   },
   {
@@ -42151,7 +42151,7 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "nameVariants": true,
    "mergedFrom": [
-    154612
+    154736
    ]
   },
   {
@@ -43205,7 +43205,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154721
+    154856
    ]
   },
   {
@@ -60574,7 +60574,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154687
+    154813
    ]
   },
   {
@@ -61042,10 +61042,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:1246)",
-   "provisional": true,
-   "mergedFrom": [
-    124345
-   ]
+   "provisional": true
   },
   {
    "id": "p100027",
@@ -62366,10 +62363,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:9046)",
-   "provisional": true,
-   "mergedFrom": [
-    130993
-   ]
+   "provisional": true
   },
   {
    "id": "p100071",
@@ -62504,10 +62498,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154625,
-    154644,
-    154690,
-    154691
+    154748,
+    154766,
+    154816,
+    154817
    ]
   },
   {
@@ -62819,10 +62813,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154654,
-    154655,
-    154672,
-    154726
+    154776,
+    154777,
+    154797,
+    154861
    ]
   },
   {
@@ -63513,10 +63507,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154631,
-    154632,
-    154699,
-    154700
+    154754,
+    154755,
+    154827,
+    154828
    ]
   },
   {
@@ -63553,10 +63547,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154633,
-    154649,
-    154660,
-    154701
+    154756,
+    154771,
+    154784,
+    154829
    ]
   },
   {
@@ -64060,8 +64054,8 @@
    "eraReason": "split by its official person id (democracyclub:68911): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154638,
-    154719
+    154761,
+    154854
    ]
   },
   {
@@ -64222,11 +64216,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154639,
-    154656,
-    154728,
-    154729,
-    154730
+    154762,
+    154778,
+    154863,
+    154864,
+    154865
    ]
   },
   {
@@ -64262,10 +64256,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2065)",
-   "provisional": true,
-   "mergedFrom": [
-    132523
-   ]
+   "provisional": true
   },
   {
    "id": "p100134",
@@ -64906,10 +64897,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2007)",
-   "provisional": true,
-   "mergedFrom": [
-    132804
-   ]
+   "provisional": true
   },
   {
    "id": "p100154",
@@ -65012,10 +65000,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154616,
-    154623,
-    154682,
-    154683
+    154739,
+    154746,
+    154807,
+    154808
    ]
   },
   {
@@ -65935,12 +65923,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154653,
-    154671,
-    154722,
-    154723,
-    154724,
-    154725
+    154775,
+    154796,
+    154857,
+    154858,
+    154859,
+    154860
    ]
   },
   {
@@ -66010,10 +65998,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2517)",
-   "provisional": true,
-   "mergedFrom": [
-    132145
-   ]
+   "provisional": true
   },
   {
    "id": "p100190",
@@ -69077,10 +69062,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:5050)",
-   "provisional": true,
-   "mergedFrom": [
-    152189
-   ]
+   "provisional": true
   },
   {
    "id": "p100302",
@@ -69147,11 +69129,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:5481)",
-   "provisional": true,
-   "mergedFrom": [
-    128113,
-    129074
-   ]
+   "provisional": true
   },
   {
    "id": "p100304",
@@ -70058,10 +70036,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:6154)",
-   "provisional": true,
-   "mergedFrom": [
-    151588
-   ]
+   "provisional": true
   },
   {
    "id": "p100333",
@@ -70359,9 +70334,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154617,
-    154618,
-    154646
+    154740,
+    154741,
+    154768
    ]
   },
   {
@@ -70399,11 +70374,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154628,
-    154647,
-    154648,
-    154659,
-    154696
+    154751,
+    154769,
+    154770,
+    154783,
+    154823
    ]
   },
   {
@@ -70440,10 +70415,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154614,
-    154619,
-    154709,
-    154710
+    154737,
+    154742,
+    154841,
+    154842
    ]
   },
   {
@@ -72597,11 +72572,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154615,
-    154673,
-    154674,
-    154675,
-    154731
+    154738,
+    154798,
+    154799,
+    154800,
+    154866
    ]
   },
   {
@@ -73374,10 +73349,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2244)",
-   "provisional": true,
-   "mergedFrom": [
-    133133
-   ]
+   "provisional": true
   },
   {
    "id": "p100450",
@@ -73777,10 +73749,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3417)",
-   "provisional": true,
-   "mergedFrom": [
-    132550
-   ]
+   "provisional": true
   },
   {
    "id": "p100463",
@@ -73817,10 +73786,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:4009)",
-   "provisional": true,
-   "mergedFrom": [
-    128129
-   ]
+   "provisional": true
   },
   {
    "id": "p100465",
@@ -73887,10 +73853,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:4826)",
-   "provisional": true,
-   "mergedFrom": [
-    127637
-   ]
+   "provisional": true
   },
   {
    "id": "p100467",
@@ -74750,10 +74713,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2341)",
-   "provisional": true,
-   "mergedFrom": [
-    131063
-   ]
+   "provisional": true
   },
   {
    "id": "p100497",
@@ -74855,10 +74815,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:4433)",
-   "provisional": true,
-   "mergedFrom": [
-    152225
-   ]
+   "provisional": true
   },
   {
    "id": "p100500",
@@ -75770,12 +75727,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154620,
-    154650,
-    154665,
-    154666,
-    154711,
-    154712
+    154743,
+    154772,
+    154790,
+    154791,
+    154843,
+    154844
    ]
   },
   {
@@ -75813,11 +75770,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154621,
-    154636,
-    154651,
-    154713,
-    154714
+    154744,
+    154759,
+    154773,
+    154847,
+    154848
    ]
   },
   {
@@ -75857,13 +75814,13 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154637,
-    154652,
-    154667,
-    154668,
-    154715,
-    154716,
-    154717
+    154760,
+    154774,
+    154792,
+    154793,
+    154850,
+    154851,
+    154852
    ]
   },
   {
@@ -79204,10 +79161,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:8515)",
-   "provisional": true,
-   "mergedFrom": [
-    129668
-   ]
+   "provisional": true
   },
   {
    "id": "p100649",
@@ -80400,10 +80354,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2525)",
-   "provisional": true,
-   "mergedFrom": [
-    132555
-   ]
+   "provisional": true
   },
   {
    "id": "p100690",
@@ -80730,10 +80681,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:4070)",
-   "provisional": true,
-   "mergedFrom": [
-    128328
-   ]
+   "provisional": true
   },
   {
    "id": "p100701",
@@ -81105,10 +81053,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:696)",
-   "provisional": true,
-   "mergedFrom": [
-    132477
-   ]
+   "provisional": true
   },
   {
    "id": "p100713",
@@ -81958,10 +81903,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:5371)",
-   "provisional": true,
-   "mergedFrom": [
-    152629
-   ]
+   "provisional": true
   },
   {
    "id": "p100740",
@@ -82257,10 +82199,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2968)",
-   "provisional": true,
-   "mergedFrom": [
-    130689
-   ]
+   "provisional": true
   },
   {
    "id": "p100749",
@@ -83719,12 +83658,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154624,
-    154641,
-    154642,
-    154643,
-    154685,
-    154686
+    154747,
+    154763,
+    154764,
+    154765,
+    154811,
+    154812
    ]
   },
   {
@@ -83890,11 +83829,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154626,
-    154627,
-    154645,
-    154694,
-    154695
+    154749,
+    154750,
+    154767,
+    154821,
+    154822
    ]
   },
   {
@@ -83930,9 +83869,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154629,
-    154697,
-    154698
+    154752,
+    154824,
+    154825
    ]
   },
   {
@@ -83971,12 +83910,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154634,
-    154635,
-    154662,
-    154663,
-    154664,
-    154708
+    154757,
+    154758,
+    154787,
+    154788,
+    154789,
+    154839
    ]
   },
   {
@@ -88494,7 +88433,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p100975",
@@ -92553,10 +92493,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3199)",
-   "provisional": true,
-   "mergedFrom": [
-    129260
-   ]
+   "provisional": true
   },
   {
    "id": "p101113",
@@ -92595,10 +92532,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3143)",
-   "provisional": true,
-   "mergedFrom": [
-    128352
-   ]
+   "provisional": true
   },
   {
    "id": "p101114",
@@ -92738,10 +92672,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:6663)",
    "provisional": true,
-   "nameVariants": true,
-   "mergedFrom": [
-    151576
-   ]
+   "nameVariants": true
   },
   {
    "id": "p101120",
@@ -93016,10 +92947,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2939)",
-   "provisional": true,
-   "mergedFrom": [
-    132512
-   ]
+   "provisional": true
   },
   {
    "id": "p101129",
@@ -93218,10 +93146,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:4091)",
-   "provisional": true,
-   "mergedFrom": [
-    131044
-   ]
+   "provisional": true
   },
   {
    "id": "p101136",
@@ -94684,10 +94609,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:9414)",
-   "provisional": true,
-   "mergedFrom": [
-    152203
-   ]
+   "provisional": true
   },
   {
    "id": "p101186",
@@ -95441,10 +95363,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:1477)",
-   "provisional": true,
-   "mergedFrom": [
-    129198
-   ]
+   "provisional": true
   },
   {
    "id": "p101214",
@@ -95665,10 +95584,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:855)",
-   "provisional": true,
-   "mergedFrom": [
-    152178
-   ]
+   "provisional": true
   },
   {
    "id": "p101223",
@@ -95768,10 +95684,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3249)",
-   "provisional": true,
-   "mergedFrom": [
-    129279
-   ]
+   "provisional": true
   },
   {
    "id": "p101226",
@@ -96548,9 +96461,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3136)",
    "provisional": true,
-   "mergedFrom": [
-    131468
-   ]
+   "nameVariants": true
   },
   {
    "id": "p101254",
@@ -96967,9 +96878,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:1)",
    "provisional": true,
-   "mergedFrom": [
-    129270
-   ]
+   "nameVariants": true
   },
   {
    "id": "p101268",
@@ -97206,10 +97115,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:488)",
-   "provisional": true,
-   "mergedFrom": [
-    131040
-   ]
+   "provisional": true
   },
   {
    "id": "p101275",
@@ -97344,10 +97250,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:5382)",
-   "provisional": true,
-   "mergedFrom": [
-    152387
-   ]
+   "provisional": true
   },
   {
    "id": "p101280",
@@ -106483,9 +106386,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
-   "firstYear": 1952,
+   "candidacies": 7,
+   "contests": 7,
+   "firstYear": 1949,
    "lastYear": 1981,
    "bodies": [
     "lisburn-borough-council",
@@ -111155,10 +111058,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:5568)",
-   "provisional": true,
-   "mergedFrom": [
-    152186
-   ]
+   "provisional": true
   },
   {
    "id": "p101803",
@@ -111393,10 +111293,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2770)",
-   "provisional": true,
-   "mergedFrom": [
-    128555
-   ]
+   "provisional": true
   },
   {
    "id": "p101810",
@@ -111931,10 +111828,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:9560)",
-   "provisional": true,
-   "mergedFrom": [
-    152223
-   ]
+   "provisional": true
   },
   {
    "id": "p101827",
@@ -112646,10 +112540,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:846)",
-   "provisional": true,
-   "mergedFrom": [
-    152379
-   ]
+   "provisional": true
   },
   {
    "id": "p101850",
@@ -112749,9 +112640,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:8218)",
    "provisional": true,
-   "mergedFrom": [
-    152177
-   ]
+   "nameVariants": true
   },
   {
    "id": "p101853",
@@ -113370,11 +113259,8 @@
     "Independent"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:11122)",
-   "provisional": true,
-   "mergedFrom": [
-    117863
-   ]
+   "provenance": "keyed on the source's own candidate id (ei:801)",
+   "provisional": true
   },
   {
    "id": "p101875",
@@ -114862,10 +114748,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3946)",
-   "provisional": true,
-   "mergedFrom": [
-    128554
-   ]
+   "provisional": true
   },
   {
    "id": "p101924",
@@ -115522,10 +115405,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2462)",
-   "provisional": true,
-   "mergedFrom": [
-    131099
-   ]
+   "provisional": true
   },
   {
    "id": "p101948",
@@ -115592,10 +115472,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2554)",
-   "provisional": true,
-   "mergedFrom": [
-    132573
-   ]
+   "provisional": true
   },
   {
    "id": "p101950",
@@ -117182,10 +117059,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3471)",
-   "provisional": true,
-   "mergedFrom": [
-    130706
-   ]
+   "provisional": true
   },
   {
    "id": "p102005",
@@ -117348,10 +117222,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2918)",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    128248
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p102012",
@@ -117692,10 +117563,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:629)",
-   "provisional": true,
-   "mergedFrom": [
-    129462
-   ]
+   "provisional": true
   },
   {
    "id": "p102023",
@@ -119137,10 +119005,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:11226)",
-   "provisional": true,
-   "mergedFrom": [
-    151563
-   ]
+   "provisional": true
   },
   {
    "id": "p102074",
@@ -119997,9 +119862,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:5384)",
    "provisional": true,
-   "mergedFrom": [
-    151365
-   ]
+   "nameVariants": true
   },
   {
    "id": "p102104",
@@ -120261,10 +120124,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:5058)",
-   "provisional": true,
-   "mergedFrom": [
-    152043
-   ]
+   "provisional": true
   },
   {
    "id": "p102116",
@@ -120295,10 +120155,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:10872)",
-   "provisional": true,
-   "mergedFrom": [
-    152215
-   ]
+   "provisional": true
   },
   {
    "id": "p102117",
@@ -120685,10 +120542,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2435)",
-   "provisional": true,
-   "mergedFrom": [
-    133134
-   ]
+   "provisional": true
   },
   {
    "id": "p102130",
@@ -121491,10 +121345,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154678,
-    154679,
-    154680,
-    154681
+    154803,
+    154804,
+    154805,
+    154806
    ]
   },
   {
@@ -121529,8 +121383,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154657,
-    154684
+    154781,
+    154810
    ]
   },
   {
@@ -122364,10 +122218,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    104354
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p102199",
@@ -126825,10 +126677,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154703,
-    154704,
-    154705,
-    154706
+    154831,
+    154832,
+    154833,
+    154834
    ]
   },
   {
@@ -145786,10 +145638,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:10424)",
-   "provisional": true,
-   "mergedFrom": [
-    151416
-   ]
+   "provisional": true
   },
   {
    "id": "p103084",
@@ -146257,10 +146106,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3618)",
-   "provisional": true,
-   "mergedFrom": [
-    132198
-   ]
+   "provisional": true
   },
   {
    "id": "p103100",
@@ -147114,10 +146960,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:11896)",
-   "provisional": true,
-   "mergedFrom": [
-    151886
-   ]
+   "provisional": true
   },
   {
    "id": "p103129",
@@ -147152,10 +146995,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:11757)",
-   "provisional": true,
-   "mergedFrom": [
-    152623
-   ]
+   "provisional": true
   },
   {
    "id": "p103130",
@@ -147191,7 +147031,7 @@
    "provenance": "keyed on the source's own candidate id (ei:3485)",
    "provisional": true,
    "mergedFrom": [
-    128489
+    154780
    ]
   },
   {
@@ -148845,9 +148685,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:10435)",
    "provisional": true,
-   "mergedFrom": [
-    152301
-   ]
+   "nameVariants": true
   },
   {
    "id": "p103193",
@@ -148946,10 +148784,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2524)",
-   "provisional": true,
-   "mergedFrom": [
-    129319
-   ]
+   "provisional": true
   },
   {
    "id": "p103197",
@@ -149396,10 +149231,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:11920)",
-   "provisional": true,
-   "mergedFrom": [
-    128727
-   ]
+   "provisional": true
   },
   {
    "id": "p103211",
@@ -151306,11 +151138,8 @@
     "Non party/Independent"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:2318)",
-   "provisional": true,
-   "mergedFrom": [
-    130682
-   ]
+   "provenance": "keyed on the source's own candidate id (ie:16024)",
+   "provisional": true
   },
   {
    "id": "p103283",
@@ -151953,10 +151782,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:6628)",
-   "provisional": true,
-   "mergedFrom": [
-    151575
-   ]
+   "provisional": true
   },
   {
    "id": "p103306",
@@ -152363,10 +152189,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:10696)",
-   "provisional": true,
-   "mergedFrom": [
-    152230
-   ]
+   "provisional": true
   },
   {
    "id": "p103319",
@@ -153773,10 +153596,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:10780)",
-   "provisional": true,
-   "mergedFrom": [
-    112149
-   ]
+   "provisional": true
   },
   {
    "id": "p103367",
@@ -153865,10 +153685,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2472)",
-   "provisional": true,
-   "mergedFrom": [
-    132810
-   ]
+   "provisional": true
   },
   {
    "id": "p103371",
@@ -154312,10 +154129,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3210)",
-   "provisional": true,
-   "mergedFrom": [
-    128218
-   ]
+   "provisional": true
   },
   {
    "id": "p103386",
@@ -154406,10 +154220,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2868)",
-   "provisional": true,
-   "mergedFrom": [
-    131933
-   ]
+   "provisional": true
   },
   {
    "id": "p103389",
@@ -156330,10 +156141,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:11417)",
-   "provisional": true,
-   "mergedFrom": [
-    128594
-   ]
+   "provisional": true
   },
   {
    "id": "p103454",
@@ -156624,10 +156432,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:10159)",
-   "provisional": true,
-   "mergedFrom": [
-    152304
-   ]
+   "provisional": true
   },
   {
    "id": "p103464",
@@ -157135,10 +156940,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:9494)",
-   "provisional": true,
-   "mergedFrom": [
-    151761
-   ]
+   "provisional": true
   },
   {
    "id": "p103480",
@@ -157553,10 +157355,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:11912)",
-   "provisional": true,
-   "mergedFrom": [
-    151816
-   ]
+   "provisional": true
   },
   {
    "id": "p103494",
@@ -158262,10 +158061,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:448)",
-   "provisional": true,
-   "mergedFrom": [
-    132405
-   ]
+   "provisional": true
   },
   {
    "id": "p103525",
@@ -158788,9 +158584,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:11892)",
    "provisional": true,
-   "mergedFrom": [
-    128724
-   ]
+   "nameVariants": true
   },
   {
    "id": "p103544",
@@ -158917,11 +158711,8 @@
     "Independent"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:11904)",
-   "provisional": true,
-   "mergedFrom": [
-    129520
-   ]
+   "provenance": "keyed on the source's own candidate id (ie:5600)",
+   "provisional": true
   },
   {
    "id": "p103548",
@@ -159146,9 +158937,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:4998)",
    "provisional": true,
-   "mergedFrom": [
-    128356
-   ]
+   "nameVariants": true
   },
   {
    "id": "p103555",
@@ -159881,10 +159670,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2614)",
-   "provisional": true,
-   "mergedFrom": [
-    132519
-   ]
+   "provisional": true
   },
   {
    "id": "p103584",
@@ -160258,10 +160044,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2703)",
-   "provisional": true,
-   "mergedFrom": [
-    130875
-   ]
+   "provisional": true
   },
   {
    "id": "p103601",
@@ -161837,10 +161620,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:11914)",
-   "provisional": true,
-   "mergedFrom": [
-    151827
-   ]
+   "provisional": true
   },
   {
    "id": "p103659",
@@ -162259,9 +162039,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3160)",
    "provisional": true,
-   "mergedFrom": [
-    129733
-   ]
+   "nameVariants": true
   },
   {
    "id": "p103678",
@@ -165199,10 +164977,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2420)",
-   "provisional": true,
-   "mergedFrom": [
-    132497
-   ]
+   "provisional": true
   },
   {
    "id": "p103782",
@@ -166874,10 +166649,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    104074
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p103852",
@@ -166913,10 +166686,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    104286
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p103853",
@@ -167109,7 +166880,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154689
+    154815
    ]
   },
   {
@@ -170733,7 +170504,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154688
+    154814
    ]
   },
   {
@@ -171206,10 +170977,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    105921
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p104018",
@@ -173408,10 +173177,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    104526
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p104117",
@@ -173583,10 +173350,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    104261
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p104130",
@@ -175975,9 +175740,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    104439
-   ]
+   "nameVariants": true
   },
   {
    "id": "p104245",
@@ -176073,11 +175836,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    104257,
-    106296
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p104248",
@@ -201516,15 +201276,17 @@
     "j j hazlett"
    ],
    "sourceIds": [
-    "5674069"
+    "5674069",
+    "J. J. Hazlett|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1929,
-   "lastYear": 1929,
+   "lastYear": 1939,
    "bodies": [
+    "lisburn-borough-council",
     "parliament-of-northern-ireland"
    ],
    "parties": [
@@ -203403,8 +203165,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1939,
    "lastYear": 1955,
    "bodies": [
@@ -207705,8 +207467,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154692,
-    154693
+    154818,
+    154819
    ]
   },
   {
@@ -207740,7 +207502,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154702
+    154830
    ]
   },
   {
@@ -253942,10 +253704,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2079)",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    130835
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p107991",
@@ -270450,7 +270209,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154727
+    154862
    ]
   },
   {
@@ -271085,11 +270844,8 @@
     "Social Democrats"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:11050)",
-   "provisional": true,
-   "mergedFrom": [
-    129483
-   ]
+   "provenance": "keyed on the source's own candidate id (ie:5539)",
+   "provisional": true
   },
   {
    "id": "p108607",
@@ -271206,11 +270962,8 @@
     "Independent"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:12603)",
-   "provisional": true,
-   "mergedFrom": [
-    128685
-   ]
+   "provenance": "keyed on the source's own candidate id (ie:18610)",
+   "provisional": true
   },
   {
    "id": "p108611",
@@ -271242,10 +270995,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:12671)",
-   "provisional": true,
-   "mergedFrom": [
-    128962
-   ]
+   "provisional": true
   },
   {
    "id": "p108612",
@@ -271337,11 +271087,8 @@
     "PBP"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:11111)",
-   "provisional": true,
-   "mergedFrom": [
-    127661
-   ]
+   "provenance": "keyed on the source's own candidate id (ie:5578)",
+   "provisional": true
   },
   {
    "id": "p108615",
@@ -272845,10 +272592,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:4987)",
-   "provisional": true,
-   "mergedFrom": [
-    128794
-   ]
+   "provisional": true
   },
   {
    "id": "p108665",
@@ -273447,10 +273191,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:7126)",
-   "provisional": true,
-   "mergedFrom": [
-    152249
-   ]
+   "provisional": true
   },
   {
    "id": "p108686",
@@ -274467,10 +274208,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:12569)",
-   "provisional": true,
-   "mergedFrom": [
-    151934
-   ]
+   "provisional": true
   },
   {
    "id": "p108723",
@@ -275500,10 +275238,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:12721)",
-   "provisional": true,
-   "mergedFrom": [
-    152100
-   ]
+   "provisional": true
   },
   {
    "id": "p108758",
@@ -276712,10 +276447,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:12538)",
-   "provisional": true,
-   "mergedFrom": [
-    152624
-   ]
+   "provisional": true
   },
   {
    "id": "p108801",
@@ -277799,10 +277531,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:694)",
-   "provisional": true,
-   "mergedFrom": [
-    151570
-   ]
+   "provisional": true
   },
   {
    "id": "p108840",
@@ -281405,12 +281134,9 @@
     "Independent"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:11933)",
+   "provenance": "keyed on the source's own candidate id (ie:18111)",
    "provisional": true,
-   "nameVariants": true,
-   "mergedFrom": [
-    128631
-   ]
+   "nameVariants": true
   },
   {
    "id": "p108968",
@@ -282425,10 +282151,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:12656)",
-   "provisional": true,
-   "mergedFrom": [
-    128916
-   ]
+   "provisional": true
   },
   {
    "id": "p109007",
@@ -282704,10 +282427,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:12651)",
-   "provisional": true,
-   "mergedFrom": [
-    152627
-   ]
+   "provisional": true
   },
   {
    "id": "p109016",
@@ -284307,11 +284027,8 @@
     "Independent"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:12733)",
-   "provisional": true,
-   "mergedFrom": [
-    127676
-   ]
+   "provenance": "keyed on the source's own candidate id (ie:6099)",
+   "provisional": true
   },
   {
    "id": "p109075",
@@ -285574,10 +285291,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:12556)",
-   "provisional": true,
-   "mergedFrom": [
-    128772
-   ]
+   "provisional": true
   },
   {
    "id": "p109117",
@@ -285996,10 +285710,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:10570)",
-   "provisional": true,
-   "mergedFrom": [
-    152329
-   ]
+   "provisional": true
   },
   {
    "id": "p109131",
@@ -287882,10 +287593,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:11070)",
-   "provisional": true,
-   "mergedFrom": [
-    128573
-   ]
+   "provisional": true
   },
   {
    "id": "p109199",
@@ -288674,10 +288382,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:11427)",
-   "provisional": true,
-   "mergedFrom": [
-    128596
-   ]
+   "provisional": true
   },
   {
    "id": "p109226",
@@ -288979,11 +288684,9 @@
     "Renua"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:11058)",
+   "provenance": "keyed on the source's own candidate id (ie:16951)",
    "provisional": true,
-   "mergedFrom": [
-    128566
-   ]
+   "nameVariants": true
   },
   {
    "id": "p109237",
@@ -289172,10 +288875,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2824)",
-   "provisional": true,
-   "mergedFrom": [
-    132703
-   ]
+   "provisional": true
   },
   {
    "id": "p109243",
@@ -290856,10 +290556,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:12597)",
-   "provisional": true,
-   "mergedFrom": [
-    151923
-   ]
+   "provisional": true
   },
   {
    "id": "p109303",
@@ -290947,11 +290644,8 @@
     "Fine Gael"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:2604)",
-   "provisional": true,
-   "mergedFrom": [
-    130681
-   ]
+   "provenance": "keyed on the source's own candidate id (ie:15942)",
+   "provisional": true
   },
   {
    "id": "p109307",
@@ -290982,10 +290676,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2887)",
-   "provisional": true,
-   "mergedFrom": [
-    132019
-   ]
+   "provisional": true
   },
   {
    "id": "p109308",
@@ -292334,10 +292025,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:5370)",
-   "provisional": true,
-   "mergedFrom": [
-    129298
-   ]
+   "provisional": true
   },
   {
    "id": "p109356",
@@ -292487,10 +292175,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:4117)",
-   "provisional": true,
-   "mergedFrom": [
-    127653
-   ]
+   "provisional": true
   },
   {
    "id": "p109361",
@@ -292642,10 +292327,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:4679)",
-   "provisional": true,
-   "mergedFrom": [
-    129514
-   ]
+   "provisional": true
   },
   {
    "id": "p109366",
@@ -293930,10 +293612,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2551)",
-   "provisional": true,
-   "mergedFrom": [
-    132882
-   ]
+   "provisional": true
   },
   {
    "id": "p109410",
@@ -294789,10 +294468,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:4077)",
-   "provisional": true,
-   "mergedFrom": [
-    129323
-   ]
+   "provisional": true
   },
   {
    "id": "p109445",
@@ -295267,11 +294943,8 @@
     "Non party/Independent"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:2787)",
-   "provisional": true,
-   "mergedFrom": [
-    128871
-   ]
+   "provenance": "keyed on the source's own candidate id (ie:1942)",
+   "provisional": true
   },
   {
    "id": "p109465",
@@ -296248,10 +295921,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2982)",
-   "provisional": true,
-   "mergedFrom": [
-    132135
-   ]
+   "provisional": true
   },
   {
    "id": "p109502",
@@ -296367,10 +296037,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2081)",
-   "provisional": true,
-   "mergedFrom": [
-    131515
-   ]
+   "provisional": true
   },
   {
    "id": "p109508",
@@ -296553,10 +296220,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2700)",
-   "provisional": true,
-   "mergedFrom": [
-    132492
-   ]
+   "provisional": true
   },
   {
    "id": "p109514",
@@ -296830,11 +296494,8 @@
     "Fianna Fáil"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:2628)",
-   "provisional": true,
-   "mergedFrom": [
-    129290
-   ]
+   "provenance": "keyed on the source's own candidate id (ie:2713)",
+   "provisional": true
   },
   {
    "id": "p109524",
@@ -297215,10 +296876,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:12568)",
-   "provisional": true,
-   "mergedFrom": [
-    128832
-   ]
+   "provisional": true
   },
   {
    "id": "p109541",
@@ -297735,10 +297393,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:9936)",
-   "provisional": true,
-   "mergedFrom": [
-    129267
-   ]
+   "provisional": true
   },
   {
    "id": "p109558",
@@ -298376,10 +298031,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:5174)",
-   "provisional": true,
-   "mergedFrom": [
-    152296
-   ]
+   "provisional": true
   },
   {
    "id": "p109581",
@@ -302320,10 +301972,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:12717)",
-   "provisional": true,
-   "mergedFrom": [
-    152148
-   ]
+   "provisional": true
   },
   {
    "id": "p109728",
@@ -303163,10 +302812,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:6244)",
-   "provisional": true,
-   "mergedFrom": [
-    128235
-   ]
+   "provisional": true
   },
   {
    "id": "p109758",
@@ -304395,10 +304041,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:11422)",
-   "provisional": true,
-   "mergedFrom": [
-    128595
-   ]
+   "provisional": true
   },
   {
    "id": "p109806",
@@ -305106,10 +304749,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:12566)",
-   "provisional": true,
-   "mergedFrom": [
-    151916
-   ]
+   "provisional": true
   },
   {
    "id": "p109830",
@@ -305354,10 +304994,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2949)",
-   "provisional": true,
-   "mergedFrom": [
-    131715
-   ]
+   "provisional": true
   },
   {
    "id": "p109838",
@@ -306399,11 +306036,8 @@
     "Social Democrats"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:11068)",
-   "provisional": true,
-   "mergedFrom": [
-    129619
-   ]
+   "provenance": "keyed on the source's own candidate id (ie:6066)",
+   "provisional": true
   },
   {
    "id": "p109873",
@@ -306562,10 +306196,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:6421)",
-   "provisional": true,
-   "mergedFrom": [
-    152164
-   ]
+   "provisional": true
   },
   {
    "id": "p109878",
@@ -307469,10 +307100,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:10517)",
-   "provisional": true,
-   "mergedFrom": [
-    129389
-   ]
+   "provisional": true
   },
   {
    "id": "p109909",
@@ -310113,10 +309741,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2056)",
-   "provisional": true,
-   "mergedFrom": [
-    132496
-   ]
+   "provisional": true
   },
   {
    "id": "p110004",
@@ -310303,10 +309928,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2546)",
-   "provisional": true,
-   "mergedFrom": [
-    132179
-   ]
+   "provisional": true
   },
   {
    "id": "p110011",
@@ -311270,10 +310892,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2591)",
-   "provisional": true,
-   "mergedFrom": [
-    131347
-   ]
+   "provisional": true
   },
   {
    "id": "p110046",
@@ -311761,10 +311380,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3529)",
-   "provisional": true,
-   "mergedFrom": [
-    132938
-   ]
+   "provisional": true
   },
   {
    "id": "p110063",
@@ -312184,10 +311800,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3754)",
-   "provisional": true,
-   "mergedFrom": [
-    128561
-   ]
+   "provisional": true
   },
   {
    "id": "p110079",
@@ -312279,11 +311892,8 @@
     "Fine Gael"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:2804)",
-   "provisional": true,
-   "mergedFrom": [
-    131064
-   ]
+   "provenance": "keyed on the source's own candidate id (ie:3994)",
+   "provisional": true
   },
   {
    "id": "p110082",
@@ -313560,11 +313170,8 @@
     "Fianna Fáil"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:2633)",
-   "provisional": true,
-   "mergedFrom": [
-    129650
-   ]
+   "provenance": "keyed on the source's own candidate id (ie:74)",
+   "provisional": true
   },
   {
    "id": "p110127",
@@ -313624,10 +313231,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2924)",
-   "provisional": true,
-   "mergedFrom": [
-    130807
-   ]
+   "provisional": true
   },
   {
    "id": "p110130",
@@ -313718,10 +313322,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:8454)",
-   "provisional": true,
-   "mergedFrom": [
-    129636
-   ]
+   "provisional": true
   },
   {
    "id": "p110133",
@@ -314553,10 +314154,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:12653)",
-   "provisional": true,
-   "mergedFrom": [
-    128910
-   ]
+   "provisional": true
   },
   {
    "id": "p110162",
@@ -315453,10 +315051,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2813)",
-   "provisional": true,
-   "mergedFrom": [
-    132172
-   ]
+   "provisional": true
   },
   {
    "id": "p110193",
@@ -316398,10 +315993,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:12572)",
-   "provisional": true,
-   "mergedFrom": [
-    151967
-   ]
+   "provisional": true
   },
   {
    "id": "p110224",
@@ -317257,9 +316849,6 @@
    "provisional": true,
    "nameKeyedRows": [
     "norman morgan"
-   ],
-   "mergedFrom": [
-    130604
    ]
   },
   {
@@ -317835,10 +317424,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2331)",
-   "provisional": true,
-   "mergedFrom": [
-    132516
-   ]
+   "provisional": true
   },
   {
    "id": "p110274",
@@ -318793,10 +318379,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:9471)",
-   "provisional": true,
-   "mergedFrom": [
-    129302
-   ]
+   "provisional": true
   },
   {
    "id": "p110309",
@@ -320658,10 +320241,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2909)",
-   "provisional": true,
-   "mergedFrom": [
-    132500
-   ]
+   "provisional": true
   },
   {
    "id": "p110383",
@@ -321618,10 +321198,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:10690)",
-   "provisional": true,
-   "mergedFrom": [
-    128622
-   ]
+   "provisional": true
   },
   {
    "id": "p110419",
@@ -322068,11 +321645,8 @@
     "Independent"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:12735)",
-   "provisional": true,
-   "mergedFrom": [
-    128715
-   ]
+   "provenance": "keyed on the source's own candidate id (ie:18809)",
+   "provisional": true
   },
   {
    "id": "p110434",
@@ -322409,10 +321983,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:12676)",
-   "provisional": true,
-   "mergedFrom": [
-    129139
-   ]
+   "provisional": true
   },
   {
    "id": "p110445",
@@ -322652,10 +322223,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2704)",
-   "provisional": true,
-   "mergedFrom": [
-    132472
-   ]
+   "provisional": true
   },
   {
    "id": "p110453",
@@ -323829,10 +323397,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:12694)",
-   "provisional": true,
-   "mergedFrom": [
-    152071
-   ]
+   "provisional": true
   },
   {
    "id": "p110493",
@@ -324454,10 +324019,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:12730)",
-   "provisional": true,
-   "mergedFrom": [
-    129105
-   ]
+   "provisional": true
   },
   {
    "id": "p110514",
@@ -325033,9 +324595,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:11923)",
    "provisional": true,
-   "mergedFrom": [
-    128697
-   ]
+   "nameVariants": true
   },
   {
    "id": "p110537",
@@ -325555,10 +325115,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3090)",
-   "provisional": true,
-   "mergedFrom": [
-    130889
-   ]
+   "provisional": true
   },
   {
    "id": "p110555",
@@ -325648,10 +325205,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:11011)",
-   "provisional": true,
-   "mergedFrom": [
-    151593
-   ]
+   "provisional": true
   },
   {
    "id": "p110559",
@@ -326414,10 +325968,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:11962)",
-   "provisional": true,
-   "mergedFrom": [
-    151651
-   ]
+   "provisional": true
   },
   {
    "id": "p110586",
@@ -326448,10 +325999,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:12699)",
-   "provisional": true,
-   "mergedFrom": [
-    129495
-   ]
+   "provisional": true
   },
   {
    "id": "p110587",
@@ -328509,7 +328057,7 @@
   {
    "id": "p110666",
    "personId": 110666,
-   "displayName": "Seán Whelan",
+   "displayName": "Sean Whelan",
    "aliases": [
     "Sean Whelan",
     "Seán Whelan"
@@ -328537,10 +328085,10 @@
     "Independent"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:2975)",
+   "provenance": "keyed on the source's own candidate id (ie:6276)",
    "provisional": true,
    "mergedFrom": [
-    129638
+    154779
    ]
   },
   {
@@ -328812,10 +328360,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:9501)",
-   "provisional": true,
-   "mergedFrom": [
-    151434
-   ]
+   "provisional": true
   },
   {
    "id": "p110677",
@@ -328996,11 +328541,8 @@
     "Independent"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:12729)",
-   "provisional": true,
-   "mergedFrom": [
-    129628
-   ]
+   "provenance": "keyed on the source's own candidate id (ie:6132)",
+   "provisional": true
   },
   {
    "id": "p110683",
@@ -329900,10 +329442,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:12684)",
-   "provisional": true,
-   "mergedFrom": [
-    152058
-   ]
+   "provisional": true
   },
   {
    "id": "p110714",
@@ -330629,9 +330168,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:12618)",
    "provisional": true,
-   "mergedFrom": [
-    128819
-   ]
+   "nameVariants": true
   },
   {
    "id": "p110738",
@@ -330899,11 +330436,8 @@
     "Independent"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:12615)",
-   "provisional": true,
-   "mergedFrom": [
-    128617
-   ]
+   "provenance": "keyed on the source's own candidate id (ie:18071)",
+   "provisional": true
   },
   {
    "id": "p110747",
@@ -332071,10 +331605,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2817)",
-   "provisional": true,
-   "mergedFrom": [
-    132646
-   ]
+   "provisional": true
   },
   {
    "id": "p110792",
@@ -333673,10 +333204,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:6456)",
-   "provisional": true,
-   "mergedFrom": [
-    151330
-   ]
+   "provisional": true
   },
   {
    "id": "p110858",
@@ -333893,10 +333421,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:8553)",
-   "provisional": true,
-   "mergedFrom": [
-    127656
-   ]
+   "provisional": true
   },
   {
    "id": "p110865",
@@ -333986,10 +333511,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:5037)",
-   "provisional": true,
-   "mergedFrom": [
-    152213
-   ]
+   "provisional": true
   },
   {
    "id": "p110869",
@@ -334294,11 +333816,8 @@
     "Independent"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:11029)",
-   "provisional": true,
-   "mergedFrom": [
-    129417
-   ]
+   "provenance": "keyed on the source's own candidate id (ie:4947)",
+   "provisional": true
   },
   {
    "id": "p110879",
@@ -334759,10 +334278,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:12679)",
-   "provisional": true,
-   "mergedFrom": [
-    128976
-   ]
+   "provisional": true
   },
   {
    "id": "p110894",
@@ -335661,10 +335177,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2620)",
-   "provisional": true,
-   "mergedFrom": [
-    131870
-   ]
+   "provisional": true
   },
   {
    "id": "p110925",
@@ -336049,10 +335562,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2552)",
-   "provisional": true,
-   "mergedFrom": [
-    132888
-   ]
+   "provisional": true
   },
   {
    "id": "p110942",
@@ -336232,10 +335742,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2509)",
-   "provisional": true,
-   "mergedFrom": [
-    131325
-   ]
+   "provisional": true
   },
   {
    "id": "p110948",
@@ -336469,10 +335976,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2727)",
-   "provisional": true,
-   "mergedFrom": [
-    132481
-   ]
+   "provisional": true
   },
   {
    "id": "p110957",
@@ -337614,10 +337118,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:1338)",
-   "provisional": true,
-   "mergedFrom": [
-    130990
-   ]
+   "provisional": true
   },
   {
    "id": "p111064",
@@ -338024,8 +337525,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 17,
-   "contests": 17,
+   "candidacies": 18,
+   "contests": 18,
    "firstYear": 1920,
    "lastYear": 1985,
    "bodies": [
@@ -338591,10 +338092,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3098)",
-   "provisional": true,
-   "mergedFrom": [
-    132747
-   ]
+   "provisional": true
   },
   {
    "id": "p111157",
@@ -338696,10 +338194,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3175)",
-   "provisional": true,
-   "mergedFrom": [
-    129221
-   ]
+   "provisional": true
   },
   {
    "id": "p111160",
@@ -339065,10 +338560,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3370)",
-   "provisional": true,
-   "mergedFrom": [
-    129316
-   ]
+   "provisional": true
   },
   {
    "id": "p111171",
@@ -339942,10 +339434,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:4033)",
-   "provisional": true,
-   "mergedFrom": [
-    130971
-   ]
+   "provisional": true
   },
   {
    "id": "p111199",
@@ -340044,10 +339533,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:4068)",
-   "provisional": true,
-   "mergedFrom": [
-    127648
-   ]
+   "provisional": true
   },
   {
    "id": "p111202",
@@ -340080,10 +339566,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:4080)",
-   "provisional": true,
-   "mergedFrom": [
-    129321
-   ]
+   "provisional": true
   },
   {
    "id": "p111203",
@@ -341657,10 +341140,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:11303)",
-   "provisional": true,
-   "mergedFrom": [
-    129307
-   ]
+   "provisional": true
   },
   {
    "id": "p112142",
@@ -342119,10 +341599,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:12708)",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    128240
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p112160",
@@ -342251,10 +341728,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:133)",
-   "provisional": true,
-   "mergedFrom": [
-    131070
-   ]
+   "provisional": true
   },
   {
    "id": "p112166",
@@ -342623,10 +342097,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:200)",
-   "provisional": true,
-   "mergedFrom": [
-    128201
-   ]
+   "provisional": true
   },
   {
    "id": "p112180",
@@ -342919,10 +342390,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2434)",
-   "provisional": true,
-   "mergedFrom": [
-    132076
-   ]
+   "provisional": true
   },
   {
    "id": "p112190",
@@ -343326,10 +342794,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2988)",
-   "provisional": true,
-   "mergedFrom": [
-    132399
-   ]
+   "provisional": true
   },
   {
    "id": "p112203",
@@ -343484,10 +342949,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2998)",
-   "provisional": true,
-   "mergedFrom": [
-    132490
-   ]
+   "provisional": true
   },
   {
    "id": "p112208",
@@ -343818,10 +343280,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3012)",
-   "provisional": true,
-   "mergedFrom": [
-    129667
-   ]
+   "provisional": true
   },
   {
    "id": "p112219",
@@ -344410,10 +343869,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3039)",
-   "provisional": true,
-   "mergedFrom": [
-    129720
-   ]
+   "provisional": true
   },
   {
    "id": "p112239",
@@ -344895,11 +344351,9 @@
     "Non party/Independent"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:3059)",
+   "provenance": "keyed on the source's own candidate id (ie:2367)",
    "provisional": true,
-   "mergedFrom": [
-    129258
-   ]
+   "nameVariants": true
   },
   {
    "id": "p112255",
@@ -345206,10 +344660,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3071)",
-   "provisional": true,
-   "mergedFrom": [
-    131881
-   ]
+   "provisional": true
   },
   {
    "id": "p112265",
@@ -345423,10 +344874,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3079)",
-   "provisional": true,
-   "mergedFrom": [
-    130955
-   ]
+   "provisional": true
   },
   {
    "id": "p112272",
@@ -346274,10 +345722,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3779)",
-   "provisional": true,
-   "mergedFrom": [
-    129652
-   ]
+   "provisional": true
   },
   {
    "id": "p112299",
@@ -346309,10 +345754,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3792)",
-   "provisional": true,
-   "mergedFrom": [
-    128211
-   ]
+   "provisional": true
   },
   {
    "id": "p112300",
@@ -346374,10 +345816,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3809)",
-   "provisional": true,
-   "mergedFrom": [
-    131297
-   ]
+   "provisional": true
   },
   {
    "id": "p112302",
@@ -346475,10 +345914,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3842)",
-   "provisional": true,
-   "mergedFrom": [
-    132136
-   ]
+   "provisional": true
   },
   {
    "id": "p112305",
@@ -346728,10 +346164,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3902)",
-   "provisional": true,
-   "mergedFrom": [
-    130943
-   ]
+   "provisional": true
   },
   {
    "id": "p112313",
@@ -347750,10 +347183,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3981)",
-   "provisional": true,
-   "mergedFrom": [
-    129777
-   ]
+   "provisional": true
   },
   {
    "id": "p112347",
@@ -349725,11 +349155,8 @@
     "Non party/Independent"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:4100)",
-   "provisional": true,
-   "mergedFrom": [
-    130719
-   ]
+   "provenance": "keyed on the source's own candidate id (ie:4145)",
+   "provisional": true
   },
   {
    "id": "p112413",
@@ -350027,10 +349454,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:4116)",
-   "provisional": true,
-   "mergedFrom": [
-    129300
-   ]
+   "provisional": true
   },
   {
    "id": "p112423",
@@ -350312,10 +349736,6 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:4222)",
    "provisional": true,
-   "mergedFrom": [
-    129639,
-    138404
-   ],
    "nameKeyedRows": [
     "harry blaney"
    ]
@@ -351214,10 +350634,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:4264)",
-   "provisional": true,
-   "mergedFrom": [
-    129727
-   ]
+   "provisional": true
   },
   {
    "id": "p112462",
@@ -351398,10 +350815,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:4270)",
-   "provisional": true,
-   "mergedFrom": [
-    132913
-   ]
+   "provisional": true
   },
   {
    "id": "p112468",
@@ -352514,10 +351928,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:4334)",
-   "provisional": true,
-   "mergedFrom": [
-    128753
-   ]
+   "provisional": true
   },
   {
    "id": "p112506",
@@ -352697,10 +352108,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:4345)",
-   "provisional": true,
-   "mergedFrom": [
-    132508
-   ]
+   "provisional": true
   },
   {
    "id": "p112512",
@@ -353509,10 +352917,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:463)",
-   "provisional": true,
-   "mergedFrom": [
-    130694
-   ]
+   "provisional": true
   },
   {
    "id": "p112539",
@@ -353692,11 +353097,8 @@
     "Non party/Independent"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:5399)",
-   "provisional": true,
-   "mergedFrom": [
-    129222
-   ]
+   "provenance": "keyed on the source's own candidate id (ie:22201)",
+   "provisional": true
   },
   {
    "id": "p112545",
@@ -354637,10 +354039,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:7731)",
-   "provisional": true,
-   "mergedFrom": [
-    132231
-   ]
+   "provisional": true
   },
   {
    "id": "p112581",
@@ -354702,10 +354101,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:7743)",
-   "provisional": true,
-   "mergedFrom": [
-    129188
-   ]
+   "provisional": true
   },
   {
    "id": "p112583",
@@ -355469,10 +354865,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:8666)",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    130983
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p112611",
@@ -355564,10 +354957,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:8689)",
-   "provisional": true,
-   "mergedFrom": [
-    128142
-   ]
+   "provisional": true
   },
   {
    "id": "p112614",
@@ -356346,10 +355736,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:9035)",
-   "provisional": true,
-   "mergedFrom": [
-    132460
-   ]
+   "provisional": true
   },
   {
    "id": "p112641",
@@ -356442,10 +355829,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:9074)",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    132408
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p112644",
@@ -358317,10 +357701,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:5782)",
-   "provisional": true,
-   "mergedFrom": [
-    128100
-   ]
+   "provisional": true
   },
   {
    "id": "p112772",
@@ -358352,10 +357733,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:10888)",
-   "provisional": true,
-   "mergedFrom": [
-    128432
-   ]
+   "provisional": true
   },
   {
    "id": "p112773",
@@ -358843,10 +358221,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2479)",
-   "provisional": true,
-   "mergedFrom": [
-    130753
-   ]
+   "provisional": true
   },
   {
    "id": "p112791",
@@ -361042,11 +360417,8 @@
     "Fine Gael"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:9072)",
-   "provisional": true,
-   "mergedFrom": [
-    129204
-   ]
+   "provenance": "keyed on the source's own candidate id (ie:22011)",
+   "provisional": true
   },
   {
    "id": "p113086",
@@ -361319,10 +360691,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:10440)",
-   "provisional": true,
-   "mergedFrom": [
-    152305
-   ]
+   "provisional": true
   },
   {
    "id": "p113122",
@@ -363450,7 +362819,7 @@
    "provenance": "keyed on the source's own candidate id (ie:12173)",
    "provisional": true,
    "mergedFrom": [
-    154622
+    154745
    ]
   },
   {
@@ -364438,10 +363807,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2393)",
-   "provisional": true,
-   "mergedFrom": [
-    132808
-   ]
+   "provisional": true
   },
   {
    "id": "p113245",
@@ -364727,9 +364093,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2585)",
    "provisional": true,
-   "mergedFrom": [
-    131299
-   ]
+   "nameVariants": true
   },
   {
    "id": "p113255",
@@ -364984,9 +364348,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2783)",
    "provisional": true,
-   "mergedFrom": [
-    132229
-   ]
+   "nameVariants": true
   },
   {
    "id": "p113263",
@@ -365020,10 +364382,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2786)",
-   "provisional": true,
-   "mergedFrom": [
-    128809
-   ]
+   "provisional": true
   },
   {
    "id": "p113264",
@@ -365700,15 +365059,11 @@
     "Sinn Féin (Workers' Party)",
     "Sinn Féin The Workers' Party",
     "Sinn Féin Workers'",
-    "Workers'",
-    "Workers' Party"
+    "Workers'"
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3221)",
-   "provisional": true,
-   "mergedFrom": [
-    128484
-   ]
+   "provisional": true
   },
   {
    "id": "p113289",
@@ -366020,11 +365375,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:4744)",
-   "provisional": true,
-   "mergedFrom": [
-    128497,
-    129141
-   ]
+   "provisional": true
   },
   {
    "id": "p113307",
@@ -372363,10 +371714,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3494)",
-   "provisional": true,
-   "mergedFrom": [
-    128569
-   ]
+   "provisional": true
   },
   {
    "id": "p117800",
@@ -373614,10 +372962,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:5872)",
-   "provisional": true,
-   "mergedFrom": [
-    128267
-   ]
+   "provisional": true
   },
   {
    "id": "p117842",
@@ -374069,10 +373414,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:6535)",
-   "provisional": true,
-   "mergedFrom": [
-    151405
-   ]
+   "provisional": true
   },
   {
    "id": "p117857",
@@ -374195,10 +373537,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:767)",
    "provisional": true,
-   "nameVariants": true,
-   "mergedFrom": [
-    129145
-   ]
+   "nameVariants": true
   },
   {
    "id": "p117861",
@@ -376967,10 +376306,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:5226)",
-   "provisional": true,
-   "mergedFrom": [
-    129584
-   ]
+   "provisional": true
   },
   {
    "id": "p117970",
@@ -377033,10 +376369,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:5263)",
-   "provisional": true,
-   "mergedFrom": [
-    130924
-   ]
+   "provisional": true
   },
   {
    "id": "p117972",
@@ -377453,10 +376786,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:5438)",
-   "provisional": true,
-   "mergedFrom": [
-    132682
-   ]
+   "provisional": true
   },
   {
    "id": "p117986",
@@ -379131,10 +378461,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:6163)",
-   "provisional": true,
-   "mergedFrom": [
-    151619
-   ]
+   "provisional": true
   },
   {
    "id": "p118043",
@@ -383472,10 +382799,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3739)",
-   "provisional": true,
-   "mergedFrom": [
-    129662
-   ]
+   "provisional": true
   },
   {
    "id": "p118210",
@@ -384156,10 +383480,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:4710)",
-   "provisional": true,
-   "mergedFrom": [
-    152386
-   ]
+   "provisional": true
   },
   {
    "id": "p118233",
@@ -384251,10 +383572,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:4774)",
-   "provisional": true,
-   "mergedFrom": [
-    152323
-   ]
+   "provisional": true
   },
   {
    "id": "p118236",
@@ -384373,10 +383691,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:4845)",
-   "provisional": true,
-   "mergedFrom": [
-    152267
-   ]
+   "provisional": true
   },
   {
    "id": "p118240",
@@ -387512,10 +386827,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:5775)",
-   "provisional": true,
-   "mergedFrom": [
-    129468
-   ]
+   "provisional": true
   },
   {
    "id": "p118346",
@@ -388430,10 +387742,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:6183)",
-   "provisional": true,
-   "mergedFrom": [
-    152229
-   ]
+   "provisional": true
   },
   {
    "id": "p118377",
@@ -389474,10 +388783,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:688)",
-   "provisional": true,
-   "mergedFrom": [
-    151662
-   ]
+   "provisional": true
   },
   {
    "id": "p118412",
@@ -389628,10 +388934,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:697)",
-   "provisional": true,
-   "mergedFrom": [
-    127643
-   ]
+   "provisional": true
   },
   {
    "id": "p118417",
@@ -390199,11 +389502,8 @@
     "Fine Gael"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:7738)",
-   "provisional": true,
-   "mergedFrom": [
-    127533
-   ]
+   "provenance": "keyed on the source's own candidate id (ei:3289)",
+   "provisional": true
   },
   {
    "id": "p118436",
@@ -392249,10 +391549,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:9678)",
-   "provisional": true,
-   "mergedFrom": [
-    152214
-   ]
+   "provisional": true
   },
   {
    "id": "p118506",
@@ -392870,10 +392167,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:9919)",
-   "provisional": true,
-   "mergedFrom": [
-    152263
-   ]
+   "provisional": true
   },
   {
    "id": "p118547",
@@ -393999,10 +393293,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:10326)",
-   "provisional": true,
-   "mergedFrom": [
-    152198
-   ]
+   "provisional": true
   },
   {
    "id": "p118585",
@@ -394533,10 +393824,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:10526)",
-   "provisional": true,
-   "mergedFrom": [
-    129408
-   ]
+   "provisional": true
   },
   {
    "id": "p118603",
@@ -395399,10 +394687,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:10648)",
-   "provisional": true,
-   "mergedFrom": [
-    128662
-   ]
+   "provisional": true
   },
   {
    "id": "p118632",
@@ -395434,10 +394719,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:10649)",
-   "provisional": true,
-   "mergedFrom": [
-    129450
-   ]
+   "provisional": true
   },
   {
    "id": "p118633",
@@ -396502,10 +395784,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:11211)",
-   "provisional": true,
-   "mergedFrom": [
-    152253
-   ]
+   "provisional": true
   },
   {
    "id": "p118669",
@@ -398849,10 +398128,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:208)",
-   "provisional": true,
-   "mergedFrom": [
-    152382
-   ]
+   "provisional": true
   },
   {
    "id": "p118751",
@@ -401318,10 +400594,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:4540)",
-   "provisional": true,
-   "mergedFrom": [
-    129682
-   ]
+   "provisional": true
   },
   {
    "id": "p118836",
@@ -403059,10 +402332,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:5120)",
-   "provisional": true,
-   "mergedFrom": [
-    128478
-   ]
+   "provisional": true
   },
   {
    "id": "p118895",
@@ -404035,10 +403305,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:5281)",
-   "provisional": true,
-   "mergedFrom": [
-    151372
-   ]
+   "provisional": true
   },
   {
    "id": "p118928",
@@ -404099,10 +403366,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:5289)",
-   "provisional": true,
-   "mergedFrom": [
-    129607
-   ]
+   "provisional": true
   },
   {
    "id": "p118930",
@@ -406857,10 +406121,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:5798)",
-   "provisional": true,
-   "mergedFrom": [
-    128425
-   ]
+   "provisional": true
   },
   {
    "id": "p119023",
@@ -409728,10 +408989,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:666)",
-   "provisional": true,
-   "mergedFrom": [
-    152271
-   ]
+   "provisional": true
   },
   {
    "id": "p119121",
@@ -409791,10 +409049,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:671)",
-   "provisional": true,
-   "mergedFrom": [
-    151565
-   ]
+   "provisional": true
   },
   {
    "id": "p119123",
@@ -410454,10 +409709,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:72)",
-   "provisional": true,
-   "mergedFrom": [
-    152377
-   ]
+   "provisional": true
   },
   {
    "id": "p119145",
@@ -411545,10 +410797,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:863)",
-   "provisional": true,
-   "mergedFrom": [
-    152388
-   ]
+   "provisional": true
   },
   {
    "id": "p119182",
@@ -412466,10 +411715,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:9225)",
-   "provisional": true,
-   "mergedFrom": [
-    152245
-   ]
+   "provisional": true
   },
   {
    "id": "p119213",
@@ -413261,10 +412507,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:967)",
-   "provisional": true,
-   "mergedFrom": [
-    151581
-   ]
+   "provisional": true
   },
   {
    "id": "p119240",
@@ -414406,10 +413649,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:9925)",
-   "provisional": true,
-   "mergedFrom": [
-    151692
-   ]
+   "provisional": true
   },
   {
    "id": "p119279",
@@ -414590,10 +413830,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:9975)",
-   "provisional": true,
-   "mergedFrom": [
-    151574
-   ]
+   "provisional": true
   },
   {
    "id": "p119285",
@@ -414684,10 +413921,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:9993)",
-   "provisional": true,
-   "mergedFrom": [
-    152340
-   ]
+   "provisional": true
   },
   {
    "id": "p119288",
@@ -416338,7 +415572,7 @@
     "paddy burke"
    ],
    "mergedFrom": [
-    154734
+    154870
    ]
   },
   {
@@ -417742,10 +416976,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:10130)",
-   "provisional": true,
-   "mergedFrom": [
-    152227
-   ]
+   "provisional": true
   },
   {
    "id": "p119471",
@@ -419898,10 +419129,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:1027)",
-   "provisional": true,
-   "mergedFrom": [
-    152373
-   ]
+   "provisional": true
   },
   {
    "id": "p119545",
@@ -421092,10 +420320,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:10344)",
-   "provisional": true,
-   "mergedFrom": [
-    152202
-   ]
+   "provisional": true
   },
   {
    "id": "p119587",
@@ -421503,10 +420728,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:10378)",
-   "provisional": true,
-   "mergedFrom": [
-    152297
-   ]
+   "provisional": true
   },
   {
    "id": "p119601",
@@ -422362,10 +421584,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:10429)",
-   "provisional": true,
-   "mergedFrom": [
-    152298
-   ]
+   "provisional": true
   },
   {
    "id": "p119630",
@@ -422690,11 +421909,8 @@
     "Solidarity-PBP"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:10443)",
-   "provisional": true,
-   "mergedFrom": [
-    129566
-   ]
+   "provenance": "keyed on the source's own candidate id (ie:5790)",
+   "provisional": true
   },
   {
    "id": "p119641",
@@ -423080,9 +422296,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:10465)",
    "provisional": true,
-   "mergedFrom": [
-    152337
-   ]
+   "nameVariants": true
   },
   {
    "id": "p119654",
@@ -426836,10 +426050,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:10678)",
-   "provisional": true,
-   "mergedFrom": [
-    152222
-   ]
+   "provisional": true
   },
   {
    "id": "p119783",
@@ -426899,10 +426110,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:10681)",
-   "provisional": true,
-   "mergedFrom": [
-    152221
-   ]
+   "provisional": true
   },
   {
    "id": "p119785",
@@ -427339,11 +426547,8 @@
     "Independent"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:10705)",
-   "provisional": true,
-   "mergedFrom": [
-    151420
-   ]
+   "provenance": "keyed on the source's own candidate id (ie:5844)",
+   "provisional": true
   },
   {
    "id": "p119801",
@@ -428889,11 +428094,8 @@
     "Irish Labour"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:10786)",
-   "provisional": true,
-   "mergedFrom": [
-    151425
-   ]
+   "provenance": "keyed on the source's own candidate id (ie:5896)",
+   "provisional": true
   },
   {
    "id": "p119854",
@@ -432068,10 +431270,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:11256)",
-   "provisional": true,
-   "mergedFrom": [
-    151752
-   ]
+   "provisional": true
   },
   {
    "id": "p119964",
@@ -432131,10 +431330,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:11258)",
-   "provisional": true,
-   "mergedFrom": [
-    151751
-   ]
+   "provisional": true
   },
   {
    "id": "p119966",
@@ -432222,10 +431418,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:11263)",
-   "provisional": true,
-   "mergedFrom": [
-    151637
-   ]
+   "provisional": true
   },
   {
    "id": "p119969",
@@ -433192,10 +432385,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:11310)",
-   "provisional": true,
-   "mergedFrom": [
-    152360
-   ]
+   "provisional": true
   },
   {
    "id": "p120003",
@@ -434717,10 +433907,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:11391)",
-   "provisional": true,
-   "mergedFrom": [
-    151603
-   ]
+   "provisional": true
   },
   {
    "id": "p120055",
@@ -436768,10 +435955,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:11466)",
-   "provisional": true,
-   "mergedFrom": [
-    128610
-   ]
+   "provisional": true
   },
   {
    "id": "p120125",
@@ -437129,9 +436313,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:11482)",
    "provisional": true,
-   "mergedFrom": [
-    151611
-   ]
+   "nameVariants": true
   },
   {
    "id": "p120137",
@@ -438274,9 +437456,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:11532)",
    "provisional": true,
-   "mergedFrom": [
-    151634
-   ]
+   "nameVariants": true
   },
   {
    "id": "p120176",
@@ -439123,10 +438303,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:11580)",
-   "provisional": true,
-   "mergedFrom": [
-    128635
-   ]
+   "provisional": true
   },
   {
    "id": "p120205",
@@ -442073,9 +441250,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:11747)",
    "provisional": true,
-   "mergedFrom": [
-    128650
-   ]
+   "nameVariants": true
   },
   {
    "id": "p120307",
@@ -442575,10 +441750,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:11770)",
-   "provisional": true,
-   "mergedFrom": [
-    128659
-   ]
+   "provisional": true
   },
   {
    "id": "p120325",
@@ -452558,10 +451730,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:12393)",
-   "provisional": true,
-   "mergedFrom": [
-    151814
-   ]
+   "provisional": true
   },
   {
    "id": "p120673",
@@ -452853,10 +452022,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:12405)",
-   "provisional": true,
-   "mergedFrom": [
-    151826
-   ]
+   "provisional": true
   },
   {
    "id": "p120684",
@@ -457506,10 +456672,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3517)",
-   "provisional": true,
-   "mergedFrom": [
-    128213
-   ]
+   "provisional": true
   },
   {
    "id": "p120853",
@@ -458305,10 +457468,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3659)",
-   "provisional": true,
-   "mergedFrom": [
-    131964
-   ]
+   "provisional": true
   },
   {
    "id": "p120881",
@@ -458705,10 +457865,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3788)",
-   "provisional": true,
-   "mergedFrom": [
-    131372
-   ]
+   "provisional": true
   },
   {
    "id": "p120894",
@@ -459190,10 +458347,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3872)",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    131751
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p120911",
@@ -460222,11 +459376,8 @@
     "Independent"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:4358)",
-   "provisional": true,
-   "mergedFrom": [
-    132553
-   ]
+   "provenance": "keyed on the source's own candidate id (ie:5478)",
+   "provisional": true
   },
   {
    "id": "p120947",
@@ -460442,10 +459593,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:4421)",
-   "provisional": true,
-   "mergedFrom": [
-    151622
-   ]
+   "provisional": true
   },
   {
    "id": "p120955",
@@ -469907,10 +469055,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:5386)",
-   "provisional": true,
-   "mergedFrom": [
-    152315
-   ]
+   "provisional": true
   },
   {
    "id": "p121281",
@@ -478191,10 +477336,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:5944)",
-   "provisional": true,
-   "mergedFrom": [
-    128413
-   ]
+   "provisional": true
   },
   {
    "id": "p121569",
@@ -478285,10 +477427,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:5950)",
-   "provisional": true,
-   "mergedFrom": [
-    128415
-   ]
+   "provisional": true
   },
   {
    "id": "p121572",
@@ -479866,10 +479005,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:6047)",
-   "provisional": true,
-   "mergedFrom": [
-    128540
-   ]
+   "provisional": true
   },
   {
    "id": "p121626",
@@ -484352,10 +483488,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:6379)",
-   "provisional": true,
-   "mergedFrom": [
-    152258
-   ]
+   "provisional": true
   },
   {
    "id": "p121780",
@@ -491527,11 +490660,8 @@
     "Independent"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:8531)",
-   "provisional": true,
-   "mergedFrom": [
-    129183
-   ]
+   "provenance": "keyed on the source's own candidate id (ie:21668)",
+   "provisional": true
   },
   {
    "id": "p122031",
@@ -492005,9 +491135,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:8616)",
    "provisional": true,
-   "mergedFrom": [
-    152153
-   ]
+   "nameVariants": true
   },
   {
    "id": "p122047",
@@ -492218,10 +491346,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ie:21403)",
-   "provisional": true,
-   "mergedFrom": [
-    127632
-   ]
+   "provisional": true
   },
   {
    "id": "p122054",
@@ -493577,8 +492702,8 @@
     "martin connolly"
    ],
    "mergedFrom": [
-    154676,
-    154733
+    154801,
+    154869
    ]
   },
   {
@@ -494488,10 +493613,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:8952)",
-   "provisional": true,
-   "mergedFrom": [
-    131412
-   ]
+   "provisional": true
   },
   {
    "id": "p122131",
@@ -494697,10 +493819,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:8959)",
-   "provisional": true,
-   "mergedFrom": [
-    131413
-   ]
+   "provisional": true
   },
   {
    "id": "p122138",
@@ -497519,11 +496638,8 @@
     "Sinn Féin"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:9202)",
-   "provisional": true,
-   "mergedFrom": [
-    130915
-   ]
+   "provenance": "keyed on the source's own candidate id (ie:14381)",
+   "provisional": true
   },
   {
    "id": "p122235",
@@ -497963,10 +497079,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:9238)",
-   "provisional": true,
-   "mergedFrom": [
-    133050
-   ]
+   "provisional": true
   },
   {
    "id": "p122250",
@@ -500742,11 +499855,8 @@
     "Independent"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:9354)",
-   "provisional": true,
-   "mergedFrom": [
-    130751
-   ]
+   "provenance": "keyed on the source's own candidate id (ie:6945)",
+   "provisional": true
   },
   {
    "id": "p122345",
@@ -503230,10 +502340,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:9475)",
-   "provisional": true,
-   "mergedFrom": [
-    152366
-   ]
+   "provisional": true
   },
   {
    "id": "p122430",
@@ -503874,14 +502981,11 @@
     "Fine Gael",
     "Independent"
    ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:9512)",
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
    "nameKeyedRows": [
     "baby pereppadan"
-   ],
-   "mergedFrom": [
-    152389
    ]
   },
   {
@@ -504231,10 +503335,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:9534)",
-   "provisional": true,
-   "mergedFrom": [
-    152384
-   ]
+   "provisional": true
   },
   {
    "id": "p122465",
@@ -512153,7 +511254,7 @@
    "provenance": "keyed on the source's own candidate id (wikipedia:Edmund Haviland-Burke)",
    "provisional": true,
    "mergedFrom": [
-    154630
+    154753
    ]
   },
   {
@@ -513541,12 +512642,12 @@
     "Irish National Federation",
     "Irish Parliamentary"
    ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "keyedBy": "src",
+   "provenance": "keyed on the source's own candidate id (wikipedia:Arthur O'Connor (politician, born 1844))",
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    122885
+    154802
    ]
   },
   {
@@ -515709,7 +514810,7 @@
    "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    154658
+    154782
    ]
   },
   {
@@ -563853,7 +562954,7 @@
    "provenance": "keyed on the source's own candidate id (wikipedia:John Henry North)",
    "provisional": true,
    "mergedFrom": [
-    154661
+    154785
    ]
   },
   {
@@ -578454,7 +577555,7 @@
     "henry kenny"
    ],
    "mergedFrom": [
-    154732
+    154868
    ]
   },
   {
@@ -578787,10 +577888,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3121)",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    132152
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p127467",
@@ -579726,10 +578824,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3313)",
-   "provisional": true,
-   "mergedFrom": [
-    132453
-   ]
+   "provisional": true
   },
   {
    "id": "p127538",
@@ -579819,10 +578914,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3386)",
-   "provisional": true,
-   "mergedFrom": [
-    131723
-   ]
+   "provisional": true
   },
   {
    "id": "p127541",
@@ -580162,10 +579254,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3112)",
-   "provisional": true,
-   "mergedFrom": [
-    132886
-   ]
+   "provisional": true
   },
   {
    "id": "p127571",
@@ -580583,10 +579672,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3318)",
-   "provisional": true,
-   "mergedFrom": [
-    131374
-   ]
+   "provisional": true
   },
   {
    "id": "p127585",
@@ -580738,10 +579824,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3348)",
-   "provisional": true,
-   "mergedFrom": [
-    133128
-   ]
+   "provisional": true
   },
   {
    "id": "p127590",
@@ -580984,10 +580067,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3419)",
-   "provisional": true,
-   "mergedFrom": [
-    132548
-   ]
+   "provisional": true
   },
   {
    "id": "p127598",
@@ -581471,10 +580551,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3625)",
-   "provisional": true,
-   "mergedFrom": [
-    129674
-   ]
+   "provisional": true
   },
   {
    "id": "p127615",
@@ -581984,10 +581061,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:8629)",
-   "provisional": true,
-   "mergedFrom": [
-    132975
-   ]
+   "provisional": true
   },
   {
    "id": "p127633",
@@ -583466,10 +582540,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:10591)",
-   "provisional": true,
-   "mergedFrom": [
-    132466
-   ]
+   "provisional": true
   },
   {
    "id": "p127773",
@@ -583569,11 +582640,8 @@
     "Workers'"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:1678)",
-   "provisional": true,
-   "mergedFrom": [
-    129292
-   ]
+   "provenance": "keyed on the source's own candidate id (ie:2784)",
+   "provisional": true
   },
   {
    "id": "p127776",
@@ -583702,10 +582770,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3094)",
-   "provisional": true,
-   "mergedFrom": [
-    132225
-   ]
+   "provisional": true
   },
   {
    "id": "p127780",
@@ -583794,11 +582859,8 @@
     "Non party/Independent"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:3105)",
-   "provisional": true,
-   "mergedFrom": [
-    131051
-   ]
+   "provenance": "keyed on the source's own candidate id (ie:3133)",
+   "provisional": true
   },
   {
    "id": "p127783",
@@ -584536,10 +583598,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3162)",
-   "provisional": true,
-   "mergedFrom": [
-    132989
-   ]
+   "provisional": true
   },
   {
    "id": "p127808",
@@ -585052,11 +584111,8 @@
     "Non party/Independent"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:3208)",
-   "provisional": true,
-   "mergedFrom": [
-    131062
-   ]
+   "provenance": "keyed on the source's own candidate id (ie:3883)",
+   "provisional": true
   },
   {
    "id": "p127825",
@@ -586086,10 +585142,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3339)",
-   "provisional": true,
-   "mergedFrom": [
-    131997
-   ]
+   "provisional": true
   },
   {
    "id": "p127860",
@@ -586269,10 +585322,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3350)",
-   "provisional": true,
-   "mergedFrom": [
-    133021
-   ]
+   "provisional": true
   },
   {
    "id": "p127866",
@@ -586420,10 +585470,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3365)",
-   "provisional": true,
-   "mergedFrom": [
-    132501
-   ]
+   "provisional": true
   },
   {
    "id": "p127871",
@@ -587017,11 +586064,8 @@
     "Workers' Party"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:3421)",
-   "provisional": true,
-   "mergedFrom": [
-    128571
-   ]
+   "provenance": "keyed on the source's own candidate id (ie:175)",
+   "provisional": true
   },
   {
    "id": "p127891",
@@ -587053,10 +586097,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3424)",
-   "provisional": true,
-   "mergedFrom": [
-    132691
-   ]
+   "provisional": true
   },
   {
    "id": "p127892",
@@ -587146,10 +586187,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3429)",
-   "provisional": true,
-   "mergedFrom": [
-    132757
-   ]
+   "provisional": true
   },
   {
    "id": "p127895",
@@ -587268,10 +586306,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3440)",
-   "provisional": true,
-   "mergedFrom": [
-    132875
-   ]
+   "provisional": true
   },
   {
    "id": "p127899",
@@ -587362,10 +586397,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3447)",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    128157
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p127902",
@@ -589377,10 +588409,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3573)",
-   "provisional": true,
-   "mergedFrom": [
-    132521
-   ]
+   "provisional": true
   },
   {
    "id": "p127971",
@@ -589643,11 +588672,8 @@
     "Progressive Democrats"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:3599)",
-   "provisional": true,
-   "mergedFrom": [
-    131076
-   ]
+   "provenance": "keyed on the source's own candidate id (ie:552)",
+   "provisional": true
   },
   {
    "id": "p127980",
@@ -590377,10 +589403,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3662)",
-   "provisional": true,
-   "mergedFrom": [
-    131966
-   ]
+   "provisional": true
   },
   {
    "id": "p128005",
@@ -590528,10 +589551,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3672)",
-   "provisional": true,
-   "mergedFrom": [
-    132177
-   ]
+   "provisional": true
   },
   {
    "id": "p128010",
@@ -590563,10 +589583,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3673)",
-   "provisional": true,
-   "mergedFrom": [
-    132188
-   ]
+   "provisional": true
   },
   {
    "id": "p128011",
@@ -591152,10 +590169,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3711)",
-   "provisional": true,
-   "mergedFrom": [
-    132513
-   ]
+   "provisional": true
   },
   {
    "id": "p128031",
@@ -591192,9 +590206,7 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3713)",
    "provisional": true,
-   "mergedFrom": [
-    132110
-   ]
+   "nameVariants": true
   },
   {
    "id": "p128032",
@@ -591668,10 +590680,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3744)",
-   "provisional": true,
-   "mergedFrom": [
-    132479
-   ]
+   "provisional": true
   },
   {
    "id": "p128048",
@@ -591879,10 +590888,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3757)",
-   "provisional": true,
-   "mergedFrom": [
-    132175
-   ]
+   "provisional": true
   },
   {
    "id": "p128055",
@@ -592438,10 +591444,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3790)",
-   "provisional": true,
-   "mergedFrom": [
-    131373
-   ]
+   "provisional": true
   },
   {
    "id": "p128074",
@@ -593174,12 +592177,9 @@
     "Non party/Independent"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:5478)",
+   "provenance": "keyed on the source's own candidate id (ie:22163)",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    129217
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p128099",
@@ -593328,10 +592328,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:6130)",
-   "provisional": true,
-   "mergedFrom": [
-    132205
-   ]
+   "provisional": true
   },
   {
    "id": "p128105",
@@ -593573,11 +592570,8 @@
     "Non party/Independent"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:8579)",
-   "provisional": true,
-   "mergedFrom": [
-    130672
-   ]
+   "provenance": "keyed on the source's own candidate id (ie:14342)",
+   "provisional": true
   },
   {
    "id": "p128114",
@@ -593903,10 +592897,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:9170)",
-   "provisional": true,
-   "mergedFrom": [
-    132288
-   ]
+   "provisional": true
   },
   {
    "id": "p128125",
@@ -708216,7 +707207,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p135190",
@@ -708680,7 +707672,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p135216",
@@ -709996,7 +708989,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p135278",
@@ -729502,8 +728496,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1914,
    "lastYear": 1958,
    "bodies": [
@@ -785217,8 +784211,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
+   "candidacies": 8,
+   "contests": 8,
    "firstYear": 1926,
    "lastYear": 1961,
    "bodies": [
@@ -786813,10 +785807,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 7,
+   "contests": 7,
    "firstYear": 1923,
-   "lastYear": 1946,
+   "lastYear": 1949,
    "bodies": [
     "lisburn-borough-council"
    ],
@@ -786897,8 +785891,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 11,
-   "contests": 11,
+   "candidacies": 12,
+   "contests": 12,
    "firstYear": 1920,
    "lastYear": 1955,
    "bodies": [
@@ -787095,8 +786089,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 12,
-   "contests": 12,
+   "candidacies": 13,
+   "contests": 13,
    "firstYear": 1920,
    "lastYear": 1961,
    "bodies": [
@@ -791240,8 +790234,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1946,
    "lastYear": 1961,
    "bodies": [
@@ -794616,9 +793610,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1946,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1939,
    "lastYear": 1958,
    "bodies": [
     "lisburn-borough-council"
@@ -802534,9 +801528,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1934,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1923,
    "lastYear": 1934,
    "bodies": [
     "londonderry-county-borough-council"
@@ -803454,9 +802448,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 7,
-   "contests": 7,
-   "firstYear": 1930,
+   "candidacies": 8,
+   "contests": 8,
+   "firstYear": 1924,
    "lastYear": 1949,
    "bodies": [
     "cookstown-urban-district-council",
@@ -805036,8 +804030,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1946,
    "lastYear": 1952,
    "bodies": [
@@ -808969,12 +807963,13 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1929,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1923,
    "lastYear": 1931,
    "bodies": [
     "bangor-borough-council",
+    "londonderry-county-borough-council",
     "londonderry-county-borough-council-aldermen"
    ],
    "parties": [
@@ -809737,8 +808732,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1936,
    "lastYear": 1955,
    "bodies": [
@@ -812553,9 +811548,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1946,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1939,
    "lastYear": 1946,
    "bodies": [
     "lisburn-borough-council"
@@ -812721,8 +811716,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1939,
    "lastYear": 1952,
    "bodies": [
@@ -813543,9 +812538,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1952,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1949,
    "lastYear": 1955,
    "bodies": [
     "lisburn-borough-council"
@@ -815308,9 +814303,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1952,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1939,
    "lastYear": 1955,
    "bodies": [
     "lisburn-borough-council"
@@ -821942,9 +820937,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1952,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1949,
    "lastYear": 1952,
    "bodies": [
     "lisburn-borough-council"
@@ -824367,9 +823362,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1946,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1939,
    "lastYear": 1946,
    "bodies": [
     "lisburn-borough-council"
@@ -826480,8 +825475,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 7,
-   "contests": 7,
+   "candidacies": 8,
+   "contests": 8,
    "firstYear": 1920,
    "lastYear": 1952,
    "bodies": [
@@ -841058,10 +840053,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1936,
-   "lastYear": 1936,
+   "lastYear": 1939,
    "bodies": [
     "lisburn-borough-council"
    ],
@@ -842021,9 +841016,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1952,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1949,
    "lastYear": 1952,
    "bodies": [
     "lisburn-borough-council"
@@ -845381,9 +844376,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1952,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1949,
    "lastYear": 1955,
    "bodies": [
     "lisburn-borough-council"
@@ -855723,9 +854718,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1949,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1946,
    "lastYear": 1949,
    "bodies": [
     "ballymena-borough-council"
@@ -855777,9 +854772,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1934,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1923,
    "lastYear": 1936,
    "bodies": [
     "londonderry-county-borough-council",
@@ -857706,10 +856701,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1934,
-   "lastYear": 1934,
+   "lastYear": 1937,
    "bodies": [
     "cookstown-urban-district-council"
    ],
@@ -858991,10 +857986,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1932,
-   "lastYear": 1932,
+   "lastYear": 1939,
    "bodies": [
     "lisburn-borough-council"
    ],
@@ -862317,9 +861312,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1952,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1949,
    "lastYear": 1955,
    "bodies": [
     "lisburn-borough-council"
@@ -888503,10 +887498,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1925,
-   "lastYear": 1925,
+   "lastYear": 1937,
    "bodies": [
     "cookstown-urban-district-council"
    ],
@@ -923592,12 +922587,13 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1955,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1949,
    "lastYear": 1958,
    "bodies": [
-    "antrim-county-council"
+    "antrim-county-council",
+    "lisburn-borough-council"
    ],
    "parties": [],
    "keyedBy": "id",
@@ -1012354,12 +1011350,13 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1946,
    "lastYear": 1946,
    "bodies": [
-    "antrim-county-council"
+    "antrim-county-council",
+    "ballymena-borough-council"
    ],
    "parties": [],
    "keyedBy": "id",
@@ -1024730,7 +1023727,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p148193",
@@ -1035981,9 +1034979,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1952,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1946,
    "lastYear": 1958,
    "bodies": [
     "ballymena-borough-council"
@@ -1039424,9 +1038422,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1949,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1946,
    "lastYear": 1958,
    "bodies": [
     "ballymena-borough-council"
@@ -1044378,9 +1043376,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1949,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1946,
    "lastYear": 1952,
    "bodies": [
     "ballymena-borough-council"
@@ -1059855,9 +1058853,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1949,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1946,
    "lastYear": 1949,
    "bodies": [
     "ballymena-borough-council"
@@ -1084074,13 +1083072,10 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ie:22125)",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "nameKeyedRows": [
     "patrick mckenna"
    ],
-   "mergedFrom": [
-    154735
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p154707",
@@ -1084109,6 +1083104,362 @@
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p154786",
+   "personId": 154786,
+   "displayName": "Joseph Newell",
+   "aliases": [
+    "Joseph Newell"
+   ],
+   "matchKeys": [
+    "joseph newell"
+   ],
+   "sourceIds": [
+    "Joseph Newell|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1924,
+   "lastYear": 1927,
+   "bodies": [
+    "tyrone-county-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p154809",
+   "personId": 154809,
+   "displayName": "Robert M'Ananey",
+   "aliases": [
+    "Robert M'Ananey"
+   ],
+   "matchKeys": [
+    "robert m ananey"
+   ],
+   "sourceIds": [
+    "Robert M'Ananey|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1923,
+   "lastYear": 1923,
+   "bodies": [
+    "londonderry-county-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p154820",
+   "personId": 154820,
+   "displayName": "Con Doherty",
+   "aliases": [
+    "Con Doherty"
+   ],
+   "matchKeys": [
+    "con doherty"
+   ],
+   "sourceIds": [
+    "Con Doherty|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1923,
+   "lastYear": 1923,
+   "bodies": [
+    "londonderry-county-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p154826",
+   "personId": 154826,
+   "displayName": "F. Walker",
+   "aliases": [
+    "F. Walker"
+   ],
+   "matchKeys": [
+    "f walker"
+   ],
+   "sourceIds": [
+    "F. Walker|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1939,
+   "lastYear": 1939,
+   "bodies": [
+    "lisburn-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p154835",
+   "personId": 154835,
+   "displayName": "J. L. Stirling",
+   "aliases": [
+    "J. L. Stirling"
+   ],
+   "matchKeys": [
+    "j l stirling"
+   ],
+   "sourceIds": [
+    "J. L. Stirling|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1946,
+   "lastYear": 1946,
+   "bodies": [
+    "ballymena-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p154836",
+   "personId": 154836,
+   "displayName": "J. M. Cumins",
+   "aliases": [
+    "J. M. Cumins"
+   ],
+   "matchKeys": [
+    "j m cumins"
+   ],
+   "sourceIds": [
+    "J. M. Cumins|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1939,
+   "lastYear": 1939,
+   "bodies": [
+    "lisburn-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p154837",
+   "personId": 154837,
+   "displayName": "John J. Dougan",
+   "aliases": [
+    "John J. Dougan"
+   ],
+   "matchKeys": [
+    "john j dougan"
+   ],
+   "sourceIds": [
+    "John J. Dougan|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1939,
+   "lastYear": 1939,
+   "bodies": [
+    "lisburn-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p154838",
+   "personId": 154838,
+   "displayName": "L. J. Woodside",
+   "aliases": [
+    "L. J. Woodside"
+   ],
+   "matchKeys": [
+    "l j woodside"
+   ],
+   "sourceIds": [
+    "L. J. Woodside|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1946,
+   "lastYear": 1946,
+   "bodies": [
+    "ballymena-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p154840",
+   "personId": 154840,
+   "displayName": "Michael Cosgrove",
+   "aliases": [
+    "Michael Cosgrove"
+   ],
+   "matchKeys": [
+    "michael cosgrove"
+   ],
+   "sourceIds": [
+    "Michael Cosgrove|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1923,
+   "lastYear": 1923,
+   "bodies": [
+    "londonderry-county-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p154845",
+   "personId": 154845,
+   "displayName": "Robert Lenzie",
+   "aliases": [
+    "Robert Lenzie"
+   ],
+   "matchKeys": [
+    "robert lenzie"
+   ],
+   "sourceIds": [
+    "Robert Lenzie|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1946,
+   "lastYear": 1946,
+   "bodies": [
+    "ballymena-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p154846",
+   "personId": 154846,
+   "displayName": "S. D. B. Hanna",
+   "aliases": [
+    "S. D. B. Hanna"
+   ],
+   "matchKeys": [
+    "s d b hanna"
+   ],
+   "sourceIds": [
+    "S. D. B. Hanna|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1939,
+   "lastYear": 1939,
+   "bodies": [
+    "lisburn-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p154849",
+   "personId": 154849,
+   "displayName": "Samuel Cowan",
+   "aliases": [
+    "Samuel Cowan"
+   ],
+   "matchKeys": [
+    "samuel cowan"
+   ],
+   "sourceIds": [
+    "Samuel Cowan|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1937,
+   "lastYear": 1937,
+   "bodies": [
+    "cookstown-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p154867",
+   "personId": 154867,
+   "displayName": "William P. Bullick",
+   "aliases": [
+    "William P. Bullick"
+   ],
+   "matchKeys": [
+    "william p bullick"
+   ],
+   "sourceIds": [
+    "William P. Bullick|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1939,
+   "lastYear": 1939,
+   "bodies": [
+    "lisburn-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
   },
   {
    "id": "p900001",
@@ -1086039,9 +1085390,14 @@
   }
  ],
  "corrections": {
-  "mergedIds": 3,
+  "mergedIds": 122,
   "classes": {
-   "SAME-SEAT-SEQUENCE": 3
+   "WIKIPEDIA-BIOGRAPHY": 10,
+   "IE-EI-CROSSWALK": 3,
+   "FORUM-DUPLICATE": 113,
+   "LGR-2014": 3,
+   "SAME-SEAT-SEQUENCE": 2,
+   "STRAY-INTO-CURATED": 4
   },
   "note": "Only the two mechanically-caused classes were merged; see scripts/ingest/persons/merge_person_ids.py for the tests applied."
  }
