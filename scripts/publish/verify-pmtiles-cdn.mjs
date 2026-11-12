@@ -85,7 +85,7 @@ for (const [index, asset] of assets.entries()) {
       checkedAt
     });
   } catch (err) {
-    results.push({ layerId: asset.layerId, cdnUrl: asset.cdnUrl, ok: false, error: String(err.message).slice(0, 1000), checkedAt });
+    results.push({ layerId: asset.layerId, cdnUrl: asset.cdnUrl, ok: false, error: String(/** @type {Error} */ (err).message).slice(0, 1000), checkedAt });
   }
 }
 

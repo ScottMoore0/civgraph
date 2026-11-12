@@ -128,7 +128,7 @@ async function compareAll() {
     rows.push({
       path: 'deployed commit',
       ok: false,
-      why: `/build/deploy-stamp.json unavailable: ${error.message}`
+      why: `/build/deploy-stamp.json unavailable: ${/** @type {Error} */ (error).message}`
         + ' -- expected until the first deploy that includes it'
     });
   }

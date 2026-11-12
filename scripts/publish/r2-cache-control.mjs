@@ -185,7 +185,7 @@ async function handle(obj) {
     head = await s3.send(new HeadObjectCommand({ Bucket: R2_BUCKET, Key: obj.Key }));
   } catch (error) {
     stats.failed += 1;
-    problems.push(`${obj.Key}: HEAD failed (${error.name})`);
+    problems.push(`${obj.Key}: HEAD failed (${/** @type {Error} */ (error).name})`);
     return;
   }
 
@@ -221,7 +221,7 @@ async function handle(obj) {
     if (stats.updated % 500 === 0) console.log(`  ${stats.updated} updated...`);
   } catch (error) {
     stats.failed += 1;
-    problems.push(`${obj.Key}: copy failed (${error.name}: ${error.message})`);
+    problems.push(`${obj.Key}: copy failed (${/** @type {Error} */ (error).name}: ${/** @type {Error} */ (error).message})`);
   }
 }
 

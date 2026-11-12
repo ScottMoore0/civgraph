@@ -12,10 +12,13 @@ import { REPO_ROOT } from '../../scripts/lib/typecheck.mjs';
 const FOLDERS = ['scripts/publish', 'scripts/i18n', 'scripts/maps', 'scripts/dev'];
 const config = JSON.parse(readFileSync(path.join(REPO_ROOT, 'config', 'tsconfig.pipeline.json'), 'utf8').replaceAll('"../', '"'));
 
-test('tsconfig.pipeline.json checks the pipeline folders with noImplicitAny on', () => {
+test('tsconfig.pipeline.json checks the pipeline folders under full strict, noImplicitAny on', () => {
   assert.equal(config.compilerOptions.checkJs, true);
   assert.equal(config.compilerOptions.noImplicitAny, true);
   assert.equal(config.compilerOptions.strictNullChecks, true);
+  // full strict since 12 Nov 2026 (stream rf8-types)
+  assert.equal(config.compilerOptions.strict, true, 'tsconfig.pipeline.json turned strict off');
+  for (const flag of ['useUnknownInCatchVariables', 'strictPropertyInitialization', 'strictBuiltinIteratorReturn']) assert.equal(config.compilerOptions[flag], true, flag);
   for (const folder of FOLDERS) assert.ok(config.include.includes(`${folder}/**/*.mjs`), folder);
 });
 

@@ -144,7 +144,7 @@ async function uploadOne(file, index) {
     await withRetries(() => r2Put(key, body, contentType), 5);
     return { index, file: relativePath, key, bytes, contentType, ok: true, status: 'uploaded' };
   } catch (error) {
-    return { index, file: relativePath, key, bytes, contentType, ok: false, status: 'upload-failed', error: String(error.message || error).slice(0, 2000) };
+    return { index, file: relativePath, key, bytes, contentType, ok: false, status: 'upload-failed', error: String(/** @type {Error} */ (error).message || error).slice(0, 2000) };
   }
 }
 
@@ -200,7 +200,7 @@ async function withRetries(fn, attempts = 4) {
   for (let attempt = 1; attempt <= attempts; attempt += 1) {
     try { return await fn(); } catch (error) {
       lastError = error;
-      const message = String(error?.message || error);
+      const message = String(/** @type {Error | null | undefined} */ (error)?.message || error);
       if (attempt >= attempts) break;
       const delay = Math.min(1000 * attempt * attempt, 8000);
       if (/429|rate|timeout|fetch failed|ECONNRESET|ETIMEDOUT/i.test(message)) await sleep(delay);
@@ -252,7 +252,7 @@ function readCompletedResults(reportPath) {
       ? report.results.filter((/** @type {ThumbnailUploadResult | null} */ item) => item?.ok && item.key)
       : [];
   } catch (error) {
-    console.warn(`Could not read previous upload report for resume: ${String(error.message || error)}`);
+    console.warn(`Could not read previous upload report for resume: ${String(/** @type {Error} */ (error).message || error)}`);
     return [];
   }
 }

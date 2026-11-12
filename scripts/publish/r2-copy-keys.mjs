@@ -158,8 +158,9 @@ async function head(client, commands, bucket, key) {
     const res = await client.send(new commands.HeadObjectCommand({ Bucket: bucket, Key: key }));
     return { size: Number(res.ContentLength), etag: res.ETag || null };
   } catch (error) {
-    const status = error?.$metadata?.httpStatusCode;
-    if (status === 404 || error?.name === 'NotFound' || error?.name === 'NoSuchKey') return null;
+    const failure = /** @type {{ $metadata?: { httpStatusCode?: number }, name?: string } | null | undefined} */ (error);
+    const status = failure?.$metadata?.httpStatusCode;
+    if (status === 404 || failure?.name === 'NotFound' || failure?.name === 'NoSuchKey') return null;
     throw error;
   }
 }

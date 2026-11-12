@@ -123,7 +123,7 @@ for (const [index, asset] of assets.entries()) {
     ]);
     results.push({ layerId: asset.layerId, targetKey: asset.targetKey, ok: true, status: 'uploaded', bytes, output: output.slice(-1000) });
   } catch (err) {
-    results.push({ layerId: asset.layerId, targetKey: asset.targetKey, ok: false, status: 'upload-failed', bytes, error: String(err.message).slice(0, 2000) });
+    results.push({ layerId: asset.layerId, targetKey: asset.targetKey, ok: false, status: 'upload-failed', bytes, error: String(/** @type {Error} */ (err).message).slice(0, 2000) });
   }
   writeReport();
 }
@@ -179,7 +179,7 @@ async function uploadMvtDirectory(asset, assetIndex, assetCount) {
         ok: false,
         status: 'upload-failed',
         bytes: fileBytes,
-        error: String(err.message).slice(0, 2000)
+        error: String(/** @type {Error} */ (err).message).slice(0, 2000)
       });
     }
     if ((fileIndex + 1) % 50 === 0) writeReport();
@@ -235,7 +235,7 @@ function writeReport() {
       writeFileSync(REPORT_PATH, `${JSON.stringify(report, null, 2)}\n`);
       break;
     } catch (err) {
-      if (attempt === 5) console.warn(`could not write ${REPORT_PATH}: ${err.code || err.message}`);
+      if (attempt === 5) console.warn(`could not write ${REPORT_PATH}: ${/** @type {NodeJS.ErrnoException} */ (err).code || /** @type {Error} */ (err).message}`);
       else Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 500 * attempt);
     }
   }
