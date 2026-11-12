@@ -4,18 +4,17 @@
 import { bodyElections, electionIndex } from '../lib/api.js';
 import { appUrl, esc, fmtDate } from '../lib/format.js';
 import { foldSearchText, siteNumber } from '../../../pkg/core/src/format.js';
+import { ELECTIONS_HOME_ORDER, electionsHomeGroup } from '../../../pkg/registries/src/browser/election-group-lists.mjs';
 
-/** The group a body belongs to on the home page. */
-/** @param {string} slug */
+/**
+ * The group a body belongs to on the home page: the election-bodies registry's electionsHome groups
+ * (data/registries/election-bodies.json), in their display order.
+ * @param {string} slug
+ */
 export function bodyGroup(slug) {
-  if (/referendum|recall/.test(slug)) return 'Referendums';
-  if (/(council|commissioners)/.test(slug)) return 'Northern Ireland councils before 1973';
-  // arch-ok R6: slug prefixes the home page groups by, as the patterns around it do, not a list of bodies
-  if (/^(local-government|ireland-local)/.test(slug)) return 'Local government';
-  if (/(leadership|nomination)/.test(slug)) return 'Party contests';
-  return 'Parliaments, assemblies and offices';
+  return electionsHomeGroup(slug);
 }
-const GROUP_ORDER = ['Parliaments, assemblies and offices', 'Local government', 'Referendums', 'Northern Ireland councils before 1973', 'Party contests'];
+const GROUP_ORDER = ELECTIONS_HOME_ORDER;
 
 /** @param {HTMLElement} root @param {import('../lib/route.js').Route} route @param {import('../app.js').ViewContext} ctx */
 export async function render(root, route, ctx) {
