@@ -45,6 +45,10 @@ export default {
    ],
    "rejected": [],
    "applied": []
-  }
+  },
+  "decisions": [
+   "approved",
+   "rejected"
+  ]
  }
 };

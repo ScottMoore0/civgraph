@@ -31,9 +31,10 @@ import statuses from '../../registries/src/browser/statuses.mjs';
 // generated from data/registries/statuses.json machine `contribution`), not a copy kept here. The
 // slice is pure data; the statuses and decisions this module types are checked against it on load,
 // so a registry edit that renames a status fails loudly instead of silently changing decide.js.
-const { initial, transitions } = statuses.contribution;
+const { initial, transitions, decisions } = statuses.contribution;
+// arch-ok R6: the statuses the JSDoc types above name, held against the registry slice on load
 const KNOWN = ['pending-review', 'approved', 'rejected', 'applied'];
-if (initial !== 'pending-review' || Object.keys(transitions).sort().join() !== [...KNOWN].sort().join()) {
+if (initial !== 'pending-review' || Object.keys(transitions).sort().join() !== [...KNOWN].sort().join() || decisions.some((d) => !KNOWN.includes(d))) {
   throw new Error('contribution-status: the registry slice no longer has the statuses this module types');
 }
 
@@ -45,7 +46,7 @@ export const CONTRIBUTION_TRANSITIONS = Object.freeze(/** @type {Record<Contribu
   Object.fromEntries(Object.entries(transitions).map(([from, to]) => [from, Object.freeze([...to])]))));
 
 /** What an administrator may decide (POST /_api/contributions/decide). */
-export const DECISIONS = Object.freeze(/** @type {ContributionDecision[]} */ (['approved', 'rejected']));
+export const DECISIONS = Object.freeze(/** @type {ContributionDecision[]} */ ([...decisions]));
 
 /** @type {(value: unknown) => value is ContributionStatus} */
 export const isContributionStatus = (value) => typeof value === 'string' && Object.hasOwn(CONTRIBUTION_TRANSITIONS, value);

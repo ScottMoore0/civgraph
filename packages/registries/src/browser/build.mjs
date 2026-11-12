@@ -79,6 +79,8 @@ export function browserSlices(root = REPO_ROOT) {
       contribution: {
         initial: /** @type {StatusMachineFields} */ (statuses.machines.contribution).initial,
         transitions: structuredClone(/** @type {StatusMachineFields} */ (statuses.machines.contribution).transitions),
+        // What an administrator may decide (packages/api/src/contribution-status.js DECISIONS).
+        decisions: [.../** @type {string[]} */ (/** @type {StatusMachineFields} */ (statuses.machines.contribution).decisions)],
       }
     },
     'layer-types.json': {
