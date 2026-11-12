@@ -16,8 +16,16 @@ const REPORT_PATH = resolve(ROOT, 'render/metadata/cdn-manifest-validation-repor
 const RANGE_REPORT_PATH = resolve(ROOT, 'render/metadata/cdn-range-report.json');
 const MAP_CONTROLLER_PATH = resolve(ROOT, 'packages/map/src/renderer/map-controller.js');
 
+/**
+ * @typedef {{ id: string, sourceMapId?: string, sourceType?: string, aliasOf?: string, tileUrl?: string, sourceFile?: string, bounds?: unknown, tilesFallback?: string, tilePackage?: { byteRangeVerifiedAt?: string } }} RenderLayer
+ * @typedef {{ kind?: string, layerId?: string, localPath?: string, targetKey?: string, cdnUrl?: string, bytes?: number }} CdnAsset
+ */
+/** @type {{ layers?: RenderLayer[] }} */
 const metadata = JSON.parse(readFileSync(METADATA_PATH, 'utf8'));
+// both generated files carry generatedAt
+/** @type {{ assets?: CdnAsset[], generatedAt: string } | null} */
 const manifest = existsSync(MANIFEST_PATH) ? JSON.parse(readFileSync(MANIFEST_PATH, 'utf8')) : null;
+/** @type {{ results?: { layerId: string, ok?: boolean }[], generatedAt: string } | null} */
 const rangeReport = existsSync(RANGE_REPORT_PATH) ? JSON.parse(readFileSync(RANGE_REPORT_PATH, 'utf8')) : null;
 const errors = [];
 const warnings = [];
@@ -142,11 +150,11 @@ function listLocalPmtiles() {
     .filter((path) => statSync(resolve(ROOT, path)).isFile());
 }
 
-function normalize(value) {
+function normalize(/** @type {unknown} */ value) {
   return String(value || '').replaceAll('\\', '/').replace(/^\/+/, '');
 }
 
-function isResolvedRoiCountiesLayer(layer) {
+function isResolvedRoiCountiesLayer(/** @type {RenderLayer} */ layer) {
   return (layer.id === 'roi-counties-2011-vector' || layer.sourceMapId === 'roi-counties-2011')
     && layer.sourceType === 'pmtiles'
     && /^https:\/\/data\.civgraph\.net\/data\/maps\/test\/pmtiles\/generated\/roi-counties-2011-vector-test\.pmtiles$/i.test(layer.tileUrl || '')
@@ -154,6 +162,10 @@ function isResolvedRoiCountiesLayer(layer) {
     && isValidBounds(layer.bounds, layer);
 }
 
+/**
+ * @param {unknown} bounds
+ * @param {RenderLayer | null} [layer]
+ */
 function isValidBounds(bounds, layer = null) {
   if (!Array.isArray(bounds) || bounds.length !== 2) return false;
   const [[south, west], [north, east]] = bounds;
