@@ -97,7 +97,7 @@ export async function mapData(el, mode, opt = {}) {
   return { colours, labels, legend, table, matched: areas.length, total: (summary.results || []).length };
 }
 
-const legendHtml = (/** @type {Array<{ colour: string, label: string }>} */ legend) => `<div class="el-legend">${legend.map((l) => `<span class="cg-party"><span class="cg-party__swatch" style="--party-colour:${esc(l.colour)}" aria-hidden="true"></span>${esc(l.label)}</span>`).join('')}</div>`;
+const legendHtml = (/** @type {Array<{ colour: string, label: string }>} */ legend) => `<div class="cg-legend cg-legend--chips">${legend.map((l) => `<span class="cg-party"><span class="cg-party__swatch" style="--party-colour:${esc(l.colour)}" aria-hidden="true"></span>${esc(l.label)}</span>`).join('')}</div>`;
 
 /**
  * @param {HTMLElement} root

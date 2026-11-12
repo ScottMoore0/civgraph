@@ -135,7 +135,72 @@ function wireSpecimens() {
   }
 }
 
+/**
+ * The apps' own components (route.js APP_SPECIMENS): each host gets an iframe, a document of its
+ * own with the shell's sheets and its app's, so the app's rules apply as on its pages (its element
+ * rules and its `:root[data-theme]` dark rules) and never reach the gallery. The frame shows the
+ * host's <template> markup, or what the host's module's drawSpecimen() draws, and follows the
+ * gallery's theme. The host is marked data-ready="true" when drawn (the visual spec waits for it),
+ * or data-ready="failed".
+ */
+async function drawIslands() {
+  const hosts = /** @type {NodeListOf<HTMLElement>} */ (document.querySelectorAll('[data-gallery-island]'));
+  /** @type {HTMLIFrameElement[]} */
+  const frames = [];
+  await Promise.all([...hosts].map(async (host) => {
+    try {
+      const sheets = /** @type {string[]} */ (JSON.parse(host.dataset.stylesheets || '[]'));
+      const template = host.querySelector('template');
+      const frame = document.createElement('iframe');
+      frame.className = 'cg-gallery__frame';
+      frame.title = `${host.closest('section')?.querySelector('h3')?.textContent || 'App component'} (specimen)`;
+      const head = sheets.map((href) => `<link rel="stylesheet" href="${href}">`).join('');
+      frame.srcdoc = `<!doctype html><html lang="en"><head><meta charset="utf-8"><style>body { margin: 0; padding: var(--space-3); background: var(--surface); }</style>${head}</head><body><div id="specimen" class="${host.dataset.frameClass || ''}">${template ? template.innerHTML : ''}</div></body></html>`;
+      const loaded = new Promise((resolve) => frame.addEventListener('load', resolve, { once: true }));
+      host.append(frame);
+      await loaded;
+      const doc = /** @type {Document} */ (frame.contentDocument);
+      // (The frame's own body rule comes first, so an app's body rule wins, as on its page.)
+      // The attributes the app's own <body> has (PRONI Search: data-app="proni").
+      for (const [name, value] of Object.entries(/** @type {Record<string, string>} */ (JSON.parse(host.dataset.bodyAttributes || '{}')))) doc.body.setAttribute(name, value);
+      themeFrame(frame);
+      frames.push(frame);
+      if (host.dataset.module) {
+        const mod = await import(String(host.dataset.module));
+        mod.drawSpecimen(host.dataset.galleryIsland, /** @type {HTMLElement} */ (doc.getElementById('specimen')), JSON.parse(host.dataset.sample || '{}'));
+      }
+      await doc.fonts.ready;
+      fitFrame(frame);
+      // Late layout (a sheet's web font, a wrapped line) keeps the frame as tall as its content.
+      new ResizeObserver(() => fitFrame(frame)).observe(doc.body);
+      await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+      fitFrame(frame);
+      host.dataset.ready = 'true';
+    } catch (error) {
+      host.dataset.ready = 'failed';
+      console.error(`gallery: ${host.dataset.galleryIsland}`, error);
+    }
+  }));
+  // The header's theme toggle sets <html data-theme>: the frames follow it.
+  new MutationObserver(() => { for (const frame of frames) { themeFrame(frame); fitFrame(frame); } })
+    .observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+}
+
+/** @param {HTMLIFrameElement} frame */
+function themeFrame(frame) {
+  const html = frame.contentDocument?.documentElement;
+  const theme = document.documentElement.dataset.theme;
+  if (html && theme) html.dataset.theme = theme;
+}
+
+/** @param {HTMLIFrameElement} frame */
+function fitFrame(frame) {
+  const html = frame.contentDocument?.documentElement;
+  if (html) frame.style.height = `${html.scrollHeight}px`;
+}
+
 if (typeof document !== 'undefined') {
   wireSpecimens();
   drawTokens();
+  drawIslands();
 }

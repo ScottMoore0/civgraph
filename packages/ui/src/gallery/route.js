@@ -18,6 +18,8 @@ import { html, raw, toHtmlString } from '../../../core/src/html.js';
 import { page, sectionNav } from '../templates/shell.js';
 import { badges, citations, dataTable, facts, link, notice, partyChip } from '../templates/components/index.js';
 import colours from '../../../registries/src/browser/colours.mjs';
+import { siteNumber } from '../../../core/src/format.js';
+import { recordHtml, refWidget } from '../templates/proni/record-view.js';
 
 // The specimens' sample party colours: the colours registry's gallery.specimens (data/registries/colours.json).
 const SAMPLE = colours.gallery.specimens;
@@ -95,6 +97,10 @@ export const SPECIMENS = [
     render: () => raw('<ul class="cg-tabs__list"><li><a class="cg-tabs__tab" aria-current="true" href="#tabs">Results</a></li><li><a class="cg-tabs__tab" href="#tabs">Counts</a></li><li><a class="cg-tabs__tab" href="#tabs">Sources</a></li></ul>'),
   },
   {
+    id: 'tabs-bar', title: 'Tabs, bar variant (an app\'s own views)', stylesheet: 'tabs.css', templates: [],
+    render: () => raw('<nav class="cg-tabs__bar" aria-label="Sample app"><a href="#tabs-bar" aria-current="page">Elections</a><a href="#tabs-bar">Pivot tables</a><a href="#tabs-bar">Maps</a><a href="#tabs-bar">Compare</a></nav>'),
+  },
+  {
     id: 'toggle', title: 'Toggle switch', stylesheet: 'toggle.css', templates: [],
     render: () => raw('<label class="cg-toggle"><input type="checkbox" checked> Printed labels</label> <label class="cg-toggle"><input type="checkbox"> Hatching</label>'),
   },
@@ -127,10 +133,102 @@ export const SPECIMENS = [
     render: () => raw(`<ul class="cg-legend"><li class="cg-legend__item"><span class="cg-legend__swatch" style="background:${SAMPLE.partyOne}"></span>Party one</li><li class="cg-legend__item"><span class="cg-legend__swatch" style="background:${SAMPLE.partyTwo}"></span>Party two</li><li class="cg-legend__item"><span class="cg-legend__swatch" style="background:${SAMPLE.other}"></span>Other</li></ul>`),
   },
   {
+    id: 'legend-chips', title: 'Legend of party chips', stylesheet: 'legend.css', templates: ['partyChip'],
+    render: () => html`<div class="cg-legend cg-legend--chips">${partyChip('Party one', SAMPLE.partyOne)}${partyChip('Party two', SAMPLE.partyTwo)}${partyChip('Independent', null)}</div>`,
+  },
+  {
     id: 'chart', title: 'Chart frame', stylesheet: 'chart.css', templates: [],
     render: () => raw('<figure class="cg-chart"><svg viewBox="0 0 240 80" role="img" aria-label="Sample trend"><line x1="0" y1="70" x2="240" y2="70" stroke="var(--chart-baseline)"/><line x1="0" y1="40" x2="240" y2="40" stroke="var(--chart-grid)"/><polyline fill="none" stroke="var(--color-accent)" stroke-width="2" points="0,60 60,52 120,30 180,36 240,18"/></svg><figcaption>Share of the vote, sample data</figcaption></figure>'),
   },
 ];
+
+/**
+ * A PRONI record, made up: the shape /_api/proni/node answers.
+ * @type {import('../templates/proni/record-view.js').ProniNodeAnswer}
+ */
+const SAMPLE_PRONI_RECORD = {
+  item: {
+    ref: 'D0000/1/2', slug: 'd0000-1-2', fond: 'D0000', hasChildren: true, title: 'Sample estate papers: rentals and correspondence', level: 'Sub-fond', access: 'Open',
+    dates: '1850-1890', description: 'A made-up record for the gallery: rentals, leases and letters of a sample estate.',
+    digitalRecord: false, extractedDates: { display: '1850-1890', startYear: 1850, endYear: 1890, circa: true, estimated: false, bound: '', undated: false },
+  },
+  ancestors: [{ ref: 'D0000', slug: 'd0000', title: 'Sample family papers' }, { ref: 'D0000/1', slug: 'd0000-1', title: 'Estate papers' }],
+  nav: { parent: 'D0000/1', first: 'D0000/1/1', last: 'D0000/1/4', prev: 'D0000/1/1', next: 'D0000/1/3', total: 4, position: 2 },
+  children: [
+    { ref: 'D0000/1/2/1', slug: 'd0000-1-2-1', title: 'Rental, 1850', level: 'File', dates: '1850', hasChildren: false },
+    { ref: 'D0000/1/2/2', slug: 'd0000-1-2-2', title: 'Letters, 1851-1860', level: 'File', dates: '1851-1860', hasChildren: false },
+  ],
+  childCount: 2,
+};
+
+/**
+ * The apps' own components (REFACTOR-PLAN.md G-4), each drawn in a frame of its own that loads the
+ * shell's token, base and component sheets and its app's stylesheet, so the app's rules apply as on
+ * its pages (dark rules on :root included), while its element rules (the Elections app styles every
+ * h2) cannot restyle the gallery.
+ * `render` is markup written here by the app's real code where that code is a package module (the
+ * PRONI record view), or, for Browse, the markup its templates in browse.js write (markup only so
+ * far: browse.js exports none of them); `module` is a served module whose
+ * drawSpecimen(id, root, sample) draws the specimen in the browser with the app's own functions (the
+ * Elections charts). `frameClass` is the class of the element the specimen sits in, as on its page
+ * (the Elections app's main column), `bodyAttributes` those of the app's own <body>; the frame loads
+ * the sheets every page loads (tokens, base, site chrome, components) before the app's. gallery.js
+ * draws both.
+ *
+ * Still to come, as entries here: the map app's components (legend, results tables, trend chart,
+ * timeline: REFACTOR-PLAN.md G-5, after rf9-mapapp's F2 move puts them in packages/map) and the
+ * STV count viewer (the map app's classic scripts under site/app/election-viewer-package/, which draw
+ * only inside the map app's election panel, from its globals; a specimen needs them as a module).
+ */
+export const APP_SPECIMENS = [
+  {
+    id: 'elections-seats', title: 'Elections: seat charts', app: 'elections', source: 'site/apps/elections/lib/charts.js', functions: ['parliamentArc', 'seatBar'],
+    stylesheets: ['apps/elections/elections.css'], frameClass: 'el-main', module: 'apps/elections/gallery-specimens.js',
+  },
+  {
+    id: 'elections-shares', title: 'Elections: vote bars', app: 'elections', source: 'site/apps/elections/lib/charts.js', functions: ['hbars'],
+    stylesheets: ['apps/elections/elections.css'], frameClass: 'el-main', module: 'apps/elections/gallery-specimens.js',
+  },
+  {
+    id: 'elections-count', title: 'Elections: an STV count (quota and transfers)', app: 'elections', source: 'site/apps/elections/lib/charts.js', functions: ['quotaBars', 'transferFlow'],
+    stylesheets: ['apps/elections/elections.css'], frameClass: 'el-main', module: 'apps/elections/gallery-specimens.js',
+  },
+  {
+    id: 'elections-chips', title: 'Elections: party chips', app: 'elections', source: 'site/apps/elections/lib/party.js', functions: ['partyChip'],
+    stylesheets: ['apps/elections/elections.css'], frameClass: 'el-main', module: 'apps/elections/gallery-specimens.js',
+  },
+  {
+    id: 'proni-record', title: 'PRONI Search: a record page', app: 'proni', source: 'packages/ui/src/templates/proni/record-view.js', functions: ['recordHtml', 'refWidget', 'pager', 'levelsNav'],
+    stylesheets: ['apps/proni-search/app.css'], bodyAttributes: { 'data-app': 'proni' },
+    render: () => `<div id="viewRecord">${recordHtml(SAMPLE_PRONI_RECORD, { fmt: siteNumber })}</div><p>On a search result card:</p>${refWidget('D0000/1/2', true)}`,
+  },
+  {
+    id: 'browse-portal', title: 'Browse: totals and filters', app: 'browse', source: 'site/browse/browse.js', functions: ['renderPortalStat', 'renderListFilterControls'],
+    stylesheets: ['browse/browse.css'],
+    render: () => `<div class="browse-portal-stats" aria-label="Sample totals"><div class="browse-portal-stat"><strong>${siteNumber(22067)}</strong><span>Elections</span></div><div class="browse-portal-stat"><strong>${siteNumber(81540)}</strong><span>Candidacies</span></div><div class="browse-portal-stat"><strong>${siteNumber(38219)}</strong><span>People</span></div></div>`
+      + '<section class="browse-controls" aria-label="Sample filters"><div class="browse-filter-grid"><label class="browse-filter"><span>Body</span><select><option value="">All</option><option>Sample council (12)</option></select></label><label class="browse-filter"><span>Sort by</span><select><option>Newest first</option></select></label></div>'
+      + '<div class="browse-control-footer"><span>1 active filter.</span><button type="button" class="browse-btn">Clear filters</button></div></section>',
+  },
+  {
+    id: 'browse-table', title: 'Browse: compact record table', app: 'browse', source: 'site/browse/browse.js', functions: ['renderRegisterSourcePanel'],
+    stylesheets: ['browse/browse.css'],
+    render: () => '<div class="browse-table-wrap" tabindex="0" role="region" aria-label="Sample provenance records"><table class="browse-table browse-table--compact"><caption class="visually-hidden">Sample provenance records</caption>'
+      + '<thead><tr><th scope="col">Date</th><th scope="col">Category</th><th scope="col">Source</th><th scope="col">Method</th><th scope="col">Confidence</th></tr></thead>'
+      + '<tbody><tr><td>12 May 1920</td><td>Election</td><td><a href="#browse-table">A sample newspaper, p. 4</a></td><td>transcribed</td><td>high</td></tr><tr><td>1921</td><td>Register</td><td>A sample directory</td><td>transcribed</td><td>medium</td></tr></tbody></table></div>',
+  },
+];
+
+/** @param {(typeof APP_SPECIMENS)[number]} s */
+function appSpecimenSection(s) {
+  const markup = s.render ? s.render() : '';
+  const sheets = JSON.stringify(['assets/ui/tokens.css', 'assets/ui/tokens-legacy.css', 'assets/ui/base.css', 'assets/site/site-chrome.css', 'assets/ui/components.css', ...s.stylesheets].map((p) => `/${p}`));
+  return html`<section class="cg-gallery__specimen" id="${s.id}" aria-labelledby="${s.id}-h">
+<h3 id="${s.id}-h">${s.title}</h3>
+<p class="cg-gallery__source"><code>${s.source}</code> · ${s.functions.map((f, i) => html`${i ? ', ' : ''}<code>${f}()</code>`)}${s.app === 'browse' ? ' · markup only so far' : ''}</p>
+<div class="cg-gallery__example" data-gallery-island="${s.id}" data-stylesheets="${sheets}"${s.frameClass ? html` data-frame-class="${s.frameClass}"` : ''}${s.bodyAttributes ? html` data-body-attributes="${JSON.stringify(s.bodyAttributes)}"` : ''}${s.module ? html` data-module="/${s.module}" data-sample="${JSON.stringify(SAMPLE)}"` : ''}>${markup ? html`<template>${raw(markup)}</template>` : ''}</div>
+${markup ? code(markup) : ''}
+</section>`;
+}
 
 function tokensSection() {
   return html`<section class="cg-gallery__section" id="tokens" aria-labelledby="tokens-h">
@@ -180,6 +278,11 @@ ${typographySection()}
 <section class="cg-gallery__section" id="components" aria-labelledby="components-h">
 <h2 id="components-h">Components</h2>
 ${SPECIMENS.map(specimenSection)}
+</section>
+<section class="cg-gallery__section" id="apps" aria-labelledby="apps-h">
+<h2 id="apps-h">App components</h2>
+<p>The apps' own components, drawn by the apps' code with sample data, each in a frame with its app's stylesheet. The figures, references and names are made up.</p>
+${APP_SPECIMENS.map(appSpecimenSection)}
 </section>
 </div>`;
   return page({
