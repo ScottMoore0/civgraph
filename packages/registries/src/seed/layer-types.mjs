@@ -94,6 +94,11 @@ export function seedLayerTypes(root = REPO_ROOT) {
     const layers = byType.get(type) || [];
     /** @type {LayerType} */
     const entry = { tileFormat: TILE_FORMAT[type] };
+    // The renderer module (the layer-type code registry, packages/map/src/renderer/layer-kinds/) is
+    // kept as the file has it, as the behaviour flags are: tests/unit/map-layer-kinds.test.mjs holds
+    // it to the code.
+    const drawnBy = current.types[type]?.drawnBy;
+    if (drawnBy) entry.drawnBy = drawnBy;
     if (layers.length) {
       /** @type {Map<string, number>} */
       const counts = new Map();
@@ -116,7 +121,7 @@ export function seedLayerTypes(root = REPO_ROOT) {
     .filter((k) => aliases.every((l) => k in l));
   return {
     schemaVersion: 1,
-    description: 'Map layer types: the sourceType of a layer record, the fields every published layer of the type carries (render/metadata/maps-test.json), its tile format, and how the map app treats it (behaviour: packages/map/src/renderer/map-controller.js). Schema: packages/registries/schemas/layer-types.schema.json; views: packages/registries/src/layers.mjs.',
+    description: 'Map layer types: the sourceType of a layer record, the fields every published layer of the type carries (render/metadata/maps-test.json), its tile format, the renderer module that draws it (drawnBy: the layer-type code registry, packages/map/src/renderer/layer-kinds/), and how the map app treats it (behaviour: packages/map/src/renderer/map-controller.js). Schema: packages/registries/schemas/layer-types.schema.json; views: packages/registries/src/layers.mjs.',
     behaviourFlags: {
       ...Object.fromEntries(Object.entries(BEHAVIOUR_FLAGS).map(([flag, [name, meaning]]) => [flag, { meaning, source: `${CONTROLLER}: ${name}` }])),
       ...Object.fromEntries(Object.entries(SHARED_BEHAVIOUR_FLAGS).map(([flag, [meaning, source]]) => [flag, { meaning, source }])),

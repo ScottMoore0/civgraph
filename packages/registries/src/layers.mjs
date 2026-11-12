@@ -43,6 +43,16 @@ export function typesWithBehaviour(registry, flag) {
 }
 
 /**
+ * The layer types the map app can draw: those with a renderer module (drawnBy), sorted. The
+ * map-tile checks accept a layer of these types and no other.
+ * @param {LayerTypesRegistry} registry
+ * @returns {string[]}
+ */
+export function drawnLayerTypes(registry) {
+  return Object.keys(registry.types).filter((t) => registry.types[t].drawnBy).sort();
+}
+
+/**
  * Errors of one published layer record against its type: an unregistered or runtime-only
  * sourceType, a missing required field, a geometry type or renderer the type does not have, an
  * alias edition without its alias fields.
@@ -84,6 +94,7 @@ export function checkLayerTypes(registry) {
     for (const flag of type.behaviour || []) if (!registry.behaviourFlags[flag]) errors.push(`${name}: behaviour ${flag} is not declared`);
     if (type.runtimeOnly && (type.requiredFields || type.geometryTypes)) errors.push(`${name}: a runtime-only type has no published fields`);
     if (!type.runtimeOnly && !(type.requiredFields && type.geometryTypes && type.renderers)) errors.push(`${name}: a published type needs requiredFields, geometryTypes and renderers`);
+    if (!type.runtimeOnly && !type.drawnBy) errors.push(`${name}: a published type needs drawnBy, the module that draws it`);
     const requiredFields = type.requiredFields;
     if (requiredFields && !['id', 'sourceType', 'geometryType', 'renderer'].every((f) => requiredFields.includes(f))) {
       errors.push(`${name}: requiredFields must include id, sourceType, geometryType and renderer`);

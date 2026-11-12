@@ -13,7 +13,7 @@ import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { isValidBounds } from '../../../packages/maps-pipeline/src/layer-bounds.mjs';
 import { loadRegistry } from '../../../packages/registries/src/index.mjs';
-import { typesWithBehaviour } from '../../../packages/registries/src/layers.mjs';
+import { drawnLayerTypes, typesWithBehaviour } from '../../../packages/registries/src/layers.mjs';
 
 const ROOT = resolve(process.cwd());
 const METADATA_PATH = resolve(ROOT, 'render/metadata/maps-test.json');
@@ -38,7 +38,9 @@ function localPathFromUrlTemplate(value) {
 // layer-types registry's rasterSource and threeD types; the vector ones are its vectorTiles types.
 const LAYER_TYPES = loadRegistry('layers');
 const NON_VECTOR_SOURCE_TYPES = new Set([...typesWithBehaviour(LAYER_TYPES, 'rasterSource'), ...typesWithBehaviour(LAYER_TYPES, 'threeD')]);
-const SUPPORTED_SOURCE_TYPES = new Set([...typesWithBehaviour(LAYER_TYPES, 'vectorTiles'), ...NON_VECTOR_SOURCE_TYPES]);
+// A layer the map app can draw: its type has a renderer module (the registry's drawnBy, the
+// layer-type code registry packages/map/src/renderer/layer-kinds/).
+const SUPPORTED_SOURCE_TYPES = new Set(drawnLayerTypes(LAYER_TYPES));
 
 function validateLayer(layer) {
   const errors = [];
