@@ -45,7 +45,8 @@
     "review-eoni-wikidata-2026-11-11": "Northern Ireland contests checked against the Electoral Office for Northern Ireland's result sheets, turnout tables and declarations and the Electoral Commission's results spreadsheets: the EU referendum 2016 electorates, rejected-paper counts for the Assembly 2007 and 2011 and Westminster 2005, a missing 2010 electorate, elected flags the declarations confirm, and the Westminster 2017 East Londonderry rejected count, where the Electoral Commission's itemised figure is preferred to the Electoral Office's web page.",
     "arith-audit-2026-11-11": "Every contest's arithmetic audited (scripts/check/rules/contest-arithmetic.mjs): FPTP votes against the valid poll, STV quotas, first preferences, stage-by-stage transfers and exclusions, turnout and poll figures. Figures that did not add up were checked against the source each record names and corrected where Civgraph had mis-transcribed them; where the source itself does not add up, the contest is listed in contest-arithmetic-allowlist.json instead.",
     "eoni-review-2026-11-11": "Northern Ireland council contests of 2011 and 2019 checked by eye, figure by figure, against the Electoral Office for Northern Ireland's scanned result sheets and result workbooks recovered from the Internet Archive (the 2011 council sheets and the 2019 sheets of Belfast, Derry City and Strabane, Lisburn and Castlereagh and Newry, Mourne and Down that the eoni-ia sweep could not machine-read). A figure is corrected only where the sheet's own arithmetic confirms it: each stage's transfers reconcile with the surplus or exclusion and the non-transferable votes, and each stage sums to the valid poll. Where a count is rebuilt (replaceCountRows) its stage totals keep the fractions the sheet prints.",
-    "w8-review-2026-11-12": "Northern Ireland council contests of 2014, 2019 and 2023 whose stage totals the import had cut to whole votes: the totals rebuilt from the transfers (restoreStageFractions) were each read by eye on the Electoral Office for Northern Ireland's scanned result sheet (w8-review, 12 Nov 2026), where OCR had not found them; contests where any rebuilt total differs from the sheet are not included."
+    "w8-review-2026-11-12": "Northern Ireland council contests of 2014, 2019 and 2023 whose stage totals the import had cut to whole votes: the totals rebuilt from the transfers (restoreStageFractions) were each read by eye on the Electoral Office for Northern Ireland's scanned result sheet (w8-review, 12 Nov 2026), where OCR had not found them; contests where any rebuilt total differs from the sheet are not included.",
+    "w8-arith2-2026-11-12": "Contests that still failed the contest arithmetic check (scripts/check/rules/contest-arithmetic.mjs) after arith-audit and w8-arith, checked against their sources: for the Northern Ireland councils of 1973-2005, the Electoral Office's declaration sheets (its Local Government Election Results booklets) and Nicholas Whyte's ARK spreadsheets transcribing them; for the Dail, ElectionsIreland.org's count sheets and the official results. A figure is changed only where the source shows it and the corrected stage then reconciles (each transfer brings the stage total to the next, and the votes handed out match the surplus or the votes of the candidates excluded). Where the source's own figures do not add up, the contest is listed in contest-arithmetic-allowlist.json instead."
   },
   "records": [
     {
@@ -112421,18 +112422,44 @@
           "set": {
             "Candidate_Id": "T378336480-lisburn"
           }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Norman Bicker",
+          "count": 7,
+          "set": {
+            "Transfers": "37.00",
+            "Total_Votes": "1012.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Norman Bicker",
+          "count": 8,
+          "set": {
+            "Transfers": "95.00"
+          }
         }
       ],
-      "reason": "The contest had carried Area D's totals (8,651 valid, quota 1,442). Area C: 7,518 votes polled, 127 spoilt, 7,391 valid, quota 1,232, as Wikipedia gives and as the candidates' first preferences and the quota confirm.",
+      "reason": "The contest had carried Area D's totals (8,651 valid, quota 1,442). Area C: 7,518 votes polled, 127 spoilt, 7,391 valid, quota 1,232, as Wikipedia gives and as the candidates' first preferences and the quota confirm. Lisburn Area C (30 May 1973): Norman Bicker at stage 7: a transfer of 37 (not 37) and a total of 1,012 (not 1,012); Norman Bicker at stage 8: a transfer of 95 (not 95), as the Electoral Office's count sheet gives them (Nicholas Whyte's ARK transcription); with these the count reconciles stage by stage.",
       "additionalSources": [
         {
           "title": "Wikipedia: 1973 Lisburn Borough Council election",
           "publisher": "Wikipedia",
           "url": "https://en.wikipedia.org/w/index.php?oldid=1170735595",
           "accessed": "2026-10-27"
+        },
+        {
+          "title": "Local Government Elections 1973: Lisburn Area C, count by stages (spreadsheet transcribing the Electoral Office's declaration of result)",
+          "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+          "url": "https://www.ark.ac.uk/elections/xls/lgov/1973/lg73-LIS-Area-C.xls",
+          "accessed": "2026-11-12"
         }
       ],
-      "internalNote": "James McKeown: candidate id T378336480 was shared with candidates of the same name in other councils (kept by Larne/Mid and East Antrim/Newtownabbey); given T378336480-lisburn."
+      "internalNote": "James McKeown: candidate id T378336480 was shared with candidates of the same name in other councils (kept by Larne/Mid and East Antrim/Newtownabbey); given T378336480-lisburn.",
+      "alsoBatches": [
+        "w8-arith2-2026-11-12"
+      ]
     },
     {
       "batch": "ni-council-xref-2026-10-27",
@@ -171020,9 +171047,54 @@
           "set": {
             "Candidate_Id": "T1019834687-ballymena"
           }
+        },
+        {
+          "op": "candidateCount",
+          "name": "J. O'Mullan",
+          "count": 6,
+          "set": {
+            "Transfers": "209.74",
+            "Total_Votes": "790.64"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "J. O'Mullan",
+          "count": 7,
+          "set": {
+            "Transfers": "14.22"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "David Thompson",
+          "count": 5,
+          "set": {
+            "Transfers": "101.70",
+            "Total_Votes": "790.66"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "David Thompson",
+          "count": 6,
+          "set": {
+            "Transfers": "22.74"
+          }
         }
       ],
-      "internalNote": "David Thompson: candidate id T1019834687 was shared with candidates of the same name in other councils (kept by Craigavon); given T1019834687-ballymena."
+      "internalNote": "David Thompson: candidate id T1019834687 was shared with candidates of the same name in other councils (kept by Craigavon); given T1019834687-ballymena.",
+      "alsoBatches": [
+        "w8-arith2-2026-11-12"
+      ],
+      "reason": "Ballymena Area D (30 May 1973): J. O'Mullan at stage 6: a transfer of 209.74 (not 209.74) and a total of 790.64 (not 790.64); J. O'Mullan at stage 7: a transfer of 14.22 (not 14.22); David Thompson at stage 5: a transfer of 101.7 (not 101.7) and a total of 790.66 (not 790.66); David Thompson at stage 6: a transfer of 22.74 (not 22.74), as the Electoral Office's count sheet gives them (Nicholas Whyte's ARK transcription); with these the count reconciles stage by stage.",
+      "source": {
+        "title": "Local Government Elections 1973: Ballymena Area D, count by stages (spreadsheet transcribing the Electoral Office's declaration of result)",
+        "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+        "url": "https://www.ark.ac.uk/elections/xls/lgov/1973/lg73-BMA-Area-D.xls",
+        "accessed": "2026-11-12"
+      },
+      "additionalSources": []
     },
     {
       "batch": "candidate-id-splits-2026-10-28",
@@ -171034,9 +171106,37 @@
           "set": {
             "Candidate_Id": "T2417380738-banbridge"
           }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Edward Gibney",
+          "count": 6,
+          "set": {
+            "Transfers": "2.00",
+            "Total_Votes": "237.50"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Edward Gibney",
+          "count": 7,
+          "set": {
+            "Transfers": "-237.50"
+          }
         }
       ],
-      "internalNote": "Patrick McAvoy: candidate id T2417380738 was shared with candidates of the same name in other councils (kept by Ballymena); given T2417380738-banbridge."
+      "internalNote": "Patrick McAvoy: candidate id T2417380738 was shared with candidates of the same name in other councils (kept by Ballymena); given T2417380738-banbridge.",
+      "alsoBatches": [
+        "w8-arith2-2026-11-12"
+      ],
+      "reason": "Banbridge Area B (30 May 1973): Edward Gibney at stage 6: a transfer of 2 (not 2) and a total of 237.5 (not 237.5); Edward Gibney at stage 7: a transfer of -237.5 (not -237.5), as the Electoral Office's count sheet gives them (Nicholas Whyte's ARK transcription); with these the count reconciles stage by stage.",
+      "source": {
+        "title": "Local Government Elections 1973: Banbridge Area B, count by stages (spreadsheet transcribing the Electoral Office's declaration of result)",
+        "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+        "url": "https://www.ark.ac.uk/elections/xls/lgov/1973/lg73-BRG-Area-B.xls",
+        "accessed": "2026-11-12"
+      },
+      "additionalSources": []
     },
     {
       "batch": "candidate-id-splits-2026-10-28",
@@ -172320,9 +172420,305 @@
           "set": {
             "Candidate_Id": "T1922048068-belfast"
           }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Owen Allen",
+          "count": 8,
+          "set": {
+            "Transfers": "9.00",
+            "Total_Votes": "533.62"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Owen Allen",
+          "count": 9,
+          "set": {
+            "Total_Votes": "536.56"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Owen Allen",
+          "count": 10,
+          "set": {
+            "Transfers": "168.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "A. Dornan",
+          "count": 6,
+          "set": {
+            "Transfers": "4.00",
+            "Total_Votes": "566.32"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "A. Dornan",
+          "count": 7,
+          "set": {
+            "Transfers": "29.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "T. Magee",
+          "count": 2,
+          "set": {
+            "Transfers": "3.74",
+            "Total_Votes": "235.74"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "T. Magee",
+          "count": 3,
+          "set": {
+            "Transfers": "4.80",
+            "Total_Votes": "240.54"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "T. Magee",
+          "count": 4,
+          "set": {
+            "Transfers": "23.36",
+            "Total_Votes": "263.90"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "T. Magee",
+          "count": 5,
+          "set": {
+            "Transfers": "6.00",
+            "Total_Votes": "269.90"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "T. Magee",
+          "count": 6,
+          "set": {
+            "Transfers": "15.32",
+            "Total_Votes": "285.22"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "T. Magee",
+          "count": 7,
+          "set": {
+            "Transfers": "9.00",
+            "Total_Votes": "294.22"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "T. Magee",
+          "count": 8,
+          "set": {
+            "Transfers": "141.90",
+            "Total_Votes": "436.12"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "T. Magee",
+          "count": 9,
+          "set": {
+            "Transfers": "0.49",
+            "Total_Votes": "436.61"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "T. Magee",
+          "count": 10,
+          "set": {
+            "Transfers": "19.00",
+            "Total_Votes": "455.61"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "T. Magee",
+          "count": 11,
+          "set": {
+            "Transfers": "21.26",
+            "Total_Votes": "476.87"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "T. Magee",
+          "count": 12,
+          "set": {
+            "Transfers": "-476.87"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Mary Smyth",
+          "count": 7,
+          "set": {
+            "Transfers": "1.34",
+            "Total_Votes": "433.24"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Mary Smyth",
+          "count": 8,
+          "set": {
+            "Transfers": "15.20"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "William Spence",
+          "count": 7,
+          "set": {
+            "Transfers": "1.00",
+            "Total_Votes": "1777.10"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "William Spence",
+          "count": 8,
+          "set": {
+            "Transfers": "19.44"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Jim Sullivan",
+          "count": 6,
+          "set": {
+            "Transfers": "4.00",
+            "Total_Votes": "744.98"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Jim Sullivan",
+          "count": 7,
+          "set": {
+            "Transfers": "8.00",
+            "Total_Votes": "752.98"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Jim Sullivan",
+          "count": 8,
+          "set": {
+            "Transfers": "1.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Jim Sullivan",
+          "count": 9,
+          "set": {
+            "Transfers": "0.00",
+            "Total_Votes": "753.98"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Jim Sullivan",
+          "count": 10,
+          "set": {
+            "Transfers": "3.00",
+            "Total_Votes": "756.98"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Jim Sullivan",
+          "count": 11,
+          "set": {
+            "Transfers": "2.00",
+            "Total_Votes": "758.98"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Jim Sullivan",
+          "count": 12,
+          "set": {
+            "Transfers": "14.00",
+            "Total_Votes": "772.98"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Jim Sullivan",
+          "count": 13,
+          "set": {
+            "Transfers": "300.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Jim Sullivan",
+          "count": 15,
+          "set": {
+            "Transfers": "29.66",
+            "Total_Votes": "1491.64"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Jim Sullivan",
+          "count": 16,
+          "set": {
+            "Transfers": "927.98"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "P. Woods",
+          "count": 5,
+          "set": {
+            "Transfers": "1.00",
+            "Total_Votes": "250.58"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "P. Woods",
+          "count": 6,
+          "set": {
+            "Transfers": "8.32"
+          }
         }
       ],
-      "internalNote": "Margaret McKenna: candidate id T1922048068 was shared with candidates of the same name in other councils (kept by Magherafelt); given T1922048068-belfast."
+      "internalNote": "Margaret McKenna: candidate id T1922048068 was shared with candidates of the same name in other councils (kept by Magherafelt); given T1922048068-belfast.",
+      "alsoBatches": [
+        "w8-arith2-2026-11-12"
+      ],
+      "reason": "Belfast Area F (30 May 1973): T. Magee's count row had been filled with Sean Flynn's figures; it now reads as the Electoral Office's declaration sheet gives it (232 first preferences, 476.87 when excluded at stage 12, not 576.96). Jim Sullivan's transfers at stages 6-16 are put back in their stages (the import had moved them a stage early: 300 from Magee at stage 13, 389 from A. Dornan at stage 14, 927.98 from Sean O'Hare at stage 16), and the sheet's figures restored for Owen Allen (stages 8 and 10), A. Dornan (stages 6-7), Mary Smyth (stages 7-8), William Spence (stages 7-8) and P. Woods (stages 5-6).",
+      "source": {
+        "title": "Local Government Election Results 1973, Belfast: Area F (PDF p. 39)",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401112823id_/http://www.eoni.org.uk/getmedia/76aa0570-21f1-4b65-9c6e-764faf19cdb4/local_government_election_results_1973",
+        "accessed": "2026-11-12"
+      },
+      "additionalSources": [
+        {
+          "title": "Local Government Election Results 1973, Belfast: Area F, stages 9-16 (PDF p. 40)",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401112823id_/http://www.eoni.org.uk/getmedia/76aa0570-21f1-4b65-9c6e-764faf19cdb4/local_government_election_results_1973",
+          "accessed": "2026-11-12"
+        }
+      ]
     },
     {
       "batch": "candidate-id-splits-2026-10-28",
@@ -179121,9 +179517,45 @@
           "set": {
             "Candidate_Id": "T1299148797-fermanagh"
           }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Vincent McCaffrey",
+          "count": 11,
+          "set": {
+            "Transfers": "119.14",
+            "Total_Votes": "932.88"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Vincent McCaffrey",
+          "count": 12,
+          "set": {
+            "Transfers": "218.70"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Caroline Madill",
+          "count": 4,
+          "set": {
+            "Transfers": "-199.21"
+          }
         }
       ],
-      "internalNote": "William Mitchell: candidate id T1299148797 was shared with candidates of the same name in other councils (kept by Newry and Mourne/Newry, Mourne and Down); given T1299148797-fermanagh."
+      "internalNote": "William Mitchell: candidate id T1299148797 was shared with candidates of the same name in other councils (kept by Newry and Mourne/Newry, Mourne and Down); given T1299148797-fermanagh.",
+      "alsoBatches": [
+        "w8-arith2-2026-11-12"
+      ],
+      "reason": "Erne East (15 May 1985): Vincent McCaffrey at stage 11: a transfer of 119.14 (not 119.14) and a total of 932.88 (not 932.88); Vincent McCaffrey at stage 12: a transfer of 218.7 (not 218.7); Caroline Madill at stage 4: a transfer of -199.21 (not -199.21), as the Electoral Office's count sheet gives them (Nicholas Whyte's ARK transcription); with these the count reconciles stage by stage.",
+      "source": {
+        "title": "Local Government Elections 1985: Erne East, count by stages (spreadsheet transcribing the Electoral Office's declaration of result)",
+        "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+        "url": "https://www.ark.ac.uk/elections/xls/lgov/1985/lg85-FER-Erne-East.xls",
+        "accessed": "2026-11-12"
+      },
+      "additionalSources": []
     },
     {
       "batch": "candidate-id-splits-2026-10-28",
@@ -183502,9 +183934,37 @@
           "op": "set",
           "path": "Constituency.countInfo.Constituency_Name",
           "value": "Crotlieve"
+        },
+        {
+          "op": "candidateCount",
+          "name": "Karen McKevitt",
+          "count": 4,
+          "set": {
+            "Transfers": "70.00",
+            "Total_Votes": "1227.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Karen McKevitt",
+          "count": 5,
+          "set": {
+            "Transfers": "171.00"
+          }
         }
       ],
-      "internalNote": "Geraldine McAteer: candidate id T1309182864 was shared with candidates of the same name in other councils (kept by Belfast); given T1309182864-newry-and-mourne."
+      "internalNote": "Geraldine McAteer: candidate id T1309182864 was shared with candidates of the same name in other councils (kept by Belfast); given T1309182864-newry-and-mourne.",
+      "alsoBatches": [
+        "w8-arith2-2026-11-12"
+      ],
+      "reason": "Crotlieve (5 May 2005): Karen McKevitt at stage 4: a transfer of 70 (not 70) and a total of 1,227 (not 1,227); Karen McKevitt at stage 5: a transfer of 171 (not 171), as the Electoral Office's count sheet gives them (Nicholas Whyte's ARK transcription); with these the count reconciles stage by stage.",
+      "source": {
+        "title": "Local Government Elections 2005: Crotlieve, count by stages (spreadsheet transcribing the Electoral Office's declaration of result)",
+        "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+        "url": "https://www.ark.ac.uk/elections/xls/lgov/2005/lg05-NaM-Crotlieve.xls",
+        "accessed": "2026-11-12"
+      },
+      "additionalSources": []
     },
     {
       "batch": "candidate-id-splits-2026-10-28",
@@ -195271,6 +195731,12 @@
           "publisher": "ARK (Nicholas Whyte)",
           "url": "https://www.ark.ac.uk/elections/xls/lgov/1973/lg73-BT-Area-A.xls",
           "accessed": "2026-10-28"
+        },
+        {
+          "title": "Local Government Election Results 1973, Belfast: Area A, stages 9-16 (PDF p. 30)",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401112823id_/http://www.eoni.org.uk/getmedia/76aa0570-21f1-4b65-9c6e-764faf19cdb4/local_government_election_results_1973",
+          "accessed": "2026-11-12"
         }
       ],
       "operations": [
@@ -198935,9 +199401,20 @@
               "id": 201
             }
           ]
+        },
+        {
+          "op": "candidateCount",
+          "name": "Thomas Carragher",
+          "count": 9,
+          "set": {
+            "Total_Votes": "1502.00"
+          }
         }
       ],
-      "reason": "2 candidates the import had left out restored (William Dougherty, United Loyalist, 1,198; Robert Lindsay Mason, Ulster Constitution Party, 271); names corrected from the official Notice of Poll (Ben Caraher is Thomas Carragher; H. Moore is Hugh Moore; J. Keenan is John Keenan; J. Murray is John Murray; John McKeown is William McKeown; Sam Edgerton is Samuel Egerton; W. G. Greene is William Greene); every count rebuilt from ARK's result spreadsheet (16 stages, quota 3,102). Every stage now adds up to the valid poll of 24,814, and the winners are those the published result names."
+      "reason": "2 candidates the import had left out restored (William Dougherty, United Loyalist, 1,198; Robert Lindsay Mason, Ulster Constitution Party, 271); names corrected from the official Notice of Poll (Ben Caraher is Thomas Carragher; H. Moore is Hugh Moore; J. Keenan is John Keenan; J. Murray is John Murray; John McKeown is William McKeown; Sam Edgerton is Samuel Egerton; W. G. Greene is William Greene); every count rebuilt from ARK's result spreadsheet (16 stages, quota 3,102). Every stage now adds up to the valid poll of 24,814, and the winners are those the published result names. Belfast Area A (30 May 1973): Thomas Carragher had 1,502 votes after stage 9 (1,483 + 19 from Samuel Egerton's exclusion), not 1,502.50: the Electoral Office's declaration sheet prints 1,502.50, a slip, since its own next result is 1,504 after a transfer of 2.",
+      "alsoBatches": [
+        "w8-arith2-2026-11-12"
+      ]
     },
     {
       "batch": "bna-eoni-2026-10-28",
@@ -200838,6 +201315,12 @@
           "publisher": "ARK (Nicholas Whyte)",
           "url": "https://www.ark.ac.uk/elections/xls/lgov/1973/lg73-BT-Area-C.xls",
           "accessed": "2026-10-28"
+        },
+        {
+          "title": "Local Government Election Results 1973, Belfast: Area C (PDF p. 33)",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401112823id_/http://www.eoni.org.uk/getmedia/76aa0570-21f1-4b65-9c6e-764faf19cdb4/local_government_election_results_1973",
+          "accessed": "2026-11-12"
         }
       ],
       "operations": [
@@ -202663,9 +203146,20 @@
               "id": 100
             }
           ]
+        },
+        {
+          "op": "candidateCount",
+          "name": "Muriel Pritchard",
+          "count": 8,
+          "set": {
+            "Transfers": "879.00"
+          }
         }
       ],
-      "reason": "1 candidate the import had left out restored (Norman McNarry, United Loyalist, 1,693); names corrected from the official Notice of Poll (D. Donaghy is David Donaghy; F. J. McGibben is Francis McGibben; John William Kennedy is William Kennedy; N. Preston is Daisy Preston; P. Callaghan is Patrick Callaghan; W. Copley is William Copley; W. D. Gilmore is John Gilmore; W. McDonough is Wilfred McDonough); every count rebuilt from ARK's result spreadsheet (9 stages, quota 3,020). Every stage now adds up to the valid poll of 21,136, and the winners are those the published result names."
+      "reason": "1 candidate the import had left out restored (Norman McNarry, United Loyalist, 1,693); names corrected from the official Notice of Poll (D. Donaghy is David Donaghy; F. J. McGibben is Francis McGibben; John William Kennedy is William Kennedy; N. Preston is Daisy Preston; P. Callaghan is Patrick Callaghan; W. Copley is William Copley; W. D. Gilmore is John Gilmore; W. McDonough is Wilfred McDonough); every count rebuilt from ARK's result spreadsheet (9 stages, quota 3,020). Every stage now adds up to the valid poll of 21,136, and the winners are those the published result names. Belfast Area C (30 May 1973): Muriel Pritchard received 879 votes from Mary Scott's exclusion at stage 8, not 8.79: the Electoral Office's declaration sheet writes the transfer as 8.79 but its result is 3,158 (2,279 + 879), and the 1,413 votes of the stage (15 + 10 + 9 + 14 + 11 + 879 + 475 non-transferable) add up only with 879.",
+      "alsoBatches": [
+        "w8-arith2-2026-11-12"
+      ]
     },
     {
       "batch": "bna-eoni-2026-10-28",
@@ -204848,6 +205342,18 @@
           "publisher": "ARK (Nicholas Whyte)",
           "url": "https://www.ark.ac.uk/elections/xls/lgov/1973/lg73-ARD-Area-B.xls",
           "accessed": "2026-10-28"
+        },
+        {
+          "title": "Local Government Election Results 1973, Ards: Area B (PDF p. 9)",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401112823id_/http://www.eoni.org.uk/getmedia/76aa0570-21f1-4b65-9c6e-764faf19cdb4/local_government_election_results_1973",
+          "accessed": "2026-11-12"
+        },
+        {
+          "title": "Local Government Election Results 1973, Ards: Area B, stages 9-14 (PDF p. 10)",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401112823id_/http://www.eoni.org.uk/getmedia/76aa0570-21f1-4b65-9c6e-764faf19cdb4/local_government_election_results_1973",
+          "accessed": "2026-11-12"
         }
       ],
       "operations": [
@@ -207141,10 +207647,93 @@
               "id": 126
             }
           ]
+        },
+        {
+          "op": "candidateCount",
+          "name": "Cecilia Cooke",
+          "count": 2,
+          "set": {
+            "Total_Votes": "1120.14"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "W. H. Forsythe",
+          "count": 2,
+          "set": {
+            "Total_Votes": "343.68"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "W. J. Hannigan",
+          "count": 3,
+          "set": {
+            "Total_Votes": "542.20"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "W. J. Hannigan",
+          "count": 10,
+          "set": {
+            "Total_Votes": "642.28"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Albert McElroy",
+          "count": 3,
+          "set": {
+            "Total_Votes": "182.04"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Albert McElroy",
+          "count": 4,
+          "set": {
+            "Transfers": "-182.04"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "H. McGimpsey",
+          "count": 4,
+          "set": {
+            "Total_Votes": "349.28"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Owen Dorrian",
+          "count": 4,
+          "set": {
+            "Total_Votes": "755.90"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Owen Dorrian",
+          "count": 7,
+          "set": {
+            "Total_Votes": "836.59"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Robert Gaw",
+          "count": 13,
+          "set": {
+            "Transfers": "43.14"
+          }
         }
       ],
-      "reason": "2 candidates the import had left out restored (Robert Brown, Loyalist Coalition, 558, elected; W. J. Hannigan, Loyalist Coalition, 537); William Allen was not elected; every count rebuilt from ARK's result spreadsheet, checked against the official result sheet (14 stages, quota 1,156). Every stage now adds up to the valid poll of 8,090, and the winners are those the published result names.",
-      "sourceNote": "The official result sheet writes W. H. McGimpsey's exclusion at the sixth stage as 357.28 votes, though he held 351.28; the votes it shows him passing on add up to 351.28"
+      "reason": "2 candidates the import had left out restored (Robert Brown, Loyalist Coalition, 558, elected; W. J. Hannigan, Loyalist Coalition, 537); William Allen was not elected; every count rebuilt from ARK's result spreadsheet, checked against the official result sheet (14 stages, quota 1,156). Every stage now adds up to the valid poll of 8,090, and the winners are those the published result names. Ards Area B (30 May 1973): eight stage totals restored as the Electoral Office's declaration sheet gives them, each equal to the last total plus the transfer: Cecilia Cooke 1,120.14 at stage 2 (not 1,120.41), W. H. Forsythe 343.68 at stage 2 (not 343.67), W. J. Hannigan 542.20 at stage 3 (not 542.24) and 642.28 at stage 10 (not 642.23), Albert McElroy 182.04 at stage 3 (not 182; his exclusion at stage 4 passed on 182.04), H. McGimpsey 349.28 at stage 4 (not 349.20), Owen Dorrian 755.90 at stage 4 (not 755.98) and 836.59 at stage 7 (not 836.69); and Robert Gaw received 43.14 at stage 13, not 43.44.",
+      "sourceNote": "The official result sheet writes W. H. McGimpsey's exclusion at the sixth stage as 357.28 votes, though he held 351.28; the votes it shows him passing on add up to 351.28",
+      "alsoBatches": [
+        "w8-arith2-2026-11-12"
+      ]
     },
     {
       "batch": "bna-eoni-2026-10-28",
@@ -212939,6 +213528,12 @@
           "publisher": "Wikipedia",
           "url": "https://en.wikipedia.org/wiki/Patrick_Donnelly_(politician)",
           "accessed": "2026-11-02"
+        },
+        {
+          "title": "Local Government Elections 1977: Omagh Area B, count by stages (spreadsheet transcribing the Electoral Office's declaration of result)",
+          "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+          "url": "https://www.ark.ac.uk/elections/xls/lgov/1977/lg77-OMA-Area-B.xls",
+          "accessed": "2026-11-12"
         }
       ],
       "operations": [
@@ -213205,10 +213800,76 @@
           "set": {
             "Candidate_Id": "T4234802399-omagh"
           }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Patrick Donnelly",
+          "count": 2,
+          "set": {
+            "Transfers": "43.00",
+            "Total_Votes": "780.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Patrick Donnelly",
+          "count": 3,
+          "set": {
+            "Transfers": "0.57",
+            "Total_Votes": "780.57"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Joseph Anderson",
+          "count": 2,
+          "set": {
+            "Transfers": "19.00",
+            "Total_Votes": "741.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Kevin McNaboe",
+          "count": 2,
+          "set": {
+            "Transfers": "44.00",
+            "Total_Votes": "720.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Kevin McNaboe",
+          "count": 3,
+          "set": {
+            "Transfers": "0.19",
+            "Total_Votes": "720.19"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Patrick Bogan",
+          "count": 2,
+          "set": {
+            "Transfers": "87.00",
+            "Total_Votes": "716.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Patrick Bogan",
+          "count": 3,
+          "set": {
+            "Transfers": "9.12",
+            "Total_Votes": "725.12"
+          }
         }
       ],
-      "reason": "1 candidate the import had left out restored (Packie Donnelly, Alliance, 223); every count rebuilt from ARK's result spreadsheet (3 stages, quota 792). Every stage now adds up to the valid poll of 3,958.",
-      "internalNote": "Patrick Donnelly, Omagh councillor 1973-85, is not the South Armagh MP Patrick Donnelly, who died in 1947 (Wikipedia; Wikidata Q7146390). Given the id T4234802399-omagh so the registry stops joining him to the MP."
+      "reason": "1 candidate the import had left out restored (Packie Donnelly, Alliance, 223); every count rebuilt from ARK's result spreadsheet (3 stages, quota 792). Every stage now adds up to the valid poll of 3,958. Omagh Area B (18 May 1977): Patrick Donnelly at stage 2: a transfer of 43 (not 43) and a total of 780 (not 780); Patrick Donnelly at stage 3: a transfer of 0.57 (not 0.57) and a total of 780.57 (not 780.57); Joseph Anderson at stage 2: a transfer of 19 (not 19) and a total of 741 (not 741); Kevin McNaboe at stage 2: a transfer of 44 (not 44) and a total of 720 (not 720); Kevin McNaboe at stage 3: a transfer of 0.19 (not 0.19) and a total of 720.19 (not 720.19); Patrick Bogan at stage 2: a transfer of 87 (not 87) and a total of 716 (not 716); Patrick Bogan at stage 3: a transfer of 9.12 (not 9.12) and a total of 725.12 (not 725.12), as the Electoral Office's count sheet gives them (Nicholas Whyte's ARK transcription); with these the count reconciles stage by stage.",
+      "internalNote": "Patrick Donnelly, Omagh councillor 1973-85, is not the South Armagh MP Patrick Donnelly, who died in 1947 (Wikipedia; Wikidata Q7146390). Given the id T4234802399-omagh so the registry stops joining him to the MP.",
+      "alsoBatches": [
+        "w8-arith2-2026-11-12"
+      ]
     },
     {
       "batch": "bna-eoni-2026-10-28",
@@ -219908,13 +220569,41 @@
         "url": "https://www.ark.ac.uk/elections/lgnorthdown.htm",
         "accessed": "2026-10-29"
       },
-      "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg01-NoD-Abbey\"); it is the Abbey electoral area of North Down council, as ARK Northern Ireland Elections names it.",
+      "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg01-NoD-Abbey\"); it is the Abbey electoral area of North Down council, as ARK Northern Ireland Elections names it. Abbey (7 June 2001): Karl McLean at stage 2: a transfer of 3.3 (not 3.3) and a total of 300.3 (not 300.3); Karl McLean at stage 3: a transfer of 3.99 (not 3.99), as the Electoral Office's count sheet gives them (Nicholas Whyte's ARK transcription); with these the count reconciles stage by stage.",
       "category": "names",
       "operations": [
         {
           "op": "set",
           "path": "Constituency.countInfo.Constituency_Name",
           "value": "Abbey"
+        },
+        {
+          "op": "candidateCount",
+          "name": "Karl McLean",
+          "count": 2,
+          "set": {
+            "Transfers": "3.30",
+            "Total_Votes": "300.30"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Karl McLean",
+          "count": 3,
+          "set": {
+            "Transfers": "3.99"
+          }
+        }
+      ],
+      "alsoBatches": [
+        "w8-arith2-2026-11-12"
+      ],
+      "additionalSources": [
+        {
+          "title": "Local Government Elections 2001: Abbey, count by stages (spreadsheet transcribing the Electoral Office's declaration of result)",
+          "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+          "url": "https://www.ark.ac.uk/elections/xls/lgov/2001/lg01-NoD-Abbey.xls",
+          "accessed": "2026-11-12"
         }
       ]
     },
@@ -219927,13 +220616,41 @@
         "url": "https://www.ark.ac.uk/elections/lgnorthdown.htm",
         "accessed": "2026-10-29"
       },
-      "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg01-NoD-Ballyholme-&-Groomsport\"); it is the Ballyholme and Groomsport electoral area of North Down council, as ARK Northern Ireland Elections names it.",
+      "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg01-NoD-Ballyholme-&-Groomsport\"); it is the Ballyholme and Groomsport electoral area of North Down council, as ARK Northern Ireland Elections names it. Ballyholme and Groomsport (7 June 2001): Marsden Fitzsimons at stage 4: a transfer of 11.1 (not 11.1) and a total of 1,119.99 (not 1,119.99); Marsden Fitzsimons at stage 5: a transfer of 20.68 (not 20.68), as the Electoral Office's count sheet gives them (Nicholas Whyte's ARK transcription); with these the count reconciles stage by stage.",
       "category": "names",
       "operations": [
         {
           "op": "set",
           "path": "Constituency.countInfo.Constituency_Name",
           "value": "Ballyholme and Groomsport"
+        },
+        {
+          "op": "candidateCount",
+          "name": "Marsden Fitzsimons",
+          "count": 4,
+          "set": {
+            "Transfers": "11.10",
+            "Total_Votes": "1119.99"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Marsden Fitzsimons",
+          "count": 5,
+          "set": {
+            "Transfers": "20.68"
+          }
+        }
+      ],
+      "alsoBatches": [
+        "w8-arith2-2026-11-12"
+      ],
+      "additionalSources": [
+        {
+          "title": "Local Government Elections 2001: Ballyholme and Groomsport, count by stages (spreadsheet transcribing the Electoral Office's declaration of result)",
+          "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+          "url": "https://www.ark.ac.uk/elections/xls/lgov/2001/lg01-NoD-Ballyholme-&-Groomsport.xls",
+          "accessed": "2026-11-12"
         }
       ]
     },
@@ -280974,9 +281691,15 @@
           "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
           "url": "https://www.ark.ac.uk/elections/flg77.htm",
           "accessed": "2026-11-06"
+        },
+        {
+          "title": "Local Government Elections 1977: Craigavon Area B, count by stages (spreadsheet transcribing the Electoral Office's declaration of result)",
+          "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+          "url": "https://www.ark.ac.uk/elections/xls/lgov/1977/lg77-CRA-Area-B.xls",
+          "accessed": "2026-11-12"
         }
       ],
-      "reason": "John Lyttle and James McBratney were United Ulster Unionist Party candidates, not UUP: ARK labels them UUUP. Elliott and Flackes's 1977 table (p. 545) gives the UUUP 12 seats (1 in Craigavon), which Civgraph had counted as UUP; with these labels every council's UUP and UUUP seats agree with the book.",
+      "reason": "John Lyttle and James McBratney were United Ulster Unionist Party candidates, not UUP: ARK labels them UUUP. Elliott and Flackes's 1977 table (p. 545) gives the UUUP 12 seats (1 in Craigavon), which Civgraph had counted as UUP; with these labels every council's UUP and UUUP seats agree with the book. Craigavon Area B (18 May 1977): Sean Hagan at stage 7: a transfer of 2 (not 2) and a total of 852.08 (not 852.08); Sean Hagan at stage 8: a transfer of 48 (not 48); Alan Locke at stage 2: a transfer of 339.66 (not 339.66) and a total of 799.66 (not 799.66); Alan Locke at stage 3: a transfer of 8.55 (not 8.55), as the Electoral Office's count sheet gives them (Nicholas Whyte's ARK transcription); with these the count reconciles stage by stage.",
       "category": "party-labels",
       "operations": [
         {
@@ -280994,7 +281717,44 @@
             "Party_Name": "UUUP",
             "Party_As_Printed": "UUUP"
           }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Sean Hagan",
+          "count": 7,
+          "set": {
+            "Transfers": "2.00",
+            "Total_Votes": "852.08"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Sean Hagan",
+          "count": 8,
+          "set": {
+            "Transfers": "48.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Alan Locke",
+          "count": 2,
+          "set": {
+            "Transfers": "339.66",
+            "Total_Votes": "799.66"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Alan Locke",
+          "count": 3,
+          "set": {
+            "Transfers": "8.55"
+          }
         }
+      ],
+      "alsoBatches": [
+        "w8-arith2-2026-11-12"
       ]
     },
     {
@@ -281824,9 +282584,15 @@
           "publisher": "Wikipedia",
           "url": "https://en.wikipedia.org/wiki/Jack_Allen_(Northern_Ireland_politician)",
           "accessed": "2026-11-06"
+        },
+        {
+          "title": "Local Government Election Results 1973, Antrim: Area C (PDF p. 4)",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401112823id_/http://www.eoni.org.uk/getmedia/76aa0570-21f1-4b65-9c6e-764faf19cdb4/local_government_election_results_1973",
+          "accessed": "2026-11-12"
         }
       ],
-      "reason": "Jack Allen, UUP councillor in Antrim 1973-93, is not the Londonderry Jack Allen (John Alexander Allen) of the 1982 and 1998 Assembly elections: in 1973 and 1977 both were elected on the same day to different councils. Given the id T2426291746-antrim so the registry stops joining them. Nothing in the results changes.",
+      "reason": "Jack Allen, UUP councillor in Antrim 1973-93, is not the Londonderry Jack Allen (John Alexander Allen) of the 1982 and 1998 Assembly elections: in 1973 and 1977 both were elected on the same day to different councils. Given the id T2426291746-antrim so the registry stops joining them. Nothing in the results changes. Antrim Area C (30 May 1973): Peter Neish received 11 votes from R. W. Rutherford-Brown's exclusion at stage 4 (total 251.48), not 17 (257.48), and 5.21 from Charlie Greer's at stage 5 (total 256.69), as the Electoral Office's declaration sheet gives the transfers; the sheet's stage 4 result 257.48 is a slip for 251.48 (240.48 + 11, and its own stage 5 result 256.69 less 5.21), and with these the 176 votes of stage 4 are all accounted for.",
       "category": "person-identity",
       "operations": [
         {
@@ -281835,7 +282601,27 @@
           "set": {
             "Candidate_Id": "T2426291746-antrim"
           }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Peter Neish",
+          "count": 4,
+          "set": {
+            "Transfers": "11.00",
+            "Total_Votes": "251.48"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Peter Neish",
+          "count": 5,
+          "set": {
+            "Transfers": "5.21"
+          }
         }
+      ],
+      "alsoBatches": [
+        "w8-arith2-2026-11-12"
       ]
     },
     {
@@ -324564,6 +325350,365 @@
       "operations": [
         {
           "op": "restoreStageFractions"
+        }
+      ]
+    },
+    {
+      "batch": "w8-arith2-2026-11-12",
+      "sourceFile": "data/elections-source/data/elections/local-government/1973-05-30/ards-area-a-corrected.json",
+      "source": {
+        "title": "Local Government Election Results 1973, Ards: Area A (new election of 28 June 1973) (PDF p. 7)",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401112823id_/http://www.eoni.org.uk/getmedia/76aa0570-21f1-4b65-9c6e-764faf19cdb4/local_government_election_results_1973",
+        "accessed": "2026-11-12"
+      },
+      "reason": "Ards Area A (new election, 28 June 1973): R. H. Willis had 490.36 votes after stage 4 (a transfer of 6.17 from William Sheldon's exclusion), not 940.36, and received 2 from M. Leroux's exclusion at stage 5 (492.36), as the Electoral Office's declaration sheet gives them.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "candidateCount",
+          "name": "R. H. Willis",
+          "count": 4,
+          "set": {
+            "Transfers": "6.17",
+            "Total_Votes": "490.36"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "R. H. Willis",
+          "count": 5,
+          "set": {
+            "Transfers": "2.00"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "w8-arith2-2026-11-12",
+      "sourceFile": "data/elections-source/data/elections/local-government/1973-05-30/belfast-area-d.json",
+      "source": {
+        "title": "Local Government Election Results 1973, Belfast: Area D (PDF p. 35)",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401112823id_/http://www.eoni.org.uk/getmedia/76aa0570-21f1-4b65-9c6e-764faf19cdb4/local_government_election_results_1973",
+        "accessed": "2026-11-12"
+      },
+      "reason": "Belfast Area D (30 May 1973): P. G. Wilson received 1 vote from P. Moyna's exclusion at stage 5 (total 1,092.14), not 6, 12.21 from R. Watson's at stage 6 (1,104.35) and 4.07 from J. J. McNamee's at stage 7 (1,108.42), and 4 at stage 8, as the Electoral Office's declaration sheet gives them; with these the 112.70 votes of stage 5 are all accounted for.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "candidateCount",
+          "name": "P. G. Wilson",
+          "count": 5,
+          "set": {
+            "Transfers": "1.00",
+            "Total_Votes": "1092.14"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "P. G. Wilson",
+          "count": 6,
+          "set": {
+            "Transfers": "12.21"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "P. G. Wilson",
+          "count": 7,
+          "set": {
+            "Transfers": "4.07",
+            "Total_Votes": "1108.42"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "P. G. Wilson",
+          "count": 8,
+          "set": {
+            "Transfers": "4.00"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "w8-arith2-2026-11-12",
+      "sourceFile": "data/elections-source/data/elections/local-government/1977-05-18/belfast-area-e.json",
+      "source": {
+        "title": "Local Government Elections 1977: Belfast Area E, count by stages (spreadsheet transcribing the Electoral Office's declaration of result)",
+        "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+        "url": "https://www.ark.ac.uk/elections/xls/lgov/1977/lg77-BT-Area-E.xls",
+        "accessed": "2026-11-12"
+      },
+      "reason": "Belfast Area E (18 May 1977): James Sands at stage 3: a transfer of 12.1 (not 12.1) and a total of 589.58 (not 589.58); James Sands at stage 4: a transfer of 0.98 (not 0.98); Alfie Ferguson at stage 5: a transfer of 200.3 (not 200.3) and a total of 1,323.34 (not 1,323.34); Alfie Ferguson at stage 6: a transfer of 43.42 (not 43.42), as the Electoral Office's count sheet gives them (Nicholas Whyte's ARK transcription); with these the count reconciles stage by stage.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "candidateCount",
+          "name": "James Sands",
+          "count": 3,
+          "set": {
+            "Transfers": "12.10",
+            "Total_Votes": "589.58"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "James Sands",
+          "count": 4,
+          "set": {
+            "Transfers": "0.98"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Alfie Ferguson",
+          "count": 5,
+          "set": {
+            "Transfers": "200.30",
+            "Total_Votes": "1323.34"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Alfie Ferguson",
+          "count": 6,
+          "set": {
+            "Transfers": "43.42"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "w8-arith2-2026-11-12",
+      "sourceFile": "data/elections-source/data/elections/local-government/1977-05-18/down-area-b.json",
+      "source": {
+        "title": "Local Government Elections 1977: Down Area B, count by stages (spreadsheet transcribing the Electoral Office's declaration of result)",
+        "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+        "url": "https://www.ark.ac.uk/elections/xls/lgov/1977/lg77-DOW-Area-B.xls",
+        "accessed": "2026-11-12"
+      },
+      "reason": "Down Area B (18 May 1977): John Ritchie at stage 9: a transfer of 255.28 (not 255.28) and a total of 1,028.16 (not 1,028.16), as the Electoral Office's count sheet gives them (Nicholas Whyte's ARK transcription); with these the count reconciles stage by stage.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "candidateCount",
+          "name": "John Ritchie",
+          "count": 9,
+          "set": {
+            "Transfers": "255.28",
+            "Total_Votes": "1028.16"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "w8-arith2-2026-11-12",
+      "sourceFile": "data/elections-source/data/elections/local-government/1989-05-17/laganbank.json",
+      "source": {
+        "title": "Local Government Elections 1989: Laganbank, count by stages (spreadsheet transcribing the Electoral Office's declaration of result)",
+        "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+        "url": "https://www.ark.ac.uk/elections/xls/lgov/1989/lg89-BT-Laganbank.xls",
+        "accessed": "2026-11-12"
+      },
+      "reason": "Laganbank (17 May 1989): Dixie Gilmore at stage 7: a transfer of 448 (not 448) and a total of 2,028 (not 2,028), as the Electoral Office's count sheet gives them (Nicholas Whyte's ARK transcription); with these the count reconciles stage by stage.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "candidateCount",
+          "name": "Dixie Gilmore",
+          "count": 7,
+          "set": {
+            "Transfers": "448.00",
+            "Total_Votes": "2028.00"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "w8-arith2-2026-11-12",
+      "sourceFile": "data/elections-source/data/elections/local-government/1989-05-17/lurgan.json",
+      "source": {
+        "title": "Local Government Elections 1989: Lurgan, count by stages (spreadsheet transcribing the Electoral Office's declaration of result)",
+        "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+        "url": "https://www.ark.ac.uk/elections/xls/lgov/1989/lg89-CRA-Lurgan.xls",
+        "accessed": "2026-11-12"
+      },
+      "reason": "Lurgan (17 May 1989): Yvonne Calvert at stage 3: a transfer of 80.19 (not 80.19) and a total of 964.69 (not 964.69); Yvonne Calvert at stage 4: a transfer of 64.63 (not 64.63), as the Electoral Office's count sheet gives them (Nicholas Whyte's ARK transcription); with these the count reconciles stage by stage.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "candidateCount",
+          "name": "Yvonne Calvert",
+          "count": 3,
+          "set": {
+            "Transfers": "80.19",
+            "Total_Votes": "964.69"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Yvonne Calvert",
+          "count": 4,
+          "set": {
+            "Transfers": "64.63"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "w8-arith2-2026-11-12",
+      "sourceFile": "data/elections-source/data/elections/local-government/1973-05-30/antrim-area-b.json",
+      "source": {
+        "title": "Local Government Elections 1973: Antrim Area B, count by stages (spreadsheet transcribing the Electoral Office's declaration of result)",
+        "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+        "url": "https://www.ark.ac.uk/elections/xls/lgov/1973/lg73-ANT-Area-B.xls",
+        "accessed": "2026-11-12"
+      },
+      "reason": "Antrim Area B (30 May 1973): Alexander Wilson at stage 6: a transfer of 54 (not 54) and a total of 597.76 (not 597.76); Alexander Wilson at stage 7: a transfer of 9 (not 9); Francis O'Brien at stage 3: a transfer of 8 (not 8) and a total of 351.16 (not 351.16); Francis O'Brien at stage 4: a transfer of 69 (not 69), as the Electoral Office's count sheet gives them (Nicholas Whyte's ARK transcription); with these the count reconciles stage by stage.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "candidateCount",
+          "name": "Alexander Wilson",
+          "count": 6,
+          "set": {
+            "Transfers": "54.00",
+            "Total_Votes": "597.76"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Alexander Wilson",
+          "count": 7,
+          "set": {
+            "Transfers": "9.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Francis O'Brien",
+          "count": 3,
+          "set": {
+            "Transfers": "8.00",
+            "Total_Votes": "351.16"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Francis O'Brien",
+          "count": 4,
+          "set": {
+            "Transfers": "69.00"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "w8-arith2-2026-11-12",
+      "sourceFile": "data/elections-source/data/elections/local-government/1973-05-30/banbridge-area-a.json",
+      "source": {
+        "title": "Local Government Elections 1973: Banbridge Area A, count by stages (spreadsheet transcribing the Electoral Office's declaration of result)",
+        "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+        "url": "https://www.ark.ac.uk/elections/xls/lgov/1973/lg73-BRG-Area-A.xls",
+        "accessed": "2026-11-12"
+      },
+      "reason": "Banbridge Area A (30 May 1973): Hugh Anderson at stage 6: a transfer of 15.4 (not 15.4) and a total of 343.68 (not 343.68); Hugh Anderson at stage 7: a transfer of 22.44 (not 22.44); Peter Finnegan at stage 11: a transfer of -296.6 (not -296.6); J. Hearthwood at stage 5: a transfer of 8.32 (not 8.32) and a total of 193.8 (not 193.8); J. Hearthwood at stage 6: a transfer of 12.28 (not 12.28); R. Wilson at stage 5: a transfer of 0.36 (not 0.36) and a total of 243.24 (not 243.24); R. Wilson at stage 6: a transfer of 4.12 (not 4.12) and a total of 247.36 (not 247.36); R. Wilson at stage 7: a transfer of 5.24 (not 5.24); R. G. Quail at stage 7: a transfer of 21.88 (not 21.88) and a total of 236.56 (not 236.56); R. G. Quail at stage 8: a total of 236.56 (not 236.56); R. G. Quail at stage 9: a transfer of 80.84 (not 80.84), as the Electoral Office's count sheet gives them (Nicholas Whyte's ARK transcription); with these the count reconciles stage by stage.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "candidateCount",
+          "name": "Hugh Anderson",
+          "count": 6,
+          "set": {
+            "Transfers": "15.40",
+            "Total_Votes": "343.68"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Hugh Anderson",
+          "count": 7,
+          "set": {
+            "Transfers": "22.44"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Peter Finnegan",
+          "count": 11,
+          "set": {
+            "Transfers": "-296.60"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "J. Hearthwood",
+          "count": 5,
+          "set": {
+            "Transfers": "8.32",
+            "Total_Votes": "193.80"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "J. Hearthwood",
+          "count": 6,
+          "set": {
+            "Transfers": "12.28"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "R. Wilson",
+          "count": 5,
+          "set": {
+            "Transfers": "0.36",
+            "Total_Votes": "243.24"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "R. Wilson",
+          "count": 6,
+          "set": {
+            "Transfers": "4.12",
+            "Total_Votes": "247.36"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "R. Wilson",
+          "count": 7,
+          "set": {
+            "Transfers": "5.24"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "R. G. Quail",
+          "count": 7,
+          "set": {
+            "Transfers": "21.88",
+            "Total_Votes": "236.56"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "R. G. Quail",
+          "count": 8,
+          "set": {
+            "Total_Votes": "236.56"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "R. G. Quail",
+          "count": 9,
+          "set": {
+            "Transfers": "80.84"
+          }
         }
       ]
     }
