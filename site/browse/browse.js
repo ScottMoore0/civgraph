@@ -6982,7 +6982,14 @@ function expandElectionList(data) {
   for (const item of items) {
     const parent = Number.isInteger(item.of) ? items[item.of] : null;
     if (!parent) continue;
-    item.entryKind = item.result === 'overall' ? 'election-overall-result' : 'election-constituency-result';
+    /**
+     * What an elections-list entry is: an election, or one of its results listed as an entry of its
+     * own (derived here from `result`; an entry without one is an election).
+     * @typedef {'election' | 'election-constituency-result' | 'election-overall-result'} ElectionEntryKind
+     */
+    /** @type {ElectionEntryKind} */
+    const entryKind = item.result === 'overall' ? 'election-overall-result' : 'election-constituency-result';
+    item.entryKind = entryKind;
     item.parentTitle = parent.title;
     item.subtitle = `${item.result === 'overall' ? 'Overall result' : item.result === 'regional-list' ? 'Regional list result' : 'Constituency result'}: ${parent.title}`;
     // A pre-1973 NI council round's contest files under its year's entry

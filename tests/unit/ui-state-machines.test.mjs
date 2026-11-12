@@ -38,9 +38,11 @@ const MACHINES = {
   'proni CARD_DESCRIPTION': proni.CARD_DESCRIPTION,
   'proni MODAL': proni.MODAL,
   'proni COPY_FLASH': proni.COPY_FLASH,
+  'proni ROOTS': proni.ROOTS,
   'words TOOLTIP': words.TOOLTIP,
   'elections ROUTE': elections.ROUTE,
   'elections ENGINE': elections.ENGINE,
+  'elections MAP_LIBRARIES': elections.MAP_LIBRARIES,
   'elections BOUND_BODIES': elections.BOUND_BODIES,
   'elections EXTRACTS_INDEX': elections.EXTRACTS_INDEX,
   'elections PIVOT_RUN': elections.PIVOT_RUN,
@@ -162,6 +164,21 @@ test('Elections DuckDB engine (EL-02): starts once; a failed start may be retrie
   assert.equal(m.start('ready').done(), true);
   for (const bad of [['not-started', 'ready'], ['starting', 'starting'], ['failed', 'ready'], ['ready', 'starting']]) {
     assert.equal(m.can(bad[0], bad[1]), false, bad.join(' -> '));
+  }
+});
+
+test('Elections map libraries and PRONI roots: loaded once; a failure may be retried; done stays done', () => {
+  const libs = elections.MAP_LIBRARIES;
+  libs.assertPath(['loading', 'failed', 'loading', 'loaded']);
+  assert.equal(libs.start('loaded').done(), true);
+  for (const bad of [['not-loaded', 'loaded'], ['loading', 'loading'], ['failed', 'loaded'], ['loaded', 'loading']]) {
+    assert.equal(libs.can(bad[0], bad[1]), false, bad.join(' -> '));
+  }
+  const roots = proni.ROOTS;
+  roots.assertPath(['loading', 'failed', 'loading', 'ready']);
+  assert.equal(roots.start('ready').done(), true);
+  for (const bad of [['idle', 'ready'], ['loading', 'loading'], ['failed', 'ready'], ['ready', 'loading']]) {
+    assert.equal(roots.can(bad[0], bad[1]), false, bad.join(' -> '));
   }
 });
 

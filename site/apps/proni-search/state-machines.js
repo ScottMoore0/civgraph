@@ -85,6 +85,21 @@ export const CARD_DESCRIPTION = defineMachine({
 });
 
 /** UI-L. The record dialog. */
+/**
+ * Every top-level record (app.js loadRoots, for 'All' and letter browsing): fetched once, when first
+ * asked for. A failed fetch can be tried again (the next ask fetches afresh); ready stays ready.
+ */
+export const ROOTS = defineMachine({
+  name: 'proni roots',
+  initial: 'idle',
+  transitions: {
+    idle: ['loading'],
+    loading: ['ready', 'failed'],
+    ready: [],
+    failed: ['loading'],
+  },
+});
+
 export const MODAL = defineToggle('proni record dialog', ['closed', 'open']);
 
 /**

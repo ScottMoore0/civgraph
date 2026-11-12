@@ -7,6 +7,7 @@
  */
 import { MAPLIBRE_VERSION, PMTILES_VERSION, VENDOR } from '../config.js';
 import { electionsAppColours } from '../../../pkg/registries/src/browser/colour-palettes.mjs';
+import { MAP_LIBRARIES } from '../state-machines.js';
 
 export { MAPLIBRE_VERSION, PMTILES_VERSION };
 
@@ -17,6 +18,8 @@ export { MAPLIBRE_VERSION, PMTILES_VERSION };
  * @typedef {typeof import('pmtiles')} PmtilesGlobal
  */
 
+/** The libraries' load (state-machines.js MAP_LIBRARIES): not-loaded, loading, loaded or failed (then tried again). */
+const libraries = MAP_LIBRARIES.start();
 /** @type {Promise<{ maplibregl: MapLibreGlobal, pmtiles: PmtilesGlobal }> | null} */
 let loading = null;
 
@@ -34,6 +37,7 @@ function script(src) {
 /** Load MapLibre and PMTiles once; registers the pmtiles:// protocol. */
 export function loadMapLibre() {
   if (!loading) {
+    libraries.to('loading');
     loading = (async () => {
       const css = document.createElement('link');
       css.rel = 'stylesheet';
@@ -43,8 +47,9 @@ export function loadMapLibre() {
       const w = /** @type {Window & { maplibregl: MapLibreGlobal, pmtiles: PmtilesGlobal }} */ (/** @type {unknown} */ (window));
       const protocol = new w.pmtiles.Protocol();
       w.maplibregl.addProtocol('pmtiles', protocol.tile);
+      libraries.to('loaded');
       return { maplibregl: w.maplibregl, pmtiles: w.pmtiles };
-    })().catch((err) => { loading = null; throw err; });
+    })().catch((err) => { libraries.to('failed'); loading = null; throw err; });
   }
   return loading;
 }
