@@ -163,7 +163,7 @@ const idOf = (/** @type {unknown[]} */ values) => createHash('sha1').update(JSON
 /**
  * Rewrite the sort keys of `db` (an open, writable build) against `seedFile`. Returns per table
  * the number of rows whose key changed, and the groups that had a seed.
- * @param {import('node:sqlite').DatabaseSync} db
+ * @param {import('../../storage/src/sqlite.mjs').SqliteHandle} db
  * @param {string|null} seedFile
  * @param {{ tables?: import('../../schema/src/schema.mjs').TableSpec[], log?: (line: string) => void }} [options]
  */

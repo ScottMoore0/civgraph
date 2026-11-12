@@ -23,7 +23,7 @@ export const SOURCE_VALIDATORS = [
   'scripts/check/rules/candidate-name-party.mjs',
 ];
 
-/** @typedef {import('node:sqlite').SQLInputValue} SQLInputValue */
+/** @typedef {import('../../storage/src/sqlite.mjs').SqliteInput} SQLInputValue */
 /**
  * What validateDatabase measured (build-records-db.mjs prints and keeps some of them).
  * @typedef {{ largestValue: { bytes: number, table?: string, column?: string },

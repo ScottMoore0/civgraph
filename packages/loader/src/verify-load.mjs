@@ -31,7 +31,7 @@
  *
  * FULL (--full-verify; the default against the local D1, which is a file on this machine)
  *
- * Per table, COUNT(*) and SUM(row_hash_n) of the whole table, locally (node:sqlite) and in D1,
+ * Per table, COUNT(*) and SUM(row_hash_n) of the whole table, locally (the SQLite build) and in D1,
  * one table per wrangler call, plus the schema. Against the remote database this reads every row
  * of every table (about 4 million rows, 4 GB): NEVER run it against the live database at a busy
  * time, and never from the publish. It is for a quiet hour after a recovery (records:deploy
