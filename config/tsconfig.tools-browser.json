@@ -1,0 +1,30 @@
+{
+  "//": "The browser scripts under tools/ (the catalogue editor's in-page script, tools/catalogue-editor/editor.js), type-checked by JSDoc under full strict plus noUnusedLocals and noUnusedParameters, with the DOM types and no Node types (stream rf9-pipeline-types, 12 Nov 2026). `npm run check:types:pipeline` runs it; tests/unit/pipeline-typecheck.test.mjs keeps its flags on and its list from shrinking.",
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "target": "es2023",
+    "lib": ["es2023", "dom", "dom.iterable"],
+    "types": [],
+    "skipLibCheck": true,
+    "noImplicitThis": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "alwaysStrict": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "useUnknownInCatchVariables": true,
+    "strictPropertyInitialization": true,
+    "strictBuiltinIteratorReturn": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
+  },
+  "include": ["../tools/catalogue-editor/editor.js"]
+}

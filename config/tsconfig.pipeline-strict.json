@@ -1,0 +1,39 @@
+{
+  "//": "The pipeline and tools scripts that type-check with tsconfig.pipeline.json's options plus noUnusedLocals and noUnusedParameters (stream rf9-pipeline-types, 12 Nov 2026): scripts/publish, scripts/maps and scripts/dev (which tsconfig.pipeline.json also checks, and keeps checking: its list only grows), the Node scripts under tools/, the feature-thumbnail builders in packages/maps-pipeline/src/thumbnails, and the moved-script shims at the top of scripts/. `npm run check:types:pipeline` runs it after tsconfig.pipeline.json; tests/unit/pipeline-typecheck.test.mjs keeps its flags on and its list from shrinking. The browser script of the catalogue editor (tools/catalogue-editor/editor.js) needs the DOM types, which would change the Node fetch types here, so it is checked by tsconfig.tools-browser.json.",
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "target": "es2023",
+    "lib": ["es2023"],
+    "types": ["node"],
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "noImplicitThis": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "alwaysStrict": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "useUnknownInCatchVariables": true,
+    "strictPropertyInitialization": true,
+    "strictBuiltinIteratorReturn": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
+  },
+  "include": [
+    "../scripts/publish/**/*.mjs",
+    "../scripts/maps/**/*.mjs",
+    "../scripts/dev/**/*.mjs",
+    "../scripts/dev/**/*.cjs",
+    "../scripts/*.mjs",
+    "../tools/**/*.mjs",
+    "../packages/maps-pipeline/src/thumbnails/*.mjs"
+  ]
+}
