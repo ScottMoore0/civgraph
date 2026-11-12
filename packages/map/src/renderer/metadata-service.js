@@ -262,7 +262,7 @@ function formatCredits(value) {
 
 /**
  * The part of the port plan (render/metadata/main-site-port-plan.json, 2.8 MB) the map app reads,
- * for the build to ship inside the app bundle (port-plan-client.generated.js, about 50 KB): the
+ * for the build to ship inside the app bundle (port-plan-client.generated.json, about 50 KB): the
  * totals; every row not yet converted, whole; and of the converted rows, only the first of each
  * category, as category, group and status. normalizeMetadata gives the same answer for either:
  * converted rows add nothing but their category, in order of first appearance, and the plan was

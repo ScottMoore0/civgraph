@@ -10,7 +10,7 @@ import '../../../src/public-map.mjs';
 import '../../../src/map-relations.mjs';
 import '../../../src/storage-keys.mjs';
 import { TestMetadataService } from '../src/renderer/metadata-service.js';
-import CLIENT_PORT_PLAN from '../src/renderer/port-plan-client.generated.js';
+import CLIENT_PORT_PLAN from '../src/renderer/port-plan-client.generated.json' with { type: 'json' };
 import '../../core/src/party-names.mjs';
 import '../../../src/entity-detail-data.mjs';
 import { Test2MapLibreMainAdapter } from './maplibre-main-adapter.js';
@@ -150,7 +150,7 @@ class Test2App {
     // waited for the map list (/_api/catalogue), then the transition manifest, then the 3.9 MB
     // map index and its port plan before it could draw (UX review 2026-10-31, L10).
     // The port plan is not fetched at all: the part of it the app reads (about 50 KB of the
-    // 2.8 MB file) is built into the bundle (clientPortPlan, port-plan-client.generated.js).
+    // 2.8 MB file) is built into the bundle (clientPortPlan, port-plan-client.generated.json).
     const portPlan = Promise.resolve(CLIENT_PORT_PLAN);
     this.metadataService.loadPortPlan = () => portPlan;
     await Promise.all([
