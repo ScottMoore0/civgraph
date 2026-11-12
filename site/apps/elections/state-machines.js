@@ -6,7 +6,8 @@
  *
  * Full weight (several entry paths or three or more states; the call sites move a run and the
  * table refuses any other move): ROUTE (EL-01), ENGINE (EL-02), BOUND_BODIES (EL-03), PIVOT_RUN
- * (EL-05), MAP_MODE (EL-07, with its guard mapModeShown), MULTIPLES (EL-08).
+ * (EL-05), MAP_MODE (EL-07, with its guard mapModeShown), MULTIPLES (EL-08), MAP_LIBRARIES (the map
+ * libraries' load, the shape of ENGINE; rf9-ui, 12 Nov 2026).
  * Light weight (a small table, a toggle or a typed set of results): EXTRACTS_INDEX (EL-04),
  * MAP_STATUS (EL-09), SWING_EDITS (EL-10), NOTIONAL_METHOD (EL-11), SHEET_KINDS (EL-12),
  * STAGE_KINDS (EL-13), EMBED (EL-14). EL-06 (pivot state <-> URL) is a value, not a machine.
@@ -46,6 +47,21 @@ export const ENGINE = defineMachine({
     starting: ['ready', 'failed'],
     ready: [],
     failed: ['starting'],
+  },
+});
+
+/**
+ * MapLibre GL and PMTiles (lib/maplibre.js loadMapLibre): loaded once, when the first map view opens.
+ * A failed load can be tried again (the next map view loads them afresh); loaded stays loaded.
+ */
+export const MAP_LIBRARIES = defineMachine({
+  name: 'elections map libraries',
+  initial: 'not-loaded',
+  transitions: {
+    'not-loaded': ['loading'],
+    loading: ['loaded', 'failed'],
+    loaded: [],
+    failed: ['loading'],
   },
 });
 

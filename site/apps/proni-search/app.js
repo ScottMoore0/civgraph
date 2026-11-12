@@ -26,7 +26,7 @@
  * count.js's answer; `breakdown=1` adds `levels`.
  * @typedef {import('../../packages/types/index.js').ApiV1.ProniCountCountAnswer & { levels?: ProniLevelCount[] }} ProniCountAnswer
  */
-import { AZ_SCOPE, CARD_CHILDREN, CARD_DESCRIPTION, COPY_FLASH, MODAL, RESULTS, VIEW } from './state-machines.js';
+import { AZ_SCOPE, CARD_CHILDREN, CARD_DESCRIPTION, COPY_FLASH, MODAL, RESULTS, ROOTS, VIEW } from './state-machines.js';
 import { esc, recordHtml, recordNotFound, recordShell, refToPath, refWidget } from '../../pkg/ui/src/templates/proni/record-view.js';
 
 const API = '/_api/proni/search';
@@ -89,14 +89,17 @@ const resultsEnded = () => state.results.state() === 'done' || state.results.sta
 // instantly. (It was the static /data/browse/proni-roots.json until data design phase 3; that
 // URL answers 301 here.)
 const ROOTS_URL = '/_api/proni/node';
+/** The roots' fetch (state-machines.js ROOTS): idle, loading, ready or failed (then tried again). */
+const roots = ROOTS.start();
 /** @type {Promise<ProniRoot[] | null> | null} */
 let rootsPromise = null;
 function loadRoots() {
   if (!rootsPromise) {
+    roots.to('loading');
     rootsPromise = fetch(ROOTS_URL)
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
-      .then((/** @type {ProniRootsAnswer} */ d) => d.roots || [])
-      .catch(() => { rootsPromise = null; return null; });
+      .then((/** @type {ProniRootsAnswer} */ d) => { const list = d.roots || []; roots.to('ready'); return list; })
+      .catch(() => { roots.to('failed'); rootsPromise = null; return null; });
   }
   return rootsPromise;
 }
