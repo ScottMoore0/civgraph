@@ -5115,7 +5115,7 @@ function normalizeName(value) {
     .replace(/[\u0300-\u036f]/g, '')
     .replace(/\([^)]*\)/g, ' ')
     .replace(/&/g, ' and ')
-    .replace(/[''`]/g, '')
+    .replace(/['\u2018\u2019`]/g, '')
     .replace(/[-_/.,()]/g, ' ')
     .replace(/\s+/g, ' ')
     .trim()
