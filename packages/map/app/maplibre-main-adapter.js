@@ -20,6 +20,129 @@ import {
 } from '../src/census-overlay.mjs';
 import layerTypes from '../../registries/src/browser/layer-types.mjs';
 
+/** @typedef {import('../src/renderer/map-controller.js').ControllerLayer} ControllerLayer */
+/** @typedef {import('../src/renderer/map-controller.js').LayerRecord} LayerRecord */
+/** @typedef {import('../src/renderer/map-controller.js').FeatureLike} FeatureLike */
+/** @typedef {import('../src/renderer/map-controller.js').ControllerMetric} ControllerMetric */
+/** @typedef {import('../src/census-overlay.mjs').CensusEntry} CensusEntry */
+/** @typedef {import('../src/census-overlay.mjs').Licence} Licence */
+/** @typedef {import('maplibre-gl').MapMouseEvent} MapMouseEvent */
+/** @typedef {import('maplibre-gl').FilterSpecification} FilterSpecification */
+/** @typedef {import('maplibre-gl').GeoJSONSource} GeoJSONSource */
+
+/**
+ * The MapLibre map as the app uses it: the adapter gives it invalidateSize, the call the
+ * catalogue and panes make after a layout change (Leaflet's name for it).
+ * @typedef {import('maplibre-gl').Map & { invalidateSize?: () => void }} AdapterMap
+ */
+
+/**
+ * A layer of the map index (render/metadata/maps-test.json, through the metadata service), as the
+ * renderer takes it, with what the adapter reads besides: a statistic's entry, a migrated map's
+ * old id and the property its features are named by.
+ * @typedef {import('../../types/index.js').LayerEntry & ControllerLayer & {
+ *   censusOverlay?: CensusEntry,
+ *   migration?: { sourceMapId?: string },
+ *   geographyId?: string,
+ *   nameProperty?: string
+ * }} RuntimeLayer
+ */
+
+/** What the adapter uses of the metadata service (packages/map/src/renderer/metadata-service.js). @typedef {{ getLayer(id: string): RuntimeLayer | null | undefined, layers?: RuntimeLayer[] }} LayerIndex */
+
+/**
+ * A catalogue map as the adapter keeps it with a loaded layer: the catalogue's record
+ * (data-service getMapById), or one made from the layer (toMainConfig).
+ * @typedef {{
+ *   id: string,
+ *   name?: string,
+ *   style?: { [key: string]: unknown },
+ *   bounds?: unknown,
+ *   rasterOpacity?: unknown,
+ *   isGroup?: boolean,
+ *   isDataEntry?: boolean,
+ *   [key: string]: unknown
+ * }} MainConfig
+ */
+
+/** A feature's key in a partly loaded layer (normalizeFeatureId): a number when it reads as one. @typedef {string | number} FeatureKey */
+
+/** A statistic's figures, joined and classed (prepareCensusOverlay). @typedef {{ entry: CensusEntry, rows: import('../src/census-overlay.mjs').CsvRow[], joined: import('../src/census-overlay.mjs').JoinedRows, classes: import('../src/census-overlay.mjs').OverlayClass[], counts: number[], licence: Licence | null, fillColor: ReturnType<typeof fillColorExpression> }} CensusOverlayState */
+
+/** The stroke and fill opacities set from the layer panel (the Leaflet-era setStyle). @typedef {{ setStyle(style?: { opacity?: unknown, fillOpacity?: unknown }): void }} OpacityStyleTarget */
+/** The raster opacity set from the layer panel (the Leaflet-era group.eachLayer). @typedef {{ eachLayer(callback: (layer: { setOpacity(opacity: unknown): void }) => void): void }} OpacityGroupTarget */
+
+/**
+ * A loaded layer as the app sees it (layerStates; getLayerState).
+ * @typedef {{
+ *   loaded: boolean,
+ *   visible: boolean,
+ *   config: MainConfig,
+ *   testLayerId: string,
+ *   layerIds: string[],
+ *   geoJsonLayers: OpacityStyleTarget[],
+ *   group: OpacityGroupTarget | null,
+ *   _strokeOpacity: number,
+ *   _fillOpacity: number,
+ *   _rasterOpacity: unknown,
+ *   isPartial: boolean,
+ *   baseLoaded: boolean,
+ *   loadedIndices: Set<FeatureKey>,
+ *   featureNames: Map<FeatureKey, string>,
+ *   featureVisibility: Map<FeatureKey, boolean>,
+ *   featureProperties: Map<FeatureKey, Record<string, unknown>>,
+ *   featureGeometry: Map<FeatureKey, unknown>,
+ *   censusOverlay?: CensusOverlayState
+ * }} MainLayerState
+ */
+
+/**
+ * A grouped map whose members are loaded (groupStates; markGroupLoaded).
+ * @typedef {{
+ *   loaded: boolean,
+ *   visible: boolean,
+ *   config: MainConfig | null | undefined,
+ *   childIds: string[],
+ *   isGroup: true,
+ *   _strokeOpacity: number,
+ *   _fillOpacity: number,
+ *   _rasterOpacity: unknown,
+ *   geoJsonLayers?: OpacityStyleTarget[],
+ *   group?: OpacityGroupTarget,
+ *   testLayerId?: undefined
+ * }} GroupState
+ */
+
+/** A rendered feature as the feature details read it (normalizeRenderedFeature). @typedef {{ id?: unknown, mapId: string, mapName: string, layerName: string, featureName: string, name: unknown, color: string, properties: Record<string, unknown>, geometry: unknown, geometryIsClipped: boolean, sourceLayer: string | null, statistic?: FeatureStatistic, [key: string]: unknown }} AdapterFeature */
+
+/** A statistic's figures for one area (censusStatisticFor). @typedef {{ areaName?: string, entryName?: string, sourceTitle: string, sourceUrl: string, licence: Licence | null, [key: string]: unknown }} FeatureStatistic */
+
+/** A feature index's whole-feature measures, by id and by unique name (wholeFeatureMetrics). @typedef {{ byId: Map<string, FeatureIndexItem>, byName: Map<string, FeatureIndexItem | null> }} FeatureMetricLookup */
+/** @typedef {{ id?: unknown, name?: unknown, areaM2?: number, perimeterM?: number }} FeatureIndexItem */
+
+/** The caches the adapter makes on first use. @typedef {{ censusOverlayLayers?: Map<string, RuntimeLayer>, censusOverlayFiles?: Map<string, Promise<string>>, featureMetricIndexes?: Map<string, Promise<FeatureMetricLookup>> }} AdapterCaches */
+
+/**
+ * What the adapter tells the app and asks of it (packages/map/app/app.js).
+ * @typedef {{
+ *   onChange?: (adapter: Test2MapLibreMainAdapter) => void,
+ *   onMetric?: (metric: ControllerMetric) => void,
+ *   onFallback?: (metric: ControllerMetric) => void,
+ *   onError?: (error: Error, context: { mainId: string, config: unknown, layer?: RuntimeLayer }) => void,
+ *   getMainMap?: (id: string) => MainConfig | null | undefined,
+ *   getDataEntry?: (id: string) => CensusEntry | null | undefined,
+ *   onTimelineChangeClick?: (changeId: unknown) => void,
+ *   enrichFeature?: (feature: AdapterFeature, selection: { layer: ControllerLayer, feature: FeatureLike }) => AdapterFeature | null | undefined,
+ *   onFeatureClick?: (features: AdapterFeature[]) => void
+ * }} AdapterOptions
+ */
+
+/** An election's styling of a layer (applyElectionStyle). @typedef {{ fillColorExpression?: unknown, fillOpacityExpression?: unknown, fillOpacity?: unknown, lineColorExpression?: unknown, lineOpacityExpression?: unknown, lineOpacity?: unknown, lineWidth?: unknown, labelMinZoomOverride?: unknown, hideLabels?: boolean, mode?: string }} ElectionStyle */
+
+/** What the change highlight holds (getTimelineChangesState). @typedef {{ key: string | null, reversed: boolean, markers: number, areas: number, newLines: number, goneLines: number }} TimelineChangesState */
+
+/** [[west, south], [east, north]]. @typedef {[[number, number], [number, number]]} LngLatPairBounds */
+
 // A census overlay is drawn on a vector geography: never on a raster, an image, terrain or a point
 // cloud (the layer-types registry's rasterSource and threeD types).
 const NON_VECTOR_SOURCE_TYPES = new Set([...layerTypes.behaviour.rasterSource, ...layerTypes.behaviour.threeD]);
@@ -48,6 +171,12 @@ const TIMELINE_CHANGE_LAYERS = Object.freeze({
 
 const DEFAULT_VECTOR_FILL_OPACITY = 0;
 
+/**
+ * Bounds as MapLibre's [[west, south], [east, north]]: from a flat [w, s, e, n] or from the
+ * catalogue's [[south, west], [north, east]]; null when they are neither.
+ * @param {unknown} bounds
+ * @returns {LngLatPairBounds | null}
+ */
 function normalizeBounds(bounds) {
   if (!Array.isArray(bounds)) return null;
   if (bounds.length === 4) {
@@ -62,6 +191,11 @@ function normalizeBounds(bounds) {
   return [[values[0], values[1]], [values[2], values[3]]];
 }
 
+/**
+ * @param {LngLatPairBounds | null} current
+ * @param {LngLatPairBounds | null} next
+ * @returns {LngLatPairBounds | null}
+ */
 function mergeBounds(current, next) {
   if (!next) return current;
   if (!current) return next;
@@ -77,9 +211,15 @@ function mergeBounds(current, next) {
   ];
 }
 
+/**
+ * @param {unknown} ids
+ * @returns {string[]}
+ */
 function normalizeOrderIds(ids) {
   if (!Array.isArray(ids)) return [];
+  /** @type {Set<string>} */
   const seen = new Set();
+  /** @type {string[]} */
   const result = [];
   for (const rawId of ids) {
     const id = String(rawId || '').trim();
@@ -90,33 +230,53 @@ function normalizeOrderIds(ids) {
   return result;
 }
 
+/** @param {{ style?: { fillOpacity?: unknown, [key: string]: unknown } } | null | undefined} layer */
 function resolveFillOpacity(layer) {
   return clamp01(layer?.style?.fillOpacity ?? DEFAULT_VECTOR_FILL_OPACITY);
 }
 
 export class Test2MapLibreMainAdapter {
+  /**
+   * @param {string | HTMLElement} container the map's element, or its id
+   * @param {LayerIndex} metadataService
+   * @param {AdapterOptions} [options]
+   */
   constructor(container, metadataService, options = {}) {
     this.container = container;
     this.metadataService = metadataService;
     this.options = options;
+    /** @type {TestMapLibreController | null} */
     this.renderer = null;
-    this.map = null;
+    // Made by init(); the methods that may run before it test for it.
+    /** @type {AdapterMap} */
+    this.map = /** @type {AdapterMap} */ (/** @type {unknown} */ (null));
+    /** @type {Map<string, MainLayerState>} */
     this.layerStates = new Map();
+    /** @type {Map<string, GroupState>} */
     this.groupStates = new Map();
+    /** @type {Map<string, string>} */
     this.mainToTest = new Map();
+    /** @type {Map<string, string>} */
     this.testToMain = new Map();
+    /** @type {Map<string, { sourceId: string, layerId: string, visible: boolean }>} */
     this.overlayLayers = new Map();
+    /** @type {TimelineChangesState | null} */
     this.timelineChanges = null;
     // Main/test layer-order convention is top-to-bottom for the active-card UI.
     // Internally we keep bottom-to-top because MapLibre moveLayer() promotes
     // each moved style layer above the previous one.
+    /** @type {string[]} */
     this._rememberedOrder = [];
+    /** @type {import('maplibre-gl').Marker | null} */
     this.addressMarker = null;
+    /** @type {((features: AdapterFeature[]) => void) | null} */
     this.onFeatureClick = null;
     this.resizeFrame = 0;
+    /** @type {{ width: number, height: number } | null} */
     this.lastResizeSize = null;
   }
 
+  /** @param {string | HTMLElement} [container] */
   init(container = this.container) {
     this.renderer = new TestMapLibreController(container, {
       onSelection: (selection) => this.handleSelection(selection),
@@ -129,7 +289,7 @@ export class Test2MapLibreMainAdapter {
     this.map = this.renderer.map;
     this.map.invalidateSize = () => this.invalidateSize();
     // Where the reader last clicked, so the feature details can list everything under that point.
-    this.map.on('click', (event) => { this.lastClickPoint = event.point; this.lastClickAt = Date.now(); });
+    this.map.on('click', (/** @type {MapMouseEvent} */ event) => { this.lastClickPoint = event.point; this.lastClickAt = Date.now(); });
     this.installMainStyleMapControls();
     this.applyMobileTouchContract();
     return this;
@@ -178,7 +338,7 @@ export class Test2MapLibreMainAdapter {
       map.zoomOut({ duration: 150 });
     });
     const compassButton = control.querySelector('.leaflet-control-compass');
-    const compassIcon = control.querySelector('.test2-main-zoom-control__compass-icon');
+    const compassIcon = /** @type {SVGElement | null} */ (control.querySelector('.test2-main-zoom-control__compass-icon'));
     const updateCompass = () => {
       const bearing = Number(map.getBearing?.() || 0);
       if (compassIcon) compassIcon.style.transform = `rotate(${-bearing}deg)`;
@@ -196,6 +356,11 @@ export class Test2MapLibreMainAdapter {
     host.appendChild(stack);
   }
 
+  /**
+   * @param {string | MainConfig | null | undefined} mapOrId
+   * @param {{ fit?: boolean, partial?: boolean }} [options]
+   * @returns {Promise<MainLayerState | null | undefined>}
+   */
   async loadLayer(mapOrId, options = {}) {
     const mainId = typeof mapOrId === 'string' ? mapOrId : mapOrId?.id;
     const config = typeof mapOrId === 'object' && mapOrId ? mapOrId : null;
@@ -208,8 +373,9 @@ export class Test2MapLibreMainAdapter {
     // compositeChildIds, not config.members: this branch and app.js's used DIFFERENT
     // fields for the same relation, so which one expanded a composite depended on which
     // field the map happened to carry. See packages/map/src/map-relations.mjs.
-    const groupChildIds = compositeChildIds(config);
+    const groupChildIds = compositeChildIds(/** @type {import('../src/map-relations.mjs').MapRelations | null} */ (config));
     if (config?.isGroup && groupChildIds.length) {
+      /** @type {Array<MainLayerState | null | undefined>} */
       const results = await Promise.all(groupChildIds.map((memberId) => this.loadLayer(memberId, {
         ...options,
         fit: false
@@ -237,9 +403,10 @@ export class Test2MapLibreMainAdapter {
     const overlay = runtimeLayer.censusOverlay ? await this.prepareCensusOverlay(runtimeLayer.censusOverlay) : null;
     this.mainToTest.set(mainId, runtimeLayer.id);
     this.testToMain.set(runtimeLayer.id, mainId);
-    await this.renderer.loadLayer(runtimeLayer, { fit: options.fit !== false });
+    // init() made the renderer before any layer is asked for.
+    await /** @type {TestMapLibreController} */ (this.renderer).loadLayer(runtimeLayer, { fit: options.fit !== false });
     // Taken off while it loaded (the renderer's layer-load machine cancelled it): record nothing.
-    if (this.renderer.layers instanceof Map && !this.renderer.layers.has(runtimeLayer.id)) return null;
+    if (/** @type {TestMapLibreController} */ (this.renderer).layers instanceof Map && !/** @type {TestMapLibreController} */ (this.renderer).layers.has(runtimeLayer.id)) return null;
     const state = this.createMainLayerState(mainId, runtimeLayer, mainConfig);
     if (overlay) {
       state.censusOverlay = overlay;
@@ -256,10 +423,15 @@ export class Test2MapLibreMainAdapter {
     return this.layerStates.get(mainId);
   }
 
+  /**
+   * @param {string} layerId
+   * @param {MainConfig | null | undefined} sourceMapConfig
+   */
   loadLayerFilteredByIndex(layerId, sourceMapConfig) {
     return this.loadLayer(sourceMapConfig?.id || layerId, { fit: true });
   }
 
+  /** @param {string | MainConfig | null | undefined} mapConfig */
   async expandToFullMap(mapConfig) {
     const mainId = typeof mapConfig === 'string' ? mapConfig : mapConfig?.id;
     if (mainId && this.layerStates.get(mainId)?.isPartial) this.unloadLayer(mainId);
@@ -267,7 +439,10 @@ export class Test2MapLibreMainAdapter {
   }
 
   /** Why a loaded layer drew nothing (the renderer's getLayerLoadFailure), or null. A group has
-   * failed only when every member has: one member drawn is a partial success, not an error. */
+   * failed only when every member has: one member drawn is a partial success, not an error.
+   * @param {string} mainId
+   * @returns {{ kind: 'source' | 'tiles', message: string } | null}
+   */
   getLayerLoadFailure(mainId) {
     const groupState = this.groupStates.get(mainId);
     if (groupState) {
@@ -278,6 +453,7 @@ export class Test2MapLibreMainAdapter {
     return this.renderer?.getLayerLoadFailure?.(testId) || null;
   }
 
+  /** @param {string} mainId */
   unloadLayer(mainId) {
     const groupState = this.groupStates.get(mainId);
     if (groupState) {
@@ -294,14 +470,17 @@ export class Test2MapLibreMainAdapter {
     this.options.onChange?.(this);
   }
 
+  /** @param {string} mainId */
   showLayer(mainId) {
     this.setLayerVisibility(mainId, true);
   }
 
+  /** @param {string} mainId */
   hideLayer(mainId) {
     this.setLayerVisibility(mainId, false);
   }
 
+  /** @param {string} mainId */
   toggleLayer(mainId) {
     const groupState = this.groupStates.get(mainId);
     if (groupState) {
@@ -313,6 +492,10 @@ export class Test2MapLibreMainAdapter {
     this.setLayerVisibility(mainId, !state.visible);
   }
 
+  /**
+   * @param {string} mainId
+   * @param {unknown} visible
+   */
   setLayerVisibility(mainId, visible) {
     const groupState = this.groupStates.get(mainId);
     if (groupState) {
@@ -336,12 +519,20 @@ export class Test2MapLibreMainAdapter {
     this.options.onChange?.(this);
   }
 
+  /**
+   * @param {string} mainId
+   * @returns {boolean}
+   */
   isLayerLoaded(mainId) {
     const groupState = this.groupStates.get(mainId);
     if (groupState) return groupState.childIds.every((id) => this.isLayerLoaded(id));
     return this.layerStates.has(mainId) || this.renderer?.layers.has(mainId) || false;
   }
 
+  /**
+   * @param {string} mainId
+   * @returns {boolean}
+   */
   isLayerVisible(mainId) {
     const groupState = this.groupStates.get(mainId);
     if (groupState) return groupState.childIds.some((id) => this.isLayerVisible(id));
@@ -349,6 +540,7 @@ export class Test2MapLibreMainAdapter {
   }
 
   getVisibleLayers() {
+    /** @type {Set<string>} */
     const groupedChildIds = new Set();
     const visibleGroups = [...this.groupStates.entries()]
       .filter(([, state]) => state.visible)
@@ -362,14 +554,24 @@ export class Test2MapLibreMainAdapter {
     return [...visibleGroups, ...visibleLayers];
   }
 
+  /**
+   * @param {string} mainId
+   * @returns {MainLayerState | GroupState | null | undefined}
+   */
   getLayerState(mainId) {
     if (this.groupStates.has(mainId)) return this.groupStates.get(mainId);
     return this.layerStates.get(mainId) || null;
   }
 
+  /**
+   * @param {string} mainId
+   * @param {MainConfig | null | undefined} config
+   * @param {string[]} [childIds]
+   */
   markGroupLoaded(mainId, config, childIds = []) {
     const ids = childIds.filter(Boolean);
     if (!mainId || !ids.length) return;
+    /** @type {GroupState} */
     const state = {
       loaded: true,
       visible: ids.some((id) => this.isLayerVisible(id)),
@@ -381,7 +583,7 @@ export class Test2MapLibreMainAdapter {
       _rasterOpacity: config?.rasterOpacity ?? config?.style?.opacity ?? 0.85
     };
     state.geoJsonLayers = [{
-      setStyle: (style = {}) => {
+      setStyle: (/** @type {{ opacity?: unknown, fillOpacity?: unknown }} */ style = {}) => {
         if (style.opacity !== undefined) {
           state._strokeOpacity = clamp01(style.opacity);
           for (const childId of ids) this.setStrokeOpacity(childId, style.opacity);
@@ -393,9 +595,9 @@ export class Test2MapLibreMainAdapter {
       }
     }];
     state.group = {
-      eachLayer: (callback) => {
+      eachLayer: (/** @type {(layer: { setOpacity(opacity: unknown): void }) => void} */ callback) => {
         callback({
-          setOpacity: (opacity) => {
+          setOpacity: (/** @type {unknown} */ opacity) => {
             state._rasterOpacity = clamp01(opacity);
             for (const childId of ids) this.setRasterOpacity(childId, opacity);
           }
@@ -408,6 +610,10 @@ export class Test2MapLibreMainAdapter {
     this.options.onChange?.(this);
   }
 
+  /**
+   * @param {{ loadedOnly?: boolean } | null} [options]
+   * @returns {string[]}
+   */
   getLayerDrawOrder(options = {}) {
     const { loadedOnly = true } = options || {};
     this._ensureRememberedOrderCoverage();
@@ -423,6 +629,10 @@ export class Test2MapLibreMainAdapter {
     });
   }
 
+  /**
+   * @param {unknown} [orderedIdsTopToBottom]
+   * @param {{ notify?: boolean } | null} [options]
+   */
   setLayerDrawOrder(orderedIdsTopToBottom = [], options = {}) {
     const { notify = false } = options || {};
     const incomingTop = normalizeOrderIds(orderedIdsTopToBottom);
@@ -436,6 +646,7 @@ export class Test2MapLibreMainAdapter {
     if (notify) this.options.onChange?.(this);
   }
 
+  /** @param {string} mainId */
   _rememberLayerOrderId(mainId) {
     if (!mainId || this._rememberedOrder.includes(mainId)) return;
     this._rememberedOrder.push(mainId);
@@ -450,7 +661,9 @@ export class Test2MapLibreMainAdapter {
     }
   }
 
+  /** @returns {Set<string>} */
   _getGroupedChildIds() {
+    /** @type {Set<string>} */
     const ids = new Set();
     for (const state of this.groupStates.values()) {
       for (const childId of state?.childIds || []) ids.add(childId);
@@ -458,6 +671,7 @@ export class Test2MapLibreMainAdapter {
     return ids;
   }
 
+  /** @param {string} mainId */
   _moveMainLayerToTop(mainId) {
     const testId = this.mainToTest.get(mainId) || mainId;
     const record = this.renderer?.layers.get(testId);
@@ -484,18 +698,27 @@ export class Test2MapLibreMainAdapter {
     }
   }
 
+  /**
+   * @param {string} mainId
+   * @param {unknown} opacity
+   */
   setOpacity(mainId, opacity) {
     const testId = this.mainToTest.get(mainId) || mainId;
     this.renderer?.setOpacity(testId, opacity);
   }
 
+  /**
+   * @param {string} mainId
+   * @param {unknown} opacity
+   */
   setStrokeOpacity(mainId, opacity) {
     const state = this.layerStates.get(mainId);
     const testId = state?.testLayerId || this.mainToTest.get(mainId) || mainId;
     const record = this.renderer?.layers.get(testId);
     if (!record) return;
     const value = clamp01(opacity);
-    state._strokeOpacity = value;
+    // As before, a layer the renderer has but the adapter does not record throws here.
+    /** @type {MainLayerState} */ (state)._strokeOpacity = value;
     const lineId = `${testId}-line`;
     if (this.map.getLayer(lineId)) {
       const property = record.config.geometryType === 'point' ? 'circle-opacity' : 'line-opacity';
@@ -506,16 +729,25 @@ export class Test2MapLibreMainAdapter {
     // opacity panel and destroys the slider mid-drag (the "control disappears" bug).
   }
 
+  /**
+   * @param {string} mainId
+   * @param {unknown} opacity
+   */
   setFillOpacity(mainId, opacity) {
     const state = this.layerStates.get(mainId);
     const testId = state?.testLayerId || this.mainToTest.get(mainId) || mainId;
     const value = clamp01(opacity);
-    state._fillOpacity = value;
+    // As before, an id the adapter does not record throws here.
+    /** @type {MainLayerState} */ (state)._fillOpacity = value;
     const fillId = `${testId}-fill`;
     if (this.map.getLayer(fillId)) this.map.setPaintProperty(fillId, 'fill-opacity', value);
     // See setStrokeOpacity: no onChange() — avoids collapsing the opacity panel mid-drag.
   }
 
+  /**
+   * @param {string} mainId
+   * @param {unknown} opacity
+   */
   setRasterOpacity(mainId, opacity) {
     // Look up the state in either map (single layers vs groups) and guard against
     // a missing state/layer — otherwise this threw (unlike setStroke/FillOpacity,
@@ -530,33 +762,45 @@ export class Test2MapLibreMainAdapter {
     // See setStrokeOpacity: no onChange() — avoids collapsing the opacity panel mid-drag.
   }
 
+  /** @param {unknown} value */
   setTransparency(value) {
     const opacity = 1 - clamp01(Number(value) / 100);
     for (const id of this.layerStates.keys()) this.setStrokeOpacity(id, opacity);
   }
 
+  /** @param {unknown} value */
   setFillTransparency(value) {
     const opacity = 1 - clamp01(Number(value) / 100);
     for (const id of this.layerStates.keys()) this.setFillOpacity(id, opacity);
   }
 
+  /** @param {unknown} enabled */
   setLabelsEnabled(enabled) {
     for (const testId of this.mainToTest.values()) {
       this.renderer?.setLayerLabelsEnabled(testId, Boolean(enabled));
     }
   }
 
+  /** @param {unknown} scale */
   setTextScale(scale) {
     for (const testId of this.mainToTest.values()) {
       this.renderer?.setLayerTextScale(testId, scale);
     }
   }
 
+  /**
+   * @param {string} mainId
+   * @param {unknown} hidden
+   */
   setLayerLabelsHidden(mainId, hidden) {
     const testId = this.mainToTest.get(mainId) || mainId;
     this.renderer?.setLayerLabelsEnabled(testId, !hidden);
   }
 
+  /**
+   * @param {string} mainId
+   * @param {ElectionStyle} [style]
+   */
   applyElectionStyle(mainId, style = {}) {
     const state = this.layerStates.get(mainId)
       || [...this.layerStates.values()].find((candidate) => candidate.testLayerId === mainId);
@@ -613,6 +857,9 @@ export class Test2MapLibreMainAdapter {
    * incomplete), drawn above the election fill and below the outlines. `options`: { matchInput,
    * keys, theme: 'light'|'dark' }; null removes it. The layer joins the record's layers, so it is
    * hidden, reordered and unloaded with them.
+   * @param {string} mainId
+   * @param {{ matchInput?: unknown, keys?: unknown[], theme?: string } | null} [options]
+   * @returns {boolean}
    */
   setElectionHatch(mainId, options = null) {
     const state = this.layerStates.get(mainId)
@@ -630,15 +877,16 @@ export class Test2MapLibreMainAdapter {
     if (!fill) return false;
     const image = options.theme === 'dark' ? 'civgraph-election-hatch-dark' : 'civgraph-election-hatch-light';
     ensureHatchImage(this.map, image, options.theme === 'dark');
-    const match = ['match', options.matchInput, keys, true, false];
+    const match = /** @type {FilterSpecification} */ (['match', /** @type {import('maplibre-gl').ExpressionSpecification} */ (options.matchInput), keys, true, false]);
     const existing = this.map.getFilter(fillId);
+    /** @type {import('maplibre-gl').FillLayerSpecification} */
     const layer = {
       id: hatchId,
       type: 'fill',
       source: fill.source,
-      filter: existing ? ['all', existing, match] : match,
+      filter: existing ? /** @type {FilterSpecification} */ (['all', existing, match]) : match,
       paint: { 'fill-pattern': image, 'fill-opacity': 0.9 },
-      layout: { visibility: this.map.getLayoutProperty(fillId, 'visibility') || 'visible' }
+      layout: { visibility: /** @type {'visible' | 'none'} */ (this.map.getLayoutProperty(fillId, 'visibility') || 'visible') }
     };
     if (fill.sourceLayer) layer['source-layer'] = fill.sourceLayer;
     const lineId = `${testId}-line`;
@@ -648,6 +896,7 @@ export class Test2MapLibreMainAdapter {
     return true;
   }
 
+  /** @param {string} mainId */
   clearElectionStyle(mainId) {
     const state = this.layerStates.get(mainId)
       || [...this.layerStates.values()].find((candidate) => candidate.testLayerId === mainId);
@@ -687,6 +936,7 @@ export class Test2MapLibreMainAdapter {
     this.options.onChange?.(this);
   }
 
+  /** @param {unknown} id */
   setBaseMap(id) {
     const basemap = this.renderer?.basemap;
     if (!this.map || !basemap) return;
@@ -705,10 +955,14 @@ export class Test2MapLibreMainAdapter {
     return this.hideOverlay(overlayId);
   }
 
+  /**
+   * @param {string} overlayId
+   * @returns {boolean}
+   */
   showOverlay(overlayId) {
     if (!this.map || !overlayId) return false;
     if (this.overlayLayers.has(overlayId)) {
-      const overlay = this.overlayLayers.get(overlayId);
+      const overlay = /** @type {{ sourceId: string, layerId: string, visible: boolean }} */ (this.overlayLayers.get(overlayId));
       const layerId = overlay.layerId;
       if (this.map.getLayer(layerId)) this.map.setLayoutProperty(layerId, 'visibility', 'visible');
       overlay.visible = true;
@@ -740,6 +994,10 @@ export class Test2MapLibreMainAdapter {
     return true;
   }
 
+  /**
+   * @param {string} overlayId
+   * @returns {boolean}
+   */
   hideOverlay(overlayId) {
     const overlay = this.overlayLayers.get(overlayId);
     if (!this.map || !overlay) return false;
@@ -764,32 +1022,37 @@ export class Test2MapLibreMainAdapter {
    * `geojson` holds the pair files' features; `options.reversed` is set when stepping
    * backwards, which swaps which lines are new and which are gone. `options.points` is the
    * change list's label points ({ id, lng, lat }).
+   * @param {{ features?: unknown } | null | undefined} geojson
+   * @param {{ reversed?: boolean, points?: unknown, key?: string }} [options]
+   * @returns {boolean}
    */
   setTimelineChanges(geojson, options = {}) {
     if (!this.map) return false;
     const reversed = options.reversed === true;
+    /** @type {Array<import('geojson').Feature<import('geojson').Geometry, Record<string, unknown> | null>>} */
     const features = Array.isArray(geojson?.features) ? geojson.features : [];
     const shown = features.map((feature) => {
       const role = feature?.properties?.role;
       const drawn = role === 'added' ? (reversed ? 'gone' : 'new') : role === 'removed' ? (reversed ? 'new' : 'gone') : 'area';
       return { ...feature, properties: { ...(feature.properties || {}), drawn } };
     });
-    const points = (Array.isArray(options.points) ? options.points : [])
+    const points = /** @type {Array<{ id?: unknown, lng: number, lat: number }>} */ (Array.isArray(options.points) ? options.points : [])
       .filter((point) => Number.isFinite(point?.lng) && Number.isFinite(point?.lat))
       .map((point) => ({
         type: 'Feature',
         properties: { changeId: point.id, drawn: 'marker' },
         geometry: { type: 'Point', coordinates: [point.lng, point.lat] }
       }));
-    const data = { type: 'FeatureCollection', features: shown };
-    const markerData = { type: 'FeatureCollection', features: points };
+    // Each change file's features are GeoJSON features; the markers are made as Points above.
+    const data = /** @type {import('geojson').FeatureCollection} */ ({ type: 'FeatureCollection', features: shown });
+    const markerData = /** @type {import('geojson').FeatureCollection} */ ({ type: 'FeatureCollection', features: points });
     const accent = TIMELINE_CHANGE_ACCENT;
     const { sourceId, markerSourceId, fillId, outlineId, newLineId, goneLineId, markerId } = TIMELINE_CHANGE_LAYERS;
-    if (this.map.getSource(sourceId)) this.map.getSource(sourceId).setData(data);
+    if (this.map.getSource(sourceId)) /** @type {GeoJSONSource} */ (this.map.getSource(sourceId)).setData(data);
     else this.map.addSource(sourceId, { type: 'geojson', data });
-    if (this.map.getSource(markerSourceId)) this.map.getSource(markerSourceId).setData(markerData);
+    if (this.map.getSource(markerSourceId)) /** @type {GeoJSONSource} */ (this.map.getSource(markerSourceId)).setData(markerData);
     else this.map.addSource(markerSourceId, { type: 'geojson', data: markerData });
-    const ensure = (spec) => {
+    const ensure = (/** @type {import('maplibre-gl').LayerSpecification} */ spec) => {
       if (!this.map.getLayer(spec.id)) this.map.addLayer(spec);
       // Above every boundary layer, including one loaded since the last step.
       this.map.moveLayer(spec.id);
@@ -845,7 +1108,7 @@ export class Test2MapLibreMainAdapter {
     if (this._timelineChangeHandlersInstalled || !this.map) return;
     this._timelineChangeHandlersInstalled = true;
     const { markerId } = TIMELINE_CHANGE_LAYERS;
-    this.map.on('click', markerId, (event) => {
+    this.map.on('click', markerId, (/** @type {import('maplibre-gl').MapLayerMouseEvent} */ event) => {
       if (this.map.getZoom() >= 11.5) return;
       const id = event?.features?.[0]?.properties?.changeId;
       if (id) this.options.onTimelineChangeClick?.(id);
@@ -856,6 +1119,10 @@ export class Test2MapLibreMainAdapter {
     this.map.on('mouseleave', markerId, () => { if (this.map?.getCanvas?.()) this.map.getCanvas().style.cursor = ''; });
   }
 
+  /**
+   * @param {MapMouseEvent | null | undefined} event
+   * @returns {boolean}
+   */
   isTimelineChangeEventAtPoint(event) {
     if (!this.map || !this.timelineChanges?.markers || !event?.point) return false;
     const { markerId } = TIMELINE_CHANGE_LAYERS;
@@ -867,10 +1134,11 @@ export class Test2MapLibreMainAdapter {
 
   clearTimelineChanges() {
     if (!this.map) return false;
+    /** @type {import('geojson').FeatureCollection} */
     const empty = { type: 'FeatureCollection', features: [] };
     const { sourceId, markerSourceId } = TIMELINE_CHANGE_LAYERS;
-    this.map.getSource(sourceId)?.setData(empty);
-    this.map.getSource(markerSourceId)?.setData(empty);
+    /** @type {GeoJSONSource | undefined} */ (this.map.getSource(sourceId))?.setData(empty);
+    /** @type {GeoJSONSource | undefined} */ (this.map.getSource(markerSourceId))?.setData(empty);
     this.timelineChanges = null;
     return true;
   }
@@ -883,6 +1151,8 @@ export class Test2MapLibreMainAdapter {
   /**
    * Two editions of one series switched on together used to be drawn identically. The older
    * one is now grey and dashed (role 'older'); null restores the layer's own style.
+   * @param {string} mainId
+   * @param {string | null | undefined} role
    */
   setEditionRole(mainId, role) {
     if (!this.map) return;
@@ -926,6 +1196,7 @@ export class Test2MapLibreMainAdapter {
     }
   }
 
+  /** @param {{ clearSelection?: boolean }} [options] */
   clearTransientHighlight(options = {}) {
     this.renderer?.clearHover?.();
     if (options.clearSelection === false || !this.renderer?.selected) return;
@@ -935,13 +1206,15 @@ export class Test2MapLibreMainAdapter {
     this.renderer.selected = null;
     this.renderer.notifyChange?.();
   }
+  /** @param {string} mainId */
   fitToLayer(mainId) {
     const testId = this.mainToTest.get(mainId) || mainId;
     this.renderer?.fitToLayer(testId);
   }
 
+  /** @param {string[]} [mainIds] */
   fitToLayers(mainIds = []) {
-    const bounds = mainIds.reduce((acc, mainId) => {
+    const bounds = mainIds.reduce((/** @type {LngLatPairBounds | null} */ acc, mainId) => {
       const state = this.layerStates.get(mainId);
       const normalized = normalizeBounds(state?.config?.bounds);
       if (!normalized) return acc;
@@ -950,6 +1223,10 @@ export class Test2MapLibreMainAdapter {
     if (bounds) this.fitToBounds(bounds, { smooth: false });
   }
 
+  /**
+   * @param {unknown} bounds
+   * @param {{ smooth?: boolean } | null} [options]
+   */
   fitToBounds(bounds, options = {}) {
     const normalized = normalizeBounds(bounds);
     if (!normalized || !this.map) return;
@@ -986,6 +1263,10 @@ export class Test2MapLibreMainAdapter {
    *   'unavailable' -- no map to observe. Distinct from success on purpose: a caller
    *                    must not read "could not tell" as "worked".
    */
+  /**
+   * @param {{ timeoutMs?: number }} [options]
+   * @returns {Promise<import('./settle.js').SettleOutcome>}
+   */
   waitUntilSettled({ timeoutMs = 20000 } = {}) {
     return waitForMapSettle(this.map, { timeoutMs });
   }
@@ -1004,6 +1285,7 @@ export class Test2MapLibreMainAdapter {
     });
   }
 
+  /** @returns {{ width: number, height: number } | null} */
   readMapContainerSize() {
     const container = this.map?.getContainer?.();
     const rect = container?.getBoundingClientRect?.();
@@ -1014,6 +1296,10 @@ export class Test2MapLibreMainAdapter {
     };
   }
 
+  /**
+   * @param {{ width: number, height: number } | null} nextSize
+   * @returns {boolean}
+   */
   shouldResizeMap(nextSize) {
     if (!nextSize || nextSize.width <= 0 || nextSize.height <= 0) return false;
     const previous = this.lastResizeSize;
@@ -1025,14 +1311,21 @@ export class Test2MapLibreMainAdapter {
     return Math.abs(canvasRect.width - nextSize.width) > 1 || Math.abs(canvasRect.height - nextSize.height) > 1;
   }
 
+  /**
+   * @param {string} mainId
+   * @param {string | number | null | undefined} featureId
+   * @param {{ properties?: Record<string, unknown> }} [options]
+   * @returns {boolean}
+   */
   highlightFeature(mainId, featureId, options = {}) {
     const testId = this.mainToTest.get(mainId) || mainId;
     return this.renderer?.selectFeatureById(testId, featureId, options.properties || {}) || false;
   }
 
+  /** @returns {Promise<void>} */
   waitForMapRender(timeout = 700) {
     if (!this.map) return Promise.resolve();
-    return new Promise((resolve) => {
+    return new Promise((/** @type {(value?: void) => void} */ resolve) => {
       let settled = false;
       const finish = () => {
         if (settled) return;
@@ -1046,6 +1339,13 @@ export class Test2MapLibreMainAdapter {
     });
   }
 
+  /**
+   * @param {MainConfig} mapConfig
+   * @param {unknown} featureId
+   * @param {string | null | undefined} featureName
+   * @param {unknown} bbox
+   * @param {{ isolate?: boolean, resolveBounds?: (layer: unknown) => unknown, smooth?: boolean }} [options]
+   */
   async loadSingleFeature(mapConfig, featureId, featureName, bbox, options = {}) {
     const mainId = mapConfig?.id;
     if (options.isolate && mainId) {
@@ -1055,9 +1355,10 @@ export class Test2MapLibreMainAdapter {
       }
     }
     const alreadyFull = mainId ? this.layerStates.get(mainId)?.baseLoaded === true && !this.layerStates.get(mainId)?.isPartial : false;
-    let state = this.layerStates.get(mainId);
+    // As before, a load cancelled midway (null) throws below.
+    let state = /** @type {MainLayerState} */ (this.layerStates.get(mainId));
     if (!state || !this.renderer?.layers.has(state.testLayerId)) {
-      state = await this.loadLayer(mapConfig, { fit: false, partial: true });
+      state = /** @type {MainLayerState} */ (await this.loadLayer(mapConfig, { fit: false, partial: true }));
     }
     this.ensurePartialFeatureState(state);
     const properties = { name: featureName || featureId };
@@ -1114,6 +1415,10 @@ export class Test2MapLibreMainAdapter {
     };
   }
 
+  /**
+   * @param {string} mapId
+   * @param {unknown} featureId
+   */
   togglePartialFeature(mapId, featureId) {
     const state = this.layerStates.get(mapId);
     const id = normalizeFeatureId(featureId);
@@ -1123,6 +1428,10 @@ export class Test2MapLibreMainAdapter {
     this.options.onChange?.(this);
   }
 
+  /**
+   * @param {string} mapId
+   * @param {unknown} featureId
+   */
   unloadPartialFeature(mapId, featureId) {
     const state = this.layerStates.get(mapId);
     const id = normalizeFeatureId(featureId);
@@ -1145,6 +1454,11 @@ export class Test2MapLibreMainAdapter {
     this.options.onChange?.(this);
   }
 
+  /**
+   * @param {string} mapId
+   * @param {unknown} featureId
+   * @returns {boolean}
+   */
   isFeatureLoaded(mapId, featureId) {
     const state = this.layerStates.get(mapId);
     if (!state) return false;
@@ -1152,6 +1466,11 @@ export class Test2MapLibreMainAdapter {
     return state.loadedIndices?.has(normalizeFeatureId(featureId)) || false;
   }
 
+  /**
+   * @param {string} mapId
+   * @param {unknown} featureId
+   * @returns {boolean}
+   */
   isFeatureVisible(mapId, featureId) {
     const state = this.layerStates.get(mapId);
     if (!state) return false;
@@ -1160,16 +1479,22 @@ export class Test2MapLibreMainAdapter {
     return Boolean(state.loadedIndices?.has(id) && state.featureVisibility?.get(id) !== false && state.visible);
   }
 
+  /** @param {string} mapId */
   isPartialLayer(mapId) {
     return !!this.layerStates.get(mapId)?.isPartial;
   }
 
+  /**
+   * @param {string} mapId
+   * @returns {unknown[]}
+   */
   getPartialFeatureNames(mapId) {
     const state = this.layerStates.get(mapId);
     if (!state?.loadedIndices) return [];
     return [...state.loadedIndices].map((id) => state.featureNames?.get(id) || state.featureProperties?.get(id)?.name || `Feature ${id}`);
   }
 
+  /** @param {string} mapId */
   getPartialFeatureItems(mapId) {
     const state = this.layerStates.get(mapId);
     if (!state?.loadedIndices) return [];
@@ -1180,12 +1505,20 @@ export class Test2MapLibreMainAdapter {
     }));
   }
 
+  /**
+   * @param {unknown} lat
+   * @param {unknown} lon
+   * @param {number} [radius]
+   */
   findFeaturesAtPoint(lat, lon, radius = 8) {
     return this.queryFeaturesAtLngLat(lat, lon, radius);
   }
 
+  /** @returns {AdapterFeature[]} */
   getLoadedFeatures(limit = 500) {
+    /** @type {AdapterFeature[]} */
     const features = [];
+    /** @type {Set<string>} */
     const seen = new Set();
     for (const [mainId, state] of this.layerStates) {
       if (!state.visible) continue;
@@ -1213,7 +1546,9 @@ export class Test2MapLibreMainAdapter {
     const point = this.lastClickPoint;
     // Only for a selection made by that click (or from this list), not one made from search later.
     if (!this.map || !point || Date.now() - (this.lastClickAt || 0) > 15000) return [];
+    /** @type {Array<{ key: string, mapId: string, layerName: string, featureName: unknown, layer: ControllerLayer | undefined, raw: FeatureLike }>} */
     const out = [];
+    /** @type {Set<string>} */
     const seen = new Set();
     for (const [mainId, state] of this.layerStates) {
       if (!state.visible) continue;
@@ -1233,16 +1568,27 @@ export class Test2MapLibreMainAdapter {
     return out;
   }
 
-  /** Show one of featuresAtLastClick's entries in the feature details, as a click on it would. */
+  /**
+   * Show one of featuresAtLastClick's entries in the feature details, as a click on it would.
+   * @param {{ layer?: ControllerLayer, raw?: FeatureLike } | null | undefined} entry
+   * @returns {boolean}
+   */
   selectFeatureAtClick(entry) {
     if (!entry?.layer || !entry.raw) return false;
     this.lastClickAt = Date.now();
     return this.renderer?.selectFeature(entry.layer, entry.raw) || false;
   }
 
+  /**
+   * @param {unknown} lat
+   * @param {unknown} lon
+   * @param {number} [radius]
+   * @returns {AdapterFeature[]}
+   */
   queryFeaturesAtLngLat(lat, lon, radius = 8) {
     if (!this.map) return [];
     const point = this.map.project([Number(lon), Number(lat)]);
+    /** @type {string[]} */
     const layers = [];
     for (const state of this.layerStates.values()) {
       if (!state.visible) continue;
@@ -1254,12 +1600,13 @@ export class Test2MapLibreMainAdapter {
       [[point.x - radius, point.y - radius], [point.x + radius, point.y + radius]],
       { layers }
     );
+    /** @type {Set<string>} */
     const seen = new Set();
     return features.map((feature) => {
       const layerId = feature.layer?.id?.replace(/-(fill|line|label|raster)$/, '');
       const mainId = this.testToMain.get(layerId) || layerId;
       const state = this.layerStates.get(mainId);
-      return this.normalizeRenderedFeature(feature, mainId, state, this.renderer?.layers.get(state?.testLayerId));
+      return this.normalizeRenderedFeature(feature, mainId, state, this.renderer?.layers.get(/** @type {string} */ (state?.testLayerId)));
     }).filter((feature) => {
       const key = featureDedupeKey(feature);
       if (seen.has(key)) return false;
@@ -1268,6 +1615,11 @@ export class Test2MapLibreMainAdapter {
     });
   }
 
+  /**
+   * @param {unknown} lat
+   * @param {unknown} lon
+   * @param {string | null | undefined} name
+   */
   addAddressMarker(lat, lon, name) {
     this.removeAddressMarker();
     if (!this.map) return;
@@ -1284,6 +1636,10 @@ export class Test2MapLibreMainAdapter {
     this.addressMarker = null;
   }
 
+  /**
+   * @param {string} mainId
+   * @returns {RuntimeLayer | null}
+   */
   resolveLayer(mainId) {
     const directLayer = this.metadataService.getLayer(mainId);
     if (directLayer?.loadable) return directLayer;
@@ -1300,49 +1656,61 @@ export class Test2MapLibreMainAdapter {
    * A census statistic (data/database/data-entries.json) has no layer of its own in the map
    * index: it is drawn as its geography's tiles under its own id, so it can sit on the map
    * beside the plain boundaries and come off without taking them with it.
+   * @this {Test2MapLibreMainAdapter & AdapterCaches}
+   * @param {string} mainId
+   * @returns {RuntimeLayer | null | undefined}
    */
   resolveCensusOverlayLayer(mainId) {
     // getDataEntry looks among the 80 statistics only; getMainMap would scan every map and
     // variant, and resolveLayer runs for every id the catalogue checks.
-    const entry = this.options.getDataEntry
+    // A map the catalogue marks isDataEntry is a statistic (data-service dataEntryAsMap).
+    const entry = /** @type {CensusEntry | null | undefined} */ (this.options.getDataEntry
       ? this.options.getDataEntry(mainId)
-      : (this.options.getMainMap?.(mainId)?.isDataEntry ? this.options.getMainMap(mainId) : null);
+      : (this.options.getMainMap?.(mainId)?.isDataEntry ? /** @type {(id: string) => MainConfig} */ (this.options.getMainMap)(mainId) : null));
     if (!entry || !entry.geography || !entry.csv || entry.geography === mainId) return null;
     this.censusOverlayLayers ||= new Map();
     if (this.censusOverlayLayers.has(mainId)) return this.censusOverlayLayers.get(mainId);
     const geography = this.resolveLayer(entry.geography);
     const usable = geography?.loadable && !NON_VECTOR_SOURCE_TYPES.has(geography.sourceType);
-    const layer = usable ? overlayRuntimeLayer(entry, geography) : null;
+    const layer = usable ? /** @type {RuntimeLayer} */ (overlayRuntimeLayer(entry, /** @type {RuntimeLayer} */ (geography))) : null;
     if (layer) this.censusOverlayLayers.set(mainId, layer);
     return layer;
   }
 
-  /** Fetch a statistic's CSV (and crosswalk), join it and work out its classes and colours. */
+  /**
+   * Fetch a statistic's CSV (and crosswalk), join it and work out its classes and colours.
+   * @this {Test2MapLibreMainAdapter & AdapterCaches}
+   * @param {CensusEntry} entry
+   * @returns {Promise<CensusOverlayState>}
+   */
   async prepareCensusOverlay(entry) {
     this.censusOverlayFiles ||= new Map();
-    const fetchText = (url) => {
-      if (!this.censusOverlayFiles.has(url)) {
+    // The cache exists from here on (made just above).
+    const fetchText = (/** @type {string} */ url) => {
+      if (!/** @type {Map<string, Promise<string>>} */ (this.censusOverlayFiles).has(url)) {
         const pending = fetch(url, { cache: 'default' }).then((response) => {
           if (!response.ok) throw new Error(`HTTP ${response.status}`);
           return response.text();
         });
         // A failed fetch is not remembered: Retry must try again.
-        pending.catch(() => this.censusOverlayFiles.delete(url));
-        this.censusOverlayFiles.set(url, pending);
+        pending.catch(() => /** @type {Map<string, Promise<string>>} */ (this.censusOverlayFiles).delete(url));
+        /** @type {Map<string, Promise<string>>} */ (this.censusOverlayFiles).set(url, pending);
       }
-      return this.censusOverlayFiles.get(url);
+      return /** @type {Promise<string>} */ (/** @type {Map<string, Promise<string>>} */ (this.censusOverlayFiles).get(url));
     };
+    /** @type {string} */
     let csvText;
     let crosswalk = null;
     try {
       [csvText, crosswalk] = await Promise.all([
-        fetchText(cdnUrl(entry.csv)),
+        // A statistic is drawn only when it has a CSV (resolveCensusOverlayLayer).
+        fetchText(cdnUrl(/** @type {string} */ (entry.csv))),
         entry.joinCrosswalk
-          ? fetchText(`/${String(entry.joinCrosswalk).replace(/^\/+/, '')}`).then((text) => JSON.parse(text))
+          ? fetchText(`/${String(entry.joinCrosswalk).replace(/^\/+/, '')}`).then((text) => /** @type {{ tileKey?: string, map?: { [key: string]: unknown } } | null} */ (JSON.parse(text)))
           : null
       ]);
     } catch (error) {
-      const failure = new Error(`${entry.name}: its figures could not be loaded (${error?.message || error}).`);
+      const failure = /** @type {Error & { code?: string }} */ (new Error(`${entry.name}: its figures could not be loaded (${/** @type {{ message?: string } | null} */ (error)?.message || error}).`));
       failure.code = 'census-overlay-data-failed';
       this.options.onError?.(failure, { mainId: entry.id, config: entry });
       throw failure;
@@ -1361,6 +1729,10 @@ export class Test2MapLibreMainAdapter {
     };
   }
 
+  /**
+   * @param {string} testId
+   * @param {CensusOverlayState} overlay
+   */
   applyCensusOverlayPaint(testId, overlay) {
     const fillId = `${testId}-fill`;
     if (!this.map?.getLayer(fillId)) return;
@@ -1368,20 +1740,30 @@ export class Test2MapLibreMainAdapter {
     this.map.setPaintProperty(fillId, 'fill-opacity', OVERLAY_FILL_OPACITY);
   }
 
-  /** Everything the legend needs for a loaded statistic, or null when mainId is not one. */
+  /**
+   * Everything the legend needs for a loaded statistic, or null when mainId is not one.
+   * @param {string} mainId
+   * @returns {import('../src/app/legend-view.mjs').CensusLegend | null}
+   */
   getCensusOverlayLegend(mainId) {
     const overlay = this.layerStates.get(mainId)?.censusOverlay;
     if (!overlay) return null;
     return {
       id: mainId,
-      entry: overlay.entry,
+      // Every statistic of data-entries.json has a name.
+      entry: /** @type {CensusEntry & { name: string }} */ (overlay.entry),
       classes: overlay.classes.map((cls, i) => ({ ...cls, count: overlay.counts[i] || 0 })),
       areaCount: overlay.joined.byTileValue.size,
       licence: overlay.licence
     };
   }
 
-  /** The figures behind a rendered feature of a statistic, for the feature details. */
+  /**
+   * The figures behind a rendered feature of a statistic, for the feature details.
+   * @param {MainLayerState | null | undefined} state
+   * @param {Record<string, unknown> | null | undefined} properties
+   * @returns {FeatureStatistic | null}
+   */
   censusStatisticFor(state, properties) {
     const overlay = state?.censusOverlay;
     if (!overlay) return null;
@@ -1396,10 +1778,16 @@ export class Test2MapLibreMainAdapter {
     };
   }
 
+  /**
+   * @param {RuntimeLayer} layer
+   * @param {MainConfig | null} [mainConfig]
+   * @returns {RuntimeLayer}
+   */
   toRuntimeLayer(layer, mainConfig = null) {
     const styledLayer = this.applyMainStyle(layer, mainConfig);
     const localHost = ['localhost', '127.0.0.1', '::1'].includes(location.hostname);
-    const shouldUseLocalFallback = globalThis.__civgraphUseLocalTileFallback === true;
+    // Set by the browser suite (tests/browser) when it serves the local tile fallback.
+    const shouldUseLocalFallback = /** @type {{ __civgraphUseLocalTileFallback?: boolean }} */ (globalThis).__civgraphUseLocalTileFallback === true;
     if (shouldUseLocalFallback && localHost && styledLayer.sourceType === 'pmtiles' && styledLayer.tilesFallback) {
       // tilesFallback points at directory MVT output under render/tiles/, which is
       // .cfignore'd and untracked deliberately -- a local convenience, not a
@@ -1419,15 +1807,23 @@ export class Test2MapLibreMainAdapter {
       return {
         ...styledLayer,
         sourceType: 'mvt',
-        tiles: styledLayer.tilesFallback,
+        tiles: /** @type {string} */ (styledLayer.tilesFallback),
         tileUrl: undefined
       };
     }
     return styledLayer;
   }
 
+  /**
+   * The layer with the catalogue map's own colours, widths and opacities over its style.
+   * @param {RuntimeLayer} layer
+   * @param {MainConfig | null} [mainConfig]
+   * @returns {RuntimeLayer}
+   */
   applyMainStyle(layer, mainConfig = null) {
+    /** @type {{ [key: string]: unknown }} */
     const mainStyle = mainConfig?.style || {};
+    /** @type {{ [key: string]: unknown }} */
     const style = { ...(layer.style || {}) };
     for (const key of ['color', 'fillColor', 'fillOpacity', 'weight', 'opacity', 'radius']) {
       if (mainStyle[key] !== undefined) style[key] = mainStyle[key];
@@ -1436,8 +1832,15 @@ export class Test2MapLibreMainAdapter {
     return { ...layer, style };
   }
 
+  /**
+   * @param {string} mainId
+   * @param {RuntimeLayer} layer
+   * @param {MainConfig | null} config
+   * @returns {MainLayerState}
+   */
   createMainLayerState(mainId, layer, config) {
     const mainConfig = config || this.toMainConfig(layer);
+    /** @type {MainLayerState} */
     const state = {
       loaded: true,
       visible: true,
@@ -1458,19 +1861,20 @@ export class Test2MapLibreMainAdapter {
       featureGeometry: new Map()
     };
     state.geoJsonLayers = [{
-      setStyle: (style = {}) => {
+      setStyle: (/** @type {{ opacity?: unknown, fillOpacity?: unknown }} */ style = {}) => {
         if (style.opacity !== undefined) this.setStrokeOpacity(mainId, Number(style.opacity));
         if (style.fillOpacity !== undefined) this.setFillOpacity(mainId, Number(style.fillOpacity));
       }
     }];
     state.group = {
-      eachLayer: (callback) => callback({
-        setOpacity: (opacity) => this.setRasterOpacity(mainId, Number(opacity))
+      eachLayer: (/** @type {(layer: { setOpacity(opacity: unknown): void }) => void} */ callback) => callback({
+        setOpacity: (/** @type {unknown} */ opacity) => this.setRasterOpacity(mainId, Number(opacity))
       })
     };
     return state;
   }
 
+  /** @param {MainLayerState} state */
   ensurePartialFeatureState(state) {
     state.loadedIndices ||= new Set();
     state.featureNames ||= new Map();
@@ -1479,6 +1883,7 @@ export class Test2MapLibreMainAdapter {
     state.featureGeometry ||= new Map();
   }
 
+  /** @param {string} mainId */
   applyPartialFeatureFilter(mainId) {
     const state = this.layerStates.get(mainId);
     if (!state?.isPartial) return;
@@ -1493,6 +1898,11 @@ export class Test2MapLibreMainAdapter {
     this.renderer?.scheduleDomLabelRefresh?.(state.testLayerId);
   }
 
+  /**
+   * @param {LayerRecord | null | undefined} record
+   * @param {{ includeHidden?: boolean }} [options]
+   * @returns {string[]}
+   */
   getQueryableLayerIds(record, options = {}) {
     if (!record) return [];
     return (record.layerIds || []).filter((id) => {
@@ -1503,9 +1913,15 @@ export class Test2MapLibreMainAdapter {
     });
   }
 
+  /**
+   * @param {string} mainId
+   * @param {unknown} featureId
+   * @param {unknown} [featureName]
+   * @returns {AdapterFeature | null}
+   */
   findRenderedFeature(mainId, featureId, featureName = null) {
     const state = this.layerStates.get(mainId);
-    const record = this.renderer?.layers.get(state?.testLayerId);
+    const record = this.renderer?.layers.get(/** @type {string} */ (state?.testLayerId));
     const queryLayers = this.getQueryableLayerIds(record);
     if (!queryLayers.length) return null;
     const targetId = normalizeFeatureId(featureId);
@@ -1519,7 +1935,15 @@ export class Test2MapLibreMainAdapter {
     return null;
   }
 
+  /**
+   * @param {FeatureLike} feature
+   * @param {string} mainId
+   * @param {MainLayerState | null | undefined} state
+   * @param {LayerRecord | null | undefined} record
+   * @returns {AdapterFeature}
+   */
   normalizeRenderedFeature(feature, mainId, state, record) {
+    /** @type {{ name?: string, promoteId?: string, sourceLayer?: string, style?: { color?: string, fillColor?: string, [key: string]: unknown }, labelProperty?: string | null, nameProperty?: unknown, [key: string]: unknown }} */
     const layerConfig = record?.config || state?.config || {};
     const properties = repairFeatureProperties(layerConfig, { ...(feature.properties || {}) });
     const id = feature.id ?? properties[layerConfig.promoteId || 'id'] ?? properties.id;
@@ -1550,10 +1974,14 @@ export class Test2MapLibreMainAdapter {
       // than measure the wrong thing. Stored attributes such as Shape_Area are duplicated
       // onto every fragment and stay correct either way.
       geometryIsClipped: true,
-      sourceLayer: feature.sourceLayer || layerConfig.sourceLayer || null
+      sourceLayer: /** @type {{ sourceLayer?: string }} */ (feature).sourceLayer || layerConfig.sourceLayer || null
     };
   }
 
+  /**
+   * @param {RuntimeLayer} layer
+   * @returns {MainConfig}
+   */
   toMainConfig(layer) {
     return {
       id: layer.sourceMapId || layer.id,
@@ -1566,6 +1994,7 @@ export class Test2MapLibreMainAdapter {
     };
   }
 
+  /** @param {{ layer: ControllerLayer, feature: FeatureLike } | null} selection */
   async handleSelection(selection) {
     if (!selection) return;
     const token = (this.selectionToken = (this.selectionToken || 0) + 1);
@@ -1587,6 +2016,12 @@ export class Test2MapLibreMainAdapter {
   // geodesic area and perimeter, measured from the source at build time; match the click
   // to its item by id, or by name where the name is unique. Bounded wait: a slow index
   // fetch falls back to the part figures rather than holding up the details pane.
+  /**
+   * @this {Test2MapLibreMainAdapter & AdapterCaches}
+   * @param {ControllerLayer | null | undefined} layerConfig
+   * @param {AdapterFeature | null | undefined} feature
+   * @returns {Promise<{ wholeAreaM2: number | undefined, wholePerimeterM: number | undefined } | null>}
+   */
   async wholeFeatureMetrics(layerConfig, feature) {
     const url = layerConfig?.featureIndexUrl;
     const geom = String(layerConfig?.geometryType || '').toLowerCase();
@@ -1595,22 +2030,24 @@ export class Test2MapLibreMainAdapter {
     if (!this.featureMetricIndexes.has(url)) {
       this.featureMetricIndexes.set(url, fetch(url, { cache: 'default' })
         .then((response) => (response.ok ? response.json() : null))
-        .then((index) => {
+        .then((/** @type {{ items?: FeatureIndexItem[] } | null} */ index) => {
+          /** @type {Map<string, FeatureIndexItem>} */
           const byId = new Map();
+          /** @type {Map<string, FeatureIndexItem | null>} */
           const byName = new Map();
           for (const item of index?.items || []) {
-            if (!(item?.areaM2 > 0)) continue;
+            if (!(/** @type {number} */ (item?.areaM2) > 0)) continue;
             byId.set(String(item.id), item);
             const name = normalizeSearchValue(item.name);
             byName.set(name, byName.has(name) ? null : item);
           }
           return { byId, byName };
         })
-        .catch(() => ({ byId: new Map(), byName: new Map() })));
+        .catch(() => /** @type {FeatureMetricLookup} */ ({ byId: new Map(), byName: new Map() })));
     }
     const lookup = await Promise.race([
       this.featureMetricIndexes.get(url),
-      new Promise((resolve) => setTimeout(() => resolve(null), 2000))
+      /** @type {Promise<null>} */ (new Promise((resolve) => setTimeout(() => resolve(null), 2000)))
     ]);
     if (!lookup) return null;
     const item = lookup.byId.get(String(feature.id))
@@ -1621,13 +2058,19 @@ export class Test2MapLibreMainAdapter {
 }
 
 
+/** @param {unknown} value */
 function clamp01(value) {
   const number = Number(value);
   if (!Number.isFinite(number)) return 0;
   return Math.max(0, Math.min(1, number));
 }
 
-/** The election hatch: grey diagonals on a clear ground, darker on a light map, lighter on a dark one. */
+/**
+ * The election hatch: grey diagonals on a clear ground, darker on a light map, lighter on a dark one.
+ * @param {AdapterMap | null} map
+ * @param {string} name
+ * @param {boolean} dark
+ */
 function ensureHatchImage(map, name, dark) {
   if (!map || map.hasImage?.(name)) return;
   const size = 10;
@@ -1654,6 +2097,10 @@ function ensureHatchImage(map, name, dark) {
   map.addImage(name, { width: px, height: px, data }, { pixelRatio: ratio });
 }
 
+/**
+ * @param {unknown} value
+ * @returns {FeatureKey}
+ */
 function normalizeFeatureId(value) {
   if (typeof value === 'number') return Number.isFinite(value) ? value : String(value);
   const text = String(value ?? '').trim();
@@ -1661,10 +2108,17 @@ function normalizeFeatureId(value) {
   return text;
 }
 
+/** @param {unknown} value */
 function normalizeSearchValue(value) {
   return String(value ?? '').trim().toLowerCase();
 }
 
+/**
+ * @param {ControllerLayer} layer
+ * @param {FeatureKey[]} ids
+ * @param {MainLayerState | null} [state]
+ * @returns {FilterSpecification}
+ */
 function buildFeatureFilter(layer, ids, state = null) {
   if (!ids.length) return noVisibleFeatureFilter();
   const rawValues = [...new Set(ids.filter((id) => id !== undefined && id !== null && id !== ''))];
@@ -1673,6 +2127,7 @@ function buildFeatureFilter(layer, ids, state = null) {
     .filter((value) => value !== undefined && value !== null && String(value).trim());
   const stringValues = [...new Set([...rawValues, ...nameValues].map((id) => String(id)))];
   if (!stringValues.length) return noVisibleFeatureFilter();
+  /** @type {unknown[]} */
   const clauses = [];
   for (const property of [layer?.promoteId, 'id'].filter(Boolean)) {
     clauses.push(['in', ['to-string', ['get', property]], ['literal', stringValues]]);
@@ -1680,13 +2135,20 @@ function buildFeatureFilter(layer, ids, state = null) {
   for (const property of featureNameProperties(layer)) {
     clauses.push(['in', ['to-string', ['get', property]], ['literal', stringValues]]);
   }
-  return ['any', ...clauses];
+  return /** @type {FilterSpecification} */ (['any', ...clauses]);
 }
 
+/** @returns {FilterSpecification} */
 function noVisibleFeatureFilter() {
   return ['==', ['get', '__civgraph_no_visible_feature__'], '__civgraph_visible_feature__'];
 }
 
+/**
+ * @param {{ labelProperty?: string | null, nameProperty?: unknown } | null | undefined} layer
+ * @param {Record<string, unknown> | null | undefined} properties
+ * @param {unknown} fallbackId
+ * @returns {string}
+ */
 function readFeatureName(layer, properties, fallbackId) {
   const candidates = featureNameProperties(layer);
   for (const key of candidates) {
@@ -1696,8 +2158,12 @@ function readFeatureName(layer, properties, fallbackId) {
   return fallbackId !== undefined && fallbackId !== null && fallbackId !== '' ? `Feature ${fallbackId}` : 'Unnamed feature';
 }
 
+/**
+ * @param {{ labelProperty?: string | null, nameProperty?: unknown } | null | undefined} layer
+ * @returns {string[]}
+ */
 function featureNameProperties(layer) {
-  return [...new Set([
+  return /** @type {string[]} */ ([...new Set([
     layer?.labelProperty,
     layer?.nameProperty,
     'name',
@@ -1707,22 +2173,24 @@ function featureNameProperties(layer) {
     'LABEL',
     'title',
     'TITLE'
-  ].filter(Boolean))];
+  ].filter(Boolean))]);
 }
 
+/** @param {{ id?: unknown, mapId?: unknown, featureName?: unknown, name?: unknown, geometry?: unknown } | null | undefined} feature */
 function featureDedupeKey(feature) {
   if (feature?.id !== undefined && feature?.id !== null && feature?.id !== '') return `${feature.mapId}:${feature.id}`;
-  const geometryKey = JSON.stringify(feature?.geometry?.coordinates || '').slice(0, 120);
+  const geometryKey = JSON.stringify(/** @type {{ coordinates?: unknown } | null | undefined} */ (feature?.geometry)?.coordinates || '').slice(0, 120);
   return `${feature?.mapId}:${feature?.featureName || feature?.name || 'feature'}:${geometryKey}`;
 }
 
+/** @param {unknown} value */
 function escapeHtml(value) {
-  return String(value ?? '').replace(/[&<>"']/g, (ch) => ({
+  return String(value ?? '').replace(/[&<>"']/g, (ch) => /** @type {Record<string, string>} */ ({
     '&': '&amp;',
     '<': '&lt;',
     '>': '&gt;',
     '"': '&quot;',
     "'": '&#39;'
-  }[ch]));
+  })[ch]);
 }
 

@@ -15,6 +15,17 @@
  * than no message, because it stops the user retrying.
  */
 
+/** How a wait ended. @typedef {'settled' | 'timeout' | 'unavailable'} SettleOutcome */
+
+/**
+ * What the wait uses of a map (a MapLibre map, or a test's stub).
+ * @typedef {{
+ *   on(type: string, listener: () => void): unknown,
+ *   off(type: string, listener: () => void): unknown,
+ *   areTilesLoaded?: () => boolean
+ * }} SettleMap
+ */
+
 /** The map is drawn and quiet. */
 export const SETTLE_SETTLED = 'settled';
 /** The deadline passed first. The layer may be blank; do not claim it loaded. */
@@ -29,6 +40,9 @@ export const SETTLE_UNAVAILABLE = 'unavailable';
  * no outstanding tiles, so the tick right after addLayer -- before any tile request has
  * been issued -- qualifies. Hence idle AND areTilesLoaded(), waiting through further
  * idles until both hold.
+ * @param {SettleMap | null | undefined} map
+ * @param {{ timeoutMs?: number }} [options]
+ * @returns {Promise<SettleOutcome>}
  */
 export function waitForMapSettle(map, { timeoutMs = 20000 } = {}) {
   if (!map || typeof map.on !== 'function' || typeof map.off !== 'function') {
@@ -36,7 +50,7 @@ export function waitForMapSettle(map, { timeoutMs = 20000 } = {}) {
   }
   return new Promise((resolve) => {
     let done = false;
-    const finish = (outcome) => {
+    const finish = (/** @type {SettleOutcome} */ outcome) => {
       if (done) return;
       done = true;
       clearTimeout(timer);
