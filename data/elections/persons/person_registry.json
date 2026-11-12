@@ -2,7 +2,7 @@
  "schemaVersion": 2,
  "description": "Stable identifiers for people appearing as candidates in the current election data. The id is independent of name spelling, so a correction changes displayName and adds an alias, never the id.",
  "idPolicy": "Ids are permanent. PersonIDs 1-100011 are the curated block carried forward from scripts/ingest/persons/person_registry.json; 100012+ are derived. A new id is never one issued before, even one merged away at once: idHighWater is the highest issued (person_id_issued.py).",
- "idHighWater": 150688,
+ "idHighWater": 150863,
  "supersedes": "scripts/ingest/persons/person_registry.json (2,388 curated persons; its source workbook is no longer present and apply_person_ids.py targets an _aggregates.json layout that no longer exists)",
  "evidence": {
   "rowIndexIdsDiscarded": [
@@ -46,7 +46,7 @@
   ],
   "note": "Ids carrying more than one distinct name are row indices, not people.",
   "crossSystemMerges": 1063,
-  "sameNameLeftSplit": 2833
+  "sameNameLeftSplit": 2856
  },
  "conservatism": "Nothing is merged on name alone. Two ids from the same source system sharing a name stay separate and are flagged needsReview.",
  "entities": [
@@ -9904,7 +9904,7 @@
    "eraReason": "split by its official person id (democracyclub:2137): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150560
+    150746
    ]
   },
   {
@@ -12303,7 +12303,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150661
+    150840
    ]
   },
   {
@@ -13586,7 +13586,7 @@
    "eraReason": "split by its official person id (democracyclub:7132): the source id it shares is held by another person with another official id",
    "nameVariants": true,
    "mergedFrom": [
-    150561
+    150747
    ]
   },
   {
@@ -25203,7 +25203,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150663
+    150842
    ]
   },
   {
@@ -42116,7 +42116,7 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "nameVariants": true,
    "mergedFrom": [
-    150470
+    150689
    ]
   },
   {
@@ -43170,7 +43170,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150664
+    150843
    ]
   },
   {
@@ -60504,7 +60504,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150595
+    150776
    ]
   },
   {
@@ -62410,10 +62410,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150492,
-    150514,
-    150600,
-    150601
+    150700,
+    150716,
+    150780,
+    150781
    ]
   },
   {
@@ -62725,10 +62725,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150532,
-    150533,
-    150565,
-    150671
+    150728,
+    150729,
+    150749,
+    150851
    ]
   },
   {
@@ -63419,10 +63419,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150497,
-    150498,
-    150619,
-    150620
+    150705,
+    150706,
+    150800,
+    150801
    ]
   },
   {
@@ -63459,10 +63459,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150500,
-    150521,
-    150544,
-    150625
+    150707,
+    150722,
+    150735,
+    150805
    ]
   },
   {
@@ -63966,8 +63966,8 @@
    "eraReason": "split by its official person id (democracyclub:68911): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150529,
-    150662
+    150726,
+    150841
    ]
   },
   {
@@ -64127,11 +64127,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150508,
-    150534,
-    150673,
-    150674,
-    150675
+    150712,
+    150730,
+    150853,
+    150854,
+    150855
    ]
   },
   {
@@ -64906,10 +64906,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150474,
-    150488,
-    150584,
-    150585
+    150692,
+    150698,
+    150768,
+    150769
    ]
   },
   {
@@ -65829,12 +65829,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150531,
-    150564,
-    150667,
-    150668,
-    150669,
-    150670
+    150727,
+    150748,
+    150847,
+    150848,
+    150849,
+    150850
    ]
   },
   {
@@ -70231,9 +70231,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150475,
-    150476,
-    150517
+    150693,
+    150694,
+    150719
    ]
   },
   {
@@ -70271,11 +70271,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150495,
-    150518,
-    150519,
-    150543,
-    150611
+    150703,
+    150720,
+    150721,
+    150734,
+    150790
    ]
   },
   {
@@ -70312,10 +70312,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150471,
-    150481,
-    150646,
-    150647
+    150690,
+    150695,
+    150823,
+    150824
    ]
   },
   {
@@ -72467,11 +72467,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150472,
-    150566,
-    150567,
-    150568,
-    150676
+    150691,
+    150750,
+    150751,
+    150752,
+    150856
    ]
   },
   {
@@ -75604,12 +75604,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150482,
-    150524,
-    150554,
-    150555,
-    150649,
-    150650
+    150696,
+    150723,
+    150741,
+    150742,
+    150825,
+    150826
    ]
   },
   {
@@ -75647,11 +75647,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150483,
-    150505,
-    150527,
-    150656,
-    150657
+    150697,
+    150710,
+    150724,
+    150833,
+    150834
    ]
   },
   {
@@ -75691,13 +75691,13 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150506,
-    150528,
-    150558,
-    150559,
-    150658,
-    150659,
-    150660
+    150711,
+    150725,
+    150744,
+    150745,
+    150835,
+    150836,
+    150837
    ]
   },
   {
@@ -83466,12 +83466,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150491,
-    150511,
-    150512,
-    150513,
-    150593,
-    150594
+    150699,
+    150713,
+    150714,
+    150715,
+    150774,
+    150775
    ]
   },
   {
@@ -83637,11 +83637,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150493,
-    150494,
-    150515,
-    150608,
-    150609
+    150701,
+    150702,
+    150718,
+    150786,
+    150787
    ]
   },
   {
@@ -83677,9 +83677,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150496,
-    150612,
-    150613
+    150704,
+    150791,
+    150792
    ]
   },
   {
@@ -83718,12 +83718,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150502,
-    150503,
-    150550,
-    150551,
-    150552,
-    150642
+    150708,
+    150709,
+    150737,
+    150738,
+    150739,
+    150818
    ]
   },
   {
@@ -121016,10 +121016,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150575,
-    150576,
-    150577,
-    150578
+    150760,
+    150761,
+    150762,
+    150763
    ]
   },
   {
@@ -121054,8 +121054,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150538,
-    150592
+    150731,
+    150773
    ]
   },
   {
@@ -126365,10 +126365,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150627,
-    150628,
-    150629,
-    150630
+    150807,
+    150808,
+    150809,
+    150810
    ]
   },
   {
@@ -139278,7 +139278,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p102864",
@@ -166324,7 +166325,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150597
+    150778
    ]
   },
   {
@@ -169895,7 +169896,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150596
+    150777
    ]
   },
   {
@@ -207554,8 +207555,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150606,
-    150607
+    150783,
+    150784
    ]
   },
   {
@@ -207589,7 +207590,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150626
+    150806
    ]
   },
   {
@@ -230909,8 +230910,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1946,
    "lastYear": 1973,
    "bodies": [
@@ -270286,7 +270287,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150672
+    150852
    ]
   },
   {
@@ -362280,7 +362281,7 @@
    ],
    "eraReason": "split from a career spanning more than 60 years at a gap of 25 or more; the same id continues in the other era",
    "mergedFrom": [
-    150571
+    150754
    ]
   },
   {
@@ -415007,7 +415008,7 @@
     "paddy burke"
    ],
    "mergedFrom": [
-    150688
+    150863
    ]
   },
   {
@@ -514148,7 +514149,7 @@
    "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150542
+    150733
    ]
   },
   {
@@ -514864,7 +514865,8 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (wikipedia:Henry Campbell (MP))",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p122956",
@@ -563100,7 +563102,7 @@
    "provenance": "keyed on the source's own candidate id (wikipedia:John Henry North)",
    "provisional": true,
    "mergedFrom": [
-    150549
+    150736
    ]
   },
   {
@@ -577901,7 +577903,7 @@
     "henry kenny"
    ],
    "mergedFrom": [
-    150687
+    150862
    ]
   },
   {
@@ -727958,7 +727960,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p135180",
@@ -728132,7 +728135,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p135186",
@@ -728536,7 +728540,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p135209",
@@ -728680,7 +728685,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p135219",
@@ -728770,7 +728776,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p135225",
@@ -730108,7 +730115,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p135287",
@@ -730908,7 +730916,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p135334",
@@ -747079,9 +747088,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1939,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1933,
    "lastYear": 1964,
    "bodies": [
     "armagh-rural-district-council",
@@ -748635,12 +748644,13 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1911,
-   "lastYear": 1914,
+   "lastYear": 1955,
    "bodies": [
-    "castleblayney-no-2-rural-district-council"
+    "castleblayney-no-2-rural-district-council",
+    "dungannon-rural-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
@@ -795488,7 +795498,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p137781",
@@ -812621,8 +812632,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 11,
-   "contests": 11,
+   "candidacies": 12,
+   "contests": 12,
    "firstYear": 1920,
    "lastYear": 1958,
    "bodies": [
@@ -821605,10 +821616,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1952,
-   "lastYear": 1964,
+   "lastYear": 1967,
    "bodies": [
     "dungannon-urban-district-council"
    ],
@@ -821718,11 +821729,12 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1934,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1933,
    "lastYear": 1946,
    "bodies": [
+    "dungannon-rural-district-council",
     "portrush-urban-district-council"
    ],
    "parties": [],
@@ -825702,11 +825714,12 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1929,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1923,
    "lastYear": 1936,
    "bodies": [
+    "londonderry-county-borough-council",
     "londonderry-county-borough-council-aldermen"
    ],
    "parties": [],
@@ -835473,12 +835486,13 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1933,
    "lastYear": 1967,
    "bodies": [
     "coleraine-rural-district-council",
+    "dungannon-rural-district-council",
     "newry-urban-district-council"
    ],
    "parties": [
@@ -864162,10 +864176,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1964,
-   "lastYear": 1964,
+   "lastYear": 1967,
    "bodies": [
     "dungannon-urban-district-council"
    ],
@@ -874182,10 +874196,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1964,
-   "lastYear": 1964,
+   "lastYear": 1967,
    "bodies": [
     "dungannon-urban-district-council"
    ],
@@ -894905,10 +894919,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1964,
-   "lastYear": 1964,
+   "lastYear": 1967,
    "bodies": [
     "dungannon-urban-district-council"
    ],
@@ -896072,7 +896086,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p142120",
@@ -920010,13 +920025,14 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1949,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1927,
    "lastYear": 1952,
    "bodies": [
     "ballymoney-urban-district-council",
-    "coleraine-rural-district-council"
+    "coleraine-rural-district-council",
+    "cookstown-rural-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
@@ -934514,8 +934530,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 21,
-   "contests": 21,
+   "candidacies": 22,
+   "contests": 22,
    "firstYear": 1924,
    "lastYear": 1967,
    "bodies": [
@@ -934583,8 +934599,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 13,
-   "contests": 13,
+   "candidacies": 14,
+   "contests": 14,
    "firstYear": 1924,
    "lastYear": 1967,
    "bodies": [
@@ -934670,8 +934686,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 15,
-   "contests": 15,
+   "candidacies": 16,
+   "contests": 16,
    "firstYear": 1933,
    "lastYear": 1967,
    "bodies": [
@@ -936914,8 +936930,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1924,
    "lastYear": 1939,
    "bodies": [
@@ -937604,8 +937620,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1924,
    "lastYear": 1939,
    "bodies": [
@@ -940009,8 +940025,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1933,
    "lastYear": 1961,
    "bodies": [
@@ -942191,7 +942207,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p144251",
@@ -942490,8 +942507,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1952,
    "lastYear": 1964,
    "bodies": [
@@ -942909,10 +942926,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 7,
-   "contests": 7,
+   "candidacies": 8,
+   "contests": 8,
    "firstYear": 1924,
-   "lastYear": 1949,
+   "lastYear": 1955,
    "bodies": [
     "limavady-rural-district-council",
     "londonderry-county-council"
@@ -943467,8 +943484,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1930,
    "lastYear": 1939,
    "bodies": [
@@ -944638,8 +944655,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1939,
    "lastYear": 1955,
    "bodies": [
@@ -947352,7 +947369,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p144441",
@@ -948627,9 +948645,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1958,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1955,
    "lastYear": 1964,
    "bodies": [
     "clogher-rural-district-council"
@@ -948826,8 +948844,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1924,
    "lastYear": 1939,
    "bodies": [
@@ -949708,8 +949726,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1949,
    "lastYear": 1964,
    "bodies": [
@@ -950187,9 +950205,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1961,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1955,
    "lastYear": 1964,
    "bodies": [
     "clogher-rural-district-council"
@@ -951012,9 +951030,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1930,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1927,
    "lastYear": 1939,
    "bodies": [
     "cookstown-rural-district-council",
@@ -951660,10 +951678,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1924,
-   "lastYear": 1930,
+   "lastYear": 1936,
    "bodies": [
     "coleraine-rural-district-council"
    ],
@@ -953213,9 +953231,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
-   "firstYear": 1939,
+   "candidacies": 7,
+   "contests": 7,
+   "firstYear": 1936,
    "lastYear": 1967,
    "bodies": [
     "omagh-rural-district-council"
@@ -954177,8 +954195,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1946,
    "lastYear": 1964,
    "bodies": [
@@ -954684,8 +954702,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1912,
    "lastYear": 1964,
    "bodies": [
@@ -955616,8 +955634,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1930,
    "lastYear": 1939,
    "bodies": [
@@ -956539,8 +956557,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1949,
    "lastYear": 1964,
    "bodies": [
@@ -957448,9 +957466,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1958,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1955,
    "lastYear": 1964,
    "bodies": [
     "clogher-rural-district-council"
@@ -961105,7 +961123,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p144945",
@@ -962060,10 +962079,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1933,
-   "lastYear": 1933,
+   "lastYear": 1955,
    "bodies": [
     "coleraine-rural-district-council"
    ],
@@ -964612,9 +964631,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1930,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1927,
    "lastYear": 1939,
    "bodies": [
     "cookstown-rural-district-council"
@@ -965033,9 +965052,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1939,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1936,
    "lastYear": 1939,
    "bodies": [
     "omagh-rural-district-council"
@@ -965804,9 +965823,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1958,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1955,
    "lastYear": 1958,
    "bodies": [
     "dungannon-rural-district-council"
@@ -965832,9 +965851,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1939,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1927,
    "lastYear": 1939,
    "bodies": [
     "omagh-rural-district-council"
@@ -967525,10 +967544,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1924,
-   "lastYear": 1924,
+   "lastYear": 1936,
    "bodies": [
     "omagh-rural-district-council"
    ],
@@ -970751,10 +970770,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1924,
-   "lastYear": 1924,
+   "lastYear": 1927,
    "bodies": [
     "cookstown-rural-district-council"
    ],
@@ -970845,7 +970864,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p145307",
@@ -975280,10 +975300,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1961,
-   "lastYear": 1961,
+   "lastYear": 1964,
    "bodies": [
     "limavady-rural-district-council"
    ],
@@ -977711,10 +977731,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1949,
-   "lastYear": 1949,
+   "lastYear": 1955,
    "bodies": [
     "coleraine-rural-district-council"
    ],
@@ -979125,10 +979145,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1924,
-   "lastYear": 1924,
+   "lastYear": 1927,
    "bodies": [
     "cookstown-rural-district-council"
    ],
@@ -980012,10 +980032,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1939,
-   "lastYear": 1939,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1933,
+   "lastYear": 1955,
    "bodies": [
     "dungannon-rural-district-council"
    ],
@@ -980810,10 +980830,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1952,
-   "lastYear": 1952,
+   "lastYear": 1955,
    "bodies": [
     "clogher-rural-district-council"
    ],
@@ -987345,7 +987365,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p145914",
@@ -989279,10 +989300,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1924,
-   "lastYear": 1924,
+   "lastYear": 1936,
    "bodies": [
     "omagh-rural-district-council"
    ],
@@ -990042,9 +990063,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1961,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1955,
    "lastYear": 1961,
    "bodies": [
     "coleraine-rural-district-council"
@@ -992823,9 +992844,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1939,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1936,
    "lastYear": 1939,
    "bodies": [
     "clogher-rural-district-council"
@@ -997547,10 +997568,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1924,
-   "lastYear": 1924,
+   "lastYear": 1936,
    "bodies": [
     "omagh-rural-district-council"
    ],
@@ -998257,9 +998278,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1939,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1936,
    "lastYear": 1939,
    "bodies": [
     "omagh-rural-district-council"
@@ -1000686,9 +1000707,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1939,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1936,
    "lastYear": 1958,
    "bodies": [
     "belfast-county-borough-council",
@@ -1003079,7 +1003100,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p146472",
@@ -1004189,9 +1004211,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1939,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1936,
    "lastYear": 1939,
    "bodies": [
     "coleraine-rural-district-council"
@@ -1004470,8 +1004492,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
+   "candidacies": 7,
+   "contests": 7,
    "firstYear": 1905,
    "lastYear": 1939,
    "bodies": [
@@ -1005431,10 +1005453,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1939,
-   "lastYear": 1939,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1933,
+   "lastYear": 1958,
    "bodies": [
     "dungannon-rural-district-council"
    ],
@@ -1008801,9 +1008823,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1961,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1955,
    "lastYear": 1961,
    "bodies": [
     "clogher-rural-district-council"
@@ -1009177,9 +1009199,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1939,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1936,
    "lastYear": 1949,
    "bodies": [
     "magherafelt-rural-district-council",
@@ -1010112,12 +1010134,13 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1927,
-   "lastYear": 1927,
+   "lastYear": 1967,
    "bodies": [
-    "down-county-council"
+    "down-county-council",
+    "dungannon-urban-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
@@ -1010808,9 +1010831,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1936,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1933,
    "lastYear": 1939,
    "bodies": [
     "dungannon-rural-district-council",
@@ -1011879,9 +1011902,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1939,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1936,
    "lastYear": 1939,
    "bodies": [
     "omagh-rural-district-council"
@@ -1014113,7 +1014136,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p146868",
@@ -1015770,9 +1015794,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1961,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1955,
    "lastYear": 1961,
    "bodies": [
     "coleraine-rural-district-council"
@@ -1015939,10 +1015963,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1961,
-   "lastYear": 1961,
+   "lastYear": 1964,
    "bodies": [
     "coleraine-rural-district-council"
    ],
@@ -1016110,8 +1016134,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1933,
    "lastYear": 1961,
    "bodies": [
@@ -1016338,11 +1016362,12 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1961,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1949,
    "lastYear": 1961,
    "bodies": [
+    "dungannon-rural-district-council",
     "tyrone-county-council"
    ],
    "parties": [],
@@ -1020245,7 +1020270,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p147099",
@@ -1021304,9 +1021330,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1930,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1927,
    "lastYear": 1930,
    "bodies": [
     "cookstown-rural-district-council",
@@ -1024105,7 +1024131,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p147246",
@@ -1024176,9 +1024203,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1939,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1936,
    "lastYear": 1939,
    "bodies": [
     "omagh-rural-district-council"
@@ -1026276,9 +1026303,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1967,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1949,
    "lastYear": 1967,
    "bodies": [
     "dungannon-rural-district-council"
@@ -1027097,10 +1027124,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1933,
-   "lastYear": 1933,
+   "lastYear": 1936,
    "bodies": [
     "omagh-rural-district-council"
    ],
@@ -1027457,10 +1027484,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1924,
-   "lastYear": 1924,
+   "lastYear": 1927,
    "bodies": [
     "cookstown-rural-district-council"
    ],
@@ -1029238,7 +1029265,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p147429",
@@ -1030092,9 +1030120,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1958,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1955,
    "lastYear": 1961,
    "bodies": [
     "clogher-rural-district-council"
@@ -1030319,10 +1030347,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1924,
-   "lastYear": 1924,
+   "lastYear": 1927,
    "bodies": [
     "cookstown-rural-district-council"
    ],
@@ -1031417,14 +1031445,15 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1912,
-   "lastYear": 1939,
+   "lastYear": 1964,
    "bodies": [
     "antrim-county-council",
     "bangor-borough-council",
-    "belfast-county-borough-council"
+    "belfast-county-borough-council",
+    "limavady-rural-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
@@ -1033660,8 +1033689,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1946,
    "lastYear": 1958,
    "bodies": [
@@ -1033716,8 +1033745,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1946,
    "lastYear": 1958,
    "bodies": [
@@ -1033855,10 +1033884,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1933,
-   "lastYear": 1936,
+   "lastYear": 1949,
    "bodies": [
     "dungannon-rural-district-council",
     "tyrone-county-council"
@@ -1034922,10 +1034951,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1927,
-   "lastYear": 1933,
+   "lastYear": 1952,
    "bodies": [
     "coleraine-rural-district-council"
    ],
@@ -1036093,7 +1036122,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p147734",
@@ -1042428,10 +1042458,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1933,
-   "lastYear": 1933,
+   "lastYear": 1949,
    "bodies": [
     "dungannon-rural-district-council"
    ],
@@ -1043664,7 +1043694,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p148024",
@@ -1044619,10 +1044650,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1933,
-   "lastYear": 1933,
+   "lastYear": 1955,
    "bodies": [
     "coleraine-rural-district-council"
    ],
@@ -1045995,10 +1046026,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1946,
-   "lastYear": 1946,
+   "lastYear": 1955,
    "bodies": [
     "limavady-rural-district-council"
    ],
@@ -1046389,9 +1046420,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1930,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1927,
    "lastYear": 1939,
    "bodies": [
     "cookstown-rural-district-council"
@@ -1046471,8 +1046502,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1946,
    "lastYear": 1958,
    "bodies": [
@@ -1049043,7 +1049074,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p148221",
@@ -1052059,9 +1052091,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1958,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1955,
    "lastYear": 1958,
    "bodies": [
     "clogher-rural-district-council"
@@ -1053017,9 +1053049,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1958,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1955,
    "lastYear": 1958,
    "bodies": [
     "clogher-rural-district-council"
@@ -1058437,10 +1058469,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1949,
-   "lastYear": 1952,
+   "lastYear": 1964,
    "bodies": [
     "limavady-rural-district-council"
    ],
@@ -1063887,9 +1063919,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1958,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1955,
    "lastYear": 1958,
    "bodies": [
     "limavady-rural-district-council"
@@ -1066353,9 +1066385,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1958,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1955,
    "lastYear": 1958,
    "bodies": [
     "coleraine-rural-district-council"
@@ -1081922,6 +1081954,1623 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
+  },
+  {
+   "id": "p150717",
+   "personId": 150717,
+   "displayName": "Cecil J. Burrowes",
+   "aliases": [
+    "Cecil J. Burrowes"
+   ],
+   "matchKeys": [
+    "cecil j burrowes"
+   ],
+   "sourceIds": [
+    "Cecil J. Burrowes|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1955,
+   "lastYear": 1961,
+   "bodies": [
+    "dungannon-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150732",
+   "personId": 150732,
+   "displayName": "A. Tally",
+   "aliases": [
+    "A. Tally"
+   ],
+   "matchKeys": [
+    "a tally"
+   ],
+   "sourceIds": [
+    "A. Tally|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1949,
+   "lastYear": 1952,
+   "bodies": [
+    "dungannon-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150740",
+   "personId": 150740,
+   "displayName": "M. Busby",
+   "aliases": [
+    "M. Busby"
+   ],
+   "matchKeys": [
+    "m busby"
+   ],
+   "sourceIds": [
+    "M. Busby|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1949,
+   "lastYear": 1955,
+   "bodies": [
+    "dungannon-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150743",
+   "personId": 150743,
+   "displayName": "Patrick Clarke",
+   "aliases": [
+    "Patrick Clarke"
+   ],
+   "matchKeys": [
+    "patrick clarke"
+   ],
+   "sourceIds": [
+    "Patrick Clarke|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1927,
+   "lastYear": 1936,
+   "bodies": [
+    "omagh-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150753",
+   "personId": 150753,
+   "displayName": "W. Espey",
+   "aliases": [
+    "W. Espey"
+   ],
+   "matchKeys": [
+    "w espey"
+   ],
+   "sourceIds": [
+    "W. Espey|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1949,
+   "lastYear": 1952,
+   "bodies": [
+    "dungannon-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150755",
+   "personId": 150755,
+   "displayName": "Bernard J. M'Closkey",
+   "aliases": [
+    "Bernard J. M'Closkey"
+   ],
+   "matchKeys": [
+    "bernard j m closkey"
+   ],
+   "sourceIds": [
+    "Bernard J. M'Closkey|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1929,
+   "lastYear": 1929,
+   "bodies": [
+    "omagh-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150756",
+   "personId": 150756,
+   "displayName": "D. M'Clure",
+   "aliases": [
+    "D. M'Clure"
+   ],
+   "matchKeys": [
+    "d m clure"
+   ],
+   "sourceIds": [
+    "D. M'Clure|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1933,
+   "lastYear": 1933,
+   "bodies": [
+    "magherafelt-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150757",
+   "personId": 150757,
+   "displayName": "Daniel M'Auley",
+   "aliases": [
+    "Daniel M'Auley"
+   ],
+   "matchKeys": [
+    "daniel m auley"
+   ],
+   "sourceIds": [
+    "Daniel M'Auley|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1929,
+   "lastYear": 1929,
+   "bodies": [
+    "omagh-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150758",
+   "personId": 150758,
+   "displayName": "Fred M'Ivor",
+   "aliases": [
+    "Fred M'Ivor"
+   ],
+   "matchKeys": [
+    "fred m ivor"
+   ],
+   "sourceIds": [
+    "Fred M'Ivor|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1936,
+   "lastYear": 1936,
+   "bodies": [
+    "omagh-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150759",
+   "personId": 150759,
+   "displayName": "H. A. M'Minn",
+   "aliases": [
+    "H. A. M'Minn"
+   ],
+   "matchKeys": [
+    "h a m minn"
+   ],
+   "sourceIds": [
+    "H. A. M'Minn|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1949,
+   "lastYear": 1949,
+   "bodies": [
+    "dungannon-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150764",
+   "personId": 150764,
+   "displayName": "James M'Clean",
+   "aliases": [
+    "James M'Clean"
+   ],
+   "matchKeys": [
+    "james m clean"
+   ],
+   "sourceIds": [
+    "James M'Clean|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1923,
+   "lastYear": 1923,
+   "bodies": [
+    "londonderry-county-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150765",
+   "personId": 150765,
+   "displayName": "John C. O'Connor",
+   "aliases": [
+    "John C. O'Connor"
+   ],
+   "matchKeys": [
+    "john c o connor"
+   ],
+   "sourceIds": [
+    "John C. O'Connor|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1964,
+   "lastYear": 1964,
+   "bodies": [
+    "limavady-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150766",
+   "personId": 150766,
+   "displayName": "John M'Farland",
+   "aliases": [
+    "John M'Farland"
+   ],
+   "matchKeys": [
+    "john m farland"
+   ],
+   "sourceIds": [
+    "John M'Farland|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1930,
+   "lastYear": 1930,
+   "bodies": [
+    "omagh-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150767",
+   "personId": 150767,
+   "displayName": "Joseph M'Kernan",
+   "aliases": [
+    "Joseph M'Kernan"
+   ],
+   "matchKeys": [
+    "joseph m kernan"
+   ],
+   "sourceIds": [
+    "Joseph M'Kernan|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1923,
+   "lastYear": 1923,
+   "bodies": [
+    "londonderry-county-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150770",
+   "personId": 150770,
+   "displayName": "P. M'Cooey",
+   "aliases": [
+    "P. M'Cooey"
+   ],
+   "matchKeys": [
+    "p m cooey"
+   ],
+   "sourceIds": [
+    "P. M'Cooey|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1949,
+   "lastYear": 1949,
+   "bodies": [
+    "dungannon-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150771",
+   "personId": 150771,
+   "displayName": "R. S. M'Ivor",
+   "aliases": [
+    "R. S. M'Ivor"
+   ],
+   "matchKeys": [
+    "r s m ivor"
+   ],
+   "sourceIds": [
+    "R. S. M'Ivor|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1949,
+   "lastYear": 1949,
+   "bodies": [
+    "dungannon-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150772",
+   "personId": 150772,
+   "displayName": "Robert D. M'Allister",
+   "aliases": [
+    "Robert D. M'Allister"
+   ],
+   "matchKeys": [
+    "robert d m allister"
+   ],
+   "sourceIds": [
+    "Robert D. M'Allister|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1927,
+   "lastYear": 1927,
+   "bodies": [
+    "cookstown-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150779",
+   "personId": 150779,
+   "displayName": "Alexander E. Donnelly",
+   "aliases": [
+    "Alexander E. Donnelly"
+   ],
+   "matchKeys": [
+    "alexander e donnelly"
+   ],
+   "sourceIds": [
+    "Alexander E. Donnelly|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1929,
+   "lastYear": 1929,
+   "bodies": [
+    "omagh-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150782",
+   "personId": 150782,
+   "displayName": "Anthony Carlin",
+   "aliases": [
+    "Anthony Carlin"
+   ],
+   "matchKeys": [
+    "anthony carlin"
+   ],
+   "sourceIds": [
+    "Anthony Carlin|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1923,
+   "lastYear": 1923,
+   "bodies": [
+    "londonderry-county-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150785",
+   "personId": 150785,
+   "displayName": "Con. Bradley",
+   "aliases": [
+    "Con. Bradley"
+   ],
+   "matchKeys": [
+    "con bradley"
+   ],
+   "sourceIds": [
+    "Con. Bradley|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1923,
+   "lastYear": 1923,
+   "bodies": [
+    "londonderry-county-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150788",
+   "personId": 150788,
+   "displayName": "D. A. Gallagher",
+   "aliases": [
+    "D. A. Gallagher"
+   ],
+   "matchKeys": [
+    "d a gallagher"
+   ],
+   "sourceIds": [
+    "D. A. Gallagher|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1949,
+   "lastYear": 1949,
+   "bodies": [
+    "dungannon-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150789",
+   "personId": 150789,
+   "displayName": "David W. Wallace",
+   "aliases": [
+    "David W. Wallace"
+   ],
+   "matchKeys": [
+    "david w wallace"
+   ],
+   "sourceIds": [
+    "David W. Wallace|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1933,
+   "lastYear": 1933,
+   "bodies": [
+    "magherafelt-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150793",
+   "personId": 150793,
+   "displayName": "Dominick Joseph Shiel",
+   "aliases": [
+    "Dominick Joseph Shiel"
+   ],
+   "matchKeys": [
+    "dominick joseph shiel"
+   ],
+   "sourceIds": [
+    "Dominick Joseph Shiel|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1923,
+   "lastYear": 1923,
+   "bodies": [
+    "londonderry-county-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150794",
+   "personId": 150794,
+   "displayName": "Edward J. MacFlynn",
+   "aliases": [
+    "Edward J. MacFlynn"
+   ],
+   "matchKeys": [
+    "edward j macflynn"
+   ],
+   "sourceIds": [
+    "Edward J. MacFlynn|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1955,
+   "lastYear": 1955,
+   "bodies": [
+    "limavady-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150795",
+   "personId": 150795,
+   "displayName": "F. Cush",
+   "aliases": [
+    "F. Cush"
+   ],
+   "matchKeys": [
+    "f cush"
+   ],
+   "sourceIds": [
+    "F. Cush|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1949,
+   "lastYear": 1949,
+   "bodies": [
+    "dungannon-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150796",
+   "personId": 150796,
+   "displayName": "Felix Teggart",
+   "aliases": [
+    "Felix Teggart"
+   ],
+   "matchKeys": [
+    "felix teggart"
+   ],
+   "sourceIds": [
+    "Felix Teggart|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1927,
+   "lastYear": 1927,
+   "bodies": [
+    "cookstown-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150797",
+   "personId": 150797,
+   "displayName": "Francis P. Cassidy",
+   "aliases": [
+    "Francis P. Cassidy"
+   ],
+   "matchKeys": [
+    "francis p cassidy"
+   ],
+   "sourceIds": [
+    "Francis P. Cassidy|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1929,
+   "lastYear": 1929,
+   "bodies": [
+    "omagh-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150798",
+   "personId": 150798,
+   "displayName": "Francis W. Malley",
+   "aliases": [
+    "Francis W. Malley"
+   ],
+   "matchKeys": [
+    "francis w malley"
+   ],
+   "sourceIds": [
+    "Francis W. Malley|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1955,
+   "lastYear": 1955,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150799",
+   "personId": 150799,
+   "displayName": "George M. Little",
+   "aliases": [
+    "George M. Little"
+   ],
+   "matchKeys": [
+    "george m little"
+   ],
+   "sourceIds": [
+    "George M. Little|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1936,
+   "lastYear": 1936,
+   "bodies": [
+    "omagh-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150802",
+   "personId": 150802,
+   "displayName": "H. P. Best",
+   "aliases": [
+    "H. P. Best"
+   ],
+   "matchKeys": [
+    "h p best"
+   ],
+   "sourceIds": [
+    "H. P. Best|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1952,
+   "lastYear": 1952,
+   "bodies": [
+    "coleraine-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150803",
+   "personId": 150803,
+   "displayName": "Henry Campbell",
+   "aliases": [
+    "Henry Campbell"
+   ],
+   "matchKeys": [
+    "henry campbell"
+   ],
+   "sourceIds": [
+    "Henry Campbell|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1955,
+   "lastYear": 1955,
+   "bodies": [
+    "dungannon-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150804",
+   "personId": 150804,
+   "displayName": "Henry Myles",
+   "aliases": [
+    "Henry Myles"
+   ],
+   "matchKeys": [
+    "henry myles"
+   ],
+   "sourceIds": [
+    "Henry Myles|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1936,
+   "lastYear": 1936,
+   "bodies": [
+    "omagh-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150811",
+   "personId": 150811,
+   "displayName": "J. Brodison",
+   "aliases": [
+    "J. Brodison"
+   ],
+   "matchKeys": [
+    "j brodison"
+   ],
+   "sourceIds": [
+    "J. Brodison|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1949,
+   "lastYear": 1949,
+   "bodies": [
+    "dungannon-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150812",
+   "personId": 150812,
+   "displayName": "J. Devlin",
+   "aliases": [
+    "J. Devlin"
+   ],
+   "matchKeys": [
+    "j devlin"
+   ],
+   "sourceIds": [
+    "J. Devlin|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1929,
+   "lastYear": 1929,
+   "bodies": [
+    "omagh-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150813",
+   "personId": 150813,
+   "displayName": "J. McMath",
+   "aliases": [
+    "J. McMath"
+   ],
+   "matchKeys": [
+    "j mcmath"
+   ],
+   "sourceIds": [
+    "J. McMath|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1952,
+   "lastYear": 1952,
+   "bodies": [
+    "coleraine-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150814",
+   "personId": 150814,
+   "displayName": "James Henderson",
+   "aliases": [
+    "James Henderson"
+   ],
+   "matchKeys": [
+    "james henderson"
+   ],
+   "sourceIds": [
+    "James Henderson|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1967,
+   "lastYear": 1967,
+   "bodies": [
+    "dungannon-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150815",
+   "personId": 150815,
+   "displayName": "John Harvey",
+   "aliases": [
+    "John Harvey"
+   ],
+   "matchKeys": [
+    "john harvey"
+   ],
+   "sourceIds": [
+    "John Harvey|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1958,
+   "lastYear": 1958,
+   "bodies": [
+    "dungannon-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150816",
+   "personId": 150816,
+   "displayName": "John Hull",
+   "aliases": [
+    "John Hull"
+   ],
+   "matchKeys": [
+    "john hull"
+   ],
+   "sourceIds": [
+    "John Hull|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1964,
+   "lastYear": 1964,
+   "bodies": [
+    "limavady-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150817",
+   "personId": 150817,
+   "displayName": "John J. Colhoun",
+   "aliases": [
+    "John J. Colhoun"
+   ],
+   "matchKeys": [
+    "john j colhoun"
+   ],
+   "sourceIds": [
+    "John J. Colhoun|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1936,
+   "lastYear": 1936,
+   "bodies": [
+    "omagh-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150819",
+   "personId": 150819,
+   "displayName": "M. Lynch",
+   "aliases": [
+    "M. Lynch"
+   ],
+   "matchKeys": [
+    "m lynch"
+   ],
+   "sourceIds": [
+    "M. Lynch|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1929,
+   "lastYear": 1929,
+   "bodies": [
+    "omagh-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150820",
+   "personId": 150820,
+   "displayName": "Marcus Gault",
+   "aliases": [
+    "Marcus Gault"
+   ],
+   "matchKeys": [
+    "marcus gault"
+   ],
+   "sourceIds": [
+    "Marcus Gault|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1964,
+   "lastYear": 1964,
+   "bodies": [
+    "limavady-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150821",
+   "personId": 150821,
+   "displayName": "May Knox-Browne",
+   "aliases": [
+    "May Knox-Browne"
+   ],
+   "matchKeys": [
+    "may knox browne"
+   ],
+   "sourceIds": [
+    "May Knox-Browne|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1955,
+   "lastYear": 1955,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150822",
+   "personId": 150822,
+   "displayName": "Michael Mullan",
+   "aliases": [
+    "Michael Mullan"
+   ],
+   "matchKeys": [
+    "michael mullan"
+   ],
+   "sourceIds": [
+    "Michael Mullan|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1929,
+   "lastYear": 1929,
+   "bodies": [
+    "omagh-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150827",
+   "personId": 150827,
+   "displayName": "Patrick Hegarty",
+   "aliases": [
+    "Patrick Hegarty"
+   ],
+   "matchKeys": [
+    "patrick hegarty"
+   ],
+   "sourceIds": [
+    "Patrick Hegarty|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1923,
+   "lastYear": 1923,
+   "bodies": [
+    "londonderry-county-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150828",
+   "personId": 150828,
+   "displayName": "R. J. Watt",
+   "aliases": [
+    "R. J. Watt"
+   ],
+   "matchKeys": [
+    "r j watt"
+   ],
+   "sourceIds": [
+    "R. J. Watt|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1933,
+   "lastYear": 1933,
+   "bodies": [
+    "dungannon-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150829",
+   "personId": 150829,
+   "displayName": "Richard Vance",
+   "aliases": [
+    "Richard Vance"
+   ],
+   "matchKeys": [
+    "richard vance"
+   ],
+   "sourceIds": [
+    "Richard Vance|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1927,
+   "lastYear": 1927,
+   "bodies": [
+    "clogher-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150830",
+   "personId": 150830,
+   "displayName": "Robert G. Clements",
+   "aliases": [
+    "Robert G. Clements"
+   ],
+   "matchKeys": [
+    "robert g clements"
+   ],
+   "sourceIds": [
+    "Robert G. Clements|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1936,
+   "lastYear": 1936,
+   "bodies": [
+    "omagh-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150831",
+   "personId": 150831,
+   "displayName": "Robert J. Wilson",
+   "aliases": [
+    "Robert J. Wilson"
+   ],
+   "matchKeys": [
+    "robert j wilson"
+   ],
+   "sourceIds": [
+    "Robert J. Wilson|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1936,
+   "lastYear": 1936,
+   "bodies": [
+    "omagh-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150832",
+   "personId": 150832,
+   "displayName": "S. S. Anderson",
+   "aliases": [
+    "S. S. Anderson"
+   ],
+   "matchKeys": [
+    "s s anderson"
+   ],
+   "sourceIds": [
+    "S. S. Anderson|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1927,
+   "lastYear": 1927,
+   "bodies": [
+    "cookstown-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150838",
+   "personId": 150838,
+   "displayName": "T. A. Currie",
+   "aliases": [
+    "T. A. Currie"
+   ],
+   "matchKeys": [
+    "t a currie"
+   ],
+   "sourceIds": [
+    "T. A. Currie|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1949,
+   "lastYear": 1949,
+   "bodies": [
+    "dungannon-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150839",
+   "personId": 150839,
+   "displayName": "T. J. Cuddy",
+   "aliases": [
+    "T. J. Cuddy"
+   ],
+   "matchKeys": [
+    "t j cuddy"
+   ],
+   "sourceIds": [
+    "T. J. Cuddy|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1949,
+   "lastYear": 1949,
+   "bodies": [
+    "dungannon-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150844",
+   "personId": 150844,
+   "displayName": "Thomas A. Fleming",
+   "aliases": [
+    "Thomas A. Fleming"
+   ],
+   "matchKeys": [
+    "thomas a fleming"
+   ],
+   "sourceIds": [
+    "Thomas A. Fleming|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1927,
+   "lastYear": 1927,
+   "bodies": [
+    "cookstown-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150845",
+   "personId": 150845,
+   "displayName": "Thomas D. Givans",
+   "aliases": [
+    "Thomas D. Givans"
+   ],
+   "matchKeys": [
+    "thomas d givans"
+   ],
+   "sourceIds": [
+    "Thomas D. Givans|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1933,
+   "lastYear": 1933,
+   "bodies": [
+    "dungannon-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150846",
+   "personId": 150846,
+   "displayName": "Thomas Harkinson",
+   "aliases": [
+    "Thomas Harkinson"
+   ],
+   "matchKeys": [
+    "thomas harkinson"
+   ],
+   "sourceIds": [
+    "Thomas Harkinson|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1955,
+   "lastYear": 1955,
+   "bodies": [
+    "limavady-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150857",
+   "personId": 150857,
+   "displayName": "W. E. Conn",
+   "aliases": [
+    "W. E. Conn"
+   ],
+   "matchKeys": [
+    "w e conn"
+   ],
+   "sourceIds": [
+    "W. E. Conn|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1967,
+   "lastYear": 1967,
+   "bodies": [
+    "limavady-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150858",
+   "personId": 150858,
+   "displayName": "William J. Gray",
+   "aliases": [
+    "William J. Gray"
+   ],
+   "matchKeys": [
+    "william j gray"
+   ],
+   "sourceIds": [
+    "William J. Gray|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1927,
+   "lastYear": 1927,
+   "bodies": [
+    "cookstown-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150859",
+   "personId": 150859,
+   "displayName": "William J. McCloskey",
+   "aliases": [
+    "William J. McCloskey"
+   ],
+   "matchKeys": [
+    "william j mccloskey"
+   ],
+   "sourceIds": [
+    "William J. McCloskey|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1955,
+   "lastYear": 1955,
+   "bodies": [
+    "limavady-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150860",
+   "personId": 150860,
+   "displayName": "William Logue",
+   "aliases": [
+    "William Logue"
+   ],
+   "matchKeys": [
+    "william logue"
+   ],
+   "sourceIds": [
+    "William Logue|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1923,
+   "lastYear": 1923,
+   "bodies": [
+    "londonderry-county-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150861",
+   "personId": 150861,
+   "displayName": "William Watson",
+   "aliases": [
+    "William Watson"
+   ],
+   "matchKeys": [
+    "william watson"
+   ],
+   "sourceIds": [
+    "William Watson|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1936,
+   "lastYear": 1936,
+   "bodies": [
+    "omagh-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p900001",
