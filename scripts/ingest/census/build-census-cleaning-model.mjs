@@ -9,6 +9,22 @@ const CENSUS_DIR = path.join(REPO, "data", "census");
 const OUT_DIR = path.join(CENSUS_DIR, "cleaned");
 const BUNDLE_DIR = path.join(OUT_DIR, "website-bundles");
 
+/**
+ * One indexed census table or report, whichever extractor found it.
+ * @typedef {{ id: string, censusYear: number, sourceFamily: string, title: string, topic: string, geographyLevel: string, files: Record<string, string>, mappingConfidence: string, scope?: string | undefined, statisticalPopulation?: string | null, annotations?: string | null, columns?: number, variablesDescribed?: number, dimensionCounts?: Record<string, number>, sampleVariables?: object[], pages?: number, headings?: string[], sourceFormat?: string, compressedBytes?: number | undefined, uncompressedBytes?: number | undefined }} CensusTable
+ * The input files, as far as this model reads them:
+ * @typedef {{ path: string, extension: string, compressedSize?: number, uncompressedSize?: number }} ZipFile
+ * @typedef {{ path: string, fileIndex?: ZipFile[], nestedArchives?: NestedZip[] }} NestedZip
+ * @typedef {{ exists: boolean, year: number, scope?: string, kind: string, file?: string, sourceHint?: string, error?: string | null, zip?: { files?: number, fileIndex?: ZipFile[], nestedArchives?: NestedZip[] } | null }} LocalArchive
+ * @typedef {{ localArchives?: LocalArchive[], repoCensus?: { byTopDirectory?: Record<string, number> } }} SourceInventory
+ * @typedef {{ topic: string, priority?: unknown, description?: string, years_available_digital?: unknown[], years_available_historical?: unknown[], source_tables?: unknown, normalised_columns?: unknown[], comparability_notes?: string, normalisation_approach?: string, difficulty?: string, geographic_levels_feasible?: unknown }} PlanPriority
+ * @typedef {{ normalisation_priorities?: PlanPriority[], geographic_crosswalks?: unknown, data_overview?: { total_csv_files_2011?: number } }} NormalisationPlan
+ * @typedef {{ name?: string, count?: unknown, code_format?: unknown, example?: unknown, description?: unknown }} GeoLevel
+ * @typedef {{ levels?: GeoLevel[], levels_administrative?: GeoLevel[], levels_statistical?: GeoLevel[], system?: unknown, notes?: unknown }} GeoUnit
+ * @typedef {{ geographic_units?: Record<string, GeoUnit>, geographic_crosswalks_needed?: unknown, cross_census_column_mappings?: unknown }} SchemaMapping
+ * @typedef {{ assets?: { url: string, download?: { status?: string, error?: string } }[], assetsFound?: number, assetsDownloaded?: number, assetsCached?: number }} CsoManifest
+ */
+
 const CORE_DIMENSIONS = [
   { id: "age", label: "Age", operators: ["equals", "in", "range"], combinable: true },
   { id: "sex", label: "Sex", operators: ["equals"], combinable: true },
@@ -28,6 +44,7 @@ const CORE_DIMENSIONS = [
   { id: "time", label: "Census year/date", operators: ["equals", "range"], combinable: true },
 ];
 
+/** @type {[string, RegExp][]} */
 const TOPIC_HINTS = [
   ["community_background", /community background|religion brought up/i],
   ["religion", /religion|catholic|presbyterian|methodist|church of ireland/i],
@@ -46,10 +63,12 @@ const TOPIC_HINTS = [
   ["language", /irish|ulster-scots|language/i],
 ];
 
+/** @param {string} file */
 function rel(file) {
   return path.relative(REPO, file).replace(/\\/g, "/");
 }
 
+/** @param {string} file @param {unknown} [fallback] */
 async function readJson(file, fallback = null) {
   try {
     return JSON.parse(await fs.readFile(file, "utf8"));
@@ -58,12 +77,15 @@ async function readJson(file, fallback = null) {
   }
 }
 
+/** @param {string} file @param {unknown} data */
 async function writeJson(file, data) {
   await fs.mkdir(path.dirname(file), { recursive: true });
   await fs.writeFile(file, `${JSON.stringify(data, null, 2)}\n`);
 }
 
+/** @template T @param {T[]} items @param {(item: T) => string} getter */
 function countBy(items, getter) {
+  /** @type {Record<string, number>} */
   const counts = {};
   for (const item of items) {
     const key = getter(item) || "unknown";
@@ -72,6 +94,7 @@ function countBy(items, getter) {
   return counts;
 }
 
+/** @param {string} line */
 function parseCsvLine(line) {
   const out = [];
   let cur = "";
@@ -100,14 +123,18 @@ function parseCsvLine(line) {
   return out;
 }
 
+/** @param {string} file */
 async function readCsvRows(file, maxRows = 20) {
   const text = await fs.readFile(file, "utf8").catch(() => "");
   const lines = text.split(/\r?\n/).filter((line) => line.trim()).slice(0, maxRows);
   return lines.map(parseCsvLine);
 }
 
+/** @param {string} root @param {(file: string) => boolean} [predicate] */
 async function walkFiles(root, predicate = () => true) {
+  /** @type {string[]} */
   const files = [];
+  /** @param {string} dir */
   async function walk(dir) {
     const entries = await fs.readdir(dir, { withFileTypes: true }).catch(() => []);
     for (const entry of entries) {
@@ -123,6 +150,7 @@ async function walkFiles(root, predicate = () => true) {
   return files;
 }
 
+/** @param {...unknown} values */
 function inferTopic(...values) {
   const text = values.filter(Boolean).join(" ");
   for (const [topic, re] of TOPIC_HINTS) {
@@ -131,6 +159,7 @@ function inferTopic(...values) {
   return "unclassified";
 }
 
+/** @param {unknown} description */
 function inferDimensions(description) {
   const parts = String(description || "")
     .split(/\s*,\s*/)
@@ -144,11 +173,13 @@ function inferDimensions(description) {
   return { parts, dimensions: [...dimensions] };
 }
 
+/** @param {string} file */
 function inferGeographyLevel(file) {
   const pieces = rel(file).split("/");
   const parent = pieces.at(-2) || "";
   const stem = path.basename(file, path.extname(file));
   const haystack = `${parent} ${stem}`.toLowerCase();
+  /** @type {[string, RegExp][]} */
   const map = [
     ["small_area", /\bsmall area|\bsa\b/],
     ["super_output_area", /\bsuper output|soa\b/],
@@ -168,12 +199,14 @@ function inferGeographyLevel(file) {
   return map.find(([, re]) => re.test(haystack))?.[0] || "unknown";
 }
 
+/** @param {string} file */
 function extract2011TableId(file) {
   return path.basename(file).replace(/(?:META|DESC|DATA)0?\.CSV$/i, "").toUpperCase();
 }
 
 async function extract2011Tables() {
   const metaFiles = await walkFiles(path.join(CENSUS_DIR, "2011"), (file) => /META0?\.CSV$/i.test(file));
+  /** @type {CensusTable[]} */
   const tables = [];
   for (const metaFile of metaFiles) {
     const id = extract2011TableId(metaFile);
@@ -186,6 +219,7 @@ async function extract2011Tables() {
     const descRows = await readCsvRows(descFile, 5000);
     const descHeader = descRows[0] || [];
     const descItems = descRows.slice(1).map((row) => Object.fromEntries(descHeader.map((key, index) => [key, row[index]])));
+    /** @type {Record<string, number>} */
     const dimensionCounts = {};
     for (const item of descItems) {
       const inferred = inferDimensions(item.ColumnVariableDescription);
@@ -225,6 +259,7 @@ async function extract2011Tables() {
   return tables.sort((a, b) => a.id.localeCompare(b.id) || a.geographyLevel.localeCompare(b.geographyLevel));
 }
 
+/** @param {string} file */
 function derived2021Concept(file) {
   const stem = path.basename(file, ".csv");
   const match = stem.match(/^(ms-[a-z]\d+)(?:-(.*?))?-(lgd|ward|dea|dz|sdz|settlement)$/i);
@@ -239,6 +274,7 @@ function derived2021Concept(file) {
 
 async function extract2021DerivedTables() {
   const files = await walkFiles(path.join(CENSUS_DIR, "derived"), (file) => /\.csv$/i.test(file));
+  /** @type {CensusTable[]} */
   const tables = [];
   for (const file of files) {
     const rows = await readCsvRows(file, 3);
@@ -263,6 +299,7 @@ async function extract2021DerivedTables() {
   return tables.sort((a, b) => a.id.localeCompare(b.id));
 }
 
+/** @returns {Promise<CensusTable[]>} */
 async function extractHistoricalMarkdownTables() {
   const files = await walkFiles(CENSUS_DIR, (file) => /census-\d{4}.*\.md$/i.test(path.basename(file)));
   return Promise.all(files.map(async (file) => {
@@ -284,6 +321,7 @@ async function extractHistoricalMarkdownTables() {
   }));
 }
 
+/** @param {string} filePath */
 function normaliseArchiveTitle(filePath) {
   return path.basename(filePath, path.extname(filePath))
     .replace(/^census[-_\s]*/i, "Census ")
@@ -292,7 +330,9 @@ function normaliseArchiveTitle(filePath) {
     .trim();
 }
 
+/** @param {SourceInventory} sourceInventory */
 function archiveMemberRecords(sourceInventory) {
+  /** @type {CensusTable[]} */
   const tables = [];
   for (const archive of sourceInventory?.localArchives || []) {
     if (!archive.exists || !archive.zip) continue;
@@ -364,6 +404,7 @@ function archiveMemberRecords(sourceInventory) {
   return tables;
 }
 
+/** @param {SchemaMapping} schema */
 function buildCanonicalGeographies(schema) {
   const geographies = [];
   const units = schema?.geographic_units || {};
@@ -395,6 +436,7 @@ function buildCanonicalGeographies(schema) {
   };
 }
 
+/** @param {NormalisationPlan} normalisationPlan */
 function buildConceptOntology(normalisationPlan) {
   const priorities = normalisationPlan?.normalisation_priorities || [];
   return {
@@ -418,6 +460,7 @@ function buildConceptOntology(normalisationPlan) {
   };
 }
 
+/** @param {CensusTable[]} tables */
 function buildColumnMappings(tables) {
   return {
     generatedAt: new Date().toISOString(),
@@ -436,6 +479,7 @@ function buildColumnMappings(tables) {
   };
 }
 
+/** @param {NormalisationPlan} normalisationPlan @param {SchemaMapping} schema */
 function buildComparability(normalisationPlan, schema) {
   return {
     generatedAt: new Date().toISOString(),
@@ -469,7 +513,9 @@ function buildComparability(normalisationPlan, schema) {
   };
 }
 
+/** @param {CensusTable[]} tables @param {ReturnType<typeof buildConceptOntology>} ontology */
 function buildAvailabilityGraph(tables, ontology) {
+  /** @type {Record<string, { years: Record<string, number>, geographyLevels: Record<string, number>, tables: string[] }>} */
   const concepts = {};
   for (const concept of ontology.concepts) {
     concepts[concept.id] = { years: {}, geographyLevels: {}, tables: [] };
@@ -493,6 +539,7 @@ function buildAvailabilityGraph(tables, ontology) {
   };
 }
 
+/** @param {{ tables: CensusTable[], sourceInventory: SourceInventory, csoManifest: CsoManifest, normalisationPlan: NormalisationPlan }} inputs */
 function buildValidationReport({ tables, sourceInventory, csoManifest, normalisationPlan }) {
   const expected2011 = normalisationPlan?.data_overview?.total_csv_files_2011;
   const repo2011Csv = sourceInventory?.repoCensus?.byTopDirectory
@@ -534,8 +581,9 @@ function buildValidationReport({ tables, sourceInventory, csoManifest, normalisa
   };
 }
 
+/** @param {string} file @param {unknown[][]} rows */
 async function writeCsv(file, rows) {
-  const escape = (value) => {
+  const escape = (/** @type {unknown} */ value) => {
     const text = value == null ? "" : String(value);
     return /[",\n\r]/.test(text) ? `"${text.replace(/"/g, "\"\"")}"` : text;
   };
@@ -546,9 +594,13 @@ async function writeCsv(file, rows) {
 async function main() {
   await fs.mkdir(OUT_DIR, { recursive: true });
   await fs.mkdir(BUNDLE_DIR, { recursive: true });
+  /** @type {SchemaMapping} */
   const schema = await readJson(path.join(CENSUS_DIR, "schema_mapping.json"), {});
+  /** @type {NormalisationPlan} */
   const normalisationPlan = await readJson(path.join(CENSUS_DIR, "normalisation_plan.json"), {});
+  /** @type {SourceInventory} */
   const sourceInventory = await readJson(path.join(CENSUS_DIR, "source-inventory", "census-source-archives.json"), {});
+  /** @type {CsoManifest} */
   const csoManifest = await readJson(path.join(CENSUS_DIR, "source-inventory", "cso-historical-reports.json"), {});
 
   const tables = [
