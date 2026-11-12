@@ -95,7 +95,8 @@ test('extracts: the private-value scan catches postcodes, Eircodes, emails, phon
   assert.deepEqual(caught('agent@example.org'), ['email address']);
   assert.deepEqual(caught('028 9012 3456'), ['phone number']);
   for (const v of ['Belfast South and Mid Down', 'Sinn Féin', 'Alliance Party of Northern Ireland', "Máirtín Ó Muilleoir", 'Dún Laoghaire',
-    '2022 Northern Ireland Assembly election', 'Dublin South-Central', 'elected unopposed', 'House of Commons of the United Kingdom', 'Ward 3 (Park)']) {
+    '2022 Northern Ireland Assembly election', 'Dublin South-Central', 'elected unopposed', 'House of Commons of the United Kingdom', 'Ward 3 (Park)',
+    '1987 Shore Road by-election', '1987 Doagh Road by-election']) {
     assert.deepEqual(caught(v), [], v);
   }
   const rows = new Map([['x', { rows: [{ candidate: 'A Person', area: 'Somewhere', party: 'p', election: 'e', body: 'b', kind: 'k', voting_system: 'fptp', outcome: 'elected' }, { candidate: 'B, 4 Main Street', area: 'X' }] }]]);
