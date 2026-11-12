@@ -1,7 +1,10 @@
-// The import-boundary check (scripts/check/boundaries.mjs over boundaries.json, PKG-0/1).
+// The import-boundary check (scripts/check/boundaries.mjs over config/boundaries.json, PKG-0/1; site/ joined 11 Nov 2026, R1).
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import { allowed, edges, specifiers, unitOf } from '../../scripts/check/boundaries.mjs';
+
+const config = JSON.parse(readFileSync(new URL('../../config/boundaries.json', import.meta.url), 'utf8'));
 
 test('boundaries: specifiers finds static, re-export, side-effect and dynamic imports, not comments', () => {
   const src = [
@@ -27,9 +30,26 @@ test('boundaries: units and rules follow the plan table', () => {
   assert.equal(allowed('tests', 'functions'), true);
 });
 
-test('boundaries: the repository passes with an empty baseline', () => {
+test('boundaries: the served pages are in units and reach packages only through the served shims', () => {
+  assert.equal(unitOf('site/browse/browse.js'), 'site');
+  assert.equal(unitOf('site/apps/words/words.js'), 'site-apps');
+  assert.equal(unitOf('site/assets/ui/state/machine.js'), 'site-served');
+  assert.equal(unitOf('src/ui-controller.js'), 'frontend');
+  assert.equal(allowed('site', 'site-served'), true, 'pages import the shim at the served path');
+  assert.equal(allowed('site-served', 'ui'), true, 'the shim re-exports packages/ui/assets/');
+  for (const unit of ['ui', 'core', 'map', 'api', 'config']) {
+    assert.equal(allowed('site', unit), false, `site -> ${unit}: a served page cannot reach packages/`);
+    assert.equal(allowed('site-apps', unit), false, `site-apps -> ${unit}`);
+  }
+  assert.equal(allowed('site', 'site-apps'), false, 'shared pages never import an app');
+  assert.equal(allowed('site-apps', 'site'), true);
+});
+
+// Whether every tracked script is in a unit (C2) is reported by check:architecture (report-only until its enforceFrom date).
+test('boundaries: the repository passes with its baseline; each unowned entry gives its reason', () => {
   const bad = edges().filter((e) => !e.ok);
-  assert.deepEqual(bad.map((e) => `${e.file} -> ${e.target}`), []);
+  assert.deepEqual(bad.map((e) => `${e.file} -> ${e.target}`).sort(), [...config.baseline].sort());
+  for (const [key, reason] of Object.entries(config.unowned)) assert.ok(String(reason).length > 20, `unowned ${key} needs a reason`);
 });
 
 test('boundaries: the Elections app is in a unit, and may import only its own files, the served /pkg/ modules and the site', () => {
@@ -37,7 +57,7 @@ test('boundaries: the Elections app is in a unit, and may import only its own fi
     assert.equal(unitOf(file), 'elections-app', file);
   }
   assert.equal(allowed('elections-app', 'site-pkg'), true);
-  assert.equal(allowed('elections-app', 'frontend'), true);
+  assert.equal(allowed('elections-app', 'site-served'), true);
   for (const unit of ['core', 'ui', 'config', 'map', 'api', 'storage', 'registries-browser', 'scripts']) {
     assert.equal(allowed('elections-app', unit), false, `elections-app -> ${unit}: a served page cannot reach packages/ (use /pkg/)`);
   }
