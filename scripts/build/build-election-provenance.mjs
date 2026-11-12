@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 /**
- * Build data/database/election-provenance.json: one record per election contest saying where its
- * figures come from and how far that has been checked.
+ * Build the election provenance: one record per election contest saying where its figures come from
+ * and how far that has been checked. It is written in the split form of
+ * packages/loader/src/election-provenance.mjs (an index at PROVENANCE_FILE and one part per decade in
+ * PROVENANCE_PART_DIR, each well under Pages' 25 MiB file limit), plus the per-election shards.
  *
  * Three layers go in, against the contract in data/database/election-provenance.schema.json:
  *
@@ -29,16 +31,18 @@
  * identifier every body shares. Rows in the review file whose contest could not be matched
  * (civgraph: null) are dropped, and their number is reported.
  *
- *   node scripts/build/build-election-provenance.mjs            write the file
+ *   node scripts/build/build-election-provenance.mjs            write the files
  *   node scripts/build/build-election-provenance.mjs --check    rebuild and fail on drift; write nothing
  *
- * --check is the gate: it fails when the committed file no longer matches what the inputs produce,
- * so provenance cannot fall out of step with the data unnoticed.
+ * --check is the gate: it fails when the built files no longer match what the inputs produce, or a
+ * file would break its size budget, so provenance cannot fall out of step with the data unnoticed.
  */
 import { existsSync, mkdirSync, readFileSync, readdirSync, unlinkSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { PROVENANCE_FILE, PROVENANCE_SHARD_DIR } from '../../packages/loader/src/paths.mjs';
-import { PUBLISHED_BUDGET_BYTES, publishedText, slimProvenance } from '../lib/election-provenance-slim.mjs';
+import { PROVENANCE_FILE, PROVENANCE_PART_DIR, PROVENANCE_SHARD_DIR, rel } from '../../packages/loader/src/paths.mjs';
+import {
+  budgetProblems, provenanceFiles, readProvenance, slimProvenance, writeProvenance,
+} from '../../packages/loader/src/election-provenance.mjs';
 
 const ELECTIONS = path.join('data', 'elections-source', 'data', 'elections');
 const REVIEW = path.join('data', 'review-inputs', 'wikipedia-cited-sources', 'contest-sources.json');
@@ -58,7 +62,7 @@ const WEB_CHECKED = path.join('data', 'elections', 'web-checked-sources.json');
 // under the top-level legislation map. Not a source of the figures, so it never changes a status.
 const LEGISLATION = path.join('data', 'elections', 'legislation-citations.json');
 const OUT = PROVENANCE_FILE;
-// Per-election shards for the browser. The whole file is 10 MB, far too much to fetch, so the app
+// Per-election shards for the browser. The whole document is 25 MB, far too much to fetch, so the app
 // loads only the election it is showing, keyed by the constituency name it already has.
 const SHARD_DIR = PROVENANCE_SHARD_DIR;
 const CHECK = process.argv.includes('--check');
@@ -644,45 +648,56 @@ const shards = buildShards(doc);
 const shardFiles = () => (existsSync(SHARD_DIR) ? readdirSync(SHARD_DIR).filter((f) => f.endsWith('.json')) : []);
 
 if (CHECK) {
-  if (!existsSync(OUT)) {
-    console.error(`${OUT} does not exist. Run: node scripts/build/build-election-provenance.mjs`);
+  const committed = readProvenance();
+  if (!committed) {
+    console.error(`${rel(OUT)} does not exist. Run: node scripts/build/build-election-provenance.mjs`);
     process.exit(1);
   }
-  const committed = readJson(OUT);
   summary();
   const staleShards = shardFiles().length !== shards.size
     || [...shards].some(([key, shard]) => {
       const p = path.join(SHARD_DIR, `${key}.json`);
       return !existsSync(p) || readFileSync(p, 'utf8') !== shardText(shard);
     });
-  const size = Buffer.byteLength(publishedText(doc));
-  if (size > PUBLISHED_BUDGET_BYTES) {
-    console.error(`\n${OUT} would be ${size.toLocaleString()} bytes, over its ${PUBLISHED_BUDGET_BYTES.toLocaleString()}-byte budget (Pages refuses files over 25 MiB): shard it.`);
+  const problems = budgetProblems(provenanceFiles(doc));
+  if (problems.length) {
+    console.error(`\nelection provenance would be over budget (Pages refuses files over 25 MiB):\n  ${problems.join('\n  ')}`);
     process.exit(1);
   }
-  if (stable(committed) !== stable(slimProvenance(doc)) || staleShards) {
-    console.error(`\nelection provenance is stale: the committed ${staleShards ? 'shards no longer match' : 'file no longer matches'} its inputs.`);
+  // A single file from before the split reads the same, but is stale until it is rewritten.
+  const split = 'contestParts' in JSON.parse(readFileSync(OUT, 'utf8'));
+  if (!split || stable(committed) !== stable(slimProvenance(doc)) || staleShards) {
+    const what = !split ? `${rel(OUT)} is a single file, not the split form` : staleShards ? 'the built shards no longer match their inputs' : 'the built files no longer match their inputs';
+    console.error(`\nelection provenance is stale: ${what}.`);
     console.error('Run: node scripts/build/build-election-provenance.mjs');
     process.exit(1);
   }
   console.log(`\nelection provenance is up to date (${shards.size} per-election shards).`);
 } else {
-  // Unchanged but for its timestamp, the file is left as it is: rewritten on every build, it
+  // Unchanged but for its timestamp, the provenance is left as it is: rewritten on every build, it
   // made every commit carry a provenance change and every Pages deploy rebuild for nothing.
-  const previous = existsSync(OUT) ? readJson(OUT) : null;
+  let previous = null;
+  try { previous = readProvenance(); } catch { /* a half-written or stale build: write it afresh */ }
   const published = slimProvenance(doc);
-  const text = publishedText(doc);
-  if (Buffer.byteLength(text) > PUBLISHED_BUDGET_BYTES) {
-    console.error(`${OUT} would be ${Buffer.byteLength(text).toLocaleString()} bytes, over its ${PUBLISHED_BUDGET_BYTES.toLocaleString()}-byte budget (Pages refuses files over 25 MiB): shard it.`);
+  const files = provenanceFiles(doc);
+  const problems = budgetProblems(files);
+  if (problems.length) {
+    console.error(`election provenance would be over budget (Pages refuses files over 25 MiB):\n  ${problems.join('\n  ')}`);
     process.exit(1);
   }
-  if (!previous || stable(previous) !== stable(published)) writeFileSync(OUT, text);
+  // The split form is written whenever it is not on disk yet (a build tree from before it).
+  const split = existsSync(OUT) && 'contestParts' in JSON.parse(readFileSync(OUT, 'utf8'));
+  let note = 'unchanged';
+  if (!previous || !split || stable(previous) !== stable(published)) {
+    const out = writeProvenance(doc);
+    note = `${out.written.length} of ${files.parts.length} parts rewritten${out.removed.length ? `, ${out.removed.length} removed` : ''}, ${out.bytes} bytes in all`;
+  }
   mkdirSync(SHARD_DIR, { recursive: true });
   const wanted = new Set([...shards.keys()].map((k) => `${k}.json`));
   for (const f of shardFiles()) {
     if (!wanted.has(f)) unlinkSync(path.join(SHARD_DIR, f));
   }
   for (const [key, shard] of shards) writeFileSync(path.join(SHARD_DIR, `${key}.json`), shardText(shard));
-  console.log(`wrote ${OUT} and ${shards.size} per-election shards in ${SHARD_DIR}`);
+  console.log(`wrote ${rel(OUT)} and ${files.parts.length} parts in ${rel(PROVENANCE_PART_DIR)} (${note}), and ${shards.size} per-election shards in ${rel(SHARD_DIR)}`);
   summary();
 }

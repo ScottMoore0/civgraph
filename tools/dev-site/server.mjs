@@ -142,7 +142,7 @@ createServer(async (req, res) => {
     // Since the records cutover they are not files in the tree but the records build's output
     // (tmp/records, packages/loader/src/paths.mjs), byte for byte what D1 serves, so they are read
     // from there; without a build the site answers 404 for them, as a fresh checkout would.
-    const RECORD_URL = /^\/(render\/metadata\/(elections-test2(\.json|-report\.json|\/|-summaries\/)|election-provenance\/)|data\/(browse|graph)\/|data\/database\/election-provenance\.json$)/;
+    const RECORD_URL = /^\/(render\/metadata\/(elections-test2(\.json|-report\.json|\/|-summaries\/)|election-provenance\/)|data\/(browse|graph)\/|data\/database\/election-provenance(\.json$|-parts\/))/;
     let file = path.join(ROOT, sourceOf(p)); // /assets/ui/ is served from packages/ui (packages/served.json)
     if (RECORD_URL.test(p) && !existsSync(file)) file = localPathForUrl(p);
     if (!file || !path.resolve(file).startsWith(ROOT)) return send(res, 403, 'forbidden');

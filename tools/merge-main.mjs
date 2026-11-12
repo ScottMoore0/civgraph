@@ -68,7 +68,7 @@ export const RECORDS_STEPS = [
 export const GENERATED_TREES = [
   'render/metadata/elections-test2', 'render/metadata/elections-test2-summaries', 'render/metadata/election-provenance',
   'render/metadata/elections-test2.json', 'render/metadata/elections-test2-report.json',
-  'data/database/election-provenance.json', 'data/database/elections-schema.sql', 'site/app/build',
+  'data/database/election-provenance.json', 'data/database/election-provenance-parts', 'data/database/elections-schema.sql', 'site/app/build',
 ];
 
 const args = process.argv.slice(2);

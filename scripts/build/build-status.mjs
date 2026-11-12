@@ -44,6 +44,7 @@ import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { formatDisplayDate } from '../../packages/core/src/date-format.mjs';
 import { BROWSE_DIR, ELECTION_BUNDLE_DIR, PROVENANCE_FILE } from '../../packages/loader/src/paths.mjs';
+import { provenanceText, readProvenance } from '../../packages/loader/src/election-provenance.mjs';
 
 /**
  * A contest returned unopposed (state-machine catalogue PL-L, light): marked uncontested, or every
@@ -84,7 +85,7 @@ const snapshots = readJson('data/status/source-snapshots.json').sources || {};
 const citedText = [
   readText('data/database/maps.json'),
   readText('data/catalogue/descriptions.json'),
-  readText(PROVENANCE_FILE),
+  provenanceText(),
 ].join('\n');
 
 function gazetteCitedIssues() {
@@ -229,7 +230,7 @@ const sources = sourcesConfig.sources.map((cfg) => {
 // --- elections ------------------------------------------------------------------------
 
 const electionsConfig = readJson('data/status/elections.config.json');
-const provenance = readJson(PROVENANCE_FILE);
+const provenance = readProvenance() ?? fail(`${path.relative(ROOT, PROVENANCE_FILE)} does not exist, so the Status page cannot be built.`);
 const provByFile = new Map(provenance.contests.map((c) => [c.file, c]));
 const provByKey = new Map(provenance.contests.map((c) => [`${c.body}|${c.date}|${c.constituency}`, c]));
 

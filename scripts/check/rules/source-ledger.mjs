@@ -30,11 +30,12 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { readProvenance } from '../../../packages/loader/src/election-provenance.mjs';
+import { PROVENANCE_FILE, rel } from '../../../packages/loader/src/paths.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', '..');
 export const LEDGER = path.join(ROOT, 'data', 'database', 'source-ledger.json');
 export const LEDGER_MD = path.join(ROOT, 'docs', 'source-ledger.md');
-const PROVENANCE = path.join(ROOT, 'tmp', 'records', 'election-provenance.json');
 const WARN_MIN = 100;
 
 export const CATEGORIES = ['elections', 'parliaments', 'gazettes', 'newspapers', 'census-statistics',
@@ -243,7 +244,7 @@ function main() {
   const write = process.argv.includes('--write');
   const ledger = JSON.parse(readFileSync(LEDGER, 'utf8'));
   const errors = validateLedger(ledger);
-  const provenance = existsSync(PROVENANCE) ? JSON.parse(readFileSync(PROVENANCE, 'utf8')) : null;
+  const provenance = readProvenance();
   if (write && errors.length === 0) {
     if (provenance) {
       const { perEntry } = tallyProvenance(ledger, provenance);
@@ -264,7 +265,7 @@ function main() {
     const { uncovered } = tallyProvenance(ledger, provenance);
     const loud = [...uncovered].filter(([, n]) => n >= WARN_MIN).sort((a, b) => b[1] - a[1]);
     for (const [host, n] of loud) console.warn(`WARN: ${n} election-provenance citations to ${host} have no ledger entry (add one, or list the host as private in this script)`);
-  } else console.log('note: tmp/records/election-provenance.json not built; provenance coverage warning skipped');
+  } else console.log(`note: ${rel(PROVENANCE_FILE)} not built; provenance coverage warning skipped`);
   if (errors.length) {
     for (const e of errors) console.error(`FAIL: ${e}`);
     process.exit(1);

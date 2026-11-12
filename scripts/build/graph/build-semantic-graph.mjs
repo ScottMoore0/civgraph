@@ -8,6 +8,7 @@ import { isGraphExcludedSource } from './graph-source-exclusions.mjs';
 import { wikidataUrl } from '../../lib/wikidata-persons.mjs';
 import { buildTimestamp } from '../../lib/build-timestamp.mjs';
 import { BROWSE_DIR as RECORD_BROWSE_DIR, GRAPH_DIR, PROVENANCE_FILE, localPathForUrl } from '../../../packages/loader/src/paths.mjs';
+import { readProvenance } from '../../../packages/loader/src/election-provenance.mjs';
 
 // Summary labels that are the absence of a party, not one: "No party recorded" (before 1832),
 // "No label" (nothing printed or inferred) and a person record's "Unknown".
@@ -1352,12 +1353,11 @@ function contestSourceFile(item) {
   return file.replace(/^data\/elections-source\/data\/elections\//, '');
 }
 
-/** election-provenance.json's contests, by file: each contest's citations. */
+/** The election provenance's contests (packages/loader/src/election-provenance.mjs), by file: each contest's citations. */
 async function loadContestProvenance() {
   let doc = null;
-  try {
-    doc = JSON.parse(await fs.readFile(PROVENANCE_FILE, 'utf8'));
-  } catch {
+  try { doc = readProvenance(); } catch { /* unreadable: as if not built */ }
+  if (!doc) {
     console.warn(`  ${path.relative(ROOT_DIR, PROVENANCE_FILE)} not found: election facts cite only the Browse index.`);
     return;
   }

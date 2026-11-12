@@ -68,6 +68,7 @@ export function recordPaths(env = process.env) {
     ELECTION_REPORT: at('elections-test2-report.json', 'render/metadata/elections-test2-report.json'),
     ELECTION_SUMMARY_DIR: at('elections-summaries', 'render/metadata/elections-test2-summaries'),
     PROVENANCE_FILE: at('election-provenance.json', 'data/database/election-provenance.json'),
+    PROVENANCE_PART_DIR: at('election-provenance-parts', 'data/database/election-provenance-parts'),
     PROVENANCE_SHARD_DIR: at('election-provenance', 'render/metadata/election-provenance'),
     BROWSE_DIR: at('browse', 'data/browse'),
     GRAPH_DIR: at('graph', 'data/graph'),

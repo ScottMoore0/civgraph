@@ -130,7 +130,7 @@ function readPrior() {
 }
 
 function transformsPresent() {
-  return [P.ELECTION_MANIFEST, P.ELECTION_BUNDLE_DIR, P.PROVENANCE_FILE, path.join(P.BROWSE_DIR, 'index.json'), path.join(P.GRAPH_DIR, 'manifest.json')]
+  return [P.ELECTION_MANIFEST, P.ELECTION_BUNDLE_DIR, P.PROVENANCE_FILE, P.PROVENANCE_PART_DIR, path.join(P.BROWSE_DIR, 'index.json'), path.join(P.GRAPH_DIR, 'manifest.json')]
     .every((p) => existsSync(p));
 }
 
@@ -232,7 +232,7 @@ function main() {
   Object.assign(counts, elections.counts);
   docs.push({ name: 'elections-test2.json', body: JSON.stringify(elections.stats.manifestHead) });
   step('ingest registries', () => merge(ingestRegistries(db)));
-  const prov = step('ingest provenance', () => ingestProvenance(db, { provenanceFile: P.PROVENANCE_FILE, shardDir: P.PROVENANCE_SHARD_DIR }));
+  const prov = step('ingest provenance', () => ingestProvenance(db, { provenanceFile: P.PROVENANCE_FILE, partDir: P.PROVENANCE_PART_DIR, shardDir: P.PROVENANCE_SHARD_DIR }));
   merge(prov);
   step('ingest browse', () => merge(ingestBrowse(db, { browseDir: P.BROWSE_DIR, paths: P })));
   if (votes.dir) step('ingest votes', () => merge(ingestVotes(db, { votesDir: /** @type {string} */ (votes.dir) })));
