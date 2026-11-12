@@ -138,7 +138,7 @@ export const CONTRACTS = Object.freeze({
       v('manifest', { view: 'manifest' }, 'Every election the map app can show',
         obj({ schemaVersion: num, generatedAt: str, totals: obj({ elections: num, loadable: num }), elections: arr(obj({ key: str, body: str, date: str, displayTitle: str, loadable: bool })) })),
       v('summary', { view: 'summary' }, 'One election\'s summary', obj({ key: str, body: str, date: str, displayTitle: str, results: arr(SUMMARY_ROW) })),
-      v('provenance', { view: 'provenance' }, 'Where each contest\'s figures came from', obj({ schemaVersion: num, key: str, contests: object })),
+      v('provenance', { view: 'provenance' }, 'Where each contest\'s figures came from', obj({ schemaVersion: num, key: str, contests: dict(object) })),
       v('areas', { view: 'areas' }, 'A national contest\'s results by area (the presidential elections by Dáil constituency): per area, each candidate\'s figure at every count, the candidates named by their one national candidacy; areas is empty when the election has none',
         obj({ key: str, title: either('string', 'null'), areaLabel: either('string', 'null'), areas: arr(obj({ name: str, slug: str, matched: bool, validPoll: either('number', 'null'), candidates: arr(obj({ id: str, firstPrefs: either('number', 'null'), counts: arr() })) })) })),
       v('list', { view: 'list' }, 'The Browse list of elections, or a page of it',
@@ -208,7 +208,7 @@ export const CONTRACTS = Object.freeze({
     variants: [
       v('index', { view: 'index' }, 'What the votes data holds', obj({ schemaVersion: num, shards: num, bodies: dict(object), persons: num, parties: num })),
       v('division', { division: '*' }, 'One division with its votes', obj({ id: str, body: str, date: str, title: str, votes: arr() })),
-      v('shard', { shard: '*' }, 'One shard of divisions', obj({ schemaVersion: num, shard: num, divisions: object })),
+      v('shard', { shard: '*' }, 'One shard of divisions', obj({ schemaVersion: num, shard: num, divisions: dict(object) })),
       v('person', { person: '*' }, 'One member\'s votes', VOTES_PERSON),
       v('party', { party: '*' }, 'One party\'s cohesion', obj({ schemaVersion: num, slug: str, labels: arr(str), terms: arr() })),
     ],
@@ -217,7 +217,7 @@ export const CONTRACTS = Object.freeze({
     errors: ERROR,
     variants: [
       v('manifest', { view: 'manifest' }, 'The graph manifest, its exports pointing at downloads',
-        obj({ schemaVersion: num, entities: obj({ total: num }), statements: obj({ total: num }), exports: object, api: str, downloads: str })),
+        obj({ schemaVersion: num, entities: obj({ total: num }), statements: obj({ total: num }), exports: dict(str), api: str, downloads: str })),
       v('search', { q: '*' }, 'Entities by name', obj({ items: arr(obj({ entityId: str, slug: str, label: str, types: arr() }, ['entityId', 'label', 'types'])) })),
       v('entity', { entity: '*' }, 'One entity\'s statements (related=1 adds reverse and source statements)', ENTITY),
       v('slug', { slug: '*' }, 'The same, by the entity\'s readable slug', ENTITY),
@@ -236,7 +236,7 @@ export const CONTRACTS = Object.freeze({
   catalogue: {
     errors: OK_FALSE_ERROR,
     variants: [
-      v('pane', { view: 'pane' }, 'The catalogue pane', obj({ schemaVersion: num, shelves: arr(), maps: object })),
+      v('pane', { view: 'pane' }, 'The catalogue pane', obj({ schemaVersion: num, shelves: arr(), maps: dict(object) })),
       v('places', { view: 'places' }, 'The catalogue\'s places', obj({ schemaVersion: num, maps: arr(), places: arr() })),
       v('people', { view: 'people' }, 'The catalogue\'s people', obj({ schemaVersion: num, parties: arr(), constituencies: arr(), people: arr() })),
       v('agent', { view: 'agent' }, 'The slim agent index of maps', obj({ count: num, maps: arr(), dataOverlays: arr() })),
@@ -264,7 +264,7 @@ export const CONTRACTS = Object.freeze({
     errors: ERROR,
     variants: [
       v('features', { mapId: '*' }, 'One map\'s features in the bounding box', obj({ features: arr() })),
-      v('batch', { mapIds: '*' }, 'Several maps\' features at once (mapIds=a,b,c, up to 40), keyed by map id, each as the features variant answers', obj({ maps: object })),
+      v('batch', { mapIds: '*' }, 'Several maps\' features at once (mapIds=a,b,c, up to 40), keyed by map id, each as the features variant answers', obj({ maps: dict(arr()) })),
     ],
   },
   'data-index': {

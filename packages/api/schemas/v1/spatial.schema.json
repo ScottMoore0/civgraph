@@ -53,7 +53,10 @@
       "type": "object",
       "properties": {
         "maps": {
-          "type": "object"
+          "type": "object",
+          "additionalProperties": {
+            "type": "array"
+          }
         }
       },
       "required": [
