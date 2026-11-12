@@ -115,7 +115,7 @@ async function answer(db, route) {
     if (!head) return notHere();
     const results = await db.all(ELECTIONS_API.manifest);
     // The manifest was written by the Node generators: JSON.stringify(doc, null, 2) and a newline.
-    return text(`${JSON.stringify({ ...head, elections: results.map((r) => parseJson(r.entry)) }, null, 2)}\n`);
+    return text(`${JSON.stringify({ ...head, elections: results.map((r) => parseJson(r['entry'])) }, null, 2)}\n`);
   }
   if (route.kind === 'bundle') {
     const chunks = await bundleChunks(db, route.key);
@@ -124,11 +124,11 @@ async function answer(db, route) {
   if (route.kind === 'provenance') {
     const row = await db.first(ELECTIONS_API.provenance, [route.key]);
     // build-election-provenance.mjs shardText: one-space indentation and a newline.
-    return row ? text(`${JSON.stringify(parseJson(row.shard), null, 1)}\n`) : notHere();
+    return row ? text(`${JSON.stringify(parseJson(row['shard']), null, 1)}\n`) : notHere();
   }
   if (route.kind === 'summary') {
     const row = await db.first(ELECTIONS_API.summaryOfFile, [route.file]);
-    return row ? text(`${JSON.stringify(parseJson(row.summary), null, 2)}\n`) : notHere();
+    return row ? text(`${JSON.stringify(parseJson(row['summary']), null, 2)}\n`) : notHere();
   }
   return notHere();
 }

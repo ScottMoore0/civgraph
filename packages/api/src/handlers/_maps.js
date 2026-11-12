@@ -59,7 +59,7 @@ async function listOrd(db, table) {
   // ingest-maps.mjs numbers every top-level key, the list included, and stores the others: the
   // list's ord is the one number in 0..n missing from the head rows.
   const results = await db.all(MAPS.headOrds(table));
-  const taken = new Set(results.map((r) => Number(r.ord)));
+  const taken = new Set(results.map((r) => Number(r['ord'])));
   let i = 0;
   while (taken.has(i)) i += 1;
   return i;
@@ -150,9 +150,9 @@ export async function mapsInCategory(source, category, visibleOnly) {
 export async function resolveLayerId(source, id) {
   const db = asStore(source);
   const live = await db.first(LAYERS.live, [id]);
-  if (live) return { id: String(live.layer_id), alias: false };
+  if (live) return { id: String(live['layer_id']), alias: false };
   const alias = await db.first(LAYERS.alias, [id]);
-  return alias ? { id: String(alias.layer_id), alias: true } : null;
+  return alias ? { id: String(alias['layer_id']), alias: true } : null;
 }
 
 /**
@@ -244,7 +244,7 @@ export async function browseMapsText(source) {
     /** @type {Promise<Pick<MapCardsRow, 'card'>[]>} */ (db.all(MAP_CARDS.cards)),
   ]);
   if (!headRow) return null;
-  const head = /** @type {Record<string, unknown>} */ (parseJson(headRow.body, {}));
+  const head = /** @type {Record<string, unknown>} */ (parseJson(headRow['body'], {}));
   return compactDocument(/** @type {Array<{ key: string, ord: number, value: string | null }>} */ (Object.entries(head).map(([key, v], i) => ({ key, ord: i, value: JSON.stringify(v) })))
     .concat([{ key: 'items', ord: 1e9, value: null }]), cards.map((r) => r.card));
 }
@@ -261,7 +261,7 @@ export async function browseFeaturesText(source) {
     /** @type {Promise<Pick<FeatureGroupsRow, 'card'>[]>} */ (db.all(MAP_CARDS.featureGroups)),
   ]);
   if (!headRow) return null;
-  const head = /** @type {Record<string, unknown>} */ (parseJson(headRow.body, {}));
+  const head = /** @type {Record<string, unknown>} */ (parseJson(headRow['body'], {}));
   return compactDocument(/** @type {Array<{ key: string, ord: number, value: string | null }>} */ (Object.entries(head).map(([key, v], i) => ({ key, ord: i, value: JSON.stringify(v) })))
     .concat([{ key: 'items', ord: 1e9, value: null }]), groups.map((r) => r.card));
 }

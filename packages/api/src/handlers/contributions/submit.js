@@ -241,7 +241,7 @@ async function fetchCurrentRecord(context, entityType, entityId) {
     if (!res.ok) return null;
     /** @type {{ maps?: unknown, id?: unknown } | null} */
     const doc = await res.json();
-    if (Array.isArray(doc?.maps)) return doc.maps.find((/** @type {Record<string, unknown> | null} */ m) => m?.id === entityId) || null;
+    if (Array.isArray(doc?.maps)) return doc.maps.find((/** @type {Record<string, unknown> | null} */ m) => m?.['id'] === entityId) || null;
     return doc?.id === entityId ? doc : null;
   } catch {
     return null;
@@ -290,14 +290,14 @@ function queueMetadata(submission) {
 function sanitizeMapRequest(value) {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
   return {
-    title: safeString(value.title, 180),
-    geography: safeString(value.geography, 180),
-    dateRange: safeString(value.dateRange, 120),
-    provider: safeString(value.provider, 180),
-    proposedCategory: safeString(value.proposedCategory, 180),
-    sourceDescription: safeString(value.sourceDescription, 1200),
-    licenceClaim: safeString(value.licenceClaim || value.licenseClaim, 400),
-    notes: safeString(value.notes, 2000),
+    title: safeString(value['title'], 180),
+    geography: safeString(value['geography'], 180),
+    dateRange: safeString(value['dateRange'], 120),
+    provider: safeString(value['provider'], 180),
+    proposedCategory: safeString(value['proposedCategory'], 180),
+    sourceDescription: safeString(value['sourceDescription'], 1200),
+    licenceClaim: safeString(value['licenceClaim'] || value['licenseClaim'], 400),
+    notes: safeString(value['notes'], 2000),
   };
 }
 

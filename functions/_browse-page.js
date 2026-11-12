@@ -272,7 +272,7 @@ async function lookupTableRecord(source, table, slug, aliasTable = `${table}_ali
   // Ordered, so a value that is one record's slug and another's id resolves the same way
   // whatever order the rows were loaded in (data design 4.3, query 7).
   const row = await db.first(CARDS.bySlug(table, 'card AS record'), [slug]);
-  if (row?.record) return /** @type {BrowseRecord | null} */ (parseJson(row.record));
+  if (row?.['record']) return /** @type {BrowseRecord | null} */ (parseJson(row['record']));
   // An old address (a source merged into another, a person's earlier id) redirects to the
   // record it now belongs to: the caller sends a 301 when the slugs differ.
   let aliased = null;
@@ -281,7 +281,7 @@ async function lookupTableRecord(source, table, slug, aliasTable = `${table}_ali
   } catch {
     return null;   // no aliases table yet
   }
-  if (aliased?.record) return /** @type {BrowseRecord | null} */ (parseJson(aliased.record));
+  if (aliased?.['record']) return /** @type {BrowseRecord | null} */ (parseJson(aliased['record']));
   // An election's source page follows its election's renamed slug (Bangor and Lisburn 1920).
   // The _redirects lines for these never fired: Pages does not apply _redirects to a route a
   // Function serves (site QA 12 Nov).
@@ -316,7 +316,7 @@ export async function lookupGroupedYear(source, slug) {
   const grouped = groupedYearKey(slug);
   if (!grouped) return null;
   const row = await asStore(source).first(ELECTION_PAGES.groupedYear, [grouped.slug]);
-  const card = /** @type {(YearCard & { slug?: string }) | null} */ (parseJson(row?.card || ''));
+  const card = /** @type {(YearCard & { slug?: string }) | null} */ (parseJson(row?.['card'] || ''));
   if (!card) return null;
   const title = card.title || grouped.key;
   return {
@@ -412,7 +412,7 @@ export async function lookupPartyRecord(source, slug) {
   const wanted = slug.toLowerCase();
   const row = await asStore(source).first(RECORD_PAGES.party, [wanted]);
   if (!row) return null;
-  return /** @type {BrowseRecord | null} */ (parseJson(row.detail || '') || parseJson(row.card || ''));
+  return /** @type {BrowseRecord | null} */ (parseJson(row['detail'] || '') || parseJson(row['card'] || ''));
 }
 
 /** An office's page record from D1 (office_cards, built by scripts/build/build-office-pages.mjs). */
@@ -424,7 +424,7 @@ export async function lookupPartyRecord(source, slug) {
 export async function lookupOfficeRecord(source, slug) {
   const row = await asStore(source).first(RECORD_PAGES.office, [String(slug)]);
   if (!row) return null;
-  return /** @type {BrowseRecord | null} */ (parseJson(row.detail || '') || parseJson(row.card || ''));
+  return /** @type {BrowseRecord | null} */ (parseJson(row['detail'] || '') || parseJson(row['card'] || ''));
 }
 
 /**
@@ -438,7 +438,7 @@ export async function lookupOfficeRecord(source, slug) {
 export async function lookupMapRecord(source, slug) {
   const db = asStore(source);
   const row = await browseMapRecord(db, String(slug));
-  if (row) return /** @type {BrowseRecord | null} */ (parseJson(row.detail || '') || parseJson(row.card || ''));
+  if (row) return /** @type {BrowseRecord | null} */ (parseJson(row['detail'] || '') || parseJson(row['card'] || ''));
   const any = await db.first(RECORD_PAGES.anyMap);
   return any ? null : undefined;
 }
