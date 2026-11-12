@@ -85,8 +85,8 @@ index b830d5c540..2a80caaecb 100644
    '/apps/words/',
 +  '/elections/',
    '/proni',
-   '/pages/about.html',
-   '/pages/census-explorer.html',
+   '/pages/about',
+   '/pages/census-explorer',
 diff --git a/site/_headers b/site/_headers
 index 815d99d7f4..ab6ef73838 100644
 --- a/site/_headers
@@ -235,8 +235,8 @@ index 1f2a94569f..b0271c1f54 100644
    <url><loc>https://civgraph.net/apps/words/</loc></url>
 +  <url><loc>https://civgraph.net/elections/</loc></url>
    <url><loc>https://civgraph.net/proni</loc></url>
-   <url><loc>https://civgraph.net/pages/about.html</loc></url>
-   <url><loc>https://civgraph.net/pages/census-explorer.html</loc></url>
+   <url><loc>https://civgraph.net/pages/about</loc></url>
+   <url><loc>https://civgraph.net/pages/census-explorer</loc></url>
 diff --git a/tests/browser/elections-app.spec.cjs b/tests/browser/elections-app.spec.cjs
 index c17b87913e..b5f442f180 100644
 --- a/tests/browser/elections-app.spec.cjs
