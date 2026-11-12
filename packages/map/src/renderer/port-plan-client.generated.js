@@ -869,6 +869,7 @@ export default {
     },
     {
      "label": "PRONI CAB/9/B/13/1: Redistribution: abolition of proportional representation and the redistribution of electoral areas in Northern Ireland (1921-1927)",
+     // arch-ok R6: a citation link in the port plan's data, not an origin the code reads
      "url": "https://civgraph.net/proni/CAB/9/B/13/1"
     },
     {
@@ -1474,6 +1475,7 @@ export default {
     },
     {
      "label": "PRONI CAB/9/B/13/1: Redistribution: abolition of proportional representation and the redistribution of electoral areas in Northern Ireland (1921-1927)",
+     // arch-ok R6: a citation link in the port plan's data, not an origin the code reads
      "url": "https://civgraph.net/proni/CAB/9/B/13/1"
     },
     {

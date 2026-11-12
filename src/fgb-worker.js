@@ -49,6 +49,7 @@ self.onmessage = async (event) => {
     // Dev proxy: rewrite remote URLs on localhost
     if ((self.location?.hostname === 'localhost' || self.location?.href?.includes('localhost'))
         && url.includes('://data.civgraph.net/')) {
+        // arch-ok R6: a classic worker loaded on its own (importScripts), outside the bundle: it cannot import the config
         url = url.replace('https://data.civgraph.net/', self.location.origin + '/_r/');
     }
 
