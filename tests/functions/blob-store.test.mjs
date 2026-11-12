@@ -155,7 +155,6 @@ const NOT_YET_ON_THE_BLOB_STORE = [
   'packages/api/src/handlers/contributions/submit.js',
   'packages/api/src/handlers/proni/search.js',
   'packages/api/src/handlers/search.js',
-  'packages/api/src/handlers/spatial.js',
 ];
 
 const walk = (dir, out = []) => {
