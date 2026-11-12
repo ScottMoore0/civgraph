@@ -275526,6 +275526,41 @@
           ]
         }
       ]
+    },
+    {
+      "batch": "eoni-review-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/local-government/1999-07-01/killultagh.json",
+      "source": {
+        "title": "Electoral Office for Northern Ireland, result sheet: Killultagh (Lisburn) by-election, 30 June 1999",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20190806060235id_/http://www.eoni.org.uk/EONI/files/eb/eb39636e-6685-4cf4-8307-571dc253bc34.pdf",
+        "original": "http://www.eoni.org.uk/getattachment/Elections/Election-results-and-statistics/By-election-results/killultagh_by-election_result_30_june_1999.pdf",
+        "accessed": "2026-11-11"
+      },
+      "reason": "The Electoral Office's result sheet gives the figures the newspaper reports lacked: an electorate of 13,604, 3,071 votes polled, 19 invalid and a quota of 1,527 (floor(3,052/2)+1); its candidates' votes and valid poll of 3,052 agree with the file. The sheet dates the poll 30 June 1999 and the count 1 July 1999; the file keeps the declaration date, 1 July, as its key.",
+      "category": "figures",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Electorate",
+          "value": "13604"
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Poll",
+          "value": "3071"
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Spoiled",
+          "value": "19"
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Quota",
+          "value": "1527"
+        }
+      ]
     }
   ]
 }
