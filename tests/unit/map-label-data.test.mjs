@@ -5,6 +5,8 @@
 // - packages/maps-pipeline/src/tiles/repair-label-text.mjs on a fixture FlatGeobuf: keyed, by-value
 //   and NFC repairs land, and nothing else in the file moves;
 // - data/database/label-text-repairs.json is well formed and repairs only damaged text;
+// - only the accepted readings apply (12 Nov 2026, stream w8-small: the owner accepted the
+//   high-confidence Irish names; medium and open readings are held back);
 // - scripts/check/rules/map-label-data.mjs passes on the committed data.
 //
 //   node --test tests/unit/map-label-data.test.mjs
@@ -22,6 +24,7 @@ import {
   hasReplacementChar,
   nfcLabel,
   notNfc,
+  repairApplies,
 } from '../../packages/maps-pipeline/src/label-data.mjs';
 
 const FFFD = '�';
@@ -61,6 +64,16 @@ test('text: U+FFFD and decomposed accents are caught; NFC repairs the second', (
   assert.equal(nfcLabel(42), 42);
 });
 
+test('repairApplies: only the accepted confidence levels apply; no list or no confidence applies', () => {
+  assert.equal(repairApplies({ confidence: 'high' }, ['high']), true);
+  assert.equal(repairApplies({ confidence: 'medium' }, ['high']), false);
+  assert.equal(repairApplies({ confidence: 'open' }, ['high']), false);
+  assert.equal(repairApplies({ confidence: 'medium' }, ['high', 'medium']), true);
+  assert.equal(repairApplies({}, ['high']), true);
+  assert.equal(repairApplies({ confidence: 'medium' }, undefined), true);
+  assert.equal(repairApplies({ confidence: 'open' }, null), true);
+});
+
 test('an Irish Grid (EPSG:29902) source gives lon/lat centres through the index SQL', { skip: !gdal && 'GDAL is not installed' }, () => {
   const dir = mkdtempSync(join(tmpdir(), 'label-data-'));
   try {
@@ -94,26 +107,33 @@ test('repair-label-text: keyed, by-value and NFC repairs land; order, geometry a
       ['Ballycotton Island', `Oile${FFFD}n Bhaile Choit${FFFD}n`, 'Cork', 45386],
       ['Dunbrin', DECOMPOSED, 'Laois', 7],
       ['Plain', 'An Baile Bán', `D${FFFD}n Laoghaire-Rathdown`, 8],
+      ['The Cow', `An Bh${FFFD}`, 'Cork', 50883],
     ].map(([name, irish, county, id], i) => ({ type: 'Feature', properties: { ID: id, Name: name, IrishName: irish, County: county, Note: `row ${i}` }, geometry: { type: 'Point', coordinates: [-8 - i / 10, 52 + i / 10] } }));
     writeFileSync(join(dir, 'src.geojson'), JSON.stringify({ type: 'FeatureCollection', features }));
     assert.equal(spawnSync('ogr2ogr', ['-f', 'FlatGeobuf', join(dir, 'src', 'towns.fgb'), join(dir, 'src.geojson'), '-nln', 'towns'], { encoding: 'utf8' }).status, 0);
     const repairs = {
       keyed: { towns: { key: 'ID', field: 'IrishName', sources: ['src/towns.fgb'], records: [
         { id: 50592, damaged: `An Ch${FFFD}il Rua`, value: 'An Chúil Rua' },
-        { id: 45386, damaged: `Oile${FFFD}n Bhaile Choit${FFFD}n`, value: 'Oileán Bhaile Choitín' },
+        { id: 45386, damaged: `Oile${FFFD}n Bhaile Choit${FFFD}n`, value: 'Oileán Bhaile Choitín', confidence: 'high' },
+        { id: 50883, damaged: `An Bh${FFFD}`, value: 'An Bhó', confidence: 'medium' },
       ] } },
+      apply: { confidence: ['high'] },
       byValue: { towns: { field: 'County', sources: ['src/towns.fgb'], values: { [`D${FFFD}n Laoghaire-Rathdown`]: 'Dún Laoghaire-Rathdown' } } },
       nfc: { layers: { towns: ['src/towns.fgb'] } },
     };
     writeFileSync(join(dir, 'repairs.json'), JSON.stringify(repairs));
+    const before = await readRows(join(dir, 'src', 'towns.fgb'));
     const run = spawnSync(process.execPath, ['packages/maps-pipeline/src/tiles/repair-label-text.mjs', '--root', dir, '--repairs', join(dir, 'repairs.json'), '--out', join(dir, 'out'), '--write', '--in-place'], { encoding: 'utf8' });
     assert.equal(run.status, 0, run.stderr + run.stdout);
-    const rows = [];
-    for await (const f of deserialize(new Uint8Array(readFileSync(join(dir, 'src', 'towns.fgb'))))) rows.push({ ...f.properties, xy: f.geometry.coordinates });
-    assert.deepEqual(rows.map((r) => r.IrishName), ['An Chúil Rua', 'Oileán Bhaile Choitín', 'Dún Braoin', 'An Baile Bán']);
-    assert.deepEqual(rows.map((r) => r.County), ['Cork', 'Cork', 'Laois', 'Dún Laoghaire-Rathdown']);
-    assert.deepEqual(rows.map((r) => r.Note), ['row 0', 'row 1', 'row 2', 'row 3']);
-    assert.deepEqual(rows.map((r) => r.xy), features.map((f) => f.geometry.coordinates));
+    const rows = await readRows(join(dir, 'src', 'towns.fgb'));
+    // The file keeps its own feature order (its packed index may have sorted it on write).
+    assert.deepEqual(rows.map((r) => [r.Note, r.xy]), before.map((r) => [r.Note, r.xy]));
+    const byRow = [...rows].sort((a, b) => String(a.Note).localeCompare(String(b.Note)));
+    // The medium reading is held back: The Cow keeps its damaged name.
+    assert.deepEqual(byRow.map((r) => r.IrishName), ['An Chúil Rua', 'Oileán Bhaile Choitín', 'Dún Braoin', 'An Baile Bán', `An Bh${FFFD}`]);
+    assert.deepEqual(byRow.map((r) => r.County), ['Cork', 'Cork', 'Laois', 'Dún Laoghaire-Rathdown', 'Cork']);
+    assert.deepEqual(byRow.map((r) => r.xy), features.map((f) => f.geometry.coordinates));
+    assert.match(run.stdout, /1 reading\(s\) held back/);
     assert.ok(readFileSync(join(dir, 'src', 'towns.fgb.before-label-repair')).length > 0, 'the original is kept');
     // A second run finds nothing to do.
     const again = spawnSync(process.execPath, ['packages/maps-pipeline/src/tiles/repair-label-text.mjs', '--root', dir, '--repairs', join(dir, 'repairs.json'), '--out', join(dir, 'out')], { encoding: 'utf8' });
@@ -123,6 +143,13 @@ test('repair-label-text: keyed, by-value and NFC repairs land; order, geometry a
     rmSync(dir, { recursive: true, force: true });
   }
 });
+
+/** @param {string} path */
+async function readRows(path) {
+  const rows = [];
+  for await (const f of deserialize(new Uint8Array(readFileSync(path)))) rows.push({ ...f.properties, xy: f.geometry.coordinates });
+  return rows;
+}
 
 test('label-text-repairs.json: every repair turns damaged text into clean text', () => {
   const repairs = JSON.parse(readFileSync('data/database/label-text-repairs.json', 'utf8'));
@@ -155,6 +182,15 @@ test('label-text-repairs.json: every repair turns damaged text into clean text',
     }
   }
   assert.ok(count > 500);
+  // The owner accepted the high-confidence readings (12 Nov 2026); the rest wait for the owner.
+  assert.deepEqual(repairs.apply.confidence, ['high']);
+  const all = Object.values(repairs.keyed).flatMap((spec) => spec.records);
+  assert.equal(all.filter((r) => repairApplies(r, repairs.apply.confidence)).length, 477);
+  assert.deepEqual([...new Set(all.filter((r) => !repairApplies(r, repairs.apply.confidence)).map((r) => r.english))].sort(), [
+    'Carrigcleamore', 'Doonlea', 'Illaunguane', 'Illaunmore', 'Illaunnameanla', 'Illaunroemore', 'Low Island', 'Skeam East', 'Skeam West', 'The Cow',
+  ]);
+  // Every damaged source value is repaired or listed for review.
+  assert.ok(Array.isArray(repairs.review));
 });
 
 test('check:map-label-data passes on the committed indexes, anchors and metadata', () => {

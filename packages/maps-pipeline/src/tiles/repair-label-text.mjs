@@ -8,7 +8,10 @@
  *     "Dún Laoghaire-Rathdown" in local-authorities-1994/2002/2008 (COUNTYNAME);
  *   - text stored decomposed ("u" + U+0301 for "ú") in eds-ulster-1912..1916, 1921-nine-county and
  *     ded-1921-05-03, so it searched and rendered differently from the same name precomposed.
- * The repairs file holds each restored reading with its evidence; this applies it.
+ * The repairs file holds each restored reading with its evidence; this applies it. A keyed
+ * reading is applied only when its confidence is in the file's apply.confidence (the owner
+ * accepted the high-confidence Irish names on 12 Nov 2026); medium and open readings are held
+ * back, and their sources keep the damaged text until the owner settles them.
  *
  * HOW. Each source is copied to a GeoPackage (lossless), the repairs are applied there with
  * SQL UPDATEs (node:sqlite), and it is written back to FlatGeobuf. Nothing else may change: the
@@ -32,6 +35,7 @@ import { basename, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { DatabaseSync } from 'node:sqlite';
 import { deserialize } from 'flatgeobuf/lib/mjs/geojson.js';
+import { repairApplies } from '../label-data.mjs';
 
 const args = process.argv.slice(2);
 const argValue = (name) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : null; };
@@ -52,8 +56,15 @@ const plan = (layer, sources, p) => {
   entry.plans.push(p);
   layers.set(layer, entry);
 };
+/** @type {readonly string[] | undefined} */
+const ACCEPTED = REPAIRS.apply?.confidence;
 for (const [layer, spec] of Object.entries(REPAIRS.keyed || {})) {
-  plan(layer, spec.sources, { field: spec.field, key: spec.key, byKey: new Map(spec.records.map((r) => [String(r.id), { damaged: r.damaged, value: r.value }])) });
+  /** @type {Array<{ id: string | number, damaged: string, value: string, confidence?: string }>} */
+  const records = spec.records;
+  const applied = records.filter((r) => repairApplies(r, ACCEPTED));
+  const held = records.length - applied.length;
+  if (held && (!ONLY.size || ONLY.has(layer))) console.log(`${layer}: ${held} reading(s) held back (confidence not in apply.confidence: ${ACCEPTED?.join(', ')}); their sources keep the damaged text`);
+  plan(layer, spec.sources, { field: spec.field, key: spec.key, byKey: new Map(applied.map((r) => [String(r.id), { damaged: r.damaged, value: r.value }])) });
 }
 for (const [layer, spec] of Object.entries(REPAIRS.byValue || {})) plan(layer, spec.sources, { field: spec.field, byValue: spec.values });
 for (const [layer, sources] of Object.entries(REPAIRS.nfc?.layers || {})) plan(layer, sources, { field: '*', nfc: true });
