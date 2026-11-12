@@ -48,7 +48,7 @@ function sandbox({ stored, systemDark, header = null, theme } = {}) {
   const window = { addEventListener() {} };
   if (systemDark !== undefined) window.matchMedia = (q) => ({ matches: q === '(prefers-color-scheme: dark)' && systemDark });
   class CustomEvent { constructor(type, init) { this.type = type; this.detail = init?.detail; } }
-  const context = vm.createContext({ window, document, localStorage, CustomEvent });
+  const context = vm.createContext({ window, document, localStorage, CustomEvent, AbortController });
   return { context, store, events, documentElement };
 }
 
