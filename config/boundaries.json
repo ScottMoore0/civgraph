@@ -1,5 +1,5 @@
 {
-  "//": "The import rules between the parts of the repository (REFACTOR-PLAN.md section 2.2, PKG-0). scripts/check/boundaries.mjs (npm run check:boundaries) reads every static import, re-export and literal dynamic import() in the tracked .js/.mjs/.cjs files and fails on an edge the importing unit does not allow. A file belongs to the first unit whose paths hold it, so the narrower units come first. `allow` lists the units a unit may import (itself always; '*' any, '!name' not that one); `node` says whether node:* built-ins are allowed; npm packages (bare names) and imports of files no unit holds (data, root files) are not checked. Departures from the plan's table, by decision: core and api may import the generated registry slices (registries-browser, pure data; api for the contribution machine decide.js reads); the exception that let map import frontend (src/) ended when rf9-mapapp (F2/F4, 12 Nov 2026) moved the rest of the map app into packages/map/src/. The served pages (site/, site/apps/ as its own unit, and the retired apps' kill-switch worker render/sw.js) are not bundled, so a relative import of packages/ would 404: they import only site/ files, and package code reaches them through the served shims (site-served: site/assets/ui/, re-exports of what packages/served.json serves there); site/ may not import an app under site/apps/ (added 11 Nov 2026, architecture rule R1, after the site move had left site/ in no unit). `baseline` lists known violating edges ('from -> to' file paths); it may only shrink. Its one entry is the PRONI record page's server render, which imports the PRONI app's renderer (found when site/ joined the rules; the renderer belongs in packages/ui). `unowned` lists the scripts deliberately in no unit, with reasons.",
+  "//": "The import rules between the parts of the repository (REFACTOR-PLAN.md section 2.2, PKG-0). scripts/check/boundaries.mjs (npm run check:boundaries) reads every static import, re-export and literal dynamic import() in the tracked .js/.mjs/.cjs files and fails on an edge the importing unit does not allow. A file belongs to the first unit whose paths hold it, so the narrower units come first. `allow` lists the units a unit may import (itself always; '*' any, '!name' not that one); `node` says whether node:* built-ins are allowed; npm packages (bare names) and imports of files no unit holds (data, root files) are not checked. Departures from the plan's table, by decision: core and api may import the generated registry slices (registries-browser, pure data; api for the contribution machine decide.js reads); the exception that let map import frontend (src/) ended when rf9-mapapp (F2/F4, 12 Nov 2026) moved the rest of the map app into packages/map/src/. The served pages (site/, site/apps/ as its own unit, and the retired apps' kill-switch worker render/sw.js) are not bundled, so a relative import of packages/ would 404: they import only site/ files, and package code reaches them through the served shims (site-served: site/assets/ui/, re-exports of what packages/served.json serves there); site/ may not import an app under site/apps/ (added 11 Nov 2026, architecture rule R1, after the site move had left site/ in no unit). `baseline` lists known violating edges ('from -> to' file paths); it may only shrink. It is empty: its one entry, the PRONI record page's server render importing the PRONI app's renderer, went when rf9-ui moved the renderer into packages/ui (12 Nov 2026), where both now import it. `unowned` lists the scripts deliberately in no unit, with reasons.",
   "units": {
     "storage-node": {
       "paths": [
@@ -83,6 +83,7 @@
       "node": true
     },
     "api": {
+      "//": "ui since 12 Nov 2026 (rf9-ui): the PRONI record page's server render (handlers/proni/page.js) writes the record with the browser app's own renderer, packages/ui/src/templates/proni/record-view.js, a pure string module.",
       "paths": [
         "packages/api/"
       ],
@@ -91,7 +92,8 @@
         "config",
         "schema",
         "storage",
-        "registries-browser"
+        "registries-browser",
+        "ui"
       ],
       "node": false
     },
@@ -286,9 +288,7 @@
       "node": true
     }
   },
-  "baseline": [
-    "packages/api/src/handlers/proni/page.js -> site/apps/proni-search/record-view.js"
-  ],
+  "baseline": [],
   "engines": {
     "//": "The engine rule (architecture rule R1, REFACTOR-PLAN.md ST-7, stream rf9-loader-storage, 12 Nov 2026): only the units in `units` may use an engine API, a module in `modules` (an entry ending in / covers the modules under it), by an import, an import() or a JSDoc type import(). Everything else opens a database or a bucket through packages/storage (openSqliteHandle and openSqlite for SQLite files, fsBlobStore for folders; the Functions reach D1, R2 and KV through fromD1 and blobStore, held by tests/functions/blob-store.test.mjs and named-queries.test.mjs), so a database swap touches only the adapter (acceptance test A3). `tests` may use the engine too: a fixture builds a database with it, and a test that reads a file without the adapter is an independent check of the adapter. `baseline` lists the known uses ('file -> module') and only shrinks: the publish scripts reach R2 through the S3 client directly, as packages/storage has no S3 blob store yet (plan ST-2's s3.mjs).",
     "modules": [

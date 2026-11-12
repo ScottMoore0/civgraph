@@ -27,7 +27,7 @@
  * @typedef {import('../../packages/types/index.js').ApiV1.ProniCountCountAnswer & { levels?: ProniLevelCount[] }} ProniCountAnswer
  */
 import { AZ_SCOPE, CARD_CHILDREN, CARD_DESCRIPTION, COPY_FLASH, MODAL, RESULTS, VIEW } from './state-machines.js';
-import { esc, recordHtml, recordNotFound, recordShell, refToPath, refWidget } from './record-view.js';
+import { esc, recordHtml, recordNotFound, recordShell, refToPath, refWidget } from '../../pkg/ui/src/templates/proni/record-view.js';
 
 const API = '/_api/proni/search';
 const COUNT_API = '/_api/proni/count';
