@@ -61,10 +61,19 @@ const CHECK = process.argv.includes('--check');
 const catalogue = JSON.parse(readFileSync(CATALOGUE, 'utf8'));
 const render = JSON.parse(readFileSync(RENDER, 'utf8'));
 
-const mapById = new Map((catalogue.maps || []).map((m) => [m.id, m]));
-const classById = new Map((catalogue.classes || []).map((c) => [c.id, c]));
+/**
+ * @typedef {import('../../src/public-map.mjs').CatalogueMap & { id: string, name?: string, date?: unknown }} CatalogueMap
+ * @typedef {{ id: string, maps?: string[] }} CatalogueClass
+ * @typedef {{ classIds?: string[], mapIds?: string[], from?: string, to?: string, column?: string }} Segment
+ * @typedef {{ id: string, mapId: string, date: string, name: string }} ChainEntry
+ */
+/** @type {Map<string, CatalogueMap>} */
+const mapById = new Map((catalogue.maps || []).map((/** @type {CatalogueMap} */ m) => [m.id, m]));
+/** @type {Map<string, CatalogueClass>} */
+const classById = new Map((catalogue.classes || []).map((/** @type {CatalogueClass} */ c) => [c.id, c]));
 
 // A catalogue map id -> the render layer that draws it.
+/** @type {Map<string, { id: string }>} */
 const layerByMapId = new Map();
 for (const layer of render.layers || []) {
   if (!layer.sourceMapId) continue;
@@ -73,11 +82,11 @@ for (const layer of render.layers || []) {
 
 // Strip diacritics BEFORE slugging, or "Dail Eireann" (spelt properly) becomes
 // "d-il-eireann" -- a stable id, but one that reads as a bug every time anyone sees it.
-const slug = (value) => String(value)
+const slug = (/** @type {unknown} */ value) => String(value)
   .normalize('NFD').replace(/[̀-ͯ]/g, '')
   .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
-const inWindow = (date, window) => {
+const inWindow = (/** @type {unknown} */ date, /** @type {Segment} */ window) => {
   const value = String(date || '');
   if (!value) return false;
   if (window.from && value < String(window.from)) return false;
@@ -85,7 +94,12 @@ const inWindow = (date, window) => {
   return true;
 };
 
-/** Resolve one map id to a render-shaped entry, or null if it cannot be offered. */
+/**
+ * Resolve one map id to a render-shaped entry, or null if it cannot be offered.
+ * @param {string} mapId
+ * @param {Set<string>} seen
+ * @returns {ChainEntry | null}
+ */
 function toEntry(mapId, seen) {
   const map = mapById.get(mapId);
   // Placeholders and hidden records are dropped: a chain entry that cannot be loaded is
@@ -115,6 +129,11 @@ function toEntry(mapId, seen) {
  * and ni-deds to 1971; ignoring the window would pull post-1972 wards into a segment
  * that ends in 1971.
  */
+/**
+ * @param {Segment} segment
+ * @param {Set<string>} seen
+ * @param {ChainEntry[]} entries
+ */
 function collect(segment, seen, entries) {
   const window = (segment.from || segment.to) ? segment : null;
   for (const classId of segment.classIds || []) {
@@ -137,9 +156,16 @@ function collect(segment, seen, entries) {
   }
 }
 
+/** @type {{ id: string, name: string, maps: ChainEntry[] }[]} */
 const chains = [];
+/** @type {string[]} */
 const notes = [];
 
+/**
+ * @param {string} id
+ * @param {string} name
+ * @param {ChainEntry[]} entries
+ */
 function emit(id, name, entries) {
   if (entries.length < 2) return;   // a "series" of one is a layer, not a series
   entries.sort((a, b) => a.date.localeCompare(b.date));
@@ -157,7 +183,9 @@ for (const chain of catalogue.timeSeriesChains || []) {
   // continuation of anything.
   if (chain.parallel) {
     for (const segment of segments) {
+      /** @type {Set<string>} */
       const seen = new Set();
+      /** @type {ChainEntry[]} */
       const entries = [];
       collect(segment, seen, entries);
       const columnName = segment.column || name;
@@ -169,13 +197,15 @@ for (const chain of catalogue.timeSeriesChains || []) {
     continue;
   }
 
+  /** @type {Set<string>} */
   const seen = new Set();
+  /** @type {ChainEntry[]} */
   const entries = [];
   for (const segment of segments) collect(segment, seen, entries);
   emit(chain.id, name, entries);
 }
 
-const serialise = (value) => JSON.stringify(value);
+const serialise = (/** @type {unknown} */ value) => JSON.stringify(value);
 if (CHECK) {
   if (serialise(render.timeSeriesChains || []) !== serialise(chains)) {
     console.error('FAIL: render/metadata/maps-test.json timeSeriesChains is stale.');
@@ -201,7 +231,7 @@ render.timeSeriesChains = chains;
 //
 // So it is computed ONCE, here, from the file, and read by everyone else.
 render.publicMapCount = (catalogue.maps || [])
-  .filter((map) => isPublicMap(map, (id) => mapById.get(id), (id) => layerByMapId.has(id)))
+  .filter((/** @type {CatalogueMap} */ map) => isPublicMap(map, (id) => mapById.get(id), (id) => layerByMapId.has(id)))
   .length;
 
 writeFileSync(RENDER, `${JSON.stringify(render, null, 2)}\n`);
