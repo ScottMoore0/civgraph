@@ -149,12 +149,11 @@ test('parity over the records build: the summary rows and the candidates agree o
       }
     }
     assert.ok(compared > 10000, `${compared} contests compared`);
-    // Known data defects, not rule differences: 74 unopposed contests (presidential, 1922 Dail,
-    // some local) whose summary row carries a vote (a marker final_votes of 1, or the electorate
-    // in validPoll, Belfast North and West 1922), so the summary reads "polled". Every other
-    // contest agrees. The count may only fall; any other kind of difference fails.
-    assert.deepEqual(differ.filter((d) => !d.endsWith('summary polled, candidates unopposed')), []);
-    assert.ok(differ.length <= 74, `${differ.length} summary rows read polled for an unopposed contest (was 74): ${differ.slice(0, 10).join('; ')}`);
+    // Every contest agrees. The 74 unopposed contests (presidential, 1922 Dail, some local) whose
+    // summary row carried a placeholder vote of 1, or a valid poll (Belfast North and West 1922),
+    // and so read "polled", agree since the manifest build scrubs those placeholders
+    // (scripts/lib/unopposed-placeholders.mjs) and the 1922 valid polls were removed.
+    assert.deepEqual(differ, []);
   } finally {
     db.close();
   }
