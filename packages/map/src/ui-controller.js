@@ -18,6 +18,7 @@ import { createFlag, createState, setHidden } from './state-helpers.mjs';
 import { partyFullName, partyLabelHtml } from '../../core/src/party-names.mjs';
 import { BODY_GROUP_ORDER, hasNumber, yearRange } from './entity-detail-data.mjs';
 import { siteNumber } from '../../core/src/format.js';
+import { pageType, recordPagePath } from '../../ui/src/page-types.mjs';
 import { BODY_COLOURS, MAP_COLOURS } from './colours.mjs';
 
 // Derived kinds, not state (architecture rule R7): each is worked out from data where it is read.
@@ -2471,16 +2472,9 @@ class UIController {
         if (item?.browseUrl) return item.browseUrl;
         const slug = String(item?.slug || item?.id || item?.key || '').replace(/^(party|person|source):/, '');
         if (!slug) return '';
-        const pathByKind = {
-            elections: 'elections',
-            parties: 'parties',
-            persons: 'persons',
-            sources: 'sources'
-        };
-        const path = pathByKind[kind] || kind;
-        // A record type with a page of its own links to that page (the address that previews as
-        // the record when shared); the others stay in Browse's hash.
-        return (pathByKind[kind] ? '/browse/' : '/browse/#/') + path + '/' + encodeURIComponent(slug);
+        // A record type with a page of its own (the page-types registry) links to that page (the
+        // address that previews as the record when shared); the others stay in Browse's hash.
+        return pageType(kind) ? recordPagePath(kind, slug) : '/browse/#/' + kind + '/' + encodeURIComponent(slug);
     }
 
     makeCatalogueSearchRecord(input) {

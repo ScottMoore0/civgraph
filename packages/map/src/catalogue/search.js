@@ -15,6 +15,7 @@
 import councilSearch from '../../../registries/src/browser/council-search.mjs';
 import electionBodies from '../../../registries/src/browser/election-bodies.mjs';
 import { personSlug } from '../../../core/src/format.js';
+import { recordPagePath } from '../../../ui/src/page-types.mjs';
 
 /**
  * The rebuilt catalogue (data/catalogue/catalogue.json, scripts/build/catalogue/build-catalogue.mjs),
@@ -515,6 +516,6 @@ export class PeopleSearch {
    */
   static url(row) {
     // The person's own page, which the server renders with their title and link-preview tags.
-    return `/browse/persons/${encodeURIComponent(PeopleSearch.slug(row))}`;
+    return recordPagePath('persons', PeopleSearch.slug(row));
   }
 }

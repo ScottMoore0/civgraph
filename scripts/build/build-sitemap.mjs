@@ -37,6 +37,7 @@ import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { BROWSE_DIR, localPathForUrl } from '../../packages/loader/src/paths.mjs';
 import { SITE as SITE_CONFIG } from '../../packages/config/src/node.mjs';
+import { PAGE_TYPE_IDS } from '../../packages/ui/src/page-types.mjs';
 
 const SITE = SITE_CONFIG.origin;
 const OUT_DIR = 'sitemaps';
@@ -70,19 +71,10 @@ export const TOP_LEVEL_PAGES = [
   '/pages/status',
 ];
 
-// Browse types with a path-style page, and the index each is read from. Must match
-// functions/_browse-page.js BROWSE_PAGE_TYPES.
-export const BROWSE_SITEMAP_TYPES = ['elections', 'maps', 'offices', 'parties', 'persons', 'register-interests', 'sources'];
-/** @type {Record<string, string>} */
-const BROWSE_INDEX_FILES = {
-  elections: 'elections.json',
-  maps: 'maps.json',
-  offices: 'offices.json',
-  parties: 'parties.json',
-  persons: 'persons.json',
-  'register-interests': 'register-interests.json',
-  sources: 'sources.json',
-};
+// Browse types with a path-style page (the page-types registry, packages/ui/src/page-types.mjs),
+// sorted, and the index each is read from: data/browse/<type>.json.
+export const BROWSE_SITEMAP_TYPES = [...PAGE_TYPE_IDS].sort();
+const BROWSE_INDEX_FILES = Object.fromEntries(BROWSE_SITEMAP_TYPES.map((type) => [type, `${type}.json`]));
 
 const xmlEscape = (/** @type {unknown} */ value) => String(value)
   .replace(/&/g, '&amp;')

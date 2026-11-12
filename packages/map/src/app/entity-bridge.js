@@ -35,6 +35,7 @@ import {
   partyHeadlineCards
 } from '../entity-detail-data.mjs';
 import { MAP_COLOURS } from '../colours.mjs';
+import { recordPagePath } from '../../../ui/src/page-types.mjs';
 
 /**
  * The names a party is known by, as its people are looked up: canonical name, title, short name,
@@ -519,7 +520,7 @@ export class EntityBridgeMethods {
       died: item.died || null,
       lifeSource: [...new Set([item.bornSource, item.diedSource].filter(Boolean))].join(', '),
       officialProfiles: Array.isArray(item.officialProfiles) ? item.officialProfiles : [],
-      browseUrl: `/browse/persons/${encodeURIComponent(slug)}`
+      browseUrl: recordPagePath('persons', slug)
     };
   }
 

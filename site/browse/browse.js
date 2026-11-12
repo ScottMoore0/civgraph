@@ -10,6 +10,7 @@ import { SITE } from '../pkg/config/src/config.js';
 import { electionKindLabels } from '../pkg/registries/src/browser/election-type-names.mjs';
 import { browseColours } from '../pkg/registries/src/browser/colour-palettes.mjs';
 import { SHORT_MONTHS } from '../pkg/core/src/date-format.mjs';
+import { PAGE_TYPE_IDS } from '../pkg/ui/src/page-types.mjs';
 
 /**
  * An element of the page reached by a delegated listener or a selector: any HTML element, with
@@ -930,7 +931,8 @@ function focusCard(index) {
 // path in the address bar, so a copied or shared address previews as the record rather than as
 // "Browse – Civgraph". Lists, the landing view and the types with no page of their own stay in
 // the hash; an old #/<type>/<slug> address is rewritten to the path on arrival.
-const PATH_ROUTE_TYPES = new Set(['elections', 'maps', 'offices', 'parties', 'persons', 'register-interests', 'sources']);
+// They are the page-types registry's types (packages/ui/src/page-types.mjs).
+const PATH_ROUTE_TYPES = new Set(PAGE_TYPE_IDS);
 // The shell this document was loaded as (/browse/, /records/, /catalogue/): where a list or the
 // landing view opened from a record's path goes. A record's path is always served the /browse/ shell.
 const SHELL_PATH = pathRouteParts() ? '/browse/' : location.pathname;
