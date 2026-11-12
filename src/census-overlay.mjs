@@ -63,8 +63,9 @@ import { siteNumber } from '../packages/core/src/format.js';
  */
 /** @typedef {ReturnType<typeof joinRows>} JoinedRows */
 
-// The ramps (Matplotlib samples) and the no-figure fill live in the map palette module
-// (packages/map/src/colours.mjs), with the colours' history.
+// The ramps (Matplotlib samples) and the no-figure fill are the colours registry's
+// (data/registries/colours.json ramps.census and ramps.censusNoData, with the colours' history),
+// read through packages/map/src/colours.mjs.
 /** @type {Record<string, string[]>} */
 export const RAMPS = CENSUS_RAMPS;
 
