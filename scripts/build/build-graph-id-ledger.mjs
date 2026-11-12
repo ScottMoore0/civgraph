@@ -31,7 +31,11 @@ if (!existsSync(DB_FILE)) {
   process.exit(1);
 }
 const store = openSqlite(DB_FILE, { readOnly: true });
-const published = publishedGraphFromRows(await store.all(PUBLISHED_GRAPH_SQL.entities), await store.all(PUBLISHED_GRAPH_SQL.aliases));
+/** @typedef {import('../../packages/storage/src/store.js').SqlValue} SqlValue */
+// each query's rows have exactly the columns it selects
+const published = publishedGraphFromRows(
+  /** @type {{ entity_id: SqlValue, entity: SqlValue }[]} */ (await store.all(PUBLISHED_GRAPH_SQL.entities)),
+  /** @type {{ browse_key: SqlValue, entity_id: SqlValue }[]} */ (await store.all(PUBLISHED_GRAPH_SQL.aliases)));
 if (!published.liveIds.size) {
   console.error(`graph-id-ledger: the records build at ${DB_FILE} has no graph (built with --skip graph?)`);
   process.exit(1);
