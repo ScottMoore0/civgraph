@@ -18,11 +18,11 @@
  * colouring holds at every zoom and on every tile as it arrives, with no per-feature state.
  *
  * Shared by the map (packages/map/app/maplibre-main-adapter.js), its legend and feature details
- * (packages/map/app/app.js, src/ui-controller.js) and the Browse and catalogue builders. Pure: no DOM.
+ * (packages/map/app/app.js, packages/map/src/ui-controller.js) and the Browse and catalogue builders. Pure: no DOM.
  */
-import { CENSUS_NO_DATA_FILL, CENSUS_RAMPS, MAP_COLOURS } from '../packages/map/src/colours.mjs';
+import { CENSUS_NO_DATA_FILL, CENSUS_RAMPS, MAP_COLOURS } from './colours.mjs';
 
-import { siteNumber } from '../packages/core/src/format.js';
+import { siteNumber } from '../../core/src/format.js';
 
 /** @typedef {{ name: string, short: string, url: string }} Licence */
 
@@ -471,7 +471,7 @@ export function statisticFor(entry, row) {
 /**
  * The runtime layer a statistic is drawn as: its geography's tiles under the statistic's own id.
  * @param {CensusEntry} entry
- * @param {import('../packages/types/index.js').LayerEntry} geographyLayer
+ * @param {import('../../types/index.js').LayerEntry} geographyLayer
  */
 export function overlayRuntimeLayer(entry, geographyLayer) {
   return {

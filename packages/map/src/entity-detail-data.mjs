@@ -3,7 +3,7 @@
  *
  * Pure: no DOM and no fetch, so the arithmetic can be tested on its own
  * (tests/catalogue/entity-detail-data.test.mjs). packages/map/app/app.js shapes the Browse / D1 records
- * with these, and src/ui-controller.js renders the result.
+ * with these, and packages/map/src/ui-controller.js renders the result.
  *
  * The rule throughout (UX review 2026-10-31, H1): a figure the record does not carry is null,
  * never 0. The pages used to coerce every missing field to 0, so every party "won 0.00% of
@@ -11,7 +11,7 @@
  * is null on every row is left out.
  */
 
-import { siteNumber } from '../packages/core/src/format.js';
+import { siteNumber } from '../../core/src/format.js';
 
 /**
  * A row of a person's or party's election history as the Browse / D1 record gives it: the
@@ -29,7 +29,7 @@ import { siteNumber } from '../packages/core/src/format.js';
  *   isRecallPetition?: unknown
  * }} HistoryRow
  */
-/** @typedef {import('../packages/core/src/election-view-model.mjs').ElectionResult} ElectionResult */
+/** @typedef {import('../../core/src/election-view-model.mjs').ElectionResult} ElectionResult */
 
 /**
  * True for a value that is a real number (0 included), false for null, '' and NaN.

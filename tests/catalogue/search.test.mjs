@@ -3,7 +3,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { CatalogueSearch, PeopleSearch, coveringPoint, normalise, parseQuery, withinOneEdit, wordMatch } from '../../src/catalogue/search.js';
+import { CatalogueSearch, PeopleSearch, coveringPoint, normalise, parseQuery, withinOneEdit, wordMatch } from '../../packages/map/src/catalogue/search.js';
 
 const catalogue = JSON.parse(readFileSync('data/catalogue/catalogue.json', 'utf8'));
 const places = JSON.parse(readFileSync('data/catalogue/places.json', 'utf8'));

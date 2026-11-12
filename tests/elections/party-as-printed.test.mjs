@@ -18,7 +18,7 @@ import {
   printedLabelsToggleHtml,
   printedLabelText,
   setPrintedLabelsShown
-} from '../../src/printed-labels.mjs';
+} from '../../packages/map/src/printed-labels.mjs';
 
 const root = new URL('../../', import.meta.url);
 const read = (file) => readFileSync(new URL(file, root), 'utf8');

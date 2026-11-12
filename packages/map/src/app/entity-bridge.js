@@ -16,9 +16,9 @@ import {
   normalizeEntityName,
   slugifyEntityKey
 } from './helpers.mjs';
-import uiController from '../../../../src/ui-controller.js';
+import uiController from '../ui-controller.js';
 import { partyFullName } from '../../../core/src/party-names.mjs';
-import { ENTITY_PAGE_LOAD } from '../../../../src/ui-state-machines.mjs';
+import { ENTITY_PAGE_LOAD } from '../ui-state-machines.mjs';
 import { createState } from '../state-helpers.mjs';
 import { loadAllPages } from './paged-fetch.mjs';
 import { decodeMembers } from '../../../core/src/party-members.mjs';
@@ -33,7 +33,7 @@ import {
   leadingPartyOf,
   normaliseStatus,
   partyHeadlineCards
-} from '../../../../src/entity-detail-data.mjs';
+} from '../entity-detail-data.mjs';
 import { MAP_COLOURS } from '../colours.mjs';
 
 /**

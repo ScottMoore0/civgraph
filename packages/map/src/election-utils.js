@@ -3,8 +3,8 @@
  * Extracted to break the static import dependency from ui-controller → election-controller,
  * enabling future code-splitting of the election controller.
  */
-import { escapeHtml } from '../packages/core/src/html.js';
-import { siteDate } from '../packages/core/src/format.js';
+import { escapeHtml } from '../../core/src/html.js';
+import { siteDate } from '../../core/src/format.js';
 
 /**
  * @template {string | null | undefined} D

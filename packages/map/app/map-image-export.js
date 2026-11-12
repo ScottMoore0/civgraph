@@ -28,8 +28,8 @@
  * are drawn along it, dark where they cross the features. Their outlines are
  * assets/map/context-loughs.json, built by scripts/build/svg-context-loughs.py.
  */
-import dataService, { resolveMapDownloadUrl } from '../../../src/data-service.js';
-import { compositeChildIds } from '../../../src/map-relations.mjs';
+import dataService, { resolveMapDownloadUrl } from '../src/data-service.js';
+import { compositeChildIds } from '../src/map-relations.mjs';
 import { SITE } from '../../config/src/config.js';
 import { siteNumber } from '../../core/src/format.js';
 import { EXPORT_COLOURS } from '../src/colours.mjs';
@@ -270,7 +270,7 @@ export function resolveVectorSourceUrl(mapConfig) {
 }
 
 function rewriteForLocalDev(url) {
-  // The same rule as src/fgb-worker.js: the dev server proxies R2 at /_r/ on localhost.
+  // The same rule as packages/map/src/fgb-worker.js: the dev server proxies R2 at /_r/ on localhost.
   const dataOrigin = `${SITE.dataOrigin}/`;
   if (typeof location !== 'undefined' && location.hostname === 'localhost' && url.startsWith(dataOrigin)) {
     return url.replace(dataOrigin, `${location.origin}/_r/`);

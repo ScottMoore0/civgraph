@@ -5,8 +5,8 @@
  * Methods of the map app (Test2App, packages/map/app/app.js), installed on its prototype by installMethods: `this` is the app.
  */
 
-import dataService from '../../../../../src/data-service.js';
-import { compositeChildIds } from '../../../../../src/map-relations.mjs';
+import dataService from '../../data-service.js';
+import { compositeChildIds } from '../../map-relations.mjs';
 import { formatDisplayDate } from '../../../../core/src/date-format.mjs';
 import { parseTimelineDate, yearOnlyMapDate } from './dates.mjs';
 import { setHidden } from '../../state-helpers.mjs';

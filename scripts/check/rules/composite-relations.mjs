@@ -35,7 +35,7 @@
  *   node scripts/check/rules/composite-relations.mjs
  */
 import { readFileSync } from 'node:fs';
-import { compositeChildIds } from '../../../src/map-relations.mjs';
+import { compositeChildIds } from '../../../packages/map/src/map-relations.mjs';
 
 const RENDER = 'render/metadata/maps-test.json';
 

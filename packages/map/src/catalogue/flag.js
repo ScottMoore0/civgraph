@@ -1,5 +1,5 @@
 /**
- * Whether the rebuilt catalogue (src/catalogue/) replaces the classic pane. It is the site's
+ * Whether the rebuilt catalogue (packages/map/src/catalogue/) replaces the classic pane. It is the site's
  * catalogue since 2026-10-12 (civgraph.net/maps): only the archived classic page
  * (civgraph.net/maps/classic/, window.CIVGRAPH_CATALOGUE = 'classic') or ?catalogue=classic
  * shows the classic pane. Kept apart from the catalogue itself so that checking the switch never

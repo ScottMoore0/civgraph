@@ -40,7 +40,7 @@ import path from 'node:path';
 import { openSqliteHandle } from '../../packages/storage/src/sqlite.mjs';
 import { SITE } from '../../packages/config/src/node.mjs';
 import { RECORDS_DB, REPO_ROOT } from '../../packages/loader/src/paths.mjs';
-import { CatalogueSearch, PeopleSearch } from '../../src/catalogue/search.js';
+import { CatalogueSearch, PeopleSearch } from '../../packages/map/src/catalogue/search.js';
 
 /** @typedef {import('../../packages/storage/src/sqlite.mjs').SqliteHandle} SqliteHandle */
 /**

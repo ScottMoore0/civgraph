@@ -13,9 +13,9 @@ import {
   rowOrderToLoadedIds,
   serializeSavedLayerOrder
 } from './layer-order.mjs';
-import uiController from '../../../../src/ui-controller.js';
-import dataService from '../../../../src/data-service.js';
-import { compositeChildIds } from '../../../../src/map-relations.mjs';
+import uiController from '../ui-controller.js';
+import dataService from '../data-service.js';
+import { compositeChildIds } from '../map-relations.mjs';
 
 const CIVIL_PARISHES_COMPOSITE_PARENT_IDS = new Set([
   'civil-parishes-by-province',

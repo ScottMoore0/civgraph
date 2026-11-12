@@ -107,7 +107,7 @@ check('map without on/off -> unavailable', await waitForMapSettle({}), SETTLE_UN
 console.log('wiring:');
 // app.js and the modules split out of it under packages/map/src/app/.
 const appSrc = readMapAppSource();
-const uiSrc = readFileSync('src/ui-controller.js', 'utf8');
+const uiSrc = readFileSync('packages/map/src/ui-controller.js', 'utf8');
 // The add path now waits through waitForMapOutcome(), which also reports a layer that failed
 // outright; either wait is fine as long as its outcome is recorded.
 check('app.js records the outcome', /recordSettleOutcome\(mapId, await this\.(?:mapController\.waitUntilSettled|waitForMapOutcome)\(/.test(appSrc), true);

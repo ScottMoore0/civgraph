@@ -6,7 +6,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
-import { CONTRIBUTOR_FLAG, contributorLinkWanted, suggestEditOffered } from '../../src/catalogue/edit.js';
+import { CONTRIBUTOR_FLAG, contributorLinkWanted, suggestEditOffered } from '../../packages/map/src/catalogue/edit.js';
 
 function memoryStorage(initial = {}) {
   const data = new Map(Object.entries(initial));

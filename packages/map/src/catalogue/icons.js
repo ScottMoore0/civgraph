@@ -1,10 +1,10 @@
 /**
  * Icons for the rebuilt catalogue: Lucide (ISC licence), drawn the way the rest of the site draws
- * them (src/ui-controller.js, lucideIcon) -- 24px grid, 2px round strokes, currentColor. The four
+ * them (packages/map/src/ui-controller.js, lucideIcon) -- 24px grid, 2px round strokes, currentColor. The four
  * section icons are the same paths as the current pane's section bar.
  */
 import { CUSTOM_ICONS } from './custom-icons.js';
-import { SHELF_COLOURS } from '../../packages/map/src/colours.mjs';
+import { SHELF_COLOURS } from '../colours.mjs';
 
 const PATHS = {
   // Sections, as in the current pane

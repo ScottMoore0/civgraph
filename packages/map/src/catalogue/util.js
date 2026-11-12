@@ -1,7 +1,7 @@
 /** Small helpers shared by the rebuilt catalogue's views. */
-import { formatDisplayDate } from '../../packages/core/src/date-format.mjs';
-import { siteNumber } from '../../packages/core/src/format.js';
-import { MAP_COLOURS } from '../../packages/map/src/colours.mjs';
+import { formatDisplayDate } from '../../../core/src/date-format.mjs';
+import { siteNumber } from '../../../core/src/format.js';
+import { MAP_COLOURS } from '../colours.mjs';
 
 export const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 

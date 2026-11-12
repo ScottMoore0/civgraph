@@ -7,7 +7,7 @@
  */
 
 import { parseLayerOrder } from './layer-order.mjs';
-import uiController from '../../../../src/ui-controller.js';
+import uiController from '../ui-controller.js';
 
 export class ElectionPaneMethods {
   /**
@@ -34,7 +34,7 @@ export class ElectionPaneMethods {
     map.resize();
     this.mapController.fitToLayer?.(sourceMapId);
     // The layout is not finished when the pane opens: the catalogue pane changes width a
-    // moment later (src/catalogue/split.js) and the pane slides up, so that fit was made for a
+    // moment later (packages/map/src/catalogue/split.js) and the pane slides up, so that fit was made for a
     // larger map than the one left. Fit again each time the map's box changes over the next
     // second, then stop listening, so a reader's own panning is never undone.
     const container = map.getContainer?.();

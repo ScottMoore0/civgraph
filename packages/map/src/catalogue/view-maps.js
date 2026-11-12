@@ -9,7 +9,7 @@ import { esc, plural, span, inkOn, longDate, mapDate, SCOPE_SHORT, shortProvider
 import { SECTIONS, unitWord } from './index.js';
 import { sliderHtml } from './slider.js';
 import { PeopleSearch } from './search.js';
-import { MAP_COLOURS } from '../../packages/map/src/colours.mjs';
+import { MAP_COLOURS } from '../colours.mjs';
 
 const FALLBACK = MAP_COLOURS.catalogueFallback;
 const colourOf = (c, s, id) => c.rec(id).color || s.color || FALLBACK;

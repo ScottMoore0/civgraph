@@ -27,7 +27,7 @@ import {
   niLocalGroupKey,
   niLocalGroupYear,
   replaceNiLocalRoundsWithGroups
-} from '../../src/ni-local-groups.mjs';
+} from '../../packages/map/src/ni-local-groups.mjs';
 import { leadingParty, niLocalAreaName, voteShareOpacity } from '../../packages/map/app/ni-local-view.js';
 import { ELECTION_MANIFEST } from '../../packages/loader/src/paths.mjs';
 

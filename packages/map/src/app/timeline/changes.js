@@ -6,7 +6,7 @@
  * Methods of the map app (Test2App, packages/map/app/app.js), installed on its prototype by installMethods: `this` is the app.
  */
 
-import dataService from '../../../../../src/data-service.js';
+import dataService from '../../data-service.js';
 import { escapeHtml } from '../helpers.mjs';
 import { formatHectares, timelineChangeName } from './dates.mjs';
 import { setHidden } from '../../state-helpers.mjs';

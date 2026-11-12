@@ -59,7 +59,7 @@
 import { readdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs';
 import path from 'node:path';
 import { BROWSE_DIR, ELECTION_BUNDLE_DIR, GRAPH_DIR } from '../../packages/loader/src/paths.mjs';
-import { catalogueMapIds, catalogueToBeAddedIds } from '../../src/public-map.mjs';
+import { catalogueMapIds, catalogueToBeAddedIds } from '../../packages/map/src/public-map.mjs';
 
 const ROOT = process.cwd();
 const OUT = path.join(ROOT, 'data/database/site-stats.json');

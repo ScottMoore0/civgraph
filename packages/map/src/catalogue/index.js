@@ -1,8 +1,8 @@
 /**
  * The rebuilt catalogue pane.
  *
- * Mounted by UIController (src/ui-controller.js) in place of the current pane when
- * catalogueNextRequested() (src/catalogue/flag.js) is true; nothing here runs otherwise.
+ * Mounted by UIController (packages/map/src/ui-controller.js) in place of the current pane when
+ * catalogueNextRequested() (packages/map/src/catalogue/flag.js) is true; nothing here runs otherwise.
  *
  * Three sections, Maps (first), Elections and Books, plus the Tables tab. Maps lists every series
  * as one row whose editions are chips: each adds its map in one click and fills with the map's own
@@ -27,7 +27,7 @@ import { initialCatalogueRoute, takeCatalogueData } from './flag.js';
 import { compositeChildIds } from '../map-relations.mjs';
 import { icon, SHELF_LOOK, SHELF_ICON_IN, BOOK_CATEGORY_ICONS, MERGED_SHELVES, FLAT_SECTIONS } from './icons.js';
 import { esc, yearOf, longDate, mapDate, shortProvider } from './util.js';
-import { formatDisplayDate } from '../../packages/core/src/date-format.mjs';
+import { formatDisplayDate } from '../../../core/src/date-format.mjs';
 import { cdnUrl } from '../cdn-url.js';
 import { openMenu, closeMenu } from './menu.js';
 import { loadAuth, loginHref, openEditDialog, suggestEditOffered } from './edit.js';
@@ -37,10 +37,10 @@ import * as ElectionsView from './view-elections.js';
 import { BODY_GROUPS, groupOfBody, shelvesOf } from './view-elections.js';
 import * as BooksView from './view-books.js';
 import { CATALOGUE_TAB } from './route-state.mjs';
-import { defineFlagFields, setHidden } from '../../packages/map/src/state-helpers.mjs';
+import { defineFlagFields, setHidden } from '../state-helpers.mjs';
 import { forgetTypedPhrase, isLanguagePhrase, languageOptionsShown, revealLanguageOptions, typedLanguagePhrase } from './lang-reveal.js';
-import { siteNumber } from '../../packages/core/src/format.js';
-import { MAP_COLOURS } from '../../packages/map/src/colours.mjs';
+import { siteNumber } from '../../../core/src/format.js';
+import { MAP_COLOURS } from '../colours.mjs';
 
 // From D1 since data design phase 3 (the /data/catalogue/*.json URLs still answer, from the same rows).
 const PLACES_URL = '/_api/catalogue?view=places';
@@ -583,7 +583,7 @@ export class CatalogueNext {
     return [date && r.date && !constituencies ? mapDate(r) : '', providers, count].filter(Boolean).join(' · ');
   }
 
-  /** Contributors suggest edits to a map; anyone else is sent to sign in first (src/catalogue/edit.js). */
+  /** Contributors suggest edits to a map; anyone else is sent to sign in first (packages/map/src/catalogue/edit.js). */
   suggestEdit(id) {
     const record = this.full(id);
     if (!record) return;

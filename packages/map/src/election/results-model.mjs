@@ -8,7 +8,7 @@
  * changing behaviour. Methods that read the active election from `this` take a context
  * instead: `{ bundle, entry, previousBundle }`, the manager's activeBundle, activeEntry and
  * previousBundle. Test2ElectionManager keeps one-line methods that delegate here, because
- * src/election-main-pane-contract.mjs calls them on the manager.
+ * packages/map/src/election-main-pane-contract.mjs calls them on the manager.
  *
  * Reconciled with the shared modules: sumNumbers and averageNumbers are the ones in
  * packages/core/src/election-view-model.mjs (identical) and are re-exported from there; normalizeName is

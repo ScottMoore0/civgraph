@@ -17,11 +17,11 @@ export const MAP_COLOURS = Object.freeze({ ...colours.map });
 /** The Wikipedia-style SVG export (map-image-export.js WIKI_STYLE and its legend): the `mapExport` palette. */
 export const EXPORT_COLOURS = Object.freeze({ ...colours.mapExport });
 
-/** The election pane's numeric scale, low to high (src/election-renderer.mjs, election/palette.mjs). */
+/** The election pane's numeric scale, low to high (packages/map/src/election-renderer.mjs, election/palette.mjs). */
 export const NUMERIC_SCALE = Object.freeze([...colours.ramps.electionNumeric]);
 
 /**
- * The census overlay's ramps (src/census-overlay.mjs), by name: Matplotlib samples and the diverging
+ * The census overlay's ramps (packages/map/src/census-overlay.mjs), by name: Matplotlib samples and the diverging
  * 'protestant-catholic' (the registry note says how they were taken).
  * @type {Record<string, string[]>}
  */
@@ -30,13 +30,13 @@ export const CENSUS_RAMPS = Object.fromEntries(Object.entries(colours.ramps.cens
 /** What a census area with no figure is filled with: nothing, so the outline alone shows it. */
 export const CENSUS_NO_DATA_FILL = colours.ramps.censusNoData;
 
-/** Body colours of the classic catalogue's elections list (src/ui-controller.js). */
+/** Body colours of the classic catalogue's elections list (packages/map/src/ui-controller.js). */
 export const BODY_COLOURS = Object.freeze({ ...colours.catalogue.bodies });
 
-/** The catalogue's map shelves, by shelf id: the colour marks the shelf's icon and heading (src/catalogue/icons.js). */
+/** The catalogue's map shelves, by shelf id: the colour marks the shelf's icon and heading (packages/map/src/catalogue/icons.js). */
 export const SHELF_COLOURS = Object.freeze({ ...colours.catalogue.shelves });
 
-/** The catalogue's election shelves, by group id (src/catalogue/view-elections.js BODY_GROUPS). */
+/** The catalogue's election shelves, by group id (packages/map/src/catalogue/view-elections.js BODY_GROUPS). */
 export const ELECTION_SHELF_COLOURS = Object.freeze({ ...colours.catalogue.electionShelves });
 
 /**

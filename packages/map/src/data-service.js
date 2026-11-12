@@ -1,8 +1,8 @@
 import { debugLog } from './debug-log.js';
 import { compositeChildIds } from './map-relations.mjs';
 import { licenceFor } from './census-overlay.mjs';
-import { SHORT_MONTHS } from '../packages/core/src/date-format.mjs';
-import { MONTH_NAMES } from '../packages/core/src/format.js';
+import { SHORT_MONTHS } from '../../core/src/date-format.mjs';
+import { MONTH_NAMES } from '../../core/src/format.js';
 
 /**
  * A census statistic as the catalogue and the map read a map: flagged, credited to its

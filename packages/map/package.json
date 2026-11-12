@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "description": "The map app (REFACTOR-PLAN.md item 1, PKG-10): its modules (src/: app/, election/, renderer/, the state helpers; was src/map/) and its entry, election manager, adapter and workers (app/: was app/src/). esbuild bundles app/boot.js into app/build/; the two module workers and the files src/ always served are served at their old paths through packages/served.json.",
+  "description": "The map app (REFACTOR-PLAN.md item 1, PKG-10, F2/F4): its modules (src/: app/, election/, renderer/, the state helpers, was src/map/; and since rf9-mapapp, 12 Nov 2026, the catalogue pane ui-controller.js, catalogue/, data-service.js, feature-loader.js, the election renderer, trend chart and the other modules that were root src/ files) and its entry, election manager, adapter and workers (app/: was app/src/). esbuild bundles app/boot.js into app/build/; the two module workers, src/map/ and the old root src/ files are served at their old paths through packages/served.json.",
   "exports": {
     "./*": "./src/*",
     "./app/*": "./app/*"
