@@ -8,6 +8,7 @@
 import { esc, fmtInt, fmtPct, inkOn } from './format.js';
 import { partyColour } from './party.js';
 import { seatPositions } from '../../../pkg/core/src/election-domain.mjs';
+import { electionsAppColours } from '../../../pkg/registries/src/browser/colour-palettes.mjs';
 
 /** Seat spacing of the parliament arc, in SVG units (packages/core seatPositions; the map app draws 13 too). */
 const SEAT_SPACING = 13;
@@ -105,7 +106,7 @@ export function hbars(rows, opts = {}) {
 export function transferFlow(st) {
   const W = 560;
   const targets = [...st.to].sort((a, b) => b.amount - a.amount);
-  if (st.nonTransferable > 0) targets.push({ name: 'Non-transferable', colour: '#9aa0a6', amount: st.nonTransferable });
+  if (st.nonTransferable > 0) targets.push({ name: 'Non-transferable', colour: electionsAppColours.nonTransferable, amount: st.nonTransferable });
   const total = Math.max(st.distributed, targets.reduce((s, t) => s + t.amount, 0), 1);
   const gap = 6;
   const H = Math.max(120, targets.length * 16 + 30);
@@ -113,7 +114,7 @@ export function transferFlow(st) {
   const scale = usable / total;
   const fromH = Math.max(4, st.distributed * scale);
   const fromY = 10 + (usable - fromH) / 2;
-  const fromColour = st.from.length === 1 ? partyColour(st.from[0].colour) : '#6b7280';
+  const fromColour = st.from.length === 1 ? partyColour(st.from[0].colour) : electionsAppColours.pooledTransfer;
   const fromName = st.from.length === 1 ? st.from[0].name : `${st.from.length} candidates`;
   let y = 10;
   let fy = fromY;

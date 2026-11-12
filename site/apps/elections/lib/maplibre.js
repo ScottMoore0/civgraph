@@ -6,6 +6,7 @@
  * source layer, label property and bounds).
  */
 import { MAPLIBRE_VERSION, PMTILES_VERSION, VENDOR } from '../config.js';
+import { electionsAppColours } from '../../../pkg/registries/src/browser/colour-palettes.mjs';
 
 export { MAPLIBRE_VERSION, PMTILES_VERSION };
 
@@ -91,7 +92,7 @@ export function boundsOf(rec) {
 }
 
 /** The text colour of the theme (for outlines and labels). */
-const ink = () => getComputedStyle(document.documentElement).getPropertyValue('--text').trim() || '#222';
+const ink = () => getComputedStyle(document.documentElement).getPropertyValue('--text').trim() || electionsAppColours.mapInk;
 
 /**
  * A map of one layer with its areas filled by a colour per feature label.
@@ -111,14 +112,14 @@ export async function areaMap(container, rec, opts) {
   const prop = rec.labelProperty || rec.label_property || 'name';
   const fill = ['match', ['upcase', ['to-string', ['get', prop]]]];
   for (const [k, v] of opts.colours) fill.push(k, v);
-  fill.push('rgba(0,0,0,0)');
+  fill.push(electionsAppColours.noFill);
   const map = new maplibregl.Map({
     container,
     style: {
       version: 8,
       sources: { areas: { type: 'vector', url: `pmtiles://${tileUrlOf(rec)}`, ...(rec.promoteId ? { promoteId: rec.promoteId } : {}) } },
       layers: [
-        { id: 'fill', type: 'fill', source: 'areas', 'source-layer': rec.sourceLayer, paint: { 'fill-color': opts.colours.size ? /** @type {import('maplibre-gl').ExpressionSpecification} */ (/** @type {unknown} */ (fill)) : 'rgba(0,0,0,0)', 'fill-opacity': 0.85 } },
+        { id: 'fill', type: 'fill', source: 'areas', 'source-layer': rec.sourceLayer, paint: { 'fill-color': opts.colours.size ? /** @type {import('maplibre-gl').ExpressionSpecification} */ (/** @type {unknown} */ (fill)) : electionsAppColours.noFill, 'fill-opacity': 0.85 } },
         { id: 'line', type: 'line', source: 'areas', 'source-layer': rec.sourceLayer, paint: { 'line-color': ink(), 'line-width': 0.6, 'line-opacity': 0.6 } },
       ],
     },
