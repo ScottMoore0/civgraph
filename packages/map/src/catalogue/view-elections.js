@@ -10,7 +10,7 @@ import { sliderHtml } from './slider.js';
 import { extrasHtml, aboutHtml } from './view-maps.js';
 import { PeopleSearch } from './search.js';
 import electionBodies from '../../../registries/src/browser/election-bodies.mjs';
-import councilSearch from '../../../registries/src/browser/council-search.mjs';
+import electionGroups from '../../../registries/src/browser/election-groups.mjs';
 import { siteNumber } from '../../../core/src/format.js';
 
 // Browse's slug for an election: its key lower-cased, runs of other characters as '-'
@@ -43,26 +43,13 @@ export const BODY_SHORT = {
 export const bodyShort = (e) => BODY_SHORT[e.bodySlug] || e.body;
 
 /** The shelves: the four Northern Ireland devolved bodies share one, as do the two European
- * Parliament constituencies and the two referendum series. */
-export const BODY_GROUPS = [
-  { id: 'dail', label: 'Dáil', bodies: ['dail-eireann'], icon: 'dail', colour: ELECTION_SHELF_COLOURS.dail },
-  { id: 'westminster', label: 'Westminster', bodies: ['house-of-commons-of-the-united-kingdom'], icon: 'westminster', colour: ELECTION_SHELF_COLOURS.westminster },
-  { id: 'ni-devolved', label: 'NI Devolved', bodies: ['northern-ireland-assembly', 'parliament-of-northern-ireland', 'northern-ireland-constitutional-convention', 'northern-ireland-forum-for-political-dialogue'], icon: 'ni-devolved', colour: ELECTION_SHELF_COLOURS['ni-devolved'] },
-  // The NI local elections since 1973, the pre-1973 rounds by year, and every pre-1973 council
-  // (the councils registry's pre1973Council flag; registries/browser/council-search.json).
-  { id: 'ni-local', label: 'NI local', bodies: ['local-government', 'ni-local-elections', ...councilSearch.pre1973CouncilBodies], icon: 'ni-local', colour: ELECTION_SHELF_COLOURS['ni-local'] },
-  { id: 'irish-local', label: 'Irish local', bodies: ['ireland-local'], icon: 'irish-local', colour: ELECTION_SHELF_COLOURS['irish-local'] },
-  // Before partition the councils were elected so differently, and so often, that their years
-  // have a shelf of their own (Phelim Birch's review, 11 Nov 2026).
-  { id: 'pre-partition-local', label: 'Pre-partition local', bodies: ['irish-local-elections'], icon: 'irish-local', colour: ELECTION_SHELF_COLOURS['pre-partition-local'] },
-  { id: 'european', label: 'European', bodies: ['european-parliament', 'ireland-european'], icon: 'european', colour: ELECTION_SHELF_COLOURS.european },
-  { id: 'referendum', label: 'Referendum', bodies: ['ireland-referendum', 'northern-ireland-referendum'], icon: 'referendum', colour: ELECTION_SHELF_COLOURS.referendum },
-  { id: 'presidential', label: 'Presidential', bodies: ['ireland-president'], icon: 'presidential', colour: ELECTION_SHELF_COLOURS.presidential },
-].map((g) => ({
-  ...g,
-  // A body the election-bodies registry puts on this shelf (the Mayor of Limerick, beside the
-  // Irish local elections of the same day).
-  bodies: [...g.bodies, ...Object.entries(/** @type {Record<string, { shelf?: string }>} */ (electionBodies)).filter(([id, b]) => b.shelf === g.id && !g.bodies.includes(id)).map(([id]) => id)],
+ * Parliament constituencies and the two referendum series. They are the election-bodies registry's
+ * catalogueShelves (data/registries/election-bodies.json groups), each with every body on it: the
+ * NI local shelf takes the pre-1973 councils (the councils registry's pre1973Council flag), and a
+ * body the registry puts on a shelf joins it (the Mayor of Limerick, beside the Irish local
+ * elections of the same day). */
+export const BODY_GROUPS = electionGroups.shelves.map(({ id, label, bodies, icon }) => ({
+  id, label, bodies: [...bodies], icon, colour: ELECTION_SHELF_COLOURS[/** @type {keyof typeof ELECTION_SHELF_COLOURS} */ (id)],
 }));
 export const groupOfBody = (slug) => BODY_GROUPS.find((g) => g.bodies.includes(slug))?.id || '';
 
