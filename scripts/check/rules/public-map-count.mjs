@@ -30,9 +30,14 @@ const RENDER = 'render/metadata/maps-test.json';
 const BROWSE = path.join(BROWSE_DIR, 'maps.json');
 const STATISTICS = 'data/database/data-entries.json';
 
+/** @typedef {import('../../../src/public-map.mjs').CatalogueMap & { id: string }} CatalogueMap */
+/** @type {{ maps?: CatalogueMap[] }} */
 const catalogue = JSON.parse(readFileSync(CATALOGUE, 'utf8'));
+/** @type {{ layers?: { sourceMapId?: string }[] }} */
 const render = JSON.parse(readFileSync(RENDER, 'utf8'));
+/** @type {{ items?: { id: string, type?: string }[], total?: number }} */
 const browse = JSON.parse(readFileSync(BROWSE, 'utf8'));
+/** @type {{ id: string, hidden?: boolean, csv?: string, geography?: string }[]} */
 const statistics = JSON.parse(readFileSync(STATISTICS, 'utf8')).dataEntries || [];
 
 const renderLayerIds = new Set((render.layers || []).map((layer) => layer.sourceMapId).filter(Boolean));

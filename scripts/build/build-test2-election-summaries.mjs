@@ -15,10 +15,21 @@ const ROOT = process.cwd();
 const MANIFEST_PATH = ELECTION_MANIFEST;
 const SUMMARY_DIR = ELECTION_SUMMARY_DIR;
 
-function readJson(file) {
+/**
+ * @typedef {{ status?: unknown, elected?: unknown, party?: unknown }} Candidate
+ * @typedef {{ candidates?: Candidate[], animationPayload?: unknown, [field: string]: unknown }} ElectionResult
+ * @typedef {{ results?: unknown, [field: string]: unknown }} ResultBundle
+ * @typedef {{ key?: string, resultUrl?: string, [field: string]: unknown }} ManifestEntry
+ */
+
+function readJson(/** @type {string} */ file) {
   return JSON.parse(readFileSync(file, 'utf8'));
 }
 
+/**
+ * @param {string} file
+ * @param {unknown} value
+ */
 function writeJsonIfChanged(file, value) {
   const before = existsSync(file) ? readFileSync(file, 'utf8') : null;
   writeStableGeneratedJson(file, value);
@@ -27,24 +38,25 @@ function writeJsonIfChanged(file, value) {
 }
 
 
-function safeFileName(key) {
+function safeFileName(/** @type {unknown} */ key) {
   return String(key || 'election').replace(/[^A-Za-z0-9_.-]+/g, '-');
 }
 
-function numberOrNull(value) {
+function numberOrNull(/** @type {unknown} */ value) {
   const number = Number(value);
   return Number.isFinite(number) ? number : null;
 }
 
-function electedCount(result) {
+function electedCount(/** @type {ElectionResult} */ result) {
   const candidates = Array.isArray(result?.candidates) ? result.candidates : [];
-  return candidates.filter((candidate) => {
+  return candidates.filter((/** @type {Candidate} */ candidate) => {
     const status = String(candidate.status || '').toLowerCase();
     return candidate.elected === true || status.includes('elected');
   }).length;
 }
 
-function partyCount(result) {
+function partyCount(/** @type {ElectionResult} */ result) {
+  /** @type {Set<string>} */
   const parties = new Set();
   for (const candidate of result?.candidates || []) {
     if (candidate?.party) parties.add(String(candidate.party));
@@ -52,7 +64,7 @@ function partyCount(result) {
   return parties.size;
 }
 
-function summarizeResult(result) {
+function summarizeResult(/** @type {ElectionResult} */ result) {
   return {
     constituency: result.constituency || result.matchName || result.featureName || '',
     matchName: result.matchName || null,
@@ -78,6 +90,10 @@ function summarizeResult(result) {
   };
 }
 
+/**
+ * @param {ManifestEntry} entry
+ * @param {ResultBundle} bundle
+ */
 function summarizeBundle(entry, bundle) {
   const results = Array.isArray(bundle?.results) ? bundle.results : [];
   return {
@@ -93,7 +109,7 @@ function summarizeBundle(entry, bundle) {
     matchedCount: numberOrNull(entry.matchedCount),
     unmatchedCount: numberOrNull(entry.unmatchedCount),
     totalConstituencies: numberOrNull(entry.totalConstituencies),
-    hasAnyAnimation: results.some((result) => result?.animationPayload),
+    hasAnyAnimation: results.some((/** @type {ElectionResult | null} */ result) => result?.animationPayload),
     results: results.map(summarizeResult)
   };
 }
@@ -104,7 +120,7 @@ function build() {
   mkdirSync(SUMMARY_DIR, { recursive: true });
   let written = 0;
 
-  const elections = (manifest.elections || []).map((entry) => {
+  const elections = (manifest.elections || []).map((/** @type {ManifestEntry} */ entry) => {
     if (!entry.resultUrl) return entry;
     const source = localPathForUrl(entry.resultUrl);
     if (!source || !existsSync(source)) return entry;

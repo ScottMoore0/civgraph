@@ -57,11 +57,15 @@ function main() {
   console.log(`Peatland Geoportal validation passed: ${sources.length} source records, ${summary.existingRecordEnrichmentRows} enrichment rows, ${sacGroup.children.length} SAC candidates, ${variants.length} variant rows.`);
 }
 
+/**
+ * @param {{ id: string }[]} peatlandSources
+ * @param {{ sourceTargetId: string, sourceItems?: unknown }[]} peatlandTargets
+ */
 function validateBrowseSources(peatlandSources, peatlandTargets) {
   const browse = readJson(BROWSE_SOURCES);
   browse.items = resolveBrowseSourceItems(browse, ROOT);
   assert(Array.isArray(browse.items), 'Browse sources index must contain items');
-  const indexById = new Map(browse.items.map((item) => [item.id, item]));
+  const indexById = new Map(browse.items.map((/** @type {{ id: string }} */ item) => [item.id, item]));
   const shardCache = new Map();
 
   for (const source of peatlandSources) {
@@ -98,34 +102,39 @@ function validateBrowseSources(peatlandSources, peatlandTargets) {
   }
 }
 
+/**
+ * @param {{ id: string, detailUrl?: string }} indexItem
+ * @param {Map<string, { items?: unknown }>} cache
+ */
 function readDetail(indexItem, cache) {
   const shardName = indexItem.detailUrl?.split('/').pop();
   assert(shardName, `source index item ${indexItem.id} has no detail shard`);
   if (!cache.has(shardName)) {
     cache.set(shardName, readJson(path.join(SOURCE_SHARDS, shardName)));
   }
-  return normalizeArray(cache.get(shardName).items).find((item) => item.id === indexItem.id);
+  // set just above when it was missing
+  return normalizeArray(/** @type {{ items?: unknown }} */ (cache.get(shardName)).items).find((item) => item.id === indexItem.id);
 }
 
-function readJson(filePath) {
+function readJson(/** @type {string} */ filePath) {
   assert(existsSync(filePath), `missing file: ${path.relative(ROOT, filePath)}`);
   return JSON.parse(readFileSync(filePath, 'utf8'));
 }
 
-function normalizeArray(value) {
+function normalizeArray(/** @type {unknown} */ value) {
   if (!value) return [];
   return Array.isArray(value) ? value : [value];
 }
 
-function containsLocalPath(value) {
+function containsLocalPath(/** @type {unknown} */ value) {
   return /[A-Z]:\\|\\\\|\/Users\/scomo/i.test(JSON.stringify(value));
 }
 
-function containsGeometryPayload(value) {
+function containsGeometryPayload(/** @type {unknown} */ value) {
   return /"features"\s*:\s*\[|"geometry"\s*:\s*\{|"coordinates"\s*:\s*\[/i.test(JSON.stringify(value));
 }
 
-function slugify(value) {
+function slugify(/** @type {unknown} */ value) {
   return String(value || '')
     .trim()
     .toLowerCase()
@@ -135,6 +144,11 @@ function slugify(value) {
     || 'item';
 }
 
+/**
+ * @param {unknown} condition
+ * @param {string} message
+ * @returns {asserts condition}
+ */
 function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
