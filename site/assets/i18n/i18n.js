@@ -453,13 +453,13 @@
   var CSS = '.lang-switch{position:relative;display:inline-flex;align-items:center;gap:.35rem;flex:0 0 auto;align-self:center;width:max-content;font-size:.8125rem;line-height:1.2;white-space:nowrap;max-width:100%}' +
     '.lang-switch__label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}' +
     '.lang-switch__select{font:inherit;color:inherit;background:transparent;border:1px solid currentColor;border-radius:6px;padding:.15rem .3rem;max-width:7.5rem;min-height:30px;cursor:pointer}' +
-    '.lang-switch__select option{color:#111;background:#fff}' +
+    '.lang-switch__select option{color:var(--raw-111111);background:var(--raw-ffffff)}' +
     '@media (pointer:coarse){.lang-switch__select{min-height:40px;font-size:1rem}}' +
-    '.lang-switch__draft{position:absolute;top:-7px;right:-6px;font-size:.5625rem;font-weight:700;letter-spacing:.03em;text-transform:uppercase;line-height:1.3;padding:0 .25rem;border-radius:4px;background:#b45309;color:#fff;pointer-events:auto}' +
+    '.lang-switch__draft{position:absolute;top:-7px;right:-6px;font-size:.5625rem;font-weight:700;letter-spacing:.03em;text-transform:uppercase;line-height:1.3;padding:0 .25rem;border-radius:4px;background:var(--raw-b45309);color:var(--raw-ffffff);pointer-events:auto}' +
     '.lang-switch__hide{font:inherit;font-size:1rem;line-height:1;color:inherit;background:transparent;border:0;border-radius:4px;padding:.1rem .25rem;min-width:24px;min-height:24px;cursor:pointer;opacity:.7}' +
     '.lang-switch__hide:hover,.lang-switch__hide:focus-visible{opacity:1}' +
     '@media (pointer:coarse){.lang-switch__hide{min-width:40px;min-height:40px}}' +
-    '.lang-switch--floating{position:fixed;right:12px;bottom:12px;z-index:9999;background:#fff;color:#111;padding:.35rem .5rem;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.25)}' +
+    '.lang-switch--floating{position:fixed;right:12px;bottom:12px;z-index:9999;background:var(--raw-ffffff);color:var(--raw-111111);padding:.35rem .5rem;border-radius:8px;box-shadow:0 2px 10px var(--raw-000000-a250)}' +
     'html[data-ui-lang="ga"] .app-header__link span,html[data-ui-lang="sco"] .app-header__link span{overflow-wrap:anywhere}' +
     'html[data-ui-lang]:not([data-ui-lang="en"]) button,html[data-ui-lang]:not([data-ui-lang="en"]) .cn-tab{overflow-wrap:anywhere;hyphens:auto}';
   function injectCss() {
