@@ -1,4 +1,5 @@
 import statuses from '../../registries/src/browser/statuses.mjs';
+import partyPalettes from '../../registries/src/browser/party-palettes.mjs';
 import { isUnopposedCandidate } from './unopposed.mjs';
 
 export { candidateReturnWithoutPoll, isUncontestedResult, isUnopposedCandidate, partyHadNoPoll, UNOPPOSED_SEATS_NOTE } from './unopposed.mjs';
@@ -156,184 +157,17 @@ export { candidateReturnWithoutPoll, isUncontestedResult, isUnopposedCandidate, 
  * @typedef {{ party: string, seats: number, stood: number, votes: number, colour: string, share: number | null, unopposedSeats?: number }} PartySummaryRow
  */
 
-const DEFAULT_PARTY_COLOURS = new Map([
-  ['alliance', '#f6cb2f'],
-  ['aontu', '#44532a'],
-  ['conservative', '#0087dc'],
-  ['dup', '#d46a4c'],
-  ['fianna fail', '#66bb66'],
-  ['fine gael', '#6699ff'],
-  ['green', '#22ac6f'],
-  ['green party', '#22ac6f'],
-  ['independent', '#b8b8b8'],
-  ['independent ireland', '#3bee56'],
-  ['irish labour', '#cc0000'],
-  ['labour', '#cc0000'],
-  ['pbp', '#ff0090'],
-  ['sdlp', '#2aa82c'],
-  ['sinn fein', '#326760'],
-  ['social democrats', '#752f8b'],
-  ['solidarity pbp', '#8e2420'],
-  ['solidarity-pbp', '#8e2420'],
-  ['tuv', '#0c3a6a'],
-  ['uup', '#48a5ee'],
-  ['yes', '#2aa82c'],
-  ['no', '#d46a4c'],
-  ['remain', '#2aa82c'],
-  ['leave', '#d46a4c'],
-  ...HISTORIC_PARTY_COLOURS_ENTRIES(),
-  // Later parties whose result files carry no colour (or the build's grey fallback), so
-  // their seats were drawn grey. Colours are Wikipedia's (Module:Political party) unless
-  // the site already had its own, which is kept.
-  ['nationalist party', '#32cd32'],
-  ['independent labour', '#ff9999'],
-  ['labour unionist', '#7a2a82'],
-  // Unity (1966-74, Westminster): the site's own colour; the 1970 files carried none.
-  ['unity', '#90ee90'],
-  // Ulster Popular Unionist Party: Wikipedia's #FFDEAD is near-white and read as a blank seat
-  // (North Down, 1983-92); the files also used #C7D57C, kept here as its one colour.
-  ['ulster popular unionist party', '#c7d57c'],
-  ['clann na talmhan', '#bdb76b'],
-  ['clann na poblachta', '#bbe549'],
-  ['independent fianna fail', '#7fff00'],
-  ['progressive democrats', '#1251a2'],
-  ['democratic left', '#c700c7'],
-  ['socialist party', '#ff3300'],
-  ['socialist', '#ff3300'],
-  ['s p', '#ff3300'],
-  ['united left alliance', '#ff3300'],
-  ['anti austerity alliance', '#e3170d'],
-  ['a a a', '#e3170d'],
-  ['lab', '#cc0000'],
-  ['green comhaontas glas', '#22ac6f'],
-  ['independents 4 change', '#ffc0cb'],
-  ['non party independent', '#dcdcdc'],
-  ['non party', '#dcdcdc'],
-  ['non p', '#dcdcdc'],
-  ['ceann comhairle', '#dcdcdc'],
-  // Ballot-paper spellings of DUP and UUP labels (data/elections-source/data/party-ids.json).
-  ['d u u u u c', '#d46a4c'],
-  ['united loy dup', '#d46a4c'],
-  ['ulster unionist', '#48a5ee'],
-  ['shopkeeper ulster unionist', '#48a5ee'],
-  // Short labels whose full party already has a colour on the site.
-  ['rep lab', '#85de59'],
-  ['republican labour', '#85de59'],
-  ['republican labour party', '#85de59'],
-  ['ir lab', '#cc0000'],
-  ['ind lab', '#ff9999'],
-  ['ind labour group', '#ff9999'],
-  ['ind unionist party', '#aadfff'],
-  ['ind nat', '#cdffab'],
-  ['loyalist', '#ffd700'],
-  ['united loyalist', '#ffd700'],
-  ['newtownabbey labour', '#dc241f'],
-  // Labels of the NI councils 1920-67 (data/elections/party-label-interpretations.json), so the
-  // rows a printed label is read into are not drawn in the file's placeholder grey. Existing site
-  // colours where the label already had one (NI Labour, Anti-Partitionist, Ulster Liberal, NDP).
-  ['ni labour', '#dc241f'],
-  ['anti partitionist', '#228b22'],
-  ['ulster liberal', '#daa520'],
-  ['national democratic party', '#3cb371'],
-  ['belfast labour', '#e4572e'],
-  ['british legion', '#4b6584'],
-  ['town tenants association', '#9b59b6'],
-  ['ratepayers association', '#a0785a'],
-  ['nationalist labour', '#6fbf3f'],
-  ['newry labour', '#e8604c'],
-  ['derry labour party', '#ff6f61'],
-  ['expelled workers', '#8b4513'],
-  ['individual traders association', '#c9a227'],
-  ['campaign for social justice', '#2e8b57'],
-  ['trade unionist labour', '#e8743b'],
-  ['trades council', '#d35400'],
-  ['progressive', '#20b2aa'],
-  ['efficiency party', '#4682b4'],
-  ['unemployed workers', '#b22222'],
-  ['jubilee protestant defence association', '#ff8c00'],
-  // Batch 4b: Labour with no party named, the NAUL's 1920 nominees, ex-servicemen not printed
-  // as the Legion's, and the citizens' associations of Newry and Lurgan.
-  ['local labour', '#f08080'],
-  ['national amalgamated union of labour', '#c0392b'],
-  ['ex servicemen', '#5d7b93'],
-  ['irish citizen association', '#2e7d6b'],
-  ['independent citizens association', '#7f8c8d'],
-  // Nothing printed and nothing inferred: a neutral grey of its own, lighter than Independent's.
-  ['no label', '#d4d4d4']
-]);
+// The election palette: the parties registry's (data/registries/parties/palettes.json `elections`,
+// through registries/browser/party-palettes.json), keyed by normalised party name; where a name is
+// listed twice the later row wins, as in the table this was. The notes on each colour are there.
+const DEFAULT_PARTY_COLOURS = new Map(/** @type {Array<[string, string]>} */ (partyPalettes.elections));
 
-/**
- * Pre-1922 parties. Their result files' Party_Colour fields are not reliable: the first
- * import coloured rows by a party CODE (N = Irish Parliamentary green, U = Irish Unionist
- * Alliance navy) and later relabelled the parties without recolouring them, so Conservatives
- * came out green and Irish Parliamentary rows blue; the Wikipedia backfill wrote a neutral
- * #888888 on every row it touched. For these parties the colour below always wins over the
- * file's. Colours follow Wikipedia's party colours (Module:Political party); where that
- * colour is near-white or plain grey it would read as "no data" on the map, and a darker
- * shade of the same hue (or the successor party's colour) is used instead -- noted per row.
- *
- * @returns {Array<[string, string]>}
- */
-function HISTORIC_PARTY_COLOURS_ENTRIES() {
-  return [
-    // Home Rule / Irish Parliamentary Party (Wikipedia #99FF66), 1874-1918.
-    ['home rule', '#99ff66'],
-    ['home rule league', '#99ff66'],
-    ['irish parliamentary', '#99ff66'],
-    ['irish parliamentary party', '#99ff66'],
-    ['irish nationalist', '#99ff66'],
-    ['united irish league', '#99ff66'],
-    // Walker's HR (P), "Parnellite (supporter of Parnell, 1880)": home rulers, before the split.
-    ['parnellite home rule league', '#99ff66'],
-    // The 1890-91 split: Anti-Parnellites (Irish National Federation, Wikipedia #00FA9A) and
-    // Parnellites (Irish National League, which Wikipedia also draws #99FF66: shown here in a
-    // yellower green so the two sides of the split can be told apart on one map).
-    ['irish national federation', '#00fa9a'],
-    ['anti parnellite', '#00fa9a'],
-    ['anti parnellite nationalist', '#00fa9a'],
-    ['irish national league', '#c6e64a'],
-    ['parnellite', '#c6e64a'],
-    ['parnellite nationalist', '#c6e64a'],
-    // Independent and Healyite Nationalists (Wikipedia #cdffab; Healyite #DDFFDD is
-    // near-white, so it takes the Independent Nationalist colour).
-    ['independent nationalist', '#cdffab'],
-    ['ind nationalist', '#cdffab'],
-    ['healyite nationalist', '#cdffab'],
-    // All-for-Ireland League (Wikipedia #66FF99).
-    ['all for ireland', '#66ff99'],
-    ['all for ireland league', '#66ff99'],
-    ['independent all for ireland league', '#66ff99'],
-    ['sinn fein', '#326760'],
-    // Unionists. Irish Unionist Alliance (Wikipedia #9999FF); the Irish Loyal and Patriotic
-    // Union, its 1885 forerunner, is grey on Wikipedia (#DDDDDD) and takes the IUA colour.
-    ['irish unionist', '#9999ff'],
-    ['irish unionist alliance', '#9999ff'],
-    ['irish unionist party', '#9999ff'],
-    ['irish loyal and patriotic union', '#9999ff'],
-    ['unionist', '#9999ff'],
-    ['conservative', '#0087dc'],
-    ['irish conservative', '#0087dc'],
-    // Independent Conservative is near-white on Wikipedia (#DDEEFF); a mid blue is used.
-    ['ind conservative', '#7fb2e5'],
-    ['independent conservative', '#7fb2e5'],
-    ['liberal unionist', '#2061a2'],
-    ['independent liberal unionist', '#2061ff'],
-    ['ind unionist', '#aadfff'],
-    ['independent unionist', '#aadfff'],
-    ['russellite unionist', '#ffa500'],
-    ['liberal', '#ffd700'],
-    ['independent liberal', '#ffd700']
-  ];
-}
-
-// The parties whose registry colour wins over the file's: the pre-1922 parties above, and two
-// later ones whose files disagree with each other (some rows near-white or uncoloured).
-const REGISTRY_COLOUR_KEYS = new Set([
-  ...HISTORIC_PARTY_COLOURS_ENTRIES().map(([key]) => key),
-  'no label',
-  'unity',
-  'ulster popular unionist party'
-]);
+// The parties whose registry colour wins over the file's (the palette's registryWins rows): the
+// pre-1922 parties, whose result files' Party_Colour fields are not reliable (the first import
+// coloured rows by a party code and later relabelled the parties without recolouring them; the
+// Wikipedia backfill wrote a neutral #888888), and three later ones whose files disagree with
+// each other or carry none (no label, Unity, the Ulster Popular Unionist Party).
+const REGISTRY_COLOUR_KEYS = new Set(partyPalettes.electionsRegistryWins);
 
 /** The colour of a party with none of its own, or of no party (the build's fallback slate). */
 export const NEUTRAL_PARTY_COLOUR = '#6b7280';

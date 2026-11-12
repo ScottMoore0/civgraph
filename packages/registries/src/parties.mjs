@@ -4,9 +4,10 @@
  *
  *   { schemaVersion, description, parts, abbreviations, notParties,
  *     entities, lifespans, lineage, events, wikidata, wikidataOverrides,
- *     labelIds, labelFolds, labelInterpretations, colourReviewOverrides }
+ *     labelIds, labelFolds, labelInterpretations, colourReviewOverrides, palettes }
  *
- * each of the last ten the parsed file of that role. Pure (no I/O) apart from assembleParties,
+ * each of the last eleven the parsed file of that role (palettes: the party colour palettes the
+ * election domain and the map app draw with, data/registries/parties/palettes.json). Pure (no I/O) apart from assembleParties,
  * which is handed a reader.
  */
 

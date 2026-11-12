@@ -17,6 +17,7 @@ import {
   normalizeName,
   partyColour as electionPartyColour
 } from '../../../core/src/election-domain.mjs';
+import partyPalettes from '../../../registries/src/browser/party-palettes.mjs';
 
 /** @typedef {import('../../../core/src/election-view-model.mjs').ElectionRecord} ElectionRecord */
 /** @typedef {import('../../../core/src/election-view-model.mjs').ElectionResult} ElectionResult */
@@ -32,69 +33,17 @@ export const MODE_LABELS = {
   quota: 'Quota'
 };
 
-/** The local palette (Northern Ireland and general), keyed by normalised party name. */
-export const PARTY_COLOURS = new Map([
-  ['alliance', '#f6cb2f'],
-  ['aontu', '#44532a'],
-  ['conservative', '#0087dc'],
-  ['dup', '#d46a4c'],
-  ['fianna fail', '#66bb66'],
-  ['fine gael', '#6699ff'],
-  ['green', '#22ac6f'],
-  ['green party', '#22ac6f'],
-  ['independent', '#b8b8b8'],
-  ['independent ireland', '#3bee56'],
-  ['independent unionist', '#aadfff'],
-  ['independent labour', '#ff9999'],
-  ['independent nationalist', '#cdffab'],
-  ['irish labour', '#cc0000'],
-  ['labour', '#cc0000'],
-  ['nationalist party', '#32cd32'],
-  ['northern ireland labour party', '#dc241f'],
-  ['pbp', '#ff0090'],
-  ['people\'s democracy', '#ff0000'],
-  ['republican clubs', '#930c1a'],
-  ['republican labour party', '#85de59'],
-  ['sdlp', '#2aa82c'],
-  ['sinn fein', '#326760'],
-  ['social democrats', '#752f8b'],
-  ['solidarity pbp', '#8e2420'],
-  ['solidarity-pbp', '#8e2420'],
-  ['tuv', '#0c3a6a'],
-  ['unionist party of northern ireland', '#ffa07a'],
-  ['uup', '#48a5ee'],
-  ['yes', '#2aa82c'],
-  ['no', '#d46a4c']
-]);
+/**
+ * The local palette (Northern Ireland and general), keyed by normalised party name: the parties
+ * registry's (data/registries/parties/palettes.json `mapLocal`, through registries/browser/party-palettes.json).
+ */
+export const PARTY_COLOURS = new Map(/** @type {Array<[string, string]>} */ (partyPalettes.mapLocal));
 
-/** The palette for Republic of Ireland elections (Dail, presidential, referendums, locals). */
-export const ROI_MAIN_PARTY_COLOURS = new Map([
-  ['fianna fail', '#66BB66'],
-  ['fine gael', '#6699FF'],
-  ['sinn fein', '#326760'],
-  ['labour', '#CC0000'],
-  ['irish labour', '#CC0000'],
-  ['the labour party', '#CC0000'],
-  ['green comhaontas glas', '#22AC6F'],
-  ['green party', '#22AC6F'],
-  ['green', '#22AC6F'],
-  ['social democrats', '#752F8B'],
-  ['people before profit solidarity', '#FF0090'],
-  ['pbp solidarity', '#FF0090'],
-  ['solidarity people before profit', '#8E2420'],
-  ['solidarity pbp', '#8E2420'],
-  ['people before profit', '#FF0090'],
-  ['aontu', '#44532A'],
-  ['independent ireland', '#3BEE56'],
-  ['progressive democrats', '#1251A2'],
-  ['workers party republican clubs', '#930C1A'],
-  ['independents 4 change', '#FFC0CB'],
-  ['renua', '#FFA500'],
-  ['independent', '#DCDCDC'],
-  ['non party independent', '#DCDCDC'],
-  ['yes', '#43A047'],
-  ['no', '#E53935']
-]);
+/**
+ * The palette for Republic of Ireland elections (Dail, presidential, referendums, locals): the
+ * parties registry's `mapRoi` (data/registries/parties/palettes.json).
+ */
+export const ROI_MAIN_PARTY_COLOURS = new Map(/** @type {Array<[string, string]>} */ (partyPalettes.mapRoi));
 
 /**
  * The local palette's colour for a party, or grey.

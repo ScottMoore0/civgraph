@@ -37,6 +37,8 @@ const SERVED = [
   'pkg/registries/src/browser/election-type-names.mjs',
   'pkg/registries/src/browser/election-types.data.mjs',
   'pkg/registries/src/browser/election-types.mjs',
+  'pkg/registries/src/browser/party-palettes.data.mjs',
+  'pkg/registries/src/browser/party-palettes.mjs',
   'pkg/registries/src/browser/statuses.data.mjs',
   'pkg/registries/src/browser/statuses.mjs',
   'pkg/ui/src/templates/components/index.js',
