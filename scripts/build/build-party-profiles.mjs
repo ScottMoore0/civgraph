@@ -36,6 +36,8 @@ import { BROWSE_DIR, ELECTION_BUNDLE_DIR } from '../../packages/loader/src/paths
 import { browsePartySlugResolver, formatSpan, indexFactsModel, loadFactsModel } from '../lib/facts-model.mjs';
 import { isPartyInternalBody } from '../lib/election-names.mjs';
 import { loadRegistry } from '../../packages/registries/src/index.mjs';
+import { partyCharts } from '../../packages/registries/src/election-bodies.mjs';
+import { firstGroup } from '../../packages/registries/src/browser/body-groups.mjs';
 
 const ROOT = process.cwd();
 const BROWSE = BROWSE_DIR;
@@ -54,32 +56,17 @@ const compact = (object) => Object.fromEntries(Object.entries(object).filter(([,
 const round = (value, places = 2) => (Number.isFinite(value) ? Math.round(value * 10 ** places) / 10 ** places : null);
 const num = (value) => (value === null || value === undefined || value === '' ? null : (Number.isFinite(Number(value)) ? Number(value) : null));
 
-// The bodies a profile charts, in the order they are shown. A key's prefix is its body.
-const BODY_GROUPS = [
-  { id: 'westminster', label: 'House of Commons (Westminster)', test: (p) => p === 'house-of-commons-of-the-united-kingdom' },
-  { id: 'stormont', label: 'Parliament of Northern Ireland (Stormont)', test: (p) => p === 'parliament-of-northern-ireland' },
-  { id: 'ni-assembly', label: 'Northern Ireland Assembly', test: (p) => p === 'northern-ireland-assembly' },
-  { id: 'ni-convention', label: 'Northern Ireland Constitutional Convention', test: (p) => p === 'northern-ireland-constitutional-convention' },
-  { id: 'ni-forum', label: 'Northern Ireland Forum', test: (p) => p === 'northern-ireland-forum-for-political-dialogue' },
-  { id: 'dail', label: 'Dáil Éireann', test: (p) => p === 'dail-eireann' },
-  { id: 'seanad', label: 'Seanad Éireann', test: (p) => p.startsWith('seanad') },
-  { id: 'european-ni', label: 'European Parliament (Northern Ireland)', test: (p) => p === 'european-parliament' },
-  { id: 'european-ie', label: 'European Parliament (Ireland)', test: (p) => p === 'ireland-european' },
-  { id: 'councils-ni', label: 'Councils in Northern Ireland', test: (p) => p.startsWith('local-government') || /council/.test(p),
-    note: 'Before 1973 Civgraph holds the results of only some councils, so these rounds are not comparable with the district council elections from 1973.' },
-  { id: 'councils-ie', label: 'Local elections in Ireland', test: (p) => p === 'ireland-local' },
-  { id: 'president', label: 'President of Ireland', test: (p) => p === 'ireland-president' },
-  // The bodies data/registries/election-bodies.json gives a chart of their own (the Mayor of Limerick).
-  ...loadRegistry('election-bodies').bodies.filter((body) => body.partyGroup)
-    .map((body) => ({ id: body.partyGroup.id, label: body.partyGroup.label, test: (/** @type {string} */ p) => p === body.id }))
-];
+// The bodies a profile charts, in the order they are shown: the election-bodies registry's
+// partyCharts (data/registries/election-bodies.json groups), then a chart for each body it gives
+// one of its own (the Mayor of Limerick). A key's prefix is its body.
+const BODY_GROUPS = partyCharts(loadRegistry('election-bodies'));
 const bodyGroupOf = (key) => {
   const prefix = String(key).split('__')[0];
   if (/referendum/.test(prefix)) return null;
   // A party's own leadership and nomination ballots are listed under internalContests, never
   // charted as a body: a leadership won is not a seat, nor the party's whole vote 100% of a poll.
   if (isPartyInternalBody({ bodySlug: prefix })) return null;
-  return BODY_GROUPS.find((group) => group.test(prefix)) || { id: prefix, label: prefix };
+  return firstGroup(BODY_GROUPS, prefix) || { id: prefix, label: prefix };
 };
 
 function readPersons() {
