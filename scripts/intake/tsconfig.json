@@ -17,5 +17,26 @@
     "types": ["node"],
     "skipLibCheck": true
   },
-  "include": ["lib/*.mjs", "checks/*.mjs", "../ingest/persons/rebuild-person-ids.mjs", "../../packages/intake/src/*.mjs"]
+  "include": [
+    "lib/*.mjs",
+    "checks/*.mjs",
+    "../ingest/persons/rebuild-person-ids.mjs",
+    "../../packages/intake/src/*.mjs",
+    "../ingest/*/plugin.mjs",
+    "../ingest/census/census-emit-cso-carveout-records.mjs",
+    "../ingest/census/census-emit-gate-records.mjs",
+    "../ingest/census/crawl-nisra-publication-files.mjs",
+    "../ingest/census/crawl-nisra-publications.mjs",
+    "../ingest/census/emit-nisra-publication-records.mjs",
+    "../ingest/census/merge-census-pilot.mjs",
+    "../ingest/census/emit-opendatani-catalogue-records.mjs",
+    "../ingest/census/build-cso-failed-link-report.mjs",
+    "../ingest/census/cso-emit-pxstat-gap-records.mjs",
+    "../ingest/census/mirror-nisra-files-to-ia.mjs",
+    "../ingest/census/mirror-opendatani-to-ia.mjs",
+    "../ingest/datagovie/emit-datagovie-catalogue-records.mjs",
+    "../ingest/datagovie/harvest-datagovie-licences.mjs",
+    "../ingest/idb-phelim/build-idb-20260525-lods.mjs",
+    "../ingest/idb-phelim/parse-phelim-ed-notes.mjs"
+  ]
 }

@@ -16,10 +16,11 @@ const inPath = process.argv[2];
 const OUT = process.argv[3] || 'data/census/candidates/nisra-publication-files.json';
 if (!inPath) { console.error('usage: crawl-nisra-publication-files.mjs <publications.json> <out>'); process.exit(1); }
 
-const isCensus = (slug) => /^census[-0-9]|-census-|census-20\d\d/.test(slug);
+const isCensus = (/** @type {string} */ slug) => /^census[-0-9]|-census-|census-20\d\d/.test(slug);
 const HOST = 'https://www.nisra.gov.uk';
 const fileRe = /href="([^"]+\.(?:xlsx|xls|csv|ods|zip|pdf))"/gi;
 
+/** @param {string} slug */
 function fetchPage(slug) {
   for (let attempt = 1; attempt <= 3; attempt += 1) {
     try { return execFileSync('curl', ['-sL', '--max-time', '40', `${HOST}/publications/${slug}`], { maxBuffer: 64 * 1024 * 1024 }).toString(); }
@@ -28,7 +29,7 @@ function fetchPage(slug) {
   return '';
 }
 
-const pubs = JSON.parse(readFileSync(inPath, 'utf8')).publications.filter((p) => !isCensus(p.slug));
+const pubs = JSON.parse(readFileSync(inPath, 'utf8')).publications.filter((/** @type {{ slug: string, title: string }} */ p) => !isCensus(p.slug));
 const out = [];
 let fileTotal = 0;
 for (let i = 0; i < pubs.length; i += 1) {
@@ -44,7 +45,7 @@ for (let i = 0; i < pubs.length; i += 1) {
     if (!/nisra\.gov\.uk/i.test(u)) continue; // only NISRA-hosted files
     if (seen.has(u)) continue;
     seen.add(u);
-    files.push({ url: u, ext: (u.match(/\.([a-z0-9]+)$/i) || [, ''])[1].toLowerCase() });
+    files.push({ url: u, ext: /** @type {string} */ ((u.match(/\.([a-z0-9]+)$/i) || [, ''])[1]).toLowerCase() });
   }
   if (files.length) { out.push({ slug: p.slug, title: p.title, files }); fileTotal += files.length; }
   if (i % 50 === 0) process.stderr.write(`\r${i}/${pubs.length} pubs, ${fileTotal} files`);

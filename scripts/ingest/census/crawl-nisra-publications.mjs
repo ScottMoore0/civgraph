@@ -15,6 +15,7 @@ const OUT = process.argv[2] || 'data/census/candidates/nisra-publications.json';
 const MAX_PAGE = Number(process.argv[3] || 200);
 const BASE = 'https://www.nisra.gov.uk/publications';
 
+/** @param {number} page */
 function fetchPage(page) {
   for (let attempt = 1; attempt <= 4; attempt += 1) {
     try {
@@ -24,7 +25,7 @@ function fetchPage(page) {
   return '';
 }
 
-const decode = (s) => s.replace(/&amp;/g, '&').replace(/&#039;/g, "'").replace(/&quot;/g, '"').replace(/\s+/g, ' ').trim();
+const decode = (/** @type {string} */ s) => s.replace(/&amp;/g, '&').replace(/&#039;/g, "'").replace(/&quot;/g, '"').replace(/\s+/g, ' ').trim();
 const cardRe = /href="\/publications\/([a-z0-9-]+)">\s*<h3 class="card__title"><span>([^<]+)</g;
 
 const byslug = new Map();

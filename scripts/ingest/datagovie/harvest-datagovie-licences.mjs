@@ -35,6 +35,7 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync, statSync } from 'node:fs';
 
 const args = process.argv.slice(2);
+/** @param {string} name @param {string} [fallback] */
 const argOf = (name, fallback) => {
   const i = args.indexOf(name);
   return i >= 0 ? args[i + 1] : fallback;
@@ -42,8 +43,8 @@ const argOf = (name, fallback) => {
 
 const MANIFEST = argOf('--manifest');
 const ROOT = argOf('--root');
-const OUT = argOf('--out', 'data/external/datagovie-licences.json');
-const SUMMARY = argOf('--summary', 'data/database/datagovie-licence-summary.json');
+const OUT = /** @type {string} */ (argOf('--out', 'data/external/datagovie-licences.json'));
+const SUMMARY = /** @type {string} */ (argOf('--summary', 'data/database/datagovie-licence-summary.json'));
 const CONCURRENCY = Number(argOf('--concurrency', '6'));
 const SUMMARY_ONLY = args.includes('--summary-only');
 const API = 'https://data.gov.ie/api/3/action/package_show?id=';
@@ -74,6 +75,7 @@ const OPEN = new Map([
   ['', null],
 ]);
 
+/** @param {string} text @returns {Record<string, string>[]} */
 function parseCsv(text) {
   // Minimal RFC4180 reader: the manifest has quoted fields containing commas (titles, errors).
   const rows = [];
@@ -112,7 +114,7 @@ if (ROOT) {
     for (const pkg of readdirSync(`${ROOT}/${org.name}`, { withFileTypes: true })) {
       if (!pkg.isDirectory()) continue;
       const entry = packages.get(pkg.name) || { organisation: org.name, resources: 0, bytes: 0 };
-      const walk = (dir) => {
+      const walk = (/** @type {string} */ dir) => {
         for (const item of readdirSync(dir, { withFileTypes: true })) {
           if (item.isDirectory()) walk(`${dir}/${item.name}`);
           else { entry.resources += 1; entry.bytes += statSync(`${dir}/${item.name}`).size; }
@@ -124,7 +126,7 @@ if (ROOT) {
   }
 } else {
   const DONE = new Set(['ok', 'done', 'complete', 'completed', 'success']);
-  const manifest = parseCsv(readFileSync(MANIFEST, 'utf8')).filter((r) => DONE.has((r.status || '').toLowerCase()));
+  const manifest = parseCsv(readFileSync(/** @type {string} */ (MANIFEST), 'utf8')).filter((r) => DONE.has((r.status || '').toLowerCase()));
   for (const row of manifest) {
     if (!row.package_name) continue;
     if (!packages.has(row.package_name)) packages.set(row.package_name, { organisation: row.organization, resources: 0, bytes: 0 });
@@ -139,13 +141,14 @@ const todo = [...packages.keys()].filter((name) => !known.packages[name]);
 
 console.log(`${packages.size} mirrored package(s); ${known.packages ? Object.keys(known.packages).length : 0} already looked up, ${todo.length} to fetch.`);
 
+/** @param {string} name */
 async function lookup(name) {
   for (let attempt = 0; attempt < 3; attempt += 1) {
     try {
       const response = await fetch(API + encodeURIComponent(name), { headers: { accept: 'application/json' } });
       if (response.status === 404) return { licenceId: null, licenceTitle: null, licenceUrl: null, missing: true };
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      const body = await response.json();
+      const body = /** @type {{ result?: Record<string, string> }} */ (await response.json());
       const result = body.result || {};
       return {
         licenceId: result.license_id || null,
@@ -154,7 +157,7 @@ async function lookup(name) {
         title: result.title || null,
       };
     } catch (error) {
-      if (attempt === 2) return { error: error.message };
+      if (attempt === 2) return { error: /** @type {Error} */ (error).message };
       await new Promise((resolve) => { setTimeout(resolve, 800 * (attempt + 1)); });
     }
   }

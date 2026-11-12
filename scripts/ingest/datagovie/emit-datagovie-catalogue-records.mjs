@@ -16,8 +16,8 @@ const harvestPath = process.argv[2];
 const OUT = process.argv[3] || 'data/census/candidates/datagovie-catalogue.approved.json';
 if (!harvestPath) { console.error('usage: emit-datagovie-catalogue-records.mjs <harvest.json> [out]'); process.exit(1); }
 
-const slugify = (v) => String(v).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 150);
-const year = (iso) => { const m = String(iso || '').match(/^(\d{4})/); return m ? m[1] : undefined; };
+const slugify = (/** @type {unknown} */ v) => String(v).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 150);
+const year = (/** @type {unknown} */ iso) => { const m = String(iso || '').match(/^(\d{4})/); return m ? m[1] : undefined; };
 
 const { datasets } = JSON.parse(readFileSync(harvestPath, 'utf8'));
 
@@ -78,6 +78,7 @@ for (const d of datasets) {
 }
 
 // organisation breakdown (the "curated by organisation" view)
+/** @type {Record<string, number>} */
 const byOrg = {};
 for (const s of sources) { const o = s.provider[0]; byOrg[o] = (byOrg[o] || 0) + 1; }
 const topOrgs = Object.entries(byOrg).sort((a, b) => b[1] - a[1]).slice(0, 15);

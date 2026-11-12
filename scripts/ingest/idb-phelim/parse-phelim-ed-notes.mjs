@@ -33,8 +33,10 @@ if (!NOTES_DIR || !existsSync(NOTES_DIR)) {
 // under. DEDs_Connacht_1963 is the one place these disagree: he confirmed on 2026-08-03
 // that the file is the 1957 set and the year in the filename is a slip carried over from
 // the Ulster series, which genuinely does change in 1963.
+/** @type {Record<string, string>} */
 const SOURCE_TO_LAYER = { DEDs_Connacht_1963: 'eds-connacht-1957', DEDs_Connacht_1957: 'eds-connacht-1957' };
 const PROVINCES = ['Leinster', 'Munster', 'Connacht', 'Ulster'];
+/** @param {string} sourceName */
 function resolveLayerId(sourceName) {
   if (SOURCE_TO_LAYER[sourceName]) return SOURCE_TO_LAYER[sourceName];
   const m = sourceName.match(/^(?:Wards_)?(?:DEDs|EDs)_([A-Za-z]+)_(\d{4})$/);
@@ -42,7 +44,7 @@ function resolveLayerId(sourceName) {
   return null;
 }
 
-const field = (text, label) => {
+const field = (/** @type {string} */ text, /** @type {string} */ label) => {
   const prefix = new RegExp(`^${label}\\s*-\\s*`);
   const line = text.split(/\r?\n/).find((l) => prefix.test(l));
   return line ? line.replace(prefix, '').trim() : null;

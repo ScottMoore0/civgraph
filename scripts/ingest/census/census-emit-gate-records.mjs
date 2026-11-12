@@ -24,6 +24,7 @@ const YEARS = JSON.parse(readFileSync('data/review-inputs/census-publish-ready/c
 const pilotOnly = args.includes('--pilot-dated'); // emit only records dated from their title (the 1,192-record pilot slice)
 
 // minimal CSV parse (handles quoted fields with commas)
+/** @param {string} text @returns {string[][]} */
 function parseCsv(text) {
   const rows = []; let row = [], field = '', q = false;
   for (let i = 0; i < text.length; i++) {
@@ -43,8 +44,8 @@ const hdr = lines[0];
 const ix = Object.fromEntries(hdr.map((h, i) => [h.trim(), i]));
 const records = lines.slice(1).filter(r => r.length >= hdr.length && r[ix.id]);
 
-const slugify = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80);
-const yearOf = (t) => (t.match(/\b(1[89]\d\d|20\d\d)\b/) || [])[1] || '';
+const slugify = (/** @type {string} */ s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80);
+const yearOf = (/** @type {string} */ t) => (t.match(/\b(1[89]\d\d|20\d\d)\b/) || [])[1] || '';
 
 const sources = [];
 let counted = 0;

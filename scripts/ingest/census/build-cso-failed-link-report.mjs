@@ -14,6 +14,7 @@ const outPath = path.join(
   "cso-failed-links.html",
 );
 
+/** @param {unknown} value */
 function escapeHtml(value) {
   return String(value ?? "").replace(/[&<>"]/g, (character) => {
     switch (character) {
@@ -31,6 +32,7 @@ function escapeHtml(value) {
   });
 }
 
+/** @param {string} url */
 function hostFor(url) {
   try {
     return new URL(url).host;
@@ -39,6 +41,11 @@ function hostFor(url) {
   }
 }
 
+/**
+ * One asset of the CSO download manifest.
+ * @typedef {{ url: string, text?: string, sourcePage?: string, download?: { status?: string, error?: string } }} CsoAsset
+ */
+/** @type {{ assets: CsoAsset[] }} */
 const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
 const failedAssets = manifest.assets
   .filter((asset) => asset.download?.status === "failed")

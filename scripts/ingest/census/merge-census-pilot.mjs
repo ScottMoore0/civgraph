@@ -17,8 +17,12 @@ const [file, bucketKey, trancheLabel] = process.argv.slice(2);
 if (!file || !bucketKey) { console.error('usage: merge-census-pilot.mjs <file> <bucketKey> [trancheLabel]'); process.exit(1); }
 
 const gate = JSON.parse(readFileSync(GATE, 'utf8'));
-const gateSources = resolveApprovedPublicationSources(gate);
-const incoming = resolveApprovedPublicationSources(JSON.parse(readFileSync(file, 'utf8')));
+/**
+ * A gate record as this merge reads it.
+ * @typedef {{ id?: string, title?: string, type?: string, approval?: { recommendedAction?: string }, references?: { url?: string }[], downloads?: { url?: string }[] }} GateRecord
+ */
+const gateSources = /** @type {GateRecord[]} */ (resolveApprovedPublicationSources(gate));
+const incoming = /** @type {GateRecord[]} */ (resolveApprovedPublicationSources(JSON.parse(readFileSync(file, 'utf8'))));
 
 const existing = new Set(gateSources.map(s => s.id));
 const toAdd = incoming.filter(s => !existing.has(s.id));
